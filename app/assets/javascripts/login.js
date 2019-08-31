@@ -1,4 +1,8 @@
-$(document).ready(function() {
+//= querystring
+
+$(document).ready(function () {
+  var querystring = require("querystring-component");
+
   // Preserve location hash in referer
   if (window.location.hash) {
     $("#referer").val($("#referer").val() + window.location.hash);
@@ -12,7 +16,7 @@ $(document).ready(function() {
   });
 
   // Add click handler to show OpenID field
-  $("#openid_open_url").click(function() {
+  $("#openid_open_url").click(function () {
     $("#openid_url").val("http://");
     $("#login_auth_buttons").hide();
     $("#login_openid_url").show();
@@ -22,4 +26,18 @@ $(document).ready(function() {
   // Hide OpenID field for now
   $("#login_openid_url").hide();
   $("#login_openid_submit").hide();
+
+  // Handle OpenID submission by redirecting to omniauth
+  $("#openid_login_form").submit(function () {
+    var action = $(this).prop("action"),
+        openid_url = $(this).find("#openid_url").val(),
+        referer = $(this).find("#openid_referer").val(),
+        args = {};
+    args.openid_url = openid_url;
+    if (referer) {
+      args.referer = referer;
+    }
+    window.location = action + "?" + querystring.stringify(args);
+    return false;
+  });
 });

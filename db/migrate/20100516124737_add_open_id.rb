@@ -1,4 +1,4 @@
-class AddOpenId < ActiveRecord::Migration[5.0]
+class AddOpenId < ActiveRecord::Migration[4.2]
   def self.up
     add_column :users, :openid_url, :string
     add_index :users, [:openid_url], :name => "user_openid_url_idx", :unique => true

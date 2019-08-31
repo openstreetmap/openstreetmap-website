@@ -1,13 +1,18 @@
 # Messages for Nepali (नेपाली)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Drjpoudel
+# Author: Haribanshi
 # Author: Krish Dulal
+# Author: Nirajan pant
 # Author: Nirjal stha
 # Author: Njsubedi
 # Author: RajeshPandey
+# Author: पर्वत सुबेदी
 # Author: राम प्रसाद जोशी
 # Author: सरोज कुमार ढकाल
+# Author: हिमाल सुबेदी
 ---
 ne:
   html:
@@ -15,6 +20,19 @@ ne:
   time:
     formats:
       friendly: '%e %B %Y मा %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: सङ्ग्रह गर्नुहोस्
+      diary_entry:
+        create: प्रकाशन गर्नुहोस्
+      message:
+        create: पठाउनुहोस्
+      client_application:
+        update: सम्पादन
+      trace:
+        create: अपलोड गर्ने
+        update: परिवर्तनहरू संग्रह गर्ने
   activerecord:
     models:
       acl: अनुमति नियन्त्रण सूची
@@ -100,6 +118,10 @@ ne:
     remote:
       name: रिमोट कन्ट्रोल
       description: रिमोट कन्ट्रोल  (JOSM वा Merkaartor)
+  api:
+    notes:
+      entry:
+        comment: टिप्पणी
   browse:
     created: सृजना गरिएको
     closed: समापन भएको
@@ -229,12 +251,13 @@ ne:
         अगाडि</abbr> पुनःसक्रिय गरिएको
       hidden_by: '%{user}द्वारा <abbr title=''%{exact_time}''>%{when} अगाडि</abbr>
         लुकाइएको'
+      report: यस टिपोटलाई उजुरी गर्नुहोस्
     query:
       title: क्वेरी गुणहरू
       introduction: नजिकैका फिचरहरू भेटाउन नक्सामा क्लिक गर्नुहोस्
       nearby: नजिकैका फिचरहरू
       enclosing: यसभित्र रहेका फिचरहरू
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: पृष्ठ %{page}
       next: अर्को »
@@ -249,7 +272,7 @@ ne:
       user: प्रयोगकर्ता
       comment: टिप्पणी
       area: क्षेत्र
-    list:
+    index:
       title: चेन्जसेटहरू
       title_user: '%{user}द्वरा गरिएका परिवर्तनहरू'
       title_friend: तपाईंको मित्रहरूद्वारा गरिएका परिवर्तनहरू
@@ -264,18 +287,25 @@ ne:
     timeout:
       sorry: माफ गर्नुहोला, तपाईंले खोज्नुभएको परिवर्तनहरूको सूची प्राप्त गर्न निकै
         समय लाग्यो ।
-    rss:
+  changeset_comments:
+    comment:
+      comment: ' %{author}द्वारा #%{changeset_id}मा नयाँ टिप्पणी'
+      commented_at_by_html: ' %{user}  द्वारा  %{when} पहिले अद्यावधिक गरिएको'
+    index:
       title_all: OpenStreetMap परिवर्वतन सूची छलफल
       title_particular: 'OpenStreetMap परिवर्तन सूची #%{changeset_id} छलफल'
-      comment: ' %{author}द्वारा #%{changeset_id}मा नयाँ टिप्पणी'
-      commented_at_html: ' %{when} पहिले अद्यावधि गरिएको'
-      commented_at_by_html: ' %{user}  द्वारा  %{when} पहिले अद्यावधिक गरिएको'
-      full: पूरा वार्तालाप
-  diary_entry:
+  diary_entries:
     new:
-      title: नयाँ दैनिकी
-      publish_button: प्रकाशन गर्नुहोस्
-    list:
+      title: नयाँ दैनिकी प्रविष्टी
+    form:
+      subject: 'विषय:'
+      body: 'मूख्य भाग:'
+      language: 'भाषा:'
+      location: 'स्थान:'
+      latitude: 'देशान्तर:'
+      longitude: 'अक्षांश:'
+      use_map_link: नक्सा प्रयोगर्ने
+    index:
       title: प्रयोगकर्ताका डायरीहरू
       title_friends: साथीहरूका डायरीहरू
       title_nearby: नजिकका प्रयोगकर्ताहरूका डायरीहरू
@@ -289,22 +319,13 @@ ne:
       newer_entries: नयाँ अभिलेखहरू
     edit:
       title: दैनिकी प्रविष्ठी सम्पादन गर्ने
-      subject: 'विषय:'
-      body: 'मूख्य भाग:'
-      language: 'भाषा:'
-      location: 'स्थान:'
-      latitude: 'देशान्तर:'
-      longitude: 'अक्षांश:'
-      use_map_link: नक्सा प्रयोगर्ने
-      save_button: सङ्ग्रह गर्नुहोस्
       marker_text: दैनिकी प्रविष्ठी स्थान
-    view:
+    show:
       title: '%{user}को डायरी | %{title}'
       user_title: '%{user}को डायरी'
       leave_a_comment: टिप्पणी छोड्ने
       login_to_leave_a_comment: '%{login_link} टिप्पणी छोड्नलाई'
       login: प्रवेश
-      save_button: सङ्ग्रह गर्नुहोस्
     no_such_entry:
       title: त्यस्तो कुनै दैनिकी भेटिएन
       heading: '%{id} आइडी भएको कुनै अभिलेख भेटिएन'
@@ -321,6 +342,7 @@ ne:
       edit_link: यो प्रविष्टी सम्पादन गर्ने
       hide_link: यो प्रविष्टी लुकाउने
       confirm: निश्चित गर्ने
+      report: यो प्रविष्टीको उजुरी गर्ने
     diary_comment:
       comment_from: '%{link_user}द्वारा %{comment_created_at}मा गरिएको टिप्पणी'
       hide_link: यो टिप्पणी लुकाउनुहोस्
@@ -345,55 +367,8 @@ ne:
       post: पोष्ट
       when: कहिले
       comment: टिप्पणी
-      ago: '%{ago} पहिले'
       newer_comments: नयाँ टिप्पणीहरू
       older_comments: पूरानो टिप्पणीहरू
-  export:
-    title: निर्यात गर्नुहोस्
-    start:
-      area_to_export: निर्यात गर्ने क्षेत्र
-      manually_select: आफै अर्को क्षेत्र छान्नुहोस
-      format_to_export: निर्यात गर्ने ढाँचा
-      osm_xml_data: OpenStreetMap XML डेटा
-      map_image: नक्साको तस्वीर (सर्वस्वीकृत सतहहरू देखाउँछ)
-      embeddable_html: थप्नलायक HTML
-      licence: इजाजतपत्र
-      export_details: ओपनस्ट्रीटम्यापका जानकारीहरू <a href="http://opendatacommons.org/licenses/odbl/1.0/">अोपन
-        डेटा कमन्स ओपन डेटाबेस लाइसेन्स</a> अनुज्ञप्तिसँग अाबद्ध छन् ।
-      too_large:
-        advice: निर्यात गर्ने प्रक्रिया असफल भएमा तल दिइएका स्रोतहरू प्रयोग गर्नुहोस्-
-        body: यो क्षेत्र ओपनस्ट्रीटम्याप एक्स् एम् एल जानकारीको रूपमा निर्यात गर्नको
-          लागि निकै ठूलो छ । कृपया सानो क्षेत्र छान्नुहोस् वा तल देखाइएका स्रोतहरूबाट
-          ठूलो सङ्ख्यामा जानकारी डाउनलोड गर्नुहोस् ।
-        planet:
-          title: ओएस्एम ग्रह
-          description: नियमित रूपमा अपडेट गरिएका ओपनस्ट्रीटम्याप तथ्याङ्कका प्रतिहरू
-        overpass:
-          title: ओभरपास एपिअाइ
-          description: OpenStreetMap तथ्याङ्कको अर्को स्रोतबाट यो सिमारेखा प्राप्त
-            गर्नुहोस्
-        geofabrik:
-          title: Geofabrik डाउनलोडहरू
-          description: नियमित रूपमा अपडेट गरिएका महादेशहरू, देशहरू तथा चुनिएका सहरहरूका
-            उद्धरणहरू
-        metro:
-          title: मेट्रो उद्धरणहरू
-          description: विश्वका प्रमुख सहर तथा वरिपरीका क्षेत्रहरूको उद्धरण
-        other:
-          title: अन्य स्रोतहरू
-          description: ओपनस्ट्रीटम्याप विकिमा सूचीत थप स्रोतहरू
-      options: विकल्पहरू
-      format: ढाँचा
-      scale: स्केल
-      max: अधिकतम
-      image_size: तस्वीर आकार
-      zoom: जुम
-      add_marker: नक्शामा चिह्न थप्नुहोस्
-      latitude: 'अक्षांश:'
-      longitude: 'देशान्तर:'
-      output: उत्पादन
-      paste_html: वेबसाइट इम्बेड गर्न HTML पेस्ट गर्नुहोस्
-      export_button: निर्यात गर्नुहोस्
   geocoder:
     search:
       title:
@@ -417,6 +392,7 @@ ne:
           aerodrome: हवाईड्रोम
           apron: तटबन्द
           gate: ढोका
+          hangar: ह्याङ्गर
           helipad: हेलिकप्टर बस्ने ठाउँ
           runway: रनवे
           taxiway: ट्याक्सीको बाटो
@@ -539,6 +515,7 @@ ne:
           defibrillator: डिफिब्रिलेटर
           landing_site: आकस्मिक अवतरण क्षेत्र
           phone: आकस्मिक फोन
+          "yes": आकस्मिक
         highway:
           abandoned: छोडिएको राजमार्ग
           bus_stop: बस बिसौनी
@@ -553,6 +530,7 @@ ne:
           motorway_link: मोटरमार्ग सडक
           path: पथ
           pedestrian: पैदल मार्ग
+          platform: मञ्च
           primary: प्राथमिक सडक
           primary_link: प्राथमिक सडक
           proposed: प्रस्तावित सडक
@@ -565,13 +543,18 @@ ne:
           service: सर्भिस सडक
           speed_camera: गति क्यामेरा
           steps: खुट्किलाहरू
+          stop: रोक्ने चिह्न
           street_lamp: सडक बत्ती
           track: ट्रयाक
+          traffic_signals: ट्राफिक चिह्नहरू
           trail: गोरेटो बाटो
           "yes": सडक
         historic:
           bunker: बङ्कर
           castle: गढी
+          church: गिर्जाघर
+          city_gate: सहर प्रवेशद्वार
+          citywalls: सहरी पर्खाल
           fort: किल्ला
           heritage: सम्पादा क्षेत्र
           house: घर
@@ -583,37 +566,56 @@ ne:
           stone: पत्थर
           tomb: चिहान
           tower: टावर
+          "yes": ऐतिहासिक स्थल
         landuse:
           basin: बेसिन
           commercial: व्यवसायिक क्षेत्र
+          conservation: संरक्षण
+          construction: निर्माण
           farm: खेती
           farmland: खेतीयोग्य जमिन
+          farmyard: खेत
           forest: वन
           garages: ग्यारेजहरू
           grass: घाँस
           industrial: औद्योगिक क्षेत्र
           landfill: ल्यान्डफिल
+          meadow: घाँसेमैदान
           military: सैनिक इलाका
           mine: खानी
           railway: रेलमार्ग
+          reservoir: जलाशय
           residential: आवासीय क्षेत्र
           retail: खुद्रा
           road: सडक क्षेत्र
+          vineyard: अङ्गुर-बगैँचा
+          "yes": भू-उपयोग
         leisure:
           garden: बगैँचा
           park: उद्यान
+          playground: खेलमैदान
           resort: रिसोर्ट
           sauna: सौना
           stadium: रङ्गाशाला
           swimming_pool: पौली पोखरी
+          "yes": फुर्सद
         man_made:
+          bridge: पुल
+          bunker_silo: बङ्कर
+          chimney: चिम्नी
+          crane: क्रेन
+          embankment: तटबन्ध
           lighthouse: प्रकाश घर
+          mine: खानी
           pipeline: पाइपरेखा
           tower: टावर
           works: कारखाना
         military:
           barracks: सैनिक घर
           bunker: बङ्कर
+          "yes": सेना
+        mountain_pass:
+          "yes": पर्वतीय भञ्ज्याङ
         natural:
           bay: खाडी
           beach: समुद्र किनारा
@@ -621,10 +623,12 @@ ne:
           forest: वन
           glacier: हिमनदी
           grassland: घाँसेमैदान
+          heath: स्वास्थ्य
           hill: डाँडा
           island: द्विप
           land: जमिन
           marsh: धाप
+          mud: हिलो मााटो
           peak: शिखर
           point: बिन्दु
           rock: रक
@@ -635,11 +639,16 @@ ne:
           valley: उपत्यका
           volcano: ज्वालामुखी
           water: पानी
+          wetland: सिमसार
           wood: कुञ्ज
         office:
           accountant: लेखापाल
           administrative: प्रबन्धकीय स्थल
+          architect: आर्किटेक्ट
           company: कम्पनी
+          government: सरकारी कार्यालय
+          insurance: बीमा कार्यालय
+          it: आइटी कार्यालय
           lawyer: वकिल
           ngo: एनजिओ कार्यलय
           telecommunication: दूरसञ्चार कार्यलय
@@ -650,6 +659,7 @@ ne:
           country: देश
           county: ईलाका
           farm: खेती
+          hamlet: ह्याम्लेट
           house: घर
           houses: घरहरू
           island: द्विप
@@ -762,10 +772,13 @@ ne:
     results:
       no_results: कुनै नतिजाहरू भेटिएनन्
       more_results: थप नतिजाहरू
+  issues:
+    show:
+      new_reports: नयाँ प्रतिवेदनहरू
   layouts:
     logo:
       alt_text: OpenStreetMap लोगो
-    logout: लग आउट गर्नुहोस्
+    logout: निर्गमन
     log_in: लग इन
     sign_up: साइन अप
     start_mapping: म्यापिङ गर्न सुरु गर्नुहोस्
@@ -792,54 +805,6 @@ ne:
       text: दान गर्नुहोस्
     learn_more: थप जान्नुहोस्
     more: थप
-  license_page:
-    native:
-      title: यो पृष्ठको बारेमा
-      mapping_link: म्यापिङ गर्न सुरु गर्नुहोस्
-    legal_babble:
-      more_title_html: थप जान्नको लागि
-      contributors_title_html: हाम्रा योगदान कर्ताहरू
-  welcome_page:
-    title: स्वागतम्!
-    whats_on_the_map:
-      title: म्यापमा के छ
-    rules:
-      title: नियमहरू !
-  fixthemap:
-    how_to_help:
-      title: कसरी सहायता गर्ने
-      join_the_community:
-        title: समूदायमा सहभागी हुनुहोस्
-    other_concerns:
-      title: अन्य चासोहरू
-  help_page:
-    title: कसरी सहायता पाउने
-    welcome:
-      url: /welcome
-      title: OSM मा स्वागत् छ
-    beginners_guide:
-      url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
-      title: सुरुवातकर्ताहरूको लागि मार्गदर्शन
-      description: सुरुवातकर्ताहरूको लागि समुदायद्वारा निर्मित निर्देशिका
-    help:
-      title: help.openstreetmap.org
-    mailing_lists:
-      title: मेलिङ्ग सूचीहरू
-    forums:
-      title: मञ्च
-    irc:
-      title: आईआरसि
-    switch2osm:
-      title: स्विचटु‍ओएसएम
-    wiki:
-      url: http://wiki.openstreetmap.org/
-  about_page:
-    next: अर्को
-    local_knowledge_title: स्थानीय ज्ञान
-    community_driven_title: समूदायबाट सञ्चालित
-    open_data_title: खुल्ला डेटा
-    legal_title: कानूनी
-    partners_title: समर्थकहरू
   notifier:
     diary_comment_notification:
       hi: नमस्ते %{to_user},
@@ -866,7 +831,7 @@ ne:
     changeset_comment_notification:
       hi: नमस्ते %{to_user},
       greeting: नमस्ते,
-  message:
+  messages:
     inbox:
       title: इनबक्स
       my_inbox: मेरो इनबक्स
@@ -878,15 +843,18 @@ ne:
       unread_button: नपढिएको रूपमा चिनो लगाउनुहोस्
       read_button: पढिएको रूपमा चिनो लगाउनुहोस्
       reply_button: जवाफ दिने
-      delete_button: हटाउनुहोस्
+      destroy_button: हटाउनुहोस्
     new:
       title: सान्देस पठाउ
       send_message_to: '%{name} लाई नयाँ सन्देश पठाउनुहोस्'
       subject: विषय
       body: मुख्य भाग
-      send_button: पठाउनुहोस्
       back_to_inbox: इनबक्समा फर्कनुहोस्
+    create:
       message_sent: सन्देश पठाइयो
+    no_such_message:
+      title: त्यस्तो कुनै पनि सन्देश छैन
+      heading: त्यस्तो कुनै पनि सन्देश छैन
     outbox:
       title: आउटबक्स
       inbox: इनबक्स
@@ -894,27 +862,114 @@ ne:
       to: लाई
       subject: विषय
       date: मिति
-    read:
+    show:
       title: सन्देश पढ्नुहोस्
       from: बाट
       subject: विषय
       date: मिति
       reply_button: जवाफ दिनुहोस्
       unread_button: नपढिएको रूपमा चिनो लगाउनुहोस्
-      delete_button: मेट्नुहोस्
+      destroy_button: मेट्नुहोस्
       back: पछाडि
       to: लाई
     sent_message_summary:
-      delete_button: हटाउनुहोस्
-    delete:
-      deleted: सन्देश मेटियो
+      destroy_button: हटाउनुहोस्
+    destroy:
+      destroyed: सन्देश मेटियो
   site:
+    about:
+      next: अर्को
+      local_knowledge_title: स्थानीय ज्ञान
+      community_driven_title: समूदायबाट सञ्चालित
+      open_data_title: खुल्ला डेटा
+      legal_title: कानूनी
+      partners_title: समर्थकहरू
+    copyright:
+      native:
+        title: यो पृष्ठको बारेमा
+        mapping_link: म्यापिङ गर्न सुरु गर्नुहोस्
+      legal_babble:
+        more_title_html: थप जान्नको लागि
+        contributors_title_html: हाम्रा योगदान कर्ताहरू
     index:
       permalink: स्थायी लिङ्क
       shortlink: छोटो लिङ्क
       createnote: एक टिप्पणी थप्नुहोस्
     edit:
       user_page_link: प्रयोगकर्ता पृष्ठ
+    export:
+      title: निर्यात गर्नुहोस्
+      area_to_export: निर्यात गर्ने क्षेत्र
+      manually_select: आफै अर्को क्षेत्र छान्नुहोस
+      format_to_export: निर्यात गर्ने ढाँचा
+      osm_xml_data: OpenStreetMap XML डेटा
+      map_image: नक्साको तस्वीर (सर्वस्वीकृत सतहहरू देखाउँछ)
+      embeddable_html: थप्नलायक HTML
+      licence: इजाजतपत्र
+      export_details: ओपनस्ट्रीटम्यापका जानकारीहरू <a href="http://opendatacommons.org/licenses/odbl/1.0/">अोपन
+        डेटा कमन्स ओपन डेटाबेस लाइसेन्स</a> अनुज्ञप्तिसँग अाबद्ध छन् ।
+      too_large:
+        advice: निर्यात गर्ने प्रक्रिया असफल भएमा तल दिइएका स्रोतहरू प्रयोग गर्नुहोस्-
+        body: यो क्षेत्र ओपनस्ट्रीटम्याप एक्स् एम् एल जानकारीको रूपमा निर्यात गर्नको
+          लागि निकै ठूलो छ । कृपया सानो क्षेत्र छान्नुहोस् वा तल देखाइएका स्रोतहरूबाट
+          ठूलो सङ्ख्यामा जानकारी डाउनलोड गर्नुहोस् ।
+        planet:
+          title: ओएस्एम ग्रह
+          description: नियमित रूपमा अपडेट गरिएका ओपनस्ट्रीटम्याप तथ्याङ्कका प्रतिहरू
+        overpass:
+          title: ओभरपास एपिअाइ
+          description: OpenStreetMap तथ्याङ्कको अर्को स्रोतबाट यो सिमारेखा प्राप्त
+            गर्नुहोस्
+        geofabrik:
+          title: Geofabrik डाउनलोडहरू
+          description: नियमित रूपमा अपडेट गरिएका महादेशहरू, देशहरू तथा चुनिएका सहरहरूका
+            उद्धरणहरू
+        metro:
+          title: मेट्रो उद्धरणहरू
+          description: विश्वका प्रमुख सहर तथा वरिपरीका क्षेत्रहरूको उद्धरण
+        other:
+          title: अन्य स्रोतहरू
+          description: ओपनस्ट्रीटम्याप विकिमा सूचीत थप स्रोतहरू
+      options: विकल्पहरू
+      format: ढाँचा
+      scale: स्केल
+      max: अधिकतम
+      image_size: तस्वीर आकार
+      zoom: जुम
+      add_marker: नक्शामा चिह्न थप्नुहोस्
+      latitude: 'अक्षांश:'
+      longitude: 'देशान्तर:'
+      output: उत्पादन
+      paste_html: वेबसाइट इम्बेड गर्न HTML पेस्ट गर्नुहोस्
+      export_button: निर्यात गर्नुहोस्
+    fixthemap:
+      how_to_help:
+        title: कसरी सहायता गर्ने
+        join_the_community:
+          title: समूदायमा सहभागी हुनुहोस्
+      other_concerns:
+        title: अन्य चासोहरू
+    help:
+      title: कसरी सहायता पाउने
+      welcome:
+        url: /welcome
+        title: OSM मा स्वागत् छ
+      beginners_guide:
+        url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
+        title: सुरुवातकर्ताहरूको लागि मार्गदर्शन
+        description: सुरुवातकर्ताहरूको लागि समुदायद्वारा निर्मित निर्देशिका
+      help:
+        title: help.openstreetmap.org
+      mailing_lists:
+        title: मेलिङ्ग सूचीहरू
+      forums:
+        title: मञ्च
+      irc:
+        title: आईआरसि
+      switch2osm:
+        title: स्विचटु‍ओएसएम
+      wiki:
+        url: http://wiki.openstreetmap.org/
     sidebar:
       close: बन्द गर्नुहोस्
     search:
@@ -935,6 +990,7 @@ ne:
           track: ट्रयाक
           cycleway: साइकल मार्ग
           rail: रेलमार्ग
+          subway: सबवे
           cable:
           - केबल कार
           - कुर्सी लिफ्ट
@@ -968,7 +1024,21 @@ ne:
       text: पाठ
       image: छवि
       url: युआरएल
-  trace:
+    welcome:
+      title: स्वागतम्!
+      whats_on_the_map:
+        title: म्यापमा के छ
+      rules:
+        title: नियमहरू !
+  traces:
+    new:
+      upload_gpx: 'GPX फाइल अपलोड गर्ने:'
+      description: 'विवरण:'
+      tags: ट्यागहरूः
+      tags_help: अल्पविरामले छुट्याएको
+      visibility: 'दृश्यक्षमता:'
+      visibility_help: यसको मतलाब के हो ?
+      help: सहायता
     create:
       upload_trace: GPS Trace अपलोड गर्ने
     edit:
@@ -985,24 +1055,11 @@ ne:
       description: विवरण
       tags: ट्यागहरूः
       tags_help: अल्पविरामले छुट्याएको
-      save_button: परिवर्तनहरू संग्रह गर्ने
       visibility: 'दृश्यक्षमता:'
       visibility_help: यसको मतलब के हो ?
-    trace_form:
-      upload_gpx: 'GPX फाइल अपलोड गर्ने:'
-      description: 'विवरण:'
-      tags: ट्यागहरूः
-      tags_help: अल्पविरामले छुट्याएको
-      visibility: 'दृश्यक्षमता:'
-      visibility_help: यसको मतलाब के हो ?
-      upload_button: अपलोड गर्ने
-      help: सहायता
-    trace_header:
-      see_all_traces: सबै ट्रेसहरु हेर्ने
-      see_your_traces: तपाईंको सबै ट्रेसहरू हेर्नुहोस्
     trace_optionals:
       tags: ट्यागहरू
-    view:
+    show:
       title: हेर्दै ट्रेस %{name}
       heading: हेर्दै ट्रेस %{name}
       pending: बाँकी
@@ -1017,8 +1074,8 @@ ne:
       description: 'विवरण:'
       tags: ट्यागहरूः
       none: कुनै पनि होइन
-      edit_track: यो ट्रेस सम्पादन गर्ने
-      delete_track: यो ट्रेस मेट्ने
+      edit_trace: यो ट्रेस सम्पादन गर्ने
+      delete_trace: यो ट्रेस मेट्ने
       trace_not_found: ट्रेस भेटिएन!
       visibility: 'दृश्यक्षमता:'
     trace_paging_nav:
@@ -1026,7 +1083,6 @@ ne:
     trace:
       pending: बाँकी रहेको
       count_points: पोइन्टहरु %{count}
-      ago: '%{time_in_words_ago} पहिले'
       more: थप
       trace_details: ट्रेसको विस्तृत जानकारी हेर्ने
       view_map: नक्सा हेर्ने
@@ -1037,31 +1093,36 @@ ne:
       by: द्वारा
       in: मा
       map: नक्सा
-    list:
+    index:
       public_traces: सारवजनिक GPS ट्रेसहरु
-      your_traces: तपाईंको GPS ट्रेसहरू
       public_traces_from: '%{user}बाट सार्वकनिक GPS ट्रेसहरु'
       tagged_with: ' %{tags}हरूद्वारा ट्याग गरिएको'
+      see_all_traces: सबै ट्रेसहरु हेर्ने
     delete:
       scheduled_for_deletion: मेट्नको लागि तालिकावद्ध गरिएको ट्रेस
     make_public:
       made_public: सार्वजनिक बनाइएको ट्रेस
   oauth_clients:
-    edit:
-      submit: सम्पादन
     show:
       confirm: निश्चित हुनुहुन्छ ?
+      allow_write_gpx: GPS Trace हरू अपलोड गर्ने
+      allow_write_notes: टिपोटहरू सम्पादन गर्नुहोस्।
     form:
       name: नाम
       required: आवश्यक पर्दछ
-  user:
+  users:
     login:
       title: प्रवेश
       heading: प्रवेश
       password: 'पासवर्ड:'
       login_button: प्रवेश
       no account: खाता छैन?
+      auth_providers:
+        wikipedia:
+          title: विकिपिडियाले लग इन गर्नुहोस्
+          alt: विकिपिडिया खाताद्वारा लगइन गर्नुहोस्
     logout:
+      title: लगआउट
       logout_button: लग आउट
     lost_password:
       title: पासवर्ड बिर्सियो
@@ -1076,24 +1137,45 @@ ne:
       reset: नयाँ प्रवेशशव्द
       flash changed: तपाईंको प्रवेश शब्द परिवर्तन गरिएको छ।
     new:
+      title: साइन अप
+      about:
+        header: खुल्ला र सम्पादन गर्न मिल्ने
       email address: 'इमेल ठेगाना:'
       confirm email address: 'इमेल ठेगाना पक्का गर्नुहोस्:'
+      display name: 'देखाउने नाम:'
       password: 'पासवर्ड:'
       confirm password: 'पासवर्ड निश्चित गर्नुहोस्:'
       continue: साइन अप
     terms:
       consider_pd_why: यो के हो ?
+      decline: असहमत
       legale_names:
         france: फ्रान्स
         italy: इटाली
     no_such_user:
       deleted: मेटाइयो
-    view:
+    show:
+      my diary: मेरो डायरी
+      new diary entry: नयाँ दैनिकी प्रविष्टी
+      my edits: मेरा सम्पादनहरू
+      my traces: मेरा ट्रेसहरू
+      my notes: मेरा टिपोटहरू
+      my messages: मेरा सन्देशहरू
+      my profile: मेरो प्रोफाइल
+      my settings: मेरो सेटिङहरू
+      my comments: मेरा टिप्पणीहरू
+      edits: सम्पादनहरू
       traces: ट्रेसहरू
+      add as friend: साथी जोड्नुहोस्
       status: 'स्थिति:'
       description: वर्णन
+      settings_link_text: सेटिङ्गहरू
+      my friends: मेरा साथीहरू
+      no friends: तपाईं कुनै साथीहरूलाई जोड्नु भएको छैन
       km away: '%{count}किमि टाढा'
       m away: '%{count} मि टाढा'
+      role:
+        administrator: यी प्रयोगकर्ता प्रबन्धक हुनुहुन्छ
       comments: टिप्पणी
       confirm: निश्चित गर्ने
     popup:
@@ -1142,15 +1224,11 @@ ne:
       already_a_friend: '%{name} सँग तपाईंले पहिले नै मित्रता गरिसक्नु भएको छ ।'
     remove_friend:
       button: साथीबाट हटाउने
-    filter:
-      not_an_administrator: यो कार्य गर्न तपाईं प्रबन्धक हुनुपर्छ .
-    list:
+    index:
       title: प्रयोगकर्ताहरू
       heading: प्रयोगकर्ताहरू
   user_role:
     filter:
-      not_an_administrator: प्रबन्धकहरूले भूमिका व्यवस्थापन गर्न सक्छन् र तपाईं प्रबन्धक
-        हैन ।
       not_a_role: '`%{role}''  मान्य भूमिका हैन ।'
       already_has_role: प्रयोगकर्ता सँग %{role} भूमिका पहिले देखि नै छ।
       doesnt_have_role: प्रयोगर्ताको %{role}को भूमिका छैन
@@ -1165,30 +1243,28 @@ ne:
     revoke:
       title: भूमिका फिर्ता निश्चित गर्ने
       heading: भूमिका फिर्ता निश्चित गर्ने
-      are_you_sure: तपाईं भूमिका `%{role}' , `%{name} प्रोगकर्ताबाट फिर्ता लिने कुरामा
+      are_you_sure: तपाईँ  भूमिका `%{role}' , `%{name} प्रोगकर्ताबाट फिर्ता लिने कुरामा
         निश्चित हुनुहुन्छ'?
       confirm: निश्चित गर्ने
       fail: भूमिका `%{role}' ,`%{name}'बाट फिर्ता लिन सकिएन । प्रोगकर्ता नाम र भूमिका
         दुबै मान्य छन् भन्ने खुलाउनु होस् ।
-  user_block:
-    partial:
-      show: देखाउनुहोस्
-      edit: सम्पादन
-      confirm: निश्चित हुनुहुन्छ ?
-      creator_name: सर्जक
-      status: वस्तुस्थिति
-      showing_page: पृष्ठ %{page}
-      next: अर्को »
-      previous: « अघिल्लो
+  user_blocks:
     show:
       created: सृजना गरिएको
       status: वस्तुस्थिति
       show: देखाउनुहोस्
       edit: सम्पादन
       confirm: निश्चित हुनुहुन्छ ?
-  note:
-    entry:
-      comment: टिप्पणी
+    block:
+      show: देखाउनुहोस्
+      edit: सम्पादन
+    blocks:
+      creator_name: सर्जक
+      status: वस्तुस्थिति
+      showing_page: पृष्ठ %{page}
+      next: अर्को »
+      previous: « अघिल्लो
+  notes:
     mine:
       id: आईडी
       creator: सर्जक
@@ -1224,12 +1300,28 @@ ne:
         hide: लुकाउनुहोस्
         comment: टिप्पणी
     directions:
+      instructions:
+        exit_counts:
+          first: प्रथम
+          second: द्वितीय
+          third: तेस्रो
+          fourth: चौँथो
+          fifth: ५अौँ
+          sixth: छैटौँ
+          seventh: ७अौँ
+          eighth: ८अौँ
+          ninth: ९अौँ
+          tenth: १०अौँ
       time: समय
     query:
       node: नोड
       way: बाटो
       relation: रिलेशन
-  redaction:
+    context:
+      directions_from: यहाँबाट दिशा सुरु
+      add_note: यहाँ एउटा टिपोट थप्नुहोस्
+      show_address: ठेगाना देखाउनुहोस्
+  redactions:
     edit:
       description: वर्णन
     new:

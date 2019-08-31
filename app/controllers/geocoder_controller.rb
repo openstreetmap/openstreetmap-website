@@ -6,6 +6,7 @@ class GeocoderController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
   before_action :require_oauth, :only => [:search]
+  authorize_resource :class => false
 
   def search
     @params = normalize_params
@@ -14,18 +15,18 @@ class GeocoderController < ApplicationController
     if @params[:lat] && @params[:lon]
       @sources.push "latlon"
       @sources.push "osm_nominatim_reverse"
-      @sources.push "geonames_reverse" if defined?(GEONAMES_USERNAME)
+      @sources.push "geonames_reverse" if Settings.key?(:geonames_username)
     elsif @params[:query]
-      if @params[:query] =~ /^\d{5}(-\d{4})?$/
+      if @params[:query].match?(/^\d{5}(-\d{4})?$/)
         @sources.push "osm_nominatim"
-      elsif @params[:query] =~ /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i
+      elsif @params[:query].match?(/^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i)
         @sources.push "osm_nominatim"
-      elsif @params[:query] =~ /^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i
+      elsif @params[:query].match?(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
         @sources.push "ca_postcode"
         @sources.push "osm_nominatim"
       else
         @sources.push "osm_nominatim"
-        @sources.push "geonames" if defined?(GEONAMES_USERNAME)
+        @sources.push "geonames" if Settings.key?(:geonames_username)
       end
     end
 
@@ -39,18 +40,44 @@ class GeocoderController < ApplicationController
   def search_latlon
     lat = params[:lat].to_f
     lon = params[:lon].to_f
-    if lat < -90 || lat > 90
-      @error = "Latitude #{lat} out of range"
-      render :action => "error"
-    elsif lon < -180 || lon > 180
-      @error = "Longitude #{lon} out of range"
-      render :action => "error"
-    else
-      @results = [{ :lat => lat, :lon => lon,
-                    :zoom => params[:zoom],
-                    :name => "#{lat}, #{lon}" }]
 
-      render :action => "results"
+    if params[:latlon_digits]
+      # We've got two nondescript numbers for a query, which can mean both "lat, lon" or "lon, lat".
+      @results = []
+
+      if lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180
+        @results.push(:lat => lat, :lon => lon,
+                      :zoom => params[:zoom],
+                      :name => "#{lat}, #{lon}")
+      end
+
+      if lon >= -90 && lon <= 90 && lat >= -180 && lat <= 180
+        @results.push(:lat => lon, :lon => lat,
+                      :zoom => params[:zoom],
+                      :name => "#{lon}, #{lat}")
+      end
+
+      if @results.empty?
+        @error = "Latitude or longitude are out of range"
+        render :action => "error"
+      else
+        render :action => "results"
+      end
+    else
+      # Coordinates in a query have come with markers for latitude and longitude.
+      if lat < -90 || lat > 90
+        @error = "Latitude #{lat} out of range"
+        render :action => "error"
+      elsif lon < -180 || lon > 180
+        @error = "Longitude #{lon} out of range"
+        render :action => "error"
+      else
+        @results = [{ :lat => lat, :lon => lon,
+                      :zoom => params[:zoom],
+                      :name => "#{lat}, #{lon}" }]
+
+        render :action => "results"
+      end
     end
   end
 
@@ -66,13 +93,13 @@ class GeocoderController < ApplicationController
     if response.get_elements("geodata/error").empty?
       @results.push(:lat => response.text("geodata/latt"),
                     :lon => response.text("geodata/longt"),
-                    :zoom => POSTCODE_ZOOM,
+                    :zoom => Settings.postcode_zoom,
                     :name => query.upcase)
     end
 
     render :action => "results"
-  rescue StandardError => ex
-    @error = "Error contacting geocoder.ca: #{ex}"
+  rescue StandardError => e
+    @error = "Error contacting geocoder.ca: #{e}"
     render :action => "error"
   end
 
@@ -91,7 +118,7 @@ class GeocoderController < ApplicationController
     exclude = "&exclude_place_ids=#{params[:exclude]}" if params[:exclude]
 
     # ask nominatim
-    response = fetch_xml("#{NOMINATIM_URL}search?format=xml&extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{Settings.nominatim_url}search?format=xml&extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # extract the results from the response
     results =  response.elements["searchresults"]
@@ -139,8 +166,8 @@ class GeocoderController < ApplicationController
     end
 
     render :action => "results"
-  rescue StandardError => ex
-    @error = "Error contacting nominatim.openstreetmap.org: #{ex}"
+  rescue StandardError => e
+    @error = "Error contacting nominatim.openstreetmap.org: #{e}"
     render :action => "error"
   end
 
@@ -155,7 +182,7 @@ class GeocoderController < ApplicationController
     @results = []
 
     # ask geonames.org
-    response = fetch_xml("http://api.geonames.org/search?q=#{escape_query(query)}&lang=#{lang}&maxRows=20&username=#{GEONAMES_USERNAME}")
+    response = fetch_xml("http://api.geonames.org/search?q=#{escape_query(query)}&lang=#{lang}&maxRows=20&username=#{Settings.geonames_username}")
 
     # parse the response
     response.elements.each("geonames/geoname") do |geoname|
@@ -165,14 +192,14 @@ class GeocoderController < ApplicationController
       country = geoname.text("countryName")
 
       @results.push(:lat => lat, :lon => lon,
-                    :zoom => GEONAMES_ZOOM,
+                    :zoom => Settings.geonames_zoom,
                     :name => name,
                     :suffix => ", #{country}")
     end
 
     render :action => "results"
-  rescue StandardError => ex
-    @error = "Error contacting api.geonames.org: #{ex}"
+  rescue StandardError => e
+    @error = "Error contacting api.geonames.org: #{e}"
     render :action => "error"
   end
 
@@ -186,7 +213,7 @@ class GeocoderController < ApplicationController
     @results = []
 
     # ask nominatim
-    response = fetch_xml("#{NOMINATIM_URL}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{Settings.nominatim_url}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # parse the response
     response.elements.each("reversegeocode/result") do |result|
@@ -203,8 +230,8 @@ class GeocoderController < ApplicationController
     end
 
     render :action => "results"
-  rescue StandardError => ex
-    @error = "Error contacting nominatim.openstreetmap.org: #{ex}"
+  rescue StandardError => e
+    @error = "Error contacting nominatim.openstreetmap.org: #{e}"
     render :action => "error"
   end
 
@@ -220,7 +247,7 @@ class GeocoderController < ApplicationController
     @results = []
 
     # ask geonames.org
-    response = fetch_xml("http://api.geonames.org/countrySubdivision?lat=#{lat}&lng=#{lon}&lang=#{lang}&username=#{GEONAMES_USERNAME}")
+    response = fetch_xml("http://api.geonames.org/countrySubdivision?lat=#{lat}&lng=#{lon}&lang=#{lang}&username=#{Settings.geonames_username}")
 
     # parse the response
     response.elements.each("geonames/countrySubdivision") do |geoname|
@@ -228,14 +255,14 @@ class GeocoderController < ApplicationController
       country = geoname.text("countryName")
 
       @results.push(:lat => lat, :lon => lon,
-                    :zoom => GEONAMES_ZOOM,
+                    :zoom => Settings.geonames_zoom,
                     :name => name,
                     :suffix => ", #{country}")
     end
 
     render :action => "results"
-  rescue StandardError => ex
-    @error = "Error contacting api.geonames.org: #{ex}"
+  rescue StandardError => e
+    @error = "Error contacting api.geonames.org: #{e}"
     render :action => "error"
   end
 
@@ -280,10 +307,12 @@ class GeocoderController < ApplicationController
 
       elsif latlon = query.match(/^\s*([+-]?\d+(\.\d*)?)\s*[\s,]\s*([+-]?\d+(\.\d*)?)\s*$/)
         params.merge!(:lat => latlon[1].to_f, :lon => latlon[3].to_f).delete(:query)
+
+        params[:latlon_digits] = true unless params[:whereami]
       end
     end
 
-    params.permit(:query, :lat, :lon, :zoom, :minlat, :minlon, :maxlat, :maxlon)
+    params.permit(:query, :lat, :lon, :latlon_digits, :zoom, :minlat, :minlon, :maxlat, :maxlon)
   end
 
   def nsew_to_decdeg(captures)

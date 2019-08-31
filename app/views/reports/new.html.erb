@@ -1,0 +1,42 @@
+<% content_for :heading do %>
+  <h1><%= t ".title_html", :link => link_to(reportable_title(@report.issue.reportable), reportable_url(@report.issue.reportable)) %></h1>
+<% end %>
+
+<div class="report-disclaimer">
+  <%= t(".disclaimer.intro") %>
+  <ul>
+    <li> <%= t(".disclaimer.not_just_mistake") %> </li>
+    <li> <%= t(".disclaimer.unable_to_fix") %> </li>
+    <li> <%= t(".disclaimer.resolve_with_user") %> </li>
+  </ul>
+</div>
+
+<%= form_for(@report) do |f| %>
+  <%= f.error_messages %>
+  <fieldset>
+    <%= f.fields_for @report.issue do |issue_form| %>
+      <%= issue_form.hidden_field :reportable_id %>
+      <%= issue_form.hidden_field :reportable_type %>
+    <% end %>
+
+    <div class='form-row'>
+      <p><%= t(".select") %></p>
+      <ul>
+      <% Report.categories_for(@report.issue.reportable).each do |c| %>
+        <li>
+          <%= radio_button :report, :category, c, :required => true %>
+          <%= label_tag "report_category_#{c}", t(".categories.#{@report.issue.reportable.class.name.underscore}.#{c}_label") %> <br />
+        </li>
+      <% end %>
+      </ul>
+    </div>
+
+    <div class='form-row'>
+      <%= text_area :report, :details, :cols => 20, :rows => 5, :placeholder => t(".details") %>
+    </div>
+
+    <div class='buttons'>
+      <%= f.submit %>
+    </div>
+  </fieldset>
+<% end %>

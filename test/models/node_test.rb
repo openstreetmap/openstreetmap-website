@@ -3,47 +3,56 @@ require "test_helper"
 class NodeTest < ActiveSupport::TestCase
   def test_node_too_far_north
     node = build(:node, :latitude => 90.01 * OldNode::SCALE)
-    assert_equal false, node.valid?
+    node.validate
+    assert node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_north_limit
     node = build(:node, :latitude => 90 * OldNode::SCALE)
-    assert node.valid?
+    node.validate
+    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_too_far_south
     node = build(:node, :latitude => -90.01 * OldNode::SCALE)
-    assert_equal false, node.valid?
+    node.validate
+    assert node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_south_limit
     node = build(:node, :latitude => -90 * OldNode::SCALE)
-    assert node.valid?
+    node.validate
+    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_too_far_west
     node = build(:node, :longitude => -180.01 * OldNode::SCALE)
-    assert_equal false, node.valid?
+    node.validate
+    assert node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_west_limit
     node = build(:node, :longitude => -180 * OldNode::SCALE)
-    assert node.valid?
+    node.validate
+    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_too_far_east
     node = build(:node, :longitude => 180.01 * OldNode::SCALE)
-    assert_equal false, node.valid?
+    node.validate
+    assert node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_east_limit
     node = build(:node, :longitude => 180 * OldNode::SCALE)
-    assert node.valid?
+    node.validate
+    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_totally_wrong
     node = build(:node, :latitude => 200 * OldNode::SCALE, :longitude => 200 * OldNode::SCALE)
-    assert_equal false, node.valid?
+    node.validate
+    assert node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_lat_lon
@@ -63,16 +72,16 @@ class NodeTest < ActiveSupport::TestCase
   def test_lat_lon_xml_format
     node = build(:node, :latitude => 0.00004 * OldNode::SCALE, :longitude => 0.00008 * OldNode::SCALE)
 
-    assert_match /lat="0.0000400"/, node.to_xml.to_s
-    assert_match /lon="0.0000800"/, node.to_xml.to_s
+    assert_match(/lat="0.0000400"/, node.to_xml.to_s)
+    assert_match(/lon="0.0000800"/, node.to_xml.to_s)
   end
 
   # Check that you can create a node and store it
   def test_create
     changeset = create(:changeset)
     node_template = Node.new(
-      :latitude => 12.3456,
-      :longitude => 65.4321,
+      :lat => 12.3456,
+      :lon => 65.4321,
       :changeset_id => changeset.id,
       :visible => 1,
       :version => 1
@@ -107,8 +116,8 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal OldNode.where(:node_id => node_template.id).count, 1
     assert_not_nil node
 
-    node_template.latitude = 12.3456
-    node_template.longitude = 65.4321
+    node_template.lat = 12.3456
+    node_template.lon = 65.4321
     # node_template.tags = "updated=yes"
     assert node.update_from(node_template, node.changeset.user)
 
@@ -173,7 +182,7 @@ class NodeTest < ActiveSupport::TestCase
     message = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(noid, false)
     end
-    assert_match /ID is required when updating./, message.message
+    assert_match(/ID is required when updating./, message.message)
   end
 
   def test_from_xml_no_lat
@@ -181,11 +190,11 @@ class NodeTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(nolat, true)
     end
-    assert_match /lat missing/, message_create.message
+    assert_match(/lat missing/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(nolat, false)
     end
-    assert_match /lat missing/, message_update.message
+    assert_match(/lat missing/, message_update.message)
   end
 
   def test_from_xml_no_lon
@@ -193,11 +202,11 @@ class NodeTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(nolon, true)
     end
-    assert_match /lon missing/, message_create.message
+    assert_match(/lon missing/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(nolon, false)
     end
-    assert_match /lon missing/, message_update.message
+    assert_match(/lon missing/, message_update.message)
   end
 
   def test_from_xml_no_changeset_id
@@ -205,11 +214,11 @@ class NodeTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(nocs, true)
     end
-    assert_match /Changeset id is missing/, message_create.message
+    assert_match(/Changeset id is missing/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(nocs, false)
     end
-    assert_match /Changeset id is missing/, message_update.message
+    assert_match(/Changeset id is missing/, message_update.message)
   end
 
   def test_from_xml_no_version
@@ -220,7 +229,7 @@ class NodeTest < ActiveSupport::TestCase
     message_update = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(no_version, false)
     end
-    assert_match /Version is required when updating/, message_update.message
+    assert_match(/Version is required when updating/, message_update.message)
   end
 
   def test_from_xml_double_lat
@@ -228,11 +237,11 @@ class NodeTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(nocs, true)
     end
-    assert_match /Fatal error: Attribute lat redefined at/, message_create.message
+    assert_match(/Fatal error: Attribute lat redefined at/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(nocs, false)
     end
-    assert_match /Fatal error: Attribute lat redefined at/, message_update.message
+    assert_match(/Fatal error: Attribute lat redefined at/, message_update.message)
   end
 
   def test_from_xml_id_zero
@@ -245,7 +254,7 @@ class NodeTest < ActiveSupport::TestCase
       message_update = assert_raise(OSM::APIBadUserInput) do
         Node.from_xml(zero_id, false)
       end
-      assert_match /ID of node cannot be zero when updating/, message_update.message
+      assert_match(/ID of node cannot be zero when updating/, message_update.message)
     end
   end
 
@@ -254,11 +263,11 @@ class NodeTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(no_text, true)
     end
-    assert_match /Must specify a string with one or more characters/, message_create.message
+    assert_match(/Must specify a string with one or more characters/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(no_text, false)
     end
-    assert_match /Must specify a string with one or more characters/, message_update.message
+    assert_match(/Must specify a string with one or more characters/, message_update.message)
   end
 
   def test_from_xml_no_node
@@ -278,11 +287,11 @@ class NodeTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(nokv, true)
     end
-    assert_match /tag is missing key/, message_create.message
+    assert_match(/tag is missing key/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(nokv, false)
     end
-    assert_match /tag is missing key/, message_update.message
+    assert_match(/tag is missing key/, message_update.message)
   end
 
   def test_from_xml_no_v
@@ -290,11 +299,11 @@ class NodeTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(no_v, true)
     end
-    assert_match /tag is missing value/, message_create.message
+    assert_match(/tag is missing value/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(no_v, false)
     end
-    assert_match /tag is missing value/, message_update.message
+    assert_match(/tag is missing value/, message_update.message)
   end
 
   def test_from_xml_duplicate_k

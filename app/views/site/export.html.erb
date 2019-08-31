@@ -1,53 +1,53 @@
-<% set_title(t('export.title')) %>
+<% set_title(t(".title")) %>
 
 <h2>
   <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= t 'export.title' %>
+  <%= t ".title" %>
 </h2>
 
-<%= form_tag({:controller => "export", :action => "finish"}, :class => "export_form") do %>
-  <%= hidden_field_tag 'format', 'osm' %>
+<%= form_tag({ :controller => "export", :action => "finish" }, { :class => "export_form" }) do %>
+  <%= hidden_field_tag "format", "osm" %>
 
   <div class='export_area_inputs'>
     <div class='export_boxy'>
-      <%= text_field_tag('maxlat', nil, :size => 10, :class => "export_bound") %>
-      <br/>
-      <%= text_field_tag('minlon', nil, :size => 10, :class => "export_bound") %>
-      <%= text_field_tag('maxlon', nil, :size => 10, :class => "export_bound") %>
-      <br/><br/>
-      <%= text_field_tag('minlat', nil, :size => 10, :class => "export_bound") %>
+      <%= text_field_tag("maxlat", nil, :size => 10, :class => "export_bound") %>
+      <br />
+      <%= text_field_tag("minlon", nil, :size => 10, :class => "export_bound") %>
+      <%= text_field_tag("maxlon", nil, :size => 10, :class => "export_bound") %>
+      <br /><br />
+      <%= text_field_tag("minlat", nil, :size => 10, :class => "export_bound") %>
       </div>
-    <a id='drag_box' href="#"><%= t'export.start.manually_select' %></a>
+    <a id='drag_box' href="#"><%= t ".manually_select" %></a>
   </div>
 
-  <h4><%= t'export.start.licence' %></h4>
-  <p><%= raw t 'export.start.export_details' %></p>
+  <h4><%= t ".licence" %></h4>
+  <p><%= raw t ".export_details" %></p>
 
   <div id="export_osm_too_large">
     <p class="warning">
-      <%= t'export.start.too_large.body' %>
+      <%= t ".too_large.body" %>
     </p>
   </div>
 
   <div id="export_commit">
     <div class="export_button">
-      <%= submit_tag t('export.start.export_button') %>
+      <%= submit_tag t(".export_button") %>
     </div>
 
-    <p><%= t'export.start.too_large.advice' %></p>
+    <p><%= t ".too_large.advice" %></p>
   </div>
 
-  <dl class="inner12">  
-    <dt><a id="export_overpass" href="https://overpass-api.de/api/map?bbox="><%= t'export.start.too_large.overpass.title' %></a></dt>
-    <dd><%= t'export.start.too_large.overpass.description' %></dd>
-    
-    <dt><a href="https://planet.openstreetmap.org/"><%= t'export.start.too_large.planet.title' %></a></dt>
-    <dd><%= t'export.start.too_large.planet.description' %></dd>
+  <dl class="inner12">
+    <dt><a id="export_overpass" href="https://overpass-api.de/api/map?bbox="><%= t ".too_large.overpass.title" %></a></dt>
+    <dd><%= t ".too_large.overpass.description" %></dd>
 
-    <dt><a href="https://download.geofabrik.de/"><%= t'export.start.too_large.geofabrik.title' %></a></dt>
-    <dd><%= t'export.start.too_large.geofabrik.description' %></dd>
+    <dt><a href="https://planet.openstreetmap.org/"><%= t ".too_large.planet.title" %></a></dt>
+    <dd><%= t ".too_large.planet.description" %></dd>
 
-    <dt><a href="https://wiki.openstreetmap.org/wiki/Download"><%= t'export.start.too_large.other.title' %></a></dt>
-    <dd><%= t'export.start.too_large.other.description' %></dd>
+    <dt><a href="https://download.geofabrik.de/"><%= t ".too_large.geofabrik.title" %></a></dt>
+    <dd><%= t ".too_large.geofabrik.description" %></dd>
+
+    <dt><a href="https://wiki.openstreetmap.org/wiki/Download"><%= t ".too_large.other.title" %></a></dt>
+    <dd><%= t ".too_large.other.description" %></dd>
   </dl>
 <% end %>

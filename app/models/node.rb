@@ -2,14 +2,14 @@
 #
 # Table name: current_nodes
 #
-#  id           :integer          not null, primary key
+#  id           :bigint(8)        not null, primary key
 #  latitude     :integer          not null
 #  longitude    :integer          not null
-#  changeset_id :integer          not null
+#  changeset_id :bigint(8)        not null
 #  visible      :boolean          not null
 #  timestamp    :datetime         not null
-#  tile         :integer          not null
-#  version      :integer          not null
+#  tile         :bigint(8)        not null
+#  version      :bigint(8)        not null
 #
 # Indexes
 #
@@ -47,15 +47,15 @@ class Node < ActiveRecord::Base
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :version, :presence => true,
-                      :numericality => { :integer_only => true }
+                      :numericality => { :only_integer => true }
   validates :changeset_id, :presence => true,
-                           :numericality => { :integer_only => true }
+                           :numericality => { :only_integer => true }
   validates :latitude, :presence => true,
-                       :numericality => { :integer_only => true }
+                       :numericality => { :only_integer => true }
   validates :longitude, :presence => true,
-                        :numericality => { :integer_only => true }
+                        :numericality => { :only_integer => true }
   validates :timestamp, :presence => true
   validates :changeset, :associated => true
   validates :visible, :inclusion => [true, false]
@@ -79,8 +79,8 @@ class Node < ActiveRecord::Base
       return Node.from_xml_node(pt, create)
     end
     raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/node element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("node", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("node", xml, e.message)
   end
 
   def self.from_xml_node(pt, create = false)
@@ -88,19 +88,23 @@ class Node < ActiveRecord::Base
 
     raise OSM::APIBadXMLError.new("node", pt, "lat missing") if pt["lat"].nil?
     raise OSM::APIBadXMLError.new("node", pt, "lon missing") if pt["lon"].nil?
+
     node.lat = OSM.parse_float(pt["lat"], OSM::APIBadXMLError, "node", pt, "lat not a number")
     node.lon = OSM.parse_float(pt["lon"], OSM::APIBadXMLError, "node", pt, "lon not a number")
     raise OSM::APIBadXMLError.new("node", pt, "Changeset id is missing") if pt["changeset"].nil?
+
     node.changeset_id = pt["changeset"].to_i
 
     raise OSM::APIBadUserInput, "The node is outside this world" unless node.in_world?
 
     # version must be present unless creating
     raise OSM::APIBadXMLError.new("node", pt, "Version is required when updating") unless create || !pt["version"].nil?
+
     node.version = create ? 0 : pt["version"].to_i
 
     unless create
       raise OSM::APIBadXMLError.new("node", pt, "ID is required when updating.") if pt["id"].nil?
+
       node.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
@@ -119,6 +123,7 @@ class Node < ActiveRecord::Base
     pt.find("tag").each do |tag|
       raise OSM::APIBadXMLError.new("node", pt, "tag is missing key") if tag["k"].nil?
       raise OSM::APIBadXMLError.new("node", pt, "tag is missing value") if tag["v"].nil?
+
       node.add_tag_key_val(tag["k"], tag["v"])
     end
 

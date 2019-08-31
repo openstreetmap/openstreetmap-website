@@ -1,22 +1,21 @@
-<% @title = t 'redaction.edit.title' %>
+<% @title = t ".title" %>
 
 <% content_for :heading do %>
-  <h1><%= t 'redaction.edit.heading' %></h1>
+  <h1><%= t ".heading" %></h1>
 <% end %>
 
 <%= form_for(@redaction) do |f| %>
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :title, t('redaction.edit.title') %><br />
+    <%= f.label :title, t(".title") %><br />
     <%= f.text_field :title %>
   </p>
   <p>
-    <%= f.label :description, t('redaction.edit.description') %><br />
+    <%= f.label :description, t(".description") %><br />
     <%= richtext_area :redaction, :description, :cols => 80, :rows => 20, :format => @redaction.description_format %>
   </p>
   <p>
-    <%= f.submit t('redaction.edit.submit') %>
+    <%= f.submit %>
   </p>
 <% end %>
-

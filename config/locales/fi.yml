@@ -1,18 +1,23 @@
 # Messages for Finnish (suomi)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Alluk.
+# Author: Antsa
 # Author: BriskyBlizzard
 # Author: Centerlink
 # Author: Crt
 # Author: Daeron
 # Author: Espeox
+# Author: Jnovikov
 # Author: Konstaduck
+# Author: Laurianttila
 # Author: Lliehu
 # Author: Macofe
 # Author: Markosu
 # Author: McSalama
 # Author: Mikahama
+# Author: Moiman
 # Author: MrTapsa
 # Author: Nedergard
 # Author: Nelg
@@ -38,7 +43,35 @@ fi:
   time:
     formats:
       friendly: '%e. %Bta %Y kello %H.%M'
+      blog: '%e. %Bta %Y'
+  helpers:
+    submit:
+      diary_comment:
+        create: Tallenna
+      diary_entry:
+        create: Julkaise
+        update: Päivitä
+      issue_comment:
+        create: Lisää kommentti
+      message:
+        create: Lähetä
+      client_application:
+        create: Rekisteröi
+        update: Muokkaa
+      redaction:
+        create: Luo redaktio
+        update: Tallenna redaktio
+      trace:
+        create: Tallenna
+        update: Tallenna muutokset
+      user_block:
+        create: Luo esto
+        update: Päivitä esto
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: '"%s" ei näytä olevan kelvollinen sähköpostiosoite.'
+        email_address_not_routable: reittiohjeet eivät ole saatavilla
     models:
       acl: Pääsyoikeuslista
       changeset: Muutoskokoelma
@@ -106,6 +139,45 @@ fi:
         description: Kuvaus
         languages: Kielet
         pass_crypt: Salasana
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: noin 1 tunti sitten
+        other: noin %{count} tuntia sitten
+      about_x_months:
+        one: noin 1 kuukausi sitten
+        other: noin %{count} kuukautta sitten
+      about_x_years:
+        one: noin 1 vuosi sitten
+        other: noin %{count} vuotta sitten
+      almost_x_years:
+        one: melkein 1 vuosi sitten
+        other: melkein %{count} vuotta sitten
+      half_a_minute: puoli minuuttia sitten
+      less_than_x_seconds:
+        one: vähemmän kuin 1 sekuntia sitten
+        other: vähemmän kuin %{count} sekuntia sitten
+      less_than_x_minutes:
+        one: vähemmän kuin minuutti sitten
+        other: vähemmän kuin %{count} minuuttia sitten
+      over_x_years:
+        one: yli 1 vuosi sitten
+        other: yli %{count} vuotta sitten
+      x_seconds:
+        one: 1 sekunti sitten
+        other: '%{count} sekuntia sitten'
+      x_minutes:
+        one: 1 minuutti sitten
+        other: '%{count} minuuttia sitten'
+      x_days:
+        one: 1 päivä sitten
+        other: '%{count} päivää sitten'
+      x_months:
+        one: 1 kuukausi sitten
+        other: '%{count} kuukautta sitten'
+      x_years:
+        one: 1 vuosi sitten
+        other: '%{count} vuotta sitten'
   editor:
     default: Oletus (tällä hetkellä %{name})
     potlatch:
@@ -120,18 +192,40 @@ fi:
     remote:
       name: Kauko-ohjaus
       description: Kauko-ohjaus (JOSM tai Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: Luotu %{when}
+        opened_at_by_html: '%{user} luonut %{when}'
+        commented_at_html: Päivitetty %{when}
+        commented_at_by_html: '%{user} päivittänyt %{when}'
+        closed_at_html: Ratkaistu %{when}
+        closed_at_by_html: '%{user} ratkaissut %{when}'
+        reopened_at_html: Avattu uudelleen %{when}
+        reopened_at_by_html: '%{user} aktivoinut uudelleen %{when}'
+      rss:
+        title: OpenStreetMapin karttailmoitukset
+        description_area: Luettelo raportoiduista, kommentoiduista tai suljetuista
+          huomautuksista omalla alueellasi [( %{min_lat}|%{min_lon})--( %{max_lat}|%{max_lon})]
+        description_item: Karttailmoituksen %{id} RSS-syöte
+        opened: uusi huomautus (lähellä kohdetta %{place})
+        commented: uusi kommentti (lähellä kohdetta %{place})
+        closed: suljettu karttailmoitus (lähellä paikkaa %{place})
+        reopened: uudelleenavattu karttailmoitus (lähellä paikka %{place})
+      entry:
+        comment: Kommentti
+        full: Koko karttailmoitus
   browse:
     created: Luotu
     closed: Ratkaistu
-    created_html: Lähettänyt käyttäjä <abbr title='%{title}'>%{time} sitten</abbr>
-    closed_html: Ratkaistu <abbr title='%{title}'>%{time} sitten</abbr>
-    created_by_html: Lähettänyt käyttäjä %{user} <abbr title='%{title}'>%{time} sitten</abbr>
-    deleted_by_html: Poistettu <abbr title='%{title}'>%{time} sitten</abbr> käyttäjän
-      %{user} toimesta
-    edited_by_html: Muokannut viimeksi käyttäjä %{user} <abbr title='%{title}'>%{time}
-      sitten</abbr>
-    closed_by_html: Suljettu <abbr title='%{title}'>%{time} sitten</abbr> käyttäjän
-      %{user} toimesta
+    created_html: Lähettänyt käyttäjä <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Ratkaistu <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Lähettänyt käyttäjä %{user} <abbr title='%{title}'>%{time}</abbr>
+    deleted_by_html: Poistettu <abbr title='%{title}'>%{time}</abbr> käyttäjän %{user}
+      toimesta
+    edited_by_html: Muokannut viimeksi käyttäjä %{user} <abbr title='%{title}'>%{time}</abbr>
+    closed_by_html: Suljettu <abbr title='%{title}'>%{time}</abbr> käyttäjän %{user}
+      toimesta
     version: Versio
     in_changeset: Muutoskokoelma
     anonymous: tuntematon
@@ -151,10 +245,8 @@ fi:
       relation: Relaatiot (%{count})
       relation_paginated: Relaatiot (%{x}-%{y} / %{count})
       comment: Kommentit (%{count})
-      hidden_commented_by: Käyttäjän %{user} piilotettu kommentti <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
+      hidden_commented_by: Käyttäjän %{user} piilotettu kommentti <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Muutoskokoelman XML
       osmchangexml: osmChange XML
       feed:
@@ -172,8 +264,8 @@ fi:
       history_title: Viivan %{name} historia
       nodes: Pisteet
       also_part_of:
-        one: osa viivaa %{related_ways}
-        other: osa viivoja %{related_ways}
+        one: osana viivaa %{related_ways}
+        other: osana viivoja %{related_ways}
     relation:
       title: 'Relaatio: %{name}'
       history_title: Relaation %{name} historia
@@ -217,7 +309,7 @@ fi:
       load_data: Lataa tiedot
       loading: Ladataan tietoja...
     tag_details:
-      tags: Tagit
+      tags: Ominaisuustiedot
       wiki_link:
         key: Wikisivu avaimelle %{key}
         tag: Wikisivu tietueelle %{key}=%{value}
@@ -231,32 +323,26 @@ fi:
       open_title: 'Ratkaisematon karttailmoitus #%{note_name}'
       closed_title: 'Ratkaistu karttailmoitus #%{note_name}'
       hidden_title: 'Piilotettu karttailmoitus #%{note_name}'
-      open_by: Lähettänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
-      open_by_anonymous: Luonut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      commented_by_anonymous: Kommentti tuntemattomalta käyttäjältä <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      closed_by: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
-      closed_by_anonymous: Ratkaissut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      reopened_by: Avannut uudelleen käyttäjä %{user} <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      reopened_by_anonymous: Avannut uudelleen tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      hidden_by: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
+      open_by: Lähettänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Luonut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Kommentti tuntemattomalta käyttäjältä <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Ratkaissut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Avannut uudelleen käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Avannut uudelleen tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Ilmianna karttailmoitus
     query:
       title: Ominaisuuskysely
       introduction: Näytä luettelo lähistön karttakohteista napsauttamalla karttaa.
       nearby: Lähistön karttakohteet
       enclosing: Ympäröivät karttakohteet
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Sivu %{page}
-      next: Seuraava →
-      previous: ← Edellinen
+      next: Seuraava »
+      previous: « Edellinen
     changeset:
       anonymous: Tuntematon
       no_edits: (ei muokkauksia)
@@ -267,10 +353,10 @@ fi:
       user: Käyttäjä
       comment: Kommentti
       area: Alue
-    list:
+    index:
       title: Muutoskokoelmat
       title_user: Käyttäjän %{user} muutoskokoelmat
-      title_friend: Kaverien muutoskokoelmat
+      title_friend: Kaverieni muutoskokoelmat
       title_nearby: Lähellä olevien käyttäjien muutoskokoelmat
       empty: Muutosryhmiä ei löytynyt.
       empty_area: Ei muutosryhmiä tällä alueella.
@@ -282,31 +368,22 @@ fi:
     timeout:
       sorry: Valitettavasti pyytämäsi muutoskokoelmien listan hakeminen kesti liian
         kauan.
-    rss:
+  changeset_comments:
+    comment:
+      comment: 'Käyttäjä %{author} kommentoi muutoskokoelmaa #%{changeset_id}'
+      commented_at_by_html: '%{user} päivittänyt %{when}'
+    comments:
+      comment: 'Uusi kommentti käyttäjän %{author} muutoskokoelmassa #%{changeset_id}'
+    index:
       title_all: Keskustelu OpenStreetMapin muutoskokoelmasta
       title_particular: 'OpenStreetMap muutoskokoelma #%{changeset_id} keskustelu'
-      comment: 'Käyttäjä %{author} kommentoi muutoskokoelmaa #%{changeset_id}'
-      commented_at_html: Päivitetty %{when} sitten
-      commented_at_by_html: '%{user} päivittänyt %{when} sitten'
-      full: Koko keskustelu
-  diary_entry:
+    timeout:
+      sorry: Valitettavasti pyytämäsi muutoskokoelmien kommenttien hakeminen kesti
+        liian kauan.
+  diary_entries:
     new:
       title: Uusi päiväkirjamerkintä
-      publish_button: Julkaise
-    list:
-      title: Käyttäjien päiväkirjamerkinnät
-      title_friends: Kaverien päiväkirjat
-      title_nearby: Lähellä olevien käyttäjien päiväkirjat
-      user_title: Käyttäjän %{user} päiväkirja
-      in_language_title: Päiväkirjamerkinnät kielellä %{language}
-      new: Lisää päiväkirjamerkintä
-      new_title: Kirjoita uusi päiväkirjamerkintä
-      no_entries: Päiväkirjassa ei ole merkintöjä.
-      recent_entries: Uusimmat päiväkirjamerkinnät
-      older_entries: Vanhempia...
-      newer_entries: Uudempia...
-    edit:
-      title: Muokkaa päiväkirjamerkintää
+    form:
       subject: 'Aihe:'
       body: 'Teksti:'
       language: 'Kieli:'
@@ -314,15 +391,27 @@ fi:
       latitude: 'Leveyspiiri:'
       longitude: 'Pituuspiiri:'
       use_map_link: valitse kartalta
-      save_button: Tallenna
+    index:
+      title: Käyttäjien päiväkirjamerkinnät
+      title_friends: Kaverien päiväkirjat
+      title_nearby: Lähellä olevien käyttäjien päiväkirjat
+      user_title: Käyttäjän %{user} päiväkirja
+      in_language_title: Päiväkirjamerkinnät kielellä %{language}
+      new: Lisää päiväkirjamerkintä
+      new_title: Kirjoita uusi merkintä käyttäjän päiväkirjaani
+      no_entries: Päiväkirjassa ei ole merkintöjä.
+      recent_entries: Uusimmat päiväkirjamerkinnät
+      older_entries: Vanhempia...
+      newer_entries: Uudempia...
+    edit:
+      title: Muokkaa päiväkirjamerkintää
       marker_text: Päiväkirjamerkinnän sijainti
-    view:
+    show:
       title: Käyttäjän %{user} päiväkirja | %{title}
       user_title: Käyttäjän %{user} päiväkirja
       leave_a_comment: Kommentoi tätä kirjoitusta
       login_to_leave_a_comment: '%{login_link} kommentoidaksesi'
       login: Kirjaudu sisään
-      save_button: Tallenna
     no_such_entry:
       title: Päiväkirjamerkintää ei ole
       heading: Tunnuksella %{id} ei ole päiväkirjamerkintää.
@@ -338,11 +427,15 @@ fi:
         other: '%{count} kommenttia'
       edit_link: Muokkaa päiväkirjamerkintää
       hide_link: Piilota tämä merkintä
+      unhide_link: Poista merkinnän piilottaminen
       confirm: Vahvista
+      report: Ilmianna julkaisu
     diary_comment:
       comment_from: Kommentti käyttäjältä %{link_user} %{comment_created_at}
       hide_link: Piilota tämä kommentti
+      unhide_link: Poista kommentin piilottaminen
       confirm: Vahvista
+      report: Ilmianna kommentti
     location:
       location: 'Sijainti:'
       view: Näytä
@@ -363,55 +456,8 @@ fi:
       post: Kommentti
       when: Päiväys
       comment: Kommentti
-      ago: '%{ago} sitten'
       newer_comments: Uudemmat kommentit
       older_comments: Vanhemmat kommentit
-  export:
-    title: Alueen vienti
-    start:
-      area_to_export: Vietävä alue
-      manually_select: Valitse pienempi alue
-      format_to_export: Vientimuoto
-      osm_xml_data: OpenStreetMapin XML-muoto
-      map_image: Karttakuva (näyttää standarditason)
-      embeddable_html: HTML-koodi
-      licence: Lisenssi
-      export_details: OpenStreetMap-karttatietoja saa käyttää <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
-        Data Commons Open Database License</a> (ODbL) (engl.) ehdoilla.
-      too_large:
-        advice: 'Jos vientitoiminto ei toimi, kokeile myös seuraavia palveluja:'
-        body: 'Näin suurta aluetta ei voi viedä OpenStreetMap XML-tiedostona. Lähennä
-          karttaa tai valitse pienempi alue, tai vaihtoehtoisesti lataa tiedosto joltakin
-          seuraavista:'
-        planet:
-          title: Planet OSM
-          description: Säännöllisesti päivitettyjä kopioita täydellisestä OpenStreetMap-tietokannasta
-        overpass:
-          title: Overpass API
-          description: Lataa kartalle rajattu alue OpenStreetMapin varapalvelimelta
-        geofabrik:
-          title: Geofabrik-lataukset
-          description: Säännöllisesti päivitetyt otteet maanosista, maista ja valituista
-            kaupungeista
-        metro:
-          title: Metro-otteet
-          description: Otteita maailman suurista kaupungeista ja niitä ympäröivistä
-            alueista
-        other:
-          title: Muut lähteet
-          description: Muut lähteet ovat esillä OpenStreetMap-wikissä
-      options: Asetukset
-      format: 'Tiedostomuoto:'
-      scale: Mittakaava
-      max: enintään
-      image_size: Kuvan koko
-      zoom: Suurennostaso
-      add_marker: Lisää vietävään kartaan kohdemerkki
-      latitude: 'Lev:'
-      longitude: 'Pit:'
-      output: Tulos
-      paste_html: Kopioi ja liitä tämä HTML-koodi verkkosivullesi
-      export_button: Vie
   geocoder:
     search:
       title:
@@ -517,7 +563,7 @@ fi:
           retirement_home: Vanhainkoti
           sauna: Sauna
           school: Koulu
-          shelter: Väestönsuoja
+          shelter: Katos
           shop: Kauppa
           shower: Suihku
           social_centre: Sosiaalikeskus
@@ -940,13 +986,14 @@ fi:
           toys: Lelukauppa
           travel_agency: Matkatoimisto
           tyres: Rengaskauppa
+          vacant: Avoin kauppa
           variety_store: Tavaratalo
           video: Videokauppa
           wine: Viinikauppa
           "yes": Kauppa
         tourism:
           alpine_hut: Alppimaja
-          apartment: Huoneisto
+          apartment: Lomahuoneisto
           artwork: Taideteos
           attraction: Nähtävyys
           bed_and_breakfast: Aamiaismajoitus
@@ -1008,6 +1055,109 @@ fi:
     results:
       no_results: Ei hakutuloksia
       more_results: Lisää tuloksia
+  issues:
+    index:
+      title: Tapaukset
+      select_status: Valitse tila
+      select_type: Valitse tyyppi
+      select_last_updated_by: Valitse viimeisin päivittäjä
+      reported_user: Ilmiannettu
+      not_updated: Ei päivitetty
+      search: Etsi
+      search_guidance: 'Etsi tapauksia:'
+      user_not_found: Käyttäjää ei löydy
+      issues_not_found: Tapahtumia ei löytynyt
+      status: Tila
+      reports: Ilmiannot
+      last_updated: Päivitetty
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: käyttäjä %{user} <abbr title='%{title}'>%{time}</abbr>
+      link_to_reports: Näytä ilmiannot
+      reports_count:
+        one: 1 ilmoitus
+        other: '%{count} ilmiantoa'
+      reported_item: Ilmiannettu kohde
+      states:
+        ignored: Aiheeton
+        open: Käsittelyssä
+        resolved: Ratkaistu
+    update:
+      new_report: Ilmianto on vastaanotettu
+      successful_update: Ilmianto on päivitetty
+      provide_details: Täydennä tarvittavat tiedot
+    show:
+      title: '%{status} Tapaus #%{issue_id}'
+      reports:
+        zero: Ei ilmiantoa
+        one: Yksi ilmianto
+        other: '%{count} ilmiantoa'
+      report_created_at: Ilmoitettu ensimmäisen kerran %{datetime}
+      last_resolved_at: Ratkaistu %{datetime}
+      last_updated_at: Viimeisin käsittelijä %{displayname} %{datetime}
+      resolve: Ratkaise
+      ignore: Merkitse aiheettomaksi
+      reopen: Avaa uudelleen
+      reports_of_this_issue: Ilmianna tapahtuma
+      read_reports: Lue ilmiantoja
+      new_reports: Uudet ilmiannot
+      other_issues_against_this_user: Muut tähän käyttäjään kohdistetut ilmiannot
+      no_other_issues: Ei muita tähän käyttäjään kohdistuvia ilmiantoja.
+      comments_on_this_issue: Tapauksen kommentit
+    resolve:
+      resolved: Tapaus on merkitty ratkaistuksi
+    ignore:
+      ignored: Tapaus on merkitty aiheettomaksi
+    reopen:
+      reopened: Tapaus on merkitty käsittelyssä olevaksi
+    comments:
+      created_at: '%{datetime}'
+      reassign_param: Haluatko määrittää tapauksen tilan uudelleen?
+    reports:
+      updated_at: '%{datetime}'
+      reported_by_html: Käyttäjä %{user} ilmiantanut merkinnällä %{category}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, kommenttitunnus %{comment_id}'
+        note: Karttailmoitustunnus %{note_id}
+  issue_comments:
+    create:
+      comment_created: Kommentti jätetty
+  reports:
+    new:
+      title_html: Ilmianna %{link}
+      missing_params: Ilmoituksen luominen epäonnistui
+      details: Kuvaile ongelmaa (pakollinen)
+      select: 'Valitse ilmiannon syy:'
+      disclaimer:
+        intro: 'Varmista ennen ilmiantoa seuraavat asiat:'
+        not_just_mistake: Ongelma ei ole vain väärinkäsitys
+        unable_to_fix: Et voi ratkaista ongelmaa itse tai muun yhteisön tuella
+        resolve_with_user: Kyseinen käyttäjä ei ole ollut halukas yhteistyöhön
+      categories:
+        diary_entry:
+          spam_label: Päiväkirjamerkintä on roskapostia
+          offensive_label: Päiväkirjamerkintä on hyökkäävä
+          threat_label: Päiväkirjamerkintä sisältää uhkauksia
+          other_label: Muu
+        diary_comment:
+          spam_label: Päiväkirjamerkinnän kommentti on roskapostia
+          offensive_label: Päiväkirjamerkinnän kommentti on hyökkäävä
+          threat_label: Päiväkirjamerkinnän kommentti sisältää uhkauksia
+          other_label: Muu
+        user:
+          spam_label: Tämä käyttäjäsivu on roskapostia
+          offensive_label: Käyttäjäsivu on hyökkäävä
+          threat_label: Käyttäjäsivu sisältää uhkauksia
+          vandal_label: Käyttäjä harrastaa ilkivaltaa
+          other_label: Muu
+        note:
+          spam_label: Karttailmoitus on roskapostia
+          personal_label: Karttailmoitus sisältää henkilökohtaisia tietoja
+          abusive_label: Karttailmoitus on loukkaava
+          other_label: Muu
+    create:
+      successful_report: Ilmianto on rekisteröity
+      provide_details: Täydennä puuttuvat tiedot
   layouts:
     logo:
       alt_text: OpenStreetMap-logo
@@ -1021,6 +1171,7 @@ fi:
     edit: Muokkaa
     history: Historia
     export: Vienti
+    issues: Ilmiannot
     data: Tiedot
     export_data: Vie tiedostona
     gps_traces: GPS-jäljet
@@ -1033,11 +1184,12 @@ fi:
     intro_text: OpenStreetMap on tavallisten ihmisten luoma maailmankartta. Palvelun
       käyttäminen on ilmaista avoimen lisenssin ansiosta.
     intro_2_create_account: luomalla ensin käyttäjätunnuksen
-    partners_html: Palvelinta ylläpitävät %{ucl}, %{bytemark}, %{ic} sekä muut %{partners}.
+    hosting_partners_html: Palvelinkapasiteettia meille tarjoaa %{ucl}, %{bytemark},
+      ja muut %{partners}.
     partners_ucl: UCL
-    partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: kumppanimme
+    tou: Käyttöehdot
     osm_offline: OpenStreetMapin tietokanta ei toistaiseksi ole käytettävissä välttämättömien
       ylläpitotöiden takia.
     osm_read_only: OpenStreetMapin tietokantaa ei toistaiseksi voi muokata välttämättömien
@@ -1056,248 +1208,6 @@ fi:
       text: Lahjoita
     learn_more: Lisätietoja
     more: Lisää
-  license_page:
-    foreign:
-      title: Tietoja tästä käännöksestä
-      text: Jos tämän käännetyn sivun ja %{english_original_link} välillä on eroja,
-        englanninkielinen sivu on aina etusijalla.
-      english_link: englanninenkielisen alkuperäisversion
-    native:
-      title: Tietoja sivusta
-      text: Tällä sivulla on alkuperäinen englanninkielinen versio tekijäoikeuksista.
-        Saatavilla on myös %{native_link}. Voit myös lopettaa tekijänoikeuksien lukemisen
-        ja %{mapping_link}.
-      native_link: suomenkielinen versio
-      mapping_link: aloittaa kartoituksen
-    legal_babble:
-      title_html: Tekijänoikeus ja lisenssi
-      intro_1_html: |-
-        OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> on <i>avointa dataa</i>, jonka <a
-        href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF) on lisensoinut <a
-        href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database -lisenssillä</a> (ODbL).
-      intro_2_html: "OpenStreetMapin karttoja ja tietoja voi kopioida, levittää, välittää
-        ja mukauttaa, \nkunhan OpenStreetMap ja sen tekijät mainitaan. Jos karttoja
-        tai tietoja muutetaan tai kehitetään, niitä saa levittää vain samalla lisenssillä.\n<a
-        href=\"https://opendatacommons.org/licenses/odbl/1.0/\">Lakitekstissä</a>
-        mainitaan levittäjän oikeudet ja velvollisuudet."
-      intro_3_html: |-
-        Kartta-aineisto ja dokumentaatio on lisensoitu <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.fi">Creative
-        Commons Nimeä-Jaa samoin 2.0</a> -lisenssillä (CC-BY-SA).
-      credit_title_html: OpenStreetMapin mainitseminen
-      credit_1_html: OpenStreetMapin sisältöä levitettäessä on mainittava teksti &quot;&copy;
-        OpenStreetMapin tekijät&quot; tai sen englanninkielinen vastine &quot;&copy;
-        OpenStreetMap contributors&quot;.
-      credit_2_html: "Levittäjän tulee tehdä selväksi, että aineisto on saatavilla
-        Open Database Lisenssillä\nja kartta-aineiston olevan lisensoitu CC-BY-SA-lisenssillä.
-        Tämä voidaan tehdä sijoittamalla sivulle linkki\n<a href=\"https://www.openstreetmap.org/copyright\">tälle
-        tekijänoikeussivulle</a>. \nJos linkkien käyttö ei ole mahdollista (esimerkiksi
-        paperille tulostettu aineisto),\nsuosittelemme ohjaamaan lukijat osoitteisiin
-        www.openstreetmap.org, opendatacommons.org ja tarvittaessa myös creativecommons.org."
-      credit_3_html: 'Sähköisen karttaikkunan tulee sisältää tekijän nimi kartan alaosassa:'
-      attribution_example:
-        alt: Esimerkki siitä, miten nimetä OpenStreetMap nettisivulla
-        title: Nimeämisesimerkki
-      more_title_html: Lisätietoja
-      more_1_html: |-
-        Lue lisää aineiston käyttämisestä ja tekijöiden mainitsemisesta <a
-        href="https://osmfoundation.org/Licence">OSM-säätiön lisensointiohjeesta</a>.
-      more_2_html: "Vaikka OpenStreetMap on avointa dataa, emme voi tarjota maksutonta
-        karttarajapintaa (API) kolmannen osapuolen kehittäjille.\n\nTutustu <a href=\"https://operations.osmfoundation.org/policies/api/\">karttarajapinnan
-        käyttöehtoihin</a>,\n<a href=\"https://operations.osmfoundation.org/policies/tiles/\">kartta-aineiston
-        käyttöehtoihin</a> ja \n<a href=\"https://operations.osmfoundation.org/policies/nominatim/\">Nominatimin
-        käyttöehtoihin</a>."
-      contributors_title_html: Tekijät
-      contributors_intro_html: |-
-        Tekijöinämme on tuhansia yksityishenkilöitä. Olemme myös sisällyttäneet
-        vapaasti lisensoitua dataa kansallisilta kartoitustoimistoilta
-        ja muista lähteistä, muun muassa:
-      contributors_at_html: |-
-        <strong>Itävalta</strong>: Sisältää karttatietoja
-        <a href="https://data.wien.gv.at/">Stadt Wienistä</a> (<a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY -lisenssillä</a>),
-        <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlbergista</a> ja
-        Land Tirolista (<a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT -lisenssillä tietyin muutoksin</a>).
-      contributors_ca_html: |-
-        <strong>Kanada</strong>: Sisältää karttatietoja
-           GeoBasesta ®, GeoGratisista (© Department of Natural
-           Resources Canada), CanVecista (© Department of Natural
-           Resources Canada), ja StatCanista (Geography Division,
-           Statistics Canada).
-      contributors_fi_html: '<strong>Suomi</strong>: Sisältää karttatietoja Maanmittauslaitoksen
-        maastotietokannasta ja muista lähteistä <a href="https://www.maanmittauslaitos.fi/avoindata_lisenssi_versio1_20120501">Maanmittauslaitoksen
-        lisenssin</a> mukaisesti.'
-      contributors_fr_html: |-
-        <strong>Ranska</strong>: Sisältää karttatietoja
-           Direction Générale des Impôtsista.
-      contributors_nl_html: |-
-        <strong>Alankomaat</strong>: Sisältää &copy; AND-karttatietoja vuodelta 2007
-        (<a href="https://www.and.com">www.and.com</a>)
-      contributors_nz_html: '<strong>Uusi-Seelanti</strong>: Sisältää karttatietoja
-        Land Information New Zealandista. Crown Copyright.'
-      contributors_si_html: "<strong>Slovenia</strong>: Sisältää \n<a href=\"http://www.gu.gov.si/en/\">Maanmittaus-
-        ja kartoitusviranomaisen</a> sekä\n<a href=\"http://www.mkgp.gov.si/en/\">Maatalous-,
-        metsä- ja ruokaministeriön</a> tuottamia karttatietoja\n(Slovenian julkista
-        karttamateriaalia)."
-      contributors_za_html: |-
-        <strong>Etelä-Afrikka</strong>: Sisältää karttatietoja
-        <a href="http://www.ngi.gov.za/">Chief Directorate:
-        National Geo-Spatial Informationista</a>, kaikki oikeudet pidätetään.
-      contributors_gb_html: |-
-        <strong>Iso-Britannia</strong>: Sisältää Ordnance Surveyn
-        keräämiä karttatietoja © Crown Copyright ja tietokantojen käyttöoikeuden joulukuulta 2010.
-      contributors_footer_1_html: |-
-        Täydellinen lista OpenStreetMapin tukijoista löytyy OpenStreetMapin wikistä <a
-        href="https://wiki.openstreetmap.org/wiki/Contributors">Avustajat-sivulta</a>.
-      contributors_footer_2_html: |-
-        Tietojen sisältyminen OpenStreetMapiin ei tarkoita, että tietojen antaja
-        ottaa kantaa OpenStreetMapiin tai vastuuta tietojen oikeellisuudesta.
-      infringement_title_html: Tekijänoikeusloukkaus
-      infringement_1_html: |-
-        OpenStreetMapin kartoittajia muistutetaan, että kopioiminen tekijänoikeuksien alaisista teoksista
-        (esimerkiksi Google Mapsista tai paperikartoista) ilman tekijänoikeuden haltijan nimenomaista lupaa on kielletty.
-      infringement_2_html: Jos kuka tahansa OpenStreetMapin käyttäjä epäilee, että
-        karttatietoja on otettu luvattomasta lähteestä OSM:n karttatietoihin tai sivustolle,
-        siitä tulee tehdä <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">poistopyyntö</a>
-        tai <a href="https://dmca.openstreetmap.org/">ilmoittaa suoraan</a>.
-      trademarks_title_html: <span id="trademarks"></span>Tavaramerkit
-      trademarks_1_html: OpenStreetMap, suurennuslasilogo ja maailmankartta ovat OpenStreetMap-säätiön
-        rekisteröityjä tavaramerkkejä. Jos sinulla on kysyttävää tutustu <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">tavaramerkkisivuun.</a>
-  welcome_page:
-    title: Tervetuloa!
-    introduction_html: 'Tervetuloa OpenStreetMapiin: ilmaiseen ja vapaasti muokattavaan
-      maailmankarttaan. Rekisteröityminen on nyt suoritettu, joten olet valmis aloittamaan
-      kartan muokkaamisen. Tutustu ensin kuitenkin näihin perusasioihin.'
-    whats_on_the_map:
-      title: Kartan sisältö
-      on_html: OpenStreetMapissä voi kartoittaa asioita, jotka ovat <em>olemassa juuri
-        nyt</em> – se sisältää miljoonia rakennuksia, teitä ja muita tietoja maailmasta.
-        Voit kartoittaa mitä tahansa reaalimaailman piirteitä, jotka sinua kiinnostavat.
-      off_html: Kartta <em>ei</em> sisällä mielipiteitä, kuten arvosteluja, historiallisia
-        tai hypoteettisia ominaisuuksia, eikä tietoja tekijänoikeuksin suojatuista
-        lähteistä. Ellei sinulla ole erityistä lupaa, älä kopioi verkko- tai paperikarttoja.
-    basic_terms:
-      title: Käsitteitä ja termistöä
-      paragraph_1_html: OpenStreetMapissa käytetään paljon vain sille omaista termistöä.
-        Kun nämä sanat ovat hallinnassa, olet jo voiton puolella!
-      editor_html: <strong>Muokkausohjelma</strong> tai <strong>kartanmuokkain</strong>
-        (engl. editor) on ohjelmisto tai verkkosivusto, jolla voi muokata karttaa.
-      node_html: <strong>Piste</strong> (engl. node) on pistemäinen kohde kartalla,
-        kuten ravintola tai puu. Näitä kutsutaan paikkapisteiksi. Pisteet, joilla
-        ei ole ominaisuustietoja ja ovat vain viivan osana, kutsutaan myös viivapisteiksi.
-      way_html: Avoin <strong>viiva</strong> (engl. way) on viivamainen kohde, kuten
-        katu tai joki. Suljettu viiva eli <strong>alue</strong> (engl. area) kuvaa
-        aluetta, kuten järveä tai rakennusta.
-      tag_html: <strong>Tagi</strong> eli <strong>ominaisuustieto</strong> kuvaa pisteen,
-        viivan tai alueen käyttötarkoitusta. Tällaisia tietoja ovat esimerkiksi ravintolan
-        nimi tai kadun nopeusrajoitus.
-    rules:
-      title: Pelisäännöt
-      paragraph_1_html: "OpenStreetMapilla on joitakin muodollisia säännöksiä, mutta
-        oletamme kaikkien käyttäjien tekevän yhteistyötä muiden kanssa. Jos harkitset
-        muita toimintoja kuin perusmuokkausta, lue ohje  <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>tietojen
-        tuonnista</a> ja \n<a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>automaattisista
-        muokkauksista</a>."
-    questions:
-      title: Kysyttävää?
-      paragraph_1_html: OpenStreetMapin käyttötukea on saatavilla useilla eri tavoilla.
-        Tutustu OpenStreetMapin <a href='%{help_url}'>ohjekeskukseen</a>.
-    start_mapping: Aloita kartan muokkaaminen
-    add_a_note:
-      title: Eikö muokkaaminen innosta? Ilmoita karttavirheistä!
-      paragraph_1_html: Jos huomaat kartalla virheen, muttet halua korjata sitä itse,
-        tee siitä karttavirheilmoitus.
-      paragraph_2_html: 'Se on helppoa! Siirry <a href=''%{map_url}''>kartalle</a>
-        ja napsauta <span class=''icon note''></span>-kuvaketta. Siirrä kartalle ilmestyvä
-        karttamerkki virheen kohdalle. Kirjoita virheestä lisätietoja: Suomessa olevista
-        virheistä suomeksi ja muualla olevista virheistä paikallisella kielellä tai
-        englanniksi. Lopuksi tallenna ilmoitus, jolloin muut kartoittajat voivat korjata
-        virheen.'
-  fixthemap:
-    title: Ilmoita ongelmasta / Korjaa karttaa
-    how_to_help:
-      title: Kuinka voin auttaa
-      join_the_community:
-        title: Liity yhteisöön
-        explanation_html: Jos olet huomannut ongelman kartassa, kuten puuttuvan tien
-          tai puuttuvan osoitteesi, paras tapa toimia on liittyä OpenStreetMap-yhteisöön
-          ja lisätä tai korjata kohta itse.
-      add_a_note:
-        instructions_html: "Klikkaa vain <a class='icon note'></a> tai samaa ikonia
-          karttanäkymässä.\nTämä lisää merkin kartalle, jota voit liikuttaa \nraahaamalla.
-          Lisää tekstisi, ja klikkaa Tallenna, ja muut voivat tutkia sitä."
-    other_concerns:
-      title: Muut huolenaiheet
-      explanation_html: Jos sinulla on huolia siitä miten meidän tietoamme käytetään
-        tai huolia sisällöstä, katso neuvoa <a href='/copyright'>copyright-sivultamme</a>
-        saadaksesi lisätietoa, tai ota yhteyttä sopivaan<a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-työryhmään</a>.
-  help_page:
-    title: Ohjekeskus
-    introduction: Ohjeita ja vinkkejä OpenStreetMapin käyttöön on saatavilla useista
-      eri lähteistä.
-    welcome:
-      url: /welcome
-      title: Tervetuloa OpenStreetMapiin
-      description: Opi OpenStreetMapin perusteet tällä helpolla aloitusoppaalla.
-    beginners_guide:
-      url: https://wiki.openstreetmap.org/wiki/Fi:Beginners%27_guide
-      title: Aloitusopas
-      description: Yhteisön ylläpitämä opas aloittelijoille.
-    help:
-      url: https://help.openstreetmap.org/
-      title: help.openstreetmap.org
-      description: Etsi vastauksia tai esitä oma kysymyksesi OSM:n kysy- ja vastaa
-        -sivustolla. Englanninkielinen.
-    mailing_lists:
-      title: Postituslistat
-      description: Esitä kysymyksiä tai keskustele laajalti kiinnostavista aiheista
-        aiheita koskevilla tai alueellisilla sähköpostilistoilla.
-    forums:
-      title: Keskustelupalsta
-      description: Kysymykset ja keskustelut niille, jotka haluavat mielummin ilmoitustaulutyylisen
-        käyttöliittymän.
-    irc:
-      title: IRC
-      description: Interaktiivinen chat monilla eri kielillä ja monista eri aiheista.
-    switch2osm:
-      title: switch2osm (Vaihda OSM:iin)
-      description: Auta yrityksiä ja organisaatioita vaihtamaan OpenStreetMapiin pohjautuviin
-        karttoihin ja muihin palveluihin.
-    wiki:
-      url: https://wiki.openstreetmap.org/wiki/Fi:Main_Page
-      title: wiki.openstreetmap.org
-      description: Tutustu syvällisemmin OpenStreetMapiin wikikirjastossa. Osittain
-        englanninkielinen.
-  about_page:
-    next: Seuraava
-    copyright_html: <span>&copy;</span>OpenStreetMapin<br>tekijät
-    used_by: Tuhannet verkkosivustot, mobiilisovellukset ja laitteistot käyttävät
-      %{name}-karttaa
-    lede_text: OpenStreetMapia rakentavat vapaaehtoiset yhteisön jäsenet, jotka tuottavat
-      ja ylläpitävät karttatietoja teistä, rautateistä, kahviloista, rautatieasemista
-      ja monista muista kohteista kaikkialla maailmassa.
-    local_knowledge_title: Paikallistuntemus
-    local_knowledge_html: OpenStreetMapissa korostuu paikallistuntemus. Kartoittajat
-      käyttävät ilmakuvia, GPS-paikantamia ja jalkautumista pitääkseen OpenStreetMap-kartan
-      ajan tasalla.
-    community_driven_title: Yhteisön voima
-    community_driven_html: |-
-      OpenStreetMap-yhteisö on monipuolinen, intohimoinen ja kasvaa joka päivä. Yhteisöön kuuluu harrastajakartoittajia, GIS-ammattilaisia, järjestelmää ylläpitäviä insinöörejä, humanitaarisia auttajia, jotka kartoittavat katastrofin kärsineitä alueita sekä monia muita. Lisätietoja yhteisöstä saa lukemalla <a href='https://blog.openstreetmap.org'>OpenStreetMap-blogia</a>, <a href='%{diary_path}'>käyttäjien päiväkirjoja</a>,
-      <a href='https://blogs.openstreetmap.org/'>yhteisöblogeja</a> ja
-      <a href='https://www.osmfoundation.org/'>OSM-säätiön</a> verkkosivua.
-    open_data_title: Avoin data
-    open_data_html: 'OpenStreetMap on <i>avointa dataa</i>: palvelua saa käyttää vapaasti
-      mihin tahansa, kunhan OpenStreetMap tekijöineen mainitaan. Jos palvelua kehitetään
-      tai muuunnellaan, sitä saa levittää eteenpäin vain samalla lisenssillä. Lisätietoja
-      on <a href=''%{copyright_path}''>Tekijänoikeus ja lisenssi</a> -sivulla.'
-    legal_title: Lakitekninen jako
-    legal_html: "Tämä ja monet muut OSM-sivustot ovat muodollisesti <a href='https://osmfoundation.org/'>OpenStreetMap-säätiön</a>
-      (OSMF) hallinnoimia OSM-yhteisön puolesta. Kaikkien näiden sivustojen käyttöön
-      sovelletaan <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nsallitun
-      käytön käytäntöjä</a> ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">tietosuojakäytäntöä</a>
-      (molemmat sisällöt saatavilla vain englanniksi).\n<br> \n<a href='https://osmfoundation.org/Contact'>Ota
-      yhteys OSMF:ään</a> lisensointi-, tekijänoikeus- ja muissa lakiteknisissä kysymyksissä.\n<br>\nNimi
-      OpenStreetMap, suurennuslasilogo ja slogan State of the Map ovat <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">säätiön
-      rekisteröimiä tavaramerkkejä</a>."
-    partners_title: Kumppanit
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} on lisännyt kommentin päiväkirjamerkintääsi'
@@ -1378,11 +1288,12 @@ fi:
         commented_note: '%{commenter} on kommentoinut yhtä kommentoimaasi merkintää.
           Merkintä on lähellä paikkaa %{place}.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} on selvittänyt yhden merkintäsi'
-        subject_other: '[OpenStreetMap] %{commenter} on selvittänyt sinua kiinnostavan
-          merkinnän'
-        your_note: '%{commenter} on selvittänyt yhden merkintäsi lähellä paikkaa %{place}'
-        commented_note: '%{commenter} on selvittänyt merkinnän, jota olet kommentoinut.
+        subject_own: '[OpenStreetMap] %{commenter} on ratkaissut karttailmoituksesi'
+        subject_other: '[OpenStreetMap] %{commenter} on ratkaissut sinua kiinnostavan
+          karttailmoituksen'
+        your_note: '%{commenter} on ratkaissut lähettämäsi karttailmoituksen lähellä
+          paikkaa %{place}.'
+        commented_note: '%{commenter} on ratkaissut karttailmoituksen, jota olet kommentoinut.
           Merkintä on lähellä paikkaa %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} on avannut karttamerkintäsi uudelleen'
@@ -1393,7 +1304,7 @@ fi:
         commented_note: '%{commenter} on aktivoinut karttailmoituksen uudelleen. Tämä
           viesti lähetetään siksi, että olet kommentoinut tätä karttailmoitusta, joka
           on lähellä paikkaa %{place}.'
-      details: Lisää tietoja merkinnästä löytyy osoitteesta %{url}.
+      details: Lisätietoja merkinnästä löytyy osoitteesta %{url}.
     changeset_comment_notification:
       hi: Hei %{to_user},
       greeting: Hei,
@@ -1410,7 +1321,7 @@ fi:
       details: 'Lisätietoja muutoskokoelmasta: %{url}'
       unsubscribe: Peruaksesi tilauksen päivityksistä tähän muutoskokoelmaan, vieraile
         sivulla %{url} ja klikkaa "Unsubscribe".
-  message:
+  messages:
     inbox:
       title: Saapuneet
       my_inbox: Saapuneet
@@ -1431,14 +1342,14 @@ fi:
       unread_button: Merkitse lukemattomaksi
       read_button: Merkitse luetuksi
       reply_button: Vastaa
-      delete_button: Poista
+      destroy_button: Poista
     new:
       title: Lähetä viesti
       send_message_to: Lähetä viesti käyttäjälle %{name}
       subject: Otsikko
       body: Sisältö
-      send_button: Lähetä
       back_to_inbox: Takaisin saapuneisiin
+    create:
       message_sent: Viesti on lähetetty.
       limit_exceeded: Olet lähettänyt runsaasti viestejä lyhyessä ajassa. Odota hetki
         ennen kuin yrität lähettää lisää.
@@ -1464,27 +1375,178 @@ fi:
       wrong_user: Olet kirjautunut sisään tunnuksella `%{user}' mutta viestiä, johon
         tahdot vastata, ei ole lähetetty kyseiselle käyttäjälle. Ole hyvä ja kirjaudu
         sisään oikealla käyttäjätunnuksella vastataksesi.
-    read:
+    show:
       title: Lue viesti
       from: 'Lähettäjä:'
       subject: Otsikko
       date: Päiväys
       reply_button: Vastaa
       unread_button: Merkitse lukemattomaksi
-      delete_button: Poista
+      destroy_button: Poista
       back: Takaisin
       to: 'Vastaanottaja:'
       wrong_user: Olet kirjautunut sisään tunnuksella `%{user}' mutta viestiä, jonka
         tahdot lukea, ei ole lähetetty kyseiselle käyttäjälle. Ole hyvä ja kirjaudu
         sisään oikealla käyttäjätunnukselle lukeaksesi sen.
     sent_message_summary:
-      delete_button: Poista
+      destroy_button: Poista
     mark:
       as_read: Viesti on merkitty luetuksi.
       as_unread: Viesti on merkitty lukemattomaksi.
-    delete:
-      deleted: Viesti on poistettu.
+    destroy:
+      destroyed: Viesti on poistettu.
   site:
+    about:
+      next: Seuraava
+      copyright_html: <span>&copy;</span>OpenStreetMapin<br>tekijät
+      used_by: Tuhannet verkkosivustot, mobiilisovellukset ja laitteistot käyttävät
+        %{name}-karttaa
+      lede_text: OpenStreetMapia rakentavat vapaaehtoiset yhteisön jäsenet, jotka
+        tuottavat ja ylläpitävät karttatietoja teistä, rautateistä, kahviloista, rautatieasemista
+        ja monista muista kohteista kaikkialla maailmassa.
+      local_knowledge_title: Paikallistuntemus
+      local_knowledge_html: OpenStreetMapissa korostuu paikallistuntemus. Kartoittajat
+        käyttävät ilmakuvia, GPS-paikantamia ja jalkautumista pitääkseen OpenStreetMap-kartan
+        ajan tasalla.
+      community_driven_title: Yhteisön voima
+      community_driven_html: |-
+        OpenStreetMap-yhteisö on monipuolinen, intohimoinen ja kasvaa joka päivä. Yhteisöön kuuluu harrastajakartoittajia, GIS-ammattilaisia, järjestelmää ylläpitäviä insinöörejä, humanitaarisia auttajia, jotka kartoittavat katastrofin kärsineitä alueita sekä monia muita. Lisätietoja yhteisöstä saa lukemalla <a href='https://blog.openstreetmap.org'>OpenStreetMap-blogia</a>, <a href='%{diary_path}'>käyttäjien päiväkirjoja</a>,
+        <a href='https://blogs.openstreetmap.org/'>yhteisöblogeja</a> ja
+        <a href='https://www.osmfoundation.org/'>OSM-säätiön</a> verkkosivua.
+      open_data_title: Avoin data
+      open_data_html: 'OpenStreetMap on <i>avointa dataa</i>: palvelua saa käyttää
+        vapaasti mihin tahansa, kunhan OpenStreetMap tekijöineen mainitaan. Jos palvelua
+        kehitetään tai muuunnellaan, sitä saa levittää eteenpäin vain samalla lisenssillä.
+        Lisätietoja on <a href=''%{copyright_path}''>Tekijänoikeus ja lisenssi</a>
+        -sivulla.'
+      legal_title: Lakitekninen jako
+      legal_html: "Tämä ja monet muut OSM-sivustot ovat muodollisesti <a href='https://osmfoundation.org/'>OpenStreetMap-säätiön</a>
+        (OSMF) hallinnoimia OSM-yhteisön puolesta. Kaikkien näiden sivustojen käyttöön
+        sovelletaan <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nsallitun
+        käytön käytäntöjä</a>, <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">käyttöehtoja</a>
+        ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">tietosuojakäytäntöä</a>
+        (molemmat sisällöt saatavilla vain englanniksi).\n<br> \n<a href='https://osmfoundation.org/Contact'>Ota
+        yhteys OSMF:ään</a> lisensointi-, tekijänoikeus- ja muissa lakiteknisissä
+        kysymyksissä.\n<br>\nNimi OpenStreetMap, suurennuslasilogo ja slogan State
+        of the Map ovat <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">säätiön
+        rekisteröimiä tavaramerkkejä</a>."
+      partners_title: Kumppanit
+    copyright:
+      foreign:
+        title: Tietoja tästä käännöksestä
+        text: Jos tämän käännetyn sivun ja %{english_original_link} välillä on eroja,
+          englanninkielinen sivu on aina etusijalla.
+        english_link: englanninenkielisen alkuperäisversion
+      native:
+        title: Tietoja sivusta
+        text: Tällä sivulla on alkuperäinen englanninkielinen versio tekijäoikeuksista.
+          Saatavilla on myös %{native_link}. Voit myös lopettaa tekijänoikeuksien
+          lukemisen ja %{mapping_link}.
+        native_link: suomenkielinen versio
+        mapping_link: aloittaa kartoituksen
+      legal_babble:
+        title_html: Tekijänoikeus ja lisenssi
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> on <i>avointa dataa</i>, jonka <a
+          href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF) on lisensoinut <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database -lisenssillä</a> (ODbL).
+        intro_2_html: "OpenStreetMapin karttoja ja tietoja voi kopioida, levittää,
+          välittää ja mukauttaa, \nkunhan OpenStreetMap ja sen tekijät mainitaan.
+          Jos karttoja tai tietoja muutetaan tai kehitetään, niitä saa levittää vain
+          samalla lisenssillä.\n<a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">Lakitekstissä</a>
+          mainitaan levittäjän oikeudet ja velvollisuudet."
+        intro_3_html: |-
+          Kartta-aineisto ja dokumentaatio on lisensoitu <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.fi">Creative
+          Commons Nimeä-Jaa samoin 2.0</a> -lisenssillä (CC-BY-SA).
+        credit_title_html: OpenStreetMapin mainitseminen
+        credit_1_html: OpenStreetMapin sisältöä levitettäessä on mainittava teksti
+          &quot;&copy; OpenStreetMapin tekijät&quot; tai sen englanninkielinen vastine
+          &quot;&copy; OpenStreetMap contributors&quot;.
+        credit_2_html: "Levittäjän tulee tehdä selväksi, että aineisto on saatavilla
+          Open Database -lisenssillä\nja kartta-aineisto CC-BY-SA-lisenssillä. Tämä
+          voidaan tehdä sijoittamalla sivulle linkki\n<a href=\"https://www.openstreetmap.org/copyright\">tälle
+          tekijänoikeussivulle</a>. \nJos linkkien käyttö ei ole mahdollista (esimerkiksi
+          paperille tulostettu aineisto),\nsuosittelemme ohjaamaan lukijat osoitteisiin
+          www.openstreetmap.org, opendatacommons.org ja tarvittaessa myös creativecommons.org."
+        credit_3_html: 'Sivustolle upotetun interaktiivisen karttaikkunan tulee sisältää
+          tekijän nimi kartan alaosassa:'
+        attribution_example:
+          alt: Esimerkki siitä, miten nimetä OpenStreetMap nettisivulla
+          title: Nimeämisesimerkki
+        more_title_html: Lisätietoja
+        more_1_html: |-
+          Lue lisää aineiston käyttämisestä ja tekijöiden mainitsemisesta <a
+          href="https://osmfoundation.org/Licence">OSM-säätiön lisensointiohjeesta</a>.
+        more_2_html: "Vaikka OpenStreetMap on avointa dataa, emme voi tarjota maksutonta
+          karttarajapintaa (API) kolmannen osapuolen kehittäjille.\n\nTutustu <a href=\"https://operations.osmfoundation.org/policies/api/\">karttarajapinnan
+          käyttöehtoihin</a>,\n<a href=\"https://operations.osmfoundation.org/policies/tiles/\">kartta-aineiston
+          käyttöehtoihin</a> ja \n<a href=\"https://operations.osmfoundation.org/policies/nominatim/\">Nominatimin
+          käyttöehtoihin</a>."
+        contributors_title_html: Tekijät
+        contributors_intro_html: |-
+          Tekijöinämme on tuhansia yksityishenkilöitä. Olemme myös sisällyttäneet
+          vapaasti lisensoitua dataa kansallisilta kartoitustoimistoilta
+          ja muista lähteistä, muun muassa:
+        contributors_at_html: |-
+          <strong>Itävalta</strong>: Sisältää karttatietoja
+          <a href="https://data.wien.gv.at/">Stadt Wienistä</a> (<a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY -lisenssillä</a>),
+          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlbergista</a> ja
+          Land Tirolista (<a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT -lisenssillä tietyin muutoksin</a>).
+        contributors_au_html: |-
+          <strong>Australia</strong>: Sisältää kaupunginosatietoja
+             Australian Bureau of Statisticsilta.
+        contributors_ca_html: |-
+          <strong>Kanada</strong>: Sisältää karttatietoja
+             GeoBasesta ®, GeoGratisista (© Department of Natural
+             Resources Canada), CanVecista (© Department of Natural
+             Resources Canada), ja StatCanista (Geography Division,
+             Statistics Canada).
+        contributors_fi_html: '<strong>Suomi</strong>: Sisältää karttatietoja Maanmittauslaitoksen
+          maastotietokannasta ja muista lähteistä <a href="https://www.maanmittauslaitos.fi/avoindata_lisenssi_versio1_20120501">Maanmittauslaitoksen
+          lisenssin</a> mukaisesti.'
+        contributors_fr_html: |-
+          <strong>Ranska</strong>: Sisältää karttatietoja
+             Direction Générale des Impôtsista.
+        contributors_nl_html: |-
+          <strong>Alankomaat</strong>: Sisältää &copy; AND-karttatietoja vuodelta 2007
+          (<a href="https://www.and.com">www.and.com</a>)
+        contributors_nz_html: |-
+          <strong>Uusi-Seelanti</strong>: Sisältää karttatietoja <a href="https://data.linz.govt.nz/">LINZ-tietopalvelusta</a>, jotka on lisensoitu jatkokäyttöä varten
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> -lisenssillä.
+        contributors_si_html: "<strong>Slovenia</strong>: Sisältää \n<a href=\"http://www.gu.gov.si/en/\">Maanmittaus-
+          ja kartoitusviranomaisen</a> sekä\n<a href=\"http://www.mkgp.gov.si/en/\">Maatalous-,
+          metsä- ja ruokaministeriön</a> tuottamia karttatietoja\n(Slovenian julkista
+          karttamateriaalia)."
+        contributors_es_html: |-
+          <strong>Espanja</strong>: Sisältää karttatietoja Espanjan kansallisesta maantieteellisestä instituutista (<a href="http://www.ign.es/">IGN</a>) ja
+          kansallisesta kartografiajärjestelmästä (<a href="http://www.scne.es/">SCNE</a>)
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> -lisenssillä.
+        contributors_za_html: |-
+          <strong>Etelä-Afrikka</strong>: Sisältää karttatietoja
+          <a href="http://www.ngi.gov.za/">Chief Directorate:
+          National Geo-Spatial Informationista</a>, kaikki oikeudet pidätetään.
+        contributors_gb_html: |-
+          <strong>Iso-Britannia</strong>: Sisältää Ordnance Surveyn
+          keräämiä karttatietoja © Kruunun tekijänoikeuden ja tietokantojen käyttöoikeuden vuosilta 2010-2019.
+        contributors_footer_1_html: |-
+          Täydellinen lista OpenStreetMapin tukijoista löytyy OpenStreetMapin wikistä <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">Avustajat-sivulta</a>.
+        contributors_footer_2_html: |-
+          Tietojen sisältyminen OpenStreetMapiin ei tarkoita, että tietojen antaja
+          ottaa kantaa OpenStreetMapiin tai vastuuta tietojen oikeellisuudesta.
+        infringement_title_html: Tekijänoikeusloukkaus
+        infringement_1_html: |-
+          OpenStreetMapin kartoittajia muistutetaan, että kopioiminen tekijänoikeuksien alaisista teoksista
+          (esimerkiksi Google-kartoista tai paperikartoista) ilman tekijänoikeuden haltijan nimenomaista lupaa on kielletty.
+        infringement_2_html: Jos kuka tahansa OpenStreetMapin käyttäjä epäilee, että
+          karttatietoja on otettu luvattomasta lähteestä OpenStreetMapin karttatietoihin
+          tai sivustolle, siitä tulee tehdä <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">poistopyyntö</a>
+          tai <a href="https://dmca.openstreetmap.org/">ilmoittaa suoraan</a>.
+        trademarks_title_html: <span id="trademarks"></span>Tavaramerkit
+        trademarks_1_html: OpenStreetMap, suurennuslasilogo ja maailmankarttalogo
+          ovat OpenStreetMap-säätiön rekisteröityjä tavaramerkkejä. Tutustu ohjeeseen
+          <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">tavaramerkkien
+          käytöstä.</a>
     index:
       js_1: Selain ei tue JavaScriptiä tai sen suorittaminen on estetty.
       js_2: OpenStreetMap tarvitsee JavaScriptin liikuteltavaan karttaan.
@@ -1514,6 +1576,111 @@ fi:
       id_not_configured: iD-ohjelmaa ei ole asetettu
       no_iframe_support: Käytössä oleva selain ei tue HTML-kehyksiä, joka vaaditaan
         tämän toiminnon käyttämiseen.
+    export:
+      title: Alueen vienti
+      area_to_export: Vietävä alue
+      manually_select: Valitse pienempi alue
+      format_to_export: Vientimuoto
+      osm_xml_data: OpenStreetMapin XML-muoto
+      map_image: Karttakuva (näyttää standarditason)
+      embeddable_html: HTML-koodi
+      licence: Lisenssi
+      export_details: OpenStreetMap-karttatietoja saa käyttää <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
+        Data Commons Open Database License</a> (ODbL) (engl.) ehdoilla.
+      too_large:
+        advice: 'Jos vientitoiminto ei toimi, kokeile myös seuraavia palveluja:'
+        body: 'Näin suurta aluetta ei voi viedä OpenStreetMap XML-tiedostona. Lähennä
+          karttaa tai valitse pienempi alue, tai vaihtoehtoisesti lataa tiedosto joltakin
+          seuraavista:'
+        planet:
+          title: Planet OSM
+          description: Säännöllisesti päivitettyjä kopioita täydellisestä OpenStreetMap-tietokannasta
+        overpass:
+          title: Overpass API
+          description: Lataa kartalle rajattu alue OpenStreetMapin varapalvelimelta
+        geofabrik:
+          title: Geofabrik-lataukset
+          description: Säännöllisesti päivitetyt otteet maanosista, maista ja valituista
+            kaupungeista
+        metro:
+          title: Metro-otteet
+          description: Otteita maailman suurista kaupungeista ja niitä ympäröivistä
+            alueista
+        other:
+          title: Muut lähteet
+          description: Muut lähteet ovat esillä OpenStreetMap-wikissä
+      options: Asetukset
+      format: 'Tiedostomuoto:'
+      scale: Mittakaava
+      max: enintään
+      image_size: Kuvan koko
+      zoom: Suurennostaso
+      add_marker: Lisää vietävään kartaan kohdemerkki
+      latitude: 'Lev:'
+      longitude: 'Pit:'
+      output: Tulos
+      paste_html: Kopioi ja liitä tämä HTML-koodi verkkosivullesi
+      export_button: Vie
+    fixthemap:
+      title: Ilmoita ongelmasta / Korjaa karttaa
+      how_to_help:
+        title: Kuinka voin auttaa
+        join_the_community:
+          title: Liity yhteisöön
+          explanation_html: Jos olet huomannut ongelman kartassa, kuten puuttuvan
+            tien tai puuttuvan osoitteesi, paras tapa toimia on liittyä OpenStreetMap-yhteisöön
+            ja lisätä tai korjata kohta itse.
+        add_a_note:
+          instructions_html: "Klikkaa vain <a class='icon note'></a> tai samaa ikonia
+            karttanäkymässä.\nTämä lisää merkin kartalle, jota voit liikuttaa \nraahaamalla.
+            Lisää tekstisi, ja klikkaa Tallenna, ja muut voivat tutkia sitä."
+      other_concerns:
+        title: Muut huolenaiheet
+        explanation_html: Jos sinulla on huolia siitä miten meidän tietoamme käytetään
+          tai huolia sisällöstä, katso neuvoa <a href='/copyright'>copyright-sivultamme</a>
+          saadaksesi lisätietoa, tai ota yhteyttä sopivaan<a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-työryhmään</a>.
+    help:
+      title: Ohjekeskus
+      introduction: Ohjeita ja vinkkejä OpenStreetMapin käyttöön on saatavilla useista
+        eri lähteistä.
+      welcome:
+        url: /welcome
+        title: Tervetuloa OpenStreetMapiin
+        description: Opi OpenStreetMapin perusteet tällä helpolla aloitusoppaalla.
+      beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Fi:Beginners%27_guide
+        title: Aloitusopas
+        description: Yhteisön ylläpitämä opas aloittelijoille.
+      help:
+        url: https://help.openstreetmap.org/
+        title: Apufoorumi
+        description: Etsi vastauksia tai esitä oma kysymyksesi OpenStreetMapin kysy-
+          ja vastaa -sivustolla. (englanninkielinen)
+      mailing_lists:
+        title: Postituslistat
+        description: Esitä kysymyksiä tai keskustele laajalti kiinnostavista aiheista
+          aiheita koskevilla tai alueellisilla sähköpostilistoilla.
+      forums:
+        title: Keskustelupalsta
+        description: Kysymykset ja keskustelut niille, jotka haluavat mielummin ilmoitustaulutyylisen
+          käyttöliittymän.
+      irc:
+        title: IRC
+        description: Interaktiivinen chat monilla eri kielillä ja monista eri aiheista.
+      switch2osm:
+        title: switch2osm (Vaihda OSM:iin)
+        description: Auta yrityksiä ja organisaatioita vaihtamaan OpenStreetMapiin
+          pohjautuviin karttoihin ja muihin palveluihin.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Järjestöille
+        description: Edustatko järjestöä, joka harkitsee OpenStreetMapin hyödyntämistä?
+          Tutustu ohjeistukseemme.
+      wiki:
+        url: https://wiki.openstreetmap.org/wiki/Fi:Main_Page
+        title: OpenStreetMap-wiki
+        description: Tutustu syvällisemmin OpenStreetMapiin wikikirjastossa. Osittain
+          englanninkielinen.
     sidebar:
       search_results: Hakutulokset
       close: Sulje
@@ -1614,7 +1781,59 @@ fi:
       image: Kuva
       alt: Vaihtoehtoinen teksti
       url: Osoite
-  trace:
+    welcome:
+      title: Tervetuloa!
+      introduction_html: 'Tervetuloa OpenStreetMapiin: ilmaiseen ja vapaasti muokattavaan
+        maailmankarttaan. Rekisteröityminen on nyt suoritettu, joten olet valmis aloittamaan
+        kartan muokkaamisen. Tutustu ensin kuitenkin näihin perusasioihin.'
+      whats_on_the_map:
+        title: Kartan sisältö
+        on_html: OpenStreetMapissä voi kartoittaa asioita, jotka ovat <em>olemassa
+          juuri nyt</em> – se sisältää miljoonia rakennuksia, teitä ja muita tietoja
+          maailmasta. Voit kartoittaa mitä tahansa reaalimaailman piirteitä, jotka
+          sinua kiinnostavat.
+        off_html: Kartta <em>ei</em> sisällä mielipiteitä, kuten arvosteluja, historiallisia
+          tai hypoteettisia ominaisuuksia, eikä tietoja tekijänoikeuksin suojatuista
+          lähteistä. Ellei sinulla ole erityistä lupaa, älä kopioi verkko- tai paperikarttoja.
+      basic_terms:
+        title: Käsitteitä ja termistöä
+        paragraph_1_html: OpenStreetMapissa käytetään paljon vain sille omaista termistöä.
+          Kun nämä sanat ovat hallinnassa, olet jo voiton puolella!
+        editor_html: <strong>Muokkausohjelma</strong> tai <strong>kartanmuokkain</strong>
+          (engl. editor) on ohjelmisto tai verkkosivusto, jolla voi muokata karttaa.
+        node_html: <strong>Piste</strong> (engl. node) on pistemäinen kohde kartalla,
+          kuten ravintola tai puu. Näitä kutsutaan paikkapisteiksi. Pisteet, joilla
+          ei ole ominaisuustietoja ja ovat vain viivan osana, kutsutaan myös viivapisteiksi.
+        way_html: Avoin <strong>viiva</strong> (engl. way) on viivamainen kohde, kuten
+          katu tai joki. Suljettu viiva eli <strong>alue</strong> (engl. area) kuvaa
+          aluetta, kuten järveä tai rakennusta.
+        tag_html: <strong>Tagi</strong> eli <strong>ominaisuustieto</strong> kuvaa
+          pisteen, viivan tai alueen käyttötarkoitusta. Tällaisia tietoja ovat esimerkiksi
+          ravintolan nimi tai kadun nopeusrajoitus.
+      rules:
+        title: Pelisäännöt
+        paragraph_1_html: "OpenStreetMapilla on joitakin muodollisia säännöksiä, mutta
+          oletamme kaikkien käyttäjien tekevän yhteistyötä muiden kanssa. Jos harkitset
+          muita toimintoja kuin perusmuokkausta, lue ohje  <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>tietojen
+          tuonnista</a> ja \n<a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>automaattisista
+          muokkauksista</a>."
+      questions:
+        title: Kysyttävää?
+        paragraph_1_html: OpenStreetMapin käyttötukea on saatavilla useilla eri tavoilla.
+          Tutustu OpenStreetMapin <a href='%{help_url}'>ohjekeskukseen</a>. Järjestöille
+          on oma <a href='https://welcome.openstreetmap.org/'>tietokeskuksensa</a>.
+      start_mapping: Aloita kartan muokkaaminen
+      add_a_note:
+        title: Eikö muokkaaminen innosta? Ilmoita karttavirheistä!
+        paragraph_1_html: Jos huomaat kartalla virheen, muttet halua korjata sitä
+          itse, tee siitä karttavirheilmoitus.
+        paragraph_2_html: 'Se on helppoa! Siirry <a href=''%{map_url}''>kartalle</a>
+          ja napsauta <span class=''icon note''></span>-kuvaketta. Siirrä kartalle
+          ilmestyvä karttamerkki virheen kohdalle. Kirjoita virheestä lisätietoja:
+          Suomessa olevista virheistä suomeksi ja muualla olevista virheistä paikallisella
+          kielellä tai englanniksi. Lopuksi tallenna ilmoitus, jolloin muut kartoittajat
+          voivat korjata virheen.'
+  traces:
     visibility:
       private: Yksityinen (vain pisteet ilman nimeä ja aikaleimoja)
       public: Julkinen (näytetään jälkiluettelossa, mutta pisteet ilman nimeä ja aikaleimoja)
@@ -1622,11 +1841,33 @@ fi:
         nimettömänä)
       identifiable: Tunnistettavissa (näytetään jälkiluettelossa ja pisteet tunnistettavasti
         järjestettynä aikaleimoineen)
+    new:
+      upload_trace: Tallenna GPS-jälki
+      upload_gpx: 'Tallenna GPX-tiedosto:'
+      description: 'Kuvaus:'
+      tags: 'Ominaisuustiedot:'
+      tags_help: pilkuilla eroteltu lista
+      visibility: 'Näkyvyys:'
+      visibility_help: Mitä tämä tarkoittaa?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Fi:GPS-j%C3%A4lkien_julkisuus
+      help: Ohje
+      help_url: https://wiki.openstreetmap.org/wiki/Fi:Upload
     create:
       upload_trace: Lähetä GPS-jälki
       trace_uploaded: GPX-tiedosto on tallennettu palvelimelle ja on jonossa tietokantaan
         syötettäväksi. Yleensä tämä kestää noin puoli tuntia. Saat vielä sähköposti-ilmoituksen
         asiasta.
+      upload_failed: GPX-tiedoston tallennus epäonnistui. Virheilmoitus on lähetetty
+        palvelun ylläpitäjälle. Yritä uudelleen.
+      traces_waiting:
+        one: Sinulla on %{count} jälki käsittelyjonossa odottamassa tallennusta tietokantaan.
+          Olisi huomaavaista jos odottaisit näiden valmistuvan ennen kuin lähetät
+          lisää jälkiä. Näin muidenkin käyttäjien lähettämät jäljet pääsevät aiemmin
+          tietokantaan.
+        other: Sinulla on %{count} jälkeä käsittelyjonossa odottamassa tallennusta
+          tietokantaan. Olisi huomaavaista jos odottaisit näiden valmistuvan ennen
+          kuin lähetät lisää jälkiä. Näin muidenkin käyttäjien lähettämät jäljet pääsevät
+          aiemmin tietokantaan.
     edit:
       title: Muokataan jälkeä %{name}
       heading: Jäljen %{name} muokkaus
@@ -1639,36 +1880,15 @@ fi:
       edit: muokkaa
       owner: 'Käyttäjä:'
       description: 'Kuvaus:'
-      tags: 'Tagit:'
-      tags_help: pilkuilla erotettu lista
-      save_button: Tallenna muutokset
+      tags: 'Ominaisuustiedot:'
+      tags_help: pilkuilla eroteltu lista
       visibility: 'Näkyvyys:'
-      visibility_help: mitä tämä tarkoittaa?
-    trace_form:
-      upload_gpx: 'Tallenna GPX-tiedosto:'
-      description: 'Kuvaus:'
-      tags: 'Tagit:'
-      tags_help: pilkuilla erotettu lista
-      visibility: 'Näkyvyys:'
-      visibility_help: mitä tämä tarkoittaa?
-      upload_button: Tallenna
-      help: Ohje
-    trace_header:
-      upload_trace: Lisää GPS-jälki
-      see_all_traces: Näytä kaikki jäljet
-      see_your_traces: Näytä kaikki omat jäljet
-      traces_waiting:
-        one: Sinulla on %{count} jälki käsittelyjonossa odottamassa tallennusta tietokantaan.
-          Olisi huomaavaista jos odottaisit näiden valmistuvan ennen kuin lähetät
-          lisää jälkiä. Näin muidenkin käyttäjien lähettämät jäljet pääsevät aiemmin
-          tietokantaan.
-        other: Sinulla on %{count} jälkeä käsittelyjonossa odottamassa tallennusta
-          tietokantaan. Olisi huomaavaista jos odottaisit näiden valmistuvan ennen
-          kuin lähetät lisää jälkiä. Näin muidenkin käyttäjien lähettämät jäljet pääsevät
-          aiemmin tietokantaan.
+      visibility_help: Mitä tämä tarkoittaa?
+    update:
+      updated: Jälki päivitetty
     trace_optionals:
-      tags: Tagit
-    view:
+      tags: Ominaisuustiedot
+    show:
       title: Näytetään jälkeä %{name}
       heading: Näytetään jälkeä %{name}
       pending: ODOTTAA KÄSITTELYÄ
@@ -1681,12 +1901,13 @@ fi:
       edit: muokkaa
       owner: 'Käyttäjä:'
       description: 'Kuvaus:'
-      tags: Tagit
+      tags: 'Ominaisuustiedot:'
       none: Ei mitään
-      edit_track: Muokkaa jäljen tietoja
-      delete_track: Poista tämä jälki
+      edit_trace: Muokkaa jäljen tietoja
+      delete_trace: Poista tämä jälki
       trace_not_found: Jälkeä ei löydy!
       visibility: 'Näkyvyys:'
+      confirm_delete: Poista tämä jälki?
     trace_paging_nav:
       showing_page: Sivu %{page}
       older: Vanhat jäljet
@@ -1696,7 +1917,6 @@ fi:
       count_points:
         one: '%{count} piste'
         other: '%{count} pistettä'
-      ago: '%{time_in_words_ago} sitten'
       more: tiedot
       trace_details: Näytä jäljen tiedot
       view_map: Selaa karttaa
@@ -1709,14 +1929,17 @@ fi:
       by: käyttäjältä
       in: avainsanoilla
       map: sijainti kartalla
-    list:
+    index:
       public_traces: Julkiset GPS-jäljet
-      your_traces: Omat GPS-jäljet
+      my_traces: GPS-jälkeni
       public_traces_from: Käyttäjän %{user} julkiset GPS-jäljet
       description: Selaa viimeisimpiä GPS-jälkiä
       tagged_with: ', joilla on tagi %{tags}'
       empty_html: Sivu on tyhjä. <a href='%{upload_link}'>Lähetä uusi GPS-jälki</a>
         tai lue lisätietoja GPS-jälkien keräämisestä <a href='https://wiki.openstreetmap.org/wiki/Fi:Beginners_Guide_1.2'>wikisivulta</a>.
+      upload_trace: Lisää GPS-jälki
+      see_all_traces: Näytä kaikki jäljet
+      see_my_traces: Katsele jälkiäni
     delete:
       scheduled_for_deletion: Jälki on poistojonossa.
     make_public:
@@ -1734,11 +1957,12 @@ fi:
         other: GPX-tiedosto, jossa on %{count} pistettä käyttäjältä %{user}
       description_without_count: GPX-tiedosto käyttäjältä %{user}
   application:
+    permission_denied: Sinulla ei ole oikeutta käyttää tätä toimintoa
     require_cookies:
       cookies_needed: Selaimen evästeet on otettu pois päältä - salli evästeiden käyttö
         selaimessasi ennen jatkamista.
-    require_moderator:
-      not_a_moderator: Tämän toiminnon suorittamiseksi sinun on oltava ylläpitäjä.
+    require_admin:
+      not_an_admin: Vain pääkäyttäjät voivat käyttää tätä toimintoa.
     setup_user_auth:
       blocked_zero_hour: Olet saanut kiireellisen viestin OpenStreetMapin verkkopalvelussa.
         Viesti on luettava, ennen kuin karttaan voi tallentaa muutoksia.
@@ -1747,7 +1971,7 @@ fi:
         sisään verkkokäyttöliittymään nähdäksesi osallistujien ehdot. Niihin ei tarvitse
         suostua, mutta ne täytyy lukea.
   oauth:
-    oauthorize:
+    authorize:
       title: Salli tilisi käyttö
       request_access: Sovellus %{app_name} pyytää pääsyä käyttäjätiliisi %{user}.
         Tarkasta oikeudet, jotka tahdot antaa sovellukselle. Voit valita mielestäsi
@@ -1761,11 +1985,11 @@ fi:
       allow_write_gpx: tallenna GPS-jälkiä.
       allow_write_notes: Muokkaa muistiinpanoja.
       grant_access: Myönnä oikeudet
-    oauthorize_success:
+    authorize_success:
       title: Valtuutuspyyntö hyväksytty
       allowed: Sovellukselle %{app_name} on myönnetty käyttöoikeus käyttäjätiliisi.
       verification: Vahvistuskoodi on %{code}.
-    oauthorize_failure:
+    authorize_failure:
       title: Valtuutuspyyntö epäonnistui
       denied: Sovelluksen %{app_name} käyttöoikeus käyttäjätiliisi on poistettu.
       invalid: Lupamerkki ei kelpaa.
@@ -1776,16 +2000,14 @@ fi:
   oauth_clients:
     new:
       title: Rekisteröi uusi sovellus
-      submit: Rekisteröi
     edit:
       title: Muokkaa sovellustasi
-      submit: Muokkaa
     show:
       title: OAuth-tiedot sovellukselle %{app_name}
       key: 'Kuluttajan avain:'
       secret: 'Kuluttajan salaisuus:'
       url: 'Pyynnön URL-avain:'
-      access_url: 'Pääsyavaimen URRL-osoite:'
+      access_url: 'Pääsyavaimen URL-osoite:'
       authorize_url: 'Valtuuta URL-osoite:'
       support_notice: Tuemme HMAC-SHA1 (suositeltu) ja RSA-SHA1 allekirjoituksia.
       edit: Muokkaa yksityiskohtia
@@ -1834,7 +2056,7 @@ fi:
       flash: Sovelluksen tiedot on päivitetty.
     destroy:
       flash: Sovelluksen käyttöoikeus on poistettu.
-  user:
+  users:
     login:
       title: Kirjautumissivu
       heading: Kirjaudu
@@ -1939,17 +2161,25 @@ fi:
       terms accepted: Kiitos uusien osallistujaehtojen hyväksymisestä!
       terms declined: Harmi, ettet hyväksynyt uusia osallistumisehtoja. Katso lisätietoja
         <a href="%{url}">tältä wikisivulta</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Fi:Contributor_Terms_Declined
     terms:
-      title: Osallistumisehdot
-      heading: Osallistumisehdot
-      read and accept: Lue sopimus ja varmista, että hyväksyt sopimuksen ehdot nykyisille
-        ja tuleville muokkauksillesi napsauttamalla Hyväksyn.
+      title: Ehdot
+      heading: Ehdot
+      heading_ct: Osallistumisehdot
+      read and accept with tou: Lue osallistumis- ja käyttöehdot, valitse molemmat
+        valintaruudut ja napsauta sitten Jatka.
+      contributor_terms_explain: Tämä sopimus koskee jo tekemiäsi sekä tulevaisuudessa
+        tekemiäsi muokkauksia.
+      read_ct: Olen lukenut ja hyväksyn yllä olevat osallistumisehdot
+      read_tou: Olen lukenut ja hyväksynyt käyttöehdot
       consider_pd: Edellisen sopimuksen lisäksi katson lisäyksieni olevan tekijänoikeudettomia
         Public Domain -lisenssillä
       consider_pd_why: Mikä tämä on?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Vaihtoehtoisia lukutapoja: <a href="%{summary}">selkokielinen yhteenveto
         (englanniksi)</a> ja <a href="%{translations}">epäviralliset käännökset</a>'
-      agree: Hyväksyn
+      continue: Seuraava
+      declined: https://wiki.openstreetmap.org/wiki/Fi:Contributor_Terms_Declined
       decline: En hyväksy
       you need to accept or decline: Ennen jatkamista lue läpi osallistumisehdot ja
         hyväksy tai hylkää se.
@@ -1963,7 +2193,7 @@ fi:
       heading: Käyttäjää %{user} ei ole olemassa
       body: Käyttäjää %{user} ei löytynyt. Tarkista oikeikirjoitus.
       deleted: poistettu
-    view:
+    show:
       my diary: Oma päiväkirja
       new diary entry: uusi päiväkirjamerkintä
       my edits: Omat muokkaukset
@@ -1984,12 +2214,10 @@ fi:
       remove as friend: Poista kavereista
       add as friend: Lisää kaveriksi
       mapper since: 'Rekisteröitymispäivämäärä:'
-      ago: (%{time_in_words_ago} sitten)
       ct status: 'Osallistumisehdot:'
       ct undecided: Ei valittu
       ct declined: Hylätty
-      ct accepted: Hyväksytty %{ago} sitten
-      latest edit: 'Viimeisin muutos %{ago}:'
+      latest edit: 'Viimeisin muutos (%{ago}):'
       email address: 'Sähköpostiosoite:'
       created from: 'Tekijä:'
       status: 'Tila:'
@@ -1999,7 +2227,7 @@ fi:
       if set location: Määrittelet sijaintisi sivulla %{settings_link} nähdäksesi
         lähialueen käyttäjiä.
       settings_link_text: asetussivulla
-      your friends: Kaverit
+      my friends: Ystäväni
       no friends: Sinulla ei ole vielä kavereita.
       km away: '%{count} kilometrin päässä'
       m away: '%{count} metrin päässä'
@@ -2029,6 +2257,7 @@ fi:
       friends_diaries: kaverien päiväkirjamerkinnät
       nearby_changesets: lähialueen käyttäjien muutoskokoelmat
       nearby_diaries: lähialueen käyttäjien päiväkirjamerkinnät
+      report: Ilmianna käyttäjä
     popup:
       your location: Oma sijaintisi
       nearby mapper: Lähellä oleva kartoittaja
@@ -2068,6 +2297,7 @@ fi:
           tätä linkkiä.
         agreed_with_pd: Olet myös ilmaissut muokkaustesi olevan tekijänoikeudesta
           vapaita (Public Domain).
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Mitä tämä tarkoittaa?
       profile description: 'Henkilökuvaus:'
       preferred languages: 'Kielivalinnat:'
@@ -2075,6 +2305,7 @@ fi:
       image: 'Kuva:'
       gravatar:
         gravatar: Käytä Gravataria
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: Mikä tämä on?
         disabled: Gravatar on poistettu käytöstä.
         enabled: Gravatarisi näyttäminen on otettu käyttöön.
@@ -2135,9 +2366,7 @@ fi:
       button: Poista kaveri
       success: '%{name} poistettiin kaverilistastasi.'
       not_a_friend: '%{name} ei ole enää kaverisi.'
-    filter:
-      not_an_administrator: Tähän toimintoon tarvitaan ylläpitäjän oikeudet.
-    list:
+    index:
       title: Käyttäjät
       heading: Käyttäjät
       showing:
@@ -2174,8 +2403,6 @@ fi:
         ja salasanalla ja yhdistä tili käyttäjäasetuksissa.'
   user_role:
     filter:
-      not_an_administrator: Vain ylläpitäjät voivat hallita käyttäjärooleja, etkä
-        ole ylläpitäjä.
       not_a_role: Merkkijono '%{role}' ei ole kelvollinen rooli.
       already_has_role: Käyttäjällä on jo rooli %{role}.
       doesnt_have_role: Käyttäjällä ei ole roolia %{role}.
@@ -2195,7 +2422,7 @@ fi:
       confirm: Vahvista
       fail: Ryhmän ”%{role}” poistaminen käyttäjältä ”%{name}” epäonnistui. Tarkista
         että käyttäjä ja ryhmä ovat molemmat kelvollisia.
-  user_block:
+  user_blocks:
     model:
       non_moderator_update: Sinun on oltava moderaattori luodaksesi tai muokataksesi
         estoa.
@@ -2211,7 +2438,6 @@ fi:
         tulee olemaan esillä julkisesti. Muista myös, että kaikki käyttäjät eivät
         ymmärrä yhteisön slangia. Käytä siis maallikkojen termejä.
       period: Kuinka kauan käyttäjä on estetty käyttämästä APIa. Esto alkaa heti.
-      submit: Luo esto
       tried_contacting: Olen ottanut yhteyttä käyttäjään ja pyytänyt heitä lopettamaan.
       tried_waiting: Olen antanut käyttäjälle kohtuullisen ajan vastata näihin viesteihin.
       needs_view: Käyttäjän tulee kirjautua sisään ennen tämän eston poistumista
@@ -2225,7 +2451,6 @@ fi:
         ymmärrettäviä sanoja.
       period: Kuinka pitkäksi aikaa käyttäjää estetään käyttämästä APIa, laskettuna
         tästä hetkestä.
-      submit: Päivitä esto
       show: Näytä tämä esto
       back: Näytä kaikki estot
       needs_view: Pitääkö tämän käyttäjän kirjautua sisään ennen kuin esto poistetaan?
@@ -2248,33 +2473,32 @@ fi:
       title: Esto %{block_on} poistetaan
       heading: Poistetaan käyttäjän %{block_on} esto, jonka oli tehnyt %{block_by}
       time_future: Tämä esto päättyy %{time} kuluttua.
-      past: Tämä esto päättyi %{time} sitten ja sitä ei voida poistaa.
+      past: Tämä esto päättyi %{time} ja sitä ei voida poistaa.
       confirm: Oletko varma, että haluat poistaa tämän eston?
       revoke: Poista!
       flash: Tämä esto on poistettu
-    period:
-      one: 1 tunti
-      other: '%{count} tuntia'
-    partial:
-      show: Näytä
-      edit: Muokkaa
-      revoke: Estä!
-      confirm: Oletko varma?
-      display_name: Estetty käyttäjä
-      creator_name: Tekijä
-      reason: Eston syy
-      status: Tila
-      revoker_name: Eston tehnyt
-      not_revoked: (ei kumottu)
-      showing_page: Sivu %{page}
-      next: Seuraava »
-      previous: « Edellinen
     helper:
       time_future: Päättyy %{time} kuluttua.
       until_login: Aktiivinen kunnes käyttäjä kirjautuu sisään.
       time_future_and_until_login: Päättyy %{time} kuluttua ja käyttäjän kirjauduttua
         sisään.
-      time_past: Päättyi %{time} sitten.
+      time_past: Päättyi %{time}.
+      block_duration:
+        hours:
+          one: 1 tunti
+          other: '%{count} tuntia'
+        days:
+          one: 1 päivä
+          other: '%{count} päivää'
+        weeks:
+          one: 1 viikko
+          other: '%{count} viikkoa'
+        months:
+          one: 1 kuukausi
+          other: '%{count} kuukautta'
+        years:
+          one: 1 vuosi
+          other: '%{count} vuotta'
     blocks_on:
       title: Käyttäjän %{name} estot
       heading: Käyttäjän %{name} estot
@@ -2286,10 +2510,7 @@ fi:
     show:
       title: '%{block_on} estetty käyttäjän %{block_by} toimesta'
       heading: '%{block_on} estetty käyttäjän %{block_by} toimesta'
-      time_future: Päättymiseen aikaa %{time}
-      time_past: Loppui %{time} sitten
       created: Luotu
-      ago: '%{time} sitten'
       status: Tila
       show: Näytä
       edit: Muokkaa
@@ -2299,38 +2520,30 @@ fi:
       back: Näytä kaikki estot
       revoker: 'Estäjä:'
       needs_view: Käyttäjän täytyy kirjautua sisään ennen kuin esto poistuu.
-  note:
-    description:
-      opened_at_html: Luotu %{when} sitten
-      opened_at_by_html: '%{user} luonut %{when} sitten'
-      commented_at_html: Päivitetty %{when} sitten
-      commented_at_by_html: '%{user} päivittänyt %{when} sitten'
-      closed_at_html: Ratkaistu %{when} sitten
-      closed_at_by_html: '%{user} ratkaissut %{when} sitten'
-      reopened_at_html: Avattu uudelleen %{when} sitten
-      reopened_at_by_html: '%{user} aktivoinut uudelleen %{when} sitten'
-    rss:
-      title: OpenStreetMapin karttailmoitukset
-      description_area: Luettelo raportoiduista, kommentoiduista tai suljetuista huomautuksista
-        omalla alueellasi [( %{min_lat}|%{min_lon})--( %{max_lat}|%{max_lon})]
-      description_item: Karttailmoituksen %{id} RSS-syöte
-      opened: uusi huomautus (lähellä kohdetta %{place})
-      commented: uusi kommentti (lähellä kohdetta %{place})
-      closed: suljettu karttailmoitus (lähellä paikkaa %{place})
-      reopened: uudelleenavattu karttailmoitus (lähellä paikka %{place})
-    entry:
-      comment: Kommentti
-      full: Koko karttailmoitus
+    block:
+      not_revoked: (ei kumottu)
+      show: Näytä
+      edit: Muokkaa
+      revoke: Estä!
+    blocks:
+      display_name: Estetty käyttäjä
+      creator_name: Tekijä
+      reason: Eston syy
+      status: Tila
+      revoker_name: Eston tehnyt
+      showing_page: Sivu %{page}
+      next: Seuraava »
+      previous: « Edellinen
+  notes:
     mine:
       title: Käyttäjän %{user} kommentoimat ja luomat huomautukset
       heading: Käyttäjän %{user} karttailmoitukset
-      subheading: Käyttäjän %{user} kommentoimat ja luomat karttailmoitukset
+      subheading_html: Käyttäjän %{user} kommentoimat ja luomat karttailmoitukset
       id: Tunniste
       creator: Tekijä
       description: Kuvaus
       created_at: Luotu
       last_changed: Viimeksi muutettu
-      ago_html: '%{when} sitten'
   javascripts:
     close: Sulje
     share:
@@ -2380,6 +2593,8 @@ fi:
         title: Karttanäkymä
       copyright: © <a href='%{copyright_url}'>OpenStreetMapin tekijät</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Tee lahjoitus</a>
+      terms: <a href='%{terms_url}' target='_blank'>Sivuston ja sovellusrajapinnan
+        ehdot</a>
     site:
       edit_tooltip: Muokkaa karttaa
       edit_disabled_tooltip: Lähennä karttaa ennen muokkaamisen aloittamista
@@ -2417,19 +2632,18 @@ fi:
     directions:
       ascend: Nousu
       engines:
+        fossgis_osrm_bike: Pyörällä (OSRM)
+        fossgis_osrm_car: Autolla (OSRM)
+        fossgis_osrm_foot: Kävellen (OSRM)
         graphhopper_bicycle: Pyörällä (GraphHopper)
-        graphhopper_car: Ajaen (GraphHopper)
+        graphhopper_car: Autolla (GraphHopper)
         graphhopper_foot: Kävellen (GraphHopper)
-        mapquest_bicycle: Pyörällä (MapQuest)
-        mapquest_car: Ajaen (MapQuest)
-        mapquest_foot: Kävellen (MapQuest)
-        osrm_car: Ajaen (OSRM)
       descend: Lasku
       directions: Reittiohjeet
       distance: Etäisyys
       errors:
         no_route: Reittiä näiden paikkojen välille ei löytynyt.
-        no_place: Paikkaa ei löytynyt.
+        no_place: Paikkaa '%{place}' ei löytynyt.
       instructions:
         continue_without_exit: Jatka tiellä %{name}
         slight_right_without_exit: Kaarra oikealle tielle %{name}
@@ -2449,6 +2663,7 @@ fi:
         onramp_right_with_name_directions: Käänny vasemmalle rampille %{name} suuntaan
           %{directions}
         onramp_right_without_directions: Käänny oikealle rampille
+        onramp_right: Käänny oikealle rampille
         endofroad_right_without_exit: Tienpäässä käänny oikealle tielle %{name}
         merge_right_without_exit: Liity oikealle tielle %{name}
         fork_right_without_exit: Liittymässä ryhmity oikealle suuntaan %{name}
@@ -2474,6 +2689,7 @@ fi:
         onramp_left_with_name_directions: Käänny vasemmalle rampille %{name} suuntaan
           %{directions}
         onramp_left_without_directions: Käänny vasemmalle rampille
+        onramp_left: Käänny vasemmalle rampille
         endofroad_left_without_exit: Tienpäässä käänny vasemmalle tielle %{name}
         merge_left_without_exit: Liity vasemmalle tielle %{name}
         fork_left_without_exit: Liittymässä ryhmity vasemmalle suuntaan %{name}
@@ -2483,21 +2699,28 @@ fi:
         roundabout_without_exit: Poistu liikenneympyrästä tielle %{name}
         leave_roundabout_without_exit: Poistu liikenneympyrästä - %{name}
         stay_roundabout_without_exit: Pysy liikenneympyrässä - %{name}
-        start_without_exit: Aloitetaan tiellä %{name}
+        start_without_exit: Aloita tiellä %{name}
         destination_without_exit: Olet saapunut perille
         against_oneway_without_exit: Aja yksisuuntaista tietä %{name} väärään suuntaan
         end_oneway_without_exit: Yksisuuntaisen tien %{name} pää
-        roundabout_with_exit: Liikenneympyrässä poistu %{exit}. liittymästä tielle
+        roundabout_with_exit: Liikenneympyrässä poistu %{exit} liittymästä tielle
           %{name}
-        turn_left_with_exit: Liikenneympyrässä käänny vasemmalle tielle %{name}
-        slight_left_with_exit: Liikenneympyrässä kaarra loivasti vasemmalle tielle
-          %{name}
-        turn_right_with_exit: Liikenneympyrässä käänny oikealle tielle %{name}
-        slight_right_with_exit: Liikenneympyrässä kaarra loivasti oikealle tielle
-          %{name}
-        continue_with_exit: Liikenneympyrässä jatka suoraan tielle %{name}
+        roundabout_with_exit_ordinal: Liikenneympyrässä poistu %{exit} liittymästä
+          tielle %{name}
+        exit_roundabout: Poistu liikenneympyrästä tielle %{name}
         unnamed: nimetön tie
         courtesy: Reittiohjeet tarjoaa %{link}
+        exit_counts:
+          first: ensimmäisestä
+          second: toisesta
+          third: "3."
+          fourth: "4."
+          fifth: "5."
+          sixth: "6."
+          seventh: "7."
+          eighth: "8."
+          ninth: "9."
+          tenth: "10."
       time: Matka-aika
     query:
       node: Piste
@@ -2513,11 +2736,10 @@ fi:
       show_address: Näytä osoite
       query_features: Lähistöllä
       centre_map: Keskitä kartta
-  redaction:
+  redactions:
     edit:
       description: Kuvaus
       heading: Muokkaa laitosta
-      submit: Tallenna redaktio
       title: Muokkaa laitosta
     index:
       empty: Ei ole näytettävää laitosta
@@ -2526,7 +2748,6 @@ fi:
     new:
       description: Kuvaus
       heading: Kirjoita tietoja uudesta laitoksesta
-      submit: Luo redaktio
       title: Luodaan uusi redaktio
     show:
       description: 'Kuvaus:'
@@ -2545,4 +2766,7 @@ fi:
         liittyvistä versioista ennen sen tuhoamista.
       flash: Redaktio tuhottu.
       error: Laitosta tuhottaessa tapahtui virhe.
+  validations:
+    invalid_characters: sisältää virheellisiä merkkejä
+    url_characters: sisältää erikoismerkkejä URL:ssa (%{characters})
 ...

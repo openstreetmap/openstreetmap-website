@@ -4,8 +4,8 @@ class SiteControllerTest < ActionController::TestCase
   ##
   # setup oauth keys
   def setup
-    Object.const_set("ID_KEY", create(:client_application).key)
-    Object.const_set("POTLATCH2_KEY", create(:client_application).key)
+    Settings.id_key = create(:client_application).key
+    Settings.potlatch2_key = create(:client_application).key
 
     stub_hostip_requests
   end
@@ -13,8 +13,8 @@ class SiteControllerTest < ActionController::TestCase
   ##
   # clear oauth keys
   def teardown
-    Object.send("remove_const", "ID_KEY")
-    Object.send("remove_const", "POTLATCH2_KEY")
+    Settings.id_key = nil
+    Settings.potlatch2_key = nil
   end
 
   ##
@@ -165,7 +165,7 @@ class SiteControllerTest < ActionController::TestCase
   def test_edit
     get :edit
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => "/edit"
+    assert_redirected_to :controller => :users, :action => :login, :referer => "/edit"
   end
 
   # Test the right editor gets used when the user hasn't set a preference
@@ -173,7 +173,7 @@ class SiteControllerTest < ActionController::TestCase
     get :edit, :session => { :user => create(:user) }
     assert_response :success
     assert_template "edit"
-    assert_template :partial => "_#{DEFAULT_EDITOR}", :count => 1
+    assert_template :partial => "_#{Settings.default_editor}", :count => 1
   end
 
   # Test the right editor gets used when the user has set a preference
@@ -315,7 +315,7 @@ class SiteControllerTest < ActionController::TestCase
   def test_welcome
     get :welcome
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => "/welcome"
+    assert_redirected_to :controller => :users, :action => :login, :referer => "/welcome"
 
     get :welcome, :session => { :user => create(:user) }
     assert_response :success

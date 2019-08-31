@@ -1,6 +1,6 @@
 require "migrate"
 
-class MoveToInnodb < ActiveRecord::Migration[5.0]
+class MoveToInnodb < ActiveRecord::Migration[4.2]
   @conv_tables = %w[nodes ways way_tags way_nodes current_way_tags relation_members relations relation_tags current_relation_tags]
 
   @ver_tbl = %w[nodes ways relations]
@@ -19,7 +19,7 @@ class MoveToInnodb < ActiveRecord::Migration[5.0]
       # current version to something less so that we can update the version in
       # batches of 10000
       tbl.classify.constantize.update_all(:version => -1)
-      tbl.classify.constantize.update_all("version=(SELECT max(version) FROM #{tbl} WHERE #{tbl}.id = current_#{tbl}.id)", { :version => -1 }, { :limit => 10000 }) while tbl.classify.constantize.where(:version => -1).count > 0
+      tbl.classify.constantize.update_all("version=(SELECT max(version) FROM #{tbl} WHERE #{tbl}.id = current_#{tbl}.id)", { :version => -1 }, { :limit => 10000 }) while tbl.classify.constantize.where(:version => -1).count.positive?
       # execute "UPDATE current_#{tbl} SET version = " +
       #  "(SELECT max(version) FROM #{tbl} WHERE #{tbl}.id = current_#{tbl}.id)"
       # The above update causes a MySQL error:

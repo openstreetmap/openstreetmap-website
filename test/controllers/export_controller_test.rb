@@ -19,7 +19,7 @@ class ExportControllerTest < ActionController::TestCase
   def test_finish_osm
     get :finish, :params => { :minlon => 0, :minlat => 50, :maxlon => 1, :maxlat => 51, :format => "osm" }
     assert_response :redirect
-    assert_redirected_to "controller" => "api", "action" => "map", "bbox" => "0.0,50.0,1.0,51.0"
+    assert_redirected_to "controller" => "api/map", "action" => "index", "bbox" => "0.0,50.0,1.0,51.0"
   end
 
   ###

@@ -1,0 +1,24 @@
+<% content_for :heading do %>
+  <h1><%= t(".has_commented_on", :display_name => @user.display_name) %></h1>
+<% end %>
+
+<table class="messages" width="100%">
+  <tr>
+    <th width="25%"><%= t ".post" %></th>
+    <th width="25%"><%= t ".when" %></th>
+    <th width="50%"><%= t ".comment" %></th>
+  </tr>
+  <% @comments.each do |comment| -%>
+  <% cl = cycle("table0", "table1") %>
+  <tr class="<%= cl %>">
+    <td width="25%"><%= link_to comment.diary_entry.title, diary_entry_path(comment.diary_entry.user, comment.diary_entry) %></td>
+    <td width="25%"><span title="<%= l comment.created_at, :format => :friendly %>"><%= time_ago_in_words(comment.created_at, :scope => :'datetime.distance_in_words_ago') %></span></td>
+    <td width="50%" class="richtext"><%= comment.body.to_html %></td>
+  </tr>
+  <% end -%>
+</table>
+
+<div class='secondary-actions clearfix'>
+  <span><%= link_to t(".older_comments"), :page => @comment_pages.current.next if @comment_pages.current.next %>
+  <%= link_to t(".newer_comments"), :page => @comment_pages.current.previous if @comment_pages.current.previous %></span>
+</div>

@@ -1,6 +1,7 @@
 # Messages for British English (British English)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Andibing
 # Author: Bpfhjquevaps
 # Author: Bruce89
@@ -16,9 +17,11 @@
 # Author: Kosovastar
 # Author: Macofe
 # Author: Meno25
+# Author: Mvolz
 # Author: Sampablokuper
 # Author: Shirayuki
 # Author: Smsm1
+# Author: TomH
 # Author: ديفيد
 ---
 en-GB:
@@ -28,6 +31,26 @@ en-GB:
     formats:
       friendly: '%e %B %Y at %H:%M'
       blog: '%e %B %Y'
+  helpers:
+    submit:
+      diary_comment:
+        create: Save
+      diary_entry:
+        create: Publish
+      message:
+        create: Send
+      client_application:
+        create: Register
+        update: Edit
+      redaction:
+        create: Create redaction
+        update: Save redaction
+      trace:
+        create: Upload
+        update: Save Changes
+      user_block:
+        create: Create block
+        update: Update block
   activerecord:
     models:
       acl: Access Control List
@@ -113,15 +136,38 @@ en-GB:
     remote:
       name: Remote Control
       description: Remote Control (JOSM or Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: Created %{when}
+        opened_at_by_html: Created %{when} by %{user}
+        commented_at_html: Updated %{when}
+        commented_at_by_html: Updated %{when} by %{user}
+        closed_at_html: Resolved %{when}
+        closed_at_by_html: Resolved %{when} by %{user}
+        reopened_at_html: Reactivated %{when}
+        reopened_at_by_html: Reactivated %{when} by %{user}
+      rss:
+        title: OpenStreetMap Notes
+        description_area: A list of notes, reported, commented on or closed in your
+          area [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: An rss feed for note %{id}
+        opened: new note (near %{place})
+        commented: new comment (near %{place})
+        closed: closed note (near %{place})
+        reopened: reactivated note (near %{place})
+      entry:
+        comment: Comment
+        full: Full note
   browse:
     created: Created
     closed: Closed
-    created_html: Created <abbr title='%{title}'>%{time} ago</abbr>
-    closed_html: Closed <abbr title='%{title}'>%{time} ago</abbr>
-    created_by_html: Created <abbr title='%{title}'>%{time} ago</abbr> by %{user}
-    deleted_by_html: Deleted <abbr title='%{title}'>%{time} ago</abbr> by %{user}
-    edited_by_html: Edited <abbr title='%{title}'>%{time} ago</abbr> by %{user}
-    closed_by_html: Closed <abbr title='%{title}'>%{time} ago</abbr> by %{user}
+    created_html: Created <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Closed <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Created <abbr title='%{title}'>%{time}</abbr> by %{user}
+    deleted_by_html: Deleted <abbr title='%{title}'>%{time}</abbr> by %{user}
+    edited_by_html: Edited <abbr title='%{title}'>%{time}</abbr> by %{user}
+    closed_by_html: Closed <abbr title='%{title}'>%{time}</abbr> by %{user}
     version: Version
     in_changeset: Changeset
     anonymous: anonymous
@@ -141,9 +187,8 @@ en-GB:
       relation: Relations (%{count})
       relation_paginated: Relations (%{x}-%{y} of %{count})
       comment: Comments (%{count})
-      hidden_commented_by: Hidden comment from %{user} <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      commented_by: Comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
+      hidden_commented_by: Hidden comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Changeset XML
       osmchangexml: osmChange XML
       feed:
@@ -219,25 +264,22 @@ en-GB:
       open_title: 'Unresolved note #%{note_name}'
       closed_title: 'Resolved note #%{note_name}'
       hidden_title: 'Hidden note #%{note_name}'
-      open_by: Created by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      open_by_anonymous: Created by anonymous <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      commented_by: Comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      commented_by_anonymous: Comment from anonymous <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      closed_by: Resolved by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      closed_by_anonymous: Resolved by anonymous <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      reopened_by: Reactivated by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      reopened_by_anonymous: Reactivated by anonymous <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      hidden_by: Hidden by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
+      open_by: Created by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Created by anonymous <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Comment from anonymous <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Resolved by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resolved by anonymous <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reactivated by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivated by anonymous <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Hidden by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Report this note
     query:
       title: Query Features
       introduction: Click on the map to find nearby features.
       nearby: Nearby features
       enclosing: Enclosing features
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Page %{page}
       next: Next »
@@ -252,10 +294,10 @@ en-GB:
       user: User
       comment: Comment
       area: Area
-    list:
+    index:
       title: Changesets
       title_user: Changesets by %{user}
-      title_friend: Changesets by your friends
+      title_friend: Changesets by my friends
       title_nearby: Changesets by nearby users
       empty: No changesets found.
       empty_area: No changesets in this area.
@@ -266,31 +308,17 @@ en-GB:
       load_more: Load more
     timeout:
       sorry: Sorry, the list of changesets you requested took too long to retrieve.
-    rss:
+  changeset_comments:
+    comment:
+      comment: 'New comment on changeset #%{changeset_id} by %{author}'
+      commented_at_by_html: Updated %{when} by %{user}
+    index:
       title_all: OpenStreetMap changeset discussion
       title_particular: 'OpenStreetMap changeset #%{changeset_id} discussion'
-      comment: 'New comment on changeset #%{changeset_id} by %{author}'
-      commented_at_html: Updated %{when} ago
-      commented_at_by_html: Updated %{when} ago by %{user}
-      full: Full discussion
-  diary_entry:
+  diary_entries:
     new:
       title: New Diary Entry
-      publish_button: Publish
-    list:
-      title: Users' diaries
-      title_friends: Friends' diaries
-      title_nearby: Nearby Users' diaries
-      user_title: '%{user}''s diary'
-      in_language_title: Diary Entries in %{language}
-      new: New Diary Entry
-      new_title: Compose a new entry in your user diary
-      no_entries: No diary entries
-      recent_entries: Recent diary entries
-      older_entries: Older Entries
-      newer_entries: Newer Entries
-    edit:
-      title: Edit diary entry
+    form:
       subject: 'Subject:'
       body: 'Body:'
       language: 'Language:'
@@ -298,15 +326,27 @@ en-GB:
       latitude: 'Latitude:'
       longitude: 'Longitude:'
       use_map_link: use map
-      save_button: Save
+    index:
+      title: Users' diaries
+      title_friends: Friends' diaries
+      title_nearby: Nearby Users' diaries
+      user_title: '%{user}''s diary'
+      in_language_title: Diary Entries in %{language}
+      new: New Diary Entry
+      new_title: Compose a new entry in my user diary
+      no_entries: No diary entries
+      recent_entries: Recent diary entries
+      older_entries: Older Entries
+      newer_entries: Newer Entries
+    edit:
+      title: Edit diary entry
       marker_text: Diary entry location
-    view:
+    show:
       title: '%{user}''s diary | %{title}'
       user_title: '%{user}''s diary'
       leave_a_comment: Leave a comment
       login_to_leave_a_comment: '%{login_link} to leave a comment'
       login: Login
-      save_button: Save
     no_such_entry:
       title: No such diary entry
       heading: 'No entry with the id: %{id}'
@@ -346,65 +386,17 @@ en-GB:
       post: Post
       when: When
       comment: Comment
-      ago: '%{ago} ago'
       newer_comments: Newer Comments
       older_comments: Older Comments
-  export:
-    title: Export
-    start:
-      area_to_export: Area to Export
-      manually_select: Manually select a different area
-      format_to_export: Format to Export
-      osm_xml_data: OpenStreetMap XML Data
-      map_image: Map Image (shows standard layer)
-      embeddable_html: Embeddable HTML
-      licence: Licence
-      export_details: OpenStreetMap data is licenced under the <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
-        Data Commons Open Database Licence</a> (ODbL).
-      too_large:
-        advice: 'If the above export fails, please consider using one of the sources
-          listed below:'
-        body: This area is too large to be exported as OpenStreetMap XML Data. Please
-          zoom in or select a smaller area, or use one of the sources listed below
-          for bulk data downloads.
-        planet:
-          title: Planet OSM
-          description: Regularly updated copies of the complete OpenStreetMap database
-        overpass:
-          title: Overpass API
-          description: Download this bounding box from a mirror of the OpenStreetMap
-            database
-        geofabrik:
-          title: Geofabrik Downloads
-          description: Regularly-updated extracts of continents, countries, and selected
-            cities
-        metro:
-          title: Metro Extracts
-          description: Extracts for major world cities and their surrounding areas
-        other:
-          title: Other Sources
-          description: Additional sources listed on the OpenStreetMap wiki
-      options: Options
-      format: Format
-      scale: Scale
-      max: max
-      image_size: Image Size
-      zoom: Zoom
-      add_marker: Add a marker to the map
-      latitude: 'Lat:'
-      longitude: 'Lon:'
-      output: Output
-      paste_html: Paste HTML to embed in website
-      export_button: Export
   geocoder:
     search:
       title:
-        latlon: Results from <a href="http://openstreetmap.org/">Internal</a>
-        ca_postcode: Results from <a href="http://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim: Results from <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        latlon: Results from <a href="https://openstreetmap.org/">Internal</a>
+        ca_postcode: Results from <a href="https://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim: Results from <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Results from <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse: Results from <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim_reverse: Results from <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames_reverse: Results from <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
@@ -861,7 +853,7 @@ en-GB:
           "yes": Shop
         tourism:
           alpine_hut: Alpine Hut
-          apartment: Apartment
+          apartment: Holiday Flat
           artwork: Artwork
           attraction: Attraction
           bed_and_breakfast: Bed and Breakfast
@@ -912,7 +904,7 @@ en-GB:
         level10: Suburb Boundary
     description:
       title:
-        osm_nominatim: Location from <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim: Location from <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Location from <a href="http://www.geonames.org/">GeoNames</a>
       types:
@@ -950,10 +942,7 @@ en-GB:
     intro_text: OpenStreetMap is a map of the world, created by people like you and
       free to use under an open licence.
     intro_2_create_account: Create a user account
-    partners_html: Hosting is supported by %{ucl}, %{ic} and %{bytemark}, and other
-      %{partners}.
     partners_ucl: UCL
-    partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
     osm_offline: The OpenStreetMap database is currently offline while essential database
@@ -974,264 +963,6 @@ en-GB:
       text: Make a Donation
     learn_more: Learn More
     more: More
-  license_page:
-    foreign:
-      title: About this translation
-      text: In the event of a conflict between this translated page and %{english_original_link},
-        the English page shall take precedence
-      english_link: the English original
-    native:
-      title: About this page
-      text: You are viewing the English version of the copyright page. You can go
-        back to the %{native_link} of this page or you can stop reading about copyright
-        and %{mapping_link}.
-      native_link: British English version
-      mapping_link: start mapping
-    legal_babble:
-      title_html: Copyright and Licence
-      intro_1_html: |-
-        OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> is <i>open data</i>, licensed under the <a
-        href="http://opendatacommons.org/licenses/odbl/">Open Data
-        Commons Open Database License</a> (ODbL) by the  <a
-        href="http://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
-      intro_2_html: You are free to copy, distribute,  transmit and adapt our data,
-        as long as you credit OpenStreetMap and its contributors. If you alter or
-        build upon our data, you may distribute the result only under the same licence.
-        The full <a href="http://opendatacommons.org/licenses/odbl/1.0/">legal code</a>
-        explains your rights and responsibilities.
-      intro_3_html: |-
-        The cartography in our map tiles, and our documentation, are
-        licenced under the <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
-        Commons Attribution-ShareAlike 2.0</a> licence (CC BY-SA).
-      credit_title_html: How to credit OpenStreetMap
-      credit_1_html: |-
-        We require that you use the credit &ldquo;&copy; OpenStreetMap
-        contributors&rdquo;.
-      credit_2_html: |-
-        You must also make it clear that the data is available under the Open
-        Database Licence, and if using our map tiles, that the cartography is
-        licenced as CC BY-SA. You may do this by linking to
-        <a href="http://www.openstreetmap.org/copyright">this copyright page</a>.
-        Alternatively, and as a requirement if you are distributing OSM in a
-        data form, you can name and link directly to the licence(s). In media
-        where links are not possible (e.g. printed works), we suggest you
-        direct your readers to openstreetmap.org (perhaps by expanding
-        'OpenStreetMap' to this full address), to opendatacommons.org, and
-        if relevant, to creativecommons.org.
-      credit_3_html: |-
-        For a browsable electronic map, the credit should appear in the corner of the map.
-        For example:
-      attribution_example:
-        alt: Example of how to attribute OpenStreetMap on a webpage
-        title: Attribution example
-      more_title_html: Finding out more
-      more_1_html: |-
-        Read more about using our data, and how to credit us, at the <a
-        href="http://osmfoundation.org/Licence">OSMF Licence page</a> and the community <a
-        href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal
-        FAQ</a>.
-      more_2_html: |-
-        Although OpenStreetMap is open data, we cannot provide a
-        free-of-charge map API for third-parties.
-        See our <a href="https://operations.osmfoundation.org/policies/api/">API Usage Policy</a>,
-        <a href="https://operations.osmfoundation.org/policies/tiles/">Tile Usage Policy</a>
-        and <a href="https://operations.osmfoundation.org/policies/nominatim/">Nominatim Usage Policy</a>.
-      contributors_title_html: Our contributors
-      contributors_intro_html: |-
-        Our contributors are thousands of individuals. We also include
-        openly-licenced data from national mapping agencies
-        and other sources, among them:
-      contributors_at_html: |-
-        <strong>Austria</strong>: Contains data from
-        <a href="http://data.wien.gv.at/">Stadt Wien</a> (under
-        <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
-        <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> and
-        Land Tirol (under <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT with amendments</a>).
-      contributors_ca_html: |-
-        <strong>Canada</strong>: Contains data from
-        GeoBase&reg;, GeoGratis (&copy; Department of Natural
-        Resources Canada), CanVec (&copy; Department of Natural
-        Resources Canada), and StatCan (Geography Division,
-        Statistics Canada).
-      contributors_fi_html: |-
-        <strong>Finland</strong>: Contains data from the
-        National Land Survey of Finland's Topographic Database
-        and other datasets, under the
-        <a href="http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">NLSFI Licence</a>.
-      contributors_fr_html: '<strong>France</strong>: Contains data sourced from Direction
-        Générale des Impôts.'
-      contributors_nl_html: '<strong>Netherlands</strong>: Contains &copy; AND data,
-        2007 (<a href="http://www.and.com">www.and.com</a>)'
-      contributors_nz_html: '<strong>New Zealand</strong>: Contains data sourced from
-        Land Information New Zealand. Crown Copyright reserved.'
-      contributors_si_html: |-
-        <strong>Slovenia</strong>: Contains data from the
-        <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> and
-        <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>
-        (public information of Slovenia).
-      contributors_za_html: '<strong>South Africa</strong>: Contains data sourced
-        from <a href="http://www.ngi.gov.za/">Chief Directorate: National Geo-Spatial
-        Information</a>, State copyright reserved.'
-      contributors_gb_html: '<strong>United Kingdom</strong>: Contains Ordnance Survey
-        data &copy; Crown copyright and database right 2010-12.'
-      contributors_footer_1_html: For further details of these, and other sources
-        that have been used to help improve OpenStreetMap, please see the <a href="http://wiki.openstreetmap.org/wiki/Contributors">Contributors
-        page</a> on the OpenStreetMap Wiki.
-      contributors_footer_2_html: Inclusion of data in OpenStreetMap does not imply
-        that the original data provider endorses OpenStreetMap, provides any warranty,
-        or accepts any liability.
-      infringement_title_html: Copyright infringement
-      infringement_1_html: OSM contributors are reminded never to add data from any
-        copyrighted sources (e.g. Google Maps or printed maps) without explicit permission
-        from the copyright holders.
-      infringement_2_html: If you believe that copyrighted material has been inappropriately
-        added to the OpenStreetMap database or this site, please refer to our <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">takedown
-        procedure</a> or file directly at our <a href="http://dmca.openstreetmap.org/">on-line
-        filing page</a>.
-      trademarks_title_html: <span id="trademarks"></span>Trademarks
-      trademarks_1_html: OpenStreetMap, the magnifying glass logo, and State of the
-        Map are registered trademarks of the OpenStreetMap Foundation. If you have
-        questions about your use of the marks, please send your questions to the <a
-        href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Licence
-        Working Group</a>.
-  welcome_page:
-    title: Welcome!
-    introduction_html: Welcome to OpenStreetMap, the free and editable map of the
-      world. Now that you're signed up, you're all set to get started mapping. Here's
-      a quick guide with the most important things you need to know.
-    whats_on_the_map:
-      title: What's on the Map
-      on_html: OpenStreetMap is a place for mapping things that are both <em>real
-        and current</em> - it includes millions of buildings, roads, and other details
-        about places. You can map whatever real-world features are interesting to
-        you.
-      off_html: What it <em>doesn't</em> include is opinionated data like ratings,
-        historical or hypothetical features, and data from copyrighted sources. Unless
-        you have special permission, don't copy from online or paper maps.
-    basic_terms:
-      title: Basic Terms For Mapping
-      paragraph_1_html: OpenStreetMap has some of its own lingo. Here are a few key
-        words that'll come in handy.
-      editor_html: An <strong>editor</strong> is a program or website you can use
-        to edit the map.
-      node_html: A <strong>node</strong> is a point on the map, like a single restaurant
-        or a tree.
-      way_html: A <strong>way</strong> is a line or area, like a road, stream, lake
-        or building.
-      tag_html: A <strong>tag</strong> is a bit of data about a node or way, like
-        a  restaurant's name or a road's speed limit.
-    rules:
-      title: Rules!
-      paragraph_1_html: "OpenStreetMap has few formal rules but we expect all participants
-        to collaborate\nwith, and communicate with, the community. If you are considering\nany
-        activities other than editing by hand, please read and follow the guidelines
-        on \n<a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'>Imports</a>
-        and \n<a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Automated
-        Edits</a>."
-    questions:
-      title: Any questions?
-      paragraph_1_html: |-
-        OpenStreetMap has several resources for learning about the project, asking and answering questions, and collaboratively discussing and documenting mapping topics.
-        <a href='%{help_url}'>Get help here</a>.
-    start_mapping: Start Mapping
-    add_a_note:
-      title: No Time To Edit? Add a Note!
-      paragraph_1_html: If you just want something small fixed and don't have the
-        time to sign up and learn how to edit, it's easy to add a note.
-      paragraph_2_html: 'Just go to <a href=''%{map_url}''>the map</a> and click the
-        note icon: <span class=''icon note''></span>. This will add a marker to the
-        map, which you can move by dragging. Add your message, then click save, and
-        other mappers will investigate.'
-  fixthemap:
-    title: Report a problem/Fix the map
-    how_to_help:
-      title: How to Help
-      join_the_community:
-        title: Join the community
-        explanation_html: If you have noticed a problem with our map data, for example
-          a road is missing or your address, the best way to proceed is to join the
-          OpenStreetMap community and add or repair the data yourself.
-      add_a_note:
-        instructions_html: Just click <a class='icon note'></a> or the same icon on
-          the map display. This will add a marker to the map, which you can move by
-          dragging. Add your message, then click save, and other mappers will investigate.
-    other_concerns:
-      title: Other concerns
-      explanation_html: "If you have concerns about how our data is being used or
-        about the contents please consult our\n<a href='/copyright'>copyright page</a>
-        for more legal information, or contact the appropriate \n<a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF
-        working group</a>."
-  help_page:
-    title: Getting Help
-    introduction: OpenStreetMap has several resources for learning about the project,
-      asking and answering questions, and collaboratively discussing and documenting
-      mapping topics.
-    welcome:
-      url: /welcome
-      title: Welcome to OSM
-      description: Start with this quick guide covering the OpenStreetMap basics.
-    beginners_guide:
-      url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
-      title: Beginners' Guide
-      description: Community maintained guide for beginners.
-    help:
-      url: https://help.openstreetmap.org/
-      title: help.openstreetmap.org
-      description: Ask a question or look up answers on OSM's question-and-answer
-        site.
-    mailing_lists:
-      title: Mailing Lists
-      description: Ask a question or discuss interesting matters on a wide range of
-        topical or regional mailing lists.
-    forums:
-      title: Forums
-      description: Questions and discussions for those that prefer a bulletin board
-        style interface.
-    irc:
-      title: IRC
-      description: Interactive chat in many different languages and on many topics.
-    switch2osm:
-      title: switch2osm
-      description: Help for companies and organisations switching to OpenStreetMap
-        based maps and other services.
-    wiki:
-      url: http://wiki.openstreetmap.org/
-      title: wiki.openstreetmap.org
-      description: Browse the wiki for in-depth OSM documentation.
-  about_page:
-    next: Next
-    copyright_html: <span>&copy;</span>OpenStreetMap<br>contributors
-    used_by: '%{name} powers map data on thousands of web sites, mobile apps, and
-      hardware devices'
-    lede_text: OpenStreetMap is built by a community of mappers that contribute and
-      maintain data about roads, trails, cafés, railway stations, and much more, all
-      over the world.
-    local_knowledge_title: Local Knowledge
-    local_knowledge_html: |-
-      OpenStreetMap emphasises local knowledge. Contributors use
-      aerial imagery, GPS devices, and low-tech field maps to verify that OSM
-      is accurate and up to date.
-    community_driven_title: Community Driven
-    community_driven_html: |-
-      OpenStreetMap's community is diverse, passionate, and growing every day. Our contributors include enthusiast mappers, GIS professionals, engineers running the OSM servers, humanitarians mapping disaster-affected areas, and many more.
-      To learn more about the community, see the <a href='%{diary_path}'>user diaries</a>, <a href='http://blogs.openstreetmap.org/'>community blogs</a>, and the <a href='http://www.osmfoundation.org/'>OSM Foundation</a> website.
-    open_data_title: Open Data
-    open_data_html: |-
-      OpenStreetMap is <i>open data</i>: you are free to use it for any purpose
-      as long as you credit OpenStreetMap and its contributors. If you alter or
-      build upon the data in certain ways, you may distribute the result only
-      under the same licence. See the <a href='%{copyright_path}'>Copyright and
-      Licence page</a> for details.
-    legal_title: Legal
-    legal_html: "This site and many other related services are formally operated by
-      the  \n<a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
-      \non behalf of the community. Use of all OSMF operated services is subject \nto
-      our <a href=\"http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nAcceptable
-      Use Policies</a> and our <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">Privacy
-      Policy</a>\n<br> \nPlease <a href='http://osmfoundation.org/Contact'>contact
-      the OSMF</a> \nif you have licensing, copyright or other legal questions and
-      issues."
-    partners_title: Partners
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} commented on a diary entry'
@@ -1343,7 +1074,7 @@ en-GB:
       details: More details about the changeset can be found at %{url}.
       unsubscribe: To unsubscribe from updates to this changeset, visit %{url} and
         click "Unsubscribe".
-  message:
+  messages:
     inbox:
       title: Inbox
       my_inbox: My Inbox
@@ -1365,14 +1096,14 @@ en-GB:
       unread_button: Mark as unread
       read_button: Mark as read
       reply_button: Reply
-      delete_button: Delete
+      destroy_button: Delete
     new:
       title: Send message
       send_message_to: Send a new message to %{name}
       subject: Subject
       body: Body
-      send_button: Send
       back_to_inbox: Back to inbox
+    create:
       message_sent: Message sent
       limit_exceeded: You have sent a lot of messages recently. Please wait a while
         before trying to send any more.
@@ -1398,27 +1129,187 @@ en-GB:
       wrong_user: You are logged in as `%{user}' but the message you have asked to
         reply to was not sent to that user. Please login as the correct user in order
         to reply.
-    read:
+    show:
       title: Read message
       from: From
       subject: Subject
       date: Date
       reply_button: Reply
       unread_button: Mark as unread
-      delete_button: Delete
+      destroy_button: Delete
       back: Back
       to: To
       wrong_user: You are logged in as `%{user}' but the message you have asked to
         read was not sent by or to that user. Please login as the correct user in
         order to read it.
     sent_message_summary:
-      delete_button: Delete
+      destroy_button: Delete
     mark:
       as_read: Message marked as read
       as_unread: Message marked as unread
-    delete:
-      deleted: Message deleted
+    destroy:
+      destroyed: Message deleted
   site:
+    about:
+      next: Next
+      copyright_html: <span>&copy;</span>OpenStreetMap<br>contributors
+      used_by: '%{name} powers map data on thousands of web sites, mobile apps, and
+        hardware devices'
+      lede_text: OpenStreetMap is built by a community of mappers that contribute
+        and maintain data about roads, trails, cafés, railway stations, and much more,
+        all over the world.
+      local_knowledge_title: Local Knowledge
+      local_knowledge_html: |-
+        OpenStreetMap emphasises local knowledge. Contributors use
+        aerial imagery, GPS devices, and low-tech field maps to verify that OSM
+        is accurate and up to date.
+      community_driven_title: Community Driven
+      community_driven_html: |-
+        OpenStreetMap's community is diverse, passionate, and growing every day. Our contributors include enthusiast mappers, GIS professionals, engineers running the OSM servers, humanitarians mapping disaster-affected areas, and many more.
+        To learn more about the community, see the <a href='%{diary_path}'>user diaries</a>, <a href='http://blogs.openstreetmap.org/'>community blogs</a>, and the <a href='http://www.osmfoundation.org/'>OSM Foundation</a> website.
+      open_data_title: Open Data
+      open_data_html: |-
+        OpenStreetMap is <i>open data</i>: you are free to use it for any purpose
+        as long as you credit OpenStreetMap and its contributors. If you alter or
+        build upon the data in certain ways, you may distribute the result only
+        under the same licence. See the <a href='%{copyright_path}'>Copyright and
+        Licence page</a> for details.
+      legal_title: Legal
+      legal_html: "This site and many other related services are formally operated
+        by the  \n<a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a>
+        (OSMF) \non behalf of the community. Use of all OSMF operated services is
+        subject \nto our <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Terms
+        of Use</a>, <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nAcceptable
+        Use Policies</a> and our <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Privacy
+        Policy</a>\n<br> \nPlease <a href='https://osmfoundation.org/Contact'>contact
+        the OSMF</a> \nif you have licensing, copyright or other legal questions.\n<br>\nOpenStreetMap,
+        the magnifying glass logo and State of the Map are <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">registered
+        trademarks of the OSMF</a>."
+      partners_title: Partners
+    copyright:
+      foreign:
+        title: About this translation
+        text: In the event of a conflict between this translated page and %{english_original_link},
+          the English page shall take precedence
+        english_link: the English original
+      native:
+        title: About this page
+        text: You are viewing the English version of the copyright page. You can go
+          back to the %{native_link} of this page or you can stop reading about copyright
+          and %{mapping_link}.
+        native_link: British English version
+        mapping_link: start mapping
+      legal_babble:
+        title_html: Copyright and Licence
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> is <i>open data</i>, licensed under the <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) by the  <a
+          href="http://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
+        intro_2_html: You are free to copy, distribute,  transmit and adapt our data,
+          as long as you credit OpenStreetMap and its contributors. If you alter or
+          build upon our data, you may distribute the result only under the same licence.
+          The full <a href="http://opendatacommons.org/licenses/odbl/1.0/">legal code</a>
+          explains your rights and responsibilities.
+        intro_3_html: |-
+          The cartography in our map tiles, and our documentation, are
+          licenced under the <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> licence (CC BY-SA).
+        credit_title_html: How to credit OpenStreetMap
+        credit_1_html: |-
+          We require that you use the credit &ldquo;&copy; OpenStreetMap
+          contributors&rdquo;.
+        credit_2_html: |-
+          You must also make it clear that the data is available under the Open
+          Database Licence, and if using our map tiles, that the cartography is
+          licenced as CC BY-SA. You may do this by linking to
+          <a href="http://www.openstreetmap.org/copyright">this copyright page</a>.
+          Alternatively, and as a requirement if you are distributing OSM in a
+          data form, you can name and link directly to the licence(s). In media
+          where links are not possible (e.g. printed works), we suggest you
+          direct your readers to openstreetmap.org (perhaps by expanding
+          'OpenStreetMap' to this full address), to opendatacommons.org, and
+          if relevant, to creativecommons.org.
+        credit_3_html: |-
+          For a browsable electronic map, the credit should appear in the corner of the map.
+          For example:
+        attribution_example:
+          alt: Example of how to attribute OpenStreetMap on a webpage
+          title: Attribution example
+        more_title_html: Finding out more
+        more_1_html: |-
+          Read more about using our data, and how to credit us, at the <a
+          href="http://osmfoundation.org/Licence">OSMF Licence page</a> and the community <a
+          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal
+          FAQ</a>.
+        more_2_html: |-
+          Although OpenStreetMap is open data, we cannot provide a
+          free-of-charge map API for third-parties.
+          See our <a href="https://operations.osmfoundation.org/policies/api/">API Usage Policy</a>,
+          <a href="https://operations.osmfoundation.org/policies/tiles/">Tile Usage Policy</a>
+          and <a href="https://operations.osmfoundation.org/policies/nominatim/">Nominatim Usage Policy</a>.
+        contributors_title_html: Our contributors
+        contributors_intro_html: |-
+          Our contributors are thousands of individuals. We also include
+          openly-licenced data from national mapping agencies
+          and other sources, among them:
+        contributors_at_html: |-
+          <strong>Austria</strong>: Contains data from
+          <a href="http://data.wien.gv.at/">Stadt Wien</a> (under
+          <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+          <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> and
+          Land Tirol (under <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT with amendments</a>).
+        contributors_ca_html: |-
+          <strong>Canada</strong>: Contains data from
+          GeoBase&reg;, GeoGratis (&copy; Department of Natural
+          Resources Canada), CanVec (&copy; Department of Natural
+          Resources Canada), and StatCan (Geography Division,
+          Statistics Canada).
+        contributors_fi_html: |-
+          <strong>Finland</strong>: Contains data from the
+          National Land Survey of Finland's Topographic Database
+          and other datasets, under the
+          <a href="http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">NLSFI Licence</a>.
+        contributors_fr_html: '<strong>France</strong>: Contains data sourced from
+          Direction Générale des Impôts.'
+        contributors_nl_html: '<strong>Netherlands</strong>: Contains &copy; AND data,
+          2007 (<a href="http://www.and.com">www.and.com</a>)'
+        contributors_nz_html: |-
+          <strong>New Zealand</strong>: Contains data sourced from the
+          <a href="https://data.linz.govt.nz/">LINZ Data Service</a> and
+          licensed for reuse under
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        contributors_si_html: |-
+          <strong>Slovenia</strong>: Contains data from the
+          <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> and
+          <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>
+          (public information of Slovenia).
+        contributors_za_html: '<strong>South Africa</strong>: Contains data sourced
+          from <a href="http://www.ngi.gov.za/">Chief Directorate: National Geo-Spatial
+          Information</a>, State copyright reserved.'
+        contributors_gb_html: '<strong>United Kingdom</strong>: Contains Ordnance
+          Survey data &copy; Crown copyright and database right 2010-19.'
+        contributors_footer_1_html: For further details of these, and other sources
+          that have been used to help improve OpenStreetMap, please see the <a href="http://wiki.openstreetmap.org/wiki/Contributors">Contributors
+          page</a> on the OpenStreetMap Wiki.
+        contributors_footer_2_html: Inclusion of data in OpenStreetMap does not imply
+          that the original data provider endorses OpenStreetMap, provides any warranty,
+          or accepts any liability.
+        infringement_title_html: Copyright infringement
+        infringement_1_html: OSM contributors are reminded never to add data from
+          any copyrighted sources (e.g. Google Maps or printed maps) without explicit
+          permission from the copyright holders.
+        infringement_2_html: If you believe that copyrighted material has been inappropriately
+          added to the OpenStreetMap database or this site, please refer to our <a
+          href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">takedown
+          procedure</a> or file directly at our <a href="http://dmca.openstreetmap.org/">on-line
+          filing page</a>.
+        trademarks_title_html: <span id="trademarks"></span>Trademarks
+        trademarks_1_html: OpenStreetMap, the magnifying glass logo, and State of
+          the Map are registered trademarks of the OpenStreetMap Foundation. If you
+          have questions about your use of the marks, please send your questions to
+          the <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Licence
+          Working Group</a>.
     index:
       js_1: You are either using a browser that does not support JavaScript, or you
         have disabled JavaScript.
@@ -1438,19 +1329,122 @@ en-GB:
       anon_edits: (%{link})
       anon_edits_link_text: Find out why this is the case.
       flash_player_required: You need a Flash player to use Potlatch, the OpenStreetMap
-        Flash editor. You can <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">download
-        Flash Player from Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Several
+        Flash editor. You can <a href="https://get.adobe.com/flashplayer/">download
+        Flash Player from Adobe.com</a>. <a href="https://wiki.openstreetmap.org/wiki/Editing">Several
         other options</a> are also available for editing OpenStreetMap.
       potlatch_unsaved_changes: You have unsaved changes. (To save in Potlatch, you
         should deselect the current way or point, if editing in live mode, or click
         save if you have a save button.)
-      potlatch2_not_configured: Potlatch 2 has not been configured - please see http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
+      potlatch2_not_configured: Potlatch 2 has not been configured - please see https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
         for more information
       potlatch2_unsaved_changes: You have unsaved changes. (To save in Potlatch 2,
         you should click save.)
       id_not_configured: iD has not been configured
       no_iframe_support: Your browser doesn't support HTML iframes, which are necessary
         for this feature.
+    export:
+      title: Export
+      area_to_export: Area to Export
+      manually_select: Manually select a different area
+      format_to_export: Format to Export
+      osm_xml_data: OpenStreetMap XML Data
+      map_image: Map Image (shows standard layer)
+      embeddable_html: Embeddable HTML
+      licence: Licence
+      export_details: OpenStreetMap data is licenced under the <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
+        Data Commons Open Database Licence</a> (ODbL).
+      too_large:
+        advice: 'If the above export fails, please consider using one of the sources
+          listed below:'
+        body: This area is too large to be exported as OpenStreetMap XML Data. Please
+          zoom in or select a smaller area, or use one of the sources listed below
+          for bulk data downloads.
+        planet:
+          title: Planet OSM
+          description: Regularly updated copies of the complete OpenStreetMap database
+        overpass:
+          title: Overpass API
+          description: Download this bounding box from a mirror of the OpenStreetMap
+            database
+        geofabrik:
+          title: Geofabrik Downloads
+          description: Regularly-updated extracts of continents, countries, and selected
+            cities
+        metro:
+          title: Metro Extracts
+          description: Extracts for major world cities and their surrounding areas
+        other:
+          title: Other Sources
+          description: Additional sources listed on the OpenStreetMap wiki
+      options: Options
+      format: Format
+      scale: Scale
+      max: max
+      image_size: Image Size
+      zoom: Zoom
+      add_marker: Add a marker to the map
+      latitude: 'Lat:'
+      longitude: 'Lon:'
+      output: Output
+      paste_html: Paste HTML to embed in website
+      export_button: Export
+    fixthemap:
+      title: Report a problem/Fix the map
+      how_to_help:
+        title: How to Help
+        join_the_community:
+          title: Join the community
+          explanation_html: If you have noticed a problem with our map data, for example
+            a road is missing or your address, the best way to proceed is to join
+            the OpenStreetMap community and add or repair the data yourself.
+        add_a_note:
+          instructions_html: Just click <a class='icon note'></a> or the same icon
+            on the map display. This will add a marker to the map, which you can move
+            by dragging. Add your message, then click save, and other mappers will
+            investigate.
+      other_concerns:
+        title: Other concerns
+        explanation_html: "If you have concerns about how our data is being used or
+          about the contents please consult our\n<a href='/copyright'>copyright page</a>
+          for more legal information, or contact the appropriate \n<a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF
+          working group</a>."
+    help:
+      title: Getting Help
+      introduction: OpenStreetMap has several resources for learning about the project,
+        asking and answering questions, and collaboratively discussing and documenting
+        mapping topics.
+      welcome:
+        url: /welcome
+        title: Welcome to OSM
+        description: Start with this quick guide covering the OpenStreetMap basics.
+      beginners_guide:
+        url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
+        title: Beginners' Guide
+        description: Community maintained guide for beginners.
+      help:
+        url: https://help.openstreetmap.org/
+        title: help.openstreetmap.org
+        description: Ask a question or look up answers on OSM's question-and-answer
+          site.
+      mailing_lists:
+        title: Mailing Lists
+        description: Ask a question or discuss interesting matters on a wide range
+          of topical or regional mailing lists.
+      forums:
+        title: Forums
+        description: Questions and discussions for those that prefer a bulletin board
+          style interface.
+      irc:
+        title: IRC
+        description: Interactive chat in many different languages and on many topics.
+      switch2osm:
+        title: switch2osm
+        description: Help for companies and organisations switching to OpenStreetMap
+          based maps and other services.
+      wiki:
+        url: http://wiki.openstreetmap.org/
+        title: wiki.openstreetmap.org
+        description: Browse the wiki for in-depth OSM documentation.
     sidebar:
       search_results: Search Results
       close: Close
@@ -1460,7 +1454,7 @@ en-GB:
       get_directions_title: Find directions between two points
       from: From
       to: To
-      where_am_i: Where am I?
+      where_am_i: Where is this?
       where_am_i_title: Describe the current location using the search engine
       submit_text: Go
       reverse_directions_text: Reverse Directions
@@ -1538,7 +1532,7 @@ en-GB:
       edit: Edit
       preview: Preview
     markdown_help:
-      title_html: Parsed with <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Parsed with <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Headings
       heading: Heading
       subheading: Subheading
@@ -1551,18 +1545,83 @@ en-GB:
       image: Image
       alt: Alt text
       url: URL
-  trace:
+    welcome:
+      title: Welcome!
+      introduction_html: Welcome to OpenStreetMap, the free and editable map of the
+        world. Now that you're signed up, you're all set to get started mapping. Here's
+        a quick guide with the most important things you need to know.
+      whats_on_the_map:
+        title: What's on the Map
+        on_html: OpenStreetMap is a place for mapping things that are both <em>real
+          and current</em> - it includes millions of buildings, roads, and other details
+          about places. You can map whatever real-world features are interesting to
+          you.
+        off_html: What it <em>doesn't</em> include is opinionated data like ratings,
+          historical or hypothetical features, and data from copyrighted sources.
+          Unless you have special permission, don't copy from online or paper maps.
+      basic_terms:
+        title: Basic Terms For Mapping
+        paragraph_1_html: OpenStreetMap has some of its own lingo. Here are a few
+          key words that'll come in handy.
+        editor_html: An <strong>editor</strong> is a program or website you can use
+          to edit the map.
+        node_html: A <strong>node</strong> is a point on the map, like a single restaurant
+          or a tree.
+        way_html: A <strong>way</strong> is a line or area, like a road, stream, lake
+          or building.
+        tag_html: A <strong>tag</strong> is a bit of data about a node or way, like
+          a  restaurant's name or a road's speed limit.
+      rules:
+        title: Rules!
+        paragraph_1_html: "OpenStreetMap has few formal rules but we expect all participants
+          to collaborate\nwith, and communicate with, the community. If you are considering\nany
+          activities other than editing by hand, please read and follow the guidelines
+          on \n<a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'>Imports</a>
+          and \n<a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Automated
+          Edits</a>."
+      questions:
+        title: Any questions?
+        paragraph_1_html: |-
+          OpenStreetMap has several resources for learning about the project, asking and answering questions, and collaboratively discussing and documenting mapping topics.
+          <a href='%{help_url}'>Get help here</a>. With an organization making plans for OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Check out the Welcome Mat</a>.
+      start_mapping: Start Mapping
+      add_a_note:
+        title: No Time To Edit? Add a Note!
+        paragraph_1_html: If you just want something small fixed and don't have the
+          time to sign up and learn how to edit, it's easy to add a note.
+        paragraph_2_html: 'Just go to <a href=''%{map_url}''>the map</a> and click
+          the note icon: <span class=''icon note''></span>. This will add a marker
+          to the map, which you can move by dragging. Add your message, then click
+          save, and other mappers will investigate.'
+  traces:
     visibility:
       private: Private (only shared as anonymous, unordered points)
       public: Public (shown in trace list and as anonymous, unordered points)
       trackable: Trackable (only shared as anonymous, ordered points with timestamps)
       identifiable: Identifiable (shown in trace list and as identifiable, ordered
         points with timestamps)
+    new:
+      upload_gpx: 'Upload GPX File:'
+      description: 'Description:'
+      tags: 'Tags:'
+      tags_help: comma delimited
+      visibility: 'Visibility:'
+      visibility_help: what does this mean?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
+      help: Help
+      help_url: http://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: Upload GPS Trace
       trace_uploaded: Your GPX file has been uploaded and is awaiting insertion in
         to the database. This will usually happen within half an hour, and an email
         will be sent to you on completion.
+      traces_waiting:
+        one: You have %{count} trace waiting for upload. Please consider waiting for
+          these to finish before uploading any more, so as not to block the queue
+          for other users.
+        other: You have %{count} traces waiting for upload. Please consider waiting
+          for these to finish before uploading any more, so as not to block the queue
+          for other users.
     edit:
       title: Editing trace %{name}
       heading: Editing trace %{name}
@@ -1577,35 +1636,12 @@ en-GB:
       description: 'Description:'
       tags: 'Tags:'
       tags_help: comma delimited
-      save_button: Save Changes
       visibility: 'Visibility:'
       visibility_help: what does this mean?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-    trace_form:
-      upload_gpx: 'Upload GPX File:'
-      description: 'Description:'
-      tags: 'Tags:'
-      tags_help: comma delimited
-      visibility: 'Visibility:'
-      visibility_help: what does this mean?
-      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Upload
-      help: Help
-      help_url: http://wiki.openstreetmap.org/wiki/Upload
-    trace_header:
-      upload_trace: Upload a trace
-      see_all_traces: See all traces
-      see_your_traces: See your traces
-      traces_waiting:
-        one: You have %{count} trace waiting for upload. Please consider waiting for
-          these to finish before uploading any more, so as not to block the queue
-          for other users.
-        other: You have %{count} traces waiting for upload. Please consider waiting
-          for these to finish before uploading any more, so as not to block the queue
-          for other users.
     trace_optionals:
       tags: Tags
-    view:
+    show:
       title: Viewing trace %{name}
       heading: Viewing trace %{name}
       pending: PENDING
@@ -1620,8 +1656,8 @@ en-GB:
       description: 'Description:'
       tags: 'Tags:'
       none: None
-      edit_track: Edit this trace
-      delete_track: Delete this trace
+      edit_trace: Edit this trace
+      delete_trace: Delete this trace
       trace_not_found: Trace not found!
       visibility: 'Visibility:'
     trace_paging_nav:
@@ -1631,7 +1667,6 @@ en-GB:
     trace:
       pending: PENDING
       count_points: '%{count} points'
-      ago: '%{time_in_words_ago} ago'
       more: more
       trace_details: View Trace Details
       view_map: View Map
@@ -1644,15 +1679,16 @@ en-GB:
       by: by
       in: in
       map: map
-    list:
+    index:
       public_traces: Public GPS traces
-      your_traces: Your GPS traces
       public_traces_from: Public GPS traces from %{user}
       description: Browse recent GPS track uploads
       tagged_with: ' tagged with %{tags}'
       empty_html: Nothing here yet. <a href='%{upload_link}'>Upload a new trace</a>
         or learn more about GPS tracing on the <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki
         page</a>.
+      upload_trace: Upload a trace
+      see_all_traces: See all traces
     delete:
       scheduled_for_deletion: Trace scheduled for deletion
     make_public:
@@ -1673,8 +1709,6 @@ en-GB:
     require_cookies:
       cookies_needed: You appear to have cookies disabled - please enable cookies
         in your browser before continuing.
-    require_moderator:
-      not_a_moderator: You need to be a moderator to perform that action.
     setup_user_auth:
       blocked_zero_hour: You have an urgent message on the OpenStreetMap web site.
         You need to read the message before you will be able to save your edits.
@@ -1684,7 +1718,7 @@ en-GB:
         to the web interface to view the Contributor Terms. You do not need to agree,
         but you must view them.
   oauth:
-    oauthorize:
+    authorize:
       title: Authorise access to your account
       request_access: The application %{app_name} is requesting access to your account,
         %{user}. Please check whether you would like the application to have the following
@@ -1698,11 +1732,11 @@ en-GB:
       allow_write_gpx: upload GPS traces.
       allow_write_notes: modify notes.
       grant_access: Grant Access
-    oauthorize_success:
+    authorize_success:
       title: Authorisation request allowed
       allowed: You have granted application %{app_name} access to your account.
       verification: The verification code is %{code}.
-    oauthorize_failure:
+    authorize_failure:
       title: Authorisation request failed
       denied: You have denied application %{app_name} access to your account.
       invalid: The authorisation token is not valid.
@@ -1713,10 +1747,8 @@ en-GB:
   oauth_clients:
     new:
       title: Register a new application
-      submit: Register
     edit:
       title: Edit your application
-      submit: Edit
     show:
       title: OAuth details for %{app_name}
       key: 'Consumer Key:'
@@ -1772,7 +1804,7 @@ en-GB:
       flash: Updated the client information successfully
     destroy:
       flash: Destroyed the client application registration
-  user:
+  users:
     login:
       title: Login
       heading: Login
@@ -1884,17 +1916,14 @@ en-GB:
         Terms. For more information, please see <a href="%{url}">this wiki page</a>.
       terms declined url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Contributor terms
-      heading: Contributor terms
-      read and accept: Please read the agreement and press the agree button to confirm
-        that you accept the terms of this agreement for your existing and future contributions.
-      consider_pd: In addition to the above agreement, I consider my contributions
-        to be in the Public Domain
+      title: Terms
+      heading: Terms
+      consider_pd: In addition to the above, I consider my contributions to be in
+        the Public Domain
       consider_pd_why: what's this?
       consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Information to help understand these terms: a <a href="%{summary}">human
         readable summary</a> and some <a href="%{translations}">informal translations</a>'
-      agree: Agree
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Decline
       you need to accept or decline: Please read and then either accept or decline
@@ -1910,7 +1939,7 @@ en-GB:
       body: Sorry, there is no user with the name %{user}. Please check your spelling,
         or maybe the link you clicked is wrong.
       deleted: deleted
-    view:
+    show:
       my diary: My Diary
       new diary entry: new diary entry
       my edits: My Edits
@@ -1931,12 +1960,10 @@ en-GB:
       remove as friend: Unfriend
       add as friend: Add Friend
       mapper since: 'Mapper since:'
-      ago: (%{time_in_words_ago} ago)
       ct status: 'Contributor terms:'
       ct undecided: Undecided
       ct declined: Declined
-      ct accepted: Accepted %{ago} ago
-      latest edit: 'Latest edit %{ago}:'
+      latest edit: 'Latest edit (%{ago}):'
       email address: 'Email address:'
       created from: 'Created from:'
       status: 'Status:'
@@ -1946,7 +1973,6 @@ en-GB:
       if set location: Set your home location on the %{settings_link} page to see
         nearby users.
       settings_link_text: settings
-      your friends: Your friends
       no friends: You have not added any friends yet.
       km away: '%{count}km away'
       m away: '%{count}m away'
@@ -2083,9 +2109,7 @@ en-GB:
       button: Unfriend
       success: '%{name} was removed from your friends.'
       not_a_friend: '%{name} is not one of your friends.'
-    filter:
-      not_an_administrator: You need to be an administrator to perform that action.
-    list:
+    index:
       title: Users
       heading: Users
       showing:
@@ -2124,8 +2148,6 @@ en-GB:
         with your ID in your user settings.
   user_role:
     filter:
-      not_an_administrator: Only administrators can perform user role management,
-        and you are not an administrator.
       not_a_role: The string `%{role}' is not a valid role.
       already_has_role: The user already has role %{role}.
       doesnt_have_role: The user does not have role %{role}.
@@ -2145,7 +2167,7 @@ en-GB:
       confirm: Confirm
       fail: Could not revoke role `%{role}' from user `%{name}'. Please check that
         the user and role are both valid.
-  user_block:
+  user_blocks:
     model:
       non_moderator_update: Must be a moderator to create or update a block.
       non_moderator_revoke: Must be a moderator to revoke a block.
@@ -2160,7 +2182,6 @@ en-GB:
         that the message will be publicly visible. Bear in mind that not all users
         understand the community jargon, so please try to use laymans terms.
       period: How long, starting now, the user will be blocked from the API for.
-      submit: Create block
       tried_contacting: I have contacted the user and asked them to stop.
       tried_waiting: I have given a reasonable amount of time for the user to respond
         to those communications.
@@ -2174,7 +2195,6 @@ en-GB:
         mind that not all users understand the community jargon, so please try to
         use laymans terms.
       period: How long, starting now, the user will be blocked from the API for.
-      submit: Update block
       show: View this block
       back: View all blocks
       needs_view: Does the user need to log in before this block will be cleared?
@@ -2199,32 +2219,19 @@ en-GB:
       title: Revoking block on %{block_on}
       heading: Revoking block on %{block_on} by %{block_by}
       time_future: This block will end in %{time}.
-      past: This block ended %{time} ago and cannot be revoked now.
+      past: This block ended %{time} and cannot be revoked now.
       confirm: Are you sure you wish to revoke this block?
       revoke: Revoke!
       flash: This block has been revoked.
-    period:
-      one: 1 hour
-      other: '%{count} hours'
-    partial:
-      show: Show
-      edit: Edit
-      revoke: Revoke!
-      confirm: Are you sure?
-      display_name: Blocked User
-      creator_name: Creator
-      reason: Reason for block
-      status: Status
-      revoker_name: Revoked by
-      not_revoked: (not revoked)
-      showing_page: Page %{page}
-      next: Next »
-      previous: « Previous
     helper:
       time_future: Ends in %{time}.
       until_login: Active until the user logs in.
       time_future_and_until_login: Ends in %{time} and after the user has logged in.
-      time_past: Ended %{time} ago.
+      time_past: Ended %{time}.
+      block_duration:
+        hours:
+          one: 1 hour
+          other: '%{count} hours'
     blocks_on:
       title: Blocks on %{name}
       heading: List of blocks on %{name}
@@ -2236,10 +2243,7 @@ en-GB:
     show:
       title: '%{block_on} blocked by %{block_by}'
       heading: '%{block_on} blocked by %{block_by}'
-      time_future: Ends in %{time}
-      time_past: Ended %{time} ago
       created: Created
-      ago: '%{time} ago'
       status: Status
       show: Show
       edit: Edit
@@ -2249,38 +2253,30 @@ en-GB:
       back: View all blocks
       revoker: 'Revoker:'
       needs_view: The user needs to log in before this block will be cleared.
-  note:
-    description:
-      opened_at_html: Created %{when} ago
-      opened_at_by_html: Created %{when} ago by %{user}
-      commented_at_html: Updated %{when} ago
-      commented_at_by_html: Updated %{when} ago by %{user}
-      closed_at_html: Resolved %{when} ago
-      closed_at_by_html: Resolved %{when} ago by %{user}
-      reopened_at_html: Reactivated %{when} ago
-      reopened_at_by_html: Reactivated %{when} ago by %{user}
-    rss:
-      title: OpenStreetMap Notes
-      description_area: A list of notes, reported, commented on or closed in your
-        area [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-      description_item: An rss feed for note %{id}
-      opened: new note (near %{place})
-      commented: new comment (near %{place})
-      closed: closed note (near %{place})
-      reopened: reactivated note (near %{place})
-    entry:
-      comment: Comment
-      full: Full note
+    block:
+      not_revoked: (not revoked)
+      show: Show
+      edit: Edit
+      revoke: Revoke!
+    blocks:
+      display_name: Blocked User
+      creator_name: Creator
+      reason: Reason for block
+      status: Status
+      revoker_name: Revoked by
+      showing_page: Page %{page}
+      next: Next »
+      previous: « Previous
+  notes:
     mine:
       title: Notes submitted or commented on by %{user}
       heading: '%{user}''s notes'
-      subheading: Notes submitted or commented on by %{user}
+      subheading_html: Notes submitted or commented on by %{user}
       id: Id
       creator: Creator
       description: Description
       created_at: Created at
       last_changed: Last changed
-      ago_html: '%{when} ago'
   javascripts:
     close: Close
     share:
@@ -2350,8 +2346,7 @@ en-GB:
       new:
         intro: Spotted a mistake or something missing? Let other mappers know so we
           can fix it. Move the marker to the correct position and type a note to explain
-          the problem. (Please don't enter personal information or information from
-          copyrighted maps or directory listings.)
+          the problem.
         advice: Your note is public and may be used to update the map, so don't enter
           personal information or information from copyrighted maps or directory listings.
         add: Add Note
@@ -2368,19 +2363,16 @@ en-GB:
     directions:
       ascend: Ascend
       engines:
+        fossgis_osrm_car: Car (OSRM)
         graphhopper_bicycle: Bicycle (GraphHopper)
         graphhopper_car: Car (GraphHopper)
         graphhopper_foot: Foot (GraphHopper)
-        mapquest_bicycle: Bicycle (MapQuest)
-        mapquest_car: Car (MapQuest)
-        mapquest_foot: Foot (MapQuest)
-        osrm_car: Car (OSRM)
       descend: Descend
       directions: Directions
       distance: Distance
       errors:
         no_route: Couldn't find a route between those two places.
-        no_place: Sorry - couldn't find that place.
+        no_place: Sorry - couldn't locate '%{place}'.
       instructions:
         continue_without_exit: Continue on %{name}
         slight_right_without_exit: Slight right onto %{name}
@@ -2418,7 +2410,7 @@ en-GB:
         slight_left_without_exit: Slight left onto %{name}
         via_point_without_exit: (via point)
         follow_without_exit: Follow %{name}
-        roundabout_without_exit: At roundabout take %{name}
+        roundabout_without_exit: At roundabout take exit onto %{name}
         leave_roundabout_without_exit: Leave roundabout - %{name}
         stay_roundabout_without_exit: Stay on roundabout - %{name}
         start_without_exit: Start on %{name}
@@ -2426,11 +2418,6 @@ en-GB:
         against_oneway_without_exit: Go against one-way on %{name}
         end_oneway_without_exit: End of one-way on %{name}
         roundabout_with_exit: At roundabout take exit %{exit} onto %{name}
-        turn_left_with_exit: At roundabout turn left onto %{name}
-        slight_left_with_exit: At roundabout slight left onto %{name}
-        turn_right_with_exit: At roundabout turn right onto %{name}
-        slight_right_with_exit: At roundabout slight right onto %{name}
-        continue_with_exit: At roundabout continue straight onto %{name}
         unnamed: unnamed road
         courtesy: Directions courtesy of %{link}
       time: Time
@@ -2448,11 +2435,10 @@ en-GB:
       show_address: Show address
       query_features: Query features
       centre_map: Centre map here
-  redaction:
+  redactions:
     edit:
       description: Description
       heading: Edit redaction
-      submit: Save redaction
       title: Edit redaction
     index:
       empty: No redactions to show.
@@ -2461,7 +2447,6 @@ en-GB:
     new:
       description: Description
       heading: Enter information for new redaction
-      submit: Create redaction
       title: Creating new redaction
     show:
       description: 'Description:'

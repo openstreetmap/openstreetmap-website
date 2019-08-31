@@ -1,6 +1,7 @@
 # Messages for Marathi (मराठी)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Singleton
 # Author: Sureshkhole
 # Author: Susheelkasab
@@ -12,6 +13,18 @@ mr:
   time:
     formats:
       friendly: '%e %B %Y, %H:%M ला'
+  helpers:
+    submit:
+      diary_comment:
+        create: जतन करा
+      message:
+        create: पाठवा
+      client_application:
+        create: नोंदणी करा
+        update: संपादन
+      trace:
+        create: चढवा
+        update: जतन करा
   activerecord:
     models:
       acl: पोहोच नियंत्रण यादी
@@ -207,7 +220,7 @@ mr:
       reopened_by_anonymous: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr> अनामिकाने
         सक्रिय केले
       hidden_by: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने लपविले
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: लेख %{page}
       next: पुढील »
@@ -222,7 +235,7 @@ mr:
       user: सदस्य
       comment: अभिप्राय
       area: क्षेत्र
-    list:
+    index:
       title: बदलसंच
       title_user: '%{user}चे बदलसंच'
       title_friend: आपल्या मित्रांचे बदलसंच
@@ -236,10 +249,18 @@ mr:
       load_more: अधिक प्रभारण करा
     timeout:
       sorry: क्षमा असावी, आपण मागितलेली बदलसंचाची यादी मिळविण्यास फार वेळ लागला.
-  diary_entry:
+  diary_entries:
     new:
       title: अनुदिनीत नवी नोंद
-    list:
+    form:
+      subject: 'विषय:'
+      body: 'मायना:'
+      language: 'भाषा:'
+      location: 'ठिकाण:'
+      latitude: 'अक्षांश:'
+      longitude: 'रेखांश:'
+      use_map_link: नकाशा वापरा
+    index:
       title: सदस्यांच्या अनुदिनी
       title_friends: मित्रांच्या अनुदिनी
       title_nearby: जवळपासच्या सदस्यांच्या अनुदिनी
@@ -253,22 +274,13 @@ mr:
       newer_entries: नव्या नोंदी
     edit:
       title: रोजनिशीतील नोंद संपादा
-      subject: 'विषय:'
-      body: 'मायना:'
-      language: 'भाषा:'
-      location: 'ठिकाण:'
-      latitude: 'अक्षांश:'
-      longitude: 'रेखांश:'
-      use_map_link: नकाशा वापरा
-      save_button: जतन करा
       marker_text: रोजनिशीतील नोंदीचे ठिकाण
-    view:
+    show:
       title: '%{user}ची रोजनिशी | %{title}'
       user_title: '%{user}ची रोजनिशी'
       leave_a_comment: टिप्पणी टाका
       login_to_leave_a_comment: टिप्प्णी लिहिण्यासाठी %{login_link}
       login: सनोंद-प्रवेश करा
-      save_button: जतन करा
     no_such_entry:
       title: रोजनिशीत अशी नोंद नाही
       heading: '%{id} क्रमांकाची नोंद अस्तित्वात नाही'
@@ -309,59 +321,12 @@ mr:
       post: पाठवा
       when: कधी
       comment: अभिप्राय
-      ago: '%{ago} पूर्वी'
       newer_comments: नवे अभिप्राय
       older_comments: जुने अभिप्राय
-  export:
-    title: निर्यात
-    start:
-      area_to_export: निर्यात करावयाचे क्षेत्र
-      manually_select: वेगळे क्षेत्र निवडा
-      format_to_export: निर्यातीचे प्रारुप
-      osm_xml_data: ओपनस्ट्रीटमॅप XML डाटा
-      map_image: नकाशा चित्र (प्रमाणित स्तर दाखविते)
-      embeddable_html: अंतःस्थापन करण्याजोगी HTML
-      licence: परवाना
-      export_details: ओपनस्ट्रीटमॅप डाटा हा <a href="http://opendatacommons.org/licenses/odbl/1.0/">
-        परवान्यांतर्गत आहे.ओपन डाटा कॉमन्स ओपन डाटाबेस परवाना</a> (ODbL).
-      too_large:
-        advice: 'जर वरील निर्यात करण्यास अपयश आले, तर कृपया खालील स्रोत वापरण्याचा
-          विचार करा :'
-        body: हे क्षेत्र OpenStreetMap XML Data म्हणून निर्यात करण्यास खूपच मोठे आहे.कृपया
-          लहान करा किंवा लहान क्षेत्र निवडा किंवा मोठ्या प्रमाणात डाटाचे अधिभारणासाठी
-          खालील यादी केलेल्या स्रोतांपैकी एकाचा वापर करा.
-        planet:
-          title: प्लॅनेट OSM
-          description: संपूर्ण ओपनस्ट्रीटमॅप डाटाबेसच्या नियमित अद्यतन केलेल्या प्रती
-        overpass:
-          title: API टाळा
-          description: ओपनस्ट्रीटमॅप प्रतिमा डाटाबेसमधून  बंधनपेटीचे(बाउंडिंग बॉक्स)
-            अधिभारण करा
-        geofabrik:
-          title: जियोफेब्रिक अधिभारण
-          description: नियमितपणे अद्ययावत केले जाणारे खंड, देश, व निवडक शहरांचे उतारे
-        metro:
-          title: मेट्रो एक्स्ट्रॅक्ट्स्
-          description: जगातील प्रमुख शहरे व त्यांच्या सभोवतालीच्या क्षेत्रांचे उतारे
-        other:
-          title: इतर स्रोत
-          description: ओपनस्ट्रीटमॅप विकीवर सूचीबद्ध अतिरिक्त स्रोत
-      options: विकल्प
-      format: आराखडा
-      scale: प्रमाण
-      max: कमाल
-      image_size: चित्राचा आकार
-      zoom: मोठे करा
-      add_marker: नकाशावर दर्शकचिन्ह जोडा
-      latitude: 'अक्षांश:'
-      longitude: 'रेखांश:'
-      output: उत्पादन
-      paste_html: संकेतस्थळावर अंतःस्थापनासाठी HTML चिकटवा
-      export_button: निर्यात
   geocoder:
     search:
       title:
-        latlon: निकाल <a href="https://openstreetmap.org/"">अंतर्गत</a>
+        latlon: निकाल <a href="https://openstreetmap.org/">अंतर्गत</a>
         ca_postcode: निकाल <a href="http://geocoder.ca/">जिओकोडर.सीए</a>
         osm_nominatim: निकाल <a href="https://nominatim.openstreetmap.org/">ओपनस्ट्रीटमॅप
           नॉमिनॅटिम</a>
@@ -838,7 +803,6 @@ mr:
       आहे, व जो खुल्या परवान्यांतर्गत वापरास मुक्त आहे.
     intro_2_create_account: सदस्यखाते तयार करा
     partners_ucl: UCL VR सेंटर
-    partners_ic: इम्पिरियल कॉलेज लंडन
     partners_bytemark: बाईटमार्क होस्टिंग
     partners_partners: भागीदार
     osm_offline: डाटाबेसचे आवश्यक देखरेखीचे काम असल्यामुळे ओपनस्ट्रीटमॅप डाटाबेस ही
@@ -859,78 +823,6 @@ mr:
       text: देणगी द्या
     learn_more: अधिक जाणून घ्या
     more: अधिक
-  license_page:
-    foreign:
-      title: या भाषांतराबद्दल
-      text: या भाषांतरीत पानाच्या व %{english_original_link} यादरम्यान काही वादाचा
-        प्रसंग उद्भवल्यास, मूळ इंग्लिश पानास प्राथमिकता राहील.
-      english_link: मूळ इंग्लिश
-    native:
-      title: या पानाबद्दल
-      text: आपण या प्रताधिकार पानाची इंग्लिश आवृत्ती पहात आहात. आपण या पानाच्या %{native_link}कडे
-        परत जाऊ शकता, किंवा प्रताधिकाराबद्दल वाचणे थांबवून %{mapping_link} सुरु करू
-        शकता.
-      native_link: मराठी आवृत्ती
-      mapping_link: नकाशा आरेखन
-    legal_babble:
-      title_html: प्रताधिकार व परवाना
-      credit_title_html: ओपनस्ट्रीटमॅपला श्रेय कसे द्यावे
-      more_title_html: अधिक शोध
-      contributors_title_html: आमचे योगदाते
-      contributors_intro_html: 'आमचे योगदानकर्ते हे हजारोंच्या संख्येतील व्यक्ति आहेत.आम्ही
-        मुक्त परवान्यांतर्गत असलेला डाटा हा राष्ट्रीय नकाशा संस्थेंकडून व त्यातील
-        इतर स्रोतांतून घेऊन त्याचा अंतर्भाव करतो:'
-      infringement_title_html: प्रताधिकार भंग
-  welcome_page:
-    title: सुस्वागतम्‌!
-    whats_on_the_map:
-      title: नकाशावर काय आहे
-    basic_terms:
-      title: नकाशा आरेखनासाठीच्या मूलभूत संज्ञा
-      paragraph_1_html: ओपनस्ट्रीटमॅपची स्वतःची एक बोली आहे. हे काही प्रमुख शब्द आहेत
-        जे कामी येतील.
-      editor_html: <strong>संपादक</strong> हा एक संगणक अनुप्रयोग किंवा संकेतस्थळ आहे,
-        जे वापरून आपण नकाशाचे संपादन करू शकता.
-      node_html: <strong>गाठ</strong> म्हणजे नकाशावरील एक बिंदू, जसे की एक उपाहारगृह
-        किंवा एक झाड.
-      way_html: <strong>मार्ग</strong> म्हणजे एखादी रेष किंवा एखादे क्षेत्र, जसे की
-        रस्ता, प्रवाह, तलाव किंवा इमारत.
-    questions:
-      title: काही प्रश्न?
-    start_mapping: नकाशा आरेखन सुरु करा
-    add_a_note:
-      title: संपादन करण्यास वेळ नाही?टिप्पणी जोडा!
-      paragraph_1_html: |-
-        जर आपणास काही छोटेसेच ठिक करुन हवे आहे व आपल्यापाशी प्रवेशाचा व संपादन शिकण्यास वेळ नाही
-
-        तर एक टिप्पणी जोडणे सोपे आहे.
-  fixthemap:
-    title: समस्या नोंदवा/नकाशा नीयत करा
-    how_to_help:
-      title: मदत कशी करावी
-      join_the_community:
-        title: समाजास जुळा
-  help_page:
-    title: साहाय्य मिळविणे
-    welcome:
-      url: /welcome
-      title: ओएसएम वर स्वागत आहे
-    help:
-      url: https://help.openstreetmap.org/
-      title: help.openstreetmap.org
-      description: OSMच्या प्रश्नोत्तरासाठीच्या संकेतस्थळावर प्रश्न विचारा किंवा उत्तरे
-        शोधा.
-    wiki:
-      url: http://wiki.openstreetmap.org/
-      title: wiki.openstreetmap.org
-      description: सखोल OSM प्रलेखनासाठी विकी वाचा.
-  about_page:
-    next: पुढील
-    copyright_html: <span>&copy;</span>ओपनस्ट्रीटमॅप<br>योगदाते
-    local_knowledge_title: स्थानिक ज्ञान
-    community_driven_title: समाजातर्फे चालविलेले
-    open_data_title: मुक्त माहिती
-    partners_title: भागीदार
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user}ने एका अनुदिनीतील नोंदीवर अभिप्राय दिला'
@@ -965,7 +857,7 @@ mr:
       anonymous: एक अनामिक सदस्य
       greeting: नमस्कार,
       details: '%{url} येथे टीपेबद्दल अधिक तपशील मिळू शकेल.'
-  message:
+  messages:
     inbox:
       title: अंतर्पेटी
       my_inbox: माझी अंतर्पेटी
@@ -987,14 +879,14 @@ mr:
       unread_button: न वाचलेले अशी खूण करा
       read_button: वाचले अशी खूण करा
       reply_button: उत्तर
-      delete_button: वगळा
+      destroy_button: वगळा
     new:
       title: संदेश पाठवा
       send_message_to: '%{name}ला नवीन संदेश पाठवा'
       subject: विषय
       body: मायना
-      send_button: पाठवा
       back_to_inbox: अंतर्पेटीकडे परत
+    create:
       message_sent: संदेश पाठविला
       limit_exceeded: आपण नुकतेच अनेक संदेश पाठविले, अधिक पाठविण्यापूर्वी अंमळ थांबा.
     no_such_message:
@@ -1018,7 +910,7 @@ mr:
       wrong_user: आपण '%{user}' म्हणून दाखल झालेले आहात, पण आपण ज्या संदेशास उत्तर
         देऊ इच्छिता, तो संदेश वेगळ्या सदस्यास पाठविण्यात आला आहे. कृपया उत्तर देण्यासाठी
         बरोबर सदस्य म्हणून दाखल व्हा.
-    read:
+    show:
       title: संदेश वाचा
       from: प्रेषक
       subject: विषय
@@ -1031,13 +923,42 @@ mr:
         तो संदेश वेगळ्या सदस्यास पाठविण्यात आला आहे. कृपया संदेश वाचण्यासाठी बरोबर
         सदस्य म्हणून दाखल व्हा.
     sent_message_summary:
-      delete_button: वगळा
+      destroy_button: वगळा
     mark:
       as_read: संदेश वाचला आहे अशी खूण केली
       as_unread: संदेश वाचला नाही अशी खूण केली
-    delete:
-      deleted: संदेश वगळला
+    destroy:
+      destroyed: संदेश वगळला
   site:
+    about:
+      next: पुढील
+      copyright_html: <span>&copy;</span>ओपनस्ट्रीटमॅप<br>योगदाते
+      local_knowledge_title: स्थानिक ज्ञान
+      community_driven_title: समाजातर्फे चालविलेले
+      open_data_title: मुक्त माहिती
+      partners_title: भागीदार
+    copyright:
+      foreign:
+        title: या भाषांतराबद्दल
+        text: या भाषांतरीत पानाच्या व %{english_original_link} यादरम्यान काही वादाचा
+          प्रसंग उद्भवल्यास, मूळ इंग्लिश पानास प्राथमिकता राहील.
+        english_link: मूळ इंग्लिश
+      native:
+        title: या पानाबद्दल
+        text: आपण या प्रताधिकार पानाची इंग्लिश आवृत्ती पहात आहात. आपण या पानाच्या
+          %{native_link}कडे परत जाऊ शकता, किंवा प्रताधिकाराबद्दल वाचणे थांबवून %{mapping_link}
+          सुरु करू शकता.
+        native_link: मराठी आवृत्ती
+        mapping_link: नकाशा आरेखन
+      legal_babble:
+        title_html: प्रताधिकार व परवाना
+        credit_title_html: ओपनस्ट्रीटमॅपला श्रेय कसे द्यावे
+        more_title_html: अधिक शोध
+        contributors_title_html: आमचे योगदाते
+        contributors_intro_html: 'आमचे योगदानकर्ते हे हजारोंच्या संख्येतील व्यक्ति
+          आहेत.आम्ही मुक्त परवान्यांतर्गत असलेला डाटा हा राष्ट्रीय नकाशा संस्थेंकडून
+          व त्यातील इतर स्रोतांतून घेऊन त्याचा अंतर्भाव करतो:'
+        infringement_title_html: प्रताधिकार भंग
     index:
       js_1: आपण जावास्क्रीप्ट चालवू न शकणारा न्याहाळक वापरत आहात, किंवा जावास्क्रीप्ट
         निष्क्रिय आहे.
@@ -1053,6 +974,71 @@ mr:
         आपण आपल्या %{user_page}वरून ती सार्वजनिक ठेवू शकता.
       user_page_link: सदस्य पाना
       anon_edits_link_text: असे का आहे ते जाणून घ्या.
+    export:
+      title: निर्यात
+      area_to_export: निर्यात करावयाचे क्षेत्र
+      manually_select: वेगळे क्षेत्र निवडा
+      format_to_export: निर्यातीचे प्रारुप
+      osm_xml_data: ओपनस्ट्रीटमॅप XML डाटा
+      map_image: नकाशा चित्र (प्रमाणित स्तर दाखविते)
+      embeddable_html: अंतःस्थापन करण्याजोगी HTML
+      licence: परवाना
+      export_details: ओपनस्ट्रीटमॅप डाटा हा <a href="http://opendatacommons.org/licenses/odbl/1.0/">
+        परवान्यांतर्गत आहे.ओपन डाटा कॉमन्स ओपन डाटाबेस परवाना</a> (ODbL).
+      too_large:
+        advice: 'जर वरील निर्यात करण्यास अपयश आले, तर कृपया खालील स्रोत वापरण्याचा
+          विचार करा :'
+        body: हे क्षेत्र OpenStreetMap XML Data म्हणून निर्यात करण्यास खूपच मोठे आहे.कृपया
+          लहान करा किंवा लहान क्षेत्र निवडा किंवा मोठ्या प्रमाणात डाटाचे अधिभारणासाठी
+          खालील यादी केलेल्या स्रोतांपैकी एकाचा वापर करा.
+        planet:
+          title: प्लॅनेट OSM
+          description: संपूर्ण ओपनस्ट्रीटमॅप डाटाबेसच्या नियमित अद्यतन केलेल्या प्रती
+        overpass:
+          title: API टाळा
+          description: ओपनस्ट्रीटमॅप प्रतिमा डाटाबेसमधून  बंधनपेटीचे(बाउंडिंग बॉक्स)
+            अधिभारण करा
+        geofabrik:
+          title: जियोफेब्रिक अधिभारण
+          description: नियमितपणे अद्ययावत केले जाणारे खंड, देश, व निवडक शहरांचे उतारे
+        metro:
+          title: मेट्रो एक्स्ट्रॅक्ट्स्
+          description: जगातील प्रमुख शहरे व त्यांच्या सभोवतालीच्या क्षेत्रांचे उतारे
+        other:
+          title: इतर स्रोत
+          description: ओपनस्ट्रीटमॅप विकीवर सूचीबद्ध अतिरिक्त स्रोत
+      options: विकल्प
+      format: आराखडा
+      scale: प्रमाण
+      max: कमाल
+      image_size: चित्राचा आकार
+      zoom: मोठे करा
+      add_marker: नकाशावर दर्शकचिन्ह जोडा
+      latitude: 'अक्षांश:'
+      longitude: 'रेखांश:'
+      output: उत्पादन
+      paste_html: संकेतस्थळावर अंतःस्थापनासाठी HTML चिकटवा
+      export_button: निर्यात
+    fixthemap:
+      title: समस्या नोंदवा/नकाशा नीयत करा
+      how_to_help:
+        title: मदत कशी करावी
+        join_the_community:
+          title: समाजास जुळा
+    help:
+      title: साहाय्य मिळविणे
+      welcome:
+        url: /welcome
+        title: ओएसएम वर स्वागत आहे
+      help:
+        url: https://help.openstreetmap.org/
+        title: help.openstreetmap.org
+        description: OSMच्या प्रश्नोत्तरासाठीच्या संकेतस्थळावर प्रश्न विचारा किंवा
+          उत्तरे शोधा.
+      wiki:
+        url: http://wiki.openstreetmap.org/
+        title: wiki.openstreetmap.org
+        description: सखोल OSM प्रलेखनासाठी विकी वाचा.
     sidebar:
       search_results: शोध निकाल
       close: बंद करा
@@ -1138,7 +1124,37 @@ mr:
       text: मजकूर
       image: चित्र
       url: URL
-  trace:
+    welcome:
+      title: सुस्वागतम्‌!
+      whats_on_the_map:
+        title: नकाशावर काय आहे
+      basic_terms:
+        title: नकाशा आरेखनासाठीच्या मूलभूत संज्ञा
+        paragraph_1_html: ओपनस्ट्रीटमॅपची स्वतःची एक बोली आहे. हे काही प्रमुख शब्द
+          आहेत जे कामी येतील.
+        editor_html: <strong>संपादक</strong> हा एक संगणक अनुप्रयोग किंवा संकेतस्थळ
+          आहे, जे वापरून आपण नकाशाचे संपादन करू शकता.
+        node_html: <strong>गाठ</strong> म्हणजे नकाशावरील एक बिंदू, जसे की एक उपाहारगृह
+          किंवा एक झाड.
+        way_html: <strong>मार्ग</strong> म्हणजे एखादी रेष किंवा एखादे क्षेत्र, जसे
+          की रस्ता, प्रवाह, तलाव किंवा इमारत.
+      questions:
+        title: काही प्रश्न?
+      start_mapping: नकाशा आरेखन सुरु करा
+      add_a_note:
+        title: संपादन करण्यास वेळ नाही?टिप्पणी जोडा!
+        paragraph_1_html: |-
+          जर आपणास काही छोटेसेच ठिक करुन हवे आहे व आपल्यापाशी प्रवेशाचा व संपादन शिकण्यास वेळ नाही
+
+          तर एक टिप्पणी जोडणे सोपे आहे.
+  traces:
+    new:
+      description: 'वर्णन:'
+      tags: 'खूणपताका:'
+      tags_help: स्वल्पविरामाने परिसीमित
+      visibility: 'दृश्यता:'
+      visibility_help: ह्याचा अर्थ काय?
+      help: साहाय्य
     create:
       upload_trace: GPS अनुरेख चढवा
     edit:
@@ -1154,24 +1170,11 @@ mr:
       description: 'वर्णन:'
       tags: 'खूणपताका:'
       tags_help: स्वल्पविरामाने परिसीमित
-      save_button: जतन करा
       visibility: 'दृश्यता:'
       visibility_help: ह्याचा अर्थ काय?
-    trace_form:
-      description: 'वर्णन:'
-      tags: 'खूणपताका:'
-      tags_help: स्वल्पविरामाने परिसीमित
-      visibility: 'दृश्यता:'
-      visibility_help: ह्याचा अर्थ काय?
-      upload_button: चढवा
-      help: साहाय्य
-    trace_header:
-      upload_trace: अनुरेख चढवा
-      see_all_traces: सर्व अनुरेख पहा
-      see_your_traces: स्वतःचे अनुरेख पहा
     trace_optionals:
       tags: खूणपताका
-    view:
+    show:
       pending: प्रलंबित
       filename: 'संचिकानाम:'
       download: अधिभारण करा
@@ -1183,8 +1186,8 @@ mr:
       description: 'वर्णन:'
       tags: 'खूणपताका:'
       none: काहीही नाही
-      edit_track: हा अनुरेख संपादा
-      delete_track: हा अनुरेख वगळा
+      edit_trace: हा अनुरेख संपादा
+      delete_trace: हा अनुरेख वगळा
       trace_not_found: अनुरेख आढळला नाही!
       visibility: 'दृश्यता:'
     trace_paging_nav:
@@ -1194,7 +1197,6 @@ mr:
     trace:
       pending: प्रलंबित
       count_points: '%{count} बिंदू'
-      ago: '%{time_in_words_ago} पूर्वी'
       more: अधिक
       trace_details: अनुरेखाचा तपशील पहा
       view_map: नकाशा पहा
@@ -1207,13 +1209,14 @@ mr:
       by: तर्फे
       in: आत
       map: नकाशा
+    index:
+      upload_trace: अनुरेख चढवा
+      see_all_traces: सर्व अनुरेख पहा
   oauth_clients:
     new:
       title: नवीन अनुप्रयोगाची नोंदणी करा
-      submit: नोंदणी करा
     edit:
       title: अनुप्रयोग संपादा
-      submit: संपादन
     show:
       title: '%{app_name}साठी OAuth तपशील'
       key: 'उपभोक्ता किल्ली:'
@@ -1230,7 +1233,7 @@ mr:
       required: आवश्यक
       url: मुख्य अनुप्रयोग URL
       requests: 'सदस्याकडून खालील परवानग्यांची मागणी करा:'
-  user:
+  users:
     login:
       title: सनोंद प्रवेश करा
       heading: सनोंद प्रवेश करा
@@ -1270,7 +1273,6 @@ mr:
       title: योगदात्यांसाठी अटी
       heading: योगदात्यांसाठी अटी
       consider_pd_why: हे काय आहे?
-      agree: मान्य
       decline: अमान्य
       legale_select: 'राहण्याचा देश:'
       legale_names:
@@ -1282,7 +1284,7 @@ mr:
       heading: सदस्य %{user} अस्तित्वात नाही
       body: क्षमा असावी, %{user} नामक सदस्य अस्तित्वात नाही. कृपया आपले वर्णलेखन तपासा,
         किंवा कदाचित आपण चुकीच्या दुव्यावर टिचकी दिली असेल.
-    view:
+    show:
       my diary: माझी अनुदिनी
       new diary entry: अनुदिनीत नवी नोंद
       my edits: माझी संपादने
@@ -1299,16 +1301,13 @@ mr:
       edits: संपादने
       traces: अनुरेख
       notes: नकाशावरील टीपा
-      ago: (%{time_in_words_ago} पूर्वी)
       ct status: 'योगदात्यांसाठी अटी:'
       ct undecided: अनिर्णीत
       ct declined: अमान्य
-      ct accepted: '%{ago} पूर्वी मान्य'
       latest edit: 'नवीनतम संपादन %{ago}:'
       status: 'स्थिती:'
       description: वर्णन
       settings_link_text: मांडण्या
-      your friends: आपले मित्र
       km away: '%{count} कि.मी. दूर'
       m away: '%{count} मी. दूर'
       nearby users: जवळपासचे इतर सदस्य
@@ -1358,24 +1357,22 @@ mr:
         टिचकी मारा</a>.
     confirm_resend:
       failure: सदस्य %{name} सापडला नाही.
-    list:
+    index:
       title: सदस्य
       heading: सदस्य
       showing:
         one: पान %{page} (%{first_item}, %{items} पैकी)
         other: पान %{page} (%{first_item}-%{last_item}, %{items}पैकी)
-  user_block:
-    period:
-      one: १ तास
-      other: '%{count} तास'
-    partial:
-      confirm: नक्की आहात?
+  user_blocks:
+    helper:
+      block_duration:
+        hours:
+          one: १ तास
+          other: '%{count} तास'
+    blocks:
       showing_page: पान %{page}
       next: पुढील »
       previous: « मागील
-  note:
-    mine:
-      ago_html: '%{when} पूर्वी'
   javascripts:
     close: बंद करा
     share:
@@ -1430,7 +1427,7 @@ mr:
           पडा'
         offramp_left_with_exit_name_directions: '%{directions}कडे जाताना %{name}वर
           %{exit}ने बाहेर पडा'
-  redaction:
+  redactions:
     new:
       description: वर्णन
     show:

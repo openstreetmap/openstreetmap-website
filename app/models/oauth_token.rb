@@ -52,7 +52,7 @@ class OauthToken < ActiveRecord::Base
   end
 
   def invalidate!
-    update_attributes(:invalidated_at => Time.now)
+    update(:invalidated_at => Time.now)
   end
 
   def authorized?

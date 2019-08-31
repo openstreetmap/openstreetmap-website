@@ -2,9 +2,9 @@
 #
 # Table name: diary_comments
 #
-#  id             :integer          not null, primary key
-#  diary_entry_id :integer          not null
-#  user_id        :integer          not null
+#  id             :bigint(8)        not null, primary key
+#  diary_entry_id :bigint(8)        not null
+#  user_id        :bigint(8)        not null
 #  body           :text             not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -28,7 +28,7 @@ class DiaryComment < ActiveRecord::Base
 
   scope :visible, -> { where(:visible => true) }
 
-  validates :body, :presence => true
+  validates :body, :presence => true, :characters => true
   validates :diary_entry, :user, :associated => true
 
   after_save :spam_check

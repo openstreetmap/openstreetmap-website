@@ -3,9 +3,10 @@ module I18n
     module PluralizationFallback
       def pluralize(locale, entry, count)
         super
-      rescue InvalidPluralizationData => ex
-        raise ex unless ex.entry.key?(:other)
-        ex.entry[:other]
+      rescue InvalidPluralizationData => e
+        raise e unless e.entry.key?(:other)
+
+        e.entry[:other]
       end
     end
   end

@@ -1,6 +1,6 @@
 require "migrate"
 
-class CleanupOsmDb < ActiveRecord::Migration[5.0]
+class CleanupOsmDb < ActiveRecord::Migration[4.2]
   def self.up
     change_column "current_nodes", "latitude", :float, :limit => 53, :null => false
     change_column "current_nodes", "longitude", :float, :limit => 53, :null => false

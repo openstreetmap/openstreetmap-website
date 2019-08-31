@@ -1,6 +1,6 @@
 require "migrate"
 
-class AddTextIndexToNoteComments < ActiveRecord::Migration[5.0]
+class AddTextIndexToNoteComments < ActiveRecord::Migration[4.2]
   def up
     add_index :note_comments, [], :columns => "to_tsvector('english', body)", :using => "GIN", :name => "index_note_comments_on_body"
   end

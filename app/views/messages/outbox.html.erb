@@ -1,0 +1,27 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "messages" %>
+<% end %>
+
+<% content_for :heading do %>
+  <h2><%= raw(t(".my_inbox", :inbox_link => link_to(t(".inbox"), inbox_messages_path))) %>/<%= t ".outbox" %></h2>
+<% end %>
+
+<h4><%= t ".messages", :count => current_user.sent_messages.size %></h4>
+
+<% if current_user.sent_messages.size > 0 %>
+  <table class="messages">
+    <thead>
+      <tr>
+        <th><%= t ".to" %></th>
+        <th><%= t ".subject" %></th>
+        <th><%= t ".date" %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render :partial => "sent_message_summary", :collection => current_user.sent_messages %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="messages"><%= raw(t(".no_sent_messages", :people_mapping_nearby_link => link_to(t(".people_mapping_nearby"), user_path(current_user)))) %></div>
+<% end %>

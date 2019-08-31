@@ -1,0 +1,13 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "diary_entry" %>
+<% end %>
+
+<% content_for :heading do %>
+  <h1><%= @title %></h1>
+<% end %>
+
+<%= error_messages_for "diary_entry" %>
+
+<%= form_for @diary_entry do |f| %>
+  <%= render :partial => "form", :locals => { :f => f } %>
+<% end %>

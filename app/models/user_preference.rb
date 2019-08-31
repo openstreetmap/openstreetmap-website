@@ -2,7 +2,7 @@
 #
 # Table name: user_preferences
 #
-#  user_id :integer          not null, primary key
+#  user_id :bigint(8)        not null, primary key
 #  k       :string           not null, primary key
 #  v       :string           not null
 #
@@ -17,7 +17,7 @@ class UserPreference < ActiveRecord::Base
   belongs_to :user
 
   validates :user, :presence => true, :associated => true
-  validates :k, :v, :length => 1..255
+  validates :k, :v, :length => 1..255, :characters => true
 
   # Turn this Node in to an XML Node without the <osm> wrapper.
   def to_xml_node

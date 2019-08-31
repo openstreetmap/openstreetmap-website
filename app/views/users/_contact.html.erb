@@ -1,0 +1,45 @@
+<% user_data = {
+     :lon => contact.home_lon,
+     :lat => contact.home_lat,
+     :icon => image_path(type == "friend" ? "marker-blue.png" : "marker-green.png"),
+     :description => render(:partial => "popup", :object => contact, :locals => { :type => type })
+   } %>
+<%= content_tag :div, :class => "contact-activity clearfix", :data => { :user => user_data } do %>
+  <%= user_thumbnail contact %>
+  <div class='activity-details'>
+    <p class='deemphasize'>
+      <%= link_to h(contact.display_name), user_path(contact) %>
+      <% if @user.home_lon and @user.home_lat and contact.home_lon and contact.home_lat %>
+        <% distance = @user.distance(contact) %>
+        <% if distance < 1 %>
+          (<%= t "users.show.m away", :count => (distance * 1000).round %>)
+        <% else %>
+          (<%= t "users.show.km away", :count => distance.round %>)
+        <% end %>
+      <% end %>
+    </p>
+    <p>
+      <% changeset = contact.changesets.first %>
+      <% if changeset %>
+        <%= t("users.show.latest edit", :ago => time_ago_in_words(changeset.created_at, :scope => :'datetime.distance_in_words_ago')) %>
+        <% comment = changeset.tags["comment"].to_s != "" ? changeset.tags["comment"] : t("browse.no_comment") %>
+        "<%= link_to(comment,
+                     { :controller => "browse", :action => "changeset", :id => changeset.id },
+                     { :title => t("changesets.changeset.view_changeset_details") }) %>"
+      <% else %>
+       <%= t "changesets.changeset.no_edits" %>
+      <% end %>
+    </p>
+
+    <ul class='secondary-actions clearfix deemphasize'>
+      <li><%= link_to t("users.show.send message"), new_message_path(contact) %></li>
+      <li>
+        <% if current_user.is_friends_with?(contact) %>
+          <%= link_to t("users.show.remove as friend"), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+        <% else %>
+          <%= link_to t("users.show.add as friend"), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+      <% end %>
+      </li>
+    </ul>
+  </div>
+<% end %>

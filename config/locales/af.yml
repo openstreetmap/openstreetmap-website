@@ -1,6 +1,7 @@
 # Messages for Afrikaans (Afrikaans)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Arnobarnard
 # Author: Biggs ZA
 # Author: Firefishy
@@ -12,6 +13,23 @@ af:
   time:
     formats:
       friendly: '%e %B %Y om %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Stoor
+      diary_entry:
+        create: Publiseer
+      message:
+        create: Stuur
+      client_application:
+        create: Registreer
+        update: Redigeer
+      trace:
+        create: Laai op
+        update: Stoor Wysigings
+      user_block:
+        create: Skep versperring
+        update: Werk versperring by
   activerecord:
     models:
       acl: Toegangsbeheerlys
@@ -207,7 +225,7 @@ af:
       introduction: Klik op die kaart om nabye bakens te ontdek.
       nearby: Nabye kenmerke
       enclosing: Omsluitende kenmerke
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Bladsy %{page}
       next: Volgende »
@@ -222,7 +240,7 @@ af:
       user: Gebruiker
       comment: Opmerking
       area: Gebied
-    list:
+    index:
       title: Wysigingsstel
       empty: Geen wysigingstelle gevind nie.
       empty_area: Geen wysigingstelle in hierdie gebied.
@@ -234,16 +252,23 @@ af:
     timeout:
       sorry: Jammer, die lys wysigingstelle wat u versoek het, neem lank om uit te
         haal.
-    rss:
-      title_all: OpenStreetMap bespreking oor wysigingstelle
-      commented_at_html: '%{when} gelede bygewerk'
+  changeset_comments:
+    comment:
       commented_at_by_html: '%{when} gelede deur %{user} bygewerk'
-      full: Volledige bespreking
-  diary_entry:
+    index:
+      title_all: OpenStreetMap bespreking oor wysigingstelle
+  diary_entries:
     new:
       title: Nuwe dagboekinskrywing
-      publish_button: Publiseer
-    list:
+    form:
+      subject: 'Onderwerp:'
+      body: 'Teks:'
+      language: 'Taal:'
+      location: 'Ligging:'
+      latitude: 'Breedtegraad:'
+      longitude: 'Lengtegraad:'
+      use_map_link: benut kaart
+    index:
       title: Gebruikersdagboeke
       title_friends: Dagboeke van vriende
       title_nearby: Gebruikers in die omgewing se dagboeke
@@ -257,22 +282,13 @@ af:
       newer_entries: Jonger inskrywings
     edit:
       title: Wysig dagboekinskrywing
-      subject: 'Onderwerp:'
-      body: 'Teks:'
-      language: 'Taal:'
-      location: 'Ligging:'
-      latitude: 'Breedtegraad:'
-      longitude: 'Lengtegraad:'
-      use_map_link: benut kaart
-      save_button: Stoor
       marker_text: Ligging van dagboekinskrywing
-    view:
+    show:
       title: '%{user} se dagboek | %{title}'
       user_title: '%{user} se dagboek'
       leave_a_comment: Lewer kommentaar
       login_to_leave_a_comment: '%{login_link} om kommentaar te lewer'
       login: Meld aan
-      save_button: Stoor
     no_such_entry:
       title: Geen só 'n dagboekinskrywing
       heading: 'Geen inskrywing met die id: %{id}'
@@ -312,41 +328,8 @@ af:
       post: Plasing
       when: Wanneer
       comment: Kommentaar
-      ago: '%{ago} gelede'
       newer_comments: Jongste Kommentaar
       older_comments: Ouer Kommentaar
-  export:
-    title: Voer Uit
-    start:
-      area_to_export: Area om uit te voer
-      manually_select: Kies self 'n ander area
-      format_to_export: Formaat om uit te voer
-      osm_xml_data: OpenStreetMap XML-data
-      map_image: Kaartbeeld (wys standaardlaag)
-      embeddable_html: Versteekbare HTML-kode
-      licence: Lisensie
-      export_details: OpenStreetMap se data word ingevolge die <a href="http://opendatacommons.org/licenses/odbl/1.0/"></a>
-        (ODbL) gelisensieer.
-      too_large:
-        advice: 'Ingeval die uitvoering hierbo misluk, oorweeg asseblief een van die
-          volgende bronne:'
-        body: Hierdie gebied is te groot om as OpenStreenMap XML Data uitgevoer te
-          word. Verdiep asseblief die kamerablik of kies 'n kleiner gebied. Wend andersins
-          een van die bronne hieronder aan om massadata af te laai.
-        planet:
-          title: Planeet OSM
-      options: Voorkeure
-      format: Formaat
-      scale: Skaal
-      max: maksimum
-      image_size: Beeldgrootte
-      zoom: Vergroot
-      add_marker: Plaas 'n merker op die kaart
-      latitude: 'Breedte:'
-      longitude: 'Lengte:'
-      output: Uitset
-      paste_html: Plak HTML om in die webblad te versteek
-      export_button: Uitvoer
   geocoder:
     search:
       title:
@@ -881,56 +864,6 @@ af:
       text: Skenk aan die projek
     learn_more: Kom meer te wete
     more: Meer
-  license_page:
-    foreign:
-      title: Aangaande dié vertaling
-    native:
-      title: Aangaande dié blad
-      mapping_link: begin karteer
-    legal_babble:
-      title_html: Kopiereg en Lisensie
-      intro_2_html: |-
-        Dit staan u vry om ons data te kopieer, versprei, versend of aan te maps, mits u erkenning aan OpenStreetMap en die bydraers gee. Indien u ons data wysig of daarop voortbou, mag u dit slegs in terme van dieselfde lisensie versprei. Die volledige <a href="http://opendatacommons.org/licenses/odbl/1.0/">legal
-        code</a> verduidelik u regte en verantwoordelikhede.
-      credit_title_html: Hoe om na OpenStreetMap te verwys
-      contributors_title_html: Ons bydraers
-      infringement_title_html: Kopieregoortreding
-  welcome_page:
-    title: Welkom!
-    basic_terms:
-      title: Grondliggende begrippe vir kartering
-      paragraph_1_html: OpenStreetMap bevat 'n gedeelte van ons eie vakbegrippe. Hier
-        is 'n paar wat handig te pas sal kom.
-    rules:
-      title: Reëls!
-    questions:
-      title: Enige vrae?
-    start_mapping: Begin Karteer
-    add_a_note:
-      title: Geen tyd om te redigeer? Voeg 'n opmerking by!
-  fixthemap:
-    how_to_help:
-      title: Hoe om te help
-      join_the_community:
-        title: Sluit by die gemeenskap aan
-    other_concerns:
-      title: Andere aangeleenthede
-  help_page:
-    welcome:
-      url: /welkom
-    mailing_lists:
-      title: Poslyste
-    forums:
-      title: Forums
-    wiki:
-      url: http://wiki.openstreetmap.org/
-      title: wiki.openstreetmap.org
-  about_page:
-    next: Volgende
-    local_knowledge_title: Plaaslike Kennis
-    community_driven_title: Gemeenskapsgedrewe
-    legal_title: Wetlik
-    partners_title: Vennote
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} het ''n kommentaar oor ''n dagboekinskrywing
@@ -983,7 +916,7 @@ af:
     changeset_comment_notification:
       hi: Hallo %{to_user},
       greeting: Hallo,
-  message:
+  messages:
     inbox:
       title: In-vakkie
       my_inbox: My in-vakkie
@@ -998,14 +931,14 @@ af:
       unread_button: Merk as ongelees
       read_button: Merk as gelees
       reply_button: Beantwoord
-      delete_button: Verwyder
+      destroy_button: Verwyder
     new:
       title: Stuur boodskap
       send_message_to: Stuur 'n nuwe boodskap aan %{name}
       subject: Onderwerp
       body: Teks
-      send_button: Stuur
       back_to_inbox: Terug na in-vakkie
+    create:
       message_sent: Boodskap is gestuur
     no_such_message:
       title: Geen so 'n boodskap nie
@@ -1021,30 +954,98 @@ af:
       no_sent_messages: U het nog geen boodskappe gestuur nie. Waarom tree u nie met
         sommige van die %{people_mapping_nearby_link} in verbinding nie?
       people_mapping_nearby: nabygeleë karteerders
-    read:
+    show:
       title: Lees boodskap
       from: Van
       subject: Onderwerp
       date: Datum
       reply_button: Beantwoord
       unread_button: Merk as ongelees
-      delete_button: Skrap
+      destroy_button: Skrap
       back: Terug
       to: Aan
     sent_message_summary:
-      delete_button: Verwyder
+      destroy_button: Verwyder
     mark:
       as_read: Boodskap as gelees gemerk
       as_unread: Boodskap as ongelees gemerk
-    delete:
-      deleted: Boodskap is verwyder
+    destroy:
+      destroyed: Boodskap is verwyder
   site:
+    about:
+      next: Volgende
+      local_knowledge_title: Plaaslike Kennis
+      community_driven_title: Gemeenskapsgedrewe
+      legal_title: Wetlik
+      partners_title: Vennote
+    copyright:
+      foreign:
+        title: Aangaande dié vertaling
+      native:
+        title: Aangaande dié blad
+        mapping_link: begin karteer
+      legal_babble:
+        title_html: Kopiereg en Lisensie
+        intro_2_html: |-
+          Dit staan u vry om ons data te kopieer, versprei, versend of aan te maps, mits u erkenning aan OpenStreetMap en die bydraers gee. Indien u ons data wysig of daarop voortbou, mag u dit slegs in terme van dieselfde lisensie versprei. Die volledige <a href="http://opendatacommons.org/licenses/odbl/1.0/">legal
+          code</a> verduidelik u regte en verantwoordelikhede.
+        credit_title_html: Hoe om na OpenStreetMap te verwys
+        contributors_title_html: Ons bydraers
+        infringement_title_html: Kopieregoortreding
     index:
       permalink: Perma-skakel
       shortlink: Kortskakel
     edit:
       user_page_link: gebruikersbladsy
       anon_edits_link_text: Lees waarom dit die geval is.
+    export:
+      title: Voer Uit
+      area_to_export: Area om uit te voer
+      manually_select: Kies self 'n ander area
+      format_to_export: Formaat om uit te voer
+      osm_xml_data: OpenStreetMap XML-data
+      map_image: Kaartbeeld (wys standaardlaag)
+      embeddable_html: Versteekbare HTML-kode
+      licence: Lisensie
+      export_details: OpenStreetMap se data word ingevolge die <a href="http://opendatacommons.org/licenses/odbl/1.0/"></a>
+        (ODbL) gelisensieer.
+      too_large:
+        advice: 'Ingeval die uitvoering hierbo misluk, oorweeg asseblief een van die
+          volgende bronne:'
+        body: Hierdie gebied is te groot om as OpenStreenMap XML Data uitgevoer te
+          word. Verdiep asseblief die kamerablik of kies 'n kleiner gebied. Wend andersins
+          een van die bronne hieronder aan om massadata af te laai.
+        planet:
+          title: Planeet OSM
+      options: Voorkeure
+      format: Formaat
+      scale: Skaal
+      max: maksimum
+      image_size: Beeldgrootte
+      zoom: Vergroot
+      add_marker: Plaas 'n merker op die kaart
+      latitude: 'Breedte:'
+      longitude: 'Lengte:'
+      output: Uitset
+      paste_html: Plak HTML om in die webblad te versteek
+      export_button: Uitvoer
+    fixthemap:
+      how_to_help:
+        title: Hoe om te help
+        join_the_community:
+          title: Sluit by die gemeenskap aan
+      other_concerns:
+        title: Andere aangeleenthede
+    help:
+      welcome:
+        url: /welkom
+      mailing_lists:
+        title: Poslyste
+      forums:
+        title: Forums
+      wiki:
+        url: https://wiki.openstreetmap.org/
+        title: wiki.openstreetmap.org
     sidebar:
       search_results: Soekuitslae
       close: Sluit
@@ -1054,7 +1055,7 @@ af:
       get_directions_title: Kry rigtingaanwysings tussen twee punte
       from: Vanaf
       to: Na
-      where_am_i: Waar bevind ek my?
+      where_am_i: Waar is dié?
       submit_text: Soek
     key:
       table:
@@ -1139,7 +1140,28 @@ af:
       image: Beeld
       alt: Alternatiewe teks
       url: URL
-  trace:
+    welcome:
+      title: Welkom!
+      basic_terms:
+        title: Grondliggende begrippe vir kartering
+        paragraph_1_html: OpenStreetMap bevat 'n gedeelte van ons eie vakbegrippe.
+          Hier is 'n paar wat handig te pas sal kom.
+      rules:
+        title: Reëls!
+      questions:
+        title: Enige vrae?
+      start_mapping: Begin Karteer
+      add_a_note:
+        title: Geen tyd om te redigeer? Voeg 'n opmerking by!
+  traces:
+    new:
+      upload_gpx: 'Laai GPX-lêer op:'
+      description: 'Beskrywing:'
+      tags: 'Merkers:'
+      tags_help: komma afgebaken
+      visibility: 'Sigbaarheid:'
+      visibility_help: wat beteken dit?
+      help: Hulp
     create:
       upload_trace: Laai GPS-spore op
     edit:
@@ -1156,25 +1178,11 @@ af:
       description: 'Beskrywing:'
       tags: 'Merkers:'
       tags_help: komma afgebaken
-      save_button: Stoor Wysigings
       visibility: 'Sigbaarheid:'
       visibility_help: wat beteken dit?
-    trace_form:
-      upload_gpx: 'Laai GPX-lêer op:'
-      description: 'Beskrywing:'
-      tags: 'Merkers:'
-      tags_help: komma afgebaken
-      visibility: 'Sigbaarheid:'
-      visibility_help: wat beteken dit?
-      upload_button: Laai op
-      help: Hulp
-    trace_header:
-      upload_trace: Laai 'n GPS-spoor op
-      see_all_traces: Wys alle spore
-      see_your_traces: Sien al u spore
     trace_optionals:
       tags: Merkers
-    view:
+    show:
       title: Besigtig spoor %{name}
       heading: Besigtig spoor %{name}
       pending: HANGEND
@@ -1189,8 +1197,8 @@ af:
       description: 'Beskrywing:'
       tags: 'Merkers:'
       none: Geen
-      edit_track: Wysig hierdie spoor
-      delete_track: Verwyder hierdie spoor
+      edit_trace: Wysig hierdie spoor
+      delete_trace: Verwyder hierdie spoor
       trace_not_found: Spoor onverkrygbaar!
       visibility: 'Sigbaarheid:'
     trace_paging_nav:
@@ -1198,7 +1206,6 @@ af:
     trace:
       pending: HANGEND
       count_points: '%{count} punte'
-      ago: '%{time_in_words_ago} gelede'
       more: meer
       trace_details: Wys Besonderhede van die Spoor
       view_map: Wys kaart
@@ -1210,28 +1217,29 @@ af:
       by: deur
       in: in
       map: kaart
-    list:
+    index:
       public_traces: Openbare GPS-spore
-      your_traces: U GPS-spore
       public_traces_from: Openbare GPS-spore van %{user}
       tagged_with: gemerk met %{tags}
+      upload_trace: Laai 'n GPS-spoor op
+      see_all_traces: Wys alle spore
     delete:
       scheduled_for_deletion: Spoor is vir verwydering geoormerk
     make_public:
       made_public: Spoor is openbaar gemaak
   oauth:
-    oauthorize:
+    authorize:
       allow_read_prefs: lees u gebruikersvoorkeure.
       allow_write_prefs: verander jou gebruikersvoorkeure.
       allow_write_api: wysig die kaart.
       allow_write_gpx: laai GPS-spore op.
       allow_write_notes: wysig opmerkings.
       grant_access: Verleen toegang
-    oauthorize_success:
+    authorize_success:
       title: Magtigingsversoek toegestaan
       allowed: U het die program %{app_name} toegang tot u rekening verleen.
       verification: Die bevestigingskode is %{code}
-    oauthorize_failure:
+    authorize_failure:
       title: Magtigingsversoek het misluk
       denied: U het die program %{app_name} toegang tot u rekening geweier.
       invalid: Die magtigingsteken is ongeldig.
@@ -1242,10 +1250,8 @@ af:
   oauth_clients:
     new:
       title: Registreer 'n nuwe toepassing
-      submit: Registreer
     edit:
       title: Redigeer u program
-      submit: Redigeer
     show:
       title: OAuth-besonderhede vir %{app_name}
       secret: 'Verbruikersgeheim:'
@@ -1276,7 +1282,7 @@ af:
       allow_write_api: wysig die kaart.
     not_found:
       sorry: Jammer, die %{type} blyk onverkrygbaar te wees.
-  user:
+  users:
     login:
       title: Meld aan
       heading: Meld aan
@@ -1332,7 +1338,6 @@ af:
     terms:
       title: Bydraerooreenkoms
       heading: Voorwaardes vir bydraers
-      agree: Aanvaar
       decline: Weier
       legale_names:
         france: Frankryk
@@ -1343,7 +1348,7 @@ af:
       heading: Die gebruiker %{user} bestaan nie
       body: Daar is geen gebruiker met die naam %{user} nie. Gaan u spelling na, of
         u het moontlik op 'n foutiewe skakel geklik.
-    view:
+    show:
       my diary: My Dagboek
       new diary entry: nuwe dagboekinskrywing
       my edits: My Redigerings
@@ -1359,7 +1364,6 @@ af:
       remove as friend: Verwyder as vriend
       add as friend: Voeg by as vriend
       mapper since: 'Karteerder sedert:'
-      ago: (%{time_in_words_ago} gelede)
       email address: 'E-posadres:'
       created from: 'Geskep vanaf:'
       status: 'Status:'
@@ -1369,7 +1373,6 @@ af:
       if set location: Stel u tuisligging by %{settings_link} in om gebruikers naby
         u te sien.
       settings_link_text: instellings
-      your friends: U vriende
       no friends: U het nog geen vriende bygevoeg nie.
       km away: '%{count}km vêr'
       m away: '%{count}m vêr'
@@ -1455,7 +1458,7 @@ af:
     remove_friend:
       success: '%{name} is uit u vriendekring verwyder.'
       not_a_friend: '%{name} is nie een van u vriende nie.'
-    list:
+    index:
       title: Gebruikers
       heading: Gebruikers
       summary: '%{name} geskep vanaf %{ip_address} op %{date}'
@@ -1474,18 +1477,16 @@ af:
       title: Bevestig herroeping van rol
       heading: Bevestig herroeping van rol
       confirm: Bevestig
-  user_block:
+  user_blocks:
     not_found:
       sorry: Jammer, die gebruiker met ID %{id} kon nie gevind word nie.
       back: Terug na die register
     new:
       heading: Skep versperring op %{name}
-      submit: Skep versperring
       back: Wys alle versperrings
     edit:
       title: Redigeer versperring op %{name}
       heading: Redigeer versperring op %{name}
-      submit: Werk versperring by
       show: Wys dié versperring
       back: Wys alle versperrings
     create:
@@ -1504,26 +1505,14 @@ af:
       confirm: Is u seker u wil hierdie versperring herroep?
       revoke: Herroep!
       flash: Hierdie versperring is herroep.
-    period:
-      one: 1 uur
-      other: '%{count} ure'
-    partial:
-      show: Wys
-      edit: Redigeer
-      revoke: Herroep!
-      confirm: Is u seker?
-      display_name: Versperde gebruiker
-      creator_name: Skepper
-      reason: Rede vir die versperring
-      status: Status
-      revoker_name: Herroep deur
-      not_revoked: (nie herroep nie)
-      next: Volgende »
-      previous: « Vorige
     helper:
       time_future: Tyd oor %{time} verstreke.
       until_login: Aktief totdat die gebruiker aanmeld.
       time_past: Tyd is %{time} gelede verstreke.
+      block_duration:
+        hours:
+          one: 1 uur
+          other: '%{count} ure'
     blocks_on:
       title: Versperrings op %{name}
       heading: Lys van versperrings teen %{name}
@@ -1535,8 +1524,6 @@ af:
     show:
       title: '%{block_on} word deur %{block_by} versper'
       heading: '%{block_on} word deur %{block_by} versper'
-      time_future: Tyd oor %{time} verstreke.
-      time_past: Tyd is %{time} gelede verstreke
       status: Status
       show: Wys
       edit: Redigeer
@@ -1547,6 +1534,19 @@ af:
       revoker: 'Herroep deur:'
       needs_view: Die gebruiker moet aanmeld alvorens hierdie versperring verwyder
         sal word.
+    block:
+      not_revoked: (nie herroep nie)
+      show: Wys
+      edit: Redigeer
+      revoke: Herroep!
+    blocks:
+      display_name: Versperde gebruiker
+      creator_name: Skepper
+      reason: Rede vir die versperring
+      status: Status
+      revoker_name: Herroep deur
+      next: Volgende »
+      previous: « Vorige
   javascripts:
     share:
       title: Deel
@@ -1574,11 +1574,9 @@ af:
         unhide_comment: bring weer aan die lig
     directions:
       engines:
+        fossgis_osrm_car: Kar (OSRM)
         graphhopper_bicycle: Fiets (GraphHopper)
         graphhopper_car: Kar (GraphHopper)
-        mapquest_bicycle: Fiets (MapQuest)
-        mapquest_car: Kar (MapQuest)
-        osrm_car: Kar (OSRM)
       time: Tyd
     query:
       node: Knooppunt
@@ -1591,7 +1589,7 @@ af:
       add_note: Voeg 'n nota hier by
       show_address: Wys adres
       centre_map: Stel kaartmiddelpunt hier in
-  redaction:
+  redactions:
     edit:
       description: Beskrywing
 ...

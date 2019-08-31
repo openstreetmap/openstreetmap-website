@@ -1,8 +1,0 @@
-<div class="note-comment" style="margin-top: 5px">
-  <% if comment.author.nil? -%>
-  <div class="note-comment-description" style="font-size: smaller; color: #999999"><%= t "note.description.#{comment.event}_at_html", :when => friendly_date(comment.created_at) %></div>
-  <% else -%>
-  <div class="note-comment-description" style="font-size: smaller; color: #999999"><%= t "note.description.#{comment.event}_at_by_html", :when => friendly_date(comment.created_at), :user => note_author(comment.author, :only_path => false) %></div>
-  <% end -%>
-  <div class="note-comment-text"><%= comment.body %></div>
-</div>

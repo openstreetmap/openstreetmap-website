@@ -14,7 +14,7 @@ class NoteTest < ActiveSupport::TestCase
     bad.each do |status|
       note = create(:note)
       note.status = status
-      assert !note.valid?, "#{status} is valid when it shouldn't be"
+      assert_not note.valid?, "#{status} is valid when it shouldn't be"
     end
   end
 

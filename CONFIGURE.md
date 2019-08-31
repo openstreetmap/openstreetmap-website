@@ -2,6 +2,10 @@
 
 After [installing](INSTALL.md) this software, you may need to carry out some of these configuration steps, depending on your tasks.
 
+## Application configuration
+
+Many settings are available in `config/settings.yml`. You can customize your installation of The Rails Port by overriding these values using `config/settings.local.yml`
+
 ## Populating the database
 
 Your installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract.
@@ -71,11 +75,11 @@ Do the following:
 * Everything else can be left with the default blank values.
 * Click the "Register" button
 * On the next page, copy the "consumer key"
-* Edit config/application.yml in your rails tree
-* Uncomment and change the "potlatch2_key" configuration value
+* Edit config/settings.local.yml in your rails tree
+* Add the "potlatch2_key" configuration key and the consumer key as the value
 * Restart your rails server
 
-An example excerpt from application.yml:
+An example excerpt from settings.local.yml:
 
 ```
 # Default editor
@@ -125,5 +129,5 @@ If you want to deploy The Rails Port for production use, you'll need to make a f
 * Your production database will also need the extensions and functions installed - see [INSTALL.md](INSTALL.md)
 * The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
 * The included version of the GPX importer is slow and/or completely inoperable. You should consider using [the high-speed GPX importer](https://git.openstreetmap.org/gpx-import.git/).
-* Make sure you precompile the production assets: `RAILS_ENV=production rake assets:precompile`
+* Make sure you generate the i18n files and precompile the production assets: `RAILS_ENV=production rake i18n:js:export assets:precompile`
 * Make sure the web server user as well as the rails user can read, write and create directories in `tmp/`.

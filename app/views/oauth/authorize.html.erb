@@ -1,19 +1,19 @@
 <% content_for :heading do %>
-  <h1><%= t "oauth.oauthorize.title" %></h1>
+  <h1><%= t ".title" %></h1>
 <% end %>
 
-<p><%= raw t("oauth.oauthorize.request_access", :app_name => link_to(@token.client_application.name, @token.client_application.url), :user => link_to(current_user.display_name, :controller => :user, :action => :view, :display_name => current_user.display_name)) %></p>
+<p><%= raw t(".request_access", :app_name => link_to(@token.client_application.name, @token.client_application.url), :user => link_to(current_user.display_name, user_path(current_user))) %></p>
 
 <%= form_tag authorize_url do %>
   <%= hidden_field_tag "oauth_token", @token.token %>
   <%- if params[:oauth_callback] -%>
     <%= hidden_field_tag "oauth_callback", params[:oauth_callback] %>
   <%- end -%>
-  <p><%= t 'oauth.oauthorize.allow_to' %></p>
+  <p><%= t ".allow_to" %></p>
   <ul>
   <% @token.client_application.permissions.each do |perm| %>
-    <li><%= check_box_tag perm.to_s, "yes", @token.read_attribute(perm) %><%= t "oauth.oauthorize.#{perm}" %></li>
+    <li><%= check_box_tag perm.to_s, "yes", @token.read_attribute(perm) %><%= label_tag perm.to_s, t(".#{perm}") %></li>
   <% end %>
   </ul>
-  <p><%= submit_tag t("oauth.oauthorize.grant_access") %></p>
+  <p><%= submit_tag t(".grant_access") %></p>
 <% end %>

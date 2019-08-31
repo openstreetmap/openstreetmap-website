@@ -21,10 +21,10 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
     @bad_positive_boundary_bbox  = %w[181,91,0,0 0,0,181,91]
     @bad_negative_boundary_bbox  = %w[-181,-91,0,0 0,0,-181,-91]
-    @bad_big_bbox       = %w[-0.1,-0.1,1.1,1.1 10,10,11,11]
+    @bad_big_bbox = %w[-0.1,-0.1,1.1,1.1 10,10,11,11]
     @bad_malformed_bbox = %w[-0.1 hello 10N2W10.1N2.1W]
-    @bad_lat_mixed_bbox  = %w[0,0.1,0.1,0 -0.1,80,0.1,70 0.24,54.34,0.25,54.33]
-    @bad_lon_mixed_bbox  = %w[80,-0.1,70,0.1 54.34,0.24,54.33,0.25]
+    @bad_lat_mixed_bbox = %w[0,0.1,0.1,0 -0.1,80,0.1,70 0.24,54.34,0.25,54.33]
+    @bad_lon_mixed_bbox = %w[80,-0.1,70,0.1 54.34,0.24,54.33,0.25]
     @bad_limit_bbox = %w[-180.1,-90,180,90 -180,-90.1,180,90 -180,-90,180.1,90 -180,-90,180,90.1]
     @good_bbox = %w[-0.1,-0.1,0.1,0.1 51.1,-0.1,51.2,0 -0.1,%20-0.1,%200.1,%200.1
                     -0.1edcd,-0.1d,0.1,0.1 -0.1E,-0.1E,0.1S,0.1N S0.1,W0.1,N0.1,E0.1]
@@ -168,8 +168,8 @@ class BoundingBoxTest < ActiveSupport::TestCase
     @bad_negative_boundary_bbox.each do |bbox_string|
       bbox = BoundingBox.from_bbox_params(:bbox => bbox_string)
       array = bbox.to_a
-      assert_equal -180, [array[0], array[2]].min
-      assert_equal -90, [array[1], array[3]].min
+      assert_equal(-180, [array[0], array[2]].min)
+      assert_equal(-90, [array[1], array[3]].min)
     end
   end
 
@@ -222,7 +222,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
   end
 
   def test_complete
-    assert !@bbox_from_nils.complete?, "should contain a nil"
+    assert_not @bbox_from_nils.complete?, "should contain a nil"
     assert @bbox_from_string.complete?, "should not contain a nil"
   end
 

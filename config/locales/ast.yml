@@ -1,16 +1,46 @@
 # Messages for Asturian (asturianu)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Enolp
 # Author: Fitoschido
 # Author: Macofe
+# Author: TomH
 # Author: Xuacu
 ---
 ast:
   time:
     formats:
       friendly: '%e de %B de %Y a les %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Guardar
+      diary_entry:
+        create: Espublizar
+        update: Anovar
+      issue_comment:
+        create: Amestar comentariu
+      message:
+        create: Unviar
+      client_application:
+        create: Rexistrar
+        update: Editar
+      redaction:
+        create: Crear redaición
+        update: Guardar redaición
+      trace:
+        create: Xubir
+        update: Guardar cambeos
+      user_block:
+        create: Crear un bloquéu
+        update: Anovar el bloquéu
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: nun paez que sía una dirección de corréu electrónicu
+          válida.
+        email_address_not_routable: nun ye enrutable
     models:
       acl: Llista de Control d'Accesu
       changeset: Conxuntu de cambeos
@@ -78,6 +108,45 @@ ast:
         description: Descripción
         languages: Llingües
         pass_crypt: Contraseña
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: hai como 1 hora
+        other: hai como %{count} hores
+      about_x_months:
+        one: hai como 1 mes
+        other: hai como %{count} meses
+      about_x_years:
+        one: hai como 1 añu
+        other: hai como %{count} años
+      almost_x_years:
+        one: fai casi 1 añu
+        other: fai casi %{count} años
+      half_a_minute: va mediu minutu
+      less_than_x_seconds:
+        one: fai menos de 1 segundu
+        other: fai menos de %{count} segundos
+      less_than_x_minutes:
+        one: fai menos de 1 minutu
+        other: fai menos de %{count} minutos
+      over_x_years:
+        one: fai más de 1 añu
+        other: fai más de %{count} años
+      x_seconds:
+        one: fai 1 segundu
+        other: fai %{count} segundos
+      x_minutes:
+        one: fai 1 minutu
+        other: fai %{count} minutos
+      x_days:
+        one: ayeri
+        other: fai %{count} díes
+      x_months:
+        one: fai 1 mes
+        other: fai %{count} meses
+      x_years:
+        one: fai 1 añu
+        other: fai %{count} años
   editor:
     default: Predetermináu (anguaño %{name})
     potlatch:
@@ -92,15 +161,38 @@ ast:
     remote:
       name: Control remotu
       description: Control remotu (JOSM o Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: Creáu %{when}
+        opened_at_by_html: Creáu %{when} por %{user}
+        commented_at_html: Anováu %{when}
+        commented_at_by_html: Anováu %{when} por %{user}
+        closed_at_html: Resueltu %{when}
+        closed_at_by_html: Resueltu %{when} por %{user}
+        reopened_at_html: Reactiváu %{when}
+        reopened_at_by_html: Reactiváu %{when} por %{user}
+      rss:
+        title: Notes d'OpenStreetMap
+        description_area: Llista de notes, escrites, comentaes o zarraes en so área
+          [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: Una canal rss pa la nota %{id}
+        opened: nota nueva (cerca de %{place})
+        commented: comentariu nuevu (cerca de %{place})
+        closed: nota zarrada (cerca de %{place})
+        reopened: nota reactivada (cerca de %{place})
+      entry:
+        comment: Comentariu
+        full: Nota completa
   browse:
     created: Creáu
     closed: Zarráu
-    created_html: Creáu <abbr title='%{title}'>hai %{time}</abbr>
-    closed_html: Zarráu <abbr title='%{title}'>hai %{time}</abbr>
-    created_by_html: Creáu <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    deleted_by_html: Desaniciáu <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    edited_by_html: Editáu <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    closed_by_html: Zarráu <abbr title='%{title}'>hai %{time}</abbr> por %{user}
+    created_html: Creáu <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Zarráu <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Creáu <abbr title='%{title}'>%{time}</abbr> por %{user}
+    deleted_by_html: Desaniciáu <abbr title='%{title}'>%{time}</abbr> por %{user}
+    edited_by_html: Editáu <abbr title='%{title}'>%{time}</abbr> por %{user}
+    closed_by_html: Zarráu <abbr title='%{title}'>%{time}</abbr> por %{user}
     version: Versión
     in_changeset: Conxuntu de cambios
     anonymous: anónimu
@@ -120,9 +212,8 @@ ast:
       relation: Rellaciones (%{count})
       relation_paginated: Rellaciones (%{x}-%{y} de %{count})
       comment: Comentarios (%{count})
-      hidden_commented_by: Comentariu tapecíu de %{user} <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      commented_by: Comentariu de %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+      hidden_commented_by: Comentariu tapecíu de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentariu de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Conxuntu de cambeos XML
       osmchangexml: osmChange XML
       feed:
@@ -200,24 +291,22 @@ ast:
       open_title: 'Nota ensin resolver #%{note_name}'
       closed_title: 'Nota resuelta #%{note_name}'
       hidden_title: 'Nota tapecida #%{note_name}'
-      open_by: Creáu por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      open_by_anonymous: Creáu por un anónimu <abbr title='%{exact_time}'>hai %{when}</abbr>
-      commented_by: Comentariu de %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      commented_by_anonymous: Comentariu d'un anónimu <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      closed_by: Resuelto por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      closed_by_anonymous: Resuelto por un anónimu <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      reopened_by: Reactivao por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      reopened_by_anonymous: Reactivao por un anónimu <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      hidden_by: Tapecío por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+      open_by: Creáu por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Creáu por un anónimu <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentariu de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Comentariu d'un anónimu <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Resuelto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resuelto por un anónimu <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reactivao por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivao por un anónimu <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Tapecío por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Informar d'esta nota
     query:
       title: Consultar entidaes
       introduction: Fai clic nel mapa p'alcontrar entidaes cercanes.
       nearby: Entidaes cercanes
       enclosing: Entidaes envolventes
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Páxina %{page}
       next: Siguiente »
@@ -232,46 +321,38 @@ ast:
       user: Usuariu
       comment: Comentariu
       area: Área
-    list:
+    index:
       title: Conxuntos de cambeos
       title_user: Conxuntos de cambeos de %{user}
-      title_friend: Conxuntos de cambeos de los tos collacios
+      title_friend: Conxuntos de cambeos de los mios collacios
       title_nearby: Conxuntos de cambeos d'usuarios cercanos
       empty: Nun s'alcontró nengún conxuntu de cambeos.
-      empty_area: Nun hai conxuntos de cambeos nesti área.
+      empty_area: Nun hai conxuntos de cambeos nesta área.
       empty_user: Nun hai conxuntos de cambeos d'esti usuariu.
       no_more: Nun s'alcontraron más conxuntos de cambeos.
-      no_more_area: Nun hai más conxuntos de cambeos nesti área.
+      no_more_area: Nun hai más conxuntos de cambeos nesta área.
       no_more_user: Nun hai más conxuntos de cambeos d'esti usuariu.
       load_more: Cargar más
     timeout:
       sorry: Llevó demasiao tiempu baxar la llista de conxuntos de cambeos que pidisti.
-    rss:
-      title_all: Alderique del conxuntu de cambeos d'OpenStreetMap
-      title_particular: 'Alderique del conxuntu de cambeos #%{changeset_id} d''OpenStreetMap'
+  changeset_comments:
+    comment:
       comment: 'Comentariu nuevu sobro''l conxuntu de cambios #%{changeset_id} de
         %{author}'
-      commented_at_html: Anovao hai %{when}
-      commented_at_by_html: Anovao hai %{when} por %{user}
-      full: Alderique completu
-  diary_entry:
+      commented_at_by_html: Anovao %{when} por %{user}
+    comments:
+      comment: 'Comentariu nuevu sobro''l conxuntu de cambios #%{changeset_id} de
+        %{author}'
+    index:
+      title_all: Alderique del conxuntu de cambeos d'OpenStreetMap
+      title_particular: 'Alderique del conxuntu de cambeos #%{changeset_id} d''OpenStreetMap'
+    timeout:
+      sorry: Llevó demasiao tiempu baxar la llista de comentarios del conxuntu de
+        cambeos que pidisti.
+  diary_entries:
     new:
       title: Nueva entrada del diariu
-      publish_button: Espublizar
-    list:
-      title: Diarios d'usuarios
-      title_friends: Diarios de collacios
-      title_nearby: Diarios d'usuarios cercanos
-      user_title: Diariu de %{user}
-      in_language_title: Entraes del diariu en %{language}
-      new: Nueva entrada del diariu
-      new_title: Escribir una entrada nueva nel to diariu d'usuariu
-      no_entries: Nun hai entraes nel diariu
-      recent_entries: Entraes más nueves del diariu
-      older_entries: Entraes anteriores
-      newer_entries: Entraes más nueves
-    edit:
-      title: Editar entrada del diariu
+    form:
       subject: 'Asuntu:'
       body: 'Cuerpu:'
       language: 'Llingua:'
@@ -279,35 +360,51 @@ ast:
       latitude: 'Llatitú:'
       longitude: 'Llonxitú:'
       use_map_link: usar mapa
-      save_button: Guardar
+    index:
+      title: Diarios d'usuarios
+      title_friends: Diarios de collacios
+      title_nearby: Diarios d'usuarios cercanos
+      user_title: Diariu de %{user}
+      in_language_title: Entraes del diariu en %{language}
+      new: Nueva entrada del diariu
+      new_title: Escribir una entrada nueva nel mio diariu d'usuariu
+      no_entries: Nun hai entraes nel diariu
+      recent_entries: Entraes más nueves del diariu
+      older_entries: Entraes anteriores
+      newer_entries: Entraes más nueves
+    edit:
+      title: Editar entrada del Diariu
       marker_text: Allugamientu de la entrada del diariu
-    view:
+    show:
       title: Diariu de %{user} | %{title}
       user_title: Diariu de %{user}
       leave_a_comment: Dexar un comentariu
       login_to_leave_a_comment: '%{login_link} pa dexar un comentariu'
       login: Entrar
-      save_button: Guardar
     no_such_entry:
       title: Nun esiste la entrada del diariu
       heading: 'Nun esiste la entrada con id: %{id}'
       body: Sentímoslo, nun hai nenguna entrada del diariu cola id %{id}. Comprueba
-        la escritura o si primisti nun enllaz enquivocáu.
+        la escritura o si pulsiasti nun enllaz enquivocáu.
     diary_entry:
       posted_by: Unviáu por %{link_user} el %{created} en %{language_link}
       comment_link: Comentar esta entrada
       reply_link: Responder a esta entrada
       comment_count:
         zero: Ensin comentarios
-        one: 1 comentariu
+        one: '%{count} comentariu'
         other: '%{count} comentarios'
       edit_link: Editar esta entrada
       hide_link: Anubrir esta entrada
+      unhide_link: Amosar esta entrada
       confirm: Confirmar
+      report: Informar d'esta entrada
     diary_comment:
       comment_from: Comentariu de %{link_user} el %{comment_created_at}
       hide_link: Anubrir esti comentariu
+      unhide_link: Amosar esti comentariu
       confirm: Confirmar
+      report: Informar d'esti comentariu
     location:
       location: 'Allugamientu:'
       view: Ver
@@ -327,57 +424,8 @@ ast:
       post: Publicar
       when: Cuándo
       comment: Comentariu
-      ago: hai %{ago}
       newer_comments: Comentarios más nuevos
       older_comments: Comentarios anteriores
-  export:
-    title: Esportar
-    start:
-      area_to_export: Área a esportar
-      manually_select: Seleiciona manualmente un área distinta
-      format_to_export: Formatu a esportar
-      osm_xml_data: Datos XML d'OpenStreetMap
-      map_image: Imaxe del mapa (amuesa la capa estándar)
-      embeddable_html: HTML pa embrivir
-      licence: Llicencia
-      export_details: Los datos d'OpenStreetMap tan llicenciaos baxo la <a href="https://opendatacommons.org/licenses/odbl/1.0/">llicencia
-        Open Data Commons Open Database</a> (ODbL).
-      too_large:
-        advice: 'Si falla la esportación anterior, considera utilizar una de les fontes
-          de la llista siguiente:'
-        body: Esti área ye abondo grande pa esportase como Datos XML d'OpenStreetMap.
-          Acerca'l mapa o esbilla un área menor, o usa una de les fontes siguientes
-          pa descargar cantidaes grandes de datos.
-        planet:
-          title: Planeta OSM
-          description: Copies anovaes regularmente de la base de datos completa d'OpenStreetMap
-        overpass:
-          title: Overpass API
-          description: Descargar esti cuadru de llendes dende un espeyu de la base
-            de datos d'OpenStreetMap
-        geofabrik:
-          title: Descargues de Geofabrik
-          description: Estractos anovaos regularmente de continentes, paises, y una
-            esbilla de ciudaes
-        metro:
-          title: Estractos de Metro
-          description: Estractos de les principales ciudaes del mundu y les árees
-            d'alredor
-        other:
-          title: Otres fontes
-          description: Otres fontes más qu'apaecen na wiki d'OpenStreetMap
-      options: Opciones
-      format: Formatu
-      scale: Escala
-      max: máx
-      image_size: Tamañu d'imaxe
-      zoom: Zoom
-      add_marker: Amestar un marcador al mapa
-      latitude: 'Llat:'
-      longitude: 'Llon:'
-      output: Salida
-      paste_html: Pegar el HTML pa embrivir nun sitiu web
-      export_button: Esportar
   geocoder:
     search:
       title:
@@ -913,7 +961,7 @@ ast:
           "yes": Tienda
         tourism:
           alpine_hut: Refuxu de monte
-          apartment: Apartamentu
+          apartment: Apartamentu de vacaciones
           artwork: Obra d'arte
           attraction: Interés turísticu
           bed_and_breakfast: Cama y almuerzu (B&B)
@@ -975,6 +1023,111 @@ ast:
     results:
       no_results: Nun s'alcontraron resultaos
       more_results: Más resultaos
+  issues:
+    index:
+      title: Problemes
+      select_status: Seleicionar estáu
+      select_type: Seleicionar tipu
+      select_last_updated_by: Seleicionar últimu anovamientu por
+      reported_user: Usuariu reportáu
+      not_updated: Ensin anovar
+      search: Buscar
+      search_guidance: 'Buscar problemes:'
+      user_not_found: L'usuariu nun esiste
+      issues_not_found: Nun s'alcontraron problemes
+      status: Estáu
+      reports: Informes
+      last_updated: Caberu anovamientu
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> por %{user}
+      link_to_reports: Ver los informes
+      reports_count:
+        one: 1 Informe
+        other: '%{count} Informes'
+      reported_item: Elementu reportáu
+      states:
+        ignored: Inoráu
+        open: Abrir
+        resolved: Resueltu
+    update:
+      new_report: L'informe rexistróse correutamente
+      successful_update: L'informe anovóse correutamente
+      provide_details: Apurre los detalles riquíos
+    show:
+      title: '%{status} Problema #%{issue_id}'
+      reports:
+        zero: Nun hai informes
+        one: 1 informe
+        other: '%{count} informes'
+      report_created_at: Hora del primer informe %{datetime}
+      last_resolved_at: Hora de la última resolución %{datetime}
+      last_updated_at: Hora del últimu anovamientu %{datetime} por %{displayname}
+      resolve: Resolver
+      ignore: Inorar
+      reopen: Reabrir
+      reports_of_this_issue: Informes d'esti problema
+      read_reports: Lleer los informes
+      new_reports: Informes nuevos
+      other_issues_against_this_user: Otros problemes con esti usuariu
+      no_other_issues: Nun hai otros problemes con esti usuariu.
+      comments_on_this_issue: Comentarios d'esti problema
+    resolve:
+      resolved: L'estáu del problema pasó a «Resueltu»
+    ignore:
+      ignored: L'estáu del problema pasó a «Inoráu»
+    reopen:
+      reopened: L'estáu del problema pasó a «Abiertu»
+    comments:
+      created_at: El %{datetime}
+      reassign_param: ¿Volver a asinar el problema?
+    reports:
+      updated_at: El %{datetime}
+      reported_by_html: Informar como %{category} por %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, comentariu #%{comment_id}'
+        note: 'Nota #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Creóse correutamente'l comentariu
+  reports:
+    new:
+      title_html: Informe %{link}
+      missing_params: Nun puede crease un informe nuevu
+      details: Por favor, apurre más detalles sobro'l problema (obligatoriu).
+      select: 'Escueye un motivu pal to informe:'
+      disclaimer:
+        intro: 'Antes d''unviar l''informe a los moderadores del sitiu, asegúrate
+          de que:'
+        not_just_mistake: Tas seguru de que'l problema nun ye namái un fallu
+        unable_to_fix: Nun puedes iguar el problema tu mesmu o cola ayuda d'otros
+          miembros de la comunidá.
+        resolve_with_user: Yá tentasti resolver el problema col usuariu en cuestión.
+      categories:
+        diary_entry:
+          spam_label: Esta entrada del diariu ye/contien spam
+          offensive_label: Esta entrada del diariu ye picardiosa/ofensible
+          threat_label: Esta entrada del diariu contien una amenaza
+          other_label: Otros
+        diary_comment:
+          spam_label: Esti comentariu del diariu ye/contien spam
+          offensive_label: Esti comentariu del diariu ye picardiosu/ofensible
+          threat_label: Esti comentariu del diariu contien una amenaza
+          other_label: Otros
+        user:
+          spam_label: Esti perfil d'usuariu ye/contien spam
+          offensive_label: Esti perfil d'usuariu ye picardiosu/ofensible
+          threat_label: Esti perfil d'usuariu contien una amenaza
+          vandal_label: Esti usuariu ye un vándalu
+          other_label: Otros
+        note:
+          spam_label: Esta nota ye spam
+          personal_label: Esta nota contien datos personales
+          abusive_label: Esta nota ye abusiva
+          other_label: Otros
+    create:
+      successful_report: L'informe rexistróse correutamente
+      provide_details: Apurre los detalles riquíos
   layouts:
     logo:
       alt_text: Logo d'OpenStreetMap
@@ -988,6 +1141,7 @@ ast:
     edit: Editar
     history: Historial
     export: Esportar
+    issues: Problemes
     data: Datos
     export_data: Esportar datos
     gps_traces: Traces GPS
@@ -1000,12 +1154,12 @@ ast:
     intro_text: OpenStreetMap ye un mapa del mundu, creáu por persones como tu y d'usu
       llibre baxo una llicencia abierta.
     intro_2_create_account: Crear una cuenta d'usuariu
-    partners_html: L'agospiamientu tien l'encontu de %{ucl}, %{bytemark}, %{ic}, y
+    hosting_partners_html: L'agospiamientu tien l'encontu de %{ucl}, %{bytemark},  y
       otros %{partners}.
     partners_ucl: UCL
-    partners_ic: Imperial College de Londres
     partners_bytemark: Bytemark Hosting
     partners_partners: asociaos
+    tou: Condiciones d'usu
     osm_offline: La base de datos d'OpenStreetMap anguaño ta desconectada mentanto
       se faen trabayos esenciales de mantenimientu de la base de datos.
     osm_read_only: La base de datos d'OpenStreetMap anguaño ta en mou de sólo llectura
@@ -1024,260 +1178,6 @@ ast:
       text: Fai un donativu
     learn_more: Más información
     more: Más
-  license_page:
-    foreign:
-      title: Tocante a esta traducción
-      text: En casu d'haber un conflictu ente esta páxina traducida y %{english_original_link},
-        la páxina n'inglés tendrá prioridá
-      english_link: l'orixinal n'inglés
-    native:
-      title: Tocante a esta páxina
-      text: Tas viendo la versión n'inglés de la páxina de copyright. Pues tornar
-        a la %{native_link} d'esta páxina o pues dexar de lleer sobro'l copyright
-        y %{mapping_link}.
-      native_link: versión n'asturianu
-      mapping_link: principiar col mapéu
-    legal_babble:
-      title_html: Drechos d'autor y llicencia
-      intro_1_html: |-
-        OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> son <i>datos abiertos</i>, baxo llicencia <a
-        href="https://opendatacommons.org/licenses/odbl/">Open Data
-        Commons Open Database License</a> (ODbL) de la <a
-        href="https://osmfoundation.org/">Fundación OpenStreetMap</a> (OSMF).
-      intro_2_html: Puedes copiar, distribuir, tresmitir y adautar los nuesos datos
-        de mou llibre, mentanto deas reconocimientu a OpenStreetMap y a los sos collaboradores.
-        Si camudes o crees conteníu sobre los nuesos datos, namái podrás distribuir
-        el resultáu baxo la mesma llicencia. El <a href="https://opendatacommons.org/licenses/odbl/1.0/">códigu
-        llegal</a> completu t'esplica los tos drechos y obligaciones.
-      intro_3_html: La cartografía de los mosaicos del mapa y la nuesa documentación,
-        tán llicenciaos baxo la llicencia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-        Commons Reconocimientu-CompartirIgual 2.0</a> (CC BY-SA).
-      credit_title_html: Cómo dar reconocimientu a OpenStreetMap
-      credit_1_html: Riquimos qu'uses el créditu &ldquo;&copy; Collaboradores d'OpenStreetMap&rdquo;.
-      credit_2_html: |-
-        Tamién tienes de dexar claro que los datos tan disponibles baxo la llicencia Open Database License (ODbL), y si utilices los nuesos mosaicos de mapa, que la cartografía tien llicencia CC BY-SA. Puedes facelo enllazando a <a href="https://www.openstreetmap.org/copyright">esta páxina de drechos d'autor</a>.
-        Alternativamente, y como requisitu si distribues OSM en forma de datos, pues nomar y enllazar direutamente a les llicencies. En medios onde los enllaces nun seyan posibles (por exemplu, obres imprentaes), suxerímoste dirixir a los llectores a openstreetmap.org (espandiendo 'OpenStreetMap' a esta dirección completa, seique), a opendatacommons.org y, si ye'l casu, a creativecommons.org.
-      credit_3_html: |-
-        Nun mapa electrónicu navegable, los créditos tendríen d'apaecer na esquina del mapa.
-        Por casu:
-      attribution_example:
-        alt: Exemplu de cómo dar reconocimientu a OpenStreetMap nuna páxina web
-        title: Exemplu de reconocimientu
-      more_title_html: Pa saber más
-      more_1_html: |-
-        Llei más tocante a cómo utilizar los nuesos datos, y cómo danos créditu, na <a
-        href="https://osmfoundation.org/Licence">páxina de Llicencia de la OSMF</a>.
-      more_2_html: |-
-        Anque OpenStreetMap son datos abiertos, nun podemos ufrir una API de mapes de baldre pa desendolcadores d'aplicaciones pa terceros.
-        Llei la nuesa <a href="https://operations.osmfoundation.org/policies/api/">Política d'usu de la API</a> (n'inglés),
-        <a href="https://operations.osmfoundation.org/policies/tiles/">Política d'usu del mosaicu</a> (n'inglés)
-        y <a href="https://operations.osmfoundation.org/policies/nominatim/">Política d'usu de Nominatim</a> (n'inglés tamién).
-      contributors_title_html: Los nuesos collaboradores
-      contributors_intro_html: 'Los nuesos collaboradores son miles de persones. Incluimos
-        tamién datos con llicencia abierta d''axencies cartográfiques nacionales y
-        d''otres fontes, ente elles:'
-      contributors_at_html: |-
-        <strong>Austria</strong>: Contien datos de
-        <a href="https://data.wien.gv.at/">Stadt Wien</a> (baxo
-        <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
-        <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> y
-        Land Tirol (baxo <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT con enmiendes</a>).
-      contributors_ca_html: |-
-        <strong>Canadá</strong>: Contien datos de GeoBase&reg;, GeoGratis (&copy; Department of Natural
-        Resources Canada), CanVec (&copy; Department of Natural
-        Resources Canada), y StatCan (Geography Division,
-        Statistics Canada).
-      contributors_fi_html: |-
-        <strong>Finlandia</strong>: Contien datos de la base de datos topográfica de la National Land Survey de Finlandia
-        y otros conxuntos de datos, baxo la <a href="http://www.maanmittauslaitos.fi/en/opendata-licence-version1">Llicencia NLSFI</a>.
-      contributors_fr_html: '<strong>Francia</strong>: Contien datos sacaos de Direction
-        Générale des Impôts.'
-      contributors_nl_html: |-
-        <strong>Paises Baxos</strong>: Contien datos &copy; AND, 2007
-        (<a href="https://www.and.com">www.and.com</a>)
-      contributors_nz_html: '<strong>Nueva Zelanda</strong>: Contien datos sacaos
-        de Land Information New Zealand. Crown Copyright reserved.'
-      contributors_si_html: |-
-        <strong>Eslovenia</strong>: Contien datos de la
-        <a href="http://www.gu.gov.si/en/">Autoridá Topográfica y Cartográfica</a> y del
-        <a href="http://www.mkgp.gov.si/en/">Ministeriu d'Agricultura, Silvicultura y Alimentación</a>
-        (información pública d'Eslovenia).
-      contributors_za_html: |-
-        <strong>Sudáfrica</strong>: Contien datos sacaos de
-        <a href="http://www.ngi.gov.za/">Chief Directorate:
-        National Geo-Spatial Information</a>, State copyright reserved.
-      contributors_gb_html: '<strong>Reinu Xuníu</strong>: Contien datos de Ordnance
-        Survey &copy; Crown copyright and database right 2010-12.'
-      contributors_footer_1_html: |-
-        Pa más detalles d'estes, y otres fontes que s'usaron p'ayudar a
-        ameyorar OpenStreetMap, por favor, llei la <a
-        href="https://wiki.openstreetmap.org/wiki/Contributors">Páxina
-        de los collaboradores</a> na Wiki d'OpenStreetMap.
-      contributors_footer_2_html: La inclusión de datos n'OpenStreetMap nun significa
-        que'l fornidor de los datos orixinales sofite OpenStreetMap, ufra garantía
-        dala o aceute dalguna responsabilidá.
-      infringement_title_html: Incumplimientu de drechos d'autor
-      infringement_1_html: Recordamos a los collaboradores d'OSM qu'enxamás amiesten
-        datos que vengan d'una fonte con drechos d'autor acutaos (p. ex. de Google
-        Maps o mapes impresos) ensin el permisu esplícitu de los dueños de los drechos
-        d'autor.
-      infringement_2_html: Si crees que s'amestó de mou inapropiáu material con drechos
-        d'autor a la base de datos d'OpenStreetMap o a esti sitiu, consulta'l nuesu
-        <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">procedimientu
-        de retirada de datos</a> o pidilo direutamente nel nuesu <a href="http://dmca.openstreetmap.org/">formulariu
-        en llinia</a>.
-      trademarks_title_html: <span id="trademarks"></span>Marques rexistraes
-      trademarks_1_html: OpenStreetMap, el logotipu de la lente y «State of the Map»
-        son marques rexistraes de la Fundación OpenStreetMap. Si tienes entrugues
-        tocante al usu de les marques, consulta la nuesa <a href="http://wiki.osmfoundation.org/wiki/Trademark_Policy">política
-        de marques rexistraes</a>.
-  welcome_page:
-    title: ¡Afáyate!
-    introduction_html: |-
-      Afáyate n'OpenStreetMap, el mapa del mundu llibre y editable. Agora
-      qu'aniciasti sesión, yá puedes editar mapes. Esta ye una guía rápida
-      de les coses más importantes que necesites saber.
-    whats_on_the_map:
-      title: Qué hai nel Mapa
-      on_html: |-
-        OpenStreetMap ye un llugar pa cartografiar coses que seyan al mesmu tiempu <em>reales y actuales</em> -
-        incluye millones d'edificios, carreteres, y otros detalles de llugares. Puedes poner nel mapa
-        cualquier carauterística del mundu real que t'interese.
-      off_html: |-
-        Lo que <em>nun</em> incluye son datos suxetivos como calificaciones, carauterístiques históriques o hipotétiques, y datos de fontes con drechos d'autor. Si nun tienes
-        un permisu especial, nun copies de mapes en llinia o en papel.
-    basic_terms:
-      title: Términos básicos pa facer mapes
-      paragraph_1_html: OpenStreetMap tien cierta xíriga de so. Estes son delles pallabres
-        importantes que puen ser afayadices.
-      editor_html: Un <strong>editor</strong> ye un programa o sitiu web que pue usar
-        pa editar el mapa.
-      node_html: Un <strong>noyu</strong> ye un puntu del mapa, como un únicu restaurante
-        o un árbol.
-      way_html: Una <strong>vía</strong> ye una llinia o área, como una carretera,
-        regueru, llagu o edificiu.
-      tag_html: |-
-        Una <strong>etiqueta</strong> ye una parte de los datos d'un noyu o vía, como'l
-        d'un restaurante o la velocidá máxima d'una carretera.
-    rules:
-      title: ¡Regles!
-      paragraph_1_html: OpenStreetMap tien poques regles formales, pero esperamos
-        que tolos participantes collaboren y se comuniquen cola comunidá. Si tas considerando
-        cualquier actividá distinta de la edición manual, llei y sigui les instrucciones
-        sobro <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>importaciones</a>
-        y <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>ediciones
-        automatizaes</a>.
-    questions:
-      title: ¿Tien alguna entruga?
-      paragraph_1_html: |-
-        OpenStreetMap tien dellos recursos p'aprender sobro'l proyeutu, entrugar y contestar preguntes, y discutir y documentar en collaboración cuestiones de cartografía.
-        <a href='%{help_url}'>Algame ayuda equí</a>.
-    start_mapping: Principiar col mapéu
-    add_a_note:
-      title: ¿Nun tien tiempu pa editar? ¡Amieste una nota!
-      paragraph_1_html: |-
-        Si namái quier iguar daqué pequeño y nun tien tiempu pa dase d'alta y deprender cómo editar,
-        ye fácil amestar una nota.
-      paragraph_2_html: |-
-        Namái entre <a href='%{map_url}'>nel mapa</a> y calque nel iconu nota:
-        <span class='icon note'></span>. Esto amestará un marcador al mapa, que pue mover
-        abasnando. Añada'l mensaxe, calque guardar, y otros mapeadores investigarán.
-  fixthemap:
-    title: Informar d'un problema / iguar el mapa
-    how_to_help:
-      title: Cómo ayudar
-      join_the_community:
-        title: Xunise a la comunidá
-        explanation_html: Si atopó un problema colos datos del nuesu mapa; por exemplu
-          una carretera que falta, o la so direición, lo meyor que pue facer ye xunise
-          a la comunidá d'OpenStreetMap y amestar o reparar los datos vusté mesmu.
-      add_a_note:
-        instructions_html: |-
-          Namái faiga clic en <a class='icon note'></a> o nel mesmu iconu na vista del mapa.
-          Esto pondrá un marcador nel mapa, que puede mover
-          abasnando. Escriba'l so mensaxe, faiga clic en guardar, y otros mapeadores investigarán.
-    other_concerns:
-      title: Otres preocupaciones
-      explanation_html: |-
-        Si tienes dalguna preocupación tocante a cómo tan usándose los nuesos datos o tocante al conteníu, consulta la
-        <a href='/copyright'>páxina de drechos d'autor</a> pa más información llegal, o comunícate col <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>grupu de trabayu de la OSMF</a> afayadizu.
-  help_page:
-    title: Algamar ayuda
-    introduction: OpenStreetMap tien dellos recursos p'aprender sobro'l proyeutu,
-      entrugar y contestar preguntes, y discutir y documentar en collaboración cuestiones
-      de cartografía.
-    welcome:
-      url: /welcome
-      title: Bienveníos a OSM
-      description: Principie con esta guía rápida que cubre lo básico d'OpenStreetMap.
-    beginners_guide:
-      url: https://wiki.openstreetmap.org/wiki/Ast:Beginners%27_guide
-      title: Guía del principiante
-      description: Guía pa principiantes, mantenida pola comunidá.
-    help:
-      url: https://help.openstreetmap.org/
-      title: help.openstreetmap.org
-      description: Entrugar o buscar respuestes nel sitiu d'entrugues y respuestes
-        d'OSM.
-    mailing_lists:
-      title: Llistes de corréu
-      description: Fai una entruga o alderica sobro asuntos interesantes nun ampliu
-        abanicu de llistes de corréu temátiques o rexonales.
-    forums:
-      title: Foros
-      description: Entrugues y alderiques pa los que prefieren una interfaz pol estilu
-        d'un tablón d'anuncios.
-    irc:
-      title: IRC
-      description: Charra interactiva en munchos idiomes diferentes y sobro munchos
-        asuntos.
-    switch2osm:
-      title: Migrar a OSM
-      description: Ayuda pa les empreses y organizaciones que cambien a mapes y otros
-        servicios, basaos n'OpenStreetMap.
-    wiki:
-      url: https://wiki.openstreetmap.org/wiki/Ast:Main_Page
-      title: wiki.openstreetmap.org
-      description: Mirar na wiki la documentación d'OSM más a fondu.
-  about_page:
-    next: Siguiente
-    copyright_html: <span>&copy;</span> Collaboradores<br>d'OpenStreetMap
-    used_by: '%{name} proporciona datos de mapes a milenta sitios web, aplicaciones
-      pa móviles, y preseos de hardware'
-    lede_text: OpenStreetMap ta construíu por una comunidá de cartógrafos que contribuyen
-      y caltienen datos de carreteres, senderos, cafeteríes, estaciones de ferrocarril,
-      y muncho más, pel mundu enteru.
-    local_knowledge_title: Conocimientu llocal
-    local_knowledge_html: OpenStreetMap afala'l conocimientu llocal. Los collaboradores
-      usen imaxes aérees, preseos GPS, y mapes de campu de baxa teunoloxía pa comprobar
-      qu'OSM ye precisu y ta anováu.
-    community_driven_title: Dirixíu pola comunidá
-    community_driven_html: |-
-      La comunidá d'OpenStreetMap ye variada, apasionada, y medra caldía.
-      Ente los collaboradores hai cartógrafos entusiastes, profesionales de GIS,
-      inxenieros que xestionen los sirvidores d'OSM, voluntarios que
-      faen mapes de les zones afeutaes por desastres, y muncho más.
-      Pa saber más tocante a la comunidá, ver el
-      <a href='https://blog.openstreetmap.org'>Blog d'OpenStreetMap</a>, los <a href='%{diary_path}'>diarios d'usuarios</a>, los <a href='https://blogs.openstreetmap.org/'>blogs de la comunidá</a>, y la páxina web de la <a href='https://www.osmfoundation.org/'>Fundación OSM</a>.
-    open_data_title: Datos abiertos
-    open_data_html: |-
-      OpenStreetMap son <i>datos abiertos</i>: tienes la llibertá d'usalos pa cualquier
-      propósitu, siempre que-y deas créditu a OpenStreetMap y los sos collaboradores.
-      Si alteres o uses como base los datos de determinaes maneres, sólo puedes distribuir
-      el resultáu baxo la mesma llicencia. Ver la <a href='%{copyright_path}'>páxina de copyright y llicencia</a>
-      pa más detalles.
-    legal_title: Llegal
-    legal_html: "Esti sitiu y munchos otros servicios rellacionaos xestiónalos formalmente
-      la  \n<a href='https://osmfoundation.org/'>Fundación OpenStreetMap</a> (OSMF)
-      \nnel nome de la comunidá. L'usu de tolos servicios alministraos pola OSMF tán
-      suxetos a les nueses <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">polítiques
-      d'usu aceptable</a> y la nuesa <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">política
-      de privacidá</a>\n<br>\n<a href='https://osmfoundation.org/Contact'>Comunícate
-      cola OSMF</a> \nsi tienes entrugues relativos a les llicencies, drechos d'autor
-      u otru tema llegal.\n<br>\nOpenStreetMap, el logo de la lente y «Estáu del mapa»
-      son <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">marques
-      rexistraes de la OSMF</a>."
-    partners_title: Asociaos
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} comentó n''una entrada del diariu'
@@ -1387,7 +1287,7 @@ ast:
       details: Puen alcontrase más detalles del conxuntu de cambios en %{url}
       unsubscribe: Pa date de baxa de les actualizaciones d'esti conxuntu de cambeos,
         visita %{url} y fai clic en «dase de baxa».
-  message:
+  messages:
     inbox:
       title: Buzón
       my_inbox: El mio buzón
@@ -1408,14 +1308,14 @@ ast:
       unread_button: Marcar como non lleíu
       read_button: Marcar como lleíu
       reply_button: Contestar
-      delete_button: Desaniciar
+      destroy_button: Desaniciar
     new:
       title: Unviar mensaxe
       send_message_to: Unviar un mensaxe nuevu a %{name}
       subject: Asuntu
       body: Cuerpu
-      send_button: Unviar
       back_to_inbox: Tornar al buzón d'entrada
+    create:
       message_sent: Mensaxe unviáu
       limit_exceeded: Últimamente unviasti abondos mensaxes. Has d'esperar daqué enantes
         de poder unviar más.
@@ -1440,26 +1340,184 @@ ast:
     reply:
       wrong_user: Tas coneutáu como `%{user}' pero'l mensaxe que quies contestar nun
         s'unvió a esi usuariu. Anicia sesión col usuariu correchu pa contestar.
-    read:
+    show:
       title: Lleer el mensaxe
       from: De
       subject: Asuntu
       date: Data
       reply_button: Contestar
       unread_button: Marcar como non lleíu
-      delete_button: Desaniciar
+      destroy_button: Desaniciar
       back: Anterior
       to: Pa
       wrong_user: Tas coneutáu como `%{user}' pero'l mensaxe que quies lleer nun s'unvió
         por o a esi usuariu. Anicia sesión col usuariu correchu pa contestar.
     sent_message_summary:
-      delete_button: Desaniciar
+      destroy_button: Desaniciar
     mark:
       as_read: Mensaxe marcáu como lleíu
       as_unread: Mensaxe marcáu como non lleíu
-    delete:
-      deleted: Mensaxe desaniciáu
+    destroy:
+      destroyed: Mensaxe desaniciáu
   site:
+    about:
+      next: Siguiente
+      copyright_html: <span>&copy;</span> Collaboradores<br>d'OpenStreetMap
+      used_by: '%{name} proporciona datos de mapes a milenta sitios web, aplicaciones
+        pa móviles, y preseos de hardware'
+      lede_text: OpenStreetMap ta construíu por una comunidá de cartógrafos que contribuyen
+        y caltienen datos de carreteres, senderos, cafeteríes, estaciones de ferrocarril,
+        y muncho más, pel mundu enteru.
+      local_knowledge_title: Conocimientu llocal
+      local_knowledge_html: OpenStreetMap afala'l conocimientu llocal. Los collaboradores
+        usen imaxes aérees, preseos GPS, y mapes de campu de baxa teunoloxía pa comprobar
+        qu'OSM ye precisu y ta anováu.
+      community_driven_title: Dirixíu pola comunidá
+      community_driven_html: |-
+        La comunidá d'OpenStreetMap ye variada, apasionada, y medra caldía.
+        Ente los collaboradores hai cartógrafos entusiastes, profesionales de GIS,
+        inxenieros que xestionen los sirvidores d'OSM, voluntarios que
+        faen mapes de les zones afeutaes por desastres, y muncho más.
+        Pa saber más tocante a la comunidá, ver el
+        <a href='https://blog.openstreetmap.org'>Blog d'OpenStreetMap</a>, los <a href='%{diary_path}'>diarios d'usuarios</a>, los <a href='https://blogs.openstreetmap.org/'>blogs de la comunidá</a>, y la páxina web de la <a href='https://www.osmfoundation.org/'>Fundación OSM</a>.
+      open_data_title: Datos abiertos
+      open_data_html: |-
+        OpenStreetMap son <i>datos abiertos</i>: tienes la llibertá d'usalos pa cualquier
+        propósitu, siempre que-y deas créditu a OpenStreetMap y los sos collaboradores.
+        Si alteres o uses como base los datos de determinaes maneres, sólo puedes distribuir
+        el resultáu baxo la mesma llicencia. Ver la <a href='%{copyright_path}'>páxina de copyright y llicencia</a>
+        pa más detalles.
+      legal_title: Llegal
+      legal_html: "Esti sitiu y munchos otros servicios rellacionaos xestiónalos formalmente
+        la  \n<a href='https://osmfoundation.org/'>Fundación OpenStreetMap</a> (OSMF)
+        \nnel nome de la comunidá. L'usu de tolos servicios alministraos pola OSMF
+        tán suxetos a les nueses <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Condiciones
+        d'usu</a>,<a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">polítiques
+        d'usu aceptable</a> y la nuesa <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">política
+        de privacidá</a>\n<br>\n<a href='https://osmfoundation.org/Contact'>Comunícate
+        cola OSMF</a> \nsi tienes entrugues relativos a les llicencies, drechos d'autor
+        u otru tema llegal.\n<br>\nOpenStreetMap, el logo de la lente y «Estáu del
+        mapa» son <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">marques
+        rexistraes de la OSMF</a>."
+      partners_title: Asociaos
+    copyright:
+      foreign:
+        title: Tocante a esta traducción
+        text: En casu d'haber un conflictu ente esta páxina traducida y %{english_original_link},
+          la páxina n'inglés tendrá prioridá
+        english_link: l'orixinal n'inglés
+      native:
+        title: Tocante a esta páxina
+        text: Tas viendo la versión n'inglés de la páxina de copyright. Pues tornar
+          a la %{native_link} d'esta páxina o pues dexar de lleer sobro'l copyright
+          y %{mapping_link}.
+        native_link: versión n'asturianu
+        mapping_link: principiar col mapéu
+      legal_babble:
+        title_html: Drechos d'autor y llicencia
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> son <i>datos abiertos</i>, baxo llicencia <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) de la <a
+          href="https://osmfoundation.org/">Fundación OpenStreetMap</a> (OSMF).
+        intro_2_html: Puedes copiar, distribuir, tresmitir y adautar los nuesos datos
+          de mou llibre, mentanto deas reconocimientu a OpenStreetMap y a los sos
+          collaboradores. Si camudes o crees conteníu sobre los nuesos datos, namái
+          podrás distribuir el resultáu baxo la mesma llicencia. El <a href="https://opendatacommons.org/licenses/odbl/1.0/">códigu
+          llegal</a> completu t'esplica los tos drechos y obligaciones.
+        intro_3_html: La cartografía de los mosaicos del mapa y la nuesa documentación,
+          tán llicenciaos baxo la llicencia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Reconocimientu-CompartirIgual 2.0</a> (CC BY-SA).
+        credit_title_html: Cómo dar reconocimientu a OpenStreetMap
+        credit_1_html: Riquimos qu'uses el créditu &ldquo;&copy; Collaboradores d'OpenStreetMap&rdquo;.
+        credit_2_html: |-
+          Tamién tienes de dexar claro que los datos tan disponibles baxo la llicencia Open Database License (ODbL), y si utilices los nuesos mosaicos de mapa, que la cartografía tien llicencia CC BY-SA. Puedes facelo enllazando a <a href="https://www.openstreetmap.org/copyright">esta páxina de drechos d'autor</a>.
+          Alternativamente, y como requisitu si distribues OSM en forma de datos, pues nomar y enllazar direutamente a les llicencies. En medios onde los enllaces nun seyan posibles (por exemplu, obres imprentaes), suxerímoste dirixir a los llectores a openstreetmap.org (espandiendo 'OpenStreetMap' a esta dirección completa, seique), a opendatacommons.org y, si ye'l casu, a creativecommons.org.
+        credit_3_html: |-
+          Nun mapa electrónicu navegable, los créditos tendríen d'apaecer na esquina del mapa.
+          Por casu:
+        attribution_example:
+          alt: Exemplu de cómo dar reconocimientu a OpenStreetMap nuna páxina web
+          title: Exemplu de reconocimientu
+        more_title_html: Pa saber más
+        more_1_html: |-
+          Llei más tocante a cómo utilizar los nuesos datos, y cómo danos créditu, na <a
+          href="https://osmfoundation.org/Licence">páxina de Llicencia de la OSMF</a>.
+        more_2_html: |-
+          Anque OpenStreetMap son datos abiertos, nun podemos ufrir una API de mapes de baldre pa desendolcadores d'aplicaciones pa terceros.
+          Llei la nuesa <a href="https://operations.osmfoundation.org/policies/api/">Política d'usu de la API</a> (n'inglés),
+          <a href="https://operations.osmfoundation.org/policies/tiles/">Política d'usu del mosaicu</a> (n'inglés)
+          y <a href="https://operations.osmfoundation.org/policies/nominatim/">Política d'usu de Nominatim</a> (n'inglés tamién).
+        contributors_title_html: Los nuesos collaboradores
+        contributors_intro_html: 'Los nuesos collaboradores son miles de persones.
+          Incluimos tamién datos con llicencia abierta d''axencies cartográfiques
+          nacionales y d''otres fontes, ente elles:'
+        contributors_at_html: |-
+          <strong>Austria</strong>: Contien datos de
+          <a href="https://data.wien.gv.at/">Stadt Wien</a> (baxo
+          <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> y
+          Land Tirol (baxo <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT con enmiendes</a>).
+        contributors_au_html: |-
+          <strong>Australia</strong>: Contien datos de barrios basaos en datos de Australian Bureau of
+          Statistics.
+        contributors_ca_html: |-
+          <strong>Canadá</strong>: Contien datos de GeoBase&reg;, GeoGratis (&copy; Department of Natural
+          Resources Canada), CanVec (&copy; Department of Natural
+          Resources Canada), y StatCan (Geography Division,
+          Statistics Canada).
+        contributors_fi_html: |-
+          <strong>Finlandia</strong>: Contien datos de la base de datos topográfica de la National Land Survey de Finlandia
+          y otros conxuntos de datos, baxo la <a href="http://www.maanmittauslaitos.fi/en/opendata-licence-version1">Llicencia NLSFI</a>.
+        contributors_fr_html: '<strong>Francia</strong>: Contien datos sacaos de Direction
+          Générale des Impôts.'
+        contributors_nl_html: |-
+          <strong>Paises Baxos</strong>: Contien datos &copy; AND, 2007
+          (<a href="https://www.and.com">www.and.com</a>)
+        contributors_nz_html: '<strong>Nueva Zelanda</strong>: Contien datos de la
+          fonte <a href="https://data.linz.govt.nz/">LINZ Data Service</a> con reutilización
+          autorizada baxo la llicencia <a href="https://creativecommons.org/licenses/by/4.0/">CC
+          BY 4.0</a>.'
+        contributors_si_html: |-
+          <strong>Eslovenia</strong>: Contien datos de la
+          <a href="http://www.gu.gov.si/en/">Autoridá Topográfica y Cartográfica</a> y del
+          <a href="http://www.mkgp.gov.si/en/">Ministeriu d'Agricultura, Silvicultura y Alimentación</a>
+          (información pública d'Eslovenia).
+        contributors_es_html: '<strong>España</strong>: Contien datos provenientes
+          del Institutu Xeográficu Nacional (<a href="http://www.ign.es/">IGN</a>)
+          y del Sistema Cartográficu Nacional (<a href="http://www.scne.es/">SCNE</a>),
+          llicenciaos pa la reutilización baxo <a href="https://creativecommons.org/licenses/by/4.0/">CC
+          BY 4.0</a>.'
+        contributors_za_html: |-
+          <strong>Sudáfrica</strong>: Contien datos sacaos de
+          <a href="http://www.ngi.gov.za/">Chief Directorate:
+          National Geo-Spatial Information</a>, State copyright reserved.
+        contributors_gb_html: |-
+          <strong>Reinu Uníu</strong>: Contien datos de Ordnance Survey © Crown copyright and database right
+           2010-19.
+        contributors_footer_1_html: |-
+          Pa más detalles d'estes, y otres fontes que s'usaron p'ayudar a
+          ameyorar OpenStreetMap, por favor, llei la <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">Páxina
+          de los collaboradores</a> na Wiki d'OpenStreetMap.
+        contributors_footer_2_html: La inclusión de datos n'OpenStreetMap nun significa
+          que'l fornidor de los datos orixinales sofite OpenStreetMap, ufra garantía
+          dala o aceute dalguna responsabilidá.
+        infringement_title_html: Incumplimientu de drechos d'autor
+        infringement_1_html: Recordamos a los collaboradores d'OSM qu'enxamás amiesten
+          datos que vengan d'una fonte con drechos d'autor acutaos (p. ex. de Google
+          Maps o mapes impresos) ensin el permisu esplícitu de los dueños de los drechos
+          d'autor.
+        infringement_2_html: Si crees que s'amestó de mou inapropiáu material con
+          drechos d'autor a la base de datos d'OpenStreetMap o a esti sitiu, consulta'l
+          nuesu <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">procedimientu
+          de retirada de datos</a> o pidilo direutamente nel nuesu <a href="http://dmca.openstreetmap.org/">formulariu
+          en llinia</a>.
+        trademarks_title_html: <span id="trademarks"></span>Marques rexistraes
+        trademarks_1_html: OpenStreetMap, el logotipu de la lente y «State of the
+          Map» son marques rexistraes de la Fundación OpenStreetMap. Si tienes entrugues
+          tocante al usu de les marques, consulta la nuesa <a href="http://wiki.osmfoundation.org/wiki/Trademark_Policy">política
+          de marques rexistraes</a>.
     index:
       js_1: O tas usando un restolador ensin sofitu pa JavaScript, o tienes JavaScript
         desactiváu.
@@ -1491,6 +1549,116 @@ ast:
       id_not_configured: iD nun ta configuráu
       no_iframe_support: El to navegador nun tien encontu pa los iframes HTML, que
         se necesiten pa esta carauterística.
+    export:
+      title: Esportar
+      area_to_export: Área a esportar
+      manually_select: Seleiciona manualmente un área distinta
+      format_to_export: Formatu a esportar
+      osm_xml_data: Datos XML d'OpenStreetMap
+      map_image: Imaxe del mapa (amuesa la capa estándar)
+      embeddable_html: HTML pa embrivir
+      licence: Llicencia
+      export_details: Los datos d'OpenStreetMap tan llicenciaos baxo la <a href="https://opendatacommons.org/licenses/odbl/1.0/">llicencia
+        Open Data Commons Open Database</a> (ODbL).
+      too_large:
+        advice: 'Si falla la esportación anterior, considera utilizar una de les fontes
+          de la llista siguiente:'
+        body: Esti área ye abondo grande pa esportase como Datos XML d'OpenStreetMap.
+          Acerca'l mapa o esbilla un área menor, o usa una de les fontes siguientes
+          pa descargar cantidaes grandes de datos.
+        planet:
+          title: Planeta OSM
+          description: Copies anovaes regularmente de la base de datos completa d'OpenStreetMap
+        overpass:
+          title: Overpass API
+          description: Descargar esti cuadru de llendes dende un espeyu de la base
+            de datos d'OpenStreetMap
+        geofabrik:
+          title: Descargues de Geofabrik
+          description: Estractos anovaos regularmente de continentes, paises, y una
+            esbilla de ciudaes
+        metro:
+          title: Estractos de Metro
+          description: Estractos de les principales ciudaes del mundu y les árees
+            d'alredor
+        other:
+          title: Otres fontes
+          description: Otres fontes más qu'apaecen na wiki d'OpenStreetMap
+      options: Opciones
+      format: Formatu
+      scale: Escala
+      max: máx
+      image_size: Tamañu d'imaxe
+      zoom: Zoom
+      add_marker: Amestar un marcador al mapa
+      latitude: 'Llat:'
+      longitude: 'Llon:'
+      output: Salida
+      paste_html: Pegar el HTML pa embrivir nun sitiu web
+      export_button: Esportar
+    fixthemap:
+      title: Informar d'un problema / iguar el mapa
+      how_to_help:
+        title: Cómo ayudar
+        join_the_community:
+          title: Xunise a la comunidá
+          explanation_html: Si atopó un problema colos datos del nuesu mapa; por exemplu
+            una carretera que falta, o la so direición, lo meyor que pue facer ye
+            xunise a la comunidá d'OpenStreetMap y amestar o reparar los datos vusté
+            mesmu.
+        add_a_note:
+          instructions_html: |-
+            Namái faiga clic en <a class='icon note'></a> o nel mesmu iconu na vista del mapa.
+            Esto pondrá un marcador nel mapa, que puede mover
+            abasnando. Escriba'l so mensaxe, faiga clic en guardar, y otros mapeadores investigarán.
+      other_concerns:
+        title: Otres preocupaciones
+        explanation_html: |-
+          Si tienes dalguna preocupación tocante a cómo tan usándose los nuesos datos o tocante al conteníu, consulta la
+          <a href='/copyright'>páxina de drechos d'autor</a> pa más información llegal, o comunícate col <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>grupu de trabayu de la OSMF</a> afayadizu.
+    help:
+      title: Algamar ayuda
+      introduction: OpenStreetMap tien dellos recursos p'aprender sobro'l proyeutu,
+        entrugar y contestar preguntes, y discutir y documentar en collaboración cuestiones
+        de cartografía.
+      welcome:
+        url: /welcome
+        title: Bienveníos a OpenStreetMap
+        description: Principie con esta guía rápida que cubre lo básico d'OpenStreetMap.
+      beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Ast:Beginners%27_guide
+        title: Guía del principiante
+        description: Guía pa principiantes, mantenida pola comunidá.
+      help:
+        url: https://help.openstreetmap.org/
+        title: Foru d'ayuda
+        description: Entrugar o buscar respuestes nel sitiu d'entrugues y respuestes
+          d'OpenStreetMap.
+      mailing_lists:
+        title: Llistes de corréu
+        description: Fai una entruga o alderica sobro asuntos interesantes nun ampliu
+          abanicu de llistes de corréu temátiques o rexonales.
+      forums:
+        title: Foros
+        description: Entrugues y alderiques pa los que prefieren una interfaz pol
+          estilu d'un tablón d'anuncios.
+      irc:
+        title: IRC
+        description: Charra interactiva en munchos idiomes diferentes y sobro munchos
+          asuntos.
+      switch2osm:
+        title: Migrar a OSM
+        description: Ayuda pa les empreses y organizaciones que cambien a mapes y
+          otros servicios, basaos n'OpenStreetMap.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Pa organizaciones
+        description: ¿Con una organización que fai planes pa OpenStreetMap? Atopa
+          lo que tienes de saber nel Felpudu de Bienvenida.
+      wiki:
+        url: https://wiki.openstreetmap.org/wiki/Ast:Main_Page
+        title: Wiki d'OpenStreetMap
+        description: Mirar na wiki la documentación d'OpenStreetMap más a fondu.
     sidebar:
       search_results: Resultaos de la gueta
       close: Zarrar
@@ -1578,7 +1746,7 @@ ast:
       edit: Editar
       preview: Vista previa
     markdown_help:
-      title_html: Analizáu con <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Analizáu con <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Cabeceres
       heading: Cabecera
       subheading: Cabecera secundaria
@@ -1591,7 +1759,58 @@ ast:
       image: Imaxe
       alt: Testu alternativu
       url: URL
-  trace:
+    welcome:
+      title: ¡Afáyate!
+      introduction_html: |-
+        Afáyate n'OpenStreetMap, el mapa del mundu llibre y editable. Agora
+        qu'aniciasti sesión, yá puedes editar mapes. Esta ye una guía rápida
+        de les coses más importantes que necesites saber.
+      whats_on_the_map:
+        title: Qué hai nel Mapa
+        on_html: |-
+          OpenStreetMap ye un llugar pa cartografiar coses que seyan al mesmu tiempu <em>reales y actuales</em> -
+          incluye millones d'edificios, carreteres, y otros detalles de llugares. Puedes poner nel mapa
+          cualquier carauterística del mundu real que t'interese.
+        off_html: |-
+          Lo que <em>nun</em> incluye son datos suxetivos como calificaciones, carauterístiques históriques o hipotétiques, y datos de fontes con drechos d'autor. Si nun tienes
+          un permisu especial, nun copies de mapes en llinia o en papel.
+      basic_terms:
+        title: Términos básicos pa facer mapes
+        paragraph_1_html: OpenStreetMap tien cierta xíriga de so. Estes son delles
+          pallabres importantes que puen ser afayadices.
+        editor_html: Un <strong>editor</strong> ye un programa o sitiu web que pue
+          usar pa editar el mapa.
+        node_html: Un <strong>noyu</strong> ye un puntu del mapa, como un únicu restaurante
+          o un árbol.
+        way_html: Una <strong>vía</strong> ye una llinia o área, como una carretera,
+          regueru, llagu o edificiu.
+        tag_html: |-
+          Una <strong>etiqueta</strong> ye una parte de los datos d'un noyu o vía, como'l
+          d'un restaurante o la velocidá máxima d'una carretera.
+      rules:
+        title: ¡Regles!
+        paragraph_1_html: OpenStreetMap tien poques regles formales, pero esperamos
+          que tolos participantes collaboren y se comuniquen cola comunidá. Si tas
+          considerando cualquier actividá distinta de la edición manual, llei y sigui
+          les instrucciones sobro <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>importaciones</a>
+          y <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>ediciones
+          automatizaes</a>.
+      questions:
+        title: ¿Tien alguna entruga?
+        paragraph_1_html: |-
+          OpenStreetMap tien dellos recursos p'aprender sobro'l proyeutu, entrugar y contestar preguntes, y discutir y documentar en collaboración cuestiones de cartografía.
+          <a href='%{help_url}'>Algama ayuda equí</a>. ¿Con una organización que fai planes pa OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Visita'l Felpudu de Bienvenida</a>.
+      start_mapping: Principiar col mapéu
+      add_a_note:
+        title: ¿Nun tien tiempu pa editar? ¡Amieste una nota!
+        paragraph_1_html: |-
+          Si namái quier iguar daqué pequeño y nun tien tiempu pa dase d'alta y deprender cómo editar,
+          ye fácil amestar una nota.
+        paragraph_2_html: |-
+          Namái entre <a href='%{map_url}'>nel mapa</a> y calque nel iconu nota:
+          <span class='icon note'></span>. Esto amestará un marcador al mapa, que pue mover
+          abasnando. Añada'l mensaxe, calque guardar, y otros mapeadores investigarán.
+  traces:
     visibility:
       private: Priváu (compartíu sólo como anónimu, puntos ensin axeitar)
       public: Públicu (amosar na llista de traces y como anónimu, puntos ensin axeitar)
@@ -1599,11 +1818,30 @@ ast:
         d'hora)
       identifiable: Identificable (amosar na llista de traces y como identificable,
         puntos axeitaos con marques d'hora)
+    new:
+      upload_trace: Xubir traza GPS
+      upload_gpx: 'Xubir un ficheru GPX:'
+      description: 'Descripción:'
+      tags: 'Etiquetes:'
+      tags_help: llendáu con comes
+      visibility: 'Visibilidá:'
+      visibility_help: ¿qué ye esto?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
+      help: Ayuda
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: Xubir traza GPS
       trace_uploaded: El to ficheru GPX se xubió y ta esperando p'amestase a la base
         de datos. De vezu, esto tendría d'asoceder en media hora, y se t'unviará un
         corréu al completase.
+      upload_failed: Sentímoslo, falló la carga del GPX. Avisóse del error a un alministrador.
+        Tenta nuevamente.
+      traces_waiting:
+        one: Tien %{count} traza esperando pa xubir. Considere esperar a qu'esta termine
+          enantes de xubir más, col envís de nun bloquiar la cola pa otros usuarios.
+        other: Tien %{count} traces esperando pa xubir. Considere esperar a qu'estes
+          terminen enantes de xubir más, col envís de nun bloquiar la cola pa otros
+          usuarios.
     edit:
       title: Editando la traza %{name}
       heading: Editando la traza %{name}
@@ -1618,30 +1856,13 @@ ast:
       description: 'Descripción:'
       tags: 'Etiquetes:'
       tags_help: llendáu con comes
-      save_button: Guardar cambeos
       visibility: 'Visibilidá:'
       visibility_help: ¿qué ye esto?
-    trace_form:
-      upload_gpx: 'Xubir un ficheru GPX:'
-      description: 'Descripción:'
-      tags: 'Etiquetes:'
-      tags_help: llendáu con comes
-      visibility: 'Visibilidá:'
-      visibility_help: ¿qué ye esto?
-      upload_button: Xubir
-      help: Ayuda
-    trace_header:
-      upload_trace: Xubir una traza
-      see_all_traces: Ver toles traces
-      see_your_traces: Ver toles tos traces
-      traces_waiting: '{PLURAL|one=Tien %{count} traza esperando pa xubir. Considere
-        esperar a qu''esta termine enantes de xubir más, col envís de nun bloquiar
-        la cola pa otros usuarios.|Tien %{count} traces esperando pa xubir. Considere
-        esperar a qu''estes terminen enantes de xubir más, col envís de nun bloquiar
-        la cola pa otros usuarios.}}'
+    update:
+      updated: Xubióse la traza
     trace_optionals:
       tags: Etiquetes
-    view:
+    show:
       title: Amosando la traza %{name}
       heading: Amosando la traza %{name}
       pending: PENDIENTE
@@ -1656,10 +1877,11 @@ ast:
       description: 'Descripción:'
       tags: 'Etiquetes:'
       none: Dengún
-      edit_track: Editar esta traza
-      delete_track: Desaniciar esta traza
+      edit_trace: Editar esta traza
+      delete_trace: Desaniciar esta traza
       trace_not_found: ¡Nun s'alcontró la traza!
       visibility: 'Visibilidá:'
+      confirm_delete: ¿Desaniciar esta traza?
     trace_paging_nav:
       showing_page: Páxina %{page}
       older: Traces más antigües
@@ -1667,7 +1889,6 @@ ast:
     trace:
       pending: PENDIENTE
       count_points: '%{count} puntos'
-      ago: hai %{time_in_words_ago}
       more: más
       trace_details: Amosar detalles de la traza
       view_map: Ver el Mapa
@@ -1680,15 +1901,18 @@ ast:
       by: por
       in: en
       map: mapa
-    list:
+    index:
       public_traces: Traces GPS públiques
-      your_traces: Les tos traces GPS
+      my_traces: Les mios traces GPS
       public_traces_from: Traces GPS públiques de %{user}
       description: Ver les xubes más nueves de traces GPS
       tagged_with: ' etiquetaes con %{tags}'
       empty_html: Entá nun hai nada equí. <a href='%{upload_link}'>Carga una nueva
         traza</a> o depriende más tocante a cómo trazar col GPS na <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>páxina
         de la wiki</a>.
+      upload_trace: Xubir una traza
+      see_all_traces: Ver toles traces
+      see_my_traces: Ver les mios traces
     delete:
       scheduled_for_deletion: Traza marcada pa desaniciar
     make_public:
@@ -1707,11 +1931,12 @@ ast:
         other: Ficheru GPX con %{count} puntos de %{user}
       description_without_count: Ficheru GPX de %{user}
   application:
+    permission_denied: Nun tienes permisu d'accesu pa esta aición.
     require_cookies:
       cookies_needed: Paez que tienes les cookies desactivaes - activa les cookies
         nel restolador enantes de siguir.
-    require_moderator:
-      not_a_moderator: Has de ser moderador pa facer esa aición.
+    require_admin:
+      not_an_admin: Has de ser alministrador pa facer esa aición.
     setup_user_auth:
       blocked_zero_hour: Tienes un mensaxe urxente nel sitiu web d'OpenStreetMap.
         Tienes de lleer el mensaxe antes de que puedas guardar les ediciones.
@@ -1721,7 +1946,7 @@ ast:
         coneuta pela interfaz web pa ver los Términos de Collaboración. Nun fai falta
         aceutalos, pero debes conocelos.
   oauth:
-    oauthorize:
+    authorize:
       title: Autorizar l'accesu a la to cuenta
       request_access: L'aplicación %{app_name} ta solicitando accesu a la to cuenta,
         %{user}. Por favor, revisa si quies que l'aplicación tenga les capacidaes
@@ -1735,11 +1960,11 @@ ast:
       allow_write_gpx: xubir traces GPS.
       allow_write_notes: camudar notes.
       grant_access: Permitir accesu
-    oauthorize_success:
+    authorize_success:
       title: Solicitú d'autorización permitida
       allowed: Permitió que l'aplicación %{app_name} tenga accesu a la so cuenta.
       verification: El códigu de comprobación ye %{code}.
-    oauthorize_failure:
+    authorize_failure:
       title: Falló la solicitú d'autorización
       denied: Refugó a l'aplicación %{app_name} l'accesu a la so cuenta.
       invalid: El pase d'autorización nun ye válidu.
@@ -1750,10 +1975,8 @@ ast:
   oauth_clients:
     new:
       title: Rexistrar una aplicación nueva
-      submit: Rexistrar
     edit:
       title: Editar la to aplicación
-      submit: Editar
     show:
       title: Detalles d'OAuth pa %{app_name}
       key: 'Clave del consumidor:'
@@ -1808,7 +2031,7 @@ ast:
       flash: S'anovó la información del cliente correutamente
     destroy:
       flash: Se destruyó'l rexistru de l'aplicación cliente
-  user:
+  users:
     login:
       title: Entrar
       heading: Entrar
@@ -1917,18 +2140,27 @@ ast:
       terms accepted: ¡Gracies por aceutar les condiciones de collaboración!
       terms declined: Sentimos que decidieras nun aceutar les Condiciones de Collaborador.
         Pa más información llei <a href="%{url}">esta páxina wiki</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Condiciones de collaboración
-      heading: Condiciones de collaboración
-      read and accept: Llei l'alcuerdu de más abaxo y calca nel botón aceutar pa confirmar
-        qu'aceutes les condiciones d'esti alcuerdu pa les tos collaboraciones esistentes
-        y futures.
-      consider_pd: Amás del alcuerdu anterior, considero que les mios collaboraciones
-        pasen a ser Dominiu Públicu
+      title: Condiciones
+      heading: Condiciones
+      heading_ct: Condiciones de collaboración
+      read and accept with tou: Llei l'alcuerdu de collaboración y los términos d'usu,
+        marca dambos caxellos en faciéndolo, y primi'l botón de siguir.
+      contributor_terms_explain: Esti alcuerdu regula los términos de les tos contribuciones
+        actuales y futures.
+      read_ct: Lleí y aceuto los términos de contribución descritos más arriba
+      tou_explain_html: Estos %{tou_link} gobernen l'usu del sitiu web y d'otra infraestructura
+        forníos pola OSMF. Por favor, pulsia nel enllaz, y llei y aceuta'l testu.
+      read_tou: Lleí y toi d'alcuerdu colos Términos d'Usu
+      consider_pd: Amás de lo anterior, considero que les mios collaboraciones pasen
+        a ser Dominiu Públicu
       consider_pd_why: ¿qué ye esto?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Información p''ayudar a entender estos términos: un <a href="%{summary}">resume</a>
         y delles <a href="%{translations}">traducciones non oficiales</a>'
-      agree: Aceutar
+      continue: Siguir
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Refugar
       you need to accept or decline: Por favor, llei y aceuta o refuga les nueves
         Condiciones de Collaboración pa siguir.
@@ -1943,7 +2175,7 @@ ast:
       body: Lo siento, nun hai dengún usuariu col nome %{user}. Comprueba la escritura
         o si calcasti nun enllaz enquivocáu.
       deleted: desaniciao
-    view:
+    show:
       my diary: El mio diariu
       new diary entry: nueva entrada del diariu
       my edits: Les mios ediciones
@@ -1964,12 +2196,10 @@ ast:
       remove as friend: Desaniciar como amigu
       add as friend: Amestar como amigu
       mapper since: 'Mapeador dende:'
-      ago: (hai %{time_in_words_ago})
       ct status: 'Términos de collaboración:'
       ct undecided: Indecisu
       ct declined: Refugada
-      ct accepted: Aceutada hai %{ago}
-      latest edit: 'Cabera edición %{ago}:'
+      latest edit: 'Cabera edición (%{ago}):'
       email address: 'Direición de corréu electrónicu:'
       created from: 'Creáu dende:'
       status: 'Estáu:'
@@ -1979,7 +2209,7 @@ ast:
       if set location: Configura'l to allugamientu na páxina de %{settings_link} pa
         ver los usuarios cercanos.
       settings_link_text: preferencies
-      your friends: Los tos amigos
+      my friends: Los mios amigos
       no friends: Entá nun amestasti dengún amigu.
       km away: a %{count}km de distancia
       m away: a %{count}m de distancia
@@ -2009,6 +2239,7 @@ ast:
       friends_diaries: entraes de diariu de los amigos
       nearby_changesets: conxuntos de cambios d'usuarios cercanos
       nearby_diaries: entraes de diariu d'usuarios cercanos
+      report: Informar d'esti usuariu
     popup:
       your location: El to allugamientu
       nearby mapper: Mapeador próximu
@@ -2049,6 +2280,7 @@ ast:
           nuevos términos de collaboración.
         agreed_with_pd: Tamién declarasti que consideres que les tos ediciones pertenecen
           al Dominiu Públicu.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: ¿qué ye esto?
       profile description: 'Descripción del perfil:'
       preferred languages: 'Llingües preferíes:'
@@ -2121,9 +2353,7 @@ ast:
       button: Desaniciar como amigu
       success: '%{name} desanicióse de los tos amigos.'
       not_a_friend: '%{name} nun ye unu de los tos amigos.'
-    filter:
-      not_an_administrator: Has de ser alministrador pa facer esa aición.
-    list:
+    index:
       title: Usuarios
       heading: Usuarios
       showing:
@@ -2164,8 +2394,6 @@ ast:
         la cuenta cola ID nes preferencies d'usuariu.
   user_role:
     filter:
-      not_an_administrator: Namái los alministradores pueden xestionar los roles,
-        y nun yes alministrador.
       not_a_role: La cadena «%{role}» nun ye un rol válidu.
       already_has_role: L'usuariu yá tien el rol %{role}.
       doesnt_have_role: L'usuariu nun tien el rol %{role}.
@@ -2185,7 +2413,7 @@ ast:
       confirm: Confirmar
       fail: Nun pues quita-y el rol «%{role}» al usuariu «%{name}». Comprueba que
         tanto l'usuariu como'l rol son válidos.
-  user_block:
+  user_blocks:
     model:
       non_moderator_update: Has de ser moderador pa crear o anovar un bloquéu.
       non_moderator_revoke: Has de ser moderador pa desaniciar un bloquéu.
@@ -2201,7 +2429,6 @@ ast:
         usuarios entienden la xíriga de la comunidá; de mou qu'intenta usar pallabres
         cencielles.
       period: Por cuantu tiempu, dende agora, l'usuariu tendrá torgáu usar la API.
-      submit: Crear un bloquéu
       tried_contacting: Púnxime en contautu col usuariu pa pidíi qu'aparara.
       tried_waiting: Di-y al usuariu tiempu razonable abondo pa responder a eses comunicaciones.
       needs_view: L'usuariu tien de coneutase enantes de que se desanicie esti bloquéu
@@ -2214,12 +2441,11 @@ ast:
         en cuenta que non tolos usuarios entienden la xíriga de la comunidá; de mou
         qu'intenta usar pallabres cencielles.
       period: Por cuantu tiempu, dende agora, l'usuariu tendrá torgáu usar la API.
-      submit: Anovar el bloquéu
       show: Ver esti bloquéu
       back: Ver tolos bloqueos
       needs_view: ¿Tien de coneutase l'usuariu enantes de que se desanicie esti bloquéu?
     filter:
-      block_expired: El bloquéu yá caducó y nun se pue editar.
+      block_expired: El bloquéu yá caducó y nun puede editase.
       block_period: El periodu de bloquéu tien de ser un de los valores presentes
         na llista estenderexable.
     create:
@@ -2229,7 +2455,7 @@ ast:
         de bloquialu.
       flash: Creóse un bloquéu a %{name}.
     update:
-      only_creator_can_edit: Sólo el moderador que creó esti bloquéu pue editalu.
+      only_creator_can_edit: Sólo el moderador que creó esti bloquéu puede editalu.
       success: Bloquéu anováu.
     index:
       title: Bloqueos d'usuariu
@@ -2239,33 +2465,32 @@ ast:
       title: Desaniciando'l bloquéu a %{block_on}
       heading: Desaniciando'l bloquéu a %{block_on} por %{block_by}
       time_future: Esti bloquéu finará en %{time}.
-      past: Esti bloquéu finó hai %{time} y nun pue desaniciase agora.
+      past: Esti bloquéu finó %{time} y nun pué revocase agora.
       confirm: ¿Seguro que quies desaniciar esti bloquéu?
       revoke: ¡Desaniciar!
       flash: Esti bloquéu se desanició.
-    period:
-      one: 1 hora
-      other: '%{count} hores'
-    partial:
-      show: Amosar
-      edit: Editar
-      revoke: ¡Desaniciar!
-      confirm: ¿Tas seguru?
-      display_name: Usuariu bloquiáu
-      creator_name: Creador
-      reason: Motivu del bloquéu
-      status: Estáu
-      revoker_name: Desaniciáu por
-      not_revoked: (non desaniciáu)
-      showing_page: Páxina %{page}
-      next: Siguiente »
-      previous: « Anterior
     helper:
       time_future: Fina en %{time}.
       until_login: Activu fasta que'l usuariu anicie sesión.
       time_future_and_until_login: Acaba en %{time} y después de que l'usuariu anicie
         sesión.
-      time_past: Finó hai %{time}.
+      time_past: Finó %{time}.
+      block_duration:
+        hours:
+          one: 1 hora
+          other: '%{count} hores'
+        days:
+          one: 1 día
+          other: '%{count} díes'
+        weeks:
+          one: 1 selmana
+          other: '%{count} selmanes'
+        months:
+          one: 1 mes
+          other: '%{count} meses'
+        years:
+          one: 1 añu
+          other: '%{count} años'
     blocks_on:
       title: Bloqueos fechos a %{name}
       heading: Llista de los bloqueos a %{name}
@@ -2277,10 +2502,7 @@ ast:
     show:
       title: '%{block_on} bloquiáu por %{block_by}'
       heading: '%{block_on} bloquiáu por %{block_by}'
-      time_future: Fina en %{time}
-      time_past: Finó hai %{time}
       created: Creáu
-      ago: hai %{time}
       status: Estáu
       show: Amosar
       edit: Editar
@@ -2290,38 +2512,30 @@ ast:
       back: Ver tolos bloqueos
       revoker: 'Desaniciador:'
       needs_view: L'usuariu tien de coneutase enantes de que se desanicie esti bloquéu.
-  note:
-    description:
-      opened_at_html: Creada hai %{when}
-      opened_at_by_html: Creada hai %{when} por %{user}
-      commented_at_html: Anovada hai %{when}
-      commented_at_by_html: Anovada hai %{when} por %{user}
-      closed_at_html: Resuelta hai %{when}
-      closed_at_by_html: Resuelta hai %{when} por %{user}
-      reopened_at_html: Reactivada hai %{when}
-      reopened_at_by_html: Reactivada hai %{when} por %{user}
-    rss:
-      title: Notes d'OpenStreetMap
-      description_area: Llista de notes, escrites, comentaes o zarraes en so área
-        [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-      description_item: Una canal rss pa la nota %{id}
-      opened: nota nueva (cerca de %{place})
-      commented: comentariu nuevu (cerca de %{place})
-      closed: nota zarrada (cerca de %{place})
-      reopened: nota reactivada (cerca de %{place})
-    entry:
-      comment: Comentariu
-      full: Nota completa
+    block:
+      not_revoked: (non desaniciáu)
+      show: Amosar
+      edit: Editar
+      revoke: ¡Desaniciar!
+    blocks:
+      display_name: Usuariu bloquiáu
+      creator_name: Creador
+      reason: Motivu del bloquéu
+      status: Estáu
+      revoker_name: Desaniciáu por
+      showing_page: Páxina %{page}
+      next: Siguiente »
+      previous: « Anterior
+  notes:
     mine:
       title: Notes unviaes o comentaes por %{user}
       heading: notes de %{user}
-      subheading: Notes unviaes o comentaes por %{user}
+      subheading_html: Notes unviaes o comentaes por %{user}
       id: Id
       creator: Creador
       description: Descripción
       created_at: Creada el
       last_changed: Cambéu postreru
-      ago_html: hai %{when}
   javascripts:
     close: Zarrar
     share:
@@ -2371,6 +2585,8 @@ ast:
         title: Capes
       copyright: © <a href='%{copyright_url}'>collaboradores d'OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Faiga una donación</a>
+      terms: <a href='%{terms_url}' target='_blank'>Condiciones del sitiu web y de
+        la API</a>
     site:
       edit_tooltip: Editar el mapa
       edit_disabled_tooltip: Aumenta pa editar el mapa
@@ -2408,19 +2624,18 @@ ast:
     directions:
       ascend: Ascender
       engines:
+        fossgis_osrm_bike: Bicicleta (OSRM)
+        fossgis_osrm_car: En coche (OSRM)
+        fossgis_osrm_foot: Pie (OSRM)
         graphhopper_bicycle: Bicicleta  (GraphHopper)
         graphhopper_car: En coche (GraphHopper)
         graphhopper_foot: A pie (GraphHopper)
-        mapquest_bicycle: Bicicleta (MapQuest)
-        mapquest_car: Coche (MapQuest)
-        mapquest_foot: A pie (MapQuest)
-        osrm_car: En coche (OSRM)
       descend: Descender
       directions: Indicaciones
       distance: Distancia
       errors:
         no_route: Nun pudo alcontrase una ruta ente estos dos llugares.
-        no_place: Sentímoslo. Nun  pudo alcontrase esi llugar.
+        no_place: Nun pudo alcontrase '%{place}'.
       instructions:
         continue_without_exit: Siguir en %{name}
         slight_right_without_exit: Llixeramente a la drecha haza %{name}
@@ -2440,6 +2655,7 @@ ast:
         onramp_right_with_name_directions: Xira a la derecha nel enllaz pa %{name},
           hacia %{directions}
         onramp_right_without_directions: Xira a la derecha pal enllaz
+        onramp_right: Xira a la derecha pal enllaz
         endofroad_right_without_exit: Al final de la carretera xira a la drecha haza
           %{name}
         merge_right_without_exit: Xúnite a la drecha haza %{name}
@@ -2465,6 +2681,7 @@ ast:
         onramp_left_with_name_directions: Xira a la izquierda nel enllaz pa %{name},
           hacia %{directions}
         onramp_left_without_directions: Xira a la izquierda nel enllaz
+        onramp_left: Xira a la izquierda pal enllaz
         endofroad_left_without_exit: Al final de la carretera xira a la izquierda
           haza %{name}
         merge_left_without_exit: Xúnite a la izquierda haza %{name}
@@ -2480,13 +2697,21 @@ ast:
         against_oneway_without_exit: Dir escontra direición per %{name}
         end_oneway_without_exit: Final de sentíu únicu en %{name}
         roundabout_with_exit: Na rotonda coyer la salida %{exit} haza %{name}
-        turn_left_with_exit: Na rotonda xira a la izquierda haza %{name}
-        slight_left_with_exit: Na rotonda xira llixeramente a la izquierda haza %{name}
-        turn_right_with_exit: Na rotonda xira a la derecha haza %{name}
-        slight_right_with_exit: Na rotonda xira llixeramente a la derecha haza %{name}
-        continue_with_exit: Na rotonda siguir de frente haza %{name}
+        roundabout_with_exit_ordinal: Na rotonda toma la salida %{exit} haza %{name}
+        exit_roundabout: Salir de la rotonda escontra %{name}
         unnamed: ensin nome
         courtesy: Direiciones cortesía de %{link}
+        exit_counts:
+          first: 1ª
+          second: 2ª
+          third: 3ª
+          fourth: 4ª
+          fifth: 5ª
+          sixth: 6ª
+          seventh: 7ª
+          eighth: 8ª
+          ninth: 9ª
+          tenth: 10ª
       time: Tiempu
     query:
       node: Nuedu
@@ -2502,11 +2727,10 @@ ast:
       show_address: Amosar la direición
       query_features: Consultar entidaes
       centre_map: Centrar el mapa equí
-  redaction:
+  redactions:
     edit:
       description: Descripción
       heading: Editar redaición
-      submit: Guardar redaición
       title: Editar redaición
     index:
       empty: Nun hai redaiciones qu'amosar
@@ -2515,7 +2739,6 @@ ast:
     new:
       description: Descripción
       heading: Escribir información de la redaición nueva
-      submit: Crear redaición
       title: Crear una redaición nueva
     show:
       description: 'Descripción:'
@@ -2526,7 +2749,7 @@ ast:
       destroy: Desaniciar esta redaición
       confirm: ¿Tas seguru?
     create:
-      flash: Se creó la redaición.
+      flash: Creóse la redaición.
     update:
       flash: Cambios guardaos.
     destroy:
@@ -2534,4 +2757,9 @@ ast:
         pertenecen a esta redaición enantes de destruila.
       flash: Redaición destruyía.
       error: Hebo un error al destruir esta redaición.
+  validations:
+    leading_whitespace: tien espaciu al principiu
+    trailing_whitespace: tien espaciu al final
+    invalid_characters: contien caráuteres non válidos
+    url_characters: Contien caráuteres URL especiales (%{characters})
 ...

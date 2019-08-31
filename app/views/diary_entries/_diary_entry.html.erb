@@ -1,0 +1,50 @@
+<div class='diary_post<%= " deemphasize" unless diary_entry.visible %> user_<%= diary_entry.user.id %>'>
+  <div class='post_heading clearfix'>
+    <% if !@user %>
+      <%= user_thumbnail diary_entry.user %>
+    <% end %>
+
+    <h2><%= link_to h(diary_entry.title), diary_entry_path(diary_entry.user, diary_entry) %></h2>
+
+    <small class='deemphasize'>
+      <%= raw(t(".posted_by", :link_user => (link_to h(diary_entry.user.display_name), user_path(diary_entry.user)), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to h(diary_entry.language.name), :controller => "diary_entries", :action => "index", :display_name => nil, :language => diary_entry.language_code))) %>
+    </small>
+
+  </div>
+
+  <div class="richtext" xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
+    <%= diary_entry.body.to_html %>
+  </div>
+
+  <% if diary_entry.latitude and diary_entry.longitude %>
+    <%= render :partial => "location", :object => diary_entry %>
+  <% end %>
+
+  <ul class='secondary-actions clearfix'>
+    <% if params[:action] == 'index' %>
+      <li><%= link_to t(".comment_link"), diary_entry_path(diary_entry.user, diary_entry, :anchor => "newcomment") %></li>
+      <li><%= link_to t(".reply_link"), new_message_path(diary_entry.user, :message => { :title => "Re: #{diary_entry.title}" }) %></li>
+      <li><%= link_to t(".comment_count", :count => diary_entry.visible_comments.count), diary_entry_path(diary_entry.user, diary_entry, :anchor => "comments") %></li>
+    <% end %>
+
+    <% if current_user && current_user == diary_entry.user %>
+      <li><%= link_to t(".edit_link"), :action => "edit", :display_name => diary_entry.user.display_name, :id => diary_entry.id %></li>
+    <% end %>
+
+    <% if current_user and diary_entry.user != current_user %>
+      <li>
+        <%= report_link(t(".report"), diary_entry) %>
+      </li>
+    <% end %>
+
+    <% if can? :hide, DiaryEntry %>
+      <li>
+        <% if diary_entry.visible %>
+          <%= link_to t(".hide_link"), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+        <% else %>
+          <%= link_to t(".unhide_link"), unhide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

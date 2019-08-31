@@ -40,6 +40,7 @@ class RequestToken < OauthToken
 
   def authorize!(user)
     return false if authorized?
+
     self.user = user
     self.authorized_at = Time.now
     self.verifier = OAuth::Helper.generate_key(20)[0, 20] unless oauth10?
@@ -76,6 +77,6 @@ class RequestToken < OauthToken
   end
 
   def oauth10?
-    (defined? OAUTH_10_SUPPORT) && OAUTH_10_SUPPORT && callback_url.blank?
+    Settings.key?(:oauth_10_support) && Settings.oauth_10_support && callback_url.blank?
   end
 end

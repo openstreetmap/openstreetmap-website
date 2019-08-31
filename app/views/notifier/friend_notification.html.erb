@@ -1,9 +1,9 @@
-<p><%= t 'notifier.friend_notification.had_added_you', :user => @friend.befriender.display_name %></p>
+<p><%= t ".had_added_you", :user => @friend.befriender.display_name %></p>
 
 <%= message_body do %>
-  <p><%= raw t 'notifier.friend_notification.see_their_profile', :userurl => link_to(@viewurl, @viewurl) %></p>
+  <p><%= raw t ".see_their_profile", :userurl => link_to(@viewurl, @viewurl) %></p>
 
   <% unless @friend.befriendee.is_friends_with?(@friend.befriender) -%>
-  <p><%= raw t 'notifier.friend_notification.befriend_them', :befriendurl => link_to(@friendurl, @friendurl) %></p>
+  <p><%= raw t ".befriend_them", :befriendurl => link_to(@friendurl, @friendurl) %></p>
   <% end -%>
 <% end %>

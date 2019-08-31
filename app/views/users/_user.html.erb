@@ -1,0 +1,25 @@
+<% cl = cycle("table0", "table1") %>
+
+<tr class="<%= cl %>">
+  <td>
+    <%= user_thumbnail(user) %>
+  </td>
+  <td>
+    <p>
+      <% if user.creation_ip %>
+        <%= raw t "users.index.summary",
+                  :name => link_to(h(user.display_name), user_path(user)),
+                  :ip_address => link_to(user.creation_ip, :ip => user.creation_ip),
+                  :date => l(user.creation_time, :format => :friendly) %>
+      <% else %>
+        <%= raw t "users.index.summary_no_ip",
+                  :name => link_to(h(user.display_name), user_path(user)),
+                  :date => l(user.creation_time, :format => :friendly) %>
+      <% end %>
+    </p>
+    <div class="richtext"><%= user.description.to_html %></div>
+  </td>
+  <td>
+    <%= check_box_tag "user_#{user.id}", "", false, :name => "user[#{user.id}]" %>
+  </td>
+</tr>

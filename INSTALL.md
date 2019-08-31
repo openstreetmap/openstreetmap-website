@@ -5,7 +5,7 @@ If you want to deploy the software for your own project, then see the notes at t
 
 You can install the software directly on your machine, which is the traditional and probably best-supported approach. However, there is an alternative which may be easier: Vagrant. This installs the software into a virtual machine, which makes it easier to get a consistent development environment and may avoid installation difficulties. For Vagrant instructions, see [VAGRANT.md](VAGRANT.md).
 
-These instructions are based on Ubuntu 12.04 LTS, which is the platform used by the OSMF servers.
+These instructions are based on Ubuntu 18.04 LTS, which is the platform used by the OSMF servers.
 The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and MacOSX
 
 We don't recommend attempting to develop or deploy this software on Windows. If you need to use Windows, then try developing this software using Ubuntu in a virtual machine, or use [Vagrant](VAGRANT.md).
@@ -18,22 +18,22 @@ of packages required before you can get the various gems installed.
 
 ## Minimum requirements
 
-* Ruby 2.3
-* RubyGems 1.3.1+
+* Ruby 2.5+
 * PostgreSQL 9.1+
 * ImageMagick
 * Bundler
 * Javascript Runtime
 
-These can be installed on Ubuntu 16.04 or later with:
+These can be installed on Ubuntu 18.04 or later with:
 
 ```
-sudo apt-get install ruby2.3 libruby2.3 ruby2.3-dev \
+sudo apt-get update
+sudo apt-get install ruby2.5 libruby2.5 ruby2.5-dev bundler \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
-                     apache2 apache2-dev build-essential git-core \
+                     apache2 apache2-dev build-essential git-core phantomjs \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
-                     libsasl2-dev imagemagick libffi-dev
-sudo gem2.3 install bundler
+                     libsasl2-dev imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev
+sudo gem2.5 install bundler
 ```
 
 ### Alternative platforms
@@ -43,11 +43,12 @@ sudo gem2.3 install bundler
 For Fedora, you can install the minimum requirements with:
 
 ```
-sudo yum install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
+sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
                  libxml2-devel js \
                  gcc gcc-c++ git \
                  postgresql postgresql-server postgresql-contrib postgresql-devel \
-                 perl-podlators ImageMagick libffi-devel
+                 perl-podlators ImageMagick libffi-devel gd-devel libarchive-devel \
+                 bzip2-devel nodejs-yarn
 ```
 
 If you didn't already have PostgreSQL installed then create a PostgreSQL instance and start the server:
@@ -115,15 +116,22 @@ cd openstreetmap-website
 bundle install
 ```
 
-## Application setup
+## Node.js modules
 
-We need to create the `config/application.yml` file from the example template. This contains various configuration options.
+We use [Yarn](https://yarnpkg.com/) to manage the Node.js modules required for the project.
 
 ```
-cp config/example.application.yml config/application.yml
+bundle exec rake yarn:install
 ```
 
-You can customize your installation of The Rails Port by changing the values in `config/application.yml`
+## Storage setup
+
+The Rails port needs to be configured with an object storage facility - for
+development and testing purposes you can use the example configuration:
+
+```
+cp config/example.storage.yml config/storage.yml
+```
 
 ## Database setup
 
@@ -210,7 +218,7 @@ Rails comes with a built-in webserver, so that you can test on your own machine 
 bundle exec rails server
 ```
 
-You can now view the site in your favourite web-browser at `http://localhost:3000/`
+You can now view the site in your favourite web-browser at [http://localhost:3000/](http://localhost:3000/)
 
 Note that the OSM map tiles you see aren't created from your local database - they are just the standard map tiles.
 

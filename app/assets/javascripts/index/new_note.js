@@ -1,10 +1,14 @@
-OSM.NewNote = function(map) {
+//= require querystring
+
+OSM.NewNote = function (map) {
+  var querystring = require("querystring-component");
+
   var noteLayer = map.noteLayer,
-    content = $('#sidebar_content'),
-    page = {},
-    addNoteButton = $(".control-note .control-button"),
-    newNote,
-    halo;
+      content = $("#sidebar_content"),
+      page = {},
+      addNoteButton = $(".control-note .control-button"),
+      newNote,
+      halo;
 
   var noteIcons = {
     "new": L.icon({
@@ -28,9 +32,9 @@ OSM.NewNote = function(map) {
     e.preventDefault();
     e.stopPropagation();
 
-    if ($(this).hasClass('disabled')) return;
+    if ($(this).hasClass("disabled")) return;
 
-    OSM.router.route('/note/new');
+    OSM.router.route("/note/new");
   });
 
   function createNote(marker, form, url) {
@@ -61,7 +65,7 @@ OSM.NewNote = function(map) {
       newNote = null;
       noteLayer.removeLayer(marker);
       addNoteButton.removeClass("active");
-      OSM.router.route('/note/' + feature.properties.id);
+      OSM.router.route("/note/" + feature.properties.id);
     }
   }
 
@@ -83,7 +87,7 @@ OSM.NewNote = function(map) {
   };
 
   function newHalo(loc, a) {
-    if (a === 'dragstart' && map.hasLayer(halo)) {
+    if (a === "dragstart" && map.hasLayer(halo)) {
       map.removeLayer(halo);
     } else {
       if (map.hasLayer(halo)) map.removeLayer(halo);
@@ -107,40 +111,26 @@ OSM.NewNote = function(map) {
 
     map.addLayer(noteLayer);
 
-    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
+    var params = querystring.parse(path.substring(path.indexOf("?") + 1));
     var markerLatlng;
 
     if (params.lat && params.lon) {
       markerLatlng = L.latLng(params.lat, params.lon);
-
-      var markerPosition = map.latLngToContainerPoint(markerLatlng),
-          mapSize = map.getSize(),
-          panBy = L.point(0, 0);
-
-      if (markerPosition.x < 50) {
-        panBy.x = markerPosition.x - 50;
-      } else if (markerPosition.x > mapSize.x - 50) {
-        panBy.x = 50 - mapSize.x + markerPosition.x;
-      }
-
-      if (markerPosition.y < 50) {
-        panBy.y = markerPosition.y - 50;
-      } else if (markerPosition.y > mapSize.y - 50) {
-        panBy.y = 50 - mapSize.y + markerPosition.y;
-      }
-
-      map.panBy(panBy);
     } else {
       markerLatlng = map.getCenter();
     }
 
+    map.panInside(markerLatlng, {
+      padding: [50, 50]
+    });
+
     newNote = L.marker(markerLatlng, {
-      icon: noteIcons["new"],
+      icon: noteIcons.new,
       opacity: 0.9,
       draggable: true
     });
 
-    newNote.on("dragstart dragend", function(a) {
+    newNote.on("dragstart dragend", function (a) {
       newHalo(newNote.getLatLng(), a.type);
     });
 
@@ -149,7 +139,7 @@ OSM.NewNote = function(map) {
 
     newNote.on("remove", function () {
       addNoteButton.removeClass("active");
-    }).on("dragstart",function () {
+    }).on("dragstart", function () {
       $(newNote).stopTime("removenote");
     }).on("dragend", function () {
       content.find("textarea").focus();
@@ -163,9 +153,9 @@ OSM.NewNote = function(map) {
       $(e.target.form.add).prop("disabled", $(e.target).val() === "");
     }
 
-    content.find('input[type=submit]').on('click', function (e) {
+    content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
-      createNote(newNote, e.target.form, '/api/0.6/notes.json');
+      createNote(newNote, e.target.form, "/api/0.6/notes.json");
     });
 
     return map.getState();

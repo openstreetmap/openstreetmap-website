@@ -2,8 +2,8 @@
 #
 # Table name: changesets
 #
-#  id          :integer          not null, primary key
-#  user_id     :integer          not null
+#  id          :bigint(8)        not null, primary key
+#  user_id     :bigint(8)        not null
 #  created_at  :datetime         not null
 #  min_lat     :integer
 #  max_lat     :integer
@@ -14,7 +14,7 @@
 #
 # Indexes
 #
-#  changesets_bbox_idx                (min_lat,max_lat,min_lon,max_lon)
+#  changesets_bbox_idx                (min_lat,max_lat,min_lon,max_lon) USING gist
 #  changesets_closed_at_idx           (closed_at)
 #  changesets_created_at_idx          (created_at)
 #  changesets_user_id_created_at_idx  (user_id,created_at)
@@ -43,15 +43,15 @@ class Changeset < ActiveRecord::Base
   has_and_belongs_to_many :subscribers, :class_name => "User", :join_table => "changesets_subscribers", :association_foreign_key => "subscriber_id"
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :user_id, :presence => true,
-                      :numericality => { :integer_only => true }
+                      :numericality => { :only_integer => true }
   validates :num_changes, :presence => true,
-                          :numericality => { :integer_only => true,
+                          :numericality => { :only_integer => true,
                                              :greater_than_or_equal_to => 0 }
   validates :created_at, :closed_at, :presence => true
   validates :min_lat, :max_lat, :min_lon, :max_lat, :allow_nil => true,
-                                                    :numericality => { :integer_only => true }
+                                                    :numericality => { :only_integer => true }
 
   before_save :update_closed_at
 
@@ -88,8 +88,8 @@ class Changeset < ActiveRecord::Base
       return Changeset.from_xml_node(pt, create)
     end
     raise OSM::APIBadXMLError.new("changeset", xml, "XML doesn't contain an osm/changeset element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("changeset", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("changeset", xml, e.message)
   end
 
   def self.from_xml_node(pt, create = false)
@@ -106,6 +106,7 @@ class Changeset < ActiveRecord::Base
     pt.find("tag").each do |tag|
       raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing key") if tag["k"].nil?
       raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing value") if tag["v"].nil?
+
       cs.add_tag_keyval(tag["k"], tag["v"])
     end
 
@@ -130,7 +131,7 @@ class Changeset < ActiveRecord::Base
 
     # update active record. rails 2.1's dirty handling should take care of
     # whether this object needs saving or not.
-    self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox.to_a if bbox.complete?
+    self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox.to_a.collect(&:round) if bbox.complete?
   end
 
   ##
@@ -193,66 +194,6 @@ class Changeset < ActiveRecord::Base
                          Time.now.getutc + IDLE_TIMEOUT
                        end
     end
-  end
-
-  def to_xml(include_discussion = false)
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node(nil, include_discussion)
-    doc
-  end
-
-  def to_xml_node(user_display_name_cache = nil, include_discussion = false)
-    el1 = XML::Node.new "changeset"
-    el1["id"] = id.to_s
-
-    user_display_name_cache = {} if user_display_name_cache.nil?
-
-    if user_display_name_cache && user_display_name_cache.key?(user_id)
-      # use the cache if available
-    elsif user.data_public?
-      user_display_name_cache[user_id] = user.display_name
-    else
-      user_display_name_cache[user_id] = nil
-    end
-
-    el1["user"] = user_display_name_cache[user_id] unless user_display_name_cache[user_id].nil?
-    el1["uid"] = user_id.to_s if user.data_public?
-
-    tags.each do |k, v|
-      el2 = XML::Node.new("tag")
-      el2["k"] = k.to_s
-      el2["v"] = v.to_s
-      el1 << el2
-    end
-
-    el1["created_at"] = created_at.xmlschema
-    el1["closed_at"] = closed_at.xmlschema unless is_open?
-    el1["open"] = is_open?.to_s
-
-    bbox.to_unscaled.add_bounds_to(el1, "_") if bbox.complete?
-
-    el1["comments_count"] = comments.length.to_s
-
-    if include_discussion
-      el2 = XML::Node.new("discussion")
-      comments.includes(:author).each do |comment|
-        el3 = XML::Node.new("comment")
-        el3["date"] = comment.created_at.xmlschema
-        el3["uid"] = comment.author.id.to_s if comment.author.data_public?
-        el3["user"] = comment.author.display_name.to_s if comment.author.data_public?
-        el4 = XML::Node.new("text")
-        el4.content = comment.body.to_s
-        el3 << el4
-        el2 << el3
-      end
-      el1 << el2
-    end
-
-    # NOTE: changesets don't include the XML of the changes within them,
-    # they are just structures for tagging. to get the osmChange of a
-    # changeset, see the download method of the controller.
-
-    el1
   end
 
   ##

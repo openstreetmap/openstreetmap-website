@@ -3,12 +3,12 @@
 # Table name: user_blocks
 #
 #  id            :integer          not null, primary key
-#  user_id       :integer          not null
-#  creator_id    :integer          not null
+#  user_id       :bigint(8)        not null
+#  creator_id    :bigint(8)        not null
 #  reason        :text             not null
 #  ends_at       :datetime         not null
 #  needs_view    :boolean          default(FALSE), not null
-#  revoker_id    :integer
+#  revoker_id    :bigint(8)
 #  created_at    :datetime
 #  updated_at    :datetime
 #  reason_format :enum             default("markdown"), not null
@@ -26,12 +26,13 @@
 
 class UserBlock < ActiveRecord::Base
   validate :moderator_permissions
+  validates :reason, :characters => true
 
   belongs_to :user, :class_name => "User", :foreign_key => :user_id
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
   belongs_to :revoker, :class_name => "User", :foreign_key => :revoker_id
 
-  PERIODS = USER_BLOCK_PERIODS
+  PERIODS = Settings.user_block_periods
 
   ##
   # scope to match active blocks
@@ -63,7 +64,7 @@ class UserBlock < ActiveRecord::Base
   # revokes the block, allowing the user to use the API again. the argument
   # is the user object who is revoking the ban.
   def revoke!(revoker)
-    update_attributes(
+    update(
       :ends_at => Time.now.getutc,
       :revoker_id => revoker.id,
       :needs_view => false

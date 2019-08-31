@@ -3,15 +3,16 @@
 
 ## Coding style
 
-When writing code it is generally a good idea to try and match your
-formatting to that of any existing code in the same file, or to other
-similar files if you are writing new code. Consistency of layout is
-far more important than the layout itself as it makes reading code
-much easier.
+We use [Rubocop](https://github.com/rubocop-hq/rubocop) (for ruby files)
+and [ERB Lint](https://github.com/Shopify/erb-lint) (for erb templates)
+to help maintain consistency in our code. You can run these utilities during
+development to check that your code matches our guidelines:
 
-One golden rule of formatting -- please don't use tabs in your code
-as they will cause the file to be formatted differently for different
-people depending on how they have their editor configured.
+```
+bundle exec rubocop
+bundle exec rake eslint
+bundle exec erblint .
+```
 
 ## Testing
 
@@ -35,12 +36,7 @@ You can run the existing test suite with:
 bundle exec rake test
 ```
 
-You can generate test coverage stats with:
-
-```
-sudo gem install rcov
-rcov -x gems test/*/*.rb
-```
+You can view test coverage statistics by browsing the `coverage` directory.
 
 The tests are automatically run on Pull Requests and other commits with the
 results shown on [Travis CI](https://travis-ci.org/openstreetmap/openstreetmap-website).
@@ -58,6 +54,13 @@ When hacking, you should:
 might be difficult to understand what the code does, why it does it
 and why it should be the way it is.
 * Check existing comments to ensure that they are not misleading.
+
+## i18n
+
+If you make a change that involve the locale files (in `config/locales`) then please
+only submit changes to the `en.yml` file. The other files are updated via
+[Translatewiki](https://translatewiki.net/wiki/Translating:OpenStreetMap) and should
+not be included in your pull request.
 
 ## Code Documentation
 

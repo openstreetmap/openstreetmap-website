@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "5.1.5"
+gem "rails", "5.2.3"
 
 # Require things which have moved to gems in ruby 1.9
 gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
@@ -13,10 +13,10 @@ gem "psych", :platforms => :ruby_20
 gem "json"
 
 # Use postgres as the database
-gem "pg", "~> 0.18"
+gem "pg"
 
 # Use SCSS for stylesheets
-gem "sass-rails", "~> 5.0"
+gem "sassc-rails"
 
 # Use Uglifier as compressor for JavaScript assets
 gem "uglifier", ">= 1.3.0"
@@ -31,29 +31,40 @@ gem "jquery-rails"
 # gem 'jbuilder', '~> 2.0'
 gem "jsonify-rails"
 
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", ">= 1.1.0", :require => false
+
 # Use R2 for RTL conversion
 gem "r2", "~> 0.2.7"
 
 # Use autoprefixer to generate CSS prefixes
-gem "autoprefixer-rails"
+gem "autoprefixer-rails", "~> 8.6.3"
 
 # Use image_optim to optimise images
 gem "image_optim_rails"
 
 # Load rails plugins
 gem "actionpack-page_caching"
-gem "composite_primary_keys", "~> 10.0.0"
+gem "active_record_union"
+gem "activerecord-import"
+gem "cancancan"
+gem "composite_primary_keys", "~> 11.1.0"
+gem "config"
+gem "delayed_job_active_record"
 gem "dynamic_form"
 gem "http_accept_language", "~> 2.0.0"
 gem "i18n-js", ">= 3.0.0"
 gem "oauth-plugin", ">= 0.5.1"
 gem "openstreetmap-deadlock_retry", ">= 1.3.0", :require => "deadlock_retry"
-gem "paperclip", "~> 5.2"
 gem "rack-cors"
 gem "rails-i18n", "~> 4.0.0"
 gem "record_tag_helper"
-gem "rinku", ">= 1.2.2", :require => "rails_rinku"
+gem "rinku", ">= 2.0.6", :require => "rails_rinku"
+gem "strong_migrations"
 gem "validates_email_format_of", ">= 1.5.1"
+
+# Native OSM extensions
+gem "quad_tile", "~> 1.0.1"
 
 # Sanitise URIs
 gem "rack-uri_sanitizer"
@@ -62,13 +73,16 @@ gem "rack-uri_sanitizer"
 gem "omniauth"
 gem "omniauth-facebook"
 gem "omniauth-github"
-gem "omniauth-google-oauth2", ">= 0.2.7"
-gem "omniauth-mediawiki", ">= 0.0.3"
+gem "omniauth-google-oauth2", ">= 0.6.0"
+gem "omniauth-mediawiki", ">= 0.0.4"
 gem "omniauth-openid"
 gem "omniauth-windowslive"
 
 # Markdown formatting support
-gem "redcarpet"
+gem "kramdown"
+
+# For status transitions of Issues
+gem "aasm"
 
 # Load libxml support for XML parsing and generation
 gem "libxml-ruby", ">= 2.0.5", :require => "libxml"
@@ -102,18 +116,38 @@ gem "canonical-rails"
 # Used to generate logstash friendly log files
 gem "logstasher"
 
+# Used to generate images for traces
+gem "bzip2-ffi"
+gem "ffi-libarchive"
+gem "gd2-ffij", ">= 0.4.0"
+gem "mimemagic"
+
+# Used for browser detection
+gem "browser"
+
+# Used for S3 object storage
+gem "aws-sdk-s3"
+
+# Used to resize user images
+gem "mini_magick"
+
 # Gems useful for development
 group :development do
   gem "annotate"
+  gem "better_errors"
+  gem "binding_of_caller"
   gem "listen"
   gem "vendorer"
 end
 
 # Gems needed for running tests
 group :test do
+  gem "fakefs", :require => "fakefs/safe"
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
   gem "rails-controller-testing"
   gem "rubocop"
+  gem "rubocop-performance"
+  gem "rubocop-rails"
   gem "webmock"
 end
 
@@ -121,8 +155,8 @@ end
 group :development, :test do
   gem "capybara", "~> 2.13"
   gem "coveralls", :require => false
+  gem "erb_lint", :require => false
   gem "factory_bot_rails"
-  gem "jshint"
   gem "poltergeist"
   gem "puma", "~> 3.7"
 end

@@ -5,11 +5,11 @@ class MessageTest < ActiveSupport::TestCase
 
   def test_check_empty_message_fails
     message = Message.new
-    assert !message.valid?
+    assert_not message.valid?
     assert message.errors[:title].any?
     assert message.errors[:body].any?
     assert message.errors[:sent_on].any?
-    assert !message.message_read
+    assert_not message.message_read
   end
 
   def test_validating_msgs
@@ -23,7 +23,7 @@ class MessageTest < ActiveSupport::TestCase
     message = create(:message, :unread)
     message.sender = nil
     message.recipient = nil
-    assert !message.valid?
+    assert_not message.valid?
 
     assert_raise(ActiveRecord::RecordNotFound) { User.find(0) }
     message.from_user_id = 0
@@ -53,20 +53,18 @@ class MessageTest < ActiveSupport::TestCase
                          "\x82\x82",     # multibyte continuations without multibyte identifier
                          "\xe1\x82\x4a"] # three-byte identifier, contination and (incorrectly) plain ASCII
     invalid_sequences.each do |char|
-      begin
-        # create a message and save to the database
-        msg = make_message(char, 1)
-        # if the save throws, thats fine and the test should pass, as we're
-        # only testing invalid sequences anyway.
-        msg.save!
+      # create a message and save to the database
+      msg = make_message(char, 1)
+      # if the save throws, thats fine and the test should pass, as we're
+      # only testing invalid sequences anyway.
+      msg.save!
 
-        # get the saved message back and check that it is identical - i.e:
-        # its OK to accept invalid UTF-8 as long as we return it unmodified.
-        db_msg = msg.class.find(msg.id)
-        assert_equal char, db_msg.title, "Database silently truncated message title"
-      rescue ArgumentError => ex
-        assert_equal ex.to_s, "invalid byte sequence in UTF-8"
-      end
+      # get the saved message back and check that it is identical - i.e:
+      # its OK to accept invalid UTF-8 as long as we return it unmodified.
+      db_msg = msg.class.find(msg.id)
+      assert_equal char, db_msg.title, "Database silently truncated message title"
+    rescue ArgumentError => e
+      assert_equal e.to_s, "invalid byte sequence in UTF-8"
     end
   end
 
@@ -106,7 +104,7 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal recipient_user, message.recipient
     assert_equal mail.date, message.sent_on
     assert_equal "Test message", message.title
-    assert_match /^ *This is a test & a message *$/, message.body
+    assert_match(/^ *This is a test & a message *$/, message.body)
     assert_equal "text", message.body_format
   end
 
@@ -153,7 +151,7 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal recipient_user, message.recipient
     assert_equal mail.date, message.sent_on
     assert_equal "Test message", message.title
-    assert_match /^ *This is a test & a message in HTML format *$/, message.body
+    assert_match(/^ *This is a test & a message in HTML format *$/, message.body)
     assert_equal "text", message.body_format
   end
 

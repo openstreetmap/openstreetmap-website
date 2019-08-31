@@ -9,14 +9,14 @@ if (OSM.PIWIK) {
       cache: true,
       success: function () {
         piwikTracker = Piwik.getTracker(base + "piwik.php", OSM.PIWIK.site);
-      
+
         if (OSM.user) {
           piwikTracker.setUserId(OSM.user.toString());
         }
 
         piwikTracker.trackPageView();
         piwikTracker.enableLinkTracking();
-      
+
         $("meta[name=piwik-goal]").each(function () {
           piwikTracker.trackGoal($(this).attr("content"));
         });

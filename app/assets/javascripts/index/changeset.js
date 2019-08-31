@@ -1,23 +1,22 @@
 OSM.Changeset = function (map) {
   var page = {},
-    content = $('#sidebar_content'),
-    currentChangesetId;
+      content = $("#sidebar_content"),
+      currentChangesetId;
 
-  page.pushstate = page.popstate = function(path, id) {
-    OSM.loadSidebarContent(path, function() {
+  page.pushstate = page.popstate = function (path, id) {
+    OSM.loadSidebarContent(path, function () {
       page.load(path, id);
     });
   };
 
-  page.load = function(path, id) {
-    if(id)
-      currentChangesetId = id;
+  page.load = function (path, id) {
+    if (id) currentChangesetId = id;
     initialize();
     addChangeset(currentChangesetId, true);
   };
 
   function addChangeset(id, center) {
-    map.addObject({type: 'changeset', id: parseInt(id)}, function(bounds) {
+    map.addObject({ type: "changeset", id: parseInt(id, 10) }, function (bounds) {
       if (!window.location.hash && bounds.isValid() &&
           (center || !map.getBounds().contains(bounds))) {
         OSM.router.withoutMoveListener(function () {
@@ -32,8 +31,8 @@ OSM.Changeset = function (map) {
 
     $(form).find("input[type=submit]").prop("disabled", true);
 
-    if(include_data) {
-      data = {text: $(form.text).val()};
+    if (include_data) {
+      data = { text: $(form.text).val() };
     } else {
       data = {};
     }
@@ -72,10 +71,10 @@ OSM.Changeset = function (map) {
       }
     });
 
-    content.find("textarea").val('').trigger("input");
+    content.find("textarea").val("").trigger("input");
   }
 
-  page.unload = function() {
+  page.unload = function () {
     map.removeObject();
   };
 

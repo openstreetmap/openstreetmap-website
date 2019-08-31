@@ -5,7 +5,8 @@
 start = 0
 User.where("image_use_gravatar AND id >=" + start.to_s).order("id").find_each do |user|
   p "checked up to id " + user.id.to_s if (user.id % 1000).zero? # just give a rough indication where we are for restarting
-  next if user.image.present?
+  next if user.avatar.attached?
+
   hash = Digest::MD5.hexdigest(user.email.downcase)
   url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
   response = OSM.http_client.get(URI.parse(url))

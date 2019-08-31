@@ -33,13 +33,14 @@ OSM.initializeNotes = function (map) {
     }
   });
 
-  noteLayer.on('click', function(e) {
+  noteLayer.on("click", function (e) {
     if (e.layer.id) {
-      OSM.router.route('/note/' + e.layer.id);
+      OSM.router.route("/note/" + e.layer.id);
     }
   });
 
-  function updateMarker(marker, feature) {
+  function updateMarker(old_marker, feature) {
+    var marker = old_marker;
     if (marker) {
       marker.setIcon(noteIcons[feature.properties.status]);
     } else {
@@ -55,7 +56,7 @@ OSM.initializeNotes = function (map) {
     return marker;
   }
 
-  noteLayer.getLayerId = function(marker) {
+  noteLayer.getLayerId = function (marker) {
     return marker.id;
   };
 

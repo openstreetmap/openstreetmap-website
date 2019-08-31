@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Aaoo
 # Author: Abbedabb
+# Author: Abijeet Patro
 # Author: Adrianod
 # Author: Ainali
 # Author: Balp
@@ -22,6 +23,7 @@
 # Author: Macofe
 # Author: Magol
 # Author: Malmis
+# Author: Mjälten
 # Author: Nastoshka
 # Author: Nemo bis
 # Author: Per
@@ -45,7 +47,34 @@ sv:
   time:
     formats:
       friendly: '%e %B %Y kl. %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Spara
+      diary_entry:
+        create: Publicera
+        update: Uppdatera
+      issue_comment:
+        create: Lägg till kommentar
+      message:
+        create: Skicka
+      client_application:
+        create: Registrera
+        update: Redigera
+      redaction:
+        create: Skapa redaktering
+        update: Spara redaktering
+      trace:
+        create: Uppladdning
+        update: Spara ändringar
+      user_block:
+        create: Skapa blockering
+        update: Uppdatera blockering
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: verkar inte vara en giltig e-postadress.
+        email_address_not_routable: kan inte ruttas
     models:
       acl: Tillgångskontrollista (ACL)
       changeset: Ändringsset
@@ -113,6 +142,45 @@ sv:
         description: Beskrivning
         languages: Språk
         pass_crypt: Lösenord
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: omkring 1 timme sedan
+        other: omkring %{count} timmar sedan
+      about_x_months:
+        one: omkring 1 månad sedan
+        other: omkring %{count} månader sedan
+      about_x_years:
+        one: omkring 1 år sedan
+        other: omkring %{count} år sedan
+      almost_x_years:
+        one: nästan 1 år sedan
+        other: nästan %{count} år sedan
+      half_a_minute: en halv minut sedan
+      less_than_x_seconds:
+        one: mindre än 1 sekund sedan
+        other: mindre än %{count} sekunder sedan
+      less_than_x_minutes:
+        one: mindre än en minut sedan
+        other: mindre än %{count} minuter sedan
+      over_x_years:
+        one: över 1 år sedan
+        other: över %{count} år sedan
+      x_seconds:
+        one: 1 sekund sedan
+        other: '%{count} sekunder sedan'
+      x_minutes:
+        one: 1 minut sedan
+        other: '%{count} minuter sedan'
+      x_days:
+        one: 1 dag sedan
+        other: '%{count} dagar sedan'
+      x_months:
+        one: 1 månad sedan
+        other: '%{count} månader sedan'
+      x_years:
+        one: 1 år sedan
+        other: '%{count} år sedan'
   printable_name:
     with_name_html: '%{name} (%{id})'
   editor:
@@ -129,17 +197,38 @@ sv:
     remote:
       name: Fjärrstyrning
       description: Fjärrstyrning (JOSM eller Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: Skapades för %{when}
+        opened_at_by_html: Skapades för %{when} av %{user}
+        commented_at_html: Uppdaterades för %{when}
+        commented_at_by_html: Uppdaterades för %{when} av %{user}
+        closed_at_html: Löstes för %{when}
+        closed_at_by_html: Löstes för %{when} av %{user}
+        reopened_at_html: Återaktiverades för %{when}
+        reopened_at_by_html: Återaktiverades för %{when} av %{user}
+      rss:
+        title: OpenStreetMap-anteckningar
+        description_area: En lista med anteckningar som rapporterats, kommenterats
+          eller avklarats i närheten av ditt område [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: Ett rss-flöde för anteckning %{id}
+        opened: ny anteckning (nära %{place})
+        commented: ny kommentar (nära %{place})
+        closed: stängde anteckning (nära %{place})
+        reopened: återaktiverade anteckningar (nära %{place})
+      entry:
+        comment: Kommentar
+        full: Hela anteckningen
   browse:
     created: Skapad
     closed: Stängd
-    created_html: Skapades <abbr title='%{title}'>för %{time} sedan</abbr>
-    closed_html: Stängdes <abbr title='%{title}'>för %{time} sedan</abbr>
-    created_by_html: Skapades <abbr title='%{title}'>för %{time} sedan</abbr> av %{user}
-    deleted_by_html: Raderades <abbr title='%{title}'>för %{time} sedan</abbr> av
-      %{user}
-    edited_by_html: Redigerades <abbr title='%{title}'>för %{time} sedan</abbr> av
-      %{user}
-    closed_by_html: Stängdes <abbr title='%{title}'> för %{time} sedan</abbr> av %{user}
+    created_html: Skapades för <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Stängdes <abbr title='%{title}'>för %{time}</abbr>
+    created_by_html: Skapades för<abbr title='%{title}'>%{time}</abbr> av %{user}
+    deleted_by_html: Raderades för <abbr title='%{title}'>%{time}</abbr> av %{user}
+    edited_by_html: Redigerades <abbr title='%{title}'>för %{time}</abbr> av %{user}
+    closed_by_html: Stängdes <abbr title='%{title}'> för %{time}</abbr> av %{user}
     version: Version
     in_changeset: Ändringsset
     anonymous: anonym
@@ -159,9 +248,8 @@ sv:
       relation: Förbindelser (%{count})
       relation_paginated: Förbindelser (%{x}-%{y} av %{count})
       comment: Kommentarer (%{count})
-      hidden_commented_by: Dold kommentar från %{user} <abbr title='%{exact_time}'>%{when}
-        sedan</abbr>
-      commented_by: Kommentar från %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      hidden_commented_by: Dold kommentar från %{user} för <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Kommentar från %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML för ändringsset
       osmchangexml: osmChange XML
       feed:
@@ -239,25 +327,23 @@ sv:
       open_title: 'Ej avklarad anteckning #%{note_name}'
       closed_title: 'Avklarad anteckning #%{note_name}'
       hidden_title: 'Dold anteckning #%{note_name}'
-      open_by: Skapad av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
-      open_by_anonymous: Skapad av anonym <abbr title='%{exact_time}'>%{when} sedan</abbr>
-      commented_by: Kommentar från %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      open_by: Skapad av %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Skapad av anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Kommentar från %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by_anonymous: Kommentar från en anonym användare <abbr title='%{exact_time}'>för
-        %{when} sedan</abbr>
-      closed_by: Löst av %{user} <abbr title='%{exact_time}'>för %{when} sedan</abbr>
-      closed_by_anonymous: Löst av en anonym användare <abbr title='%{exact_time}'>för
-        %{when} sedan</abbr>
-      reopened_by: Återaktiverades av %{user} <abbr title='%{exact_time}'>för %{when}
-        sedan</abbr>
-      reopened_by_anonymous: Återaktiverades av en anonym användare <abbr title='%{exact_time}'>för
-        %{when} sedan</abbr>
-      hidden_by: Doldes av %{user} <abbr title='%{exact_time}'>för %{when} sedan</abbr>
+        %{when}</abbr>
+      closed_by: Löst av %{user} <abbr title='%{exact_time}'>för %{when}</abbr>
+      closed_by_anonymous: Löst av en anonym användare för <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Återaktiverades av %{user} för <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Återaktiverades av en anonym användare för <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Doldes av %{user} <abbr title='%{exact_time}'>för %{when}</abbr>
+      report: Rapportera denna anteckning
     query:
       title: Undersök kartobjekt
       introduction: Klicka på kartan för att hitta funktioner i närheten.
       nearby: Finns i närheten
       enclosing: Omgivande kartobjekt
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Sida %{page}
       next: Nästa »
@@ -265,69 +351,72 @@ sv:
     changeset:
       anonymous: Anonym
       no_edits: (inga redigeringar)
-      view_changeset_details: Visa detaljer om ändringsset
+      view_changeset_details: Visa detaljer om ändringsuppsättning
     changesets:
       id: ID
-      saved_at: Sparad
+      saved_at: Sparades den
       user: Användare
       comment: Kommentar
       area: Område
-    list:
-      title: Ändringsset
-      title_user: Ändringsset av %{user}
-      title_friend: Ändringsset av dina vänner
-      title_nearby: Ändringsset av närbelägna användare
-      empty: Inga ändringsset hittades.
-      empty_area: Inga ändringsset i det här området.
-      empty_user: Inga ändringsset av den här användaren.
-      no_more: Inga fler ändringsset hittades.
-      no_more_area: Inga fler ändringsset i det här området.
-      no_more_user: Inga fler ändringsset av den här användaren.
+    index:
+      title: Ändringsuppsättningar
+      title_user: Ändringsuppsättningar av %{user}
+      title_friend: Ändringsuppsättningar av mina vänner
+      title_nearby: Ändringsuppsättningar av närbelägna användare
+      empty: Inga ändringsuppsättningar hittades.
+      empty_area: Inga ändringsuppsättningar i det här området.
+      empty_user: Inga ändringsuppsättningar av den här användaren.
+      no_more: Inga fler ändringsuppsättningar hittades.
+      no_more_area: Inga fler ändringsuppsättningar i det här området.
+      no_more_user: Inga fler ändringsuppsättningar av den här användaren.
       load_more: Läs in fler
     timeout:
-      sorry: Kunde tyvärr inte lista begärda ändringsset. Begäran tog för lång tid
-        att hämta.
-    rss:
-      title_all: Diskussion om OpenStreetMaps ändringsset
-      title_particular: Diskussion nummer %{changeset_id} om OpenStreetMaps ändringsset
+      sorry: Kunde tyvärr inte lista begärda ändringsuppsättningar. Begäran tog för
+        lång tid att hämta.
+  changeset_comments:
+    comment:
       comment: Ny kommentar på ändringsset nummer %{changeset_id} av %{author}
-      commented_at_html: Uppdaterades för %{when} sedan
-      commented_at_by_html: Uppdaterades för %{when} sedan av %{user}
-      full: Fullständig diskussion
-  diary_entry:
+      commented_at_by_html: Uppdaterades för %{when} av %{user}
+    comments:
+      comment: 'Ny kommentar på ändringssätt #%{changeset_id} av %{author}'
+    index:
+      title_all: Diskussion om OpenStreetMaps ändringsset
+      title_particular: Diskussions om OpenStreetMaps ändringsset nummer %{changeset_id}
+    timeout:
+      sorry: Tyvärr, listan med ändringssetskommentar du begärde kunde inte hämtas
+        då begäran tog för lång tid.
+  diary_entries:
     new:
       title: Nytt dagboksinlägg
-      publish_button: Publicera
-    list:
+    form:
+      subject: 'Ämne:'
+      body: 'Brödtext:'
+      language: 'Språk:'
+      location: 'Plats:'
+      latitude: 'Latitud:'
+      longitude: 'Longitud:'
+      use_map_link: använd karta
+    index:
       title: Användardagböcker
       title_friends: Vänners dagböcker
       title_nearby: Närbelägna användares dagböcker
       user_title: '%{user}s dagbok'
       in_language_title: Dagboksinlägg på %{language}
       new: Nytt dagboksinlägg
-      new_title: Skapa ett nytt inlägg i din användardagbok
+      new_title: Skapa ett nytt inlägg i min användardagbok
       no_entries: Inga dagboksinlägg
       recent_entries: Nyligen skapade dagboksinlägg
       older_entries: Äldre inlägg
       newer_entries: Nyare inlägg
     edit:
       title: Redigera dagboksinlägg
-      subject: 'Ärende:'
-      body: 'Meddelandetext:'
-      language: 'Språk:'
-      location: 'Plats:'
-      latitude: 'Latitud:'
-      longitude: 'Longitud:'
-      use_map_link: använd karta
-      save_button: Spara
       marker_text: Plats för dagboksinlägg
-    view:
+    show:
       title: '%{user}s dagbok | %{title}'
       user_title: '%{user}s dagbok'
       leave_a_comment: Lämna en kommentar
       login_to_leave_a_comment: '%{login_link} för att lämna en kommentar'
       login: Logga in
-      save_button: Spara
     no_such_entry:
       title: Hittade inte dagboksinlägget
       heading: 'Finns inget inlägg med id: %{id}'
@@ -343,80 +432,36 @@ sv:
         other: '%{count} kommentarer'
       edit_link: Redigera detta inlägg
       hide_link: Dölj detta inlägg
+      unhide_link: Dölj inte detta inlägg
       confirm: Bekräfta
+      report: Rapportera detta inlägg
     diary_comment:
-      comment_from: Kommentar från %{link_user}, %{comment_created_at}
+      comment_from: Kommentar från %{link_user} på %{comment_created_at}
       hide_link: Dölj denna kommentar
+      unhide_link: Dölj inte denna kommentar
       confirm: Bekräfta
+      report: Rapportera denna kommentar
     location:
       location: 'Plats:'
       view: Visa
       edit: Redigera
     feed:
       user:
-        title: OpenStreetMap-dagboksinlägg för användaren %{user}
+        title: OpenStreetMap-dagboksinlägg för %{user}
         description: Senaste dagboksinlägg på OpenStreetMap från %{user}
       language:
-        title: Openstreetmap-dagboksinlägg på %{language_name}
+        title: OpenStreetMap-dagboksinlägg på %{language_name}
         description: Senaste dagboksinlägg från användare av OpenStreetMap på %{language_name}
       all:
         title: OpenStreetMap-dagboksinlägg
         description: Senaste dagboksinlägg från användare av OpenStreetMap
     comments:
-      has_commented_on: '%{display_name} har kommenterat följande dagboksinlägg'
+      has_commented_on: '%{display_name} har kommenterat på följande dagboksinlägg'
       post: Inlägg
       when: När
       comment: Kommentar
-      ago: '%{ago} sedan'
       newer_comments: Nyare kommentarer
       older_comments: Äldre kommentarer
-  export:
-    title: Exportera
-    start:
-      area_to_export: Område som ska exporteras
-      manually_select: Välj ett annat område manuellt
-      format_to_export: Format för export
-      osm_xml_data: OpenStreetMap XML-data
-      map_image: Kartbild (visar vanliga lager)
-      embeddable_html: Inbäddad HTML
-      licence: Licens
-      export_details: Data från OpenStreetMap har gjorts tillgänglig under licensen  <a
-        href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open
-        Database License</a> (ODbL).
-      too_large:
-        advice: 'Om ovanstående export misslyckas, vänligen överväg att använda en
-          av de källor som anges nedan:'
-        body: 'Detta område är för stort för att exporteras som OpenStreetMap XML-data.
-          Vänligen zooma in eller välj ett mindre område, eller använd en av följande
-          källor för nedladdningar av bulkdata:'
-        planet:
-          title: Planet OSM
-          description: Regelbundet uppdaterade kopior av den kompletta OpenStreetMap-databasen
-        overpass:
-          title: Overpass API
-          description: Hämta denna avgränsningsram från en spegel av OpenStreetMap-databasen
-        geofabrik:
-          title: Geofabrik Downloads
-          description: Regelbundet uppdaterat utdrag av kontinenter, länder och utvalda
-            städer
-        metro:
-          title: Metro Extracts
-          description: Utdrag av stora världsstäder och deras närområden
-        other:
-          title: Andra källor
-          description: Ytterligare källor anges på OpenStreetMaps wiki
-      options: Alternativ
-      format: Format
-      scale: Skala
-      max: max
-      image_size: Bildstorlek
-      zoom: Zooma
-      add_marker: Lägg till markör på kartan
-      latitude: 'Lat:'
-      longitude: 'Lon:'
-      output: Utdata
-      paste_html: Klistra in HTML för att bädda in på webbplats
-      export_button: Exportera
   geocoder:
     search:
       title:
@@ -446,6 +491,7 @@ sv:
           gate: Gate
           hangar: Hangar
           helipad: Helikopterplatta
+          holding_position: Väntplats
           parking_position: Parkeringsplats
           runway: Landningsbana
           taxiway: Taxibana
@@ -492,6 +538,7 @@ sv:
           fuel: Bränsle
           gambling: Spel
           grave_yard: Begravningsplats
+          grit_bin: Sandtunna
           hospital: Sjukhus
           hunting_stand: Jakttorn
           ice_cream: Glass
@@ -541,6 +588,7 @@ sv:
           village_hall: Byastuga
           waste_basket: Papperskorg
           waste_disposal: Avfallshantering
+          water_point: Vattenpunkt
           youth_centre: Ungdomscenter
         boundary:
           administrative: Administrativ gräns
@@ -569,7 +617,7 @@ sv:
           "yes": Hantverksbutik
         emergency:
           ambulance_station: Ambulansstation
-          assembly_point: Mötesplats
+          assembly_point: Samlingsplats
           defibrillator: Defibrillator
           landing_site: Nödlandningsplats
           phone: Nödtelefon
@@ -593,6 +641,7 @@ sv:
           motorway: Motorväg
           motorway_junction: Motorvägskorsning
           motorway_link: Påfart/avfart till motorväg
+          passing_place: Omkörningsplats
           path: Stig
           pedestrian: Gågata
           platform: Perrong
@@ -632,7 +681,7 @@ sv:
           city_gate: Stadsport
           citywalls: Stadsmurar
           fort: Fort
-          heritage: Världsarv
+          heritage: Kulturarvsplats
           house: Hus
           icon: Ikon
           manor: Herrgård
@@ -688,7 +737,7 @@ sv:
           bird_hide: Fågeltorn
           common: Allmänning
           dog_park: Hundpark
-          firepit: Gropeld
+          firepit: Eldgrop
           fishing: Fiskevatten
           fitness_centre: Gym
           fitness_station: Gym
@@ -732,6 +781,7 @@ sv:
           mast: Mast
           mine: Gruva
           mineshaft: Gruvschakt
+          monitoring_station: Övervakningsstation
           petroleum_well: Oljebrunn
           pier: Pir
           pipeline: Pipeline
@@ -799,7 +849,7 @@ sv:
           architect: Arkitekt
           association: Förening
           company: Företag
-          educational_institution: Utbildningsanstalt
+          educational_institution: Utbildningsinstitution
           employment_agency: Bemanningsföretag
           estate_agent: Fastighetsmäklare
           government: Statligt kontor
@@ -830,6 +880,7 @@ sv:
           quarter: Kvarter
           region: Region
           sea: Hav
+          square: Torg
           state: Delstat
           subdivision: Underavdelning
           suburb: Förort
@@ -868,7 +919,7 @@ sv:
           beauty: Skönhetssalong
           beverages: Dryckesbutik
           bicycle: Cykelaffär
-          bookmaker: Bokhandlare
+          bookmaker: Vadförmedlare
           books: Bokhandel
           boutique: Boutique
           butcher: Slaktare
@@ -911,7 +962,7 @@ sv:
           interior_decoration: Heminredning
           jewelry: Guldsmed
           kiosk: Kiosk
-          kitchen: Kökshandlare
+          kitchen: Köksbutik
           laundry: Tvättservice
           lottery: Lotteri
           mall: Köpcentrum
@@ -941,13 +992,14 @@ sv:
           toys: Leksaksaffär
           travel_agency: Resebyrå
           tyres: Däckaffär
+          vacant: Ledig butik
           variety_store: Varuhus
           video: Videobutik
-          wine: Vinhandel
+          wine: Vinbutik
           "yes": Affär
         tourism:
           alpine_hut: Fjällstuga
-          apartment: Lägenhet
+          apartment: Semesterlägenhet
           artwork: Konstverk
           attraction: Attraktion
           bed_and_breakfast: Bed and breakfast
@@ -1009,6 +1061,111 @@ sv:
     results:
       no_results: Inga resultat hittades
       more_results: Fler resultat
+  issues:
+    index:
+      title: Ärenden
+      select_status: Välj status
+      select_type: Välj typ
+      select_last_updated_by: Välj senast uppdaterad av
+      reported_user: Rapporterad användare
+      not_updated: Inte uppdaterad
+      search: Sök
+      search_guidance: 'Sök ärenden:'
+      user_not_found: Användaren finns inte
+      issues_not_found: Inga sådana ärenden hittades
+      status: Status
+      reports: Rapporter
+      last_updated: Senast uppdaterad
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> av %{user}
+      link_to_reports: Visa rapporter
+      reports_count:
+        one: 1 rapport
+        other: '%{count} rapporter'
+      reported_item: Rapporterat objekt
+      states:
+        ignored: Ignorerad
+        open: Öppen
+        resolved: Lösta
+    update:
+      new_report: Din rapport har registrerats
+      successful_update: Din rapport har uppdaterats
+      provide_details: Ange de nödvändiga detaljerna
+    show:
+      title: '%{status} Ärende nr %{issue_id}'
+      reports:
+        zero: Inga rapporter
+        one: 1 rapport
+        other: '%{count} rapporter'
+      report_created_at: Rapporterades först %{datetime}
+      last_resolved_at: Löstes senast %{datetime}
+      last_updated_at: Uppdaterades senast den %{datetime} av %{displayname}
+      resolve: Lös
+      ignore: Ignorera
+      reopen: Öppna igen
+      reports_of_this_issue: Rapporter av detta ärende
+      read_reports: Läs rapporter
+      new_reports: Nya rapporter
+      other_issues_against_this_user: Andra ärenden mot denna användare
+      no_other_issues: Inga andra ärenden mot denna användare.
+      comments_on_this_issue: Kommentarer på detta ärende
+    resolve:
+      resolved: Ärendestatus har ändrats till "Löst"
+    ignore:
+      ignored: Ärendestatus har ändrats till "Ignoreras"
+    reopen:
+      reopened: Ärendestatus har ändrats till "Öppen"
+    comments:
+      created_at: Den %{datetime}
+      reassign_param: Återtilldela ärende?
+    reports:
+      updated_at: Den %{datetime}
+      reported_by_html: Rapporterades som %{category} av %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, kommentar nr %{comment_id}'
+        note: Anteckning nr %{note_id}
+  issue_comments:
+    create:
+      comment_created: Din kommentar skapades
+  reports:
+    new:
+      title_html: Repportera %{link}
+      missing_params: Kan inte skapa en ny rapport
+      details: Ange fler detaljer om problemet (nödvändigt).
+      select: 'Välj en anledning för din rapport:'
+      disclaimer:
+        intro: 'Innan du skickar din rapport till webbplatsens moderatorer, se till
+          att:'
+        not_just_mistake: Du är säker på att problemet inte är ett misstag
+        unable_to_fix: Du kan inte åtgärda problemet själv eller med hjälp från andra
+          gemenskapsmedlemmar
+        resolve_with_user: Du har redan försökt lösa problemet med den berörda användaren
+      categories:
+        diary_entry:
+          spam_label: Detta dagboksinlägg är/innehåller spam
+          offensive_label: Detta dagboksinlägg är oanständigt/offensivt
+          threat_label: Detta dagboksinlägg innehåller ett hot
+          other_label: Övrigt
+        diary_comment:
+          spam_label: Denna dagbokskommentar är/innehåller spam
+          offensive_label: Denna dagbokskommentar är oanständig/offensiv
+          threat_label: Denna dagbokskommentar innehåller ett hot
+          other_label: Övrigt
+        user:
+          spam_label: Denna användarprofil är/innehåller spam
+          offensive_label: Denna användarprofil är oanständig/offensiv
+          threat_label: Denna användarprofil innehåller ett hot
+          vandal_label: Denna användare är en vandal
+          other_label: Övrigt
+        note:
+          spam_label: Denna anteckning är spam
+          personal_label: Denna anteckning innehåller personlig data
+          abusive_label: Denna anteckning är kränkande
+          other_label: Övrigt
+    create:
+      successful_report: Din rapport har registrerats
+      provide_details: Ange de nödvändiga detaljerna
   layouts:
     project_name:
       title: OpenStreetMap
@@ -1024,6 +1181,7 @@ sv:
     edit: Redigera
     history: Historik
     export: Exportera
+    issues: Ärenden
     data: Data
     export_data: Exportera data
     gps_traces: GPS-spår
@@ -1036,11 +1194,11 @@ sv:
     intro_text: OpenStreetMap är en karta över världen, skapad av människor som du
       och fri att använda under en öppen licens.
     intro_2_create_account: Skapa ett användarkonto
-    partners_html: Drivs via %{ucl}, %{ic}, %{bytemark}, %{ic} och andra %{partners}.
+    hosting_partners_html: Drivs via %{ucl}, %{bytemark} och andra %{partners}.
     partners_ucl: University College London
-    partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
+    tou: Användarvillkor
     osm_offline: OpenStreetMap-databasen är inte tillgänglig just nu, då nödvändigt
       databasunderhåll pågår.
     osm_read_only: OpenStreetMap-databasen är skrivskyddad just nu, då nödvändigt
@@ -1059,270 +1217,6 @@ sv:
       text: Donera
     learn_more: Läs mer
     more: Mer
-  license_page:
-    foreign:
-      title: Om denna översättning
-      text: I händelse av en konflikt mellan denna översatta sida och %{english_original_link}
-        har den engelska texten företräde
-      english_link: det engelska originalet
-    native:
-      title: Om denna sida
-      text: Du tittar på den engelska versionen av sidan om upphovsrätt. Du kan gå
-        tillbaka till %{native_link} på den här sidan eller sluta läsa om upphovsrätt
-        och %{mapping_link}.
-      native_link: svensk version
-      mapping_link: börja kartlägga
-    legal_babble:
-      title_html: Upphovsrätt och licens
-      intro_1_html: |-
-        OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> är <i>öppen data</i>, gjord tillgänglig under licensen <a
-        href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) av <a
-        href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
-      intro_2_html: |-
-        Du är fri att kopiera, distribuera, överföra och anpassa vår data,
-        så länge du anger OpenStreetMap och dess bidragsgivare som källa.
-        Om du ändrar eller bygger vidare på vår data kan du
-        endast distribuera resultatet under samma licens. Den
-        fullständiga <a href="https://opendatacommons.org/licenses/odbl/1.0/">juridiska
-        texten</a> förklarar dina rättigheter och skyldigheter.
-      intro_3_html: |-
-        Kartografin i våra kartrutor, och vår dokumentation, är
-        tillgängliga under licensen <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-        Commons Attribution-ShareAlike 2.0</a> (CC BY-SA).
-      credit_title_html: Hur du anger OpenStreetMap som källa
-      credit_1_html: |-
-        Vi kräver att din källhänvisning består av &ldquo;&copy; OpenStreetMaps
-        bidragsgivare&rdquo;.
-      credit_2_html: |-
-        Du måste också göra klart att datan är tillgänglig under licensen
-        Open Database License, och om du använder våra kartrutor, att kartografin är
-        tillgänglig under licensen CC BY-SA. Du kan göra detta genom att länka till
-        <a href="https://www.openstreetmap.org/copyright">denna sida om upphovsrätt</a>.
-        Alternativt, och som krav om du distribuerar OSM i dataform, kan du namnge
-        och länka direkt till licenserna. I media där länkar ej är möjliga
-        (t.ex. tryckt material), förslår vi att du hänvisar dina läsare till openstreetmap.org
-        (förslagsvis genom att expandera 'OpenStreetMap' till hela denna adress), till opendatacommons.org, och om relevant till creativecommons.org.
-      credit_3_html: |-
-        För en navigerbar elektronisk karta, ska källhänvisningen synas i ena hörnet av kartan.
-        Till exempel:
-      attribution_example:
-        alt: Exempel på hur en webbsida kan ange OpenStreetMap som källa
-        title: Exempel på källhänvisning.
-      more_title_html: Mer information
-      more_1_html: |-
-        Läs mer om användning av vår data och hur du anger oss som källa på <a
-        href="https://osmfoundation.org/Licence">OSMF:s licenssida</a>.
-      more_2_html: |-
-        Även om OpenStreetMap är öppen data, kan vi inte tillhandahålla något gratis kart-API för tredjeparter.
-        Se vår <a href="https://operations.osmfoundation.org/policies/api/">användningspolicy för API</a>,
-        <a href="https://operations.osmfoundation.org/policies/tiles/">användningspolicy för kartrutor</a>
-        och <a href="https://operations.osmfoundation.org/policies/nominatim/">användningspolicy för Nominatim</a>.
-      contributors_title_html: Våra bidragsgivare
-      contributors_intro_html: |-
-        Våra bidragsgivare är tusentals individer. Vi inkluderar också
-        öppna data från nationella karttjänster,
-        bland annat från:
-      contributors_at_html: |-
-        <strong>Österrike</strong>: Innehåller data från
-        <a href="https://data.wien.gv.at/">Stadt Wien</a> (under licensen
-        <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
-        <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> och
-        Land Tirol (under licensen <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT med tillägg</a>).
-      contributors_ca_html: |-
-        <strong>Kanada</strong>: Innehåller data från
-           GeoBase&reg;, GeoGratis (&copy; Department of Natural
-           Resources Canada), CanVec (&copy; Department of Natural
-           Resources Canada), och StatCan (Geography Division,
-           Statistics Canada).
-      contributors_fi_html: '<strong>Finland</strong>: Innehåller data från Lantmäteriverket
-        i Finlands topografiska databas och andra dataset, under licensen <a href="https://www.maanmittauslaitos.fi/sv/Licens_till_avgiftsfria_datamaterial_version1_20120501">NLSFI</a>.'
-      contributors_fr_html: |-
-        <strong>Frankrike</strong>: Innehåller data
-           från Direction Générale des Impôts.
-      contributors_nl_html: |-
-        <strong>Nederländerna</strong>: Innehåller © AND data, 2007
-        (<a href="https://www.and.com">www.and.com</a>)
-      contributors_nz_html: |-
-        <strong>Nya Zeeland</strong>: Innehåller data från
-        Land Information New Zealand. Crown Copyright reserved.
-      contributors_si_html: |-
-        <strong>Slovenien</strong>: Innehåller uppgifter från
-        <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> och
-        <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>
-        (offentlig information i Slovenien).
-      contributors_za_html: |-
-        <strong>Sydafrika</strong>: Innehåller data från
-        <a href="http://www.ngi.gov.za/">Chief Directorate:
-        National Geo-Spatial Information</a>, State copyright reserved.
-      contributors_gb_html: |-
-        <strong>Storbritannien</strong>: Innehåller Ordnance
-        Survey data &copy; Crown copyright and database right
-        2010-12.
-      contributors_footer_1_html: |-
-        För ytterligare detaljer om dessa och andra källor som använts
-        för att förbättra OpenStreetMap, se <a
-        href="https://wiki.openstreetmap.org/wiki/Contributors">sidan om bidragsgivare</a>
-        på OpenStreetMaps wiki.
-      contributors_footer_2_html: "  Införandet av uppgifter i OpenStreetMap innebär
-        inte att den ursprungliga \n  datagivaren stödjer OpenStreetMap, ger någon
-        som helst garanti eller\n  tar på sig något ansvar."
-      infringement_title_html: Upphovsrättsintrång
-      infringement_1_html: |-
-        Bidragsgivare till OSM påminns om att aldrig lägga till data från
-        upphovsrättsskyddade källor (t.ex. Google Maps och tryckta kartor) utan
-        uttryckligt tillstånd från upphovsrättsinnehavarna.
-      infringement_2_html: |-
-        Om du tror att upphovsrättsskyddat material felaktigt har
-        lagts in i OpenStreetMaps databas eller till den här webbplatsen, se
-        vårt <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">borttagningsförfarande</a>
-        eller fyll i vårt <a href="http://dmca.openstreetmap.org/">online-formulär</a> direkt.
-      trademarks_title_html: <span id="trademarks"></span>Varumärken
-      trademarks_1_html: OpenStreetMap, förstoringsglas-logotypen och State of the
-        Map är registrerade varumärken hos OpenStreetMap Foundation. Om du har frågor
-        gällande din användning av varumärkena, vänligen se vår <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">varumärkespolicy</a>.
-  welcome_page:
-    title: Välkommen!
-    introduction_html: Välkommen till OpenStreetMap, den fria och redigerbara kartan
-      över världen. Nu när du har registrerat dig är du klar för att börja kartlägga
-      saker. Här är en snabb genomgång av de viktigaste sakerna du behöver veta.
-    whats_on_the_map:
-      title: Vad finns på kartan
-      on_html: OpenStreetMap är en plats för att kartlägga sådant som både <em>finns
-        i verkligheten och är aktuellt</em>. OpenStreetMap innehåller miljontals byggnader,
-        vägar och annan information om platser. Du kan lägga till vad som helst som
-        finns i verkligheten och som intresserar dig.
-      off_html: Vad OpenStreetMap <em>inte</em> innehåller är subjektiva data som
-        betyg, historiska eller hypotetiska objekt, samt data från upphovsrättsskyddade
-        källor. Om du inte har ett speciellt tillstånd, kopiera inte från andra kartor
-        online eller på papper.
-    basic_terms:
-      title: Grundläggande termer för kartering
-      paragraph_1_html: OpenStreetMap har en del egen jargong. Här är några begrepp
-        som kan vara bra att förstå.
-      editor_html: En <strong>redigerare</strong> är ett program eller en webbsida
-        du kan använda för att ändra i kartan.
-      node_html: En <strong>nod</strong> är en punkt på kartan, till exempel en ensam
-        restaurang eller ett träd.
-      way_html: En <strong>väg</strong> är en linje  eller ett område, till exempel
-        en väg, bäck, sjö eller byggnad.
-      tag_html: En <strong>tagg</strong> är en bit data om en nod eller väg, till
-        exempel en restaurangs namn eller en vägs hastighetsbegränsning.
-    rules:
-      title: Regler!
-      paragraph_1_html: "OpenStreetMap har få formella regler, men vi förväntar oss
-        att alla deltagare samarbetar och kommunicerar med gemenskapen. Om du funderar
-        på\nnågon annan aktivitet än manuell redigering av sidan, läs och följ anvisningarna
-        på \n<a href=\"https://wiki.openstreetmap.org/wiki/Import/Guidelines\">Import</a>
-        och \n<a href=\"https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct\">Automatiserade
-        redigeringar</a>."
-    questions:
-      title: Några frågor?
-      paragraph_1_html: |-
-        OpenStreetMap har flera resurser som hjälper dig att lära dig om projektet, för att ställa och svara på frågor, och tillsammans diskutera och dokumentera frågor gällande kartering.
-        <a href='%{help_url}'>Få hjälp här</a>.
-    start_mapping: Börja kartlägga
-    add_a_note:
-      title: Ingen tid att redigera? Lägg till en kommentar!
-      paragraph_1_html: Om du bara vill ha ett litet problem fixat och inte har tid
-        att registrera dig så är det lätt att lämna en kartanteckning.
-      paragraph_2_html: |-
-        Gå till <a href='%{map_url}'>kartan</a> och tryck på anteckningsikonen:
-        <span class='icon note'></span>. En markör, som du kan dra omkring, kommer att läggas till på kartan. Lägg till ett meddelande och spara. Någon annan kommer att undersöka frågan.
-  fixthemap:
-    title: Rapportera ett problem / Fixa kartan
-    how_to_help:
-      title: Hur man kan hjälpa till
-      join_the_community:
-        title: Gå med i gemenskapen
-        explanation_html: Om du har hittat ett problem med vår kartdata, till exempel
-          att en väg eller din adress saknas, är den bästa lösningen att gå med i
-          OpenStreetMap-gemenskapen och själv lägga till eller reparera datan.
-      add_a_note:
-        instructions_html: |-
-          Klicka bara på <a class='icon note'></a> eller samma ikon i kartrutan.
-          Detta lägger till en markör på kartan som du kan flytta
-          genom att dra. Skriv ditt meddelande och klicka sedan på spara, så kommer andra kartritare att undersöka.
-    other_concerns:
-      title: Andra farhågor
-      explanation_html: |-
-        Om du har frågor om hur vår data används eller om innehållet, se
-        <a href='/copyright'>sidan om upphovsrätt</a> för mer juridisk information eller kontakta lämplig
-        <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-arbetsgrupp</a>.
-  help_page:
-    title: Få hjälp
-    introduction: OpenStreetMap har flera resurser som hjälper dig att lära dig om
-      projektet, för att ställa och svara på frågor, och tillsammans diskutera och
-      dokumentera frågor gällande kartering.
-    welcome:
-      url: /welcome
-      title: Välkommen till OSM
-      description: Börja med den här snabbguiden som täcker grunderna i OpenStreetMap.
-    beginners_guide:
-      url: https://wiki.openstreetmap.org/wiki/Sv:Beginners%27_guide
-      title: Guide för nybörjare
-      description: Guide för nybörjare som underhålls av gemenskapen.
-    help:
-      url: https://help.OpenStreetMap.org/
-      title: help.openstreetmap.org
-      description: Ställ en fråga eller kolla upp svar på OSM:s sida med svar på ofta
-        förekommande frågor.
-    mailing_lists:
-      title: E-postlistor
-      description: Ställ en fråga eller diskutera intressanta saker på ett brett utbud
-        av lokala eller regionala e-postlistor.
-    forums:
-      title: Forum
-      description: Frågor och diskussioner för de som föredrar ett gränssnitt liknande
-        en anslagstavla.
-    irc:
-      title: IRC
-      description: Interaktiv chatt på flera olika språk rörande mängder av ämnen.
-    switch2osm:
-      title: switch2osm
-      description: Hjälp för företag och organisationer att byta till OpenStreetMap-baserade
-        kartor och andra tjänster.
-    wiki:
-      url: https://wiki.openstreetmap.org/
-      title: wiki.openstreetmap.org
-      description: Sök i wikin för ingående OSM-dokumentation.
-  about_page:
-    next: Nästa
-    copyright_html: <span>&copy;</span>OpenStreetMap<br>bidragsgivare
-    used_by: '%{name} förser tusentals webbsidor, mobilappar och fysiska apparater
-      med kartdata'
-    lede_text: OpenStreetMap är byggt av en gemenskap av kartografer som bidrar och
-      underhåller data om vägar, stigar, caféer, järnvägsstationer och mycket mer,
-      över hela världen.
-    local_knowledge_title: Lokalkännedom
-    local_knowledge_html: OpenStreetMap betonar lokal kunskap. Bidragsgivare använder
-      flygbilder, GPS-enheter och lågteknologiska fältkartor för att kontrollera att
-      OSM är korrekt och uppdaterad.
-    community_driven_title: Gemenskapsdriven
-    community_driven_html: "OpenStreetMaps gemenskap är blandad, passionerad och växer
-      varje dag.\nBland våra bidragsgivare finns kartentusiaster, GIS-proffs, ingenjörer
-      som håller igång OSM:s servrar, frivilliga som kartlägger katastrofområden,
-      och många andra.\nFör mer information om gemenskapen, se \n<a href='https://blog.openstreetmap.org'>OpenStreetMap-bloggen</a>,
-      \n<a href='%{diary_path}'>användardagböcker</a>, \n<a href='https://blogs.openstreetmap.org/'>gemenskapens
-      bloggar</a>, och \n<a href='https://www.osmfoundation.org/'>OSM-stiftelsens</a>
-      webbplats."
-    open_data_title: Öppna data
-    open_data_html: 'OpenStreetMap är <i>öppna data</i>: du kan fritt använda den
-      för valfritt syfte så länge du anger OpenStreetMap och dess bidragsgivare som
-      källa. Om du förändrar eller bygger vidare på datan på vissa sätt, kan du endast
-      distribuera resultatet under samma licens. Se <a href=''%{copyright_path}''>sidan
-      för Upphovsrätt och Licens</a> för detaljer.'
-    legal_title: Juridik
-    legal_html: "Denna sida och många andra liknande tjänster drivs formellt av \n<a
-      href=\"https://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF) \npå
-      gemenskapens vägnar. Användning av alla OSMF-opererade tjänster är föremål\nför
-      våra <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npolicyer
-      för acceptabel användning</a> och vår <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">integritetspolicy</a>\n<br>
-      \nVänligen <a href=\"https://osmfoundation.org/Contact\">kontakta OSMF</a> \nom
-      du har frågor eller funderingar om licenser, upphovsrätt eller andra rättsliga
-      frågor.\n<br>\nOpenStreetMap, förstoringsglaslogotypen och State of the Map
-      är <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">registrerade
-      varumärken av OSMF</a>."
-    partners_title: Partners
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} kommenterade på ett dagboksinlägg'
@@ -1435,9 +1329,9 @@ sv:
         partial_changeset_with_comment: med kommentar '%{changeset_comment}'
         partial_changeset_without_comment: utan kommentar
       details: Mer detaljer om ändringssetet finns på %{url}.
-      unsubscribe: För att avsluta prenumerationen från uppdatering i denna ändringsgrupp,
+      unsubscribe: För att avsluta prenumerationen av uppdateringar i denna ändringsgrupp,
         besök %{url} och klicka på "Avprenumerera".
-  message:
+  messages:
     inbox:
       title: Inkorg
       my_inbox: Min inkorg
@@ -1459,14 +1353,14 @@ sv:
       unread_button: Markera som oläst
       read_button: Markera som läst
       reply_button: Svar
-      delete_button: Radera
+      destroy_button: Radera
     new:
       title: Skicka meddelande
       send_message_to: Skicka ett nytt meddelande till %{name}
       subject: Ärende
       body: Brödtext
-      send_button: Skicka
       back_to_inbox: Tillbaka till inkorgen
+    create:
       message_sent: Meddelande skickat
       limit_exceeded: Du har skickat många meddelanden på kort tid.  Var god vänta
         en stund innan du försöker igen.
@@ -1492,27 +1386,195 @@ sv:
       wrong_user: Du är inloggad som '%{user}', men meddelandet du har bett om att
         besvara skickades inte till den användaren. Logga in med korrekt användare
         för att svara.
-    read:
+    show:
       title: Läs meddelande
       from: Från
       subject: Ärende
       date: Datum
       reply_button: Svara
       unread_button: Markera som oläst
-      delete_button: Radera
+      destroy_button: Radera
       back: Tillbaka
       to: Till
       wrong_user: Du är inloggad som '%{user}', men meddelandet du har bett om att
         få läsa skickades inte till eller av den användaren. Logga in med korrekt
         användare för att läsa det.
     sent_message_summary:
-      delete_button: Radera
+      destroy_button: Radera
     mark:
       as_read: Meddelandet markerat som läst
       as_unread: Meddelandet markerat som oläst
-    delete:
-      deleted: Meddelande raderat
+    destroy:
+      destroyed: Meddelande raderat
   site:
+    about:
+      next: Nästa
+      copyright_html: <span>&copy;</span>OpenStreetMap<br>bidragsgivare
+      used_by: '%{name} förser tusentals webbsidor, mobilappar och fysiska apparater
+        med kartdata'
+      lede_text: OpenStreetMap är byggt av en gemenskap av kartografer som bidrar
+        och underhåller data om vägar, stigar, caféer, järnvägsstationer och mycket
+        mer, över hela världen.
+      local_knowledge_title: Lokalkännedom
+      local_knowledge_html: OpenStreetMap betonar lokal kunskap. Bidragsgivare använder
+        flygbilder, GPS-enheter och lågteknologiska fältkartor för att kontrollera
+        att OSM är korrekt och uppdaterad.
+      community_driven_title: Gemenskapsdriven
+      community_driven_html: "OpenStreetMaps gemenskap är blandad, passionerad och
+        växer varje dag.\nBland våra bidragsgivare finns kartentusiaster, GIS-proffs,
+        ingenjörer som håller igång OSM:s servrar, frivilliga som kartlägger katastrofområden,
+        och många andra.\nFör mer information om gemenskapen, se \n<a href='https://blog.openstreetmap.org'>OpenStreetMap-bloggen</a>,
+        \n<a href='%{diary_path}'>användardagböcker</a>, \n<a href='https://blogs.openstreetmap.org/'>gemenskapens
+        bloggar</a>, och \n<a href='https://www.osmfoundation.org/'>OSM-stiftelsens</a>
+        webbplats."
+      open_data_title: Öppna data
+      open_data_html: 'OpenStreetMap är <i>öppna data</i>: du kan fritt använda den
+        för valfritt syfte så länge du anger OpenStreetMap och dess bidragsgivare
+        som källa. Om du förändrar eller bygger vidare på datan på vissa sätt, kan
+        du endast distribuera resultatet under samma licens. Se <a href=''%{copyright_path}''>sidan
+        för Upphovsrätt och Licens</a> för detaljer.'
+      legal_title: Juridik
+      legal_html: "Denna sida och många andra liknande tjänster drivs formellt av
+        \n<a href=\"https://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF)
+        \npå gemenskapens vägnar. Användning av alla OSMF-drivna tjänster är föremål\nför
+        våra <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npolicyer
+        för acceptabel användning</a> och vår <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">integritetspolicy</a>\n<br>
+        \nVänligen <a href='https://osmfoundation.org/Contact'>kontakta OSMF</a> \nom
+        du har frågor eller funderingar om licenser, upphovsrätt eller andra rättsliga
+        frågor.\n<br>\nOpenStreetMap, förstoringsglaslogotypen och State of the Map
+        är <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">registrerade
+        varumärken av OSMF</a>."
+      partners_title: Partners
+    copyright:
+      foreign:
+        title: Om denna översättning
+        text: I händelse av en konflikt mellan denna översatta sida och %{english_original_link}
+          har den engelska texten företräde
+        english_link: det engelska originalet
+      native:
+        title: Om denna sida
+        text: Du tittar på den engelska versionen av sidan om upphovsrätt. Du kan
+          gå tillbaka till %{native_link} av den här sidan eller sluta läsa om upphovsrätt
+          och %{mapping_link}.
+        native_link: svensk version
+        mapping_link: börja kartlägga
+      legal_babble:
+        title_html: Upphovsrätt och licens
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> är <i>öppna data</i>, gjord tillgänglig under licensen <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) av <a
+          href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
+        intro_2_html: |-
+          Du är fri att kopiera, distribuera, överföra och anpassa vår data,
+          så länge du anger OpenStreetMap och dess bidragsgivare som källa.
+          Om du ändrar eller bygger vidare på vår data kan du
+          endast distribuera resultatet under samma licens. Den
+          fullständiga <a href="https://opendatacommons.org/licenses/odbl/1.0/">juridiska
+          texten</a> förklarar dina rättigheter och skyldigheter.
+        intro_3_html: |-
+          Kartografin i våra kartrutor, och vår dokumentation, är
+          tillgängliga under licensen <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Erkännande-DelaLika 2.0</a> (CC BY-SA).
+        credit_title_html: Hur du anger OpenStreetMap som källa
+        credit_1_html: |-
+          Vi kräver att din källhänvisning består av &ldquo;&copy; OpenStreetMaps
+          bidragsgivare&rdquo;.
+        credit_2_html: |-
+          Du måste också göra klart att datan är tillgänglig under licensen
+          Open Database License, och om du använder våra kartrutor, att kartografin är
+          tillgänglig under licensen CC BY-SA. Du kan göra detta genom att länka till
+          <a href="https://www.openstreetmap.org/copyright">denna sida om upphovsrätt</a>.
+          Alternativt, och som krav om du distribuerar OSM i dataform, kan du namnge
+          och länka direkt till licenserna. I media där länkar ej är möjliga
+          (t.ex. tryckt material), förslår vi att du hänvisar dina läsare till openstreetmap.org
+          (förslagsvis genom att expandera 'OpenStreetMap' till hela denna adress), till opendatacommons.org, och om relevant till creativecommons.org.
+        credit_3_html: |-
+          För en navigerbar elektronisk karta, ska källhänvisningen synas i ena hörnet av kartan.
+          Till exempel:
+        attribution_example:
+          alt: Exempel på hur en webbsida kan ange OpenStreetMap som källa
+          title: Exempel på källhänvisning.
+        more_title_html: Mer information
+        more_1_html: |-
+          Läs mer om användning av vår data och hur du anger oss som källa på <a
+          href="https://osmfoundation.org/Licence">OSMF:s licenssida</a>.
+        more_2_html: |-
+          Även om OpenStreetMap är öppna data, kan vi inte tillhandahålla något gratis kart-API för tredjeparter.
+          Se vår <a href="https://operations.osmfoundation.org/policies/api/">användningspolicy för API</a>,
+          <a href="https://operations.osmfoundation.org/policies/tiles/">användningspolicy för kartrutor</a>
+          och <a href="https://operations.osmfoundation.org/policies/nominatim/">användningspolicy för Nominatim</a>.
+        contributors_title_html: Våra bidragsgivare
+        contributors_intro_html: |-
+          Våra bidragsgivare är tusentals individer. Vi inkluderar också
+          öppna data från nationella karttjänster,
+          bland annat från:
+        contributors_at_html: |-
+          <strong>Österrike</strong>: Innehåller data från
+          <a href="https://data.wien.gv.at/">Stadt Wien</a> (under licensen
+          <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> och
+          Land Tirol (under licensen <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT med tillägg</a>).
+        contributors_au_html: |-
+          <strong>Australia</strong>: Innehåller förortsdata baserad
+             på data från Australian Bureau of Statistics.
+        contributors_ca_html: |-
+          <strong>Kanada</strong>: Innehåller data från
+             GeoBase&reg;, GeoGratis (&copy; Department of Natural
+             Resources Canada), CanVec (&copy; Department of Natural
+             Resources Canada), och StatCan (Geography Division,
+             Statistics Canada).
+        contributors_fi_html: '<strong>Finland</strong>: Innehåller data från Lantmäteriverket
+          i Finlands topografiska databas och andra dataset, under licensen <a href="https://www.maanmittauslaitos.fi/sv/Licens_till_avgiftsfria_datamaterial_version1_20120501">NLSFI</a>.'
+        contributors_fr_html: |-
+          <strong>Frankrike</strong>: Innehåller data
+             från Direction Générale des Impôts.
+        contributors_nl_html: |-
+          <strong>Nederländerna</strong>: Innehåller © AND data, 2007
+          (<a href="https://www.and.com">www.and.com</a>)
+        contributors_nz_html: |-
+          <strong>Nya Zeeland</strong>: Innehåller data från
+          <a href="https://data.linz.govt.nz/">LINZ Data Service</a>
+          som är licensierad för återanvändning under
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        contributors_si_html: |-
+          <strong>Slovenien</strong>: Innehåller data från
+          <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> och
+          <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>
+          (offentlig information i Slovenien).
+        contributors_es_html: |-
+          Spanien: Innehåller data från <strong>Spanish</strong> #Nationell Geographic Institute (<a href="http://www.ign.es/">IGN</a>) och
+          #Nationell Cartographic System (SCNE)
+          licenseret för videre bruk under CC STAD #4.0.
+        contributors_za_html: |-
+          <strong>Sydafrika</strong>: Innehåller data från
+          <a href="http://www.ngi.gov.za/">Chief Directorate:
+          National Geo-Spatial Information</a>, State copyright reserved.
+        contributors_gb_html: |-
+          <strong>Storbritannien</strong>: Innehåller Ordnance
+          Survey data &copy; Crown copyright and database right
+          2010-12.
+        contributors_footer_1_html: |-
+          För ytterligare detaljer om dessa och andra källor som använts
+          för att förbättra OpenStreetMap, se <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">sidan om bidragsgivare</a>
+          på OpenStreetMaps wiki.
+        contributors_footer_2_html: "Införandet av uppgifter i OpenStreetMap innebär
+          inte att den ursprungliga \ndatagivaren stödjer OpenStreetMap, \nger någon
+          som helst garanti eller \ntar på sig något ansvar."
+        infringement_title_html: Upphovsrättsintrång
+        infringement_1_html: |-
+          Bidragsgivare till OSM påminns om att aldrig lägga till data från
+          upphovsrättsskyddade källor (t.ex. Google Maps och tryckta kartor) utan
+          uttryckligt tillstånd från upphovsrättsinnehavarna.
+        infringement_2_html: |-
+          Om du tror att upphovsrättsskyddat material felaktigt har
+          lagts in i OpenStreetMaps databas eller till den här webbplatsen, se
+          vårt <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">borttagningsförfarande</a>
+          eller fyll i vårt <a href="http://dmca.openstreetmap.org/">online-formulär</a> direkt.
+        trademarks_title_html: <span id="trademarks"></span>Varumärken
+        trademarks_1_html: OpenStreetMap, förstoringsglas-logotypen och State of the
+          Map är registrerade varumärken hos OpenStreetMap Foundation. Om du har frågor
+          gällande din användning av varumärkena, vänligen se vår <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">varumärkespolicy</a>.
     index:
       js_1: Du använder antingen en webbläsare som inte stöder JavaScript, eller så
         har du inaktiverat JavaScript.
@@ -1544,6 +1606,114 @@ sv:
       id_not_configured: iD har inte konfigurerats
       no_iframe_support: Din webbläsare stöder inte HTML iframes, vilken är nödvändig
         för den här funktionen.
+    export:
+      title: Exportera
+      area_to_export: Område att exportera
+      manually_select: Välj ett annat område manuellt
+      format_to_export: Format för export
+      osm_xml_data: OpenStreetMap XML-data
+      map_image: Kartbild (visar vanliga lager)
+      embeddable_html: Inbäddad HTML
+      licence: Licens
+      export_details: Data från OpenStreetMap har gjorts tillgänglig under licensen  <a
+        href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open
+        Database License</a> (ODbL).
+      too_large:
+        advice: 'Om ovanstående export misslyckas, vänligen överväg att använda en
+          av de källor som anges nedan:'
+        body: 'Detta område är för stort för att exporteras som OpenStreetMap XML-data.
+          Vänligen zooma in eller välj ett mindre område, eller använd en av följande
+          källor för nedladdningar av bulkdata:'
+        planet:
+          title: Planet OSM
+          description: Regelbundet uppdaterade kopior av den kompletta OpenStreetMap-databasen
+        overpass:
+          title: Overpass API
+          description: Hämta denna avgränsningsram från en spegel av OpenStreetMap-databasen
+        geofabrik:
+          title: Geofabrik Downloads
+          description: Regelbundet uppdaterat utdrag av kontinenter, länder och utvalda
+            städer
+        metro:
+          title: Metro Extracts
+          description: Utdrag av stora världsstäder och deras närområden
+        other:
+          title: Andra källor
+          description: Ytterligare källor anges på OpenStreetMaps wiki
+      options: Alternativ
+      format: Format
+      scale: Skala
+      max: max
+      image_size: Bildstorlek
+      zoom: Zooma
+      add_marker: Lägg till markör på kartan
+      latitude: 'Lat:'
+      longitude: 'Lon:'
+      output: Utdata
+      paste_html: Klistra in HTML för att bädda in på webbplats
+      export_button: Exportera
+    fixthemap:
+      title: Rapportera ett problem / Fixa kartan
+      how_to_help:
+        title: Hur man kan hjälpa till
+        join_the_community:
+          title: Gå med i gemenskapen
+          explanation_html: Om du har hittat ett problem med vår kartdata, till exempel
+            att en väg eller din adress saknas, är den bästa lösningen att gå med
+            i OpenStreetMap-gemenskapen och själv lägga till eller reparera datan.
+        add_a_note:
+          instructions_html: |-
+            Klicka bara på <a class='icon note'></a> eller samma ikon i kartrutan.
+            Detta lägger till en markör på kartan som du kan flytta
+            genom att dra. Skriv ditt meddelande och klicka sedan på spara, så kommer andra kartritare att undersöka.
+      other_concerns:
+        title: Andra farhågor
+        explanation_html: |-
+          Om du har frågor om hur vår data används eller om innehållet, se
+          <a href='/copyright'>sidan om upphovsrätt</a> för mer juridisk information eller kontakta lämplig
+          <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-arbetsgrupp</a>.
+    help:
+      title: Få hjälp
+      introduction: OpenStreetMap har flera resurser som hjälper dig att lära dig
+        om projektet, för att ställa och svara på frågor, och tillsammans diskutera
+        och dokumentera frågor gällande kartering.
+      welcome:
+        url: /welcome
+        title: Välkommen till OpenStreetMap
+        description: Börja med den här snabbguiden som täcker grunderna i OpenStreetMap.
+      beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Sv:Beginners%27_guide
+        title: Guide för nybörjare
+        description: Guide för nybörjare som underhålls av gemenskapen.
+      help:
+        url: https://help.OpenStreetMap.org/
+        title: Hjälpforum
+        description: Ställ en fråga eller kolla upp svar på OpenStreetMaps sida med
+          svar på ofta förekommande frågor.
+      mailing_lists:
+        title: E-postlistor
+        description: Ställ en fråga eller diskutera intressanta saker på ett brett
+          utbud av lokala eller regionala e-postlistor.
+      forums:
+        title: Forum
+        description: Frågor och diskussioner för de som föredrar ett gränssnitt liknande
+          en anslagstavla.
+      irc:
+        title: IRC
+        description: Interaktiv chatt på flera olika språk rörande mängder av ämnen.
+      switch2osm:
+        title: switch2osm
+        description: Hjälp för företag och organisationer att byta till OpenStreetMap-baserade
+          kartor och andra tjänster.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: För organisationer
+        description: Är du i en organisation som har planer med OpenStreetMap? Ta
+          reda på vad du behöver veta i välkomstmattan.
+      wiki:
+        url: https://wiki.openstreetmap.org/
+        title: OpenStreetMaps wiki
+        description: Sök i wikin för ingående dokumentation av OpenStreetMap.
     sidebar:
       search_results: Sökresultat
       close: Stäng
@@ -1631,7 +1801,7 @@ sv:
       edit: Redigera
       preview: Förhandsgranska
     markdown_help:
-      title_html: Tolkat med <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Tolkat med <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Rubriker
       heading: Rubrik
       subheading: Underrubrik
@@ -1644,18 +1814,86 @@ sv:
       image: Bild
       alt: Alt-text
       url: Webbadress
-  trace:
+    welcome:
+      title: Välkommen!
+      introduction_html: Välkommen till OpenStreetMap, den fria och redigerbara kartan
+        över världen. Nu när du har registrerat dig är du klar för att börja kartlägga
+        saker. Här är en snabb genomgång av de viktigaste sakerna du behöver veta.
+      whats_on_the_map:
+        title: Vad finns på kartan
+        on_html: OpenStreetMap är en plats för att kartlägga sådant som både <em>finns
+          i verkligheten och är aktuellt</em>. OpenStreetMap innehåller miljontals
+          byggnader, vägar och annan information om platser. Du kan lägga till vad
+          som helst som finns i verkligheten och som intresserar dig.
+        off_html: Vad OpenStreetMap <em>inte</em> innehåller är subjektiva data som
+          betyg, historiska eller hypotetiska objekt, samt data från upphovsrättsskyddade
+          källor. Om du inte har ett speciellt tillstånd, kopiera inte från andra
+          kartor online eller på papper.
+      basic_terms:
+        title: Grundläggande termer för kartering
+        paragraph_1_html: OpenStreetMap har en del egen jargong. Här är några begrepp
+          som kan vara bra att förstå.
+        editor_html: En <strong>redigerare</strong> är ett program eller en webbsida
+          du kan använda för att ändra i kartan.
+        node_html: En <strong>nod</strong> är en punkt på kartan, till exempel en
+          ensam restaurang eller ett träd.
+        way_html: En <strong>väg</strong> är en linje  eller ett område, till exempel
+          en väg, bäck, sjö eller byggnad.
+        tag_html: En <strong>tagg</strong> är en bit data om en nod eller väg, till
+          exempel en restaurangs namn eller en vägs hastighetsbegränsning.
+      rules:
+        title: Regler!
+        paragraph_1_html: "OpenStreetMap har få formella regler, men vi förväntar
+          oss att alla deltagare samarbetar och kommunicerar med gemenskapen. Om du
+          funderar på\nnågon annan aktivitet än manuell redigering av sidan, läs och
+          följ anvisningarna på \n<a href=\"https://wiki.openstreetmap.org/wiki/Import/Guidelines\">Import</a>
+          och \n<a href=\"https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct\">Automatiserade
+          redigeringar</a>."
+      questions:
+        title: Några frågor?
+        paragraph_1_html: |-
+          OpenStreetMap har flera resurser som hjälper dig att lära dig om projektet, för att ställa och svara på frågor, och tillsammans diskutera och dokumentera frågor gällande kartering.
+          <a href='%{help_url}'>Få hjälp här</a>. Är du i en organisation som har planer med OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Besök välkomstmattan</a>.
+      start_mapping: Börja kartlägga
+      add_a_note:
+        title: Ingen tid att redigera? Lägg till en kommentar!
+        paragraph_1_html: Om du bara vill ha ett litet problem fixat och inte har
+          tid att registrera dig så är det lätt att lämna en kartanteckning.
+        paragraph_2_html: |-
+          Gå till <a href='%{map_url}'>kartan</a> och tryck på anteckningsikonen:
+          <span class='icon note'></span>. En markör, som du kan dra omkring, kommer att läggas till på kartan. Lägg till ett meddelande och spara. Någon annan kommer att undersöka frågan.
+  traces:
     visibility:
       private: Privat (spåret delas anonymt och utan ordning)
       public: Publik (visas i GPS-spårlistan och som anonyma punkter utan ordning)
       trackable: Spårbar (delas bara som anonyma ordnade punker med tidsstämpel)
       identifiable: Identifierbar (visas i GPS-spårlistan och som ordnade punkter
         med tidsstämpel)
+    new:
+      upload_trace: Ladda upp GPS-spår
+      upload_gpx: 'Ladda upp GPX-fil:'
+      description: 'Beskrivning:'
+      tags: 'Taggar:'
+      tags_help: kommaseparerad
+      visibility: 'Synlighet:'
+      visibility_help: vad betyder detta?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Sv:Visibility_of_GPS_traces
+      help: Hjälp
+      help_url: http://wiki.openstreetmap.org/wiki/Sv:Upload
     create:
       upload_trace: Ladda upp GPS-spår
       trace_uploaded: Din GPX-fil har laddats upp och väntar på att lagras i databasen.
-        Detta sker vanligtvis inom en halvtimme. När den är klar skickas ett e-brev
+        Detta sker vanligtvis inom en halvtimme. När den är klar skickas en e-post
         till dig.
+      upload_failed: Tyvärr, GPX-uppladdningen misslyckades. En administratör har
+        meddelats om felet. Försök igen
+      traces_waiting:
+        one: Du har %{count} GPS-spår som håller på att laddas upp. Vänta gärna på
+          att detta blir klart innan du laddar upp fler, så att du inte blockerar
+          kön för andra användare.
+        other: Du har %{count} GPS-spår som håller på att laddas upp. Vänta gärna
+          på att dessa blir klara innan du laddar upp fler, så att du inte blockerar
+          kön för andra användare.
     edit:
       title: Redigerar spår %{name}
       heading: Redigerar spår %{name}
@@ -1670,32 +1908,13 @@ sv:
       description: 'Beskrivning:'
       tags: 'Taggar:'
       tags_help: kommaseparerad
-      save_button: Spara ändringar
       visibility: 'Synlighet:'
       visibility_help: vad betyder detta?
-    trace_form:
-      upload_gpx: 'Ladda upp GPX-fil:'
-      description: 'Beskrivning:'
-      tags: 'Taggar:'
-      tags_help: kommaseparerad
-      visibility: 'Synlighet:'
-      visibility_help: vad betyder detta?
-      upload_button: Uppladdning
-      help: Hjälp
-    trace_header:
-      upload_trace: Ladda upp GPS-spår
-      see_all_traces: Se alla GPS-spår
-      see_your_traces: Visa alla dina GPS-spår
-      traces_waiting:
-        one: Du har %{count} GPS-spår som håller på att laddas upp. Vänta gärna på
-          att dessa blir klara innan du laddar upp fler, så att du inte blockerar
-          kön för andra användare.
-        other: Du har %{count} GPS-spår som håller på att laddas upp. Vänta gärna
-          på att detta blir klart innan du laddar upp fler, så att du inte blockerar
-          kön för andra användare.
+    update:
+      updated: Spår uppdaterades
     trace_optionals:
       tags: Taggar
-    view:
+    show:
       title: Visar GPS-spår %{name}
       heading: Visar GPS-spår %{name}
       pending: VÄNTANDE
@@ -1710,10 +1929,11 @@ sv:
       description: 'Beskrivning:'
       tags: 'Taggar:'
       none: Ingen
-      edit_track: Redigera detta GPS-spår
-      delete_track: Radera detta GPS-spår
+      edit_trace: Redigera detta GPS-spår
+      delete_trace: Radera detta GPS-spår
       trace_not_found: GPS-spår hittades inte!
       visibility: 'Synlighet:'
+      confirm_delete: Radera detta spår?
     trace_paging_nav:
       showing_page: Sida %{page}
       older: Äldre GPS-spår
@@ -1721,7 +1941,6 @@ sv:
     trace:
       pending: VÄNTANDE
       count_points: '%{count} punkter'
-      ago: '%{time_in_words_ago} sedan'
       more: mer
       trace_details: Visa detaljer för GPS-spår
       view_map: Visa karta
@@ -1734,14 +1953,17 @@ sv:
       by: av
       in: i
       map: karta
-    list:
+    index:
       public_traces: Publika GPS-spår
-      your_traces: Dina GPS-spår
+      my_traces: Mina GPS-spår
       public_traces_from: Publika GPS-spår från %{user}
       description: Bläddra bland nyligen uppladdade GPS-spår
       tagged_with: ' taggad med %{tags}'
       empty_html: Ingenting här ännu. <a href='%{upload_link}'>Ladda upp ett nytt
         GPS-spår</a> eller lär dig om GPS-spår på <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikin</a>.
+      upload_trace: Ladda upp GPS-spår
+      see_all_traces: Se alla GPS-spår
+      see_my_traces: Se mina GPS-spår
     delete:
       scheduled_for_deletion: GPS-spår schemalagt för radering
     make_public:
@@ -1759,11 +1981,12 @@ sv:
         other: GPX-fil med %{count} punkter från %{user}
       description_without_count: GPX-fil från %{user}
   application:
+    permission_denied: Du har inte behörighet för denna åtgärd
     require_cookies:
       cookies_needed: Du verkar ha inaktiverat kakor - aktivera kakor i din webbläsare
         innan du fortsätter.
-    require_moderator:
-      not_a_moderator: Du måste vara administratör för att utföra åtgärden.
+    require_admin:
+      not_an_admin: Du måste vara administratör för att utföra denna åtgärd.
     setup_user_auth:
       blocked_zero_hour: Du har ett brådskande meddelande väntande på hemsidan för
         OpenStreetMap. Du behöver läsa meddelandet innan du ges möjlighet att spara
@@ -1774,7 +1997,7 @@ sv:
         på webbgränssnittet för att se bidragsvillkor. Du behöver inte godkänna dem,
         men du måste titta på dem.
   oauth:
-    oauthorize:
+    authorize:
       title: Auktorisera tillgång till ditt konto
       request_access: Programmet %{app_name} har begärt tillgång till ditt konto,
         %{user}. Var god kontrollera om du vill att programmet ska ha dessa möjligheter.
@@ -1788,11 +2011,11 @@ sv:
       allow_write_gpx: ladda upp GPS-spår
       allow_write_notes: ändra anteckningar.
       grant_access: Bevilja åtkomst
-    oauthorize_success:
+    authorize_success:
       title: Auktoriseringsbegäran tillåten
       allowed: Du har beviljat en applikation %{app_name} tillgång till ditt konto.
       verification: Verifikationskoden är %{code}.
-    oauthorize_failure:
+    authorize_failure:
       title: Auktoriseringsbegäran misslyckades
       denied: Du har blockerat en applikation %{app_name} från tillgång till ditt
         konto.
@@ -1800,14 +2023,12 @@ sv:
     revoke:
       flash: Du tagit bort nyckeln för %{application}
     permissions:
-      missing: Du har inte gett applikationen åtkomst till den här byggnaden
+      missing: Du har inte gett applikationen åtkomst till den här faciliteten
   oauth_clients:
     new:
       title: Registrera ett nytt program
-      submit: Registrera
     edit:
       title: Redigera ditt tillägg
-      submit: Redigera
     show:
       title: OAuth-detaljer för %{app_name}
       key: 'Konsumentnyckel:'
@@ -1837,7 +2058,7 @@ sv:
       my_apps: Mina klientprogram
       no_apps: Har du ett program som du vill registrera för användning hos oss med
         hjälp av %{oauth}-standarden? Du måste registrera din webbapplikation innan
-        du kan göra OAuth-anropp till denna tjänsten.
+        du kan göra OAuth-anropp till den här tjänsten.
       registered_apps: 'Du har följande klientapplikationer registrerade:'
       register_new: Registrera din applikation
     form:
@@ -1862,7 +2083,7 @@ sv:
       flash: Uppdaterade klientinformationen framgångsrikt
     destroy:
       flash: Annullerade registreringen av klientprogrammet
-  user:
+  users:
     login:
       title: Logga in
       heading: Logga in
@@ -1969,18 +2190,30 @@ sv:
         kartan!
       terms declined: Vi beklagar att du bestämt dig för att inte acceptera de nya
         användarvillkoren. För mer information, se <a href="%{url}">denna wikisida</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Villkor för deltagare
       heading: Villkor för deltagare
-      read and accept: Läs avtalet nedan och klicka på knappen Godkänn för att bekräfta
-        att du godkänner villkoren i detta avtal för dina befintliga och framtida
-        bidrag.
-      consider_pd: Utöver ovan nämnda avtal, anser jag att mina bidrag är inom Public
-        Domain.
+      heading_ct: 'Användarvillkor:'
+      read and accept with tou: Läs villkoren för bidragsgivare och användning, markera
+        båda kryssrutor när du är klar och klicka på fortsätt.
+      contributor_terms_explain: Denna avtal beskriver villkoren för dina existerande
+        och framtida bidrag.
+      read_ct: Jag har läst och samtycken med de ovanstående villkor för deltagare
+      tou_explain_html: Dessa %{tou_link} beskriver villkoren för hur denna hemsida
+        och andra infrastrukturer från OSMF får användas. Klicka på länken, läs och
+        godkänn villkoren.
+      read_tou: Jag har läst och samtycker med användarvillkoren.
+      consider_pd: Utöver ovan nämnda avtal, anser jag att mina bidrag är inom allmän
+        egendom.
       consider_pd_why: vad är det här?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Information som hjälper dig förstå dessa termer: en <a href="%{summary}">lättläst
         sammanfattning</a> och några <a href="%{translations}">informella översättningar</a>'
-      agree: Jag godkänner
+      continue: |2-
+
+        Fortsätt
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Avslå
       you need to accept or decline: Läs igenom och Godkänn eller Avböj de nya bidragsvillkoren
         för att fortsätta.
@@ -1995,7 +2228,7 @@ sv:
       body: Det finns ingen användare med namnet %{user}. Kontrollera stavningen,
         eller så kanske länken är trasig.
       deleted: raderad
-    view:
+    show:
       my diary: Min dagbok
       new diary entry: nytt dagboksinlägg
       my edits: Mina redigeringar
@@ -2016,12 +2249,10 @@ sv:
       remove as friend: Ta bort vän
       add as friend: Lägg till vän
       mapper since: 'Karterar sedan:'
-      ago: (%{time_in_words_ago} sedan)
       ct status: 'Användarvillkor:'
       ct undecided: Ej bestämda
       ct declined: Avböjda
-      ct accepted: Godkända för %{ago} sedan
-      latest edit: 'Senaste redigering %{ago}:'
+      latest edit: 'Senaste redigering (%{ago}):'
       email address: 'E-post:'
       created from: 'Skapad från:'
       status: 'Status:'
@@ -2031,7 +2262,7 @@ sv:
       if set location: Ange din hemposition på %{settings_link}-sidan för att se närbelägna
         användare.
       settings_link_text: inställningar
-      your friends: Dina vänner
+      my friends: Mina vänner
       no friends: Du har inte lagt till några vänner ännu.
       km away: '%{count}km bort'
       m away: '%{count}m bort'
@@ -2062,6 +2293,7 @@ sv:
       friends_diaries: vänners dagboksinlägg
       nearby_changesets: närbelägna användares ändringsset
       nearby_diaries: närbelägna användares dagboksinlägg
+      report: Rapportera denna användare
     popup:
       your location: Din position
       nearby mapper: Användare i närheten
@@ -2102,6 +2334,7 @@ sv:
           de nya bidragsvillkoren.
         agreed_with_pd: Du har också förklarat att du anser att dina redigeringar
           är inom Public Domain.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: vad är detta?
       profile description: 'Profilbeskrivning:'
       preferred languages: 'Föredraget språk:'
@@ -2109,6 +2342,7 @@ sv:
       image: 'Bild:'
       gravatar:
         gravatar: Använd Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: vad är detta?
         disabled: Gravatar har inaktiverats.
         enabled: Din Gravatar har aktiverats.
@@ -2170,9 +2404,7 @@ sv:
       button: Ta bort som vän
       success: '%{name} togs bort från dina vänner.'
       not_a_friend: '%{name} är inte en av dina vänner.'
-    filter:
-      not_an_administrator: Du måste vara administratör för att få göra det.
-    list:
+    index:
       title: Användare
       heading: Användare
       showing:
@@ -2213,8 +2445,6 @@ sv:
         med ditt ID i dina användarinställningar.
   user_role:
     filter:
-      not_an_administrator: Endast adminstratörer kan ändra användares roller och
-        du är inte administratör.
       not_a_role: Strängen `%{role}' är inte en korrekt roll.
       already_has_role: Användaren har redan rollen %{role}.
       doesnt_have_role: Användaren har inte rollen %{role}.
@@ -2236,7 +2466,7 @@ sv:
       confirm: Bekräfta
       fail: Kunde inte återkalla rollen "%{role}" från användaren "%{name}". Kontrollera
         att både användaren och rollen är korrekta.
-  user_block:
+  user_blocks:
     model:
       non_moderator_update: Måste vara en moderator för att skapa eller uppdatera
         en blockering.
@@ -2252,7 +2482,6 @@ sv:
         att meddelandet kommer vara offentligt. Tänk på att inte alla användare förstår
         community-jargongen, så försök att använda lekmannatermer.
       period: Hur lång tid, från och med nu, användaren ska vara blockerad från API.
-      submit: Skapa blockering
       tried_contacting: Jag har kontaktat användaren och bett användaren sluta.
       tried_waiting: Jag har gett en rimlig tidsfrist för användaren att svara på
         dessa meddelanden.
@@ -2266,7 +2495,6 @@ sv:
         alla användare förstår community-jargongen, så försök att använda lekmannatermer.
       period: Hur lång tid, från och med nu, som användaren ska vara blockerad från
         API.
-      submit: Uppdatera blockering
       show: Visa denna blockering
       back: Visa alla blockeringar
       needs_view: Behöver användaren logga in innan blockeringen upphör?
@@ -2290,33 +2518,32 @@ sv:
       title: Upphäv blockering av %{block_on}
       heading: Upphäv blockering på %{block_on} av %{block_by}
       time_future: Denna blockering kommer att avslutas inom %{time}.
-      past: Detta block avslutades %{time} sedan och kan inte upphävas nu.
+      past: Detta block avslutades %{time} och kan inte upphävas nu.
       confirm: Är du säker på att du vill återkalla denna blockering?
       revoke: Upphäv!
       flash: Denna blockering har upphävts.
-    period:
-      one: 1 timme
-      other: '%{count} timmar'
-    partial:
-      show: Visa
-      edit: Redigera
-      revoke: Återkalla!
-      confirm: Är du säker?
-      display_name: Blockerad användare
-      creator_name: Skapare
-      reason: Orsak till blockering
-      status: Status
-      revoker_name: Återkallad av
-      not_revoked: (Inte återkallat)
-      showing_page: Sida %{page}
-      next: Nästa »
-      previous: « Föregående
     helper:
       time_future: Slutar om %{time}.
       until_login: Aktiv till dess användaren loggar in.
       time_future_and_until_login: Slutar %{time} och efter att användaren har loggat
         in.
-      time_past: Avslutades för %{time} sedan.
+      time_past: Avslutades för %{time}.
+      block_duration:
+        hours:
+          one: 1 timme
+          other: '%{count} timmar'
+        days:
+          one: 1 dag
+          other: '%{count} dagar'
+        weeks:
+          one: 1 vecka
+          other: '%{count} veckor'
+        months:
+          one: 1 månad
+          other: '%{count} månader'
+        years:
+          one: 1 år
+          other: '%{count} år'
     blocks_on:
       title: Blockeringar på %{name}
       heading: Lista över blockeringar på %{name}
@@ -2328,10 +2555,7 @@ sv:
     show:
       title: '%{block_on} blockerad av %{block_by}'
       heading: '%{block_on} blockerad av %{block_by}'
-      time_future: Upphör om %{time}
-      time_past: Slutade för %{time} sedan
       created: Skapad
-      ago: '%{time} sedan'
       status: Status
       show: Visa
       edit: Redigera
@@ -2339,40 +2563,32 @@ sv:
       confirm: Är du säker?
       reason: 'Anledning för blockering:'
       back: Se alla blockeringar
-      revoker: 'Återställare:'
+      revoker: 'Återkallare:'
       needs_view: Användaren måste logga in innan blockeringen upphör.
-  note:
-    description:
-      opened_at_html: Skapades för %{when} sedan
-      opened_at_by_html: Skapades för %{when} sedan av %{user}
-      commented_at_html: Uppdaterades för %{when} sedan
-      commented_at_by_html: Uppdaterades för %{when} sedan av %{user}
-      closed_at_html: Löstes för %{when} sedan
-      closed_at_by_html: Löstes för %{when} sedan av %{user}
-      reopened_at_html: Återaktiverades för %{when} sedan
-      reopened_at_by_html: Återaktiverades för %{when} sedan av %{user}
-    rss:
-      title: OpenStreetMap-anteckningar
-      description_area: En lista med anteckningar som rapporterats, kommenterats eller
-        avklarats i närheten av ditt område [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-      description_item: Ett rss-flöde för anteckning %{id}
-      opened: ny anteckning (nära %{place})
-      commented: ny kommentar (nära %{place})
-      closed: stängde anteckning (nära %{place})
-      reopened: återaktiverade anteckningar (nära %{place})
-    entry:
-      comment: Kommentar
-      full: Hela anteckningen
+    block:
+      not_revoked: (Inte återkallat)
+      show: Visa
+      edit: Redigera
+      revoke: Återkalla!
+    blocks:
+      display_name: Blockerad användare
+      creator_name: Skapare
+      reason: Orsak till blockering
+      status: Status
+      revoker_name: Återkallad av
+      showing_page: Sida %{page}
+      next: Nästa »
+      previous: « Föregående
+  notes:
     mine:
       title: Anteckningar skapade eller kommenterade av %{user}
       heading: '%{user}s anteckningar'
-      subheading: Anteckningar skapade eller kommenterade av %{user}
+      subheading_html: Anteckningar skapade eller kommenterade av %{user}
       id: Id
       creator: Skapare
       description: Beskrivning
       created_at: Skapades den
       last_changed: Senast ändrad
-      ago_html: '%{when} sedan'
   javascripts:
     close: Stäng
     share:
@@ -2422,6 +2638,7 @@ sv:
         title: Lager
       copyright: © <a href='%{copyright_url}'>OpenStreetMaps bidragsgivare</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donera</a>
+      terms: <a href="%{terms_url}">Hemsidan och API-villkor</a>
     site:
       edit_tooltip: Redigera kartan
       edit_disabled_tooltip: Zooma in för att redigera kartan
@@ -2460,19 +2677,18 @@ sv:
     directions:
       ascend: Stigande
       engines:
+        fossgis_osrm_bike: Cykel (OSRM)
+        fossgis_osrm_car: Bil (OSRM)
+        fossgis_osrm_foot: Till fots (OSRM)
         graphhopper_bicycle: Cykel (GraphHopper)
         graphhopper_car: Bil (GraphHopper)
         graphhopper_foot: Gående (GraphHopper)
-        mapquest_bicycle: Cykel (MapQuest)
-        mapquest_car: Bil (MapQuest)
-        mapquest_foot: Gående (MapQuest)
-        osrm_car: Bil (OSRM)
       descend: Fallande
       directions: Vägbeskrivning
       distance: Avstånd
       errors:
         no_route: Kunde inte hitta en väg mellan dessa två platser.
-        no_place: Ledsen - kunde inte hitta platsen.
+        no_place: Ledsen - kunde inte hitta %{place}.
       instructions:
         continue_without_exit: Fortsätt på %{name}
         slight_right_without_exit: Svag högersväng in på %{name}
@@ -2490,6 +2706,7 @@ sv:
         onramp_right_with_name_directions: Sväng höger på rampen till %{name}, mot
           %{directions}
         onramp_right_without_directions: Sväng höger till rampen
+        onramp_right: Sväng höger upp på rampen
         endofroad_right_without_exit: Vid slutet av vägen, sväng höger in på %{name}
         merge_right_without_exit: Sväng rakt in på %{name}
         fork_right_without_exit: Vid vägskälet sväng höger in på %{name}
@@ -2513,6 +2730,7 @@ sv:
         onramp_left_with_name_directions: Sväng vänster på rampen till %{name}, mot
           %{directions}
         onramp_left_without_directions: Sväng vänster till rampen
+        onramp_left: Sväng vänster till rampen
         endofroad_left_without_exit: Vid slutet av vägen, sväng vänster in på %{name}
         merge_left_without_exit: Sväng vänster in på %{name}
         fork_left_without_exit: Vid vägskälet sväng vänster in på %{name}
@@ -2527,13 +2745,21 @@ sv:
         against_oneway_without_exit: Kör mot enkelriktat på %{name}
         end_oneway_without_exit: Slutet av enkelriktat på %{name}
         roundabout_with_exit: Vid rondellen, ta avfart %{exit} mot %{name}
-        turn_left_with_exit: I rondellen, sväng vänster till %{name}
-        slight_left_with_exit: I rondellen, sväng vänster till %{name}
-        turn_right_with_exit: I rondellen, sväng höger till %{name}
-        slight_right_with_exit: I rondellen, sväng höger till %{name}
-        continue_with_exit: I rondellen, fortsätt rakt fram till %{name}
+        roundabout_with_exit_ordinal: Vid rondellen, ta avfart %{exit} mot %{name}
+        exit_roundabout: Lämna rondellen mot %{name}
         unnamed: namnlös
         courtesy: Vägbeskrivning med tillstånd av %{link}
+        exit_counts:
+          first: 1:a
+          second: 2:a
+          third: 3:e
+          fourth: 4:e
+          fifth: 5:e
+          sixth: 6:e
+          seventh: 7:e
+          eighth: 8:e
+          ninth: 9:e
+          tenth: 10:e
       time: Tid
     query:
       node: Nod
@@ -2549,20 +2775,18 @@ sv:
       show_address: Visa adress
       query_features: Sökfunktioner
       centre_map: Centrera kartan här
-  redaction:
+  redactions:
     edit:
       description: Beskrivning
       heading: Redigera redaktering
-      submit: Spara redaktering
       title: Redigera redaktering
     index:
-      empty: Inga bortredigeringar att visa.
+      empty: Inga redakteringar att visa.
       heading: Lista över redakteringar
       title: Lista över redakteringar
     new:
       description: Beskrivning
       heading: Ange information för ny redaktering
-      submit: Skapa redaktering
       title: Skapa ny redaktering
     show:
       description: 'Beskrivning:'
@@ -2581,4 +2805,9 @@ sv:
         denna redaktering innan den förstörs.
       flash: Redaktering förstörd.
       error: Det uppstod ett fel när redakteringen skulle förstöras.
+  validations:
+    leading_whitespace: har ett inledande mellanslag
+    trailing_whitespace: har ett avslutande mellanslag
+    invalid_characters: innehåller ogiltiga tecken
+    url_characters: innehåller speciella URL-tecken (%{characters})
 ...

@@ -1,6 +1,6 @@
 require "migrate"
 
-class RemoveSegments < ActiveRecord::Migration[5.0]
+class RemoveSegments < ActiveRecord::Migration[4.2]
   def self.up
     have_segs = select_value("SELECT count(*) FROM current_segments").to_i.nonzero?
 

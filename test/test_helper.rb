@@ -1,14 +1,32 @@
 require "coveralls"
 Coveralls.wear!("rails")
 
+# Override the simplecov output message, since it is mostly unwanted noise
+module SimpleCov
+  module Formatter
+    class HTMLFormatter
+      def output_message(_result); end
+    end
+  end
+end
+
+# Output both the local simplecov html and the coveralls report
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
+  [SimpleCov::Formatter::HTMLFormatter,
+   Coveralls::SimpleCov::Formatter]
+)
+
 ENV["RAILS_ENV"] = "test"
-require File.expand_path("../../config/environment", __FILE__)
+require_relative "../config/environment"
 require "rails/test_help"
 require "webmock/minitest"
+
+WebMock.disable_net_connect!(:allow_localhost => true)
 
 module ActiveSupport
   class TestCase
     include FactoryBot::Syntax::Methods
+    include ActiveJob::TestHelper
 
     ##
     # takes a block which is executed in the context of a different
@@ -92,12 +110,6 @@ module ActiveSupport
     end
 
     ##
-    # set the raw body to be sent with a POST request
-    def content(c)
-      @request.env["RAW_POST_DATA"] = c.to_s
-    end
-
-    ##
     # Used to check that the error header and the forbidden responses are given
     # when the owner of the changset has their data not marked as public
     def assert_require_public_data(msg = "Shouldn't be able to use API when the user's data is not public")
@@ -130,15 +142,15 @@ module ActiveSupport
     end
 
     def stub_gravatar_request(email, status = 200, body = nil)
-      hash = Digest::MD5.hexdigest(email.downcase)
+      hash = ::Digest::MD5.hexdigest(email.downcase)
       url = "https://www.gravatar.com/avatar/#{hash}?d=404"
       stub_request(:get, url).and_return(:status => status, :body => body)
     end
 
     def stub_hostip_requests
       # Controller tests and integration tests use different IPs
-      stub_request(:get, "http://api.hostip.info/country.php?ip=0.0.0.0")
-      stub_request(:get, "http://api.hostip.info/country.php?ip=127.0.0.1")
+      stub_request(:get, "https://api.hostip.info/country.php?ip=0.0.0.0")
+      stub_request(:get, "https://api.hostip.info/country.php?ip=127.0.0.1")
     end
 
     def email_text_parts(message)
@@ -149,6 +161,14 @@ module ActiveSupport
           text_parts.concat(email_text_parts(part))
         end
       end
+    end
+
+    def sign_in_as(user)
+      stub_hostip_requests
+      visit login_path
+      fill_in "username", :with => user.email
+      fill_in "password", :with => "test"
+      click_on "Login", :match => :first
     end
   end
 end

@@ -5,15 +5,15 @@ FactoryBot.define do
 
     user
 
-    timestamp Time.now
-    inserted true
+    timestamp { Time.now }
+    inserted { true }
 
     trait :deleted do
-      visible false
+      visible { false }
     end
 
     transient do
-      fixture nil
+      fixture { nil }
     end
 
     after(:create) do |trace, evaluator|

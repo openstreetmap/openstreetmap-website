@@ -1,0 +1,64 @@
+<% content_for :heading do %>
+  <h2><%= t ".heading", :name => h(@trace.name) %></h2>
+<% end %>
+
+<% if Settings.status != "gpx_offline" %>
+  <% if @trace.inserted %>
+    <img src="<%= url_for :controller => "traces", :action => "picture", :id => @trace.id, :display_name => @trace.user.display_name %>">
+  <% else %>
+    <span class="trace_pending"><%= t ".pending" %></span>
+  <% end %>
+<% end %>
+
+<table border="0">
+  <tr>
+    <td><%= t ".filename" %></td>
+    <td><%= @trace.name %> (<%= link_to t(".download"), trace_data_path(@trace) %>)</td>
+  </tr>
+  <tr>
+    <td><%= t ".uploaded" %></td>
+    <td><%= l @trace.timestamp, :format => :friendly %></td>
+  </tr>
+  <% if @trace.inserted? %>
+  <tr>
+    <td><%= t ".points" %></td>
+    <td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/, '\1,') %></td></tr>
+  <tr>
+    <td><%= t ".start_coordinates" %></td>
+    <td><div class="geo"><span class="latitude"><%= @trace.latitude %></span>; <span class="longitude"><%= @trace.longitude %></span></div> (<%= link_to t(".map"), :controller => "site", :action => "index", :mlat => @trace.latitude, :mlon => @trace.longitude, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %> / <%= link_to t(".edit"), :controller => "site", :action => "edit", :gpx => @trace.id, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %>)</td>
+  </tr>
+  <% end %>
+  <tr>
+    <td><%= t ".owner" %></td>
+    <td><%= link_to h(@trace.user.display_name), user_path(@trace.user) %></td>
+  </tr>
+  <tr>
+    <td><%= t ".description" %></td>
+    <td><%= h(@trace.description) %></td>
+  </tr>
+  <tr>
+    <td><%= t ".tags" %></td>
+    <td>
+    <% unless @trace.tags.empty? %>
+      <%= raw(@trace.tags.collect { |tag| link_to tag.tag, :controller => "traces", :action => "index", :tag => tag.tag, :id => nil }.join(", ")) %>
+    <% else %>
+      <i><%= t ".none" %></i>
+    <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td><%= t ".visibility" %></td>
+    <td><%= t "traces.visibility.#{@trace.visibility}" %></td>
+  </tr>
+</table>
+
+<br /><br />
+
+<% if current_user && (current_user==@trace.user || current_user.administrator? || current_user.moderator?) %>
+  <div class="buttons">
+    <% if current_user == @trace.user %>
+      <%= link_to t(".edit_trace"), edit_trace_path(@trace), :class => "button" %>
+    <% end %>
+    <%= button_to t(".delete_trace"), { :controller => "traces", :action => "delete", :id => @trace.id }, { :data => { :confirm => t(".confirm_delete") } } %>
+  </div>
+<% end %>

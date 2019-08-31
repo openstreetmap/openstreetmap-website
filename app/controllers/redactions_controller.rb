@@ -3,8 +3,9 @@ class RedactionsController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user, :only => [:new, :create, :edit, :update, :destroy]
-  before_action :require_moderator, :only => [:new, :create, :edit, :update, :destroy]
+
+  authorize_resource
+
   before_action :lookup_redaction, :only => [:show, :edit, :update, :destroy]
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:create, :update, :destroy]
@@ -25,7 +26,7 @@ class RedactionsController < ApplicationController
     # note that the description format will default to 'markdown'
 
     if @redaction.save
-      flash[:notice] = t("redaction.create.flash")
+      flash[:notice] = t(".flash")
       redirect_to @redaction
     else
       render :action => "new"
@@ -42,7 +43,7 @@ class RedactionsController < ApplicationController
     @redaction.description = params[:redaction][:description]
 
     if @redaction.save
-      flash[:notice] = t("redaction.update.flash")
+      flash[:notice] = t(".flash")
       redirect_to @redaction
     else
       render :action => "edit"
@@ -54,14 +55,14 @@ class RedactionsController < ApplicationController
        @redaction.old_ways.empty? &&
        @redaction.old_relations.empty?
       if @redaction.destroy
-        flash[:notice] = t("redaction.destroy.flash")
+        flash[:notice] = t(".flash")
         redirect_to :redactions
       else
-        flash[:error] = t("redaction.destroy.error")
+        flash[:error] = t(".error")
         redirect_to @redaction
       end
     else
-      flash[:error] = t("redaction.destroy.not_empty")
+      flash[:error] = t(".not_empty")
       redirect_to @redaction
     end
   end

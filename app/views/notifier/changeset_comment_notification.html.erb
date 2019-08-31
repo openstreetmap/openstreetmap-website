@@ -1,16 +1,16 @@
 <p>
-  <%= t 'notifier.changeset_comment_notification.hi', :to_user => @to_user %>
+  <%= t ".hi", :to_user => @to_user %>
 </p>
 <p>
   <% if @owner %>
-    <%= raw t "notifier.changeset_comment_notification.commented.your_changeset", :commenter => link_to_user(@commenter), :time => @time %>
+    <%= raw t ".commented.your_changeset", :commenter => link_to_user(@commenter), :time => @time %>
   <% else %>
-    <%= raw t "notifier.changeset_comment_notification.commented.commented_changeset", :commenter => link_to_user(@commenter), :time => @time, :changeset_author => @changeset_author %>
+    <%= raw t ".commented.commented_changeset", :commenter => link_to_user(@commenter), :time => @time, :changeset_author => @changeset_author %>
   <% end %>
   <% if @changeset_comment %>
-    <%= raw t "notifier.changeset_comment_notification.commented.partial_changeset_with_comment", :changeset_comment => content_tag("em", @changeset_comment) %>
+    <%= raw t ".commented.partial_changeset_with_comment", :changeset_comment => content_tag("em", @changeset_comment) %>
   <% else %>
-    <%= t "notifier.changeset_comment_notification.commented.partial_changeset_without_comment" %>
+    <%= t ".commented.partial_changeset_without_comment" %>
   <% end %>
 </p>
 
@@ -19,11 +19,11 @@
 <% end %>
 
 <p>
-  <%= raw t 'notifier.changeset_comment_notification.details', :url => link_to(@changeset_url, @changeset_url) %>
+  <%= raw t ".details", :url => link_to(@changeset_url, @changeset_url) %>
 </p>
 
 <% content_for :footer do %>
   <p>
-    <%= raw t 'notifier.changeset_comment_notification.unsubscribe', :url => link_to(@changeset_url, @changeset_url, :style => "color: #222") %>
+    <%= raw t ".unsubscribe", :url => link_to(@changeset_url, @changeset_url, :style => "color: #222") %>
   </p>
 <% end %>

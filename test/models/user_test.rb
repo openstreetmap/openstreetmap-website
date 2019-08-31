@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_invalid_with_empty_attributes
     user = User.new
-    assert !user.valid?
+    assert_not user.valid?
     assert user.errors[:email].any?
     assert user.errors[:pass_crypt].any?
     assert user.errors[:display_name].any?
@@ -25,7 +25,7 @@ class UserTest < ActiveSupport::TestCase
       :data_public => 1,
       :description => "desc"
     )
-    assert !new_user.save
+    assert_not new_user.save
     assert new_user.errors[:email].include?("has already been taken")
   end
 
@@ -39,7 +39,7 @@ class UserTest < ActiveSupport::TestCase
       :data_public => 1,
       :description => "desc"
     )
-    assert !new_user.save
+    assert_not new_user.save
     assert new_user.errors[:display_name].include?("has already been taken")
   end
 
@@ -65,16 +65,13 @@ class UserTest < ActiveSupport::TestCase
   def test_display_name_length
     user = build(:user)
     user.display_name = "123"
-    assert user.valid?, " should allow nil display name"
+    assert user.valid?, "should allow 3 char name name"
     user.display_name = "12"
-    assert !user.valid?, "should not allow 2 char name"
+    assert_not user.valid?, "should not allow 2 char name"
     user.display_name = ""
-    assert !user.valid?
+    assert_not user.valid?, "should not allow blank/0 char name"
     user.display_name = nil
-    # Don't understand why it isn't allowing a nil value,
-    # when the validates statements specifically allow it
-    # It appears the database does not allow null values
-    assert !user.valid?
+    assert_not user.valid?, "should not allow nil value"
   end
 
   def test_display_name_valid
@@ -82,14 +79,15 @@ class UserTest < ActiveSupport::TestCase
     # expact are allowed
     # However, would they affect the xml planet dumps?
     ok = ["Name", "'me", "he\"", "<hr>", "*ho", "\"help\"@",
-          "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲"]
+          "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲", "space space"]
     # These need to be 3 chars in length, otherwise the length test above
     # should be used.
     bad = ["<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.",
            "aa,", "aa?", "/;.,?", "も対応します/", "#ping",
            "foo\x1fbar", "foo\x7fbar", "foo\ufffebar", "foo\uffffbar",
            "new", "terms", "save", "confirm", "confirm-email",
-           "go_public", "reset-password", "forgot-password", "suspended"]
+           "go_public", "reset-password", "forgot-password", "suspended",
+           "trailing whitespace ", " leading whitespace"]
     ok.each do |display_name|
       user = build(:user)
       user.display_name = display_name
@@ -99,7 +97,7 @@ class UserTest < ActiveSupport::TestCase
     bad.each do |display_name|
       user = build(:user)
       user.display_name = display_name
-      assert !user.valid?, "#{display_name} is valid when it shouldn't be"
+      assert_not user.valid?, "#{display_name} is valid when it shouldn't be"
     end
   end
 
@@ -107,14 +105,14 @@ class UserTest < ActiveSupport::TestCase
     alice = create(:user, :active)
     bob = create(:user, :active)
     charlie = create(:user, :active)
-    create(:friend, :befriender => alice, :befriendee => bob)
+    create(:friendship, :befriender => alice, :befriendee => bob)
 
     assert alice.is_friends_with?(bob)
-    assert !alice.is_friends_with?(charlie)
-    assert !bob.is_friends_with?(alice)
-    assert !bob.is_friends_with?(charlie)
-    assert !charlie.is_friends_with?(bob)
-    assert !charlie.is_friends_with?(alice)
+    assert_not alice.is_friends_with?(charlie)
+    assert_not bob.is_friends_with?(alice)
+    assert_not bob.is_friends_with?(charlie)
+    assert_not charlie.is_friends_with?(bob)
+    assert_not charlie.is_friends_with?(alice)
   end
 
   def test_users_nearby
@@ -138,16 +136,16 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [], vagrant_user.nearby
   end
 
-  def test_friend_users
+  def test_friends
     norm = create(:user, :active)
     sec = create(:user, :active)
-    create(:friend, :befriender => norm, :befriendee => sec)
+    create(:friendship, :befriender => norm, :befriendee => sec)
 
-    assert_equal [sec], norm.friend_users
-    assert_equal 1, norm.friend_users.size
+    assert_equal [sec], norm.friends
+    assert_equal 1, norm.friends.size
 
-    assert_equal [], sec.friend_users
-    assert_equal 0, sec.friend_users.size
+    assert_equal [], sec.friends
+    assert_equal 0, sec.friends.size
   end
 
   def test_user_preferred_editor
@@ -265,7 +263,7 @@ class UserTest < ActiveSupport::TestCase
     assert user.description.blank?
     assert_nil user.home_lat
     assert_nil user.home_lon
-    assert_equal false, user.image.file?
+    assert_equal false, user.avatar.attached?
     assert_equal "deleted", user.status
     assert_equal false, user.visible?
     assert_equal false, user.active?

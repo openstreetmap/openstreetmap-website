@@ -26,7 +26,7 @@ module BannerHelper
 
       # rotate all banner queue positions
       index = cval.to_i
-      cookies[ckey] = index - 1 if index > 0
+      cookies[ckey] = index - 1 if index.positive?
 
       # pick banner with mininum queue position
       next if index > min_index

@@ -1,21 +1,24 @@
 //= require_self
 //= require_tree ./directions
+//= require querystring
 
 OSM.Directions = function (map) {
+  var querystring = require("querystring-component");
+
   var awaitingGeocode; // true if the user has requested a route, but we're waiting on a geocode result
-  var awaitingRoute;   // true if we've asked the engine for a route and are waiting to hear back
+  var awaitingRoute; // true if we've asked the engine for a route and are waiting to hear back
   var chosenEngine;
 
-  var popup = L.popup({autoPanPadding: [100, 100]});
+  var popup = L.popup({ autoPanPadding: [100, 100] });
 
   var polyline = L.polyline([], {
-    color: '#03f',
+    color: "#03f",
     opacity: 0.3,
     weight: 10
   });
 
   var highlight = L.polyline([], {
-    color: '#ff0',
+    color: "#ff0",
     opacity: 0.5,
     weight: 12
   });
@@ -27,6 +30,20 @@ OSM.Directions = function (map) {
 
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
+
+  var engines = OSM.Directions.engines;
+
+  engines.sort(function (a, b) {
+    var localised_a = I18n.t("javascripts.directions.engines." + a.id),
+        localised_b = I18n.t("javascripts.directions.engines." + b.id);
+    return localised_a.localeCompare(localised_b);
+  });
+
+  var select = $("select.routing_engines");
+
+  engines.forEach(function (engine, i) {
+    select.append("<option value='" + i + "'>" + I18n.t("javascripts.directions.engines." + engine.id) + "</option>");
+  });
 
   function Endpoint(input, iconUrl) {
     var endpoint = {};
@@ -40,11 +57,12 @@ OSM.Directions = function (map) {
         shadowUrl: OSM.MARKER_SHADOW,
         shadowSize: [41, 41]
       }),
-      draggable: true
+      draggable: true,
+      autoPan: true
     });
 
-    endpoint.marker.on('drag dragend', function (e) {
-      var dragging = (e.type === 'drag');
+    endpoint.marker.on("drag dragend", function (e) {
+      var dragging = (e.type === "drag");
       if (dragging && !chosenEngine.draggable) return;
       if (dragging && awaitingRoute) return;
       endpoint.setLatLng(e.target.getLatLng());
@@ -53,17 +71,22 @@ OSM.Directions = function (map) {
       }
     });
 
+    input.on("keydown", function () {
+      input.removeClass("error");
+    });
+
     input.on("change", function (e) {
       awaitingGeocode = true;
-      
+
       // make text the same in both text boxes
       var value = e.target.value;
       endpoint.setValue(value);
     });
 
-    endpoint.setValue = function(value, latlng) {
+    endpoint.setValue = function (value, latlng) {
       endpoint.value = value;
       delete endpoint.latlng;
+      input.removeClass("error");
       input.val(value);
 
       if (latlng) {
@@ -73,7 +96,7 @@ OSM.Directions = function (map) {
       }
     };
 
-    endpoint.getGeocode = function() {
+    endpoint.getGeocode = function () {
       // if no one has entered a value yet, then we can't geocode, so don't
       // even try.
       if (!endpoint.value) {
@@ -82,11 +105,14 @@ OSM.Directions = function (map) {
 
       endpoint.awaitingGeocode = true;
 
-      $.getJSON(OSM.NOMINATIM_URL + 'search?q=' + encodeURIComponent(endpoint.value) + '&format=json', function (json) {
+      var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
+
+      $.getJSON(OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox, function (json) {
         endpoint.awaitingGeocode = false;
         endpoint.hasGeocode = true;
         if (json.length === 0) {
-          alert(I18n.t('javascripts.directions.errors.no_place'));
+          input.addClass("error");
+          alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
           return;
         }
 
@@ -114,7 +140,7 @@ OSM.Directions = function (map) {
     return endpoint;
   }
 
-  $(".directions_form .reverse_directions").on("click", function() {
+  $(".directions_form .reverse_directions").on("click", function () {
     var from = endpoints[0].latlng,
         to = endpoints[1].latlng;
 
@@ -125,7 +151,7 @@ OSM.Directions = function (map) {
     }));
   });
 
-  $(".directions_form .close").on("click", function(e) {
+  $(".directions_form .close").on("click", function (e) {
     e.preventDefault();
     var route_from = endpoints[0].value;
     if (route_from) {
@@ -149,16 +175,18 @@ OSM.Directions = function (map) {
     var m = Math.round(s / 60);
     var h = Math.floor(m / 60);
     m -= h * 60;
-    return h + ":" + (m < 10 ? '0' : '') + m;
+    return h + ":" + (m < 10 ? "0" : "") + m;
   }
 
-  function setEngine(id) {
-    engines.forEach(function(engine, i) {
-      if (engine.id === id) {
-        chosenEngine = engine;
-        select.val(i);
-      }
+  function findEngine(id) {
+    return engines.findIndex(function (engine) {
+      return engine.id === id;
     });
+  }
+
+  function setEngine(index) {
+    chosenEngine = engines[index];
+    select.val(index);
   }
 
   function getRoute(fitRoute, reportErrors) {
@@ -189,14 +217,14 @@ OSM.Directions = function (map) {
 
     OSM.router.replace("/directions?" + querystring.stringify({
       engine: chosenEngine.id,
-      route: o.lat.toFixed(precision) + ',' + o.lng.toFixed(precision) + ';' +
-             d.lat.toFixed(precision) + ',' + d.lng.toFixed(precision)
+      route: o.lat.toFixed(precision) + "," + o.lng.toFixed(precision) + ";" +
+             d.lat.toFixed(precision) + "," + d.lng.toFixed(precision)
     }));
 
     // copy loading item to sidebar and display it. we copy it, rather than
     // just using it in-place and replacing it in case it has to be used
     // again.
-    $('#sidebar_content').html($('.directions_form .loader_copy').html());
+    $("#sidebar_content").html($(".directions_form .loader_copy").html());
     map.setSidebarOverlaid(false);
 
     awaitingRoute = chosenEngine.getRoute([o, d], function (err, route) {
@@ -206,7 +234,7 @@ OSM.Directions = function (map) {
         map.removeLayer(polyline);
 
         if (reportErrors) {
-          $('#sidebar_content').html('<p class="search_results_error">' + I18n.t('javascripts.directions.errors.no_route') + '</p>');
+          $("#sidebar_content").html("<p class=\"search_results_error\">" + I18n.t("javascripts.directions.errors.no_route") + "</p>");
         }
 
         return;
@@ -220,42 +248,39 @@ OSM.Directions = function (map) {
         map.fitBounds(polyline.getBounds().pad(0.05));
       }
 
-      var html = '<h2><a class="geolink" href="#">' +
-        '<span class="icon close"></span></a>' + I18n.t('javascripts.directions.directions') +
-        '</h2><p id="routing_summary">' +
-        I18n.t('javascripts.directions.distance') + ': ' + formatDistance(route.distance) + '. ' +
-        I18n.t('javascripts.directions.time') + ': ' + formatTime(route.time) + '.';
-      if (typeof route.ascend !== 'undefined' && typeof route.descend !== 'undefined') {
-        html += '<br />' +
-          I18n.t('javascripts.directions.ascend') + ': ' + Math.round(route.ascend) + 'm. ' +
-          I18n.t('javascripts.directions.descend') + ': ' + Math.round(route.descend) +'m.';
+      var html = "<h2><a class=\"geolink\" href=\"#\">" +
+        "<span class=\"icon close\"></span></a>" + I18n.t("javascripts.directions.directions") +
+        "</h2><p id=\"routing_summary\">" +
+        I18n.t("javascripts.directions.distance") + ": " + formatDistance(route.distance) + ". " +
+        I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".";
+      if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
+        html += "<br />" +
+          I18n.t("javascripts.directions.ascend") + ": " + Math.round(route.ascend) + "m. " +
+          I18n.t("javascripts.directions.descend") + ": " + Math.round(route.descend) + "m.";
       }
-      html += '</p><table id="turnbyturn" />';
+      html += "</p><table id=\"turnbyturn\" />";
 
-      $('#sidebar_content')
+      $("#sidebar_content")
         .html(html);
 
       // Add each row
-      var cumulative = 0;
       route.steps.forEach(function (step) {
-        var ll        = step[0],
-          direction   = step[1],
-          instruction = step[2],
-          dist        = step[3],
-          lineseg     = step[4];
-
-        cumulative += dist;
+        var ll = step[0],
+            direction = step[1],
+            instruction = step[2],
+            dist = step[3],
+            lineseg = step[4];
 
         if (dist < 5) {
           dist = "";
         } else if (dist < 200) {
-          dist = Math.round(dist / 10) * 10 + "m";
+          dist = String(Math.round(dist / 10) * 10) + "m";
         } else if (dist < 1500) {
-          dist = Math.round(dist / 100) * 100 + "m";
+          dist = String(Math.round(dist / 100) * 100) + "m";
         } else if (dist < 5000) {
-          dist = Math.round(dist / 100) / 10 + "km";
+          dist = String(Math.round(dist / 100) / 10) + "km";
         } else {
-          dist = Math.round(dist / 1000) + "km";
+          dist = String(Math.round(dist / 1000)) + "km";
         }
 
         var row = $("<tr class='turn'/>");
@@ -263,7 +288,7 @@ OSM.Directions = function (map) {
         row.append("<td class='instruction'>" + instruction);
         row.append("<td class='distance'>" + dist);
 
-        row.on('click', function () {
+        row.on("click", function () {
           popup
             .setLatLng(ll)
             .setContent("<p>" + instruction + "</p>")
@@ -278,61 +303,47 @@ OSM.Directions = function (map) {
           map.removeLayer(highlight);
         });
 
-        $('#turnbyturn').append(row);
+        $("#turnbyturn").append(row);
       });
 
-      $('#sidebar_content').append('<p id="routing_credit">' +
-        I18n.t('javascripts.directions.instructions.courtesy', {link: chosenEngine.creditline}) +
-        '</p>');
+      $("#sidebar_content").append("<p id=\"routing_credit\">" +
+        I18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
+        "</p>");
 
-      $('#sidebar_content a.geolink').on('click', function(e) {
+      $("#sidebar_content a.geolink").on("click", function (e) {
         e.preventDefault();
         map.removeLayer(polyline);
-        $('#sidebar_content').html('');
+        $("#sidebar_content").html("");
         map.setSidebarOverlaid(true);
         // TODO: collapse width of sidebar back to previous
       });
     });
   }
 
-  var engines = OSM.Directions.engines;
-
-  engines.sort(function (a, b) {
-    a = I18n.t('javascripts.directions.engines.' + a.id);
-    b = I18n.t('javascripts.directions.engines.' + b.id);
-    return a.localeCompare(b);
-  });
-
-  var select = $('select.routing_engines');
-
-  engines.forEach(function(engine, i) {
-    select.append("<option value='" + i + "'>" + I18n.t('javascripts.directions.engines.' + engine.id) + "</option>");
-  });
-
-  var chosenEngineId = $.cookie('_osm_directions_engine');
-  if(!chosenEngineId) {
-    chosenEngineId = 'osrm_car';
+  var chosenEngineIndex = findEngine("fossgis_osrm_car");
+  if ($.cookie("_osm_directions_engine")) {
+    chosenEngineIndex = findEngine($.cookie("_osm_directions_engine"));
   }
-  setEngine(chosenEngineId);
+  setEngine(chosenEngineIndex);
 
   select.on("change", function (e) {
     chosenEngine = engines[e.target.selectedIndex];
-    $.cookie('_osm_directions_engine', chosenEngine.id, { expires: expiry, path: '/' });
+    $.cookie("_osm_directions_engine", chosenEngine.id, { expires: expiry, path: "/" });
     if (map.hasLayer(polyline)) {
       getRoute(true, true);
     }
   });
 
-  $(".directions_form").on("submit", function(e) {
+  $(".directions_form").on("submit", function (e) {
     e.preventDefault();
     getRoute(true, true);
   });
 
-  $(".routing_marker").on('dragstart', function (e) {
+  $(".routing_marker").on("dragstart", function (e) {
     var dt = e.originalEvent.dataTransfer;
-    dt.effectAllowed = 'move';
-    var dragData = { type: $(this).data('type') };
-    dt.setData('text', JSON.stringify(dragData));
+    dt.effectAllowed = "move";
+    var dragData = { type: $(this).data("type") };
+    dt.setData("text", JSON.stringify(dragData));
     if (dt.setDragImage) {
       var img = $("<img>").attr("src", $(e.originalEvent.target).attr("src"));
       dt.setDragImage(img.get(0), 12, 21);
@@ -341,33 +352,37 @@ OSM.Directions = function (map) {
 
   var page = {};
 
-  page.pushstate = page.popstate = function() {
+  page.pushstate = page.popstate = function () {
     $(".search_form").hide();
     $(".directions_form").show();
 
-    $("#map").on('dragend dragover', function (e) {
+    $("#map").on("dragend dragover", function (e) {
       e.preventDefault();
     });
 
-    $("#map").on('drop', function (e) {
+    $("#map").on("drop", function (e) {
       e.preventDefault();
       var oe = e.originalEvent;
-      var dragData = JSON.parse(oe.dataTransfer.getData('text'));
+      var dragData = JSON.parse(oe.dataTransfer.getData("text"));
       var type = dragData.type;
-      var pt = L.DomEvent.getMousePosition(oe, map.getContainer());  // co-ordinates of the mouse pointer at present
+      var pt = L.DomEvent.getMousePosition(oe, map.getContainer()); // co-ordinates of the mouse pointer at present
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);
-      endpoints[type === 'from' ? 0 : 1].setLatLng(ll);
+      endpoints[type === "from" ? 0 : 1].setLatLng(ll);
       getRoute(true, true);
     });
 
     var params = querystring.parse(location.search.substring(1)),
-        route = (params.route || '').split(';'),
-        from = route[0] && L.latLng(route[0].split(',')),
-        to = route[1] && L.latLng(route[1].split(','));
+        route = (params.route || "").split(";"),
+        from = route[0] && L.latLng(route[0].split(",")),
+        to = route[1] && L.latLng(route[1].split(","));
 
     if (params.engine) {
-      setEngine(params.engine);
+      var engineIndex = findEngine(params.engine);
+
+      if (engineIndex >= 0) {
+        setEngine(engineIndex);
+      }
     }
 
     endpoints[0].setValue(params.from || "", from);
@@ -378,14 +393,14 @@ OSM.Directions = function (map) {
     getRoute(true, true);
   };
 
-  page.load = function() {
+  page.load = function () {
     page.pushstate();
   };
 
-  page.unload = function() {
+  page.unload = function () {
     $(".search_form").show();
     $(".directions_form").hide();
-    $("#map").off('dragend dragover drop');
+    $("#map").off("dragend dragover drop");
 
     map
       .removeLayer(popup)

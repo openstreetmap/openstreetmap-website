@@ -26,17 +26,17 @@ OSM.initializeBrowse = function (map) {
     onSelect(e.layer);
   });
 
-  map.on('layeradd', function (e) {
+  map.on("layeradd", function (e) {
     if (e.layer === dataLayer) {
       map.on("moveend", updateData);
       updateData();
     }
   });
 
-  map.on('layerremove', function (e) {
+  map.on("layerremove", function (e) {
     if (e.layer === dataLayer) {
       map.off("moveend", updateData);
-      $('#browse_status').empty();
+      $("#browse_status").empty();
     }
   });
 
@@ -48,7 +48,7 @@ OSM.initializeBrowse = function (map) {
   }
 
   function displayFeatureWarning(count, limit, add, cancel) {
-    $('#browse_status').html(
+    $("#browse_status").html(
       $("<p class='warning'></p>")
         .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit }))
         .prepend(
@@ -56,7 +56,7 @@ OSM.initializeBrowse = function (map) {
             .click(cancel))
         .append(
           $("<input type='submit'>")
-            .val(I18n.t('browse.start_rjs.load_data'))
+            .val(I18n.t("browse.start_rjs.load_data"))
             .click(add)));
   }
 
@@ -92,13 +92,13 @@ OSM.initializeBrowse = function (map) {
         var features = dataLayer.buildFeatures(xml);
 
         function addFeatures() {
-          $('#browse_status').empty();
+          $("#browse_status").empty();
           dataLayer.addData(features);
           browseBounds = bounds;
         }
 
         function cancelAddFeatures() {
-          $('#browse_status').empty();
+          $("#browse_status").empty();
         }
 
         if (features.length < maxFeatures) {
@@ -120,9 +120,9 @@ OSM.initializeBrowse = function (map) {
 
     // Redraw in selected style
     layer.originalStyle = layer.options;
-    layer.setStyle({color: '#0000ff', weight: 8});
+    layer.setStyle({ color: "#0000ff", weight: 8 });
 
-    OSM.router.route('/' + layer.feature.type + '/' + layer.feature.id);
+    OSM.router.route("/" + layer.feature.type + "/" + layer.feature.id);
 
     // Stash the currently drawn feature
     selectedLayer = layer;

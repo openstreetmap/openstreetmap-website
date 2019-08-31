@@ -1,28 +1,26 @@
-//= depend_on application.yml
+//= depend_on settings.yml
+//= depend_on settings.local.yml
+//= require querystring
 
 OSM = {
 <% if defined?(PIWIK) %>
   PIWIK:                   <%= PIWIK.to_json %>,
 <% end %>
 
-  MAX_REQUEST_AREA:        <%= MAX_REQUEST_AREA.to_json %>,
-  SERVER_PROTOCOL:         <%= SERVER_PROTOCOL.to_json %>,
-  SERVER_URL:              <%= SERVER_URL.to_json %>,
-  API_VERSION:             <%= API_VERSION.to_json %>,
-  STATUS:                  <%= STATUS.to_json %>,
-  MAX_NOTE_REQUEST_AREA:   <%= MAX_NOTE_REQUEST_AREA.to_json %>,
-  OVERPASS_URL:            <%= OVERPASS_URL.to_json %>,
-  NOMINATIM_URL:           <%= NOMINATIM_URL.to_json %>,
-  GRAPHHOPPER_URL:         <%= GRAPHHOPPER_URL.to_json %>,
-  MAPQUEST_DIRECTIONS_URL: <%= MAPQUEST_DIRECTIONS_URL.to_json %>,
-  OSRM_URL:                <%= OSRM_URL.to_json %>,
+  MAX_REQUEST_AREA:        <%= Settings.max_request_area.to_json %>,
+  SERVER_PROTOCOL:         <%= Settings.server_protocol.to_json %>,
+  SERVER_URL:              <%= Settings.server_url.to_json %>,
+  API_VERSION:             <%= Settings.api_version.to_json %>,
+  STATUS:                  <%= Settings.status.to_json %>,
+  MAX_NOTE_REQUEST_AREA:   <%= Settings.max_note_request_area.to_json %>,
+  OVERPASS_URL:            <%= Settings.overpass_url.to_json %>,
+  NOMINATIM_URL:           <%= Settings.nominatim_url.to_json %>,
+  GRAPHHOPPER_URL:         <%= Settings.graphhopper_url.to_json %>,
+  FOSSGIS_OSRM_URL:        <%= Settings.fossgis_osrm_url.to_json %>,
   DEFAULT_LOCALE:          <%= I18n.default_locale.to_json %>,
 
-<% if defined?(MAPQUEST_KEY) %>
-  MAPQUEST_KEY:            <%= MAPQUEST_KEY.to_json %>,
-<% end %>
-<% if defined?(THUNDERFOREST_KEY) %>
-  THUNDERFOREST_KEY:       <%= THUNDERFOREST_KEY.to_json %>,
+<% if Settings.key?(:thunderforest_key) %>
+  THUNDERFOREST_KEY:       <%= Settings.thunderforest_key.to_json %>,
 <% end %>
 
   MARKER_GREEN:            <%= image_path("marker-green.png").to_json %>,
@@ -141,7 +139,8 @@ OSM = {
   },
 
   parseHash: function(hash) {
-    var args = {};
+    var querystring = require("querystring-component"),
+        args = {};
 
     var i = hash.indexOf('#');
     if (i < 0) {
@@ -216,7 +215,7 @@ OSM = {
 
     return 6372795 * 2 * Math.asin(
       Math.sqrt(
-        Math.pow(Math.sin(latdiff / 2), 2) + 
+        Math.pow(Math.sin(latdiff / 2), 2) +
         Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(lngdiff / 2), 2)
       ));
   }

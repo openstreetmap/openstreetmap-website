@@ -1,6 +1,7 @@
 # Messages for Scots (Scots)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: AmaryllisGardener
 # Author: John Reid
 ---
@@ -8,6 +9,10 @@ sco:
   time:
     formats:
       friendly: '%e %B %Y at %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Hain
   activerecord:
     models:
       acl: Access Control Leet
@@ -206,7 +211,7 @@ sco:
       reopened_by_anonymous: Reactivatit bi anonymous <abbr title='%{exact_time}'>%{when}
         ago</abbr>
       hidden_by: Hidden bi %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Page %{page}
       next: Next »
@@ -221,7 +226,7 @@ sco:
       user: Uiser
       comment: Comment
       area: Aurie
-    list:
+    index:
       title: Chyngesets
       title_user: Chyngesets bi %{user}
       title_friend: Chyngesets bi yer friends
@@ -235,13 +240,21 @@ sco:
       load_more: Load mair
     timeout:
       sorry: Sorry, the leet o chyngesets ye requestit teuk too lang tae retrieve.
-    rss:
-      commented_at_html: Updatit %{when} ago
+  changeset_comments:
+    comment:
       commented_at_by_html: Updatit %{when} ago bi %{user}
-  diary_entry:
+  diary_entries:
     new:
       title: New Diary Entry
-    list:
+    form:
+      subject: 'Subject:'
+      body: 'Body:'
+      language: 'Leid:'
+      location: 'Location:'
+      latitude: 'Latitude:'
+      longitude: 'Longitude:'
+      use_map_link: uise map
+    index:
       title: Uisers' diaries
       title_friends: Friends' diaries
       title_nearby: Nearbi Uisers' diaries
@@ -255,22 +268,13 @@ sco:
       newer_entries: Newer Entries
     edit:
       title: Eedit diary entry
-      subject: 'Subject:'
-      body: 'Body:'
-      language: 'Leid:'
-      location: 'Location:'
-      latitude: 'Latitude:'
-      longitude: 'Longitude:'
-      use_map_link: uise map
-      save_button: Hain
       marker_text: Diary entry location
-    view:
+    show:
       title: '%{user}''s diary | %{title}'
       user_title: '%{user}''s diary'
       leave_a_comment: Leave a comment
       login_to_leave_a_comment: '%{login_link} tae leave a comment'
       login: Login
-      save_button: Hain
     no_such_entry:
       title: No such diary entry
       heading: 'No entry wi the id: %{id}'
@@ -310,56 +314,8 @@ sco:
       post: Post
       when: When
       comment: Comment
-      ago: '%{ago} ago'
       newer_comments: Newer Comments
       older_comments: Aulder Comments
-  export:
-    title: Export
-    start:
-      area_to_export: Aurie tae Export
-      manually_select: Manually select a different aurie
-      format_to_export: Format tae Export
-      osm_xml_data: OpenStreetMap XML Data
-      map_image: Cairt Image (shaws staundart layer)
-      embeddable_html: Embeddable HTML
-      licence: Licence
-      export_details: OpenStreetMap data is licensed unner the <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
-        Data Commons Open Database License</a> (ODbL).
-      too_large:
-        advice: 'If the abuin export fails, please consider uisin ane o the soorces
-          leetit ablo:'
-        body: This aurie is too lairge tae be exportit as OpenStreetMap XML Data.
-          Please zuim in or select a smawer aurie, or uise ane o the soorces leetit
-          ablo for bulk data dounloads.
-        planet:
-          title: Planet OSM
-          description: Regularly-updated copies o the complete OpenStreetMap database
-        overpass:
-          title: Overpass API
-          description: Dounload this boondin box frae a mirror o the OpenStreetMap
-            database
-        geofabrik:
-          title: Geofabrik Dounloads
-          description: Regularly-updatit extracts o continents, kintras, an selectit
-            ceeties
-        metro:
-          title: Metro Extracts
-          description: Extracts for major warld ceeties an thair surroondin auries
-        other:
-          title: Ither Soorces
-          description: Addeetional soorces leetit on the OpenStreetMap wiki
-      options: Options
-      format: Format
-      scale: Scale
-      max: max
-      image_size: Image Size
-      zoom: Zuim
-      add_marker: Add a marker tae the cairt
-      latitude: 'Lat:'
-      longitude: 'Lon:'
-      output: Ootput
-      paste_html: Paste HTML tae embed in wabsteid
-      export_button: Export
   geocoder:
     search:
       title:
@@ -868,9 +824,7 @@ sco:
     intro_text: OpenStreetMap is a cairt o the warld, creatit bi fowk lik ye an free
       tae uise unner an open license.
     intro_2_create_account: Create a uiser accoont
-    partners_html: Hostin is supportit bi %{ucl}, %{ic} an %{bytemark}, an ither %{partners}.
     partners_ucl: the UCL VR Centre
-    partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: pairtners
     osm_offline: The OpenStreetMap database is currently offline while essential database
@@ -891,129 +845,6 @@ sco:
       text: Make a Donation
     learn_more: Learn Mair
     more: Mair
-  license_page:
-    foreign:
-      title: Aboot this translation
-      text: In the event of a conflict atween this translatit page an %{english_original_link},
-        the Inglis page shall tak precedence
-      english_link: the Inglis oreeginal
-    native:
-      title: Aboot this page
-      text: Ye are viewin the Inglis version o the copyricht page. Ye can gang back
-        tae the %{native_link} o this page or ye can stap readin aboot copyricht an
-        %{mapping_link}.
-      native_link: Scots version
-      mapping_link: stairt cairttin
-    legal_babble:
-      title_html: Copyricht an License
-      intro_1_html: |-
-        OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> is <i>open data</i>, licensed unner the <a
-        href="http://opendatacommons.org/licenses/odbl/">Open Data
-        Commons Open Database License</a> (ODbL) bi the  <a
-        href="http://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
-      intro_2_html: |-
-        Ye are free tae copy, distribute, transmit an adapt oor data,
-        as lang as ye credit OpenStreetMap an its
-        contreibutors. If ye alter or big upon oor data, ye
-        mey distribute the result anly unner the same licence. The
-        full <a href="http://opendatacommons.org/licenses/odbl/1.0/">legal
-        code</a> explains yer richts an responsibilities.
-      intro_3_html: |-
-        The cairtografie in oor cairt tiles, an oor documentation, are
-        licensed unner the <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
-        Commons Attribution-ShareAlike 2.0</a> license (CC BY-SA).
-      credit_title_html: Hou tae credit OpenStreetMap
-      credit_1_html: |-
-        We require that ye uise the credit &ldquo;&copy; OpenStreetMap
-        contributors&rdquo;.
-      credit_2_html: |-
-        Ye must an aa mak it clear that the data is available unner the Open
-        Database License, an if uisin oor cairt tiles, that the cairtografie is
-        licensed as CC BY-SA. Ye mey dae this bi airtin tae
-        <a href="http://www.openstreetmap.org/copyright">this copyricht page</a>.
-        Alternatively, an as a requirement if ye are distributin OSM in a
-        data form, ye can name an link directly tae the license(s). In media
-        whaur airtins are nae possible (e.g. printed wirks), we suggest ye
-        direct yer readers tae openstreetmap.org (perhaps bi expandin
-        'OpenStreetMap' tae this full address), tae opendatacommons.org, an
-        if relevant, to creativecommons.org.
-      credit_3_html: |-
-        For a brousable electronic cairt, the credit should appear in the corner o the cairt.
-        For example:
-      attribution_example:
-        alt: Example o hou tae attribute OpenStreetMap on a wabpage
-        title: Attreibution example
-      more_title_html: Findin oot mair
-      more_1_html: |-
-        Read mair aboot uisin oor data, an hou tae credit us, at the <a
-        href="http://osmfoundation.org/Licence">OSMF Licence page</a> an the commonty <a
-        href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal
-        FAQ</a>.
-      more_2_html: |-
-        Altho OpenStreetMap is open data, we cannae provide a
-        free-o-charge cairt API for third-party developers.
-        See oor <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">API Uisage Policy</a>,
-        <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Tile Uisage Policy</a>
-        and <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Nominatim Uisage Policy</a>.
-      contributors_title_html: Oor contreibutors
-      contributors_intro_html: |-
-        Oor contreibutors are thoosands o individuals. We an aa include
-        openly-licensed data frae naitional mappin agencies
-        an ither soorces, amang them:
-      contributors_at_html: |-
-        <strong>Austrick</strong>: Contains data frae
-        <a href="http://data.wien.gv.at/">Stadt Wien</a> (unner
-        <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
-        <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> an
-        Land Tirol (unner <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT wi amendments</a>).
-      contributors_ca_html: |-
-        <strong>Canadae</strong>: Contains data frae
-        GeoBase&reg;, GeoGratis (&copy; Department o Naitural
-        Resoorces Canadae), CanVec (&copy; Department o Naitural
-        Resoorces Canadae), an StatCan (Geografie Diveesion,
-        Stateestics Canadae).
-      contributors_fi_html: |-
-        <strong>Finland</strong>: Contains data frae the
-        Naitional Laund Survey o Finland's Topographic Database
-        an ither datasets, unner the
-        <a href="http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">NLSFI License</a>.
-      contributors_fr_html: |-
-        <strong>Fraunce</strong>: Contains data soorced frae
-        Direction Générale des Impôts.
-      contributors_nl_html: |-
-        <strong>Netherlands</strong>: Contains &copy; AND data, 2007
-        (<a href="http://www.and.com">www.and.com</a>)
-      contributors_nz_html: |-
-        <strong>New Zealand</strong>: Contains data soorced frae
-        Land Information New Zealand. Crown Copyricht reserved.
-      infringement_title_html: Copyricht infringement
-  welcome_page:
-    title: Walcome!
-    introduction_html: |-
-      Walcome tae OpenStreetMap, the free an eeditable cairt o the warld. Nou that ye're signed
-      up, ye're aw set tae get stairtit cairttin. Here's a quick guide wi the maist important
-      things ye need tae ken.
-    whats_on_the_map:
-      title: Whit's on the Cairt
-      on_html: |-
-        OpenStreetMap is a place for cairttin things that are baith <em>real an current</em> -
-        it includes millions o biggins, roads, an ither details aboot places. Ye can cairt
-        whitever real-warld featurs are interestin tae ye.
-      off_html: |-
-        Whit it <em>disna</em> include is opinionatit data lik ratins, historical or
-        hypothetical featurs, an data frae copyrichtit soorces. Unless ye hae special
-        permission, dinna copy frae online or paper cairts.
-  fixthemap:
-    how_to_help:
-      join_the_community:
-        explanation_html: |-
-          Gif ye'v seen ae proablem wi oor map data, fer example ae road is missin or yer address, the best waa tae
-          proceed is tae jyn the OpenStreetMap communitie n eik or repair the data yersel.
-    other_concerns:
-      explanation_html: "Gif ye hae concerns aneat hou oor data is bein uised or aneat
-        the contents please see oor\n<a href='/copyright'>copiericht page</a> fer
-        mair legal information, or contact the appropriate \n<a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF
-        wairkin groop</a>."
   notifier:
     lost_password_plain:
       hopefully_you: Someane (possibly ye) haes asked for the passwird tae be reset
@@ -1032,6 +863,159 @@ sco:
         subject_other: '[OpenStreetMap] %{commenter} haes commentit on a note ye are
           interestit in'
   site:
+    copyright:
+      foreign:
+        title: Aboot this translation
+        text: In the event of a conflict atween this translatit page an %{english_original_link},
+          the Inglis page shall tak precedence
+        english_link: the Inglis oreeginal
+      native:
+        title: Aboot this page
+        text: Ye are viewin the Inglis version o the copyricht page. Ye can gang back
+          tae the %{native_link} o this page or ye can stap readin aboot copyricht
+          an %{mapping_link}.
+        native_link: Scots version
+        mapping_link: stairt cairttin
+      legal_babble:
+        title_html: Copyricht an License
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> is <i>open data</i>, licensed unner the <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) bi the  <a
+          href="http://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
+        intro_2_html: |-
+          Ye are free tae copy, distribute, transmit an adapt oor data,
+          as lang as ye credit OpenStreetMap an its
+          contreibutors. If ye alter or big upon oor data, ye
+          mey distribute the result anly unner the same licence. The
+          full <a href="http://opendatacommons.org/licenses/odbl/1.0/">legal
+          code</a> explains yer richts an responsibilities.
+        intro_3_html: |-
+          The cairtografie in oor cairt tiles, an oor documentation, are
+          licensed unner the <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> license (CC BY-SA).
+        credit_title_html: Hou tae credit OpenStreetMap
+        credit_1_html: |-
+          We require that ye uise the credit &ldquo;&copy; OpenStreetMap
+          contributors&rdquo;.
+        credit_2_html: |-
+          Ye must an aa mak it clear that the data is available unner the Open
+          Database License, an if uisin oor cairt tiles, that the cairtografie is
+          licensed as CC BY-SA. Ye mey dae this bi airtin tae
+          <a href="http://www.openstreetmap.org/copyright">this copyricht page</a>.
+          Alternatively, an as a requirement if ye are distributin OSM in a
+          data form, ye can name an link directly tae the license(s). In media
+          whaur airtins are nae possible (e.g. printed wirks), we suggest ye
+          direct yer readers tae openstreetmap.org (perhaps bi expandin
+          'OpenStreetMap' tae this full address), tae opendatacommons.org, an
+          if relevant, to creativecommons.org.
+        credit_3_html: |-
+          For a brousable electronic cairt, the credit should appear in the corner o the cairt.
+          For example:
+        attribution_example:
+          alt: Example o hou tae attribute OpenStreetMap on a wabpage
+          title: Attreibution example
+        more_title_html: Findin oot mair
+        more_1_html: |-
+          Read mair aboot uisin oor data, an hou tae credit us, at the <a
+          href="http://osmfoundation.org/Licence">OSMF Licence page</a> an the commonty <a
+          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal
+          FAQ</a>.
+        more_2_html: |-
+          Altho OpenStreetMap is open data, we cannae provide a
+          free-o-charge cairt API for third-party developers.
+          See oor <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">API Uisage Policy</a>,
+          <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Tile Uisage Policy</a>
+          and <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Nominatim Uisage Policy</a>.
+        contributors_title_html: Oor contreibutors
+        contributors_intro_html: |-
+          Oor contreibutors are thoosands o individuals. We an aa include
+          openly-licensed data frae naitional mappin agencies
+          an ither soorces, amang them:
+        contributors_at_html: |-
+          <strong>Austrick</strong>: Contains data frae
+          <a href="http://data.wien.gv.at/">Stadt Wien</a> (unner
+          <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+          <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> an
+          Land Tirol (unner <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT wi amendments</a>).
+        contributors_ca_html: |-
+          <strong>Canadae</strong>: Contains data frae
+          GeoBase&reg;, GeoGratis (&copy; Department o Naitural
+          Resoorces Canadae), CanVec (&copy; Department o Naitural
+          Resoorces Canadae), an StatCan (Geografie Diveesion,
+          Stateestics Canadae).
+        contributors_fi_html: |-
+          <strong>Finland</strong>: Contains data frae the
+          Naitional Laund Survey o Finland's Topographic Database
+          an ither datasets, unner the
+          <a href="http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">NLSFI License</a>.
+        contributors_fr_html: |-
+          <strong>Fraunce</strong>: Contains data soorced frae
+          Direction Générale des Impôts.
+        contributors_nl_html: |-
+          <strong>Netherlands</strong>: Contains &copy; AND data, 2007
+          (<a href="http://www.and.com">www.and.com</a>)
+        contributors_nz_html: |-
+          <strong>New Zealand</strong>: Contains data soorced frae
+          Land Information New Zealand. Crown Copyricht reserved.
+        infringement_title_html: Copyricht infringement
+    export:
+      title: Export
+      area_to_export: Aurie tae Export
+      manually_select: Manually select a different aurie
+      format_to_export: Format tae Export
+      osm_xml_data: OpenStreetMap XML Data
+      map_image: Cairt Image (shaws staundart layer)
+      embeddable_html: Embeddable HTML
+      licence: Licence
+      export_details: OpenStreetMap data is licensed unner the <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
+        Data Commons Open Database License</a> (ODbL).
+      too_large:
+        advice: 'If the abuin export fails, please consider uisin ane o the soorces
+          leetit ablo:'
+        body: This aurie is too lairge tae be exportit as OpenStreetMap XML Data.
+          Please zuim in or select a smawer aurie, or uise ane o the soorces leetit
+          ablo for bulk data dounloads.
+        planet:
+          title: Planet OSM
+          description: Regularly-updated copies o the complete OpenStreetMap database
+        overpass:
+          title: Overpass API
+          description: Dounload this boondin box frae a mirror o the OpenStreetMap
+            database
+        geofabrik:
+          title: Geofabrik Dounloads
+          description: Regularly-updatit extracts o continents, kintras, an selectit
+            ceeties
+        metro:
+          title: Metro Extracts
+          description: Extracts for major warld ceeties an thair surroondin auries
+        other:
+          title: Ither Soorces
+          description: Addeetional soorces leetit on the OpenStreetMap wiki
+      options: Options
+      format: Format
+      scale: Scale
+      max: max
+      image_size: Image Size
+      zoom: Zuim
+      add_marker: Add a marker tae the cairt
+      latitude: 'Lat:'
+      longitude: 'Lon:'
+      output: Ootput
+      paste_html: Paste HTML tae embed in wabsteid
+      export_button: Export
+    fixthemap:
+      how_to_help:
+        join_the_community:
+          explanation_html: |-
+            Gif ye'v seen ae proablem wi oor map data, fer example ae road is missin or yer address, the best waa tae
+            proceed is tae jyn the OpenStreetMap communitie n eik or repair the data yersel.
+      other_concerns:
+        explanation_html: "Gif ye hae concerns aneat hou oor data is bein uised or
+          aneat the contents please see oor\n<a href='/copyright'>copiericht page</a>
+          fer mair legal information, or contact the appropriate \n<a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF
+          wairkin groop</a>."
     sidebar:
       search_results: Sairch Results
     search:
@@ -1062,10 +1046,26 @@ sco:
       edit: Eedit
     markdown_help:
       headings: Heidins
-  trace:
+    welcome:
+      title: Walcome!
+      introduction_html: |-
+        Walcome tae OpenStreetMap, the free an eeditable cairt o the warld. Nou that ye're signed
+        up, ye're aw set tae get stairtit cairttin. Here's a quick guide wi the maist important
+        things ye need tae ken.
+      whats_on_the_map:
+        title: Whit's on the Cairt
+        on_html: |-
+          OpenStreetMap is a place for cairttin things that are baith <em>real an current</em> -
+          it includes millions o biggins, roads, an ither details aboot places. Ye can cairt
+          whitever real-warld featurs are interestin tae ye.
+        off_html: |-
+          Whit it <em>disna</em> include is opinionatit data lik ratins, historical or
+          hypothetical featurs, an data frae copyrichtit soorces. Unless ye hae special
+          permission, dinna copy frae online or paper cairts.
+  traces:
     create:
       upload_trace: Uplaid GPS Trace
-  user:
+  users:
     login:
       auth_providers:
         google:
@@ -1099,11 +1099,10 @@ sco:
     lost_password:
       title: Lost password
       heading: Forgotten Passwird?
-    view:
+    show:
       edits: Eedits
       created from: 'Creautit frae:'
       user location: Uiser location
-      your friends: Yer friends
     account:
       title: Eedit accoont
   javascripts:
@@ -1146,11 +1145,6 @@ sco:
         against_oneway_without_exit: Gae against ane-wey on %{name}
         end_oneway_without_exit: End o ane-wey on %{name}
         roundabout_with_exit: At roondaboot tak exit %{exit} ontae %{name}
-        turn_left_with_exit: At roondaboot turn left ontae %{name}
-        slight_left_with_exit: At roondaboot slicht left ontae %{name}
-        turn_right_with_exit: At roondaboot turn richt ontae %{name}
-        slight_right_with_exit: At roondaboot slicht richt ontae %{name}
-        continue_with_exit: At roondaboot continue straicht ontae %{name}
         unnamed: unnamed road
         courtesy: Directions coortesy o %{link}
       time: Time
@@ -1168,7 +1162,7 @@ sco:
       show_address: Shaw address
       query_features: Query featurs
       centre_map: Centre cairt here
-  redaction:
+  redactions:
     edit:
       description: Description
       heading: Eedit redaction

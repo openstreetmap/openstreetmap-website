@@ -1,9 +1,13 @@
 # Messages for Catalan (català)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Aleator
 # Author: Alvaro Vidal-Abarca
+# Author: Amire80
 # Author: Annamerida
+# Author: Bc0ed5a28dfc189b971a689bae2d31b45cb5f3fd
+# Author: Bogreudell
 # Author: Eduardo Martinez
 # Author: El libre
 # Author: Fitoschido
@@ -22,6 +26,7 @@
 # Author: Netol
 # Author: PerroVerd
 # Author: Pitort
+# Author: Quel.soler
 # Author: Ruila
 # Author: SMP
 # Author: Sim6
@@ -38,7 +43,34 @@ ca:
   time:
     formats:
       friendly: '%e %B %Y a les %H.%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Desa
+      diary_entry:
+        create: Publica
+        update: Actualitza
+      issue_comment:
+        create: Afegeix un comentari
+      message:
+        create: Envia
+      client_application:
+        create: Registre
+        update: Modificació
+      redaction:
+        create: Crea una redacció
+        update: Desa la redacció
+      trace:
+        create: Puja
+        update: Desa els canvis
+      user_block:
+        create: Crear bloc
+        update: Bloc d'Actualització
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: no sembla ser una adreça electrònica vàlida
+        email_address_not_routable: no és encaminable
     models:
       acl: Llista de control d'accés
       changeset: Conjunt de canvis
@@ -106,6 +138,24 @@ ca:
         description: Descripció
         languages: Idiomes
         pass_crypt: Contrasenya
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: aproximadament fa 1 hora
+        other: aproximadament fa %{count} hores
+      about_x_months:
+        one: aproximadament fa 1 mes
+        other: aproximadament fa %{count} mesos
+      about_x_years:
+        one: aproximadament fa 1 any
+        other: aproximadament fa %{count} anys
+      almost_x_years:
+        one: gairebé fa 1 any
+        other: gairebé fa %{count} anys
+      half_a_minute: fa mig minut
+      x_seconds:
+        one: fa 1 segon
+        other: fa %{count} segons
   printable_name:
     with_version: '%{id}, v%{version}'
   editor:
@@ -122,15 +172,38 @@ ca:
     remote:
       name: Control Remot
       description: Control remot (JOSM o Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: Creat fa %{when}
+        opened_at_by_html: Creat fa %{when} per %{user}
+        commented_at_html: Actualitzat fa %{when}
+        commented_at_by_html: Actualitzat fa %{when} per %{user}
+        closed_at_html: Resolt fa %{when}
+        closed_at_by_html: Resolt fa %{when} per %{user}
+        reopened_at_html: Reactivat fa %{when}
+        reopened_at_by_html: Reactivat el %{when} per %{user}
+      rss:
+        title: Notes de OpenStreetMap
+        description_area: Una llista de notes, reportades, comentades o bé tancades
+          a la vostra àrea [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: Un canal rss per la nota %{id}
+        opened: Nota nova (a prop %{place})
+        commented: nou comentari (prop de %{place})
+        closed: nota tancada (aprop de %{place})
+        reopened: Nota reactivada (prop de %{place})
+      entry:
+        comment: Comentari
+        full: Nota sencera
   browse:
     created: Creat
     closed: Tancat
-    created_html: Creat fa <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Tancat fa <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Creat fa <abbr title='%{title}'>%{time}</abbr> per %{user}
-    deleted_by_html: Eliminat fa <abbr title='%{title}'>%{time}</abbr> per %{user}
-    edited_by_html: Editat fa <abbr title='%{title}'>%{time}</abbr> per  %{user}
-    closed_by_html: Tancat fa <abbr title='%{title}'>%{time} </abbr> per  %{user}
+    created_html: Creat el <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Tancat el <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Creat el <abbr title='%{title}'>%{time}</abbr> per %{user}
+    deleted_by_html: Eliminat el <abbr title='%{title}'>%{time}</abbr> per %{user}
+    edited_by_html: Editat el <abbr title='%{title}'>%{time}</abbr> per  %{user}
+    closed_by_html: Tancat el <abbr title='%{title}'>%{time} </abbr> per  %{user}
     version: Versió
     in_changeset: Conjunt de canvis
     anonymous: anònim
@@ -150,7 +223,7 @@ ca:
       relation: Relacions (%{count})
       relation_paginated: Relacions (%{x}-%{y} de %{count})
       comment: Comentaris(%{count})
-      hidden_commented_by: Comentari ocult de l'usuari %{user}<abbr title='%{exact_time}'>fa
+      hidden_commented_by: Comentari ocult de l'usuari %{user}<abbr title='%{exact_time}'>el
         %{when}</abbr>
       commented_by: Comentari de %{user} <abbr title='%{exact_time}'>fa %{when}</abbr>
       changesetxml: XML del conjunt de canvis
@@ -238,15 +311,16 @@ ca:
       reopened_by: Reactivat per %{user}  fa <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous: Reactivat per un anònim fa <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Ocultat per %{user} fa <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Avisa d’aquesta notícia
     query:
       title: Consultar característiques
       introduction: Cliqueu al mapa per trobar característques properes.
       nearby: Característiques properes
       enclosing: Característiques adjuntes
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Pàgina %{page}
-      next: Endavant »
+      next: Següent →
       previous: ← Anterior
     changeset:
       anonymous: Anònim
@@ -258,10 +332,10 @@ ca:
       user: Usuari
       comment: Comentari
       area: Àrea
-    list:
-      title: Conjunt de canvis
-      title_user: Conjunt de canvis de %{user}
-      title_friend: Conjunts de canvis dels vostres amics
+    index:
+      title: Conjunts de canvis
+      title_user: Conjunts de canvis de %{user}
+      title_friend: Conjunts de canvis dels meus amics
       title_nearby: Conjunts de canvis d'usuaris propers
       empty: No s'han trobat conjunts de canvis
       empty_area: No hi han conjunts de canvis en aquesta àrea
@@ -269,35 +343,21 @@ ca:
       no_more: No s'han trobat més conjunts de canvis.
       no_more_area: No hi han més conjunts de canvis en aquesta àrea.
       no_more_user: No hi han més conjunts de canvis fets per aquest usuari.
-      load_more: Carregar-ne més
+      load_more: Carrega'n més
     timeout:
-      sorry: La llista de conjunt de canvis que heu sol·licitat ha trigat massa a
-        recuperar-se.
-    rss:
+      sorry: Ho sentim, la llista de conjunt de canvis que heu sol·licitat ha trigat
+        massa a recuperar-se.
+  changeset_comments:
+    comment:
+      comment: 'Nou comentari de %{author} al conjunt de canvis #%{changeset_id}'
+      commented_at_by_html: Actualitzat fa %{when} per %{user}
+    index:
       title_all: Discussió del conjunt de canvis d'OpenStreetMap
       title_particular: 'Discussió del conjunt de canvis #%{changeset_id} d''OpenStreetMap'
-      comment: 'Nou comentari de %{author} al conjunt de canvis #%{changeset_id}'
-      commented_at_html: Actualitzat fa %{when}
-      commented_at_by_html: Actualitzat fa %{when} per %{user}
-      full: Discussió sencera
-  diary_entry:
+  diary_entries:
     new:
       title: Entrada de diari nova
-      publish_button: Publica
-    list:
-      title: Diaris d'usuari/a
-      title_friends: Diaris dels amics
-      title_nearby: Diaris d'amics propers
-      user_title: Diari de %{user}
-      in_language_title: Entrades de diari en %{language}
-      new: Entrada de diari nova
-      new_title: Redacta una nova entrada al teu diari d'usuari/a
-      no_entries: No hi ha entrades al diari
-      recent_entries: 'Entrades recents al diari:'
-      older_entries: Entrades més antigues
-      newer_entries: Entrades més recents
-    edit:
-      title: Edita entrada del diari
+    form:
       subject: 'Assumpte:'
       body: 'Cos del missatge:'
       language: 'Llengua:'
@@ -305,15 +365,27 @@ ca:
       latitude: 'Latitud:'
       longitude: 'Longitud:'
       use_map_link: usa el mapa
-      save_button: Desa
+    index:
+      title: Diaris d'usuari/a
+      title_friends: Diaris dels amics
+      title_nearby: Diaris d'amics propers
+      user_title: Diari de %{user}
+      in_language_title: Entrades de diari en %{language}
+      new: Entrada de diari nova
+      new_title: Redacta una nova entrada al meu diari d'usuari/a
+      no_entries: No hi ha entrades al diari
+      recent_entries: 'Entrades recents al diari:'
+      older_entries: Entrades més antigues
+      newer_entries: Entrades més noves
+    edit:
+      title: Edita entrada del diari
       marker_text: Localització de l'Entrada del Diari
-    view:
+    show:
       title: Diari de %{user} | %{title}
       user_title: Diari de %{user}
       leave_a_comment: Deixa un comentari
       login_to_leave_a_comment: '%{login_link} per deixar un comentari'
-      login: Accés
-      save_button: Desa
+      login: Inicia una sessió
     no_such_entry:
       title: No hi ha entrada al diari com
       heading: No hi ha cap entrada amb la id %{id}
@@ -330,11 +402,15 @@ ca:
         other: '%{count} comentaris'
       edit_link: Edita aquesta entrada
       hide_link: Amaga aquesta entrada
+      unhide_link: Desamaga aquesta entrada
       confirm: Confirma
+      report: Informeu d'aquesta entrada
     diary_comment:
       comment_from: Comentari de %{link_user} el %{comment_created_at}
       hide_link: Amaga aquest comentari
+      unhide_link: Desamaga aquest comentari
       confirm: Confirma
+      report: Informeu d'aquest comentari
     location:
       location: 'Ubicació:'
       view: Mostra
@@ -355,59 +431,8 @@ ca:
       post: Publica
       when: Quan
       comment: Comentari
-      ago: fa %{ago}
-      newer_comments: Comentaris recents
-      older_comments: Comentaris antics
-  export:
-    title: Exportar
-    start:
-      area_to_export: Àrea a exportar
-      manually_select: Selecciona manualment una àrea diferent
-      format_to_export: Format d'exportació
-      osm_xml_data: OpenStreetMap XML Data
-      map_image: Imatge de mapa (mostra una capa estàndard)
-      embeddable_html: HTML que es pot incloure
-      licence: Llicència
-      export_details: Les dades d'OpenStreetMap són publicades sota el termes de la
-        <a href="http://creativecommons.org/licenses/by-sa/2.0/">llicència Creative
-        Commons Attribution-ShareAlike 2.0</a>.
-      too_large:
-        advice: 'Si falla l''exportació anterior, si us plau, penseu a utilitzar una
-          de les fonts llistades a continuació:'
-        body: Aquesta zona és massa gran per ser exportada  com a dades XML de OpenStreetMap.
-          Si us plau seleccioneu una àrea més petita o bé una de les següents fonts
-          per descarregar quantitats grans de dades.
-        planet:
-          title: Planeta OSM
-          description: Còpies actualitzades regularment de la base de dades d'OpenStreetMap
-            al complet
-        overpass:
-          title: API Overpass
-          description: Descarrega aquest requadre des d'una rèplica de la base de
-            dades d'OpenStreetMap
-        geofabrik:
-          title: Descàrregues de Geofabrik
-          description: Extractes actualitzats regularment de continents, països i
-            de les ciutats seleccionades
-        metro:
-          title: Extractes de Metro
-          description: Extractes per a les ciutats més grans del món i les seves àrees
-            metropolitanes
-        other:
-          title: Altres fonts
-          description: Fonts addicionals llistades al wiki d'OpenStreetMap
-      options: Opcions
-      format: Format
-      scale: Escala
-      max: màx
-      image_size: Mida de la imatge
-      zoom: Zoom
-      add_marker: Afegeix un marcador en el mapa
-      latitude: 'Lat:'
-      longitude: 'Lon:'
-      output: Sortida
-      paste_html: Enganxa HTML per incloure'l al lloc web
-      export_button: Exporta
+      newer_comments: Comentaris més nous
+      older_comments: Comentaris més antics
   geocoder:
     search:
       title:
@@ -426,11 +451,13 @@ ca:
           chair_lift: Telecadira
           drag_lift: Teleesquí
           gondola: Telecabina
+          pylon: Piló
           station: Estació de telefèric
         aeroway:
           aerodrome: Aeròdrom
           apron: Autobús de pista
           gate: Porta
+          hangar: Hangar
           helipad: Helisuperfície
           runway: Pista d'aterratge
           taxiway: Carrer de rodada
@@ -523,6 +550,7 @@ ca:
           village_hall: Casa de la Vila
           waste_basket: Cistella de Residus
           waste_disposal: Contenidor d'escombraries
+          water_point: Punt d'aigua
           youth_centre: Centre juvenil
         boundary:
           administrative: Límit administratiu
@@ -560,11 +588,13 @@ ca:
           bus_guideway: Carril Bus
           bus_stop: Parada d'autobús
           construction: Autopista en construcció
+          corridor: Corredor
           cycleway: Ruta per a bicicletes
           elevator: Ascensor
           emergency_access_point: Accés d'emergència
           footway: Sendera
           ford: Fiord
+          give_way: Senya de cediu el pas
           living_street: Carrer habitat
           milestone: Fita
           motorway: Autopista
@@ -586,6 +616,7 @@ ca:
           services: Serveis en ruta
           speed_camera: Radar
           steps: Graons
+          stop: Senyal d'estop
           street_lamp: Fanal
           tertiary: Carretera terciària
           tertiary_link: Carretera terciària
@@ -686,18 +717,36 @@ ca:
           water_park: Parc aquàtic
           "yes": Esbarjo
         man_made:
+          beacon: Balisa
+          beehive: Rusc d'abelles
           breakwater: Escullera
           bridge: Pont
+          bunker_silo: Búnquer
+          chimney: Xemeneia
+          crane: Grua
+          gasometer: Gasòmetre
           lighthouse: Far
+          mine: Mina
+          mineshaft: Pou miner
+          petroleum_well: Pou petrolífer
+          pier: Moll
           pipeline: Canonada
           silo: Sitja
+          storage_tank: Tanc d'emmagatzematge
+          surveillance: Vigilància
           tower: Torre
+          wastewater_plant: Planta d'aigües residuals
+          watermill: Molí d'aigua
+          water_tower: Torre d'aigua
+          water_well: Pou
+          windmill: Molí de vent
           works: Fàbrica
           "yes": Fet per l'home
         military:
           airfield: Aeroport militar
           barracks: Caserna
           bunker: Búnquer
+          "yes": Militar
         mountain_pass:
           "yes": Coll
         natural:
@@ -750,6 +799,7 @@ ca:
           estate_agent: Immobiliària
           government: Oficina governamental
           insurance: Oficina d'assegurances
+          it: Oficina TIC
           lawyer: Advocat
           ngo: Oficina d'una ONG
           telecommunication: Oficina de telecomunicacions
@@ -772,8 +822,10 @@ ca:
           municipality: Municipi
           neighbourhood: Barri
           postcode: Codi postal
+          quarter: Quarter
           region: Regió
           sea: Mar
+          square: Plaça
           state: Estat o província
           subdivision: Subdivisió
           suburb: Suburbi
@@ -853,8 +905,10 @@ ca:
           jewelry: Joieria
           kiosk: Quiosc botiga
           laundry: Bugaderia
+          lottery: Loteria
           mall: Centre comercial
           market: Mercat
+          massage: Massatge
           mobile_phone: Botiga de telèfon mòbil
           motorcycle: Botiga de motocicletes
           music: Botiga de música
@@ -865,20 +919,26 @@ ca:
           pet: Botiga d'animals
           pharmacy: Farmàcia
           photo: Botiga de foto
+          seafood: Marisc
           second_hand: Botiga de segona mà
           shoes: Sabateria
           sports: Botiga d'esports
           stationery: Botiga de papereria
           supermarket: Supermercat
           tailor: Sastreria
+          ticket: Botiga de tiquets
+          tobacco: Estanc
           toys: Botiga de joguines
           travel_agency: Agència de viatges
+          tyres: Botiga de pneumàtics
+          vacant: Botiga vacant
+          variety_store: Botiga de varietats
           video: Video de la botiga
-          wine: De llicència
+          wine: Vinateria
           "yes": Botiga
         tourism:
           alpine_hut: Cabanya alpina
-          apartment: Apartament
+          apartment: Apartament de vacances
           artwork: Il·lustració
           attraction: Atracció
           bed_and_breakfast: Llit i esmorzar (B&B)
@@ -898,6 +958,7 @@ ca:
           viewpoint: Mirador
           zoo: Zoològic
         tunnel:
+          building_passage: Passatge d'edifici
           culvert: Canonada
           "yes": Túnel
         waterway:
@@ -929,7 +990,7 @@ ca:
         level10: Límit de barri
     description:
       title:
-        osm_nominatim: Localització des de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim: Ubicació des de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Localització des de <a href="http://www.geonames.org/">GeoNames</a>
       types:
@@ -939,6 +1000,45 @@ ca:
     results:
       no_results: No hi ha resultats
       more_results: Més resultats
+  issues:
+    index:
+      title: Problemes
+      select_status: Selecciona l'estat
+      select_type: Selecciona el tipus
+      reported_user: Usuari denunciat
+      not_updated: No actualitzat
+      search: Cerca
+      search_guidance: 'Cerca incidències:'
+      user_not_found: El compte d’usuari no existeix
+      issues_not_found: No s'ha trobat cap incidència
+      status: Estat
+      reports: Informes
+      last_updated: Darrera actualització
+      last_updated_time_html: <abbr title='%{title}'>Fa %{time}</abbr>
+      states:
+        ignored: Ignorat
+        open: Obert
+        resolved: Resolt
+    show:
+      resolve: Resol
+      ignore: Ignora
+      reopen: Reobre
+  issue_comments:
+    create:
+      comment_created: S’ha creat el comentari correctament
+  reports:
+    new:
+      categories:
+        diary_entry:
+          other_label: Un altre
+        diary_comment:
+          other_label: Un altre
+        user:
+          other_label: Altre
+        note:
+          spam_label: Aquesta nota és brossa
+          personal_label: Aquesta nota conté dades personals
+          other_label: Altre
   layouts:
     project_name:
       title: OpenStreetMap
@@ -967,10 +1067,7 @@ ca:
     intro_text: L'OpenStreetMap és un mapa del món, creat per persones com tu i d'ús
       lliure sota una llicència oberta.
     intro_2_create_account: Crea un compte d'usuari
-    partners_html: L'allotjament és a càrrec de %{ucl}, %{ic}, %{bytemark} i d'altres
-      %{partners}.
     partners_ucl: el Centre UCL VR
-    partners_ic: Imperial College Londres
     partners_bytemark: Allotjament Bytemark
     partners_partners: socis
     osm_offline: La base de dades OpenStreetMap és fora de línia, mentre es fan actuacions
@@ -992,264 +1089,6 @@ ca:
       text: Feu una donació
     learn_more: Aprèn-ne més
     more: Més
-  license_page:
-    foreign:
-      title: Quant a la traducció
-      text: En cas de conflicte entre aquesta pàgina traduïda i %{english_original_link},
-        la pàgina en anglès té prioritat
-      english_link: l'original en anglès
-    native:
-      title: Sobre aquesta pàgina
-      text: Esteu veient la versió anglesa de la pàgina de drets d'autor. Podeu tornar
-        a la %{native_link} d'aquesta pàgina o podeu deixar de llegir sobre el copyright
-        i anar a %{mapping_link}.
-      native_link: versió català
-      mapping_link: Comença a cartografiar
-    legal_babble:
-      title_html: Drets d'autor i llicència
-      intro_1_html: |-
-        Les dades obertes d'OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> estan publicades sota la <a
-        href="http://opendatacommons.org/licenses/odbl/">llicència de base de dades oberta</a> (ODbL) per la <a
-        href="http://osmfoundation.org/">Fundació OpenStreetMap</a> (OSMF).
-      intro_2_html: "Sou lliure de copiar, distribuir, comunicar públicament i fer-ne
-        obres \nderivades de les nostres dades, sempre que atribuïu els crèdits a
-        \nOpenStreetMap i els seus col·laboradors. Si modifiqueu o utilitzeu les\nnostres
-        dades fer fer obres derivades, només podreu distribuir l'obra \nresultant
-        amb la mateixa llicència. Aquest \n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">text
-        legal\ncode</a> sencer que explica detalladament els vostres drets i responsabbilitats."
-      intro_3_html: |-
-        La cartografia de les nostres tessel·les i la nostra documentació són ofertes
-        sota llicència <a href="http://creativecommons.org/licenses/by-sa/2.0/">Text de la llicència de Creative Commons Reconeixement-Compartir Igual 2.0</a>(CC-BY-SA).
-      credit_title_html: Com a crèdit OpenStreetMap
-      credit_1_html: |-
-        Exigim que l'atribució de drets d'autor sigui &ldquo;&copy; Col·laboradors d'OpenStreetMap
-        &rdquo;.
-      credit_2_html: També heu de deixar clar que les dades són disponibles sota llicència
-        obereta, i si s'utilitzen les nostres tessel·les de mapes, que la cartografia
-        és llicenciada com CC-BY-SA. Podeu fer això enllaçant a <a href="http://www.openstreetmap.org/copyright">aquest
-        pàgina de copyright</a>. D'altra banda, i com a requisit obligatori si voleu
-        distribuir OSM en forma de dades en brut, podeu citar i enllaçar directament
-        a la llicència. En el cas d'utilitzar suports on els enllaços d'hipertext
-        no són possibles (per exemple, obres impreses), us suggerim d'adreçar els
-        lectors a openstreetmap.org (potser indicant l'adreça completa d'OpenStreetMap),
-        a opendatacommons.org i si s'escau, a creativecommons.org.
-      credit_3_html: |-
-        En el cas d'un mapa electrònic navegable, els crèdits han d'aparèixer a la cantonada del mapa.
-        Per exemple:
-      attribution_example:
-        alt: Exemple de com atribuir OpenStreetMap a una pàgina web
-        title: Exemple d'atribució
-      more_title_html: Saber-ne més
-      more_1_html: |-
-        Llegiu més informació sobre com utilitzar les nostres dades, i com donar-ne crèdit, a la <a
-        href="http://osmfoundation.org/Licence">pàgina de llicència OSMF</a> i a les <a
-        href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Preguntes
-        Freqüents sobre legalitat</a>.
-      more_2_html: Encara que les dades d'OpenStreetMap són dades obertes, no podem
-        oferir una API gratuïta per als desenvolupadors de terceres parts. Vegeu la
-        <a href="https://operations.osmfoundation.org/policies/api/">política d'ús
-        de l'API</a>, la <a href="https://operations.osmfoundation.org/policies/tiles/">política
-        d'ús de les tessel·les</a> i la <a href="https://operations.osmfoundation.org/policies/nominatim/">política
-        d'ús de Nominatim</a>.
-      contributors_title_html: Els nostres col·laboradors
-      contributors_intro_html: 'Els nostres col·laboradors són milers de persones.
-        També incloem dades amb llicència oberta de les agències públiques de cartografia
-        i d''altres fonts, entre elles:'
-      contributors_at_html: |-
-        <strong>Àustria</strong>: conté dades de
-            <a href="http://data.wien.gv.at/">Stadt Wien</a> sota
-            <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>.
-      contributors_ca_html: |-
-        <strong>Canadà</strong>: conté dades de
-            GeoBase ®, GeoGratis (© Departament de Natural
-            Recursos Canadà), CanVec (© Departament de Natural
-            Recursos Canadà) i StatCan (Divisió de Geografia,
-            Canadà de Estadístiques).
-      contributors_fi_html: '<strong>Finlàndia</strong>: Conté dades de la base de
-        dades topogràfica del National Land Survey of Finland i d''altres bases de
-        dades, sota la <a href="http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">llicència
-        NLSFI</a>.'
-      contributors_fr_html: |-
-        <strong>França</strong>: conté dades d'origen de
-            Direcció Générale des Impôts.
-      contributors_nl_html: '<strong>Països Baixos</strong>: Conté &copy; dades d''Automotive
-        Navigation Data (AND), 2007 (<a href="http://www.and.com">www.and.com</a>)'
-      contributors_nz_html: |-
-        <strong>Nova Zelanda</strong>: conté dades d'origen de
-            Informació Nova Zelanda de la terra. Corona de drets d'autor reservat.
-      contributors_si_html: '<strong>Eslovènia</strong>: Conté dades de l''<a href="http://www.gu.gov.si/en/">Autoritat
-        de Topografia i Cartografia</a> i el <a href="http://www.mkgp.gov.si/en/">Ministeri
-        d''Agricultura, Silvicultura i Alimentació</a> (informació pública d''Eslovènia).'
-      contributors_za_html: |-
-        <strong>Sud-àfrica</strong>: conté dades del
-        <a href="http://www.ngi.gov.za/">Chief Directorate:
-        National Geo-Spatial Information</a>, drets d'autor reservat per l'estat.
-      contributors_gb_html: |-
-        <strong>Regne Unit</strong>: conté dades del
-        Ordnance Survey &copy; Drets d'autor de la Corona i de la base de dades
-        2010-12.
-      contributors_footer_1_html: |-
-        Per a més detalls sobre aquesta i d'altres fonts que han estat utilitzades per millorar els mapes de l'OpenStreetMap, visiteu la pàgina dedicada als <a
-        href="http://wiki.openstreetmap.org/wiki/Contributors">Col·laboradors</a> del wiki d'OSM.
-      contributors_footer_2_html: |-
-        Inclusió de dades en OpenStreetMap no implica que l'original
-          el proveïdor de dades recolza OpenStreetMap, proporciona cap garantia, o
-          accepta qualsevol responsabilitat.
-      infringement_title_html: Violació dels drets d'autor
-      infringement_1_html: Recordem als col·laboradors de l'OSM que mai no s'han d'afegir
-        dades de cap font amb drets d'autor registrats (com Google Maps o mapes impresos
-        per exemple) sense tenir una autorització explícita dels titulars dels drets
-        d'autor.
-      infringement_2_html: Si penseu que hi ha material protegit per drets d'autor
-        que ha estat afegit a la base de dades d'OpenStreetMap o a aquest web, si
-        us plau aneu a la pàgina web dedicada al <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">Procediment
-        per eliminar dades protegides pels drets d'autor</a> o empleneu aquest <a
-        href="http://dmca.openstreetmap.org/">formulari en línia.</a>.
-      trademarks_title_html: <span id="trademarks"></span>Marques registrades
-      trademarks_1_html: OpenStreetMap, el logotip de la lupa i «State of the Map»
-        són marques registrades de la Fundació OpenStreetMap. Si teniu preguntes sobre
-        l’ús de les marques, consulteu la <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">política
-        de marques registrades</a>.
-  welcome_page:
-    title: Benvingut!
-    introduction_html: Us donem la benvinguda a l'OpenStreetMap, el mapa lliure i
-      editable del món. Ara que ja us heu registrat, ja ho teniu tot a punt per començar
-      a editar el mapa. Aquí hi ha una guia ràpida amb les coses més importants que
-      cal saber
-    whats_on_the_map:
-      title: Què hi ha al mapa
-      on_html: L'OpenStreetMap és un lloc per incloure al mapa coses que són <em>reals
-        i normals</em>- això inclou milions d'edificis, carreteres, i altres detalls
-        sobre llocs. Pots cartografiar totes les característiques del món real que
-        et semblin interessants.
-      off_html: El que <em>no</em> inclou són dades subjectives com ara puntuacions,
-        característiques històriques o hipotètiques i dades de fonts subjectes a copyright.
-        A no ser que posseeixis un permís especial no copiïs res de mapes de paper
-        o en línia.
-    basic_terms:
-      title: Condicions bàsiques per editar el mapa
-      paragraph_1_html: l'OpenStreetMap té algunes paraules del seu propi argot. Aquí
-        hi han unes quantes paraules clau que et poden venir bé.
-      editor_html: Un <strong>editor</strong> és un programa o pàgina web que pots
-        utilitzar per editar el mapa.
-      node_html: Un <strong>node</strong> és un punt al mapa, com ara un restaurant
-        o un arbre.
-      way_html: Una <strong>via</strong> és una línia o àrea, com ara una carretera,
-        sèquia, llac o edifici.
-      tag_html: Una <strong>etiqueta</strong> és un recull de dades sobre un node
-        o una via, com ara el nom d'un restaurant o la velocitat màxima d'una carretera.
-    rules:
-      title: Regles
-      paragraph_1_html: "OpenStreetMap té poques les regles formals, pel que esperem
-        que tots els participants col·laborin i es comuniquin amb la comunitat. Si
-        està considerant\naltres activitats que no sigui l'edició manual, si us plau,
-        llegiu i seguiu les directrius d' \n<a href=\"http://wiki.openstreetmap.org/wiki/Import/Guidelines\">Importació</a>
-        i \n<a href=\"http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct\">Edició
-        Automàtica</a>."
-    questions:
-      title: Alguna pregunta més?
-      paragraph_1_html: OpenStreetMap té multitud de recursos per conèixer aquest
-        projecte, per plantejar i respondre preguntes, i per participar en discussions
-        col·laboratives i documentar temes de cartografia. <a href='%{help_url}'>Visiteu
-        l'ajuda</a>.
-    start_mapping: Comença a editar el mapa
-    add_a_note:
-      title: No tens temps per editar? Afegeix una nota!
-      paragraph_1_html: Si només voleu fer una petita modificació però no disposeu
-        del temps per registrar-vos i aprendre com editar, deixeu una nota al mapa.
-      paragraph_2_html: 'Només cal que us dirigiu al<a href=''%{map_url}''>mapa</a>
-        i cliqueu l''icona de la nota: <span class=''icon note''></span>. Això afegirà
-        un marcador al mapa que podeu moure arrossegant-lo. Afegiu el vostre missatge,
-        cliqueu el botó de desat, i altres usuaris ho investigaran.'
-  fixthemap:
-    title: Informeu d'un problema / Corregiu el mapa
-    how_to_help:
-      title: Com contribuir
-      join_the_community:
-        title: Afegiu-vos a la comunitat
-        explanation_html: Si heu trobat un problema amb les nostres dades del mapa,
-          com per exemple l'omissió d'una carretera o bé de la vostra adreça, la millor
-          forma d'arreglar-ho és unint-se a la comunitat d'OpenStreetMap i afegir
-          o bé corregir les dades vós mateix.
-      add_a_note:
-        instructions_html: Feu clic a <a class='icon note'></a> o a la mateixa icona
-          sobre el mapa. Això afegirà un marcador al mapa, que podeu desplaçar arrossegant-lo.
-          Afegiu el vostre missatge, deseu-lo i els altres usuaris ho investigaran.
-    other_concerns:
-      title: Altres aspectes
-      explanation_html: Si us preocupa la utilització de les nostres dades o bé el
-        contingut d'aquestes, consulteu la <a href='/copyright'>pàgina de drets d'autor</a>
-        per a més informació, o bé contacteu el <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>grup
-        de treball d'OSMF</a> corresponent.
-  help_page:
-    title: Obtenir ajuda
-    introduction: OpenStreetMap té multitud de recursos per conèixer aquest projecte,
-      per plantejar i respondre preguntes, i per participar en discussions col·laboratives
-      i documentar temes de cartografia.
-    welcome:
-      url: /welcome
-      title: Benvinguts a l'OSM
-      description: Comença amb aquesta guia ràpida sobre els aspectes bàsics de l'OpenStreetMap.
-    beginners_guide:
-      url: http://wiki.openstreetmap.org/wiki/Ca:Beginners%27_guide
-      title: Guia per a principiants
-      description: Guia per a principiants mantinguda per la comunitat.
-    help:
-      url: https://help.openstreetmap.org/
-      title: help.openstreetmap.org
-      description: Feu una pregunta o busqueu respostes a la pàgina de preguntes i
-        respostes d'OSM.
-    mailing_lists:
-      title: Llistes de correu
-      description: Pregunta o debat sobre qüestions interessants en relació a una
-        àmplia sèrie de llistes de correu tòpiques o regionals.
-    forums:
-      title: Fòrums
-      description: Preguntes i debats, per a aquells que prefereixen l'estil de la
-        interfície d'un tauler d'anuncis.
-    irc:
-      title: IRC
-      description: Xat interactiu en llengües diferents i sobre diferents temes.
-    switch2osm:
-      title: switch2osm
-      description: Ajuda per a empreses i organitzacions que canviïn als mapes i altres
-        serveis basats en OpenStreetMap.
-    wiki:
-      url: http://wiki.openstreetmap.org/
-      title: wiki.openstreetmap.org
-      description: Navegueu per la wiki per aprofundir en la documentació d'OSM.
-  about_page:
-    next: Següent
-    copyright_html: Col·laboradors de<br><span>&copy;</span>OpenStreetMap
-    used_by: '%{name} integra dades de mapes en milers de llocs web, aplicacions per
-      a mòbils i dispositius de maquinari'
-    lede_text: OpenStreetMap està construït per una comunitats de catògrafs que contibueixen
-      i mantenen dades sobre carreteres, senders, cafeteries, estacions de ferrocarril,
-      i molt més, per tot el món.
-    local_knowledge_title: Coneixement local
-    local_knowledge_html: OpenStreetMap potencia el coneixement local. Els contribuïdors
-      usen imatges aèries, dispositius GPS, i mapes de baixa tecnologia per tal de
-      verificar que OSM és precís i està actualitzat.
-    community_driven_title: Dirigit per la comunitat
-    community_driven_html: |-
-      La comunitat d'OpenStreetMap és diversa, apassionada, i creix cada dia. Entre els nostres contribuïdors hi ha cartògrafs entusiastes, professionals de GIS, enginyers que posen en funcionament els servidors d'OSM, voluntaris que cartografien les zones afectades per desastres, i molt més.
-      Si voleu conèixer més sobre la comunitat, vegeu els <a href='%{diary_path}'>diaris d'usuari</a>, els <a href='http://blogs.openstreetmap.org/'>blogs de la comunitat</a>, i la pàgina web de la <a href='http://www.osmfoundation.org/'>Fundació OSM</a>.
-    open_data_title: Dades obertes
-    open_data_html: 'OpenStreetMap són <i>dades lliures</i>: sou lliures d''usar-lo
-      per a qualsevol propòsit, sempre que doneu crèdit a OpenStreetMap i els seus
-      contribuïdors. Si modifiqueu o construïu sobre les dades en alguna manera concreta,
-      podeu distribuir el resultat només sota la mateixa llicència. Vegeu la <a href=''%{copyright_path}''>pàgina
-      de copyright i llicència</a> per a més detalls.'
-    legal_title: Avisos legals
-    legal_html: "Aquest lloc web i molts altres serveis relacionats són operats formalment
-      per la \n<a href=\"http://osmfoundation.org/\">Fundació OpenStreetMap</a> (OSMF)
-      \ en nom de la comunitat. L'ús de tots els serveis operats per l'OSMF es troba
-      subjecte a les nostres  <a href=\"http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npolítiques
-      d'ús acceptable</a> i a les nostres <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">polítiques
-      de privadesa</a>\n<br> \n<a href=\"http://osmfoundation.org/Contact\">Contacteu
-      amb l'OSMF</a> \nsi teniu qüestions sobre llicències, drets d'autor o altres
-      aspectes legals."
-    partners_title: Socis
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} ha comentat en una entrada de diari'
@@ -1366,7 +1205,7 @@ ca:
         partial_changeset_with_comment: amb comentari '%{changeset_comment}'
         partial_changeset_without_comment: sense comentari
       details: Més detalls del conjunt de canvis es poden trobar a %{url}
-  message:
+  messages:
     inbox:
       title: Safata d'entrada
       my_inbox: La meva safata d'entrada
@@ -1387,14 +1226,14 @@ ca:
       unread_button: Marca com a no llegit
       read_button: Marca com a llegit
       reply_button: Respon
-      delete_button: Suprimeix
+      destroy_button: Suprimeix
     new:
       title: Envia un missatge
       send_message_to: Envia un missatge nou per a %{name}
       subject: Assumpte
       body: Cos
-      send_button: Envia
       back_to_inbox: Torna a la safata d'entrada
+    create:
       message_sent: S'ha enviat el missatge
       limit_exceeded: Heu enviat un munt de missatges recentment. Espereu una estona
         abans d'intentar d'enviar més missatges.
@@ -1420,27 +1259,182 @@ ca:
       wrong_user: Heu iniciat la sessió com "%{user}", però el missatge que han demanat
         de respondre a no s'ha enviat a aquest usuari. Si us plau connecti's com l'usuari
         correcte per a respondre.
-    read:
+    show:
       title: Llegeix el missatge
       from: De
       subject: Assumpte
       date: Data
       reply_button: Respon
       unread_button: Marca com a no llegit
-      delete_button: Suprimeix
+      destroy_button: Suprimeix
       back: Enrere
       to: Per a
       wrong_user: Heu iniciat la sessió com a "%{user}", però el missatge que voleu
         llegir no va ser enviat per o adreçat a aquest usuari. Connecteu-vos com l'usuari
         correcte per a poder llegir-lo.
     sent_message_summary:
-      delete_button: Suprimeix
+      destroy_button: Suprimeix
     mark:
       as_read: Missatge marcat com a llegit
       as_unread: Missatge marcat com a no llegit
-    delete:
-      deleted: Missatge suprimit
+    destroy:
+      destroyed: Missatge suprimit
   site:
+    about:
+      next: Següent
+      copyright_html: Col·laboradors de<br><span>&copy;</span>OpenStreetMap
+      used_by: '%{name} integra dades de mapes en milers de llocs web, aplicacions
+        per a mòbils i dispositius de maquinari'
+      lede_text: OpenStreetMap està construït per una comunitats de catògrafs que
+        contibueixen i mantenen dades sobre carreteres, senders, cafeteries, estacions
+        de ferrocarril, i molt més, per tot el món.
+      local_knowledge_title: Coneixement local
+      local_knowledge_html: OpenStreetMap potencia el coneixement local. Els contribuïdors
+        usen imatges aèries, dispositius GPS, i mapes de baixa tecnologia per tal
+        de verificar que OSM és precís i està actualitzat.
+      community_driven_title: Dirigit per la comunitat
+      community_driven_html: |-
+        La comunitat d'OpenStreetMap és diversa, apassionada, i creix cada dia. Entre els nostres contribuïdors hi ha cartògrafs entusiastes, professionals de GIS, enginyers que posen en funcionament els servidors d'OSM, voluntaris que cartografien les zones afectades per desastres, i molt més.
+        Si voleu conèixer més sobre la comunitat, vegeu els <a href='%{diary_path}'>diaris d'usuari</a>, els <a href='http://blogs.openstreetmap.org/'>blogs de la comunitat</a>, i la pàgina web de la <a href='http://www.osmfoundation.org/'>Fundació OSM</a>.
+      open_data_title: Dades obertes
+      open_data_html: 'OpenStreetMap són <i>dades lliures</i>: sou lliures d''usar-lo
+        per a qualsevol propòsit, sempre que doneu crèdit a OpenStreetMap i els seus
+        contribuïdors. Si modifiqueu o construïu sobre les dades en alguna manera
+        concreta, podeu distribuir el resultat només sota la mateixa llicència. Vegeu
+        la <a href=''%{copyright_path}''>pàgina de copyright i llicència</a> per a
+        més detalls.'
+      legal_title: Avisos legals
+      legal_html: "Aquest lloc web i molts altres serveis relacionats són operats
+        formalment per la \n<a href=\"http://osmfoundation.org/\">Fundació OpenStreetMap</a>
+        (OSMF)  en nom de la comunitat. L'ús de tots els serveis operats per l'OSMF
+        es troba subjecte a les nostres  <a href=\"http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npolítiques
+        d'ús acceptable</a> i a les nostres <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">polítiques
+        de privadesa</a>\n<br> \n<a href=\"http://osmfoundation.org/Contact\">Contacteu
+        amb l'OSMF</a> \nsi teniu qüestions sobre llicències, drets d'autor o altres
+        aspectes legals."
+      partners_title: Socis
+    copyright:
+      foreign:
+        title: Quant a la traducció
+        text: En cas de conflicte entre aquesta pàgina traduïda i %{english_original_link},
+          la pàgina en anglès té prioritat
+        english_link: l'original en anglès
+      native:
+        title: Sobre aquesta pàgina
+        text: Esteu veient la versió anglesa de la pàgina de drets d'autor. Podeu
+          tornar a la %{native_link} d'aquesta pàgina o podeu deixar de llegir sobre
+          el copyright i anar a %{mapping_link}.
+        native_link: versió català
+        mapping_link: Comença a cartografiar
+      legal_babble:
+        title_html: Drets d'autor i llicència
+        intro_1_html: |-
+          Les dades obertes d'OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> estan publicades sota la <a
+          href="http://opendatacommons.org/licenses/odbl/">llicència de base de dades oberta</a> (ODbL) per la <a
+          href="http://osmfoundation.org/">Fundació OpenStreetMap</a> (OSMF).
+        intro_2_html: "Sou lliure de copiar, distribuir, comunicar públicament i fer-ne
+          obres \nderivades de les nostres dades, sempre que atribuïu els crèdits
+          a \nOpenStreetMap i els seus col·laboradors. Si modifiqueu o utilitzeu les\nnostres
+          dades fer fer obres derivades, només podreu distribuir l'obra \nresultant
+          amb la mateixa llicència. Aquest \n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">text
+          legal\ncode</a> sencer que explica detalladament els vostres drets i responsabbilitats."
+        intro_3_html: |-
+          La cartografia de les nostres tessel·les i la nostra documentació són ofertes
+          sota llicència <a href="http://creativecommons.org/licenses/by-sa/2.0/">Text de la llicència de Creative Commons Reconeixement-Compartir Igual 2.0</a>(CC-BY-SA).
+        credit_title_html: Com a crèdit OpenStreetMap
+        credit_1_html: |-
+          Exigim que l'atribució de drets d'autor sigui &ldquo;&copy; Col·laboradors d'OpenStreetMap
+          &rdquo;.
+        credit_2_html: També heu de deixar clar que les dades són disponibles sota
+          llicència obereta, i si s'utilitzen les nostres tessel·les de mapes, que
+          la cartografia és llicenciada com CC-BY-SA. Podeu fer això enllaçant a <a
+          href="http://www.openstreetmap.org/copyright">aquest pàgina de copyright</a>.
+          D'altra banda, i com a requisit obligatori si voleu distribuir OSM en forma
+          de dades en brut, podeu citar i enllaçar directament a la llicència. En
+          el cas d'utilitzar suports on els enllaços d'hipertext no són possibles
+          (per exemple, obres impreses), us suggerim d'adreçar els lectors a openstreetmap.org
+          (potser indicant l'adreça completa d'OpenStreetMap), a opendatacommons.org
+          i si s'escau, a creativecommons.org.
+        credit_3_html: |-
+          En el cas d'un mapa electrònic navegable, els crèdits han d'aparèixer a la cantonada del mapa.
+          Per exemple:
+        attribution_example:
+          alt: Exemple de com atribuir OpenStreetMap a una pàgina web
+          title: Exemple d'atribució
+        more_title_html: Saber-ne més
+        more_1_html: |-
+          Llegiu més informació sobre com utilitzar les nostres dades, i com donar-ne crèdit, a la <a
+          href="http://osmfoundation.org/Licence">pàgina de llicència OSMF</a> i a les <a
+          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Preguntes
+          Freqüents sobre legalitat</a>.
+        more_2_html: Encara que les dades d'OpenStreetMap són dades obertes, no podem
+          oferir una API gratuïta per als desenvolupadors de terceres parts. Vegeu
+          la <a href="https://operations.osmfoundation.org/policies/api/">política
+          d'ús de l'API</a>, la <a href="https://operations.osmfoundation.org/policies/tiles/">política
+          d'ús de les tessel·les</a> i la <a href="https://operations.osmfoundation.org/policies/nominatim/">política
+          d'ús de Nominatim</a>.
+        contributors_title_html: Els nostres col·laboradors
+        contributors_intro_html: 'Els nostres col·laboradors són milers de persones.
+          També incloem dades amb llicència oberta de les agències públiques de cartografia
+          i d''altres fonts, entre elles:'
+        contributors_at_html: |-
+          <strong>Àustria</strong>: conté dades de
+              <a href="http://data.wien.gv.at/">Stadt Wien</a> sota
+              <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>.
+        contributors_au_html: |-
+          <strong>Austràlia</strong>: conté dades suburbi basats
+              en les dades d'Austràlia Oficina d'estadístiques.
+        contributors_ca_html: |-
+          <strong>Canadà</strong>: conté dades de
+              GeoBase ®, GeoGratis (© Departament de Natural
+              Recursos Canadà), CanVec (© Departament de Natural
+              Recursos Canadà) i StatCan (Divisió de Geografia,
+              Canadà de Estadístiques).
+        contributors_fi_html: '<strong>Finlàndia</strong>: Conté dades de la base
+          de dades topogràfica del National Land Survey of Finland i d''altres bases
+          de dades, sota la <a href="http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">llicència
+          NLSFI</a>.'
+        contributors_fr_html: |-
+          <strong>França</strong>: conté dades d'origen de
+              Direcció Générale des Impôts.
+        contributors_nl_html: '<strong>Països Baixos</strong>: Conté &copy; dades
+          d''Automotive Navigation Data (AND), 2007 (<a href="http://www.and.com">www.and.com</a>)'
+        contributors_nz_html: |-
+          <strong>Nova Zelanda</strong>: conté dades d'origen de
+              Informació Nova Zelanda de la terra. Corona de drets d'autor reservat.
+        contributors_si_html: '<strong>Eslovènia</strong>: Conté dades de l''<a href="http://www.gu.gov.si/en/">Autoritat
+          de Topografia i Cartografia</a> i el <a href="http://www.mkgp.gov.si/en/">Ministeri
+          d''Agricultura, Silvicultura i Alimentació</a> (informació pública d''Eslovènia).'
+        contributors_za_html: |-
+          <strong>Sud-àfrica</strong>: conté dades del
+          <a href="http://www.ngi.gov.za/">Chief Directorate:
+          National Geo-Spatial Information</a>, drets d'autor reservat per l'estat.
+        contributors_gb_html: |-
+          <strong>Regne Unit</strong>: conté dades del
+          Ordnance Survey &copy; Drets d'autor de la Corona i de la base de dades
+          2010-12.
+        contributors_footer_1_html: |-
+          Per a més detalls sobre aquesta i d'altres fonts que han estat utilitzades per millorar els mapes de l'OpenStreetMap, visiteu la pàgina dedicada als <a
+          href="http://wiki.openstreetmap.org/wiki/Contributors">Col·laboradors</a> del wiki d'OSM.
+        contributors_footer_2_html: |-
+          Inclusió de dades en OpenStreetMap no implica que l'original
+            el proveïdor de dades recolza OpenStreetMap, proporciona cap garantia, o
+            accepta qualsevol responsabilitat.
+        infringement_title_html: Violació dels drets d'autor
+        infringement_1_html: Recordem als col·laboradors de l'OSM que mai no s'han
+          d'afegir dades de cap font amb drets d'autor registrats (com Google Maps
+          o mapes impresos per exemple) sense tenir una autorització explícita dels
+          titulars dels drets d'autor.
+        infringement_2_html: Si penseu que hi ha material protegit per drets d'autor
+          que ha estat afegit a la base de dades d'OpenStreetMap o a aquest web, si
+          us plau aneu a la pàgina web dedicada al <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">Procediment
+          per eliminar dades protegides pels drets d'autor</a> o empleneu aquest <a
+          href="http://dmca.openstreetmap.org/">formulari en línia.</a>.
+        trademarks_title_html: <span id="trademarks"></span>Marques registrades
+        trademarks_1_html: OpenStreetMap, el logotip de la lupa i «State of the Map»
+          són marques registrades de la Fundació OpenStreetMap. Si teniu preguntes
+          sobre l’ús de les marques, consulteu la <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">política
+          de marques registrades</a>.
     index:
       js_1: Tampoc està utilitzant un navegador que no suporta JavaScript o té deshabilitat
         JavaScript.
@@ -1474,6 +1468,113 @@ ca:
       id_not_configured: iD no s'ha configurat
       no_iframe_support: El navegador no suporta iframes HTML, que són necessàries
         per a aquesta funcionalitat.
+    export:
+      title: Exportar
+      area_to_export: Àrea a exportar
+      manually_select: Selecciona manualment una àrea diferent
+      format_to_export: Format d'exportació
+      osm_xml_data: OpenStreetMap XML Data
+      map_image: Imatge de mapa (mostra una capa estàndard)
+      embeddable_html: HTML que es pot incloure
+      licence: Llicència
+      export_details: Les dades d'OpenStreetMap són publicades sota el termes de la
+        <a href="http://creativecommons.org/licenses/by-sa/2.0/">llicència Creative
+        Commons Attribution-ShareAlike 2.0</a>.
+      too_large:
+        advice: 'Si falla l''exportació anterior, si us plau, penseu a utilitzar una
+          de les fonts llistades a continuació:'
+        body: Aquesta zona és massa gran per ser exportada  com a dades XML de OpenStreetMap.
+          Si us plau seleccioneu una àrea més petita o bé una de les següents fonts
+          per descarregar quantitats grans de dades.
+        planet:
+          title: Planeta OSM
+          description: Còpies actualitzades regularment de la base de dades d'OpenStreetMap
+            al complet
+        overpass:
+          title: API Overpass
+          description: Descarrega aquest requadre des d'una rèplica de la base de
+            dades d'OpenStreetMap
+        geofabrik:
+          title: Descàrregues de Geofabrik
+          description: Extractes actualitzats regularment de continents, països i
+            de les ciutats seleccionades
+        metro:
+          title: Extractes de Metro
+          description: Extractes per a les ciutats més grans del món i les seves àrees
+            metropolitanes
+        other:
+          title: Altres fonts
+          description: Fonts addicionals llistades al wiki d'OpenStreetMap
+      options: Opcions
+      format: Format
+      scale: Escala
+      max: màx
+      image_size: Mida de la imatge
+      zoom: Zoom
+      add_marker: Afegeix un marcador en el mapa
+      latitude: 'Lat:'
+      longitude: 'Lon:'
+      output: Sortida
+      paste_html: Enganxa HTML per incloure'l al lloc web
+      export_button: Exporta
+    fixthemap:
+      title: Informeu d'un problema / Corregiu el mapa
+      how_to_help:
+        title: Com contribuir
+        join_the_community:
+          title: Afegiu-vos a la comunitat
+          explanation_html: Si heu trobat un problema amb les nostres dades del mapa,
+            com per exemple l'omissió d'una carretera o bé de la vostra adreça, la
+            millor forma d'arreglar-ho és unint-se a la comunitat d'OpenStreetMap
+            i afegir o bé corregir les dades vós mateix.
+        add_a_note:
+          instructions_html: Feu clic a <a class='icon note'></a> o a la mateixa icona
+            sobre el mapa. Això afegirà un marcador al mapa, que podeu desplaçar arrossegant-lo.
+            Afegiu el vostre missatge, deseu-lo i els altres usuaris ho investigaran.
+      other_concerns:
+        title: Altres aspectes
+        explanation_html: Si us preocupa la utilització de les nostres dades o bé
+          el contingut d'aquestes, consulteu la <a href='/copyright'>pàgina de drets
+          d'autor</a> per a més informació, o bé contacteu el <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>grup
+          de treball d'OSMF</a> corresponent.
+    help:
+      title: Obtenir ajuda
+      introduction: OpenStreetMap té multitud de recursos per conèixer aquest projecte,
+        per plantejar i respondre preguntes, i per participar en discussions col·laboratives
+        i documentar temes de cartografia.
+      welcome:
+        url: /welcome
+        title: Benvinguts a l'OSM
+        description: Comença amb aquesta guia ràpida sobre els aspectes bàsics de
+          l'OpenStreetMap.
+      beginners_guide:
+        url: http://wiki.openstreetmap.org/wiki/Ca:Beginners%27_guide
+        title: Guia per a principiants
+        description: Guia per a principiants mantinguda per la comunitat.
+      help:
+        url: https://help.openstreetmap.org/
+        title: help.openstreetmap.org
+        description: Feu una pregunta o busqueu respostes a la pàgina de preguntes
+          i respostes d'OSM.
+      mailing_lists:
+        title: Llistes de correu
+        description: Pregunta o debat sobre qüestions interessants en relació a una
+          àmplia sèrie de llistes de correu tòpiques o regionals.
+      forums:
+        title: Fòrums
+        description: Preguntes i debats, per a aquells que prefereixen l'estil de
+          la interfície d'un tauler d'anuncis.
+      irc:
+        title: IRC
+        description: Xat interactiu en llengües diferents i sobre diferents temes.
+      switch2osm:
+        title: switch2osm
+        description: Ajuda per a empreses i organitzacions que canviïn als mapes i
+          altres serveis basats en OpenStreetMap.
+      wiki:
+        url: http://wiki.openstreetmap.org/
+        title: wiki.openstreetmap.org
+        description: Navegueu per la wiki per aprofundir en la documentació d'OSM.
     sidebar:
       search_results: Resultats de la cerca
       close: Tanca
@@ -1501,7 +1602,7 @@ ca:
           cycleway_national: Via ciclista nacional
           cycleway_regional: Via ciclista regional
           cycleway_local: Via ciclista local
-          footway: Footway
+          footway: Camí de vianants
           rail: Ferrocarril
           subway: Metro
           tram:
@@ -1573,18 +1674,85 @@ ca:
       image: Imatge
       alt: Text alternatiu
       url: URL
-  trace:
+    welcome:
+      title: Benvingut!
+      introduction_html: Us donem la benvinguda a l'OpenStreetMap, el mapa lliure
+        i editable del món. Ara que ja us heu registrat, ja ho teniu tot a punt per
+        començar a editar el mapa. Aquí hi ha una guia ràpida amb les coses més importants
+        que cal saber
+      whats_on_the_map:
+        title: Què hi ha al mapa
+        on_html: L'OpenStreetMap és un lloc per incloure al mapa coses que són <em>reals
+          i normals</em>- això inclou milions d'edificis, carreteres, i altres detalls
+          sobre llocs. Pots cartografiar totes les característiques del món real que
+          et semblin interessants.
+        off_html: El que <em>no</em> inclou són dades subjectives com ara puntuacions,
+          característiques històriques o hipotètiques i dades de fonts subjectes a
+          copyright. A no ser que posseeixis un permís especial no copiïs res de mapes
+          de paper o en línia.
+      basic_terms:
+        title: Condicions bàsiques per editar el mapa
+        paragraph_1_html: l'OpenStreetMap té algunes paraules del seu propi argot.
+          Aquí hi han unes quantes paraules clau que et poden venir bé.
+        editor_html: Un <strong>editor</strong> és un programa o pàgina web que pots
+          utilitzar per editar el mapa.
+        node_html: Un <strong>node</strong> és un punt al mapa, com ara un restaurant
+          o un arbre.
+        way_html: Una <strong>via</strong> és una línia o àrea, com ara una carretera,
+          sèquia, llac o edifici.
+        tag_html: Una <strong>etiqueta</strong> és un recull de dades sobre un node
+          o una via, com ara el nom d'un restaurant o la velocitat màxima d'una carretera.
+      rules:
+        title: Regles
+        paragraph_1_html: "OpenStreetMap té poques les regles formals, pel que esperem
+          que tots els participants col·laborin i es comuniquin amb la comunitat.
+          Si està considerant\naltres activitats que no sigui l'edició manual, si
+          us plau, llegiu i seguiu les directrius d' \n<a href=\"http://wiki.openstreetmap.org/wiki/Import/Guidelines\">Importació</a>
+          i \n<a href=\"http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct\">Edició
+          Automàtica</a>."
+      questions:
+        title: Alguna pregunta més?
+        paragraph_1_html: OpenStreetMap té multitud de recursos per conèixer aquest
+          projecte, per plantejar i respondre preguntes, i per participar en discussions
+          col·laboratives i documentar temes de cartografia. <a href='%{help_url}'>Visiteu
+          l'ajuda</a>.
+      start_mapping: Comença a editar el mapa
+      add_a_note:
+        title: No tens temps per editar? Afegeix una nota!
+        paragraph_1_html: Si només voleu fer una petita modificació però no disposeu
+          del temps per registrar-vos i aprendre com editar, deixeu una nota al mapa.
+        paragraph_2_html: 'Només cal que us dirigiu al<a href=''%{map_url}''>mapa</a>
+          i cliqueu l''icona de la nota: <span class=''icon note''></span>. Això afegirà
+          un marcador al mapa que podeu moure arrossegant-lo. Afegiu el vostre missatge,
+          cliqueu el botó de desat, i altres usuaris ho investigaran.'
+  traces:
     visibility:
       private: Privat (només compartit com anònim, el punts són desordenats)
       public: Públic (mostrat en llista de traça i com anònims, desordenada punts)
       trackable: Seguiments (només compartit com punts anònims, ordenades amb timestamps)
       identifiable: Identifiable (mostrat en llista de traça i com a punts d'identificació,
         ordenades amb timestamps)
+    new:
+      upload_trace: Carrega una traça GPS
+      upload_gpx: 'Carregui l''arxiu GPX:'
+      description: 'Descripció:'
+      tags: 'Etiquetes:'
+      tags_help: separat per comes
+      visibility: 'Visibilitat:'
+      visibility_help: què significa això?
+      help: Ajuda
     create:
       upload_trace: Pujar traça de GPS
       trace_uploaded: El fitxer GPX s'ha pujat i està pendent d'inserció a la base
         de dades. Això passarà en general dins d'una mitja hora, i se us enviarà un
         correu electrònic en finalitzar.
+      traces_waiting:
+        one: Teniu %{count} traça esperant en cua per a pujar. Considereu esperar
+          a que aquesta traça acabi abans de pujar-ne més, així no blocareu la cua
+          per a altres usuaris.
+        other: Teniu %{count} traces esperant en cua per a pujar. Considereu esperar
+          a que aquestes traces acabin abans de pujar-ne més, així no blocareu la
+          cua per a altres usuaris.
     edit:
       title: Editant traça %{name}
       heading: Editant traça %{name}
@@ -1599,32 +1767,11 @@ ca:
       description: 'Descripció:'
       tags: 'Etiquetes:'
       tags_help: separat per comes
-      save_button: Desa els canvis
       visibility: 'Visibilitat:'
       visibility_help: Què vol dir això?
-    trace_form:
-      upload_gpx: 'Carregui l''arxiu GPX:'
-      description: 'Descripció:'
-      tags: 'Etiquetes:'
-      tags_help: separat per comes
-      visibility: 'Visibilitat:'
-      visibility_help: què significa això?
-      upload_button: Puja
-      help: Ajuda
-    trace_header:
-      upload_trace: Puja una traça
-      see_all_traces: Mostra totes les traces
-      see_your_traces: Mostra totes les vostres traces
-      traces_waiting:
-        one: Teniu %{count} traça esperant en cua per a pujar. Considereu esperar
-          a que aquesta traça acabi abans de pujar-ne més, així no blocareu la cua
-          per a altres usuaris.
-        other: Teniu %{count} traces esperant en cua per a pujar. Considereu esperar
-          a que aquestes traces acabin abans de pujar-ne més, així no blocareu la
-          cua per a altres usuaris.
     trace_optionals:
       tags: Etiquetes
-    view:
+    show:
       title: S'està mostrant la traça %{name}
       heading: S'està mostrant la traça %{name}
       pending: PENDENT
@@ -1639,8 +1786,8 @@ ca:
       description: 'Descripció:'
       tags: 'Etiquetes:'
       none: Ningú
-      edit_track: Edita aquesta traça
-      delete_track: Suprimeix aquesta traça
+      edit_trace: Edita aquesta traça
+      delete_trace: Suprimeix aquesta traça
       trace_not_found: No s'ha trobat la traça!
       visibility: 'Visibilitat:'
     trace_paging_nav:
@@ -1650,7 +1797,6 @@ ca:
     trace:
       pending: PENDENT
       count_points: '%{count} punts'
-      ago: fa %{time_in_words_ago}
       more: més
       trace_details: Mostra els detalls de la traça
       view_map: Visualitza el mapa
@@ -1663,15 +1809,16 @@ ca:
       by: en
       in: a
       map: mapa
-    list:
+    index:
       public_traces: Traces GPS públiques
-      your_traces: Les vostres traces GPS
       public_traces_from: Tracks GPS públics de %{user}
       description: Navega pels tracks pujats recentment
       tagged_with: ' etiquetat amb %{tags}'
       empty_html: Aquí encara no hi ha res. <a href='%{upload_link}'>Pujeu un nou
         track</a> o apreneu més sobre els tracks GPS a la <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>pàgina
         wiki</a>.
+      upload_trace: Puja una traça
+      see_all_traces: Mostra totes les traces
     delete:
       scheduled_for_deletion: Track programat per a ser suprimit
     make_public:
@@ -1693,8 +1840,6 @@ ca:
     require_cookies:
       cookies_needed: Sembla que teniu les galetes inhabilitades - habiliteu les galetes
         al navegador abans de continuar.
-    require_moderator:
-      not_a_moderator: Heu de ser un moderador per dur a terme aquesta acció
     setup_user_auth:
       blocked: El vostre accés a l'API ha estat blocat. Si us plau, connecteu-vos
         a la interfície web per obtenir més informació.
@@ -1702,7 +1847,7 @@ ca:
         a la interfície de web per veure els termes de col. laborador. Vostè no necessita
         estar d'acord, però cal veure-les.
   oauth:
-    oauthorize:
+    authorize:
       title: Autoritzar l'accés al vostre compte
       request_access: L'aplicació %{app_name} sol·licita accés al vostre compte, %{user}.
         Marqueu si voleu autoritzar l'aplicació amb les següents funcions. Podeu triar
@@ -1716,11 +1861,11 @@ ca:
       allow_write_gpx: carregar traces GPS.
       allow_write_notes: modificar les notes.
       grant_access: Concedeix accés
-    oauthorize_success:
+    authorize_success:
       title: Sol·licitud d'autorització permesa
       allowed: Heu permès que l'aplicació %{app_name} accedeixi al vostre compte.
       verification: El codi de verificació és %{code}.
-    oauthorize_failure:
+    authorize_failure:
       title: Sol·licitud d'autorització errònia
       denied: Heu denegat que l'aplicació %{app_name} accedeixi al vostre compte.
       invalid: El testimoni d’autorització no és vàlid.
@@ -1729,15 +1874,13 @@ ca:
   oauth_clients:
     new:
       title: Registrar-se una nova aplicació
-      submit: Registre
     edit:
       title: Editar la vostra aplicació
-      submit: Modificació
     show:
       title: OAuth detalls per %{app_name}
       key: 'Clau de consum:'
       secret: 'Secret de consum:'
-      url: 'Sol·licitud Token URL:'
+      url: 'URL del testimoni de la sol·licitud:'
       access_url: 'Accés Fitxa URL:'
       authorize_url: 'Autoritza URL:'
       support_notice: Suportem les signatures de tipus HMAC-SHA1 (recomanat) i RSA-SHA1.
@@ -1787,7 +1930,7 @@ ca:
       flash: La informació de client ha actualitzat correctament
     destroy:
       flash: S'ha destruït el registre de l'aplicació client
-  user:
+  users:
     login:
       title: Accés
       heading: Accés
@@ -1900,17 +2043,14 @@ ca:
         col. laborador. Per a més informació, si us plau vegi <a href="%{url}">aquesta
         pàgina de wiki</a>.
     terms:
-      title: 'Termes de col·laboració:'
-      heading: 'Termes de col·laboració:'
-      read and accept: Llegeiu l'acord de sota i premeu el botó D'acord per confirmar
-        que accepteu els termes d'aquest acord per a les vostres contribucions existents
-        i futures.
+      title: Termes
+      heading: Termes
       consider_pd: A més de l'acord de dalt, considero que les meves contribucions
         han d'estar en el domini públic
       consider_pd_why: què és això?
       guidance: 'Informació per ajudar a entendre aquestes condicions: un <a href="%{summary}">resum
         llegible humà</a> i algunes <a href="%{translations}">traduccions informals</a>'
-      agree: D'acord
+      continue: Continua
       decline: Ho rebutjo
       you need to accept or decline: Llegiu i després accepteu o rebutgeu els termes
         per a nous col·laboradors per continuar.
@@ -1925,7 +2065,7 @@ ca:
       body: No hi ha cap usuari amb el nom %{user}. Comproveu l'ortografia, o potser
         l'enllaç on heu fet clic és incorrecte.
       deleted: esborrat
-    view:
+    show:
       my diary: El meu diari
       new diary entry: Nova entrada del diari
       my edits: Les meves edicions
@@ -1946,11 +2086,9 @@ ca:
       remove as friend: Deixa l'amistat
       add as friend: Afegeix com a amic
       mapper since: 'Cartografiant des de:'
-      ago: (fa %{time_in_words_ago})
       ct status: 'Termes del col·laborador:'
       ct undecided: No decidit
       ct declined: Declinats
-      ct accepted: Acceptada fa %{ago}
       latest edit: 'Última edició %{ago}:'
       email address: 'Adreça de correu:'
       created from: 'Creat a partir de:'
@@ -1961,7 +2099,7 @@ ca:
       if set location: Podeu configurar la vostra ubicació a la pàgina %{settings_link}
         per veure els usuaris propers a vostè.
       settings_link_text: preferències
-      your friends: Els vostres amics
+      my friends: Les meves amistats
       no friends: No has afegit cap amics encara.
       km away: '%{count}km de distància'
       m away: '%{count}m de distància'
@@ -2104,9 +2242,7 @@ ca:
       button: Suprimeix dels amics
       success: '%{name} s''ha suprimit dels teus amics.'
       not_a_friend: '%{name} no és un dels seus amics.'
-    filter:
-      not_an_administrator: Cal que sigueu administrador per dur a terme aquesta acció.
-    list:
+    index:
       title: Usuaris
       heading: Usuaris
       showing:
@@ -2146,8 +2282,6 @@ ca:
         utilitzant el vostre nom d'usuari i contrasenya i, a continuació associar el compte amb el ID a la configuració d'usuari.
   user_role:
     filter:
-      not_an_administrator: Només els administradors poden realitzar l'administració
-        de rols de usuaris, i vosté no és un administrador.
       not_a_role: La cadena `%{role}' no és un rol vàlid.
       already_has_role: L'usuari ja té un rol %{role}.
       doesnt_have_role: L'usuari no té el rol %{role}.
@@ -2165,7 +2299,7 @@ ca:
       confirm: Confirma
       fail: No s'ha pogut revocar el paper "%{role}" des de l'usuari "%{name}". Si
         us plau, comproveu que l'usuari i el paper són vàlids.
-  user_block:
+  user_blocks:
     model:
       non_moderator_update: Ha de ser un moderador per crear o un bloc d'actualització.
       non_moderator_revoke: Ha de ser un moderador per crear o un bloc d'actualització.
@@ -2181,7 +2315,6 @@ ca:
         en compte que no tots els usuaris comprenen l'argot de la comunitat, així
         que intenteu utilitzar termes de comuns.
       period: Quant de temps, a partir d'ara, l'usuari es bloca des de l'API.
-      submit: Crear bloc
       tried_contacting: Em vaig posar en contacte amb l'usuari i li vaig demanar que
         s'aturés.
       tried_waiting: Li he donat una quantitat raonable de temps a l'usuari per a
@@ -2196,7 +2329,6 @@ ca:
         sobre la situació. Tingueu en compte que no tots els usuaris comprenen l'argot
         de la comunitat, així que si us plau, intenteu utilitzar termes comuns.
       period: Quant de temps, a partir d'ara, l'usuari tindrà blocat l'accés a l'API.
-      submit: Bloc d'Actualització
       show: Mostra el bloc
       back: Mostra tots els blocs
       needs_view: L'usuari necessita connectar-se abans que aquest blocatge es suprimeixi?
@@ -2225,27 +2357,26 @@ ca:
       confirm: Esteu segur que voleu revocar aquest bloc?
       revoke: Revoca!
       flash: Aquest bloc ha estat revocat.
-    period:
-      one: 1 hora
-      other: '%{count} hores'
-    partial:
-      show: Mostra
-      edit: Modifica
-      revoke: Revoca!
-      confirm: N'esteu segur?
-      display_name: S'ha blocat l'usuari
-      creator_name: Creador
-      reason: Motiu del blocatge
-      status: Estat
-      revoker_name: Revocat per
-      not_revoked: (no revocat)
-      showing_page: Pàgina %{page}
-      next: Endavant »
-      previous: « Enrere
     helper:
       time_future: Finalitza en %{time}.
       until_login: Activa fins que l'usuari es connecta.
       time_past: Va acabar fa %{time}.
+      block_duration:
+        hours:
+          one: 1 hora
+          other: '%{count} hores'
+        days:
+          one: 1 dia
+          other: '%{count} dies'
+        weeks:
+          one: 1 setmana
+          other: '%{count} setmanes'
+        months:
+          one: 1 mes
+          other: '%{count} mesos'
+        years:
+          one: 1 any
+          other: '%{count} anys'
     blocks_on:
       title: Blocs en %{name}
       heading: Llista de quadres a %{name}
@@ -2257,10 +2388,7 @@ ca:
     show:
       title: '%{block_on} blocat per %{block_by}'
       heading: '%{block_on} blocat per %{block_by}'
-      time_future: Finalitza en %{time}
-      time_past: Va acabar fa %{time}
       created: Creat
-      ago: fa %{time}
       status: Estat
       show: Mostra
       edit: Edició
@@ -2270,38 +2398,30 @@ ca:
       back: Mostra tots els blocs
       revoker: 'Revoker:'
       needs_view: L'usuari ha d'iniciar una sessió abans que es netegi el bloc.
-  note:
-    description:
-      opened_at_html: Creat fa %{when}
-      opened_at_by_html: Creat fa %{when} per %{user}
-      commented_at_html: Actualitzat fa %{when}
-      commented_at_by_html: Actualitzat fa %{when} per %{user}
-      closed_at_html: Resolt fa %{when}
-      closed_at_by_html: Resolt fa %{when} per %{user}
-      reopened_at_html: Reactivat fa %{when}
-      reopened_at_by_html: Reactivat fa %{when} per %{user}
-    rss:
-      title: Notes de OpenStreetMap
-      description_area: Una llista de notes, reportades, comentades o bé tancades
-        a la vostra àrea [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-      description_item: Un canal rss per la nota %{id}
-      opened: Nota nova (a prop %{place})
-      commented: nou comentari (prop de %{place})
-      closed: nota tancada (aprop de %{place})
-      reopened: Nota reactivada (prop de %{place})
-    entry:
-      comment: Comentari
-      full: Nota sencera
+    block:
+      not_revoked: (no revocat)
+      show: Mostra
+      edit: Modifica
+      revoke: Revoca!
+    blocks:
+      display_name: S'ha blocat l'usuari
+      creator_name: Creador
+      reason: Motiu del blocatge
+      status: Estat
+      revoker_name: Revocat per
+      showing_page: Pàgina %{page}
+      next: Endavant »
+      previous: « Enrere
+  notes:
     mine:
       title: Notes enviades o comentades per %{user}
       heading: notes de %{user}
-      subheading: Notes enviades o comentades per %{user}
+      subheading_html: Notes enviades o comentades per %{user}
       id: Id
       creator: Creador
       description: Descripció
       created_at: Creat a
       last_changed: Últim canvi
-      ago_html: fa %{when}
   javascripts:
     close: Tanca
     share:
@@ -2339,15 +2459,15 @@ ca:
         popup: Esteu a {distance} {unit} d'aquest punt
       base:
         standard: Estàndard
-        cycle_map: Cycle Map
+        cycle_map: Mapa ciclista
         transport_map: Mapa de transports
-        hot: Humanitarian
+        hot: Humanitari
       layers:
         header: Capes del mapa
         notes: Notes de mapa
         data: Dades del mapa
         gps: Traces GPS públiques
-        overlays: Activar capes extra per als problemes del mapa
+        overlays: Activa capes extra per als problemes del mapa
         title: Capes del mapa
       copyright: © <a href='%{copyright_url}'>Col·laboradors d'OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Feu un donatiu</a>
@@ -2388,17 +2508,14 @@ ca:
       continuació, feu clic aquí.
     directions:
       engines:
+        fossgis_osrm_car: Cotxe (OSRM)
         graphhopper_bicycle: Bicicleta  (GraphHopper)
         graphhopper_foot: A peu (GraphHopper)
-        mapquest_bicycle: Bicicleta (MapQuest)
-        mapquest_car: Cotxe (MapQuest)
-        mapquest_foot: A peu (MapQuest)
-        osrm_car: Cotxe (OSRM)
       directions: Indicacions
       distance: Distància
       errors:
         no_route: No s'ha pogut establir una ruta entre aquests dos punts.
-        no_place: No hem pogut trobar aquest lloc – Ens sap greu.
+        no_place: No hem pogut trobar «%{place}».
       instructions:
         continue_without_exit: Continuar a %{name}
         slight_right_without_exit: Gira lleugerament a la dreta a %{name}
@@ -2415,6 +2532,8 @@ ca:
         turn_left_without_exit: Gira a l'esquerra per %{name}
         offramp_left_with_name: Agafeu el carril de l'esquerra a %{name}
         onramp_left_without_exit: Gireu a l'esquerra al carril a %{name}
+        onramp_left_without_directions: Gireu a l'esquerra a la rampa
+        onramp_left: Gireu a l'esquerra a la rampa
         endofroad_left_without_exit: Al final de la carretera gireu a l'esquerra a
           %{name}
         merge_left_without_exit: Incorporeu-vos a l'esquerra a %{name}
@@ -2422,21 +2541,30 @@ ca:
         slight_left_without_exit: Gira lleugerament a l'esquerra a %{name}
         via_point_without_exit: (pel punt)
         follow_without_exit: Segueix %{name}
-        roundabout_without_exit: A la rotonda agafa %{name}
+        roundabout_without_exit: A la rotonda agafeu la sortida cap a %{name}
         leave_roundabout_without_exit: Surt de la rotonda %{name}
         stay_roundabout_without_exit: Segueix a la rotonda - %{name}
-        start_without_exit: Comença al final de %{name}
+        start_without_exit: Comença a %{name}
         destination_without_exit: Arriba a la destinació.
         against_oneway_without_exit: Anar en contra-direcció a %{name}
         end_oneway_without_exit: Fi del sentit únic a %{name}
         roundabout_with_exit: A la rotonda, agafar la sortida %{exit} a %{name}
-        turn_left_with_exit: A la rotonda gireu a l'esquerra cap a %{name}
-        slight_left_with_exit: A la rotonda gireu lleument a l'esquerra cap a %{name}
-        turn_right_with_exit: A la rotonda gireu a la dreta cap a %{name}
-        slight_right_with_exit: A la rotonda gireu lleument a la dreta cap a %{name}
-        continue_with_exit: A la rotonda continueu endavant cap a %{name}
+        roundabout_with_exit_ordinal: A la rotonda agafeu la sortida %{exit} cap a
+          %{name}
+        exit_roundabout: Sortiu la rotonda cap a %{name}
         unnamed: sense nom
         courtesy: Direccions cortesia de %{link}
+        exit_counts:
+          first: 1a
+          second: 2a
+          third: 3a
+          fourth: 4a
+          fifth: 5a
+          sixth: 6a
+          seventh: 7a
+          eighth: 8a
+          ninth: 9a
+          tenth: 10a
       time: Temps
     query:
       node: Node
@@ -2452,11 +2580,10 @@ ca:
       show_address: Mostra l'adreça
       query_features: Consulta les funcionalitats
       centre_map: Centra el mapa aquí
-  redaction:
+  redactions:
     edit:
       description: Descripció
       heading: Modifica la redacció
-      submit: Desa la redacció
       title: Modifica la redacció
     index:
       empty: No hi ha redaccions a mostrar.
@@ -2465,7 +2592,6 @@ ca:
     new:
       description: Descripció
       heading: Introduïu informació per una nova redacció
-      submit: Crea una redacció
       title: Creació d’una versió nova
     show:
       description: 'Descripció:'
@@ -2484,4 +2610,9 @@ ca:
         pertanyen a aquesta redacció abans de destruir-la.
       flash: Redacció suprimida
       error: Ha hagut un error en suprimir aquesta redacció.
+  validations:
+    leading_whitespace: té un espai en blanc davant
+    trailing_whitespace: té un espai en blanc al final
+    invalid_characters: conté caràcters no vàlids
+    url_characters: conté caràcters URL especials (%{characters})
 ...

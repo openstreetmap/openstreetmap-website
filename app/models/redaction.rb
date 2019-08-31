@@ -7,7 +7,7 @@
 #  description        :text
 #  created_at         :datetime
 #  updated_at         :datetime
-#  user_id            :integer          not null
+#  user_id            :bigint(8)        not null
 #  description_format :enum             default("markdown"), not null
 #
 # Foreign Keys
@@ -31,7 +31,8 @@ class Redaction < ActiveRecord::Base
   has_many :old_ways
   has_many :old_relations
 
-  validates :description, :presence => true
+  validates :title, :presence => true, :characters => true
+  validates :description, :presence => true, :characters => true
   validates :description_format, :inclusion => { :in => %w[text html markdown] }
 
   # this method overrides the AR default to provide the rich

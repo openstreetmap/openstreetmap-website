@@ -1,6 +1,6 @@
 require "migrate"
 
-class PopulateNodeTagsAndRemove < ActiveRecord::Migration[5.0]
+class PopulateNodeTagsAndRemove < ActiveRecord::Migration[4.2]
   def self.up
     have_nodes = select_value("SELECT count(*) FROM current_nodes").to_i.nonzero?
 
@@ -38,8 +38,8 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration[5.0]
     create_table :node_tags, :id => false do |t|
       t.column :id,          :bigint, :null => false
       t.column :version,     :bigint, :null => false
-      t.column :k,	     :string, :default => "", :null => false
-      t.column :v,	     :string, :default => "", :null => false
+      t.column :k,           :string, :default => "", :null => false
+      t.column :v,           :string, :default => "", :null => false
     end
 
     # now get the data back

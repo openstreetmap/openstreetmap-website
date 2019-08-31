@@ -3,8 +3,8 @@
 # Table name: changeset_comments
 #
 #  id           :integer          not null, primary key
-#  changeset_id :integer          not null
-#  author_id    :integer          not null
+#  changeset_id :bigint(8)        not null
+#  author_id    :bigint(8)        not null
 #  body         :text             not null
 #  created_at   :datetime         not null
 #  visible      :boolean          not null
@@ -24,11 +24,11 @@ class ChangesetComment < ActiveRecord::Base
   belongs_to :author, :class_name => "User"
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :changeset, :presence => true, :associated => true
   validates :author, :presence => true, :associated => true
   validates :visible, :inclusion => [true, false]
-  validates :body, :format => /\A[^\x00-\x08\x0b-\x0c\x0e-\x1f\x7f\ufffe\uffff]*\z/
+  validates :body, :characters => true
 
   # Return the comment text
   def body

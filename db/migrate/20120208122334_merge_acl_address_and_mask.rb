@@ -10,7 +10,10 @@ class IPAddr
   end
 end
 
-class MergeAclAddressAndMask < ActiveRecord::Migration[5.0]
+class MergeAclAddressAndMask < ActiveRecord::Migration[4.2]
+  class Acl < ActiveRecord::Base
+  end
+
   def up
     Acl.find_each do |acl|
       address = IPAddr.new(acl.address)

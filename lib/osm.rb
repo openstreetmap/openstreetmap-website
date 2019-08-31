@@ -494,29 +494,35 @@ module OSM
       doc = XML::Document.new
       doc.encoding = XML::Encoding::UTF_8
       root = XML::Node.new "osm"
-      root["version"] = API_VERSION.to_s
-      root["generator"] = GENERATOR
-      root["copyright"] = COPYRIGHT_OWNER
-      root["attribution"] = ATTRIBUTION_URL
-      root["license"] = LICENSE_URL
+      xml_root_attributes.each do |k, v|
+        root[k] = v
+      end
       doc.root = root
       doc
+    end
+
+    def xml_root_attributes
+      { "version" => Settings.api_version,
+        "generator" => Settings.generator,
+        "copyright" => Settings.copyright_owner,
+        "attribution" => Settings.attribution_url,
+        "license" => Settings.license_url }
     end
   end
 
   def self.ip_to_country(ip_address)
-    ipinfo = geoip_database.country(ip_address) if defined?(GEOIP_DATABASE)
+    ipinfo = geoip_database.country(ip_address) if Settings.key?(:geoip_database)
 
     if ipinfo
       country = ipinfo.country_code2
     else
-      country = http_client.get("http://api.hostip.info/country.php?ip=#{ip_address}").body
+      country = http_client.get("https://api.hostip.info/country.php?ip=#{ip_address}").body
       country = "GB" if country == "UK"
     end
 
-    return country
+    country
   rescue StandardError
-    return nil
+    nil
   end
 
   def self.ip_location(ip_address)
@@ -560,7 +566,7 @@ module OSM
   # Return the terms and conditions text for a given country
   def self.legal_text_for_country(country_code)
     file_name = Rails.root.join("config", "legales", country_code.to_s + ".yml")
-    file_name = Rails.root.join("config", "legales", DEFAULT_LEGALE + ".yml") unless File.exist? file_name
+    file_name = Rails.root.join("config", "legales", Settings.default_legale + ".yml") unless File.exist? file_name
     YAML.load_file(file_name)
   end
 
@@ -571,6 +577,6 @@ module OSM
 
   # Return the GeoIP database handle
   def self.geoip_database
-    @geoip_database ||= GeoIP.new(GEOIP_DATABASE) if defined?(GEOIP_DATABASE)
+    @geoip_database ||= GeoIP.new(Settings.geoip_database) if Settings.key?(:geoip_database)
   end
 end

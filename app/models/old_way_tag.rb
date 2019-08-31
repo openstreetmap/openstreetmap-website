@@ -2,10 +2,10 @@
 #
 # Table name: way_tags
 #
-#  way_id  :integer          default(0), not null, primary key
+#  way_id  :bigint(8)        default(0), not null, primary key
 #  k       :string           not null, primary key
 #  v       :string           not null
-#  version :integer          not null, primary key
+#  version :bigint(8)        not null, primary key
 #
 # Foreign Keys
 #
@@ -19,6 +19,6 @@ class OldWayTag < ActiveRecord::Base
   belongs_to :old_way, :foreign_key => [:way_id, :version]
 
   validates :old_way, :presence => true, :associated => true
-  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
+  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }, :characters => true
   validates :k, :uniqueness => { :scope => [:way_id, :version] }
 end

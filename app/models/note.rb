@@ -2,10 +2,10 @@
 #
 # Table name: notes
 #
-#  id         :integer          not null, primary key
+#  id         :bigint(8)        not null, primary key
 #  latitude   :integer          not null
 #  longitude  :integer          not null
-#  tile       :integer          not null
+#  tile       :bigint(8)        not null
 #  updated_at :datetime         not null
 #  created_at :datetime         not null
 #  status     :enum             not null
@@ -21,18 +21,18 @@
 class Note < ActiveRecord::Base
   include GeoRecord
 
-  has_many :comments, -> { where(:visible => true).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
+  has_many :comments, -> { left_joins(:author).where(:visible => true, :users => { :status => [nil, "active", "confirmed"] }).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :latitude, :longitude, :numericality => { :only_integer => true }
   validates :closed_at, :presence => true, :if => proc { :status == "closed" }
   validates :status, :inclusion => %w[open closed hidden]
 
   validate :validate_position
 
-  scope :visible, -> { where("status != 'hidden'") }
-  scope :invisible, -> { where("status = 'hidden'") }
+  scope :visible, -> { where.not(:status => "hidden") }
+  scope :invisible, -> { where(:status => "hidden") }
 
   after_initialize :set_defaults
 

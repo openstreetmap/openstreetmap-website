@@ -1,25 +1,11 @@
 require "test_helper"
-require "digest"
+require "gpx"
 require "minitest/mock"
 
 class TraceTest < ActiveSupport::TestCase
-  def setup
-    @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
-    Object.const_set("GPX_TRACE_DIR", Rails.root.join("test", "gpx", "traces"))
-
-    @gpx_image_dir = Object.send("remove_const", "GPX_IMAGE_DIR")
-    Object.const_set("GPX_IMAGE_DIR", Rails.root.join("test", "gpx", "images"))
-  end
-
   def teardown
-    File.unlink(*Dir.glob(File.join(GPX_TRACE_DIR, "*.gpx")))
-    File.unlink(*Dir.glob(File.join(GPX_IMAGE_DIR, "*.gif")))
-
-    Object.send("remove_const", "GPX_TRACE_DIR")
-    Object.const_set("GPX_TRACE_DIR", @gpx_trace_dir)
-
-    Object.send("remove_const", "GPX_IMAGE_DIR")
-    Object.const_set("GPX_IMAGE_DIR", @gpx_image_dir)
+    File.unlink(*Dir.glob(File.join(Settings.gpx_trace_dir, "*.gpx")))
+    File.unlink(*Dir.glob(File.join(Settings.gpx_image_dir, "*.gif")))
   end
 
   def test_visible
@@ -161,13 +147,13 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_xml_file
     check_xml_file("a", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("b", "66179ca44f1e93d8df62e2b88cbea732")
+    check_xml_file("b", "db4cb5ed2d7d2b627b3b504296c4f701")
     check_xml_file("c", "848caa72f2f456d1bd6a0fdf228aa1b9")
     check_xml_file("d", "abd6675fdf3024a84fc0a1deac147c0d")
-    check_xml_file("f", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("g", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("h", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("i", "848caa72f2f456d1bd6a0fdf228aa1b9")
+    check_xml_file("f", "a7c05d676c77dc14369c21be216a3713")
+    check_xml_file("g", "a7c05d676c77dc14369c21be216a3713")
+    check_xml_file("h", "a7c05d676c77dc14369c21be216a3713")
+    check_xml_file("i", "a7c05d676c77dc14369c21be216a3713")
   end
 
   def test_large_picture
@@ -192,6 +178,168 @@ class TraceTest < ActiveSupport::TestCase
     trace.destroy
   end
 
+  # When testing the trace.import method, care needs to be taken regarding the icon
+  # fixture files, since the fixtures could be overwritten by newly generated files.
+  # We use FakeFS to temporarily protect the real fixture files from being overwritten.
+
+  def test_import_removes_previous_tracepoints
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "a")
+      # Tracepoints don't have a primary key, so we use a specific latitude to
+      # check for successful deletion
+      create(:tracepoint, :latitude => 54321, :trace => trace)
+      assert_equal 1, Tracepoint.where(:latitude => 54321).count
+
+      trace.import
+
+      assert_equal 0, Tracepoint.where(:latitude => 54321).count
+    end
+  end
+
+  def test_import_creates_tracepoints
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "a")
+      assert_equal 0, Tracepoint.where(:gpx_id => trace.id).count
+
+      trace.import
+
+      trace.reload
+      assert_equal 1, Tracepoint.where(:gpx_id => trace.id).count
+
+      # Check that the tile has been set prior to the bulk import
+      # i.e. that the callbacks have been run correctly
+      assert_equal 3221331576, Tracepoint.where(:gpx_id => trace.id).first.tile
+    end
+  end
+
+  def test_import_creates_icon
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "a")
+      icon_path = File.join(Settings.gpx_image_dir, "#{trace.id}_icon.gif")
+      FileUtils.rm(icon_path)
+      assert_equal false, File.exist?(icon_path)
+
+      trace.import
+
+      assert_equal true, File.exist?(icon_path)
+    end
+  end
+
+  def test_import_creates_large_picture
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "a")
+      large_picture_path = File.join(Settings.gpx_image_dir, "#{trace.id}.gif")
+      FileUtils.rm(large_picture_path)
+      assert_equal false, File.exist?(large_picture_path)
+
+      trace.import
+
+      assert_equal true, File.exist?(large_picture_path)
+    end
+  end
+
+  def test_import_handles_bz2
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "c")
+
+      trace.import
+
+      assert_equal 1, trace.size
+    end
+  end
+
+  def test_import_handles_plain
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "a")
+
+      trace.import
+
+      assert_equal 1, trace.size
+    end
+  end
+
+  def test_import_handles_plain_with_bom
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "b")
+
+      trace.import
+
+      assert_equal 1, trace.size
+    end
+  end
+
+  def test_import_handles_gz
+    trace = create(:trace, :fixture => "d")
+
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace.import
+
+      assert_equal 1, trace.size
+    ensure
+      trace.destroy
+    end
+  end
+
+  def test_import_handles_zip
+    trace = create(:trace, :fixture => "f")
+
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace.import
+
+      assert_equal 2, trace.size
+    ensure
+      trace.destroy
+    end
+  end
+
+  def test_import_handles_tar
+    trace = create(:trace, :fixture => "g")
+
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace.import
+
+      assert_equal 2, trace.size
+    ensure
+      trace.destroy
+    end
+  end
+
+  def test_import_handles_tar_gz
+    trace = create(:trace, :fixture => "h")
+
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace.import
+
+      assert_equal 2, trace.size
+    ensure
+      trace.destroy
+    end
+  end
+
+  def test_import_handles_tar_bz2
+    trace = create(:trace, :fixture => "i")
+
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace.import
+
+      assert_equal 2, trace.size
+    ensure
+      trace.destroy
+    end
+  end
+
   private
 
   def check_query(query, traces)
@@ -212,8 +360,7 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def trace_valid(attrs, result = true)
-    entry = build(:trace)
-    entry.assign_attributes(attrs)
+    entry = build(:trace, attrs)
     assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
   end
 

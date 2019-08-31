@@ -1,8 +1,0 @@
-<tr id="inbox-<%= message_summary.id %>" class="inbox-row<%= "-unread" if not message_summary.message_read? %>">
-  <td class="inbox-sender"><%= link_to h(message_summary.sender.display_name), :controller => 'user', :action => 'view', :display_name => message_summary.sender.display_name %></td>
-  <td class="inbox-subject"><%= link_to h(message_summary.title), :controller => 'message', :action => 'read', :message_id => message_summary.id  %></td>
-  <td class="inbox-sent"><%= l message_summary.sent_on, :format => :friendly %></td>
-  <td class="inbox-mark-unread"><%= button_to t('message.message_summary.unread_button'), {:controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'unread'}, { :remote => true } %></td>
-  <td class="inbox-mark-read"><%= button_to t('message.message_summary.read_button'), {:controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'read'}, { :remote => true } %></td>
-  <td class="inbox-delete"><%= button_to t('message.message_summary.delete_button'), {:controller => 'message', :action => 'delete', :message_id => message_summary.id, :referer => request.fullpath}, { :remote => true } %></td>
-</tr>

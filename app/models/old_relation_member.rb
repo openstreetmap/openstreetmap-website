@@ -2,11 +2,11 @@
 #
 # Table name: relation_members
 #
-#  relation_id :integer          default(0), not null, primary key
+#  relation_id :bigint(8)        default(0), not null, primary key
 #  member_type :enum             not null
-#  member_id   :integer          not null
+#  member_id   :bigint(8)        not null
 #  member_role :string           not null
-#  version     :integer          default(0), not null, primary key
+#  version     :bigint(8)        default(0), not null, primary key
 #  sequence_id :integer          default(0), not null, primary key
 #
 # Indexes

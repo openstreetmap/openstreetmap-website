@@ -1,6 +1,7 @@
 # Messages for Khmer (ភាសាខ្មែរ)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Sovichet
 # Author: គីមស៊្រុន
 # Author: វ័ណថារិទ្ធ
@@ -9,6 +10,20 @@ km:
   time:
     formats:
       friendly: ថ្ងៃ%e ខែ%B ឆ្នាំ%Y នៅម៉ោង %H:%M
+  helpers:
+    submit:
+      diary_comment:
+        create: រក្សាទុក​
+      diary_entry:
+        create: បោះផ្សាយ
+      message:
+        create: ផ្ញើ​
+      client_application:
+        create: ចុះឈ្មោះ​
+        update: កែប្រែ​
+      trace:
+        create: ផ្ទុកឡើង​
+        update: រក្សាទុក​បន្លាស់ប្តូរនានា​
   activerecord:
     models:
       changeset: សំណុំបន្លាស់ប្តូរ​
@@ -68,7 +83,7 @@ km:
         display_name: ​​ឈ្មោះអេក្រង់ (Display name)
         description: បរិយាយ​
         languages: ភាសា​
-        pass_crypt: លេខ​សម្ងាត់​
+        pass_crypt: ពាក្យ​សម្ងាត់
   browse:
     created: បាន​បង្កើត​
     closed: បាន​បិទ
@@ -78,6 +93,7 @@ km:
     deleted_by_html: បានលុបចោល <abbr title='%{title}'>%{time} មុន</abbr> ដោយ %{user}
     edited_by_html: បានកែប្រែ <abbr title='%{title}'>%{time} មុន</abbr> ដោយ %{user}
     closed_by_html: បានបិទ <abbr title='%{title}'>%{time} មុន</abbr> ដោយ %{user}
+    version: កំណែ
     in_changeset: សំណុំបន្លាស់ប្ដូរ
     anonymous: អនាមិក
     no_comment: (គ្មានមតិយោបល់)
@@ -87,7 +103,7 @@ km:
     view_details: មើលព័ត៌មានលម្អិត​
     location: ទីតាំង​៖​
     changeset:
-      title: 'សំនុំ​បំលាស់ប្តូរ​: %{id}'
+      title: សំណុំបន្លាស់ប្ដូរ៖ %{id}
       belongs_to: អ្នក​បង្កើត
       node: ខ្នែងចំនួន (%{count})
       node_paginated: ខ្នែងចំនួន (%{x}-%{y} ក្នុងចំណោម %{count})
@@ -95,10 +111,13 @@ km:
       way_paginated: ផ្លូវចំនួន (%{x}-%{y} ក្នុងចំណោម %{count})
       relation: ទំនាក់ទំនងចំនួន (%{count})
       relation_paginated: ទំនាក់ទំនងចំនួន (%{x}-%{y} ក្នុងចំណោម %{count})
-      changesetxml: សំនុំ​បំលាស់ប្តូរ​ XML
+      comment: មតិយោបល់ (%{count})
+      changesetxml: សំណុំបន្លាស់ប្ដូរ​ XML
       feed:
-        title: សំនុំ​បំលាស់ប្តូរ​ %{id}
-        title_comment: សំនុំ​បំលាស់ប្តូរ​ %{id} - %{comment}
+        title: សំណុំបន្លាស់ប្ដូរ​ %{id}
+        title_comment: សំណុំបន្លាស់ប្តូរ​ %{id} - %{comment}
+      join_discussion: កត់ឈ្មោះចូលដើម្បីចូលរួមពិភាក្សា
+      discussion: ការពិភាក្សា
     node:
       title: ខ្នែង៖ %{name}
       history_title: ប្រវត្តិខ្នែង៖ %{name}
@@ -144,13 +163,13 @@ km:
     note:
       title: កំណត់សម្គាល់៖ %{id}
       new_note: កំណត់សម្គាល់ថ្មី
-      description: បរិយាយ​៖
+      description: ការពិពណ៌នា
       open_by: បង្កើតដោយ %{user} <abbr title='%{exact_time}'>%{when} មុន</abbr>
       open_by_anonymous: បង្កើតឡើងដោយជនអនាមិក <abbr title='%{exact_time}'>%{when}
         មុន</abbr>
       commented_by: មតិពី %{user} <abbr title='%{exact_time}'>%{when} មុន</abbr>
       commented_by_anonymous: មតិពីជនអនាមិក <abbr title='%{exact_time}'>%{when} មុន</abbr>
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: ទំព័រ %{page}
       next: បន្ទាប់ »
@@ -158,29 +177,37 @@ km:
     changeset:
       anonymous: អនាមិក
       no_edits: (គ្មានកំណែប្រែ​)
-      view_changeset_details: មើលព័ត៌មានលម្អិតនៃសំនុំ​បំលាស់ប្តូរ​
+      view_changeset_details: មើលព័ត៌មានលម្អិតរបស់សំណុំបន្លាស់ប្តូរ​
     changesets:
-      id: ID
+      id: អត្តលេខ
       saved_at: បានរក្សាទុក​នៅ​
       user: អ្នកប្រើប្រាស់​
       comment: មតិយោបល់​
       area: តំបន់
-    list:
-      title: សំនុំ​បំលាស់ប្តូរ​
-      title_user: សំនុំ​បំលាស់ប្តូរ​ ដោយ %{user}
-      title_friend: សំណុំបន្លាស់ប្ដូរដោយមិត្តភក្ដិរបស់អ្នក
-      title_nearby: សំណុំបន្លាស់ប្ដូរដោយអ្នកប្រើប្រាស់ក្បែរៗអ្នក
-      empty: រកមិនឃើញសំណុំបន្លាស់ប្ដូរ។
+    index:
+      title: សំណុំបន្លាស់ប្ដូរ
+      title_user: សំណុំបន្លាស់ប្ដូរធ្វើដោយ %{user}
+      title_friend: សំណុំបន្លាស់ប្ដូរធ្វើដោយមិត្តភក្ដិខ្ញុំ
+      title_nearby: សំណុំបន្លាស់ប្ដូរធ្វើដោយអ្នកប្រើប្រាស់ក្បែរៗអ្នក
+      empty: រកមិនឃើញសំណុំបន្លាស់ប្ដូរទេ។
       empty_area: គ្មានសំណុំបន្លាស់ប្ដូរនៅក្នុងតំបន់នេះទេ។
-      empty_user: គ្មានសំណុំបន្លាស់ប្ដូរដោយអ្នកប្រើប្រាស់នេះទេ។
+      empty_user: គ្មានសំណុំបន្លាស់ប្ដូរធ្វើដោយអ្នកប្រើប្រាស់នេះទេ។
       no_more: រកមិនឃើញសំណុំបន្លាស់ប្ដូរថែមទៀតទេ។
       no_more_area: គ្មានសំណុំបន្លាស់ប្ដូរថែមទៀតទេក្នុងតំបន់នេះ។
       no_more_user: គ្មានសំណុំបន្លាស់ប្ដូរដោយអ្នកប្រើប្រាស់នេះថែមទៀតទេ។
       load_more: ផ្ទុកបន្ថែម
-  diary_entry:
+  diary_entries:
     new:
       title: ប្រកាសកំណត់ហេតុថ្មី
-    list:
+    form:
+      subject: ប្រធានបទ​៖
+      body: តួ​សេចក្ដី​៖
+      language: ភាសា​៖
+      location: ទីតាំង​៖
+      latitude: រយៈកម្ពស់៖
+      longitude: រយៈបណ្តោយ៖
+      use_map_link: ប្រើផែនទី​
+    index:
       title: កំណត់ហេតុរបស់អ្នកប្រើប្រាស់
       title_friends: កំណត់ហេតុរបស់មិត្តភក្ដិ
       title_nearby: កំណត់ហេតុរបស់អ្នកប្រើប្រាស់នៅក្បែរៗ
@@ -194,22 +221,13 @@ km:
       newer_entries: ប្រកាសថ្មីៗ
     edit:
       title: កែប្រែប្រកាសកំណត់ហេតុ
-      subject: ប្រធានបទ​៖
-      body: តួ​សេចក្ដី​៖
-      language: ភាសា​៖
-      location: ទីតាំង​៖
-      latitude: រយៈកម្ពស់៖
-      longitude: រយៈបណ្តោយ៖
-      use_map_link: ប្រើផែនទី​
-      save_button: រក្សាទុក​
       marker_text: ទីតាំងប្រកាសន៍កំណត់ហេតុ
-    view:
+    show:
       title: កំណត់ហេតុរបស់ %{user} | %{title}
       user_title: កំណត់ហេតុរបស់ %{user}
       leave_a_comment: បញ្ចេញមតិយោបល់​
       login_to_leave_a_comment: '%{login_link} ដើម្បីបញ្ចេញមតិយោបល់​'
       login: កត់ឈ្មោះចូល
-      save_button: រក្សាទុក​
     diary_entry:
       comment_count:
         zero: គ្មានមតិយោបល់
@@ -223,23 +241,6 @@ km:
       location: ទីតាំង​៖​
       view: មើល​
       edit: កែប្រែ
-  export:
-    start:
-      area_to_export: ផ្ទៃដើម្បីនាំចេញ​
-      licence: អាជ្ញាបណ្ណ
-      too_large:
-        planet:
-          title: Planet OSM
-      options: ជម្រើស
-      format: ទម្រង់
-      scale: រង្វាស់​
-      max: អតិ.
-      image_size: ទំហំ​រូបភាព​
-      zoom: ពង្រីកឬបង្រួម
-      add_marker: បន្ថែមសញ្ញាសម្គាល់ទៅលើផែនទី
-      latitude: រយៈទទឹង៖
-      longitude: រយៈបណ្ដោយ៖
-      export_button: នាំចេញ​
   geocoder:
     search:
       title:
@@ -248,26 +249,34 @@ km:
         geonames: លទ្ធផលពី <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: ឡានយោង
+          chair_lift: កៅអីយោង
+          pylon: ប៉មខ្សែភ្លើង
         amenity:
           arts_centre: មជ្ឍមណ្ឌលសិល្បៈ
           atm: ATM
           bank: ធនាគារ
           bar: បារ
           bbq: BBQ
-          bench: បង់
-          bicycle_parking: កន្លែងចតកង់
-          bicycle_rental: កង់ជួល
+          bench: បង់អង្គុយ
+          bicycle_parking: កន្លែងចតទោចក្រយាន
+          bicycle_rental: កន្លែងជួលទោចក្រយាន
           biergarten: បៀរហ្កាដិន
+          boat_rental: កន្លែងជួលទូក
           brothel: ផ្ទះបន
           bureau_de_change: កន្លែងប្ដូរប្រាក់
           bus_station: ចំណតឡានក្រុង
           cafe: ហាងកាហ្វេ
-          car_rental: ឡានជួល
-          car_wash: លាងឡាន
-          casino: បនល្បែង
+          car_rental: កន្លែងជួលរថយន្ត
+          car_sharing: កន្លែងប្រើរថយន្តរួមគ្នា
+          car_wash: កន្លែងលាងរថយន្ត
+          casino: កាស៊ីណូ
           charging_station: ស្ថានីយ៍សាកភ្លើង
+          childcare: កន្លែងថែទាំកុមារ
           cinema: រោងកុន
           clinic: គ្លីនីក
+          clock: នាឡិកា
           college: មហាវិទ្យាល័យ
           community_centre: មណ្ឌលសហគមន៍
           courthouse: តុលាការ
@@ -277,27 +286,39 @@ km:
           drinking_water: ទឹកផឹក
           driving_school: សាលាបង្រៀនបើកបរ
           embassy: ស្ថានទូត
+          fast_food: ហាងម្ហូបទាន់ចិត្ត
+          ferry_terminal: ចំណតសាឡាង
           fire_station: ស្ថានីយ៍អគ្គីភ័យ
           food_court: អាហារដ្ឋាន
-          fountain: ទឺកផុស
+          fountain: ទឹកផុស
           fuel: ឥន្ធនៈ
+          gambling: បនល្បែង
           grave_yard: វាលផ្នូរខ្មោច
+          grit_bin: ធុងអំបិល
           hospital: មន្ទីរពេទ្យ
-          ice_cream: ការ៉េម
+          hunting_stand: ខ្ទមអ្នកប្រមាញ់
+          ice_cream: ហាងការ៉េម
           kindergarten: សាលាមតេ្តយ្យ
           library: បណ្ណាល័យ
           marketplace: ទីផ្សារ
+          monastery: ព្រះវិហារ
+          motorcycle_parking: ចំណត់ទោចក្រយានយន្ត
           nightclub: ក្លឹបរាត្រី
+          nursing_home: កន្លែងថែទាំជនចាស់ជរា
           office: ការិយាល័យ
           parking: ចំណតរថយន្ត
+          parking_entrance: ច្រកចូលចំណតរថយន្ត
+          parking_space: កន្លែងចតរថយន្ត
           pharmacy: ឱសថស្ថាន
           place_of_worship: ទីសក្ការបូជា
           police: នគរបាល
-          post_box: ប្រអប់ប្រៃសណីយ
+          post_box: ប្រអប់ប្រៃសណីយ៍
           post_office: ប៉ុស្តិ៍ប្រៃសណីយ៍
+          preschool: សាលាមតេ្តយ្យ
           prison: ពន្ធនាគារ
-          pub: បារ
+          pub: ហាងស្រា
           public_building: អាគារសាធារណៈ
+          recycling: កន្លែងចោលសំរាមអាចប្រើឡើងវិញ
           restaurant: ភោជនីយដ្ឋាន
           retirement_home: ផ្ទះចាស់ជរា
           sauna: សោណា
@@ -306,16 +327,22 @@ km:
           shop: ហាង
           shower: កន្លែងងូតទឹក
           social_centre: មណ្ឌលសង្គមកិច្ច
+          social_club: ក្លឹបសកម្មភាពសង្គម
+          social_facility: អាគារសាធារណៈ
+          studio: ស្ទុយឌីយ៉ូ
           swimming_pool: អាងហែលទឹក
-          taxi: តាក់ស៊ី
+          taxi: ចំណតតាក់ស៊ី
           telephone: ទូរស័ព្ទសាធារណៈ
           theatre: មហោស្រព
           toilets: បន្ទប់ទឹក
+          townhall: សាលាក្រុង
           university: សាកលវិទ្យាល័យ
           vending_machine: ម៉ាស៊ីនលក់
           veterinary: ពេទ្យសត្វ
           village_hall: សាលាភូមិ
-          waste_basket: ធុងសម្រាម
+          waste_basket: ធុងសំរាម
+          waste_disposal: កន្លែងប្រមូលសំរាម
+          water_point: កន្លែងបូមទឹក
           youth_centre: មណ្ឌលយុវជន
         boundary:
           administrative: ព្រំដែនរដ្ឋបាល
@@ -323,29 +350,72 @@ km:
           national_park: ឧទ្យានជាតិ
           protected_area: តំបន់ការពារ
         bridge:
-          swing: ស្ពានយោល
+          aqueduct: ផ្លូវបង្ហូរទឹក
+          boardwalk: ផ្លូវឈើ
+          suspension: ស្ពានយោល
+          swing: ស្ពានវិល
+          viaduct: ស្ពានខ្ពស់
           "yes": ស្ពាន
         building:
           "yes": អាគារ
+        craft:
+          brewery: កន្លែងបិតស្រា
+          carpenter: ហាងជាងឈើ
+          electrician: ហាងអគ្គីសនី
+          gardener: ហាងថែទាំសួនច្បារ
+          painter: ហាងលាបថ្នាំ
+          photographer: ហាងថតរូប
+          plumber: ហាងបំពុងទឹក
+          shoemaker: ហាងស្បែកជើង
+          tailor: ហាងកាត់ដេរ
+          "yes": ហាងសិប្បកម្ម
         emergency:
+          ambulance_station: ស្ថានីយ៍រថយន្តសង្គ្រោះបន្ទាន់
+          assembly_point: កន្លែងជួបជុំគ្នាពេលមានអាសន្ន
+          defibrillator: ម៉ាស៊ីនកន្ត្រាក់បេះដូង
+          landing_site: កន្លែងចុះចតពេលមានអាសន្ន
           phone: ទូរស័ព្ទសង្រ្គោះបន្ទាន់
+          water_tank: ធុងស្ដុកទឹកពេលមានអាសន្ន
         highway:
+          abandoned: ផ្លូវល្បឿនលឿនបោះបង់ចោល
           bridleway: ផ្លូវសេះ
+          bus_stop: ចំណតឡានក្រុង
+          construction: ផ្លូវល្បឿនលឿនកំពុងស្ថាបនា
+          cycleway: ផ្លូវទោចក្រយាន
+          elevator: ជណ្ដើរយោង
+          footway: ផ្លូវថ្មើរជើង
+          ford: ផ្លូវលិចទឹក
+          give_way: ផ្លាកសញ្ញាផ្ដល់អាទិភាព
+          motorway: ផ្លូវល្បឿនលឿន
+          motorway_link: ផ្លូវល្បឿនលឿន
           rest_area: កន្លែងសម្រាក
           road: ផ្លូវ
+          steps: ជណ្ដើរ
+          stop: ផ្លាកសញ្ញាឈប់
           street_lamp: ភ្លើងបំភ្លឺផ្លូវ
+          traffic_signals: ភ្លើងសញ្ញាចរាចរណ៍
         historic:
           archaeological_site: ស្ថានីយ៍ប្រវត្តិសាស្ត្រ
           battlefield: សមរភូមិ
           boundary_stone: បង្គោលព្រំដែន
-          building: អាគារ
+          building: អាគារប្រវត្តិសាស្ត្រ
+          bunker: ត្រង់សេ
           castle: ប្រាសាទ
           church: វិហារគ្រិស្តសាសនា
+          city_gate: ក្លោងទ្វារក្រុង
+          citywalls: កំផែងក្រុង
           fort: បន្ទាយ
+          heritage: ស្ថនីយ៍បេតិកភ័ណ្ឌ
           house: ផ្ទះ
+          mine: ភ្នំរ៉ែ
+          mine_shaft: អណ្ដូងរ៉ែ
           tomb: ផ្នូរ
           tower: ប៉ម
+          "yes": ស្ថានីយ៍ប្រវត្តិសាស្ត្រ
         landuse:
+          commercial: តំបន់ពាណិជ្ជកម្ម
+          conservation: តំបន់អភិរក្ស
+          construction: តំបន់កំពុងសាងសង់
           farm: កសិដ្ឋាន​
           farmland: ដីកសិដ្ឋាន
           farmyard: វាលកសិដ្ឋាន
@@ -353,20 +423,26 @@ km:
           grass: វាលស្មៅ
           industrial: តំបន់ឧស្សាហកម្ម
           military: តំបន់យោធា
+          mine: ភ្នំរ៉ែ
           quarry: កន្លែងយកថ្ម
           railway: ផ្លូវដែក
           recreation_ground: ទីលានកំសាន្ត
           reservoir: បឹងស្តុកទឹក
           residential: តំបន់លំនៅដ្ឋាន
+          retail: ហាងលក់រាយ
           road: តំបន់ផ្លូវ
           vineyard: ចំការទំពាំងបាយជូរ
         leisure:
           beach_resort: ឆ្នេរកំសាន្ត
+          bird_hide: ខ្ទមមើលបក្សី
           common: ដីរួម
+          firepit: ចង្ក្រាន
           fishing: តំបន់ស្ទូចត្រី
-          fitness_station: ស្ថានីយ៍កីឡា
+          fitness_centre: មណ្ឌលហាត់ប្រាណ
+          fitness_station: ស្ថានីយ៍ហាត់ប្រាណ
           garden: សួនច្បារ
           golf_course: ទីលានកូនហ្គោល
+          horse_riding: កន្លែងជិះសេះ
           ice_rink: តារាងលេងស្គីលើទឹកកក
           nature_reserve: តំបន់អភិរក្សធម្មជាតិ
           park: ឧទ្យាន​
@@ -377,21 +453,39 @@ km:
           stadium: កីឡាដ្ឋាន
           swimming_pool: អាងហែលទឹក
           water_park: ឧទ្យានទឹក
+        man_made:
+          bridge: ស្ពាន
+          bunker_silo: ត្រង់សេ
+          chimney: បំពង់ផ្សែង
+          dyke: ទំនប់
+          flagpole: បង្គោលទង់ជាតិ
+          kiln: ឡ
+          petroleum_well: អណ្ដូងប្រេង
+          wastewater_plant: ស្ថានីយ៍សម្អាតទឹក
+          water_tower: ប៉មទឹក
+          water_well: អណ្ដូង
         military:
           airfield: មូលដ្ឋានទ័ពអាកាស
+          bunker: ត្រង់សេ
+          "yes": មូលដ្ឋានយោធា
+        mountain_pass:
+          "yes": ផ្លូវភ្នំ
         natural:
           bay: ឆកសមុទ្រ
           beach: ឆ្នេរខ្សាច់
+          cape: ជ្រោយ
           cave_entrance: ច្រកចូលរូងភ្នំ
           cliff: ជ្រោះ
           crater: មាត់ភ្នំភ្លើង
           dune: ភ្នំខ្សាច់
+          forest: ព្រៃ
           hill: កូនភ្នំ
           island: កោះ
           land: ដី
           mud: ភក់
           peak: កំពូល
           point: ចំនុច
+          spring: ទឹកផុស
           strait: ដៃសមុទ្រ
           tree: ដើមឈើ
           valley: ជ្រលងភ្នំ
@@ -402,19 +496,24 @@ km:
         office:
           accountant: គណនីករ
           architect: ស្ថាបត្យករ
+          association: សមាគម
           company: ក្រុមហ៊ុន
+          educational_institution: ស្ថាប័នអប់រំ
           employment_agency: ភ្នាក់ងារណែនាំការងារ
           estate_agent: ភ្នាក់ងារអចលនវត្ថុ
           government: ការិយាល័យរដ្ឋាភិបាល
           insurance: ការិយាល័យធានារ៉ាប់រង
+          it: ការិយាល័យព័តមានវិទ្យា
           lawyer: មេធាវី
-          ngo: ការិយាល័យ NGO
+          ngo: ការិយាល័យអង្គការ
           telecommunication: ការិយាល័យទូរគមនាគមន៍
           travel_agent: ភ្នាក់ងារទេសចរណ៍
           "yes": ការិយាល័យ
         place:
           city: ទីក្រុង
-          county: ប្រទេស
+          country: ប្រទេស​
+          county: ខេត្តក្រុង
+          farm: កសិដ្ឋាន​
           house: ផ្ទះ
           houses: ផ្ទះ
           island: កោះ
@@ -427,9 +526,17 @@ km:
           abandoned: ផ្លូវដែកបោះបង់ចោល
           construction: ផ្លូវដែកកំពុងស្ថាបនា
           disused: ផ្លូវដែកឈប់ប្រើ
+          level_crossing: ផ្លូវកាត់ផ្លូវដែក
+          light_rail: ផ្លូវដែកធុនស្រាល
+          miniature: ផ្លូវដែកខ្នាតតូច
+          preserved: ផ្លូវដែកអភិរក្ស
+          proposed: ផ្លូវដែកគម្រោងសង់
+          spur: ផ្លូវខ្នែងផ្លូវដែក
           station: ស្ថានីយ៍ផ្លូវដែក
-          subway: ស្ថានីយ៍រថភ្លើងក្រោមដី
+          stop: ស្ថានីយ៍ផ្លូវដែក
+          subway: ផ្លូវដែកក្រោមដី
           subway_entrance: ច្រកចូលស្ថានីយ៍រថភ្លើងក្រោមដី
+          switch: ផ្លូវបំបែកផ្លូវដែក
         shop:
           antiques: ហាងវត្ថុបុរាណ
           art: ហាងសិល្បៈ
@@ -437,27 +544,89 @@ km:
           beauty: ហាងសម្អាងការ
           beverages: ហាងភេសជ្ជៈ
           bicycle: ហាងទោចក្រយាន
+          bookmaker: ហាងភ្នាល់
           books: បណ្ណាគារ
+          boutique: ហាងសម្អាងការ
           butcher: ហាងសាច់
-          car: ហាងឡាន
-          car_parts: ហាងគ្រឿងបន្លាស់ឡាន
-          car_repair: ហាងជួសជុលឡាន
+          car: ហាងរថយន្ត
+          car_parts: ហាងគ្រឿងបន្លាស់រថយន្ត
+          car_repair: ហាងជួសជុលរថយន្ត
           carpet: ហាងកម្រាលព្រំ
+          charity: ហាងសប្បុរសធម៌
+          chemist: ហាងថ្នាំ
+          clothes: ហាងសម្លៀកបំពាក់
+          computer: ហាងកុំព្យូទ័រ
+          confectionery: ហាងនំ
+          copyshop: ហាងថតចម្លង
+          cosmetics: ហាងគ្រឿងសម្អាង
+          dry_cleaning: ហាងបោកអ៊ុត
+          electronics: ហាងអេឡិចត្រូនិច
+          estate_agent: ភ្នាក់ងារអចលនវត្ថុ
+          fish: ហាងត្រី
+          florist: ហាងផ្កា
+          food: ហាងអាហារ
+          furniture: ហាងសង្ហារឹម
+          gallery: វិចិត្រសាល
+          gift: ហាងវត្ថុអនុស្សាវរីយ៍
+          greengrocer: ហាងបន្លែនិងផ្លែឈើ
+          grocery: ហាងចំណីអាហារ
+          hairdresser: ហាងកាត់សក់និងអ៊ុតសក់
+          jewelry: ហាងលក់គ្រឿងអល័ង្ការ
+          laundry: ហាងបោកអ៊ុត
+          market: ផ្សារ
+          massage: ហាងម៉ាស្សា
+          mobile_phone: ហាងទូរស័ព្ទ
+          motorcycle: ហាងទោចក្រយានយន្ត
+          music: ហាងតន្ត្រី
+          newsagent: ហាងកាសែត
+          optician: ហាងវ៉ែនតា
+          pawnbroker: ហាងបញ្ចាំ
+          pet: ហាងសត្វចិញ្ចឹម
+          pharmacy: ឱសថស្ថាន
+          photo: ហាងថតរូប
+          seafood: ហាងគ្រឿងសមុទ្រ
+          second_hand: ហាងជជុះ
+          shoes: ហាងស្បែកជើង
+          sports: ហាងសម្ភារៈកីឡា
+          stationery: បណ្ណាគារ
+          supermarket: ផ្សារទំនើប
+          tailor: ហាងកាត់ដេរ
+          ticket: ហាងសំបុត្រ
+          tobacco: ហាងបារី
+          travel_agency: ភ្នាក់ងារទេសចរណ៍
+          tyres: ហាងកង់ឡាន
+        tourism:
+          camp_site: កន្លែងបោះតង់
+          caravan_site: កន្លែងចតឡានបោះតង់
+          guest_house: ផ្ទះសំណាក់
+          hostel: ផ្ទះសំណាក់
+          hotel: សណ្ឋាគារ
+          museum: សារមន្ទីរ
+          zoo: សួនសត្វ
+        waterway:
+          canal: ព្រែកជីក
     description:
       types:
         cities: ក្រុង​
   layouts:
-    logout: ចាកចេញ​
-    log_in: ឡុកអ៊ីន​
-    sign_up: ចុះឈ្មោះ​
+    logout: កត់ឈ្មោះចេញ
+    log_in: កត់ឈ្មោះចូល
+    log_in_tooltip: កត់ឈ្មោះចូលជាមួយគណនីមានហើយ
+    sign_up: ចុះឈ្មោះ​ចូល
     edit: កែប្រែ​
     history: ប្រវត្តិ​
     export: នាំចេញ​
     tag_line: |-
       ផែនទីពិភពលោក​វិគីសេរី <br/>
       (The Free Wiki World Map)
+    help: ជំនួយ
+    about: អំពី
+    copyright: រក្សាសិទ្ឋ
+    community: សហគមន៍
     make_a_donation:
       text: ជួយ​ឧបត្ថម្ភ​
+    learn_more: ស្វែងយល់បន្ថែម
+    more: ផ្សេងទៀត
   notifier:
     diary_comment_notification:
       hi: សួស្ដី %{to_user},
@@ -483,28 +652,46 @@ km:
       greeting: សួស្ដី,
     lost_password_html:
       greeting: សួស្ដី​,
-  message:
+  messages:
     inbox:
       from: ពី​
       subject: ប្រធានបទ​
       date: កាលបរិច្ឆេទ​
     new:
       subject: ប្រធានបទ​
-      send_button: ផ្ញើ​
       back_to_inbox: ត្រឡប់ទៅប្រអប់សំបុត្រ​
     outbox:
       to: ទៅ​
       subject: ប្រធានបទ​
       date: កាលបរិច្ឆេទ​
-    read:
+    show:
       from: ពី​
       subject: ប្រធានបទ​
       date: កាលបរិច្ឆេទ​
       to: ទៅ​
   site:
+    copyright:
+      foreign:
+        title: អំពីការបកប្រែនេះ
     edit:
       not_public: អ្នកមិនបានកំណត់​កំណែប្រែរបស់អ្នកជាសាធារណៈ​។
       user_page_link: ទំព័រអ្នកប្រើប្រាស់​
+    export:
+      area_to_export: ផ្ទៃដើម្បីនាំចេញ​
+      licence: អាជ្ញាបណ្ណ
+      too_large:
+        planet:
+          title: Planet OSM
+      options: ជម្រើស
+      format: ទម្រង់
+      scale: រង្វាស់​
+      max: អតិ.
+      image_size: ទំហំ​រូបភាព​
+      zoom: ពង្រីកចូលឬបង្រួមចេញ
+      add_marker: បន្ថែមសញ្ញាសម្គាល់ទៅលើផែនទី
+      latitude: រយៈទទឹង៖
+      longitude: រយៈបណ្ដោយ៖
+      export_button: នាំចេញ​
     sidebar:
       search_results: លទ្ធផលនៃការស្វែងរក​
       close: បិទ​
@@ -515,6 +702,16 @@ km:
     key:
       table:
         entry:
+          motorway: ផ្លូវល្បឿនលឿន
+          main_road: ផ្លូវធំ
+          cycleway: ផ្លូវទោចក្រយាន
+          cycleway_national: ផ្លូវទោចក្រយានជាតិ
+          cycleway_local: ផ្លូវទោចក្រយានតំបន់
+          rail: ផ្លូវដែក
+          subway: ផ្លូវដែកក្រោមដី
+          tram:
+          - ផ្លូវដែកធុនស្រាល
+          admin: ព្រំដែនរដ្ឋបាល
           forest: ព្រៃឈើ​
           park: ឧទ្យាន​
           industrial: តំបន់ឧស្សាហកម្ម​
@@ -523,8 +720,14 @@ km:
           school:
           - សាលារៀន​
           - សាកលវិទ្យាល័យ​
-          station: ស្ថានីយរថភ្លើង​
-  trace:
+          station: ស្ថានីយ៍ផ្លូវដែក
+  traces:
+    new:
+      upload_gpx: ផ្ទុកឡើង​ឯកសារ GPX ៖
+      description: បរិយាយ​៖
+      tags: ស្លាក​៖
+      visibility_help: តើនេះមានន័យ​ដូចម្ដេច​?
+      help: ជំនួយ​
     edit:
       filename: ឈ្មោះឯកសារ​៖
       download: ទាញយក
@@ -533,18 +736,10 @@ km:
       edit: កែប្រែ​
       description: បរិយាយ​៖
       tags: ស្លាក​៖
-      save_button: រក្សាទុក​បំលាស់ប្តូរនានា​
       visibility_help: តើនេះមានន័យ​ដូចម្ដេច​​?
-    trace_form:
-      upload_gpx: ផ្ទុកឡើង​ឯកសារ GPX ៖
-      description: បរិយាយ​៖
-      tags: ស្លាក​៖
-      visibility_help: តើនេះមានន័យ​ដូចម្ដេច​?
-      upload_button: ផ្ទុកឡើង​
-      help: ជំនួយ​
     trace_optionals:
       tags: ស្លាក​
-    view:
+    show:
       filename: ឈ្មោះឯកសារ​៖
       download: ទាញយក
       uploaded: បានផ្ទុកឡើង​នៅ​៖
@@ -562,41 +757,65 @@ km:
       by: ដោយ​
       in: ក្នុង​
       map: ផែនទី​
-    list:
+    index:
       tagged_with: '  បានដាកស្លាកជា %{tags}'
   oauth_clients:
-    new:
-      submit: ចុះឈ្មោះ​
     edit:
       title: កែប្រែ​ទំរង់បែបបទរបស់អ្នក​
-      submit: កែប្រែ​
     show:
       edit: កែប្រែ​ព័ត៌មានលម្អិត​
       allow_write_api: កែសម្រួលផែនទី​
     form:
       name: ឈ្មោះ​
       allow_write_api: កែសម្រួលផែនទី​
-  user:
+  users:
     login:
-      title: ឡុកអ៊ីន​
-      heading: ឡុកអ៊ីន​
+      title: កត់ឈ្មោះចូល
+      heading: កត់ឈ្មោះចូល
       email or username: អាសយដ្ឋានអ៊ីមែល ឬឈ្មោះអ្នកប្រើប្រាស់​៖
-      login_button: ឡុកអ៊ីន​
+      login_button: កត់ឈ្មោះចូល
+      auth_providers:
+        openid:
+          title: កត់ឈ្មោះចូលដោយប្រើ OpenID
+        google:
+          title: កត់ឈ្មោះចូលដោយប្រើ Google
+        facebook:
+          title: កត់ឈ្មោះចូលដោយប្រើ Facebook
+        windowslive:
+          title: កត់ឈ្មោះចូលដោយប្រើ Windows Live
+        github:
+          title: កត់ឈ្មោះចូលដោយប្រើ GitHub
+        wikipedia:
+          title: កត់ឈ្មោះចូលដោយប្រើវិគីភីឌា
+        yahoo:
+          title: កត់ឈ្មោះចូលដោយប្រើ Yahoo
+        wordpress:
+          title: កត់ឈ្មោះចូលដោយប្រើ Wordpress
+        aol:
+          title: កត់ឈ្មោះចូលដោយប្រើ AOL
+    logout:
+      title: កត់ឈ្មោះចេញ
+      logout_button: កត់ឈ្មោះចេញ
     new:
-      continue: ចុះឈ្មោះ
+      title: ចុះឈ្មោះ​ចូល
+      use external auth: ប្រើភ្នាក់ងារទី៣ដើម្បីកត់ឈ្មោះចូល
+      continue: ចុះឈ្មោះចូល
     terms:
-      agree: យល់​ព្រម​
       decline: បដិសេធ
-    view:
+      legale_select: ប្រទេស​ស្នាក់​នៅ៖
+      legale_names:
+        france: ប្រទេសបារាំង
+        italy: ប្រទេសអ៊ីតាលី
+        rest_of_world: ប្រទេសផ្សេងទៀត
+    show:
       my edits: កំណែប្រែ​របស់ខ្ញុំ​
       edits: កំណែប្រែ​
       remove as friend: ដកចេញជាមិត្ត​
       add as friend: បន្ថែមជាមិត្ត​
       description: បរិយាយ​
-      your friends: មិត្តរបស់អ្នក​
       no friends: អ្នកមិនទាន់បានបន្ថែមមិត្តណាមួយនៅឡើយទេ​។
-      km away: មានចំងាយ %{count} គ.ម.
-      m away: មានចំងាយ %{count} ម.
+      km away: ចម្ងាយ %{count} គ.ម.
+      m away: ចម្ងាយ %{count} ម.
     account:
       title: កែប្រែគណនី​
       public editing:
@@ -612,14 +831,42 @@ km:
       heading: បញ្ជាក់ការផ្លាស់ប្ដូរ​អាសយដ្ឋានអ៊ីមែល
       press confirm button: ចុចលើប៉ូតុងខាងក្រោមដើម្បីបញ្ជាក់អាសយដ្ឋានអ៊ីមែលថ្មីរបស់អ្នក​។
       button: បញ្ជាក់​
-      success: បានបញ្ជាក់អាសយដ្ឋានអ៊ីមែលរបស់អ្នករូចរាល់ហើយ សូមអរគុណចំពោះការចុះឈ្មោះ​!
+      success: បានបញ្ជាក់អាសយដ្ឋានអ៊ីមែលរបស់អ្នករូចរាល់ហើយ!
     make_friend:
       success: '%{name} ឥឡូវនេះជាមិត្តរបស់អ្នក​។'
       failed: អភ័យទោស, បរាជ័យក្នុងការបន្ដែម %{name} ជាមិត្ត​។
       already_a_friend: អ្នកគឺជាមិត្តជាមួយ %{name} រួចហើយ​។
     remove_friend:
       not_a_friend: '%{name} មិនមែនជាមិត្តរបស់អ្នកទេ​។'
-  redaction:
+  javascripts:
+    embed:
+      report_problem: រាយការណ៍​បញ្ហា
+    key:
+      title: កំណត់សម្គាល់
+      tooltip: កំណត់សម្គាល់
+      tooltip_disabled: ស្រទាប់នេះគ្មានកំណត់សម្គាល់ទេ
+    map:
+      zoom:
+        in: ពង្រីកចូល
+        out: បង្រួមចេញ
+      locate:
+        title: បង្ហាញទីតាំងខ្ញុំ
+        popup: អ្នកកំពុងស្ថិតនៅចម្ងាយ {distance} {unit} ពីចំនុចនេះ
+      base:
+        standard: ស្តង់ដារ
+        cycle_map: ផែនទីផ្លូវទោចក្រយាន
+        transport_map: ផែនទីចរាចរណ៍
+        hot: សកម្មភាពមនុស្សធម៌
+      layers:
+        header: ស្រទាប់ផែនទី
+        title: ស្រទាប់
+    site:
+      edit_disabled_tooltip: ពង្រីកចូលដើម្បីកែប្រែផែនទី
+      createnote_disabled_tooltip: ពង្រីកចូលដើម្បីបន្ថែមចំណារទៅលើផែនទី
+      map_data_zoom_in_tooltip: ពង្រីកចូលដើម្បីមើលទិន្នន័យផែនទី
+    context:
+      show_address: បង្ហាញអាសយដ្ឋាន
+  redactions:
     show:
       description: បរិយាយ៖
 ...

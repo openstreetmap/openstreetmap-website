@@ -1,6 +1,7 @@
 # Messages for Telugu (తెలుగు)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Arjunaraoc
 # Author: Chaduvari
 # Author: Gayatri
@@ -13,6 +14,19 @@ te:
   time:
     formats:
       friendly: '%B %e, %Y నాడు %H:%M కి'
+  helpers:
+    submit:
+      diary_comment:
+        create: భద్రపరుచు
+      diary_entry:
+        create: ప్రచురించు
+      message:
+        create: పంపించు
+      client_application:
+        update: మార్చు
+      trace:
+        create: ఎక్కించు
+        update: మార్పులను భద్రపరచు
   activerecord:
     models:
       acl: అనుమతి నియంత్రణ జాబితా
@@ -33,6 +47,7 @@ te:
       relation: సంబంధం
       session: సెషన్
       user: వాడుకరి
+      user_preference: వాడుకరి అభిరుచి
       way: దారి
     attributes:
       diary_comment:
@@ -69,6 +84,11 @@ te:
         pass_crypt: సంకేతపదం
   editor:
     default: అప్రమేయం (ప్రస్తుతం %{name})
+  api:
+    notes:
+      entry:
+        comment: వ్యాఖ్య
+        full: పూర్తి గమనిక
   browse:
     created: 'సృష్టించబడినది:'
     closed: 'మూసివేయబడింది:'
@@ -132,7 +152,7 @@ te:
       description: వివరణ
     query:
       nearby: దగ్గర్లోని విశేషాలు
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: పేజీ %{page}
       next: తదుపరి »
@@ -146,16 +166,22 @@ te:
       user: వాడుకరి
       comment: వ్యాఖ్య
       area: ప్రదేశం
-    list:
-      title_user: '%{user} చేసిన మార్పులు'
+    index:
+      title: మార్పుల సమితులు
+      title_user: '%{user} చేసిన మార్పులసమితులు'
       load_more: మరిన్ని చూపించు
-    rss:
-      full: పూర్తి చర్చ
-  diary_entry:
+  diary_entries:
     new:
       title: కొత్త దినచర్య పద్దు
-      publish_button: ప్రచురించు
-    list:
+    form:
+      subject: 'విషయం:'
+      body: 'వివరణ:'
+      language: 'భాష:'
+      location: 'ప్రాంతం:'
+      latitude: 'అక్షాంశం:'
+      longitude: 'రేఖాంశం:'
+      use_map_link: పటాన్ని వాడు
+    index:
       title: వాడుకరుల డైరీలు
       title_friends: స్నేహితుల దినచర్యలు
       title_nearby: చుట్టుపక్కల వాడుకరుల డైరీలు
@@ -168,21 +194,12 @@ te:
       newer_entries: కొత్త పద్దులు
     edit:
       title: డైరీ పద్దును మార్చు
-      subject: 'విషయం:'
-      body: 'వివరణ:'
-      language: 'భాష:'
-      location: 'ప్రాంతం:'
-      latitude: 'అక్షాంశం:'
-      longitude: 'రేఖాంశం:'
-      use_map_link: పటాన్ని వాడు
-      save_button: భద్రపరచు
-    view:
+    show:
       title: వాడుకరుల డైరీలు | %{user}
       user_title: '%{user} యొక్క డైరీ'
       leave_a_comment: వ్యాఖ్యానించండి
       login_to_leave_a_comment: వ్యాఖ్యానించడానికి %{login_link}
-      login: ప్రవేశించు
-      save_button: భద్రపరచు
+      login: ప్రవేశించండి
     diary_entry:
       comment_link: ఈ పద్దుపై వ్యాఖ్యానించండి
       reply_link: ఈ పద్దుపై స్పందించండి
@@ -204,25 +221,8 @@ te:
       post: పంపించు
       when: ఎప్పుడు
       comment: వ్యాఖ్య
-      ago: '%{ago} క్రితం'
       newer_comments: కొత్త వ్యాఖ్యలు
       older_comments: పాత వ్యాఖ్యలు
-  export:
-    title: ఎగుమతి
-    start:
-      embeddable_html: ఇముడ్చగలిగే HTML
-      licence: లైసెన్సు
-      too_large:
-        other:
-          title: ఇతర మూలాలు
-      options: ఎంపికలు
-      format: ఫార్మాటు
-      scale: కొలబద్ద
-      max: గరిష్టం
-      image_size: బొమ్మ పరిమాణం
-      zoom: పెద్దది
-      latitude: 'అక్షాం:'
-      longitude: 'రేఖాం:'
   geocoder:
     search:
       title:
@@ -375,6 +375,9 @@ te:
           park: పార్కు
           playground: ఆటస్థలం
           swimming_pool: ఈత కొలను
+        man_made:
+          water_well: బావి
+          works: కర్మాగారం
         natural:
           beach: బీచి
           cave_entrance: గుహ ద్వారం
@@ -418,6 +421,9 @@ te:
           subdivision: ఉపవిభాగం
           town: పట్టణం
           village: గ్రామం
+        railway:
+          platform: రైల్వే ప్లాట్‌ఫారం
+          station: రైల్వే స్టేషన్
         shop:
           butcher: కసాయి
           jewelry: నగల దుకాణం
@@ -455,6 +461,10 @@ te:
     results:
       no_results: ఫలితాలేమీ దొరకలేదు
       more_results: మరిన్ని ఫలితాలు
+  issues:
+    index:
+      status: స్థితి
+      reports: నివేదికలు
   layouts:
     logo:
       alt_text: ఓపెన్&zwnj;స్ట్రీట్&zwnj;మాప్ చిహ్నం
@@ -474,6 +484,7 @@ te:
     intro_header: ఓపెన్‌స్ట్రీట్‌మ్యాప్‌కి స్వాగతం!
     intro_2_create_account: వాడుకరి ఖాతాను సృష్టించుకోండి
     partners_partners: భాగస్వాములు
+    tou: వాడుక నియమాలు
     help: సహాయం
     about: గురించి
     copyright: నకలుహక్కులు
@@ -484,39 +495,6 @@ te:
       text: విరాళమివ్వండి
     learn_more: మరింత తెలుసుకోండి
     more: మరిన్ని
-  license_page:
-    foreign:
-      title: ఈ అనువాదం గురించి
-    native:
-      title: ఈ పుట గురించి
-    legal_babble:
-      title_html: కాపీహక్కులు మరియు లైసెన్సు
-      attribution_example:
-        title: ఆపాదింపు ఉదాహరణ
-      more_title_html: మరింత తెలుసుకోవడం
-      infringement_title_html: కాపీహక్కుల ఉల్లంఘన
-      trademarks_title_html: <span id="trademarks"></span>ట్రేడుమార్కులు
-  welcome_page:
-    title: స్వాగతం!
-    whats_on_the_map:
-      title: పటంలో ఏముంది
-    rules:
-      title: నియమాలు!
-    questions:
-      title: సందేహాలున్నాయా?
-    add_a_note:
-      title: సరిదిద్దేంత సమయం లేదా? ఒక గమనికను చేర్చండి!
-  fixthemap:
-    how_to_help:
-      title: ఎలా తోడ్పడాలి
-  help_page:
-    title: సహాయం పొందడం
-    welcome:
-      title: OSMకి స్వాగతం
-  about_page:
-    next: తదుపరి
-    local_knowledge_title: స్థానిక పరిజ్ఞానం
-    partners_title: భాగస్వాములు
   notifier:
     diary_comment_notification:
       hi: హలో %{to_user},
@@ -537,7 +515,7 @@ te:
       anonymous: అజ్ఞాత వాడుకరి
     changeset_comment_notification:
       hi: '%{to_user} గారూ,'
-  message:
+  messages:
     inbox:
       my_inbox: నా ఇన్‌బాక్స్
       outbox: పంపించినవి
@@ -545,29 +523,66 @@ te:
       date: తేదీ
     message_summary:
       reply_button: స్పందించు
-      delete_button: తొలగించు
+      destroy_button: తొలగించు
     new:
       send_message_to: '%{name}కి ఒక సందేశాన్ని పంపండి'
       subject: విషయం
-      send_button: పంపించు
     outbox:
       my_inbox: నా %{inbox_link}
       outbox: పంపించినవి
       subject: విషయం
       date: తేదీ
-    read:
+    show:
       subject: విషయం
       date: తేదీ
       reply_button: జవాబివ్వు
       back: వెనుకకు
     sent_message_summary:
-      delete_button: తొలగించు
+      destroy_button: తొలగించు
   site:
+    about:
+      next: తదుపరి
+      local_knowledge_title: స్థానిక పరిజ్ఞానం
+      partners_title: భాగస్వాములు
+    copyright:
+      foreign:
+        title: ఈ అనువాదం గురించి
+      native:
+        title: ఈ పుట గురించి
+      legal_babble:
+        title_html: కాపీహక్కులు మరియు లైసెన్సు
+        attribution_example:
+          title: ఆపాదింపు ఉదాహరణ
+        more_title_html: మరింత తెలుసుకోవడం
+        infringement_title_html: కాపీహక్కుల ఉల్లంఘన
+        trademarks_title_html: <span id="trademarks"></span>ట్రేడుమార్కులు
     index:
       permalink: స్థిరలంకె
       shortlink: చిన్నలింకు
     edit:
       user_page_link: వాడుకరి పేజీ
+    export:
+      title: ఎగుమతి
+      embeddable_html: ఇముడ్చగలిగే HTML
+      licence: లైసెన్సు
+      too_large:
+        other:
+          title: ఇతర మూలాలు
+      options: ఎంపికలు
+      format: ఫార్మాటు
+      scale: కొలబద్ద
+      max: గరిష్టం
+      image_size: బొమ్మ పరిమాణం
+      zoom: పెద్దది
+      latitude: 'అక్షాం:'
+      longitude: 'రేఖాం:'
+    fixthemap:
+      how_to_help:
+        title: ఎలా తోడ్పడాలి
+    help:
+      title: సహాయం పొందడం
+      welcome:
+        title: OSMకి స్వాగతం
     sidebar:
       search_results: అన్వేషణ ఫలితాలు
       close: మూసివేయి
@@ -619,7 +634,22 @@ te:
       text: పాఠ్యం
       image: బొమ్మ
       alt: ప్రత్యామ్నాయ పాఠ్యం
-  trace:
+    welcome:
+      title: స్వాగతం!
+      whats_on_the_map:
+        title: పటంలో ఏముంది
+      rules:
+        title: నియమాలు!
+      questions:
+        title: సందేహాలున్నాయా?
+      add_a_note:
+        title: సరిదిద్దేంత సమయం లేదా? ఒక గమనికను చేర్చండి!
+  traces:
+    new:
+      description: 'వివరణ:'
+      tags_help: కామాలతో వేరుపరచినవి
+      visibility_help: దీని అర్థమేమిటి?
+      help: సహాయం
     edit:
       filename: 'ఫైలుపేరు:'
       download: దింపుకోలు
@@ -628,16 +658,9 @@ te:
       owner: 'యజమాని:'
       description: 'వివరణ:'
       tags_help: కామాలతో వేరుపరచిన
-      save_button: మార్పులను భద్రపరచు
       visibility: 'దృశ్యత:'
       visibility_help: దీని అర్థం ఏమిటి?
-    trace_form:
-      description: 'వివరణ:'
-      tags_help: కామాలతో వేరుపరచినవి
-      visibility_help: దీని అర్థమేమిటి?
-      upload_button: ఎక్కించు
-      help: సహాయం
-    view:
+    show:
       filename: 'ఫైలుపేరు:'
       download: దింపుకోలు
       points: 'బిందువులు:'
@@ -646,12 +669,9 @@ te:
       description: 'వివరణ:'
     trace:
       count_points: '%{count} బిందువులు'
-      ago: '%{time_in_words_ago} క్రితం'
       more: మరిన్ని
       edit: మార్చు
   oauth_clients:
-    edit:
-      submit: మార్చు
     show:
       edit: వివరాలను మార్చు
     index:
@@ -659,7 +679,7 @@ te:
     form:
       name: పేరు
       required: తప్పనిసరి
-  user:
+  users:
     login:
       title: ప్రవేశం
       heading: ప్రవేశం
@@ -697,8 +717,10 @@ te:
       confirm password: 'సంకేతపదాన్ని నిర్ధారించండి:'
       continue: నమోదవ్వండి
     terms:
+      heading: నియమాలు
+      read_tou: నేను వాడుక నియమాలను చదివాను, వాటికి అంగీకరిస్తున్నాను
       consider_pd_why: ఇది ఏమిటి?
-      agree: అంగీకరించు
+      continue: కొనసాగించు
       decline: తిరస్కరించు
       legale_select: 'నివసించే దేశం:'
       legale_names:
@@ -706,7 +728,7 @@ te:
         italy: ఇటలీ
     no_such_user:
       heading: '%{user} వాడుకరి లేనే లేరు'
-    view:
+    show:
       my diary: నా డైరీ
       my edits: నా మార్పులు
       my notes: నా గమనికలు
@@ -723,17 +745,14 @@ te:
       notes: పటపు గమనికలు
       remove as friend: స్నేహితునిగా తొలగించు
       add as friend: స్నేహితునిగా చేర్చు
-      ago: (%{time_in_words_ago} క్రితం)
       ct undecided: నిర్ణయించుకోలేదు
       ct declined: తిరస్కరించారు
-      ct accepted: '%{ago} క్రితం అంగీకరించారు'
       latest edit: 'చివరి మార్పు %{ago}:'
       email address: 'ఈమెయిలు చిరునామా:'
       status: 'స్థితి:'
       description: వివరణ
       user location: వాడుకరి ప్రాంతం
       settings_link_text: అమరికలు
-      your friends: మీ స్నేహితులు
       no friends: మీరు ఇంకా స్నేహితులెవరినీ చేర్చలేదు.
       km away: '%{count}కిమీ దూరంలో'
       m away: '%{count}మీ దూరంలో'
@@ -797,7 +816,7 @@ te:
     make_friend:
       success: '%{name} ఇప్పుడు మీ మిత్రులు!'
       already_a_friend: '%{name} మీకు ఇప్పటికే స్నేహితులు.'
-    list:
+    index:
       title: వాడుకరులు
       heading: వాడుకరులు
   user_role:
@@ -805,7 +824,7 @@ te:
       confirm: నిర్ధారించు
     revoke:
       confirm: నిర్ధారించు
-  user_block:
+  user_blocks:
     new:
       back: అన్ని నిరోధాలను చూడండి
     edit:
@@ -815,40 +834,35 @@ te:
       heading: వాడుకరి నిరోధాల జాబితా
     revoke:
       confirm: మీరు నిజంగానే ఈ నిరోధాన్ని ఎత్తివేయాలనుకుంటున్నారా?
-    period:
-      one: 1 గంట
-      other: '%{count} గంటలు'
-    partial:
-      show: చూపించు
-      edit: మార్చు
-      reason: నిరోధానికి కారణం
-      status: స్థితి
-      next: తదుపరి »
-      previous: « మునుపటి
     helper:
       time_future: '%{time}లో ముగుస్తుంది.'
       time_past: '%{time} క్రితం ముగిసింది.'
+      block_duration:
+        hours:
+          one: 1 గంట
+          other: '%{count} గంటలు'
     blocks_on:
       title: '%{name} పై నిరోధాలు'
       heading: '%{name}పై ఉన్న నిరోధాల జాబితా'
     show:
-      time_future: '%{time}లో ముగుస్తుంది'
-      time_past: '%{time} క్రితం ముగిసింది'
-      ago: '%{time} క్రితం'
       status: స్థితి
       show: చూపించు
       edit: మార్చు
       reason: 'నిరోధానికి కారణం:'
       back: అన్ని నిరోధాలను చూడండి
-  note:
-    entry:
-      comment: వ్యాఖ్య
-      full: పూర్తి గమనిక
+    block:
+      show: చూపించు
+      edit: మార్చు
+    blocks:
+      reason: నిరోధానికి కారణం
+      status: స్థితి
+      next: తదుపరి »
+      previous: « మునుపటి
+  notes:
     mine:
       heading: '%{user} గమనికలు'
       description: వివరణ
       last_changed: చివరి మార్పు
-      ago_html: '%{when} క్రితం'
   javascripts:
     close: మూసివేయి
     share:
@@ -894,7 +908,7 @@ te:
       directions_to: ఇక్కడికి దిశలు
       show_address: చిరునామా చూపించు
       centre_map: ఈచోటును పటానికి కేంద్రం చేయి
-  redaction:
+  redactions:
     edit:
       description: వివరణ
     new:

@@ -2,8 +2,8 @@
 #
 # Table name: diary_entry_subscriptions
 #
-#  user_id        :integer          not null, primary key
-#  diary_entry_id :integer          not null, primary key
+#  user_id        :bigint(8)        not null, primary key
+#  diary_entry_id :bigint(8)        not null, primary key
 #
 # Indexes
 #

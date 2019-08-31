@@ -1,32 +1,30 @@
 <h4>
   <% if common_details.changeset.tags['comment'].present? %>
-    <%= linkify(h(common_details.changeset.tags['comment'])) %>
+    <%= linkify(h(common_details.changeset.tags["comment"])) %>
   <% else %>
-    <%= t 'browse.no_comment' %>
+    <%= t "browse.no_comment" %>
   <% end %>
 </h4>
 
 <div class="details">
-  <%=
-      t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
-        :time => distance_of_time_in_words_to_now(common_details.timestamp),
+  <%= t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
+        :time => time_ago_in_words(common_details.timestamp, :scope => :'datetime.distance_in_words_ago'),
         :user => changeset_user_link(common_details.changeset),
-        :title => l(common_details.timestamp)
-  %>
+        :title => l(common_details.timestamp) %>
 </div>
 
 <div class="details">
-  <%= t 'browse.version' %>
+  <%= t "browse.version" %>
   #<%= h(common_details.version) %>
   &middot;
-  <%= t 'browse.in_changeset' %>
+  <%= t "browse.in_changeset" %>
   #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
 </div>
 
 <% if @type == "node" and common_details.visible? %>
 <div class="details geo">
-  <%= t 'browse.location' %>
-  <%= link_to(content_tag(:span, number_with_delimiter(common_details.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(common_details.lon), :class => "longitude"), {:controller => 'site', :action => 'index', :anchor => "map=18/#{common_details.lat}/#{common_details.lon}"}) %>
+  <%= t "browse.location" %>
+  <%= link_to(content_tag(:span, number_with_delimiter(common_details.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(common_details.lon), :class => "longitude"), :controller => "site", :action => "index", :anchor => "map=18/#{common_details.lat}/#{common_details.lon}") %>
 </div>
 <% end %>
 

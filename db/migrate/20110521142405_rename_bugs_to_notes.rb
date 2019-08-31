@@ -1,6 +1,6 @@
 require "migrate"
 
-class RenameBugsToNotes < ActiveRecord::Migration[5.0]
+class RenameBugsToNotes < ActiveRecord::Migration[4.2]
   def self.up
     rename_enumeration "map_bug_status_enum", "note_status_enum"
     rename_enumeration "map_bug_event_enum", "note_event_enum"

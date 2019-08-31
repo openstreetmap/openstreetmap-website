@@ -52,6 +52,7 @@ module OpenStreetMap
     def oauth1_verify(request, options = {}, &block)
       signature = OAuth::Signature.build(request, options, &block)
       return false unless OauthNonce.remember(signature.request.nonce, signature.request.timestamp)
+
       value = signature.verify
       if request.ssl? && !value
         http_request = request.dup

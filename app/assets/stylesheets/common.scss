@@ -150,6 +150,10 @@ small, aside {
 
 .piwik { border: 0; }
 
+[dir=rtl] { /* no-r2 */ text-align: right; }
+
+[dir=ltr] { /* no-r2 */ text-align: left; }
+
 /* Rules for icons */
 
 .icon {
@@ -611,9 +615,16 @@ body.compact {
     height: auto;
     overflow: hidden;
 
-    #banner,
-    .welcome {
+    #banner {
       display: block;
+    }
+
+    .welcome {
+      display: none;
+
+      &.visible {
+        display: block;
+      }
     }
 
     #sidebar_content {
@@ -938,6 +949,10 @@ header .search_forms,
     border-radius: 0 2px 2px 0;
   }
 
+  input.error {
+    background-color: rgba($red, 0.4);
+  }
+
   select {
     /* this next line is to polyfill the vertical alignment of text within a select element,
      * which is different between firefox and chrome. */
@@ -967,6 +982,8 @@ header .search_forms,
 
   img.button {
     display: block;
+    width: 20px;
+    height: 20px;
   }
 
   span.force_width {
@@ -1024,7 +1041,7 @@ header .search_forms,
 
 /* Rules for search sidebar */
 
-.search_results_entry {
+#sidebar .search_results_entry {
   ul li {
     border-bottom: $keyline;
     cursor: pointer;
@@ -1032,12 +1049,9 @@ header .search_forms,
     &.selected { background: $list-highlight; }
   }
 
-  .search_details {
-    display: block;
-    float: right;
-    text-align: right;
-    margin-top: 0.2em;
-    margin-left: 0.5em;
+  .search_more .loader {
+    display: none;
+    width: 100%;
   }
 }
 
@@ -1126,6 +1140,11 @@ tr.turn:hover {
 
   .comments-0 {
     opacity: 0.5;
+  }
+
+  .changeset_more .loader {
+    display: none;
+    width: 100%;
   }
 }
 
@@ -1231,7 +1250,8 @@ tr.turn:hover {
     margin: $lineheight/2 0;
 
     p {
-      margin-left: 10px;
+      margin: 10px 6px 0 6px;
+      line-height: 1.5;
     }
   }
 
@@ -1317,11 +1337,11 @@ tr.turn:hover {
     #maxlat { margin-top: -1px; }
     #minlon {
       float: left;
-      margin-left: -1px;
+      /* no-r2 */ margin-left: -1px;
     }
     #maxlon {
       float: right;
-      margin-right: -1px;
+      /* no-r2 */ margin-right: -1px;
     }
     #minlat { margin-bottom: 0; }
   }
@@ -1396,9 +1416,9 @@ tr.turn:hover {
 
 /* Overrides for pages that use new layout conventions */
 
-.user-new,
-.user-create,
-.user-terms {
+.users-new,
+.users-create,
+.users-terms {
   .content-body .content-inner {
     padding: 0;
 
@@ -1409,10 +1429,10 @@ tr.turn:hover {
   }
 }
 
-.user-new,
-.user-create,
-.user-terms,
-.user-confirm {
+.users-new,
+.users-create,
+.users-terms,
+.users-confirm {
   .content-heading .content-inner {
     height: 200px;
   }
@@ -1447,6 +1467,10 @@ tr.turn:hover {
     background-image: image-url("sign-up-illustration-arm.png");
     z-index: 100;
   }
+}
+
+[dir=rtl] .header-illustration {
+  transform: scaleX(-1);
 }
 
 #content.maximised {
@@ -1504,7 +1528,7 @@ tr.turn:hover {
 
 /* Rules for the trace view */
 
-.trace-view {
+.trace-show {
   .trace_pending {
     color: red;
   }
@@ -1588,7 +1612,7 @@ tr.turn:hover {
   margin-left: 70px;
 }
 
-.user-view {
+.users-show {
   // Silly exception; remove when user page is redesigned.
   .content-inner {
     max-width: none;
@@ -1649,9 +1673,17 @@ tr.turn:hover {
 
 .diary_post {
   position: relative;
-  margin-top: $lineheight/2;
   padding-top: $lineheight;
+  padding-bottom: $lineheight/2;
   border-top: 1px solid #ccc;
+
+  &:first-of-type {
+    margin-top: $lineheight/2;
+  }
+
+  &.deemphasize {
+    background-color: #fee;
+  }
 
   .post_heading {
     margin-bottom: $lineheight;
@@ -1673,17 +1705,13 @@ tr.turn:hover {
   }
 }
 
-.content-heading .hide_unless_logged_in { // hacky selector, better to just add a new class to this div
-  display: inline;
-}
-
 .pagination {
   padding-top: $lineheight;
 }
 
 /* Rules for the diary entry page */
 
-.diary_entry {
+.diary_entries {
   #map {
     position: relative;
     width: 90%;
@@ -1701,13 +1729,16 @@ tr.turn:hover {
     max-width: 740px;
   }
   .diary-comment {
-    margin-top: $lineheight/2;
     border-top: 1px dashed #ccc;
     padding-top: $lineheight/2;
+    padding-bottom: $lineheight/2;
     &:first-child {
-      margin-top: $lineheight;
+      margin-top: $lineheight/2;
       padding-top: $lineheight;
       border-top: 1px solid #ccc;
+    }
+    &.deemphasize {
+      background-color: #fee;
     }
     p {
       margin-bottom: $lineheight/2;
@@ -1719,7 +1750,7 @@ tr.turn:hover {
   }
 }
 
-.diary_entry-view img.user_thumbnail {
+.diary_entries-show img.user_thumbnail {
   float: left;
 }
 
@@ -1743,7 +1774,7 @@ tr.turn:hover {
 
 /* Rules for the account confirmation page */
 
-.user-terms {
+.users-terms {
   .legale {
     border: 1px solid #ccc;
     padding: $lineheight;
@@ -1896,14 +1927,14 @@ tr.turn:hover {
   display: none;
 }
 
-.message-read .message-buttons {
+.messages-show .message-buttons {
   margin-top: $lineheight;
   margin-bottom: $lineheight * 1.5;
   padding-top: $lineheight;
   border-top: 1px solid $lightgrey;
 }
 
-.message-read .buttons .mark-unread-button {
+.messages-show .buttons .mark-unread-button {
   border-radius: 0;
 }
 
@@ -2311,6 +2342,7 @@ a.button {
     font-size: 13px;
     background: #e8e8e8;
     padding: 2px 3px;
+    white-space: pre-wrap;
 
     code {
       padding: 0;
@@ -2338,11 +2370,11 @@ a.button {
     margin-left: $lineheight;
   }
 
-  ul li {
+  ul > li {
     list-style: disc;
   }
 
-  ol li {
+  ol > li {
     list-style: decimal;
   }
 }
@@ -2616,7 +2648,7 @@ input.richtext_title[type="text"] {
   }
 
   .sprite.x {
-    background-position: -50px 0;
+    /* no-r2 */ background-position: -50px 0;
   }
 
   .sprite.term {
@@ -2625,27 +2657,27 @@ input.richtext_title[type="text"] {
   }
 
   .sprite.node {
-    background-position: -100px 0;
+    /* no-r2 */ background-position: -100px 0;
   }
 
   .sprite.way {
-    background-position: -150px 0;
+    /* no-r2 */ background-position: -150px 0;
   }
 
   .sprite.tag {
-    background-position: -200px 0;
+    /* no-r2 */ background-position: -200px 0;
   }
 
   .sprite.editor {
-    background-position: -250px 0;
+    /* no-r2 */ background-position: -250px 0;
   }
 
   .sprite.question {
-    background-position: -300px 0;
+    /* no-r2 */ background-position: -300px 0;
   }
 
   .sprite.rules {
-    background-position: -350px 0;
+    /* no-r2 */ background-position: -350px 0;
   }
 
   .start-mapping {
@@ -2825,5 +2857,61 @@ input.richtext_title[type="text"] {
 @media only screen and (max-width:960px) {
   .header-illustration.new-user-arm {
     display: none;
+  }
+}
+
+.read-reports {
+  background: #eee;
+  opacity: 0.7;
+}
+
+.report-related-block {
+  display:inline-block;
+}
+
+.report-block {
+  width:475px;
+  float:left;
+  margin-right:100px;
+}
+
+.related-reports {
+  width: 280px;
+  float: right;
+
+  ul {
+    padding-left: $lineheight;
+    margin-bottom: 0;
+
+    li {
+      list-style: disc;
+    }
+  }
+}
+
+.issue-comments {
+  width:475px;
+}
+
+.issues-list {
+  td:nth-child(2) {
+    white-space: nowrap;
+  }
+}
+
+.report-disclaimer {
+  background: #fff1f0;
+  color: #d85030;
+  border-color: rgba(216, 80, 48, 0.3);
+  padding: 10px 20px;
+  margin-bottom: $lineheight;
+
+  ul {
+    padding-left: $lineheight;
+    margin-bottom: 0;
+
+    li {
+      list-style: disc;
+    }
   }
 }

@@ -8,8 +8,8 @@ class DiffReader
 
   # maps each element type to the model class which handles it
   MODELS = {
-    "node"     => Node,
-    "way"      => Way,
+    "node" => Node,
+    "way" => Way,
     "relation" => Relation
   }.freeze
 
@@ -33,8 +33,8 @@ class DiffReader
     # NOTE: XML::Reader#read returns false for EOF and raises an
     # exception if an error occurs.
     @reader.read
-  rescue LibXML::XML::Error => ex
-    raise OSM::APIBadXMLError.new("changeset", xml, ex.message)
+  rescue LibXML::XML::Error => e
+    raise OSM::APIBadXMLError.new("changeset", xml, e.message)
   end
 
   ##

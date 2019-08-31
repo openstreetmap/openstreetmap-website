@@ -1,6 +1,7 @@
 # Messages for Serbian (Latin script) (srpski (latinica)‎)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Macofe
 # Author: McDutchie
 # Author: Milicevic01
@@ -14,6 +15,24 @@ sr-Latn:
   time:
     formats:
       friendly: '%e %B %Y u %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Sačuvaj
+      message:
+        create: Pošalji
+      client_application:
+        create: Otvori nalog
+        update: Uredi
+      redaction:
+        create: Napravi redakciju
+        update: Sačuvaj redakciju
+      trace:
+        create: Otpremi
+        update: Sačuvaj izmene
+      user_block:
+        create: Napravi blokadu
+        update: Ažuriraj blokadu
   activerecord:
     models:
       acl: Upravljanje pristupom
@@ -144,7 +163,7 @@ sr-Latn:
         key: Stranica s opisom za oznaku %{key}
         tag: Stranica s opisom za oznaku %{key}=%{value}
       wikipedia_link: '%{page} članak na Vikipediji'
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Prikaz stranice %{page}
       next: Sledeća »
@@ -159,17 +178,25 @@ sr-Latn:
       user: Korisnik
       comment: Komentar
       area: Područje
-    list:
+    index:
       title: Skupovi izmena
       title_user: Skupovi izmena korisnika %{user}
       title_friend: Izmene vaših prijatelja
       title_nearby: Izmene od okolnih korisnika
     timeout:
       sorry: Žao nam je, ali spisak izmena koji ste zahtevali je predugačak.
-  diary_entry:
+  diary_entries:
     new:
       title: Novi unos u dnevniku
-    list:
+    form:
+      subject: 'Tema:'
+      body: 'Tekst:'
+      language: 'Jezik:'
+      location: 'Lokacija:'
+      latitude: 'Geografska širina:'
+      longitude: 'Geografska dužina:'
+      use_map_link: koristi mapu
+    index:
       title: Korisnički dnevnici
       title_friends: Dnevnici prijatelja
       title_nearby: Dnevnici okolnih korisnika
@@ -183,22 +210,13 @@ sr-Latn:
       newer_entries: Noviji unosi
     edit:
       title: Uredi unos u dnevniku
-      subject: 'Tema:'
-      body: 'Tekst:'
-      language: 'Jezik:'
-      location: 'Lokacija:'
-      latitude: 'Geografska širina:'
-      longitude: 'Geografska dužina:'
-      use_map_link: koristi mapu
-      save_button: Sačuvaj
       marker_text: Lokacija unosa u dnevniku
-    view:
+    show:
       title: Dnevnik korisnika %{user} | %{title}
       user_title: Dnevnik korisnika %{user}
       leave_a_comment: Ostavite komentar
       login_to_leave_a_comment: '%{login_link} da ostavite komentar'
       login: Prijavite se
-      save_button: Sačuvaj
     no_such_entry:
       title: Nema takvog unosa u dnevniku
       heading: 'Nema unosa s IB: %{id}'
@@ -237,35 +255,8 @@ sr-Latn:
       post: Postavi
       when: Kada
       comment: Komentar
-      ago: pre %{ago}
       newer_comments: Noviji komentari
       older_comments: Stariji komentari
-  export:
-    start:
-      area_to_export: Područje za izvoz
-      manually_select: Ručno izaberite drugo područje
-      format_to_export: Format za izvoz
-      osm_xml_data: Openstritmap XML podaci
-      map_image: Slika mape (prikazuje standardni sloj)
-      embeddable_html: Ugradivi HTML kod
-      licence: Licenca
-      export_details: Podaci Openstritmapa su dostupni pod licencom <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.sr">Krijejtiv
-        komons Autorstvo-Deliti pod istim uslovima 2.0</a>.
-      too_large:
-        body: Ovo područje je preveliko da bi bilo izvezeno u formatu XML. Uvećajte
-          prikaz ili izaberite manju površinu.
-      options: Mogućnosti
-      format: Format
-      scale: Razmera
-      max: najviše
-      image_size: Veličina slike
-      zoom: Uvećanje
-      add_marker: Dodaj marker na mapu
-      latitude: 'GŠ:'
-      longitude: 'GD:'
-      output: Izlaz
-      paste_html: Ubacite HTML kod za ugrađivanje na stranice
-      export_button: Izvezi
   geocoder:
     search:
       title:
@@ -719,9 +710,7 @@ sr-Latn:
     edit_with: Uredi uređivačem %{editor}
     tag_line: Slobodna viki mapa sveta
     intro_2_create_account: Otvorite nalog
-    partners_html: Hosting podržava %{ucl}, %{ic} i %{bytemark}, kao i drugi %{partners}.
     partners_ucl: VR centar UCL-a
-    partners_ic: Londonski kraljevski koledž
     partners_bytemark: Hosting „Bajtmark“
     partners_partners: partneri
     osm_offline: Baza podataka Openstritmapa je trenutno nedostupna dok se ne završe
@@ -739,103 +728,6 @@ sr-Latn:
     make_a_donation:
       title: Podržite Openstritmap novčanim prilogom
       text: Priložite novac
-  license_page:
-    foreign:
-      title: O prevodu
-      text: U slučaju sukoba između prevedene stranice i %{english_original_link},
-        engleska stranica ima prednost
-      english_link: engleskog originala
-    native:
-      title: O stranici
-      text: Trenutno posmatrate englesko izdanje stranice o autorskim pravima. Možete
-        se vratiti na %{native_link} ove stranice ili jednostavno zaboravite na autorska
-        prava i %{mapping_link}.
-      native_link: srpsko izdanje
-      mapping_link: počnite s mapiranjem
-    legal_babble:
-      title_html: Autorska prava i licenca
-      intro_1_html: |-
-        OpenStreetMap is <i>open data</i>, licensed under the <a
-        href="http://opendatacommons.org/licenses/odbl/">Open Data
-        Commons Open Database License</a> (ODbL).
-      intro_2_html: |2-
-          Možete da umnožavate, delite, prenosite i prilagođavate
-          naše mape i podatke, sve dok imenujete Openstritmap i njene
-          urednike. Ako želite da menjate i dograđujete naše podatke,
-          možete ih deliti samo pod istom licencom.
-          Ceo <a href="http://creativecommons.org/licenses/by-sa/2.0/legalcode">
-          tekst ugovora</a> objašnjava vam vaša prava i odgovornosti.
-      credit_title_html: Kako da imenujete Openstritmap
-      credit_1_html: |2-
-          Ako koristite naše slike mapa, tražimo da zasluge sadrže
-          bar &ldquo;&copy; Doprinosioci
-          Openstritmapa, CC BY-SA&rdquo;. Ako koristite samo podatke mapa,
-          navedite &ldquo;Kartografski podaci &copy; Doprinosioci Openstritmapa,
-          CC BY-SA&rdquo;.
-      credit_2_html: |2-
-          Gde je moguće, Openstritmap bi trebalo da vodi do adrese <a
-          href="http://www.openstreetmap.org/">http://www.openstreetmap.org/</a>
-          i CC BY-SA do <a
-          href="http://creativecommons.org/licenses/by-sa/2.0/">http://creativecommons.org/licenses/by-sa/2.0/</a>.
-          Ako koristite medijum u kom se veze ne mogu postaviti
-          (npr. štampani rad), predlažemo da usmerite vaše
-          čitaoce na www.openstreetmap.org (po mogućstvu
-          proširavanjem &lsquo;Openstritmapa&rsquo; na celu adresu)
-          i na www.creativecommons.org.
-      more_title_html: Saznajte više
-      more_1_html: |2-
-          Pročitajte više o korišćenju naših podataka na <a
-          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">ČPP</a>.
-      more_2_html: |2-
-          Podsećamo urednike Openstritmapa da nikada ne dodaju podatke
-          od bilo kog izvora zaštićenog autorskim pravima (npr.
-          Gugl mape ili štampane mape) bez izričite dozvole
-          nosioca autorskog prava.
-      contributors_title_html: Naši saradnici
-      contributors_intro_html: |2-
-          Naša licenca CC BY-SA zahteva od vas da &ldquo;morate
-          navesti ime izvornog autora ili davaoca licence&rdquo;.
-          Pojedinačni kartografi ne zahtevaju isticanje zasluga osim
-          &ldquo;Openstritmap doprinosioca&rdquo;, ali kada podaci
-          pripadaju nacionalnoj geografskoj agenciji ili drugom
-          većem izvoru koji je uključen u Openstritmap, razumno je
-          navesti izvor ili ostaviti hipervezu do njega.
-      contributors_at_html: |-
-        <strong>Austrija</strong>: sadrži podatke iz
-           <a href="http://data.wien.gv.at/">Štata Viena</a> pod licencom
-           <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
-           <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Forarlberg</a> i
-        Land Tirol (pod licencom <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT sa izmenama i dopunama</a>).
-      contributors_ca_html: |-
-        <strong>Kanada</strong>: sadrži podatke iz
-            Beobaze&reg;, Geogratisa (&copy; Odeljenje za prirodne
-            resurse Kanade), Kanvek (&copy; Odeljenje za prirodne
-            resurse Kanade) i Statkan (Geografski odsek,
-            Zavod za statistiku Kanade).
-      contributors_fr_html: |-
-        <strong>Francuska</strong>: sadrži podatke koji potiču od
-            Generalne direkcije za oporezivanje.
-      contributors_nl_html: |-
-        <strong>Holandija</strong>: sadrži &copy; AND podaci, 2007
-        (<a href="http://www.and.com">www.and.com</a>)
-      contributors_nz_html: |-
-        <strong>Novi Zeland</strong>: sadrži podatke koji potiču od
-            Land Information New Zealand. Krunska autorska prava zadržana.
-      contributors_za_html: |-
-        <strong>Južnoafrička Republika</strong>: sadrži podatke iz
-        <a href="http://www.ngi.gov.za/">Glavne uprave:
-        Nacionalna katastarska služba</a>, državna autorska prava zadržana.
-      contributors_gb_html: |-
-        <strong>Ujedinjeno Kraljevstvo</strong>: sadrži Zvanične
-            podatke geodetskog premeravanja &copy; Autorska prava 2010.
-      contributors_footer_1_html: |-
-        Više informacija o ovim i drugim izvorima korišćenim
-        za poboljšavanje Openstritmapa možete naći na stranici <a
-        href="http://wiki.openstreetmap.org/wiki/Contributors">Doprinosioci</a> na našem vikiju.
-      contributors_footer_2_html: |2-
-          Uključivanje podataka u Openstritmap ne podrazumeva da izvorni
-          vlasnik podataka prihvata Openstritmap, obezbeđuje bilo kakvu
-          garanciju ili prihvata odgovornost.
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} prokomentarisa vaš unos u dnevniku'
@@ -891,7 +783,7 @@ sr-Latn:
       hopefully_you: Neko (verovatno vi) zatražio je poništavanje lozinke za ovaj
         nalog.
       click_the_link: Ako ste to vi, kliknite na vezu ispod da biste poništili lozinku.
-  message:
+  messages:
     inbox:
       title: Primljene
       my_inbox: Primljene
@@ -913,14 +805,14 @@ sr-Latn:
       unread_button: Označi kao nepročitano
       read_button: Označi kao pročitano
       reply_button: Odgovori
-      delete_button: Obriši
+      destroy_button: Obriši
     new:
       title: Pošalji poruku
       send_message_to: Pošalji novu poruku za %{name}
       subject: Naslov
       body: Tekst
-      send_button: Pošalji
       back_to_inbox: Nazad na primljene
+    create:
       message_sent: Poruka je poslata.
       limit_exceeded: Nedavno ste poslali mnogo poruka. Sačekajte neko vreme pre nego
         pokušavate da pošaljete još neku.
@@ -945,7 +837,7 @@ sr-Latn:
     reply:
       wrong_user: Prijavljeni ste kao %{user}, ali poruka na koju ste želeli da odgovorite
         nije poslata tom korisniku. Prijavite se kao ispravan korisnik da biste odgovorili.
-    read:
+    show:
       title: Pročitaj poruku
       from: Od
       subject: Naslov
@@ -957,13 +849,113 @@ sr-Latn:
         nije poslata tom korisniku. Prijavite se kao ispravan korisnik da biste je
         pročitali.
     sent_message_summary:
-      delete_button: Obriši
+      destroy_button: Obriši
     mark:
       as_read: Poruka je označena kao pročitana
       as_unread: Poruka je označena kao nepročitana
-    delete:
-      deleted: Poruka je obrisana
+    destroy:
+      destroyed: Poruka je obrisana
   site:
+    copyright:
+      foreign:
+        title: O prevodu
+        text: U slučaju sukoba između prevedene stranice i %{english_original_link},
+          engleska stranica ima prednost
+        english_link: engleskog originala
+      native:
+        title: O stranici
+        text: Trenutno posmatrate englesko izdanje stranice o autorskim pravima. Možete
+          se vratiti na %{native_link} ove stranice ili jednostavno zaboravite na
+          autorska prava i %{mapping_link}.
+        native_link: srpsko izdanje
+        mapping_link: počnite s mapiranjem
+      legal_babble:
+        title_html: Autorska prava i licenca
+        intro_1_html: |-
+          OpenStreetMap is <i>open data</i>, licensed under the <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL).
+        intro_2_html: |2-
+            Možete da umnožavate, delite, prenosite i prilagođavate
+            naše mape i podatke, sve dok imenujete Openstritmap i njene
+            urednike. Ako želite da menjate i dograđujete naše podatke,
+            možete ih deliti samo pod istom licencom.
+            Ceo <a href="http://creativecommons.org/licenses/by-sa/2.0/legalcode">
+            tekst ugovora</a> objašnjava vam vaša prava i odgovornosti.
+        credit_title_html: Kako da imenujete Openstritmap
+        credit_1_html: |2-
+            Ako koristite naše slike mapa, tražimo da zasluge sadrže
+            bar &ldquo;&copy; Doprinosioci
+            Openstritmapa, CC BY-SA&rdquo;. Ako koristite samo podatke mapa,
+            navedite &ldquo;Kartografski podaci &copy; Doprinosioci Openstritmapa,
+            CC BY-SA&rdquo;.
+        credit_2_html: |2-
+            Gde je moguće, Openstritmap bi trebalo da vodi do adrese <a
+            href="http://www.openstreetmap.org/">http://www.openstreetmap.org/</a>
+            i CC BY-SA do <a
+            href="http://creativecommons.org/licenses/by-sa/2.0/">http://creativecommons.org/licenses/by-sa/2.0/</a>.
+            Ako koristite medijum u kom se veze ne mogu postaviti
+            (npr. štampani rad), predlažemo da usmerite vaše
+            čitaoce na www.openstreetmap.org (po mogućstvu
+            proširavanjem &lsquo;Openstritmapa&rsquo; na celu adresu)
+            i na www.creativecommons.org.
+        more_title_html: Saznajte više
+        more_1_html: |2-
+            Pročitajte više o korišćenju naših podataka na <a
+            href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">ČPP</a>.
+        more_2_html: |2-
+            Podsećamo urednike Openstritmapa da nikada ne dodaju podatke
+            od bilo kog izvora zaštićenog autorskim pravima (npr.
+            Gugl mape ili štampane mape) bez izričite dozvole
+            nosioca autorskog prava.
+        contributors_title_html: Naši saradnici
+        contributors_intro_html: |2-
+            Naša licenca CC BY-SA zahteva od vas da &ldquo;morate
+            navesti ime izvornog autora ili davaoca licence&rdquo;.
+            Pojedinačni kartografi ne zahtevaju isticanje zasluga osim
+            &ldquo;Openstritmap doprinosioca&rdquo;, ali kada podaci
+            pripadaju nacionalnoj geografskoj agenciji ili drugom
+            većem izvoru koji je uključen u Openstritmap, razumno je
+            navesti izvor ili ostaviti hipervezu do njega.
+        contributors_at_html: |-
+          <strong>Austrija</strong>: sadrži podatke iz
+             <a href="http://data.wien.gv.at/">Štata Viena</a> pod licencom
+             <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+             <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Forarlberg</a> i
+          Land Tirol (pod licencom <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT sa izmenama i dopunama</a>).
+        contributors_au_html: |-
+          <strong>Australija</strong>: sadrži podatke o opštinama
+              na osnovu podataka Australijskog biroa za statistiku.
+        contributors_ca_html: |-
+          <strong>Kanada</strong>: sadrži podatke iz
+              Beobaze&reg;, Geogratisa (&copy; Odeljenje za prirodne
+              resurse Kanade), Kanvek (&copy; Odeljenje za prirodne
+              resurse Kanade) i Statkan (Geografski odsek,
+              Zavod za statistiku Kanade).
+        contributors_fr_html: |-
+          <strong>Francuska</strong>: sadrži podatke koji potiču od
+              Generalne direkcije za oporezivanje.
+        contributors_nl_html: |-
+          <strong>Holandija</strong>: sadrži &copy; AND podaci, 2007
+          (<a href="http://www.and.com">www.and.com</a>)
+        contributors_nz_html: |-
+          <strong>Novi Zeland</strong>: sadrži podatke koji potiču od
+              Land Information New Zealand. Krunska autorska prava zadržana.
+        contributors_za_html: |-
+          <strong>Južnoafrička Republika</strong>: sadrži podatke iz
+          <a href="http://www.ngi.gov.za/">Glavne uprave:
+          Nacionalna katastarska služba</a>, državna autorska prava zadržana.
+        contributors_gb_html: |-
+          <strong>Ujedinjeno Kraljevstvo</strong>: sadrži Zvanične
+              podatke geodetskog premeravanja &copy; Autorska prava 2010.
+        contributors_footer_1_html: |-
+          Više informacija o ovim i drugim izvorima korišćenim
+          za poboljšavanje Openstritmapa možete naći na stranici <a
+          href="http://wiki.openstreetmap.org/wiki/Contributors">Doprinosioci</a> na našem vikiju.
+        contributors_footer_2_html: |2-
+            Uključivanje podataka u Openstritmap ne podrazumeva da izvorni
+            vlasnik podataka prihvata Openstritmap, obezbeđuje bilo kakvu
+            garanciju ili prihvata odgovornost.
     index:
       js_1: Koristite pregledač koji ne podržava javaskript ili ste ga onemogućili.
       js_2: Openstritmap koristi javaskript za prikazivanje mapa.
@@ -989,6 +981,31 @@ sr-Latn:
         na dugme za čuvanje.
       no_iframe_support: Vaš pregledač ne podržava HTML iframes, a oni su potrebni
         za ovu mogućnost.
+    export:
+      area_to_export: Područje za izvoz
+      manually_select: Ručno izaberite drugo područje
+      format_to_export: Format za izvoz
+      osm_xml_data: Openstritmap XML podaci
+      map_image: Slika mape (prikazuje standardni sloj)
+      embeddable_html: Ugradivi HTML kod
+      licence: Licenca
+      export_details: Podaci Openstritmapa su dostupni pod licencom <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.sr">Krijejtiv
+        komons Autorstvo-Deliti pod istim uslovima 2.0</a>.
+      too_large:
+        body: Ovo područje je preveliko da bi bilo izvezeno u formatu XML. Uvećajte
+          prikaz ili izaberite manju površinu.
+      options: Mogućnosti
+      format: Format
+      scale: Razmera
+      max: najviše
+      image_size: Veličina slike
+      zoom: Uvećanje
+      add_marker: Dodaj marker na mapu
+      latitude: 'GŠ:'
+      longitude: 'GD:'
+      output: Izlaz
+      paste_html: Ubacite HTML kod za ugrađivanje na stranice
+      export_button: Izvezi
     sidebar:
       search_results: Rezultati pretrage
       close: Zatvori
@@ -1077,17 +1094,30 @@ sr-Latn:
       image: Slika
       alt: Rezervni tekst
       url: Adresa
-  trace:
+  traces:
     visibility:
       private: Privatni (prikazuje se kao anonimne, neraspoređene tačke)
       public: Javni (prikazane u spisku tragova kao anonimne, neraspoređene tačke)
       trackable: Može se pratiti (prikazuje se kao anonimne, poređane i datirane tačke)
       identifiable: Može se prepoznati (prikazano u spisku tragova kao javne, poređane
         i datirane tačke)
+    new:
+      upload_gpx: 'Otpremi GPX datoteku:'
+      description: 'Opis:'
+      tags: 'Oznake:'
+      tags_help: razdvojeno zapetama
+      visibility: 'Vidljivost:'
+      visibility_help: šta ovo znači?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
+      help: Pomoć
+      help_url: http://wiki.openstreetmap.org/wiki/Upload?uselang=sr-ec
     create:
       upload_trace: Otpremi GPS trag
       trace_uploaded: GPX datoteka je otpremljena i čeka ubacivanje u bazu. Ovo obično
         traje oko pola sata, nakon čega ćete dobiti obaveštenje o završetku.
+      traces_waiting: Imate %{count} tragova na čekanju za slanje. Sačekajte da se
+        prvo oni završe pre otpremanja novih tragova, da ne biste blokirali druge
+        korisnike.
     edit:
       title: Uređivanje traga %{name}
       heading: Uređivanje traga %{name}
@@ -1102,31 +1132,12 @@ sr-Latn:
       description: 'Opis:'
       tags: 'Oznake:'
       tags_help: razdvojeno zapetama
-      save_button: Sačuvaj izmene
       visibility: 'Vidljivost:'
       visibility_help: šta ovo znači?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
-    trace_form:
-      upload_gpx: 'Otpremi GPX datoteku:'
-      description: 'Opis:'
-      tags: 'Oznake:'
-      tags_help: razdvojeno zapetama
-      visibility: 'Vidljivost:'
-      visibility_help: šta ovo znači?
-      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
-      upload_button: Otpremi
-      help: Pomoć
-      help_url: http://wiki.openstreetmap.org/wiki/Upload?uselang=sr-ec
-    trace_header:
-      upload_trace: Otpremi trag
-      see_all_traces: Pogledaj sve tragove
-      see_your_traces: Pogledaj svoje tragove
-      traces_waiting: Imate %{count} tragova na čekanju za slanje. Sačekajte da se
-        prvo oni završe pre otpremanja novih tragova, da ne biste blokirali druge
-        korisnike.
     trace_optionals:
       tags: Oznake
-    view:
+    show:
       title: Pregled traga %{name}
       heading: Pregled traga %{name}
       pending: NA_ČEKANJU
@@ -1141,8 +1152,8 @@ sr-Latn:
       description: 'Opis:'
       tags: 'Oznake:'
       none: ništa
-      edit_track: Uredi ovaj trag
-      delete_track: Obriši ovaj trag
+      edit_trace: Uredi ovaj trag
+      delete_trace: Obriši ovaj trag
       trace_not_found: Trag nije pronađen.
       visibility: 'Vidljivost:'
     trace_paging_nav:
@@ -1152,7 +1163,6 @@ sr-Latn:
     trace:
       pending: NA_ČEKANJU
       count_points: '%{count} tačaka'
-      ago: pre %{time_in_words_ago}
       more: više
       trace_details: Pogledajte detalje o tragu
       view_map: Pogledaj kartu
@@ -1165,14 +1175,15 @@ sr-Latn:
       by: od
       in: u
       map: mapa
-    list:
+    index:
       public_traces: Javni GPS tragovi
-      your_traces: Vaši GPS tragovi
       public_traces_from: Javni GPS tragovi korisnika %{user}
       tagged_with: ' označeni sa %{tags}'
       empty_html: Ovde još nema ništa. <a href='%{upload_link}'>Otpremite novi trag</a>
         ili saznajte više o GPS traganju na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>viki
         stranici</a>.
+      upload_trace: Otpremi trag
+      see_all_traces: Pogledaj sve tragove
     delete:
       scheduled_for_deletion: Trag postavljen za brisanje
     make_public:
@@ -1186,15 +1197,13 @@ sr-Latn:
     require_cookies:
       cookies_needed: Izgleda da ste onemogućili kolačiće. Omogućite ih pre nego što
         nastavite.
-    require_moderator:
-      not_a_moderator: Da biste izveli ovu radnju, treba da budete moderator.
     setup_user_auth:
       blocked: Vaš pristup API-ju je blokiran. Prijavite se da saznate više.
       need_to_see_terms: Vaš pristup API-ju je privremeno ukinut. Prijavite se da
         biste pogledali uslove uređivanja. Ne morate da ih prihvatite, već samo da
         ih vidite.
   oauth:
-    oauthorize:
+    authorize:
       request_access: Program %{app_name} zahteva pristup vašem nalogu, %{user}. Odlučite
         se da li želite da mu ga omogućite. Možete izabrati bilo koji program.
       allow_to: 'Dozvoli programu da:'
@@ -1209,10 +1218,8 @@ sr-Latn:
   oauth_clients:
     new:
       title: Upiši novi program
-      submit: Otvori nalog
     edit:
       title: Uredi program
-      submit: Uredi
     show:
       title: OAuth detalji za %{app_name}
       key: 'Ključ potrošača:'
@@ -1264,7 +1271,7 @@ sr-Latn:
       flash: Podaci o klijentu su uspešno ažurirani
     destroy:
       flash: Upis programa je ukinut
-  user:
+  users:
     login:
       title: Prijava
       heading: Prijava
@@ -1335,15 +1342,12 @@ sr-Latn:
     terms:
       title: Uslovi uređivanja
       heading: Uslovi uređivanja
-      read and accept: Pročitajte ugovor ispod i pritisnite dugme za potvrdu da biste
-        prihvatili uslove za postojeće i buduće doprinose.
       consider_pd: Prema gorenavedenom ugovoru, smatram da moji doprinosi pripadaju
         javnom vlasništvu
       consider_pd_why: šta je ovo?
       consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain?uselang=sr-ec
       guidance: 'Podaci koji će vam pomoći da razumete ove uslove: <a href="%{summary}">kratak
         opis</a> i neki <a href="%{translations}">neformalni prevodi</a>'
-      agree: Prihvati
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
       decline: Odbaci
       you need to accept or decline: Molimo vas da pročitate ugovor pre nego što ga
@@ -1358,7 +1362,7 @@ sr-Latn:
       heading: Korisnik %{user} ne postoji
       body: Ne postoji korisnik s imenom %{user}. Proverite ispravnost upisa ili veze
         koju ste kliknuli.
-    view:
+    show:
       my diary: moj dnevnik
       new diary entry: novi unos u dnevniku
       my edits: moje izmene
@@ -1375,11 +1379,9 @@ sr-Latn:
       remove as friend: ukloni kao prijatelja
       add as friend: dodaj kao prijatelja
       mapper since: 'Kartograf od:'
-      ago: (pre %{time_in_words_ago})
       ct status: 'Uslovi za učešće:'
       ct undecided: Neodlučeno
       ct declined: Odbijeno
-      ct accepted: Prihvaćeno pre %{ago} dana
       latest edit: 'Poslednja izmena pre %{ago}:'
       email address: 'E-adresa:'
       created from: 'Napravljeno iz:'
@@ -1390,7 +1392,6 @@ sr-Latn:
       if set location: Ako postavite svoju lokaciju, zgodna mapa će biti prikazana
         ispod. Možete je podesiti u %{settings_link}.
       settings_link_text: postavkama
-      your friends: Vaši prijatelji
       no friends: Niste dodali nijednog prijatelja.
       km away: udaljeno %{count} km
       m away: udaljeno %{count} m
@@ -1514,9 +1515,7 @@ sr-Latn:
       button: Ukloni iz prijatelja
       success: '%{name} je izbačen iz prijatelja.'
       not_a_friend: '%{name} nije vaš prijatelj.'
-    filter:
-      not_an_administrator: Treba da budete administrator da biste izvršili ovu radnju.
-    list:
+    index:
       title: Korisnici
       heading: Korisnici
       showing:
@@ -1542,8 +1541,6 @@ sr-Latn:
         </p>
   user_role:
     filter:
-      not_an_administrator: Samo administratori mogu da upravljaju ulogama korisnika,
-        a vi to niste.
       not_a_role: „%{role}“ nije ispravna uloga.
       already_has_role: Korisnik već ima ulogu %{role}.
       doesnt_have_role: Korisnik nema ulogu %{role}.
@@ -1561,7 +1558,7 @@ sr-Latn:
       confirm: Potvrdi
       fail: Ne mogu da oduzmem ulogu „%{role}“ od korisnika %{name}. Proverite da
         li su korisnik i uloga ispravni.
-  user_block:
+  user_blocks:
     model:
       non_moderator_update: Morate biti urednik da biste postavljali ili ažurirali
         blokadu.
@@ -1576,7 +1573,6 @@ sr-Latn:
         više detalja. Imajte na umu da ne znaju svi korisnici žargon zajednice, te
         im pokušajte objasniti jednostavnim jezikom.
       period: Koliko dugo će korisnik biti blokiran od API-ja, počev od sada.
-      submit: Napravi blokadu
       tried_contacting: Kontaktirao sam korisnika i pitao ga da prestane.
       tried_waiting: Dao sam dovoljno vremena korisniku da odgovori.
       needs_view: Korisnik mora da se prijavi da bi blokada bila uklonjena
@@ -1588,7 +1584,6 @@ sr-Latn:
         više detalja. Imajte na umu da ne znaju svi korisnici žargon zajednice, te
         im pokušajte objasniti jednostavnim jezikom.
       period: Koliko dugo će korisnik biti blokiran od API-ja, počev od sada.
-      submit: Ažuriraj blokadu
       show: Pogledaj ovu blokadu
       back: Pogledaj sve blokade
       needs_view: Da li korisnik mora da se prijavi da bi blokada bila uklonjena?
@@ -1616,27 +1611,14 @@ sr-Latn:
       confirm: Želite li da opozovete ovu blokadu?
       revoke: Opozovi
       flash: Ova blokada je opozvana.
-    period:
-      one: 1 sat
-      other: '%{count} sata'
-    partial:
-      show: Prikaži
-      edit: Uredi
-      revoke: Opozovi
-      confirm: Jeste li sigurni?
-      display_name: Blokirani korisnik
-      creator_name: Tvorac
-      reason: Razlozi za blokiranje
-      status: Stanje
-      revoker_name: Opozvao
-      not_revoked: (nije opozvano)
-      showing_page: Prikaz stranice %{page}
-      next: Sledeće »
-      previous: « Prethodno
     helper:
       time_future: Završava se u %{time}.
       until_login: Aktivno sve dok se korisnik ne prijavi.
       time_past: Završeno pre %{time}.
+      block_duration:
+        hours:
+          one: 1 sat
+          other: '%{count} sata'
     blocks_on:
       title: Blokade za %{name}
       heading: Spisak blokada za %{name}
@@ -1648,8 +1630,6 @@ sr-Latn:
     show:
       title: '%{block_on} je blokiran/a od %{block_by}'
       heading: '%{block_on} je blokiran/a od %{block_by}'
-      time_future: Završava se u %{time}
-      time_past: Završeno pre %{time}
       status: Stanje
       show: Prikaži
       edit: Uredi
@@ -1659,6 +1639,20 @@ sr-Latn:
       back: Pogledaj sve blokade
       revoker: 'Opozivalac:'
       needs_view: Korisnik mora da se prijavi da bi blokada bila uklonjena.
+    block:
+      not_revoked: (nije opozvano)
+      show: Prikaži
+      edit: Uredi
+      revoke: Opozovi
+    blocks:
+      display_name: Blokirani korisnik
+      creator_name: Tvorac
+      reason: Razlozi za blokiranje
+      status: Stanje
+      revoker_name: Opozvao
+      showing_page: Prikaz stranice %{page}
+      next: Sledeće »
+      previous: « Prethodno
   javascripts:
     map:
       base:
@@ -1668,11 +1662,10 @@ sr-Latn:
     site:
       edit_tooltip: Uredite mapu
       edit_disabled_tooltip: Uvećajte prikaz da biste uredili mapu
-  redaction:
+  redactions:
     edit:
       description: Opis
       heading: Uredi redakciju
-      submit: Sačuvaj redakciju
       title: Uređivanje redakcije
     index:
       empty: Nema redakcija.
@@ -1681,7 +1674,6 @@ sr-Latn:
     new:
       description: Opis
       heading: Unesite podatke za novu redakciju
-      submit: Napravi redakciju
       title: Pravljenje nove redakcije
     show:
       description: 'Opis:'

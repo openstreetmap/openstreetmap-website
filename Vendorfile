@@ -11,13 +11,13 @@ folder 'vendor/assets' do
   end
 
   folder 'leaflet' do
-    file 'leaflet.js', 'https://unpkg.com/leaflet@1.3.1/dist/leaflet-src.js'
-    file 'leaflet.css', 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css'
+    file 'leaflet.js', 'https://unpkg.com/leaflet@1.5.1/dist/leaflet-src.js'
+    file 'leaflet.css', 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css'
 
     [ 'layers.png', 'layers-2x.png',
       'marker-icon.png', 'marker-icon-2x.png',
       'marker-shadow.png' ].each do |image|
-      file "images/#{image}", "https://unpkg.com/leaflet@1.3.1/dist/images/#{image}"
+      file "images/#{image}", "https://unpkg.com/leaflet@1.5.1/dist/images/#{image}"
     end
 
     from 'git://github.com/aratcliffe/Leaflet.contextmenu.git', :tag => 'v1.5.0' do
@@ -31,7 +31,7 @@ folder 'vendor/assets' do
       folder 'img', 'src/img'
     end
 
-    from 'git://github.com/domoritz/leaflet-locatecontrol.git', :tag => 'v0.62.0' do
+    from 'git://github.com/domoritz/leaflet-locatecontrol.git', :tag => 'v0.66.0' do
       file 'leaflet.locate.js', 'src/L.Control.Locate.js'
     end
 
@@ -55,6 +55,7 @@ folder 'vendor/assets' do
       folder 'iD/img', 'dist/img'
       folder 'iD/locales', 'dist/locales'
       folder 'iD/mapillary-js', 'dist/mapillary-js'
+      folder 'iD/pannellum-streetside', 'dist/pannellum-streetside'
 
       file 'iD.css.erb', 'dist/iD.css' do |path|
         rewrite(path) do |content|
@@ -66,7 +67,20 @@ folder 'vendor/assets' do
     end
   end
 
+  folder 'polyfill' do
+    file 'es5.js', 'https://polyfill.io/v3/polyfill.js?features=es5&flags=gated,always'
+    file 'es6.js', 'https://polyfill.io/v3/polyfill.js?features=es6&flags=gated,always'
+  end
+
   folder 'javascripts' do
     file 'html5shiv.js', 'https://raw.githubusercontent.com/aFarkas/html5shiv/master/src/html5shiv.js'
+    file 'bowser.js', 'https://github.com/lancedikson/bowser/releases/download/1.9.4/bowser.js'
+  end
+
+  folder 'swfobject' do
+    from 'git://github.com/swfobject/swfobject.git', :tag => '2.2' do
+      file 'expressInstall.swf', 'swfobject/expressInstall.swf'
+      file 'swfobject.js', 'swfobject/src/swfobject.js'
+    end
   end
 end

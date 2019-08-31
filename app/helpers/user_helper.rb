@@ -7,8 +7,10 @@ module UserHelper
 
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
+    elsif user.avatar.attached?
+      image_tag user_avatar_variant(user, :resize => "100x100>"), options
     else
-      image_tag user.image.url(:large), options
+      image_tag "avatar_large.png", options
     end
   end
 
@@ -18,8 +20,10 @@ module UserHelper
 
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
+    elsif user.avatar.attached?
+      image_tag user_avatar_variant(user, :resize => "50x50>"), options
     else
-      image_tag user.image.url(:small), options
+      image_tag "avatar_small.png", options
     end
   end
 
@@ -29,35 +33,49 @@ module UserHelper
 
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
+    elsif user.avatar.attached?
+      image_tag user_avatar_variant(user, :resize => "50x50>"), options
     else
-      image_tag user.image.url(:small), options
+      image_tag "avatar_small.png", options
     end
   end
 
   def user_image_url(user, options = {})
     if user.image_use_gravatar
       user_gravatar_url(user, options)
+    elsif user.avatar.attached?
+      polymorphic_url(user_avatar_variant(user, :resize => "100x100>"), :host => Settings.server_url)
     else
-      image_url(user.image.url)
+      image_url("avatar_large.png")
     end
   end
 
   # External authentication support
 
   def openid_logo
-    image_tag "openid_small.png", :alt => t("user.login.openid_logo_alt"), :class => "openid_logo"
+    image_tag "openid_small.png", :alt => t("users.login.openid_logo_alt"), :class => "openid_logo"
   end
 
   def auth_button(name, provider, options = {})
     link_to(
-      image_tag("#{name}.png", :alt => t("user.login.auth_providers.#{name}.alt")),
+      image_tag("#{name}.png", :alt => t("users.login.auth_providers.#{name}.alt")),
       auth_path(options.merge(:provider => provider)),
       :class => "auth_button",
-      :title => t("user.login.auth_providers.#{name}.title")
+      :title => t("users.login.auth_providers.#{name}.title")
     )
   end
 
   private
+
+  # Local avatar support
+
+  def user_avatar_variant(user, options)
+    if user.avatar.variable?
+      user.avatar.variant(options)
+    else
+      user.avatar
+    end
+  end
 
   # Gravatar support
 
@@ -65,7 +83,7 @@ module UserHelper
   def user_gravatar_url(user, options = {})
     size = options[:size] || 100
     hash = Digest::MD5.hexdigest(user.email.downcase)
-    default_image_url = image_url("users/images/large.png")
+    default_image_url = image_url("avatar_large.png")
     "#{request.protocol}www.gravatar.com/avatar/#{hash}.jpg?s=#{size}&d=#{u(default_image_url)}"
   end
 

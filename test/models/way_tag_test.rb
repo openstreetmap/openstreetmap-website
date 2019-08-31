@@ -20,20 +20,20 @@ class WayTagTest < ActiveSupport::TestCase
   def test_length_key_invalid
     tag = create(:way_tag)
     tag.k = "k" * 256
-    assert !tag.valid?, "Key should be too long"
+    assert_not tag.valid?, "Key should be too long"
     assert tag.errors[:k].any?
   end
 
   def test_length_value_invalid
     tag = create(:way_tag)
     tag.v = "v" * 256
-    assert !tag.valid?, "Value should be too long"
+    assert_not tag.valid?, "Value should be too long"
     assert tag.errors[:v].any?
   end
 
   def test_empty_tag_invalid
     tag = WayTag.new
-    assert !tag.valid?, "Empty way tag should be invalid"
+    assert_not tag.valid?, "Empty way tag should be invalid"
     assert tag.errors[:way].any?
   end
 
@@ -44,7 +44,7 @@ class WayTagTest < ActiveSupport::TestCase
     tag.k = existing.k
     tag.v = existing.v
     assert tag.new_record?
-    assert !tag.valid?
+    assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
     assert tag.new_record?
   end

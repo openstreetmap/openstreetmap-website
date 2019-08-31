@@ -2,7 +2,7 @@
 
 require File.dirname(__FILE__) + "/../config/environment"
 
-UserToken.delete_all("expiry < NOW()")
-OauthNonce.delete_all("timestamp < EXTRACT(EPOCH FROM NOW() - INTERVAL '1 day')")
+UserToken.where("expiry < NOW()").delete_all
+OauthNonce.where("timestamp < EXTRACT(EPOCH FROM NOW() - INTERVAL '1 day')").delete_all
 
 exit 0

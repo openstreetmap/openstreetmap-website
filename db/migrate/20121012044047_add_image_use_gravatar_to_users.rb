@@ -1,4 +1,7 @@
-class AddImageUseGravatarToUsers < ActiveRecord::Migration[5.0]
+class AddImageUseGravatarToUsers < ActiveRecord::Migration[4.2]
+  class User < ActiveRecord::Base
+  end
+
   def self.up
     add_column :users, :image_use_gravatar, :boolean, :null => false, :default => false
 

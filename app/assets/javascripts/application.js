@@ -5,30 +5,28 @@
 //= require jquery.throttle-debounce
 //= require bootstrap.tooltip
 //= require bootstrap.dropdown
-//= require augment
 //= require osm
 //= require leaflet
 //= require leaflet.osm
 //= require leaflet.map
 //= require leaflet.zoom
 //= require leaflet.locationfilter
-//= require i18n/translations
+//= require i18n
 //= require oauth
 //= require piwik
 //= require richtext
 //= require querystring
-
-var querystring = require('querystring-component');
 
 /*
  * Called as the user scrolls/zooms around to maniplate hrefs of the
  * view tab and various other links
  */
 window.updateLinks = function (loc, zoom, layers, object) {
-  $(".geolink").each(function(index, link) {
-    var href = link.href.split(/[?#]/)[0],
-      args = querystring.parse(link.search.substring(1)),
-      editlink = $(link).hasClass("editlink");
+  $(".geolink").each(function (index, link) {
+    var querystring = require("querystring-component"),
+        href = link.href.split(/[?#]/)[0],
+        args = querystring.parse(link.search.substring(1)),
+        editlink = $(link).hasClass("editlink");
 
     delete args.node;
     delete args.way;
@@ -40,11 +38,11 @@ window.updateLinks = function (loc, zoom, layers, object) {
     }
 
     var query = querystring.stringify(args);
-    if (query) href += '?' + query;
+    if (query) href += "?" + query;
 
     args = {
       lat: loc.lat,
-      lon: 'lon' in loc ? loc.lon : loc.lng,
+      lon: "lon" in loc ? loc.lon : loc.lng,
       zoom: zoom
     };
 
@@ -58,13 +56,13 @@ window.updateLinks = function (loc, zoom, layers, object) {
   });
 
   var editDisabled = zoom < 13;
-  $('#edit_tab')
-    .tooltip({placement: 'bottom'})
-    .off('click.minzoom')
-    .on('click.minzoom', function() { return !editDisabled; })
-    .toggleClass('disabled', editDisabled)
-    .attr('data-original-title', editDisabled ?
-      I18n.t('javascripts.site.edit_disabled_tooltip') : '');
+  $("#edit_tab")
+    .tooltip({ placement: "bottom" })
+    .off("click.minzoom")
+    .on("click.minzoom", function () { return !editDisabled; })
+    .toggleClass("disabled", editDisabled)
+    .attr("data-original-title", editDisabled ?
+      I18n.t("javascripts.site.edit_disabled_tooltip") : "");
 };
 
 window.maximiseMap = function () {
@@ -98,13 +96,13 @@ $(document).ready(function () {
    * to defer the measurement slightly as a workaround.
    */
   setTimeout(function () {
-    $("header").children(":visible").each(function (i,e) {
+    $("header").children(":visible").each(function (i, e) {
       headerWidth = headerWidth + $(e).outerWidth();
     });
 
     $("body").addClass("compact");
 
-    $("header").children(":visible").each(function (i,e) {
+    $("header").children(":visible").each(function (i, e) {
       compactWidth = compactWidth + $(e).outerWidth();
     });
 
@@ -115,12 +113,12 @@ $(document).ready(function () {
     $(window).resize(updateHeader);
   }, 0);
 
-  $("#menu-icon").on("click", function(e) {
+  $("#menu-icon").on("click", function (e) {
     e.preventDefault();
     $("header").toggleClass("closed");
   });
 
-  $("nav.primary li a").on("click", function() {
+  $("nav.primary li a").on("click", function () {
     $("header").toggleClass("closed");
   });
 

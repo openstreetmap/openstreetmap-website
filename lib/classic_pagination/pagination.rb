@@ -67,17 +67,17 @@ module ActionController
       DEFAULT_OPTIONS = {
         :class_name => nil,
         :singular_name => nil,
-        :per_page   => 10,
+        :per_page => 10,
         :conditions => nil,
-        :order_by   => nil,
-        :order      => nil,
-        :join       => nil,
-        :joins      => nil,
-        :count      => nil,
-        :include    => nil,
-        :select     => nil,
-        :group      => nil,
-        :parameter  => "page"
+        :order_by => nil,
+        :order => nil,
+        :join => nil,
+        :joins => nil,
+        :count => nil,
+        :include => nil,
+        :select => nil,
+        :group => nil,
+        :parameter => "page"
       }.freeze
     end
 
@@ -154,6 +154,8 @@ module ActionController
       end
     end
 
+    protected
+
     def create_paginators_and_retrieve_collections #:nodoc:
       Pagination::OPTIONS[self.class].each do |collection_id, options|
         next if options[:actions] && !options[:actions].include?(action_name)
@@ -200,9 +202,7 @@ module ActionController
       collection.offset(paginator.current.offset).limit(options[:per_page])
     end
 
-    protected :create_paginators_and_retrieve_collections,
-              :count_collection_for_pagination,
-              :find_collection_for_pagination
+    private
 
     def paginator_and_collection_for(_collection_id, options) #:nodoc:
       klass = options[:class_name].constantize
@@ -213,8 +213,6 @@ module ActionController
 
       [paginator, collection]
     end
-
-    private :paginator_and_collection_for
 
     # A class representing a paginator for an Active Record collection.
     class Paginator
@@ -318,6 +316,7 @@ module ActionController
         # same page number).
         def ==(other)
           return false if other.nil?
+
           @paginator == other.paginator &&
             @number == other.number
         end
@@ -328,6 +327,7 @@ module ActionController
         # if the pages do not belong to the same Paginator object.
         def <=>(other)
           raise ArgumentError unless @paginator == other.paginator
+
           @number <=> other.number
         end
 
@@ -398,7 +398,7 @@ module ActionController
         # Sets the window's padding (the number of pages on either side of the
         # window page).
         def padding=(padding)
-          @padding = padding < 0 ? 0 : padding
+          @padding = padding.negative? ? 0 : padding
           # Find the beginning and end pages of the window
           @first = if @paginator.has_page_number?(@page.number - @padding)
                      @paginator[@page.number - @padding]

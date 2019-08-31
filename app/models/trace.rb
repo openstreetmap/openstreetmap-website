@@ -2,11 +2,11 @@
 #
 # Table name: gpx_files
 #
-#  id          :integer          not null, primary key
-#  user_id     :integer          not null
+#  id          :bigint(8)        not null, primary key
+#  user_id     :bigint(8)        not null
 #  visible     :boolean          default(TRUE), not null
 #  name        :string           default(""), not null
-#  size        :integer
+#  size        :bigint(8)
 #  latitude    :float
 #  longitude   :float
 #  timestamp   :datetime         not null
@@ -38,17 +38,12 @@ class Trace < ActiveRecord::Base
   scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
 
   validates :user, :presence => true, :associated => true
-  validates :name, :presence => true, :length => 1..255
-  validates :description, :presence => { :on => :create }, :length => 1..255
+  validates :name, :presence => true, :length => 1..255, :characters => true
+  validates :description, :presence => { :on => :create }, :length => 1..255, :characters => true
   validates :timestamp, :presence => true
   validates :visibility, :inclusion => %w[private public trackable identifiable]
 
-  def destroy
-    super
-    FileUtils.rm_f(trace_name)
-    FileUtils.rm_f(icon_picture_name)
-    FileUtils.rm_f(large_picture_name)
-  end
+  after_destroy :remove_files
 
   def tagstring
     tags.collect(&:tag).join(", ")
@@ -110,15 +105,15 @@ class Trace < ActiveRecord::Base
   end
 
   def large_picture_name
-    "#{GPX_IMAGE_DIR}/#{id}.gif"
+    "#{Settings.gpx_image_dir}/#{id}.gif"
   end
 
   def icon_picture_name
-    "#{GPX_IMAGE_DIR}/#{id}_icon.gif"
+    "#{Settings.gpx_image_dir}/#{id}_icon.gif"
   end
 
   def trace_name
-    "#{GPX_TRACE_DIR}/#{id}.gpx"
+    "#{Settings.gpx_trace_dir}/#{id}.gpx"
   end
 
   def mime_type
@@ -169,36 +164,6 @@ class Trace < ActiveRecord::Base
     extension
   end
 
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node
-    el1 = XML::Node.new "gpx_file"
-    el1["id"] = id.to_s
-    el1["name"] = name.to_s
-    el1["lat"] = latitude.to_s if inserted
-    el1["lon"] = longitude.to_s if inserted
-    el1["user"] = user.display_name
-    el1["visibility"] = visibility
-    el1["pending"] = inserted ? "false" : "true"
-    el1["timestamp"] = timestamp.xmlschema
-
-    el2 = XML::Node.new "description"
-    el2 << description
-    el1 << el2
-
-    tags.each do |tag|
-      el2 = XML::Node.new("tag")
-      el2 << tag.tag
-      el1 << el2
-    end
-
-    el1
-  end
-
   def update_from_xml(xml, create = false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
@@ -208,16 +173,18 @@ class Trace < ActiveRecord::Base
     end
 
     raise OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("trace", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("trace", xml, e.message)
   end
 
   def update_from_xml_node(pt, create = false)
     raise OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt["visibility"].nil?
+
     self.visibility = pt["visibility"]
 
     unless create
       raise OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt["id"].nil?
+
       id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
@@ -232,6 +199,7 @@ class Trace < ActiveRecord::Base
 
     description = pt.find("description").first
     raise OSM::APIBadXMLError.new("trace", pt, "description missing") if description.nil?
+
     self.description = description.content
 
     self.tags = pt.find("tag").collect do |tag|
@@ -277,7 +245,7 @@ class Trace < ActiveRecord::Base
   def import
     logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
-    gpx = GPX::File.new(xml_file)
+    gpx = GPX::File.new(trace_name)
 
     f_lat = 0
     f_lon = 0
@@ -286,24 +254,37 @@ class Trace < ActiveRecord::Base
     # If there are any existing points for this trace then delete them
     Tracepoint.where(:gpx_id => id).delete_all
 
-    gpx.points do |point|
-      if first
-        f_lat = point.latitude
-        f_lon = point.longitude
-        first = false
+    gpx.points.each_slice(1_000) do |points|
+      # Gather the trace points together for a bulk import
+      tracepoints = []
+
+      points.each do |point|
+        if first
+          f_lat = point.latitude
+          f_lon = point.longitude
+          first = false
+        end
+
+        tp = Tracepoint.new
+        tp.lat = point.latitude
+        tp.lon = point.longitude
+        tp.altitude = point.altitude
+        tp.timestamp = point.timestamp
+        tp.gpx_id = id
+        tp.trackid = point.segment
+        tracepoints << tp
       end
 
-      tp = Tracepoint.new
-      tp.lat = point.latitude
-      tp.lon = point.longitude
-      tp.altitude = point.altitude
-      tp.timestamp = point.timestamp
-      tp.gpx_id = id
-      tp.trackid = point.segment
-      tp.save!
+      # Run the before_save and before_create callbacks, and then import them in bulk with activerecord-import
+      tracepoints.each do |tp|
+        tp.run_callbacks(:save) { false }
+        tp.run_callbacks(:create) { false }
+      end
+
+      Tracepoint.import!(tracepoints)
     end
 
-    if gpx.actual_points > 0
+    if gpx.actual_points.positive?
       max_lat = Tracepoint.where(:gpx_id => id).maximum(:latitude)
       min_lat = Tracepoint.where(:gpx_id => id).minimum(:latitude)
       max_lon = Tracepoint.where(:gpx_id => id).maximum(:longitude)
@@ -326,5 +307,13 @@ class Trace < ActiveRecord::Base
     logger.info "done trace #{id}"
 
     gpx
+  end
+
+  private
+
+  def remove_files
+    FileUtils.rm_f(trace_name)
+    FileUtils.rm_f(icon_picture_name)
+    FileUtils.rm_f(large_picture_name)
   end
 end

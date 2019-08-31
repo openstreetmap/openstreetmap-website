@@ -1,0 +1,62 @@
+<% content_for :heading do %>
+<h2><%= t ".title", :status => @issue.status.humanize, :issue_id => @issue.id %></h2>
+<p><%= @issue.reportable.model_name.human %> : <%= link_to reportable_title(@issue.reportable), reportable_url(@issue.reportable) %></p>
+<p class="deemphasize">
+  <small>
+    <%= @issue.assigned_role %>
+    | <%= t ".reports", :count => @issue.reports.count %>
+    | <%= t ".report_created_at", :datetime => l(@issue.created_at.to_datetime, :format => :friendly) %>
+    <%= " | " + t(".last_resolved_at", :datetime => l(@issue.resolved_at.to_datetime, :format => :friendly)) if @issue.resolved_at? %>
+    <%= " | " + t(".last_updated_at", :datetime => l(@issue.updated_at.to_datetime, :format => :friendly), :displayname => @issue.user_updated.display_name) if @issue.user_updated %>
+  </small>
+</p>
+<p>
+  <%= link_to t(".resolve"), resolve_issue_url(@issue), :method => :post if @issue.may_resolve? %>
+  <% if @issue.may_ignore? %>
+  | <%= link_to t(".ignore"), ignore_issue_url(@issue), :method => :post %>
+  <% end %>
+</p>
+<p><%= link_to t(".reopen"), reopen_issue_url(@issue), :method => :post if @issue.may_reopen? %></p>
+<% end %>
+
+<div class="report-related-block">
+
+  <div class="report-block">
+    <h3><%= t ".reports_of_this_issue" %></h3>
+
+    <% if @read_reports.present? %>
+    <div class="read-reports">
+      <h4><%= t ".read_reports" %></h4>
+      <%= render "reports", :reports => @read_reports %>
+    </div>
+    <% end %>
+
+    <% if @unread_reports.any? %>
+    <div class="unread-reports">
+      <h4><%= t ".new_reports" %></h4>
+      <%= render "reports", :reports => @unread_reports %>
+    </div>
+    <% end %>
+    <br />
+  </div>
+
+  <% if @issue.reported_user %>
+    <div class="related-reports">
+      <h3><%= t ".other_issues_against_this_user" %></h3>
+      <% if @related_issues.count > 1 %>
+        <ul>
+          <% @related_issues.each do |issue| %>
+            <% if issue.id != @issue.id %>
+              <li><%= link_to reportable_title(issue.reportable), issue %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      <% else %>
+        <p><%= t ".no_other_issues" %></p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<h3><%= t ".comments_on_this_issue" %></h3>
+<%= render "comments", :comments => @comments %>

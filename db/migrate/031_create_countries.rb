@@ -1,7 +1,7 @@
 require "migrate"
 require "rexml/document"
 
-class CreateCountries < ActiveRecord::Migration[5.0]
+class CreateCountries < ActiveRecord::Migration[4.2]
   def self.up
     create_table :countries, :id => false do |t|
       t.column :id,      :primary_key, :null => false

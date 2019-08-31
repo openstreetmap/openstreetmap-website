@@ -17,44 +17,6 @@ module ApplicationHelper
     link_to(image_tag("RSS.png", :size => "16x16", :border => 0), Hash[*args], :class => "rsssmall")
   end
 
-  def style_rules
-    css = ""
-
-    css << ".hidden { display: none !important }"
-    css << ".hide_unless_logged_in { display: none !important }" unless current_user
-    css << ".hide_if_logged_in { display: none !important }" if current_user
-    css << ".hide_if_user_#{current_user.id} { display: none !important }" if current_user
-    css << ".show_if_user_#{current_user.id} { display: inline !important }" if current_user
-    css << ".hide_unless_administrator { display: none !important }" unless current_user && current_user.administrator?
-    css << ".hide_unless_moderator { display: none !important }" unless current_user && current_user.moderator?
-
-    content_tag(:style, css, :type => "text/css")
-  end
-
-  def if_logged_in(tag = :div, &block)
-    content_tag(tag, capture(&block), :class => "hide_unless_logged_in")
-  end
-
-  def if_not_logged_in(tag = :div, &block)
-    content_tag(tag, capture(&block), :class => "hide_if_logged_in")
-  end
-
-  def if_user(user, tag = :div, &block)
-    content_tag(tag, capture(&block), :class => "hidden show_if_user_#{user.id}") if user
-  end
-
-  def unless_user(user, tag = :div, &block)
-    if user
-      content_tag(tag, capture(&block), :class => "hide_if_user_#{user.id}")
-    else
-      content_tag(tag, capture(&block))
-    end
-  end
-
-  def if_administrator(tag = :div, &block)
-    content_tag(tag, capture(&block), :class => "hide_unless_administrator")
-  end
-
   def richtext_area(object_name, method, options = {})
     id = "#{object_name}_#{method}"
     type = options.delete(:format) || "markdown"
@@ -85,6 +47,10 @@ module ApplicationHelper
 
   def friendly_date(date)
     content_tag(:span, time_ago_in_words(date), :title => l(date, :format => :friendly))
+  end
+
+  def friendly_date_ago(date)
+    content_tag(:span, time_ago_in_words(date, :scope => :'datetime.distance_in_words_ago'), :title => l(date, :format => :friendly))
   end
 
   def body_class

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :old_relation_member do
-    member_role ""
+    member_role { "" }
 
     old_relation
     # Default to creating nodes, but could be ways or relations as members

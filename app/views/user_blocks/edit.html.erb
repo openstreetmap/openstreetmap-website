@@ -1,12 +1,11 @@
-<% @title = t 'user_block.edit.title', :name => h(@user_block.user.display_name) %>
+<% @title = t ".title", :name => h(@user_block.user.display_name) %>
 <% content_for :heading do %>
-  <h1><%= raw t('user_block.edit.title',
-                :name => link_to(
-                                 h(@user_block.user.display_name),
-                                 {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name})) %></h1>
+  <h1><%= raw t(".title",
+                :name => link_to(h(@user_block.user.display_name),
+                                 user_path(@user_block.user))) %></h1>
   <ul class='secondary-actions clearfix'>
-    <li><%= link_to t('user_block.edit.show'), @user_block %></li>
-    <li><%= link_to t('user_block.edit.back'), user_blocks_path %></li>
+    <li><%= link_to t(".show"), @user_block %></li>
+    <li><%= link_to t(".back"), user_blocks_path %></li>
   </ul>
 <% end %>
 
@@ -14,18 +13,18 @@
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :reason, t('user_block.edit.reason', :name => h(@user_block.user.display_name)) %><br />
+    <%= f.label :reason, t(".reason", :name => h(@user_block.user.display_name)) %><br />
     <%= richtext_area :user_block, :reason, :cols => 80, :rows => 20, :format => @user_block.reason_format %>
   </p>
   <p>
-    <%= label_tag 'user_block_period', t('user_block.edit.period') %><br />
-    <%= select_tag('user_block_period', options_for_select(UserBlock::PERIODS.collect { |h| [t('user_block.period', :count => h), h.to_s] }, params[:user_block_period])) %>
+    <%= label_tag "user_block_period", t(".period") %><br />
+    <%= select_tag("user_block_period", options_for_select(UserBlock::PERIODS.collect { |h| [block_duration_in_words(h.hours), h.to_s] }, params[:user_block_period])) %>
   </p>
   <p>
     <%= f.check_box :needs_view %>
-    <%= f.label :needs_view, t('user_block.edit.needs_view') %>
+    <%= f.label :needs_view, t(".needs_view") %>
   </p>
   <p>
-    <%= f.submit t('user_block.edit.submit') %>
+    <%= f.submit %>
   </p>
 <% end %>

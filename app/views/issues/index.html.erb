@@ -1,0 +1,51 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<%= form_tag(issues_path, :method => :get) do %>
+<p><%= t ".search_guidance" %></p>
+<%= select_tag :status, options_for_select(Issue.aasm.states.map(&:name).map { |state| [t(".states.#{state}"), state] }, params[:status]), :include_blank => t(".select_status"), :data => { :behavior => "category_dropdown" } %>
+<%= select_tag :issue_type, options_for_select(@issue_types, params[:issue_type]), :include_blank => t(".select_type"), :data => { :behavior => "category_dropdown" } %>
+<%= text_field_tag :search_by_user, params[:search_by_user], :placeholder => t(".reported_user") %>
+<%= select_tag :last_updated_by, options_for_select(@users.all.collect { |f| [f.display_name, f.id] } << [t(".not_updated"), "nil"], params[:last_updated_by]), :include_blank => t(".select_last_updated_by"), :data => { :behavior => "category_dropdown" } %>
+<%= submit_tag t(".search"), :name => nil %>
+<% end %>
+<br />
+
+<% if @issues.length == 0 %>
+  <p><%= t ".issues_not_found" %></p>
+<% end %>
+
+<br />
+
+<table class="issues-list">
+  <thead>
+    <tr>
+      <th><%= t ".status" %></th>
+      <th><%= t ".reports" %></th>
+      <th><%= t ".reported_item" %></th>
+      <th><%= t ".reported_user" %></th>
+      <th><%= t ".last_updated" %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @issues.each do |issue| %>
+      <tr>
+        <td><%= t ".states.#{issue.status}" %></td>
+        <td><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
+        <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
+        <td><%= link_to issue.reported_user.display_name, user_path(issue.reported_user) if issue.reported_user %></td>
+        <td>
+          <% if issue.user_updated %>
+            <%= t ".last_updated_time_user_html", :user => link_to(issue.user_updated.display_name, user_path(issue.user_updated)),
+                                                  :time => time_ago_in_words(issue.updated_at, :scope => :'datetime.distance_in_words_ago'),
+                                                  :title => l(issue.updated_at) %>
+          <% else %>
+            <%= t ".last_updated_time_html", :time => time_ago_in_words(issue.updated_at, :scope => :'datetime.distance_in_words_ago'),
+                                             :title => l(issue.updated_at) %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

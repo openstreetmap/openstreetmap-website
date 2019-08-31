@@ -1,11 +1,10 @@
 <p>
-  <%= t'notifier.message_notification.hi', :to_user => @to_user %>
+  <%= t ".hi", :to_user => @to_user %>
 </p>
 <p>
-  <%= raw t'notifier.message_notification.header',
-          :from_user => link_to_user(@from_user),
-          :subject => content_tag("em", @title)
-  %>
+  <%= raw t ".header",
+            :from_user => link_to_user(@from_user),
+            :subject => content_tag("em", @title) %>
 </p>
 
 <%= message_body do %>
@@ -14,9 +13,8 @@
 
 <% content_for :footer do %>
   <p>
-    <%= t'notifier.message_notification.footer_html',
+    <%= t ".footer_html",
           :readurl => link_to(@readurl, @readurl) + tag(:br),
-          :replyurl => link_to(@replyurl, @replyurl)
-    %>
+          :replyurl => link_to(@replyurl, @replyurl) %>
   </p>
 <% end %>

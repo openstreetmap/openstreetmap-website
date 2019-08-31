@@ -1,5 +1,10 @@
 {
     "en-GB": {
+        "icons": {
+            "information": "info",
+            "remove": "remove",
+            "undo": "undo"
+        },
         "modes": {
             "add_area": {
                 "title": "Area",
@@ -25,6 +30,9 @@
             },
             "draw_line": {
                 "tail": "Click to add more nodes to the line. Click on other lines to connect to them, and double-click to end the line."
+            },
+            "drag_node": {
+                "connected_to_hidden": "This can't be edited because it is connected to a hidden feature."
             }
         },
         "operations": {
@@ -82,7 +90,6 @@
                     "line": "Square the corners of this line.",
                     "area": "Square the corners of this area."
                 },
-                "key": "S",
                 "annotation": {
                     "line": "Squared the corners of a line.",
                     "area": "Squared the corners of an area."
@@ -93,11 +100,8 @@
             },
             "straighten": {
                 "title": "Straighten",
-                "description": "Straighten this line.",
                 "key": "S",
-                "annotation": "Straightened a line.",
-                "too_bendy": "This can't be straightened because it bends too much.",
-                "connected_to_hidden": "This line can't be straightened because it is connected to a hidden feature."
+                "too_bendy": "This can't be straightened because it bends too much."
             },
             "delete": {
                 "title": "Delete",
@@ -137,12 +141,8 @@
                 "annotation": "Removed a member from a relation."
             },
             "connect": {
-                "annotation": {
-                    "point": "Connected a way to a point.",
-                    "vertex": "Connected a way to another.",
-                    "line": "Connected a way to a line.",
-                    "area": "Connected a way to an area."
-                }
+                "relation": "These features can't be connected because they have conflicting relation roles.",
+                "restriction": "These features can't be connected because it would damage a \"{relation}\" relation."
             },
             "disconnect": {
                 "title": "Disconnect",
@@ -160,7 +160,8 @@
                 "annotation": "Merged {n} features.",
                 "not_eligible": "These features can't be merged.",
                 "not_adjacent": "These features can't be merged because their endpoints aren't connected.",
-                "restriction": "These features can't be merged because at least one is a member of a \"{relation}\" relation.",
+                "restriction": "These features can't be merged because it would damage a \"{relation}\" relation.",
+                "relation": "These features can't be merged because they have conflicting relation roles.",
                 "incomplete_relation": "These features can't be merged because at least one hasn't been fully downloaded.",
                 "conflicting_tags": "These features can't be merged because some of their tags have conflicting values."
             },
@@ -288,6 +289,42 @@
                 }
             }
         },
+        "restriction": {
+            "controls": {
+                "distance": "Distance",
+                "distance_up_to": "Up to {distance}",
+                "via": "Via",
+                "via_node_only": "Node only",
+                "via_up_to_one": "Up to 1 way",
+                "via_up_to_two": "Up to 2 ways"
+            },
+            "help": {
+                "indirect": "(indirect)",
+                "turn": {
+                    "no_left_turn": "NO Left Turn {indirect}",
+                    "no_right_turn": "NO Right Turn {indirect}",
+                    "no_u_turn": "NO U-Turn {indirect}",
+                    "no_straight_on": "NO Straight On {indirect}",
+                    "only_left_turn": "ONLY Left Turn {indirect}",
+                    "only_right_turn": "ONLY Right Turn {indirect}",
+                    "only_u_turn": "ONLY U-Turn {indirect}",
+                    "only_straight_on": "ONLY Straight On {indirect}",
+                    "allowed_left_turn": "Left Turn Allowed {indirect}",
+                    "allowed_right_turn": "Right Turn Allowed {indirect}",
+                    "allowed_u_turn": "U-Turn Allowed {indirect}",
+                    "allowed_straight_on": "Straight On Allowed {indirect}"
+                },
+                "from": "FROM",
+                "via": "VIA",
+                "to": "TO",
+                "from_name": "{from} {fromName}",
+                "from_name_to_name": "{from} {fromName} {to} {toName}",
+                "via_names": "{via} {viaNames}",
+                "select_from": "Click to select a {from} segment",
+                "select_from_name": "Click to select {from} {fromName}",
+                "toggle": "Click for \"{turn}\""
+            }
+        },
         "undo": {
             "tooltip": "Undo: {action}",
             "nothing": "Nothing to undo."
@@ -300,13 +337,10 @@
         "browser_notice": "This editor is supported in Firefox, Chrome, Safari, Opera, and Internet Explorer 11 and above. Please upgrade your browser or use Potlatch 2 to edit the map.",
         "translate": {
             "translate": "Translate",
-            "localized_translation_label": "Multilingual name",
             "localized_translation_language": "Choose language",
             "localized_translation_name": "Name"
         },
         "zoom_in_edit": "Zoom in to edit",
-        "login": "login",
-        "logout": "logout",
         "loading_auth": "Connecting to OpenStreetMap...",
         "report_a_bug": "Report a bug",
         "help_translate": "Help translate",
@@ -363,6 +397,7 @@
                 "key": "H",
                 "title": "History",
                 "selected": "{n} selected",
+                "no_history": "No History (New Feature)",
                 "version": "Version",
                 "last_edit": "Last Edit",
                 "edited_by": "Edited By",
@@ -380,6 +415,8 @@
                 "title": "Measurement",
                 "selected": "{n} selected",
                 "geometry": "Geometry",
+                "closed_line": "closed line",
+                "closed_area": "closed area",
                 "center": "Centre",
                 "perimeter": "Perimeter",
                 "length": "Length",
@@ -387,7 +424,8 @@
                 "centroid": "Centroid",
                 "location": "Location",
                 "metric": "Metric",
-                "imperial": "Imperial"
+                "imperial": "Imperial",
+                "node_count": "Number of nodes"
             }
         },
         "geometry": {
@@ -399,7 +437,6 @@
         },
         "geocoder": {
             "search": "Search worldwide...",
-            "no_results_visible": "No results in visible map area",
             "no_results_worldwide": "No results found"
         },
         "geolocate": {
@@ -407,9 +444,6 @@
             "locating": "Locating, please wait..."
         },
         "inspector": {
-            "no_documentation_combination": "There is no documentation available for this tag combination",
-            "no_documentation_key": "There is no documentation available for this key",
-            "documentation_redirect": "This documentation has been redirected to a new page",
             "show_more": "Show More",
             "view_on_osm": "View on openstreetmap.org",
             "all_fields": "All fields",
@@ -420,7 +454,6 @@
             "role": "Role",
             "choose": "Select feature type",
             "results": "{n} results for {search}",
-            "reference": "View on OpenStreetMap Wiki",
             "back_tooltip": "Change feature",
             "remove": "Remove",
             "search": "Search",
@@ -453,13 +486,21 @@
             "title": "Background",
             "description": "Background settings",
             "key": "B",
+            "backgrounds": "Backgrounds",
             "none": "None",
             "best_imagery": "Best known imagery source for this location",
             "switch": "Switch back to this background",
             "custom": "Custom",
-            "custom_button": "Edit custom background",
+            "overlays": "Overlays",
+            "imagery_source_faq": "Imagery Info / Report a Problem",
             "reset": "reset",
+            "display_options": "Display Options",
+            "brightness": "Brightness",
+            "contrast": "Contrast",
+            "saturation": "Saturation",
+            "sharpness": "Sharpness",
             "minimap": {
+                "description": "Show Minimap",
                 "tooltip": "Show a zoomed out map to help locate the area currently displayed.",
                 "key": "/"
             },
@@ -524,11 +565,9 @@
                 "tooltip": "Power Lines, Power Plants, Substations, etc."
             },
             "past_future": {
-                "description": "Past/Future",
                 "tooltip": "Proposed, Construction, Abandoned, Demolished, etc."
             },
             "others": {
-                "description": "Others",
                 "tooltip": "Everything Else"
             }
         },
@@ -547,12 +586,6 @@
                 "tooltip": "Areas are drawn fully filled."
             }
         },
-        "restore": {
-            "heading": "You have unsaved changes",
-            "description": "Do you wish to restore unsaved changes from a previous editing session?",
-            "restore": "Restore my changes",
-            "reset": "Discard my changes"
-        },
         "save": {
             "title": "Save",
             "help": "Review your changes and upload them to OpenStreetMap, making them visible to other users.",
@@ -561,6 +594,7 @@
             "status_code": "Server returned status code {code}",
             "unknown_error_details": "Please ensure you are connected to the Internet.",
             "uploading": "Uploading changes to OpenStreetMap...",
+            "conflict_progress": "Checking for conflicts: {num} of {total}",
             "unsaved_changes": "You have unsaved changes",
             "conflict": {
                 "header": "Resolve conflicting edits",
@@ -586,25 +620,20 @@
             }
         },
         "success": {
-            "edited_osm": "Edited OSM!",
-            "just_edited": "You just edited OpenStreetMap!",
-            "view_on_osm": "View on OSM",
-            "facebook": "Share on Facebook",
-            "twitter": "Share on Twitter",
-            "google": "Share on Google+",
-            "help_html": "Your changes should appear in the \"Standard\" layer in a few minutes. Other layers, and certain features, may take longer.",
             "help_link_text": "Details",
-            "help_link_url": "https://wiki.openstreetmap.org/wiki/FAQ#I_have_just_made_some_changes_to_the_map._How_do_I_get_to_see_my_changes.3F"
+            "help_link_url": "https://wiki.openstreetmap.org/wiki/FAQ#I_have_just_made_some_changes_to_the_map._How_do_I_get_to_see_my_changes.3F",
+            "view_on_osm": "View Changes on OSM",
+            "changeset_id": "Your changeset #: {changeset_id}",
+            "like_osm": "Like OpenStreetMap? Connect with others:",
+            "more": "More",
+            "events": "Events",
+            "languages": "Languages: {languages}",
+            "missing": "Is something missing from this list?",
+            "tell_us": "Tell us!"
         },
         "confirm": {
             "okay": "OK",
             "cancel": "Cancel"
-        },
-        "splash": {
-            "welcome": "Welcome to the iD OpenStreetMap editor",
-            "text": "iD is a friendly but powerful tool for contributing to the World's best free World map. This is version {version}. For more information see {website} and report bugs at {github}.",
-            "walkthrough": "Start the Walkthrough",
-            "start": "Edit now"
         },
         "source_switch": {
             "live": "live",
@@ -619,48 +648,23 @@
             "on_wiki": "{tag} on wiki.osm.org",
             "used_with": "used with {type}"
         },
-        "validations": {
-            "disconnected_highway": "Disconnected highway",
-            "disconnected_highway_tooltip": "Roads should be connected to other roads or building entrances.",
-            "old_multipolygon": "Multipolygon tags on outer way",
-            "old_multipolygon_tooltip": "This style of multipolygon is deprecated. Please assign the tags to the parent multipolygon instead of the outer way.",
-            "untagged_point": "Untagged point",
-            "untagged_point_tooltip": "Select a feature type that describes what this point is.",
-            "untagged_line": "Untagged line",
-            "untagged_line_tooltip": "Select a feature type that describes what this line is.",
-            "untagged_area": "Untagged area",
-            "untagged_area_tooltip": "Select a feature type that describes what this area is.",
-            "untagged_relation": "Untagged relation",
-            "untagged_relation_tooltip": "Select a feature type that describes what this relation is.",
-            "tag_suggests_area": "The tag {tag} suggests line should be area, but it is not an area",
-            "deprecated_tags": "Deprecated tags: {tags}"
-        },
         "zoom": {
             "in": "Zoom in",
             "out": "Zoom out"
         },
         "cannot_zoom": "Cannot zoom out further in current mode.",
         "full_screen": "Toggle Full Screen",
-        "gpx": {
-            "local_layer": "Local file",
-            "drag_drop": "Drag and drop a .gpx, .geojson or .kml file on the page, or click the button to the right to browse",
-            "zoom": "Zoom to layer",
-            "browse": "Browse for a file"
+        "streetside": {
+            "report": "Report a privacy concern with this image"
         },
         "mapillary_images": {
-            "tooltip": "Street-level photos from Mapillary",
-            "title": "Photo Overlay (Mapillary)"
-        },
-        "mapillary_signs": {
-            "tooltip": "Traffic signs from Mapillary (must enable Photo Overlay)",
-            "title": "Traffic Sign Overlay (Mapillary)"
+            "tooltip": "Street-level photos from Mapillary"
         },
         "mapillary": {
             "view_on_mapillary": "View this image on Mapillary"
         },
         "openstreetcam_images": {
-            "tooltip": "Street-level photos from OpenStreetCam",
-            "title": "Photo Overlay (OpenStreetCam)"
+            "tooltip": "Street-level photos from OpenStreetCam"
         },
         "openstreetcam": {
             "view_on_openstreetcam": "View this image on OpenStreetCam"
@@ -685,8 +689,7 @@
                 "navigation_drag": "You can drag the map by pressing and holding down the {leftclick} left mouse button and moving the mouse around. You can also use the `↓`, `↑`, `←`, `→` arrow keys on your keyboard.",
                 "navigation_zoom": "You can zoom in or out by scrolling with the mouse wheel or trackpad, or by clicking the {plus} / {minus} buttons along the side of the map. You can also use the `+`, `-` keys on your keyboard.",
                 "features_h": "Map Features",
-                "features": "We use the word *features* to describe things that appear on the map, such as roads, buildings, or points of interest. Anything in the real world can be mapped as a feature on OpenStreetMap. Map features are represented on the map using *points*, *lines*, or *areas*.",
-                "nodes_ways": "In OpenStreetmap, points are sometimes called *nodes*, and lines and areas are sometimes called *ways*."
+                "features": "We use the word *features* to describe things that appear on the map, such as roads, buildings, or points of interest. Anything in the real world can be mapped as a feature on OpenStreetMap. Map features are represented on the map using *points*, *lines*, or *areas*."
             },
             "editing": {
                 "title": "Editing & Saving",
@@ -809,12 +812,10 @@
                 "choosing": "To see which imagery sources are available for editing, click the {layers} **Background settings** button on the side of the map.",
                 "sources": "By default, a [Bing Maps](https://www.bing.com/maps/) satellite layer is chosen as the background image. Depending on where you are editing, other imagery sources will be available. Some may be newer or have higher resolution, so it is always useful to check and see which layer is the best one to use as a mapping reference.",
                 "offsets_h": "Adjusting Imagery Offset",
-                "offset": "Imagery is sometimes offset slightly from accurate map data. If you see a lot of roads or buildings shifted from the background imagery, it may be the imagery that's incorrect, so don't move them all to match the background. Instead, you can adjust the background so that it matches the existing data by expanding the \"Adjust Imagery Offset\" section at the bottom of the Background Settings pane.",
-                "offset_change": "Click on the small triangles to adjust the imagery offset in small steps, or hold the left mouse button and drag within the gray square to slide the imagery into alignment."
+                "offset": "Imagery is sometimes offset slightly from accurate map data. If you see a lot of roads or buildings shifted from the background imagery, it may be the imagery that's incorrect, so don't move them all to match the background. Instead, you can adjust the background so that it matches the existing data by expanding the \"Adjust Imagery Offset\" section at the bottom of the Background Settings pane."
             },
             "streetlevel": {
                 "title": "Street Level Photos",
-                "intro": "Street level photos are useful for mapping traffic signs, businesses, and other details that you can't see from satellite and aerial images. The iD editor supports street level photos from [Mapillary](https://www.mapillary.com) and [OpenStreetCam](https://www.openstreetcam.org).",
                 "using_h": "Using Street Level Photos",
                 "using": "To use street level photos for mapping, click the {data} **Map data** panel on the side of the map to enable or disable the available photo layers.",
                 "photos": "When enabled, the photo layer displays a line along the sequence of photos. At higher zoom levels, a circle marks at each photo location, and at even higher zoom levels, a cone indicates the direction the camera was facing when the photo was taken.",
@@ -828,6 +829,44 @@
                 "using": "To use a GPS trace for mapping, drag and drop the data file onto the map editor. If it's recognized, it will be drawn on the map as a bright purple line. Click the {data} **Map data** panel on the side of the map to enable, disable, or zoom to your GPS data.",
                 "tracing": "The GPS track isn't sent to OpenStreetMap - the best way to use it is to draw on the map, using it as a guide for the new features that you add.",
                 "upload": "You can also [upload your GPS data to OpenStreetMap](https://www.openstreetmap.org/trace/create) for other users to use."
+            },
+            "field": {
+                "restrictions": {
+                    "title": "Turn Restrictions Help",
+                    "about": {
+                        "title": "About",
+                        "about": "This field allows you to inspect and modify turn restrictions. It displays a model of the selected intersection including other nearby connected roads.",
+                        "from_via_to": "A turn restriction always contains: one **FROM way**, one **TO way**, and either one **VIA node** or one or more **VIA ways**.",
+                        "maxdist": "The \"{distField}\" slider controls how far to search for additional connected roads.",
+                        "maxvia": "The \"{viaField}\" slider adjusts how many via ways may be included in the search. (Tip: simple is better)"
+                    },
+                    "inspecting": {
+                        "title": "Inspecting",
+                        "about": "Hover over any **FROM** segment to see whether it has any turn restrictions. Each possible **TO** destination will be drawn with a colored shadow showing whether a restriction exists.",
+                        "from_shadow": "{fromShadow} **FROM segment**",
+                        "allow_shadow": "{allowShadow} **TO Allowed**",
+                        "restrict_shadow": "{restrictShadow} **TO Restricted**",
+                        "only_shadow": "{onlyShadow} **TO Only**",
+                        "restricted": "\"Restricted\" means that there is a turn restriction, for example \"No Left Turn\".",
+                        "only": "\"Only\" means that a vehicle taking that path may only make that choice, for example \"Only Straight On\"."
+                    },
+                    "modifying": {
+                        "title": "Modifying",
+                        "about": "To modify turn restrictions, first click on any starting **FROM** segment to select it. The selected segment will pulse, and all possible **TO** destinations will appear as turn symbols.",
+                        "indicators": "Then, click on a turn symbol to toggle it between \"Allowed\", \"Restricted\", and \"Only\".",
+                        "allow_turn": "{allowTurn} **TO Allowed**",
+                        "restrict_turn": "{restrictTurn} **TO Restricted**",
+                        "only_turn": "{onlyTurn} **TO Only**"
+                    },
+                    "tips": {
+                        "title": "Tips",
+                        "simple": "**Prefer simple restrictions over complex ones.**",
+                        "simple_example": "For example, avoid creating a via-way restriction if a simpler via-node turn restriction will do.",
+                        "indirect": "**Some restrictions display the text \"(indirect)\" and are drawn lighter.**",
+                        "indirect_example": "These restrictions exist because of another nearby restriction. For example, an \"Only Straight On\" restriction will indirectly create \"No Turn\" restrictions for all other paths through the intersection.",
+                        "indirect_noedit": "You may not edit indirect restrictions. Instead, edit the nearby direct restriction."
+                    }
+                }
             }
         },
         "intro": {
@@ -1135,7 +1174,8 @@
                     "title": "Selecting features",
                     "select_one": "Select a single feature",
                     "select_multi": "Select multiple features",
-                    "lasso": "Draw a selection lasso around features"
+                    "lasso": "Draw a selection lasso around features",
+                    "search": "Find features matching search text"
                 },
                 "with_selected": {
                     "title": "With feature selected",
@@ -1157,7 +1197,6 @@
                     "add_point": "'Add point' mode",
                     "add_line": "'Add line' mode",
                     "add_area": "'Add area' mode",
-                    "place_point": "Place a point",
                     "disable_snap": "Hold to disable point snapping",
                     "stop_line": "Finish drawing a line or area"
                 },
@@ -1170,7 +1209,6 @@
                     "reverse": "Reverse a line",
                     "move": "Move selected features",
                     "rotate": "Rotate selected features",
-                    "orthogonalize": "Straighten line / Square area corners",
                     "circularize": "Circularise a closed line or area",
                     "reflect_long": "Reflect features across the longer axis",
                     "reflect_short": "Reflect features across the shorter axis",
@@ -1197,6 +1235,28 @@
                 }
             }
         },
+        "units": {
+            "feet": "{quantity} ft",
+            "miles": "{quantity} mi",
+            "square_feet": "{quantity} sq ft",
+            "square_miles": "{quantity} sq mi",
+            "acres": "{quantity} ac",
+            "meters": "{quantity} m",
+            "kilometers": "{quantity} km",
+            "square_meters": "{quantity} m²",
+            "square_kilometers": "{quantity} km²",
+            "hectares": "{quantity} ha",
+            "area_pair": "{area1} ({area2})",
+            "arcdegrees": "{quantity}°",
+            "arcminutes": "{quantity}′",
+            "arcseconds": "{quantity}″",
+            "north": "N",
+            "south": "S",
+            "east": "E",
+            "west": "W",
+            "coordinate": "{coordinate}{direction}",
+            "coordinate_pair": "{latitude}, {longitude}"
+        },
         "presets": {
             "categories": {
                 "category-barrier": {
@@ -1205,41 +1265,17 @@
                 "category-building": {
                     "name": "Building Features"
                 },
-                "category-golf": {
-                    "name": "Golf Features"
-                },
                 "category-landuse": {
                     "name": "Land Use Features"
-                },
-                "category-natural-area": {
-                    "name": "Natural Features"
-                },
-                "category-natural-line": {
-                    "name": "Natural Features"
-                },
-                "category-natural-point": {
-                    "name": "Natural Features"
-                },
-                "category-path": {
-                    "name": "Path Features"
-                },
-                "category-rail": {
-                    "name": "Rail Features"
                 },
                 "category-restriction": {
                     "name": "Restriction Features"
                 },
-                "category-road": {
-                    "name": "Road Features"
-                },
                 "category-route": {
                     "name": "Route Features"
                 },
-                "category-water-area": {
-                    "name": "Water Features"
-                },
-                "category-water-line": {
-                    "name": "Water Features"
+                "category-utility": {
+                    "name": "Utility Features"
                 }
             },
             "fields": {
@@ -1247,31 +1283,33 @@
                     "label": "Allowed Access",
                     "options": {
                         "designated": {
-                            "description": "Access permitted according to signs or specific local laws",
+                            "description": "Access allowed according to signs or specific local laws",
                             "title": "Designated"
                         },
                         "destination": {
-                            "description": "Access permitted only to reach a destination",
+                            "description": "Access allowed only to reach a destination",
                             "title": "Destination"
                         },
                         "dismount": {
-                            "description": "Access permitted but rider must dismount",
+                            "description": "Access allowed but rider must dismount",
                             "title": "Dismount"
                         },
                         "no": {
-                            "description": "Access not permitted to the general public",
+                            "description": "Access not allowed to the general public",
                             "title": "Prohibited"
                         },
                         "permissive": {
-                            "description": "Access permitted until such time as the owner revokes the permission",
+                            "description": "Access allowed until such time as the owner revokes the permission",
                             "title": "Permissive"
                         },
+                        "permit": {
+                            "description": "Access allowed only with a valid permit or license",
+                            "title": "Permit"
+                        },
                         "private": {
-                            "description": "Access permitted only with permission of the owner on an individual basis",
                             "title": "Private"
                         },
                         "yes": {
-                            "description": "Access permitted by law; a right of way",
                             "title": "Allowed"
                         }
                     },
@@ -1413,9 +1451,6 @@
                         "onsen": "Japanese Onsen"
                     }
                 },
-                "beauty": {
-                    "label": "Shop Type"
-                },
                 "bench": {
                     "label": "Bench"
                 },
@@ -1445,6 +1480,9 @@
                 },
                 "brand": {
                     "label": "Brand"
+                },
+                "brewery": {
+                    "label": "Draught Beers"
                 },
                 "bridge": {
                     "label": "Type",
@@ -1493,6 +1531,9 @@
                 },
                 "collection_times": {
                     "label": "Collection Times"
+                },
+                "colour": {
+                    "label": "Colour"
                 },
                 "comment": {
                     "label": "Changeset Comment",
@@ -1585,6 +1626,9 @@
                         "cycleway:right": "Right side"
                     }
                 },
+                "dance/style": {
+                    "label": "Dance Styles"
+                },
                 "date": {
                     "label": "Date"
                 },
@@ -1604,8 +1648,47 @@
                     "label": "Devices",
                     "placeholder": "1, 2, 3..."
                 },
-                "diaper": {
-                    "label": "Baby Changing Available"
+                "direction": {
+                    "label": "Direction (Degrees Clockwise)",
+                    "placeholder": "45, 90, 180, 270"
+                },
+                "direction_cardinal": {
+                    "label": "Direction",
+                    "options": {
+                        "E": "East",
+                        "ENE": "East-northeast",
+                        "ESE": "East-southeast",
+                        "N": "North",
+                        "NE": "Northeast",
+                        "NNE": "North-northeast",
+                        "NNW": "North-northwest",
+                        "NW": "Northwest",
+                        "S": "South",
+                        "SE": "Southeast",
+                        "SSE": "South-southeast",
+                        "SSW": "South-southwest",
+                        "SW": "Southwest",
+                        "W": "West",
+                        "WNW": "West-northwest",
+                        "WSW": "West-southwest"
+                    }
+                },
+                "direction_clock": {
+                    "label": "Direction",
+                    "options": {
+                        "anticlockwise": "Counterclockwise",
+                        "clockwise": "Clockwise"
+                    }
+                },
+                "direction_vertex": {
+                    "options": {
+                        "backward": "Backward",
+                        "both": "Both / All",
+                        "forward": "Forward"
+                    }
+                },
+                "dispensing": {
+                    "label": "Dispenses Prescriptions"
                 },
                 "display": {
                     "label": "Display"
@@ -1650,6 +1733,9 @@
                 "except": {
                     "label": "Exceptions"
                 },
+                "faces": {
+                    "label": "Faces"
+                },
                 "fax": {
                     "label": "Fax",
                     "placeholder": "+44 1632 961234"
@@ -1660,20 +1746,9 @@
                 "fence_type": {
                     "label": "Type"
                 },
-                "fire_hydrant/position": {
-                    "label": "Position",
-                    "options": {
-                        "green": "Green",
-                        "lane": "Lane",
-                        "parking_lot": "Car Park",
-                        "sidewalk": "Pavement"
-                    }
-                },
                 "fire_hydrant/type": {
-                    "label": "Type",
                     "options": {
                         "pillar": "Pillar/Aboveground",
-                        "pond": "Pond",
                         "underground": "Underground",
                         "wall": "Wall"
                     }
@@ -1761,11 +1836,38 @@
                     "label": "Hoops",
                     "placeholder": "1, 2, 4..."
                 },
-                "iata": {
-                    "label": "IATA"
+                "horse_dressage": {
+                    "label": "Dressage Riding",
+                    "options": {
+                        "equestrian": "Yes",
+                        "undefined": "No"
+                    }
                 },
-                "icao": {
-                    "label": "ICAO"
+                "horse_riding": {
+                    "label": "Horseback Riding",
+                    "options": {
+                        "horse_riding": "Yes",
+                        "undefined": "No"
+                    }
+                },
+                "horse_scale": {
+                    "label": "Horseback Riding Difficulty",
+                    "options": {
+                        "common": "Easy: No problems or difficulties. (default)",
+                        "critical": "Borderline: Passable only for experienced riders and horses. Major obstacles. Bridges should be examined carefully.",
+                        "dangerous": "Dangerous: Passable only for very experienced riders and horses and only in good weather. Dismount.",
+                        "demanding": "Use with caution: Uneven way, occasional difficult passages.",
+                        "difficult": "Difficult: Way narrow and exposed. May contain obstacles to step over and narrow passages.",
+                        "impossible": "Impassable: Way or bridge not passable for horses. Too narrow, insuffient support, obstacles like ladders. Danger of life."
+                    },
+                    "placeholder": "Difficult, Dangerous..."
+                },
+                "horse_stables": {
+                    "label": "Riding Stable",
+                    "options": {
+                        "stables": "Yes",
+                        "undefined": "No"
+                    }
                 },
                 "incline": {
                     "label": "Incline"
@@ -1779,6 +1881,9 @@
                 },
                 "indoor": {
                     "label": "Indoor"
+                },
+                "industrial": {
+                    "label": "Type"
                 },
                 "information": {
                     "label": "Type"
@@ -1801,9 +1906,6 @@
                 },
                 "internet_access/fee": {
                     "label": "Internet Access Fee"
-                },
-                "internet_access/ssid": {
-                    "label": "SSID (Network Name)"
                 },
                 "kerb": {
                     "label": "Kerb"
@@ -1898,6 +2000,10 @@
                 },
                 "maxspeed": {
                     "label": "Speed Limit",
+                    "placeholder": "40, 50, 60..."
+                },
+                "maxspeed/advisory": {
+                    "label": "Advisory Speed Limit",
                     "placeholder": "40, 50, 60..."
                 },
                 "maxstay": {
@@ -2000,7 +2106,9 @@
                 "oneway": {
                     "label": "One Way",
                     "options": {
+                        "alternating": "Alternating",
                         "no": "No",
+                        "reversible": "Reversible",
                         "undefined": "Assumed to be No",
                         "yes": "Yes"
                     }
@@ -2008,7 +2116,9 @@
                 "oneway_yes": {
                     "label": "One Way",
                     "options": {
+                        "alternating": "Alternating",
                         "no": "No",
+                        "reversible": "Reversible",
                         "undefined": "Assumed to be Yes",
                         "yes": "Yes"
                     }
@@ -2054,15 +2164,6 @@
                 },
                 "piste/difficulty": {
                     "label": "Difficulty",
-                    "options": {
-                        "advanced": "Advanced (black diamond)",
-                        "easy": "Easy (green circle)",
-                        "expert": "Expert (double black diamond)",
-                        "extreme": "Extreme (climbing equipment required)",
-                        "freeride": "Freeride (off-piste)",
-                        "intermediate": "Intermediate (blue square)",
-                        "novice": "Novice (instructional)"
-                    },
                     "placeholder": "Easy, Intermediate, Advanced..."
                 },
                 "piste/grooming": {
@@ -2127,14 +2228,34 @@
                 "railway": {
                     "label": "Type"
                 },
+                "railway/position": {
+                    "label": "Milestone Position",
+                    "placeholder": "Distance to one decimal (123.4)"
+                },
+                "railway/signal/direction": {
+                    "options": {
+                        "backward": "Backward",
+                        "both": "Both / All",
+                        "forward": "Forward"
+                    }
+                },
                 "rating": {
                     "label": "Power Rating"
                 },
                 "recycling_accepts": {
                     "label": "Accepts"
                 },
+                "recycling_type": {
+                    "options": {
+                        "centre": "Centre"
+                    },
+                    "placeholder": "Container, Centre"
+                },
                 "ref": {
                     "label": "Reference Code"
+                },
+                "ref/isil": {
+                    "label": "ISIL Code"
                 },
                 "ref_aeroway_gate": {
                     "label": "Gate Number"
@@ -2201,6 +2322,12 @@
                 },
                 "sanitary_dump_station": {
                     "label": "Toilet Disposal"
+                },
+                "seamark/beacon_lateral/colour": {
+                    "label": "Colour"
+                },
+                "seamark/buoy_lateral/colour": {
+                    "label": "Colour"
                 },
                 "seasonal": {
                     "label": "Seasonal"
@@ -2386,8 +2513,7 @@
                     "options": {
                         "bucket": "Bucket",
                         "chemical": "Chemical",
-                        "flush": "Flush",
-                        "pitlatrine": "Pit/Latrine"
+                        "flush": "Flush"
                     }
                 },
                 "toll": {
@@ -2398,9 +2524,6 @@
                 },
                 "tourism": {
                     "label": "Type"
-                },
-                "tourism_attraction": {
-                    "label": "Tourism"
                 },
                 "tower/construction": {
                     "label": "Construction",
@@ -2428,6 +2551,13 @@
                 },
                 "traffic_signals": {
                     "label": "Type"
+                },
+                "traffic_signals/direction": {
+                    "options": {
+                        "backward": "Backward",
+                        "both": "Both / All",
+                        "forward": "Forward"
+                    }
                 },
                 "trail_visibility": {
                     "label": "Trail Visibility",
@@ -2461,8 +2591,19 @@
                     "label": "Type",
                     "placeholder": "Default"
                 },
+                "usage_rail": {
+                    "label": "Usage Type",
+                    "options": {
+                        "branch": "Branch",
+                        "industrial": "Industrial",
+                        "main": "Main",
+                        "military": "Military",
+                        "test": "Test",
+                        "tourism": "Tourism"
+                    }
+                },
                 "vending": {
-                    "label": "Type of Goods"
+                    "label": "Types of Goods"
                 },
                 "visibility": {
                     "label": "Visibility",
@@ -2513,14 +2654,16 @@
                     "label": "Type"
                 },
                 "website": {
-                    "label": "Website",
-                    "placeholder": "http://example.com/"
+                    "label": "Website"
                 },
                 "wetland": {
                     "label": "Type"
                 },
                 "wheelchair": {
                     "label": "Wheelchair Access"
+                },
+                "wholesale": {
+                    "label": "Wholesale"
                 },
                 "width": {
                     "label": "Width (Metres)"
@@ -2551,6 +2694,9 @@
                 },
                 "advertising/billboard": {
                     "name": "Billboard"
+                },
+                "advertising/column": {
+                    "name": "Advertising Column"
                 },
                 "aerialway": {
                     "name": "Aerialway"
@@ -2619,6 +2765,9 @@
                 "aeroway/terminal": {
                     "name": "Airport Terminal"
                 },
+                "allotments/plot": {
+                    "name": "Allotments Plot"
+                },
                 "amenity": {
                     "name": "Amenity"
                 },
@@ -2658,17 +2807,20 @@
                 "amenity/bicycle_repair_station": {
                     "name": "Bicycle Repair Tool Stand"
                 },
-                "amenity/biergarten": {
-                    "name": "Beer Garden"
-                },
                 "amenity/boat_rental": {
                     "name": "Boat Rental"
                 },
                 "amenity/bureau_de_change": {
                     "name": "Currency Exchange"
                 },
+                "amenity/bus_station": {
+                    "name": "Bus Station / Terminal"
+                },
                 "amenity/cafe": {
                     "name": "Cafe"
+                },
+                "amenity/car_pooling": {
+                    "name": "Car Pooling"
                 },
                 "amenity/car_rental": {
                     "name": "Car Rental"
@@ -2724,6 +2876,9 @@
                 "amenity/dentist": {
                     "name": "Dentist"
                 },
+                "amenity/dive_centre": {
+                    "name": "Dive Centre"
+                },
                 "amenity/doctors": {
                     "name": "Doctor"
                 },
@@ -2741,6 +2896,9 @@
                 },
                 "amenity/fast_food": {
                     "name": "Fast Food"
+                },
+                "amenity/ferry_terminal": {
+                    "name": "Ferry Station / Terminal"
                 },
                 "amenity/fire_station": {
                     "name": "Fire Station"
@@ -2779,8 +2937,14 @@
                 "amenity/library": {
                     "name": "Library"
                 },
+                "amenity/love_hotel": {
+                    "name": "Love Hotel"
+                },
                 "amenity/marketplace": {
                     "name": "Marketplace"
+                },
+                "amenity/monastery": {
+                    "name": "Monastery Grounds"
                 },
                 "amenity/motorcycle_parking": {
                     "name": "Motorcycle Parking"
@@ -2795,7 +2959,10 @@
                     "name": "Nursing Home"
                 },
                 "amenity/parking": {
-                    "name": "Car Parking"
+                    "name": "Car Park"
+                },
+                "amenity/parking/multi-storey": {
+                    "name": "Multistory Car Park"
                 },
                 "amenity/parking_entrance": {
                     "name": "Parking Garage Entrance/Exit"
@@ -2803,11 +2970,8 @@
                 "amenity/parking_space": {
                     "name": "Parking Space"
                 },
-                "amenity/pavilion": {
-                    "name": "Pavilion"
-                },
-                "amenity/pharmacy": {
-                    "name": "Pharmacy"
+                "amenity/payment_centre": {
+                    "name": "Payment Centre"
                 },
                 "amenity/place_of_worship": {
                     "name": "Place of Worship"
@@ -2815,17 +2979,8 @@
                 "amenity/place_of_worship/buddhist": {
                     "name": "Buddhist Temple"
                 },
-                "amenity/place_of_worship/christian": {
-                    "name": "Church"
-                },
                 "amenity/place_of_worship/hindu": {
                     "name": "Hindu Temple"
-                },
-                "amenity/place_of_worship/jewish": {
-                    "name": "Synagogue"
-                },
-                "amenity/place_of_worship/muslim": {
-                    "name": "Mosque"
                 },
                 "amenity/place_of_worship/shinto": {
                     "name": "Shinto Shrine"
@@ -2888,6 +3043,9 @@
                 "amenity/shower": {
                     "name": "Shower"
                 },
+                "amenity/smoking_area": {
+                    "name": "Smoking Area"
+                },
                 "amenity/social_facility": {
                     "name": "Social Facility"
                 },
@@ -2933,32 +3091,44 @@
                 "amenity/vending_machine/cigarettes": {
                     "name": "Cigarette Vending Machine"
                 },
+                "amenity/vending_machine/coffee": {
+                    "name": "Coffee Vending Machine"
+                },
                 "amenity/vending_machine/condoms": {
                     "name": "Condom Vending Machine"
                 },
                 "amenity/vending_machine/drinks": {
                     "name": "Drink Vending Machine"
                 },
-                "amenity/vending_machine/excrement_bags": {
-                    "name": "Excrement Bag Vending Machine"
+                "amenity/vending_machine/electronics": {
+                    "name": "Electronics Vending Machine"
+                },
+                "amenity/vending_machine/elongated_coin": {
+                    "name": "Elongated Coin Vending Machine"
                 },
                 "amenity/vending_machine/feminine_hygiene": {
                     "name": "Feminine Hygiene Vending Machine"
                 },
-                "amenity/vending_machine/news_papers": {
-                    "name": "Newspaper Vending Machine"
+                "amenity/vending_machine/food": {
+                    "name": "Food Vending Machine"
+                },
+                "amenity/vending_machine/fuel": {
+                    "name": "Fuel Pump"
+                },
+                "amenity/vending_machine/ice_cream": {
+                    "name": "Ice Cream Vending Machine"
                 },
                 "amenity/vending_machine/newspapers": {
                     "name": "Newspaper Vending Machine"
-                },
-                "amenity/vending_machine/parcel_pickup_dropoff": {
-                    "name": "Parcel Pickup/Dropoff Vending Machine"
                 },
                 "amenity/vending_machine/parking_tickets": {
                     "name": "Parking Ticket Vending Machine"
                 },
                 "amenity/vending_machine/public_transport_tickets": {
                     "name": "Transit Ticket Vending Machine"
+                },
+                "amenity/vending_machine/stamps": {
+                    "name": "Postage Vending Machine"
                 },
                 "amenity/vending_machine/sweets": {
                     "name": "Snack Vending Machine"
@@ -2993,9 +3163,6 @@
                 "attraction/amusement_ride": {
                     "name": "Amusement Ride"
                 },
-                "attraction/animal": {
-                    "name": "Animal"
-                },
                 "attraction/big_wheel": {
                     "name": "Big Wheel"
                 },
@@ -3013,6 +3180,9 @@
                 },
                 "attraction/drop_tower": {
                     "name": "Drop Tower"
+                },
+                "attraction/maze": {
+                    "name": "Maze"
                 },
                 "attraction/pirate_ship": {
                     "name": "Pirate Ship"
@@ -3065,6 +3235,15 @@
                 "barrier/hedge": {
                     "name": "Hedge"
                 },
+                "barrier/kerb": {
+                    "name": "Kerb"
+                },
+                "barrier/kerb/flush": {
+                    "name": "Flush Kerb"
+                },
+                "barrier/kerb/lowered": {
+                    "name": "Lowered Kerb"
+                },
                 "barrier/kissing_gate": {
                     "name": "Kissing Gate"
                 },
@@ -3089,11 +3268,14 @@
                 "building": {
                     "name": "Building"
                 },
-                "building/apartments": {
-                    "name": "Apartments"
-                },
                 "building/barn": {
                     "name": "Barn"
+                },
+                "building/boathouse": {
+                    "name": "Boathouse"
+                },
+                "building/bungalow": {
+                    "name": "Bungalow"
                 },
                 "building/bunker": {
                     "name": "Bunker"
@@ -3109,6 +3291,9 @@
                 },
                 "building/church": {
                     "name": "Church Building"
+                },
+                "building/civic": {
+                    "name": "Civic Building"
                 },
                 "building/college": {
                     "name": "College Building"
@@ -3128,11 +3313,20 @@
                 "building/entrance": {
                     "name": "Entrance/Exit"
                 },
+                "building/farm": {
+                    "name": "Farm House"
+                },
+                "building/farm_auxiliary": {
+                    "name": "Farm Building"
+                },
                 "building/garage": {
                     "name": "Garage"
                 },
                 "building/garages": {
                     "name": "Garages"
+                },
+                "building/grandstand": {
+                    "name": "Grandstand"
                 },
                 "building/greenhouse": {
                     "name": "Greenhouse"
@@ -3155,6 +3349,9 @@
                 "building/kindergarten": {
                     "name": "Preschool/Kindergarten Building"
                 },
+                "building/mosque": {
+                    "name": "Mosque Building"
+                },
                 "building/public": {
                     "name": "Public Building"
                 },
@@ -3167,11 +3364,17 @@
                 "building/roof": {
                     "name": "Roof"
                 },
+                "building/ruins": {
+                    "name": "Building Ruins"
+                },
                 "building/school": {
                     "name": "School Building"
                 },
                 "building/semidetached_house": {
                     "name": "Semi-Detached House"
+                },
+                "building/service": {
+                    "name": "Service Building"
                 },
                 "building/shed": {
                     "name": "Shed"
@@ -3179,23 +3382,26 @@
                 "building/stable": {
                     "name": "Stable"
                 },
+                "building/stadium": {
+                    "name": "Stadium Building"
+                },
                 "building/static_caravan": {
                     "name": "Static Caravan"
+                },
+                "building/temple": {
+                    "name": "Temple Building"
                 },
                 "building/terrace": {
                     "name": "Terraced houses"
                 },
-                "building/train_station": {
-                    "name": "Train Station"
+                "building/transportation": {
+                    "name": "Transportation Building"
                 },
                 "building/university": {
                     "name": "University Building"
                 },
                 "building/warehouse": {
                     "name": "Warehouse"
-                },
-                "camp_site/camp_pitch": {
-                    "name": "Camp Pitch"
                 },
                 "club": {
                     "name": "Club"
@@ -3380,27 +3586,14 @@
                 "emergency/private": {
                     "name": "Emergency Access Private"
                 },
+                "emergency/water_tank": {
+                    "name": "Emergency Water Tank"
+                },
                 "emergency/yes": {
                     "name": "Emergency Access Yes"
                 },
                 "entrance": {
                     "name": "Entrance/Exit"
-                },
-                "footway/crossing": {
-                    "name": "Street Crossing"
-                },
-                "footway/crossing-raised": {
-                    "name": "Raised Street Crossing"
-                },
-                "footway/crosswalk": {
-                    "name": "Zebra Crossing"
-                },
-                "footway/crosswalk-raised": {
-                    "name": "Raised Zebra Crossing"
-                },
-                "footway/sidewalk": {
-                    "name": "Pavement",
-                    "terms": "sidewalk, pavement, footway, footpath"
                 },
                 "ford": {
                     "name": "Ford"
@@ -3417,23 +3610,11 @@
                 "golf/hole": {
                     "name": "Golf Hole"
                 },
-                "golf/lateral_water_hazard_area": {
-                    "name": "Lateral Water Hazard"
-                },
-                "golf/lateral_water_hazard_line": {
-                    "name": "Lateral Water Hazard"
-                },
                 "golf/rough": {
                     "name": "Rough"
                 },
                 "golf/tee": {
                     "name": "Tee Box"
-                },
-                "golf/water_hazard_area": {
-                    "name": "Water Hazard"
-                },
-                "golf/water_hazard_line": {
-                    "name": "Water Hazard"
                 },
                 "healthcare": {
                     "name": "Healthcare Facility"
@@ -3455,6 +3636,9 @@
                 },
                 "healthcare/hospice": {
                     "name": "Hospice"
+                },
+                "healthcare/laboratory": {
+                    "name": "Medical Laboratory"
                 },
                 "healthcare/midwife": {
                     "name": "Midwife"
@@ -3486,20 +3670,23 @@
                 "highway/bridleway": {
                     "name": "Bridleway"
                 },
+                "highway/bus_guideway": {
+                    "name": "Bus Guideway"
+                },
                 "highway/corridor": {
                     "name": "Indoor Corridor"
                 },
-                "highway/crossing": {
-                    "name": "Street Crossing"
+                "highway/crossing/marked": {
+                    "name": "Marked Crossing"
                 },
-                "highway/crossing-raised": {
-                    "name": "Raised Street Crossing"
+                "highway/crossing/marked-raised": {
+                    "name": "Marked Crossing (Raised)"
                 },
-                "highway/crosswalk": {
-                    "name": "Zebra Crossing"
+                "highway/crossing/zebra": {
+                    "name": "Marked Crossing"
                 },
-                "highway/crosswalk-raised": {
-                    "name": "Raised Zebra Crossing"
+                "highway/crossing/zebra-raised": {
+                    "name": "Marked Crossing (Raised)"
                 },
                 "highway/cycleway": {
                     "name": "Cycle Path"
@@ -3509,6 +3696,18 @@
                 },
                 "highway/footway": {
                     "name": "Foot Path"
+                },
+                "highway/footway/marked": {
+                    "name": "Marked Crossing"
+                },
+                "highway/footway/marked-raised": {
+                    "name": "Marked Crossing (Raised)"
+                },
+                "highway/footway/zebra": {
+                    "name": "Marked Crossing"
+                },
+                "highway/footway/zebra-raised": {
+                    "name": "Marked Crossing (Raised)"
                 },
                 "highway/give_way": {
                     "name": "Give Way Sign"
@@ -3527,6 +3726,9 @@
                 },
                 "highway/motorway_link": {
                     "name": "Motorway Link"
+                },
+                "highway/passing_place": {
+                    "name": "Passing Place"
                 },
                 "highway/path": {
                     "name": "Path"
@@ -3693,14 +3895,17 @@
                 "landuse/farmyard": {
                     "name": "Farmyard"
                 },
-                "landuse/forest": {
-                    "name": "Forest"
+                "landuse/garages": {
+                    "name": "Garage Landuse"
                 },
                 "landuse/grass": {
                     "name": "Grass"
                 },
                 "landuse/greenfield": {
                     "name": "Greenfield"
+                },
+                "landuse/greenhouse_horticulture": {
+                    "name": "Greenhouse Horticulture"
                 },
                 "landuse/harbour": {
                     "name": "Harbor"
@@ -3729,26 +3934,14 @@
                 "landuse/military/barracks": {
                     "name": "Barracks"
                 },
-                "landuse/military/bunker": {
-                    "name": "Military Bunker"
-                },
-                "landuse/military/checkpoint": {
-                    "name": "Checkpoint"
-                },
                 "landuse/military/danger_area": {
                     "name": "Danger Area"
                 },
                 "landuse/military/naval_base": {
                     "name": "Naval Base"
                 },
-                "landuse/military/nuclear_explosion_site": {
-                    "name": "Nuclear Explosion Site"
-                },
                 "landuse/military/obstacle_course": {
                     "name": "Obstacle Course"
-                },
-                "landuse/military/office": {
-                    "name": "Military Office"
                 },
                 "landuse/military/range": {
                     "name": "Military Range"
@@ -3789,6 +3982,12 @@
                 "leisure/adult_gaming_centre": {
                     "name": "Adult Gaming Centre"
                 },
+                "leisure/amusement_arcade": {
+                    "name": "Amusement Arcade"
+                },
+                "leisure/beach_resort": {
+                    "name": "Beach Resort"
+                },
                 "leisure/bird_hide": {
                     "name": "Bird Hide"
                 },
@@ -3800,6 +3999,9 @@
                 },
                 "leisure/dance": {
                     "name": "Dance Hall"
+                },
+                "leisure/dancing_school": {
+                    "name": "Dance School"
                 },
                 "leisure/dog_park": {
                     "name": "Dog Park"
@@ -3873,6 +4075,9 @@
                 "leisure/nature_reserve": {
                     "name": "Nature Reserve"
                 },
+                "leisure/outdoor_seating": {
+                    "name": "Outdoor Seating Area"
+                },
                 "leisure/park": {
                     "name": "Park"
                 },
@@ -3884,9 +4089,6 @@
                 },
                 "leisure/pitch/american_football": {
                     "name": "American Football Field"
-                },
-                "leisure/pitch/baseball": {
-                    "name": "Baseball Diamond"
                 },
                 "leisure/pitch/basketball": {
                     "name": "Basketball Court"
@@ -3933,9 +4135,6 @@
                 "leisure/resort": {
                     "name": "Resort"
                 },
-                "leisure/running_track": {
-                    "name": "Racetrack (Running)"
-                },
                 "leisure/sauna": {
                     "name": "Sauna"
                 },
@@ -3969,6 +4168,9 @@
                 "man_made/adit": {
                     "name": "Adit"
                 },
+                "man_made/antenna": {
+                    "name": "Antenna"
+                },
                 "man_made/breakwater": {
                     "name": "Breakwater"
                 },
@@ -3977,6 +4179,9 @@
                 },
                 "man_made/chimney": {
                     "name": "Chimney"
+                },
+                "man_made/clearcut": {
+                    "name": "Clearcut Forest"
                 },
                 "man_made/crane": {
                     "name": "Crane"
@@ -4002,9 +4207,6 @@
                 "man_made/mast": {
                     "name": "Mast"
                 },
-                "man_made/observation": {
-                    "name": "Observation Tower"
-                },
                 "man_made/petroleum_well": {
                     "name": "Oil Well"
                 },
@@ -4025,9 +4227,6 @@
                 },
                 "man_made/surveillance": {
                     "name": "Surveillance"
-                },
-                "man_made/surveillance_camera": {
-                    "name": "Surveillance Camera"
                 },
                 "man_made/survey_point": {
                     "name": "Survey Point"
@@ -4098,8 +4297,14 @@
                 "natural/heath": {
                     "name": "Heath"
                 },
+                "natural/mud": {
+                    "name": "Mud"
+                },
                 "natural/peak": {
                     "name": "Peak"
+                },
+                "natural/reef": {
+                    "name": "Reef"
                 },
                 "natural/ridge": {
                     "name": "Ridge"
@@ -4121,9 +4326,6 @@
                 },
                 "natural/tree": {
                     "name": "Tree"
-                },
-                "natural/tree_row": {
-                    "name": "Tree row"
                 },
                 "natural/volcano": {
                     "name": "Volcano"
@@ -4172,6 +4374,9 @@
                 },
                 "office/charity": {
                     "name": "Charity Office"
+                },
+                "office/company": {
+                    "name": "Corporate Office"
                 },
                 "office/coworking": {
                     "name": "Coworking Space"
@@ -4236,9 +4441,6 @@
                 "office/physician": {
                     "name": "Physician"
                 },
-                "office/political_party": {
-                    "name": "Political Party"
-                },
                 "office/private_investigator": {
                     "name": "Private Investigator Office"
                 },
@@ -4265,9 +4467,6 @@
                 },
                 "office/water_utility": {
                     "name": "Water Utility Office"
-                },
-                "piste": {
-                    "name": "Piste/Ski Trail"
                 },
                 "place": {
                     "name": "Place"
@@ -4365,12 +4564,6 @@
                 "power/generator": {
                     "name": "Power Generator"
                 },
-                "power/generator/source_nuclear": {
-                    "name": "Nuclear Reactor"
-                },
-                "power/generator/source_wind": {
-                    "name": "Wind Turbine"
-                },
                 "power/line": {
                     "name": "Power Line"
                 },
@@ -4398,6 +4591,72 @@
                 "power/transformer": {
                     "name": "Transformer"
                 },
+                "public_transport/station": {
+                    "name": "Transit Station"
+                },
+                "public_transport/station_aerialway": {
+                    "name": "Aerialway Station"
+                },
+                "public_transport/station_bus": {
+                    "name": "Bus Station / Terminal"
+                },
+                "public_transport/station_ferry": {
+                    "name": "Ferry Station / Terminal"
+                },
+                "public_transport/station_light_rail": {
+                    "name": "Light Rail Station"
+                },
+                "public_transport/station_monorail": {
+                    "name": "Monorail Station"
+                },
+                "public_transport/station_subway": {
+                    "name": "Subway Station"
+                },
+                "public_transport/station_train": {
+                    "name": "Train Station"
+                },
+                "public_transport/station_train_halt": {
+                    "name": "Train Station (Halt / Request)"
+                },
+                "public_transport/station_tram": {
+                    "name": "Tram Station"
+                },
+                "public_transport/station_trolleybus": {
+                    "name": "Trolleybus Station / Terminal"
+                },
+                "public_transport/stop_area": {
+                    "name": "Transit Stop Area"
+                },
+                "public_transport/stop_position": {
+                    "name": "Transit Stopping Location"
+                },
+                "public_transport/stop_position_aerialway": {
+                    "name": "Aerialway Stopping Location"
+                },
+                "public_transport/stop_position_bus": {
+                    "name": "Bus Stopping Location"
+                },
+                "public_transport/stop_position_ferry": {
+                    "name": "Ferry Stopping Location"
+                },
+                "public_transport/stop_position_light_rail": {
+                    "name": "Light Rail Stopping Location"
+                },
+                "public_transport/stop_position_monorail": {
+                    "name": "Monorail Stopping Location"
+                },
+                "public_transport/stop_position_subway": {
+                    "name": "Subway Stopping Location"
+                },
+                "public_transport/stop_position_train": {
+                    "name": "Train Stopping Location"
+                },
+                "public_transport/stop_position_tram": {
+                    "name": "Tram Stopping Location"
+                },
+                "public_transport/stop_position_trolleybus": {
+                    "name": "Trolleybus Stopping Location"
+                },
                 "railway": {
                     "name": "Railway"
                 },
@@ -4419,11 +4678,20 @@
                 "railway/funicular": {
                     "name": "Funicular"
                 },
+                "railway/halt": {
+                    "name": "Train Station (Halt / Request)"
+                },
                 "railway/level_crossing": {
                     "name": "Level Crossing (Road)"
                 },
+                "railway/light_rail": {
+                    "name": "Light Rail"
+                },
                 "railway/milestone": {
                     "name": "Railway Milestone"
+                },
+                "railway/miniature": {
+                    "name": "Miniature Railway"
                 },
                 "railway/monorail": {
                     "name": "Monorail"
@@ -4436,6 +4704,9 @@
                 },
                 "railway/signal": {
                     "name": "Railway Signal"
+                },
+                "railway/station": {
+                    "name": "Train Station"
                 },
                 "railway/subway": {
                     "name": "Subway"
@@ -4452,11 +4723,11 @@
                 "railway/tram": {
                     "name": "Tram"
                 },
+                "railway/tram_stop": {
+                    "name": "Tram Stopping Position"
+                },
                 "relation": {
                     "name": "Relation"
-                },
-                "roundabout": {
-                    "name": "Roundabout"
                 },
                 "route/ferry": {
                     "name": "Ferry Route"
@@ -4474,22 +4745,22 @@
                     "name": "Antiques Shop"
                 },
                 "shop/appliance": {
-                    "name": "Appliance Store"
+                    "name": "Appliance Shop"
                 },
                 "shop/art": {
-                    "name": "Art Store"
+                    "name": "Art Shop"
                 },
                 "shop/baby_goods": {
-                    "name": "Baby Goods Store"
+                    "name": "Baby Goods Shop"
                 },
                 "shop/bag": {
-                    "name": "Bag/Luggage Store"
+                    "name": "Bag/Luggage Shop"
                 },
                 "shop/bakery": {
                     "name": "Bakery"
                 },
                 "shop/bathroom_furnishing": {
-                    "name": "Bathroom Furnishing Store"
+                    "name": "Bathroom Furnishing Shop"
                 },
                 "shop/beauty": {
                     "name": "Beauty Shop"
@@ -4501,10 +4772,10 @@
                     "name": "Tanning Salon"
                 },
                 "shop/bed": {
-                    "name": "Bedding/Mattress Store"
+                    "name": "Bed Shop"
                 },
                 "shop/beverages": {
-                    "name": "Beverage Store"
+                    "name": "Beverages Shop"
                 },
                 "shop/bicycle": {
                     "name": "Bicycle Shop"
@@ -4513,7 +4784,7 @@
                     "name": "Bookmaker"
                 },
                 "shop/books": {
-                    "name": "Book Store"
+                    "name": "Book Shop"
                 },
                 "shop/boutique": {
                     "name": "Boutique"
@@ -4528,55 +4799,55 @@
                     "name": "Car Dealership"
                 },
                 "shop/car_parts": {
-                    "name": "Car Parts Store"
+                    "name": "Car Parts Shop"
                 },
                 "shop/car_repair": {
                     "name": "Car Repair Shop"
                 },
                 "shop/carpet": {
-                    "name": "Carpet Store"
+                    "name": "Carpet Shop"
                 },
                 "shop/charity": {
                     "name": "Charity Shop"
                 },
                 "shop/cheese": {
-                    "name": "Cheese Store"
+                    "name": "Cheese Shop"
                 },
                 "shop/chemist": {
                     "name": "Chemist"
                 },
                 "shop/chocolate": {
-                    "name": "Chocolate Store"
+                    "name": "Chocolate Shop"
                 },
                 "shop/clothes": {
-                    "name": "Clothing Store"
+                    "name": "Clothing Shop"
                 },
                 "shop/coffee": {
-                    "name": "Coffee Store"
+                    "name": "Coffee Shop (Retail)"
                 },
                 "shop/computer": {
-                    "name": "Computer Store"
+                    "name": "Computer Shop"
                 },
                 "shop/confectionery": {
-                    "name": "Candy Store"
+                    "name": "Sweet Shop"
                 },
                 "shop/convenience": {
                     "name": "Convenience Store"
                 },
                 "shop/copyshop": {
-                    "name": "Copy Store"
+                    "name": "Copyshop"
                 },
                 "shop/cosmetics": {
-                    "name": "Cosmetics Store"
+                    "name": "Cosmetics Shop"
                 },
                 "shop/craft": {
-                    "name": "Arts and Crafts Store"
+                    "name": "Art and Craft Supplies Shop"
                 },
                 "shop/curtain": {
-                    "name": "Curtain Store"
+                    "name": "Curtain Shop"
                 },
                 "shop/dairy": {
-                    "name": "Dairy Store"
+                    "name": "Dairy Shop"
                 },
                 "shop/deli": {
                     "name": "Deli"
@@ -4585,7 +4856,7 @@
                     "name": "Department Store"
                 },
                 "shop/doityourself": {
-                    "name": "DIY Store"
+                    "name": "DIY Shop"
                 },
                 "shop/dry_cleaning": {
                     "name": "Dry Cleaner"
@@ -4594,19 +4865,19 @@
                     "name": "E-Cigarette Shop"
                 },
                 "shop/electronics": {
-                    "name": "Electronics Store"
+                    "name": "Electronics Shop"
                 },
                 "shop/erotic": {
-                    "name": "Erotic Store"
+                    "name": "Erotic Shop"
                 },
                 "shop/fabric": {
-                    "name": "Fabric Store"
+                    "name": "Fabric Shop"
                 },
                 "shop/farm": {
                     "name": "Farm Shop"
                 },
                 "shop/fashion": {
-                    "name": "Fashion Store"
+                    "name": "Fashion Shop"
                 },
                 "shop/fishmonger": {
                     "name": "Fishmonger"
@@ -4621,10 +4892,10 @@
                     "name": "Funeral Home"
                 },
                 "shop/furnace": {
-                    "name": "Furnace Store"
+                    "name": "Furnace Shop"
                 },
                 "shop/furniture": {
-                    "name": "Furniture Store"
+                    "name": "Furniture Shop"
                 },
                 "shop/garden_centre": {
                     "name": "Garden Centre"
@@ -4642,34 +4913,35 @@
                     "name": "Hairdresser"
                 },
                 "shop/hardware": {
-                    "name": "Hardware Store"
+                    "name": "Hardware Shop"
+                },
+                "shop/health_food": {
+                    "name": "Health Food Shop"
                 },
                 "shop/hearing_aids": {
-                    "name": "Hearing Aids Store"
+                    "name": "Hearing Aids Shop"
                 },
                 "shop/herbalist": {
                     "name": "Herbalist"
                 },
                 "shop/hifi": {
-                    "name": "Hifi Store"
+                    "name": "Hifi Shop"
                 },
                 "shop/houseware": {
-                    "name": "Houseware Store"
+                    "name": "Houseware Store",
+                    "terms": "homeware, kitchenware, linen, crockery"
                 },
                 "shop/interior_decoration": {
-                    "name": "Interior Decoration Store"
-                },
-                "shop/jewelry": {
-                    "name": "Jeweller"
+                    "name": "Interior Decoration Shop"
                 },
                 "shop/kitchen": {
-                    "name": "Kitchen Design Store"
+                    "name": "Kitchen Design Shop"
                 },
                 "shop/laundry": {
                     "name": "Laundry"
                 },
                 "shop/leather": {
-                    "name": "Leather Store"
+                    "name": "Leather Shop"
                 },
                 "shop/locksmith": {
                     "name": "Locksmith"
@@ -4684,10 +4956,10 @@
                     "name": "Massage Shop"
                 },
                 "shop/medical_supply": {
-                    "name": "Medical Supply Store"
+                    "name": "Medical Supply Shop"
                 },
                 "shop/mobile_phone": {
-                    "name": "Mobile Phone Store"
+                    "name": "Mobile Phone Shop"
                 },
                 "shop/money_lender": {
                     "name": "Money Lender"
@@ -4695,17 +4967,20 @@
                 "shop/motorcycle": {
                     "name": "Motorcycle Dealership"
                 },
+                "shop/motorcycle_repair": {
+                    "name": "Motorcycle Repair Shop"
+                },
                 "shop/music": {
-                    "name": "Music Store"
+                    "name": "Music Shop"
                 },
                 "shop/musical_instrument": {
-                    "name": "Musical Instrument Store"
+                    "name": "Musical Instrument Shop"
                 },
                 "shop/newsagent": {
                     "name": "Newspaper/Magazine Shop"
                 },
                 "shop/nutrition_supplements": {
-                    "name": "Nutrition Supplements Store"
+                    "name": "Nutrition Supplements Shop"
                 },
                 "shop/optician": {
                     "name": "Optician"
@@ -4714,10 +4989,10 @@
                     "name": "Organic Goods Store"
                 },
                 "shop/outdoor": {
-                    "name": "Outdoors Store"
+                    "name": "Outdoors Shop"
                 },
                 "shop/paint": {
-                    "name": "Paint Store"
+                    "name": "Paint Shop"
                 },
                 "shop/pastry": {
                     "name": "Pastry Shop"
@@ -4726,22 +5001,25 @@
                     "name": "Pawn Shop"
                 },
                 "shop/perfumery": {
-                    "name": "Perfume Store"
+                    "name": "Perfume Shop"
                 },
                 "shop/pet": {
-                    "name": "Pet Store"
+                    "name": "Pet Shop"
+                },
+                "shop/pet_grooming": {
+                    "name": "Pet Grooming Shop"
                 },
                 "shop/photo": {
-                    "name": "Photography Store"
+                    "name": "Photography Shop"
                 },
                 "shop/pyrotechnics": {
-                    "name": "Fireworks Store"
+                    "name": "Fireworks Shop"
                 },
                 "shop/radiotechnics": {
-                    "name": "Radio/Electronic Component Store"
+                    "name": "Radio/Electronic Component Shop"
                 },
                 "shop/religion": {
-                    "name": "Religious Store"
+                    "name": "Religious Shop"
                 },
                 "shop/scuba_diving": {
                     "name": "Scuba Diving Shop"
@@ -4750,16 +5028,16 @@
                     "name": "Seafood Shop"
                 },
                 "shop/second_hand": {
-                    "name": "Consignment/Thrift Store"
+                    "name": "Second Hand Shop"
                 },
                 "shop/shoes": {
                     "name": "Shoe Shop"
                 },
                 "shop/sports": {
-                    "name": "Sporting Goods Store"
+                    "name": "Sporting Goods Shop"
                 },
                 "shop/stationery": {
-                    "name": "Stationery Store"
+                    "name": "Stationery Shop"
                 },
                 "shop/storage_rental": {
                     "name": "Storage Rental"
@@ -4774,7 +5052,7 @@
                     "name": "Tattoo Parlor"
                 },
                 "shop/tea": {
-                    "name": "Tea Store"
+                    "name": "Tea Shop (Retail)"
                 },
                 "shop/ticket": {
                     "name": "Ticket Seller"
@@ -4786,7 +5064,7 @@
                     "name": "Tobacco Shop"
                 },
                 "shop/toys": {
-                    "name": "Toy Store"
+                    "name": "Toy Shop"
                 },
                 "shop/trade": {
                     "name": "Trade Shop"
@@ -4795,22 +5073,22 @@
                     "name": "Travel Agency"
                 },
                 "shop/tyres": {
-                    "name": "Tire Store"
+                    "name": "Tyre Shop"
                 },
                 "shop/vacant": {
                     "name": "Vacant Shop"
                 },
                 "shop/vacuum_cleaner": {
-                    "name": "Vacuum Cleaner Store"
+                    "name": "Vacuum Cleaner Shop"
                 },
                 "shop/variety_store": {
                     "name": "Variety Store"
                 },
                 "shop/video": {
-                    "name": "Video Store"
+                    "name": "Video/DVD Shop"
                 },
                 "shop/video_games": {
-                    "name": "Video Game Store"
+                    "name": "Video Games Shop"
                 },
                 "shop/watches": {
                     "name": "Watches Shop"
@@ -4821,8 +5099,11 @@
                 "shop/weapons": {
                     "name": "Weapon Shop"
                 },
+                "shop/wholesale": {
+                    "name": "Wholesale Shop / Cash & Carry "
+                },
                 "shop/window_blind": {
-                    "name": "Window Blind Store"
+                    "name": "Window Blind Shop"
                 },
                 "shop/wine": {
                     "name": "Wine Shop"
@@ -4893,6 +5174,9 @@
                 "tourism/theme_park": {
                     "name": "Theme Park"
                 },
+                "tourism/trail_riding_station": {
+                    "name": "Trail Riding Station"
+                },
                 "tourism/viewpoint": {
                     "name": "Viewpoint"
                 },
@@ -4957,13 +5241,16 @@
                     "name": "No U-turn"
                 },
                 "type/restriction/only_left_turn": {
-                    "name": "Left Turn Only"
+                    "name": "Only Left Turn"
                 },
                 "type/restriction/only_right_turn": {
-                    "name": "Right Turn Only"
+                    "name": "Only Right Turn"
                 },
                 "type/restriction/only_straight_on": {
-                    "name": "No Turns"
+                    "name": "Only Straight On"
+                },
+                "type/restriction/only_u_turn": {
+                    "name": "Only U-turn"
                 },
                 "type/route": {
                     "name": "Route"
@@ -4989,14 +5276,23 @@
                 "type/route/horse": {
                     "name": "Riding Route"
                 },
+                "type/route/light_rail": {
+                    "name": "Light Rail Route"
+                },
                 "type/route/pipeline": {
                     "name": "Pipeline Route"
+                },
+                "type/route/piste": {
+                    "name": "Piste/Ski Route"
                 },
                 "type/route/power": {
                     "name": "Power Route"
                 },
                 "type/route/road": {
                     "name": "Road Route"
+                },
+                "type/route/subway": {
+                    "name": "Subway Route"
                 },
                 "type/route/train": {
                     "name": "Train Route"
@@ -5012,9 +5308,6 @@
                 },
                 "type/waterway": {
                     "name": "Waterway"
-                },
-                "vertex": {
-                    "name": "Other"
                 },
                 "waterway": {
                     "name": "Waterway"
@@ -5071,40 +5364,19 @@
                 "description": "Satellite and aerial imagery.",
                 "name": "Bing aerial imagery"
             },
-            "DigitalGlobe-Premium": {
-                "attribution": {
-                    "text": "Terms & Feedback"
-                },
-                "description": "Premium DigitalGlobe satellite imagery.",
-                "name": "DigitalGlobe Premium Imagery"
-            },
-            "DigitalGlobe-Premium-vintage": {
-                "attribution": {
-                    "text": "Terms & Feedback"
-                },
-                "description": "Imagery boundaries and capture dates. Labels appear at zoom level 14 and higher.",
-                "name": "DigitalGlobe Premium Imagery Vintage"
-            },
-            "DigitalGlobe-Standard": {
-                "attribution": {
-                    "text": "Terms & Feedback"
-                },
-                "description": "Standard DigitalGlobe satellite imagery.",
-                "name": "DigitalGlobe Standard Imagery"
-            },
-            "DigitalGlobe-Standard-vintage": {
-                "attribution": {
-                    "text": "Terms & Feedback"
-                },
-                "description": "Imagery boundaries and capture dates. Labels appear at zoom level 14 and higher.",
-                "name": "DigitalGlobe Standard Imagery Vintage"
-            },
             "EsriWorldImagery": {
                 "attribution": {
                     "text": "Terms & Feedback"
                 },
                 "description": "Esri world imagery.",
                 "name": "Esri World Imagery"
+            },
+            "EsriWorldImageryClarity": {
+                "attribution": {
+                    "text": "Terms & Feedback"
+                },
+                "description": "Esri archive imagery that may be clearer and more accurate than the default layer.",
+                "name": "Esri World Imagery (Clarity) Beta"
             },
             "MAPNIK": {
                 "attribution": {
@@ -5162,9 +5434,6 @@
                 },
                 "name": "OSM Inspector: Tagging"
             },
-            "US-TIGER-Roads-2012": {
-                "name": "TIGER Roads 2012"
-            },
             "US-TIGER-Roads-2014": {
                 "description": "At zoom level 16+, public domain map data from the US Census. At lower zooms, only changes since 2006 minus changes already incorporated into OpenStreetMap",
                 "name": "TIGER Roads 2014"
@@ -5173,26 +5442,45 @@
                 "description": "Yellow = Public domain map data from the US Census. Red = Data not found in OpenStreetMap",
                 "name": "TIGER Roads 2017"
             },
+            "US_Forest_Service_roads_overlay": {
+                "description": "Highway: Green casing = unclassified. Brown casing = track. Surface: gravel = light brown fill, Asphalt = black, paved = gray, ground =white, concrete = blue, grass = green. Seasonal = white bars",
+                "name": "U.S. Forest Roads Overlay"
+            },
             "Waymarked_Trails-Cycling": {
+                "attribution": {
+                    "text": "© waymarkedtrails.org, OpenStreetMap contributors, CC by-SA 3.0"
+                },
                 "name": "Waymarked Trails: Cycling"
             },
             "Waymarked_Trails-Hiking": {
+                "attribution": {
+                    "text": "© waymarkedtrails.org, OpenStreetMap contributors, CC by-SA 3.0"
+                },
                 "name": "Waymarked Trails: Hiking"
             },
             "Waymarked_Trails-MTB": {
+                "attribution": {
+                    "text": "© waymarkedtrails.org, OpenStreetMap contributors, CC by-SA 3.0"
+                },
                 "name": "Waymarked Trails: MTB"
             },
             "Waymarked_Trails-Skating": {
+                "attribution": {
+                    "text": "© waymarkedtrails.org, OpenStreetMap contributors, CC by-SA 3.0"
+                },
                 "name": "Waymarked Trails: Skating"
             },
             "Waymarked_Trails-Winter_Sports": {
+                "attribution": {
+                    "text": "© waymarkedtrails.org, OpenStreetMap contributors, CC by-SA 3.0"
+                },
                 "name": "Waymarked Trails: Winter Sports"
             },
             "basemap.at": {
                 "attribution": {
                     "text": "basemap.at"
                 },
-                "description": "Basemap of Austria, based on goverment data.",
+                "description": "Basemap of Austria, based on government data.",
                 "name": "basemap.at"
             },
             "basemap.at-orthofoto": {
@@ -5201,12 +5489,6 @@
                 },
                 "description": "Orthofoto layer provided by basemap.at. \"Successor\" of geoimage.at imagery.",
                 "name": "basemap.at Orthofoto"
-            },
-            "hike_n_bike": {
-                "attribution": {
-                    "text": "© OpenStreetMap contributors"
-                },
-                "name": "Hike & Bike"
             },
             "mapbox_locator_overlay": {
                 "attribution": {
@@ -5254,7 +5536,7 @@
             },
             "stamen-terrain-background": {
                 "attribution": {
-                    "text": "Map tiles by Stamen Design, under CC BY 3.0"
+                    "text": "Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL"
                 },
                 "name": "Stamen Terrain"
             },
@@ -5269,6 +5551,53 @@
                     "text": "Maps © Thunderforest, Data © OpenStreetMap contributors"
                 },
                 "name": "Thunderforest Landscape"
+            }
+        },
+        "community": {
+            "Bay-Area-OpenStreetMappers": {
+                "name": "Bay Area OpenStreetMappers",
+                "description": "Improve OpenStreetMap in the Bay Area",
+                "extendedDescription": "This group is about growing the OpenStreetMap community here in the Bay Area. Our events are open to everyone, from open source enthusiasts, cyclists, GIS professionals, geocachers, and beyond. Anyone and everyone who is interested in maps, map making and free map data is welcome to join our group as well as attend our events."
+            },
+            "Central-Pennsylvania-OSM": {
+                "name": "Central Pennsylvania OSM",
+                "description": "Online mapping community based out of State College, PA"
+            },
+            "Dallas-Fort-Worth-OSM": {
+                "name": "Dallas-Fort Worth OSM",
+                "description": "The OpenStreetMap user group for Dallas-Fort Worth",
+                "extendedDescription": "Dallas, Fort Worth, and all the cities in between are abounding with creative and tech-savvy people. The vision for this usergroup is to find new ways to use the amazing resource of OSM."
+            },
+            "GeoPhilly": {
+                "name": "GeoPhilly",
+                "description": "Meetup for map enthusiasts in the Philadelphia area",
+                "extendedDescription": "GeoPhilly unites developers, geographers, data geeks, open source enthusiasts, civic hackers and map addicts in our shared love of maps and the stories they tell. If you use maps as part of your work or just want to learn more, this is the meetup for you!  Our events aim to be open, friendly, educational and social and range from happy hours to lightning talks or even workshops. Come create a diverse, inspiring geospatial community in the Philadelphia with us!"
+            },
+            "Mapping-DC-meetup": {
+                "name": "Mapping DC",
+                "description": "Improve OpenStreetMap in the DC area",
+                "extendedDescription": "We are a group of volunteer mappers who aim to improve the OpenStreetMap in the DC area. We also aim to teach others about the OSM ecosystem, data analytics, cartography, and GIS. We gather every other month at meetups to focus on one area of our city."
+            },
+            "OSM-Chattanooga": {
+                "name": "OSM Chattanooga",
+                "description": "The OpenStreetMap user group for Chattanooga"
+            },
+            "OSM-NYC": {
+                "name": "OpenStreetMap NYC",
+                "description": "Mappers and OpenStreetMap users, developers and enthusiasts in the New York Metropolitan area"
+            },
+            "OSM-Portland": {
+                "name": "OpenStreetMap Portland",
+                "description": "Mappers and OpenStreetMap users in the Portland area",
+                "extendedDescription": "OpenStreetMap (OSM) is a map of the world made by people like you. It's a map that you build, that's given away for free like wikipedia. Check out osm.org for more, and come join us at a meetup to talk maps, contribute to OSM, and have fun!"
+            },
+            "OSM-US-Slack": {
+                "name": "OpenStreetMap US Slack",
+                "description": "All are welcome! Sign up at {signupUrl}"
+            },
+            "OSM-Reddit": {
+                "name": "OpenStreetMap on Reddit",
+                "description": "/r/openstreetmap/ is a great place to learn more about OpenStreetMap.  Ask us anything!"
             }
         }
     }

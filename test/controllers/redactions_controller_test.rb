@@ -1,5 +1,4 @@
 require "test_helper"
-require "redactions_controller"
 
 class RedactionsControllerTest < ActionController::TestCase
   ##
@@ -65,7 +64,7 @@ class RedactionsControllerTest < ActionController::TestCase
 
     get :new
     assert_response :redirect
-    assert_redirected_to redactions_path
+    assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
   def test_create_moderator
@@ -88,7 +87,8 @@ class RedactionsControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
 
     post :create, :params => { :redaction => { :title => "Foo", :description => "Description here." } }
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
   def test_destroy_moderator_empty
@@ -112,14 +112,15 @@ class RedactionsControllerTest < ActionController::TestCase
     delete :destroy, :params => { :id => redaction.id }
     assert_response :redirect
     assert_redirected_to(redaction_path(redaction))
-    assert_match /^Redaction is not empty/, flash[:error]
+    assert_match(/^Redaction is not empty/, flash[:error])
   end
 
   def test_delete_non_moderator
     session[:user] = create(:user).id
 
     delete :destroy, :params => { :id => create(:redaction).id }
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
   def test_edit
@@ -142,7 +143,7 @@ class RedactionsControllerTest < ActionController::TestCase
 
     get :edit, :params => { :id => create(:redaction).id }
     assert_response :redirect
-    assert_redirected_to(redactions_path)
+    assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
   def test_update_moderator
@@ -171,6 +172,7 @@ class RedactionsControllerTest < ActionController::TestCase
     redaction = create(:redaction)
 
     put :update, :params => { :id => redaction.id, :redaction => { :title => "Foo", :description => "Description here." } }
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 end

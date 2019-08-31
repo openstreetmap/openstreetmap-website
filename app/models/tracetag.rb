@@ -2,9 +2,9 @@
 #
 # Table name: gpx_file_tags
 #
-#  gpx_id :integer          default(0), not null
+#  gpx_id :bigint(8)        default(0), not null
 #  tag    :string           not null
-#  id     :integer          not null, primary key
+#  id     :bigint(8)        not null, primary key
 #
 # Indexes
 #
@@ -22,5 +22,5 @@ class Tracetag < ActiveRecord::Base
   belongs_to :trace, :foreign_key => "gpx_id"
 
   validates :trace, :associated => true
-  validates :tag, :length => 1..255, :format => %r{\A[^/;.,?]*\z}
+  validates :tag, :length => 1..255, :characters => { :url_safe => true }
 end

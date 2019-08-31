@@ -2,11 +2,11 @@
 #
 # Table name: current_relations
 #
-#  id           :integer          not null, primary key
-#  changeset_id :integer          not null
+#  id           :bigint(8)        not null, primary key
+#  changeset_id :bigint(8)        not null
 #  timestamp    :datetime         not null
 #  visible      :boolean          not null
-#  version      :integer          not null
+#  version      :bigint(8)        not null
 #
 # Indexes
 #
@@ -37,11 +37,11 @@ class Relation < ActiveRecord::Base
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :version, :presence => true,
-                      :numericality => { :integer_only => true }
+                      :numericality => { :only_integer => true }
   validates :changeset_id, :presence => true,
-                           :numericality => { :integer_only => true }
+                           :numericality => { :only_integer => true }
   validates :timestamp, :presence => true
   validates :changeset, :associated => true
   validates :visible, :inclusion => [true, false]
@@ -62,20 +62,23 @@ class Relation < ActiveRecord::Base
       return Relation.from_xml_node(pt, create)
     end
     raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/relation element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("relation", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("relation", xml, e.message)
   end
 
   def self.from_xml_node(pt, create = false)
     relation = Relation.new
 
     raise OSM::APIBadXMLError.new("relation", pt, "Version is required when updating") unless create || !pt["version"].nil?
+
     relation.version = pt["version"]
     raise OSM::APIBadXMLError.new("relation", pt, "Changeset id is missing") if pt["changeset"].nil?
+
     relation.changeset_id = pt["changeset"]
 
     unless create
       raise OSM::APIBadXMLError.new("relation", pt, "ID is required when updating") if pt["id"].nil?
+
       relation.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
@@ -94,6 +97,7 @@ class Relation < ActiveRecord::Base
     pt.find("tag").each do |tag|
       raise OSM::APIBadXMLError.new("relation", pt, "tag is missing key") if tag["k"].nil?
       raise OSM::APIBadXMLError.new("relation", pt, "tag is missing value") if tag["v"].nil?
+
       relation.add_tag_keyval(tag["k"], tag["v"])
     end
 
@@ -106,6 +110,7 @@ class Relation < ActiveRecord::Base
     pt.find("member").each do |member|
       # member_type =
       raise OSM::APIBadXMLError.new("relation", pt, "The #{member['type']} is not allowed only, #{TYPES.inspect} allowed") unless TYPES.include? member["type"]
+
       # member_ref = member['ref']
       # member_role
       member["role"] ||= "" # Allow  the upload to not include this, in which case we default to an empty string.
@@ -207,6 +212,7 @@ class Relation < ActiveRecord::Base
       lock!
       check_consistency(self, new_relation, user)
       raise OSM::APIPreconditionFailedError, "Cannot update relation #{id}: data or member data is invalid." unless new_relation.preconditions_ok?(members)
+
       self.changeset_id = new_relation.changeset_id
       self.changeset = new_relation.changeset
       self.tags = new_relation.tags
@@ -219,6 +225,7 @@ class Relation < ActiveRecord::Base
   def create_with_history(user)
     check_create_consistency(self, user)
     raise OSM::APIPreconditionFailedError, "Cannot create relation: data or member data is invalid." unless preconditions_ok?
+
     self.version = 0
     self.visible = true
     save_with_history!
@@ -253,7 +260,8 @@ class Relation < ActiveRecord::Base
       element = model.lock("for share").find_by(:id => m[1])
 
       # and check that it is OK to use.
-      raise OSM::APIPreconditionFailedError, "Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}" unless element && element.visible? && element.preconditions_ok?
+      raise OSM::APIPreconditionFailedError, "Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}" unless element&.visible? && element&.preconditions_ok?
+
       hash[m[1]] = true
     end
 
@@ -267,9 +275,10 @@ class Relation < ActiveRecord::Base
   def fix_placeholders!(id_map, placeholder_id = nil)
     members.map! do |type, id, role|
       old_id = id.to_i
-      if old_id < 0
+      if old_id.negative?
         new_id = id_map[type.downcase.to_sym][old_id]
         raise OSM::APIBadUserInput, "Placeholder #{type} not found for reference #{old_id} in relation #{self.id.nil? ? placeholder_id : self.id}." if new_id.nil?
+
         [type, new_id, role]
       else
         [type, id, role]
@@ -372,10 +381,12 @@ class Relation < ActiveRecord::Base
       # reasonable on the assumption that adding or removing members doesn't
       # materially change the rest of the relation.
       any_relations =
-        changed_members.collect { |_id, type| type == "relation" }
+        changed_members.collect { |type, _id, _role| type == "Relation" }
                        .inject(false) { |acc, elem| acc || elem }
 
-      update_members = if tags_changed || any_relations
+      # if the relation is being deleted tags_changed will be true and members empty
+      # so we need to use changed_members to create a correct bounding box
+      update_members = if visible && (tags_changed || any_relations)
                          # add all non-relation bounding boxes to the changeset
                          # FIXME: check for tag changes along with element deletions and
                          # make sure that the deleted element's bounding box is hit.

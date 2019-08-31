@@ -2,15 +2,15 @@
 <html>
 <head>
   <meta charset='utf-8'>
-  <%= stylesheet_link_tag 'id' %>
+  <%= stylesheet_link_tag "id" %>
   <!--[if !IE || gte IE 9]><!-->
-  <%= javascript_include_tag 'id' %>
+  <%= javascript_include_tag "id" %>
   <!-- <![endif]-->
 </head>
 <body>
 <% data = {} -%>
-<% if defined? ID_KEY %>
-<% token = current_user.access_token(ID_KEY) %>
+<% if Settings.key?(:id_key) %>
+<% token = current_user.access_token(Settings.id_key) %>
 <% data[:token] = token.token -%>
 <% data[:token_secret] = token.secret -%>
 <% data[:consumer_key] = token.client_application.key -%>

@@ -8,10 +8,10 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
   def test_api_blocked
     blocked_user = create(:user)
 
-    get "/api/#{API_VERSION}/user/details"
+    get "/api/#{Settings.api_version}/user/details"
     assert_response :unauthorized
 
-    get "/api/#{API_VERSION}/user/details", :headers => auth_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => auth_header(blocked_user.display_name, "test")
     assert_response :success
 
     # now block the user
@@ -21,7 +21,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :reason => "testing",
       :ends_at => Time.now.getutc + 5.minutes
     )
-    get "/api/#{API_VERSION}/user/details", :headers => auth_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => auth_header(blocked_user.display_name, "test")
     assert_response :forbidden
   end
 
@@ -35,7 +35,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :reason => "testing",
       :ends_at => Time.now.getutc + 5.minutes
     )
-    get "/api/#{API_VERSION}/user/details", :headers => auth_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => auth_header(blocked_user.display_name, "test")
     assert_response :forbidden
 
     # revoke the ban
@@ -54,7 +54,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
     reset!
 
     # access the API again. this time it should work
-    get "/api/#{API_VERSION}/user/details", :headers => auth_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => auth_header(blocked_user.display_name, "test")
     assert_response :success
   end
 end

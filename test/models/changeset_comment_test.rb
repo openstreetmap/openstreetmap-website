@@ -6,27 +6,27 @@ class ChangesetCommentTest < ActiveSupport::TestCase
     comment = create(:changeset_comment)
 
     comment.author = nil
-    assert !comment.valid?
+    assert_not comment.valid?
 
     comment.author_id = 999111
-    assert !comment.valid?
+    assert_not comment.valid?
   end
 
   def test_does_not_accept_invalid_changeset
     comment = create(:changeset_comment)
 
     comment.changeset = nil
-    assert !comment.valid?
+    assert_not comment.valid?
 
     comment.changeset_id = 999111
-    assert !comment.valid?
+    assert_not comment.valid?
   end
 
   def test_does_not_accept_empty_visible
     comment = create(:changeset_comment)
 
     comment.visible = nil
-    assert !comment.valid?
+    assert_not comment.valid?
   end
 
   def test_comments_of_changeset_count
@@ -50,7 +50,7 @@ class ChangesetCommentTest < ActiveSupport::TestCase
     bad.each do |body|
       changeset_comment = create(:changeset_comment)
       changeset_comment.body = body
-      assert !changeset_comment.valid?, "#{body} is valid when it shouldn't be"
+      assert_not changeset_comment.valid?, "#{body} is valid when it shouldn't be"
     end
   end
 end

@@ -1,6 +1,6 @@
 require "migrate"
 
-class UserEnhancements < ActiveRecord::Migration[5.0]
+class UserEnhancements < ActiveRecord::Migration[4.2]
   def self.up
     add_column "diary_entries", "latitude", :float, :limit => 53
     add_column "diary_entries", "longitude", :float, :limit => 53

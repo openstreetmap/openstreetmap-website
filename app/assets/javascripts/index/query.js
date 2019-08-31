@@ -1,10 +1,13 @@
 //= require jquery.simulate
+//= require querystring
 
-OSM.Query = function(map) {
+OSM.Query = function (map) {
+  var querystring = require("querystring-component");
+
   var url = OSM.OVERPASS_URL,
-    queryButton = $(".control-query .control-button"),
-    uninterestingTags = ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid', 'KSJ2:curve_id', 'KSJ2:lat', 'KSJ2:lon', 'KSJ2:coordinate', 'KSJ2:filename', 'note:ja'],
-    marker;
+      queryButton = $(".control-query .control-button"),
+      uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"],
+      marker;
 
   var featureStyle = {
     color: "#FF6200",
@@ -55,7 +58,7 @@ OSM.Query = function(map) {
           var geometry = $(this).data("geometry");
           if (geometry) map.removeLayer(geometry);
 
-          if (!$(e.target).is('a')) {
+          if (!$(e.target).is("a")) {
             $(this).find("a").simulate("click", e);
           }
         }
@@ -103,7 +106,7 @@ OSM.Query = function(map) {
 
         if (prefixes[key]) {
           var first = value.substr(0, 1).toUpperCase(),
-            rest = value.substr(1).replace(/_/g, " ");
+              rest = value.substr(1).replace(/_/g, " ");
 
           return first + rest;
         }
@@ -119,7 +122,7 @@ OSM.Query = function(map) {
 
   function featureName(feature) {
     var tags = feature.tags,
-      locales = I18n.locales.get();
+        locales = I18n.locales.get();
 
     for (var i = 0; i < locales.length; i++) {
       if (tags["name:" + locales[i]]) {
@@ -153,7 +156,7 @@ OSM.Query = function(map) {
       }), featureStyle);
     } else if (feature.type === "relation" && feature.members) {
       geometry = L.featureGroup(feature.members.map(featureGeometry).filter(function (geometry) {
-        return geometry !== undefined;
+        return typeof geometry !== "undefined";
       }));
     }
 
@@ -178,9 +181,9 @@ OSM.Query = function(map) {
       url: url,
       method: "POST",
       data: {
-        data: "[timeout:10][out:json];" + query,
+        data: "[timeout:10][out:json];" + query
       },
-      success: function(results) {
+      success: function (results) {
         var elements;
 
         $section.find(".loader").stopTime("loading").hide();
@@ -237,7 +240,7 @@ OSM.Query = function(map) {
             .appendTo($ul);
         }
       },
-      error: function(xhr, status, error) {
+      error: function (xhr, status, error) {
         $section.find(".loader").stopTime("loading").hide();
 
         $("<li>")
@@ -249,11 +252,11 @@ OSM.Query = function(map) {
 
   function compareSize(feature1, feature2) {
     var width1 = feature1.bounds.maxlon - feature1.bounds.minlon,
-      height1 = feature1.bounds.maxlat - feature1.bounds.minlat,
-      area1 = width1 * height1,
-      width2 = feature2.bounds.maxlat - feature2.bounds.minlat,
-      height2 = feature2.bounds.maxlat - feature2.bounds.minlat,
-      area2 = width2 * height2;
+        height1 = feature1.bounds.maxlat - feature1.bounds.minlat,
+        area1 = width1 * height1,
+        width2 = feature2.bounds.maxlat - feature2.bounds.minlat,
+        height2 = feature2.bounds.maxlat - feature2.bounds.minlat,
+        area2 = width2 * height2;
 
     return area1 - area2;
   }
@@ -280,15 +283,15 @@ OSM.Query = function(map) {
    */
   function queryOverpass(lat, lng) {
     var latlng = L.latLng(lat, lng).wrap(),
-      bounds = map.getBounds().wrap(),
-      bbox = bounds.getSouth() + "," + bounds.getWest() + "," + bounds.getNorth() + "," + bounds.getEast(),
-      radius = 10 * Math.pow(1.5, 19 - map.getZoom()),
-      around = "around:" + radius + "," + lat + "," + lng,
-      nodes = "node(" + around + ")",
-      ways = "way(" + around + ")",
-      relations = "relation(" + around + ")",
-      nearby = "(" + nodes + ";" + ways + ");out tags geom(" + bbox + ");" + relations + ";out geom(" + bbox + ");",
-      isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids geom(" + bbox + ");relation(pivot.a);out tags bb;";
+        bounds = map.getBounds().wrap(),
+        bbox = bounds.getSouth() + "," + bounds.getWest() + "," + bounds.getNorth() + "," + bounds.getEast(),
+        radius = 10 * Math.pow(1.5, 19 - map.getZoom()),
+        around = "around:" + radius + "," + lat + "," + lng,
+        nodes = "node(" + around + ")",
+        ways = "way(" + around + ")",
+        relations = "relation(" + around + ")",
+        nearby = "(" + nodes + ";" + ways + ";);out tags geom(" + bbox + ");" + relations + ";out geom(" + bbox + ");",
+        isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids geom(" + bbox + ");relation(pivot.a);out tags bb;";
 
     $("#sidebar_content .query-intro")
       .hide();
@@ -301,8 +304,8 @@ OSM.Query = function(map) {
         map.removeLayer(marker);
       } else {
         marker.setStyle({
-          opacity: 1 - i * 0.1,
-          fillOpacity: 0.5 - i * 0.05
+          opacity: 1 - (i * 0.1),
+          fillOpacity: 0.5 - (i * 0.05)
         });
       }
     }, 10);
@@ -313,9 +316,9 @@ OSM.Query = function(map) {
 
   function clickHandler(e) {
     var precision = OSM.zoomPrecision(map.getZoom()),
-      latlng = e.latlng.wrap(),
-      lat = latlng.lat.toFixed(precision),
-      lng = latlng.lng.toFixed(precision);
+        latlng = e.latlng.wrap(),
+        lat = latlng.lat.toFixed(precision),
+        lng = latlng.lng.toFixed(precision);
 
     OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
   }
@@ -335,15 +338,15 @@ OSM.Query = function(map) {
 
   var page = {};
 
-  page.pushstate = page.popstate = function(path) {
+  page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, function () {
       page.load(path, true);
     });
   };
 
-  page.load = function(path, noCentre) {
-    var params = querystring.parse(path.substring(path.indexOf('?') + 1)),
-      latlng = L.latLng(params.lat, params.lon);
+  page.load = function (path, noCentre) {
+    var params = querystring.parse(path.substring(path.indexOf("?") + 1)),
+        latlng = L.latLng(params.lat, params.lon);
 
     if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {
       OSM.router.withoutMoveListener(function () {
@@ -354,7 +357,7 @@ OSM.Query = function(map) {
     queryOverpass(params.lat, params.lon);
   };
 
-  page.unload = function(sameController) {
+  page.unload = function (sameController) {
     if (!sameController) {
       disableQueryMode();
     }

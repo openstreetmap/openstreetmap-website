@@ -1,6 +1,6 @@
 require "migrate"
 
-class CreateOsmDb < ActiveRecord::Migration[5.0]
+class CreateOsmDb < ActiveRecord::Migration[4.2]
   def self.up
     create_table "current_nodes", :id => false do |t|
       t.column "id",        :bigint, :null => false

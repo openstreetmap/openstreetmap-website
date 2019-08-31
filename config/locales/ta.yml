@@ -1,10 +1,12 @@
 # Messages for Tamil (தமிழ்)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Aswn
 # Author: ElangoRamanujam
 # Author: Karthi.dr
 # Author: Krishnaprasaths
+# Author: Mahir78
 # Author: Rakeshonwiki
 # Author: Sank
 # Author: Shanmugamp7
@@ -16,6 +18,20 @@ ta:
   time:
     formats:
       friendly: '%e %B %Y, %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: சேமி
+      diary_entry:
+        create: வெளியிடு
+      message:
+        create: அனுப்பு
+      client_application:
+        create: பதிவுசெய்
+        update: தொகு
+      trace:
+        create: பதிவேற்று
+        update: மாற்றங்களை சேமி
   activerecord:
     models:
       acl: அனுமதிக் கட்டுப்பாட்டுப் பட்டியல்
@@ -148,13 +164,15 @@ ta:
     start_rjs:
       loading: ஏற்றப்படுகிறது ...
     tag_details:
-      tags: 'குறிப்புக்கள்:'
+      tags: 'குறிச்சொற்கள்:'
       wiki_link:
         key: விக்கி  விளக்கப்பக்கம் %{key} குறிச்சொல்லுக்காக
     note:
       new_note: புதுக் குறிப்பு
-  changeset:
+      description: விளக்கம்
+  changesets:
     changeset_paging_nav:
+      showing_page: பக்கம் %{page}
       next: அடுத்து »
       previous: « முந்தைய
     changeset:
@@ -166,16 +184,21 @@ ta:
       user: பயனர்
       comment: கருத்து
       area: பகுதி
-    list:
+    index:
       title: மாற்றங்கள்
       load_more: மேலும் படிக்க
-    rss:
-      full: முழு உரையாடல்
-  diary_entry:
+  diary_entries:
     new:
       title: புதிய டைரி உள்ளீடு
-      publish_button: வெளியிடு
-    list:
+    form:
+      subject: 'பொருள்:'
+      body: 'உரை:'
+      language: 'மொழி:'
+      location: 'இடம்:'
+      latitude: 'அட்சரேகை:'
+      longitude: 'தீர்க்கரேகை:'
+      use_map_link: வரைப்படத்தை பயன்படுத்தவும்
+    index:
       title: பயனரின் நாட்குறிப்பேடுகள்
       title_friends: நண்பர்களின் நாட்குறிப்பேடுகள்
       title_nearby: அருகிலுள்ள பயனர்களின் நாட்குறிப்பேடுகள்
@@ -189,22 +212,13 @@ ta:
       newer_entries: புதிய உள்ளீடுகள்
     edit:
       title: நாட்குறிப்பேடு  உள்ளீட்டை  திருத்து
-      subject: 'பொருள்:'
-      body: 'உரை:'
-      language: 'மொழி:'
-      location: 'இடம்:'
-      latitude: 'அட்சரேகை:'
-      longitude: 'தீர்க்கரேகை:'
-      use_map_link: வரைப்படத்தை பயன்படுத்தவும்
-      save_button: சேமி
       marker_text: டைரி உள்ளீடு பகுதி
-    view:
+    show:
       title: '%{user}''ன்  நாட்குறிப்பேடு| %{title}'
       user_title: '%{user}ன் நாட்குறிப்பேடு'
       leave_a_comment: ஒரு குறிப்பை இடவும்
       login_to_leave_a_comment: '%{login_link} ஒரு குறிப்பைவிட'
       login: புகுபதிகை
-      save_button: சேமி
     no_such_entry:
       title: இத்தகைய டைரி உள்ளீடு இல்லை.
       heading: இந்த id :%{id} மூலமாக எந்த  உள்ளீடும் இல்லை
@@ -217,6 +231,7 @@ ta:
     diary_comment:
       hide_link: இக் கருத்துரையை மறை
       confirm: உறுதிசெய்
+      report: இந்தப் பின்னூட்டத்தை முறையிடுக
     location:
       location: 'இடம்:'
       view: காண்
@@ -226,18 +241,6 @@ ta:
       when: எப்பொழுது
       comment: கருத்துரை
       newer_comments: புதிய கருத்துக்கள்
-  export:
-    title: ஏற்றுமதி செய்
-    start:
-      licence: உரிமம்
-      options: விருப்பத் தேர்வுகள்
-      format: வடிவமைப்பு
-      scale: அளவுவீதம்
-      max: அதிகபட்சம்
-      image_size: பட அளவு
-      zoom: பெரிதாக்கு
-      output: வெளியீடு
-      export_button: ஏற்றுமதி செய்
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -310,6 +313,12 @@ ta:
           "yes": பாலம்
         building:
           "yes": கட்டிடம்
+        craft:
+          tailor: தையற்காரர்
+          "yes": கைவினைப் பொருள் அங்காடி
+        emergency:
+          ambulance_station: அவசர ஊர்தி நிலையம்
+          "yes": அவசரம்
         highway:
           abandoned: கைவிடப்பட்ட நெடுஞ்சாலை
           bus_guideway: வழிநடத்தப்பட்ட பேருந்து தடம்
@@ -480,6 +489,14 @@ ta:
     results:
       no_results: முடிவுகள் எதுவும் காணப்படவில்லை
       more_results: மேலும் முடிவுகள்
+  reports:
+    new:
+      categories:
+        user:
+          other_label: மற்றவை
+        note:
+          spam_label: இந்தக் குறிப்பு ஒரு எரிதம்
+          personal_label: இந்தக் குறிப்பில் தனிநபர் தகவல்கள் உள்ளன
   layouts:
     home: முகப்பு
     logout: விடுபதிகை
@@ -497,14 +514,6 @@ ta:
       text: ஒரு நன்கொடையை அளிக்கவும்
     learn_more: மேலும் அறிய
     more: மேலும்
-  license_page:
-    foreign:
-      title: இந்த மொழிபெயர்ப்பு பற்றி
-  welcome_page:
-    rules:
-      title: விதிமுறைகள்!
-  about_page:
-    next: அடுத்தது
   notifier:
     gpx_notification:
       greeting: வணக்கம்,
@@ -518,7 +527,7 @@ ta:
       greeting: வணக்கம்,
     changeset_comment_notification:
       greeting: வணக்கம்,
-  message:
+  messages:
     inbox:
       title: உள்பெட்டி
       from: 'அனுப்புநர்:'
@@ -528,38 +537,56 @@ ta:
       unread_button: வாசிக்கப்படாததாக என குறியிடு
       read_button: வாசித்ததாக குறியிடு
       reply_button: பதில் அளி
-      delete_button: நீக்கு
+      destroy_button: நீக்கு
     new:
       title: தகவல் அனுப்பு
       send_message_to: '%{name} க்கு புதிய தகவல் அனுப்பு'
       subject: பொருள்
       body: உரை
-      send_button: அனுப்பு
       back_to_inbox: உள்பெட்டிக்கு திரும்பவும்
+    create:
       message_sent: செய்தி அனுப்பப்பட்டுவிட்டது
     no_such_message:
       title: அப்படியொரு தகவல் இல்லை
       heading: அப்படியொரு தகவல் இல்லை
     outbox:
+      title: அனுப்பியவை
       inbox: உள்பெட்டி
       outbox: வெளிப்பெட்டி
       subject: பொருள்
       date: நாள்
-    read:
+    show:
       title: தகவலை வாசிக்கவும்
       from: அனுப்புநர்
       subject: பொருள்
       date: நாள்
       reply_button: பதில் அளி
       unread_button: வாசிக்கப்படாததாக  குறியிடு
+      destroy_button: நீக்குக
       to: பெறுநர்
     sent_message_summary:
-      delete_button: நீக்கு
-    delete:
-      deleted: தகவல் நீக்கப்பட்டது
+      destroy_button: நீக்கு
+    destroy:
+      destroyed: தகவல் நீக்கப்பட்டது
   site:
+    about:
+      next: அடுத்தது
+    copyright:
+      foreign:
+        title: இந்த மொழிபெயர்ப்பு பற்றி
     edit:
       user_page_link: பயனர் பக்கம்
+    export:
+      title: ஏற்றுமதி செய்
+      licence: உரிமம்
+      options: விருப்பத் தேர்வுகள்
+      format: வடிவமைப்பு
+      scale: அளவுவீதம்
+      max: அதிகபட்சம்
+      image_size: பட அளவு
+      zoom: பெரிதாக்கு
+      output: வெளியீடு
+      export_button: ஏற்றுமதி செய்
     sidebar:
       search_results: தேடல் முடிவுகள்
       close: மூடு
@@ -597,7 +624,18 @@ ta:
           private: தனியார் அனுமதி
           construction: சாலைகளில்  கட்டுமானப் பணிகள் நடந்து வருகின்றன.
           toilets: கழிவறைகள்
-  trace:
+    welcome:
+      title: வருக!
+      rules:
+        title: விதிமுறைகள்!
+  traces:
+    new:
+      description: 'விளக்கம்:'
+      tags: 'குறிச்சொற்கள்:'
+      tags_help: காற்புள்ளி வரம்பில்லை
+      visibility: 'காணும்தூரம்:'
+      visibility_help: இது எதைக் குறிக்கிறது?
+      help: உதவி
     edit:
       filename: 'கோப்புப்பெயர்:'
       download: தரவிறக்கு
@@ -609,24 +647,11 @@ ta:
       description: 'விளக்கம்:'
       tags: 'குறிச்சொற்கள்:'
       tags_help: காற்புள்ளி வரம்பில்லை
-      save_button: மாற்றங்களை சேமி
       visibility: 'காணும்தூரம்:'
       visibility_help: இது எதைக் குறிக்கிறது?
-    trace_form:
-      description: 'விளக்கம்:'
-      tags: 'குறிச்சொற்கள்:'
-      tags_help: காற்புள்ளி வரம்பில்லை
-      visibility: 'காணும்தூரம்:'
-      visibility_help: இது எதைக் குறிக்கிறது?
-      upload_button: பதிவேற்று
-      help: உதவி
-    trace_header:
-      upload_trace: சுவடை பதிவேற்றவும்
-      see_all_traces: அனைத்து சுவடுகளையும் காண்
-      see_your_traces: உங்கள் சுவடுகளை காண்
     trace_optionals:
       tags: குறிச்சொற்கள்
-    view:
+    show:
       pending: நிலுவையில்
       filename: 'கோப்புப்பெயர்:'
       download: தரவிறக்கு
@@ -638,8 +663,8 @@ ta:
       description: 'விளக்கம்:'
       tags: 'குறிச்சொற்கள்:'
       none: ஏதுமில்லை
-      edit_track: இந்த சுவடை திருத்து
-      delete_track: இந்த சுவடை நீக்கவும்
+      edit_trace: இந்த சுவடை திருத்து
+      delete_trace: இந்த சுவடை நீக்கவும்
       trace_not_found: சுவடு காணப்படவில்லை!
     trace:
       more: மேலும்
@@ -652,11 +677,10 @@ ta:
       by: மூலம்
       in: உள்
       map: வரைபடம்
+    index:
+      upload_trace: சுவடை பதிவேற்றவும்
+      see_all_traces: அனைத்து சுவடுகளையும் காண்
   oauth_clients:
-    new:
-      submit: பதிவுசெய்
-    edit:
-      submit: தொகு
     show:
       edit: தொகுப்பு விவரங்கள்
       confirm: உறுதியாகவா?
@@ -665,7 +689,7 @@ ta:
     form:
       name: பெயர்
       required: தேவைப்படும்
-  user:
+  users:
     login:
       title: புகுபதிகை
       heading: புகுபதிகை
@@ -697,7 +721,6 @@ ta:
       password: 'கடவுச்சொல்:'
       confirm password: 'கடவுச்சொல்லை உறுதிசெய்:'
     terms:
-      agree: ஏற்றுக் கொள்
       decline: நிராகரி
       legale_names:
         france: பிரான்சு
@@ -706,7 +729,7 @@ ta:
     no_such_user:
       title: அப்படியொரு பயனர் இல்லை.
       heading: பயனர் %{user} இல்லை
-    view:
+    show:
       my diary: எனது நாட்குறிப்பேடு
       new diary entry: புதிய நாட்குறிப்பேடு உள்ளீடு
       my edits: என் திருத்தங்கள்
@@ -714,7 +737,6 @@ ta:
       diary: நாட்குறிப்பேடு
       edits: தொகுப்புகள்
       add as friend: நண்பராக சேர்
-      ago: (%{time_in_words_ago} முன்பு)
       ct status: 'பங்களிப்பாளர் விதிமுறைகள்:'
       ct undecided: முடிவு செய்யப்படாத
       ct declined: நிராகரிக்கப்பட்டது
@@ -724,7 +746,7 @@ ta:
       description: விளக்கம்
       user location: பயனர் அமைவிடம்
       settings_link_text: அமைப்புகள்
-      your friends: உங்கள் நண்பர்கள்
+      my friends: எனது நண்பர்கள்
       no friends: நீங்கள் இதுவரை எந்த நண்பர்களையும் சேர்க்கவில்லை
       km away: '%{count}கிமீ தாண்டி'
       m away: '%{count}மீ தாண்டி'
@@ -769,7 +791,7 @@ ta:
       keep image: நடப்பு படத்தை வைத்திரு
       delete image: நடப்பு படத்தை நீக்கு
       save changes button: மாற்றங்களைச் சேமி
-    list:
+    index:
       title: பயனர்கள்
       heading: பயனர்கள்
     suspended:
@@ -778,15 +800,7 @@ ta:
   user_role:
     revoke:
       confirm: உறுதிப்படுத்து
-  user_block:
-    partial:
-      show: காண்பி
-      edit: தொகு
-      revoke: திரும்பபெறு!
-      confirm: உறுதியாகவா?
-      display_name: தடைசெய்யப்பட்ட பயனர்
-      creator_name: உருவாக்கியவர்
-      status: நிலை
+  user_blocks:
     show:
       status: நிலை
       show: காண்பி
@@ -794,7 +808,15 @@ ta:
       revoke: திரும்பபெறு!
       confirm: உறுதியாகவா?
       reason: 'தடைக்கான காரணம்:'
-  redaction:
+    block:
+      show: காண்பி
+      edit: தொகு
+      revoke: திரும்பபெறு!
+    blocks:
+      display_name: தடைசெய்யப்பட்ட பயனர்
+      creator_name: உருவாக்கியவர்
+      status: நிலை
+  redactions:
     update:
       flash: மாற்றங்கள் சேமிக்கப்பட்டன
 ...

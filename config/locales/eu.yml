@@ -2,9 +2,15 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: 9and3r
+# Author: Abijeet Patro
+# Author: Amaia
 # Author: An13sa
 # Author: Asieriko
+# Author: EukeneFL
 # Author: Gorkaazk
+# Author: Ibai
+# Author: Iñaki LL
+# Author: Maite
 # Author: Mikel Ibaiba
 # Author: MikelEH
 # Author: PerroVerd
@@ -17,11 +23,36 @@ eu:
   time:
     formats:
       friendly: '%e %B %Y %H:%M-ean'
+  helpers:
+    submit:
+      diary_comment:
+        create: Gorde
+      diary_entry:
+        create: Argitaratu
+        update: Eguneratu
+      message:
+        create: Bidali
+      client_application:
+        create: Erregistratu
+        update: Aldatu
+      redaction:
+        create: Erredakzioa sortu
+        update: Gorde erredakzioa
+      trace:
+        create: Igo
+        update: Aldaketak gorde
+      user_block:
+        create: Blokea sortu
+        update: Blokea eguneratu
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: badirudi ez dela e-posta helbide egoki bat
+        email_address_not_routable: ezin da biderik kalkulatu
     models:
       acl: Kontrol zerrendara sartu
       changeset: Aldaketak
-      changeset_tag: Etiketa aldaketa
+      changeset_tag: Aldaketa Etiketa
       country: Herrialdea
       diary_comment: Eguneroko iruzkina
       diary_entry: Eguneroko sarrera
@@ -50,7 +81,7 @@ eu:
       user_preference: Erabiltzaile hobespenak
       user_token: Erabiltzaile token-a
       way: Bidea
-      way_node: Nodo bidea
+      way_node: Bidearen nodoa
       way_tag: Bidearen etiketa
     attributes:
       diary_comment:
@@ -72,7 +103,7 @@ eu:
         latitude: Latitude
         longitude: Longitude
         public: Publikoa
-        description: Deskribapen
+        description: Deskribapena
       message:
         sender: Igorlea
         title: Gaia
@@ -82,7 +113,7 @@ eu:
         email: Eposta
         active: Aktibo
         display_name: Erakusteko izena
-        description: Deskribapen
+        description: Deskribapena
         languages: Hizkuntzak
         pass_crypt: Pasahitza
   editor:
@@ -91,7 +122,7 @@ eu:
       name: Potlatch 1
       description: Potlatch 1 (nabigatzaile barneko editorea)
     id:
-      name: iD-a
+      name: iD
       description: iD (nabigatzaile barneko editorea)
     potlatch2:
       name: Potlatch 2
@@ -99,6 +130,29 @@ eu:
     remote:
       name: Urrutiko agintea
       description: Urrutiko kontrola (JOSM edo Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: '%{when} sortua'
+        opened_at_by_html: '%{user}-ek %{when} sortua'
+        commented_at_html: '%{when} eguneratua'
+        commented_at_by_html: '%{user}k %{when} eguneratua'
+        closed_at_html: '%{when} ebatzia'
+        closed_at_by_html: '%{user}k %{when} ebatzia'
+        reopened_at_html: '%{when} berraktibatua'
+        reopened_at_by_html: '%{user}k %{when} berraktibatua'
+      rss:
+        title: OpenStreetMap oharrak
+        description_area: Iruzkinak dituzten, itxi diren edota iragarki diren oharren
+          zerrenda [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: Rss feed bat %{id} oharrarentzako
+        opened: ohar berria (%{place} ingurutik)
+        commented: iruzkin berria (%{place} ingurutik)
+        closed: ohar itxia (%{place} ingurutik)
+        reopened: birraktibatutako oharra (%{place} ingurutik)
+      entry:
+        comment: Iruzkina
+        full: Ohar osoa
   browse:
     created: Sortua
     closed: Itxita
@@ -125,20 +179,20 @@ eu:
       title: 'Aldaketa: %{id}'
       belongs_to: Egilea
       node: Nodoak (%{count})
-      node_paginated: (%{count}ren) %{x}-%{y} nodoak
+      node_paginated: Nodoak (%{x}-%{y} %{count}-tik)
       way: Bideak (%{count})
-      way_paginated: Bideak (%{count}ren %{x}-%{y})
+      way_paginated: Bideak (%{x}-%{y} %{count}-tik)
       relation: Erlazioak (%{count})
-      relation_paginated: Erlazioak (%{count}ren %{x}-%{y})
+      relation_paginated: Erlazioak (%{x}-%{y} %{count}-tik)
       comment: Iruzkinak (%{count})
-      hidden_commented_by: '%{user} erabiltzaileak egindako duela <abbr title=''%{exact_time}''>%{when}</abbr>
-        iruzkin ezkutua'
+      hidden_commented_by: '%{user} erabiltzaileak egindako iruzkin ezkutua duela
+        <abbr title=''%{exact_time}''>%{when}</abbr>'
       commented_by: '%{user} erabiltzaileak egindako iruzkina duela <abbr title=''%{exact_time}''>%{when}</abbr>'
-      changesetxml: XML aldaketak
-      osmchangexml: XML osm-aldaketa
+      changesetxml: Aldaketaren XML kodea
+      osmchangexml: osmChange XML kodea
       feed:
         title: '%{id} aldaketak'
-        title_comment: '%{id} - %{comment} aldaketak'
+        title_comment: '%{id} aldaketa - %{comment}'
       join_discussion: Hasi saioa eztabaidan parte hartzeko
       discussion: Eztabaida
       still_open: Aldaketak oraindik zabalik - eztabaida aldaketak itxi ondoren irekiko
@@ -151,8 +205,8 @@ eu:
       history_title: 'Bidearen historia: %{name}'
       nodes: Nodoak
       also_part_of:
-        one: bidearen zatia %{related_ways}
-        other: bideen zatia %{related_ways}
+        one: '%{related_ways} bidearen zatia'
+        other: '%{related_ways} bideen zatia'
     relation:
       title: 'Erlazioa: %{name}'
       history_title: 'Erlazioaren historia: %{name}'
@@ -175,7 +229,7 @@ eu:
         changeset: aldaketak
         note: oharra
     timeout:
-      sorry: Barkatu, %{id} daukan %{type}rako datuak berreskuratzeko denbora asko
+      sorry: Barkatu, %{id} daukan %{type}rako datuak berreskuratzeko denbora gehiegi
         behar izan da.
       type:
         node: nodo
@@ -192,8 +246,8 @@ eu:
         way: bide
         relation: erlazio
     start_rjs:
-      feature_warning: '%{num_features} funtzioak kargatzen, zure arakatzailea motela
-        edo erantzungabekoa izan ez dadin. Ziur datuak bistaratu nahi dituzula?'
+      feature_warning: '%{num_features} ezaugarri kargatzen, zure arakatzailea motela
+        edo erantzungabekoa bihur daiteke. Ziur datuak bistaratu nahi dituzula?'
       load_data: Kargatu datuak
       loading: Kargatzen...
     tag_details:
@@ -215,8 +269,8 @@ eu:
         sortua'
       open_by_anonymous: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}</abbr>
         sortua
-      commented_by: '%{user} duela <abbr title=''%{exact_time}''>%{when} </abbr> egindako
-        iruzkina'
+      commented_by: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}</abbr>
+        egindako iruzkina'
       commented_by_anonymous: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}
         </abbr> egindako iruzkina
       closed_by: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}
@@ -227,14 +281,15 @@ eu:
         </abbr> berraktibatua'
       reopened_by_anonymous: Ezezagun batek berraktibatua duela <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: '%{user} erabiltzaileak ezkutatua duela <abbr title=''%{exact_time}''>%{when}</abbr>'
+      report: Reportatu ohar hau
     query:
       title: Eskaeraren ezaugarriak
       introduction: Egin klik mapan hurbileko ezaugarriak aurkitzeko.
       nearby: Hurbileko ezaugarriak
       enclosing: Bildutako ezaugarriak
-  changeset:
+  changesets:
     changeset_paging_nav:
-      showing_page: '%{page}. orrialdea'
+      showing_page: '%{page} orrialdea'
       next: Hurrengoa »
       previous: « Aurrekoa
     changeset:
@@ -247,10 +302,10 @@ eu:
       user: Erabiltzailea
       comment: Iruzkina
       area: Eremua
-    list:
+    index:
       title: Aldaketak
       title_user: '%{user}k egindako aldaketak'
-      title_friend: Zure lagunek egindako aldaketak
+      title_friend: Nire lagunek egindako aldaketak
       title_nearby: Hurbil dauden erabiltzaileek egindako aldaketak
       empty: Ez da aldaketarik aurkitu.
       empty_area: Inguru honetan ez dago aldaketarik.
@@ -262,31 +317,23 @@ eu:
     timeout:
       sorry: Barkatu, zuk eskatutako aldaketen zerrenda berreskuratzeko denbora gehiegi
         behar izan da.
-    rss:
-      title_all: OpenStreetMap aldaketen eztabaida
-      title_particular: 'OpenStreetMap #%{changeset_id} eztabaida aldatu egin du.'
-      comment: '%{changeset_id} aldaketan %{author} iruzkin berria egin du'
-      commented_at_html: Eguneratua duela %{when}
+  changeset_comments:
+    comment:
+      comment: '%{changeset_id} aldaketan %{author} erabiltzaileak iruzkin berria
+        egin du'
       commented_at_by_html: '%{user} erabiltzaileak duela %{when} eguneratua'
-      full: Eztabaida osoa
-  diary_entry:
+    comments:
+      comment: '%{changeset_id} aldaketan %{author}k iruzkin berria egin du'
+    index:
+      title_all: OpenStreetMap aldaketen eztabaida
+      title_particular: 'OpenStreetMap #%{changeset_id} aldaketen eztabaida.'
+    timeout:
+      sorry: Barkatu, zuk eskatutako aldaketen zerrenda berreskuratzeko denbora gehiegi
+        behar izan da.
+  diary_entries:
     new:
       title: Eguneroko Sarrera Berria
-      publish_button: Argitaratu
-    list:
-      title: Erabiltzaileen egunerokoak
-      title_friends: Lagunen egunerokoak
-      title_nearby: Hurbileko erabiltzaileen egunerokoak
-      user_title: '%{user}(r)en egunerokoa'
-      in_language_title: Eguneroko Sarrerak %{language} hizkuntzan
-      new: Eguneroko sarrera berria
-      new_title: Zure erabiltzaile egunerokoan sarrera berri bat sortu
-      no_entries: Eguneroko sarrerarik ez
-      recent_entries: Azkenengoko eguneroko sarrerak
-      older_entries: Sarrera zaharragoak
-      newer_entries: Sarrera berriagoak
-    edit:
-      title: Eguneroko sarrera aldatu
+    form:
       subject: 'Gaia:'
       body: 'Testua:'
       language: 'Hizkuntza:'
@@ -294,15 +341,27 @@ eu:
       latitude: 'Latitudea:'
       longitude: 'Longitudea:'
       use_map_link: erabili mapa
-      save_button: Gorde
-      marker_text: Eguneroko sarrera helbidea
-    view:
+    index:
+      title: Erabiltzaileen egunerokoak
+      title_friends: Lagunen egunerokoak
+      title_nearby: Hurbileko erabiltzaileen egunerokoak
+      user_title: '%{user}(r)en egunerokoa'
+      in_language_title: Eguneroko Sarrerak %{language} hizkuntzan
+      new: Eguneroko sarrera berria
+      new_title: Nire erabiltzaile egunerokoan sarrera berri bat sortu
+      no_entries: Eguneroko sarrerarik ez
+      recent_entries: Azkenengoko eguneroko sarrerak
+      older_entries: Sarrera zaharragoak
+      newer_entries: Sarrera berriagoak
+    edit:
+      title: Eguneroko sarrera aldatu
+      marker_text: Eguneroko sarrera kokapena
+    show:
       title: '%{user}(r)en egunerokoa | %{title}'
       user_title: '%{user}(r)en egunerokoa'
       leave_a_comment: Iruzkin bat utzi
       login_to_leave_a_comment: '%{login_link} iruzkin bat uzteko'
       login: Hasi saioa
-      save_button: Gorde
     no_such_entry:
       title: Ez dago horrelako eguneroko sarrerarik
       heading: '%{id} id-arekin ez dago sarrerarik'
@@ -319,10 +378,12 @@ eu:
       edit_link: Sarrera hau editatu
       hide_link: Sarrera hau ezkutatu
       confirm: Baieztatu
+      report: Salatu sarrera hau
     diary_comment:
       comment_from: '%{link_user} erabiltzailearen iruzkina %{comment_created_at}n'
       hide_link: Ezkutatu iruzkin hau
       confirm: Baieztatu
+      report: Salatu iruzkin hau
     location:
       location: 'Kokapena:'
       view: Ikusi
@@ -343,56 +404,8 @@ eu:
       post: Argitaratu
       when: Noiz
       comment: Iruzkina
-      ago: Duela %{ago}
       newer_comments: Iruzkin berriagoak
       older_comments: Iruzkin zaharragoak
-  export:
-    title: Esportatu
-    start:
-      area_to_export: Esportatu beharreko eremua
-      manually_select: Aukeratu eskuz eremu ezberdin bat
-      format_to_export: Esportatzeko formatua
-      osm_xml_data: OpenStreetMap XML Datuak
-      map_image: Maparen irudia (geruza estandarra erakusten du)
-      embeddable_html: HTML kapsulagarria
-      licence: Lizentzia
-      export_details: OpenStreetMap-eko datuak <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
-        Data Commons Datu-base Irekiko Lizentzia</a> baimen baten mende daude.
-      too_large:
-        advice: 'Goiko esportazioak kale egiten badu, behean zerrendatutako iturrietako
-          bat erabiltzea kontuan hartu mesedez:'
-        body: Area hau oso handia da OpenStreetMap XML datu bezala esportatzeko. Zooma
-          handitu edo eremu txikiagoa hautatu edo behean zerrendatutako iturrietako
-          bat erabili datuak bulkatze-deskargak egiteko mesedez.
-        planet:
-          title: OSM Planeta
-          description: OpenStreetMap datu-base osoko aldizkako kopia eguneratuak
-        overpass:
-          title: Overpass API
-          description: Deskargatu muga kutxa hau OpenStreetMap datu-basearen ispilu
-            batetik
-        geofabrik:
-          title: Geofabrik Deskargak
-          description: Kontinenteen, herrialdeen eta hautatutako hirien laburpen eguneratuak
-            maiztasun handiz
-        metro:
-          title: Metro Laburpenak
-          description: Munduko hiri handienetako eta inguruko hirien laburpenak
-        other:
-          title: Bestelako Iturriak
-          description: OpenStreetMap wikian zerrendatutako iturri osagarriak
-      options: Aukerak
-      format: Formatua
-      scale: Eskala
-      max: max
-      image_size: Irudiaren tamaina
-      zoom: Zooma
-      add_marker: Mapari markatzailea gehitu
-      latitude: 'Lat:'
-      longitude: 'Lon:'
-      output: Irteera
-      paste_html: Itsatsi HTMLa webgunean kapsulatzeko
-      export_button: Esportatu
   geocoder:
     search:
       title:
@@ -411,12 +424,19 @@ eu:
           chair_lift: Teleaulkia
           drag_lift: Arrastatuzko  Igogailua
           gondola: Gondola Igogailua
+          platter: Plater karga jasogailua
+          pylon: Goi-tentsioko dorrea
           station: Antena Estazioa
+          t-bar: Teleskia
         aeroway:
           aerodrome: Aerodromoa
+          airstrip: Lurreratze pista
           apron: Pista
           gate: Atea
+          hangar: Hangarra
           helipad: Heliportua
+          holding_position: Pozisioari eusten
+          parking_position: Aparkatze Posizioa
           runway: Lurreratze pista
           taxiway: Taxi bidea
           terminal: Terminala
@@ -462,6 +482,7 @@ eu:
           fuel: Gasolindegia
           gambling: Jokoak
           grave_yard: Hilerria
+          grit_bin: Hauts ontzia
           hospital: Ospitalea
           hunting_stand: Ehiza postua
           ice_cream: Izozkiak
@@ -475,6 +496,7 @@ eu:
           office: Bulegoa
           parking: Aparkalekua
           parking_entrance: Aparkalekuko sarrera
+          parking_space: Aparkalekua
           pharmacy: Farmazia
           place_of_worship: Otoitzerako Lekua
           police: Polizia
@@ -508,6 +530,7 @@ eu:
           village_hall: Herriko aretoa
           waste_basket: Hondakin Saskia
           waste_disposal: Hondakin Ezabatze Puntua
+          water_point: Ur-puntua
           youth_centre: Gaztelekua
         boundary:
           administrative: Muga Administratiboa
@@ -516,6 +539,7 @@ eu:
           protected_area: Babestutako Eremua
         bridge:
           aqueduct: Akueduktua
+          boardwalk: Pasalekua
           suspension: Zubi esekia
           swing: Zubi birakaria
           viaduct: Bidezubia
@@ -535,25 +559,31 @@ eu:
           "yes": Artisau denda
         emergency:
           ambulance_station: Anbulantzia geralekua
+          assembly_point: Bilera Puntua
           defibrillator: Desfibriladorea
           landing_site: Larrialdi lurreratze-gunea
           phone: Larrialdi telefonoa
+          water_tank: Larrialdietako ur tanga
+          "yes": Larrialdia
         highway:
           abandoned: Errepide abandonatua
           bridleway: Oinezkoen gunea
           bus_guideway: Autobus Gidatuen Linea
           bus_stop: Autobus-geralekua
           construction: Eraikitze-lanetan dagoen autopista
+          corridor: Pasabidea
           cycleway: Bidegorria
           elevator: Igogailua
           emergency_access_point: Larrialdi Sarbide Gunea
           footway: Oinezkoen bidea
           ford: Ibia
+          give_way: Bide-seinalea eman
           living_street: Etxebizitzen kalea
           milestone: Mugarria
           motorway: Autobidea
           motorway_junction: Autopista lotunea
           motorway_link: Autobidea
+          passing_place: Bideko Puntua
           path: Bidea
           pedestrian: Oinezkoen gunea
           platform: Nasa
@@ -570,6 +600,7 @@ eu:
           services: Autobide zerbitzuak
           speed_camera: Abiadura Kamera
           steps: Pausoak
+          stop: Gelditu seinalea
           street_lamp: Farola
           tertiary: Hirugarren Mailako Errepidea
           tertiary_link: Hirugarren Mailako Errepidea
@@ -578,6 +609,7 @@ eu:
           trail: Ibilbidea
           trunk: Errepide nagusia
           trunk_link: Errepide nagusia
+          turning_loop: Buklea biratu
           unclassified: Sailkatu gabeko errepidea
           "yes": Errepidea
         historic:
@@ -597,6 +629,7 @@ eu:
           manor: Jauregia
           memorial: Memoriala
           mine: Meategia
+          mine_shaft: Meatze putzua
           monument: Monumentua
           roman_road: Erromatar Bidea
           ruins: Hondakinak
@@ -606,6 +639,7 @@ eu:
           wayside_cross: Bide-gurutzea
           wayside_shrine: Ermitarako bidea
           wreck: Aztarnak
+          "yes": Leku historikoa
         junction:
           "yes": Bide-gurutzea
         landuse:
@@ -645,6 +679,7 @@ eu:
           bird_hide: Hegazti Aterpea
           common: Lur Komunak
           dog_park: Txakurrentzako Parkea
+          firepit: Su Putzua
           fishing: Arrantza Lekua
           fitness_centre: Gimnasioa
           fitness_station: Fitness Geltokia
@@ -669,15 +704,46 @@ eu:
           water_park: Ur jolas-parkea
           "yes": Aisialdia
         man_made:
+          adit: Galeriara sarrera
+          beacon: Itsas argia
+          beehive: Erlauntza
+          breakwater: Dikea
+          bridge: Zubia
+          bunker_silo: Bunkerra
+          chimney: Tximinia
+          crane: Garabia
+          dolphin: Lotura argitalpena
+          dyke: Dikea
+          embankment: Lubeta
+          flagpole: Bandera masta
+          gasometer: Gas neurtzailea
+          groyne: Olatu horma
+          kiln: Labea
           lighthouse: Itsasargia
+          mast: Masta
+          mine: Meategia
+          mineshaft: Meatze putzua
+          monitoring_station: Monitorizazio estazioa
+          petroleum_well: Petrolio putzua
+          pier: Malekoia
           pipeline: Hodia
+          silo: Siloa
+          storage_tank: Biltegiratze tanga
+          surveillance: Zaintza
           tower: Dorrea
+          wastewater_plant: Ur araztegia
+          watermill: Errota hidraulikoa
+          water_tower: Ur dorrea
+          water_well: Putzua
+          water_works: Ur Lanak
+          windmill: Haize errota
           works: Lantegia
           "yes": Gizakiak egindakoa
         military:
           airfield: Aireportu militarra
           barracks: Kuartelak
           bunker: Bunkerra
+          "yes": Armada
         mountain_pass:
           "yes": Mendatea
         natural:
@@ -723,11 +789,14 @@ eu:
           accountant: Kontu-hartzailea
           administrative: Administrazioa
           architect: Arkitektoa
+          association: Elkartea
           company: Enpresa
+          educational_institution: Hezkuntza erakundea
           employment_agency: Enplegu Agentzia
           estate_agent: Higiezinen Agentea
           government: Gobernuko Bulegoa
           insurance: Aseguruetako Bulegoa
+          it: IT Bulegoa
           lawyer: Abokatua
           ngo: GKE bulegoa
           telecommunication: Telekomunikazio bulegoa
@@ -736,6 +805,7 @@ eu:
         place:
           allotments: Alokatutako baratzeak
           city: Hiria
+          city_block: Hiri Blokea
           country: Herrialdea
           county: Konderria
           farm: Baserria
@@ -749,8 +819,10 @@ eu:
           municipality: Udalerria
           neighbourhood: Auzoa
           postcode: Posta-kodea
+          quarter: Auzoa
           region: Eskualdea
           sea: Itsasoa
+          square: Plaza
           state: Estatua
           subdivision: Azpi-banaketa
           suburb: Aldiri
@@ -789,6 +861,7 @@ eu:
           beauty: Edergintza denda
           beverages: Edari-denda
           bicycle: Bizikleta-denda
+          bookmaker: Orrialde markatzailea
           books: Liburudenda
           boutique: Boutique
           butcher: Harategia
@@ -827,11 +900,16 @@ eu:
           hairdresser: Ileapaindegia
           hardware: Hardware-denda
           hifi: Hi-Fi
+          houseware: Etxeko artikuluetako Denda
+          interior_decoration: Barne-dekorazioa
           jewelry: Bitxi-denda
           kiosk: Kioskoa
+          kitchen: Sukaldaritza denda
           laundry: Garbitegia
+          lottery: Loteria
           mall: Merkataritza-gunea
           market: Azoka
+          massage: Masajea
           mobile_phone: Sakelakoen denda
           motorcycle: Motozikleta-denda
           music: Musika-denda
@@ -839,19 +917,27 @@ eu:
           optician: Optikaria
           organic: Janari organikoko denda
           outdoor: Kanpoko denda
+          paint: Margo denda
+          pawnbroker: Mailegu-emailea
           pet: Animalia-denda
           pharmacy: Farmazia
           photo: Argazki-denda
+          seafood: Itsaskiak
           second_hand: Bigarren eskuko denda
           shoes: Zapatadenda
           sports: Kirol denda
           stationery: Paper-denda
           supermarket: Supermerkatua
           tailor: Jostuna
+          ticket: Tiket denda
+          tobacco: Tabako Denda
           toys: Jostailu denda
           travel_agency: Bidaia-agentzia
+          tyres: Gurpildenda
+          vacant: Denda Librea
+          variety_store: Askotariko denda
           video: Bideo-denda
-          wine: Lizentziarik Gabekoa
+          wine: Ardodenda
           "yes": Denda
         tourism:
           alpine_hut: Aterpe alpinoa
@@ -875,6 +961,7 @@ eu:
           viewpoint: Behatokia
           zoo: Zoologikoa
         tunnel:
+          building_passage: Erainkin Pasabidea
           culvert: Estolda
           "yes": Tunela
         waterway:
@@ -916,6 +1003,112 @@ eu:
     results:
       no_results: Ez da emaitzarik aurkitu
       more_results: Emaitza gehiago
+  issues:
+    index:
+      title: Arazoak
+      select_status: Egoera Hautatu
+      select_type: Mota Hautatu
+      select_last_updated_by: Azkenekoz aldaketa egin duena
+      reported_user: Salatutako erabiltzailea
+      not_updated: Eguneratu gabea
+      search: Bilatu
+      search_guidance: 'Arazoak bilatu:'
+      user_not_found: Erabiltzailea ez da existitzen
+      issues_not_found: Ez da halako arazorik aurkitu
+      status: Egoera
+      reports: Reporteak
+      last_updated: Azken eguneratzea
+      last_updated_time_html: <abbr title='%{title}'>duela %{time}</abbr>
+      last_updated_time_user_html: <abbr izenburua='%{title}'> orain dela %{time}
+        </abbr> egilea %{user} dela
+      link_to_reports: Reporteak ikusi
+      reports_count:
+        one: Reporte 1
+        other: '%{count} reporte'
+      reported_item: Salatutako elementua
+      states:
+        ignored: Ezikusia
+        open: Ireki
+        resolved: Konponduta
+    update:
+      new_report: Zure salaketa arrakastaz erregistratu da
+      successful_update: Zure salaketa arrakastaz eguneratu da
+      provide_details: Mesedez, eman beharrezko xehetasunak
+    show:
+      title: '%{status} %{issue_id} arazoa'
+      reports:
+        zero: Reporterik ez
+        one: Reporte 1
+        other: '%{count} reporte'
+      report_created_at: Lehenengoz %{datetime} egunean berri emanda
+      last_resolved_at: Azkenekoz %{datetime} egunean konponduta
+      last_updated_at: Azkenekoz %{displayname}-(e)k %{datetime} egunean eguneratua
+      resolve: Konpondu
+      ignore: Ezikusi
+      reopen: Berrireki
+      reports_of_this_issue: Arazo honen txostena
+      read_reports: Reporteak irakurri
+      new_reports: Reporte berriak
+      other_issues_against_this_user: Beste arazo batzuk erabiltzaile honen aurka
+      no_other_issues: Ez dago beste arazorik erabiltzaile honen aurka.
+      comments_on_this_issue: Arazo honen inguruko iruzkinak
+    resolve:
+      resolved: Arazoaren egoera 'Konponduta' bezala eguneratu da
+    ignore:
+      ignored: Arazoaren egoera 'Ezikusia' bezala eguneratu da
+    reopen:
+      reopened: Arazoaren egoera 'Irekiaa' bezala eguneratu da
+    comments:
+      created_at: '%{datetime} egunean'
+      reassign_param: Arazoa biresleitu?
+    reports:
+      updated_at: '%{datetime} egunean'
+      reported_by_html: '%{user} erabiltzaileak %{category} bezala reportatua'
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, iruzkina #%{comment_id}'
+        note: 'Oharra #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Zure iruzkina arrakastaz sortu da
+  reports:
+    new:
+      title_html: '%{link} reportatu'
+      missing_params: Ezin da reporte berririk sortu
+      details: Mesedez, eman arazoaren inguruko xehetasun gehiago (beharrezkoa).
+      select: 'Aukeratu arrazoi bat zure reporterako:'
+      disclaimer:
+        intro: 'Zure reportea guneko moderatzaileei bidali aurretik, mesedez ziurtatu:'
+        not_just_mistake: Ziur zaude arazoa ez dela akats bat bakarrik
+        unable_to_fix: Ezin duzu arazoa zure kabuz edo komunitateko beste kide batzuen
+          laguntzaz konpondu
+        resolve_with_user: Dagoeneko saiatu zara delako erabiltzailearekin arazoa
+          konpontzen
+      categories:
+        diary_entry:
+          spam_label: Egunerokoaren sarrera hau/honen edukia spam-a da
+          offensive_label: Egunerokoaren sarrera hau lizuna/irangarria da
+          threat_label: Egunerokoaren sarrera honek mehatxu bat dauka
+          other_label: Beste bat
+        diary_comment:
+          spam_label: Egunerokoaren iradokizun hau/honen edukia spam-a da
+          offensive_label: Egunerokoaren iradokizun hau lizuna/irangarria da
+          threat_label: Egunerokoaren iradokizun honek mehatxu bat dauka
+          other_label: Beste bat
+        user:
+          spam_label: Erabiltzaile profil hau/honek spam-a da/dauka
+          offensive_label: Erabiltzaile profil hau lizuna/iraingarria da
+          threat_label: Erabiltzaile profil honek mehatxu bat dauka
+          vandal_label: Erabiltzaile hau ez da zuhurra
+          other_label: Beste bat
+        note:
+          spam_label: Ohar hau spam-a da
+          personal_label: Ohar honek datu pertsonalak ditu
+          abusive_label: Ohar hau gehiegizkoa da
+          other_label: Beste bat
+    create:
+      successful_report: Zure reportea arrakastaz erregistratu da
+      provide_details: Mesedez, eman beharrezko xehetasunak
   layouts:
     logo:
       alt_text: OpenStreetMap logoa
@@ -929,6 +1122,7 @@ eu:
     edit: Aldatu
     history: Historia
     export: Esportatu
+    issues: Arazoak
     data: Datuak
     export_data: Esportatu datuak
     gps_traces: GPS Aztarnak
@@ -941,9 +1135,8 @@ eu:
     intro_text: OpenStreetMap munduko mapa da, zu bezalako jendeak sortutakoa eta
       doako lizentzia irekiarekin erabiltzeko dagoena.
     intro_2_create_account: Erabiltzaile kontua sortu
-    partners_html: '%{ucl}, %{bytemark}, %{ic}, eta beste %{partners}-k babestua.'
+    hosting_partners_html: '%{ucl}, %{bytemark} eta beste %{partners}-k babestua.'
     partners_ucl: UCLa
-    partners_ic: Londreseko Imperial College
     partners_bytemark: Bytemark Ostatua
     partners_partners: bazkideak
     osm_offline: OpenStreetMap datu-basea orain konexiorik gabe dago funtsezko datu-basearen
@@ -965,256 +1158,6 @@ eu:
       text: Dohaintza egin
     learn_more: Ikasi gehiago
     more: Gehiago
-  license_page:
-    foreign:
-      title: Itzulpen honi buruz
-      text: Itzulitako orrialde hau eta %{english_original_link} arteko gatazka izanez
-        gero, ingelesezko orrialdeak lehentasuna hartuko du
-      english_link: jatorrizkoa ingelesez
-    native:
-      title: Orrialde honi buruz
-      text: Copyright-aren bertsio ingelesez ikusten ari zara. Orrialde honen %{native_link}
-        orrira itzuli edo copyrightarekin eta %{mapping_link}-ri buruz irakurtzeari
-        utzi diezaiokezu.
-      native_link: Euskara version
-      mapping_link: kartografiarekin hasi
-    legal_babble:
-      title_html: Egile-eskubideak eta lizentzia
-      intro_1_html: |-
-        OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup><i> irekitako datua multzoa </i> da, <a
-        href = "http://opendatacommons.org/licenses/odbl/">Datu irekiak
-        Commons Open Database Lizentzia </a> (ODbL) <a
-        href = "http://osmfoundation.org/"> darama OpenStreetMap Fundazioaren babespean </a> (OSMF).
-      intro_2_html: |-
-        Kopiatu, banatu, transmititu eta gure datuak egokitzeko baimena duzu, betiere kredituetan OpenStreetMap eta bere
-        laguntzaileak sartuz. Zure datuak aldatzen edo erauzten badituzu, lizentzia horren azpian soilik banatzea gerta daiteke. <a href="http://opendatacommons.org/licenses/odbl/1.0/"> legal
-        kodeak </a> zure eskubideak eta erantzukizunak azaltzen ditu.
-      intro_3_html: |-
-        Gure mapa fitxen kartografia, eta gure dokumentazioa, <a href="http://creativecommons.org/licenses/by-sa/2.0/"> Creative
-        Commons Attribution-ShareAlike 2.0 </a> lizentziapean eskaintzen dira (CC BY-SA).
-      credit_title_html: OpenStreetMap nola kreditatu
-      credit_1_html: '&ldquo;&copy; OpenStreetMap contributors&rdquo; kreditua erabiltzeko
-        eskatzen dizugu.'
-      credit_2_html: "Halaber, argi utzi behar duzu datuak Open azpian erabilgarri
-        dauden\nDatu-basearen lizentziapean, eta gure mapa fitxak erabiltzen badituzu,
-        kartografia CC BY-SA lizentziatu daramala. Horretarako \n<a href=\"http://www.openstreetmap.org/copyright\">
-        copyright-orri honetan egin dezakezu</a>.\nBestela, eta behar izanez gero,
-        OSM banatzen ari zarenean\ndatu-inprimakian, izen-abizenak eta baimenak zuzenean
-        lotu ditzakezu. Loturak posibleak ez diren komunikabideetan\n(adibidez, inprimatutako
-        lanak), gomendatzen dizugu\nzure irakurleei openstreetmap.org (agian hedapenean)\n'OpenStreetMap'
-        helbide honetaraino), opendatacommons.org helbidera, eta\ndagokionean, creativecommons.org-era
-        zuzentzea."
-      credit_3_html: |-
-        Mapa elektroniko bateragarrientzat, kredituak maparen izkinan agertu behar dira.
-        Adibidez:
-      attribution_example:
-        alt: Web-orri batean OpenStreetMap nola esleitu erakusteko adibidea
-        title: Eskuduntza adibidea
-      more_title_html: Jakin ezazu gehiago
-      more_1_html: |-
-        Irakurri gehiago gure datuak erabiltzeari buruz, eta nola gu kreditatu, hemen:<a
-        href="http://osmfoundation.org/Licence">OSMF Licence page</a>.
-      more_2_html: |-
-        OpenStreetMap datuak irekita dauden arren, ezin dugu eman
-        aplikazio libreko maparen APIa hirugarrenentzat.
-        Ikusi gure <a href="https://operations.osmfoundation.org/policies/api/"> API erabileraren gidalerroak </a>,
-        <a href="https://operations.osmfoundation.org/policies/tiles/"> Tile erabileraren gidalerroak </a>
-        eta <a href="https://operations.osmfoundation.org/policies/nominatim/"> Nominatim Erabilera-gidalerroak aztertzeko</a>.
-      contributors_title_html: Gure kolaboratzaileak
-      contributors_intro_html: |-
-        Gure laguntzaileen taldea milaka pertsonek osatzen dute. Horrez gain, nazio mailan aginte publikoko lizentziak
-        dituzten mapak eta beste iturri batzuk eskeintzen ditugu, besteak beste:
-      contributors_at_html: |-
-        <strong>Austria</strong>: Honako iturrietatik ateratako datuak ditu:
-        <a href="http://data.wien.gv.at/">Stadt Wien</a> (<a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a> lizentziapean),
-        <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> eta
-        Land Tirol (<a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT zuzenketekin</a> lizentziapean).
-      contributors_ca_html: |-
-        <strong>Canada</strong>: Datuak
-        GeoBase&reg;, GeoGratis (&copy; Department of Natural
-        Resources Canada), CanVec (&copy; Department of Natural
-        Resources Canada), eta StatCan (Geography Division,
-        Statistics Canada) biltegietatik hartzen ditu.
-      contributors_fi_html: |-
-        <strong>Finland</strong>: Datuak hemendik hartzen ditu: Finlandiako topografia datu-baseko inkesta nazionala
-        eta beste datubase batzuk, honen azpian:
-        <a href="http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">NLSFI License</a>.
-      contributors_fr_html: '<strong>Frantzia</strong>: Direction Générale des Impôts-etik
-        ateratako datuak ditu.'
-      contributors_nl_html: |-
-        <strong>Herbehereak</strong>: Contains &copy; AND data, 2007
-        (<a href="http://www.and.com">www.and.com</a>)
-      contributors_nz_html: |-
-        <strong>Zeelanda Berria</strong>: datuak biltzen ditu
-        Zeelanda Berriko Landako informaziotik. Erregin Copyright erreserbatuta.
-      contributors_si_html: |-
-        <strong>Eslovenia</strong>: datuak biltzen ditu
-        <a href="http://www.gu.gov.si/en/"> Burutzea eta Mapping Agintaritzatik </a> eta
-        <a href="http://www.mkgp.gov.si/en/"> Nekazaritza, Basogintza eta Elikadura Ministeriotik</a>
-        (Esloveniako informazio publikoa).
-      contributors_za_html: |-
-        <strong> Hego Afrika </strong>:
-        <a href="http://www.ngi.gov.za/"> Zuzendaritza Nagusia datuen jatorria:
-        Geo-Lurralde Informazio Nazionala </a>, Estatuko copyright erreserbatuta.
-      contributors_gb_html: |-
-        <strong>Erresuma Batua</strong>: Ordnance
-        Inkestaren datuak eta kopiak biltzen ditu; Crown copyright eta datu-basearen eskubidea 2010-12.
-      contributors_footer_1_html: |-
-        OpenStreetMap hobetzen laguntzeko lagundu dutenen xehetasun gehiago eta erabilitako beste iturri batzuk ezagutzeko, mesedez OpenStreetMap Wikian ikusi <a
-        href="http://wiki.openstreetmap.org/wiki/Contributors">Contributors
-        page</a>.
-      contributors_footer_2_html: |-
-        OpenStreetMap-en datuak sartzeak ez du beharrez jatorrizko
-        datu-hornitzaileak OpenStreetMap onartzea baieztatzen, edozein berme ematen, edota inolako erantzukizunik onartzen.
-      infringement_title_html: Egile-eskubideen urraketa
-      infringement_1_html: |-
-        OSMren laguntzaileek ez dute inolako daturik gehitu behar
-        copyright iturrietatik (adibidez, Google Maps edo inprimatutako mapak) copyright-jabeen baimen espliziturik gabe.
-      infringement_2_html: |-
-        Uste baduzu copyrightako materiala ez dela egokia izan
-        OpenStreetMap datu-baseari edo gune honi gehitu zaionean, mesedez
-        Gure <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure"> bajazioa
-        prozedura </a> edo zuzenean gure fitxategian
-        <a href="http://dmca.openstreetmap.org/"> lineako aurkezpen orrira jo</a>.
-      trademarks_title_html: <span id="trademarks"></span>Marka komertzialak
-      trademarks_1_html: OpenStreetMap, lupa-logotipoa eta Maparen egoera OpenStreetMap
-        Fundazioaren marka erregistratuak dira. Marka erabiltzeari buruzko galderarik
-        baduzu, bidali zure galderak <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">
-        Lizentzia-lan taldera</a>.
-  welcome_page:
-    title: Ongi etorri!
-    introduction_html: Ongi etorri OpenStreetMapera, edonork alda dezakeen munduko
-      mapa askera. Orain izena eman duzula, mapak editatzen has zaitezke. Hona hemen
-      gida laburra jakin behar dituzun gauzarik garrantzitsuenak dituena.
-    whats_on_the_map:
-      title: Mapan dagoena
-      on_html: |-
-        OpenStreetMap <em> erreal eta egungo </em> gauzak mapeatzeko lekua da - milioika eraikin, errepide eta beste leku batzuei buruzko xehetasunak biltzen ditu. Mapa jar ditzakezu
-        mundu errealeko zuretzat interesgarriak diren ezaugarriak.
-      off_html: Zer <em>ez</em> baditu balorazio bezalako datu iritziak ematen, historiko
-        edo ezaugarri hipotetikoak eta copyright-iturrietatik datozen datuak. Ez baduzu
-        baimen berezia, ez kopiatu lineako edo papereko mapetatik.
-    basic_terms:
-      title: Kartografiarako Oinarrizko Terminoak
-      paragraph_1_html: OpenStreetMap-ek bere parekatze propioa du. Hemen daude erabilgarriak
-        diren zenbait hitz gako.
-      editor_html: <strong>Editore</strong> bat mapa editatzeko erabil dezakezun programa
-        edo webgunea da.
-      node_html: <strong>Nodo</strong> bat maparen puntu bat da, jatetxe bakar bat
-        edo zuhaitz bat bezalakoa.
-      way_html: <strong>Bide</strong> bat linea edo eremu bat da, errepidea, erreka,
-        aintzira edo eraikin bat bezalakoa.
-      tag_html: <Strong>Etiketa</strong> nodo edo modu bati buruzko datu bitxi bat
-        da, adibidez jatetxe izena edo errepideen abiadura muga.
-    rules:
-      title: Arauak!
-      paragraph_1_html: |-
-        OpenStreetMap-ek arau formal gutxi ditu baina parte-hartzaile guztiek bete dezaten espero dugu eta komunitatearekin komunikatzea. Eskuz editatzea ez den beste jarduera batean pentsatzen ari bazara, irakurri eta jarraitu jarraibideak
-        <a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'> Importazioak </a> eta <a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'> Edizio automatizatuetan </a>.
-    questions:
-      title: Galderarik?
-      paragraph_1_html: |-
-        OpenStreetMap-ek proiektuari buruz ikasteko baliabideak ditu, galdetuz eta erantzunez, eta mapping gaiak eztabaidatu eta dokumentatuz lankidetzan.
-        <a href='%{help_url}'>Jaso laguntza hemen</a>.
-    start_mapping: Hasi mapeatzen
-    add_a_note:
-      title: Editatzeko denborarik ez? Gehitu ohar bat!
-      paragraph_1_html: Zerbait txiki eta finkoa bada eta ez baduzu denbora erregistratzeko
-        eta nola editatzen ikasteko, ohar bat gehitzea erraza da.
-      paragraph_2_html: |-
-        Joan besterik gabe <a href='%{map_url}'> mapara </a> eta egin klik oharraren ikonoan:
-        <span class='icon note'></span>. Honek markatzailea gehituko dio mapari, arrastatuz mugitu ahal izateko. Gehitu zure mezua, ondoren sakatu gorde eta beste erabiltzaileek ikertu egingo dute.
-  fixthemap:
-    title: Arazo baten berri eman / Mapa zuzendu
-    how_to_help:
-      title: Nola lagundu
-      join_the_community:
-        title: Komunitateko kide bihurtu
-        explanation_html: Arazoren bat nabaritu baduzu maparen datuekin, adibidez,
-          errepide edo zure helbidea faltan daudela, jarraitzeko modurik onena OpenStreetMap
-          komunitatean sartzea da datuak berreskuratu edo konpontzeko.
-      add_a_note:
-        instructions_html: |-
-          Egin klik <a class='ikono oharra'> </a> edo ikono berean maparen pantailan.
-          Honek markatzailea gehituko dio mapari, arrastatuz mugitu ahal izateko. Gehitu zure mezua, ondoren sakatu gorde eta beste erabiltzaileek ikertu egingo dute.
-    other_concerns:
-      title: Bestelako kezkak
-      explanation_html: |-
-        Zure datuak nola erabiltzen diren edo edukiari buruzko kezka baduzu, kontsultatu gure
-        <a href='/copyright'> copyright orria </a> informazio juridiko gehiago lortzeko, edo jar zaitez dagokionarekin harremanetan
-        <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'> OSMF lan taldean </a>.
-  help_page:
-    title: Laguntza Lortu
-    introduction: OpenStreetMap-ek proiektuari buruz ikasteko hainbat baliabide ditu,
-      galderak egin eta erantzun, edota mapping gaiak eztabaidatu eta dokumentazeko
-      elkarlana.
-    welcome:
-      url: /welcome
-      title: Ongi etorri OSM-ra
-      description: OpenStreetMap-en oinarrizkoak betetzen dituen gida azkar honekin
-        hasi.
-    beginners_guide:
-      url: http://wiki.openstreetmap.org/wiki/Eu:Beginners%27_guide
-      title: Hasiberrientzako gida
-      description: Hasiberrientzako mantentze-gida komunitarioa.
-    help:
-      url: https://help.openstreetmap.org/
-      title: help.openstreetmap.org
-      description: Egin galdera bat edo begiratu OSM-en galdera-eta-erantzun gunean.
-    mailing_lists:
-      title: Posta Bidaltze Zerrendak
-      description: Galdera bat egin edo eztabaidatu gai interesgarriak gaikako edo
-        eskualdekako posta zerrendetan.
-    forums:
-      title: Foroak
-      description: Galderak eta eztabaidak iragarki taula estilo interfazea nahiago
-        dutenentzat.
-    irc:
-      title: IRC
-      description: Hizkuntza eta gai askotako hizketaldi interaktiboa.
-    switch2osm:
-      title: switch2osm
-      description: Laguntza enpresei eta erakundeei OpenStreetMap-en oinarritutako
-        mapetara eta beste zerbitzuetara aldatzeko.
-    wiki:
-      url: http://wiki.openstreetmap.org/wiki/Eu:Main_Page
-      title: wiki.openstreetmap.org
-      description: OSM informazio zehatzerako wiki arakatu.
-  about_page:
-    next: Hurrengoa
-    copyright_html: <span>&copy;</span>OpenStreetMap<br>kolaboratzaileak
-    used_by: '%{name}-k eskuliburuen mapak milaka web gune, mugikorretako aplikazio
-      eta hardware gailuetan ahalbidetzen ditu'
-    lede_text: OpenStreetMap mundu osoan zehar errepideak, bideak, kafetegiak, tren
-      geltokiak eta askoz gehiago mapatzaileen komunitate batek eskeinitako datuen
-      eta haien mantentzearen laguntzaz eraiki ditu.
-    local_knowledge_title: Tokiko Ezagutza
-    local_knowledge_html: OpenStreetMap tokiko ezagutzak azpimarratzen ditu. Laguntzaileek
-      aireko irudiak erabiltzen dituzte, GPS gailuak eta teknologia baxuko eremuko
-      mapak OSMrako egiaztapen zehatza eta eguneratua egiteko.
-    community_driven_title: Komunitatearen Ahotsa
-    community_driven_html: "OpenStreetMap komunitatea anitza eta sutsua da, egunero
-      haziz doa.\nGure laguntzaileen artean daude, mapazaleak, GIS arloko profesionalak,
-      \nOSM zerbitzariak exekutatzen dituzten ingeniariak, hondamendiek kaltetutako
-      eremuak mapatzen dituzten boluntarioak,\neta askoz gehiagok.\nKomunitateari
-      buruz gehiago jakiteko, ikus <a href='https://blog.openstreetmap.org'>OpenStreetMap
-      bloga</a>,\n<a href='%{diary_path}'>erabiltzaileen egunerokoak</a>,\n<a href='http://blogs.openstreetmap.org/'>komunitate
-      blogak</a> eta <a href='http://www.osmfoundation.org/'>OSM Fundazioaren</a>
-      webgunea."
-    open_data_title: Datu Irekiak
-    open_data_html: |-
-      OpenStreetMap <i> datu irekiak </i> ditu: edozein gauzarako erabil dezakezu betiere OpenStreetMap-ek eta bere kolaboratzaileek aipatzen badituzu. Moduren batean datuen gainean edukia eraikiz, emaitza bakarrik banatu ahal izango duzu lizentzia beraren azpian. Ikusi <a href='%{copyright_path}'> Copyright eta
-      Lizentzia orria </a> xehetasunak lortzeko.
-    legal_title: Legala
-    legal_html: |-
-      Gune hau eta beste hainbat zerbitzu lotzen dira formalki
-      <a href='http://osmfoundation.org/'> OpenStreetMap Foundation </a> (OSMF)
-      komunitatearen izenean. OSMF operatutako zerbitzu guztien erabilera gaia da
-      gure <a href="http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
-      Politika Erabilpen Onargarria </ a> eta gure <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy"> Pribatutasun-gidalerroak </a>
-      Mesedez <a href='http://osmfoundation.org/Contact'> jarri harremanetan OSMF-ekin </a>
-      lizentziak, copyrightak edo bestelako lege-galderak eta arazoak badituzu.
-    partners_title: Parte-hartzaileak
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} eguneroko sarrera batean iruzkina utzi du'
@@ -1328,7 +1271,7 @@ eu:
       details: Aldaketari buruzko xehetasun gehiago %{url}n aurki daitezke.
       unsubscribe: Aldaketaren aldaketa eguneratzeak ezeztatzeko, bisitatu %{url}
         eta sakatu "Ezabatu harpidetza".
-  message:
+  messages:
     inbox:
       title: Sarrera-ontzia
       my_inbox: Nire sarrera-ontzia
@@ -1350,14 +1293,14 @@ eu:
       unread_button: Markatu irakurri gabekotzat
       read_button: Markatu irakurritzat
       reply_button: Erantzun
-      delete_button: Ezabatu
+      destroy_button: Ezabatu
     new:
       title: Bidali mezua
       send_message_to: '%{name}ri mezu berri bat bidali'
       subject: Gaia
       body: Testua
-      send_button: Bidali
       back_to_inbox: Itzuli sarrera-ontzira
+    create:
       message_sent: Mezua bidalita
       limit_exceeded: Berriki mezu asko bidali dituzu. Itxaron pixka bat gehiago bidaltzen
         saiatu aurretik.
@@ -1383,27 +1326,181 @@ eu:
       wrong_user: '''%{user}'' bezala saioa hasi duzu baina erantzuteko eskatu duzun
         mezua ez da erabiltzaile horri bidali. Hasi saioa erabiltzaile zuzenarekin
         erantzuteko.'
-    read:
+    show:
       title: Irakurri mezua
       from: Igorlea
       subject: Gaia
       date: Data
       reply_button: Erantzun
       unread_button: Markatu irakurri gabekotzat
-      delete_button: Ezabatu
+      destroy_button: Ezabatu
       back: Atzera
       to: Hartzailea
       wrong_user: '''%{user}'' bezala saioa hasi duzu baina irakurtzeko eskatu duzun
         mezua ez da erabiltzaile horri bidali edo berak ez du bidali. Hasi saioa erabiltzaile
         zuzenarekin irakurtzeko.'
     sent_message_summary:
-      delete_button: Ezabatu
+      destroy_button: Ezabatu
     mark:
       as_read: Mezua irakurrita gisa markatu da
       as_unread: Mezua irakurri gabe gisa markatu da
-    delete:
-      deleted: Mezua ezabatuta
+    destroy:
+      destroyed: Mezua ezabatuta
   site:
+    about:
+      next: Hurrengoa
+      copyright_html: <span>&copy;</span>OpenStreetMap<br>kolaboratzaileak
+      used_by: '%{name}-k eskuliburuen mapak milaka web gune, mugikorretako aplikazio
+        eta hardware gailuetan ahalbidetzen ditu'
+      lede_text: OpenStreetMap mundu osoan zehar errepideak, bideak, kafetegiak, tren
+        geltokiak eta askoz gehiago mapatzaileen komunitate batek eskeinitako datuen
+        eta haien mantentzearen laguntzaz eraiki ditu.
+      local_knowledge_title: Tokiko Ezagutza
+      local_knowledge_html: OpenStreetMap tokiko ezagutzak azpimarratzen ditu. Laguntzaileek
+        aireko irudiak erabiltzen dituzte, GPS gailuak eta teknologia baxuko eremuko
+        mapak OSMrako egiaztapen zehatza eta eguneratua egiteko.
+      community_driven_title: Komunitatearen Ahotsa
+      community_driven_html: "OpenStreetMap komunitatea anitza eta sutsua da, egunero
+        haziz doa.\nGure laguntzaileen artean daude, mapazaleak, GIS arloko profesionalak,
+        \nOSM zerbitzariak exekutatzen dituzten ingeniariak, hondamendiek kaltetutako
+        eremuak mapatzen dituzten boluntarioak,\neta askoz gehiagok.\nKomunitateari
+        buruz gehiago jakiteko, ikus <a href='https://blog.openstreetmap.org'>OpenStreetMap
+        bloga</a>,\n<a href='%{diary_path}'>erabiltzaileen egunerokoak</a>,\n<a href='http://blogs.openstreetmap.org/'>komunitate
+        blogak</a> eta <a href='http://www.osmfoundation.org/'>OSM Fundazioaren</a>
+        webgunea."
+      open_data_title: Datu Irekiak
+      open_data_html: |-
+        OpenStreetMap <i> datu irekiak </i> ditu: edozein gauzarako erabil dezakezu betiere OpenStreetMap-ek eta bere kolaboratzaileek aipatzen badituzu. Moduren batean datuen gainean edukia eraikiz, emaitza bakarrik banatu ahal izango duzu lizentzia beraren azpian. Ikusi <a href='%{copyright_path}'> Copyright eta
+        Lizentzia orria </a> xehetasunak lortzeko.
+      legal_title: Legala
+      legal_html: |-
+        Gune hau eta beste hainbat zerbitzu lotzen dira formalki
+        <a href='http://osmfoundation.org/'> OpenStreetMap Foundation </a> (OSMF)
+        komunitatearen izenean. OSMF operatutako zerbitzu guztien erabilera gaia da
+        gure <a href="http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Politika Erabilpen Onargarria </ a> eta gure <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy"> Pribatutasun-gidalerroak </a>
+        Mesedez <a href='http://osmfoundation.org/Contact'> jarri harremanetan OSMF-ekin </a>
+        lizentziak, copyrightak edo bestelako lege-galderak eta arazoak badituzu.
+      partners_title: Parte-hartzaileak
+    copyright:
+      foreign:
+        title: Itzulpen honi buruz
+        text: Itzulitako orrialde hau eta %{english_original_link} arteko gatazka
+          izanez gero, ingelesezko orrialdeak lehentasuna hartuko du
+        english_link: jatorrizkoa ingelesez
+      native:
+        title: Orrialde honi buruz
+        text: Copyright-aren bertsio ingelesez ikusten ari zara. Orrialde honen %{native_link}
+          orrira itzuli edo copyrightarekin eta %{mapping_link}-ri buruz irakurtzeari
+          utzi diezaiokezu.
+        native_link: Euskara version
+        mapping_link: kartografiarekin hasi
+      legal_babble:
+        title_html: Egile-eskubideak eta lizentzia
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup><i> irekitako datua multzoa </i> da, <a
+          href = "http://opendatacommons.org/licenses/odbl/">Datu irekiak
+          Commons Open Database Lizentzia </a> (ODbL) <a
+          href = "http://osmfoundation.org/"> darama OpenStreetMap Fundazioaren babespean </a> (OSMF).
+        intro_2_html: |-
+          Kopiatu, banatu, transmititu eta gure datuak egokitzeko baimena duzu, betiere kredituetan OpenStreetMap eta bere
+          laguntzaileak sartuz. Zure datuak aldatzen edo erauzten badituzu, lizentzia horren azpian soilik banatzea gerta daiteke. <a href="http://opendatacommons.org/licenses/odbl/1.0/"> legal
+          kodeak </a> zure eskubideak eta erantzukizunak azaltzen ditu.
+        intro_3_html: |-
+          Gure mapa fitxen kartografia, eta gure dokumentazioa, <a href="http://creativecommons.org/licenses/by-sa/2.0/"> Creative
+          Commons Attribution-ShareAlike 2.0 </a> lizentziapean eskaintzen dira (CC BY-SA).
+        credit_title_html: OpenStreetMap nola kreditatu
+        credit_1_html: '&ldquo;&copy; OpenStreetMap contributors&rdquo; kreditua erabiltzeko
+          eskatzen dizugu.'
+        credit_2_html: "Halaber, argi utzi behar duzu datuak Open azpian erabilgarri
+          dauden\nDatu-basearen lizentziapean, eta gure mapa fitxak erabiltzen badituzu,
+          kartografia CC BY-SA lizentziatu daramala. Horretarako \n<a href=\"http://www.openstreetmap.org/copyright\">
+          copyright-orri honetan egin dezakezu</a>.\nBestela, eta behar izanez gero,
+          OSM banatzen ari zarenean\ndatu-inprimakian, izen-abizenak eta baimenak
+          zuzenean lotu ditzakezu. Loturak posibleak ez diren komunikabideetan\n(adibidez,
+          inprimatutako lanak), gomendatzen dizugu\nzure irakurleei openstreetmap.org
+          (agian hedapenean)\n'OpenStreetMap' helbide honetaraino), opendatacommons.org
+          helbidera, eta\ndagokionean, creativecommons.org-era zuzentzea."
+        credit_3_html: |-
+          Mapa elektroniko bateragarrientzat, kredituak maparen izkinan agertu behar dira.
+          Adibidez:
+        attribution_example:
+          alt: Web-orri batean OpenStreetMap nola esleitu erakusteko adibidea
+          title: Eskuduntza adibidea
+        more_title_html: Jakin ezazu gehiago
+        more_1_html: |-
+          Irakurri gehiago gure datuak erabiltzeari buruz, eta nola gu kreditatu, hemen:<a
+          href="http://osmfoundation.org/Licence">OSMF Licence page</a>.
+        more_2_html: |-
+          OpenStreetMap datuak irekita dauden arren, ezin dugu eman
+          aplikazio libreko maparen APIa hirugarrenentzat.
+          Ikusi gure <a href="https://operations.osmfoundation.org/policies/api/"> API erabileraren gidalerroak </a>,
+          <a href="https://operations.osmfoundation.org/policies/tiles/"> Tile erabileraren gidalerroak </a>
+          eta <a href="https://operations.osmfoundation.org/policies/nominatim/"> Nominatim Erabilera-gidalerroak aztertzeko</a>.
+        contributors_title_html: Gure kolaboratzaileak
+        contributors_intro_html: |-
+          Gure laguntzaileen taldea milaka pertsonek osatzen dute. Horrez gain, nazio mailan aginte publikoko lizentziak
+          dituzten mapak eta beste iturri batzuk eskeintzen ditugu, besteak beste:
+        contributors_at_html: |-
+          <strong>Austria</strong>: Honako iturrietatik ateratako datuak ditu:
+          <a href="http://data.wien.gv.at/">Stadt Wien</a> (<a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a> lizentziapean),
+          <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> eta
+          Land Tirol (<a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT zuzenketekin</a> lizentziapean).
+        contributors_ca_html: |-
+          <strong>Canada</strong>: Datuak
+          GeoBase&reg;, GeoGratis (&copy; Department of Natural
+          Resources Canada), CanVec (&copy; Department of Natural
+          Resources Canada), eta StatCan (Geography Division,
+          Statistics Canada) biltegietatik hartzen ditu.
+        contributors_fi_html: |-
+          <strong>Finland</strong>: Datuak hemendik hartzen ditu: Finlandiako topografia datu-baseko inkesta nazionala
+          eta beste datubase batzuk, honen azpian:
+          <a href="http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">NLSFI License</a>.
+        contributors_fr_html: '<strong>Frantzia</strong>: Direction Générale des Impôts-etik
+          ateratako datuak ditu.'
+        contributors_nl_html: |-
+          <strong>Herbehereak</strong>: Contains &copy; AND data, 2007
+          (<a href="http://www.and.com">www.and.com</a>)
+        contributors_nz_html: '<strong>Zeelanda Berria</strong>: <a href="https://data.linz.govt.nz/">LINZ
+          datu zerbitzuko</a> datuak biltzen ditu, <a href="https://creativecommons.org/licenses/by/4.0/">CC
+          BY 4.0</a> lizentziaren arabera berrerabili daitezkeenak.'
+        contributors_si_html: |-
+          <strong>Eslovenia</strong>: datuak biltzen ditu
+          <a href="http://www.gu.gov.si/en/"> Burutzea eta Mapping Agintaritzatik </a> eta
+          <a href="http://www.mkgp.gov.si/en/"> Nekazaritza, Basogintza eta Elikadura Ministeriotik</a>
+          (Esloveniako informazio publikoa).
+        contributors_es_html: |-
+          <strong>Espainia</strong>: Espainiako Institutu Geografiko Nazionaletik (<a href="http://www.ign.es/">IGN</a>) eta
+          Sistema Kartografiko Nazionaletik (<a href="http://www.scne.es/">SCNE</a>) jasotako datuak daude, berrerabiltzeko baimendua <a href="https://creativecommons.org/licenses/by/4.0/deed.eu">CC BY 4.0</a> lizentziapean.
+        contributors_za_html: |-
+          <strong> Hego Afrika </strong>:
+          <a href="http://www.ngi.gov.za/"> Zuzendaritza Nagusia datuen jatorria:
+          Geo-Lurralde Informazio Nazionala </a>, Estatuko copyright erreserbatuta.
+        contributors_gb_html: |-
+          <strong>Erresuma Batua</strong>: Ordnance
+          Inkestaren datuak eta kopiak biltzen ditu; Crown copyright eta datu-basearen eskubidea 2010-19.
+        contributors_footer_1_html: |-
+          OpenStreetMap hobetzen laguntzeko lagundu dutenen xehetasun gehiago eta erabilitako beste iturri batzuk ezagutzeko, mesedez OpenStreetMap Wikian ikusi <a
+          href="http://wiki.openstreetmap.org/wiki/Contributors">Contributors
+          page</a>.
+        contributors_footer_2_html: |-
+          OpenStreetMap-en datuak sartzeak ez du beharrez jatorrizko
+          datu-hornitzaileak OpenStreetMap onartzea baieztatzen, edozein berme ematen, edota inolako erantzukizunik onartzen.
+        infringement_title_html: Egile-eskubideen urraketa
+        infringement_1_html: |-
+          OSMren laguntzaileek ez dute inolako daturik gehitu behar
+          copyright iturrietatik (adibidez, Google Maps edo inprimatutako mapak) copyright-jabeen baimen espliziturik gabe.
+        infringement_2_html: |-
+          Uste baduzu copyrightako materiala ez dela egokia izan
+          OpenStreetMap datu-baseari edo gune honi gehitu zaionean, mesedez
+          Gure <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure"> bajazioa
+          prozedura </a> edo zuzenean gure fitxategian
+          <a href="http://dmca.openstreetmap.org/"> lineako aurkezpen orrira jo</a>.
+        trademarks_title_html: <span id="trademarks"></span>Marka komertzialak
+        trademarks_1_html: OpenStreetMap, lupa-logotipoa eta Maparen egoera OpenStreetMap
+          Fundazioaren marka erregistratuak dira. Marka erabiltzeari buruzko galderarik
+          baduzu, bidali zure galderak <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">
+          Lizentzia-lan taldera</a>.
     index:
       js_1: Javascript onartzen ez duen arakatzailea erabiltzen ari zara edo JavaScript
         desgaitu duzu.
@@ -1423,19 +1520,127 @@ eu:
       user_page_link: Lankide orria
       anon_edits_link_text: Aurkitu zergatik hau kasua den.
       flash_player_required: Potlatch, OpenStreetMap Flash editorea erabiltzeko Flash
-        erreproduzitzailea behar duzu. <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">
-        Adobe Flash Player-tik deskargatu dezakezu </a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">
-        Beste hainbat aukera </a> ere eskuragarri daude OpenStreetMap editatzeko.
+        erreproduzitzailea behar duzu. <a href="https://get.adobe.com/flashplayer/">download
+        Flash Player from Adobe.com</a> Adobe Flash Player-tik deskargatu dezakezu
+        </a>. <a href="https://wiki.openstreetmap.org/wiki/Editing"> Beste hainbat
+        aukera </a> ere eskuragarri daude OpenStreetMap editatzeko.
       potlatch_unsaved_changes: Aldaketak gorde gabe dituzu. (Potlatch-en gordetzeko,
         uneko bidea edo puntuazioa desautatu beharko zenituzke, modu zuzenean editatzen
         baduzu, edo egin klik gorde botoian.)
-      potlatch2_not_configured: Potlacth 2 ez da konfiguratu - mesedez ikusi http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
+      potlatch2_not_configured: Potlacth 2 ez da konfiguratu - mesedez ikusi https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
         informazio gehiagorako
       potlatch2_unsaved_changes: Gorde gabeko aldaketak dituzu. (Potlatch 2 gordetzeko,
         egin klik gorde botoian.)
       id_not_configured: iD-a ez da konfiguratu
       no_iframe_support: Zure nabigatzaileak ez ditu onartzen HTML iframe-ak, funtzio
         honetarako ezinbestekoak direnak.
+    export:
+      title: Esportatu
+      area_to_export: Esportatu beharreko eremua
+      manually_select: Aukeratu eskuz eremu ezberdin bat
+      format_to_export: Esportatzeko formatua
+      osm_xml_data: OpenStreetMap XML Datuak
+      map_image: Maparen irudia (geruza estandarra erakusten du)
+      embeddable_html: HTML kapsulagarria
+      licence: Lizentzia
+      export_details: OpenStreetMap-eko datuak <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
+        Data Commons Datu-base Irekiko Lizentzia</a> baimen baten mende daude.
+      too_large:
+        advice: 'Goiko esportazioak kale egiten badu, behean zerrendatutako iturrietako
+          bat erabiltzea kontuan hartu mesedez:'
+        body: Area hau oso handia da OpenStreetMap XML datu bezala esportatzeko. Zooma
+          handitu edo eremu txikiagoa hautatu edo behean zerrendatutako iturrietako
+          bat erabili datuak bulkatze-deskargak egiteko mesedez.
+        planet:
+          title: OSM Planeta
+          description: OpenStreetMap datu-base osoko aldizkako kopia eguneratuak
+        overpass:
+          title: Overpass API
+          description: Deskargatu muga kutxa hau OpenStreetMap datu-basearen ispilu
+            batetik
+        geofabrik:
+          title: Geofabrik Deskargak
+          description: Kontinenteen, herrialdeen eta hautatutako hirien laburpen eguneratuak
+            maiztasun handiz
+        metro:
+          title: Metro Laburpenak
+          description: Munduko hiri handienetako eta inguruko hirien laburpenak
+        other:
+          title: Bestelako Iturriak
+          description: OpenStreetMap wikian zerrendatutako iturri osagarriak
+      options: Aukerak
+      format: Formatua
+      scale: Eskala
+      max: max
+      image_size: Irudiaren tamaina
+      zoom: Zooma
+      add_marker: Mapari markatzailea gehitu
+      latitude: 'Lat:'
+      longitude: 'Lon:'
+      output: Irteera
+      paste_html: Itsatsi HTMLa webgunean kapsulatzeko
+      export_button: Esportatu
+    fixthemap:
+      title: Arazo baten berri eman / Mapa zuzendu
+      how_to_help:
+        title: Nola lagundu
+        join_the_community:
+          title: Komunitateko kide bihurtu
+          explanation_html: Arazoren bat nabaritu baduzu maparen datuekin, adibidez,
+            errepide edo zure helbidea faltan daudela, jarraitzeko modurik onena OpenStreetMap
+            komunitatean sartzea da datuak berreskuratu edo konpontzeko.
+        add_a_note:
+          instructions_html: |-
+            Egin klik <a class='ikono oharra'> </a> edo ikono berean maparen pantailan.
+            Honek markatzailea gehituko dio mapari, arrastatuz mugitu ahal izateko. Gehitu zure mezua, ondoren sakatu gorde eta beste erabiltzaileek ikertu egingo dute.
+      other_concerns:
+        title: Bestelako kezkak
+        explanation_html: |-
+          Zure datuak nola erabiltzen diren edo edukiari buruzko kezka baduzu, kontsultatu gure
+          <a href='/copyright'> copyright orria </a> informazio juridiko gehiago lortzeko, edo jar zaitez dagokionarekin harremanetan
+          <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'> OSMF lan taldean </a>.
+    help:
+      title: Laguntza Lortu
+      introduction: OpenStreetMap-ek proiektuari buruz ikasteko hainbat baliabide
+        ditu, galderak egin eta erantzun, edota mapping gaiak eztabaidatu eta dokumentazeko
+        elkarlana.
+      welcome:
+        url: /welcome
+        title: Ongi etorri OSM-ra
+        description: OpenStreetMap-en oinarrizkoak betetzen dituen gida azkar honekin
+          hasi.
+      beginners_guide:
+        url: http://wiki.openstreetmap.org/wiki/Eu:Beginners%27_guide
+        title: Hasiberrientzako gida
+        description: Hasiberrientzako mantentze-gida komunitarioa.
+      help:
+        url: https://help.openstreetmap.org/
+        title: help.openstreetmap.org
+        description: Egin galdera bat edo begiratu OSM-en galdera-eta-erantzun gunean.
+      mailing_lists:
+        title: Posta Bidaltze Zerrendak
+        description: Galdera bat egin edo eztabaidatu gai interesgarriak gaikako edo
+          eskualdekako posta zerrendetan.
+      forums:
+        title: Foroak
+        description: Galderak eta eztabaidak iragarki taula estilo interfazea nahiago
+          dutenentzat.
+      irc:
+        title: IRC
+        description: Hizkuntza eta gai askotako hizketaldi interaktiboa.
+      switch2osm:
+        title: switch2osm
+        description: Laguntza enpresei eta erakundeei OpenStreetMap-en oinarritutako
+          mapetara eta beste zerbitzuetara aldatzeko.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Erakundeentzat
+        description: OpenStreetMap-entzat planak egiten ari den erakunde batekin?
+          Aurkitu jakin beharrekoa Ongietorri Lanpasean.
+      wiki:
+        url: http://wiki.openstreetmap.org/wiki/Eu:Main_Page
+        title: wiki.openstreetmap.org
+        description: OSM informazio zehatzerako wiki arakatu.
     sidebar:
       search_results: Bilaketaren emaitzak
       close: Itxi
@@ -1448,6 +1653,7 @@ eu:
       where_am_i: Non dago hau?
       where_am_i_title: Deskribatu uneko kokapena bilatzailearen bidez
       submit_text: Joan
+      reverse_directions_text: Norabidea alderantzizko bihurtu
     key:
       table:
         entry:
@@ -1522,8 +1728,8 @@ eu:
       edit: Aldatu
       preview: Aurrikusi
     markdown_help:
-      title_html: Honekin analizatua:<a href="http://daringfireball.net/projects/markdown/">Markdown</a>
-      headings: Goiburuak
+      title_html: Honekin analizatua:<a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      headings: Atalburuak
       heading: Goiburua
       subheading: Azpi-goiburua
       unordered: Ordenik gabeko zerrenda
@@ -1535,7 +1741,50 @@ eu:
       image: Irudia
       alt: Testu alternatiboa
       url: URLa
-  trace:
+    welcome:
+      title: Ongi etorri!
+      introduction_html: Ongi etorri OpenStreetMapera, edonork alda dezakeen munduko
+        mapa askera. Orain izena eman duzula, mapak editatzen has zaitezke. Hona hemen
+        gida laburra jakin behar dituzun gauzarik garrantzitsuenak dituena.
+      whats_on_the_map:
+        title: Mapan dagoena
+        on_html: |-
+          OpenStreetMap <em> erreal eta egungo </em> gauzak mapeatzeko lekua da - milioika eraikin, errepide eta beste leku batzuei buruzko xehetasunak biltzen ditu. Mapa jar ditzakezu
+          mundu errealeko zuretzat interesgarriak diren ezaugarriak.
+        off_html: Zer <em>ez</em> baditu balorazio bezalako datu iritziak ematen,
+          historiko edo ezaugarri hipotetikoak eta copyright-iturrietatik datozen
+          datuak. Ez baduzu baimen berezia, ez kopiatu lineako edo papereko mapetatik.
+      basic_terms:
+        title: Kartografiarako Oinarrizko Terminoak
+        paragraph_1_html: OpenStreetMap-ek bere parekatze propioa du. Hemen daude
+          erabilgarriak diren zenbait hitz gako.
+        editor_html: <strong>Editore</strong> bat mapa editatzeko erabil dezakezun
+          programa edo webgunea da.
+        node_html: <strong>Nodo</strong> bat maparen puntu bat da, jatetxe bakar bat
+          edo zuhaitz bat bezalakoa.
+        way_html: <strong>Bide</strong> bat linea edo eremu bat da, errepidea, erreka,
+          aintzira edo eraikin bat bezalakoa.
+        tag_html: <Strong>Etiketa</strong> nodo edo modu bati buruzko datu bitxi bat
+          da, adibidez jatetxe izena edo errepideen abiadura muga.
+      rules:
+        title: Arauak!
+        paragraph_1_html: |-
+          OpenStreetMap-ek arau formal gutxi ditu baina parte-hartzaile guztiek bete dezaten espero dugu eta komunitatearekin komunikatzea. Eskuz editatzea ez den beste jarduera batean pentsatzen ari bazara, irakurri eta jarraitu jarraibideak
+          <a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'> Importazioak </a> eta <a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'> Edizio automatizatuetan </a>.
+      questions:
+        title: Galderarik?
+        paragraph_1_html: |-
+          OpenStreetMap-ek proiektuari buruz ikasteko baliabideak ditu, galdetuz eta erantzunez, eta mapping gaiak eztabaidatu eta dokumentatuz lankidetzan.
+          <a href='%{help_url}'>Jaso laguntza hemen</a>. OpenStreetMap-entzat planak egiten ari den erakunde batekin? <a href='https://welcome.openstreetmap.org/'>Aurkitu jakin beharrekoa Ongietorri Lanpasean</a>.
+      start_mapping: Hasi mapeatzen
+      add_a_note:
+        title: Editatzeko denborarik ez? Gehitu ohar bat!
+        paragraph_1_html: Zerbait txiki eta finkoa bada eta ez baduzu denbora erregistratzeko
+          eta nola editatzen ikasteko, ohar bat gehitzea erraza da.
+        paragraph_2_html: |-
+          Joan besterik gabe <a href='%{map_url}'> mapara </a> eta egin klik oharraren ikonoan:
+          <span class='icon note'></span>. Honek markatzailea gehituko dio mapari, arrastatuz mugitu ahal izateko. Gehitu zure mezua, ondoren sakatu gorde eta beste erabiltzaileek ikertu egingo dute.
+  traces:
     visibility:
       private: Pribatua (puntu anonimo eta desordenatu gisa soilik partekatzen da)
       public: Publikoa (arrasto-zerrendan eta anonimoki, ordenatu gabeko puntuetan)
@@ -1543,10 +1792,30 @@ eu:
         bakarrik)
       identifiable: Identifikagarria (arrasto-zerrendan eta identifikagarri gisa,
         puntuak denbora-markekin antolatuz)
+    new:
+      upload_trace: GPS aztarna igo
+      upload_gpx: 'GPX fitxategi igo:'
+      description: 'Deskribapena:'
+      tags: 'Etiketak:'
+      tags_help: koma mugatua
+      visibility: 'Ikusgarritasuna:'
+      visibility_help: Zer esan nahi du honek?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
+      help: Laguntza
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: GPS Aztarna igo
       trace_uploaded: Zure GPX fitxategia kargatu da eta datu basean sartzeko zain
         dago. Ordu erdi barru egongo da eta posta elektronikoz bidaliko zaizu amaitzean.
+      upload_failed: Barkatu, GPX-aren kargak huts egin du. Administratzaile bat akatsaz
+        ohartarazi da. Mesedez berriz saiatu
+      traces_waiting:
+        one: '%{count} aztarna daukazu kargatzeko zain. Kontutan hartu gehiago igotzeko
+          agindua ez ematea zain zauden bitartean, beste erabiltzaile batzuei ilarak
+          ez blokeatzeko.'
+        other: '%{count} aztarnak dauzkazu kargatzeko zain. Kontutan hartu gehiago
+          igotzeko agindua ez ematea zain zauden bitartean, beste erabiltzaile batzuei
+          ilarak ez blokeatzeko.'
     edit:
       title: '%{name} aztarna aldatzen'
       heading: '%{name} aztarna aldatzen'
@@ -1561,32 +1830,13 @@ eu:
       description: 'Deskribapena:'
       tags: 'Etiketak:'
       tags_help: koma mugatua
-      save_button: Aldaketak gorde
       visibility: Ikusgarritasuna;
       visibility_help: Zer esan nahi du honek?
-    trace_form:
-      upload_gpx: 'GPX fitxategi igo:'
-      description: 'Deskribapena:'
-      tags: 'Etiketak:'
-      tags_help: koma mugatua
-      visibility: 'Ikusgarritasuna:'
-      visibility_help: Zer esan nahi du honek?
-      upload_button: Igo
-      help: Laguntza
-    trace_header:
-      upload_trace: Aztarna bat igo
-      see_all_traces: Aztarna guztiak ikusi
-      see_your_traces: Zure aztarnak ikusi
-      traces_waiting:
-        one: '%{count} aztarna daukazu kargatzeko zain. Kontutan hartu gehiago igotzeko
-          agindua ez ematea zain zauden bitartean, beste erabiltzaile batzuei ilarak
-          ez blokeatzeko.'
-        other: '%{count} aztarnak dauzkazu kargatzeko zain. Kontutan hartu gehiago
-          igotzeko agindua ez ematea zain zauden bitartean, beste erabiltzaile batzuei
-          ilarak ez blokeatzeko.'
+    update:
+      updated: Bilaketa eguneratua
     trace_optionals:
       tags: Etiketak
-    view:
+    show:
       title: '%{name} aztarna ikusten'
       heading: '%{name} aztarna ikusten'
       pending: EGITEKE
@@ -1601,10 +1851,11 @@ eu:
       description: 'Deskribapena:'
       tags: 'Etiketak:'
       none: Ezer
-      edit_track: Aztarna hau aldatu
-      delete_track: Aztarna hau ezabatu
+      edit_trace: Aztarna hau aldatu
+      delete_trace: Aztarna hau ezabatu
       trace_not_found: Ez da aztarnarik aurkitu!
       visibility: 'Ikusgarritasuna:'
+      confirm_delete: Aztarna hau ezabatu?
     trace_paging_nav:
       showing_page: '%{page}. orria'
       older: Aztarna zaharragoak
@@ -1612,7 +1863,6 @@ eu:
     trace:
       pending: PRIBATUA
       count_points: '%{count} puntu'
-      ago: duela %{time_in_words_ago}
       more: gehiago
       trace_details: Ikusi Aztarna Xehetasunak
       view_map: Mapa ikusi
@@ -1625,15 +1875,18 @@ eu:
       by: 'honen arabera:'
       in: barruan
       map: mapa
-    list:
+    index:
       public_traces: GPS aztarna publikoak
-      your_traces: Zure GPS aztarnak
+      my_traces: Nire GPS aztarnak
       public_traces_from: '%{user} erabiltzailearen GPS aztarna publikoak'
       description: Arakatu azkenaldian egin dire GPS ibilbide igoerak
       tagged_with: '%{tags}(r)ekin etiketatua'
       empty_html: Ez dago ezer hemen oraindik. <a href='%{upload_link}'> Kargatu arrasto
         berria </a> edo GPS birziklatzeari buruz gehiago jakin nahi baduzu <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>
         wiki orrira jo </a>.
+      upload_trace: Aztarna bat igo
+      see_all_traces: Aztarna guztiak ikusi
+      see_my_traces: Nire aztarnak ikusi
     delete:
       scheduled_for_deletion: Ezabatzear dauden aztarnak
     make_public:
@@ -1651,11 +1904,12 @@ eu:
         other: '%{user} %{count} puntuak dituen GPX fitxategia'
       description_without_count: '%{user}ren GPX fitxategia'
   application:
+    permission_denied: Ez duzu baimenik ekintza hori burutzeko
     require_cookies:
       cookies_needed: Cookieak desgaituta dituzu - gaitu cookie-ak zure nabigatzailean
         jarraitu aurretik mesedez.
-    require_moderator:
-      not_a_moderator: Ekintza hori burutzeko moderatzaile izan behar duzu.
+    require_admin:
+      not_an_admin: Ekintza hori burutzeko administratzaile izan behar duzu.
     setup_user_auth:
       blocked_zero_hour: OpenStreetMap webguneko premiazko mezu bat duzu. Zure aldaketak
         gorde ahal izango dituzu mezua irakurri eta gero.
@@ -1665,7 +1919,7 @@ eu:
         Laguntzaileen Baldintzak ikusteko. Ez duzu ados egon behar, baina horiek ikusi
         behar dituzu.
   oauth:
-    oauthorize:
+    authorize:
       title: Zure kontuan sartzeko baimena eman
       request_access: '%{app_name} aplikazioak zure konturako sarbidea eskatzen du,
         %{user}. Egiaztatu eskaera hurrengo gaitasunak izatea nahi duzula. Nahi dituzun
@@ -1679,11 +1933,11 @@ eu:
       allow_write_gpx: GPS aztarnak igo.
       allow_write_notes: Oharrak aldatu.
       grant_access: Baimena Eman
-    oauthorize_success:
+    authorize_success:
       title: Baimen eskaera onartua
       allowed: '%{app_name} aplikazioari zure kontura sartzeko baimena eman diozu.'
       verification: Egiaztapen kodea %{code} da.
-    oauthorize_failure:
+    authorize_failure:
       title: Baimen eskaerak kale egin du
       denied: '%{app_name} aplikazioari zure kontura sartzeko baimena kendu diozu.'
       invalid: Baimen token-a ez du balio.
@@ -1694,10 +1948,8 @@ eu:
   oauth_clients:
     new:
       title: Aplikazio berri bat erregistratu
-      submit: Erregistratu
     edit:
       title: Zure aplikazioa editatu
-      submit: Aldatu
     show:
       title: '%{app_name}rako OAuth xehetasunak'
       key: 'Kontsumitzaile Giltza:'
@@ -1752,7 +2004,7 @@ eu:
       flash: Bezero informazioa arrakastaz eguneratu da
     destroy:
       flash: Bezeroaren eskaera erregistroa suntsitua
-  user:
+  users:
     login:
       title: Saio-hasiera
       heading: Saio-hasiera
@@ -1841,12 +2093,12 @@ eu:
           <p> Beste mapei ez bezala, OpenStreetMap zure gustuko pertsonek sortutakoa da guztiz,
           eta doakoa da edonork konpontzeko, eguneratzeko, deskargatzeko eta erabiltzeko. </p>
           <p> Erregistratu lehenengo laguntzeko. Zure kontua baieztatzeko mezu elektronikoa bidaliko dizugu. </p>
-      license_agreement: Kontua baieztatzen duzunean <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">
+      license_agreement: Kontua baieztatzen duzunean <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">
         laguntzako terminoak </a> adostu beharko dituzu.
       email address: 'Eposta Helbidea:'
       confirm email address: 'Eposta Helbidea baieztatu:'
       not displayed publicly: Zure helbidea ez da publikoki erakutsiko, ikusi gure
-        <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="OSMF pribatutasun
+        <a href="https://wiki.openstreetmap.org/wiki/Privacy_Policy" title="OSMF pribatutasun
         politika, helbide elektronikoei buruzko atala jasoz">pribatutasun politika</a>)
         informazio gehiagorako
       display name: 'Erakusteko izena:'
@@ -1863,19 +2115,18 @@ eu:
       terms accepted: Eskerrik asko laguntzaileen termino berriak onartzeagatik!
       terms declined: Sentitzen dugu Kolaboratzaileen baldintza berriak onartu ez
         dituzula. Informazio gehiagorako, ikus <a href="%{url}"> wiki orri hau </a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Kolaboratzaile terminoak
-      heading: Kolaboratzaile terminoak
-      read and accept: Irakurri akordioa eta sakatu ados botoia akordioaren baldintzak
-        onartzen dituzula adierazteko zure lehendik dauden eta etorkizuneko ekarpenetarako
-        aplikatu daitezen.
+      title: Baldintzak
+      heading: Baldintzak
       consider_pd: Goiko hitzarmenaz gain, nire ekarpenak Domeinu Publikoan egon behar
         direla uste dut
       consider_pd_why: zer da hau?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Termino hauek ulertzeko informazioa: <a href="%{summary}"> giza laburpen
         irakurgarria </a> eta batzuk <a href="%{translations}"> itzulpen informalak
         </a>'
-      agree: Ados
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Ez onartu
       you need to accept or decline: Irakurri eta gero, onartu edo ezetsi Kolaboratzaileen
         termino berriak jarraitzeko.
@@ -1890,7 +2141,7 @@ eu:
       body: Barkatu, ez dago %{user} izenarekin erabiltzailerik. Egiaztatu ortografia,
         edo agian egin duzun esteka gaizki dago.
       deleted: ezabatua
-    view:
+    show:
       my diary: Nire egunerokoa
       new diary entry: eguneroko sarrera berria
       my edits: Nire aldaketak
@@ -1911,12 +2162,10 @@ eu:
       remove as friend: Lagun bezala kendu
       add as friend: Lagun bezala gehitu
       mapper since: 'Noiztik mapatzaile:'
-      ago: (duela %{time_in_words_ago})
       ct status: 'Kolaboratzaile terminoak:'
       ct undecided: Erabakigabea
       ct declined: Ez da onartu
-      ct accepted: Duela %{ago} onartua
-      latest edit: 'Azken aldaketa %{ago}:'
+      latest edit: 'Azken aldaketa (%{ago}):'
       email address: 'Eposta helbidea:'
       created from: 'Hemendik sortua:'
       status: 'Egoera:'
@@ -1926,7 +2175,7 @@ eu:
       if set location: '%{settings_link} orrian zure helbidea ezarri hurbileko erabiltzaileak
         ikusteko.'
       settings_link_text: hobespenak
-      your friends: Zure lagunak
+      my friends: Nire lagunak
       no friends: Oraindik ez duzu lagunik gehitu.
       km away: '%{count} km-tara'
       m away: '%{count} m-tara'
@@ -1956,6 +2205,7 @@ eu:
       friends_diaries: Lagunen eguneroko sarrerak
       nearby_changesets: inguruko erabiltzaileen aldaketak
       nearby_diaries: inguruko erabiltzaileen eguneroko sarrerak
+      report: Salatu erabiltzaile hau
     popup:
       your location: Zure kokapena
       nearby mapper: Hurbileko mapeatzaileak
@@ -1968,12 +2218,12 @@ eu:
       email never displayed publicly: (inoiz ez da publikoki bistaratuko)
       external auth: 'Kanpoko Autentifikazioa:'
       openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: zer da hau?
       public editing:
         heading: 'Aldaketa publikoak:'
         enabled: Gaituta. Ez da anonimoa eta datuak editatu ditzake.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: zer da hau?
         disabled: Ezgaituta dago eta ezin ditu datuak editatu, aurreko aldaketa guztiak
           anonimoak dira.
@@ -1984,7 +2234,7 @@ eu:
           bidali edo zure kokapena ikusi. Editatu duzuna erakusteko eta webgunearen
           bidez zurekin harremanetan jartzeko, hautatu beheko botoia. <b> 0.6 API
           aldaketaz geroztik, erabiltzaile publikoek soilik mapa datuak aldatu ditzakete
-          </b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits"> jakin
+          </b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits"> jakin
           zergatik </a>). <ul> <li> Zure helbide elektronikoa ez da agerian utziko
           publikoa bihurtzearekin. </li > <li> Ekintza hau ezin da alderantzikatu
           eta erabiltzaile berri guztiek lehenespenez publikoak direlako. </ li> </ul>
@@ -1995,6 +2245,7 @@ eu:
         review link text: Mesedez, jarraitu esteka hau zure Kolaboratzaile Terminoaen
           erosotasuna berrikusteko eta onartzeko.
         agreed_with_pd: Zure aldaketak domeinu publikoan egongo direla adierazi duzu.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: zer da hau?
       profile description: 'Profilaren Deskribapena:'
       preferred languages: 'Hobetsitako hizkuntzak:'
@@ -2002,6 +2253,7 @@ eu:
       image: 'Irudia:'
       gravatar:
         gravatar: Gravatar erabili
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: zer da hau?
         disabled: Gravatar desgaitu egin da.
         enabled: Zure Gravatar bistaratzea gaitu da.
@@ -2064,9 +2316,7 @@ eu:
       button: Lagun bezala kendu
       success: '%{name} zure lagunetatik kendu egin da.'
       not_a_friend: '%{name} ez da zure laguna.'
-    filter:
-      not_an_administrator: Ekintza hori burutzeko administratzaile izan behar duzu.
-    list:
+    index:
       title: Erabiltzaileak
       heading: Erabiltzaileak
       showing:
@@ -2106,8 +2356,6 @@ eu:
         zure IDarekin zure erabiltzaileen ezarpenekin.
   user_role:
     filter:
-      not_an_administrator: Administratzaileek bakarrik erabiltzailearen rolak kudeatu
-        ditzakete, eta ez zara administratzailerik.
       not_a_role: '''%{role}'' katea ez da baliozko rola.'
       already_has_role: Erabiltzaileak %{role} rola dauka jadanik.
       doesnt_have_role: Erabiltzaileak ez dauka %{role} rolik.
@@ -2127,7 +2375,7 @@ eu:
       confirm: Berretsi
       fail: '%{name} erabiltzaileari ezin izan zaio %{role} rola ezeztatu. Egiaztatu
         erabiltzailea eta rola balio duten mesedez.'
-  user_block:
+  user_blocks:
     model:
       non_moderator_update: Moderatzailea izan behar du blokeo bat sortu edo eguneratzeko.
       non_moderator_revoke: Moderatzaile izan behar da blokeo bat ezeztatzeko.
@@ -2143,7 +2391,6 @@ eu:
         ez dutela komunitatearen jargia ulertzen, beraz, saiatu laymans terminoak
         erabiltzen.'
       period: Zenbat denbora, orain hasita, erabiltzaileak APIan blokeoa jasoko duen.
-      submit: Blokea sortu
       tried_contacting: Erabiltzailearekin kontaktuan jarri naiz eta gelditzeko eskatu
         diet.
       tried_waiting: Denbora egokia eman diet erabiltzaileei komunikazio horiei erantzuteko.
@@ -2157,7 +2404,6 @@ eu:
         izan, erabiltzaile guztiek ez dutela komunitatearen jargia ulertzen, beraz,
         saiatu laymans terminoak erabiltzen.'
       period: Zenbat denbora, orain hasita, erabiltzaileak APIan blokeoa jasoko duen.
-      submit: Blokea eguneratu
       show: Ikusi bloke hau
       back: Ikusi bloke guztiak
       needs_view: Erabiltzaileak saioa hasi behar al du bloke hau garbitu aurretik?
@@ -2186,29 +2432,16 @@ eu:
       confirm: Blokeo hau ezeztatu nahi duzula argi daukazu?
       revoke: Ezeztatu!
       flash: Bloke hau ezeztatu egin da.
-    period:
-      one: ordu bat
-      other: '%{count} ordu'
-    partial:
-      show: Erakutsi
-      edit: Aldatu
-      revoke: Ezeztatu!
-      confirm: Ziur zaude?
-      display_name: Blokeatutako Erabiltzailea
-      creator_name: Egilea
-      reason: Blokeatzeko arrazoia
-      status: Egoera
-      revoker_name: -k ezeztatua
-      not_revoked: (ez da ezeztatu)
-      showing_page: '%{page} orria'
-      next: Hurrengoa »
-      previous: « Aurrekoa
     helper:
       time_future: '%{time}n bukatzen du'
       until_login: Erabiltzaileak saioa hasi arte aktiboa.
       time_future_and_until_login: '%{time} denbora barru bukatzen du eta erabiltzaileak
         saioa hasi eta gero.'
-      time_past: Duela %{time} bukatua.
+      time_past: '%{time} bukatua.'
+      block_duration:
+        hours:
+          one: ordu bat
+          other: '%{count} ordu'
     blocks_on:
       title: '%{name}n dauden blokeoak'
       heading: '%{name}n blokeoen zerrenda'
@@ -2220,10 +2453,7 @@ eu:
     show:
       title: '%{block_on} %{block_by}k blokeatu du'
       heading: '%{block_on} %{block_by}k blokeatu du'
-      time_future: '%{time}n bukatzen du'
-      time_past: Duela %{time} bukatua
       created: Sortua
-      ago: duela %{time}
       status: Egoera
       show: Erakutsi
       edit: Aldatu
@@ -2233,38 +2463,30 @@ eu:
       back: Blokeo guztiak ikusi
       revoker: 'Ezeztatu duena:'
       needs_view: Erabiltzaileak saioa hasi behar du blokeoa kendu baino lehen.
-  note:
-    description:
-      opened_at_html: Duela %{when} sortua
-      opened_at_by_html: '%{user}-ek duela %{when} sortua'
-      commented_at_html: Duela %{when} eguneratua
-      commented_at_by_html: Duela %{when} %{user}k eguneratua
-      closed_at_html: Duela %{when} ebatzia
-      closed_at_by_html: Duela %{when} %{user}k ebatzia
-      reopened_at_html: Duela %{when} berraktibatua
-      reopened_at_by_html: Duela %{when} %{user}k berraktibatua
-    rss:
-      title: OpenStreetMap oharrak
-      description_area: Iruzkinak dituzten, itxi diren edota iragarki diren oharren
-        zerrenda [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-      description_item: Rss feed bat %{id} oharrarentzako
-      opened: ohar berria (%{place} ingurutik)
-      commented: iruzkin berria (%{place} ingurutik)
-      closed: ohar itxia (%{place} ingurutik)
-      reopened: birraktibatutako oharra (%{place} ingurutik)
-    entry:
-      comment: Iruzkina
-      full: Ohar osoa
+    block:
+      not_revoked: (ez da ezeztatu)
+      show: Erakutsi
+      edit: Aldatu
+      revoke: Ezeztatu!
+    blocks:
+      display_name: Blokeatutako Erabiltzailea
+      creator_name: Egilea
+      reason: Blokeatzeko arrazoia
+      status: Egoera
+      revoker_name: -k ezeztatua
+      showing_page: '%{page} orria'
+      next: Hurrengoa »
+      previous: « Aurrekoa
+  notes:
     mine:
       title: '%{user}k igotako edo iruzkinak utzitako oharrak'
       heading: '%{user} erabiltzailearen oharrak'
-      subheading: '%{user}k igotako edo iruzkinak utzitako oharrak'
+      subheading_html: '%{user}k igotako edo iruzkinak utzitako oharrak'
       id: Id-a
       creator: Sortzailea
       description: Deskribapena
       created_at: 'Non sortua:'
       last_changed: Azkenik aldaketua
-      ago_html: Duela %{when}
   javascripts:
     close: Itxi
     share:
@@ -2352,24 +2574,38 @@ eu:
     directions:
       ascend: Igo
       engines:
+        fossgis_osrm_bike: Bizikleta (OSRM)
+        fossgis_osrm_car: Autoz (OSRM)
+        fossgis_osrm_foot: Oinez (OSRM)
         graphhopper_bicycle: Bizikletaz (GraphHopper)
         graphhopper_car: Autoz(GraphHopper)
         graphhopper_foot: Oinez (GraphHopper)
-        mapquest_bicycle: Bizikletaz (MapQuest)
-        mapquest_car: Autoz (MapQuest)
-        mapquest_foot: Oinez (MapQuest)
-        osrm_car: Autoz (OSRM)
       descend: Jaitsi
       directions: Norabideak
       distance: Distantzia
       errors:
         no_route: Ezin izan da bi lekuen artean ibilbidea aurkitu.
-        no_place: Barkatu - ezin izan da toki hori aurkitu.
+        no_place: Barkatu - ezin izan da '%{place}' aurkitu.
       instructions:
         continue_without_exit: '%{name}n jarraitu'
         slight_right_without_exit: '%{name}-ra jo eskumara pixka bat biratuz'
+        offramp_right: Hartu eskuineko aldapa
+        offramp_right_with_exit: Hartu eskuineko %{exit} irteera
+        offramp_right_with_exit_name: Hartu eskuineko %{exit} irteera %{name} noranzkoan
+        offramp_right_with_exit_directions: Hartu eskuineko %{exit} irteera %{directions}
+          noranzkoan
+        offramp_right_with_exit_name_directions: Hartu eskuineko %{exit} irteera %{name},
+          %{directions} noranzkoan
         offramp_right_with_name: Eskumako arranpala hartu %{name}-ra
+        offramp_right_with_directions: Hartu eskuineko aldapa %{directions} noranzkoan
+        offramp_right_with_name_directions: Hartu eskuineko aldapa %{name}, %{directions}
+          noranzkoan
         onramp_right_without_exit: Arranpalan eskumara bira egin %{name}-ra
+        onramp_right_with_directions: Aldapan biratu eskuinera %{directions} noranzkoan
+        onramp_right_with_name_directions: Aldapan biratu eskuinera %{name}, %{directions}
+          noranzkoan
+        onramp_right_without_directions: Aldapan biratu eskuinera
+        onramp_right: Aldapan biratu eskuinera
         endofroad_right_without_exit: Errepide bukaeran eskumara bira egin %{name}-ra
         merge_right_without_exit: Eskumara batu %{name}-ra
         fork_right_without_exit: Desbideratzean eskumara bira egin %{name}-ra
@@ -2378,29 +2614,53 @@ eu:
         uturn_without_exit: '%{name}-ra U-biraketa egin'
         sharp_left_without_exit: Ezkerrera bira handia egin %{name}-ra
         turn_left_without_exit: '%{name}-ra ezkerrera bira egin'
+        offramp_left: Hartu ezkerreko aldapa
+        offramp_left_with_exit: Hartu ezkerreko %{exit} irteera
+        offramp_left_with_exit_name: Hartu exkerreko %{exit} irteera %{name} noranzkoan
+        offramp_left_with_exit_directions: Hartu ezkerreko %{exit} irteera %{directions}
+          noranzkoan
+        offramp_left_with_exit_name_directions: Hartu ezkerreko %{exit} irteera %{name},
+          %{directions} noranzkoan
         offramp_left_with_name: Ezkerreko arranpala hartu %{name}-ra
+        offramp_left_with_directions: Hartu ezkerreko aldapa %{directions} noranzkoan
+        offramp_left_with_name_directions: Hartu ezkerreko aldapa %{name}, %{directions}
+          noranzkoan
         onramp_left_without_exit: Arranpalan %{name}-ra bira egin ezkerrera
+        onramp_left_with_directions: Aldapan biratu ezkerrera %{directions} noranzkoan
+        onramp_left_with_name_directions: Aldapan biratu ezkerrera %{name}, %{directions}
+          noranzkoan
+        onramp_left_without_directions: Aldapan biratu ezkerrera
+        onramp_left: Aldapan biratu ezkerrera
         endofroad_left_without_exit: Errepide bukaeran ezkerrera bira egin %{name}-ra
         merge_left_without_exit: Ezkerrera batu %{name}-ra
         fork_left_without_exit: Desbideratzean ezkerrera bira egin %{name}-ra
         slight_left_without_exit: '%{name}-ra jo ezkerrera pixka bat biratuz'
         via_point_without_exit: (puntutik)
         follow_without_exit: '%{name} jarraitu'
-        roundabout_without_exit: Biribilgunean hartu %{name}
+        roundabout_without_exit: Biribilgunean hartu %{name} irteera
         leave_roundabout_without_exit: Utzi biribilgunea - %{name}
         stay_roundabout_without_exit: Biribilgunean geratu - %{name}
-        start_without_exit: '%{name} bukaeran hasi'
+        start_without_exit: '%{name}-n hasi'
         destination_without_exit: Helmugara iritsi
         against_oneway_without_exit: '%{name}n bide-bakarreraren kontra joan'
         end_oneway_without_exit: 'Bide-bakarreko bukaera hemen: %{name}'
         roundabout_with_exit: Biribilgunean %{exit} irteera %{name}rantz
-        turn_left_with_exit: Biribilgunean ezkerra jo %{name}ra joateko
-        slight_left_with_exit: Biribilgunean ezkerra pixka bat jo %{name} norabiderantza
-        turn_right_with_exit: Biribilgunean eskumara bira egin %{name} norabiderantza
-        slight_right_with_exit: Biribilgunean eskumara pixka bat jo %{name} norabiderantza
-        continue_with_exit: Biribilgunean jarraitu zuzen %{name} norabiderantza
+        roundabout_with_exit_ordinal: Biribilgunean hartu %{exit} irteera %{name}
+          noranzkoan
+        exit_roundabout: Irten biribilgunetik %{name} noranzkoan
         unnamed: izenik gabe
         courtesy: Helbideak %{link}-ren adeitasunez.
+        exit_counts:
+          first: "1."
+          second: "2."
+          third: "3."
+          fourth: "4."
+          fifth: "5."
+          sixth: "6."
+          seventh: "7."
+          eighth: "8."
+          ninth: "9."
+          tenth: "10."
       time: Denbora
     query:
       node: Nodo
@@ -2416,11 +2676,10 @@ eu:
       show_address: Erakutsi helbidea
       query_features: Eskaera ezaugarriak
       centre_map: Mapa hona zentratu
-  redaction:
+  redactions:
     edit:
       description: Deskribapena
       heading: Aldatu erredakzioa
-      submit: Gorde erredakzioa
       title: Aldatu erredakzioa
     index:
       empty: Ez dago erakusteko erredakziorik.
@@ -2429,7 +2688,6 @@ eu:
     new:
       description: Deskribapena
       heading: Erredakzio berrirako informazioa sartu
-      submit: Erredakzioa sortu
       title: Erredakzio berria sortzen
     show:
       description: 'Deskribapena:'
@@ -2448,4 +2706,9 @@ eu:
         aurretik.
       flash: Erredakzioa suntsitu egin da.
       error: Erredakzio hau suntsitzerakoan akats bat egon da.
+  validations:
+    leading_whitespace: zuriunea du hasieran
+    trailing_whitespace: zuriunea du amaieran
+    invalid_characters: karaktere ezegokiak ditu
+    url_characters: URL karaktere bereziak (%{characters}) ditu
 ...

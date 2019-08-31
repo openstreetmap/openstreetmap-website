@@ -1,4 +1,8 @@
+//= require querystring
+
 OSM.initializeContextMenu = function (map) {
+  var querystring = require("querystring-component");
+
   map.contextmenu.addItem({
     text: I18n.t("javascripts.context.directions_from"),
     callback: function directionsFromHere(e) {
@@ -49,7 +53,7 @@ OSM.initializeContextMenu = function (map) {
           lat = latlng.lat.toFixed(precision),
           lng = latlng.lng.toFixed(precision);
 
-      OSM.router.route("/search?query=" + encodeURIComponent(lat + "," + lng));
+      OSM.router.route("/search?whereami=1&query=" + encodeURIComponent(lat + "," + lng));
     }
   });
 
@@ -77,7 +81,7 @@ OSM.initializeContextMenu = function (map) {
     else map.contextmenu.enable();
   });
 
-  var updateMenu = function updateMenu () {
+  var updateMenu = function updateMenu() {
     map.contextmenu.setDisabled(2, map.getZoom() < 12);
     map.contextmenu.setDisabled(4, map.getZoom() < 14);
   };

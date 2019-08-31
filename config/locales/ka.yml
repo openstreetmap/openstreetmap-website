@@ -1,6 +1,7 @@
 # Messages for Georgian (ქართული)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: David1010
 # Author: MIKHEIL
 # Author: Temuri rajavi
@@ -9,6 +10,23 @@ ka:
   time:
     formats:
       friendly: '%დ %თ %წ at %ს:%წ'
+  helpers:
+    submit:
+      diary_comment:
+        create: შენახვა
+      diary_entry:
+        create: გამოქვეყნება
+      message:
+        create: გაგზავნა
+      client_application:
+        create: რეგისტრაცია
+        update: რედაქტირება
+      trace:
+        create: ატვირთვა
+        update: ცვლილებების შენახვა
+      user_block:
+        create: ბლოკირების შექმნა
+        update: განაახლეთ ბლოკირება
   activerecord:
     models:
       acl: ხელმისაწვდომობის შეზღუდვის სია
@@ -91,6 +109,15 @@ ka:
     remote:
       name: დისტანციური მართვა
       description: დისტანციური მათვა (JOSM, ან Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: შეიქმნა %{when} წინ
+        opened_at_by_html: შექმნა %{when} წინ მომხმარებელმა %{user}
+        commented_at_html: განახლდა %{when} წინ
+        commented_at_by_html: განაახლა %{when} წინ მომხმარებელმა %{user}
+      entry:
+        comment: კომენტარი
   browse:
     created: შეიქმნა
     closed: დახურულია
@@ -184,7 +211,7 @@ ka:
       open_title: 'დაუმუშავებელი შენიშვნა #%{note_name}'
       closed_title: 'დამუშავებული შენიშვნა #%{note_name}'
       hidden_title: 'დამალული შენიშვნა #%{note_name}'
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: გვერდი %{page}
       next: შემდეგი →
@@ -198,18 +225,24 @@ ka:
       user: მომხმარებელი
       comment: კომენტარი
       area: ტერიტორია
-    list:
+    index:
       title: ცვლილებების პაკეტი
       load_more: მეტის ჩატვირთვა
-    rss:
-      commented_at_html: განახლდა %{when} წინ
+  changeset_comments:
+    comment:
       commented_at_by_html: განაახლა %{when} წინ მომხმარებელმა %{user}
-      full: სრული განხილვა
-  diary_entry:
+  diary_entries:
     new:
       title: დღიურში ახალი ჩანაწერის გაკეთება
-      publish_button: გამოქვეყნება
-    list:
+    form:
+      subject: 'თემა:'
+      body: 'ტექსტი:'
+      language: 'ენა:'
+      location: 'მდებარეობა:'
+      latitude: 'განედი:'
+      longitude: 'გრძედი:'
+      use_map_link: რუკაზე ჩვენება
+    index:
       title: მომხმარებლების დღიურები
       title_friends: მეგობრების დღიურები
       title_nearby: მეზობელი მომხმარებლების დღიურები
@@ -221,21 +254,12 @@ ka:
       newer_entries: უახლესი ჩანაწერები
     edit:
       title: დღიურის ჩანაწერის რედაქტირება
-      subject: 'თემა:'
-      body: 'ტექსტი:'
-      language: 'ენა:'
-      location: 'მდებარეობა:'
-      latitude: 'განედი:'
-      longitude: 'გრძედი:'
-      use_map_link: რუკაზე ჩვენება
-      save_button: შენახვა
-    view:
+    show:
       title: '%{user}-ის დღიური | %{title}'
       user_title: '%{user}-ის დღიური'
       leave_a_comment: დატოვეთ კომენტარი
       login_to_leave_a_comment: '%{login_link}, რათა დატოვოთ კომენტარი'
       login: შესვლა
-      save_button: შენახვა
     no_such_entry:
       title: დღიურში ასეთი ჩანაწერი არ არის
       heading: 'id: %{id}-დან ჩანაწერი არ არის'
@@ -259,32 +283,8 @@ ka:
       post: პოსტი
       when: როდის
       comment: კომენტარი
-      ago: '%{ago} წინ'
       newer_comments: ახალი კომენტარები
       older_comments: ძველი კომენტარები
-  export:
-    title: ექსპორტი
-    start:
-      area_to_export: ტერიტორია ექსპორტისათვის
-      manually_select: სხვა რეგიონის გამოყოფა ხელით
-      format_to_export: ექსპორტის ფორმატი
-      osm_xml_data: OpenStreetMap XML–ის მონაცემები
-      map_image: რუკის სურათი (სტანდარტული ფენის ჩვენება)
-      licence: ლიცენზია
-      too_large:
-        planet:
-          title: პლანეტა OSM
-      options: პარამეტრები
-      format: ფორმატი
-      scale: მასშტაბი
-      max: მაქს.
-      image_size: გამოსახულების ზომა
-      zoom: გადიდება
-      add_marker: რუკაზე ნიშნულის დასმა
-      latitude: 'განედი:'
-      longitude: 'გრძედი:'
-      output: შედეგი
-      export_button: ექსპორტი
   geocoder:
     search:
       title:
@@ -759,15 +759,6 @@ ka:
     foundation_title: ფონდი OpenStreetMap
     make_a_donation:
       text: პროექტის დახმარება
-  license_page:
-    foreign:
-      english_link: ინგლისური ორიგინალი
-    native:
-      title: ამ გვერდის შესახებ
-      native_link: ქართული ვერსია
-      mapping_link: კარტოგრაფირების დაწყება
-    legal_babble:
-      title_html: საავტორო უფლებები და ლიცენზია
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap]-ის მომხმარებელმა %{user} თქვენს დღიურში დატოვა კომენტარი'
@@ -794,7 +785,7 @@ ka:
     note_comment_notification:
       anonymous: ანონიმური მომხმარებელი
       greeting: გამარჯობა,
-  message:
+  messages:
     inbox:
       title: მიღებული
       my_inbox: ჩემი მიღებული
@@ -816,14 +807,14 @@ ka:
       unread_button: მონიშნეთ როგორც წაუკითხავი
       read_button: მონიშნეთ როგორც წაკითხული
       reply_button: პასუხი
-      delete_button: წაშლა
+      destroy_button: წაშლა
     new:
       title: შეტყობინების გაგზავნა
       send_message_to: გაუგზავნეთ ახალი შეტყობინება %{name}
       subject: თემა
       body: ტექსტი
-      send_button: გაგზავნა
       back_to_inbox: მიღებულებში დაბრუნება
+    create:
       message_sent: შეტყობინება გაიგზავნა
       limit_exceeded: თქვენ ცოტა ხნის წინ გაგზავნეთ ბევრი შეტყობინება. სანამ კიდევ
         გაგზავნიდეთ, მოიცადეთ ცოტა ხანი.
@@ -849,7 +840,7 @@ ka:
       wrong_user: თქვენ შეხვედით როგორც `%{user}' მაგრამ პასუხი თქვენ კითხვაზე არ
         გაიგზავნა ამ მომხმარებელთან. გთხოვთ, შეხვიდეთ, როგორც შესაბამისი მოთხოვნის
         გამკეთებელი მომხმარებელი, რათა იხილოთ პასუხი.
-    read:
+    show:
       title: შეტყობინების წაკითხვა
       from: გამომგზავნი
       subject: თემა
@@ -861,19 +852,50 @@ ka:
         გსურთ, არ არის გაგზავნილი ამ მომხმარებელთან, ან მის მიერ. გთხოვთ, შეხვიდეთ,
         როგორც შესაბამისი მომხმარებელი, რათა წაიკითხოთ ის.
     sent_message_summary:
-      delete_button: წაშლა
+      destroy_button: წაშლა
     mark:
       as_read: შეტყობინება მონიშნულია როგორც წაკითხული
       as_unread: შეტყობინება მონიშნულია როგორც წაუკითხავი
-    delete:
-      deleted: შეტყობინება წაშლილია
+    destroy:
+      destroyed: შეტყობინება წაშლილია
   site:
+    copyright:
+      foreign:
+        english_link: ინგლისური ორიგინალი
+      native:
+        title: ამ გვერდის შესახებ
+        native_link: ქართული ვერსია
+        mapping_link: კარტოგრაფირების დაწყება
+      legal_babble:
+        title_html: საავტორო უფლებები და ლიცენზია
     index:
       permalink: მუდმივი ბმული
       shortlink: მოკლე ბმული
       createnote: შენიშვნის დამატება
     edit:
       user_page_link: მომხმარებლის გვერდი
+    export:
+      title: ექსპორტი
+      area_to_export: ტერიტორია ექსპორტისათვის
+      manually_select: სხვა რეგიონის გამოყოფა ხელით
+      format_to_export: ექსპორტის ფორმატი
+      osm_xml_data: OpenStreetMap XML–ის მონაცემები
+      map_image: რუკის სურათი (სტანდარტული ფენის ჩვენება)
+      licence: ლიცენზია
+      too_large:
+        planet:
+          title: პლანეტა OSM
+      options: პარამეტრები
+      format: ფორმატი
+      scale: მასშტაბი
+      max: მაქს.
+      image_size: გამოსახულების ზომა
+      zoom: გადიდება
+      add_marker: რუკაზე ნიშნულის დასმა
+      latitude: 'განედი:'
+      longitude: 'გრძედი:'
+      output: შედეგი
+      export_button: ექსპორტი
     sidebar:
       search_results: ძიების შედეგები
       close: დახურვა
@@ -936,7 +958,13 @@ ka:
       image: სურათი
       alt: ალტერნატიული ტექსტი
       url: URL
-  trace:
+  traces:
+    new:
+      description: 'აღწერა:'
+      tags_help: მძიმის შემდეგ
+      visibility: 'ხილვადობა:'
+      visibility_help: ეს რას ნიშნავს?
+      help: დახმარება
     edit:
       filename: 'ფაილის სახელი:'
       download: გადმოწერა
@@ -948,17 +976,9 @@ ka:
       owner: 'მფლობელი:'
       description: 'აღწერა:'
       tags_help: მძიმის შემდეგ
-      save_button: ცვლილებების შენახვა
       visibility: 'ხილვადობა:'
       visibility_help: ეს რას ნიშნავს?
-    trace_form:
-      description: 'აღწერა:'
-      tags_help: მძიმის შემდეგ
-      visibility: 'ხილვადობა:'
-      visibility_help: ეს რას ნიშნავს?
-      upload_button: ატვირთვა
-      help: დახმარება
-    view:
+    show:
       pending: დამუშავება
       filename: 'ფაილის სახელი:'
       download: გადმოწერა
@@ -976,7 +996,6 @@ ka:
     trace:
       pending: დამუშავება
       count_points: '%{count} წერტილი'
-      ago: '%{time_in_words_ago} წინ'
       more: მეტი
       view_map: რუკის ნახვა
       edit: რედაქტირება
@@ -988,13 +1007,9 @@ ka:
       by: 'ავტორი:'
       map: რუკა
   oauth:
-    oauthorize:
+    authorize:
       allow_write_api: რუკის შეცვლა.
   oauth_clients:
-    new:
-      submit: რეგისტრაცია
-    edit:
-      submit: რედაქტირება
     show:
       edit: დეტალების რედაქტირება
       confirm: დარწმუნებული ხართ?
@@ -1006,7 +1021,7 @@ ka:
       name: სახელი
       required: სავალდებულოა
       allow_write_api: რუკის რედაქტირება.
-  user:
+  users:
     login:
       title: შესვლა
       heading: შესვლა
@@ -1043,7 +1058,6 @@ ka:
       continue: რეგისტრაცია
     terms:
       consider_pd_why: რა არის ეს?
-      agree: მიღება
       decline: უარყოფა
       legale_select: 'გთხოვთ, აირჩიეთ თქვენი ქვეყანა:'
       legale_names:
@@ -1052,7 +1066,7 @@ ka:
         rest_of_world: დანარჩენი მსოფლიო
     no_such_user:
       heading: მომხმარებელი %{user} არ არსებობს
-    view:
+    show:
       my diary: ჩემი დღიური
       new diary entry: დღიურში ახალი ჩანაწერის გაკეთება
       my edits: ჩემი რედაქტირება
@@ -1063,7 +1077,6 @@ ka:
       edits: რედაქტირებები
       remove as friend: მეგობრებიდან წაშლა
       add as friend: მეგობრებში დამატება
-      ct accepted: მიღებულია %{ago} წინ
       latest edit: 'ბოლო რედაქტირება %{ago}:'
       email address: 'ელ. ფოსტის მისამართი:'
       created from: 'შექმნილია:'
@@ -1072,7 +1085,6 @@ ka:
       description: აღწერა
       user location: მომხმარებლის ადგილმდებარეობა
       settings_link_text: პარამეტრები
-      your friends: თქვენი მეგობრები
       km away: '%{count}კმ თქვენგან'
       m away: '%{count}მ თქვენგან'
       role:
@@ -1126,7 +1138,7 @@ ka:
     remove_friend:
       heading: წავშალო მეგობრებიდან %{user}?
       button: მეგობრებიდან წაშლა
-    list:
+    index:
       title: მომხმარებლები
       heading: მომხმარებლები
     suspended:
@@ -1136,16 +1148,14 @@ ka:
       confirm: დადასტურება
     revoke:
       confirm: დადასტურება
-  user_block:
+  user_blocks:
     new:
       title: მომხმარებელ %{name} ბლოკირების შექმნა
       heading: მომხმარებელ %{name} ბლოკირების შექმნა
-      submit: ბლოკირების შექმნა
       back: ყველა ბლოკირების ჩვენება
     edit:
       title: მომხმარებელ %{name} ბლოკირების რედაქტირება
       heading: მომხმარებელ %{name} ბლოკირების რედაქტირება
-      submit: განაახლეთ ბლოკირება
       show: ამ ბლოკირების ჩვენება
       back: ყველა ბლოკირების ჩვენება
     update:
@@ -1159,27 +1169,14 @@ ka:
       confirm: დარწმუნებული ხართ, რომ ამ ბლოკირების მოხსნა გსურთ?
       revoke: განბლოკვა!
       flash: ეს ბლოკირება მოიხსნა.
-    period:
-      one: 1 საათი
-      other: '%{count} საათი'
-    partial:
-      show: ჩვენება
-      edit: რედაქტირება
-      revoke: განბლოკვა!
-      confirm: დარწმუნებული ხართ?
-      display_name: დაბლოკილი მომხმარებელი
-      creator_name: შემქმნელი
-      reason: დაბლოკვის მიზეზი
-      status: სტატუსი
-      revoker_name: განბლოკილია
-      not_revoked: (არ არის განბლოკილი)
-      showing_page: გვერდი %{page}
-      next: შემდეგი »
-      previous: « წინა
     helper:
       time_future: მთავრდება %{time}–ში.
       until_login: აქტიურია მანამდე, სანამ მომხმარებელი არ შევა სისტემაში.
       time_past: დასრულდა %{time} წინ.
+      block_duration:
+        hours:
+          one: 1 საათი
+          other: '%{count} საათი'
     blocks_on:
       title: '%{name}-ის მიერ გაკეთებული ბლოკირებები'
       heading: '%{name}-ის მიერ გაკეთებული ბლოკირებების სია'
@@ -1191,8 +1188,6 @@ ka:
     show:
       title: '%{block_on}, დაადო ბლოკი: %{block_by}'
       heading: '%{block_on}, დაადო ბლოკი: %{block_by}'
-      time_future: მთავრდება %{time}–ში
-      time_past: დასრულდა %{time} წინ
       status: სტატუსი
       show: ჩვენება
       edit: რედაქტირება
@@ -1202,18 +1197,24 @@ ka:
       back: ყველა ბლოკირების ჩვენება
       revoker: 'განმბლოკველი:'
       needs_view: სანამ მოხდება ბლოკის მოხსნა, მანამდე საჭიროა მომხმარებლის დარეგისტრირება
-  note:
-    description:
-      opened_at_html: შეიქმნა %{when} წინ
-      opened_at_by_html: შექმნა %{when} წინ მომხმარებელმა %{user}
-      commented_at_html: განახლდა %{when} წინ
-      commented_at_by_html: განაახლა %{when} წინ მომხმარებელმა %{user}
-    entry:
-      comment: კომენტარი
+    block:
+      not_revoked: (არ არის განბლოკილი)
+      show: ჩვენება
+      edit: რედაქტირება
+      revoke: განბლოკვა!
+    blocks:
+      display_name: დაბლოკილი მომხმარებელი
+      creator_name: შემქმნელი
+      reason: დაბლოკვის მიზეზი
+      status: სტატუსი
+      revoker_name: განბლოკილია
+      showing_page: გვერდი %{page}
+      next: შემდეგი »
+      previous: « წინა
+  notes:
     mine:
       creator: შემქმნელი
       description: აღწერა
-      ago_html: '%{when} წინ'
   javascripts:
     map:
       base:
@@ -1232,7 +1233,7 @@ ka:
         comment: კომენტარი
     context:
       show_address: მისამართის ჩვენება
-  redaction:
+  redactions:
     edit:
       description: აღწერა
     new:

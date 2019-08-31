@@ -1,25 +1,13 @@
 inherit_from: .rubocop_todo.yml
 
+require:
+  - rubocop-performance
+  - rubocop-rails
+
 AllCops:
-  Include:
-    - '**/*.gemspec'
-    - '**/*.podspec'
-    - '**/*.jbuilder'
-    - '**/*.rake'
-    - '**/*.opal'
-    - '**/config.ru'
-    - '**/Gemfile'
-    - '**/Rakefile'
-    - '**/Capfile'
-    - '**/Guardfile'
-    - '**/Podfile'
-    - '**/Thorfile'
-    - '**/Vagrantfile'
-    - '**/Berksfile'
-    - '**/Cheffile'
-    - '**/Vagabondfile'
-    - '**/Fastfile'
-    - '**/*.builder'
+  TargetRubyVersion: 2.5
+  Exclude:
+    - 'vendor/**/*'
 
 Rails:
   Enabled: true
@@ -30,7 +18,16 @@ Layout/ExtraSpacing:
 Lint/PercentStringArray:
   Exclude:
     - 'config/initializers/secure_headers.rb'
+    - 'app/controllers/application_controller.rb'
     - 'app/controllers/site_controller.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/routes.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*'
 
 Naming/FileName:
   Exclude:
@@ -38,10 +35,16 @@ Naming/FileName:
     - 'script/locale/reload-languages'
     - 'script/update-spam-blocks'
 
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
 Rails/ApplicationRecord:
   Enabled: false
 
 Rails/CreateTableWithTimestamps:
+  Enabled: false
+
+Rails/FindEach:
   Enabled: false
 
 Rails/HasManyOrHasOneDependent:
@@ -56,7 +59,7 @@ Rails/InverseOf:
 Rails/SkipsModelValidations:
   Exclude:
     - 'db/migrate/*.rb'
-    - 'app/controllers/user_controller.rb'
+    - 'app/controllers/users_controller.rb'
 
 Style/BracesAroundHashParameters:
   EnforcedStyle: context_dependent
@@ -67,10 +70,6 @@ Style/FormatStringToken:
 Style/IfInsideElse:
   Enabled: false
 
-Style/GlobalVars:
-  Exclude:
-    - 'lib/quad_tile/extconf.rb'
-
 Style/GuardClause:
   Enabled: false
 
@@ -79,6 +78,11 @@ Style/HashSyntax:
   Exclude:
     - 'lib/tasks/testing.rake'
     - 'config/initializers/wrap_parameters.rb'
+
+Style/MixinUsage:
+  Exclude:
+    - 'bin/setup'
+    - 'bin/update'
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

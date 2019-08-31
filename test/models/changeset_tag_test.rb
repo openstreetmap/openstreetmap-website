@@ -33,7 +33,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
       tag.changeset_id = 1
       tag.k = k
       tag.v = "v"
-      assert !tag.valid?, "Key #{k} should be too long"
+      assert_not tag.valid?, "Key #{k} should be too long"
       assert tag.errors[:k].any?
     end
   end
@@ -44,14 +44,14 @@ class ChangesetTagTest < ActiveSupport::TestCase
       tag.changeset_id = 1
       tag.k = "k"
       tag.v = v
-      assert !tag.valid?, "Value #{v} should be too long"
+      assert_not tag.valid?, "Value #{v} should be too long"
       assert tag.errors[:v].any?
     end
   end
 
   def test_empty_tag_invalid
     tag = ChangesetTag.new
-    assert !tag.valid?, "Empty tag should be invalid"
+    assert_not tag.valid?, "Empty tag should be invalid"
     assert tag.errors[:changeset].any?
   end
 
@@ -62,7 +62,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
     tag.k = existing.k
     tag.v = existing.v
     assert tag.new_record?
-    assert !tag.valid?
+    assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
     assert tag.new_record?
   end
