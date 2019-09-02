@@ -19,3 +19,18 @@
     <% end %>
   </p>
 <% end %>
+
+<% if current_user %>
+  <%= form_with scope: :microcosm_member, url: microcosm_member_index_path do |form| %>
+    <%= form.hidden_field(:microcosm_id, :value => @microcosm.id) %>
+    <%= form.hidden_field(:user_id, :value => current_user.id) %>
+    <%= form.submit :value => t('microcosm.join.action') %>
+  <% end %>
+<% else %>
+  Log in to join this microcosm.
+<% end %>
+
+<h2>Members</h2>
+<% @microcosm.microcosm_members.each do |member| %>
+  <%= link_to member.user.display_name, user_path(member.user) %>
+<% end %>

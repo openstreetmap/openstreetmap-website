@@ -333,6 +333,7 @@ class ApplicationController < ActionController::Base
   end
 
   def deny_access(_exception)
+    logger.error('deny_access')
     if current_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden

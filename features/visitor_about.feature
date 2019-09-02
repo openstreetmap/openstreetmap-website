@@ -1,6 +1,6 @@
 Feature: Learn about the Microcosm
   In order to learn about this microcosm
-  as a vistitor
+  as a visitor
   I want to read their webpage
 
   Background:
@@ -29,7 +29,22 @@ Feature: Learn about the Microcosm
 
 
   Scenario: Regular user cannot edit the microcosm
-    Given there is a user "abe@example.com"
+    Given there is a user "abe@example.com" with name "Abe"
     When user "abe@example.com" logs in
     When I am on the microcosm edit page
     Then I should be forbidden
+
+
+  Scenario: Logged out user sees message to join microcosm
+    Given there is a user "abe@example.com" with name "Abe"
+    When I am on the microcosm "MappingDC" page
+    Then I should see "Log in to join this microcosm."
+
+
+  Scenario: A user may join a microcosm
+    Given there is a user "abe@example.com" with name "Abraham"
+    When user "abe@example.com" logs in
+    And I am on the microcosm "MappingDC" page
+    And I should see a "Join" button
+    And I press "Join"
+    Then I should see "Abraham"

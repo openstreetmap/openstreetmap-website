@@ -319,9 +319,8 @@ OpenStreetMap::Application.routes.draw do
   resources :redactions
 
   # microcosms
-  get '/microcosms/:key', to: 'microcosms#show_by_key', constraints: { key: /[a-zA-Z]{1,32}/ }
-  resources :microcosms, only: [:show, :edit, :index]
-
+  resources :microcosms, only: [:show, :edit, :index, :join]
+  resources :microcosm_member, only: [:create]
 
   # errors
   match "/403", :to => "errors#forbidden", :via => :all

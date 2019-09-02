@@ -1,5 +1,5 @@
 Given("there is a microcosm {string}") do |name|
-  @the_microcosm = Microcosm.create!(:name => name, :key => name.downcase)
+  @the_microcosm = Microcosm.create!(:name => name)
 end
 
 Given("I am on the microcosms page") do
@@ -56,9 +56,18 @@ Then("I should see {string}") do |msg|
   expect(page).to have_content(msg)
 end
 
+Then("I should see a {string} button") do |title|
+  expect(page).to have_selector(:link_or_button, title)
+end
+
 Then("I should be forbidden") do
   expect(page.status_code).to eq(403)
 end
+
+And("I press {string}") do |title|
+  click_button title
+end
+
 
 When("user {string} logs in") do |username|
   visit "/login"
@@ -69,6 +78,6 @@ When("user {string} logs in") do |username|
   end
 end
 
-Given("there is a user {string}") do |username|
-  @user_1 = create(:user, :email => username)
+Given("there is a user {string} with name {string}") do |username, name|
+  @user_1 = create(:user, :email => username, :display_name => name)
 end

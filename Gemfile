@@ -131,6 +131,9 @@ gem "aws-sdk-s3"
 # Used to resize user images
 gem "mini_magick"
 
+# Used to provide clean urls like /microcosm/mappingdc
+gem "friendly_id"
+
 # Gems useful for development
 group :development do
   gem "annotate"

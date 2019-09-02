@@ -9,20 +9,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -126,33 +112,6 @@ CREATE TYPE public.user_status_enum AS ENUM (
     'suspended',
     'deleted'
 );
-
-
---
--- Name: maptile_for_point(bigint, bigint, integer); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.maptile_for_point(bigint, bigint, integer) RETURNS integer
-    LANGUAGE c STRICT
-    AS '$libdir/libpgosm.so', 'maptile_for_point';
-
-
---
--- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.tile_for_point(integer, integer) RETURNS bigint
-    LANGUAGE c STRICT
-    AS '$libdir/libpgosm.so', 'tile_for_point';
-
-
---
--- Name: xid_to_int4(xid); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.xid_to_int4(xid) RETURNS integer
-    LANGUAGE c IMMUTABLE STRICT
-    AS '$libdir/libpgosm.so', 'xid_to_int4';
 
 
 SET default_tablespace = '';
@@ -685,6 +644,39 @@ CREATE TABLE public.diary_entry_subscriptions (
 
 
 --
+-- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.friendly_id_slugs (
+    id bigint NOT NULL,
+    slug character varying NOT NULL,
+    sluggable_id integer NOT NULL,
+    sluggable_type character varying(50),
+    scope character varying,
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.friendly_id_slugs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.friendly_id_slugs_id_seq OWNED BY public.friendly_id_slugs.id;
+
+
+--
 -- Name: friends; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -918,18 +910,51 @@ ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
 
 --
+-- Name: microcosm_members; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.microcosm_members (
+    id bigint NOT NULL,
+    microcosm_id integer NOT NULL,
+    user_id integer NOT NULL,
+    role character varying(64),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: microcosm_members_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.microcosm_members_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: microcosm_members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.microcosm_members_id_seq OWNED BY public.microcosm_members.id;
+
+
+--
 -- Name: microcosms; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.microcosms (
     id bigint NOT NULL,
     name character varying NOT NULL,
-    key character varying NOT NULL,
     facebook character varying,
     twitter character varying,
     description text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    slug character varying
 );
 
 
@@ -1541,6 +1566,13 @@ ALTER TABLE ONLY public.diary_entries ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: friendly_id_slugs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('public.friendly_id_slugs_id_seq'::regclass);
+
+
+--
 -- Name: friends id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1580,6 +1612,13 @@ ALTER TABLE ONLY public.issues ALTER COLUMN id SET DEFAULT nextval('public.issue
 --
 
 ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
+
+
+--
+-- Name: microcosm_members id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_members ALTER COLUMN id SET DEFAULT nextval('public.microcosm_members_id_seq'::regclass);
 
 
 --
@@ -1812,6 +1851,14 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 
 --
+-- Name: friendly_id_slugs friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.friendly_id_slugs
+    ADD CONSTRAINT friendly_id_slugs_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: friends friends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1865,6 +1912,14 @@ ALTER TABLE ONLY public.languages
 
 ALTER TABLE ONLY public.messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: microcosm_members microcosm_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_members
+    ADD CONSTRAINT microcosm_members_pkey PRIMARY KEY (id);
 
 
 --
@@ -2295,6 +2350,27 @@ CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON public.diary_e
 
 
 --
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON public.friendly_id_slugs USING btree (slug, sluggable_type);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope ON public.friendly_id_slugs USING btree (slug, sluggable_type, scope);
+
+
+--
+-- Name: index_friendly_id_slugs_on_sluggable_type_and_sluggable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_friendly_id_slugs_on_sluggable_type_and_sluggable_id ON public.friendly_id_slugs USING btree (sluggable_type, sluggable_id);
+
+
+--
 -- Name: index_issue_comments_on_issue_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2341,6 +2417,20 @@ CREATE INDEX index_issues_on_status ON public.issues USING btree (status);
 --
 
 CREATE INDEX index_issues_on_updated_by ON public.issues USING btree (updated_by);
+
+
+--
+-- Name: index_microcosm_members_on_microcosm_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_microcosm_members_on_microcosm_id ON public.microcosm_members USING btree (microcosm_id);
+
+
+--
+-- Name: index_microcosm_members_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_microcosm_members_on_user_id ON public.microcosm_members USING btree (user_id);
 
 
 --
@@ -3135,6 +3225,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190702193519'),
 ('20190716173946'),
 ('20190826032448'),
+('20190831122812'),
+('20190901143302'),
+('20190901151436'),
+('20190901163613'),
 ('21'),
 ('22'),
 ('23'),
