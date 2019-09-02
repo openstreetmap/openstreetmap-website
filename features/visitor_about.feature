@@ -5,8 +5,9 @@ Feature: Learn about the Microcosm
 
   Background:
     Given there is a microcosm "MappingDC"
-    And the microcosm has facebook page "mappingdc"
-    And the microcosm has twitter account "mappingdc"
+    And the microcosm has the "Facebook" page "https://facebook.com/groups/mappingdc"
+    And the microcosm has the "Twitter" page "https://twitter.com/mappingdc"
+    And the microcosm has the "Website" page "https://mappingdc.org"
     And the microcosm has description "MappingDC strives to improve OSM in the DC area"
     And I am on the microcosm "MappingDC" page
 
@@ -20,6 +21,7 @@ Feature: Learn about the Microcosm
     Then I should see the microcosm "MappingDC" name
     Then I should see the "Facebook" link to "https://facebook.com/groups/mappingdc"
     Then I should see the "Twitter" link to "https://twitter.com/mappingdc"
+    Then I should see the "Website" link to "https://mappingdc.org"
     Then I should see "MappingDC strives to improve OSM in the DC area"
 
 

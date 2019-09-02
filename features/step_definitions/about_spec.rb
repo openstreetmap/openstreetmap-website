@@ -20,14 +20,8 @@ end
 
 # The lines like "The microcosm HAS..." are not behavior driven because it's using @varibles.
 
-# TODO: These "has" specs can be refactored.
-Given("the microcosm has facebook page {string}") do |fb|
-  @the_microcosm.facebook = fb
-  @the_microcosm.save
-end
-
-Given("the microcosm has twitter account {string}") do |acct|
-  @the_microcosm.twitter = acct
+Given("the microcosm has the {string} page {string}") do |site, url|
+  @the_microcosm.set_link(site, url)
   @the_microcosm.save
 end
 
