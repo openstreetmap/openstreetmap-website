@@ -4,7 +4,7 @@ Feature: Learn about the Microcosm
   I want to read their webpage
 
   Background:
-    Given there is a microcosm "MappingDC"
+    Given there is a microcosm "MappingDC", "Washington, DC, USA", "38.9", "-77.03", "38.516 * 10**7", "39.472 * 10**7", "-77.671 * 10**7", "-76.349 * 10**7"
     And the microcosm has description "MappingDC strives to improve OSM in the DC area"
     And the microcosm has the "Facebook" page "https://facebook.com/groups/mappingdc"
     And the microcosm has the "Twitter" page "https://twitter.com/mappingdc"
@@ -19,6 +19,7 @@ Feature: Learn about the Microcosm
 
   Scenario: Describe the microcosm
     Then I should see the microcosm "MappingDC" name
+    Then I should see "Washington, DC, USA"
     Then I should see the "Facebook" link to "https://facebook.com/groups/mappingdc"
     Then I should see the "Twitter" link to "https://twitter.com/mappingdc"
     Then I should see the "Website" link to "https://mappingdc.org"

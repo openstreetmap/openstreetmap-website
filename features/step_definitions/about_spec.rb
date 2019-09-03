@@ -1,5 +1,14 @@
-Given("there is a microcosm {string}") do |name|
-  @the_microcosm = Microcosm.create!(:name => name)
+Given("there is a microcosm {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}") do |name, location, lat, lon, min_lat, max_lat, min_lon, max_lon|
+  @the_microcosm = Microcosm.create!(
+      :name => name,
+      :location => location,
+      :lat => lat,
+      :lon => lon,
+      :min_lat => min_lat,
+      :min_lon => min_lon,
+      :max_lat => max_lat,
+      :max_lon => max_lon,
+  )
 end
 
 Given("I am on the microcosms page") do
@@ -19,6 +28,7 @@ Given("I am on the microcosm edit page") do
 end
 
 # The lines like "The microcosm HAS..." are not behavior driven because it's using @varibles.
+
 
 Given("the microcosm has the {string} page {string}") do |site, url|
   @the_microcosm.set_link(site, url)
