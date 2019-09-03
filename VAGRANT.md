@@ -10,7 +10,7 @@ Other Linux distributions should have similar installation instructions using `d
 
 Installers are available for Mac OS X and Windows, please see the [Vagrant project download page](https://www.vagrantup.com/downloads.html) for more information.
 
-Note than until there are suitable _bionic64_ [vagrant boxes](https://atlas.hashicorp.com/boxes/search?utf8=%E2%9C%93&sort=&provider=&q=xenial64) for other providers,
+Note than until there are suitable _bionic64_ [vagrant boxes](https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=downloads&provider=&q=bionic64) for other providers,
 the only virtualization provider supported is virtualbox. You might need to install it and specify `--provider virtualbox` when setting up your environment.
 
 # Setting up openstreetmap-website
