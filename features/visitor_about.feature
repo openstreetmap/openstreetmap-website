@@ -5,10 +5,10 @@ Feature: Learn about the Microcosm
 
   Background:
     Given there is a microcosm "MappingDC"
+    And the microcosm has description "MappingDC strives to improve OSM in the DC area"
     And the microcosm has the "Facebook" page "https://facebook.com/groups/mappingdc"
     And the microcosm has the "Twitter" page "https://twitter.com/mappingdc"
     And the microcosm has the "Website" page "https://mappingdc.org"
-    And the microcosm has description "MappingDC strives to improve OSM in the DC area"
     And I am on the microcosm "MappingDC" page
 
 
