@@ -11,8 +11,9 @@
 #
 # Indexes
 #
-#  index_microcosm_members_on_microcosm_id  (microcosm_id)
-#  index_microcosm_members_on_user_id       (user_id)
+#  index_microcosm_members_on_microcosm_id                       (microcosm_id)
+#  index_microcosm_members_on_microcosm_id_and_user_id_and_role  (microcosm_id,user_id,role) UNIQUE
+#  index_microcosm_members_on_user_id                            (user_id)
 #
 
 class MicrocosmMember < ApplicationRecord

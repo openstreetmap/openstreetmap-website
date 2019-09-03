@@ -2473,6 +2473,13 @@ CREATE INDEX index_microcosm_members_on_microcosm_id ON public.microcosm_members
 
 
 --
+-- Name: index_microcosm_members_on_microcosm_id_and_user_id_and_role; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_microcosm_members_on_microcosm_id_and_user_id_and_role ON public.microcosm_members USING btree (microcosm_id, user_id, role);
+
+
+--
 -- Name: index_microcosm_members_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3277,6 +3284,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190901163613'),
 ('20190902200639'),
 ('20190902234710'),
+('20190903023243'),
 ('21'),
 ('22'),
 ('23'),
