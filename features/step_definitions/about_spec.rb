@@ -45,8 +45,46 @@ Then("I should see the microcosm {string} name") do |name|
 end
 
 
+And("I fill out the new microcosm form with {string}") do |name|
+  within("#login_form") do
+    fill_in 'username', with: username
+    fill_in 'password', with: "test"
+    click_button 'Login'
+  end
+end
+
+
+And("I set the microcosm to {string}, {string}, {string}, {string}") do |scope, name, lat, lon|
+  within(scope) do
+    fill_in "Name", with: name
+    fill_in "Location", with: name
+    fill_in "Lat", with: lat
+    fill_in "Lon", with: lon
+    fill_in "Min lat", with: lat
+    fill_in "Max lat", with: lat
+    fill_in "Min lon", with: lon
+    fill_in "Max lon", with: lon
+    fill_in "Description", with: name
+  end
+end
+
+
+And("I submit the form") do
+  within("#content") do
+    find('form input[type="submit"]').click
+  end
+end
+
+
 
 # Not microcosm specific.
+
+
+Given("{string} is an administrator") do |email|
+  user = User.find_by(:email => email)
+  user.roles.create(:role => 'administrator', :granter => user)
+  user.save
+end
 
 When("print body") do
   print body
@@ -60,12 +98,25 @@ Then("I should see {string}") do |msg|
   expect(page).to have_content(msg)
 end
 
+Then("I should not see {string}") do |msg|
+  expect(page).not_to have_content(msg)
+end
+
 Then("I should see a {string} button") do |title|
   expect(page).to have_selector(:link_or_button, title)
 end
 
 Then("I should be forbidden") do
   expect(page.status_code).to eq(403)
+end
+
+
+And("I click {string}") do |title|
+  click_link(title)
+end
+
+And("I click the link to {string}") do |url|
+  find("a[href='#{url}']").click
 end
 
 And("I press {string}") do |title|

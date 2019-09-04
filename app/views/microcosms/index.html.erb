@@ -2,10 +2,13 @@
   <h1><%= "All Microcosms" %></h1>
 <% end %>
 
+<%= link_to "new microcosm", new_microcosm_path %>
+
 <table>
   <thead>
     <tr>
       <th>Name</th>
+      <th>Location</th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -14,7 +17,8 @@
     <% @microcosms.each do |microcosm| %>
       <tr>
         <td><%= microcosm.name %></td>
-        <td><%= link_to 'Show', microcosm %></td>
+        <td><%= microcosm.location %></td>
+        <td><%= link_to 'Show', microcosm %><% if current_user&.administrator? %> <%= link_to 'Edit', edit_microcosm_path(microcosm) %><% end %></td>
       </tr>
     <% end %>
   </tbody>

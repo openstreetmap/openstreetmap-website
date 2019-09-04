@@ -319,7 +319,7 @@ OpenStreetMap::Application.routes.draw do
   resources :redactions
 
   # microcosms
-  resources :microcosms, only: [:show, :edit, :index, :join]
+  resources :microcosms
   resources :microcosm_member, only: [:create]
 
   # errors

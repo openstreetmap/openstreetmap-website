@@ -59,6 +59,7 @@ class Ability
           can :create, IssueComment
           can [:set_status, :delete, :index], User
           can [:grant, :revoke], UserRole
+          can [:new, :create, :edit, :update], Microcosm
         end
       end
     end
