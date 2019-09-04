@@ -18,7 +18,16 @@
 <ul>
   <% @microcosm.microcosm_links.each do |link| %>
     <li>
-        <a href="<%= link.url %>"><%= link.site %></a>
+      <a href="<%= link.url %>"><%= link.site %></a>
+    </li>
+  <% end %>
+</ul>
+
+<label>Organizers</label>
+<ul>
+  <% @microcosm.microcosm_members.each do |membership| %>
+    <li>
+      <%= link_to membership.user.display_name, user_path(membership.user) %>
     </li>
   <% end %>
 </ul>
@@ -34,6 +43,6 @@
 <% end %>
 
 <h2>Members</h2>
-<% @microcosm.microcosm_members.each do |member| %>
-  <%= link_to member.user.display_name, user_path(member.user) %>
+<% @microcosm.microcosm_members.each do |membership| %>
+  <%= link_to membership.user.display_name, user_path(membership.user) %> (<%= link_to "promote", edit_microcosm_member_path(membership) %>)
 <% end %>

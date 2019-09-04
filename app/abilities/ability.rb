@@ -29,7 +29,7 @@ class Ability
       can [:history, :version], OldWay
       can [:history, :version], OldRelation
       can [:show, :index], Microcosm
-      can [:create], MicrocosmMember
+      can [:create], MicrocosmMember  # users can join any microcosm as a member, TODO: rename to :join
     end
 
     if user
@@ -44,6 +44,7 @@ class Ability
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :delete], Trace
         can [:account, :go_public, :make_friend, :remove_friend], User
+        can [:edit, :update], Microcosm, :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER }
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry
@@ -59,7 +60,8 @@ class Ability
           can :create, IssueComment
           can [:set_status, :delete, :index], User
           can [:grant, :revoke], UserRole
-          can [:new, :create, :edit, :update], Microcosm
+          can [:new, :create, :update], Microcosm
+          can [:edit, :update], MicrocosmMember
         end
       end
     end

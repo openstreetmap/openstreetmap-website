@@ -31,4 +31,8 @@ class Microcosm < ApplicationRecord
     link.url = url
     link.save!
   end
+
+  def has_organizer?(user)
+    microcosm_members.where(:user_id => user.id, :role => MicrocosmMember::Roles::ORGANIZER).count.positive?
+  end
 end

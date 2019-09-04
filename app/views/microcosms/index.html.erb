@@ -21,7 +21,7 @@
       <tr>
         <td><%= microcosm.name %></td>
         <td><%= microcosm.location %></td>
-        <td><%= link_to 'Show', microcosm %><% if current_user&.administrator? %> <%= link_to 'Edit', edit_microcosm_path(microcosm) %><% end %></td>
+        <td><%= link_to 'Show', microcosm %><% if current_user && microcosm.has_organizer?(current_user) %> <%= link_to 'Edit', edit_microcosm_path(microcosm) %><% end %></td>
       </tr>
     <% end %>
   </tbody>

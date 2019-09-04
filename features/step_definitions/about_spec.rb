@@ -27,6 +27,8 @@ Given("I am on the microcosm edit page") do
   visit "/microcosms/#{@the_microcosm.id}/edit"
 end
 
+
+
 # The lines like "The microcosm HAS..." are not behavior driven because it's using @varibles.
 
 
@@ -38,6 +40,14 @@ end
 Given("the microcosm has description {string}") do |desc|
   @the_microcosm.description = desc
   @the_microcosm.save
+end
+
+Given("the user belongs to the microcosm") do
+  @the_microcosm.microcosm_members.create!(:user_id => @user_1.id, :role => MicrocosmMember::Roles::MEMBER)
+end
+
+Given("this user is an organizer of this microcosm") do
+  @the_microcosm.microcosm_members.create!(:user_id => @user_1.id, :role => MicrocosmMember::Roles::ORGANIZER)
 end
 
 Then("I should see the microcosm {string} name") do |name|
@@ -56,6 +66,12 @@ And("I set the microcosm to {string}, {string}, {string}, {string}") do |scope, 
     fill_in "Min lon", with: lon
     fill_in "Max lon", with: lon
     fill_in "Description", with: name
+  end
+end
+
+And("I set the user to {string}") do |role|
+  within("#content") do
+    select role, :from => 'Role'
   end
 end
 

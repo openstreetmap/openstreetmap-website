@@ -22,14 +22,14 @@ Feature: Administer a Microcosm
     And I submit the form
     Then I should see "Baltimore"
 
-
-  Scenario: Edit a microcosm
+  Scenario: Promote a user to organizer
+    Given there is a user "orlando@example.com" with name "Orlando"
+    And the user belongs to the microcosm
     Given there is a user "abe@example.com" with name "Abe"
     And "abe@example.com" is an administrator
     When user "abe@example.com" logs in
-    And I am on the microcosms page
-    And I click the link to "/microcosms/mappingdc/edit"
-    And I set the microcosm to ".edit_microcosm", "Baltimore", "40", "-76"
+    And I am on the microcosm "MappingDC" page
+    And I click "promote"
+    And I set the user to "Organizer"
     And I submit the form
-    Then I should not see "Washington, DC, USA"
-    Then I should see "Baltimore"
+    Then I should see "Organizers Orlando"
