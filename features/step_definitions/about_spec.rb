@@ -45,15 +45,6 @@ Then("I should see the microcosm {string} name") do |name|
 end
 
 
-And("I fill out the new microcosm form with {string}") do |name|
-  within("#login_form") do
-    fill_in 'username', with: username
-    fill_in 'password', with: "test"
-    click_button 'Login'
-  end
-end
-
-
 And("I set the microcosm to {string}, {string}, {string}, {string}") do |scope, name, lat, lon|
   within(scope) do
     fill_in "Name", with: name
