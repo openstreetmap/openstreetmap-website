@@ -17,7 +17,7 @@ Feature: Administer a Microcosm
     And "abe@example.com" is an administrator
     When user "abe@example.com" logs in
     And I am on the microcosms page
-    And I click "new microcosm"
+    And I click the link to "/microcosms/new"
     And I set the microcosm to "#new_microcosm", "Baltimore", "38", "-77"
     And I submit the form
     Then I should see "Baltimore"
