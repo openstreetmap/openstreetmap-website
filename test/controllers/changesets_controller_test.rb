@@ -214,7 +214,7 @@ class ChangesetsControllerTest < ActionController::TestCase
     get :feed, :params => { :format => :atom }
     assert_response :success
     assert_template "index"
-    assert_equal "application/atom+xml", response.content_type
+    assert_equal "application/atom+xml", response.media_type
 
     check_feed_result([changeset, closed_changeset])
   end
@@ -232,7 +232,7 @@ class ChangesetsControllerTest < ActionController::TestCase
     get :feed, :params => { :format => :atom, :bbox => "4.5,4.5,5.5,5.5" }
     assert_response :success
     assert_template "index"
-    assert_equal "application/atom+xml", response.content_type
+    assert_equal "application/atom+xml", response.media_type
 
     check_feed_result([changeset, closed_changeset])
   end
@@ -250,7 +250,7 @@ class ChangesetsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template "index"
-    assert_equal "application/atom+xml", response.content_type
+    assert_equal "application/atom+xml", response.media_type
 
     check_feed_result(changesets)
   end

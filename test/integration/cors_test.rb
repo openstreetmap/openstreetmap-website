@@ -9,7 +9,7 @@ class CORSTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_equal "*", response.headers["Access-Control-Allow-Origin"]
-    assert_nil response.content_type
+    assert_nil response.media_type
     assert_equal "", response.body
   end
 
@@ -21,7 +21,7 @@ class CORSTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_nil response.headers["Access-Control-Allow-Origin"]
-    assert_nil response.content_type
+    assert_nil response.media_type
     assert_equal "", response.body
   end
 end
