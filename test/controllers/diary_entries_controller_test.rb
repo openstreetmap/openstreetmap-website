@@ -4,6 +4,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
   include ActionView::Helpers::NumberHelper
 
   def setup
+    super
     # Create the default language for diary entries
     create(:language, :code => "en")
     # Stub nominatim response for diary entry locations
