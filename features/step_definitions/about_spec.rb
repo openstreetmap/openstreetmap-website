@@ -127,7 +127,9 @@ end
 
 
 And("I click {string}") do |title|
-  click_link(title)
+  within("#content") do
+    click_link(title)
+  end
 end
 
 And("I click the link to {string}") do |url|

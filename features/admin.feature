@@ -29,7 +29,8 @@ Feature: Administer a Microcosm
     And "abe@example.com" is an administrator
     When user "abe@example.com" logs in
     And I am on the microcosm "MappingDC" page
-    And I click "promote"
+    And I click "Members"
+    And I click "edit"
     And I set the user to "Organizer"
     And I submit the form
     Then I should see "Organizers Orlando"

@@ -2,7 +2,7 @@ class MicrocosmsController < ApplicationController
   layout "site"
   before_action :authorize_web
 
-  before_action :set_microcosm, :only => [:edit, :show, :update]
+  before_action :set_microcosm, :only => [:edit, :show, :show_members, :update]
 
   authorize_resource
 
@@ -14,6 +14,9 @@ class MicrocosmsController < ApplicationController
   # GET /microcosms/mycity
   # GET /microcosms/mycity.json
   def show
+  end
+
+  def show_members
   end
 
   def edit

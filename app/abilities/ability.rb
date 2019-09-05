@@ -28,7 +28,7 @@ class Ability
       can [:history, :version], OldNode
       can [:history, :version], OldWay
       can [:history, :version], OldRelation
-      can [:show, :index], Microcosm
+      can [:index, :show, :show_members], Microcosm
       can [:create], MicrocosmMember  # users can join any microcosm as a member, TODO: rename to :join
       can [:show, :index], Event
     end
