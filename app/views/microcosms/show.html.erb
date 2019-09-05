@@ -10,6 +10,20 @@
   .mic_details ul { display: inline-block; }
   .mic_details ul > li { display: inline-block; }
   .new_link { font-size: 80%; }
+  .members > a
+  {
+    display: block;
+    width: 8em;
+    height: 8em;
+    border: 1px solid #888;
+    border-radius: 4px;
+    float: left;
+    margin: 1em;
+    padding: 1em;
+    background-color: rgb(238, 238, 238);
+    box-sizing: border-box;
+    text-decoration: none;
+  }
 </style>
 
 <div class="mic_row">
@@ -80,8 +94,10 @@
     <h2>
       <%= link_to 'Members', members_of_microcosm_path(@microcosm) %> <%= link_to 'New', new_microcosm_member_path(microcosm_id: @microcosm.id), :class => 'new_link' %>
     </h2>
-    <% @microcosm.microcosm_members.each do |membership| %>
-      <%= link_to membership.user.display_name, user_path(membership.user) %>
-    <% end %>
+    <div class="members">
+      <% @microcosm.microcosm_members.each do |membership| %>
+        <%= link_to membership.user.display_name, user_path(membership.user) %>
+      <% end %>
+    </div>
   </div>
 </div>
