@@ -44,6 +44,7 @@ class Ability
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :delete], Trace
         can [:account, :go_public, :make_friend, :remove_friend], User
+        can [:create], EventAttendance
         can [:edit, :update], Microcosm, :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER }
         can [:create], MicrocosmMember
         can [:new, :create], Event, :microcosm => { :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER } }

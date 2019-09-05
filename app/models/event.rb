@@ -14,4 +14,9 @@
 
 class Event < ApplicationRecord
   belongs_to :microcosm
+  has_many :event_attendances
+
+  def attendees
+    EventAttendance.where(event_id: id, intention: "Yes")
+  end
 end

@@ -27,6 +27,19 @@ Given("I am on the microcosm edit page") do
   visit "/microcosms/#{@the_microcosm.id}/edit"
 end
 
+Given("there is an event for this microcosm") do
+  @event_1 = Event.create!(
+    :title => "Some Event",
+    :moment => DateTime.now,
+    :location => "Some Location",
+    :description => "Some description",
+    :microcosm_id => @the_microcosm.id,
+  )
+end
+
+Given("I am on this event page") do
+  visit event_path(@event_1)
+end
 
 
 # The lines like "The microcosm HAS..." are not behavior driven because it's using @varibles.

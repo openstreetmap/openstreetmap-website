@@ -644,6 +644,39 @@ CREATE TABLE public.diary_entry_subscriptions (
 
 
 --
+-- Name: event_attendances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.event_attendances (
+    id bigint NOT NULL,
+    user_id integer,
+    event_id integer,
+    intention character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: event_attendances_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.event_attendances_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: event_attendances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.event_attendances_id_seq OWNED BY public.event_attendances.id;
+
+
+--
 -- Name: events; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1639,6 +1672,13 @@ ALTER TABLE ONLY public.diary_entries ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: event_attendances id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_attendances ALTER COLUMN id SET DEFAULT nextval('public.event_attendances_id_seq'::regclass);
+
+
+--
 -- Name: events id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1935,6 +1975,14 @@ ALTER TABLE ONLY public.diary_entries
 
 ALTER TABLE ONLY public.diary_entry_subscriptions
     ADD CONSTRAINT diary_entry_subscriptions_pkey PRIMARY KEY (user_id, diary_entry_id);
+
+
+--
+-- Name: event_attendances event_attendances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_attendances
+    ADD CONSTRAINT event_attendances_pkey PRIMARY KEY (id);
 
 
 --
@@ -3344,6 +3392,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190903023243'),
 ('20190903030453'),
 ('20190905160802'),
+('20190905224243'),
 ('21'),
 ('22'),
 ('23'),
