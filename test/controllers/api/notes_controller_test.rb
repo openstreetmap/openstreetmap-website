@@ -747,11 +747,11 @@ module Api
 
       get :index, :params => { :bbox => "-10,-10,12,12", :format => :json }
       assert_response :bad_request
-      assert_equal "application/json", @response.media_type
+      assert_equal "text/plain", @response.media_type
 
       get :index, :params => { :l => "-10", :b => "-10", :r => "12", :t => "12", :format => :json }
       assert_response :bad_request
-      assert_equal "application/json", @response.media_type
+      assert_equal "text/plain", @response.media_type
     end
 
     def test_index_closed
