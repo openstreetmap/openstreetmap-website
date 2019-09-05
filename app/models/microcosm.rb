@@ -25,6 +25,7 @@ class Microcosm < ApplicationRecord
   has_many :microcosm_members  #, :dependent => :destroy
   has_many :users, :through => :microcosm_members  # TODO: counter_cache
   has_many :microcosm_links
+  has_many :events
 
   def set_link(site, url)
     link = MicrocosmLink.find_or_create_by!(microcosm_id: self.id, site: site)

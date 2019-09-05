@@ -31,3 +31,14 @@ Feature: Manage a Microcosm
 #    When user "abe@example.com" logs in
 #    And I am on the microcosm "MappingDC" page
 #    And I click "promote"
+
+  Scenario: Create an event
+    Given there is a user "abe@example.com" with name "Abe"
+    And this user is an organizer of this microcosm
+    When user "abe@example.com" logs in
+    And I am on the microcosm "MappingDC" page
+    And I click "new event"
+    And I set the event to "Update DC Bike Lanes", "DC Library", "We will update the dc bike lane data in OSM."
+    And I submit the form
+    And I am on the microcosm "MappingDC" page
+    Then I should see "Update DC Bike Lanes"

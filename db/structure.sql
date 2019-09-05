@@ -644,6 +644,41 @@ CREATE TABLE public.diary_entry_subscriptions (
 
 
 --
+-- Name: events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.events (
+    id bigint NOT NULL,
+    title character varying,
+    moment timestamp without time zone,
+    location character varying,
+    description text,
+    microcosm_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
+
+
+--
 -- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1604,6 +1639,13 @@ ALTER TABLE ONLY public.diary_entries ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: events id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.events_id_seq'::regclass);
+
+
+--
 -- Name: friendly_id_slugs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1893,6 +1935,14 @@ ALTER TABLE ONLY public.diary_entries
 
 ALTER TABLE ONLY public.diary_entry_subscriptions
     ADD CONSTRAINT diary_entry_subscriptions_pkey PRIMARY KEY (user_id, diary_entry_id);
+
+
+--
+-- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (id);
 
 
 --
@@ -3293,6 +3343,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190902234710'),
 ('20190903023243'),
 ('20190903030453'),
+('20190905160802'),
 ('21'),
 ('22'),
 ('23'),

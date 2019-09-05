@@ -42,6 +42,20 @@
   Log in to join this microcosm.
 <% end %>
 
+<h2>Events</h2>
+<p>
+  <% if current_user && @microcosm.has_organizer?(current_user) %>
+    <%= link_to 'new event', new_event_path(microcosm_id: @microcosm.id) %>
+  <% end %>
+</p>
+<ul>
+  <% @microcosm.events.each do |event| %>
+    <li>
+      <%= link_to event.title + ' ' + event.moment.to_s, event_path(event) %>
+      </li>
+  <% end %>
+</ul>
+
 <h2>Members</h2>
 <% @microcosm.microcosm_members.each do |membership| %>
   <%= link_to membership.user.display_name, user_path(membership.user) %> (<%= link_to "promote", edit_microcosm_member_path(membership) %>)

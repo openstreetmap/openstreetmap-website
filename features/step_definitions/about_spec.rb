@@ -69,6 +69,14 @@ And("I set the microcosm to {string}, {string}, {string}, {string}") do |scope, 
   end
 end
 
+And("I set the event to {string}, {string}, {string}") do |title, location, description|
+  within("#content") do
+    fill_in "Title", with: title
+    fill_in "Location", with: location
+    fill_in "Description", with: description
+  end
+end
+
 And("I set the user to {string}") do |role|
   within("#content") do
     select role, :from => 'Role'
