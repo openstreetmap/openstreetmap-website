@@ -13,5 +13,5 @@
 #
 
 class Event < ApplicationRecord
-  belongs_to :Microcosm
+  belongs_to :microcosm
 end

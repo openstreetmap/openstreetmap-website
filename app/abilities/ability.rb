@@ -28,8 +28,7 @@ class Ability
       can [:history, :version], OldNode
       can [:history, :version], OldWay
       can [:history, :version], OldRelation
-      can [:index, :show, :show_members], Microcosm
-      can [:create], MicrocosmMember  # users can join any microcosm as a member, TODO: rename to :join
+      can [:index, :show, :show_events, :show_members], Microcosm
       can [:show, :index], Event
     end
 
@@ -46,6 +45,7 @@ class Ability
         can [:mine, :new, :create, :edit, :update, :delete], Trace
         can [:account, :go_public, :make_friend, :remove_friend], User
         can [:edit, :update], Microcosm, :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER }
+        can [:create], MicrocosmMember
         can [:new, :create], Event, :microcosm => { :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER } }
 
         if user.moderator?

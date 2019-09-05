@@ -1,29 +1,35 @@
-<p id="notice"><%= notice %></p>
+<style>
+  .details { color: #333; }
+  .mic_row { display: flex }
+  .mic_row > div { padding: 10px; }
+  .when { color: #555;  }
+</style>
 
-<p>
-  <strong>Title:</strong>
-  <%= @event.title %>
-</p>
+<div class="mic_row">
+  <div>
+    <div class="when">
+      <%= l @event.moment, :format => :friendly %>
+    </div>
 
-<p>
-  <strong>Moment:</strong>
-  <%= @event.moment %>
-</p>
-
-<p>
-  <strong>Location:</strong>
-  <%= @event.location %>
-</p>
-
+    <h1 class="title">
+      <%= @event.title %>
+    </h1>
+    <p>
+      Hosted by <strong><%= @event.microcosm.name %></strong>
+    </p>
+    <p>
+      Location: <strong><%= @event.location %></strong>
+    </p>
+  </div>
+  <div>
+    <p>Are you going?</p>
+  </div>
+</div>
 <p>
   <strong>Description:</strong>
   <%= @event.description %>
 </p>
 
-<p>
-  <strong>Microcosm:</strong>
-  <%= @event.microcosm_id %>
-</p>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<!--<%#= link_to 'Edit', edit_event_path(@event) %> |-->
+<%#= link_to 'Back', events_path %>

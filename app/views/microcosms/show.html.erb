@@ -9,7 +9,6 @@
   .mic_details label { font-weight: bold; }
   .mic_details ul { display: inline-block; }
   .mic_details ul > li { display: inline-block; }
-  .new_link { font-size: 80%; }
   .members > a
   {
     display: block;
@@ -61,14 +60,10 @@
       </ul>
     </div>
 
-    <% if current_user %>
-      <%= form_with scope: :microcosm_member, url: microcosm_member_index_path do |form| %>
-        <%= form.hidden_field(:microcosm_id, :value => @microcosm.id) %>
-        <%= form.hidden_field(:user_id, :value => current_user.id) %>
-        <%= form.submit :value => t('microcosm.join.action') %>
-      <% end %>
-    <% else %>
-      Log in to join this microcosm.
+    <%= form_with scope: :microcosm_member, url: microcosm_member_index_path do |form| %>
+      <%= form.hidden_field(:microcosm_id, :value => @microcosm.id) %>
+      <%= form.hidden_field(:user_id, :value => current_user&.id) %>
+      <%= form.submit :value => t('microcosm.join.action') %>
     <% end %>
 
   </div>
@@ -76,23 +71,20 @@
 
 <div class="mic_row">
   <div>
-    <h2>Upcoming Events</h2>
-    <p>
-      <% if current_user && @microcosm.has_organizer?(current_user) %>
-        <%= link_to 'new event', new_event_path(microcosm_id: @microcosm.id) %>
-      <% end %>
-    </p>
+    <h2>
+      <%= link_to 'Upcoming Events', events_of_microcosm_path(@microcosm) %>
+    </h2>
     <ul>
       <% @microcosm.events.each do |event| %>
         <li>
-          <%= link_to event.title + ' ' + event.moment.to_s, event_path(event) %>
+          <%= link_to l(event.moment, :format => :blog) + ' - ' + event.title, event_path(event) %>
         </li>
       <% end %>
     </ul>
   </div>
   <div>
     <h2>
-      <%= link_to 'Members', members_of_microcosm_path(@microcosm) %> <%= link_to 'New', new_microcosm_member_path(microcosm_id: @microcosm.id), :class => 'new_link' %>
+      <%= link_to 'Members', members_of_microcosm_path(@microcosm) %>
     </h2>
     <div class="members">
       <% @microcosm.microcosm_members.each do |membership| %>
