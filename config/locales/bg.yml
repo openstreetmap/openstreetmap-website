@@ -173,12 +173,14 @@ bg:
         reopened_at_by_html: Повторно отворена %{when} от %{user}
       rss:
         title: Бележки на OpenStreetMap
+        description_item: Емисия на RSS за бележка %{id}
         opened: нова бележка (в близост до %{place})
         commented: нов коментар (в близост до %{place})
         closed: закрита бележка (около %{place})
         reopened: повторно отворена бележка (в близост до %{place})
       entry:
         comment: Коментиране
+        full: Цялата бележка
   browse:
     created: Създадена
     closed: Затворена
@@ -272,8 +274,8 @@ bg:
       title: 'Бележка: %{id}'
       new_note: Нова бележка
       description: Описание
-      open_title: Нерешена бележка №%{note_name}
-      closed_title: Решена бележка №%{note_name}
+      open_title: Нерешена бележка № %{note_name}
+      closed_title: Решена бележка № %{note_name}
       hidden_title: 'Скрита бележка #%{note_name}'
       open_by: Създадена от %{user} <abbr title='%{exact_time}'> %{when}</abbr>
       open_by_anonymous: Създадена от анонимен <abbr title='%{exact_time}'> %{when}</abbr>
@@ -306,7 +308,7 @@ bg:
       area: Област
     index:
       title: Списък с промени
-      title_user: Списък с промени на %{user}
+      title_user: Списък с промените на %{user}
       title_friend: Списъци с промени на мои приятели
       title_nearby: Списъци с промени от потребители в близост
       empty: Няма списъци с промени.
@@ -318,10 +320,10 @@ bg:
       load_more: Зареждане на още
   changeset_comments:
     comment:
-      comment: Нов коментар към списък с промени №%{changeset_id} на %{author}
+      comment: Нов коментар към списък с промени № %{changeset_id} на %{author}
       commented_at_by_html: Обновен преди %{when} от %{user}
     comments:
-      comment: Нов коментар към списък с промени №%{changeset_id} на %{author}
+      comment: Нов коментар към списък с промени № %{changeset_id} на %{author}
   diary_entries:
     new:
       title: Нова публикация в дневника
@@ -837,7 +839,9 @@ bg:
   issues:
     index:
       search: Търсене
+      reports: Доклади
       last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      link_to_reports: Преглед на докладите
       reports_count:
         one: 1 доклад
         other: '%{count} доклада'
@@ -852,11 +856,16 @@ bg:
       resolve: Решаване
     resolve:
       resolved: Състоянието на проблема е променен на „Решен“
+    helper:
+      reportable_title:
+        note: Бележка %{note_id}
   issue_comments:
     create:
       comment_created: Коментарът е успешно създаден
   reports:
     new:
+      title_html: Докладване на %{link}
+      select: 'Изберете причина за доклада:'
       categories:
         diary_entry:
           other_label: Друго
@@ -865,6 +874,9 @@ bg:
         user:
           other_label: Друго
         note:
+          spam_label: Бележката е спам
+          personal_label: Бележката съдържа лични данни
+          abusive_label: Бележката е обидна
           other_label: Друго
   layouts:
     logo:
@@ -872,7 +884,7 @@ bg:
     home: Моят дом
     logout: Излизане
     log_in: Влизане
-    log_in_tooltip: Вписване със съществуващ профил
+    log_in_tooltip: Влизане със съществуващ профил
     sign_up: Регистриране
     start_mapping: Картографиране
     edit: Променяне
@@ -887,6 +899,8 @@ bg:
     edit_with: Променяне с %{editor}
     tag_line: Свободна Wiki-карта на света
     intro_header: Добре дошли в OpenStreetMap!
+    intro_text: OpenStreetMap е карта на света създадена от хора като вас, за свободно
+      ползване и под отворен лиценз.
     intro_2_create_account: Създаване на сметка
     hosting_partners_html: Хостингът е предоставен от %{ucl}, %{bytemark} и други
       %{partners}.
@@ -937,6 +951,8 @@ bg:
       anonymous: Анонимен потребител
       greeting: Здравейте,
       commented:
+        subject_own: '[OpenStreetMap] %{commenter} е коментирал на една от вашите
+          бележки'
         subject_other: '[OpenStreetMap] %{commenter} коментира бележка, която ви интересува'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} е решил една от бележките ви'
@@ -1013,6 +1029,7 @@ bg:
   site:
     about:
       next: Напред
+      copyright_html: <span>&copy;</span>сътрудници на<br>OpenStreetMap
       open_data_title: Отворени данни
       legal_title: Правни въпроси
       partners_title: Партньори
@@ -1112,6 +1129,8 @@ bg:
       from: От
       to: До
       where_am_i: Къде е това?
+      where_am_i_title: Описване на текущото местоположение с помощта на търсещата
+        машина
       submit_text: Напред
       reverse_directions_text: Обръщане на посоката
     key:
@@ -1280,43 +1299,50 @@ bg:
   oauth:
     authorize:
       allow_write_api: промени картата.
+      allow_write_notes: променяне на бележки.
+    revoke:
+      flash: Анулирахте удостоверяването на %{application}
   oauth_clients:
     show:
       allow_write_api: промяна на картата.
+      allow_write_notes: променяне на бележки.
     index:
       title: Моите данни за OAuth
       my_apps: Моите клиентски приложения
     form:
       name: Име
       allow_write_api: промяна на картата.
+      allow_write_notes: променяне на бележки.
   users:
     login:
-      title: Вписване
-      heading: Вписване
+      title: Влизане
+      heading: Влизане
       email or username: 'Електронна поща или потребителско име:'
       password: 'Парола:'
-      remember: Запомни ме
+      remember: Запомняне
       lost password link: Забравена парола?
-      login_button: Вписване
+      login_button: Влизане
       register now: Регистрирайте се
+      with external: 'Или използвайте удостоверяване от външен източник:'
       create account minute: Създайте своя сметка. Отнема само минута.
       no account: Нямате сметка?
+      auth failure: Съжаляваме, но не можете да влезете с тези данни.
       auth_providers:
         google:
-          title: Вписване с Гугъл
+          title: Влизане с Гугъл
         facebook:
-          title: Вписване с Фейсбук
+          title: Влизане с Фейсбук
         github:
           title: Вход чрез GitHub
           alt: Вход чрез профила ви в GitHub
         wikipedia:
-          title: Вписване с Уикипедия
-          alt: Вписване със сметка от Уикипедия
+          title: Влизане с Уикипедия
+          alt: Влизане със сметка от Уикипедия
         yahoo:
-          title: Вписване с Яху
+          title: Влизане с Yahoo
           alt: Вход чрез OpenID Yahoo
         wordpress:
-          title: Вписване с Уърдпрес
+          title: Влизане с Wordpress
           alt: Вход чрез OpenID Wordpress
         aol:
           title: Вход чрез AOL
@@ -1346,10 +1372,12 @@ bg:
       email address: 'Електронна поща:'
       confirm email address: 'Потвърждаване на електронната поща:'
       display name: Видимо потребителско имеː
+      external auth: 'Удостоверяване от външен източник:'
       password: 'Парола:'
       confirm password: 'Потвърждаване на паролата:'
+      use external auth: Или използвайте удостоверяване от външен източник
       continue: Регистриране
-      terms accepted: Благодарим Ви за приемането на новите Условия за участие!
+      terms accepted: Благодарим ви, че приемате новите условия за сътрудничество!
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Условия
@@ -1358,8 +1386,8 @@ bg:
       consider_pd_why: какво е това?
       continue: Продължаване
       decline: Отхвърли
-      you need to accept or decline: Моля, прочетете, а след това или се съгласете
-        или откажете новите Условия за участие, за да продължите.
+      you need to accept or decline: За да продължите, моля, прочетете, а след това
+        се съгласете или откажете новите условия за сътрудничество.
       legale_select: 'Държава на пребиваване:'
       legale_names:
         france: Франция
@@ -1378,6 +1406,7 @@ bg:
       my profile: Профил
       my settings: Настройки
       my comments: Моите коментари
+      oauth settings: Настройки на OAuth
       blocks by me: Блокирани от мен
       send message: Изпратете съобщение
       diary: Дневник
@@ -1386,7 +1415,7 @@ bg:
       notes: Бележки
       add as friend: Добавяне в приятели
       mapper since: 'Картограф от:'
-      ct status: 'Условия за участие:'
+      ct status: 'Условия за сътрудничество:'
       ct undecided: Неопределени
       ct declined: Отхвърлени
       latest edit: 'Последна промяна (%{ago}):'
@@ -1424,8 +1453,8 @@ bg:
         enabled: Разрешено. Не е анонимно и можете да променяте данните.
         enabled link text: Какво е това?
       contributor terms:
-        heading: 'Условия за участие:'
-        agreed: Вие се съгласихте с новите условия за участие.
+        heading: 'Условия за сътрудничество:'
+        agreed: Вие сте се съгласили с новите условия за сътрудничество.
         not yet agreed: Все още не сте се съгласили с новите Условия за участие.
         link text: Какво е това?
       profile description: 'Описание на профила:'
@@ -1546,22 +1575,26 @@ bg:
       base:
         standard: Стандартна карта
         cycle_map: Колоездачна карта
-        transport_map: Превозна карта
+        transport_map: Транспортна карта
         hot: Хуманитарна карта
       layers:
         header: Слоеве на картата
         notes: Бележки
         data: Данни
-        gps: Публични GPS-следи
+        gps: Публични следи от GPS
         overlays: Слоеве за отстраняване на грешки
         title: Слоеве
-      copyright: © <a href="%{copyright_url}">Сътрудници на OpenStreetMap</a>
+      copyright: © <a href='%{copyright_url}'>Сътрудници на OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Направете дарение</a>
     site:
       edit_tooltip: Променяне на картата
+      edit_disabled_tooltip: Увеличете за променяне на картата
       createnote_tooltip: Добавяне на бележка на картата
+      createnote_disabled_tooltip: Увеличете за добавяне на бележка
+      map_notes_zoom_in_tooltip: Увеличете за преглед на бележките
+      map_data_zoom_in_tooltip: Увеличете за подробности
       queryfeature_tooltip: Търсене на особености
-      queryfeature_disabled_tooltip: Увеличете, за да търсите особености
+      queryfeature_disabled_tooltip: Увеличете за търсене на обекти
     changesets:
       show:
         comment: Коментар
@@ -1571,6 +1604,8 @@ bg:
       new:
         add: Добавяне на бележка
       show:
+        anonymous_warning: Бележката е от анонимен потребител и съдържа твърдения,
+          които трябва да бъдат проверени.
         hide: Скриване
         resolve: Решаване
         reactivate: Повторно отваряне
@@ -1578,8 +1613,11 @@ bg:
         comment: Коментар
     directions:
       engines:
-        fossgis_osrm_car: Кола (OSRM)
+        fossgis_osrm_bike: Велосипед (OSRM)
+        fossgis_osrm_car: Автомобил (OSRM)
+        fossgis_osrm_foot: Пешa (OSRM)
         graphhopper_bicycle: Велосипед (GraphHopper)
+        graphhopper_car: Автомобил (GraphHopper)
         graphhopper_foot: Пеша (GraphHopper)
       directions: Упътване
       distance: Разстояние
@@ -1608,7 +1646,7 @@ bg:
           към %{name}
         exit_roundabout: Излезете от кръговото движение от %{name}
         unnamed: неименуван път
-        courtesy: Напътствия благодарение на %{link}
+        courtesy: Упътване благодарение на %{link}
         exit_counts:
           first: първия
           second: втория
