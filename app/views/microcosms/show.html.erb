@@ -52,7 +52,7 @@
     <div>
       <label>Organizers</label>
       <ul>
-        <% @microcosm.microcosm_members.each do |membership| %>
+        <% @microcosm.organizers.each do |membership| %>
           <li>
             <%= link_to membership.user.display_name, user_path(membership.user) %>
           </li>
@@ -77,7 +77,7 @@
     <ul>
       <% @microcosm.events.each do |event| %>
         <li>
-          <%= link_to l(event.moment, :format => :blog) + ' - ' + event.title, event_path(event) %>
+          <%= l(event.moment, :format => :blog) + ' - ' %> <%= link_to(event.title, event_path(event)) %>
         </li>
       <% end %>
     </ul>

@@ -36,4 +36,8 @@ class Microcosm < ApplicationRecord
   def has_organizer?(user)
     microcosm_members.where(:user_id => user.id, :role => MicrocosmMember::Roles::ORGANIZER).count.positive?
   end
+
+  def organizers
+    microcosm_members.where(:role => MicrocosmMember::Roles::ORGANIZER)
+  end
 end
