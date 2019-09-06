@@ -3,6 +3,20 @@
   .mic_row { display: flex }
   .mic_row > div { padding: 10px; }
   .when { color: #777; font-size: 120%; }
+  .attendees > a
+  {
+    display: block;
+    width: 8em;
+    height: 8em;
+    border: 1px solid #888;
+    border-radius: 4px;
+    float: left;
+    margin: 1em;
+    padding: 1em;
+    background-color: rgb(238, 238, 238);
+    box-sizing: border-box;
+    text-decoration: none;
+  }
 </style>
 
 <div class="mic_row">
@@ -36,6 +50,14 @@
   <strong>Description:</strong>
   <%= @event.description %>
 </p>
+
+<strong>Who's going?</strong>
+<p class="attendees">
+  <% @event.attendees.each do |attendance| %>
+    <%= link_to attendance.user.display_name, user_path(attendance.user) %>
+  <% end %>
+</p>
+
 
 
 <!--<%#= link_to 'Edit', edit_event_path(@event) %> |-->
