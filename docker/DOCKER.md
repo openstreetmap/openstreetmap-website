@@ -21,10 +21,10 @@ Now change working directory to the `openstreetmap-website`:
 cd openstreetmap-website
 ```
 
-### App configuration
+### Storage setup
 
 ```
-cp config/settings.yml config/settings.local.yml
+cp config/example.storage.yml config/storage.yml
 ```
 
 ### Database
@@ -34,6 +34,13 @@ cp config/example.database.yml config/database.yml
 ```
 
 Set `username` to postgres and `host` to db leave the `password` blank
+
+
+### App configuration
+
+```
+cp config/settings.yml config/settings.local.yml
+```
 
 ### Installation
 
