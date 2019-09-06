@@ -32,7 +32,7 @@
       Hosted by <strong><%= link_to @event.microcosm.name, microcosm_path(@event.microcosm) %></strong>
     </p>
     <p>
-      Location: <strong><%= @event.location %></strong>
+      Organized by: <strong>Andrew Wiseman</strong>
     </p>
   </div>
   <div>
@@ -46,17 +46,27 @@
     <% end %>
   </div>
 </div>
-<p>
-  <strong>Description:</strong>
-  <%= @event.description %>
-</p>
+<div class="mic_row">
+  <div>
+    <p>
+      <strong>Description:</strong>
+      <%= @event.description %>
+    </p>
+    <strong>Who's going?</strong>
+    <p class="attendees">
+      <% @event.attendees.each do |attendance| %>
+        <%= link_to attendance.user.display_name, user_path(attendance.user) %>
+      <% end %>
+    </p>
+  </div>
+  <div style="width: 400px">
+    <p>
+      Location: <strong><a href="https://www.openstreetmap.org/node/6125774816"><%= @event.location %></a></strong>
+    </p>
+    <%= image_tag("dc_library.png", size: "400x400") %>
+  </div>
+</div>
 
-<strong>Who's going?</strong>
-<p class="attendees">
-  <% @event.attendees.each do |attendance| %>
-    <%= link_to attendance.user.display_name, user_path(attendance.user) %>
-  <% end %>
-</p>
 
 
 
