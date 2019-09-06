@@ -89,6 +89,18 @@
       <li>&nbsp;&nbsp;  5 September  2:22 Geomantic - Tag restaurant as Korean cuisine</li>
       <li>&nbsp;&nbsp;  6 September 2:22 Geobrando - Add playground at day care center</li>
     </ul>
+    <h2>
+      Diary Entries of Members
+    </h2>
+    <ul>
+      <% @microcosm.users.each do |user| %>
+        <% user.diary_entries.each do |entry| %>
+          <li>
+            <%= l(entry.created_at, :format => :blog) %> <%= link_to user.display_name, user_path(user) %> <%= link_to(entry.title, diary_entry_path(entry.user, entry)) %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
   </div>
   <div>
     <h2>
