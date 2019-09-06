@@ -1,0 +1,2 @@
+module EventAttendancesHelper
+end

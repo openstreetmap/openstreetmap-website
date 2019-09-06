@@ -24,7 +24,7 @@
   <div>
     <p><%= @event.attendees.size %> people are going.</p>
     <p>Are you going?</p>
-    <%= form_with scope: :event_attendance, url: event_attendance_index_path do |form| %>
+    <%= form_with model: @my_attendance do |form| %>
       <%= form.hidden_field(:event_id, :value => @event.id) %>
       <%= form.hidden_field(:user_id, :value => current_user&.id) %>
       <%= form.submit :value => 'Yes' %>

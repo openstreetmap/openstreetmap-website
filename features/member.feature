@@ -22,3 +22,6 @@ Feature: Interact with the Microcosm
       And I press "Yes"
       And I am on this event page
       Then I should see "1 people are going."
+      And I press "No"
+      And I am on this event page
+      Then I should see "0 people are going."

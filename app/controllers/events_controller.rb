@@ -41,6 +41,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    @my_attendance = EventAttendance.find_or_initialize_by(event_id: @event.id, user_id: current_user&.id)
   end
 
 

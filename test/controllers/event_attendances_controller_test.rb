@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EventAttendanceControllerTest < ActionDispatch::IntegrationTest
+class EventAttendancesControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
