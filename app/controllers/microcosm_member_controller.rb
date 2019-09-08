@@ -34,6 +34,6 @@ class MicrocosmMemberController < ApplicationController
   end
 
   def mm_params
-    params.require(:microcosm_member).permit(:microcosm_id, :user_id)
+    params.require(:microcosm_member).permit(:microcosm_id, :user_id, :role)
   end
 end
