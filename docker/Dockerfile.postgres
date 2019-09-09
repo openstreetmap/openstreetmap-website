@@ -4,5 +4,17 @@ ADD docker/docker_postgres.sh docker-entrypoint-initdb.d/docker_postgres.sh
 ADD db/functions/ db/functions/
 
 RUN apt-get update
-RUN apt-get install -y make build-essential postgresql-server-dev-all
+RUN apt-get install -y software-properties-common
+RUN apt-add-repository ppa:brightbox/ruby-ng
+RUN apt-get update
+RUN apt-get install -y make build-essential postgresql-server-dev-all ruby2.4 ruby2.4-dev zlib1g-dev
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Setup app location
+RUN mkdir -p /app
+WORKDIR /app
+
+# Install gems
+ADD Gemfile* /app/
+RUN gem install bundle
+RUN bundle install
