@@ -14,7 +14,6 @@
 #  home_zoom           :integer          default(3)
 #  nearby              :integer          default(50)
 #  pass_salt           :string
-#  image_file_name     :text
 #  email_valid         :boolean          default(FALSE), not null
 #  new_email           :string
 #  creation_ip         :string
@@ -26,12 +25,10 @@
 #  preferred_editor    :string
 #  terms_seen          :boolean          default(FALSE), not null
 #  description_format  :enum             default("markdown"), not null
-#  image_fingerprint   :string
 #  changesets_count    :integer          default(0), not null
 #  traces_count        :integer          default(0), not null
 #  diary_entries_count :integer          default(0), not null
 #  image_use_gravatar  :boolean          default(FALSE), not null
-#  image_content_type  :string
 #  auth_provider       :string
 #  home_tile           :bigint(8)
 #  tou_agreed          :datetime
@@ -57,8 +54,8 @@ class User < ActiveRecord::Base
   has_many :messages, -> { where(:to_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
   has_many :new_messages, -> { where(:to_user_visible => true, :message_read => false).order(:sent_on => :desc) }, :class_name => "Message", :foreign_key => :to_user_id
   has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id
-  has_many :friends, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
-  has_many :friend_users, :through => :friends, :source => :befriendee
+  has_many :friendships, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
+  has_many :friends, :through => :friendships, :source => :befriendee
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, -> { order(:created_at => :desc) }
@@ -85,9 +82,7 @@ class User < ActiveRecord::Base
   scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }
 
-  has_attached_file :image,
-                    :default_url => "/assets/:class/:attachment/:style.png",
-                    :styles => { :large => "100x100>", :small => "50x50>" }
+  has_one_attached :avatar
 
   validates :display_name, :presence => true, :length => 3..255,
                            :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
@@ -106,7 +101,6 @@ class User < ActiveRecord::Base
   validates :home_lon, :allow_nil => true, :numericality => true, :inclusion => { :in => -180..180 }
   validates :home_zoom, :allow_nil => true, :numericality => { :only_integer => true }
   validates :preferred_editor, :inclusion => Editors::ALL_EDITORS, :allow_nil => true
-  validates :image, :attachment_content_type => { :content_type => %r{\Aimage/.*\Z} }
   validates :auth_uid, :unless => proc { |u| u.auth_provider.nil? },
                        :uniqueness => { :scope => :auth_provider }
 
@@ -224,7 +218,7 @@ class User < ActiveRecord::Base
   end
 
   def is_friends_with?(new_friend)
-    friends.where(:friend_user_id => new_friend.id).exists?
+    friendships.where(:befriendee => new_friend).exists?
   end
 
   ##
@@ -267,16 +261,18 @@ class User < ActiveRecord::Base
   ##
   # delete a user - leave the account but purge most personal data
   def delete
+    avatar.purge_later
+
     self.display_name = "user_#{id}"
     self.description = ""
     self.home_lat = nil
     self.home_lon = nil
-    self.image = nil
     self.email_valid = false
     self.new_email = nil
     self.auth_provider = nil
     self.auth_uid = nil
     self.status = "deleted"
+
     save
   end
 

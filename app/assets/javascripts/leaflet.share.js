@@ -1,10 +1,10 @@
 L.OSM.share = function (options) {
   var control = L.control(options),
-    marker = L.marker([0, 0], { draggable: true }),
-    locationFilter = new L.LocationFilter({
-      enableButton: false,
-      adjustButton: false
-    });
+      marker = L.marker([0, 0], { draggable: true }),
+      locationFilter = new L.LocationFilter({
+        enableButton: false,
+        adjustButton: false
+      });
 
   control.onAdd = function (map) {
     var $container = $("<div>")
@@ -364,9 +364,9 @@ L.OSM.share = function (options) {
       }
 
       var scale = $("#mapnik_scale").val(),
-        size = L.bounds(L.CRS.EPSG3857.project(bounds.getSouthWest()),
-                        L.CRS.EPSG3857.project(bounds.getNorthEast())).getSize(),
-        maxScale = Math.floor(Math.sqrt(size.x * size.y / 0.3136));
+          size = L.bounds(L.CRS.EPSG3857.project(bounds.getSouthWest()),
+                          L.CRS.EPSG3857.project(bounds.getNorthEast())).getSize(),
+          maxScale = Math.floor(Math.sqrt(size.x * size.y / 0.3136));
 
       $("#mapnik_minlon").val(bounds.getWest());
       $("#mapnik_minlat").val(bounds.getSouth());
@@ -396,11 +396,11 @@ L.OSM.share = function (options) {
 
     function getScale() {
       var bounds = map.getBounds(),
-        centerLat = bounds.getCenter().lat,
-        halfWorldMeters = 6378137 * Math.PI * Math.cos(centerLat * Math.PI / 180),
-        meters = halfWorldMeters * (bounds.getEast() - bounds.getWest()) / 180,
-        pixelsPerMeter = map.getSize().x / meters,
-        metersPerPixel = 1 / (92 * 39.3701);
+          centerLat = bounds.getCenter().lat,
+          halfWorldMeters = 6378137 * Math.PI * Math.cos(centerLat * Math.PI / 180),
+          meters = halfWorldMeters * (bounds.getEast() - bounds.getWest()) / 180,
+          pixelsPerMeter = map.getSize().x / meters,
+          metersPerPixel = 1 / (92 * 39.3701);
       return Math.round(1 / (pixelsPerMeter * metersPerPixel));
     }
 

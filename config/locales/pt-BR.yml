@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Abijeet Patro
+# Author: Adrianojbr
 # Author: Alvarenga
 # Author: Amgauna
 # Author: Athena in Wonderland
@@ -147,6 +148,45 @@ pt-BR:
         description: Descrição
         languages: Idiomas
         pass_crypt: Senha
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: cerca de 1 hora atrás
+        other: cerca de %{count} horas atrás
+      about_x_months:
+        one: cerca de 1 mês atrás
+        other: cerca de %{count} meses antes
+      about_x_years:
+        one: cerca de 1 ano atrás
+        other: cerca de %{count} anos atrás
+      almost_x_years:
+        one: quase 1 ano atrás
+        other: quase %{count} anos atrás
+      half_a_minute: meio minuto atrás
+      less_than_x_seconds:
+        one: menos de 1 segundo atrás
+        other: menos de %{count} segundos atrás
+      less_than_x_minutes:
+        one: menos de um minuto atras
+        other: menos de %{count} minutos atrás
+      over_x_years:
+        one: mais de 1 ano atrás
+        other: mais de %{count} anos atrás
+      x_seconds:
+        one: 1 segundo atrás
+        other: '%{count} segundos atrás'
+      x_minutes:
+        one: 1 minuto atrás
+        other: '%{count} minutos atrás'
+      x_days:
+        one: 1 dia atrás
+        other: '%{count} dias atrás'
+      x_months:
+        one: 1 mês atrás
+        other: '%{count} meses antes'
+      x_years:
+        one: 1 ano atrás
+        other: '%{count} anos atrás'
   printable_name:
     with_version: '%{id}, v%{version}'
     with_name_html: '%{name} (%{id})'
@@ -167,14 +207,14 @@ pt-BR:
   api:
     notes:
       comment:
-        opened_at_html: Criado %{when} atrás
-        opened_at_by_html: Criado %{when} atrás por %{user}
-        commented_at_html: Atualizado %{when} atrás
-        commented_at_by_html: Atualizado %{when} atrás por %{user}
-        closed_at_html: Resolvido %{when} atrás
-        closed_at_by_html: Resolvido %{when} atrás por %{user}
-        reopened_at_html: Reativado %{when} atrás
-        reopened_at_by_html: Reativado %{when} atrás por %{user}
+        opened_at_html: Criado %{when}
+        opened_at_by_html: Criado %{when} por %{user}
+        commented_at_html: Atualizado %{when}
+        commented_at_by_html: Atualizado %{when} por %{user}
+        closed_at_html: Resolvido %{when}
+        closed_at_by_html: Resolvido %{when} por %{user}
+        reopened_at_html: Reativado %{when}
+        reopened_at_by_html: Reativado %{when} por %{user}
       rss:
         title: Notas do OpenStreetMap
         description_area: Uma lista de notas relatadas, comentadas ou encerradas na
@@ -190,12 +230,12 @@ pt-BR:
   browse:
     created: Criado
     closed: Fechado
-    created_html: Criado <abbr title='%{title}'>%{time} atrás</abbr>
-    closed_html: Fechado <abbr title='%{title}'>%{time} atrás</abbr>
-    created_by_html: Criado <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
-    deleted_by_html: Excluído <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
-    edited_by_html: Editado <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
-    closed_by_html: Fechado <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
+    created_html: Criado <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Fechado <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Criado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    deleted_by_html: Excluído <abbr title='%{title}'>%{time}</abbr> por %{user}
+    edited_by_html: Editado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    closed_by_html: Fechado <abbr title='%{title}'>%{time}</abbr> por %{user}
     version: Versão
     in_changeset: Conjunto de alterações
     anonymous: anônimo
@@ -215,9 +255,8 @@ pt-BR:
       relation: Relações (%{count})
       relation_paginated: Relações (%{x}-%{y} de %{count})
       comment: Comentários (%{count})
-      hidden_commented_by: Comentário oculto de %{user} <abbr title='%{exact_time}'>%{when}
-        atrás</abbr>
-      commented_by: Comentário de %{user} <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      hidden_commented_by: Comentário oculto de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentário de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML do conjunto de alterações
       osmchangexml: XML osmChange
       feed:
@@ -288,6 +327,7 @@ pt-BR:
       wikidata_link: O item %{page} no Wikidata
       wikipedia_link: O artigo %{page} na Wikipédia
       telephone_link: Ligar para %{phone_number}
+      colour_preview: Pré-visualização da cor %{colour_value}
     note:
       title: 'Nota: %{id}'
       new_note: Nova nota
@@ -295,19 +335,15 @@ pt-BR:
       open_title: 'Nota não resolvida #%{note_name}'
       closed_title: 'Nota resolvida #%{note_name}'
       hidden_title: 'Nota oculta #%{note_name}'
-      open_by: Criado por %{user} <abbr title='%{exact_time}'>%{when} atrás</abbr>
-      open_by_anonymous: Criado por um usuário anônimo <abbr title='%{exact_time}'>%{when}
-        atrás</abbr>
-      commented_by: Comentado por %{user} <abbr title='%{exact_time}'>%{when} atrás</abbr>
-      commented_by_anonymous: Comentado por um usuário anônimo <abbr title='%{exact_time}'>%{when}
-        atrás</abbr>
-      closed_by: Resolvido por %{user} <abbr title='%{exact_time}'>%{when} atrás</abbr>
-      closed_by_anonymous: Resolvido por um usuário anônimo <abbr title='%{exact_time}'>%{when}
-        atrás</abbr>
-      reopened_by: Reaberto por %{user} <abbr title='%{exact_time}'>%{when} atrás</abbr>
-      reopened_by_anonymous: Reaberto por um usuário anônimo <abbr title='%{exact_time}'>%{when}
-        atrás</abbr>
-      hidden_by: Ocultado por %{user} <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      open_by: Criado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Criado por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Comentado por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Resolvido por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resolvido por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reaberto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reaberto por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Ocultado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Denunciar esta nota
     query:
       title: Consultar elementos
@@ -347,7 +383,7 @@ pt-BR:
   changeset_comments:
     comment:
       comment: 'Comentário novo no conjunto de alterações #%{changeset_id} por %{author}'
-      commented_at_by_html: Atualizado %{when} atrás por %{user}
+      commented_at_by_html: Atualizado %{when} por %{user}
     comments:
       comment: 'Comentário novo no conjunto de alterações #%{changeset_id} por %{author}'
     index:
@@ -432,7 +468,6 @@ pt-BR:
       post: Entrada
       when: Quando
       comment: Comentário
-      ago: '%{ago} atrás'
       newer_comments: Comentários mais recentes
       older_comments: Comentários mais antigos
   geocoder:
@@ -605,7 +640,7 @@ pt-BR:
           cycleway: Ciclovia
           elevator: Elevador
           emergency_access_point: Ponto de Resgate Emergencial
-          footway: Caminho de Pedestre
+          footway: Caminho de pedestre
           ford: Vau
           give_way: Sinal de preferência de passagem
           living_street: Via de Espaço Compartilhado
@@ -1048,9 +1083,8 @@ pt-BR:
       status: Status
       reports: Relatórios
       last_updated: Última Atualização
-      last_updated_time_html: <abbr title='%{title}'>%{time} atrás</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} atrás</abbr> por
-        %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> por %{user}
       link_to_reports: Ver Denúncias
       reports_count:
         one: 1 Relatório
@@ -1659,7 +1693,7 @@ pt-BR:
         e documentar vários tópicos sobre o mapa.
       welcome:
         url: /welcome
-        title: Bem-vindo(a) ao OSM
+        title: Bem-vindo(a) ao OpenStreetMap
         description: Comece por este guia rápido sobre os princípios básicos do OpenStreetMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Pt:Beginners%27_guide
@@ -1667,7 +1701,7 @@ pt-BR:
         description: Guia para iniciantes mantido pela comunidade.
       help:
         url: http://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Fórum de ajuda
         description: Faça uma pergunta ou procure por respostas no fórum de perguntas
           e respostas do OpenStreetMap.
       mailing_lists:
@@ -1691,8 +1725,9 @@ pt-BR:
           o que você precisa saber no Welcome Mat.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Pt:Main_Page
-        title: wiki.openstreetmap.org
-        description: Navegue no wiki para ver a documentação do OSM com mais detalhes.
+        title: OpenStreetMap Wiki
+        description: Navegue no wiki para ver a documentação do OpenStreetMap com
+          mais detalhes.
     sidebar:
       search_results: Resultados da Busca
       close: Fechar
@@ -1922,7 +1957,6 @@ pt-BR:
     trace:
       pending: PENDENTE
       count_points: '%{count} pontos'
-      ago: '%{time_in_words_ago} atrás'
       more: mais
       trace_details: Ver detalhes da trilha
       view_map: Ver Mapa
@@ -2234,12 +2268,10 @@ pt-BR:
       remove as friend: Desfazer Amizade
       add as friend: Adicionar como amigo
       mapper since: 'Mapeador desde:'
-      ago: (%{time_in_words_ago} atrás)
       ct status: 'Termos do contribuidor:'
       ct undecided: Não decidido
       ct declined: Discordo
-      ct accepted: Aceito %{ago} atrás
-      latest edit: 'Última edição %{ago}:'
+      latest edit: 'Última edição (%{ago}):'
       email address: 'Endereço de e-mail:'
       created from: 'Criado de:'
       status: 'Estado:'
@@ -2538,10 +2570,7 @@ pt-BR:
     show:
       title: '%{block_on} bloqueado por %{block_by}'
       heading: '%{block_on} bloqueado por %{block_by}'
-      time_future: Termina em %{time}
-      time_past: Terminou há %{time}
       created: Criado
-      ago: '%{time} atrás'
       status: Estado
       show: Exibir
       edit: Editar
@@ -2575,7 +2604,6 @@ pt-BR:
       description: Descrição
       created_at: Criado em
       last_changed: Última alteração
-      ago_html: '%{when} atrás'
   javascripts:
     close: Fechar
     share:
@@ -2666,10 +2694,10 @@ pt-BR:
       engines:
         fossgis_osrm_bike: Bicicleta (OSRM)
         fossgis_osrm_car: Carro (OSRM)
-        fossgis_osrm_foot: À Pé (OSRM)
+        fossgis_osrm_foot: A pé (OSRM)
         graphhopper_bicycle: Bicicleta (GraphHopper)
         graphhopper_car: Carro (GraphHopper)
-        graphhopper_foot: Pedestre (GraphHopper)
+        graphhopper_foot: A pé (GraphHopper)
       descend: Descender
       directions: Itinerário
       distance: Distância

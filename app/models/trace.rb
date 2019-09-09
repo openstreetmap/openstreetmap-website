@@ -164,36 +164,6 @@ class Trace < ActiveRecord::Base
     extension
   end
 
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node
-    el1 = XML::Node.new "gpx_file"
-    el1["id"] = id.to_s
-    el1["name"] = name.to_s
-    el1["lat"] = latitude.to_s if inserted
-    el1["lon"] = longitude.to_s if inserted
-    el1["user"] = user.display_name
-    el1["visibility"] = visibility
-    el1["pending"] = inserted ? "false" : "true"
-    el1["timestamp"] = timestamp.xmlschema
-
-    el2 = XML::Node.new "description"
-    el2 << description
-    el1 << el2
-
-    tags.each do |tag|
-      el2 = XML::Node.new("tag")
-      el2 << tag.tag
-      el1 << el2
-    end
-
-    el1
-  end
-
   def update_from_xml(xml, create = false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
@@ -275,7 +245,7 @@ class Trace < ActiveRecord::Base
   def import
     logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
-    gpx = ::GPX::File.new(trace_name)
+    gpx = GPX::File.new(trace_name)
 
     f_lat = 0
     f_lon = 0

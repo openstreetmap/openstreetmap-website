@@ -37,10 +37,13 @@
 # Author: Wrightbus
 # Author: Yusuke1109
 # Author: ネイ
+# Author: 神樂坂秀吉
 # Author: 青子守歌
 # Author: 아라
 ---
 ja:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%Y年%m月%e日 %H:%M'
@@ -60,8 +63,8 @@ ja:
         create: 登録
         update: 編集
       redaction:
-        create: 改訂を作成
-        update: 改訂を保存
+        create: 版を作成
+        update: 版を保存
       trace:
         create: アップロード
         update: 変更を保存
@@ -140,6 +143,48 @@ ja:
         description: 説明
         languages: 言語
         pass_crypt: パスワード
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: 約1時間前
+        other: 約%{count}時間前
+      about_x_months:
+        one: 約1ヶ月前
+        other: 約%{count}ヶ月前
+      about_x_years:
+        one: 約1年前
+        other: 約%{count}年前
+      almost_x_years:
+        one: ほぼ1年前
+        other: ほぼ%{count}年前
+      half_a_minute: 30秒前
+      less_than_x_seconds:
+        one: 1秒以内
+        other: '%{count}秒以内'
+      less_than_x_minutes:
+        one: 1分以内
+        other: '%{count}分以内'
+      over_x_years:
+        one: 1年以上前
+        other: '%{count}年以上前'
+      x_seconds:
+        one: 1秒
+        other: '%{count}秒前'
+      x_minutes:
+        one: 1分前
+        other: '%{count}分前'
+      x_days:
+        one: 1日前
+        other: '%{count}日前'
+      x_months:
+        one: 1ヶ月前
+        other: '%{count}ヶ月前'
+      x_years:
+        one: 1年前
+        other: '%{count}年前'
+  printable_name:
+    with_version: '%{id}、第%{version}版'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: 既定 (現在は %{name})
     potlatch:
@@ -158,8 +203,8 @@ ja:
     notes:
       comment:
         opened_at_html: '%{when}前に作成'
-        opened_at_by_html: '%{user}さんが%{when}前に作成'
-        commented_at_html: '%{when}前に更新'
+        opened_at_by_html: '%{user}さんが%{when}に作成'
+        commented_at_html: '%{when}に更新'
         commented_at_by_html: '%{user}さんが%{when}前に更新'
         closed_at_html: '%{when}前に解決'
         closed_at_by_html: '%{user}さんが%{when}前に解決'
@@ -214,19 +259,19 @@ ja:
         title_comment: 変更セット %{id} - %{comment}
       join_discussion: 議論に参加するにはログインしてください
       discussion: 議論
-      still_open: 変更セットが開いたままです - 議論を行うには変更セットが閉じられている必要があります。
+      still_open: 変更セットが開いたままです - 議論を行うには変更セットを閉じる必要があります。
     node:
       title: 'ノード: %{name}'
-      history_title: 'ノードの履歴: %{name}'
+      history_title: 'ノード: %{name} の履歴'
     way:
       title: 'ウェイ: %{name}'
-      history_title: 'ウェイの履歴: %{name}'
+      history_title: 'ウェイ: %{name} の履歴'
       nodes: ノード
       also_part_of:
         other: ウェイ %{related_ways} の一部
     relation:
       title: 'リレーション: %{name}'
-      history_title: 'リレーションの履歴: %{name}'
+      history_title: 'リレーション: %{name} の履歴'
       members: メンバー
     relation_member:
       entry_role: '%{type} %{name} (%{role} として)'
@@ -244,7 +289,7 @@ ja:
         way: ウェイ
         relation: リレーション
         changeset: 変更セット
-        note: 注記
+        note: メモ
     timeout:
       sorry: 申し訳ありませんが、ID %{id} の %{type} のデータは時間がかかりすぎたため取得できませんでした。
       type:
@@ -252,7 +297,7 @@ ja:
         way: ウェイ
         relation: リレーション
         changeset: 変更セット
-        note: 注記
+        note: メモ
     redacted:
       redaction: 改訂 %{id}
       message_html: この %{type} の %{version} 版は、改訂されたため表示できません。詳細は %{redaction_link}
@@ -289,7 +334,7 @@ ja:
       reopened_by: '%{user}さんが<abbr title=''%{exact_time}''>%{when}前</abbr>に再開'
       reopened_by_anonymous: 誰かが<abbr title='%{exact_time}'>%{when}前</abbr>に再開
       hidden_by: '%{user}さんが<abbr title=''%{exact_time}''>%{when}前</abbr>に非表示化'
-      report: この注記を報告
+      report: このメモを報告
     query:
       title: 地物を検索
       introduction: 地図上をクリックすると、近くの地物を探します。
@@ -409,7 +454,6 @@ ja:
       post: 投稿
       when: 日時
       comment: コメント
-      ago: '%{ago}前'
       newer_comments: 新しいコメント
       older_comments: 古いコメント
   geocoder:
@@ -1116,6 +1160,8 @@ ja:
       successful_report: レポートは正常に登録完了しました
       provide_details: 必要な詳細を記入してください
   layouts:
+    project_name:
+      title: OpenStreetMap
     logo:
       alt_text: OpenStreetMap ロゴ
     home: ホーム地点に移動
@@ -1180,9 +1226,9 @@ ja:
     gpx_notification:
       greeting: こんにちは、
       your_gpx_file: これはあなたの GPX ファイルのようです
-      with_description: 説明付き
-      and_the_tags: 'と以下のタグ:'
-      and_no_tags: とタグなし。
+      with_description: '説明:'
+      and_the_tags: '、タグ:'
+      and_no_tags: 、タグはありません。
       failure:
         subject: '[OpenStreetMap] GPX のインポートが失敗'
         failed_to_import: 'インポートするのに失敗しました。エラーはここです。:'
@@ -1190,7 +1236,7 @@ ja:
         more_info_2: 'こちらにあります:'
       success:
         subject: '[OpenStreetMap] GPX のインポートが成功'
-        loaded_successfully: 得られた %{possible_points} 点のうち、%{trace_points} 点の読み込みに成功しました。
+        loaded_successfully: 利用可能な点 %{possible_points} 個のうち、%{trace_points} 個の読み込みに成功しました。
     signup_confirm:
       subject: '[OpenStreetMap] OpenStreetMapへようこそ'
       greeting: やあ、皆さん!
@@ -1504,7 +1550,7 @@ ja:
       introduction: OpenStreetMapにはプロジェクトについて学んだり、質疑応答したり、協議したり、マッピングについての知識を文書化したりするさまざまなリソースがあります。
       welcome:
         url: /welcome
-        title: OSM へようこそ
+        title: OpenStreetMap へようこそ
         description: OpenStreetMap の基礎を網羅しているこのクイック ガイドから始めましょう。
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
@@ -1512,8 +1558,8 @@ ja:
         description: コミュニティは、初心者向けガイドが整備しています。
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: OSM の質問回答サイトで質問したり回答を検索したりする。
+        title: ヘルプフォーラム
+        description: OpenStreetMap の Q&A サイトで質問したり回答を検索したりする。
       mailing_lists:
         title: メーリング リスト
         description: メーリングリストは話題や地域ごとに多種多様で、質問や興味のある事項について議論できる場です。
@@ -1532,8 +1578,8 @@ ja:
         description: ご所属の組織でOpenStreetMap との取り組みを検討中ですか？ Welcome Mat に事前にご理解いただきたい諸点をまとめてあります。
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: 詳細なOSMの説明が書かれたウィキを参照します。
+        title: OpenStreetMap Wiki
+        description: 詳細な OpenStreetMap の説明が書かれたウィキを参照します。
     sidebar:
       search_results: 検索結果
       close: 閉じる
@@ -1738,7 +1784,6 @@ ja:
     trace:
       pending: 処理中
       count_points: '%{count} 個の点'
-      ago: '%{time_in_words_ago}前'
       more: 詳細
       trace_details: トレースの詳細表示
       view_map: 地図で表示
@@ -2015,11 +2060,9 @@ ja:
       remove as friend: 友達を解除
       add as friend: 友達として追加
       mapper since: 'マッパー歴:'
-      ago: (%{time_in_words_ago}前)
       ct status: '協力者規約:'
       ct undecided: 未決定
       ct declined: 拒否
-      ct accepted: '%{ago}前に承認'
       latest edit: '最終編集 %{ago}:'
       email address: 'メール アドレス:'
       created from: '作成日:'
@@ -2282,10 +2325,7 @@ ja:
     show:
       title: '%{block_by} が %{block_on} をブロックしました'
       heading: '%{block_by} が %{block_on} をブロックしました'
-      time_future: '%{time} に終了'
-      time_past: '%{time}前に終了しました'
       created: 作成済み
-      ago: '%{time}前'
       status: 状態
       show: 表示
       edit: 編集
@@ -2319,7 +2359,6 @@ ja:
       description: 説明
       created_at: 作成日時
       last_changed: 最近の変更
-      ago_html: '%{when}前'
   javascripts:
     close: 閉じる
     share:

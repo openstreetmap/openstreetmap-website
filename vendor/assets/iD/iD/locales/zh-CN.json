@@ -504,7 +504,8 @@
             "translate": "翻译",
             "localized_translation_label": "多语言名称",
             "localized_translation_language": "选择语言",
-            "localized_translation_name": "名称"
+            "localized_translation_name": "名称",
+            "language_and_code": "{language} ({code})"
         },
         "zoom_in_edit": "放大地图以编辑",
         "login": "登录",
@@ -782,6 +783,14 @@
                 "description": "建筑物",
                 "tooltip": "建筑物，遮蔽处，车库等。"
             },
+            "building_parts": {
+                "description": "建筑部分",
+                "tooltip": "3D 建筑和屋顶部件"
+            },
+            "indoor": {
+                "description": "室内要素",
+                "tooltip": "房间、走廊、楼梯等"
+            },
             "landuse": {
                 "description": "土地利用要素",
                 "tooltip": "森林，农田，公园，居民地，商用地等。"
@@ -797,6 +806,14 @@
             "rail": {
                 "description": "铁路要素",
                 "tooltip": "铁路"
+            },
+            "pistes": {
+                "description": "滑雪道",
+                "tooltip": "滑雪坡、雪橇道、滑冰道等"
+            },
+            "aerialways": {
+                "description": "架空要素",
+                "tooltip": "升降椅、缆车、滑索道等"
             },
             "power": {
                 "description": "电力要素",
@@ -851,7 +868,7 @@
         },
         "restore": {
             "heading": "您有未保存的更改",
-            "description": "您在上一次编辑时有未保存的修改，您想恢复这些修改吗？",
+            "description": "您在上一次编辑时有未保存的更改，您想恢复这些更改吗？",
             "restore": "恢复我的修改",
             "reset": "丢弃我的修改"
         },
@@ -916,7 +933,7 @@
             "welcome": "欢迎使用 OpenStreetMap iD 编辑器",
             "text": "iD 编辑器是一个既易用而又功能强大的工具，以助您编辑世界上最好的自由世界地图。这是 {version} 版本。欲知详情，请浏览 {website} 及在 {github} 报告程序错误。",
             "walkthrough": "开始演练",
-            "start": "现在就编辑"
+            "start": "立即编辑"
         },
         "source_switch": {
             "live": "实况模式",
@@ -1619,14 +1636,22 @@
                 "title": "几乎为交叉点",
                 "message": "{feature} 与 {feature2} 极为接近却并未相交",
                 "tip": "查找可与邻近要素相连接的要素",
+                "self": {
+                    "message": "{feature} 的末端与其本身极为接近但并未相连"
+                },
                 "highway-highway": {
                     "reference": "相交的道路应共享一个交叉节点。"
                 }
             },
             "close_nodes": {
                 "title": "相近的节点",
+                "tip": "查找多余和拥挤的节点",
                 "message": "{way} 中的两个节点非常接近",
-                "reference": "路径中多余的点应被合并或分开。"
+                "reference": "路径中多余的点应被合并或分开。",
+                "detached": {
+                    "message": "{feature} 与 {feature2} 过于接近",
+                    "reference": "分开的节点不应共享同一位置。"
+                }
             },
             "crossing_ways": {
                 "title": "相交的路径",
@@ -1716,6 +1741,20 @@
                     "reference": "谷歌的产品具有所有权，不得用于参考。"
                 }
             },
+            "invalid_format": {
+                "title": "无效的格式",
+                "tip": "查找含有无效格式的标签",
+                "email": {
+                    "message": "{feature} 存在一个无效电子邮件地址。",
+                    "message_multi": "{feature} 存在多个无效电子邮件地址。",
+                    "reference": "电子邮件地址必须类似于 \"user@example.com\"。"
+                },
+                "website": {
+                    "message": "{feature} 存在一个无效网址。",
+                    "message_multi": "{feature} 存在多个无效网址。",
+                    "reference": "网址应该以 \"http\" 或 \"https\" 为开头。"
+                }
+            },
             "missing_role": {
                 "title": "缺少成员",
                 "message": "{member} 不是 {relation} 的成员",
@@ -1746,7 +1785,15 @@
                 "title": "过时的标签",
                 "message": "{feature} 存在过时的标签",
                 "tip": "查找含有弃用的标签且可以更新的要素",
-                "reference": "有些标签会随时间推移而被更换，应予以改进。"
+                "reference": "有些标签会随时间推移而被更换，应予以改进。",
+                "incomplete": {
+                    "message": "{feature} 存在不完整的标签",
+                    "reference": "某些要素应有额外的标签。"
+                },
+                "noncanonical_brand": {
+                    "message": "{feature} 看起来像是个品牌名称但没有规范的标签",
+                    "reference": "同一品牌的所有要素都应该以相同方式标记。"
+                }
             },
             "private_data": {
                 "title": "私人信息",
@@ -1815,6 +1862,9 @@
                 },
                 "connect_features": {
                     "title": "连接这些要素"
+                },
+                "connect_using_ford": {
+                    "title": "使用过水路面连接"
                 },
                 "continue_from_start": {
                     "title": "从起始节点继续绘制"
@@ -1905,6 +1955,9 @@
                 },
                 "use_different_layers": {
                     "title": "使用不同图层"
+                },
+                "use_different_layers_or_levels": {
+                    "title": "使用不同图层或楼层"
                 },
                 "use_different_levels": {
                     "title": "使用不同楼层数"
@@ -2390,7 +2443,8 @@
                             "title": "默许"
                         },
                         "permit": {
-                            "description": "仅限凭证驶入"
+                            "description": "仅限凭证驶入",
+                            "title": "许可证"
                         },
                         "private": {
                             "title": "私人"
@@ -2601,6 +2655,10 @@
                 "building": {
                     "label": "建筑物"
                 },
+                "building/levels/underground": {
+                    "label": "地下楼层数",
+                    "placeholder": "2, 4, 6..."
+                },
                 "building/levels_building": {
                     "label": "楼层数",
                     "placeholder": "2, 4, 6..."
@@ -2806,9 +2864,6 @@
                     "label": "设备数量",
                     "placeholder": "1, 2, 3..."
                 },
-                "diaper": {
-                    "label": "有尿布台"
-                },
                 "diet_multi": {
                     "label": "饮食种类"
                 },
@@ -2851,7 +2906,6 @@
                     }
                 },
                 "direction_vertex": {
-                    "label": "方向",
                     "options": {
                         "backward": "向后",
                         "both": "双向 / 全部",
@@ -3111,12 +3165,6 @@
                         "stables": "是",
                         "undefined": "否"
                     }
-                },
-                "iata": {
-                    "label": "IATA (国际航空运输协会)"
-                },
-                "icao": {
-                    "label": "ICAO(国际民航组织)"
                 },
                 "incline": {
                     "label": "斜度"
@@ -3402,6 +3450,9 @@
                 "network_road": {
                     "label": "网络"
                 },
+                "not/name": {
+                    "label": "错误名称"
+                },
                 "note": {
                     "label": "备注"
                 },
@@ -3554,7 +3605,6 @@
                     "placeholder": "距离，精确到一位小数 (123.4)"
                 },
                 "railway/signal/direction": {
-                    "label": "方向",
                     "options": {
                         "backward": "向后",
                         "both": "双向 / 全部",
@@ -3969,7 +4019,6 @@
                     "label": "交通标志"
                 },
                 "traffic_sign/direction": {
-                    "label": "方向",
                     "options": {
                         "backward": "向后",
                         "both": "双向 / 全部",
@@ -3980,7 +4029,6 @@
                     "label": "类型"
                 },
                 "traffic_signals/direction": {
-                    "label": "方向",
                     "options": {
                         "backward": "向后",
                         "both": "双向 / 全部",
@@ -3990,12 +4038,12 @@
                 "trail_visibility": {
                     "label": "路径可见度",
                     "options": {
-                        "bad": "差劲：没有标示，路径有时候消失",
-                        "excellent": "良好：路径明显或标示充分",
-                        "good": "尚可：有标示但可能不明显",
-                        "horrible": "可怕：路径常消失，需要部分定向能力",
-                        "intermediate": "略差：标示稀少，路径大致可见",
-                        "no": "无：没有路径，需具备完整的定向能力"
+                        "bad": "差劲：没有标示，路径有时候消失；需基本越野定向能力",
+                        "excellent": "极好：路径明显或有充分标示",
+                        "good": "良好：有标示但可能不明显",
+                        "horrible": "可怕：路径经常消失，需要较好的越野定向能力",
+                        "intermediate": "尚可：标示稀少，路径大致可见；需要较好方向感和地图",
+                        "no": "无：没有路径，需具备极高的越野定向能力"
                     },
                     "placeholder": "良好，尚可，稍差..."
                 },
@@ -4014,6 +4062,9 @@
                 },
                 "trees": {
                     "label": "树林"
+                },
+                "trench": {
+                    "label": "类型"
                 },
                 "trolley_wire": {
                     "label": "架空电车线"
@@ -5155,10 +5206,6 @@
                     "name": "建筑部分",
                     "terms": "屋顶,楼顶,三维建筑,3D建筑"
                 },
-                "camp_site/camp_pitch": {
-                    "name": "宿营位",
-                    "terms": "宿营位,露营位,野营位,露营地,野营地,露营场,野营场,露营,野营,野营场地,露营场地,宿营地,宿营,扎营,帐篷,野外,荒野,郊野,郊外,度假"
-                },
                 "club": {
                     "name": "俱乐部",
                     "terms": "俱乐部,社团,夜总会,会所,可乐部,社交,组织,娱乐,社区,会议,驿站,平台,会,汇,社会,文化,团体,会员"
@@ -5894,14 +5941,6 @@
                     "name": "军营",
                     "terms": "军营,虎帐,兵营,军队,部队,步兵,驻扎,营房"
                 },
-                "landuse/military/bunker": {
-                    "name": "军事碉堡",
-                    "terms": "军事碉堡,碉堡"
-                },
-                "landuse/military/checkpoint": {
-                    "name": "检查点",
-                    "terms": "检查点,检查站,检查,边检"
-                },
                 "landuse/military/danger_area": {
                     "name": "军事危险区域",
                     "terms": "危险区"
@@ -5910,17 +5949,9 @@
                     "name": "海军基地",
                     "terms": "海军,基地"
                 },
-                "landuse/military/nuclear_explosion_site": {
-                    "name": "核爆地点",
-                    "terms": "核爆"
-                },
                 "landuse/military/obstacle_course": {
                     "name": "障碍训练场",
                     "terms": "障碍,训练场"
-                },
-                "landuse/military/office": {
-                    "name": "军事办公室",
-                    "terms": "军事办公室"
                 },
                 "landuse/military/range": {
                     "name": "军事靶场",
@@ -6514,8 +6545,8 @@
                     "terms": "电力,电源,电,能源,煤气,天然气,电网,公司"
                 },
                 "office/estate_agent": {
-                    "name": "地产代理",
-                    "terms": "地产代理"
+                    "name": "地产中介",
+                    "terms": "地产代理,地产中介,房产中介,中介,房屋中介"
                 },
                 "office/financial": {
                     "name": "金融机构",
@@ -6579,10 +6610,6 @@
                 "office/physician": {
                     "name": "医生"
                 },
-                "office/political_party": {
-                    "name": "政党",
-                    "terms": "政党"
-                },
                 "office/private_investigator": {
                     "name": "私家侦探事务所",
                     "terms": "侦探,私家,私家侦探,私人,侦查,侦察,民商,调查,推理,行踪,诈骗,取证,警察,警官"
@@ -6601,7 +6628,7 @@
                 },
                 "office/telecommunication": {
                     "name": "电信办公室",
-                    "terms": "电信公司"
+                    "terms": "电信公司,营业厅,电信营业厅"
                 },
                 "office/therapist": {
                     "name": "治疗师工作室",
@@ -7848,7 +7875,7 @@
                 },
                 "waterway/dam": {
                     "name": "水坝",
-                    "terms": "水坝"
+                    "terms": "水坝,大坝"
                 },
                 "waterway/ditch": {
                     "name": "水沟",
@@ -7904,41 +7931,43 @@
             }
         },
         "imagery": {
+            "AGIV": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "AIV Flanders 最近的航拍图"
+            },
+            "AGIV10cm": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "AIV Flanders 2013-2015 的 10厘米 航拍图"
+            },
+            "AGIVFlandersGRB": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "AIV Flanders GRB"
+            },
+            "AIV_DHMV_II_HILL_25cm": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                }
+            },
+            "AIV_DHMV_II_SVF_25cm": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "AIV Digitaal Hoogtemodel Vlaanderen II, 0.25 米 Skyview"
+            },
             "Bing": {
                 "description": "卫星和航空影像",
                 "name": "必应航空影像"
             },
-            "DigitalGlobe-Premium": {
-                "attribution": {
-                    "text": "条款与反馈"
-                },
-                "name": "DigitalGlobe 优质影像"
-            },
-            "DigitalGlobe-Premium-vintage": {
-                "attribution": {
-                    "text": "使用条款与意见反馈"
-                },
-                "description": "影像边界和拍摄日期。标签会在缩放到13层级或更高时显示。",
-                "name": "DigitalGlobe 优质影像年份"
-            },
-            "DigitalGlobe-Standard": {
-                "attribution": {
-                    "text": "条款与反馈"
-                },
-                "name": "DigitalGlobe 标准影像"
-            },
-            "DigitalGlobe-Standard-vintage": {
-                "attribution": {
-                    "text": "使用条款与意见反馈"
-                },
-                "description": "影像边界和拍摄日期。标签会在缩放到13层级或更高时显示。",
-                "name": "DigitalGlobe 标准影像年份"
-            },
-            "DigitalGlobe-Vivid": {
-                "description": "DigitalGlobe-Vivid 是一幅具有最佳美观效果及流通频率的镶嵌影像，适用于全球任何地区，50cm或更高分辨率，全球图像平均流通频率小于20个月。",
-                "name": "DigitalGlobe 艳丽影像"
-            },
             "EOXAT2018CLOUDLESS": {
+                "attribution": {
+                    "text": "Sentinel-2 无云 - https://s2maps.eu by EOX IT Services GmbH (包含已修改的 Copernicus Sentinel data 2017 & 2018)"
+                },
                 "description": "经后期处理的 Sentinel 卫星影像。",
                 "name": "eox.at 2018 无云"
             },
@@ -7969,6 +7998,20 @@
                 },
                 "description": "卫星和航空影像",
                 "name": "Mapbox 卫星"
+            },
+            "Maxar-Premium": {
+                "attribution": {
+                    "text": "条款与反馈"
+                },
+                "description": "Maxar Premium 是由 Maxar 底图所组成的拼接图，特定区域以 +Vivid 或自订照片填充，其解析度为 50 厘米或更高，且会不断更新。",
+                "name": "Maxar 优质影像 (Beta)"
+            },
+            "Maxar-Standard": {
+                "attribution": {
+                    "text": "条款与反馈"
+                },
+                "description": "Maxar Standard 是一套经过精心选取，覆盖地球上 86% 的陆地面积，其解析度为 30-60 厘米，不足的部份以 Landsat 填满。平均更新时间为 2.31 年，部份地区每年更新两次。",
+                "name": "Maxar 标准影像 (Beta)"
             },
             "OSM_Inspector-Addresses": {
                 "attribution": {
@@ -8012,6 +8055,12 @@
                 },
                 "name": "OSM查看器：标签"
             },
+            "SPW_ORTHO_LAST": {
+                "name": "SPW(allonie) 最新航空影像"
+            },
+            "SPW_PICC": {
+                "name": "SPW(allonie) PICC 数字图像"
+            },
             "US-TIGER-Roads-2014": {
                 "description": "在缩放等级16级以上是来自美国人口调查局的公共领域地图数据。低缩放等级下仅包含自2006年以来的变更，不含已纳入 OpenStreetMap 的变更。",
                 "name": "TIGER 道路 2014"
@@ -8024,9 +8073,19 @@
                 "description": "黄色 = 来自美国人口调查局的公共领域地图数据。红色 = 在 OpenStreetMap 中找不到数据。",
                 "name": "TIGER 道路 2018"
             },
+            "USDA-NAIP": {
+                "description": "近年来自美国各州的国家农业影像计划 (NAIP) 的 DOQQ。",
+                "name": "国家农业影像计划"
+            },
             "US_Forest_Service_roads_overlay": {
                 "description": "公路：绿色线框 = 未分级。棕色线框 = 未铺设路面。表面：沙砾 = 浅棕色填充，沥青 = 黑色，已铺设 = 灰色，土地 = 白色，混凝土 = 蓝色，草地 = 绿色。季节性 = 白色条状",
                 "name": "美国森林道路叠加层"
+            },
+            "UrbISOrtho2016": {
+                "attribution": {
+                    "text": "道路：绿色外框 = 非分类道路。棕色外框 = 土路。路面：碎石路 = 亮棕色实心填满，柏油 = 黑色，有铺面 = 灰色，地面 = 白色，水泥 = 蓝色，草地 = 绿色。季节性 = 白色条纹"
+                },
+                "name": "UrbIS-Ortho 2016"
             },
             "Waymarked_Trails-Cycling": {
                 "attribution": {
@@ -8136,6 +8195,22 @@
             }
         },
         "community": {
+            "bw-facebook": {
+                "name": "在 Facebook 上的 Mapping Botswana",
+                "description": "OpenStreetMap in Botswana 的页面"
+            },
+            "bw-twitter": {
+                "name": "在 Twitter 上的 Mapping Botswana",
+                "description": "OpenStreetMap in Botswana 的 Twitter"
+            },
+            "ym-Centre-Universitaire-de-Recherche-et-dApplication-en-Tldtection-CURAT-de-lUniversit-Felix-Houphouet-Boigny": {
+                "name": "YouthMappers CURAT",
+                "extendedDescription": "我们分会目的是推广自由画地图的协同使用，以及在研究与决策应用时运用开放街图资料，帮助学生产生他们研究时自己的资料。"
+            },
+            "ym-The-Gambia-YMCA-University-of-the-Gambia": {
+                "name": "YouthMappers 接触",
+                "description": "Connected YouthMappers 由年轻甘比亚组成，希望能改变和协助国家发展"
+            },
             "cape-coast-youthmappers": {
                 "name": "海岸角大学 YouthMappers",
                 "description": "在 Twitter 上关注我们：{url}",
@@ -8490,10 +8565,6 @@
             },
             "Western-Slope-facebook": {
                 "name": "西坡 OSM Facebook"
-            },
-            "Maptime-Australia-Slack": {
-                "name": "Maptime 澳大利亚 Slack",
-                "description": "在 {signupUrl} 上注册"
             },
             "talk-au": {
                 "name": "Talk-au 邮件列表",

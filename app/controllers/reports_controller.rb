@@ -52,12 +52,15 @@ class ReportsController < ApplicationController
 
   def default_assigned_role
     case issue_params[:reportable_type]
-    when "Note" then "moderator"
-    when "User" then case report_params[:category]
-                     when "vandal" then "moderator"
-                     else "administrator"
-                     end
-    else "administrator"
+    when "Note"
+      "moderator"
+    when "User"
+      case report_params[:category]
+      when "vandal" then "moderator"
+      else "administrator"
+      end
+    else
+      "administrator"
     end
   end
 end

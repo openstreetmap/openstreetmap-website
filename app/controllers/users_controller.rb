@@ -388,16 +388,16 @@ class UsersController < ApplicationController
 
     if @new_friend
       if request.post?
-        friend = Friend.new
-        friend.befriender = current_user
-        friend.befriendee = @new_friend
+        friendship = Friendship.new
+        friendship.befriender = current_user
+        friendship.befriendee = @new_friend
         if current_user.is_friends_with?(@new_friend)
           flash[:warning] = t "users.make_friend.already_a_friend", :name => @new_friend.display_name
-        elsif friend.save
+        elsif friendship.save
           flash[:notice] = t "users.make_friend.success", :name => @new_friend.display_name
-          Notifier.friend_notification(friend).deliver_later
+          Notifier.friend_notification(friendship).deliver_later
         else
-          friend.add_error(t("users.make_friend.failed", :name => @new_friend.display_name))
+          friendship.add_error(t("users.make_friend.failed", :name => @new_friend.display_name))
         end
 
         if params[:referer]
@@ -417,7 +417,7 @@ class UsersController < ApplicationController
     if @friend
       if request.post?
         if current_user.is_friends_with?(@friend)
-          Friend.where(:user_id => current_user.id, :friend_user_id => @friend.id).delete_all
+          Friendship.where(:befriender => current_user, :befriendee => @friend).delete_all
           flash[:notice] = t "users.remove_friend.success", :name => @friend.display_name
         else
           flash[:error] = t "users.remove_friend.not_a_friend", :name => @friend.display_name
@@ -520,11 +520,11 @@ class UsersController < ApplicationController
 
       if user
         case user.status
-        when "pending" then
+        when "pending"
           unconfirmed_login(user)
-        when "active", "confirmed" then
+        when "active", "confirmed"
           successful_login(user, request.env["omniauth.params"]["referer"])
-        when "suspended" then
+        when "suspended"
           failed_login t("users.login.account is suspended", :webmaster => "mailto:#{Settings.support_email}").html_safe
         else
           failed_login t("users.login.auth failure")
@@ -660,15 +660,15 @@ class UsersController < ApplicationController
 
     user.languages = params[:user][:languages].split(",")
 
-    case params[:image_action]
+    case params[:avatar_action]
     when "new" then
-      user.image = params[:user][:image]
+      user.avatar.attach(params[:user][:avatar])
       user.image_use_gravatar = false
     when "delete" then
-      user.image = nil
+      user.avatar.purge_later
       user.image_use_gravatar = false
     when "gravatar" then
-      user.image = nil
+      user.avatar.purge_later
       user.image_use_gravatar = true
     end
 
@@ -752,7 +752,13 @@ class UsersController < ApplicationController
                email.split("@").last
              end
 
-    if blocked = Acl.no_account_creation(request.remote_ip, domain)
+    mx_servers = if domain.nil?
+                   nil
+                 else
+                   domain_mx_servers(domain)
+                 end
+
+    if blocked = Acl.no_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
       logger.info "Blocked signup from #{request.remote_ip} for #{email}"
 
       render :action => "blocked"
@@ -762,10 +768,18 @@ class UsersController < ApplicationController
   end
 
   ##
+  # get list of MX servers for a domains
+  def domain_mx_servers(domain)
+    Resolv::DNS.open do |dns|
+      dns.getresources(domain, Resolv::DNS::Resource::IN::MX).collect(&:exchange).collect(&:to_s)
+    end
+  end
+
+  ##
   # check if this user has a gravatar and set the user pref is true
   def gravatar_enable(user)
     # code from example https://en.gravatar.com/site/implement/images/ruby/
-    return false if user.image.present?
+    return false if user.avatar.attached?
 
     hash = Digest::MD5.hexdigest(user.email.downcase)
     url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back

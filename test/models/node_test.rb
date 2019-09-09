@@ -80,8 +80,8 @@ class NodeTest < ActiveSupport::TestCase
   def test_create
     changeset = create(:changeset)
     node_template = Node.new(
-      :latitude => 12.3456,
-      :longitude => 65.4321,
+      :lat => 12.3456,
+      :lon => 65.4321,
       :changeset_id => changeset.id,
       :visible => 1,
       :version => 1
@@ -116,8 +116,8 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal OldNode.where(:node_id => node_template.id).count, 1
     assert_not_nil node
 
-    node_template.latitude = 12.3456
-    node_template.longitude = 65.4321
+    node_template.lat = 12.3456
+    node_template.lon = 65.4321
     # node_template.tags = "updated=yes"
     assert node.update_from(node_template, node.changeset.user)
 

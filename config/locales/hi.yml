@@ -1,8 +1,16 @@
 # Messages for Hindi (हिन्दी)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Ansumang
+# Author: Bhatakati aatma
 # Author: Charu
+# Author: Contrapunctus
+# Author: Innocentbunny
+# Author: Nitin1485
+# Author: Prong$31
+# Author: Rajatkatiyar10
+# Author: Sfic
 # Author: Shubhamkanodia
 # Author: Siddhartha Ghai
 # Author: Vdhatterwal
@@ -11,7 +19,27 @@ hi:
   time:
     formats:
       friendly: '%e %B %Y को %H:%M पर'
+  helpers:
+    submit:
+      diary_comment:
+        create: सहेजें
+      diary_entry:
+        create: प्रकाशित करें
+        update: सुधारें
+      issue_comment:
+        create: टिप्पणी करें
+      message:
+        create: भेजें
+      client_application:
+        create: खाता बनाएं
+        update: संपादन
+      trace:
+        create: अपलोड
+        update: बदलाव सहेजें
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: 'यह ई-मेल ऐड्रेस संभवत: अमान्य है'
     models:
       acl: अभिगम नियंत्रण सूची
       changeset: बदलाव
@@ -22,17 +50,17 @@ hi:
       friend: दोस्त
       language: भाषा
       message: संदेश
-      node: आसंधि
+      node: बिंदु
       node_tag: आसंधि का अंकितक
       notifier: सूचनाकार
-      old_node: पुराने आसंधि
+      old_node: पुराना बिंदु
       old_node_tag: पुराने आसंधि का अंकितक
       old_relation: पुराना संबंध
       old_relation_member: पुराने संबंध का सदस्य
       old_relation_tag: पुराने संबंध का अंकितक
-      old_way: पुराना रस्ता
-      old_way_node: पुराना रस्ता का आसंधि
-      old_way_tag: पुराना रस्ता का अंकितक
+      old_way: पुरानी रेखा
+      old_way_node: पुरानी रेखा का बिंदु
+      old_way_tag: पुरानी रेखा का अंकितक
       relation: संबंध
       relation_member: संबंध का सदस्य
       relation_tag: संबंध का अंकितक
@@ -43,15 +71,15 @@ hi:
       user: सदस्य
       user_preference: उपयोगकर्ता के वरीयता
       user_token: उपयोगकर्ता के अंकितक
-      way: रस्ता
-      way_node: रस्ता का आसंधि
-      way_tag: रस्ता का अंकितक
+      way: रेखा
+      way_node: रेखा का बिंदु
+      way_tag: रेखा का अंकितक
     attributes:
       diary_comment:
         body: शरीर
       diary_entry:
         user: सदस्य
-        title: शीर्षक
+        title: विषय
         latitude: अक्षांश
         longitude: देशांतर
         language: भाषा
@@ -69,7 +97,7 @@ hi:
         description: वर्णन
       message:
         sender: प्रेषक
-        title: शीर्षक
+        title: विषय
         body: संदेश का शारीर
         recipient: प्राप्तकर्ता
       user:
@@ -79,13 +107,74 @@ hi:
         description: वर्णन
         languages: भाषाओं
         pass_crypt: पासवर्ड
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: तकरीबन १ घंटा पहले
+        other: तकरीबन %{count} घंटे पहले
+      about_x_months:
+        one: तकरीबन १ महीना पहले
+        other: तकरीबन %{count} महीने पहले
+      about_x_years:
+        one: तकरीबन १ साल पहले
+        other: तकरीबन %{count} साल पहले
+      almost_x_years:
+        one: करीब १ साल पहले
+        other: करीब %{count} साल पहले
+      half_a_minute: करीब एक मिनट पहले
   editor:
     default: डिफ़ॉल्ट (currently %{name})
+    potlatch:
+      name: पौटलैच 1
+    id:
+      name: आईडी
+    potlatch2:
+      name: पौटलैच 2
+  api:
+    notes:
+      comment:
+        opened_at_html: '%{when} पर लिखा गया'
+        opened_at_by_html: '%{when} पर %{user} ने लिखा'
+        commented_at_html: '%{when} पर सुधारा गया'
+        commented_at_by_html: '%{when} पर %{user} द्वारा सुधारा गया'
+        closed_at_html: '%{when} पर समाधित किया'
+        closed_at_by_html: '%{when} पर %{user} ने समाधित किया'
+        reopened_at_html: '%{when} पर पुन: सक्रिय किया गया'
+        reopened_at_by_html: '%{when} पर %{user} ने पुन: सक्रिय किया'
+      rss:
+        commented: नया जवाब (%{place} के पास)
+      entry:
+        comment: जवाब
   browse:
+    version: संस्करण
+    anonymous: अनामक
+    no_comment: (कोई टिप्पणी नहीं)
+    view_history: इतिहास देखें
+    view_details: जानकारी देखें
+    location: 'स्थान:'
+    changeset:
+      belongs_to: लेखक
+      node: बिंदु (%{count})
+      way: रेखाएं (%{count})
+      comment: जवाब (%{count})
+      discussion: चर्चा
+      still_open: चेंजसेट अभी भी खुला - चेंजसेट के एक बार बंद होने के पश्चात चर्चा
+        होगी।
+    node:
+      title: 'बिंदु: %{name}'
+    way:
+      title: 'रेखा: %{name}'
+      history_title: 'रेखा का इतिहास: %{name}'
+      nodes: बिंदु
+      also_part_of:
+        one: इस रेखा का हिस्सा है‌ %{related_ways}
+        other: इन रेखाओं का हिस्सा है %{related_ways}
+    relation:
+      members: सदस्य
     relation_member:
       type:
-        node: नोड
-        way: ओर
+        node: बिंदु
+        way: रेखा
         relation: संबंध
     containing_relation:
       entry: संबंध %{relation_name}
@@ -93,17 +182,36 @@ hi:
     not_found:
       sorry: क्षमा करें, ये %{type} इस आईडी %{id } के साथ, पाया नहीं जा सका
       type:
-        node: आसंधि
-        way: रास्ता
+        node: बिंदु
+        way: रेखा
         relation: संबंध
+    timeout:
+      type:
+        node: बिंदु
+        way: रेखा
+        relation: संबंध
+    redacted:
+      type:
+        node: बिंदु
+        way: रेखा
+        relation: संबंध
+    start_rjs:
+      feature_warning: आप %{num_features} वस्तुएं खोलने जा रहे हैं, जिससे आपका ब्राउज़र
+        निष्क्रिय हो सकता है। क्या इस डेटा को फिर भी दिखाया जाए?
+      loading: खुल रहा है...
     tag_details:
-      tags: 'अंकितक:'
-  changeset:
+      tags: चिप्पियाँ
+      telephone_link: '%{phone_number} मिलाएं'
+    note:
+      description: विवरण
+  changesets:
     changeset_paging_nav:
-      showing_page: 'इस पृष्ठ का प्रदर्शन:'
+      showing_page: पृष्ठ %{page}
+      next: अगला »
+      previous: « पिछला
     changeset:
       anonymous: अनाम
-      no_edits: (कोई संपादित नहीं है)
+      no_edits: (कोई सम्पादन नहीं है)
       view_changeset_details: इस changeset के विवरण देखे
     changesets:
       id: आईडी
@@ -111,19 +219,12 @@ hi:
       user: सदस्य
       comment: टिप्पणी
       area: क्षेत्र
-  diary_entry:
+    index:
+      load_more: और पढ़ें
+  diary_entries:
     new:
       title: नई दैनिकी प्रविष्टि
-    list:
-      title: उपयोगकर्ताओं के दैनिकी
-      user_title: '%{user}'' के दैनिकी'
-      new: नई दैनिकी प्रविष्टि
-      new_title: अपने दैनिकी मैं, एक नई प्रविष्टि लिखें
-      no_entries: कोई दैनिकी प्रविष्टियों नहीं है
-      recent_entries: 'नई दैनिकी प्रविष्टियों:'
-      older_entries: पुराने प्रविष्टियों
-    edit:
-      title: दैनिकी प्रविष्टि संपादित करें
+    form:
       subject: 'विषय:'
       body: 'दैनिकी प्रविष्टि का शारीर:'
       language: 'भाषा:'
@@ -131,64 +232,381 @@ hi:
       latitude: अक्षांश
       longitude: देशांतर
       use_map_link: नक्शा का इस्तेमाल
-      save_button: सहेजने
+    index:
+      title: सदस्यों की दैनिकी
+      user_title: '%{user} की दैनिकी'
+      new: नई दैनिकी प्रविष्टि
+      new_title: अपने दैनिकी मैं, एक नई प्रविष्टि लिखें
+      no_entries: कोई दैनिकी प्रविष्टियों नहीं है
+      recent_entries: 'नई दैनिकी प्रविष्टियों:'
+      older_entries: पुरानी प्रविष्टियाँ
+      newer_entries: नवीनतम प्रविष्टियाँ
+    edit:
+      title: दैनिकी प्रविष्टि संपादित करें
       marker_text: दैनिकी प्रविष्टि के स्थान
-    view:
+    show:
       title: उप्योगिकर्ताओ के दैनिकी | %{user}
       user_title: '%{user}''s के दैनिकीं'
-      leave_a_comment: टिप्पणी लिखिए
+      leave_a_comment: अपने विचार व्यक्त करें
       login_to_leave_a_comment: सत्रारंभ यहाँ %{login_link}, एक टिप्पणी लिखिने के
         लिए
       login: सत्रारंभ
-      save_button: सहेजने
     no_such_entry:
       heading: इस आईडी %{id} के लिया कोई प्रविष्टि नहीं है
       body: क्षमा करें, इस आईडी %{id} के लिया कोई प्रविष्टि या टिप्पणी नहीं है| कृपया
         अपनी वर्तनी की जाँच करें, or maybe the link you clicked is wrong|
-  export:
-    start:
-      area_to_export: क्षेत्र निर्यात करने के लिए
-      manually_select: कृपया, आप एक अलग क्षेत्र चुनिए
-      format_to_export: स्वरूप निर्यात करने के लिए
+    diary_entry:
+      confirm: पुष्टि करें
+    diary_comment:
+      hide_link: इस टिप्पणी को छिपायें
+      confirm: पुष्टि करें
+    location:
+      location: 'स्थान:'
+      view: देखें
+      edit: सम्पादित करें
+    comments:
+      when: कब
+      comment: टिप्पणी
+      newer_comments: नई प्रतिक्रियाएं
+      older_comments: पुरनी प्रतिक्रियाएं
   geocoder:
+    search_osm_nominatim:
+      prefix:
+        aerialway:
+          cable_car: केबल कार
+        aeroway:
+          airstrip: हवाई पट्टी
+          helipad: हेलिपैड
+          parking_position: पार्किंग की स्थिति
+          runway: रनवे
+          terminal: टर्मिनल
+        amenity:
+          arts_centre: कला केन्द्र
+          atm: एटीएम
+          bank: बैंक
+          bar: बार
+          bicycle_parking: साइकिल पार्किंग
+          brothel: वैश्यालय
+          bus_station: बस अड्डा
+          cafe: कैफ़े
+          casino: जुआघर (कैसिनो)
+          cinema: सिनेमाघर
+          clinic: चिकित्सालय
+          clock: घड़ी
+          college: महाविद्यालय (कॉलेज)
+          community_centre: सामुदायिक केंद्र
+          courthouse: कचहरी
+          crematorium: शमशान घाट
+          dentist: दंत चिकित्सक
+          doctors: चिकित्सक का दफ़्तर
+          drinking_water: प्याऊ
+          embassy: दूतावास
+          fire_station: अग्निशमन केन्द्र
+          food_court: आहार गृह
+          fountain: फंव्वारा
+          fuel: ईंधन
+          gambling: जुआ
+          grave_yard: कब्रिस्तान
+          hospital: अस्पताल
+          ice_cream: आईसक्रीम
+          library: पुस्तकालय
+          marketplace: बाज़ार
+          nightclub: नाईट क्लब
+          nursing_home: नर्सिंग होम
+          office: कार्यालय
+          parking: पार्किंग
+          parking_entrance: पार्किंग प्रवेश
+          parking_space: पार्किंग की जगह
+          pharmacy: दवाखाना
+          place_of_worship: आराधना स्थल
+          police: पुलिस
+          post_box: डाकघर
+          post_office: डाकखाना
+          prison: कारागार
+          pub: शराबघर
+          public_building: सार्वजनिक इमारत
+          restaurant: भोजनालय
+          school: विद्यालय
+          shelter: आश्रालय
+          shop: दुकान
+          studio: स्टुडियो
+          swimming_pool: तरणताल
+          taxi: टैक्सी
+          telephone: पीसीओ
+          theatre: रंगमंच
+          toilets: शौचालय
+          townhall: टाउनहॉल
+          university: विश्वविद्यालय
+          waste_basket: कूड़ादान
+          waste_disposal: ढलाव
+          water_point: जल बिंदु
+          youth_centre: युवा केन्द्र
+        boundary:
+          national_park: राष्ट्रीय उद्यान
+          protected_area: संरक्षित क्षेत्र
+        bridge:
+          "yes": पुल
+        building:
+          "yes": इमारत
+        craft:
+          carpenter: बढ़ई
+          electrician: विद्युतकार
+          gardener: माली
+          painter: चित्रकार
+          photographer: फ़ोटौग्रैफ़र
+          plumber: नलकार
+          shoemaker: मोची
+          tailor: दर्ज़ी
+          "yes": हस्तकला की दुकान
+        emergency:
+          phone: आपातकालीन दूरभाष
+          water_tank: आपातकालीन पानी की टंकी
+          "yes": आपातकाल
+        highway:
+          bus_stop: बस अड्डा
+          corridor: गलियारा
+          give_way: रास्ता संकेत दें
+          living_street: गली
+          passing_place: गुजरता हुआ स्थान
+          primary: प्राथमिक सड़क
+          primary_link: प्राथमिक सड़क
+          road: सड़क
+          secondary: द्वितीयक सड़क
+          secondary_link: द्वितीयक सड़क
+          steps: सीढ़ी
+          stop: रुकने का संकेत
+          tertiary: तृतीयक सड़क
+          tertiary_link: तृतीयक सड़क
+          "yes": सड़क
+        historic:
+          battlefield: जंग का मैदान
+          building: ऐतिहासिक इमारत
+          castle: क़िला
+          church: गिरजाघर
+          fort: किला
+          house: घर
+          manor: बंगला
+          tower: मिनार
+          "yes": ऐतिहासिक स्थल
+        landuse:
+          cemetery: क़ब्रिस्तान
+          construction: निर्माण
+          farm: खेत
+          farmland: खेत
+          forest: जंगल
+          grass: घास
+          industrial: औद्योगिक
+          military: सैन्य इलाका
+          mine: खान
+          reservoir: जलाशय
+          residential: आवासिक क्षेत्र
+          retail: व्यापार
+        leisure:
+          fitness_centre: जिम
+          garden: बाग
+          horse_riding: घुड़सवारी
+          park: उद्यान
+          stadium: मैदान
+          swimming_pool: तरणताल
+        man_made:
+          adit: खान में आने-जाने का मार्ग
+          beacon: प्रकाश
+          beehive: मधुमक्खी का छत्ता
+          breakwater: बांध
+          bridge: पुल
+          bunker_silo: बंकर
+          chimney: चिमनी
+          crane: भारोत्तोलन यंत्र
+          dyke: बांध
+          embankment: तटबंध
+          gasometer: गैस मापक यन्त्र
+          kiln: भट्ठा
+          mast: मस्तूल
+          mine: खान
+          mineshaft: मेरा शाफ्ट
+          monitoring_station: निगरानी स्टेशन
+          pier: घाट
+          storage_tank: भण्डारण टैंक
+          surveillance: निगरानी
+          tower: मिनार
+          wastewater_plant: अपशिष्ट जल संयंत्र
+          watermill: जल चलित कारखाना
+          water_well: कूंआं
+          windmill: पवन चक्की
+          works: कारखाना
+        military:
+          "yes": सैन्य
+        natural:
+          forest: जंगल
+          hill: पहाड़ी
+          island: द्वीप
+          land: ज़मीन
+          mud: कीचड़
+          peak: चोटी
+          rock: चट्टान
+          sand: रेत
+          tree: पेड़
+          valley: घाटी
+          volcano: ज्वालामुखी
+          water: पानी
+          wood: लकड़ी
+        office:
+          accountant: मुनीम
+          association: संगति
+          company: कंपनी
+          educational_institution: शिक्षण संस्थान
+          employment_agency: रोज़गार संस्था
+          government: सरकारी दफ़्तर
+          insurance: बीमा दफ़्तर
+          it: आई टी कार्यालय
+          lawyer: वकील
+          "yes": दफ़्तर
+        place:
+          city: शहर
+          country: देश
+          farm: खेत
+          house: घर
+          houses: घर
+          island: द्वीप
+          quarter: चतुर्थांश
+          sea: सागर
+          state: राज्य
+          town: शहर
+          village: गाँव
+          "yes": स्थान
+        railway:
+          station: रेलवे‌ स्टेशन
+          subway: मेट्रो
+          subway_entrance: मेट्रो प्रवेश
+        shop:
+          bookmaker: सट्टेबाज
+          chemist: दवाखाना
+          clothes: कपड़ों की दुकान
+          confectionery: मिठाई की दुकान
+          convenience: किराने की दुकान
+          florist: फूलों की दुकान
+          greengrocer: सब्ज़ीयों की दुकान
+          grocery: किराना
+          hairdresser: नायी
+          interior_decoration: आंतरिक सजावट
+          kitchen: रसोई की वस्तुओं की दुकान
+          lottery: लॉटरी
+          mall: मौल
+          market: बाज़ार
+          massage: मालिश
+          pawnbroker: साहूकार
+          seafood: समुद्री खाद्य
+          shoes: जूतों की दुकान
+          tailor: दर्ज़ी
+          ticket: टिकट की दुकान
+          tobacco: तम्बाकू की दुकान
+          toys: खिलौनों की दुकान
+          tyres: टायर की दुकान
+          vacant: खाली दुकान
+          variety_store: विभिन्न प्रकार की वस्तुओं की दुकान
+          wine: शराब की दुकान
+          "yes": दुकान
+        tourism:
+          hostel: छात्रावास
+          hotel: होटल
+          information: जानकारी
+          museum: संग्रहालय
+          zoo: चिड़ियाघर
+        tunnel:
+          "yes": सुरंग
+        waterway:
+          canal: नहर
+          dam: बांध
+          drain: नाली/नाला
+          river: नदी
+          waterfall: झरना
+      admin_levels:
+        level2: राष्ट्रीय सीमा
+        level4: राजकीय सीमा
+        level8: शहर सीमा
+        level9: गांव सीमा
+        level10: इलाके की सीमा
     description:
       types:
         cities: नगर
         towns: शहर
         places: स्थल
-    distance:
-      one: करीब 1 किमी
-      zero: 1 किमी से कम
-      other: करीब %{count} किमी
-    direction:
-      south_west: दक्षिण-पश्चिम
-      south: दक्षिण
-      south_east: दक्षिण-पूर्व
-      east: पूर्व
-      north_east: उत्तर-पूर्व
-      north: उत्तर
-      north_west: उत्तर-पश्चिम
-      west: पश्चिम
+  issues:
+    index:
+      title: समस्याएँ
+      search: ढूंडें
+    show:
+      resolve: समाधान करें
+      ignore: अंदेखा करें
+      reopen: 'पुन: सक्रिय करें'
+  reports:
+    new:
+      categories:
+        diary_entry:
+          other_label: अन्य
+        diary_comment:
+          other_label: अन्य
+        user:
+          other_label: अन्य
+        note:
+          other_label: अन्य
   layouts:
     home: गृह
+    sign_up: खाता बनाएं
+    start_mapping: नक्षा बनाना शुरू करें
     sign_up_tooltip: संपादन के लिए खाता बनाएं
+    edit: बदलें
+    history: इतिहास
+    export: निर्यात
+    issues: समस्याएं
+    data: आँकड़े
+    help: सहायता
+    community: समुदाय
+    foundation: संस्थान
   notifier:
+    diary_comment_notification:
+      subject: '[OpenStreetMap] %{user} ने एक दैनिकी पर प्रतिक्रिया दी'
+    friend_notification:
+      subject: '[OpenStreetMap] %{user} ने आपको अपने दोस्तों में शामिल किया है'
+      had_added_you: '%{user} ने आपको OpenStreetMap पर अपने दोस्तों में शामिल किया
+        है।'
     gpx_notification:
       greeting: नमस्कार,
     note_comment_notification:
       greeting: नमस्कार,
-  message:
+  messages:
     message_summary:
-      delete_button: खात्मा
+      destroy_button: खात्मा
     sent_message_summary:
-      delete_button: खात्मा
-    delete:
-      deleted: संदेश खात्मा
+      destroy_button: खात्मा
+    destroy:
+      destroyed: संदेश खात्मा
   site:
+    about:
+      partners_title: हमारे साथी
+    copyright:
+      legal_babble:
+        contributors_title_html: हमारे योगदानकर्ता
     edit:
       potlatch_unsaved_changes: You have unsaved changes. (To save in Potlatch, you
         should deselect the current way or point, if editing in list mode, or click
         save if you have a save button.)
+    export:
+      area_to_export: क्षेत्र निर्यात करने के लिए
+      manually_select: कृपया, आप एक अलग क्षेत्र चुनिए
+      format_to_export: स्वरूप निर्यात करने के लिए
+      licence: लाइसेंस
+    fixthemap:
+      how_to_help:
+        title: सहायता कैसे करें
+        join_the_community:
+          title: समुदाय से जुड़ें
+    help:
+      forums:
+        title: मंच
+      wiki:
+        url: http://wiki.openstreetmap.org/
+        title: wiki.openstreetmap.org
     key:
       table:
         entry:
@@ -210,7 +628,6 @@ hi:
           golf: गोल्फ मैदान
           park: पार्क
           resident: रिहायशी क्षेत्र
-          tourist: पर्यटन के आकर्षण
           industrial: औद्योगिक क्षेत्र
           lake:
           - झील
@@ -222,22 +639,24 @@ hi:
           - विश्वविद्यालय
           building: महत्वपूर्ण भवन
           station: रेलवे स्टेशन
-  trace:
+    welcome:
+      basic_terms:
+        tag_html: किसी बिंदु या रेखा के बारे में कोई जानकारी, जैसे कि किसी दुकान का
+          नाम या किसी सड़क की गति सीमा, को <strong>टैग</strong> कहते हैं।
+      questions:
+        title: कोई प्रश्न है?
+  traces:
+    new:
+      visibility: दृष्टता
+      visibility_help: इसका क्या मतलब है?
     edit:
       map: नक्शा
       visibility: दृष्टता
       visibility_help: इसका क्या मतलब है?
-    trace_form:
-      visibility: दृष्टता
-      visibility_help: इसका क्या मतलब है?
-    view:
+    show:
       tags: Tags
       visibility: दृष्टता
   oauth_clients:
-    new:
-      submit: पंजीयन
-    edit:
-      submit: संपादन
     show:
       key: उपभोक्ता कुंजी
       allow_write_api: नक्शे में तब्दीली
@@ -246,17 +665,55 @@ hi:
       required: आवश्यकता
       allow_write_api: नक्शा संपादित करें.
       allow_write_notes: नोट संशोधित करें।
-  user:
+  users:
     lost_password:
       title: lost password
       new password button: Send me a new password
     reset_password:
       title: reset password
       password: 'पासवर्ड:'
+    show:
+      my friends: मेरे मित्र
     account:
       public editing:
         enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
-  note:
+        enabled link text: यह क्या है?
+        disabled link text: मैं नक्षे में बदलाव क्यों नहीं कर पा रहा हूँ?
+      contributor terms:
+        link text: यह क्या है?
+      gravatar:
+        link text: यह क्या है?
+      new image: कोई तस्वीर लगाएं
+      keep image: इसी तस्वीर को रखें
+      delete image: इस तस्वीर को हटाएं
+      replace image: इस तस्वीर की जगह दूसरी लगाएं
+      home location: घर का स्थान
+      save changes button: बदलाव सहेजें
+    make_friend:
+      heading: क्या आप %{user} को दोस्त बनाना चाहेते हैं?
+      button: दोस्त बनाएं
+      success: '%{name} अब आपके दोस्त हैं!'
+      failed: माफ़ी चाहते हैं, हम %{name} को दोस्त नहीं बना पाए।
+      already_a_friend: आप पहले से ही %{name} के दोस्त हैं।
+    remove_friend:
+      heading: क्या आप %{user} से दोस्ती तोड़ना चाहते हैं?
+      button: दोस्ती तोड़ें
+      success: '%{name} अब आपके दोस्त नहीं हैं।'
+      not_a_friend: '%{name} आपके दोस्त नहीं हैं।'
+    index:
+      title: सदस्य
+      heading: सदस्य
+      confirm: इन सदस्यों को चुनें
+      hide: इन सदस्यों को न दिखाएं
+      empty: ऐसे कोई सदस्य नहीं मिले
+    suspended:
+      title: खाता निलंबित
+      heading: खाता निलंबित
+  user_role:
+    filter:
+      not_revoke_admin_current_user: वर्तमान उपयोगकर्ता के द्वारा व्यवस्थापक भूमिका
+        को रद्द नहीं कर सकता है|
+  notes:
     mine:
       created_at: 'निर्माण का समय:'
       last_changed: अंतिम परिवर्तन
@@ -265,10 +722,30 @@ hi:
       createnote_disabled_tooltip: नोट जोड़ने के लिए जूम इन करें
     notes:
       new:
-        intro: अन्य नक्शाकर्ताओं की जानकारी के लिए नोट जोड़ते वक़्त मार्कर को सही
-          स्थान पर दर्शायें और अधिक से अधिक जानकारी दें
+        intro: अगर आपको कोई‌ गलती नज़र आई है, या नक्षे में कोई वस्तु मौजूद नहीं है,
+          तो आप इस बारे में अन्य नक्षाकारों को सूचित कर सकते हैं ताकि वे इसे ठीक कर
+          सकें। चिन्ह को सही जगह पर लाएं और समस्या का विवरण दें।
+        advice: आपका नोट सार्वजनिक है और मानचित्र को अपडेट करने के लिए उपयोग किया
+          जा सकता है, इसलिए निजी जानकारी दर्ज न करें या कॉपीराइट वाले नक्शे या निर्देशिका
+          सूची से जानकारी न दें।
         add: नोट जोड़ें
       show:
         hide: छुपाएँ
+        resolve: समाधान करें
+        reactivate: 'पुन: सक्रिय करें'
+        comment_and_resolve: टिप्पणी कर समाधान करें
         comment: टिप्पणी
+    directions:
+      directions: रास्ता
+      distance: दूरी
+      errors:
+        no_route: इन जगहों के बीच कोई रास्ता नहीं मिला।
+      instructions:
+        continue_without_exit: '%{name} पर चलते जाएं'
+        offramp_right_with_exit: दाईं ओर %{exit} द्वारा निकास करें
+        offramp_right_with_exit_name: दाईं ओर, %{name} पर जाने के लिए %{exit} द्वारा
+          निकास करें
+        start_without_exit: Start on %{name}
+    query:
+      node: बिंदु
 ...

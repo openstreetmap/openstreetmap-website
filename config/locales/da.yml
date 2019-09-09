@@ -8,6 +8,7 @@
 # Author: Fenrisdk
 # Author: Fnielsen
 # Author: Freek
+# Author: Fugithora
 # Author: Gnonthgol
 # Author: Gorbi
 # Author: Hede2000
@@ -42,6 +43,8 @@ da:
       diary_entry:
         create: Offentliggør
         update: Opdater
+      issue_comment:
+        create: Tilføj kommentar
       message:
         create: Send
       client_application:
@@ -128,6 +131,45 @@ da:
         description: Beskrivelse
         languages: Sprog
         pass_crypt: Adgangskode
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: omkring 1 time siden
+        other: omkring %{count} timer siden
+      about_x_months:
+        one: omkring 1 måned siden
+        other: omkring %{count} måneder siden
+      about_x_years:
+        one: omkring 1 år siden
+        other: omkring %{count} år siden
+      almost_x_years:
+        one: næsten 1 år siden
+        other: næsten %{count} år siden
+      half_a_minute: for et halvt minut siden
+      less_than_x_seconds:
+        one: mindre end 1 sekund siden
+        other: mindre end %{count} sekunder siden
+      less_than_x_minutes:
+        one: mindre end et minut siden
+        other: mindre end %{count} minutter siden
+      over_x_years:
+        one: over 1 år siden
+        other: over %{count} år siden
+      x_seconds:
+        one: 1 sekund siden
+        other: '%{count} sekunder siden'
+      x_minutes:
+        one: 1 minut siden
+        other: '%{count} minutter siden'
+      x_days:
+        one: 1 dag siden
+        other: '%{count} dage siden'
+      x_months:
+        one: 1 måned siden
+        other: '%{count} måneder siden'
+      x_years:
+        one: 1 år siden
+        other: '%{count} år siden'
   editor:
     default: Foretrukket (i øjeblikket %{name})
     potlatch:
@@ -145,14 +187,14 @@ da:
   api:
     notes:
       comment:
-        opened_at_html: Oprettet for %{when} siden
-        opened_at_by_html: Oprettet for %{when} siden af %{user}
-        commented_at_html: Opdateret for %{when} siden
-        commented_at_by_html: Opdateret for %{when} siden af %{user}
-        closed_at_html: Løst for %{when} siden
-        closed_at_by_html: Løst for %{when} siden af %{user}
-        reopened_at_html: Genaktiveret for %{when} siden
-        reopened_at_by_html: Genaktiveret for %{when} siden af %{user}
+        opened_at_html: Oprettet den %{when}
+        opened_at_by_html: Oprettet %{when} af %{user}
+        commented_at_html: Opdateret den %{when}
+        commented_at_by_html: Opdateret den %{when} af %{user}
+        closed_at_html: Løst %{when}
+        closed_at_by_html: Løst %{when} af %{user}
+        reopened_at_html: Genaktiveret %{when}
+        reopened_at_by_html: Genaktiveret %{when} af %{user}
       rss:
         title: OpenStreetMap-bemærkninger
         description_area: En liste over bemærkninger, rapporteret, kommenteret på
@@ -168,12 +210,12 @@ da:
   browse:
     created: Oprettet
     closed: Lukket
-    created_html: Oprettet for <abbr title='%{title}'>%{time} siden</abbr>
-    closed_html: Lukket for <abbr title='%{title}'>%{time} siden</abbr>
-    created_by_html: Oprettet for <abbr title='%{title}'>%{time} siden</abbr> af %{user}
-    deleted_by_html: Slettet for <abbr title='%{title}'>%{time} siden</abbr> af %{user}
-    edited_by_html: Redigeret for <abbr title='%{title}'>%{time} siden</abbr> af %{user}
-    closed_by_html: Lukket for <abbr title='%{title}'>%{time} siden</abbr> af %{user}
+    created_html: Oprettet <abbr title='%{title}'>%{time} siden</abbr>
+    closed_html: Lukket <abbr title='%{title}'>%{time} siden</abbr>
+    created_by_html: Oprettet <abbr title='%{title}'>%{time} siden</abbr> af %{user}
+    deleted_by_html: Slettet <abbr title='%{title}'>%{time}</abbr> af %{user}
+    edited_by_html: Redigeret <abbr title='%{title}'>%{time} siden</abbr> af %{user}
+    closed_by_html: Lukket <abbr title='%{title}'>%{time} siden</abbr> af %{user}
     version: Version
     in_changeset: Ændringssæt
     anonymous: anonym
@@ -193,10 +235,8 @@ da:
       relation: Relationer (%{count})
       relation_paginated: Relationer (%{x}-%{y} af %{count})
       comment: Kommentarer (%{count})
-      hidden_commented_by: Skjult kommentar fra %{user} <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
-      commented_by: Kommentar fra %{user} for <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
+      hidden_commented_by: Skjult kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
       changesetxml: XML for ændringssæt
       osmchangexml: XML for osmChange
       feed:
@@ -274,21 +314,15 @@ da:
       open_title: 'Uløst bemærkning #%{note_name}'
       closed_title: 'Løst bemærkning #%{note_name}'
       hidden_title: 'Skjult bemærkning #%{note_name}'
-      open_by: Oprettet af %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
-      open_by_anonymous: Oprettet af en anonym for <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
-      commented_by: Kommentar fra %{user} for <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
-      commented_by_anonymous: Kommentar fra en anonym for <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
-      closed_by: Løst af %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
-      closed_by_anonymous: Løst af en anonym for <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
-      reopened_by: Genaktiveret af %{user} for <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
-      reopened_by_anonymous: Genaktiveret af en anonym for <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
-      hidden_by: Skjult af %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
+      open_by: Oprettet af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Oprettet af anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Kommentar fra anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Løst af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Løst af anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Genaktiveret af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Genaktiveret af anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Skjult af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Rapporter denne bemærkning
     query:
       title: Find kortobjekter
@@ -328,7 +362,7 @@ da:
   changeset_comments:
     comment:
       comment: Ny kommentar til ændringssæt nummer %{changeset_id} af %{author}
-      commented_at_by_html: Opdateret for %{when} siden af %{user}
+      commented_at_by_html: Opdateret %{when} af %{user}
     comments:
       comment: 'Ny kommentar til ændringssæt #%{changeset_id} af %{author}'
     index:
@@ -412,7 +446,6 @@ da:
       post: Indsend
       when: Hvornår
       comment: Kommentar
-      ago: '%{ago} siden'
       newer_comments: Nyere kommentarer
       older_comments: Ældre kommentarer
   geocoder:
@@ -1027,9 +1060,8 @@ da:
       status: Status
       reports: Rapporter
       last_updated: Sidst opdateret
-      last_updated_time_html: <abbr title='%{title}'>%{time} siden</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} siden</abbr> af
-        %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> af %{user}
       link_to_reports: Vis rapporter
       reports_count:
         one: 1 rapport
@@ -1630,7 +1662,7 @@ da:
         kortlægning.
       welcome:
         url: /welcome
-        title: Velkommen til OSM
+        title: Velkommen til OpenStreetMap
         description: Start med denne hurtige guide der dækker det grundlæggende i
           OpenStreetMap.
       beginners_guide:
@@ -1639,9 +1671,9 @@ da:
         description: Hjælp for nybegyndere, som vedligeholdes af fællesskabet.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: Stil et spørgsmål eller find et svar på OSMs spørgsmål og svar
-          side.
+        title: Hjælpeforum
+        description: Stil et spørgsmål eller find et svar på OpenStreetMap's spørgsmål
+          og svar side.
       mailing_lists:
         title: Mailinglister
         description: Stil et spørgsmål eller diskuter interessante spørgsmål på en
@@ -1664,7 +1696,7 @@ da:
           Find ud af hvad du har brug for at vide på Velkomstmåtten.
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
+        title: OpenStreetMap Wiki
         description: Gennemse wikien for dybdegående OSM dokumentation.
     sidebar:
       search_results: Søgeresultater
@@ -1894,7 +1926,6 @@ da:
     trace:
       pending: VENTENDE
       count_points: '%{count} punkter'
-      ago: '%{time_in_words_ago} siden'
       more: detaljer
       trace_details: Vis spordetaljer
       view_map: Vis kort
@@ -2203,12 +2234,10 @@ da:
       remove as friend: Fjern som ven
       add as friend: Tilføj som ven
       mapper since: 'Kortlægger siden:'
-      ago: (%{time_in_words_ago} siden)
       ct status: 'Vilkår for bidragsydere:'
       ct undecided: Uafklaret
       ct declined: Afslået
-      ct accepted: Accepteret for %{ago} siden
-      latest edit: 'Seneste ændring %{ago}:'
+      latest edit: 'Seneste ændring (%{ago}):'
       email address: 'E-mailadresse:'
       created from: 'Oprettet fra:'
       status: 'Status:'
@@ -2469,7 +2498,7 @@ da:
       title: Tilbagekalder blokering af %{block_on}
       heading: Tilbagekalder blokering på %{block_on} af %{block_by}
       time_future: Denne blokering vil ende om %{time}.
-      past: Denne blokering endte for %{time} siden og kan ikke tilbagekaldes nu.
+      past: Denne blokering endte %{time} og kan ikke tilbagekaldes nu.
       confirm: Er du sikker på du vil tilbagekalde denne blokering?
       revoke: Tilbagekald!
       flash: Denne blokering er blevet tilbagekaldt.
@@ -2478,7 +2507,7 @@ da:
       until_login: Aktiv, indtil brugeren logger på.
       time_future_and_until_login: Slutter om %{time} og efter brugeren er logget
         ind.
-      time_past: Sluttede %{time} siden.
+      time_past: Sluttede %{time}.
       block_duration:
         hours:
           one: 1 time
@@ -2506,10 +2535,7 @@ da:
     show:
       title: '%{block_on} blokeret af %{block_by}'
       heading: '%{block_on} blokeret af %{block_by}'
-      time_future: Slutter om %{time}
-      time_past: Sluttede %{time} siden
       created: Oprettet
-      ago: '%{time} siden'
       status: Status
       show: Vis
       edit: Redigér
@@ -2543,7 +2569,6 @@ da:
       description: Beskrivelse
       created_at: Oprettet den
       last_changed: Sidst ændret
-      ago_html: '%{when} siden'
   javascripts:
     close: Luk
     share:

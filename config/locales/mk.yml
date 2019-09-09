@@ -29,8 +29,8 @@ mk:
         create: Регистрирање
         update: Уреди
       redaction:
-        create: Создај редакција
-        update: Зачувај редакција
+        create: Создај исправка
+        update: Зачувај исправка
       trace:
         create: Подигни
         update: Зачувај промени
@@ -82,8 +82,8 @@ mk:
       diary_entry:
         user: Корисник
         title: Тема
-        latitude: Геог. ширина
-        longitude: Геог. должина
+        latitude: Гео. ширина
+        longitude: Гео. должина
         language: Јазик
       friend:
         user: Корисник
@@ -93,8 +93,8 @@ mk:
         visible: Видливо
         name: Име
         size: Големина
-        latitude: Геог. ширина
-        longitude: Геог. должина
+        latitude: Гео. ширина
+        longitude: Гео. должина
         public: Јавно
         description: Опис
       message:
@@ -109,6 +109,45 @@ mk:
         description: Опис
         languages: Јазици
         pass_crypt: Лозинка
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: пред околу 1 час
+        other: пред околу %{count} часа
+      about_x_months:
+        one: пред околу 1 месец
+        other: пред околу %{count} месеци
+      about_x_years:
+        one: пред околу 1 година
+        other: пред околу %{count} години
+      almost_x_years:
+        one: речиси пред 1 година
+        other: речиси пред %{count} години
+      half_a_minute: пред половина минута
+      less_than_x_seconds:
+        one: пред помалку од 1 секунда
+        other: пред помалку од %{count} секунди
+      less_than_x_minutes:
+        one: пред помалку од 1 минута
+        other: пред помалку од %{count} минути
+      over_x_years:
+        one: пред повеќе од 1 година
+        other: пред повеќе од %{count} години
+      x_seconds:
+        one: пред повеќе од 1 секунда
+        other: пред повеќе од %{count} секунди
+      x_minutes:
+        one: пред 1 минута
+        other: пред %{count} минути
+      x_days:
+        one: пред 1 ден
+        other: пред %{count} дена
+      x_months:
+        one: пред 1 месец
+        other: пред %{count} месеци
+      x_years:
+        one: пред 1 година
+        other: пред %{count} години
   printable_name:
     with_version: '%{id}, вер. %{version}'
     with_name_html: '%{name} (%{id})'
@@ -129,14 +168,14 @@ mk:
   api:
     notes:
       comment:
-        opened_at_html: Создадена пред %{when}
-        opened_at_by_html: Создадена пред %{when} од %{user}
-        commented_at_html: Подновена пред %{when}
-        commented_at_by_html: Подновена пред %{when} од %{user}
-        closed_at_html: Решена пред %{when}
-        closed_at_by_html: Решена пред %{when} од %{user}
-        reopened_at_html: Повторно отворена пред %{when}
-        reopened_at_by_html: Повторно отворена пред %{when} од %{user}
+        opened_at_html: Создадено %{when}
+        opened_at_by_html: Создадено %{when} од %{user}
+        commented_at_html: Подновено %{when}
+        commented_at_by_html: Подновено %{when} од %{user}
+        closed_at_html: Решено %{when}
+        closed_at_by_html: Решено %{when} од %{user}
+        reopened_at_html: Повторно отворено %{when}
+        reopened_at_by_html: Повторно отворено %{when} од %{user}
       rss:
         title: Белешки на OpenStreetMap
         description_area: Список на белешки, создадени, искометирани или затворени,
@@ -152,12 +191,12 @@ mk:
   browse:
     created: Создадено
     closed: Затворено
-    created_html: Создадено <abbr title='%{title}'>пред %{time}</abbr>
-    closed_html: Затворено <abbr title='%{title}'>пред %{time}</abbr>
-    created_by_html: Создадено <abbr title='%{title}'>пред %{time}</abbr> од %{user}
-    deleted_by_html: Избришано <abbr title='%{title}'>пред %{time}</abbr> од %{user}
-    edited_by_html: Изменето <abbr title='%{title}'>пред %{time}</abbr> од %{user}
-    closed_by_html: Затворено <abbr title='%{title}'>пред %{time}</abbr> од %{user}
+    created_html: Создадено <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Затворено <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Создадено <abbr title='%{title}'>%{time}</abbr> од %{user}
+    deleted_by_html: Избришано <abbr title='%{title}'>%{time}</abbr> од %{user}
+    edited_by_html: Изменето <abbr title='%{title}'>%{time}</abbr> од %{user}
+    closed_by_html: Затворено <abbr title='%{title}'>%{time}</abbr> од %{user}
     version: Верзија
     in_changeset: Измени
     anonymous: анонимен
@@ -177,9 +216,8 @@ mk:
       relation: Односи (%{count})
       relation_paginated: Односи (%{x}-%{y} од вкупно %{count})
       comment: Коментари (%{count})
-      hidden_commented_by: Скриен коментар на %{user} <abbr title='%{exact_time}'>пред
-        %{when}</abbr>
-      commented_by: Коментар на %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
+      hidden_commented_by: Скриен коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML за измените
       osmchangexml: osmChange XML
       feed:
@@ -249,6 +287,7 @@ mk:
       wikidata_link: Предметот за %{page} на Википодатоци
       wikipedia_link: Статијата %{page} на Википедија
       telephone_link: Јави се на %{phone_number}
+      colour_preview: Преглед на бојата %{colour_value}
     note:
       title: 'Белешка: %{id}'
       new_note: Нова белешка
@@ -256,17 +295,15 @@ mk:
       open_title: Нерешена белешка бр. %{note_name}
       closed_title: Решена белешка бр. %{note_name}
       hidden_title: 'Скриена белешка бр. #%{note_name}'
-      open_by: Создадено од %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
-      open_by_anonymous: Создадено од анонимен <abbr title='%{exact_time}'>пред %{when}</abbr>
-      commented_by: Коментар на %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
-      commented_by_anonymous: Коментар на анонимен <abbr title='%{exact_time}'>пред
-        %{when}</abbr>
-      closed_by: Решено од %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
-      closed_by_anonymous: Решено од анонимен <abbr title='%{exact_time}'>пред %{when}</abbr>
-      reopened_by: Преактивирано од %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
-      reopened_by_anonymous: Преактивирано од анонимен <abbr title='%{exact_time}'>пред
-        %{when}</abbr>
-      hidden_by: Скриено од %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
+      open_by: Создадено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Создадено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Коментар на анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Решено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Решено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Преактивирано од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Преактивирано од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Скриено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Пријави го јазолов
     query:
       title: Пребарување на елементи
@@ -306,7 +343,7 @@ mk:
   changeset_comments:
     comment:
       comment: 'Нов коментар за промената #%{changeset_id} на %{author}'
-      commented_at_by_html: Подновено пред %{when} од %{user}
+      commented_at_by_html: Подновено %{when} од %{user}
     comments:
       comment: 'Нов коментар за промената #%{changeset_id} на %{author}'
     index:
@@ -391,7 +428,6 @@ mk:
       post: Објава
       when: Кога
       comment: Коментар
-      ago: пред %{ago}
       newer_comments: Понови коментари
       older_comments: Постари коментари
   geocoder:
@@ -1006,8 +1042,8 @@ mk:
       status: Статус
       reports: Пријави
       last_updated: Последна поднова
-      last_updated_time_html: <abbr title='%{title}'>пред %{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>пред %{time}</abbr> од %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> од %{user}
       link_to_reports: Преглед на пријави
       reports_count:
         one: 1 пријава
@@ -1294,7 +1330,7 @@ mk:
     no_such_message:
       title: Нема таква порака
       heading: Нема таква порака
-      body: За жал, нема порака со тој id.
+      body: За жал, нема порака со таа назнака.
     outbox:
       title: За праќање
       my_inbox: Моите %{inbox_link}
@@ -1444,8 +1480,10 @@ mk:
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Покраина Предарлска</a> и
           Покраина Тирол (под <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT со исправки</a>).
         contributors_au_html: |-
-          <strong>Австралија</strong>: Содржи податоци за населби од
-          Австралиското биро за статистика.
+          <strong>Австралија</strong>: Содржи податоци преземени од
+          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">Општествените картографски заводи на Австралија (PSMA)</a>
+          ставени на располагање од австралиската држава под лиценцата
+          <a href="https://creativecommons.org/licenses/by/4.0/deed.mk">CC BY 4.0</a>.
         contributors_ca_html: |-
           <strong>Canada</strong>: Содржи податоци од
           GeoBase&reg;, GeoGratis (&copy; Министерство за природни ресурси на Канада), CanVec (&copy; Министерство за природни ресурси на Канада), and StatCan (Географско одделение,
@@ -1538,7 +1576,7 @@ mk:
         без кои оваа можност не може да работи.
     export:
       title: Извези
-      area_to_export: Простор за извоз
+      area_to_export: Подрачје за извоз
       manually_select: Рачно изберете друга површина
       format_to_export: Формат за извоз
       osm_xml_data: OpenStreetMap XML податоци
@@ -1579,7 +1617,7 @@ mk:
       add_marker: Додај бележник на картата
       latitude: Г.Ш.
       longitude: Г.Д.
-      output: Излезни податоци
+      output: Извод
       paste_html: Ископирајте го HTML кодот за да го вметнете во страницата.
       export_button: Извези
     fixthemap:
@@ -1608,7 +1646,7 @@ mk:
         да водите заедничка расправа и да документирате картографски теми.
       welcome:
         url: /welcome
-        title: Добре дојдовте на OSM
+        title: Добре дојдовте на OpenStreetMap
         description: Започнете со овој брз водич низ основите на OpenStreetMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
@@ -1616,9 +1654,9 @@ mk:
         description: Напатствија за почетници, напишани од заедницата.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Форум за помош
         description: Поставете прашање или побарајте во одговорите на порталот за
-          прашања и одговори на OSM.
+          прашања и одговори на OpenStreetMap.
       mailing_lists:
         title: Поштенски списоци
         description: Поставете прашање или разговарајте за интересни прашања на широк
@@ -1640,8 +1678,8 @@ mk:
           Потребните сознанија ќе ги добиете на страницата за добредојде.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Mk:Main_Page
-        title: wiki.openstreetmap.org
-        description: Прелистајте ја подробната документација за OSM на викито.
+        title: Вики на OpenStreetMap
+        description: Прелистајте ја подробната документација за OpenStreetMap на викито.
     sidebar:
       search_results: Исход од пребарувањето
       close: Затвори
@@ -1869,7 +1907,6 @@ mk:
     trace:
       pending: ВО ИСЧЕКУВАЊЕ
       count_points: '%{count} точки'
-      ago: пред %{time_in_words_ago}
       more: повеќе
       trace_details: Погледајте ги деталите за трагата
       view_map: Погледај ја картата
@@ -2178,12 +2215,10 @@ mk:
       remove as friend: Отстрани од пријатели
       add as friend: Додај во пријатели
       mapper since: 'Картограф од:'
-      ago: (пред %{time_in_words_ago})
       ct status: 'Услови за учество:'
       ct undecided: Неодлучено
       ct declined: Одбиен
-      ct accepted: Прифатен пред %{ago} дена
-      latest edit: 'Последно уредување %{ago}:'
+      latest edit: 'Последно уредување (%{ago}):'
       email address: Е-пошта
       created from: 'Создадено од:'
       status: 'Статус:'
@@ -2284,8 +2319,8 @@ mk:
       image size hint: (најдобро работат квадратни слики, барем 100x100)
       home location: 'Матична местоположба:'
       no home location: Немате внесено матична местоположба.
-      latitude: Геог. ширина
-      longitude: Геог. должина
+      latitude: 'Гео. ширина:'
+      longitude: Гео. должина
       update home location on click: Подновувај ја матичната местоположба кога ќе
         стиснам на картата
       save changes button: Зачувај ги промените
@@ -2448,7 +2483,7 @@ mk:
       title: Поништување на блок за %{block_on}
       heading: Поништување на блок за %{block_on} од %{block_by}
       time_future: Овој блок истекува за %{time}.
-      past: Овој блок истекол пред %{time} и сега не може да се поништи.
+      past: Овој блок истекол %{time} и сега не може да се отповика.
       confirm: Дали сигурно дакате да го поништите овој блок?
       revoke: Поништи!
       flash: Овој блок е поништен.
@@ -2456,7 +2491,7 @@ mk:
       time_future: Истекува за %{time}.
       until_login: Активно додека не се најави корисникот.
       time_future_and_until_login: Завршува во %{time} и откако корисникот ќе се најави.
-      time_past: Истечено пред %{time}.
+      time_past: Истечено %{time}.
       block_duration:
         hours:
           one: еден час
@@ -2484,10 +2519,7 @@ mk:
     show:
       title: '%{block_on} блокиран од %{block_by}'
       heading: '%{block_on} блокиран од %{block_by}'
-      time_future: Уредувања во %{time}
-      time_past: Истечено пред %{time}
       created: Создадено
-      ago: пред %{time}
       status: Статус
       show: Прикажи
       edit: Уреди
@@ -2521,7 +2553,6 @@ mk:
       description: Опис
       created_at: Создадена
       last_changed: Изменета
-      ago_html: пред %{when}
   javascripts:
     close: Затвори
     share:
@@ -2714,33 +2745,33 @@ mk:
   redactions:
     edit:
       description: Опис
-      heading: Уреди редакција
-      title: Уреди редакција
+      heading: Уреди исправки
+      title: Уреди исправки
     index:
-      empty: Нема редакции.
-      heading: Список на редакции
-      title: Список на редакции
+      empty: Нема исправки за приказ.
+      heading: Список на исправки
+      title: Список на исправки
     new:
       description: Опис
-      heading: Внесете информации за новата редакција
-      title: Создавање на нова редакција
+      heading: Внесете информации за нова исправка
+      title: Создавање на нова исправка
     show:
       description: 'Опис:'
-      heading: Прикажана е редакцијата „%{title}“
-      title: Приказ на редакција
+      heading: Прикажана е исправката „%{title}“
+      title: Приказ на исправка
       user: 'Создавач:'
-      edit: Уреди ја редакцијава
-      destroy: Отстрани ја редакцијава
+      edit: Уреди ја исправкава
+      destroy: Отстрани ја исправкава
       confirm: Дали сте сигурни?
     create:
-      flash: Редакцијата е создадена.
+      flash: Исправката е создадена.
     update:
       flash: Промените се зачувани.
     destroy:
-      not_empty: Редакцијата не е празна. Одредактирајте ги сите верзии што ѝ принадлежат
-        на оваа редакција пред да ја поништите.
-      flash: Редакцијата е поништена.
-      error: Се појави грешка при поништувањето на редакцијата.
+      not_empty: Исправката не е празна. Поништете ги измените на сите верзии што
+        ѝ принадлежат на оваа исправка пред да ја поништите.
+      flash: Исправката е поништена.
+      error: Се појави грешка при поништувањето на исправката.
   validations:
     leading_whitespace: има почетна белина
     trailing_whitespace: има завршна белина

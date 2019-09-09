@@ -14,7 +14,7 @@ module OpenStreetMap
       end
 
       def generic_webkit?
-        webkit? && !chrome? && !safari? && !edge?
+        webkit? && !chrome? && !safari? && !edge? && !phantom_js?
       end
     end
   end

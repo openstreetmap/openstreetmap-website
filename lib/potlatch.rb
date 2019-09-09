@@ -24,7 +24,7 @@ module Potlatch
 
     # Return eight-byte double-precision float
     def self.getdouble(s)
-      a = s.read(8).unpack("G")	# G big-endian, E little-endian
+      a = s.read(8).unpack("G") # G big-endian, E little-endian
       a[0]
     end
 

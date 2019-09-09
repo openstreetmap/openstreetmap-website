@@ -21,8 +21,11 @@
 //= require index/query
 //= require router
 //= require bowser
+//= require querystring
 
 $(document).ready(function () {
+  var querystring = require("querystring-component");
+
   var loaderTimeout;
 
   var map = new L.OSM.Map("map", {
@@ -32,6 +35,8 @@ $(document).ready(function () {
   });
 
   OSM.loadSidebarContent = function (path, callback) {
+    var content_path = path;
+
     map.setSidebarOverlaid(false);
 
     clearTimeout(loaderTimeout);
@@ -42,17 +47,17 @@ $(document).ready(function () {
 
     // IE<10 doesn't respect Vary: X-Requested-With header, so
     // prevent caching the XHR response as a full-page URL.
-    if (path.indexOf("?") >= 0) {
-      path += "&xhr=1";
+    if (content_path.indexOf("?") >= 0) {
+      content_path += "&xhr=1";
     } else {
-      path += "?xhr=1";
+      content_path += "?xhr=1";
     }
 
     $("#sidebar_content")
       .empty();
 
     $.ajax({
-      url: path,
+      url: content_path,
       dataType: "html",
       complete: function (xhr) {
         clearTimeout(loaderTimeout);
@@ -234,7 +239,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     var data = $(this).data(),
-      center = L.latLng(data.lat, data.lon);
+        center = L.latLng(data.lat, data.lon);
 
     map.setView(center, data.zoom);
     L.marker(center, { icon: OSM.getUserIcon() }).addTo(map);
@@ -260,13 +265,13 @@ $(document).ready(function () {
     if (object) query.select = object.type + object.id;
 
     var iframe = $("<iframe>")
-        .hide()
-        .appendTo("body")
-        .attr("src", url + querystring.stringify(query))
-        .on("load", function () {
-          $(this).remove();
-          loaded = true;
-        });
+      .hide()
+      .appendTo("body")
+      .attr("src", url + querystring.stringify(query))
+      .on("load", function () {
+        $(this).remove();
+        loaded = true;
+      });
 
     setTimeout(function () {
       if (!loaded) {
@@ -341,6 +346,10 @@ $(document).ready(function () {
             map.fitBounds(bounds);
           });
         }
+      });
+
+      $(".colour-preview-box").each(function () {
+        $(this).css("background-color", $(this).data("colour"));
       });
     }
 

@@ -1,4 +1,8 @@
+//= require querystring
+
 OSM.initializeContextMenu = function (map) {
+  var querystring = require("querystring-component");
+
   map.contextmenu.addItem({
     text: I18n.t("javascripts.context.directions_from"),
     callback: function directionsFromHere(e) {

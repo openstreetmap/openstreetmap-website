@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Abijeet Patro
+# Author: Alphensebezorger
 # Author: Arent
 # Author: Bouman4
 # Author: CGID
@@ -60,6 +61,8 @@ nl:
       diary_entry:
         create: Publiceren
         update: Update
+      issue_comment:
+        create: Opmerking toevoegen
       message:
         create: Verzenden
       client_application:
@@ -92,7 +95,7 @@ nl:
       node: Knooppunt
       node_tag: Nodetag
       notifier: verwittigen
-      old_node: Oude node
+      old_node: Oud Knooppunt
       old_node_tag: Oude nodetag
       old_relation: Oude relatie
       old_relation_member: Oud relatielid
@@ -146,6 +149,45 @@ nl:
         description: Beschrijving
         languages: Talen
         pass_crypt: Wachtwoord
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: ongeveer 1 uur geleden
+        other: ongeveer %{count} uren geleden
+      about_x_months:
+        one: ongeveer 1 maand geleden
+        other: ongeveer %{count} maanden geleden
+      about_x_years:
+        one: ongeveer 1 jaar geleden
+        other: ongeveer %{count} jaren geleden
+      almost_x_years:
+        one: bijna 1 jaar geleden
+        other: bijna %{count} jaren geleden
+      half_a_minute: een halve minuut geleden
+      less_than_x_seconds:
+        one: minder dan 1 seconde geleden
+        other: minder dan %{count} seconden geleden
+      less_than_x_minutes:
+        one: minder dan een minuut geleden
+        other: minder dan %{count} minuten geleden
+      over_x_years:
+        one: meer dan 1 jaar geleden
+        other: meer dan %{count} jaren geleden
+      x_seconds:
+        one: 1 seconde geleden
+        other: '%{count} seconden geleden'
+      x_minutes:
+        one: 1 minuut geleden
+        other: '%{count} minuten geleden'
+      x_days:
+        one: 1 dag geleden
+        other: '%{count} dagen geleden'
+      x_months:
+        one: 1 maand geleden
+        other: '%{count} maanden geleden'
+      x_years:
+        one: 1 jaar geleden
+        other: '%{count} jaren geleden'
   editor:
     default: Standaard (op dit moment %{name})
     potlatch:
@@ -163,14 +205,14 @@ nl:
   api:
     notes:
       comment:
-        opened_at_html: '%{when} geleden gemaakt'
-        opened_at_by_html: '%{when} geleden gemaakt door %{user}'
-        commented_at_html: '%{when} geleden bijgewerkt'
-        commented_at_by_html: '%{when} geleden bijgewerkt door %{user}'
-        closed_at_html: '%{when} geleden opgelost door'
-        closed_at_by_html: '%{when} geleden opgelost door %{user}'
-        reopened_at_html: '%{when} geleden opnieuw geactiveerd'
-        reopened_at_by_html: '%{when} geleden opnieuw geactiveerd door %{user}'
+        opened_at_html: '%{when} gemaakt'
+        opened_at_by_html: '%{when} gemaakt door %{user}'
+        commented_at_html: '%{when} bijgewerkt'
+        commented_at_by_html: '%{when} bijgewerkt door %{user}'
+        closed_at_html: '%{when} opgelost'
+        closed_at_by_html: '%{when} opgelost door %{user}'
+        reopened_at_html: '%{when} opnieuw geactiveerd'
+        reopened_at_by_html: '%{when} opnieuw geactiveerd door %{user}'
       rss:
         title: OpenStreetMap opmerkingen
         description_area: Een lijst met opmerkingen en reacties in uw gebied [(%{min_lat}|%{min_lon})
@@ -186,14 +228,12 @@ nl:
   browse:
     created: Aangemaakt
     closed: Gesloten
-    created_html: <abbr title='%{title}'>%{time} geleden</abbr> aangemaakt
-    closed_html: <abbr title='%{title}'>%{time} geleden</abbr> gesloten
-    created_by_html: <abbr title='%{title}'>%{time} geleden</abbr> aangemaakt door
-      %{user}
-    deleted_by_html: <abbr title='%{title}'>%{time} geleden</abbr> verwijderd door
-      %{user}
-    edited_by_html: <abbr title='%{title}'>%{time} geleden</abbr> bewerkt door %{user}
-    closed_by_html: <abbr title='%{title}'>%{time} geleden</abbr> gesloten door %{user}
+    created_html: <abbr title='%{title}'>%{time}</abbr> aangemaakt
+    closed_html: <abbr title='%{title}'>%{time}</abbr> gesloten
+    created_by_html: <abbr title='%{title}'>%{time}</abbr> aangemaakt door %{user}
+    deleted_by_html: <abbr title='%{title}'>%{time}</abbr> verwijderd door %{user}
+    edited_by_html: <abbr title='%{title}'>%{time}</abbr> bewerkt door %{user}
+    closed_by_html: <abbr title='%{title}'>%{time}</abbr> gesloten door %{user}
     version: Versie
     in_changeset: Wijzigingenset
     anonymous: anoniem
@@ -213,9 +253,8 @@ nl:
       relation: Relaties (%{count})
       relation_paginated: Relaties (%{x}-%{y} van %{count})
       comment: Reacties (%{count})
-      hidden_commented_by: Verborgen reactie van %{user} <abbr title='%{exact_time}'>%{when}
-        geleden</abbr>
-      commented_by: Reactie van %{user} <abbr title='%{exact_time}'>%{when} geleden</abbr>
+      hidden_commented_by: Verborgen reactie van %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Reactie van %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Changeset-XML
       osmchangexml: osmChange-XML
       feed:
@@ -295,21 +334,18 @@ nl:
       open_title: 'Onopgeloste opmerking #%{note_name}'
       closed_title: 'Opgeloste opmerking #%{note_name}'
       hidden_title: 'Verborgen opmerking #%{note_name}'
-      open_by: <abbr title='%{exact_time}'>%{when} geleden</abbr> aangemaakt door
-        %{user}
-      open_by_anonymous: <abbr title='%{exact_time}'>%{when} geleden</abbr> aangemaakt
-        door anoniem
-      commented_by: Reactie van %{user} <abbr title='%{exact_time}'>%{when} geleden</abbr>
-      commented_by_anonymous: Reactie van anoniem <abbr title='%{exact_time}'>%{when}
-        geleden.</abbr>
-      closed_by: <abbr title='%{exact_time}'>%{when} geleden</abbr> opgelost door
-        %{user}
-      closed_by_anonymous: <abbr title='%{exact_time}'>%{when} geleden</abbr> opgelost
-        door anoniem
-      reopened_by: <abbr title='%{exact_time}'>%{when} geleden</abbr> opnieuw geactiveerd
+      open_by: <abbr title='%{exact_time}'>%{when}</abbr> aangemaakt door %{user}
+      open_by_anonymous: <abbr title='%{exact_time}'>%{when}</abbr> aangemaakt door
+        anoniem
+      commented_by: Reactie van %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Reactie van anoniem <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: <abbr title='%{exact_time}'>%{when}</abbr> opgelost door %{user}
+      closed_by_anonymous: <abbr title='%{exact_time}'>%{when}</abbr> opgelost door
+        anoniem
+      reopened_by: <abbr title='%{exact_time}'>%{when}</abbr> opnieuw geactiveerd
         door %{user}
-      reopened_by_anonymous: <abbr title='%{exact_time}'>%{when} geleden</abbr> opnieuw
-        geactiveerd door anoniem
+      reopened_by_anonymous: <abbr title='%{exact_time}'>%{when}</abbr> opnieuw geactiveerd
+        door anoniem
       hidden_by: <abbr title='%{exact_time}'>%{when} ago</abbr> verborgen door %{user}
       report: Notitie rapporteren
     query:
@@ -334,7 +370,7 @@ nl:
       area: Gebied
     index:
       title: Wijzigingensets
-      title_user: Wijzigingensets van%{user}
+      title_user: Wijzigingensets door %{user}
       title_friend: Wijzigingensets van mijn vrienden
       title_nearby: Wijzigingensets van nabijgelegen gebruikers
       empty: Geen wijzigingensets gevonden.
@@ -350,7 +386,7 @@ nl:
   changeset_comments:
     comment:
       comment: 'Nieuwe reactie bij wijzigingenset #%{changeset_id} door %{author}'
-      commented_at_by_html: '%{when} geleden bijgewerkt door %{user}'
+      commented_at_by_html: '%{when} bijgewerkt door %{user}'
     comments:
       comment: 'Nieuwe reactie bij wijzigingenset #%{changeset_id} door %{author}'
     index:
@@ -406,11 +442,13 @@ nl:
         other: '%{count} reacties'
       edit_link: Bewerk dit bericht
       hide_link: Verberg dit bericht
+      unhide_link: Toevoeging zichtbaar maken
       confirm: Bevestigen
       report: Rapporteer dit bericht
     diary_comment:
       comment_from: Reactie van %{link_user} op %{comment_created_at}
       hide_link: Reactie verbergen
+      unhide_link: Reactie zichtbaar maken
       confirm: Bevestigen
       report: Rapporteer deze opmerking
     location:
@@ -433,7 +471,6 @@ nl:
       post: Dagboekbericht
       when: Wanneer
       comment: Reactie
-      ago: '%{ago} geleden'
       newer_comments: Nieuwe opmerkingen
       older_comments: Eerdere opmerkingen
   geocoder:
@@ -454,8 +491,10 @@ nl:
           chair_lift: Stoeltjeslift
           drag_lift: Sleeplift
           gondola: Gondel
+          platter: Schotellift
           pylon: Pilaar
           station: Kabelbaanstation
+          t-bar: T-lift
         aeroway:
           aerodrome: Vliegveld
           airstrip: Landingsbaan
@@ -463,6 +502,8 @@ nl:
           gate: Gate
           hangar: Hangaar
           helipad: Helikopterplatform
+          holding_position: Positie vasthouden
+          parking_position: Parkeerpositie
           runway: Start- en landingsbaan
           taxiway: Taxibaan
           terminal: Terminal
@@ -508,6 +549,7 @@ nl:
           fuel: Brandstof
           gambling: Gokken
           grave_yard: Begraafplaats
+          grit_bin: Strooibak
           hospital: Ziekenhuis
           hunting_stand: Jachttoren
           ice_cream: IJs
@@ -1043,9 +1085,8 @@ nl:
       status: Status
       reports: Rapportages
       last_updated: Laatst Bijgewerkt
-      last_updated_time_html: <abbr title='%{title}'>%{time} geleden</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} geleden</abbr> door
-        %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> door %{user}
       link_to_reports: Rapporten weergeven
       reports_count:
         one: 1 Rapport
@@ -1164,6 +1205,7 @@ nl:
     partners_ucl: het UCL VR Centre
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
+    tou: Gebruiksvoorwaarden
     osm_offline: De OpenStreetMap-database is op het moment niet beschikbaar wegens
       het uitvoeren van onderhoudswerkzaamheden.
     osm_read_only: De OpenStreetMap-database kan op het moment niet gewijzigd worden
@@ -1406,11 +1448,14 @@ nl:
       legal_html: "Deze site en tal van andere diensten worden formeel beheerd door
         \n<a href=\"https://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF)
         \nnamens de gemeenschap. Het gebruik van alle door OSMF aangeboden diensten
-        is onderworpen\naan ons <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nBeleid
-        voor aanvaardbaar gebruik</a> en ons <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Privacybeleid</a>.\n<br>
+        is onderworpen\naan onze <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">gebruiksvoorwaarden</a>,
+        ons <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nbeleid
+        voor aanvaardbaar gebruik</a> en ons <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">privacybeleid</a>.\n<br>
         \n<a href=\"https://osmfoundation.org/Contact\">Neem contact op met de OSMF</a>
         \nals u vragen of problemen hebt in verband met licenties, auteursrechten
-        of andere juridische zaken."
+        of andere juridische zaken.\n<br>\nHet OpenStreetMap-vergrootglaslogo en State
+        of the Map zijn <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">geregistreerde
+        handelsmerken van de OSMF</a>."
       partners_title: Partners
     copyright:
       foreign:
@@ -1651,7 +1696,7 @@ nl:
         en documenteren van onderwerpen die gaan over kaarten maken.
       welcome:
         url: /welcome
-        title: Welkom bij OSM
+        title: Welkom bij OpenStreetMap
         description: Begin met dit snelle stappenplan dat de basis van OpenSteetMap
           uitlegt.
       beginners_guide:
@@ -1660,9 +1705,9 @@ nl:
         description: Handleiding voor beginners, onderhouden door de gemeenschap.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Help Forum
         description: Stel een vraag of zoek antwoorden op de vraag- en antwoordsite
-          van OSM.
+          van OpenStreetMap.
       mailing_lists:
         title: Mailinglijsten
         description: Stel een vraag of bespreek interessante zaken op een hele reeks
@@ -1686,8 +1731,8 @@ nl:
           wat u moet weten in de welkomstmat.
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: In de wiki kijken voor diepgaande documentatie over OSM
+        title: OpenStreetMap Wiki
+        description: In de wiki kijken voor diepgaande documentatie over OpenStreetMap.
     sidebar:
       search_results: Zoekresultaten
       close: Sluiten
@@ -1915,7 +1960,6 @@ nl:
     trace:
       pending: BEZIG
       count_points: '%{count} punten'
-      ago: '%{time_in_words_ago} geleden'
       more: meer
       trace_details: Trackdetails bekijken
       view_map: Kaart bekijken
@@ -2171,15 +2215,27 @@ nl:
         niet te accepteren. Zie <a href="%{url}">deze wikipagina</a> voor meer informatie.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Bijdragersovereenkomst
-      heading: Voorwaarden voor bijdragen
-      consider_pd: Met inachtneming van de bovenstaande overeenkomst, bevinden mijn
-        bijdragen zich in het publieke domein
+      title: Voorwaarden
+      heading: Voorwaarden
+      heading_ct: Voorwaarden voor bijdragen
+      read and accept with tou: Lees de bijdragersovereenkomst en de gebruiksvoorwaarden,
+        vink beide selectievakjes aan als u klaar bent en druk vervolgens op de knop
+        Doorgaan.
+      contributor_terms_explain: Deze overeenkomst regelt de voorwaarden voor uw bestaande
+        en toekomstige bijdragen.
+      read_ct: Ik heb de bovenstaande bijdragevoorwaarden gelezen en ga ermee akkoord
+      tou_explain_html: Deze %{tou_link} regelen het gebruik van de website en andere
+        infrastructuur die door de OSMF wordt aangeboden. Klik op de link, lees en
+        ga akkoord met de tekst.
+      read_tou: Ik heb de gebruiksvoorwaarden gelezen en ga hiermee akkoord
+      consider_pd: Met inachtneming van bovenstaande, bevinden mijn bijdragen zich
+        in het publieke domein
       consider_pd_why: wat is dit?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Meer informatie om de voorwaarden beter te kunnen begrijpen: een
         <a href="%{summary}">leesbare samenvatting</a> en <a href="%{translations}">informele
         vertalingen</a>'
+      continue: Doorgaan
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Weigeren
       you need to accept or decline: Lees de nieuwe Bijdragersvoorwaarden en besluit
@@ -2216,12 +2272,10 @@ nl:
       remove as friend: Vriend verwijderen
       add as friend: Vriend toevoegen
       mapper since: 'Mapper sinds:'
-      ago: (%{time_in_words_ago} geleden)
       ct status: 'Voorwaarden voor bijdragen:'
       ct undecided: Onbeslist
       ct declined: Afgewezen
-      ct accepted: '%{ago} geleden geaccepteerd'
-      latest edit: 'Laatste bewerking %{ago}:'
+      latest edit: 'Laatste bewerking (%{ago}):'
       email address: 'E-mailadres:'
       created from: 'Aangemaakt door:'
       status: 'Status:'
@@ -2483,7 +2537,7 @@ nl:
       title: Blokkade voor %{block_on} intrekken
       heading: Blokkade voor %{block_on} door %{block_by} intrekken
       time_future: Deze blokkade vervalt over %{time}.
-      past: De blokkade is %{time} geleden vervallen en kan niet ingetrokken worden.
+      past: De blokkade is %{time} vervallen en kan nu niet ingetrokken worden.
       confirm: Weet u zeker dat u deze blokkade wilt intrekken?
       revoke: Intrekken
       flash: Deze blokkade is ingetrokken.
@@ -2492,11 +2546,23 @@ nl:
       until_login: Actief totdat de gebruiker zich aanmeldt.
       time_future_and_until_login: Eindigt in %{time} en nadat de gebruiker ingelogd
         is.
-      time_past: '%{time} geleden vervallen.'
+      time_past: '%{time} vervallen.'
       block_duration:
         hours:
           one: 1 uur
           other: '%{count} uur'
+        days:
+          one: 1 dag
+          other: '%{count} dagen'
+        weeks:
+          one: 1 week
+          other: '%{count} weken'
+        months:
+          one: 1 maand
+          other: '%{count} maanden'
+        years:
+          one: 1 jaar
+          other: '%{count} jaren'
     blocks_on:
       title: Blokkades voor %{name}
       heading: Lijst met blokkades voor %{name}
@@ -2508,10 +2574,7 @@ nl:
     show:
       title: '%{block_on} geblokkeerd door %{block_by}'
       heading: '%{block_on} geblokkeerd door %{block_by}'
-      time_future: Vervalt over %{time}
-      time_past: Is %{time} geleden vervallen
       created: Aangemaakt
-      ago: '%{time} geleden'
       status: Status
       show: Weergeven
       edit: Bewerken
@@ -2545,7 +2608,6 @@ nl:
       description: Beschrijving
       created_at: Aangemaakt op
       last_changed: Laatste wijziging
-      ago_html: '%{when} geleden'
   javascripts:
     close: Sluiten
     share:
@@ -2595,6 +2657,7 @@ nl:
         title: Lagen
       copyright: © <a href='%{copyright_url}'>bijdragers OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Doneer nu</a>
+      terms: <a href='%{terms_url}' target='_blank'>Website en API-voorwaarden</a>
     site:
       edit_tooltip: Kaart bewerken
       edit_disabled_tooltip: Zoom in om de kaart te bewerken

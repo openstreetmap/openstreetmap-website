@@ -11,7 +11,7 @@
             "favorite": "お気に入り"
         },
         "toolbar": {
-            "inspect": "検索/地物エディタ",
+            "inspect": "位置検索/タグ編集",
             "undo_redo": "元に戻す/再実行",
             "recent": "選択履歴",
             "favorites": "お気に入り",
@@ -19,8 +19,8 @@
         },
         "modes": {
             "add_feature": {
-                "title": "追加する地物や要素をキーワード検索",
-                "description": "地図上に追加する地物の種類と描画の要素（ポイント/ライン/エリア）をキーワード検索や履歴(Tab)から選び、形状を描画します。必要ならさらに左側の地物エディタで詳細タグを編集します。よく使うものは☆でお気に入り登録すると次回からワンタッチで選べます。",
+                "title": "地物を追加",
+                "description": "マップに追加する地物を検索。",
                 "key": "Tab",
                 "result": "{count} 件の結果",
                 "results": "{count} 件の結果"
@@ -131,7 +131,7 @@
                 "not_downloaded": "一部がまだダウンロードされていないため、円状に整形できません。"
             },
             "orthogonalize": {
-                "title": "直交化",
+                "title": "直角化",
                 "description": {
                     "vertex": "この角を直角にする。",
                     "line": "ラインの角を直角に整形",
@@ -145,10 +145,10 @@
                 },
                 "end_vertex": "終端ノードなので直角化できません。",
                 "square_enough": "すでに直角です。",
-                "not_squarish": "直交にできない辺があるため、角を直角に整形することができません",
-                "too_large": "ウェイが完全には表示されていないため、四角形に整形することができません。",
-                "connected_to_hidden": "非表示の地物に接続しているため、四角形に整形することができません。",
-                "not_downloaded": "一部がまだダウンロードされていないため、四角形に整形できません。"
+                "not_squarish": "直角にできない辺があるため、角を直角に整形することができません",
+                "too_large": "ウェイが完全には表示されていないため、直角に整形することができません。",
+                "connected_to_hidden": "非表示の地物に接続しているため、直角に整形することができません。",
+                "not_downloaded": "一部がまだダウンロードされていないため、直角に整形できません。"
             },
             "straighten": {
                 "title": "直線化",
@@ -504,7 +504,8 @@
             "translate": "翻訳",
             "localized_translation_label": "多言語名称",
             "localized_translation_language": "言語選択",
-            "localized_translation_name": "名称"
+            "localized_translation_name": "名称",
+            "language_and_code": "{language} ({code})"
         },
         "zoom_in_edit": "ズームして編集",
         "login": "ログイン",
@@ -618,7 +619,7 @@
         },
         "geocoder": {
             "search": "世界中のデータから検索",
-            "no_results_visible": "表示中のエリアからの検索結果はありませんでした",
+            "no_results_visible": "現在表示中のマップ領域にはありませんでした",
             "no_results_worldwide": "検索結果がありません"
         },
         "geolocate": {
@@ -661,7 +662,7 @@
             "multiselect": "選択中の地物",
             "unknown": "不明",
             "incomplete": "<ダウンロード未完了>",
-            "feature_list": "地物名や座標で検索してズーム",
+            "feature_list": "地物名や座標で位置検索してズーム",
             "edit": "地物エディタ",
             "check": {
                 "yes": "はい",
@@ -866,10 +867,10 @@
             }
         },
         "restore": {
-            "heading": "OSMにアップロードされていない編集内容があります",
-            "description": "前回作業した編集内容がアップロードされていません。編集内容を復元しますか？",
-            "restore": "変更を復元",
-            "reset": "変更を破棄"
+            "heading": "変更した内容が保存されていません",
+            "description": "直前の編集セッションから未保存の変更内容を復元しますか？",
+            "restore": "変更内容を復元",
+            "reset": "変更内容を破棄"
         },
         "save": {
             "title": "保存",
@@ -905,14 +906,14 @@
             }
         },
         "success": {
-            "just_edited": "OpenStreetMap編集完了！",
-            "thank_you": "マップの改善ありがとうございます。",
-            "thank_you_location": "{where}付近でのマップ改善への協力ありがとうございます。",
+            "just_edited": "たった今OpenStreetMapが編集されました！",
+            "thank_you": "マップ改善へのご協力ありがとうございます。",
+            "thank_you_location": "{where} 付近のマップ改善へのご協力ありがとうこざいます。",
             "thank_you_where": {
                 "format": "{place}{separator}{region}",
                 "separator": ", "
             },
-            "help_html": "あなたが投稿した内容は（サーバーの状況にもよりますが）数分で標準レイヤーに反映されます。その他のレイヤーなどでは反映にさらに時間がかかる場合があります。",
+            "help_html": "サーバーの状態にもよりますが、変更は通常数分で反映されます。標準地図以外への反映はもっと時間がかかる場合があります。",
             "help_link_text": "詳細",
             "help_link_url": "https://wiki.openstreetmap.org/wiki/FAQ#I_have_just_made_some_changes_to_the_map._How_do_I_get_to_see_my_changes.3F",
             "view_on_osm": "OSM上で変更内容を閲覧",
@@ -929,10 +930,10 @@
             "cancel": "キャンセル"
         },
         "splash": {
-            "welcome": "iD 起動中",
-            "text": "iDは、世界でもっとも優れた自由な世界地図を編集するためのツールで、馴染みやすく、かつ高機能です。現在のバージョンは {version} です。詳細は {website} で公開中です。バグ報告は {github} で受け付けています。",
-            "walkthrough": "チュートリアルを開始",
-            "start": "直ちに編集"
+            "welcome": "OpenStreetMap エディタの iD へようこそ",
+            "text": "iD はみんなで作る世界地図に貢献するための使いやすくパワフルなツールです。現在のバージョンは {version} です。詳細情報は {website} で、バグレポートは {github} でお願いします。",
+            "walkthrough": "ウォークスルーを始める",
+            "start": "今すぐ編集を始める"
         },
         "source_switch": {
             "live": "本番サーバ",
@@ -1459,7 +1460,7 @@
                 "add_area_draw": "次にマウスカーソルを対象となる地物の角のひとつに置いて、{leftclick}左クリックまたはスペースキーを押してアリアの外周にノードを置き始めます。クリックまたはスペースキーを押してノードを追加します。外周を描いている間も、ズームインしたりマップをドラッグして詳細を描き加えることができます。",
                 "add_area_finish": "エリアを描き終わったら、`{return}`キーまたは`ESC`キーを押すか、最初または最後のノードを再度クリックして終了します。",
                 "square_area_h": "角を直角化",
-                "square_area_command": "建物などエリアの地物の多くには直角な角があります。エリアの角を直角にするには、エリアの境界を{rightclick}右クリックして選択し、編集メニューから{orthogonalize} **直交化**を選びます。",
+                "square_area_command": "建物などエリアの地物の多くには直角な角があります。エリアの角を直角にするには、エリアの境界を{rightclick}右クリックして選択し、編集メニューから{orthogonalize} **直角化**を選びます。",
                 "modify_area_h": "エリアを変更",
                 "modify_area_dragnode": "例えば背景画像と一致しない建物など、形状が正しくないエリア見かけることは多いでしょう。エリアの形状を調整するにはまず{leftclick}左クリックして対象を選びます。エリアの全ノードが小さな円として表示されます。そしてノードをより正確な位置にドラッグすることができます。",
                 "modify_area_addnode": "そのエリアの外周上で{leftclick}**x2**ダブルクリックしたり、2つのノード間の中間にある小さな三角形をドラッグすると、エリアに沿って新しいノードを作成することができます。",
@@ -1740,6 +1741,20 @@
                     "reference": "Google製品はプロプライエタリであり出典として使用してはいけません。"
                 }
             },
+            "invalid_format": {
+                "title": "不適切な形式",
+                "tip": "想定外の形式のタグを探す",
+                "email": {
+                    "message": "{feature} には不適切なメールアドレスがあります。",
+                    "message_multi": "{feature} には不適切なメールアドレスが複数あります。",
+                    "reference": "メールアドレスは \"user@example.com\" のような形式でなければなりません。"
+                },
+                "website": {
+                    "message": "{feature} には不適切なウェブサイトがあります。",
+                    "message_multi": "{feature} には不適切なウェブサイトが複数あります。",
+                    "reference": "ウェブサイトは \"http\" または \"https\" で始まらなければなりません。"
+                }
+            },
             "missing_role": {
                 "title": "ロールが未設定",
                 "message": "{relation} 内の{member} にはロールがありません",
@@ -1774,6 +1789,10 @@
                 "incomplete": {
                     "message": "{feature} には不完全なタグがあります",
                     "reference": "タグを追加したほうが良い地物があります。"
+                },
+                "noncanonical_brand": {
+                    "message": "{feature} はbrandの標準的なタグを使っていないようです",
+                    "reference": "同一brandの地物には同じタグ付けをしてください。"
                 }
             },
             "private_data": {
@@ -1843,6 +1862,9 @@
                 },
                 "connect_features": {
                     "title": "地物を接続する"
+                },
+                "connect_using_ford": {
+                    "title": "浅瀬を介して接続する"
                 },
                 "continue_from_start": {
                     "title": "開始点から延長する"
@@ -1933,6 +1955,9 @@
                 },
                 "use_different_layers": {
                     "title": "別のレイヤを使う"
+                },
+                "use_different_layers_or_levels": {
+                    "title": "違うlayerかlevelを使ってください"
                 },
                 "use_different_levels": {
                     "title": "別の階を使う"
@@ -2170,8 +2195,8 @@
                 "choose_preset_house": "建物の種類はこれ以外にもいろいろありますが、これは明らかに家（一戸建て住宅）です。{br}種別がはっきりわからない場合は建物全般の種別を選べばOKです。**{preset} という種別を選びます。**",
                 "close": "**エスケープキーか{button} ボタンをクリックして地物エディタを閉じます。**",
                 "rightclick_building": "**作成した建物を右クリックで選んで編集メニューを表示します。**",
-                "square_building": "あなたが描いた建物を、より建物らしい直角構造にしてみましょう。**{button}ボタンを押すと、建物の形が四角形になります。**",
-                "retry_square": "直交化ボタン以外を押したようです。もう一度やってみてください。",
+                "square_building": "あなたが描いた建物を、より建物らしい直角構造にしてみましょう。**{button}ボタンを押すと、建物の形が直角になります。**",
+                "retry_square": "直角化ボタン以外を押したようです。もう一度やってみてください。",
                 "done_square": "建物の角が動いたのが分かりましたか？もうひとつ役に立つテクニックを学びましょう。",
                 "add_tank": "次に、この円形の貯蔵タンクをトレースします。**{button} エリアをクリックして新しいエリアを追加してください。**",
                 "start_tank": "きれいな円が描けなくても大丈夫。タンクの外周に触れるようにして、その内側のエリアに粗い円を描いてみてください。**クリックするかスペースキーを押してタンクの外周上に開始ノードを置きます。**",
@@ -2431,6 +2456,7 @@
                         }
                     },
                     "placeholder": "その他",
+                    "terms": "アクセス, 許可",
                     "types": {
                         "access": "すべて",
                         "bicycle": "自転車",
@@ -2440,7 +2466,17 @@
                     }
                 },
                 "access_simple": {
-                    "label": "アクセス制限"
+                    "label": "アクセス制限",
+                    "terms": "アクセス, 許可"
+                },
+                "addr/interpolation": {
+                    "label": "補間の種類",
+                    "options": {
+                        "all": "すべて",
+                        "alphabetic": "アルファベット補間",
+                        "even": "最初が奇数",
+                        "odd": "最初が偶数"
+                    }
                 },
                 "address": {
                     "label": "住所",
@@ -2476,7 +2512,8 @@
                         "suburb": "区",
                         "suburb!jp": "区",
                         "unit": "単位"
-                    }
+                    },
+                    "terms": "住所, アドレス"
                 },
                 "admin_level": {
                     "label": "Admin Level"
@@ -2525,7 +2562,8 @@
                     "label": "製品"
                 },
                 "air_conditioning": {
-                    "label": "空調有無"
+                    "label": "空調有無",
+                    "terms": "空調, エアコン, 冷暖房"
                 },
                 "amenity": {
                     "label": "種類"
@@ -2540,7 +2578,8 @@
                     "label": "対象となる動物"
                 },
                 "architect": {
-                    "label": "建築家"
+                    "label": "建築家",
+                    "terms": "建築家, 設計者, アーキテクト"
                 },
                 "area/highway": {
                     "label": "道路の種類"
@@ -2561,7 +2600,8 @@
                     "label": "背もたれ"
                 },
                 "bar": {
-                    "label": "バー"
+                    "label": "バー",
+                    "terms": "バー, 酒"
                 },
                 "barrier": {
                     "label": "種類"
@@ -2587,13 +2627,15 @@
                     "label": "美容の種類"
                 },
                 "bench": {
-                    "label": "ベンチ"
+                    "label": "ベンチ",
+                    "terms": "ベンチ, 椅子, いす, 腰掛け, 座席"
                 },
                 "bicycle_parking": {
                     "label": "種類"
                 },
                 "bin": {
-                    "label": "ゴミ箱有無"
+                    "label": "ゴミ箱有無",
+                    "terms": "ゴミ箱, ごみ箱, 廃棄物, 空き缶, 空き瓶, 空きビン, 空きカン"
                 },
                 "blood_components": {
                     "label": "献血種類",
@@ -2617,10 +2659,12 @@
                     "label": "種類"
                 },
                 "brand": {
-                    "label": "ブランド"
+                    "label": "ブランド",
+                    "terms": "ブランド, 系列"
                 },
                 "brewery": {
-                    "label": "ドラフトビール"
+                    "label": "ドラフトビール",
+                    "terms": "ドラフトビール, ビール"
                 },
                 "bridge": {
                     "label": "種類",
@@ -2630,14 +2674,22 @@
                     "label": "種類"
                 },
                 "building": {
-                    "label": "建物"
+                    "label": "建物",
+                    "terms": "建物, ビル"
+                },
+                "building/levels/underground": {
+                    "label": "地下階数",
+                    "placeholder": "2, 4, 6...",
+                    "terms": "地下, 地下階数"
                 },
                 "building/levels_building": {
                     "label": "建物の地上階数",
-                    "placeholder": "2, 4, 6..."
+                    "placeholder": "2, 4, 6...",
+                    "terms": "階数, 総階数, 階建て"
                 },
                 "building/material": {
-                    "label": "建物の素材"
+                    "label": "建物の素材",
+                    "terms": "材料, 素材"
                 },
                 "building_area": {
                     "label": "建物"
@@ -2666,13 +2718,27 @@
                 },
                 "capacity": {
                     "label": "収容数",
-                    "placeholder": "50, 100, 200..."
+                    "placeholder": "50, 100, 200...",
+                    "terms": "キャパ, 容量, 収容数, 定員, 収容台数, 座席数"
                 },
                 "cash_in": {
                     "label": "入金"
                 },
                 "castle_type": {
                     "label": "種類"
+                },
+                "changing_table": {
+                    "label": "オムツ交換台有無"
+                },
+                "charge_fee": {
+                    "label": "料金",
+                    "placeholder": "1 EUR, 5 USD, 10 JPY…",
+                    "terms": "オムツ替え台, オムツ交換台"
+                },
+                "charge_toll": {
+                    "label": "通行料金",
+                    "placeholder": "1 EUR, 5 USD, 10 JPY…",
+                    "terms": "通行料金, 料金"
                 },
                 "check_date": {
                     "label": "最終確認日"
@@ -2687,14 +2753,16 @@
                     "label": "収集時刻"
                 },
                 "colour": {
-                    "label": "色"
+                    "label": "色",
+                    "terms": "色, カラー"
                 },
                 "comment": {
                     "label": "変更セットのコメント",
-                    "placeholder": "投稿内容の短い説明(必須)"
+                    "placeholder": "投稿内容の簡潔な説明(アップロード前に記入必須)"
                 },
                 "communication_multi": {
-                    "label": "通信回線の種類"
+                    "label": "通信回線の種類",
+                    "terms": "通信塔の種類, 通信"
                 },
                 "construction": {
                     "label": "種類"
@@ -2725,7 +2793,8 @@
                     "placeholder": "1, 2, 3..."
                 },
                 "covered": {
-                    "label": "屋根"
+                    "label": "屋根",
+                    "terms": "覆い, 屋根, 被覆"
                 },
                 "craft": {
                     "label": "種類"
@@ -2744,11 +2813,15 @@
                 "crossing": {
                     "label": "種類"
                 },
+                "crossing/island": {
+                    "label": "横断島"
+                },
                 "cuisine": {
                     "label": "料理"
                 },
                 "currency_multi": {
-                    "label": "通貨の種類"
+                    "label": "通貨の種類",
+                    "terms": "貨幣の種類, 貨幣, コイン, 紙幣, キャッシュ, 支払"
                 },
                 "cutting": {
                     "label": "種類",
@@ -2790,6 +2863,7 @@
                         }
                     },
                     "placeholder": "なし",
+                    "terms": "自転車レーン, 自転車, 自転車専用",
                     "types": {
                         "cycleway:left": "左側",
                         "cycleway:right": "右側"
@@ -2802,10 +2876,12 @@
                     "label": "日付"
                 },
                 "delivery": {
-                    "label": "配達"
+                    "label": "配達",
+                    "terms": "配達, 出前, 配送"
                 },
                 "denomination": {
-                    "label": "宗派"
+                    "label": "宗派",
+                    "terms": "宗派"
                 },
                 "denotation": {
                     "label": "意味"
@@ -2820,7 +2896,8 @@
                     }
                 },
                 "description": {
-                    "label": "説明"
+                    "label": "説明",
+                    "terms": "説明, 概要, サマリー"
                 },
                 "design": {
                     "label": "デザイン"
@@ -2829,7 +2906,8 @@
                     "label": "行き先の道路番号"
                 },
                 "destination/symbol_oneway": {
-                    "label": "行き先のシンボル"
+                    "label": "行き先のシンボル",
+                    "terms": "説明のシンボル, シンボル, アイコン"
                 },
                 "destination_oneway": {
                     "label": "行き先"
@@ -2838,11 +2916,13 @@
                     "label": "装置",
                     "placeholder": "1, 2, 3..."
                 },
-                "diaper": {
-                    "label": "おむつ交換台の利用可否"
+                "diameter": {
+                    "label": "直径",
+                    "placeholder": "5 mm, 10 cm, 15 in…"
                 },
                 "diet_multi": {
-                    "label": "食事制限の種類"
+                    "label": "食事制限の種類",
+                    "terms": "食事制限の種類, 食事制限, ビーガン, ベジタビリアン, 菜食"
                 },
                 "diplomatic": {
                     "label": "外交組織の種類"
@@ -2883,7 +2963,7 @@
                     }
                 },
                 "direction_vertex": {
-                    "label": "方向",
+                    "label": "影響を受ける方向",
                     "options": {
                         "backward": "逆方向",
                         "both": "両方 / 全て",
@@ -2908,7 +2988,8 @@
                         "leashed": "首紐がある場合に犬を同行可",
                         "no": "犬は同行不可",
                         "yes": "犬は同行可"
-                    }
+                    },
+                    "terms": "犬, ペット, 動物"
                 },
                 "door": {
                     "label": "ドア"
@@ -2917,11 +2998,13 @@
                     "label": "ドアの種類"
                 },
                 "drive_through": {
-                    "label": "ドライブスルー"
+                    "label": "ドライブスルー",
+                    "terms": "ドライブスルー"
                 },
                 "duration": {
                     "label": "所要時間",
-                    "placeholder": "00:00"
+                    "placeholder": "00:00",
+                    "terms": "期間"
                 },
                 "electrified": {
                     "label": "電化状態",
@@ -2934,11 +3017,13 @@
                     "placeholder": "架線、集電レール..."
                 },
                 "elevation": {
-                    "label": "標高"
+                    "label": "標高",
+                    "terms": "高度"
                 },
                 "email": {
                     "label": "メールアドレス",
-                    "placeholder": "example@example.com"
+                    "placeholder": "example@example.com",
+                    "terms": "メール, メールアドレス"
                 },
                 "embankment": {
                     "label": "種類",
@@ -2967,19 +3052,23 @@
                 },
                 "fax": {
                     "label": "FAX",
-                    "placeholder": "+31 42 123 4567"
+                    "placeholder": "+31 42 123 4567",
+                    "terms": "ファックス, ファクシミリ"
                 },
                 "fee": {
-                    "label": "利用料金"
+                    "label": "利用料金",
+                    "terms": "料金, 値段, 価格"
                 },
                 "fence_type": {
                     "label": "柵の種類"
                 },
                 "fire_hydrant/diameter": {
-                    "label": "口径 (mm, in, または文字)"
+                    "label": "口径 (mm, in, または文字)",
+                    "terms": "直径, 径"
                 },
                 "fire_hydrant/pressure": {
-                    "label": "水圧 (bar)"
+                    "label": "水圧 (bar)",
+                    "terms": "圧力, 水圧"
                 },
                 "fire_hydrant/type": {
                     "label": "形状",
@@ -2994,13 +3083,15 @@
                     "label": "暖炉"
                 },
                 "fishing": {
-                    "label": "釣り"
+                    "label": "釣り",
+                    "terms": "魚釣り, 釣り, フィッシング"
                 },
                 "fitness_station": {
                     "label": "設備の種類"
                 },
                 "fixme": {
-                    "label": "要修正"
+                    "label": "要修正",
+                    "terms": "修正依頼, 修正希望, 修正歓迎"
                 },
                 "flag/type": {
                     "label": "掲揚ポールの種類"
@@ -3009,17 +3100,20 @@
                     "label": "水に浮いているかどうか"
                 },
                 "flood_prone": {
-                    "label": "洪水浸水想定区域"
+                    "label": "洪水浸水想定区域",
+                    "terms": "洪水浸水想定区域, 洪水, 浸水"
                 },
                 "ford": {
                     "label": "種類",
                     "placeholder": "デフォルト"
                 },
                 "frequency": {
-                    "label": "動作周波数"
+                    "label": "動作周波数",
+                    "terms": "周波数"
                 },
                 "frequency_electrified": {
-                    "label": "動作周波数"
+                    "label": "動作周波数",
+                    "terms": "周波数"
                 },
                 "from": {
                     "label": "From"
@@ -3040,7 +3134,8 @@
                         "male": "男性",
                         "unisex": "性別区分なし"
                     },
-                    "placeholder": "不明"
+                    "placeholder": "不明",
+                    "terms": "性別, 男性, 女性, ユニセックス"
                 },
                 "generator/method": {
                     "label": "方式"
@@ -3082,13 +3177,16 @@
                     "label": "専門科"
                 },
                 "height": {
-                    "label": "高さ (メートル)"
+                    "label": "高さ (メートル)",
+                    "terms": "高さ"
                 },
                 "height_building": {
-                    "label": "高さ (メートル)"
+                    "label": "高さ (メートル)",
+                    "terms": "高さ, 建物の高さ, 全高"
                 },
                 "highspeed": {
-                    "label": "高速鉄道"
+                    "label": "高速鉄道",
+                    "terms": "高速, ハイスピード"
                 },
                 "highway": {
                     "label": "道路の種類"
@@ -3136,7 +3234,8 @@
                         "difficult": "困難: 狭くて荒れた道。乗り越えるべき障害物や狭い通路の可能性あり。",
                         "impossible": "通過不能: 馬では道または橋が通過できない。極端に狭い、サポート不足、はしごのような障害物。生命の危険あり。"
                     },
-                    "placeholder": "困難, 危険..."
+                    "placeholder": "困難, 危険...",
+                    "terms": "乗馬の難易度, 乗馬, 難易度"
                 },
                 "horse_stables": {
                     "label": "乗馬施設",
@@ -3146,13 +3245,14 @@
                     }
                 },
                 "iata": {
-                    "label": "IATA"
+                    "label": "IATA空港コード"
                 },
                 "icao": {
-                    "label": "ICAO"
+                    "label": "ICAO空港コード"
                 },
                 "incline": {
-                    "label": "傾斜"
+                    "label": "傾斜",
+                    "terms": "傾き, 傾斜, 斜度, 向き"
                 },
                 "incline_steps": {
                     "label": "傾斜",
@@ -3162,7 +3262,8 @@
                     }
                 },
                 "indoor": {
-                    "label": "室内"
+                    "label": "室内",
+                    "terms": "インドア, 屋内"
                 },
                 "indoor_type": {
                     "label": "屋内の種類"
@@ -3174,10 +3275,12 @@
                     "label": "種類"
                 },
                 "inscription": {
-                    "label": "碑文の文面"
+                    "label": "碑文の文面",
+                    "terms": "銘, 刻銘, 碑文, 記銘"
                 },
                 "intermittent": {
-                    "label": "間欠性"
+                    "label": "間欠性",
+                    "terms": "間欠, 季節, 季節涸川"
                 },
                 "intermittent_yes": {
                     "label": "間欠性"
@@ -3190,19 +3293,24 @@
                         "wired": "有線LAN",
                         "wlan": "Wi-Fi",
                         "yes": "有り"
-                    }
+                    },
+                    "terms": "インターネット, ネット, アクセスポイント"
                 },
                 "internet_access/fee": {
-                    "label": "インターネット接続利用料金"
+                    "label": "インターネット接続利用料金",
+                    "terms": "インターネットアクセス料金, アクセス料金, 使用料, 料金"
                 },
                 "internet_access/ssid": {
-                    "label": "SSID (Wifiネットワーク名)"
+                    "label": "SSID (Wifiネットワーク名)",
+                    "terms": "WIFIネットワーク名, アクセスポイント名"
                 },
                 "interval": {
-                    "label": "間隔"
+                    "label": "間隔",
+                    "terms": "運行間隔, 間隔, インターバル"
                 },
                 "junction/ref_oneway": {
-                    "label": "ジャンクション番号"
+                    "label": "ジャンクション番号",
+                    "terms": "交差点番号, ジャンクション番号"
                 },
                 "junction_line": {
                     "label": "ジャンクション",
@@ -3210,7 +3318,8 @@
                         "circular": "ロータリー交差点(優先権なし)",
                         "jughandle": "連絡用ランプ",
                         "roundabout": "ラウンドアバウト(優先権あり)"
-                    }
+                    },
+                    "terms": "交差点, ジャンクション"
                 },
                 "kerb": {
                     "label": "縁石の詳細"
@@ -3229,14 +3338,16 @@
                 },
                 "lanes": {
                     "label": "車線数",
-                    "placeholder": "1, 2, 3..."
+                    "placeholder": "1, 2, 3...",
+                    "terms": "レーン数, 車線数, 車線"
                 },
                 "language_multi": {
                     "label": "言語"
                 },
                 "layer": {
                     "label": "レイヤー",
-                    "placeholder": "0"
+                    "placeholder": "0",
+                    "terms": "レイヤ"
                 },
                 "leaf_cycle": {
                     "label": "葉の季節変化",
@@ -3281,20 +3392,27 @@
                     "label": "長さ (m)"
                 },
                 "level": {
-                    "label": "フロア番号（日本の1階は0）"
+                    "label": "フロア番号（日本の1階は0）",
+                    "terms": "階, フロア"
                 },
                 "levels": {
                     "label": "総階数",
-                    "placeholder": "2, 4, 6..."
+                    "placeholder": "2, 4, 6...",
+                    "terms": "階, フロア"
                 },
                 "liaison": {
                     "label": "交流組織の種類"
                 },
+                "line_attachment": {
+                    "label": "配線形態"
+                },
                 "lit": {
-                    "label": "照明"
+                    "label": "照明",
+                    "terms": "街灯, 灯り, ランプ, 照明"
                 },
                 "location": {
-                    "label": "位置"
+                    "label": "位置",
+                    "terms": "位置, 配置, 地下, 水面下, 地上"
                 },
                 "location_pool": {
                     "label": "位置",
@@ -3314,7 +3432,8 @@
                     "label": "種類"
                 },
                 "manufacturer": {
-                    "label": "メーカー"
+                    "label": "メーカー",
+                    "terms": "メーカー, 製造者, 製作者"
                 },
                 "map_size": {
                     "label": "地図の範囲"
@@ -3323,38 +3442,47 @@
                     "label": "種類"
                 },
                 "material": {
-                    "label": "素材"
+                    "label": "素材",
+                    "terms": "材料, 素材"
                 },
                 "maxheight": {
                     "label": "高さ制限",
-                    "placeholder": "4, 4.5, 5, 14'0\", 14'6\", 15'0\""
+                    "placeholder": "4, 4.5, 5, 14'0\", 14'6\", 15'0\"",
+                    "terms": "最大高"
                 },
                 "maxspeed": {
                     "label": "最高速度",
-                    "placeholder": "40, 50, 60..."
+                    "placeholder": "40, 50, 60...",
+                    "terms": "速度制限, 制限速度"
                 },
                 "maxspeed/advisory": {
                     "label": "安全速度",
-                    "placeholder": "40, 50, 60..."
+                    "placeholder": "40, 50, 60...",
+                    "terms": "安全速度, 提案速度"
                 },
                 "maxstay": {
-                    "label": "最大利用時間"
+                    "label": "最大利用時間",
+                    "terms": "最大滞在時間, 最大時間, 最長時間"
                 },
                 "maxweight": {
-                    "label": "最大重量"
+                    "label": "最大重量",
+                    "terms": "最大高"
                 },
                 "maxweight_bridge": {
-                    "label": "最大重量"
+                    "label": "最大重量",
+                    "terms": "最大高"
                 },
                 "memorial": {
                     "label": "種類"
                 },
                 "microbrewery": {
-                    "label": "地ビール醸造所"
+                    "label": "地ビール醸造所",
+                    "terms": "醸造所, クラフトビール, 蔵元"
                 },
                 "minspeed": {
                     "label": "最低速度制限",
-                    "placeholder": "20, 30, 40..."
+                    "placeholder": "20, 30, 40...",
+                    "terms": "最低速度, 最低速度制限, 速度制限"
                 },
                 "monitoring_multi": {
                     "label": "監視"
@@ -3370,7 +3498,8 @@
                         "5": "5: 最大の難しさ、漂礫地や地滑り",
                         "6": "6: 最上級のマウンテンバイクでなければ乗れない"
                     },
-                    "placeholder": "0, 1, 2, 3..."
+                    "placeholder": "0, 1, 2, 3...",
+                    "terms": "マウンテンバイクの難易度, マウンテンバイク, 難易度"
                 },
                 "mtb/scale/imba": {
                     "label": "IMBAトレイル難易度",
@@ -3381,7 +3510,8 @@
                         "3": "困難 (黒いひし形)",
                         "4": "非常に困難 (黒いひし形2つ)"
                     },
-                    "placeholder": "初級者、中級者、上級者..."
+                    "placeholder": "初級者、中級者、上級者...",
+                    "terms": "IBMAトレイル難易度, IMBAトレイル, 難易度"
                 },
                 "mtb/scale/uphill": {
                     "label": "マウンテンバイク登山難易度",
@@ -3393,17 +3523,20 @@
                         "4": "4: 平均30%未満の傾斜、地面状態は良くない、大きい岩や木の枝がある",
                         "5": "5: 非常に険しく、通常マウンテンバイクを押すか運ぶかする必要がある"
                     },
-                    "placeholder": "0, 1, 2, 3..."
+                    "placeholder": "0, 1, 2, 3...",
+                    "terms": "マウンテンバイク・アップヒルの難易度, マウンテンバイク, アップヒル, 難易度"
                 },
                 "name": {
                     "label": "名称",
-                    "placeholder": "固有の名称 (もしあれば)"
+                    "placeholder": "固有の名称 (もしあれば)",
+                    "terms": "名前, ネーム"
                 },
                 "natural": {
                     "label": "自然"
                 },
                 "network": {
-                    "label": "ネットワーク"
+                    "label": "ネットワーク",
+                    "terms": "ネットワーク"
                 },
                 "network_bicycle": {
                     "label": "ネットワークの種類",
@@ -3438,8 +3571,13 @@
                 "network_road": {
                     "label": "ネットワーク"
                 },
+                "not/name": {
+                    "label": "誤表記",
+                    "terms": "誤った名前, 誤り名, 誤表記, 誤表示"
+                },
                 "note": {
-                    "label": "メモ"
+                    "label": "メモ",
+                    "terms": "メモ, コメント"
                 },
                 "office": {
                     "label": "種類"
@@ -3455,7 +3593,8 @@
                     }
                 },
                 "oneway/bicycle": {
-                    "label": "一方通行 (自転車)"
+                    "label": "一方通行 (自転車)",
+                    "terms": "一方通行(自転車), 一方通行"
                 },
                 "oneway_yes": {
                     "label": "一方通行",
@@ -3472,20 +3611,27 @@
                 },
                 "opening_hours": {
                     "label": "営業時間",
-                    "placeholder": "不明"
+                    "placeholder": "不明",
+                    "terms": "時間, 時刻"
                 },
                 "operator": {
-                    "label": "管理主体"
+                    "label": "管理主体",
+                    "terms": "管理者, 運営者"
+                },
+                "operator/type": {
+                    "label": "管理者の種類"
                 },
                 "outdoor_seating": {
-                    "label": "屋外の席"
+                    "label": "屋外の席",
+                    "terms": "屋外席, 屋外の座席, 座席, シート"
                 },
                 "par": {
                     "label": "パー",
                     "placeholder": "3, 4, 5..."
                 },
                 "park_ride": {
-                    "label": "パーク＆ライド"
+                    "label": "パーク＆ライド",
+                    "terms": "パークアンドライド, 駐車"
                 },
                 "parking": {
                     "label": "種類",
@@ -3500,10 +3646,12 @@
                     }
                 },
                 "payment_multi": {
-                    "label": "支払の種類"
+                    "label": "支払の種類",
+                    "terms": "貨幣の種類, 貨幣, コイン, 紙幣, キャッシュ, 支払"
                 },
                 "payment_multi_fee": {
-                    "label": "支払方法"
+                    "label": "支払方法",
+                    "terms": "貨幣の種類, 貨幣, コイン, 紙幣, キャッシュ, 支払"
                 },
                 "phases": {
                     "label": "相の数",
@@ -3511,7 +3659,8 @@
                 },
                 "phone": {
                     "label": "電話番号",
-                    "placeholder": "+31 42 123 4567"
+                    "placeholder": "+31 42 123 4567",
+                    "terms": "電話番号, 電話, 携帯番号"
                 },
                 "piste/difficulty": {
                     "label": "難易度",
@@ -3636,20 +3785,35 @@
                 "playground/min_age": {
                     "label": "最低年齢"
                 },
+                "polling_station": {
+                    "label": "投票所",
+                    "terms": "投票所, 選挙"
+                },
                 "population": {
                     "label": "人口"
+                },
+                "post": {
+                    "label": "郵便受の配達先住所"
                 },
                 "power": {
                     "label": "種類"
                 },
                 "power_supply": {
-                    "label": "電源"
+                    "label": "電源",
+                    "terms": "電源, 電源供給"
+                },
+                "preschool": {
+                    "label": "幼児教育"
                 },
                 "produce": {
                     "label": "生産物"
                 },
                 "product": {
-                    "label": "製品"
+                    "label": "製品",
+                    "terms": "プロダクト, 製品, 産品"
+                },
+                "public_bookcase/type": {
+                    "label": "種類"
                 },
                 "railway": {
                     "label": "路線の種類"
@@ -3659,7 +3823,7 @@
                     "placeholder": "小数点第一位までの距離 (123.4)"
                 },
                 "railway/signal/direction": {
-                    "label": "方向（鉄道信号機）",
+                    "label": "影響を受ける方向",
                     "options": {
                         "backward": "逆方向",
                         "both": "両方向 / 全て",
@@ -3681,7 +3845,8 @@
                     "placeholder": "コンテナ, センター"
                 },
                 "ref": {
-                    "label": "参照コード"
+                    "label": "参照コード",
+                    "terms": "参照コード, リファレンス"
                 },
                 "ref/isil": {
                     "label": "ISILコード"
@@ -3700,13 +3865,15 @@
                     "label": "プラットホーム番号"
                 },
                 "ref_road_number": {
-                    "label": "道路番号"
+                    "label": "道路番号",
+                    "terms": "道路番号"
                 },
                 "ref_room_number": {
                     "label": "部屋番号"
                 },
                 "ref_route": {
-                    "label": "ルート番号"
+                    "label": "ルート番号",
+                    "terms": "ルート番号, ルート"
                 },
                 "ref_runway": {
                     "label": "滑走路番号",
@@ -3723,7 +3890,8 @@
                     "label": "種類"
                 },
                 "religion": {
-                    "label": "宗教"
+                    "label": "宗教",
+                    "terms": "リレーション, 関連"
                 },
                 "reservation": {
                     "label": "予約",
@@ -3732,7 +3900,8 @@
                         "recommended": "予約推奨",
                         "required": "予約必須",
                         "yes": "予約可能"
-                    }
+                    },
+                    "terms": "予約, 予約可否"
                 },
                 "resort": {
                     "label": "種類"
@@ -3747,7 +3916,8 @@
                     "label": "進行方向制限"
                 },
                 "roof/colour": {
-                    "label": "屋根の色"
+                    "label": "屋根の色",
+                    "terms": "屋根の色, 屋根のカラー, 色, カラー"
                 },
                 "room": {
                     "label": "部屋の種類"
@@ -3771,13 +3941,16 @@
                         "hiking": "T1: ハイキング",
                         "mountain_hiking": "T2: 山岳ハイキング"
                     },
-                    "placeholder": "山岳ハイキング, 高地登山…"
+                    "placeholder": "山岳ハイキング, 高地登山…",
+                    "terms": "ハイキングの難易度, ハキング, 難易度"
                 },
                 "salt": {
-                    "label": "塩分"
+                    "label": "塩分",
+                    "terms": "塩, 塩分, 塩湖, 塩水"
                 },
                 "sanitary_dump_station": {
-                    "label": "汚物廃棄所の場所"
+                    "label": "汚物廃棄所の場所",
+                    "terms": "汚物処理方法, 汚物処理"
                 },
                 "screen": {
                     "label": "スクリーン数",
@@ -3864,7 +4037,8 @@
                     "label": "カテゴリー"
                 },
                 "seamark/type": {
-                    "label": "航路標識"
+                    "label": "航路標識",
+                    "terms": "航路標識, 標識"
                 },
                 "seamark/wreck/category": {
                     "label": "カテゴリー"
@@ -3883,7 +4057,8 @@
                         "only": "中古品のみ",
                         "yes": "中古品の取り扱いあり"
                     },
-                    "placeholder": "中古品のみ、中古品あり、中古品なし"
+                    "placeholder": "中古品のみ、中古品あり、中古品なし",
+                    "terms": "中古, 古物"
                 },
                 "self_service": {
                     "label": "セルフサービス"
@@ -3904,7 +4079,8 @@
                         "siding": "側線",
                         "spur": "引き込み線",
                         "yard": "車両基地"
-                    }
+                    },
+                    "terms": "サービス, サービスの種類"
                 },
                 "service_times": {
                     "label": "サービス提供時間"
@@ -3945,7 +4121,8 @@
                         "separated": "同室内分煙",
                         "yes": "すべて喫煙可"
                     },
-                    "placeholder": "禁煙, 分煙, 喫煙可..."
+                    "placeholder": "禁煙, 分煙, 喫煙可...",
+                    "terms": "喫煙, タバコ, たばこ, スモーキング"
                 },
                 "smoothness": {
                     "label": "スムーズさ",
@@ -3959,7 +4136,8 @@
                         "very_bad": "最低地上高が高い：軽クロカン車",
                         "very_horrible": "特殊オフロード車：トラクター・ATV（全地形対応車）"
                     },
-                    "placeholder": "ローラースケートなど, 二輪車・四輪車, オフロード車…"
+                    "placeholder": "ローラースケートなど, 二輪車・四輪車, オフロード車…",
+                    "terms": "スムーズさ"
                 },
                 "social_facility": {
                     "label": "種類"
@@ -3968,7 +4146,12 @@
                     "label": "対象者"
                 },
                 "source": {
-                    "label": "情報源"
+                    "label": "情報源",
+                    "terms": "ソース, 出典"
+                },
+                "species/wikidata": {
+                    "label": "Wikidataの種",
+                    "terms": "ウィキデータの種, ウィキデータ"
                 },
                 "sport": {
                     "label": "スポーツ"
@@ -3983,10 +4166,12 @@
                     "label": "種目"
                 },
                 "stars": {
-                    "label": "星の数"
+                    "label": "星の数",
+                    "terms": "星, スター, 評価"
                 },
                 "start_date": {
-                    "label": "供用開始日"
+                    "label": "供用開始日",
+                    "terms": "開始日"
                 },
                 "step_count": {
                     "label": "段数"
@@ -4000,6 +4185,10 @@
                 },
                 "street_cabinet": {
                     "label": "ストリートキャビネットの種類"
+                },
+                "stroller": {
+                    "label": "ベビーカー利用可否",
+                    "terms": "ベビーカー利用可否, ベビーカー"
                 },
                 "structure": {
                     "label": "構造",
@@ -4029,7 +4218,8 @@
                     "label": "種類"
                 },
                 "supervised": {
-                    "label": "監視"
+                    "label": "監視",
+                    "terms": "監視, 見守り"
                 },
                 "support": {
                     "label": "設置場所･支持素材"
@@ -4052,7 +4242,8 @@
                     "label": "監視ゾーン"
                 },
                 "survey/date": {
-                    "label": "最新現地調査日付"
+                    "label": "最新現地調査日付",
+                    "terms": "最終測定日"
                 },
                 "swimming_pool": {
                     "label": "種類"
@@ -4067,7 +4258,8 @@
                     }
                 },
                 "tactile_paving": {
-                    "label": "点字ブロック"
+                    "label": "点字ブロック",
+                    "terms": "点字ブロック, 歩道, バリアフリー, 視覚障害, 点字"
                 },
                 "takeaway": {
                     "label": "持ち帰り",
@@ -4076,13 +4268,15 @@
                         "only": "持ち帰りのみ",
                         "yes": "可能"
                     },
-                    "placeholder": "可、不可、持ち帰りのみ"
+                    "placeholder": "可、不可、持ち帰りのみ",
+                    "terms": "持ち帰り, テイクアウト, お持ち帰り"
                 },
                 "target": {
                     "label": "目標国"
                 },
                 "tidal": {
-                    "label": "潮間帯"
+                    "label": "潮間帯",
+                    "terms": "潮間帯, 干潟"
                 },
                 "to": {
                     "label": "To"
@@ -4097,13 +4291,16 @@
                     }
                 },
                 "toilets/handwashing": {
-                    "label": "手洗い場"
+                    "label": "手洗い場",
+                    "terms": "手洗い場, 手洗い, 水道, 蛇口"
                 },
                 "toilets/position": {
-                    "label": "便器の位置"
+                    "label": "便器の位置",
+                    "terms": "位置, ポジション"
                 },
                 "toll": {
-                    "label": "料金"
+                    "label": "料金",
+                    "terms": "料金所, 料金"
                 },
                 "tomb": {
                     "label": "種類"
@@ -4139,7 +4336,7 @@
                     "label": "交通標識"
                 },
                 "traffic_sign/direction": {
-                    "label": "方向",
+                    "label": "影響を受ける方向",
                     "options": {
                         "backward": "逆方向",
                         "both": "両方向 / 全て",
@@ -4150,7 +4347,7 @@
                     "label": "特別な信号機の種類"
                 },
                 "traffic_signals/direction": {
-                    "label": "方向（信号機）",
+                    "label": "影響を受ける方向",
                     "options": {
                         "backward": "逆方向",
                         "both": "両方 / 全て",
@@ -4167,7 +4364,8 @@
                         "intermediate": "中間: 道の大部分は分かるが目印は少ない",
                         "no": "不可: 道はなく，高度な定位技量が必要"
                     },
-                    "placeholder": "優・良・悪…"
+                    "placeholder": "優・良・悪…",
+                    "terms": "ハイキングコース, 見つけやすさ, 難易度"
                 },
                 "transformer": {
                     "label": "種類",
@@ -4185,8 +4383,12 @@
                 "trees": {
                     "label": "樹種"
                 },
+                "trench": {
+                    "label": "種類"
+                },
                 "trolley_wire": {
-                    "label": "トロリーバスの架線"
+                    "label": "トロリーバスの架線",
+                    "terms": "トロリーバスの架線, トロリーバス, 架線"
                 },
                 "tunnel": {
                     "label": "種類",
@@ -4201,7 +4403,11 @@
                         "military": "軍事用",
                         "test": "試験用",
                         "tourism": "観光用"
-                    }
+                    },
+                    "terms": "使用方法, 鉄道使用方法"
+                },
+                "valve": {
+                    "label": "バルブの種類"
                 },
                 "vending": {
                     "label": "商品の種類"
@@ -4234,16 +4440,20 @@
                     "label": "電圧"
                 },
                 "voltage/primary": {
-                    "label": "主電圧"
+                    "label": "主電圧",
+                    "terms": "主電圧"
                 },
                 "voltage/secondary": {
-                    "label": "第二電圧"
+                    "label": "第二電圧",
+                    "terms": "二次電圧"
                 },
                 "voltage/tertiary": {
-                    "label": "第三電圧"
+                    "label": "第三電圧",
+                    "terms": "三次電圧"
                 },
                 "voltage_electrified": {
-                    "label": "電圧"
+                    "label": "電圧",
+                    "terms": "電圧"
                 },
                 "wall": {
                     "label": "種類"
@@ -4258,36 +4468,43 @@
                     "label": "水源"
                 },
                 "water_volume": {
-                    "label": "備蓄水量(m³)"
+                    "label": "備蓄水量(m³)",
+                    "terms": "貯水量, 貯水"
                 },
                 "waterway": {
                     "label": "水路の種類"
                 },
                 "website": {
                     "label": "ウェブサイト",
-                    "placeholder": "https://example.com"
+                    "placeholder": "https://example.com",
+                    "terms": "ウェブサイト, ホームページ"
                 },
                 "wetland": {
                     "label": "種類"
                 },
                 "wheelchair": {
-                    "label": "車椅子の利用可否"
+                    "label": "車椅子の利用可否",
+                    "terms": "車椅子, 車椅子利用可否, 車椅子アクセス"
                 },
                 "wholesale": {
                     "label": "卸売商品"
                 },
                 "width": {
-                    "label": "幅 (m)"
+                    "label": "幅 (m)",
+                    "terms": "幅, 広さ"
                 },
                 "wikidata": {
-                    "label": "ウィキデータ"
+                    "label": "ウィキデータ",
+                    "terms": "ウィキデータ"
                 },
                 "wikipedia": {
-                    "label": "Wikipedia"
+                    "label": "Wikipedia",
+                    "terms": "ウィキペディア"
                 },
                 "windings": {
                     "label": "コイル数",
-                    "placeholder": "1, 2, 3..."
+                    "placeholder": "1, 2, 3...",
+                    "terms": "巻, 巻き, コイル"
                 },
                 "windings/configuration": {
                     "label": "コイルの構成",
@@ -4299,10 +4516,14 @@
                         "scott": "Scott",
                         "star": "Star / Wye",
                         "zigzag": "Zig Zag"
-                    }
+                    },
+                    "terms": "コイル形状"
                 }
             },
             "presets": {
+                "addr/interpolation": {
+                    "name": "住所補間"
+                },
                 "address": {
                     "name": "住所",
                     "terms": "住所"
@@ -4396,9 +4617,17 @@
                     "name": "ヘリパッド",
                     "terms": "ヘリパッド, ヘリコプター発着所, ヘリポート"
                 },
+                "aeroway/holding_position": {
+                    "name": "停止ポイント（空港）",
+                    "terms": "停止ポイント, 飛行機, 空港"
+                },
                 "aeroway/jet_bridge": {
                     "name": "ボーディング・ブリッジ",
                     "terms": "ボーディング・ブリッジ, 搭乗橋, 空港, 飛行機"
+                },
+                "aeroway/parking_position": {
+                    "name": "駐機ポイント（空港）",
+                    "terms": "駐機ポイント, 飛行機, 空港"
                 },
                 "aeroway/runway": {
                     "name": "滑走路",
@@ -4605,6 +4834,10 @@
                     "name": "道場",
                     "terms": "道場, スポーツ, 訓練, 稽古, 練習, 習い事, 教習, トレーニング, 教室, 体操, 運動"
                 },
+                "amenity/dressing_room": {
+                    "name": "更衣室",
+                    "terms": "更衣室, 着替え, 脱衣所, ロッカールーム, 試着室"
+                },
                 "amenity/drinking_water": {
                     "name": "水飲み場",
                     "terms": "水飲み場, 水道, 飲用水, 飲料水, 飲み水, 蛇口, 公園"
@@ -4618,7 +4851,7 @@
                 },
                 "amenity/events_venue": {
                     "name": "イベント施設",
-                    "terms": "イベント施設, イベント会場, 会場, 催事"
+                    "terms": "イベント施設, イベント会場, 会場, 催事, 催事場, 結婚式場"
                 },
                 "amenity/fast_food": {
                     "name": "ファストフード全般",
@@ -4702,6 +4935,10 @@
                     "name": "インターネットカフェ",
                     "terms": "ネカフェ, ネットカフェ, 漫画喫茶, 漫喫, 休憩, カフェ"
                 },
+                "amenity/karaoke": {
+                    "name": "カラオケボックス",
+                    "terms": "カラオケボックス, カラオケ店, 歌, 音楽"
+                },
                 "amenity/kindergarten": {
                     "name": "幼稚園/保育園（代表点または敷地）",
                     "terms": "幼稚園の敷地, 保育園の敷地, 保育園, 幼稚園, 教育, 学校, 育児"
@@ -4709,6 +4946,10 @@
                 "amenity/language_school": {
                     "name": "外国語教室",
                     "terms": "外国語教室, 外国語学校, 英会話, 英会話教室, 英会話スクール, 外国語, 学習, 語学, 語学教室"
+                },
+                "amenity/letter_box": {
+                    "name": "郵便受け",
+                    "terms": "郵便受, 郵便受け, 郵便箱, 配達, メールボックス"
                 },
                 "amenity/library": {
                     "name": "図書館",
@@ -4757,6 +4998,10 @@
                     "name": "立体駐車場",
                     "terms": "複数階の駐車場, 駐車場, 立体駐車場, 立駐"
                 },
+                "amenity/parking/park_ride": {
+                    "name": "パーク＆ライド",
+                    "terms": "駐車場, 自動車, パーキング, コインパーキング, パーク＆ライド, 通勤, 乗り換え, 公共交通機関"
+                },
                 "amenity/parking/underground": {
                     "name": "地下駐車場",
                     "terms": "地下駐車場, 地下, 駐車場"
@@ -4797,6 +5042,18 @@
                     "name": "キリスト教の教会",
                     "terms": "教会, キリスト教, クリスチャン, キリスト教の教会, キリスト教徒, キリスト教会, 宗教, 宗教施設, 礼拝所"
                 },
+                "amenity/place_of_worship/christian/jehovahs_witness": {
+                    "name": "エホバの証人の王国会館",
+                    "terms": "エホバの証人の王国会館, 宗教, 信仰"
+                },
+                "amenity/place_of_worship/christian/la_luz_del_mundo": {
+                    "name": "ラルスデルムンド寺院",
+                    "terms": "ラルスデルムンド寺院, 宗教, 信仰"
+                },
+                "amenity/place_of_worship/christian/quaker": {
+                    "name": "クエーカーフレンズ集会所",
+                    "terms": "クエーカーフレンズ集会所, 宗教, 信仰"
+                },
                 "amenity/place_of_worship/hindu": {
                     "name": "ヒンドゥー教寺院",
                     "terms": "ヒンズー教寺院, 寺院, 信仰, 宗教, 宗教施設"
@@ -4829,9 +5086,17 @@
                     "name": "警察",
                     "terms": "警察, 警察署, 交番, 駐在所"
                 },
+                "amenity/polling_station": {
+                    "name": "投票所(常設)",
+                    "terms": "投票所, 期日前投票所, 選挙, 投票所(常設)"
+                },
                 "amenity/post_box": {
                     "name": "郵便ポスト",
                     "terms": "郵便ポスト, 郵便箱, ポスト"
+                },
+                "amenity/post_depot": {
+                    "name": "郵便集配所",
+                    "terms": "郵便集配所"
                 },
                 "amenity/post_office": {
                     "name": "郵便局",
@@ -4871,6 +5136,14 @@
                 },
                 "amenity/recycling": {
                     "name": "リサイクル施設"
+                },
+                "amenity/recycling/container/electrical_items": {
+                    "name": "リサイクルボックス（家電）",
+                    "terms": "リサイクルボックス（家電）, リサイクルボックス, 家電"
+                },
+                "amenity/recycling/container/green_waste": {
+                    "name": "リサイクルボックス（木くず類）",
+                    "terms": "リサイクルボックス（木くず類）, リサイクルボックス, 木くず, 草"
                 },
                 "amenity/recycling_centre": {
                     "name": "リサイクルセンター",
@@ -5080,6 +5353,10 @@
                 "amenity/vending_machine": {
                     "name": "自動販売機",
                     "terms": "自動販売機, 自販機"
+                },
+                "amenity/vending_machine/bottle_return": {
+                    "name": "空きビン回収機",
+                    "terms": "空きビン回収機, ボトル, 空き瓶"
                 },
                 "amenity/vending_machine/cigarettes": {
                     "name": "たばこ自動販売機",
@@ -5293,7 +5570,7 @@
                 },
                 "barrier/fence": {
                     "name": "フェンス",
-                    "terms": "フェンス, 柵, 障害物, バリア"
+                    "terms": "フェンス, 柵, 障害物, バリア, 塀, ブロック塀"
                 },
                 "barrier/fence/railing": {
                     "name": "ガードレール（歩行者用）",
@@ -5594,10 +5871,6 @@
                 "building_point": {
                     "name": "建物"
                 },
-                "camp_site/camp_pitch": {
-                    "name": "キャンプサイト",
-                    "terms": "キャンプサイト, 娯楽, アウトドア, レジャー"
-                },
                 "club": {
                     "name": "クラブ",
                     "terms": "クラブ"
@@ -5628,7 +5901,7 @@
                 },
                 "craft/boatbuilder": {
                     "name": "ボート製造所",
-                    "terms": "ボート製造所, 職人, 工房"
+                    "terms": "ボート製造所, 職人, 工房, 船大工"
                 },
                 "craft/bookbinder": {
                     "name": "製本所",
@@ -5772,8 +6045,8 @@
                     "terms": "製材, 職人"
                 },
                 "craft/scaffolder": {
-                    "name": "足場職人",
-                    "terms": "足場職人, とび職, 職人"
+                    "name": "とび職",
+                    "terms": "足場職人, とび職, 職人, 鳶, 鳶職"
                 },
                 "craft/sculptor": {
                     "name": "彫刻製作所",
@@ -5783,9 +6056,13 @@
                     "name": "製靴",
                     "terms": "製靴, 靴製造, 職人"
                 },
+                "craft/signmaker": {
+                    "name": "看板屋",
+                    "terms": "看板屋, 広告サイン制作, 広告"
+                },
                 "craft/stonemason": {
                     "name": "石工",
-                    "terms": "石工, 石材加工, 職人, 工房"
+                    "terms": "石工, 石材加工, 職人, 工房, 墓石, 墓石店"
                 },
                 "craft/tailor": {
                     "name": "仕立て屋"
@@ -5835,8 +6112,8 @@
                     "name": "行き先に用事がある緊急車両, 救命"
                 },
                 "emergency/fire_alarm": {
-                    "name": "火災通報ボックス",
-                    "terms": "火災通報ボックス, 火災通報装置"
+                    "name": "火災放置機",
+                    "terms": "火災通報ボックス, 火災通報装置, 火災放置機, 火事, 消防"
                 },
                 "emergency/fire_extinguisher": {
                     "name": "消火器",
@@ -5893,6 +6170,9 @@
                 "ford": {
                     "name": "洗い越し",
                     "terms": "洗い越し, 浅瀬"
+                },
+                "ford_line": {
+                    "name": "洗い越し"
                 },
                 "golf/bunker": {
                     "name": "サンドトラップ",
@@ -5961,6 +6241,10 @@
                 "healthcare/blood_donation": {
                     "name": "献血ルーム",
                     "terms": "血液センター, 健康, 医療"
+                },
+                "healthcare/counselling": {
+                    "name": "カウンセリングセンター",
+                    "terms": "カウンセリングセンター, カウンセリング, メンタルケア, 医療, 健康"
                 },
                 "healthcare/hospice": {
                     "name": "ホスピス",
@@ -6441,6 +6725,10 @@
                     "name": "農家（敷地）",
                     "terms": "農業施設用地, 農家, 農業"
                 },
+                "landuse/flowerbed": {
+                    "name": "公共の花壇",
+                    "terms": "花壇, 花, 公園, 庭, 公共の花壇"
+                },
                 "landuse/forest": {
                     "name": "人工林",
                     "terms": "人工林, 二次林, 営林, 保安林, 鉄道林, 防風林, 森林（人工）, 樹木, 植物, 林"
@@ -6497,14 +6785,6 @@
                     "name": "兵舎",
                     "terms": "兵舎, 兵営"
                 },
-                "landuse/military/bunker": {
-                    "name": "軍事用バンカー",
-                    "terms": "バンカー,掩体壕"
-                },
-                "landuse/military/checkpoint": {
-                    "name": "検問所",
-                    "terms": "検問所"
-                },
                 "landuse/military/danger_area": {
                     "name": "危険区域",
                     "terms": "危険区域"
@@ -6513,17 +6793,9 @@
                     "name": "海軍基地",
                     "terms": "海軍, 軍事基地"
                 },
-                "landuse/military/nuclear_explosion_site": {
-                    "name": "核実験場",
-                    "terms": "核実験場"
-                },
                 "landuse/military/obstacle_course": {
                     "name": "障害物コース",
                     "terms": "障害物コース, アスレチックコース"
-                },
-                "landuse/military/office": {
-                    "name": "軍事務所",
-                    "terms": "軍事務所"
                 },
                 "landuse/military/range": {
                     "name": "軍事演習場",
@@ -6633,6 +6905,10 @@
                 "leisure/dog_park": {
                     "name": "ドッグパーク",
                     "terms": "ドッグパーク, ドッグラン, 犬, 動物, ペット"
+                },
+                "leisure/escape_game": {
+                    "name": "脱出ゲーム場",
+                    "terms": "脱出ゲーム場, 脱出ゲーム, リアル脱出ゲーム, ゲーム, 娯楽"
                 },
                 "leisure/firepit": {
                     "name": "焚火場",
@@ -6949,6 +7225,10 @@
                     "name": "バンカーサイロ",
                     "terms": "バンカーサイロ, サイロ"
                 },
+                "man_made/cairn": {
+                    "name": "ケルン",
+                    "terms": "ケルン,ケアン, 積み石,石積み, 小石"
+                },
                 "man_made/chimney": {
                     "name": "煙突",
                     "terms": "煙突"
@@ -7021,6 +7301,10 @@
                     "name": "監視ステーション",
                     "terms": "監視ステーション"
                 },
+                "man_made/obelisk": {
+                    "name": "オベリスク",
+                    "terms": "オベリスク, 装飾的記念柱, 記念碑, 記念柱"
+                },
                 "man_made/observatory": {
                     "name": "観測ドーム",
                     "terms": "観測ドーム, 観測所"
@@ -7044,6 +7328,10 @@
                 "man_made/pipeline/underground": {
                     "name": "パイプライン（地下）",
                     "terms": "パイプライン（地下）, パイプライン, 地下, 埋設パイプライン, 地下パイプ"
+                },
+                "man_made/pipeline/valve": {
+                    "name": "バルブ(パイプライン)",
+                    "terms": "バルブ(パイプライン)"
                 },
                 "man_made/pumping_station": {
                     "name": "ポンプ場",
@@ -7076,6 +7364,10 @@
                 "man_made/survey_point": {
                     "name": "観測設備",
                     "terms": "観測設備, 観測地点, 測候所"
+                },
+                "man_made/torii": {
+                    "name": "鳥居",
+                    "terms": "鳥居, 神社"
                 },
                 "man_made/tower": {
                     "name": "塔",
@@ -7144,6 +7436,26 @@
                 "manhole/telecom": {
                     "name": "電話線用マンホール",
                     "terms": "電話線用マンホール"
+                },
+                "military/bunker": {
+                    "name": "軍事用バンカー",
+                    "terms": "掩体壕, 軍事用バンカー, バンカー"
+                },
+                "military/checkpoint": {
+                    "name": "検問所",
+                    "terms": "検問所, チェックポイント"
+                },
+                "military/nuclear_explosion_site": {
+                    "name": "核実験場",
+                    "terms": "核実験場"
+                },
+                "military/office": {
+                    "name": "軍事務所",
+                    "terms": "軍事務所"
+                },
+                "military/trench": {
+                    "name": "塹壕",
+                    "terms": "塹壕, 軍事用"
                 },
                 "natural": {
                     "name": "自然"
@@ -7335,6 +7647,10 @@
                     "name": "非営利組織",
                     "terms": "非営利組織, NPO, 非営利団体"
                 },
+                "office/bail_bond_agent": {
+                    "name": "保釈保証業者",
+                    "terms": "保釈保証業者"
+                },
                 "office/charity": {
                     "name": "慈善団体",
                     "terms": "慈善団体, 寄贈, 寄付"
@@ -7447,7 +7763,7 @@
                 },
                 "office/political_party": {
                     "name": "政党事務所",
-                    "terms": "政党事務所"
+                    "terms": "政党事務所, 政党, 政治, 自民党"
                 },
                 "office/private_investigator": {
                     "name": "私立探偵社",
@@ -7648,6 +7964,10 @@
                 "point": {
                     "name": "ポイント",
                     "terms": "ポイント, 点, ノード"
+                },
+                "polling_station": {
+                    "name": "投票所(臨時)",
+                    "terms": "投票所(臨時), 投票所, 期日前投票所, 選挙"
                 },
                 "power": {
                     "name": "電力関係"
@@ -8024,7 +8344,7 @@
                 },
                 "shop/antiques": {
                     "name": "古美術品店",
-                    "terms": "古美術品店, アンティークショップ, 美術, アート, 古美術"
+                    "terms": "古美術品店, アンティークショップ, 美術, アート, 古美術, 骨董品店"
                 },
                 "shop/appliance": {
                     "name": "白物家電販売店（大型製品）",
@@ -8232,6 +8552,10 @@
                 "shop/fashion": {
                     "name": "ファッション店"
                 },
+                "shop/fashion_accessories": {
+                    "name": "ファッション小物店",
+                    "terms": "アクセサリー店, アクセサリーショップ, ファッション, 小物, 装飾品, 服飾小物, ファッションアクセサリー店, 店舗, お店, おしゃれ, ファッション小物店"
+                },
                 "shop/fireplace": {
                     "name": "暖房具店",
                     "terms": "暖房具店, 店舗, お店, 暖房器具, ストーブ, 暖炉, ヒーター"
@@ -8322,6 +8646,10 @@
                     "name": "音響機器店",
                     "terms": "音響機器店, オーディオ店, 音楽"
                 },
+                "shop/hobby": {
+                    "name": "ホビーショップ",
+                    "terms": "ホビーショップ, ホビー店, プラモデル, フィギュア, マンガ, ミリタリー, 模型"
+                },
                 "shop/houseware": {
                     "name": "家庭用品店",
                     "terms": "雑貨屋, 家庭用品, 日用雑貨, バス用品, お風呂用品, 台所用品, キッチン用品, 生活雑貨, 料理道具, 調理器具, 食器, クッション, 茶碗, 皿, 包丁, ナイフ, フォーク, 箸"
@@ -8381,6 +8709,10 @@
                 "shop/medical_supply": {
                     "name": "健康・医療器具店",
                     "terms": "医療器具店, 医療用品店, 健康器具店, ヘルスケア, 健康, 医療"
+                },
+                "shop/military_surplus": {
+                    "name": "軍払い下げ品店",
+                    "terms": "軍払い下げ品店, 軍払下げ品店, 軍余剰物資店, 店舗, ミリタリー, ミリタリーグッズ"
                 },
                 "shop/mobile_phone": {
                     "name": "携帯電話店",
@@ -8462,6 +8794,10 @@
                     "name": "写真店",
                     "terms": "写真屋, 写真店, 現像, ビデオ, デジカメ"
                 },
+                "shop/printer_ink": {
+                    "name": "プリンタ用インク店",
+                    "terms": "プリンタ用インク店, プリンタ, インクカートリッジ, トナー"
+                },
                 "shop/pyrotechnics": {
                     "name": "花火店",
                     "terms": "花火店"
@@ -8509,6 +8845,10 @@
                 "shop/supermarket": {
                     "name": "スーパーマーケット",
                     "terms": "スーパーマーケット, スーパー, 買い物, ショッピング"
+                },
+                "shop/swimming_pool": {
+                    "name": "プール用品店",
+                    "terms": "プール用品店, スポーツ, 遊泳プール, 店舗, お店"
                 },
                 "shop/tailor": {
                     "name": "仕立屋",
@@ -8597,10 +8937,6 @@
                     "name": "ワイン店",
                     "terms": "ワイン店, 酒屋, 食品, アルコール, 嗜好品, 飲み物"
                 },
-                "tactile_paving": {
-                    "name": "点字ブロック",
-                    "terms": "点字ブロック, 歩道, バリアフリー, 視覚障害, 点字"
-                },
                 "telecom/data_center": {
                     "name": "データセンター",
                     "terms": "データセンター, IDC, クラウド, オンライン, データ, ストレージ"
@@ -8651,6 +8987,10 @@
                 "tourism/attraction": {
                     "name": "観光地",
                     "terms": "観光名所, 見どころ, アトラクション, 見もの, 名所, 旧跡, 名勝, 観光地"
+                },
+                "tourism/camp_pitch": {
+                    "name": "キャンプ区画(キャンプ場内)",
+                    "terms": "キャンプ区画, テント, アウトドア"
                 },
                 "tourism/camp_site": {
                     "name": "キャンプ場",
@@ -9062,41 +9402,6 @@
                 "description": "衛星・航空写真。撮影日付はCtrl+Shift+Bで現れる右下のパネルで確認可能。比較的新しい箇所が多いが位置ズレやゆがみ（特に高低差のある場所）に注意。日本では位置精度は概して国土地理院のものが高い。",
                 "name": "Bing航空画像"
             },
-            "DigitalGlobe-Premium": {
-                "attribution": {
-                    "text": "規約＆フィードバック"
-                },
-                "description": "DigitalGlobe-Premiumは DigitalGlobe ベースマップの繋ぎ合わせから成り、50cm以上の解像度した組み合わせで、選ばれた地域が+Vividや興味深いカスタムエリアで埋められ、今後の更新でより頻繁にリフレッシュされます。",
-                "name": "DigitalGlobeプレミアム画像"
-            },
-            "DigitalGlobe-Premium-vintage": {
-                "attribution": {
-                    "text": "規約＆フィードバック"
-                },
-                "description": "画像の境界と取得日付。ラベルはズームレベル13以上で表示。",
-                "name": "DigitalGlobeプレミアム画像撮影日"
-            },
-            "DigitalGlobe-Standard": {
-                "attribution": {
-                    "text": "規約＆フィードバック"
-                },
-                "description": "DigitalGlobe-Standardは地球の大陸部の86%をカバーする画像を集めたセットで、一部30-60cm解像度でランドサットを下敷きにしています。平均年齢は2.31歳で、場所によっては毎年2x 更新されます。",
-                "name": "DigitalGlobe標準画像"
-            },
-            "DigitalGlobe-Standard-vintage": {
-                "attribution": {
-                    "text": "規約＆フィードバック"
-                },
-                "description": "画像の境界と取得日付。ラベルはズームレベル13以上で表示。",
-                "name": "DigitalGlobe標準画像撮影日"
-            },
-            "DigitalGlobe-Vivid": {
-                "attribution": {
-                    "text": "規約＆フィードバック"
-                },
-                "description": "DigitalGlobe-Vivid は地球上のあらゆる地域向けの最適な美観と即時性をもつモザイク写真で、50cm解像度以上かつ画像の即時性は平均20ヶ月未満です。",
-                "name": "DigitalGlobe Vivid 画像"
-            },
             "EOXAT2018CLOUDLESS": {
                 "attribution": {
                     "text": "Sentinel-2 cloudless - https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2017 & 2018)"
@@ -9131,6 +9436,20 @@
                 },
                 "description": "衛星・航空画像です。",
                 "name": "Mapbox衛星画像"
+            },
+            "Maxar-Premium": {
+                "attribution": {
+                    "text": "Terms & Feedback"
+                },
+                "description": "MaxarプレミアムはMaxarベースマップの繋ぎ合わせから成り、50cm以上の解像度した組み合わせで、選ばれた地域が+Vividや興味深いカスタムエリアで埋められ、今後の更新でより頻繁にリフレッシュされます。",
+                "name": "Maxarプレミアム画像(Beta)"
+            },
+            "Maxar-Standard": {
+                "attribution": {
+                    "text": "Terms & Feedback"
+                },
+                "description": "Maxar標準は地球の大陸部の86%をカバーする画像を集めたセットで、一部30-60cm解像度でランドサットを下敷きにしています。平均年齢は2.31歳で、場所によっては毎年2x 更新されます。 ",
+                "name": "Maxar標準画像(Beta)"
             },
             "OSM_Inspector-Addresses": {
                 "attribution": {
@@ -9273,6 +9592,27 @@
                 },
                 "description": "basemap.at が提供するオルソ写真レイヤ。geoimage.at 画像の「後継」。",
                 "name": "basemap.at Orthofoto"
+            },
+            "basemap.at-overlay": {
+                "attribution": {
+                    "text": "basemap.at"
+                },
+                "description": "Annotation overlay provided by basemap.at.",
+                "name": "basemap.at Overlay"
+            },
+            "basemap.at-surface": {
+                "attribution": {
+                    "text": "basemap.at"
+                },
+                "description": "Surface layer provided by basemap.at.",
+                "name": "basemap.at Surface"
+            },
+            "basemap.at-terrain": {
+                "attribution": {
+                    "text": "basemap.at"
+                },
+                "description": "Terrain layer provided by basemap.at.",
+                "name": "basemap.at Terrain"
             },
             "eufar-balaton": {
                 "attribution": {
@@ -9708,6 +10048,10 @@
                 "description": "YouthMappers chapter at University of Nigeria, Enugu Campus",
                 "extendedDescription": "The LionMappersTeam(LMT)Enugu Campus is an affiliate of YouthMappers Network, with the sole aim of providing members the opportunity to learn and improve their skills in the field of Geoinformatics and to create open geographic data and analysis that addresses locally defined challenges globally. It is a team of volunteers for Crowdsourced Mapping and Geographic Information provision using Openstreetmap, Citizen Science and other Geospatial Technology for research, training and response to resilient community challenges. We are involved in Web-Cartography, GIS and Remote Sensing Applications and ResearchWe are passionate about Volunteered Geographic Information.Paticipatory GIS and Citizen Science.Our major activities include online crowdsourced-Cartography, Field Mapping ,Training workshops and outreaches to High School as well as Humanitarian/Disaster Response Mapping."
             },
+            "osm-africa-telegram": {
+                "name": "OpenStreetMap Africa Telegram",
+                "description": "OpenStreetMap Telegram for Africa"
+            },
             "ym-Insititue-d-Enseignement-Superieur-de-Ruhengeri": {
                 "name": "YouthMappers at INES Ruhengeri",
                 "description": "YouthMappers chapter at Insititue d' Enseignement Superieur de Ruhengeri",
@@ -9833,6 +10177,10 @@
                 "name": "UZMappers",
                 "description": "YouthMappers chapter at University of Zimbabwe",
                 "extendedDescription": "UzMappersTeam Zimbabwe is a team of Volunteers using OpenStreetMap for Open Data Mapping and Humanitarian Disaster response mapping .The team empowers its members with open source geospatial technology skills."
+            },
+            "osm-afghanistan-facebook": {
+                "name": "OpenStreetMap Afghanistan",
+                "description": "Improve OpenStreetMap in Afghanistan"
             },
             "OSM-BGD-facebook": {
                 "name": "OpenStreetMap Bangladesh",
@@ -10369,6 +10717,10 @@
                 "name": "OpenStreetMap Kosovo on Telegram",
                 "description": "Semi-official all-Kosovo Telegram public group. We welcome all mappers from anywhere in any language."
             },
+            "lu-mailinglist": {
+                "name": "Talk-lu Mailing List",
+                "description": "Official mailing list for the Luxembourgish OSM community"
+            },
             "ym-Universit-Mohammed-V-Rabat": {
                 "name": "Brahmapoutre at Rabat",
                 "description": "YouthMappers chapter at Université Mohammed V Rabat",
@@ -10397,6 +10749,14 @@
             "OSM-PL-forum": {
                 "name": "OpenStreetMap Poland Forum",
                 "description": "Forum of Polish OpenStreetMap community"
+            },
+            "pt-mailinglist": {
+                "name": "Talk-pt Mailing List",
+                "description": "Talk-pt is the official mailing list for the Portuguese OSM community"
+            },
+            "pt-telegram": {
+                "name": "OpenStreetMap Portugal no Telegram",
+                "description": "Telegram Group of the Portuguese OpenStreetMap community {url}"
             },
             "si-forum": {
                 "name": "OpenStreetMap Slovenia Forum",
@@ -10515,9 +10875,25 @@
                 "description": "YouthMappers chapter at University of the West Indies, Mona Campus",
                 "extendedDescription": "The UWI, Mona Campus Library engages in public, outreach and special projects. This will allow our library the means to be a catalyst for spatial literacy and advocate for spatial data sharing and access to Jamaican and Caribbean interests. We have disaster relief and communication needs and   extensive earth science and geo-hazards needs to better serve our campus and community. Specifically, we hace a Science Library to showcase such to all faculty and students."
             },
-            "OSM-NI-telegram": {
+            "ni-facebook": {
+                "name": "OpenStreetMap NI Community",
+                "description": "Mappers and OpenStreetMap on Facebook in Nicaragua"
+            },
+            "ni-mailinglist": {
+                "name": "Talk-ni Mailing List",
+                "description": "Talk-ni is the official mailing list for the Nicaraguan OSM community"
+            },
+            "ni-telegram": {
                 "name": "OSM Nicaragua on Telegram",
                 "description": "OpenStreetMap Nicaragua Telegram chat"
+            },
+            "ni-twitter": {
+                "name": "OpenStreetMap Nicaragua Twitter",
+                "description": "OSM Nicaragua on Twitter: @osm_ni"
+            },
+            "osm-ni": {
+                "name": "MapaNica.net",
+                "description": "Provide OSM services and information for the local community in Nicaragua"
             },
             "ym-Universidad-Nacional-de-Ingenieria": {
                 "name": "Yeka Street MGA",
@@ -10887,13 +11263,21 @@
                 "name": "Geography Club",
                 "description": "YouthMappers chapter at Western Michigan University"
             },
-            "Maptime-Australia-Slack": {
-                "name": "Maptime Australia Slack",
-                "description": "Sign up at {signupUrl}"
+            "geogeeks_perth_meetup": {
+                "name": "GeoGeeks Perth Meetup",
+                "description": "Perth-based meetup group for people interested in mapping, geospatial data, and open source. We'll be working on anything that involves a sense of place."
             },
             "talk-au": {
                 "name": "Talk-au Mailing List",
                 "description": "Place for Aussie mappers to chat"
+            },
+            "Maptime-Oceania-Slack": {
+                "name": "Maptime Oceania Slack",
+                "description": "Sign up at {signupUrl}"
+            },
+            "talk-nz": {
+                "name": "Talk-nz Mailing List",
+                "description": "New Zealand's OSM community talk"
             },
             "OSM-AR-facebook": {
                 "name": "OpenStreetMap Argentina Facebook",
@@ -10938,6 +11322,10 @@
                 "name": "OpenStreetMap Brasília Telegram Group",
                 "description": "Join the OpenStreetMap Brasília community on Telegram",
                 "extendedDescription": "Join the community to learn more about OpenStreetMap, ask questions or participate in our meetings. Everyone is welcome!"
+            },
+            "OSM-br-discord": {
+                "name": "OpenStreetMap Brasil Discord",
+                "description": "Join the OpenStreetMap Brasil community on Discord"
             },
             "OSM-br-mailinglist": {
                 "name": "Talk-br Mailing List",
@@ -11062,6 +11450,31 @@
             "OSM-PE": {
                 "name": "OpenStreetMap Peru",
                 "description": "News and resources for the OpenStreetMap Peru community"
+            },
+            "uy-forum": {
+                "name": "OpenStreetMap UY forum",
+                "description": "OpenStreetMap Uruguay web forum"
+            },
+            "uy-irc": {
+                "name": "OpenStreetMap Uruguay on IRC",
+                "description": "Join #osmuruguay on irc.freenode.org (port 6667)",
+                "extendedDescription": "Join #osmuruguay on irc.freenode.org"
+            },
+            "uy-mailinglist": {
+                "name": "Talk-uy Mailing List",
+                "description": "Talk-uy is the official mailing list for the Uruguayan OSM community"
+            },
+            "ve-forum": {
+                "name": "OpenStreetMap VE Forum",
+                "description": "OpenStreetMap Venezuela web forum"
+            },
+            "ve-mailinglist": {
+                "name": "Talk-ve Mailing List",
+                "description": "Talk-ve is the official mailing list for the Venezuelan OSM community"
+            },
+            "ve-telegram": {
+                "name": "OpenStreetMap Venezuela Telegram",
+                "description": "Join the OpenStreetMap Venezuela community on Telegram"
             },
             "LATAM-Facebook": {
                 "name": "OpenStreetMap Latam Facebook",

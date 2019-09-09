@@ -93,10 +93,10 @@ module Api
       lat << cs.max_lat unless cs.max_lat.nil?
 
       # collapse the arrays to minimum and maximum
-      cs.min_lon = lon.min
-      cs.min_lat = lat.min
-      cs.max_lon = lon.max
-      cs.max_lat = lat.max
+      cs.min_lon = lon.min.round
+      cs.min_lat = lat.min.round
+      cs.max_lon = lon.max.round
+      cs.max_lat = lat.max.round
 
       # save the larger bounding box and return the changeset, which
       # will include the bigger bounding box.

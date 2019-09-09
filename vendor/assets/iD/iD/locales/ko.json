@@ -5,16 +5,17 @@
             "information": "정보",
             "remove": "제거",
             "undo": "실행 취소",
+            "zoom_to": "확대",
             "copy": "복사",
             "open_wikidata": "wikidata.org에서 열기",
             "favorite": "즐겨찾기"
         },
         "toolbar": {
-            "undo_redo": "실행 취소 / 다시 실행"
+            "undo_redo": "실행 취소 / 다시 실행",
+            "add_feature": "지물 추가"
         },
         "modes": {
             "add_feature": {
-                "title": "지물 추가하기",
                 "description": "지도에 추가할 지물을 검색합니다.",
                 "key": "Tab",
                 "result": "{count}개 결과",
@@ -40,8 +41,10 @@
             },
             "add_note": {
                 "title": "참고",
+                "label": "참고 추가",
                 "description": "문제점을 찾으셨나요? 다른 맵퍼에게 알려주세요.",
-                "tail": "참고를 추가하려면 지도를 클릭하세요."
+                "tail": "참고를 추가하려면 지도를 클릭하세요.",
+                "key": "N"
             },
             "add_preset": {
                 "title": "{feature} 추가하기",
@@ -120,15 +123,19 @@
                 },
                 "not_closed": "공간이 닫혀있지 않기 때문에 둥글게 만들 수 없습니다.",
                 "too_large": "공간이 현재 충분히 보이지 않기 때문에 둥글게 만들 수 없습니다.",
-                "connected_to_hidden": "숨겨진 지물에 연결되어 있기 때문에 둥글게 만들 수 없습니다."
+                "connected_to_hidden": "숨겨진 지물에 연결되어 있기 때문에 둥글게 만들 수 없습니다.",
+                "not_downloaded": "일부분이 다운로드되지 않았기 때문에 둥글게 만들 수 없습니다."
             },
             "orthogonalize": {
                 "title": "각지게 하기",
                 "description": {
+                    "vertex": "이 모서리를 각지게 합니다.",
                     "line": "이 선의 모서리를 각지게 합니다.",
                     "area": "이 공간의 모서리를 각지게 합니다."
                 },
+                "key": "Q",
                 "annotation": {
+                    "vertex": "모서리를 직각으로 만들었습니다.",
                     "line": "선의 모서리를 각지게 했습니다.",
                     "area": "공간의 모서리를 각지게 했습니다."
                 },
@@ -138,8 +145,18 @@
             },
             "straighten": {
                 "title": "곧게 하기",
+                "description": {
+                    "points": "여러 점을 일직선 상에 위치시킵니다.",
+                    "line": "이 선을 곧게 합니다."
+                },
                 "key": "S",
-                "too_bendy": "많이 구부러져 있기 때문에 곧게 할 수 없습니다."
+                "annotation": {
+                    "points": "여러 점을 곧게 했습니다.",
+                    "line": "선을 곧게 했습니다."
+                },
+                "too_bendy": "많이 구부러져 있기 때문에 곧게 할 수 없습니다.",
+                "connected_to_hidden": "이것은 숨겨진 지물에 연결되어 있기 때문에 곧게 할 수 없습니다.",
+                "not_downloaded": "일부분이 다운로드되지 않았기 때문에 곧게 할 수 없습니다."
             },
             "delete": {
                 "title": "삭제",
@@ -170,6 +187,37 @@
                 "connected_to_hidden": {
                     "single": "이 지물은 숨겨진 지물에 연결되어 있기 때문에 삭제할 수 없습니다.",
                     "multiple": "이 지물들 중 일부가 숨겨진 지물에 연결되어 있기 때문에 삭제할 수 없습니다."
+                },
+                "not_downloaded": {
+                    "single": "이 지물은 일부분이 다운로드되지 않았기 때문에 삭제할 수 없습니다.",
+                    "multiple": "이 지물들 중 일부분이 다운로드되지 않았기 때문에 삭제할 수 없습니다."
+                },
+                "has_wikidata_tag": {
+                    "single": "이 지물은 Wikidata 태그와 연결되어 있어 삭제할 수 없습니다.",
+                    "multiple": "이 지물들 중 일부가 Wikidata 태그와 연결되어 있어 삭제할 수 없습니다."
+                }
+            },
+            "downgrade": {
+                "title": "다운그레이드",
+                "description": {
+                    "building_address": "모든 비주소 및 비건물 태그를 제거합니다.",
+                    "building": "모든 비건물 태그를 제거합니다.",
+                    "address": "모든 비주소 태그를 제거합니다."
+                },
+                "annotation": {
+                    "building": {
+                        "single": "이 지물을 기본 건물로 다운그레이드했습니다.",
+                        "multiple": "{n}개의 지물들을 기본 건물로 다운그레이드했습니다."
+                    },
+                    "address": {
+                        "single": "이 지물을 주소 정보로 다운그레이드했습니다.",
+                        "multiple": "{n}개의 지물들을 주소 정보로 다운그레이드했습니다."
+                    },
+                    "multiple": "{n}개의 지물들을 다운그레이드했습니다."
+                },
+                "has_wikidata_tag": {
+                    "single": "이 지물은 Wikidata 태그와 연결되어 있어 다운그레이드할 수 없습니다.",
+                    "multiple": "이 지물들 중 일부가 Wikidata 태그와 연결되어 있어 다운그레이드할 수 없습니다."
                 }
             },
             "add_member": {
@@ -187,6 +235,10 @@
                         "to_area": "지역에 길을 연결했습니다.",
                         "to_adjacent_vertex": "길의 인접한 점을 병합했습니다.",
                         "to_sibling_vertex": "길을 자기 자신에게 연결했습니다."
+                    },
+                    "from_point": {
+                        "to_point": "다른 곳으로부터 점을 병합했습니다.",
+                        "to_line": "선으로부터 점을 이동했습니다."
                     }
                 },
                 "relation": "이 지물은 일부 역할 관계의 값이 상반되어 연결할 수 없습니다.",
@@ -195,9 +247,19 @@
             "disconnect": {
                 "title": "연결 해제",
                 "description": "이 선/공간을 서로 연결 해제합니다.",
+                "line": {
+                    "description": "다른 지물로부터 이 선을 연결 해제합니다."
+                },
+                "area": {
+                    "description": "다른 지물로부터 이 공간을 연결 해제합니다."
+                },
                 "key": "D",
                 "annotation": "선/공간을 연결 해제했습니다.",
+                "too_large": {
+                    "single": "지역이 현재 충분히 보이지 않기 때문에 연결을 해제할 수 없습니다."
+                },
                 "not_connected": "여기에 연결 해제할 충분한 선/공간이 없습니다.",
+                "not_downloaded": "일부분이 다운로드되지 않았기 때문에 연결을 해제할 수 없습니다.",
                 "connected_to_hidden": "숨겨진 지물에 연결되어 있기 때문에 연결을 해제할 수 없습니다.",
                 "relation": "관계의 구성원들과 연결하고 있기 때문에 연결을 해제할 수 없습니다."
             },
@@ -236,8 +298,12 @@
                     "multiple": "지물들이 현재 충분히 보이지 않기 때문에 이동할 수 없습니다."
                 },
                 "connected_to_hidden": {
-                    "single": "이 지물은 숨겨진 지물에 연결되어 있기 때문에 옮길 수 없습니다.",
-                    "multiple": "일부 지물이 숨겨진 지물에 연결되어 있기 때문에 옮길 수 없습니다."
+                    "single": "이 지물은 숨겨진 지물에 연결되어 있기 때문에 이동할 수 없습니다.",
+                    "multiple": "일부 지물이 숨겨진 지물에 연결되어 있기 때문에 이동할 수 없습니다."
+                },
+                "not_downloaded": {
+                    "single": "이 지물은 일부분이 다운로드되지 않았기 때문에 이동할 수 없습니다.",
+                    "multiple": "이 지물들 중 일부분이 다운로드되지 않았기 때문에 이동할 수 없습니다."
                 }
             },
             "reflect": {
@@ -280,6 +346,10 @@
                 "connected_to_hidden": {
                     "single": "이 지물은 숨겨진 지물에 연결되어 있기 때문에 뒤집을 수 없습니다.",
                     "multiple": "일부 지물이 숨겨진 지물에 연결되어 있기 때문에 뒤집을 수 없습니다."
+                },
+                "not_downloaded": {
+                    "single": "이 지물은 일부분이 다운로드되지 않았기 때문에 뒤집을 수 없습니다.",
+                    "multiple": "지물들 중 일부분이 다운로드되지 않았기 때문에 뒤집을 수 없습니다."
                 }
             },
             "rotate": {
@@ -305,6 +375,10 @@
                 "connected_to_hidden": {
                     "single": "이 지물은 숨겨진 지물에 연결되어 있기 때문에 회전할 수 없습니다.",
                     "multiple": "일부 지물이 숨겨진 지물에 연결되어 있기 때문에 회전할 수 없습니다."
+                },
+                "not_downloaded": {
+                    "single": "이 지물은 일부분이 다운로드되지 않았기 때문에 회전할 수 없습니다.",
+                    "multiple": "지물들 중 일부분이 다운로드되지 않았기 때문에 회전할 수 없습니다."
                 }
             },
             "reverse": {
@@ -334,6 +408,31 @@
                 "annotation": {
                     "create": "회전 제한을 추가했습니다",
                     "delete": "회전 제한을 삭제했습니다"
+                }
+            },
+            "extract": {
+                "title": "추출",
+                "key": "E",
+                "description": {
+                    "vertex": {
+                        "single": "선/공간에서 점을 추출합니다."
+                    },
+                    "area": {
+                        "single": "공간에서 점을 추출했습니다."
+                    }
+                },
+                "annotation": {
+                    "single": "점을 추출했습니다."
+                },
+                "too_large": {
+                    "area": {
+                        "single": "공간이 현재 충분히 보이지 않기 때문에 점을 추출할 수 없습니다."
+                    }
+                },
+                "connected_to_hidden": {
+                    "vertex": {
+                        "single": "이 점은 숨겨진 지물에 연결되어 있기 때문에 추출할 수 없습니다."
+                    }
                 }
             }
         },
@@ -366,7 +465,7 @@
                 "to": "방면",
                 "from_name": "{fromName}{from}",
                 "from_name_to_name": "{fromName}{from} {toName}{to}",
-                "via_names": "{viaNames} {via}",
+                "via_names": "{viaNames}{via}",
                 "select_from": "시작 분절을 선택하려면 클릭하세요",
                 "select_from_name": "{fromName}에서 시작하려면 클릭하세요",
                 "toggle": "클릭해서 {turn} 설정"
@@ -380,7 +479,7 @@
             "tooltip": "다시 실행: {action}",
             "nothing": "다시 실행할 것이 없습니다."
         },
-        "tooltip_keyhint": "바로가기:",
+        "tooltip_keyhint": "단축키:",
         "browser_notice": "이 편집기는 파이어폭스, 크롬, 사파리, 오페라와 인터넷 익스플로러 11을 지원합니다. 지도를 편집하려면 사용하고 있는 브라우저를 업그레이드하거나 Potlatch 2를 사용하세요.",
         "translate": {
             "translate": "번역",
@@ -551,7 +650,10 @@
             "way": "길",
             "relation": "관계",
             "location": "위치",
-            "add_fields": "필드 추가:"
+            "add_fields": "필드 추가:",
+            "lock": {
+                "suggestion": "Wikidata 태그가 있기 때문에 \"{label}\" 필드가 잠겼습니다. \"모든 태그\" 섹션에서 태그를 삭제하거나 편집할 수 있습니다."
+            }
         },
         "background": {
             "title": "배경",
@@ -716,12 +818,6 @@
                 }
             }
         },
-        "restore": {
-            "heading": "저장하지 않은 변경사항이 있습니다",
-            "description": "이전 편집 기간에 저장하지 않은 변경사항을 복구하겠습니까?",
-            "restore": "변경점 복구",
-            "reset": "변경점 재설정"
-        },
         "save": {
             "title": "저장",
             "help": "오픈스트리트맵에 변경사항을 저장하여 다른 사용자에게 보이게 합니다.",
@@ -756,10 +852,6 @@
             }
         },
         "success": {
-            "just_edited": "오픈스트리트맵을 편집했습니다!",
-            "thank_you": "지도 제작에 기여해 주셔서 감사합니다",
-            "thank_you_location": "{where} 주변의 지도에 기여해 주셔서 감사합니다.",
-            "help_html": "변경 내역은 몇 분 후에 OpenStreetMap에 보여집니다. 지도의 몇몇 부분은 업데이트 되기에 더 오래 걸릴 수 있습니다.",
             "help_link_text": "자세한 정보",
             "help_link_url": "https://wiki.openstreetmap.org/wiki/Ko:FAQ#.EB.82.98.EB.8A.94_.EC.A7.80.EB.8F.84.EC.97.90_.EC.95.BD.EA.B0.84.EC.9D.98_.EB.B3.80.EA.B2.BD.EC.9D.84_.EA.B0.80.ED.96.88.EB.8B.A4._.EB.82.B4.EA.B0.80_.EC.96.B4.EB.96.BB.EA.B2.8C_.EB.82.98.EC.9D.98_.EB.B3.80.EA.B2.BD.EC.82.AC.ED.95.AD.EC.9D.84_.EB.B3.BC_.EC.88.98_.EC.9E.88.EB.82.98.EC.9A.94.3F",
             "view_on_osm": "OSM에서 변경점 보기",
@@ -774,12 +866,6 @@
         "confirm": {
             "okay": "확인",
             "cancel": "취소"
-        },
-        "splash": {
-            "welcome": "iD 오픈스트리트맵 편집기에 오신 것을 환영합니다",
-            "text": "iD는 세계 최고의 자유 세계 지도에 기여하기 위한 친절하지만 강력한 도구입니다. 버전은 {version}입니다. 자세한 정보에 대해서는 {website}을 참조하고 {github}에서 버그를 보고하세요.",
-            "walkthrough": "연습 시작하기",
-            "start": "지금 편집하기"
         },
         "source_switch": {
             "live": "실시간",
@@ -1245,7 +1331,8 @@
                 "choosing": "편집을 위해 어떤 이미지 출처를 이용할 수 있는지 보려면 지도의 옆에 있는 {layers} **배경 설정** 버튼을 클릭하세요.",
                 "sources": "기본적으로 [Bing 지도](https://www.bing.com/maps/) 인공위성 레이어가 배경 이미지로 선택되어 있습니다. 편집하는 지역에 따라서 다른 이미지 출처가 제공될 수 있습니다. 이 중 일부는 보다 최신이거나 고화질일 수 있으므로 지도 편집 시에 어떤 레이어가 최적인지 확인하여 보는 것은 언제나 유용합니다.",
                 "offsets_h": "이미지 오프셋 조절하기",
-                "offset": "이미지는 때때로 정확한 지도 데이터에 조금 어긋나 있습니다. 만약 많은 도로 또는 건물이 배경 이미지로부터 이동되어 있다면, 이미지가 부정확한 것일 수 있으므로 도로와 건물을 모두 배경에 맞게 이동하지 마세요. 대신, 배경 설정 맨 아래의 \"이미지 오프셋 조절\" 부분을 펼쳐 기존의 데이터에 맞게 배경을 조절할 수 있습니다."
+                "offset": "이미지는 때때로 정확한 지도 데이터에 조금 어긋나 있습니다. 만약 많은 도로 또는 건물이 배경 이미지로부터 이동되어 있다면, 이미지가 부정확한 것일 수 있으므로 도로와 건물을 모두 배경에 맞게 이동하지 마세요. 대신, 배경 설정 맨 아래의 \"이미지 오프셋 조절\" 부분을 펼쳐 기존의 데이터에 맞게 배경을 조절할 수 있습니다.",
+                "offset_change": "작은 삼각형을 클릭해 이미지 오프셋을 조금씩 조절하거나,  {leftclick} 왼쪽 마우스 버튼을 누른 상태로 회색 사각형 안에서 드래그하여 이미지를 정렬하세요."
             },
             "streetlevel": {
                 "title": "거리 수준 사진",
@@ -1298,7 +1385,91 @@
             "rules": {
                 "title": "규칙"
             },
+            "no_issues": {
+                "message": {
+                    "everything": "모든 것이 괜찮아 보입니다",
+                    "everything_in_view": "보이는 모든 것이 괜찮아 보입니다",
+                    "edits": "당신의 편집이 괜찮아 보입니다",
+                    "edits_in_view": "보이는 당신의 편집이 괜찮아 보입니다"
+                }
+            },
+            "options": {
+                "what": {
+                    "title": "검사:",
+                    "edited": "내 편집",
+                    "all": "모두"
+                },
+                "where": {
+                    "title": "위치:",
+                    "visible": "화면 내",
+                    "all": "모든 곳"
+                }
+            },
+            "almost_junction": {
+                "message": "{feature}은(는) {feature2}과(와) 매우 가깝지만 연결되어 있지 않습니다.",
+                "self": {
+                    "message": "{feature}이 같은 지물 내의 다른 부분과 매우 가까이 끝나지만 연결되어 있지 않습니다."
+                }
+            },
+            "close_nodes": {
+                "detached": {
+                    "message": "{feature}은(는) {feature2}과(와) 매우 가깝습니다."
+                }
+            },
+            "crossing_ways": {
+                "title": "길 교차",
+                "message": "{feature}이(가) {feature2}과(와) 교차합니다.",
+                "building-highway": {
+                    "reference": "도로가 건물과 교차하는 경우 다리, 터널,  덮개, 또는 입구를 이용해야 합니다."
+                },
+                "building-railway": {
+                    "reference": "철도가 건물과 교차하는 경우 다리나 터널을 이용해야 합니다."
+                },
+                "building-waterway": {
+                    "reference": "수로가 건물과 교차하는 경우 터널을 이용하거나 레이어를 다르게 해야 합니다."
+                },
+                "highway-highway": {
+                    "reference": "도로끼리 교차하는 경우 다리, 터널, 또는 교차점을 이용해야 합니다."
+                },
+                "highway-railway": {
+                    "reference": "도로가 철도와 교차하는 경우 다리, 터널, 또는 철도 건널목을 이용해야 합니다."
+                },
+                "railway-railway": {
+                    "reference": "철도끼리 교차하는 경우 이 둘을 연결하거나 다리, 터널을 이용해야 합니다."
+                },
+                "waterway-waterway": {
+                    "reference": "수로끼리 교차하는 경우 이 둘을 연결하거나 터널을 이용해야 합니다."
+                },
+                "tunnel-tunnel": {
+                    "reference": "터널끼리 교차하는 경우 레이어를 다르게 해야 합니다."
+                },
+                "tunnel-tunnel_connectable": {
+                    "reference": "터널끼리 교차하는 경우 연결하거나 레이어를 다르게 해야 합니다."
+                },
+                "bridge-bridge": {
+                    "reference": "다리끼리 교차하는 경우 레이어를 다르게 해야 합니다."
+                },
+                "bridge-bridge_connectable": {
+                    "reference": "다리끼리 교차하는 경우 연결하거나 레이어를 다르게 해야 합니다."
+                }
+            },
+            "invalid_format": {
+                "title": "유효하지 않은 서식",
+                "email": {
+                    "message": "{feature}에 유효하지 않은 이메일 주소가 있습니다.",
+                    "message_multi": "{feature}에 유효하지 않은 여러 이메일 주소가 있습니다.",
+                    "reference": "이메일 주소는 \"user@example.com\"와 같은 형태여야 합니다."
+                },
+                "website": {
+                    "message": "{feature}에 유효하지 않은 웹사이트가 있습니다.",
+                    "message_multi": "{feature}에 유효하지 않은 여러 웹사이트가 있습니다.",
+                    "reference": "웹사이트는 \"http\"나 \"https\"로 시작해야 합니다"
+                }
+            },
             "fix": {
+                "connect_feature": {
+                    "title": "지물 연결하기"
+                },
                 "connect_features": {
                     "title": "지물 연결하기"
                 },
@@ -1310,6 +1481,12 @@
                 },
                 "delete_feature": {
                     "title": "이 지물 삭제하기"
+                },
+                "ignore_issue": {
+                    "title": "이 문제점 무시하기"
+                },
+                "merge_points": {
+                    "title": "여러 점을 병합하기"
                 },
                 "remove_generic_name": {
                     "title": "이름 삭제하기"
@@ -1674,6 +1851,12 @@
                 "category-landuse": {
                     "name": "토지 이용 지물"
                 },
+                "category-natural": {
+                    "name": "자연 지물"
+                },
+                "category-path": {
+                    "name": "경로"
+                },
                 "category-rail": {
                     "name": "철로"
                 },
@@ -1772,7 +1955,7 @@
                         "place": "장소",
                         "postcode": "우편번호",
                         "province": "도",
-                        "province!jp": "현",
+                        "province!jp": "도도부현",
                         "quarter": "지구",
                         "quarter!jp": "오아자/마치",
                         "state": "주",
@@ -1927,6 +2110,10 @@
                 },
                 "building": {
                     "label": "건물"
+                },
+                "building/levels_building": {
+                    "label": "층수",
+                    "placeholder": "2, 4, 6..."
                 },
                 "building/material": {
                     "label": "재질"
@@ -2123,9 +2310,6 @@
                     "label": "장치 수",
                     "placeholder": "1, 2, 3..."
                 },
-                "diaper": {
-                    "label": "기저귀 교환대 이용 가능"
-                },
                 "diet_multi": {
                     "label": "식성"
                 },
@@ -2162,7 +2346,6 @@
                     }
                 },
                 "direction_vertex": {
-                    "label": "방향",
                     "options": {
                         "backward": "역방향",
                         "both": "둘 다 / 모두",
@@ -2331,6 +2514,9 @@
                 "height": {
                     "label": "높이(미터)"
                 },
+                "height_building": {
+                    "label": "건물 높이(미터)"
+                },
                 "highspeed": {
                     "label": "고속"
                 },
@@ -2381,12 +2567,6 @@
                         "stables": "예",
                         "undefined": "아니오"
                     }
-                },
-                "iata": {
-                    "label": "IATA"
-                },
-                "icao": {
-                    "label": "ICAO"
                 },
                 "incline": {
                     "label": "경사"
@@ -2794,7 +2974,6 @@
                     "placeholder": "소수점 한 자리로 거리 (123.4)"
                 },
                 "railway/signal/direction": {
-                    "label": "방향",
                     "options": {
                         "backward": "역방향",
                         "both": "둘 다 / 모두",
@@ -3212,7 +3391,6 @@
                     "label": "교통 표지판"
                 },
                 "traffic_sign/direction": {
-                    "label": "방향",
                     "options": {
                         "backward": "역방향",
                         "both": "양방향",
@@ -3223,7 +3401,6 @@
                     "label": "유형"
                 },
                 "traffic_signals/direction": {
-                    "label": "방향",
                     "options": {
                         "backward": "역방향",
                         "both": "양방향",
@@ -3659,8 +3836,14 @@
                 "amenity/fast_food/chicken": {
                     "name": "치킨 패스트푸드"
                 },
+                "amenity/fast_food/donut": {
+                    "name": "도넛 패스트푸드"
+                },
                 "amenity/fast_food/fish_and_chips": {
                     "name": "피시앤칩스 패스트푸드"
+                },
+                "amenity/fast_food/ice_cream": {
+                    "name": "아이스크림 패스트푸드"
                 },
                 "amenity/fast_food/kebab": {
                     "name": "케밥 패스트푸드"
@@ -4346,6 +4529,9 @@
                     "name": "온실",
                     "terms": "비닐하우스"
                 },
+                "building/hangar": {
+                    "name": "격납고 건물"
+                },
                 "building/hospital": {
                     "name": "병원 건물",
                     "terms": "병원 건물"
@@ -4441,10 +4627,6 @@
                 },
                 "building_point": {
                     "name": "건물"
-                },
-                "camp_site/camp_pitch": {
-                    "name": "캠핑장",
-                    "terms": "캠핑장"
                 },
                 "club": {
                     "name": "클럽",
@@ -4666,6 +4848,9 @@
                 },
                 "emergency/fire_extinguisher": {
                     "name": "소화기"
+                },
+                "emergency/fire_hose": {
+                    "name": "소방 호스"
                 },
                 "emergency/fire_hydrant": {
                     "name": "소화전",
@@ -5059,6 +5244,15 @@
                     "name": "성",
                     "terms": "성"
                 },
+                "historic/castle/palace": {
+                    "name": "궁전"
+                },
+                "historic/city_gate": {
+                    "name": "성문"
+                },
+                "historic/manor": {
+                    "name": "영주 저택"
+                },
                 "historic/memorial": {
                     "name": "기념관",
                     "terms": "기념관"
@@ -5208,14 +5402,6 @@
                     "name": "막사",
                     "terms": "막사"
                 },
-                "landuse/military/bunker": {
-                    "name": "군사 벙커",
-                    "terms": "군사 벙커"
-                },
-                "landuse/military/checkpoint": {
-                    "name": "검문소",
-                    "terms": "체크포인트"
-                },
                 "landuse/military/danger_area": {
                     "name": "위험 지역",
                     "terms": "위험 지역"
@@ -5224,17 +5410,9 @@
                     "name": "해군 기지",
                     "terms": "해군 기지"
                 },
-                "landuse/military/nuclear_explosion_site": {
-                    "name": "핵 폭발 지역",
-                    "terms": "핵 폭발 지역"
-                },
                 "landuse/military/obstacle_course": {
                     "name": "장애물 코스",
                     "terms": "장애물 코스"
-                },
-                "landuse/military/office": {
-                    "name": "군사 사무소",
-                    "terms": "군사 사무실"
                 },
                 "landuse/military/range": {
                     "name": "군사 범위",
@@ -5643,6 +5821,9 @@
                     "name": "저장 창고",
                     "terms": "저장 창고"
                 },
+                "man_made/storage_tank/water": {
+                    "name": "수조"
+                },
                 "man_made/surveillance": {
                     "name": "감시",
                     "terms": "감시"
@@ -5669,6 +5850,9 @@
                 },
                 "man_made/tower/observation": {
                     "name": "관측 탑"
+                },
+                "man_made/tunnel": {
+                    "name": "터널"
                 },
                 "man_made/wastewater_plant": {
                     "name": "하수 처리장",
@@ -5958,10 +6142,6 @@
                 },
                 "office/physician": {
                     "name": "내과의원"
-                },
-                "office/political_party": {
-                    "name": "정당",
-                    "terms": "정당"
                 },
                 "office/private_investigator": {
                     "name": "사설탐정 사무소",
@@ -6300,6 +6480,9 @@
                 },
                 "railway/buffer_stop": {
                     "name": "차막이"
+                },
+                "railway/construction": {
+                    "name": "공사 중인 철도"
                 },
                 "railway/crossing": {
                     "name": "철도 건널목 (인도)",
@@ -6911,9 +7094,6 @@
                     "name": "와인 가게",
                     "terms": "포도주 가게"
                 },
-                "tactile_paving": {
-                    "name": "점자 블록"
-                },
                 "telecom/data_center": {
                     "name": "데이터 센터"
                 },
@@ -7250,24 +7430,6 @@
             "Bing": {
                 "description": "위성 및 항공 영상",
                 "name": "Bing 항공 영상"
-            },
-            "DigitalGlobe-Premium": {
-                "attribution": {
-                    "text": "이용 약관"
-                },
-                "name": "DigitalGlobe 프리미엄 이미지"
-            },
-            "DigitalGlobe-Premium-vintage": {
-                "attribution": {
-                    "text": "조건 & 피드백"
-                }
-            },
-            "DigitalGlobe-Standard": {
-                "attribution": {
-                    "text": "이용 약관"
-                },
-                "description": "DigitalGlobe 일반 이미지는 위성에 의해 채워진 지구의 대지의 86%를 포함하는 정리된 이미지 세트이며, 30-60cm 해상도를 지원합니다. 촬영 이후 평균 2.31년이 지났으며, 일부 지역은 연간 2배씩 업데이트됩니다.",
-                "name": "DigitalGlobe 일반 이미지"
             },
             "EsriWorldImagery": {
                 "attribution": {
@@ -7753,10 +7915,6 @@
             "OSM-CU-telegram": {
                 "name": "오픈스트리트맵 쿠바 텔레그램",
                 "description": "오픈스트리트맵 쿠바 텔레그램 대화방"
-            },
-            "OSM-NI-telegram": {
-                "name": "오픈스트리트맵 니카라과 텔레그램",
-                "description": "오픈스트리트맵 니카라과 텔레그램 대화방"
             },
             "Bay-Area-OpenStreetMappers": {
                 "description": "베이에어리어 내 오픈스트리트맵 개선하기"

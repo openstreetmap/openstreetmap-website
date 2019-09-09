@@ -20,7 +20,7 @@
         "modes": {
             "add_feature": {
                 "title": "Adicionar um elemento",
-                "description": "Pesquisar por elementos para adicionar ao mapa.",
+                "description": "Procurar por elementos para adicionar ao mapa.",
                 "key": "Tab",
                 "result": "{count} resultado",
                 "results": "{count} resultados"
@@ -618,7 +618,7 @@
         },
         "geocoder": {
             "search": "Pesquisar no mundo inteiro...",
-            "no_results_visible": "Nenhum resultado na área visível do mapa",
+            "no_results_visible": "Sem resultados na área visível do mapa",
             "no_results_worldwide": "Nenhum resultado encontrado"
         },
         "geolocate": {
@@ -866,10 +866,10 @@
             }
         },
         "restore": {
-            "heading": "Tem alterações por gravar",
-            "description": "Tem alterações feitas numa sessão anterior por gravar. Quer recuperar essas alterações?",
-            "restore": "Recuperar as minhas alterações",
-            "reset": "Eliminar as minhas alterações"
+            "heading": "Tem alterações por guardar",
+            "description": "Quer restaurar as alterações por guardar da sessão anterior?",
+            "restore": "Restaurar as minhas edições",
+            "reset": "Descartar as minhas alterações"
         },
         "save": {
             "title": "Gravar",
@@ -905,14 +905,14 @@
             }
         },
         "success": {
-            "just_edited": "Acaba de editar o OpenStreetMap!",
-            "thank_you": "Obrigado por melhorares o mapa.",
-            "thank_you_location": "Obrigado por melhorares o mapa em {where}.",
+            "just_edited": "Acabou de editar o OpenStreetMap!",
+            "thank_you": "Obrigado por melhorar o mapa.",
+            "thank_you_location": "Obrigado por melhorar o mapa em {where}.",
             "thank_you_where": {
                 "format": "{place}{separator}{region}",
                 "separator": ", "
             },
-            "help_html": "As tuas alterações devem aparecer no OpenStreetMap dentro de poucos minutos. Pode demorar mais tempo se for um mapa noutro site dependente do OSM.",
+            "help_html": "As alterações que fez devem aparecer no OpenStreetMap dentro de poucos minutos. Pode demorar mais tempo se for um mapa noutro site dependente do OSM.",
             "help_link_text": "Detalhes",
             "help_link_url": "https://wiki.openstreetmap.org/wiki/Pt:Perguntas_frequentes#Eu_acabei_de_alterar_o_mapa._Como_eu_fa.C3.A7o_para_visualizar_minhas_altera.C3.A7.C3.B5es.3F",
             "view_on_osm": "Ver alterações no OSM",
@@ -931,7 +931,7 @@
         "splash": {
             "welcome": "Bem-vindo ao editor iD do OpenStreetMap",
             "text": "Com o editor iD é fácil contribuir para o melhor mapa livre do mundo. Esta é a versão {version}. Para mais informações ver o site {website} e para reportar problemas com o editor aceda a {github}.",
-            "walkthrough": "Iniciar Guia Inicial",
+            "walkthrough": "Ver o guia inicial",
             "start": "Editar agora"
         },
         "source_switch": {
@@ -1611,7 +1611,7 @@
             "options": {
                 "what": {
                     "title": "Verificar:",
-                    "edited": "As minhas edições",
+                    "edited": "Minhas edições",
                     "all": "Tudo"
                 },
                 "where": {
@@ -1721,7 +1721,7 @@
             "fixme_tag": {
                 "title": "Pedidos de \"corrigir-me\"",
                 "message": "{feature} tem um pedido de \"corrigir-me\"",
-                "tip": "Procurar elementos com etiquetas \"corrigir-me\"",
+                "tip": "Procurar elementos com etiquetas \"corrigir-me\" (fixme)",
                 "reference": "Uma etiqueta \"fixme\" (\"corrigir-me\") indica que um mapeador pediu ajuda num dado elemento."
             },
             "generic_name": {
@@ -1738,6 +1738,20 @@
                         "message": "{feature} refere o Google como a origem dos dados"
                     },
                     "reference": "Os produtos e serviços da Google estão protegidos por direitos de autor e não podem ser usados como fonte de informações."
+                }
+            },
+            "invalid_format": {
+                "title": "Formatação inválida",
+                "tip": "Procurar etiquetas com formatos não esperados",
+                "email": {
+                    "message": "{feature} tem um endereço de email inválido.",
+                    "message_multi": "{feature} tem vários endereços de email inválidos.",
+                    "reference": "Os endereços de email tem de ser como \"user@example.com\"."
+                },
+                "website": {
+                    "message": "{feature} tem um URL inválido de um site.",
+                    "message_multi": "{feature} tem vários URL inválidos de sites.",
+                    "reference": "Os URL têm de começar com \"http\" or \"https\"."
                 }
             },
             "missing_role": {
@@ -1774,6 +1788,10 @@
                 "incomplete": {
                     "message": "{feature} tem etiquetas incompletas",
                     "reference": "Alguns elementos deviam ter etiquetas adicionais."
+                },
+                "noncanonical_brand": {
+                    "message": "{feature} parece ser uma marca com etiquetas incomuns",
+                    "reference": "Todos os elementos da mesma marca devem ser marcadas com as mesmas etiquetas."
                 }
             },
             "private_data": {
@@ -1851,7 +1869,7 @@
                     "title": "Continuar a desenhar do fim"
                 },
                 "delete_feature": {
-                    "title": "Eliminar esta etiqueta"
+                    "title": "Eliminar este elemento"
                 },
                 "ignore_issue": {
                     "title": "Ignorar este problema"
@@ -1896,7 +1914,7 @@
                     "title": "inverter este elemento"
                 },
                 "select_preset": {
-                    "title": "Selecionar um tipo de elemento"
+                    "title": "Selecionar tipo de elemento"
                 },
                 "select_road_type": {
                     "title": "Selecione um tipo de estrada"
@@ -1933,6 +1951,9 @@
                 },
                 "use_different_layers": {
                     "title": "Usar camadas diferentes"
+                },
+                "use_different_layers_or_levels": {
+                    "title": "Usar camadas ou níveis diferentes "
                 },
                 "use_different_levels": {
                     "title": "Usar níveis diferentes"
@@ -2406,11 +2427,11 @@
                             "title": "Destino"
                         },
                         "dismount": {
-                            "description": "Acesso permitido mas o cavaleiro deve desmontar",
+                            "description": "Acesso permitido, mas o cavaleiro deve desmontar",
                             "title": "Desmontar"
                         },
                         "no": {
-                            "description": "Acesso não permitido para o público geral",
+                            "description": "Acesso não permitido ao público em geral",
                             "title": "Proibido"
                         },
                         "permissive": {
@@ -2441,6 +2462,15 @@
                 },
                 "access_simple": {
                     "label": "Acesso permitido"
+                },
+                "addr/interpolation": {
+                    "label": "Tipo",
+                    "options": {
+                        "all": "Tudo",
+                        "alphabetic": "Alfabética",
+                        "even": "Par",
+                        "odd": "Ímpar"
+                    }
                 },
                 "address": {
                     "label": "Morada",
@@ -2631,6 +2661,10 @@
                 },
                 "building": {
                     "label": "Edifício"
+                },
+                "building/levels/underground": {
+                    "label": "Níveis no subsolo",
+                    "placeholder": "2, 4, 6..."
                 },
                 "building/levels_building": {
                     "label": "Pisos do edifício",
@@ -2838,8 +2872,9 @@
                     "label": "Dispositivos",
                     "placeholder": "1, 2, 3..."
                 },
-                "diaper": {
-                    "label": "Fraldário "
+                "diameter": {
+                    "label": "Diâmetro",
+                    "placeholder": "5 mm, 10 cm, 15 in…"
                 },
                 "diet_multi": {
                     "label": "Tipos de dieta"
@@ -2883,7 +2918,7 @@
                     }
                 },
                 "direction_vertex": {
-                    "label": "Direção",
+                    "label": "Direção afetada",
                     "options": {
                         "backward": "Para trás",
                         "both": "Ambos / todos",
@@ -3146,10 +3181,10 @@
                     }
                 },
                 "iata": {
-                    "label": "IATA"
+                    "label": "Código aeroportuário IATA"
                 },
                 "icao": {
-                    "label": "ICAO"
+                    "label": "Código aeroportuário ICAO"
                 },
                 "incline": {
                     "label": "Inclinação"
@@ -3477,6 +3512,9 @@
                 "operator": {
                     "label": "Organismo operador"
                 },
+                "operator/type": {
+                    "label": "Tipo de operador"
+                },
                 "outdoor_seating": {
                     "label": "Cadeiras exteriores"
                 },
@@ -3636,6 +3674,9 @@
                 "playground/min_age": {
                     "label": "Idade mínima"
                 },
+                "polling_station": {
+                    "label": "Mesa de voto"
+                },
                 "population": {
                     "label": "População"
                 },
@@ -3645,11 +3686,17 @@
                 "power_supply": {
                     "label": "Fonte de energia"
                 },
+                "preschool": {
+                    "label": "Pré-escola"
+                },
                 "produce": {
                     "label": "produz"
                 },
                 "product": {
                     "label": "Produtos"
+                },
+                "public_bookcase/type": {
+                    "label": "Tipo"
                 },
                 "railway": {
                     "label": "Tipo"
@@ -3659,7 +3706,7 @@
                     "placeholder": "Distância para uma décima (123.4)"
                 },
                 "railway/signal/direction": {
-                    "label": "Direção",
+                    "label": "Direção afetada",
                     "options": {
                         "backward": "Para trás",
                         "both": "Ambos / todos",
@@ -3970,6 +4017,9 @@
                 "source": {
                     "label": "Fontes"
                 },
+                "species/wikidata": {
+                    "label": "Wikidata Espécies"
+                },
                 "sport": {
                     "label": "Desportos"
                 },
@@ -4139,7 +4189,7 @@
                     "label": "Sinal de trânsito"
                 },
                 "traffic_sign/direction": {
-                    "label": "Direção",
+                    "label": "Direção afetada",
                     "options": {
                         "backward": "Para trás",
                         "both": "Ambos / tudo",
@@ -4150,7 +4200,7 @@
                     "label": "Tipo"
                 },
                 "traffic_signals/direction": {
-                    "label": "Direção",
+                    "label": "Direção afetada",
                     "options": {
                         "backward": "Para trás",
                         "both": "Ambos / todos",
@@ -4185,6 +4235,9 @@
                 "trees": {
                     "label": "Árvores"
                 },
+                "trench": {
+                    "label": "Tipo"
+                },
                 "trolley_wire": {
                     "label": "Cabos suspensos de trólei"
                 },
@@ -4202,6 +4255,9 @@
                         "test": "Testes",
                         "tourism": "Turismo"
                     }
+                },
+                "valve": {
+                    "label": "Tipo"
                 },
                 "vending": {
                     "label": "Tipos de produtos"
@@ -4303,6 +4359,9 @@
                 }
             },
             "presets": {
+                "addr/interpolation": {
+                    "name": "Interpolação de endereço"
+                },
                 "address": {
                     "name": "Morada / nº de porta",
                     "terms": "endereço, morada, endereçamento, código postal, localização, número de porta, nº de porta, n.º de porta, número de polícia, nº de polícia, n.º de polícia, número"
@@ -4396,9 +4455,17 @@
                     "name": "Heliporto / heliponto",
                     "terms": "Helicóptero"
                 },
+                "aeroway/holding_position": {
+                    "name": "Ponto de espera de avião",
+                    "terms": "aircraft holding position, ponto de espera de avião, posição de espera de avião"
+                },
                 "aeroway/jet_bridge": {
                     "name": "Ponte de embarque",
                     "terms": "jet bridge, jetway, finger, aerobridge, ponte de embarque, ponte telescópica, manga, manga de embarque, ponte de aeroporto"
+                },
+                "aeroway/parking_position": {
+                    "name": "Área de estacionamento de avião",
+                    "terms": "aircraft parking position, área de estacionamento de avião, ponto de estacionamento de avião, lugar de estacionamento de avião"
                 },
                 "aeroway/runway": {
                     "name": "Pista de aterragem e descolagem",
@@ -4605,6 +4672,10 @@
                     "name": "Centro de artes marciais",
                     "terms": "Dojo, Karaté, Taekwondo, Judo, Jiu-jitsu, Jiu-jitsu Brasileiro, Kung Fu, Capoeira, Eskrima, Escrima, Escryma, Muay Thai, Krav Magá, Jeet Kune Do"
                 },
+                "amenity/dressing_room": {
+                    "name": "Cabine de provas",
+                    "terms": "changing room, cabine de provas, sala de provas, troca de roupa, trocar de roupa, mudar de roupa"
+                },
                 "amenity/drinking_water": {
                     "name": "Água potável",
                     "terms": "fonte de água, água potável, água, bebedouro, bebedoiro, fontanário, fontenário, beber"
@@ -4639,6 +4710,9 @@
                 "amenity/fast_food/fish_and_chips": {
                     "name": "Comida rápida de peixe e fritos",
                     "terms": "peixe, frito, comida rápida, fast food"
+                },
+                "amenity/fast_food/ice_cream": {
+                    "name": "Comida rápida de gelados"
                 },
                 "amenity/fast_food/kebab": {
                     "name": "Kebab",
@@ -4699,6 +4773,10 @@
                     "name": "Cibercafé",
                     "terms": "cyber café, cyber cafe, cyber-café, cyber-cafe, ciber café, ciber cafe, ciber-café, ciber-cafe, cybercafe, cibercafe, cibercafé, cybercafé, internet café, internet cafe, internet, acesso à internet, wi-fi"
                 },
+                "amenity/karaoke": {
+                    "name": "Sala de karaoke",
+                    "terms": "karaoke box, karaoke, caraoque, karaoque, caraoke, noraebang"
+                },
                 "amenity/kindergarten": {
                     "name": "Jardim infantil / infantário",
                     "terms": "preschool, kindergarten, grounds, pré-escola, pré escola, creche, jardim de infância, jardim-de-infância, jardim infantil, pré-escola, pré-escolar, infantário"
@@ -4754,6 +4832,10 @@
                     "name": "Garagem de estacionamento multi nível",
                     "terms": "Garagem de estacionamento de vários níveis, silo"
                 },
+                "amenity/parking/park_ride": {
+                    "name": "Estacionamento Pare e Siga",
+                    "terms": "Parque de estacionamento integrado,parque de estacionamento de incentivo,parque de estacionamento de metro,parque de estacionamento dissuasor,P&R,Park & Ride"
+                },
                 "amenity/parking/underground": {
                     "name": "Estacionamento subterrâneo",
                     "terms": "underground parking, estacionamento subterrâneo, parque de estacionamento subterrâneo, parque subterrâneo, parque de estacionamento, subterrâneo, estacionamento, estacionar"
@@ -4794,6 +4876,18 @@
                     "name": "Igreja/capela/nicho cristão",
                     "terms": "cristã, cristão, cristianismo"
                 },
+                "amenity/place_of_worship/christian/jehovahs_witness": {
+                    "name": "Salão do Reino das Testemunhas de Jeová",
+                    "terms": "kingdom hall of jehovah's witnessesm, kingdom hall, salões do reino, salão do reino, testeminhas de jeová"
+                },
+                "amenity/place_of_worship/christian/la_luz_del_mundo": {
+                    "name": "Templo de La Luz del Mundo",
+                    "terms": "la luz del mundo temple, la luz del mundo, a luz do mundo"
+                },
+                "amenity/place_of_worship/christian/quaker": {
+                    "name": "Casa de reuniões Quaker Friends",
+                    "terms": "quaker friends meeting house, casa de reuniões quaker friends, casa de reuniões, quaker"
+                },
                 "amenity/place_of_worship/hindu": {
                     "name": "Templo hindu",
                     "terms": "templo, hindu, hinduísmo, hinduismo, hinduísta, hinduista"
@@ -4826,6 +4920,10 @@
                     "name": "Esquadra / posto de polícia",
                     "terms": "Polícia, GNR, G.N.R., PSP, P.S.P., Polícia de Segurança Pública, Guarda Nacional Republicana, Judiciária, Polícia Marítima, posto de polícia,"
                 },
+                "amenity/polling_station": {
+                    "name": "Mesa de voto permanente",
+                    "terms": "permanent polling place, mesa de voto, local de voto, votação, votar, eleições"
+                },
                 "amenity/post_box": {
                     "name": "Marco de correio",
                     "terms": "Marco de Correio, Caixa Postal, Posto de Correio, caixa de correio, ctt,"
@@ -4833,6 +4931,10 @@
                 "amenity/post_office": {
                     "name": "Estação de correios",
                     "terms": "Central de Correio, CTT, C.T.T., CTTs, Correio de Portugal"
+                },
+                "amenity/prep_school": {
+                    "name": "Escola de preparação para exames",
+                    "terms": "teste prep, tutoring school, escola, escola de preparação"
                 },
                 "amenity/prison": {
                     "name": "Prisão",
@@ -5587,10 +5689,6 @@
                 "building_point": {
                     "name": "Edifício"
                 },
-                "camp_site/camp_pitch": {
-                    "name": "Sítio para acampar",
-                    "terms": "acampar, acampar ao ar livre,"
-                },
                 "club": {
                     "name": "Clube",
                     "terms": "club, clube, aeromodelismo, radioamador, filatelia, xadrez, astronomia, automobilismo, associação, fã-clube, fã, templo maçônico, maçonaria, maçom, caça, motociclismo, moto clube, nudismo, fotografia, escoteiro, escotismo, hobby, futebol, desporto, atletismo, ginástica, basquetebol, voleibol, ténis, natação"
@@ -5776,6 +5874,10 @@
                     "name": "Sapateiro",
                     "terms": "Shoemaker, Sapato, Sapatos"
                 },
+                "craft/signmaker": {
+                    "name": "Fabricante de reclames",
+                    "terms": "signmaker, fabricante de reclames, reclame, reclame luminoso"
+                },
                 "craft/stonemason": {
                     "name": "Pedreiro",
                     "terms": "Stonemason, Rocha, Canteiro, Pedra, Pedras, Pedraria, Rocha, Rochas"
@@ -5887,6 +5989,9 @@
                     "name": "Vau (ponto de passagem num curso de água baixo)",
                     "terms": "Baixio, Banco, Parel"
                 },
+                "ford_line": {
+                    "name": "Vau / almegue"
+                },
                 "golf/bunker": {
                     "name": "Banco de areia",
                     "terms": "Sand Trap"
@@ -5954,6 +6059,10 @@
                 "healthcare/blood_donation": {
                     "name": "Banco de sangue ",
                     "terms": "Centro de Doação de Sangue, doação de sangue, transfusão de sangue, blood donor center"
+                },
+                "healthcare/counselling": {
+                    "name": "Centro de aconselhamento",
+                    "terms": "counselling center, centro de aconselhamento, aconselhamento, aconcelhamento"
                 },
                 "healthcare/hospice": {
                     "name": "Unidade de cuidados paliativos",
@@ -6490,14 +6599,6 @@
                     "name": "Caserna",
                     "terms": "caserna, dormitório militar"
                 },
-                "landuse/military/bunker": {
-                    "name": "Búnquer militar",
-                    "terms": "casamata, búnquer, bunker, bunker militar"
-                },
-                "landuse/military/checkpoint": {
-                    "name": "Posto de controlo militar",
-                    "terms": "ponto de controlo militar, posto de controlo, ponto de controlo"
-                },
                 "landuse/military/danger_area": {
                     "name": "Área perigosa",
                     "terms": "área perigosa, perigo, perigosa, perigoso, interdito, interdição"
@@ -6506,17 +6607,9 @@
                     "name": "Base naval militar",
                     "terms": "base naval, porto militar, porto marítimo militar, porto de guerra, estação naval, ponto de apoio naval, arsenal"
                 },
-                "landuse/military/nuclear_explosion_site": {
-                    "name": "Local de teste de armas nucleares",
-                    "terms": "local de teste de arma nuclear, teste nuclear, testes nucleares"
-                },
                 "landuse/military/obstacle_course": {
                     "name": "Percurso militar com obstáculos",
                     "terms": "percurso militar de obstáculos, percurso militar, percurso de obstáculos militar, obstáculo, militar, treino militar, treino"
-                },
-                "landuse/military/office": {
-                    "name": "Escritório militar",
-                    "terms": "escritórios militares, centro de recrutamento militar, centro de inspeção militar, centro de inspecção militar, centro de inspeção, centro de inspecção"
                 },
                 "landuse/military/range": {
                     "name": "Carreira de tiro militar",
@@ -6572,6 +6665,10 @@
                     "name": "Vinha",
                     "terms": "Vinhas, Vinhedo, Vinhão, Vineyard, Uvas, Uva"
                 },
+                "landuse/winter_sports": {
+                    "name": "Área de desportos de inverno",
+                    "terms": "winter sports area, área de desportos de inverno, desporto de inverno, desportos de inverno"
+                },
                 "leisure": {
                     "name": "Lazer"
                 },
@@ -6615,9 +6712,17 @@
                     "name": "Escola de dança",
                     "terms": "dança, dançar, bailado, bailarina, bailarino"
                 },
+                "leisure/disc_golf_course": {
+                    "name": "Percurso de golfe de disco",
+                    "terms": "disc golf course, disc golf, golfe de disco, golf de disco"
+                },
                 "leisure/dog_park": {
                     "name": "Parque para cães",
                     "terms": "Parque para Cães, Dog Park"
+                },
+                "leisure/escape_game": {
+                    "name": "Sala de escape",
+                    "terms": "escape room, escape game, sala de escape, quarto de escape, jogo de escape"
                 },
                 "leisure/firepit": {
                     "name": "Local para fogueiras",
@@ -6775,6 +6880,10 @@
                     "name": "Pista de equitação",
                     "terms": "Riding Arena, pista, equitação, hipismo, cavalos"
                 },
+                "leisure/pitch/field_hockey": {
+                    "name": "Campo de hóquei em campo",
+                    "terms": "field hockey pitch, campo de hóquei em campo, hóquei em campo, hóquei sobre a grama"
+                },
                 "leisure/pitch/horseshoes": {
                     "name": "Ferradura",
                     "terms": "horseshoes pit, jogo da ferradura, jogo de ferradura, ferradura, ferraduras, jogo com ferradura"
@@ -6930,6 +7039,10 @@
                     "name": "Silo tipo búnquer",
                     "terms": "silo-corredor, funil, silo, búnquer, bunquer, búnker, bunker, armazenamento"
                 },
+                "man_made/cairn": {
+                    "name": "Moledros / mariolas",
+                    "terms": "cairn, moledros, moledos, melédros, mariolas, moledro, moledo, melédro, mariola"
+                },
                 "man_made/chimney": {
                     "name": "Chaminé",
                     "terms": "Chimney"
@@ -7026,6 +7139,10 @@
                     "name": "Tubagem no subsolo",
                     "terms": "tubo, tubos, pipeline, tubagem, gasoduto, oleoduto, canalização"
                 },
+                "man_made/pipeline/valve": {
+                    "name": "Válvula de pipeline",
+                    "terms": "pipeline valve, válvula de pipeline, válvula, torneira, pipeline, oleoduto, gasoduto, tubo, tubagem, canalização"
+                },
                 "man_made/pumping_station": {
                     "name": "Estação de bombeamento",
                     "terms": "Pumping Station"
@@ -7057,6 +7174,10 @@
                 "man_made/survey_point": {
                     "name": "Vértice geodésico / talefe",
                     "terms": "Survey Point"
+                },
+                "man_made/torii": {
+                    "name": "Torii",
+                    "terms": "torii, tori, tóri"
                 },
                 "man_made/tower": {
                     "name": "Torre",
@@ -7125,6 +7246,26 @@
                 "manhole/telecom": {
                     "name": "Poço de visita de telecomunicações",
                     "terms": "Telecom Manhole, poço de visita, telecomunicações"
+                },
+                "military/bunker": {
+                    "name": "Búnquer militar",
+                    "terms": "military bunker, casamata, búnquer, bunker, bunker militar"
+                },
+                "military/checkpoint": {
+                    "name": "Posto de controlo militar",
+                    "terms": "checkpoint, ponto de controlo militar, posto de controlo, ponto de controlo, controlo militar"
+                },
+                "military/nuclear_explosion_site": {
+                    "name": "Local de teste de armas nucleares",
+                    "terms": "nuclear explosion site, local de teste de arma nuclear, teste nuclear, testes nucleares"
+                },
+                "military/office": {
+                    "name": "Escritório militar",
+                    "terms": "military office, escritórios militares, centro de recrutamento militar, centro de inspeção militar, centro de inspecção militar, centro de inspeção, centro de inspecção"
+                },
+                "military/trench": {
+                    "name": "Trincheira militar",
+                    "terms": "military trench, trincheira militar, trincheira, tranqueira"
                 },
                 "natural": {
                     "name": "Natural"
@@ -7316,6 +7457,10 @@
                     "name": "Organização sem fins lucrativos",
                     "terms": "ONG"
                 },
+                "office/bail_bond_agent": {
+                    "name": "Agente de fianças",
+                    "terms": "bail bond agent, agente de fianças, fianças"
+                },
                 "office/charity": {
                     "name": "Instituição de caridade",
                     "terms": "Caridade, Filantropia, Solidariedade"
@@ -7425,10 +7570,6 @@
                 },
                 "office/physician": {
                     "name": "Médico especialista"
-                },
-                "office/political_party": {
-                    "name": "Sede / filial de partido político",
-                    "terms": "Political Party, Partido, Partidos, sede partido, sede partidária, política, sede política,"
                 },
                 "office/private_investigator": {
                     "name": "Detetive privado",
@@ -7629,6 +7770,10 @@
                 "point": {
                     "name": "Ponto",
                     "terms": "Ponto, Nó, POI"
+                },
+                "polling_station": {
+                    "name": "Mesa de voto temporária",
+                    "terms": "temporary polling place, mesa de voto, local de voto, votação, votar, eleições"
                 },
                 "power": {
                     "name": "Energia"
@@ -8213,6 +8358,10 @@
                 "shop/fashion": {
                     "name": "Loja de moda"
                 },
+                "shop/fashion_accessories": {
+                    "name": "Loja de acessórios de moda",
+                    "terms": "fashion accessories store, loja de acessórios de moda, acessórios de moda, acessórios, bijuteria, mala, bolsa, chapéu, joalharia, joalheria, óculos de sol, carteira"
+                },
                 "shop/fireplace": {
                     "name": "Loja de lareiras",
                     "terms": "Lareira, fogo, lenha"
@@ -8303,6 +8452,10 @@
                     "name": "Loja de alta fidelidade",
                     "terms": "Hifi Store, Som"
                 },
+                "shop/hobby": {
+                    "name": "Loja de passatempos",
+                    "terms": "hobby shop, loja de passatempos, loja de hobbys, passatempo, passa-tempo, hobby, hoby, hobi, obby, oby, hobie, obie"
+                },
                 "shop/houseware": {
                     "name": "Loja de utensílios",
                     "terms": "Houseware Store, Utensílios Domésticos, Artigos para o Lar, Artigos para Casa, Panelas, Panela, Talheres, Utensílios, Cozinha"
@@ -8362,6 +8515,10 @@
                 "shop/medical_supply": {
                     "name": "Loja de material médico",
                     "terms": "Medical Supply Store, Artigos Hospitalares, Ortopedia, Ortopédico"
+                },
+                "shop/military_surplus": {
+                    "name": "Loja de excedentes militares",
+                    "terms": "military surplus store, loja de excedentes militares, loja de material militar excedente, loja de material militar fora de uso"
                 },
                 "shop/mobile_phone": {
                     "name": "Loja de telemóveis",
@@ -8443,6 +8600,10 @@
                     "name": "Loja de fotografia",
                     "terms": "Photography Store, Fotográfo, Máquina fotográfica, Material Fotográfico"
                 },
+                "shop/printer_ink": {
+                    "name": "Loja de tinteiros de impressora",
+                    "terms": "printer ink store, loja de tinteiros, tinteiro, tinteiro para impressora"
+                },
                 "shop/pyrotechnics": {
                     "name": "Loja de pirotecnia",
                     "terms": "Fireworks Store, Fogo de Artifício, pirotecnia"
@@ -8490,6 +8651,10 @@
                 "shop/supermarket": {
                     "name": "Supermercado / hipermercado",
                     "terms": "Hiper-mercado, Hiper mercado, Super-mercado, Super mercado, Compras, Loja, Alimentar, Alimentos"
+                },
+                "shop/swimming_pool": {
+                    "name": "Loja de artigos para piscinas",
+                    "terms": "pool supply store, artigos para piscinas, piscina, picina, pissina, pisina"
                 },
                 "shop/tailor": {
                     "name": "Alfaiate",
@@ -8578,10 +8743,6 @@
                     "name": "Loja de vinhos",
                     "terms": "wine shop, loja de licor, bebidas alcoolicas, bebidas, alcool, álcool, vinho, vinhos, garrafeira, branco, tinto, rosé, champanhe, xampanhe"
                 },
-                "tactile_paving": {
-                    "name": "Pavimento tátil",
-                    "terms": "pavimento tátil, pacimento táctil, piso tátil, piso táctil, superfície tátil, superfície táctil, podotátei"
-                },
                 "telecom/data_center": {
                     "name": "Centro de processamento de dados",
                     "terms": "data center, centro de processamento de dados, centro de dados"
@@ -8632,6 +8793,10 @@
                 "tourism/attraction": {
                     "name": "Atração turística",
                     "terms": "ponto turístico, turismo, atração turística, atração, atracção"
+                },
+                "tourism/camp_pitch": {
+                    "name": "Alvéolo de parque de campismo",
+                    "terms": "camp pitch, alvéolo, talhão, secção, parte, parque de campismo"
                 },
                 "tourism/camp_site": {
                     "name": "Parque de campismo",
@@ -9009,44 +9174,39 @@
             }
         },
         "imagery": {
+            "AGIV": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "AIV Flanders - imagens áreas mais recentes"
+            },
+            "AGIV10cm": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "AIV Flanders 2013-2015 imagens aéreas 10cm"
+            },
+            "AGIVFlandersGRB": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "AIV Flanders GRB"
+            },
+            "AIV_DHMV_II_HILL_25cm": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "AIV Digitaal Hoogtemodel Vlaanderen II, sombreamento de colinas multi-direcional 0,25 m"
+            },
+            "AIV_DHMV_II_SVF_25cm": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "AIV Digitaal Hoogtemodel Vlaanderen II, Skyview factor 0,25 m"
+            },
             "Bing": {
                 "description": "Imagens aéreas e de satélite.",
                 "name": "Imagens aéreas Bing"
-            },
-            "DigitalGlobe-Premium": {
-                "attribution": {
-                    "text": "Termos e opinião"
-                },
-                "description": "O DigitalGlobe-Premium é um mosaico composto de mapas-base da DigitalGlobe com regiões selecionadas preenchidas com imagens mais nítidas ou de áreas personalizadas de interesse, resolução de 50 cm ou superior e atualizadas com mais frequência com atualizações contínuas.",
-                "name": "DigitalGlobe Premium"
-            },
-            "DigitalGlobe-Premium-vintage": {
-                "attribution": {
-                    "text": "Termos e Opinião"
-                },
-                "description": "Limites das imagens aéreas e datas de captura. As etiquetas aparecem no nível de magnificação 13 e superiores.",
-                "name": "Imagens DigitalGlobe Premium antigas"
-            },
-            "DigitalGlobe-Standard": {
-                "attribution": {
-                    "text": "Termos e opinião"
-                },
-                "description": "DigitalGlobe-Standard é um conjunto de imagens selecionadas que cobre 86% da massa terrestre, com uma resolução de 30-60cm, se disponível, preenchida pelo Landsat. A idade média é de 2,31 anos, com algumas áreas a serem atualizadas duas vezes por ano.",
-                "name": "DigitalGlobe Standard"
-            },
-            "DigitalGlobe-Standard-vintage": {
-                "attribution": {
-                    "text": "Termos e Opinião"
-                },
-                "description": "Limites das imagens aéreas e datas de captura. As etiquetas aparecem no nível de magnificação 13 e superiores.",
-                "name": "Imagens DigitalGlobe Standard antigaas"
-            },
-            "DigitalGlobe-Vivid": {
-                "attribution": {
-                    "text": "Termos e opinião"
-                },
-                "description": "DigitalGlobe-Vivid é um mosaico de imagens aéreas com aparência ótima e atualidade para qualquer parte do mundo, com resolução de 50 cm ou superior e atualidade das imagens inferior a 20 meses no geral.",
-                "name": "Imagens aéreas DigitalGlobe Vivid"
             },
             "EOXAT2018CLOUDLESS": {
                 "attribution": {
@@ -9082,6 +9242,20 @@
                 },
                 "description": "Imagens aéreas e de satélite.",
                 "name": "Mapbox Satellite"
+            },
+            "Maxar-Premium": {
+                "attribution": {
+                    "text": "Termos de utilização e comentários"
+                },
+                "description": "O Maxar Premium é um mosaico composto pelo mapa base Maxar com regiões selecionadas preenchidas com +Vivid ou área de imagens de interesse personalizada, com resolução de 50cm ou superior, e atualizada com mais frequência.",
+                "name": "Maxar Premium Imagery (Beta)"
+            },
+            "Maxar-Standard": {
+                "attribution": {
+                    "text": "Termos de utilização e comentários"
+                },
+                "description": "O Maxar Standard são imagens aéreas revistas que cobrem 86% da massa da Terra, com resolução de 30 a 60cm onde estiver disponível, com recuso alternativo ao Landsat. A idade média é de 2,31 anos com algumas áreas atualizadas 2 vezes por ano.",
+                "name": "Maxar Standard Imagery (Beta)"
             },
             "OSM_Inspector-Addresses": {
                 "attribution": {
@@ -9142,6 +9316,10 @@
             "US-TIGER-Roads-2018": {
                 "description": "Amarelo = Dados do mapa de domínio público do Censo dos EUA. Vermelho = Dados não encontrados no OpenStreetMap",
                 "name": "Estradas do TIGRE 2018"
+            },
+            "USDA-NAIP": {
+                "description": "O ano mais recente de DOQQs da National Agriculture Imagery Program (NAIP) para cada estado nos Estados Unidos contíguos.",
+                "name": "National Agriculture Imagery Program"
             },
             "US_Forest_Service_roads_overlay": {
                 "description": "Estrada: cobertura verde = não classificada. cobertura castanha = trilho. Superfície: gravilha = preenchimento castanho claro, asfalto = preto, pavimentado = cinza, terra = branco, cimento = azul, erva = verde. Sazonal = barras brancas",
@@ -9220,6 +9398,27 @@
                 },
                 "description": "Ortofotomapa fornecido por basemap.at. Sucessor de imagens da geoimage.at .",
                 "name": "Ortofotomapa geoimage.at"
+            },
+            "basemap.at-overlay": {
+                "attribution": {
+                    "text": "basemap.at"
+                },
+                "description": "Camada com anotações fornecido por basemap.at.",
+                "name": "basemap.at - camada superior"
+            },
+            "basemap.at-surface": {
+                "attribution": {
+                    "text": "basemap.at"
+                },
+                "description": "Camada de superfície fornecido por basemap.at.",
+                "name": "basemap.at - superfície"
+            },
+            "basemap.at-terrain": {
+                "attribution": {
+                    "text": "basemap.at"
+                },
+                "description": "Camada de terreno fornecido por basemap.at.",
+                "name": "basemap.at - terreno"
             },
             "eufar-balaton": {
                 "attribution": {
@@ -9949,6 +10148,14 @@
                 "name": "Fórum OpenStreetMap Polónia",
                 "description": "Fórum da comunidade polaca OpenStreetMap"
             },
+            "pt-mailinglist": {
+                "name": "Mailing List Talk-pt",
+                "description": "Talk-pt faz parte da mailing list oficial para a comunidade portuguesa do OSM"
+            },
+            "pt-telegram": {
+                "name": "OpenStreetMap Portugal no Telegram",
+                "description": "Grupo do Telegram da comunidade Portuguesa do OpenStreetMap {url}"
+            },
             "si-forum": {
                 "name": "Fórum do OpenStreetMap Eslovénia",
                 "description": "Fórum da comunidade OpenStreetMap na Eslovénia"
@@ -10019,10 +10226,6 @@
             "OSM-CU-telegram": {
                 "name": "OSM Cuba no Telegram",
                 "description": "Chat telegram OpenStreetMap Cuba"
-            },
-            "OSM-NI-telegram": {
-                "name": "OSM Nicarágua no Telegram",
-                "description": "Chat telegram OpenStreetMap Nicaráguaa"
             },
             "Bay-Area-OpenStreetMappers": {
                 "name": "OpenStreetMappers de Bay",
@@ -10163,10 +10366,6 @@
                 "name": "Encontro encosta ocidental OSM",
                 "description": "Cartógrafos e utilizadores do OpenStreetMap na área de Grand Junction, CO",
                 "extendedDescription": "O objetivo deste grupo é apresentar o OpenStreetMap para a comunidade, desenvolver uma comunidade de cartógrafos, criar os geodados mais incríveis possíveis usando o método que pudermos e, finalmente, criar estratégias para obter esses dados na nossa comunidade. Imagine uma sinalização precisa de trilha! Imagine mais desenvolvimento de ciclovias! Imagine o que quiser, essa é a alegria do OpenStreetMap!"
-            },
-            "Maptime-Australia-Slack": {
-                "name": "Maptime Australia Slack",
-                "description": "Registe-se em {signupUrl}"
             },
             "talk-au": {
                 "name": "Lista de Discussão Talk-au",

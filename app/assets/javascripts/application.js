@@ -17,17 +17,16 @@
 //= require richtext
 //= require querystring
 
-var querystring = require("querystring-component");
-
 /*
  * Called as the user scrolls/zooms around to maniplate hrefs of the
  * view tab and various other links
  */
 window.updateLinks = function (loc, zoom, layers, object) {
   $(".geolink").each(function (index, link) {
-    var href = link.href.split(/[?#]/)[0],
-      args = querystring.parse(link.search.substring(1)),
-      editlink = $(link).hasClass("editlink");
+    var querystring = require("querystring-component"),
+        href = link.href.split(/[?#]/)[0],
+        args = querystring.parse(link.search.substring(1)),
+        editlink = $(link).hasClass("editlink");
 
     delete args.node;
     delete args.way;

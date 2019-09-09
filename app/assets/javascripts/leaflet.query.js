@@ -17,7 +17,7 @@ L.OSM.query = function (options) {
 
     function update() {
       var wasDisabled = link.hasClass("disabled"),
-        isDisabled = map.getZoom() < 14;
+          isDisabled = map.getZoom() < 14;
       link
         .toggleClass("disabled", isDisabled)
         .attr("data-original-title", I18n.t(isDisabled ?

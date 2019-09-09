@@ -1,4 +1,7 @@
 class AddTermsSeenToUser < ActiveRecord::Migration[4.2]
+  class User < ActiveRecord::Base
+  end
+
   def self.up
     add_column :users, :terms_seen, :boolean, :null => false, :default => false
 

@@ -13,6 +13,9 @@
 # Author: Phjtieudoc
 # Author: Ruila
 # Author: Trần Nguyễn Minh Huy
+# Author: Vinhtantran
+# Author: 予弦
+# Author: 神樂坂秀吉
 ---
 vi:
   time:
@@ -25,6 +28,9 @@ vi:
         create: Lưu
       diary_entry:
         create: Đăng
+        update: Cập nhật
+      issue_comment:
+        create: Thêm bình luận
       message:
         create: Gửi
       client_application:
@@ -111,6 +117,15 @@ vi:
         description: Miêu tả
         languages: Ngôn ngữ
         pass_crypt: Mật khẩu
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: khoảng 1 giờ trước
+        other: khoảng %{count} giờ trước
+      half_a_minute: 30 giây trước
+      x_years:
+        one: 1 năm trước
+        other: '%{count} năm trước'
   editor:
     default: Mặc định (hiện là %{name})
     potlatch:
@@ -128,14 +143,14 @@ vi:
   api:
     notes:
       comment:
-        opened_at_html: Được tạo cách đây %{when}
-        opened_at_by_html: Được %{user} tạo cách đây %{when}
-        commented_at_html: Được cập nhật cách đây %{when}
-        commented_at_by_html: Được %{user} cập nhật cách đây %{when}
-        closed_at_html: Được giải quyết cách đây %{when}
-        closed_at_by_html: Được %{user} giải quyết cách đây %{when}
-        reopened_at_html: Được mở lại cách đây %{when}
-        reopened_at_by_html: Được %{user} mở lại cách đây %{when}
+        opened_at_html: Được tạo %{when}
+        opened_at_by_html: Được %{user} tạo %{when}
+        commented_at_html: Được cập nhật %{when}
+        commented_at_by_html: Được %{user} cập nhật %{when}
+        closed_at_html: Được giải quyết %{when}
+        closed_at_by_html: Được %{user} giải quyết %{when}
+        reopened_at_html: Được mở lại %{when}
+        reopened_at_by_html: Được %{user} mở lại %{when}
       rss:
         title: Ghi chú OpenStreetMap
         description_area: Danh sách các ghi chú được mở, bình luận, hoặc đóng trong
@@ -151,12 +166,12 @@ vi:
   browse:
     created: Tạo
     closed: Đóng
-    created_html: Tạo ra <abbr title='%{title}'>cách đây %{time}</abbr>
-    closed_html: Đóng <abbr title='%{title}'>cách đây %{time}</abbr>
-    created_by_html: Tạo ra <abbr title='%{title}'>cách đây %{time}</abbr> bởi %{user}
-    deleted_by_html: Xóa <abbr title='%{title}'>cách đây %{time}</abbr> bởi %{user}
-    edited_by_html: Sửa đổi <abbr title='%{title}'>cách đây %{time}</abbr> bởi %{user}
-    closed_by_html: Đóng <abbr title='%{title}'>cách đây %{time}</abbr> bởi %{user}
+    created_html: Tạo ra <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Đóng <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Tạo ra <abbr title='%{title}'>%{time}</abbr> bởi %{user}
+    deleted_by_html: Xóa <abbr title='%{title}'>%{time}</abbr> bởi %{user}
+    edited_by_html: Sửa đổi <abbr title='%{title}'>%{time}</abbr> bởi %{user}
+    closed_by_html: Đóng <abbr title='%{title}'>%{time}</abbr> bởi %{user}
     version: Phiên bản
     in_changeset: Bộ thay đổi
     anonymous: vô danh
@@ -176,9 +191,8 @@ vi:
       relation: Các quan hệ (%{count})
       relation_paginated: Các quan hệ (%{x}–%{y} trên %{count})
       comment: Bình luận (%{count})
-      hidden_commented_by: Bình luận ẩn của %{user} <abbr title='%{exact_time}'>cách
-        đây %{when}</abbr>
-      commented_by: Bình luận của %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      hidden_commented_by: Bình luận ẩn của %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Bình luận của %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Bộ thay đổi XML
       osmchangexml: osmChange XML
       feed:
@@ -256,17 +270,15 @@ vi:
       open_title: 'Ghi chú chưa giải quyết #%{note_name}'
       closed_title: 'Ghi chú đã giải quyết #%{note_name}'
       hidden_title: 'Ghi chú ẩn #%{note_name}'
-      open_by: Tạo bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
-      open_by_anonymous: Tạo vô danh <abbr title='%{exact_time}'>cách đây %{when}</abbr>
-      commented_by: Bình luận của %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
-      commented_by_anonymous: Bình luận vô danh <abbr title='%{exact_time}'>cách đây
-        %{when}</abbr>
-      closed_by: Giải quyết bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
-      closed_by_anonymous: Giải quyết vô danh <abbr title='%{exact_time}'>cách đây
-        %{when}</abbr>
-      reopened_by: Mở lại bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
-      reopened_by_anonymous: Mở lại vô danh <abbr title='%{exact_time}'>cách đây %{when}</abbr>
-      hidden_by: Ẩn bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      open_by: Tạo bởi %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Tạo vô danh <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Bình luận của %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Bình luận vô danh <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Giải quyết bởi %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Giải quyết vô danh <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Mở lại bởi %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Mở lại vô danh <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Ẩn bởi %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Báo cáo ghi chú này
     query:
       title: Thăm dò Yếu tố
@@ -305,7 +317,7 @@ vi:
   changeset_comments:
     comment:
       comment: 'Nhận xét mới về bộ thay đổi #%{changeset_id} của %{author}'
-      commented_at_by_html: Được %{user} cập nhật cách đây %{when}
+      commented_at_by_html: Được %{user} cập nhật %{when}
     comments:
       comment: 'Nhận xét mới về bộ thay đổi #%{changeset_id} của %{author}'
     index:
@@ -360,11 +372,13 @@ vi:
         other: '%{count} bình luận'
       edit_link: Sửa đổi mục này
       hide_link: Ẩn mục này
+      unhide_link: Bỏ ẩn mục này
       confirm: Xác nhận
       report: Báo cáo mục này
     diary_comment:
       comment_from: Bình luận của %{link_user} vào %{comment_created_at}
       hide_link: Ẩn bình luận này
+      unhide_link: Bỏ ẩn bình luận này
       confirm: Xác nhận
       report: Báo cáo bình luận này
     location:
@@ -386,7 +400,6 @@ vi:
       post: Mục nhật ký
       when: Lúc đăng
       comment: Nhận xét
-      ago: cách đây %{ago}
       newer_comments: Các Nhận xét Mới hơn
       older_comments: Các Nhận xét Cũ hơn
   geocoder:
@@ -869,6 +882,7 @@ vi:
           hardware: Tiệm Ngũ kim
           hifi: Cửa hàng Hi-fi
           houseware: Cửa hàng gia dụng
+          interior_decoration: Trang trí Nội thất
           jewelry: Tiệm Kim hoàn
           kiosk: Quán
           laundry: Tiệm Giặt Quần áo
@@ -981,9 +995,8 @@ vi:
       status: Trạng thái
       reports: Báo cáo
       last_updated: Lần Cập nhật Cuối
-      last_updated_time_html: <abbr title='%{title}'>cách đây %{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>cách đây %{time}</abbr>
-        bởi %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> bởi %{user}
       link_to_reports: Xem Báo cáo
       reports_count:
         one: 1 Báo cáo
@@ -1559,7 +1572,7 @@ vi:
         hỏi đáp, và cộng tác soạn thảo tài liệu về các đề tài bản đồ.
       welcome:
         url: /welcome
-        title: Chào mừng đến với OSM
+        title: Chào mừng đến OpenStreetMap
         description: Bắt đầu với cẩm nang các điều cơ bản OpenStreetMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Vi:Beginners%27_guide
@@ -1567,7 +1580,7 @@ vi:
         description: Hướng dẫn bắt đầu do cộng đồng biên tập.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Diễn đàn Trợ giúp
         description: Hỏi hang hoặc tìm kiếm các câu trả lời tại trung tâm hỏi đáp
           của OSM.
       mailing_lists:
@@ -1591,7 +1604,7 @@ vi:
           thêm trong “Thảm Trước Cửa”.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Vi:Main_Page?uselang=vi
-        title: wiki.openstreetmap.org
+        title: Wiki OpenStreetMap
         description: Đọc tài liệu đầy đủ về OSM trên wiki.
     sidebar:
       search_results: Kết quả Tìm kiếm
@@ -1818,7 +1831,6 @@ vi:
     trace:
       pending: CHƯA XỬ
       count_points: '%{count} nốt'
-      ago: cách đây %{time_in_words_ago}
       more: thêm
       trace_details: Xem Chi tiết Tuyến đường
       view_map: Xem Bản đồ
@@ -2127,12 +2139,10 @@ vi:
       remove as friend: Hủy Kết Bạn
       add as friend: Kết Bạn
       mapper since: 'Tham gia:'
-      ago: (cách đây %{time_in_words_ago})
       ct status: 'Điều khoản đóng góp:'
       ct undecided: Chưa quyết định
       ct declined: Từ chối
-      ct accepted: Chấp nhận cách đây %{ago}
-      latest edit: 'Sửa đổi gần đây nhất cách đây %{ago}:'
+      latest edit: 'Sửa đổi gần đây nhất (%{ago}):'
       email address: 'Địa chỉ thư điện tử:'
       created from: 'Địa chỉ IP khi mở:'
       status: 'Trạng thái:'
@@ -2392,7 +2402,7 @@ vi:
       title: Bỏ cấm %{block_on}
       heading: Bỏ tác vụ cấm %{block_on} bởi %{block_by}
       time_future: Tác vụ cấm này sẽ hết hạn cách đây %{time}.
-      past: Tác vụ cấm này đã hết hạn cách đây %{time} nên không bỏ được.
+      past: Tác vụ cấm này đã hết hạn %{time} nên không bỏ được.
       confirm: Bạn có chắc muốn bỏ cấm người này?
       revoke: Bỏ cấm!
       flash: Đã bỏ cấm.
@@ -2400,7 +2410,7 @@ vi:
       time_future: Hết hạn %{time}.
       until_login: Có hiệu lực cho đến khi người dùng đăng nhập.
       time_future_and_until_login: Kết thúc %{time} nữa sau khi người dùng đăng nhập.
-      time_past: Đã hết hạn cách đây %{time}.
+      time_past: Đã hết hạn %{time}.
       block_duration:
         hours: '%{count} giờ'
     blocks_on:
@@ -2414,10 +2424,7 @@ vi:
     show:
       title: '%{block_on} bị cấm bởi %{block_by}'
       heading: '%{block_on} bị cấm bởi %{block_by}'
-      time_future: Hết hạn %{time}
-      time_past: Đã hết hạn cách đây %{time}
       created: Tạo
-      ago: cách đây %{time}
       status: Trạng thái
       show: Hiện
       edit: Sửa đổi
@@ -2451,7 +2458,6 @@ vi:
       description: Miêu tả
       created_at: Lúc tạo
       last_changed: Thay đổi gần đây nhất
-      ago_html: cách đây %{when}
   javascripts:
     close: Đóng
     share:

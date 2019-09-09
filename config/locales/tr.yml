@@ -31,6 +31,8 @@
 # Author: Talha Samil Cakir
 # Author: Tarikozket
 # Author: TmY e12
+# Author: TomH
+# Author: ToprakM
 # Author: Trncmvsr
 # Author: Trockya
 # Author: Uğurkent
@@ -50,6 +52,8 @@ tr:
       diary_entry:
         create: Yayınla
         update: Güncelle
+      issue_comment:
+        create: Yorum Ekle
       message:
         create: Gönder
       client_application:
@@ -136,6 +140,45 @@ tr:
         description: Tanım
         languages: Diller
         pass_crypt: Parola
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: yaklaşık 1 saat önce
+        other: yaklaşık %{count} saat önce
+      about_x_months:
+        one: yaklaşık 1 ay önce
+        other: yaklaşık %{count} ay önce
+      about_x_years:
+        one: yaklaşık 1 yıl önce
+        other: yaklaşık %{count} yıl önce
+      almost_x_years:
+        one: neredeyse 1 yıl önce
+        other: neredeyse %{count} yıl önce
+      half_a_minute: yarım dakika önce
+      less_than_x_seconds:
+        one: 1 saniyeden az önce
+        other: '%{count} saniyeden az önce'
+      less_than_x_minutes:
+        one: bir dakikadan daha az bir süre önce
+        other: '%{count} dakikadan daha az bir süre önce'
+      over_x_years:
+        one: 1 yıldan fazla
+        other: '%{count} yıldan fazla'
+      x_seconds:
+        one: 1 saniye önce
+        other: '%{count} saniye önce'
+      x_minutes:
+        one: 1 dakika önce
+        other: '%{count} dakika önce'
+      x_days:
+        one: 1 gün önce
+        other: '%{count} gün önce'
+      x_months:
+        one: 1 ay önce
+        other: '%{count} ay önce'
+      x_years:
+        one: 1 yıl önce
+        other: '%{count} yıl önce'
   editor:
     default: Varsayılan (kullanılan %{name})
     potlatch:
@@ -153,14 +196,14 @@ tr:
   api:
     notes:
       comment:
-        opened_at_html: '%{when} önce oluşturuldu'
-        opened_at_by_html: '%{when} önce %{user} tarafından oluşturuldu'
-        commented_at_html: '%{when} önce güncellendi'
-        commented_at_by_html: '%{user} tarafından %{when} tarihinde güncellendi'
-        closed_at_html: '%{when} önce çözüldü'
-        closed_at_by_html: '%{user} tarafından %{when} tarihinde çözüldü'
-        reopened_at_html: '%{when} önce yeniden etkinleştirildi'
-        reopened_at_by_html: '%{user} tarafından %{when} tarihinde yeniden etkinleştirildi'
+        opened_at_html: '%{when} oluşturuldu'
+        opened_at_by_html: '%{user} tarafından %{when} oluşturuldu'
+        commented_at_html: '%{when} güncellendi'
+        commented_at_by_html: '%{user} tarafından %{when} güncellendi'
+        closed_at_html: '%{when} çözüldü'
+        closed_at_by_html: '%{user} tarafından %{when} çözüldü'
+        reopened_at_html: '%{when} yeniden etkinleştirildi'
+        reopened_at_by_html: '%{user} tarafından %{when} yeniden etkinleştirildi'
       rss:
         title: OpenStreetMap Notları
         description_area: '[(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})] bölgenizde
@@ -176,16 +219,12 @@ tr:
   browse:
     created: Oluşturuldu
     closed: Kapandı
-    created_html: <abbr title='%{title}'>%{time} önce</abbr> oluşturuldu
-    closed_html: <abbr title='%{title}'>%{time} önce</abbr> kapandı
-    created_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından
-      oluşturuldu
-    deleted_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından
-      silindi
-    edited_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından
-      düzenlendi
-    closed_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından
-      kapandı
+    created_html: <abbr title='%{title}'>%{time}</abbr> oluşturuldu
+    closed_html: <abbr title='%{title}'>%{time}</abbr> kapandı
+    created_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından oluşturuldu
+    deleted_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından silindi
+    edited_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından düzenlendi
+    closed_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından kapandı
     version: Sürüm
     in_changeset: Değişiklik Kaydı
     anonymous: anonim
@@ -205,10 +244,8 @@ tr:
       relation: İlişkiler (%{count})
       relation_paginated: İlişkiler (%{x}-%{y} - toplam %{count})
       comment: Yorumlar (%{count})
-      hidden_commented_by: '%{user} tarafından gizli yorum <abbr title="%{exact_time}">%{when}
-        önce</abbr>'
-      commented_by: '%{user} kullanıcıdan yorum <abbr title="%{exact_time}">%{when}
-        önce</abbr>'
+      hidden_commented_by: '%{user} tarafından gizli yorum <abbr title="%{exact_time}">%{when}</abbr>'
+      commented_by: '%{user} kullanıcıdan yorum <abbr title="%{exact_time}">%{when}</abbr>'
       changesetxml: Değişiklik kaydı XML
       osmchangexml: osmChange XML
       feed:
@@ -286,23 +323,22 @@ tr:
       open_title: 'Çözümlenmemiş not: #%{note_name}'
       closed_title: 'Çözümlenmiş not: #%{note_name}'
       hidden_title: 'Gizli not #%{note_name}'
-      open_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when} önce</abbr>
-        oluşturuldu'
-      open_by_anonymous: Anonim olarak <abbr title='%{exact_time}'>%{when} önce</abbr>
+      open_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr> oluşturuldu'
+      open_by_anonymous: Anonim olarak <abbr title='%{exact_time}'>%{when}</abbr>
         oluşturuldu
-      commented_by: '%{user} kullanıcısının <abbr title=''%{exact_time}''>%{when}
-        önceki</abbr> yorumu'
-      commented_by_anonymous: Anonim kullanıcının <abbr title='%{exact_time}'>%{when}
-        önceki</abbr> yorumu
-      closed_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when} önce</abbr>
+      commented_by: '%{user} kullanıcısının <abbr title=''%{exact_time}''>%{when}</abbr>
+        yorumu'
+      commented_by_anonymous: Anonim kullanıcının <abbr title='%{exact_time}'>%{when}</abbr>
+        yorumu
+      closed_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         çözüldü'
-      closed_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}
-        önce</abbr> çözüldü
-      reopened_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when} önce</abbr>
+      closed_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
+        çözüldü
+      reopened_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         yeniden etkin hâle getirildi.'
-      reopened_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}
-        önce</abbr> yeniden etkin hâle getirildi.
-      hidden_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when} önce</abbr>
+      reopened_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
+        yeniden etkin hâle getirildi.
+      hidden_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         gizlendi'
       report: Bu notu bildir
     query:
@@ -343,7 +379,7 @@ tr:
     comment:
       comment: 'Değişiklik seti #%{changeset_id} hakkında %{author} yeni bir yorum
         yaptı.'
-      commented_at_by_html: '%{user} tarafından %{when} önce güncellendi'
+      commented_at_by_html: '%{user} tarafından %{when} güncellendi'
     comments:
       comment: 'Değişiklik seti #%{changeset_id} hakkında %{author} yeni bir yorum
         yaptı.'
@@ -401,12 +437,14 @@ tr:
         other: '%{count} yorum'
       edit_link: Bu girdiyi düzenle
       hide_link: Bu girdiyi gizle
+      unhide_link: Bu girdiyi göster
       confirm: Onayla
       report: Bu girdiyi bildir
     diary_comment:
       comment_from: '%{comment_created_at} tarihinde %{link_user} tarafından yapılan
         yorum'
       hide_link: Bu yorumu gizle
+      unhide_link: Bu yorumu göster
       confirm: Onayla
       report: Bu yorumu bildir
     location:
@@ -429,7 +467,6 @@ tr:
       post: Yazı
       when: Tarih
       comment: Yorum
-      ago: '%{ago} önce'
       newer_comments: Daha Yeni Yorumlar
       older_comments: Daha Eski Yorumlar
   geocoder:
@@ -1044,9 +1081,8 @@ tr:
       status: Durum
       reports: Raporlar
       last_updated: Son Güncelleme
-      last_updated_time_html: <abbr title='%{title}'>%{time} önce</abbr>
-      last_updated_time_user_html: '%{user} tarafından <abbr title=''%{title}''>%{time}
-        önce</abbr>'
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: '%{user} tarafından <abbr title=''%{title}''>%{time}</abbr>'
       link_to_reports: Raporları Görüntüle
       reports_count:
         one: 1 Rapor
@@ -1422,7 +1458,7 @@ tr:
         text: Tercüme edilmiş bu sayfa ile %{english_original_link} arasında meydana
           gelebilecek herhangi bir uyuşmazlıkta sayfanın özgün dili olan İngilizce
           bölümü önceliklidir.
-        english_link: İngilizce orijinal
+        english_link: İngilizce orijinali
       native:
         title: Sayfa hakkında
         text: Telif hakkı sayfasının İngilizce sürümünü görüntülüyorsunuz. Bu sayfanın
@@ -1441,30 +1477,27 @@ tr:
           OpenStreetMap'e ve katkıda bulunanlarına değindiğiniz
           sürece verilerimizi kopyalamak, dağıtmak, iletmek
           ve uyarlamakta serbestsiniz.
-          Verilerimizi değiştirir veya geliştirirseniz,
+          Verilerimizi değiştirir veya geliştirirseniz
           sonucu sadece aynı lisans altında dağıtabilirsiniz.
           Tüm <a href="https://opendatacommons.org/licenses/odbl/1.0/">yasal kod</a>, haklarınızı ve sorumluluklarınızı açıklamaktadır.
         intro_3_html: |-
           Haritalarımızdaki haritacılık ve belgelerimiz, <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
           Commons Attribution-ShareAlike 2.0</a> lisansı (CC BY-SA) ile yetkilendirilmiştir.
-        credit_title_html: OpenStreetMap nasıl atıf edinir
+        credit_title_html: OpenStreetMap'e nasıl atıfta bulunulur
         credit_1_html: |-
-          Atıf şu şekilde yazmak gerekir: &ldquo;&copy; OpenStreetMap
+          Atıf için şu şekilde yazmak gerekir: &ldquo;&copy; OpenStreetMap
           katılımcıları&rdquo;.
         credit_2_html: |-
-          Ayrıca, verilerin Open Database License ve
-          haritalarımızdaki karoları kullanıyorsanız haritacılığımız
-          CC BY-SA ile lisanslandırıldığını açıkça belirtmelisiniz.
-          Bunu, <a href="https://www.openstreetmap.org/copyright">bu telif hakkı sayfasına</a> bağlantı vererek gerçekleştirebilirsiniz.
-          Alternatif ve bir gereksinim olarak, OSM'yi  bir veri formunda dağıtıyorsanız direkt olarak lisansları adlandırabilir
+          Ayrıca, verilerin Açık Veritabanı Lisansı (Open Database License) altında ve haritalarımızdaki karoları kullanıyorsanız haritacılığımızın CC BY-SA ile lisanslandırıldığını açıkça belirtmelisiniz. Bunu, <a href="https://www.openstreetmap.org/copyright">bu telif hakkı sayfasına</a> bağlantı vererek gerçekleştirebilirsiniz.
+          Alternatif ve bir gereksinim olarak OSM'yi  bir veri formunda dağıtıyorsanız direkt olarak lisansları adlandırabilir
           veya doğrudan lisanslara bağlayabilirsiniz. Bağlantıların
           mümkün olmadığı ortamlarda (örneğin basılı işler)
           okuyucularınızı openstreetmap.org'a, opendatacommons.org'a
           ve varsa creativecommons.org'a yönlendirmenizi
           öneriyoruz.
         credit_3_html: |-
-          Bir gezinebilir elektronik haritanın sağ alt köşesinde kredisi görünmesi lazım.
-          Örnegin:
+          Bir gezinebilir elektronik haritanın sağ alt köşesinde atfın görünmesi lazım.
+          Örnegin;
         attribution_example:
           alt: Web sayfasıında OpenStreetMap atıf etmek için bir örnek
           title: Atıf örneği
@@ -1922,7 +1955,6 @@ tr:
     trace:
       pending: BEKLEMEDE
       count_points: '%{count} nokta'
-      ago: '%{time_in_words_ago} önce'
       more: ayrıntı
       trace_details: İz Ayrıntılarını Görüntüle
       view_map: Haritayı Görüntüle
@@ -2233,12 +2265,10 @@ tr:
       remove as friend: Arkadaş listesinden çıkart
       add as friend: Arkadaş Olarak Ekle
       mapper since: 'Haritacılığa başlama tarihi:'
-      ago: (%{time_in_words_ago} önce)
       ct status: 'Katılımcının şartları:'
       ct undecided: Kararsız
       ct declined: Reddetti
-      ct accepted: '%{ago} önce kabul etti'
-      latest edit: 'Son değişiklik %{ago}:'
+      latest edit: 'Son değişiklik (%{ago}):'
       email address: 'E-posta adresi:'
       created from: 'Kullanıldı yazılım:'
       status: 'Durum:'
@@ -2502,7 +2532,7 @@ tr:
       title: '%{block_on} engellerini iptal etme'
       heading: '%{block_by} tarafından yapılan %{block_on} engellerini iptal etme'
       time_future: Engellenme %{time} içerisinde bitecek.
-      past: Bu engelleme %{time} önce bitmiş ve artık iptal edilemez.
+      past: Bu engelleme %{time} bitmiş ve artık iptal edilemez.
       confirm: Bu engeli kaldırmak istediğine emin misin?
       revoke: İptal!
       flash: Bu engelleme iptal edildi.
@@ -2510,7 +2540,7 @@ tr:
       time_future: '%{time} içinde bitecek.'
       until_login: Kullanıcı giriş yapana kadar aktif.
       time_future_and_until_login: '%{time} içinde ve kullanıcı oturum açtığında bitecek.'
-      time_past: '%{time} önce bitti.'
+      time_past: '%{time} bitti.'
       block_duration:
         hours:
           one: 1 saat
@@ -2538,10 +2568,7 @@ tr:
     show:
       title: '%{block_on} kişisi %{block_by} tarafından engellendi'
       heading: '%{block_on} kişisi %{block_by} tarafından engellendi'
-      time_future: '%{time} içinde bitecek'
-      time_past: '%{time} önce bitti'
       created: Oluşturuldu
-      ago: '%{time} önce'
       status: Durum
       show: Göster
       edit: Düzenle
@@ -2575,7 +2602,6 @@ tr:
       description: Açıklama
       created_at: Oluşturulma tarihi
       last_changed: Son değişiklik
-      ago_html: '%{when} önce'
   javascripts:
     close: Kapat
     share:

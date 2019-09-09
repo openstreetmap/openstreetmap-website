@@ -29,6 +29,7 @@ eu:
         create: Gorde
       diary_entry:
         create: Argitaratu
+        update: Eguneratu
       message:
         create: Bidali
       client_application:
@@ -132,14 +133,14 @@ eu:
   api:
     notes:
       comment:
-        opened_at_html: Duela %{when} sortua
-        opened_at_by_html: '%{user}-ek duela %{when} sortua'
-        commented_at_html: Duela %{when} eguneratua
-        commented_at_by_html: Duela %{when} %{user}k eguneratua
-        closed_at_html: Duela %{when} ebatzia
-        closed_at_by_html: Duela %{when} %{user}k ebatzia
-        reopened_at_html: Duela %{when} berraktibatua
-        reopened_at_by_html: Duela %{when} %{user}k berraktibatua
+        opened_at_html: '%{when} sortua'
+        opened_at_by_html: '%{user}-ek %{when} sortua'
+        commented_at_html: '%{when} eguneratua'
+        commented_at_by_html: '%{user}k %{when} eguneratua'
+        closed_at_html: '%{when} ebatzia'
+        closed_at_by_html: '%{user}k %{when} ebatzia'
+        reopened_at_html: '%{when} berraktibatua'
+        reopened_at_by_html: '%{user}k %{when} berraktibatua'
       rss:
         title: OpenStreetMap oharrak
         description_area: Iruzkinak dituzten, itxi diren edota iragarki diren oharren
@@ -403,7 +404,6 @@ eu:
       post: Argitaratu
       when: Noiz
       comment: Iruzkina
-      ago: Duela %{ago}
       newer_comments: Iruzkin berriagoak
       older_comments: Iruzkin zaharragoak
   geocoder:
@@ -1863,7 +1863,6 @@ eu:
     trace:
       pending: PRIBATUA
       count_points: '%{count} puntu'
-      ago: duela %{time_in_words_ago}
       more: gehiago
       trace_details: Ikusi Aztarna Xehetasunak
       view_map: Mapa ikusi
@@ -2118,8 +2117,8 @@ eu:
         dituzula. Informazio gehiagorako, ikus <a href="%{url}"> wiki orri hau </a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Kolaboratzaile terminoak
-      heading: Kolaboratzaile terminoak
+      title: Baldintzak
+      heading: Baldintzak
       consider_pd: Goiko hitzarmenaz gain, nire ekarpenak Domeinu Publikoan egon behar
         direla uste dut
       consider_pd_why: zer da hau?
@@ -2160,15 +2159,13 @@ eu:
       edits: Aldaketak
       traces: Aztarnak
       notes: Mapa Oharrak
-      remove as friend: Lagun bezala kendu
-      add as friend: Lagun bezala gehitu
+      remove as friend: Kendu adiskidetzat
+      add as friend: Gehitu adiskidetzat
       mapper since: 'Noiztik mapatzaile:'
-      ago: (duela %{time_in_words_ago})
       ct status: 'Kolaboratzaile terminoak:'
       ct undecided: Erabakigabea
       ct declined: Ez da onartu
-      ct accepted: Duela %{ago} onartua
-      latest edit: 'Azken aldaketa %{ago}:'
+      latest edit: 'Azken aldaketa (%{ago}):'
       email address: 'Eposta helbidea:'
       created from: 'Hemendik sortua:'
       status: 'Egoera:'
@@ -2309,14 +2306,14 @@ eu:
       flash success: Zure aldaketa guztiak publikoak dira orain, eta orain editatzeko
         baimena daukazu.
     make_friend:
-      heading: '%{user} lagun bezala gehitu?'
+      heading: Gehitu %{user} adiskidetzat?
       button: Gehitu lagun gisa
       success: '%{name} zure laguna de orain!'
       failed: Barkatu, %{name} lagun bezala ezin izan da gehitu.
       already_a_friend: '%{name} eta zuk lagunak zarete jada.'
     remove_friend:
       heading: '%{user} lagun moduan kendu?'
-      button: Lagun bezala kendu
+      button: Kendu adiskidetzat
       success: '%{name} zure lagunetatik kendu egin da.'
       not_a_friend: '%{name} ez da zure laguna.'
     index:
@@ -2440,7 +2437,7 @@ eu:
       until_login: Erabiltzaileak saioa hasi arte aktiboa.
       time_future_and_until_login: '%{time} denbora barru bukatzen du eta erabiltzaileak
         saioa hasi eta gero.'
-      time_past: Duela %{time} bukatua.
+      time_past: '%{time} bukatua.'
       block_duration:
         hours:
           one: ordu bat
@@ -2456,10 +2453,7 @@ eu:
     show:
       title: '%{block_on} %{block_by}k blokeatu du'
       heading: '%{block_on} %{block_by}k blokeatu du'
-      time_future: '%{time}n bukatzen du'
-      time_past: Duela %{time} bukatua
       created: Sortua
-      ago: duela %{time}
       status: Egoera
       show: Erakutsi
       edit: Aldatu
@@ -2493,7 +2487,6 @@ eu:
       description: Deskribapena
       created_at: 'Non sortua:'
       last_changed: Azkenik aldaketua
-      ago_html: Duela %{when}
   javascripts:
     close: Itxi
     share:

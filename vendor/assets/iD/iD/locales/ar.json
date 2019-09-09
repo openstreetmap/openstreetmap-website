@@ -136,7 +136,9 @@
                     "line": "ربّع زوايا هذا الخط.",
                     "area": "ربّع زوايا هذه المنطقة."
                 },
+                "key": "Q",
                 "annotation": {
+                    "vertex": "تم تربيع ركن واحد.",
                     "line": "ربّع زوايا الخط.",
                     "area": "ربّع زوايا المنطقة."
                 },
@@ -158,7 +160,9 @@
                     "points": "تم استقامة نقاط متعددة.",
                     "line": "تم استقامة خط."
                 },
-                "too_bendy": "هذا لا يمكن أن يستقيم لأنه ينحني كثيرا."
+                "too_bendy": "هذا لا يمكن أن يستقيم لأنه ينحني كثيرا.",
+                "connected_to_hidden": "لا يمكن جعل ذلك مستقيما لأنه متصل بعنصر مخفي.",
+                "not_downloaded": "لا يمكن جعل ذلك مستقيما لأن أجزاءً منه لم يتم تنزيلها بعد."
             },
             "delete": {
                 "title": "حذف",
@@ -552,11 +556,16 @@
                 "key": "خ",
                 "title": "الخلفية",
                 "zoom": "تقريب",
+                "vintage": "تاريخ الالتقاط",
                 "source": "المصدر",
                 "description": "الوصف",
                 "resolution": "درجة الوضوح",
                 "accuracy": "الدقة",
-                "unknown": "مجهول"
+                "unknown": "مجهول",
+                "show_tiles": "إظهار البلاطات",
+                "hide_tiles": "إخفاء البلاطات",
+                "show_vintage": "إظهار تاريخ الالتقاط",
+                "hide_vintage": "إخفاء تاريخ الالتقاط"
             },
             "history": {
                 "key": "ت",
@@ -608,7 +617,7 @@
         },
         "geocoder": {
             "search": "ابحث في جميع أنحاء العالم...",
-            "no_results_visible": "لا نتائج في المنطقة الظاهرة من الخريطة",
+            "no_results_visible": "لا يوجد نتائج في المنطقة الظاهرة من الخريطة",
             "no_results_worldwide": "لم يُعثر على نتائج"
         },
         "geolocate": {
@@ -618,7 +627,11 @@
         "inspector": {
             "zoom_to": {
                 "key": "ك",
-                "title": "تكبير إلى ذلك"
+                "title": "تكبير إلى ذلك",
+                "tooltip_feature": "قم بتوسيط وتكبير الخريطة للتركيز على هذا العنصر.",
+                "tooltip_note": "قم بتوسيط وتكبير الخريطة للتركيز على هذه الملاحظة.",
+                "tooltip_data": "قم بتوسيط وتكبير الخريطة للتركيز على هذه البيانات.",
+                "tooltip_issue": "قم بتوسيط وتكبير الخريطة للتركيز على هذه المشكلة."
             },
             "show_more": "عرض المزيد",
             "view_on_osm": "عرض على openstreetmap.org",
@@ -628,7 +641,7 @@
             "all_members": "كل اﻷعضاء",
             "all_relations": "كل العلاقات",
             "add_to_relation": "إضافة إلى علاقة",
-            "new_relation": "علاقة جديدة....",
+            "new_relation": "علاقة جديدة...",
             "choose_relation": "اختر العلاقة الأم",
             "role": "القاعدة",
             "choose": "اختر نوع العنصر",
@@ -667,7 +680,10 @@
             "way": "طريق",
             "relation": "علاقة",
             "location": "مكان",
-            "add_fields": "إضافة حقل:"
+            "add_fields": "إضافة حقل:",
+            "lock": {
+                "suggestion": "حقل «{label}» هذا مقفل لأنه وسم Wikidata. يمكنك حذفه أو تعديل الوسوم في قسم «كل الوسوم»."
+            }
         },
         "background": {
             "title": "الخلفية",
@@ -732,6 +748,16 @@
             "title": "تراكبات الصور",
             "traffic_signs": {
                 "title": "اللافتات المرورية"
+            },
+            "photo_type": {
+                "flat": {
+                    "title": "صور مسطحة",
+                    "tooltip": "صور تقليدية"
+                },
+                "panoramic": {
+                    "title": "صور بانورامية",
+                    "tooltip": "صور 360°"
+                }
             }
         },
         "feature": {
@@ -755,6 +781,13 @@
                 "description": "المباني",
                 "tooltip": "مباني، ملاجئ، مرائب، الخ"
             },
+            "building_parts": {
+                "description": "أجزاء المبنى"
+            },
+            "indoor": {
+                "description": "عناصر داخل المبنى",
+                "tooltip": "غرف، أو أروقة، أو سلالم، إلخ."
+            },
             "landuse": {
                 "description": "عناصر الأراضي",
                 "tooltip": "غابات، أراضي زراعية، حدائق، مناطق سكنية، مناطق تجارية، إلخ..."
@@ -770,6 +803,9 @@
             "rail": {
                 "description": "عناصر السكك الحديدية",
                 "tooltip": "السكك الحديدية"
+            },
+            "aerialways": {
+                "description": "عناصر جوية"
             },
             "power": {
                 "description": "عناصر الطاقة",
@@ -823,7 +859,7 @@
         },
         "restore": {
             "heading": "لديك تغييرات غير محفوظة",
-            "description": "هل ترغب باستعادة التغييرات الغير محفوظة من جلسة التعديل السابقة؟",
+            "description": "هل ترغب في استعادة التغييرات الغير محفوظة من جلسة التعديل السابقة؟",
             "restore": "استعادة تغييراتي",
             "reset": "تجاهل تغييراتي"
         },
@@ -861,10 +897,14 @@
             }
         },
         "success": {
-            "just_edited": "لقد قمت للتو بتحرير OpenStreetMap!",
-            "thank_you": "شكرًا لك لمشاركتك وتحسين الخريطة.",
-            "thank_you_location": "شكرًا لك لتحسين الخريطة في {where}.",
-            "help_html": "ينبغي أن تظهر تغييراتك على OpenStreetMap في غضون بضع دقائق. قد يستغرق الأمر مدة أطول بالنسبة للخرائط الأخرى التي تعتمد في بياناتها على OpenStreetMap حتى تتلقى آخر تحديث.",
+            "just_edited": "لقد قمت للتو بتعديل OpenStreetMap!",
+            "thank_you": "شكرًا لك على تحسين الخريطة.",
+            "thank_you_location": "شكرًا لك على تحسين الخريطة حول {where}.",
+            "thank_you_where": {
+                "format": "{place}{separator}{region}",
+                "separator": "،"
+            },
+            "help_html": "من المفترض أن تظهر تغييراتك على OpenStreetMap خلال بضع دقائق. قد يستغرق تحديث الخرائط الأخرى مدة أطول.",
             "help_link_text": "تفاصيل",
             "help_link_url": "https://wiki.openstreetmap.org/wiki/FAQ#I_have_just_made_some_changes_to_the_map._How_do_I_get_to_see_my_changes.3F",
             "view_on_osm": "عرض التغييرات على OpenStreetMap",
@@ -881,10 +921,10 @@
             "cancel": "إلغاء"
         },
         "splash": {
-            "welcome": "مرحبا بك في محرر iD لخريطة الشارع المفتوحة OpenStreetMap.",
-            "text": "محرر الخرائط ID هو محرر سهل وجذاب ولكنه أيضًا أداة قوية جدا وفعالة للمساهمة في أفضل خرائط حُرة ومجانية في العالم. هذا هو الإصدار رقم {version}. لمزيد من المعلومات انظر {website} ، كما يمكنك الإبلاغ عن العلل والمشاكل على {github}.",
-            "walkthrough": "بدء جولة تعليم",
-            "start": " حرّر الآن "
+            "welcome": "مرحبًا بك في مصمم iD OpenStreetMap",
+            "text": "مصمم iD هو أداة ودودة وقوية للمساهمة في أفضل خريطة حرة للعالم. هذا هو الإصدار {version}. للمزيد من المعلومات شاهد {website} وقم بالإبلاغ عن الأخطاء التقنية في {github}.",
+            "walkthrough": "بدء جولة تعليمية",
+            "start": "التعديل الآن"
         },
         "source_switch": {
             "live": "حي",
@@ -940,19 +980,24 @@
                     "this_relation": "هذه العلاقة",
                     "this_oneway": "هذا الطريق وحيد الاتجاه",
                     "this_highway": "هذا الطريق السريع",
-                    "this_waterway": "هذا الممر المائي",
+                    "this_railway": "سكة الحديد هذه",
+                    "this_waterway": "هذا المجرى المائي",
+                    "this_cycleway": "طريق الدراجات هذا",
+                    "this_cycleway_footpath": "طريق الدراجات/مسار المشي هذا",
                     "this_riverbank": "ضفة النهر هذه",
                     "this_crossing": "هذا المعبر",
+                    "this_railway_crossing": "مزلقان سكة الحديد هذا",
                     "this_bridge": "هذا الجسر",
                     "this_tunnel": "هذا النفق",
                     "this_boundary": "هذه الحدود",
+                    "this_turn_restriction": "قيد الانعطاف هذا",
                     "this_roundabout": "هذا الدوران",
                     "this_mini_roundabout": "هذا الدوران الصغير",
                     "this_track": "هذا المسار",
                     "this_feature": "هذا العنصر",
                     "highway": "طريق سريع",
                     "railway": "سكة حديد",
-                    "waterway": "ممر مائي",
+                    "waterway": "مجرى مائي",
                     "cycleway": "طريق دراجات",
                     "cycleway_footpath": "طريق دراجات / طريق مشاة",
                     "riverbank": "ضفاف النهر",
@@ -986,10 +1031,36 @@
                         "description": "{var1} موسوم بـ \"{var2}\" ويجب أن تكون حلقة مغلقة."
                     },
                     "40": {
+                        "title": "اتجاه واحد مستحيل",
                         "description": "العُقدة الأولى {var1} من {var2} غير متصلة بأي طُرق أخرى."
                     },
+                    "41": {
+                        "description": "العُقدة الأخيرة {var1} من {var2} غير متصلة بأي طُرق أخرى."
+                    },
+                    "42": {
+                        "description": "لا يمكنك الوصول إلى {var1} لأن جميع الطرق القادمة منه هي طرق باتجاه واحد فقط."
+                    },
+                    "43": {
+                        "description": "لا يمكنك الهروب من {var1} لأن جميع الطرق المؤدية إليه هي طُرق باتجاه واحد فقط."
+                    },
+                    "50": {
+                        "title": "غالبا تقاطع",
+                        "description": "{var1} قريب جدا ولكنه غير متصل بطريق {var2}."
+                    },
+                    "60": {
+                        "title": "وسم مُهمل",
+                        "description": "{var1} يستخدم الوسم المُهمل \"{var2} \". برجاء استخدام \"{var3} \" بدلا من ذلك."
+                    },
                     "70": {
-                        "title": "وسم مفقود"
+                        "title": "وسم مفقود",
+                        "description": "{var1} يحتوي وسما فارغا: \"{var2}\"."
+                    },
+                    "71": {
+                        "description": "{var1} لا يحتوي على أوسمة."
+                    },
+                    "410": {
+                        "title": "مشكلة في الموقع",
+                        "description": "هناك مشكلة غير محددة بشأن الاتصال بالموقع أو الرابط."
                     }
                 }
             }
@@ -1054,7 +1125,7 @@
                 "open_data_h": "البيانات مفتوحة ومتاحة للعامة",
                 "open_data": "التعديلات والتغييرات التي تقوم بها على هذه الخرائط ستكون مرئية لكل من يستخدم خرائط OpenStreetMap.\nتعديلاتك يمكن أن تستند على معرفتك الشخصية، أو من خلال المسح والاستقصاء على أرض الواقع، أو من خلال الصور التي تم جمعها من التصوير الجوي وصور مستوى الشارع.\n كما ينبغي التنبيه والتشديد على أن النسخ من المصادر التجارية، كخرائط جوجل  [ممنوع منعًا باتا](https://www.openstreetmap.org/copyright).",
                 "before_start_h": "قبل أن تبدأ",
-                "before_start": "ينبغي أن تكون على دراية بخرائط OpenStreetMap وهذا المحرر قبل البدء بالتحرير.\nإن محرر iD يحتوي على جولة لتعليمك أساسيات التحرير على خرائط OpenStreetMap.\nانقر على \"بدء جولة تعليم\" الظاهرة في هذه الصفحة لبدء جولة تعليمية - قد تستغرق منك حوالي 15 دقيقة فقط.",
+                "before_start": "ينبغي أن تكون على دراية بخرائط OpenStreetMap وهذا المحرر قبل البدء بالتحرير.\nإن محرر iD يحتوي على جولة لتعليمك أساسيات التحرير على خرائط OpenStreetMap.\nانقر على \"بدء جولة تعليمية\" الظاهرة في هذه الصفحة لبدء جولة تعليمية - قد تستغرق منك حوالي 15 دقيقة فقط.",
                 "open_source_h": "المصدر مفتوح",
                 "open_source": "إن محرر iD هو مشروع تعاوني مفتوح المصدر، وأنت تستخدم الإصدار رقم {version} منه الآن.\nالكود المصدري متوفر [على موقع الاستضافة GitHub](https://github.com/openstreetmap/iD).",
                 "open_source_help": "يمكنك المساهمة والمساعدة في مشروع iD عن طريق [الترجمة](https://github.com/openstreetmap/iD/blob/master/CONTRIBUTING.md#translating) أو  [الإبلاغ عن العلل والمشاكل](https://github.com/openstreetmap/iD/issues) التي قد تواجهها أثناء استخدامك للمحرر."
@@ -1317,20 +1388,28 @@
                 "title": "إصلاح"
             },
             "fix_all": {
-                "title": "إصلاح الكل"
+                "title": "إصلاح الكل",
+                "annotation": "تم إصلاح العديد من مشكلات المصادقة."
             },
             "almost_junction": {
                 "title": "تقريبا تقاطعات",
                 "message": "{feature} قريب للغاية ولكنه غير متصل بـ {feature2}",
                 "tip": "بحث عن العناصر التي ينبغي أن تكون متصلة بعناصر أخرى قريبة",
+                "self": {
+                    "message": "{feature} ينتهي قريب جدًا من نفسه ولكنه لا يتصل بنفسه"
+                },
                 "highway-highway": {
                     "reference": "الطُرق المتقاطعة ينبغي أن تتشارك مع بعضها في نقاط التقاطع."
                 }
             },
             "close_nodes": {
                 "title": "نقاط متقاربة جدا",
+                "tip": "البحث عن النقاط الزائدة والمزدحمة",
                 "message": "نقطتان في {way} متقاربين من بعضهما للغاية",
-                "reference": "ينبغي أن تُدمج النقاط الزائدة في الطريق أو تُنقل بعيدا."
+                "reference": "ينبغي أن تُدمج النقاط الزائدة في الطريق أو تُنقل بعيدا.",
+                "detached": {
+                    "message": "{feature} قريب جدا من {feature2}"
+                }
             },
             "crossing_ways": {
                 "title": "الطُرق المتقاطعة",
@@ -1346,7 +1425,7 @@
                     "reference": "السكك الحديدية التي تقطع المباني ينبغي أن تستخدم جسورًا أو أنفاقًا."
                 },
                 "building-waterway": {
-                    "reference": "الممرات المائية التي تقطع المباني ينبغي أن تستخدم أنفاقًا أو طبقات مختلفة."
+                    "reference": "المجاري المائية التي تقطع المباني ينبغي أن تستخدم أنفاقًا أو طبقات مختلفة."
                 },
                 "highway-highway": {
                     "reference": "الطُرق المتقاطعة ينبغي أن تستخدم الجسور، أو الأنفاق، أو عُقد التقاطع العادية."
@@ -1355,16 +1434,16 @@
                     "reference": "الطُرق التي تتقاطع مع السكك الحديدية ينبغي أن تستخدم جسورًا، أو أنفاقًا، أو مزلقانات."
                 },
                 "highway-waterway": {
-                    "reference": "الطُرق التي تتقاطع مع الممرات المائية ينبغي أن تستخدم جسورًا، أو أنفاقًا، أو مخاضات."
+                    "reference": "الطُرق التي تتقاطع مع المجاري المائية ينبغي أن تستخدم جسورًا، أو أنفاقًا، أو مخاضات."
                 },
                 "railway-railway": {
                     "reference": "سكك الحديد المتقاطعة ينبغي أن تكون متصلة أو تستخدم جسورًا أو أنفاقًا."
                 },
                 "railway-waterway": {
-                    "reference": "السكك الحديدية التي تتقاطع مع الممرات المائية ينبغي أن تستخدم جسورًا أو أنفاقًا."
+                    "reference": "السكك الحديدية التي تتقاطع مع المجاري المائية ينبغي أن تستخدم جسورًا أو أنفاقًا."
                 },
                 "waterway-waterway": {
-                    "reference": "الممرات المائية المتقاطعة ينبغي أن تكون متصلة أو أن تستخدم الأنفاق."
+                    "reference": "المجاري المائية المتقاطعة ينبغي أن تكون متصلة أو أن تستخدم الأنفاق."
                 },
                 "tunnel-tunnel": {
                     "reference": "الأنفاق المتقاطعة ينبغي أن تستخدم الطبقات المختلفة."
@@ -1413,6 +1492,11 @@
                     "reference": "منتجات جووجل هي منتجات خاصة ومملوكة مِن قِبل الشركة ويجب ألا تُستخدم كمصادر."
                 }
             },
+            "invalid_format": {
+                "website": {
+                    "reference": "ينبغي أن تبدأ صفحات الويب بـ \"http\" أو \"https\"."
+                }
+            },
             "missing_role": {
                 "title": "قواعد مفقودة",
                 "message": "{member} ليس لديه قاعدة في {relation}",
@@ -1420,13 +1504,13 @@
             },
             "missing_tag": {
                 "title": "أوسمة مفقودة",
-                "tip": "العثور على العناصر ذات أوسمة وصفية مفقودة",
+                "tip": "العثور على عناصر ذات أوسمة وصفية مفقودة",
                 "reference": "العناصر يجب أن تحتوي على أوسمة تعرّف ماهيتها.",
                 "any": {
                     "message": "لا يحتوي {feature} على أوسمة"
                 },
                 "descriptive": {
-                    "message": "لا يحتوي {feature} على أوسمة وصفية"
+                    "message": "لا تحتوي {feature} على أوسمة وصفية"
                 },
                 "relation_type": {
                     "message": "{feature} هي علاقة بدون نوع"
@@ -1439,7 +1523,11 @@
                 "title": "أوسمة قديمة",
                 "message": "يحتوي {feature} على أوسمة قديمة",
                 "tip": "العثور على العناصر ذات الأوسمة المُهملة والتي يمكن تحديثها",
-                "reference": "بعض الأوسمة تتغير مع الوقت وينبغي تحديثها."
+                "reference": "بعض الأوسمة تتغير مع الوقت وينبغي تحديثها.",
+                "incomplete": {
+                    "message": "{feature} يحتوي أوسمة غير مكتملة",
+                    "reference": "يجب أن تحتوي بعض العناصر على أوسمة إضافية"
+                }
             },
             "private_data": {
                 "title": "معلومات خاصة",
@@ -1459,11 +1547,36 @@
                 "message": "لا يحتوي {feature} على تصنيف",
                 "reference": "الطرق بدون نوع مُحدد قد لا تظهر في الخرائط ومسارات التوجيه."
             },
+            "impossible_oneway": {
+                "title": "اتجاه واحد مستحيل",
+                "tip": "العثور على مشاكل تحديد مسار الوجهة باستخدام عناصر الاتجاه الواحد",
+                "waterway": {
+                    "connected": {
+                        "start": {
+                            "message": "{feature} تتدفق بعيدا عن مجرى مائي متصل"
+                        },
+                        "end": {
+                            "message": "{feature} تتدفق بعكس اتجاه مجرى مائي متصل"
+                        },
+                        "reference": "يجب أن تتدفق أجزاء المجرى المائي جميعها في نفس الاتجاه."
+                    }
+                },
+                "highway": {
+                    "start": {
+                        "message": "لا يمكن الوصول إلى {feature}",
+                        "reference": "يجب أن يكون الوصول إلى الطُرق ذات الاتجاه الواحد عن طريق طرق أخرى."
+                    },
+                    "end": {
+                        "message": "لا يوجد منفذ لـ {feature}",
+                        "reference": "يجب أن تؤدي الطُرق ذات الاتجاه الواحد إلى طُرق أخرى."
+                    }
+                }
+            },
             "unsquare_way": {
                 "message": "{feature} تحتوي أركان غير مربعة",
                 "tip": "العثور على عناصر ذات أركان غير مربعة يمكن رسمها بشكل أفضل",
                 "buildings": {
-                    "reference": "المباني ذات الأركان الغير مربعة يمكن رسمها في الغالب بدقة أكثر."
+                    "reference": "المباني ذات الأركان غير المربعة يمكن رسمها في الغالب بدقة أكثر."
                 }
             },
             "fix": {
@@ -1550,6 +1663,10 @@
                     "title": "وسم كمنفصل",
                     "annotation": "وسمت العناصر القريبة جدا من بعضها كمنفصلة."
                 },
+                "tag_as_unsquare": {
+                    "title": "وسم كغير مربعة فعليا",
+                    "annotation": "طريق موسوم بأنه يحتوي على أركان غير مربعة."
+                },
                 "tag_this_as_higher": {
                     "title": "وسم هذا كمرتفع"
                 },
@@ -1565,6 +1682,9 @@
                 },
                 "use_different_layers": {
                     "title": "استخدم طبقات مختلفة"
+                },
+                "use_different_layers_or_levels": {
+                    "title": "استخدم طبقات أو مستويات مختلفة"
                 },
                 "use_different_levels": {
                     "title": "استخدم مستويات مختلفة"
@@ -1844,7 +1964,7 @@
                 "pause": "Pause",
                 "pgdn": "PgDn",
                 "pgup": "PgUp",
-                "return": "رجوع",
+                "return": "Return",
                 "shift": "Shift",
                 "space": "Space"
             },
@@ -1993,6 +2113,12 @@
                 "category-natural": {
                     "name": "عناصر طبيعية"
                 },
+                "category-path": {
+                    "name": "مسارات"
+                },
+                "category-rail": {
+                    "name": "سكك حديدية"
+                },
                 "category-restriction": {
                     "name": "عناصر القيود"
                 },
@@ -2127,6 +2253,7 @@
                     "placeholder": "1, 2, 3..."
                 },
                 "aerialway/occupancy": {
+                    "label": "عدد المقاعد",
                     "placeholder": "...8 ,4 ,2"
                 },
                 "aerialway/summer/access": {
@@ -2178,6 +2305,9 @@
                 },
                 "backrest": {
                     "label": "ظهر الكرسي"
+                },
+                "bar": {
+                    "label": "بار"
                 },
                 "barrier": {
                     "label": "النوع"
@@ -2284,6 +2414,9 @@
                     "label": "السعة",
                     "placeholder": "50, 100, 200..."
                 },
+                "cash_in": {
+                    "label": "إيداع النقد"
+                },
                 "castle_type": {
                     "label": "النوع"
                 },
@@ -2334,6 +2467,7 @@
                     "label": "الدولة"
                 },
                 "couplings": {
+                    "label": "وصلات",
                     "placeholder": "1, 2, 3..."
                 },
                 "covered": {
@@ -2450,9 +2584,6 @@
                     "label": "الأجهزة",
                     "placeholder": "1, 2, 3..."
                 },
-                "diaper": {
-                    "label": "تغيير حفاظات الطفل متاح"
-                },
                 "diet_multi": {
                     "label": "أنواع الحمية"
                 },
@@ -2495,7 +2626,6 @@
                     }
                 },
                 "direction_vertex": {
-                    "label": "الاتجاه",
                     "options": {
                         "backward": "للوراء",
                         "both": "كلاهما / الكل",
@@ -2737,12 +2867,6 @@
                         "stables": "نعم",
                         "undefined": "لا"
                     }
-                },
-                "iata": {
-                    "label": "IATA"
-                },
-                "icao": {
-                    "label": "ICAO"
                 },
                 "incline": {
                     "label": "انحدار"
@@ -3166,7 +3290,6 @@
                     "label": "النوع"
                 },
                 "railway/signal/direction": {
-                    "label": "الاتجاه",
                     "options": {
                         "backward": "للخلف",
                         "both": "كلاهما / الكل",
@@ -3207,6 +3330,21 @@
                 "religion": {
                     "label": "الديانة"
                 },
+                "reservation": {
+                    "label": "الحجوزات",
+                    "options": {
+                        "no": "غير مقبول",
+                        "recommended": "موصى به",
+                        "required": "مطلوب",
+                        "yes": "مقبول"
+                    }
+                },
+                "resort": {
+                    "label": "النوع"
+                },
+                "resource": {
+                    "label": "المصادر"
+                },
                 "restriction": {
                     "label": "النوع"
                 },
@@ -3215,6 +3353,9 @@
                 },
                 "roof/colour": {
                     "label": "لون السقف"
+                },
+                "room": {
+                    "label": "النوع"
                 },
                 "rooms": {
                     "label": "الغرف"
@@ -3228,6 +3369,10 @@
                 "sanitary_dump_station": {
                     "label": "صرف المرحاض"
                 },
+                "screen": {
+                    "label": "الشاشات",
+                    "placeholder": "1, 4, 8…"
+                },
                 "scuba_diving": {
                     "label": "الخدمات"
                 },
@@ -3238,6 +3383,21 @@
                         "grey": "رمادي",
                         "red": "أحمر"
                     }
+                },
+                "seamark/beacon_lateral/shape": {
+                    "label": "الشكل"
+                },
+                "seamark/beacon_lateral/system": {
+                    "label": "النظام",
+                    "options": {
+                        "cevni": "CEVNI",
+                        "iala-a": "IALA A",
+                        "iala-b": "IALA B",
+                        "other": "أخرى"
+                    }
+                },
+                "seamark/buoy_lateral/category": {
+                    "label": "التصنيف"
                 },
                 "seamark/buoy_lateral/colour": {
                     "label": "اللون",
@@ -3251,6 +3411,20 @@
                         "white": "أبيض",
                         "yellow": "أصفر"
                     }
+                },
+                "seamark/buoy_lateral/shape": {
+                    "label": "الشكل"
+                },
+                "seamark/buoy_lateral/system": {
+                    "label": "النظام",
+                    "options": {
+                        "cevni": "CEVNI",
+                        "iala-a": "IALA A",
+                        "other": "أخرى"
+                    }
+                },
+                "seamark/mooring/category": {
+                    "label": "التصنيف"
                 },
                 "seasonal": {
                     "label": "موسمي"
@@ -3267,6 +3441,9 @@
                         "yes": "نعم"
                     },
                     "placeholder": "نعم، لا، فقط"
+                },
+                "self_service": {
+                    "label": "خدمة ذاتية (اخدم نفسك بنفسك)"
                 },
                 "service": {
                     "label": "النوع"
@@ -3367,8 +3544,11 @@
                         "minor": "طريق فرعي"
                     }
                 },
+                "street_cabinet": {
+                    "label": "النوع"
+                },
                 "structure": {
-                    "label": "بنية",
+                    "label": "البنية",
                     "options": {
                         "bridge": "جسر",
                         "cutting": "طريق منخفض",
@@ -3379,6 +3559,7 @@
                     "placeholder": "غير معروف"
                 },
                 "structure_waterway": {
+                    "label": "البنية",
                     "options": {
                         "tunnel": "نفق"
                     },
@@ -3414,7 +3595,7 @@
                     "label": "منطقة مراقبة"
                 },
                 "survey/date": {
-                    "label": "تاريخ آخر استبيان"
+                    "label": "تاريخ آخر استكشاف أرضي"
                 },
                 "swimming_pool": {
                     "label": "النوع"
@@ -3433,6 +3614,9 @@
                         "no": "لا",
                         "yes": "نعم"
                     }
+                },
+                "tidal": {
+                    "label": "متعلق بالمد والجزر"
                 },
                 "to": {
                     "label": "إلى"
@@ -3477,7 +3661,6 @@
                     "label": "لافتة مرورية"
                 },
                 "traffic_sign/direction": {
-                    "label": "الاتجاه",
                     "options": {
                         "backward": "إلى الخلف",
                         "both": "كلاهما / الكل",
@@ -3488,7 +3671,6 @@
                     "label": "النوع"
                 },
                 "traffic_signals/direction": {
-                    "label": "الاتجاه",
                     "options": {
                         "backward": "إلى الخلف",
                         "both": "كلاهما / الكل",
@@ -3516,11 +3698,18 @@
                         "distribution": "توزيع",
                         "generator": "مولد كهربائي",
                         "phase_angle_regulator": "منظم زاوية الطور",
+                        "traction": "سحب",
                         "yes": "مجهول"
                     }
                 },
                 "trees": {
                     "label": "أشجار"
+                },
+                "trench": {
+                    "label": "النوع"
+                },
+                "trolley_wire": {
+                    "label": "أسلاك ترولي علوية"
                 },
                 "tunnel": {
                     "label": "النوع",
@@ -3552,6 +3741,7 @@
                     "label": "حالة البركان",
                     "options": {
                         "active": "نشط",
+                        "dormant": "في سبات عميق",
                         "extinct": "خامد"
                     }
                 },
@@ -3597,7 +3787,8 @@
                     "label": "النوع"
                 },
                 "website": {
-                    "label": "صفحة الويب"
+                    "label": "صفحة الويب",
+                    "placeholder": "https://example.com"
                 },
                 "wetland": {
                     "label": "النوع"
@@ -3625,6 +3816,9 @@
                 "address": {
                     "name": "العنوان",
                     "terms": "عنوان"
+                },
+                "advertising/billboard": {
+                    "name": "لوحة"
                 },
                 "advertising/column": {
                     "name": "عمود إعلاني"
@@ -3727,6 +3921,9 @@
                     "name": "موقف دراجات هوائية",
                     "terms": "موقف دراجات هوائية; موقف; دراجة; دراجات"
                 },
+                "amenity/bicycle_parking/building": {
+                    "name": "مرآب وقوف دراجات"
+                },
                 "amenity/bicycle_rental": {
                     "name": "تأجير دراجات",
                     "terms": "تأجير دراجات هوائية; تأجير; دراجة; دراجات; هوائي; هوائية"
@@ -3748,6 +3945,9 @@
                 "amenity/cafe": {
                     "name": "مقهى",
                     "terms": "مقهى, مطعم, ناد ليلي"
+                },
+                "amenity/car_pooling": {
+                    "name": "مشاركة السيارة"
                 },
                 "amenity/car_rental": {
                     "name": "محل إيجار سيارات",
@@ -3837,25 +4037,39 @@
                 "amenity/embassy": {
                     "name": "سفارة"
                 },
+                "amenity/events_venue": {
+                    "name": "مكان الأحداث"
+                },
                 "amenity/fast_food": {
                     "name": "وجبات سريعة",
-                    "terms": "مأكولات السريعة"
+                    "terms": "مأكولات سريعة"
                 },
                 "amenity/fast_food/burger": {
-                    "name": "برجر وجبات سريعة",
+                    "name": "برجر وجبة سريعة",
                     "terms": "إفطار,عشاء,طعام,"
                 },
                 "amenity/fast_food/chicken": {
-                    "name": "دجاج وجبات سريعة",
+                    "name": "دجاج وجبة سريعة",
                     "terms": "إفطار,مقصف,عشاء,طعام"
+                },
+                "amenity/fast_food/donut": {
+                    "name": "دونات وجبة سريعة",
+                    "terms": "دونات"
                 },
                 "amenity/fast_food/fish_and_chips": {
-                    "name": "سمك ورقائق البطاطس وجبات سريعة",
+                    "name": "سمك ورقائق بطاطس وجبة سريعة",
                     "terms": "إفطار,قهوة,عشاء,طعام"
                 },
+                "amenity/fast_food/ice_cream": {
+                    "name": "أيس كريم وجبة سريعة"
+                },
                 "amenity/fast_food/kebab": {
-                    "name": "كباب وجبات سريعة",
+                    "name": "كباب وجبة سريعة",
                     "terms": "إفطار,مقصف,عشاء,طعام"
+                },
+                "amenity/fast_food/mexican": {
+                    "name": "طعام مكسيكي وجبة سريعة",
+                    "terms": "مكسيكي"
                 },
                 "amenity/fast_food/pizza": {
                     "name": "بيتزا وجبات سريعة",
@@ -3924,13 +4138,22 @@
                     "terms": "مدرسة موسيقى"
                 },
                 "amenity/nightclub": {
-                    "name": "ملهى ليلي"
+                    "name": "ملهى ليلي",
+                    "terms": "كباريه"
                 },
                 "amenity/nursing_home": {
                     "name": "دار التمريض"
                 },
                 "amenity/parking": {
                     "name": "ساحة انتظار سيارات"
+                },
+                "amenity/parking/multi-storey": {
+                    "name": "مرآب وقوف متعدد الطوابق",
+                    "terms": "جراج, مرآب"
+                },
+                "amenity/parking/underground": {
+                    "name": "موقف تحت الأرض",
+                    "terms": "جراج"
                 },
                 "amenity/parking_entrance": {
                     "name": "مدخل ومخرج جراج وقوف",
@@ -4176,6 +4399,9 @@
                 "amenity/vending_machine/electronics": {
                     "name": "آلة بيع إلكترونيات"
                 },
+                "amenity/vending_machine/elongated_coin": {
+                    "name": "آلة بيع عُملة مسطحة"
+                },
                 "amenity/vending_machine/food": {
                     "name": "آلة بيع مواد غذائية"
                 },
@@ -4263,6 +4489,9 @@
                     "name": "شبكة الماشية",
                     "terms": "شبكة الماشية,شبكة لمنع الماشية"
                 },
+                "barrier/chain": {
+                    "name": "سلسلة"
+                },
                 "barrier/city_wall": {
                     "name": "جدار المدينة",
                     "terms": "جدار المدينة; سور"
@@ -4321,6 +4550,9 @@
                 "building": {
                     "name": "مبنى",
                     "terms": "مبنى"
+                },
+                "building/apartments": {
+                    "name": "مبنى شقق سكنية"
                 },
                 "building/barn": {
                     "name": "حظيرة",
@@ -4971,14 +5203,6 @@
                     "name": "ثكنة عسكرية",
                     "terms": "ثكنة عسكرية"
                 },
-                "landuse/military/bunker": {
-                    "name": "ملجأ عسكري",
-                    "terms": "ملجأ عسكري"
-                },
-                "landuse/military/checkpoint": {
-                    "name": "نقطة تفتيش عسكرية",
-                    "terms": "نقطة تفتيش عسكرية"
-                },
                 "landuse/military/danger_area": {
                     "name": "منطقة خطرة",
                     "terms": "منطقة خطر; خطر"
@@ -4986,13 +5210,6 @@
                 "landuse/military/naval_base": {
                     "name": "قاعدة بحرية",
                     "terms": "بحرية; بحري; بحر; قاعدة"
-                },
-                "landuse/military/nuclear_explosion_site": {
-                    "name": "موقع الانفجار النووي",
-                    "terms": "موقع الانفجار النووي"
-                },
-                "landuse/military/office": {
-                    "name": "مكتب عسكري"
                 },
                 "landuse/military/range": {
                     "name": "ميدان الرماية العسكرية",
@@ -5540,10 +5757,6 @@
                 "office/physician": {
                     "name": "طبيب"
                 },
-                "office/political_party": {
-                    "name": "الحزب السياسي ",
-                    "terms": "حزب سياسي، الحزب السياسي، المكتب السياسي، مكتب سياسي"
-                },
                 "office/private_investigator": {
                     "name": "مكتب محقق",
                     "terms": "مكتب محقق"
@@ -5557,7 +5770,7 @@
                     "terms": "مكتب البحوث، مكتب اﻷبحاث، هيئة اﻷبحاث"
                 },
                 "office/surveyor": {
-                    "name": "مساح",
+                    "name": "مكتب مساح أرضي",
                     "terms": "مساح"
                 },
                 "office/tax_advisor": {
@@ -5632,6 +5845,9 @@
                 "place/village": {
                     "name": "قرية",
                     "terms": "قرية"
+                },
+                "playground/structure": {
+                    "name": "هيكل اللعب"
                 },
                 "point": {
                     "name": "نقطة",
@@ -5798,6 +6014,9 @@
                 "railway/monorail": {
                     "name": "سكة حديدة مفردة",
                     "terms": "سكة حديدة مفردة"
+                },
+                "railway/narrow_gauge": {
+                    "name": "سكك حديد ضيقة"
                 },
                 "railway/rail": {
                     "name": "قطار",
@@ -6577,31 +6796,38 @@
             }
         },
         "imagery": {
+            "AGIV": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "أحدث الصور الجوية من AIV Flanders"
+            },
+            "AGIV10cm": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "الصور الجوية من AIV Flanders من 2013 إلى 2015 بدقة 10 سم"
+            },
+            "AGIVFlandersGRB": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "AIV Flanders GRB"
+            },
+            "AIV_DHMV_II_HILL_25cm": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                },
+                "name": "AIV Digitaal Hoogtemodel Vlaanderen II, multidirectionale hillshade 0,25 m"
+            },
+            "AIV_DHMV_II_SVF_25cm": {
+                "attribution": {
+                    "text": "© agentschap Informatie Vlaanderen"
+                }
+            },
             "Bing": {
                 "description": "الصور الجوية والقمر الصناعي.",
                 "name": "الصور الجوية ل بينج"
-            },
-            "DigitalGlobe-Premium": {
-                "attribution": {
-                    "text": "الشروط والملاحظات"
-                },
-                "name": "صور DigitalGlobe الممتازة"
-            },
-            "DigitalGlobe-Premium-vintage": {
-                "attribution": {
-                    "text": "الشروط والملاحظات"
-                }
-            },
-            "DigitalGlobe-Standard": {
-                "attribution": {
-                    "text": "الشروط والملاحظات"
-                },
-                "name": "صور DigitalGlobe القياسية"
-            },
-            "DigitalGlobe-Standard-vintage": {
-                "attribution": {
-                    "text": "الشروط والملاحظات"
-                }
             },
             "EsriWorldImagery": {
                 "attribution": {

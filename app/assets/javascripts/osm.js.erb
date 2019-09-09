@@ -1,5 +1,6 @@
 //= depend_on settings.yml
 //= depend_on settings.local.yml
+//= require querystring
 
 OSM = {
 <% if defined?(PIWIK) %>
@@ -138,7 +139,8 @@ OSM = {
   },
 
   parseHash: function(hash) {
-    var args = {};
+    var querystring = require("querystring-component"),
+        args = {};
 
     var i = hash.indexOf('#');
     if (i < 0) {

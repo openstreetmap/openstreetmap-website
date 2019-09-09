@@ -6,6 +6,7 @@
 # Author: Banjo
 # Author: Elisardojm
 # Author: Gallaecio
+# Author: Iváns
 # Author: Macofe
 # Author: Maria zaos
 # Author: McDutchie
@@ -117,6 +118,45 @@ gl:
         description: Descrición
         languages: Linguas
         pass_crypt: Contrasinal
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: hai ó redor dunha hora
+        other: hai ó redor de %{count} horas
+      about_x_months:
+        one: hai ó redor dun mes
+        other: hai ó redor de %{count} meses
+      about_x_years:
+        one: hai ó redor dun ano
+        other: hai ó redor de %{count} anos
+      almost_x_years:
+        one: hai case un ano
+        other: hai case %{count} anos
+      half_a_minute: hai medio minuto
+      less_than_x_seconds:
+        one: hai menos dun segundo
+        other: hai menos de %{count} segundos
+      less_than_x_minutes:
+        one: hai menos dun minuto
+        other: hai menos de %{count} minutos
+      over_x_years:
+        one: hai máis dun ano
+        other: hai máis de %{count} anos
+      x_seconds:
+        one: hai un segundo
+        other: hai %{count} segundos
+      x_minutes:
+        one: hai un minuto
+        other: hai %{count} minutos
+      x_days:
+        one: hai un día
+        other: hai %{count} días
+      x_months:
+        one: hai un mes
+        other: hai %{count} meses
+      x_years:
+        one: hai un ano
+        other: hai %{count} anos
   printable_name:
     with_version: '%{id}, v%{version}'
     with_name_html: '%{name} (%{id})'
@@ -137,17 +177,17 @@ gl:
   api:
     notes:
       comment:
-        opened_at_html: Creado hai %{when}
-        opened_at_by_html: Creado hai %{when} por %{user}
-        commented_at_html: Actualizado hai %{when}
-        commented_at_by_html: Actualizado hai %{when} por %{user}
-        closed_at_html: Resolto hai %{when}
-        closed_at_by_html: Resolto hai %{when} por %{user}
-        reopened_at_html: Reactivado hai %{when}
-        reopened_at_by_html: Reactivado hai %{when} por %{user}
+        opened_at_html: Creado %{when}
+        opened_at_by_html: Creado %{when} por %{user}
+        commented_at_html: Actualizado %{when}
+        commented_at_by_html: Actualizado %{when} por %{user}
+        closed_at_html: Resolto %{when}
+        closed_at_by_html: Resolto %{when} por %{user}
+        reopened_at_html: Reactivado %{when}
+        reopened_at_by_html: Reactivado %{when} por %{user}
       rss:
         title: Notas do OpenStreetMap
-        description_area: Unha listaxe das notas recibidas, comentadas ou pechadas
+        description_area: Unha listaxe das notas, denunciadas, comentadas ou pechadas
           na súa zona [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Unha fonte de novas RSS para a nota %{id}
         opened: nota nova (preto de %{place})
@@ -160,12 +200,12 @@ gl:
   browse:
     created: Creado
     closed: Pechado
-    created_html: Creado <abbr title='%{title}'>hai %{time}</abbr>
-    closed_html: Pechado <abbr title='%{title}'>hai %{time}</abbr>
-    created_by_html: Creado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    deleted_by_html: Eliminado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    edited_by_html: Editado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    closed_by_html: Pechado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
+    created_html: Creado <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Pechado <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Creado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    deleted_by_html: Eliminado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    edited_by_html: Editado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    closed_by_html: Pechado <abbr title='%{title}'>%{time}</abbr> por %{user}
     version: Versión
     in_changeset: Conxunto de mudanzas
     anonymous: anónimo
@@ -185,15 +225,14 @@ gl:
       relation: Relacións (%{count})
       relation_paginated: Relacións (%{x}-%{y} de %{count})
       comment: Comentarios (%{count})
-      hidden_commented_by: Comentario agochado de %{user} <abbr title='%{exact_time}'>
-        hai %{when}</abbr>
-      commented_by: Comentario de %{user} <abbr title='%{exact_time}'> hai %{when}</abbr>
+      hidden_commented_by: Comentario agochado de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentario de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Conxunto de mudanzas do XML
       osmchangexml: osmChange XML
       feed:
         title: Conxunto de mudanzas %{id}
         title_comment: Conxunto de mudanzas %{id} - %{comment}
-      join_discussion: Inicia-la sesión pra unirse á parola
+      join_discussion: Iniciar a sesión para unirse á parola
       discussion: Parola
       still_open: O conxunto de mudanzas segue aberto - Abrirase a parola cando o
         conxunto de mudanzas estea pechado.
@@ -265,19 +304,16 @@ gl:
       open_title: Nota sen resolver nº%{note_name}
       closed_title: Nota resolta nº%{note_name}
       hidden_title: Nota agochada nº%{note_name}
-      open_by: Creado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      open_by_anonymous: Creado por un anónimo <abbr title='%{exact_time}'>hai %{when}</abbr>
-      commented_by: Comentado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      commented_by_anonymous: Comentado por un anónimo <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      closed_by: Resolto por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      closed_by_anonymous: Resolto por un anónimo <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      reopened_by: Reactivado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      reopened_by_anonymous: Reactivado por un anónimo <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      hidden_by: Agochado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      report: Informar desta nota
+      open_by: Creado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Creado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Comentado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Resolto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resolto por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reactivado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Agochado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Denunciar esta nota
     query:
       title: Consulta-los elementos
       introduction: Prema no mapa para atopar elementos preto daquí.
@@ -317,7 +353,7 @@ gl:
     comment:
       comment: 'Novo comentario sobre os conxuntos de mudanzas #%{changeset_id} de
         %{author}'
-      commented_at_by_html: Actualizado hai %{when} por %{user}
+      commented_at_by_html: Actualizado %{when} por %{user}
     comments:
       comment: 'Novo comentario sobre o conxunto de mudanzas #%{changeset_id} de %{author}'
     index:
@@ -375,13 +411,13 @@ gl:
       hide_link: Agochar esta entrada
       unhide_link: Amosar esta entrada
       confirm: Confirmar
-      report: Informar desta entrada
+      report: Denunciar esta entrada
     diary_comment:
       comment_from: Comentario de %{link_user} no %{comment_created_at}
       hide_link: Agochar este comentario
       unhide_link: Amosar este comentario
       confirm: Confirmar
-      report: Informar deste comentario
+      report: Denunciar este comentario
     location:
       location: 'Localización:'
       view: Ollar
@@ -403,7 +439,6 @@ gl:
       post: Artigo
       when: Cando
       comment: Comentario
-      ago: hai %{ago}
       newer_comments: Comentarios máis recentes
       older_comments: Comentarios máis vellos
   geocoder:
@@ -450,15 +485,15 @@ gl:
           bbq: Barbacoa
           bench: Asento
           bicycle_parking: Aparcadoiro de bicicletas
-          bicycle_rental: Aluguer de bicicletas
+          bicycle_rental: Alugamento de bicicletas
           biergarten: Terraza
-          boat_rental: Aluguer de botes
+          boat_rental: Alugamento de embarcacións
           brothel: Prostíbulo
           bureau_de_change: Casa de troco
           bus_station: Estación de autobuses
           cafe: Cafetaría
-          car_rental: Aluguer de automóbiles
-          car_sharing: Aluguer de automóbiles
+          car_rental: Alugamento de automóbiles
+          car_sharing: Automóbil compartido
           car_wash: Lavadoiro de coches
           casino: Casino
           charging_station: Estación de carrega
@@ -816,9 +851,9 @@ gl:
           island: Illa
           islet: Illote
           isolated_dwelling: Vivenda illada
-          locality: Localidade
+          locality: Lugar
           municipality: Municipio
-          neighbourhood: Veciñanza
+          neighbourhood: Veciñanza ou subarrio
           postcode: Código postal
           quarter: Trimestre
           region: Rexión
@@ -826,7 +861,7 @@ gl:
           square: Praza
           state: Estado/Rexión
           subdivision: Subdivisión
-          suburb: Barrio
+          suburb: Barrio ou suburbio
           town: Cidade
           unincorporated_area: Área non incorporada
           village: Vila
@@ -1017,38 +1052,38 @@ gl:
       user_not_found: O usuario non existe
       issues_not_found: Non se atoparon problemas
       status: Estado
-      reports: Informes
+      reports: Denuncias
       last_updated: Última actualización
-      last_updated_time_html: <abbr title='%{title}'>Hai %{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>Hai %{time}</abbr> por %{user}
-      link_to_reports: Ollar informes
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> por %{user}
+      link_to_reports: Ollar denuncias
       reports_count:
-        one: 1 informe
-        other: '%{count} informes'
+        one: 1 denuncia
+        other: '%{count} denuncias'
       reported_item: Elemento informado
       states:
         ignored: Ignorados
         open: Abertos
         resolved: Resoltos
     update:
-      new_report: O seu informe rexistrouse con éxito
+      new_report: A súa denuncia rexistrouse con éxito
       successful_update: O seu informe actualizouse con éxito
       provide_details: Por favor, achegue os detalles que se lle requiren.
     show:
       title: '%{status} Erro #%{issue_id}'
       reports:
-        zero: Sen informes
-        one: 1 informe
-        other: '%{count} informes'
+        zero: Sen denuncias
+        one: 1 denuncia
+        other: '%{count} denuncias'
       report_created_at: Primeira incidencia o %{datetime}
       last_resolved_at: Resolto por derradeira vez o %{datetime}
       last_updated_at: Última actualización o %{datetime} por %{displayname}
       resolve: Resolver
       ignore: Ignorar
       reopen: Reabrir
-      reports_of_this_issue: Informes deste erro
+      reports_of_this_issue: Denuncias acerca deste problema
       read_reports: Ler informes
-      new_reports: Informes novos
+      new_reports: Denuncias novas
       other_issues_against_this_user: Outro informe deste usuario
       no_other_issues: Non hai máis informes deste usuario.
       comments_on_this_issue: Comentarios neste informe
@@ -1063,7 +1098,7 @@ gl:
       reassign_param: Reasignar o erro?
     reports:
       updated_at: O %{datetime}
-      reported_by_html: Clasificouse coma %{category} por parte de %{user}
+      reported_by_html: Denunciouse coma %{category} por %{user}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, comentario #%{comment_id}'
@@ -1073,10 +1108,10 @@ gl:
       comment_created: O comentario creouse correctamente
   reports:
     new:
-      title_html: '%{link} do informe'
-      missing_params: Non se pode crear un novo informe
+      title_html: Denuncia %{link}
+      missing_params: Non se pode crear unha nova denuncia
       details: Por favor, achegue máis detalles sobre o problema (requirido)
-      select: Seleccione unha razón pola que queira informarnos
+      select: 'Escolla a razón da súa denuncia:'
       disclaimer:
         intro: 'Antes de enviarlle o informe aos moderadores, asegúrese de que:'
         not_just_mistake: Vostede está na certeza de que o problema non é un sinxelo
@@ -1107,7 +1142,7 @@ gl:
           abusive_label: Esta nota é abusiva
           other_label: Outro
     create:
-      successful_report: O seu informe rexistrouse con éxito
+      successful_report: A súa denuncia rexistrouse con éxito
       provide_details: Por favor, achegue os detalles que se lle solicitan.
   layouts:
     project_name:
@@ -1117,8 +1152,8 @@ gl:
       alt_text: Logotipo do OpenStreetMap
     home: Ir á localización inicial
     logout: Pecha-la sesión
-    log_in: Inicia-la sesión
-    log_in_tooltip: Inicia-la sesión cunha conta existente
+    log_in: Iniciar a sesión
+    log_in_tooltip: Iniciar a sesión cunha conta existente
     sign_up: Rexistrarse
     start_mapping: Comezar a cartografar
     sign_up_tooltip: Crear unha conta para editar
@@ -1605,7 +1640,7 @@ gl:
       paste_html: Pegue o código HTML para incluílo na páxina web
       export_button: Exportar
     fixthemap:
-      title: Informar dun problema/Corrixir o mapa
+      title: Denunciar un problema / Corrixir o mapa
       how_to_help:
         title: De que xeito axudar
         join_the_community:
@@ -1631,7 +1666,7 @@ gl:
         así como para debater e documentar colaborativamente sobre temas de cartografía.
       welcome:
         url: /welcome
-        title: Dámoslle a benvida ao OSM
+        title: Dámoslle a benvida ó OpenStreetMap
         description: Comece con esta guía rápida cos principios básicos do OpenStreetMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
@@ -1639,9 +1674,9 @@ gl:
         description: Guía para principiantes, mantida pola comunidade.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Foro de axuda
         description: Faga unha cuestión ou procure respostas no sitio de cuestións
-          e respostas do OSM.
+          e respostas do OpenStreetMap.
       mailing_lists:
         title: Listaxes de correo
         description: Pregunta ou parola sobre temas interesantes nun amplo abano de
@@ -1665,8 +1700,8 @@ gl:
           o que precisas para saber máis no Welcome Mat.
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: Na wiki atopará documentación detallada do OSM.
+        title: Wiki do OpenStreetMap
+        description: Na wiki atopará documentación detallada do OpenStreetMap.
     sidebar:
       search_results: Resultados da procura
       close: Pechar
@@ -1896,7 +1931,6 @@ gl:
     trace:
       pending: PENDENTE
       count_points: '%{count} puntos'
-      ago: hai %{time_in_words_ago}
       more: máis
       trace_details: Olla-los detalles da pista
       view_map: Olla-lo mapa
@@ -2142,7 +2176,7 @@ gl:
       external auth: 'Autenticación de terceiros:'
       password: 'Contrasinal:'
       confirm password: 'Confirma-lo contrasinal:'
-      use external auth: Ou ben, utilice un servizo de terceiros para acceder
+      use external auth: Ou ben, empregue un servizo de terceiros para acceder
       auth no password: Coa autenticación de terceiros non se precisa un contrasinal,
         aínda que hai algunhas ferramentas e servidores que aínda a solicitan.
       continue: Rexistrarse
@@ -2173,7 +2207,7 @@ gl:
       decline: Rexeitar
       you need to accept or decline: Lea e, deseguido, acepte ou rexeite os novos
         Termos do contribuínte para proseguer.
-      legale_select: 'Seleccione o seu país de residencia:'
+      legale_select: 'Escolla o seu país de residencia:'
       legale_names:
         france: Francia
         italy: Italia
@@ -2205,12 +2239,10 @@ gl:
       remove as friend: Eliminar coma amizade
       add as friend: Engadir coma amizade
       mapper since: 'Cartógrafo dende:'
-      ago: (hai %{time_in_words_ago})
       ct status: 'Termos do contribuínte:'
       ct undecided: Indeciso
       ct declined: Rexeitou
-      ct accepted: Aceptou hai %{ago}
-      latest edit: 'Última edición %{ago}:'
+      latest edit: 'Última edición (%{ago}):'
       email address: 'Enderezo de correo electrónico:'
       created from: 'Creado a partir de:'
       status: 'Estado:'
@@ -2440,8 +2472,8 @@ gl:
         API?
       tried_contacting: Púxenme en contacto co usuario e pedinlle que parase.
       tried_waiting: Dálle ó usuario tempo suficiente para respostar ás mensaxes.
-      needs_view: O usuario ten que acceder ao sistema antes de que o bloqueo sexa
-        retirado
+      needs_view: O usuario ten que acceder ó sistema antes de que o bloqueo sexa
+        revogado
       back: Ollar tódolos bloqueos
     edit:
       title: Editando o bloqueo de %{name}
@@ -2454,8 +2486,8 @@ gl:
         API?
       show: Ollar este bloqueo
       back: Ollar tódolos bloqueos
-      needs_view: O usuario ten que acceder ao sistema antes de que o bloqueo sexa
-        retirado?
+      needs_view: O usuario ten que acceder ó sistema antes de que o bloqueo sexa
+        revogado?
     filter:
       block_expired: O bloqueo xa caducou. Non se pode editar.
       block_period: O período de bloqueo debe elixirse de entre os valores presentes
@@ -2476,7 +2508,7 @@ gl:
       title: Revogando o bloqueo en %{block_on}
       heading: Revogando o bloqueo en %{block_on} por %{block_by}
       time_future: Este bloqueo rematará en %{time}.
-      past: Este bloqueo rematou hai %{time}. Entón, xa non se pode retirar.
+      past: Este bloqueo rematou %{time} e xa non se pode revogar.
       confirm: Ten a certeza de querer revogar este bloqueo?
       revoke: Revogar!
       flash: Revogouse o bloqueo.
@@ -2485,7 +2517,7 @@ gl:
       until_login: Activo até que o usuario inicie sesión.
       time_future_and_until_login: Remata en %{time} e despois de que o usuario iniciou
         a sesión.
-      time_past: Rematou hai %{time}.
+      time_past: Rematou %{time}.
       block_duration:
         hours:
           one: 1 hora
@@ -2513,10 +2545,7 @@ gl:
     show:
       title: '%{block_on} bloqueado por %{block_by}'
       heading: '%{block_on} bloqueado por %{block_by}'
-      time_future: Remata en %{time}
-      time_past: Rematou hai %{time}
       created: Creado
-      ago: hai %{time}
       status: Estado
       show: Amosar
       edit: Editar
@@ -2525,8 +2554,8 @@ gl:
       reason: 'Motivo para o bloqueo:'
       back: Ollar tódolos bloqueos
       revoker: 'Autor da revogación:'
-      needs_view: O usuario ten que acceder ao sistema antes de que o bloqueo sexa
-        retirado.
+      needs_view: O usuario ten que acceder ó sistema antes de que o bloqueo sexa
+        revogado.
     block:
       not_revoked: (non revogado)
       show: Amosar
@@ -2551,7 +2580,6 @@ gl:
       description: Descrición
       created_at: Creado o
       last_changed: Última modificación
-      ago_html: hai %{when}
   javascripts:
     close: Pechar
     share:
@@ -2575,7 +2603,7 @@ gl:
       view_larger_map: Ollar un mapa máis grande
       only_standard_layer: Só a capa estándar pode exportarse coma unha imaxe
     embed:
-      report_problem: Informar sobre un problema
+      report_problem: Denunciar un problema
     key:
       title: Lenda do mapa
       tooltip: Lenda do mapa

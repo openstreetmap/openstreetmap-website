@@ -8,7 +8,7 @@
 
 <div class="details">
   <%= t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
-        :time => distance_of_time_in_words_to_now(common_details.timestamp),
+        :time => time_ago_in_words(common_details.timestamp, :scope => :'datetime.distance_in_words_ago'),
         :user => changeset_user_link(common_details.changeset),
         :title => l(common_details.timestamp) %>
 </div>

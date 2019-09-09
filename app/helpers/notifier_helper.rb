@@ -32,4 +32,12 @@ module NotifierHelper
     # we apply it once here, after the message has been composed.
     html.gsub(/<p>/, '<p style="color: black; margin: 0.75em 0; font-family: \'Helvetica Neue\', Arial, Sans-Serif">')
   end
+
+  def style_left
+    I18n.t("html.dir") == "ltr" ? "left" : "right"
+  end
+
+  def style_right
+    I18n.t("html.dir") == "ltr" ? "right" : "left"
+  end
 end

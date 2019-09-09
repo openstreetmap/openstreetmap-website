@@ -12,12 +12,8 @@ class TraceImporterJobTest < ActiveJob::TestCase
     end
 
     trace.stub(:import, gpx) do
-      perform_enqueued_jobs do
-        TraceImporterJob.perform_now(trace)
-      end
+      TraceImporterJob.perform_now(trace)
     end
-
-    assert_performed_jobs 1
 
     email = ActionMailer::Base.deliveries.last
     assert_equal trace.user.email, email.to[0]
@@ -36,12 +32,8 @@ class TraceImporterJobTest < ActiveJob::TestCase
     end
 
     trace.stub(:import, gpx) do
-      perform_enqueued_jobs do
-        TraceImporterJob.perform_now(trace)
-      end
+      TraceImporterJob.perform_now(trace)
     end
-
-    assert_performed_jobs 1
 
     email = ActionMailer::Base.deliveries.last
     assert_equal trace.user.email, email.to[0]
@@ -54,12 +46,8 @@ class TraceImporterJobTest < ActiveJob::TestCase
     # Check that the user gets a failure notification when something goes badly wrong
     trace = create(:trace)
     trace.stub(:import, -> { raise }) do
-      perform_enqueued_jobs do
-        TraceImporterJob.perform_now(trace)
-      end
+      TraceImporterJob.perform_now(trace)
     end
-
-    assert_performed_jobs 1
 
     email = ActionMailer::Base.deliveries.last
     assert_equal trace.user.email, email.to[0]

@@ -43,15 +43,15 @@ class Changeset < ActiveRecord::Base
   has_and_belongs_to_many :subscribers, :class_name => "User", :join_table => "changesets_subscribers", :association_foreign_key => "subscriber_id"
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :user_id, :presence => true,
-                      :numericality => { :integer_only => true }
+                      :numericality => { :only_integer => true }
   validates :num_changes, :presence => true,
-                          :numericality => { :integer_only => true,
+                          :numericality => { :only_integer => true,
                                              :greater_than_or_equal_to => 0 }
   validates :created_at, :closed_at, :presence => true
   validates :min_lat, :max_lat, :min_lon, :max_lat, :allow_nil => true,
-                                                    :numericality => { :integer_only => true }
+                                                    :numericality => { :only_integer => true }
 
   before_save :update_closed_at
 
@@ -131,7 +131,7 @@ class Changeset < ActiveRecord::Base
 
     # update active record. rails 2.1's dirty handling should take care of
     # whether this object needs saving or not.
-    self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox.to_a if bbox.complete?
+    self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox.to_a.collect(&:round) if bbox.complete?
   end
 
   ##

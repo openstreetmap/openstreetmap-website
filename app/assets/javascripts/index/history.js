@@ -71,7 +71,7 @@ OSM.History = function (map) {
     });
 
     var feedLink = $("link[type=\"application/atom+xml\"]"),
-      feedHref = feedLink.attr("href").split("?")[0];
+        feedHref = feedLink.attr("href").split("?")[0];
 
     feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
   }
@@ -101,7 +101,7 @@ OSM.History = function (map) {
           topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
           width = topRight.x - bottomLeft.x,
           height = bottomLeft.y - topRight.y,
-          minSize = 20;  // Min width/height of changeset in pixels
+          minSize = 20; // Min width/height of changeset in pixels
 
       if (width < minSize) {
         bottomLeft.x -= ((minSize - width) / 2);
@@ -123,8 +123,8 @@ OSM.History = function (map) {
 
     for (var i = 0; i < changesets.length; ++i) {
       var changeset = changesets[i],
-        rect = L.rectangle(changeset.bounds,
-          { weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0 });
+          rect = L.rectangle(changeset.bounds,
+                             { weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0 });
       rect.id = changeset.id;
       rect.addTo(group);
     }

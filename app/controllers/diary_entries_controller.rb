@@ -129,7 +129,7 @@ class DiaryEntriesController < ApplicationController
     elsif params[:friends]
       if current_user
         @title = t "diary_entries.index.title_friends"
-        @entries = DiaryEntry.where(:user_id => current_user.friend_users)
+        @entries = DiaryEntry.where(:user_id => current_user.friends)
       else
         require_user
         return

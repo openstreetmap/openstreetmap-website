@@ -65,13 +65,13 @@ L.OSM.key = function (options) {
         .toggleClass("disabled", disabled)
         .attr("data-original-title",
               I18n.t(disabled ?
-                     "javascripts.key.tooltip_disabled" :
-                     "javascripts.key.tooltip"));
+                "javascripts.key.tooltip_disabled" :
+                "javascripts.key.tooltip"));
     }
 
     function update() {
       var layer = map.getMapBaseLayerId(),
-        zoom = map.getZoom();
+          zoom = map.getZoom();
 
       $(".mapkey-table-entry").each(function () {
         var data = $(this).data();

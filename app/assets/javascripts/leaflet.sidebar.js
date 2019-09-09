@@ -1,9 +1,9 @@
 L.OSM.sidebar = function (selector) {
   var control = {},
-    sidebar = $(selector),
-    current = $(),
-    currentButton = $(),
-    map;
+      sidebar = $(selector),
+      current = $(),
+      currentButton = $(),
+      map;
 
   control.addTo = function (_) {
     map = _;

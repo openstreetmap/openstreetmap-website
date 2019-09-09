@@ -22,6 +22,7 @@
 # Author: Leyth
 # Author: Mcuteangel
 # Author: Mjbmr
+# Author: Mobin2008
 # Author: Movyn
 # Author: Nbi
 # Author: Omidh
@@ -47,7 +48,9 @@ fa:
         create: ذخیره
       diary_entry:
         create: انتشار
-        update: روزامدسازی
+        update: روزآمدسازی
+      issue_comment:
+        create: نظر دهید
       message:
         create: ارسال
       client_application:
@@ -61,7 +64,7 @@ fa:
         update: ذخیرهٔ تغییرات
       user_block:
         create: ایجاد مسدودی
-        update: روزامدسازی مسدودی
+        update: روزآمدسازی مسدودی
   activerecord:
     errors:
       messages:
@@ -133,7 +136,44 @@ fa:
         display_name: نام نمایشی
         description: توضیحات
         languages: زبان‌ها
-        pass_crypt: کلمهٔ عبور
+        pass_crypt: گذرواژه
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: حدود ۱ ساعت پیش
+        other: حدود %{count} ساعت پیش
+      about_x_months:
+        one: حدود ۱ ماه پیش
+        other: حدود %{count} ماه پیش
+      about_x_years:
+        one: حدود ۱ سال پیش
+        other: حدود %{count} سال پیش
+      almost_x_years:
+        one: نزدیک به ۱ سال پیش
+        other: نزدیک به %{count} سال پیش
+      half_a_minute: نیم دقیقه پیش
+      less_than_x_seconds:
+        one: کمتر از ۱ ثانیه پیش
+        other: کمتر از %{count} ثانیه پیش
+      less_than_x_minutes:
+        one: کمتر از ۱ دقیقه پیش
+        other: کمتر از %{count} دقیقه پیش
+      over_x_years: بیش از %{count} سال پیش
+      x_seconds:
+        one: ۱ ثانیه پیش
+        other: '%{count} ثانیه پیش'
+      x_minutes:
+        one: ۱ دقیقه پیش
+        other: '%{count} دقیقه پیش'
+      x_days:
+        one: ۱ روز پیش
+        other: '%{count} روز پیش'
+      x_months:
+        one: ۱ ماه پیش
+        other: '%{count} ماه پیش'
+      x_years:
+        one: ۱ سال پیش
+        other: '%{count} سال پیش'
   editor:
     default: پیش‌فرض (در حال حاضر %{name})
     potlatch:
@@ -151,14 +191,14 @@ fa:
   api:
     notes:
       comment:
-        opened_at_html: '%{when} پیش ایجاد شد'
-        opened_at_by_html: ایجاد شده %{when} قبل توسط %{user}
-        commented_at_html: '%{when} پیش به‌روز شد'
-        commented_at_by_html: بروز شده %{when} قبل توسط %{user}
-        closed_at_html: '%{when} پیش حل شد'
-        closed_at_by_html: حل شده %{when} قبل توسط %{user}
-        reopened_at_html: '%{when} پیش دوباره فعال شد'
-        reopened_at_by_html: دوباره فعال شده %{when} قبل توسط %{user}
+        opened_at_html: '%{when} ایجاد شد'
+        opened_at_by_html: '%{when} %{user} آن را ایجاد کرد'
+        commented_at_html: '%{when} روزآمد شد'
+        commented_at_by_html: '%{when} %{user} آن را روزآمد کرد'
+        closed_at_html: '%{when} حل شد'
+        closed_at_by_html: '%{when} %{user} آن را حل کرد'
+        reopened_at_html: '%{when} دوباره فعال شد'
+        reopened_at_by_html: '%{when} %{user} دوباره آن را فعال کرد'
       rss:
         title: یادداشت‌های OpenStreetMap
         description_area: 'لیستی از یادداشت‌ها: گزارش‌شده، نظردار یا بسته‌شده در منطقهٔ
@@ -174,14 +214,12 @@ fa:
   browse:
     created: 'تاریخ ایجاد:'
     closed: 'تاریخ بستن:'
-    created_html: <abbr title='%{title}'>%{time} پیش</abbr> ایجاد شد
-    closed_html: <abbr title='%{title}'>%{time} پیش</abbr> بسته شد
-    created_by_html: <abbr title='%{title}'>%{time} پیش</abbr> %{user} آن را ایجاد
-      کرد
-    deleted_by_html: <abbr title='%{title}'>%{time} پیش</abbr> %{user} آن را حذف کرد
-    edited_by_html: <abbr title='%{title}'>%{time} پیش</abbr> %{user} آن را ویرایش
-      کرد
-    closed_by_html: <abbr title='%{title}'>%{time} پیش</abbr> %{user} آن را بست
+    created_html: <abbr title='%{title}'>%{time} </abbr> ایجاد شد
+    closed_html: <abbr title='%{title}'>%{time}</abbr> بسته شد
+    created_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} آن را ایجاد کرد
+    deleted_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} آن را حذف کرد
+    edited_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} آن را ویرایش کرد
+    closed_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} آن را بست
     version: نسخه
     in_changeset: بستهٔ تغییر
     anonymous: ناشناس
@@ -202,8 +240,8 @@ fa:
       relation_paginated: روابط (%{x}-%{y} از %{count})
       comment: نظرها (%{count})
       hidden_commented_by: نظر مخفی از %{user}،‏ <abbr title='%{exact_time}'>%{when}
-        پیش</abbr>
-      commented_by: نظر از %{user}،‏ <abbr title='%{exact_time}'>%{when} پیش</abbr>
+        </abbr>
+      commented_by: نظر از %{user}،‏ <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Changeset XML
       osmchangexml: osmChange XML
       feed:
@@ -280,21 +318,19 @@ fa:
       open_title: 'یادداشت حل‌نشده #%{note_name}'
       closed_title: 'یادداشت حل‌شده #%{note_name}'
       hidden_title: 'یادداشت پنهان #%{note_name}'
-      open_by: <abbr title='%{exact_time}'>%{when} پیش </abbr> %{user} آن را ایجاد
-        کرد
-      open_by_anonymous: <abbr title='%{exact_time}'>%{when} قبل</abbr> فرد ناشناس
-        آن را ایجاد کرد.
-      commented_by: نظر از %{user}،‏ <abbr title='%{exact_time}'>%{when} پیش</abbr>
-      commented_by_anonymous: نظر از ناشناس، <abbr title='%{exact_time}'>%{when} قبل</abbr>
-      closed_by: <abbr title='%{exact_time}'>%{when} پیش</abbr> %{user} آن را حل کرد
-      closed_by_anonymous: <abbr title='%{exact_time}'>%{when} پیش</abbr> فرد ناشناس
-        آن را حل کرد
-      reopened_by: <abbr title='%{exact_time}'>%{when} پیش</abbr> %{user} دوباره آن
-        را فعال کرد
-      reopened_by_anonymous: <abbr title='%{exact_time}'>%{when} پیش</abbr> فرد ناشناس
+      open_by: <abbr title='%{exact_time}'>%{when} </abbr> %{user} آن را ایجاد کرد
+      open_by_anonymous: <abbr title='%{exact_time}'>%{when}</abbr> فرد ناشناس آن
+        را ایجاد کرد.
+      commented_by: نظر از %{user}،‏ <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: نظر از ناشناس، <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: <abbr title='%{exact_time}'>%{when}</abbr> %{user} آن را حل کرد
+      closed_by_anonymous: <abbr title='%{exact_time}'>%{when}</abbr> فرد ناشناس آن
+        را حل کرد
+      reopened_by: <abbr title='%{exact_time}'>%{when}</abbr> %{user} دوباره آن را
+        فعال کرد
+      reopened_by_anonymous: <abbr title='%{exact_time}'>%{when}</abbr> فرد ناشناس
         دوباره آن را فعال کرد
-      hidden_by: <abbr title='%{exact_time}'>%{when} پیش</abbr> %{user} آن را مخفی
-        کرد
+      hidden_by: <abbr title='%{exact_time}'>%{when}</abbr> %{user} آن را مخفی کرد
       report: گزارش این یادداشت
     query:
       title: پرس‌وجو برای عارضه‌ها
@@ -333,7 +369,7 @@ fa:
   changeset_comments:
     comment:
       comment: نظر جدید دربارهٔ بستهٔ تغییر %{changeset_id} از %{author}
-      commented_at_by_html: '%{when} پیش %{user} آن را به‌روز کرد'
+      commented_at_by_html: '%{when} %{user} آن را روزآمد کرد'
     comments:
       comment: نظر جدید دربارهٔ بستهٔ تغییر %{changeset_id} از %{author}
     index:
@@ -389,11 +425,13 @@ fa:
         other: '%{count} نظر'
       edit_link: ویرایش این روزنوشت
       hide_link: پنهان‌کردن این روزنوشت
+      unhide_link: آشکارسازی این روزنوشت
       confirm: تأیید
       report: گزارش این روزنوشت
     diary_comment:
       comment_from: نظر از %{link_user} در %{comment_created_at}
       hide_link: پنهان‌کردن این نظر
+      unhide_link: آشکارسازی این نظر
       confirm: تأیید
       report: گزارش این نظر
     location:
@@ -415,7 +453,6 @@ fa:
       post: روزنوشت
       when: زمان
       comment: نظر
-      ago: '%{ago} قبل'
       newer_comments: نظرات جدیدتر
       older_comments: نظرات قدیمی‌تر
   geocoder:
@@ -436,6 +473,8 @@ fa:
           chair_lift: صندلی بالابر
           drag_lift: بالابر کشیدنی
           gondola: تلهکابین
+          platter: بلند شو!
+          pylon: ستون
           station: ایستگاه راه هوایی
         aeroway:
           aerodrome: فرودگاه هواپیما
@@ -810,9 +849,9 @@ fa:
           state: ایالت
           subdivision: زیربخش
           suburb: حومه شهر
-          town: شهرستان
+          town: شهر کوچک
           unincorporated_area: منطقه گنجانده نشده
-          village: دهکده
+          village: روستا
           "yes": Siedlung
         railway:
           abandoned: راه‌آهن رهاشده
@@ -940,7 +979,7 @@ fa:
           museum: موزه
           picnic_site: مکان پیک نیک
           theme_park: پارک تفریحی
-          viewpoint: منطره بین
+          viewpoint: نقطه دید
           zoo: باغ وحش
         tunnel:
           building_passage: Building Passage
@@ -980,7 +1019,7 @@ fa:
         geonames: مکان از <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: شهرها
-        towns: شهرستانها
+        towns: شهرهای کوچک
         places: مکان‌ها
     results:
       no_results: نتیجه‌ای پیدا نشد
@@ -990,19 +1029,18 @@ fa:
       title: موضوع‌ها
       select_status: انتخاب وضعیت
       select_type: انتخاب نوع
-      select_last_updated_by: انتخاب آخرین روزامدسازی توسط
+      select_last_updated_by: انتخاب آخرین روزآمدسازی توسط
       reported_user: کاربر گزارش‌شده
-      not_updated: روزامد نشد
+      not_updated: روزآمد نشد
       search: جستجو
       search_guidance: 'جستجوی موضوع:'
       user_not_found: کاربر وجود ندارد
       issues_not_found: این موضوع یافت نشد
       status: وضعیت
       reports: گزارش‌ها
-      last_updated: آخرین روزامدسازی
-      last_updated_time_html: <abbr title='%{title}'>%{time} پیش</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} پیش</abbr> توسط
-        %{user}
+      last_updated: آخرین روزآمدسازی
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> توسط %{user}
       link_to_reports: نمایش گزارش‌ها
       reports_count:
         one: 1 گزارش
@@ -1014,7 +1052,7 @@ fa:
         resolved: حل شده
     update:
       new_report: گزارشتان با موفقیت ثبت شد
-      successful_update: گزارشتان با موفقیت به‌روز شد
+      successful_update: گزارشتان با موفقیت روزآمد شد
       provide_details: لطفاً جزئیات لازم را ارائه دهید
     show:
       reports:
@@ -1164,7 +1202,7 @@ fa:
       befriend_them: 'همچنین می‌توانید از اینجا او را به‌عنوان دوست اضافه کنید: %{befriendurl}'
     gpx_notification:
       greeting: سلام،
-      your_gpx_file: به‌نظر می‌رسد فایل GPX شما
+      your_gpx_file: به‌نظر می‌رسد فایل جی‌پی‌اکس شما
       with_description: 'با این توضیحات:'
       and_the_tags: 'و برچسب‌های زیر:'
       and_no_tags: و بدون برچسب.
@@ -1461,6 +1499,9 @@ fa:
           <strong>اسلوونی</strong>: شامل داده‌هایی از <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> و
           <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>
           (اطلاعات عمومی اسلوونی).
+        contributors_es_html: |-
+          <strong>اسپانیا</strong>: شامل داده‌هایی از Spanish National Geographic Institute (<a href="http://www.ign.es/">IGN</a>) و  National Cartographic System (<a href="http://www.scne.es/">SCNE</a>)
+          تحت پروانهٔ <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> برای استفادهٔ مجدد.
         contributors_za_html: "<strong>آفریقای جنوبی</strong>: شامل داده‌هایی از \n<a
           href=\"http://www.ngi.gov.za/\">Chief Directorate:\nNational Geo-Spatial
           Information</a>، حق‌نشر State محفوظ است."
@@ -1546,8 +1587,8 @@ fa:
           description: دریافت این محدوده از یکی از آینه‌های پایگاه‌دادهٔ OpenStreetMap
         geofabrik:
           title: دانلودهای Geofabrik
-          description: داده‌های قاره‌ها، کشورها، و شهرهای برگزیده که به‌طور منظم به‌روز
-            می‌شود
+          description: گزیدهٔ اطلاعات قاره‌ها، کشورها، و شهرهای منتخب که به‌طور منظم
+            روزآمد می‌شود
         metro:
           title: خلاصه های مترو
           description: خلاصه هایی برای شهرهای بزرگ جهان و مناطق اطرافشان
@@ -1591,7 +1632,7 @@ fa:
         بحث و همفکری دربارهٔ موضوعات نقشه‌کشی و ثبت آن‌ها منابع زیادی وجود دارد.
       welcome:
         url: /welcome
-        title: به OSM خوش آمدید
+        title: به اوپن‌استریت‌مپ خوش آمدید
         description: از این راهنمای ساده و سریع که دربرگیرندهٔ مبانی OpenStreetMap
           است آغاز کنید.
       beginners_guide:
@@ -1825,7 +1866,7 @@ fa:
       visibility_help: این چیست؟
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Fa:Visibility_of_GPS_traces
     update:
-      updated: رد به‌روز شد
+      updated: رد روزآمد شد
     trace_optionals:
       tags: برچسب‌ها
     show:
@@ -1855,7 +1896,6 @@ fa:
     trace:
       pending: در انتظار
       count_points: ‏%{count} نقطه
-      ago: '%{time_in_words_ago} پیش'
       more: بیشتر
       trace_details: مشاهده جزئیات رد
       view_map: نمایش نقشه
@@ -1994,7 +2034,7 @@ fa:
     create:
       flash: اطلاعات با موفقیت ثبت شد
     update:
-      flash: اطلاعات کارخواه با موفقیت روزامد شد
+      flash: اطلاعات کارخواه با موفقیت روزآمد شد
     destroy:
       flash: ثبت‌نام برنامه کارخواه از بین رفت
   users:
@@ -2120,6 +2160,7 @@ fa:
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'اطلاعاتی برای کمک به درک این شرایط: <a href="%{summary}">خلاصهٔ خوانا
         برای انسان</a>و برخی از <a href="%{translations}">ترجمه‌های غیررسمی</a>'
+      continue: ادامه
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: نمی‌پذیرم
       you need to accept or decline: برای ادامه لطفاً بخوانید و سپس شرایط شرکت کنندهٔ
@@ -2156,12 +2197,10 @@ fa:
       remove as friend: لغو دوستی
       add as friend: افزودن دوست
       mapper since: 'آغاز نقشه‌کشی از:'
-      ago: (%{time_in_words_ago} پیش)
       ct status: 'شرایط مشارکت‌کننده:'
       ct undecided: بلاتکلیف
       ct declined: رد شده
-      ct accepted: '%{ago} پیش پذیرفته شد'
-      latest edit: 'آخرین ویرایش %{ago}:'
+      latest edit: 'آخرین ویرایش (%{ago}):'
       email address: 'نشانی ایمیل:'
       created from: 'ایجادشده از:'
       status: 'وضعیت:'
@@ -2407,7 +2446,7 @@ fa:
     update:
       only_creator_can_edit: فقط مدیری که این مسدودی را ایجاد کرده می‌تواند آن را
         ویرایش کند.
-      success: مسدودی روزامد شد.
+      success: مسدودی روزآمد شد.
     index:
       title: مسدودی‌های کاربر
       heading: لیست مسدودی‌های کاربری
@@ -2416,7 +2455,7 @@ fa:
       title: لغو مسدودی از %{block_on}
       heading: لغو مسدودی از %{block_on}، مسدودشده توسط %{block_by}
       time_future: این مسدودی در %{time} پایان می یابد.
-      past: این مسدودی %{time} پیش پایان یافته و اکنون قابل لغوکردن نیست.
+      past: این مسدودی %{time} پایان یافته و اکنون قابل‌لغو نیست.
       confirm: مطمئنید می‌خواهید این مسدودی را لغو کنید؟
       revoke: باطل شود!
       flash: این مسدودی لغو شد.
@@ -2425,11 +2464,15 @@ fa:
       until_login: تا وقتی کاربر وارد شود فعال می‌ماند.
       time_future_and_until_login: '%{time} دیگر و پس از ورود به حساب کاربری پایان
         می‌یابد.'
-      time_past: '%{time} پیش پایان یافت.'
+      time_past: '%{time} پایان یافت.'
       block_duration:
         hours:
           one: 1 ساعت
           other: '%{count} ساعت'
+        days: '%{count} روز'
+        weeks: '%{count} هفته'
+        months: '%{count} ماه'
+        years: '%{count} سال'
     blocks_on:
       title: مسدودی‌های کاربری %{name}
       heading: فهرست مسدودی‌های %{name}
@@ -2441,10 +2484,7 @@ fa:
     show:
       title: '%{block_on} توسط %{block_by} مسدود شده'
       heading: '%{block_on} توسط %{block_by} مسدود شده'
-      time_future: '%{time} دیگر پایان می‌یابد'
-      time_past: '%{time} پیش پایان یافت'
       created: زمان ایجاد
-      ago: '%{time} پیش'
       status: وضعیت
       show: نمایش
       edit: ویرایش
@@ -2478,7 +2518,6 @@ fa:
       description: شرح
       created_at: ایجاد شده در
       last_changed: آخرین تغییر
-      ago_html: '%{when} پیش'
   javascripts:
     close: بستن
     share:

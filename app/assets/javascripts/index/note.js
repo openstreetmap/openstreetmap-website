@@ -1,7 +1,7 @@
 OSM.Note = function (map) {
   var content = $("#sidebar_content"),
-    page = {},
-    halo, currentNote;
+      page = {},
+      halo, currentNote;
 
   var noteIcons = {
     "new": L.icon({
@@ -39,7 +39,7 @@ OSM.Note = function (map) {
     OSM.loadSidebarContent(path, function () {
       initialize(function () {
         var data = $(".details").data(),
-          latLng = L.latLng(data.coordinates.split(","));
+            latLng = L.latLng(data.coordinates.split(","));
         if (!map.getBounds().contains(latLng)) moveToNote();
       });
     });
@@ -71,7 +71,7 @@ OSM.Note = function (map) {
     content.find("textarea").val("").trigger("input");
 
     var data = $(".details").data(),
-      latLng = L.latLng(data.coordinates.split(","));
+        latLng = L.latLng(data.coordinates.split(","));
 
     if (!map.hasLayer(halo)) {
       halo = L.circleMarker(latLng, {
@@ -97,7 +97,7 @@ OSM.Note = function (map) {
 
   function moveToNote() {
     var data = $(".details").data(),
-      latLng = L.latLng(data.coordinates.split(","));
+        latLng = L.latLng(data.coordinates.split(","));
 
     if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
       OSM.router.withoutMoveListener(function () {

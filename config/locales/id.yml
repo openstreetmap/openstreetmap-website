@@ -4,6 +4,7 @@
 # Author: Abijeet Patro
 # Author: Arief
 # Author: Arifin.wijaya
+# Author: ArlandGa
 # Author: Atriwidada
 # Author: C5st4wr6ch
 # Author: Dewisulistio
@@ -37,6 +38,9 @@ id:
         create: Simpan
       diary_entry:
         create: Terbitkan
+        update: Mutakhirkan
+      issue_comment:
+        create: Tambahkan Komentar
       message:
         create: Kirim
       client_application:
@@ -122,6 +126,9 @@ id:
         description: Keterangan
         languages: Bahasa
         pass_crypt: Kata Sandi
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: setengah menit yang lalu
   editor:
     default: Standar (saat ini %{name})
     potlatch:
@@ -142,7 +149,7 @@ id:
         opened_at_html: Dibuat %{when} yang lalu
         opened_at_by_html: Dibuat %{when} yang lalu oleh %{user}
         commented_at_html: Diperbarui %{when} yang lalu
-        commented_at_by_html: Diperbarui %{when} yang lalu oleh %{user}
+        commented_at_by_html: Dimutakhirkan %{when} yang lalu oleh %{user}
         closed_at_html: Diselesaikan %{when} yang lalu
         closed_at_by_html: Diselesaikan %{when} yang lalu oleh %{user}
         reopened_at_html: Diaktifkan kembali %{when} yang lalu
@@ -406,7 +413,6 @@ id:
       post: Artikel
       when: Kapan
       comment: Komentar
-      ago: '%{ago} yang lalu'
       newer_comments: Komentar Baru
       older_comments: Komentar Lama
   geocoder:
@@ -1847,7 +1853,6 @@ id:
     trace:
       pending: TERTUNDA
       count_points: '%{count} titik'
-      ago: '%{time_in_words_ago} yang lalu'
       more: selebihnya
       trace_details: Lihat Perincian Jejak
       view_map: Lihat peta
@@ -2144,11 +2149,9 @@ id:
       remove as friend: Hapus pertemanan
       add as friend: Jadikan Teman
       mapper since: 'Melakukan pemetaan sejak:'
-      ago: (%{time_in_words_ago} yang lalu)
       ct status: 'Syarat-syarat kontributor:'
       ct undecided: Belum diputuskan
       ct declined: Tolak
-      ct accepted: Telah diterima %{ago} yang lalu
       latest edit: 'Hasil edit terakhir %{ago}:'
       email address: 'Alamat email:'
       created from: 'Dibuat pada:'
@@ -2437,10 +2440,7 @@ id:
     show:
       title: '%{block_on} diblokir oleh %{block_by}'
       heading: '%{block_on} diblokir oleh %{block_by}'
-      time_future: Berakhir dalam %{time}
-      time_past: Berakhir %{time} yang lalu
       created: Dibuat
-      ago: '%{time} yang lalu'
       status: Status
       show: Tampilkan
       edit: Edit
@@ -2474,7 +2474,6 @@ id:
       description: Deskripsi
       created_at: Dibuat pada
       last_changed: Terakhir diubah
-      ago_html: '%{when} yang lalu'
   javascripts:
     close: Tutup
     share:

@@ -38,9 +38,9 @@ class OldNode < ActiveRecord::Base
 
   validates :changeset, :presence => true, :associated => true
   validates :latitude, :presence => true,
-                       :numericality => { :integer_only => true }
+                       :numericality => { :only_integer => true }
   validates :longitude, :presence => true,
-                        :numericality => { :integer_only => true }
+                        :numericality => { :only_integer => true }
   validates :timestamp, :presence => true
   validates :visible, :inclusion => [true, false]
 

@@ -18,6 +18,7 @@
 # Author: Macofe
 # Author: Nikosgranturismogt
 # Author: Omnipaedista
+# Author: Panos78
 # Author: Protnet
 # Author: Ruila
 # Author: Shirayuki
@@ -41,6 +42,9 @@ el:
         create: Αποθήκευση
       diary_entry:
         create: Δημοσίευση
+        update: Ενημέρωση
+      issue_comment:
+        create: Προσθήκη σχόλιου
       message:
         create: Αποστολή
       client_application:
@@ -56,6 +60,9 @@ el:
         create: Δημιουργία φραγής
         update: Ενημέρωση φραγής
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: δεν φαίνεται να είναι μια έγκυρη διεύθυνση ηλ. ταχυδρομείου
     models:
       acl: Λίστα ελέγχου πρόσβασης
       changeset: Ομάδα αλλαγών
@@ -142,14 +149,14 @@ el:
   api:
     notes:
       comment:
-        opened_at_html: Δημιουργήθηκε %{when} πριν
-        opened_at_by_html: Δημιουργήθηκε %{when} πριν από τον %{user}
-        commented_at_html: Ενημερώθηκε %{when} πριν
-        commented_at_by_html: Ενημερώθηκε %{when} πριν από τον %{user}
-        closed_at_html: Επιλύθηκε %{when} πριν
-        closed_at_by_html: Επιλύθηκε %{when} πριν από τον %{user}
-        reopened_at_html: Επανενεργοποιήθηκε %{when} πριν
-        reopened_at_by_html: Επανενεργοποιήθηκε %{when} πριν από τον %{user}
+        opened_at_html: Δημιουργήθηκε %{when}
+        opened_at_by_html: Δημιουργήθηκε %{when} από τον %{user}
+        commented_at_html: Ενημερώθηκε %{when}
+        commented_at_by_html: Ενημερώθηκε %{when} πριν από τον χρήστη %{user}
+        closed_at_html: Επιλύθηκε %{when}
+        closed_at_by_html: Επιλύθηκε %{when} από τον %{user}
+        reopened_at_html: Επανενεργοποιήθηκε %{when}
+        reopened_at_by_html: Επανενεργοποιήθηκε %{when} από τον %{user}
       rss:
         title: Σημειώσεις OpenStreetMap
         description_area: Μια λίστα με σημειώσεις, που αναφέρθηκαν, σχολιάστηκαν ή
@@ -165,16 +172,16 @@ el:
   browse:
     created: Δημιουργήθηκε
     closed: Έκλεισε
-    created_html: Δημιουργήθηκε <abbr title='%{title}'>πριν από %{time}</abbr>
-    closed_html: Κλείστηκε <abbr title='%{title}'>πριν από %{time}</abbr>
-    created_by_html: Δημιουργήθηκε <abbr title='%{title}'>πριν από %{time}</abbr>
-      από τον χρήστη %{user}
-    deleted_by_html: Διεγράφη <abbr title='%{title}'>πριν από %{time}</abbr> από τον
-      χρήστη %{user}
-    edited_by_html: Άλλαξε <abbr title='%{title}'>πριν από %{time}</abbr> από τον
-      χρήστη %{user}
-    closed_by_html: Κλείστηκε <abbr title='%{title}'>πριν από %{time}</abbr> από τον
-      χρήστη %{user}
+    created_html: Δημιουργήθηκε <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Κλείστηκε <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Δημιουργήθηκε <abbr title='%{title}'>%{time}</abbr> από τον χρήστη
+      %{user}
+    deleted_by_html: Διεγράφη <abbr title='%{title}'>%{time}</abbr> από τον χρήστη
+      %{user}
+    edited_by_html: Τροποποιήθηκε <abbr title='%{title}'>%{time}</abbr> από τον χρήστη
+      %{user}
+    closed_by_html: Κλείστηκε <abbr title='%{title}'>%{time}</abbr> από τον χρήστη
+      %{user}
     version: Έκδοση
     in_changeset: Ομάδα αλλαγών
     anonymous: ανώνυμος
@@ -194,10 +201,8 @@ el:
       relation: Σχέσεις (%{count})
       relation_paginated: Σχέσεις (%{x}-%{y} από %{count})
       comment: Σχόλια (%{count})
-      hidden_commented_by: Κρυμμένο σχόλιο του %{user} <abbr title='%{exact_time}'>%{when}
-        πριν</abbr>
-      commented_by: Σχόλιο από τον χρήστη %{user} <abbr title='%{exact_time}'>πριν
-        από %{when}</abbr>
+      hidden_commented_by: Κρυμμένο σχόλιο του %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Σχόλιο από τον χρήστη %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Ομάδας αλλαγών XML
       osmchangexml: osmChange XML
       feed:
@@ -277,22 +282,15 @@ el:
       open_title: 'Ανοικτή σημείωση #%{note_name}'
       closed_title: 'Επιλυμένη σημείωση: #%{note_name}'
       hidden_title: 'Κρυφή σημείωση #%{note_name}'
-      open_by: Δημιουργήθηκε από τον %{user} <abbr title='%{exact_time}'>πριν από
-        %{when}</abbr>
-      open_by_anonymous: Δημιουργήθηκε από ανώνυμο χρήστη <abbr title='%{exact_time}'>πριν
-        από %{when}</abbr>
-      commented_by: Σχόλιο από τον %{user} <abbr title='%{exact_time}'>πριν από %{when}</abbr>
-      commented_by_anonymous: Σχόλιο από ανώνυμο χρήστη <abbr title='%{exact_time}'>πριν
-        από %{when}</abbr>
-      closed_by: Επιλύθηκε από τον %{user} <abbr title='%{exact_time}'>πριν από %{when}</abbr>
-      closed_by_anonymous: Επιλύθηκε από ανώνυμο χρήστη <abbr title='%{exact_time}'>πριν
-        από %{when}</abbr>
-      reopened_by: Επανενεργοποιήθηκε από τον %{user} <abbr title='%{exact_time}'>πριν
-        από %{when}</abbr>
-      reopened_by_anonymous: Επανενεργοποιήθηκε από ανώνυμο χρήστη <abbr title='%{exact_time}'>πριν
-        από %{when}</abbr>
-      hidden_by: Έγινε κρυφή από τον %{user} <abbr title='%{exact_time}'>πριν από
-        %{when}</abbr>
+      open_by: Δημιουργήθηκε από τον %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Δημιουργήθηκε από ανώνυμο χρήστη <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Σχόλιο από τον %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Σχόλιο από ανώνυμο χρήστη <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Επιλύθηκε από τον %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Επιλύθηκε από ανώνυμο χρήστη <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Επανενεργοποιήθηκε από τον %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Επανενεργοποιήθηκε από ανώνυμο χρήστη <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Έγινε κρυφό από τον %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Αναφορά αυτής της σημείωσης
     query:
       title: Πληροφορίες χαρακτηριστικών
@@ -325,7 +323,7 @@ el:
       no_more: Δεν βρέθηκαν άλλες ομάδες αλλαγών.
       no_more_area: Δεν υπάρχουν άλλες ομάδες αλλαγών για αυτήν την περιοχή.
       no_more_user: Δεν υπάρχουν άλλες ομάδες αλλαγών από αυτόν τον χρήστη.
-      load_more: Εμφάνιση περισσότερων
+      load_more: Φόρτωση περισσότερων
     timeout:
       sorry: Λυπάμαι, ο κατάλογος των ομάδων αλλαγών που ζήτησες χρειάστηκε πολύ χρόνο
         για να ανακτηθεί.
@@ -353,7 +351,7 @@ el:
       title: Ημερολόγια χρηστών
       title_friends: Ημερολόγια φίλων
       title_nearby: Ημερολόγια κοντινών χρηστών
-      user_title: ημερολόγιο του %{user}
+      user_title: Ημερολόγιο του %{user}
       in_language_title: Καταχωρήσεις ημερολογίων στα %{language}
       new: Νέα καταχώρηση ημερολογίου
       new_title: Σύνταξη μιας νέας καταχώρησης στο ημερολόγιο χρήστη μου
@@ -414,7 +412,6 @@ el:
       post: Καταχώριση
       when: Πότε
       comment: Σχόλιο
-      ago: πριν από %{ago}
       newer_comments: Νεότερα Σχόλια
       older_comments: Παλαιότερα Σχόλια
   geocoder:
@@ -1031,9 +1028,8 @@ el:
       status: Κατάσταση
       reports: Αναφορές
       last_updated: Τελευταία ενημέρωση
-      last_updated_time_html: <abbr title='%{title}'>%{time} πριν από</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} πριν από</abbr>
-        από τον %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> από τον %{user}
       link_to_reports: Προβολή αναφορών
       reports_count:
         one: 1 Αναφορά
@@ -1153,9 +1149,12 @@ el:
     intro_text: Το OpenStreetMap είναι χάρτης του κόσμου, που δημιουργήθηκε από ανθρώπους
       σαν κι εσάς και είναι δωρεάν, υπό άδεια ελεύθερης χρήσης.
     intro_2_create_account: Δημιουργήστε ένα λογαριασμό χρήστη
+    hosting_partners_html: Η λειτουργία υποστηρίζεται από %{ucl}, %{bytemark}, και
+      άλλους %{partners}.
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: συνεργάτες
+    tou: Όροι χρήσης
     osm_offline: Η βάση δεδομένων του OpenStreetMap είναι προσωρινά εκτός λειτουργίας
       λόγω εργασιών συντήρησης της βάσης δεδομένων.
     osm_read_only: Η βάση δεδομένων του OpenStreetMap έχει τεθεί προσωρινά σε λειτουργία
@@ -1405,12 +1404,12 @@ el:
         Δικαιώματα και Άδεια Χρήσης</a> για λεπτομέρειες.'
       legal_title: Νομικό
       legal_html: |-
-        Αυτός ο ιστότοπος και πολλές άλλες σχετικές υπηρεσίες λειτουργούν επίσημα από το <a href='https://osmfoundation.org/'>Ίδρυμα OpenStreetMap</a> (OSMF) εκ μέρους της κοινότητας. Η χρήση όλων των υπηρεσιών του OSMF  υπόκειται στην <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Πολιτική Αποδεκτής Χρήσης</a> μας και στην <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Πολιτική Απορρήτου</a> μας.
+        Αυτός ο ιστότοπος και πολλές άλλες σχετικές υπηρεσίες λειτουργούν επίσημα από το <a href='https://osmfoundation.org/'>Ίδρυμα OpenStreetMap</a> (OSMF) εκ μέρους της κοινότητας. Η χρήση όλων των υπηρεσιών του OSMF  υπόκειται στους <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Όρους Χρήσης</a>, στην <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Πολιτική Αποδεκτής Χρήσης</a> και στην <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Πολιτική Απορρήτου</a> μας.
         <br>
         Παρακαλούμε <a href='https://osmfoundation.org/Contact'>επικοινωνήστε με το OSMF</a> αν έχετε ερωτήματα για άδειες χρήσης, πνευματικά δικαιώματα ή άλλα νομικά θέματα.
 
         <br>
-        Το OpenStreetMap, το λογότυπο με το μεγεθυντικό φακό και το <<State of the Map>> είναι <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">κατατεθέντα σήματα του OSMF</a>.
+        Το OpenStreetMap, το λογότυπο με το μεγεθυντικό φακό και το «State of the Map» είναι <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">κατατεθέντα σήματα του OSMF</a>.
       partners_title: Συνεργάτες
     copyright:
       foreign:
@@ -1501,7 +1500,7 @@ el:
         contributors_gb_html: |-
           <strong>Ηνωμένο Βασίλειο</strong>: Περιέχει δεδομένα
           της Ordnance Survey &copy; Crown πνευματικά δικαιώματα και δικαιώματα βάσης δεδομένων
-          2010-12.
+          2010-19.
         contributors_footer_1_html: |-
           Για περισσότερες λεπτομέρειες σχετικά με αυτές, και άλλες πηγές που χρησιμοποιήθηκαν
           για να βελτιώσουν το OpenStreetMap, παρακαλούμε δείτε τη σελίδα <a href="https://wiki.openstreetmap.org/wiki/Contributors">Συνεισφέροντες</a> στο OpenStreetMap Wiki.
@@ -1756,7 +1755,7 @@ el:
       edit: Επεξεργασία
       preview: Προεπισκόπηση
     markdown_help:
-      title_html: Αναλύεται με το <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Αναλύεται με το <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Επικεφαλίδες
       heading: Επικεφαλίδα
       subheading: Υποκεφαλίδα
@@ -1898,7 +1897,6 @@ el:
     trace:
       pending: ΕΚΚΡΕΜΕΙ
       count_points: '%{count} σημεία'
-      ago: '%{time_in_words_ago} πριν'
       more: περισσότερα
       trace_details: Προβολή Λεπτομερειών Ίχνους
       view_map: Προβολή Χάρτη
@@ -1954,7 +1952,7 @@ el:
         διεπαφή του ιστότοπου για να μάθετε περισσότερα.
       need_to_see_terms: Η πρόσβασή σας στο API έχει ανασταλεί προσωρινά. Παρακαλούμε
         συνδεθείτε στην ηλεκτρονική διεπαφή για να δείτε τους Όρους Συνεισφερόντων.
-        Δεν χρειάζεται να συμφωνήσετε, αλλά θα πρέπει να τους δείτε.
+        Δεν χρειάζεται να τους αποδεχτείτε, αλλά θα πρέπει να τους δείτε.
   oauth:
     authorize:
       title: Επιτρέψτε την πρόσβαση στο λογαριασμό σας
@@ -2135,8 +2133,8 @@ el:
           <p>Σε αντίθεση με άλλους χάρτες, το OpenStreetMap έχει ολοκληρωτικά φτιαχτεί από ανθρώπους σαν κι εσάς,
           και είναι ανοικτός στον καθένα να τον διορθώσει, αναβαθμίσει, κατεβάσει και χρησιμοποιήσει.</p>
           <p>Εγγραφείτε για να αρχίσετε να συνεισφέρετε. Θα σας στείλουμε ένα email για να επιβεβαιώσουμε τον λογαριασμό σας.</p>
-      license_agreement: Όταν επιβεβαιώσετε το λογαριασμό σας, θα πρέπει να συμφωνήσετε
-        με τους <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">όρους
+      license_agreement: Όταν επιβεβαιώσετε το λογαριασμό σας, θα πρέπει να αποδεχτείτε
+        τους <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">όρους
         συνεισφοράς</a>.
       email address: 'Διεύθυνση Ηλ. Ταχυδρομείου:'
       confirm email address: 'Επιβεβαίωση Διεύθυνσης Ηλ. Ταχυδρομείου:'
@@ -2161,6 +2159,14 @@ el:
     terms:
       title: Όροι συνεισφοράς
       heading: Όροι συνεισφοράς
+      read and accept with tou: Παρακαλώ διαβάστε τους όρους συνεισφοράς και όρους
+        χρήσης, επιλέξτε τα δυο πλαίσια ελέγχου όταν έχετε τελειώσει και πατήστε το
+        κουμπί για να συνεχίσετε.
+      read_ct: Έχω διαβάσει και αποδέχομαι τους παραπάνω όρους συνεισφοράς
+      tou_explain_html: Αυτοί %{tou_link} καλύπτουν τη χρήση της ιστοσελίδας και άλλης
+        υποδομής που προσφέρει η OSMF. Παρακαλώ ακολουθήστε τον σύνδεσμο, διαβάστε
+        και αποδεχτείτε το κείμενο.
+      read_tou: Έχω διαβάσει και αποδέχομαι τους όρους χρήσης
       consider_pd: Και επιπρόσθετα στην παραπάνω συμφωνία, θεωρώ τις συνεισφορές μου
         ως Public Domain
       consider_pd_why: τι είναι αυτό;
@@ -2203,12 +2209,10 @@ el:
       remove as friend: Αφαίρεση Φίλου
       add as friend: Προσθήκη Φίλου
       mapper since: 'Χαρτογράφος από:'
-      ago: (%{time_in_words_ago} πριν)
       ct status: 'Όροι συνεισφοράς:'
       ct undecided: Αναποφάσιστος
       ct declined: Απόρριψη
-      ct accepted: Αποδοχή %{ago} πριν
-      latest edit: 'Τελευταία επεξεργασία %{ago}:'
+      latest edit: 'Τελευταία επεξεργασία (%{ago}):'
       email address: 'Διεύθυνση Ηλ. Ταχυδρομείου:'
       created from: 'Δημιουργήθηκε από:'
       status: 'Κατάσταση:'
@@ -2259,7 +2263,7 @@ el:
       my settings: Οι ρυθμίσεις μου
       current email address: 'Τωρινή Διεύθυνση Ηλεκτρονικού Ταχυδρομείου:'
       new email address: 'Νέα Διεύθυνση ηλεκτρονικού ταχυδρομείου:'
-      email never displayed publicly: (όχι δημόσια εμφάνιση)
+      email never displayed publicly: (ποτέ δεν εμφανίζεται δημόσια)
       external auth: 'Εξωτερικός Έλεγχος Ταυτότητας:'
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
@@ -2286,8 +2290,8 @@ el:
           είναι επώνυμοι εξ' αρχής.</li></ul>
       contributor terms:
         heading: 'Όροι Συνεισφοράς:'
-        agreed: Έχετε συμφωνήσει με τους νέους Όρους Συνεισφοράς.
-        not yet agreed: Δεν έχετε συμφωνήσει με τους νέους Όρους Συνεισφοράς.
+        agreed: Έχετε αποδεχτεί τους νέους Όρους Συνεισφοράς.
+        not yet agreed: Δεν έχετε αποδεχτεί τους νέους Όρους Συνεισφοράς.
         review link text: Παρακαλώ ακολουθήστε αυτό το σύνδεσμο όταν μπορείτε για
           να διαβάσετε και να αποδεχθείτε τους νέους Όρους Συνεισφοράς.
         agreed_with_pd: Έχετε επίσης δηλώσει ότι θεωρείτε τις επεξεργασίες σας οτι
@@ -2492,7 +2496,7 @@ el:
       until_login: Ενεργό έως ότου ο χρήστης συνδεθεί.
       time_future_and_until_login: Τελειώνει σε %{time} και μετά αφότου ο χρήστης
         έχει συνδεθεί.
-      time_past: Τελείωσε %{time} πριν.
+      time_past: Τελείωσε %{time}.
       block_duration:
         hours:
           one: 1 ώρα
@@ -2508,10 +2512,7 @@ el:
     show:
       title: Ο %{block_on} έχει φραχτεί από τον %{block_by}
       heading: Ο %{block_on} έχει φραχτεί από τον %{block_by}
-      time_future: Τελειώνει σε %{time}
-      time_past: Τελείωσε %{time} πριν
       created: Δημιουργήθηκε
-      ago: πρίν από %{time}
       status: Κατάσταση
       show: Εμφάνιση
       edit: Επεξεργασία
@@ -2545,7 +2546,6 @@ el:
       description: Περιγραφή
       created_at: Δημιουργήθηκε στις
       last_changed: Τελευταία αλλαγή
-      ago_html: '%{when} πριν'
   javascripts:
     close: Κλείσιμο
     share:

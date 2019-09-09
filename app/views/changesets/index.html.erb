@@ -1,10 +1,10 @@
-<% if @edits.present? %>
+<% if @changesets.present? %>
   <ol class="changesets">
-    <%= render :partial => "changeset", :collection => @edits %>
+    <%= render @changesets %>
   </ol>
-<% if @edits.size == 20 -%>
+<% if @changesets.size == 20 -%>
   <div class="changeset_more">
-    <%= link_to t(".load_more"), url_for(@params.merge(:max_id => @edits.last.id - 1)), :class => "button load_more" %>
+    <%= link_to t(".load_more"), url_for(@params.merge(:max_id => @changesets.last.id - 1)), :class => "button load_more" %>
     <div class="loader"><%= image_tag "searching.gif" %></div>
   </div>
 <% end -%>

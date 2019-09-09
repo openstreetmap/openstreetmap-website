@@ -4,6 +4,7 @@
 # Author: Abijeet Patro
 # Author: Amire80
 # Author: Aude
+# Author: Dan.translate
 # Author: Dekel E
 # Author: Deror avi
 # Author: Erelon
@@ -39,6 +40,9 @@ he:
         create: שמירה
       diary_entry:
         create: פרסום
+        update: עדכון
+      issue_comment:
+        create: הוספת תגובה
       message:
         create: שליחה
       client_application:
@@ -125,6 +129,53 @@ he:
         description: תיאור
         languages: שפות
         pass_crypt: סיסמה
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: לפני בערך שנה
+        two: לפני בערך שנתיים
+        other: לפני בערך %{count} שנים
+      about_x_months:
+        one: לפני בערך חודש
+        two: לפני בערך חודשיים
+        other: לפני בערך %{count} חודשים
+      about_x_years:
+        one: לפני בערך שנה
+        two: לפני בערך שנתיים
+        other: לפני בערך %{count} שנים
+      almost_x_years:
+        one: לפני כמעט שנה
+        two: לפני כמעט שנתיים
+        other: לפני כמעט %{count} שנים
+      half_a_minute: לפני חצי דקה
+      less_than_x_seconds:
+        one: לפני פחות משנייה
+        other: לפני פחות מ־%{count} שניות
+      less_than_x_minutes:
+        one: לפני פחות מדקה
+        other: לפני פחות מ־%{count} דקות
+      over_x_years:
+        one: לפני למעלה משנה
+        two: לפני למעלה משנתיים
+        other: לפני למעלה מ־%{count} שנים
+      x_seconds:
+        one: לפני שנייה
+        other: לפני %{count} שניות
+      x_minutes:
+        one: לפני דקה
+        other: לפני %{count} דקות
+      x_days:
+        one: אתמול
+        two: שלשום
+        other: לפני %{count} ימים
+      x_months:
+        one: לפני חודש
+        two: לפני חודשיים
+        other: לפני %{count} חודשים
+      x_years:
+        one: לפני שנה
+        two: לפני שנתיים
+        other: לפני בערך %{count} שנים
   printable_name:
     with_name_html: '%{name} (%{id})'
   editor:
@@ -144,14 +195,14 @@ he:
   api:
     notes:
       comment:
-        opened_at_html: נוצרה לפני %{when}
-        opened_at_by_html: נוצרה לפני %{when} על־ידי %{user}
-        commented_at_html: עודכנה לפני %{when}
-        commented_at_by_html: עודכנה לפני %{when} על־ידי %{user}
-        closed_at_html: נפתרה לפני %{when}
-        closed_at_by_html: נפתרה לפני %{when} על־ידי %{user}
-        reopened_at_html: הופעלה מחדש לפני %{when}
-        reopened_at_by_html: הופעלה מחדש לפני %{when} על־ידי %{user}
+        opened_at_html: נוצרה ב{{GRAMMAR|תחילית|%{when}$1}}
+        opened_at_by_html: נוצרה ב{{GRAMMAR|תחילית|%{when}$1}} על־ידי %{user}
+        commented_at_html: עודכנה ב{{GRAMMAR|תחילית|%{when}}}
+        commented_at_by_html: עודכנה ב{{GRAMMAR|תחילית|%{when}$1}} על־ידי %{user}
+        closed_at_html: נפתרה ב{{GRAMMAR|תחילית|%{when}$1}}
+        closed_at_by_html: נפתרה ב{{GRAMMAR|תחילית|%{when}}} על־ידי %{user}
+        reopened_at_html: הופעלה מחדש ב{{GRAMMAR|תחילית|%{when}}}
+        reopened_at_by_html: הופעלה מחדש {{GRAMMAR|תחילית|%{when}}} על־ידי %{user}
       rss:
         title: הערות של OpenStreetMap
         description_area: רשימת הערות שהוספו, שהתקבלו עליהן הערות ושנדבגרו באזור שלך
@@ -165,14 +216,18 @@ he:
         comment: תגובה
         full: הערה מלאה
   browse:
-    created: נוצר
-    closed: נסגר
-    created_html: נוצר <abbr title='%{title}'> לפני %{time}</abbr>
-    closed_html: נסגר <abbr title='%{title}'> לפני %{time}</abbr>
-    created_by_html: נוצר <abbr title='%{title}'> לפני %{time}</abbr> על־ידי %{user}
-    deleted_by_html: נמחק <abbr title='%{title}'> לפני %{time}</abbr> על־ידי %{user}
-    edited_by_html: נערך <abbr title='%{title}'> לפני %{time}</abbr> על־ידי %{user}
-    closed_by_html: נסגר <abbr title='%{title}'> לפני %{time}</abbr> על־ידי %{user}
+    created: נוצרה
+    closed: נסגרה
+    created_html: נוצרה ב{{GRAMMAR|תחילית|<abbr title='%{title}'>%{time}</abbr>}}
+    closed_html: נסגרה ב{{GRAMMAR|תחילית|<abbr title='%{title}'>%{time}</abbr>}}
+    created_by_html: נוצרה ב{{GRAMMAR|תחילית|<abbr title='%{title}'>%{time}</abbr>}}
+      על־ידי %{user}
+    deleted_by_html: נמחקה ב{{GRAMMAR|תחילית|<abbr title='%{title}'>%{time}</abbr>}}
+      על־ידי %{user}
+    edited_by_html: נערכה ב{{GRAMMAR|תחילית|<abbr title='%{title}'>%{time}</abbr>}}
+      על־ידי %{user}
+    closed_by_html: נסגרה ב{{GRAMMAR|תחילית|<abbr title='%{title}'>%{time}</abbr>}}
+      על־ידי %{user}
     version: גרסה
     in_changeset: ערכת שינויים
     anonymous: אלמוני
@@ -192,9 +247,8 @@ he:
       relation: יחסים (%{count})
       relation_paginated: יחסים (%{x}–%{y} מתוך %{count})
       comment: הערות (%{count})
-      hidden_commented_by: הערה מוסתרת ממשתמש %{user} <abbr title='%{exact_time}'>לפני
-        %{when}</abbr>
-      commented_by: הערה ממשתמש %{user} <abbr title='%{exact_time}'>לפני %{when}</abbr>
+      hidden_commented_by: הערה מוסתרת ממשתמש %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: הערה ממשתמש %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML של ערכת שינויים
       osmchangexml: osmChange XML
       feed:
@@ -268,19 +322,18 @@ he:
       title: 'הערה: %{id}'
       new_note: הערה חדשה
       description: תיאור
-      open_title: הערה שלא נפתרה מס' %{note_name}
-      closed_title: הערה פתורה מס' %{note_name}
-      hidden_title: הערה מוסתרת מס' %{note_name}
-      open_by: נוצר על־ידי %{user} <abbr title='%{exact_time}'> לפני %{when} </abbr>
-      open_by_anonymous: נוצר על־ידי אלמוני <abbr title='%{exact_time}'>לפני %{when}</abbr>
-      commented_by: הערה מ־%{user} <abbr title='%{exact_time}'>לפני %{when}</abbr>
-      commented_by_anonymous: הערה מאלמוני <abbr title='%{exact_time}'>לפני %{when}</abbr>
-      closed_by: נפתר על־ידי %{user} <abbr title='%{exact_time}'>לפני %{when}</abbr>
-      closed_by_anonymous: נפתר על־ידי אלמוני <abbr title='%{exact_time}'>לפני %{when}</abbr>
-      reopened_by: הופעל מחדש על־ידי %{user} <abbr title='%{exact_time}'>לפני %{when}</abbr>
-      reopened_by_anonymous: הופעל מחדש על־ידי אלמוני <abbr title='%{exact_time}'>לפני
-        %{when}</abbr>
-      hidden_by: הוסתר על־ידי %{user} <abbr title='%{exact_time}'>לפני %{when}</abbr>
+      open_title: הערה שלא נפתרה מס׳ %{note_name}
+      closed_title: הערה פתורה מס׳ %{note_name}
+      hidden_title: הערה מוסתרת מס׳ %{note_name}
+      open_by: נוצרה על־ידי %{user} ב{{GRAMMAR|תחילית|<abbr title='%{exact_time}'>%{when}</abbr>}}
+      open_by_anonymous: נוצרה על־ידי אלמוני ב{{GRAMMAR|תחילית|<abbr title='%{exact_time}'>%{when}</abbr>}}
+      commented_by: הערה מ{{GRAMMAR|תחילית|%{user}}} ב{{GRAMMAR|תחילית|<abbr title='%{exact_time}'>%{when}</abbr>}}
+      commented_by_anonymous: הערה מאלמוני ב{{GRAMMAR|תחילית|<abbr title='%{exact_time}'>%{when}</abbr>}}
+      closed_by: נפתר על־ידי %{user} ב־<abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: נפתר על־ידי אלמוני ב־<abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: הופעל מחדש על־ידי %{user} ב־<abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: הופעל מחדש על־ידי אלמוני ב־<abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: הוסתר על־ידי %{user} ב־<abbr title='%{exact_time}'>%{when}</abbr>
       report: לדווח על ההערה הזאת
     query:
       title: שאילתת ישויות
@@ -319,7 +372,7 @@ he:
   changeset_comments:
     comment:
       comment: הערה חדשה על ערכת שינויים מס׳ %{changeset_id} מאת %{author}
-      commented_at_by_html: עודכן לפני %{when} על־ידי %{user}
+      commented_at_by_html: עודכנה ב{{GRAMMAR|תחילית|%{when}}} על־ידי %{user}
     comments:
       comment: הערה חדשה בערכת שינויים מס׳ %{changeset_id} מאת %{author}
     index:
@@ -375,11 +428,13 @@ he:
         other: '%{count} תגובות'
       edit_link: עריכת רשומה זו
       hide_link: הסתרת רשומה זו
+      unhide_link: ביטול הסתרת רשומה זו
       confirm: אישור
       report: לדווח על הרשומה הזאת
     diary_comment:
       comment_from: תגובה מאת %{link_user} על %{comment_created_at}
       hide_link: הסתרת הערה זו
+      unhide_link: ביטול הסתרת הערה זו
       confirm: אישור
       report: לדווח על ההערה הזאת
     location:
@@ -392,16 +447,15 @@ he:
         description: רשומות יומן OpenStreetMap אחרונות מאת %{user}
       language:
         title: רשומות יומן OpenStreetMap ב%{language_name}
-        description: רשומות יומן אחרונות מאת משתמשי OpenStreetMap ב%{language_name}
+        description: רשומות יומן אחרונות ממשתמשי OpenStreetMap ב%{language_name}
       all:
         title: רשומות ביומן של OpenStreetMap
-        description: רשומות יומן אחרונות מאת משתמשי OpenStreetMap
+        description: רשומות יומן אחרונות ממשתמשי OpenStreetMap
     comments:
-      has_commented_on: '%{display_name} העיר על רשומות היומן הבאות'
+      has_commented_on: נוספה הערה מאת %{display_name} על רשומות היומן הבאות
       post: רשומה
       when: מתי
       comment: הערה
-      ago: לפני %{ago}
       newer_comments: הערות חדשות
       older_comments: הערות ישנות
   geocoder:
@@ -1016,9 +1070,8 @@ he:
       status: מצב
       reports: דיווחים
       last_updated: עדכון אחרון
-      last_updated_time_html: <abbr title='%{title}'>לפני %{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>לפני %{time} ago</abbr>
-        מאת %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: ב־<abbr title='%{title}'>%{time}</abbr> מאת %{user}
       link_to_reports: הצגת דיווחים
       reports_count:
         one: דיווח אחד
@@ -1033,6 +1086,7 @@ he:
       successful_update: הדיווח שלך עודכן בהצלחה
       provide_details: נא לספק את הפרטים הנדרשים
     show:
+      title: '%{status} סוגיה #%{issue_id}'
       reports:
         zero: אין דיווחים
         one: דיווח אחד
@@ -1355,9 +1409,9 @@ he:
       legal_title: משפטי
       legal_html: |-
         האתר הזה ושירותים רבים אחרים מופעלים על־ידי <a href='https://osmfoundation.org/'>קרן OpenStreetMap</a>&rlm; (OSMF) בשם הקהילה. השימוש בכל השירותים במפעילה OSMF כפוף
-        ל־<a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
-        מדיניות שימוש קביל</a> שלנו
-        ול־<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Privacy Policy</a>מדיניות הפרטיות</a> שלנו
+        ל<a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">תנאי השימוש</a>, לרבות <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        מדיניות השימוש הקביל</a> שלנו
+        ול־<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">מדיניות הפרטיות</a> שלנו
         <br>
         נא <a href='https://osmfoundation.org/Contact'>ליצור קשר עם OSMF</a> אם יש לך שאלות על רישוי, זכויות יוצרים או שאלות משפטיות אחרות.
         <br>
@@ -1454,6 +1508,11 @@ he:
         contributors_si_html: |-
           <strong>סלובניה</strong>: מכיל נתונים מ<a href="http://www.gu.gov.si/en/">הרשות למדידת־קרקעות ולמיפוי</a> ומ<a href="http://www.mkgp.gov.si/en/">משרד החקלאות, היערנות והמזון</a>
           (מידע ציבורי של סלובניה).
+        contributors_es_html: |-
+          <strong>ספרד</strong>: מכיל נתונים שסופקו על ידי
+          המכון הגאוגרפי הלאומי של ספרד (<a href="http://www.ign.es/">IGN</a>) ועל ידי
+          מערכת המיפוי הלאומית (<a href="http://www.scne.es/">SCNE</a>)
+          שמותר להשתמש בהן תחת תנאי <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_za_html: |-
           <strong>דרום אפריקה</strong>: מכיל נתונים שהגיעו
           מ־<a href="http://www.ngi.gov.za/">מִנהל כללי:
@@ -1586,7 +1645,7 @@ he:
         ולדיון ותיעוד שיתופי של נושאי מיפוי.
       welcome:
         url: /welcome
-        title: ברוכים הבאים ל־OSM
+        title: ברוך בואך ל־OSM
         description: תחילת היכרות בעזרת מדריך מהיר שסוקר את היסודות של OpenStreetMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/He:Beginners%27_guide
@@ -1594,8 +1653,8 @@ he:
         description: מדריך בתחזוקת הקהילה למתחילים.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: לשאול שאלה או לחפש תשובות באתר השאלות והתשובות של OSM.
+        title: פורום העזרה
+        description: לשאול שאלה או לחפש תשובות באתר השאלות והתשובות של OpenStreetMap.
       mailing_lists:
         title: רשימות תפוצה
         description: לשאול שאלה או לדון בדברים מעניינים ברשימות תפוצה נושאים ואזוריות
@@ -1616,8 +1675,8 @@ he:
           במחצלת הכניסה.
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: לעיין בוויקי לתיעוד מעמיק על OSM.
+        title: הוויקי של OpenStreetMap
+        description: לעיין בוויקי לתיעוד מעמיק על OpenStreetMap.
     sidebar:
       search_results: תוצאות החיפוש
       close: לסגירה
@@ -1835,7 +1894,6 @@ he:
     trace:
       pending: בהמתנה
       count_points: '%{count} נקודות'
-      ago: לפני %{time_in_words_ago}
       more: עוד
       trace_details: הצגת פרטי מסלול
       view_map: הצגת מפה
@@ -2083,13 +2141,20 @@ he:
       title: תנאים
       heading: תנאים
       heading_ct: תנאי התנדבות
+      read and accept with tou: נא לקרוא את הסכם המתנדבים ואת תנאי השימוש, יש לסמן
+        את שתי התיבות עם הסיום ואז ללחוץ על כפתור ההמשך.
+      contributor_terms_explain: הסכם זה מאגד את תנאי התרומות הקיימות והעתידיות שלך.
       read_ct: קראתי את תנאי התורמים לעיל ואני מסכימ/ה לתנאים אלו
+      tou_explain_html: '%{tou_link} אלו מאגדים את תנאי השימוש באתר ובתשתית נוספת
+        שמסופקת על ידי ה־OSMF. נא ללחוץ על הקישור, לקרוא ולהסכים לטקסט.'
       read_tou: קראתי את תנאי השימוש ואני מסכימ/ה לתנאים אלו
-      consider_pd: בנוסף להסכם לעיל, מבחינתי כל עריכותיי שייכות לנחלת הכלל
+      consider_pd: בנוסף לכתוב לעיל, מבחינתי כל עריכותיי שייכות לנחלת הכלל
       consider_pd_why: מה זה?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: מידע שעוזר להבין את התנאים האלהa <a href="%{summary}">תקציר קריא</a>
         וכמה <a href="%{translations}">תרגומים בלתי־רשמיים</a>
       continue: להמשיך
+      declined: https://wiki.openstreetmap.org/wiki/He:Contributor_Terms_Declined
       decline: סירוב
       you need to accept or decline: נא לקרוא ולקבל או לדחות את תנאי התרומה החדשים
         כדי להמשיך.
@@ -2124,12 +2189,10 @@ he:
       remove as friend: הסרה מרשימת חברים
       add as friend: הוספה כחבר
       mapper since: 'ממפה מאז:'
-      ago: (לפני %{time_in_words_ago})
       ct status: 'תנאי תרומה:'
       ct undecided: עוד אין החלטה
       ct declined: נדחו
-      ct accepted: אושרו לפני %{ago}
-      latest edit: 'עריכה אחרונה %{ago}:'
+      latest edit: 'עריכה אחרונה (%{ago}):'
       email address: 'כתובת דוא״ל:'
       created from: 'נוצר מתוך:'
       status: 'מצב:'
@@ -2378,7 +2441,7 @@ he:
       title: בוטלה החסימה על %{block_on}
       heading: ביטול החסימה של %{block_on} על־ידי %{block_by}
       time_future: החסימה תסתיים ב־%{time}.
-      past: הסימה הזאת הסתיימה לפני %{time} ואי־אפשר לבטל אותה.
+      past: החסימה הזאת הסתיימה ב־%{time} ואי־אפשר לבטל אותה.
       confirm: האם ברצונך לבטל את החסימה הזאת?
       revoke: לבטל!
       flash: החסימה הזאת בוטלה.
@@ -2386,11 +2449,23 @@ he:
       time_future: תסתיים בעוד %{time}
       until_login: פעילה עד שהמשתמש ייכנס לחשבון.
       time_future_and_until_login: מסתיים ב־%{time} ואחרי שהמשתמש נכנס לחשבון.
-      time_past: הסתיימה לפני %{time}.
+      time_past: הסתיימה ב־%{time}.
       block_duration:
         hours:
           one: שעה אחת
           other: '%{count} שעות'
+        days:
+          one: יום אחד
+          other: '%{count} ימים'
+        weeks:
+          one: שבוע אחד
+          other: '%{count} שבועות'
+        months:
+          one: חודש אחד
+          other: '%{count} חודשים'
+        years:
+          one: שנה אחת
+          other: '%{count} שנים'
     blocks_on:
       title: חסימות של %{name}
       heading: רשימת החסימות של %{name}
@@ -2402,10 +2477,7 @@ he:
     show:
       title: החשבון של %{block_on} נחסם על־ידי %{block_by}
       heading: החשבון של %{block_on} נחסם על־ידי %{block_by}
-      time_future: תסתיים בעוד %{time}
-      time_past: הסתיימה לפני %{time}
       created: נוצר
-      ago: לפני %{time}
       status: סטטוס
       show: הצגה
       edit: עריכה
@@ -2439,7 +2511,6 @@ he:
       description: תיאור
       created_at: 'יצירה:'
       last_changed: 'שינוי אחרון:'
-      ago_html: לפני %{when}
   javascripts:
     close: סגירה
     share:
@@ -2546,7 +2617,15 @@ he:
         offramp_right_with_exit_name_directions: יש לצאת ביציאה %{exit} מימין אל %{name},
           לכיוון %{directions}
         offramp_right_with_name: לעלות ימינה אל %{name}
+        offramp_right_with_directions: להיצמד לנתיב הימני לכיוון %{directions}
+        offramp_right_with_name_directions: להיצמד לנתיב הימני אל %{name}, לכיוון
+          %{directions}
         onramp_right_without_exit: לפנות ימינה לעלייה אל %{name}
+        onramp_right_with_directions: להיצמד ימינה ליציאה לכיוון %{directions}
+        onramp_right_with_name_directions: להיצמד ימינה ליציאה אל %{name}, לכיוון
+          %{directions}
+        onramp_right_without_directions: פנה ימינה אל הרמפה
+        onramp_right: פנה ימינה אל הרמפה
         endofroad_right_without_exit: בסוף הדרך לפנות ימינה אל %{name}
         merge_right_without_exit: להתמזג ימינה אל %{name}
         fork_right_without_exit: בהתפצלות לפנות ימינה אל %{name}
@@ -2555,8 +2634,19 @@ he:
         uturn_without_exit: פניית פרסה על %{name}
         sharp_left_without_exit: פנייה חדה שמאלה אל %{name}
         turn_left_without_exit: פנייה שמאלה אל %{name}
+        offramp_left: השתלב ברמפה משמאל
+        offramp_left_with_exit: צא ביציאה %{exit} משמאל
+        offramp_left_with_exit_name: צא ביציאה %{exit} משמאל אל %{name}
+        offramp_left_with_exit_directions: צא ביציאה %{exit} משמאל לכיוון %{directions}
+        offramp_left_with_exit_name_directions: צא ביציאה %{exit} משמאל אל %{name},
+          לכיוון %{directions}
         offramp_left_with_name: לעלות שמאלה אל %{name}
+        offramp_left_with_directions: להיצמד שמאלה ליציאה לכיוון %{directions}
+        offramp_left_with_name_directions: להיצמד לנתיב השמאלי אל %{name}, לכיוון
+          %{directions}
         onramp_left_without_exit: לפנות שמאלה לעלייה אל %{name}
+        onramp_left_with_directions: פנה שמאלה לעבר הרמפה לכיוון %{directions}
+        onramp_left_with_name_directions: לפנות שמאלה ליציאה אל %{name}, לכיוון %{directions}
         onramp_left_without_directions: להיצמד לשמאל
         onramp_left: להיצמד לימין
         endofroad_left_without_exit: בסוף הדרך לפנות שמאלה אל %{name}

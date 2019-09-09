@@ -1,4 +1,7 @@
 class TileUsers < ActiveRecord::Migration[5.1]
+  class User < ActiveRecord::Base
+  end
+
   def up
     add_column :users, :home_tile, :bigint
     add_index :users, [:home_tile], :name => "users_home_idx"

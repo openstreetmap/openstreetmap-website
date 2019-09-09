@@ -11,6 +11,7 @@
 # Author: Damouns
 # Author: DavidL
 # Author: Dereckson
+# Author: Derugon
 # Author: E THP
 # Author: Efred
 # Author: Eruedin
@@ -168,6 +169,45 @@ fr:
         description: Description
         languages: Langues
         pass_crypt: Mot de passe
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: il y a environ une heure
+        other: il y a environ %{count} heures
+      about_x_months:
+        one: il y a environ un mois
+        other: il y a environ %{count} mois
+      about_x_years:
+        one: il y a environ 1 an
+        other: il y a environ %{count} ans
+      almost_x_years:
+        one: il y a presque 1 an
+        other: il y a presque %{count} ans
+      half_a_minute: il y a une demi-minute
+      less_than_x_seconds:
+        one: il y a moins d’1 seconde
+        other: il y a moins de %{count} secondes
+      less_than_x_minutes:
+        one: il y a moins d’une minute
+        other: il y a moins de %{count} minutes
+      over_x_years:
+        one: il y a plus d’1 année
+        other: il y a plus de %{count} ans
+      x_seconds:
+        one: il y a 1 seconde
+        other: il y a %{count} secondes
+      x_minutes:
+        one: il y a 1 minute
+        other: il y a %{count} minutes
+      x_days:
+        one: il y a 1 jour
+        other: il y a %{count} jours
+      x_months:
+        one: il y a 1 mois
+        other: il y a %{count} mois
+      x_years:
+        one: il y a 1 an
+        other: il y a %{count} ans
   printable_name:
     with_name_html: '%{name} (%{id})'
   editor:
@@ -187,14 +227,14 @@ fr:
   api:
     notes:
       comment:
-        opened_at_html: Créé il y a %{when}
-        opened_at_by_html: Créé il y a %{when} par « %{user} »
-        commented_at_html: Mis à jour il y a %{when}
-        commented_at_by_html: Mis à jour il y a %{when} par « %{user} »
-        closed_at_html: Résolu il y a %{when}
-        closed_at_by_html: Résolu il y a %{when} par « %{user} »
-        reopened_at_html: Réactivé il y a %{when}
-        reopened_at_by_html: Réactivé il y a %{when} par « %{user} »
+        opened_at_html: Créé le %{when}
+        opened_at_by_html: Créé le %{when} par %{user}
+        commented_at_html: Mis-à-jour le %{when}
+        commented_at_by_html: Mis à jour le %{when} par %{user}
+        closed_at_html: Résolu le %{when}
+        closed_at_by_html: Résolu %{when} par %{user}
+        reopened_at_html: Réactivé %{when}
+        reopened_at_by_html: Réactivé à %{when} par %{user}
       rss:
         title: Notes OpenStreetMap
         description_area: Une liste de notes, signalées, commentées ou fermées dans
@@ -210,12 +250,12 @@ fr:
   browse:
     created: Créé
     closed: Fermé
-    created_html: Créé il y a <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Fermé il y a <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Créé <abbr title='%{title}'>il y a %{time}</abbr> par %{user}
+    created_html: Créé à <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Fermé <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Créé à <abbr title='%{title}'>%{time}</abbr> par %{user}
     deleted_by_html: Supprimé il y a <abbr title='%{title}'>%{time}</abbr> par %{user}
-    edited_by_html: Modifié il y a <abbr title='%{title}'>%{time}</abbr> par %{user}
-    closed_by_html: Fermé il y a <abbr title='%{title}'>%{time}</abbr> par %{user}
+    edited_by_html: Modifié <abbr title='%{title}'>%{time}</abbr> par %{user}
+    closed_by_html: Fermé <abbr title='%{title}'>%{time}</abbr> par %{user}
     version: Version
     in_changeset: Groupe de modifications
     anonymous: anonyme
@@ -235,9 +275,8 @@ fr:
       relation: Relations (%{count})
       relation_paginated: Relations (%{x} à %{y} sur %{count})
       comment: Commentaires (%{count})
-      hidden_commented_by: Commentaire masqué de %{user} <abbr title='%{exact_time}'>il
-        y a %{when}</abbr>
-      commented_by: Commentaire de %{user} <abbr title='%{exact_time}'>il y a %{when}</abbr>
+      hidden_commented_by: Commentaire masqué de %{user} il y a <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Commentaire de %{user} <abbr title='%{exact_time}'>le %{when}</abbr>
       changesetxml: XML du groupe de modifications
       osmchangexml: XML osmChange
       feed:
@@ -309,6 +348,7 @@ fr:
       wikidata_link: L’élément %{page} sur Wikidata
       wikipedia_link: L’article « %{page} » sur Wikipédia
       telephone_link: Appeler %{phone_number}
+      colour_preview: Aperçu de la couleur %{colour_value}
     note:
       title: 'Note : %{id}'
       new_note: Nouvelle note
@@ -316,17 +356,15 @@ fr:
       open_title: Note non résolue nº %{note_name}
       closed_title: Note résolue nº %{note_name}
       hidden_title: Note masquée nº %{note_name}
-      open_by: Créé par %{user} <abbr title='%{exact_time}'>il y a %{when}</abbr>
-      open_by_anonymous: Créé par un utilisateur anonyme <abbr title='%{exact_time}'>il
-        y a %{when}</abbr>
-      commented_by: Commenté par %{user} <abbr title='%{exact_time}'>il  y a %{when}</abbr>
-      commented_by_anonymous: Commenté par un utilisateur anonyme <abbr title='%{exact_time}'>il
-        y a %{when}</abbr>
-      closed_by: Résolu par %{user} il y a <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Résolu par un utilisateur anonyme il y a <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by: Créé par %{user} <abbr title='%{exact_time}'>à %{when}</abbr>
+      open_by_anonymous: Créé par un utilisateur anonyme <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Commenté par %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Commenté par un utilisateur anonyme <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Résolu par %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Résolu par un utilisateur anonyme le <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by: Réactivé par %{user} il y a <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Réactivé par un utilisateur anonyme il y a <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Masqué par %{user} il y a <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Réactivé par un utilisateur anonyme <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Masqué par %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Signaler cette note
     query:
       title: Requête sur les objets
@@ -367,7 +405,7 @@ fr:
     comment:
       comment: Nouveau commentaire sur le groupe de modifications nº %{changeset_id}
         par %{author}
-      commented_at_by_html: Mis à jour il y a %{when} par %{user}
+      commented_at_by_html: Mis à jour le %{when} par %{user}
     comments:
       comment: Nouveau commentaire sur le groupe de modifications n° %{changeset_id}
         par %{author}
@@ -455,7 +493,6 @@ fr:
       post: Article
       when: Quand
       comment: Commentaire
-      ago: il y a %{ago}
       newer_comments: Commentaires plus récents
       older_comments: Commentaires plus anciens
   geocoder:
@@ -1070,9 +1107,8 @@ fr:
       status: État
       reports: Rapports
       last_updated: Dernière mise à jour
-      last_updated_time_html: <abbr title='%{title}'>il y a %{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>il y a %{time}</abbr> par
-        %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: à <abbr title='%{title}'>%{time}</abbr> par %{user}
       link_to_reports: Afficher les rapports
       reports_count:
         one: 1 rapport
@@ -1680,7 +1716,7 @@ fr:
         documenter les sujets de cartographie en collaboration avec d’autres utilisateurs.
       welcome:
         url: /welcome
-        title: Bienvenue à OSM
+        title: Bienvenue à OpenStreetMap
         description: Commencer avec ce guide rapide couvrant les bases d’OpenStreetMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/FR:Guide_du_d%C3%A9butant
@@ -1688,9 +1724,9 @@ fr:
         description: Guide pour les débutants maintenu par la communauté.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Forum d'aide
         description: Poser une question ou chercher des réponses sur le site de questions-et-réponses
-          d’OSM.
+          d’OpenStreetMap.
       mailing_lists:
         title: Listes de diffusion
         description: Poser une question ou discuter de questions intéressantes sur
@@ -1714,8 +1750,8 @@ fr:
           Trouvez ce que vous avez besoin de savoir dans le tapis d’accueil.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/FR:Page_principale
-        title: wiki.openstreetmap.org
-        description: Parcourez le wiki pour la documentation approfondie d’OSM
+        title: Wiki OpenStreetMap
+        description: Parcourez le wiki pour la documentation approfondie d’OpenStreetMap
     sidebar:
       search_results: Résultats de la recherche
       close: Fermer
@@ -1948,7 +1984,6 @@ fr:
     trace:
       pending: EN ATTENTE
       count_points: '%{count} points'
-      ago: il y a %{time_in_words_ago}
       more: plus
       trace_details: Voir les détails de la trace
       view_map: Voir la carte
@@ -2270,12 +2305,10 @@ fr:
       remove as friend: Supprimer en tant qu’ami
       add as friend: Ajouter en tant qu’ami
       mapper since: 'Cartographe depuis :'
-      ago: (il y a %{time_in_words_ago})
       ct status: 'Conditions du contributeur:'
       ct undecided: Indécis
       ct declined: Refusé
-      ct accepted: Accepté il y a %{ago}
-      latest edit: 'Dernière modification %{ago} :'
+      latest edit: 'Dernière modification (%{ago})&nbsp;:'
       email address: 'Adresse de courriel :'
       created from: 'Créé depuis :'
       status: 'État :'
@@ -2549,7 +2582,7 @@ fr:
       title: Révocation d’un blocage sur « %{block_on} »
       heading: Révocation d’un blocage sur « %{block_on} » par « %{block_by} »
       time_future: Ce blocage se terminera dans %{time}.
-      past: Ce blocage s’est terminé il y a %{time} et ne peut plus être révoqué.
+      past: Ce blocage s’est terminé à %{time} et ne peut plus être révoqué.
       confirm: Êtes-vous sûr de vouloir révoquer ce blocage ?
       revoke: Révoquer !
       flash: Ce blocage a été révoqué.
@@ -2558,7 +2591,7 @@ fr:
       until_login: Actif jusqu’à ce que l’utilisateur se connecte.
       time_future_and_until_login: Finit dans %{time} et une fois que l’utilisateur
         s’est connecté.
-      time_past: Terminé il y a %{time}.
+      time_past: Terminé à %{time}.
       block_duration:
         hours:
           one: '%{count} heure'
@@ -2584,10 +2617,7 @@ fr:
     show:
       title: « %{block_on} » bloqué par « %{block_by} »
       heading: « %{block_on} » bloqué par « %{block_by} »
-      time_future: Prendra fin dans %{time}
-      time_past: A pris fin il y a %{time}
       created: Créé
-      ago: il y a %{time}
       status: État
       show: Afficher
       edit: Modifier
@@ -2621,7 +2651,6 @@ fr:
       description: Description
       created_at: Créée le
       last_changed: Dernière modification
-      ago_html: il y a %{when}
   javascripts:
     close: Fermer
     share:

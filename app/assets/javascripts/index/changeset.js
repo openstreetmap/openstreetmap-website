@@ -1,7 +1,7 @@
 OSM.Changeset = function (map) {
   var page = {},
-    content = $("#sidebar_content"),
-    currentChangesetId;
+      content = $("#sidebar_content"),
+      currentChangesetId;
 
   page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {

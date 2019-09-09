@@ -18,9 +18,9 @@ apt-get upgrade -y
 # install packages as explained in INSTALL.md
 apt-get install -y ruby2.5 libruby2.5 ruby2.5-dev \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
-                     apache2 apache2-dev build-essential git-core \
+                     apache2 apache2-dev build-essential git-core phantomjs \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
-                     libsasl2-dev imagemagick phantomjs
+                     libsasl2-dev imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev
 gem2.5 install rake
 gem2.5 install --version "~> 1.16.2" bundler
 
@@ -49,9 +49,7 @@ popd
 if [ ! -f config/database.yml ]; then
     sudo -u vagrant cp config/example.database.yml config/database.yml
 fi
-if [ ! -f config/application.yml ]; then
-    sudo -u vagrant cp config/example.application.yml config/application.yml
-fi
+touch config/settings.local.yml
 # migrate the database to the latest version
 sudo -u vagrant rake db:migrate
 popd

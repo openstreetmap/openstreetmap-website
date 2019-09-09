@@ -1,6 +1,9 @@
 //= require jquery.simulate
+//= require querystring
 
 OSM.Search = function (map) {
+  var querystring = require("querystring-component");
+
   $(".search_form input[name=query]").on("input", function (e) {
     if ($(e.target).val() === "") {
       $(".describe_location").fadeIn(100);
@@ -33,7 +36,7 @@ OSM.Search = function (map) {
   $(".describe_location").on("click", function (e) {
     e.preventDefault();
     var center = map.getCenter().wrap(),
-      precision = OSM.zoomPrecision(map.getZoom());
+        precision = OSM.zoomPrecision(map.getZoom());
     OSM.router.route("/search?whereami=1&query=" + encodeURIComponent(
       center.lat.toFixed(precision) + "," + center.lng.toFixed(precision)
     ));
