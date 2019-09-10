@@ -21,3 +21,6 @@ ADD db/functions/ /app/db/functions/
 # Install gems
 ADD Gemfile* /app/
 RUN bundle install
+
+# change ownership to postgres as while running docker_postgres.sh postgres will need write access
+RUN chown -R postgres /app/db
