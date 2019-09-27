@@ -409,6 +409,7 @@ $(document).ready(function () {
       sourcename: "ohm-data",
       date: 1850,
       range: [1800, currentYear],
+      datelimit: [1000, currentYear]
     }
   }
 
