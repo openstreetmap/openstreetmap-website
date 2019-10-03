@@ -28,6 +28,9 @@ lt:
         create: Įrašyti
       diary_entry:
         create: Publikuoti
+        update: Atnaujinti
+      issue_comment:
+        create: Pridėti komentarą
       message:
         create: Siųsti
       client_application:
@@ -43,6 +46,10 @@ lt:
         create: Sukurti blokavimą
         update: Atnaujinti blokavimą
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: nepanašus į tinkamą e-pašto adresą
+        email_address_not_routable: nemaršrutizuojamas
     models:
       acl: Prieigos valdymo sąrašas
       changeset: Pakeitimas
@@ -110,6 +117,45 @@ lt:
         description: Aprašymas
         languages: Kalbos
         pass_crypt: Slaptažodis
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: prieš maždaug 1 valandą
+        other: prieš maždaug %{count} valandas
+      about_x_months:
+        one: prieš maždaug 1 mėnesį
+        other: prieš maždaug %{count} mėnesius
+      about_x_years:
+        one: prieš maždaug 1 metus
+        other: prieš maždaug %{count} metus
+      almost_x_years:
+        one: prieš beveik 1 metus
+        other: prieš beveik %{count} metus
+      half_a_minute: prieš pusę minutės
+      less_than_x_seconds:
+        one: mažiau nei prieš 1 sekundę
+        other: prieš mažiau nei %{count} sekundes
+      less_than_x_minutes:
+        one: prieš mažiau nei minutę
+        other: prieš mažiau nei %{count} minučių
+      over_x_years:
+        one: prieš daugiau nei 1 metus
+        other: prieš daugiau nei %{count} metus
+      x_seconds:
+        one: prieš 1 sekundę
+        other: prieš %{count} sekundes
+      x_minutes:
+        one: prieš 1 minutę
+        other: prieš %{count} minutes
+      x_days:
+        one: prieš 1 dieną
+        other: prieš %{count} dienų
+      x_months:
+        one: prieš 1 mėnesį
+        other: prieš %{count} mėnesius
+      x_years:
+        one: prieš 1 metus
+        other: prieš %{count} metus
   editor:
     default: Numatytasis (šiuo metu %{name})
     potlatch:
@@ -127,14 +173,14 @@ lt:
   api:
     notes:
       comment:
-        opened_at_html: Sukurta prieš %{when}
-        opened_at_by_html: Prieš %{when} sukūrė %{user}
-        commented_at_html: Atnaujinta prieš %{when}
-        commented_at_by_html: Prieš %{when} atnaujino %{user}
-        closed_at_html: Išspręsta prieš %{when}\
-        closed_at_by_html: Prieš %{when} išsprendė %{user}
-        reopened_at_html: Iš naujo suaktyvinta prieš %{when}
-        reopened_at_by_html: Prieš %{when} iš naujo suaktyvino %{user}
+        opened_at_html: Sukurta %{when}
+        opened_at_by_html: '%{user} sukūrė %{when}'
+        commented_at_html: Atnaujinta %{when}
+        commented_at_by_html: '%{user} atnaujino %{when}'
+        closed_at_html: Išspręsta %{when}
+        closed_at_by_html: '%{user} išsprendė %{when}'
+        reopened_at_html: Iš naujo suaktyvinta %{when}
+        reopened_at_by_html: '%{user} iš naujo suaktyvino %{when}'
       rss:
         title: OpenStreetMap pastabos
         description_area: sąrašas pastabų, pranešta, pakomentuota arba uždaryta jūsų
@@ -271,6 +317,7 @@ lt:
       reopened_by_anonymous: Iš naujo aktyvavo anonimas <abbr title='%{exact_time}'>prieš
         %{when}</abbr>
       hidden_by: Paslėpė naudotojas %{user} <abbr title='%{exact_time}'>prieš %{when}</abbr>
+      report: Pranešti apie šią pastabą
     query:
       title: Ieškoti geoobjektų
       introduction: Spauskite ant žemėlapio, norėdami rasti gretimus objektus
@@ -976,6 +1023,8 @@ lt:
     intro_text: OpenStreetMap yra pasaulio žemėlapis, kuriamas žmonių, tokių kaip
       jūs. Jis atviras ir laisvas - naudojamas pagal atvirą licenciją.
     intro_2_create_account: sukurti naudotojo paskyrą
+    hosting_partners_html: Hostinimo paslaugas teikia %{ucl}, %{bytemark} ir kiti
+      %{partners}.
     partners_ucl: UCL
     partners_bytemark: Bytemark serveris
     partners_partners: partneriai
@@ -1218,7 +1267,7 @@ lt:
         title: Apie šį vertimą
         text: Esant konfliktui tarp šio išversto puslapio ir  %{english_original_link},
           pirmenybė bus teikiama angliškajai versijai.
-        english_link: anglų originalas
+        english_link: anglų originalo
       native:
         title: Apie šį puslapį
         text: Jūs žiūrite anglišką autorinių teisių puslapį. Jūs galite sugrįžti prie
@@ -1234,34 +1283,36 @@ lt:
           href="http://opendatacommons.org/licenses/odbl/">„Open Data
           Commons Open Database License“</a> (ODbL).
         intro_2_html: |-
-          Jūs galite laisvai platinti ir pritaikyti mūsų duomenimis, taip ilgai kiek jūs kredituosite OpenStreetMap ir jos kūrėjus. Jei naudodamiesi mūsų žemėlapiais sukursite savo duomenis, jūsų duomenis turi būti licenzijuoti pagal tą pačią licenziją.
-          full <a href="http://opendatacommons.org/licenses/odbl/1.0/">Legalus kodas</a> paaiškins jūsų teises ir atsakomybes.
+          Jūs galite laisvai platinti ir pritaikyti mūsų duomenis tol, kol paminite OpenStreetMap ir jo kūrėjus. Jei naudodamiesi mūsų duomenimis sukursite savo duomenis, jūsų duomenys irgi turi būti licencijuoti pagal tą pačią licenziją.
+          <a href="http://opendatacommons.org/licenses/odbl/1.0/">Pilnas teisinis aprašymas</a> paaiškins jūsų teises ir atsakomybes.
         intro_3_html: |-
-          Mūsų žemėlapio žymėjimas, bei mūsų dokumentacija, yra licencijuota pagal <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Mūsų žemėlapio duomenys ir mūsų dokumentacija yra licencijuoti pagal <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
           Commons Attribution-ShareAlike 2.0</a> licenciją (CC-BY-SA).
-        credit_title_html: Ką pažymėti prisidėjus prie projekto
+        credit_title_html: Kaip paminėti OpenStreetMap
         credit_1_html: |-
-          Mes reikalaujame, kad jūs kredituotumėte "© OpenStreetMap
+          Mes reikalaujame, kad jūs parašytumėte "© OpenStreetMap
            autoriai ".
-        credit_2_html: Jums turi būti aišku, kad duomenys kurie yra prieinami atvirai,
-          ir jei jūs naudojatės mūsų žemėlapiu, kuri licencijuota pagal CC-BY-SA.
-          Jūs turėtumėte paspausti šią nuorodą, vedančią į <a href="http://www.openstreetmap.org/copyright">šį
-          autorinių teisių puslapį</a>. Kita vertus, ir kaip reikalavimas jei platinate
-          OSM duomenų forma, jūs galite nurodyti licenciją (-as). Žiniasklaidos priemonėse,
-          kur nuorodos pateikimas yra neįmanoma (pvz. spausdinti darbai), mes siūlome
-          jūsų skaitytojus nukreipti į openstreetmap.org (ko gero išplečiant OpenStreetMap
-          iki pilno adreso), į opendatacommons.org ir jei tinka, į creativecommons.org
+        credit_2_html: Jūs turite aiškiai parodyti, kad duomenys yra laisvai prieinami
+          pagal Open Database licenciją, o jei naudojate mūsų žemėlapio kaladėles,
+          tai kartografijos licencija yra CC-BY-SA. Tai padaryti galite pridėdami
+          nuorodą į <a href="http://www.openstreetmap.org/copyright">šį autorinių
+          teisių puslapį</a>. Kita vertus, ir kaip reikalavimas, jei platinate OSM
+          duomenų forma, jūs galite nurodyti licencijos pavadinimą ir pridėti nuorodą
+          į ją. Sklaidos priemonėse, kur nuorodos pateikti neįmanoma (pvz. spausdintuose
+          darbuose), mes siūlome jūsų skaitytojus nukreipti į openstreetmap.org (ko
+          gero išplečiant „OpenStreetMap“ iki pilno adreso), į opendatacommons.org
+          ir, jei tinka, į creativecommons.org.
         credit_3_html: |-
-          Naršymui po elektroninį žemėlapį, kūrėjų sąrašas turėtų pasirodyti žemėlapio kampe.
+          Naršant po elektroninį žemėlapį, kūrėjų sąrašas turėtų pasirodyti žemėlapio kampe.
 
           Pavyzdžiui:
         attribution_example:
           alt: Pavyzdys kaip galima priskirti paskyrimus OpenStreetMap svetainėje
           title: Priskyrimo pavyzdys
-        more_title_html: Sužinokite daugiau
+        more_title_html: Papildoma informacija
         more_1_html: |-
-          Sužinokite daugiau apie mūsų duomenų naudojimą, kaip pažymėti prisidėjusius <a
-          href="http://osmfoundation.org/Licence">OSMF licencijavimo puslapyje</a> ir bendruomenės <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">DUK dėl legalumo</a>.
+          Daugiau informacijos apie mūsų duomenų naudojimą bei kaip paminėti prie jo prisidėjusius rasite <a
+          href="http://osmfoundation.org/Licence">OSMF licencijavimo puslapyje</a> ir bendruomenės <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">teisiniame DUK</a>.
         more_2_html: |-
           Nors OpenStreetMap duomenys yra atviri, mes negalime pateikti
           nemokamos žemėlapių API trečiosioms šalims.
@@ -1270,16 +1321,19 @@ lt:
           bei <a href="https://operations.osmfoundation.org/policies/nominatim/">Nominatim naudojimo politiką</a>.
         contributors_title_html: Mūsų autoriai
         contributors_intro_html: Mūsų autoriai yra tūkstančiai įvairių žmonių. Taip
-          pat apimame ir laisvai prieinamą turinį iš valstybinių kartografijos agentūrų,
-          taip pat ir kitų įvairių šaltinių.
+          pat įtrauktas ir laisvai prieinamas turinys iš valstybinių kartografijos
+          agentūrų bei įvairių kitų šaltinių.
         contributors_at_html: |-
-          <strong>Austrija</strong>: Turi duomenis nuo:
-          <a href="http://data.wien.gv.at/">Stadt Wien</a> (under
+          <strong>Austrija</strong>: yra duomenų iš:
+          <a href="http://data.wien.gv.at/">Stadt Wien</a> (pagal
           <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
-          <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> and
+          <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> ir
           Land Tirol (under <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT su pataisomis</a>).
+        contributors_au_html: "<strong>Australia</strong>: yra duomenų iš \n<a href=\"https://www.psma.com.au/psma-data-copyright-and-disclaimer\">PSMA
+          Australia Limited</a>\nCommonwealth of Australia licencijavus pagal\n<a
+          href=\"https://creativecommons.org/licenses/by/4.0/\">CC BY 4.0</a>."
         contributors_ca_html: |-
-          <strong>Kanada</strong>: Turi duomenis nuo:
+          <strong>Kanada</strong>: yra duomenų iš:
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
           Resources Canada), CanVec (&copy; Department of Natural
           Resources Canada), bei StatCan (Geography Division,
@@ -1289,7 +1343,7 @@ lt:
           pagal <a href="http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">NLSFI
           Licensiją</a>.'
         contributors_fr_html: |-
-          <strong>Prancūzija</strong>: Turi duomenis nuo:
+          <strong>Prancūzija</strong>: yra duomenų iš:
           Direction Générale des Impôts.
         contributors_nl_html: |-
           <strong>Nyderlandai</strong>: Apima &copy; AND duomenys, 2007
@@ -1309,21 +1363,22 @@ lt:
           <strong>Jungtinė Karalystė</strong>: Apima Ordnance
           Survey data &copy; Karūnos autorinės teisės ir duomenų teisės
           2010-12.
-        contributors_footer_1_html: Kad sužinotumėte daugiau apie tuos, ir kitus šaltinius,
-          kurie buvo naudojami padėti vystyti OpenStreetMap, peržiūrėkite <a href="http://wiki.openstreetmap.org/wiki/Contributors">Vystytojų
-          puslapį</a> OpenStreetMap dokumentacijoje
-        contributors_footer_2_html: Duomenų įtraukimas OpenStreetMap nereiškia, kad
-          originalių duomenų tiekėjas patvirtina OpenStreetMap, nenumatyta jokių garantijų
-          ir neprisiimama jokios atsakomybės.
+        contributors_footer_1_html: Norėdami daugiau sužinoti apie šiuos ir kitus
+          šaltinius, kurie buvo naudojami tobulinant OpenStreetMap, peržiūrėkite <a
+          href="http://wiki.openstreetmap.org/wiki/Contributors">vystytojų puslapį</a>
+          OpenStreetMap wiki.
+        contributors_footer_2_html: Duomenų įtraukimas į OpenStreetMap nereiškia,
+          kad originalių duomenų tiekėjas remia OpenStreetMap. Nenumatomos jokios
+          garantijos ir neprisiimama jokia atsakomybė.
         infringement_title_html: Autorių teisių pažeidimas
         infringement_1_html: OSM pildytojai primenami niekada nesinaudoti autorių
           teisėmis apsaugotų šaltinių (pvz. Google Maps ar spausdintų žemėlapių) be
           leidimo naudoti.
         infringement_2_html: Jei manote, kad autorių teisių saugomi darbai buvo netinkamai
-          panaudoti pildant OpenStreetMap duomenų bazę ar šią svetainę, praneškite
-          mums <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">šioje
-          svetainėje</a> arba užpildykite <a href="http://dmca.openstreetmap.org/">šį
-          pildymų lapą</a>.
+          panaudoti pildant OpenStreetMap duomenų bazę ar šią svetainę, susipažinkite
+          su mūsų <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">duomenų
+          pašalinimo procedūra</a> arba užpildykite <a href="http://dmca.openstreetmap.org/">vienos
+          eilutės</a> pareiškimą.
         trademarks_title_html: <span id="trademarks"></span>Prekių ženklai
         trademarks_1_html: OpenStreetMap, lupos logotipas ir „State of the Map“ yra
           registruoti OpenStreetMap fondo prekių ženklai. Jei turite klausimų apie
