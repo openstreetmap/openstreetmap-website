@@ -298,10 +298,21 @@ module Api
       end
 
       # Find the notes we want to return
-      sort_by = params[:sort_by] == "created_at" ? "created_at" : "updated_at"
-      order_by = params[:order_by] == "ASC" ? "ASC" : "DESC"
+      @notes = if params[:sort] == "created_at"
+                 if params[:order] == "oldest"
+                   @notes.order("created_at ASC")
+                 else
+                   @notes.order("created_at DESC")
+                 end
+               else
+                 if params[:order] == "oldest"
+                   @notes.order("updated_at ASC")
+                 else
+                   @notes.order("updated_at DESC")
+                 end
+               end
 
-      @notes = @notes.order("#{sort_by} #{order_by}").limit(result_limit).preload(:comments)
+      @notes = @notes.distinct.limit(result_limit).preload(:comments)
 
       # Render the result
       respond_to do |format|
