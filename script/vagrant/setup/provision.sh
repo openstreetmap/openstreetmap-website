@@ -19,7 +19,7 @@ apt-get upgrade -y
 apt-get install -y ruby2.5 libruby2.5 ruby2.5-dev \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core phantomjs \
-                     postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
+                     postgresql postgresql-contrib libpq-dev \
                      libsasl2-dev imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev
 gem2.5 install rake
 gem2.5 install --version "~> 1.16.2" bundler
@@ -38,18 +38,29 @@ if [ "$db_user_exists" != "1" ]; then
     sudo -u vagrant psql -c "create extension btree_gist" openstreetmap
     sudo -u vagrant psql -c "create extension btree_gist" osm_test
 fi
-# build and set up postgres extensions
-pushd db/functions
-sudo -u vagrant make
-sudo -u vagrant psql openstreetmap -c "CREATE OR REPLACE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '/srv/openstreetmap-website/db/functions/libpgosm.so', 'maptile_for_point' LANGUAGE C STRICT"
-sudo -u vagrant psql openstreetmap -c "CREATE OR REPLACE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/srv/openstreetmap-website/db/functions/libpgosm.so', 'tile_for_point' LANGUAGE C STRICT"
-sudo -u vagrant psql openstreetmap -c "CREATE OR REPLACE FUNCTION xid_to_int4(xid) RETURNS int4 AS '/srv/openstreetmap-website/db/functions/libpgosm.so', 'xid_to_int4' LANGUAGE C STRICT"
-popd
+
+
+# install PostgreSQL functions
+sudo -u vagrant psql -d openstreetmap -f db/functions/functions.sql
+################################################################################
+# *IF* you want a vagrant image which supports replication (or perhaps you're
+# using this script to provision some other server and want replication), then
+# uncomment the following lines (until popd) and comment out the one above
+# (functions.sql).
+################################################################################
+#pushd db/functions
+#sudo -u vagrant make
+#sudo -u vagrant psql openstreetmap -c "CREATE OR REPLACE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '/srv/openstreetmap-website/db/functions/libpgosm.so', 'maptile_for_point' LANGUAGE C ST#RICT"
+#sudo -u vagrant psql openstreetmap -c "CREATE OR REPLACE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/srv/openstreetmap-website/db/functions/libpgosm.so', 'tile_for_point' LANGUAGE C STRICT"
+#sudo -u vagrant psql openstreetmap -c "CREATE OR REPLACE FUNCTION xid_to_int4(xid) RETURNS int4 AS '/srv/openstreetmap-website/db/functions/libpgosm.so', 'xid_to_int4' LANGUAGE C STRICT"
+#popd
+
+
 # set up sample configs
 if [ ! -f config/database.yml ]; then
     sudo -u vagrant cp config/example.database.yml config/database.yml
 fi
 touch config/settings.local.yml
 # migrate the database to the latest version
-sudo -u vagrant rake db:migrate
+sudo -u vagrant bundle exec rake db:migrate
 popd
