@@ -196,16 +196,12 @@ lt:
   browse:
     created: Sukurtas
     closed: Uždarytas
-    created_html: Sukurtas <abbr title='%{title}'>prieš %{time}</abbr>
-    closed_html: Uždarytas <abbr title='%{title}'>prieš %{time}</abbr>
-    created_by_html: Sukurtas <abbr title='%{title}'>prieš %{time}</abbr> naudotojo
-      %{user}
-    deleted_by_html: Ištrintas <abbr title='%{title}'>prieš %{time}</abbr> naudotojo
-      %{user}
-    edited_by_html: Keistas <abbr title='%{title}'>prieš %{time}</abbr> naudotojo
-      %{user}
-    closed_by_html: Uždarytas <abbr title='%{title}'>prieš %{time}</abbr> naudotojo
-      %{user}
+    created_html: Sukurtas <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Uždarytas <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Sukurtas <abbr title='%{title}'>%{time}</abbr> naudotojo %{user}
+    deleted_by_html: Ištrintas <abbr title='%{title}'>%{time}</abbr> naudotojo %{user}
+    edited_by_html: Keistas <abbr title='%{title}'>%{time}</abbr> naudotojo %{user}
+    closed_by_html: Uždarytas <abbr title='%{title}'>%{time}</abbr> naudotojo %{user}
     version: Versija
     in_changeset: Pakeitimas
     anonymous: anonimas
@@ -225,10 +221,8 @@ lt:
       relation: Ryšiai (%{count})
       relation_paginated: Ryšiai (%{x}-%{y} iš %{count})
       comment: Komentarai (%{count})
-      hidden_commented_by: Paslėptas naudotojo %{user} komentaras <abbr title='%{exact_time}'>prieš
-        %{when}</abbr>
-      commented_by: Naudotojo %{user} komentaras <abbr title='%{exact_time}'>prieš
-        %{when}</abbr>
+      hidden_commented_by: Paslėptas naudotojo %{user} komentaras <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Naudotojo %{user} komentaras <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Pakeitimo XML
       osmchangexml: osmChange XML
       feed:
@@ -236,6 +230,8 @@ lt:
         title_comment: Pakeitimas %{id} - %{comment}
       join_discussion: Prisijunkite norėdami dalyvauti aptarime
       discussion: Diskusija
+      still_open: Pakeitimas vis dar atidarytas - diskusija prasidės tik uždarius
+        pakeitimą.
     node:
       title: 'Taškas: %{name}'
       history_title: 'Taško istorija: %{name}'
@@ -297,6 +293,7 @@ lt:
       wikidata_link: '%{page} elementas Wikidata svetainėje'
       wikipedia_link: '%{page} straipsnis Vikipedijoje'
       telephone_link: Skambinti %{phone_number}
+      colour_preview: Spalvos %{colour_value} peržiūra
     note:
       title: 'Pastaba: %{id}'
       new_note: Nauja pastaba
@@ -304,19 +301,15 @@ lt:
       open_title: 'Neišspręsta pastaba: %{note_name}'
       closed_title: 'Išspręsta pastaba: %{note_name}'
       hidden_title: 'Paslėpta pastaba #%{note_name}'
-      open_by: Sukurta naudotojo %{user} <abbr title='%{exact_time}'>prieš %{when}</abbr>
-      open_by_anonymous: Sukurta anonimo <abbr title='%{exact_time}'>prieš %{when}</abbr>
-      commented_by: Naudotojo %{user} komentaras <abbr title='%{exact_time}'>prieš
-        %{when}</abbr>
-      commented_by_anonymous: Anonimo komentaras <abbr title='%{exact_time}'>prieš
-        %{when}</abbr>
-      closed_by: Išsprendė naudotojas %{user} <abbr title='%{exact_time}'>prieš %{when}</abbr>
-      closed_by_anonymous: Išsprendė anonimas <abbr title='%{exact_time}'>prieš %{when}</abbr>
-      reopened_by: Iš naujo aktyvavo naudotojas %{user} <abbr title='%{exact_time}'>prieš
-        %{when}</abbr>
-      reopened_by_anonymous: Iš naujo aktyvavo anonimas <abbr title='%{exact_time}'>prieš
-        %{when}</abbr>
-      hidden_by: Paslėpė naudotojas %{user} <abbr title='%{exact_time}'>prieš %{when}</abbr>
+      open_by: Sukurta naudotojo %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Sukurta anonimo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Naudotojo %{user} komentaras <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Anonimo komentaras <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Išsprendė naudotojas %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Išsprendė anonimas <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Iš naujo aktyvavo naudotojas %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Iš naujo aktyvavo anonimas <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Paslėpė naudotojas %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Pranešti apie šią pastabą
     query:
       title: Ieškoti geoobjektų
@@ -354,11 +347,16 @@ lt:
       sorry: Atsiprašome, bet jūsų prašytų pakeitimų ištraukimas užtruko per ilgai.
   changeset_comments:
     comment:
-      comment: 'Naujas pakeitimo #%{changeset_id} komentaras, parašytas %{author}'
-      commented_at_by_html: '%{user} pakeitė prieš %{when}'
+      comment: 'Naujas pakeitimo #%{changeset_id} komentaras. Parašė %{author}'
+      commented_at_by_html: '%{user} pakeitė %{when}'
+    comments:
+      comment: 'Naujas pakeitimo #%{changeset_id} komentaras. Parašė %{author}'
     index:
       title_all: OpenStreetMap pakeitimo aptarimas
       title_particular: 'OpenStreetMap pakeitimo #%{changeset_id} aptarimas'
+    timeout:
+      sorry: Atsiprašome, jūsų paprašytų pakeitimo komentarų ištraukimas užtruko per
+        ilgai.
   diary_entries:
     new:
       title: Naujas dienoraščio įrašas
@@ -377,7 +375,7 @@ lt:
       user_title: '%{user} dienoraštis'
       in_language_title: 'Dienoraščio įrašai: %{language}'
       new: Naujas dienoraščio įrašas
-      new_title: Sukurti naują jūsų dienoraščio įrašą
+      new_title: Sukurti naują mano dienoraščio įrašą
       no_entries: Nėra dienoraščio įrašų
       recent_entries: Paskutiniai dienoraščio įrašai
       older_entries: Senesni įrašai
@@ -389,7 +387,7 @@ lt:
       title: '%{user} dienoraštis | %{title}'
       user_title: '%{user} dienoraštis'
       leave_a_comment: Palikti komentarą
-      login_to_leave_a_comment: '%{login_link} palikti komentarą'
+      login_to_leave_a_comment: '%{login_link}, kad paliktumėte komentarą'
       login: Prisijungti
     no_such_entry:
       title: Nėra tokio dienoraščio įrašo
@@ -406,17 +404,19 @@ lt:
         other: '%{count} komentarai (-ų)'
       edit_link: Keisti šį įrašą
       hide_link: Slėpti šį įrašą
+      unhide_link: Nebeslėpti šio įrašo
       confirm: Patvirtinti
       report: Pranešti apie šį įrašą
     diary_comment:
       comment_from: Naudotojo %{link_user} komentaras, parašytas %{comment_created_at}
       hide_link: Slėpti šį komentarą
+      unhide_link: Nebeslėpti šio komentaro
       confirm: Patvirtinti
       report: Pranešti apie šį komentarą
     location:
       location: 'Vieta:'
       view: Žiūrėti
-      edit: Taisyti
+      edit: Keisti
     feed:
       user:
         title: Naudotojo %{user} OpenStreetMap dienoraščio įrašai
@@ -429,7 +429,7 @@ lt:
         description: Paskutiniai OpenStreetMap naudotojų dienoraščių įrašai
     comments:
       has_commented_on: '%{display_name} pakomentavo vieno iš jūsų dienoraščio įrašų.'
-      post: Rašyti
+      post: Įrašas
       when: Kada
       comment: Komentuoti
       newer_comments: Naujesni komentarai
@@ -505,6 +505,7 @@ lt:
           fuel: Degalinė
           gambling: Lošimas
           grave_yard: Kapinės
+          grit_bin: Smėlio dėžė
           hospital: Ligoninė
           hunting_stand: Medžiotojų bokštelis
           ice_cream: Ledai
@@ -579,6 +580,7 @@ lt:
           "yes": Amatų parduotuvė
         emergency:
           ambulance_station: Greitosios medicinos pagalbos stotis
+          assembly_point: Susirinkimo taškas
           defibrillator: Defibriliatorius
           landing_site: Avarinio nusileidimo aikštelė
           phone: Avarinis telefonas
@@ -818,6 +820,7 @@ lt:
           postcode: Pašto kodas
           region: Regionas
           sea: Jūra
+          square: Aikštė
           state: Valstija
           subdivision: Administracinis suskirstymas
           suburb: Miesto dalis
@@ -993,11 +996,82 @@ lt:
       more_results: Daugiau rezultatų
   issues:
     index:
+      title: Problemos
       search: Ieškoti
+      status: Būsena
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      link_to_reports: Žiūrėti pranešimus
+      reports_count:
+        one: 1 Report
+        other: '%{count} pranešimas'
+      reported_item: Praneštas elementas
       states:
+        ignored: Ignoruota
         open: Atidaryta
+        resolved: Išspręsta
+    update:
+      new_report: Jūsų pranešimas sėkmingai užregistruotas
+      successful_update: Jūsų pranešimas sėkmingai atnaujintas
+      provide_details: Prašome pateikti reikiamas detales
     show:
+      title: '%{status} Problema #%{issue_id}'
+      reports:
+        zero: No reports
+        one: 1 report
+        other: '%{count} pranešimų'
+      report_created_at: Pirmą kartą pranešta %{datetime}
+      last_resolved_at: Paskutinį kartą išspręsta %{datetime}
+      last_updated_at: Paskutinį kartą atnaujinta %{datetime} naudotojo %{displayname}
+      resolve: Išspręsti
       ignore: Ignoruoti
+      reopen: Iš naujo atidaryti
+      reports_of_this_issue: Šios problemos pranešimai
+      read_reports: Skaityti pranešimus
+      new_reports: Nauji pranešimai
+      other_issues_against_this_user: Kiti pranešimai rieš šį naudotoją
+      no_other_issues: Nėra kitų pranešimų prieš šį naudotoją.
+      comments_on_this_issue: Šios problemos komentarai
+    resolve:
+      resolved: Problemos būsena pakeista į „Išspręsta“
+    ignore:
+      ignored: Problemos būsena pakeista į „Ignoruota“
+    reopen:
+      reopened: Problemos būsena pakeista į „Atvira“
+    helper:
+      reportable_title:
+        note: 'Pastaba #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Jūsų komentaras sėkmingai sukurtas
+  reports:
+    new:
+      title_html: Pranešimas %{link}
+      missing_params: Negalima sukurti naujo pranešimo
+      select: 'Parinktie jūsų pranešimo priežastį:'
+      disclaimer:
+        intro: 'Prieš siųsdami jūsų pranešimą svetainės moderatoriams, įsitikinkite,
+          kad:'
+        not_just_mistake: Jūs tikri, kad problema nėra tiesiog klaida
+        unable_to_fix: Jūs negalite pataisyti problemos patys arba su bendruomenės
+          draugų pagalba
+        resolve_with_user: Jūs jau bandėte išspręsti problemą su konkrečiu naudotoju
+      categories:
+        diary_entry:
+          spam_label: Šiame dienoraščio įraše yra šlamštas
+          offensive_label: Dienoraššio įrašas yra įžeidžiantis
+          threat_label: Dienoraščio įraše yra grasinimų
+          other_label: Kita
+        user:
+          vandal_label: Šis naudotojas yra vandalas
+          other_label: Kita
+        note:
+          spam_label: Ši pastaba yra šlamštas
+          personal_label: Šioje pastaboje yra asmeninių duomenų
+          abusive_label: Ši pastaba įžeidžianti
+          other_label: Kita
+    create:
+      successful_report: Jūsų pranešimas sėkmingai įregistruotas
+      provide_details: Prašome nurodyti prašomą informaciją
   layouts:
     logo:
       alt_text: OpenStreetMap logotipas
@@ -1011,6 +1085,7 @@ lt:
     edit: Keisti
     history: Istorija
     export: Eksportuoti
+    issues: Problemos
     data: Duomenys
     export_data: Eksportuoti duomenis
     gps_traces: GPS pėdsakai
@@ -1061,6 +1136,7 @@ lt:
       footer_html: Pranešimą galite skaityti čia %{readurl}, o atsakyti galite čia
         %{replyurl}
     friend_notification:
+      hi: Labas, %{to_user},
       subject: '[OpenStreetMap] %{user} prisidėjo jus kaip draugą'
       had_added_you: '%{user} pridėjo jus į savo OpenStreetMap draugų sąrašą.'
       see_their_profile: Galite peržiūrėti jo profilį adresu %{userurl}.
@@ -1216,6 +1292,7 @@ lt:
       date: Data
       reply_button: Atsakyti
       unread_button: Pažymėti neperskaitytu
+      destroy_button: Trinti
       back: Grįžti
       to: Kam
       wrong_user: Jūs prisijungęs kaip „%{user}“, bet pranešimas, kurį jūsų prašyta
@@ -1348,21 +1425,25 @@ lt:
         contributors_nl_html: |-
           <strong>Nyderlandai</strong>: Apima &copy; AND duomenys, 2007
           (<a href="http://www.and.com">www.and.com</a>)
-        contributors_nz_html: |-
-          <strong>Naujoji Zelandija</strong>: Turi duomenys nuo
-          Land Information New Zealand. Karūnos išsaugotos autorinės teisės.
+        contributors_nz_html: '<strong>Naujoji Zelandija</strong>: Yra duomenų iš
+          <a href="https://data.linz.govt.nz/">LINZ Data Service</a>, licencijuota
+          perpanaudojimui pagal <a href="https://creativecommons.org/licenses/by/4.0/">CC
+          BY 4.0</a>.'
         contributors_si_html: |-
           <strong>Slovėnija</strong>: Panaudoti duomenys iš <a href="http://www.gu.gov.si/en/">Apžiūros ir kartografavimo valdžios</a> bei
           <a href="http://www.mkgp.gov.si/en/">Žemės ūkio, miškų ir maisto ministerijos</a>
           (vieša Slovėnijos informacija).
+        contributors_es_html: "<strong>Ispanija</strong>: Yra duomenų iš \nSpanish
+          National Geographic Institute (<a href=\"http://www.ign.es/\">IGN</a>) ir\nNational
+          Cartographic System (<a href=\"http://www.scne.es/\">SCNE</a>)\nlicencijuota
+          pagal <a href=\"https://creativecommons.org/licenses/by/4.0/\">CC BY 4.0</a>."
         contributors_za_html: |-
           <strong>Pietų Afrika</strong>: Turi duomenis nuo:
           <a href="http://www.ngi.gov.za/">Chief Directorate:
           National Geo-Spatial Information</a>, Valstybinės išsaugotos autoriaus teisės.
         contributors_gb_html: |-
-          <strong>Jungtinė Karalystė</strong>: Apima Ordnance
-          Survey data &copy; Karūnos autorinės teisės ir duomenų teisės
-          2010-12.
+          <strong>Jungtinė Karalystė</strong>: yra duomenų iš Ordnance
+          Survey data &copy; Karūnos autorinės teisės ir duomenų teisės 2010-19.
         contributors_footer_1_html: Norėdami daugiau sužinoti apie šiuos ir kitus
           šaltinius, kurie buvo naudojami tobulinant OpenStreetMap, peržiūrėkite <a
           href="http://wiki.openstreetmap.org/wiki/Contributors">vystytojų puslapį</a>
@@ -1490,7 +1571,7 @@ lt:
         užduoti klausimus, diskutuoti ir dokumentuoti žymėjimo temas.
       welcome:
         url: /welcome
-        title: Sveiki atvykę į OSM
+        title: Sveiki atvykę į OpenStreetMap
         description: Pradėkite šiuo greitu vadovu apie OpenStreetMap pagrindus.
       beginners_guide:
         url: http://wiki.openstreetmap.org/wiki/Lt:Beginners%27_guide
@@ -1498,8 +1579,8 @@ lt:
         description: Bendruomenės palaikomas vadovas pradedantiesiems.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: Užduokite klausimą arba ieškokite atsakymą OSM klausimų-ir-atsakymų
+        title: Pagalbos forumas
+        description: Užduokite klausimą arba ieškokite atsakymų OpenStreetMap klausimų-ir-atsakymų
           svetainėje.
       mailing_lists:
         title: El. pašto grupės
@@ -1516,10 +1597,13 @@ lt:
         title: switch2osm
         description: Pagalba kompanijoms ir organizacijoms pereinant į OpenStreetMap
           paremtus žemėlapius ir kitas paslaugas.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Organizacijoms
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: Naršykite OSM detalios dokumentacijos wiki.
+        title: OpenStreetMap Wiki
+        description: Daugiau detalios informacijos apie OpenStreetMap rasite wiki.
     sidebar:
       search_results: Paieškos rezultatai
       close: Uždaryti
@@ -1676,18 +1760,23 @@ lt:
       identifiable: Identifikuojamas (pėdsakų sąraše rodomas kaip identifikuojamas,
         taškai surikiuoti su laiko žymėmis)
     new:
+      upload_trace: Įkelti GPS pėdsaką
       upload_gpx: 'Įkelti GPX failą:'
       description: Aprašymas
       tags: 'Žymos:'
       tags_help: atskirta kableliais
       visibility: 'Matomumas:'
       visibility_help: ką tai reiškia?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Pagalba
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: Įkelti GPS pėdsaką
       trace_uploaded: Jūsų GPX pėdsakas įkrautas ir laukia įterpimo į duomenų bazę.
         Paprastai tai įvyks pusvalandžio bėgyje, o tada jums bus išsiųstas patvirtinimo
         laiškas.
+      upload_failed: Atsiprašome, nepavyko įkelti GPX. Administratoriams pranešta
+        apie klaidą. Bandykite dar kartą
       traces_waiting:
         one: Jūs turite %{count} pėdsakus laukiant, kad įkrautų. Apsvarstykite savo
           galimą įkrovos laiką, kad nesukeltumėte didesnių eilių kitų naudotojų, kurie
@@ -1711,6 +1800,8 @@ lt:
       tags_help: atskirti kableliu
       visibility: 'Matomumas:'
       visibility_help: ką tai reiškia?
+    update:
+      updated: Pėdsakas įkeltas
     trace_optionals:
       tags: Žymos
     show:
@@ -1732,6 +1823,7 @@ lt:
       delete_trace: Naikinti šį pėdsaką
       trace_not_found: Pėdsakas nerastas!
       visibility: 'Matomumas:'
+      confirm_delete: Trinti šį pėdsaką?
     trace_paging_nav:
       showing_page: Puslapis %{page}
       older: Senesni pėdsakai
@@ -1753,6 +1845,7 @@ lt:
       map: žemėlapis
     index:
       public_traces: Vieši GPS pėdsakai
+      my_traces: Mano GPS pėdsakai
       public_traces_from: Vieši naudotojo %{user} pėdsakai
       description: Peržiūrėti naujausias įkeltas GPS trasas
       tagged_with: ' pažymėta žymomis %{tags}'
@@ -1761,6 +1854,7 @@ lt:
         Dokumentacijos puslapyje</a>.
       upload_trace: Įkelti pėdsaką
       see_all_traces: Rodyti visus pėdsakus
+      see_my_traces: Žiūrėti mano pėdsakus
     delete:
       scheduled_for_deletion: Trasa, numatyta ištrinimui
     make_public:
@@ -1778,9 +1872,12 @@ lt:
         other: GPX failas su %{count} taškais, naudotojo %{user}
       description_without_count: Naudotojo %{user} GPX failas
   application:
+    permission_denied: Jūs neturite teisių vykdyti šį veiksmą
     require_cookies:
       cookies_needed: Panašu, kad išjungėte slapukus. Prieš tęsdami, įjunkite savo
         naršyklėje slapukus.
+    require_admin:
+      not_an_admin: Norėdami įvykdyti šį veiksmą turite būti administratoriumi.
     setup_user_auth:
       blocked_zero_hour: Turite skubų pranešimą OpenStreetMap puslapyje. Jums reikia
         perskaityti šį pranešimą prieš galint išsaugoti pakeitimus.
@@ -1982,9 +2079,13 @@ lt:
       terms accepted: Ačiū, kad patvirtinote naująsias talkininkų sąlygas!
       terms declined: Atsiprašome, jei nesutinkate su naujomis Talkininkų sąlygomis.
         Daugiau informacijos rasite <a href="%{url}">čia</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Sąlygos
       heading: Sąlygos
+      heading_ct: Talkininkų sąlygos
+      read_ct: Aš perskaičiau ir sutinku su aukščiau pateiktomis talkininko sąlygomis
+      read_tou: Aš perskaičiau ir sutinku su naudojimo sąlygomis
       consider_pd: Be pirmiau minėto susitarimo, manau, kad mano indėlis būtų viešo
         naudojimo
       consider_pd_why: kas tai?
@@ -2039,6 +2140,7 @@ lt:
       if set location: nurodykite jūsų buvimo vietą per %{settings_link} puslapį,
         norint matyti naudotojus netoliese.
       settings_link_text: nustatymai
+      my friends: Mano draugai
       no friends: Jūs dar nepridėjote nei vieno draugo.
       km away: Nutolęs %{count}km
       m away: nutolęs %{count}m
@@ -2069,6 +2171,7 @@ lt:
       friends_diaries: draugų dienoraščių įrašai
       nearby_changesets: greta esančių naudotojų keitimai
       nearby_diaries: greta esančių naudotojų dienoraščių įrašai
+      report: Pranešti apie šį naudotoją
     popup:
       your location: Jūsų pozicija
       nearby mapper: Šalia esantis žemėlapių kūrėjas
@@ -2109,6 +2212,7 @@ lt:
           talkininkų sąlygas.
         agreed_with_pd: Jūs taip pat pareiškėte, kad visi jūsų pakeitimai yra viešo
           naudojimo.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: kas tai?
       profile description: 'Profilio aprašymas:'
       preferred languages: 'Pageidautinos kalbos:'
@@ -2116,6 +2220,7 @@ lt:
       image: 'Nuotrauka:'
       gravatar:
         gravatar: Naudoti Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: kas tai?
         disabled: Gravatar buvo išjungtas.
         enabled: Jūsų Gravatar rodymas įjungtas.
@@ -2219,6 +2324,8 @@ lt:
       not_a_role: Eilutė „%{role}“ nėra tinkama rolė.
       already_has_role: Naudotojas jau turi rolę „%{role}“.
       doesnt_have_role: Naudotojas neturi rolės „%{role}“.
+      not_revoke_admin_current_user: Negalima atimti administratoriaus rolės iš dabartinio
+        naudotojo.
     grant:
       title: Patvirtinkite rolės suteikimą
       heading: Patvirtinkite rolės suteikimą
@@ -2288,7 +2395,7 @@ lt:
       title: Atšaukiamas naudotojo %{block_on} blokavimas
       heading: Atšaukiamas naudotojo %{block_on} blokavimas, sukurtas naudotojo %{block_by}
       time_future: Šis blokavimas pasibaigs po %{time}.
-      past: Šis blokavimas baigėsi prieš %{time}, todėl nebegali būti atšauktas.
+      past: Šis blokavimas baigėsi %{time}, todėl nebegali būti atšauktas.
       confirm: Ar tikrai norite atšaukti šį blokavimą?
       revoke: Atšaukti!
       flash: Šis blokavimas buvo atšauktas
@@ -2300,6 +2407,18 @@ lt:
         hours:
           one: 1 valanda
           other: '%{count} valandos'
+        days:
+          one: 1 day
+          other: '%{count} diena'
+        weeks:
+          one: 1 week
+          other: '%{count} savaitė'
+        months:
+          one: 1 month
+          other: '%{count} mėnuo'
+        years:
+          one: 1 year
+          other: '%{count} metai'
     blocks_on:
       title: Naudotojo %{name} blokavimai
       heading: Naudotojo %{name} apribojimų sąrašas
@@ -2395,6 +2514,7 @@ lt:
         title: Sluoksniai
       copyright: © <a href='%{copyright_url}'>OpenStreetMap talkininkai</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Paremkite</a>
+      terms: <a href='%{terms_url}' target='_blank'>Svetainės ir API sąlygos</a>
     site:
       edit_tooltip: Redaguoti žemėlapį
       edit_disabled_tooltip: Norėdami redaguoti, priartinkite
