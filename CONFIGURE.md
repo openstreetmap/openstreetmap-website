@@ -131,5 +131,5 @@ If you want to deploy The Rails Port for production use, you'll need to make a f
 * The included version of the GPX importer is slow and/or completely inoperable. You should consider using [the high-speed GPX importer](https://git.openstreetmap.org/gpx-import.git/).
 * Make sure you generate the i18n files and precompile the production assets: `RAILS_ENV=production rake i18n:js:export assets:precompile`
 * Make sure the web server user as well as the rails user can read, write and create directories in `tmp/`.
-* If you want to use diff replication then you will need to install the shared library versions of the special SQL functions (see the bottom of [INSTALL.md](INSTALL.md)).
+* If you want to use diff replication then you will need to install the shared library special SQL functions for the `xid_to_int4` function, for which there is no pure SQL alternative. (See the bottom of [INSTALL.md](INSTALL.md))
 * If you expect to serve a lot of `/changes` API calls, then you might also want to install the shared library versions of the SQL functions.
