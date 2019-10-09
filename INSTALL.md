@@ -174,9 +174,7 @@ psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
 
 ### PostgreSQL Functions
 
-There are special database functions required by a (little-used) API call, the migrations and diff replication. The former two are provided as *either* pure SQL functions or a compiled shared library. It is recommended that you start with the pure SQL versions, as described below, and only install the compiled shared library if you are running a production server making a lot of `/changes` API calls or need the diff replication functionality.
-
-If you aren't sure which you need, install the SQL version below.
+We need to install some special functions into the PostgreSQL database:
 
 ```
 psql -d openstreetmap -f db/functions/functions.sql
@@ -218,9 +216,11 @@ Note that the OSM map tiles you see aren't created from your local database - th
 
 After installing this software, you may need to carry out some [configuration steps](CONFIGURE.md), depending on your tasks.
 
-# Installing compiled shared library database functions
+# Installing compiled shared library database functions (optional)
 
-You probably only need to do this if you are running a large, production instance of openstreetmap-website.
+There are special database functions required by a (little-used) API call, the migrations and diff replication. The former two are provided as *either* pure SQL functions or a compiled shared library. The SQL versions are installed as part of the recommended install procedure above and the shared library versions are recommended only if you are running a production server making a lot of `/changes` API calls or need the diff replication functionality.
+
+If you aren't sure which you need, stick with the SQL versions.
 
 Before installing the functions, it's necessary to install the PostgreSQL server development packages. On Ubuntu this means:
 
