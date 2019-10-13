@@ -1,1 +1,0 @@
-/home/brian/Workshop/Projects/Microcosm/website/Design.md
