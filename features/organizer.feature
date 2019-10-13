@@ -23,14 +23,18 @@ Feature: Manage a Microcosm
     Then I should not see "Washington, DC, USA"
     Then I should see "Baltimore"
 
-#  Scenario: Promote a user to organizer
-#    Given there is a user "orlando@example.com" with name "Orlando"
-#    And the user belongs to the microcosm
-#    Given there is a user "abe@example.com" with name "Abe"
-#    And "abe@example.com" is an administrator
-#    When user "abe@example.com" logs in
-#    And I am on the microcosm "MappingDC" page
-#    And I click "promote"
+  Scenario: Promote a user to organizer
+    Given there is a user "organizer@example.com" with name "Organizer"
+    And this user is an organizer of this microcosm
+    Given there is a user "promotee@example.com" with name "Promotee"
+    And the user belongs to the microcosm
+    When user "organizer@example.com" logs in
+    And I am on the microcosm "MappingDC" page
+    And I click "Members"
+    And Within ".members" I click the 2 "edit"
+    And I set the user to "Organizer"
+    And I submit the form
+    Then I should see "Organizers Organizer Promotee"
 
   Scenario: Create an event
     Given there is a user "abe@example.com" with name "Abe"

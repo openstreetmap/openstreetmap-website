@@ -145,6 +145,13 @@ And("I click {string}") do |title|
   end
 end
 
+
+And("Within {string} I click the {int} {string}") do |scope, nth, text|
+  within(scope) do
+    find(:xpath, "(.//a[contains(text(), #{text})])[#{nth}]").click
+  end
+end
+
 And("I click the link to {string}") do |url|
   find("a[href='#{url}']").click
 end

@@ -11,15 +11,15 @@
 Members
 </h2>
 <div class='members'>
-  <% @microcosm.microcosm_members.each do |membership| %>
-    <ul>
+  <ul>
+    <% @microcosm.microcosm_members.each do |membership| %>
       <li>
         <%= membership.role %> <%= membership.user.display_name %>
-        <% if current_user and current_user.administrator? %>
+        <% if current_user and (current_user.administrator? or @microcosm.has_organizer?(current_user))%>
           <%= link_to "edit", edit_microcosm_member_path(membership) %>
         <% end %>
       </li>
-    </ul>
-  <% end %>
+    <% end %>
+  </ul>
 </div>
 
