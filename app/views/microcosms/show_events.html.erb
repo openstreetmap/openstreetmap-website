@@ -1,6 +1,6 @@
 <% content_for :heading do %>
   <h1>
-    <%= @microcosm.name + " Events"%>
+    <%= @microcosm.name + " Events" %>
   </h1>
 <% end %>
 
@@ -10,12 +10,12 @@
 <ul>
   <% @microcosm.events.each do |event| %>
     <li>
-      <%= link_to l(event.moment, :format => :blog) + ' - ' + event.title + ' - ' + event.location, event_path(event) %>
+      <%= link_to l(event.moment, :format => :blog) + " - " + event.title + " - " + event.location, event_path(event) %>
     </li>
   <% end %>
 </ul>
 <p>
   <% if current_user && @microcosm.organizer?(current_user) %>
-    <%= link_to 'new event', new_event_path(microcosm_id: @microcosm.id) %>
+    <%= link_to "new event", new_event_path(:microcosm_id => @microcosm.id) %>
   <% end %>
 </p>

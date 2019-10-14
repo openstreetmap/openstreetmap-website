@@ -1,9 +1,8 @@
 <% content_for :heading do %>
   <h1>
-    <%= @microcosm.name + " Members"%>
+    <%= @microcosm.name + " Members" %>
   </h1>
 <% end %>
-
 
 <%#= link_to 'New', new_microcosm_member_path(microcosm_id: @microcosm.id) %>
 
@@ -15,11 +14,10 @@ Members
     <% @microcosm.microcosm_members.each do |membership| %>
       <li>
         <%= membership.role %> <%= membership.user.display_name %>
-        <% if current_user and (current_user.administrator? or @microcosm.organizer?(current_user))%>
+        <% if current_user and (current_user.administrator? or @microcosm.organizer?(current_user)) %>
           <%= link_to "edit", edit_microcosm_member_path(membership) %>
         <% end %>
       </li>
     <% end %>
   </ul>
 </div>
-

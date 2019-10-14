@@ -1,4 +1,4 @@
-<%= form_with(model: microcosm_member, local: true) do |form| %>
+<%= form_with(:model => microcosm_member, :local => true) do |form| %>
   <div class="field">
     <%= form.label :microcosm_id %>
     <%= collection_select(:microcosm_member, :microcosm_id, Microcosm.all, :id, :name, :prompt => true) %>
@@ -6,12 +6,12 @@
 
   <div class="field">
     <%= form.label :user_id %>
-    <%= collection_select(:microcosm_member, :user_id, User.order('display_name').all, :id, :display_name, :prompt => true) %>
+    <%= collection_select(:microcosm_member, :user_id, User.order("display_name").all, :id, :display_name, :prompt => true) %>
   </div>
 
   <div class="field">
     <%= form.label :role %>
-    <%= form.select(:role, MicrocosmMember::Roles::ALL_ROLES.map {|role| [role.titleize, role]}) %>
+    <%= form.select(:role, MicrocosmMember::Roles::ALL_ROLES.map { |role| [role.titleize, role] }) %>
   </div>
 
   <div class="actions">
