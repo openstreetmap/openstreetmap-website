@@ -1,24 +1,26 @@
 class EventAttendancesController < ApplicationController
   layout "site"
   before_action :authorize_web
-  before_action :set_event_attendance, :only => [:edit, :show, :update]
+  before_action :set_event_attendance, :only => [:update]
 
   authorize_resource
 
   def create
     attendance = EventAttendance.new(attendance_params)
-    attendance.intention = get_intention
+    attendance.intention = intention
     if attendance.save!
-      redirect_to event_path(attendance.event), notice: 'Attendance was successfully saved.'
+      redirect_to event_path(attendance.event), :notice => "Attendance was successfully saved."
+    else
+      redirect_to event_path(attendance.event), :notice => "Attendance was not saved."
     end
   end
 
   def update
     respond_to do |format|
       attendance = EventAttendance.find(params[:id])
-      attendance.intention = get_intention
+      attendance.intention = intention
       if attendance.update(attendance_params)
-        format.html { redirect_to @event_attendance.event, notice: 'Attendance was successfully updated.' }
+        format.html { redirect_to @event_attendance.event, :notice => "Attendance was successfully updated." }
       else
         format.html { render :edit }
       end
@@ -27,8 +29,9 @@ class EventAttendancesController < ApplicationController
 
   private
 
-  def get_intention
+  def intention
     # Validate the intention.
+    # TODO: There must be a better way to do this.
     if params[:commit] == "Yes"
       intention = "Yes"
     elsif params[:commit] == "No"
@@ -44,5 +47,4 @@ class EventAttendancesController < ApplicationController
   def attendance_params
     params.require(:event_attendance).permit(:event_id, :user_id)
   end
-
 end

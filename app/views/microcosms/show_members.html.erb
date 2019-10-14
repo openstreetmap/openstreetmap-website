@@ -15,7 +15,7 @@ Members
     <% @microcosm.microcosm_members.each do |membership| %>
       <li>
         <%= membership.role %> <%= membership.user.display_name %>
-        <% if current_user and (current_user.administrator? or @microcosm.has_organizer?(current_user))%>
+        <% if current_user and (current_user.administrator? or @microcosm.organizer?(current_user))%>
           <%= link_to "edit", edit_microcosm_member_path(membership) %>
         <% end %>
       </li>

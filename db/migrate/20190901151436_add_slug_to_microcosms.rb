@@ -10,10 +10,12 @@ class AddSlugToMicrocosms < ActiveRecord::Migration[5.2]
   end
 end
 
-class StrongMigrations::Checker2 < ActiveRecord::Migration[5.2]
-  disable_ddl_transaction!
+class StrongMigrations
+  class Checker2 < ActiveRecord::Migration[5.2]
+    disable_ddl_transaction!
 
-  def change
-    add_index :microcosms, :slug, unique: true, algorithm: :concurrently
+    def change
+      add_index :microcosms, :slug, :unique => true, :algorithm => :concurrently
+    end
   end
 end

@@ -17,6 +17,6 @@ class Event < ApplicationRecord
   has_many :event_attendances
 
   def attendees
-    EventAttendance.where(event_id: id, intention: "Yes")
+    EventAttendance.where(:event_id => id, :intention => "Yes")
   end
 end

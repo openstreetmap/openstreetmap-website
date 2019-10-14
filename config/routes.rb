@@ -320,11 +320,11 @@ OpenStreetMap::Application.routes.draw do
 
   # microcosms
   resources :microcosms
-  resources :microcosm_member, only: [:create, :edit, :new, :update]
+  resources :microcosm_member, :only => [:create, :edit, :new, :update]
   resources :events
   resources :event_attendances
-  get 'microcosms/:id/members', to: 'microcosms#show_members', :as => :members_of_microcosm
-  get 'microcosms/:id/events', to: 'microcosms#show_events', :as => :events_of_microcosm
+  get "microcosms/:id/members", :to => "microcosms#show_members", :as => :members_of_microcosm
+  get "microcosms/:id/events", :to => "microcosms#show_events", :as => :events_of_microcosm
 
   # errors
   match "/403", :to => "errors#forbidden", :via => :all

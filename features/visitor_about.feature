@@ -27,7 +27,7 @@ Feature: Learn about the Microcosm
 
 
   Scenario: Can load by id
-    Then I am on the microcosm "MappingDC" page by id
+    Then I am on the microcosm page by id
     Then I should see "MappingDC strives to improve OSM in the DC area"
 
 

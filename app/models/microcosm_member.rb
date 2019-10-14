@@ -20,11 +20,11 @@ class MicrocosmMember < ApplicationRecord
   belongs_to :microcosm
   belongs_to :user
 
-  # TODO validate uniqueness of user's role in each microcosm.
+  # TODO: validate uniqueness of user's role in each microcosm.
 
   module Roles
-    ORGANIZER = "organizer"
-    MEMBER = "member"
-    ALL_ROLES = [ORGANIZER, MEMBER]
+    ORGANIZER = "organizer".freeze
+    MEMBER = "member".freeze
+    ALL_ROLES = [ORGANIZER, MEMBER].freeze
   end
 end

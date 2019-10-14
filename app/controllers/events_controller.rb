@@ -1,8 +1,7 @@
 class EventsController < ApplicationController
-
   layout "site"
   before_action :authorize_web
-  before_action :set_event, :only => [:edit, :show, :update]
+  before_action :set_event, :only => [:edit, :show]
 
   authorize_resource
 
@@ -25,25 +24,23 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render :show, status: :created, location: @event }
+        format.html { redirect_to @event, :notice => "Event was successfully created." }
+        format.json { render :show, :status => :created, :location => @event }
       else
         format.html { render :new }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
+        format.json { render :json => @event.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # GET /events/1/edit
-  def edit
-  end
+  def edit; end
 
   # GET /events/1
   # GET /events/1.json
   def show
-    @my_attendance = EventAttendance.find_or_initialize_by(event_id: @event.id, user_id: current_user&.id)
+    @my_attendance = EventAttendance.find_or_initialize_by(:event_id => @event.id, :user_id => current_user&.id)
   end
-
 
   private
 

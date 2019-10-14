@@ -19,21 +19,21 @@
 
 class Microcosm < ApplicationRecord
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :name, :use => :slugged
   self.ignored_columns = ["key"]
 
-  has_many :microcosm_members  #, :dependent => :destroy
-  has_many :users, :through => :microcosm_members  # TODO: counter_cache
+  has_many :microcosm_members
+  has_many :users, :through => :microcosm_members # TODO: counter_cache
   has_many :microcosm_links
   has_many :events
 
   def set_link(site, url)
-    link = MicrocosmLink.find_or_create_by!(microcosm_id: self.id, site: site)
+    link = MicrocosmLink.find_or_create_by!(:microcosm_id => id, :site => site)
     link.url = url
     link.save!
   end
 
-  def has_organizer?(user)
+  def organizer?(user)
     microcosm_members.where(:user_id => user.id, :role => MicrocosmMember::Roles::ORGANIZER).count.positive?
   end
 
