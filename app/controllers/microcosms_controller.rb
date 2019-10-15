@@ -36,7 +36,7 @@ class MicrocosmsController < ApplicationController
 
   def create
     @microcosm = Microcosm.new(microcosm_params)
-    if @microcosm.save!
+    if @microcosm.save
       redirect_to microcosms_path, :notice => "Member was successfully created."
     else
       redirect_to microcosms_path, :notice => "Member was not saved."

@@ -8,7 +8,7 @@ class EventAttendancesController < ApplicationController
   def create
     attendance = EventAttendance.new(attendance_params)
     attendance.intention = intention
-    if attendance.save!
+    if attendance.save
       redirect_to event_path(attendance.event), :notice => "Attendance was successfully saved."
     else
       redirect_to event_path(attendance.event), :notice => "Attendance was not saved."

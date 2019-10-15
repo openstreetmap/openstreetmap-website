@@ -8,7 +8,7 @@ class MicrocosmMemberController < ApplicationController
   def create
     membership = MicrocosmMember.new(mm_params)
     membership.role = MicrocosmMember::Roles::MEMBER
-    if membership.save!
+    if membership.save
       redirect_to microcosm_path(membership.microcosm), :notice => "Member was successfully created."
     else
       redirect_to microcosm_path(membership.microcosm), :notice => "Member was not saved."
