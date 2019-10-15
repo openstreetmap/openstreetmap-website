@@ -14,7 +14,7 @@ end
 
 class CreateEventsFk < ActiveRecord::Migration[5.2]
   def change
-    add_foreign_key :events, :microcosm, validate: false
+    add_foreign_key :events, :microcosm, :validate => false
   end
 end
 

@@ -12,8 +12,8 @@ end
 
 class CreateEventAttendancesFk < ActiveRecord::Migration[5.2]
   def change
-    add_foreign_key :event_attendances, :user, validate: false
-    add_foreign_key :event_attendances, :event, validate: false
+    add_foreign_key :event_attendances, :user, :validate => false
+    add_foreign_key :event_attendances, :event, :validate => false
   end
 end
 

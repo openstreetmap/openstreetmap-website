@@ -11,7 +11,7 @@ end
 
 class AddMicrocosmMemberFkToUser < ActiveRecord::Migration[5.2]
   def change
-    add_foreign_key :microcosm_members, :user, validate: false
+    add_foreign_key :microcosm_members, :user, :validate => false
   end
 end
 
