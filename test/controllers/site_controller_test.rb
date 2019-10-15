@@ -4,6 +4,8 @@ class SiteControllerTest < ActionController::TestCase
   ##
   # setup oauth keys
   def setup
+    super
+
     Settings.id_key = create(:client_application).key
     Settings.potlatch2_key = create(:client_application).key
 

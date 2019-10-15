@@ -17,6 +17,8 @@ be-Tarask:
     submit:
       diary_comment:
         create: Захаваць
+      issue_comment:
+        create: Дадаць камэнтар
       message:
         create: Даслаць
       client_application:
@@ -29,6 +31,9 @@ be-Tarask:
         create: Стварыць блякаваньне
         update: Абнавіць блякаваньне
   activerecord:
+    errors:
+      messages:
+        email_address_not_routable: не маршрутызаваны
     models:
       acl: Сьпіс абмежаваньня доступу
       changeset: Набор зьменаў
@@ -96,6 +101,45 @@ be-Tarask:
         description: Апісаньне
         languages: Мовы
         pass_crypt: Пароль
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: каля 1 гадзіны таму
+        other: каля %{count} гадзінаў таму
+      about_x_months:
+        one: каля 1 месяца таму
+        other: каля %{count} месяцаў таму
+      about_x_years:
+        one: каля 1 году таму
+        other: каля %{count} гадоў таму
+      almost_x_years:
+        one: амаль 1 год таму
+        other: амаль %{count} гадоў таму
+      half_a_minute: паўхвіліны таму
+      less_than_x_seconds:
+        one: менш за 1 сэкунду таму
+        other: менш за %{count} сэкундаў таму
+      less_than_x_minutes:
+        one: менш за 1 хвіліну таму
+        other: менш за %{count} хвілінаў таму
+      over_x_years:
+        one: больш за 1 год таму
+        other: больш за %{count} гадоў таму
+      x_seconds:
+        one: 1 сэкунда таму
+        other: '%{count} сэкундаў таму'
+      x_minutes:
+        one: 1 хвіліна таму
+        other: '%{count} хвілінаў таму'
+      x_days:
+        one: 1 дзень таму
+        other: '%{count} дзён таму'
+      x_months:
+        one: 1 месяц таму
+        other: '%{count} месяцы таму'
+      x_years:
+        one: 1 год таму
+        other: '%{count} гады таму'
   editor:
     default: Па змоўчваньні (цяпер %{name})
     potlatch:
@@ -110,9 +154,14 @@ be-Tarask:
     remote:
       name: Аддаленае кіраваньне
       description: Аддаленае кіраваньне (JOSM ці Merkaartor)
+  api:
+    notes:
+      entry:
+        full: Поўны тэкст
   browse:
     created: Створана
     closed: Закрытае
+    location: 'Месцазнаходжаньне:'
     changeset:
       title: 'Набор зьменаў: %{id}'
       belongs_to: Аўтар
@@ -173,6 +222,7 @@ be-Tarask:
       wikipedia_link: Артыкул %{page} у Вікіпэдыі
     note:
       title: 'Нататка: %{id}'
+      commented_by_anonymous: Камэнтар ад ананіма <abbr title='%{exact_time}'>%{when}</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: Старонка %{page}
@@ -1336,7 +1386,7 @@ be-Tarask:
       ct status: 'Умовы супрацоўніцтва:'
       ct undecided: Нявырашана
       ct declined: Адхіленыя
-      latest edit: 'Апошняе рэдагаваньне %{ago}:'
+      latest edit: 'Апошняе рэдагаваньне (%{ago}):'
       email address: 'Адрас электроннай пошты:'
       created from: 'Створана з:'
       status: 'Статус:'
@@ -1566,14 +1616,14 @@ be-Tarask:
       title: Зьняць блякаваньне з %{block_on}
       heading: Зьняць блякаваньне з %{block_on}, створанае %{block_by}
       time_future: Гэтае блякаваньне скончыцца ў %{time}.
-      past: Гэтае блякаваньне скончылася %{time} таму і ня можа быць цяпер адкліканае.
+      past: Гэтае блякаваньне скончылася %{time} і ня можа быць цяпер адкліканае.
       confirm: Вы ўпэўнены, што жадаеце адклікаць гэтае блякаваньне?
       revoke: Адклікаць!
       flash: Гэтае блякаваньне было адкліканае.
     helper:
       time_future: Канчаецца ў %{time}.
       until_login: Актыўнае да моманту ўваходу ўдзельніка ў сыстэму.
-      time_past: Скончылася %{time} таму.
+      time_past: Скончылася %{time}.
       block_duration:
         hours:
           one: '%{count} гадзіна'

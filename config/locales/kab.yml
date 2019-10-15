@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Abijeet Patro
 # Author: Alem
+# Author: Amsideg
 # Author: Belkacem77
 # Author: Marzuquccen
 # Author: Mastanabal
@@ -21,6 +22,9 @@ kab:
         create: Sekles
       diary_entry:
         create: Suffeɣ-d
+        update: Leqqem
+      issue_comment:
+        create: Rnu awennit
       message:
         create: Azen
       client_application:
@@ -28,9 +32,13 @@ kab:
         update: Ẓreg
       trace:
         create: Sali
+        update: Sekles ibeddilen
+      user_block:
+        create: Rnu iḥder
+        update: Beddel iḥder
   activerecord:
     models:
-      acl: Tabdart n usenqed n inekcam
+      acl: Tabdart n usenqed n unekcum
       changeset: Agraw n ibeddilen
       changeset_tag: Imyerr n ugraw n ibeddilen
       country: Tamurt
@@ -96,6 +104,9 @@ kab:
         description: Aglam
         languages: Tutlayin
         pass_crypt: Awal uffir
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: Azgen n tsedast aya
   editor:
     default: Amezwer (tura %{name})
     potlatch:
@@ -113,8 +124,8 @@ kab:
   api:
     notes:
       comment:
-        opened_at_html: Yattwarna %{when} aya
-        opened_at_by_html: Yettwarna %{when} aya sɣur %{user}
+        opened_at_html: Yattwarna %{when}
+        opened_at_by_html: Yettwarna %{when} sɣur %{user}
         commented_at_html: Yettwalqem %{when} aya
         commented_at_by_html: Yettwalqem %{when} aya sɣur %{user}
         closed_at_html: Yefra %{when} aya
@@ -272,7 +283,7 @@ kab:
       view_changeset_details: Sken talqayt n ugraw n usnifel
     changesets:
       id: Asulay
-      saved_at: Yettwasekles di
+      saved_at: Yettwasekles deg
       user: Aseqdac
       comment: Awennit
       area: Tamnaḍt
@@ -1406,7 +1417,8 @@ kab:
       title: Iseqdacen
       heading: Iseqdacen
       showing:
-        other: Asebter %{page} (%{first_item}one= ɣef %{items})
+        one: Asebter %{page} (%{first_item} ɣef %{items})
+        other: Asebter %{page} (%{first_item}-%{last_item} ɣef %{items})
       summary: '%{name} yettwarna si %{ip_address} di %{date}'
       summary_no_ip: '%{name} yettwarna di  %{date}'
       confirm: Sentem iseqdacen yettwafernen

@@ -569,7 +569,7 @@ module Api
           new_relation.members = typedmembers
           new_relation.tags = tags
           new_relation.visible = visible
-          new_relation.changeset_id = changeset_id
+          new_relation.changeset_id = changeset_id.to_i
           new_relation.version = version
 
           if relid <= 0
@@ -653,7 +653,7 @@ module Api
             id = renumberednodes[id] if renumberednodes[id]
 
             node = Node.new
-            node.changeset_id = changeset_id
+            node.changeset_id = changeset_id.to_i
             node.lat = lat
             node.lon = lon
             node.tags = a[4]
@@ -687,7 +687,7 @@ module Api
           new_way = Way.new
           new_way.tags = attributes
           new_way.nds = pointlist
-          new_way.changeset_id = changeset_id
+          new_way.changeset_id = changeset_id.to_i
           new_way.version = wayversion
           if originalway <= 0
             new_way.create_with_history(user)
@@ -705,7 +705,7 @@ module Api
           deletednodes.each do |id, v|
             node = Node.find(id.to_i)
             new_node = Node.new
-            new_node.changeset_id = changeset_id
+            new_node.changeset_id = changeset_id.to_i
             new_node.version = v.to_i
             new_node.id = id.to_i
             begin
@@ -758,7 +758,7 @@ module Api
           # We always need a new node, based on the data that has been sent to us
           new_node = Node.new
 
-          new_node.changeset_id = changeset_id
+          new_node.changeset_id = changeset_id.to_i
           new_node.version = version
           new_node.lat = lat
           new_node.lon = lon
@@ -834,7 +834,7 @@ module Api
           old_way = Way.find(way_id)
           delete_way = Way.new
           delete_way.version = way_version
-          delete_way.changeset_id = changeset_id
+          delete_way.changeset_id = changeset_id.to_i
           delete_way.id = way_id
           old_way.delete_with_history!(delete_way, user)
 
@@ -843,7 +843,7 @@ module Api
           deletednodes.each do |id, v|
             node = Node.find(id.to_i)
             new_node = Node.new
-            new_node.changeset_id = changeset_id
+            new_node.changeset_id = changeset_id.to_i
             new_node.version = v.to_i
             new_node.id = id.to_i
             begin

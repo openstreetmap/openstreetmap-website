@@ -49,6 +49,9 @@ cs:
         create: Uložit
       diary_entry:
         create: Publikovat
+        update: Aktualizovat
+      issue_comment:
+        create: Přidat komentář
       message:
         create: Odeslat
       client_application:
@@ -135,6 +138,9 @@ cs:
         description: Popis
         languages: Jazyky
         pass_crypt: Heslo
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: před půl minutou
   editor:
     default: Výchozí (aktuálně %{name})
     potlatch:
@@ -152,14 +158,14 @@ cs:
   api:
     notes:
       comment:
-        opened_at_html: Vytvořeno před %{when}
-        opened_at_by_html: Vytvořeno před %{when} uživatelem %{user}
-        commented_at_html: Aktualizováno před %{when}
-        commented_at_by_html: Aktualizováno před %{when} uživatelem %{user}
-        closed_at_html: Vyřešeno před %{when}
-        closed_at_by_html: Vyřešeno před %{when} uživatelem %{user}
-        reopened_at_html: Reaktivováno před %{when}
-        reopened_at_by_html: Reaktivováno před %{when} uživatelem %{user}
+        opened_at_html: Vytvořeno %{when}
+        opened_at_by_html: Vytvořeno %{when} uživatelem %{user}
+        commented_at_html: Aktualizováno %{when}
+        commented_at_by_html: Aktualizováno %{when} od %{user}
+        closed_at_html: Vyřešeno %{when}
+        closed_at_by_html: Vyřešeno %{when} od %{user}
+        reopened_at_html: Reaktivováno %{when}
+        reopened_at_by_html: Reaktivováno %{when} od %{user}
       rss:
         title: Poznámky OpenStreetMap
         description_area: Seznam poznámek hlášených, komentovaných nebo uzavřených
@@ -175,16 +181,12 @@ cs:
   browse:
     created: Vytvořeno
     closed: Uzavřeno
-    created_html: Vytvořeno <abbr title='%{title}'>před %{time}</abbr>
-    closed_html: Uzavřeno <abbr title='%{title}'>před %{time}</abbr>
-    created_by_html: Vytvořeno <abbr title='%{title}'>před %{time}</abbr> uživatelem
-      %{user}
-    deleted_by_html: Smazáno <abbr title='%{title}'>před %{time}</abbr> uživatelem
-      %{user}
-    edited_by_html: Upraveno <abbr title='%{title}'>před %{time}</abbr> uživatelem
-      %{user}
-    closed_by_html: Uzavřeno <abbr title='%{title}'>před %{time}</abbr> uživatelem
-      %{user}
+    created_html: Vytvořeno <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Uzavřeno <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Vytvořeno <abbr title='%{title}'>%{time}</abbr> od %{user}
+    deleted_by_html: Smazáno <abbr title='%{title}'>%{time}</abbr> od %{user}
+    edited_by_html: Upraveno <abbr title='%{title}'>%{time}</abbr> od %{user}
+    closed_by_html: Uzavřeno <abbr title='%{title}'>%{time}</abbr> od %{user}
     version: Verze
     in_changeset: Sada změn
     anonymous: anonym
@@ -204,9 +206,8 @@ cs:
       relation: Relace (%{count})
       relation_paginated: Relace (%{x}–%{y} z %{count})
       comment: Komentáře (%{count})
-      hidden_commented_by: Skrytý komentář od uživatele %{user} <abbr title='%{exact_time}'>před
-        %{when}</abbr>
-      commented_by: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval %{user}
+      hidden_commented_by: Skrytý komentář od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Komentář od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Sada změn XML
       osmchangexml: osmChange XML
       feed:
@@ -276,6 +277,7 @@ cs:
       wikidata_link: Položka %{page} na Wikidatech
       wikipedia_link: Článek %{page} na Wikipedii
       telephone_link: Volat %{phone_number}
+      colour_preview: Náhled barvy %{colour_value}
     note:
       title: 'Poznámka: %{id}'
       new_note: Nová poznámka
@@ -283,14 +285,12 @@ cs:
       open_title: 'Nevyřešená poznámka #%{note_name}'
       closed_title: 'Vyřešená poznámka #%{note_name}'
       hidden_title: 'Skrytá poznámka #%{note_name}'
-      open_by: Vytvořil %{user} <abbr title='%{exact_time}'>před %{when}</abbr>
-      open_by_anonymous: Vytvořil anonym <abbr title='%{exact_time}'>před %{when}</abbr>
-      commented_by: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval uživatel
-        %{user}
-      commented_by_anonymous: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval
+      open_by: Vytvořil %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Vytvořil anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: <abbr title='%{exact_time}'>%{when}</abbr> okomentoval %{user}
+      commented_by_anonymous: <abbr title='%{exact_time}'>%{when}</abbr> okomentoval
         anonym
-      closed_by: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr> uživatel
-        %{user}
+      closed_by: Vyřešeno od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       closed_by_anonymous: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr>
         anonym
       reopened_by: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr> uživatel
@@ -336,7 +336,7 @@ cs:
   changeset_comments:
     comment:
       comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
-      commented_at_by_html: Aktualizováno před %{when} uživatelem %{user}
+      commented_at_by_html: Aktualizováno %{when} od %{user}
     comments:
       comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
     index:
@@ -369,7 +369,7 @@ cs:
       older_entries: Starší záznamy
       newer_entries: Novější záznamy
     edit:
-      title: Upravit deníkový záznam
+      title: Upravit zápis do deníku
       marker_text: Místo deníkového záznamu
     show:
       title: Deník uživatele %{user} | %{title}
@@ -393,11 +393,13 @@ cs:
         other: '%{count} komentářů'
       edit_link: Upravit tento záznam
       hide_link: Skrýt tento záznam
+      unhide_link: Odkrýt tento záznam
       confirm: Potvrdit
       report: Nahlásit tento záznam
     diary_comment:
       comment_from: Komentář od %{link_user} z %{comment_created_at}
       hide_link: Skrýt tento komentář
+      unhide_link: Odkrýt tento komentář
       confirm: Potvrdit
       report: Nahlásit tento komentář
     location:
@@ -1033,8 +1035,8 @@ cs:
       status: Stav
       reports: Hlášení
       last_updated: Poslední změna
-      last_updated_time_html: <abbr title='%{title}'>před %{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>před %{time}</abbr> od %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> od %{user}
       link_to_reports: Zobrazit hlášení
       reports_count:
         one: 1 Hlášení
@@ -1152,6 +1154,7 @@ cs:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: partneři
+    tou: Podmínky užití
     osm_offline: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
       údržbě mimo provoz.
     osm_read_only: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
@@ -1389,7 +1392,7 @@ cs:
         práva a licence</a>.'
       legal_title: Právní informace
       legal_html: |-
-        Tento web a mnoho dalších souvisejících služeb za komunitu oficiálně provozuje <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF). Použití všech služeb provozovaných OSMF podléhá našim <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Pravidlům přijatelného užití</a> a našim <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Pravidlům ochrany osobních údajů</a>.
+        Tento web a mnoho dalších souvisejících služeb za komunitu oficiálně provozuje <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF). Použití všech služeb provozovaných OSMF podléhá našim <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Podmínkám užití</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Pravidlům přijatelného užití</a> a našim <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Pravidlům ochrany osobních údajů</a>.
         <br>
         Pokud máte problémy či dotazy týkající se licencování, autorských práv či jiných právních záležitostí, <a href='https://osmfoundation.org/Contact'>kontaktujte prosím OSMF</a>.
       partners_title: Partneři
@@ -1599,7 +1602,7 @@ cs:
         otázky a odpovědi a kolaborativní diskuse a dokumentace mapových témat.
       welcome:
         url: /welcome
-        title: Vítejte v OSM
+        title: Vítejte v OpenStreetMap
         description: Začněte tímto rychlým průvodcem zahrnujícím základy OpenStreetMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Cs:Pr%C5%AFvodce_za%C4%8D%C3%A1te%C4%8Dn%C3%ADka
@@ -1607,9 +1610,9 @@ cs:
         description: Komunitou spravovaná příručka pro začátečníky.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Fórum pomoci
         description: Položte dotaz nebo vyhledejte odpovědi na stránce otázek a odpovědí
-          týkajících se OSM.
+          týkajících se OpenStreetMap.
       mailing_lists:
         title: E-mailové konference
         description: Položte dotaz nebo diskutujte o zajímavých věcech na některé
@@ -1626,13 +1629,14 @@ cs:
         description: Pomoc společnostem a organizacím s přechodem na mapy a další
           služby založené na OpenStreetMap.
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: Pro organizace
         description: Jste u organizace, která má plány s OpenStreetMap? Podívejte
           se na uvítací průvodce.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Cs:Main_Page?uselang=cs
-        title: wiki.openstreetmap.org
-        description: Podrobnou dokumentaci OSM najdete na wiki.
+        title: OpenStreetMap Wiki
+        description: Podrobnou dokumentaci OpenStreetMap najdete na wiki.
     sidebar:
       search_results: Výsledky hledání
       close: Zavřít
@@ -2113,13 +2117,25 @@ cs:
         přispěvatele. Podrobnější informace najdete na <a href="%{url}">této wikistránce</a>.
       terms declined url: http://wiki.openstreetmap.org/wiki/CS:Contributor_Terms_Declined?uselang=cs
     terms:
-      title: Podmínky pro přispěvatele
-      heading: Podmínky pro přispěvatele
-      consider_pd: Navíc k výše uvedené dohodě považuji své příspěvky za volné dílo.
+      title: Podmínky
+      heading: Podmínky
+      heading_ct: Podmínky pro přispěvatele
+      read and accept with tou: Přečtěte si prosím podmínky pro přispěvatele a podmínky
+        užití, poté zaškrtněte obě políčka a stiskněte tlačítko pro pokračování.
+      contributor_terms_explain: Touto dohodou se řídí podmínky pro vaše stávající
+        a budoucí příspěvky.
+      read_ct: Přečetl jsem si výše uvedené podmínky pro přispěvatele a souhlasím
+        s nimi
+      tou_explain_html: Tyto %{tou_link} řídí užívání tohoto webu a další infrastruktury
+        poskytované OSMF. Klikněte prosím na odkaz, přečtěte si text a odsouhlaste
+        ho.
+      read_tou: Přečetl jsem si Podmínky užití a souhlasím s nimi
+      consider_pd: Navíc k výše uvedenému považuji své příspěvky za volné dílo.
       consider_pd_why: co to znamená?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Informace, které pomohou tyto podmínky pochopit: <a href="%{summary}">lidsky
         čitelné shrnutí</a> a nějaké <a href="%{translations}">neoficiální překlady</a>'
+      continue: Pokračovat
       declined: http://wiki.openstreetmap.org/wiki/CS:Contributor_Terms_Declined?uselang=cs
       decline: Nesouhlasím
       you need to accept or decline: Pro pokračování si prosím přečtěte a přijměte
@@ -2159,7 +2175,7 @@ cs:
       ct status: 'Podmínky pro přispěvatele:'
       ct undecided: Nerozhodnuto
       ct declined: Odmítnuty
-      latest edit: 'Poslední editace %{ago}:'
+      latest edit: 'Poslední úprava (%{ago}):'
       email address: 'E-mailová adresa:'
       created from: 'Vytvořeno od:'
       status: 'Stav:'
@@ -2417,7 +2433,7 @@ cs:
       title: Zrušení bloku pro %{block_on}
       heading: Zrušení bloku pro %{block_on} od %{block_by}
       time_future: Tento blok skončí v %{time}.
-      past: Teto blok již skončil před %{time} a již nemůže být zrušen.
+      past: Teto blok skončil %{time} a již nemůže být zrušen.
       confirm: Opravdu chcete zrušit tento blok?
       revoke: Zrušit !
       flash: Tento blok byl zrušen.
@@ -2425,7 +2441,7 @@ cs:
       time_future: Končí za %{time}.
       until_login: Aktivní dokud se uživatel nepřihlásí.
       time_future_and_until_login: Končí za %{time} a až se uživatel přihlásí.
-      time_past: Ukončeno před %{time}.
+      time_past: Ukončeno %{time}.
       block_duration:
         hours:
           one: 1 hodina
@@ -2524,6 +2540,7 @@ cs:
         title: Vrstvy
       copyright: © <a href='%{copyright_url}'>přispěvatelé OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Poskytněte dar</a>
+      terms: <a href='%{terms_url}' target='_blank'>Pravidla webu a API</a>
     site:
       edit_tooltip: Upravit mapu
       edit_disabled_tooltip: Pro editaci mapy přejděte na větší měřítko

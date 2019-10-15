@@ -19,6 +19,9 @@ ia:
         create: Salveguardar
       diary_entry:
         create: Publicar
+        update: Actualisar
+      issue_comment:
+        create: Adder commento
       message:
         create: Inviar
       client_application:
@@ -281,6 +284,7 @@ ia:
       wikidata_link: Le elemento %{page} in Wikidata
       wikipedia_link: Le articulo %{page} in Wikipedia
       telephone_link: Telephonar %{phone_number}
+      colour_preview: Previsualisation del color %{colour_value}
     note:
       title: 'Nota: %{id}'
       new_note: Nove nota
@@ -724,10 +728,37 @@ ia:
           "yes": Tempore libere
         man_made:
           adit: Galeria de mina
+          beacon: Fanal
+          beehive: Apiculario
+          breakwater: Rumpe-undas
+          bridge: Ponte
+          bunker_silo: Bunker
+          chimney: Camino
+          crane: Grue
+          dolphin: Poste de ammarrage
+          dyke: Dica
+          embankment: Terrapleno
+          flagpole: Palo de baniera
+          gasometer: Gasometro
+          kiln: Furno
           lighthouse: Pharo
+          mast: Mast
           mine: Mina
+          mineshaft: Puteo de mina
+          monitoring_station: Station de surveliantia
+          petroleum_well: Puteo petrolifere
+          pier: Jectata
           pipeline: Tubulatura
+          silo: Silo
+          storage_tank: Cisterna de immagazinage
+          surveillance: Surveliantia
           tower: Turre
+          wastewater_plant: Station de depuration de aquas usate
+          watermill: Molino de aqua
+          water_tower: Turre de aqua
+          water_well: Puteo
+          water_works: Tractamento de aqua
+          windmill: Molino de vento
           works: Fabrica
           "yes": Artificial
         military:
@@ -782,10 +813,12 @@ ia:
           architect: Architecto
           association: Association
           company: Compania
+          educational_institution: Institution educative
           employment_agency: Agentia de empleo
           estate_agent: Agentia immobiliari
           government: Officio governamental
           insurance: Officio de assecurantia
+          it: Officio informatic
           lawyer: Advocato
           ngo: Officio de un ONG
           telecommunication: Officio de telecommunication
@@ -794,6 +827,7 @@ ia:
         place:
           allotments: Jardines familial
           city: Citate
+          city_block: Bloco urban
           country: Pais
           county: Contato
           farm: Ferma
@@ -807,6 +841,7 @@ ia:
           municipality: Municipalitate
           neighbourhood: Quartiero
           postcode: Codice postal
+          quarter: Quartiero
           region: Region
           sea: Mar
           square: Placia
@@ -1034,6 +1069,53 @@ ia:
       reassign_param: Reassignar problema?
     reports:
       updated_at: Le %{datetime}
+      reported_by_html: Reportate como %{category} per %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, commento #%{comment_id}'
+        note: 'Nota #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Tu commento ha essite create
+  reports:
+    new:
+      title_html: Reportar %{link}
+      missing_params: Impossibile crear un nove reporto
+      details: Per favor, forni plus detalios sur le problema (obligatori).
+      select: 'Selige un motivo pro tu reporto:'
+      disclaimer:
+        intro: 'Ante de inviar tu reporto al moderatores del sito, per favor assecura
+          te que:'
+        not_just_mistake: Tu es secur que le problema non es solmente un error
+        unable_to_fix: Tu non es capace de solver le problema tu mesme o con le adjuta
+          de altere membros del communitate
+        resolve_with_user: Tu ha jam essayate de resolver le problema con le usator
+          in question
+      categories:
+        diary_entry:
+          spam_label: Iste entrata de diario es/contine spam
+          offensive_label: Iste entrata de diario es obscen/offensive
+          threat_label: Iste entrata de diario contine un menacia
+          other_label: Altere
+        diary_comment:
+          spam_label: Iste commento de diario es/contine spam
+          offensive_label: Iste commento de diario es obscen/offensive
+          threat_label: Iste commento de diario contine un menacia
+          other_label: Altere
+        user:
+          spam_label: Iste profilo de usator es/contine spam
+          offensive_label: Iste profilo de usator es obscen/offensive
+          threat_label: Iste profilo de usator contine un menacia
+          vandal_label: Iste usator es un vandalo
+          other_label: Altere
+        note:
+          spam_label: Iste nota es spam
+          personal_label: Iste nota contine datos personal
+          abusive_label: Iste nota es injuriose
+          other_label: Altere
+    create:
+      successful_report: Tu reporto ha essite registrate
+      provide_details: Per favor, forni le detalios necessari
   layouts:
     logo:
       alt_text: Logo de OpenStreetMap
@@ -1047,6 +1129,7 @@ ia:
     edit: Modificar
     history: Historia
     export: Exportar
+    issues: Problemas
     data: Datos
     export_data: Exportar datos
     gps_traces: Tracias GPS
@@ -1059,9 +1142,12 @@ ia:
     intro_text: OpenStreetMap es un carta del mundo, create per gente como tu e libere
       de usar sub un licentia aperte.
     intro_2_create_account: Crea un conto de usator
+    hosting_partners_html: Le allogiamento web es supportate per %{ucl}, %{bytemark}
+      e altere %{partners}.
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
+    tou: Conditiones de uso
     osm_offline: Le base de datos de OpenStreetMap non es disponibile al momento debite
       a operationes de mantenentia essential.
     osm_read_only: Le base de datos de OpenStreetMap es al momento in modo de solmente
@@ -1397,6 +1483,11 @@ ia:
           <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> e del
           <a href="http://www.mkgp.gov.si/en/">Ministerio del Agricultura, Silvicultura e Alimento</a>
           (information public de Slovenia).
+        contributors_es_html: '<strong>Espania</strong>: Contine datos proveniente
+          del Instituto Geographic National (<a href="http://www.ign.es/">IGN</a>)
+          e del Systema Cartographic National (<a href="http://www.scne.es/">SCNE</a>),
+          licentiate pro su reutilisation sub <a href="https://creativecommons.org/licenses/by/4.0/">CC
+          BY 4.0</a>.'
         contributors_za_html: |-
           <strong>Africa del Sud</strong>: Contine datos proveniente del
              <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -1404,7 +1495,7 @@ ia:
         contributors_gb_html: |-
           <strong>Regno Unite</strong>: Contine datos de Ordnance
              Survey &copy; copyright del Corona e derecto de base de datos
-             2010-12.
+             2010-19.
         contributors_footer_1_html: |-
           Pro ulterior detalios de iste e altere fontes que ha essite usate
           pro adjutar a meliorar OpenStreetMap, vide le <a
@@ -1534,16 +1625,16 @@ ia:
         subjectos de cartographia in collaboration con alteres.
       welcome:
         url: /welcome
-        title: Benvenite a OSM
+        title: Benvenite a OpenStreetMap
         description: Comencia con iste guida rapide sur le fundamentos de OpenStreetMap.
       beginners_guide:
         title: Guida pro comenciantes
         description: Guida pro comenciantes, mantenite per le communitate.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Foro de adjuta
         description: Pone un question o cerca responsas sur le sito de questiones
-          e responsas de OSM.
+          e responsas de OpenStreetMap.
       mailing_lists:
         title: Listas de diffusion
         description: Pone un question o discute cosas interessante sur un varietate
@@ -1559,10 +1650,14 @@ ia:
       switch2osm:
         description: Adjuta pro companias e organisationes qui vole migrar a cartas
           e altere servicios a base de OpenStreetMap.
+      welcomemat:
+        title: Pro organisationes
+        description: Es tu con un organisation que face planos pro OpenStreetMap?
+          Trova lo que tu debe saper sur le Matta de Benvenita.
       wiki:
         url: http://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: Percurre le wiki pro le documentation in detalio de OSM.
+        title: Wiki OpenStreetMap
+        description: Percurre le wiki pro le documentation in detalio de OpenStreetMap.
     sidebar:
       search_results: Resultatos del recerca
       close: Clauder
@@ -1575,6 +1670,7 @@ ia:
       where_am_i: Ubi es isto?
       where_am_i_title: Describer le position actual per medio del motor de recerca
       submit_text: Va
+      reverse_directions_text: Inverter le itinerario
     key:
       table:
         entry:
@@ -1720,6 +1816,7 @@ ia:
       identifiable: Identificabile (monstrate in le lista de tracias e como identificabile,
         punctos ordinate con datas e horas)
     new:
+      upload_trace: Incargar tracia GPS
       upload_gpx: 'Incargar file GPX:'
       description: 'Description:'
       tags: 'Etiquettas:'
@@ -1732,6 +1829,8 @@ ia:
       trace_uploaded: Tu file GPX ha essite incargate e attende insertion in le base
         de datos. Isto prende generalmente minus de un medie hora, e un e-mail te
         essera inviate al completion.
+      upload_failed: Le incargamento GPX ha fallite. Un administrator ha essite advertite
+        del error. Per favor, proba lo de novo.
       traces_waiting:
         one: Tu ha %{count} tracia attendente incargamento. Per favor considera attender
           le completion de iste ante de incargar alteres, pro non blocar le cauda
@@ -1755,6 +1854,8 @@ ia:
       tags_help: separate per commas
       visibility: 'Visibilitate:'
       visibility_help: que significa isto?
+    update:
+      updated: Tracia actualisate
     trace_optionals:
       tags: Etiquettas
     show:
@@ -1776,6 +1877,7 @@ ia:
       delete_trace: Deler iste tracia
       trace_not_found: Tracia non trovate!
       visibility: 'Visibilitate:'
+      confirm_delete: Deler iste tracia?
     trace_paging_nav:
       showing_page: Pagina %{page}
       older: Tracias plus ancian
@@ -1797,6 +1899,7 @@ ia:
       map: carta
     index:
       public_traces: Tracias GPS public
+      my_traces: Mi tracias GPS
       public_traces_from: Tracias GPS public de %{user}
       description: Percurrer le tracias GPS incargate recentemente
       tagged_with: '  etiquettate con %{tags}'
@@ -1805,6 +1908,7 @@ ia:
         wiki</a>.
       upload_trace: Incargar un tracia
       see_all_traces: Vider tote le tracias
+      see_my_traces: Vider mi tracias
     delete:
       scheduled_for_deletion: Tracia programmate pro deletion
     make_public:
@@ -1822,9 +1926,12 @@ ia:
         other: File GPX con %{count} punctos de %{user}
       description_without_count: File GPX de %{user}
   application:
+    permission_denied: Tu non ha le permission de acceder a iste action
     require_cookies:
       cookies_needed: Tu pare haber disactivate le cookies. Per favor activa le cookies
         in tu navigator ante de continuar.
+    require_admin:
+      not_an_admin: Tu debe esser administrator pro exequer iste action.
     setup_user_auth:
       blocked_zero_hour: Tu ha un message urgente sur le sito web de OpenStreetMap.
         Tu debe leger le message ante de poter salveguardar tu modificationes.
@@ -2041,12 +2148,17 @@ ia:
       contributor_terms_explain: Iste accordo regula le conditiones de tu contributiones
         existente e futur.
       read_ct: Io ha legite e io accepta le precedente terminos de contributor
+      tou_explain_html: Iste %{tou_link} governa le uso del sito web e altere infrastructura
+        fornite per OSMF. Per favor, clicca sur le ligamine, lege le texto, e declara
+        te de accordo.
+      read_tou: Io ha legite e io accepta le Conditiones de uso
       consider_pd: In addition a lo que precede, io considera mi contributiones como
         essente in le dominio public
       consider_pd_why: que es isto?
       guidance: 'Informationes pro adjutar a comprender iste terminos: a <a href="%{summary}">summario
         facile a comprender</a> e alcun <a href="%{translations}">traductiones non
         official</a>'
+      continue: Continuar
       decline: Declinar
       you need to accept or decline: Per favor lege e postea accepta o declina le
         nove Conditiones del Contributor pro continuar.
@@ -2095,6 +2207,7 @@ ia:
       if set location: Defini tu position de origine in le %{settings_link} pro vider
         le usatores a proximitate.
       settings_link_text: configurationes
+      my friends: Mi amicos
       no friends: Tu non ha ancora addite alcun amico.
       km away: a %{count} km de distantia
       m away: a %{count} m de distantia
@@ -2124,6 +2237,7 @@ ia:
       friends_diaries: articulos de diario de tu amicos
       nearby_changesets: gruppos de modificationes de usatores a proximitate
       nearby_diaries: articulos de diario per usatores a proximitate
+      report: Signalar iste usator
     popup:
       your location: Tu position
       nearby mapper: Cartographo vicin
@@ -2359,6 +2473,18 @@ ia:
         hours:
           one: 1 hora
           other: '%{count} horas'
+        days:
+          one: 1 die
+          other: '%{count} dies'
+        weeks:
+          one: 1 septimana
+          other: '%{count} septimanas'
+        months:
+          one: 1 mense
+          other: '%{count} menses'
+        years:
+          one: 1 anno
+          other: '%{count} annos'
     blocks_on:
       title: Blocadas de %{name}
       heading: Lista de blocadas de %{name}
@@ -2476,6 +2602,9 @@ ia:
         intro: Tu ha trovate un error? Qualcosa manca? Face lo saper al altere cartographos
           a fin que nos pote corriger lo. Displacia le marcator al position correcte
           e scribe un nota pro explicar le problema.
+        advice: Tu nota es public e pote esser usate pro actualisar le carta. Dunque,
+          non insere alcun information personal, ni datos ab cartas o catalogos protegite
+          per derectos de autor.
         add: Adder nota
       show:
         anonymous_warning: Iste nota include commentos de usatores anonyme que debe
@@ -2490,7 +2619,9 @@ ia:
     directions:
       ascend: Ascender
       engines:
+        fossgis_osrm_bike: Bicycletta (OSRM)
         fossgis_osrm_car: Auto (OSRM)
+        fossgis_osrm_foot: A pede (OSRM)
         graphhopper_bicycle: Bicycletta (GraphHopper)
         graphhopper_car: Auto (GraphHopper)
         graphhopper_foot: Pedestre (GraphHopper)
@@ -2503,8 +2634,23 @@ ia:
       instructions:
         continue_without_exit: Continuar sur %{name}
         slight_right_without_exit: Girar legiermente a dextra verso %{name}
+        offramp_right: Prende le rampa a dextra
+        offramp_right_with_exit: Prende le exito %{exit} a dextra
+        offramp_right_with_exit_name: Prende le exito %{exit} a dextra verso %{name}
+        offramp_right_with_exit_directions: Prende le exito %{exit} a dextra in direction
+          %{directions}
+        offramp_right_with_exit_name_directions: Prende le exito %{exit} a dextra
+          verso %{name}, in direction %{directions}
         offramp_right_with_name: Prende le rampa a dextra verso %{name}
+        offramp_right_with_directions: Prende le rampa a dextra in direction %{directions}
+        offramp_right_with_name_directions: Prende le rampa a dextra verso %{name},
+          in direction %{directions}
         onramp_right_without_exit: Girar a dextra sur le rampa verso %{name}
+        onramp_right_with_directions: Gira a dextra sur le rampa in direction %{directions}
+        onramp_right_with_name_directions: Gira a dextra sur le rampa verso %{name},
+          in direction %{directions}
+        onramp_right_without_directions: Gira a dextra sur le rampa
+        onramp_right: Gira a dextra sur le rampa
         endofroad_right_without_exit: Al fin del strata, girar a dextra verso %{name}
         merge_right_without_exit: Junger a dextra verso %{name}
         fork_right_without_exit: Al bifurcation, girar a dextra verso %{name}
@@ -2513,8 +2659,23 @@ ia:
         uturn_without_exit: Retornar preter %{name}
         sharp_left_without_exit: Curva acute a sinistra verso %{name}
         turn_left_without_exit: Girar a sinistra verso %{name}
+        offramp_left: Prende le rampa a sinistra
+        offramp_left_with_exit: Prende le exito %{exit} a sinistra
+        offramp_left_with_exit_name: Prende le exito %{exit} a sinistra verso %{name}
+        offramp_left_with_exit_directions: Prende le exito %{exit} a sinistra in direction
+          %{directions}
+        offramp_left_with_exit_name_directions: Prende le exito %{exit} a sinistra
+          verso %{name}, in direction %{directions}
         offramp_left_with_name: Prende le rampa al sinistra verso %{name}
+        offramp_left_with_directions: Prende le rampa a sinistra in direction %{directions}
+        offramp_left_with_name_directions: Prende le rampa a sinistra verso %{name},
+          in direction %{directions}
         onramp_left_without_exit: Girar a sinistra sur le rampa verso %{name}
+        onramp_left_with_directions: Gira a sinistra sur le rampa in direction %{directions}
+        onramp_left_with_name_directions: Gira a sinistra sur le rampa verso %{name},
+          in direction %{directions}
+        onramp_left_without_directions: Gira a sinistra sur le rampa
+        onramp_left: Gira a sinistra sur le rampa
         endofroad_left_without_exit: Al fin del strata, girar a sinistra verso %{name}
         merge_left_without_exit: Junger a sinistra verso %{name}
         fork_left_without_exit: Al bifurcation, girar a sinistra verso %{name}
@@ -2529,6 +2690,8 @@ ia:
         against_oneway_without_exit: Ir contra direction obligatori sur %{name}
         end_oneway_without_exit: Fin del direction obligatori sur %{name}
         roundabout_with_exit: Al rotunda prende le exito %{exit} sur %{name}
+        roundabout_with_exit_ordinal: Al rotunda prende le exito %{exit} verso %{name}
+        exit_roundabout: Exi del rotunda verso %{name}
         unnamed: cammino sin nomine
         courtesy: Itinerario fornite per %{link}
         exit_counts:
@@ -2587,4 +2750,9 @@ ia:
         pertinente a iste obscuration ante de destruer lo.
       flash: Obscuration destruite.
       error: Un error occurreva durante le destruction de iste obscuration.
+  validations:
+    leading_whitespace: ha spatios al initio
+    trailing_whitespace: ha spatios al fin
+    invalid_characters: contine characteres invalide
+    url_characters: contine characteres special de adresse URL (%{characters})
 ...

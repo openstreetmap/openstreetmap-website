@@ -24,7 +24,7 @@ class ChangesetComment < ActiveRecord::Base
   belongs_to :author, :class_name => "User"
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :changeset, :presence => true, :associated => true
   validates :author, :presence => true, :associated => true
   validates :visible, :inclusion => [true, false]

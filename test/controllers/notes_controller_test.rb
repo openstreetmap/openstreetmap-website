@@ -2,6 +2,7 @@ require "test_helper"
 
 class NotesControllerTest < ActionController::TestCase
   def setup
+    super
     # Stub nominatim response for note locations
     stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
       .to_return(:status => 404)

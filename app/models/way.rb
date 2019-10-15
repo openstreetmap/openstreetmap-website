@@ -39,11 +39,11 @@ class Way < ActiveRecord::Base
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :version, :presence => true,
-                      :numericality => { :integer_only => true }
+                      :numericality => { :only_integer => true }
   validates :changeset_id, :presence => true,
-                           :numericality => { :integer_only => true }
+                           :numericality => { :only_integer => true }
   validates :timestamp, :presence => true
   validates :changeset, :associated => true
   validates :visible, :inclusion => [true, false]

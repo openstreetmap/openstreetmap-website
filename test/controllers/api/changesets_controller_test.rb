@@ -1561,8 +1561,8 @@ CHANGESET
       user = create(:user)
       changeset = create(:changeset, :user => user)
       closed_changeset = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
-      changeset2 = create(:changeset, :min_lat => 5 * GeoRecord::SCALE, :min_lon => 5 * GeoRecord::SCALE, :max_lat => 15 * GeoRecord::SCALE, :max_lon => 15 * GeoRecord::SCALE)
-      changeset3 = create(:changeset, :min_lat => 4.5 * GeoRecord::SCALE, :min_lon => 4.5 * GeoRecord::SCALE, :max_lat => 5 * GeoRecord::SCALE, :max_lon => 5 * GeoRecord::SCALE)
+      changeset2 = create(:changeset, :min_lat => (5 * GeoRecord::SCALE).round, :min_lon => (5 * GeoRecord::SCALE).round, :max_lat => (15 * GeoRecord::SCALE).round, :max_lon => (15 * GeoRecord::SCALE).round)
+      changeset3 = create(:changeset, :min_lat => (4.5 * GeoRecord::SCALE).round, :min_lon => (4.5 * GeoRecord::SCALE).round, :max_lat => (5 * GeoRecord::SCALE).round, :max_lon => (5 * GeoRecord::SCALE).round)
 
       get :query, :params => { :bbox => "-10,-10, 10, 10" }
       assert_response :success, "can't get changesets in bbox"

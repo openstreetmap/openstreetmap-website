@@ -3,6 +3,8 @@ require "test_helper"
 module Api
   class UsersControllerTest < ActionController::TestCase
     def setup
+      super
+
       stub_hostip_requests
     end
 

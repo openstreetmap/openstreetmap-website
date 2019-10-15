@@ -28,7 +28,7 @@ class NoteComment < ActiveRecord::Base
   belongs_to :author, :class_name => "User", :foreign_key => :author_id
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :note, :presence => true, :associated => true
   validates :visible, :inclusion => [true, false]
   validates :author, :associated => true

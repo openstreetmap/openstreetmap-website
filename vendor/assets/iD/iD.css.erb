@@ -535,6 +535,7 @@ path.stroke.tag-leisure-park,
 path.stroke.tag-landuse-recreation_ground,
 path.stroke.tag-landuse-forest,
 path.stroke.tag-landuse-grass,
+path.stroke.tag-landuse-flowerbed,
 path.stroke.tag-barrier-hedge {
     stroke: rgb(140, 208, 95);
 }
@@ -549,6 +550,7 @@ path.fill.tag-leisure-park,
 path.fill.tag-landuse-recreation_ground,
 path.fill.tag-landuse-forest,
 path.fill.tag-landuse-grass,
+path.fill.tag-landuse-flowerbed,
 path.fill.tag-barrier-hedge {
     stroke: rgba(140, 208, 95, 0.3);
     fill: rgba(140, 208, 95, 0.3);
@@ -1292,6 +1294,13 @@ path.line.stroke.tag-highway-footway,
 path.line.stroke.tag-highway_bus_stop,
 .preset-icon-container path.casing.tag-highway-footway {
     stroke: #988;
+}
+.preset-icon .icon.tag-highway-footway.tag-footway-sidewalk {
+    color: #d4b4b4;
+}
+path.stroke.tag-highway-footway.tag-footway-sidewalk,
+.preset-icon-container path.casing.tag-highway-footway.tag-footway-sidewalk {
+    stroke: #d4b4b4;
 }
 .preset-icon-container path.stroke.tag-highway-footway:not(.tag-crossing-marked):not(.tag-crossing-unmarked):not(.tag-man_made-pier):not(.tag-public_transport-platform) {
     stroke: #fff;
@@ -5795,7 +5804,8 @@ input.key-trap {
     border-radius: 0;
 }
 
-.map-control > button:hover {
+.map-control > button:hover,
+.map-control > button:focus {
     background: rgba(0, 0, 0, .8);
 }
 
@@ -5896,6 +5906,7 @@ div.full-screen > button:hover {
     background-color: #fff;
     color: #7092ff;
     position: relative;
+    display: flex;
 }
 
 .layer-list:empty {
@@ -5926,9 +5937,8 @@ div.full-screen > button:hover {
 }
 
 .layer-list li.best > div.best {
-    display: inline-block;
     padding: 5px;
-    float: right;
+    flex: 0 0 auto;
 }
 
 [dir='rtl'] .list-item-data-browse svg {
@@ -5942,9 +5952,9 @@ div.full-screen > button:hover {
 }
 
 .layer-list label {
-    display: block;
     padding: 5px 10px;
     cursor: pointer;
+    flex: 1 1 auto;
 }
 
 [dir='ltr'] .layer-list .indented label {
@@ -5963,7 +5973,6 @@ div.full-screen > button:hover {
 
 .map-data-pane .layer-list button,
 .background-pane .layer-list button {
-    float: right;
     height: 100%;
     border-left: 1px solid #ccc;
     border-radius: 0;
@@ -5972,7 +5981,6 @@ div.full-screen > button:hover {
 }
 [dir='rtl'] .map-data-pane .layer-list button,
 [dir='rtl'] .background-pane .layer-list button {
-    float: left;
     border-left: none;
     border-right: 1px solid #ccc;
 }
@@ -5982,12 +5990,12 @@ div.full-screen > button:hover {
     opacity: 0.5;
 }
 
-.map-data-pane .layer-list button:first-of-type,
-.background-pane .layer-list button:first-of-type {
+.map-data-pane .layer-list button:last-of-type,
+.background-pane .layer-list button:last-of-type {
     border-radius: 0 3px 3px 0;
 }
-[dir='rtl'] .map-data-pane .layer-list button:first-of-type,
-[dir='rtl'] .background-pane .layer-list button:first-of-type {
+[dir='rtl'] .map-data-pane .layer-list button:last-of-type,
+[dir='rtl'] .background-pane .layer-list button:last-of-type {
     border-radius: 3px 0 0 3px;
 }
 
@@ -7954,7 +7962,8 @@ svg.mouseclick use.right {
     border-radius: 8px;
 }
 
-.notice .zoom-to:hover {
+.notice .zoom-to:hover,
+.notice .zoom-to:focus {
     background: rgba(0,0,0,0.6);
 }
 
