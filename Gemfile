@@ -165,4 +165,5 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "poltergeist"
   gem "puma", "~> 3.7"
+  gem "rspec"
 end
