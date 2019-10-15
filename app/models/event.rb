@@ -12,7 +12,7 @@
 #  updated_at   :datetime         not null
 #
 
-class Event < ApplicationRecord
+class Event < ActiveRecord::Base
   belongs_to :microcosm
   has_many :event_attendances
 
