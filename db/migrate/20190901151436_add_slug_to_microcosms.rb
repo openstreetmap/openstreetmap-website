@@ -2,6 +2,7 @@ class AddSlugToMicrocosms < ActiveRecord::Migration[5.2]
   def up
     add_column :microcosms, :slug, :string
     Microcosm.update_all ["slug = key"]
+    change_column_null :microcosms, :slug, false
   end
 
   def down
@@ -10,12 +11,10 @@ class AddSlugToMicrocosms < ActiveRecord::Migration[5.2]
   end
 end
 
-module StrongMigrations
-  class Checker2 < ActiveRecord::Migration[5.2]
-    disable_ddl_transaction!
+class AddIndexToMicrocosmSlug < ActiveRecord::Migration[5.2]
+  disable_ddl_transaction!
 
-    def change
-      add_index :microcosms, :slug, :unique => true, :algorithm => :concurrently
-    end
+  def change
+    add_index :microcosms, :slug, :unique => true, :algorithm => :concurrently
   end
 end

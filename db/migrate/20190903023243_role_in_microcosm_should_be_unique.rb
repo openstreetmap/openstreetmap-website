@@ -1,9 +1,3 @@
-class RoleInMicrocosmShouldBeNotNull < ActiveRecord::Migration[5.2]
-  def change
-    change_column_null :microcosm_members, :role, false
-  end
-end
-
 class RoleInMicrocosmShouldBeUnique < ActiveRecord::Migration[5.2]
   disable_ddl_transaction!
 

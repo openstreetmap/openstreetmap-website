@@ -7,7 +7,7 @@
 #  description :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  slug        :string
+#  slug        :string           not null
 #  location    :string           not null
 #  lat         :decimal(, )      not null
 #  lon         :decimal(, )      not null
@@ -28,7 +28,7 @@ class Microcosm < ApplicationRecord
   has_many :events
 
   def set_link(site, url)
-    link = MicrocosmLink.find_or_create_by!(:microcosm_id => id, :site => site)
+    link = MicrocosmLink.find_or_initialize_by(:microcosm_id => id, :site => site)
     link.url = url
     link.save!
   end

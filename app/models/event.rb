@@ -3,7 +3,7 @@
 # Table name: events
 #
 #  id           :bigint(8)        not null, primary key
-#  title        :string
+#  title        :string           not null
 #  moment       :datetime
 #  location     :string
 #  description  :text

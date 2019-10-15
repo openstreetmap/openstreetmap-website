@@ -649,9 +649,9 @@ CREATE TABLE public.diary_entry_subscriptions (
 
 CREATE TABLE public.event_attendances (
     id bigint NOT NULL,
-    user_id integer,
-    event_id integer,
-    intention character varying,
+    user_id integer NOT NULL,
+    event_id integer NOT NULL,
+    intention character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -682,7 +682,7 @@ ALTER SEQUENCE public.event_attendances_id_seq OWNED BY public.event_attendances
 
 CREATE TABLE public.events (
     id bigint NOT NULL,
-    title character varying,
+    title character varying NOT NULL,
     moment timestamp without time zone,
     location character varying,
     description text,
@@ -983,9 +983,9 @@ ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
 CREATE TABLE public.microcosm_links (
     id bigint NOT NULL,
-    microcosm_id integer,
-    site character varying,
-    url character varying,
+    microcosm_id integer NOT NULL,
+    site character varying NOT NULL,
+    url character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -1018,7 +1018,7 @@ CREATE TABLE public.microcosm_members (
     id bigint NOT NULL,
     microcosm_id integer NOT NULL,
     user_id integer NOT NULL,
-    role character varying(64),
+    role character varying(64) NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -1053,7 +1053,7 @@ CREATE TABLE public.microcosms (
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    slug character varying,
+    slug character varying NOT NULL,
     location character varying NOT NULL,
     lat numeric NOT NULL,
     lon numeric NOT NULL,
@@ -2420,7 +2420,7 @@ CREATE INDEX gpx_files_visible_visibility_idx ON public.gpx_files USING btree (v
 -- Name: index_acls_on_address; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_acls_on_address ON public.acls USING gist (address inet_ops);
+CREATE INDEX index_acls_on_address ON public.acls USING gist (address);
 
 
 --
@@ -2501,6 +2501,20 @@ CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON public.diary_e
 
 
 --
+-- Name: index_event_attendances_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_attendances_on_event_id ON public.event_attendances USING btree (event_id);
+
+
+--
+-- Name: index_event_attendances_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_attendances_on_user_id ON public.event_attendances USING btree (user_id);
+
+
+--
 -- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2568,6 +2582,13 @@ CREATE INDEX index_issues_on_status ON public.issues USING btree (status);
 --
 
 CREATE INDEX index_issues_on_updated_by ON public.issues USING btree (updated_by);
+
+
+--
+-- Name: index_microcosm_links_on_microcosm_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_microcosm_links_on_microcosm_id ON public.microcosm_links USING btree (microcosm_id);
 
 
 --
