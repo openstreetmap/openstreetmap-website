@@ -10,8 +10,7 @@ Other Linux distributions should have similar installation instructions using `d
 
 Installers are available for Mac OS X and Windows, please see the [Vagrant project download page](https://www.vagrantup.com/downloads.html) for more information.
 
-Note than until there are suitable _xenial64_ [vagrant boxes](https://atlas.hashicorp.com/boxes/search?utf8=%E2%9C%93&sort=&provider=&q=xenial64) for other providers,
-the only virtualization provider supported is virtualbox. You might need to install it and specify `--provider virtualbox` when setting up your environment.
+We currently support three Vagrant providers, namely `virtualbox`, `lxc` and `libvirt`. You might need to install one of these, for example virtualbox, and specify the provider, e.g. `--provider virtualbox`, when setting up your environment.
 
 # Setting up openstreetmap-website
 
