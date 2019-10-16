@@ -49,6 +49,9 @@ cs:
         create: Uložit
       diary_entry:
         create: Publikovat
+        update: Aktualizovat
+      issue_comment:
+        create: Přidat komentář
       message:
         create: Odeslat
       client_application:
@@ -135,6 +138,9 @@ cs:
         description: Popis
         languages: Jazyky
         pass_crypt: Heslo
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: před půl minutou
   editor:
     default: Výchozí (aktuálně %{name})
     potlatch:
@@ -152,14 +158,14 @@ cs:
   api:
     notes:
       comment:
-        opened_at_html: Vytvořeno před %{when}
-        opened_at_by_html: Vytvořeno před %{when} uživatelem %{user}
-        commented_at_html: Aktualizováno před %{when}
-        commented_at_by_html: Aktualizováno před %{when} uživatelem %{user}
-        closed_at_html: Vyřešeno před %{when}
-        closed_at_by_html: Vyřešeno před %{when} uživatelem %{user}
-        reopened_at_html: Reaktivováno před %{when}
-        reopened_at_by_html: Reaktivováno před %{when} uživatelem %{user}
+        opened_at_html: Vytvořeno %{when}
+        opened_at_by_html: Vytvořeno %{when} uživatelem %{user}
+        commented_at_html: Aktualizováno %{when}
+        commented_at_by_html: Aktualizováno %{when} od %{user}
+        closed_at_html: Vyřešeno %{when}
+        closed_at_by_html: Vyřešeno %{when} od %{user}
+        reopened_at_html: Reaktivováno %{when}
+        reopened_at_by_html: Reaktivováno %{when} od %{user}
       rss:
         title: Poznámky OpenStreetMap
         description_area: Seznam poznámek hlášených, komentovaných nebo uzavřených
@@ -175,16 +181,12 @@ cs:
   browse:
     created: Vytvořeno
     closed: Uzavřeno
-    created_html: Vytvořeno <abbr title='%{title}'>před %{time}</abbr>
-    closed_html: Uzavřeno <abbr title='%{title}'>před %{time}</abbr>
-    created_by_html: Vytvořeno <abbr title='%{title}'>před %{time}</abbr> uživatelem
-      %{user}
-    deleted_by_html: Smazáno <abbr title='%{title}'>před %{time}</abbr> uživatelem
-      %{user}
-    edited_by_html: Upraveno <abbr title='%{title}'>před %{time}</abbr> uživatelem
-      %{user}
-    closed_by_html: Uzavřeno <abbr title='%{title}'>před %{time}</abbr> uživatelem
-      %{user}
+    created_html: Vytvořeno <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Uzavřeno <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Vytvořeno <abbr title='%{title}'>%{time}</abbr> od %{user}
+    deleted_by_html: Smazáno <abbr title='%{title}'>%{time}</abbr> od %{user}
+    edited_by_html: Upraveno <abbr title='%{title}'>%{time}</abbr> od %{user}
+    closed_by_html: Uzavřeno <abbr title='%{title}'>%{time}</abbr> od %{user}
     version: Verze
     in_changeset: Sada změn
     anonymous: anonym
@@ -204,9 +206,8 @@ cs:
       relation: Relace (%{count})
       relation_paginated: Relace (%{x}–%{y} z %{count})
       comment: Komentáře (%{count})
-      hidden_commented_by: Skrytý komentář od uživatele %{user} <abbr title='%{exact_time}'>před
-        %{when}</abbr>
-      commented_by: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval %{user}
+      hidden_commented_by: Skrytý komentář od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Komentář od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Sada změn XML
       osmchangexml: osmChange XML
       feed:
@@ -276,6 +277,7 @@ cs:
       wikidata_link: Položka %{page} na Wikidatech
       wikipedia_link: Článek %{page} na Wikipedii
       telephone_link: Volat %{phone_number}
+      colour_preview: Náhled barvy %{colour_value}
     note:
       title: 'Poznámka: %{id}'
       new_note: Nová poznámka
@@ -283,14 +285,12 @@ cs:
       open_title: 'Nevyřešená poznámka #%{note_name}'
       closed_title: 'Vyřešená poznámka #%{note_name}'
       hidden_title: 'Skrytá poznámka #%{note_name}'
-      open_by: Vytvořil %{user} <abbr title='%{exact_time}'>před %{when}</abbr>
-      open_by_anonymous: Vytvořil anonym <abbr title='%{exact_time}'>před %{when}</abbr>
-      commented_by: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval uživatel
-        %{user}
-      commented_by_anonymous: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval
+      open_by: Vytvořil %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Vytvořil anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: <abbr title='%{exact_time}'>%{when}</abbr> okomentoval %{user}
+      commented_by_anonymous: <abbr title='%{exact_time}'>%{when}</abbr> okomentoval
         anonym
-      closed_by: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr> uživatel
-        %{user}
+      closed_by: Vyřešeno od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       closed_by_anonymous: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr>
         anonym
       reopened_by: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr> uživatel
@@ -336,7 +336,7 @@ cs:
   changeset_comments:
     comment:
       comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
-      commented_at_by_html: Aktualizováno před %{when} uživatelem %{user}
+      commented_at_by_html: Aktualizováno %{when} od %{user}
     comments:
       comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
     index:
@@ -369,7 +369,7 @@ cs:
       older_entries: Starší záznamy
       newer_entries: Novější záznamy
     edit:
-      title: Upravit deníkový záznam
+      title: Upravit zápis do deníku
       marker_text: Místo deníkového záznamu
     show:
       title: Deník uživatele %{user} | %{title}
@@ -393,11 +393,13 @@ cs:
         other: '%{count} komentářů'
       edit_link: Upravit tento záznam
       hide_link: Skrýt tento záznam
+      unhide_link: Odkrýt tento záznam
       confirm: Potvrdit
       report: Nahlásit tento záznam
     diary_comment:
       comment_from: Komentář od %{link_user} z %{comment_created_at}
       hide_link: Skrýt tento komentář
+      unhide_link: Odkrýt tento komentář
       confirm: Potvrdit
       report: Nahlásit tento komentář
     location:
@@ -1033,8 +1035,8 @@ cs:
       status: Stav
       reports: Hlášení
       last_updated: Poslední změna
-      last_updated_time_html: <abbr title='%{title}'>před %{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>před %{time}</abbr> od %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> od %{user}
       link_to_reports: Zobrazit hlášení
       reports_count:
         one: 1 Hlášení
@@ -1627,6 +1629,7 @@ cs:
         description: Pomoc společnostem a organizacím s přechodem na mapy a další
           služby založené na OpenStreetMap.
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: Pro organizace
         description: Jste u organizace, která má plány s OpenStreetMap? Podívejte
           se na uvítací průvodce.
@@ -2172,7 +2175,7 @@ cs:
       ct status: 'Podmínky pro přispěvatele:'
       ct undecided: Nerozhodnuto
       ct declined: Odmítnuty
-      latest edit: 'Poslední editace %{ago}:'
+      latest edit: 'Poslední úprava (%{ago}):'
       email address: 'E-mailová adresa:'
       created from: 'Vytvořeno od:'
       status: 'Stav:'
@@ -2430,7 +2433,7 @@ cs:
       title: Zrušení bloku pro %{block_on}
       heading: Zrušení bloku pro %{block_on} od %{block_by}
       time_future: Tento blok skončí v %{time}.
-      past: Teto blok již skončil před %{time} a již nemůže být zrušen.
+      past: Teto blok skončil %{time} a již nemůže být zrušen.
       confirm: Opravdu chcete zrušit tento blok?
       revoke: Zrušit !
       flash: Tento blok byl zrušen.
@@ -2438,7 +2441,7 @@ cs:
       time_future: Končí za %{time}.
       until_login: Aktivní dokud se uživatel nepřihlásí.
       time_future_and_until_login: Končí za %{time} a až se uživatel přihlásí.
-      time_past: Ukončeno před %{time}.
+      time_past: Ukončeno %{time}.
       block_duration:
         hours:
           one: 1 hodina

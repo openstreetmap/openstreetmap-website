@@ -42,6 +42,7 @@ ar:
   time:
     formats:
       friendly: '%e %B %Y في %H:%M'
+      blog: '%e %B %Y'
   helpers:
     submit:
       diary_comment:
@@ -176,6 +177,9 @@ ar:
       x_years:
         one: منذ سنة واحدة
         other: منذ %{count} سنوات
+  printable_name:
+    with_version: '%{id}، v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: الافتراضي (حالياً %{name})
     potlatch:
@@ -267,6 +271,7 @@ ar:
       history_title: 'تاريخ الصلة: %{name}'
       members: الأعضاء
     relation_member:
+      entry: '%{type} %{name}'
       entry_role: '%{type} %{name} كــ%{role}'
       type:
         node: عقدة
@@ -467,6 +472,7 @@ ar:
           خريطة الشارع المفتوحة</a>
         geonames_reverse: نتائج من <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: عربة قطار هوائي
@@ -1217,6 +1223,7 @@ ar:
       footer: يمكنك أيضًا قراءة التعليق على %{readurl} ويمكنك التعليق على %{commenturl}
         أو الرد على %{replyurl}
     message_notification:
+      subject_header: '[OpenStreetMap] %{subject}'
       hi: مرحبًا %{to_user}،
       header: '%{from_user} قام بإرسال رسالة لك عبر خريطة الشارع المفتوحة بالعنوان
         %{subject}:'
@@ -1238,6 +1245,7 @@ ar:
         failed_to_import: 'فشل الاستيراد، الخطأ هو:'
         more_info_1: المزيد من المعلومات حول فشل استيراد جي بي إكس وكيفية تجنبه
         more_info_2: 'وهي موجودة على:'
+        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       success:
         subject: '[خريطة الشارع المفتوحة] نجاح استيراد جي بي إكس'
         loaded_successfully: تم تحميل بنجاح %{trace_points} نقطة من أصل %{possible_points}
@@ -1566,6 +1574,7 @@ ar:
       not_public_description: أنت لم تعد قادر على تعديل الخريطة إلا إذا قمت بذلك،
         يمكنك تعيين تعديلاتك لتكون علنية من %{user_page} الخاصة بك.
       user_page_link: صفحة مستخدم
+      anon_edits: (%{link})
       anon_edits_link_text: ابحث عن السبب لماذا هو هذا الحال.
       flash_player_required: أنت بحاجة لمشغل فلاش لاستخدام Potlatch، محرر فلاش خريطة
         الشارع المفتوحة. يمكنك <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">تنزيل
@@ -1877,6 +1886,7 @@ ar:
       tags_help: محددة بفواصل
       visibility: 'الرؤية:'
       visibility_help: ماذا يعني هذا؟
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: تم تحديث التتبع
     trace_optionals:
@@ -1907,7 +1917,9 @@ ar:
       newer: الآثار الحديثة
     trace:
       pending: في الانتظار
-      count_points: '%{count} نقطة'
+      count_points:
+        one: 1 نقطة
+        other: '%{count} نقاط'
       more: المزيد
       trace_details: اعرض تفاصيل الأثر
       view_map: اعرض الخريطة

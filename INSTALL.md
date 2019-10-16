@@ -124,6 +124,14 @@ We use [Yarn](https://yarnpkg.com/) to manage the Node.js modules required for t
 bundle exec rake yarn:install
 ```
 
+## Prepare local settings file
+
+This is a workaround. [See issues/2185 for details](https://github.com/openstreetmap/openstreetmap-website/issues/2185#issuecomment-508676026).
+
+```
+touch config/settings.local.yml
+```
+
 ## Storage setup
 
 The Rails port needs to be configured with an object storage facility - for
