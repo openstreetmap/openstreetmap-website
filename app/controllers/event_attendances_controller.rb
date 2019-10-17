@@ -9,9 +9,9 @@ class EventAttendancesController < ApplicationController
     attendance = EventAttendance.new(attendance_params)
     attendance.intention = intention
     if attendance.save
-      redirect_to event_path(attendance.event), :notice => "Attendance was successfully saved."
+      redirect_to event_path(attendance.event), :notice => t(".success")
     else
-      redirect_to event_path(attendance.event), :notice => "Attendance was not saved."
+      redirect_to event_path(attendance.event), :notice => t(".failure")
     end
   end
 
@@ -20,7 +20,7 @@ class EventAttendancesController < ApplicationController
       attendance = EventAttendance.find(params[:id])
       attendance.intention = intention
       if attendance.update(attendance_params)
-        format.html { redirect_to @event_attendance.event, :notice => "Attendance was successfully updated." }
+        format.html { redirect_to @event_attendance.event, :notice => t(".success") }
       else
         format.html { render :edit }
       end

@@ -1,11 +1,10 @@
 <% content_for :heading do %>
   <h1>
-    <%= @microcosm.name + " Members" %>
+    <%= @microcosm.name + " " + t(".members") %>
   </h1>
 <% end %>
-
 <h2>
-Members
+  <%= t(".members") %>
 </h2>
 <div class='members'>
   <ul>
@@ -13,7 +12,7 @@ Members
       <li>
         <%= membership.role %> <%= membership.user.display_name %>
         <% if current_user and (current_user.administrator? or @microcosm.organizer?(current_user)) %>
-          <%= link_to "edit", edit_microcosm_member_path(membership) %>
+          <%= link_to t(".edit"), edit_microcosm_member_path(membership) %>
         <% end %>
       </li>
     <% end %>

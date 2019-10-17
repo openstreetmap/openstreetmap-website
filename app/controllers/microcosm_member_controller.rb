@@ -9,9 +9,9 @@ class MicrocosmMemberController < ApplicationController
     membership = MicrocosmMember.new(mm_params)
     membership.role = MicrocosmMember::Roles::MEMBER
     if membership.save
-      redirect_to microcosm_path(membership.microcosm), :notice => "Member was successfully created."
+      redirect_to microcosm_path(membership.microcosm), :notice => t(".success")
     else
-      redirect_to microcosm_path(membership.microcosm), :notice => "Member was not saved."
+      redirect_to microcosm_path(membership.microcosm), :notice => t(".failure")
     end
   end
 
@@ -20,7 +20,7 @@ class MicrocosmMemberController < ApplicationController
   def update
     respond_to do |format|
       if @microcosm_member.update(mm_params)
-        format.html { redirect_to @microcosm_member.microcosm, :notice => "Microcosm Member was successfully updated." }
+        format.html { redirect_to @microcosm_member.microcosm, :notice => t(".success") }
       else
         format.html { render :edit }
       end

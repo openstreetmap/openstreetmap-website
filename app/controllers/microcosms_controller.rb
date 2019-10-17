@@ -23,7 +23,7 @@ class MicrocosmsController < ApplicationController
   def update
     respond_to do |format|
       if @microcosm.update(microcosm_params)
-        format.html { redirect_to @microcosm, :notice => "Microcosm was successfully updated." }
+        format.html { redirect_to @microcosm, :notice => t(".success") }
       else
         format.html { render :edit }
       end
@@ -37,9 +37,9 @@ class MicrocosmsController < ApplicationController
   def create
     @microcosm = Microcosm.new(microcosm_params)
     if @microcosm.save
-      redirect_to microcosms_path, :notice => "Member was successfully created."
+      redirect_to microcosms_path, :notice => t(".success")
     else
-      redirect_to microcosms_path, :notice => "Member was not saved."
+      redirect_to microcosms_path, :notice => t(".failure")
     end
   end
 

@@ -2,7 +2,6 @@
   <% if event.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
-
       <ul>
         <% event.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -10,27 +9,22 @@
       </ul>
     </div>
   <% end %>
-
   <div class="form-row">
     <%= form.label :title, :class => "standard-label" %>
     <%= form.text_field :title, :id => :event_title %>
   </div>
-
   <div class="form-row">
     <%= form.label :moment, :class => "standard-label" %>
     <%= form.datetime_select :moment, :id => :event_moment %>
   </div>
-
   <div class="form-row">
     <%= form.label :location, :class => "standard-label" %>
     <%= form.text_field :location, :id => :event_location %>
   </div>
-
   <div class="form-row">
     <%= form.label :description, :class => "standard-label" %>
     <%= form.text_area :description, :id => :event_description %>
   </div>
-
   <% if @event&.microcosm_id %>
     <%= form.hidden_field(:microcosm_id, :value => @event.microcosm_id) %>
   <% else %>
@@ -39,7 +33,6 @@
       <%= collection_select(:event, :microcosm_id, Microcosm.all, :id, :name, :prompt => true) %>
     </div>
   <% end %>
-
   <div class="actions">
     <%= form.submit %>
   </div>

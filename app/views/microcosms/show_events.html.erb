@@ -1,9 +1,8 @@
 <% content_for :heading do %>
   <h1>
-    <%= @microcosm.name + " Events" %>
+    <%= @microcosm.name + " " + t(".events") %>
   </h1>
 <% end %>
-
 <h2>
   Events
 </h2>
@@ -16,6 +15,6 @@
 </ul>
 <p>
   <% if current_user && @microcosm.organizer?(current_user) %>
-    <%= link_to "new event", new_event_path(:microcosm_id => @microcosm.id) %>
+    <%= link_to t(".new_event"), new_event_path(:microcosm_id => @microcosm.id) %>
   <% end %>
 </p>
