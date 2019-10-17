@@ -235,11 +235,12 @@ class DiaryEntriesController < ApplicationController
   end
 
   def comments
+    conditions = { :user_id => @user }
+
+    conditions[:visible] = true unless current_user&.administrator?
+
     @comment_pages, @comments = paginate(:diary_comments,
-                                         :conditions => {
-                                           :user_id => @user,
-                                           :visible => true
-                                         },
+                                         :conditions => conditions,
                                          :order => "created_at DESC",
                                          :per_page => 20)
     @page = (params[:page] || 1).to_i
