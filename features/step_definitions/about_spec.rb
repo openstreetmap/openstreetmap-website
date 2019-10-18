@@ -12,19 +12,19 @@ Given("there is a microcosm {string}, {string}, {string}, {string}, {string}, {s
 end
 
 Given("I am on the microcosms page") do
-  visit "/microcosms"
+  visit microcosms_path
 end
 
 Given("I am on the microcosm {string} page") do |name|
-  visit "/microcosms/" + name.downcase
+  visit microcosm_path(Microcosm.find_by_name(name))
 end
 
 Given("I am on the microcosm page by id") do
-  visit "/microcosms/#{@the_microcosm.id}"
+  visit microcosm_path(@the_microcosm)
 end
 
 Given("I am on the microcosm edit page") do
-  visit "/microcosms/#{@the_microcosm.id}/edit"
+  visit edit_microcosm_path(@the_microcosm)
 end
 
 Given("there is an event for this microcosm") do
@@ -152,7 +152,7 @@ And("I press {string}") do |title|
 end
 
 When("user {string} logs in") do |username|
-  visit "/login"
+  visit login_path
   within("#login_form") do
     fill_in "username", :with => username
     fill_in "password", :with => "test"
