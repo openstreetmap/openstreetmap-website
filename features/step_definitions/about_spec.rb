@@ -16,7 +16,7 @@ Given("I am on the microcosms page") do
 end
 
 Given("I am on the microcosm {string} page") do |name|
-  visit microcosm_path(Microcosm.find_by_name(name))
+  visit microcosm_path(Microcosm.find_by(:name => name))
 end
 
 Given("I am on the microcosm page by id") do
