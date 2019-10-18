@@ -71,6 +71,7 @@ For MacOSX, you will need XCode installed from the Mac App Store; OS X 10.7 (Lio
 Installing PostgreSQL:
 
 * Install Postgres.app from https://postgresapp.com/
+* Make sure that you've initialized and started Postgresql from the app (there should be a little elephant icon in your systray).
 * Add PostgreSQL to your path, by editing your profile:
 
 `nano ~/.profile`
@@ -79,14 +80,37 @@ and adding:
 
 `export PATH=/Applications/Postgres.app/Contents/MacOS/bin:$PATH`
 
+After this, you may need to start a new shell window, or source the profile again by running `. ~/.profile`.
+
 Installing other dependencies:
 
 * Install Homebrew from https://brew.sh/
 * Install the latest version of Ruby: `brew install ruby`
 * Install ImageMagick: `brew install imagemagick`
-* Install libxml2: `brew install libxml2 --with-xml2-config`
-* If you want to run the tests, you need `phantomjs` as well: `brew install phantomjs`
-* Install Bundler: `gem install bundler`
+* Install libxml2: `brew install libxml2`
+* Install libgd: `brew install gd`
+* Install Yarn: `brew install yarn`
+* Install pngcrush: `brew install pngcrush`
+* Install optipng: `brew install optipng`
+* Install pngquant: `brew install pngquant`
+* Install jhead: `brew install jhead`
+* Install jpegoptim: `brew install jpegoptim`
+* Install gifsicle: `brew install gifsicle`
+* Install svgo: `brew install svgo`
+* Install Bundler: `gem install bundler` (you might need to `sudo gem install bundler` if you get an error about permissions)
+
+You will need to tell `bundler` that `libxml2` is installed in a Homebrew location. If it uses the system-installed one then you will get errors installing the `libxml-ruby` gem later on.
+
+```
+bundle config build.libxml-ruby --with-xml2-config=/usr/local/opt/libxml2/bin/xml2-config
+```
+
+If you want to run the tests, you need `phantomjs` as well:
+
+```
+brew tap homebrew/cask
+brew cask install phantomjs
+```
 
 Note that OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.
 
