@@ -2461,7 +2461,7 @@ CREATE INDEX gpx_files_visible_visibility_idx ON public.gpx_files USING btree (v
 -- Name: index_acls_on_address; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_acls_on_address ON public.acls USING gist (address);
+CREATE INDEX index_acls_on_address ON public.acls USING gist (address inet_ops);
 
 
 --
