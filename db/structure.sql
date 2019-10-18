@@ -8,6 +8,20 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
 
+---
+--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
+---
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
 --
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
 --
@@ -112,6 +126,33 @@ CREATE TYPE public.user_status_enum AS ENUM (
     'suspended',
     'deleted'
 );
+
+
+--
+-- Name: maptile_for_point(bigint, bigint, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.maptile_for_point(bigint, bigint, integer) RETURNS integer
+    LANGUAGE c STRICT
+    AS '$libdir/libpgosm.so', 'maptile_for_point';
+
+
+--
+-- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.tile_for_point(integer, integer) RETURNS bigint
+    LANGUAGE c STRICT
+    AS '$libdir/libpgosm.so', 'tile_for_point';
+
+
+--
+-- Name: xid_to_int4(xid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.xid_to_int4(xid) RETURNS integer
+    LANGUAGE c IMMUTABLE STRICT
+    AS '$libdir/libpgosm.so', 'xid_to_int4';
 
 
 SET default_tablespace = '';
