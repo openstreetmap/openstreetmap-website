@@ -18,7 +18,7 @@ Feature: Manage a Microcosm
     When user "abe@example.com" logs in
     And I am on the microcosms page
     And I click the link to "/microcosms/mappingdc/edit"
-    And I set the microcosm to ".edit_microcosm", "Baltimore", "40", "-76"
+    And I set the microcosm in ".edit_microcosm" to "Baltimore", "40", "-76"
     And I submit the form
     Then I should not see "Washington, DC, USA"
     Then I should see "Baltimore"

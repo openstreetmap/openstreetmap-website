@@ -65,16 +65,16 @@ Then("I should see the microcosm {string} name") do |name|
   expect(page).to have_content(name)
 end
 
-And("I set the microcosm to {string}, {string}, {string}, {string}") do |scope, name, lat, lon|
+And("I set the microcosm in {string} to {string}, {string}, {string}") do |scope, name, lat, lon|
   within(scope) do
     fill_in "Name", :with => name
     fill_in "Location", :with => name
-    fill_in "Lat", :with => lat
-    fill_in "Lon", :with => lon
-    fill_in "Min lat", :with => lat
-    fill_in "Max lat", :with => lat
-    fill_in "Min lon", :with => lon
-    fill_in "Max lon", :with => lon
+    fill_in "Latitude", :with => lat
+    fill_in "Longitude", :with => lon
+    fill_in "Minimum Latitude", :with => lat
+    fill_in "Maximum Latitude", :with => lat
+    fill_in "Minimum Longitude", :with => lon
+    fill_in "Maximum Longitude", :with => lon
     fill_in "Description", :with => name
   end
 end
