@@ -1,4 +1,4 @@
-FROM postgres:11
+FROM postgres:9.5
 
 ADD docker_postgres.sh docker-entrypoint-initdb.d/docker_postgres.sh
 
@@ -9,7 +9,6 @@ RUN curl -L https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz | tar zx
 RUN cd ruby-2.6.4 && ./configure && make && make install
 RUN cd ..  && rm -r ruby-2.6.4
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
 
 # Setup app location
 RUN mkdir -p /app
