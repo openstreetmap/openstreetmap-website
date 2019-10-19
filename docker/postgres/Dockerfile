@@ -21,5 +21,7 @@ ADD db/functions/ /app/db/functions/
 ADD Gemfile* /app/
 RUN bundle install
 
+ADD docker_postgres.sh docker-entrypoint-initdb.d/docker_postgres.sh
+
 # change ownership to postgres as while running docker_postgres.sh postgres will need write access
 RUN chown -R postgres /app/db
