@@ -4,10 +4,9 @@ services:
   web:
     image: openstreetmap-website:v1
     build:
-      context: ..
-      dockerfile: docker/Dockerfile
+      context: .
     volumes:
-      - ..:/app
+      - .:/app
     ports:
       - "3000:3000"
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
@@ -15,11 +14,11 @@ services:
       - db
     environment:
       DATABASE_URL: postgres://postgres@db:5432
+
   db:
     image: openstreetmap-db:v1
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.postgres
+      context: docker/postgres
     ports:
       - "5432:5432"
     environment:

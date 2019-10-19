@@ -1,6 +1,6 @@
 FROM postgres:11
 
-ADD docker/docker_postgres.sh docker-entrypoint-initdb.d/docker_postgres.sh
+ADD docker_postgres.sh docker-entrypoint-initdb.d/docker_postgres.sh
 
 # compiling ruby from source as official debian has ruby 2.3 and we need => 2.4
 RUN apt-get update
