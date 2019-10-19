@@ -32,7 +32,7 @@ RUN bundle install
 
 # add database functions and init scripts
 ADD db/functions/ /app/db/functions/
-ADD docker_postgres.sh docker-entrypoint-initdb.d/docker_postgres.sh
+ADD docker/postgres/docker_postgres.sh docker-entrypoint-initdb.d/docker_postgres.sh
 
 # change ownership to postgres as while running docker_postgres.sh postgres will need write access
 RUN chown -R postgres /app/db
