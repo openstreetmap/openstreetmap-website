@@ -1,4 +1,4 @@
-FROM mdillon/postgis:11
+FROM postgres:11
 
 RUN apt-get update && \
     apt-get install -y \
