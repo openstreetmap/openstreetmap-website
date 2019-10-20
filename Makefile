@@ -7,4 +7,3 @@ docker-up:
 docker-db-migrate:
 	docker-compose run --rm web rake db:migrate
 
-FORCE: touch config/settings.local.yml
