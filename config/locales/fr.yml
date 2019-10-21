@@ -92,7 +92,7 @@ fr:
         create: Créer le masquage
         update: Enregistrer le masquage
       trace:
-        create: Envoyer
+        create: Téléverser
         update: Enregistrer les modifications
       user_block:
         create: Créer un blocage
@@ -101,7 +101,7 @@ fr:
     errors:
       messages:
         invalid_email_address: ne semble pas être une adresse de courriel valide
-        email_address_not_routable: n'est pas routable
+        email_address_not_routable: n’est pas routable
     models:
       acl: Liste de contrôle d’accès
       changeset: Groupe de modifications
@@ -181,7 +181,7 @@ fr:
         one: il y a environ 1 an
         other: il y a environ %{count} ans
       almost_x_years:
-        one: il y a presque 1 an
+        one: il y a presque un an
         other: il y a presque %{count} ans
       half_a_minute: il y a une demi-minute
       less_than_x_seconds:
@@ -191,22 +191,22 @@ fr:
         one: il y a moins d’une minute
         other: il y a moins de %{count} minutes
       over_x_years:
-        one: il y a plus d’1 année
+        one: il y a plus d’un an
         other: il y a plus de %{count} ans
       x_seconds:
-        one: il y a 1 seconde
+        one: il y a une seconde
         other: il y a %{count} secondes
       x_minutes:
-        one: il y a 1 minute
+        one: il y a une minute
         other: il y a %{count} minutes
       x_days:
-        one: il y a 1 jour
+        one: hier
         other: il y a %{count} jours
       x_months:
-        one: il y a 1 mois
+        one: il y a un mois
         other: il y a %{count} mois
       x_years:
-        one: il y a 1 an
+        one: l’année dernière
         other: il y a %{count} ans
   printable_name:
     with_name_html: '%{name} (%{id})'
@@ -229,7 +229,7 @@ fr:
       comment:
         opened_at_html: Créé le %{when}
         opened_at_by_html: Créée %{when} par %{user}
-        commented_at_html: Mis-à-jour le %{when}
+        commented_at_html: Mis à jour le %{when}
         commented_at_by_html: Mis à jour le %{when} par %{user}
         closed_at_html: Résolu le %{when}
         closed_at_by_html: Résolu %{when} par %{user}
@@ -238,7 +238,7 @@ fr:
       rss:
         title: Notes OpenStreetMap
         description_area: Une liste de notes, signalées, commentées ou fermées dans
-          votre zone [(%{min_lat}, %{min_lon}) – (%{max_lat}, %{max_lon})]
+          votre zone [(%{min_lat} ; %{min_lon}) – (%{max_lat} ; %{max_lon})]
         description_item: Un fil RSS pour la note %{id}
         opened: nouvelle note (près de %{place})
         commented: nouveau commentaire (près de %{place})
@@ -250,12 +250,12 @@ fr:
   browse:
     created: Créé
     closed: Fermé
-    created_html: Créé à <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Fermé <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Créé à <abbr title='%{title}'>%{time}</abbr> par %{user}
+    created_html: Créé à <abbr title="%{title}">%{time}</abbr>
+    closed_html: Fermé <abbr title="%{title}">%{time}</abbr>
+    created_by_html: Créé à <abbr title="%{title}">%{time}</abbr> par %{user}
     deleted_by_html: Supprimé il y a <abbr title='%{title}'>%{time}</abbr> par %{user}
-    edited_by_html: Modifié <abbr title='%{title}'>%{time}</abbr> par %{user}
-    closed_by_html: Fermé <abbr title='%{title}'>%{time}</abbr> par %{user}
+    edited_by_html: Modifié <abbr title="%{title}">%{time}</abbr> par %{user}
+    closed_by_html: Fermé <abbr title="%{title}">%{time}</abbr> par %{user}
     version: Version
     in_changeset: Groupe de modifications
     anonymous: anonyme
@@ -1356,11 +1356,10 @@ fr:
           de changements'
         subject_other: '[OpenStreetMap] %{commenter} a commenté un ensemble de changements
           auquel vous vous intéressez'
-        your_changeset: '%{commenter} a laissé un commentaire sur un de vos ensembles
-          de changement créé le %{time}'
-        commented_changeset: '%{commenter} a laissé un commentaire sur un ensemble
-          de changements de carte que vous surveillez créé par %{changeset_author}
-          le %{time}'
+        your_changeset: '%{commenter} a laissé un commentaire le %{time} sur un de
+          vos ensembles de changements'
+        commented_changeset: '%{commenter} a laissé un commentaire le %{time} sur
+          un ensemble de changements que vous suivez créé par %{changeset_author}'
         partial_changeset_with_comment: avec le commentaire «&nbsp;%{changeset_comment}'&nbsp;»
         partial_changeset_without_comment: sans commentaire
       details: Plus de détails sur l’ensemble de modifications à %{url}.
@@ -1983,7 +1982,9 @@ fr:
       newer: Nouvelles traces
     trace:
       pending: EN ATTENTE
-      count_points: '%{count} points'
+      count_points:
+        one: 1 point
+        other: '%{count} points'
       more: plus
       trace_details: Voir les détails de la trace
       view_map: Voir la carte
