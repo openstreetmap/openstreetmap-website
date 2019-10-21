@@ -31,8 +31,8 @@ sudo apt-get update
 sudo apt-get install ruby2.5 libruby2.5 ruby2.5-dev bundler \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core phantomjs \
-                     postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
-                     libsasl2-dev imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev
+                     postgresql postgresql-contrib libpq-dev libsasl2-dev \
+                     imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev
 sudo gem2.5 install bundler
 ```
 
@@ -46,7 +46,7 @@ For Fedora, you can install the minimum requirements with:
 sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
                  libxml2-devel js \
                  gcc gcc-c++ git \
-                 postgresql postgresql-server postgresql-contrib postgresql-devel \
+                 postgresql postgresql-server postgresql-contrib \
                  perl-podlators ImageMagick libffi-devel gd-devel libarchive-devel \
                  bzip2-devel nodejs-yarn
 ```
@@ -206,20 +206,10 @@ psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
 
 ### PostgreSQL Functions
 
-We need to install special functions into the PostgreSQL databases, and these are provided by a library that needs compiling first.
+We need to install some special functions into the PostgreSQL database:
 
 ```
-cd db/functions
-make libpgosm.so
-cd ../..
-```
-
-Then we create the functions within each database. We're using `pwd` to substitute in the current working directory, since PostgreSQL needs the full path.
-
-```
-psql -d openstreetmap -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT"
-psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '`pwd`/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT"
-psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT"
+psql -d openstreetmap -f db/functions/functions.sql
 ```
 
 ### Database structure
@@ -258,7 +248,48 @@ Note that the OSM map tiles you see aren't created from your local database - th
 
 After installing this software, you may need to carry out some [configuration steps](CONFIGURE.md), depending on your tasks.
 
-# Ruby development install and versions<a name="rbenv"></a>
+# Installing compiled shared library database functions (optional)
+
+There are special database functions required by a (little-used) API call, the migrations and diff replication. The former two are provided as *either* pure SQL functions or a compiled shared library. The SQL versions are installed as part of the recommended install procedure above and the shared library versions are recommended only if you are running a production server making a lot of `/changes` API calls or need the diff replication functionality.
+
+If you aren't sure which you need, stick with the SQL versions.
+
+Before installing the functions, it's necessary to install the PostgreSQL server development packages. On Ubuntu this means:
+
+```
+sudo apt-get install postgresql-server-dev-all
+```
+
+On Fedora:
+
+```
+sudo dnf install postgresql-devel
+```
+
+The library then needs compiling.
+
+```
+cd db/functions
+make libpgosm.so
+cd ../..
+```
+
+If you previously installed the SQL versions of these functions, we'll need to delete those before adding the new ones:
+
+```
+psql -d openstreetmap -c "DROP FUNCTION IF EXISTS maptile_for_point"
+psql -d openstreetmap -c "DROP FUNCTION IF EXISTS tile_for_point"
+```
+
+Then we create the functions within each database. We're using `pwd` to substitute in the current working directory, since PostgreSQL needs the full path.
+
+```
+psql -d openstreetmap -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT"
+psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '`pwd`/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT"
+psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT"
+```
+
+# Ruby development install and versions<a name="rbenv"></a> (optional)
 
 For simplicity, this document explains how to install all the website dependencies as "system" dependencies. While this is simpler, and usually faster, you might want more control over the process or the ability to install multiple different versions of software alongside eachother. For many developers, [`rbenv`](https://github.com/rbenv/rbenv) is the easiest way to manage multiple different Ruby versions on the same computer - with the added advantage that the installs are all in your home directory, so you don't need administrator permissions.
 

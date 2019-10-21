@@ -1,6 +1,5 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -132,27 +131,57 @@ CREATE TYPE public.user_status_enum AS ENUM (
 -- Name: maptile_for_point(bigint, bigint, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.maptile_for_point(bigint, bigint, integer) RETURNS integer
-    LANGUAGE c STRICT
-    AS '$libdir/libpgosm.so', 'maptile_for_point';
+CREATE FUNCTION public.maptile_for_point(scaled_lat bigint, scaled_lon bigint, zoom integer) RETURNS integer
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
+DECLARE
+  lat CONSTANT DOUBLE PRECISION := scaled_lat / 10000000.0;
+  lon CONSTANT DOUBLE PRECISION := scaled_lon / 10000000.0;
+  zscale CONSTANT DOUBLE PRECISION := 2.0 ^ zoom;
+  pi CONSTANT DOUBLE PRECISION := 3.141592653589793;
+  r_per_d CONSTANT DOUBLE PRECISION := pi / 180.0;
+  x int4;
+  y int4;
+BEGIN
+  -- straight port of the C code. see db/functions/maptile.c
+  x := floor((lon + 180.0) * zscale / 360.0);
+  y := floor((1.0 - ln(tan(lat * r_per_d) + 1.0 / cos(lat * r_per_d)) / pi) * zscale / 2.0);
+
+  RETURN (x << zoom) | y;
+END;
+$$;
 
 
 --
 -- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.tile_for_point(integer, integer) RETURNS bigint
-    LANGUAGE c STRICT
-    AS '$libdir/libpgosm.so', 'tile_for_point';
+CREATE FUNCTION public.tile_for_point(scaled_lat integer, scaled_lon integer) RETURNS bigint
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
+DECLARE
+  x int8; -- quantized x from lon,
+  y int8; -- quantized y from lat,
+BEGIN
+  x := round(((scaled_lon / 10000000.0) + 180.0) * 65535.0 / 360.0);
+  y := round(((scaled_lat / 10000000.0) +  90.0) * 65535.0 / 180.0);
 
+  -- these bit-masks are special numbers used in the bit interleaving algorithm.
+  -- see https://graphics.stanford.edu/~seander/bithacks.html#InterleaveBMN
+  -- for the original algorithm and more details.
+  x := (x | (x << 8)) &   16711935; -- 0x00FF00FF
+  x := (x | (x << 4)) &  252645135; -- 0x0F0F0F0F
+  x := (x | (x << 2)) &  858993459; -- 0x33333333
+  x := (x | (x << 1)) & 1431655765; -- 0x55555555
 
---
--- Name: xid_to_int4(xid); Type: FUNCTION; Schema: public; Owner: -
---
+  y := (y | (y << 8)) &   16711935; -- 0x00FF00FF
+  y := (y | (y << 4)) &  252645135; -- 0x0F0F0F0F
+  y := (y | (y << 2)) &  858993459; -- 0x33333333
+  y := (y | (y << 1)) & 1431655765; -- 0x55555555
 
-CREATE FUNCTION public.xid_to_int4(xid) RETURNS integer
-    LANGUAGE c IMMUTABLE STRICT
-    AS '$libdir/libpgosm.so', 'xid_to_int4';
+  RETURN (x << 1) | y;
+END;
+$$;
 
 
 SET default_tablespace = '';
