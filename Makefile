@@ -7,6 +7,9 @@ docker-up:
 docker-db-migrate:
 	docker-compose run --rm web rake db:migrate
 
+docker-test:
+	docker-compose run --rm web rake test:db
+
 docker-populate-db:
 	wget https://download.geofabrik.de/north-america/us/district-of-columbia-latest.osm.pbf
 	docker-compose run --rm web osmosis \
