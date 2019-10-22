@@ -25,7 +25,7 @@ Now change working directory to the `openstreetmap-website`:
 
 ### Database
 
-    cp config/example.database.yml config/database.yml
+    cp config/docker.database.yml config/database.yml
 
 ### App configuration
 
