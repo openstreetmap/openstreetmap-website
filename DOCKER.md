@@ -25,8 +25,6 @@ Now change working directory to the `openstreetmap-website`:
 
 ### Database
 
-The database configuration is currently handled as environments variables in `docker-compose.yml`. There is no need to create a `config/database.yml` configuration file, but if you'd like to run:
-
     cp config/example.database.yml config/database.yml
 
 ### App configuration
@@ -95,5 +93,5 @@ After installing but before creating any users or data, import an extract with [
         --write-apidb \
         host="db" \
         database="openstreetmap" \
-        user="postgres" \
+        user="openstreetmap" \
         validateSchemaVersion="no"
