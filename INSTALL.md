@@ -21,7 +21,7 @@ of packages required before you can get the various gems installed.
 * Ruby 2.5+
 * PostgreSQL 9.1+
 * ImageMagick
-* Bundler
+* Bundler (see note below about [developer Ruby setup](#rbenv))
 * Javascript Runtime
 
 These can be installed on Ubuntu 18.04 or later with:
@@ -71,6 +71,7 @@ For MacOSX, you will need XCode installed from the Mac App Store; OS X 10.7 (Lio
 Installing PostgreSQL:
 
 * Install Postgres.app from https://postgresapp.com/
+* Make sure that you've initialized and started Postgresql from the app (there should be a little elephant icon in your systray).
 * Add PostgreSQL to your path, by editing your profile:
 
 `nano ~/.profile`
@@ -79,14 +80,37 @@ and adding:
 
 `export PATH=/Applications/Postgres.app/Contents/MacOS/bin:$PATH`
 
+After this, you may need to start a new shell window, or source the profile again by running `. ~/.profile`.
+
 Installing other dependencies:
 
 * Install Homebrew from https://brew.sh/
 * Install the latest version of Ruby: `brew install ruby`
 * Install ImageMagick: `brew install imagemagick`
-* Install libxml2: `brew install libxml2 --with-xml2-config`
-* If you want to run the tests, you need `phantomjs` as well: `brew install phantomjs`
-* Install Bundler: `gem install bundler`
+* Install libxml2: `brew install libxml2`
+* Install libgd: `brew install gd`
+* Install Yarn: `brew install yarn`
+* Install pngcrush: `brew install pngcrush`
+* Install optipng: `brew install optipng`
+* Install pngquant: `brew install pngquant`
+* Install jhead: `brew install jhead`
+* Install jpegoptim: `brew install jpegoptim`
+* Install gifsicle: `brew install gifsicle`
+* Install svgo: `brew install svgo`
+* Install Bundler: `gem install bundler` (you might need to `sudo gem install bundler` if you get an error about permissions - or see note below about [developer Ruby setup](#rbenv))
+
+You will need to tell `bundler` that `libxml2` is installed in a Homebrew location. If it uses the system-installed one then you will get errors installing the `libxml-ruby` gem later on<a name="macosx-bundle-config"></a>.
+
+```
+bundle config build.libxml-ruby --with-xml2-config=/usr/local/opt/libxml2/bin/xml2-config
+```
+
+If you want to run the tests, you need `phantomjs` as well:
+
+```
+brew tap homebrew/cask
+brew cask install phantomjs
+```
 
 Note that OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.
 
@@ -264,3 +288,27 @@ psql -d openstreetmap -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RE
 psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '`pwd`/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT"
 psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT"
 ```
+
+# Ruby development install and versions<a name="rbenv"></a> (optional)
+
+For simplicity, this document explains how to install all the website dependencies as "system" dependencies. While this is simpler, and usually faster, you might want more control over the process or the ability to install multiple different versions of software alongside eachother. For many developers, [`rbenv`](https://github.com/rbenv/rbenv) is the easiest way to manage multiple different Ruby versions on the same computer - with the added advantage that the installs are all in your home directory, so you don't need administrator permissions.
+
+If you choose to install Ruby and Bundler via `rbenv`, then you do not need to install the system libraries for Ruby:
+
+* For Ubuntu, you do not need to install the following packages: `ruby2.5 libruby2.5 ruby2.5-dev bundler`,
+* For Fedora, you do not need to install the following packages: `ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems`
+* For MacOSX, you do not need to `brew install ruby` - but make sure you've installed a version of Ruby using `rbenv` before running `gem install bundler`!
+
+After installing a version of Ruby with `rbenv` (the latest stable version is a good place to start), you will need to make that the default. From inside the `openstreetmap-website` directory, run:
+
+```
+rbenv local $VERSION
+```
+
+Where `$VERSION` is the version you installed. Then install bundler:
+
+```
+gem install bundler
+```
+
+You should now be able to proceed with the rest of the installation. If you're on MacOSX, make sure you set up the [config override for the libxml2 location])(#macosx-bundle-config) _after_ installing bundler.
