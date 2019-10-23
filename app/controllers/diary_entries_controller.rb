@@ -158,7 +158,7 @@ class DiaryEntriesController < ApplicationController
     @page = (params[:page] || 1).to_i
     @page_size = 20
 
-    @entries = @entries.visible unless current_user&.administrator?
+    @entries = @entries.visible unless can? :unhide, DiaryEntry
     @entries = @entries.order("created_at DESC")
     @entries = @entries.offset((@page - 1) * @page_size)
     @entries = @entries.limit(@page_size)
@@ -203,7 +203,7 @@ class DiaryEntriesController < ApplicationController
     @entry = @user.diary_entries.visible.where(:id => params[:id]).first
     if @entry
       @title = t "diary_entries.show.title", :user => params[:display_name], :title => @entry.title
-      @comments = current_user&.administrator? ? @entry.comments : @entry.visible_comments
+      @comments = can?(:unhidecomment, DiaryEntry) ? @entry.comments : @entry.visible_comments
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found
@@ -237,7 +237,7 @@ class DiaryEntriesController < ApplicationController
   def comments
     conditions = { :user_id => @user }
 
-    conditions[:visible] = true unless current_user&.administrator?
+    conditions[:visible] = true unless can? :unhidecomment, DiaryEntry
 
     @comment_pages, @comments = paginate(:diary_comments,
                                          :conditions => conditions,
