@@ -62,11 +62,6 @@ OpenStreetMap::Application.routes.draw do
 
     get "changes" => "api/changes#index"
 
-    get "search" => "api/search#search_all", :as => "api_search"
-    get "ways/search" => "api/search#search_ways"
-    get "relations/search" => "api/search#search_relations"
-    get "nodes/search" => "api/search#search_nodes"
-
     get "user/:id" => "api/users#show", :id => /\d+/
     get "user/details" => "api/users#details"
     get "user/gpx_files" => "api/users#gpx_files"
