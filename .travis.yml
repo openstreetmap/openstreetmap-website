@@ -30,6 +30,6 @@ script:
   - bundle exec rake eslint
   - bundle exec erblint .
   - bundle exec rake db:structure:dump
-  - sed -e "/idle_in_transaction_session_timeout/d" -e 's/ IMMUTABLE / /' -e "s/AS '.*libpgosm.*',/AS 'libpgosm',/" -e "/^--/d" db/structure.sql > db/structure.actual
+  - sed -e "/idle_in_transaction_session_timeout/d" -e 's/ IMMUTABLE / /' -e "/^--/d" db/structure.sql > db/structure.actual
   - diff -uw db/structure.expected db/structure.actual
   - bundle exec rake test:db
