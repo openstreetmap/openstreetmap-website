@@ -52,7 +52,7 @@ This will launch one Docker container for each 'service' specified in `docker-co
 
 ### Migrations
 
-While the `db' service is running, open another terminal windows and run:
+While the `db` service is running, open another terminal window and run:
 
     docker-compose run --rm web rake db:migrate
 
