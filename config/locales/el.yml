@@ -130,6 +130,9 @@ el:
         description: Περιγραφή
         languages: Γλώσσες
         pass_crypt: Κωδικός
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: μισό λεπτό πριν
   printable_name:
     with_version: '%{id}, v%{version}'
   editor:
@@ -314,19 +317,19 @@ el:
       area: Περιοχή
     index:
       title: Ομάδες αλλαγών
-      title_user: Ομάδες αλλαγών από τον %{user}
-      title_friend: Ομάδες αλλαγών από τους φίλους μου
-      title_nearby: Ομάδες αλλαγών από κοντινούς χρήστες
-      empty: Δεν βρέθηκαν ομάδες αλλαγών.
-      empty_area: Δεν βρέθηκαν αλλαγές σε αυτήν την περιοχή.
+      title_user: Αλλαγές από τον %{user}
+      title_friend: Αλλαγές από τους φίλους μου
+      title_nearby: Αλλαγές από κοντινούς χρήστες
+      empty: Δε βρέθηκαν ομάδες αλλαγών.
+      empty_area: Δε βρέθηκαν αλλαγές σε αυτήν την περιοχή.
       empty_user: Δεν υπάρχουν αλλαγές από αυτόν τον χρήστη.
-      no_more: Δεν βρέθηκαν άλλες ομάδες αλλαγών.
-      no_more_area: Δεν υπάρχουν άλλες ομάδες αλλαγών για αυτήν την περιοχή.
-      no_more_user: Δεν υπάρχουν άλλες ομάδες αλλαγών από αυτόν τον χρήστη.
+      no_more: Δεν βρέθηκαν άλλες αλλαγές.
+      no_more_area: Δεν υπάρχουν άλλες αλλαγές για αυτήν την περιοχή.
+      no_more_user: Δεν υπάρχουν άλλες αλλαγές από αυτόν τον χρήστη.
       load_more: Φόρτωση περισσότερων
     timeout:
-      sorry: Λυπάμαι, ο κατάλογος των ομάδων αλλαγών που ζήτησες χρειάστηκε πολύ χρόνο
-        για να ανακτηθεί.
+      sorry: Λυπάμαι, ο κατάλογος των αλλαγών που ζητήσατε χρειάστηκε πολύ χρόνο για
+        να ανακτηθεί.
   changeset_comments:
     comment:
       comment: 'Νέο σχόλιο σχετικά με την ομάδα αλλαγών #%{changeset_id} από τον %{author}'
@@ -334,8 +337,8 @@ el:
     comments:
       comment: 'Νέο σχόλιο σχετικά με την ομάδα αλλαγών #%{changeset_id} από τον %{author}'
     index:
-      title_all: OpenStreetMap συζήτηση ομάδας αλλαγών
-      title_particular: 'OpenStreetMap συζήτηση ομάδας αλλαγών #%{changeset_id}'
+      title_all: Συζήτηση ομάδας αλλαγών OpenStreetMap
+      title_particular: 'Συζήτηση ομάδας αλλαγών OpenStreetMap #%{changeset_id}'
   diary_entries:
     new:
       title: Νέα καταχώρηση ημερολογίου
@@ -354,8 +357,8 @@ el:
       user_title: Ημερολόγιο του %{user}
       in_language_title: Καταχωρήσεις ημερολογίων στα %{language}
       new: Νέα καταχώρηση ημερολογίου
-      new_title: Σύνταξη μιας νέας καταχώρησης στο ημερολόγιο χρήστη μου
-      no_entries: Δεν βρέθηκαν καταχωρήσεις στο ημερολόγιο
+      new_title: Σύνταξη νέας καταχώρησης στο ημερολόγιό μου
+      no_entries: Δε βρέθηκαν καταχωρήσεις στο ημερολόγιο
       recent_entries: Πρόσφατες καταχωρίσεις ημερολογίου
       older_entries: Παλιότερες καταχωρήσεις
       newer_entries: Νεότερες καταχωρήσεις
@@ -364,10 +367,10 @@ el:
       marker_text: Τοποθεσία καταχώρησης ημερολογίου
     show:
       title: το ημερολόγιο του %{user} | %{title}
-      user_title: ημερολόγιο του %{user}
-      leave_a_comment: Αφήστε ένα σχόλιο
+      user_title: το ημερολόγιο του %{user}
+      leave_a_comment: Αφήστε σχόλιο
       login_to_leave_a_comment: '%{login_link} για να αφήσετε ένα σχόλιο'
-      login: Σύνδεση
+      login: Συνδεθείτε
     no_such_entry:
       title: Δεν υπάρχει τέτοια εγγραφή ημερολογίου
       heading: 'Καμία καταχώρηση με τη ταυτότητα: %{id}'
@@ -379,18 +382,20 @@ el:
       comment_link: Σχολιάστε την καταχώρηση
       reply_link: Απαντήστε στην καταχώρηση
       comment_count:
-        one: '%{count} σχόλιο'
         zero: Κανένα σχόλιο
+        one: '%{count} σχόλιο'
         other: '%{count} σχόλια'
       edit_link: Επεξεργασία καταχώρησης
-      hide_link: Απόκρυψη αυτής της καταχώρησης
+      hide_link: Απόκρυψη καταχώρησης
+      unhide_link: Επανεμφάνιση καταχώρησης
       confirm: Επιβεβαίωση
-      report: Αναφορά αυτής της καταχώρησης
+      report: Αναφορά καταχώρησης
     diary_comment:
       comment_from: Σχόλιο από τον %{link_user} στις %{comment_created_at}
-      hide_link: Απόκρυψη αυτού του σχολίου
+      hide_link: Απόκρυψη σχολίου
+      unhide_link: Επανεμφάνιση σχολίου
       confirm: Επιβεβαίωση
-      report: Αναφορά αυτού του σχολίου
+      report: Αναφορά σχολίου
     location:
       location: 'Τοποθεσία:'
       view: Προβολή
@@ -2173,6 +2178,7 @@ el:
       guidance: Πληροφορίες για να καταλάβετε αυτούς τους όρους:μία <href="%{summary}">
         αναγνώσιμη περίληψη</a>και μερικές <a href=''%{translations}''>ανεπίσημες
         μεταφράσεις </a>
+      continue: Συνέχεια
       decline: Διαφωνώ
       you need to accept or decline: Παρακαλώ διαβάστε και αποδεχτείτε ή απορρίψτε
         τους νέους Όρους Συνεισφοράς για να συνεχίσετε.
@@ -2487,7 +2493,7 @@ el:
       title: Ανάκληση φραγής του/της %{block_on}
       heading: Ανάκληση φραγής του/της %{block_on} από τον/την %{block_by}
       time_future: Αυτή η φραγή θα λήξει στις %{time}.
-      past: Αυτή η φραγή τελείωσε πριν από %{time} και δεν μπορεί να ανακληθεί τώρα.
+      past: Αυτή η φραγή τελείωσε %{time} και δεν μπορεί να ανακληθεί τώρα.
       confirm: Είστε σίγουρος πως επιθυμείτε να ανακαλέσετε αυτή τη φραγή;
       revoke: Ανακαλέστε!
       flash: Αυτή η φραγή έχει ανακληθεί.
@@ -2635,7 +2641,9 @@ el:
     directions:
       ascend: Ανάβαση
       engines:
+        fossgis_osrm_bike: Με ποδήλατο (OSRM)
         fossgis_osrm_car: Αυτοκίνητο (OSRM)
+        fossgis_osrm_foot: Με τα πόδια (OSRM)
         graphhopper_bicycle: Ποδήλατο (GraphHopper)
         graphhopper_car: Με τα πόδια (GraphHopper)
         graphhopper_foot: Με τα πόδια (GraphHopper)
