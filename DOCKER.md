@@ -27,9 +27,11 @@ Now change working directory to the `openstreetmap-website`:
 
     cp config/docker.database.yml config/database.yml
 
-### App configuration
+## Prepare local settings file
 
-    cp config/settings.yml config/settings.local.yml
+This is a workaround. [See issues/2185 for details](https://github.com/openstreetmap/openstreetmap-website/issues/2185#issuecomment-508676026).
+
+    touch config/settings.local.yml
 
 ### Installation
 
