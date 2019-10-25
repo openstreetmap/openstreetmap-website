@@ -6,6 +6,9 @@
 
 require "cucumber/rails"
 
+require "coveralls"
+Coveralls.wear!("rails")
+
 # frozen_string_literal: true
 
 # Capybara defaults to CSS3 selectors rather than XPath.
