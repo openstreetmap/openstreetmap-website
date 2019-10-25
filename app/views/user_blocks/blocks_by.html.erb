@@ -4,7 +4,7 @@
 <% end %>
 
 <% unless @user_blocks.empty? %>
-<%= render :partial => "blocks", :locals => { :show_revoke_link => (current_user && current_user.moderator?), :show_user_name => true, :show_creator_name => false } %>
+<%= render :partial => "blocks", :locals => { :show_revoke_link => can?(:revoke, UserBlock), :show_user_name => true, :show_creator_name => false } %>
 <% else %>
 <p><%= t ".empty", :name => h(@user.display_name) %></p>
 <% end %>

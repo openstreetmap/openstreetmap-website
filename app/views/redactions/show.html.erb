@@ -12,9 +12,13 @@
   <%= @redaction.description.to_html %>
 </div>
 
-<% if current_user and current_user.moderator? %>
+<% if can?(:edit, Redaction) || can?(:destroy, Redaction) %>
 <div class="buttons">
-  <%= button_to t(".edit"), edit_redaction_path(@redaction), :method => :get %></td>
-  <%= button_to t(".destroy"), @redaction, :method => "delete", :remote => true, :data => { :confirm => t(".confirm") } %>
+  <% if can?(:edit, Redaction) %>
+    <%= button_to t(".edit"), edit_redaction_path(@redaction), :method => :get %></td>
+  <% end %>
+  <% if can?(:destroy, Redaction) %>
+    <%= button_to t(".destroy"), @redaction, :method => "delete", :remote => true, :data => { :confirm => t(".confirm") } %>
+  <% end %>
 </div>
 <% end %>
