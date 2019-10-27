@@ -48413,8 +48413,11 @@ var PanService = /** @class */ (function () {
             return;
         }
         var panNodes$ = this._stateService.currentNode$.pipe(operators_1.switchMap(function (current) {
+            if (!current.merged) {
+                return rxjs_1.of([]);
+            }
             var current$ = rxjs_1.of(current);
-            var bounds = _this._graphCalculator.boundingBoxCorners(current.computedLatLon, 20);
+            var bounds = _this._graphCalculator.boundingBoxCorners(current.latLon, 20);
             var adjacent$ = _this._graphService
                 .cacheBoundingBox$(bounds[0], bounds[1]).pipe(operators_1.catchError(function (error) {
                 console.error("Failed to cache periphery bounding box (" + current.key + ")", error);
@@ -49920,12 +49923,30 @@ var Viewer = /** @class */ (function (_super) {
      *
      * Clear the filter by setting it to null or empty array.
      *
+     * Commonly used filter properties (see the {@link Node} class
+     * documentation for a full list of properties that can be used
+     * in a filter) and common use cases:
+     *
+     * ```
+     * fullPano        // Show only full 360 panoramas or not
+     * organizationKey // Show images from one or several organizations
+     * sequenceKey     // Show images from one or several sequences
+     * userKey         // Show images from one or several users
+     * capturedAt      // Show images from a certain time interval
+     * ```
+     *
      * @param {FilterExpression} filter - The filter expression.
      * @returns {Promise<void>} Promise that resolves after filter is applied.
      *
      * @example
      * ```
      * viewer.setFilter(["==", "sequenceKey", "<my sequence key>"]);
+     *
+     * // Other examples
+     * // viewer.setFilter(["==", "organizationKey", "<my organization key>"]);
+     * // viewer.setFilter(["in", "userKey", "<my user key #1>", "<my user key #2>"]);
+     * // viewer.setFilter(["==", "fullPano", true]);
+     * // viewer.setFilter([">=", "capturedAt", <my time stamp>]);
      * ```
      */
     Viewer.prototype.setFilter = function (filter) {
