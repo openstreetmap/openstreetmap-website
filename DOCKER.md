@@ -56,15 +56,31 @@ While the `db` service is running, open another terminal window and run:
 
     docker-compose run --rm web rake db:migrate
 
-### Node.js modules
+### Loading an OSM extract
 
-We use Yarn to manage the Node.js modules required for the project:
+This installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract. Here an example for loading an OSM extract into your Docker-based OSM instance.
 
-    docker-compose run --rm web rake yarn:install
+For example, let's download the District of Columbia from Geofabrik:
 
-Once these are complete you should be able to visit the app at http://localhost:3000
+    wget https://download.geofabrik.de/north-america/us/district-of-columbia-latest.osm.pbf
 
-If localhost does not work, you can use the IP address of the docker-machine.
+You can now use Docker to load this extract into your local Docker-based OSM instance:
+
+    docker-compose run --rm web osmosis \
+        -verbose    \
+        --read-pbf district-of-columbia-latest.osm.pbf \
+        --write-apidb \
+            host="db" \
+            database="openstreetmap" \
+            user="openstreetmap" \
+            validateSchemaVersion="no"
+
+Once you have data loaded for Washington, DC you should be able to navigate to `http://localhost:3000/#map=12/38.8938/-77.0146` to begin working with your local instance.
+
+### Additional Configuration
+
+See `CONFIGURE.md` for information on how to manage users and enable OAuth for iD, JOSM etc.
+
 
 ### Tests
 
@@ -83,17 +99,3 @@ Alternatively, if you want to use the already-running `web` container then you c
 Similarly, if you want to `exec` in the db container use:
 
     docker-compose exec db bash
-
-### Populating the database
-
-This installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract.
-
-After installing but before creating any users or data, import an extract with [Osmosis](https://wiki.openstreetmap.org/wiki/Osmosis) and the `--write-apidb` task. The `web` container comes with `osmosis` pre-installed. So to populate data with a `.osm.pbf` use the following command:
-
-    docker-compose run --rm web osmosis \
-        --read-pbf /path/to/file.osm.pbf \
-        --write-apidb \
-        host="db" \
-        database="openstreetmap" \
-        user="openstreetmap" \
-        validateSchemaVersion="no"
