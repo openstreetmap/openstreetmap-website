@@ -5,8 +5,6 @@ Using [Docker](https://www.docker.com/) will allow you to install the OpenStreet
 - [Install Docker](https://docs.docker.com/install/)
 - [Install Docker Compose](https://docs.docker.com/compose/install/)
 
-These instructions gloss over the precise details of the dependencies and their configuration but these can be found in full detail at [INSTALL.md](INSTALL.md).
-
 The first step is to fork/clone the repo to your local machine. The repository is reasonably large (~150MB) and it's unlikely that you need the full history. If you are happy to wait for it all to download, run:
 
     git clone https://github.com/openstreetmap/openstreetmap-website.git
@@ -19,7 +17,9 @@ Now change working directory to the `openstreetmap-website`:
 
     cd openstreetmap-website
 
-### Storage setup
+## Initial Setup
+
+### Storage
 
     cp config/example.storage.yml config/storage.yml
 
@@ -33,13 +33,13 @@ This is a workaround. [See issues/2185 for details](https://github.com/openstree
 
     touch config/settings.local.yml
 
-### Installation
+## Installation
 
 In the root directory run:
 
     docker-compose build
 
-Now if this is your first time running or you have removed cache this will take some time to complete. So grab tea/coffee and sit tight. Once the Docker images have finished building you can launch the images as containers.
+If this is your first time running or you have removed cache this will take some time to complete. Once the Docker images have finished building you can launch the images as containers.
 
 To launch the app run:
 
@@ -52,7 +52,7 @@ This will launch one Docker container for each 'service' specified in `docker-co
 
 ### Migrations
 
-While the `db` service is running, open another terminal window and run:
+Run the Rails database migrations:
 
     docker-compose run --rm web rake db:migrate
 
@@ -80,7 +80,6 @@ Once you have data loaded for Washington, DC you should be able to navigate to `
 ### Additional Configuration
 
 See `CONFIGURE.md` for information on how to manage users and enable OAuth for iD, JOSM etc.
-
 
 ### Tests
 
