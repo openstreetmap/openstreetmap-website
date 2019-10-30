@@ -68,3 +68,33 @@ BEGIN
   RETURN (x << zoom) | y;
 END;
 $$ LANGUAGE plpgsql IMMUTABLE;
+
+-- xid_to_int4 converts a PostgreSQL transaction ID (xid) to a 32-bit integer
+-- which can then be used to efficiently find rows which have changed between
+-- two given transactions. This is currently used by Osmosis to extract a
+-- stream of edits for "diff replication" **HOWEVER** this is a pain point, as
+-- (ab)using the xid in this way is _not_ supported or recommended by Postgres
+-- devs. It is preventing us upgrading to PostgreSQL version 10+, and will
+-- hopefully be replaced Real Soon Now.
+--
+-- From the Osmosis distribution by Brett Henderson:
+-- https://github.com/openstreetmap/osmosis/blob/master/package/script/contrib/apidb_0.6_osmosis_xid_indexing.sql
+CREATE OR REPLACE FUNCTION xid_to_int4(t xid)
+  RETURNS integer
+  AS
+$$
+DECLARE
+  tl bigint;
+  ti int;
+BEGIN
+  tl := t;
+
+  IF tl >= 2147483648 THEN
+    tl := tl - 4294967296;
+  END IF;
+
+  ti := tl;
+
+  RETURN ti;
+END;
+$$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;

@@ -184,6 +184,30 @@ END;
 $$;
 
 
+--
+-- Name: xid_to_int4(xid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.xid_to_int4(t xid) RETURNS integer
+    LANGUAGE plpgsql STRICT
+    AS $$
+DECLARE
+  tl bigint;
+  ti int;
+BEGIN
+  tl := t;
+
+  IF tl >= 2147483648 THEN
+    tl := tl - 4294967296;
+  END IF;
+
+  ti := tl;
+
+  RETURN ti;
+END;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;

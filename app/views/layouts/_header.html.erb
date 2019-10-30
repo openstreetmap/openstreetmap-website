@@ -40,7 +40,7 @@
   </nav>
   <nav class='secondary'>
     <ul>
-      <% if current_user and ( current_user.administrator? or current_user.moderator? ) %>
+      <% if can? :index, Issue %>
         <li class="compact-hide <%= current_page_class(issues_path) %>">
           <%= link_to issues_path(:status => "open") do %>
             <%= t("layouts.issues") %>
