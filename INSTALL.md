@@ -137,6 +137,7 @@ We use [Bundler](http://gembundler.com/) to manage the rubygems required for the
 
 ```
 cd openstreetmap-website
+gem update --system
 bundle install
 ```
 
