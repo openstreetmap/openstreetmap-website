@@ -323,6 +323,10 @@ $(document).ready(function () {
       return map.getState();
     };
 
+    page.unload = function () {
+      $("#view_tab").removeClass("current");
+    }
+
     return page;
   };
 
@@ -356,7 +360,6 @@ $(document).ready(function () {
 
     page.unload = function () {
       map.removeObject();
-      $("#view_tab").removeClass("current");
     };
 
     return page;
