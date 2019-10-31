@@ -65,6 +65,10 @@ module ApplicationHelper
     :current if current_page?(path)
   end
 
+  def current_tab_url(path)
+    current_page?(path) ? root_path : path
+  end
+
   def application_data
     data = {
       :locale => I18n.locale,

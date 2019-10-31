@@ -147,6 +147,7 @@ OSM.History = function (map) {
 
   page.pushstate = page.popstate = function (path) {
     $("#history_tab").addClass("current");
+    $("#history_tab a").attr("href", "/");
     OSM.loadSidebarContent(path, page.load);
   };
 
@@ -167,6 +168,7 @@ OSM.History = function (map) {
     map.off("moveend", update);
 
     $("#history_tab").removeClass("current");
+    $("#history_tab a").attr("href", "/history");
   };
 
   return page;

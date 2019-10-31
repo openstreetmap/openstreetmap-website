@@ -307,7 +307,6 @@ $(document).ready(function () {
     var page = {};
 
     page.pushstate = page.popstate = function () {
-      $("#view_tab").addClass("current");
       map.setSidebarOverlaid(true);
       document.title = I18n.t("layouts.project_name.title");
     };
@@ -356,7 +355,6 @@ $(document).ready(function () {
 
     page.unload = function () {
       map.removeObject();
-      $("#view_tab").removeClass("current");
     };
 
     return page;
