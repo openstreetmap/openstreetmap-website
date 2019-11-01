@@ -325,7 +325,7 @@ $(document).ready(function () {
 
     page.unload = function () {
       $("#view_tab").removeClass("current");
-    }
+    };
 
     return page;
   };
