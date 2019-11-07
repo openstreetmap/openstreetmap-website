@@ -59,7 +59,13 @@ fit:
       old_way_tag: Vanha viivan tagi
       relation: Relaatio
       relation_member: Relaation jäsen
+      relation_tag: Relaation tagi
+      session: Istunto
+      trace: Jälki
+      tracepoint: Jälkipiste
+      tracetag: Jäljen tagi
       user: Käyttäjä
+      user_preference: Käyttäjän asetus
       way: Viiva
       way_node: Viivan piste
       way_tag: Viivan tagi
@@ -86,6 +92,7 @@ fit:
         description: Kuvvaus
       message:
         sender: Lähättäjä
+        title: Aihe
         body: Viesti
         recipient: Vastaanottaja
       user:
@@ -161,9 +168,16 @@ fit:
         reopened_at_by_html: '%{user} aktivoinut uuesti %{when}'
       rss:
         title: OpenStreetMapin karttailmoitukset
+        description_area: Lista raportoiduista, kommentoiduista tai suljetuista huomautuksista
+          omalla alueellasi [( %{min_lat}|%{min_lon})--( %{max_lat}|%{max_lon})]
+        description_item: Karttailmotuksen %{id} RSS-syöte
+        opened: uusi huomautus (lähellä kohdetta %{place})
         commented: uusi kommentti (lähelä kohetta %{place})
+        closed: suljettu karttailmoitus (lähellä paikkaa %{place})
+        reopened: uudelleenavattu karttailmoitus (lähellä paikka %{place})
       entry:
         comment: Kommentti
+        full: Koko karttailmoitus
   browse:
     created: Luotu
     closed: Ratkaistu
@@ -229,6 +243,7 @@ fit:
       entry: Relaatio %{relation_name}
       entry_role: Relaatio %{relation_name} (rooli %{relation_role})
     not_found:
+      sorry: 'Pahoittelemme, %{type} #%{id} ei ole olemassa.'
       type:
         node: Pistettä
         way: Polkua
@@ -236,6 +251,7 @@ fit:
         changeset: muutoskokoelma
         note: merkintä
     timeout:
+      sorry: Tietojen hakeminen (kohde %{type}:%{id}) kesti liian kauan.
       type:
         node: piste
         way: polku
@@ -244,6 +260,8 @@ fit:
         note: merkintä
     redacted:
       redaction: Redaktio %{id}
+      message_html: Tämän %{type}-tyypin versuunia %{version} ei voi näyttää koska
+        se on relaatoitu. Katso lisätietoja %{redaction_link}.
       type:
         node: piste
         way: polku
@@ -275,6 +293,9 @@ fit:
       commented_by_anonymous: Kommentti tuntemattomalta käyttäjältä <abbr title='%{exact_time}'>%{when}</abbr>
       closed_by: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       closed_by_anonymous: Ratkaissut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Avvannut uudelleen käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Avvannut uudelleen tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Ilmianna karttailmotus
     query:
       title: Ominaisuuskysely
@@ -320,6 +341,9 @@ fit:
     index:
       title_all: Keskustelu OpenStreetMapin muutoskokoelmasta
       title_particular: 'OpenStreetMap muutoskokoelma #%{changeset_id} keskustelu'
+    timeout:
+      sorry: Valitettavasti pyytämäsi muutoskokoelmien kommenttien hakeminen kesti
+        liian kauan.
   diary_entries:
     new:
       title: Uusi päiväkirjamerkintä
@@ -354,6 +378,9 @@ fit:
       login: Lokkaa sisäle
     no_such_entry:
       title: Päiväkirjamerkintää ei ole
+      heading: Tunnuksella %{id} ei ole päiväkirjamerkintää.
+      body: Tunnuksella %{id} ei ole päiväkirjamerkintää. Joko saamasi linkki oli
+        virheellinen tai kirjoitit sen väärin.
     diary_entry:
       posted_by: Käyttäjä %{link_user} kirjotti tämän %{created} kielellä %{language_link}
       comment_link: Kommentoi tätä kirjoitusta
@@ -430,12 +457,41 @@ fit:
         tourism:
           museum: Myseymmi
           zoo: Elläintarha
+    description:
+      title:
+        osm_nominatim: Sijainti <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatimista</a>
+        geonames: Sijainti palvelusta <a href="http://www.geonames.org/">GeoNames</a>
+      types:
+        cities: Kaupunkit
+        towns: Kylät
+        places: Paikat
+    results:
+      no_results: Ei hakuresyltaatteja
+      more_results: Lissää resyltaatteja
   issues:
     index:
+      title: Tapaukset
+      select_status: Valitte tila
+      select_type: Valitte tyyppi
+      select_last_updated_by: Valitte viimiisin päivittäjä
+      reported_user: Ilmiannettu
+      not_updated: Ei päivitetty
       search: Hakea
+      search_guidance: 'Eti tapauksia:'
+      user_not_found: Käyttäjää ei löydy
+      issues_not_found: Tapahtumia ei löytynyt
+      status: Tila
+      reports: Ilmiannot
+      last_updated: Päivitetty
       last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: käyttäjä %{user} <abbr title='%{title}'>%{time}</abbr>
+      link_to_reports: Näytä ilmiannot
+      reports_count:
+        one: 1 ilmoitus
+        other: '%{count} ilmiantoa'
       states:
-        open: Avaa
+        open: Avvaa
         resolved: Ratkaistu
     show:
       report_created_at: Ilmotettu ensimmäisen kerran %{datetime}
@@ -443,7 +499,7 @@ fit:
       last_updated_at: Viimeisin käsittelijä %{displayname} %{datetime}
       resolve: Ratkase
       ignore: Merkitte aiheettomaksi
-      reopen: Avaa uuelleen
+      reopen: Avvaa uuelleen
       reports_of_this_issue: Ilmianna tapahtuma
       read_reports: Lue ilmiantoja
       new_reports: Uuet ilmiannot
@@ -457,6 +513,10 @@ fit:
       reported_by_html: Käyttäjä %{user} ilmiantanut merkinnällä %{category}
   reports:
     new:
+      title_html: Ilmianna %{link}
+      missing_params: Ilmotuksen luominen epäonnistui
+      details: Kuvaile ongelmaa (pakollinen)
+      select: 'Valitte ilmiannon syy:'
       categories:
         diary_entry:
           other_label: Muu
@@ -586,11 +646,29 @@ fit:
     copyright:
       foreign:
         title: Tietoja tästä käänöksestä
+        english_link: englanninenkielisen alkuperäisversuunin
       native:
         title: Tästä sivusta
+        text: Tällä sivula on alkuperänen englanninkielinen versuuni tekijäoikeuksista.
+          Saatavilla on myös %{native_link}. Voit myös lopettaa tekijänoikeuksien
+          lukemisen ja %{mapping_link}.
         native_link: meänkielinen versuuni
+        mapping_link: aloittaa kartoituksen
       legal_babble:
         title_html: Tekijänoikeus ja lisensi
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> on <i>avointa taattaa</i>, jonka <a
+          href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF) on lisensoinut <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database -lisensillä</a> (ODbL).
+        intro_2_html: "OpenStreetMapin karttoja ja tietoja voi kopioida, levittää,
+          välittää ja mukauttaa, \nkunhan OpenStreetMap ja sen tekijät mainitaan.
+          Jos karttoja tai tietoja muutethaan tai kehitethään, niitä saa levittää
+          vain samalla lisensillä.\n<a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">Lakitekstissä</a>
+          mainitaan levittäjän oikeudet ja velvollisuudet."
+        intro_3_html: |-
+          Kartta-aineisto ja dokumentaatio on lisensoitu <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.fi">Creative
+          Commons Nimeä-Jaa samoin 2.0</a> -lisensillä (CC-BY-SA).
+        credit_title_html: OpenStreetMapin mainitseminen
         contributors_title_html: Meän tekijät
     index:
       permalink: Ikunen länkki
@@ -684,7 +762,11 @@ fit:
       lost password link: Unhouttanu sinun salasanan?
       login_button: Lokkaa sisäle
       register now: Luo konttu nyt
+      openid_logo_alt: Lokkaa sisäle OpenID-konttulla
       auth_providers:
+        openid:
+          title: Lokkaa sisäle OpenID:llä
+          alt: Lokkaa sisäle OpenID-atressilla
         google:
           title: Lokkaa sisäle Googlella
         facebook:
@@ -696,7 +778,10 @@ fit:
       heading: Lokkaa ulos OpenStreetMapista
       logout_button: Lokkaa ulos
     lost_password:
+      title: Unohtunut salasana
+      heading: Unohditko salasanasi?
       email address: 'E-postiatressi:'
+      new password button: Lähätä salasanan palautusohjeet
     reset_password:
       password: 'Salasana:'
       confirm password: 'Vahvista salasana:'
@@ -799,11 +884,68 @@ fit:
     changesets:
       show:
         comment: Kommentoi
+    directions:
+      instructions:
+        courtesy: Reittiohjeet tarjoaa %{link}
+        exit_counts:
+          first: ensimmäisestä
+          second: toisesta
+          third: "3."
+          fourth: "4."
+          fifth: "5."
+          sixth: "6."
+          seventh: "7."
+          eighth: "8."
+          ninth: "9."
+          tenth: "10."
+      time: Matka-aika
+    query:
+      node: Piste
+      way: Viiva
+      relation: Relaatio
+      nothing_found: Karttakohteita ei löytynyt
+      error: 'Yhteysvirhe palvelimeen %{server}: %{error}'
+      timeout: Yhteyden aikakatkaisu palvelimeen %{server}
     context:
+      directions_from: Reittiohjeet täältä
+      directions_to: Reittiohjeet tänne
+      add_note: Ilmota karttavirheestä
       show_address: Näytä atressi
+      query_features: Lähistöllä
+      centre_map: Keskitä kartta
   redactions:
     edit:
+      description: Kuvvaus
       heading: Mookkaa laitosta
+      title: Mookkaa laitosta
+    index:
+      empty: Ei ole näytettävää laitosta
+      heading: Laitosten luettelo
+      title: Laitosten luettelo
+    new:
+      description: Kuvvaus
+      heading: Kirjota tietoja uudesta laitoksesta
+      title: Luodaan uusi redaktio
     show:
+      description: 'Kuvvaus:'
+      heading: Näytetään redaktio ”%{title}”
+      title: Näytetään redaktio
+      user: 'Luoja:'
       edit: Mookkaa tätä laitosta
+      destroy: Ota poies tämä redaktio
+      confirm: Oletko varma?
+    create:
+      flash: Redaktio luotu.
+    update:
+      flash: Muutokset on säästetty.
+    destroy:
+      not_empty: Redaktio ei ole tyhjä. Ota poies redaktiotiot kaikista tähän redaktioon
+        liittyvistä versuuneista ennen sen tuhoamista.
+      flash: Redaktio tuhottu.
+      error: Redaktiota tuhottaessa tapahtui virhe.
+  validations:
+    leading_whitespace: tyhjää tilaa alussa
+    trailing_whitespace: tyhjää tilaa lopussa
+    invalid_characters: sisälthää virheellisiä merkkejä
+    url_characters: sisälthää erikoismerkkejä URL:ssa (%{characters})
 ...
