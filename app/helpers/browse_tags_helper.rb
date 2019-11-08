@@ -116,7 +116,7 @@ module BrowseTagsHelper
   def wikimedia_commons_link(key, value)
     if key == "wikimedia_commons" && value =~ /^(?:file|category):/i
       return {
-        :url => "//commons.wikimedia.org/wiki/#{value}?uselang=#{I18n.locale}",
+        :url => "//commons.wikimedia.org/wiki/#{value}",
         :title => value
       }
     end
