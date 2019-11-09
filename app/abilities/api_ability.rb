@@ -37,7 +37,7 @@ class ApiAbility
         can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
 
         if user.terms_agreed?
-          can [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox], Changeset
+          can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset
           can :create, ChangesetComment
           can [:create, :update, :delete], Node
           can [:create, :update, :delete], Way
