@@ -310,6 +310,7 @@ ca:
         tag: La pàgina de descripció del wiki per a l'etiqueta %{key}=%{value}
       wikidata_link: L'element %{page} a Wikidata
       wikipedia_link: L'article %{page} a la Viquipèdia
+      wikimedia_commons_link: L'element %{page} a Wikimedia Commons
       telephone_link: Telefona %{phone_number}
       colour_preview: Previsualització de color %{colour_value}
     note:
@@ -1061,7 +1062,7 @@ ca:
       search: Cerca
       search_guidance: 'Cerca incidències:'
       user_not_found: El compte d’usuari no existeix
-      issues_not_found: No s'ha trobat cap incidència
+      issues_not_found: No s'ha trobat cap incidència d'aquest tipus
       status: Estat
       reports: Informes
       last_updated: Darrera actualització
@@ -1167,7 +1168,7 @@ ca:
     log_in_tooltip: Inicia una sessió amb un compte existent
     sign_up: Crea un compte
     start_mapping: Comença a cartografiar
-    sign_up_tooltip: Crea un usuari per editar
+    sign_up_tooltip: Crea un compte per a col·laborar
     edit: Modifica
     history: Historial
     export: Exporta
@@ -1389,9 +1390,9 @@ ca:
       destroy_button: Suprimeix
       back: Enrere
       to: Per a
-      wrong_user: Heu iniciat la sessió com a "%{user}", però el missatge que voleu
-        llegir no ha estat enviat per aquest usuari o a aquest usuari. Per a poder
-        llegir-lo, inicieu la sessió amb l'usuari correcte.
+      wrong_user: Heu iniciat la sessió com a "%{user}", però aquest usuari no ha
+        escrit ni ha rebut el missatge que voleu llegir. Per a poder llegir-lo, inicieu
+        la sessió amb l'usuari correcte.
     sent_message_summary:
       destroy_button: Suprimeix
     mark:
@@ -1418,9 +1419,9 @@ ca:
         Si voleu conèixer més sobre la comunitat, visiteu els <a href='%{diary_path}'>diaris d'usuari</a>, els <a href='http://blogs.openstreetmap.org/'>blogs de la comunitat</a>, i la pàgina web de la <a href='http://www.osmfoundation.org/'>Fundació OSM</a>.
       open_data_title: Dades obertes
       open_data_html: 'OpenStreetMap són <i>dades lliures</i>: sou lliures d''usar-lo
-        per a qualsevol propòsit, sempre que doneu crèdit a OpenStreetMap i els seus
-        contribuïdors. Si modifiqueu o construïu sobre les dades en alguna manera
-        concreta, podeu distribuir el resultat només sota la mateixa llicència. Vegeu
+        per a qualsevol propòsit, sempre que especifiqueu que són obra d''OpenStreetMap
+        i els seus col·laboradors. Si modifiqueu o amplieu les dades de determinades
+        maneres, només podreu distribuir el resultat sota la mateixa llicència. Vegeu
         la <a href=''%{copyright_path}''>pàgina de copyright i llicència</a> per a
         més detalls.'
       legal_title: Avisos legals
@@ -1440,56 +1441,52 @@ ca:
       foreign:
         title: Quant a la traducció
         text: En cas de conflicte entre aquesta pàgina traduïda i %{english_original_link},
-          la pàgina en anglès té prioritat
+          la pàgina en anglès té prevalènça
         english_link: l'original en anglès
       native:
         title: Sobre aquesta pàgina
         text: Esteu veient la versió anglesa de la pàgina de drets d'autor. Podeu
           tornar a la %{native_link} d'aquesta pàgina o podeu deixar de llegir sobre
-          el copyright i anar a %{mapping_link}.
-        native_link: versió català
+          els drets d'autor i %{mapping_link}.
+        native_link: Versió en català
         mapping_link: Comença a cartografiar
       legal_babble:
         title_html: Drets d'autor i llicència
         intro_1_html: |-
-          Les dades obertes d'OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> estan publicades sota la <a
+          Les <i>open data</i> d'OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> estan publicades sota la <a
           href="http://opendatacommons.org/licenses/odbl/">llicència de base de dades oberta</a> (ODbL) per la <a
           href="http://osmfoundation.org/">Fundació OpenStreetMap</a> (OSMF).
-        intro_2_html: "Sou lliure de copiar, distribuir, comunicar públicament i fer-ne
-          obres \nderivades de les nostres dades, sempre que atribuïu els crèdits
-          a \nOpenStreetMap i els seus col·laboradors. Si modifiqueu o utilitzeu les\nnostres
-          dades fer fer obres derivades, només podreu distribuir l'obra \nresultant
-          amb la mateixa llicència. Aquest \n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">text
-          legal\ncode</a> sencer que explica detalladament els vostres drets i responsabbilitats."
-        intro_3_html: |-
-          La cartografia de les nostres tessel·les i la nostra documentació són ofertes
-          sota llicència <a href="http://creativecommons.org/licenses/by-sa/2.0/">Text de la llicència de Creative Commons Reconeixement-Compartir Igual 2.0</a>(CC-BY-SA).
-        credit_title_html: Com a crèdit OpenStreetMap
-        credit_1_html: |-
-          Exigim que l'atribució de drets d'autor sigui &ldquo;&copy; Col·laboradors d'OpenStreetMap
-          &rdquo;.
+        intro_2_html: "Sou lliure de copiar, distribuir, comunicar públicament i fer
+          obres derivades de les nostres dades, sempre que especifiqueu que són obra
+          d'OpenStreetMap i els seus col·laboradors. Si modifiqueu o amplieu les\nnostres
+          dades, només podreu distribuir l'obra \nresultant amb la mateixa llicència.
+          El\n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">codi legal</a>
+          complet explica detalladament els vostres drets i responsabilitats."
+        intro_3_html: La cartografia de les nostres tessel·les i la nostra documentació
+          són disponibles sota llicència <a href="http://creativecommons.org/licenses/by-sa/2.0/">Text
+          de la llicència de Creative Commons Reconeixement-Compartir Igual 2.0</a>(CC-BY-SA).
+        credit_title_html: Com atribuir autoria a OpenStreetMap
+        credit_1_html: Demanem que es reconegui &ldquo;&copy; Col·laboradors d'OpenStreetMap&rdquo;
+          com a autors.
         credit_2_html: També heu de deixar clar que les dades són disponibles sota
-          llicència obereta, i si s'utilitzen les nostres tessel·les de mapes, que
-          la cartografia és llicenciada com CC-BY-SA. Podeu fer això enllaçant a <a
-          href="http://www.openstreetmap.org/copyright">aquest pàgina de copyright</a>.
-          D'altra banda, i com a requisit obligatori si voleu distribuir OSM en forma
-          de dades en brut, podeu citar i enllaçar directament a la llicència. En
-          el cas d'utilitzar suports on els enllaços d'hipertext no són possibles
-          (per exemple, obres impreses), us suggerim d'adreçar els lectors a openstreetmap.org
-          (potser indicant l'adreça completa d'OpenStreetMap), a opendatacommons.org
-          i si s'escau, a creativecommons.org.
+          llicència de base de dades oberta i, si utilitzeu els nostres mapes, que
+          la cartografia té llicència CC-BY-SA. Podeu fer-ho enllaçant a <a href="http://www.openstreetmap.org/copyright">aquesta
+          pàgina de copyright</a>. De manera alternativa, però com a requisit obligatori
+          si distribuïu OSM en forma de dades en brut, podeu citar i enllaçar directament
+          a la llicència. En el cas d'utilitzar suports on els enllaços d'hipertext
+          no són possibles (per exemple, obres impreses), us suggerim d'adreçar els
+          lectors a openstreetmap.org (potser indicant l'adreça completa d'OpenStreetMap),
+          a opendatacommons.org i, si s'escau, a creativecommons.org.
         credit_3_html: |-
           En el cas d'un mapa electrònic navegable, els crèdits han d'aparèixer a la cantonada del mapa.
           Per exemple:
         attribution_example:
-          alt: Exemple de com atribuir OpenStreetMap a una pàgina web
-          title: Exemple d'atribució
+          alt: Exemple de com atribuir l'autoria a OpenStreetMap en una pàgina web
+          title: Exemple d'atribució d'autoria
         more_title_html: Saber-ne més
         more_1_html: |-
-          Llegiu més informació sobre com utilitzar les nostres dades, i com donar-ne crèdit, a la <a
-          href="http://osmfoundation.org/Licence">pàgina de llicència OSMF</a> i a les <a
-          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Preguntes
-          Freqüents sobre legalitat</a>.
+          Per a més informació sobre com utilitzar les nostres dades i com atribuir-ne l'autorita, visiteu la <a
+          href="http://osmfoundation.org/Licence">pàgina de llicència de la OSMF</a>.
         more_2_html: Encara que les dades d'OpenStreetMap són dades obertes, no podem
           oferir una API gratuïta per als desenvolupadors de terceres parts. Vegeu
           la <a href="https://operations.osmfoundation.org/policies/api/">política
