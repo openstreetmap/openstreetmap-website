@@ -173,22 +173,22 @@ module Api
       basic_authorization private_user.email, "test"
 
       # try to delete with an invalid (closed) changeset
-      xml = update_changeset(private_node.to_xml, private_user_closed_changeset.id)
+      xml = update_changeset(xml_for_node(private_node), private_user_closed_changeset.id)
       delete :delete, :params => { :id => private_node.id }, :body => xml.to_s
       assert_require_public_data("non-public user shouldn't be able to delete node")
 
       # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(private_node.to_xml, 0)
+      xml = update_changeset(xml_for_node(private_node), 0)
       delete :delete, :params => { :id => private_node.id }, :body => xml.to_s
       assert_require_public_data("shouldn't be able to delete node, when user's data is private")
 
       # valid delete now takes a payload
-      xml = private_node.to_xml
+      xml = xml_for_node(private_node)
       delete :delete, :params => { :id => private_node.id }, :body => xml.to_s
       assert_require_public_data("shouldn't be able to delete node when user's data isn't public'")
 
       # this won't work since the node is already deleted
-      xml = private_deleted_node.to_xml
+      xml = xml_for_node(private_deleted_node)
       delete :delete, :params => { :id => private_deleted_node.id }, :body => xml.to_s
       assert_require_public_data
 
@@ -201,7 +201,7 @@ module Api
       private_used_node = create(:node, :changeset => private_user_changeset)
       create(:way_node, :node => private_used_node)
 
-      xml = private_used_node.to_xml
+      xml = xml_for_node(private_used_node)
       delete :delete, :params => { :id => private_used_node.id }, :body => xml.to_s
       assert_require_public_data "shouldn't be able to delete a node used in a way (#{@response.body})"
 
@@ -209,7 +209,7 @@ module Api
       private_used_node2 = create(:node, :changeset => private_user_changeset)
       create(:relation_member, :member => private_used_node2)
 
-      xml = private_used_node2.to_xml
+      xml = xml_for_node(private_used_node2)
       delete :delete, :params => { :id => private_used_node2.id }, :body => xml.to_s
       assert_require_public_data "shouldn't be able to delete a node used in a relation (#{@response.body})"
 
@@ -221,18 +221,18 @@ module Api
       basic_authorization user.email, "test"
 
       # try to delete with an invalid (closed) changeset
-      xml = update_changeset(node.to_xml, closed_changeset.id)
+      xml = update_changeset(xml_for_node(node), closed_changeset.id)
       delete :delete, :params => { :id => node.id }, :body => xml.to_s
       assert_response :conflict
 
       # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(node.to_xml, 0)
+      xml = update_changeset(xml_for_node(node), 0)
       delete :delete, :params => { :id => node.id }, :body => xml.to_s
       assert_response :conflict
 
       # try to delete a node with a different ID
       other_node = create(:node)
-      xml = other_node.to_xml
+      xml = xml_for_node(other_node)
       delete :delete, :params => { :id => node.id }, :body => xml.to_s
       assert_response :bad_request,
                       "should not be able to delete a node with a different ID from the XML"
@@ -244,7 +244,7 @@ module Api
                       "should not be able to delete a node without a valid XML payload"
 
       # valid delete now takes a payload
-      xml = node.to_xml
+      xml = xml_for_node(node)
       delete :delete, :params => { :id => node.id }, :body => xml.to_s
       assert_response :success
 
@@ -254,7 +254,7 @@ module Api
              "delete request should return a new version number for node"
 
       # deleting the same node twice doesn't work
-      xml = node.to_xml
+      xml = xml_for_node(node)
       delete :delete, :params => { :id => node.id }, :body => xml.to_s
       assert_response :gone
 
@@ -268,7 +268,7 @@ module Api
       way_node = create(:way_node, :node => used_node)
       way_node2 = create(:way_node, :node => used_node)
 
-      xml = used_node.to_xml
+      xml = xml_for_node(used_node)
       delete :delete, :params => { :id => used_node.id }, :body => xml.to_s
       assert_response :precondition_failed,
                       "shouldn't be able to delete a node used in a way (#{@response.body})"
@@ -279,7 +279,7 @@ module Api
       relation_member = create(:relation_member, :member => used_node2)
       relation_member2 = create(:relation_member, :member => used_node2)
 
-      xml = used_node2.to_xml
+      xml = xml_for_node(used_node2)
       delete :delete, :params => { :id => used_node2.id }, :body => xml.to_s
       assert_response :precondition_failed,
                       "shouldn't be able to delete a node used in a relation (#{@response.body})"
@@ -298,7 +298,7 @@ module Api
       user = create(:user)
       node = create(:node, :changeset => create(:changeset, :user => user))
 
-      xml = node.to_xml
+      xml = xml_for_node(node)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :unauthorized
 
@@ -310,41 +310,41 @@ module Api
       ## trying to break changesets
 
       # try and update in someone else's changeset
-      xml = update_changeset(private_node.to_xml,
+      xml = update_changeset(xml_for_node(private_node),
                              create(:changeset).id)
       put :update, :params => { :id => private_node.id }, :body => xml.to_s
       assert_require_public_data "update with other user's changeset should be forbidden when data isn't public"
 
       # try and update in a closed changeset
-      xml = update_changeset(private_node.to_xml,
+      xml = update_changeset(xml_for_node(private_node),
                              create(:changeset, :closed, :user => private_user).id)
       put :update, :params => { :id => private_node.id }, :body => xml.to_s
       assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
 
       # try and update in a non-existant changeset
-      xml = update_changeset(private_node.to_xml, 0)
+      xml = update_changeset(xml_for_node(private_node), 0)
       put :update, :params => { :id => private_node.id }, :body => xml.to_s
       assert_require_public_data "update with changeset=0 should be forbidden, when data isn't public"
 
       ## try and submit invalid updates
-      xml = xml_attr_rewrite(private_node.to_xml, "lat", 91.0)
+      xml = xml_attr_rewrite(xml_for_node(private_node), "lat", 91.0)
       put :update, :params => { :id => private_node.id }, :body => xml.to_s
       assert_require_public_data "node at lat=91 should be forbidden, when data isn't public"
 
-      xml = xml_attr_rewrite(private_node.to_xml, "lat", -91.0)
+      xml = xml_attr_rewrite(xml_for_node(private_node), "lat", -91.0)
       put :update, :params => { :id => private_node.id }, :body => xml.to_s
       assert_require_public_data "node at lat=-91 should be forbidden, when data isn't public"
 
-      xml = xml_attr_rewrite(private_node.to_xml, "lon", 181.0)
+      xml = xml_attr_rewrite(xml_for_node(private_node), "lon", 181.0)
       put :update, :params => { :id => private_node.id }, :body => xml.to_s
       assert_require_public_data "node at lon=181 should be forbidden, when data isn't public"
 
-      xml = xml_attr_rewrite(private_node.to_xml, "lon", -181.0)
+      xml = xml_attr_rewrite(xml_for_node(private_node), "lon", -181.0)
       put :update, :params => { :id => private_node.id }, :body => xml.to_s
       assert_require_public_data "node at lon=-181 should be forbidden, when data isn't public"
 
       ## finally, produce a good request which still won't work
-      xml = private_node.to_xml
+      xml = xml_for_node(private_node)
       put :update, :params => { :id => private_node.id }, :body => xml.to_s
       assert_require_public_data "should have failed with a forbidden when data isn't public"
 
@@ -352,7 +352,7 @@ module Api
 
       # try and update a node without authorisation
       # first try to update node without auth
-      xml = node.to_xml
+      xml = xml_for_node(node)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :forbidden
 
@@ -362,36 +362,36 @@ module Api
       ## trying to break changesets
 
       # try and update in someone else's changeset
-      xml = update_changeset(node.to_xml,
+      xml = update_changeset(xml_for_node(node),
                              create(:changeset).id)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :conflict, "update with other user's changeset should be rejected"
 
       # try and update in a closed changeset
-      xml = update_changeset(node.to_xml,
+      xml = update_changeset(xml_for_node(node),
                              create(:changeset, :closed, :user => user).id)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :conflict, "update with closed changeset should be rejected"
 
       # try and update in a non-existant changeset
-      xml = update_changeset(node.to_xml, 0)
+      xml = update_changeset(xml_for_node(node), 0)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :conflict, "update with changeset=0 should be rejected"
 
       ## try and submit invalid updates
-      xml = xml_attr_rewrite(node.to_xml, "lat", 91.0)
+      xml = xml_attr_rewrite(xml_for_node(node), "lat", 91.0)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :bad_request, "node at lat=91 should be rejected"
 
-      xml = xml_attr_rewrite(node.to_xml, "lat", -91.0)
+      xml = xml_attr_rewrite(xml_for_node(node), "lat", -91.0)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :bad_request, "node at lat=-91 should be rejected"
 
-      xml = xml_attr_rewrite(node.to_xml, "lon", 181.0)
+      xml = xml_attr_rewrite(xml_for_node(node), "lon", 181.0)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :bad_request, "node at lon=181 should be rejected"
 
-      xml = xml_attr_rewrite(node.to_xml, "lon", -181.0)
+      xml = xml_attr_rewrite(xml_for_node(node), "lon", -181.0)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :bad_request, "node at lon=-181 should be rejected"
 
@@ -399,26 +399,26 @@ module Api
       current_node_version = node.version
 
       # try and submit a version behind
-      xml = xml_attr_rewrite(node.to_xml,
+      xml = xml_attr_rewrite(xml_for_node(node),
                              "version", current_node_version - 1)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :conflict, "should have failed on old version number"
 
       # try and submit a version ahead
-      xml = xml_attr_rewrite(node.to_xml,
+      xml = xml_attr_rewrite(xml_for_node(node),
                              "version", current_node_version + 1)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :conflict, "should have failed on skipped version number"
 
       # try and submit total crap in the version field
-      xml = xml_attr_rewrite(node.to_xml,
+      xml = xml_attr_rewrite(xml_for_node(node),
                              "version", "p1r4t3s!")
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :conflict,
                       "should not be able to put 'p1r4at3s!' in the version field"
 
       ## try an update with the wrong ID
-      xml = create(:node).to_xml
+      xml = xml_for_node(create(:node))
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :bad_request,
                       "should not be able to update a node with a different ID from the XML"
@@ -430,7 +430,7 @@ module Api
                       "should not be able to update a node with non-OSM XML doc."
 
       ## finally, produce a good request which should work
-      xml = node.to_xml
+      xml = xml_for_node(node)
       put :update, :params => { :id => node.id }, :body => xml.to_s
       assert_response :success, "a valid update request failed"
     end
@@ -483,7 +483,7 @@ module Api
       tag_xml["v"] = existing_tag.v
 
       # add the tag into the existing xml
-      node_xml = existing_tag.node.to_xml
+      node_xml = xml_for_node(existing_tag.node)
       node_xml.find("//osm/node").first << tag_xml
 
       # try and upload it

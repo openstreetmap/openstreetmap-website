@@ -43,7 +43,7 @@ module Api
       basic_authorization private_user.email, "test"
 
       # setup a simple XML node
-      xml_doc = private_node.to_xml
+      xml_doc = xml_for_node(private_node)
       xml_node = xml_doc.find("//osm/node").first
       nodeid = private_node.id
 
@@ -91,7 +91,7 @@ module Api
 
       # setup a simple XML node
 
-      xml_doc = node.to_xml
+      xml_doc = xml_for_node(node)
       xml_node = xml_doc.find("//osm/node").first
       nodeid = node.id
 
