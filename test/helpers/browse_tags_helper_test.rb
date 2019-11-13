@@ -49,7 +49,7 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_dom_equal "<a title=\"The Q123 item on Wikidata\" href=\"//www.wikidata.org/entity/Q123?uselang=en\">Q123</a>", html
 
     html = format_value("wikimedia_commons", "File:Test.jpg")
-    assert_dom_equal "<a title=\"The File:Test.jpg item on Wikimedia Commons\" href=\"//commons.wikimedia.org/wiki/File:Test.jpg?uselang=en\">File:Test.jpg</a>", html
+    assert_dom_equal "<a title=\"The File:Test.jpg item on Wikimedia Commons\" href=\"//commons.wikimedia.org/wiki/File:Test.jpg\">File:Test.jpg</a>", html
 
     html = format_value("colour", "#f00")
     assert_dom_equal %(<span class="colour-preview-box" data-colour="#f00" title="Colour #f00 preview"></span>#f00), html
@@ -204,7 +204,7 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_nil link
 
     link = wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")
-    assert_equal "//commons.wikimedia.org/wiki/File:Test.jpg?uselang=en", link[:url]
+    assert_equal "//commons.wikimedia.org/wiki/File:Test.jpg", link[:url]
     assert_equal "File:Test.jpg", link[:title]
 
     link = wikimedia_commons_link("wikimedia_commons", "Category:Test_Category")
