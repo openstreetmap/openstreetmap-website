@@ -68,14 +68,6 @@ class NodeTest < ActiveSupport::TestCase
     assert_in_delta 76.543 * OldNode::SCALE, node.longitude, 0.000001
   end
 
-  # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
-  def test_lat_lon_xml_format
-    node = build(:node, :latitude => 0.00004 * OldNode::SCALE, :longitude => 0.00008 * OldNode::SCALE)
-
-    assert_match(/lat="0.0000400"/, node.to_xml.to_s)
-    assert_match(/lon="0.0000800"/, node.to_xml.to_s)
-  end
-
   # Check that you can create a node and store it
   def test_create
     changeset = create(:changeset)

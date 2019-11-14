@@ -461,7 +461,7 @@ CHANGESET
       delete << super_relation.to_xml_node
       delete << used_relation.to_xml_node
       delete << used_way.to_xml_node
-      delete << used_node.to_xml_node
+      delete << xml_node_for_node(used_node)
 
       # update the changeset to one that this user owns
       %w[node way relation].each do |type|
@@ -592,7 +592,7 @@ CHANGESET
       diff.root << delete
       delete << other_relation.to_xml_node
       delete << used_way.to_xml_node
-      delete << used_node.to_xml_node
+      delete << xml_node_for_node(used_node)
 
       # update the changeset to one that this user owns
       %w[node way relation].each do |type|
@@ -635,7 +635,7 @@ CHANGESET
       delete["if-unused"] = ""
       delete << used_relation.to_xml_node
       delete << used_way.to_xml_node
-      delete << used_node.to_xml_node
+      delete << xml_node_for_node(used_node)
 
       # update the changeset to one that this user owns
       %w[node way relation].each do |type|
@@ -1137,7 +1137,7 @@ CHANGESET
       diff = XML::Document.new
       diff.root = XML::Node.new "osmChange"
       modify = XML::Node.new "modify"
-      xml_old_node = old_node.to_xml_node
+      xml_old_node = xml_node_for_node(old_node)
       xml_old_node["lat"] = 2.0.to_s
       xml_old_node["lon"] = 2.0.to_s
       xml_old_node["changeset"] = changeset_id.to_s
@@ -1228,7 +1228,7 @@ CHANGESET
       diff.root = XML::Node.new "osmChange"
       delete = XML::Node.new "delete"
       diff.root << delete
-      delete << node.to_xml_node
+      delete << xml_node_for_node(node)
 
       # upload it
       error_format "xml"

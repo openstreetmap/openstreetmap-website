@@ -168,7 +168,7 @@ input::-moz-focus-inner {
 
 /* IE/Edge needs these overrides for markers to show up */
 .layer-osm path.oneway-marker-path          { fill: #000; }
-.layer-osm path.sided-marker-natural-path   { fill: rgb(140, 208, 95); }
+.layer-osm path.sided-marker-natural-path   { fill: rgb(170, 170, 170); }
 .layer-osm path.sided-marker-coastline-path { fill: #77dede; }
 .layer-osm path.sided-marker-barrier-path   { fill: #ddd; }
 .layer-osm path.sided-marker-man_made-path  { fill: #fff; }
@@ -500,6 +500,91 @@ g.vertex.highlighted .shadow {
     stroke: #68f;
 }
 
+/* Visual Diffs
+------------------
+`highlight-edited` - visual diff activated
+`added` - entity was created by the user
+`moved` - node has different coordinates
+`geometry-edited` - way has different nodes
+`segment-edited` - one or both adjacents nodes moved
+`retagged` - some tagging change has occurred
+*/
+
+/* Vertex visual diffs */
+.highlight-edited g.points g.node.vertex.added > circle.shadow,
+.highlight-edited g.points g.node.vertex.retagged > circle.shadow,
+.highlight-edited g.points g.node.vertex.moved > circle.shadow {
+    fill-opacity: 0.8;
+}
+.highlight-edited g.points g.node.vertex.added > circle.shadow {
+    fill: rgb(133, 255, 103);
+}
+.highlight-edited g.points g.node.vertex.retagged > circle.shadow {
+    fill: #fcde5a;
+}
+.highlight-edited g.points g.node.vertex.moved > circle.shadow {
+    fill: rgb(255, 126, 46);
+}
+
+/* Point visual diffs */
+.highlight-edited g.points g.node.point.added > path.shadow,
+.highlight-edited g.points g.node.point.retagged > path.shadow,
+.highlight-edited g.points g.node.point.moved > path.shadow {
+    stroke-opacity: 0.8;
+    stroke-width: 10;
+}
+.highlight-edited g.points g.node.point.added > path.shadow {
+    stroke: rgb(133, 255, 103);
+}
+.highlight-edited g.points g.node.point.retagged > path.shadow {
+    stroke: #fcde5a;
+}
+.highlight-edited g.points g.node.point.moved > path.shadow {
+    stroke: rgb(255, 126, 46);
+}
+
+/* Line/area segment visual diffs
+- segments are rendered on top of the ways for convenience and to differentiate
+  them from entire line diffs, so make them thin
+*/
+.highlight-edited g.lines > path.line.segment-edited,
+.highlight-edited g.areas > path.area.segment-edited {
+    stroke: rgb(255, 126, 46);
+    stroke-dasharray: 10, 3;
+    stroke-width: 1.5 !important;
+    stroke-opacity: 1;
+}
+
+/* Entire line/area visual diffs */
+.highlight-edited path.line.shadow.added,
+.highlight-edited path.line.shadow.retagged,
+.highlight-edited path.line.shadow.geometry-edited,
+.highlight-edited path.area.shadow.added,
+.highlight-edited path.area.shadow.retagged,
+.highlight-edited path.area.shadow.geometry-edited {
+    stroke-opacity: 0.6;
+}
+.highlight-edited.fill-wireframe path.line.shadow.added,
+.highlight-edited.fill-wireframe path.line.shadow.retagged,
+.highlight-edited.fill-wireframe path.line.shadow.geometry-edited,
+.highlight-edited.fill-wireframe path.area.shadow.added,
+.highlight-edited.fill-wireframe path.area.shadow.retagged,
+.highlight-edited.fill-wireframe path.area.shadow.geometry-edited {
+    stroke-width: 3;
+}
+.highlight-edited path.line.shadow.added,
+.highlight-edited path.area.shadow.added {
+    stroke: rgb(133, 255, 103);
+}
+.highlight-edited path.area.shadow.retagged,
+.highlight-edited path.line.shadow.retagged {
+    stroke: #fcde5a;
+}
+.highlight-edited path.line.shadow.geometry-edited,
+.highlight-edited path.area.shadow.geometry-edited {
+    stroke: rgb(255, 126, 46);
+}
+
 /* Default - light gray */
 path.area.stroke {
     stroke: rgb(170, 170, 170);
@@ -642,7 +727,8 @@ path.stroke.tag-landuse-residential,
 path.stroke.tag-status-construction {
     stroke: rgb(196, 189, 25);
 }
-path.fill.tag-landuse-residential {
+path.fill.tag-landuse-residential,
+path.fill.tag-status-construction {
     stroke: rgba(196, 189, 25, 0.3);
     fill: rgba(196, 189, 25, 0.3);
 }
@@ -1869,26 +1955,26 @@ path.line.casing.tag-boundary-national_park {
 
 
 /* barriers and similar */
-path.line.stroke.tag-barrier:not(.tag-barrier-hedge) {
+path.line.stroke.tag-barrier:not(.tag-barrier-hedge):not(.tag-waterway) {
     stroke: #ddd;
 }
 .preset-icon-container path.line.stroke.tag-barrier:not(.tag-barrier-hedge) {
     stroke: rgb(170, 170, 170);
 }
 path.line.casing.tag-natural,
-path.line.casing.tag-barrier,
+path.line.casing.tag-barrier:not(.tag-waterway),
 path.line.casing.tag-man_made-groyne,
 path.line.casing.tag-man_made-breakwater {
     stroke: none;
 }
-path.line.stroke.tag-barrier,
+path.line.stroke.tag-barrier:not(.tag-waterway),
 path.line.stroke.tag-man_made-groyne,
 path.line.stroke.tag-man_made-breakwater {
     stroke-width: 3px;
     stroke-linecap: round;
     stroke-dasharray: 15, 5, 1, 5;
 }
-.low-zoom path.line.stroke.tag-barrier,
+.low-zoom path.line.stroke.tag-barrier:not(.tag-waterway),
 .low-zoom path.line.stroke.tag-man_made-groyne,
 .low-zoom path.line.stroke.tag-man_made-breakwater {
     stroke-width: 2px;
@@ -1899,6 +1985,20 @@ path.line.stroke.tag-man_made-breakwater {
 .preset-icon-container path.line.stroke.tag-man_made-groyne,
 .preset-icon-container path.line.stroke.tag-man_made-breakwater {
     stroke-dasharray: 1, 4, 6, 4;
+}
+path.line.stroke.tag-barrier.tag-barrier-wall,
+path.line.stroke.tag-barrier.tag-barrier-retaining_wall,
+path.line.stroke.tag-barrier.tag-barrier-city_wall {
+    stroke-linecap: butt;
+    stroke-dasharray: 16, 3, 9, 3;
+}
+.low-zoom path.line.stroke.tag-barrier.tag-barrier-wall,
+.low-zoom path.line.stroke.tag-barrier.tag-barrier-retaining_wall,
+.low-zoom path.line.stroke.tag-barrier.tag-barrier-city_wall,
+.preset-icon-container path.line.stroke.tag-barrier.tag-barrier-wall,
+.preset-icon-container path.line.stroke.tag-barrier.tag-barrier-retaining_wall,
+.preset-icon-container path.line.stroke.tag-barrier.tag-barrier-city_wall {
+    stroke-dasharray: 8, 1, 4, 1;
 }
 
 
@@ -2400,20 +2500,24 @@ path.fill.tag-building {
 }
 
 
-/* Mapillary Sign Layer */
-.layer-mapillary-signs {
+/* Mapillary Traffic Signs and Map Features Layers */
+.layer-mapillary-signs,
+.layer-mapillary-map-features {
     pointer-events: none;
 }
-.layer-mapillary-signs .icon-sign {
+.layer-mapillary-signs .icon-sign,
+.layer-mapillary-map-features .icon-map-feature {
     outline: 2px solid transparent;
     pointer-events: visible;
     cursor: pointer;
 }
-.layer-mapillary-signs .icon-sign:hover {
+.layer-mapillary-signs .icon-sign:hover,
+.layer-mapillary-map-features .icon-map-feature:hover {
     outline: 5px solid #eebb00;
     background-color: #eebb00;
 }
-.layer-mapillary-signs .icon-sign.currentView {
+.layer-mapillary-signs .icon-sign.currentView,
+.layer-mapillary-map-features .icon-map-feature.currentView {
     outline: 5px solid #ffee00;
     background-color: #ffee00;
 }
@@ -5804,14 +5908,18 @@ input.key-trap {
     border-radius: 0;
 }
 
-.map-control > button:hover,
-.map-control > button:focus {
+.map-control > button:not(.disabled):hover,
+.map-control > button:not(.disabled):focus {
     background: rgba(0, 0, 0, .8);
 }
 
 .map-control > button.active,
 .map-control > button.active:hover {
     background: #7092ff;
+}
+
+.map-control > button.disabled .icon {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 
@@ -6041,7 +6149,7 @@ div.full-screen > button:hover {
 }
 [dir='rtl'] .issue-label .issue-info-button {
     border-left: 0;
-    border-right: 1px solid;
+    border-right: 1px solid #ccc;
 }
 .issue-container .issue-label .issue-info-button .icon {
     opacity: 0.5;
@@ -6237,7 +6345,7 @@ button.autofix.action.active {
 }
 
 input.square-degrees-input {
-    padding: 2px;
+    padding: 2px !important; /* important needed for rtl */
     height: unset;
     text-align: center;
     background: rgba(0,0,0,0);
@@ -7351,6 +7459,9 @@ img.tile-debug {
     margin-right: 5px;
     padding: 5px 5px 5px 0;
 }
+#about-list li:empty {
+    display: none;
+}
 
 #about-list li:last-child {
     border-left: 0;
@@ -7361,20 +7472,45 @@ img.tile-debug {
     border-right: none;
 }
 
-.source-switch a {
-    padding: 2px 4px 4px 4px;
+#about-list a.chip {
+    padding: 2px 4px 3px 4px;
     border-radius: 2px;
+    color: #eee;
 }
-.source-switch a.live {
+#about-list a.chip .icon {
+    width: 14px;
+    height: 14px;
+    margin-top: 3px;
+}
+[dir='ltr'] #about-list a.chip .icon,
+[dir='ltr'] #about-list a.chip span {
+    margin-right: 3px;
+}
+[dir='rtl'] #about-list a.chip .icon,
+[dir='rtl'] #about-list a.chip span {
+    margin-left: 3px;
+}
+
+.source-switch a.chip.live {
     background: #d32232;
     color: #fff;
 }
 
-.feature-warning a {
+.feature-warning a.chip {
     background: #1e90ff;
-    padding: 2px 4px 4px 4px;
-    border-radius: 2px;
-    color: #eee;
+}
+
+.issues-info a.chip.resolved-count {
+    background: #15911E;
+}
+.issues-info a.chip.warnings-count {
+    background: #DF8500;
+}
+[dir='ltr'] .issues-info a.chip:not(:last-child) {
+    margin-right: 5px;
+}
+[dir='rtl'] .issues-info a.chip:not(:last-child) {
+    margin-left: 5px;
 }
 
 .user-list a:not(:last-child):after {
@@ -8517,4 +8653,13 @@ li.hide + li.version .badge .tooltip .tooltip-arrow {
     height: 100px;
     width: 100px;
     color: #7092ff;
+}
+
+
+.list-item-photos.list-item-mapillary-map-features .request-data-link {
+    float: right;
+    margin-top: -20px;
+}
+[dir='rtl'] .list-item-photos.list-item-mapillary-map-features .request-data-link {
+    float: left;
 }

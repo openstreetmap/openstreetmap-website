@@ -32,6 +32,7 @@
 # Author: Samoasambia
 # Author: Silvonen
 # Author: Snidata
+# Author: Spude
 # Author: Str4nd
 # Author: Susannaanas
 # Author: Tomi Toivio
@@ -42,7 +43,7 @@
 fi:
   time:
     formats:
-      friendly: '%e. %Bta %Y kello %H.%M'
+      friendly: '%e. %Bta %Y klo %H.%M'
       blog: '%e. %Bta %Y'
   helpers:
     submit:
@@ -56,13 +57,13 @@ fi:
       message:
         create: Lähetä
       client_application:
-        create: Rekisteröi
+        create: Rekisteröidy
         update: Muokkaa
       redaction:
         create: Luo redaktio
         update: Tallenna redaktio
       trace:
-        create: Tallenna
+        create: Lähetä
         update: Tallenna muutokset
       user_block:
         create: Luo esto
@@ -102,13 +103,13 @@ fi:
       tracetag: Jäljen tagi
       user: Käyttäjä
       user_preference: Käyttäjän asetus
-      user_token: Käyttäjän tunnus
+      user_token: Käyttäjän poletti
       way: Viiva
       way_node: Viivan piste
       way_tag: Viivan tagi
     attributes:
       diary_comment:
-        body: Kommentti
+        body: Leipäteksti
       diary_entry:
         user: Käyttäjä
         title: Aihe
@@ -135,7 +136,7 @@ fi:
       user:
         email: Sähköpostiosoite
         active: Aktivoitu
-        display_name: Nimi
+        display_name: Näyttönimi
         description: Kuvaus
         languages: Kielet
         pass_crypt: Salasana
@@ -151,8 +152,8 @@ fi:
         one: noin 1 vuosi sitten
         other: noin %{count} vuotta sitten
       almost_x_years:
-        one: melkein 1 vuosi sitten
-        other: melkein %{count} vuotta sitten
+        one: 1 vuosi sitten
+        other: lähes%{count} vuotta sitten
       half_a_minute: puoli minuuttia sitten
       less_than_x_seconds:
         one: vähemmän kuin 1 sekuntia sitten
@@ -297,8 +298,8 @@ fi:
         note: merkintä
     redacted:
       redaction: Redaktio %{id}
-      message_html: Tämän %{type}-tyypin versiota ei voi näyttää koska se on laitostettu.
-        Katso lisätietoja %{redaction_link}.
+      message_html: Tämän %{type}-tyypin versiota %{version} ei voi näyttää koska
+        se on relaatoitu. Katso lisätietoja %{redaction_link}.
       type:
         node: piste
         way: polku
@@ -316,6 +317,7 @@ fi:
       wikidata_link: '%{page} Wikidatassa'
       wikipedia_link: Artikkeli %{page} Wikipediassa
       telephone_link: Soita %{phone_number}
+      colour_preview: Värin %{colour_value} esikatselu
     note:
       title: 'Karttailmoitus: %{id}'
       new_note: Uusi karttailmoitus
@@ -1312,10 +1314,9 @@ fi:
         subject_own: '[OpenStreetMap] %{commenter} on kommentoinut muutoskokoelmaasi'
         subject_other: '[OpenStreetMap] %{commenter} on kommentoinut sinua kiinnostavaa
           muutoskokoelmaa'
-        your_changeset: '%{commenter} on jättänyt kommentin yhteen muutoskokoelmistasi
-          joka on luotu %{time}'
-        commented_changeset: '%{commenter} on jättänyt kommentin kartan muutoskokoelmaan
-          jota katselet jonka on luonut %{changeset_author} %{time}'
+        your_changeset: '%{commenter} jätti %{time} kommentin yhteen muutoskokoelmistasi'
+        commented_changeset: '%{commenter} jätti %{time} kommentin kartan muutoskokoelmaan
+          jota katselet jonka on luonut %{changeset_author}'
         partial_changeset_with_comment: kommentin kanssa '%{changeset_comment}'
         partial_changeset_without_comment: ei kommenttia
       details: 'Lisätietoja muutoskokoelmasta: %{url}'
@@ -1915,7 +1916,7 @@ fi:
     trace:
       pending: JONOSSA
       count_points:
-        one: '%{count} piste'
+        one: 1 piste
         other: '%{count} pistettä'
       more: tiedot
       trace_details: Näytä jäljen tiedot
@@ -1992,7 +1993,7 @@ fi:
     authorize_failure:
       title: Valtuutuspyyntö epäonnistui
       denied: Sovelluksen %{app_name} käyttöoikeus käyttäjätiliisi on poistettu.
-      invalid: Lupamerkki ei kelpaa.
+      invalid: Tunnistuspoletti ei kelpaa.
     revoke:
       flash: Olet poistanut sovelluksen %{application} käyttöoikeudet
     permissions:
@@ -2006,8 +2007,8 @@ fi:
       title: OAuth-tiedot sovellukselle %{app_name}
       key: 'Kuluttajan avain:'
       secret: 'Kuluttajan salaisuus:'
-      url: 'Pyynnön URL-avain:'
-      access_url: 'Pääsyavaimen URL-osoite:'
+      url: 'Pyynnön URL-poletti:'
+      access_url: 'Käyttöoikeuspoletin URL-osoite:'
       authorize_url: 'Valtuuta URL-osoite:'
       support_notice: Tuemme HMAC-SHA1 (suositeltu) ja RSA-SHA1 allekirjoituksia.
       edit: Muokkaa yksityiskohtia
@@ -2171,8 +2172,10 @@ fi:
       contributor_terms_explain: Tämä sopimus koskee jo tekemiäsi sekä tulevaisuudessa
         tekemiäsi muokkauksia.
       read_ct: Olen lukenut ja hyväksyn yllä olevat osallistumisehdot
+      tou_explain_html: Nämä %{tou_link} ohjaavat verkkosivuston ja muun OSMF:n tarjoaman
+        infrastruktuurin käyttöä. Napsauta linkkiä, lue ja suostu tekstin sisältöön.
       read_tou: Olen lukenut ja hyväksynyt käyttöehdot
-      consider_pd: Edellisen sopimuksen lisäksi katson lisäyksieni olevan tekijänoikeudettomia
+      consider_pd: Edellisen lisäksi katson lisäyksieni olevan tekijänoikeudettomia
         Public Domain -lisenssillä
       consider_pd_why: Mikä tämä on?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
@@ -2739,12 +2742,12 @@ fi:
   redactions:
     edit:
       description: Kuvaus
-      heading: Muokkaa laitosta
-      title: Muokkaa laitosta
+      heading: Muokkaa relaatiota
+      title: Muokkaa relaatiota
     index:
-      empty: Ei ole näytettävää laitosta
-      heading: Laitosten luettelo
-      title: Laitosten luettelo
+      empty: Ei ole näytettävää relaatiota
+      heading: Relaatioiden luettelo
+      title: Relaatioiden luettelo
     new:
       description: Kuvaus
       heading: Kirjoita tietoja uudesta laitoksesta
@@ -2754,7 +2757,7 @@ fi:
       heading: Näytetään redaktio ”%{title}”
       title: Näytetään redaktio
       user: 'Luoja:'
-      edit: Muokkaa tätä laitosta
+      edit: Muokkaa tätä relaatiota
       destroy: Poista tämä redaktio
       confirm: Oletko varma?
     create:
@@ -2765,8 +2768,10 @@ fi:
       not_empty: Redaktio ei ole tyhjä. Poista redaktiotiedot kaikista tähän redaktioon
         liittyvistä versioista ennen sen tuhoamista.
       flash: Redaktio tuhottu.
-      error: Laitosta tuhottaessa tapahtui virhe.
+      error: Relaatiota tuhottaessa tapahtui virhe.
   validations:
+    leading_whitespace: tyhjää tilaa alussa
+    trailing_whitespace: tyhjää tilaa lopussa
     invalid_characters: sisältää virheellisiä merkkejä
     url_characters: sisältää erikoismerkkejä URL:ssa (%{characters})
 ...

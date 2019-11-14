@@ -284,7 +284,11 @@ OSM.Query = function (map) {
   function queryOverpass(lat, lng) {
     var latlng = L.latLng(lat, lng).wrap(),
         bounds = map.getBounds().wrap(),
-        bbox = bounds.getSouth() + "," + bounds.getWest() + "," + bounds.getNorth() + "," + bounds.getEast(),
+        precision = OSM.zoomPrecision(map.getZoom()),
+        bbox = bounds.getSouth().toFixed(precision) + "," +
+               bounds.getWest().toFixed(precision) + "," +
+               bounds.getNorth().toFixed(precision) + "," +
+               bounds.getEast().toFixed(precision),
         radius = 10 * Math.pow(1.5, 19 - map.getZoom()),
         around = "around:" + radius + "," + lat + "," + lng,
         nodes = "node(" + around + ")",

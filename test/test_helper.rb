@@ -170,5 +170,31 @@ module ActiveSupport
       fill_in "password", :with => "test"
       click_on "Login", :match => :first
     end
+
+    def xml_for_node(node)
+      doc = OSM::API.new.get_xml_doc
+      doc.root << xml_node_for_node(node)
+      doc
+    end
+
+    def xml_node_for_node(node)
+      el = XML::Node.new "node"
+      el["id"] = node.id.to_s
+
+      OMHelper.add_metadata_to_xml_node(el, node, {}, {})
+
+      if node.visible?
+        el["lat"] = node.lat.to_s
+        el["lon"] = node.lon.to_s
+      end
+
+      OMHelper.add_tags_to_xml_node(el, node.node_tags)
+
+      el
+    end
+
+    class OMHelper
+      extend ObjectMetadata
+    end
   end
 end

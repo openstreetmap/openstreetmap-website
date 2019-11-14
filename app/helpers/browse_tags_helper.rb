@@ -17,6 +17,8 @@ module BrowseTagsHelper
         link_to(w[:title], w[:url], :title => t("browse.tag_details.wikidata_link", :page => w[:title].strip))
       end
       safe_join(wdt, ";")
+    elsif wmc = wikimedia_commons_link(key, value)
+      link_to h(wmc[:title]), wmc[:url], :title => t("browse.tag_details.wikimedia_commons_link", :page => wmc[:title])
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
     elsif phones = telephone_links(key, value)
@@ -25,6 +27,8 @@ module BrowseTagsHelper
         link_to(h(p[:phone_number]), p[:url], :title => t("browse.tag_details.telephone_link", :phone_number => p[:phone_number]))
       end
       safe_join(phones, "; ")
+    elsif colour_value = colour_preview(key, value)
+      content_tag(:span, "", :class => "colour-preview-box", :"data-colour" => colour_value, :title => t("browse.tag_details.colour_preview", :colour_value => colour_value)) + colour_value
     else
       linkify h(value)
     end
@@ -109,6 +113,16 @@ module BrowseTagsHelper
     nil
   end
 
+  def wikimedia_commons_link(key, value)
+    if key == "wikimedia_commons" && value =~ /^(?:file|category):/i
+      return {
+        :url => "//commons.wikimedia.org/wiki/#{value}?uselang=#{I18n.locale}",
+        :title => value
+      }
+    end
+    nil
+  end
+
   def telephone_links(_key, value)
     # Does it look like a global phone number? eg "+1 (234) 567-8901 "
     # or a list of alternate numbers separated by ;
@@ -132,5 +146,26 @@ module BrowseTagsHelper
       end
     end
     nil
+  end
+
+  def colour_preview(key, value)
+    return nil unless key =~ /^(?>.+:)?colour$/ && !value.nil? # see discussion at https://github.com/openstreetmap/openstreetmap-website/pull/1779
+
+    # does value look like a colour? ( 3 or 6 digit hex code or w3c colour name)
+    w3c_colors =
+      %w[aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse chocolate
+         coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgrey darkgreen darkkhaki darkmagenta darkolivegreen
+         darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey darkturquoise darkviolet deeppink deepskyblue
+         dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray grey green greenyellow honeydew
+         hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan lightgoldenrodyellow lightgray
+         lightgrey lightgreen lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime limegreen
+         linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue mediumspringgreen mediumturquoise
+         mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab orange orangered orchid palegoldenrod
+         palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple red rosybrown royalblue saddlebrown salmon
+         sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise
+         violet wheat white whitesmoke yellow yellowgreen]
+    return nil unless value =~ /^#([0-9a-fA-F]{3}){1,2}$/ || w3c_colors.include?(value.downcase)
+
+    value
   end
 end

@@ -7,6 +7,7 @@ FactoryBot.define do
 
     timestamp { Time.now }
     inserted { true }
+    size { 10 }
 
     trait :deleted do
       visible { false }

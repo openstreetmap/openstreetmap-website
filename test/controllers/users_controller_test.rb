@@ -2,6 +2,8 @@ require "test_helper"
 
 class UsersControllerTest < ActionController::TestCase
   def setup
+    super
+
     stub_hostip_requests
   end
 

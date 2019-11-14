@@ -65,19 +65,9 @@ class TracesController < ApplicationController
     @traces = @traces.limit(@page_size)
     @traces = @traces.includes(:user, :tags)
 
-    # put together SET of tags across traces, for related links
-    tagset = {}
-    @traces.each do |trace|
-      trace.tags.reload if params[:tag] # if searched by tag, ActiveRecord won't bring back other tags, so do explicitly here
-      trace.tags.each do |tag|
-        tagset[tag.tag] = tag.tag
-      end
-    end
-
     # final helper vars for view
     @target_user = target_user
     @display_name = target_user.display_name if target_user
-    @all_tags = tagset.values
   end
 
   def mine

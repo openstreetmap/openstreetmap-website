@@ -35,7 +35,7 @@
             </li>
           <% end %>
 
-          <% if current_user and current_user.moderator? and current_user.blocks_created.exists? %>
+          <% if can?(:create, UserBlock) and current_user.blocks_created.exists? %>
             <li>
               <%= link_to t(".blocks by me"), :controller => "user_blocks", :action => "blocks_by", :display_name => current_user.display_name %>
               <span class='count-number'><%= number_with_delimiter(current_user.blocks_created.active.size) %></span>
@@ -96,7 +96,7 @@
             </li>
           <% end %>
 
-          <% if current_user and current_user.moderator? %>
+          <% if can?(:create, UserBlock) %>
             <li>
             <%= link_to t(".create_block"), :controller => "user_blocks", :action => "new", :display_name => @user.display_name %>
             </li>
@@ -111,34 +111,38 @@
 
       <% end %>
 
-      <% if current_user and current_user.administrator? %>
+      <% if can?(:set_status, User) || can?(:delete, User) %>
 
         <ul class='secondary-actions clearfix'>
-          <% if ["active", "confirmed"].include? @user.status %>
-            <li>
-              <%= link_to t(".deactivate_user"), set_status_user_path(:status => "pending", :display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
-            </li>
-          <% elsif ["pending"].include? @user.status %>
-            <li>
-              <%= link_to t(".activate_user"), set_status_user_path(:status => "active", :display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
-            </li>
-          <% end %>
+          <% if can? :set_status, User %>
+            <% if ["active", "confirmed"].include? @user.status %>
+              <li>
+                <%= link_to t(".deactivate_user"), set_status_user_path(:status => "pending", :display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% elsif ["pending"].include? @user.status %>
+              <li>
+                <%= link_to t(".activate_user"), set_status_user_path(:status => "active", :display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
 
-          <% if ["active", "suspended"].include? @user.status %>
+            <% if ["active", "suspended"].include? @user.status %>
+              <li>
+                <%= link_to t(".confirm_user"), set_status_user_path(:status => "confirmed", :display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
+              <li>
+                <% if ["pending", "active", "confirmed", "suspended"].include? @user.status %>
+                  <%= link_to t(".hide_user"), set_status_user_path(:status => "deleted", :display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
+              <% else %>
+                <%= link_to t(".unhide_user"), set_status_user_path(:status => "active", :display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
+          <% end %>
+          <% if can? :delete, User %>
             <li>
-              <%= link_to t(".confirm_user"), set_status_user_path(:status => "confirmed", :display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
+              <%= link_to t(".delete_user"), delete_user_path(:display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
             </li>
           <% end %>
-            <li>
-              <% if ["pending", "active", "confirmed", "suspended"].include? @user.status %>
-                <%= link_to t(".hide_user"), set_status_user_path(:status => "deleted", :display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
-            <% else %>
-              <%= link_to t(".unhide_user"), set_status_user_path(:status => "active", :display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
-            </li>
-          <% end %>
-          <li>
-            <%= link_to t(".delete_user"), delete_user_path(:display_name => @user.display_name), :data => { :confirm => t(".confirm") } %>
-          </li>
         </ul>
 
         <% end %>
