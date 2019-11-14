@@ -200,28 +200,6 @@ class Node < ActiveRecord::Base
     save_with_history!
   end
 
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new "node"
-    el["id"] = id.to_s
-
-    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
-
-    if visible?
-      el["lat"] = lat.to_s
-      el["lon"] = lon.to_s
-    end
-
-    add_tags_to_xml_node(el, node_tags)
-
-    el
-  end
-
   def tags_as_hash
     tags
   end
