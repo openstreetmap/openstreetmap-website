@@ -251,9 +251,15 @@ table {
 
 header {
   height: $headerHeight;
-  position: relative;
+  position: absolute;
+  border-radius: 10px;
+  right: 10px;
+  left: 10px;
+  top: 10px;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
   z-index: 1001;
   font-size: 14px;
+  background-color: white;
 
   h1, nav, nav > ul, nav > ul > li, .dropdown {
     display: inline-block;
@@ -489,7 +495,7 @@ body.compact {
   width: 40px;
   background-color: #333;
   background-color: rgba(0,0,0,.6);
-  border-radius: 4px 0 0 4px;
+  border-radius: 4px;
   margin-bottom: 10px;
   outline: none;
 
@@ -516,7 +522,7 @@ body.compact {
 .leaflet-control .zoomin,
 .control-layers .control-button {
   margin-bottom: 0px;
-  border-radius: 4px 0 0 0;
+  border-radius: 4px 4px 0 0;
 }
 
 .leaflet-control .zoomout,
@@ -527,7 +533,7 @@ body.compact {
 
 .control-locate .control-button,
 .control-share .control-button {
-  border-radius: 0 0 0 4px;
+  border-radius: 0 0 4px 4px;
 }
 
 /* Rules for the sidebar and main map area */
@@ -536,7 +542,7 @@ body.compact {
   #content {
     overflow: hidden;
     position: absolute;
-    top: $headerHeight;
+    top: 0;
     bottom: 0;
     width: 100%;
   }
@@ -548,11 +554,23 @@ body.compact {
     overflow-y: auto;
   }
 
+  header {
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.3),0px -50px 100px;
+  }
+
   #sidebar {
+    position: absolute;
+    z-index: 1002;
     float: left;
     width: $sidebarWidth;
     background: #fff;
     font-size: 12px;
+    top: $headerHeight + 20px;
+    left: 10px;
+    bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+    height: auto;
 
     #sidebar_loader {
       display: none;
@@ -598,6 +616,8 @@ body.compact {
 
     .flash {
       padding: 15px;
+      position: relative;
+      top: $headerHeight+20px;
 
       picture {
         margin-right: -25px;
@@ -611,9 +631,10 @@ body.compact {
 
   .overlay-sidebar #sidebar {
     position: absolute;
-    z-index: 1000;
+    z-index: 1002;
     height: auto;
     overflow: hidden;
+    bottom: auto;
 
     #banner {
       display: block;
@@ -828,11 +849,15 @@ body.compact {
 }
 
 .leaflet-top {
-  top: $lineheight/2 !important;
+  top: $headerHeight+20px !important;
   .leaflet-control {
     margin-right: 0px !important;
     margin-top: 0px !important;
   }
+}
+
+.leaflet-right {
+  right: 10px !important;
 }
 
 .leaflet-popup-scrolled {
@@ -1393,7 +1418,7 @@ tr.turn:hover {
 
 .content-heading {
   background: $lightgrey;
-
+  padding-top: $headerHeight+20px;
   h1 { font-size: 22px; }
 }
 
@@ -1942,6 +1967,8 @@ tr.turn:hover {
 
 .flash {
   padding: $lineheight;
+  position: relative;
+  top: $headerHeight+20px;
 
   &.error {
     background-color: #ff7070;
@@ -2707,6 +2734,7 @@ input.richtext_title[type="text"] {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  padding-top: $headerHeight+20px;
 
   .caption {
     max-width: 200px;
