@@ -66,6 +66,7 @@ fit:
       tracetag: Jäljen tagi
       user: Käyttäjä
       user_preference: Käyttäjän asetus
+      user_token: Käyttäjän poletti
       way: Viiva
       way_node: Viivan piste
       way_tag: Viivan tagi
@@ -447,6 +448,7 @@ fit:
           sauna: Sauna
           school: Skoulu
           toilets: Tualetit
+          university: Yniversiteetti
         leisure:
           sauna: Sauna
         office:
@@ -493,7 +495,16 @@ fit:
       states:
         open: Avvaa
         resolved: Ratkaistu
+    update:
+      new_report: Ilmianto on vastaanotettu
+      successful_update: Ilmianto on päivitetty
+      provide_details: Täyennä tarvittavat tiot
     show:
+      title: '%{status} Tapaus #%{issue_id}'
+      reports:
+        zero: Ei ilmiantoa
+        one: Yksi ilmianto
+        other: '%{count} ilmiantoa'
       report_created_at: Ilmotettu ensimmäisen kerran %{datetime}
       last_resolved_at: Ratkastu %{datetime}
       last_updated_at: Viimeisin käsittelijä %{displayname} %{datetime}
@@ -506,11 +517,25 @@ fit:
       other_issues_against_this_user: Muut tähän käyttäjään kohistetut ilmiannot
       no_other_issues: Ei muita tähän käyttäjään kohistuvia ilmiantoja.
       comments_on_this_issue: Tapauksen kommentit
+    resolve:
+      resolved: Tapaus on markeerattu ratkaistuksi
+    ignore:
+      ignored: Tapaus on markeerattu aiheettomaksi
+    reopen:
+      reopened: Tapaus on markeerattu käsittelyssä olevaksi
     comments:
       created_at: '%{datetime}'
+      reassign_param: Haluatko määrittää tapauksen tilan uuelleen?
     reports:
       updated_at: '%{datetime}'
       reported_by_html: Käyttäjä %{user} ilmiantanut merkinnällä %{category}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, kommenttitunnus %{comment_id}'
+        note: Karttailmoitustunnus %{note_id}
+  issue_comments:
+    create:
+      comment_created: Kommentti jätetty
   reports:
     new:
       title_html: Ilmianna %{link}
@@ -708,6 +733,11 @@ fit:
     search:
       search: Haku
       submit_text: Hae
+    key:
+      table:
+        entry:
+          school:
+            1: yniversiteetti
     richtext_area:
       edit: Mookkaa
       preview: Etukattelu
