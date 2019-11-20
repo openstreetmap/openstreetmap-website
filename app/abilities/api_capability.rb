@@ -10,8 +10,8 @@ class ApiCapability
       can [:create, :update, :destroy], Trace if capability?(token, :allow_write_gpx)
       can [:details], User if capability?(token, :allow_read_prefs)
       can [:gpx_files], User if capability?(token, :allow_read_gpx)
-      can [:read, :read_one], UserPreference if capability?(token, :allow_read_prefs)
-      can [:update, :update_one, :delete_one], UserPreference if capability?(token, :allow_write_prefs)
+      can [:index, :show], UserPreference if capability?(token, :allow_read_prefs)
+      can [:update, :update_all, :destroy], UserPreference if capability?(token, :allow_write_prefs)
 
       if token&.user&.terms_agreed?
         can [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox], Changeset if capability?(token, :allow_write_api)
