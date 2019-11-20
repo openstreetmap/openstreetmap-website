@@ -193,6 +193,37 @@ module ActiveSupport
       el
     end
 
+    def xml_for_way(way)
+      doc = OSM::API.new.get_xml_doc
+      doc.root << xml_node_for_way(way)
+      doc
+    end
+
+    def xml_node_for_way(way)
+      el = XML::Node.new "way"
+      el["id"] = way.id.to_s
+
+      OMHelper.add_metadata_to_xml_node(el, way, {}, {})
+
+      # make sure nodes are output in sequence_id order
+      ordered_nodes = []
+      way.way_nodes.each do |nd|
+        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if nd.node&.visible?
+      end
+
+      ordered_nodes.each do |nd_id|
+        next unless nd_id && nd_id != "0"
+
+        node_el = XML::Node.new "nd"
+        node_el["ref"] = nd_id
+        el << node_el
+      end
+
+      OMHelper.add_tags_to_xml_node(el, way.way_tags)
+
+      el
+    end
+
     class OMHelper
       extend ObjectMetadata
     end

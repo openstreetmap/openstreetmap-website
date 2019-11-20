@@ -460,7 +460,7 @@ CHANGESET
       diff.root << delete
       delete << super_relation.to_xml_node
       delete << used_relation.to_xml_node
-      delete << used_way.to_xml_node
+      delete << xml_node_for_way(used_way)
       delete << xml_node_for_node(used_node)
 
       # update the changeset to one that this user owns
@@ -591,7 +591,7 @@ CHANGESET
       delete = XML::Node.new "delete"
       diff.root << delete
       delete << other_relation.to_xml_node
-      delete << used_way.to_xml_node
+      delete << xml_node_for_way(used_way)
       delete << xml_node_for_node(used_node)
 
       # update the changeset to one that this user owns
@@ -634,7 +634,7 @@ CHANGESET
       diff.root << delete
       delete["if-unused"] = ""
       delete << used_relation.to_xml_node
-      delete << used_way.to_xml_node
+      delete << xml_node_for_way(used_way)
       delete << xml_node_for_node(used_node)
 
       # update the changeset to one that this user owns
@@ -1175,7 +1175,7 @@ CHANGESET
       diff = XML::Document.new
       diff.root = XML::Node.new "osmChange"
       modify = XML::Node.new "modify"
-      xml_old_way = old_way.to_xml_node
+      xml_old_way = xml_node_for_way(old_way)
       nd_ref = XML::Node.new "nd"
       nd_ref["ref"] = create(:node, :lat => 3, :lon => 3).id.to_s
       xml_old_way << nd_ref
@@ -1487,7 +1487,7 @@ CHANGESET
 
       # add (delete) a way to it, which contains a point at (3,3)
       with_controller(WaysController.new) do
-        xml = update_changeset(way.to_xml, changeset_id)
+        xml = update_changeset(xml_for_way(way), changeset_id)
         put :delete, :params => { :id => way.id }, :body => xml.to_s
         assert_response :success, "Couldn't delete a way."
       end
