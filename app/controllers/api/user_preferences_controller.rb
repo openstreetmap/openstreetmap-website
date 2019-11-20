@@ -9,7 +9,7 @@ module Api
 
     ##
     # return all the preferences as an XML document
-    def read
+    def index
       doc = OSM::API.new.get_xml_doc
 
       prefs = current_user.preferences
@@ -26,14 +26,14 @@ module Api
 
     ##
     # return the value for a single preference
-    def read_one
+    def show
       pref = UserPreference.find([current_user.id, params[:preference_key]])
 
       render :plain => pref.v.to_s
     end
 
     # update the entire set of preferences
-    def update
+    def update_all
       old_preferences = current_user.preferences.each_with_object({}) do |preference, preferences|
         preferences[preference.k] = preference
       end
@@ -63,7 +63,7 @@ module Api
 
     ##
     # update the value of a single preference
-    def update_one
+    def update
       begin
         pref = UserPreference.find([current_user.id, params[:preference_key]])
       rescue ActiveRecord::RecordNotFound
@@ -80,7 +80,7 @@ module Api
 
     ##
     # delete a single preference
-    def delete_one
+    def destroy
       UserPreference.find([current_user.id, params[:preference_key]]).delete
 
       render :plain => ""
