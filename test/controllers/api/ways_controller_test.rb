@@ -290,17 +290,17 @@ module Api
       assert_response :forbidden
 
       # try to delete with an invalid (closed) changeset
-      xml = update_changeset(private_way.to_xml, private_closed_changeset.id)
+      xml = update_changeset(xml_for_way(private_way), private_closed_changeset.id)
       delete :delete, :params => { :id => private_way.id }, :body => xml.to_s
       assert_response :forbidden
 
       # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(private_way.to_xml, 0)
+      xml = update_changeset(xml_for_way(private_way), 0)
       delete :delete, :params => { :id => private_way.id }, :body => xml.to_s
       assert_response :forbidden
 
       # Now try with a valid changeset
-      xml = private_way.to_xml
+      xml = xml_for_way(private_way)
       delete :delete, :params => { :id => private_way.id }, :body => xml.to_s
       assert_response :forbidden
 
@@ -311,12 +311,12 @@ module Api
       #   "delete request should return a new version number for way"
 
       # this won't work since the way is already deleted
-      xml = private_deleted_way.to_xml
+      xml = xml_for_way(private_deleted_way)
       delete :delete, :params => { :id => private_deleted_way.id }, :body => xml.to_s
       assert_response :forbidden
 
       # this shouldn't work as the way is used in a relation
-      xml = private_used_way.to_xml
+      xml = xml_for_way(private_used_way)
       delete :delete, :params => { :id => private_used_way.id }, :body => xml.to_s
       assert_response :forbidden,
                       "shouldn't be able to delete a way used in a relation (#{@response.body}), when done by a private user"
@@ -339,17 +339,17 @@ module Api
       assert_response :bad_request
 
       # try to delete with an invalid (closed) changeset
-      xml = update_changeset(way.to_xml, closed_changeset.id)
+      xml = update_changeset(xml_for_way(way), closed_changeset.id)
       delete :delete, :params => { :id => way.id }, :body => xml.to_s
       assert_response :conflict
 
       # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(way.to_xml, 0)
+      xml = update_changeset(xml_for_way(way), 0)
       delete :delete, :params => { :id => way.id }, :body => xml.to_s
       assert_response :conflict
 
       # Now try with a valid changeset
-      xml = way.to_xml
+      xml = xml_for_way(way)
       delete :delete, :params => { :id => way.id }, :body => xml.to_s
       assert_response :success
 
@@ -360,12 +360,12 @@ module Api
              "delete request should return a new version number for way"
 
       # this won't work since the way is already deleted
-      xml = deleted_way.to_xml
+      xml = xml_for_way(deleted_way)
       delete :delete, :params => { :id => deleted_way.id }, :body => xml.to_s
       assert_response :gone
 
       # this shouldn't work as the way is used in a relation
-      xml = used_way.to_xml
+      xml = xml_for_way(used_way)
       delete :delete, :params => { :id => used_way.id }, :body => xml.to_s
       assert_response :precondition_failed,
                       "shouldn't be able to delete a way used in a relation (#{@response.body})"
@@ -390,7 +390,7 @@ module Api
 
       ## First test with no user credentials
       # try and update a way without authorisation
-      xml = way.to_xml
+      xml = xml_for_way(way)
       put :update, :params => { :id => way.id }, :body => xml.to_s
       assert_response :unauthorized
 
@@ -402,33 +402,33 @@ module Api
       ## trying to break changesets
 
       # try and update in someone else's changeset
-      xml = update_changeset(private_way.to_xml,
+      xml = update_changeset(xml_for_way(private_way),
                              create(:changeset).id)
       put :update, :params => { :id => private_way.id }, :body => xml.to_s
       assert_require_public_data "update with other user's changeset should be forbidden when date isn't public"
 
       # try and update in a closed changeset
-      xml = update_changeset(private_way.to_xml,
+      xml = update_changeset(xml_for_way(private_way),
                              create(:changeset, :closed, :user => private_user).id)
       put :update, :params => { :id => private_way.id }, :body => xml.to_s
       assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
 
       # try and update in a non-existant changeset
-      xml = update_changeset(private_way.to_xml, 0)
+      xml = update_changeset(xml_for_way(private_way), 0)
       put :update, :params => { :id => private_way.id }, :body => xml.to_s
       assert_require_public_data("update with changeset=0 should be forbidden, when data isn't public")
 
       ## try and submit invalid updates
-      xml = xml_replace_node(private_way.to_xml, node.id, 9999)
+      xml = xml_replace_node(xml_for_way(private_way), node.id, 9999)
       put :update, :params => { :id => private_way.id }, :body => xml.to_s
       assert_require_public_data "way with non-existent node should be forbidden, when data isn't public"
 
-      xml = xml_replace_node(private_way.to_xml, node.id, create(:node, :deleted).id)
+      xml = xml_replace_node(xml_for_way(private_way), node.id, create(:node, :deleted).id)
       put :update, :params => { :id => private_way.id }, :body => xml.to_s
       assert_require_public_data "way with deleted node should be forbidden, when data isn't public"
 
       ## finally, produce a good request which will still not work
-      xml = private_way.to_xml
+      xml = xml_for_way(private_way)
       put :update, :params => { :id => private_way.id }, :body => xml.to_s
       assert_require_public_data "should have failed with a forbidden when data isn't public"
 
@@ -440,28 +440,28 @@ module Api
       ## trying to break changesets
 
       # try and update in someone else's changeset
-      xml = update_changeset(way.to_xml,
+      xml = update_changeset(xml_for_way(way),
                              create(:changeset).id)
       put :update, :params => { :id => way.id }, :body => xml.to_s
       assert_response :conflict, "update with other user's changeset should be rejected"
 
       # try and update in a closed changeset
-      xml = update_changeset(way.to_xml,
+      xml = update_changeset(xml_for_way(way),
                              create(:changeset, :closed, :user => user).id)
       put :update, :params => { :id => way.id }, :body => xml.to_s
       assert_response :conflict, "update with closed changeset should be rejected"
 
       # try and update in a non-existant changeset
-      xml = update_changeset(way.to_xml, 0)
+      xml = update_changeset(xml_for_way(way), 0)
       put :update, :params => { :id => way.id }, :body => xml.to_s
       assert_response :conflict, "update with changeset=0 should be rejected"
 
       ## try and submit invalid updates
-      xml = xml_replace_node(way.to_xml, node.id, 9999)
+      xml = xml_replace_node(xml_for_way(way), node.id, 9999)
       put :update, :params => { :id => way.id }, :body => xml.to_s
       assert_response :precondition_failed, "way with non-existent node should be rejected"
 
-      xml = xml_replace_node(way.to_xml, node.id, create(:node, :deleted).id)
+      xml = xml_replace_node(xml_for_way(way), node.id, create(:node, :deleted).id)
       put :update, :params => { :id => way.id }, :body => xml.to_s
       assert_response :precondition_failed, "way with deleted node should be rejected"
 
@@ -469,26 +469,26 @@ module Api
       current_way_version = way.version
 
       # try and submit a version behind
-      xml = xml_attr_rewrite(way.to_xml,
+      xml = xml_attr_rewrite(xml_for_way(way),
                              "version", current_way_version - 1)
       put :update, :params => { :id => way.id }, :body => xml.to_s
       assert_response :conflict, "should have failed on old version number"
 
       # try and submit a version ahead
-      xml = xml_attr_rewrite(way.to_xml,
+      xml = xml_attr_rewrite(xml_for_way(way),
                              "version", current_way_version + 1)
       put :update, :params => { :id => way.id }, :body => xml.to_s
       assert_response :conflict, "should have failed on skipped version number"
 
       # try and submit total crap in the version field
-      xml = xml_attr_rewrite(way.to_xml,
+      xml = xml_attr_rewrite(xml_for_way(way),
                              "version", "p1r4t3s!")
       put :update, :params => { :id => way.id }, :body => xml.to_s
       assert_response :conflict,
                       "should not be able to put 'p1r4at3s!' in the version field"
 
       ## try an update with the wrong ID
-      xml = create(:way).to_xml
+      xml = xml_for_way(create(:way))
       put :update, :params => { :id => way.id }, :body => xml.to_s
       assert_response :bad_request,
                       "should not be able to update a way with a different ID from the XML"
@@ -500,7 +500,7 @@ module Api
                       "should not be able to update a way with non-OSM XML doc."
 
       ## finally, produce a good request which should work
-      xml = way.to_xml
+      xml = xml_for_way(way)
       put :update, :params => { :id => way.id }, :body => xml.to_s
       assert_response :success, "a valid update request failed"
     end
@@ -527,7 +527,7 @@ module Api
       tag_xml["v"] = "yes"
 
       # add the tag into the existing xml
-      way_xml = private_way.to_xml
+      way_xml = xml_for_way(private_way)
       way_xml.find("//osm/way").first << tag_xml
 
       # try and upload it
@@ -545,7 +545,7 @@ module Api
       tag_xml["v"] = "yes"
 
       # add the tag into the existing xml
-      way_xml = way.to_xml
+      way_xml = xml_for_way(way)
       way_xml.find("//osm/way").first << tag_xml
 
       # try and upload it
@@ -575,7 +575,7 @@ module Api
       tag_xml["v"] = private_existing_tag.v
 
       # add the tag into the existing xml
-      way_xml = private_way.to_xml
+      way_xml = xml_for_way(private_way)
       way_xml.find("//osm/way").first << tag_xml
 
       # try and upload it
@@ -593,7 +593,7 @@ module Api
       tag_xml["v"] = existing_tag.v
 
       # add the tag into the existing xml
-      way_xml = way.to_xml
+      way_xml = xml_for_way(way)
       way_xml.find("//osm/way").first << tag_xml
 
       # try and upload it
@@ -621,7 +621,7 @@ module Api
       tag_xml["v"] = "foobar"
 
       # add the tag into the existing xml
-      way_xml = private_way.to_xml
+      way_xml = xml_for_way(private_way)
 
       # add two copies of the tag
       way_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
@@ -641,7 +641,7 @@ module Api
       tag_xml["v"] = "foobar"
 
       # add the tag into the existing xml
-      way_xml = way.to_xml
+      way_xml = xml_for_way(way)
 
       # add two copies of the tag
       way_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
