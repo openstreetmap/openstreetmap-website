@@ -224,6 +224,31 @@ module ActiveSupport
       el
     end
 
+    def xml_for_relation(relation)
+      doc = OSM::API.new.get_xml_doc
+      doc.root << xml_node_for_relation(relation)
+      doc
+    end
+
+    def xml_node_for_relation(relation)
+      el = XML::Node.new "relation"
+      el["id"] = relation.id.to_s
+
+      OMHelper.add_metadata_to_xml_node(el, relation, {}, {})
+
+      relation.relation_members.each do |member|
+        member_el = XML::Node.new "member"
+        member_el["type"] = member.member_type.downcase
+        member_el["ref"] = member.member_id.to_s
+        member_el["role"] = member.member_role
+        el << member_el
+      end
+
+      OMHelper.add_tags_to_xml_node(el, relation.relation_tags)
+
+      el
+    end
+
     class OMHelper
       extend ObjectMetadata
     end

@@ -458,8 +458,8 @@ CHANGESET
       diff.root = XML::Node.new "osmChange"
       delete = XML::Node.new "delete"
       diff.root << delete
-      delete << super_relation.to_xml_node
-      delete << used_relation.to_xml_node
+      delete << xml_node_for_relation(super_relation)
+      delete << xml_node_for_relation(used_relation)
       delete << xml_node_for_way(used_way)
       delete << xml_node_for_node(used_node)
 
@@ -590,7 +590,7 @@ CHANGESET
       diff.root = XML::Node.new "osmChange"
       delete = XML::Node.new "delete"
       diff.root << delete
-      delete << other_relation.to_xml_node
+      delete << xml_node_for_relation(other_relation)
       delete << xml_node_for_way(used_way)
       delete << xml_node_for_node(used_node)
 
@@ -633,7 +633,7 @@ CHANGESET
       delete = XML::Node.new "delete"
       diff.root << delete
       delete["if-unused"] = ""
-      delete << used_relation.to_xml_node
+      delete << xml_node_for_relation(used_relation)
       delete << xml_node_for_way(used_way)
       delete << xml_node_for_node(used_node)
 

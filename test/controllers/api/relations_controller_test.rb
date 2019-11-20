@@ -525,28 +525,28 @@ module Api
       assert_response :forbidden
 
       # try to delete with an invalid (closed) changeset
-      xml = update_changeset(relation.to_xml,
+      xml = update_changeset(xml_for_relation(relation),
                              private_user_closed_changeset.id)
       delete :delete, :params => { :id => relation.id }, :body => xml.to_s
       assert_response :forbidden
 
       # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(relation.to_xml, 0)
+      xml = update_changeset(xml_for_relation(relation), 0)
       delete :delete, :params => { :id => relation.id }, :body => xml.to_s
       assert_response :forbidden
 
       # this won't work because the relation is in-use by another relation
-      xml = used_relation.to_xml
+      xml = xml_for_relation(used_relation)
       delete :delete, :params => { :id => used_relation.id }, :body => xml.to_s
       assert_response :forbidden
 
       # this should work when we provide the appropriate payload...
-      xml = relation.to_xml
+      xml = xml_for_relation(relation)
       delete :delete, :params => { :id => relation.id }, :body => xml.to_s
       assert_response :forbidden
 
       # this won't work since the relation is already deleted
-      xml = deleted_relation.to_xml
+      xml = xml_for_relation(deleted_relation)
       delete :delete, :params => { :id => deleted_relation.id }, :body => xml.to_s
       assert_response :forbidden
 
@@ -568,36 +568,36 @@ module Api
       assert_match(/Changeset id is missing/, @response.body)
 
       # try to delete with an invalid (closed) changeset
-      xml = update_changeset(relation.to_xml,
+      xml = update_changeset(xml_for_relation(relation),
                              closed_changeset.id)
       delete :delete, :params => { :id => relation.id }, :body => xml.to_s
       assert_response :conflict
 
       # try to delete with an invalid (non-existent) changeset
-      xml = update_changeset(relation.to_xml, 0)
+      xml = update_changeset(xml_for_relation(relation), 0)
       delete :delete, :params => { :id => relation.id }, :body => xml.to_s
       assert_response :conflict
 
       # this won't work because the relation is in a changeset owned by someone else
-      xml = update_changeset(relation.to_xml, create(:changeset).id)
+      xml = update_changeset(xml_for_relation(relation), create(:changeset).id)
       delete :delete, :params => { :id => relation.id }, :body => xml.to_s
       assert_response :conflict,
                       "shouldn't be able to delete a relation in a changeset owned by someone else (#{@response.body})"
 
       # this won't work because the relation in the payload is different to that passed
-      xml = update_changeset(relation.to_xml, changeset.id)
+      xml = update_changeset(xml_for_relation(relation), changeset.id)
       delete :delete, :params => { :id => create(:relation).id }, :body => xml.to_s
       assert_response :bad_request, "shouldn't be able to delete a relation when payload is different to the url"
 
       # this won't work because the relation is in-use by another relation
-      xml = update_changeset(used_relation.to_xml, changeset.id)
+      xml = update_changeset(xml_for_relation(used_relation), changeset.id)
       delete :delete, :params => { :id => used_relation.id }, :body => xml.to_s
       assert_response :precondition_failed,
                       "shouldn't be able to delete a relation used in a relation (#{@response.body})"
       assert_equal "Precondition failed: The relation #{used_relation.id} is used in relation #{super_relation.id}.", @response.body
 
       # this should work when we provide the appropriate payload...
-      xml = update_changeset(multi_tag_relation.to_xml, changeset.id)
+      xml = update_changeset(xml_for_relation(multi_tag_relation), changeset.id)
       delete :delete, :params => { :id => multi_tag_relation.id }, :body => xml.to_s
       assert_response :success
 
@@ -607,18 +607,18 @@ module Api
              "delete request should return a new version number for relation"
 
       # this won't work since the relation is already deleted
-      xml = update_changeset(deleted_relation.to_xml, changeset.id)
+      xml = update_changeset(xml_for_relation(deleted_relation), changeset.id)
       delete :delete, :params => { :id => deleted_relation.id }, :body => xml.to_s
       assert_response :gone
 
       # Public visible relation needs to be deleted
-      xml = update_changeset(super_relation.to_xml, changeset.id)
+      xml = update_changeset(xml_for_relation(super_relation), changeset.id)
       delete :delete, :params => { :id => super_relation.id }, :body => xml.to_s
       assert_response :success
 
       # this works now because the relation which was using this one
       # has been deleted.
-      xml = update_changeset(used_relation.to_xml, changeset.id)
+      xml = update_changeset(xml_for_relation(used_relation), changeset.id)
       delete :delete, :params => { :id => used_relation.id }, :body => xml.to_s
       assert_response :success,
                       "should be able to delete a relation used in an old relation (#{@response.body})"
@@ -643,7 +643,7 @@ module Api
       # indirectly via the way), so the bbox should be [3,3,5,5].
       check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id|
         # add a tag to an existing relation
-        relation_xml = relation.to_xml
+        relation_xml = xml_for_relation(relation)
         relation_element = relation_xml.find("//osm/relation").first
         new_tag = XML::Node.new("tag")
         new_tag["k"] = "some_new_tag"
@@ -675,7 +675,7 @@ module Api
       [node1, node2, way1, way2].each do |element|
         bbox = element.bbox.to_unscaled
         check_changeset_modify(bbox) do |changeset_id|
-          relation_xml = Relation.find(relation.id).to_xml
+          relation_xml = xml_for_relation(Relation.find(relation.id))
           relation_element = relation_xml.find("//osm/relation").first
           new_member = XML::Node.new("member")
           new_member["ref"] = element.id.to_s
@@ -710,7 +710,7 @@ module Api
 
       check_changeset_modify(BoundingBox.new(5, 5, 5, 5)) do |changeset_id|
         # remove node 5 (5,5) from an existing relation
-        relation_xml = relation.to_xml
+        relation_xml = xml_for_relation(relation)
         relation_xml
           .find("//osm/relation/member[@type='node'][@ref='#{node2.id}']")
           .first.remove!
@@ -879,7 +879,7 @@ OSM
       create(:relation_member, :relation => relation, :member => node2)
 
       check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id|
-        relation_xml = relation.to_xml
+        relation_xml = xml_for_relation(relation)
         relation_xml
           .find("//osm/relation/member")
           .each(&:remove!)
