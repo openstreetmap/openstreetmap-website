@@ -2,7 +2,7 @@ json.type "Feature"
 
 json.geometry do
   json.type "Point"
-  json.coordinates [ note.lon.to_f, note.lat.to_f ]
+  json.coordinates [note.lon.to_f, note.lat.to_f]
 end
 
 json.properties do
@@ -16,12 +16,12 @@ json.properties do
     json.close_url close_note_url(note, :format => params[:format])
   end
 
-  json.date_created note.created_at
+  json.date_created note.created_at.to_s
   json.status note.status
-  json.closed_at note.closed_at if note.closed?
+  json.closed_at note.closed_at.to_s if note.closed?
 
   json.comments(note.comments) do |comment|
-    json.date comment.created_at
+    json.date comment.created_at.to_s
 
     if comment.author
       json.uid comment.author.id
