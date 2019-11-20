@@ -10,18 +10,9 @@ module Api
     ##
     # return all the preferences as an XML document
     def index
-      doc = OSM::API.new.get_xml_doc
+      @user_preferences = current_user.preferences
 
-      prefs = current_user.preferences
-
-      el1 = XML::Node.new "preferences"
-
-      prefs.each do |pref|
-        el1 << pref.to_xml_node
-      end
-
-      doc.root << el1
-      render :xml => doc.to_s
+      render :formats => [:xml]
     end
 
     ##
