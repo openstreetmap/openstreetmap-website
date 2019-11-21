@@ -35,7 +35,7 @@ ohmStyle = {
     }
   },
   'sprite': window.location.protocol + '//' + window.location.host + '/styles/sprite',
-  'glyphs': 'https://openhistoricalmap.github.io/openhistoricaltiles/frontpage/fonts/{fontstack}/{range}.pbf',
+  'glyphs': 'https://open-historical-map-labs.github.io/openhistoricaltiles/frontpage/fonts/{fontstack}/{range}.pbf',
   'layers': [
     {
       'id': 'reference-osm',
