@@ -436,6 +436,13 @@ fit:
         geonames_reverse: Hakuresyltaatit <a href="http://www.geonames.org/">GeoNamesista</a>
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: Köysirata
+          chair_lift: Tuolihissi
+          drag_lift: Vetohissi
+          gondola: Gondolihissi
+          platter: Hiihtohissi
+          pylon: Pylväs
         amenity:
           cafe: Kahvila
           hospital: Siukhuusi
@@ -629,13 +636,29 @@ fit:
     changeset_comment_notification:
       hi: Hei %{to_user},
       greeting: Hei,
+      commented:
+        partial_changeset_with_comment: kommentin kanssa '%{changeset_comment}'
+        partial_changeset_without_comment: ei kommenttia
+      details: 'Lisätioja muutoskokoelmasta: %{url}'
+      unsubscribe: Peruaksesi tilauksen päivityksistä tähän muutoskokoelmaan, vieraile
+        sivula %{url} ja klikkaa "Unsubscribe".
   messages:
     inbox:
+      title: Saapuneet
       my_inbox: Saapuneet
       outbox: Lähetetyt
+      messages: Kansiossa on %{new_messages} ja %{old_messages}.
+      new_messages:
+        one: '%{count} lukematon viesti'
+        other: '%{count} lukematonta viestiä'
+      old_messages:
+        one: '%{count} luettu viesti'
+        other: '%{count} luettua viestiä'
       from: Lähättäjä
       subject: Otsikko
       date: Taatumi
+      no_messages_yet: Ei viestejä. %{people_mapping_nearby_link}
+      people_mapping_nearby: Lähiseudun kartoittajat
     message_summary:
       unread_button: Markeeraa lukemattomaksi
       read_button: Markeeraa luetuksi
@@ -649,14 +672,39 @@ fit:
       back_to_inbox: Takashiin saapuneisiin
     create:
       message_sent: Viesti on lähätetty.
+      limit_exceeded: Olet lähettänyt runsaasti viestejä lyhyessä ajassa. Odota hetki
+        ennen kuin yrität lähettää lisää.
+    no_such_message:
+      title: Ei sellaista viestiä
+      heading: Ei sellaista viestiä
     outbox:
+      title: Lähätetyt
       my_inbox: Minun %{inbox_link}
+      inbox: Saapuneet
+      outbox: Lähätetyt
+      messages:
+        one: Kansiossa on %{count} lähätetty viesti.
+        other: Kansiossa on %{count} lähätettyä viestiä.
+      to: Vastaanottaja
+      subject: Otsikko
       date: Taatumi
+      no_sent_messages: Et ole lähettänyt vielä viestejä. Miksi et ottaisi yhteyttä
+        joihinkin %{people_mapping_nearby_link}?
+      people_mapping_nearby: lähellä kartoittaviin käyttäjiin
+    reply:
+      wrong_user: Olet lokannu sisäle konttulla `%{user}' mutta viestiä, johon tahot
+        vastata, ei ole lähätetty kyseiselle käyttäjälle. Ole hyvä ja lokkaa sisäle
+        oikealla käyttäjäkonttulla vastataksesi.
     show:
+      title: Lue viesti
+      from: 'Lähettäjä:'
+      subject: Otsikko
       date: Taatumi
+      reply_button: Vastaa
       unread_button: Markeeraa lukemattomaksi
       destroy_button: Ota poies
       back: Takashiin
+      to: 'Vastaanottaja:'
     sent_message_summary:
       destroy_button: Ota poies
     mark:
@@ -667,11 +715,45 @@ fit:
   site:
     about:
       next: Seuraava
+      copyright_html: <span>&copy;</span>OpenStreetMapin<br>tekijät
+      used_by: Tuhannet verkkosivustot, mupiilisovellukset ja laitteistot käyttävät
+        %{name}-karttaa
+      lede_text: OpenStreetMapia rakentavat vapaaehtoiset yhteisön jäsenet, jotka
+        tuottavat ja ylläpitävät karttatietoja teistä, rautateistä, kahviloista, rautatieasemista
+        ja monista muista kohteista kaikkialla maailmassa.
+      local_knowledge_title: Paikallistuntemus
+      local_knowledge_html: OpenStreetMapissa korostuu paikallistuntemus. Kartoittajat
+        käyttävät ilmakuvia, GPS-paikantamia ja jalkautumista pitääkseen OpenStreetMap-kartan
+        ajan tasalla.
+      community_driven_title: Yhteisön voima
+      community_driven_html: |-
+        OpenStreetMap-yhteisö on monipuolinen, intohimoinen ja kasvaa joka päivä. Yhteisöön kuuluu harrastajakartoittajia, GIS-ammattilaisia, järjestelmää ylläpitäviä insinöörejä, humanitaarisia auttajia, jotka kartoittavat katastrofin kärsineitä alueita sekä monia muita. Lisätietoja yhteisöstä saa lukemalla <a href='https://blog.openstreetmap.org'>OpenStreetMap-blogia</a>, <a href='%{diary_path}'>käyttäjien päiväkirjoja</a>,
+        <a href='https://blogs.openstreetmap.org/'>yhteisöblogeja</a> ja
+        <a href='https://www.osmfoundation.org/'>OSM-säätiön</a> verkkosivua.
       open_data_title: Avoin taatta
+      open_data_html: 'OpenStreetMap on <i>avointa taattaa</i>: palvelua saa käyttää
+        vapaasti mihin tahansa, kunhan OpenStreetMap tekijöineen mainitaan. Jos palvelua
+        kehitetään tai muuunnellaan, sitä saa levittää eteenpäin vain samala lisensillä.
+        Lisätietoja on <a href=''%{copyright_path}''>Tekijänoikeus ja lisensi</a>
+        -sivula.'
+      legal_title: Lakitekninen jako
+      legal_html: "Tämä ja monet muut OSM-sivustot ovat muodollisesti <a href='https://osmfoundation.org/'>OpenStreetMap-säätiön</a>
+        (OSMF) hallinnoimia OSM-yhteisön puolesta. Kaikkien näiden sivustojen käyttöön
+        sovelletaan <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nsallitun
+        käytön käytäntöjä</a>, <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">käyttöehtoja</a>
+        ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">tietosuojakäytäntöä</a>
+        (molemmat sisällöt saatavilla vain englanniksi).\n<br> \n<a href='https://osmfoundation.org/Contact'>Ota
+        yhteys OSMF:ään</a> lisensointi-, tekijänoikeus- ja muissa lakiteknisissä
+        kysymyksissä.\n<br>\nNimi OpenStreetMap, suurennuslasilogo ja slogan State
+        of the Map ovat <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">säätiön
+        rekisteröimiä tavaramerkkejä</a>."
+      partners_title: Kumppanit
     copyright:
       foreign:
         title: Tietoja tästä käänöksestä
-        english_link: englanninenkielisen alkuperäisversuunin
+        text: Jos tämän käänätyn sivun ja %{english_original_link} välillä on eroja,
+          englantinkielinen sivu on aina etusijalla.
+        english_link: englantinkielisen alkuperäisversuunin
       native:
         title: Tästä sivusta
         text: Tällä sivula on alkuperänen englanninkielinen versuuni tekijäoikeuksista.
@@ -694,6 +776,21 @@ fit:
           Kartta-aineisto ja dokumentaatio on lisensoitu <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.fi">Creative
           Commons Nimeä-Jaa samoin 2.0</a> -lisensillä (CC-BY-SA).
         credit_title_html: OpenStreetMapin mainitseminen
+        credit_1_html: OpenStreetMapin sisältöä levitettäessä on mainittava teksti
+          &quot;&copy; OpenStreetMapin tekijät&quot; tai sen englantinkielinen vastine
+          &quot;&copy; OpenStreetMap contributors&quot;.
+        credit_2_html: "Levittäjän tulee tehdä selväksi, että aineisto on saatavilla
+          Open Database -lisenssillä\nja kartta-aineisto CC-BY-SA-lisenssillä. Tämä
+          voidaan tehdä sijoittamalla sivulle linkki\n<a href=\"https://www.openstreetmap.org/copyright\">tälle
+          tekijänoikeussivulle</a>. \nJos linkkien käyttö ei ole mahdollista (esimerkiksi
+          paperille tulostettu aineisto),\nsuosittelemme ohjaamaan lukijat osoitteisiin
+          www.openstreetmap.org, opendatacommons.org ja tarvittaessa myös creativecommons.org."
+        credit_3_html: 'Sivustolle upotetun interaktiivisen karttaikkunan tulee sisältää
+          tekijän nimi kartan alaosassa:'
+        attribution_example:
+          alt: Esimerkki siitä, miten nimetä OpenStreetMap nettisivulla
+          title: Nimeämisesimerkki
+        more_title_html: Lisätietoja
         contributors_title_html: Meän tekijät
     index:
       permalink: Ikunen länkki
@@ -706,12 +803,26 @@ fit:
       format_to_export: Eksporteerausmuoto
       osm_xml_data: OpenStreetMap XML-taatta
       licence: Lisensi
+      too_large:
+        other:
+          title: Muut läheet
+          description: Muut läheet ovat esillä OpenStreetMap-wikissä
       options: Inställninkit
       format: 'Fiilimuoto:'
+      scale: Mittakaava
+      max: eninthään
+      image_size: Kuvan koko
+      zoom: Suurennostaso
+      add_marker: Lissää vietävään kartaan kohemerkki
+      latitude: 'Lev:'
+      longitude: 'Pit:'
       output: Tulos
+      paste_html: Kopioi ja liitä tämä HTML-kooti verkkosivulesi
       export_button: Eksporteeraa
     fixthemap:
+      title: Ilmota ongelmasta / Korjaa karttaa
       how_to_help:
+        title: Kuinka voin auttaa
         join_the_community:
           title: Liity föreeninkhiin
     help:
@@ -774,6 +885,16 @@ fit:
     trace:
       edit: mookkaa
       edit_map: Mookkaa karttaa
+      public: JULKINEN
+      identifiable: TUNNISTETTAVA
+      private: YKSITYINEN
+      trackable: SEURATTAVA
+      by: käyttäjältä
+      in: avainsanoilla
+      map: sijainti kartalla
+    index:
+      public_traces: Julkiset GPS-jäljet
+      my_traces: Minun GPS-jäljet
   oauth_clients:
     edit:
       title: Mookkaa sovellustasi
@@ -916,6 +1037,7 @@ fit:
         comment: Kommentoi
     directions:
       instructions:
+        unnamed: nimetön tie
         courtesy: Reittiohjeet tarjoaa %{link}
         exit_counts:
           first: ensimmäisestä
