@@ -146,6 +146,7 @@ OpenStreetMap::Application.routes.draw do
   get "/welcome" => "site#welcome"
   get "/fixthemap" => "site#fixthemap"
   get "/help" => "site#help"
+  get "/about/:about_locale" => "site#about"
   get "/about" => "site#about"
   get "/history" => "changesets#index"
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }

@@ -1,41 +1,41 @@
 <div class='attr'>
   <div class='byosm'>
-    <%= t ".copyright_html" %>
+    <%= t ".copyright_html", :locale => @locale %>
   </div>
 
   <div class='user-image'></div>
 
-  <h1><%= raw t ".used_by", :name => "<span class='user-name'>OpenStreetMap</span>" %></h1>
+  <h1><%= raw t ".used_by", :name => "<span class='user-name'>OpenStreetMap</span>", :locale => @locale %></h1>
 </div>
 
 <div class='text'>
   <div class='section'>
-    <p><strong><%= t ".lede_text" %></strong></p>
-    <h2><div class='icon local'></div><%= t ".local_knowledge_title" %></h2>
-    <p><%= t ".local_knowledge_html" %></p>
+    <p><strong><%= t ".lede_text", :locale => @locale %></strong></p>
+    <h2><div class='icon local'></div><%= t ".local_knowledge_title", :locale => @locale %></h2>
+    <p><%= t ".local_knowledge_html", :locale => @locale %></p>
   </div>
 
   <div class='section'>
-    <h2><div class='icon community'></div><%= t ".community_driven_title" %></h2>
-    <p><%= t ".community_driven_html", :diary_path => diary_entries_path %></p>
+    <h2><div class='icon community'></div><%= t ".community_driven_title", :locale => @locale %></h2>
+    <p><%= t ".community_driven_html", :locale => @locale, :diary_path => diary_entries_path %></p>
   </div>
 
   <div class='section' id='open-data'>
-    <h2><div class='icon open'></div><%= t ".open_data_title" %></h2>
-    <p><%= t ".open_data_html", :copyright_path => copyright_path %></p>
+    <h2><div class='icon open'></div><%= t ".open_data_title", :locale => @locale %></h2>
+    <p><%= t ".open_data_html", :locale => @locale, :copyright_path => copyright_path %></p>
   </div>
 
   <div class='section' id='legal'>
-    <h2><div class='icon legal'></div><%= t ".legal_title" %></h2>
-    <p><%= t ".legal_html" %></p>
+    <h2><div class='icon legal'></div><%= t ".legal_title", :locale => @locale %></h2>
+    <p><%= t ".legal_html", :locale => @locale %></p>
   </div>
 
   <div class='section' id='partners'>
-    <h2><div class='icon partners'></div><%= t ".partners_title" %></h2>
-    <p><%= t "layouts.hosting_partners_html",
-             :ucl => link_to(t("layouts.partners_ucl"), "https://www.ucl.ac.uk"),
-             :bytemark => link_to(t("layouts.partners_bytemark"), "https://www.bytemark.co.uk"),
-             :partners => link_to(t("layouts.partners_partners"), "https://hardware.openstreetmap.org/thanks/") %>
+    <h2><div class='icon partners'></div><%= t ".partners_title", :locale => @locale %></h2>
+    <p><%= t "layouts.hosting_partners_html", :locale => @locale,
+             :ucl => link_to(t("layouts.partners_ucl", :locale => @locale), "https://www.ucl.ac.uk"),
+             :bytemark => link_to(t("layouts.partners_bytemark", :locale => @locale), "https://www.bytemark.co.uk"),
+             :partners => link_to(t("layouts.partners_partners", :locale => @locale), "https://hardware.openstreetmap.org/thanks/") %>
     </p>
   </div>
 </div>
