@@ -106,44 +106,6 @@ class Way < ActiveRecord::Base
     way
   end
 
-  # Find a way given it's ID, and in a single SQL call also grab its nodes and tags
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node(visible_nodes = nil, changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new "way"
-    el["id"] = id.to_s
-
-    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
-
-    # make sure nodes are output in sequence_id order
-    ordered_nodes = []
-    way_nodes.each do |nd|
-      if visible_nodes
-        # if there is a list of visible nodes then use that to weed out deleted nodes
-        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if visible_nodes[nd.node_id]
-      else
-        # otherwise, manually go to the db to check things
-        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if nd.node&.visible?
-      end
-    end
-
-    ordered_nodes.each do |nd_id|
-      next unless nd_id && nd_id != "0"
-
-      node_el = XML::Node.new "nd"
-      node_el["ref"] = nd_id
-      el << node_el
-    end
-
-    add_tags_to_xml_node(el, way_tags)
-
-    el
-  end
-
   def nds
     @nds ||= way_nodes.collect(&:node_id)
   end

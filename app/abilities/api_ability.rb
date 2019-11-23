@@ -34,7 +34,7 @@ class ApiAbility
         can [:new, :create], Report
         can [:create, :show, :update, :destroy, :data], Trace
         can [:details, :gpx_files], User
-        can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
+        can [:index, :show, :update, :update_all, :destroy], UserPreference
 
         if user.terms_agreed?
           can [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox], Changeset
