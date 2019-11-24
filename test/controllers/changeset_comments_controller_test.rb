@@ -22,7 +22,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
 
     get :index, :params => { :format => "rss" }
     assert_response :success
-    assert_equal "application/rss+xml", @response.content_type
+    assert_equal "application/rss+xml", @response.media_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
         assert_select "item", :count => 3
@@ -31,7 +31,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
 
     get :index, :params => { :format => "rss", :limit => 2 }
     assert_response :success
-    assert_equal "application/rss+xml", @response.content_type
+    assert_equal "application/rss+xml", @response.media_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
         assert_select "item", :count => 2
@@ -40,7 +40,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
 
     get :index, :params => { :id => changeset.id, :format => "rss" }
     assert_response :success
-    assert_equal "application/rss+xml", @response.content_type
+    assert_equal "application/rss+xml", @response.media_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
         assert_select "item", :count => 3

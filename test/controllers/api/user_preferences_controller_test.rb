@@ -54,7 +54,7 @@ module Api
       # try the read again
       get :index
       assert_response :success
-      assert_equal "application/xml", @response.content_type
+      assert_equal "application/xml", @response.media_type
       assert_select "osm" do
         assert_select "preferences", :count => 1 do
           assert_select "preference", :count => 2
@@ -80,7 +80,7 @@ module Api
       # try the read again
       get :show, :params => { :preference_key => "key" }
       assert_response :success
-      assert_equal "text/plain", @response.content_type
+      assert_equal "text/plain", @response.media_type
       assert_equal "value", @response.body
 
       # try the read again for a non-existent key
@@ -114,7 +114,7 @@ module Api
         put :update_all, :body => "<osm><preferences><preference k='key' v='new_value'/><preference k='new_key' v='value'/></preferences></osm>"
       end
       assert_response :success
-      assert_equal "text/plain", @response.content_type
+      assert_equal "text/plain", @response.media_type
       assert_equal "", @response.body
       assert_equal "new_value", UserPreference.find([user.id, "key"]).v
       assert_equal "value", UserPreference.find([user.id, "new_key"]).v
@@ -127,7 +127,7 @@ module Api
         put :update_all, :body => "<osm><preferences><preference k='key' v='value'/><preference k='key' v='newer_value'/></preferences></osm>"
       end
       assert_response :bad_request
-      assert_equal "text/plain", @response.content_type
+      assert_equal "text/plain", @response.media_type
       assert_equal "Duplicate preferences with key key", @response.body
       assert_equal "new_value", UserPreference.find([user.id, "key"]).v
 
@@ -161,7 +161,7 @@ module Api
         put :update, :params => { :preference_key => "new_key" }, :body => "new_value"
       end
       assert_response :success
-      assert_equal "text/plain", @response.content_type
+      assert_equal "text/plain", @response.media_type
       assert_equal "", @response.body
       assert_equal "new_value", UserPreference.find([user.id, "new_key"]).v
 
@@ -170,7 +170,7 @@ module Api
         put :update, :params => { :preference_key => "new_key" }, :body => "newer_value"
       end
       assert_response :success
-      assert_equal "text/plain", @response.content_type
+      assert_equal "text/plain", @response.media_type
       assert_equal "", @response.body
       assert_equal "newer_value", UserPreference.find([user.id, "new_key"]).v
     end
@@ -196,7 +196,7 @@ module Api
         get :destroy, :params => { :preference_key => "key" }
       end
       assert_response :success
-      assert_equal "text/plain", @response.content_type
+      assert_equal "text/plain", @response.media_type
       assert_equal "", @response.body
       assert_raises ActiveRecord::RecordNotFound do
         UserPreference.find([user.id, "key"])

@@ -1,6 +1,8 @@
 class Notifier < ActionMailer::Base
   include ActionView::Helpers::AssetUrlHelper
 
+  self.delivery_job = ActionMailer::MailDeliveryJob
+
   default :from => Settings.email_from,
           :return_path => Settings.email_return_path,
           :auto_submitted => "auto-generated"

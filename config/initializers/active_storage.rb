@@ -1,5 +1,5 @@
-Rails.application.config.active_storage.queue = :storage
-Rails.application.config.active_storage.variable_content_types << "image/bmp"
+Rails.application.config.active_storage.queues.analysis = :storage
+Rails.application.config.active_storage.queues.purge = :storage
 
 Rails.configuration.after_initialize do
   require "active_storage/service/s3_service"
@@ -32,5 +32,5 @@ Rails.configuration.after_initialize do
     ActiveStorage::Variant.prepend(OpenStreetMap::ActiveStorage::Variant)
   end
 
-  ActiveStorage::Service.url_expires_in = 1.week
+  ActiveStorage.service_urls_expire_in = 1.week
 end
