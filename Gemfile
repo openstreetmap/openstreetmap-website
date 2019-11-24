@@ -43,7 +43,7 @@ gem "autoprefixer-rails", "~> 8.6.3"
 gem "image_optim_rails"
 
 # Load rails plugins
-gem "actionpack-page_caching"
+gem "openstreetmap-actionpack-page_caching", ">= 1.1.2", :require => "actionpack/page_caching"
 gem "active_record_union"
 gem "activerecord-import"
 gem "cancancan"
