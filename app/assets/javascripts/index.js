@@ -24,7 +24,8 @@
 //= require querystring
 
 $(document).ready(function () {
-  var querystring = require("querystring-component");
+  var querystring = require("querystring-component"),
+      browser = bowser.getParser(window.navigator.userAgent);
 
   var loaderTimeout;
 
@@ -256,7 +257,7 @@ $(document).ready(function () {
         };
 
     if (location.protocol === "http" ||
-        bowser.check({ chrome: "53", firefox: "55" })) {
+        browser.satisfies({ chrome: ">=53", firefox: ">=55" })) {
       url = "http://127.0.0.1:8111/load_and_zoom?";
     } else {
       url = "https://127.0.0.1:8112/load_and_zoom?";
