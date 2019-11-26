@@ -20,7 +20,6 @@
 //= require index/changeset
 //= require index/query
 //= require router
-//= require bowser
 //= require querystring
 
 $(document).ready(function () {
