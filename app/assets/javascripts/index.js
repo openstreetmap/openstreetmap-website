@@ -256,12 +256,7 @@ $(document).ready(function () {
           bottom: bbox.getSouth() - 0.0001
         };
 
-    if (location.protocol === "http" ||
-        browser.satisfies({ chrome: ">=53", firefox: ">=55" })) {
-      url = "http://127.0.0.1:8111/load_and_zoom?";
-    } else {
-      url = "https://127.0.0.1:8112/load_and_zoom?";
-    }
+    url = "http://127.0.0.1:8111/load_and_zoom?";
 
     if (object) query.select = object.type + object.id;
 
