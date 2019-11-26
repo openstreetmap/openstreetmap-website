@@ -25,7 +25,6 @@
 
 $(document).ready(function () {
   var querystring = require("querystring-component"),
-      browser = bowser.getParser(window.navigator.userAgent);
 
   var loaderTimeout;
 
