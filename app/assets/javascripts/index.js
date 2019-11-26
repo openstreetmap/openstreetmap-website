@@ -24,7 +24,7 @@
 //= require querystring
 
 $(document).ready(function () {
-  var querystring = require("querystring-component"),
+  var querystring = require("querystring-component");
 
   var loaderTimeout;
 
