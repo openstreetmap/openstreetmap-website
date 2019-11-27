@@ -1,8 +1,8 @@
 class AddDiaryEntryCounterCaches < ActiveRecord::Migration[4.2]
-  class DiaryEntry < ActiveRecord::Base
+  class DiaryEntry < ApplicationRecord
   end
 
-  class User < ActiveRecord::Base
+  class User < ApplicationRecord
   end
 
   def self.up

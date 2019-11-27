@@ -1,11 +1,11 @@
 require "migrate"
 
 class TileNodes < ActiveRecord::Migration[4.2]
-  class Node < ActiveRecord::Base
+  class Node < ApplicationRecord
     self.table_name = "current_nodes"
   end
 
-  class OldNode < ActiveRecord::Base
+  class OldNode < ApplicationRecord
     self.table_name = "nodes"
   end
 

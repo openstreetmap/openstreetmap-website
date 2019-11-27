@@ -1,5 +1,5 @@
 class TileUsers < ActiveRecord::Migration[5.1]
-  class User < ActiveRecord::Base
+  class User < ApplicationRecord
   end
 
   def up

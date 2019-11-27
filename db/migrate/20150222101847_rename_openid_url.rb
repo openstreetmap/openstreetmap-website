@@ -1,5 +1,5 @@
 class RenameOpenidUrl < ActiveRecord::Migration[4.2]
-  class User < ActiveRecord::Base
+  class User < ApplicationRecord
   end
 
   def change
