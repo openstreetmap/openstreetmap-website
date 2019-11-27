@@ -20,7 +20,7 @@
 #  ways_redaction_id_fkey  (redaction_id => redactions.id)
 #
 
-class OldWay < ActiveRecord::Base
+class OldWay < ApplicationRecord
   include ConsistencyValidations
   include ObjectMetadata
 

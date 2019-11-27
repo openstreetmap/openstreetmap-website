@@ -25,7 +25,7 @@
 #  gpx_files_user_id_fkey  (user_id => users.id)
 #
 
-class Trace < ActiveRecord::Base
+class Trace < ApplicationRecord
   self.table_name = "gpx_files"
 
   belongs_to :user, :counter_cache => true

@@ -11,7 +11,7 @@
 #  current_node_tags_id_fkey  (node_id => current_nodes.id)
 #
 
-class NodeTag < ActiveRecord::Base
+class NodeTag < ApplicationRecord
   self.table_name = "current_node_tags"
   self.primary_keys = "node_id", "k"
 

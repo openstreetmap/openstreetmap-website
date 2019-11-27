@@ -26,7 +26,7 @@
 #  diary_entries_user_id_fkey        (user_id => users.id)
 #
 
-class DiaryEntry < ActiveRecord::Base
+class DiaryEntry < ApplicationRecord
   belongs_to :user, :counter_cache => true
   belongs_to :language, :foreign_key => "language_code"
 

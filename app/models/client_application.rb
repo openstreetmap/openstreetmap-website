@@ -30,7 +30,7 @@
 #  client_applications_user_id_fkey  (user_id => users.id)
 #
 
-class ClientApplication < ActiveRecord::Base
+class ClientApplication < ApplicationRecord
   belongs_to :user
   has_many :tokens, :class_name => "OauthToken", :dependent => :delete_all
   has_many :access_tokens

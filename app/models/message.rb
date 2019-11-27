@@ -24,7 +24,7 @@
 #  messages_to_user_id_fkey    (to_user_id => users.id)
 #
 
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
   belongs_to :sender, :class_name => "User", :foreign_key => :from_user_id
   belongs_to :recipient, :class_name => "User", :foreign_key => :to_user_id
 

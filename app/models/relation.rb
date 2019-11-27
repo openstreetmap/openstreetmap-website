@@ -17,7 +17,7 @@
 #  current_relations_changeset_id_fkey  (changeset_id => changesets.id)
 #
 
-class Relation < ActiveRecord::Base
+class Relation < ApplicationRecord
   require "xml/libxml"
 
   include ConsistencyValidations

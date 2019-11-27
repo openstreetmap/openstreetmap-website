@@ -25,7 +25,7 @@
 #  changesets_user_id_fkey  (user_id => users.id)
 #
 
-class Changeset < ActiveRecord::Base
+class Changeset < ApplicationRecord
   require "xml/libxml"
 
   belongs_to :user, :counter_cache => true

@@ -17,7 +17,7 @@
 #  friends_user_id_fkey         (user_id => users.id)
 #
 
-class Friendship < ActiveRecord::Base
+class Friendship < ApplicationRecord
   self.table_name = "friends"
 
   belongs_to :befriender, :class_name => "User", :foreign_key => :user_id

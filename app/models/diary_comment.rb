@@ -22,7 +22,7 @@
 #  diary_comments_user_id_fkey         (user_id => users.id)
 #
 
-class DiaryComment < ActiveRecord::Base
+class DiaryComment < ApplicationRecord
   belongs_to :user
   belongs_to :diary_entry
 

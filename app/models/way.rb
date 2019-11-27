@@ -17,7 +17,7 @@
 #  current_ways_changeset_id_fkey  (changeset_id => changesets.id)
 #
 
-class Way < ActiveRecord::Base
+class Way < ApplicationRecord
   require "xml/libxml"
 
   include ConsistencyValidations

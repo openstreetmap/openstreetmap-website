@@ -11,7 +11,7 @@
 #  user_preferences_user_id_fkey  (user_id => users.id)
 #
 
-class UserPreference < ActiveRecord::Base
+class UserPreference < ApplicationRecord
   self.primary_keys = "user_id", "k"
 
   belongs_to :user

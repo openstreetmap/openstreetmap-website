@@ -20,7 +20,7 @@
 #  relations_redaction_id_fkey  (redaction_id => redactions.id)
 #
 
-class OldRelation < ActiveRecord::Base
+class OldRelation < ApplicationRecord
   include ConsistencyValidations
   include ObjectMetadata
 

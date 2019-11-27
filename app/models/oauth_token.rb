@@ -35,7 +35,7 @@
 #  oauth_tokens_user_id_fkey                (user_id => users.id)
 #
 
-class OauthToken < ActiveRecord::Base
+class OauthToken < ApplicationRecord
   belongs_to :client_application
   belongs_to :user
 
