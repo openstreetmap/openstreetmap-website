@@ -43,7 +43,7 @@
 #  users_home_idx                (home_tile)
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   require "xml/libxml"
 
   self.ignored_columns = ["nearby"]

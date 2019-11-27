@@ -19,7 +19,7 @@
 #  user_roles_user_id_fkey     (user_id => users.id)
 #
 
-class UserRole < ActiveRecord::Base
+class UserRole < ApplicationRecord
   belongs_to :user
   belongs_to :granter, :class_name => "User"
 

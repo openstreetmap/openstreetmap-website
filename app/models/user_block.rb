@@ -24,7 +24,7 @@
 #  user_blocks_user_id_fkey       (user_id => users.id)
 #
 
-class UserBlock < ActiveRecord::Base
+class UserBlock < ApplicationRecord
   validate :moderator_permissions
   validates :reason, :characters => true
 

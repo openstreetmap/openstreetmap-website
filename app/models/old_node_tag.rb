@@ -12,7 +12,7 @@
 #  node_tags_id_fkey  (node_id => nodes.node_id)
 #
 
-class OldNodeTag < ActiveRecord::Base
+class OldNodeTag < ApplicationRecord
   self.table_name = "node_tags"
   self.primary_keys = "node_id", "version", "k"
 

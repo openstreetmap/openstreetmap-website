@@ -17,7 +17,7 @@
 #  index_acls_on_mx       (mx)
 #
 
-class Acl < ActiveRecord::Base
+class Acl < ApplicationRecord
   validates :k, :presence => true
 
   def self.match(address, options = {})

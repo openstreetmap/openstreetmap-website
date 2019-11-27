@@ -21,7 +21,7 @@
 #  reports_user_id_fkey   (user_id => users.id)
 #
 
-class Report < ActiveRecord::Base
+class Report < ApplicationRecord
   belongs_to :issue, :counter_cache => true
   belongs_to :user
 

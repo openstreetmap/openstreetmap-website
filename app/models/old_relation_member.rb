@@ -18,7 +18,7 @@
 #  relation_members_id_fkey  (relation_id => relations.relation_id)
 #
 
-class OldRelationMember < ActiveRecord::Base
+class OldRelationMember < ApplicationRecord
   self.table_name = "relation_members"
   self.primary_keys = "relation_id", "version", "sequence_id"
 

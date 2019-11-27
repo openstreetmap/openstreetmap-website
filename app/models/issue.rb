@@ -30,7 +30,7 @@
 #  issues_updated_by_fkey        (updated_by => users.id)
 #
 
-class Issue < ActiveRecord::Base
+class Issue < ApplicationRecord
   belongs_to :reportable, :polymorphic => true
   belongs_to :reported_user, :class_name => "User", :foreign_key => :reported_user_id
   belongs_to :user_resolved, :class_name => "User", :foreign_key => :resolved_by

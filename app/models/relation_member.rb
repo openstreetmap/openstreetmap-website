@@ -17,7 +17,7 @@
 #  current_relation_members_id_fkey  (relation_id => current_relations.id)
 #
 
-class RelationMember < ActiveRecord::Base
+class RelationMember < ApplicationRecord
   self.table_name = "current_relation_members"
   self.primary_keys = "relation_id", "sequence_id"
 

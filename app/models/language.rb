@@ -7,7 +7,7 @@
 #  native_name  :string
 #
 
-class Language < ActiveRecord::Base
+class Language < ApplicationRecord
   self.primary_key = "code"
 
   has_many :diary_entries, :foreign_key => "language"

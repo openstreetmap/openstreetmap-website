@@ -15,7 +15,7 @@
 #  diary_entry_subscriptions_user_id_fkey         (user_id => users.id)
 #
 
-class DiaryEntrySubscription < ActiveRecord::Base
+class DiaryEntrySubscription < ApplicationRecord
   self.primary_keys = "user_id", "diary_entry_id"
 
   belongs_to :user

@@ -18,7 +18,7 @@
 #  user_tokens_user_id_fkey  (user_id => users.id)
 #
 
-class UserToken < ActiveRecord::Base
+class UserToken < ApplicationRecord
   belongs_to :user
 
   after_initialize :set_defaults

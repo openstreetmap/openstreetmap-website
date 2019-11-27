@@ -18,7 +18,7 @@
 #  notes_updated_at_idx   (updated_at)
 #
 
-class Note < ActiveRecord::Base
+class Note < ApplicationRecord
   include GeoRecord
 
   has_many :comments, -> { left_joins(:author).where(:visible => true, :users => { :status => [nil, "active", "confirmed"] }).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id

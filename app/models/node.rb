@@ -21,7 +21,7 @@
 #  current_nodes_changeset_id_fkey  (changeset_id => changesets.id)
 #
 
-class Node < ActiveRecord::Base
+class Node < ApplicationRecord
   require "xml/libxml"
 
   include GeoRecord
