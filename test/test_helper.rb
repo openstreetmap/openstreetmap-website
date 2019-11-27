@@ -28,6 +28,9 @@ module ActiveSupport
     include FactoryBot::Syntax::Methods
     include ActiveJob::TestHelper
 
+    # Run tests in parallel with specified workers
+    parallelize(:workers => :number_of_processors)
+
     ##
     # takes a block which is executed in the context of a different
     # ActionController instance. this is used so that code can call methods
