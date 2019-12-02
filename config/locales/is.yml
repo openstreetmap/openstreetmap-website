@@ -171,14 +171,14 @@ is:
   api:
     notes:
       comment:
-        opened_at_html: Búið til fyrir %{when} síðan
-        opened_at_by_html: Búið til fyrir %{when} síðan af %{user}
-        commented_at_html: Uppfært fyrir %{when} síðan
-        commented_at_by_html: Uppfært fyrir %{when} síðan af %{user}
-        closed_at_html: Leyst fyrir %{when} síðan
-        closed_at_by_html: Leyst fyrir %{when} síðan af %{user}
-        reopened_at_html: Endurvirkjað fyrir %{when} síðan
-        reopened_at_by_html: Endurvirkjað fyrir %{when} síðan af %{user}
+        opened_at_html: Búið til %{when}
+        opened_at_by_html: Búið til %{when} af %{user}
+        commented_at_html: Uppfært %{when}
+        commented_at_by_html: Uppfært %{when} af %{user}
+        closed_at_html: Leyst %{when}
+        closed_at_by_html: Leyst %{when} af %{user}
+        reopened_at_html: Endurvirkjað %{when}
+        reopened_at_by_html: Endurvirkjað %{when} af %{user}
       rss:
         title: Minnispunktar OpenStreetMap
         description_area: Listi yfir minnispunkta sem hafa verið tilkynntir, gerðar
@@ -195,13 +195,12 @@ is:
   browse:
     created: Búið til
     closed: Lokað
-    created_html: Bjó til <abbr title='%{title}'>%{time} síðan</abbr>
-    closed_html: Lokað <abbr title='%{title}'> fyrir %{time} síðan</abbr>
-    created_by_html: Búið til <abbr title='%{title}'> fyrir %{time} síðan</abbr> af
-      %{user}
-    deleted_by_html: Eytt <abbr title='%{title}'> fyrir %{time} síðan</abbr> af %{user}
-    edited_by_html: Breytt <abbr title='%{title}'> fyrir %{time} síðan</abbr> af %{user}
-    closed_by_html: Lokað <abbr title='%{title}'> fyrir %{time} síðan</abbr> af %{user}
+    created_html: Bjó til <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Lokaði <abbr title='%{title}'> %{time}</abbr>
+    created_by_html: '%{user} bjó til <abbr title=''%{title}''> %{time}</abbr>'
+    deleted_by_html: '%{user} eyddi <abbr title=''%{title}''> %{time}</abbr>'
+    edited_by_html: '%{user} breytti <abbr title=''%{title}''> %{time}</abbr>'
+    closed_by_html: '%{user} lokaði <abbr title=''%{title}''> %{time}</abbr>'
     version: Útgáfa
     in_changeset: Breytingasett
     anonymous: nafnlaus
@@ -221,9 +220,8 @@ is:
       relation: Vensl (%{count})
       relation_paginated: Vensl (%{x}-%{y} af %{count})
       comment: Athugasemdir (%{count})
-      hidden_commented_by: Falin umsögn frá %{user} <abbr title='%{exact_time}'>%{when}
-        síðan</abbr>
-      commented_by: Umsögn frá %{user} <abbr title='%{exact_time}'>%{when} síðan</abbr>
+      hidden_commented_by: Falin umsögn frá %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Umsögn frá %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Breytingasetts XML sniði
       osmchangexml: osmChange XML sniði
       feed:
@@ -296,7 +294,9 @@ is:
         tag: Wiki-síðan fyrir merkið %{key}=%{value}
       wikidata_link: Atriðið %{page} á Wikidata
       wikipedia_link: „%{page}“ greinin á Wikipedia
+      wikimedia_commons_link: '%{page} atriðið á Wikimedia Commons'
       telephone_link: Hringja í %{phone_number}
+      colour_preview: Forskoðun á litnum %{colour_value}
     note:
       title: 'Minnispunktur: %{id}'
       new_note: Nýr minnispunktur
@@ -1313,8 +1313,8 @@ is:
           sem þú hefur áhuga á'
         your_changeset: '%{commenter} hefur sett athugasemd við eitt af breytingasettunum
           þínum sem búið var til %{time}'
-        commented_changeset: '%{commenter} hefur sett athugasemd við breytingasett
-          á korti sem þú fylgist með og var búið til af %{changeset_author} - %{time}'
+        commented_changeset: '%{commenter} hefur sett athugasemd %{time} við breytingasett
+          á korti sem þú fylgist með og var búið til af %{changeset_author}'
         partial_changeset_with_comment: með umsögninni '%{changeset_comment}'
         partial_changeset_without_comment: án athugasemdar
       details: Nánari upplýsingar um breytingasettið er að finna á %{url}.
@@ -1683,7 +1683,7 @@ is:
         spurningum, og ræða í hópum um málefni tengd kortagerð.
       welcome:
         url: /velkomin
-        title: Velkomin í OSM
+        title: Velkomin í OpenStreetMap
         description: Byrjaðu með þessum fljótlega leiðarvísi með helstu grunnatriðum
           varðandi OpenStreetMap.
       beginners_guide:
@@ -1692,8 +1692,8 @@ is:
         description: Leiðarvísir fyrir byrjendur sem haldið er við af samfélaginu.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: Spyrðu spurninga eða flettu upp svörum á spyrja/svara hluta OSM-vefsvæðisins.
+        title: Hjálparvefur
+        description: Spyrðu spurninga eða flettu upp svörum á spyrja/svara hluta OpenStreetMap-vefsvæðisins.
       mailing_lists:
         title: Póstlistar
         description: Spyrðu spurninga eða spjallaðu um áhugaverð málefni á einhverjum
@@ -1716,9 +1716,9 @@ is:
           Finndu það sem þú þarft að vita á kynningarsíðunni</a>.
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
+        title: Wiki-vefur OpenStreetMap
         description: Vafraðu um wiki/kvikuna til að sjá greinargóðar leiðbeiningar
-          varðandi OSM.
+          varðandi OpenStreetMap.
     sidebar:
       search_results: Leitarniðurstöður
       close: Loka
@@ -1949,7 +1949,9 @@ is:
       newer: Nýrri ferlar
     trace:
       pending: Í BIÐ
-      count_points: '%{count} punktar'
+      count_points:
+        one: 1 punktur punktar
+        other: '%{count} punktar punktar'
       more: upplýsingar
       trace_details: Sýna upplýsingar um ferilinn
       view_map: Skoða kort
@@ -2513,7 +2515,7 @@ is:
       title: Eyði banni á %{block_on}
       heading: Eyði banni á %{block_on} eftir %{block_by}
       time_future: Bannið endar eftir %{time}.
-      past: Bannið endaði fyrir %{time} síðan, ekki er hægt að eyða því núna.
+      past: Bannið endaði fyrir %{time} síðan og er ekki hægt að afturkalla það núna.
       confirm: Staðfestu að þú viljir eyða þessu banni.
       revoke: Eyða banninu
       flash: Banninu var eytt.
@@ -2522,7 +2524,7 @@ is:
       until_login: Virkt þangað til notandinn skráir sig inn.
       time_future_and_until_login: Endar eftir %{time} og eftir að notandinn skráir
         sig inn.
-      time_past: Endaði fyrir %{time} síðan
+      time_past: Endaði %{time}.
       block_duration:
         hours:
           one: 1 stund
