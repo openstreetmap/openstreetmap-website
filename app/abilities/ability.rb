@@ -40,7 +40,7 @@ class Ability
         can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
         can [:close, :reopen], Note
         can [:new, :create], Report
-        can [:mine, :new, :create, :edit, :update, :delete], Trace
+        can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public, :make_friend, :remove_friend], User
 
         if user.moderator?

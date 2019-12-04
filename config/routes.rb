@@ -208,7 +208,6 @@ OpenStreetMap::Application.routes.draw do
   get "/trace/create", :to => redirect(:path => "/traces/new")
   get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"
   get "/trace/:id/edit", :to => redirect(:path => "/traces/%{id}/edit")
-  post "/trace/:id/delete" => "traces#delete", :id => /\d+/
 
   # diary pages
   resources :diary_entries, :path => "diary", :only => [:new, :create, :index] do

@@ -115,8 +115,8 @@ class TracesControllerTest < ActionController::TestCase
       { :controller => "traces", :action => "update", :id => "1" }
     )
     assert_routing(
-      { :path => "/trace/1/delete", :method => :post },
-      { :controller => "traces", :action => "delete", :id => "1" }
+      { :path => "/traces/1", :method => :delete },
+      { :controller => "traces", :action => "destroy", :id => "1" }
     )
   end
 
@@ -637,39 +637,39 @@ class TracesControllerTest < ActionController::TestCase
     assert_equal new_details[:visibility], trace.visibility
   end
 
-  # Test deleting a trace
-  def test_delete
+  # Test destroying a trace
+  def test_destroy
     public_trace_file = create(:trace, :visibility => "public")
     deleted_trace_file = create(:trace, :deleted)
 
     # First with no auth
-    post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
+    delete :destroy, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
     assert_response :forbidden
 
     # Now with some other user, which should fail
-    post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }
+    delete :destroy, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }
     assert_response :forbidden
 
     # Now with a trace which doesn't exist
-    post :delete, :params => { :display_name => create(:user).display_name, :id => 0 }, :session => { :user => create(:user) }
+    delete :destroy, :params => { :display_name => create(:user).display_name, :id => 0 }, :session => { :user => create(:user) }
     assert_response :not_found
 
     # Now with a trace has already been deleted
-    post :delete, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, :session => { :user => deleted_trace_file.user }
+    delete :destroy, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, :session => { :user => deleted_trace_file.user }
     assert_response :not_found
 
     # Now with a trace that we are allowed to delete
-    post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => public_trace_file.user }
+    delete :destroy, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => public_trace_file.user }
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_equal false, trace.visible
 
-    # Finally with a trace that is deleted by an admin
+    # Finally with a trace that is destroyed by an admin
     public_trace_file = create(:trace, :visibility => "public")
     admin = create(:administrator_user)
 
-    post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => admin }
+    delete :destroy, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => admin }
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)

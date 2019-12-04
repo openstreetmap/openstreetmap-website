@@ -7,9 +7,9 @@ class TracesController < ApplicationController
 
   authorize_resource
 
-  before_action :check_database_writable, :only => [:new, :create, :edit, :delete]
+  before_action :check_database_writable, :only => [:new, :create, :edit, :destroy]
   before_action :offline_warning, :only => [:mine, :show]
-  before_action :offline_redirect, :only => [:new, :create, :edit, :delete, :data]
+  before_action :offline_redirect, :only => [:new, :create, :edit, :destroy, :data]
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
@@ -184,7 +184,7 @@ class TracesController < ApplicationController
     head :not_found
   end
 
-  def delete
+  def destroy
     trace = Trace.find(params[:id])
 
     if !trace.visible?
