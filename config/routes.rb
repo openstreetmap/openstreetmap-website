@@ -12,7 +12,6 @@ OpenStreetMap::Application.routes.draw do
     put "changeset/create" => "api/changesets#create"
     post "changeset/:id/upload" => "api/changesets#upload", :id => /\d+/
     get "changeset/:id/download" => "api/changesets#download", :as => :changeset_download, :id => /\d+/
-    post "changeset/:id/expand_bbox" => "api/changesets#expand_bbox", :id => /\d+/
     get "changeset/:id" => "api/changesets#show", :as => :changeset_show, :id => /\d+/
     post "changeset/:id/subscribe" => "api/changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
     post "changeset/:id/unsubscribe" => "api/changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/

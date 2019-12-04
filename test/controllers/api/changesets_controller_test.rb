@@ -18,10 +18,6 @@ module Api
         { :controller => "api/changesets", :action => "download", :id => "1" }
       )
       assert_routing(
-        { :path => "/api/0.6/changeset/1/expand_bbox", :method => :post },
-        { :controller => "api/changesets", :action => "expand_bbox", :id => "1" }
-      )
-      assert_routing(
         { :path => "/api/0.6/changeset/1", :method => :get },
         { :controller => "api/changesets", :action => "show", :id => "1" }
       )
@@ -1502,57 +1498,6 @@ CHANGESET
     end
 
     ##
-    # test that the changeset :include method works as it should
-    def test_changeset_include
-      basic_authorization create(:user).display_name, "test"
-
-      # create a new changeset
-      put :create, :body => "<osm><changeset/></osm>"
-      assert_response :success, "Creating of changeset failed."
-      changeset_id = @response.body.to_i
-
-      # NOTE: the include method doesn't over-expand, like inserting
-      # a real method does. this is because we expect the client to
-      # know what it is doing!
-      check_after_include(changeset_id, 1, 1, [1, 1, 1, 1])
-      check_after_include(changeset_id, 3, 3, [1, 1, 3, 3])
-      check_after_include(changeset_id, 4, 2, [1, 1, 4, 3])
-      check_after_include(changeset_id, 2, 2, [1, 1, 4, 3])
-      check_after_include(changeset_id, -1, -1, [-1, -1, 4, 3])
-      check_after_include(changeset_id, -2, 5, [-2, -1, 4, 5])
-    end
-
-    ##
-    # test that a not found, wrong method with the expand bbox works as expected
-    def test_changeset_expand_bbox_error
-      basic_authorization create(:user).display_name, "test"
-
-      # create a new changeset
-      xml = "<osm><changeset/></osm>"
-      put :create, :body => xml
-      assert_response :success, "Creating of changeset failed."
-      changeset_id = @response.body.to_i
-
-      lon = 58.2
-      lat = -0.45
-
-      # Try and put
-      xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-      put :expand_bbox, :params => { :id => changeset_id }, :body => xml
-      assert_response :method_not_allowed, "shouldn't be able to put a bbox expand"
-
-      # Try to get the update
-      xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-      get :expand_bbox, :params => { :id => changeset_id }, :body => xml
-      assert_response :method_not_allowed, "shouldn't be able to get a bbox expand"
-
-      # Try to use a hopefully missing changeset
-      xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-      post :expand_bbox, :params => { :id => changeset_id + 13245 }, :body => xml
-      assert_response :not_found, "shouldn't be able to do a bbox expand on a nonexistant changeset"
-    end
-
-    ##
     # test the query functionality of changesets
     def test_query
       private_user = create(:user, :data_public => false)
@@ -1927,26 +1872,6 @@ CHANGESET
       changesets.each do |changeset|
         assert_select "osm>changeset[id='#{changeset.id}']", 1
       end
-    end
-
-    ##
-    # call the include method and assert properties of the bbox
-    def check_after_include(changeset_id, lon, lat, bbox)
-      xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-      post :expand_bbox, :params => { :id => changeset_id }, :body => xml
-      assert_response :success, "Setting include of changeset failed: #{@response.body}"
-
-      # check exactly one changeset
-      assert_select "osm>changeset", 1
-      assert_select "osm>changeset[id='#{changeset_id}']", 1
-
-      # check the bbox
-      doc = XML::Parser.string(@response.body).parse
-      changeset = doc.find("//osm/changeset").first
-      assert_equal bbox[0], changeset["min_lon"].to_f, "min lon"
-      assert_equal bbox[1], changeset["min_lat"].to_f, "min lat"
-      assert_equal bbox[2], changeset["max_lon"].to_f, "max lon"
-      assert_equal bbox[3], changeset["max_lat"].to_f, "max lat"
     end
 
     ##

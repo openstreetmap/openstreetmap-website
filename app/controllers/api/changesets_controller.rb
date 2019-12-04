@@ -62,50 +62,6 @@ module Api
     end
 
     ##
-    # insert a (set of) points into a changeset bounding box. this can only
-    # increase the size of the bounding box. this is a hint that clients can
-    # set either before uploading a large number of changes, or changes that
-    # the client (but not the server) knows will affect areas further away.
-    def expand_bbox
-      # only allow POST requests, because although this method is
-      # idempotent, there is no "document" to PUT really...
-      assert_method :post
-
-      cs = Changeset.find(params[:id])
-      check_changeset_consistency(cs, current_user)
-
-      # keep an array of lons and lats
-      lon = []
-      lat = []
-
-      # the request is in pseudo-osm format... this is kind-of an
-      # abuse, maybe should change to some other format?
-      doc = XML::Parser.string(request.raw_post, :options => XML::Parser::Options::NOERROR).parse
-      doc.find("//osm/node").each do |n|
-        lon << n["lon"].to_f * GeoRecord::SCALE
-        lat << n["lat"].to_f * GeoRecord::SCALE
-      end
-
-      # add the existing bounding box to the lon-lat array
-      lon << cs.min_lon unless cs.min_lon.nil?
-      lat << cs.min_lat unless cs.min_lat.nil?
-      lon << cs.max_lon unless cs.max_lon.nil?
-      lat << cs.max_lat unless cs.max_lat.nil?
-
-      # collapse the arrays to minimum and maximum
-      cs.min_lon = lon.min.round
-      cs.min_lat = lat.min.round
-      cs.max_lon = lon.max.round
-      cs.max_lat = lat.max.round
-
-      # save the larger bounding box and return the changeset, which
-      # will include the bigger bounding box.
-      cs.save!
-      @changeset = cs
-      render "changeset"
-    end
-
-    ##
     # Upload a diff in a single transaction.
     #
     # This means that each change within the diff must succeed, i.e: that
