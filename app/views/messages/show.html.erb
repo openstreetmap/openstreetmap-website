@@ -17,6 +17,8 @@
     <%= button_to t(".reply_button"), message_reply_path(@message), :class => "reply-button" %>
     <%= button_to t(".unread_button"), message_mark_path(@message, :mark => "unread"), :class => "mark-unread-button" %>
     <%= button_to t(".destroy_button"), message_path(@message), :method => "delete", :class => "destroy-button" %>
+    <%= link_to t(".back"), inbox_messages_path, :class => "button deemphasize" %>
+  </div>
 
 <% else %>
 
@@ -33,8 +35,7 @@
   <div class="richtext"><%= @message.body.to_html %></div>
 
   <div class='message-buttons buttons'>
+    <%= link_to t(".back"), outbox_messages_path, :class => "button deemphasize" %>
+  </div>
 
 <% end %>
-
-  <%= link_to t(".back"), outbox_messages_path, :class => "button deemphasize" %>
-  </div>
