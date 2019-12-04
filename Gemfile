@@ -34,7 +34,7 @@ gem "bootsnap", ">= 1.4.2", :require => false
 gem "r2", "~> 0.2.7"
 
 # Use autoprefixer to generate CSS prefixes
-gem "autoprefixer-rails", "~> 8.6.3"
+gem "autoprefixer-rails"
 
 # Use image_optim to optimise images
 gem "image_optim_rails"
