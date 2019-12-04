@@ -157,7 +157,7 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_large_picture
-    picture = File.read(Rails.root.join("test", "gpx", "fixtures", "a.gif"), :mode => "rb")
+    picture = File.read(Rails.root.join("test/gpx/fixtures/a.gif"), :mode => "rb")
 
     trace = Trace.create
     trace.large_picture = picture
@@ -168,7 +168,7 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_icon_picture
-    picture = File.read(Rails.root.join("test", "gpx", "fixtures", "a_icon.gif"), :mode => "rb")
+    picture = File.read(Rails.root.join("test/gpx/fixtures/a_icon.gif"), :mode => "rb")
 
     trace = Trace.create
     trace.icon_picture = picture
@@ -184,7 +184,7 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_import_removes_previous_tracepoints
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace = create(:trace, :fixture => "a")
       # Tracepoints don't have a primary key, so we use a specific latitude to
       # check for successful deletion
@@ -199,7 +199,7 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_import_creates_tracepoints
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace = create(:trace, :fixture => "a")
       assert_equal 0, Tracepoint.where(:gpx_id => trace.id).count
 
@@ -216,7 +216,7 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_import_creates_icon
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace = create(:trace, :fixture => "a")
       icon_path = File.join(Settings.gpx_image_dir, "#{trace.id}_icon.gif")
       FileUtils.rm(icon_path)
@@ -230,7 +230,7 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_import_creates_large_picture
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace = create(:trace, :fixture => "a")
       large_picture_path = File.join(Settings.gpx_image_dir, "#{trace.id}.gif")
       FileUtils.rm(large_picture_path)
@@ -244,7 +244,7 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_import_handles_bz2
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace = create(:trace, :fixture => "c")
 
       trace.import
@@ -255,7 +255,7 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_import_handles_plain
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace = create(:trace, :fixture => "a")
 
       trace.import
@@ -266,7 +266,7 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_import_handles_plain_with_bom
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace = create(:trace, :fixture => "b")
 
       trace.import
@@ -279,7 +279,7 @@ class TraceTest < ActiveSupport::TestCase
     trace = create(:trace, :fixture => "d")
 
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace.import
 
       assert_equal 1, trace.size
@@ -292,7 +292,7 @@ class TraceTest < ActiveSupport::TestCase
     trace = create(:trace, :fixture => "f")
 
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace.import
 
       assert_equal 2, trace.size
@@ -305,7 +305,7 @@ class TraceTest < ActiveSupport::TestCase
     trace = create(:trace, :fixture => "g")
 
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace.import
 
       assert_equal 2, trace.size
@@ -318,7 +318,7 @@ class TraceTest < ActiveSupport::TestCase
     trace = create(:trace, :fixture => "h")
 
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace.import
 
       assert_equal 2, trace.size
@@ -331,7 +331,7 @@ class TraceTest < ActiveSupport::TestCase
     trace = create(:trace, :fixture => "i")
 
     FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      FakeFS::FileSystem.clone(Rails.root.join("test/gpx"))
       trace.import
 
       assert_equal 2, trace.size

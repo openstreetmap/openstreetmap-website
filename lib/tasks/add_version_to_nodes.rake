@@ -1,6 +1,6 @@
 namespace "db" do
   desc "Adds a version number to the nodes table"
-  task :node_version do
+  task :node_version => :environment do
     require File.dirname(__FILE__) + "/../../config/environment"
 
     increment = 1000

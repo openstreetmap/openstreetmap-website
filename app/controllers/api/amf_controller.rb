@@ -226,14 +226,14 @@ module Api
       loaded_lang = "en"
 
       # Load English defaults
-      en = YAML.safe_load(File.open(Rails.root.join("config", "potlatch", "locales", "en.yml")))["en"]
+      en = YAML.safe_load(File.open(Rails.root.join("config/potlatch/locales/en.yml")))["en"]
 
       if lang == "en"
-        return [loaded_lang, en]
+        [loaded_lang, en]
       else
         # Use English as a fallback
         begin
-          other = YAML.safe_load(File.open(Rails.root.join("config", "potlatch", "locales", "#{lang}.yml")))[lang]
+          other = YAML.safe_load(File.open(Rails.root.join("config/potlatch/locales/#{lang}.yml")))[lang]
           loaded_lang = lang
         rescue StandardError
           other = en
@@ -241,7 +241,7 @@ module Api
 
         # We have to return a flat list and some of the keys won't be
         # translated (probably)
-        return [loaded_lang, en.merge(other)]
+        [loaded_lang, en.merge(other)]
       end
     end
 
@@ -876,7 +876,7 @@ module Api
     end
 
     def getlocales
-      @getlocales ||= Locale.list(Dir.glob(Rails.root.join("config", "potlatch", "locales", "*")).collect { |f| File.basename(f, ".yml") })
+      @getlocales ||= Locale.list(Dir.glob(Rails.root.join("config/potlatch/locales/*")).collect { |f| File.basename(f, ".yml") })
     end
 
     ##

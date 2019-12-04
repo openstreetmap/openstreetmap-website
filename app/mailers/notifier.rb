@@ -1,4 +1,4 @@
-class Notifier < ActionMailer::Base
+class Notifier < ApplicationMailer
   include ActionView::Helpers::AssetUrlHelper
 
   self.delivery_job = ActionMailer::MailDeliveryJob
@@ -177,7 +177,7 @@ class Notifier < ActionMailer::Base
   end
 
   def attach_project_logo
-    attachments.inline["logo.png"] = File.read(Rails.root.join("app", "assets", "images", "osm_logo_30.png"))
+    attachments.inline["logo.png"] = File.read(Rails.root.join("app/assets/images/osm_logo_30.png"))
   end
 
   def attach_user_avatar(user)
@@ -187,9 +187,9 @@ class Notifier < ActionMailer::Base
   def user_avatar_file(user)
     avatar = user&.avatar
     if avatar&.attached?
-      return avatar.variant(:resize => "50x50>").blob.download
+      avatar.variant(:resize => "50x50>").blob.download
     else
-      return File.read(Rails.root.join("app", "assets", "images", "avatar_small.png"))
+      File.read(Rails.root.join("app/assets/images/avatar_small.png"))
     end
   end
 

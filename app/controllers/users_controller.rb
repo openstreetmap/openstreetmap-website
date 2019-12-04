@@ -376,7 +376,7 @@ class UsersController < ApplicationController
     @user = User.find_by(:display_name => params[:display_name])
 
     if @user &&
-       (@user.visible? || (current_user&.administrator?))
+       (@user.visible? || current_user&.administrator?)
       @title = @user.display_name
     else
       render_unknown_user params[:display_name]

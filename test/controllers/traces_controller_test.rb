@@ -532,7 +532,7 @@ class TracesControllerTest < ActionController::TestCase
   # Test creating a trace
   def test_create_post
     # Get file to use
-    fixture = Rails.root.join("test", "gpx", "fixtures", "a.gpx")
+    fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
     file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
     user = create(:user)
 
@@ -564,7 +564,7 @@ class TracesControllerTest < ActionController::TestCase
   # Test creating a trace with validation errors
   def test_create_post_with_validation_errors
     # Get file to use
-    fixture = Rails.root.join("test", "gpx", "fixtures", "a.gpx")
+    fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
     file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
     user = create(:user)
 

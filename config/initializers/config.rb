@@ -2,7 +2,7 @@
 # Otherwise, admins might not be aware that they are now silently ignored
 # and major problems could occur
 # rubocop:disable Rails/Output, Rails/Exit
-if File.exist?(Rails.root.join("config", "application.yml"))
+if File.exist?(Rails.root.join("config/application.yml"))
   puts "The config/application.yml file is no longer supported."
   puts ""
   puts "Default settings are now found in config/settings.yml and you"
