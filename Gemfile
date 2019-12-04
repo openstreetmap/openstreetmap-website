@@ -42,6 +42,7 @@ gem "image_optim_rails"
 # Load rails plugins
 gem "active_record_union"
 gem "activerecord-import"
+gem "bootstrap", "~> 4.3.1"
 gem "cancancan"
 gem "composite_primary_keys", "~> 12.0.0"
 gem "config"
