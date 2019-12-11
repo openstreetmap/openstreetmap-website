@@ -16,7 +16,7 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
 
     # simple diff to change a node, way and relation by removing
     # their tags
-    diff = <<CHANGESET.strip_heredoc
+    diff = <<~CHANGESET
       <osmChange>
        <modify>
         <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
@@ -32,7 +32,7 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
         </relation>
        </modify>
       </osmChange>
-CHANGESET
+    CHANGESET
 
     # upload it
     post "/api/0.6/changeset/#{changeset.id}/upload",
@@ -65,7 +65,7 @@ CHANGESET
 
     # simple diff to change a node, way and relation by removing
     # their tags
-    diff = <<CHANGESET.strip_heredoc
+    diff = <<~CHANGESET
       <osmChange>
        <modify>
         <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
@@ -81,7 +81,7 @@ CHANGESET
         </relation>
        </modify>
       </osmChange>
-CHANGESET
+    CHANGESET
 
     # upload it
     post "/api/0.6/changeset/#{changeset.id}/upload",
@@ -115,7 +115,7 @@ CHANGESET
 
     # simple diff to change a node, way and relation by removing
     # their tags
-    diff = <<CHANGESET.strip_heredoc
+    diff = <<~CHANGESET
       <osmChange>
        <modify>
         <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
@@ -131,7 +131,7 @@ CHANGESET
         </relation>
        </modify>
       </osmChange>
-CHANGESET
+    CHANGESET
 
     # upload it
     post "/api/0.6/changeset/#{changeset.id}/upload",
