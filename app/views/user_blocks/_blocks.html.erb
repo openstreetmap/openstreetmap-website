@@ -1,20 +1,22 @@
 <table id="block_list" cellpadding="3">
-  <tr>
-    <% if show_user_name %>
-    <th><%= t ".display_name" %></th>
-    <% end %>
-    <% if show_creator_name %>
-    <th><%= t ".creator_name" %></th>
-    <% end %>
-    <th><%= t ".reason" %></th>
-    <th><%= t ".status" %></th>
-    <th><%= t ".revoker_name" %></th>
-    <th></th>
-    <th></th>
-    <% if show_revoke_link %>
-    <th></th>
-    <% end %>
-  </tr>
+  <thead>
+    <tr>
+      <% if show_user_name %>
+      <th><%= t ".display_name" %></th>
+      <% end %>
+      <% if show_creator_name %>
+      <th><%= t ".creator_name" %></th>
+      <% end %>
+      <th><%= t ".reason" %></th>
+      <th><%= t ".status" %></th>
+      <th><%= t ".revoker_name" %></th>
+      <th></th>
+      <th></th>
+      <% if show_revoke_link %>
+      <th></th>
+      <% end %>
+    </tr>
+  </thead>
   <%= render :partial => "block", :locals => { :show_revoke_link => show_revoke_link, :show_user_name => show_user_name, :show_creator_name => show_creator_name }, :collection => @user_blocks %>
 </table>
 

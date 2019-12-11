@@ -14,22 +14,24 @@
     <%= hidden_field_tag :ip, params[:ip] if params[:ip] %>
     <%= hidden_field_tag :page, params[:page] if params[:page] %>
     <table id="user_list">
-      <tr>
-        <td colspan="2">
-          <%= t ".showing",
-                :page => @user_pages.current_page.number,
-                :first_item => @user_pages.current_page.first_item,
-                :last_item => @user_pages.current_page.last_item,
-                :items => @user_pages.item_count,
-                :count => @user_pages.current_page.last_item - @user_pages.current_page.first_item + 1 %>
-          <% if @user_pages.page_count > 1 %>
-          | <%= raw pagination_links_each(@user_pages, {}) { |n| link_to n, @params.merge(:page => n) } %>
-          <% end %>
-        </td>
-        <td>
-          <%= check_box_tag "user_all", "1", false %>
-        </td>
-      </tr>
+      <thead>
+        <tr>
+          <td colspan="2">
+            <%= t ".showing",
+                  :page => @user_pages.current_page.number,
+                  :first_item => @user_pages.current_page.first_item,
+                  :last_item => @user_pages.current_page.last_item,
+                  :items => @user_pages.item_count,
+                  :count => @user_pages.current_page.last_item - @user_pages.current_page.first_item + 1 %>
+            <% if @user_pages.page_count > 1 %>
+            | <%= raw pagination_links_each(@user_pages, {}) { |n| link_to n, @params.merge(:page => n) } %>
+            <% end %>
+          </td>
+          <td>
+            <%= check_box_tag "user_all", "1", false %>
+          </td>
+        </tr>
+      </thead>
       <%= render @users %>
     </table>
 

@@ -6,11 +6,13 @@
 <h3><%= t ".my_tokens" %></h3>
 <p><%= t ".list_tokens" %></p>
 <table>
-  <tr>
-    <th><%= t ".application" %></th>
-    <th><%= t ".issued_at" %></th>
-    <th>&nbsp;</th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%= t ".application" %></th>
+      <th><%= t ".issued_at" %></th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
   <% @tokens.each do |token| %>
     <tr>
       <td><%= link_to token.client_application.name, token.client_application.url %></td>

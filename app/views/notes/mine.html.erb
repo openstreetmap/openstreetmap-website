@@ -6,14 +6,16 @@
 <%= render :partial => "notes_paging_nav" %>
 
 <table class="note_list">
-  <tr>
-    <th></th>
-    <th><%= t ".id" %></th>
-    <th><%= t ".creator" %></th>
-    <th><%= t ".description" %></th>
-    <th><%= t ".created_at" %></th>
-    <th><%= t ".last_changed" %></th>
-  </tr>
+  <thead>
+    <tr>
+      <th></th>
+      <th><%= t ".id" %></th>
+      <th><%= t ".creator" %></th>
+      <th><%= t ".description" %></th>
+      <th><%= t ".created_at" %></th>
+      <th><%= t ".last_changed" %></th>
+    </tr>
+  </thead>
 <% @notes.each do |note| -%>
   <tr<% if note.author == @user %> class="creator"<% end %>>
     <td>
