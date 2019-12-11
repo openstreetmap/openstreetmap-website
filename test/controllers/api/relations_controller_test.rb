@@ -737,7 +737,7 @@ module Api
 
       basic_authorization user.email, "test"
 
-      doc_str = <<OSM.strip_heredoc
+      doc_str = <<~OSM
         <osm>
          <relation changeset='#{changeset.id}'>
           <member ref='#{node1.id}' type='node' role='first'/>
@@ -746,7 +746,7 @@ module Api
           <member ref='#{way2.id}' type='way' role='fourth'/>
          </relation>
         </osm>
-OSM
+      OSM
       doc = XML::Parser.string(doc_str).parse
 
       put :create, :body => doc.to_s
@@ -795,7 +795,7 @@ OSM
       node1 = create(:node)
       node2 = create(:node)
 
-      doc_str = <<OSM.strip_heredoc
+      doc_str = <<~OSM
         <osm>
          <relation changeset='#{changeset.id}'>
           <member ref='#{node1.id}' type='node' role='forward'/>
@@ -804,7 +804,7 @@ OSM
           <member ref='#{node2.id}' type='node' role='forward'/>
          </relation>
         </osm>
-OSM
+      OSM
       doc = XML::Parser.string(doc_str).parse
 
       ## First try with the private user
@@ -836,7 +836,7 @@ OSM
       node3 = create(:node)
       node4 = create(:node)
 
-      doc_str = <<OSM.strip_heredoc
+      doc_str = <<~OSM
         <osm>
          <relation changeset='#{changeset.id}'>
           <member ref='#{node1.id}' type='node' role='forward'/>
@@ -845,7 +845,7 @@ OSM
           <member ref='#{node2.id}' type='node' role='forward'/>
          </relation>
         </osm>
-OSM
+      OSM
       doc = XML::Parser.string(doc_str).parse
       basic_authorization user.email, "test"
 
