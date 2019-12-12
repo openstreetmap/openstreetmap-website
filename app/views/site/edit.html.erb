@@ -5,7 +5,7 @@
     <p><%= t "layouts.osm_read_only" %></p>
   <% elsif !current_user.data_public? %>
     <p><%= t ".not_public" %></p>
-    <p><%= raw t ".not_public_description", :user_page => (link_to t(".user_page_link"), user_path(current_user, :anchor => "public")) %></p>
+    <p><%= raw t ".not_public_description", :user_page => (link_to t(".user_page_link"), :controller => "users", :action => "account", :display_name => current_user.display_name, :anchor => "public") %></p>
     <p><%= raw t "site.edit.anon_edits", :link => link_to(t(".anon_edits_link_text"), t(".anon_edits_link")) %></p>
   <% else %>
     <%= render :partial => preferred_editor %>
