@@ -170,6 +170,14 @@ class SiteControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :users, :action => :login, :referer => "/edit"
   end
 
+  # Test the error when trying to edit without public edits
+  def test_edit_non_public
+    get :edit, :session => { :user => create(:user, :data_public => false) }
+    assert_response :success
+    assert_template "edit"
+    assert_select "a[href='https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits']"
+  end
+
   # Test the right editor gets used when the user hasn't set a preference
   def test_edit_without_preference
     get :edit, :session => { :user => create(:user) }
