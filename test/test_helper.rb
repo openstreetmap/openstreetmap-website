@@ -43,6 +43,18 @@ module ActiveSupport
     end
 
     ##
+    # execute a block with missing translation exceptions suppressed
+    def without_i18n_exceptions
+      exception_handler = I18n.exception_handler
+      begin
+        I18n.exception_handler = nil
+        yield
+      ensure
+        I18n.exception_handler = exception_handler
+      end
+    end
+
+    ##
     # work round minitest insanity that causes it to tell you
     # to use assert_nil to test for nil, which is fine if you're
     # comparing to a nil constant but not if you're comparing

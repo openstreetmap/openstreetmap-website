@@ -42,6 +42,12 @@ I18n.fallbacks.map("no" => "nb")
 
 I18n.enforce_available_locales = false
 
+if Rails.env.test?
+  I18n.exception_handler = proc do |exception|
+    raise exception.to_exception
+  end
+end
+
 Rails.configuration.after_initialize do
   I18n.available_locales
 end

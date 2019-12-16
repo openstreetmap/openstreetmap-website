@@ -3,51 +3,53 @@ require "test_helper"
 class I18nTest < ActiveSupport::TestCase
   I18n.available_locales.each do |locale|
     define_method("test_#{locale.to_s.underscore}".to_sym) do
-      # plural_keys = plural_keys(locale)
+      without_i18n_exceptions do
+        # plural_keys = plural_keys(locale)
 
-      translation_keys.each do |key|
-        variables = []
+        translation_keys.each do |key|
+          variables = []
 
-        default_value = I18n.t(key, :locale => I18n.default_locale)
+          default_value = I18n.t(key, :locale => I18n.default_locale)
 
-        if default_value.is_a?(Hash)
-          variables.push("count")
+          if default_value.is_a?(Hash)
+            variables.push("count")
 
-          default_value.each_value do |subvalue|
-            subvalue.scan(/%\{(\w+)\}/) do
+            default_value.each_value do |subvalue|
+              subvalue.scan(/%\{(\w+)\}/) do
+                variables.push(Regexp.last_match(1))
+              end
+            end
+          else
+            default_value.scan(/%\{(\w+)\}/) do
               variables.push(Regexp.last_match(1))
             end
           end
-        else
-          default_value.scan(/%\{(\w+)\}/) do
-            variables.push(Regexp.last_match(1))
-          end
-        end
 
-        variables.push("attribute") if key =~ /^(active(model|record)\.)?errors\./
+          variables.push("attribute") if key =~ /^(active(model|record)\.)?errors\./
 
-        value = I18n.t(key, :locale => locale, :fallback => true)
+          value = I18n.t(key, :locale => locale, :fallback => true)
 
-        if value.is_a?(Hash)
-          value.each do |subkey, subvalue|
-            # assert plural_keys.include?(subkey), "#{key}.#{subkey} is not a valid plural key"
+          if value.is_a?(Hash)
+            value.each do |subkey, subvalue|
+              # assert plural_keys.include?(subkey), "#{key}.#{subkey} is not a valid plural key"
 
-            next if subvalue.nil?
+              next if subvalue.nil?
 
-            subvalue.scan(/%\{(\w+)\}/) do
-              assert variables.include?(Regexp.last_match(1)), "#{key}.#{subkey} uses unknown interpolation variable #{Regexp.last_match(1)}"
+              subvalue.scan(/%\{(\w+)\}/) do
+                assert variables.include?(Regexp.last_match(1)), "#{key}.#{subkey} uses unknown interpolation variable #{Regexp.last_match(1)}"
+              end
+            end
+          else
+            assert value.is_a?(String), "#{key} is not a string"
+
+            value.scan(/%\{(\w+)\}/) do
+              assert variables.include?(Regexp.last_match(1)), "#{key} uses unknown interpolation variable #{Regexp.last_match(1)}"
             end
           end
-        else
-          assert value.is_a?(String), "#{key} is not a string"
-
-          value.scan(/%\{(\w+)\}/) do
-            assert variables.include?(Regexp.last_match(1)), "#{key} uses unknown interpolation variable #{Regexp.last_match(1)}"
-          end
         end
-      end
 
-      assert %w[ltr rtl].include?(I18n.t("html.dir", :locale => locale)), "html.dir must be ltr or rtl"
+        assert %w[ltr rtl].include?(I18n.t("html.dir", :locale => locale)), "html.dir must be ltr or rtl"
+      end
     end
   end
 
