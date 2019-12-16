@@ -8,7 +8,7 @@ class NoteHelperTest < ActionView::TestCase
     date = Time.new(2014, 3, 5, 21, 37, 45, "+00:00")
     user = create(:user)
 
-    assert_match %r{^Created by anonymous <abbr title='Wed, 05 Mar 2014 21:37:45 \+0000'><span title=" 5 March 2014 at 21:37">.* ago</span></abbr>$}, note_event("open", date, nil)
+    assert_match %r{^Created by anonymous <abbr title='Wed, 05 Mar 2014 21:37:45 \+0000'><span title=" 5 March 2014 at 21:37">.* ago</span></abbr>$}, note_event("opened", date, nil)
     assert_match %r{^Resolved by <a href="/user/#{ERB::Util.u(user.display_name)}">#{user.display_name}</a> <abbr title='Wed, 05 Mar 2014 21:37:45 \+0000'><span title=" 5 March 2014 at 21:37">.* ago</span></abbr>$}, note_event("closed", date, user)
   end
 

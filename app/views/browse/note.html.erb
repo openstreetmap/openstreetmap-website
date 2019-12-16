@@ -12,7 +12,7 @@
   </div>
 
   <div class="details" data-coordinates="<%= @note.lat %>,<%= @note.lon %>" data-status="<%= @note.status %>">
-    <%= note_event("open", @note.created_at, @note.author) %>
+    <%= note_event("opened", @note.created_at, @note.author) %>
     <% if @note.status == "closed" %>
       <br />
       <%= note_event(@note.status, @note.closed_at, @note_comments.last.author) %>
