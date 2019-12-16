@@ -77,26 +77,30 @@ class SiteController < ApplicationController
       )
     end
 
-    if params[:node]
-      bbox = Node.find(params[:node]).bbox.to_unscaled
-      @lat = bbox.centre_lat
-      @lon = bbox.centre_lon
-      @zoom = 18
-    elsif params[:way]
-      bbox = Way.find(params[:way]).bbox.to_unscaled
-      @lat = bbox.centre_lat
-      @lon = bbox.centre_lon
-      @zoom = 17
-    elsif params[:note]
-      note = Note.find(params[:note])
-      @lat = note.lat
-      @lon = note.lon
-      @zoom = 17
-    elsif params[:gpx] && current_user
-      trace = Trace.visible_to(current_user).find(params[:gpx])
-      @lat = trace.latitude
-      @lon = trace.longitude
-      @zoom = 16
+    begin
+      if params[:node]
+        bbox = Node.visible.find(params[:node]).bbox.to_unscaled
+        @lat = bbox.centre_lat
+        @lon = bbox.centre_lon
+        @zoom = 18
+      elsif params[:way]
+        bbox = Way.visible.find(params[:way]).bbox.to_unscaled
+        @lat = bbox.centre_lat
+        @lon = bbox.centre_lon
+        @zoom = 17
+      elsif params[:note]
+        note = Note.visible.find(params[:note])
+        @lat = note.lat
+        @lon = note.lon
+        @zoom = 17
+      elsif params[:gpx] && current_user
+        trace = Trace.visible_to(current_user).find(params[:gpx])
+        @lat = trace.latitude
+        @lon = trace.longitude
+        @zoom = 16
+      end
+    rescue ActiveRecord::RecordNotFound
+      # don't try and derive a location from a missing/deleted object
     end
   end
 

@@ -259,11 +259,31 @@ class SiteControllerTest < ActionController::TestCase
     assert_equal 18, assigns(:zoom)
   end
 
+  # Test editing inaccessible nodes
+  def test_edit_with_inaccessible_nodes
+    user = create(:user)
+    deleted_node = create(:node, :lat => 1.0, :lon => 1.0, :visible => false)
+
+    get :edit, :params => { :node => 99999 }, :session => { :user => user }
+    assert_response :success
+    assert_template "edit"
+    assert_nil assigns(:lat)
+    assert_nil assigns(:lon)
+    assert_nil assigns(:zoom)
+
+    get :edit, :params => { :node => deleted_node.id }, :session => { :user => user }
+    assert_response :success
+    assert_template "edit"
+    assert_nil assigns(:lat)
+    assert_nil assigns(:lon)
+    assert_nil assigns(:zoom)
+  end
+
   # Test editing a specific way
   def test_edit_with_way
     user = create(:user)
     node = create(:node, :lat => 3, :lon => 3)
-    way  = create(:way)
+    way = create(:way)
     create(:way_node, :node => node, :way => way)
 
     get :edit, :params => { :way => way.id }, :session => { :user => user }
@@ -272,6 +292,26 @@ class SiteControllerTest < ActionController::TestCase
     assert_equal 3.0, assigns(:lat)
     assert_equal 3.0, assigns(:lon)
     assert_equal 17, assigns(:zoom)
+  end
+
+  # Test editing inaccessible ways
+  def test_edit_with_inaccessible_ways
+    user = create(:user)
+    deleted_way = create(:way, :visible => false)
+
+    get :edit, :params => { :way => 99999 }, :session => { :user => user }
+    assert_response :success
+    assert_template "edit"
+    assert_nil assigns(:lat)
+    assert_nil assigns(:lon)
+    assert_nil assigns(:zoom)
+
+    get :edit, :params => { :way => deleted_way.id }, :session => { :user => user }
+    assert_response :success
+    assert_template "edit"
+    assert_nil assigns(:lat)
+    assert_nil assigns(:lon)
+    assert_nil assigns(:zoom)
   end
 
   # Test editing a specific note
@@ -289,10 +329,32 @@ class SiteControllerTest < ActionController::TestCase
     assert_equal 17, assigns(:zoom)
   end
 
+  # Test editing inaccessible notes
+  def test_edit_with_inaccessible_notes
+    user = create(:user)
+    deleted_note = create(:note, :status => "hidden") do |n|
+      n.comments.create(:author_id => user.id)
+    end
+
+    get :edit, :params => { :note => 99999 }, :session => { :user => user }
+    assert_response :success
+    assert_template "edit"
+    assert_nil assigns(:lat)
+    assert_nil assigns(:lon)
+    assert_nil assigns(:zoom)
+
+    get :edit, :params => { :note => deleted_note.id }, :session => { :user => user }
+    assert_response :success
+    assert_template "edit"
+    assert_nil assigns(:lat)
+    assert_nil assigns(:lon)
+    assert_nil assigns(:zoom)
+  end
+
   # Test editing a specific GPX trace
   def test_edit_with_gpx
     user = create(:user)
-    gpx  = create(:trace, :latitude => 1, :longitude => 1)
+    gpx = create(:trace, :latitude => 1, :longitude => 1)
 
     get :edit, :params => { :gpx => gpx.id }, :session => { :user => user }
     assert_response :success
@@ -300,6 +362,34 @@ class SiteControllerTest < ActionController::TestCase
     assert_equal 1.0, assigns(:lat)
     assert_equal 1.0, assigns(:lon)
     assert_equal 16, assigns(:zoom)
+  end
+
+  # Test editing inaccessible GPX traces
+  def test_edit_with_inaccessible_gpxes
+    user = create(:user)
+    deleted_gpx = create(:trace, :deleted, :latitude => 1, :longitude => 1)
+    private_gpx = create(:trace, :latitude => 1, :longitude => 1, :visibility => "private")
+
+    get :edit, :params => { :gpx => 99999 }, :session => { :user => user }
+    assert_response :success
+    assert_template "edit"
+    assert_nil assigns(:lat)
+    assert_nil assigns(:lon)
+    assert_nil assigns(:zoom)
+
+    get :edit, :params => { :gpx => deleted_gpx.id }, :session => { :user => user }
+    assert_response :success
+    assert_template "edit"
+    assert_nil assigns(:lat)
+    assert_nil assigns(:lon)
+    assert_nil assigns(:zoom)
+
+    get :edit, :params => { :gpx => private_gpx.id }, :session => { :user => user }
+    assert_response :success
+    assert_template "edit"
+    assert_nil assigns(:lat)
+    assert_nil assigns(:lon)
+    assert_nil assigns(:zoom)
   end
 
   # Test the edit page redirects
