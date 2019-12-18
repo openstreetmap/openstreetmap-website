@@ -4,15 +4,29 @@
 
 <p class='introduction'><%= t ".introduction" %></p>
 
-<% %w[welcome beginners_guide help mailing_lists forums irc switch2osm welcomemat wiki].each do |site| %>
-  <% unless site == 'welcome' && !current_user %>
-  <div class='<%= site %> help-item'>
-  <h3>
-    <a href='<%= t ".#{site}.url" %>'>
-      <%= t ".#{site}.title" %>
-    </a>
-  </h3>
-  <p><%= t ".#{site}.description" %></p>
+<% sites = %w[beginners_guide help mailing_lists forums irc switch2osm welcomemat wiki] %>
+<% sites.prepend("welcome") if current_user %>
+
+<% sites.in_groups_of(3, false) do |group| %>
+  <div class="card-deck mb-4">
+    <% group.each do |site| %>
+      <div class='<%= site %> help-item card w-25'>
+        <div class='card-body'>
+          <h6 class='card-title'>
+            <a href='<%= t ".#{site}.url" %>'>
+              <%= t ".#{site}.title" %>
+            </a>
+          </h3>
+          <p class='card-text'><%= t ".#{site}.description" %></p>
+        </div>
+        <div class="card-footer">
+          <small>
+            <a href='<%= t ".#{site}.url" %>'>
+              <%= t ".#{site}.url" %>
+            </a>
+          </small>
+        </div>
+      </div>
+    <% end %>
   </div>
-  <% end %>
 <% end %>
