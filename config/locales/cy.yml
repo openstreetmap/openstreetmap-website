@@ -15,15 +15,27 @@ cy:
         create: Cadw
       diary_entry:
         create: Cyhoeddi
+        update: Uwchraddio
+      issue_comment:
+        create: Ychwanegu sylw
       message:
         create: Anfon
       client_application:
         create: Cofrestru
         update: Golygu
+      redaction:
+        create: Creu golygiadau
+        update: Cadw golygiadau
       trace:
         create: Uwchlwytho
         update: Cadw Newidiadau
+      user_block:
+        create: Creu bloc
+        update: Uwchraddio'r bloc
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: nid yw'n ymddangos ei fod yn gyfeiriad ebost dilys
     models:
       acl: Rhestr Rheoli Mynediad
       changeset: Changeset
@@ -91,6 +103,24 @@ cy:
         description: Disgrifiad
         languages: Ieithoedd
         pass_crypt: Cyfrinair
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: tuag awr yn ôl
+        other: tua %{count} awr yn ôl
+      about_x_months:
+        one: tuag un fis yn ôl
+        other: tua %{count} mis yn ôl
+      about_x_years:
+        one: tuag un blynedd yn ôl
+        other: tua %{count} blynedd yn ôl ago
+      almost_x_years:
+        one: oddeutu un mlynedd yn ôl
+        other: bron i %{count} blynedd yn ôl
+      half_a_minute: hanner munud yn ôl
+      less_than_x_seconds:
+        one: llai nag eiliad yn ôl
+        other: llai nag %{count} eiliad yn ôl
   editor:
     default: (currently %{name}) diofyn
     potlatch:
@@ -108,6 +138,8 @@ cy:
   api:
     notes:
       comment:
+        opened_at_html: Creewyd %{when}
+        opened_at_by_html: Creewyd %{when} gan %{user}
         commented_at_html: Diweddarwyd %{when}
         commented_at_by_html: Diweddarwyd %{when}gan %{user}
       rss:
@@ -219,20 +251,17 @@ cy:
       open_title: '#%{note_name} heb ei ddatrus'
       closed_title: '#%{note_name} wedi''i ddatrus'
       hidden_title: Nodyn cudd %{note_name}
-      open_by: Crëwyd gan %{user} <abbr title='%{exact_time}'>%{when} yn ôl</abbr>
-      open_by_anonymous: Crëwyd yn ddienw <abbr title='%{exact_time}'>%{when} yn ôl</abbr>
-      commented_by: Sylw gan %{user} <abbr title='%{exact_time}'>%{when} yn ôl</abbr>
-      commented_by_anonymous: Sylw yn ddienw <abbr title='%{exact_time}'>%{when} yn
+      opened_by: Crëwyd gan %{user} <abbr title='%{exact_time}'>%{when} yn ôl</abbr>
+      opened_by_anonymous: Crëwyd yn ddienw <abbr title='%{exact_time}'>%{when} yn
         ôl</abbr>
-      closed_by: Wedi'i ddatrus gan %{user} <abbr title='%{exact_time}'>%{when} yn
-        ôl</abbr>
-      closed_by_anonymous: Wedi ei ddatrus gan olygydd heb fewngofnodi <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      reopened_by: Gwnaed yn weithredol gan %{user} <abbr title='%{exact_time}'>%{when}
-        yn ôl</abbr>
-      reopened_by_anonymous: Gwnaed yn weithredol gan olygydd heb fewngofnodi <abbr
-        title='%{exact_time}'>%{when} yn ôl</abbr>
-      hidden_by: Cuddwyd gan %{user} <abbr title='%{exact_time}'>%{when} yn ôl</abbr>
+      commented_by: Sylw gan %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Sylw dienw <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Wedi'i ddatrus gan %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Wedi ei ddatrus gan <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Gwnaed yn weithredol gan %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Gwnaed yn weithredol gan olygydd dienw <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Cuddwyd gan %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Adroddwch am y nodyn hwn
     query:
       title: Nodweddion Ymholiad
       introduction: Cliciwch ar y map i ddarganfod nodweddion gerllaw.
@@ -245,11 +274,11 @@ cy:
       previous: « Blaenorol
     changeset:
       anonymous: Dienw
-      no_edits: (dim newid)
+      no_edits: (dim golygiadau)
       view_changeset_details: Dangos y newidiadau
     changesets:
       id: ID
-      saved_at: Cadwyd
+      saved_at: Cyhoeddwyd
       user: Defnyddiwr
       comment: Sylw
       area: Maes
@@ -868,14 +897,18 @@ cy:
           stationery: Siop Offer Swyddfa
           supermarket: Archfarchnad
           tailor: Teiliwr
+          ticket: Siop Docynau
+          tobacco: Siop Dybaco
           toys: Siop Degannau
           travel_agency: Asiantaeth Deithio
+          tyres: Siop Teiars
+          vacant: Siop Wag
           video: Siop Fideos
-          wine: Siop Drwyddedig
+          wine: Siop Win
           "yes": Siop
         tourism:
           alpine_hut: Cwt Mynydd
-          apartment: Rhandai neu fflatiau
+          apartment: Fflatiau Gwyliau
           artwork: Gwaith Celf
           attraction: Atyniad
           bed_and_breakfast: Gweldy a Brecwast
@@ -926,7 +959,7 @@ cy:
         level10: Ffin Maesdref
     description:
       title:
-        osm_nominatim: Lleoliad o <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim: Lleoliad o <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Lleoliad o <a href="http://www.geonames.org/">GeoNames</a>
       types:
@@ -936,6 +969,27 @@ cy:
     results:
       no_results: Dim canlyniadau
       more_results: Mwy o ganlyniadau
+  issues:
+    index:
+      title: Pryderon
+      select_status: Statws a ddewisiwyd
+      select_type: Dewisiwch y Math
+      search: Chwilio
+      user_not_found: Nid yw'r defnyddiwr yn bodoli
+      issues_not_found: Nid oes y fath broblemau
+      status: Statws
+      reports: Adroddiadau
+      last_updated: Diweddariad Diwethaf
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> gan %{user}
+      link_to_reports: Gweld yr Adroddiadau
+      reports_count:
+        one: 1 Report
+        other: '%{count} Adroddiadau'
+      reported_item: Eitem dan sylw
+      states:
+        open: Agor
+        resolved: Datruswyd
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
@@ -1065,6 +1119,7 @@ cy:
       copyright_html: <span>&copy;</span>cyfrannwyr<br>OpenStreetMap
       local_knowledge_title: Gwybodaeth Leol
       open_data_title: Data Agored
+      legal_title: Cyfreithiol
       partners_title: Partneriaid
     copyright:
       foreign:
@@ -1087,9 +1142,9 @@ cy:
           title: Enghraifft o gydnabyddiaeth
         more_title_html: Darganfod rhagor
         contributors_title_html: Ein cyfrannwyr
-        contributors_gb_html: "<strong>Y Deyrnas Gyfunol</strong>: Cynhwysir data
+        contributors_gb_html: '<strong>Y Deyrnas Gyfunol</strong>: Cynhwysir data
           a thestun gan yr Arolwg Ordnans; hawlfraint y Goron a hawl cronfa ddata
-          \n2010-12."
+          2010-19.'
         infringement_title_html: Torrwyd yr hawlfraint
     index:
       shortlink: Dolen Fyr
@@ -1139,18 +1194,31 @@ cy:
       title: Cael Cymorth
       welcome:
         url: /croeso
-        title: Croeso i OSM
+        title: Croeso i OpenStreetMap
       beginners_guide:
         title: Llawlyfr Dechreuwyr
+        description: Canllaw'r gymuned i ddechreuwyr
+      help:
+        url: https://help.openstreetmap.org/
+        title: Fforwm Cymorth
+      mailing_lists:
+        title: Rhestr Gohebiaeth
+      forums:
+        title: Fforymau
     sidebar:
       search_results: Canlyniadau Chwilio
       close: Cau
     search:
       search: Chwilio
+      get_directions: Cael cyfeiriadau
+      get_directions_title: Cael cyfeiriadau rhwng dau bwynt
+      from: O
+      to: I
       where_am_i: Ble mae hwn?
       where_am_i_title: Disgrifiwch eich lleoliad presennol gan ddefnyddio peiriant
         chwilio.
       submit_text: Mynd
+      reverse_directions_text: Newid y cyfeiriad
     key:
       table:
         entry:
@@ -1240,6 +1308,8 @@ cy:
         title: Beth sydd ar y Map
       basic_terms:
         title: Termau syml mapio
+      rules:
+        title: Rheolau!
       questions:
         title: Unrhyw gwestiwn?
       start_mapping: Dechrau Mapio
@@ -1284,7 +1354,9 @@ cy:
     trace_paging_nav:
       showing_page: Tudalen %{page}
     trace:
-      count_points: '%{count} pwynt'
+      count_points:
+        one: 1 point
+        other: '%{count} pwynt'
       more: mwy
       view_map: Gweld Map
       edit: golygu

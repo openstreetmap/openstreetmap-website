@@ -316,6 +316,7 @@ fi:
         tag: Wikisivu tietueelle %{key}=%{value}
       wikidata_link: '%{page} Wikidatassa'
       wikipedia_link: Artikkeli %{page} Wikipediassa
+      wikimedia_commons_link: '%{page} Wikimedia Commonsissa'
       telephone_link: Soita %{phone_number}
       colour_preview: Värin %{colour_value} esikatselu
     note:
@@ -325,8 +326,8 @@ fi:
       open_title: 'Ratkaisematon karttailmoitus #%{note_name}'
       closed_title: 'Ratkaistu karttailmoitus #%{note_name}'
       hidden_title: 'Piilotettu karttailmoitus #%{note_name}'
-      open_by: Lähettänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      open_by_anonymous: Luonut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by: Lähettänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous: Luonut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by_anonymous: Kommentti tuntemattomalta käyttäjältä <abbr title='%{exact_time}'>%{when}</abbr>
       closed_by: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
@@ -1213,19 +1214,19 @@ fi:
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} on lisännyt kommentin päiväkirjamerkintääsi'
-      hi: Hei %{to_user},
+      hi: Hei %{to_user}!
       header: '%{from_user} kommentoi kirjoittamaasi päiväkirjamerkintää OpenStreetMapissa
         otsikolla %{subject}:'
       footer: Lue kommentti sivulla %{readurl}. Jatkokommentin voi lähettää sivulla
         %{commenturl} tai vastausviestin sivulla %{replyurl}.
     message_notification:
-      hi: Hei %{to_user},
+      hi: Hei %{to_user}!
       header: '%{from_user} on lähettänyt sinulle viestin OpenStreetMapissa otsikkolla
         %{subject}:'
       footer_html: Lue viesti osoitteessa %{readurl} ja vastaa siihen osoitteessa
         %{replyurl}.
     friend_notification:
-      hi: Hei %{to_user},
+      hi: Hei %{to_user}!
       subject: '[OpenStreetMap] %{user} lisäsi sinut kaverikseen'
       had_added_you: Käyttäjä %{user} lisäsi sinut kaverikseen OpenStreetMapissa.
       see_their_profile: Voit tutustua hänen käyttäjäsivuunsa osoitteessa %{userurl}.
@@ -1308,20 +1309,20 @@ fi:
           on lähellä paikkaa %{place}.'
       details: Lisätietoja merkinnästä löytyy osoitteesta %{url}.
     changeset_comment_notification:
-      hi: Hei %{to_user},
+      hi: Hei %{to_user}!
       greeting: Hei,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} on kommentoinut muutoskokoelmaasi'
         subject_other: '[OpenStreetMap] %{commenter} on kommentoinut sinua kiinnostavaa
           muutoskokoelmaa'
-        your_changeset: '%{commenter} jätti %{time} kommentin yhteen muutoskokoelmistasi'
+        your_changeset: '%{commenter} kommentoi %{time} muutoskokoelmaasi'
         commented_changeset: '%{commenter} jätti %{time} kommentin kartan muutoskokoelmaan
           jota katselet jonka on luonut %{changeset_author}'
-        partial_changeset_with_comment: kommentin kanssa '%{changeset_comment}'
+        partial_changeset_with_comment: 'seuraavasti: "%{changeset_comment}"'
         partial_changeset_without_comment: ei kommenttia
       details: 'Lisätietoja muutoskokoelmasta: %{url}'
-      unsubscribe: Peruaksesi tilauksen päivityksistä tähän muutoskokoelmaan, vieraile
-        sivulla %{url} ja klikkaa "Unsubscribe".
+      unsubscribe: Peru tämän muutoskokoelman sähköposti-ilmoitukset siirtymällä osoitteeseen
+        %{url} ja napsauttamalla Lopeta tilaus.
   messages:
     inbox:
       title: Saapuneet
@@ -1941,7 +1942,7 @@ fi:
       upload_trace: Lisää GPS-jälki
       see_all_traces: Näytä kaikki jäljet
       see_my_traces: Katsele jälkiäni
-    delete:
+    destroy:
       scheduled_for_deletion: Jälki on poistojonossa.
     make_public:
       made_public: Jäljestä tehtiin julkinen

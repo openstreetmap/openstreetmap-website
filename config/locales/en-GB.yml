@@ -39,6 +39,9 @@ en-GB:
         create: Save
       diary_entry:
         create: Publish
+        update: Update
+      issue_comment:
+        create: Add Comment
       message:
         create: Send
       client_application:
@@ -54,6 +57,10 @@ en-GB:
         create: Create block
         update: Update block
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: does not appear to be a valid e-mail address
+        email_address_not_routable: is not routable
     models:
       acl: Access Control List
       changeset: Changeset
@@ -121,6 +128,45 @@ en-GB:
         description: Description
         languages: Languages
         pass_crypt: Password
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: about 1 hour ago
+        other: about %{count} hours ago
+      about_x_months:
+        one: about 1 month ago
+        other: about %{count} months ago
+      about_x_years:
+        one: about 1 year ago
+        other: about %{count} years ago
+      almost_x_years:
+        one: almost 1 year ago
+        other: almost %{count} years ago
+      half_a_minute: half a minute ago
+      less_than_x_seconds:
+        one: less than 1 second ago
+        other: less than %{count} seconds ago
+      less_than_x_minutes:
+        one: less than a minute ago
+        other: less than %{count} minutes ago
+      over_x_years:
+        one: over 1 year ago
+        other: over %{count} years ago
+      x_seconds:
+        one: 1 second ago
+        other: '%{count} seconds ago'
+      x_minutes:
+        one: 1 minute ago
+        other: '%{count} minutes ago'
+      x_days:
+        one: 1 day ago
+        other: '%{count} days ago'
+      x_months:
+        one: 1 month ago
+        other: '%{count} months ago'
+      x_years:
+        one: 1 year ago
+        other: '%{count} years ago'
   printable_name:
     with_version: '%{id}, v%{version}'
     with_name_html: '%{name} (%{id})'
@@ -198,6 +244,8 @@ en-GB:
         title_comment: Changeset %{id} - %{comment}
       join_discussion: Log in to join the discussion
       discussion: Discussion
+      still_open: Changeset still open - discussion will open once the changeset is
+        closed.
     node:
       title: 'Node: %{name}'
       history_title: 'Node History: %{name}'
@@ -258,7 +306,9 @@ en-GB:
         tag: The wiki description page for the %{key}=%{value} tag
       wikidata_link: The %{page} item on Wikidata
       wikipedia_link: The %{page} article on Wikipedia
+      wikimedia_commons_link: The %{page} item on Wikimedia Commons
       telephone_link: Call %{phone_number}
+      colour_preview: Colour %{colour_value} preview
     note:
       title: 'Note: %{id}'
       new_note: New Note
@@ -266,8 +316,8 @@ en-GB:
       open_title: 'Unresolved note #%{note_name}'
       closed_title: 'Resolved note #%{note_name}'
       hidden_title: 'Hidden note #%{note_name}'
-      open_by: Created by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      open_by_anonymous: Created by anonymous <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by: Created by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous: Created by anonymous <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by: Comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by_anonymous: Comment from anonymous <abbr title='%{exact_time}'>%{when}</abbr>
       closed_by: Resolved by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
@@ -314,9 +364,14 @@ en-GB:
     comment:
       comment: 'New comment on changeset #%{changeset_id} by %{author}'
       commented_at_by_html: Updated %{when} by %{user}
+    comments:
+      comment: 'New comment on changeset #%{changeset_id} by %{author}'
     index:
       title_all: OpenStreetMap changeset discussion
       title_particular: 'OpenStreetMap changeset #%{changeset_id} discussion'
+    timeout:
+      sorry: Sorry, the list of changeset comments you requested took too long to
+        retrieve.
   diary_entries:
     new:
       title: New Diary Entry
@@ -364,11 +419,15 @@ en-GB:
         other: '%{count} comments'
       edit_link: Edit this entry
       hide_link: Hide this entry
+      unhide_link: Unhide this entry
       confirm: Confirm
+      report: Report this entry
     diary_comment:
       comment_from: Comment from %{link_user} on %{comment_created_at}
       hide_link: Hide this comment
+      unhide_link: Unhide this comment
       confirm: Confirm
+      report: Report this comment
     location:
       location: 'Location:'
       view: View
@@ -409,12 +468,19 @@ en-GB:
           chair_lift: Chairlift
           drag_lift: Drag Lift
           gondola: Gondola Lift
+          platter: Platter Lift
+          pylon: Pylon
           station: Aerialway Station
+          t-bar: T-Bar Lift
         aeroway:
           aerodrome: Aerodrome
+          airstrip: Airstrip
           apron: Apron
           gate: Gate
+          hangar: Hangar
           helipad: Helipad
+          holding_position: Holding Position
+          parking_position: Parking Position
           runway: Runway
           taxiway: Taxiway
           terminal: Terminal
@@ -460,6 +526,7 @@ en-GB:
           fuel: Fuel
           gambling: Gambling
           grave_yard: Graveyard
+          grit_bin: Grit Bin
           hospital: Hospital
           hunting_stand: Hunting Stand
           ice_cream: Ice Cream
@@ -473,6 +540,7 @@ en-GB:
           office: Office
           parking: Parking
           parking_entrance: Parking Entrance
+          parking_space: Parking Space
           pharmacy: Pharmacy
           place_of_worship: Place of Worship
           police: Police
@@ -506,6 +574,7 @@ en-GB:
           village_hall: Village Hall
           waste_basket: Waste Bin
           waste_disposal: Waste Disposal
+          water_point: Water Point
           youth_centre: Youth Centre
         boundary:
           administrative: Administrative Boundary
@@ -534,9 +603,12 @@ en-GB:
           "yes": Craft Shop
         emergency:
           ambulance_station: Ambulance Station
+          assembly_point: Assembly Point
           defibrillator: Defibrillator
           landing_site: Emergency Landing Site
           phone: Emergency Phone
+          water_tank: Emergency Water Tank
+          "yes": Emergency
         highway:
           abandoned: Abandoned Highway
           bridleway: Bridleway
@@ -1689,7 +1761,7 @@ en-GB:
         page</a>.
       upload_trace: Upload a trace
       see_all_traces: See all traces
-    delete:
+    destroy:
       scheduled_for_deletion: Trace scheduled for deletion
     make_public:
       made_public: Trace made public
