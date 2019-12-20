@@ -15,5 +15,5 @@
   <% end %>
   <% data[:locale] = Locale.list(Potlatch2::LOCALES.keys).preferred(preferred_languages).to_s -%>
   <% data[:locale_path] = asset_path("potlatch2/locales/#{Potlatch2::LOCALES[data[:locale]]}.swf") -%>
-  <%= content_tag :div, raw(t("site.edit.flash_player_required")), :id => "potlatch", :data => data %>
+  <%= content_tag :div, t("site.edit.flash_player_required_html"), :id => "potlatch", :data => data %>
 </div>
