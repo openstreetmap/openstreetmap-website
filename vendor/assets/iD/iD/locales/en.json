@@ -7,7 +7,7 @@
             "undo": "undo",
             "zoom_to": "zoom to",
             "copy": "copy",
-            "open_wikidata": "open on wikidata.org",
+            "view_on": "view on {domain}",
             "favorite": "favorite"
         },
         "toolbar": {
@@ -128,27 +128,59 @@
                 "not_closed": "This can't be made circular because it's not a loop.",
                 "too_large": "This can't be made circular because not enough of it is currently visible.",
                 "connected_to_hidden": "This can't be made circular because it is connected to a hidden feature.",
-                "not_downloaded": "This can't be made circular because parts of it have not yet been downloaded."
+                "not_downloaded": "This can't be made circular because parts of it have not yet been downloaded.",
+                "already_circular": "This can't be made circular because it's already circular."
             },
             "orthogonalize": {
                 "title": "Square",
                 "description": {
-                    "vertex": "Square this corner.",
-                    "line": "Square the corners of this line.",
-                    "area": "Square the corners of this area."
+                    "corner": {
+                        "single": "Square this corner.",
+                        "multiple": "Square these corners."
+                    },
+                    "feature": {
+                        "single": "Square the corners of this feature.",
+                        "multiple": "Square the corners of these features."
+                    }
                 },
                 "key": "Q",
                 "annotation": {
-                    "vertex": "Squared a single corner.",
-                    "line": "Squared the corners of a line.",
-                    "area": "Squared the corners of an area."
+                    "corner": {
+                        "single": "Squared a corner.",
+                        "multiple": "Squared several corners."
+                    },
+                    "feature": {
+                        "single": "Squared the corners of a feature.",
+                        "multiple": "Squared the corners of several features."
+                    }
                 },
-                "end_vertex": "This can't be squared because it is an end node.",
-                "square_enough": "This can't be made more square than it already is.",
-                "not_squarish": "This can't be made square because it is not squarish.",
-                "too_large": "This can't be made square because not enough of it is currently visible.",
-                "connected_to_hidden": "This can't be made square because it is connected to a hidden feature.",
-                "not_downloaded": "This can't be made square because parts of it have not yet been downloaded."
+                "multiple_blockers": {
+                    "multiple": "These can't be squared for multiple reasons."
+                },
+                "end_vertex": {
+                    "single": "This can't be squared because it is an endpoint.",
+                    "multiple": "These can't be squared because they are endpoints."
+                },
+                "square_enough": {
+                    "single": "This can't be made more square than it already is.",
+                    "multiple": "These can't be made more square than they already are."
+                },
+                "not_squarish": {
+                    "single": "This can't be made square because it is not squarish.",
+                    "multiple": "These can't be made square because they are not squarish."
+                },
+                "too_large": {
+                    "single": "This can't be made square because not enough of it is currently visible.",
+                    "multiple": "These can't be made square because not enough of them are currently visible."
+                },
+                "connected_to_hidden": {
+                    "single": "This can't be made square because it is connected to a hidden feature.",
+                    "multiple": "These can't be made square because some are connected to hidden features."
+                },
+                "not_downloaded": {
+                    "single": "This can't be made square because parts of it have not yet been downloaded.",
+                    "multiple": "These can't be made square because parts of them have not yet been downloaded."
+                }
             },
             "straighten": {
                 "title": "Straighten",
@@ -533,11 +565,14 @@
             "hidden_warning": "{count} hidden features",
             "hidden_details": "These features are currently hidden: {details}"
         },
-        "status": {
-            "error": "Unable to connect to API.",
-            "offline": "The API is offline. Please try editing later.",
-            "readonly": "The API is read-only. You will need to wait to save your changes.",
-            "rateLimit": "The API is limiting anonymous connections.  You can fix this by logging in."
+        "osm_api_status": {
+            "message": {
+                "error": "Unable to reach the OpenStreetMap API. Your edits are safe locally. Check your network connection.",
+                "offline": "The OpenStreetMap API is offline. Your edits are safe locally. Please come back later.",
+                "readonly": "The OpenStreetMap API is currently read-only. You can continue editing, but must wait to save your changes.",
+                "rateLimit": "The OpenStreetMap API is limiting anonymous connections. You can fix this by logging in."
+            },
+            "retry": "Retry"
         },
         "commit": {
             "title": "Upload to OpenStreetMap",
@@ -631,7 +666,6 @@
         },
         "geocoder": {
             "search": "Search worldwide...",
-            "no_results_visible": "No results in visible map area",
             "no_results_worldwide": "No results found"
         },
         "geolocate": {
@@ -891,6 +925,19 @@
                 }
             }
         },
+        "preferences": {
+            "title": "Preferences",
+            "description": "Preferences",
+            "key": "P",
+            "privacy": {
+                "title": "Privacy",
+                "privacy_link": "View the iD privacy policy",
+                "third_party_icons": {
+                    "description": "Show Third Party Icons",
+                    "tooltip": "Uncheck this box to avoid loading icons from third party sites such as Wikimedia Commons, Facebook, or Twitter."
+                }
+            }
+        },
         "restore": {
             "heading": "You have unsaved changes",
             "description": "Do you wish to restore unsaved changes from a previous editing session?",
@@ -957,6 +1004,8 @@
         "splash": {
             "welcome": "Welcome to the iD OpenStreetMap editor",
             "text": "iD is a friendly but powerful tool for contributing to the world's best free world map. This is version {version}. For more information see {website} and report bugs at {github}.",
+            "privacy_update": "Our privacy policy has recently been updated.",
+            "privacy": "{updateMessage} By using this software, you agree to do so in accordance with the iD privacy policy, which can be found {here}.",
             "walkthrough": "Start the Walkthrough",
             "start": "Edit now"
         },
@@ -1343,7 +1392,48 @@
         "mapillary_map_features": {
             "title": "Map Features",
             "tooltip": "Map features from Mapillary",
-            "request_data": "Request Data"
+            "request_data": "Request Data",
+            "construction": {
+                "flat": {
+                    "crosswalk_plain": "plain crosswalk"
+                }
+            },
+            "marking": {
+                "discrete": {
+                    "crosswalk_zebra": "zebra crosswalk"
+                }
+            },
+            "object": {
+                "banner": "banner",
+                "bench": "bench",
+                "bike_rack": "bike rack",
+                "billboard": "billboard",
+                "catch_basin": "catch basin",
+                "cctv_camera": "CCTV camera",
+                "fire_hydrant": "fire hydrant",
+                "mailbox": "mailbox",
+                "manhole": "manhole",
+                "phone_booth": "phone booth",
+                "sign": {
+                    "advertisement": "advertisement",
+                    "information": "information sign",
+                    "store": "shop sign"
+                },
+                "street_light": "street light",
+                "support": {
+                    "utility_pole": "utility pole"
+                },
+                "traffic_cone": "traffic cone",
+                "traffic_light": {
+                    "cyclists": "cyclist traffic light",
+                    "general_horizontal": "horizontal traffic light",
+                    "general_single": "single traffic light",
+                    "general_upright": "vertical traffic light",
+                    "other": "traffic light",
+                    "pedestrians": "pedestrian traffic light"
+                },
+                "trash_can": "trash can"
+            }
         },
         "mapillary": {
             "title": "Mapillary",
@@ -1694,10 +1784,10 @@
                     "reference": "Buildings should not intersect except on different layers."
                 },
                 "building-highway": {
-                    "reference": "Highways crossing buildings should use bridges, tunnels, coverings, or entrances."
+                    "reference": "Highways crossing buildings should use bridges, tunnels, or different layers."
                 },
                 "building-railway": {
-                    "reference": "Railways crossing buildings should use bridges or tunnels."
+                    "reference": "Railways crossing buildings should use bridges, tunnels, or different layers."
                 },
                 "building-waterway": {
                     "reference": "Waterways crossing buildings should use tunnels or different layers."
@@ -1882,6 +1972,10 @@
                     }
                 }
             },
+            "unclosed_multipolygon_part": {
+                "message": "{feature} has an unclosed part",
+                "reference": "All inner and outer parts of multipolygons should have connected endpoints."
+            },
             "unsquare_way": {
                 "title": "Unsquare Corners (up to {val}°)",
                 "message": "{feature} has unsquare corners",
@@ -1895,6 +1989,14 @@
                 "reference": "Some features shouldn't be standalone points."
             },
             "fix": {
+                "add_a_bridge": {
+                    "title": "Add a bridge",
+                    "annotation": "Added a bridge."
+                },
+                "add_a_tunnel": {
+                    "title": "Add a tunnel",
+                    "annotation": "Added a tunnel."
+                },
                 "address_the_concern": {
                     "title": "Address the concern"
                 },
@@ -2009,9 +2111,6 @@
                     "title": "Upgrade the tags",
                     "annotation": "Upgraded old tags."
                 },
-                "use_bridge_or_tunnel": {
-                    "title": "Use a bridge or tunnel"
-                },
                 "use_different_layers": {
                     "title": "Use different layers"
                 },
@@ -2020,9 +2119,6 @@
                 },
                 "use_different_levels": {
                     "title": "Use different levels"
-                },
-                "use_tunnel": {
-                    "title": "Use a tunnel"
                 }
             }
         },
@@ -2320,9 +2416,11 @@
                 },
                 "display_options": {
                     "title": "Display options",
-                    "background": "Show background options",
+                    "background": "Toggle background imagery pane",
                     "background_switch": "Switch back to last background",
-                    "map_data": "Show map data options",
+                    "map_data": "Toggle map data pane",
+                    "issues": "Toggle validation issues pane",
+                    "preferences": "Toggle user preferences pane",
                     "fullscreen": "Enter full screen mode",
                     "sidebar": "Toggle sidebar",
                     "wireframe": "Toggle wireframe mode",
@@ -2338,9 +2436,9 @@
                     "search": "Find features matching search text"
                 },
                 "with_selected": {
-                    "title": "With feature selected",
+                    "title": "With features selected",
                     "edit_menu": "Toggle edit menu",
-                    "zoom_to": "Zoom to selected feature"
+                    "zoom_to": "Zoom to selected features"
                 },
                 "vertex_selected": {
                     "title": "With node selected",
@@ -2355,12 +2453,10 @@
                 "title": "Editing",
                 "drawing": {
                     "title": "Drawing",
-                    "focus_add_feature": "Focus the feature search field",
                     "add_point": "'Add point' mode",
                     "add_line": "'Add line' mode",
                     "add_area": "'Add area' mode",
                     "add_note": "'Add note' mode",
-                    "add_favorite": "Add a favorite feature",
                     "place_point": "Place a point or note",
                     "disable_snap": "Hold to disable point snapping",
                     "stop_line": "Finish drawing a line or area"
@@ -2479,6 +2575,9 @@
                 }
             },
             "fields": {
+                "access_aisle": {
+                    "label": "Type"
+                },
                 "access_simple": {
                     "label": "Allowed Access",
                     "terms": "permitted,private,public"
@@ -2545,6 +2644,7 @@
                         "block_number": "Block Number",
                         "block_number!jp": "Block No.",
                         "city": "City",
+                        "city!cn": "City/Prefecture/League",
                         "city!jp": "City/Town/Village/Tokyo Special Ward",
                         "city!vn": "City/Town",
                         "conscriptionnumber": "123",
@@ -2552,6 +2652,7 @@
                         "county": "County",
                         "county!jp": "District",
                         "district": "District",
+                        "district!cn": "District/County/Banner",
                         "district!vn": "Arrondissement/Town/District",
                         "floor": "Floor",
                         "hamlet": "Hamlet",
@@ -2563,6 +2664,7 @@
                         "place": "Place",
                         "postcode": "Postcode",
                         "province": "Province",
+                        "province!cn": "Province/Municipality/AR/SAR",
                         "province!jp": "Prefecture",
                         "quarter": "Quarter",
                         "quarter!jp": "Ōaza/Machi",
@@ -2839,11 +2941,17 @@
                     "label": "Communication Types",
                     "terms": ""
                 },
+                "connectivity": {
+                    "label": "Connectivity"
+                },
                 "construction": {
                     "label": "Type"
                 },
                 "consulate": {
                     "label": "Type"
+                },
+                "consulting": {
+                    "label": "Expertise"
                 },
                 "contact/webcam": {
                     "label": "Webcam URL",
@@ -2862,6 +2970,9 @@
                         "backward": "Backward",
                         "reversible": "Reversible"
                     }
+                },
+                "country_flag": {
+                    "label": "Flag Country"
                 },
                 "country": {
                     "label": "Country"
@@ -3057,6 +3168,9 @@
                 "distance": {
                     "label": "Distance"
                 },
+                "disused/railway": {
+                    "label": "Type"
+                },
                 "dock": {
                     "label": "Type"
                 },
@@ -3074,6 +3188,13 @@
                 },
                 "door": {
                     "label": "Door"
+                },
+                "drink_multi": {
+                    "label": "Drinks"
+                },
+                "drinking_water": {
+                    "label": "Drinkable",
+                    "terms": "drinkworthy,potable"
                 },
                 "drive_through": {
                     "label": "Drive-Through",
@@ -3185,6 +3306,9 @@
                     "label": "Type",
                     "placeholder": "Default"
                 },
+                "fountain": {
+                    "label": "Type"
+                },
                 "frequency_electrified": {
                     "label": "Operating Frequency",
                     "terms": ""
@@ -3228,6 +3352,10 @@
                 "generator/type": {
                     "label": "Type"
                 },
+                "gnis/feature_id": {
+                    "label": "GNIS Feature ID",
+                    "terms": "Federal Geographic Names Information Service,United States Board on Geographic Names,USA"
+                },
                 "government": {
                     "label": "Type"
                 },
@@ -3246,7 +3374,7 @@
                     "terms": ""
                 },
                 "hashtags": {
-                    "label": "Suggested Hashtags",
+                    "label": "Hashtags",
                     "placeholder": "#example"
                 },
                 "healthcare": {
@@ -3532,6 +3660,13 @@
                 "map_type": {
                     "label": "Type"
                 },
+                "mapillary": {
+                    "label": "Mapillary Image ID",
+                    "terms": ""
+                },
+                "marker": {
+                    "label": "Type"
+                },
                 "material": {
                     "label": "Material",
                     "terms": ""
@@ -3634,7 +3769,7 @@
                     "label": "Natural"
                 },
                 "network_bicycle": {
-                    "label": "Network Type",
+                    "label": "Network Class",
                     "placeholder": "Local, Regional, National, International",
                     "options": {
                         "lcn": "Local",
@@ -3644,7 +3779,7 @@
                     }
                 },
                 "network_foot": {
-                    "label": "Network Type",
+                    "label": "Network Class",
                     "placeholder": "Local, Regional, National, International",
                     "options": {
                         "lwn": "Local",
@@ -3654,7 +3789,7 @@
                     }
                 },
                 "network_horse": {
-                    "label": "Network Type",
+                    "label": "Network Class",
                     "placeholder": "Local, Regional, National, International",
                     "options": {
                         "lhn": "Local",
@@ -3668,6 +3803,10 @@
                 },
                 "network": {
                     "label": "Network",
+                    "terms": ""
+                },
+                "network/type": {
+                    "label": "Network Type",
                     "terms": ""
                 },
                 "not/name": {
@@ -3908,6 +4047,9 @@
                 "public_bookcase/type": {
                     "label": "Type"
                 },
+                "pump": {
+                    "label": "Pump"
+                },
                 "railway": {
                     "label": "Type"
                 },
@@ -3925,6 +4067,9 @@
                 },
                 "rating": {
                     "label": "Power Rating"
+                },
+                "rcn_ref": {
+                    "label": "Cycling Code"
                 },
                 "recycling_accepts": {
                     "label": "Accepts"
@@ -3979,6 +4124,10 @@
                 "ref/isil": {
                     "label": "ISIL Code"
                 },
+                "ref/vatin": {
+                    "label": "VAT ID Number",
+                    "terms": "value added tax identification number,vatin"
+                },
                 "relation": {
                     "label": "Type"
                 },
@@ -4026,6 +4175,9 @@
                 },
                 "route": {
                     "label": "Type"
+                },
+                "rwn_ref": {
+                    "label": "Walking Code"
                 },
                 "sac_scale": {
                     "label": "Hiking Difficulty",
@@ -4234,6 +4386,10 @@
                         "very_horrible": "Specialized off-road: tractor, ATV",
                         "impassable": "Impassable / No wheeled vehicle"
                     }
+                },
+                "sms": {
+                    "label": "SMS",
+                    "terms": ""
                 },
                 "social_facility_for": {
                     "label": "People Served"
@@ -4516,11 +4672,21 @@
                         "tourism": "Tourism"
                     }
                 },
+                "utility_semi": {
+                    "label": "Utilities"
+                },
+                "utility": {
+                    "label": "Utility"
+                },
                 "valve": {
                     "label": "Type"
                 },
                 "vending": {
                     "label": "Types of Goods"
+                },
+                "video_calls": {
+                    "label": "Video Calls",
+                    "terms": ""
                 },
                 "visibility": {
                     "label": "Visibility",
@@ -4615,6 +4781,11 @@
                     "label": "Wikidata",
                     "terms": ""
                 },
+                "wikimedia_commons": {
+                    "label": "Wikimedia Commons Page",
+                    "terms": "",
+                    "placeholder": "File:Example.jpg"
+                },
                 "wikipedia": {
                     "label": "Wikipedia",
                     "terms": ""
@@ -4667,22 +4838,22 @@
                     "name": "Ford"
                 },
                 "highway": {
-                    "name": "Highway"
+                    "name": "Highway Feature"
                 },
                 "indoor": {
                     "name": "Indoor Feature"
                 },
                 "landuse": {
-                    "name": "Land Use"
+                    "name": "Land Use Feature"
                 },
                 "leisure": {
-                    "name": "Leisure"
+                    "name": "Leisure Feature"
                 },
                 "man_made": {
-                    "name": "Man Made"
+                    "name": "Man Made Feature"
                 },
                 "natural": {
-                    "name": "Natural"
+                    "name": "Natural Feature"
                 },
                 "place": {
                     "name": "Place"
@@ -4691,19 +4862,19 @@
                     "name": "Playground Equipment"
                 },
                 "power": {
-                    "name": "Power"
+                    "name": "Power Feature"
                 },
                 "railway": {
-                    "name": "Railway"
+                    "name": "Railway Feature"
                 },
                 "seamark": {
                     "name": "Seamark"
                 },
                 "tourism": {
-                    "name": "Tourism"
+                    "name": "Tourism Feature"
                 },
                 "waterway": {
-                    "name": "Waterway"
+                    "name": "Waterway Feature"
                 },
                 "addr/interpolation": {
                     "name": "Address Interpolation"
@@ -4716,12 +4887,21 @@
                     "name": "Billboard",
                     "terms": ""
                 },
+                "advertising/board": {
+                    "name": "Notice Board",
+                    "terms": ""
+                },
                 "advertising/column": {
                     "name": "Advertising Column",
                     "terms": ""
                 },
-                "aerialway/station": {
-                    "name": "Aerialway Station"
+                "advertising/poster_box": {
+                    "name": "Poster Box",
+                    "terms": ""
+                },
+                "advertising/totem": {
+                    "name": "Advertising Totem",
+                    "terms": ""
                 },
                 "aerialway/cable_car": {
                     "name": "Cable Car",
@@ -4744,7 +4924,7 @@
                     "terms": ""
                 },
                 "aerialway/j-bar": {
-                    "name": "J-bar Lift",
+                    "name": "J-Bar Lift",
                     "terms": "jbar"
                 },
                 "aerialway/magic_carpet": {
@@ -4768,7 +4948,7 @@
                     "terms": "handle tow,bugel lift"
                 },
                 "aerialway/t-bar": {
-                    "name": "T-bar Lift",
+                    "name": "T-Bar Lift",
                     "terms": "tbar"
                 },
                 "aerialway/zip_line": {
@@ -4939,15 +5119,15 @@
                     "terms": "bistro,coffee,tea"
                 },
                 "amenity/car_pooling": {
-                    "name": "Car Pooling",
-                    "terms": ""
+                    "name": "Car Pooling Station",
+                    "terms": "car sharing,carpooling,lift sharing,ride sharing"
                 },
                 "amenity/car_rental": {
                     "name": "Car Rental",
                     "terms": ""
                 },
                 "amenity/car_sharing": {
-                    "name": "Car Sharing",
+                    "name": "Car Sharing Station",
                     "terms": ""
                 },
                 "amenity/car_wash": {
@@ -5103,7 +5283,7 @@
                 },
                 "amenity/fountain": {
                     "name": "Fountain",
-                    "terms": ""
+                    "terms": "basin,water"
                 },
                 "amenity/fuel": {
                     "name": "Gas Station",
@@ -5133,7 +5313,7 @@
                     "name": "Internet Cafe",
                     "terms": "cybercafe,taxiphone,teleboutique,coffee,cafe,net,lanhouse"
                 },
-                "amenity/karaoke": {
+                "amenity/karaoke_box": {
                     "name": "Karaoke Box",
                     "terms": "karaoke club,karaoke room,karaoke television,KTV"
                 },
@@ -5349,6 +5529,10 @@
                     "name": "Green Waste Container",
                     "terms": "biodegradable,biological,compost,decomposable,garbage bin,garden waste,organic,rubbish,food scrap"
                 },
+                "amenity/research_institute": {
+                    "name": "Research Institute Grounds",
+                    "terms": "applied research,experimentation,r&d,r & d,r and d,research and development,research institution,research laboratory,research labs"
+                },
                 "amenity/restaurant": {
                     "name": "Restaurant",
                     "terms": "bar,breakfast,cafe,café,canteen,coffee,dine,dining,dinner,drive-in,eat,grill,lunch,table"
@@ -5443,7 +5627,7 @@
                 },
                 "amenity/shelter/lean_to": {
                     "name": "Lean-To",
-                    "terms": ""
+                    "terms": "alpine hut,cabin,leanto,lodging,overnight accommodations,sleeping shelter,wilderness hut"
                 },
                 "amenity/shelter/picnic_shelter": {
                     "name": "Picnic Shelter",
@@ -5627,11 +5811,11 @@
                 },
                 "amenity/vending_machine/parcel_pickup_dropoff": {
                     "name": "Parcel Pickup/Dropoff Locker",
-                    "terms": "mail,parcel,pickup"
+                    "terms": "mail,packstation,parcel,pickup"
                 },
                 "amenity/vending_machine/parcel_pickup": {
                     "name": "Parcel Pickup Locker",
-                    "terms": "amazon,locker,mail,parcel,pickup"
+                    "terms": "amazon,locker,mail,packstation,parcel,pickup"
                 },
                 "amenity/vending_machine/parking_tickets": {
                     "name": "Parking Ticket Vending Machine",
@@ -5671,7 +5855,7 @@
                 },
                 "amenity/water_point": {
                     "name": "RV Drinking Water",
-                    "terms": ""
+                    "terms": "water faucet,water point,water tap,water source,water spigot"
                 },
                 "amenity/watering_place": {
                     "name": "Animal Watering Place",
@@ -5686,7 +5870,7 @@
                     "terms": "polygon"
                 },
                 "area/highway": {
-                    "name": "Road Surface",
+                    "name": "Road Area",
                     "terms": "area:highway,edge of pavement,highway area,highway shape,pavement,road shape,street area"
                 },
                 "attraction/amusement_ride": {
@@ -5718,19 +5902,27 @@
                     "terms": "theme park,ghost train"
                 },
                 "attraction/drop_tower": {
-                    "name": "Drop Tower",
+                    "name": "Drop Tower Ride",
                     "terms": "theme park,amusement ride,gondola,tower,big drop"
+                },
+                "attraction/kiddie_ride": {
+                    "name": "Kiddie Ride",
+                    "terms": ""
+                },
+                "attraction/log_flume": {
+                    "name": "Log Flume",
+                    "terms": "theme park,amusement ride,flume"
                 },
                 "attraction/maze": {
                     "name": "Maze",
                     "terms": "theme park,amusement ride,labyrinth"
                 },
                 "attraction/pirate_ship": {
-                    "name": "Pirate Ship",
+                    "name": "Pirate Ship Ride",
                     "terms": "theme park,carnival ride,amusement ride"
                 },
                 "attraction/river_rafting": {
-                    "name": "River Rafting",
+                    "name": "River Rapids Ride",
                     "terms": "theme park,aquatic park,water park,rafting simulator,river rafting ride,river rapids ride"
                 },
                 "attraction/roller_coaster": {
@@ -5740,6 +5932,10 @@
                 "attraction/summer_toboggan": {
                     "name": "Summer Toboggan",
                     "terms": "alpine slide,mountain coaster"
+                },
+                "attraction/swing_carousel": {
+                    "name": "Swing Carousel",
+                    "terms": "theme park,amusement ride,carousel,tower,carousel tower"
                 },
                 "attraction/train": {
                     "name": "Tourist Train",
@@ -5774,7 +5970,7 @@
                 },
                 "barrier/cattle_grid": {
                     "name": "Cattle Grid",
-                    "terms": ""
+                    "terms": "cattle guard,cattle stop,livestock grid,stock gate,stock grid,stock stop,Texas gate,vehicle pass"
                 },
                 "barrier/chain": {
                     "name": "Chain",
@@ -5786,7 +5982,7 @@
                 },
                 "barrier/cycle_barrier": {
                     "name": "Cycle Barrier",
-                    "terms": ""
+                    "terms": "bicycle barrier,bicycling barrier,bike gates,cycling barrier"
                 },
                 "barrier/ditch": {
                     "name": "Trench",
@@ -6063,7 +6259,7 @@
                 },
                 "building/stable": {
                     "name": "Stable",
-                    "terms": ""
+                    "terms": "horse shelter"
                 },
                 "building/stadium": {
                     "name": "Stadium Building",
@@ -6105,14 +6301,8 @@
                     "name": "Craft",
                     "terms": ""
                 },
-                "craft/jeweler": {
-                    "name": "Jeweler"
-                },
                 "craft/locksmith": {
                     "name": "Locksmith"
-                },
-                "craft/optician": {
-                    "name": "Optician"
                 },
                 "craft/tailor": {
                     "name": "Tailor"
@@ -6159,6 +6349,10 @@
                 },
                 "craft/chimney_sweeper": {
                     "name": "Chimney Sweeper",
+                    "terms": ""
+                },
+                "craft/cleaning": {
+                    "name": "Cleaning Service",
                     "terms": ""
                 },
                 "craft/clockmaker": {
@@ -6246,8 +6440,8 @@
                     "terms": "pipe"
                 },
                 "craft/pottery": {
-                    "name": "Pottery",
-                    "terms": "ceramic"
+                    "name": "Pottery Maker",
+                    "terms": "ceramic,kiln,pot,vase"
                 },
                 "craft/rigger": {
                     "name": "Rigger",
@@ -6312,6 +6506,16 @@
                 "craft/winery": {
                     "name": "Winery",
                     "terms": ""
+                },
+                "cycleway/asl": {
+                    "name": "Advanced Stop Line",
+                    "terms": "advanced stop box,asl,bicycle box,bike box,bikebox,cycle box,cycle stop marking"
+                },
+                "demolished/building": {
+                    "name": "Recently Demolished Building"
+                },
+                "disused/railway": {
+                    "name": "Disused Railway Feature"
                 },
                 "emergency/designated": {
                     "name": "Emergency Access Designated"
@@ -6582,6 +6786,10 @@
                 },
                 "highway/footway/zebra": {
                     "name": "Marked Crosswalk"
+                },
+                "highway/footway/access_aisle": {
+                    "name": "Access Aisle",
+                    "terms": "accessible van loading zone,disabled parking access zone,handicap parking access zone,parking lot aisle,striped zone,tow zone,tow-away zone,towaway zone,wheelchair aisle"
                 },
                 "highway/footway/conveying": {
                     "name": "Moving Walkway",
@@ -6898,15 +7106,6 @@
                     "name": "Junction",
                     "terms": ""
                 },
-                "junction/circular": {
-                    "name": "Traffic Circle"
-                },
-                "junction/jughandle": {
-                    "name": "Jughandle"
-                },
-                "junction/roundabout": {
-                    "name": "Roundabout"
-                },
                 "landuse/basin": {
                     "name": "Basin"
                 },
@@ -6961,7 +7160,7 @@
                 },
                 "landuse/forest": {
                     "name": "Managed Forest",
-                    "terms": "cut,forest,forestry,lumber,silviculture,tree"
+                    "terms": "boreal,cut,forest,forestry,forrest,lumber,silviculture,taiga,tree,trees,woodlands,woods"
                 },
                 "landuse/garages": {
                     "name": "Garage Landuse",
@@ -6969,7 +7168,7 @@
                 },
                 "landuse/grass": {
                     "name": "Grass",
-                    "terms": ""
+                    "terms": "field,green,lawn,managed grass,mown grass,turf"
                 },
                 "landuse/greenfield": {
                     "name": "Greenfield",
@@ -7132,8 +7331,8 @@
                     "terms": "escape game,escape the room,puzzle room,quest room"
                 },
                 "leisure/firepit": {
-                    "name": "Firepit",
-                    "terms": "fireplace,campfire"
+                    "name": "Fire Pit",
+                    "terms": "bonfire,campfire,fire circle,fire hole,fire place,fire ring,firepit,fireplace,firering"
                 },
                 "leisure/fishing": {
                     "name": "Fishing Spot",
@@ -7141,11 +7340,11 @@
                 },
                 "leisure/fitness_centre": {
                     "name": "Gym / Fitness Center",
-                    "terms": "health,gym,leisure,studio"
+                    "terms": "health,gym,leisure,pilates,studio"
                 },
                 "leisure/fitness_centre/yoga": {
                     "name": "Yoga Studio",
-                    "terms": "studio,asanas,modern yoga,meditation"
+                    "terms": "asanas,meditation,modern yoga,studio"
                 },
                 "leisure/fitness_station": {
                     "name": "Outdoor Fitness Station",
@@ -7278,6 +7477,10 @@
                 "leisure/pitch/bowls": {
                     "name": "Bowling Green",
                     "terms": ""
+                },
+                "leisure/pitch/chess": {
+                    "name": "Giant Chess Board",
+                    "terms": "chessboard,checkerboard,checkers,chequerboard,garden chess,large chess,oversize chess"
                 },
                 "leisure/pitch/cricket": {
                     "name": "Cricket Field",
@@ -7436,7 +7639,7 @@
                     "terms": ""
                 },
                 "man_made/bridge": {
-                    "name": "Bridge",
+                    "name": "Bridge Area",
                     "terms": ""
                 },
                 "man_made/bunker_silo": {
@@ -7640,7 +7843,7 @@
                     "terms": "lookout tower,fire tower"
                 },
                 "man_made/tunnel": {
-                    "name": "Tunnel",
+                    "name": "Tunnel Area",
                     "terms": "bore,dig,shaft,underground passage,underpass"
                 },
                 "man_made/utility_pole": {
@@ -7651,13 +7854,17 @@
                     "name": "Wastewater Plant",
                     "terms": "sewage*,water treatment plant,reclamation plant"
                 },
+                "man_made/water_tap": {
+                    "name": "Water Tap",
+                    "terms": "drinking water,water faucet,water point,water source,water spigot"
+                },
                 "man_made/water_tower": {
                     "name": "Water Tower",
                     "terms": ""
                 },
                 "man_made/water_well": {
                     "name": "Water Well",
-                    "terms": ""
+                    "terms": "aquifer,drinking water,water point,water source"
                 },
                 "man_made/water_works": {
                     "name": "Water Works",
@@ -7674,6 +7881,18 @@
                 "man_made/works": {
                     "name": "Factory",
                     "terms": "assembly,build,brewery,car,plant,plastic,processing,manufacture,refinery"
+                },
+                "marker": {
+                    "name": "Marker",
+                    "terms": "identifier,marking,plate,pole,post,sign"
+                },
+                "marker/utility": {
+                    "name": "Utility Marker",
+                    "terms": "gas line marker,identifier,marking,oil marker,pipline marker,plate,pole,post,sign"
+                },
+                "marker/utility/power": {
+                    "name": "Power Marker",
+                    "terms": "electric line,identifier,marking,plate,pole,post,power cable,power line,sign"
                 },
                 "military/bunker": {
                     "name": "Military Bunker",
@@ -7733,7 +7952,7 @@
                 },
                 "natural/grassland": {
                     "name": "Grassland",
-                    "terms": "prairie,savanna"
+                    "terms": "field,prairie,savanna"
                 },
                 "natural/heath": {
                     "name": "Heath",
@@ -7781,7 +8000,7 @@
                 },
                 "natural/spring": {
                     "name": "Spring",
-                    "terms": ""
+                    "terms": "aquifer,hydro,seep,water source"
                 },
                 "natural/stone": {
                     "name": "Unattached Stone / Boulder",
@@ -7812,7 +8031,7 @@
                     "terms": "detention,drain,overflow,rain,retention"
                 },
                 "natural/water/canal": {
-                    "name": "Canal",
+                    "name": "Canal Area",
                     "terms": ""
                 },
                 "natural/water/lake": {
@@ -7832,11 +8051,11 @@
                     "terms": ""
                 },
                 "natural/water/river": {
-                    "name": "River",
+                    "name": "River Area",
                     "terms": "beck,branch,brook,course,creek,estuary,rill,riverbank,rivulet,run,runnel,stream,tributary,watercourse"
                 },
                 "natural/water/stream": {
-                    "name": "Stream",
+                    "name": "Stream Area",
                     "terms": "beck,branch,brook,burn,course,creek,current,drift,flood,flow,freshet,race,rill,rindle,rivulet,run,runnel,rush,spate,spritz,surge,tide,torrent,tributary,watercourse"
                 },
                 "natural/water/wastewater": {
@@ -7848,8 +8067,12 @@
                     "terms": "bog,fen,marsh,mire,moor,muskeg,peatland,quagmire,reedbed,saltmarsh,swamp,tidalflat,wet meadow"
                 },
                 "natural/wood": {
-                    "name": "Wood",
-                    "terms": "tree"
+                    "name": "Natural Wood",
+                    "terms": "boreal,forest,forrest,taiga,tree,trees,woodlands,woods"
+                },
+                "network/type/node_network": {
+                    "name": "Recreational Network Node",
+                    "terms": "node network,rcn,rwn"
                 },
                 "noexit/yes": {
                     "name": "No Exit",
@@ -7899,6 +8122,10 @@
                 "office/company": {
                     "name": "Corporate Office",
                     "terms": ""
+                },
+                "office/consulting": {
+                    "name": "Consultancy Office",
+                    "terms": "consulting firm office"
                 },
                 "office/coworking": {
                     "name": "Coworking Space",
@@ -8156,7 +8383,7 @@
                 },
                 "playground/horizontal_bar": {
                     "name": "Play Horizontal Bar",
-                    "terms": "high bar"
+                    "terms": "chin-up bar,high bar,pull-up bar"
                 },
                 "playground/rocker": {
                     "name": "Spring Rider",
@@ -8168,7 +8395,7 @@
                 },
                 "playground/sandpit": {
                     "name": "Sandpit",
-                    "terms": ""
+                    "terms": "sandbox"
                 },
                 "playground/seesaw": {
                     "name": "Seesaw",
@@ -8180,7 +8407,7 @@
                 },
                 "playground/structure": {
                     "name": "Play Structure",
-                    "terms": ""
+                    "terms": "jungle gym"
                 },
                 "playground/swing": {
                     "name": "Swing",
@@ -8515,6 +8742,10 @@
                     "name": "Tram",
                     "terms": "light rail,streetcar,tram,trolley"
                 },
+                "railway/yard": {
+                    "name": "Rail Yard",
+                    "terms": "freight car stop,freight train station,rail freight station,railroad yard,railway yard"
+                },
                 "relation": {
                     "name": "Relation",
                     "terms": ""
@@ -8649,6 +8880,10 @@
                 "shop/butcher": {
                     "name": "Butcher",
                     "terms": "chicken,beef,lamb,meat,pork"
+                },
+                "shop/camera": {
+                    "name": "Camera Equipment Store",
+                    "terms": "camera,film,lens,photo"
                 },
                 "shop/candles": {
                     "name": "Candle Shop",
@@ -8801,6 +9036,10 @@
                 "shop/fishing": {
                     "name": "Fishing Shop",
                     "terms": "bait,fishing line,flies,fly,lure,reel,rod,tackle"
+                },
+                "shop/flooring": {
+                    "name": "Flooring Supply Shop",
+                    "terms": "tile"
                 },
                 "shop/florist": {
                     "name": "Florist",
@@ -9024,7 +9263,11 @@
                 },
                 "shop/photo": {
                     "name": "Photography Store",
-                    "terms": "camera,film"
+                    "terms": "camera,film,lens,photo"
+                },
+                "shop/pottery": {
+                    "name": "Pottery Store",
+                    "terms": "ceramic,pot,vase"
                 },
                 "shop/printer_ink": {
                     "name": "Printer Ink Store",
@@ -9069,6 +9312,10 @@
                 "shop/shoes": {
                     "name": "Shoe Store",
                     "terms": "boots,cleats,clogs,heels,loafers,oxfords,sneakers"
+                },
+                "shop/spices": {
+                    "name": "Spice Shop",
+                    "terms": "chili,cinnamon,curry,ginger,herbs,pepper,saffron,salt,spice store,spices,turmeric,wasabi"
                 },
                 "shop/sports": {
                     "name": "Sporting Goods Store",
@@ -9117,6 +9364,10 @@
                 "shop/tobacco": {
                     "name": "Tobacco Shop",
                     "terms": "cigarettes,cigars"
+                },
+                "shop/tool_hire": {
+                    "name": "Tool Rental",
+                    "terms": ""
                 },
                 "shop/toys": {
                     "name": "Toy Store",
@@ -9184,11 +9435,11 @@
                 },
                 "tourism/alpine_hut": {
                     "name": "Alpine Hut",
-                    "terms": "climbing hut"
+                    "terms": "cabin,climbing hut,lodge,lodging,overnight accommodations,wilderness hut"
                 },
                 "tourism/apartment": {
                     "name": "Guest Apartment / Condo",
-                    "terms": ""
+                    "terms": "bnb,holiday rental,lodging,overnight accommodations,vacation rental"
                 },
                 "tourism/aquarium": {
                     "name": "Aquarium",
@@ -9240,7 +9491,7 @@
                 },
                 "tourism/chalet": {
                     "name": "Holiday Cottage",
-                    "terms": "holiday,holiday cottage,holiday home,vacation,vacation home"
+                    "terms": "chalet,holiday cabin,holiday cottage,holiday home,lodge,lodging,overnight accommodations,vacation cabin,vacation home"
                 },
                 "tourism/gallery": {
                     "name": "Art Gallery",
@@ -9248,15 +9499,15 @@
                 },
                 "tourism/guest_house": {
                     "name": "Guest House",
-                    "terms": "B&B,Bed and Breakfast"
+                    "terms": "b & b,b and b,B&B,Bed and Breakfast,bnb,lodging,overnight accommodations"
                 },
                 "tourism/hostel": {
                     "name": "Hostel",
-                    "terms": ""
+                    "terms": "bunk beds,dormitories,dorms,lodging,overnight accommodations"
                 },
                 "tourism/hotel": {
                     "name": "Hotel",
-                    "terms": ""
+                    "terms": "concierge,lodge,lodging,overnight accommodations"
                 },
                 "tourism/information": {
                     "name": "Information",
@@ -9288,7 +9539,7 @@
                 },
                 "tourism/motel": {
                     "name": "Motel",
-                    "terms": ""
+                    "terms": "lodging,motor hotel,overnight accommodations"
                 },
                 "tourism/museum": {
                     "name": "Museum",
@@ -9312,7 +9563,7 @@
                 },
                 "tourism/wilderness_hut": {
                     "name": "Wilderness Hut",
-                    "terms": "wilderness hut,backcountry hut,bothy"
+                    "terms": "alpine hut,cabin,backcountry hut,bothy,lodge,lodging,overnight accommodations,sleeping shelter,wilderness hut"
                 },
                 "tourism/zoo": {
                     "name": "Zoo",
@@ -9403,6 +9654,10 @@
                 },
                 "type/boundary/administrative": {
                     "name": "Administrative Boundary",
+                    "terms": ""
+                },
+                "type/connectivity": {
+                    "name": "Lane Connectivity",
                     "terms": ""
                 },
                 "type/enforcement": {
@@ -9560,6 +9815,10 @@
                     "name": "Drain",
                     "terms": ""
                 },
+                "waterway/fish_pass": {
+                    "name": "Fish Pass",
+                    "terms": "eel ladder,eel pass,fish ladder,fish migration,fish passage,fish siphon,fish steps,fish way,fishladder,fishpass,fishsteps,fishway"
+                },
                 "waterway/fuel": {
                     "name": "Marine Fuel Station",
                     "terms": "petrol,gas,diesel,boat"
@@ -9590,7 +9849,7 @@
                 },
                 "waterway/water_point": {
                     "name": "Marine Drinking Water",
-                    "terms": ""
+                    "terms": "water faucet,water point,water tap,water source,water spigot"
                 },
                 "waterway/waterfall": {
                     "name": "Waterfall",
@@ -9671,20 +9930,6 @@
                 },
                 "description": "Satellite and aerial imagery.",
                 "name": "Mapbox Satellite"
-            },
-            "Maxar-Premium": {
-                "attribution": {
-                    "text": "Terms & Feedback"
-                },
-                "description": "Maxar Premium is a mosaic composed of Maxar basemap with select regions filled with +Vivid or custom area of interest imagery, 50cm resolution or better, and refreshed more frequently with ongoing updates.",
-                "name": "Maxar Premium Imagery (Beta)"
-            },
-            "Maxar-Standard": {
-                "attribution": {
-                    "text": "Terms & Feedback"
-                },
-                "description": "Maxar Standard is a curated set of imagery covering 86% of the earth’s landmass, with 30-60cm resolution where available, backfilled by Landsat. Average age is 2.31 years, with some areas updated 2x per year.",
-                "name": "Maxar Standard Imagery (Beta)"
             },
             "OSM_Inspector-Addresses": {
                 "attribution": {

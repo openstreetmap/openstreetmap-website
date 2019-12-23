@@ -449,11 +449,21 @@ text.point {
 
 /* Wikidata-tagged */
 g.point.tag-wikidata path.stroke {
-    stroke-width: 3px;
-    stroke: #777;
-    fill: #ddd;
+    stroke-width: 2px;
+    stroke: #666;
+    fill: #eee;
+}
+g.point.tag-wikidata .icon {
+    color: #666;
 }
 
+/* Selected Members */
+g.vertex.selected-member .shadow,
+g.point.selected-member .shadow,
+path.shadow.selected-member {
+    stroke-opacity: 0.95;
+    stroke: #FFDE70;
+}
 
 /* Highlighting */
 g.point.highlighted .shadow,
@@ -609,34 +619,36 @@ path.stroke.old-multipolygon {
 
 
 /* Green things */
-path.stroke.tag-natural,
-path.stroke.tag-natural-wood,
-path.stroke.tag-leisure-nature_reserve,
-path.stroke.tag-leisure-pitch,
-path.stroke.tag-leisure-track,
-path.stroke.tag-leisure-golf_course,
-path.stroke.tag-leisure-garden,
-path.stroke.tag-leisure-park,
-path.stroke.tag-landuse-recreation_ground,
+path.stroke.tag-barrier-hedge,
+path.stroke.tag-landuse-flowerbed,
 path.stroke.tag-landuse-forest,
 path.stroke.tag-landuse-grass,
-path.stroke.tag-landuse-flowerbed,
-path.stroke.tag-barrier-hedge {
+path.stroke.tag-landuse-recreation_ground,
+path.stroke.tag-landuse-village_green,
+path.stroke.tag-leisure-garden,
+path.stroke.tag-leisure-golf_course,
+path.stroke.tag-leisure-nature_reserve,
+path.stroke.tag-leisure-park,
+path.stroke.tag-leisure-pitch,
+path.stroke.tag-leisure-track,
+path.stroke.tag-natural,
+path.stroke.tag-natural-wood {
     stroke: rgb(140, 208, 95);
 }
-path.fill.tag-natural,
-path.fill.tag-natural-wood,
-path.fill.tag-leisure-nature_reserve,
-path.fill.tag-leisure-pitch,
-path.fill.tag-leisure-track,
-path.fill.tag-leisure-golf_course,
-path.fill.tag-leisure-garden,
-path.fill.tag-leisure-park,
-path.fill.tag-landuse-recreation_ground,
+path.fill.tag-barrier-hedge,
+path.fill.tag-landuse-flowerbed,
 path.fill.tag-landuse-forest,
 path.fill.tag-landuse-grass,
-path.fill.tag-landuse-flowerbed,
-path.fill.tag-barrier-hedge {
+path.fill.tag-landuse-recreation_ground,
+path.fill.tag-landuse-village_green,
+path.fill.tag-leisure-garden,
+path.fill.tag-leisure-golf_course,
+path.fill.tag-leisure-nature_reserve,
+path.fill.tag-leisure-park,
+path.fill.tag-leisure-pitch,
+path.fill.tag-leisure-track,
+path.fill.tag-natural,
+path.fill.tag-natural-wood {
     stroke: rgba(140, 208, 95, 0.3);
     fill: rgba(140, 208, 95, 0.3);
 }
@@ -683,7 +695,8 @@ path.stroke.tag-amenity-childcare,
 path.stroke.tag-amenity-kindergarten,
 path.stroke.tag-amenity-school,
 path.stroke.tag-amenity-college,
-path.stroke.tag-amenity-university {
+path.stroke.tag-amenity-university,
+path.stroke.tag-amenity-research_institute {
     stroke: rgba(255, 255, 148, 0.75);
 }
 path.fill.tag-leisure-pitch.tag-sport-beachvolleyball,
@@ -697,7 +710,8 @@ path.fill.tag-amenity-childcare,
 path.fill.tag-amenity-kindergarten,
 path.fill.tag-amenity-school,
 path.fill.tag-amenity-college,
-path.fill.tag-amenity-university {
+path.fill.tag-amenity-university,
+path.fill.tag-amenity-research_institute {
     stroke: rgba(255, 255, 148, 0.25);
     fill: rgba(255, 255, 148, 0.25);
 }
@@ -712,7 +726,8 @@ path.fill.tag-amenity-university {
 .preset-icon-fill path.area.stroke.tag-amenity-kindergarten,
 .preset-icon-fill path.area.stroke.tag-amenity-school,
 .preset-icon-fill path.area.stroke.tag-amenity-college,
-.preset-icon-fill path.area.stroke.tag-amenity-university {
+.preset-icon-fill path.area.stroke.tag-amenity-university,
+.preset-icon-fill path.area.stroke.tag-amenity-research_institute {
     stroke: rgb(232, 232, 0);
 }
 .pattern-color-beach,
@@ -774,6 +789,10 @@ path.fill.tag-power-plant {
 path.stroke.tag-natural-wetland {
     stroke: rgb(153, 225, 170);
 }
+path.fill.tag-natural-wetland {
+    stroke: rgba(153, 225, 170, 0.3);
+    fill: rgba(153, 225, 170, 0.3);
+}
 .preset-icon-fill path.area.fill.tag-natural-wetland {
     fill: rgba(153, 225, 170, 0.2);
 }
@@ -788,29 +807,41 @@ path.stroke.tag-natural-wetland {
 
 /* Light Green things */
 path.stroke.tag-landuse-cemetery,
-path.stroke.tag-landuse-orchard,
-path.stroke.tag-landuse-vineyard,
+path.stroke.tag-landuse-farmland,
+path.stroke.tag-landuse-grass.tag-golf-green,
 path.stroke.tag-landuse-meadow,
-path.stroke.tag-landuse-farmland {
+path.stroke.tag-landuse-orchard,
+path.stroke.tag-landuse-vineyard {
     stroke: rgb(191, 232, 63);
 }
+path.fill.tag-landuse-cemetery,
+path.fill.tag-landuse-farmland,
+path.fill.tag-landuse-grass.tag-golf-green,
+path.fill.tag-landuse-meadow,
+path.fill.tag-landuse-orchard,
+path.fill.tag-landuse-vineyard {
+    stroke: rgb(191, 232, 63, 0.3);
+    fill: rgb(191, 232, 63, 0.3);
+}
 .preset-icon-fill path.area.fill.tag-landuse-cemetery,
-.preset-icon-fill path.area.fill.tag-landuse-orchard,
-.preset-icon-fill path.area.fill.tag-landuse-vineyard,
+.preset-icon-fill path.area.fill.tag-landuse-farmland,
+.preset-icon-fill path.area.fill.tag-landuse-grass.tag-golf-green,
 .preset-icon-fill path.area.fill.tag-landuse-meadow,
-.preset-icon-fill path.area.fill.tag-landuse-farmland {
-    fill: rgba(191, 232, 63, 0.2);
+.preset-icon-fill path.area.fill.tag-landuse-orchard,
+.preset-icon-fill path.area.fill.tag-landuse-vineyard {
+    fill: rgba(191, 232, 63, 0.4);
 }
 .pattern-color-cemetery,
-.pattern-color-cemetery_christian,
 .pattern-color-cemetery_buddhist,
-.pattern-color-cemetery_muslim,
+.pattern-color-cemetery_christian,
 .pattern-color-cemetery_jewish,
-.pattern-color-orchard,
-.pattern-color-vineyard,
+.pattern-color-cemetery_muslim,
+.pattern-color-farmland,
+.pattern-color-golf_green,
 .pattern-color-meadow,
-.pattern-color-farmland {
-    fill: rgba(191, 232, 63, 0.2);
+.pattern-color-orchard,
+.pattern-color-vineyard {
+    fill: rgba(191, 232, 63, 0.3);
 }
 
 
@@ -1332,6 +1363,7 @@ path.line.stroke.tag-highway-bridleway {
 
 /* style for features that should have highway=footway but don't yet */
 path.line.stroke.tag-crossing,
+path.line.stroke.tag-footway-access_aisle,
 path.line.stroke.tag-public_transport-platform,
 path.line.stroke.tag-highway-platform,
 path.line.stroke.tag-railway-platform,
@@ -1343,7 +1375,8 @@ path.line.casing.tag-highway-path,
 path.line.casing.tag-highway-path.tag-unpaved,
 path.line.casing.tag-highway-footway.tag-public_transport-platform,
 path.line.casing.tag-highway-footway.tag-man_made-pier,
-path.line.casing.tag-highway.tag-crossing {
+path.line.casing.tag-highway.tag-crossing,
+path.line.casing.tag-highway.tag-footway-access_aisle {
     stroke: #dca;
     stroke-linecap: round;
     stroke-dasharray: none;
@@ -1388,7 +1421,7 @@ path.stroke.tag-highway-footway.tag-footway-sidewalk,
 .preset-icon-container path.casing.tag-highway-footway.tag-footway-sidewalk {
     stroke: #d4b4b4;
 }
-.preset-icon-container path.stroke.tag-highway-footway:not(.tag-crossing-marked):not(.tag-crossing-unmarked):not(.tag-man_made-pier):not(.tag-public_transport-platform) {
+.preset-icon-container path.stroke.tag-highway-footway:not(.tag-crossing-marked):not(.tag-crossing-unmarked):not(.tag-footway-access_aisle):not(.tag-man_made-pier):not(.tag-public_transport-platform) {
     stroke: #fff;
 }
 
@@ -1489,6 +1522,20 @@ path.line.stroke.tag-highway-cycleway.tag-crossing-marked {
 }
 .preset-icon .icon.tag-highway-cycleway.tag-crossing-marked {
     color: #446077;
+}
+
+path.line.stroke.tag-highway.tag-footway-access_aisle {
+    stroke-dasharray: 4, 2;
+}
+.low-zoom path.line.stroke.tag-highway.tag-footway-access_aisle,
+.preset-icon-container path.stroke.tag-highway.tag-footway-access_aisle {
+    stroke-dasharray: 2.5, 1.5;
+}
+path.line.stroke.tag-highway.tag-footway-access_aisle {
+    stroke: #4c4444;
+}
+.preset-icon .icon.tag-highway.tag-footway-access_aisle {
+    color: #4c4444;
 }
 
 
@@ -2501,25 +2548,27 @@ path.fill.tag-building {
 
 
 /* Mapillary Traffic Signs and Map Features Layers */
-.layer-mapillary-signs,
-.layer-mapillary-map-features {
+.layer-mapillary-detections {
     pointer-events: none;
 }
-.layer-mapillary-signs .icon-sign,
-.layer-mapillary-map-features .icon-map-feature {
+.layer-mapillary-detections .icon-detected {
     outline: 2px solid transparent;
     pointer-events: visible;
     cursor: pointer;
+    opacity: 0.75;
 }
-.layer-mapillary-signs .icon-sign:hover,
-.layer-mapillary-map-features .icon-map-feature:hover {
-    outline: 5px solid #eebb00;
-    background-color: #eebb00;
+.layer-mapillary-detections .icon-detected rect {
+    fill: none;
 }
-.layer-mapillary-signs .icon-sign.currentView,
-.layer-mapillary-map-features .icon-map-feature.currentView {
-    outline: 5px solid #ffee00;
-    background-color: #ffee00;
+.layer-mapillary-detections .icon-detected:hover rect {
+    outline: 3px solid rgba(255, 238, 0, 0.6);
+}
+.layer-mapillary-detections .icon-detected.currentView rect {
+    outline: 3px solid rgba(255, 238, 0, 1);
+}
+.layer-mapillary-detections .icon-detected:hover,
+.layer-mapillary-detections .icon-detected.currentView {
+    opacity: 1;
 }
 
 
@@ -3072,6 +3121,21 @@ a:visited, a {
 a:hover {
     color: #597be7;
 }
+kbd {
+    display: inline-block;
+    text-align: center;
+    padding: 3px 5px;
+    font-size: 11px;
+    line-height: 12px;
+    min-width: 12px;
+    vertical-align: baseline;
+    background-color: #fcfcfc;
+    border: solid 1px #ccc;
+    margin: 0 2px;
+    border-bottom-color: #bbb;
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 #bbb;
+}
 
 /* Forms
 ------------------------------------------------------- */
@@ -3363,33 +3427,52 @@ button[disabled].action:hover {
 
 /* Toolbar / Persistent UI Elements
 ------------------------------------------------------- */
-#bar {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
+#bar-wrap {
     position: absolute;
-    padding: 10px 5px 0px 5px;
     left: 0;
     top: 0;
     right: 0;
     z-index: 101;
+}
+#bar {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    padding: 10px 0 0 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 100%;
+    width: 100%;
+
+    /* hide scrollbar but allow scrolling */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE, Edge */
+}
+#bar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 #bar .toolbar-item {
     display: flex;
     flex: 0 1 auto;
     flex-flow: column wrap;
     justify-content: center;
-    position: relative;
 }
 #bar .toolbar-item .item-content {
     display: flex;
     flex: 0 1 auto;
     flex-flow: row nowrap;
     justify-content: center;
-    position: relative;
     height: 40px;
     width: auto;
     margin: 0 5px;
+}
+[dir='ltr'] #bar .toolbar-item:last-child .item-content,
+[dir='rtl'] #bar .toolbar-item:first-child .item-content {
+    margin-right: 10px;
+}
+[dir='ltr'] #bar .toolbar-item:first-child .item-content,
+[dir='rtl'] #bar .toolbar-item:last-child .item-content {
+    margin-left: 10px;
 }
 #bar .toolbar-item .item-label {
     text-align: center;
@@ -3504,223 +3587,6 @@ button.add-note svg.icon {
     margin-left: 1px;
 }
 
-/* Add a feature search bar
-------------------------------------------------------- */
-
-.search-add {
-    width: 200%;
-    justify-content: center;
-    position: relative;
-    min-width: 150px;
-    max-width: 325px;
-}
-.search-add .search-wrap {
-    position: relative;
-    width: 100%;
-}
-[dir='ltr'] .search-add .search-wrap {
-    border-radius: 20px 4px 4px 20px;
-}
-[dir='rtl'] .search-add .search-wrap {
-    border-radius: 4px 20px 20px 4px;
-}
-.search-add .search-wrap.focused .tooltip {
-    display: none;
-}
-.search-add .search-wrap:last-child {
-    border-radius: 20px;
-}
-.search-add input[type='search'] {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border: none;
-    font-size: 14px;
-    text-indent: 25px;
-    padding: 5px 10px;
-    border-radius: inherit;
-}
-.search-add input[type='search'][disabled] {
-    opacity: 0.25;
-    cursor: not-allowed;
-}
-.search-add .search-icon {
-    color: #333;
-    display: block;
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    pointer-events: none;
-}
-[dir='rtl'] .search-add .search-icon {
-    left: auto;
-    right: 10px;
-}
-.search-add .popover {
-    border: none;
-    border-radius: 6px;
-    position: absolute;
-    max-height: 600px;
-    top: 44px;
-    width: 200%;
-    max-width: 325px;
-    margin: auto;
-    left: auto;
-    right: auto;
-    z-index: 300;
-}
-.search-add .popover .popover-content {
-    overflow-y: auto;
-    height: 100%;
-    max-height: 60vh;
-}
-.search-add .popover,
-.search-add .popover .popover-content {
-    /* ensure corners are rounded in Chrome */
-    -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
-}
-.search-add .popover .popover-footer {
-    padding: 5px 10px 5px 10px;
-    background: #f6f6f6;
-    border-top: 1px solid #DCDCDC;
-    display: flex;
-}
-.search-add .popover .popover-footer .message {
-    color: #666666;
-    flex-grow: 1;
-}
-.search-add .popover .popover-footer button.filter {
-    height: 20px;
-    background: transparent;
-    color: #666;
-}
-.search-add .popover .popover-footer button.filter.active {
-    color: #7092ff;
-}
-.search-add .popover .popover-footer button.filter:hover {
-    color: #333;
-}
-.search-add .popover .popover-footer button.filter.active:hover {
-    color: #597be7;
-}
-.search-add .popover::-webkit-scrollbar {
-    /* don't overlap rounded corners */
-    background: transparent;
-}
-.search-add .popover .list {
-    height: 100%;
-}
-.search-add .list-item > .row {
-    display: flex;
-    position: relative;
-    padding: 2px;
-}
-.search-add .list-item:not(:last-of-type) .row,
-.search-add .subsection.subitems .list-item .row,
-.search-add .subsection > .tag-reference-body  {
-    border-bottom: 1px solid #DCDCDC;
-}
-.search-add .list-item .label {
-    font-weight: bold;
-    font-size: 12px;
-    padding-left: 2px;
-    top: 0;
-    bottom: 0;
-    position: relative;
-    display: flex;
-    align-items: center;
-    line-height: 1.3em;
-    width: 100%;
-}
-.search-add .list-item .label .namepart:nth-child(2) {
-    font-weight: normal;
-}
-.search-add .list-item.disabled .preset-icon-container,
-.search-add .list-item.disabled .label {
-    opacity: 0.55;
-}
-[dir='ltr'] .search-add .list-item .label .icon.inline {
-    margin-left: 0;
-}
-[dir='rtl'] .search-add .list-item .label .icon.inline {
-    margin-right: 0;
-}
-.search-add .list-item .row > *:not(button) {
-    pointer-events: none;
-}
-.search-add .list-item button.choose {
-    position: absolute;
-    border-radius: 0;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-}
-.search-add .list-item button.choose:hover,
-.search-add .list-item button.choose:focus {
-    background: #fff;
-}
-.search-add .list-item.focused:not(.disabled) button.choose {
-    background: #e8ebff;
-}
-.search-add .list-item button.choose.disabled {
-    background-color: #ececec;
-}
-.search-add .subsection .list-item button.choose {
-    opacity: 0.85;
-}
-.search-add .subsection .tag-reference-body {
-    background: rgba(255, 255, 255, 0.85);
-    padding: 10px;
-}
-.search-add .list-item button.accessory {
-    position: relative;
-    flex: 0 0 auto;
-    color: #808080;
-    background: transparent;
-    padding-right: 3px;
-    padding-left: 3px;
-}
-.search-add .list-item button.accessory:hover {
-    color: #666;
-}
-.search-add .list-item button.tag-reference-open path {
-    fill: #000;
-}
-.search-add .subsection {
-    background-color: #CBCBCB;
-}
-[dir='ltr'] .search-add .subitems {
-    padding-left: 6px;
-}
-[dir='rtl'] .search-add .subitems {
-    padding-right: 6px;
-}
-
-/* Add a preset mode buttons
-------------------------------------------------------- */
-
-button.bar-button.add-preset {
-    border-radius: 4px;
-}
-[dir='ltr'] button.bar-button.add-preset {
-    margin-left: 1px;
-}
-[dir='rtl'] button.bar-button.add-preset {
-    margin-right: 1px;
-}
-[dir='ltr'] button.bar-button.add-preset.first-recent {
-    margin-left: 10px;
-}
-[dir='rtl'] button.bar-button.add-preset.first-recent {
-    margin-right: 10px;
-}
-button.bar-button.add-preset {
-    padding: 0;
-}
-button.add-preset.disabled .preset-icon-container {
-    opacity: 0.5;
-}
 /* Header for modals / panes
 ------------------------------------------------------- */
 .header {
@@ -4084,10 +3950,10 @@ a.hide-toggle {
 
 .preset-list-item {
     margin-bottom: 10px;
+    position: static;
 }
 
 .preset-list-button-wrap {
-    position: relative;
     height: 62px;
     display: flex;
     border: 1px solid #ccc;
@@ -4124,6 +3990,14 @@ a.hide-toggle {
     height: 50px;
     object-fit: contain;
     border-radius: 2px;
+    z-index: 2;
+    visibility: hidden;
+}
+.preset-icon-container.showing-img img.image-icon {
+    visibility: visible;
+}
+.preset-icon-container.showing-img *:not(.image-icon) {
+    visibility: hidden;
 }
 
 .preset-icon-point-border path {
@@ -4271,18 +4145,15 @@ a.hide-toggle {
     background-color: #ececec;
 }
 
-.preset-list-item button.preset-favorite-button,
 .preset-list-item button.tag-reference-button {
     height: 100%;
     width: 32px;
     flex: 0 0 auto;
     background: #f6f6f6;
 }
-[dir='ltr'] .preset-list-item button.preset-favorite-button,
 [dir='ltr'] .preset-list-item button.tag-reference-button {
     border-left: 1px solid #ccc;
 }
-[dir='rtl'] .preset-list-item button.preset-favorite-button,
 [dir='rtl'] .preset-list-item button.tag-reference-button {
     border-right: 1px solid #ccc;
 }
@@ -4293,21 +4164,11 @@ a.hide-toggle {
     border-radius: 4px 0 0 4px;
 }
 
-.preset-list-item button.preset-favorite-button:hover,
 .preset-list-item button.tag-reference-button:hover {
     background: #f1f1f1;
 }
-.preset-list-item button.preset-favorite-button .icon,
 .preset-list-item button.tag-reference-button .icon {
     opacity: .5;
-}
-
-button.preset-favorite-button .icon {
-    fill-opacity: 0;
-    stroke-width: 1;
-}
-button.preset-favorite-button.active .icon {
-    fill-opacity: inherit;
 }
 
 
@@ -4749,6 +4610,17 @@ button.preset-favorite-button.active .icon {
     border-radius: 0 0 0 4px;
 }
 
+[dir='ltr'] .form-field-input-identifier > input:last-child,
+[dir='rtl'] .form-field-input-identifier > input:first-child,
+[dir='ltr'] .form-field-input-identifier > button {
+    border-bottom-right-radius: 4px;
+}
+[dir='ltr'] .form-field-input-identifier > input:first-child,
+[dir='rtl'] .form-field-input-identifier > input:last-child,
+[dir='rtl'] .form-field-input-identifier > button {
+    border-bottom-left-radius: 4px;
+}
+
 /* draw the up/down on the buttons */
 .form-field-input-number button.decrement::after,
 .form-field-input-number button.increment::after {
@@ -4774,7 +4646,7 @@ button.preset-favorite-button.active .icon {
 ------------------------------------------------------- */
 .form-field-input-check {
     display: flex;
-    align-items: end;
+    align-items: center;
     background: #fff;
     padding: 5px 10px;
     color: #7092ff;
@@ -4786,6 +4658,7 @@ button.preset-favorite-button.active .icon {
     flex: 0 1 auto;
     min-height: 20px;
     width: 20px;
+    margin-top: 0;
 }
 .form-field-input-check > span {
     flex: 1 1 auto;
@@ -4796,6 +4669,12 @@ button.preset-favorite-button.active .icon {
     border: 1px solid #ccd5e3;
     border-radius: 2px;
     padding: 0px 8px;
+}
+[dir='ltr'] .form-field-input-check > .reverser.button {
+    padding-right: 2px;
+}
+[dir='rtl'] .form-field-input-check > .reverser.button {
+    padding-left: 2px;
 }
 .form-field-input-check > .reverser.button.hide {
     display: none;
@@ -5620,7 +5499,6 @@ img.tag-reference-wiki-image {
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
     */
 }
-.raw-member-editor .member-row.dragging
 
 /* preserve extra space at bottom of inspector to allow for dropdown options - #5280 */
 .raw-membership-editor.inspector-inner {
@@ -5972,22 +5850,18 @@ div.full-screen > button:hover {
 
 /* Background / Map Data / Help Pane buttons
 ------------------------------------------------------- */
-.help-control > button {
-    border-radius: 0 0 0 4px;
-}
-[dir='rtl'] .help-control > button {
-    border-radius: 0 0 4px 0;
-}
-
-.map-data-control button {
-    border-radius: 0;
-}
-
 .background-control > button {
     border-radius: 4px 0 0 0;
 }
 [dir='rtl'] .background-control > button {
     border-radius: 0 4px 0 0;
+}
+
+.help-control > button {
+    border-radius: 0 0 0 4px;
+}
+[dir='rtl'] .help-control > button {
+    border-radius: 0 0 4px 0;
 }
 
 
@@ -6055,7 +5929,7 @@ div.full-screen > button:hover {
 
 /* make sure tooltip fits in map-control panel */
 /* if too wide, placement will be wrong the first time it displays */
-.layer-list li.best .tooltip-inner {
+.layer-list li.best .popover-inner {
     max-width: 160px;
 }
 
@@ -6346,6 +6220,7 @@ button.autofix.action.active {
 
 input.square-degrees-input {
     padding: 2px !important; /* important needed for rtl */
+    width: 40px;
     height: unset;
     text-align: center;
     background: rgba(0,0,0,0);
@@ -6816,7 +6691,6 @@ li.issue-fix-item:not(.actionable) .fix-icon {
 
 /* hide and remove from layout */
 .inspector-hidden,
-.inspector-hover .preset-list-button-wrap .preset-favorite-button,
 .inspector-hover .preset-list-button-wrap .tag-reference-button,
 .inspector-hover label input[type="checkbox"],
 .inspector-hover label input[type="radio"],
@@ -7519,7 +7393,7 @@ img.tile-debug {
 
 .api-status {
     text-align: right;
-    padding: 0px 10px;
+    padding: 1px 10px;
     color: #eee;
     flex: 1 1 auto;
 }
@@ -7533,11 +7407,13 @@ img.tile-debug {
     background: #a22;
 }
 
-.api-status-login {
-    color: #aaf;
+.api-status a {
+    text-decoration: underline;
+    color: #ccc;
+    pointer-events: all;
 }
-.api-status-login:hover {
-    color: #ccf;
+.api-status a:hover {
+    color: inherit;
 }
 
 /* Notification Badges
@@ -7631,6 +7507,9 @@ img.tile-debug {
 .modal-section {
     padding: 20px;
     border-bottom: 1px solid #ccc;
+}
+.modal-section p:not(:last-of-type) {
+    padding-bottom: 20px;
 }
 .modal-section.header h3 {
     padding: 0;
@@ -7854,7 +7733,7 @@ img.tile-debug {
 .modal-shortcuts .shortcut-tab {
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .modal-shortcuts .shortcut-column {
@@ -7885,20 +7764,7 @@ img.tile-debug {
 }
 
 .modal-shortcuts .shortcut-keys kbd {
-    display: inline-block;
-    text-align: center;
-    padding: 3px 5px;
-    font-size: 11px;
-    line-height: 12px;
-    min-width: 12px;
     color: #555;
-    vertical-align: baseline;
-    background-color: #fcfcfc;
-    border: solid 1px #ccc;
-    margin: 0 2px;
-    border-bottom-color: #bbb;
-    border-radius: 3px;
-    box-shadow: inset 0 -1px 0 #bbb;
 }
 
 svg.mouseclick use.left {
@@ -8117,9 +7983,11 @@ svg.mouseclick use.right {
 
 /* Tooltips
 ------------------------------------------------------- */
-.tooltip {
+.popover {
     position: absolute;
     display: none;
+}
+.tooltip {
     color: #333;
     font-size: 12px;
     white-space: initial;
@@ -8127,32 +7995,60 @@ svg.mouseclick use.right {
 .tooltip:not(.curtain-tooltip) {
     pointer-events: none;
 }
-.tooltip.in {
-    opacity: 0.9;
+.popover.in {
     z-index: 5000;
     height: auto;
     display: block;
 }
+.tooltip.in {
+    opacity: 0.95;
+}
+.popover.top {
+    margin-top: -4px;
+}
+.popover.right {
+    margin-left: 4px;
+}
+.popover.bottom {
+    margin-top: 4px;
+}
+.popover.left {
+    margin-left: -4px;
+}
+.popover.arrowed.top {
+    margin-top: -10px;
+}
+.popover.arrowed.right {
+    margin-left: 10px;
+}
+.popover.arrowed.bottom {
+    margin-top: 10px;
+}
+.popover.arrowed.left {
+    margin-left: -10px;
+}
+.bar-button .tooltip.arrowed.bottom {
+    margin-top: 20px;
+}
 .tooltip.top {
-    margin-top: -20px;
     text-align: center;
 }
 .tooltip.right {
-    margin-left: 20px;
     text-align: left;
 }
 .tooltip.bottom {
-    margin-top: 20px;
     text-align: center;
 }
 .tooltip.left {
-    margin-left: -20px;
     text-align: right;
 }
 
-.tooltip-inner {
-    display: inline-block;
-    border-radius: 3px;
+.popover-inner {
+    border-radius: inherit;
+}
+
+.tooltip .popover-inner {
+    border-radius: 4px;
     max-width: 200px;
     min-width: 80px;
     padding: 10px;
@@ -8207,41 +8103,43 @@ svg.mouseclick use.right {
     border-right-color: #fff;
     border-width: 5px 5px 5px 0;
 }
-
-.tooltip-arrow {
+.popover-arrow {
     position: absolute;
     width: 0;
     height: 0;
     border-color: transparent;
     border-style: solid;
 }
-.tooltip.top .tooltip-arrow {
+.popover.top .popover-arrow {
     bottom: -5px;
     left: 50%;
     margin-left: -5px;
     border-top-color: #fff;
     border-width: 5px 5px 0;
 }
-.tooltip.right .tooltip-arrow {
+.popover.right .popover-arrow {
     top: 50%;
     left: -5px;
     margin-top: -5px;
     border-right-color: #fff;
     border-width: 5px 5px 5px 0;
 }
-.tooltip.left .tooltip-arrow {
+.popover.left .popover-arrow {
     top: 50%;
     right: -5px;
     margin-top: -5px;
     border-left-color: #fff;
     border-width: 5px 0 5px 5px;
 }
-.tooltip.bottom .tooltip-arrow {
+.popover.bottom .popover-arrow {
     top: -5px;
     left: 50%;
     margin-left: -5px;
     border-bottom-color: #fff;
     border-width: 0 5px 5px;
+}
+.popover:not(.arrowed) .popover-arrow {
+    display: none;
 }
 
 .tooltip-heading {
@@ -8259,48 +8157,57 @@ svg.mouseclick use.right {
     margin: 10px -10px -10px -10px;
     border-radius: 0 0 3px 3px;
 }
-.tooltip-inner .keyhint {
+.popover-inner .shortcut {
     font-weight: bold;
     margin-left: 5px;
 }
 
-[dir='rtl'] .tooltip-inner .keyhint {
+[dir='rtl'] .popover-inner .shortcut {
     margin-left: 0;
     margin-right: 5px;
 }
 
 /* dark tooltips for sidebar / panels */
-.tooltip.dark.top .tooltip-arrow,
-.map-pane .tooltip.top .tooltip-arrow,
-#sidebar .tooltip.top .tooltip-arrow {
+.tooltip.dark.top .popover-arrow,
+.map-pane .tooltip.top .popover-arrow,
+#sidebar .tooltip.top .popover-arrow {
     border-top-color: #000;
 }
-.tooltip.dark.bottom .tooltip-arrow,
-.map-pane .tooltip.bottom .tooltip-arrow,
-#sidebar .tooltip.bottom .tooltip-arrow {
+.tooltip.dark.bottom .popover-arrow,
+.map-pane .tooltip.bottom .popover-arrow,
+#sidebar .tooltip.bottom .popover-arrow {
     border-bottom-color: #000;
 }
-.tooltip.dark.left .tooltip-arrow,
-.map-pane .tooltip.left .tooltip-arrow,
-#sidebar .tooltip.left .tooltip-arrow {
+.tooltip.dark.left .popover-arrow,
+.map-pane .tooltip.left .popover-arrow,
+#sidebar .tooltip.left .popover-arrow {
     border-left-color: #000;
 }
-.tooltip.dark.right .tooltip-arrow,
-.map-pane .tooltip.right .tooltip-arrow,
-#sidebar .tooltip.right .tooltip-arrow {
+.tooltip.dark.right .popover-arrow,
+.map-pane .tooltip.right .popover-arrow,
+#sidebar .tooltip.right .popover-arrow {
     border-right-color: #000;
 }
-.tooltip.dark .tooltip-inner,
+.tooltip.dark .popover-inner,
 .tooltip.dark .tooltip-heading,
 .tooltip.dark .keyhint-wrap,
-.map-pane .tooltip-inner,
+.map-pane .popover-inner,
 .map-pane .tooltip-heading,
 .map-pane .keyhint-wrap,
-#sidebar .tooltip-inner,
+#sidebar .popover-inner,
 #sidebar .tooltip-heading,
 #sidebar .keyhint-wrap {
     background: #000;
     color: #ccc;
+}
+.tooltip.dark kbd,
+.map-pane .tooltip kbd,
+#sidebar .tooltip kbd {
+    background-color: #666;
+    border: solid 1px #444;
+    border-bottom-color: #333;
+    box-shadow: inset 0 -1px 0 #333;
+    color: #eee;
 }
 
 /* Exceptions for tooltip layouts */
@@ -8308,44 +8215,6 @@ svg.mouseclick use.right {
 /* commit warning tooltips need to be closer */
 .warning-section .tooltip.top {
     margin-top: -5px;
-}
-
-/* Uncramp map-control tooltips */
-.map-control .tooltip {
-    min-width: 160px;
-}
-.map-control .shortcuts .tooltip {
-    max-width: 160px;
-}
-
-/* Move over tooltips that are near the edge of screen */
-[dir='ltr'] .sidebar-toggle .tooltip {
-    left: 0 !important;
-}
-[dir='rtl'] .sidebar-toggle .tooltip {
-    right: 0 !important;
-}
-[dir='ltr'] .sidebar-toggle .tooltip .tooltip-arrow {
-    left: 20px;
-}
-[dir='rtl'] .sidebar-toggle .tooltip .tooltip-arrow {
-    right: 20px;
-}
-[dir='ltr'] .save .tooltip {
-    left: auto !important;
-    right: 0 !important;
-}
-[dir='rtl'] .save .tooltip {
-    right: auto !important;
-    left: 0 !important;
-}
-[dir='ltr'] .save .tooltip .tooltip-arrow {
-    left: auto;
-    right: 36px;
-}
-[dir='rtl'] .save .tooltip .tooltip-arrow {
-    right: auto;
-    left: 36px;
 }
 
 li:first-of-type .badge .tooltip,
@@ -8358,13 +8227,13 @@ li.hide + li.version .badge .tooltip {
     left: 5px !important;
     right: auto !important;
 }
-li:first-of-type .badge .tooltip .tooltip-arrow,
-li.hide + li.version .badge .tooltip .tooltip-arrow {
+li:first-of-type .badge .tooltip .popover-arrow,
+li.hide + li.version .badge .tooltip .popover-arrow {
     right: 15px !important;
     left: auto !important;
 }
-[dir='rtl'] li:first-of-type .badge .tooltip .tooltip-arrow,
-[dir='rtl'] li.hide + li.version .badge .tooltip .tooltip-arrow {
+[dir='rtl'] li:first-of-type .badge .tooltip .popover-arrow,
+[dir='rtl'] li.hide + li.version .badge .tooltip .popover-arrow {
     left: 15px !important;
     right: auto !important;
 }
@@ -8413,8 +8282,6 @@ li.hide + li.version .badge .tooltip .tooltip-arrow {
 /* Contextual Edit Menu
 ------------------------------------------------------- */
 .edit-menu-tooltip {
-    display: none;
-    position: absolute;
     width: 200px;
 }
 
@@ -8564,14 +8431,14 @@ li.hide + li.version .badge .tooltip .tooltip-arrow {
     text-align: right;
 }
 
-.curtain-tooltip .tooltip-inner {
+.curtain-tooltip .popover-inner {
     font-size: 15px;
     position: relative;
     padding: 20px;
 }
 
-.curtain-tooltip .tooltip-inner .button-section,
-.curtain-tooltip .tooltip-inner .instruction {
+.curtain-tooltip .popover-inner .button-section,
+.curtain-tooltip .popover-inner .instruction {
     font-weight: bold;
     display: block;
     border-top: 1px solid #ccc;
@@ -8581,17 +8448,17 @@ li.hide + li.version .badge .tooltip .tooltip-arrow {
     padding: 10px 20px 0 20px;
 }
 
-.curtain-tooltip .tooltip-inner .button-section button {
+.curtain-tooltip .popover-inner .button-section button {
     width: 66.6666%;
 }
 
-.curtain-tooltip .tooltip-inner .instruction:only-child {
+.curtain-tooltip .popover-inner .instruction:only-child {
     border: 0;
     padding: 0;
     margin: 0;
 }
 
-.curtain-tooltip .tooltip-inner .icon.pre-text {
+.curtain-tooltip .popover-inner .icon.pre-text {
     vertical-align: text-top;
     margin-right: 0;
     margin-left: 0;
