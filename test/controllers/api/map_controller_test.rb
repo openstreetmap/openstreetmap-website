@@ -23,6 +23,10 @@ module Api
         { :path => "/api/0.6/map", :method => :get },
         { :controller => "api/map", :action => "index" }
       )
+      assert_routing(
+        { :path => "/api/0.6/map.json", :method => :get },
+        { :controller => "api/map", :action => "index", :format => "json" }
+      )
     end
 
     # -------------------------------------
@@ -61,6 +65,54 @@ module Api
         assert_select "relation", :count => 1
         assert_select "relation[id='#{relation.id}']", :count => 1
       end
+    end
+
+    def test_map_json
+      node = create(:node, :lat => 7, :lon => 7)
+      tag = create(:node_tag, :node => node)
+      way1 = create(:way_node, :node => node).way
+      way2 = create(:way_node, :node => node).way
+      relation = create(:relation_member, :member => node).relation
+
+      # Need to split the min/max lat/lon out into their own variables here
+      # so that we can test they are returned later.
+      minlon = node.lon - 0.1
+      minlat = node.lat - 0.1
+      maxlon = node.lon + 0.1
+      maxlat = node.lat + 0.1
+      bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
+      get :index, :params => { :bbox => bbox, :format => "json" }
+      if $VERBOSE
+        print @request.to_yaml
+        print @response.body
+      end
+      assert_response :success, "Expected success with the map call"
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+
+      assert_equal Settings.api_version, js["version"]
+      assert_equal Settings.generator, js["generator"]
+      assert_equal "#{format('%.7f', minlon)}", js["bounds"]["minlon"]
+      assert_equal "#{format('%.7f', minlat)}", js["bounds"]["minlat"]
+      assert_equal "#{format('%.7f', maxlon)}", js["bounds"]["maxlon"]
+      assert_equal "#{format('%.7f', maxlat)}", js["bounds"]["maxlat"]
+
+      result_nodes = js["elements"].select { |a| a["type"] == "node" }
+                                   .select { |a| a["id"] == node.id }
+                                   .select { |a| a["lat"] == "#{format('%.7f', node.lat)}" }
+                                   .select { |a| a["lon"] == "#{format('%.7f', node.lon)}" }
+                                   .select { |a| a["version"] == node.version }
+                                   .select { |a| a["changeset"] == node.changeset_id }
+                                   .select { |a| a["timestamp"] == node.timestamp.xmlschema }
+      assert_equal result_nodes.count, 1
+      result_node = result_nodes.first
+
+      assert_equal result_node["tags"], tag.k => tag.v
+      assert_equal 2, (js["elements"].count { |a| a["type"] == "way" })
+      assert_equal 1, (js["elements"].count { |a| a["type"] == "way" && a["id"] == way1.id })
+      assert_equal 1, (js["elements"].count { |a| a["type"] == "way" && a["id"] == way2.id })
+      assert_equal 1, (js["elements"].count { |a| a["type"] == "relation" })
+      assert_equal 1, (js["elements"].count { |a| a["type"] == "relation" && a["id"] == relation.id })
     end
 
     # This differs from the above test in that we are making the bbox exactly

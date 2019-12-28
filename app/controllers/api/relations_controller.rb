@@ -11,6 +11,13 @@ module Api
     before_action :check_api_readable, :except => [:create, :update, :delete]
     around_action :api_call_handle_error, :api_call_timeout
 
+    before_action :default_format_xml
+
+    # Set format to xml unless client requires a specific format
+    def default_format_xml
+      request.format = "xml" unless params[:format]
+    end
+
     def create
       assert_method :put
 
@@ -26,7 +33,10 @@ module Api
       response.last_modified = @relation.timestamp
       if @relation.visible
         # Render the result
-        render :formats => [:xml]
+        respond_to do |format|
+          format.xml
+          format.json
+        end
       else
         head :gone
       end
@@ -117,7 +127,10 @@ module Api
         @relations << relation
 
         # Render the result
-        render :formats => [:xml]
+        respond_to do |format|
+          format.xml
+          format.json
+        end
       else
         head :gone
       end
@@ -133,7 +146,10 @@ module Api
       @relations = Relation.find(ids)
 
       # Render the result
-      render :formats => [:xml]
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     def relations_for_way
@@ -160,7 +176,10 @@ module Api
       end
 
       # Render the result
-      render :formats => [:xml]
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
   end
 end

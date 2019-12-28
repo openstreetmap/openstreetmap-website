@@ -11,6 +11,13 @@ module Api
     before_action :check_api_readable, :except => [:create, :update, :delete]
     around_action :api_call_handle_error, :api_call_timeout
 
+    before_action :default_format_xml
+
+    # Set format to xml unless client requires a specific format
+    def default_format_xml
+      request.format = "xml" unless params[:format]
+    end
+
     def create
       assert_method :put
 
@@ -28,7 +35,10 @@ module Api
 
       if @way.visible
         # Render the result
-        render :formats => [:xml]
+        respond_to do |format|
+          format.xml
+          format.json
+        end
       else
         head :gone
       end
@@ -75,7 +85,10 @@ module Api
         end
 
         # Render the result
-        render :formats => [:xml]
+        respond_to do |format|
+          format.xml
+          format.json
+        end
       else
         head :gone
       end
@@ -93,7 +106,10 @@ module Api
       @ways = Way.find(ids)
 
       # Render the result
-      render :formats => [:xml]
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     ##
@@ -106,7 +122,10 @@ module Api
       @ways = Way.where(:id => wayids, :visible => true)
 
       # Render the result
-      render :formats => [:xml]
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
   end
 end
