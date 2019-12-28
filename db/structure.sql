@@ -129,31 +129,6 @@ CREATE TYPE public.user_status_enum AS ENUM (
 
 
 --
--- Name: maptile_for_point(bigint, bigint, integer); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.maptile_for_point(scaled_lat bigint, scaled_lon bigint, zoom integer) RETURNS integer
-    LANGUAGE plpgsql IMMUTABLE
-    AS $$
-DECLARE
-  lat CONSTANT DOUBLE PRECISION := scaled_lat / 10000000.0;
-  lon CONSTANT DOUBLE PRECISION := scaled_lon / 10000000.0;
-  zscale CONSTANT DOUBLE PRECISION := 2.0 ^ zoom;
-  pi CONSTANT DOUBLE PRECISION := 3.141592653589793;
-  r_per_d CONSTANT DOUBLE PRECISION := pi / 180.0;
-  x int4;
-  y int4;
-BEGIN
-  -- straight port of the C code. see db/functions/maptile.c
-  x := floor((lon + 180.0) * zscale / 360.0);
-  y := floor((1.0 - ln(tan(lat * r_per_d) + 1.0 / cos(lat * r_per_d)) / pi) * zscale / 2.0);
-
-  RETURN (x << zoom) | y;
-END;
-$$;
-
-
---
 -- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
