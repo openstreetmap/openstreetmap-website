@@ -108,6 +108,8 @@ $(document).ready(function () {
     icon: "icon geolocate",
     iconLoading: "icon geolocate",
     strings: {
+      metersUnit: 'm',
+      feetUnit: 'ft',
       title: I18n.t("javascripts.map.locate.title"),
       popup: I18n.t("javascripts.map.locate.popup")
     }
