@@ -59,8 +59,6 @@ OpenStreetMap::Application.routes.draw do
 
     get "trackpoints" => "api/tracepoints#index"
 
-    get "changes" => "api/changes#index"
-
     get "user/:id" => "api/users#show", :id => /\d+/, :as => :api_user
     get "user/details" => "api/users#details"
     get "user/gpx_files" => "api/users#gpx_files"

@@ -240,7 +240,7 @@ After installing this software, you may need to carry out some [configuration st
 
 # Installing compiled shared library database functions (optional)
 
-There are special database functions required by a (little-used) API call, the migrations and diff replication. The former two are provided as *either* pure SQL functions or a compiled shared library. The SQL versions are installed as part of the recommended install procedure above and the shared library versions are recommended only if you are running a production server making a lot of `/changes` API calls or need the diff replication functionality.
+There are special database functions required by a (little-used) API call, the migrations and diff replication. The former two are provided as *either* pure SQL functions or a compiled shared library. The SQL versions are installed as part of the recommended install procedure above and the shared library versions are recommended only if you are running a production server and need the diff replication functionality.
 
 If you aren't sure which you need, stick with the SQL versions.
 
@@ -267,14 +267,12 @@ cd ../..
 If you previously installed the SQL versions of these functions, we'll need to delete those before adding the new ones:
 
 ```
-psql -d openstreetmap -c "DROP FUNCTION IF EXISTS maptile_for_point"
 psql -d openstreetmap -c "DROP FUNCTION IF EXISTS tile_for_point"
 ```
 
 Then we create the functions within each database. We're using `pwd` to substitute in the current working directory, since PostgreSQL needs the full path.
 
 ```
-psql -d openstreetmap -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT"
 psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '`pwd`/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT"
 psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT"
 ```

@@ -42,33 +42,6 @@ END;
 $$ LANGUAGE plpgsql IMMUTABLE;
 
 
--- maptile_for_point returns an integer representing the tile at the given zoom
--- which contains the point (scaled_lon, scaled_lat). Note that the arguments
--- are in the order (lat, lon), and should be scaled by 10^7.
---
--- The maptile_for_point function is used only for grouping the results of the
--- (deprecated?) /changes API call. Please don't use it for anything else, as
--- it might go away in the future.
-CREATE OR REPLACE FUNCTION maptile_for_point(scaled_lat int8, scaled_lon int8, zoom int4)
-  RETURNS int4
-  AS $$
-DECLARE
-  lat CONSTANT DOUBLE PRECISION := scaled_lat / 10000000.0;
-  lon CONSTANT DOUBLE PRECISION := scaled_lon / 10000000.0;
-  zscale CONSTANT DOUBLE PRECISION := 2.0 ^ zoom;
-  pi CONSTANT DOUBLE PRECISION := 3.141592653589793;
-  r_per_d CONSTANT DOUBLE PRECISION := pi / 180.0;
-  x int4;
-  y int4;
-BEGIN
-  -- straight port of the C code. see db/functions/maptile.c
-  x := floor((lon + 180.0) * zscale / 360.0);
-  y := floor((1.0 - ln(tan(lat * r_per_d) + 1.0 / cos(lat * r_per_d)) / pi) * zscale / 2.0);
-
-  RETURN (x << zoom) | y;
-END;
-$$ LANGUAGE plpgsql IMMUTABLE;
-
 -- xid_to_int4 converts a PostgreSQL transaction ID (xid) to a 32-bit integer
 -- which can then be used to efficiently find rows which have changed between
 -- two given transactions. This is currently used by Osmosis to extract a
