@@ -109,6 +109,8 @@ $(document).ready(function () {
     iconLoading: "icon geolocate",
     strings: {
       title: I18n.t("javascripts.map.locate.title"),
+      metersUnit: I18n.t("javascripts.map.locate.metersUnit"),
+      feetUnit: I18n.t("javascripts.map.locate.feetUnit"),
       popup: I18n.t("javascripts.map.locate.popup")
     }
   }).addTo(map);
