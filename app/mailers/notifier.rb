@@ -94,10 +94,11 @@ class Notifier < ApplicationMailer
       @readurl = diary_entry_url(comment.diary_entry.user, comment.diary_entry, :anchor => "comment#{comment.id}")
       @commenturl = diary_entry_url(comment.diary_entry.user, comment.diary_entry, :anchor => "newcomment")
       @replyurl = new_message_url(comment.user, :message => { :title => "Re: #{comment.diary_entry.title}" })
-
       @author = @from_user
 
       attach_user_avatar(comment.user)
+
+      set_references("diary", comment.diary_entry)
 
       mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest, recipient.id),
            :to => recipient.email,
@@ -136,6 +137,8 @@ class Notifier < ApplicationMailer
       @author = @commenter
       attach_user_avatar(comment.author)
 
+      set_references("note", comment.note)
+
       subject = if @owner
                   I18n.t("notifier.note_comment_notification.#{@event}.subject_own", :commenter => @commenter)
                 else
@@ -165,6 +168,8 @@ class Notifier < ApplicationMailer
                 end
 
       attach_user_avatar(comment.author)
+
+      set_references("changeset", comment.changeset)
 
       mail :to => recipient.email, :subject => subject
     end
@@ -209,5 +214,11 @@ class Notifier < ApplicationMailer
     else
       Settings.email_from
     end
+  end
+
+  def set_references(scope, reference_object)
+    ref = "osm-#{scope}-#{reference_object.id}@#{Settings.server_url}"
+    headers["In-Reply-To"] = ref
+    headers["References"]  = ref
   end
 end
