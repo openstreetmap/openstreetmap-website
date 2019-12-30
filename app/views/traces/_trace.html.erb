@@ -5,7 +5,7 @@
       <% if trace.inserted %>
         <a href="<%= url_for :controller => "traces", :action => "show", :id => trace.id, :display_name => trace.user.display_name %>"><img src="<%= url_for :controller => "traces", :action => "icon", :id => trace.id, :display_name => trace.user.display_name %>" border="0" alt="" /></a>
       <% else %>
-        <span class="trace_pending"><%= t ".pending" %></span>
+        <span class="text-danger"><%= t ".pending" %></span>
       <% end %>
     <% end %>
   </td>
@@ -17,7 +17,13 @@
       ... <%= time_ago_in_words(trace.timestamp, :scope => :'datetime.distance_in_words_ago') %></span>
       <%= link_to_if trace.inserted?, t(".map"), { :controller => "site", :action => "index", :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}" }, { :title => t(".view_map") } %> /
       <%= link_to t(".edit"), { :controller => "site", :action => "edit", :gpx => trace.id }, { :title => t(".edit_map") } %>
-      <span class="trace_<%= trace.visibility %>"><%= t("." + trace.visibility) %></span>
+
+      <% badge_class = case trace.visibility
+                       when "public", "identifiable" then "success"
+                       else "danger"
+                       end %>
+      <span class="badge badge-<%= badge_class %> text-white"><%= t("." + trace.visibility) %></span>
+
       <br />
       <%= trace.description %>
     <br />
