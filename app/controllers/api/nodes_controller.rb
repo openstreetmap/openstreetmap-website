@@ -15,11 +15,6 @@ module Api
 
     before_action :default_format_xml
 
-    # Set format to xml unless client requires a specific format
-    def default_format_xml
-      request.format = "xml" unless params[:format]
-    end
-
     # Create a node from XML.
     def create
       assert_method :put

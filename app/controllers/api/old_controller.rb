@@ -18,11 +18,6 @@ module Api
 
     before_action :default_format_xml
 
-    # Set format to xml unless client requires a specific format
-    def default_format_xml
-      request.format = "xml" unless params[:format]
-    end
-
     def history
       # the .where() method used in the lookup_old_element_versions
       # call won't throw an error if no records are found, so we have

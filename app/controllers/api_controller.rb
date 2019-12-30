@@ -3,6 +3,11 @@ class ApiController < ApplicationController
 
   private
 
+  # Set format to xml unless client requires a specific format
+  def default_format_xml
+    request.format = "xml" unless params[:format]
+  end
+
   def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
     # make the current_user object from any auth sources we have
     setup_user_auth
