@@ -421,6 +421,17 @@ class SiteControllerTest < ActionController::TestCase
     get :copyright
     assert_response :success
     assert_template "copyright"
+    assert_select "div[lang='en'][dir='ltr']"
+
+    get :copyright, :params => { :copyright_locale => "fr" }
+    assert_response :success
+    assert_template "copyright"
+    assert_select "div[lang='fr'][dir='ltr']"
+
+    get :copyright, :params => { :copyright_locale => "ar" }
+    assert_response :success
+    assert_template "copyright"
+    assert_select "div[lang='ar'][dir='rtl']"
   end
 
   # Test the welcome page
@@ -453,6 +464,17 @@ class SiteControllerTest < ActionController::TestCase
     get :about
     assert_response :success
     assert_template "about"
+    assert_select "div[lang='en'][dir='ltr']"
+
+    get :about, :params => { :about_locale => "fr" }
+    assert_response :success
+    assert_template "about"
+    assert_select "div[lang='fr'][dir='ltr']"
+
+    get :about, :params => { :about_locale => "ar" }
+    assert_response :success
+    assert_template "about"
+    assert_select "div[lang='ar'][dir='rtl']"
   end
 
   # Test the export page
