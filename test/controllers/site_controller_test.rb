@@ -55,6 +55,18 @@ class SiteControllerTest < ActionController::TestCase
       { :controller => "site", :action => "fixthemap" }
     )
     assert_routing(
+      { :path => "/help", :method => :get },
+      { :controller => "site", :action => "help" }
+    )
+    assert_routing(
+      { :path => "/about", :method => :get },
+      { :controller => "site", :action => "about" }
+    )
+    assert_routing(
+      { :path => "/about/locale", :method => :get },
+      { :controller => "site", :action => "about", :about_locale => "locale" }
+    )
+    assert_routing(
       { :path => "/export", :method => :get },
       { :controller => "site", :action => "export" }
     )
