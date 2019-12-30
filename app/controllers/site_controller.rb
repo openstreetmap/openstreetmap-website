@@ -112,7 +112,9 @@ class SiteController < ApplicationController
 
   def help; end
 
-  def about; end
+  def about
+    @locale = params[:about_locale] || I18n.locale
+  end
 
   def export; end
 
