@@ -23,6 +23,9 @@ be:
         create: Захаваць
       diary_entry:
         create: Апублікаваць
+        update: Абнавіць
+      issue_comment:
+        create: Дадаць каментар
       message:
         create: Даслаць
       client_application:
@@ -109,6 +112,11 @@ be:
         description: Апісанне
         languages: Мовы
         pass_crypt: Пароль
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: прыкладна гадзіну таму
+        other: прыкладна %{count} гадзін(ы) таму
   editor:
     default: Тыповы (зараз %{name})
     potlatch:
@@ -149,12 +157,12 @@ be:
   browse:
     created: Створаны
     closed: Зачынены
-    created_html: Створаны <abbr title='%{title}'>%{time} таму</abbr>
-    closed_html: Закрыты <abbr title='%{title}'>%{time} таму</abbr>
-    created_by_html: Створаны <abbr title='%{title}'>%{time} таму</abbr> %{user}'ам
-    deleted_by_html: Выдалены <abbr title='%{title}'>%{time} таму</abbr> %{user}'ам
-    edited_by_html: Зменены <abbr title='%{title}'>%{time} таму</abbr> %{user}'ам
-    closed_by_html: Закрыты <abbr title='%{title}'>%{time} таму</abbr> %{user}'ам
+    created_html: Створаны <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Закрыты <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Створаны <abbr title='%{title}'>%{time}</abbr> %{user}'ам
+    deleted_by_html: Выдалены <abbr title='%{title}'>%{time}</abbr> %{user}'ам
+    edited_by_html: Зменены <abbr title='%{title}'>%{time}</abbr> %{user}'ам
+    closed_by_html: Закрыты <abbr title='%{title}'>%{time}</abbr> %{user}'ам
     version: Версія
     in_changeset: Пакет правак
     anonymous: ананімны
@@ -247,6 +255,7 @@ be:
       wikidata_link: Элемент %{page} у Вікідадзеных
       wikipedia_link: Артыкул %{page} на Вікіпедыі
       telephone_link: Патэлефанаваць %{phone_number}
+      colour_preview: Прагляд колеру %{colour_value}
     note:
       title: 'Заўвага: %{id}'
       new_note: Новая заўвага
@@ -1122,6 +1131,7 @@ be:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: партнёрамi
+    tou: Умовы карыстання
     osm_offline: База дадзеных OpenStreetMap зараз па-за сецівам, таму што праходзіць
       неабходная тэхнічная праца.
     osm_read_only: База дадзеных OpenStreetMap зараз даступная толькі для чытання,
@@ -1593,7 +1603,7 @@ be:
         дакументацыі па картаграфаванні.
       welcome:
         url: /welcome
-        title: Вітаем у OSM
+        title: Вітаем у OpenStreetMap
         description: Пачніце з гэтага кароткага кіраўніцтва, што ахоплівае асновы
           OpenStreetMap.
       beginners_guide:
@@ -1623,11 +1633,11 @@ be:
       welcomemat:
         url: https://welcome.openstreetmap.org/
         title: Для арганізацый
-        description: Вы з арганізацыі, якая хоча работать з OpenStreetMap? Азнаёмцеся
+        description: Вы з арганізацыі, якая хоча працаваць з OpenStreetMap? Азнаёмцеся
           з інфармацыяй у раздзеле Welcome Mat.
       wiki:
         url: http://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
+        title: Вікі OpenStreetMap
         description: Паглядзець вікі з падрабязнай дакументацыяй па OSM
     sidebar:
       search_results: Вынікі пошуку
@@ -2110,14 +2120,16 @@ be:
         вікі-старонку</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Умовы ўдзелу
-      heading: Умовы ўдзелу
+      title: Умовы
+      heading: Умовы
+      heading_ct: Умовы ўдзелу
       consider_pd: У дадатак да прыведзенага пагаднення, я пацвярджаю, што мой уклад
         знаходзіцца ў грамадскім набытку
       consider_pd_why: што гэта?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Інфармацыя, якая дапаможа зразумець гэтыя ўмовы: <a href="%{summary}">кароткае
         апісанне</a> і некалькі <a href="%{translations}">неафіцыйных перакладаў</a>'
+      continue: Працягнуць
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Адхіліць
       you need to accept or decline: Калі ласка, прачытайце, а потым згадзіцеся ці
@@ -2429,11 +2441,27 @@ be:
       until_login: Актыўная да моманту ўваходу ўдзельніка ў сістэму.
       time_future_and_until_login: Заканчваецца праз %{time} і пасля таго, як карыстальнік
         увойдзе ў сістэму.
-      time_past: Скончылася %{time} таму.
+      time_past: Скончылася %{time}.
       block_duration:
         hours:
           one: 1 гадзіна
           other: '%{count} гадзін'
+        days:
+          one: 1 дзень
+          few: '%{count} дні'
+          other: '%{count} дзён'
+        weeks:
+          one: 1 тыдзень
+          few: '%{count} тыдні'
+          other: '%{count} тыдняў'
+        months:
+          one: 1 месяц
+          few: '%{count} месяцы'
+          other: '%{count} месяцаў'
+        years:
+          one: 1 год
+          few: '%{count} гады'
+          other: '%{count} гадоў'
     blocks_on:
       title: Блакіроўкі для %{name}
       heading: Спіс блакіровак %{name}
