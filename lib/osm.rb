@@ -513,7 +513,7 @@ module OSM
   def self.ip_to_country(ip_address)
     ipinfo = maxmind_database.lookup(ip_address) if Settings.key?(:maxmind_database)
 
-    if ipinfo.found?
+    if ipinfo&.found?
       country = ipinfo.country.iso_code
     else
       country = http_client.get("https://api.hostip.info/country.php?ip=#{ip_address}").body
