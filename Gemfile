@@ -93,8 +93,8 @@ gem "SystemTimer", ">= 1.1.3", :require => "system_timer", :platforms => :ruby_1
 # Load faraday for mockable HTTP client
 gem "faraday"
 
-# Load geoip for querying Maxmind GeoIP database
-gem "geoip"
+# Load maxminddb for querying Maxmind GeoIP database
+gem "maxminddb"
 
 # Load rotp to generate TOTP tokens
 gem "rotp"

@@ -511,10 +511,10 @@ module OSM
   end
 
   def self.ip_to_country(ip_address)
-    ipinfo = geoip_database.country(ip_address) if Settings.key?(:geoip_database)
+    ipinfo = maxmind_database.lookup(ip_address) if Settings.key?(:maxmind_database)
 
-    if ipinfo
-      country = ipinfo.country_code2
+    if ipinfo.found?
+      country = ipinfo.country.iso_code
     else
       country = http_client.get("https://api.hostip.info/country.php?ip=#{ip_address}").body
       country = "GB" if country == "UK"
@@ -575,8 +575,8 @@ module OSM
     @http_client ||= Faraday.new
   end
 
-  # Return the GeoIP database handle
-  def self.geoip_database
-    @geoip_database ||= GeoIP.new(Settings.geoip_database) if Settings.key?(:geoip_database)
+  # Return the MaxMindDB database handle
+  def self.maxmind_database
+    @maxmind_database ||= MaxMindDB.new(Settings.maxmind_database) if Settings.key?(:maxmind_database)
   end
 end
