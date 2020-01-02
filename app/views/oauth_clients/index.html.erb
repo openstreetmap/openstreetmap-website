@@ -29,7 +29,7 @@
 <% end %>
 <h3><%= t ".my_apps" %></h3>
 <% if @client_applications.empty? %>
-<p><%= raw(t(".no_apps", :oauth => "<a href=\"https://oauth.net\">OAuth</a>")) %></p>
+<p><%= t(".no_apps_html", :oauth => link_to(t(".oauth"), "https://oauth.net" )) %></p>
 <% else %>
 <p><%= t ".registered_apps" %></p>
 <% @client_applications.each do |client| %>

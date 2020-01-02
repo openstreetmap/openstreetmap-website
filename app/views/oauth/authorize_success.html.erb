@@ -2,7 +2,7 @@
   <h1><%= t ".title" %></h1>
 <% end %>
 
-<p><%= raw t(".allowed", :app_name => link_to(@token.client_application.name, @token.client_application.url)) %></p>
+<p><%= t(".allowed_html", :app_name => link_to(@token.client_application.name, @token.client_application.url)) %></p>
 
 <% if @token.oob? and not @token.oauth10? %>
 <p><%= t ".verification", :code => @token.verifier %></p>
