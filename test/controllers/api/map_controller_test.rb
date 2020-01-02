@@ -92,15 +92,15 @@ module Api
 
       assert_equal Settings.api_version, js["version"]
       assert_equal Settings.generator, js["generator"]
-      assert_equal "#{format('%.7f', minlon)}", js["bounds"]["minlon"]
-      assert_equal "#{format('%.7f', minlat)}", js["bounds"]["minlat"]
-      assert_equal "#{format('%.7f', maxlon)}", js["bounds"]["maxlon"]
-      assert_equal "#{format('%.7f', maxlat)}", js["bounds"]["maxlat"]
+      assert_equal GeoRecord::Coord.new(minlon), js["bounds"]["minlon"]
+      assert_equal GeoRecord::Coord.new(minlat), js["bounds"]["minlat"]
+      assert_equal GeoRecord::Coord.new(maxlon), js["bounds"]["maxlon"]
+      assert_equal GeoRecord::Coord.new(maxlat), js["bounds"]["maxlat"]
 
       result_nodes = js["elements"].select { |a| a["type"] == "node" }
                                    .select { |a| a["id"] == node.id }
-                                   .select { |a| a["lat"] == "#{format('%.7f', node.lat)}" }
-                                   .select { |a| a["lon"] == "#{format('%.7f', node.lon)}" }
+                                   .select { |a| a["lat"] == GeoRecord::Coord.new(node.lat) }
+                                   .select { |a| a["lon"] == GeoRecord::Coord.new(node.lon) }
                                    .select { |a| a["version"] == node.version }
                                    .select { |a| a["changeset"] == node.changeset_id }
                                    .select { |a| a["timestamp"] == node.timestamp.xmlschema }

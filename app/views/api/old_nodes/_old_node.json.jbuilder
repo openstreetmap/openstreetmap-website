@@ -1,8 +1,8 @@
 json.type "node"
 json.id old_node.node_id
 if old_node.visible
-  json.lat format("%.7f", old_node.lat.to_f)
-  json.lon format("%.7f", old_node.lon.to_f)
+  json.lat GeoRecord::Coord.new(old_node.lat)
+  json.lon GeoRecord::Coord.new(old_node.lon)
 end
 json.timestamp old_node.timestamp.xmlschema
 json.version old_node.version
