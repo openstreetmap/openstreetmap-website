@@ -5,7 +5,9 @@ class ApiController < ApplicationController
 
   # Set format to xml unless client requires a specific format
   def default_format_xml
-    request.format = "xml" unless params[:format]
+    unless params[:format]
+      request.format = "xml" unless request.format.symbol == :json
+    end
   end
 
   def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
