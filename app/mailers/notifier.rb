@@ -218,7 +218,9 @@ class Notifier < ApplicationMailer
 
   def set_references(scope, reference_object)
     ref = "osm-#{scope}-#{reference_object.id}@#{Settings.server_url}"
+
+    headers["X-Entity-Ref-ID"] = ref
     headers["In-Reply-To"] = ref
-    headers["References"]  = ref
+    headers["References"] = ref
   end
 end
