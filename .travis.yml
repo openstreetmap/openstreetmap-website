@@ -21,7 +21,8 @@ before_script:
   - psql -U postgres -f db/functions/functions.sql openstreetmap
   - cp config/travis.database.yml config/database.yml
   - cp config/example.storage.yml config/storage.yml
-  - echo -e "---\nmemcache_servers:\n  - 127.0.0.1" > config/settings.local.yml
+  - touch config/settings.local.yml
+  - echo -e "---\nmemcache_servers:\n  - 127.0.0.1" > config/settings/test.local.yml
   - bundle exec rake db:migrate
   - bundle exec rake i18n:js:export
   - bundle exec rake yarn:install
