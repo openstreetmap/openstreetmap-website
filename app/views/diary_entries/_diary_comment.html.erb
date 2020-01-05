@@ -1,6 +1,6 @@
 <div class="clearfix diary-comment<%= " deemphasize" unless diary_comment.visible? %>">
   <%= user_thumbnail diary_comment.user %>
-  <p class="deemphasize comment-heading" id="comment<%= diary_comment.id %>"><%= raw(t(".comment_from", :link_user => (link_to h(diary_comment.user.display_name), user_path(diary_comment.user)), :comment_created_at => link_to(l(diary_comment.created_at, :format => :friendly), :anchor => "comment#{diary_comment.id}"))) %>
+  <p class="deemphasize comment-heading" id="comment<%= diary_comment.id %>"><%= t(".comment_from_html", :link_user => (link_to h(diary_comment.user.display_name), user_path(diary_comment.user)), :comment_created_at => link_to(l(diary_comment.created_at, :format => :friendly), :anchor => "comment#{diary_comment.id}")) %>
     <% if current_user and diary_comment.user.id != current_user.id %>
       | <%= report_link(t(".report"), diary_comment) %>
     <% end %>

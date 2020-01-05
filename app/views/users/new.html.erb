@@ -26,7 +26,7 @@
       <%= f.email_field(:email_confirmation, :tabindex => 2) %>
       <%= f.error_message_on(:email_confirmation) %>
     </div>
-    <span class="form-help deemphasize"><%= raw(t(".not displayed publicly")) %></span>
+    <span class="form-help deemphasize"><%= t(".not_displayed_publicly_html") %></span>
   </fieldset>
 
   <fieldset>
@@ -43,7 +43,7 @@
   <fieldset class="form-divider" id="auth_field">
     <div class="form-row">
       <label for="openid_url" class="standard-label">
-        <%= raw t ".external auth" %>
+        <%= t ".external auth" %>
       </label>
       <%= f.select(:auth_provider, Auth::PROVIDERS, :default => "", :tabindex => 4) %>
       <%= f.text_field(:auth_uid, :tabindex => 5) %>
@@ -70,7 +70,7 @@
   </fieldset>
 
   <div id="auth_prompt" class="form-row">
-    <%= link_to raw(t(".use external auth")), "#", :id => "auth_enable" %>
+    <%= link_to t(".use external auth"), "#", :id => "auth_enable" %>
   </div>
 
   <%= submit_tag t(".continue"), :tabindex => 8 %>

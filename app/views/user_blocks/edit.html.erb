@@ -1,8 +1,8 @@
 <% @title = t ".title", :name => h(@user_block.user.display_name) %>
 <% content_for :heading do %>
-  <h1><%= raw t(".title",
-                :name => link_to(h(@user_block.user.display_name),
-                                 user_path(@user_block.user))) %></h1>
+  <h1><%= t(".heading_html",
+            :name => link_to(@user_block.user.display_name,
+                             user_path(@user_block.user))) %></h1>
   <ul class='secondary-actions clearfix'>
     <li><%= link_to t(".show"), @user_block %></li>
     <li><%= link_to t(".back"), user_blocks_path %></li>

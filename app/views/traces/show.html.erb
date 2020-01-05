@@ -40,7 +40,7 @@
     <td><%= t ".tags" %></td>
     <td>
     <% unless @trace.tags.empty? %>
-      <%= raw(@trace.tags.collect { |tag| link_to tag.tag, :controller => "traces", :action => "index", :tag => tag.tag, :id => nil }.join(", ")) %>
+      <%= safe_join(@trace.tags.collect { |tag| link_to tag.tag, :controller => "traces", :action => "index", :tag => tag.tag, :id => nil }, ", ") %>
     <% else %>
       <i><%= t ".none" %></i>
     <% end %>
