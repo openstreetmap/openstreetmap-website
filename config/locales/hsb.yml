@@ -17,6 +17,9 @@ hsb:
         create: Składować
       diary_entry:
         create: Wozjewić
+        update: Aktualizować
+      issue_comment:
+        create: Komentar přidać
       message:
         create: Pósłać
       client_application:
@@ -32,6 +35,10 @@ hsb:
         create: Blokowanje wudźělić
         update: Blokowanje aktualizować
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: njezda so płaćiwa mejlkowa adresa być
+        email_address_not_routable: njeje routojomna
     models:
       acl: Lisćina za přistupnu kontrolu
       changeset: Sadźba změnow
@@ -99,6 +106,41 @@ hsb:
         description: Wopisanje
         languages: Rěče
         pass_crypt: Hesło
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        other: před něhdźe hodźinu
+      about_x_months:
+        other: něhdźe před měsacom
+      about_x_years:
+        other: něhdźe před lětom
+      almost_x_years:
+        other: před nimale lětom
+      half_a_minute: před poł mjeńšinu
+      less_than_x_seconds:
+        one: před mjenje hač 1 sekundu
+        other: před mjenje hač %{count} sekundomaj
+      less_than_x_minutes:
+        one: před mjenje hač 1 mjeńšinu
+        other: před mjenje hač %{count} mjeńšinomaj
+      over_x_years:
+        one: před wjace hač lětom
+        other: před wjace hač %{count} lětomaj
+      x_seconds:
+        one: před 1 sekundu
+        other: před %{count} sekundomaj
+      x_minutes:
+        one: před 1 mjeńšinu
+        other: před %{count} mjeńšinomaj
+      x_days:
+        one: před 1 dnjom
+        other: před %{count} dnjomaj
+      x_months:
+        one: před měsacom
+        other: před %{count} měsacomaj
+      x_years:
+        one: před lětom
+        other: před %{count} lětomaj
   editor:
     default: Standard (tuchwilu %{name}
     potlatch:
@@ -116,12 +158,12 @@ hsb:
   api:
     notes:
       comment:
-        opened_at_html: Před %{when} wutworjeny
-        opened_at_by_html: Před %{when} wot %{user} wutworjeny
-        commented_at_html: Před %{when} zaktualizowany
-        commented_at_by_html: Před %{when} wot %{user} zaktualizowany
-        closed_at_html: Před %{when} rozrisany
-        closed_at_by_html: Před %{when} wot %{user} rozrisany
+        opened_at_html: Wutworjeny %{when}
+        opened_at_by_html: Wutworjeny %{when} wot %{user}
+        commented_at_html: Aktualizowany %{when}
+        commented_at_by_html: Aktualizowany %{when} wot %{user}
+        closed_at_html: Rozrisany %{when}
+        closed_at_by_html: Rozrisany %{when} wot %{user}
         reopened_at_html: Před %{when} znowa aktiwizowany
         reopened_at_by_html: Před %{when} wot %{user} znowa aktiwizowany
       rss:
@@ -139,12 +181,12 @@ hsb:
   browse:
     created: Wutworjeny
     closed: 'Začinjeny:'
-    created_html: Wutworjeny <abbr title='%{title}'>před %{time}</abbr>
-    closed_html: Začinjeny <abbr title='%{title}'>před %{time}</abbr>
-    created_by_html: Wutworjeny <abbr title='%{title}'>před %{time}</abbr> wot %{user}
-    deleted_by_html: Zhašany <abbr title='%{title}'>před %{time}</abbr> wot %{user}
-    edited_by_html: wobdźěłany <abbr title='%{title}'>před %{time}</abbr> wot %{user}
-    closed_by_html: Začinjeny <abbr title='%{title}'>před %{time}</abbr> wot %{user}
+    created_html: Wutworjeny <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Začinjeny <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Wutworjeny <abbr title='%{title}'>%{time}</abbr> wot %{user}
+    deleted_by_html: Wotstronjeny <abbr title='%{title}'>%{time}</abbr> wot %{user}
+    edited_by_html: Wobdźěłany <abbr title='%{title}'>%{time}</abbr> wot %{user}
+    closed_by_html: Začinjeny <abbr title='%{title}'>%{time}</abbr> wot %{user}
     version: Wersija
     in_changeset: Sadźba změnow
     anonymous: anonymny
@@ -164,9 +206,8 @@ hsb:
       relation: Relacije (%{count})
       relation_paginated: Relacije (%{x}-%{y} z %{count})
       comment: Komentary (%{count})
-      hidden_commented_by: Schowany komentar wužiwarja %{user} <abbr title='%{exact_time}'>před
-        %{when}</abbr>
-      commented_by: Komentar wužiwarja %{user} <abbr title='%{exact_time}'>před %{when}</abbr>
+      hidden_commented_by: Schowany komentar wužiwarja %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Komentar wužiwarja %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Sadźba změnow XML
       osmchangexml: osmChange XML
       feed:
@@ -174,31 +215,33 @@ hsb:
         title_comment: Sadźba změnow %{id} - %{comment}
       join_discussion: Přizjew so, zo by móhł(a) sobu diskutować
       discussion: Diskusija
+      still_open: Sadźba změnow je hišće wočinjena. Diskusija so wočinja, ručež je
+        sadźba změnow začinjena.
     node:
-      title: 'Suk: %{name}'
-      history_title: 'Sukata historija: %{name}'
+      title_html: 'Suk: %{name}'
+      history_title_html: 'Sukata historija: %{name}'
     way:
-      title: 'Puć: %{name}'
-      history_title: 'Historija puća: %{name}'
+      title_html: 'Puć: %{name}'
+      history_title_html: 'Historija puća: %{name}'
       nodes: Suki
-      also_part_of:
+      also_part_of_html:
         few: dźěl pućow %{related_ways}
         one: dźěl puća %{related_ways}
         two: dźěl pućow %{related_ways}
         other: dźěl pućow %{related_ways}
     relation:
-      title: 'Relacija: %{name}'
-      history_title: 'Historija relacije: %{name}'
+      title_html: 'Relacija: %{name}'
+      history_title_html: 'Historija relacije: %{name}'
       members: Čłonojo
     relation_member:
-      entry_role: '%{type} %{name} jako %{role}'
+      entry_role_html: '%{type} %{name} jako %{role}'
       type:
         node: Suk
         way: Puć
         relation: Relacija
     containing_relation:
-      entry: Relacija %{relation_name}
-      entry_role: Relacija %{relation_name} (jako %{relation_role})
+      entry_html: Relacija %{relation_name}
+      entry_role_html: Relacija %{relation_name} (jako %{relation_role})
     not_found:
       sorry: 'Wodaj, %{type} #%{id} njebu namakany.'
       type:
@@ -218,7 +261,7 @@ hsb:
     redacted:
       redaction: Redakcija %{id}
       message_html: Wersija %{version} tutoho %{type}a njeda so pokazać, dokelž je
-        so hižo redigowała. Prošu, hlej %{redaction_link} za podronosće.
+        so hižo redigowała. Prošu hlej %{redaction_link} za podrobnosće.
       type:
         node: suk
         way: puć
@@ -235,6 +278,7 @@ hsb:
         tag: Wikijowa wopisanska strona za atribut %{key}=%{value}
       wikidata_link: Zapisk %{page} na Wikidata
       wikipedia_link: Nastawk %{page} we Wikipediji
+      wikimedia_commons_link: Element %{page} na Wikimedija Commons
       telephone_link: '%{phone_number} zawołać'
     note:
       title: 'Suk: %{id}'
@@ -246,16 +290,15 @@ hsb:
       opened_by: Wutworjeny wot %{user} <abbr title='%{exact_time}'>před %{when}</abbr>
       opened_by_anonymous: Wutworjeny wot anonymneho <abbr title='%{exact_time}'>před
         %{when}</abbr>
-      commented_by: Komentar wot %{user} <abbr title='%{exact_time}'>před %{when}</abbr>
-      commented_by_anonymous: Komentar wot anonymneho <abbr title='%{exact_time}'>před
-        %{when}</abbr>
-      closed_by: Sčinjeny wot %{user} <abbr title='%{exact_time}'>před %{when}</abbr>
-      closed_by_anonymous: Sčinjeny wot anonymneho <abbr title='%{exact_time}'>před
-        %{when}</abbr>
+      commented_by: Komentar wot %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Komentar wot anonymneho <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Rozrisany wot %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Rozrisany wot anonymneho <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by: Reaktiwizowany wot %{user} <abbr title='%{exact_time}'>před %{when}</abbr>
       reopened_by_anonymous: Reaktiwizowany wot anonymneho <abbr title='%{exact_time}'>před
         %{when}</abbr>
       hidden_by: Schowany wot %{user} <abbr title='%{exact_time}'>před %{when}</abbr>
+      report: Tutón pokiw zdźělić
     query:
       title: Funkcije naprašować
       introduction: Klikń na kartu, zo by susodne objekty namakał(a).
@@ -264,7 +307,7 @@ hsb:
   changesets:
     changeset_paging_nav:
       showing_page: Strona %{page}
-      next: Dale »
+      next: Přichodna »
       previous: « Předchadna
     changeset:
       anonymous: Anonymny
@@ -272,34 +315,38 @@ hsb:
       view_changeset_details: Podrobnosće sadźby změnow pokazać
     changesets:
       id: ID
-      saved_at: Datum składowanja
+      saved_at: 'Składowane:'
       user: Wužiwar
       comment: Komentar
       area: Wobłuk
     index:
       title: Sadźby změnow
       title_user: Sadźby změnow wot %{user}
-      title_friend: Změny twojich přećelow
+      title_friend: Změny mojich přećelow
       title_nearby: Sadźby změnow wužiwarjow w bliskosći
       empty: Žane sadźby změnow namakane.
-      empty_area: Žane sadźby změnow w tutym wobłuku.
+      empty_area: Žane sadźby změnow w tutej kónčinje.
       empty_user: Žane sadźby změnow wot tutoho wužiwarja.
       no_more: Žane dalše sadźby změnow namakane.
-      no_more_area: Žane dalše sadźby změnow w tutym wobłuku.
+      no_more_area: Žane dalše sadźby změnow w tutej kónčinje.
       no_more_user: Žane dalše sadźby změnow wot tutoho wužiwarja.
       load_more: Wjace začitać
     timeout:
-      sorry: Bohužel je předołho trało, skupiny změny, kotrež sy požadał, wotwołać.
+      sorry: Bohužel je předołho trało, požadanu lisćinu změnow wotwołać.
   changeset_comments:
     comment:
       comment: Nowy komentar k sadźbje změnow čo. %{changeset_id} wot %{author}
-      commented_at_by_html: Před %{when} wot %{user} nahraty
+      commented_at_by_html: Aktualizowany %{when} wot %{user}
+    comments:
+      comment: Nowy komentar k sadźbje změnow čo. %{changeset_id} wot %{author}
     index:
       title_all: Diskusija wo sadźbje změnow OpenStreetMap
       title_particular: Diskusija wo sadźbje změnow čo. %{changeset_id} OpenStreetMap
+    timeout:
+      sorry: Bohužel je předołho trało, wot tebje požadanu lisćinu komentarow wotwołać.
   diary_entries:
     new:
-      title: Nowy dźenikowy zapisk
+      title: Nowy zapisk do dźenika
     form:
       subject: 'Nastupa:'
       body: 'Tekst:'
@@ -309,15 +356,15 @@ hsb:
       longitude: 'Dołhostnik:'
       use_map_link: kartu wužiwać
     index:
-      title: Dźeniki wužiwarjow
+      title: Wužiwarske dźeniki
       title_friends: Dźeniki přećelow
       title_nearby: Dźeniki wužiwarjow w bliskosći
       user_title: dźenik wužiwarja %{user}
       in_language_title: Dźenikowe zapiski w rěči %{language}
-      new: Nowy dźenikowy zapisk
-      new_title: Nowy zapisk w twojim wužiwarskim dźeniku spisać
+      new: Nowy zapisk do dźenika
+      new_title: Nowy zapisk do twojeho wužiwarskeho dźenika pisać
       no_entries: Žane zapiski w dźeniku
-      recent_entries: Najnowše dźenikowe zapiski
+      recent_entries: Najnowše zapiski w dźeniku
       older_entries: Starše zapiski
       newer_entries: Nowše zapiski
     edit:
@@ -327,15 +374,15 @@ hsb:
       title: Dźenik %{user} | %{title}
       user_title: dźenik wužiwarja %{user}
       leave_a_comment: Spisaj komentar
-      login_to_leave_a_comment: '%{login_link}, zo by komentar spisał'
+      login_to_leave_a_comment_html: '%{login_link}, zo by komentar spisał(a)'
       login: Přizjew so
     no_such_entry:
-      title: Dźenikowy zapisk njeeksistuje
-      heading: Žadyn zapisk z id %{id}
-      body: Wodaj, dźenikowy zapisk abo komentar z id %{id} njeeksistuje. Prošu skontroluj
-        swój prawopis abo snano je wotkaz, na kotryž sy kliknył, je njepłaćiwy.
+      title: Zapisk njebu namakany
+      heading: Žadyn zapisk z čisłom %{id}
+      body: Wodaj, dźenikowy zapisk abo komentar z čisłom %{id} njeeksistuje. Prošu
+        přepruwuj prawopis abo snano wotkaz, na kotryž sy kliknył(a), płaćiwy njeje.
     diary_entry:
-      posted_by: Pósłany wot %{link_user} dnja %{created} %{language_link}
+      posted_by_html: Spisany wot %{link_user} dnja %{created} w rěči %{language_link}
       comment_link: Komentar k tutomu zapiskej
       reply_link: Na tutón zapisk wotmołwić
       comment_count:
@@ -346,10 +393,12 @@ hsb:
         other: '%{count} komentarow'
       edit_link: Tutón zapisk wobdźěłać
       hide_link: Tutón zapisk schować
+      unhide_link: Tutón zapisk zaso pokazać
       confirm: Wobkrućić
     diary_comment:
-      comment_from: Komentar wot %{link_user} spisany dnja %{comment_created_at}
+      comment_from_html: Komentar wot %{link_user} spisany dnja %{comment_created_at}
       hide_link: Tutón komentar schować
+      unhide_link: Tutón komentar zaso pokazać
       confirm: Wobkrućić
     location:
       location: 'Městno:'
@@ -357,32 +406,33 @@ hsb:
       edit: Wobdźěłać
     feed:
       user:
-        title: OpenStreetMap dźenikowe zapiski za wužiwarja %{user}
-        description: Najnowše dźenikowe zapiski OpenStreetMap wot wužiwarja %{user}
+        title: OpenStreetMap dźenikowe zapiski wot wužiwarja %{user}
+        description: Najnowše dźenikowe zapiski wot wužiwarja %{user}
       language:
-        title: OpenStreetMap dźenikowe zapiski %{language_name}
-        description: Najnowše dźenikowe zapiski wot wužiwarjow OpenStreetMap %{language_name}
+        title: OpenStreetMap dźenikowe zapiski w rěči %{language_name}
+        description: Najnowše dźenikowe zapiski wot wužiwarjow OpenStreetMap w rěči
+          %{language_name}
       all:
         title: OpenStreetMap dźenikowe zapiski
         description: Najnowše dźenikowe zapiski wužiwarjow OpenStreetMap
     comments:
-      has_commented_on: '%{display_name} je slědowace dźenikowe zapiski komentował'
-      post: Powěsć
-      when: Časowy dypk
+      has_commented_on: '%{display_name} je slědowace dźenikowe zapiski komentował(a)'
+      post: Zapisk
+      when: Hdy
       comment: Komentar
       newer_comments: Nowše komentary
       older_comments: Starše komentary
   geocoder:
     search:
       title:
-        latlon: Wuslědki wot <a href="http://openstreetmap.org/">Internal</a>
-        ca_postcode: Wuslědki wot <a href="http://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim: Wuslědki z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        latlon_html: Wuslědki wot <a href="http://openstreetmap.org/">Internal</a>
+        ca_postcode_html: Wuslědki wot <a href="http://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Wuslědki z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames: Wuslědki wot <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse: Wuslědki z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: Wuslědki wot <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Wuslědki z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames_reverse: Wuslědki wot <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse_html: Wuslědki wot <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -395,6 +445,7 @@ hsb:
           aerodrome: Lětanišćo
           apron: Lětanske předpolo
           gate: Wrota
+          hangar: Hangar
           helipad: Helikoptrowe přizemišćo
           runway: Startowa a přizemjenska čara
           taxiway: Lětadłowa jězdnja
@@ -415,92 +466,95 @@ hsb:
           bureau_de_change: Měnjernja
           bus_station: Busowe dwórnišćo
           cafe: Kofejownja
-          car_rental: Awtowa přenajimarnja
+          car_rental: Wupožčenje awtow
           car_sharing: Centrala za sobujěducych
-          car_wash: Awtomyjernja
-          casino: Kazino
-          charging_station: Napjelnjenska stacija
+          car_wash: awtomyjernja
+          casino: kazino
+          charging_station: napjelnjenska stacija
           childcare: hladanje dźěći
-          cinema: Kino
-          clinic: Klinika
+          cinema: kino
+          clinic: klinika
           clock: časnik
-          college: Wysoka šula
-          community_centre: Zhromadny centrum
-          courthouse: Sudnistwo
-          crematorium: Krematorij
-          dentist: Zubny lěkar
-          doctors: Lěkarjo
-          drinking_water: Pitna woda
-          driving_school: Jězbna šula
-          embassy: Wulkopósłanstwo
-          fast_food: Přikuski
-          ferry_terminal: Přewozny přistaw
-          fire_station: Wohnjostraža
+          college: wysoka šula
+          community_centre: towaršnostny centrum
+          courthouse: sudnistwo
+          crematorium: krematorij
+          dentist: zubny lěkar
+          doctors: lěkarjo
+          drinking_water: pitna woda
+          driving_school: jězbna šula
+          embassy: wulkopósłanstwo
+          fast_food: přikuski
+          ferry_terminal: přewozny přistaw
+          fire_station: wohnjostraža
           food_court: Food Court
-          fountain: Studnja
-          fuel: Tankownja
-          gambling: Hra wo zbožo
-          grave_yard: Kěrchow
-          hospital: Chorownja
-          hunting_stand: Łakańca
-          ice_cream: Jědźny lód
-          kindergarten: Pěstowarnja
-          library: Knihownja
-          marketplace: Torhošćo
+          fountain: studnja
+          fuel: tankownja
+          gambling: hra wo zbožo
+          grave_yard: pohrjebnišćo
+          hospital: chorownja
+          hunting_stand: łakańca
+          ice_cream: lodownja
+          kindergarten: pěstowarnja
+          library: knihownja
+          marketplace: torhošćo
           monastery: klóšter
           motorcycle_parking: parkowanišćo za motorske
-          nightclub: Nócny klub
-          nursing_home: Hladarnja
-          office: Běrow
-          parking: Parkowanišćo
+          nightclub: nócny klub
+          nursing_home: starownja
+          office: běrow
+          parking: parkowanišćo
           parking_entrance: zajězd parkowanišća
-          pharmacy: Lěkarnja
+          parking_space: stejnišćo
+          pharmacy: lěkarnja
           place_of_worship: Boži dom
-          police: Policija
-          post_box: Listowy kašćik
-          post_office: Póstowy zarjad
-          preschool: Předšula
-          prison: Jastwo
-          pub: Korčma
-          public_building: Zjawne twarjenje
-          recycling: Přijimarnja starowiznow
-          restaurant: Hosćenc
-          retirement_home: Starownja
-          sauna: Sawna
-          school: Šula
-          shelter: Podstup
-          shop: Wobchod
-          shower: Duša
-          social_centre: Socialne srjedźišćo
-          social_club: Towarstwo
-          social_facility: Socialne zarjadnišćo
-          studio: Studijo
-          swimming_pool: Płuwanišćo
-          taxi: Taksijowe zastanišćo
-          telephone: Zjawny telefon
-          theatre: Dźiwadło
-          toilets: Nuzniki
-          townhall: Radnica
-          university: Uniwersita
-          vending_machine: Awtomat
-          veterinary: Zwěrjacy lěkar
-          village_hall: Gmejnski centrum
-          waste_basket: Wotpadkowe sudobjo
+          police: policija
+          post_box: póštowy kašćik
+          post_office: póštowy zarjad
+          preschool: předšula
+          prison: jastwo
+          pub: korčma
+          public_building: zjawne twarjenje
+          recycling: přijimarnja starowiznow
+          restaurant: hosćenc
+          retirement_home: starownja
+          sauna: sawna
+          school: šula
+          shelter: podstup
+          shop: wobchod
+          shower: duša
+          social_centre: socialny centrum
+          social_club: towarstwo
+          social_facility: socialne zarjadnišćo
+          studio: studijo
+          swimming_pool: płuwanišćo
+          taxi: taksi
+          telephone: zjawny telefon
+          theatre: dźiwadło
+          toilets: nuzniki
+          townhall: radnica
+          university: uniwersita
+          vending_machine: awtomat
+          veterinary: skótny lěkar
+          village_hall: gmejnski dom
+          waste_basket: smjećnik
           waste_disposal: wotstronjenje wotpadkow
-          youth_centre: Centrum za młodostnych
+          water_point: wodowy přizamk
+          youth_centre: młodźinski dom
         boundary:
-          administrative: Zarjadniska hranica
-          census: Mjeza ludličenskeho wobwoda
-          national_park: Narodny park
-          protected_area: Škitane pasmo
+          administrative: zarjadniska hranica
+          census: mjeza ludličenskeho wobwoda
+          national_park: nacionalny park
+          protected_area: škitane pasmo
         bridge:
-          aqueduct: Akwedukt
-          suspension: Wisaty móst
-          swing: Wobwjertny móst
-          viaduct: Wiadukt
-          "yes": Móst
+          aqueduct: akwedukt
+          boardwalk: přibrjóžna promenada
+          suspension: wisaty móst
+          swing: wobwjertny móst
+          viaduct: wiadukt
+          "yes": móst
         building:
-          "yes": Twarjenje
+          "yes": twarjenje
         craft:
           brewery: piwarnja
           carpenter: ćěsla
@@ -508,7 +562,7 @@ hsb:
           gardener: zahrodnik
           painter: moler
           photographer: fotograf
-          plumber: klampnar
+          plumber: blachar
           shoemaker: šewc
           tailor: krawc
           "yes": rjemjeslniski wobchod
@@ -516,523 +570,690 @@ hsb:
           ambulance_station: wuchowanska stacija
           defibrillator: defibrilator
           landing_site: nuzowe přizemišćo
-          phone: Nuzowy telefon
+          phone: nuzowy telefon
+          "yes": nuzowy pad
         highway:
           abandoned: rozpušćena awtodróha
-          bridleway: Jěchanski puć
-          bus_guideway: Trolejbusowy milinowód
-          bus_stop: Busowe zastanišćo
-          construction: Dróha so twari
-          cycleway: Kolesowarska šćežka
-          elevator: zběhadło
-          emergency_access_point: Přijimarnja njezbožow
-          footway: Pućik
-          ford: Bród
-          living_street: Hasa z pomjeńšenym wobchadom
-          milestone: Kilometrowy kamjeń
-          motorway: Awtodróha
-          motorway_junction: Awtodróhowe křižnišćo
-          motorway_link: Přijězd na awtodróhu
-          path: Šćežka
-          pedestrian: Chódnik
-          platform: Platforma
-          primary: Dróha prěnjeho rjada
-          primary_link: Dróha prěnjeho rjada
-          proposed: Planowana dróha
-          raceway: Pista
-          residential: Bydlenska hasa
-          rest_area: Wotpočnišćo
-          road: Dróha
-          secondary: Dróha druheho rjada
-          secondary_link: Dróha druheho rjada
-          service: Dróha za přidróžnych
-          services: Awtodróhowy wotpočny hosćenc
-          speed_camera: Błyskadło
-          steps: Schodźenki
-          street_lamp: Nadróžna latarnja
-          tertiary: Dróha třećeho rjada
-          tertiary_link: Dróha třećeho rjada
-          track: Pólny puć
+          bridleway: jěchanski puć
+          bus_guideway: busowa čara
+          bus_stop: busowe zastanišćo
+          construction: dróha so twari
+          corridor: wochěža
+          cycleway: kolesowarska šćežka
+          elevator: lift
+          emergency_access_point: nuzowa słužba
+          footway: pućik
+          ford: bród
+          give_way: značka "předjězba"
+          living_street: hasa z pomałkim wobchadom
+          milestone: milnik
+          motorway: awtodróha
+          motorway_junction: awtodróhowe křižnišćo
+          motorway_link: přijězd na awtodróhu
+          path: šćežka
+          pedestrian: chódnik
+          platform: platforma
+          primary: zwjazkowa dróha
+          primary_link: přijězd na zwjazkowu dróhu
+          proposed: planowana dróha
+          raceway: wubědźowanska čara
+          residential: bydlenska hasa
+          rest_area: wotpočnišćo
+          road: dróha
+          secondary: krajna dróha
+          secondary_link: přijězd na krajnu dróhu
+          service: dojězdny puć
+          services: awtodróhowy hosćenc
+          speed_camera: błyskač
+          steps: schody
+          stop: stop-značka
+          street_lamp: přidróžna latarnja
+          tertiary: dróha třećeho rjadu
+          tertiary_link: přijězd na dróhu třećeho rjadu
+          track: pólny puć
           traffic_signals: ampla
-          trail: Šćežka
-          trunk: Dalokodróha
-          trunk_link: Dalokodróha
-          unclassified: Njezarjadowana dróha
+          trail: šćežka
+          trunk: spěšnodróha
+          trunk_link: přijězd na spěšnodróhu
+          turning_loop: wobroćišćo
+          unclassified: powšitkowna dróha
           "yes": dróha
         historic:
-          archaeological_site: Archeologiske wurywanišćo
-          battlefield: Bitwišćo
-          boundary_stone: Měznik
+          archaeological_site: archeologiska městnosć
+          battlefield: bitwišćo
+          boundary_stone: měznik
           building: historiske twarjenje
           bunker: bunker
-          castle: Hród
-          church: Cyrkej
+          castle: hród
+          church: cyrkej
           city_gate: měšćanske wrota
-          citywalls: Měšćanske murje
-          fort: Fort
-          heritage: twarske herbstwo
-          house: Dom
-          icon: Ikona
-          manor: Knježi dwór
-          memorial: Wopomnišćo
-          mine: Podkopki
-          monument: Pomnik
+          citywalls: měšćanske murje
+          fort: fort
+          heritage: kulturne herbstwo
+          house: dom
+          icon: ikona
+          manor: knježi dwór
+          memorial: wopomnišćo
+          mine: podkopki
+          mine_shaft: překop
+          monument: pomnik
           roman_road: romska dróha
-          ruins: Rozpadanki
+          ruins: rozpadanki
           stone: błudźenk
-          tomb: Row
-          tower: Wěža
-          wayside_cross: Pućny křiž
-          wayside_shrine: Stołp
-          wreck: Wrak
+          tomb: row
+          tower: wěža
+          wayside_cross: swjaty křiž
+          wayside_shrine: modlerski stołp
+          wreck: wrak
+          "yes": historiska městnosć
         junction:
           "yes": křižowanišćo
         landuse:
-          allotments: Małozahrodki
-          basin: Basenk
-          brownfield: Industrijowe lado
-          cemetery: Kěrchow
-          commercial: Přemysłowa kónčina
-          conservation: Přirodoškit
-          construction: Twar
-          farm: Farma
-          farmland: Pola
-          farmyard: Statok
-          forest: Wužitny lěs
-          garages: Awtowa porjedźernja
-          grass: Trawa
-          greenfield: Njewobtwarjena zemja
-          industrial: Industrijowa kónčina
-          landfill: Smjećišćo
-          meadow: Łuka
-          military: Wojerska kónčina
-          mine: Podkopki
-          orchard: Sadowa zahroda
-          quarry: Skała
-          railway: Železnica
-          recreation_ground: Wočerstwjenska krajina
-          reservoir: Zběranski basenk
-          reservoir_watershed: Wódny rozwod reservoira
-          residential: Bydlenski wobwod
-          retail: Wobchody
-          road: Dróhowe pasmo
-          village_green: Nawjes
-          vineyard: Winicy
-          "yes": wužiwanje pódy
+          allotments: zahrodki
+          basin: basenk
+          brownfield: lado
+          cemetery: pohrjebnišćo
+          commercial: přemysłownišćo
+          conservation: přirodoškitne pasmo
+          construction: twarnišćo
+          farm: statok
+          farmland: rola
+          farmyard: burski statok
+          forest: lěs
+          garages: garaže
+          grass: łuka
+          greenfield: njewobtwarjena zemja
+          industrial: industrijna kónčina
+          landfill: deponija
+          meadow: łuka
+          military: wojerska kónčina
+          mine: podkopki
+          orchard: sadowa zahroda
+          quarry: skała
+          railway: železniski teren
+          recreation_ground: wočerstwjenišćo
+          reservoir: zběranski basenk
+          reservoir_watershed: wodowe přitočnišćo
+          residential: sydlišćo
+          retail: wobchody
+          road: dróhowe pasmo
+          village_green: nawjes
+          vineyard: winica
+          "yes": wužiwanje zemje
         leisure:
-          beach_resort: Mórske kupjele
-          bird_hide: Ptači schow
-          common: Gmejnski kraj
+          beach_resort: mórske kupjele
+          bird_hide: ptači schow
+          common: gmejnski kraj
           dog_park: psyči park
-          fishing: Rybnišćo
+          firepit: wohnišćo
+          fishing: rybnišćo
           fitness_centre: fitnessownja
-          fitness_station: Fitnesowy center
-          garden: Zahroda
-          golf_course: Golfownišćo
-          horse_riding: jěchanje
-          ice_rink: Smykanišćo
-          marina: Jachtowy přistaw
-          miniature_golf: Minigolf
-          nature_reserve: Přirodoškitne pasmo
-          park: Park
-          pitch: Sportnišćo
-          playground: Hrajkanišćo
-          recreation_ground: Wočerstwjenišćo
+          fitness_station: fitnesowa stacija
+          garden: zahroda
+          golf_course: golfownišćo
+          horse_riding: jěchanišćo
+          ice_rink: smykanišćo
+          marina: sportowy přistaw
+          miniature_golf: minigolf
+          nature_reserve: přirodoškitne pasmo
+          park: park
+          pitch: sportnišćo
+          playground: hrajkanišćo
+          recreation_ground: wočerstwjenišćo
           resort: prózdninske městno
-          sauna: Sawna
+          sauna: sawna
           slipway: Helling
-          sports_centre: Sportowy centrum
-          stadium: Stadion
-          swimming_pool: Swimmingpool
-          track: Běhanišćo
-          water_park: Wodowy park
+          sports_centre: sportowy centrum
+          stadium: stadion
+          swimming_pool: płuwanišćo
+          track: běhanišćo
+          water_park: wodowy park
           "yes": wólny čas
         man_made:
+          adit: podkopk
+          beacon: swětłownja
+          beehive: kołć
+          breakwater: přistawny nasyp
+          bridge: móst
+          bunker_silo: bunker
+          chimney: wuheń
+          crane: kran
+          dyke: haćenje
+          embankment: skłonina
+          flagpole: chorhojowy sćežor
+          gasometer: gazometer
+          groyne: buna
+          kiln: palna pěc
           lighthouse: swětłownja
-          mine: Podkopki
+          mast: sćežor
+          mine: podkopki
+          mineshaft: překop
+          monitoring_station: wobkedźbowanska stacija
+          petroleum_well: wolijowe žórło
+          pier: stołp
           pipeline: rołowód
-          silo: Silo
+          silo: silo
+          storage_tank: składowanski tank
+          surveillance: dohladowanje
           tower: wěža
-          water_tower: Wodowa wěža
+          wastewater_plant: wodočisćernja
+          watermill: wodowy młyn
+          water_tower: wodowa wěža
+          water_well: studnja
+          water_works: wodarnja
           windmill: wětrnik
           works: fabrika
           "yes": kumštne
         military:
-          airfield: Wojerske lětanišćo
-          barracks: Kaserna
-          bunker: Bunker
+          airfield: wojerske lětanišćo
+          barracks: kaserna
+          bunker: bunker
+          "yes": wójsko
         mountain_pass:
-          "yes": Hórski přesmyk
+          "yes": hórski přesmyk
         natural:
-          bay: Zaliw
-          beach: Přibrjóh
-          cape: Kap
-          cave_entrance: Prózdnjeński zachod
-          cliff: Wuskała
-          crater: Krater
-          dune: Nawěw
-          fell: Fjeld
-          fjord: Fjord
-          forest: Lěs
-          geyser: Geiser
-          glacier: Lodowc
+          bay: zaliw
+          beach: přibrjóh
+          cape: kap
+          cave_entrance: zachod prózdnjeńcy
+          cliff: wuskała
+          crater: krater
+          dune: nawěw
+          fell: fjeld
+          fjord: fjord
+          forest: lěs
+          geyser: geysir
+          glacier: lodowc
           grassland: łuka
-          heath: Hola
-          hill: Hórka
-          island: Kupa
-          land: Kraj
-          marsh: Marša
-          moor: Bahno
-          mud: Błóto
-          peak: Wjeršk
-          point: Dypk
-          reef: Rif
-          ridge: Horinski hrjebjeń
-          rock: Skała
+          heath: hola
+          hill: hórka
+          island: kupa
+          land: kraj
+          marsh: marša
+          moor: bahno
+          mud: błóto
+          peak: wjeršk
+          point: dypk
+          reef: rif
+          ridge: hórski hrjebjeń
+          rock: kamjenje
           saddle: přesmyk
           sand: pěsk
-          scree: Walanki
-          scrub: Kerki
-          spring: Žórło
-          stone: Kamjeń
-          strait: Mórska wužina
-          tree: Štom
-          valley: Doł
-          volcano: Wulkan
+          scree: walanki
+          scrub: kerki
+          spring: žórło
+          stone: błudźenk
+          strait: mórska wužina
+          tree: štom
+          valley: doł
+          volcano: wulkan
           water: wodźizna
-          wetland: Łučina
-          wood: Lěs
+          wetland: łučina
+          wood: lěs
         office:
-          accountant: Knihiwjedniski běrow
+          accountant: knihiwjedniski běrow
           administrative: zarjadnistwo
-          architect: Architektny běrow
-          company: Zawod
+          architect: architektowy běrow
+          association: towaršnosć
+          company: předewzaće
           educational_institution: kubłanska institucija
-          employment_agency: Dźěłowy zarjad
-          estate_agent: Makler ležownosćow
-          government: Zarjad
-          insurance: Zawěsćenski běrow
-          lawyer: Běrow prawiznika
-          ngo: Běrow njeknježerstwoweje organizacije
-          telecommunication: Dalokopowěsćowy zarjad
-          travel_agent: Pućowanski běrow
-          "yes": Běrow
+          employment_agency: dźěłowy zarjad
+          estate_agent: makler ležownosćow
+          government: zarjad
+          insurance: zawěsćenski běrow
+          it: IT-běrow
+          lawyer: prawiznik
+          ngo: NGO-běrow
+          telecommunication: telekomunikaciski běrow
+          travel_agent: jězbny běrow
+          "yes": běrow
         place:
-          allotments: małozahrodki
-          city: Wulkoměsto
-          country: Kraj
-          county: Wokrjes
-          farm: Farma
-          hamlet: Wjeska
-          house: Dom
-          houses: Domy
-          island: Kupa
-          islet: Kupka
-          isolated_dwelling: Jednotliwe bydło
-          locality: Sydlišćo
-          municipality: Gmejna
-          neighbourhood: Bydlenski wobwod
-          postcode: Postowe wodźenske čisło
-          region: Region
-          sea: Morjo
-          state: Zwjazkowy kraj
-          subdivision: Trabantowe město
-          suburb: Předměsto
-          town: Město
-          unincorporated_area: Bjezgmejnska kónčina
-          village: Wjes
+          allotments: zahrodki
+          city: wulkoměsto
+          city_block: bydlenski blok
+          country: kraj
+          county: wobwod
+          farm: statok
+          hamlet: wjeska
+          house: dom
+          houses: domy
+          island: kupa
+          islet: kupka
+          isolated_dwelling: jednotliwy statok
+          locality: městnosć
+          municipality: gmejna
+          neighbourhood: bydlenski wobwod
+          postcode: póštowa ličba
+          quarter: měšćanska štwórć
+          region: region
+          sea: morjo
+          square: naměsto
+          state: zwjazkowy kraj
+          subdivision: předměsto
+          suburb: měšćanski dźěl
+          town: město
+          unincorporated_area: bjezgmejnska kónčina
+          village: wjes
           "yes": městno
         railway:
-          abandoned: Rozpušćena železnica
-          construction: Železnica so twari
-          disused: Zastajena železnica
-          funicular: Powjaznica
-          halt: Železniske zastanišćo
-          junction: Železniske křižnišćo
-          level_crossing: Železniski přechod
-          light_rail: Měšćanska železnica
-          miniature: Miniaturna železnica
-          monorail: Jednokolijowa železnica
-          narrow_gauge: Wuskokolijata železnica
-          platform: Železniske nastupišćo
-          preserved: Muzejowa železnica
-          proposed: Planowana železniska čara
-          spur: Přizamkowe kolije
-          station: Dwórnišćo
-          stop: Železniske zastanišćo
+          abandoned: rozpušćena železnica
+          construction: železnica so twari
+          disused: zastajena železnica
+          funicular: powjaznica
+          halt: železniske zastanišćo
+          junction: železniske křižnišćo
+          level_crossing: železniski přechod
+          light_rail: měšćanska železnica
+          miniature: miniaturna železnica
+          monorail: jednokolijowa železnica
+          narrow_gauge: wuskokolijowa železnica
+          platform: železniske nastupišćo
+          preserved: muzejowa železnica
+          proposed: planowana železniska čara
+          spur: přizamkowe kolije
+          station: dwórnišćo
+          stop: zastanišćo
           subway: metro
-          subway_entrance: Zachod do podzemskeje železnicy
-          switch: Wuhibka
-          tram: Tramwajka
-          tram_stop: Tramwajkowe zastanišćo
+          subway_entrance: zachod k metro
+          switch: wuhibka
+          tram: tramwajka
+          tram_stop: zastanišćo tramwajki
         shop:
-          alcohol: Wobchod za spirituozy
-          antiques: Wobchod starožitnosćow
-          art: Wuměłski wobchod
-          bakery: Pjekarnja
-          beauty: Kosmetikowy salon
-          beverages: Napojowe wiki
-          bicycle: Wobchod za kolesa
-          books: Kniharnja
-          boutique: Butika
-          butcher: Rěznik
-          car: Awtosalon
-          car_parts: Awtowe narunanki
-          car_repair: Awtowa porjedźernja
-          carpet: Přestrjencowy wobchod
-          charity: Dobroćelski wobchod
-          chemist: Lěkarnja
-          clothes: Drastowy wobchod
-          computer: Kompjuterowy wobchod
-          confectionery: Konditarnja
-          convenience: Miniwiki
-          copyshop: Kopěrowanski wobchod
-          cosmetics: Kosmetikowy wobchod
-          deli: Delikatesowy wobchod
-          department_store: Kupnica
-          discount: Wobchod za tunje artikle
-          doityourself: Paslerska potrjeba
-          dry_cleaning: Čisćernja
-          electronics: Wobchod za elektroniku
-          estate_agent: Makler z imobilijemi
-          farm: Wobchod na statoku
-          fashion: Modowy wobchod
-          fish: Rybowy wobchod
-          florist: Kwětkarnja
-          food: Wobchod za žiwidła
-          funeral_directors: Pochowanski wustaw
-          furniture: Meble
-          gallery: Galerija
-          garden_centre: Zahrodny centrum
-          general: Wobchod za měšane twory
-          gift: Wobchod za dary
-          greengrocer: Wobchod za zeleniny
-          grocery: Žiwidłowy wobchod
-          hairdresser: Frizerski salon
-          hardware: Twarske wiki
-          hifi: Hi-fi
-          jewelry: Debjenkowy wobchod
-          kiosk: Kiosk
-          laundry: Myjernja
-          mall: Promenada
-          market: Wiki
-          mobile_phone: Telekomunikaciski wobchod
-          motorcycle: Wobchod za motorske
-          music: Wobchod za hudźbniny
-          newsagent: Kiosk nowin
-          optician: Optikar
-          organic: Biowobchod
-          outdoor: Wobchod pod hołym njebjom
-          pet: Coowobchod
-          pharmacy: Lěkarnja
-          photo: Fotograf
-          second_hand: Nakupowanišćo
-          shoes: Wobchod črijow
-          sports: Sportowy wobchod
-          stationery: Papjernistwo
-          supermarket: Superwiki
-          tailor: Krawcownja
-          toys: Wobchod za hrajki
-          travel_agency: Pućowanski běrow
-          video: Widejowobchod
-          wine: Wobchod za spirituozy
-          "yes": Wobchod
-        tourism:
-          alpine_hut: Hórska bawda
-          apartment: apartment
-          artwork: Wuměłska twórba
-          attraction: Atrakcija
-          bed_and_breakfast: Přenocowanje ze snědanju
-          cabin: Chěžka
-          camp_site: Stanowanišćo
-          caravan_site: Campingowanišćo za caravany
-          chalet: Chata
+          alcohol: wobchod za spirituozy
+          antiques: wobchod starožitnosćow
+          art: wuměłski wobchod
+          bakery: pjekarnja
+          beauty: kosmetikowy salon
+          beverages: napojowe wiki
+          bicycle: kolesowarski wobchod
+          books: kniharnja
+          boutique: butika
+          butcher: rěznik
+          car: awtodom
+          car_parts: awtowe narunanki
+          car_repair: awtowa porjedźernja
+          carpet: přestrjencowy wobchod
+          charity: dobroćelski wobchod
+          chemist: drogerija
+          clothes: drastowy wobchod
+          computer: kompjuterowy wobchod
+          confectionery: konditornja
+          convenience: miniwiki
+          copyshop: kopěrowanski wobchod
+          cosmetics: parfimerija
+          deli: delikatesowy wobchod
+          department_store: kupnica
+          discount: wobchod za tunje artikle
+          doityourself: wobchod za twaršćizny
+          dry_cleaning: čisćernja
+          electronics: wobchod za elektroniku
+          estate_agent: wikowar z imobilijemi
+          farm: statokowy wobchod
+          fashion: modowy wobchod
+          fish: rybowy wobchod
+          florist: kwětkarnja
+          food: wobchod za žiwidła
+          funeral_directors: pochowanski wustaw
+          furniture: meblowy wobchod
           gallery: galerija
-          guest_house: Hóstny dom
-          hostel: Hospoda
-          hotel: Hotel
-          information: Informacija
-          motel: Motel
-          museum: Muzej
-          picnic_site: Piknikowanišćo
-          theme_park: Park zabawy
-          viewpoint: Wuhladnišćo
-          zoo: Coo
+          garden_centre: zahrodniski centrum
+          general: wobchod za měšane twory
+          gift: wobchod za dary
+          greengrocer: wobchod za sad a zeleniny
+          grocery: žiwidłowy wobchod
+          hairdresser: frizer
+          hardware: železarstwo
+          hifi: Hi-fi
+          houseware: wobchod za domjace twory
+          interior_decoration: nutřkowne wuhotowanje
+          jewelry: debjenkar
+          kiosk: kiosk
+          kitchen: kuchinski wobchod
+          laundry: myjernja
+          lottery: loterija
+          mall: nakupowanski centrum
+          market: wiki
+          massage: masaža
+          mobile_phone: handyjowy wobchod
+          motorcycle: wobchod za motorske
+          music: hudźbny wobchod
+          newsagent: nowinski wobchod
+          optician: optikar
+          organic: biowobchod
+          outdoor: outdoor-wobchod
+          paint: lakěrowarnja
+          pawnbroker: zastawnja
+          pet: zwěrjacy wobchod
+          pharmacy: lěkarnja
+          photo: fotowy wobchod
+          seafood: mórske płody
+          second_hand: second-hand-wobchod
+          shoes: wobchod za črije
+          sports: sportowy wobchod
+          stationery: papjernistwo
+          supermarket: superwiki
+          tailor: krawcownja
+          ticket: tiketowy wobchod
+          tobacco: tobakowy wobchod
+          toys: wobchod za hrajki
+          travel_agency: jězbny běrow
+          tyres: wikowar z wobručemi
+          vacant: prózdny wobchod
+          variety_store: tuni wobchod
+          video: widejoteka
+          wine: winoteka
+          "yes": wobchod
+        tourism:
+          alpine_hut: hórska bawda
+          apartment: prózdninske bydlenje
+          artwork: wuměłska twórba
+          attraction: atrakcija
+          bed_and_breakfast: přenocowanje ze snědanju
+          cabin: chěžka
+          camp_site: stanowanišćo
+          caravan_site: campingowanišćo za caravany
+          chalet: chata
+          gallery: galerija
+          guest_house: hospoda
+          hostel: młodownja
+          hotel: hotel
+          information: informacija
+          motel: motel
+          museum: muzej
+          picnic_site: piknikowanišćo
+          theme_park: zabawjenski park
+          viewpoint: wuhladnišćo
+          zoo: coo
         tunnel:
-          culvert: Wotwódny kanal
-          "yes": Tunl
+          building_passage: přechod přez twarjenje
+          culvert: wotwódny kanal
+          "yes": tunl
         waterway:
-          artificial: Kumštna wodowa dróha
-          boatyard: Łódźnica
-          canal: Kanal
-          dam: Nasyp
-          derelict_canal: Zanjerodźeny kanal
-          ditch: Hrjebja
-          dock: Dok
-          drain: Wentok
-          lock: Přepław
-          lock_gate: Wrota přeplawnje
-          mooring: Přistawnišćo
-          rapids: Rěčne prohi
-          river: Rěka
+          artificial: kumštna wodowa dróha
+          boatyard: łódźnica
+          canal: kanal
+          dam: nasyp
+          derelict_canal: zanjerodźeny kanal
+          ditch: hrjebja
+          dock: dok
+          drain: wotwódna hrjebja
+          lock: přepławnja
+          lock_gate: přepławne wrota
+          mooring: přistawnišćo
+          rapids: rěčne prohi
+          river: rěka
           stream: rěčka
-          wadi: Wadi
-          waterfall: Wodopad
-          weir: Spušćadło
+          wadi: suchi doł
+          waterfall: wodopad
+          weir: spušćadło
           "yes": wódna dróha
       admin_levels:
-        level2: Statna hranica
-        level4: Krajna hranica
-        level5: Regionowa hranica
-        level6: Wokrjesowa hranica
-        level8: Měsćanska hranica
-        level9: Hranica měšćanskeho dźěla
-        level10: Předměstowa hranica
+        level2: statna hranica
+        level4: krajna hranica
+        level5: regionalna hranica
+        level6: wokrjesna hranica
+        level8: měšćanska hranica
+        level9: hranica měšćanskeho dźěla
+        level10: hranica štwórće
     description:
       title:
-        osm_nominatim: Městno z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim: Městno wot <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames: Městno wot from <a href="http://www.geonames.org/">GeoNames</a>
+        geonames: Městno wot <a href="http://www.geonames.org/">GeoNames</a>
       types:
-        cities: Wulkoměsta
-        towns: Města
-        places: Městna
+        cities: wulkoměsta
+        towns: města
+        places: městna
     results:
       no_results: Žane wuslědki namakane
       more_results: Dalše wuslědki
+  issues:
+    index:
+      title: Problemy
+      select_status: Status wubrać
+      select_type: Typ wubrać
+      select_last_updated_by: Wuběr naposledk aktualizowany wot
+      reported_user: zjewjeny wužiwar
+      not_updated: Njeaktualizowany
+      search: Pytać
+      search_guidance: 'Problemy přepytać:'
+      user_not_found: Wužiwar njeeksistuje
+      issues_not_found: Žane wotpowědne problemy namakane
+      status: Status
+      reports: Rozprawy
+      last_updated: Poslednja aktualizacija
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> wot %{user}
+      link_to_reports: Rozprawy sej wobhladać
+      reports_count:
+        one: Jedna rozprawa
+        other: '%{count} rozprawje'
+      reported_item: Zjewjeny objekt
+      states:
+        ignored: Ignorowany
+        open: Wočinjeny
+        resolved: Rozrisany
+    update:
+      new_report: Twoja rozprawa je so wuspěšnje registrowała
+      successful_update: Twoja rozprawa je so wuspěšnje aktualizowała
+      provide_details: Prošu zapodaj trěbne podrobnosće
+    show:
+      title: '%{status} Problem čo. %{issue_id}'
+      reports:
+        zero: Žane rozprawy
+        one: Jedna rozprawa
+        other: '%{count} rozprawje'
+      report_created_at: Prěni raz rozprawjene dnja %{datetime}
+      last_resolved_at: Posledni raz rozrisany dnja %{datetime}
+      last_updated_at: Posledni raz aktualizowany dnja %{datetime} wot %{displayname}
+      resolve: Rozrisać
+      ignore: Ignorować
+      reopen: Zaso wočinić
+      reports_of_this_issue: Rozprawy wo tutym problemje
+      read_reports: Rozprawy čitać
+      new_reports: Nowe rozprawy
+      other_issues_against_this_user: Dalše problemy z tutym wužiwarjom
+      no_other_issues: Žane dalše problemy z tutym wužiwarjom.
+      comments_on_this_issue: Komentary k tutomu problemej
+    resolve:
+      resolved: Status problema je so změnił na „rozrisane“
+    ignore:
+      ignored: Status problema je so změnił na „ignorowane“
+    reopen:
+      reopened: Status problema je so změnił na „wočinjene“
+    comments:
+      created_at: Dnja %{datetime}
+      reassign_param: Problem znowa připokazać?
+    reports:
+      updated_at: Dnja %{datetime}
+      reported_by_html: Rozprawjeny jako %{category} wot %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, komentar čo. %{comment_id}'
+        note: Pokazka čo. %{note_id}
+  issue_comments:
+    create:
+      comment_created: Twój komentar je so wuspěšnje wutworił
+  reports:
+    new:
+      title_html: '%{link} rozprawić'
+      missing_params: Njemóžu nowu rozprawu wutworić
+      details: Prošu zapodaj wjace podrobnosćow k tutomu problemej (trěbne).
+      select: 'Wubjer přičinu za twoju rozprawu:'
+      disclaimer:
+        intro: 'Prjedy hač pósćeleš twoju rozprawu moderatoram webstronu, prošu zawěsć,
+          zo:'
+        not_just_mistake: Sy sej wěsty/a, zo njeje problem jenož prosty zmylk.
+        unable_to_fix: Njemóžeš problem sam abo z pomocu čłonow našeho zhromadźenstwa
+          rozrisać.
+        resolve_with_user: Sy hižo spytał(a), problem z wotpowědnym wužiwarjom rozrisać.
+      categories:
+        diary_entry:
+          spam_label: Tutón zapisk je/wobsahuje spam
+          offensive_label: Tutón zapisk je njepřistojny/pohóršliwy
+          threat_label: Tutón zapisk wobsahuje hroženje
+          other_label: Druhe
+        diary_comment:
+          spam_label: Tutón komentar je/wobsahuje spam
+          offensive_label: Tutón komentar je njepřistojny/pohóršliwy
+          threat_label: Tutón komentar wobsahuje hroženje
+          other_label: Druhe
+        user:
+          spam_label: Tutón wužiwarski profil je/wobsahuje spam
+          offensive_label: Tutón wužiwarski profil je njepřistojny/pohóršliwy
+          threat_label: Tutón wužiwarski profil wobsahuje hroženje
+          vandal_label: Tutón wužiwar je wandala
+          other_label: Druhe
+        note:
+          spam_label: Tuta pokazka je spam
+          personal_label: Tuta pokazka wobsahuje wosobinske podaća
+          abusive_label: Tuta pokazka je zranjaca
+          other_label: Druhe
+    create:
+      successful_report: Twoja rozprawa je so wuspěšnje registrowała
+      provide_details: Prošu zapodaj trěbne podrobnosće
   layouts:
+    project_name:
+      title: OpenStreetMap
+      h1: OpenStreetMap
     logo:
       alt_text: OpenStreetMap logo
     home: K domjacemu stejnišću
     logout: Wotzjewić
     log_in: Přizjewić
-    log_in_tooltip: Do eksistowaceho konta so přizjewić
+    log_in_tooltip: Z wobstejacym kontom so přizjewić
     sign_up: Registrować
     start_mapping: Kartěrowanje započeć
     sign_up_tooltip: Konto za wobdźěłowanje załožić
     edit: Wobdźěłać
     history: Historija
     export: Eksport
+    issues: Problemy
     data: Daty
     export_data: Daty eksportować
     gps_traces: GPS-ćěrje
     gps_traces_tooltip: GPS-ćěrje zrjadować
-    user_diaries: Dźeniki
+    user_diaries: Wužiwarske dźeniki
     user_diaries_tooltip: Wužiwarske dźeniki čitać
-    edit_with: Z %{editor} wobdźěłać
-    tag_line: Swobodna swětowa karta
+    edit_with: Wobdźěłać z %{editor}
+    tag_line: Swobodna karta swěta
     intro_header: Witaj k OpenStreetMap!
     intro_text: OpenStreetMap je karta swěta, wutworjena wot ludźi kaž tebje a hodźi
       so swobodnje pod wotewrjenej licencu wužiwać.
     intro_2_create_account: Załož wužiwarske konto
-    partners_ucl: z UCL VR Centre
+    hosting_partners_html: Hosting podpěruje je so wot %{ucl}, %{bytemark} a druhich
+      %{partners}.
+    partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: partnerow
-    osm_offline: Datowa banka OpenStreetMap je tuchwilu offline, dokelž so wažne wobhladowankse
-      dźěła na datowej bance přewjedu.
+    tou: Wužiwanske wuměnjenja
+    osm_offline: Datowa banka OpenStreetMap je tuchwilu offline, dokelž so wažne hladanske
+      dźěła na njej přewjedu.
     osm_read_only: Datowa banka OpenStreetMap je tuchwilu jenož čitajomna, dokelž
-      so wažne wothladowanske dźěła na datowej bance přewjedu.
-    donate: Podpěraj OpenStreetMap přez %{link} k fondsej aktualizacije hardwary.
+      so wažne hladanske dźěła na njej přewjedu.
+    donate: Podpěraj darjensku akciju OpenStreetMap za hardware přez %{link}.
     help: Pomoc
-    about: Wo
+    about: Wo projekće
     copyright: Awtorske prawo
     community: Zhromadźenstwo
-    community_blogs: Blogi zhromadźenstwa
-    community_blogs_title: Blogi čłonow zhromadźenstwa OpenStreetMap
+    community_blogs: Dźeniki zhromadźenstwa
+    community_blogs_title: Dźeniki čłonow zhromadźenstwa OpenStreetMap
     foundation: Załožba
     foundation_title: Załožba OpenStreetMap
     make_a_donation:
       title: OpenStreetMap z pjenježnym darom podpěrać
       text: Darić
-    learn_more: Dalše informacije
+    learn_more: Wjace zhonić
     more: Wjace
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} je twój dźenikowy zapisk komentował'
+      subject: '[OpenStreetMap] %{user} je twój dźenikowy zapisk komentował(a)'
       hi: Witaj %{to_user},
-      header: '%{from_user} je twój najnowši dźenikowy zapisk OpenStreetMap z temowym
-        nadpismom %{subject} skomentował:'
-      footer: Móžeš tež komentar na %{readurl} čitać a na %{commenturl} komentować
+      header: '%{from_user} je dźenikowy zapisk pola OpenStreetMap z temu %{subject}
+        komentował(a):'
+      footer: Móžeš komentar tež na %{readurl} čitać a na %{commenturl} komentować
         abo na %{replyurl} wotmołwić
     message_notification:
+      subject_header: '[OpenStreetMap] %{subject}'
       hi: Witaj %{to_user},
-      header: '%{from_user} je ći přez OpenStreetMap powěsć z temowym nadpismom %{subject}
-        pósłał:'
-      footer_html: Móžeš powěsć pod %{readurl} čitać a móžeš pod %{replyurl} wotmołwić
+      header: '%{from_user} je ći přez OpenStreetMap powěsć z temu %{subject} pósłał(a):'
+      footer_html: Móžeš powěsć tež pod %{readurl} čitać a pod %{replyurl} wotmołwić
     friend_notification:
+      hi: Witaj %{to_user},
       subject: '[OpenStreetMap] %{user} je će jako přećela přidał'
       had_added_you: '%{user} je će na OpenStreetMap jako přećela přidał.'
-      see_their_profile: Móžeš jeho abo jeje profil na %{userurl} widźeć.
-      befriend_them: Móžeš jich na %{befriendurl} jako přećelow přidać.
+      see_their_profile: Móžeš sej jeho abo jeje profil na %{userurl} wobhladać.
+      befriend_them: Móžeš jeho/nju na %{befriendurl} jako přećela přidać.
     gpx_notification:
       greeting: Witaj,
-      your_gpx_file: Wupada kaž twoja GPX-dataja
+      your_gpx_file: Twoja GPX-dataja
       with_description: z wopisanjom
-      and_the_tags: 'a slědowace atributy:'
-      and_no_tags: a žane atributy.
+      and_the_tags: 'a slědowacymi atributami:'
+      and_no_tags: a bjez atributow.
       failure:
-        subject: '[OpenStreetMap] Zmylk při GPX-importowanju'
-        failed_to_import: 'Importowanje je so njeporadźiło. Zmylk:'
-        more_info_1: Dalše informacije wo zmylkach GPX-importowanja a kak móžeš je
-        more_info_2: 'wobeńć, su tu:'
+        subject: '[OpenStreetMap] Zmylk při imporće GPX'
+        failed_to_import: 'njemóhło so importować. Zmylk je:'
+        more_info_1: Dalše informacije wo zmylkach při imporće GPX a kak móžeš jim
+          zadźěwać
+        more_info_2: 'namakaš tu:'
       success:
-        subject: '[OpenStreetMap] GPX-importowanje wuspěšne'
+        subject: '[OpenStreetMap] GPX-import wuspěšny'
         loaded_successfully: '%{trace_points} z %{possible_points} móžnych dypkow
-          bu začitane.'
+          bu wuspěšnje importowane.'
     signup_confirm:
-      subject: '[OpenStreetMap] Witaj do OpenStreetMap'
+      subject: '[OpenStreetMap] Witaj k OpenStreetMap'
       greeting: Witaj!
-      created: Něchtó (nadźijamy so ty) je runje konto na %{site_url} załožił.
-      confirm: 'Prjedy hač něšto činimy, dyrbimy wobkrućić, zo tute naprašowanje wote
-        tebje přińdźe, jeli tomu tak je, klikń prošu na slědowacy wotkaz, zo by swoje
-        konto wobkrućił:'
-      welcome: Po tym zo by swoje konto wobkrućił, budźemy tebi přidatne informacije
-        za prěnje kroki dać.
+      created: Něchtó (nadźijomnje ty) je runje konto na %{site_url} załožił.
+      confirm: 'Prjedy hač něšto činimy, trjebamy wobkrućenje, zo přińdźe tute naprašowanje
+        wot tebje. Jeli tomu tak je, klikń prošu na slědowacy wotkaz, zo by swoje
+        konto wobkrućił(a):'
+      welcome: Po wobkrućenju twojeho konta damy tebi přidatne informacije wo prěnich
+        krokach.
     email_confirm:
-      subject: '[OpenStreetMap] Twoju e-mejlowu adresu wobkrućić'
+      subject: '[OpenStreetMap] Twoju mejlowu adresu wobkrućić'
     email_confirm_plain:
       greeting: Witaj,
-      hopefully_you: Něchtó (nadźijomnje ty) chce swoju e-mejlowu adresu na %{server_url}
-        do %{new_address} změnić
-      click_the_link: Jeli sy to ty, prošu klikń na slědowacy wotkaz, zo by změnu
-        wobkrućił.
+      hopefully_you: Něchtó (nadźijomnje ty) chce swoju mejlowu adresu na %{server_url}
+        změnić na %{new_address}
+      click_the_link: Jeli ty to sy, klikń prošu na slědowacy wotkaz, zo by změnu
+        wobkrućił(a).
     email_confirm_html:
       greeting: Witaj,
-      hopefully_you: Něchtó (najskerje ty) chce swoju e-mejlowu adresu na %{server_url}
-        do %{new_address} změnić.
-      click_the_link: Jeli sy to ty, klikń na slědowacy wotkaz, zo by změnu wobkrućił.
+      hopefully_you: Něchtó (nadźijomnje ty) chce swoju mejlowu adresu pola %{server_url}
+        na %{new_address} změnić.
+      click_the_link: Jeli ty to sy, klikń prošu na slědowacy wotkaz, zo by změnu
+        wobkrućił(a).
     lost_password:
-      subject: '[OpenStreetMap] Požadanje za wróćostajenje hesła'
+      subject: '[OpenStreetMap] Próstwa wo wróćostajenje hesła'
     lost_password_plain:
       greeting: Witaj,
-      hopefully_you: Něchtó (najskerje ty) je požadał hesło za konto openstreetmap.org
-        tuteje e-mejloweje adresy wróćo stajić.
+      hopefully_you: Něchtó (najskerje ty) je pod tutej mejlowej adresu wo to prosył,
+        hesło za konto na openstreetmap.org wróćo stajić.
       click_the_link: Jeli ty to sy, klikń prošu na slědowacy wotkaz, zo by swoje
-        hesło wróćo stajił.
+        hesło wróćo stajił(a).
     lost_password_html:
       greeting: Witaj,
-      hopefully_you: Něchtó (najskerje ty) je požadał hesło za konto openstreetmap.org
-        tuteje e-mejloweje adresy wróćo stajić.
+      hopefully_you: Něchtó (najskerje ty) je wo to prosył, hesło za konto tuteje
+        mejloweje adresy na openstreetmap.org wróćo stajić.
       click_the_link: Jeli ty to sy, klikń prošu na slědowacy wotkaz, zo by swoje
-        hesło wróćo stajił.
+        hesło wróćo stajił(a).
     note_comment_notification:
       anonymous: Anonymny wužiwar
       greeting: Witaj,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} je jednu z twojich pokazkow komentował'
-        subject_other: '[OpenStreetMap] %{commenter} je pokazku komentował, za kotruž
-          so zajimuješ'
-        your_note: '%{commenter} je komentar wo jednej z twojich pokazkow blisko %{place}
-          zawostajił.'
-        commented_note: '%{commenter} je komentar wo kartowej pokazce zawostajił,
-          kotruž sy komentował. Pokazka je blisko %{place}.'
+        subject_own: '[OpenStreetMap] %{commenter} je jednu z twojich pokazkow komentował(a)'
+        subject_other: '[OpenStreetMap] %{commenter} je pokazku komentował(a), za
+          kotruž so zajimuješ'
+        your_note: '%{commenter} je jednu z twojich pokazkow blisko %{place} komentował(a).'
+        commented_note: '%{commenter} je wot tebje komentowanu pokazku tohorunja komentował(a).
+          Pokazka je blisko %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} je jednu z twojich pokazkow rozrisał'
-        subject_other: '[OpenStreetMap] %{commenter} je pokazku wobkedźbował, za kotruž
+        subject_other: '[OpenStreetMap] %{commenter} je pokazku rozrisał, za kotruž
           so zajimuješ'
         your_note: '%{commenter} je jednu z twojich kartowych pokazkow blisko %{place}
-          wobkedźbował.'
-        commented_note: '%{commenter} je kartowu pokazku wobkedźował,  kotruž sy komentował.
+          rozrisał.'
+        commented_note: '%{commenter} je kartowu pokazku rozrisał, kotruž sy komentował(a).
           Pokazka je blisko %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} je jednu z twojich pokazkow reaktiwizował'
@@ -1040,140 +1261,143 @@ hsb:
           kotruž so zajimuješ'
         your_note: '%{commenter} je jednu z twojich kartowych pokazkow blisko %{place}
           reaktiwizował.'
-        commented_note: '%{commenter} je kartowu pokazku reaktiwizował,  kotruž sy
-          komentował. Pokazka je blisko %{place}.'
-      details: Dalše podrobnosće wo pokazce móžeš pod %{url} namakać.
+        commented_note: '%{commenter} je kartowu pokazku reaktiwizował, kotruž sy
+          komentował(a). Pokazka je blisko %{place}.'
+      details: Dalše podrobnosće wo pokazce namakaš pod %{url}.
     changeset_comment_notification:
+      hi: Witaj %{to_user},
       greeting: Witaj,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} je jednu z twojich změnow komentował(a)'
         subject_other: '[OpenStreetMap] %{commenter} je sadźbu změnow komentował,
           za kotruž so zajimuješ'
-        your_changeset: '%{commenter} je jednu z twojich sadźbow změnow komentował,
-          wutworjenu %{time}'
-        commented_changeset: '%{commenter} je sadźbu změnow karty komentował, kotruž
-          wobkedźbuješ a kotraž je so wot %{changeset_author} %{time} wutworiła'
-        partial_changeset_with_comment: z komentarom „%{changeset_comment}“
+        your_changeset: '%{commenter} je w %{time} jednu z twojich sadźbow změnow
+          komentował'
+        commented_changeset: '%{commenter} je w %{time} wot tebje wobkedźbowanu sadźbu
+          změnow komentował, kotraž je so wot %{changeset_author} wutworiła'
+        partial_changeset_with_comment: z přispomnjenku „%{changeset_comment}“
         partial_changeset_without_comment: bjez komentara
-      details: Dalše podrobnosće wo sadźbje změnow móžeš na %{url} namakać.
+      details: Dalše podrobnosće wo sadźbje změnow namakaš na %{url}.
+      unsubscribe: Zo by aktualizacije wo tutej sadźbje změnow wotskazał(a), wopytaj
+        %{url} a klikń na „wotzjewić“
   messages:
     inbox:
-      title: Póstowy kašćik
-      my_inbox: Mój póst
-      outbox: pósłany
+      title: Póštowy kašćik
+      my_inbox: Moja póšta
+      outbox: pósłane
       messages: Maš %{new_messages} a %{old_messages}
       new_messages:
         few: '%{count} nowe powěsće'
-        one: '%{count} nowa powěsć'
+        one: '%{count} nowu powěsć'
         two: '%{count} nowej powěsći'
         other: '%{count} nowych powěsćow'
       old_messages:
         few: '%{count} stare powěsće'
-        one: '%{count} stara powěsć'
+        one: '%{count} staru powěsć'
         two: '%{count} starej powěsći'
         other: '%{count} starych powěsćow'
       from: Wot
-      subject: Temowe nadpismo
+      subject: Tema
       date: Datum
-      no_messages_yet: Hišće nimaš powěsće. Staj da so z jednym z %{people_mapping_nearby_link},
-        do zwiska.
-      people_mapping_nearby: ludźi, kotřiž w bliskosći kartěruja
+      no_messages_yet_html: Hišće nimaš powěsće. Chceš z %{people_mapping_nearby_link}
+        styki nawjazać?
+      people_mapping_nearby: ludźimi, kotřiž w bliskosći kartěruja
     message_summary:
-      unread_button: Jako njepřečitany markěrować
-      read_button: Jako přečitany markěrować
+      unread_button: Jako njepřečitanu markěrować
+      read_button: Jako přečitanu markěrować
       reply_button: Wotmołwić
-      destroy_button: Zničić
+      destroy_button: Wotstronić
     new:
       title: Powěsć pósłać
-      send_message_to: Wužiwarjej %{name} nowu powěsć pósłać
-      subject: Temowe nadpismo
+      send_message_to_html: Wužiwarjej %{name} nowu powěsć pósłać
+      subject: Tema
       body: Tekst
-      back_to_inbox: Wróćo k póstowemu kašćikej
+      back_to_inbox: Wróćo k póštowemu kašćikej
     create:
       message_sent: Powěsć wotpósłana
-      limit_exceeded: Sy njedawno wjele powěsćow pósłał, prošu čakaj chwilku, prjedy
-        hač spytaš dalše pósłać.
+      limit_exceeded: Sy njedawno jara wjele powěsćow wotpósłał(a), prošu dočakaj
+        chwilku, prjedy hač dalše pósćeleš.
     no_such_message:
       title: Powěsć njeeksistuje
       heading: Powěsć njeeksistuje
-      body: Bohužel powěsć z tutym ID njeje.
+      body: Bohužel njeje powěsć z tutej ID.
     outbox:
-      title: Pósłany
-      my_inbox: Mój %{inbox_link}
-      inbox: póstowy kašćik
-      outbox: pósłany
+      title: Pósłane
+      my_inbox_html: Moja %{inbox_link}
+      inbox: póšta
+      outbox: pósłane
       messages:
-        few: Sy %{count} powěsće pósłał
-        one: Sy %{count} powěsć pósłał
-        two: Sy %{count} powěsći pósłał
-        other: Sy %{count} powěsćow pósłał
+        few: Sy %{count} powěsće pósłał(a)
+        one: Sy %{count} powěsć pósłał(a)
+        two: Sy %{count} powěsći pósłał(a)
+        other: Sy  %{count} powěsćow pósłał(a)
       to: Komu
-      subject: Temowe nadpismo
+      subject: Tema
       date: Datum
-      no_sent_messages: Hišće njejsy powěsće pósłał. Staj da so z jednym z %{people_mapping_nearby_link},
-        do zwiska.
-      people_mapping_nearby: ludźo, kotřiž w bliskosći kartěruja
+      no_sent_messages_html: Hišće njejsy žane powěsće pósłał(a). Chceš z %{people_mapping_nearby_link}
+        styki nawjazać?
+      people_mapping_nearby: ludźimi, kotřiž w bliskosći kartěruja
     reply:
-      wrong_user: Sy jako `%{user}' přizjewjeny, ale powěsć, na kotruž chcyše wotmołwić,
-        njebu na toho wužiwarja pósłana. Prošu přizjew so jako korektny wužiwar, zo
-        by wotmołwił.
+      wrong_user: Sy jako `%{user}' přizjewjeny, ale powěsć, na kotruž chceš wotmołwić,
+        bu na druheho wužiwarja pósłana. Prošu přizjew so z prawym kontom, zo by wotmołwił(a).
     show:
       title: Powěsć čitać
       from: Wot
-      subject: Temowe nadpismo
+      subject: Tema
       date: Datum
       reply_button: Wotmołwić
-      unread_button: Jako njepřečitany markěrować
+      unread_button: Jako njepřečitanu markěrować
+      destroy_button: Wotstronić
       back: Wróćo
       to: Komu
-      wrong_user: Sy jako `%{user}' přizjewjeny, ale powěsć, kotruž chcyše čitać,
-        njebu na toho wužiwarja pósłana. Prošu přizjew so jako korektny wužiwar, zo
-        by čitał.
+      wrong_user: Sy jako `%{user}' přizjewjeny, ale powěsć, kotruž chceš čitać, bu
+        na druheho wužiwarja pósłana. Prošu přizjew so z prawym kontom, zo by ju čitał(a).
     sent_message_summary:
-      destroy_button: Zničić
+      destroy_button: Wotstronić
     mark:
-      as_read: Powěsć jako přečitany markěrowana
-      as_unread: Powěsć jako njepřečitany markěrowana
+      as_read: Powěsć jako přečitanu markěrowana
+      as_unread: Powěsć jako njepřečitanu markěrowana
     destroy:
-      destroyed: Powěsć zničena
+      destroyed: Powěsć wotstronjena
   site:
     about:
       next: Dale
       copyright_html: <span>&copy; </span>sobuskutkowacy<br>OpenStreetMap
-      used_by: '%{name} staja kartowe daty za tysacy websydłow, mobilne nałoženja
-        a graty k dispoziciji'
-      lede_text: OpenStreetMap twori so wot zhromadźenstwa kartěrowarjow, kotřiž daty
-        wo hasach, pućach, kofejownjach, dwórnišćach a wjele wjace na cyłym swěće
-        přinošuja a hladaja.
+      used_by_html: '%{name} staja kartowe daty za tysacy webstronow, aplikacijow
+        a nastroje k dispoziciji'
+      lede_text: OpenStreetMap twori so wot zhromadźenstwa kartěrowarjow, kiž přinošuja
+        a hladaja daty wo pućach, twarjenjach, dwórnišćach a wjele wjace na cyłym
+        swěće.
       local_knowledge_title: Lokalna wěda
       local_knowledge_html: OpenStreetMap kładźe wažnosć na lokalnu wědu. Sobuskutkowacy
-        wužiwaja powětrowe wobrazy, GPS-graty a pólne karty, zo bychu přepruwowali,
-        zo by OSM je dokładny a aktualny.
-      community_driven_title: Wot zhromadźenstwa spěchowany
+        wužiwaja powětrowe wobrazy, GPS-nastroje a pólne karty za přepruwowanje, zo
+        by OSM dokładny a aktualny był.
+      community_driven_title: Wot zhromadźenstwa wutworjene
       community_driven_html: |-
         Zhromadźenstwo OpenStreetMap je wšelakore, rozpalite a rosće kóždy dźeń.
-        Naši sobuskutkowacy su zahorići kartěrowarjo, GIS-profijo, inženjerojo, kotřiž OSM-serwery ćěrja, pomocnicy, kotřiž kónčiny katastrofow kartěruja a wjele wjace.
-        Zo by wjace wo zhromadźenstwje zhonił, hlej <a href='%{diary_path}'>wužiwarske dźeniki</a>, <a href='http://blogs.openstreetmap.org/'>blogi zhromadźenstwa</a> a websydło załožby <a href='http://www.osmfoundation.org/'>OSM Foundation</a>
+        Naši sobuskutkowacy su zahorići kartěrowarjo, GIS-profijo, inženjerojo, kotřiž OSM-serwery ćěrja a wjele wjace.
+        Zo by wjace wo zhromadźenstwje zhonił(a), hlej <a href='%{diary_path}'>wužiwarske dźeniki</a>, <a href='http://blogs.openstreetmap.org/'>blogi zhromadźenstwa</a> a webstronu załožby <a href='http://www.osmfoundation.org/'>OSM Foundation</a>
       open_data_title: Zjawne daty
       open_data_html: 'OpenStreetMap wobsahuje <i>zjawne daty</i>: Móžeš je za kóždy
         zaměr wužiwać, dołhož OpenStreetMap a jeho sobuskutkowacych naspomnješ. Jeli
         daty na wěste wašnje změniš abo wutworiš, móžeš wuslědk jenož pod samsnej
-        licencu rozdźělić.Hlej <a href=''%{copyright_path}''>stronu awtorskeho prawa
-        a licency</a> za podrobnosće.'
+        licencu rozdźělić. Hlej <a href=''%{copyright_path}''>stronu wo awtorskim
+        prawje a licency</a> za podrobnosće.'
       legal_title: Prawniske pokiwy
       partners_title: Partnerojo
     copyright:
       foreign:
         title: Wo tutym přełožku
-        text: W padźe konflikta mjez přełoženej stronje a %{english_original_link},
-          jendźelska strona dyrbi prioritatu měć
+        html: W padźe wotchilenja mjez přełoženej stronu a %{english_original_link}
+          płaći tekst jendźelskeje strony.
         english_link: jendźelskim originalom
       native:
         title: Wo tutej stronje
-        text: Wobhladuješ sej jendźelsku wersiju strony awtorskeho prawa. Móžeš so
-          k %{native_link} tuteje strony wróćić abo wo awtorskim prawje čitać a %{mapping_link}.
+        html: Wobhladuješ sej jendźelsku wersiju informacijow wo awtorskim prawje
+          a licency. Móžeš so k %{native_link} tuteje strony wróćić abo čitanje přestać
+          a %{mapping_link}.
         native_link: hornjoserbskej wersiji
-        mapping_link: kartěrowanje započeć
+        mapping_link: z kartěrowanjom započeć
       legal_babble:
         title_html: Awtorske prawo a licenca
         intro_1_html: |-
@@ -1181,42 +1405,41 @@ hsb:
           href="http://opendatacommons.org/licenses/odbl/">Open Data
           Commons Open Database</a> (ODbL) wot <a
           href="http://osmfoundation.org/">załožby OpenStreetMap</a> (OSMF).
-        intro_2_html: Móžeš naše daty kopěrować, rozdźělić, přenjesć a přiměrić, tak
-          dołho kaž OpenStreetMap a jich sobuskutkowacych naspominaš. Jeli změniš
-          naše daty abo zepěraš so na nje, móžeš wuslědk jenož pod samsnej licencu
-          rozdźělić. Dospołny <a href="http://opendatacommons.org/licenses/odbl/1.0/">prawniski
-          kod</a> wujasnja twoje prawa a zamołwitosće.
+        intro_2_html: Směš naše daty kopěrować, rozdźělić, přenjesć a přiměrić, dołhož
+          OpenStreetMap a jeho sobuskutkowacych naspominaš. Jeli změniš naše daty
+          abo zepěraš so na nje, móžeš wuslědk jenož pod samsnej licencu rozdźělić.
+          Dospołny <a href="http://opendatacommons.org/licenses/odbl/1.0/">tekst licency</a>
+          wujasnja twoje prawa a winowatosće.
         intro_3_html: Kartografija w našich kartowych kachličkach a naša dokumentacija
           stej pod licencu <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
           Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA) licencowanej.
-        credit_title_html: Kak awtorstwo OpenStreetMap naspomnić
-        credit_1_html: Žadamy sej, zo  podawaš sobuskutkowarjow &ldquo;&copy; OpenStreetMap&rdquo;.
-        credit_2_html: Dyrbiš tež wujasnić, zo daty steja pod licencu Open Database,
-          a, jeli so naše kartowe kachlicy wužiwaja, zo kartografija so pod CC-BY-SA
-          licencuje. Móžeš to činić, wotkazujo do <a href="http://www.openstreetmap.org/copyright">tuteje
-          strony awtorskeho prawa</a>. Alternatiwnje, a jako žadanje, jeli rozdźěluješ
-          OSM w datowym formje, móžeš direktnje k licencam mjenować a wotkazać. W
-          medijach, hdźež wotkazy móžno njejsu (na př. wućišćane dźěła), namjetujemy
-          ći, twojich čitarjow na openstreetmap.org (snadź rozšěrjejo 'OpenStreetMap'
-          k tutej połnej adresy), na opendatacommons.org a, jeli to je relewantne,
-          na creativecommons.org skedźbnić.
-        credit_3_html: 'Za přepytujomnu elektronisku kartu měło so dźakprajenje w
-          róžku karty jewić. Na přikład:'
+        credit_title_html: Kak ma so na awtorstwo OpenStreetMap pokazać
+        credit_1_html: Žadamy sej wužiwanje pokazki „&copy; sobuskutkowacy OpenStreetMap“.
+        credit_2_html: Dyrbiš tež wujasnić, zo steja daty pod licencu Open Database,
+          a, jelizo wužiwaš naše kartowe kachlički, zo je kartografija pod CC-BY-SA
+          licencowana. Móžeš to činić wotkazujo na stronu <a href="http://www.openstreetmap.org/copyright">www.openstreetmap.org/copyright</a>.
+          Alternatiwnje, a winowatostnje, jeli OSM w formje datow dale dawaš, móžeš
+          direktnje na licency wotkazać a je mjenować. W medijach, hdźež wotkazy móžne
+          njejsu (na př. ćišćane dźěła), doporučimy tebi, twojich čitarjow na openstreetmap.org
+          (snadź rozšěrjejo 'OpenStreetMap' k połnej adresy), na opendatacommons.org
+          a, jeli přitrjechi, na creativecommons.org skedźbnić.
+        credit_3_html: 'Za přepytujomnu elektronisku kartu měła so pokazka w róžku
+          karty jewić. Na přikład:'
         attribution_example:
           alt: Přikład, kak so na webstronje na OpenStreetMap pokazuje
-          title: Připokazanski přikład
+          title: Přikład za mjenowanje na webstronje z elektroniskej kartu
         more_title_html: Dalše informacije
         more_1_html: |-
-          Čitaj wjace wo wužiwanju našich datow a kak hodźi so nas přispomnić na <a
-          href="http://osmfoundation.org/Licence">stronje OSMF wo licencach</a> a pod <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">"Huste prawniske prašenja"</a>.
-        more_2_html: "Hačrunjež OpenStreetMap wobsteji ze zjawnych datow, njemóžemy
-          darmotny kartowy API za wuwiwarjow třećich poskićić. \nHlej naše <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">prawidła
-          za wužiwanje API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Prawidła
-          za wužiwanje polow</a> a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Prawidła
+          Wjace informacijow wo wužiwanju našich datow a kak hodźi so na nas pokazować namakaš na <a
+          href="http://osmfoundation.org/Licence">stronje OSMF wo licencach</a>.
+        more_2_html: "Byrnjež wobstejał OpenStreetMap ze zjawnych datow, njemóžemy
+          darmotnu kartowu API za třećich poskićić. \nHlej naše <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">prawidła
+          za wužiwanje API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">prawidła
+          za wužiwanje kachličkow</a> a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">prawidła
           za wužiwanje Nominatim</a>."
         contributors_title_html: Naši sobuskutkowacy
-        contributors_intro_html: 'Naši sobuskutkowacy su tysacy wosobow. Zapřijimamy
-          tež daty wotewrjeneje licency z narodnych kartowanskich předewzaćow a druhich
+        contributors_intro_html: 'Naši sobuskutkowacy su tysacy jednotliwcow. Zapřijamy
+          tež wotewrjenje licencowane daty narodnych kartowych agenturow a z druhich
           žórłow, mjez nimi:'
         contributors_at_html: '<strong>Awstriska</strong>: Wobsahuje daty z <a href="http://data.wien.gv.at/">Stadt
           Wien</a> (pod <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC
@@ -1281,12 +1504,12 @@ hsb:
         je začitany a dalokowodźenska opcija je zmóžnjena
     edit:
       not_public: Njejsy swoje změny jako zjawne markěrowane.
-      not_public_description: Njemožeš hižo kartu wobźěłać, chibazo činiš to. Móžeš
-        swoje změny na swojej %{user_page} jako zjawne markěrować.
+      not_public_description_html: Njemožeš hižo kartu wobźěłać, chibazo činiš to.
+        Móžeš swoje změny na swojej %{user_page} jako zjawne markěrować.
       user_page_link: wužiwarskej stronje
       anon_edits_link_text: Zwěsćić, čehoždla je tomu tak.
-      flash_player_required: Trjebaš wothrawak Flash, zo by Potlatch, editor OpenStreetMap
-        Flash wužiwał. Móžeš <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">wothrawak
+      flash_player_required_html: Trjebaš wothrawak Flash, zo by Potlatch, editor
+        OpenStreetMap Flash wužiwał. Móžeš <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">wothrawak
         Flash wot Adobe.com sćahnyć</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Někotre
         druhe móžnosće</a> tež za wobdźěłowanje OpenStreetMap k dispoziciji steja.
       potlatch_unsaved_changes: Nimaš njeskładowane změny. (Zo by w programje Potlatch
@@ -1308,7 +1531,7 @@ hsb:
       map_image: Kartowy wobraz (pokazuje standardnu runinu)
       embeddable_html: Zasadźujomny HTML
       licence: Licenca
-      export_details: Daty OpenStreetMap su pod licencu <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
+      export_details_html: Daty OpenStreetMap su pod licencu <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
         Data Commons Open Database</a> (ODbL).
       too_large:
         advice: 'Jeli horni eksport so njeradźi, prošu wuwaž, hač wužiwaš jednu ze
@@ -1670,9 +1893,9 @@ hsb:
   oauth:
     authorize:
       title: Přistup na twoje konto awtorizować
-      request_access: Aplikacija %{app_name} prosy wo přistup na twoje konto, %{user}.
-        Prošu rozsudź, hač aplikacija ma slědowace prawa měć. Móžeš wšě abo jenož
-        někotre z nich wubrać.
+      request_access_html: Aplikacija %{app_name} prosy wo přistup na twoje konto,
+        %{user}. Prošu rozsudź, hač aplikacija ma slědowace prawa měć. Móžeš wšě abo
+        jenož někotre z nich wubrać.
       allow_to: 'Dowól nałoženju:'
       allow_read_prefs: twoje wužiwarske nastajenja čitać.
       allow_write_prefs: twoje wužiwarske nastajenja změnić.
@@ -1684,7 +1907,7 @@ hsb:
       grant_access: Přistup dać
     authorize_success:
       title: Awtorizowanske naprašowanje dowolene
-      allowed: Sy přistup nałoženja %{app_name} na twoje konto dowolił.
+      allowed_html: Sy přistup nałoženja %{app_name} na twoje konto dowolił.
       verification: Přepruwowanski kod je %{code}.
     authorize_failure:
       title: Awtorizowanske napřašowanje je so njeporadźiło
@@ -1724,9 +1947,9 @@ hsb:
       issued_at: Datum wudaća
       revoke: Anulować!
       my_apps: Moje klientowe aplikacije
-      no_apps: Maš aplikaciju, kotruž chceš za wužiwanje z standardom %{oauth} registrować?
-        Dyrbiš swoju webaplikaciju registrować, prjedy hač móžeš naprašowanja OAuth
-        k tutej słužbje wotpósłać.
+      no_apps_html: Maš aplikaciju, kotruž chceš za wužiwanje z standardom %{oauth}
+        registrować? Dyrbiš swoju webaplikaciju registrować, prjedy hač móžeš naprašowanja
+        OAuth k tutej słužbje wotpósłać.
       registered_apps: 'Sy slědowace aplikacije zregistrował:'
       register_new: Twoju aplikaciju registrować
     form:
@@ -1757,7 +1980,7 @@ hsb:
       heading: Přizjewjenje
       email or username: 'E-mejlowa adresa abo wužiwarske mjeno:'
       password: 'Hesło:'
-      openid: '%{logo} OpenID:'
+      openid_html: '%{logo} OpenID:'
       remember: 'Spomjatkować sej:'
       lost password link: Swoje hesło zabył?
       login_button: Přizjewjenje
@@ -1828,8 +2051,8 @@ hsb:
       title: Registrować
       no_auto_account_create: Bohužel njemóžemy tuchwilu žane konto za tebje awtomatisce
         załožić.
-      contact_webmaster: Prošu staj so z <a href="%{webmaster}">webmasterom</a> do
-        zwiska, zo by so konto załožiło - budźemy pospytać naprašowanje tak spěšnje
+      contact_webmaster_html: Prošu staj so z <a href="%{webmaster}">webmasterom</a>
+        do zwiska, zo by so konto załožiło - budźemy pospytać naprašowanje tak spěšnje
         kaž móžno wobdźěłać.
       about:
         header: Swobodny a wobdźěłujomny
@@ -1840,7 +2063,7 @@ hsb:
         za sobuskutkowarjow</a> přihłosować.
       email address: 'E-mejlowa adresa:'
       confirm email address: 'E-mejlowu adresu wobkrućić:'
-      not displayed publicly: Njepokazuje so zjawnje (hlej <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
+      not_displayed_publicly_html: Njepokazuje so zjawnje (hlej <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
         title="wiki privacy policy including section on email addresses">Prawidła
         priwatnosće</a>)
       display name: 'Wužiwarske mjeno:'
@@ -1862,7 +2085,7 @@ hsb:
       consider_pd: Přidatnje k horjeka mjenowanemu dojednanju, mam swoje přinoški
         za zjawnosć přistupne.
       consider_pd_why: Što to je?
-      guidance: 'Informacije, kotrež pomhaja tute wuměnjenja rozumić: <a href="%{summary}">zrozumliwe
+      guidance_html: 'Informacije, kotrež pomhaja tute wuměnjenja rozumić: <a href="%{summary}">zrozumliwe
         zjeće</a> a někotre <a href="%{translations}">njeoficielne přełožki</a>'
       decline: Wotpokazać
       you need to accept or decline: Prošu přečitaj nowe wužiwarske wuměnjenja a akceptuj
@@ -1909,8 +2132,8 @@ hsb:
       spam score: 'Spamowe hódnoćenje:'
       description: Wopisanje
       user location: Wužiwarske stejnišćo
-      if set location: Podaj swoje stejnišćo na boku  %{settings_link}, zo by wužiwarjow
-        w swojej bliskosći widźał.
+      if_set_location_html: Podaj swoje stejnišćo na boku  %{settings_link}, zo by
+        wužiwarjow w swojej bliskosći widźał.
       settings_link_text: nastajenja
       no friends: Hišće njejsy přećelow přidał.
       km away: '%{count} km zdaleny'
@@ -1965,7 +2188,7 @@ hsb:
         disabled link text: čehodla njemóžu wobdźěłać?
       public editing note:
         heading: Zjawne wobdźěłowanje
-        text: Tuchwilu twoje změny su anonymne a ludźo njemóžeja ći powěsće pósłać
+        html: Tuchwilu twoje změny su anonymne a ludźo njemóžeja ći powěsće pósłać
           abo twoje stejnišćo widźeć. Zo by pokazał, štož sy wobdźěłał a ludźom dowolił,
           so z tobu přez websydło do zwiska stajić, klikń deleka na tłóčatko. <b>Wot
           přeńdźenja do API 0.6, jenož zjawni wužiwarjo móžeja kartowe daty wobdźěłać</b>.
@@ -2053,8 +2276,8 @@ hsb:
       showing:
         one: Strona %{page} (%{first_item} z %{items})
         other: Strona %{page} (%{first_item}-%{last_item} z %{items})
-      summary: '%{name} wot %{ip_address} dnja %{date} wutworjeny'
-      summary_no_ip: '%{name} dnja %{date} wutworjeny'
+      summary_html: '%{name} wot %{ip_address} dnja %{date} wutworjeny'
+      summary_no_ip_html: '%{name} dnja %{date} wutworjeny'
       confirm: Wubranych wužiwarjow wobkrućic
       hide: Wubranych wužiwarjow schować
       empty: Žani wotpowědowacy wužiwarjo namakani
@@ -2062,7 +2285,7 @@ hsb:
       title: Konto wupowědźene
       heading: Konto wupowědźene
       webmaster: webmišter
-      body: |-
+      body_html: |-
         <p>
         Twoje konto bu bohužel podhladneje aktiwity dla wupowědźene.
         </p>
@@ -2110,7 +2333,7 @@ hsb:
       back: Wróćo k indeksej
     new:
       title: Wudźěla so blokowanje přećiwo %{name}
-      heading: Wudźěla so blokowanje přećiwo %{name}
+      heading_html: Wudźěla so blokowanje přećiwo %{name}
       reason: Přičina, čehoždla  %{name} je so zablokował. Prošu budź měrny a rozumny
         kaž móžno a podaj tak wjele podrobnosćow wo situaciji kaž móžno. Dźiwaj na
         to, zo powěsc budźe zjawnje widźomna. Wobkedźbuj, zo nic wšitcy wužiwarjo
@@ -2122,7 +2345,7 @@ hsb:
       back: Wšě blokowanja pokazać
     edit:
       title: Wobdźěłuje so blokowanje přećiwo %{name}
-      heading: Wobdźěłuje so blokowanje přećiwo %{name}
+      heading_html: Wobdźěłuje so blokowanje přećiwo %{name}
       reason: Přičina, čehoždla %{name} so blokuje. Prošu budź tak měrny a rozumny
         kaž móžno a podaj tak wjele podrobnosćow wo situaciji kaž móžno. Wobkedźbuj,
         zo nic wšitcy wužiwarjo žargon zhromadźenstwa rozumja, spytaj potajkim zapřijeća
@@ -2151,7 +2374,7 @@ hsb:
       empty: Hišće njejsu so žane blokowanja wudźělili.
     revoke:
       title: Zběhnje so blokowanje přećiwo %{block_on}
-      heading: Zběhnje so blokowanje přećiwo %{block_on} wot %{block_by}
+      heading_html: Zběhnje so blokowanje přećiwo %{block_on} wot %{block_by}
       time_future: Tute blokowanje skónči so %{time}.
       past: Tute blokowanje je so před %{time} skónčiło a njeda so nětko zběhnyć.
       confirm: Chceš woprawdźe tute blokowanje zběhnyć?
@@ -2169,15 +2392,15 @@ hsb:
           other: '%{count} hodźin'
     blocks_on:
       title: Blokowanja přećiwo %{name}
-      heading: Lisćina blokowanjow přećiwo %{name}
+      heading_html: Lisćina blokowanjow přećiwo %{name}
       empty: '%{name} hišće njeje so zablokował.'
     blocks_by:
       title: Blokowanja wudźělenych wot %{name}
-      heading: Lisćina blokowanjow wudźelenych wot %{name}
+      heading_html: Lisćina blokowanjow wudźelenych wot %{name}
       empty: '%{name} hišće njeje žane blokowanja wudźělił.'
     show:
       title: '%{block_on} wot %{block_by} zablokowany'
-      heading: '%{block_on} wot %{block_by} zablokowany'
+      heading_html: '%{block_on} wot %{block_by} zablokowany'
       created: Wutworjeny
       status: Status
       show: Pokazać

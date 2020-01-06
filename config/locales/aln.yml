@@ -111,14 +111,14 @@ aln:
         title: Ndryshim %{id}
         title_comment: Ndryshimi %{id} - %{comment}
     relation_member:
-      entry_role: '%{type} %{name} asht si %{role}'
+      entry_role_html: '%{type} %{name} asht si %{role}'
       type:
         node: Nyje
         way: Udhë
         relation: Lidhje
     containing_relation:
-      entry: Lidhja %{relation_name}
-      entry_role: Lidhja %{relation_name} (sikur %{relation_role})
+      entry_html: Lidhja %{relation_name}
+      entry_role_html: Lidhja %{relation_name} (sikur %{relation_role})
     not_found:
       sorry: Na vjen keq, %{type} me ID %{id}, nuk mujti me u gjetë.
       type:
@@ -189,7 +189,7 @@ aln:
       title: ditari i %{user} | %{title}
       user_title: ditari i %{user}
       leave_a_comment: Lene naj koment
-      login_to_leave_a_comment: '%{login_link} për me lon koment'
+      login_to_leave_a_comment_html: '%{login_link} për me lon koment'
       login: Hyrje
     no_such_entry:
       title: Nuk ka hyrje të tilla ditar
@@ -197,7 +197,7 @@ aln:
       body: Me na fal, por nuk ka shënim në ditar ose koment me id %{id}. Ju lutem
         shihni drejtshkrimin, ose lidhja që keni kliku asht gabim.
     diary_entry:
-      posted_by: U postu prej %{link_user} më %{created} n'%{language_link}
+      posted_by_html: U postu prej %{link_user} më %{created} n'%{language_link}
       comment_link: Komento në këtë shënim
       reply_link: Përgjigje për këtë term
       comment_count:
@@ -207,7 +207,7 @@ aln:
       hide_link: Mshefe qët shënim
       confirm: Konfirmoje
     diary_comment:
-      comment_from: Komenti prej %{link_user} në %{comment_created_at}
+      comment_from_html: Komenti prej %{link_user} në %{comment_created_at}
       hide_link: Mshefe këtë koment
       confirm: Konfirmo
     location:
@@ -228,11 +228,11 @@ aln:
   geocoder:
     search:
       title:
-        latlon: Rezultatet prej <a href="http://openstreetmap.org/">Internal</a>
-        ca_postcode: Rezultatet prej <a href="http://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim: Rezultatet prej <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        latlon_html: Rezultatet prej <a href="http://openstreetmap.org/">Internal</a>
+        ca_postcode_html: Rezultatet prej <a href="http://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Rezultatet prej <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames: Rezultatet prej <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_html: Rezultatet prej <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         amenity:
@@ -688,8 +688,8 @@ aln:
       from: Prej
       subject: Tema
       date: Data
-      no_messages_yet: Ju nuk keni asnjë mesazh. Pse nuk po llidheni me disa prej
-        %{people_mapping_nearby_link}?
+      no_messages_yet_html: Ju nuk keni asnjë mesazh. Pse nuk po llidheni me disa
+        prej %{people_mapping_nearby_link}?
       people_mapping_nearby: njerëzit pranë hartës
     message_summary:
       unread_button: Bone si të palexume
@@ -698,7 +698,7 @@ aln:
       destroy_button: Fshije
     new:
       title: Qo mesazh
-      send_message_to: Qoje një mesazh të ri te %{name}
+      send_message_to_html: Qoje një mesazh të ri te %{name}
       subject: Titulli
       body: Organ
       back_to_inbox: Kthehu në postë
@@ -712,14 +712,14 @@ aln:
       body: Me na fal por nuk ka asnjë mesazh me at id.
     outbox:
       title: Dalje
-      my_inbox: Im %{inbox_link}
+      my_inbox_html: Im %{inbox_link}
       inbox: postë
       outbox: Dalje
       to: Te
       subject: Titulli
       date: Data
-      no_sent_messages: Ju nuk keni dërgu asnjë mesazh. Pse nuk po llidheni me disa
-        prej %{people_mapping_nearby_link}?
+      no_sent_messages_html: Ju nuk keni dërgu asnjë mesazh. Pse nuk po llidheni me
+        disa prej %{people_mapping_nearby_link}?
       people_mapping_nearby: njerëzit pranë hartës
     reply:
       wrong_user: Ju keni hy si `%{user}' por mesazhi që po doni me ju përgjigj nuk
@@ -747,12 +747,12 @@ aln:
     copyright:
       foreign:
         title: Rreth kti përkthimi
-        text: Në ni ngjarje të ni konflikti me faqen e përkthyme dhe %{english_original_link},
+        html: Në ni ngjarje të ni konflikti me faqen e përkthyme dhe %{english_original_link},
           faqja anglisht ka përparsi
         english_link: origjinal anglisht
       native:
         title: Rreth ksaj faqeje
-        text: Ju jeni tu e kshyr versionin në gjuhën shqipe të faqes së autorit. Ju
+        html: Ju jeni tu e kshyr versionin në gjuhën shqipe të faqes së autorit. Ju
           muni me shku në %{native_link} të kësaj faqe, ose ju muni mos me lexu në
           lidhje me të drejtën e autorit dhe %{mapping_link}
         native_link: Gegë verzion
@@ -835,11 +835,12 @@ aln:
       shortlink: Shortlink
     edit:
       not_public: Ju nuk keni vendosur redaktimet e juaj të jetë publike.
-      not_public_description: Ju nuk mund të redaktoni hartën e nëse ju një gjë të
-        tillë. Ju mund të vendosni redaktimet e tuaja si publik nga %{user_page} tuaj.
+      not_public_description_html: Ju nuk mund të redaktoni hartën e nëse ju një gjë
+        të tillë. Ju mund të vendosni redaktimet e tuaja si publik nga %{user_page}
+        tuaj.
       user_page_link: faqe përdorues
       anon_edits_link_text: Find out pse kjo është e rastit.
-      flash_player_required: Ju duhet me pas Flash player për me përdor Potlatch,
+      flash_player_required_html: Ju duhet me pas Flash player për me përdor Potlatch,
         Flash editorin e OpenStreetMap. Ju muni <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">me
         marr Flash Player nga Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Disa
         mënyra të tjera</a> janë të mundshme për me editu OpenStreetMap.
@@ -854,7 +855,7 @@ aln:
       osm_xml_data: OpenStreetMap XML të dhana
       embeddable_html: HTML e trupzueshme
       licence: Licensa
-      export_details: T'dhanat e OpenStreetMap jan te licensume nën <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+      export_details_html: T'dhanat e OpenStreetMap jan te licensume nën <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
         Commons Attribution-ShareAlike 2.0 license</a>.
       too_large:
         body: Kjo zonë është shum e madhe që të eksportohet si XML në OpenStreetMap.
@@ -1043,7 +1044,7 @@ aln:
         web për të mësuar më shumë.
   oauth:
     authorize:
-      request_access: Aplikacioni %{app_name} po kërkon qasje në llogarinë tonde.
+      request_access_html: Aplikacioni %{app_name} po kërkon qasje në llogarinë tonde.
         Ju lutem kshyrne nëse doni që aplikacioni me i pas kto mundësi. Ju muni me
         zgjedh sa ma shumë ose sa ma pak që të doni.
       allow_to: 'Lejoni klientin të aplikimit:'
@@ -1085,7 +1086,7 @@ aln:
       issued_at: Lëshuar në
       revoke: Tërheq!
       my_apps: Aplikime Klienti im
-      no_apps: A keni një aplikim që ju do të doja të regjistruar për të përdorur
+      no_apps_html: A keni një aplikim që ju do të doja të regjistruar për të përdorur
         me ne duke përdorur %{oauth} standarde? Ju duhet të regjistroheni kërkesën
         tuaj para se ajo mund të bëjë kërkesë OAuth për këtë shërbim.
       registered_apps: 'Ju keni aplikimet e mëposhtme klientit të regjistruar:'
@@ -1148,14 +1149,14 @@ aln:
     new:
       title: Krijo akount
       no_auto_account_create: Për momentin spo mujm me ju kriju akount automatikisht.
-      contact_webmaster: Ju lutna kontaktoni <a href="%{webmaster}">webmaster</a>
+      contact_webmaster_html: Ju lutna kontaktoni <a href="%{webmaster}">webmaster</a>
         per më caktu ni akount që të ju krijohet - na do të merremi me kërkesën sa
         ma shpejt që tjet e mundshme.
       license_agreement: Kur e konfirmoni llogarinë tuaj ju duhet ti pranoni <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">kushtet
         e kontributit</a>.
       email address: 'Email Adresa:'
       confirm email address: 'Konfirmo Adresën e Emailit:'
-      not displayed publicly: Nuk u shfaq publikisht (kshyre <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
+      not_displayed_publicly_html: Nuk u shfaq publikisht (kshyre <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
         title="wiki privacy policy including section on email addresses">privacy policy</a>)
       display name: 'Emni i pamshem:'
       display name description: Emni jot publik. Ju muni me ndrru ma von në preferencat
@@ -1200,7 +1201,7 @@ aln:
       spam score: 'Piket e Badihavgjive:'
       description: Përshkrimi
       user location: Veni i shfrytëzuesit
-      if set location: Nqofse e zgedh venin, shum harta edhe sene kan me u paraqit
+      if_set_location_html: Nqofse e zgedh venin, shum harta edhe sene kan me u paraqit
         ktu. Ju muni me caktu venin ton në %{settings_link} .
       settings_link_text: ndryshimet
       no friends: Hala nuk ke shtue asni shoq.
@@ -1247,7 +1248,7 @@ aln:
         disabled link text: pse spo muj me i ndryshue?
       public editing note:
         heading: Duke ndryshue publikisht
-        text: Niher për niher ndryshimet e juaja janë anonime dhe njerëzit nuk mund
+        html: Niher për niher ndryshimet e juaja janë anonime dhe njerëzit nuk mund
           të ju dërgojnë mesazhe apo shohin vendndodhjen tuaj. Për të treguar atë
           që e keni edituar dhe lejojnë njerëzit të lidhen me ju nëpërmjet internetit,
           kliko butonin më poshtë. <b> Që nga ndryshimi 0,6 API, vetëm përdoruesit
@@ -1305,8 +1306,8 @@ aln:
       showing:
         one: Tu e kallxu faqen %{page} (%{first_item} prej %{items})
         other: Tu e kallxu faqen %{page} (%{first_item}-%{last_item} prej %{items})
-      summary: '%{name} u kriju prej %{ip_address} në %{date}'
-      summary_no_ip: '%{name} u krijue me %{date}'
+      summary_html: '%{name} u kriju prej %{ip_address} në %{date}'
+      summary_no_ip_html: '%{name} u krijue me %{date}'
       confirm: Konfirmo Anëtarët e Selektum
       hide: Mshefi Perdorust e Zgjedhun
       empty: Asni perputhje e perdoruesve nuk asht gjetun
@@ -1314,7 +1315,7 @@ aln:
       title: Llogaria u Suspendu
       heading: Llogaria u Suspendu
       webmaster: webmaster
-      body: |-
+      body_html: |-
         <p>
           Me na fal, por llogaria juaj automatikisht osht suspendu
           për shkak të aktivitetit të dyshimt.
@@ -1354,7 +1355,7 @@ aln:
       back: Kthehu tek Indeksi
     new:
       title: Krijimi i bllokuar në %{name}
-      heading: Krijimi i bllokuar në %{name}
+      heading_html: Krijimi i bllokuar në %{name}
       reason: Arsyja pse %{name} osht blloku. Ju lutem bëhuni sa më i qet dhe arsyeshëm
         që osht e mundshme, tu dhon sa ma shumë detaje që muni rreth situatës, tu
         e mbajt në men që mesazhi munet me u pa prej publikut. Maje në men se jo krejt
@@ -1369,7 +1370,7 @@ aln:
       back: Shiko të gjitha blloqet e
     edit:
       title: Editimi bllokuar në %{name}
-      heading: Editimi bllokuar në %{name}
+      heading_html: Editimi bllokuar në %{name}
       reason: Arsyeja pse %{name} është bllokuar. Ju lutemi të jetë si të qetë dhe
         të arsyeshme të jetë e mundur, duke i dhënë sa më shumë hollësi si ju mund
         të lidhur me situatën. Të ketë parasysh se jo të gjithë përdoruesit e kuptojnë
@@ -1398,7 +1399,7 @@ aln:
       empty: Nuk ka blloqe janë bërë ende.
     revoke:
       title: Revokimin e bllokuar në %{block_on}
-      heading: Revokimin e bllokuar në %{block_on} nga %{block_by}
+      heading_html: Revokimin e bllokuar në %{block_on} nga %{block_by}
       time_future: Ky bllok do të përfundojë në %{time}.
       past: Ky bllok u mbyll %{time} më parë dhe nuk mund të kthehet tani.
       confirm: Jeni i sigurt që dëshironi të revokuar kete kategori?
@@ -1414,15 +1415,15 @@ aln:
           other: '%{count} orë'
     blocks_on:
       title: Blocks në %{name}
-      heading: Lista e blloqeve në %{name}
+      heading_html: Lista e blloqeve në %{name}
       empty: '%{name} nuk është bllokuar akoma.'
     blocks_by:
       title: Blloqe me %{name}
-      heading: Lista e blloqeve me %{name}
+      heading_html: Lista e blloqeve me %{name}
       empty: '%{name} nuk ka bërë ndonjë blloqe ende.'
     show:
       title: '%{block_on} bllokuar nga %{block_by}'
-      heading: '%{block_on} bllokuar nga %{block_by}'
+      heading_html: '%{block_on} bllokuar nga %{block_by}'
       status: Statusi
       show: Tregoj
       edit: Redaktoj

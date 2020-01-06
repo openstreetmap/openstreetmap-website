@@ -44,6 +44,7 @@ uk:
   time:
     formats:
       friendly: '%e %B %Y в %H:%M'
+      blog: '%e %B %Y'
   helpers:
     submit:
       diary_comment:
@@ -257,7 +258,7 @@ uk:
       comment: Коментарі (%{count})
       hidden_commented_by: Прихований коментар від %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by: Коментар від %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      changesetxml: XML набір змін
+      changesetxml: XML опис набору змін
       osmchangexml: osmChange XML
       feed:
         title: Набір змін %{id}
@@ -267,28 +268,28 @@ uk:
       still_open: Набір змін досі відкритий — обговорення буде відкрито, як тільки
         він стане закритим.
     node:
-      title: 'Точка: %{name}'
-      history_title: 'Історія точки: %{name}'
+      title_html: 'Точка: %{name}'
+      history_title_html: 'Історія точки: %{name}'
     way:
-      title: 'Лінія: %{name}'
-      history_title: 'Історія лінії: %{name}'
+      title_html: 'Лінія: %{name}'
+      history_title_html: 'Історія лінії: %{name}'
       nodes: Точки
-      also_part_of:
+      also_part_of_html:
         one: також є частиною лінії %{related_ways}
         other: також є частиною ліній %{related_ways}
     relation:
-      title: 'Зв’язок: %{name}'
-      history_title: 'Історія зв’язку: %{name}'
+      title_html: 'Зв’язок: %{name}'
+      history_title_html: 'Історія зв’язку: %{name}'
       members: Учасники
     relation_member:
-      entry_role: '%{type} %{name} як %{role}'
+      entry_role_html: '%{type} %{name} як %{role}'
       type:
         node: Точка
         way: Лінія
         relation: Зв’язок
     containing_relation:
-      entry: Зв’язок %{relation_name}
-      entry_role: Зв’язок %{relation_name} (як %{relation_role})
+      entry_html: Зв’язок %{relation_name}
+      entry_role_html: Зв’язок %{relation_name} (як %{relation_role})
     not_found:
       sorry: На жаль, об’єкт „%{type}“ № %{id} не знайдено.
       type:
@@ -425,7 +426,7 @@ uk:
       title: Щоденник користувача %{user} | %{title}
       user_title: Щоденник користувача %{user}
       leave_a_comment: Лишити коментар
-      login_to_leave_a_comment: '%{login_link}, аби залишити коментар'
+      login_to_leave_a_comment_html: '%{login_link}, аби залишити коментар'
       login: Увійти
     no_such_entry:
       title: Нема такого запису в щоденнику
@@ -433,7 +434,7 @@ uk:
       body: На жаль, запис чи коментар з id %{id} не знайдені. Перевірте правильність
         введення адреси. Можливо, посилання, за яким ви перейшли, хибне.
     diary_entry:
-      posted_by: 'Додано користувачем %{link_user} %{created}, мова: %{language_link}'
+      posted_by_html: 'Додано користувачем %{link_user} %{created}, мова: %{language_link}'
       comment_link: Коментувати
       reply_link: Відповісти
       comment_count:
@@ -447,7 +448,7 @@ uk:
       confirm: Підтвердити
       report: Поскаржитись на цей запис
     diary_comment:
-      comment_from: Коментар від %{link_user}, %{comment_created_at}
+      comment_from_html: Коментар від %{link_user}, %{comment_created_at}
       hide_link: Приховати цей коментар
       unhide_link: Показувати цей коментар
       confirm: Підтвердити
@@ -465,7 +466,7 @@ uk:
         description: Останні записи щоденника користувачів OpenStreetMap (%{language_name})
       all:
         title: Записи щоденника OpenStreetMap
-        description: Останні записи щоденника від користувачів OpenStreetMap
+        description: Останні записи в щоденниках від учасників OpenStreetMap
     comments:
       has_commented_on: '%{display_name} прокоментував наступні записи щоденника'
       post: Повідомлення
@@ -476,13 +477,13 @@ uk:
   geocoder:
     search:
       title:
-        latlon: <a href="https://openstreetmap.org/">Внутрішні</a> результати
-        ca_postcode: Результати від <a href="https://geocoder.ca/">Geocoder</a>
-        osm_nominatim: Результати від <a href="https://nominatim.openstreetmap.org/">Nominatim</a>
-        geonames: Результати від <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse: Результати від <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        latlon_html: <a href="https://openstreetmap.org/">Внутрішні</a> результати
+        ca_postcode_html: Результати від <a href="https://geocoder.ca/">Geocoder</a>
+        osm_nominatim_html: Результати від <a href="https://nominatim.openstreetmap.org/">Nominatim</a>
+        geonames_html: Результати від <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Результати від <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames_reverse: Результати від <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse_html: Результати від <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1197,7 +1198,7 @@ uk:
     gps_traces_tooltip: Управління GPS треками
     user_diaries: Щоденники
     user_diaries_tooltip: Подивитись щоденники
-    edit_with: Редагувати через %{editor}
+    edit_with: Редагувати – %{editor}
     tag_line: Вільна Вікі-мапа Світу
     intro_header: Ласкаво просимо до OpenStreetMap!
     intro_text: OpenStreetMap — мапа світу, створена такими ж людьми, як і ви, для
@@ -1358,8 +1359,8 @@ uk:
       from: Від
       subject: Тема
       date: Дата
-      no_messages_yet: У вас ще немає повідомлень. Чому б не поспілкуватись з кимось
-        із %{people_mapping_nearby_link}?
+      no_messages_yet_html: У вас ще немає повідомлень. Чому б не поспілкуватись з
+        кимось із %{people_mapping_nearby_link}?
       people_mapping_nearby: користувачів поблизу вас
     message_summary:
       unread_button: Позначити як непрочитане
@@ -1368,7 +1369,7 @@ uk:
       destroy_button: Вилучити
     new:
       title: Відправити повідомлення
-      send_message_to: Відправити нове повідомлення для %{name}
+      send_message_to_html: Відправити нове повідомлення для %{name}
       subject: 'Тема:'
       body: 'Текст:'
       back_to_inbox: Назад до вхідних
@@ -1382,7 +1383,7 @@ uk:
       body: Вибачте, але повідомлення з цим ідентифікатором не існує.
     outbox:
       title: Вихідні
-      my_inbox: Мої %{inbox_link}
+      my_inbox_html: Мої %{inbox_link}
       inbox: вхідні
       outbox: вихідні
       messages:
@@ -1391,7 +1392,7 @@ uk:
       to: Кому
       subject: Тема
       date: Дата
-      no_sent_messages: У вас немає надісланих повідомлень. Чому б не поспілкуватись
+      no_sent_messages_html: У вас немає надісланих повідомлень. Чому б не поспілкуватись
         з кимось із %{people_mapping_nearby_link}?
       people_mapping_nearby: користувачів поблизу вас
     reply:
@@ -1422,8 +1423,8 @@ uk:
     about:
       next: Далі
       copyright_html: <span>&copy;</span>Учасники<br>OpenStreetMap
-      used_by: '%{name} надає картографічні дані для тисяч веб-сайтів, мобільних застосунків
-        та різних пристроїв'
+      used_by_html: '%{name} надає картографічні дані для тисяч веб-сайтів, мобільних
+        застосунків та різних пристроїв'
       lede_text: OpenStreetMap створений спільнотою маперів, які вносять і підтримують
         дані про дороги, стежки, кав’ярні, вокзали і багато чого іншого по всьому
         світу.
@@ -1455,12 +1456,12 @@ uk:
     copyright:
       foreign:
         title: Про цей переклад
-        text: У разі суперечностей між цим перекладом та %{english_original_link},
+        html: У разі суперечностей між цим перекладом та %{english_original_link},
           оригінал англійською має перевагу.
         english_link: оригіналом англійською
       native:
         title: Про цю сторінку
-        text: Ви переглядаєте англійську версію сторінки авторських прав. Ви можете
+        html: Ви переглядаєте англійську версію сторінки авторських прав. Ви можете
           повернутись до %{native_link} цієї сторінки або можете не читати про авторські
           права та %{mapping_link}.
         native_link: української версії
@@ -1583,11 +1584,11 @@ uk:
         завантажений та втулок дистанційного керування увімкнений.
     edit:
       not_public: Ви не зробили свої редагування загальнодоступними.
-      not_public_description: 'Ви не можете більше анонімно редагувати мапу. Ви можете
-        зробити ваші редагування загальнодоступними тут: %{user_page}.'
+      not_public_description_html: 'Ви не можете більше анонімно редагувати мапу.
+        Ви можете зробити ваші редагування загальнодоступними тут: %{user_page}.'
       user_page_link: сторінка користувача
       anon_edits_link_text: З’ясувати в чому справа.
-      flash_player_required: Для використання редактора Potlatch потрібний Flash-плеєр.
+      flash_player_required_html: Для використання редактора Potlatch потрібний Flash-плеєр.
         Ви можете <a href="https://get.adobe.com/flashplayer/">завантажити Flash-плеєр
         з Adobe.com</a>. Існують також <a href="http://wiki.openstreetmap.org/wiki/Uk:Editing">інші
         можливості</a> редагування даних в OpenStreetMap.
@@ -1609,13 +1610,13 @@ uk:
       map_image: Зображення мапи (показує стандартний шар)
       embeddable_html: Вбудований HTML
       licence: Ліцензія
-      export_details: Дані OpenStreetMap ліцензуються на умовах <a href="http://opendatacommons.org/licenses/odbl/1.0/">Ліцензії
+      export_details_html: Дані OpenStreetMap ліцензуються на умовах <a href="http://opendatacommons.org/licenses/odbl/1.0/">Ліцензії
         Open Data Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'Якщо даний експорт не вдався, по можливості використайте одне з перелічених
           джерел:'
         body: 'Ця ділянка дуже велика для експорту у вигляді XML-даних OpenStreetMap.
-          Будь ласка наблизьтесь або виберіть меншу ділянку, або скористайтеся одним
+          Будь ласка, наблизьтесь або виберіть меншу ділянку, або скористайтеся одним
           з наступних джерел для завантаження великого обсягу даних:'
         planet:
           title: Планета OSM
@@ -2000,7 +2001,7 @@ uk:
   oauth:
     authorize:
       title: Авторизувати доступ до облікового запису
-      request_access: Застосунок %{app_name} намагається отримати доступ до вашого
+      request_access_html: Застосунок %{app_name} намагається отримати доступ до вашого
         облікового запису, %{user}. Будь ласка, перевірте чи бажаєте ви, щоб застосунок
         мав наступні можливості. Ви можете обрати будь-яку кількість.
       allow_to: 'Дозволити застосунку клієнта:'
@@ -2014,7 +2015,7 @@ uk:
       grant_access: Надати доступ
     authorize_success:
       title: Дозволено запит на авторизацію
-      allowed: Ви надали програмі %{app_name} доступ до вашого облікового запису.
+      allowed_html: Ви надали програмі %{app_name} доступ до вашого облікового запису.
       verification: Код перевірки - %{code}.
     authorize_failure:
       title: Не вдалося виконати запит авторизації
@@ -2056,7 +2057,7 @@ uk:
       issued_at: Виданий в
       revoke: Відкликати!
       my_apps: Мої клієнтські застосунки
-      no_apps: Чи є у вас програми, які б ви хотіли зареєструватися для взаємодії
+      no_apps_html: Чи є у вас програми, які б ви хотіли зареєструватися для взаємодії
         з нами через стандарт %{oauth}? Ви повинні зареєструвати ваш веб-застосунок
         перед тим, як він зможе зробити OAuth-запит до цієї служби.
       registered_apps: 'У вас зареєстровані наступні клієнтські застосунки:'
@@ -2089,7 +2090,7 @@ uk:
       heading: Ласкаво просимо
       email or username: 'Ел. пошта або ім''я користувача:'
       password: 'Пароль:'
-      openid: '%{logo} OpenID:'
+      openid_html: '%{logo} OpenID:'
       remember: Запам’ятати мене
       lost password link: Забули пароль?
       login_button: Увійти
@@ -2165,7 +2166,7 @@ uk:
       title: Реєстрація
       no_auto_account_create: На жаль, наразі ми не в змозі створити для вас обліковий
         запис автоматично.
-      contact_webmaster: Будь ласка, зверніться до <a href="%{webmaster}">вебмайстра</a>
+      contact_webmaster_html: Будь ласка, зверніться до <a href="%{webmaster}">вебмайстра</a>
         з проханням створити подібний обліковий запис. Ми спробуємо це зробити та
         відповісти настільки швидко, наскільки це можливо.
       about:
@@ -2178,7 +2179,7 @@ uk:
         Співпраці</a>.
       email address: 'Адреса ел. пошти:'
       confirm email address: 'Підтвердити адресу ел. пошти:'
-      not displayed publicly: Не показується загальнодоступно, див. нашу <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy"
+      not_displayed_publicly_html: Не показується загальнодоступно, див. нашу <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy"
         title="OSMF privacy policy including section on email addresses">політику
         конфіденційності</a>, щоб отримати більше інформації
       display name: 'Прізвисько:'
@@ -2214,7 +2215,7 @@ uk:
       consider_pd: На додачу до зазначеного, прошу вважати мій внесок суспільним надбанням
       consider_pd_why: що це?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
-      guidance: 'Інформація, яка допоможе зрозуміти ці терміни: <a href="%{summary}">скорочений
+      guidance_html: 'Інформація, яка допоможе зрозуміти ці терміни: <a href="%{summary}">скорочений
         опис</a> і деякі <a href="%{translations}">неофіційні переклади</a>'
       continue: Продовжити
       declined: https://wiki.openstreetmap.org/wiki/Uk:Contributor_Terms_Declined
@@ -2263,7 +2264,7 @@ uk:
       spam score: 'Оцінка Спаму:'
       description: Опис
       user location: Місце знаходження користувача
-      if set location: Вкажіть ваше місце розташування на вашій сторінці %{settings_link},
+      if_set_location_html: Вкажіть ваше місце розташування на вашій сторінці %{settings_link},
         щоб побачити користувачів, які є поруч з вами.
       settings_link_text: налаштування
       my friends: Друзі
@@ -2323,7 +2324,7 @@ uk:
         disabled link text: чому я не можу вносити зміни?
       public editing note:
         heading: Загальнодоступне редагування
-        text: На даний момент ваші редагування анонімні й ніхто не може відправляти
+        html: На даний момент ваші редагування анонімні й ніхто не може відправляти
           вам повідомлення або бачити ваше місце розташування. Щоб показати, що ви
           редагували і дозволити людям зв'язатися з вами через веб-сайт, натисніть
           на кнопку нижче. <b>З переходом на  API версії 0.6, тільки загальнодоступні
@@ -2418,8 +2419,8 @@ uk:
       showing:
         one: Сторінка %{page} (%{first_item} з %{items})
         other: Сторінка %{page} (%{first_item}-%{last_item} з %{items})
-      summary: '%{name} зареєстрований з %{ip_address},  %{date}'
-      summary_no_ip: '%{name} зареєстврований %{date}'
+      summary_html: '%{name} зареєстрований з %{ip_address},  %{date}'
+      summary_no_ip_html: '%{name} зареєстврований %{date}'
       confirm: Підтвердити Вибраних користувачів
       hide: Сховати вибраних користувачів
       empty: Не знайдено користувачів відповідно до критеріїв пошуку
@@ -2427,10 +2428,10 @@ uk:
       title: Обліковий запис заблоковано
       heading: Обліковий запис заблоковано
       webmaster: веб-майстер
-      body: " <p>\n    На жаль, ваш обліковий запис був автоматично заблокований через
-        підозрілу\n    діяльність. \n </p>\n <p>\n    Це рішення буде розглянуто найближчим
-        часом адміністратором, або\n    ви можете зв’язатися з %{webmaster}, якщо
-        ви хочете обговорити це.\n </p>"
+      body_html: " <p>\n    На жаль, ваш обліковий запис був автоматично заблокований
+        через підозрілу\n    діяльність. \n </p>\n <p>\n    Це рішення буде розглянуто
+        найближчим часом адміністратором, або\n    ви можете зв’язатися з %{webmaster},
+        якщо ви хочете обговорити це.\n </p>"
     auth_failure:
       connection_failed: З’єднання з джерелом автентифікації не вдалося
       invalid_credentials: Недійсні облікові дані для автентифікації
@@ -2475,7 +2476,7 @@ uk:
       back: Повернутись до переліку
     new:
       title: Накладання блокування на %{name}
-      heading: Накладення блокування на %{name}
+      heading_html: Накладення блокування на %{name}
       reason: Наведіть пояснення, чому %{name} заблокований. Будь ласка, будьте толерантні
         та дійте розумно, надаючи користувачеві, як можна більше інформації про причини
         блокування, пам'ятаючи, що повідомлення буде видно всім. Пам'ятайте, що не
@@ -2491,7 +2492,7 @@ uk:
       back: Показати всі блокування
     edit:
       title: Редагування блокування для %{name}
-      heading: Редагування блокування для %{name}
+      heading_html: Редагування блокування для %{name}
       reason: Причина з якої користувача %{name} було заблоковано. Будь ласка, будьте
         терпимі і дійте розумно, надаючи користувачеві, як можна більше інформації
         про ситуацію. Майте на увазі, що не всі користувачі розуміють жаргон спільноти,
@@ -2521,7 +2522,7 @@ uk:
       empty: Ще не накладено жодного блокування.
     revoke:
       title: Зняти блокування з %{block_on}
-      heading: Зняття блокування з %{block_on}, яке наклав %{block_by}
+      heading_html: Зняття блокування з %{block_on}, яке наклав %{block_by}
       time_future: Це блокування закінчиться в %{time}.
       past: Це блокування закінчилося %{time} тому і вже не може бути скасовано.
       confirm: Ви впевнені, що бажаєте зняти це блокування?
@@ -2555,15 +2556,15 @@ uk:
           other: '%{count} роки'
     blocks_on:
       title: Блокування для %{name}
-      heading: Перелік блокувань користувача %{name}
+      heading_html: Перелік блокувань користувача %{name}
       empty: '%{name} жодного разу не був заблокованим.'
     blocks_by:
       title: Блокування, що їх наклав %{name}
-      heading: Перелік блокувань, які наклав %{name}
+      heading_html: Перелік блокувань, які наклав %{name}
       empty: '%{name} не зробив ще жодного блокування.'
     show:
       title: '%{block_on}, заблокував: %{block_by}'
-      heading: '%{block_on}, заблокував: %{block_by}'
+      heading_html: '%{block_on}, заблокував: %{block_by}'
       created: Створено
       status: Стан
       show: Показувати
@@ -2634,6 +2635,8 @@ uk:
         out: Зменшити
       locate:
         title: Показати моє місцезнаходження
+        metersUnit: метри
+        feetUnit: фути
         popup: Ви знаходитесь в межах {distance} {unit} від цієї точки
       base:
         standard: Стандартний
@@ -2649,7 +2652,7 @@ uk:
         title: Шари
       copyright: © <a href='%{copyright_url}'>Учасники OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Зробити внесок</a>
-      terms: <a href='%{terms_url}' target='_blank'>Умови використання Вебсайтом та
+      terms: <a href='%{terms_url}' target='_blank'>Умови використання Вебсайту та
         API</a>
     site:
       edit_tooltip: Редагування мапи
