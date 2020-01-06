@@ -1,10 +1,6 @@
 require "test_helper"
 
 class UserTermsSeenTest < ActionDispatch::IntegrationTest
-  def setup
-    stub_hostip_requests
-  end
-
   def test_api_blocked
     user = create(:user, :terms_seen => false, :terms_agreed => nil)
 

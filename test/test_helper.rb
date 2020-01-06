@@ -159,12 +159,6 @@ module ActiveSupport
       stub_request(:get, url).and_return(:status => status, :body => body)
     end
 
-    def stub_hostip_requests
-      # Controller tests and integration tests use different IPs
-      stub_request(:get, "https://api.hostip.info/country.php?ip=0.0.0.0")
-      stub_request(:get, "https://api.hostip.info/country.php?ip=127.0.0.1")
-    end
-
     def email_text_parts(message)
       message.parts.each_with_object([]) do |part, text_parts|
         if part.content_type.start_with?("text/")
@@ -176,7 +170,6 @@ module ActiveSupport
     end
 
     def sign_in_as(user)
-      stub_hostip_requests
       visit login_path
       fill_in "username", :with => user.email
       fill_in "password", :with => "test"

@@ -8,8 +8,6 @@ class SiteControllerTest < ActionController::TestCase
 
     Settings.id_key = create(:client_application).key
     Settings.potlatch2_key = create(:client_application).key
-
-    stub_hostip_requests
   end
 
   ##

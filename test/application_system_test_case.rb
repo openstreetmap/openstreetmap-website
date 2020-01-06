@@ -13,12 +13,6 @@ end
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :poltergeist, :screen_size => [1400, 1400], :options => { :timeout => 120 }
 
-  def initialize(*args)
-    stub_request(:get, "https://api.hostip.info/country.php?ip=127.0.0.1")
-      .to_return(:status => 404)
-    super(*args)
-  end
-
   # Phantomjs can pick up browser Accept-Language preferences from your desktop environment.
   # We don't want this to happen during the tests!
   setup do
