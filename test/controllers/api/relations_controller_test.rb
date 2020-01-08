@@ -14,8 +14,16 @@ module Api
         { :controller => "api/relations", :action => "full", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/relation/1/full.json", :method => :get },
+        { :controller => "api/relations", :action => "full", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/relation/1", :method => :get },
         { :controller => "api/relations", :action => "show", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/relation/1.json", :method => :get },
+        { :controller => "api/relations", :action => "show", :id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1", :method => :put },
@@ -29,6 +37,10 @@ module Api
         { :path => "/api/0.6/relations", :method => :get },
         { :controller => "api/relations", :action => "index" }
       )
+      assert_routing(
+        { :path => "/api/0.6/relations.json", :method => :get },
+        { :controller => "api/relations", :action => "index", :format => "json" }
+      )
 
       assert_routing(
         { :path => "/api/0.6/node/1/relations", :method => :get },
@@ -41,6 +53,18 @@ module Api
       assert_routing(
         { :path => "/api/0.6/relation/1/relations", :method => :get },
         { :controller => "api/relations", :action => "relations_for_relation", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/node/1/relations.json", :method => :get },
+        { :controller => "api/relations", :action => "relations_for_node", :id => "1", :format => "json" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/way/1/relations.json", :method => :get },
+        { :controller => "api/relations", :action => "relations_for_way", :id => "1", :format => "json" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/relation/1/relations.json", :method => :get },
+        { :controller => "api/relations", :action => "relations_for_relation", :id => "1", :format => "json" }
       )
     end
 
@@ -186,6 +210,18 @@ module Api
         assert_select "relation[id='#{relation3.id}'][visible='true']", :count => 1
         assert_select "relation[id='#{relation4.id}'][visible='true']", :count => 1
       end
+
+      # test a working call with json format
+      get :index, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json" }
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 4, js["elements"].count
+      assert_equal 4, (js["elements"].count { |a| a["type"] == "relation" })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == relation1.id && a["visible"].nil? })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == relation2.id && a["visible"] == false })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == relation3.id && a["visible"].nil? })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == relation4.id && a["visible"].nil? })
 
       # check error when a non-existent relation is included
       get :index, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0" }
