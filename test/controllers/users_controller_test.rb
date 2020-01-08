@@ -344,27 +344,13 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_logout_without_referer
-    get :logout
-    assert_response :success
-    assert_template :logout
-    assert_select "input[name=referer][value=?]", ""
-
-    session_id = assert_select("input[name=session]").first["value"]
-
-    get :logout, :params => { :session => session_id }
+    post :logout
     assert_response :redirect
     assert_redirected_to root_path
   end
 
   def test_logout_with_referer
-    get :logout, :params => { :referer => "/test" }
-    assert_response :success
-    assert_template :logout
-    assert_select "input[name=referer][value=?]", "/test"
-
-    session_id = assert_select("input[name=session]").first["value"]
-
-    get :logout, :params => { :session => session_id, :referer => "/test" }
+    post :logout, :params => { :referer => "/test" }
     assert_response :redirect
     assert_redirected_to "/test"
   end
@@ -374,16 +360,7 @@ class UsersControllerTest < ActionController::TestCase
 
     session[:token] = token.token
 
-    get :logout
-    assert_response :success
-    assert_template :logout
-    assert_select "input[name=referer][value=?]", ""
-    assert_equal token.token, session[:token]
-    assert_not_nil UserToken.where(:id => token.id).first
-
-    session_id = assert_select("input[name=session]").first["value"]
-
-    get :logout, :params => { :session => session_id }
+    post :logout
     assert_response :redirect
     assert_redirected_to root_path
     assert_nil session[:token]

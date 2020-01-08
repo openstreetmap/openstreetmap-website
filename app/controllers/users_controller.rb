@@ -269,7 +269,7 @@ class UsersController < ApplicationController
   def logout
     @title = t "users.logout.title"
 
-    if params[:session] == session.id
+    if request.post?
       if session[:token]
         token = UserToken.find_by(:token => session[:token])
         token&.destroy
