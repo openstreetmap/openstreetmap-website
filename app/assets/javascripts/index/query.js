@@ -214,17 +214,15 @@ OSM.Query = function (map) {
 
           if (interestingFeature(element)) {
             var $li = $("<li>")
-              .addClass("query-result")
+              .addClass("query-result list-group-item")
               .data("geometry", featureGeometry(element))
-              .appendTo($ul);
-            var $p = $("<p>")
               .text(featurePrefix(element) + " ")
-              .appendTo($li);
+              .appendTo($ul);
 
             $("<a>")
               .attr("href", "/" + element.type + "/" + element.id)
               .text(featureName(element))
-              .appendTo($p);
+              .appendTo($li);
           }
         }
 
