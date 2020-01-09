@@ -79,6 +79,6 @@ class UserBlock < ApplicationRecord
   # but i've also included it here just in case.
   def moderator_permissions
     errors.add(:base, I18n.t("user_block.model.non_moderator_update")) if creator_id_changed? && !creator.moderator?
-    errors.add(:base, I18n.t("user_block.model.non_moderator_revoke")) unless revoker_id.nil? || revoker.moderator?
+    errors.add(:base, I18n.t("user_block.model.non_moderator_revoke")) if revoker_id_changed? && !revoker_id.nil? && !revoker.moderator?
   end
 end
