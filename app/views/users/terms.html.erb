@@ -7,13 +7,13 @@
   <div class='header-illustration new-user-terms'></div>
 <% end %>
 
-<%= form_tag({ :action => "save" }, { :class => " inner22 standard-form fillL" }) do %>
+<%= form_tag({ :action => "save" }, { :class => "standard-form fillL" }) do %>
   <!-- legale is <%= @legale %> -->
   <p class="deemphasize"><%= t ".read and accept with tou" %></p>
-  <label class="standard-label">
+  <h4>
     <%= t ".heading_ct" %>
-  </label>
-  <div class='form-row horizontal-list'>
+  </h4>
+  <div class='form-row horizontal-list clearfix'>
     <p class="deemphasize"><%= t ".contributor_terms_explain" %></p>
     <label class="standard-label">
       <%= t ".legale_select" %>
@@ -29,7 +29,7 @@
     <% end %>
   </div>
 
-  <div id="contributorTerms" class="col12 legale">
+  <div id="contributorTerms" class="legale">
     <%= render :partial => "terms" %>
   </div>
 
@@ -47,9 +47,9 @@
     </label>
   </div>
 
-  <label class="standard-label">
+  <h4>
     <%= t "layouts.tou" %>
-  </label>
+  </h4>
   <p class="deemphasize"><%= t ".tou_explain_html", :tou_link => link_to(t("layouts.tou"), "https://wiki.osmfoundation.org/wiki/Terms_of_Use", :target => :new) %></p>
   <div class="form-row">
     <label for="read_tou">
@@ -59,7 +59,7 @@
 
     <%= hidden_field_tag("referer", h(params[:referer])) unless params[:referer].nil? %>
 
-    <div class="buttons form-row inner20 clearfix">
+    <div class="buttons form-row py-3 clearfix">
       <%= submit_tag("Continue", :name => "continue", :id => "continue", :disabled => true) %>
       <%= submit_tag("Cancel", :name => "decline", :id => "decline") %>
     </div>
