@@ -4,6 +4,7 @@
 # Author: Abijeet Patro
 # Author: Aitolos
 # Author: Auslaender
+# Author: Babispan
 # Author: Consta
 # Author: Crazymadlover
 # Author: Evropi
@@ -51,10 +52,10 @@ el:
         create: Εγγραφή
         update: Επεξεργασία
       redaction:
-        create: Δημιουργία παράληψης
-        update: Αποθήκευση παράληψης
+        create: Δημιουργία παράλειψης
+        update: Αποθήκευση παράλειψης
       trace:
-        create: Αποστολή
+        create: Μεταφόρτωση
         update: Αποθήκευση Αλλαγών
       user_block:
         create: Δημιουργία φραγής
@@ -62,40 +63,41 @@ el:
   activerecord:
     errors:
       messages:
-        invalid_email_address: δεν φαίνεται να είναι μια έγκυρη διεύθυνση ηλ. ταχυδρομείου
+        invalid_email_address: δεν φαίνεται να είναι έγκυρη διεύθυνση ηλ. ταχυδρομείου
+        email_address_not_routable: Δεν είναι δρομολογητέο
     models:
-      acl: Λίστα ελέγχου πρόσβασης
+      acl: Λίστα Ελέγχου Πρόσβασης
       changeset: Ομάδα αλλαγών
-      changeset_tag: Ετικέτα ομάδας αλλαγών
+      changeset_tag: Ετικέτα Ομάδας αλλαγών
       country: Χώρα
-      diary_comment: Σχόλιο ημερολογίου
-      diary_entry: Καταχώριση ημερολογίου
+      diary_comment: Σχόλιο Ημερολογίου
+      diary_entry: Καταχώριση Ημερολογίου
       friend: Φίλος
       language: Γλώσσα
       message: Μήνυμα
       node: Κόμβος
-      node_tag: Ετικέτα κόμβου
+      node_tag: Ετικέτα Kόμβου
       notifier: Ειδοποιητής
-      old_node: Παλιός κόμβος
-      old_node_tag: Παλιά ετικέτα κόμβου
-      old_relation: Παλιά σχέση
-      old_relation_member: Παλιό μέλος της σχέσης
-      old_relation_tag: Παλιά ετικέτα της σχέσης
-      old_way: Παλιά διαδρομή
-      old_way_node: Κόμβος παλιάς διαδρομής
-      old_way_tag: Ετικέτα παλιάς διαδρομής
+      old_node: Παλαιός Κόμβος
+      old_node_tag: Παλαιά Ετικέτα Κόμβου
+      old_relation: Παλαιά Σχέση
+      old_relation_member: Παλαιό Μέλος της Σχέσης
+      old_relation_tag: Παλαιά Ετικέτα της Σχέσης
+      old_way: Παλαιά Διαδρομή
+      old_way_node: Κόμβος Παλαιάς Διαδρομής
+      old_way_tag: Ετικέτα Παλαιάς Διαδρομής
       relation: Σχέση
-      relation_member: Μέλος της σχέσης
-      relation_tag: Ετικέτα της σχέσης
+      relation_member: Μέλος της Σχέσης
+      relation_tag: Ετικέτα της Σχέσης
       session: Συνεδρία
       trace: Ίχνος
-      tracepoint: Σημείο ίχνους
-      tracetag: Ετικέτα ίχνους
+      tracepoint: Σημείο Ίχνους
+      tracetag: Ετικέτα Ίχνους
       user: Χρήστης
-      user_preference: Προτιμήσεις χρήστη
-      user_token: Διακριτικό χρήστη
+      user_preference: Προτιμήσεις Χρήστη
+      user_token: Διακριτικό Χρήστη
       way: Διαδρομή
-      way_node: Κόμβος διαδρομής
+      way_node: Κόμβος Διαδρομής
       way_tag: Ετικέτα διαδρομής
     attributes:
       diary_comment:
@@ -104,7 +106,7 @@ el:
         user: Χρήστης
         title: Θέμα
         latitude: Γεωγραφικό πλάτος
-        longitude: Γεωγραφικό μήκος
+        longitude: Γεωγραφικό Μήκος
         language: Γλώσσα
       friend:
         user: Χρήστης
@@ -114,8 +116,8 @@ el:
         visible: Ορατό
         name: Όνομα
         size: Μέγεθος
-        latitude: Γεωγραφικό πλάτος
-        longitude: Γεωγραφικό μήκος
+        latitude: Γεωγραφικό Πλάτος
+        longitude: Γεωγραφικό Μήκος
         public: Δημόσιο
         description: Περιγραφή
       message:
@@ -146,7 +148,7 @@ el:
         other: σχεδόν %{count} χρόνια πριν
       half_a_minute: μισό λεπτό πριν
       less_than_x_seconds:
-        one: λιγότερο από ένα δευτερόλεπτο πριν
+        one: λιγότερο από 1 δευτερόλεπτο πριν
         other: λιγότερο από %{count} δευτερόλεπτα πριν
       less_than_x_minutes:
         one: λιγότερο από ένα λεπτό πριν
@@ -155,19 +157,19 @@ el:
         one: πάνω από έναν χρόνο πριν
         other: πάνω από %{count} χρόνια πριν
       x_seconds:
-        one: ένα δευτερόλεπτο πριν
+        one: 1 δευτερόλεπτο πριν
         other: '%{count} δευτερόλεπτα πριν'
       x_minutes:
-        one: ένα λεπτό πριν
+        one: 1 λεπτό πριν
         other: '%{count} λεπτά πριν'
       x_days:
-        one: μία ημέρα πριν
+        one: 1 ημέρα πριν
         other: '%{count} ημέρες πριν'
       x_months:
-        one: έναν μήνα πριν
+        one: 1 μήνα πριν
         other: '%{count} μήνες πριν'
       x_years:
-        one: ένα χρόνο πριν
+        one: 1 χρόνο πριν
         other: '%{count} χρόνια πριν'
   printable_name:
     with_version: '%{id}, v%{version}'
@@ -313,7 +315,9 @@ el:
         tag: Η σελίδα περιγραφής για την ετικέτα %{key}=%{value}
       wikidata_link: Το αντικείμενο %{page} στο Wikidata
       wikipedia_link: Το άρθρο %{page} στη Βικιπαίδεια
+      wikimedia_commons_link: Το αντικείμενο %{page} στο Wikimedia Commons
       telephone_link: Καλέστε %{phone_number}
+      colour_preview: Προεπισκόπηση χρώματος %{colour_value}
     note:
       title: 'Σημείωση: %{id}'
       new_note: Νέα σημείωση
@@ -346,8 +350,8 @@ el:
       no_edits: (χωρίς επεξεργασίες)
       view_changeset_details: Προβολή λεπτομερειών ομάδας αλλαγών
     changesets:
-      id: ID
-      saved_at: Αποθήκευση στις
+      id: Αναγνωριστικό
+      saved_at: Αποθηκεύτηκε στις
       user: Χρήστης
       comment: Σχόλιο
       area: Περιοχή
@@ -375,6 +379,9 @@ el:
     index:
       title_all: Συζήτηση ομάδας αλλαγών OpenStreetMap
       title_particular: 'Συζήτηση ομάδας αλλαγών OpenStreetMap #%{changeset_id}'
+    timeout:
+      sorry: Μας συγχωρείτε, η λίστα των σχολίων της ομάδας αλλαγών που ζητήσατε,
+        χρειάστηκε πολύ χρόνο για να ανακτηθεί.
   diary_entries:
     new:
       title: Νέα καταχώρηση ημερολογίου
@@ -409,8 +416,8 @@ el:
       login: Συνδεθείτε
     no_such_entry:
       title: Δεν υπάρχει τέτοια εγγραφή ημερολογίου
-      heading: 'Καμία καταχώρηση με τη ταυτότητα: %{id}'
-      body: Συγγνώμη, δεν υπάρχει καταχώρηση ημερολογίου ή σχόλιο με τη ταυτότητα
+      heading: 'Καμία καταχώρηση με το αναγνωριστικό: %{id}'
+      body: Μας συγχωρείτε, δεν υπάρχει καταχώρηση ή σχόλιο ημερολογίου με το αναγνωριστικό
         %{id}. Είναι πιθανό να υπάρχουν ορθογραφικά λάθη ή να είναι λάθος ο σύνδεσμος
         μέσω του οποίου φτάσατε σε αυτήν την σελίδα.
     diary_entry:
@@ -438,8 +445,8 @@ el:
       edit: Επεξεργασία
     feed:
       user:
-        title: Καταχωρίσεις ημερολογίου OpenStreetMap για τον %{user}
-        description: Πρόσφατες καταχωρίσεις ημερολογίου OpenStreetMap από τον %{user}
+        title: Καταχωρήσεις ημερολογίου OpenStreetMap για τον %{user}
+        description: Πρόσφατες καταχωρήσεις ημερολογίου OpenStreetMap από τον %{user}
       language:
         title: Καταχωρήσεις ημερολογίου OpenStreetMap στα %{language_name}
         description: Πρόσφατες καταχωρήσεις ημερολογίου από χρήστες του OpenStreetMap
@@ -449,8 +456,8 @@ el:
         description: Πρόσφατες καταχωρήσεις ημερολογίου από χρήστες του OpenStreetMap
     comments:
       has_commented_on: Ο %{display_name} έχει σχολιάσει στις ακόλουθες καταχωρήσεις
-        στο ημερολόγιο
-      post: Καταχώριση
+        ημερολογίου
+      post: Καταχώρηση
       when: Πότε
       comment: Σχόλιο
       newer_comments: Νεότερα Σχόλια
@@ -992,7 +999,7 @@ el:
           "yes": Κατάστημα
         tourism:
           alpine_hut: Αλπικό καταφύγιο
-          apartment: Διαμέρισμα
+          apartment: Εξοχικό Διαμέρισμα
           artwork: Έργο τέχνης
           attraction: Αξιοθέατο
           bed_and_breakfast: Ενοικιαζόμενα δωμάτια
@@ -1329,10 +1336,10 @@ el:
         subject_other: '[OpenStreetMap] {{GENDER:%{commenter}|Ο|Η}} %{commenter} σχολίασε
           μια ομάδα αλλαγών που σας ενδιαφέρει.'
         your_changeset: '{{GENDER:%{commenter}|Ο|Η}} %{commenter} άφησε ένα σχόλιο
-          σε μία από τις ομάδες αλλαγών σας που δημιουργήθηκε στις %{time}.'
+          στις %{time} σε μία από τις ομάδες αλλαγών σας.'
         commented_changeset: '{{GENDER:%{commenter}|Ο|Η}} %{commenter} άφησε ένα σχόλιο
-          σε μία ομάδα αλλαγών χάρτη που παρακολουθείτε δημιουργημένη από {{GENDER:%{changeset_author}|τον|την}}
-          %{changeset_author} στις %{time}.'
+          στις %{time}, σε μία ομάδα αλλαγών που παρακολουθείτε, δημιουργημένη από
+          {{GENDER:%{changeset_author}|τον|την}} %{changeset_author}.'
         partial_changeset_with_comment: με το σχόλιο «%{changeset_comment}»
         partial_changeset_without_comment: χωρίς σχόλιο
       details: Περισσότερες λεπτομέρειες για την ομάδα αλλαγών μπορούν να βρεθούν
@@ -1444,7 +1451,7 @@ el:
         μόνο υπό την ίδια άδεια χρήσης. Δείτε τη σελίδα <a href=''%{copyright_path}''>Πνευματικά
         Δικαιώματα και Άδεια Χρήσης</a> για λεπτομέρειες.'
       legal_title: Νομικό
-      legal_html: |-
+      legal_1_html: |-
         Αυτός ο ιστότοπος και πολλές άλλες σχετικές υπηρεσίες λειτουργούν επίσημα από το <a href='https://osmfoundation.org/'>Ίδρυμα OpenStreetMap</a> (OSMF) εκ μέρους της κοινότητας. Η χρήση όλων των υπηρεσιών του OSMF  υπόκειται στους <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Όρους Χρήσης</a>, στην <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Πολιτική Αποδεκτής Χρήσης</a> και στην <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Πολιτική Απορρήτου</a> μας.
         <br>
         Παρακαλούμε <a href='https://osmfoundation.org/Contact'>επικοινωνήστε με το OSMF</a> αν έχετε ερωτήματα για άδειες χρήσης, πνευματικά δικαιώματα ή άλλα νομικά θέματα.
