@@ -16,7 +16,7 @@ module Api
     before_action :lookup_old_element, :except => [:history]
     before_action :lookup_old_element_versions, :only => [:history]
 
-    before_action :default_format_xml
+    before_action :set_default_request_format, :except => [:redact]
 
     def history
       # the .where() method used in the lookup_old_element_versions

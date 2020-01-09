@@ -11,7 +11,7 @@ module Api
     before_action :check_api_readable, :except => [:create, :update, :delete]
     around_action :api_call_handle_error, :api_call_timeout
 
-    before_action :default_format_xml
+    before_action :set_default_request_format, :except => [:create, :update, :delete]
 
     def create
       assert_method :put

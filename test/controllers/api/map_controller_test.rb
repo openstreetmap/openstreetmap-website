@@ -29,6 +29,78 @@ module Api
       )
     end
 
+    ##
+    # test http accept headers
+    def test_http_accept_header
+      node = create(:node, :lat => 7, :lon => 7)
+
+      minlon = node.lon - 0.1
+      minlat = node.lat - 0.1
+      maxlon = node.lon + 0.1
+      maxlat = node.lat + 0.1
+      bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
+
+      # Accept: XML format -> use XML
+      http_accept_format("text/xml")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: Any format -> use XML
+      http_accept_format("*/*")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: Any format, .json URL suffix -> use json
+      http_accept_format("*/*")
+      get :index, :params => { :bbox => bbox, :format => "json" }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/json; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: Firefox header -> use XML
+      http_accept_format("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: JOSM header text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2 -> use XML
+      # Note: JOSM's header does not comply with RFC 7231, section 5.3.1
+      http_accept_format("text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: text/plain, */* -> use XML
+      http_accept_format("text/plain, */*")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: text/* -> use XML
+      http_accept_format("text/*")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: json, */* format -> use json
+      http_accept_format("application/json, */*")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/json; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: json format -> use json
+      http_accept_format("application/json")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/json; charset=utf-8", @response.header["Content-Type"]
+
+      # text/json is in invalid format, ActionController::UnknownFormat error is expected
+      http_accept_format("text/json")
+      get :index, :params => { :bbox => bbox }
+      assert_response :internal_server_error, "text/json should fail"
+    end
+
     # -------------------------------------
     # Test reading a bounding box.
     # -------------------------------------
