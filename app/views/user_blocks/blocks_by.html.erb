@@ -1,4 +1,4 @@
-<% @title = t(".title", :name => h(@user.display_name)) %>
+<% @title = t(".title", :name => @user.display_name) %>
 <% content_for :heading do %>
   <h1><%= t(".heading_html", :name => link_to(@user.display_name, user_path(@user))) %></h1>
 <% end %>
@@ -6,5 +6,5 @@
 <% unless @user_blocks.empty? %>
 <%= render :partial => "blocks", :locals => { :show_revoke_link => can?(:revoke, UserBlock), :show_user_name => true, :show_creator_name => false } %>
 <% else %>
-<p><%= t ".empty", :name => h(@user.display_name) %></p>
+<p><%= t ".empty", :name => @user.display_name %></p>
 <% end %>
