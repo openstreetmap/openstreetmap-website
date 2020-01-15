@@ -3,7 +3,7 @@
   <!-- Maybe ease foreigners back to their native page -->
 
     <% if t(".legal_babble", :locale => I18n.locale) != t(".legal_babble", :locale => :en) %>
-      <%= tag.h1 :lang => @locale, :dir => t("html.dir", :locale => @locale) do %>
+      <%= tag.div :lang => @locale, :dir => t("html.dir", :locale => @locale) do %>
         <h1><%= t ".native.title" %></h1>
         <p>
           <%= t ".native.html",
@@ -20,8 +20,8 @@
     <% end %>
   <% else %>
     <!-- Maybe note that this page has been translated -->
-    <%= tag.div :lang => "en", :dir => t("html.dir", :locale => "en") do %>
-      <% if t(".legal_babble", :locale => @locale) != t(".legal_babble", :locale => :en) %>
+    <% if t(".legal_babble", :locale => @locale) != t(".legal_babble", :locale => :en) %>
+      <%= tag.div :lang => "en", :dir => t("html.dir", :locale => "en") do %>
         <h1><%= t ".foreign.title" %></h1>
         <p>
           <%= t ".foreign.html",
