@@ -19,9 +19,8 @@
 <p><%= link_to t(".reopen"), reopen_issue_url(@issue), :method => :post if @issue.may_reopen? %></p>
 <% end %>
 
-<div class="report-related-block">
-
-  <div class="report-block">
+<div class="row">
+  <div class="col-md-8">
     <h3><%= t ".reports_of_this_issue" %></h3>
 
     <% if @read_reports.present? %>
@@ -37,11 +36,10 @@
       <%= render "reports", :reports => @unread_reports %>
     </div>
     <% end %>
-    <br />
   </div>
 
   <% if @issue.reported_user %>
-    <div class="related-reports">
+    <div class="col-md-4 related-reports">
       <h3><%= t ".other_issues_against_this_user" %></h3>
       <% if @related_issues.count > 1 %>
         <ul>
