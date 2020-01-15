@@ -3,10 +3,6 @@ require "test_helper"
 class OAuthTest < ActionDispatch::IntegrationTest
   include OAuth::Helper
 
-  def setup
-    stub_hostip_requests
-  end
-
   def test_oauth10_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 

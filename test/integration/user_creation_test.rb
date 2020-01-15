@@ -7,7 +7,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     OmniAuth.config.test_mode = true
 
     stub_request(:get, /.*gravatar.com.*d=404/).to_return(:status => 404)
-    stub_hostip_requests
   end
 
   def teardown

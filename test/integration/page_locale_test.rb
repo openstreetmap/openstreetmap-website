@@ -3,7 +3,6 @@ require "test_helper"
 class PageLocaleTest < ActionDispatch::IntegrationTest
   def setup
     I18n.locale = "en"
-    stub_hostip_requests
   end
 
   def teardown

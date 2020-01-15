@@ -1,12 +1,6 @@
 require "test_helper"
 
 class UsersControllerTest < ActionController::TestCase
-  def setup
-    super
-
-    stub_hostip_requests
-  end
-
   ##
   # test all routes which lead to this controller
   def test_routes
