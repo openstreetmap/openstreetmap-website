@@ -1,9 +1,13 @@
 <% if @results.empty? %>
-  <p class="search_results_entry inner12"><%= t ".no_results" %></p>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <%= t ".no_results" %>
+    </li>
+  </ul>
 <% else %>
-  <ul class='results-list'>
+  <ul class='results-list list-group list-group-flush'>
     <% @results.each do |result| %>
-      <li><p class="inner12 search_results_entry clearfix"><%= result_to_html(result) %></p></li>
+      <li class="list-group-item search_results_entry"><%= result_to_html(result) %></li>
     <% end %>
   </ul>
   <% if @more_params %>
