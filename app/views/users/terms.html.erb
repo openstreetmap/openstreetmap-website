@@ -13,14 +13,14 @@
   <h4>
     <%= t ".heading_ct" %>
   </h4>
-  <div class='form-row horizontal-list clearfix'>
+  <div class='standard-form-row horizontal-list clearfix'>
     <p class="deemphasize"><%= t ".contributor_terms_explain" %></p>
     <label class="standard-label">
       <%= t ".legale_select" %>
     </label>
 
     <% [%w[france FR], %w[italy IT], %w[rest_of_world GB]].each do |name, legale| %>
-      <div class="form-row">
+      <div class="standard-form-row">
         <label for="legale_<%= legale %>">
           <%= radio_button_tag "legale", legale, @legale == legale, :data => { :url => url_for(:legale => legale) } %>
           <%= t(".legale_names." + name) %>
@@ -40,7 +40,7 @@
             :translations => "https://www.osmfoundation.org/wiki/License/Contributor_Terms/Informal_Translations" %>
     </p>
   </div>
-  <div class="form-row">
+  <div class="standard-form-row">
     <label for="read_ct">
       <%= check_box_tag "read_ct" %>
       <%= t ".read_ct" %>
@@ -51,7 +51,7 @@
     <%= t "layouts.tou" %>
   </h4>
   <p class="deemphasize"><%= t ".tou_explain_html", :tou_link => link_to(t("layouts.tou"), "https://wiki.osmfoundation.org/wiki/Terms_of_Use", :target => :new) %></p>
-  <div class="form-row">
+  <div class="standard-form-row">
     <label for="read_tou">
       <%= check_box_tag "read_tou" %>
       <%= t ".read_tou" %>
@@ -59,7 +59,7 @@
 
     <%= hidden_field_tag("referer", h(params[:referer])) unless params[:referer].nil? %>
 
-    <div class="buttons form-row py-3 clearfix">
+    <div class="buttons standard-form-row py-3 clearfix">
       <%= submit_tag("Continue", :name => "continue", :id => "continue", :disabled => true) %>
       <%= submit_tag("Cancel", :name => "decline", :id => "decline") %>
     </div>
