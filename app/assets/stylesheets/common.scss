@@ -5,7 +5,7 @@
 
 /* Minimal CSS reset */
 
-html, body, ul, ol, li, form, fieldset, legend, input {
+html, body, form, fieldset, legend, input {
   margin: 0;
   padding: 0;
   border: 0;
@@ -29,8 +29,6 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
-li { list-style: none; }
 
 input,
 select,
@@ -251,6 +249,7 @@ header {
 
 nav.primary {
   > ul {
+    padding: 0;
     $border: 1px solid $green;
 
     border: $border;
@@ -317,6 +316,9 @@ nav.secondary {
 
   > ul {
     vertical-align: middle;
+    margin: 0;
+    padding: 0;
+
     a, .dropdown-toggle {
       display: inline-block;
       text-decoration: none;
@@ -336,6 +338,7 @@ nav.secondary {
     border: $border;
     border-radius: $border-radius;
     margin-left: 10px;
+    padding: 0;
 
     > li {
       border-right: $border;
@@ -1002,9 +1005,14 @@ header .search_forms,
 /* Rules for search sidebar */
 
 #sidebar .search_results_entry {
+  ul {
+   padding: 0;
+  }
+
   ul li {
     border-bottom: $keyline;
     cursor: pointer;
+    list-style-type: none;
     &:first-child { border-top: $keyline; }
     &.selected { background: $list-highlight; }
   }
@@ -1121,10 +1129,6 @@ tr.turn:hover {
     padding: 1px 6px;
     border: 1px solid $lightgrey;
     border-radius: 3px;
-  }
-
-  .paginate ul {
-    padding-left: 20px;
   }
 
   .browse-field {
@@ -1505,10 +1509,6 @@ tr.turn:hover {
 .activity-details p {
   margin-left: 70px;
   margin-bottom: 0;
-}
-
-#friends-container .contact-activity ul {
-  margin-left: 70px;
 }
 
 .users-show {
@@ -1908,15 +1908,6 @@ tr.turn:hover {
     margin-bottom: 0px;
     padding: $lineheight/4;
   }
-
-  ul {
-    padding-left: $lineheight;
-
-    li {
-      font-size: 12px;
-      list-style: disc;
-    }
-  }
 }
 
 /* Rules for forms */
@@ -1960,7 +1951,8 @@ tr.turn:hover {
   }
   .form-list li {
     margin-bottom: 5px;
-   }
+    list-style-type: none;
+  }
   input[type="checkbox"],
   input[type="radio"] {
     float: left;
@@ -2044,6 +2036,7 @@ ul.secondary-actions {
   font-style: normal;
   margin-bottom: 0;
   margin-left: 0;
+  padding: 0;
   &.pager {
     display: inline-block;
     margin-right: 60px;
@@ -2237,20 +2230,6 @@ a.button {
     padding-left: $lineheight;
     margin: 0;
     color: $darkgrey;
-  }
-
-  ul, ol {
-    padding-left: $lineheight;
-    margin-bottom: $lineheight;
-    margin-left: $lineheight;
-  }
-
-  ul > li {
-    list-style: disc;
-  }
-
-  ol > li {
-    list-style: decimal;
   }
 }
 
@@ -2689,30 +2668,8 @@ input.richtext_title[type="text"] {
   opacity: 0.7;
 }
 
-.related-reports {
-  ul {
-    padding-left: $lineheight;
-    margin-bottom: 0;
-
-    li {
-      list-style: disc;
-    }
-  }
-}
-
 .issues-list {
   td:nth-child(2) {
     white-space: nowrap;
-  }
-}
-
-.report-disclaimer {
-  ul {
-    padding-left: $lineheight;
-    margin-bottom: 0;
-
-    li {
-      list-style: disc;
-    }
   }
 }
