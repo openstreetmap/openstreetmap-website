@@ -3,68 +3,9 @@
 
 /* Styles common to large and small screens */
 
-/* Minimal CSS reset */
-
-html, body, ul, ol, li, form, fieldset, legend, input {
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-fieldset,img { border: 0; }
-
-legend { color: #000; }
-
-sup {
-  vertical-align: super;
-  font-size: smaller;
-}
-
-sub {
-  vertical-align: sub;
-  font-size: smaller;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-li { list-style: none; }
-
-input,
-select,
-textarea,
-body { font: #{$typeheight}/#{$lineheight} "Helvetica Neue",Arial,sans-serif; }
-
-abbr, acronym {
-  text-decoration: underline dotted;
-  cursor: help;
-}
-
-strong {
-  font-weight: bold;
-}
-
-/* Micro Clearfix | Details: http://nicolasgallagher.com/micro-clearfix-hack/ */
-
-.clearfix:before,
-.clearfix:after {
-    content: " ";
-    display: table;
-}
-
-.clearfix:after {
-    clear: both;
-}
-
 .fillL { background-color: white; }
 
 /* Default rules for the body of every page */
-
-* {
-  box-sizing: border-box;
-}
 
 body {
   font-family: 'Helvetica Neue',Arial,sans-serif;
@@ -149,15 +90,6 @@ a {
   &:hover {
     text-decoration: underline;
   }
-}
-
-/* Rules for horizontal lines */
-
-hr {
-  border: none;
-  background-color: $grey;
-  color: $grey;
-  height: 1px;
 }
 
 /* General styles for tables */
@@ -251,6 +183,7 @@ header {
 
 nav.primary {
   > ul {
+    padding: 0;
     $border: 1px solid $green;
 
     border: $border;
@@ -317,6 +250,9 @@ nav.secondary {
 
   > ul {
     vertical-align: middle;
+    margin: 0;
+    padding: 0;
+
     a, .dropdown-toggle {
       display: inline-block;
       text-decoration: none;
@@ -336,6 +272,7 @@ nav.secondary {
     border: $border;
     border-radius: $border-radius;
     margin-left: 10px;
+    padding: 0;
 
     > li {
       border-right: $border;
@@ -1002,9 +939,14 @@ header .search_forms,
 /* Rules for search sidebar */
 
 #sidebar .search_results_entry {
+  ul {
+   padding: 0;
+  }
+
   ul li {
     border-bottom: $keyline;
     cursor: pointer;
+    list-style-type: none;
     &:first-child { border-top: $keyline; }
     &.selected { background: $list-highlight; }
   }
@@ -1121,10 +1063,6 @@ tr.turn:hover {
     padding: 1px 6px;
     border: 1px solid $lightgrey;
     border-radius: 3px;
-  }
-
-  .paginate ul {
-    padding-left: 20px;
   }
 
   .browse-field {
@@ -1450,7 +1388,7 @@ tr.turn:hover {
 /* Rules for the edit trace form */
 
 .edit_trace {
-  .form-row p {
+  .standard-form-row p {
     margin-bottom: 0px;
   }
 
@@ -1505,10 +1443,6 @@ tr.turn:hover {
 .activity-details p {
   margin-left: 70px;
   margin-bottom: 0;
-}
-
-#friends-container .contact-activity ul {
-  margin-left: 70px;
 }
 
 .users-show {
@@ -1908,15 +1842,6 @@ tr.turn:hover {
     margin-bottom: 0px;
     padding: $lineheight/4;
   }
-
-  ul {
-    padding-left: $lineheight;
-
-    li {
-      font-size: 12px;
-      list-style: disc;
-    }
-  }
 }
 
 /* Rules for forms */
@@ -1948,11 +1873,11 @@ tr.turn:hover {
     padding-top: $lineheight;
     border-top: 1px solid $lightgrey;
   }
-  .horizontal-list .form-row {
+  .horizontal-list .standard-form-row {
     float: left;
     padding-right: 10px;
   }
-  .form-row {
+  .standard-form-row {
     margin-bottom: $lineheight/2;
   }
   .form-list {
@@ -1960,7 +1885,8 @@ tr.turn:hover {
   }
   .form-list li {
     margin-bottom: 5px;
-   }
+    list-style-type: none;
+  }
   input[type="checkbox"],
   input[type="radio"] {
     float: left;
@@ -2044,6 +1970,7 @@ ul.secondary-actions {
   font-style: normal;
   margin-bottom: 0;
   margin-left: 0;
+  padding: 0;
   &.pager {
     display: inline-block;
     margin-right: 60px;
@@ -2237,20 +2164,6 @@ a.button {
     padding-left: $lineheight;
     margin: 0;
     color: $darkgrey;
-  }
-
-  ul, ol {
-    padding-left: $lineheight;
-    margin-bottom: $lineheight;
-    margin-left: $lineheight;
-  }
-
-  ul > li {
-    list-style: disc;
-  }
-
-  ol > li {
-    list-style: decimal;
   }
 }
 
@@ -2689,30 +2602,8 @@ input.richtext_title[type="text"] {
   opacity: 0.7;
 }
 
-.related-reports {
-  ul {
-    padding-left: $lineheight;
-    margin-bottom: 0;
-
-    li {
-      list-style: disc;
-    }
-  }
-}
-
 .issues-list {
   td:nth-child(2) {
     white-space: nowrap;
-  }
-}
-
-.report-disclaimer {
-  ul {
-    padding-left: $lineheight;
-    margin-bottom: 0;
-
-    li {
-      list-style: disc;
-    }
   }
 }

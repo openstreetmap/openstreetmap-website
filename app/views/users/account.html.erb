@@ -13,20 +13,20 @@
 <%= error_messages_for current_user %>
 <%= form_for current_user, :url => { :action => :account }, :method => :post, :html => { :multipart => true, :id => "accountForm", :class => "standard-form", :autocomplete => :off } do |f| %>
   <fieldset>
-    <div class="form-row">
+    <div class="standard-form-row">
       <label class="standard-label"><%= t "users.new.display name" %></label>
       <%= f.text_field :display_name %>
     </div>
   </fieldset>
 
   <fieldset>
-    <div class="form-row">
+    <div class="standard-form-row">
       <label class="standard-label"><%= t ".current email address" %></label>
       <input type="email" disabled value="<%= current_user.email %>" />
       <span class="form-help deemphasize"><%= t ".email never displayed publicly" %></span>
     </div>
 
-    <div class="form-row">
+    <div class="standard-form-row">
       <label class="standard-label"><%= t ".new email address" %></label>
       <%= f.email_field :new_email, :autocomplete => :off %>
       <span class="form-help deemphasize"><%= t ".email never displayed publicly" %></span>
@@ -34,19 +34,19 @@
   </fieldset>
 
   <fieldset>
-    <div class="form-row">
+    <div class="standard-form-row">
         <label class="standard-label"><%= t "users.new.password" %></label>
       <%= f.password_field :pass_crypt, :value => "", :autocomplete => :off %>
     </div>
 
-    <div class="form-row">
+    <div class="standard-form-row">
       <label class="standard-label"><%= t "users.new.confirm password" %></label>
       <%= f.password_field :pass_crypt_confirmation, :value => "", :autocomplete => :off %>
     </div>
   </fieldset>
 
   <fieldset>
-    <div class="form-row">
+    <div class="standard-form-row">
       <label class="standard-label"><%= t ".external auth" %></label>
       <%= f.select :auth_provider, Auth::PROVIDERS %>
       <%= f.text_field :auth_uid %>
@@ -55,7 +55,7 @@
   </fieldset>
 
   <fieldset class="form-divider">
-    <div class="form-row">
+    <div class="standard-form-row">
       <label class="standard-label"><%= t ".public editing.heading" %></label>
       <span class="form-help deemphasize">
         <% if current_user.data_public? %>
@@ -68,7 +68,7 @@
       </span>
     </div>
 
-    <div class="form-row">
+    <div class="standard-form-row">
       <label class="standard-label"><%= t ".contributor terms.heading" %></label>
       <span class="form-help deemphasize">
         <% if current_user.terms_agreed? %>
@@ -83,24 +83,24 @@
         <% end %>
       </span>
     </div>
-    <div class="form-row">
+    <div class="standard-form-row">
       <label class="standard-label"><%= t ".preferred editor" %></label>
       <%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{Settings.default_editor}.name")), "default"]] + Editors::ALL_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %>
     </div>
   </fieldset>
 
   <fieldset class="form-divider">
-    <div class='form-row'>
+    <div class='standard-form-row'>
       <label class="standard-label"><%= t ".profile description" %></label>
       <%= richtext_area :user, :description, :object => current_user, :cols => 80, :rows => 20 %>
     </div>
 
-    <div class="form-row">
+    <div class="standard-form-row">
       <label class="standard-label"><%= t ".preferred languages" %></label>
       <%= f.text_field :languages %>
     </div>
 
-    <div class='form-row accountImage'>
+    <div class='standard-form-row accountImage'>
       <label class="standard-label"><%= t ".image" %></label>
         <%= user_image current_user %>
         <ul class='form-list accountImage-options'>
@@ -147,7 +147,7 @@
   </fieldset>
 
   <fieldset class="form-divider">
-    <div class='form-row location clearfix'>
+    <div class='standard-form-row location clearfix'>
     <label class="standard-label"><%= t ".home location" %></label>
     <div id="homerow" <% unless current_user.home_lat and current_user.home_lon %> class="nohome"<% end %>>
       <p class="message form-help deemphasize"><%= t ".no home location" %></p>
@@ -162,7 +162,7 @@
       </div>
     </div>
 
-    <div class="form-row">
+    <div class="standard-form-row">
       <input type="checkbox" name="updatehome" value="1" <% unless current_user.home_lat and current_user.home_lon %> checked="checked" <% end %> id="updatehome" />
       <label class="standard-label" for="updatehome"><%= t ".update home location on click" %></label>
     </div>
