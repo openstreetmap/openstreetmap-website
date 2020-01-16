@@ -34,7 +34,7 @@ L.OSM.layers = function (options) {
       .attr("class", "section base-layers")
       .appendTo($ui);
 
-    var baseLayers = $("<ul>")
+    var baseLayers = $("<ul class='list-unstyled'>")
       .appendTo(baseSection);
 
     layers.forEach(function (layer) {
@@ -119,7 +119,7 @@ L.OSM.layers = function (options) {
         .attr("class", "deemphasize")
         .appendTo(overlaySection);
 
-      var overlays = $("<ul>")
+      var overlays = $("<ul class='list-unstyled'>")
         .appendTo(overlaySection);
 
       var addOverlay = function (layer, name, maxArea) {
