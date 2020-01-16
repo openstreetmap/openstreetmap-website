@@ -45,9 +45,9 @@ OSM.Search = function (map) {
   $("#sidebar_content")
     .on("click", ".search_more a", clickSearchMore)
     .on("click", ".search_results_entry a.set_position", clickSearchResult)
-    .on("mouseover", "p.search_results_entry:has(a.set_position)", showSearchResult)
-    .on("mouseout", "p.search_results_entry:has(a.set_position)", hideSearchResult)
-    .on("mousedown", "p.search_results_entry:has(a.set_position)", function () {
+    .on("mouseover", "li.search_results_entry:has(a.set_position)", showSearchResult)
+    .on("mouseout", "li.search_results_entry:has(a.set_position)", hideSearchResult)
+    .on("mousedown", "li.search_results_entry:has(a.set_position)", function () {
       var moved = false;
       $(this).one("click", function (e) {
         if (!moved && !$(e.target).is("a")) {
