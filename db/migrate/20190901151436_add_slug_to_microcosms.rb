@@ -6,7 +6,7 @@ class AddSlugToMicrocosms < ActiveRecord::Migration[5.2]
   def up
     add_column :microcosms, :slug, :string
     Microcosm.update_all ["slug = key"]
-    #change_column_null :microcosms, :slug, false
+    # change_column_null :microcosms, :slug, false
     safety_assured do
       execute 'ALTER TABLE "microcosms" ADD CONSTRAINT "microcosms_slug_null" CHECK ("slug" is NOT NULL) NOT VALID'
     end
@@ -19,7 +19,7 @@ class AddSlugToMicrocosms < ActiveRecord::Migration[5.2]
 end
 
 class ValidateAddSlugToMicrocosms < ActiveRecord::Migration[5.2]
-  def change
+  def up
     safety_assured do
       execute 'ALTER TABLE "microcosms" VALIDATE CONSTRAINT "microcosms_slug_null"'
     end
