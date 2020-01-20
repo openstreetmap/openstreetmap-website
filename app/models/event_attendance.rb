@@ -15,7 +15,7 @@
 #  index_event_attendances_on_user_id   (user_id)
 #
 
-class EventAttendance < ActiveRecord::Base
+class EventAttendance < ApplicationRecord
   belongs_to :event
   belongs_to :user
 end

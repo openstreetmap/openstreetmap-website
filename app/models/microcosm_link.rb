@@ -14,6 +14,6 @@
 #  index_microcosm_links_on_microcosm_id  (microcosm_id)
 #
 
-class MicrocosmLink < ActiveRecord::Base
+class MicrocosmLink < ApplicationRecord
   belongs_to :microcosm
 end

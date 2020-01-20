@@ -16,7 +16,7 @@
 #  index_microcosm_members_on_user_id                            (user_id)
 #
 
-class MicrocosmMember < ActiveRecord::Base
+class MicrocosmMember < ApplicationRecord
   belongs_to :microcosm
   belongs_to :user
 

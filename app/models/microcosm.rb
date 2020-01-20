@@ -17,7 +17,7 @@
 #  max_lon     :integer          not null
 #
 
-class Microcosm < ActiveRecord::Base
+class Microcosm < ApplicationRecord
   extend FriendlyId
   friendly_id :name, :use => :slugged
   self.ignored_columns = ["key"]
