@@ -116,7 +116,7 @@ Then("I should see the {string} link to {string}") do |title, href|
 end
 
 Then("I should see {string}") do |msg|
-  expect(page).to have_content(msg)
+  expect(page).to have_content(msg, normalize_ws: true)
 end
 
 Then("I should not see {string}") do |msg|
