@@ -19,7 +19,7 @@
 #  changeset_comments_changeset_id_fkey  (changeset_id => changesets.id)
 #
 
-class ChangesetComment < ActiveRecord::Base
+class ChangesetComment < ApplicationRecord
   belongs_to :changeset
   belongs_to :author, :class_name => "User"
 

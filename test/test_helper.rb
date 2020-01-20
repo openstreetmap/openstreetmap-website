@@ -43,6 +43,18 @@ module ActiveSupport
     end
 
     ##
+    # execute a block with missing translation exceptions suppressed
+    def without_i18n_exceptions
+      exception_handler = I18n.exception_handler
+      begin
+        I18n.exception_handler = nil
+        yield
+      ensure
+        I18n.exception_handler = exception_handler
+      end
+    end
+
+    ##
     # work round minitest insanity that causes it to tell you
     # to use assert_nil to test for nil, which is fine if you're
     # comparing to a nil constant but not if you're comparing
@@ -147,12 +159,6 @@ module ActiveSupport
       stub_request(:get, url).and_return(:status => status, :body => body)
     end
 
-    def stub_hostip_requests
-      # Controller tests and integration tests use different IPs
-      stub_request(:get, "https://api.hostip.info/country.php?ip=0.0.0.0")
-      stub_request(:get, "https://api.hostip.info/country.php?ip=127.0.0.1")
-    end
-
     def email_text_parts(message)
       message.parts.each_with_object([]) do |part, text_parts|
         if part.content_type.start_with?("text/")
@@ -164,11 +170,92 @@ module ActiveSupport
     end
 
     def sign_in_as(user)
-      stub_hostip_requests
       visit login_path
       fill_in "username", :with => user.email
       fill_in "password", :with => "test"
       click_on "Login", :match => :first
+    end
+
+    def xml_for_node(node)
+      doc = OSM::API.new.get_xml_doc
+      doc.root << xml_node_for_node(node)
+      doc
+    end
+
+    def xml_node_for_node(node)
+      el = XML::Node.new "node"
+      el["id"] = node.id.to_s
+
+      OMHelper.add_metadata_to_xml_node(el, node, {}, {})
+
+      if node.visible?
+        el["lat"] = node.lat.to_s
+        el["lon"] = node.lon.to_s
+      end
+
+      OMHelper.add_tags_to_xml_node(el, node.node_tags)
+
+      el
+    end
+
+    def xml_for_way(way)
+      doc = OSM::API.new.get_xml_doc
+      doc.root << xml_node_for_way(way)
+      doc
+    end
+
+    def xml_node_for_way(way)
+      el = XML::Node.new "way"
+      el["id"] = way.id.to_s
+
+      OMHelper.add_metadata_to_xml_node(el, way, {}, {})
+
+      # make sure nodes are output in sequence_id order
+      ordered_nodes = []
+      way.way_nodes.each do |nd|
+        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if nd.node&.visible?
+      end
+
+      ordered_nodes.each do |nd_id|
+        next unless nd_id && nd_id != "0"
+
+        node_el = XML::Node.new "nd"
+        node_el["ref"] = nd_id
+        el << node_el
+      end
+
+      OMHelper.add_tags_to_xml_node(el, way.way_tags)
+
+      el
+    end
+
+    def xml_for_relation(relation)
+      doc = OSM::API.new.get_xml_doc
+      doc.root << xml_node_for_relation(relation)
+      doc
+    end
+
+    def xml_node_for_relation(relation)
+      el = XML::Node.new "relation"
+      el["id"] = relation.id.to_s
+
+      OMHelper.add_metadata_to_xml_node(el, relation, {}, {})
+
+      relation.relation_members.each do |member|
+        member_el = XML::Node.new "member"
+        member_el["type"] = member.member_type.downcase
+        member_el["ref"] = member.member_id.to_s
+        member_el["role"] = member.member_role
+        el << member_el
+      end
+
+      OMHelper.add_tags_to_xml_node(el, relation.relation_tags)
+
+      el
+    end
+
+    class OMHelper
+      extend ObjectMetadata
     end
   end
 end

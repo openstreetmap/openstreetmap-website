@@ -1,5 +1,5 @@
 json.type "FeatureCollection"
 
 json.features(@notes) do |note|
-  json.ingest! render(note)
+  json.partial! note
 end

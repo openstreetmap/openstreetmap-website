@@ -1,10 +1,10 @@
 require "migrate"
 
 class CreateUserRoles < ActiveRecord::Migration[4.2]
-  class User < ActiveRecord::Base
+  class User < ApplicationRecord
   end
 
-  class UserRole < ActiveRecord::Base
+  class UserRole < ApplicationRecord
   end
 
   def self.up

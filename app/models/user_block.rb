@@ -24,7 +24,7 @@
 #  user_blocks_user_id_fkey       (user_id => users.id)
 #
 
-class UserBlock < ActiveRecord::Base
+class UserBlock < ApplicationRecord
   validate :moderator_permissions
   validates :reason, :characters => true
 
@@ -78,7 +78,7 @@ class UserBlock < ActiveRecord::Base
   # block. this should be caught and dealt with in the controller,
   # but i've also included it here just in case.
   def moderator_permissions
-    errors.add(:base, I18n.t("user_block.model.non_moderator_update")) if creator_id_changed? && !creator.moderator?
-    errors.add(:base, I18n.t("user_block.model.non_moderator_revoke")) unless revoker_id.nil? || revoker.moderator?
+    errors.add(:base, I18n.t("user_blocks.model.non_moderator_update")) if creator_id_changed? && !creator.moderator?
+    errors.add(:base, I18n.t("user_blocks.model.non_moderator_revoke")) if revoker_id_changed? && !revoker_id.nil? && !revoker.moderator?
   end
 end

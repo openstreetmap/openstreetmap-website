@@ -18,10 +18,6 @@ module Api
         { :controller => "api/changesets", :action => "download", :id => "1" }
       )
       assert_routing(
-        { :path => "/api/0.6/changeset/1/expand_bbox", :method => :post },
-        { :controller => "api/changesets", :action => "expand_bbox", :id => "1" }
-      )
-      assert_routing(
         { :path => "/api/0.6/changeset/1", :method => :get },
         { :controller => "api/changesets", :action => "show", :id => "1" }
       )
@@ -286,7 +282,7 @@ module Api
 
       # simple diff to change a node, way and relation by removing
       # their tags
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <modify>
           <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
@@ -302,7 +298,7 @@ module Api
           </relation>
          </modify>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset_id }, :body => diff
@@ -315,7 +311,7 @@ CHANGESET
 
       # simple diff to change a node, way and relation by removing
       # their tags
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <modify>
           <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
@@ -331,7 +327,7 @@ CHANGESET
           </relation>
          </modify>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset_id }, :body => diff
@@ -344,7 +340,7 @@ CHANGESET
 
       # simple diff to change a node, way and relation by removing
       # their tags
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <modify>
           <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
@@ -360,7 +356,7 @@ CHANGESET
           </relation>
          </modify>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset_id }, :body => diff
@@ -385,7 +381,7 @@ CHANGESET
       basic_authorization user.email, "test"
 
       # simple diff to create a node way and relation using placeholders
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <create>
           <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
@@ -404,7 +400,7 @@ CHANGESET
           </relation>
          </create>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -458,10 +454,10 @@ CHANGESET
       diff.root = XML::Node.new "osmChange"
       delete = XML::Node.new "delete"
       diff.root << delete
-      delete << super_relation.to_xml_node
-      delete << used_relation.to_xml_node
-      delete << used_way.to_xml_node
-      delete << used_node.to_xml_node
+      delete << xml_node_for_relation(super_relation)
+      delete << xml_node_for_relation(used_relation)
+      delete << xml_node_for_way(used_way)
+      delete << xml_node_for_node(used_node)
 
       # update the changeset to one that this user owns
       %w[node way relation].each do |type|
@@ -533,7 +529,7 @@ CHANGESET
       changeset_id = @response.body.to_i
 
       # upload some widely-spaced nodes, spiralling positive and negative
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <create>
           <node id='-1' lon='-20' lat='-10' changeset='#{changeset_id}'/>
@@ -556,7 +552,7 @@ CHANGESET
           <node id='-18' lon='179.9'  lat='89.9' changeset='#{changeset_id}'/>
          </create>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it, which used to cause an error like "PGError: ERROR:
       # integer out of range" (bug #2152). but shouldn't any more.
@@ -590,9 +586,9 @@ CHANGESET
       diff.root = XML::Node.new "osmChange"
       delete = XML::Node.new "delete"
       diff.root << delete
-      delete << other_relation.to_xml_node
-      delete << used_way.to_xml_node
-      delete << used_node.to_xml_node
+      delete << xml_node_for_relation(other_relation)
+      delete << xml_node_for_way(used_way)
+      delete << xml_node_for_node(used_node)
 
       # update the changeset to one that this user owns
       %w[node way relation].each do |type|
@@ -633,9 +629,9 @@ CHANGESET
       delete = XML::Node.new "delete"
       diff.root << delete
       delete["if-unused"] = ""
-      delete << used_relation.to_xml_node
-      delete << used_way.to_xml_node
-      delete << used_node.to_xml_node
+      delete << xml_node_for_relation(used_relation)
+      delete << xml_node_for_way(used_way)
+      delete << xml_node_for_node(used_node)
 
       # update the changeset to one that this user owns
       %w[node way relation].each do |type|
@@ -687,7 +683,7 @@ CHANGESET
       basic_authorization changeset.user.email, "test"
 
       # simple diff to create a node way and relation using placeholders
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <create>
           <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
@@ -695,7 +691,7 @@ CHANGESET
           </node>
          </create>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -717,7 +713,7 @@ CHANGESET
       basic_authorization changeset.user.email, "test"
 
       # simple diff to create a node way and relation using placeholders
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <create>
           <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
@@ -737,7 +733,7 @@ CHANGESET
           </relation>
          </modify>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -776,7 +772,7 @@ CHANGESET
       basic_authorization changeset.user.email, "test"
 
       # simple diff to create a node way and relation using placeholders
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <modify>
           <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
@@ -798,7 +794,7 @@ CHANGESET
           </node>
          </create>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -821,7 +817,7 @@ CHANGESET
       # change the location of a node multiple times, each time referencing
       # the last version. doesn't this depend on version numbers being
       # sequential?
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <modify>
           <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
@@ -834,7 +830,7 @@ CHANGESET
           <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset.id}' version='8'/>
          </modify>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -856,14 +852,14 @@ CHANGESET
 
       basic_authorization changeset.user.email, "test"
 
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <modify>
           <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
           <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
          </modify>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -878,13 +874,13 @@ CHANGESET
 
       basic_authorization changeset.user.email, "test"
 
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <modify>
          <node id='1' lon='1' lat='1' changeset='#{changeset.id}'/>
          </modify>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -899,13 +895,13 @@ CHANGESET
 
       basic_authorization changeset.user.email, "test"
 
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
           <ping>
            <node id='1' lon='1' lat='1' changeset='#{changeset.id}' />
           </ping>
         </osmChange>
-CHANGESET
+      CHANGESET
       post :upload, :params => { :id => changeset.id }, :body => diff
       assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
       assert_equal @response.body, "Unknown action ping, choices are create, modify, delete"
@@ -924,7 +920,7 @@ CHANGESET
 
       basic_authorization changeset.user.email, "test"
 
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <modify><node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}'
           version='1'></node>
@@ -936,7 +932,7 @@ CHANGESET
            <member type='relation' role='some' ref='#{other_relation.id}'/>
           </relation>
          </modify></osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -959,7 +955,7 @@ CHANGESET
 
       basic_authorization changeset.user.email, "test"
 
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <create>
           <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
@@ -973,7 +969,7 @@ CHANGESET
           <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
          </delete>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -993,7 +989,7 @@ CHANGESET
 
       basic_authorization changeset.user.email, "test"
 
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <create>
           <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
@@ -1001,7 +997,7 @@ CHANGESET
           <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
          </create>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -1018,7 +1014,7 @@ CHANGESET
 
       basic_authorization changeset.user.email, "test"
 
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <create>
           <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
@@ -1032,7 +1028,7 @@ CHANGESET
           </way>
          </create>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -1041,7 +1037,7 @@ CHANGESET
       assert_equal "Placeholder node not found for reference -4 in way -1", @response.body
 
       # the same again, but this time use an existing way
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <create>
           <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
@@ -1055,7 +1051,7 @@ CHANGESET
           </way>
          </create>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -1073,7 +1069,7 @@ CHANGESET
 
       basic_authorization changeset.user.email, "test"
 
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <create>
           <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
@@ -1087,7 +1083,7 @@ CHANGESET
           </relation>
          </create>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -1096,7 +1092,7 @@ CHANGESET
       assert_equal "Placeholder Node not found for reference -4 in relation -1.", @response.body
 
       # the same again, but this time use an existing relation
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <create>
           <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
@@ -1110,7 +1106,7 @@ CHANGESET
           </relation>
          </create>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset.id }, :body => diff
@@ -1137,7 +1133,7 @@ CHANGESET
       diff = XML::Document.new
       diff.root = XML::Node.new "osmChange"
       modify = XML::Node.new "modify"
-      xml_old_node = old_node.to_xml_node
+      xml_old_node = xml_node_for_node(old_node)
       xml_old_node["lat"] = 2.0.to_s
       xml_old_node["lon"] = 2.0.to_s
       xml_old_node["changeset"] = changeset_id.to_s
@@ -1175,7 +1171,7 @@ CHANGESET
       diff = XML::Document.new
       diff.root = XML::Node.new "osmChange"
       modify = XML::Node.new "modify"
-      xml_old_way = old_way.to_xml_node
+      xml_old_way = xml_node_for_way(old_way)
       nd_ref = XML::Node.new "nd"
       nd_ref["ref"] = create(:node, :lat => 3, :lon => 3).id.to_s
       xml_old_way << nd_ref
@@ -1228,7 +1224,7 @@ CHANGESET
       diff.root = XML::Node.new "osmChange"
       delete = XML::Node.new "delete"
       diff.root << delete
-      delete << node.to_xml_node
+      delete << xml_node_for_node(node)
 
       # upload it
       error_format "xml"
@@ -1270,7 +1266,7 @@ CHANGESET
       changeset_id = @response.body.to_i
 
       # add a diff to it
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <modify>
           <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
@@ -1283,7 +1279,7 @@ CHANGESET
           <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset_id}' version='8'/>
          </modify>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset_id }, :body => diff
@@ -1314,7 +1310,7 @@ CHANGESET
       assert_response :success
       changeset_id = @response.body.to_i
 
-      diff = <<OSMFILE.strip_heredoc
+      diff = <<~OSMFILE
         <osmChange version="0.6" generator="JOSM">
         <create version="0.6" generator="JOSM">
           <node id='-1' visible='true' changeset='#{changeset_id}' lat='51.49619982187321' lon='-0.18722061869438314' />
@@ -1341,7 +1337,7 @@ CHANGESET
           </way>
         </create>
         </osmChange>
-OSMFILE
+      OSMFILE
 
       # upload it
       post :upload, :params => { :id => changeset_id }, :body => diff
@@ -1376,7 +1372,7 @@ OSMFILE
       changeset_id = @response.body.to_i
 
       # add a diff to it
-      diff = <<CHANGESET.strip_heredoc
+      diff = <<~CHANGESET
         <osmChange>
          <delete>
           <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
@@ -1396,7 +1392,7 @@ OSMFILE
           </way>
          </modify>
         </osmChange>
-CHANGESET
+      CHANGESET
 
       # upload it
       post :upload, :params => { :id => changeset_id }, :body => diff
@@ -1487,7 +1483,7 @@ CHANGESET
 
       # add (delete) a way to it, which contains a point at (3,3)
       with_controller(WaysController.new) do
-        xml = update_changeset(way.to_xml, changeset_id)
+        xml = update_changeset(xml_for_way(way), changeset_id)
         put :delete, :params => { :id => way.id }, :body => xml.to_s
         assert_response :success, "Couldn't delete a way."
       end
@@ -1499,57 +1495,6 @@ CHANGESET
       assert_select "osm>changeset[max_lon='3.0000000']", 1
       assert_select "osm>changeset[min_lat='1.0000000']", 1
       assert_select "osm>changeset[max_lat='3.0000000']", 1
-    end
-
-    ##
-    # test that the changeset :include method works as it should
-    def test_changeset_include
-      basic_authorization create(:user).display_name, "test"
-
-      # create a new changeset
-      put :create, :body => "<osm><changeset/></osm>"
-      assert_response :success, "Creating of changeset failed."
-      changeset_id = @response.body.to_i
-
-      # NOTE: the include method doesn't over-expand, like inserting
-      # a real method does. this is because we expect the client to
-      # know what it is doing!
-      check_after_include(changeset_id, 1, 1, [1, 1, 1, 1])
-      check_after_include(changeset_id, 3, 3, [1, 1, 3, 3])
-      check_after_include(changeset_id, 4, 2, [1, 1, 4, 3])
-      check_after_include(changeset_id, 2, 2, [1, 1, 4, 3])
-      check_after_include(changeset_id, -1, -1, [-1, -1, 4, 3])
-      check_after_include(changeset_id, -2, 5, [-2, -1, 4, 5])
-    end
-
-    ##
-    # test that a not found, wrong method with the expand bbox works as expected
-    def test_changeset_expand_bbox_error
-      basic_authorization create(:user).display_name, "test"
-
-      # create a new changeset
-      xml = "<osm><changeset/></osm>"
-      put :create, :body => xml
-      assert_response :success, "Creating of changeset failed."
-      changeset_id = @response.body.to_i
-
-      lon = 58.2
-      lat = -0.45
-
-      # Try and put
-      xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-      put :expand_bbox, :params => { :id => changeset_id }, :body => xml
-      assert_response :method_not_allowed, "shouldn't be able to put a bbox expand"
-
-      # Try to get the update
-      xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-      get :expand_bbox, :params => { :id => changeset_id }, :body => xml
-      assert_response :method_not_allowed, "shouldn't be able to get a bbox expand"
-
-      # Try to use a hopefully missing changeset
-      xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-      post :expand_bbox, :params => { :id => changeset_id + 13245 }, :body => xml
-      assert_response :not_found, "shouldn't be able to do a bbox expand on a nonexistant changeset"
     end
 
     ##
@@ -1927,26 +1872,6 @@ CHANGESET
       changesets.each do |changeset|
         assert_select "osm>changeset[id='#{changeset.id}']", 1
       end
-    end
-
-    ##
-    # call the include method and assert properties of the bbox
-    def check_after_include(changeset_id, lon, lat, bbox)
-      xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-      post :expand_bbox, :params => { :id => changeset_id }, :body => xml
-      assert_response :success, "Setting include of changeset failed: #{@response.body}"
-
-      # check exactly one changeset
-      assert_select "osm>changeset", 1
-      assert_select "osm>changeset[id='#{changeset_id}']", 1
-
-      # check the bbox
-      doc = XML::Parser.string(@response.body).parse
-      changeset = doc.find("//osm/changeset").first
-      assert_equal bbox[0], changeset["min_lon"].to_f, "min lon"
-      assert_equal bbox[1], changeset["min_lat"].to_f, "min lat"
-      assert_equal bbox[2], changeset["max_lon"].to_f, "max lon"
-      assert_equal bbox[3], changeset["max_lat"].to_f, "max lat"
     end
 
     ##

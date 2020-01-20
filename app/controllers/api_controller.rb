@@ -12,7 +12,7 @@ class ApiController < ApplicationController
       # no auth, the user does not exist or the password was wrong
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
       render :plain => errormessage, :status => :unauthorized
-      return false
+      false
     end
   end
 

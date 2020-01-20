@@ -2,7 +2,7 @@
   <h1>
     <a href="<%= root_path %>" class="geolink">
       <picture>
-        <source srcset="<%= image_path "osm_logo.svg" %>" type="image/svg+xml"></source>
+        <source srcset="<%= image_path "osm_logo.svg" %>" type="image/svg+xml" />
         <%= image_tag "osm_logo.png", :srcset => image_path("osm_logo.svg"), :alt => t("layouts.logo.alt_text"), :class => "logo" %>
       </picture>
       <%= t "layouts.project_name.h1" %>
@@ -103,7 +103,7 @@
             <%= yield :greeting %>
           </li>
           <li>
-            <%= link_to t("layouts.logout"), logout_path(:session => session.id, :referer => request.fullpath), :class => "geolink" %>
+            <%= link_to t("layouts.logout"), logout_path(:referer => request.fullpath), :method => "post", :class => "geolink" %>
           </li>
         </ul>
       </div>

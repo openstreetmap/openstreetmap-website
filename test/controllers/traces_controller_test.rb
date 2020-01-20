@@ -115,8 +115,8 @@ class TracesControllerTest < ActionController::TestCase
       { :controller => "traces", :action => "update", :id => "1" }
     )
     assert_routing(
-      { :path => "/trace/1/delete", :method => :post },
-      { :controller => "traces", :action => "delete", :id => "1" }
+      { :path => "/traces/1", :method => :delete },
+      { :controller => "traces", :action => "destroy", :id => "1" }
     )
   end
 
@@ -532,7 +532,7 @@ class TracesControllerTest < ActionController::TestCase
   # Test creating a trace
   def test_create_post
     # Get file to use
-    fixture = Rails.root.join("test", "gpx", "fixtures", "a.gpx")
+    fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
     file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
     user = create(:user)
 
@@ -564,7 +564,7 @@ class TracesControllerTest < ActionController::TestCase
   # Test creating a trace with validation errors
   def test_create_post_with_validation_errors
     # Get file to use
-    fixture = Rails.root.join("test", "gpx", "fixtures", "a.gpx")
+    fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
     file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
     user = create(:user)
 
@@ -637,39 +637,39 @@ class TracesControllerTest < ActionController::TestCase
     assert_equal new_details[:visibility], trace.visibility
   end
 
-  # Test deleting a trace
-  def test_delete
+  # Test destroying a trace
+  def test_destroy
     public_trace_file = create(:trace, :visibility => "public")
     deleted_trace_file = create(:trace, :deleted)
 
     # First with no auth
-    post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
+    delete :destroy, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
     assert_response :forbidden
 
     # Now with some other user, which should fail
-    post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }
+    delete :destroy, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }
     assert_response :forbidden
 
     # Now with a trace which doesn't exist
-    post :delete, :params => { :display_name => create(:user).display_name, :id => 0 }, :session => { :user => create(:user) }
+    delete :destroy, :params => { :display_name => create(:user).display_name, :id => 0 }, :session => { :user => create(:user) }
     assert_response :not_found
 
     # Now with a trace has already been deleted
-    post :delete, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, :session => { :user => deleted_trace_file.user }
+    delete :destroy, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, :session => { :user => deleted_trace_file.user }
     assert_response :not_found
 
     # Now with a trace that we are allowed to delete
-    post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => public_trace_file.user }
+    delete :destroy, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => public_trace_file.user }
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_equal false, trace.visible
 
-    # Finally with a trace that is deleted by an admin
+    # Finally with a trace that is destroyed by an admin
     public_trace_file = create(:trace, :visibility => "public")
     admin = create(:administrator_user)
 
-    post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => admin }
+    delete :destroy, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => admin }
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
@@ -681,7 +681,7 @@ class TracesControllerTest < ActionController::TestCase
   def check_trace_feed(traces)
     assert_response :success
     assert_template "georss"
-    assert_equal "application/rss+xml", @response.content_type
+    assert_equal "application/rss+xml", @response.media_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
         assert_select "title"
@@ -736,19 +736,19 @@ class TracesControllerTest < ActionController::TestCase
   def check_trace_data(trace, digest, content_type = "application/gpx+xml", extension = "gpx")
     assert_response :success
     assert_equal digest, Digest::MD5.hexdigest(response.body)
-    assert_equal content_type, response.content_type
-    assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"", @response.header["Content-Disposition"]
+    assert_equal content_type, response.media_type
+    assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"; filename*=UTF-8''#{trace.id}.#{extension}", @response.header["Content-Disposition"]
   end
 
   def check_trace_picture(trace)
     assert_response :success
-    assert_equal "image/gif", response.content_type
+    assert_equal "image/gif", response.media_type
     assert_equal trace.large_picture, response.body
   end
 
   def check_trace_icon(trace)
     assert_response :success
-    assert_equal "image/gif", response.content_type
+    assert_equal "image/gif", response.media_type
     assert_equal trace.icon_picture, response.body
   end
 end

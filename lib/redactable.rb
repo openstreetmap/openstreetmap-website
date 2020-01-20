@@ -4,7 +4,7 @@ module Redactable
   def self.included(base)
     # this is used to extend activerecord bases, as these aren't
     # in scope for the module itself.
-    base.scope :unredacted, -> { base.where(:redaction_id => nil) }
+    base.scope :unredacted, -> { where(:redaction_id => nil) }
   end
 
   def redacted?

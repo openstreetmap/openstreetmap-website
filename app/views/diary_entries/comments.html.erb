@@ -3,11 +3,13 @@
 <% end %>
 
 <table class="messages" width="100%">
-  <tr>
-    <th width="25%"><%= t ".post" %></th>
-    <th width="25%"><%= t ".when" %></th>
-    <th width="50%"><%= t ".comment" %></th>
-  </tr>
+  <thead>
+    <tr>
+      <th width="25%"><%= t ".post" %></th>
+      <th width="25%"><%= t ".when" %></th>
+      <th width="50%"><%= t ".comment" %></th>
+    </tr>
+  </thead>
   <% @comments.each do |comment| -%>
   <% cl = cycle("table0", "table1") %>
   <tr class="<%= cl %><%= " deemphasize" unless comment.visible? %>">

@@ -1,4 +1,4 @@
-task "test" do
+task :test => :environment do
   Rails::TestUnit::Runner.rake_run(["test/system"]) unless ENV.key?("TEST")
 end
 

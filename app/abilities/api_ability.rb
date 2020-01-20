@@ -8,7 +8,6 @@ class ApiAbility
     can :index, :change
     can :index, :map
     can :show, :permission
-    can [:search_all, :search_nodes, :search_ways, :search_relations], :search
     can :show, :version
 
     if Settings.status != "database_offline"
@@ -35,10 +34,10 @@ class ApiAbility
         can [:new, :create], Report
         can [:create, :show, :update, :destroy, :data], Trace
         can [:details, :gpx_files], User
-        can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
+        can [:index, :show, :update, :update_all, :destroy], UserPreference
 
         if user.terms_agreed?
-          can [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox], Changeset
+          can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset
           can :create, ChangesetComment
           can [:create, :update, :delete], Node
           can [:create, :update, :delete], Way

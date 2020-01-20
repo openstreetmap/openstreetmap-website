@@ -37,6 +37,7 @@ class OauthClientsControllerTest < ActionController::TestCase
   def test_index
     user = create(:user)
     create_list(:client_application, 2, :user => user)
+    create_list(:access_token, 2, :user => user)
 
     get :index,
         :params => { :display_name => user.display_name }

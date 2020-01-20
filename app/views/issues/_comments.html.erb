@@ -1,15 +1,15 @@
 <div class="issue-comments">
   <% comments.each do |comment| %>
     <div class="comment">
-      <div style="float:left">
+      <div class="float-left">
         <%= link_to user_thumbnail(comment.user), user_path(comment.user) %>
       </div>
-      <b> <%= link_to comment.user.display_name, user_path(comment.user) %> </b> <br />
-      <%= comment.body %>
+      <p class="text-muted mb-0">
+        <%= t ".comment_from_html", :user_link => link_to(comment.user.display_name, user_path(comment.user)),
+                                    :comment_created_at => l(comment.created_at.to_datetime, :format => :friendly) %>
+      </p>
+      <p><%= comment.body %></p>
     </div>
-    <span class="deemphasize">
-      <%= t(".created_at", :datetime => l(comment.created_at.to_datetime, :format => :friendly)) %>
-    </span>
     <hr>
   <% end %>
 </div>

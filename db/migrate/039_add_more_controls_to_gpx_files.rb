@@ -1,7 +1,7 @@
 require "migrate"
 
 class AddMoreControlsToGpxFiles < ActiveRecord::Migration[4.2]
-  class Trace < ActiveRecord::Base
+  class Trace < ApplicationRecord
     self.table_name = "gpx_files"
   end
 

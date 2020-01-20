@@ -1,100 +1,11 @@
 @import "parameters";
+@import "bootstrap-custom";
 
 /* Styles common to large and small screens */
-
-/* Minimal CSS reset */
-
-html, body, ul, ol, li, form, fieldset, legend, h1, h2, h3, h4, h5, h6, p, input {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size:100%;
-}
-
-fieldset,img { border: 0; }
-
-legend { color: #000; }
-
-sup {
-  vertical-align: super;
-  font-size: smaller;
-}
-
-sub {
-  vertical-align: sub;
-  font-size: smaller;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-li { list-style: none; }
-
-input,
-select,
-textarea,
-body { font: #{$typeheight}/#{$lineheight} "Helvetica Neue",Arial,sans-serif; }
-
-abbr, acronym {
-  text-decoration: underline dotted;
-  cursor: help;
-}
-
-strong {
-  font-weight: bold;
-}
-
-/* Micro Clearfix | Details: http://nicolasgallagher.com/micro-clearfix-hack/ */
-
-.clearfix:before,
-.clearfix:after {
-    content: " ";
-    display: table;
-}
-
-.clearfix:after {
-    clear: both;
-}
-
-/* Basic grid */
-
-.col0    { float:left; width:04.1666%; }
-.col1    { float:left; width:08.3333%; }
-.col2    { float:left; width:16.6666%; }
-.col3    { float:left; width:25.0000%; }
-.col4    { float:left; width:33.3333%; }
-.col5    { float:left; width:41.6666%; }
-.col6    { float:left; width:50.0000%; }
-.col7    { float:left; width:58.3333%; }
-.col8    { float:left; width:66.6666%; }
-.col9    { float:left; width:75.0000%; }
-.col10   { float:left; width:83.3333%; }
-.col11   { float:left; width:91.6666%; }
-.col12   { width:100%; }
-
-.margin0  { margin-left:04.1666%; }
-.margin1  { margin-left:08.3333%; }
-.margin2  { margin-left:16.6666%; }
-.margin3  { margin-left:25.0000%; }
-.margin4  { margin-left:33.3333%; }
-.margin5  { margin-left:41.6666%; }
-.margin6  { margin-left:50.0000%; }
-.margin7  { margin-left:58.3333%; }
-.margin8  { margin-left:66.6666%; }
-.margin9  { margin-left:75.0000%; }
-.margin10 { margin-left:83.3333%; }
-.margin11 { margin-left:91.6666%; }
-.margin12 { margin-left:100.0000%; }
 
 .fillL { background-color: white; }
 
 /* Default rules for the body of every page */
-
-* {
-  box-sizing: border-box;
-}
 
 body {
   font-family: 'Helvetica Neue',Arial,sans-serif;
@@ -106,23 +17,6 @@ body {
   padding: 0px;
   text-align: left;
   height: 100%;
-}
-
-h1, h2, h3 {
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-h4, h5 {
-  font-weight: 500;
-}
-
-h1 {
-  font-size: 18px;
-}
-
-h2, h3 {
-  font-size: 16px;
 }
 
 p > img {
@@ -198,15 +92,6 @@ a {
   }
 }
 
-/* Rules for horizontal lines */
-
-hr {
-  border: none;
-  background-color: #ccc;
-  color: #ccc;
-  height: 1px;
-}
-
 /* General styles for tables */
 
 table {
@@ -229,7 +114,7 @@ table {
 /* Utility for de-emphasizing content */
 
 .deemphasize {
-  color: #999;
+  color: $darkgrey;
   a {
     color: $blue;
   }
@@ -280,10 +165,17 @@ header {
   }
 
   h1 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
     margin: 0;
     padding-top: 15px;
 
     a {
+      color: #000;
+    }
+
+    a:hover {
       color: #000;
     }
   }
@@ -291,6 +183,7 @@ header {
 
 nav.primary {
   > ul {
+    padding: 0;
     $border: 1px solid $green;
 
     border: $border;
@@ -330,11 +223,11 @@ nav.primary {
   }
 
   .disabled a {
-    color: #ccc;
+    color: $grey;
     cursor: default;
 
     .caret {
-      border-top-color: #ccc;
+      border-top-color: $grey;
     }
   }
 
@@ -357,6 +250,9 @@ nav.secondary {
 
   > ul {
     vertical-align: middle;
+    margin: 0;
+    padding: 0;
+
     a, .dropdown-toggle {
       display: inline-block;
       text-decoration: none;
@@ -376,6 +272,7 @@ nav.secondary {
     border: $border;
     border-radius: $border-radius;
     margin-left: 10px;
+    padding: 0;
 
     > li {
       border-right: $border;
@@ -505,7 +402,7 @@ body.compact {
   }
 
   &.active {
-    background-color: #9ed485;
+    background-color: $vibrant-green;
   }
 
   .icon {
@@ -552,7 +449,6 @@ body.compact {
     float: left;
     width: $sidebarWidth;
     background: #fff;
-    font-size: 12px;
 
     #sidebar_loader {
       display: none;
@@ -567,12 +463,13 @@ body.compact {
 
     h2 {
       padding: $lineheight $lineheight $lineheight/2;
+      font-size: 1.5rem;
     }
 
     h3, h4 {
       margin-top: $lineheight;
       margin-bottom: $lineheight/2;
-      font-size: 13px;
+      font-size: 1.25rem;
     }
 
     .close-wrap {
@@ -692,7 +589,7 @@ body.compact {
     overflow: auto;
 
     .section {
-      border-bottom: 1px solid #DDD;
+      border-bottom: 1px solid $grey;
       padding: 10px 20px;
     }
 
@@ -702,14 +599,14 @@ body.compact {
       font-size:20px;
       line-height:10px;
       color:#222;
-      border:1px solid #ddd;
+      border:1px solid $grey;
     }
 
     .tooltip {
       opacity: 1;
-      border: 1px solid #ccc;
+      border: 1px solid $grey;
       .tooltip-arrow {
-        border-top-color: #ccc;
+        border-top-color: $grey;
       }
     }
   }
@@ -768,7 +665,7 @@ body.compact {
       font-size: 13px;
       margin-bottom: 8px;
     }
-    li.disabled { color: #999; }
+    li.disabled { color: $darkgrey; }
   }
 }
 
@@ -872,7 +769,7 @@ body.compact {
   position: relative;
   padding: $lineheight/2 $lineheight;
   // background: $offwhite;
-  // border-bottom: 1px solid #ccc;
+  // border-bottom: 1px solid $grey;
   > .close {
     float: right;
     margin-top: 2px;
@@ -939,7 +836,7 @@ header .search_forms,
 
   input:focus {
     outline: none;
-    box-shadow: 0px 0px 7px #9ED485;
+    box-shadow: 0px 0px 7px $vibrant-green;
   }
 
   input[type=submit].float {
@@ -1043,9 +940,7 @@ header .search_forms,
 
 #sidebar .search_results_entry {
   ul li {
-    border-bottom: $keyline;
     cursor: pointer;
-    &:first-child { border-top: $keyline; }
     &.selected { background: $list-highlight; }
   }
 
@@ -1085,10 +980,10 @@ p#routing_summary {
 td.instruction, td.distance {
     padding-top: $lineheight/5;
     padding-bottom: $lineheight/5;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid $grey;
 }
 td.distance {
-    color: #BBB;
+    color: $darkgrey;
     text-align: right;
     font-size: x-small;
 }
@@ -1118,24 +1013,15 @@ tr.turn:hover {
 
 #sidebar .changesets {
   li {
-    padding: 15px 20px;
-    border-bottom: 1px solid #ddd;
     cursor: pointer;
 
     &.selected { background: $list-highlight; }
     /* color is derived from changeset bbox fillColor in history.js */
   }
 
-  h4 {
-    margin: 0;
-    a {
-      color: #000;
-    }
-  }
-
   .comments {
     float: right;
-    color: #999;
+    color: $darkgrey;
   }
 
   .comments-0 {
@@ -1153,7 +1039,7 @@ tr.turn:hover {
 #sidebar_content {
   .browse-section {
     padding: $lineheight/2 $lineheight;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $grey;
 
     h4:first-child {
       margin-top: 0;
@@ -1168,12 +1054,8 @@ tr.turn:hover {
   .paginate {
     float: right;
     padding: 1px 6px;
-    border: 1px solid #eee;
+    border: 1px solid $lightgrey;
     border-radius: 3px;
-  }
-
-  .paginate ul {
-    padding-left: 20px;
   }
 
   .browse-field {
@@ -1182,31 +1064,30 @@ tr.turn:hover {
     h4 {
       padding: 5px 0 5px 10px;
       font-size: 12px;
-      border: 1px solid #CCC;
+      border: 1px solid $grey;
       border-radius: 4px 4px 0 0;
-      background-color: #F6F6F6;
+      background-color: $offwhite;
     }
 
     p {
       padding: 7px 10px;
       font-size: 12px;
       background-color: #FFF;
-      border: 1px solid #CCC;
+      border: 1px solid $grey;
       border-top: 0;
       border-radius: 0 0 4px 4px;
     }
   }
 
   .browse-tag-list {
-    background-color: #F6F6F6;
-    border: 1px solid #ddd;
+    background-color: $offwhite;
+    border: 1px solid $grey;
     border-radius: 3px;
-    font-size: 12px;
     table-layout: fixed;
     border-collapse: separate;
 
     th, td {
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid $grey;
     }
 
     tr:last-child th, tr:last-child td {
@@ -1223,20 +1104,20 @@ tr.turn:hover {
 
     .browse-tag-k {
       font-weight: 500;
-      background-color: #F6F6F6;
+      background-color: $offwhite;
     }
 
     .browse-tag-v {
-      border-left: 1px solid #ddd;
+      border-left: 1px solid $grey;
       background-color: #fff;
     }
 
     .colour-preview-box {
       float: right;
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       margin: 4px 0px;
-      border: 1px solid rgba(0, 0, 0, .1); 
+      border: 1px solid rgba(0, 0, 0, .1);
       // add color via inline css on element: background-color: <tag value>;
     }
   }
@@ -1287,17 +1168,14 @@ tr.turn:hover {
 
   .query-results {
     display: none;
+    padding-bottom: $lineheight/2;
 
     h3 {
-      padding: $lineheight $lineheight $lineheight/2;
-      margin: 0;
+      padding: 0 $lineheight;
     }
 
     ul {
       li {
-        padding: 15px 20px;
-        border-bottom: 1px solid #ddd;
-
         &.query-result {
           cursor: pointer;
         }
@@ -1330,8 +1208,8 @@ tr.turn:hover {
   }
 
   .export_boxy {
-    background: #eee;
-    border: 1px solid #ccc;
+    background: $lightgrey;
+    border: 1px solid $grey;
     border-radius: 3px;
 
     #maxlat { margin-top: -1px; }
@@ -1393,8 +1271,6 @@ tr.turn:hover {
 
 .content-heading {
   background: $lightgrey;
-
-  h1 { font-size: 22px; }
 }
 
 .content-body {
@@ -1415,19 +1291,6 @@ tr.turn:hover {
 }
 
 /* Overrides for pages that use new layout conventions */
-
-.users-new,
-.users-create,
-.users-terms {
-  .content-body .content-inner {
-    padding: 0;
-
-    .message {
-      margin-top: 80px;
-      padding: 20px;
-    }
-  }
-}
 
 .users-new,
 .users-create,
@@ -1488,7 +1351,7 @@ tr.turn:hover {
   position: relative;
   width: 45%;
   height: 400px;
-  border: 1px solid #ccc;
+  border: 1px solid $grey;
   margin-bottom: $lineheight;
   float: right;
 }
@@ -1496,45 +1359,12 @@ tr.turn:hover {
 /* Rules for the trace list shown by the traces tab etc */
 
 #trace_list {
-  font-size: $lineheight/2;
   border-width: 0px;
   text-align: right;
 
   .trace_summary {
     font-size: 12px;
     color: gray;
-  }
-
-  .trace_pending {
-    color: red;
-  }
-
-  .trace_public {
-    color: green;
-  }
-
-  .trace_identifiable {
-    color: green;
-  }
-
-  .trace_trackable {
-    color: red;
-  }
-
-  .trace_private {
-    color: red;
-  }
-}
-
-/* Rules for the trace view */
-
-.trace-show {
-  .trace_pending {
-    color: red;
-  }
-
-  .geo {
-    display: inline;
   }
 }
 
@@ -1551,7 +1381,7 @@ tr.turn:hover {
 /* Rules for the edit trace form */
 
 .edit_trace {
-  .form-row p {
+  .standard-form-row p {
     margin-bottom: 0px;
   }
 
@@ -1590,7 +1420,7 @@ tr.turn:hover {
 
 .activity-block {
   clear: left;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $grey;
   padding-bottom: $lineheight;
   float: left;
   h3 {
@@ -1606,10 +1436,6 @@ tr.turn:hover {
 .activity-details p {
   margin-left: 70px;
   margin-bottom: 0;
-}
-
-#friends-container .contact-activity ul {
-  margin-left: 70px;
 }
 
 .users-show {
@@ -1651,7 +1477,6 @@ tr.turn:hover {
 /* Rules for the user list */
 
 #user_list {
-  font-size: $lineheight/2;
   width: 100%;
 
   tr {
@@ -1675,7 +1500,7 @@ tr.turn:hover {
   position: relative;
   padding-top: $lineheight;
   padding-bottom: $lineheight/2;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid $grey;
 
   &:first-of-type {
     margin-top: $lineheight/2;
@@ -1691,7 +1516,6 @@ tr.turn:hover {
     h2 {
       margin-top: 0;
       margin-bottom: $lineheight/2;
-      font-size: 24px;
     }
   }
 
@@ -1716,12 +1540,12 @@ tr.turn:hover {
     position: relative;
     width: 90%;
     height: 400px;
-    border: 1px solid #ccc;
+    border: 1px solid $grey;
     display: none;
     margin-bottom: $lineheight;
   }
   #newcomment {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid $grey;
     padding-top: $lineheight;
     margin-top: $lineheight/2;
   }
@@ -1729,13 +1553,13 @@ tr.turn:hover {
     max-width: 740px;
   }
   .diary-comment {
-    border-top: 1px dashed #ccc;
+    border-top: 1px dashed $grey;
     padding-top: $lineheight/2;
     padding-bottom: $lineheight/2;
     &:first-child {
       margin-top: $lineheight/2;
       padding-top: $lineheight;
-      border-top: 1px solid #ccc;
+      border-top: 1px solid $grey;
     }
     &.deemphasize {
       background-color: #fee;
@@ -1776,7 +1600,7 @@ tr.turn:hover {
 
 .users-terms {
   .legale {
-    border: 1px solid #ccc;
+    border: 1px solid $grey;
     padding: $lineheight;
     margin-bottom: $lineheight;
     overflow: auto;
@@ -1805,7 +1629,7 @@ tr.turn:hover {
   position: relative;
   width: 500px;
   height: 400px;
-  border: 1px solid #ccc;
+  border: 1px solid $grey;
 }
 
 #accountForm .user_image {
@@ -1857,17 +1681,17 @@ tr.turn:hover {
 
 .messages {
   width: 100%;
-  border: 1px solid #ddd;
+  border: 1px solid $grey;
 
   input[type="submit"] {
     margin: auto;
   }
   tbody tr {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid $grey;
   }
 
   .inbox-row {
-    background: #f8f8ff;
+    background: $offwhite;
   }
 
   .inbox-row-unread {
@@ -1902,7 +1726,7 @@ tr.turn:hover {
 .info-line {
   margin-bottom: $lineheight;
   padding: $lineheight/4 0px 4px 0px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $grey;
 
   form, form div {
     display: inline;
@@ -2011,15 +1835,6 @@ tr.turn:hover {
     margin-bottom: 0px;
     padding: $lineheight/4;
   }
-
-  ul {
-    padding-left: $lineheight;
-
-    li {
-      font-size: 12px;
-      list-style: disc;
-    }
-  }
 }
 
 /* Rules for forms */
@@ -2051,11 +1866,11 @@ tr.turn:hover {
     padding-top: $lineheight;
     border-top: 1px solid $lightgrey;
   }
-  .horizontal-list .form-row {
+  .horizontal-list .standard-form-row {
     float: left;
     padding-right: 10px;
   }
-  .form-row {
+  .standard-form-row {
     margin-bottom: $lineheight/2;
   }
   .form-list {
@@ -2063,7 +1878,8 @@ tr.turn:hover {
   }
   .form-list li {
     margin-bottom: 5px;
-   }
+    list-style-type: none;
+  }
   input[type="checkbox"],
   input[type="radio"] {
     float: left;
@@ -2091,7 +1907,8 @@ input[type="password"],
 textarea {
   color: #222;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid $grey;
+  border-radius: 3px;
   padding: 2px 5px;
   margin: 0;
   width: 200px;
@@ -2104,6 +1921,8 @@ textarea {
 textarea {
   padding: 5px;
   width: 100%;
+  min-height: 50px;
+  resize: vertical;
 }
 
 /* Rules for user images */
@@ -2111,7 +1930,7 @@ textarea {
 img.user_image {
   max-width: 100px;
   max-height: 100px;
-  border: 1px solid #ccc;
+  border: 1px solid $grey;
   margin-bottom: $lineheight;
   float: left;
   margin-right: $lineheight;
@@ -2120,7 +1939,7 @@ img.user_image {
 img.user_thumbnail {
   max-width: 50px;
   max-height: 50px;
-  border: 1px solid #ccc;
+  border: 1px solid $grey;
   margin-right: $lineheight;
 }
 
@@ -2129,7 +1948,7 @@ img.user_thumbnail_tiny {
   height: auto;
   max-width: 25px;
   max-height: 25px;
-  border: 1px solid #ccc;
+  border: 1px solid $grey;
 }
 
 /* Rules for geo microformats */
@@ -2138,19 +1957,13 @@ abbr.geo {
   border-bottom: none;
 }
 
-/* Rules for RSS buttons */
-
-.rsssmall {
-  position: relative;
-  top: 3px;
-}
-
 /* General styles for action lists / subnavs / pager navs */
 
 ul.secondary-actions {
   font-style: normal;
   margin-bottom: 0;
   margin-left: 0;
+  padding: 0;
   &.pager {
     display: inline-block;
     margin-right: 60px;
@@ -2159,7 +1972,7 @@ ul.secondary-actions {
     display: block;
     float: left;
     list-style: none;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid $grey;
     padding-left: $lineheight/2;
     margin-right: $lineheight/2;
     &:first-child {
@@ -2314,33 +2127,15 @@ a.button {
 
 .richtext,
 .prose {
-  h1, h2 {
-    padding-bottom: $lineheight/2;
-    border-bottom: 1px dashed #cccccc;
-    margin-bottom: $lineheight/2;
-  }
-
-  h1 {
-    font-size: 24px;
-  }
-
-  h2 {
-    font-size: 18px;
-  }
-
-  h3 {
-    font-size: $typeheight;
-  }
-
   code {
     font-size: 13px;
-    background: #e8e8e8;
+    background: $lightgrey;
     padding: 2px 3px;
   }
 
   pre {
     font-size: 13px;
-    background: #e8e8e8;
+    background: $lightgrey;
     padding: 2px 3px;
     white-space: pre-wrap;
 
@@ -2361,21 +2156,7 @@ a.button {
     border-left: $lineheight solid $offwhite;
     padding-left: $lineheight;
     margin: 0;
-    color: #7E7E7E;
-  }
-
-  ul, ol {
-    padding-left: $lineheight;
-    margin-bottom: $lineheight;
-    margin-left: $lineheight;
-  }
-
-  ul > li {
-    list-style: disc;
-  }
-
-  ol > li {
-    list-style: decimal;
+    color: $darkgrey;
   }
 }
 
@@ -2434,7 +2215,7 @@ input.richtext_title[type="text"] {
     display: inline-block;
     vertical-align: top;
     margin-left: 15px;
-    background-color: #f8f8ff;
+    background-color: $offwhite;
     padding: $lineheight/2;
     width: 220px;
 
@@ -2443,7 +2224,7 @@ input.richtext_title[type="text"] {
     }
 
     h4.heading, li {
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid $grey;
       margin-bottom: $lineheight/4;
       padding-bottom: $lineheight/4;
     }
@@ -2472,7 +2253,7 @@ input.richtext_title[type="text"] {
 
 .note_list {
   tr.creator {
-    background-color: #eeeeee;
+    background-color: $lightgrey;
   }
 
   td {
@@ -2534,7 +2315,7 @@ input.richtext_title[type="text"] {
   margin: 0;
   list-style: none;
   background-color: #ffffff;
-  border: 1px solid #ccc;
+  border: 1px solid $grey;
   border-radius: 0 3px 3px;
   *border-right-width: 2px;
   *border-bottom-width: 2px;
@@ -2553,7 +2334,7 @@ input.richtext_title[type="text"] {
   margin: 9px 1px;
   *margin: -5px 0 5px;
   overflow: hidden;
-  background-color: #e5e5e5;
+  background-color: $lightgrey;
   border-bottom: 1px solid #ffffff;
 }
 
@@ -2588,7 +2369,7 @@ input.richtext_title[type="text"] {
 .dropdown-menu > .disabled > a,
 .dropdown-menu > .disabled > a:hover,
 .dropdown-menu > .disabled > a:focus {
-  color: #999999;
+  color: $darkgrey;
 }
 
 .dropdown-menu > .disabled > a:hover,
@@ -2689,11 +2470,6 @@ input.richtext_title[type="text"] {
     text-decoration: none;
   }
 
-  .note-box {
-    margin-top: 20px;
-    background-color: $offwhite;
-  }
-
   .icon.note {
     background-color: #333;
     border-radius: 4px;
@@ -2701,60 +2477,18 @@ input.richtext_title[type="text"] {
 }
 
 .site-about #content {
-  //background-color: #000;
-  background-color: #eee;
+  background-color: $lightgrey;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
 
-  .caption {
-    max-width: 200px;
-    font: 13px/20px Helvetica, Arial, sans-serif;
-    position: fixed;
-    text-align: right;
-    right: 20px;
-    bottom: 60px;
-    text-shadow: #000 0px 1px 5px;
-    color: #eee;
-    opacity: 0.8;
-    display: none;
-  }
-
-  .caption a {
-    color: white;
-    white-space: nowrap;
-    text-decoration: none;
-  }
-
-  a.next {
-    display: block;
-    position: fixed;
-    right: 10px;
-    bottom: 10px;
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    text-indent: -9999px;
-    overflow: hidden;
-    background: image-url('about/sprite.png') -120px 0px no-repeat;
-    background-color: #000;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
 
   .content-inner {
     position: relative;
     color: #333;
     min-width: 320px;
     max-width: 640px;
-
-    .section {
-      margin-bottom: 30px;
-    }
-
-    .section:last-child {
-      margin-bottom: 0;
-    }
   }
 
   .text {
@@ -2776,7 +2510,7 @@ input.richtext_title[type="text"] {
       font-weight: 300;
       font-size: 34px;
       span {
-        color: #76c551;
+        color: $vibrant-green;
       }
     }
 
@@ -2790,7 +2524,7 @@ input.richtext_title[type="text"] {
       background-repeat: no-repeat;
       background-image: image-url('about/osm.png');
       background-size: cover;
-      background-color: #76c551;
+      background-color: $vibrant-green;
     }
 
     .byosm {
@@ -2804,7 +2538,7 @@ input.richtext_title[type="text"] {
       font: 500 20px/24px Helvetica, Arial, sans-serif;
       white-space: nowrap;
       color: #fff;
-      background: #76c551;
+      background: $vibrant-green;
     }
 
     .byosm span {
@@ -2812,10 +2546,6 @@ input.richtext_title[type="text"] {
       width: 20px;
       margin-left: -20px;
     }
-  }
-
-  h2 {
-    margin-bottom: 10px;
   }
 
   .icon {
@@ -2861,36 +2591,8 @@ input.richtext_title[type="text"] {
 }
 
 .read-reports {
-  background: #eee;
+  background: $lightgrey;
   opacity: 0.7;
-}
-
-.report-related-block {
-  display:inline-block;
-}
-
-.report-block {
-  width:475px;
-  float:left;
-  margin-right:100px;
-}
-
-.related-reports {
-  width: 280px;
-  float: right;
-
-  ul {
-    padding-left: $lineheight;
-    margin-bottom: 0;
-
-    li {
-      list-style: disc;
-    }
-  }
-}
-
-.issue-comments {
-  width:475px;
 }
 
 .issues-list {

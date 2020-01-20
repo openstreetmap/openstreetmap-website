@@ -16,7 +16,7 @@
 #  way_nodes_id_fkey  (way_id => ways.way_id)
 #
 
-class OldWayNode < ActiveRecord::Base
+class OldWayNode < ApplicationRecord
   self.table_name = "way_nodes"
   self.primary_keys = "way_id", "version", "sequence_id"
 

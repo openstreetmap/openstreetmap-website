@@ -20,7 +20,7 @@
 #  issue_comments_user_id_fkey   (user_id => users.id)
 #
 
-class IssueComment < ActiveRecord::Base
+class IssueComment < ApplicationRecord
   belongs_to :issue
   belongs_to :user
 

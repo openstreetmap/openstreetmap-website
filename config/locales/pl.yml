@@ -50,6 +50,7 @@
 # Author: Teiron
 # Author: The Polish
 # Author: Ty221
+# Author: WaldiSt
 # Author: Woytecr
 # Author: Wpedzich
 # Author: Yarl
@@ -89,6 +90,7 @@ pl:
     errors:
       messages:
         invalid_email_address: nie wygląda na poprawny adres e-mail
+        email_address_not_routable: nie jest routowalny
     models:
       acl: Lista kontroli dostępu
       changeset: Zestaw zmian
@@ -288,29 +290,29 @@ pl:
       still_open: Zestaw zmian jest wciąż otwarty – dyskusja będzie możliwa, gdy zostanie
         on zamknięty.
     node:
-      title: 'Węzeł: %{name}'
-      history_title: 'Historia węzła: %{name}'
+      title_html: 'Węzeł: %{name}'
+      history_title_html: 'Historia węzła: %{name}'
     way:
-      title: 'Linia: %{name}'
-      history_title: 'Historia linii: %{name}'
+      title_html: 'Linia: %{name}'
+      history_title_html: 'Historia linii: %{name}'
       nodes: Węzły
-      also_part_of:
+      also_part_of_html:
         one: część linii %{related_ways}
         other: część linii %{related_ways}
     relation:
-      title: 'Relacja: %{name}'
-      history_title: 'Historia relacji: %{name}'
+      title_html: 'Relacja: %{name}'
+      history_title_html: 'Historia relacji: %{name}'
       members: Człony relacji
     relation_member:
-      entry: '%{type} %{name}'
-      entry_role: '%{type} %{name} jako %{role}'
+      entry_html: '%{type} %{name}'
+      entry_role_html: '%{type} %{name} jako %{role}'
       type:
         node: Węzeł
         way: Linia
         relation: Relacja
     containing_relation:
-      entry: Relacja %{relation_name}
-      entry_role: Relacja %{relation_name} (jako %{relation_role})
+      entry_html: Relacja %{relation_name}
+      entry_role_html: Relacja %{relation_name} (jako %{relation_role})
     not_found:
       sorry: 'Niestety, nie odnaleziono %{type} #%{id}.'
       type:
@@ -349,6 +351,7 @@ pl:
         tag: Strona wiki dla znacznika %{key}=%{value}
       wikidata_link: '%{page} element na Wikidata'
       wikipedia_link: Artykuł %{page} w Wikipedii
+      wikimedia_commons_link: Plik %{page} na Wikimedia Commons
       telephone_link: Zadzwoń pod %{phone_number}
       colour_preview: Podgląd koloru %{colour_value}
     note:
@@ -358,8 +361,8 @@ pl:
       open_title: 'Nierozwiązana uwaga #%{note_name}'
       closed_title: 'Rozwiązana uwaga #%{note_name}'
       hidden_title: 'Ukryta uwaga #%{note_name}'
-      open_by: 'Utworzona przez: %{user} <abbr title=''%{exact_time}''>%{when}</abbr>'
-      open_by_anonymous: Utworzona anonimowo <abbr title='%{exact_time}'>%{when}.</abbr>
+      opened_by: 'Utworzona przez: %{user} <abbr title=''%{exact_time}''>%{when}</abbr>'
+      opened_by_anonymous: Utworzona anonimowo <abbr title='%{exact_time}'>%{when}.</abbr>
       commented_by: Komentarz od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by_anonymous: Skomentowana anonimowo <abbr title='%{exact_time}'>%{when}</abbr>
       closed_by: 'Rozwiązana przez: %{user} <abbr title=''%{exact_time}''>%{when}</abbr>'
@@ -369,7 +372,7 @@ pl:
       hidden_by: Ukryte przez %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Zgłoś tę uwagę
     query:
-      title: Dane obiektu
+      title: Dane obiektów
       introduction: Kliknij na mapie, by wyszukać pobliskie obiekty.
       nearby: Obiekty w pobliżu
       enclosing: Większe, otaczające obiekty
@@ -443,7 +446,7 @@ pl:
       title: Dziennik użytkownika %{user} | %{title}
       user_title: Dziennik użytkownika %{user}
       leave_a_comment: Zostaw komentarz
-      login_to_leave_a_comment: '%{login_link}, aby dodać komentarz'
+      login_to_leave_a_comment_html: '%{login_link}, aby dodać komentarz'
       login: Zaloguj się
     no_such_entry:
       title: Nie ma takiego wpisu
@@ -451,7 +454,7 @@ pl:
       body: Niestety nie odnaleziono wpisu dziennika lub komentarza o identyfikatorze
         %{id}. Proszę sprawdzić pisownię lub może kliknięty odnośnik jest niepoprawny.
     diary_entry:
-      posted_by: Opublikowany przez %{link_user}, %{created} w języku %{language_link}
+      posted_by_html: Opublikowany przez %{link_user}, %{created} w języku %{language_link}
       comment_link: Skomentuj ten wpis
       reply_link: Odpowiedz na ten wpis
       comment_count:
@@ -465,7 +468,7 @@ pl:
       confirm: Potwierdź
       report: Zgłoś ten wpis
     diary_comment:
-      comment_from: Komentarz od %{link_user} z %{comment_created_at}
+      comment_from_html: Komentarz od %{link_user} z %{comment_created_at}
       hide_link: Ukryj ten komentarz
       unhide_link: Odkryj ten komentarz
       confirm: Potwierdź
@@ -494,14 +497,14 @@ pl:
   geocoder:
     search:
       title:
-        latlon: Wyniki z <a href="https://openstreetmap.org/">Internal</a>
-        ca_postcode: Wyniki z <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim: Wyniki z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        latlon_html: Wyniki z <a href="https://openstreetmap.org/">Internal</a>
+        ca_postcode_html: Wyniki z <a href="https://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Wyniki z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames: Wyniki z <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse: Wyniki z <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: Wyniki z <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Wyniki z <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames_reverse: Wyniki z <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse_html: Wyniki z <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -549,7 +552,7 @@ pl:
           charging_station: Stacja ładowania pojazdów elektrycznych
           childcare: Opieka nad dziećmi
           cinema: Kino
-          clinic: Przychodnia
+          clinic: Klinika
           clock: Zegar
           college: Szkoła policealna
           community_centre: Centrum społeczności
@@ -944,7 +947,7 @@ pl:
           antiques: Antyki
           art: Sklep z dziełami sztuki
           bakery: Piekarnia
-          beauty: Salon kosmetyczny
+          beauty: Salon urody
           beverages: Sklep z napojami
           bicycle: Sklep rowerowy
           bookmaker: Bukmacher
@@ -1005,7 +1008,7 @@ pl:
           outdoor: Sklep turystyczny
           paint: Sklep z farbami
           pawnbroker: Lombard
-          pet: Sklep ze zwierzętami
+          pet: Sklep zoologiczny
           pharmacy: Apteka
           photo: Sklep fotograficzny
           seafood: Owoce morza
@@ -1048,7 +1051,7 @@ pl:
           zoo: Zoo
         tunnel:
           building_passage: Przejazd przez budynek
-          culvert: Rura kanalizacyjna
+          culvert: Przepust
           "yes": Tunel
         waterway:
           artificial: Sztuczne zbiorniki wodne
@@ -1087,7 +1090,7 @@ pl:
         towns: Miasta
         places: Miejsca
     results:
-      no_results: Nie odnaleziono wyników
+      no_results: Nic nie znaleziono
       more_results: Więcej wyników
   issues:
     index:
@@ -1146,10 +1149,8 @@ pl:
     reopen:
       reopened: Status sprawy został ustawiony na „Otwarta”
     comments:
-      created_at: O %{datetime}
       reassign_param: Przydzielić sprawę?
     reports:
-      updated_at: Dnia %{datetime}
       reported_by_html: Zgłoszone jako %{category} przez %{user}
     helper:
       reportable_title:
@@ -1381,7 +1382,8 @@ pl:
       from: Od
       subject: Temat
       date: Data
-      no_messages_yet: Nie masz jeszcze wiadomości. Może skontaktujesz się z %{people_mapping_nearby_link}?
+      no_messages_yet_html: Nie masz jeszcze wiadomości. Może skontaktujesz się z
+        %{people_mapping_nearby_link}?
       people_mapping_nearby: użytkownikami z twojej okolicy
     message_summary:
       unread_button: Oznacz jako nieprzeczytaną
@@ -1390,7 +1392,7 @@ pl:
       destroy_button: Usuń
     new:
       title: Wysyłanie wiadomości
-      send_message_to: Wyślij nową wiadomość do %{name}
+      send_message_to_html: Wyślij nową wiadomość do %{name}
       subject: Temat
       body: Treść
       back_to_inbox: Wróć do skrzynki
@@ -1404,7 +1406,7 @@ pl:
       body: Niestety nie ma wiadomości o tym identyfikatorze.
     outbox:
       title: Wysłane
-      my_inbox: Wiadomości %{inbox_link}
+      my_inbox_html: Wiadomości %{inbox_link}
       inbox: odebrane
       outbox: wysłane
       messages:
@@ -1414,7 +1416,7 @@ pl:
       to: Do
       subject: Temat
       date: Nadano
-      no_sent_messages: Nie masz jeszcze wysłanych wiadomości. Może skontaktujesz
+      no_sent_messages_html: Nie masz jeszcze wysłanych wiadomości. Może skontaktujesz
         się z %{people_mapping_nearby_link}?
       people_mapping_nearby: użytkownikami z twojej okolicy
     reply:
@@ -1445,8 +1447,8 @@ pl:
     about:
       next: Dalej
       copyright_html: <span>&copy;</span>Autorzy<br>OpenStreetMap
-      used_by: '%{name} dostarcza dane mapowe dla tysięcy stron internetowych, aplikacji
-        oraz urządzeń'
+      used_by_html: '%{name} dostarcza dane mapowe dla tysięcy stron internetowych,
+        aplikacji oraz urządzeń'
       lede_text: OpenStreetMap jest tworzony przez społeczność dodającą dane o drogach,
         ścieżkach, kawiarniach, dworcach i wielu innych, na całym świecie.
       local_knowledge_title: Wiedza lokalna
@@ -1456,11 +1458,11 @@ pl:
       community_driven_title: Zarządzany przez społeczność
       community_driven_html: |-
         Społeczność OpenStreetMap jest różnorodna, zaangażowana i każdego dnia coraz większa. Wśród edytujących mapę są amatorscy kartografowie, specjaliści GIS, inżynierowie odpowiadający za pracę serwerów OSM, osoby tworzące mapy obszarów dotkniętych skutkami klęski żywiołowej dla potrzeb służb ratunkowych oraz wielu innych ludzi.
-         Aby dowiedzieć się więcej na temat wspólnoty, odwiedź
+        Aby dowiedzieć się więcej na temat wspólnoty, odwiedź
         <a href='https://blog.openstreetmap.org'>Blog OpenStreetMap</a>,
         <a href='%{diary_path}'>blogi użytkowników</a>,
         <a href='https://blogs.openstreetmap.org/'>blogi społeczności</a> oraz
-        <a href='https://openstreetmap.org.pl'>stronę OSM Polska</a>.
+        <a href='http://openstreetmap.org.pl'>stronę OSM Polska</a>.
       open_data_title: Otwarte dane
       open_data_html: 'OpenStreetMap to <i>otwarte dane</i>: możesz używać ich, jak
         tylko chcesz pod warunkiem, że dodasz, że pochodzą one z  OpenStreetMap i
@@ -1468,7 +1470,7 @@ pl:
         je dystrybuować, ale tylko na tej samej licencji. Zobacz <a href=''%{copyright_path}''>Prawa
         autorskie i licencja</a>, aby zobaczyć szczegóły.'
       legal_title: Pytania prawne
-      legal_html: |-
+      legal_1_html: |-
         Ta strona internetowa i inne powiązane usługi prowadzone są oficjalnie przez <a href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF) w imieniu społeczności. Korzystanie ze wszystkich usług OSMF jest regulowane przez <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Warunki użytkowania</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
         Politykę użytkowania</a> i naszą <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Politykę prywatności</a>.<br><a href="https://osmfoundation.org/Contact">Skontaktuj się z OSMF</a>, jeśli masz pytania dotyczące licencji, praw autorskich lub innych prawnych zagadnień i problemów.
         <br>
@@ -1477,12 +1479,12 @@ pl:
     copyright:
       foreign:
         title: Informacje o tłumaczeniu
-        text: W przypadku konfliktu pomiędzy tym tłumaczeniem a %{english_original_link}
+        html: W przypadku konfliktu pomiędzy tym tłumaczeniem a %{english_original_link}
           preferowana jest strona w języku angielskim.
         english_link: oryginalną angielską wersją
       native:
         title: O stronie
-        text: Przeglądasz angielską wersję strony dotyczącej praw autorskich. Możesz
+        html: Przeglądasz angielską wersję strony dotyczącej praw autorskich. Możesz
           wrócić do %{native_link} tej strony lub przestać czytać o prawach autorskich
           i %{mapping_link}.
         native_link: wersji po polsku
@@ -1576,10 +1578,10 @@ pl:
           że udostępniający je podmiot popiera OpenStreetMap, udziela jakiejkolwiek
           gwarancji lub ponosi jakąkolwiek odpowiedzialność.
         infringement_title_html: Naruszenia praw autorskich
-        infringement_1_html: Użytkownicy OpenStreetMap powinni pamiętać, aby nigdy
-          nie dodawać danych z żadnych źródeł chronionych prawami autorskimi (jak
-          np. Google Maps i&nbsp;większość map drukowanych) bez wyraźnego pozwolenia
-          właściciela praw autorskich.
+        infringement_1_html: Autorzy OpenStreetMap powinni pamiętać, aby nigdy nie
+          dodawać danych z żadnych źródeł chronionych prawami autorskimi (jak np.
+          Google Maps i&nbsp;większość map drukowanych) bez wyraźnego pozwolenia właściciela
+          praw autorskich.
         infringement_2_html: Jeśli uważasz, że materiał chroniony prawem autorskim
           został niewłaściwie dodany do bazy OpenStreetMap, zajrzyj pod adres naszej
           <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">procedury
@@ -1604,13 +1606,13 @@ pl:
         Merkaartor jest uruchomiony i funkcja Remote Control jest włączona
     edit:
       not_public: Nie ustawiłeś, aby twoje edycje były publiczne.
-      not_public_description: W tym trybie nie można już zmieniać mapy. Można zmienić
-        je na publiczne na %{user_page}.
+      not_public_description_html: W tym trybie nie można już zmieniać mapy. Można
+        zmienić je na publiczne na %{user_page}.
       user_page_link: stronie użytkownika
-      anon_edits: (%{link})
+      anon_edits_html: (%{link})
       anon_edits_link_text: Tu dowiesz się dlaczego.
-      flash_player_required: Aby korzystać z Potlatcha, edytora OpenStreetMap, niezbędna
-        jest wtyczka Flash. Możesz <a href="https://get.adobe.com/flashplayer/">ściągnąć
+      flash_player_required_html: Aby korzystać z Potlatcha, edytora OpenStreetMap,
+        niezbędna jest wtyczka Flash. Możesz <a href="https://get.adobe.com/flashplayer/">ściągnąć
         odtwarzacz Flash</a> z Adobe.com.  Możesz również skorzystać z <a href="https://wiki.openstreetmap.org/wiki/Editing">innych
         dostępnych edytorów</a>, aby edytować OpenStreetMap.
       potlatch_unsaved_changes: Masz niezapisane zmiany. (Aby zapisać zmiany w Potlatchu,
@@ -1632,7 +1634,7 @@ pl:
       map_image: Obraz mapy (standardowa warstwa)
       embeddable_html: Kod HTML do osadzenia
       licence: Licencja
-      export_details: Dane OpenStreetMap udostępnione są na licencji <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
+      export_details_html: Dane OpenStreetMap udostępnione są na licencji <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
         Data Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'Jeśli eksportowanie się nie uda, proszę rozważyć użycie jednego z
@@ -1990,7 +1992,7 @@ pl:
       upload_trace: Wyślij ślad
       see_all_traces: Wyświetl wszystkie ślady
       see_my_traces: Zobacz moje ślady
-    delete:
+    destroy:
       scheduled_for_deletion: Ślad oczekuje na usunięcie
     make_public:
       made_public: Ślad stał się publicznie dostępny
@@ -2024,9 +2026,9 @@ pl:
   oauth:
     authorize:
       title: Uwierzytelnij dostęp do konta
-      request_access: Aplikacja %{app_name} żąda dostępu do konta użytkownika %{user}.
-        Proszę potwierdzić przyznanie aplikacji poniższych uprawnień. Można wybrać
-        dowolną liczbę opcji.
+      request_access_html: Aplikacja %{app_name} żąda dostępu do konta użytkownika
+        %{user}. Proszę potwierdzić przyznanie aplikacji poniższych uprawnień. Można
+        wybrać dowolną liczbę opcji.
       allow_to: 'Zezwól aplikacji klienckiej na:'
       allow_read_prefs: odczytywanie preferencji konta
       allow_write_prefs: modyfikowanie preferencji konta
@@ -2039,7 +2041,7 @@ pl:
       grant_access: Przyznaj dostęp
     authorize_success:
       title: Dozwolone żądanie uwierzytelnienia
-      allowed: Przyznano dostęp do konta aplikacji %{app_name}.
+      allowed_html: Przyznano dostęp do konta aplikacji %{app_name}.
       verification: Kod weryfikacyjny to %{code}.
     authorize_failure:
       title: Nieudane żądanie uwierzytelnienia
@@ -2081,9 +2083,10 @@ pl:
       issued_at: Czas wydania
       revoke: Odwołaj!
       my_apps: Programy klienckie
-      no_apps: Poniżej zarejestrować można programy korzystające ze standardu %{oauth}.
-        Programy muszą być wcześniej zarejestrowane, nim będzie można skorzystać z
-        zapytań OAuth do tej usługi.
+      no_apps_html: Poniżej zarejestrować można programy korzystające ze standardu
+        %{oauth}. Programy muszą być wcześniej zarejestrowane, nim będzie można skorzystać
+        z zapytań OAuth do tej usługi.
+      oauth: OAuth
       registered_apps: 'Zarejestrowano następujące aplikacje klienckie:'
       register_new: Zarejestruj swoją aplikację
     form:
@@ -2115,7 +2118,7 @@ pl:
       heading: Logowanie
       email or username: 'Adres e-mail lub nazwa użytkownika:'
       password: 'Hasło:'
-      openid: '%{logo} OpenID:'
+      openid_html: '%{logo} OpenID:'
       remember: Zapamiętaj dane uwierzytelniające
       lost password link: Zapomniałeś hasła?
       login_button: Zaloguj się
@@ -2188,7 +2191,7 @@ pl:
     new:
       title: Zarejestruj się
       no_auto_account_create: Niestety nie możemy aktualnie stworzyć ci konta automatycznie.
-      contact_webmaster: Skontaktuj się proszę się z <a href="%{webmaster}">webmasterem</a>,
+      contact_webmaster_html: Skontaktuj się proszę się z <a href="%{webmaster}">webmasterem</a>,
         aby utworzyć konto. Postaramy się zająć się twoją prośbą tak szybko, jak to
         będzie możliwe.
       about:
@@ -2200,7 +2203,7 @@ pl:
         uczestnictwa</a>.
       email address: 'Adres e-mail:'
       confirm email address: 'Potwierdzenie adresu e-mail:'
-      not displayed publicly: Twój adres nie będzie wyświetlany publicznie, zobacz
+      not_displayed_publicly_html: Twój adres nie będzie wyświetlany publicznie, zobacz
         naszą <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="polityka
         prywatności OSMF zawierająca sekcję o adresach el-pocztowych">politykę prywatności</a>,
         aby uzyskać więcej informacji.
@@ -2223,11 +2226,20 @@ pl:
       title: Warunki
       heading: Warunki
       heading_ct: Warunki uczestnictwa
+      read and accept with tou: Przeczytaj Warunki uczestnictwa i Warunki użytkowania,
+        zaznacz oba pola wyboru po zakończeniu, a następnie naciśnij przycisk Kontynuuj.
+      contributor_terms_explain: Niniejsza umowa reguluje warunki twoich obecnych
+        i przyszłych wkładów.
+      read_ct: Przeczytałem i akceptuję powyższe warunki współautora
+      tou_explain_html: Te %{tou_link} regulują korzystanie ze strony internetowej
+        i innej infrastruktury zapewnianej przez OSMF. Kliknij link, przeczytaj i
+        zaakceptuj tekst.
+      read_tou: Przeczytałem i akceptuję Warunki użytkowania
       consider_pd: Oprócz powyższych warunków, stwierdzam również, że mój wkład jest
         w domenie publicznej
       consider_pd_why: co to oznacza?
       consider_pd_why_url: https://wiki.osmfoundation.org/w/index.php?title=Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain&redirect=no
-      guidance: 'Informacje, które pomogą zrozumieć te warunki: <a href="%{summary}">w
+      guidance_html: 'Informacje, które pomogą zrozumieć te warunki: <a href="%{summary}">w
         formie czytelnego podsumowania</a> oraz <a href="%{translations}">nieoficjalne
         tłumaczenia</a>'
       continue: Dalej
@@ -2277,8 +2289,8 @@ pl:
       spam score: 'Punktacja spamu:'
       description: Opis
       user location: Położenie użytkownika
-      if set location: Podaj swoją lokalizację na stronie %{settings_link}, aby zobaczyć
-        użytkowników blisko ciebie.
+      if_set_location_html: Podaj swoją lokalizację na stronie %{settings_link}, aby
+        zobaczyć użytkowników blisko ciebie.
       settings_link_text: stronie ustawień
       my friends: Moi znajomi
       no friends: Nie dodano jeszcze żadnych znajomych.
@@ -2336,7 +2348,7 @@ pl:
         disabled link text: dlaczego nie mogę mapować?
       public editing note:
         heading: Publiczna edycja
-        text: Obecnie twoje edycje są anonimowe i ludzie nie mogą wysyłać do ciebie
+        html: Obecnie twoje edycje są anonimowe i ludzie nie mogą wysyłać do ciebie
           wiadomości lub zobaczyć twojej lokalizacji. Aby pokazać, co edytowałeś i
           umożliwić ludziom kontakt z tobą za pośrednictwem strony internetowej, kliknij
           przycisk poniżej. <b>W międzyczasie API 0.6 zmienił się, jedynie publiczni
@@ -2428,8 +2440,8 @@ pl:
       showing:
         one: Strona %{page} (%{first_item} z %{items})
         other: Strona %{page} (%{first_item}-%{last_item} z %{items})
-      summary: '%{name} utworzony z adresu %{ip_address} dnia %{date}'
-      summary_no_ip: '%{name} utworzony %{date}'
+      summary_html: '%{name} utworzony z adresu %{ip_address} dnia %{date}'
+      summary_no_ip_html: '%{name} utworzony %{date}'
       confirm: Zatwierdź zaznaczonych użytkowników
       hide: Ukryj zaznaczonych użytkowników
       empty: Nie znaleziono pasujących użytkowników
@@ -2437,7 +2449,7 @@ pl:
       title: Konto zawieszone
       heading: Konto zawieszone
       webmaster: webmaster
-      body: |-
+      body_html: |-
         <p>
           Niestety, twoje konto zostało zawieszone ze względu na podejrzane działania.
         </p>
@@ -2488,7 +2500,7 @@ pl:
       back: Wróć do spisu
     new:
       title: Tworzenie blokady użytkownika %{name}
-      heading: Tworzenie blokady użytkownika %{name}
+      heading_html: Tworzenie blokady użytkownika %{name}
       reason: Powód blokady użytkownika %{name}. Postaraj się w sposób spokojny i
         rzeczowy podać jak najwięcej szczegółów dotyczących sytuacji, mając na uwadze
         to, że wiadomość będzie publicznie widoczna. Zwróć uwagę na to, że nie wszyscy
@@ -2502,7 +2514,7 @@ pl:
       back: Wyświetl wszystkie blokady
     edit:
       title: Edycja blokady użytkownika %{name}
-      heading: Edycja blokady użytkownika %{name}
+      heading_html: Edycja blokady użytkownika %{name}
       reason: Przyczyna blokady użytkownika %{name}. Postaraj się w sposób spokojny
         i rzeczowy podać jak najwięcej szczegółów dotyczących sytuacji stanowiącej
         podstawę do nałożenia blokady. Zwróć uwagę na to, że nie wszyscy użytkownicy
@@ -2531,7 +2543,7 @@ pl:
       empty: Nie nałożono do tej pory żadnych blokad.
     revoke:
       title: Odwoływanie blokady użytkownika %{block_on}
-      heading: Odwoływanie blokady użytkownika %{block_on} nałożonej przez %{block_by}
+      heading_html: Odwoływanie blokady użytkownika %{block_on} nałożonej przez %{block_by}
       time_future: Blokada zakończy się za %{time}.
       past: Blokada zakończyła się %{time} i nie można jej już odwołać.
       confirm: Czy na pewno chcesz odwołać tę blokadę?
@@ -2564,15 +2576,15 @@ pl:
           many: '%{count} lat'
     blocks_on:
       title: Blokady na użytkownika %{name}
-      heading: Lista blokad na użytkownika %{name}
+      heading_html: Lista blokad na użytkownika %{name}
       empty: '%{name} nie był jeszcze zablokowany.'
     blocks_by:
       title: Blokady nałożone przez %{name}
-      heading: Lista blokad nałożonych przez %{name}
+      heading_html: Lista blokad nałożonych przez %{name}
       empty: '%{name} nie nałożył jeszcze żadnej blokady.'
     show:
       title: '%{block_on} zablokowany przez użytkownika %{block_by}'
-      heading: '%{block_on} zablokowany przez użytkownika %{block_by}'
+      heading_html: '%{block_on} zablokowany przez użytkownika %{block_by}'
       created: Utworzona
       status: Stan
       show: Wyświetl
@@ -2665,7 +2677,7 @@ pl:
       map_notes_zoom_in_tooltip: Powiększ, aby zobaczyć uwagi
       map_data_zoom_in_tooltip: Przybliż mapę, aby zobaczyć jej dane
       queryfeature_tooltip: Pobierz i wyświetl obiekty
-      queryfeature_disabled_tooltip: Przybliż mapę, aby obejrzeć dane obiektu
+      queryfeature_disabled_tooltip: Przybliż mapę, aby obejrzeć dane obiektów
     changesets:
       show:
         comment: Komentarz
@@ -2795,7 +2807,7 @@ pl:
       directions_to: Nawiguj tutaj
       add_note: Dodaj uwagę tutaj
       show_address: Pokaż adres
-      query_features: Wyświetl dane obiektu
+      query_features: Wyświetl dane obiektów
       centre_map: Wycentruj mapę tutaj
   redactions:
     edit:

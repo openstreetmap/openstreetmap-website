@@ -11,7 +11,7 @@
 #  current_relation_tags_id_fkey  (relation_id => current_relations.id)
 #
 
-class RelationTag < ActiveRecord::Base
+class RelationTag < ApplicationRecord
   self.table_name = "current_relation_tags"
   self.primary_keys = "relation_id", "k"
 

@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "5.2.3"
+gem "rails", "6.0.2.1"
 
 # Require things which have moved to gems in ruby 1.9
 gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
@@ -21,34 +21,31 @@ gem "sassc-rails"
 # Use Uglifier as compressor for JavaScript assets
 gem "uglifier", ">= 1.3.0"
 
-# Use CoffeeScript for .js.coffee assets and views
-gem "coffee-rails", "~> 4.2"
-
 # Use jquery as the JavaScript library
 gem "jquery-rails"
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.0'
-gem "jsonify-rails"
+gem "jbuilder", "~> 2.7"
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.1.0", :require => false
+gem "bootsnap", ">= 1.4.2", :require => false
 
 # Use R2 for RTL conversion
 gem "r2", "~> 0.2.7"
 
 # Use autoprefixer to generate CSS prefixes
-gem "autoprefixer-rails", "~> 8.6.3"
+gem "autoprefixer-rails"
 
 # Use image_optim to optimise images
 gem "image_optim_rails"
 
 # Load rails plugins
-gem "actionpack-page_caching"
+gem "actionpack-page_caching", ">= 1.2.0"
 gem "active_record_union"
 gem "activerecord-import"
+gem "bootstrap", "~> 4.3.1"
 gem "cancancan"
-gem "composite_primary_keys", "~> 11.1.0"
+gem "composite_primary_keys", "~> 12.0.0"
 gem "config"
 gem "delayed_job_active_record"
 gem "dynamic_form"
@@ -58,7 +55,6 @@ gem "oauth-plugin", ">= 0.5.1"
 gem "openstreetmap-deadlock_retry", ">= 1.3.0", :require => "deadlock_retry"
 gem "rack-cors"
 gem "rails-i18n", "~> 4.0.0"
-gem "record_tag_helper"
 gem "rinku", ">= 2.0.6", :require => "rails_rinku"
 gem "strong_migrations"
 gem "validates_email_format_of", ">= 1.5.1"
@@ -97,8 +93,8 @@ gem "SystemTimer", ">= 1.1.3", :require => "system_timer", :platforms => :ruby_1
 # Load faraday for mockable HTTP client
 gem "faraday"
 
-# Load geoip for querying Maxmind GeoIP database
-gem "geoip"
+# Load maxminddb for querying Maxmind GeoIP database
+gem "maxminddb"
 
 # Load rotp to generate TOTP tokens
 gem "rotp"
@@ -159,11 +155,12 @@ end
 
 # Needed in development as well so rake can see konacha tasks
 group :development, :test do
-  gem "capybara", "~> 2.13"
+  gem "capybara", ">= 2.15"
   gem "coveralls", :require => false
   gem "erb_lint", :require => false
   gem "factory_bot_rails"
   gem "poltergeist"
-  gem "puma", "~> 3.7"
+  gem "puma", "~> 3.11"
   gem "rspec"
+  gem "selenium-webdriver"
 end

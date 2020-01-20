@@ -1,5 +1,5 @@
 <% content_for :heading do %>
-  <h2><%= raw(t(".send_message_to", :name => link_to(h(@message.recipient.display_name), user_path(@message.recipient)))) %></h2>
+  <h2><%= t(".send_message_to_html", :name => link_to(@message.recipient.display_name, user_path(@message.recipient))) %></h2>
 <% end %>
 
 <%= error_messages_for "message" %>
@@ -7,11 +7,11 @@
 <%= form_for @message, :html => { :class => "standard-form" } do |f| %>
   <%= hidden_field_tag :display_name, @message.recipient.display_name %>
   <fieldset>
-    <div class='form-row'>
+    <div class='standard-form-row'>
       <label class="standard-label" for="message_title"><%= t ".subject" %></label>
       <%= f.text_field :title, :size => 60, :class => "richtext_title" %>
     </div>
-    <div class='form-row'>
+    <div class='standard-form-row'>
       <label class="standard-label" for="message_body"><%= t ".body" %></label>
       <%= richtext_area :message, :body, :cols => 80, :rows => 20 %>
     </div>

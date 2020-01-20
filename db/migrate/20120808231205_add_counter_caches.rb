@@ -1,8 +1,8 @@
 class AddCounterCaches < ActiveRecord::Migration[4.2]
-  class Changeset < ActiveRecord::Base
+  class Changeset < ApplicationRecord
   end
 
-  class Trace < ActiveRecord::Base
+  class Trace < ApplicationRecord
     self.table_name = "gpx_files"
   end
 

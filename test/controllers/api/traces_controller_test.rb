@@ -178,7 +178,7 @@ module Api
     # Test creating a trace through the api
     def test_create
       # Get file to use
-      fixture = Rails.root.join("test", "gpx", "fixtures", "a.gpx")
+      fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
       file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
       user = create(:user)
 
@@ -336,8 +336,8 @@ module Api
     def check_trace_data(trace, digest, content_type = "application/gpx+xml", extension = "gpx")
       assert_response :success
       assert_equal digest, Digest::MD5.hexdigest(response.body)
-      assert_equal content_type, response.content_type
-      assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"", @response.header["Content-Disposition"]
+      assert_equal content_type, response.media_type
+      assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"; filename*=UTF-8''#{trace.id}.#{extension}", @response.header["Content-Disposition"]
     end
 
     ##

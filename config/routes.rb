@@ -12,7 +12,6 @@ OpenStreetMap::Application.routes.draw do
     put "changeset/create" => "api/changesets#create"
     post "changeset/:id/upload" => "api/changesets#upload", :id => /\d+/
     get "changeset/:id/download" => "api/changesets#download", :as => :changeset_download, :id => /\d+/
-    post "changeset/:id/expand_bbox" => "api/changesets#expand_bbox", :id => /\d+/
     get "changeset/:id" => "api/changesets#show", :as => :changeset_show, :id => /\d+/
     post "changeset/:id/subscribe" => "api/changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
     post "changeset/:id/unsubscribe" => "api/changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
@@ -62,21 +61,16 @@ OpenStreetMap::Application.routes.draw do
 
     get "changes" => "api/changes#index"
 
-    get "search" => "api/search#search_all", :as => "api_search"
-    get "ways/search" => "api/search#search_ways"
-    get "relations/search" => "api/search#search_relations"
-    get "nodes/search" => "api/search#search_nodes"
-
     get "user/:id" => "api/users#show", :id => /\d+/
     get "user/details" => "api/users#details"
     get "user/gpx_files" => "api/users#gpx_files"
     get "users" => "api/users#index", :as => :api_users
 
-    get "user/preferences" => "api/user_preferences#read"
-    get "user/preferences/:preference_key" => "api/user_preferences#read_one"
-    put "user/preferences" => "api/user_preferences#update"
-    put "user/preferences/:preference_key" => "api/user_preferences#update_one"
-    delete "user/preferences/:preference_key" => "api/user_preferences#delete_one"
+    get "user/preferences" => "api/user_preferences#index"
+    get "user/preferences/:preference_key" => "api/user_preferences#show"
+    put "user/preferences" => "api/user_preferences#update_all"
+    put "user/preferences/:preference_key" => "api/user_preferences#update"
+    delete "user/preferences/:preference_key" => "api/user_preferences#destroy"
 
     post "gpx/create" => "api/traces#create"
     get "gpx/:id" => "api/traces#show", :id => /\d+/
@@ -151,6 +145,7 @@ OpenStreetMap::Application.routes.draw do
   get "/welcome" => "site#welcome"
   get "/fixthemap" => "site#fixthemap"
   get "/help" => "site#help"
+  get "/about/:about_locale" => "site#about"
   get "/about" => "site#about"
   get "/history" => "changesets#index"
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
@@ -213,7 +208,6 @@ OpenStreetMap::Application.routes.draw do
   get "/trace/create", :to => redirect(:path => "/traces/new")
   get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"
   get "/trace/:id/edit", :to => redirect(:path => "/traces/%{id}/edit")
-  post "/trace/:id/delete" => "traces#delete", :id => /\d+/
 
   # diary pages
   resources :diary_entries, :path => "diary", :only => [:new, :create, :index] do

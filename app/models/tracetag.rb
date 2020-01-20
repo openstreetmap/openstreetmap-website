@@ -16,7 +16,7 @@
 #  gpx_file_tags_gpx_id_fkey  (gpx_id => gpx_files.id)
 #
 
-class Tracetag < ActiveRecord::Base
+class Tracetag < ApplicationRecord
   self.table_name = "gpx_file_tags"
 
   belongs_to :trace, :foreign_key => "gpx_id"

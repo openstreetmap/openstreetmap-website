@@ -479,7 +479,7 @@ module Api
 
       get :show, :params => { :id => open_note.id, :format => "xml" }
       assert_response :success
-      assert_equal "application/xml", @response.content_type
+      assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note[lat='#{open_note.lat}'][lon='#{open_note.lon}']", :count => 1 do
           assert_select "id", open_note.id.to_s
@@ -496,7 +496,7 @@ module Api
 
       get :show, :params => { :id => open_note.id, :format => "rss" }
       assert_response :success
-      assert_equal "application/rss+xml", @response.content_type
+      assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 1 do
@@ -512,7 +512,7 @@ module Api
 
       get :show, :params => { :id => open_note.id, :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "Feature", js["type"]
@@ -528,7 +528,7 @@ module Api
 
       get :show, :params => { :id => open_note.id, :format => "gpx" }
       assert_response :success
-      assert_equal "application/gpx+xml", @response.content_type
+      assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
         assert_select "wpt[lat='#{open_note.lat}'][lon='#{open_note.lon}']", :count => 1 do
           assert_select "time", :count => 1
@@ -636,7 +636,7 @@ module Api
 
       get :index, :params => { :bbox => "1,1,1.2,1.2", :format => "rss" }
       assert_response :success
-      assert_equal "application/rss+xml", @response.content_type
+      assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 2
@@ -645,7 +645,7 @@ module Api
 
       get :index, :params => { :bbox => "1,1,1.2,1.2", :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
@@ -653,14 +653,14 @@ module Api
 
       get :index, :params => { :bbox => "1,1,1.2,1.2", :format => "xml" }
       assert_response :success
-      assert_equal "application/xml", @response.content_type
+      assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 2
       end
 
       get :index, :params => { :bbox => "1,1,1.2,1.2", :format => "gpx" }
       assert_response :success
-      assert_equal "application/gpx+xml", @response.content_type
+      assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 2
       end
@@ -673,7 +673,7 @@ module Api
 
       get :index, :params => { :bbox => "1,1,1.2,1.2", :limit => 1, :format => "rss" }
       assert_response :success
-      assert_equal "application/rss+xml", @response.content_type
+      assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 1
@@ -682,7 +682,7 @@ module Api
 
       get :index, :params => { :bbox => "1,1,1.2,1.2", :limit => 1, :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
@@ -690,14 +690,14 @@ module Api
 
       get :index, :params => { :bbox => "1,1,1.2,1.2", :limit => 1, :format => "xml" }
       assert_response :success
-      assert_equal "application/xml", @response.content_type
+      assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 1
       end
 
       get :index, :params => { :bbox => "1,1,1.2,1.2", :limit => 1, :format => "gpx" }
       assert_response :success
-      assert_equal "application/gpx+xml", @response.content_type
+      assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 1
       end
@@ -706,7 +706,7 @@ module Api
     def test_index_empty_area
       get :index, :params => { :bbox => "5,5,5.1,5.1", :format => "rss" }
       assert_response :success
-      assert_equal "application/rss+xml", @response.content_type
+      assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 0
@@ -715,7 +715,7 @@ module Api
 
       get :index, :params => { :bbox => "5,5,5.1,5.1", :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
@@ -723,14 +723,14 @@ module Api
 
       get :index, :params => { :bbox => "5,5,5.1,5.1", :format => "xml" }
       assert_response :success
-      assert_equal "application/xml", @response.content_type
+      assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 0
       end
 
       get :index, :params => { :bbox => "5,5,5.1,5.1", :format => "gpx" }
       assert_response :success
-      assert_equal "application/gpx+xml", @response.content_type
+      assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 0
       end
@@ -739,19 +739,19 @@ module Api
     def test_index_large_area
       get :index, :params => { :bbox => "-2.5,-2.5,2.5,2.5", :format => :json }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
 
       get :index, :params => { :l => "-2.5", :b => "-2.5", :r => "2.5", :t => "2.5", :format => :json }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
 
       get :index, :params => { :bbox => "-10,-10,12,12", :format => :json }
       assert_response :bad_request
-      assert_equal "application/json", @response.content_type
+      assert_equal "text/plain", @response.media_type
 
       get :index, :params => { :l => "-10", :b => "-10", :r => "12", :t => "12", :format => :json }
       assert_response :bad_request
-      assert_equal "application/json", @response.content_type
+      assert_equal "text/plain", @response.media_type
     end
 
     def test_index_closed
@@ -763,7 +763,7 @@ module Api
       # Open notes + closed in last 7 days
       get :index, :params => { :bbox => "1,1,1.7,1.7", :closed => "7", :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
@@ -772,7 +772,7 @@ module Api
       # Only open notes
       get :index, :params => { :bbox => "1,1,1.7,1.7", :closed => "0", :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
@@ -781,7 +781,7 @@ module Api
       # Open notes + all closed notes
       get :index, :params => { :bbox => "1,1,1.7,1.7", :closed => "-1", :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
@@ -819,14 +819,14 @@ module Api
 
       get :search, :params => { :q => "note comment", :format => "xml" }
       assert_response :success
-      assert_equal "application/xml", @response.content_type
+      assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 1
       end
 
       get :search, :params => { :q => "note comment", :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
@@ -834,7 +834,7 @@ module Api
 
       get :search, :params => { :q => "note comment", :format => "rss" }
       assert_response :success
-      assert_equal "application/rss+xml", @response.content_type
+      assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 1
@@ -843,7 +843,7 @@ module Api
 
       get :search, :params => { :q => "note comment", :format => "gpx" }
       assert_response :success
-      assert_equal "application/gpx+xml", @response.content_type
+      assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 1
       end
@@ -858,14 +858,14 @@ module Api
 
       get :search, :params => { :display_name => user.display_name, :format => "xml" }
       assert_response :success
-      assert_equal "application/xml", @response.content_type
+      assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 1
       end
 
       get :search, :params => { :display_name => user.display_name, :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
@@ -873,7 +873,7 @@ module Api
 
       get :search, :params => { :display_name => user.display_name, :format => "rss" }
       assert_response :success
-      assert_equal "application/rss+xml", @response.content_type
+      assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 1
@@ -882,7 +882,7 @@ module Api
 
       get :search, :params => { :display_name => user.display_name, :format => "gpx" }
       assert_response :success
-      assert_equal "application/gpx+xml", @response.content_type
+      assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 1
       end
@@ -897,14 +897,14 @@ module Api
 
       get :search, :params => { :user => user.id, :format => "xml" }
       assert_response :success
-      assert_equal "application/xml", @response.content_type
+      assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 1
       end
 
       get :search, :params => { :user => user.id, :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
@@ -912,7 +912,7 @@ module Api
 
       get :search, :params => { :user => user.id, :format => "rss" }
       assert_response :success
-      assert_equal "application/rss+xml", @response.content_type
+      assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 1
@@ -921,7 +921,7 @@ module Api
 
       get :search, :params => { :user => user.id, :format => "gpx" }
       assert_response :success
-      assert_equal "application/gpx+xml", @response.content_type
+      assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 1
       end
@@ -932,14 +932,14 @@ module Api
 
       get :search, :params => { :q => "no match", :format => "xml" }
       assert_response :success
-      assert_equal "application/xml", @response.content_type
+      assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 0
       end
 
       get :search, :params => { :q => "no match", :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
@@ -947,7 +947,7 @@ module Api
 
       get :search, :params => { :q => "no match", :format => "rss" }
       assert_response :success
-      assert_equal "application/rss+xml", @response.content_type
+      assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 0
@@ -956,7 +956,7 @@ module Api
 
       get :search, :params => { :q => "no match", :format => "gpx" }
       assert_response :success
-      assert_equal "application/gpx+xml", @response.content_type
+      assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 0
       end
@@ -967,14 +967,14 @@ module Api
 
       get :search, :params => { :from => "01.01.2010", :to => "01.10.2010", :format => "xml" }
       assert_response :success
-      assert_equal "application/xml", @response.content_type
+      assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 0
       end
 
       get :search, :params => { :from => "01.01.2010", :to => "01.10.2010", :format => "json" }
       assert_response :success
-      assert_equal "application/json", @response.content_type
+      assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
@@ -982,7 +982,7 @@ module Api
 
       get :search, :params => { :from => "01.01.2010", :to => "01.10.2010", :format => "rss" }
       assert_response :success
-      assert_equal "application/rss+xml", @response.content_type
+      assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 0
@@ -991,7 +991,7 @@ module Api
 
       get :search, :params => { :from => "01.01.2010", :to => "01.10.2010", :format => "gpx" }
       assert_response :success
-      assert_equal "application/gpx+xml", @response.content_type
+      assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 0
       end
@@ -1027,7 +1027,7 @@ module Api
 
       get :feed, :params => { :format => "rss" }
       assert_response :success
-      assert_equal "application/rss+xml", @response.content_type
+      assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 4
@@ -1036,7 +1036,7 @@ module Api
 
       get :feed, :params => { :bbox => "1,1,1.2,1.2", :format => "rss" }
       assert_response :success
-      assert_equal "application/rss+xml", @response.content_type
+      assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 2

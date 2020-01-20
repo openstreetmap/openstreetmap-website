@@ -15,7 +15,7 @@
 #  changeset_tags_id_fkey  (changeset_id => changesets.id)
 #
 
-class ChangesetTag < ActiveRecord::Base
+class ChangesetTag < ApplicationRecord
   self.primary_keys = "changeset_id", "k"
 
   belongs_to :changeset

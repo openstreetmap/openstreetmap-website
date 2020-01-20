@@ -24,7 +24,7 @@
 #  nodes_redaction_id_fkey  (redaction_id => redactions.id)
 #
 
-class OldNode < ActiveRecord::Base
+class OldNode < ApplicationRecord
   include GeoRecord
   include ConsistencyValidations
   include ObjectMetadata

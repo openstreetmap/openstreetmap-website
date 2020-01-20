@@ -12,7 +12,7 @@
 #  relation_tags_id_fkey  (relation_id => relations.relation_id)
 #
 
-class OldRelationTag < ActiveRecord::Base
+class OldRelationTag < ApplicationRecord
   self.table_name = "relation_tags"
   self.primary_keys = "relation_id", "version", "k"
 

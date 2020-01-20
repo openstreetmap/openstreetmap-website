@@ -12,7 +12,7 @@
 #  way_tags_id_fkey  (way_id => ways.way_id)
 #
 
-class OldWayTag < ActiveRecord::Base
+class OldWayTag < ApplicationRecord
   self.table_name = "way_tags"
   self.primary_keys = "way_id", "version", "k"
 

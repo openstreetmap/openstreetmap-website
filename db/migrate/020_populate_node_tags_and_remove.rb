@@ -14,7 +14,7 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration[4.2]
           "#{src} -o #{cmd}") || raise
       end
 
-      conn_opts = ActiveRecord::Base.connection.instance_eval { @connection_options }
+      conn_opts = ApplicationRecord.connection.instance_eval { @connection_options }
       args = conn_opts.map(&:to_s) + [prefix]
       raise "#{cmd} failed" unless system cmd, *args
 

@@ -20,7 +20,6 @@
 //= require index/changeset
 //= require index/query
 //= require router
-//= require bowser
 //= require querystring
 
 $(document).ready(function () {
@@ -110,6 +109,8 @@ $(document).ready(function () {
     iconLoading: "icon geolocate",
     strings: {
       title: I18n.t("javascripts.map.locate.title"),
+      metersUnit: I18n.t("javascripts.map.locate.metersUnit"),
+      feetUnit: I18n.t("javascripts.map.locate.feetUnit"),
       popup: I18n.t("javascripts.map.locate.popup")
     }
   }).addTo(map);
@@ -255,12 +256,7 @@ $(document).ready(function () {
           bottom: bbox.getSouth() - 0.0001
         };
 
-    if (location.protocol === "http" ||
-        bowser.check({ chrome: "53", firefox: "55" })) {
-      url = "http://127.0.0.1:8111/load_and_zoom?";
-    } else {
-      url = "https://127.0.0.1:8112/load_and_zoom?";
-    }
+    url = "http://127.0.0.1:8111/load_and_zoom?";
 
     if (object) query.select = object.type + object.id;
 

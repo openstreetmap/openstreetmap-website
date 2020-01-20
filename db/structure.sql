@@ -4,6 +4,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -320,8 +321,8 @@ ALTER SEQUENCE public.active_storage_blobs_id_seq OWNED BY public.active_storage
 CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1601,7 +1602,6 @@ CREATE TABLE public.users (
     home_lat double precision,
     home_lon double precision,
     home_zoom smallint DEFAULT 3,
-    nearby integer DEFAULT 50,
     pass_salt character varying,
     email_valid boolean DEFAULT false NOT NULL,
     new_email character varying,
@@ -3508,6 +3508,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190903030453'),
 ('20190905160802'),
 ('20190905224243'),
+('20191120140058'),
 ('21'),
 ('22'),
 ('23'),

@@ -48,7 +48,7 @@ L.OSM.share = function (options) {
       .appendTo($linkSection);
 
     $("<div>")
-      .attr("class", "form-row")
+      .attr("class", "standard-form-row")
       .appendTo($form)
       .append(
         $("<label>")
@@ -91,7 +91,7 @@ L.OSM.share = function (options) {
       });
 
     $("<div>")
-      .attr("class", "form-row share-tab")
+      .attr("class", "standard-form-row share-tab")
       .css("display", "block")
       .appendTo($form)
       .append($("<input>")
@@ -100,7 +100,7 @@ L.OSM.share = function (options) {
         .on("click", select));
 
     $("<div>")
-      .attr("class", "form-row share-tab")
+      .attr("class", "standard-form-row share-tab")
       .appendTo($form)
       .append($("<input>")
         .attr("id", "short_input")
@@ -108,7 +108,7 @@ L.OSM.share = function (options) {
         .on("click", select));
 
     $("<div>")
-      .attr("class", "form-row share-tab")
+      .attr("class", "standard-form-row share-tab")
       .appendTo($form)
       .append(
         $("<textarea>")
@@ -159,7 +159,7 @@ L.OSM.share = function (options) {
       .appendTo($imageSection);
 
     $("<div>")
-      .attr("class", "form-row")
+      .attr("class", "standard-form-row")
       .appendTo($form)
       .append(
         $("<label>")
@@ -172,7 +172,7 @@ L.OSM.share = function (options) {
           .append(I18n.t("javascripts.share.custom_dimensions")));
 
     $("<div>")
-      .attr("class", "form-row")
+      .attr("class", "standard-form-row")
       .appendTo($form)
       .append(
         $("<label>")
@@ -187,7 +187,7 @@ L.OSM.share = function (options) {
         .append($("<option>").val("pdf").text("PDF")));
 
     $("<div>")
-      .attr("class", "form-row")
+      .attr("class", "standard-form-row")
       .appendTo($form)
       .append($("<label>")
         .attr("for", "mapnik_scale")

@@ -1,12 +1,6 @@
 require "test_helper"
 
 class UsersControllerTest < ActionController::TestCase
-  def setup
-    super
-
-    stub_hostip_requests
-  end
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -254,7 +248,7 @@ class UsersControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template "new"
-    assert_select "form > fieldset > div.form-row > input.field_with_errors#user_email"
+    assert_select "form > fieldset > div.standard-form-row > input.field_with_errors#user_email"
   end
 
   def test_new_duplicate_email_uppercase
@@ -271,7 +265,7 @@ class UsersControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template "new"
-    assert_select "form > fieldset > div.form-row > input.field_with_errors#user_email"
+    assert_select "form > fieldset > div.standard-form-row > input.field_with_errors#user_email"
   end
 
   def test_new_duplicate_name
@@ -288,7 +282,7 @@ class UsersControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template "new"
-    assert_select "form > fieldset > div.form-row > input.field_with_errors#user_display_name"
+    assert_select "form > fieldset > div.standard-form-row > input.field_with_errors#user_display_name"
   end
 
   def test_new_duplicate_name_uppercase
@@ -305,7 +299,7 @@ class UsersControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template "new"
-    assert_select "form > fieldset > div.form-row > input.field_with_errors#user_display_name"
+    assert_select "form > fieldset > div.standard-form-row > input.field_with_errors#user_display_name"
   end
 
   def test_new_blocked_domain
@@ -344,29 +338,29 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_logout_without_referer
-    get :logout
-    assert_response :success
-    assert_template :logout
-    assert_select "input[name=referer][value=?]", ""
-
-    session_id = assert_select("input[name=session]").first["value"]
-
-    get :logout, :params => { :session => session_id }
+    post :logout
     assert_response :redirect
     assert_redirected_to root_path
   end
 
   def test_logout_with_referer
+    post :logout, :params => { :referer => "/test" }
+    assert_response :redirect
+    assert_redirected_to "/test"
+  end
+
+  def test_logout_fallback_without_referer
+    get :logout
+    assert_response :success
+    assert_template :logout
+    assert_select "input[name=referer][value=?]", ""
+  end
+
+  def test_logout_fallback_with_referer
     get :logout, :params => { :referer => "/test" }
     assert_response :success
     assert_template :logout
     assert_select "input[name=referer][value=?]", "/test"
-
-    session_id = assert_select("input[name=session]").first["value"]
-
-    get :logout, :params => { :session => session_id, :referer => "/test" }
-    assert_response :redirect
-    assert_redirected_to "/test"
   end
 
   def test_logout_with_token
@@ -374,16 +368,7 @@ class UsersControllerTest < ActionController::TestCase
 
     session[:token] = token.token
 
-    get :logout
-    assert_response :success
-    assert_template :logout
-    assert_select "input[name=referer][value=?]", ""
-    assert_equal token.token, session[:token]
-    assert_not_nil UserToken.where(:id => token.id).first
-
-    session_id = assert_select("input[name=session]").first["value"]
-
-    get :logout, :params => { :session => session_id }
+    post :logout
     assert_response :redirect
     assert_redirected_to root_path
     assert_nil session[:token]
@@ -847,7 +832,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row > div#user_description_container > div#user_description_content > textarea#user_description", user.description
+    assert_select "form#accountForm > fieldset > div.standard-form-row > div#user_description_container > div#user_description_content > textarea#user_description", user.description
 
     # Changing to a invalid editor should fail
     user.preferred_editor = "unknown"
@@ -856,7 +841,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select ".notice", false
     assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.form-row > select#user_preferred_editor > option[selected]", false
+    assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected]", false
 
     # Changing to a valid editor should work
     user.preferred_editor = "potlatch2"
@@ -865,7 +850,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row > select#user_preferred_editor > option[selected][value=?]", "potlatch2"
+    assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected][value=?]", "potlatch2"
 
     # Changing to the default editor should work
     user.preferred_editor = "default"
@@ -874,7 +859,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row > select#user_preferred_editor > option[selected]", false
+    assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected]", false
 
     # Changing to an uploaded image should work
     image = Rack::Test::UploadedFile.new("test/gpx/fixtures/a.gif", "image/gif")
@@ -883,7 +868,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=avatar_action][checked][value=?]", "keep"
+    assert_select "form#accountForm > fieldset > div.standard-form-row.accountImage input[name=avatar_action][checked][value=?]", "keep"
 
     # Changing to a gravatar image should work
     post :account, :params => { :display_name => user.display_name, :avatar_action => "gravatar", :user => user.attributes }, :session => { :user => user }
@@ -891,7 +876,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=avatar_action][checked][value=?]", "gravatar"
+    assert_select "form#accountForm > fieldset > div.standard-form-row.accountImage input[name=avatar_action][checked][value=?]", "gravatar"
 
     # Removing the image should work
     post :account, :params => { :display_name => user.display_name, :avatar_action => "delete", :user => user.attributes }, :session => { :user => user }
@@ -899,7 +884,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=avatar_action][checked]", false
+    assert_select "form#accountForm > fieldset > div.standard-form-row.accountImage input[name=avatar_action][checked]", false
 
     # Adding external authentication should redirect to the auth provider
     post :account, :params => { :display_name => user.display_name, :user => user.attributes.merge(:auth_provider => "openid", :auth_uid => "gmail.com") }, :session => { :user => user }
@@ -913,7 +898,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select ".notice", false
     assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.form-row > input.field_with_errors#user_display_name"
+    assert_select "form#accountForm > fieldset > div.standard-form-row > input.field_with_errors#user_display_name"
 
     # Changing name to one that exists should fail, regardless of case
     new_attributes = user.attributes.dup.merge(:display_name => create(:user).display_name.upcase)
@@ -922,7 +907,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select ".notice", false
     assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.form-row > input.field_with_errors#user_display_name"
+    assert_select "form#accountForm > fieldset > div.standard-form-row > input.field_with_errors#user_display_name"
 
     # Changing name to one that doesn't exist should work
     new_attributes = user.attributes.dup.merge(:display_name => "new tester")
@@ -931,7 +916,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row > input#user_display_name[value=?]", "new tester"
+    assert_select "form#accountForm > fieldset > div.standard-form-row > input#user_display_name[value=?]", "new tester"
 
     # Record the change of name
     user.display_name = "new tester"
@@ -947,7 +932,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select ".notice", false
     assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.form-row > input.field_with_errors#user_new_email"
+    assert_select "form#accountForm > fieldset > div.standard-form-row > input.field_with_errors#user_new_email"
 
     # Changing email to one that exists should fail, regardless of case
     user.new_email = create(:user).email.upcase
@@ -960,7 +945,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select ".notice", false
     assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.form-row > input.field_with_errors#user_new_email"
+    assert_select "form#accountForm > fieldset > div.standard-form-row > input.field_with_errors#user_new_email"
 
     # Changing email to one that doesn't exist should work
     user.new_email = "new_tester@example.com"
@@ -973,7 +958,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row > input#user_new_email[value=?]", user.new_email
+    assert_select "form#accountForm > fieldset > div.standard-form-row > input#user_new_email[value=?]", user.new_email
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal user.new_email, email.to.first

@@ -17,7 +17,7 @@
 #  current_relations_changeset_id_fkey  (changeset_id => changesets.id)
 #
 
-class Relation < ActiveRecord::Base
+class Relation < ApplicationRecord
   require "xml/libxml"
 
   include ConsistencyValidations
@@ -119,31 +119,6 @@ class Relation < ActiveRecord::Base
     raise OSM::APIBadUserInput, "Some bad xml in relation" if relation.nil?
 
     relation
-  end
-
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new "relation"
-    el["id"] = id.to_s
-
-    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
-
-    relation_members.each do |member|
-      member_el = XML::Node.new "member"
-      member_el["type"] = member.member_type.downcase
-      member_el["ref"] = member.member_id.to_s
-      member_el["role"] = member.member_role
-      el << member_el
-    end
-
-    add_tags_to_xml_node(el, relation_tags)
-
-    el
   end
 
   # FIXME: is this really needed?

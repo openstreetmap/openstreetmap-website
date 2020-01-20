@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :heading do %>
-  <h2><%= raw(t(".my_inbox", :inbox_link => link_to(t(".inbox"), inbox_messages_path))) %>/<%= t ".outbox" %></h2>
+  <h2><%= t(".my_inbox_html", :inbox_link => link_to(t(".inbox"), inbox_messages_path)) %>/<%= t ".outbox" %></h2>
 <% end %>
 
 <h4><%= t ".messages", :count => current_user.sent_messages.size %></h4>
@@ -23,5 +23,5 @@
     </tbody>
   </table>
 <% else %>
-  <div class="messages"><%= raw(t(".no_sent_messages", :people_mapping_nearby_link => link_to(t(".people_mapping_nearby"), user_path(current_user)))) %></div>
+  <div class="messages"><%= t(".no_sent_messages_html", :people_mapping_nearby_link => link_to(t(".people_mapping_nearby"), user_path(current_user))) %></div>
 <% end %>

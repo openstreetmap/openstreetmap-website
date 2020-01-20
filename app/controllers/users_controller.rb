@@ -269,7 +269,7 @@ class UsersController < ApplicationController
   def logout
     @title = t "users.logout.title"
 
-    if params[:session] == session.id
+    if request.post?
       if session[:token]
         token = UserToken.find_by(:token => session[:token])
         token&.destroy
@@ -376,7 +376,7 @@ class UsersController < ApplicationController
     @user = User.find_by(:display_name => params[:display_name])
 
     if @user &&
-       (@user.visible? || (current_user&.administrator?))
+       (@user.visible? || current_user&.administrator?)
       @title = @user.display_name
     else
       render_unknown_user params[:display_name]

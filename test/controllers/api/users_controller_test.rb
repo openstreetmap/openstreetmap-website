@@ -2,12 +2,6 @@ require "test_helper"
 
 module Api
   class UsersControllerTest < ActionController::TestCase
-    def setup
-      super
-
-      stub_hostip_requests
-    end
-
     ##
     # test all routes which lead to this controller
     def test_routes
@@ -34,7 +28,7 @@ module Api
       # check that a visible user is returned properly
       get :show, :params => { :id => user.id }
       assert_response :success
-      assert_equal "text/xml", response.content_type
+      assert_equal "text/xml", response.media_type
 
       # check the data that is returned
       assert_select "description", :count => 1, :text => "test"
@@ -90,7 +84,7 @@ module Api
       basic_authorization user.email, "test"
       get :details
       assert_response :success
-      assert_equal "text/xml", response.content_type
+      assert_equal "text/xml", response.media_type
 
       # check the data that is returned
       assert_select "description", :count => 1, :text => "test"
@@ -136,7 +130,7 @@ module Api
 
       get :index, :params => { :users => user1.id }
       assert_response :success
-      assert_equal "text/xml", response.content_type
+      assert_equal "text/xml", response.media_type
       assert_select "user", :count => 1 do
         assert_select "user[id='#{user1.id}']", :count => 1
         assert_select "user[id='#{user2.id}']", :count => 0
@@ -145,7 +139,7 @@ module Api
 
       get :index, :params => { :users => user2.id }
       assert_response :success
-      assert_equal "text/xml", response.content_type
+      assert_equal "text/xml", response.media_type
       assert_select "user", :count => 1 do
         assert_select "user[id='#{user1.id}']", :count => 0
         assert_select "user[id='#{user2.id}']", :count => 1
@@ -154,7 +148,7 @@ module Api
 
       get :index, :params => { :users => "#{user1.id},#{user3.id}" }
       assert_response :success
-      assert_equal "text/xml", response.content_type
+      assert_equal "text/xml", response.media_type
       assert_select "user", :count => 2 do
         assert_select "user[id='#{user1.id}']", :count => 1
         assert_select "user[id='#{user2.id}']", :count => 0
@@ -187,7 +181,7 @@ module Api
       basic_authorization user.email, "test"
       get :gpx_files
       assert_response :success
-      assert_equal "application/xml", response.content_type
+      assert_equal "application/xml", response.media_type
 
       # check the data that is returned
       assert_select "gpx_file[id='#{trace1.id}']", 1 do

@@ -24,7 +24,7 @@
 # record's title and description fields, which can be
 # displayed linked from the redacted records.
 #
-class Redaction < ActiveRecord::Base
+class Redaction < ApplicationRecord
   belongs_to :user
 
   has_many :old_nodes

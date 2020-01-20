@@ -2,11 +2,11 @@ task "eslint" => "eslint:check"
 
 namespace "eslint" do
   def yarn_path
-    Rails.root.join("bin", "yarn").to_s
+    Rails.root.join("bin/yarn").to_s
   end
 
   def config_file
-    Rails.root.join("config", "eslint.json").to_s
+    Rails.root.join("config/eslint.json").to_s
   end
 
   def js_files

@@ -12,15 +12,11 @@
 
       <% if @user %>
         <% if @user == current_user %>
-          <div>
-            <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
-          </div>
+          <li><%= link_to image_tag("new.png", :class => "small_icon") + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
         <% end %>
       <% else %>
         <% if current_user %>
-          <div>
-            <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
-          </div>
+          <li><%= link_to image_tag("new.png", :class => "small_icon") + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
         <% end %>
       <% end %>
     </ul>

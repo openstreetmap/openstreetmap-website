@@ -11,7 +11,7 @@ class IPAddr
 end
 
 class MergeAclAddressAndMask < ActiveRecord::Migration[4.2]
-  class Acl < ActiveRecord::Base
+  class Acl < ApplicationRecord
   end
 
   def up

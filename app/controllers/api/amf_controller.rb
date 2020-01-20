@@ -226,14 +226,14 @@ module Api
       loaded_lang = "en"
 
       # Load English defaults
-      en = YAML.safe_load(File.open(Rails.root.join("config", "potlatch", "locales", "en.yml")))["en"]
+      en = YAML.safe_load(File.open(Rails.root.join("config/potlatch/locales/en.yml")))["en"]
 
       if lang == "en"
-        return [loaded_lang, en]
+        [loaded_lang, en]
       else
         # Use English as a fallback
         begin
-          other = YAML.safe_load(File.open(Rails.root.join("config", "potlatch", "locales", "#{lang}.yml")))[lang]
+          other = YAML.safe_load(File.open(Rails.root.join("config/potlatch/locales/#{lang}.yml")))[lang]
           loaded_lang = lang
         rescue StandardError
           other = en
@@ -241,7 +241,7 @@ module Api
 
         # We have to return a flat list and some of the keys won't be
         # translated (probably)
-        return [loaded_lang, en.merge(other)]
+        [loaded_lang, en.merge(other)]
       end
     end
 
@@ -876,7 +876,7 @@ module Api
     end
 
     def getlocales
-      @getlocales ||= Locale.list(Dir.glob(Rails.root.join("config", "potlatch", "locales", "*")).collect { |f| File.basename(f, ".yml") })
+      @getlocales ||= Locale.list(Dir.glob(Rails.root.join("config/potlatch/locales/*")).collect { |f| File.basename(f, ".yml") })
     end
 
     ##
@@ -906,21 +906,21 @@ module Api
     # Alternative SQL queries for getway/whichways
 
     def sql_find_ways_in_area(bbox)
-      sql = <<-SQL
-      SELECT DISTINCT current_ways.id AS wayid,current_ways.version AS version
-        FROM current_way_nodes
-      INNER JOIN current_nodes ON current_nodes.id=current_way_nodes.node_id
-      INNER JOIN current_ways  ON current_ways.id =current_way_nodes.id
-         WHERE current_nodes.visible=TRUE
-         AND current_ways.visible=TRUE
-         AND #{OSM.sql_for_area(bbox, 'current_nodes.')}
+      sql = <<~SQL
+        SELECT DISTINCT current_ways.id AS wayid,current_ways.version AS version
+          FROM current_way_nodes
+        INNER JOIN current_nodes ON current_nodes.id=current_way_nodes.node_id
+        INNER JOIN current_ways  ON current_ways.id =current_way_nodes.id
+           WHERE current_nodes.visible=TRUE
+           AND current_ways.visible=TRUE
+           AND #{OSM.sql_for_area(bbox, 'current_nodes.')}
       SQL
       ActiveRecord::Base.connection.select_all(sql).collect { |a| [a["wayid"].to_i, a["version"].to_i] }
     end
 
     def sql_find_pois_in_area(bbox)
       pois = []
-      sql = <<-SQL
+      sql = <<~SQL
         SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.version
         FROM current_nodes
          LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id
@@ -941,7 +941,7 @@ module Api
     def sql_find_relations_in_area_and_ways(bbox, way_ids)
       # ** It would be more Potlatchy to get relations for nodes within ways
       #    during 'getway', not here
-      sql = <<-SQL
+      sql = <<~SQL
         SELECT DISTINCT cr.id AS relid,cr.version AS version
         FROM current_relations cr
         INNER JOIN current_relation_members crm ON crm.id=cr.id
@@ -949,13 +949,13 @@ module Api
          WHERE #{OSM.sql_for_area(bbox, 'cn.')}
       SQL
       unless way_ids.empty?
-        sql += <<-SQL
-         UNION
-          SELECT DISTINCT cr.id AS relid,cr.version AS version
-          FROM current_relations cr
-          INNER JOIN current_relation_members crm ON crm.id=cr.id
-           WHERE crm.member_type='Way'
-           AND crm.member_id IN (#{way_ids.join(',')})
+        sql += <<~SQL
+          UNION
+           SELECT DISTINCT cr.id AS relid,cr.version AS version
+           FROM current_relations cr
+           INNER JOIN current_relation_members crm ON crm.id=cr.id
+            WHERE crm.member_type='Way'
+            AND crm.member_id IN (#{way_ids.join(',')})
         SQL
       end
       ActiveRecord::Base.connection.select_all(sql).collect { |a| [a["relid"].to_i, a["version"].to_i] }
@@ -963,7 +963,7 @@ module Api
 
     def sql_get_nodes_in_way(wayid)
       points = []
-      sql = <<-SQL
+      sql = <<~SQL
         SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,current_nodes.id,current_nodes.version
         FROM current_way_nodes,current_nodes
          WHERE current_way_nodes.id=#{wayid.to_i}

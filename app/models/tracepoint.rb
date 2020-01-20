@@ -20,7 +20,7 @@
 #  gps_points_gpx_id_fkey  (gpx_id => gpx_files.id)
 #
 
-class Tracepoint < ActiveRecord::Base
+class Tracepoint < ApplicationRecord
   include GeoRecord
 
   self.table_name = "gps_points"

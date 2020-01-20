@@ -7,9 +7,9 @@ class TracesController < ApplicationController
 
   authorize_resource
 
-  before_action :check_database_writable, :only => [:new, :create, :edit, :delete]
+  before_action :check_database_writable, :only => [:new, :create, :edit, :destroy]
   before_action :offline_warning, :only => [:mine, :show]
-  before_action :offline_redirect, :only => [:new, :create, :edit, :delete, :data]
+  before_action :offline_redirect, :only => [:new, :create, :edit, :destroy, :data]
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
@@ -65,19 +65,9 @@ class TracesController < ApplicationController
     @traces = @traces.limit(@page_size)
     @traces = @traces.includes(:user, :tags)
 
-    # put together SET of tags across traces, for related links
-    tagset = {}
-    @traces.each do |trace|
-      trace.tags.reload if params[:tag] # if searched by tag, ActiveRecord won't bring back other tags, so do explicitly here
-      trace.tags.each do |tag|
-        tagset[tag.tag] = tag.tag
-      end
-    end
-
     # final helper vars for view
     @target_user = target_user
     @display_name = target_user.display_name if target_user
-    @all_tags = tagset.values
   end
 
   def mine
@@ -194,7 +184,7 @@ class TracesController < ApplicationController
     head :not_found
   end
 
-  def delete
+  def destroy
     trace = Trace.find(params[:id])
 
     if !trace.visible?

@@ -4,6 +4,7 @@
 # Author: Abijeet Patro
 # Author: Aitolos
 # Author: Auslaender
+# Author: Babispan
 # Author: Consta
 # Author: Crazymadlover
 # Author: Evropi
@@ -51,10 +52,10 @@ el:
         create: Εγγραφή
         update: Επεξεργασία
       redaction:
-        create: Δημιουργία παράληψης
-        update: Αποθήκευση παράληψης
+        create: Δημιουργία παράλειψης
+        update: Αποθήκευση παράλειψης
       trace:
-        create: Αποστολή
+        create: Μεταφόρτωση
         update: Αποθήκευση Αλλαγών
       user_block:
         create: Δημιουργία φραγής
@@ -62,40 +63,41 @@ el:
   activerecord:
     errors:
       messages:
-        invalid_email_address: δεν φαίνεται να είναι μια έγκυρη διεύθυνση ηλ. ταχυδρομείου
+        invalid_email_address: δεν φαίνεται να είναι έγκυρη διεύθυνση ηλ. ταχυδρομείου
+        email_address_not_routable: Δεν είναι δρομολογητέο
     models:
-      acl: Λίστα ελέγχου πρόσβασης
+      acl: Λίστα Ελέγχου Πρόσβασης
       changeset: Ομάδα αλλαγών
-      changeset_tag: Ετικέτα ομάδας αλλαγών
+      changeset_tag: Ετικέτα Ομάδας αλλαγών
       country: Χώρα
-      diary_comment: Σχόλιο ημερολογίου
-      diary_entry: Καταχώριση ημερολογίου
+      diary_comment: Σχόλιο Ημερολογίου
+      diary_entry: Καταχώριση Ημερολογίου
       friend: Φίλος
       language: Γλώσσα
       message: Μήνυμα
       node: Κόμβος
-      node_tag: Ετικέτα κόμβου
+      node_tag: Ετικέτα Kόμβου
       notifier: Ειδοποιητής
-      old_node: Παλιός κόμβος
-      old_node_tag: Παλιά ετικέτα κόμβου
-      old_relation: Παλιά σχέση
-      old_relation_member: Παλιό μέλος της σχέσης
-      old_relation_tag: Παλιά ετικέτα της σχέσης
-      old_way: Παλιά διαδρομή
-      old_way_node: Κόμβος παλιάς διαδρομής
-      old_way_tag: Ετικέτα παλιάς διαδρομής
+      old_node: Παλαιός Κόμβος
+      old_node_tag: Παλαιά Ετικέτα Κόμβου
+      old_relation: Παλαιά Σχέση
+      old_relation_member: Παλαιό Μέλος της Σχέσης
+      old_relation_tag: Παλαιά Ετικέτα της Σχέσης
+      old_way: Παλαιά Διαδρομή
+      old_way_node: Κόμβος Παλαιάς Διαδρομής
+      old_way_tag: Ετικέτα Παλαιάς Διαδρομής
       relation: Σχέση
-      relation_member: Μέλος της σχέσης
-      relation_tag: Ετικέτα της σχέσης
+      relation_member: Μέλος της Σχέσης
+      relation_tag: Ετικέτα της Σχέσης
       session: Συνεδρία
       trace: Ίχνος
-      tracepoint: Σημείο ίχνους
-      tracetag: Ετικέτα ίχνους
+      tracepoint: Σημείο Ίχνους
+      tracetag: Ετικέτα Ίχνους
       user: Χρήστης
-      user_preference: Προτιμήσεις χρήστη
-      user_token: Διακριτικό χρήστη
+      user_preference: Προτιμήσεις Χρήστη
+      user_token: Διακριτικό Χρήστη
       way: Διαδρομή
-      way_node: Κόμβος διαδρομής
+      way_node: Κόμβος Διαδρομής
       way_tag: Ετικέτα διαδρομής
     attributes:
       diary_comment:
@@ -104,7 +106,7 @@ el:
         user: Χρήστης
         title: Θέμα
         latitude: Γεωγραφικό πλάτος
-        longitude: Γεωγραφικό μήκος
+        longitude: Γεωγραφικό Μήκος
         language: Γλώσσα
       friend:
         user: Χρήστης
@@ -114,8 +116,8 @@ el:
         visible: Ορατό
         name: Όνομα
         size: Μέγεθος
-        latitude: Γεωγραφικό πλάτος
-        longitude: Γεωγραφικό μήκος
+        latitude: Γεωγραφικό Πλάτος
+        longitude: Γεωγραφικό Μήκος
         public: Δημόσιο
         description: Περιγραφή
       message:
@@ -132,7 +134,43 @@ el:
         pass_crypt: Κωδικός
   datetime:
     distance_in_words_ago:
+      about_x_hours:
+        one: περίπου μία ώρα πριν
+        other: περίπου %{count} ώρες πριν
+      about_x_months:
+        one: περίπου έναν μήνα πριν
+        other: περίπου %{count} μήνες πριν
+      about_x_years:
+        one: περίπου έναν χρόνο πριν
+        other: περίπου %{count} χρόνια πριν
+      almost_x_years:
+        one: σχεδόν ένα χρόνο πριν
+        other: σχεδόν %{count} χρόνια πριν
       half_a_minute: μισό λεπτό πριν
+      less_than_x_seconds:
+        one: λιγότερο από 1 δευτερόλεπτο πριν
+        other: λιγότερο από %{count} δευτερόλεπτα πριν
+      less_than_x_minutes:
+        one: λιγότερο από ένα λεπτό πριν
+        other: λιγότερο από %{count} λεπτά πριν
+      over_x_years:
+        one: πάνω από έναν χρόνο πριν
+        other: πάνω από %{count} χρόνια πριν
+      x_seconds:
+        one: 1 δευτερόλεπτο πριν
+        other: '%{count} δευτερόλεπτα πριν'
+      x_minutes:
+        one: 1 λεπτό πριν
+        other: '%{count} λεπτά πριν'
+      x_days:
+        one: 1 ημέρα πριν
+        other: '%{count} ημέρες πριν'
+      x_months:
+        one: 1 μήνα πριν
+        other: '%{count} μήνες πριν'
+      x_years:
+        one: 1 χρόνο πριν
+        other: '%{count} χρόνια πριν'
   printable_name:
     with_version: '%{id}, v%{version}'
   editor:
@@ -216,29 +254,29 @@ el:
       still_open: Η ομάδα αλλαγών παραμένει σε εκκρεμότητα - η συζήτηση θα ανοίξει
         μόλις ολοκληρωθεί η ομάδα αλλαγών.
     node:
-      title: 'Κόμβος: %{name}'
-      history_title: 'Ιστορικό κόμβου: %{name}'
+      title_html: 'Κόμβος: %{name}'
+      history_title_html: 'Ιστορικό κόμβου: %{name}'
     way:
-      title: 'Διαδρομή: %{name}'
-      history_title: 'Ιστορικό διαδρομής: %{name}'
+      title_html: 'Διαδρομή: %{name}'
+      history_title_html: 'Ιστορικό διαδρομής: %{name}'
       nodes: Κόμβοι
-      also_part_of:
+      also_part_of_html:
         one: τμήμα της διαδρομής %{related_ways}
         other: τμήμα των διαδρομών %{related_ways}
     relation:
-      title: 'Σχέση: %{name}'
-      history_title: 'Ιστορικό σχέσης: %{name}'
+      title_html: 'Σχέση: %{name}'
+      history_title_html: 'Ιστορικό σχέσης: %{name}'
       members: Μέλη
     relation_member:
-      entry: '%{type} %{name}'
-      entry_role: '%{type} %{name} ως %{role}'
+      entry_html: '%{type} %{name}'
+      entry_role_html: '%{type} %{name} ως %{role}'
       type:
         node: Κόμβος
         way: Διαδρομή
         relation: Σχέση
     containing_relation:
-      entry: Σχέση %{relation_name}
-      entry_role: Σχέση %{relation_name} (ως %{relation_role})
+      entry_html: Σχέση %{relation_name}
+      entry_role_html: Σχέση %{relation_name} (ως %{relation_role})
     not_found:
       sorry: 'Λυπάμαι, ο/η/το %{type} #%{id} δε μπορούσε να βρεθεί.'
       type:
@@ -277,7 +315,9 @@ el:
         tag: Η σελίδα περιγραφής για την ετικέτα %{key}=%{value}
       wikidata_link: Το αντικείμενο %{page} στο Wikidata
       wikipedia_link: Το άρθρο %{page} στη Βικιπαίδεια
+      wikimedia_commons_link: Το αντικείμενο %{page} στο Wikimedia Commons
       telephone_link: Καλέστε %{phone_number}
+      colour_preview: Προεπισκόπηση χρώματος %{colour_value}
     note:
       title: 'Σημείωση: %{id}'
       new_note: Νέα σημείωση
@@ -285,8 +325,8 @@ el:
       open_title: 'Ανοικτή σημείωση #%{note_name}'
       closed_title: 'Επιλυμένη σημείωση: #%{note_name}'
       hidden_title: 'Κρυφή σημείωση #%{note_name}'
-      open_by: Δημιουργήθηκε από τον %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      open_by_anonymous: Δημιουργήθηκε από ανώνυμο χρήστη <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by: Δημιουργήθηκε από τον %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous: Δημιουργήθηκε από ανώνυμο χρήστη <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by: Σχόλιο από τον %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by_anonymous: Σχόλιο από ανώνυμο χρήστη <abbr title='%{exact_time}'>%{when}</abbr>
       closed_by: Επιλύθηκε από τον %{user} <abbr title='%{exact_time}'>%{when}</abbr>
@@ -310,8 +350,8 @@ el:
       no_edits: (χωρίς επεξεργασίες)
       view_changeset_details: Προβολή λεπτομερειών ομάδας αλλαγών
     changesets:
-      id: ID
-      saved_at: Αποθήκευση στις
+      id: Αναγνωριστικό
+      saved_at: Αποθηκεύτηκε στις
       user: Χρήστης
       comment: Σχόλιο
       area: Περιοχή
@@ -339,6 +379,9 @@ el:
     index:
       title_all: Συζήτηση ομάδας αλλαγών OpenStreetMap
       title_particular: 'Συζήτηση ομάδας αλλαγών OpenStreetMap #%{changeset_id}'
+    timeout:
+      sorry: Μας συγχωρείτε, η λίστα των σχολίων της ομάδας αλλαγών που ζητήσατε,
+        χρειάστηκε πολύ χρόνο για να ανακτηθεί.
   diary_entries:
     new:
       title: Νέα καταχώρηση ημερολογίου
@@ -369,16 +412,16 @@ el:
       title: το ημερολόγιο του %{user} | %{title}
       user_title: το ημερολόγιο του %{user}
       leave_a_comment: Αφήστε σχόλιο
-      login_to_leave_a_comment: '%{login_link} για να αφήσετε ένα σχόλιο'
+      login_to_leave_a_comment_html: '%{login_link} για να αφήσετε ένα σχόλιο'
       login: Συνδεθείτε
     no_such_entry:
       title: Δεν υπάρχει τέτοια εγγραφή ημερολογίου
-      heading: 'Καμία καταχώρηση με τη ταυτότητα: %{id}'
-      body: Συγγνώμη, δεν υπάρχει καταχώρηση ημερολογίου ή σχόλιο με τη ταυτότητα
+      heading: 'Καμία καταχώρηση με το αναγνωριστικό: %{id}'
+      body: Μας συγχωρείτε, δεν υπάρχει καταχώρηση ή σχόλιο ημερολογίου με το αναγνωριστικό
         %{id}. Είναι πιθανό να υπάρχουν ορθογραφικά λάθη ή να είναι λάθος ο σύνδεσμος
         μέσω του οποίου φτάσατε σε αυτήν την σελίδα.
     diary_entry:
-      posted_by: Γράφτηκε από το χρήστη %{link_user} στις %{created} στα %{language_link}
+      posted_by_html: Γράφτηκε από το χρήστη %{link_user} στις %{created} στα %{language_link}
       comment_link: Σχολιάστε την καταχώρηση
       reply_link: Απαντήστε στην καταχώρηση
       comment_count:
@@ -391,7 +434,7 @@ el:
       confirm: Επιβεβαίωση
       report: Αναφορά καταχώρησης
     diary_comment:
-      comment_from: Σχόλιο από τον %{link_user} στις %{comment_created_at}
+      comment_from_html: Σχόλιο από τον %{link_user} στις %{comment_created_at}
       hide_link: Απόκρυψη σχολίου
       unhide_link: Επανεμφάνιση σχολίου
       confirm: Επιβεβαίωση
@@ -402,8 +445,8 @@ el:
       edit: Επεξεργασία
     feed:
       user:
-        title: Καταχωρίσεις ημερολογίου OpenStreetMap για τον %{user}
-        description: Πρόσφατες καταχωρίσεις ημερολογίου OpenStreetMap από τον %{user}
+        title: Καταχωρήσεις ημερολογίου OpenStreetMap για τον %{user}
+        description: Πρόσφατες καταχωρήσεις ημερολογίου OpenStreetMap από τον %{user}
       language:
         title: Καταχωρήσεις ημερολογίου OpenStreetMap στα %{language_name}
         description: Πρόσφατες καταχωρήσεις ημερολογίου από χρήστες του OpenStreetMap
@@ -413,8 +456,8 @@ el:
         description: Πρόσφατες καταχωρήσεις ημερολογίου από χρήστες του OpenStreetMap
     comments:
       has_commented_on: Ο %{display_name} έχει σχολιάσει στις ακόλουθες καταχωρήσεις
-        στο ημερολόγιο
-      post: Καταχώριση
+        ημερολογίου
+      post: Καταχώρηση
       when: Πότε
       comment: Σχόλιο
       newer_comments: Νεότερα Σχόλια
@@ -422,15 +465,15 @@ el:
   geocoder:
     search:
       title:
-        latlon: Αποτελέσματα από την <a href="https://openstreetmap.org/">εσωτερική</a>
+        latlon_html: Αποτελέσματα από την <a href="https://openstreetmap.org/">εσωτερική</a>
           βάση δεδομένων
-        ca_postcode: Αποτελέσματα από <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim: Αποτελέσματα από το <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        ca_postcode_html: Αποτελέσματα από <a href="https://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Αποτελέσματα από το <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames: Αποτελέσματα από το <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse: Αποτελέσματα από το <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: Αποτελέσματα από το <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Αποτελέσματα από το <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames_reverse: Αποτελέσματα από το <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse_html: Αποτελέσματα από το <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -956,7 +999,7 @@ el:
           "yes": Κατάστημα
         tourism:
           alpine_hut: Αλπικό καταφύγιο
-          apartment: Διαμέρισμα
+          apartment: Εξοχικό Διαμέρισμα
           artwork: Έργο τέχνης
           attraction: Αξιοθέατο
           bed_and_breakfast: Ενοικιαζόμενα δωμάτια
@@ -1073,10 +1116,8 @@ el:
     reopen:
       reopened: Η κατάσταση του ζητήματος έχει οριστεί στο 'Ανοιχτό'
     comments:
-      created_at: Στις %{datetime}
       reassign_param: Επανανάθεση ζητήματος;
     reports:
-      updated_at: Στις %{datetime}
       reported_by_html: Αναφέρθηκε ως %{category} από τον %{user}
     helper:
       reportable_title:
@@ -1293,10 +1334,10 @@ el:
         subject_other: '[OpenStreetMap] {{GENDER:%{commenter}|Ο|Η}} %{commenter} σχολίασε
           μια ομάδα αλλαγών που σας ενδιαφέρει.'
         your_changeset: '{{GENDER:%{commenter}|Ο|Η}} %{commenter} άφησε ένα σχόλιο
-          σε μία από τις ομάδες αλλαγών σας που δημιουργήθηκε στις %{time}.'
+          στις %{time} σε μία από τις ομάδες αλλαγών σας.'
         commented_changeset: '{{GENDER:%{commenter}|Ο|Η}} %{commenter} άφησε ένα σχόλιο
-          σε μία ομάδα αλλαγών χάρτη που παρακολουθείτε δημιουργημένη από {{GENDER:%{changeset_author}|τον|την}}
-          %{changeset_author} στις %{time}.'
+          στις %{time}, σε μία ομάδα αλλαγών που παρακολουθείτε, δημιουργημένη από
+          {{GENDER:%{changeset_author}|τον|την}} %{changeset_author}.'
         partial_changeset_with_comment: με το σχόλιο «%{changeset_comment}»
         partial_changeset_without_comment: χωρίς σχόλιο
       details: Περισσότερες λεπτομέρειες για την ομάδα αλλαγών μπορούν να βρεθούν
@@ -1318,8 +1359,8 @@ el:
       from: Από
       subject: Θέμα
       date: Ημ/νία
-      no_messages_yet: Δεν έχετε μηνύματα ακόμα. Γιατί δεν έρχεστε σε επαφή με μερικά
-        από τα %{people_mapping_nearby_link}?
+      no_messages_yet_html: Δεν έχετε μηνύματα ακόμα. Γιατί δεν έρχεστε σε επαφή με
+        μερικά από τα %{people_mapping_nearby_link}?
       people_mapping_nearby: άτομα που χαρτογραφούν κοντά σας
     message_summary:
       unread_button: Σήμανση ως αδιάβαστο
@@ -1328,7 +1369,7 @@ el:
       destroy_button: Διαγραφή
     new:
       title: Αποστολή μηνύματος
-      send_message_to: Αποστολή νέου μηνύματος προς %{name}
+      send_message_to_html: Αποστολή νέου μηνύματος προς %{name}
       subject: Θέμα
       body: Κείμενο
       back_to_inbox: Επιστροφή στα εισερχόμενα
@@ -1342,7 +1383,7 @@ el:
       body: Λυπάμαι δεν υπάρχει μήνυμα με αυτό το αναγνωριστικό.
     outbox:
       title: Εξερχόμενα
-      my_inbox: Τα %{inbox_link} μου
+      my_inbox_html: Τα %{inbox_link} μου
       inbox: εισερχόμενα
       outbox: εξερχόμενα
       messages:
@@ -1351,8 +1392,8 @@ el:
       to: Προς
       subject: Θέμα
       date: Ημ/νία
-      no_sent_messages: Δεν έχετε στείλει κανένα μήνυμα ακόμα. Γιατί δεν έρχεστε σε
-        επαφή με μερικά %{people_mapping_nearby_link}?
+      no_sent_messages_html: Δεν έχετε στείλει κανένα μήνυμα ακόμα. Γιατί δεν έρχεστε
+        σε επαφή με μερικά %{people_mapping_nearby_link}?
       people_mapping_nearby: άτομα που χαρτογραφούν κοντά σας
     reply:
       wrong_user: Έχετε συνδεθεί ως «%{user}» αλλά το μήνυμα που ζητάτε να απαντήσετε
@@ -1382,7 +1423,7 @@ el:
     about:
       next: Επόμενη
       copyright_html: <span>&copy;</span>Συνεισφέροντες<br> του OpenStreetMap
-      used_by: Το %{name} προσφέρει δεδομένα χάρτη σε χιλιάδες ιστότοπους, εφαρμογές
+      used_by_html: Το %{name} προσφέρει δεδομένα χάρτη σε χιλιάδες ιστότοπους, εφαρμογές
         κινητού και συσκευές υλικού
       lede_text: |-
         Το OpenStreetMap αναπτύσσεται από μια κοινότητα χαρτογράφων που συνεισφέρουν και διατηρούν δεδομένα
@@ -1408,23 +1449,28 @@ el:
         μόνο υπό την ίδια άδεια χρήσης. Δείτε τη σελίδα <a href=''%{copyright_path}''>Πνευματικά
         Δικαιώματα και Άδεια Χρήσης</a> για λεπτομέρειες.'
       legal_title: Νομικό
-      legal_html: |-
-        Αυτός ο ιστότοπος και πολλές άλλες σχετικές υπηρεσίες λειτουργούν επίσημα από το <a href='https://osmfoundation.org/'>Ίδρυμα OpenStreetMap</a> (OSMF) εκ μέρους της κοινότητας. Η χρήση όλων των υπηρεσιών του OSMF  υπόκειται στους <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Όρους Χρήσης</a>, στην <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Πολιτική Αποδεκτής Χρήσης</a> και στην <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Πολιτική Απορρήτου</a> μας.
-        <br>
-        Παρακαλούμε <a href='https://osmfoundation.org/Contact'>επικοινωνήστε με το OSMF</a> αν έχετε ερωτήματα για άδειες χρήσης, πνευματικά δικαιώματα ή άλλα νομικά θέματα.
-
+      legal_1_html: Αυτός ο ιστότοπος και πολλές άλλες σχετικές υπηρεσίες λειτουργούν
+        επίσημα από το <a href='https://osmfoundation.org/'>Ίδρυμα OpenStreetMap</a>
+        (OSMF) εκ μέρους της κοινότητας. Η χρήση όλων των υπηρεσιών του OSMF  υπόκειται
+        στους <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Όρους Χρήσης</a>,
+        στην <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Πολιτική
+        Αποδεκτής Χρήσης</a> και στην <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Πολιτική
+        Απορρήτου</a> μας.
+      legal_2_html: |-
+        Παρακαλούμε <a href='https://osmfoundation.org/Contact'>επικοινωνήστε με το OSMF</a>
+        αν έχετε ερωτήματα για άδειες χρήσης, πνευματικά δικαιώματα ή άλλα νομικά θέματα.
         <br>
         Το OpenStreetMap, το λογότυπο με το μεγεθυντικό φακό και το «State of the Map» είναι <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">κατατεθέντα σήματα του OSMF</a>.
       partners_title: Συνεργάτες
     copyright:
       foreign:
         title: Σχετικά με αυτήν τη μετάφραση
-        text: Σε περίπτωση διένεξης μεταξύ αυτής της μεταφρασμένης σελίδας και %{english_original_link},
+        html: Σε περίπτωση διένεξης μεταξύ αυτής της μεταφρασμένης σελίδας και %{english_original_link},
           η Αγγλική σελίδα θα προτιμηθεί
         english_link: της πρωτότυπης Αγγλικής
       native:
         title: Σχετικά με αυτήν τη σελίδα
-        text: Προβάλλετε η αγγλική έκδοση της σελίδας πνευματικών δικαιωμάτων. Μπορείτε
+        html: Προβάλλετε η αγγλική έκδοση της σελίδας πνευματικών δικαιωμάτων. Μπορείτε
           να επιστρέψετε στην %{native_link} της σελίδας ή να σταματήσετε να διαβάζετε
           για τα πνευματικά δικαιώματα και να %{mapping_link}.
         native_link: ελληνική έκδοση
@@ -1541,13 +1587,14 @@ el:
         έχουν φορτωθεί και η επιλογή τηλεχειρισμού είναι ενεργή
     edit:
       not_public: Δεν έχετε ορίσει τις επεξεργασίες σας να είναι δημόσιες.
-      not_public_description: Δεν μπορείτε πλέον να επεξεργαστείτε το χάρτη αν δεν
-        το κάνετε. Μπορείτε να κάνετε τις επεξεργασίες σας δημόσιες από την %{user_page}.
+      not_public_description_html: Δεν μπορείτε πλέον να επεξεργαστείτε το χάρτη αν
+        δεν το κάνετε. Μπορείτε να κάνετε τις επεξεργασίες σας δημόσιες από την %{user_page}.
       user_page_link: σελίδα σας χρήστη
       anon_edits_link_text: Μάθετε γιατί συμβαίνει αυτό.
-      flash_player_required: Χρειάζεστε Flash player για να χρησιμοποιήσετε το Potlatch,
-        το Flash πρόγραμμα επεξεργασίας του OpenStreetMap. Μπορείτε να <a href=https://get.adobe.com/flashplayer/">κάνετε
-        λήψη του Flash Player από την τοποθεσία Adobe.com</a>. <a href="https://wiki.openstreetmap.org/wiki/Editing">Πολλές
+      flash_player_required_html: Χρειάζεστε Flash player για να χρησιμοποιήσετε το
+        Potlatch, το Flash πρόγραμμα επεξεργασίας του OpenStreetMap. Μπορείτε να <a
+        href=https://get.adobe.com/flashplayer/">κάνετε λήψη του Flash Player από
+        την τοποθεσία Adobe.com</a>. <a href="https://wiki.openstreetmap.org/wiki/Editing">Πολλές
         άλλες επιλογές</a> είναι επίσης διαθέσιμες για επεξεργασία στο OpenStreetMap.
       potlatch_unsaved_changes: Έχετε μη αποθηκευμένες αλλαγές. (Για να αποθηκεύσετε
         στο Potlatch, πρέπει να αποεπιλέξτε οποιαδήποτε διαδρομή ή κόμβο, αν επεξεργάζεστε
@@ -1568,9 +1615,9 @@ el:
       map_image: Εικόνα χάρτη (δείχνει τυπικό στρώμα)
       embeddable_html: Ενσωματούμενη HTML
       licence: Άδεια
-      export_details: Τα δεδομένα του OpenStreetMap είναι αδειοδοτημένα υπό την <a
-        href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open
-        Database License</a> (ODbL).
+      export_details_html: Τα δεδομένα του OpenStreetMap είναι αδειοδοτημένα υπό την
+        <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons
+        Open Database License</a> (ODbL).
       too_large:
         advice: 'Αν η εξαγωγή αποτυγχάνει, παρακαλώ δοκιμάστε μία από τις πηγές που
           αναφέρονται παρακάτω:'
@@ -1636,7 +1683,7 @@ el:
         να τεκμηριώσετε θέματα χαρτογράφησης συνεργατικά.
       welcome:
         url: /welcome
-        title: Καλώς ήλθατε στο OSM
+        title: Καλώς ήλθατε στο OpenStreetMap
         description: Ξεκινήστε με αυτές τις σύντομες οδηγίες που καλύπτουν τα βασικά
           του OpenStreetMap.
       beginners_guide:
@@ -1647,7 +1694,7 @@ el:
         url: https://help.openstreetmap.org/
         title: help.openstreetmap.org
         description: Κάντε μία ερώτηση ή αναζητήσετε απαντήσεις στην ιστοσελίδα ερωτήσεων
-          και απαντήσεων του OSM.
+          και απαντήσεων του OpenStreetMap.
       mailing_lists:
         title: Λίστες Αλληλογραφίας
         description: Κάντε μία ερώτηση ή συζητήστε ενδιαφέροντα θέματα σε ένα ευρύ
@@ -1672,7 +1719,7 @@ el:
       wiki:
         url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
-        description: Περιηγηθείτε το wiki για επιμελής τεκμηρίωση του OSM.
+        description: Περιηγηθείτε το wiki για επιμελής τεκμηρίωση του OpenStreetMap.
     sidebar:
       search_results: Αποτελέσματα Αναζήτησης
       close: Κλείσιμο
@@ -1873,6 +1920,8 @@ el:
       visibility: 'Ορατότητα:'
       visibility_help: τι σημαίνει αυτό;
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
+    update:
+      updated: Το ίχνος ενημερώθηκε
     trace_optionals:
       tags: Χαρακτηριστικά
     show:
@@ -1901,7 +1950,9 @@ el:
       newer: Νεότερα Ίχνη
     trace:
       pending: ΕΚΚΡΕΜΕΙ
-      count_points: '%{count} σημεία'
+      count_points:
+        one: 1 σημείο
+        other: '%{count} σημεία'
       more: περισσότερα
       trace_details: Προβολή Λεπτομερειών Ίχνους
       view_map: Προβολή Χάρτη
@@ -1926,7 +1977,7 @@ el:
       upload_trace: Αποστολή ίχνους
       see_all_traces: Δείτε όλα τα ίχνη
       see_my_traces: Δες τα ίχνη μου
-    delete:
+    destroy:
       scheduled_for_deletion: Το ίχνος προγραμματίστηκε για διαγραφή
     make_public:
       made_public: Το ίχνος έγινε δημόσιο
@@ -1944,6 +1995,8 @@ el:
         other: αρχείο GPX με %{count} σημεία από %{user}
       description_without_count: Αρχείο GPX από τον χρήστη %{user}
   application:
+    permission_denied: Δεν έχετε τα απαραίτητα δικαιώματα για πρόσβαση σε αυτήν την
+      ενέργεια
     require_cookies:
       cookies_needed: Φαίνεται ότι έχετε τα cookies απενεργοποιημένα - παρακαλούμε
         ενεργοποιήστε τα cookies στο πρόγραμμα περιήγησής σας πριν συνεχίσετε.
@@ -1961,9 +2014,9 @@ el:
   oauth:
     authorize:
       title: Επιτρέψτε την πρόσβαση στο λογαριασμό σας
-      request_access: Η εφαρμογή %{app_name} ζητά πρόσβαση στον λογαριασμό σας, %{user}.
-        Παρακαλώ ελέγξτε κατά πόσο θέλετε η εφαρμογή τις παρακάτω δυνατότητες. Μπορείτε
-        να επιλέξετε όσο πολλές ή λίγες θέλετε.
+      request_access_html: Η εφαρμογή %{app_name} ζητά πρόσβαση στον λογαριασμό σας,
+        %{user}. Παρακαλώ ελέγξτε κατά πόσο θέλετε η εφαρμογή τις παρακάτω δυνατότητες.
+        Μπορείτε να επιλέξετε όσο πολλές ή λίγες θέλετε.
       allow_to: 'Επιτρέψτε στην εφαρμογή πελάτη να:'
       allow_read_prefs: διαβάσει τις προτιμήσεις σας.
       allow_write_prefs: τροποποιήσει τις προτιμήσεις χρήστη.
@@ -1976,7 +2029,8 @@ el:
       grant_access: Παροχή Πρόσβασης
     authorize_success:
       title: Επιτρέπεται το αίτημα εξουσιοδότησης
-      allowed: Παραχωρήσατε στην εφαρμογή %{app_name} πρόσβαση στον λογαριασμό σας.
+      allowed_html: Παραχωρήσατε στην εφαρμογή %{app_name} πρόσβαση στον λογαριασμό
+        σας.
       verification: Ο κωδικός επαλήθευσης είναι %{code}.
     authorize_failure:
       title: Η αίτηση επαλήθευσης απέτυχε
@@ -2018,9 +2072,10 @@ el:
       issued_at: Εκδόθηκε Στις
       revoke: Ανακαλέστε!
       my_apps: Οι Εφαρμογές Πελάτη Μου
-      no_apps: Έχετε ένα πρόγραμμα που θα θέλατε να εισάγετε για χρήση μαζί μας χρησιμοποιώντας
-        την παράμετρο %{oauth}; Πρέπει να εισάγετε την εφαρμογή δικτύου σας πριν ζητήσει
-        το OAuth για αυτήν την υπηρεσία.
+      no_apps_html: Έχετε ένα πρόγραμμα που θα θέλατε να εισάγετε για χρήση μαζί μας
+        χρησιμοποιώντας την παράμετρο %{oauth}; Πρέπει να εισάγετε την εφαρμογή δικτύου
+        σας πριν ζητήσει το OAuth για αυτήν την υπηρεσία.
+      oauth: OAuth
       registered_apps: 'Έχετε τις παρακάτω εφαρμογές πελάτη καταχωρημένες:'
       register_new: Καταχωρήστε την εφαρμογή σας
     form:
@@ -2052,7 +2107,7 @@ el:
       heading: Σύνδεση
       email or username: 'Διεύθυνση Ηλ. Ταχυδρομείου ή Όνομα Χρήστη:'
       password: 'Κωδικός:'
-      openid: '%{logo} OpenID:'
+      openid_html: '%{logo} OpenID:'
       remember: Να με θυμάσαι
       lost password link: Χάσατε τον κωδικό σας;
       login_button: Σύνδεση
@@ -2129,7 +2184,7 @@ el:
       title: Εγγραφή
       no_auto_account_create: Δυστυχώς δεν μπορούμε να δημιουργήσουμε αυτόματα έναν
         λογαριασμό για εσάς.
-      contact_webmaster: Επικοινωνήστε με τον <a href="%{webmaster}">webmaster</a>
+      contact_webmaster_html: Επικοινωνήστε με τον <a href="%{webmaster}">webmaster</a>
         για να κανονίσετε για τη δημιουργία ενός λογαριασμού - θα προσπαθήσουμε να
         ικανοποιήσουμε το αίτημά σας το συντομότερο δυνατόν.
       about:
@@ -2143,10 +2198,10 @@ el:
         συνεισφοράς</a>.
       email address: 'Διεύθυνση Ηλ. Ταχυδρομείου:'
       confirm email address: 'Επιβεβαίωση Διεύθυνσης Ηλ. Ταχυδρομείου:'
-      not displayed publicly: Η διεύθυνση σου δεν εμφανίζεται δημόσια (βλέπετε την
-        <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy
-        policy including section on email addresses">πολιτική απορρήτου</a> για περισσότερες
-        πληροφορίες)
+      not_displayed_publicly_html: Η διεύθυνση σου δεν εμφανίζεται δημόσια (βλέπετε
+        την <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
+        privacy policy including section on email addresses">πολιτική απορρήτου</a>
+        για περισσότερες πληροφορίες)
       display name: 'Εμφανιζόμενο όνομα:'
       display name description: Το δημόσια εμφανιζόμενο όνομα χρήστη. Μπορείτε να
         το αλλάξετε αργότερα από τις προτιμήσεις.
@@ -2162,8 +2217,9 @@ el:
         όρους συνεισφοράς. Για περισσότερες πληροφορίες, παρακαλούμε δείτε <a href="%{url}">αυτήν
         τη σελίδα wiki</a>.
     terms:
-      title: Όροι συνεισφοράς
-      heading: Όροι συνεισφοράς
+      title: Όροι
+      heading: Όροι
+      heading_ct: Όροι συνεισφοράς
       read and accept with tou: Παρακαλώ διαβάστε τους όρους συνεισφοράς και όρους
         χρήσης, επιλέξτε τα δυο πλαίσια ελέγχου όταν έχετε τελειώσει και πατήστε το
         κουμπί για να συνεχίσετε.
@@ -2172,10 +2228,10 @@ el:
         υποδομής που προσφέρει η OSMF. Παρακαλώ ακολουθήστε τον σύνδεσμο, διαβάστε
         και αποδεχτείτε το κείμενο.
       read_tou: Έχω διαβάσει και αποδέχομαι τους όρους χρήσης
-      consider_pd: Και επιπρόσθετα στην παραπάνω συμφωνία, θεωρώ τις συνεισφορές μου
-        ως Public Domain
+      consider_pd: Και επιπρόσθετα στην παραπάνω συμφωνία, καταστώ τις συνεισφορές
+        μου στο κοινό κτήμα (για ελεύθερη χρήση)
       consider_pd_why: τι είναι αυτό;
-      guidance: Πληροφορίες για να καταλάβετε αυτούς τους όρους:μία <href="%{summary}">
+      guidance_html: Πληροφορίες για να καταλάβετε αυτούς τους όρους:μία <href="%{summary}">
         αναγνώσιμη περίληψη</a>και μερικές <a href=''%{translations}''>ανεπίσημες
         μεταφράσεις </a>
       continue: Συνέχεια
@@ -2225,7 +2281,7 @@ el:
       spam score: 'Σκορ Spam:'
       description: Περιγραφή
       user location: Τοποθεσία χρήστη
-      if set location: Ορίσετε την τοποθεσία του σπιτιού σας στις %{settings_link}
+      if_set_location_html: Ορίσετε την τοποθεσία του σπιτιού σας στις %{settings_link}
         για να δείτε κοντινούς χρήστες.
       settings_link_text: ρυθμίσεις
       my friends: Οι φίλοι μου
@@ -2285,7 +2341,7 @@ el:
         disabled link text: γιατί δεν μπορώ να επεξεργαστώ τον χάρτη;
       public editing note:
         heading: 'Δημόσια επεξεργασία:'
-        text: Αυτήν τη στιγμή οι επεξεργασίες σας είναι ανώνυμες και δεν μπορεί κανείς
+        html: Αυτήν τη στιγμή οι επεξεργασίες σας είναι ανώνυμες και δεν μπορεί κανείς
           να σας στείλει μήνυμα ή να δει την τοποθεσία σας. Για να δείξετε τι έχετε
           επεξεργαστεί και να επιτρέψετε στους άλλους έρθουν σε επαφή μαζί σας μέσω
           του ιστοχώρου, πατήστε το κουμπί από κάτω. <b>Μετά την αλλαγή σε API 0.6,
@@ -2382,8 +2438,9 @@ el:
       showing:
         one: Σελίδα %{page} (%{first_item} από %{items})
         other: Σελίδα %{page} (%{first_item}-%{last_item} από %{items})
-      summary: '%{name} δημιουργήθηκε από την διεύθυνση IP %{ip_address} στις %{date}'
-      summary_no_ip: '%{name} δημιουργήθηκε στις %{date}'
+      summary_html: '%{name} δημιουργήθηκε από την διεύθυνση IP %{ip_address} στις
+        %{date}'
+      summary_no_ip_html: '%{name} δημιουργήθηκε στις %{date}'
       confirm: Επιβεβαίωση Επιλεγμένων Χρηστών
       hide: Απόκρυψη Επιλεγμένων Χρηστών
       empty: Δεν βρέθηκαν χρήστες που να ταιριάζουν
@@ -2391,7 +2448,7 @@ el:
       title: Ο Λογαριασμός έχει Ανασταλεί
       heading: Ο Λογαριασμός έχει Ανασταλεί
       webmaster: webmaster
-      body: |-
+      body_html: |-
         <p>
         Λυπάμαι, ο λογαριασμός σας έχει αυτόματα ανασταλεί λόγω
         ύποπτης δραστηριότητας.
@@ -2447,7 +2504,7 @@ el:
       back: Επιστροφή στο ευρετήριο
     new:
       title: Δημιουργία φραγής στον %{name}
-      heading: Δημιουργία φραγής στον %{name}
+      heading_html: Δημιουργία φραγής στον %{name}
       reason: Η αιτία αποκλεισμού του/της %{name}. Παρακαλώ να είστε όσο το δυνατόν
         πιο ήρεμος/-η και λογικός/-ή, δίνοντας όσες περισσότερες λεπτομέρειες μπορείτε
         για την κατάσταση και σκεπτόμενος/-η ότι το μήνυμα θα είναι δημόσια ορατό.
@@ -2461,7 +2518,7 @@ el:
       back: Προβολή όλων των φραγών
     edit:
       title: Επεξεργασία φραγής στον %{name}
-      heading: Επεξεργασία φραγής στον %{name}
+      heading_html: Επεξεργασία φραγής στον %{name}
       reason: Η αιτία αποκλεισμού του/της %{name}. Παρακαλώ να είστε όσο το δυνατόν
         πιο ήρεμος/-η και λογικός/-ή, δίνοντας όσες περισσότερες λεπτομέρειες μπορείτε
         για την κατάσταση. Να έχετε υπόψη σας ότι δεν κατανοούν όλοι οι χρήστες την
@@ -2491,7 +2548,7 @@ el:
       empty: Δεν έχουν γίνει ακόμα φραγές.
     revoke:
       title: Ανάκληση φραγής του/της %{block_on}
-      heading: Ανάκληση φραγής του/της %{block_on} από τον/την %{block_by}
+      heading_html: Ανάκληση φραγής του/της %{block_on} από τον/την %{block_by}
       time_future: Αυτή η φραγή θα λήξει στις %{time}.
       past: Αυτή η φραγή τελείωσε %{time} και δεν μπορεί να ανακληθεί τώρα.
       confirm: Είστε σίγουρος πως επιθυμείτε να ανακαλέσετε αυτή τη φραγή;
@@ -2507,17 +2564,29 @@ el:
         hours:
           one: 1 ώρα
           other: '%{count} ώρες'
+        days:
+          one: 1 ημέρα
+          other: '%{count} ημέρες'
+        weeks:
+          one: 1 εβδομάδα
+          other: '%{count} εβδομάδες'
+        months:
+          one: 1 μήνας
+          other: '%{count} μήνες'
+        years:
+          one: 1 χρόνος
+          other: '%{count} χρόνια'
     blocks_on:
       title: Φραγές στον %{name}
-      heading: Κατάλογος φραγών στον %{name}
+      heading_html: Κατάλογος φραγών στον %{name}
       empty: Ο %{name} δεν έχει φραχτεί ακόμα.
     blocks_by:
       title: Φραγές από τον %{name}
-      heading: Κατάλογος φραγών από τον %{name}
+      heading_html: Κατάλογος φραγών από τον %{name}
       empty: Ο %{name} δεν έχει κάνει φραγή ακόμα.
     show:
       title: Ο %{block_on} έχει φραχτεί από τον %{block_by}
-      heading: Ο %{block_on} έχει φραχτεί από τον %{block_by}
+      heading_html: Ο %{block_on} έχει φραχτεί από τον %{block_by}
       created: Δημιουργήθηκε
       status: Κατάσταση
       show: Εμφάνιση
@@ -2586,6 +2655,8 @@ el:
         out: Σμίκρυνση
       locate:
         title: Προβολή της Τοποθεσίας μου
+        metersUnit: μέτρα
+        feetUnit: πόδια
         popup: Είστε μεταξύ {distance} {unit} από αυτό το σημείο
       base:
         standard: Κανονικός
@@ -2601,6 +2672,7 @@ el:
         title: Στρώματα
       copyright: © <a href='%{copyright_url}'>Συνεισφέροντες του OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Κάνετε Δωρεά</a>
+      terms: <a href='%{terms_url}' target='_blank'>Όροι ιστότοπου και API</a>
     site:
       edit_tooltip: Επεξεργασία του χάρτη
       edit_disabled_tooltip: Κάντε μεγέθυνση για να επεξεργαστείτε το χάρτη
@@ -2777,5 +2849,8 @@ el:
       flash: Η παράληψη καταστραφεί.
       error: Εμφανίστηκε ένα σφάλμα που καταστρέφει αυτή τη σύνταξη.
   validations:
+    leading_whitespace: περιέχει κενό διάστημα στην αρχή
+    trailing_whitespace: περιέχει κενό διάστημα στο τέλος
     invalid_characters: περιέχει μη έγκυρους χαρακτήρες
+    url_characters: περιέχει ειδικούς χαρακτήρες URL (%{characters})
 ...
