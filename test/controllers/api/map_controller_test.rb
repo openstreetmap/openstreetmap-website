@@ -95,16 +95,15 @@ module Api
       assert_response :success, "Expected success with the map call"
       assert_equal "application/json; charset=utf-8", @response.header["Content-Type"]
 
-      # text/json is in invalid format, ActionController::UnknownFormat error is expected
+      # text/json is in invalid format, return HTTP 406 Not acceptable
       http_accept_format("text/json")
       get :index, :params => { :bbox => bbox }
-      assert_response :internal_server_error, "text/json should fail"
+      assert_response :not_acceptable, "text/json should fail"
 
-      # image/jpeg is a format which we don't support, ActionController::UnknownFormat error is expected
-      # HTTP 406 Not acceptable would be the correct response error code. That's outside of our control though.
+      # image/jpeg is a format which we don't support, return HTTP 406 Not acceptable
       http_accept_format("image/jpeg")
       get :index, :params => { :bbox => bbox }
-      assert_response :internal_server_error, "text/json should fail"
+      assert_response :not_acceptable, "text/json should fail"
     end
 
     # -------------------------------------
