@@ -32,7 +32,7 @@ module Api
     ##
     # test http accept headers
     def test_http_accept_header
-      node = create(:node, :lat => 7, :lon => 7)
+      node = create(:node)
 
       minlon = node.lon - 0.1
       minlat = node.lat - 0.1
@@ -97,6 +97,12 @@ module Api
 
       # text/json is in invalid format, ActionController::UnknownFormat error is expected
       http_accept_format("text/json")
+      get :index, :params => { :bbox => bbox }
+      assert_response :internal_server_error, "text/json should fail"
+
+      # image/jpeg is a format which we don't support, ActionController::UnknownFormat error is expected
+      # HTTP 406 Not acceptable would be the correct response error code. That's outside of our control though.
+      http_accept_format("image/jpeg")
       get :index, :params => { :bbox => bbox }
       assert_response :internal_server_error, "text/json should fail"
     end

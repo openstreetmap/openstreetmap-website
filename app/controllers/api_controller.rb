@@ -45,6 +45,10 @@ class ApiController < ApplicationController
           request.format = "xml"
           break
         end
+
+        # In case the client requests some other format besides XML, JSON and */*,
+        # we deliberately don't set request.format. The framework will return an
+        # ActionController::UnknownFormat error to the client later on in this case.
       end
     end
   end
