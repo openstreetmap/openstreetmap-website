@@ -1,4 +1,4 @@
-json.partial! "api/map/root_attributes"
+json.partial! "api/root_attributes"
 
 all = @nodes + @ways + @relations
 
