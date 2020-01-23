@@ -1,12 +1,26 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
 
 --
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
@@ -112,6 +126,87 @@ CREATE TYPE public.user_status_enum AS ENUM (
     'suspended',
     'deleted'
 );
+
+
+--
+-- Name: maptile_for_point(bigint, bigint, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.maptile_for_point(scaled_lat bigint, scaled_lon bigint, zoom integer) RETURNS integer
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
+DECLARE
+  lat CONSTANT DOUBLE PRECISION := scaled_lat / 10000000.0;
+  lon CONSTANT DOUBLE PRECISION := scaled_lon / 10000000.0;
+  zscale CONSTANT DOUBLE PRECISION := 2.0 ^ zoom;
+  pi CONSTANT DOUBLE PRECISION := 3.141592653589793;
+  r_per_d CONSTANT DOUBLE PRECISION := pi / 180.0;
+  x int4;
+  y int4;
+BEGIN
+  -- straight port of the C code. see db/functions/maptile.c
+  x := floor((lon + 180.0) * zscale / 360.0);
+  y := floor((1.0 - ln(tan(lat * r_per_d) + 1.0 / cos(lat * r_per_d)) / pi) * zscale / 2.0);
+
+  RETURN (x << zoom) | y;
+END;
+$$;
+
+
+--
+-- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.tile_for_point(scaled_lat integer, scaled_lon integer) RETURNS bigint
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
+DECLARE
+  x int8; -- quantized x from lon,
+  y int8; -- quantized y from lat,
+BEGIN
+  x := round(((scaled_lon / 10000000.0) + 180.0) * 65535.0 / 360.0);
+  y := round(((scaled_lat / 10000000.0) +  90.0) * 65535.0 / 180.0);
+
+  -- these bit-masks are special numbers used in the bit interleaving algorithm.
+  -- see https://graphics.stanford.edu/~seander/bithacks.html#InterleaveBMN
+  -- for the original algorithm and more details.
+  x := (x | (x << 8)) &   16711935; -- 0x00FF00FF
+  x := (x | (x << 4)) &  252645135; -- 0x0F0F0F0F
+  x := (x | (x << 2)) &  858993459; -- 0x33333333
+  x := (x | (x << 1)) & 1431655765; -- 0x55555555
+
+  y := (y | (y << 8)) &   16711935; -- 0x00FF00FF
+  y := (y | (y << 4)) &  252645135; -- 0x0F0F0F0F
+  y := (y | (y << 2)) &  858993459; -- 0x33333333
+  y := (y | (y << 1)) & 1431655765; -- 0x55555555
+
+  RETURN (x << 1) | y;
+END;
+$$;
+
+
+--
+-- Name: xid_to_int4(xid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.xid_to_int4(t xid) RETURNS integer
+    LANGUAGE plpgsql STRICT
+    AS $$
+DECLARE
+  tl bigint;
+  ti int;
+BEGIN
+  tl := t;
+
+  IF tl >= 2147483648 THEN
+    tl := tl - 4294967296;
+  END IF;
+
+  ti := tl;
+
+  RETURN ti;
+END;
+$$;
 
 
 SET default_tablespace = '';
@@ -1053,7 +1148,7 @@ CREATE TABLE public.microcosms (
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    slug character varying,
+    slug character varying NOT NULL,
     location character varying NOT NULL,
     lat integer NOT NULL,
     lon integer NOT NULL,
@@ -2078,14 +2173,6 @@ ALTER TABLE ONLY public.microcosm_members
 
 ALTER TABLE ONLY public.microcosms
     ADD CONSTRAINT microcosms_pkey PRIMARY KEY (id);
-
-
---
--- Name: microcosms microcosms_slug_null; Type: CHECK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE public.microcosms
-    ADD CONSTRAINT microcosms_slug_null CHECK ((slug IS NOT NULL)) NOT VALID;
 
 
 --
