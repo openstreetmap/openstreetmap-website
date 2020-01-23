@@ -190,7 +190,7 @@ $$;
 --
 
 CREATE FUNCTION public.xid_to_int4(t xid) RETURNS integer
-    LANGUAGE plpgsql STRICT
+    LANGUAGE plpgsql IMMUTABLE STRICT
     AS $$
 DECLARE
   tl bigint;
@@ -1148,7 +1148,7 @@ CREATE TABLE public.microcosms (
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    slug character varying NOT NULL,
+    slug character varying,
     location character varying NOT NULL,
     lat integer NOT NULL,
     lon integer NOT NULL,
@@ -2173,6 +2173,14 @@ ALTER TABLE ONLY public.microcosm_members
 
 ALTER TABLE ONLY public.microcosms
     ADD CONSTRAINT microcosms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: microcosms microcosms_slug_null; Type: CHECK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE public.microcosms
+    ADD CONSTRAINT microcosms_slug_null CHECK ((slug IS NOT NULL)) NOT VALID;
 
 
 --
