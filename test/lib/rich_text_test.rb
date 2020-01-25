@@ -8,14 +8,14 @@ class RichTextTest < ActiveSupport::TestCase
     assert_html r do
       assert_select "a", 1
       assert_select "a[href='http://example.com/']", 1
-      assert_select "a[rel='nofollow noopener noreferer']", 1
+      assert_select "a[rel='nofollow noopener noreferrer']", 1
     end
 
     r = RichText.new("html", "foo <a href='http://example.com/'>bar</a> baz")
     assert_html r do
       assert_select "a", 1
       assert_select "a[href='http://example.com/']", 1
-      assert_select "a[rel='nofollow noopener noreferer']", 1
+      assert_select "a[rel='nofollow noopener noreferrer']", 1
     end
 
     r = RichText.new("html", "foo example@example.com bar")
@@ -27,7 +27,7 @@ class RichTextTest < ActiveSupport::TestCase
     assert_html r do
       assert_select "a", 1
       assert_select "a[href='mailto:example@example.com']", 1
-      assert_select "a[rel='nofollow noopener noreferer']", 1
+      assert_select "a[rel='nofollow noopener noreferrer']", 1
     end
 
     r = RichText.new("html", "foo <div>bar</div> baz")
@@ -64,28 +64,28 @@ class RichTextTest < ActiveSupport::TestCase
     assert_html r do
       assert_select "a", 1
       assert_select "a[href='http://example.com/']", 1
-      assert_select "a[rel='nofollow noopener noreferer']", 1
+      assert_select "a[rel='nofollow noopener noreferrer']", 1
     end
 
     r = RichText.new("markdown", "foo [bar](http://example.com/) baz")
     assert_html r do
       assert_select "a", 1
       assert_select "a[href='http://example.com/']", 1
-      assert_select "a[rel='nofollow noopener noreferer']", 1
+      assert_select "a[rel='nofollow noopener noreferrer']", 1
     end
 
     r = RichText.new("markdown", "foo example@example.com bar")
     assert_html r do
       assert_select "a", 1
       assert_select "a[href='mailto:example@example.com']", 1
-      assert_select "a[rel='nofollow noopener noreferer']", 1
+      assert_select "a[rel='nofollow noopener noreferrer']", 1
     end
 
     r = RichText.new("markdown", "foo [bar](mailto:example@example.com) bar")
     assert_html r do
       assert_select "a", 1
       assert_select "a[href='mailto:example@example.com']", 1
-      assert_select "a[rel='nofollow noopener noreferer']", 1
+      assert_select "a[rel='nofollow noopener noreferrer']", 1
     end
 
     r = RichText.new("markdown", "foo ![bar](http://example.com/example.png) bar")
@@ -162,7 +162,7 @@ class RichTextTest < ActiveSupport::TestCase
     assert_html r do
       assert_select "a", 1
       assert_select "a[href='http://example.com/']", 1
-      assert_select "a[rel='nofollow noopener noreferer']", 1
+      assert_select "a[rel='nofollow noopener noreferrer']", 1
     end
 
     r = RichText.new("text", "foo example@example.com bar")
