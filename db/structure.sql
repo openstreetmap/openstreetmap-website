@@ -190,7 +190,7 @@ $$;
 --
 
 CREATE FUNCTION public.xid_to_int4(t xid) RETURNS integer
-    LANGUAGE plpgsql IMMUTABLE STRICT
+    LANGUAGE plpgsql STRICT
     AS $$
 DECLARE
   tl bigint;
