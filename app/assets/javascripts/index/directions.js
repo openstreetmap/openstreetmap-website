@@ -145,10 +145,10 @@ OSM.Directions = function (map) {
         to = endpoints[1].latlng,
         routeFrom = "",
         routeTo = "";
-    if(from){
+    if (from){
       routeFrom = from.lat + "," + from.lng;
     }
-    if(to){
+    if (to){
       routeTo = to.lat + "," + to.lng;
     }
 
