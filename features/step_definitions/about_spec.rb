@@ -79,9 +79,10 @@ And("I set the microcosm in {string} to {string}, {string}, {string}") do |scope
   end
 end
 
-And("I set the event to {string}, {string}, {string}") do |title, location, description|
+And("I set the event to {string}, {string}, {string}, {string}") do |title, moment, location, description|
   within("#content") do
     fill_in "Title", :with => title
+    fill_in "When", :with => moment
     fill_in "Location", :with => location
     fill_in "Description", :with => description
   end

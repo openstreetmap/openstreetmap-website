@@ -10,7 +10,9 @@
       <%= t(".hosted_by") %>: <strong><%= link_to @event.microcosm.name, microcosm_path(@event.microcosm) %></strong>
     </p>
     <p>
-      <%= t(".organized_by") %>: <strong>Andrew Wiseman</strong>
+      <%= t(".organized_by") %>: <% @event.organizers.each do |organizer| %>
+        <strong><%= link_to organizer.user.display_name, user_path(organizer.user)  %></strong>
+      <% end %>
     </p>
   </div>
   <div>

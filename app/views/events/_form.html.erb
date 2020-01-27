@@ -15,7 +15,9 @@
   </div>
   <div class="form-row">
     <%= form.label :moment, :class => "standard-label" %>
-    <%= form.datetime_select :moment, :id => :event_moment %>
+    <%= form.datetime_field :moment, pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" %>
+    <span>If your browser doesn't <a href="https://caniuse.com/#search=datetime-local">provide a
+      widget</a> here, enter the date/time in this format yyyy-mm-ddThh:mm.</span>
   </div>
   <div class="form-row">
     <%= form.label :location, :class => "standard-label" %>

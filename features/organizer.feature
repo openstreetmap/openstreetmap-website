@@ -43,7 +43,13 @@ Feature: Manage a Microcosm
     And I am on the microcosm "MappingDC" page
     And I click "Upcoming Events"
     And I click "new event"
-    And I set the event to "Update DC Bike Lanes", "DC Library", "We will update the dc bike lane data in OSM."
+    And I set the event to "Update DC Bike Lanes", "2030-01-20T12:34", "DC Library", "We will update the dc bike lane data in OSM."
     And I submit the form
     And I am on the microcosm "MappingDC" page
     Then I should see "Update DC Bike Lanes"
+    And I click "Update DC Bike Lanes"
+    Then I should see "Update DC Bike Lanes"
+    And I should see "Location: DC Library"
+    And I should see "Description: We will update the dc bike lane data in OSM."
+    And I should see "Organized by: Abe"
+    And I should see "20 January 2030 at 12:34"
