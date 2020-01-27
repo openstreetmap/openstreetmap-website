@@ -100,7 +100,7 @@ There are various hosting options:
 
 ### Events
 
-- [ ] Organize an event
+- [x] Organize an event
 - [ ] Generate Field Papers (Survey Papers)
 
 ### Membership
