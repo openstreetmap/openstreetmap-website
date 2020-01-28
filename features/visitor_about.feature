@@ -51,3 +51,20 @@ Feature: Learn about the Microcosm
     And I should see a "Join" button
     And I press "Join"
     Then I should see "Abraham"
+
+
+  Scenario: See upcoming events
+    Given there is a user "abe@example.com" with name "Abe"
+    And this user is an organizer of this microcosm
+    When user "abe@example.com" logs in
+    And I am on the microcosm "MappingDC" page
+    And I click "Upcoming Events"
+    And I click "new event"
+    And I set the event to "Update DC Bike Lanes", "2030-01-20T12:34", "DC Library", "We will update the dc bike lane data in OSM."
+    And I submit the form
+    And I logout
+    And I am on the microcosm "MappingDC" page
+    And I click "Upcoming Events"
+    Then I should see "Update DC Bike Lanes"
+    When I am on the all events page
+    Then I should see "Update DC Bike Lanes"

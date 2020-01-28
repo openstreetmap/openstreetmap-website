@@ -41,6 +41,10 @@ Given("I am on this event page") do
   visit event_path(@the_event)
 end
 
+Given("I am on the all events page") do
+  visit events_path
+end
+
 # The lines like "The microcosm HAS..." are not behavior driven because it's using @varibles.
 
 Given("the microcosm has the {string} page {string}") do |site, url|
@@ -163,4 +167,8 @@ end
 
 Given("there is a user {string} with name {string}") do |username, name|
   @the_user = create(:user, :email => username, :display_name => name)
+end
+
+When("I logout") do
+  visit logout_path
 end

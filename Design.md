@@ -50,7 +50,8 @@ There are various hosting options:
 
 ### About the microcosm events
 
-- [x] See upcoming events
+- [x] See upcoming events for a microcosm
+- [x] See all upcoming events
 - [ ] See past events
 
 ### About the microcosm projects
