@@ -303,6 +303,7 @@ $(document).ready(function () {
     var page = {};
 
     page.pushstate = page.popstate = function () {
+      $("#view_tab").addClass("current");
       map.setSidebarOverlaid(true);
       document.title = I18n.t("layouts.project_name.title");
     };
@@ -316,6 +317,10 @@ $(document).ready(function () {
         $("#sidebar .search_form input[name=query]").focus();
       }
       return map.getState();
+    };
+
+    page.unload = function () {
+      $("#view_tab").removeClass("current");
     };
 
     return page;
