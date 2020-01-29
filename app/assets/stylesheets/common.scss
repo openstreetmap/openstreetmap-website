@@ -205,6 +205,17 @@ nav.primary {
       }
     }
   }
+
+  // Small tweaks to the toggle to stop the primary colour showing through
+  // when the menu is shown
+  .show > .btn-outline-primary.dropdown-toggle {
+    background-color: $green;
+    border-color: $green;
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem fade-out($green, 0.5);
+    }
+  }
 }
 
 nav.secondary {
@@ -232,6 +243,16 @@ nav.secondary {
       border-color: $grey;
       &:hover {
         border-color: $grey;
+      }
+      &:focus {
+        background-color: white;
+        box-shadow: none;
+      }
+    }
+    &.show .btn-outline-secondary {
+      background-color: white;
+      &:focus {
+        box-shadow: none;
       }
     }
   }
