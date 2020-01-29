@@ -11,105 +11,100 @@
   <a href="#" id="menu-icon"></a>
   <nav class='primary'>
     <%= content_for :header %>
-    <ul>
-      <li id="edit_tab" class="dropdown <%= current_page_class(edit_path) %>">
+    <div class="btn-group">
+      <div id="edit_tab" class="btn-group <%= current_page_class(edit_path) %>">
         <%= link_to t("layouts.edit"),
                     edit_path,
-                    :class => "tab geolink editlink",
+                    :class => "btn btn-outline-primary geolink editlink",
                     :id => "editanchor",
                     :data => { :editor => preferred_editor } %>
-        <a class='dropdown-toggle' data-toggle='dropdown' href='#'><b class="caret"></b></a>
+        <a class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split' data-toggle='dropdown' href='#'></a>
         <ul class='dropdown-menu'>
           <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
             <li>
               <%= link_to t("layouts.edit_with", :editor => t("editor.#{editor}.description")),
                           edit_path(:editor => editor),
                           :data => { :editor => editor },
-                          :class => "geolink editlink" %>
+                          :class => "geolink editlink dropdown-item" %>
             </li>
           <% end %>
         </ul>
-      </li>
-      <li id="history_tab" class="<%= current_page_class(history_path) %>">
-        <%= link_to t("layouts.history"), history_path, :class => "tab geolink" %>
-      </li>
-      <li id="export_tab" class="<%= current_page_class(export_path) %>">
-        <%= link_to t("layouts.export"), export_path, :class => "tab geolink" %>
-      </li>
-    </ul>
+      </div>
+      <%= link_to t("layouts.history"), history_path, :class => "btn btn-outline-primary geolink flex-grow-1 current_page_class(history_path)", :id => "history_tab" %>
+      <%= link_to t("layouts.export"), export_path, :class => "btn btn-outline-primary geolink current_page_class(export_path)", :id => "export_tab" %>
+    </div>
   </nav>
   <nav class='secondary'>
-    <ul>
+    <ul class='mx-1 px-0'>
       <% if can? :index, Issue %>
-        <li class="compact-hide <%= current_page_class(issues_path) %>">
-          <%= link_to issues_path(:status => "open") do %>
+        <li class="compact-hide nav-item <%= current_page_class(issues_path) %>">
+          <%= link_to issues_path(:status => "open"), :class => "nav-link" do %>
             <%= t("layouts.issues") %>
             <%= open_issues_count %>
           <% end -%>
         </li>
       <% end %>
-      <li class="compact-hide <%= current_page_class(traces_path) %>"><%= link_to t("layouts.gps_traces"), traces_path %></li>
-      <li class="compact-hide <%= current_page_class(diary_entries_path) %>"><%= link_to t("layouts.user_diaries"), diary_entries_path %></li>
-      <li class="compact-hide <%= current_page_class(copyright_path) %>"><%= link_to t("layouts.copyright"), copyright_path %></li>
-      <li class="compact-hide <%= current_page_class(help_path) %>"><%= link_to t("layouts.help"), help_path %></li>
-      <li class="compact-hide <%= current_page_class(about_path) %>"><%= link_to t("layouts.about"), about_path %></li>
-      <li id="compact-secondary-nav" class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= t "layouts.more" %> <b class="caret"></b></a>
+      <li class="compact-hide nav-item <%= current_page_class(traces_path) %>">
+        <%= link_to t("layouts.gps_traces"), traces_path, :class => "nav-link" %>
+      </li>
+      <li class="compact-hide nav-item <%= current_page_class(diary_entries_path) %>">
+        <%= link_to t("layouts.user_diaries"), diary_entries_path, :class => "nav-link" %>
+      </li>
+      <li class="compact-hide nav-item <%= current_page_class(copyright_path) %>">
+        <%= link_to t("layouts.copyright"), copyright_path, :class => "nav-link" %>
+      </li>
+      <li class="compact-hide nav-item <%= current_page_class(help_path) %>">
+        <%= link_to t("layouts.help"), help_path, :class => "nav-link" %>
+      </li>
+      <li class="compact-hide nav-item <%= current_page_class(about_path) %>">
+        <%= link_to t("layouts.about"), about_path, :class => "nav-link" %>
+      </li>
+      <li id="compact-secondary-nav" class="dropdown nav-item">
+        <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#"><%= t "layouts.more" %></a>
         <ul class="dropdown-menu">
           <% if Settings.status != "database_offline" && can?(:index, Issue) %>
             <li class="<%= current_page_class(issues_path) %>">
-              <%= link_to issues_path(:status => "open") do %>
-                <%= open_issues_count %>
+              <%= link_to issues_path(:status => "open"), :class => "dropdown-item" do %>
                 <%= t("layouts.issues") %>
+                <%= open_issues_count %>
               <% end -%>
             </li>
           <% end %>
-          <li class="<%= current_page_class(traces_path) %>"><%= link_to t("layouts.gps_traces"), traces_path %></li>
-          <li class="<%= current_page_class(diary_entries_path) %>"><%= link_to t("layouts.user_diaries"), diary_entries_path %></li>
-          <li class="<%= current_page_class(copyright_path) %>"><%= link_to t("layouts.copyright"), copyright_path %></li>
-          <li class="<%= current_page_class(help_path) %>"><%= link_to t("layouts.help"), help_path %></li>
-          <li class="<%= current_page_class(about_path) %>"><%= link_to t("layouts.about"), about_path %></li>
+          <li class="<%= current_page_class(traces_path) %>"><%= link_to t("layouts.gps_traces"), traces_path, :class => "dropdown-item" %></li>
+          <li class="<%= current_page_class(diary_entries_path) %>"><%= link_to t("layouts.user_diaries"), diary_entries_path, :class => "dropdown-item" %></li>
+          <li class="<%= current_page_class(copyright_path) %>"><%= link_to t("layouts.copyright"), copyright_path, :class => "dropdown-item" %></li>
+          <li class="<%= current_page_class(help_path) %>"><%= link_to t("layouts.help"), help_path, :class => "dropdown-item" %></li>
+          <li class="<%= current_page_class(about_path) %>"><%= link_to t("layouts.about"), about_path, :class => "dropdown-item" %></li>
         </ul>
       </li>
     </ul>
     <% if current_user && current_user.id %>
-      <div class='dropdown user-menu logged-in'>
-        <a class='dropdown-toggle' data-toggle='dropdown' href="#">
+      <div class='d-inline-flex dropdown user-menu logged-in clearfix'>
+        <a class='dropdown-toggle btn btn-outline-secondary pl-2 py-1 flex-grow-1' data-toggle='dropdown' href="#">
           <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25) %>
           <%= render :partial => "layouts/inbox" %>
           <span class="user-button">
             <span class='username'>
               <%= current_user.display_name %>
             </span>
-            <b class="caret"></b>
           </span>
         </a>
-        <ul class='dropdown-menu'>
-          <li>
-            <%= link_to inbox_messages_path do %>
-              <span class='count-number'><%= number_with_delimiter(current_user.new_messages.size) %></span>
-              <%= t("users.show.my messages") %>
-            <% end %>
-          </li>
-          <li>
-            <%= link_to t("users.show.my profile"), user_path(current_user) %>
-          </li>
-          <li>
-            <%= link_to t("users.show.my settings"), :controller => "users", :action => "account", :display_name => current_user.display_name %>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <%= yield :greeting %>
-          </li>
-          <li>
-            <%= link_to t("layouts.logout"), logout_path(:referer => request.fullpath), :method => "post", :class => "geolink" %>
-          </li>
-        </ul>
+        <div class='dropdown-menu dropdown-menu-right'>
+          <%= link_to inbox_messages_path, :class => "dropdown-item" do %>
+            <%= t("users.show.my messages") %>
+            <span class='count-number'><%= number_with_delimiter(current_user.new_messages.size) %></span>
+          <% end %>
+          <%= link_to t("users.show.my profile"), user_path(current_user), :class => "dropdown-item" %>
+          <%= link_to t("users.show.my settings"), { :controller => "users", :action => "account", :display_name => current_user.display_name }, { :class => "dropdown-item" } %>
+          <div class="dropdown-divider"></div>
+          <%= yield :greeting %>
+          <%= link_to t("layouts.logout"), logout_path(:referer => request.fullpath), :method => "post", :class => "geolink dropdown-item" %>
+        </div>
       </div>
     <% else %>
-      <ul class="user-menu clearfix">
-        <li><%= link_to t("layouts.log_in"), login_path(:referer => request.fullpath), :class => "geolink" %></li>
-        <li><%= link_to t("layouts.sign_up"), user_new_path %></li>
+      <div class="d-inline-flex btn-group login-menu" role="">
+        <%= link_to t("layouts.log_in"), login_path(:referer => request.fullpath), :class => "geolink btn btn-outline-secondary" %>
+        <%= link_to t("layouts.sign_up"), user_new_path, :class => "btn btn-outline-secondary" %>
       </ul>
     <% end %>
   </nav>
