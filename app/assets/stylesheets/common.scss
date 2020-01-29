@@ -140,7 +140,7 @@ header {
   z-index: 1001;
   font-size: 14px;
 
-  h1, nav, nav > ul, nav > ul > li, .dropdown {
+  h1, nav, nav > ul, nav > ul > li {
     display: inline-block;
   }
 
@@ -179,68 +179,16 @@ header {
       color: #000;
     }
   }
+
+  .btn {
+    font-size: 14px;
+  }
 }
 
+
 nav.primary {
-  > ul {
-    padding: 0;
-    $border: 1px solid $green;
-
-    border: $border;
-    border-radius: $border-radius;
-
-    > li {
-      border-right: $border;
-      float: left;
-      &:last-child {
-        border-right: 0;
-      }
-      > a:hover { background: lighten($green, 30%); }
-      &.current > a:hover { background: $green; }
-      &.disabled > a:hover { background: lighten($green, 38%); }
-      &.dropdown {
-        > a.tab { border-right: 1px solid lighten($green, 30%); }
-        &.current > a.tab { border-right: 1px solid lighten($green, 10%); }
-      }
-    }
-  }
-
-  a.tab,
-  .dropdown-toggle {
-    display: inline-block;
-    font-weight: 500;
-    color: $green;
-    padding: 5px 15px;
-  }
-
-  .dropdown-toggle {
-    padding: 5px 6px;
-  }
-
-  .caret {
-    border-top-color: $green;
-    margin-top: 10px;
-  }
-
-  .disabled a {
-    color: $grey;
-    cursor: default;
-
-    .caret {
-      border-top-color: $grey;
-    }
-  }
-
-  > ul li.current {
-    background-color: $green;
-
-    .tab {
-      color: #fff;
-    }
-
-    .caret {
-      border-top-color: #fff;
-    }
+  .btn-outline-primary {
+    @include button-outline-variant($green, $white);
   }
 }
 
@@ -248,74 +196,32 @@ nav.secondary {
   position: absolute;
   right: 0;
 
-  > ul {
-    vertical-align: middle;
-    margin: 0;
-    padding: 0;
-
-    a, .dropdown-toggle {
-      display: inline-block;
-      text-decoration: none;
-      color: $darkgrey;
-      padding: 5px;
-
-      &:hover { color: darken($darkgrey, 25%); }
-    }
+  .nav-link {
+    padding: 0.2rem;
+    color: $darkgrey;
   }
 
   > ul li.current a {
     color: darken($darkgrey, 25%);
   }
 
-  .user-menu {
-    $border: 1px solid $grey;
-    border: $border;
-    border-radius: $border-radius;
-    margin-left: 10px;
-    padding: 0;
-
-    > li {
-      border-right: $border;
-      float: left;
-      &:last-child {
-        border-right: 0;
-
-        > a {
-          border-radius: 0 $border-radius $border-radius 0;
-        }
-      }
-      &:first-child > a { border-radius: $border-radius 0 0 $border-radius; }
-      &:hover a { background: lighten($darkgrey, 30%); }
-    }
-
-    a {
-      padding: 5px 15px;
-
-    }
-
-    &.logged-in > a {
-      padding: 0;
-      > .user-button {
-        line-height: 1.8;
-        padding: 5px 10px 3px 6px;
-        display: inline-block;
-        color: $darkgrey;
-      }
-      &:hover > .user-button { color: darken($darkgrey, 5%); }
+  .login-menu {
+    .btn-outline-secondary {
+      @include button-outline-variant($darkgrey);
     }
   }
 
-  .caret {
-    border-top-color: $grey;
-    margin-top: 9px;
+  .user-menu {
+    .btn-outline-secondary {
+      @include button-outline-variant($darkgrey, $darkgrey, white, $darkgrey);
+      // @include button-outline-variant($grey, $grey, white, $grey);
+      border-color: $grey;
+    }
   }
 
   img.user_thumbnail_tiny {
     border: 0;
-    vertical-align: top;
-    margin-top: 0px;
-    margin: 4px 0 0 4px;
-    border-radius: 2px;
+    border-radius: 3px;
   }
 
   #inboxanchor {
@@ -329,25 +235,14 @@ nav.secondary {
   }
 
   .dropdown-menu {
-    left: auto;
-    right: -1px;
-    border-radius: 3px 0 3px 3px;
-
     .count-number {
-      float: right;
-      padding: 0 5px;
-      margin: 0;
+      font-size: 14px;
     }
   }
 }
 
 #compact-secondary-nav {
   display: none;
-  ul li a {
-    width: 100%;
-    color: #333;
-    &:hover { color: #fff; }
-  }
 }
 
 body.compact {
@@ -2270,131 +2165,6 @@ input.richtext_title[type="text"] {
 .id-embed {
   width: 100%;
   height: 100%;
-}
-
-/* Rules for dropdown menus */
-
-.dropdown {
-  position: relative;
-}
-
-.dropdown-toggle {
-  *margin-bottom: -3px;
-}
-
-.dropdown-toggle:active,
-.open .dropdown-toggle {
-  outline: 0;
-}
-
-.caret {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  vertical-align: top;
-  border-top: 4px solid #000000;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
-  content: "";
-}
-
-.dropdown .caret {
-  margin-top: 8px;
-  margin-left: 2px;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: -1px;
-  z-index: 1000;
-  display: none;
-  float: left;
-  min-width: 160px;
-  padding: 5px 0;
-  margin: 0;
-  list-style: none;
-  background-color: #ffffff;
-  border: 1px solid $grey;
-  border-radius: 0 3px 3px;
-  *border-right-width: 2px;
-  *border-bottom-width: 2px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  background-clip: padding-box;
-}
-
-.dropdown-menu.pull-right {
-  right: 0;
-  left: auto;
-}
-
-.dropdown-menu .divider {
-  *width: 100%;
-  height: 1px;
-  margin: 9px 1px;
-  *margin: -5px 0 5px;
-  overflow: hidden;
-  background-color: $lightgrey;
-  border-bottom: 1px solid #ffffff;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 10px;
-  clear: both;
-  font-weight: normal;
-  line-height: 20px;
-  color: #333333;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus,
-.dropdown-submenu:hover > a,
-.dropdown-submenu:focus > a {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: $green;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: $green;
-  outline: 0;
-}
-
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: $darkgrey;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: default;
-  background-color: transparent;
-  background-image: none;
-}
-
-.open {
-  *z-index: 1000;
-}
-
-.open > .dropdown-menu {
-  display: block;
-}
-
-.dropdown-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 990;
 }
 
 /* Rules for the "Welcome" page */
