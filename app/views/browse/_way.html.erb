@@ -12,14 +12,14 @@
 
     <% unless way.containing_relation_members.empty? %>
       <h4><%= t "browse.part_of" %></h4>
-      <ul>
+      <ul class="list-unstyled">
         <%= render :partial => "containing_relation", :collection => way.containing_relation_members.uniq %>
       </ul>
     <% end %>
 
     <% unless way.way_nodes.empty? %>
       <h4><%= t ".nodes" %></h4>
-      <ul>
+      <ul class="list-unstyled">
         <% way.way_nodes.each do |wn| %>
           <li>
             <%= link_to printable_name(wn.node), { :action => "node", :id => wn.node_id.to_s }, { :class => link_class("node", wn.node), :title => link_title(wn.node), :rel => link_follow(wn.node) } %>
