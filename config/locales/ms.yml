@@ -8,6 +8,7 @@
 # Author: Macofe
 # Author: Nemo bis
 # Author: Pizza1016
+# Author: SNN95
 # Author: Zulfadli51
 ---
 ms:
@@ -20,6 +21,9 @@ ms:
         create: Simpan
       diary_entry:
         create: Terbitkan
+        update: Kemas kini
+      issue_comment:
+        create: Berikan Komen
       message:
         create: Kirim
       client_application:
@@ -35,6 +39,9 @@ ms:
         create: Buat sekatan
         update: Kemaskinikan sekatan
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: tidak kelihatan sebagai alamat e-mel yang sah
     models:
       acl: Senarai Kawalan Capaian
       changeset: Set Ubah
@@ -102,6 +109,21 @@ ms:
         description: Keterangan
         languages: Bahasa
         pass_crypt: Kata laluan
+  datetime:
+    distance_in_words_ago:
+      about_x_hours: sekitar %{count} jam yang lalu
+      about_x_months: sekitar %{count} bulan yang lalu
+      about_x_years: sekitar %{count} tahun yang lalu
+      almost_x_years: hampir %{count} tahun yang lalu
+      half_a_minute: setengah jam yang lalu
+      less_than_x_seconds: kurang daripada %{count} saat yang lalu
+      less_than_x_minutes: kurang daripada %{count} minit yang lalu
+      over_x_years: lebih %{count} tahun yang lalu
+      x_seconds: '%{count} saat yang lalu'
+      x_minutes: '%{count} minit yang lalu'
+      x_days: '%{count} hari yang lalu'
+      x_months: '%{count} bulan yang lalu'
+      x_years: '%{count} tahun yang lalu'
   editor:
     default: Asali (kini %{name})
     potlatch:
@@ -119,14 +141,14 @@ ms:
   api:
     notes:
       comment:
-        opened_at_html: Dicatatkan %{when} yang lalu
-        opened_at_by_html: Dicatatkan %{when} yang lalu oleh %{user}
-        commented_at_html: Dikemaskinikan %{when} yang lalu
-        commented_at_by_html: Dikemaskinikan %{when} yang lalu oleh %{user}
-        closed_at_html: Diselesaikan %{when} yang lalu
-        closed_at_by_html: Diselesaikan %{when} yang lalu oleh %{user}
-        reopened_at_html: Diaktifkan semula %{when} yang lalu
-        reopened_at_by_html: Diaktifkan semula %{when} yang lalu oleh %{user}
+        opened_at_html: Dicatatkan %{when}
+        opened_at_by_html: Dicatatkan %{when} oleh %{user}
+        commented_at_html: Dikemaskinikan %{when}
+        commented_at_by_html: Dikemaskinikan %{when} oleh %{user}
+        closed_at_html: Diselesaikan %{when}
+        closed_at_by_html: Diselesaikan %{when} oleh %{user}
+        reopened_at_html: Diaktifkan semula %{when}
+        reopened_at_by_html: Diaktifkan semula %{when} oleh %{user}
       rss:
         title: Nota OpenStreetMap
         description_area: Senarai nota yng dilaporkan, diulas atau ditutup di kawasan
@@ -142,12 +164,12 @@ ms:
   browse:
     created: Dicipta
     closed: Ditutup
-    created_html: Dicipta <abbr title='%{title}'>%{time} lalu</abbr>
-    closed_html: Ditutup <abbr title='%{title}'>%{time} lalu</abbr>
-    created_by_html: Dicipta <abbr title='%{title}'>%{time} lalu</abbr> oleh %{user}
-    deleted_by_html: Dihapuskan <abbr title='%{title}'>%{time} lalu</abbr> oleh %{user}
-    edited_by_html: Disunting <abbr title='%{title}'>%{time} lalu</abbr> oleh %{user}
-    closed_by_html: Ditutup <abbr title='%{title}'>%{time} lalu</abbr> oleh %{user}
+    created_html: Dicipta <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Ditutup <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Dicipta <abbr title='%{title}'>%{time}</abbr> oleh %{user}
+    deleted_by_html: Dihapuskan <abbr title='%{title}'>%{time}</abbr> oleh %{user}
+    edited_by_html: Disunting <abbr title='%{title}'>%{time}</abbr> oleh %{user}
+    closed_by_html: Ditutup <abbr title='%{title}'>%{time}</abbr> oleh %{user}
     version: Versi
     in_changeset: Set Ubah
     anonymous: awanama
@@ -167,9 +189,8 @@ ms:
       relation: Hubungan (%{count})
       relation_paginated: Hubungan (%{x}-%{y} / %{count})
       comment: Komen (%{count})
-      hidden_commented_by: Sembunyikan komen dari %{user} <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      commented_by: Komen oleh %{user} <abbr title='%{exact_time}'>%{when} lalu</abbr>
+      hidden_commented_by: Sembunyikan komen dari %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Komen oleh %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML Set Ubah
       osmchangexml: XML osmChange
       feed:
@@ -249,30 +270,26 @@ ms:
       opened_by: Dicipta oleh %{user} <abbr title='%{exact_time}'>%{when} lalu</abbr>
       opened_by_anonymous: Dicipta oleh pengguna awanama <abbr title='%{exact_time}'>%{when}
         lalu</abbr>
-      commented_by: Komen oleh %{user} <abbr title='%{exact_time}'>%{when} lalu</abbr>
-      commented_by_anonymous: Komen oleh pengguna awanama <abbr title='%{exact_time}'>%{when}
-        lalu</abbr>
-      closed_by: Diselesaikan oleh %{user} <abbr title='%{exact_time}'>%{when} lalu</abbr>
-      closed_by_anonymous: Diselesaikan oleh pengguna awanama <abbr title='%{exact_time}'>%{when}
-        lalu</abbr>
-      reopened_by: Diaktifkan semula oleh %{user} <abbr title='%{exact_time}'>%{when}
-        lalu</abbr>
-      reopened_by_anonymous: Diaktifkan semula oleh pengguna awanama <abbr title='%{exact_time}'>%{when}
-        lalu</abbr>
-      hidden_by: Disembunyikan oleh %{user} <abbr title='%{exact_time}'>%{when} lalu</abbr>
+      commented_by: Komen oleh %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Komen oleh pengguna awanama <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Diselesaikan oleh %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Diselesaikan oleh pengguna awanama <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Diaktifkan semula oleh %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Diaktifkan semula oleh pengguna awanama <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Disembunyikan oleh %{user} <abbr title='%{exact_time}'>%{when}</abbr>
     query:
       title: Ciri-ciri pertanyaan
       introduction: Klik pada peta untuk mencari ciri-ciri terdekat.
       nearby: Ciri-ciri terdekat
   changesets:
     changeset_paging_nav:
-      showing_page: Page %{page}
-      next: Berikutnya &raquo;
-      previous: '&laquo; Sebelumnya'
+      showing_page: Halaman %{page}
+      next: Berikutnya »
+      previous: « Sebelumnya
     changeset:
-      anonymous: Tanpa nama
+      anonymous: Awanama
       no_edits: (tiada suntingan)
-      view_changeset_details: Lihat butiran set ubah
+      view_changeset_details: Lihat butiran set perubahan
     changesets:
       id: ID
       saved_at: Disimpan pada
@@ -280,20 +297,24 @@ ms:
       comment: Komen
       area: Kawasan
     index:
-      title: Set Ubah
-      title_user: Set Ubah oleh %{user}
-      title_friend: Set ubah oleh kawan anda
-      title_nearby: Set ubah pengguna berdekatan
-      empty: Tiada set ubah ditemui.
-      empty_area: Tiada set ubah di kawasan ini.
-      empty_user: Tiada set ubah oleh pengguna ini.
-      no_more: Tiada lagi set ubah ditemui.
-      no_more_area: Tiada lagi set ubah di kawasan ini.
-      no_more_user: Tiada lagi set ubah oleh pengguna ini.
+      title: Set perubahan
+      title_user: Set perubahan oleh %{user}
+      title_friend: Set perubahan oleh kawan anda
+      title_nearby: Set perubahan pengguna berdekatan
+      empty: Tiada set perubahan ditemui.
+      empty_area: Tiada set perubahan di kawasan ini.
+      empty_user: Tiada set perubahan oleh pengguna ini.
+      no_more: Tiada lagi set perubahan ditemui.
+      no_more_area: Tiada lagi set perubahan di kawasan ini.
+      no_more_user: Tiada lagi set perubahan oleh pengguna ini.
       load_more: Muatkan banyak lagi
     timeout:
-      sorry: Maaf, senarai set ubah yang anda pohon itu mengambil masa yang terlalu
+      sorry: Maaf, senarai set perubahan yang anda minta mengambil masa yang terlalu
         lama untuk diambil.
+  changeset_comments:
+    comment:
+      comment: 'Komen baru pada set prubahan #%{changeset_id} oleh %{author}'
+      commented_at_by_html: Dikemaskini %{when} oleh %{user}
   diary_entries:
     new:
       title: Catatan Diari Baru
