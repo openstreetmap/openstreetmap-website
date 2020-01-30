@@ -12,7 +12,7 @@
 
     <% unless node.ways.empty? and node.containing_relation_members.empty? %>
       <h4><%= t "browse.part_of" %></h4>
-      <ul>
+      <ul class="list-unstyled">
         <% node.ways.uniq.each do |way| %>
           <li><%= link_to printable_name(way), { :action => "way", :id => way.id.to_s }, { :class => link_class("way", way), :title => link_title(way) } %></li>
         <% end %>
