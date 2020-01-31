@@ -1,10 +1,16 @@
+<%= stylesheet_link_tag "microcosms" %>
+
 <% content_for :heading do %>
   <h1><%= t(".header_title") %></h1>
 <% end %>
 
 <div class="flex_row">
   <div>
-    <%= image_tag("microcosm_dc.png", :size => "400x300") %>  <!-- TODO: Replace this -->
+    <%= map(:container_id => 'microcosm_map',
+            :center => {
+                :latlng => [@microcosm.lat, @microcosm.lon],
+                :zoom => 11
+            }) %>
   </div>
   <div class="mic_details">
     <h1>

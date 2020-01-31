@@ -15,6 +15,10 @@ addons:
 services:
   - memcached
 before_script:
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
+  - mkdir geckodriver
+  - tar -xzf geckodriver-v0.26.0-linux64.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver
   - sed -e 's/ IMMUTABLE / /' -e "/^--/d" db/structure.sql > db/structure.expected
   - psql -U postgres -c "CREATE DATABASE openstreetmap"
   - psql -U postgres -c "CREATE EXTENSION btree_gist" openstreetmap

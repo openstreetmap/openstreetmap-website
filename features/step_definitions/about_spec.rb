@@ -23,6 +23,14 @@ Given("I am on the microcosm page by id") do
   visit microcosm_path(@the_microcosm)
 end
 
+Then("I should see a map of the microcosm centered at their AOI") do
+  expect(page).to have_css("#microcosm_map")
+  expect(page).to have_css(".leaflet-container")
+  coords = page.evaluate_script("window.map.getCenter()")
+  expect(coords['lat']).to eq(@the_microcosm.lat)
+  expect(coords['lng']).to eq(@the_microcosm.lon)
+end
+
 Given("I am on the microcosm edit page") do
   visit edit_microcosm_path(@the_microcosm)
 end
