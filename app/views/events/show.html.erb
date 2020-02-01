@@ -1,50 +1,52 @@
-<div class="flex_row">
-  <div>
-    <div class="when">
-      <%= l @event.moment, :format => :friendly %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <div class="when">
+        <%= l @event.moment, :format => :friendly %>
+      </div>
+      <h1 class="title">
+        <%= @event.title %>
+      </h1>
+      <p>
+        <%= t(".hosted_by") %>: <strong><%= link_to @event.microcosm.name, microcosm_path(@event.microcosm) %></strong>
+      </p>
+      <p>
+        <%= t(".organized_by") %>: <% @event.organizers.each do |organizer| %>
+          <strong><%= link_to organizer.user.display_name, user_path(organizer.user) %></strong>
+        <% end %>
+      </p>
     </div>
-    <h1 class="title">
-      <%= @event.title %>
-    </h1>
-    <p>
-      <%= t(".hosted_by") %>: <strong><%= link_to @event.microcosm.name, microcosm_path(@event.microcosm) %></strong>
-    </p>
-    <p>
-      <%= t(".organized_by") %>: <% @event.organizers.each do |organizer| %>
-        <strong><%= link_to organizer.user.display_name, user_path(organizer.user) %></strong>
+    <div class="col-sm">
+      <p><%= @event.attendees.size %> <%= t(".people_are_going") %></p>
+      <p><%= t(".are_you_going") %></p>
+      <%= form_with :model => @my_attendance do |form| %>
+        <%= form.hidden_field(:event_id, :value => @event.id) %>
+        <%= form.hidden_field(:user_id, :value => current_user&.id) %>
+        <%= form.submit :value => t(".going_yes") %>
+        <%= form.submit :value => t(".going_no") %>
       <% end %>
-    </p>
+    </div>
   </div>
-  <div>
-    <p><%= @event.attendees.size %> <%= t(".people_are_going") %></p>
-    <p><%= t(".are_you_going") %></p>
-    <%= form_with :model => @my_attendance do |form| %>
-      <%= form.hidden_field(:event_id, :value => @event.id) %>
-      <%= form.hidden_field(:user_id, :value => current_user&.id) %>
-      <%= form.submit :value => t(".going_yes") %>
-      <%= form.submit :value => t(".going_no") %>
-    <% end %>
-  </div>
-</div>
-<hr />
-<div class="flex_row">
-  <div>
-    <p>
-      <strong><%= t(".description") %>:</strong>
-      <%= @event.description %>
-    </p>
-    <strong><%= t(".whos_going") %></strong>
-    <p class="event_attendees">
-      <% @event.attendees.each do |attendance| %>
-        <%= link_to attendance.user.display_name, user_path(attendance.user) %>
-      <% end %>
-    </p>
-  </div>
-  <div style="width: 400px">
-    <p>
-      <%= t(".location") %>: <strong><a href="https://www.openstreetmap.org/node/6125774816"><%= @event.location %></a></strong>
-    </p>
-    <a href="https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=44.97067%2C-93.26822%3B38.90201%2C-77.04469#map=6/42.026/-85.156"><%= t(".directions_to") %></a>
-    <%= image_tag("dc_library.png", :size => "400x400") %>
+  <hr />
+  <div class="row">
+    <div class="col-sm">
+      <p>
+        <strong><%= t(".description") %>:</strong>
+        <%= @event.description %>
+      </p>
+      <strong><%= t(".whos_going") %></strong>
+      <p class="event_attendees">
+        <% @event.attendees.each do |attendance| %>
+          <%= link_to attendance.user.display_name, user_path(attendance.user) %>
+        <% end %>
+      </p>
+    </div>
+    <div class="col-sm">
+      <p>
+        <%= t(".location") %>: <strong><a href="https://www.openstreetmap.org/node/6125774816"><%= @event.location %></a></strong>
+      </p>
+      <a href="https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=44.97067%2C-93.26822%3B38.90201%2C-77.04469#map=6/42.026/-85.156"><%= t(".directions_to") %></a>
+      <%= image_tag("dc_library.png", :size => "400x400") %>
+    </div>
   </div>
 </div>

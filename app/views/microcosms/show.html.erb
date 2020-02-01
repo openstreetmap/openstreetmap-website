@@ -4,95 +4,96 @@
   <h1><%= t(".header_title") %></h1>
 <% end %>
 
-<div class="flex_row">
-  <div>
-    <%= map(:container_id => 'microcosm_map',
-            :center => {
-                :latlng => [@microcosm.lat, @microcosm.lon],
-                :zoom => 11
-            }) %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <%= map(:container_id => 'microcosm_map',
+              :center => {
+                  :latlng => [@microcosm.lat, @microcosm.lon],
+                  :zoom => 11
+              }) %>
+    </div>
+    <div class="col-sm mic_details">
+      <h1>
+        <%= link_to @microcosm.name, @microcosm %>
+      </h1>
+      <p>
+        <%= @microcosm.location %>, <%= @microcosm.lat %>, <%= @microcosm.lon %>
+      </p>
+      <p>
+        <%= auto_link @microcosm.description %>
+      </p>
+      <div>
+        <label><%= t(".share") %></label>
+        <ul>
+          <% @microcosm.microcosm_links.each do |link| %>
+            <li>
+              <a href="<%= link.url %>"><%= link.site %></a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div>
+        <label><%= t(".organizers") %></label>
+        <ul>
+          <% @microcosm.organizers.each do |membership| %>
+            <li>
+              <%= link_to membership.user.display_name, user_path(membership.user) %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <%= form_with :scope => :microcosm_member, :url => microcosm_member_index_path do |form| %>
+        <%= form.hidden_field(:microcosm_id, :value => @microcosm.id) %>
+        <%= form.hidden_field(:user_id, :value => current_user&.id) %>
+        <%= form.submit :value => t(".join.action") %>
+      <% end %>
+
+    </div>
   </div>
-  <div class="mic_details">
-    <h1>
-      <%= link_to @microcosm.name, @microcosm %>
-    </h1>
-    <p>
-      <%= @microcosm.location %>, <%= @microcosm.lat %>, <%= @microcosm.lon %>
-    </p>
-    <p>
-      <%= auto_link @microcosm.description %>
-    </p>
-    <div>
-      <label><%= t(".share") %></label>
+  <div class="row">
+    <div class="col-sm">
+      <h2>
+        <%= link_to t(".upcoming_events"), events_of_microcosm_path(@microcosm) %>
+      </h2>
       <ul>
-        <% @microcosm.microcosm_links.each do |link| %>
+        <% @microcosm.events.each do |event| %>
           <li>
-            <a href="<%= link.url %>"><%= link.site %></a>
+            <%= l(event.moment, :format => "%e %B") + " - " %> <%= link_to(event.title, event_path(event)) %>
           </li>
         <% end %>
       </ul>
-    </div>
-    <div>
-      <label><%= t(".organizers") %></label>
+      <h2>
+        <%= t(".recent_changes") %>
+      </h2>
       <ul>
-        <% @microcosm.organizers.each do |membership| %>
-          <li>
-            <%= link_to membership.user.display_name, user_path(membership.user) %>
-          </li>
+        <li>✓ 4 September 1:31 OpenBrian - Add brewery</li>
+        <li>&nbsp;&nbsp;  5 September  2:22 Geomantic - Tag restaurant as Korean cuisine</li>
+        <li>&nbsp;&nbsp;  6 September 2:22 Geobrando - Add playground at day care center</li>
+      </ul>
+      <h2>
+        <%= t(".diary_entries") %>
+      </h2>
+      <ul>
+        <% @microcosm.users.each do |user| %>
+          <% user.diary_entries.each do |entry| %>
+            <li>
+              <%= l(entry.created_at, :format => :blog) %> <%= link_to user.display_name, user_path(user) %> <%= link_to(entry.title, diary_entry_path(entry.user, entry)) %>
+            </li>
+          <% end %>
         <% end %>
       </ul>
     </div>
-
-    <%= form_with :scope => :microcosm_member, :url => microcosm_member_index_path do |form| %>
-      <%= form.hidden_field(:microcosm_id, :value => @microcosm.id) %>
-      <%= form.hidden_field(:user_id, :value => current_user&.id) %>
-      <%= form.submit :value => t(".join.action") %>
-    <% end %>
-
-  </div>
-</div>
-
-<div class="flex_row">
-  <div>
-    <h2>
-      <%= link_to t(".upcoming_events"), events_of_microcosm_path(@microcosm) %>
-    </h2>
-    <ul>
-      <% @microcosm.events.each do |event| %>
-        <li>
-          <%= l(event.moment, :format => "%e %B") + " - " %> <%= link_to(event.title, event_path(event)) %>
-        </li>
-      <% end %>
-    </ul>
-    <h2>
-      <%= t(".recent_changes") %>
-    </h2>
-    <ul>
-      <li>✓ 4 September 1:31 OpenBrian - Add brewery</li>
-      <li>&nbsp;&nbsp;  5 September  2:22 Geomantic - Tag restaurant as Korean cuisine</li>
-      <li>&nbsp;&nbsp;  6 September 2:22 Geobrando - Add playground at day care center</li>
-    </ul>
-    <h2>
-      <%= t(".diary_entries") %>
-    </h2>
-    <ul>
-      <% @microcosm.users.each do |user| %>
-        <% user.diary_entries.each do |entry| %>
-          <li>
-            <%= l(entry.created_at, :format => :blog) %> <%= link_to user.display_name, user_path(user) %> <%= link_to(entry.title, diary_entry_path(entry.user, entry)) %>
-          </li>
+    <div class="col-sm">
+      <h2>
+        <%= link_to t(".members"), members_of_microcosm_path(@microcosm) %>
+      </h2>
+      <div class="mic_members">
+        <% @microcosm.microcosm_members.each do |membership| %>
+          <%= link_to membership.user.display_name, user_path(membership.user) %>
         <% end %>
-      <% end %>
-    </ul>
-  </div>
-  <div>
-    <h2>
-      <%= link_to t(".members"), members_of_microcosm_path(@microcosm) %>
-    </h2>
-    <div class="mic_members">
-      <% @microcosm.microcosm_members.each do |membership| %>
-        <%= link_to membership.user.display_name, user_path(membership.user) %>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>
