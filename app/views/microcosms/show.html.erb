@@ -89,9 +89,9 @@
       <h2>
         <%= link_to t(".members"), members_of_microcosm_path(@microcosm) %>
       </h2>
-      <div class="mic_members">
+      <div>
         <% @microcosm.microcosm_members.each do |membership| %>
-          <%= link_to membership.user.display_name, user_path(membership.user) %>
+          <%= user_card(membership.user).html_safe %>
         <% end %>
       </div>
     </div>
