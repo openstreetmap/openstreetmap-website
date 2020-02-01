@@ -3,8 +3,8 @@
 //= require jquery.timers
 //= require jquery.cookie
 //= require jquery.throttle-debounce
-//= require bootstrap.tooltip
-//= require bootstrap.dropdown
+//= require popper
+//= require bootstrap-sprockets
 //= require osm
 //= require leaflet
 //= require leaflet.osm
