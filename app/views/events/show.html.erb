@@ -35,18 +35,18 @@
         <%= @event.description %>
       </p>
       <strong><%= t(".whos_going") %></strong>
-      <p class="event_attendees">
+      <div>
         <% @event.attendees.each do |attendance| %>
-          <%= link_to attendance.user.display_name, user_path(attendance.user) %>
+          <%= user_card(attendance.user).html_safe %>
         <% end %>
-      </p>
-    </div>
-    <div class="col-sm">
-      <p>
-        <%= t(".location") %>: <strong><a href="https://www.openstreetmap.org/node/6125774816"><%= @event.location %></a></strong>
-      </p>
-      <a href="https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=44.97067%2C-93.26822%3B38.90201%2C-77.04469#map=6/42.026/-85.156"><%= t(".directions_to") %></a>
-      <%= image_tag("dc_library.png", :size => "400x400") %>
+      </div>
+      <div class="col-sm">
+        <p>
+          <%= t(".location") %>: <strong><a href="https://www.openstreetmap.org/node/6125774816"><%= @event.location %></a></strong>
+        </p>
+        <a href="https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=44.97067%2C-93.26822%3B38.90201%2C-77.04469#map=6/42.026/-85.156"><%= t(".directions_to") %></a>
+        <%= image_tag("dc_library.png", :size => "400x400") %>
+      </div>
     </div>
   </div>
 </div>
