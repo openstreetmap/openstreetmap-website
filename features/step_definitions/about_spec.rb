@@ -24,11 +24,11 @@ Given("I am on the microcosm page by id") do
 end
 
 Then("I should see a map of the microcosm centered at their AOI") do
-  expect(page).to have_css("#microcosm_map")
-  expect(page).to have_css(".leaflet-container")
+  assert page.has_css? "#microcosm_map"
+  assert page.has_css? ".leaflet-container"
   coords = page.evaluate_script("window.map.getCenter()")
-  expect(coords['lat']).to eq(@the_microcosm.lat)
-  expect(coords['lng']).to eq(@the_microcosm.lon)
+  assert coords["lat"] == @the_microcosm.lat
+  assert coords["lng"] == @the_microcosm.lon
 end
 
 Given("I am on the microcosm edit page") do
@@ -74,7 +74,9 @@ Given("this user is an organizer of this microcosm") do
 end
 
 Then("I should see the microcosm {string} name") do |name|
-  expect(page).to have_content(name)
+  within(".content-heading") do
+    page.assert_text name
+  end
 end
 
 And("I set the microcosm in {string} to {string}, {string}, {string}") do |scope, name, lat, lon|
@@ -125,23 +127,23 @@ When("print body") do
 end
 
 Then("I should see the {string} link to {string}") do |title, href|
-  expect(page).to have_link(title, :href => href)
+  assert page.has_link? title, :href => href
 end
 
 Then("I should see {string}") do |msg|
-  expect(page).to have_content(msg, :normalize_ws => true)
+  page.assert_text msg, :normalize_ws => true
 end
 
 Then("I should not see {string}") do |msg|
-  expect(page).not_to have_content(msg)
+  page.assert_no_text msg
 end
 
 Then("I should see a {string} button") do |title|
-  expect(page).to have_selector(:link_or_button, title)
+  assert page.has_button? title
 end
 
 Then("I should be forbidden") do
-  expect(page.status_code).to eq(403)
+  assert page.status_code == 403
 end
 
 And("I click {string}") do |title|
