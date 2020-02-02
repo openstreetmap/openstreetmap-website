@@ -20,6 +20,7 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
+    # TODO: Do we need a transaction here?
     @event = Event.new(event_params)
     @event_organizer = EventOrganizer.new(:event => @event, :user => current_user)
 
