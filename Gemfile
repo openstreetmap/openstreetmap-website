@@ -163,5 +163,5 @@ group :development, :test do
   gem "poltergeist"
   gem "puma", "~> 3.11"
   gem "selenium-webdriver"
-  gem 'webdrivers', '~> 4.0'
+  gem "webdrivers", "~> 4.0"
 end
