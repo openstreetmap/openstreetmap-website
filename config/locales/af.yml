@@ -6,6 +6,7 @@
 # Author: Biggs ZA
 # Author: Firefishy
 # Author: Fwolff
+# Author: Joris Darlington Quarshie
 # Author: Naudefj
 # Author: Nroets
 ---
@@ -19,11 +20,17 @@ af:
         create: Stoor
       diary_entry:
         create: Publiseer
+        update: Opdateer
+      issue_comment:
+        create: Lewer kommentaar
       message:
         create: Stuur
       client_application:
         create: Registreer
         update: Redigeer
+      redaction:
+        create: Skep redaksie
+        update: Stoor redaksie
       trace:
         create: Laai op
         update: Stoor Wysigings
@@ -31,6 +38,10 @@ af:
         create: Skep versperring
         update: Werk versperring by
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: dit lyk nie of dit 'n geldige e-posadres is nie
+        email_address_not_routable: kan nie geruil word nie
     models:
       acl: Toegangsbeheerlys
       changeset: Wysigingstel
@@ -98,6 +109,45 @@ af:
         description: Beskrywing
         languages: Tale
         pass_crypt: Wagwoord
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: ongeveer 1 uur gelede
+        other: ongeveer %{count} uur gelede
+      about_x_months:
+        one: ongeveer een maand gelede
+        other: ongeveer %{count} maande gelede
+      about_x_years:
+        one: ongeveer een jaar gelede
+        other: ongeveer %{count} jaar gelede
+      almost_x_years:
+        one: byna 1 jaar gelede
+        other: byna %{count} jaar gelede
+      half_a_minute: '''n halwe minuut gelede'
+      less_than_x_seconds:
+        one: minder as 1 sekonde gelede
+        other: minder as %{count} sekondes gelede
+      less_than_x_minutes:
+        one: minder as 'n minuut gelede
+        other: minder as %{count} minute gelede
+      over_x_years:
+        one: meer as 1 jaar gelede
+        other: meer as %{count} jaar gelede
+      x_seconds:
+        one: 1 sekonde gelede
+        other: '%{count} sekondes gelede'
+      x_minutes:
+        one: 1 minuut gelede
+        other: '%{count} minute gelede'
+      x_days:
+        one: 1 dag gelede
+        other: '%{count} dae gelede'
+      x_months:
+        one: 1 maand gelede
+        other: '%{count} maande gelede'
+      x_years:
+        one: 1 jaar gelede
+        other: '%{count} jaar gelede'
   editor:
     default: Verstek (tans %{name})
     potlatch:
@@ -112,10 +162,33 @@ af:
     remote:
       name: Afstandsbeheer
       description: Afstandsbeheer (JOSM of Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: Skep %{when}
+        opened_at_by_html: Skep %{when} deur %{user}
+        commented_at_html: '%{when} opgedateer'
+        commented_at_by_html: '%{when} deur %{user} opgedateer'
+        closed_at_html: Opgelos %{when}
+        closed_at_by_html: '%{when} deur %{user} opgelos'
+        reopened_at_html: '%{when} heraktiveer'
+        reopened_at_by_html: '%{when} deur %{user} heraktiveer'
+      rss:
+        title: OpenStreetMap-aantekeninge
+        description_area: '''N Lys met aantekeninge, gerapporteer, opmerkings of geslote
+          in u omgewing [(%{min_lat}|%{min_lon})--(%{max_lat}|%{max_lon})]'
+        description_item: '''N RSS-voer vir noot %{id}'
+        opened: nuwe nota (naby %{place})
+        commented: nuwe opmerking (naby %{place})
+        closed: geslote noot (naby %{place})
+        reopened: heraktiveerde noot (naby %{place})
+      entry:
+        comment: Kommentaar
+        full: Volle aantekening
   browse:
     created: Geskep
     closed: Gesluit
-    created_html: Geskep <abbr titel='%{title}'>%{time} gelede</abbr>
+    created_html: Geskep <abbr title ='%{title}'>%{time}</abbr>
     closed_html: Geslote <abbr titel='%{title}'>%{time} gelede</abbr>
     created_by_html: Geskep <abbr titel='%{title}'>%{time} gelede</abbr> deur %{user}
     deleted_by_html: Geskrap <abbr titel='%{title}'>%{time} gelede</abbr> deur %{user}
@@ -150,6 +223,8 @@ af:
         title_comment: Wysigingstel %{id} - %{comment}
       join_discussion: Meld aan en gesels saam
       discussion: Bespreking
+      still_open: Wysigingsstel is steeds oop - bespreking sal oopmaak sodra die wysigingset
+        gesluit is.
     node:
       title_html: 'Knooppunt: %{name}'
       history_title_html: 'Knooppuntgeskiedenis: %{name}'
@@ -210,16 +285,25 @@ af:
         tag: Die wikibeskrywingsblad vir die %{key}=%{value} merker
       wikidata_link: Die %{page} item op Wikidata
       wikipedia_link: Die bladsy %{page} op Wikipedia
+      wikimedia_commons_link: Die %{page} item op Wikimedia Commons
       telephone_link: Skakel %{phone_number}
+      colour_preview: Kleur %{colour_value}-voorskou
     note:
       title: 'Nota: %{id}'
       new_note: Nuwe Nota
       description: Beskrywing
+      opened_by: Geskep deur %{user}<abbr title ='%{exact_time}'>%{when}</abbr>
       opened_by_anonymous: Anoniem het <abbr title='%{exact_time}'>%{when} ago</abbr>
         geskep
       commented_by: Kommentaar deur %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
       commented_by_anonymous: Kommentaar deur anoniem <abbr title='%{exact_time}'>%{when}
         ago</abbr>
+      closed_by: Besluit deur %{user}<abbr title ='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Besluit deur anonieme <abbr title ='%{exact_time}'>%{when}</abbr>
+      reopened_by: Heraktiveer deur %{user} <abbr title ='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivated by anonymous <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Versteek deur %{user}<abbr title ='%{exact_time}'>%{when}</abbr>
+      report: Rapporteer hierdie aantekening
     query:
       title: Bevraagteken Gidsbakens
       introduction: Klik op die kaart om nabye bakens te ontdek.
@@ -242,6 +326,9 @@ af:
       area: Gebied
     index:
       title: Wysigingsstel
+      title_user: Rapporteer hierdie aantekeningVeranderings deur %{user}
+      title_friend: Veranderings deur my vriende
+      title_nearby: Veranderings deur my vriende
       empty: Geen wysigingstelle gevind nie.
       empty_area: Geen wysigingstelle in hierdie gebied.
       empty_user: Geen wysigingstelle deur hierdie gebruiker.
@@ -254,9 +341,14 @@ af:
         haal.
   changeset_comments:
     comment:
+      comment: 'Nuwe opmerking oor veranderingset #%{changeset_id} deur %{author}'
       commented_at_by_html: '%{when} gelede deur %{user} bygewerk'
     index:
       title_all: OpenStreetMap bespreking oor wysigingstelle
+      title_particular: 'OpenStreetMap veranderingset #%{changeset_id} bespreking'
+    timeout:
+      sorry: Jammer, die lys met opmerkings wat u versoek het, het te lank geneem
+        om op te spoor.
   diary_entries:
     new:
       title: Nuwe dagboekinskrywing
@@ -300,23 +392,27 @@ af:
       reply_link: Antwoord hierop
       comment_count:
         zero: Geen opmerkings
-        one: '%{count} opmerking'
-        other: '%{count} opmerkings'
+        one: '%{count}opmerking'
+        other: '%{count}opmerkings'
       edit_link: Redigeer hierdie inskrywing
       hide_link: Steek dié inskrywing weg
+      unhide_link: Onthul hierdie inskrywing
       confirm: Bekragtig
+      report: Rapporteer hierdie inskrywing
     diary_comment:
       comment_from_html: Kommentaar van %{link_user} op %{comment_created_at}
-      hide_link: Steek die opmerking weg
-      confirm: Bekragtig
+      hide_link: Steek hierdie opmerking weg
+      unhide_link: Onthul hierdie opmerking
+      confirm: Bevestig
+      report: Rapporteer hierdie opmerking
     location:
-      location: 'Ligging:'
-      view: Wys
-      edit: Redigeer
+      location: lokasie
+      view: Beskou
+      edit: Wysig
     feed:
       user:
-        title: OpenStreetMap-dagboekinskrywings deur %{user}
-        description: Onlangse OpenStreetMap-dagboekinskrywings deur %{user}
+        title: OpenStreetMap-dagboekinskrywings vir %{user}
+        description: Onlangse OpenStreetMap-dagboekinskrywings van %{user}
       language:
         title: OpenStreetMap dagboekinskrywings in %{language_name}
         description: Onlangse dagboekinskrywings deur OpenStreetMap-gebruikers in
@@ -325,10 +421,11 @@ af:
         title: OpenStreetMap-dagboekinskrywings
         description: Onlangse dagboekinskrywings deur OpenStreetMap-gebruikers
     comments:
-      post: Plasing
+      has_commented_on: '%{display_name} het kommentaar gelewer op die volgende dagboekinskrywings'
+      post: Post
       when: Wanneer
       comment: Kommentaar
-      newer_comments: Jongste Kommentaar
+      newer_comments: Nuwer kommentaar
       older_comments: Ouer Kommentaar
   geocoder:
     search:
@@ -338,15 +435,29 @@ af:
         osm_nominatim_html: Uitslae vanaf <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames_html: Uitslae vanaf <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Resultate van <a href="https://nominatim.openstreetmap.org/">
+          OpenStreetMap Nominatim </a>
         geonames_reverse_html: Uitslae vanaf <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
           cable_car: Sweefspoor
+          chair_lift: Stoelhyser
+          drag_lift: Sleephysbak
+          gondola: Gondel lift
+          platter: Platter Lift
+          pylon: Spantoring
+          station: Lugwegstasie
+          t-bar: T-bar hysbak
         aeroway:
           aerodrome: Vliegveld
+          airstrip: Landingstrook
+          apron: Voorskoot
           gate: Hek
+          hangar: Hangar
           helipad: Helikopterplatform
+          holding_position: Hou Posisie
+          parking_position: Parkeerplek
           runway: Aanloopbaan
           taxiway: Rybaan
           terminal: Terminaal
@@ -392,6 +503,7 @@ af:
           fuel: Brandstof
           gambling: Dobbelary
           grave_yard: Begraafplaas
+          grit_bin: Grit Bin
           hospital: Hospitaal
           hunting_stand: Jagtoring
           ice_cream: Roomys
@@ -405,6 +517,7 @@ af:
           office: Kantoor
           parking: Parkering
           parking_entrance: Parkeeringang
+          parking_space: Parkeerplek
           pharmacy: Apteek
           place_of_worship: Plek van Aanbidding
           police: Polisie
@@ -424,6 +537,7 @@ af:
           shower: Stort
           social_centre: Maatskaplike Sentrum
           social_club: Sosiale klub
+          social_facility: Sosiale Fasiliteit
           studio: Ateljee
           swimming_pool: Swembad
           taxi: Taxi
@@ -432,18 +546,23 @@ af:
           toilets: Toilette
           townhall: Stadsaal
           university: Universiteit
+          vending_machine: Verkoopmasjien
           veterinary: Veearts
           village_hall: Dorpsaal
           waste_basket: Snippermandjie
           waste_disposal: Stortingsterrein
+          water_point: Waterpunt
           youth_centre: Jeugsentrum
         boundary:
           administrative: Administratiewe grens
+          census: Sensusgrens
           national_park: Nasionale Park
           protected_area: Beskermingsgebied
         bridge:
           aqueduct: Waterbrug
+          boardwalk: Boardwalk
           suspension: Hangbrug
+          swing: Swaaibrug
           viaduct: Viaduk
           "yes": Brug
         building:
@@ -461,23 +580,30 @@ af:
           "yes": Handwerkwinkel
         emergency:
           ambulance_station: Ambulansstasie
+          assembly_point: Vergaderingspunt
           defibrillator: Defibrillator
           landing_site: Noodlandingsarea
           phone: Noodtelefoon
+          water_tank: Noodwatertenk
+          "yes": Noodgeval
         highway:
           abandoned: Verlate Snelweg
           bridleway: Ruiterpad
           bus_guideway: Toegewyde busbaan
           bus_stop: Bushalte
           construction: Snelweg in aanbou
+          corridor: Korridor
           cycleway: Fietspad
           elevator: Hysbak
           emergency_access_point: Noodtoeganspunt
           footway: Voetpad
           ford: Drif
+          give_way: Gee weg teken
           milestone: Mylpaal
           motorway: Snelweg
           motorway_junction: Snelwegknooppunt
+          motorway_link: Motorweg
+          passing_place: Verbygaande plek
           path: Pad
           pedestrian: Voetgangerspad
           platform: Platform
@@ -494,6 +620,7 @@ af:
           services: Snelwegdienste
           speed_camera: Snelheidskamera
           steps: Trappe
+          stop: Stopteken
           street_lamp: Straatlig
           tertiary: Tersiêre Pad
           tertiary_link: Tersiêre pad
@@ -502,6 +629,7 @@ af:
           trail: Wandelpad
           trunk: Hoofroete
           trunk_link: Hoofroete
+          turning_loop: Draai lus
           unclassified: Ongeklassifiseerde pad
           "yes": Straat
         historic:
@@ -521,6 +649,7 @@ af:
           manor: Landgoed
           memorial: Gedenkteken
           mine: Myn
+          mine_shaft: My skag
           monument: Monument
           roman_road: Romeinse pad
           ruins: Ruïnes
@@ -530,6 +659,7 @@ af:
           wayside_cross: Padkruis
           wayside_shrine: Padaltaar
           wreck: Wrak
+          "yes": Historiese terrein
         junction:
           "yes": Verkeersaansluiting
         landuse:
@@ -557,14 +687,18 @@ af:
           reservoir: Reservoir
           residential: Woongebied
           retail: Kleinhandel
+          road: Padgebied
           vineyard: Wingerd
           "yes": Landgebruik
         leisure:
           beach_resort: Strandoord
           bird_hide: Voëlkykhuisie
+          common: Gemeenskaplike land
           dog_park: Hondepark
+          firepit: Vuur put
           fishing: Visvanggebied
           fitness_centre: Fiksheidsentrum
+          fitness_station: Fiksheidstasie
           garden: Tuin
           golf_course: Gholfbaan
           horse_riding: Perdry
@@ -586,6 +720,7 @@ af:
           water_park: Waterspeelpark
           "yes": Vrye tyd
         man_made:
+          adit: Adit
           lighthouse: Vuurtoring
           pipeline: Pypleiding
           tower: Toring
