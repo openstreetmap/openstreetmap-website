@@ -47,7 +47,7 @@ class Microcosm < ApplicationRecord
   end
 
   # Override GeoRecord because we don't have a tile attribute.
-  def update_tile end
+  def update_tile; end
 
   # Create min_lat=, max_lat=, min_lon=, max_lon= methods.
   [:min, :max].each do |extremum|
