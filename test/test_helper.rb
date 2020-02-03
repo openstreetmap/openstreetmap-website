@@ -21,7 +21,10 @@ require_relative "../config/environment"
 require "rails/test_help"
 require "webmock/minitest"
 
-WebMock.disable_net_connect!(:allow_localhost => true)
+WebMock.disable_net_connect!(
+    :allow_localhost => true,
+    :allow => ["chromedriver.storage.googleapis.com"]
+)
 
 module ActiveSupport
   class TestCase
