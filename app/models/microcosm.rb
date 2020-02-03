@@ -9,15 +9,20 @@
 #  updated_at  :datetime         not null
 #  slug        :string           not null
 #  location    :string           not null
-#  lat         :decimal(, )      not null
-#  lon         :decimal(, )      not null
+#  latitude    :integer          not null
+#  longitude   :integer          not null
 #  min_lat     :integer          not null
 #  max_lat     :integer          not null
 #  min_lon     :integer          not null
 #  max_lon     :integer          not null
 #
 
+# latitude and longitude are like nodes
+# min_lat, max_lat, min_lon, and max_lon are like changesets
+
 class Microcosm < ApplicationRecord
+  include GeoRecord
+
   extend FriendlyId
   friendly_id :name, :use => :slugged
   self.ignored_columns = ["key"]
@@ -39,5 +44,24 @@ class Microcosm < ApplicationRecord
 
   def organizers
     microcosm_members.where(:role => MicrocosmMember::Roles::ORGANIZER)
+  end
+
+  # Override GeoRecord because we don't have a tile attribute.
+  def update_tile
+  end
+
+  # Create min_lat=, max_lat=, min_lon=, max_lon= methods.
+  [:min, :max].each do |extremum|
+    [:lat, :lon].each do |coord|
+      attr = "#{extremum}_#{coord}"
+      # setter
+      define_method "#{attr}=" do |val|
+        self[attr] = (Float(val) * SCALE).round
+      end
+      # getter
+      define_method "#{attr}" do
+        Coord.new(self[attr].to_f / SCALE)
+      end
+    end
   end
 end

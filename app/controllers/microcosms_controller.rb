@@ -50,10 +50,13 @@ class MicrocosmsController < ApplicationController
   end
 
   def microcosm_params
-    params.require(:microcosm).permit(
+    mic_params = params.require(:microcosm).permit(
       :name, :location, :lat, :lon,
       :min_lat, :max_lat, :min_lon, :max_lon,
       :description
     )
+    mic_params[:lat] = Float(params[:microcosm][:lat])  # TODO: Handle exception.
+    mic_params[:lon] = Float(params[:microcosm][:lon])
+    mic_params
   end
 end

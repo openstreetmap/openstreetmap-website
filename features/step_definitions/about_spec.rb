@@ -2,8 +2,8 @@ Given("there is a microcosm {string}, {string}, {string}, {string}, {string}, {s
   @the_microcosm = Microcosm.create!(
     :name => name,
     :location => location,
-    :lat => lat,
-    :lon => lon,
+    :lat => Float(lat),
+    :lon => Float(lon),
     :min_lat => min_lat,
     :min_lon => min_lon,
     :max_lat => max_lat,
@@ -85,7 +85,7 @@ And("I set the microcosm in {string} to {string}, {string}, {string}") do |scope
     fill_in "Location", :with => name
     fill_in "Latitude", :with => lat
     fill_in "Longitude", :with => lon
-    fill_in "Minimum Latitude", :with => lat
+    fill_in "Minimum Latitude", :with => lat  # TODO: Parameterize this.
     fill_in "Maximum Latitude", :with => lat
     fill_in "Minimum Longitude", :with => lon
     fill_in "Maximum Longitude", :with => lon
