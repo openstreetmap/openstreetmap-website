@@ -55,7 +55,7 @@ class MicrocosmsController < ApplicationController
       :min_lat, :max_lat, :min_lon, :max_lon,
       :description
     )
-    mic_params[:lat] = Float(params[:microcosm][:lat])  # TODO: Handle exception.
+    mic_params[:lat] = Float(params[:microcosm][:lat]) # TODO: Handle exception.
     mic_params[:lon] = Float(params[:microcosm][:lon])
     mic_params
   end

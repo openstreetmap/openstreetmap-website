@@ -47,8 +47,7 @@ class Microcosm < ApplicationRecord
   end
 
   # Override GeoRecord because we don't have a tile attribute.
-  def update_tile
-  end
+  def update_tile end
 
   # Create min_lat=, max_lat=, min_lon=, max_lon= methods.
   [:min, :max].each do |extremum|
@@ -59,7 +58,7 @@ class Microcosm < ApplicationRecord
         self[attr] = (Float(val) * SCALE).round
       end
       # getter
-      define_method "#{attr}" do
+      define_method attr do
         Coord.new(self[attr].to_f / SCALE)
       end
     end
