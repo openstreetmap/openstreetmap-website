@@ -54,7 +54,7 @@ module UserHelper
     # Using semantic markup here with SASS
     image = user_image(user)
     user_link = link_to user.display_name, user_path(user)
-    header = "<h5>#{user_link}</div>"
+    header = "<h5>#{user_link}</h5>"
     body = "<div>#{header}</div>"
     "<div class='user_card'>#{image}#{body}</div>"
   end
