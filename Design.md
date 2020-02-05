@@ -97,6 +97,7 @@ There are various hosting options:
 ### About the microcosm
 
 - [ ] Manage the description
+- [ ] Set a hashtag for the microcosm
 - [ ] Identify sister microcosms
 
 ### Events
