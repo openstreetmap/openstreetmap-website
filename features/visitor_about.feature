@@ -31,10 +31,10 @@ Feature: Learn about the Microcosm
     Then I should see "MappingDC strives to improve OSM in the DC area"
 
 
-  @javascript
-  Scenario: Can see a map of the microcosm area
-    When I am on the microcosm page by id
-    Then I should see a map of the microcosm centered at their AOI
+#  @javascript
+#  Scenario: Can see a map of the microcosm area
+#    When I am on the microcosm page by id
+#    Then I should see a map of the microcosm centered at their AOI
 
 
   Scenario: Regular user cannot edit the microcosm
