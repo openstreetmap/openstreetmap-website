@@ -311,12 +311,12 @@ bn:
       view_changeset_details: পরিবর্তনধার্যের বিস্তারিত দেখুন
     changesets:
       id: আইডি
-      saved_at: সংরক্ষণ হয়েছে
+      saved_at: সংরক্ষণের তারিখ
       user: ব্যবহারকারী
       comment: মন্তব্য
       area: এলাকা
     index:
-      title: পরিবর্তনসমূহ
+      title: পরিবর্তনধার্য
       title_user: '%{user} কর্তৃক পরিবর্তন ধার্য'
       title_friend: আমার বন্ধুদের দ্বারা পরিবর্তনসেট
       title_nearby: কাছকাছি ব্যবহারকারীর পরিবর্তনধার্য
@@ -338,7 +338,7 @@ bn:
       comment: '%{author} কর্তৃক পরিবর্তনধার্য #%{changeset_id} এ নতুন মন্তব্য'
     index:
       title_all: ওপেনস্ট্রীটম্যাপ পরিবর্তনধার্যের আলোচনা
-      title_particular: ওপেনস্ট্রীটম্যাপ পরিবর্তনধার্য %{changeset_id} সম্পর্কিত আলোচনা
+      title_particular: 'ওপেনস্ট্রীটম্যাপ পরিবর্তনধার্য #%{changeset_id} আলোচনা'
   diary_entries:
     new:
       title: নতুন দিনলিপির ভুক্তি
@@ -399,7 +399,7 @@ bn:
       edit: সম্পাদনা
     feed:
       user:
-        title: ওপেনস্ট্রীটম্যাপে %{user}-এর জন্য দিনলিপির ভুক্তি
+        title: ওপেনস্ট্রীটম্যাপে %{user}-এর দিনলিপির ভুক্তি
         description: ওপেনস্ট্রীটম্যাপে %{user}-এর সাম্প্রতিক দিনলিপির ভুক্তি
       language:
         title: ওপেনস্ট্রীটম্যাপে %{language_name} ভাষায় দিনলিপির ভুক্তি
@@ -409,7 +409,7 @@ bn:
         title: ওপেনস্ট্রীটম্যাপ দিনলিপির ভুক্তি
         description: ওপেনস্ট্রীটম্যাপ ব্যবহারকারীগণ কর্তৃক সাম্প্রতিক দিনলিপির ভুক্তি
     comments:
-      has_commented_on: '%{display_name} নিম্নলিখিত দিনলিপি ভুক্তিসমূহে মন্তব্য করেছেন'
+      has_commented_on: '%{display_name} নিম্নলিখিত দিনলিপির ভুক্তিতে মন্তব্য করেছেন'
       post: পোস্ট
       when: কখন
       comment: মন্তব্য
@@ -775,6 +775,7 @@ bn:
           postcode: ডাক সংখ্যা
           region: অঞ্চল
           sea: সাগর
+          square: চত্বর
           state: রাজ্য
           subdivision: মহকুমা
           suburb: উপনগর
@@ -934,6 +935,7 @@ bn:
       status: স্থিতি
       last_updated: সর্বশেষ হালনাগাদ
       last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: '%{user} কর্তৃক <abbr title=''%{title}''>%{time}</abbr>'
       link_to_reports: প্রতিবেদনসমূহ দেখুন
       reports_count:
         one: ১টি প্রতিবেদন
@@ -947,11 +949,15 @@ bn:
       reopen: নতুন করে চালু করুন
       read_reports: প্রতিবেদন পড়ুন
       new_reports: নতুন প্রতিবেদন
+    helper:
+      reportable_title:
+        note: 'টীকা #%{note_id}'
   issue_comments:
     create:
       comment_created: আপনার মন্তব্য সফলভাবে তৈরি করা হয়েছে
   reports:
     new:
+      title_html: '%{link} প্রতিবেদন করুন'
       categories:
         diary_entry:
           other_label: অন্যান্য
@@ -1051,7 +1057,7 @@ bn:
       greeting: হাই,
       details: টীকাটি সম্পর্কে আরও বিস্তারিত %{url} এ পাওয়া যাবে।
     changeset_comment_notification:
-      hi: নমস্কার %{to_user},
+      hi: সুপ্রিয় %{to_user},
       greeting: হাই,
       details: পরিবর্তনধার্য সম্পর্কে আরও বিস্তারিত %{url} এ পাওয়া যাবে।
   messages:
@@ -1065,6 +1071,7 @@ bn:
       old_messages:
         one: '%{count}টি পুরনো বার্তা'
         other: '%{count}টি পুরনো বার্তা'
+      from: প্রেরক
       subject: বিষয়
       date: তারিখ
       people_mapping_nearby: কাছাকাছি অবদানকারী
@@ -1097,6 +1104,7 @@ bn:
       people_mapping_nearby: কাছাকাছি মানচিত্রকার
     show:
       title: বার্তা পড়ুন
+      from: প্রেরক
       subject: বিষয়
       date: তারিখ
       reply_button: প্রত্যুত্তর
@@ -1360,7 +1368,9 @@ bn:
       showing_page: '%{page} পাতা'
     trace:
       pending: অমিমাংসিত
-      count_points: '%{count} পয়েন্ট'
+      count_points:
+        one: ১ পয়েন্ট
+        other: '%{count} পয়েন্ট'
       more: আরও
       trace_details: অনুসরণের বিস্তারিত দেখুন
       view_map: মানচিত্র দেখুন
@@ -1378,6 +1388,8 @@ bn:
       message: জিপিএক্স ফাইল আপলোড বর্তমানে সম্ভব নয়
     offline:
       message: জিপিএক্স ফাইল সংরক্ষণ এবং আপলোড বর্তমানে সম্ভব নয়
+    description:
+      description_without_count: '%{user} থেকে GPX ফাইল'
   oauth_clients:
     new:
       title: একটি নতুন আবেদন নিবন্ধন করুন
@@ -1440,16 +1452,22 @@ bn:
       reset: পাসওয়ার্ড পুনঃনির্ধারণ
       flash changed: আপনার পাসওয়ার্ড পরিবর্তন করা হয়েছে।
     new:
+      title: নিবন্ধন করুন
+      about:
+        header: মুক্ত ও সম্পাদনাযোগ্য
       email address: 'ইমেইল ঠিকানা:'
       confirm email address: 'ইমেইল ঠিকানা নিশ্চিত করুন:'
+      display name: 'প্রদর্শনের জন্য নাম:'
       password: 'পাসওয়ার্ড:'
       confirm password: 'পাসওয়ার্ড নিশ্চিতকরণ:'
       auth no password: তৃতীয় কোনো পদ্ধতিতে লগইন সক্রিয় থাকলে পাসওয়ার্ড বাধ্যতামূলক
         নয়, কিন্তু অতিরিক্ত কিছু সরঞ্জাম এবং সার্ভারের জন্য কখনো প্রয়োজন হতে পারে।
+      continue: নিবন্ধন করুন
     terms:
       title: শর্তাবলী
       heading: শর্তাবলী
       consider_pd_why: এটি কী?
+      continue: অব্যাহত রাখুন
       decline: প্রত্যাখ্যান করুন
       legale_select: 'আপনার দেশ বাছাই করুন:'
       legale_names:
@@ -1459,6 +1477,8 @@ bn:
     no_such_user:
       deleted: অপসারিত
     show:
+      my diary: আমার দিনলিপি
+      new diary entry: নতুন দিনলিপির ভুক্তি
       my edits: আমার সম্পাদনা
       my messages: আমার বার্তাসমূহ
       my profile: আমার প্রোফাইল
