@@ -81,11 +81,11 @@ $(document).ready(function () {
     var windowWidth = $(window).width();
 
     if (windowWidth < compactWidth) {
-      $("body").removeClass("compact").addClass("small");
+      $("html").removeClass("compact").addClass("small");
     } else if (windowWidth < headerWidth) {
-      $("body").addClass("compact").removeClass("small");
+      $("html").addClass("compact").removeClass("small");
     } else {
-      $("body").removeClass("compact").removeClass("small");
+      $("html").removeClass("compact").removeClass("small");
     }
   }
 
