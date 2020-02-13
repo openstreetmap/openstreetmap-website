@@ -13,7 +13,7 @@ end
 
 Given("there is a changeset by {string} at {string}, {string}, {string}, {string} with comment {string}") do |author, min_lat, max_lat, min_lon, max_lon, comment|
   ch = Changeset.create!(
-    :user => User.find_by_display_name(author),
+    :user => User.find_by(:display_name => author),
     :created_at => Time.now.utc,
     :closed_at => Time.now.utc + 1.day,
     :min_lat => (min_lat.to_i * GeoRecord::SCALE),
@@ -23,9 +23,9 @@ Given("there is a changeset by {string} at {string}, {string}, {string}, {string
     :num_changes => 0
   )
   ChangesetTag.create!(
-     :changeset => ch,
-     :k => "comment",
-     :v => comment
+    :changeset => ch,
+    :k => "comment",
+    :v => comment
   )
 end
 

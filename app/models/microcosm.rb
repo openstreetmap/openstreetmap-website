@@ -45,6 +45,6 @@ class Microcosm < ApplicationRecord
   def update_tile; end
 
   def bbox
-    BoundingBox.new(self.min_lon, self.min_lat, self.max_lon, self.max_lat)
+    BoundingBox.new(min_lon, min_lat, max_lon, max_lat)
   end
 end

@@ -48,9 +48,12 @@ class MicrocosmsController < ApplicationController
   def recent_changesets
     bbox = BoundingBox.new(@microcosm.min_lon, @microcosm.min_lat, @microcosm.max_lon, @microcosm.max_lat).to_scaled
     Changeset
-        .where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
-          bbox.max_lon.to_i, bbox.min_lon.to_i, bbox.max_lat.to_i, bbox.min_lat.to_i)
-        .order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
+      .where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
+             bbox.max_lon.to_i,
+             bbox.min_lon.to_i,
+             bbox.max_lat.to_i,
+             bbox.min_lat.to_i)
+      .order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
   end
 
   private
