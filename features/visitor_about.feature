@@ -74,3 +74,12 @@ Feature: Learn about the Microcosm
     Then I should see "Update DC Bike Lanes"
     When I am on the all events page
     Then I should see "Update DC Bike Lanes"
+
+
+  Scenario: See recent changesets
+    Given there is a user "abe@example.com" with name "Abe"
+    And there is a changeset by "Abe" at "38.8", "39.1", "-77.1", "-76.8" with comment "Add public bookcase"
+    And there is a changeset by "Abe" at "138.8", "139.1", "-7.1", "-6.8" with comment "Add library"
+    When I am on the microcosm "MappingDC" page
+    Then I should see "Add public bookcase"
+    And I should not see "Add library"

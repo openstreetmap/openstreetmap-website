@@ -4,6 +4,8 @@ class MicrocosmsController < ApplicationController
 
   before_action :set_microcosm, :only => [:edit, :show, :show_events, :show_members, :update]
 
+  helper_method :recent_changesets
+
   authorize_resource
 
   def index
@@ -43,6 +45,14 @@ class MicrocosmsController < ApplicationController
     end
   end
 
+  def recent_changesets
+    bbox = BoundingBox.new(@microcosm.min_lon, @microcosm.min_lat, @microcosm.max_lon, @microcosm.max_lat).to_scaled
+    Changeset
+        .where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
+          bbox.max_lon.to_i, bbox.min_lon.to_i, bbox.max_lat.to_i, bbox.min_lat.to_i)
+        .order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
+  end
+
   private
 
   def set_microcosm
@@ -50,13 +60,10 @@ class MicrocosmsController < ApplicationController
   end
 
   def microcosm_params
-    mic_params = params.require(:microcosm).permit(
-      :name, :location, :lat, :lon,
+    params.require(:microcosm).permit(
+      :name, :location, :latitude, :longitude,
       :min_lat, :max_lat, :min_lon, :max_lon,
       :description
     )
-    mic_params[:lat] = Float(params[:microcosm][:lat]) # TODO: Handle exception.
-    mic_params[:lon] = Float(params[:microcosm][:lon])
-    mic_params
   end
 end

@@ -2,12 +2,30 @@ Given("there is a microcosm {string}, {string}, {string}, {string}, {string}, {s
   @the_microcosm = Microcosm.create!(
     :name => name,
     :location => location,
-    :lat => Float(lat),
-    :lon => Float(lon),
+    :latitude => Float(lat),
+    :longitude => Float(lon),
     :min_lat => min_lat,
     :min_lon => min_lon,
     :max_lat => max_lat,
     :max_lon => max_lon
+  )
+end
+
+Given("there is a changeset by {string} at {string}, {string}, {string}, {string} with comment {string}") do |author, min_lat, max_lat, min_lon, max_lon, comment|
+  ch = Changeset.create!(
+    :user => User.find_by_display_name(author),
+    :created_at => Time.now.utc,
+    :closed_at => Time.now.utc + 1.day,
+    :min_lat => (min_lat.to_i * GeoRecord::SCALE),
+    :max_lat => (max_lat.to_i * GeoRecord::SCALE),
+    :min_lon => (min_lon.to_i * GeoRecord::SCALE),
+    :max_lon => (max_lon.to_i * GeoRecord::SCALE),
+    :num_changes => 0
+  )
+  ChangesetTag.create!(
+     :changeset => ch,
+     :k => "comment",
+     :v => comment
   )
 end
 

@@ -4,12 +4,12 @@ class AddLocationToMicrocosms < ActiveRecord::Migration[5.2]
     safety_assured do
       change_table "microcosms", :bulk => true do |t|
         t.string "location", :null => false
-        t.integer "latitude", :null => false
-        t.integer "longitude", :null => false
-        t.integer "min_lat", :null => false
-        t.integer "max_lat", :null => false
-        t.integer "min_lon", :null => false
-        t.integer "max_lon", :null => false
+        t.float "latitude", :null => false
+        t.float "longitude", :null => false
+        t.float "min_lat", :null => false
+        t.float "max_lat", :null => false
+        t.float "min_lon", :null => false
+        t.float "max_lon", :null => false
       end
     end
   end

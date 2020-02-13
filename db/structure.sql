@@ -1182,12 +1182,12 @@ CREATE TABLE public.microcosms (
     updated_at timestamp without time zone NOT NULL,
     slug character varying,
     location character varying NOT NULL,
-    latitude integer NOT NULL,
-    longitude integer NOT NULL,
-    min_lat integer NOT NULL,
-    max_lat integer NOT NULL,
-    min_lon integer NOT NULL,
-    max_lon integer NOT NULL
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    min_lat double precision NOT NULL,
+    max_lat double precision NOT NULL,
+    min_lon double precision NOT NULL,
+    max_lon double precision NOT NULL
 );
 
 
