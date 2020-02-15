@@ -1,3 +1,6 @@
+<%= stylesheet_link_tag "events" %>
+<%= javascript_include_tag "event" %>
+
 <%= form_with(:model => event, :local => true, :html => { :class => "standard-form" }) do |form| %>
   <% if event.errors.any? %>
     <div id="error_explanation">
@@ -24,9 +27,26 @@
     <%= form.text_field :location, :id => :event_location %>
   </div>
   <div class="form-row">
+    <%= form.label :location_url, :class => "standard-label" %>
+    <%= form.text_field :location_url, :id => :event_location_url %>
+  </div>
+  <div class="form-row">
     <%= form.label :description, :class => "standard-label" %>
     <%= form.text_area :description, :id => :event_description %>
   </div>
+  <fieldset>
+    <div class='form-row'>
+      <%= form.label :latitude, :class => "standard-label" %>
+      <%= form.text_field :latitude, :id => "latitude" %>
+    </div>
+    <div class='form-row'>
+      <%= form.label :longitude, :class => "standard-label" %>
+      <%= form.text_field :longitude, :id => "longitude" %>
+    </div>
+    <div class="event_set_location">
+      <%= content_tag "div", "", :id => "event_map_form" %>
+    </div>
+  </fieldset>
   <% if @event&.microcosm_id %>
     <%= form.hidden_field(:microcosm_id, :value => @event.microcosm_id) %>
   <% else %>

@@ -815,7 +815,10 @@ CREATE TABLE public.events (
     description text,
     microcosm_id bigint,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    latitude double precision,
+    longitude double precision,
+    location_url character varying
 );
 
 
@@ -3649,6 +3652,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190905224243'),
 ('20191120140058'),
 ('20200127033234'),
+('20200214135750'),
 ('21'),
 ('22'),
 ('23'),

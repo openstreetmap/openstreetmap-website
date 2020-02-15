@@ -2,19 +2,29 @@
   <h1>
     <%= @microcosm.name + " " + t(".events") %>
   </h1>
+  <ul class='secondary-actions clearfix'>
+    <% if current_user && @microcosm.organizer?(current_user) %>
+      <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new_event"), new_event_path(:microcosm_id => @microcosm.id), :title => t(".new_title") %></li>
+    <% end %>
+  </ul>
 <% end %>
-<h2>
-  Events
-</h2>
-<ul>
+<table>
+  <thead>
+  <tr>
+    <th><%= t(".when") %></th>
+    <th><%= t(".title") %></th>
+    <th><%= t(".location") %></th>
+    <th colspan="1"></th>
+  </tr>
+  </thead>
+  <tbody>
   <% @microcosm.events.each do |event| %>
-    <li>
-      <%= link_to l(event.moment, :format => :blog) + " - " + event.title + " - " + event.location, event_path(event) %>
-    </li>
+    <tr>
+      <td><%= l(event.moment, :format => :blog) %></td>
+      <td><%= event.title %></td>
+      <td><%= event.location %></td>
+      <td><%= link_to t(".show"), event %><% if current_user && @microcosm.organizer?(current_user) %> <%= link_to t(".edit"), edit_event_path(event) %><% end %></td>
+    </tr>
   <% end %>
-</ul>
-<p>
-  <% if current_user && @microcosm.organizer?(current_user) %>
-    <%= link_to t(".new_event"), new_event_path(:microcosm_id => @microcosm.id) %>
-  <% end %>
-</p>
+  </tbody>
+</table>

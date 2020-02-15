@@ -6,6 +6,9 @@
 #  title        :string           not null
 #  moment       :datetime
 #  location     :string
+#  location_url :string
+#  latitude     :float
+#  longitude    :float
 #  description  :text
 #  microcosm_id :integer
 #  created_at   :datetime         not null

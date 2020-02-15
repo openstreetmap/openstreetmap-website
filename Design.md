@@ -53,6 +53,7 @@ There are various hosting options:
 - [x] See upcoming events for a microcosm
 - [x] See all upcoming events
 - [ ] See past events
+- [ ] Get directions to teh event
 
 ### About the microcosm projects
 
@@ -102,7 +103,8 @@ There are various hosting options:
 
 ### Events
 
-- [x] Organize an event
+- [x] Create an event
+- [ ] Modify an event
 - [ ] Generate Field Papers (Survey Papers)
 
 ### Membership
