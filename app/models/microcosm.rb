@@ -50,9 +50,6 @@ class Microcosm < ApplicationRecord
     microcosm_members.where(:role => MicrocosmMember::Roles::ORGANIZER)
   end
 
-  # Override GeoRecord because we don't have a tile attribute.
-  def update_tile; end
-
   def bbox
     BoundingBox.new(min_lon, min_lat, max_lon, max_lat)
   end
