@@ -8,7 +8,5 @@ FactoryBot.define do
     max_lat { rand(-90.0...90.0) }
     min_lon { rand(-180.0...180.0) }
     max_lon { rand(-180.0...180.0) }
-
-    #user
   end
 end

@@ -18,6 +18,6 @@ class MicrocosmMemberTest < ActiveSupport::TestCase
     object = build(:microcosm_member, attrs)
     valid = object.valid?
     errors = object.errors.messages
-    assert_equal result, object.valid?, "Expected #{attrs.inspect} to be #{result} but #{errors}"
+    assert_equal result, valid, "Expected #{attrs.inspect} to be #{result} but #{errors}"
   end
 end

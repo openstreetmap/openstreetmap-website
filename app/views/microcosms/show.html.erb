@@ -44,7 +44,7 @@
         </ul>
       </div>
 
-      <% if ! current_user || ! @microcosm.has_member?(current_user) %>
+      <% if ! current_user || ! @microcosm.member?(current_user) %>
         <%= form_with :scope => :microcosm_member, :url => microcosm_member_index_path do |form| %>
           <%= form.hidden_field(:microcosm_id, :value => @microcosm.id) %>
           <%= form.hidden_field(:user_id, :value => current_user&.id) %>

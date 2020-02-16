@@ -28,8 +28,6 @@ class MicrocosmMember < ApplicationRecord
 
   validates :microcosm, :presence => true, :associated => true
   validates :user, :presence => true, :associated => true
-  validates :role, :inclusion => {:in => Roles::ALL_ROLES}
-
+  validates :role, :inclusion => { :in => Roles::ALL_ROLES }
   # TODO: validate uniqueness of user's role in each microcosm.
-
 end

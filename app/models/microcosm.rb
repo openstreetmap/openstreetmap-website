@@ -42,7 +42,7 @@ class Microcosm < ApplicationRecord
     link.save!
   end
 
-  def has_member?(user)
+  def member?(user)
     microcosm_members.where(:user_id => user.id).count.positive?
   end
 

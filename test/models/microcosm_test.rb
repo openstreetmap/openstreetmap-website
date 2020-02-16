@@ -25,10 +25,10 @@ class MicrocosmTest < ActiveSupport::TestCase
 
     [:min, :max].each do |extremum|
       [:lat, :lon].each do |coord|
-        attr =  "#{extremum}_#{coord}"
-        validate({attr => nil}, false)
-        validate({attr => -200}, false)
-        validate({attr => 200}, false)
+        attr = "#{extremum}_#{coord}"
+        validate({ attr => nil }, false)
+        validate({ attr => -200 }, false)
+        validate({ attr => 200 }, false)
       end
     end
   end
