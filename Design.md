@@ -53,7 +53,7 @@ There are various hosting options:
 - [x] See upcoming events for a microcosm
 - [x] See all upcoming events
 - [ ] See past events
-- [ ] Get directions to teh event
+- [ ] Get directions to the event
 
 ### About the microcosm projects
 
