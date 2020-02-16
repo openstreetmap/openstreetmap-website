@@ -301,4 +301,4 @@ Where `$VERSION` is the version you installed. Then install bundler:
 gem install bundler
 ```
 
-You should now be able to proceed with the rest of the installation. If you're on MacOSX, make sure you set up the [config override for the libxml2 location])(#macosx-bundle-config) _after_ installing bundler.
+You should now be able to proceed with the rest of the installation. If you're on MacOSX, make sure you set up the [config override for the libxml2 location](#macosx-bundle-config) _after_ installing bundler.
