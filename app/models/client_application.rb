@@ -39,6 +39,7 @@ class ClientApplication < ApplicationRecord
 
   validates :key, :presence => true, :uniqueness => true
   validates :name, :url, :secret, :presence => true
+  # TODO: Consider using UrlValidator from validate_url gem.
   validates :url, :format => %r{\Ahttp(s?)://(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(/|/([\w#!:.?+=&%@!\-/]))?}i
   validates :support_url, :allow_blank => true, :format => %r{\Ahttp(s?)://(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(/|/([\w#!:.?+=&%@!\-/]))?}i
   validates :callback_url, :allow_blank => true, :format => %r{\A[a-z][a-z0-9.+-]*://(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(/|/([\w#!:.?+=&%@!\-/]))?}i
