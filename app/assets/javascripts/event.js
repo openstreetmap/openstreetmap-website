@@ -41,9 +41,9 @@ function init_event_form() {
 
 
 function init_event_show() {
-    let el = document.querySelector("#event_map_show");
-    let event = JSON.parse(el.dataset.event);
-    let map = L.map("event_map_show", {
+    var el = document.querySelector("#event_map_show");
+    var event = JSON.parse(el.dataset.event);
+    var map = L.map("event_map_show", {
         center: [event.latitude, event.longitude],
         zoom: 15
     });
