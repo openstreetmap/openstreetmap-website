@@ -165,7 +165,7 @@ Then("I should see a {string} button") do |title|
 end
 
 Then("I should not see a {string} button") do |title|
-  assert ! page.has_button?(title)
+  assert !page.has_button?(title)
 end
 
 Then("I should be forbidden") do
