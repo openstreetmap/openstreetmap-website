@@ -19,6 +19,7 @@ services:
     ports:
       - "54321:5432"
     environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: openstreetmap
     volumes:
       - ./docker-db-data:/var/lib/postgresql/data
