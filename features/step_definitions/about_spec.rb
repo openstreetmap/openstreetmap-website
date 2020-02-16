@@ -1,6 +1,7 @@
 Given("there is a microcosm {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}") do |name, location, lat, lon, min_lat, max_lat, min_lon, max_lon|
   @the_microcosm = Microcosm.create!(
     :name => name,
+    :description => "Some description",
     :location => location,
     :latitude => Float(lat),
     :longitude => Float(lon),
@@ -58,6 +59,9 @@ Given("there is an event for this microcosm") do
     :title => "Some Event",
     :moment => DateTime.now,
     :location => "Some Location",
+    :location_url => "https://en.wikipedia.org/wiki/Washington_Monument",
+    :latitude => 12.34,
+    :longitude => 56.78,
     :description => "Some description",
     :microcosm_id => @the_microcosm.id
   )
@@ -158,6 +162,10 @@ end
 
 Then("I should see a {string} button") do |title|
   assert page.has_button? title
+end
+
+Then("I should not see a {string} button") do |title|
+  assert ! page.has_button?(title)
 end
 
 Then("I should be forbidden") do

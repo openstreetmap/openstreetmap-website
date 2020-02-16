@@ -25,3 +25,10 @@ Feature: Interact with the Microcosm
       And I press "No"
       And I am on this event page
       Then I should see "0 people are going."
+
+    Scenario: Members should not see join button
+      Given there is a user "will_attend@example.com" with name "Will"
+      And the user belongs to the microcosm
+      And user "will_attend@example.com" logs in
+      And I am on the microcosm "MappingDC" page
+      Then I should not see a "Join" button
