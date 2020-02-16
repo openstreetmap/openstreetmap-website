@@ -1,7 +1,11 @@
 FactoryBot.define do
   factory :microcosm_member do
-    microcosm_id { 1 }
-    user_id { 1 }
-    role { "MyString" }
+    microcosm
+    user
+    role { MicrocosmMember::Roles::MEMBER }
+
+    trait :organizer do
+      role { MicrocosmMember::Roles::ORGANIZER }
+    end
   end
 end
