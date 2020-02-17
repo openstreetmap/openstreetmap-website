@@ -136,8 +136,10 @@ module BrowseTagsHelper
     # Uses WHATWG implementation of email validation, which follows RFC 1123
     # but is a willful violation of RFC 5322.
     #  (see: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address)
-    if value.match?(%r{^\s*[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\s*
-                      (;\s*[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\s*)*$
+    if value.match?(%r{^\s*[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+
+                          @[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\s*
+                      (;\s*[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+
+                          @[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\s*)*$
                     }x)
       return value.split(";").map do |email|
         # remove any leading or trailing whitespace if present
