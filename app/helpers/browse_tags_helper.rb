@@ -21,6 +21,12 @@ module BrowseTagsHelper
       link_to h(wmc[:title]), wmc[:url], :title => t("browse.tag_details.wikimedia_commons_link", :page => wmc[:title])
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
+    elsif emails = email_links(key, value)
+      # similarly, email_links() returns an array of emails
+      emails = emails.map do |e|
+        link_to(h(e[:email]), e[:url], :title => t("browse.tag_details.email_link", :email => e[:email]))
+      end
+      safe_join(emails, "; ")
     elsif phones = telephone_links(key, value)
       # similarly, telephone_links() returns an array of phone numbers
       phones = phones.map do |p|
@@ -119,6 +125,27 @@ module BrowseTagsHelper
         :url => "//commons.wikimedia.org/wiki/#{value}?uselang=#{I18n.locale}",
         :title => value
       }
+    end
+    nil
+  end
+
+  def email_links(_key, value)
+    # Does value look like an email? eg "someone@domain.tld"
+    # or a list of alternate emails separated by ;
+
+    # Uses WHATWG implementation of email validation, which follows RFC 1123
+    # but is a willful violation of RFC 5322.
+    #  (see: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address)
+    if value.match?(%r{^\s*[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\s*
+                      (;\s*[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\s*)*$
+                    }x)
+      return value.split(";").map do |email|
+        # remove any leading or trailing whitespace if present
+        email = email.strip
+
+        # add 'mailto:'' prefix
+        { :email => email, :url => "mailto:#{email}" }
+      end
     end
     nil
   end

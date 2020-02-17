@@ -221,6 +221,78 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_nil link
   end
 
+  def test_email_links
+    links = email_links("foo", "Test")
+    assert_nil links
+
+    links = email_links("email", "123")
+    assert_nil links
+
+    links = email_links("email", "Abc.example.com")
+    assert_nil links
+
+    links = email_links("email", "a@b@c.com")
+    assert_nil links
+
+    links = email_links("email", "123 abcdefg@space.com")
+    assert_nil links
+
+    links = email_links("email", "test@ abc")
+    assert_nil links
+
+    links = email_links("email", "just\"not\"right@example.com")
+    assert_nil links
+
+    # If multiple emails are listed, all must be valid
+    links = email_links("email", "very.common@test.com; a@b@c.com")
+    assert_nil links
+
+    links = email_links("email", "x@example.com")
+    assert_equal 1, links.length
+    assert_equal "x@example.com", links[0][:email]
+    assert_equal "mailto:x@example.com", links[0][:url]
+
+    links = email_links("email", "other.email-with-hyphen@example.com")
+    assert_equal 1, links.length
+    assert_equal "other.email-with-hyphen@example.com", links[0][:email]
+    assert_equal "mailto:other.email-with-hyphen@example.com", links[0][:url]
+
+    links = email_links("email", "user.name+tag+sorting@example.com")
+    assert_equal 1, links.length
+    assert_equal "user.name+tag+sorting@example.com", links[0][:email]
+    assert_equal "mailto:user.name+tag+sorting@example.com", links[0][:url]
+
+    links = email_links("email", "dash-in@both-parts.com")
+    assert_equal 1, links.length
+    assert_equal "dash-in@both-parts.com", links[0][:email]
+    assert_equal "mailto:dash-in@both-parts.com", links[0][:url]
+
+    links = email_links("email", "   test@email.com	")
+    assert_equal 1, links.length
+    assert_equal "test@email.com", links[0][:email]
+    assert_equal "mailto:test@email.com", links[0][:url]
+
+    links = email_links("email", "example@s.example")
+    assert_equal 1, links.length
+    assert_equal "example@s.example", links[0][:email]
+    assert_equal "mailto:example@s.example", links[0][:url]
+
+    # Multiple valid phone numbers separated by ;
+    links = email_links("email", "test@email.com; example@s.example")
+    assert_equal 2, links.length
+    assert_equal "test@email.com", links[0][:email]
+    assert_equal "mailto:test@email.com", links[0][:url]
+    assert_equal "example@s.example", links[1][:email]
+    assert_equal "mailto:example@s.example", links[1][:url]
+
+    links = email_links("email", "x@example.com ;  dash-in@both-parts.com ")
+    assert_equal 2, links.length
+    assert_equal "x@example.com", links[0][:email]
+    assert_equal "mailto:x@example.com", links[0][:url]
+    assert_equal "dash-in@both-parts.com", links[1][:email]
+    assert_equal "mailto:dash-in@both-parts.com", links[1][:url]
+  end
+
   def test_telephone_links
     links = telephone_links("foo", "Test")
     assert_nil links
