@@ -86,17 +86,7 @@ Installing other dependencies:
 
 * Install Homebrew from https://brew.sh/
 * Install the latest version of Ruby: `brew install ruby`
-* Install ImageMagick: `brew install imagemagick`
-* Install libxml2: `brew install libxml2`
-* Install libgd: `brew install gd`
-* Install Yarn: `brew install yarn`
-* Install pngcrush: `brew install pngcrush`
-* Install optipng: `brew install optipng`
-* Install pngquant: `brew install pngquant`
-* Install jhead: `brew install jhead`
-* Install jpegoptim: `brew install jpegoptim`
-* Install gifsicle: `brew install gifsicle`
-* Install svgo: `brew install svgo`
+* Install other dependencies: `brew install imagemagick libxml2 gd yarn pngcrush optipng pngquant jhead jpegoptim gifsicle svgo`
 * Install Bundler: `gem install bundler` (you might need to `sudo gem install bundler` if you get an error about permissions - or see note below about [developer Ruby setup](#rbenv))
 
 You will need to tell `bundler` that `libxml2` is installed in a Homebrew location. If it uses the system-installed one then you will get errors installing the `libxml-ruby` gem later on<a name="macosx-bundle-config"></a>.
@@ -311,4 +301,4 @@ Where `$VERSION` is the version you installed. Then install bundler:
 gem install bundler
 ```
 
-You should now be able to proceed with the rest of the installation. If you're on MacOSX, make sure you set up the [config override for the libxml2 location](#macosx-bundle-config) _after_ installing bundler.
+You should now be able to proceed with the rest of the installation. If you're on MacOSX, make sure you set up the [config override for the libxml2 location])(#macosx-bundle-config) _after_ installing bundler.
