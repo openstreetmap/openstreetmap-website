@@ -197,7 +197,7 @@ $(document).ready(function () {
     $(".welcome").addClass("visible");
   }
 
-  $(".welcome .close-wrap").on("click", function () {
+  $(".welcome button.close").on("click", function () {
     $(".welcome").removeClass("visible");
     $.cookie("_osm_welcome", "hide", { expires: expiry, path: "/" });
   });

@@ -40,8 +40,12 @@
 
     <% unless current_user %>
       <div class="welcome">
-        <h2><%= t "layouts.intro_header" %></h2>
-        <div class="close-wrap"><span class="icon close"></span></div>
+        <div class="welcome-header">
+          <h2><%= t "layouts.intro_header" %></h2>
+          <button type="button" class="button close" aria-label="Close">
+            <span class="icon close"></span>
+          </button>
+        </div>
         <p><%= t "layouts.intro_text" %></p>
         <p><%= t "layouts.hosting_partners_html",
                  :ucl => link_to(t("layouts.partners_ucl"), "https://www.ucl.ac.uk"),
