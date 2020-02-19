@@ -21,19 +21,18 @@ class Event < ApplicationRecord
   has_many :event_organizers
 
   validates :moment, :datetime_format => true
-  validates :location, :length => 1..255, :characters => true, :if => :has_location?
-  validates :location_url, :length => 1..255, :if => :has_location_url?
-  validates :location_url, :url => { :allow_blank => false }, :if => :has_location_url?
+  validates :location, :length => 1..255, :characters => true, :if => :location?
+  validates :location_url, :length => 1..255, :if => :location_url?
+  validates :location_url, :url => { :allow_blank => false }, :if => :location_url?
   validates :latitude, :numericality => true, :inclusion => { :in => -90..90 }
   validates :longitude, :numericality => true, :inclusion => { :in => -180..180 }
   validates :microcosm, :presence => true
 
-
-  def has_location?
+  def location?
     !location.nil?
   end
 
-  def has_location_url?
+  def location_url?
     !location_url.nil?
   end
 
