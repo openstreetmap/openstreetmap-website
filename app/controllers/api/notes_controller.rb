@@ -294,11 +294,30 @@ module Api
           raise OSM::APIBadUserInput, "Date #{params[:to]} is in a wrong format"
         end
 
-        @notes = @notes.where(:created_at => from..to)
+        @notes = if params[:sort] == "updated_at"
+                   @notes.where(:updated_at => from..to)
+                 else
+                   @notes.where(:created_at => from..to)
+                 end
       end
 
+      # Choose the sort order
+      @notes = if params[:sort] == "created_at"
+                 if params[:order] == "oldest"
+                   @notes.order("created_at ASC")
+                 else
+                   @notes.order("created_at DESC")
+                 end
+               else
+                 if params[:order] == "oldest"
+                   @notes.order("updated_at ASC")
+                 else
+                   @notes.order("updated_at DESC")
+                 end
+               end
+
       # Find the notes we want to return
-      @notes = @notes.order("updated_at DESC").limit(result_limit).preload(:comments)
+      @notes = @notes.distinct.limit(result_limit).preload(:comments)
 
       # Render the result
       respond_to do |format|
