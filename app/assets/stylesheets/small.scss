@@ -1,183 +1,187 @@
 @import "parameters";
 
 /* Styles specific to a small screen, such as iPhone, Android, etc... */
+@media (max-width: 640px) {
+  body {
 
-body.small {
-
-  input[type="submit"],
-  input[type="text"] {
-    -webkit-appearance: none;
-  }
-
-  .column-1 {
-    width: 100%;
-  }
-
-  #menu-icon {
-    display: inline-block !important;
-  }
-
-  nav.primary,
-  nav.secondary {
-    float: none !important;
-    position: relative;
-    display: block;
-    clear: both;
-  }
-
-  header {
-    height: auto;
-    min-height: $headerHeight;
-    background: #fff;
-
-    h1 {
-      padding-bottom: 15px;
+    input[type="submit"],
+    input[type="text"] {
+      -webkit-appearance: none;
     }
 
-    &.closed nav {
+    .column-1 {
+      width: 100%;
+    }
+
+    #menu-icon {
+      display: inline-block !important;
+    }
+
+    nav.primary,
+    nav.secondary {
+      float: none !important;
+      position: relative;
+      display: block;
+      clear: both;
+    }
+
+    header {
+      height: auto;
+      min-height: $headerHeight;
+      background: #fff;
+
+      h1 {
+        padding-bottom: 15px;
+      }
+
+      &.closed nav {
+        display: none;
+      }
+
+      .search_forms {
+        display: block;
+      }
+    }
+
+    #sidebar .search_forms,
+    #edit_tab,
+    #export_tab {
       display: none;
     }
 
-    .search_forms {
-      display: block;
-    }
-  }
+    nav.primary {
+      padding: 0;
 
-  #sidebar .search_forms,
-  #edit_tab,
-  #export_tab {
-    display: none;
-  }
+      ul, li {
+        border: none;
+        border-radius: 0;
+        width: 100%;
+      }
 
-  nav.primary {
-    padding: 0;
+      ul {
+        border-top: 1px solid #eee;
 
-    ul, li {
-      border: none;
-      border-radius: 0;
-      width: 100%;
-    }
+        li {
+          border-bottom: 1px solid #eee;
+          border-right: none;
 
-    ul {
-      border-top: 1px solid #eee;
-      li {
-        border-bottom: 1px solid #eee;
-        border-right: none;
-        > a {
-          border-radius: 0;
-          width: 100%;
-          text-align: center;
-          font-size: 15px;
+          > a {
+            border-radius: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 15px;
+          }
         }
       }
+
+      .btn-group {
+        width: 100%;
+        padding: 10px;
+      }
     }
 
-    .btn-group {
+    nav.secondary {
+      .user-menu {
+        width: 100%;
+      }
+    }
+
+    #compact-secondary-nav {
+      display: none;
+    }
+
+    .compact-hide {
+      display: inline-block;
+    }
+
+    &.map-layout {
+      #sidebar, #map {
+        position: relative;
+        overflow-x: hidden;
+        width: 100%;
+        height: 50%;
+      }
+
+      .overlay-sidebar {
+        #sidebar {
+          position: absolute;
+          width: 300px;
+          height: auto;
+          overflow: hidden;
+        }
+
+        #map {
+          height: 100%;
+        }
+      }
+
+      #map-ui {
+        z-index: 9999;
+        width: 100%;
+        overflow-y: scroll;
+      }
+    }
+
+    .overlay-sidebar #sidebar .welcome.visible {
+      display: none;
+    }
+
+    .overlay-sidebar #sidebar #banner {
+      display: none;
+    }
+
+    .leaflet-top.leaflet-right {
+      top: 10px !important;
+    }
+
+    .content_map {
       width: 100%;
-      padding: 10px;
+      border: none;
+      float: none;
+      height: 200px;
+      max-height: none;
+      min-height: auto;
     }
-  }
 
-  nav.secondary {
-    .user-menu {
+    /* Rules for the login form */
+
+    #login_login input#user_email {
       width: 100%;
+      max-width: 18em;
     }
-  }
 
-  #compact-secondary-nav {
-    display: none;
-  }
+    #login_login input#user_password {
+      width: 100%;
+      max-width: 18em;
+    }
 
-  .compact-hide {
-    display: inline-block;
-  }
+    #login_login input#openid_url {
+      width: 100%;
+      max-width: 18em;
+    }
 
-  &.map-layout {
-    #sidebar, #map {
+    #login_openid_buttons td {
+      padding: 2px;
+    }
+
+    /* Rules for the user view */
+
+    .user_map {
+      width: 100% !important;
+      height: 300px !important;
+    }
+
+    #userinformation .deemphasize {
       position: relative;
-      overflow-x: hidden;
-      width: 100%;
-      height: 50%;
+      right: auto;
+      left: auto;
+      margin-top: 10px;
+      top: auto;
     }
 
-    .overlay-sidebar {
-      #sidebar {
-        position: absolute;
-        width: 300px;
-        height: auto;
-        overflow: hidden;
-      }
-
-      #map {
-        height: 100%;
-      }
+    &.site-about #content .attr h1 {
+      font-size: 28px;
     }
 
-    #map-ui {
-      z-index: 9999;
-      width: 100%;
-      overflow-y: scroll;
-    }
   }
-
-  .overlay-sidebar #sidebar .welcome.visible {
-    display: none;
-  }
-
-  .overlay-sidebar #sidebar #banner {
-    display: none;
-  }
-
-  .leaflet-top.leaflet-right {
-    top: 10px !important;
-  }
-
-  .content_map {
-    width: 100%;
-    border: none;
-    float: none;
-    height: 200px;
-    max-height: none;
-    min-height: auto;
-  }
-
-  /* Rules for the login form */
-
-  #login_login input#user_email {
-    width: 100%;
-    max-width: 18em;
-  }
-
-  #login_login input#user_password {
-    width: 100%;
-    max-width: 18em;
-  }
-
-  #login_login input#openid_url {
-    width: 100%;
-    max-width: 18em;
-  }
-
-  #login_openid_buttons td {
-    padding: 2px;
-  }
-
-  /* Rules for the user view */
-
-  .user_map {
-    width: 100% !important;
-    height: 300px !important;
-  }
-
-  #userinformation .deemphasize {
-    position: relative;
-    right: auto; left: auto;
-    margin-top: 10px;
-    top: auto;
-  }
-
-  &.site-about #content .attr h1 {
-    font-size: 28px;
-  }
-
 }
