@@ -368,4 +368,9 @@ class ApplicationController < ActionController::Base
 
   # override to stop oauth plugin sending errors
   def invalid_oauth_response; end
+
+  # Convert all blanks in a hash (e.g. params) to nil.
+  def nilify(params)
+    params.each { |k, v| params[k] = v.presence }
+  end
 end

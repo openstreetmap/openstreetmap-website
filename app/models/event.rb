@@ -24,8 +24,8 @@ class Event < ApplicationRecord
   validates :location, :length => 1..255, :characters => true, :if => :location?
   validates :location_url, :length => 1..255, :if => :location_url?
   validates :location_url, :url => { :allow_blank => false }, :if => :location_url?
-  validates :latitude, :numericality => true, :inclusion => { :in => -90..90 }
-  validates :longitude, :numericality => true, :inclusion => { :in => -180..180 }
+  validates :latitude, :numericality => true, :allow_nil => true, :inclusion => { :in => -90..90 }
+  validates :longitude, :numericality => true, :allow_nil => true, :inclusion => { :in => -180..180 }
   validates :microcosm, :presence => true
 
   def location?
