@@ -11,6 +11,8 @@ module Api
     before_action :check_api_readable, :except => [:create, :update, :delete]
     around_action :api_call_handle_error, :api_call_timeout
 
+    before_action :set_default_request_format, :except => [:create, :update, :delete]
+
     def create
       assert_method :put
 
@@ -28,7 +30,10 @@ module Api
 
       if @way.visible
         # Render the result
-        render :formats => [:xml]
+        respond_to do |format|
+          format.xml
+          format.json
+        end
       else
         head :gone
       end
@@ -75,7 +80,10 @@ module Api
         end
 
         # Render the result
-        render :formats => [:xml]
+        respond_to do |format|
+          format.xml
+          format.json
+        end
       else
         head :gone
       end
@@ -93,7 +101,10 @@ module Api
       @ways = Way.find(ids)
 
       # Render the result
-      render :formats => [:xml]
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     ##
@@ -106,7 +117,10 @@ module Api
       @ways = Way.where(:id => wayids, :visible => true)
 
       # Render the result
-      render :formats => [:xml]
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
   end
 end

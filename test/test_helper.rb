@@ -116,6 +116,12 @@ module ActiveSupport
     end
 
     ##
+    # set request header for HTTP Accept
+    def http_accept_format(format)
+      @request.env["HTTP_ACCEPT"] = format
+    end
+
+    ##
     # set request readers to ask for a particular error format
     def error_format(format)
       @request.env["HTTP_X_ERROR_FORMAT"] = format

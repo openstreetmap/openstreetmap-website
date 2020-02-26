@@ -14,6 +14,10 @@ module Api
         { :controller => "api/nodes", :action => "show", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/node/1.json", :method => :get },
+        { :controller => "api/nodes", :action => "show", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/node/1", :method => :put },
         { :controller => "api/nodes", :action => "update", :id => "1" }
       )
@@ -24,6 +28,10 @@ module Api
       assert_routing(
         { :path => "/api/0.6/nodes", :method => :get },
         { :controller => "api/nodes", :action => "index" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/nodes.json", :method => :get },
+        { :controller => "api/nodes", :action => "index", :format => "json" }
       )
     end
 
@@ -463,6 +471,19 @@ module Api
         assert_select "node[id='#{node4.id}'][visible='true']", :count => 1
         assert_select "node[id='#{node5.id}'][visible='false']", :count => 1
       end
+
+      # test a working call with json format
+      get :index, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}", :format => "json" }
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 5, js["elements"].count
+      assert_equal 5, (js["elements"].count { |a| a["type"] == "node" })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == node1.id && a["visible"].nil? })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == node2.id && a["visible"] == false })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == node3.id && a["visible"].nil? })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == node4.id && a["visible"].nil? })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == node5.id && a["visible"] == false })
 
       # check error when a non-existent node is included
       get :index, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0" }
