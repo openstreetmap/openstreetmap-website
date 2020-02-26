@@ -141,15 +141,15 @@ OSM.Directions = function (map) {
   }
 
   $(".directions_form .reverse_directions").on("click", function () {
-    var from = endpoints[0].latlng,
-        to = endpoints[1].latlng,
+    var coordFrom = endpoints[0].latlng,
+        coordTo = endpoints[1].latlng,
         routeFrom = "",
         routeTo = "";
-    if (from) {
-      routeFrom = from.lat + "," + from.lng;
+    if (coordFrom) {
+      routeFrom = coordFrom.lat + "," + coordFrom.lng;
     }
-    if (to) {
-      routeTo = to.lat + "," + to.lng;
+    if (coordTo) {
+      routeTo = coordTo.lat + "," + coordTo.lng;
     }
 
     OSM.router.route("/directions?" + querystring.stringify({
