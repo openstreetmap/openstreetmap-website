@@ -221,6 +221,57 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_nil link
   end
 
+  def test_email_link
+    email = email_link("foo", "Test")
+    assert_nil email
+
+    email = email_link("email", "123")
+    assert_nil email
+
+    email = email_link("email", "Abc.example.com")
+    assert_nil email
+
+    email = email_link("email", "a@b@c.com")
+    assert_nil email
+
+    email = email_link("email", "just\"not\"right@example.com")
+    assert_nil email
+
+    email = email_link("email", "123 abcdefg@space.com")
+    assert_nil email
+
+    email = email_link("email", "test@ abc")
+    assert_nil email
+
+    email = email_link("email", "using;semicolon@test.com")
+    assert_nil email
+
+    email = email_link("email", "x@example.com")
+    assert_equal "x@example.com", email[:email]
+    assert_equal "mailto:x@example.com", email[:url]
+
+    email = email_link("email", "other.email-with-hyphen@example.com")
+    assert_equal "other.email-with-hyphen@example.com", email[:email]
+    assert_equal "mailto:other.email-with-hyphen@example.com", email[:url]
+
+    email = email_link("email", "user.name+tag+sorting@example.com")
+    assert_equal "user.name+tag+sorting@example.com", email[:email]
+    assert_equal "mailto:user.name+tag+sorting@example.com", email[:url]
+
+    email = email_link("email", "dash-in@both-parts.com")
+    assert_equal "dash-in@both-parts.com", email[:email]
+    assert_equal "mailto:dash-in@both-parts.com", email[:url]
+
+    email = email_link("email", "example@s.example")
+    assert_equal "example@s.example", email[:email]
+    assert_equal "mailto:example@s.example", email[:url]
+
+    # Strips whitespace at ends
+    email = email_link("email", " test@email.com ")
+    assert_equal "test@email.com", email[:email]
+    assert_equal "mailto:test@email.com", email[:url]
+  end
+
   def test_telephone_links
     links = telephone_links("foo", "Test")
     assert_nil links
