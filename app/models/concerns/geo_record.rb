@@ -12,6 +12,10 @@ module GeoRecord
     def to_s
       format("%.7f", self)
     end
+
+    def as_json(_)
+      format("%.7f", self).to_f
+    end
   end
 
   # This scaling factor is used to convert between the float lat/lon that is

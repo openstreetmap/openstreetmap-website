@@ -14,6 +14,14 @@ module Api
         { :controller => "api/old_ways", :action => "version", :id => "1", :version => "2" }
       )
       assert_routing(
+        { :path => "/api/0.6/way/1/history.json", :method => :get },
+        { :controller => "api/old_ways", :action => "history", :id => "1", :format => "json" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/way/1/2.json", :method => :get },
+        { :controller => "api/old_ways", :action => "version", :id => "1", :version => "2", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/way/1/2/redact", :method => :post },
         { :controller => "api/old_ways", :action => "redact", :id => "1", :version => "2" }
       )

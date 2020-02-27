@@ -3,6 +3,56 @@ class ApiController < ApplicationController
 
   private
 
+  ##
+  # Set default request format to xml unless a client requests a specific format,
+  # which can be done via (a) URL suffix and/or (b) HTTP Accept header, where
+  # the URL suffix always takes precedence over the Accept header.
+  def set_default_request_format
+    unless params[:format]
+      accept_header = request.headers["HTTP_ACCEPT"]
+      if accept_header.nil?
+        # e.g. unit tests don't set an Accept: header by default, force XML in this case
+        request.format = "xml"
+        return
+      end
+
+      req_mimetypes = []
+
+      # Some clients (JOSM) send Accept headers which cannot be parsed by Rails, example: *; q=.2
+      # To be fair, JOSM's Accept header doesn't adhere to RFC 7231, section 5.3.1, et al. either
+      # As a workaround for backwards compatibility, we're assuming XML format
+      begin
+        req_mimetypes = Mime::Type.parse(accept_header)
+      rescue Mime::Type::InvalidMimeType
+        request.format = "xml"
+        return
+      end
+
+      # req_mimetypes contains all Accept header MIME types with descending priority
+      req_mimetypes.each do |mime|
+        if mime.symbol == :xml
+          request.format = "xml"
+          break
+        end
+
+        if mime.symbol == :json
+          request.format = "json"
+          break
+        end
+
+        # Any format, not explicitly requesting XML or JSON -> assume XML as default
+        if mime == "*/*"
+          request.format = "xml"
+          break
+        end
+
+        # In case the client requests some other format besides XML, JSON and */*,
+        # we deliberately don't set request.format. The framework will return an
+        # ActionController::UnknownFormat error to the client later on in this case.
+      end
+    end
+  end
+
   def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
     # make the current_user object from any auth sources we have
     setup_user_auth

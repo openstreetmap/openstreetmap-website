@@ -16,6 +16,8 @@ module Api
     before_action :lookup_old_element, :except => [:history]
     before_action :lookup_old_element_versions, :only => [:history]
 
+    before_action :set_default_request_format, :except => [:redact]
+
     def history
       # the .where() method used in the lookup_old_element_versions
       # call won't throw an error if no records are found, so we have
@@ -30,7 +32,10 @@ module Api
                end
 
       # Render the result
-      render :formats => [:xml]
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     def version
@@ -41,7 +46,10 @@ module Api
         response.last_modified = @old_element.timestamp
 
         # Render the result
-        render :formats => [:xml]
+        respond_to do |format|
+          format.xml
+          format.json
+        end
       end
     end
 
