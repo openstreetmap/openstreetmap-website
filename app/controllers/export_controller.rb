@@ -24,5 +24,9 @@ class ExportController < ApplicationController
     end
   end
 
-  def embed; end
+  def embed
+    append_content_security_policy_directives(
+      :frame_ancestors => %w[*]
+    )
+  end
 end

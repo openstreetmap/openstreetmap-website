@@ -13,6 +13,8 @@ module Api
     before_action :check_api_readable, :except => [:create, :update, :delete]
     around_action :api_call_handle_error, :api_call_timeout
 
+    before_action :set_default_request_format, :except => [:create, :update, :delete]
+
     # Create a node from XML.
     def create
       assert_method :put
@@ -32,7 +34,10 @@ module Api
 
       if @node.visible
         # Render the result
-        render :formats => [:xml]
+        respond_to do |format|
+          format.xml
+          format.json
+        end
       else
         head :gone
       end
@@ -73,7 +78,10 @@ module Api
       @nodes = Node.find(ids)
 
       # Render the result
-      render :formats => [:xml]
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
   end
 end

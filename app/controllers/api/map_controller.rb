@@ -5,6 +5,8 @@ module Api
     before_action :check_api_readable
     around_action :api_call_handle_error, :api_call_timeout
 
+    before_action :set_default_request_format
+
     # This is probably the most common call of all. It is used for getting the
     # OSM data for a specified bounding box, usually for editing. First the
     # bounding box (bbox) is checked to make sure that it is sane. All nodes
@@ -90,7 +92,10 @@ module Api
 
       response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
       # Render the result
-      render :formats => [:xml]
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
   end
 end
