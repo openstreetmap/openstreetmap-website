@@ -28,8 +28,8 @@ ia:
         create: Registrar
         update: Modificar
       redaction:
-        create: Crear obscuration
-        update: Salveguardar obscuration
+        create: Crear suppression
+        update: Salveguardar suppression
       trace:
         create: Incargar
         update: Salveguardar modificationes
@@ -741,6 +741,7 @@ ia:
           embankment: Terrapleno
           flagpole: Palo de baniera
           gasometer: Gasometro
+          groyne: Rumpeundas
           kiln: Furno
           lighthouse: Pharo
           mast: Mast
@@ -884,6 +885,7 @@ ia:
           beauty: Salon de beltate
           beverages: Boteca de bibitas
           bicycle: Magazin de bicyclettas
+          bookmaker: Agente de sponsiones
           books: Libreria
           boutique: Boutique
           butcher: Macelleria
@@ -922,11 +924,16 @@ ia:
           hairdresser: Perruccheria
           hardware: Quincalieria
           hifi: Hi-fi
+          houseware: Magazin de articulos domestic
+          interior_decoration: Decoration interior
           jewelry: Joieleria
           kiosk: Kiosque
+          kitchen: Magazin de cocina
           laundry: Lavanderia
+          lottery: Lotteria
           mall: Galeria mercante
           market: Mercato
+          massage: Massage
           mobile_phone: Boteca de telephonos mobile
           motorcycle: Magazin de motocyclos
           music: Magazin de musica
@@ -934,17 +941,25 @@ ia:
           optician: Optico
           organic: Boteca de alimentos organic
           outdoor: Magazin de sport al aere libere
+          paint: Magazin de colores
+          pawnbroker: Prestator sur pignore
           pet: Boteca de animales
           pharmacy: Pharmacia
           photo: Magazin de photographia
+          seafood: Fructos de mar
           second_hand: Magazin de secunde mano
           shoes: Scarperia
           sports: Magazin de sport
           stationery: Papireria
           supermarket: Supermercato
           tailor: Sartor
+          ticket: Billeteria
+          tobacco: Tabacheria
           toys: Magazin de joculos
           travel_agency: Agentia de viages
+          tyres: Magazin de pneus
+          vacant: Magazin vacante
+          variety_store: Magazin a precio unic
           video: Magazin de video
           wine: Magazin de vinos
           "yes": Boteca
@@ -970,6 +985,7 @@ ia:
           viewpoint: Puncto de vista
           zoo: Jardin zoologic
         tunnel:
+          building_passage: Passage sub edificio
           culvert: Tubo de aqua subterranee
           "yes": Tunnel
         waterway:
@@ -1066,9 +1082,10 @@ ia:
     reopen:
       reopened: Le stato del problema ha essite cambiate a 'Aperte'
     comments:
+      comment_from_html: Commento de %{user_link} del %{comment_created_at}
       reassign_param: Reassignar problema?
     reports:
-      reported_by_html: Reportate como %{category} per %{user}
+      reported_by_html: Reportate como %{category} per %{user} le %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, commento #%{comment_id}'
@@ -1272,10 +1289,10 @@ ia:
           de modificationes'
         subject_other: '[OpenStreetMap] %{commenter} ha commentate un gruppo de modificationes
           que te interessa'
-        your_changeset: '%{commenter} ha commentate un de tu gruppos de modificationes
-          create le %{time}'
-        commented_changeset: '%{commenter} ha commentate un gruppo de modificationes
-          que tu observa, create per %{changeset_author} le %{time}'
+        your_changeset: '%{commenter} ha commentate a %{time} un de tu gruppos de
+          modificationes'
+        commented_changeset: '%{commenter} ha commentate a %{time} un gruppo de modificationes
+          que tu observa, create per %{changeset_author}'
         partial_changeset_with_comment: con commento '%{changeset_comment}'
         partial_changeset_without_comment: sin commento
       details: Plus detalios sur le gruppo de modificationes pote esser trovate a
@@ -1390,10 +1407,10 @@ ia:
         OSMF es subjecte a nostre <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">conditiones
         de uso</a>, a nostre <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npoliticas
         de uso acceptabile</a> e a nostre <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">politica
-        de confidentialitate</a>.\n<br> \n<a href=\"https://osmfoundation.org/Contact\">Contacta
-        OSMF</a> \nsi vos ha questiones sur licentias, derectos de autor o altere
-        themas juridic.\n<br>\nOpenStreetMap, le logotypo de lupa e \"State of the
-        Map\" es <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">marcas
+        de confidentialitate</a>."
+      legal_2_html: "<a href=\"https://osmfoundation.org/Contact\">Contacta OSMF</a>
+        \nsi vos ha questiones sur licentias, derectos de autor o altere themas juridic.\n<br>\nOpenStreetMap,
+        le logotypo de lupa e \"State of the Map\" es <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">marcas
         commercial registrate del OSMF</a>."
       partners_title: Partners
     copyright:
@@ -1416,23 +1433,20 @@ ia:
           href="https://opendatacommons.org/licenses/odbl/">Open Data
           Commons Open Database License</a> (ODbL) per le <a
           href="https://osmfoundation.org/">Fundation OpenStreetMap</a> (OSMF).
-        intro_2_html: |2-
-            Vos es libere de copiar, distribuer, transmitter e adaptar nostre cartas
-            e datos, a condition que vos da recognoscentia a OpenStreetMap e su
-            contributores. Si vos altera o extende nostre cartas e datos, vos
-            pote distribuer le resultato solmente sub le mesme licentia. Le
-            complete <a href="https://opendatacommons.org/licenses/odbl/1.0/">codice
-            legal</a> explica vostre derectos e responsabilitates.
-        intro_3_html: |-
-          Le cartographia in nostre tegulas de carta, e nostre documentation, son
-          publicate sub licentia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+        intro_2_html: Vos es libere de copiar, distribuer, transmitter e adaptar nostre
+          datos, a condition que vos da recognoscentia a OpenStreetMap e su contributores.
+          Si vos altera o extende nostre datos, vos pote distribuer le resultato solmente
+          sub le mesme licentia. Le <a href="https://opendatacommons.org/licenses/odbl/1.0/">codice
+          juridic</a> complete explica vostre derectos e responsabilitates.
+        intro_3_html: Le cartographia in nostre tegulas cartographic, e nostre documentation,
+          es publicate sub licentia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
           Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA).
         credit_title_html: Como dar recognoscentia a OpenStreetMap
         credit_1_html: |-
           Nos require que vos usa le recognoscentia &ldquo;&copy; OpenStreetMap
           contributors&rdquo;.
         credit_2_html: |-
-          Vos debe anque clarificar que le datos es disponibile sub Open Database License, e si vos usa nostre tegulas cartographic, que le cartographia es licentiate sub CC-BY-SA. Vos pote facer isto con un ligamine a <a href="https://www.openstreetmap.org/copyright">iste pagina de copyright</a>.
+          Vos debe etiam indicar clarmente que le datos es disponibile sub Open Database License, e si vos usa nostre tegulas cartographic, que le cartographia es licentiate sub CC-BY-SA. Vos pote facer isto con un ligamine a <a href="https://www.openstreetmap.org/copyright">iste pagina de copyright</a>.
           Alternativemente, e obligatorimente si vos distribue OSM in forma de datos, vos pote mentionar le licentia(s) e ligar directemente a illo(s). Si vos usa un medio de communication in le qual le ligamines non es possibile (p.ex. un obra imprimite), nos suggere que vos dirige vostre lectores a openstreetmap.org (forsan per inserer iste adresse complete in loco del parola &lsquo;OpenStreetMap&rsquo;), a opendatacommons.org, e (si relevante) a creativecommons.org.
         credit_3_html: 'Pro un carta electronic navigabile, le recognoscentia debe
           apparer in le angulo del carta. Per exemplo:'
@@ -1440,9 +1454,9 @@ ia:
           alt: Exemplo de como recognoscer OpenStreetMap in un pagina web
           title: Exemplo de recognoscentia
         more_title_html: Pro saper plus
-        more_1_html: |-
-          Lege plus sur le uso de nostre datos, e como recognoscer nos, in le <a
-          href="https://osmfoundation.org/Licence">pagina de licentia OSMF</a>.
+        more_1_html: Lege plus sur le uso de nostre datos, e sur como citar correctemente
+          lor fonte, in le <a href="https://osmfoundation.org/Licence">pagina de licentia
+          OSMF</a>.
         more_2_html: |-
           Ben que OpenStreetMap es datos aperte, nos non pote fornir un API cartographic gratuite pro tertios. Vide nostre <a href="https://operations.osmfoundation.org/policies/api/">politica pro le uso del API</a>,
           <a href="https://operations.osmfoundation.org/policies/tiles">politica pro le uso de tegulas</a>
@@ -1451,29 +1465,30 @@ ia:
         contributors_intro_html: 'Nostre contributores es milles de personas. Nos
           include anque le datos sub licentia aperte de agentias cartographic national
           e de altere fontes, inter le quales:'
-        contributors_at_html: |-
-          <strong>Austria</strong>: Contine datos ab le
-             <a href="https://data.wien.gv.at/">Citate de Vienna</a> licentiate sub
-             <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>.
-        contributors_au_html: |-
-          <strong>Australia</strong>: Contine datos de suburbios a base
-             de datos del Australian Bureau of Statistics.
+        contributors_at_html: '<strong>Austria</strong>: Contine datos ab le <a href="https://data.wien.gv.at/">Citate
+          de Vienna</a> licentiate sub <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC
+          BY</a>, <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land
+          Vorarlberg</a> e Land Tirol (sub <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC
+          BY AT con emendamentos</a>).'
+        contributors_au_html: '<strong>Australia</strong>: Contine datos obtenite
+          ab <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA
+          Australia Limited</a> licentiate per le Commonwealth de Australia sub <a
+          href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.'
         contributors_ca_html: |-
           <strong>Canada</strong>: Contine datos ab
              GeoBase&reg;, GeoGratis (&copy; Department of Natural
              Resources Canada), CanVec (&copy; Department of Natural
              Resources Canada), e StatCan (Geography Division,
              Statistics Canada).
-        contributors_fi_html: "<strong>Finlandia</strong>: Contine datos ab le base
-          de datos topographic del Inspection \nNational del Territorio de Finlandia
-          e de altere insimules de datos, sub le\n<a href=\"https://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">licentia
-          NLSFI</a>."
+        contributors_fi_html: '<strong>Finlandia</strong>: Contine datos ab le base
+          de datos topographic del Inspection National del Territorio de Finlandia
+          e de altere insimules de datos, sub le <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">licentia
+          NLSFI</a>.'
         contributors_fr_html: |-
           <strong>Francia</strong>: Contine datos fornite per le
              Direction Générale des Impôts.
-        contributors_nl_html: |-
-          <strong>Nederlandia</strong>: Contine datos &copy; AND, 2007
-          (<a href="https://www.and.com">www.and.com</a>)
+        contributors_nl_html: '<strong>Nederlandia</strong>: Contine datos &copy;
+          AND, 2007 (<a href="https://www.and.com">www.and.com</a>)'
         contributors_nz_html: '<strong>Nove Zelandia</strong>: Contine datos proveniente
           de <a href="https://data.linz.govt.nz/">LINZ Data Service</a> e licentiate
           pro re-uso sub <a href="https://creativecommons.org/licenses/by/4.0/">CC
@@ -1518,8 +1533,8 @@ ia:
         trademarks_title_html: <span id="trademarks"></span>Marcas commercial
         trademarks_1_html: OpenStreetMap, le logotypo con le lupa e "State of the
           Map" es marcas registrate del Fundation OpenStreetMap. Si vos ha questiones
-          sur le uso de iste marcas, invia los al <a href="https://wiki.osmfoundation.org/wiki/Licensing_Working_Group">gruppo
-          de labor sur licentias</a>.
+          sur le uso de iste marcas, vide nostre <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">politica
+          sur le marcas registrate</a>.
     index:
       js_1: O tu usa un navigator que non supporta JavaScript, o tu ha disactivate
         JavaScript.
@@ -2565,6 +2580,8 @@ ia:
         out: Zoom retro
       locate:
         title: Monstrar mi position
+        metersUnit: metros
+        feetUnit: pedes
         popup: Tu es intra {distance} {unit} de iste puncto
       base:
         standard: Standard
