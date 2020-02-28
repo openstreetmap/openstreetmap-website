@@ -154,6 +154,6 @@ group :development, :test do
   gem "erb_lint", :require => false
   gem "factory_bot_rails"
   gem "poltergeist"
-  gem "puma", "~> 3.11"
+  gem "puma", "~> 3.12"
   gem "selenium-webdriver"
 end
