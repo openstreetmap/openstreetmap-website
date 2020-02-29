@@ -13,7 +13,7 @@ module Api
     before_action :check_api_readable, :except => [:create, :update, :delete]
     around_action :api_call_handle_error, :api_call_timeout
 
-    before_action :set_default_request_format, :except => [:create, :update, :delete]
+    before_action :set_request_formats, :except => [:create, :update, :delete]
 
     # Create a node from XML.
     def create

@@ -4,52 +4,45 @@ class ApiController < ApplicationController
   private
 
   ##
-  # Set default request format to xml unless a client requests a specific format,
-  # which can be done via (a) URL suffix and/or (b) HTTP Accept header, where
-  # the URL suffix always takes precedence over the Accept header.
-  def set_default_request_format
+  # Set allowed request formats if no explicit format has been
+  # requested via a URL suffix. Allowed formats are taken from
+  # any HTTP Accept header with XML as the default.
+  def set_request_formats
     unless params[:format]
       accept_header = request.headers["HTTP_ACCEPT"]
-      if accept_header.nil?
-        # e.g. unit tests don't set an Accept: header by default, force XML in this case
-        request.format = "xml"
-        return
+
+      if accept_header
+        # Some clients (such asJOSM) send Accept headers which cannot be
+        # parse by Rails, for example:
+        #
+        #   Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        #
+        # where both "*" and ".2" as a quality do not adhere to the syntax
+        # described in RFC 7231, section 5.3.1, etc.
+        #
+        # As a workaround, and for back compatibility, default to XML format.
+        mimetypes = begin
+                      Mime::Type.parse(accept_header)
+                    rescue Mime::Type::InvalidMimeType
+                      Array(Mime[:xml])
+                    end
+
+        # Allow XML and JSON formats, and treat an all formats wildcard
+        # as XML for backwards compatibility - all other formats are discarded
+        # which will result in a 406 Not Acceptable response being sent
+        formats = mimetypes.map do |mime|
+          if mime.symbol == :xml then :xml
+          elsif mime.symbol == :json then :json
+          elsif mime == "*/*" then :xml
+          end
+        end
+      else
+        # Default to XML if no accept header was sent - this includes
+        # the unit tests which don't set one by default
+        formats = Array(:xml)
       end
 
-      req_mimetypes = []
-
-      # Some clients (JOSM) send Accept headers which cannot be parsed by Rails, example: *; q=.2
-      # To be fair, JOSM's Accept header doesn't adhere to RFC 7231, section 5.3.1, et al. either
-      # As a workaround for backwards compatibility, we're assuming XML format
-      begin
-        req_mimetypes = Mime::Type.parse(accept_header)
-      rescue Mime::Type::InvalidMimeType
-        request.format = "xml"
-        return
-      end
-
-      # req_mimetypes contains all Accept header MIME types with descending priority
-      req_mimetypes.each do |mime|
-        if mime.symbol == :xml
-          request.format = "xml"
-          break
-        end
-
-        if mime.symbol == :json
-          request.format = "json"
-          break
-        end
-
-        # Any format, not explicitly requesting XML or JSON -> assume XML as default
-        if mime == "*/*"
-          request.format = "xml"
-          break
-        end
-
-        # In case the client requests some other format besides XML, JSON and */*,
-        # we deliberately don't set request.format. The framework will return an
-        # ActionController::UnknownFormat error to the client later on in this case.
-      end
+      request.formats = formats.compact
     end
   end
 
