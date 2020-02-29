@@ -41,13 +41,13 @@ OSM.History = function (map) {
 
   function highlightChangeset(id) {
     var layer = group.getLayer(id);
-    if ( layer ) layer.setStyle({ fillOpacity: 0.3, color: "#FF6600", weight: 3 });
+    if (layer) layer.setStyle({ fillOpacity: 0.3, color: "#FF6600", weight: 3 });
     $("#changeset_" + id).addClass("selected");
   }
 
   function unHighlightChangeset(id) {
     var layer = group.getLayer(id);
-    if ( layer ) layer.setStyle({ fillOpacity: 0, color: "#FF9500", weight: 2 });
+    if (layer) layer.setStyle({ fillOpacity: 0, color: "#FF9500", weight: 2 });
     $("#changeset_" + id).removeClass("selected");
   }
 
