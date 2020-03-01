@@ -24,9 +24,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_show
+  def test_show_moderator
     target_user = create(:user)
-    issue = create(:issue, :reportable => target_user, :reported_user => target_user)
+    issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "moderator")
 
     # Access issue without login
     get :show, :params => { :id => issue.id }
@@ -42,7 +42,7 @@ class IssuesControllerTest < ActionController::TestCase
     # Access issue as administrator
     session[:user] = create(:administrator_user).id
     get :show, :params => { :id => issue.id }
-    assert_response :success
+    assert_response :not_found
 
     # Access issue as moderator
     session[:user] = create(:moderator_user).id
@@ -50,9 +50,35 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_resolve
+  def test_show_administrator
     target_user = create(:user)
-    issue = create(:issue, :reportable => target_user, :reported_user => target_user)
+    issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "administrator")
+
+    # Access issue without login
+    get :show, :params => { :id => issue.id }
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => issue_path(issue))
+
+    # Access issue as normal user
+    session[:user] = create(:user).id
+    get :show, :params => { :id => issue.id }
+    assert_response :redirect
+    assert_redirected_to :controller => :errors, :action => :forbidden
+
+    # Access issue as moderator
+    session[:user] = create(:moderator_user).id
+    get :show, :params => { :id => issue.id }
+    assert_response :not_found
+
+    # Access issue as administrator
+    session[:user] = create(:administrator_user).id
+    get :show, :params => { :id => issue.id }
+    assert_response :success
+  end
+
+  def test_resolve_moderator
+    target_user = create(:user)
+    issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "moderator")
 
     # Resolve issue without login
     get :resolve, :params => { :id => issue.id }
@@ -68,10 +94,8 @@ class IssuesControllerTest < ActionController::TestCase
     # Resolve issue as administrator
     session[:user] = create(:administrator_user).id
     get :resolve, :params => { :id => issue.id }
-    assert_response :redirect
-    assert_equal true, issue.reload.resolved?
-
-    issue.reopen!
+    assert_response :not_found
+    assert_equal false, issue.reload.resolved?
 
     # Resolve issue as moderator
     session[:user] = create(:moderator_user).id
@@ -80,9 +104,37 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal true, issue.reload.resolved?
   end
 
-  def test_ignore
+  def test_resolve_administrator
     target_user = create(:user)
-    issue = create(:issue, :reportable => target_user, :reported_user => target_user)
+    issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "administrator")
+
+    # Resolve issue without login
+    get :resolve, :params => { :id => issue.id }
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => resolve_issue_path(issue))
+
+    # Resolve issue as normal user
+    session[:user] = create(:user).id
+    get :resolve, :params => { :id => issue.id }
+    assert_response :redirect
+    assert_redirected_to :controller => :errors, :action => :forbidden
+
+    # Resolve issue as moderator
+    session[:user] = create(:moderator_user).id
+    get :resolve, :params => { :id => issue.id }
+    assert_response :not_found
+    assert_equal false, issue.reload.resolved?
+
+    # Resolve issue as administrator
+    session[:user] = create(:administrator_user).id
+    get :resolve, :params => { :id => issue.id }
+    assert_response :redirect
+    assert_equal true, issue.reload.resolved?
+  end
+
+  def test_ignore_moderator
+    target_user = create(:user)
+    issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "moderator")
 
     # Ignore issue without login
     get :ignore, :params => { :id => issue.id }
@@ -98,10 +150,8 @@ class IssuesControllerTest < ActionController::TestCase
     # Ignore issue as administrator
     session[:user] = create(:administrator_user).id
     get :ignore, :params => { :id => issue.id }
-    assert_response :redirect
-    assert_equal true, issue.reload.ignored?
-
-    issue.reopen!
+    assert_response :not_found
+    assert_equal false, issue.reload.ignored?
 
     # Ignore issue as moderator
     session[:user] = create(:moderator_user).id
@@ -110,9 +160,37 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal true, issue.reload.ignored?
   end
 
-  def test_reopen
+  def test_ignore_administrator
     target_user = create(:user)
-    issue = create(:issue, :reportable => target_user, :reported_user => target_user)
+    issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "administrator")
+
+    # Ignore issue without login
+    get :ignore, :params => { :id => issue.id }
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => ignore_issue_path(issue))
+
+    # Ignore issue as normal user
+    session[:user] = create(:user).id
+    get :ignore, :params => { :id => issue.id }
+    assert_response :redirect
+    assert_redirected_to :controller => :errors, :action => :forbidden
+
+    # Ignore issue as moderator
+    session[:user] = create(:moderator_user).id
+    get :ignore, :params => { :id => issue.id }
+    assert_response :not_found
+    assert_equal false, issue.reload.ignored?
+
+    # Ignore issue as administrator
+    session[:user] = create(:administrator_user).id
+    get :ignore, :params => { :id => issue.id }
+    assert_response :redirect
+    assert_equal true, issue.reload.ignored?
+  end
+
+  def test_reopen_moderator
+    target_user = create(:user)
+    issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "moderator")
 
     issue.resolve!
 
@@ -130,13 +208,41 @@ class IssuesControllerTest < ActionController::TestCase
     # Reopen issue as administrator
     session[:user] = create(:administrator_user).id
     get :reopen, :params => { :id => issue.id }
-    assert_response :redirect
-    assert_equal true, issue.reload.open?
-
-    issue.resolve!
+    assert_response :not_found
+    assert_equal false, issue.reload.open?
 
     # Reopen issue as moderator
     session[:user] = create(:moderator_user).id
+    get :reopen, :params => { :id => issue.id }
+    assert_response :redirect
+    assert_equal true, issue.reload.open?
+  end
+
+  def test_reopen_administrator
+    target_user = create(:user)
+    issue = create(:issue, :reportable => target_user, :reported_user => target_user, :assigned_role => "administrator")
+
+    issue.resolve!
+
+    # Reopen issue without login
+    get :reopen, :params => { :id => issue.id }
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => reopen_issue_path(issue))
+
+    # Reopen issue as normal user
+    session[:user] = create(:user).id
+    get :reopen, :params => { :id => issue.id }
+    assert_response :redirect
+    assert_redirected_to :controller => :errors, :action => :forbidden
+
+    # Reopen issue as moderator
+    session[:user] = create(:moderator_user).id
+    get :reopen, :params => { :id => issue.id }
+    assert_response :not_found
+    assert_equal false, issue.reload.open?
+
+    # Reopen issue as administrator
+    session[:user] = create(:administrator_user).id
     get :reopen, :params => { :id => issue.id }
     assert_response :redirect
     assert_equal true, issue.reload.open?
