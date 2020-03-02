@@ -19,6 +19,7 @@ RUN apt-get update && \
       libxslt1-dev \
       locales \
       nodejs \
+      osmosis \
       phantomjs \
       postgresql-client \
       ruby-dev \
