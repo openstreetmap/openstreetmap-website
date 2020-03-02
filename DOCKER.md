@@ -1,17 +1,13 @@
-# Using Docker and Docker Compose to run OpenStreetMap
+# Using Docker and Docker Compose for Development and Testing
 
-Using [Docker](https://www.docker.com/) will allow you to install the OpenStreetMap application and all its dependencies in Docker images and then run them in containers, almost with a single command. You will need to install Docker and Docker Compose on your development machine:
+These instructions are designed for setting up The Rails Port for development and testing using [Docker](https://www.docker.com/). This will allow you to install the OpenStreetMap application and all its dependencies in Docker images and then run them in containers, almost with a single command. You will need to install Docker and Docker Compose on your development machine:
 
 - [Install Docker](https://docs.docker.com/install/)
 - [Install Docker Compose](https://docs.docker.com/compose/install/)
 
-The first step is to fork/clone the repo to your local machine. The repository is reasonably large (~150MB) and it's unlikely that you need the full history. If you are happy to wait for it all to download, run:
+The first step is to fork/clone the repo to your local machine:
 
     git clone https://github.com/openstreetmap/openstreetmap-website.git
-
-To clone only the most recent version (~23MB), instead use a 'shallow clone':
-
-    git clone --depth=1 https://github.com/openstreetmap/openstreetmap-website.git
 
 Now change working directory to the `openstreetmap-website`:
 
@@ -35,7 +31,7 @@ This is a workaround. [See issues/2185 for details](https://github.com/openstree
 
 ## Installation
 
-In the root directory run:
+To build local Docker images run from the root directory of the repository:
 
     docker-compose build
 
@@ -54,7 +50,13 @@ This will launch one Docker container for each 'service' specified in `docker-co
 
 Run the Rails database migrations:
 
-    docker-compose run --rm web rake db:migrate
+    docker-compose run --rm web bundle exec rake db:migrate
+
+### Tests
+
+Run the test suite by running:
+
+    docker-compose run --rm web bundle exec rake test:db
 
 ### Loading an OSM extract
 
@@ -80,10 +82,6 @@ Once you have data loaded for Washington, DC you should be able to navigate to `
 ### Additional Configuration
 
 See `CONFIGURE.md` for information on how to manage users and enable OAuth for iD, JOSM etc.
-
-### Tests
-
-    docker-compose run --rm web rake test:db
 
 ### Bash
 
