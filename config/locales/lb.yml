@@ -101,11 +101,11 @@ lb:
     created: Ugeluecht
     closed: Zou
     created_html: Ugeluecht <abbr title='%{title}'>viru(n) %{time}</abbr>
-    closed_html: Zougemaach <abbr title='%{title}'>viru(n) %{time}</abbr>
-    created_by_html: Ugeluecht <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
-    deleted_by_html: Geläscht <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
-    edited_by_html: Geännert <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
-    closed_by_html: Zougemaach <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
+    closed_html: Zougemaach <abbr title='%{title}'> %{time}</abbr>
+    created_by_html: Ugeluecht <abbr title='%{title}'>%{time}</abbr> vum %{user}
+    deleted_by_html: Geläscht <abbr title='%{title}'>%{time}</abbr> vum %{user}
+    edited_by_html: Geännert <abbr title='%{title}'>%{time}</abbr> vum %{user}
+    closed_by_html: Zougemaach <abbr title='%{title}'>%{time}</abbr> vum %{user}
     version: Versioun
     in_changeset: Set vun Ännerungen
     anonymous: anonym
@@ -125,9 +125,8 @@ lb:
       relation: Relatiounen (%{count})
       relation_paginated: Relatiounen (%{x}-%{y} vu(n) %{count})
       comment: Bemierkungen (%{count})
-      hidden_commented_by: Verstoppt Bemierkung vum %{user} <abbr title='%{exact_time}'>
-        viru(n) %{when}</abbr>
-      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'> viru(n) %{when}</abbr>
+      hidden_commented_by: Verstoppt Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML mam Set vun Ännerungen
       osmchangexml: osmChange XML
       feed:
@@ -192,16 +191,13 @@ lb:
       opened_by: Ugeluecht vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
       opened_by_anonymous: Ugeluecht vun engem Anonymen <abbr title='%{exact_time}'>
         viru(n) %{when}</abbr>
-      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'> viru(n) %{when}</abbr>
-      commented_by_anonymous: Bemierkung vun engem Anonymen <abbr title='%{exact_time}'>
-        viru(n) %{when}</abbr>
-      closed_by: Geléist vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
-      closed_by_anonymous: Geléist vun engem Anonymen <abbr title='%{exact_time}'>
-        viru(n) %{when}</abbr>
-      reopened_by: Reaktivéiert vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
-      reopened_by_anonymous: Reaktivéiert vun engem Anonymen <abbr title='%{exact_time}'>
-        viru(n) %{when}</abbr>
-      hidden_by: Verstoppt vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
+      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Bemierkung vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Geléist vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Geléist vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reaktivéiert vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reaktivéiert vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Verstoppt vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: Säit %{page}
@@ -220,17 +216,17 @@ lb:
       title: Sette vun Ännerungen
       title_user: Sette vun Ännerunge vum %{user}
       title_friend: Ännerungs-Sette vu menge Frënn
-      title_nearby: Sette vun Ännerunge vu Benotzer déi nobäi sinn
-      empty: Keng Sette vun Ännerunge fonnt.
-      empty_area: Keng Sette vun Ännerungen an dëser Géigend.
-      empty_user: Keng Sette vun Ännerunge vun dësem Benotzer.
-      no_more: Soss keng Ännerungssätz fonnt.
-      no_more_area: Keng weider Sette vun Ännerungen an dëser Géigend.
-      no_more_user: Keng weider Sette vun Ännerunge vun dësem Benotzer.
+      title_nearby: Gruppe vun Ännerunge vu Benotzer nobäi
+      empty: Keng Gruppe vun Ännerunge fonnt.
+      empty_area: Keng Gruppe vun Ännerungen an dëser Géigend.
+      empty_user: Keng Gruppe vun Ännerunge vun dësem Benotzer.
+      no_more: Soss keng Gruppe vun Ännerunge fonnt.
+      no_more_area: Keng weider Grupp vun Ännerungen an dëser Géigend.
+      no_more_user: Keng weider Gruppe vun Ännerunge vun dësem Benotzer.
       load_more: Méi lueden
   changeset_comments:
     comment:
-      commented_at_by_html: Viru(n) %{when} vum %{user} aktualiséiert
+      commented_at_by_html: '%{when} vum %{user} aktualiséiert'
   diary_entries:
     form:
       subject: 'Sujet:'
@@ -1129,7 +1125,7 @@ lb:
       notes: Notizen op der Kaart
       remove as friend: Frënd ewechhuelen
       add as friend: Frënd derbäisetzen
-      latest edit: 'Lescht Ännerung %{ago}:'
+      latest edit: 'Lescht Ännerung (%{ago}):'
       email address: 'E-Mail-Adress:'
       status: 'Status:'
       description: Beschreiwung
