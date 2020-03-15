@@ -19,13 +19,17 @@ RUN apt-get update && \
       libxslt1-dev \
       locales \
       nodejs \
-      osmosis \
+      default-jre-headless \
       phantomjs \
       postgresql-client \
       ruby-dev \
       yarn && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Install current Osmosis
+RUN curl -OL https://github.com/openstreetmap/osmosis/releases/download/0.47.2/osmosis-0.47.2.tgz && \
+    tar -C /usr/local -xzf osmosis-0.47.2.tgz
 
 # Setup app location
 RUN mkdir -p /app
