@@ -873,7 +873,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     get :comments, :params => { :display_name => user.display_name }
     assert_response :success
     assert_template :comments
-    assert_select "table.messages" do
+    assert_select "table.table-striped" do
       assert_select "tr", :count => 1 # header, no comments
     end
 
@@ -883,7 +883,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     get :comments, :params => { :display_name => other_user.display_name }
     assert_response :success
     assert_template :comments
-    assert_select "table.messages" do
+    assert_select "table.table-striped" do
       assert_select "tr", :count => 2 # header and one comment
     end
 
