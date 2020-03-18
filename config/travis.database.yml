@@ -1,5 +1,9 @@
 test:
-  adapter: postgresql
-  database: openstreetmap
-  username: postgres
-  encoding: utf8
+  primary: &test_db
+    adapter: postgresql
+    database: openstreetmap
+    username: postgres
+    encoding: utf8
+  primary_replica:
+    <<: *test_db
+    replica: true
