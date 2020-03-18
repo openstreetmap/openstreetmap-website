@@ -1,5 +1,4 @@
 require "test_helper"
-require "minitest/mock"
 
 class TracesControllerTest < ActionController::TestCase
   # Use temporary directories with unique names for each test
