@@ -1,9 +1,9 @@
 <tr>
   <% if show_user_name %>
-  <td><%= link_to h(block.user.display_name), user_path(block.user) %></td>
+  <td><%= link_to block.user.display_name, user_path(block.user) %></td>
   <% end %>
   <% if show_creator_name %>
-  <td><%= link_to h(block.creator.display_name), user_path(block.creator) %></td>
+  <td><%= link_to block.creator.display_name, user_path(block.creator) %></td>
   <% end %>
   <td><%= h truncate(block.reason) %></td>
   <td><%= h block_status(block) %></td>
@@ -11,7 +11,7 @@
     <% if block.revoker_id.nil? %>
       <%= t(".not_revoked") %>
     <% else %>
-      <%= link_to h(block.revoker.display_name), user_path(block.revoker) %>
+      <%= link_to block.revoker.display_name, user_path(block.revoker) %>
     <% end %>
   </td>
   <td><%= link_to t(".show"), block %></td>

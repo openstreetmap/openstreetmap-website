@@ -5,5 +5,5 @@
 <% unless @user_blocks.empty? %>
 <%= render :partial => "blocks", :locals => { :show_revoke_link => can?(:revoke, UserBlock), :show_user_name => false, :show_creator_name => true } %>
 <% else %>
-<p><%= t ".empty", :name => h(@user.display_name) %></p>
+<p><%= t ".empty", :name => @user.display_name %></p>
 <% end %>
