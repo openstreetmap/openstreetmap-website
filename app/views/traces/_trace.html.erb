@@ -1,6 +1,5 @@
 <tr>
-  <% cl = cycle("table0", "table1") %>
-  <td class="<%= cl %>">
+  <td>
     <% if Settings.status != "gpx_offline" %>
       <% if trace.inserted %>
         <a href="<%= url_for :controller => "traces", :action => "show", :id => trace.id, :display_name => trace.user.display_name %>"><img src="<%= url_for :controller => "traces", :action => "icon", :id => trace.id, :display_name => trace.user.display_name %>" border="0" alt="" /></a>
@@ -9,7 +8,7 @@
       <% end %>
     <% end %>
   </td>
-  <td class="<%= cl %>"><%= link_to trace.name, :controller => "traces", :action => "show", :display_name => trace.user.display_name, :id => trace.id %>
+  <td><%= link_to trace.name, :controller => "traces", :action => "show", :display_name => trace.user.display_name, :id => trace.id %>
     <span class="trace_summary" title="<%= trace.timestamp %>"> ...
       <% if trace.inserted %>
         (<%= t ".count_points", :count => trace.size %>)

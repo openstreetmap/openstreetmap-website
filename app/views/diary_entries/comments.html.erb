@@ -2,7 +2,7 @@
   <h1><%= t(".has_commented_on", :display_name => @user.display_name) %></h1>
 <% end %>
 
-<table class="messages" width="100%">
+<table class="table table-striped" width="100%">
   <thead>
     <tr>
       <th width="25%"><%= t ".post" %></th>
@@ -11,8 +11,7 @@
     </tr>
   </thead>
   <% @comments.each do |comment| -%>
-  <% cl = cycle("table0", "table1") %>
-  <tr class="<%= cl %><%= " deemphasize" unless comment.visible? %>">
+  <tr class="<%= "deemphasize" unless comment.visible? %>">
     <td width="25%"><%= link_to comment.diary_entry.title, diary_entry_path(comment.diary_entry.user, comment.diary_entry) %></td>
     <td width="25%"><span title="<%= l comment.created_at, :format => :friendly %>"><%= time_ago_in_words(comment.created_at, :scope => :'datetime.distance_in_words_ago') %></span></td>
     <td width="50%" class="richtext"><%= comment.body.to_html %></td>
