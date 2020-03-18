@@ -26,7 +26,7 @@
       <br />
       <%= trace.description %>
     <br />
-    <%= t ".by" %> <%= link_to h(trace.user.display_name), user_path(trace.user) %>
+    <%= t ".by" %> <%= link_to trace.user.display_name, user_path(trace.user) %>
     <% if !trace.tags.empty? %>
       <%= t ".in" %>
       <%= safe_join(trace.tags.collect { |tag| link_to_tag tag.tag }, ", ") %>

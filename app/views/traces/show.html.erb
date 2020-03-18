@@ -1,5 +1,5 @@
 <% content_for :heading do %>
-  <h2><%= t ".heading", :name => h(@trace.name) %></h2>
+  <h2><%= t ".heading", :name => @trace.name %></h2>
 <% end %>
 
 <% if Settings.status != "gpx_offline" %>
@@ -30,11 +30,11 @@
   <% end %>
   <tr>
     <td><%= t ".owner" %></td>
-    <td><%= link_to h(@trace.user.display_name), user_path(@trace.user) %></td>
+    <td><%= link_to @trace.user.display_name, user_path(@trace.user) %></td>
   </tr>
   <tr>
     <td><%= t ".description" %></td>
-    <td><%= h(@trace.description) %></td>
+    <td><%= @trace.description %></td>
   </tr>
   <tr>
     <td><%= t ".tags" %></td>

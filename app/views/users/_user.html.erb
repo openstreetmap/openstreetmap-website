@@ -6,12 +6,12 @@
     <p>
       <% if user.creation_ip %>
         <%= t "users.index.summary_html",
-              :name => link_to(h(user.display_name), user_path(user)),
+              :name => link_to(user.display_name, user_path(user)),
               :ip_address => link_to(user.creation_ip, :ip => user.creation_ip),
               :date => l(user.creation_time, :format => :friendly) %>
       <% else %>
         <%= t "users.index.summary_no_ip_html",
-              :name => link_to(h(user.display_name), user_path(user)),
+              :name => link_to(user.display_name, user_path(user)),
               :date => l(user.creation_time, :format => :friendly) %>
       <% end %>
     </p>

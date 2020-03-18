@@ -1,6 +1,6 @@
 <h4>
   <% if common_details.changeset.tags['comment'].present? %>
-    <%= linkify(h(common_details.changeset.tags["comment"])) %>
+    <%= linkify(common_details.changeset.tags["comment"]) %>
   <% else %>
     <%= t "browse.no_comment" %>
   <% end %>
@@ -15,7 +15,7 @@
 
 <div class="details">
   <%= t "browse.version" %>
-  #<%= h(common_details.version) %>
+  #<%= common_details.version %>
   &middot;
   <%= t "browse.in_changeset" %>
   #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
