@@ -1,9 +1,12 @@
 module Auth
-  PROVIDERS = { "None" => "", "OpenID" => "openid" }.tap do |providers|
-    providers["Google"] = "google" if Settings.key?(:google_auth_id)
-    providers["Facebook"] = "facebook" if Settings.key?(:facebook_auth_id)
-    providers["Windows Live"] = "windowslive" if Settings.key?(:windowslive_auth_id)
-    providers["GitHub"] = "github" if Settings.key?(:github_auth_id)
-    providers["Wikipedia"] = "wikipedia" if Settings.key?(:wikipedia_auth_id)
+  PROVIDERS = {
+    I18n.t("auth.providers.none") => "",
+    I18n.t("auth.providers.openid") => "openid"
+  }.tap do |providers|
+    providers[I18n.t("auth.providers.google")] = "google" if Settings.key?(:google_auth_id)
+    providers[I18n.t("auth.providers.facebook")] = "facebook" if Settings.key?(:facebook_auth_id)
+    providers[I18n.t("auth.providers.windowslive")] = "windowslive" if Settings.key?(:windowslive_auth_id)
+    providers[I18n.t("auth.providers.github")] = "github" if Settings.key?(:github_auth_id)
+    providers[I18n.t("auth.providers.wikipedia")] = "wikipedia" if Settings.key?(:wikipedia_auth_id)
   end.freeze
 end
