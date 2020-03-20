@@ -18,9 +18,9 @@ $(document).ready(function () {
       iconLoading: "icon geolocate",
       strings: {
         title: I18n.t("javascripts.map.locate.title"),
-        metersUnit: I18n.t("javascripts.map.locate.metersUnit"),
-        feetUnit: I18n.t("javascripts.map.locate.feetUnit"),
-        popup: I18n.t("javascripts.map.locate.popup")
+        popup: function (options) {
+          return I18n.t("javascripts.map.locate." + options.unit + "Popup", :count => options.distance);
+        }
       }
     }).addTo(map);
 
