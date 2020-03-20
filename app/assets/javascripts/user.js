@@ -19,7 +19,7 @@ $(document).ready(function () {
       strings: {
         title: I18n.t("javascripts.map.locate.title"),
         popup: function (options) {
-          return I18n.t("javascripts.map.locate." + options.unit + "Popup", :count => options.distance);
+          return I18n.t("javascripts.map.locate." + options.unit + "Popup", { count: options.distance });
         }
       }
     }).addTo(map);
