@@ -53,6 +53,7 @@ is:
       diary_comment: Bloggathugasemd
       diary_entry: Bloggfærsla
       friend: Vinur
+      issue: Vandamál
       language: Tungumál
       message: Skilaboð
       node: Hnútur
@@ -69,6 +70,7 @@ is:
       relation: Vensl
       relation_member: Stak í venslum
       relation_tag: Merki vensla
+      report: Skýrsla
       session: Seta
       trace: Ferill
       tracepoint: Ferilpunktur
@@ -168,6 +170,15 @@ is:
     remote:
       name: RC-fjarstýring
       description: RC-fjarstýring (JOSM eða Merkaartor)
+  auth:
+    providers:
+      none: Ekkert
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -307,9 +318,8 @@ is:
       opened_by: Búið til af %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
       opened_by_anonymous: Búið til af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}
         síðan</abbr>
-      commented_by: Umsögn frá %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
-      commented_by_anonymous: Umsögn frá nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}
-        síðan</abbr>
+      commented_by: Umsögn frá %{user} <abbr title='%{exact_time}'> %{when}</abbr>
+      commented_by_anonymous: Umsögn frá nafnlausum notanda <abbr title='%{exact_time}'>%{when}</abbr>
       closed_by: Leyst af %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
       closed_by_anonymous: Leyst af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}
         síðan</abbr>
@@ -1056,9 +1066,8 @@ is:
       status: Staða
       reports: Skýrslur
       last_updated: Síðast uppfært
-      last_updated_time_html: <abbr title='%{title}'> fyrir %{time} síðan</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'> fyrir %{time} síðan</abbr>
-        af %{user}
+      last_updated_time_html: <abbr title='%{title}'> %{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'> %{time}</abbr> af %{user}
       link_to_reports: Skoða skýrslur
       reports_count:
         one: 1 skýrsla
@@ -1097,9 +1106,10 @@ is:
     reopen:
       reopened: Staða vandamáls hefur verið sett á 'Opið'
     comments:
+      comment_from_html: Athugasemd frá %{user_link} gerð %{comment_created_at}
       reassign_param: Endurúthluta vandamáli?
     reports:
-      reported_by_html: Tilkynnt sem %{category} af %{user}
+      reported_by_html: Tilkynnt sem %{category} af %{user} þann %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, athugasemd #%{comment_id}'
@@ -2073,6 +2083,7 @@ is:
       no_apps_html: Ert þú að nota forrit sem þú myndir vilja skrá til notkunar hjá
         okkur með %{oauth} staðlinum? Þú verður að skrá vefforritið áður en það fer
         að senda OAuth-beiðnir á þessa þjónustu.
+      oauth: OAuth
       registered_apps: 'Þú hefur skráð eftirfarandi forrit:'
       register_new: Skrá nýtt forrit
     form:
@@ -2623,7 +2634,12 @@ is:
         out: Renna frá
       locate:
         title: Birta staðsetningu mína
-        popup: Þú ert innan {distance} {unit} frá þessum punkti
+        metersPopup:
+          one: Þú ert minna en einn metra frá þessum punkti
+          other: Þú ert minna en %{count} metra frá þessum punkti
+        feetPopup:
+          one: Þú ert minna en eitt fet frá þessum punkti
+          other: Þú ert minna en %{count} fet frá þessum punkti
       base:
         standard: Staðlað
         cycle_map: Hjólakort
@@ -2639,6 +2655,11 @@ is:
       copyright: © <a href='%{copyright_url}'>Þátttakendur í OpenStreetMap verkefninu</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Styrkja verkefnið</a>
       terms: <a href='%{terms_url}' target='_blank'>Skilmálar vefsvæðis og API-kerfisviðmóts</a>
+      thunderforest: Kortatíglar frá <a href='%{thunderforest_url}' target='_blank'>Andy
+        Allan</a>
+      hotosm: Stíll kortatígla frá <a href='%{hotosm_url}' target='_blank'>Humanitarian
+        OpenStreetMap teyminu</a> hýst á <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        France</a>
     site:
       edit_tooltip: Breyta kortinu
       edit_disabled_tooltip: Renndu að til að breyta kortinu
