@@ -44,6 +44,7 @@ fit:
       diary_comment: Päiväkirjakommentti
       diary_entry: Päiväkirjamerkintä
       friend: Ystävä
+      issue: Ilmiannot
       language: Kieli
       message: Viesti
       node: Piste
@@ -156,6 +157,9 @@ fit:
     remote:
       name: Kauko-ohjaus
       description: Kauko-ohjaus (JOSM eli Merkaartor)
+  auth:
+    providers:
+      wikipedia: Wikipeetia
   api:
     notes:
       comment:
@@ -444,7 +448,28 @@ fit:
           gondola: Gondolihissi
           platter: Hiihtohissi
           pylon: Pylväs
+          station: Ilmarata-asema
+          t-bar: Ankkurihissi
+        aeroway:
+          aerodrome: Lentokenttä
+          airstrip: Kiitorata
+          apron: Asemataso
+          gate: Portti
+          hangar: Hangaari
+          helipad: Helikopterikenttä
+          holding_position: Odotuspaikka
+          parking_position: Parkkialue
+          runway: Kiitorata
+          taxiway: Rullaustie
+          terminal: Terminaali
         amenity:
+          animal_shelter: Eläinsuoja
+          arts_centre: Taidekeskus
+          atm: Pankkoauttomaatti
+          bank: Pankko
+          bar: Baari
+          bbq: Grillauskatos
+          bench: Penkki
           cafe: Kahvila
           hospital: Siukhuusi
           library: Pipluteekki
@@ -501,7 +526,7 @@ fit:
       last_updated_time_user_html: käyttäjä %{user} <abbr title='%{title}'>%{time}</abbr>
       link_to_reports: Näytä ilmiannot
       reports_count:
-        one: 1 ilmoitus
+        one: 1 ilmotus
         other: '%{count} ilmiantoa'
       states:
         open: Avvaa
@@ -529,11 +554,11 @@ fit:
       no_other_issues: Ei muita tähän käyttäjään kohistuvia ilmiantoja.
       comments_on_this_issue: Tapauksen kommentit
     resolve:
-      resolved: Tapaus on markeerattu ratkaistuksi
+      resolved: Tapaus oon markeerattu ratkaistuksi
     ignore:
-      ignored: Tapaus on markeerattu aiheettomaksi
+      ignored: Tapaus oon markeerattu aiheettomaksi
     reopen:
-      reopened: Tapaus on markeerattu käsittelyssä olevaksi
+      reopened: Tapaus oon markeerattu käsittelyssä olevaksi
     comments:
       reassign_param: Haluatko määrittää tapauksen tilan uuesti?
     reports:
@@ -771,8 +796,8 @@ fit:
           href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database -lisensillä</a> (ODbL).
         intro_2_html: "OpenStreetMapin karttoja ja tietoja voi kopioida, levittää,
           välittää ja mukauttaa, \nkunhan OpenStreetMap ja sen tekijät mainitaan.
-          Jos karttoja tai tietoja muutethaan tai kehitethään, niitä saa levittää
-          vain samalla lisensillä.\n<a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">Lakitekstissä</a>
+          Jos karttoja tai tietoja muutethaan tai kehitethään, niitä saa levithää
+          vain samalla lisensilä.\n<a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">Lakitekstissä</a>
           mainitaan levittäjän oikeudet ja velvollisuudet."
         intro_3_html: |-
           Kartta-aineisto ja dokumentaatio oon lisensoitu <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.fi">Creative
@@ -781,11 +806,11 @@ fit:
         credit_1_html: OpenStreetMapin sisältöä levitettäessä oon mainittava teksti
           &quot;&copy; OpenStreetMapin tekijät&quot; tai sen engelskankielinen vastine
           &quot;&copy; OpenStreetMap contributors&quot;.
-        credit_2_html: "Levittäjän tulee tehdä selväksi, että aineisto on saatavilla
-          Open Database -lisenssillä\nja kartta-aineisto CC-BY-SA-lisenssillä. Tämä
-          voidaan tehdä sijoittamalla sivulle linkki\n<a href=\"https://www.openstreetmap.org/copyright\">tälle
-          tekijänoikeussivulle</a>. \nJos linkkien käyttö ei ole mahdollista (esimerkiksi
-          paperille tulostettu aineisto),\nsuosittelemme ohjaamaan lukijat osoitteisiin
+        credit_2_html: "Levittäjän tulee tehdä selväksi, ette aineisto oon saatavilla
+          Open Database -lisensillä\nja kartta-aineisto CC-BY-SA-lisensillä. Tämä
+          voidaan tehdä sijoittamalla sivule länkki\n<a href=\"https://www.openstreetmap.org/copyright\">tälle
+          tekijänoikeussivule</a>. \nJos länkkien käyttö ei ole mahollista (esimerkiksi
+          paperille printattu aineisto),\nsuosittelemme ohjaamaan lukijat atresseihin
           www.openstreetmap.org, opendatacommons.org ja tarvittaessa myös creativecommons.org."
         credit_3_html: 'Sivustolle upotetun interaktiivisen karttaikkunan tulee sisältää
           tekijän nimi kartan alaosassa:'
@@ -1016,7 +1041,7 @@ fit:
       button: Lissää ystäväksi
       success: '%{name} oon nyt sinun ystävä!'
       failed: Käyttäjää %{name} ei voitu lisätä sinun ystävälistaan.
-      already_a_friend: '%{name} on jo sinun ystävä.'
+      already_a_friend: '%{name} oon jo sinun ystävä.'
     remove_friend:
       heading: Poistetaanko ystävä %{user}?
       button: Ota poies ystävä
