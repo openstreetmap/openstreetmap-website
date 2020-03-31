@@ -25,9 +25,7 @@ module Api
 
     # update the entire set of preferences
     def update_all
-      old_preferences = current_user.preferences.each_with_object({}) do |preference, preferences|
-        preferences[preference.k] = preference
-      end
+      old_preferences = current_user.preferences.index_by(&:k)
 
       new_preferences = {}
 
