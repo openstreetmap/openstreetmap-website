@@ -34,6 +34,7 @@
 # Author: Spotter
 # Author: StenSoft
 # Author: Tchoř
+# Author: Tomasokol
 # Author: Urbanecm
 # Author: Veritaslibero
 # Author: Walter Klosse
@@ -81,6 +82,7 @@ cs:
       diary_comment: Komentář k deníku
       diary_entry: Deníkový záznam
       friend: Přítel
+      issue: Problém
       language: Jazyk
       message: Zpráva
       node: Uzel
@@ -155,6 +157,30 @@ cs:
         one: skoro před rokem
         other: skoro před %{count} roky
       half_a_minute: před půl minutou
+      less_than_x_seconds:
+        one: před méně než vteřinou
+        other: před méně než %{count} vteřinami
+      less_than_x_minutes:
+        one: před méně než minutou
+        other: před méně než %{count} minutami
+      over_x_years:
+        one: více než před rokem
+        other: před více než %{count} lety
+      x_seconds:
+        one: před vteřinou
+        other: před %{count} vteřinami
+      x_minutes:
+        one: před minutou
+        other: před %{count} minutami
+      x_days:
+        one: den nazpět
+        other: před %{count} dny
+      x_months:
+        one: před měsícem
+        other: před %{count} měsíci
+      x_years:
+        one: před rokem
+        other: před %{count} lety
   editor:
     default: Výchozí (aktuálně %{name})
     potlatch:
@@ -169,6 +195,14 @@ cs:
     remote:
       name: Dálkové ovládání
       description: Dálkové ovládání (JOSM nebo Merkaartor)
+  auth:
+    providers:
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedie
   api:
     notes:
       comment:
@@ -305,13 +339,12 @@ cs:
       commented_by_anonymous: <abbr title='%{exact_time}'>%{when}</abbr> okomentoval
         anonym
       closed_by: Vyřešeno od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr>
-        anonym
-      reopened_by: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr> uživatel
+      closed_by_anonymous: Vyřešil anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Znovu aktivoval <abbr title='%{exact_time}'>%{when}</abbr> uživatel
         %{user}
-      reopened_by_anonymous: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr>
+      reopened_by_anonymous: Znovu aktivoval <abbr title='%{exact_time}'>%{when}</abbr>
         anonym
-      hidden_by: Skryl <abbr title='%{exact_time}'>před %{when}</abbr> uživatel %{user}
+      hidden_by: Skryl <abbr title='%{exact_time}'>%{when}</abbr> uživatel %{user}
       report: Nahlásit tuto poznámku
     query:
       title: Průzkum prvků
@@ -1294,10 +1327,10 @@ cs:
           změn'
         subject_other: '[OpenStreetMap] %{commenter} okomentoval jednu ze sad změn,
           která vás zajímá'
-        your_changeset: '%{commenter} zanechal komentář na jedné z vašich sad změn,
-          vytvořené %{time}.'
-        commented_changeset: '%{commenter} zanechal komentář na sadě změn, kterou
-          %{time} vytvořil %{changeset_author} a kterou sledujete.'
+        your_changeset: '%{commenter} zanechal %{time} komentář na jedné z vašich
+          sad změn.'
+        commented_changeset: '%{commenter} zanechal %{time} komentář na Vámi sledované
+          sadě změn, kterou vytvořil %{changeset_author}.'
         partial_changeset_with_comment: s komentářem „%{changeset_comment}“
         partial_changeset_without_comment: bez komentáře
       details: Více informací o této sadě změn lze nalézt na %{url}.
@@ -1880,7 +1913,9 @@ cs:
       newer: Novější stopy
     trace:
       pending: ZPRACOVÁVÁ SE
-      count_points: '%{count} bodů'
+      count_points:
+        one: 1 bod
+        other: '%{count} bodů'
       more: více
       trace_details: Zobrazit podrobnosti stopy
       view_map: Zobrazit mapu
@@ -1997,6 +2032,7 @@ cs:
       no_apps_html: Máte nějakou aplikaci používající standard %{oauth}, která by
         s námi měla spolupracovat? Aplikaci je potřeba nejdříve zaregistrovat, až
         poté k nám bude moci posílat OAuth požadavky.
+      oauth: OAuth
       registered_apps: 'Máte zaregistrovány následující klientské aplikace:'
       register_new: Zaregistrovat aplikaci
     form:
@@ -2460,6 +2496,18 @@ cs:
         hours:
           one: 1 hodina
           other: '%{count} hodiny'
+        days:
+          one: 1 den
+          other: '%{count} dnů'
+        weeks:
+          one: 1 týden
+          other: '%{count} týdnů'
+        months:
+          one: 1 měsíc
+          other: '%{count} měsíců'
+        years:
+          one: 1 rok
+          other: '%{count} let'
     blocks_on:
       title: Zablokování uživatele %{name}
       heading_html: Seznam zablokování uživatele %{name}
@@ -2539,6 +2587,12 @@ cs:
         out: Oddálit
       locate:
         title: Ukázat moji polohu
+        metersPopup:
+          one: Od tohoto bodu jste vzdáleni metr
+          other: Od tohoto bodu jste vzdáleni %{count} metrů
+        feetPopup:
+          one: Od tohoto bodu jste vzdáleni jednu stopu
+          other: Od tohoto bodu jste vzdáleni %{count} stop
       base:
         standard: Standardní
         cycle_map: Cyklomapa
