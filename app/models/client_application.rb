@@ -39,9 +39,10 @@ class ClientApplication < ApplicationRecord
 
   validates :key, :presence => true, :uniqueness => true
   validates :name, :url, :secret, :presence => true
-  validates :url, :format => %r{\Ahttp(s?)://(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(/|/([\w#!:.?+=&%@!\-/]))?}i
-  validates :support_url, :allow_blank => true, :format => %r{\Ahttp(s?)://(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(/|/([\w#!:.?+=&%@!\-/]))?}i
-  validates :callback_url, :allow_blank => true, :format => %r{\A[a-z][a-z0-9.+-]*://(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(/|/([\w#!:.?+=&%@!\-/]))?}i
+  validates :url, :url => true
+  validates :support_url, :url => { :allow_blank => true }
+  # validate_url doesn't support arbitrary schemes. Wrap the default URI regexp in string terminators.
+  validates :callback_url, :allow_blank => true, :format => /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
 
   before_validation :generate_keys, :on => :create
 

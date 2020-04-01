@@ -57,6 +57,7 @@ gem "rack-cors"
 gem "rails-i18n", "~> 4.0.0"
 gem "rinku", ">= 2.0.6", :require => "rails_rinku"
 gem "strong_migrations"
+gem "validate_url", :git => "https://github.com/perfectline/validates_url"
 gem "validates_email_format_of", ">= 1.5.1"
 
 # Native OSM extensions
