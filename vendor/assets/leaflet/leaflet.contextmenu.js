@@ -29,14 +29,14 @@ L.Map.mergeOptions({
 
 L.Map.ContextMenu = L.Handler.extend({
     _touchstart: L.Browser.msPointer ? 'MSPointerDown' : L.Browser.pointer ? 'pointerdown' : 'touchstart',
-    
+
     statics: {
         BASE_CLS: 'leaflet-contextmenu'
     },
-    
+
     initialize: function (map) {
         L.Handler.prototype.initialize.call(this, map);
-        
+
         this._items = [];
         this._visible = false;
 
@@ -71,7 +71,6 @@ L.Map.ContextMenu = L.Handler.extend({
         this._map.on({
             contextmenu: this._show,
             mousedown: this._hide,
-            movestart: this._hide,
             zoomstart: this._hide
         }, this);
     },
@@ -90,7 +89,6 @@ L.Map.ContextMenu = L.Handler.extend({
         this._map.off({
             contextmenu: this._show,
             mousedown: this._hide,
-            movestart: this._hide,
             zoomstart: this._hide
         }, this);
     },
@@ -320,12 +318,24 @@ L.Map.ContextMenu = L.Handler.extend({
                 return;
             }
 
+            var map = me._map,
+                containerPoint = me._showLocation.containerPoint,
+                layerPoint = map.containerPointToLayerPoint(containerPoint),
+                latlng = map.layerPointToLatLng(layerPoint),
+                relatedTarget = me._showLocation.relatedTarget,
+                data = {
+                  containerPoint: containerPoint,
+                  layerPoint: layerPoint,
+                  latlng: latlng,
+                  relatedTarget: relatedTarget
+                };
+
             if (hideOnSelect) {
                 me._hide();
             }
 
             if (func) {
-                func.call(context || map, me._showLocation);
+                func.call(context || map, data);
             }
 
             me._map.fire('contextmenu.select', {
@@ -361,13 +371,9 @@ L.Map.ContextMenu = L.Handler.extend({
     _showAtPoint: function (pt, data) {
         if (this._items.length) {
             var map = this._map,
-            layerPoint = map.containerPointToLayerPoint(pt),
-            latlng = map.layerPointToLatLng(layerPoint),
             event = L.extend(data || {}, {contextmenu: this});
 
             this._showLocation = {
-                latlng: latlng,
-                layerPoint: layerPoint,
                 containerPoint: pt
             };
 

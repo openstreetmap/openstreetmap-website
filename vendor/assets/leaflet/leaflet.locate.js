@@ -133,7 +133,7 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
             '<path d="'+path+'" style="'+style+'" />'+
             '</svg>';
             return {
-                className: 'leafet-control-locate-heading',
+                className: 'leaflet-control-locate-heading',
                 svg: svg,
                 w: w,
                 h: h
@@ -168,6 +168,8 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
             setView: 'untilPanOrZoom',
             /** Keep the current map zoom level when setting the view and only pan. */
             keepCurrentZoomLevel: false,
+	    /** After activating the plugin by clicking on the icon, zoom to the selected zoom level, even when keepCurrentZoomLevel is true. Set to 'false' to disable this feature. */
+	    initialZoomLevel: false,
             /**
              * This callback can be used to override the viewport tracking
              * This function should return a LatLngBounds object.
@@ -467,10 +469,21 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
                 this._map.on('zoomstart', this._onZoom, this);
                 this._map.on('zoomend', this._onZoomEnd, this);
                 if (this.options.showCompass) {
-                    if ('ondeviceorientationabsolute' in window) {
-                        L.DomEvent.on(window, 'deviceorientationabsolute', this._onDeviceOrientation, this);
-                    } else if ('ondeviceorientation' in window) {
-                        L.DomEvent.on(window, 'deviceorientation', this._onDeviceOrientation, this);
+                    var oriAbs = 'ondeviceorientationabsolute' in window;
+                    if (oriAbs || ('ondeviceorientation' in window)) {
+                        var _this = this;
+                        var deviceorientation = function () {
+                            L.DomEvent.on(window, oriAbs ? 'deviceorientationabsolute' : 'deviceorientation', _this._onDeviceOrientation, _this);
+                        };
+                        if (DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                            DeviceOrientationEvent.requestPermission().then(function (permissionState) {
+                                if (permissionState === 'granted') {
+                                    deviceorientation();
+                                }
+                            })
+                        } else {
+                            deviceorientation();
+                        }
                     }
                 }
             }
@@ -514,6 +527,10 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
                 this._event = undefined;  // clear the current location so we can get back into the bounds
                 this.options.onLocationOutsideMapBounds(this);
             } else {
+		if (this._justClicked && this.options.initialZoomLevel !== false) {
+                    var f = this.options.flyTo ? this._map.flyTo : this._map.setView;
+                    f.bind(this._map)([this._event.latitude, this._event.longitude], this.options.initialZoomLevel);
+		} else
                 if (this.options.keepCurrentZoomLevel) {
                     var f = this.options.flyTo ? this._map.flyTo : this._map.panTo;
                     f.bind(this._map)([this._event.latitude, this._event.longitude]);
@@ -538,6 +555,10 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
          *
          */
         _drawCompass: function() {
+            if (!this._event) {
+                return;
+            }
+
             var latlng = this._event.latlng;
 
             if (this.options.showCompass && latlng && this._compassHeading !== null) {
@@ -610,14 +631,23 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
             this._drawCompass();
 
             var t = this.options.strings.popup;
+            function getPopupText() {
+                if (typeof t === 'string') {
+                    return L.Util.template(t, {distance: distance, unit: unit});
+                } else if (typeof t === 'function') {
+                    return t({distance: distance, unit: unit});
+                } else {
+                    return t;
+                }
+            }
             if (this.options.showPopup && t && this._marker) {
                 this._marker
-                    .bindPopup(L.Util.template(t, {distance: distance, unit: unit}))
+                    .bindPopup(getPopupText())
                     ._popup.setLatLng(latlng);
             }
             if (this.options.showPopup && t && this._compass) {
                 this._compass
-                    .bindPopup(L.Util.template(t, {distance: distance, unit: unit}))
+                    .bindPopup(getPopupText())
                     ._popup.setLatLng(latlng);
             }
         },
@@ -774,7 +804,7 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
 
             if (this._event && !this._ignoreEvent) {
                 // If we have zoomed in and out and ended up sideways treat it as a pan
-                if (!this._map.getBounds().pad(-.3).contains(this._marker.getLatLng())) {
+                if (this._marker && !this._map.getBounds().pad(-.3).contains(this._marker.getLatLng())) {
                     this._userPanned = true;
                     this._updateContainerStyle();
                     this._drawMarker();
