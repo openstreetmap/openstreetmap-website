@@ -344,7 +344,7 @@ class MessagesControllerTest < ActionController::TestCase
     get :inbox
     assert_response :success
     assert_template "inbox"
-    assert_select "table.messages", :count => 1 do
+    assert_select ".content-inner > table", :count => 1 do
       assert_select "tr", :count => 2
       assert_select "tr#inbox-#{read_message.id}.inbox-row", :count => 1
     end
@@ -367,7 +367,7 @@ class MessagesControllerTest < ActionController::TestCase
     get :outbox
     assert_response :success
     assert_template "outbox"
-    assert_select "table.messages", :count => 1 do
+    assert_select ".content-inner > table", :count => 1 do
       assert_select "tr", :count => 2
       assert_select "tr.inbox-row", :count => 1
     end
