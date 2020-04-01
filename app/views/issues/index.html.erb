@@ -18,7 +18,7 @@
 
 <br />
 
-<table class="issues-list">
+<table class="table table-sm">
   <thead>
     <tr>
       <th><%= t ".status" %></th>
@@ -32,7 +32,7 @@
     <% @issues.each do |issue| %>
       <tr>
         <td><%= t ".states.#{issue.status}" %></td>
-        <td><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
+        <td class="text-nowrap"><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
         <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
         <td><%= link_to issue.reported_user.display_name, user_path(issue.reported_user) if issue.reported_user %></td>
         <td>
