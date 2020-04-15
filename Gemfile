@@ -141,6 +141,7 @@ group :test do
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
   gem "rails-controller-testing"
   gem "rubocop"
+  gem "rubocop-minitest"
   gem "rubocop-performance"
   gem "rubocop-rails"
   gem "webmock"
