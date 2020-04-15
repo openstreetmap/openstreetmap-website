@@ -112,24 +112,24 @@ class BrowseHelperTest < ActionView::TestCase
 
     tags = icon_tags(node)
     assert_equal 3, tags.count
-    assert tags.include?(%w[building yes])
-    assert tags.include?(%w[tourism museum])
-    assert tags.include?(%w[shop gift])
+    assert_includes tags, %w[building yes]
+    assert_includes tags, %w[tourism museum]
+    assert_includes tags, %w[shop gift]
 
     add_old_tags_selection(node_v2)
     add_old_tags_selection(node_v1)
 
     tags = icon_tags(node_v2)
     assert_equal 3, tags.count
-    assert tags.include?(%w[building yes])
-    assert tags.include?(%w[tourism museum])
-    assert tags.include?(%w[shop gift])
+    assert_includes tags, %w[building yes]
+    assert_includes tags, %w[tourism museum]
+    assert_includes tags, %w[shop gift]
 
     tags = icon_tags(node_v1)
     assert_equal 3, tags.count
-    assert tags.include?(%w[building yes])
-    assert tags.include?(%w[tourism museum])
-    assert tags.include?(%w[shop gift])
+    assert_includes tags, %w[building yes]
+    assert_includes tags, %w[tourism museum]
+    assert_includes tags, %w[shop gift]
   end
 
   def add_old_tags_selection(old_node)

@@ -565,7 +565,7 @@ class TracesControllerTest < ActionController::TestCase
     assert_equal "New Trace", trace.description
     assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
     assert_equal "trackable", trace.visibility
-    assert_equal false, trace.inserted
+    assert_not trace.inserted
     assert_equal File.new(fixture).read, File.new(trace.trace_name).read
     trace.destroy
     assert_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
@@ -673,7 +673,7 @@ class TracesControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
-    assert_equal false, trace.visible
+    assert_not trace.visible
 
     # Finally with a trace that is destroyed by an admin
     public_trace_file = create(:trace, :visibility => "public")
@@ -683,7 +683,7 @@ class TracesControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
-    assert_equal false, trace.visible
+    assert_not trace.visible
   end
 
   private

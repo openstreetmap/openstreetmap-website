@@ -120,7 +120,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     # Viewing an active block should work, but shouldn't mark it as seen
     get :show, :params => { :id => active_block.id }
     assert_response :success
-    assert_equal true, UserBlock.find(active_block.id).needs_view
+    assert UserBlock.find(active_block.id).needs_view
 
     # Login as the blocked user
     session[:user] = active_block.user.id
@@ -128,7 +128,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     # Now viewing it should mark it as seen
     get :show, :params => { :id => active_block.id }
     assert_response :success
-    assert_equal false, UserBlock.find(active_block.id).needs_view
+    assert_not UserBlock.find(active_block.id).needs_view
   end
 
   ##
@@ -261,7 +261,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_in_delta Time.now, b.created_at, 1
     assert_in_delta Time.now, b.updated_at, 1
     assert_in_delta Time.now + 12.hours, b.ends_at, 1
-    assert_equal false, b.needs_view
+    assert_not b.needs_view
     assert_equal "Vandalism", b.reason
     assert_equal "markdown", b.reason_format
     assert_equal moderator_user.id, b.creator_id
@@ -334,7 +334,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_equal "Block updated.", flash[:notice]
     b = UserBlock.find(active_block.id)
     assert_in_delta Time.now, b.updated_at, 1
-    assert_equal true, b.needs_view
+    assert b.needs_view
     assert_equal "Vandalism", b.reason
 
     # We should get an error if no block ID is specified

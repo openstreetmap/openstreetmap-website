@@ -190,8 +190,8 @@ module Api
                    "saved way does not belong to the correct changeset"
       assert_equal user.id, checkway.changeset.user_id,
                    "saved way does not belong to user that created it"
-      assert_equal true, checkway.visible,
-                   "saved way is not visible"
+      assert checkway.visible,
+             "saved way is not visible"
     end
 
     # -------------------------------------

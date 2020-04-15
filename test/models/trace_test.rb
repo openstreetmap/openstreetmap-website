@@ -108,27 +108,27 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_public?
-    assert_equal true, build(:trace, :visibility => "public").public?
-    assert_equal false, build(:trace, :visibility => "private").public?
-    assert_equal false, build(:trace, :visibility => "trackable").public?
-    assert_equal true, build(:trace, :visibility => "identifiable").public?
-    assert_equal true, build(:trace, :deleted, :visibility => "public").public?
+    assert build(:trace, :visibility => "public").public?
+    assert_not build(:trace, :visibility => "private").public?
+    assert_not build(:trace, :visibility => "trackable").public?
+    assert build(:trace, :visibility => "identifiable").public?
+    assert build(:trace, :deleted, :visibility => "public").public?
   end
 
   def test_trackable?
-    assert_equal false, build(:trace, :visibility => "public").trackable?
-    assert_equal false, build(:trace, :visibility => "private").trackable?
-    assert_equal true, build(:trace, :visibility => "trackable").trackable?
-    assert_equal true, build(:trace, :visibility => "identifiable").trackable?
-    assert_equal false, build(:trace, :deleted, :visibility => "public").trackable?
+    assert_not build(:trace, :visibility => "public").trackable?
+    assert_not build(:trace, :visibility => "private").trackable?
+    assert build(:trace, :visibility => "trackable").trackable?
+    assert build(:trace, :visibility => "identifiable").trackable?
+    assert_not build(:trace, :deleted, :visibility => "public").trackable?
   end
 
   def test_identifiable?
-    assert_equal false, build(:trace, :visibility => "public").identifiable?
-    assert_equal false, build(:trace, :visibility => "private").identifiable?
-    assert_equal false, build(:trace, :visibility => "trackable").identifiable?
-    assert_equal true, build(:trace, :visibility => "identifiable").identifiable?
-    assert_equal false, build(:trace, :deleted, :visibility => "public").identifiable?
+    assert_not build(:trace, :visibility => "public").identifiable?
+    assert_not build(:trace, :visibility => "private").identifiable?
+    assert_not build(:trace, :visibility => "trackable").identifiable?
+    assert build(:trace, :visibility => "identifiable").identifiable?
+    assert_not build(:trace, :deleted, :visibility => "public").identifiable?
   end
 
   def test_mime_type
@@ -218,22 +218,22 @@ class TraceTest < ActiveSupport::TestCase
     trace = create(:trace, :fixture => "a")
     icon_path = File.join(Settings.gpx_image_dir, "#{trace.id}_icon.gif")
     FileUtils.rm(icon_path)
-    assert_equal false, File.exist?(icon_path)
+    assert_not File.exist?(icon_path)
 
     trace.import
 
-    assert_equal true, File.exist?(icon_path)
+    assert File.exist?(icon_path)
   end
 
   def test_import_creates_large_picture
     trace = create(:trace, :fixture => "a")
     large_picture_path = File.join(Settings.gpx_image_dir, "#{trace.id}.gif")
     FileUtils.rm(large_picture_path)
-    assert_equal false, File.exist?(large_picture_path)
+    assert_not File.exist?(large_picture_path)
 
     trace.import
 
-    assert_equal true, File.exist?(large_picture_path)
+    assert File.exist?(large_picture_path)
   end
 
   def test_import_handles_bz2

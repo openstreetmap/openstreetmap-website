@@ -740,7 +740,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     post :hide,
          :params => { :display_name => user.display_name, :id => diary_entry.id }
     assert_response :forbidden
-    assert_equal true, DiaryEntry.find(diary_entry.id).visible
+    assert DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a normal user
     post :hide,
@@ -748,7 +748,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :session => { :user => user }
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
-    assert_equal true, DiaryEntry.find(diary_entry.id).visible
+    assert DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a moderator
     post :hide,
@@ -756,7 +756,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :session => { :user => create(:moderator_user) }
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
-    assert_equal false, DiaryEntry.find(diary_entry.id).visible
+    assert_not DiaryEntry.find(diary_entry.id).visible
 
     # Reset
     diary_entry.reload.update(:visible => true)
@@ -767,7 +767,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :session => { :user => create(:administrator_user) }
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
-    assert_equal false, DiaryEntry.find(diary_entry.id).visible
+    assert_not DiaryEntry.find(diary_entry.id).visible
   end
 
   def test_unhide
@@ -778,7 +778,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     post :unhide,
          :params => { :display_name => user.display_name, :id => diary_entry.id }
     assert_response :forbidden
-    assert_equal false, DiaryEntry.find(diary_entry.id).visible
+    assert_not DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a normal user
     post :unhide,
@@ -786,7 +786,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :session => { :user => user }
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
-    assert_equal false, DiaryEntry.find(diary_entry.id).visible
+    assert_not DiaryEntry.find(diary_entry.id).visible
 
     # Finally try as an administrator
     post :unhide,
@@ -794,7 +794,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :session => { :user => create(:administrator_user) }
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
-    assert_equal true, DiaryEntry.find(diary_entry.id).visible
+    assert DiaryEntry.find(diary_entry.id).visible
   end
 
   def test_hidecomment
@@ -806,7 +806,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     post :hidecomment,
          :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id }
     assert_response :forbidden
-    assert_equal true, DiaryComment.find(diary_comment.id).visible
+    assert DiaryComment.find(diary_comment.id).visible
 
     # Now try as a normal user
     post :hidecomment,
@@ -814,7 +814,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :session => { :user => user }
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
-    assert_equal true, DiaryComment.find(diary_comment.id).visible
+    assert DiaryComment.find(diary_comment.id).visible
 
     # Try as a moderator
     post :hidecomment,
@@ -822,7 +822,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :session => { :user => create(:moderator_user) }
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
-    assert_equal false, DiaryComment.find(diary_comment.id).visible
+    assert_not DiaryComment.find(diary_comment.id).visible
 
     # Reset
     diary_comment.reload.update(:visible => true)
@@ -833,7 +833,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :session => { :user => create(:administrator_user) }
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
-    assert_equal false, DiaryComment.find(diary_comment.id).visible
+    assert_not DiaryComment.find(diary_comment.id).visible
   end
 
   def test_unhidecomment
@@ -845,7 +845,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     post :unhidecomment,
          :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id }
     assert_response :forbidden
-    assert_equal false, DiaryComment.find(diary_comment.id).visible
+    assert_not DiaryComment.find(diary_comment.id).visible
 
     # Now try as a normal user
     post :unhidecomment,
@@ -853,7 +853,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :session => { :user => user }
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
-    assert_equal false, DiaryComment.find(diary_comment.id).visible
+    assert_not DiaryComment.find(diary_comment.id).visible
 
     # Finally try as an administrator
     post :unhidecomment,
@@ -861,7 +861,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :session => { :user => administrator_user }
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
-    assert_equal true, DiaryComment.find(diary_comment.id).visible
+    assert DiaryComment.find(diary_comment.id).visible
   end
 
   def test_comments

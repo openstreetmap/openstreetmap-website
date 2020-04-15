@@ -477,10 +477,10 @@ module Api
       assert_select "diffResult>relation", 2
 
       # check that everything was deleted
-      assert_equal false, Node.find(used_node.id).visible
-      assert_equal false, Way.find(used_way.id).visible
-      assert_equal false, Relation.find(super_relation.id).visible
-      assert_equal false, Relation.find(used_relation.id).visible
+      assert_not Node.find(used_node.id).visible
+      assert_not Way.find(used_way.id).visible
+      assert_not Relation.find(super_relation.id).visible
+      assert_not Relation.find(used_relation.id).visible
     end
 
     ##
@@ -502,7 +502,7 @@ module Api
       assert_select "diffResult>node", 1
 
       # check that everything was deleted
-      assert_equal false, Node.find(node.id).visible
+      assert_not Node.find(node.id).visible
     end
 
     def test_repeated_changeset_create
@@ -604,10 +604,10 @@ module Api
       assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
 
       # check that nothing was, in fact, deleted
-      assert_equal true, Node.find(used_node.id).visible
-      assert_equal true, Way.find(used_way.id).visible
-      assert_equal true, Relation.find(relation.id).visible
-      assert_equal true, Relation.find(other_relation.id).visible
+      assert Node.find(used_node.id).visible
+      assert Way.find(used_way.id).visible
+      assert Relation.find(relation.id).visible
+      assert Relation.find(other_relation.id).visible
     end
 
     ##
@@ -670,9 +670,9 @@ module Api
       assert_equal used_relation.version, doc.find("//diffResult/relation").first["new_version"].to_i
 
       # check that nothing was, in fact, deleted
-      assert_equal true, Node.find(used_node.id).visible
-      assert_equal true, Way.find(used_way.id).visible
-      assert_equal true, Relation.find(used_relation.id).visible
+      assert Node.find(used_node.id).visible
+      assert Way.find(used_way.id).visible
+      assert Relation.find(used_relation.id).visible
     end
 
     ##

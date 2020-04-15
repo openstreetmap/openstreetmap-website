@@ -4,55 +4,55 @@ class NodeTest < ActiveSupport::TestCase
   def test_node_too_far_north
     node = build(:node, :latitude => 90.01 * OldNode::SCALE)
     node.validate
-    assert node.errors.full_messages.include?("Node is not in the world")
+    assert_includes node.errors.full_messages, "Node is not in the world"
   end
 
   def test_node_north_limit
     node = build(:node, :latitude => 90 * OldNode::SCALE)
     node.validate
-    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
+    assert_not_includes node.errors.full_messages, "Node is not in the world"
   end
 
   def test_node_too_far_south
     node = build(:node, :latitude => -90.01 * OldNode::SCALE)
     node.validate
-    assert node.errors.full_messages.include?("Node is not in the world")
+    assert_includes node.errors.full_messages, "Node is not in the world"
   end
 
   def test_node_south_limit
     node = build(:node, :latitude => -90 * OldNode::SCALE)
     node.validate
-    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
+    assert_not_includes node.errors.full_messages, "Node is not in the world"
   end
 
   def test_node_too_far_west
     node = build(:node, :longitude => -180.01 * OldNode::SCALE)
     node.validate
-    assert node.errors.full_messages.include?("Node is not in the world")
+    assert_includes node.errors.full_messages, "Node is not in the world"
   end
 
   def test_node_west_limit
     node = build(:node, :longitude => -180 * OldNode::SCALE)
     node.validate
-    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
+    assert_not_includes node.errors.full_messages, "Node is not in the world"
   end
 
   def test_node_too_far_east
     node = build(:node, :longitude => 180.01 * OldNode::SCALE)
     node.validate
-    assert node.errors.full_messages.include?("Node is not in the world")
+    assert_includes node.errors.full_messages, "Node is not in the world"
   end
 
   def test_node_east_limit
     node = build(:node, :longitude => 180 * OldNode::SCALE)
     node.validate
-    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
+    assert_not_includes node.errors.full_messages, "Node is not in the world"
   end
 
   def test_totally_wrong
     node = build(:node, :latitude => 200 * OldNode::SCALE, :longitude => 200 * OldNode::SCALE)
     node.validate
-    assert node.errors.full_messages.include?("Node is not in the world")
+    assert_includes node.errors.full_messages, "Node is not in the world"
   end
 
   def test_lat_lon
@@ -147,7 +147,7 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal node_template.latitude, node.latitude
     assert_equal node_template.longitude, node.longitude
     assert_equal node_template.changeset_id, node.changeset_id
-    assert_equal false, node.visible
+    assert_not node.visible
     # assert_equal node_template.tags, node.tags
 
     assert_equal OldNode.where(:node_id => node_template.id).count, 2
@@ -156,7 +156,7 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal node_template.latitude, old_node.latitude
     assert_equal node_template.longitude, old_node.longitude
     assert_equal node_template.changeset_id, old_node.changeset_id
-    assert_equal false, old_node.visible
+    assert_not old_node.visible
     # assert_equal node_template.tags, old_node.tags
   end
 

@@ -304,8 +304,8 @@ module Api
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,
                    "saved relation does not belong to user that created it"
-      assert_equal true, checkrelation.visible,
-                   "saved relation is not visible"
+      assert checkrelation.visible,
+             "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
       get :show, :params => { :id => relationid }
       assert_response :success
@@ -334,8 +334,8 @@ module Api
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,
                    "saved relation does not belong to user that created it"
-      assert_equal true, checkrelation.visible,
-                   "saved relation is not visible"
+      assert checkrelation.visible,
+             "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
 
       get :show, :params => { :id => relationid }
@@ -364,8 +364,8 @@ module Api
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,
                    "saved relation does not belong to user that created it"
-      assert_equal true, checkrelation.visible,
-                   "saved relation is not visible"
+      assert checkrelation.visible,
+             "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
 
       get :show, :params => { :id => relationid }
@@ -395,8 +395,8 @@ module Api
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,
                    "saved relation does not belong to user that created it"
-      assert_equal true, checkrelation.visible,
-                   "saved relation is not visible"
+      assert checkrelation.visible,
+             "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
       get :show, :params => { :id => relationid }
       assert_response :success

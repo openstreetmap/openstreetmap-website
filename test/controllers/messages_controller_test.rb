@@ -266,7 +266,7 @@ class MessagesControllerTest < ActionController::TestCase
       assert_select "textarea#message_body", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
     end
-    assert_equal true, Message.find(unread_message.id).message_read
+    assert Message.find(unread_message.id).message_read
 
     # Asking to reply to a message with no ID should fail
     assert_raise ActionController::UrlGenerationError do
@@ -306,7 +306,7 @@ class MessagesControllerTest < ActionController::TestCase
     get :show, :params => { :id => unread_message.id }
     assert_response :success
     assert_template "show"
-    assert_equal false, Message.find(unread_message.id).message_read
+    assert_not Message.find(unread_message.id).message_read
 
     # Login as the message recipient
     session[:user] = recipient_user.id
@@ -315,7 +315,7 @@ class MessagesControllerTest < ActionController::TestCase
     get :show, :params => { :id => unread_message.id }
     assert_response :success
     assert_template "show"
-    assert_equal true, Message.find(unread_message.id).message_read
+    assert Message.find(unread_message.id).message_read
 
     # Asking to read a message with no ID should fail
     assert_raise ActionController::UrlGenerationError do
@@ -399,24 +399,24 @@ class MessagesControllerTest < ActionController::TestCase
     # Check that the marking a message read works
     post :mark, :params => { :message_id => unread_message.id, :mark => "read" }
     assert_redirected_to inbox_messages_path
-    assert_equal true, Message.find(unread_message.id).message_read
+    assert Message.find(unread_message.id).message_read
 
     # Check that the marking a message unread works
     post :mark, :params => { :message_id => unread_message.id, :mark => "unread" }
     assert_redirected_to inbox_messages_path
-    assert_equal false, Message.find(unread_message.id).message_read
+    assert_not Message.find(unread_message.id).message_read
 
     # Check that the marking a message read via XHR works
     post :mark, :xhr => true, :params => { :message_id => unread_message.id, :mark => "read" }
     assert_response :success
     assert_template "mark"
-    assert_equal true, Message.find(unread_message.id).message_read
+    assert Message.find(unread_message.id).message_read
 
     # Check that the marking a message unread via XHR works
     post :mark, :xhr => true, :params => { :message_id => unread_message.id, :mark => "unread" }
     assert_response :success
     assert_template "mark"
-    assert_equal false, Message.find(unread_message.id).message_read
+    assert_not Message.find(unread_message.id).message_read
 
     # Asking to mark a message with no ID should fail
     assert_raise ActionController::UrlGenerationError do
@@ -458,16 +458,16 @@ class MessagesControllerTest < ActionController::TestCase
     assert_redirected_to inbox_messages_path
     assert_equal "Message deleted", flash[:notice]
     m = Message.find(read_message.id)
-    assert_equal true, m.from_user_visible
-    assert_equal false, m.to_user_visible
+    assert m.from_user_visible
+    assert_not m.to_user_visible
 
     # Check that the destroying a sent message works
     delete :destroy, :params => { :id => sent_message.id, :referer => outbox_messages_path }
     assert_redirected_to outbox_messages_path
     assert_equal "Message deleted", flash[:notice]
     m = Message.find(sent_message.id)
-    assert_equal false, m.from_user_visible
-    assert_equal true, m.to_user_visible
+    assert_not m.from_user_visible
+    assert m.to_user_visible
 
     # Asking to destroy a message with no ID should fail
     assert_raise ActionController::UrlGenerationError do

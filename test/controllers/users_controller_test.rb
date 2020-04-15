@@ -632,9 +632,9 @@ class UsersControllerTest < ActionController::TestCase
 
     user.reload
 
-    assert_equal true, user.consider_pd
+    assert user.consider_pd
     assert_not_nil user.terms_agreed
-    assert_equal true, user.terms_seen
+    assert user.terms_seen
   end
 
   def test_terms_not_seen_with_referer
@@ -653,9 +653,9 @@ class UsersControllerTest < ActionController::TestCase
 
     user.reload
 
-    assert_equal true, user.consider_pd
+    assert user.consider_pd
     assert_not_nil user.terms_agreed
-    assert_equal true, user.terms_seen
+    assert user.terms_seen
   end
 
   # Check that if you haven't seen the terms, and make a request that requires authentication,
@@ -674,7 +674,7 @@ class UsersControllerTest < ActionController::TestCase
     post :go_public, :session => { :user => user }
     assert_response :redirect
     assert_redirected_to :action => :account, :display_name => user.display_name
-    assert_equal true, User.find(user.id).data_public
+    assert User.find(user.id).data_public
   end
 
   def test_lost_password
@@ -792,7 +792,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal user.id, session[:user]
     user.reload
     assert_equal "active", user.status
-    assert_equal true, user.email_valid
+    assert user.email_valid
     assert_equal user, User.authenticate(:username => user.email, :password => "new_password")
   end
 
@@ -1304,8 +1304,8 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal "", user.description
     assert_nil user.home_lat
     assert_nil user.home_lon
-    assert_equal false, user.avatar.attached?
-    assert_equal false, user.email_valid
+    assert_not user.avatar.attached?
+    assert_not user.email_valid
     assert_nil user.new_email
     assert_nil user.auth_provider
     assert_nil user.auth_uid

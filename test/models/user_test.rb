@@ -26,7 +26,7 @@ class UserTest < ActiveSupport::TestCase
       :description => "desc"
     )
     assert_not new_user.save
-    assert new_user.errors[:email].include?("has already been taken")
+    assert_includes new_user.errors[:email], "has already been taken"
   end
 
   def test_unique_display_name
@@ -40,7 +40,7 @@ class UserTest < ActiveSupport::TestCase
       :description => "desc"
     )
     assert_not new_user.save
-    assert new_user.errors[:display_name].include?("has already been taken")
+    assert_includes new_user.errors[:display_name], "has already been taken"
   end
 
   def test_email_valid
@@ -224,36 +224,36 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_visible?
-    assert_equal true, build(:user, :pending).visible?
-    assert_equal true, build(:user, :active).visible?
-    assert_equal true, build(:user, :confirmed).visible?
-    assert_equal false, build(:user, :suspended).visible?
-    assert_equal false, build(:user, :deleted).visible?
+    assert build(:user, :pending).visible?
+    assert build(:user, :active).visible?
+    assert build(:user, :confirmed).visible?
+    assert_not build(:user, :suspended).visible?
+    assert_not build(:user, :deleted).visible?
   end
 
   def test_active?
-    assert_equal false, build(:user, :pending).active?
-    assert_equal true, build(:user, :active).active?
-    assert_equal true, build(:user, :confirmed).active?
-    assert_equal false, build(:user, :suspended).active?
-    assert_equal false, build(:user, :deleted).active?
+    assert_not build(:user, :pending).active?
+    assert build(:user, :active).active?
+    assert build(:user, :confirmed).active?
+    assert_not build(:user, :suspended).active?
+    assert_not build(:user, :deleted).active?
   end
 
   def test_moderator?
-    assert_equal false, create(:user).moderator?
-    assert_equal true, create(:moderator_user).moderator?
+    assert_not create(:user).moderator?
+    assert create(:moderator_user).moderator?
   end
 
   def test_administrator?
-    assert_equal false, create(:user).administrator?
-    assert_equal true, create(:administrator_user).administrator?
+    assert_not create(:user).administrator?
+    assert create(:administrator_user).administrator?
   end
 
   def test_has_role?
-    assert_equal false, create(:user).has_role?("administrator")
-    assert_equal false, create(:user).has_role?("moderator")
-    assert_equal true, create(:administrator_user).has_role?("administrator")
-    assert_equal true, create(:moderator_user).has_role?("moderator")
+    assert_not create(:user).has_role?("administrator")
+    assert_not create(:user).has_role?("moderator")
+    assert create(:administrator_user).has_role?("administrator")
+    assert create(:moderator_user).has_role?("moderator")
   end
 
   def test_delete
@@ -263,10 +263,10 @@ class UserTest < ActiveSupport::TestCase
     assert user.description.blank?
     assert_nil user.home_lat
     assert_nil user.home_lon
-    assert_equal false, user.avatar.attached?
+    assert_not user.avatar.attached?
     assert_equal "deleted", user.status
-    assert_equal false, user.visible?
-    assert_equal false, user.active?
+    assert_not user.visible?
+    assert_not user.active?
   end
 
   def test_to_xml

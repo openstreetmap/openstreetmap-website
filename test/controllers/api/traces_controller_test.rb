@@ -210,7 +210,7 @@ module Api
       assert_equal "New Trace", trace.description
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "trackable", trace.visibility
-      assert_equal false, trace.inserted
+      assert_not trace.inserted
       assert_equal File.new(fixture).read, File.new(trace.trace_name).read
       trace.destroy
       assert_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
@@ -228,7 +228,7 @@ module Api
       assert_equal "New Trace", trace.description
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "public", trace.visibility
-      assert_equal false, trace.inserted
+      assert_not trace.inserted
       assert_equal File.new(fixture).read, File.new(trace.trace_name).read
       trace.destroy
       assert_equal "public", user.preferences.where(:k => "gps.trace.visibility").first.v
@@ -247,7 +247,7 @@ module Api
       assert_equal "New Trace", trace.description
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "private", trace.visibility
-      assert_equal false, trace.inserted
+      assert_not trace.inserted
       assert_equal File.new(fixture).read, File.new(trace.trace_name).read
       trace.destroy
       assert_equal "private", second_user.preferences.where(:k => "gps.trace.visibility").first.v

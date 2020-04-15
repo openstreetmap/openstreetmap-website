@@ -82,7 +82,7 @@ module Api
       assert_in_delta lat * 10000000, checknode.latitude, 1, "saved node does not match requested latitude"
       assert_in_delta lon * 10000000, checknode.longitude, 1, "saved node does not match requested longitude"
       assert_equal changeset.id, checknode.changeset_id, "saved node does not belong to changeset that it was created in"
-      assert_equal true, checknode.visible, "saved node is not visible"
+      assert checknode.visible, "saved node is not visible"
     end
 
     def test_create_invalid_xml
@@ -494,7 +494,7 @@ module Api
     # test adding tags to a node
     def test_duplicate_tags
       existing_tag = create(:node_tag)
-      assert_equal true, existing_tag.node.changeset.user.data_public
+      assert existing_tag.node.changeset.user.data_public
       # setup auth
       basic_authorization existing_tag.node.changeset.user.email, "test"
 
@@ -556,7 +556,7 @@ module Api
 
       # check the tags are not corrupted
       assert_equal checknode.tags, apinode.tags
-      assert apinode.tags.include?("\#{@user.inspect}")
+      assert_includes apinode.tags, "\#{@user.inspect}"
     end
 
     ##
