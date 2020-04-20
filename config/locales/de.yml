@@ -80,20 +80,20 @@ de:
         create: Veröffentlichen
         update: Aktualisieren
       issue_comment:
-        create: Kommentar hinzufügen
+        create: Kommentieren
       message:
         create: Senden
       client_application:
         create: Registrieren
         update: Bearbeiten
       redaction:
-        create: Redaction erstellen
-        update: Redaction speichern
+        create: Schwärzen
+        update: Schwärzung speichern
       trace:
         create: Hochladen
         update: Änderungen speichern
       user_block:
-        create: Sperre einrichten
+        create: Sperren
         update: Sperre aktualisieren
   activerecord:
     errors:
@@ -104,7 +104,7 @@ de:
       acl: Zugriffssteuerungsliste
       changeset: Änderungssatz
       changeset_tag: Änderungssatz-Attribut
-      country: Staat
+      country: Land
       diary_comment: Blog-Kommentar
       diary_entry: Blog-Eintrag
       friend: Freund
@@ -113,7 +113,7 @@ de:
       message: Nachricht
       node: Knoten
       node_tag: Knoten-Attribut
-      notifier: Benachrichtiger
+      notifier: Melder
       old_node: Alter Knoten
       old_node_tag: Altes Knoten-Attribut
       old_relation: Alte Relation
@@ -127,18 +127,18 @@ de:
       relation_tag: Relation-Attribut
       report: Meldung
       session: Sitzung
-      trace: Track
-      tracepoint: Trackpunkt
-      tracetag: Track-Attribut
+      trace: Spur
+      tracepoint: Spurmarke
+      tracetag: Spur-Attribut
       user: Benutzer
       user_preference: Benutzereinstellung
       user_token: Benutzer-Token
-      way: Linie
-      way_node: Linienknoten
-      way_tag: Linie-Attribut
+      way: Weg
+      way_node: Wegmarke
+      way_tag: Weg-Attribut
     attributes:
       diary_comment:
-        body: Textkörper
+        body: Text
       diary_entry:
         user: Benutzer
         title: Betreff
@@ -160,7 +160,7 @@ de:
       message:
         sender: Absender
         title: Betreff
-        body: Textkörper
+        body: Inhalt
         recipient: Empfänger
       user:
         email: E-Mail
@@ -247,12 +247,12 @@ de:
       rss:
         title: OpenStreetMap Hinweise
         description_area: Übersicht der gemeldeten, kommentierten oder geschlossen
-          Hinweise/Fehler im Bereich [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})].
-        description_item: Ein RSS-Feed für Hinweis/Fehler %{id}
-        opened: neuer Hinweis/Fehler (in der Nähe von %{place})
+          Hinweise im Bereich [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})].
+        description_item: Ein RSS-Feed für Hinweis %{id}
+        opened: neuer Hinweis (in der Nähe von %{place})
         commented: neuer Kommentar (in der Nähe von %{place})
-        closed: geschlossener Hinweis/Fehler (in der Nähe von %{place})
-        reopened: reaktivierter Hinweis/Fehler (in der Nähe von %{place})
+        closed: geschlossener Hinweis (in der Nähe von %{place})
+        reopened: reaktivierter Hinweis (in der Nähe von %{place})
       entry:
         comment: Kommentieren
         full: Vollständiger Hinweis
@@ -267,11 +267,11 @@ de:
     closed_by_html: Geschlossen <abbr title='%{title}'>%{time}</abbr> von %{user}
     version: Version
     in_changeset: Änderungssatz
-    anonymous: Anonym
+    anonymous: anonym
     no_comment: (kein Kommentar)
     part_of: Teil von
     download_xml: XML herunterladen
-    view_history: Chronik anzeigen
+    view_history: Verlauf anzeigen
     view_details: Details anzeigen
     location: 'Standort:'
     changeset:
@@ -279,8 +279,8 @@ de:
       belongs_to: Autor
       node: Knoten (%{count})
       node_paginated: Knoten (%{x}–%{y} von %{count})
-      way: Linien (%{count})
-      way_paginated: Linien (%{x}–%{y} von %{count})
+      way: Wege (%{count})
+      way_paginated: Wege (%{x}–%{y} von %{count})
       relation: Relationen (%{count})
       relation_paginated: Relationen (%{x}–%{y} von %{count})
       comment: Kommentare (%{count})
@@ -298,23 +298,23 @@ de:
         sobald der Änderungssatz geschlossen ist.
     node:
       title_html: 'Knoten: %{name}'
-      history_title_html: 'Chronik des Knotens: %{name}'
+      history_title_html: 'Knotenverlauf: %{name}'
     way:
-      title_html: 'Linie: %{name}'
-      history_title_html: 'Chronik der Linie: %{name}'
+      title_html: 'Weg: %{name}'
+      history_title_html: 'Wegverlauf: %{name}'
       nodes: Knoten
       also_part_of_html:
-        one: Teil der Linie %{related_ways}
-        other: Teil der Linien %{related_ways}
+        one: Teil des Wegs %{related_ways}
+        other: Teil der Wege %{related_ways}
     relation:
       title_html: 'Relation: %{name}'
-      history_title_html: 'Chronik der Relation: %{name}'
+      history_title_html: 'Relationverlauf: %{name}'
       members: Mitglieder
     relation_member:
       entry_role_html: '%{type} %{name} als %{role}'
       type:
         node: Knoten
-        way: Linie
+        way: Weg
         relation: Relation
     containing_relation:
       entry_html: Relation %{relation_name}
@@ -322,35 +322,34 @@ de:
     not_found:
       sorry: '%{type} mit der Nummer %{id} konnte leider nicht gefunden werden.'
       type:
-        node: Der Knoten
-        way: Die Linie
+        node: Knoten
+        way: Weg
         relation: Die Relation
         changeset: Der Änderungssatz
         note: Hinweis
     timeout:
-      sorry: Entschuldigung, es dauerte zu lange, die Daten für %{type} mit der ID
-        %{id} abzurufen.
+      sorry: Es dauerte leider zu lange, die Daten für %{type} mit der ID %{id} abzurufen.
       type:
-        node: den Knoten
-        way: die Linie
+        node: Knoten
+        way: Weg
         relation: die Relation
         changeset: den Änderungssatz
         note: Hinweis
     redacted:
-      redaction: Redigierung %{id}
-      message_html: 'Version %{version} diese%{type} kann nicht angezeigt werden,
-        da hier redigiert wurde. Weitere Informationen gibt es hier: %{redaction_link}.'
+      redaction: Schwärzung %{id}
+      message_html: 'Weil hier etwas geschwärzt wurde kann Version %{version} diese%{type}
+        nicht angezeigt werden. Mehr erfahren: %{redaction_link}.'
       type:
         node: s Knotens
-        way: r Linie
+        way: s Weges
         relation: r Relation
     start_rjs:
-      feature_warning: Laden von %{num_features} Funktionen, was deinen Browser langsam
-        machen kann. Willst du diese Daten wirklich anzeigen?
+      feature_warning: Laden von %{num_features} Funktionen kann deinen Browser langsamer
+        machen oder einfrieren. Sollen diese Daten wirklich angezeigt werden?
       load_data: Daten laden
       loading: Lade …
     tag_details:
-      tags: Attribute
+      tags: Tags
       wiki_link:
         key: Die Wiki-Erläuterungsseite für den Schlüssel %{key}
         tag: Die Wiki-Erläuterungsseite für das Attribut %{key}=%{value}
@@ -360,12 +359,12 @@ de:
       telephone_link: '%{phone_number} anrufen'
       colour_preview: Farbe %{colour_value} Vorschau
     note:
-      title: 'Kartenfehler: %{id}'
-      new_note: Neuer Kartenfehler
+      title: 'Hinweis: %{id}'
+      new_note: Neuer Hinweis
       description: Beschreibung
-      open_title: Unerledigter Kartenfehler Nr. %{note_name}
-      closed_title: Erledigter Kartenfehler Nr. %{note_name}
-      hidden_title: Versteckter Kartenfehler Nr. %{note_name}
+      open_title: Ungelöster Hinweis Nr. %{note_name}
+      closed_title: Erledigter Hinweis Nr. %{note_name}
+      hidden_title: Versteckter Hinweis Nr. %{note_name}
       opened_by: Erstellt von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       opened_by_anonymous: Erstellt von Anonym <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by: Kommentar von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
@@ -2708,11 +2707,11 @@ de:
       locate:
         title: Aktuellen Standort anzeigen
         metersPopup:
-          one: Weniger als 1 Meter von diesem Punkt entfernt
-          other: Weniger als %{count} Meter von diesem Punkt
+          one: Du bist weniger als 1 Meter von diesem Punkt entfernt
+          other: Du bist weniger als %{count} Meter von diesem Punkt entfernt
         feetPopup:
-          one: Weniger als 1 Fuß von diesem Punkt entfernt
-          other: Weniger als %{count} Fuß von diesem Punkt
+          one: Du bist weniger als 1 Fuß von diesem Punkt entfernt
+          other: Du bist weniger als %{count} Fuß von diesem Punkt entfernt
       base:
         standard: Standard
         cycle_map: Radfahrerkarte
