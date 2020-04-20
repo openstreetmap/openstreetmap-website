@@ -138,22 +138,18 @@ end
 
 # Gems needed for running tests
 group :test do
-  gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
+  gem "capybara", ">= 2.15"
+  gem "coveralls", :require => false
+  gem "erb_lint", :require => false
+  gem "factory_bot_rails"
+  gem "minitest", "~> 5.1"
+  gem "poltergeist"
+  gem "puma", "~> 3.11"
   gem "rails-controller-testing"
   gem "rubocop"
   gem "rubocop-minitest"
   gem "rubocop-performance"
   gem "rubocop-rails"
-  gem "webmock"
-end
-
-# Needed in development as well so rake can see konacha tasks
-group :development, :test do
-  gem "capybara", ">= 2.15"
-  gem "coveralls", :require => false
-  gem "erb_lint", :require => false
-  gem "factory_bot_rails"
-  gem "poltergeist"
-  gem "puma", "~> 3.11"
   gem "selenium-webdriver"
+  gem "webmock"
 end
