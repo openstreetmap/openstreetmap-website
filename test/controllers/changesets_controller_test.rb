@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ChangesetsControllerTest < ActionController::TestCase
+class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -33,13 +33,13 @@ class ChangesetsControllerTest < ActionController::TestCase
   ##
   # This should display the last 20 changesets closed
   def test_index
-    get :index, :params => { :format => "html" }
+    get history_path(:format => "html")
     assert_response :success
     assert_template "history"
     assert_template :layout => "map"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :index, :params => { :format => "html", :list => "1" }, :xhr => true
+    get history_path(:format => "html", :list => "1"), :xhr => true
     assert_response :success
     assert_template "index"
 
@@ -49,13 +49,13 @@ class ChangesetsControllerTest < ActionController::TestCase
   ##
   # This should display the last 20 changesets closed
   def test_index_xhr
-    get :index, :params => { :format => "html" }, :xhr => true
+    get history_path(:format => "html"), :xhr => true
     assert_response :success
     assert_template "history"
     assert_template :layout => "xhr"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :index, :params => { :format => "html", :list => "1" }, :xhr => true
+    get history_path(:format => "html", :list => "1"), :xhr => true
     assert_response :success
     assert_template "index"
 
@@ -65,13 +65,13 @@ class ChangesetsControllerTest < ActionController::TestCase
   ##
   # This should display the last 20 changesets closed in a specific area
   def test_index_bbox
-    get :index, :params => { :format => "html", :bbox => "4.5,4.5,5.5,5.5" }
+    get history_path(:format => "html", :bbox => "4.5,4.5,5.5,5.5")
     assert_response :success
     assert_template "history"
     assert_template :layout => "map"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :index, :params => { :format => "html", :bbox => "4.5,4.5,5.5,5.5", :list => "1" }, :xhr => true
+    get history_path(:format => "html", :bbox => "4.5,4.5,5.5,5.5", :list => "1"), :xhr => true
     assert_response :success
     assert_template "index"
 
@@ -85,11 +85,11 @@ class ChangesetsControllerTest < ActionController::TestCase
     create(:changeset, :user => user)
     create(:changeset, :closed, :user => user)
 
-    get :index, :params => { :format => "html", :display_name => user.display_name }
+    get history_path(:format => "html", :display_name => user.display_name)
     assert_response :success
     assert_template "history"
 
-    get :index, :params => { :format => "html", :display_name => user.display_name, :list => "1" }, :xhr => true
+    get history_path(:format => "html", :display_name => user.display_name, :list => "1"), :xhr => true
     assert_response :success
     assert_template "index"
 
@@ -103,11 +103,11 @@ class ChangesetsControllerTest < ActionController::TestCase
     create(:changeset, :user => private_user)
     create(:changeset, :closed, :user => private_user)
 
-    get :index, :params => { :format => "html", :display_name => private_user.display_name }
+    get history_path(:format => "html", :display_name => private_user.display_name)
     assert_response :success
     assert_template "history"
 
-    get :index, :params => { :format => "html", :display_name => private_user.display_name, :list => "1" }, :xhr => true
+    get history_path(:format => "html", :display_name => private_user.display_name, :list => "1"), :xhr => true
     assert_response :success
     assert_template "index"
 
@@ -117,11 +117,11 @@ class ChangesetsControllerTest < ActionController::TestCase
   ##
   # Check the not found of the index user changesets
   def test_index_user_not_found
-    get :index, :params => { :format => "html", :display_name => "Some random user" }
+    get history_path(:format => "html", :display_name => "Some random user")
     assert_response :not_found
     assert_template "users/no_such_user"
 
-    get :index, :params => { :format => "html", :display_name => "Some random user", :list => "1" }, :xhr => true
+    get history_path(:format => "html", :display_name => "Some random user", :list => "1"), :xhr => true
     assert_response :not_found
     assert_template "users/no_such_user"
   end
@@ -133,17 +133,17 @@ class ChangesetsControllerTest < ActionController::TestCase
     friendship = create(:friendship, :befriender => private_user)
     create(:changeset, :user => friendship.befriendee)
 
-    get :index, :params => { :friends => true }
+    get friend_changesets_path
     assert_response :redirect
     assert_redirected_to :controller => :users, :action => :login, :referer => friend_changesets_path
 
-    session[:user] = private_user.id
+    session_for(private_user)
 
-    get :index, :params => { :friends => true }
+    get friend_changesets_path
     assert_response :success
     assert_template "history"
 
-    get :index, :params => { :friends => true, :list => "1" }, :xhr => true
+    get friend_changesets_path(:list => "1"), :xhr => true
     assert_response :success
     assert_template "index"
 
@@ -157,17 +157,17 @@ class ChangesetsControllerTest < ActionController::TestCase
     user = create(:user, :home_lat => 51.0, :home_lon => 1.0)
     create(:changeset, :user => user)
 
-    get :index, :params => { :nearby => true }
+    get nearby_changesets_path
     assert_response :redirect
     assert_redirected_to :controller => :users, :action => :login, :referer => nearby_changesets_path
 
-    session[:user] = private_user.id
+    session_for(private_user)
 
-    get :index, :params => { :nearby => true }
+    get nearby_changesets_path
     assert_response :success
     assert_template "history"
 
-    get :index, :params => { :nearby => true, :list => "1" }, :xhr => true
+    get nearby_changesets_path(:list => "1"), :xhr => true
     assert_response :success
     assert_template "index"
 
@@ -177,13 +177,13 @@ class ChangesetsControllerTest < ActionController::TestCase
   ##
   # Check that we can't request later pages of the changesets index
   def test_index_max_id
-    get :index, :params => { :format => "html", :max_id => 4 }, :xhr => true
+    get history_path(:format => "html", :max_id => 4), :xhr => true
     assert_response :success
     assert_template "history"
     assert_template :layout => "xhr"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :index, :params => { :format => "html", :list => "1", :max_id => 4 }, :xhr => true
+    get history_path(:format => "html", :list => "1", :max_id => 4), :xhr => true
     assert_response :success
     assert_template "index"
 
@@ -195,10 +195,10 @@ class ChangesetsControllerTest < ActionController::TestCase
   def test_index_more
     create_list(:changeset, 50)
 
-    get :index, :params => { :format => "html" }
+    get history_path(:format => "html")
     assert_response :success
 
-    get :index, :params => { :format => "html" }, :xhr => true
+    get history_path(:format => "html"), :xhr => true
     assert_response :success
   end
 
@@ -211,7 +211,7 @@ class ChangesetsControllerTest < ActionController::TestCase
     closed_changeset = create(:changeset, :closed, :num_changes => 1)
     _empty_changeset = create(:changeset, :num_changes => 0)
 
-    get :feed, :params => { :format => :atom }
+    get history_feed_path(:format => :atom)
     assert_response :success
     assert_template "index"
     assert_equal "application/atom+xml", response.media_type
@@ -229,7 +229,7 @@ class ChangesetsControllerTest < ActionController::TestCase
     _elsewhere_changeset = create(:changeset, :num_changes => 1, :min_lat => -5 * GeoRecord::SCALE, :min_lon => -5 * GeoRecord::SCALE, :max_lat => -5 * GeoRecord::SCALE, :max_lon => -5 * GeoRecord::SCALE)
     _empty_changeset = create(:changeset, :num_changes => 0, :min_lat => -5 * GeoRecord::SCALE, :min_lon => -5 * GeoRecord::SCALE, :max_lat => -5 * GeoRecord::SCALE, :max_lon => -5 * GeoRecord::SCALE)
 
-    get :feed, :params => { :format => :atom, :bbox => "4.5,4.5,5.5,5.5" }
+    get history_feed_path(:format => :atom, :bbox => "4.5,4.5,5.5,5.5")
     assert_response :success
     assert_template "index"
     assert_equal "application/atom+xml", response.media_type
@@ -246,7 +246,7 @@ class ChangesetsControllerTest < ActionController::TestCase
     create(:changeset_tag, :changeset => changesets[1], :k => "website", :v => "http://example.com/")
     _other_changeset = create(:changeset)
 
-    get :feed, :params => { :format => :atom, :display_name => user.display_name }
+    get history_feed_path(:format => :atom, :display_name => user.display_name)
 
     assert_response :success
     assert_template "index"
@@ -258,14 +258,14 @@ class ChangesetsControllerTest < ActionController::TestCase
   ##
   # Check the not found of the user changesets feed
   def test_feed_user_not_found
-    get :feed, :params => { :format => "atom", :display_name => "Some random user" }
+    get history_feed_path(:format => "atom", :display_name => "Some random user")
     assert_response :not_found
   end
 
   ##
   # Check that we can't request later pages of the changesets feed
   def test_feed_max_id
-    get :feed, :params => { :format => "atom", :max_id => 100 }
+    get history_feed_path(:format => "atom", :max_id => 100)
     assert_response :redirect
     assert_redirected_to :action => :feed
   end
