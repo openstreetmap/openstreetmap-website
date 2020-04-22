@@ -42,7 +42,7 @@ class IssuesControllerTest < ActionController::TestCase
     # Access issue as administrator
     session[:user] = create(:administrator_user).id
     get :show, :params => { :id => issue.id }
-    assert_response :not_found
+    assert_redirected_to :controller => :errors, :action => :not_found
 
     # Access issue as moderator
     session[:user] = create(:moderator_user).id
@@ -68,7 +68,7 @@ class IssuesControllerTest < ActionController::TestCase
     # Access issue as moderator
     session[:user] = create(:moderator_user).id
     get :show, :params => { :id => issue.id }
-    assert_response :not_found
+    assert_redirected_to :controller => :errors, :action => :not_found
 
     # Access issue as administrator
     session[:user] = create(:administrator_user).id
@@ -94,7 +94,7 @@ class IssuesControllerTest < ActionController::TestCase
     # Resolve issue as administrator
     session[:user] = create(:administrator_user).id
     get :resolve, :params => { :id => issue.id }
-    assert_response :not_found
+    assert_redirected_to :controller => :errors, :action => :not_found
     assert_not issue.reload.resolved?
 
     # Resolve issue as moderator
@@ -122,7 +122,7 @@ class IssuesControllerTest < ActionController::TestCase
     # Resolve issue as moderator
     session[:user] = create(:moderator_user).id
     get :resolve, :params => { :id => issue.id }
-    assert_response :not_found
+    assert_redirected_to :controller => :errors, :action => :not_found
     assert_not issue.reload.resolved?
 
     # Resolve issue as administrator
@@ -150,7 +150,7 @@ class IssuesControllerTest < ActionController::TestCase
     # Ignore issue as administrator
     session[:user] = create(:administrator_user).id
     get :ignore, :params => { :id => issue.id }
-    assert_response :not_found
+    assert_redirected_to :controller => :errors, :action => :not_found
     assert_not issue.reload.ignored?
 
     # Ignore issue as moderator
@@ -178,7 +178,7 @@ class IssuesControllerTest < ActionController::TestCase
     # Ignore issue as moderator
     session[:user] = create(:moderator_user).id
     get :ignore, :params => { :id => issue.id }
-    assert_response :not_found
+    assert_redirected_to :controller => :errors, :action => :not_found
     assert_not issue.reload.ignored?
 
     # Ignore issue as administrator
@@ -208,7 +208,7 @@ class IssuesControllerTest < ActionController::TestCase
     # Reopen issue as administrator
     session[:user] = create(:administrator_user).id
     get :reopen, :params => { :id => issue.id }
-    assert_response :not_found
+    assert_redirected_to :controller => :errors, :action => :not_found
     assert_not issue.reload.open?
 
     # Reopen issue as moderator
@@ -238,7 +238,7 @@ class IssuesControllerTest < ActionController::TestCase
     # Reopen issue as moderator
     session[:user] = create(:moderator_user).id
     get :reopen, :params => { :id => issue.id }
-    assert_response :not_found
+    assert_redirected_to :controller => :errors, :action => :not_found
     assert_not issue.reload.open?
 
     # Reopen issue as administrator

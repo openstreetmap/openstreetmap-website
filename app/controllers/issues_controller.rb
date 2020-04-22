@@ -82,6 +82,6 @@ class IssuesController < ApplicationController
   def find_issue
     @issue = Issue.visible_to(current_user).find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    head :not_found
+    redirect_to :controller => "errors", :action => "not_found"
   end
 end
