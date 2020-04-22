@@ -1,0 +1,25 @@
+<%= favicon_link_tag "favicon.ico" if browser.ie? %>
+<% [57, 60, 72, 76, 114, 120, 144, 152, 180].each do |size| -%>
+<%= favicon_link_tag "apple-touch-icon-#{size}x#{size}.png", :rel => "apple-touch-icon", :sizes => "#{size}x#{size}", :type => "image/png" %>
+<% end -%>
+<%= favicon_link_tag "favicon-32x32.png", :rel => "icon", :sizes => "32x32", :type => "image/png" %>
+<%= favicon_link_tag "favicon-194x194.png", :rel => "icon", :sizes => "194x194", :type => "image/png" %>
+<%= favicon_link_tag "favicon-96x96.png", :rel => "icon", :sizes => "96x96", :type => "image/png" %>
+<%= favicon_link_tag "android-chrome-192x192.png", :rel => "icon", :sizes => "192x192", :type => "image/png" %>
+<%= favicon_link_tag "favicon-16x16.png", :rel => "icon", :sizes => "16x16", :type => "image/png" %>
+<%= tag("link", :rel => "mask-icon", :href => asset_path("tab-icon.svg"), :color => "#7ebc6f") %>
+<%= tag("link", :rel => "manifest", :href => asset_path("manifest.json")) %>
+<%= tag("meta", :name => "msapplication-config", :content => asset_path("browserconfig.xml")) %>
+<%= tag("meta", :name => "msapplication-TileColor", :content => "#00a300") %>
+<%= tag("meta", :name => "msapplication-TileImage", :content => image_path("mstile-144x144.png")) %>
+<%= tag("meta", :name => "theme-color", :content => "#ffffff") %>
+<%= canonical_tag %>
+<% if Settings.key?(:publisher_url) -%>
+<%= tag("link", :rel => "publisher", :href => Settings.publisher_url) %>
+<% end -%>
+<%= tag("link", :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => asset_path("osm.xml")) %>
+<%= tag("meta", :name => "description", :content => "OpenStreetMap is the free wiki world map.") %>
+<%= opengraph_tags(@title) %>
+<% if flash[:piwik_goal] -%>
+<%= tag("meta", :name => "piwik-goal", :content => flash[:piwik_goal]) %>
+<% end -%>
