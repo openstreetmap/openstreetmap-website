@@ -180,7 +180,7 @@ OpenStreetMap::Application.routes.draw do
   match "/auth/:provider" => "users#auth", :via => [:get, :post], :as => :auth
 
   # permalink
-  get "/go/:code" => "site#permalink", :code => /[a-zA-Z0-9_@~]+[=-]*/
+  get "/go/:code" => "site#permalink", :code => /[a-zA-Z0-9_@~]+[=-]*/, :as => :permalink
 
   # rich text preview
   post "/preview/:type" => "site#preview", :as => :preview
