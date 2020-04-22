@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ChangesetCommentsControllerTest < ActionController::TestCase
+class ChangesetCommentsControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -20,7 +20,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
     changeset = create(:changeset, :closed)
     create_list(:changeset_comment, 3, :changeset => changeset)
 
-    get :index, :params => { :format => "rss" }
+    get changesets_comments_feed_path(:format => "rss")
     assert_response :success
     assert_equal "application/rss+xml", @response.media_type
     assert_select "rss", :count => 1 do
@@ -29,7 +29,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
       end
     end
 
-    get :index, :params => { :format => "rss", :limit => 2 }
+    get changesets_comments_feed_path(:format => "rss", :limit => 2)
     assert_response :success
     assert_equal "application/rss+xml", @response.media_type
     assert_select "rss", :count => 1 do
@@ -38,7 +38,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
       end
     end
 
-    get :index, :params => { :id => changeset.id, :format => "rss" }
+    get changeset_comments_feed_path(:id => changeset.id, :format => "rss")
     assert_response :success
     assert_equal "application/rss+xml", @response.media_type
     assert_select "rss", :count => 1 do
@@ -51,10 +51,10 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
   ##
   # test comments feed
   def test_feed_bad_limit
-    get :index, :params => { :format => "rss", :limit => 0 }
+    get changesets_comments_feed_path(:format => "rss", :limit => 0)
     assert_response :bad_request
 
-    get :index, :params => { :format => "rss", :limit => 100001 }
+    get changesets_comments_feed_path(:format => "rss", :limit => 100001)
     assert_response :bad_request
   end
 end
