@@ -215,25 +215,23 @@ class Trace < ApplicationRecord
     tarred = filetype =~ /tar archive/
 
     if gzipped || bzipped || zipped || tarred
-      tmpfile = Tempfile.new("trace.#{id}")
+      file = Tempfile.new("trace.#{id}")
 
       if tarred && gzipped
-        system("tar -zxOf #{trace_name} > #{tmpfile.path}")
+        system("tar -zxOf #{trace_name} > #{file.path}")
       elsif tarred && bzipped
-        system("tar -jxOf #{trace_name} > #{tmpfile.path}")
+        system("tar -jxOf #{trace_name} > #{file.path}")
       elsif tarred
-        system("tar -xOf #{trace_name} > #{tmpfile.path}")
+        system("tar -xOf #{trace_name} > #{file.path}")
       elsif gzipped
-        system("gunzip -c #{trace_name} > #{tmpfile.path}")
+        system("gunzip -c #{trace_name} > #{file.path}")
       elsif bzipped
-        system("bunzip2 -c #{trace_name} > #{tmpfile.path}")
+        system("bunzip2 -c #{trace_name} > #{file.path}")
       elsif zipped
-        system("unzip -p #{trace_name} -x '__MACOSX/*' > #{tmpfile.path} 2> /dev/null")
+        system("unzip -p #{trace_name} -x '__MACOSX/*' > #{file.path} 2> /dev/null")
       end
 
-      tmpfile.unlink
-
-      file = tmpfile.file
+      file.unlink
     else
       file = File.open(trace_name)
     end
