@@ -185,6 +185,11 @@ module ActiveSupport
       click_on "Login", :match => :first
     end
 
+    def session_for(user)
+      post login_path, :params => { :username => user.display_name, :password => "test" }
+      follow_redirect!
+    end
+
     def xml_for_node(node)
       doc = OSM::API.new.get_xml_doc
       doc.root << xml_node_for_node(node)
