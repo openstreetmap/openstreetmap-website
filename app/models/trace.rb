@@ -117,7 +117,7 @@ class Trace < ApplicationRecord
   end
 
   def mime_type
-    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
+    filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -139,7 +139,7 @@ class Trace < ApplicationRecord
   end
 
   def extension_name
-    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
+    filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -208,8 +208,7 @@ class Trace < ApplicationRecord
   end
 
   def xml_file
-    # TODO: *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
-    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
+    filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
