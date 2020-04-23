@@ -120,7 +120,7 @@ module Potlatch
   # The Dispatcher class handles decoding a series of RPC calls
   # from the request, dispatching them, and encoding the response
   class Dispatcher
-    def initialize(request, &_block)
+    def initialize(request, &block)
       # Get stream for request data
       @request = StringIO.new(request + 0.chr)
 
@@ -135,7 +135,7 @@ module Potlatch
       end
 
       # Capture the dispatch routine
-      @dispatch = Proc.new
+      @dispatch = block
     end
 
     def each(&_block)
