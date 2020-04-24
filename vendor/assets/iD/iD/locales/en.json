@@ -117,19 +117,37 @@
             "circularize": {
                 "title": "Circularize",
                 "description": {
-                    "line": "Make this line circular.",
-                    "area": "Make this area circular."
+                    "single": "Make this feature circular.",
+                    "multiple": "Make these features circular."
                 },
                 "key": "O",
                 "annotation": {
-                    "line": "Made a line circular.",
-                    "area": "Made an area circular."
+                    "single": "Made a feature circular.",
+                    "multiple": "Made features circular."
                 },
-                "not_closed": "This can't be made circular because it's not a loop.",
-                "too_large": "This can't be made circular because not enough of it is currently visible.",
-                "connected_to_hidden": "This can't be made circular because it is connected to a hidden feature.",
-                "not_downloaded": "This can't be made circular because parts of it have not yet been downloaded.",
-                "already_circular": "This can't be made circular because it's already circular."
+                "multiple_blockers": {
+                    "multiple": "These can't be made circular for multiple reasons."
+                },
+                "not_closed": {
+                    "single": "This can't be made circular because it's not a loop.",
+                    "multiple": "These can't be made circular because they aren't loops."
+                },
+                "too_large": {
+                    "single": "This can't be made circular because not enough of it is currently visible.",
+                    "multiple": "These can't be made circular because not enough of them are currently visible."
+                },
+                "connected_to_hidden": {
+                    "single": "This can't be made circular because it is connected to a hidden feature.",
+                    "multiple": "These can't be made circular because some are connected to hidden features."
+                },
+                "not_downloaded": {
+                    "single": "This can't be made circular because parts of it have not yet been downloaded.",
+                    "multiple": "These can't be made circular because parts of them have not yet been downloaded."
+                },
+                "already_circular": {
+                    "single": "This can't be made more circular than it already is.",
+                    "multiple": "These can't be made more circular than they already are."
+                }
             },
             "orthogonalize": {
                 "title": "Square",
@@ -684,10 +702,10 @@
             "show_more": "Show More",
             "view_on_osm": "View on openstreetmap.org",
             "view_on_keepRight": "View on keepright.at",
-            "all_fields": "All fields",
-            "all_tags": "All tags",
-            "all_members": "All members",
-            "all_relations": "All relations",
+            "fields": "Fields",
+            "tags_count": "Tags ({count})",
+            "members_count": "Members ({count})",
+            "relations_count": "Relations ({count})",
             "add_to_relation": "Add to a relation",
             "new_relation": "New relation...",
             "choose_relation": "Choose a parent relation",
@@ -710,6 +728,7 @@
             "incomplete": "<not downloaded>",
             "feature_list": "Search features",
             "edit": "Edit feature",
+            "edit_features": "Edit features",
             "check": {
                 "yes": "Yes",
                 "no": "No",
@@ -1489,7 +1508,7 @@
                 "before_start": "You should be familiar with OpenStreetMap and this editor before you start editing. iD contains a walkthrough to teach you the basics of editing OpenStreetMap. Click \"Start the Walkthrough\" on this screen to take the tutorial - it takes only about 15 minutes.",
                 "open_source_h": "Open Source",
                 "open_source": "The iD editor is a collaborative open source project, and you are using version {version} now. The source code is available [on GitHub](https://github.com/openstreetmap/iD).",
-                "open_source_help": "You can help iD by [translating](https://github.com/openstreetmap/iD/blob/master/CONTRIBUTING.md#translating) or [reporting bugs](https://github.com/openstreetmap/iD/issues)."
+                "open_source_help": "You can help iD by [translating](https://github.com/openstreetmap/iD/blob/develop/CONTRIBUTING.md#translating) or [reporting bugs](https://github.com/openstreetmap/iD/issues)."
             },
             "overview": {
                 "title": "Overview",
@@ -2803,7 +2822,7 @@
                     }
                 },
                 "beauty": {
-                    "label": "Beauty Specialty"
+                    "label": "Services"
                 },
                 "bench": {
                     "label": "Bench",
@@ -2859,6 +2878,9 @@
                 "brewery": {
                     "label": "Draft Beers",
                     "terms": "on tap"
+                },
+                "bridge_combo": {
+                    "label": "Type"
                 },
                 "bridge": {
                     "label": "Type",
@@ -2916,10 +2938,18 @@
                         "dome": "Dome"
                     }
                 },
+                "capacity_parking": {
+                    "label": "Total Spaces",
+                    "placeholder": "10, 20, 30..."
+                },
                 "capacity": {
                     "label": "Capacity",
                     "terms": "",
                     "placeholder": "50, 100, 200..."
+                },
+                "capacity/disabled_parking": {
+                    "label": "Accessible Spaces",
+                    "placeholder": "1, 2, 3..."
                 },
                 "cash_in": {
                     "label": "Cash In"
@@ -2941,7 +2971,13 @@
                     "placeholder": "1 EUR, 5 USD, 10 JPY…"
                 },
                 "check_date": {
-                    "label": "Last Checked Date"
+                    "label": "Last Checked Date",
+                    "placeholder": "YYYY-MM-DD"
+                },
+                "circumference": {
+                    "label": "Circumference",
+                    "terms": "",
+                    "placeholder": "1 m, 20 cm, 30 in…"
                 },
                 "clothes": {
                     "label": "Clothes"
@@ -3108,6 +3144,9 @@
                         "no": "None"
                     }
                 },
+                "depth": {
+                    "label": "Depth (Meters)"
+                },
                 "description": {
                     "label": "Description",
                     "terms": "summary"
@@ -3181,6 +3220,7 @@
                 },
                 "direction": {
                     "label": "Direction (Degrees Clockwise)",
+                    "terms": "",
                     "placeholder": "45, 90, 180, 270"
                 },
                 "dispensing": {
@@ -3190,9 +3230,13 @@
                     "label": "Display"
                 },
                 "distance": {
-                    "label": "Distance"
+                    "label": "Distance",
+                    "terms": "length,mileage"
                 },
                 "disused/railway": {
+                    "label": "Type"
+                },
+                "disused/shop": {
                     "label": "Type"
                 },
                 "dock": {
@@ -3229,8 +3273,17 @@
                     "terms": "",
                     "placeholder": "00:00"
                 },
+                "ele_node": {
+                    "label": "Elevation",
+                    "terms": "altitude,height"
+                },
+                "ele": {
+                    "label": "Elevation",
+                    "terms": "altitude,height"
+                },
                 "electrified": {
                     "label": "Electrification",
+                    "terms": "contact line,powered,third rail",
                     "placeholder": "Contact Line, Electrified Rail...",
                     "options": {
                         "contact_line": "Contact Line",
@@ -3238,10 +3291,6 @@
                         "yes": "Yes (unspecified)",
                         "no": "No"
                     }
-                },
-                "elevation": {
-                    "label": "Elevation",
-                    "terms": "altitude"
                 },
                 "email": {
                     "label": "Email",
@@ -3358,6 +3407,9 @@
                 },
                 "gambling": {
                     "label": "Games"
+                },
+                "garden/type": {
+                    "label": "Garden Type"
                 },
                 "gauge": {
                     "label": "Gauge"
@@ -3540,7 +3592,7 @@
                     "terms": ""
                 },
                 "internet_access": {
-                    "label": "Internet Access",
+                    "label": "Internet Connection",
                     "terms": "wifi,wlan",
                     "options": {
                         "yes": "Yes",
@@ -3551,8 +3603,13 @@
                     }
                 },
                 "internet_access/fee": {
-                    "label": "Internet Access Fee",
-                    "terms": "wifi fee"
+                    "label": "Internet Access",
+                    "terms": "wifi fee",
+                    "options": {
+                        "no": "Free",
+                        "yes": "Paid",
+                        "customers": "Customers Only"
+                    }
                 },
                 "internet_access/ssid": {
                     "label": "Wifi Network Name",
@@ -3580,6 +3637,9 @@
                 },
                 "kerb/height": {
                     "label": "Height"
+                },
+                "kneipp_water_cure_multi": {
+                    "label": "Basin Types"
                 },
                 "label": {
                     "label": "Label"
@@ -3747,6 +3807,10 @@
                     "label": "Microbrewery",
                     "terms": "brewpub,craft beer"
                 },
+                "mimics": {
+                    "label": "Mimics",
+                    "terms": "camoflauged,disguised,looks like,tree"
+                },
                 "min_age": {
                     "label": "Minimum Age",
                     "terms": "lower age limit"
@@ -3847,8 +3911,7 @@
                     "terms": ""
                 },
                 "network/type": {
-                    "label": "Network Type",
-                    "terms": ""
+                    "label": "Network Type"
                 },
                 "not/name": {
                     "label": "Incorrect Names",
@@ -3890,12 +3953,17 @@
                     "terms": ""
                 },
                 "opening_date": {
-                    "label": "Expected Opening Date"
+                    "label": "Expected Opening Date",
+                    "placeholder": "YYYY-MM-DD"
                 },
                 "opening_hours": {
                     "label": "Hours",
                     "terms": "",
                     "placeholder": "Unknown"
+                },
+                "opening_hours/covid19": {
+                    "label": "COVID-19 Pandemic Hours",
+                    "terms": "coronavirus,lockdown,opening hours,SARS‑CoV‑2"
                 },
                 "operator": {
                     "label": "Operator",
@@ -3915,6 +3983,9 @@
                 "park_ride": {
                     "label": "Park and Ride",
                     "terms": ""
+                },
+                "parking_space": {
+                    "label": "Type"
                 },
                 "parking": {
                     "label": "Type",
@@ -4067,6 +4138,10 @@
                 },
                 "playground/theme": {
                     "label": "Theme"
+                },
+                "plots": {
+                    "label": "Plots",
+                    "placeholder": "10, 20, 30..."
                 },
                 "polling_station": {
                     "label": "Polling Place",
@@ -4487,7 +4562,8 @@
                 },
                 "start_date": {
                     "label": "Start Date",
-                    "terms": "inception"
+                    "terms": "inception",
+                    "placeholder": "YYYY-MM-DD"
                 },
                 "step_count": {
                     "label": "Number of Steps",
@@ -4600,6 +4676,9 @@
                 },
                 "target": {
                     "label": "Target"
+                },
+                "telecom/medium": {
+                    "label": "Medium"
                 },
                 "tidal": {
                     "label": "Tidal",
@@ -4723,6 +4802,9 @@
                 "trolley_wire": {
                     "label": "Overhead Trolley Wires",
                     "terms": ""
+                },
+                "tunnel_combo": {
+                    "label": "Type"
                 },
                 "tunnel": {
                     "label": "Type",
@@ -4879,10 +4961,10 @@
             },
             "presets": {
                 "aerialway": {
-                    "name": "Aerialway"
+                    "name": "Aerialway Feature"
                 },
                 "aeroway": {
-                    "name": "Aeroway"
+                    "name": "Aeroway Feature"
                 },
                 "amenity": {
                     "name": "Amenity"
@@ -4957,7 +5039,7 @@
                 },
                 "advertising/board": {
                     "name": "Notice Board",
-                    "terms": ""
+                    "terms": "advertising,announcements,blackboard,bulletin board,bulletinboard,cork board,corkboard,fliers,flyers,noticeboard,pin board,pinboard,sign,whiteboard"
                 },
                 "advertising/column": {
                     "name": "Advertising Column",
@@ -4984,7 +5066,7 @@
                     "terms": "skiing,snowboarding,surface cable"
                 },
                 "aerialway/gondola": {
-                    "name": "Gondola",
+                    "name": "Gondola Lift",
                     "terms": "aerial cable,lift,skiing,snowboarding"
                 },
                 "aerialway/goods": {
@@ -5096,15 +5178,6 @@
                 },
                 "amenity/recycling": {
                     "name": "Recycling"
-                },
-                "amenity/register_office": {
-                    "name": "Register Office"
-                },
-                "amenity/scrapyard": {
-                    "name": "Scrap Yard"
-                },
-                "amenity/swimming_pool": {
-                    "name": "Swimming Pool"
                 },
                 "amenity/animal_boarding": {
                     "name": "Animal Boarding Facility",
@@ -5298,6 +5371,10 @@
                     "name": "Events Venue",
                     "terms": "banquet hall,baptism,Bar Mitzvah,Bat Mitzvah,birthdays,celebrations,conferences,confirmation,meetings,parties,party,quinceañera,reunions,weddings"
                 },
+                "amenity/exhibition_centre": {
+                    "name": "Exposition Center",
+                    "terms": "exhibition center,fair,exhibition,exposition,trade fair,trade show,trade exhibition,expo,tradeshow"
+                },
                 "amenity/fast_food": {
                     "name": "Fast Food",
                     "terms": "restaurant,takeaway"
@@ -5393,6 +5470,10 @@
                     "name": "Preschool / Kindergarten Grounds",
                     "terms": "kindergarden,pre-school"
                 },
+                "amenity/kneipp_water_cure": {
+                    "name": "Kneipp Water Cure",
+                    "terms": ""
+                },
                 "amenity/language_school": {
                     "name": "Language School",
                     "terms": "esl"
@@ -5451,7 +5532,11 @@
                 },
                 "amenity/parking_space": {
                     "name": "Parking Space",
-                    "terms": ""
+                    "terms": "parking spot,parking stall"
+                },
+                "amenity/parking_space/disabled": {
+                    "name": "Accessible Parking Space",
+                    "terms": "disability,disabled parking stall,handicap parking spot,wheelchair"
                 },
                 "amenity/parking": {
                     "name": "Parking Lot",
@@ -6042,7 +6127,7 @@
                 },
                 "barrier/border_control": {
                     "name": "Border Control",
-                    "terms": ""
+                    "terms": "checkpoint,customs,international boundary,passport check,port of entry,visa"
                 },
                 "barrier/cattle_grid": {
                     "name": "Cattle Grid",
@@ -6123,6 +6208,10 @@
                 "barrier/sally_port": {
                     "name": "Sally Port",
                     "terms": "Postern,castle side gate"
+                },
+                "barrier/spikes": {
+                    "name": "Spike Strip",
+                    "terms": "one-way traffic treadles,stingers,stop sticks,tire deflation device,tire shredders,traffic spikes"
                 },
                 "barrier/stile": {
                     "name": "Stile",
@@ -6239,7 +6328,7 @@
                 },
                 "building/farm_auxiliary": {
                     "name": "Farm Building",
-                    "terms": ""
+                    "terms": "agriculture,auxilary,chicken coop,farm auxiliary,pigsty,sty"
                 },
                 "building/farm": {
                     "name": "Farm House",
@@ -6311,7 +6400,7 @@
                 },
                 "building/retail": {
                     "name": "Retail Building",
-                    "terms": ""
+                    "terms": "shop building,store building"
                 },
                 "building/roof": {
                     "name": "Roof",
@@ -6347,7 +6436,7 @@
                 },
                 "building/static_caravan": {
                     "name": "Static Mobile Home",
-                    "terms": ""
+                    "terms": "house trailer,manufactured home,mobile home,prefabricated home,residential caravan,static caravan,trailer home"
                 },
                 "building/temple": {
                     "name": "Temple Building",
@@ -6597,6 +6686,9 @@
                 "disused/railway": {
                     "name": "Disused Railway Feature"
                 },
+                "disused/shop": {
+                    "name": "Disused Shop"
+                },
                 "emergency/designated": {
                     "name": "Emergency Access Designated"
                 },
@@ -6654,6 +6746,10 @@
                 "emergency/lifeguard": {
                     "name": "Lifeguard",
                     "terms": "CPR,rescue"
+                },
+                "emergency/mountain_rescue": {
+                    "name": "Mountain Rescue",
+                    "terms": "EMS,EMT,rescue"
                 },
                 "emergency/phone": {
                     "name": "Emergency Phone",
@@ -6846,6 +6942,10 @@
                     "name": "Cycle & Foot Path",
                     "terms": "bicycle and foot path,bike and pedestrian path,green way,greenway,mixed-use trail,multi-use trail,segregated trail,rail trail"
                 },
+                "highway/cycleway/crossing/bicycle_foot": {
+                    "name": "Cycle & Foot Crossing",
+                    "terms": "bicycle and foot crosswalk,bike and pedestrian crossing,cycleway,cycling,cyclist"
+                },
                 "highway/cycleway/crossing/marked": {
                     "name": "Marked Cycle Crossing",
                     "terms": "cycle crosswalk,cycle path crossing,cycleway crossing,bicycle crossing,bike crossing"
@@ -6938,6 +7038,10 @@
                 "highway/path": {
                     "name": "Path",
                     "terms": "hike,hiking,trackway,trail,walk"
+                },
+                "highway/path/boardwalk": {
+                    "name": "Boardwalk",
+                    "terms": "pier,plank walkway,wooden raised foot path"
                 },
                 "highway/path/informal": {
                     "name": "Informal Path",
@@ -7139,6 +7243,10 @@
                     "name": "Monument",
                     "terms": ""
                 },
+                "historic/pillory": {
+                    "name": "Historic Pillory",
+                    "terms": "attraction"
+                },
                 "historic/ruins": {
                     "name": "Ruins",
                     "terms": ""
@@ -7214,8 +7322,8 @@
                     "name": "Reservoir"
                 },
                 "landuse/allotments": {
-                    "name": "Community Garden",
-                    "terms": "allotment,garden"
+                    "name": "Garden Allotments",
+                    "terms": "allotment,community garden,garden"
                 },
                 "landuse/aquaculture": {
                     "name": "Aquaculture",
@@ -7314,7 +7422,7 @@
                     "terms": "base,fight,force,guard,marine,navy,ship,sub,troop,war"
                 },
                 "landuse/military/obstacle_course": {
-                    "name": "Obstacle Course",
+                    "name": "Military Obstacle Course",
                     "terms": "army,base,force,guard,marine,navy,troop,war"
                 },
                 "landuse/military/range": {
@@ -7322,7 +7430,7 @@
                     "terms": "air force,army,base,fight,fire,force,guard,gun,marine,navy,rifle,shoot*,snip*,train,troop,war"
                 },
                 "landuse/military/training_area": {
-                    "name": "Training Area",
+                    "name": "Military Training Area",
                     "terms": "air force,army,base,fight,fire,force,guard,gun,marine,navy,rifle,shoot*,snip*,train,troop,war"
                 },
                 "landuse/orchard": {
@@ -7487,7 +7595,15 @@
                 },
                 "leisure/garden": {
                     "name": "Garden",
-                    "terms": ""
+                    "terms": "flowers,fruits,herbs,plants,vegetables"
+                },
+                "leisure/garden/botanical": {
+                    "name": "Botanical Garden",
+                    "terms": "botanic garden,plant collection,rare plants"
+                },
+                "leisure/garden/community": {
+                    "name": "Community Garden",
+                    "terms": "co-op garden,collective garden,communal garden"
                 },
                 "leisure/golf_course": {
                     "name": "Golf Course",
@@ -7677,29 +7793,21 @@
                     "name": "Racetrack (Non-Motorsport)",
                     "terms": "cycle,dog,greyhound,horse,race*,track"
                 },
-                "leisure/track/cycling_point": {
-                    "name": "Cycling Track",
-                    "terms": "bicycle track,bicycling track,cycle racetrack,velodrome"
-                },
                 "leisure/track/cycling": {
                     "name": "Cycling Track",
                     "terms": "bicycle track,bicycling track,cycle racetrack,velodrome"
-                },
-                "leisure/track/horse_racing_point": {
-                    "name": "Horse Racing Track",
-                    "terms": "equestrian race track,horse race betting,horseracing,horsetrack,horse racetrack"
                 },
                 "leisure/track/horse_racing": {
                     "name": "Horse Racing Track",
                     "terms": "equestrian race track,horse race betting,horseracing,horsetrack,horse racetrack"
                 },
-                "leisure/track/running_point": {
-                    "name": "Running Track",
-                    "terms": "athletics track,decathlon,foot race,long distance running,marathon,middle distance running,racetrack,running,sprint,track,walking"
-                },
                 "leisure/track/running": {
                     "name": "Running Track",
                     "terms": "athletics track,decathlon,foot race,long distance running,marathon,middle distance running,racetrack,running,sprint,track,walking"
+                },
+                "leisure/trampoline_park": {
+                    "name": "Trampoline Park",
+                    "terms": "bounce,jump,spring"
                 },
                 "leisure/water_park": {
                     "name": "Water Park",
@@ -7778,7 +7886,7 @@
                     "terms": "gas holder"
                 },
                 "man_made/groyne": {
-                    "name": "Groyne",
+                    "name": "Groin",
                     "terms": ""
                 },
                 "man_made/lighthouse": {
@@ -7990,7 +8098,7 @@
                     "terms": "air force,army,base,fight,force,guard,marine,navy,troop,war"
                 },
                 "military/checkpoint": {
-                    "name": "Checkpoint",
+                    "name": "Military Checkpoint",
                     "terms": "air force,army,base,force,guard,marine,navy,troop,war"
                 },
                 "military/nuclear_explosion_site": {
@@ -8092,6 +8200,10 @@
                 "natural/shingle": {
                     "name": "Shingle",
                     "terms": "beach,gravel,pebbles,riverbed,rounded rock fragments"
+                },
+                "natural/shrub": {
+                    "name": "Shrub",
+                    "terms": "bush,scrub"
                 },
                 "natural/spring": {
                     "name": "Spring",
@@ -8343,7 +8455,7 @@
                 },
                 "office/research": {
                     "name": "Research Office",
-                    "terms": "R and D,research and development,research lab"
+                    "terms": "R and D,research and development,research lab,r&d,rnd"
                 },
                 "office/surveyor": {
                     "name": "Surveyor Office",
@@ -8523,6 +8635,9 @@
                 "polling_station": {
                     "name": "Temporary Polling Place",
                     "terms": "ballot box,ballot drop,democracy,elections,polling place,vote,voting booth,voting machine"
+                },
+                "power/cable": {
+                    "name": "Power Cable"
                 },
                 "power/cable/underground": {
                     "name": "Underground Power Cable",
@@ -8803,7 +8918,7 @@
                     "terms": ""
                 },
                 "railway/funicular": {
-                    "name": "Funicular",
+                    "name": "Funicular Track",
                     "terms": "venicular,cliff railway,cable car,cable railway,funicular railway"
                 },
                 "railway/level_crossing": {
@@ -8811,7 +8926,7 @@
                     "terms": "crossing,railroad crossing,level crossing,grade crossing,road through railroad,train crossing"
                 },
                 "railway/light_rail": {
-                    "name": "Light Rail",
+                    "name": "Light Rail Track",
                     "terms": "light rail,streetcar,trolley"
                 },
                 "railway/milestone": {
@@ -8819,23 +8934,31 @@
                     "terms": "milestone,marker"
                 },
                 "railway/miniature": {
-                    "name": "Miniature Railway",
+                    "name": "Miniature Train Track",
                     "terms": "rideable miniature railway,narrow gauge railway,minimum gauge railway"
                 },
                 "railway/monorail": {
-                    "name": "Monorail",
+                    "name": "Monorail Track",
                     "terms": ""
                 },
+                "railway/monorail/hanging": {
+                    "name": "Hanging Monorail Track",
+                    "terms": "suspension railway"
+                },
                 "railway/narrow_gauge": {
-                    "name": "Narrow Gauge Rail",
+                    "name": "Narrow Gauge Track",
                     "terms": "narrow gauge railway,narrow gauge railroad"
                 },
+                "railway/preserved": {
+                    "name": "Heritage Railway Track",
+                    "terms": "historic train,preserved rail,steam train,tourist train"
+                },
                 "railway/rail": {
-                    "name": "Rail",
-                    "terms": "rail line,railroad track,train track"
+                    "name": "Train Track",
+                    "terms": "permanent way,rail line,railroad track,railway track,track,train track"
                 },
                 "railway/rail/highspeed": {
-                    "name": "High-Speed Rail",
+                    "name": "High-Speed Train Track",
                     "terms": "bullet train,fast rail,high speed rail,highspeed rail,HSR"
                 },
                 "railway/signal": {
@@ -8847,8 +8970,8 @@
                     "terms": "metro,transit"
                 },
                 "railway/subway": {
-                    "name": "Subway",
-                    "terms": "metro,transit"
+                    "name": "Subway Track",
+                    "terms": "metro,transit,underground railway"
                 },
                 "railway/switch": {
                     "name": "Railway Switch",
@@ -8859,8 +8982,8 @@
                     "terms": "wash,clean"
                 },
                 "railway/tram": {
-                    "name": "Tram",
-                    "terms": "light rail,streetcar,tram,trolley"
+                    "name": "Tram Track",
+                    "terms": "electric street railway,light rail,streetcar,tramway,trolley"
                 },
                 "railway/yard": {
                     "name": "Rail Yard",
@@ -8907,12 +9030,6 @@
                 },
                 "shop/fashion": {
                     "name": "Fashion Store"
-                },
-                "shop/fishmonger": {
-                    "name": "Fishmonger"
-                },
-                "shop/furnace": {
-                    "name": "Furnace Store"
                 },
                 "shop/vacant": {
                     "name": "Vacant Shop"
@@ -9019,7 +9136,7 @@
                 },
                 "shop/car_repair": {
                     "name": "Car Repair Shop",
-                    "terms": "automobile,automotive,garage,service"
+                    "terms": "auto mechanic,automechanic,automobile,automotive,garage,inspection,oil change,service"
                 },
                 "shop/car": {
                     "name": "Car Dealership",
@@ -9186,7 +9303,7 @@
                     "terms": "art*,paint*,photo*,frame"
                 },
                 "shop/frozen_food": {
-                    "name": "Frozen Food",
+                    "name": "Frozen Food Store",
                     "terms": ""
                 },
                 "shop/fuel": {
@@ -9256,6 +9373,10 @@
                 "shop/hobby": {
                     "name": "Hobby Shop",
                     "terms": "manga,figurine,model"
+                },
+                "shop/household_linen": {
+                    "name": "Household Linen Shop",
+                    "terms": "bedspreads,blankets,domestic cloths,curtains,handkerchieves,napkins,pillow cases,robes,sheets,towels"
                 },
                 "shop/houseware": {
                     "name": "Houseware Store",
@@ -9568,6 +9689,10 @@
                 "telecom/data_center": {
                     "name": "Data Center",
                     "terms": "computer systems storage,information technology,server farm,the cloud,telecommunications"
+                },
+                "telecom/exchange": {
+                    "name": "Telecom Exchange",
+                    "terms": "telecommunications,telephone exchange,telephone switch"
                 },
                 "tourism/alpine_hut": {
                     "name": "Alpine Hut",
@@ -9928,6 +10053,10 @@
                     "name": "Tram Route",
                     "terms": ""
                 },
+                "type/route/trolleybus": {
+                    "name": "Trolleybus Route",
+                    "terms": ""
+                },
                 "type/site": {
                     "name": "Site",
                     "terms": ""
@@ -10267,6 +10396,13 @@
                 "description": "The city map is an overview map that describes Gothenburg. It contains general information about land, communications, hydrography, buildings, address numbers and street names, administrative division and other orientation text.",
                 "name": "Gothenburg City map"
             },
+            "gothenburg-ortho": {
+                "attribution": {
+                    "text": "© Gothenburg municipality, CC0"
+                },
+                "description": "Orthophoto for Gothenburg municipality",
+                "name": "Gothenburg Orthophoto"
+            },
             "gsi.go.jp_airphoto": {
                 "attribution": {
                     "text": "GSI Japan"
@@ -10434,6 +10570,12 @@
                 },
                 "name": "Thunderforest Landscape"
             },
+            "tf-outdoors": {
+                "attribution": {
+                    "text": "Maps © Thunderforest, Data © OpenStreetMap contributors"
+                },
+                "name": "Thunderforest Outdoors"
+            },
             "trafikverket-baninfo": {
                 "attribution": {
                     "text": "© Trafikverket, CC0"
@@ -10475,6 +10617,12 @@
                 },
                 "description": "Swedish NVDB road network with several options for map layers",
                 "name": "Trafikverket Road Network options"
+            },
+            "wroclaw-orto2018": {
+                "attribution": {
+                    "text": "Urząd Miasta Wrocław"
+                },
+                "name": "Wrocław: Orthophotomap 2018 (aerial image)"
             }
         },
         "community": {
@@ -10512,6 +10660,10 @@
             },
             "Galicia-Twitter": {
                 "name": "OpenStreetMap Galicia Twitter",
+                "description": "Follow us on Twitter at {url}"
+            },
+            "Galicia-Xeoinquedos-Twitter": {
+                "name": "Geoinquetos on Twitter",
                 "description": "Follow us on Twitter at {url}"
             },
             "GeoPhilly": {
@@ -10946,10 +11098,6 @@
                 "description": "Mappers and OpenStreetMap users in the Salt Lake City area",
                 "extendedDescription": "Activities may include things like Learn To Map workshops, mapping parties and outdoor data collection. The events will take place in the SLC area, at least initially.  We are looking for seasoned mappers as well as people new to OSM. Join and let's do some mapping!"
             },
-            "OSM-Vancouver-meetup": {
-                "name": "OpenStreetMap Vancouver",
-                "description": "Mappers and OpenStreetMap users in the Vancouver, BC area"
-            },
             "OSM-Wyoming": {
                 "name": "OpenStreetMap Wyoming",
                 "description": "Mappers and OpenStreetMap users in the state of Wyoming",
@@ -10992,6 +11140,10 @@
             "OSM-japan-mailinglist": {
                 "name": "OpenStreetMap Japan Mailinglist",
                 "description": "Talk-ja is an Official Mailinglist for Japanese Community"
+            },
+            "OSM-japan-slack": {
+                "name": "OpenStreetMap Japan Slack",
+                "description": "A Slack workspace for the OSM Japan community {signupUrl}"
             },
             "OSM-japan-twitter": {
                 "name": "OpenStreetMap Japan Twitter",
@@ -11205,6 +11357,14 @@
                 "name": "OpenStreetMap Germany Matrix",
                 "description": "Join #osm-de:matrix.org at https://riot.im/app/#/room/%23osm-de:matrix.org"
             },
+            "de-mv-mailinglist": {
+                "name": "Mecklenburg-Vorpommern Mailing List",
+                "description": "This is the mailing list for the OSM community of Mecklenburg-Vorpommern"
+            },
+            "de-mv-twitter": {
+                "name": "OpenStreetMap Mecklenburg-Vorpommern Twitter",
+                "description": "Follow us on Twitter: {url}"
+            },
             "de-ostwestfalen-lippe-mailinglist": {
                 "name": "OWL Mailing List",
                 "description": "This is the mailing list for the Ostwestfalen-Lippe OSM community"
@@ -11248,6 +11408,22 @@
             "fi-mailinglist": {
                 "name": "Talk-fi Mailing List",
                 "description": "Talk-fi is the official mailing list for the Finnish OSM community"
+            },
+            "fr-35-wiki": {
+                "name": "OpenStreetMap Rennes Wiki page",
+                "description": "Wiki page of Rennes OSM local group"
+            },
+            "fr-bzh-mailinglist": {
+                "name": "Talk-fr-bzh Mailing List",
+                "description": "Talk-fr-bzh mailing list"
+            },
+            "fr-bzh-twitter": {
+                "name": "OSM-BZH on Twitter",
+                "description": "OpenStreetMap BZH on Twitter: {url}"
+            },
+            "fr-bzh-website": {
+                "name": "OpenStreetMap BZH Website",
+                "description": "The map which speaks Breton"
             },
             "fr-chapter": {
                 "name": "OpenStreetMap France Local Chapter",
@@ -11294,6 +11470,18 @@
                 "name": "GeoGeeks Perth Meetup",
                 "description": "Perth-based meetup group for people interested in mapping, geospatial data, and open source. We'll be working on anything that involves a sense of place."
             },
+            "gr-forum": {
+                "name": "OpenStreetMap GR forum",
+                "description": "OpenStreetMap Greece web forum"
+            },
+            "gr-mailinglist": {
+                "name": "Talk-gr Mailing List",
+                "description": "Talk-gr is the official mailing list for the Greek OSM community"
+            },
+            "gr-matrix": {
+                "name": "OpenStreetMap Greece Matrix",
+                "description": "Join #osm-gr:matrix.org at https://riot.im/app/#/room/%23osm-gr:matrix.org"
+            },
             "guatemala-telegram": {
                 "name": "OSM Guatemala on Telegram",
                 "description": "OpenStreetMap Guatemala Telegram chat"
@@ -11302,6 +11490,10 @@
                 "name": "OpenStreetMap Croatia Facebook group",
                 "description": "OpenStreetMap Croatia Facebook group"
             },
+            "hr-forum": {
+                "name": "OSM Croaria Forum",
+                "description": "OpenStreetMap Croatia Forum"
+            },
             "hr-irc": {
                 "name": "OpenStreetMap Croatia on IRC",
                 "description": "Join #osm-hr on irc.freenode.org (port 6667)"
@@ -11309,6 +11501,10 @@
             "hr-mailinglist": {
                 "name": "Talk-hr Mailing List",
                 "description": "Talk-hr mailing list"
+            },
+            "hr-wiki": {
+                "name": "OpenStreetMap Wikiproject Croatia",
+                "description": "Wikiproject page for Croatia"
             },
             "hu-facebook": {
                 "name": "OpenStreetMap HU on Facebook",
@@ -11540,6 +11736,10 @@
                 "name": "OpenStreetMap Ghana on Twitter",
                 "description": "Follow us on Twitter: {url}"
             },
+            "osm-hr": {
+                "name": "OpenStreetMap Croatia",
+                "description": "The platform for information on OpenStreetMap in Croatia"
+            },
             "osm-india-forum": {
                 "name": "OpenStreetMap India forum",
                 "description": "OpenStreetMap India web forum"
@@ -11703,6 +11903,10 @@
                 "name": "OpenStreetMap Freemap Slovensko on Twitter",
                 "description": "OpenStreetMap Freemap Slovensko on Twitter: {url}"
             },
+            "talk-africa": {
+                "name": "Talk-africa Mailing List",
+                "description": "Talk-africa is the official mailing list for the African OSM community."
+            },
             "talk-au": {
                 "name": "Talk-au Mailing List",
                 "description": "Place for Aussie mappers to chat"
@@ -11732,6 +11936,10 @@
             "talk-nz": {
                 "name": "Talk-nz Mailing List",
                 "description": "New Zealand's OSM community talk"
+            },
+            "talk-tz": {
+                "name": "Talk-tz Mailing List",
+                "description": "Talk-tz is the official mailing list for the Tanzanian OSM community."
             },
             "talk-za": {
                 "name": "Talk-za Mailing List",
