@@ -1,13 +1,13 @@
 require "test_helper"
 
-class IssueCommentsControllerTest < ActionController::TestCase
+class IssueCommentsControllerTest < ActionDispatch::IntegrationTest
   def test_comment_by_normal_user
     issue = create(:issue)
 
     # Login as normal user
-    session[:user] = create(:user).id
+    session_for(create(:user))
 
-    post :create, :params => { :issue_id => issue.id }
+    post issue_comments_path(:issue_id => issue)
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal 0, issue.comments.length
@@ -17,9 +17,9 @@ class IssueCommentsControllerTest < ActionController::TestCase
     issue = create(:issue)
 
     # Login as administrator
-    session[:user] = create(:administrator_user).id
+    session_for(create(:administrator_user))
 
-    post :create, :params => { :issue_id => issue.id, :issue_comment => { :body => "test comment" } }
+    post issue_comments_path(:issue_id => issue, :issue_comment => { :body => "test comment" })
     assert_response :redirect
     assert_redirected_to issue
     assert_equal 1, issue.comments.length

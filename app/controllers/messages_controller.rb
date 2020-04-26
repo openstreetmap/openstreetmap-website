@@ -34,6 +34,7 @@ class MessagesController < ApplicationController
       Notifier.message_notification(@message).deliver_later
       redirect_to :action => :inbox
     else
+      @title = t "messages.new.title"
       render :action => "new"
     end
   end
