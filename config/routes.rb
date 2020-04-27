@@ -106,11 +106,11 @@ OpenStreetMap::Application.routes.draw do
 
   # Data browsing
   get "/way/:id" => "browse#way", :id => /\d+/, :as => :way
-  get "/way/:id/history" => "browse#way_history", :id => /\d+/
+  get "/way/:id/history" => "browse#way_history", :id => /\d+/, :as => :way_history
   get "/node/:id" => "browse#node", :id => /\d+/, :as => :node
-  get "/node/:id/history" => "browse#node_history", :id => /\d+/
+  get "/node/:id/history" => "browse#node_history", :id => /\d+/, :as => :node_history
   get "/relation/:id" => "browse#relation", :id => /\d+/, :as => :relation
-  get "/relation/:id/history" => "browse#relation_history", :id => /\d+/
+  get "/relation/:id/history" => "browse#relation_history", :id => /\d+/, :as => :relation_history
   get "/changeset/:id" => "browse#changeset", :as => :changeset, :id => /\d+/
   get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
@@ -220,13 +220,13 @@ OpenStreetMap::Application.routes.draw do
   get "/diary/:language/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/user/:display_name/diary/comments/:page" => "diary_entries#comments", :page => /[1-9][0-9]*/
-  get "/user/:display_name/diary/comments/" => "diary_entries#comments"
+  get "/user/:display_name/diary/comments/" => "diary_entries#comments", :as => :diary_comments
   get "/user/:display_name/diary" => "diary_entries#index"
   get "/diary/:language" => "diary_entries#index"
   scope "/user/:display_name" do
     resources :diary_entries, :path => "diary", :only => [:edit, :update, :show]
   end
-  post "/user/:display_name/diary/:id/newcomment" => "diary_entries#comment", :id => /\d+/
+  post "/user/:display_name/diary/:id/newcomment" => "diary_entries#comment", :id => /\d+/, :as => :comment_diary_entry
   post "/user/:display_name/diary/:id/hide" => "diary_entries#hide", :id => /\d+/, :as => :hide_diary_entry
   post "/user/:display_name/diary/:id/unhide" => "diary_entries#unhide", :id => /\d+/, :as => :unhide_diary_entry
   post "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_entries#hidecomment", :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
@@ -290,8 +290,8 @@ OpenStreetMap::Application.routes.draw do
   # roles and banning pages
   post "/user/:display_name/role/:role/grant" => "user_roles#grant", :as => "grant_role"
   post "/user/:display_name/role/:role/revoke" => "user_roles#revoke", :as => "revoke_role"
-  get "/user/:display_name/blocks" => "user_blocks#blocks_on"
-  get "/user/:display_name/blocks_by" => "user_blocks#blocks_by"
+  get "/user/:display_name/blocks" => "user_blocks#blocks_on", :as => "user_blocks_on"
+  get "/user/:display_name/blocks_by" => "user_blocks#blocks_by", :as => "user_blocks_by"
   get "/blocks/new/:display_name" => "user_blocks#new", :as => "new_user_block"
   resources :user_blocks
   match "/blocks/:id/revoke" => "user_blocks#revoke", :via => [:get, :post], :as => "revoke_user_block"
