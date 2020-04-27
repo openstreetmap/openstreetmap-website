@@ -46,7 +46,7 @@ be:
     errors:
       messages:
         invalid_email_address: не падобны на карэктны адрас электроннай пошты
-        email_address_not_routable: мемагчыма пракласці маршрут
+        email_address_not_routable: немагчыма пракласці маршрут
     models:
       acl: Спіс правоў доступу
       changeset: Пакет правак
@@ -55,6 +55,7 @@ be:
       diary_comment: Каментар дзённіка
       diary_entry: Запіс дзённіка
       friend: Сябар
+      issue: Праблема
       language: Мова
       message: Паведамленне
       node: Пункт
@@ -71,6 +72,7 @@ be:
       relation: Дачыненне
       relation_member: Удзельнік дачынення
       relation_tag: Тэг дачынення
+      report: Справаздача
       session: Сеанс
       trace: След
       tracepoint: Пункт следу
@@ -117,7 +119,9 @@ be:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: прыкладна гадзіну таму
+        one: прыкладна 1 гадзіну таму
+        few: прыкладна %{count} гадзіны таму
+        many: прыкладна %{count} гадзін таму
         other: прыкладна %{count} гадзін(ы) таму
       about_x_months:
         one: прыкладна 1 месяц таму
@@ -138,8 +142,8 @@ be:
       less_than_x_seconds:
         one: менш за секунду таму
         few: менш за %{count} секунды таму
-        many: менш за %{count} секундаў таму
-        other: менш за %{count} секунды(аў) таму
+        many: менш за %{count} секунд таму
+        other: менш за %{count} секунд(ы) таму
       less_than_x_minutes:
         one: менш за хвіліну таму
         few: менш за %{count} хвіліны таму
@@ -153,8 +157,8 @@ be:
       x_seconds:
         one: 1 секунду таму
         few: '%{count} секунды таму'
-        many: '%{count} секундаў таму'
-        other: '%{count} секунды(аў) таму'
+        many: '%{count} секунд таму'
+        other: '%{count} секунд(ы) таму'
       x_minutes:
         one: 1 хвіліну таму
         few: '%{count} хвіліны таму'
@@ -189,6 +193,15 @@ be:
     remote:
       name: Вонкавы рэдактар
       description: вонкавага рэдактара (JOSM або Merkaartor)
+  auth:
+    providers:
+      none: Няма
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Вікіпедыя
   api:
     notes:
       comment:
@@ -321,9 +334,8 @@ be:
       open_title: 'Нявырашаная заўвага #%{note_name}'
       closed_title: 'Вырашаная заўвага #%{note_name}'
       hidden_title: 'Схаваная заўвага #%{note_name}'
-      opened_by: Створана %{user} <abbr title='%{exact_time}'>%{when} таму</abbr>
-      opened_by_anonymous: Створана ананімным карыстальнікам <abbr title='%{exact_time}'>%{when}
-        таму</abbr>
+      opened_by: Створана %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous: Створана ананімным карыстальнікам <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by: Каментарый ад %{user} <abbr title='%{exact_time}'>%{when} </abbr>
       commented_by_anonymous: Ананімны каментарый <abbr title='%{exact_time}'>%{when}
         </abbr>
@@ -1239,8 +1251,14 @@ be:
         more_info_2: 'збой,  можна знайсці тут:'
       success:
         subject: '[OpenStreetMap] Паспяховы імпарт GPX'
-        loaded_successfully: паспяхова загружаны з %{trace_points} з магчымых %{possible_points}
-          кропак.
+        loaded_successfully:
+          one: паспяхова загружаны (%{trace_points} з магчымага 1 пункта).
+          few: паспяхова загружаны (%{trace_points} з магчымых %{possible_points}
+            пунктаў).
+          many: паспяхова загружаны (%{trace_points} з магчымых %{possible_points}
+            пунктаў).
+          other: паспяхова загружаны (%{trace_points} з магчымых %{possible_points}
+            пунктаў).
     signup_confirm:
       subject: '[OpenStreetMap] Сардэчна запрашаем у OpenStreetMap'
       greeting: Прывітанне!
@@ -1949,7 +1967,7 @@ be:
       my_traces: Мае GPS-сляды
       public_traces_from: Агульныя GPS-сляды карыстальніка %{user}
       description: Агляд нядаўна дададзеных GPS-слядоў
-      tagged_with: ' адмечана як %{tags}'
+      tagged_with: 'з тэгамі: %{tags}'
       empty_html: Пакуль тут нічога няма. <a href='%{upload_link}'>Загрузіце новы
         след</a> або пачытайце пра GPS-сляды на <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вікі-старонцы</
         a>.
@@ -2618,6 +2636,16 @@ be:
         out: Паменшыць
       locate:
         title: Паказаць маё месцазнаходжанне
+        metersPopup:
+          one: Вы знаходзіцеся ў адным метры ад гэтага пункту
+          few: Вы знаходзіцеся ў %{count} метрах ад гэтага пункту
+          many: Вы знаходзіцеся ў %{count} метрах ад гэтага пункту
+          other: Вы знаходзіцеся ў %{count} метрах ад гэтага пункту
+        feetPopup:
+          one: Вы знаходзіцеся ў адным фуце ад гэтага пункту
+          few: Вы знаходзіцеся ў %{count} футах ад гэтага пункту
+          many: Вы знаходзіцеся ў %{count} футах ад гэтага пункту
+          other: Вы знаходзіцеся ў %{count} футах ад гэтага пункту
       base:
         standard: Звычайная карта
         cycle_map: Веласіпедная карта
@@ -2633,6 +2661,9 @@ be:
       copyright: © <a href='%{copyright_url}'>OpenStreetMap contributors</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Зрабіць ахвяраванне</a>
       terms: <a href='%{terms_url}' target='_blank'>Умовы выкарыстання сайта і API</a>
+      thunderforest: Тайлы прадастаўлены <a href="%{thunderforest_url}">Andy Allan</a>
+      hotosm: Афармленне тайлаў <a href="%{hotosm_url}">Humanitarian OpenStreetMap
+        Team</a>, хостынг ад <a href="%{osmfrance_url}">OpenStreetMap France</a>
     site:
       edit_tooltip: Рэдагаваць карту
       edit_disabled_tooltip: Наблізце, каб рэдагаваць карту
