@@ -1,7 +1,7 @@
 require "test_helper"
 
 module Api
-  class ChangesetsControllerTest < ActionController::TestCase
+  class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     ##
     # test all routes which lead to this controller
     def test_routes
@@ -48,20 +48,20 @@ module Api
     # -----------------------
 
     def test_create
-      basic_authorization create(:user, :data_public => false).email, "test"
+      auth_header = basic_authorization_header create(:user, :data_public => false).email, "test"
       # Create the first user's changeset
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
       assert_require_public_data
 
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
       # Create the first user's changeset
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
 
       assert_response :success, "Creation of changeset did not return sucess status"
       newid = @response.body.to_i
@@ -83,45 +83,47 @@ module Api
     end
 
     def test_create_invalid
-      basic_authorization create(:user, :data_public => false).email, "test"
+      auth_header = basic_authorization_header create(:user, :data_public => false).email, "test"
       xml = "<osm><changeset></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
       assert_require_public_data
 
       ## Try the public user
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
       xml = "<osm><changeset></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
       assert_response :bad_request, "creating a invalid changeset should fail"
     end
 
     def test_create_invalid_no_content
       ## First check with no auth
-      put :create
+      put changeset_create_path
       assert_response :unauthorized, "shouldn't be able to create a changeset with no auth"
 
       ## Now try to with a non-public user
-      basic_authorization create(:user, :data_public => false).email, "test"
-      put :create
+      auth_header = basic_authorization_header create(:user, :data_public => false).email, "test"
+      put changeset_create_path, :headers => auth_header
       assert_require_public_data
 
       ## Try an inactive user
-      basic_authorization create(:user, :pending).email, "test"
-      put :create
+      auth_header = basic_authorization_header create(:user, :pending).email, "test"
+      put changeset_create_path, :headers => auth_header
       assert_inactive_user
 
       ## Now try to use a normal user
-      basic_authorization create(:user).email, "test"
-      put :create
+      auth_header = basic_authorization_header create(:user).email, "test"
+      put changeset_create_path, :headers => auth_header
       assert_response :bad_request, "creating a changeset with no content should fail"
     end
 
     def test_create_wrong_method
-      basic_authorization create(:user).email, "test"
-      get :create
-      assert_response :method_not_allowed
-      post :create
-      assert_response :method_not_allowed
+      auth_header = basic_authorization_header create(:user).email, "test"
+      assert_raise ActionController::RoutingError do
+        get changeset_create_path, :headers => auth_header
+      end
+      assert_raise ActionController::RoutingError do
+        post changeset_create_path, :headers => auth_header
+      end
     end
 
     ##
@@ -130,7 +132,7 @@ module Api
     def test_show
       changeset = create(:changeset)
 
-      get :show, :params => { :id => changeset.id }
+      get changeset_show_path(changeset)
       assert_response :success, "cannot get first changeset"
 
       assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
@@ -140,7 +142,7 @@ module Api
       assert_select "osm>changeset>@closed_at", 0
       assert_select "osm>changeset>discussion", 0
 
-      get :show, :params => { :id => changeset.id, :include_discussion => true }
+      get changeset_show_path(changeset), :params => { :include_discussion => true }
       assert_response :success, "cannot get first changeset with comments"
 
       assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
@@ -154,7 +156,7 @@ module Api
       changeset = create(:changeset, :closed)
       create_list(:changeset_comment, 3, :changeset_id => changeset.id)
 
-      get :show, :params => { :id => changeset.id, :include_discussion => true }
+      get changeset_show_path(changeset), :params => { :include_discussion => true }
       assert_response :success, "cannot get closed changeset with comments"
 
       assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
@@ -170,7 +172,7 @@ module Api
     # check that a changeset that doesn't exist returns an appropriate message
     def test_show_not_found
       [0, -32, 233455644, "afg", "213"].each do |id|
-        get :show, :params => { :id => id }
+        get changeset_show_path(:id => id)
         assert_response :not_found, "should get a not found"
       rescue ActionController::UrlGenerationError => e
         assert_match(/No route matches/, e.to_s)
@@ -186,23 +188,23 @@ module Api
       changeset = create(:changeset, :user => user)
 
       ## Try without authentication
-      put :close, :params => { :id => changeset.id }
+      put changeset_close_path(changeset)
       assert_response :unauthorized
 
       ## Try using the non-public user
-      basic_authorization private_user.email, "test"
-      put :close, :params => { :id => private_changeset.id }
+      auth_header = basic_authorization_header private_user.email, "test"
+      put changeset_close_path(private_changeset), :headers => auth_header
       assert_require_public_data
 
       ## The try with the public user
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
       cs_id = changeset.id
-      put :close, :params => { :id => cs_id }
+      put changeset_close_path(:id => cs_id), :headers => auth_header
       assert_response :success
 
       # test that it really is closed now
-      cs = Changeset.find(cs_id)
+      cs = Changeset.find(changeset.id)
       assert_not(cs.is_open?,
                  "changeset should be closed now (#{cs.closed_at} > #{Time.now.getutc}.")
     end
@@ -213,9 +215,9 @@ module Api
       user = create(:user)
       changeset = create(:changeset)
 
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
-      put :close, :params => { :id => changeset.id }
+      put changeset_close_path(changeset), :headers => auth_header
       assert_response :conflict
       assert_equal "The user doesn't own that changeset", @response.body
     end
@@ -226,13 +228,15 @@ module Api
       user = create(:user)
       changeset = create(:changeset, :user => user)
 
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
-      get :close, :params => { :id => changeset.id }
-      assert_response :method_not_allowed
+      assert_raise ActionController::RoutingError do
+        get changeset_close_path(changeset), :headers => auth_header
+      end
 
-      post :close, :params => { :id => changeset.id }
-      assert_response :method_not_allowed
+      assert_raise ActionController::RoutingError do
+        post changeset_close_path(changeset), :headers => auth_header
+      end
     end
 
     ##
@@ -242,16 +246,16 @@ module Api
 
       # First try to do it with no auth
       cs_ids.each do |id|
-        put :close, :params => { :id => id }
+        put changeset_close_path(:id => id)
         assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
       rescue ActionController::UrlGenerationError => e
         assert_match(/No route matches/, e.to_s)
       end
 
       # Now try with auth
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
       cs_ids.each do |id|
-        put :close, :params => { :id => id }
+        put changeset_close_path(:id => id), :headers => auth_header
         assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
       rescue ActionController::UrlGenerationError => e
         assert_match(/No route matches/, e.to_s)
@@ -301,12 +305,12 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset_id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff
       assert_response :unauthorized,
                       "shouldn't be able to upload a simple valid diff to changeset: #{@response.body}"
 
       ## Now try with a private user
-      basic_authorization private_user.email, "test"
+      auth_header = basic_authorization_header private_user.email, "test"
       changeset_id = private_changeset.id
 
       # simple diff to change a node, way and relation by removing
@@ -330,12 +334,12 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset_id }, :body => diff
+      post changeset_upload_path(private_changeset), :params => diff, :headers => auth_header
       assert_response :forbidden,
                       "can't upload a simple valid diff to changeset: #{@response.body}"
 
       ## Now try with the public user
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
       changeset_id = changeset.id
 
       # simple diff to change a node, way and relation by removing
@@ -359,7 +363,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset_id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a simple valid diff to changeset: #{@response.body}"
 
@@ -378,7 +382,7 @@ module Api
       way = create(:way_with_nodes, :nodes_count => 2)
       relation = create(:relation)
 
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
       # simple diff to create a node way and relation using placeholders
       diff = <<~CHANGESET
@@ -403,7 +407,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a simple valid creation to changeset: #{@response.body}"
 
@@ -448,7 +452,7 @@ module Api
       create(:relation_member, :relation => super_relation, :member => used_way)
       create(:relation_member, :relation => super_relation, :member => used_node)
 
-      basic_authorization changeset.user.display_name, "test"
+      auth_header = basic_authorization_header changeset.user.display_name, "test"
 
       diff = XML::Document.new
       diff.root = XML::Node.new "osmChange"
@@ -467,7 +471,7 @@ module Api
       end
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff.to_s
+      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
       assert_response :success,
                       "can't upload a deletion diff to changeset: #{@response.body}"
 
@@ -490,11 +494,11 @@ module Api
       node = create(:node)
       changeset = create(:changeset)
 
-      basic_authorization changeset.user.display_name, "test"
+      auth_header = basic_authorization_header changeset.user.display_name, "test"
       diff = "<osmChange><delete><node id='#{node.id}' version='#{node.version}' changeset='#{changeset.id}'/></delete></osmChange>"
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a deletion diff to changeset: #{@response.body}"
 
@@ -507,24 +511,24 @@ module Api
 
     def test_repeated_changeset_create
       3.times do
-        basic_authorization create(:user).email, "test"
+        auth_header = basic_authorization_header create(:user).email, "test"
 
         # create a temporary changeset
         xml = "<osm><changeset>" \
               "<tag k='created_by' v='osm test suite checking changesets'/>" \
               "</changeset></osm>"
         assert_difference "Changeset.count", 1 do
-          put :create, :body => xml
+          put changeset_create_path, :params => xml, :headers => auth_header
         end
         assert_response :success
       end
     end
 
     def test_upload_large_changeset
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # create a changeset
-      put :create, :body => "<osm><changeset/></osm>"
+      put changeset_create_path, :params => "<osm><changeset/></osm>", :headers => auth_header
       assert_response :success, "Should be able to create a changeset: #{@response.body}"
       changeset_id = @response.body.to_i
 
@@ -556,7 +560,7 @@ module Api
 
       # upload it, which used to cause an error like "PGError: ERROR:
       # integer out of range" (bug #2152). but shouldn't any more.
-      post :upload, :params => { :id => changeset_id }, :body => diff
+      post changeset_upload_path(:id => changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a spatially-large diff to changeset: #{@response.body}"
 
@@ -580,7 +584,7 @@ module Api
       create(:relation_member, :relation => relation, :member => used_way)
       create(:relation_member, :relation => relation, :member => used_node)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       diff = XML::Document.new
       diff.root = XML::Node.new "osmChange"
@@ -598,7 +602,7 @@ module Api
       end
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff.to_s
+      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
       assert_response :precondition_failed,
                       "shouldn't be able to upload a invalid deletion diff: #{@response.body}"
       assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
@@ -622,7 +626,7 @@ module Api
       create(:relation_member, :relation => super_relation, :member => used_way)
       create(:relation_member, :relation => super_relation, :member => used_node)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       diff = XML::Document.new
       diff.root = XML::Node.new "osmChange"
@@ -641,7 +645,7 @@ module Api
       end
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff.to_s
+      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
       assert_response :success,
                       "can't do a conditional delete of in use objects: #{@response.body}"
 
@@ -680,7 +684,7 @@ module Api
     def test_upload_invalid_too_long_tag
       changeset = create(:changeset)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       # simple diff to create a node way and relation using placeholders
       diff = <<~CHANGESET
@@ -694,7 +698,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shoudln't be able to upload too long a tag to changeset: #{@response.body}"
     end
@@ -710,7 +714,7 @@ module Api
 
       changeset = create(:changeset)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       # simple diff to create a node way and relation using placeholders
       diff = <<~CHANGESET
@@ -736,7 +740,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a complex diff to changeset: #{@response.body}"
 
@@ -769,7 +773,7 @@ module Api
       relation = create(:relation)
       other_relation = create(:relation)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       # simple diff to create a node way and relation using placeholders
       diff = <<~CHANGESET
@@ -797,7 +801,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :conflict,
                       "uploading a diff with multiple changesets should have failed"
 
@@ -812,7 +816,7 @@ module Api
     def test_upload_multiple_valid
       node = create(:node)
       changeset = create(:changeset)
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       # change the location of a node multiple times, each time referencing
       # the last version. doesn't this depend on version numbers being
@@ -833,7 +837,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 
@@ -850,7 +854,7 @@ module Api
       node = create(:node)
       changeset = create(:changeset)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       diff = <<~CHANGESET
         <osmChange>
@@ -862,7 +866,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :conflict,
                       "shouldn't be able to upload the same element twice in a diff: #{@response.body}"
     end
@@ -872,7 +876,7 @@ module Api
     def test_upload_missing_version
       changeset = create(:changeset)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       diff = <<~CHANGESET
         <osmChange>
@@ -883,7 +887,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to upload an element without version: #{@response.body}"
     end
@@ -893,7 +897,7 @@ module Api
     def test_action_upload_invalid
       changeset = create(:changeset)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       diff = <<~CHANGESET
         <osmChange>
@@ -902,7 +906,7 @@ module Api
           </ping>
         </osmChange>
       CHANGESET
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
       assert_equal @response.body, "Unknown action ping, choices are create, modify, delete"
     end
@@ -918,7 +922,7 @@ module Api
       other_relation = create(:relation)
       create(:relation_tag, :relation => relation)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       diff = <<~CHANGESET
         <osmChange>
@@ -935,7 +939,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a valid diff with whitespace variations to changeset: #{@response.body}"
 
@@ -953,7 +957,7 @@ module Api
     def test_upload_reuse_placeholder_valid
       changeset = create(:changeset)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       diff = <<~CHANGESET
         <osmChange>
@@ -972,7 +976,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a valid diff with re-used placeholders to changeset: #{@response.body}"
 
@@ -987,7 +991,7 @@ module Api
     def test_upload_placeholder_invalid
       changeset = create(:changeset)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1000,7 +1004,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to re-use placeholder IDs"
     end
@@ -1012,7 +1016,7 @@ module Api
       changeset = create(:changeset)
       way = create(:way)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1031,7 +1035,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to use invalid placeholder IDs"
       assert_equal "Placeholder node not found for reference -4 in way -1", @response.body
@@ -1054,7 +1058,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to use invalid placeholder IDs"
       assert_equal "Placeholder node not found for reference -4 in way #{way.id}", @response.body
@@ -1067,7 +1071,7 @@ module Api
       changeset = create(:changeset)
       relation = create(:relation)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1086,7 +1090,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to use invalid placeholder IDs"
       assert_equal "Placeholder Node not found for reference -4 in relation -1.", @response.body
@@ -1109,7 +1113,7 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset.id }, :body => diff
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to use invalid placeholder IDs"
       assert_equal "Placeholder Way not found for reference -1 in relation #{relation.id}.", @response.body
@@ -1119,12 +1123,12 @@ module Api
     # test what happens if a diff is uploaded containing only a node
     # move.
     def test_upload_node_move
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1141,7 +1145,7 @@ module Api
       diff.root << modify
 
       # upload it
-      post :upload, :params => { :id => changeset_id }, :body => diff.to_s
+      post changeset_upload_path(:id => changeset_id), :params => diff.to_s, :headers => auth_header
       assert_response :success,
                       "diff should have uploaded OK"
 
@@ -1156,12 +1160,12 @@ module Api
     ##
     # test what happens if a diff is uploaded adding a node to a way.
     def test_upload_way_extend
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1180,7 +1184,7 @@ module Api
       diff.root << modify
 
       # upload it
-      post :upload, :params => { :id => changeset_id }, :body => diff.to_s
+      post changeset_upload_path(:id => changeset_id), :params => diff.to_s, :headers => auth_header
       assert_response :success,
                       "diff should have uploaded OK"
 
@@ -1197,14 +1201,14 @@ module Api
     def test_upload_empty_invalid
       changeset = create(:changeset)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       ["<osmChange/>",
        "<osmChange></osmChange>",
        "<osmChange><modify/></osmChange>",
        "<osmChange><modify></modify></osmChange>"].each do |diff|
         # upload it
-        post :upload, :params => { :id => changeset.id }, :body => diff
+        post changeset_upload_path(changeset), :params => diff, :headers => auth_header
         assert_response(:success, "should be able to upload " \
                         "empty changeset: " + diff)
       end
@@ -1217,7 +1221,7 @@ module Api
       node = create(:node)
       create(:relation_member, :member => node)
 
-      basic_authorization changeset.user.email, "test"
+      auth_header = basic_authorization_header changeset.user.email, "test"
 
       # try and delete a node that is in use
       diff = XML::Document.new
@@ -1227,8 +1231,8 @@ module Api
       delete << xml_node_for_node(node)
 
       # upload it
-      error_format "xml"
-      post :upload, :params => { :id => changeset.id }, :body => diff.to_s
+      error_header = error_format_header "xml"
+      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header.merge(error_header)
       assert_response :success,
                       "failed to return error in XML format"
 
@@ -1245,23 +1249,23 @@ module Api
       node = create(:node)
 
       ## First try with a non-public user, which should get a forbidden
-      basic_authorization create(:user, :data_public => false).email, "test"
+      auth_header = basic_authorization_header create(:user, :data_public => false).email, "test"
 
       # create a temporary changeset
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
       assert_response :forbidden
 
       ## Now try with a normal user
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # create a temporary changeset
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1282,11 +1286,11 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset_id }, :body => diff
+      post changeset_upload_path(:id => changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 
-      get :download, :params => { :id => changeset_id }
+      get changeset_download_path(:id => changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -1300,13 +1304,13 @@ module Api
     #
     # NOTE: the error turned out to be something else completely!
     def test_josm_upload
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # create a temporary changeset
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1340,11 +1344,11 @@ module Api
       OSMFILE
 
       # upload it
-      post :upload, :params => { :id => changeset_id }, :body => diff
+      post changeset_upload_path(:id => changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a diff from JOSM: #{@response.body}"
 
-      get :download, :params => { :id => changeset_id }
+      get changeset_download_path(:id => changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -1361,13 +1365,13 @@ module Api
       node = create(:node)
       node2 = create(:node)
       way = create(:way)
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # create a temporary changeset
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
       assert_response :success
       changeset_id = @response.body.to_i
 
@@ -1395,11 +1399,11 @@ module Api
       CHANGESET
 
       # upload it
-      post :upload, :params => { :id => changeset_id }, :body => diff
+      post changeset_upload_path(:id => changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 
-      get :download, :params => { :id => changeset_id }
+      get changeset_download_path(:id => changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -1421,7 +1425,7 @@ module Api
       _relation = create(:relation, :with_history, :version => 1, :changeset => changeset)
       _relation2 = create(:relation, :with_history, :deleted, :version => 1, :changeset => changeset)
 
-      get :download, :params => { :id => changeset.id }
+      get changeset_download_path(changeset)
 
       assert_response :success
       assert_template nil
@@ -1443,23 +1447,23 @@ module Api
       way = create(:way)
       create(:way_node, :way => way, :node => create(:node, :lat => 3, :lon => 3))
 
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # create a new changeset
       xml = "<osm><changeset/></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
       assert_response :success, "Creating of changeset failed."
       changeset_id = @response.body.to_i
 
       # add a single node to it
       with_controller(NodesController.new) do
         xml = "<osm><node lon='1' lat='2' changeset='#{changeset_id}'/></osm>"
-        put :create, :body => xml
+        put node_create_path, :params => xml, :headers => auth_header
         assert_response :success, "Couldn't create node."
       end
 
       # get the bounding box back from the changeset
-      get :show, :params => { :id => changeset_id }
+      get changeset_show_path(:id => changeset_id)
       assert_response :success, "Couldn't read back changeset."
       assert_select "osm>changeset[min_lon='1.0000000']", 1
       assert_select "osm>changeset[max_lon='1.0000000']", 1
@@ -1469,12 +1473,12 @@ module Api
       # add another node to it
       with_controller(NodesController.new) do
         xml = "<osm><node lon='2' lat='1' changeset='#{changeset_id}'/></osm>"
-        put :create, :body => xml
+        put node_create_path, :params => xml, :headers => auth_header
         assert_response :success, "Couldn't create second node."
       end
 
       # get the bounding box back from the changeset
-      get :show, :params => { :id => changeset_id }
+      get changeset_show_path(:id => changeset_id)
       assert_response :success, "Couldn't read back changeset for the second time."
       assert_select "osm>changeset[min_lon='1.0000000']", 1
       assert_select "osm>changeset[max_lon='2.0000000']", 1
@@ -1484,12 +1488,12 @@ module Api
       # add (delete) a way to it, which contains a point at (3,3)
       with_controller(WaysController.new) do
         xml = update_changeset(xml_for_way(way), changeset_id)
-        put :delete, :params => { :id => way.id }, :body => xml.to_s
+        delete api_way_path(way), :params => xml.to_s, :headers => auth_header
         assert_response :success, "Couldn't delete a way."
       end
 
       # get the bounding box back from the changeset
-      get :show, :params => { :id => changeset_id }
+      get changeset_show_path(:id => changeset_id)
       assert_response :success, "Couldn't read back changeset for the third time."
       assert_select "osm>changeset[min_lon='1.0000000']", 1
       assert_select "osm>changeset[max_lon='3.0000000']", 1
@@ -1509,78 +1513,78 @@ module Api
       changeset2 = create(:changeset, :min_lat => (5 * GeoRecord::SCALE).round, :min_lon => (5 * GeoRecord::SCALE).round, :max_lat => (15 * GeoRecord::SCALE).round, :max_lon => (15 * GeoRecord::SCALE).round)
       changeset3 = create(:changeset, :min_lat => (4.5 * GeoRecord::SCALE).round, :min_lon => (4.5 * GeoRecord::SCALE).round, :max_lat => (5 * GeoRecord::SCALE).round, :max_lon => (5 * GeoRecord::SCALE).round)
 
-      get :query, :params => { :bbox => "-10,-10, 10, 10" }
+      get changesets_path(:bbox => "-10,-10, 10, 10")
       assert_response :success, "can't get changesets in bbox"
       assert_changesets [changeset2, changeset3]
 
-      get :query, :params => { :bbox => "4.5,4.5,4.6,4.6" }
+      get changesets_path(:bbox => "4.5,4.5,4.6,4.6")
       assert_response :success, "can't get changesets in bbox"
       assert_changesets [changeset3]
 
       # not found when looking for changesets of non-existing users
-      get :query, :params => { :user => User.maximum(:id) + 1 }
+      get changesets_path(:user => User.maximum(:id) + 1)
       assert_response :not_found
-      get :query, :params => { :display_name => " " }
+      get changesets_path(:display_name => " ")
       assert_response :not_found
 
       # can't get changesets of user 1 without authenticating
-      get :query, :params => { :user => private_user.id }
+      get changesets_path(:user => private_user.id)
       assert_response :not_found, "shouldn't be able to get changesets by non-public user (ID)"
-      get :query, :params => { :display_name => private_user.display_name }
+      get changesets_path(:display_name => private_user.display_name)
       assert_response :not_found, "shouldn't be able to get changesets by non-public user (name)"
 
       # but this should work
-      basic_authorization private_user.email, "test"
-      get :query, :params => { :user => private_user.id }
+      auth_header = basic_authorization_header private_user.email, "test"
+      get changesets_path(:user => private_user.id), :headers => auth_header
       assert_response :success, "can't get changesets by user ID"
       assert_changesets [private_user_changeset, private_user_closed_changeset]
 
-      get :query, :params => { :display_name => private_user.display_name }
+      get changesets_path(:display_name => private_user.display_name), :headers => auth_header
       assert_response :success, "can't get changesets by user name"
       assert_changesets [private_user_changeset, private_user_closed_changeset]
 
       # check that the correct error is given when we provide both UID and name
-      get :query, :params => { :user => private_user.id,
-                               :display_name => private_user.display_name }
+      get changesets_path(:user => private_user.id,
+                          :display_name => private_user.display_name), :headers => auth_header
       assert_response :bad_request, "should be a bad request to have both ID and name specified"
 
-      get :query, :params => { :user => private_user.id, :open => true }
+      get changesets_path(:user => private_user.id, :open => true), :headers => auth_header
       assert_response :success, "can't get changesets by user and open"
       assert_changesets [private_user_changeset]
 
-      get :query, :params => { :time => "2007-12-31" }
+      get changesets_path(:time => "2007-12-31"), :headers => auth_header
       assert_response :success, "can't get changesets by time-since"
       assert_changesets [private_user_changeset, private_user_closed_changeset, changeset, closed_changeset, changeset2, changeset3]
 
-      get :query, :params => { :time => "2008-01-01T12:34Z" }
+      get changesets_path(:time => "2008-01-01T12:34Z"), :headers => auth_header
       assert_response :success, "can't get changesets by time-since with hour"
       assert_changesets [private_user_changeset, private_user_closed_changeset, changeset, closed_changeset, changeset2, changeset3]
 
-      get :query, :params => { :time => "2007-12-31T23:59Z,2008-01-02T00:01Z" }
+      get changesets_path(:time => "2007-12-31T23:59Z,2008-01-02T00:01Z"), :headers => auth_header
       assert_response :success, "can't get changesets by time-range"
       assert_changesets [closed_changeset]
 
-      get :query, :params => { :open => "true" }
+      get changesets_path(:open => "true"), :headers => auth_header
       assert_response :success, "can't get changesets by open-ness"
       assert_changesets [private_user_changeset, changeset, changeset2, changeset3]
 
-      get :query, :params => { :closed => "true" }
+      get changesets_path(:closed => "true"), :headers => auth_header
       assert_response :success, "can't get changesets by closed-ness"
       assert_changesets [private_user_closed_changeset, closed_changeset]
 
-      get :query, :params => { :closed => "true", :user => private_user.id }
+      get changesets_path(:closed => "true", :user => private_user.id), :headers => auth_header
       assert_response :success, "can't get changesets by closed-ness and user"
       assert_changesets [private_user_closed_changeset]
 
-      get :query, :params => { :closed => "true", :user => user.id }
+      get changesets_path(:closed => "true", :user => user.id), :headers => auth_header
       assert_response :success, "can't get changesets by closed-ness and user"
       assert_changesets [closed_changeset]
 
-      get :query, :params => { :changesets => "#{private_user_changeset.id},#{changeset.id},#{closed_changeset.id}" }
+      get changesets_path(:changesets => "#{private_user_changeset.id},#{changeset.id},#{closed_changeset.id}"), :headers => auth_header
       assert_response :success, "can't get changesets by id (as comma-separated string)"
       assert_changesets [private_user_changeset, changeset, closed_changeset]
 
-      get :query, :params => { :changesets => "" }
+      get changesets_path(:changesets => ""), :headers => auth_header
       assert_response :bad_request, "should be a bad request since changesets is empty"
     end
 
@@ -1591,7 +1595,7 @@ module Api
       ["abracadabra!",
        "1,2,3,F",
        ";drop table users;"].each do |bbox|
-        get :query, :params => { :bbox => bbox }
+        get changesets_path(:bbox => bbox)
         assert_response :bad_request, "'#{bbox}' isn't a bbox"
       end
 
@@ -1600,7 +1604,7 @@ module Api
        ";drop table users;",
        ",",
        "-,-"].each do |time|
-        get :query, :params => { :time => time }
+        get changesets_path(:time => time)
         assert_response :bad_request, "'#{time}' isn't a valid time range"
       end
 
@@ -1608,7 +1612,7 @@ module Api
        "foobar",
        "-1",
        "0"].each do |uid|
-        get :query, :params => { :user => uid }
+        get changesets_path(:user => uid)
         assert_response :bad_request, "'#{uid}' isn't a valid user ID"
       end
     end
@@ -1629,17 +1633,17 @@ module Api
       new_changeset.find("//osm/changeset").first << new_tag
 
       # try without any authorization
-      put :update, :params => { :id => private_changeset.id }, :body => new_changeset.to_s
+      put changeset_show_path(private_changeset), :params => new_changeset.to_s
       assert_response :unauthorized
 
       # try with the wrong authorization
-      basic_authorization create(:user).email, "test"
-      put :update, :params => { :id => private_changeset.id }, :body => new_changeset.to_s
+      auth_header = basic_authorization_header create(:user).email, "test"
+      put changeset_show_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :conflict
 
       # now this should get an unauthorized
-      basic_authorization private_user.email, "test"
-      put :update, :params => { :id => private_changeset.id }, :body => new_changeset.to_s
+      auth_header = basic_authorization_header private_user.email, "test"
+      put changeset_show_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_require_public_data "user with their data non-public, shouldn't be able to edit their changeset"
 
       ## Now try with the public user
@@ -1650,18 +1654,17 @@ module Api
       new_changeset.find("//osm/changeset").first << new_tag
 
       # try without any authorization
-      @request.env["HTTP_AUTHORIZATION"] = nil
-      put :update, :params => { :id => changeset.id }, :body => new_changeset.to_s
+      put changeset_show_path(changeset), :params => new_changeset.to_s
       assert_response :unauthorized
 
       # try with the wrong authorization
-      basic_authorization create(:user).email, "test"
-      put :update, :params => { :id => changeset.id }, :body => new_changeset.to_s
+      auth_header = basic_authorization_header create(:user).email, "test"
+      put changeset_show_path(changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :conflict
 
       # now this should work...
-      basic_authorization user.email, "test"
-      put :update, :params => { :id => changeset.id }, :body => new_changeset.to_s
+      auth_header = basic_authorization_header user.email, "test"
+      put changeset_show_path(changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :success
 
       assert_select "osm>changeset[id='#{changeset.id}']", 1
@@ -1673,7 +1676,7 @@ module Api
     # check that a user different from the one who opened the changeset
     # can't modify it.
     def test_changeset_update_invalid
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       changeset = create(:changeset)
       new_changeset = create_changeset_xml(:user => changeset.user, :id => changeset.id)
@@ -1682,7 +1685,7 @@ module Api
       new_tag["v"] = "testing"
       new_changeset.find("//osm/changeset").first << new_tag
 
-      put :update, :params => { :id => changeset.id }, :body => new_changeset.to_s
+      put changeset_show_path(changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :conflict
     end
 
@@ -1690,11 +1693,11 @@ module Api
     # check that a changeset can contain a certain max number of changes.
     ## FIXME should be changed to an integration test due to the with_controller
     def test_changeset_limits
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # open a new changeset
       xml = "<osm><changeset/></osm>"
-      put :create, :body => xml
+      put changeset_create_path, :params => xml, :headers => auth_header
       assert_response :success, "can't create a new changeset"
       cs_id = @response.body.to_i
 
@@ -1709,11 +1712,11 @@ module Api
       with_controller(NodesController.new) do
         # create a new node
         xml = "<osm><node changeset='#{cs_id}' lat='0.0' lon='0.0'/></osm>"
-        put :create, :body => xml
+        put node_create_path, :params => xml, :headers => auth_header
         assert_response :success, "can't create a new node"
         node_id = @response.body.to_i
 
-        get :show, :params => { :id => node_id }
+        get api_node_path(:id => node_id)
         assert_response :success, "can't read back new node"
         node_doc = XML::Parser.string(@response.body).parse
         node_xml = node_doc.find("//osm/node").first
@@ -1724,7 +1727,7 @@ module Api
           node_xml["lon"] = rand.to_s
           node_xml["version"] = (i + 1).to_s
 
-          put :update, :params => { :id => node_id }, :body => node_doc.to_s
+          put api_node_path(:id => node_id), :params => node_doc.to_s, :headers => auth_header
           assert_response :success, "attempt #{i} should have succeeded"
         end
 
@@ -1733,7 +1736,7 @@ module Api
         node_xml["lon"] = rand.to_s
         node_xml["version"] = offset.to_s
 
-        put :update, :params => { :id => node_id }, :body => node_doc.to_s
+        put api_node_path(:id => node_id), :params => node_doc.to_s, :headers => auth_header
         assert_response :conflict, "final attempt should have failed"
       end
 
@@ -1755,7 +1758,7 @@ module Api
       node_v1 = node.old_nodes.find_by(:version => 1)
       node_v1.redact!(create(:redaction))
 
-      get :download, :params => { :id => changeset.id }
+      get changeset_download_path(changeset)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -1768,18 +1771,18 @@ module Api
     ##
     # test subscribe success
     def test_subscribe_success
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
       changeset = create(:changeset, :closed)
 
       assert_difference "changeset.subscribers.count", 1 do
-        post :subscribe, :params => { :id => changeset.id }
+        post changeset_subscribe_path(changeset), :headers => auth_header
       end
       assert_response :success
 
       # not closed changeset
       changeset = create(:changeset)
       assert_difference "changeset.subscribers.count", 1 do
-        post :subscribe, :params => { :id => changeset.id }
+        post changeset_subscribe_path(changeset), :headers => auth_header
       end
       assert_response :success
     end
@@ -1792,15 +1795,15 @@ module Api
       # unauthorized
       changeset = create(:changeset, :closed)
       assert_no_difference "changeset.subscribers.count" do
-        post :subscribe, :params => { :id => changeset.id }
+        post changeset_subscribe_path(changeset)
       end
       assert_response :unauthorized
 
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
       # bad changeset id
       assert_no_difference "changeset.subscribers.count" do
-        post :subscribe, :params => { :id => 999111 }
+        post changeset_subscribe_path(:id => 999111), :headers => auth_header
       end
       assert_response :not_found
 
@@ -1808,7 +1811,7 @@ module Api
       changeset = create(:changeset, :closed)
       changeset.subscribers.push(user)
       assert_no_difference "changeset.subscribers.count" do
-        post :subscribe, :params => { :id => changeset.id }
+        post changeset_subscribe_path(changeset), :headers => auth_header
       end
       assert_response :conflict
     end
@@ -1817,12 +1820,12 @@ module Api
     # test unsubscribe success
     def test_unsubscribe_success
       user = create(:user)
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
       changeset = create(:changeset, :closed)
       changeset.subscribers.push(user)
 
       assert_difference "changeset.subscribers.count", -1 do
-        post :unsubscribe, :params => { :id => changeset.id }
+        post changeset_unsubscribe_path(changeset), :headers => auth_header
       end
       assert_response :success
 
@@ -1831,7 +1834,7 @@ module Api
       changeset.subscribers.push(user)
 
       assert_difference "changeset.subscribers.count", -1 do
-        post :unsubscribe, :params => { :id => changeset.id }
+        post changeset_unsubscribe_path(changeset), :headers => auth_header
       end
       assert_response :success
     end
@@ -1842,22 +1845,22 @@ module Api
       # unauthorized
       changeset = create(:changeset, :closed)
       assert_no_difference "changeset.subscribers.count" do
-        post :unsubscribe, :params => { :id => changeset.id }
+        post changeset_unsubscribe_path(changeset)
       end
       assert_response :unauthorized
 
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # bad changeset id
       assert_no_difference "changeset.subscribers.count" do
-        post :unsubscribe, :params => { :id => 999111 }
+        post changeset_unsubscribe_path(:id => 999111), :headers => auth_header
       end
       assert_response :not_found
 
       # trying to unsubscribe when not subscribed
       changeset = create(:changeset, :closed)
       assert_no_difference "changeset.subscribers.count" do
-        post :unsubscribe, :params => { :id => changeset.id }
+        post changeset_unsubscribe_path(changeset), :headers => auth_header
       end
       assert_response :not_found
     end

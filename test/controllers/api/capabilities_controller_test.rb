@@ -1,7 +1,7 @@
 require "test_helper"
 
 module Api
-  class CapabilitiesControllerTest < ActionController::TestCase
+  class CapabilitiesControllerTest < ActionDispatch::IntegrationTest
     ##
     # test all routes which lead to this controller
     def test_routes
@@ -16,7 +16,7 @@ module Api
     end
 
     def test_capabilities
-      get :show
+      get api_capabilities_path
       assert_response :success
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "api", :count => 1 do

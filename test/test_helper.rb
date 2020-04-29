@@ -119,6 +119,12 @@ module ActiveSupport
     end
 
     ##
+    # return request header for HTTP Basic Authorization
+    def basic_authorization_header(user, pass)
+      { "Authorization" => format("Basic %{auth}", :auth => Base64.encode64("#{user}:#{pass}")) }
+    end
+
+    ##
     # set request header for HTTP Accept
     def http_accept_format(format)
       @request.env["HTTP_ACCEPT"] = format
@@ -128,6 +134,10 @@ module ActiveSupport
     # set request readers to ask for a particular error format
     def error_format(format)
       @request.env["HTTP_X_ERROR_FORMAT"] = format
+    end
+
+    def error_format_header(f)
+      { "X-Error-Format" => f }
     end
 
     ##

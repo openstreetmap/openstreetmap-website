@@ -10,13 +10,13 @@ OpenStreetMap::Application.routes.draw do
     get "permissions" => "api/permissions#show"
 
     put "changeset/create" => "api/changesets#create"
-    post "changeset/:id/upload" => "api/changesets#upload", :id => /\d+/
+    post "changeset/:id/upload" => "api/changesets#upload", :as => :changeset_upload, :id => /\d+/
     get "changeset/:id/download" => "api/changesets#download", :as => :changeset_download, :id => /\d+/
     get "changeset/:id" => "api/changesets#show", :as => :changeset_show, :id => /\d+/
     post "changeset/:id/subscribe" => "api/changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
     post "changeset/:id/unsubscribe" => "api/changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
     put "changeset/:id" => "api/changesets#update", :id => /\d+/
-    put "changeset/:id/close" => "api/changesets#close", :id => /\d+/
+    put "changeset/:id/close" => "api/changesets#close", :as => :changeset_close, :id => /\d+/
     get "changesets" => "api/changesets#query"
     post "changeset/:id/comment" => "api/changeset_comments#create", :as => :changeset_comment, :id => /\d+/
     post "changeset/comment/:id/hide" => "api/changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
@@ -28,7 +28,7 @@ OpenStreetMap::Application.routes.draw do
     get "node/:id/history" => "api/old_nodes#history", :id => /\d+/
     post "node/:id/:version/redact" => "api/old_nodes#redact", :version => /\d+/, :id => /\d+/
     get "node/:id/:version" => "api/old_nodes#version", :id => /\d+/, :version => /\d+/
-    get "node/:id" => "api/nodes#show", :id => /\d+/
+    get "node/:id" => "api/nodes#show", :as => :api_node, :id => /\d+/
     put "node/:id" => "api/nodes#update", :id => /\d+/
     delete "node/:id" => "api/nodes#delete", :id => /\d+/
     get "nodes" => "api/nodes#index"
@@ -39,7 +39,7 @@ OpenStreetMap::Application.routes.draw do
     get "way/:id/relations" => "api/relations#relations_for_way", :id => /\d+/
     post "way/:id/:version/redact" => "api/old_ways#redact", :version => /\d+/, :id => /\d+/
     get "way/:id/:version" => "api/old_ways#version", :id => /\d+/, :version => /\d+/
-    get "way/:id" => "api/ways#show", :id => /\d+/
+    get "way/:id" => "api/ways#show", :as => :api_way, :id => /\d+/
     put "way/:id" => "api/ways#update", :id => /\d+/
     delete "way/:id" => "api/ways#delete", :id => /\d+/
     get "ways" => "api/ways#index"
