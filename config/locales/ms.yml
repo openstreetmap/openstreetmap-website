@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Abijeet Patro
 # Author: Anakmalaysia
+# Author: Izing
 # Author: Jeluang Terluang
 # Author: Karmadunya9-
 # Author: Macofe
@@ -50,6 +51,7 @@ ms:
       diary_comment: Ulasan Diari
       diary_entry: Catatan Diari
       friend: Rakan
+      issue: Masalah-masalah
       language: Bahasa
       message: Pesanan
       node: Nod
@@ -66,6 +68,7 @@ ms:
       relation: Hubungan
       relation_member: Anggota Hubungan
       relation_tag: Tag Hubungan
+      report: Lapor
       session: Sesi
       trace: Jejak
       tracepoint: Titik Jejak
@@ -138,6 +141,14 @@ ms:
     remote:
       name: Kawalan Jauh
       description: Kawalan Jauh (JOSM atau Merkaartor)
+  auth:
+    providers:
+      none: Tiada
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -277,6 +288,7 @@ ms:
       reopened_by: Diaktifkan semula oleh %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous: Diaktifkan semula oleh pengguna awanama <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Disembunyikan oleh %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Laporkan nota ini
     query:
       title: Ciri-ciri pertanyaan
       introduction: Klik pada peta untuk mencari ciri-ciri terdekat.
@@ -307,7 +319,7 @@ ms:
       no_more: Tiada lagi set perubahan ditemui.
       no_more_area: Tiada lagi set perubahan di kawasan ini.
       no_more_user: Tiada lagi set perubahan oleh pengguna ini.
-      load_more: Muatkan banyak lagi
+      load_more: Selanjutnya
     timeout:
       sorry: Maaf, senarai set perubahan yang anda minta mengambil masa yang terlalu
         lama untuk diambil.
@@ -362,13 +374,15 @@ ms:
       edit_link: Sunting catatan ini
       hide_link: Sorokkan catatan ini
       confirm: Sahkan
+      report: Laporkan entri ini
     diary_comment:
       comment_from_html: Ulasan %{link_user} terhadap %{comment_created_at}
-      hide_link: Sorokkan komen ini
+      hide_link: Sembunyikan komen ini
       confirm: Sahkan
+      report: Laporkan komen ini
     location:
       location: 'Lokasi:'
-      view: Lihat
+      view: Paparkan
       edit: Sunting
     feed:
       user:
@@ -383,11 +397,11 @@ ms:
         description: Catatan-catatan diari terbaru oleh pengguna OpenStreetMap
     comments:
       has_commented_on: '%{display_name} mengulas tentang entri-entri diari yang berikut'
-      post: Hantar
+      post: Muat Naik
       when: Bila
       comment: Komen
       newer_comments: Komen Terbaru
-      older_comments: Komen Terlama
+      older_comments: Komen Lama
   geocoder:
     search:
       title:
@@ -470,6 +484,7 @@ ms:
           office: Pejabat
           parking: Letak Kereta
           parking_entrance: Laluan masuk tempat letak kenderaan
+          parking_space: Tempat Parkir
           pharmacy: Farmasi
           place_of_worship: Tempat Ibadat
           police: Polis
@@ -532,13 +547,16 @@ ms:
           defibrillator: Defibrilator
           landing_site: Tapak pendaratan kecemasan
           phone: Telefon Kecemasan
+          "yes": Kecemasan
         highway:
           abandoned: Lebuhraya terbiar
           bridleway: Lorong Kuda
           bus_guideway: Lorong Bas Berpandu
           bus_stop: Perhentian Bas
           construction: Lebuhraya dalam Pembinaan
+          corridor: Koridor
           cycleway: Lorong Basikal
+          elevator: Elevator
           emergency_access_point: Titik Capaian Kecemasan
           footway: Lorong Pejalan Kaki
           ford: Harungan
@@ -563,6 +581,7 @@ ms:
           services: Perkhidmatan Lebuhraya
           speed_camera: Kamera Kelajuan
           steps: Tangga
+          stop: Papan Tanda Berhenti
           street_lamp: Lampu Jalan
           tertiary: Jalan Tertier
           tertiary_link: Jalan Tertier
@@ -590,6 +609,7 @@ ms:
           manor: Manor
           memorial: Peringatan
           mine: Lombong
+          mine_shaft: Lombong
           monument: Tugu
           roman_road: Jalan Rom
           ruins: Puing
@@ -599,6 +619,7 @@ ms:
           wayside_cross: Salib Tepi Jalan
           wayside_shrine: Tempat Suci Tepi Jalan
           wreck: Ranap
+          "yes": Tapak Bersejarah
         junction:
           "yes": Simpang
         landuse:
@@ -660,9 +681,27 @@ ms:
           track: Balapan Lumba Lari
           water_park: Taman Air
         man_made:
+          beehive: Sarang Lebah
+          bridge: Jambatan
+          bunker_silo: Kubu bawah tanah
+          chimney: Cerobong Asap
+          crane: Kren
+          flagpole: Tiang Bendera
           lighthouse: Rumah Api
+          mine: Lombong
+          mineshaft: Lombong
+          monitoring_station: Stesen Pengawas
+          petroleum_well: Telaga Minyak
+          pier: Jeti
           pipeline: Saluran Paip
+          silo: Silo
+          storage_tank: Tangki Simpanan
+          surveillance: Pengawasan
           tower: Menara
+          watermill: Kincir Air
+          water_tower: Menara Air
+          water_well: Telaga
+          windmill: Kincir Angin
           works: Kilang
           "yes": Buatan Tangan
         military:
@@ -715,10 +754,12 @@ ms:
           administrative: Pentadbiran
           architect: Jurubina
           company: Syarikat
+          educational_institution: Institusi Pendidikan
           employment_agency: Agensi Pekerjaan
           estate_agent: Ejen Hartanah
           government: Pejabat Kerajaan
           insurance: Pejabat Insurans
+          it: Pejabat IT
           lawyer: Peguam
           ngo: Pejabat Badan Bukan Kerajaan
           telecommunication: Pejabat Telekomunikasi
@@ -726,6 +767,7 @@ ms:
           "yes": Pejabat
         place:
           city: Bandar
+          city_block: Blok Bandar
           country: Negara
           county: Kaunti
           farm: Ladang
@@ -741,6 +783,7 @@ ms:
           postcode: Poskod
           region: Kawasan
           sea: Laut
+          square: Dataran
           state: Negeri
           subdivision: Subbahagian
           suburb: Subbandar
@@ -819,9 +862,12 @@ ms:
           hifi: Hi-Fi
           jewelry: Kedai Barang Kemas
           kiosk: Gerai
+          kitchen: Kedai Peralatan Dapur
           laundry: Dobi
+          lottery: Tempat Perjudian
           mall: Medan Beli-Belah
           market: Pasar
+          massage: Urut
           mobile_phone: Kedai Telefon Bimbit
           motorcycle: Kedai Motosikal
           music: Kedai Muzik
@@ -829,19 +875,26 @@ ms:
           optician: Kedai Optik
           organic: Kedai Makanan Organik
           outdoor: Kedai Luaran
+          paint: Kedai Cat
           pet: Kedai Haiwan
           pharmacy: Farmasi
           photo: Kedai Foto
+          seafood: Makanan Laut
           second_hand: Kedai Barangan Terpakai
           shoes: Kedai Kasut
           sports: Kedai Sukan
           stationery: Kedai Alat Tulis
           supermarket: Pasar Raya
           tailor: Kedai Jahit
+          ticket: Kedai Tiket
+          tobacco: Kedai Tembakau
           toys: Kedai Mainan
           travel_agency: Agensi Pelancongan
+          tyres: Kedai Tayar
+          vacant: Kedai Kosong
+          variety_store: Kedai Serbaneka
           video: Kedai Video
-          wine: Kedai Arak Tanpa Lesen
+          wine: Kedai Arak
           "yes": Kedai
         tourism:
           alpine_hut: Pondok Gunung
@@ -906,6 +959,49 @@ ms:
     results:
       no_results: Tiada hasil carian
       more_results: Lebih banyak hasil
+  issues:
+    index:
+      title: Masalah-masalah
+      select_status: Pilih Status
+      select_type: Pilih Jenis
+      not_updated: Tidak Dikemaskini
+      search: Cari
+      search_guidance: 'Cari Isu:'
+      user_not_found: Pengguna tidak wujud
+      status: Status
+      reports: Laporan
+      last_updated: Kali Terahkir Dikemaskini
+      link_to_reports: Lihat Laporan
+      states:
+        ignored: Diabaikan
+        open: Buka
+    show:
+      ignore: Abaikan
+      reopen: Buka semula
+      read_reports: Baca Laporan
+      new_reports: Laporan Baru
+  issue_comments:
+    create:
+      comment_created: Komen anda telah berjaya dicipta
+  reports:
+    new:
+      title_html: Laporkan %{link}
+      categories:
+        diary_entry:
+          other_label: Lain-lain
+        diary_comment:
+          other_label: Lain-lain
+        user:
+          spam_label: Profil pengguna ini/mengandung spam
+          threat_label: Profil pengguna ini mengandungi ancaman
+          other_label: Lain-lain
+        note:
+          spam_label: Nota ini adalah spam
+          personal_label: Nota ini mengandung data peribadi
+          abusive_label: Nota ini menyalahguna
+          other_label: Lain-lain
+    create:
+      provide_details: Tolong berikan butiran yang diperlukan
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
@@ -919,6 +1015,7 @@ ms:
     edit: Sunting
     history: Sejarah
     export: Eksport
+    issues: Masalah-masalah
     data: Data
     export_data: Eksport Data
     gps_traces: Jejak GPS
@@ -934,6 +1031,7 @@ ms:
     partners_ucl: Pusat VR UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: rakan-rakan kongsi
+    tou: Syarat-Syarat Penggunaan
     osm_offline: Pangkalan data OpenStreetMap kini diputuskan sambungannya sementara
       kerja penyelenggaran mustahak dilangsungkan.
     osm_read_only: Pangkalan data OpenStreetMap sekarang ditetapkan pada mod baca
@@ -967,6 +1065,7 @@ ms:
       footer_html: Anda juga boleh membaca pesanan ini di %{readurl} dan anda boleh
         membalasnya di %{replyurl}
     friend_notification:
+      hi: Apa khabar %{to_user},
       subject: '[OpenStreetMap] %{user} menjadikan anda sebagai rakannya'
       had_added_you: '%{user} telah menjadikan anda sebagai kawan di OpenStreetMap.'
       see_their_profile: Anda boleh membaca profilnya di %{userurl}.
@@ -1115,6 +1214,7 @@ ms:
       date: Tarikh
       reply_button: Balas
       unread_button: Tanda sebagai belum dibaca
+      destroy_button: Hapuskan
       back: Kembali
       to: Kepada
       wrong_user: Anda telah log masuk sebagai `%{user}' tetapi pesanan yang anda
@@ -1388,13 +1488,14 @@ ms:
       get_directions_title: Cari panduan arah antara dua titik
       from: Daripada
       to: Kepada
-      where_am_i: Saya di mana?
+      where_am_i: Di manakah letaknya?
       where_am_i_title: Huraikan lokasi semasa dengan menggunakan enjin carian
       submit_text: Pergi
     key:
       table:
         entry:
           motorway: Lebuhraya
+          main_road: Jalan besar
           trunk: Jalan utama
           primary: Jalan utama
           secondary: Jalan sekunder
@@ -1454,6 +1555,9 @@ ms:
           private: Jalan masuk persendirian
           destination: Jalan masuk destinasi
           construction: Jalan dalam pembinaan
+          bicycle_shop: Kedai Basikal
+          bicycle_parking: Tempat letak basikal
+          toilets: Tandas
     richtext_area:
       edit: Sunting
       preview: Pralihat
@@ -1624,6 +1728,7 @@ ms:
         other: GPX fail dengan %{count} mata dari %{user}
       description_without_count: Fail GPX daripada %{user}
   application:
+    permission_denied: Anda tidak mempunyai keizinan untuk melakukan tindakan ini.
     require_cookies:
       cookies_needed: Nampaknya cookies anda belum dihidupkan - sila hidupkan cookies
         dalam pelayar anda, kemudian sambung.
@@ -1752,12 +1857,19 @@ ms:
           alt: Log masuk dengan OpenID URL
         google:
           title: Log masuk dengan Google
+          alt: Log masuk dengan Google OpenID
         facebook:
           title: Log masuk dengan Facebook
           alt: Log masuk dengan Akuan Facebook
         windowslive:
           title: Log masuk dengan Window Live
           alt: Log masuk dengan Akaun Windows Live
+        github:
+          title: Log masuk dengan GitHub
+          alt: Log masuk dengan Akaun GitHub.
+        wikipedia:
+          title: Log masuk dengan Wikipedia
+          alt: Log masuk dengan akaun Wikipedia
         yahoo:
           title: Log masuk dengan Yahoo
           alt: Log masuk dengan OpenID Yahoo
@@ -1831,6 +1943,7 @@ ms:
       guidance_html: 'Maklumat untuk memudahkan kefahaman istilah-istilah ini: a <a
         href="%{summary}">ringkasan yang boleh dibaca manusia</a> dan beberapa <a
         href="%{translations}">terjemahan tidak formal</a>'
+      continue: Sambung
       decline: Tolak
       you need to accept or decline: Sila baca, kemudian terima atau tolak Terma-Terma
         Penyumbang yang baru untuk bersambung.
@@ -1878,6 +1991,7 @@ ms:
       if_set_location_html: Tetapkan lokasi rumah anda di halaman %{settings_link}
         untuk melihat pengguna berdekatan.
       settings_link_text: tetapan
+      my friends: Kawan saya
       no friends: Anda belum mencari kawan lagi.
       km away: '%{count}km jauhnya'
       m away: '%{count}m jauhnya'
