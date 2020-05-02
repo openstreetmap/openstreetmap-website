@@ -4,7 +4,7 @@
 #
 #  id          :bigint(8)        not null, primary key
 #  name        :string           not null
-#  description :text
+#  description :text             not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  slug        :string           not null

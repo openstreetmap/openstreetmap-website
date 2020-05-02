@@ -3,7 +3,7 @@ class CreateMicrocosms < ActiveRecord::Migration[5.2]
     create_table :microcosms do |t|
       t.string :name, :null => false
       t.string :key, :null => false
-      t.text :description
+      t.text :description, :null => false
       t.timestamps
     end
   end
