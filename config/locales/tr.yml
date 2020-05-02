@@ -46,7 +46,7 @@
 tr:
   time:
     formats:
-      friendly: '%e %B %Y saat %H.%M'
+      friendly: '%e %B %Y saat %H:%M'
   helpers:
     submit:
       diary_comment:
@@ -78,11 +78,12 @@ tr:
     models:
       acl: Erişim Kontrol Listesi
       changeset: Değişiklik Kaydı
-      changeset_tag: Değişiklik kayıdının etiketi
+      changeset_tag: Değişiklik Kaydının Etiketi
       country: Ülke
       diary_comment: Günlük Yorumu
       diary_entry: Günlük Girdisi
       friend: Arkadaş
+      issue: Sorun
       language: Dil
       message: Mesaj
       node: Düğüm
@@ -99,6 +100,7 @@ tr:
       relation: İlişki
       relation_member: İlgili Üye
       relation_tag: İlişki Etiketi
+      report: Raporla
       session: Oturum
       trace: İz
       tracepoint: İzleme Noktası
@@ -195,6 +197,15 @@ tr:
     remote:
       name: Uzaktan Denetim
       description: Uzaktan Denetim (JOSM veya Merkaartor)
+  auth:
+    providers:
+      none: Hiçbiri
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Vikipedi
   api:
     notes:
       comment:
@@ -1262,8 +1273,9 @@ tr:
         more_info_2: 'şu adresten edinebilirsiniz:'
       success:
         subject: '[OpenStreetMap] GPX dosyası başarıyla alındı'
-        loaded_successfully: Olası bir %{possible_points} noktalarından %{trace_points}
-          ile başarıyla yüklendi.
+        loaded_successfully:
+          one: '%{trace_points} olası 1 puan üzerinden başarıyla yüklendi.'
+          other: '%{trace_points} olası %{possible_points} puanından başarıyla yüklendi.'
     signup_confirm:
       subject: '[OpenStreetMap]''e hoşgeldin'
       greeting: Merhaba!
@@ -1732,7 +1744,7 @@ tr:
           sayfasında bilmeniz gerekenleri bulun.
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: OpenStreetMap Wiki
+        title: OpenStreetMap Viki
         description: Ayrıntılı OpenStreetMap belgeleri için wiki'ye göz atın.
     sidebar:
       search_results: Arama Sonuçları
@@ -1832,7 +1844,7 @@ tr:
       second: İkinci öge
       link: Bağlantı
       text: Metin
-      image: Görsel
+      image: Resim
       alt: Alt metin
       url: URL
     welcome:
@@ -1905,9 +1917,9 @@ tr:
       tags_help: virgül (,) ile ayır
       visibility: 'Görünürlük:'
       visibility_help: bu ne demek?
-      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Tr:Visibility_of_GPS_traces
       help: Yardım
-      help_url: https://wiki.openstreetmap.org/wiki/Upload
+      help_url: https://wiki.openstreetmap.org/wiki/Tr:Upload
     create:
       upload_trace: GPS İzi Gönder
       trace_uploaded: GPX dosya yüklendi ve veritabanına eklemek için bekliyor. Bu
@@ -1954,7 +1966,7 @@ tr:
       owner: 'Gönderen:'
       description: 'Açıklama:'
       tags: 'Etiketler:'
-      none: Yok
+      none: Hiçbiri
       edit_trace: Bu iz düzenle
       delete_trace: Bu izi sil
       trace_not_found: İz bulunmadı!
@@ -2220,7 +2232,7 @@ tr:
       terms accepted: Yeni katılımcı şartları kabul ettiğin için teşekkür ederiz!
       terms declined: Yeni Katılımcı Koşulları kabul etmediğiniz için üzgünüz. Daha
         fazla bilgi için lütfen <a href="%{url}">buradaki wiki sayfasına</a> bakınız.
-      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+      terms declined url: https://wiki.openstreetmap.org/wiki/Tr:Contributor_Terms_Declined
     terms:
       title: Koşullar
       heading: Koşullar
@@ -2238,14 +2250,12 @@ tr:
       consider_pd: Yukarıdakilere ek olarak katkılarınızın kamu malı olarak kabul
         edilmesini de seçebilirsiniz
       consider_pd_why: bu nedir?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://wiki.openstreetmap.org/wiki/Tr:Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Buradaki bilgileri anlamanıza yardımcı olabilecek bilgiler:  <a
         href="%{summary}">okunabilir bir özet</a> ve ayrıca <a href="%{translations}">genel
         çeviriler</a>'
       continue: Devam
-      declined: |2-
-
-        https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+      declined: https://wiki.openstreetmap.org/wiki/Tr:Contributor_Terms_Declined
       decline: Reddet
       you need to accept or decline: Lütfen katılımcı şartlarını okuyunuz ve şartları
         kabul ya da ret ediniz.
@@ -2337,12 +2347,12 @@ tr:
       email never displayed publicly: (hiçbir zaman görüntülenmez)
       external auth: 'Harici Kimlik Doğrulama:'
       openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link: https://wiki.openstreetmap.org/wiki/Tr:OpenID
         link text: bu nedir?
       public editing:
         heading: 'Herkese açık düzenleme modu:'
         enabled: Etkin. Anonim değil ve verileri düzenleyebilir.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link: https://wiki.openstreetmap.org/wiki/Tr:Anonymous_edits
         enabled link text: bu nedir?
         disabled: Devre dışı ve verileri düzenleyemez; önceki düzenlemeleri hepsi
           anonimdir.
@@ -2364,7 +2374,7 @@ tr:
         review link text: Yeni Katkıda Bulunma Şartlarını incelemek ve kabul etmek
           için lütfen bu bağlantıyı kolaylık sağlamak için izleyin.
         agreed_with_pd: Ayrıca düzenlediklerin Kamu Malı olsun diye kabul ettin.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
+        link: https://wiki.openstreetmap.org/wiki/Tr:Open_Database_License/Contributor_Terms
         link text: bu nedir?
       profile description: 'Tanıtım:'
       preferred languages: 'Tercih Edilen Diller:'
@@ -2372,9 +2382,7 @@ tr:
       image: 'Resim:'
       gravatar:
         gravatar: Gravatar kullanın
-        link: |2-
-
-          https://wiki.openstreetmap.org/wiki/Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Tr:Gravatar
         link text: bu nedir?
         disabled: Gravatar devre dışı bırakıldı.
         enabled: Gravatarınızın görüntüsü etkinleştirildi.
@@ -2624,7 +2632,7 @@ tr:
     share:
       title: Paylaş
       cancel: İptal
-      image: Görsel
+      image: Resim
       link: Bağlantı veya HTML
       long_link: Bağlantı
       short_link: Kısa Bağlantı
@@ -2653,9 +2661,12 @@ tr:
         out: Uzaklaştır
       locate:
         title: Konumumu göster
-        metersUnit: metreler
-        feetUnit: ayak
-        popup: Bu noktadan {distance} {unit} içeridesin
+        metersPopup:
+          one: Bu noktanın bir metresindesiniz
+          other: Bu noktanın %{count} metresindesiniz
+        feetPopup:
+          one: Bu noktanın bir adım içindesiniz
+          other: Bu noktanın %{count} adım içindesiniz
       base:
         standard: Standart
         cycle_map: Bisiklet Haritası
@@ -2671,6 +2682,11 @@ tr:
       copyright: © <a href='%{copyright_url}'>OpenStreetMap katkıda bulunanları</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Bağış Yapın</a>
       terms: <a href='%{terms_url}' target='_blank'>Web sitesi ve API şartları</a>
+      thunderforest: Fayans <a href='%{thunderforest_url} 'target='_blank'>Andy Allan</a>'ın
+        izniyle
+      hotosm: <a href='%{hotosm_url}' target='_blank'>İnsani OpenStreetMap Ekibi</a>
+        tarafından <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap Fransa</a>
+        tarafından sunulan karo tarzı
     site:
       edit_tooltip: Haritayı düzenle
       edit_disabled_tooltip: Haritayı düzenlemek için yakınlaştırın

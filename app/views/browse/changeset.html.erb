@@ -6,7 +6,7 @@
 </h2>
 
 <div class="browse-section">
-  <h6><%= linkify(h(@changeset.tags["comment"].to_s.presence || t("browse.no_comment"))) %></h6>
+  <h6><%= linkify(@changeset.tags["comment"].to_s.presence || t("browse.no_comment")) %></h6>
   <div class="details"><%= changeset_details(@changeset) %></div>
 
   <%= render :partial => "tag_details", :object => @changeset.tags.except("comment") %>
@@ -38,7 +38,7 @@
                   <%= t(".commented_by",
                         :when => friendly_date_ago(comment.created_at),
                         :exact_time => l(comment.created_at),
-                        :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
+                        :user => link_to(comment.author.display_name, user_path(comment.author))).html_safe %>
                   <% if current_user and current_user.moderator? %>
                     — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t("javascripts.changesets.show.hide_comment") %></span>
                   <% end %>
@@ -51,7 +51,7 @@
                   <%= t(".hidden_commented_by",
                         :when => friendly_date_ago(comment.created_at),
                         :exact_time => l(comment.created_at),
-                        :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
+                        :user => link_to(comment.author.display_name, user_path(comment.author))).html_safe %>
                   — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t("javascripts.changesets.show.unhide_comment") %></span>
                  </small>
                 <%= comment.body.to_html %>

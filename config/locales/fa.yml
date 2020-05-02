@@ -48,7 +48,7 @@ fa:
         create: ذخیره
       diary_entry:
         create: انتشار
-        update: به‌روزرسانی
+        update: روزآمدسازی
       issue_comment:
         create: نظر دهید
       message:
@@ -64,7 +64,7 @@ fa:
         update: ذخیره تغییرات
       user_block:
         create: ایجاد مسدودی
-        update: به‌روزرسانی مسدودی
+        update: روزآمدسازی مسدودی
   activerecord:
     errors:
       messages:
@@ -78,6 +78,7 @@ fa:
       diary_comment: نظر بر روزنوشت
       diary_entry: روزنوشت
       friend: دوست
+      issue: مسئله
       language: زبان
       message: پیام
       node: گره
@@ -94,6 +95,7 @@ fa:
       relation: رابطه
       relation_member: عضو رابطه
       relation_tag: برچسپ رابطه
+      report: گزارش
       session: جلسه
       trace: رد
       tracepoint: نقطهٔ رد
@@ -188,6 +190,12 @@ fa:
     remote:
       name: کنترل از دور
       description: کنترل از دور (JOSM یا Merkaartor)
+  auth:
+    providers:
+      none: هیچ‌کدام
+      google: گوگل
+      facebook: فیس‌بوک
+      wikipedia: ویکی‌پدیا
   api:
     notes:
       comment:
@@ -655,6 +663,7 @@ fa:
           trail: دنباله
           trunk: بزرگراه
           trunk_link: بزرگراه
+          turning_loop: حلقهٔ گردش
           unclassified: جادهٔ فرعی
           "yes": جاده
         historic:
@@ -878,7 +887,7 @@ fa:
           funicular: راه‌آهن کابلی
           halt: ایستگاه قطار
           junction: اتصال راه‌آهن
-          level_crossing: محل تقاطع دو خط راه‌آهن
+          level_crossing: تقاطع با راه‌آهن
           light_rail: ریل سبک
           miniature: راه آهن کوچک
           monorail: مونوریل
@@ -1059,7 +1068,7 @@ fa:
       reports: گزارش‌ها
       last_updated: آخرین روزآمدسازی
       last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> توسط %{user}
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> به دست %{user}
       link_to_reports: نمایش گزارش‌ها
       reports_count:
         one: 1 گزارش
@@ -1081,7 +1090,7 @@ fa:
         other: '%{count} گزارش'
       report_created_at: اولین بار %{datetime} گزارش شد
       last_resolved_at: آخرین بار %{datetime} حل شد
-      last_updated_at: آخرین بار %{displayname} در %{datetime} به‌روزش کرد.
+      last_updated_at: آخرین روزآمدسازی در %{datetime} به دست %{displayname}
       resolve: حل شد
       ignore: نادیده گرفتن
       reopen: بازگشایی
@@ -1097,8 +1106,11 @@ fa:
       ignored: وضعیت مسئله به «نادیده گرفته شد» تغییر کرده است
     reopen:
       reopened: وضعیت مسئله به «باز» تغییر داده کرده است
+    comments:
+      comment_from_html: نظر از %{user_link} در %{comment_created_at}
     reports:
-      reported_by_html: '%{user} آن را به‌عنوان %{category} گزارش کرد'
+      reported_by_html: در %{updated_at}،‏ %{user} آن را به‌عنوان %{category} گزارش
+        کرد
     helper:
       reportable_title:
         diary_comment: '%{entry_title}، نظر #%{comment_id}'
@@ -1231,8 +1243,10 @@ fa:
         import_failures_url: https://wiki.openstreetmap.org/wiki/Fa:GPX_Import_Failures
       success:
         subject: موفقیت درون‌برد GPX‏ [OpenStreetMap]
-        loaded_successfully: با موفقیت و با %{trace_points} نقطه از %{possible_points}
-          نقطهٔ ممکن روی وبسایت قرار گرفته است.
+        loaded_successfully:
+          one: با موفقیت %{trace_points} نقطه از 1 نقطهٔ ممکن بار شد.
+          other: با موفقیت %{trace_points} نقطه از %{possible_points} نقطهٔ ممکن بار
+            شد.
     signup_confirm:
       subject: به OpenStreetMap خوش آمدید [OpenStreetMap]
       greeting: ‎سلام بر شما!
@@ -1417,12 +1431,16 @@ fa:
         حق‌نشر و پروانه</a> را ببینید.'
       legal_title: قانونی
       legal_1_html: |-
-        این سایت و خدمات فراوان دیگری که به آن وابسته‌اند به‌طور رسمی و به‌نمایندگی از جامعه توسط <a href='https://osmfoundation.org/'>بنیاد OpenStreetMap</a> ‏(OSMF) هدایت می‌شود. استفاده از همهٔ خدماتی که تحت رهبری OSMF قرار دارد منوط به پذیرش <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        این سایت و خدمات فراوان دیگری که به آن وابسته‌اند به‌طور رسمی و به‌نمایندگی از جامعه تحت رهبری <a href='https://osmfoundation.org/'>بنیاد OpenStreetMap</a> ‏(OSMF) دایر است. استفاده از همهٔ خدماتی که تحت رهبری OSMF قرار دارد منوط به پذیرش <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
         سیاست استفادهٔ قابل‌قبول</a>، <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">شرایط استفاده</a> و <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">سیاست حریم خصوصی</a> ماست.
         <br>
         اگر در رابطه با پروانه، حق‌نشر یا سایر موارد قانونی سؤالی دارید لطفاً <a href='https://osmfoundation.org/Contact'>با OSMF تماس بگیرید</a>.
         <br>
         OpenStreetMap،‏ نشان‌وارهٔ ذره‌بین‌دار و State of the Map <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">نشان‌های تجاری ثبت‌شده و متعلق به بنیاد OpenStreetMap</a> هستند.
+      legal_2_html: |-
+        اگر دربارهٔ پروانه، حق‌نشر یا سایر مسائل حقوقی پرسشی دارید لطفاً <a href='https://osmfoundation.org/Contact'>با OSMF تماس بگیرید</a>.
+        <br>
+        OpenStreetMap، نشان‌وارهٔ ذره‌بین‌دار و State of the Map <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">نشان‌های تجاری متعلق به OSMF</a> هستند.
       partners_title: شرکای تجاری
     copyright:
       foreign:
@@ -1476,8 +1494,8 @@ fa:
         more_1_html: برای اطلاعات بیشتر دربارهٔ استفاده از داده‌های ما و چگونگی یادکرد
           ما <a href="https://osmfoundation.org/Licence">صفحهٔ پروانهٔ بنیاد OSM</a>
           را بخوانید.
-        more_2_html: اگرچه داده‌های اوپن‌استریت‌مپ آزاد است، اما نمی‌توانیم API نقشه
-          را به‌رایگان در اختیار توسعه‌دهندگان شخص ثالث قرار دهیم. <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">سیاست
+        more_2_html: اگرچه دادهٔ اوپن‌استریت‌مپ آزاد است، اما نمی‌توانیم API نقشه
+          را به‌رایگان در اختیار توسعه‌دهندگان ثالث قرار دهیم. <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">سیاست
           استفاده از API </a> ، <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">سیاست
           استفاده از کاشی‌ها</a> و <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">سیاست
           استفاده از Nominatim</a> را ببینید.
@@ -1567,7 +1585,7 @@ fa:
       anon_edits_link_text: بفهمید چرا این‌طور است.
       flash_player_required_html: برای استفاده از  Potlatch (ویرایشگر فلش  OpenStreetMap)
         به فلش‌پلیر نیاز دارید. می‌توانید <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">فلش‌پلیر
-        را از  Adobe.com دانلود کنید</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">چندین
+        را از  Adobe.com دانلود کنید</a>. <a href="http://wiki.openstreetmap.org/wiki/Fa:Editing">چندین
         گزینهٔ دیگر</a> نیز برای ویرایش OpenStreetMap وجود دارد.
       potlatch_unsaved_changes: شما تغییرات ذخیره‌نشده دارید. (برای ذخیره در Potlatch،
         اگر در حالت زنده ویرایش می‌کنید، باید راه یا نقطهٔ جاری را از حالت انتخاب
@@ -1912,7 +1930,9 @@ fa:
       newer: ردهای تازه‌تر
     trace:
       pending: در انتظار
-      count_points: ‏%{count} نقطه
+      count_points:
+        one: 1 نقطه
+        other: '%{count} نقطه'
       more: بیشتر
       trace_details: مشاهده جزئیات رد
       view_map: نمایش نقشه
@@ -1922,7 +1942,7 @@ fa:
       identifiable: قابل شناسایی
       private: خصوصی
       trackable: قابل ردیابی
-      by: توسط
+      by: از
       in: در
       map: نقشه
     index:
@@ -1971,10 +1991,9 @@ fa:
   oauth:
     authorize:
       title: اجازهٔ دسترسی به حسابتان را صادر کنید
-      request_access_html: برنامهٔ %{app_name}%{app_name} درخواست دسترسی به حساب کاربری
-        شما را دارد (%{user}). لطفاً بررسی کنید که آیا مایلید برنامه به قابلیت‌های
-        زیر دسترسی داشته باشد. می‌توانید همه یا فقط مواردی را که دوست دارید انتخاب
-        کنید.
+      request_access_html: برنامهٔ %{app_name} درخواست دسترسی به حساب کاربری شما را
+        دارد (%{user}). لطفاً بررسی کنید که آیا مایلید برنامه به قابلیت‌های زیر دسترسی
+        داشته باشد. می‌توانید همه یا فقط مواردی را که دوست دارید انتخاب کنید.
       allow_to: 'برنامهٔ کارخواه مجاز است که:'
       allow_read_prefs: ترجیحات کاربری شما را بخواند.
       allow_write_prefs: ترجیحات کاربری شما را تغییر دهد.
@@ -2070,7 +2089,7 @@ fa:
       register now: اکنون ثبت‌نام کنید
       with username: 'از قبل حساب OpenStreetMap دارید؟ لطفاً با نام کاربری و رمز عبورتان
         وارد شوید:'
-      with external: 'ورود به روش دیگر: از طریق شخص ثالث'
+      with external: 'به‌جای ثبت نام، از روش شخص ثالث استفاده کنید:'
       new to osm: در OpenStreetMap تازه‌وارد هستید؟
       to make changes: برای ویرایش داده‌های OpenStreetMap، باید یک حساب کاربری داشته
         باشید.
@@ -2144,22 +2163,22 @@ fa:
       about:
         header: آزاد و قابل‌ویرایش
         html: |-
-          <p>بر خلاف سایر نقشه‌ها، OpenStreetMap کاملاً به‌دست کسانی همچون شما ساخته شده و اصلاح، به‌روزآوری، بارگیری و به‌کارگیری آن برای همه آزاد است.</p>
-          <p>برای شروع همکاری ثبت‌نام کنید. ایمیلی برای شما می‌فرستیم تا حساب کاربری‌تان را تأیید کنید.</p>
+          <p>بر خلاف سایر نقشه‌ها، OpenStreetMap کاملاً به‌دست کسانی همچون شما ساخته شده و اصلاح، روزآمدسازی، بارگیری و به‌کارگیری آن برای همه آزاد است.</p>
+          <p>برای شروع همکاری، ثبت  نام کنید. ایمیلی برای شما می‌فرستیم تا حساب کاربری‌تان را تأیید کنید.</p>
       license_agreement: وقتی ایمیلتان را تایید کردید نیاز است که با <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">شرایط
         مشارکت‌کننده</a> موافقت کنید.
       email address: 'نشانی ایمیل:'
       confirm email address: 'تأیید نشانی ایمیل:'
-      not_displayed_publicly_html: نشانی شما به دیگران نشان داده نمی‌شود. برای اطلاعات
+      not_displayed_publicly_html: ایمیل شما به دیگران نشان داده نمی‌شود. برای اطلاعات
         بیشتر <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="سیاست
         حریم خصوصی بنیاد OSM، بخش نشانی‌های ایمیل">سیاست حریم خصوصی</a> را ببینید
       display name: 'نام نمایشی:'
       display name description: نام کاربری شما که دیگران آن را می‌بینند. می‌توانید
         بعداً آن را در تنظیمات تغییر دهید.
-      external auth: 'اعتبارسنجی طرف سوم:'
+      external auth: 'احراز هویت شخص ثالث:'
       password: 'کلمهٔ عبور:'
       confirm password: 'تأیید کلمهٔ عبور:'
-      use external auth: 'ورود به روش دیگر: از طریق شخص ثالث'
+      use external auth: به‌جای ثبت نام، از روش شخص ثالث استفاده کنید
       auth no password: در اعتبارسنجی به‌روش شخص ثالث نیازی به گذرواژهٔ اوپن‌استریت‌مپ
         ندارید اما شاید میزبان انتخابی شما گذرواژهٔ خودش را بخواهد.
       continue: ثبت نام
@@ -2173,6 +2192,8 @@ fa:
       heading_ct: شرایط مشارکت‌کننده
       read and accept with tou: لطفاً توافق‌نامهٔ مشارکت‌کننده و شرایط استفاده را
         مطالعه کنید و هر دو گزینه را علامت بزنید و سپس روی دکمهٔ ادامه کلیک کنید.
+      contributor_terms_explain: شرایط این توافقنامه برای مشارکت‌های گذشته و آیندهٔ
+        شما نافذ است.
       read_ct: شرایط مشارکت‌کننده را خواندم و با آن موافق هستم
       read_tou: شرایط استفاده را خواندم و با آن موافق هستم
       consider_pd: علاوه بر موارد بالا، می‌پذیرم که مشارکت‌هایم در مالکیت عمومی باشد.
@@ -2208,7 +2229,7 @@ fa:
       my comments: نظرات من
       oauth settings: تنظیمات oauth
       blocks on me: مسدودی‌های من
-      blocks by me: بوک های توسط من
+      blocks by me: مسدودی‌های به دست من
       send message: ارسال پیام
       diary: روزنوشت
       edits: ویرایش‌ها
@@ -2320,14 +2341,14 @@ fa:
       no home location: شما محل خانهٔ خودتان را وارد نکرده‌اید.
       latitude: 'عرض جغرافیایی:'
       longitude: 'طول جغرافیایی:'
-      update home location on click: وقتی روی نقشه کلیک می‌کنم موقعیت خانه به‌روز
+      update home location on click: وقتی روی نقشه کلیک می‌کنم موقعیت خانه روزآمد
         شود.
       save changes button: ذخیرهٔ تغییرات
       make edits public button: همه ویرایش‌های من را عمومی کن
       return to profile: بازگشت به نمایه
-      flash update success confirm needed: اطلاعات کاربر با موفقیت به‌روز شد. برای
-        تأیید نشانی ایمیل جدید، یادداشت ارسال‌شده به ایمیلتان را بررسی کنید.
-      flash update success: اطلاعات کاربر با موفقیت به‌روز شد.
+      flash update success confirm needed: اطلاعات کاربر با موفقیت روزآمد شد. برای
+        تأیید نشانی ایمیل جدید، یادداشت ارسال‌شده به ایمیل‌تان را بررسی کنید.
+      flash update success: اطلاعات کاربر با موفقیت روزآمد شد.
     confirm:
       heading: ایمیلتان را بررسی کنید!
       introduction_1: یک ایمیل تأیید برای شما ارسال کردیم.
@@ -2473,7 +2494,7 @@ fa:
       empty: هنوز مسدودیتی ساخته نشده.
     revoke:
       title: لغو مسدودی از %{block_on}
-      heading_html: لغو مسدودی از %{block_on}، مسدودشده توسط %{block_by}
+      heading_html: ابطال مسدودی %{block_on}، مسدودشده به دست %{block_by}
       time_future: این مسدودی در %{time} پایان می یابد.
       past: این مسدودی %{time} پایان یافته و اکنون قابل‌لغو نیست.
       confirm: مطمئنید می‌خواهید این مسدودی را لغو کنید؟
@@ -2496,14 +2517,14 @@ fa:
     blocks_on:
       title: مسدودی‌های کاربری %{name}
       heading_html: فهرست مسدودی‌های %{name}
-      empty: '%{name} تاکنون مسدود نشده است.'
+      empty: '%{name} تا کنون مسدود نشده است.'
     blocks_by:
       title: مسدودسازی‌های %{name}
       heading_html: فهرست مسدودسازی‌های %{name}
-      empty: '%{name} تاکنون مسدود نکرده.'
+      empty: '%{name} تا کنون مسدود نکرده است.'
     show:
-      title: '%{block_on} توسط %{block_by} مسدود شده'
-      heading_html: '%{block_on} توسط %{block_by} مسدود شده'
+      title: '%{block_on} به دست %{block_by} مسدود شده'
+      heading_html: '%{block_on} به دست %{block_by} مسدود شده'
       created: زمان ایجاد
       status: وضعیت
       show: نمایش
@@ -2572,8 +2593,12 @@ fa:
         out: کوچک‌نمایی
       locate:
         title: نمایش مکان من
-        metersUnit: متر
-        popup: در شعاع {distance} {unit} نسبت به این نقطه قرار دارید
+        metersPopup:
+          one: شما در یک متری این نقطه هستید
+          other: شما در %{count} متری این نقطه هستید
+        feetPopup:
+          one: شما در یک فوتی این نقطه هستید
+          other: شما در %{count} فوتی این نقطه هستید
       base:
         standard: استاندارد
         cycle_map: نقشه دوچرخه
@@ -2589,6 +2614,11 @@ fa:
       copyright: © <a href='%{copyright_url}'>مشارکت‌کنندگان OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>کمک مالی</a>
       terms: <a href='%{terms_url}' target='_blank'>شرایط وبسایت و API</a>
+      thunderforest: کاشی‌ها با لطف <a href='%{thunderforest_url}' target='_blank'>Andy
+        Allan</a>
+      hotosm: سبک کاشی‌ها از <a href='%{hotosm_url}' target='_blank'>Humanitarian
+        OpenStreetMap Team</a> میزبانی با <a href='%{osmfrance_url}' target='_blank'>اوپن‌استریت‌مپ
+        فرانسه </a>
     site:
       edit_tooltip: ویرایش نقشه
       edit_disabled_tooltip: برای ویرایش نقشه بزرگنمایی کنید

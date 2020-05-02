@@ -1,11 +1,11 @@
 <% if current_user == @message.recipient %>
   <% content_for :heading do %>
-    <h2><%= h(@message.title) %></h2>
+    <h2><%= @message.title %></h2>
   <% end %>
 
   <div class='info-line clearfix'>
     <%= user_thumbnail_tiny @message.sender %>
-    <%= link_to h(@message.sender.display_name), user_path(@message.sender) %></td>
+    <%= link_to @message.sender.display_name, user_path(@message.sender) %></td>
     <div class='right'>
       <%= l @message.sent_on, :format => :friendly %>
     </div>
@@ -22,11 +22,11 @@
 
 <% else %>
 
-  <h2><%= h(@message.title) %></h2>
+  <h2><%= @message.title %></h2>
 
   <div class='info-line clearfix'>
     <%= user_thumbnail_tiny @message.recipient %>
-    <%= link_to h(@message.recipient.display_name), user_path(@message.recipient) %></td>
+    <%= link_to @message.recipient.display_name, user_path(@message.recipient) %></td>
     <div class='right'>
       <%= l @message.sent_on, :format => :friendly %>
     </div>

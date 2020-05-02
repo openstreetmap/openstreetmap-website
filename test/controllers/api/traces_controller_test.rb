@@ -1,11 +1,21 @@
 require "test_helper"
-require "minitest/mock"
 
 module Api
   class TracesControllerTest < ActionController::TestCase
+    # Use temporary directories with unique names for each test
+    # This allows the tests to be run in parallel.
+    def setup
+      @gpx_trace_dir_orig = Settings.gpx_trace_dir
+      @gpx_image_dir_orig = Settings.gpx_image_dir
+      Settings.gpx_trace_dir = Dir.mktmpdir("trace", Rails.root.join("test/gpx"))
+      Settings.gpx_image_dir = Dir.mktmpdir("image", Rails.root.join("test/gpx"))
+    end
+
     def teardown
-      File.unlink(*Dir.glob(File.join(Settings.gpx_trace_dir, "*.gpx")))
-      File.unlink(*Dir.glob(File.join(Settings.gpx_image_dir, "*.gif")))
+      FileUtils.remove_dir(Settings.gpx_trace_dir)
+      FileUtils.remove_dir(Settings.gpx_image_dir)
+      Settings.gpx_trace_dir = @gpx_trace_dir_orig
+      Settings.gpx_image_dir = @gpx_image_dir_orig
     end
 
     ##
@@ -200,7 +210,7 @@ module Api
       assert_equal "New Trace", trace.description
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "trackable", trace.visibility
-      assert_equal false, trace.inserted
+      assert_not trace.inserted
       assert_equal File.new(fixture).read, File.new(trace.trace_name).read
       trace.destroy
       assert_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
@@ -218,7 +228,7 @@ module Api
       assert_equal "New Trace", trace.description
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "public", trace.visibility
-      assert_equal false, trace.inserted
+      assert_not trace.inserted
       assert_equal File.new(fixture).read, File.new(trace.trace_name).read
       trace.destroy
       assert_equal "public", user.preferences.where(:k => "gps.trace.visibility").first.v
@@ -237,7 +247,7 @@ module Api
       assert_equal "New Trace", trace.description
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "private", trace.visibility
-      assert_equal false, trace.inserted
+      assert_not trace.inserted
       assert_equal File.new(fixture).read, File.new(trace.trace_name).read
       trace.destroy
       assert_equal "private", second_user.preferences.where(:k => "gps.trace.visibility").first.v

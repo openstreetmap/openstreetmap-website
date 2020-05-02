@@ -21,6 +21,8 @@ module BrowseTagsHelper
       link_to h(wmc[:title]), wmc[:url], :title => t("browse.tag_details.wikimedia_commons_link", :page => wmc[:title])
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
+    elsif email = email_link(key, value)
+      link_to(h(email[:email]), email[:url], :title => t("browse.tag_details.email_link", :email => email[:email]))
     elsif phones = telephone_links(key, value)
       # similarly, telephone_links() returns an array of phone numbers
       phones = phones.map do |p|
@@ -120,6 +122,25 @@ module BrowseTagsHelper
         :title => value
       }
     end
+    nil
+  end
+
+  def email_link(_key, value)
+    # Does the value look like an email? eg "someone@domain.tld"
+
+    #  Uses Ruby built-in regexp to validate email.
+    #  This will not catch certain valid emails containing comments, whitespace characters,
+    #  and quoted strings.
+    #    (see: https://github.com/ruby/ruby/blob/master/lib/uri/mailto.rb)
+
+    # remove any leading and trailing whitespace
+    email = value.strip
+
+    if email.match?(URI::MailTo::EMAIL_REGEXP)
+      # add 'mailto:'' prefix
+      return { :email => email, :url => "mailto:#{email}" }
+    end
+
     nil
   end
 

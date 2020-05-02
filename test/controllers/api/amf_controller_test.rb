@@ -181,32 +181,32 @@ module Api
       assert_equal Array, map[4].class, 'map "relations" element should be an array'
       map[2].each do |w|
         assert_equal 2, w.length, "way should be (id, version) pair"
-        assert w[0] == w[0].floor, "way ID should be an integer"
-        assert w[1] == w[1].floor, "way version should be an integer"
+        assert_equal w[0], w[0].floor, "way ID should be an integer"
+        assert_equal w[1], w[1].floor, "way version should be an integer"
       end
 
       map[3].each do |n|
         assert_equal 5, w.length, "node should be (id, lat, lon, [tags], version) tuple"
-        assert n[0] == n[0].floor, "node ID should be an integer"
+        assert_equal n[0], n[0].floor, "node ID should be an integer"
         assert n[1] >= minlat - 0.01, "node lat should be greater than min"
         assert n[1] <= maxlat - 0.01, "node lat should be less than max"
         assert n[2] >= minlon - 0.01, "node lon should be greater than min"
         assert n[2] <= maxlon - 0.01, "node lon should be less than max"
         assert_equal Array, a[3].class, "node tags should be array"
-        assert n[4] == n[4].floor, "node version should be an integer"
+        assert_equal n[4], n[4].floor, "node version should be an integer"
       end
 
       map[4].each do |r|
         assert_equal 2, r.length, "relation should be (id, version) pair"
-        assert r[0] == r[0].floor, "relation ID should be an integer"
-        assert r[1] == r[1].floor, "relation version should be an integer"
+        assert_equal r[0], r[0].floor, "relation ID should be an integer"
+        assert_equal r[1], r[1].floor, "relation version should be an integer"
       end
 
       # TODO: looks like amf_controller changed since this test was written
       # so someone who knows what they're doing should check this!
       ways = map[2].collect { |x| x[0] }
-      assert ways.include?(way.id),
-             "map should include used way"
+      assert_includes ways, way.id,
+                      "map should include used way"
       assert_not ways.include?(deleted_way.id),
                  "map should not include deleted way"
     end
@@ -271,8 +271,8 @@ module Api
       # so someone who knows what they're doing should check this!
       assert_not map[2].include?(way.id),
                  "map should not include visible way"
-      assert map[2].include?(deleted_way.id),
-             "map should include deleted way"
+      assert_includes map[2], deleted_way.id,
+                      "map should include deleted way"
     end
 
     def test_whichways_deleted_toobig
@@ -428,7 +428,7 @@ module Api
       # ['way',wayid,history]
       assert_equal history[0], "way"
       assert_equal history[1], 0
-      assert history[2].empty?
+      assert_empty history[2]
     end
 
     def test_getnode_history
@@ -466,7 +466,7 @@ module Api
       # ['node',nodeid,history]
       assert_equal history[0], "node"
       assert_equal history[1], 0
-      assert history[2].empty?
+      assert_empty history[2]
     end
 
     def test_findgpx_bad_user
@@ -847,7 +847,7 @@ module Api
       assert_equal nd.version + 1, result[4]
 
       current_node = Node.find(result[3].to_i)
-      assert_equal false, current_node.visible
+      assert_not current_node.visible
     end
 
     # try deleting a node that is already deleted
@@ -978,14 +978,14 @@ module Api
 
       new_node = Node.find(new_node_id)
       assert_equal 1, new_node.version
-      assert_equal true, new_node.visible
+      assert new_node.visible
       assert_equal 4.56, new_node.lon
       assert_equal 12.34, new_node.lat
       assert_equal({ "test" => "new" }, new_node.tags)
 
       changed_node = Node.find(d)
       assert_equal 2, changed_node.version
-      assert_equal true, changed_node.visible
+      assert changed_node.visible
       assert_equal 12.34, changed_node.lon
       assert_equal 4.56, changed_node.lat
       assert_equal({ "test" => "ok" }, changed_node.tags)
@@ -993,7 +993,7 @@ module Api
       # node is not deleted because our other ways are using it
       deleted_node = Node.find(a)
       assert_equal 1, deleted_node.version
-      assert_equal true, deleted_node.visible
+      assert deleted_node.visible
     end
 
     # check that we can update a way
@@ -1073,21 +1073,21 @@ module Api
 
       new_node = Node.find(new_node_id)
       assert_equal 1, new_node.version
-      assert_equal true, new_node.visible
+      assert new_node.visible
       assert_equal 4.56, new_node.lon
       assert_equal 12.34, new_node.lat
       assert_equal({ "test" => "new" }, new_node.tags)
 
       changed_node = Node.find(b)
       assert_equal 2, changed_node.version
-      assert_equal true, changed_node.visible
+      assert changed_node.visible
       assert_equal 12.34, changed_node.lon
       assert_equal 4.56, changed_node.lat
       assert_equal({ "test" => "ok" }, changed_node.tags)
 
       deleted_node = Node.find(d)
       assert_equal 2, deleted_node.version
-      assert_equal false, deleted_node.visible
+      assert_not deleted_node.visible
     end
 
     # check that we can delete a way
@@ -1120,7 +1120,7 @@ module Api
 
       new_way = Way.find(way.id)
       assert_equal way.version + 1, new_way.version
-      assert_equal false, new_way.visible
+      assert_not new_way.visible
 
       way.nds.each do |node_id|
         assert_equal result[4][node_id.to_s].nil?, Node.find(node_id).visible
@@ -1146,10 +1146,10 @@ module Api
 
       new_way = Way.find(way.id)
       assert_equal way.version, new_way.version
-      assert_equal true, new_way.visible
+      assert new_way.visible
 
       way.nds.each do |node_id|
-        assert_equal true, Node.find(node_id).visible
+        assert Node.find(node_id).visible
       end
     end
 
@@ -1180,7 +1180,7 @@ module Api
       assert_equal 1, new_relation.version
       assert_equal [["Node", node.id, "node"], ["Way", way.id, "way"], ["Relation", relation.id, "relation"]], new_relation.members
       assert_equal({ "test" => "new" }, new_relation.tags)
-      assert_equal true, new_relation.visible
+      assert new_relation.visible
     end
 
     # check that we can update a relation
@@ -1207,7 +1207,7 @@ module Api
       assert_equal relation.version + 1, new_relation.version
       assert_equal relation.members, new_relation.members
       assert_equal({ "test" => "ok" }, new_relation.tags)
-      assert_equal true, new_relation.visible
+      assert new_relation.visible
     end
 
     # check that we can delete a relation
@@ -1234,7 +1234,7 @@ module Api
       assert_equal relation.version + 1, new_relation.version
       assert_equal [], new_relation.members
       assert_equal({}, new_relation.tags)
-      assert_equal false, new_relation.visible
+      assert_not new_relation.visible
     end
 
     # check that we can't delete a relation that is in use
@@ -1258,7 +1258,7 @@ module Api
       assert_equal relation.version, new_relation.version
       assert_equal relation.members, new_relation.members
       assert_equal relation.tags, new_relation.tags
-      assert_equal true, new_relation.visible
+      assert new_relation.visible
     end
 
     # check that we can open a changeset
@@ -1276,7 +1276,7 @@ module Api
       assert_equal "", result[1]
 
       cs = Changeset.find(new_cs_id)
-      assert_equal true, cs.is_open?
+      assert cs.is_open?
       assert_equal({ "comment" => "new", "source" => "new" }, cs.tags)
 
       old_cs_id = new_cs_id
@@ -1294,11 +1294,11 @@ module Api
       assert_equal "", result[1]
 
       cs = Changeset.find(old_cs_id)
-      assert_equal false, cs.is_open?
+      assert_not cs.is_open?
       assert_equal({ "comment" => "newer", "source" => "new" }, cs.tags)
 
       cs = Changeset.find(new_cs_id)
-      assert_equal true, cs.is_open?
+      assert cs.is_open?
       assert_equal({ "comment" => "newer", "source" => "newer" }, cs.tags)
 
       old_cs_id = new_cs_id
@@ -1314,7 +1314,7 @@ module Api
       assert_nil result[2]
 
       cs = Changeset.find(old_cs_id)
-      assert_equal false, cs.is_open?
+      assert_not cs.is_open?
       assert_equal({ "comment" => "newer", "source" => "newer" }, cs.tags)
     end
 
@@ -1334,7 +1334,7 @@ module Api
       assert_equal "", result[1]
 
       cs = Changeset.find(cs_id)
-      assert_equal true, cs.is_open?
+      assert cs.is_open?
       assert_equal({ "comment" => "new", "source" => "new" }, cs.tags)
 
       post :amf_write, :body => amf_content("startchangeset", "/1", ["#{user2.email}:test", {}, cs_id, "delete", 0])
@@ -1347,7 +1347,7 @@ module Api
       assert_equal "The user doesn't own that changeset", result[1]
 
       cs = Changeset.find(cs_id)
-      assert_equal true, cs.is_open?
+      assert cs.is_open?
       assert_equal({ "comment" => "new", "source" => "new" }, cs.tags)
     end
 
@@ -1369,7 +1369,7 @@ module Api
       assert_equal "", result[1]
 
       cs = Changeset.find(new_cs_id)
-      assert_equal true, cs.is_open?
+      assert cs.is_open?
       assert_equal({ "comment" => "foobar" }, cs.tags)
     end
 

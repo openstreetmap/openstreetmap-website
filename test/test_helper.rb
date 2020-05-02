@@ -28,6 +28,9 @@ module ActiveSupport
     include FactoryBot::Syntax::Methods
     include ActiveJob::TestHelper
 
+    # Run tests in parallel with specified workers
+    parallelize(:workers => :number_of_processors)
+
     ##
     # takes a block which is executed in the context of a different
     # ActionController instance. this is used so that code can call methods
@@ -116,9 +119,25 @@ module ActiveSupport
     end
 
     ##
+    # return request header for HTTP Basic Authorization
+    def basic_authorization_header(user, pass)
+      { "Authorization" => format("Basic %{auth}", :auth => Base64.encode64("#{user}:#{pass}")) }
+    end
+
+    ##
+    # set request header for HTTP Accept
+    def http_accept_format(format)
+      @request.env["HTTP_ACCEPT"] = format
+    end
+
+    ##
     # set request readers to ask for a particular error format
     def error_format(format)
       @request.env["HTTP_X_ERROR_FORMAT"] = format
+    end
+
+    def error_format_header(f)
+      { "X-Error-Format" => f }
     end
 
     ##
@@ -174,6 +193,11 @@ module ActiveSupport
       fill_in "username", :with => user.email
       fill_in "password", :with => "test"
       click_on "Login", :match => :first
+    end
+
+    def session_for(user)
+      post login_path, :params => { :username => user.display_name, :password => "test" }
+      follow_redirect!
     end
 
     def xml_for_node(node)

@@ -3,6 +3,49 @@ class ApiController < ApplicationController
 
   private
 
+  ##
+  # Set allowed request formats if no explicit format has been
+  # requested via a URL suffix. Allowed formats are taken from
+  # any HTTP Accept header with XML as the default.
+  def set_request_formats
+    unless params[:format]
+      accept_header = request.headers["HTTP_ACCEPT"]
+
+      if accept_header
+        # Some clients (such asJOSM) send Accept headers which cannot be
+        # parse by Rails, for example:
+        #
+        #   Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        #
+        # where both "*" and ".2" as a quality do not adhere to the syntax
+        # described in RFC 7231, section 5.3.1, etc.
+        #
+        # As a workaround, and for back compatibility, default to XML format.
+        mimetypes = begin
+                      Mime::Type.parse(accept_header)
+                    rescue Mime::Type::InvalidMimeType
+                      Array(Mime[:xml])
+                    end
+
+        # Allow XML and JSON formats, and treat an all formats wildcard
+        # as XML for backwards compatibility - all other formats are discarded
+        # which will result in a 406 Not Acceptable response being sent
+        formats = mimetypes.map do |mime|
+          if mime.symbol == :xml then :xml
+          elsif mime.symbol == :json then :json
+          elsif mime == "*/*" then :xml
+          end
+        end
+      else
+        # Default to XML if no accept header was sent - this includes
+        # the unit tests which don't set one by default
+        formats = Array(:xml)
+      end
+
+      request.formats = formats.compact
+    end
+  end
+
   def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
     # make the current_user object from any auth sources we have
     setup_user_auth

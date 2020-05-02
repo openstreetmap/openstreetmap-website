@@ -5,8 +5,10 @@
 # Author: Alex73
 # Author: Artsiom91
 # Author: Goshaproject
+# Author: Jhnrvr
 # Author: Jim-by
 # Author: Macofe
+# Author: Maksim L.
 # Author: Mechanizatar
 # Author: Unomano
 # Author: Дзяніс Тутэйшы
@@ -44,7 +46,7 @@ be:
     errors:
       messages:
         invalid_email_address: не падобны на карэктны адрас электроннай пошты
-        email_address_not_routable: мемагчыма пракласці маршрут
+        email_address_not_routable: немагчыма пракласці маршрут
     models:
       acl: Спіс правоў доступу
       changeset: Пакет правак
@@ -53,6 +55,7 @@ be:
       diary_comment: Каментар дзённіка
       diary_entry: Запіс дзённіка
       friend: Сябар
+      issue: Праблема
       language: Мова
       message: Паведамленне
       node: Пункт
@@ -69,6 +72,7 @@ be:
       relation: Дачыненне
       relation_member: Удзельнік дачынення
       relation_tag: Тэг дачынення
+      report: Справаздача
       session: Сеанс
       trace: След
       tracepoint: Пункт следу
@@ -115,9 +119,66 @@ be:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: прыкладна гадзіну таму
+        one: прыкладна 1 гадзіну таму
+        few: прыкладна %{count} гадзіны таму
+        many: прыкладна %{count} гадзін таму
         other: прыкладна %{count} гадзін(ы) таму
+      about_x_months:
+        one: прыкладна 1 месяц таму
+        few: прыкладна %{count} месяцы таму
+        many: прыкладна %{count} месяцаў таму
+        other: прыкладна %{count} месяцы(аў) таму
+      about_x_years:
+        one: прыкладна 1 год таму
+        few: прыкладна %{count} гады таму
+        many: прыкладна %{count} гадоў таму
+        other: прыкладна %{count} гады(оў) таму
+      almost_x_years:
+        one: амаль 1 год таму
+        few: амаль %{count} гады таму
+        many: амаль %{count} гадоў таму
+        other: амаль %{count} гады(оў) таму
       half_a_minute: паўхвіліны таму
+      less_than_x_seconds:
+        one: менш за секунду таму
+        few: менш за %{count} секунды таму
+        many: менш за %{count} секунд таму
+        other: менш за %{count} секунд(ы) таму
+      less_than_x_minutes:
+        one: менш за хвіліну таму
+        few: менш за %{count} хвіліны таму
+        many: менш за %{count} хвілін таму
+        other: менш за %{count} хвілін(ы) таму
+      over_x_years:
+        one: больш за год таму
+        few: больш за %{count} гады таму
+        many: больш за %{count} гадоў таму
+        other: больш за %{count} гады(оў) таму
+      x_seconds:
+        one: 1 секунду таму
+        few: '%{count} секунды таму'
+        many: '%{count} секунд таму'
+        other: '%{count} секунд(ы) таму'
+      x_minutes:
+        one: 1 хвіліну таму
+        few: '%{count} хвіліны таму'
+        many: '%{count} хвілін таму'
+        other: '%{count} хвілін(ы) таму'
+      x_days:
+        one: 1 дзень таму
+        few: '%{count} дні таму'
+        many: '%{count} дзён таму'
+        other: '%{count} дзён таму'
+      x_months:
+        one: 1 месяц таму
+        few: '%{count} месяцы таму'
+        many: '%{count} месяцаў таму'
+        other: '%{count} месяцы(аў) таму'
+      x_years:
+        one: 1 год таму
+        few: '%{count} гады таму'
+        many: '%{count} гадоў таму'
+        other: '%{count} гады(оў) таму'
   editor:
     default: Тыповы (зараз %{name})
     potlatch:
@@ -132,17 +193,26 @@ be:
     remote:
       name: Вонкавы рэдактар
       description: вонкавага рэдактара (JOSM або Merkaartor)
+  auth:
+    providers:
+      none: Няма
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Вікіпедыя
   api:
     notes:
       comment:
-        opened_at_html: Створана %{when} таму
-        opened_at_by_html: Створана %{when} таму %{user}
-        commented_at_html: Абноўлена %{when} таму
-        commented_at_by_html: Абноўлена %{when} таму %{user}
-        closed_at_html: Вырашана %{when} таму
-        closed_at_by_html: Вырашаны %{when} таму %{user}
-        reopened_at_html: Пераадкрыта %{when} таму
-        reopened_at_by_html: Пераадкрыта %{when} таму %{user}
+        opened_at_html: Створана %{when}
+        opened_at_by_html: Створана %{when} удзельнікам %{user}
+        commented_at_html: Абноўлена %{when}
+        commented_at_by_html: Абноўлена %{when} удзельнікам %{user}
+        closed_at_html: Вырашана %{when}
+        closed_at_by_html: Вырашаны %{when} удзельнікам %{user}
+        reopened_at_html: Пераадкрыта %{when}
+        reopened_at_by_html: Пераадкрыта %{when} удзельнікам %{user}
       rss:
         title: Заўвагі OpenStreetMap
         description_area: Спіс заўваг створаных, пракаментаваных ці вырашаных у вашым
@@ -183,9 +253,8 @@ be:
       relation: Дачыненні (%{count})
       relation_paginated: Дачыненні (%{x}-%{y} з %{count})
       comment: Каментары (%{count})
-      hidden_commented_by: Схаваны каментар ад %{user} <abbr title='%{exact_time}'>%{when}
-        таму</abbr>
-      commented_by: Каментар ад %{user} <abbr title='%{exact_time}'>%{when} таму</abbr>
+      hidden_commented_by: Схаваны каментарый ад %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Каментарый ад %{user} <abbr title='%{exact_time}'>%{when} </abbr>
       changesetxml: XML пакета правак
       osmchangexml: osmChange XML
       feed:
@@ -255,6 +324,7 @@ be:
         tag: Вікі-старонка апісання тэгу %{key}=%{value}
       wikidata_link: Элемент %{page} у Вікідадзеных
       wikipedia_link: Артыкул %{page} на Вікіпедыі
+      wikimedia_commons_link: '%{page} ў Вікісховішчы'
       telephone_link: Патэлефанаваць %{phone_number}
       colour_preview: Прагляд колеру %{colour_value}
     note:
@@ -264,20 +334,16 @@ be:
       open_title: 'Нявырашаная заўвага #%{note_name}'
       closed_title: 'Вырашаная заўвага #%{note_name}'
       hidden_title: 'Схаваная заўвага #%{note_name}'
-      opened_by: Створана %{user} <abbr title='%{exact_time}'>%{when} таму</abbr>
-      opened_by_anonymous: Створана ананімным карыстальнікам <abbr title='%{exact_time}'>%{when}
-        таму</abbr>
-      commented_by: Каментар ад %{user} <abbr title='%{exact_time}'>%{when} таму</abbr>
-      commented_by_anonymous: Ананінмы каментар <abbr title='%{exact_time}'>%{when}
-        таму</abbr>
-      closed_by: Вырашана %{user} <abbr title='%{exact_time}'>%{when} таму</abbr>
-      closed_by_anonymous: Вырашана ананімным карыстальнікам <abbr title='%{exact_time}'>%{when}
-        таму</abbr>
-      reopened_by: Паўторна актывавана %{user} <abbr title='%{exact_time}'>%{when}
-        таму</abbr>
-      reopened_by_anonymous: Пераадкрыта ананімным карыстальнікам <abbr title='%{exact_time}'>%{when}
-        таму</abbr>
-      hidden_by: Схавана %{user} <abbr title='%{exact_time}'>%{when} таму</abbr>
+      opened_by: Створана %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous: Створана ананімным карыстальнікам <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Каментарый ад %{user} <abbr title='%{exact_time}'>%{when} </abbr>
+      commented_by_anonymous: Ананімны каментарый <abbr title='%{exact_time}'>%{when}
+        </abbr>
+      closed_by: Вырашана ўдзельнікам %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Вырашана ананімным удзельнікам <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Паўторна актывавана ўдзельнікам %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Пераадкрыта ананімным удзельнікам <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Схавана ўдзельнікам %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Паскардзіцца на гэтую заўвагу
     query:
       title: Пошук аб’ектаў
@@ -316,7 +382,7 @@ be:
   changeset_comments:
     comment:
       comment: Новы каментар на пакет правак %{changeset_id} ад %{author}
-      commented_at_by_html: Абноўлена %{when} таму %{user}
+      commented_at_by_html: Абноўлена %{when} удзельнікам %{user}
     comments:
       comment: Новы каментар на пакет правак %{changeset_id} ад %{author}
     index:
@@ -371,11 +437,13 @@ be:
         other: 'Каментароў: %{count}'
       edit_link: Правіць гэты запіс
       hide_link: Схаваць гэты запіс
+      unhide_link: Паказаць гэты запіс
       confirm: Пацвердзіць
       report: Паскардзіцца на гэты запіс
     diary_comment:
       comment_from_html: Каментар ад %{link_user} у %{comment_created_at}
       hide_link: Схаваць гэты каментар
+      unhide_link: Паказаць гэты каментарый
       confirm: Пацвердзіць
       report: Паскардзіцца на гэты каментар
     location:
@@ -1011,8 +1079,8 @@ be:
       status: Статус
       reports: Скаргі
       last_updated: Апошняе змяненне
-      last_updated_time_html: <abbr title='%{title}'>%{time} таму</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} таму</abbr> карыстальнікам
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> удзельнікам
         %{user}
       link_to_reports: Глядзець скаргі
       reports_count:
@@ -1052,9 +1120,10 @@ be:
     reopen:
       reopened: Статус праблемы быў зменены на «Адкрыта»
     comments:
+      comment_from_html: Каментарый ад %{user_link} у %{comment_created_at}
       reassign_param: Пераназначыць праблему?
     reports:
-      reported_by_html: Паведамлена як %{category} карыстальнікам %{user}
+      reported_by_html: Паведамлена як %{category} удзельнікам %{user} у %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, каментар #%{comment_id}'
@@ -1182,8 +1251,14 @@ be:
         more_info_2: 'збой,  можна знайсці тут:'
       success:
         subject: '[OpenStreetMap] Паспяховы імпарт GPX'
-        loaded_successfully: паспяхова загружаны з %{trace_points} з магчымых %{possible_points}
-          кропак.
+        loaded_successfully:
+          one: паспяхова загружаны (%{trace_points} з магчымага 1 пункта).
+          few: паспяхова загружаны (%{trace_points} з магчымых %{possible_points}
+            пунктаў).
+          many: паспяхова загружаны (%{trace_points} з магчымых %{possible_points}
+            пунктаў).
+          other: паспяхова загружаны (%{trace_points} з магчымых %{possible_points}
+            пунктаў).
     signup_confirm:
       subject: '[OpenStreetMap] Сардэчна запрашаем у OpenStreetMap'
       greeting: Прывітанне!
@@ -1255,10 +1330,10 @@ be:
           зменаў'
         subject_other: '[OpenStreetMap] %{commenter} пракаментаваў цікавы вам набор
           зменаў'
-        your_changeset: '%{commenter} пакінуў каментар на адзін з вашых набораў зменаў,
-          створаных %{time}'
-        commented_changeset: '%{commenter}% пакінуў каментар да набору зменаў, які
-          вы адсочваеце і што быў створаны %{changeset_author} %{time}'
+        your_changeset: '%{commenter} пакінуў каментарый на адзін з вашых набораў
+          змен, створаных %{time}'
+        commented_changeset: '%{commenter}% у %{time} пакінуў каментарый да набору
+          змен ад %{changeset_author}, за якім вы назіраеце'
         partial_changeset_with_comment: з каментаром '%{changeset_comment}'
         partial_changeset_without_comment: без каментароў
       details: Дадатковыя звесткі аб наборы зьменаў можна знайсці ў %{url}.
@@ -1367,9 +1442,13 @@ be:
         \nліцэнзія</a>, каб атрымаць падрабязную інфармацыю."
       legal_title: Прававыя пытанні
       legal_1_html: |-
-        Гэты сайт і многія іншыя звязаныя паслугі фармальна кіруюцца <a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) ад імя супольнасці.
+        Гэты сайт і многія іншыя звязаныя сэрвісы фармальна кіруюцца <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) ад імя супольнасці.
+        Выкарыстанне сэрвісаў OSMF рэгулюецца <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Умовамі карыстання</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Палітыкай дазволенага карыстання</a>, <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Палітыкай прыватнасці</a>.
+      legal_2_html: |-
+        Калі ласка, <a href='https://osmfoundation.org/Contact'>звярніцеся да OSMF</a>, калі ў вас есць ліцэнзійныя, аўтарскія ці іншыя прававыя пытанні.
         <br>
-        Калі ласка, <a href="http://osmfoundation.org/Contact">звярніцеся да OSMF</a>, калі ў вас есць ліцэнзійныя, аўтарскія ці іншыя прававыя пытанні і праблемы.
+        OpenStreetMap, лагатып павелічальнага шкла і State of the Map з'яўляюцца <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">зарэгістраванымі гандлёвымі маркамі OSMF</a>.
       partners_title: Партнёры
     copyright:
       foreign:
@@ -1612,8 +1691,8 @@ be:
         description: Супольнасць падтрымлівае дапаможнік для пачаткоўцаў.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: Задаць пытанне або знайсці адказы на сайце пытанняў і адказаў
+        title: Пытанні і адказы
+        description: Задайце пытанне або шукайце адказы на сайце пытанняў і адказаў
           OSM.
       mailing_lists:
         title: Рассылкі
@@ -1638,7 +1717,7 @@ be:
       wiki:
         url: http://wiki.openstreetmap.org/
         title: Вікі OpenStreetMap
-        description: Паглядзець вікі з падрабязнай дакументацыяй па OSM
+        description: Паглядзець вікі з падрабязнай дакументацыяй па OpenStreetMap
     sidebar:
       search_results: Вынікі пошуку
       close: Закрыць
@@ -1866,7 +1945,11 @@ be:
       newer: Свежыя сляды
     trace:
       pending: У ЧАРЗЕ
-      count_points: '%{count} пунктаў'
+      count_points:
+        one: 1 пункт
+        few: '%{count} пункты'
+        many: '%{count} пунктаў'
+        other: '%{count} пункты(аў)'
       more: яшчэ
       trace_details: Прагледзець уласцівасці следу
       view_map: Прагледзець карту
@@ -1884,7 +1967,7 @@ be:
       my_traces: Мае GPS-сляды
       public_traces_from: Агульныя GPS-сляды карыстальніка %{user}
       description: Агляд нядаўна дададзеных GPS-слядоў
-      tagged_with: ' адмечана як %{tags}'
+      tagged_with: 'з тэгамі: %{tags}'
       empty_html: Пакуль тут нічога няма. <a href='%{upload_link}'>Загрузіце новы
         след</a> або пачытайце пра GPS-сляды на <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вікі-старонцы</
         a>.
@@ -2124,6 +2207,14 @@ be:
       title: Умовы
       heading: Умовы
       heading_ct: Умовы ўдзелу
+      read and accept with tou: Калі ласка, азнаёмцеся з пагадненнем удзельнікаў і
+        з умовамі карыстання, пасля чаго пастаўце абедзьве птушкі і націсніце кнопку
+        "Працягнуць".
+      contributor_terms_explain: Гэтае пагадненне регулюе ўмовы вашага існага і будучага
+        ўкладу.
+      read_ct: Я прачытаў і пагаджаюся з пагадненнем удзельнікаў.
+      tou_explain_html: '%{tou_link} кіруе сайтам і іншай інфраструктурай OSMF. Калі
+        ласка, прайдзіце па спасылцы і азнаёмцеся з тэкстам.'
       read_tou: Я згаджаюся з Умовамі выкарыстання
       consider_pd: У дадатак да прыведзенага пагаднення, я пацвярджаю, што мой уклад
         знаходзіцца ў грамадскім набытку
@@ -2171,7 +2262,7 @@ be:
       ct status: 'Умовы ўдзелу:'
       ct undecided: Нявырашана
       ct declined: Адхіленыя
-      latest edit: 'Апошняе рэдагаванне %{ago}:'
+      latest edit: 'Апошняе рэдагаванне (%{ago}):'
       email address: 'Адрас электроннай пошты:'
       created from: 'Створана з:'
       status: 'Статус:'
@@ -2434,7 +2525,7 @@ be:
       title: Зняць блакіроўку з %{block_on}
       heading_html: Зняць блакіроўку з %{block_on}, створаную %{block_by}
       time_future: Гэтая блакіроўка скончыцца ў %{time}.
-      past: Гэтая блакіроўка скончылася %{time} таму і не можа быць цяпер адклікана.
+      past: Гэтая блакіроўка скончылася %{time} і не можа быць цяпер адклікана.
       confirm: Вы ўпэўнены, што жадаеце адклікаць гэтую блакіроўку?
       revoke: Адазваць!
       flash: Гэтая блакіроўка была адклікана.
@@ -2545,9 +2636,16 @@ be:
         out: Паменшыць
       locate:
         title: Паказаць маё месцазнаходжанне
-        metersUnit: метры
-        feetUnit: футы
-        popup: Вы знаходзіцеся ў межах {distance} {unit} ад гэтага пункта
+        metersPopup:
+          one: Вы знаходзіцеся ў адным метры ад гэтага пункту
+          few: Вы знаходзіцеся ў %{count} метрах ад гэтага пункту
+          many: Вы знаходзіцеся ў %{count} метрах ад гэтага пункту
+          other: Вы знаходзіцеся ў %{count} метрах ад гэтага пункту
+        feetPopup:
+          one: Вы знаходзіцеся ў адным фуце ад гэтага пункту
+          few: Вы знаходзіцеся ў %{count} футах ад гэтага пункту
+          many: Вы знаходзіцеся ў %{count} футах ад гэтага пункту
+          other: Вы знаходзіцеся ў %{count} футах ад гэтага пункту
       base:
         standard: Звычайная карта
         cycle_map: Веласіпедная карта
@@ -2562,6 +2660,10 @@ be:
         title: Слаі
       copyright: © <a href='%{copyright_url}'>OpenStreetMap contributors</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Зрабіць ахвяраванне</a>
+      terms: <a href='%{terms_url}' target='_blank'>Умовы выкарыстання сайта і API</a>
+      thunderforest: Тайлы прадастаўлены <a href="%{thunderforest_url}">Andy Allan</a>
+      hotosm: Афармленне тайлаў <a href="%{hotosm_url}">Humanitarian OpenStreetMap
+        Team</a>, хостынг ад <a href="%{osmfrance_url}">OpenStreetMap France</a>
     site:
       edit_tooltip: Рэдагаваць карту
       edit_disabled_tooltip: Наблізце, каб рэдагаваць карту

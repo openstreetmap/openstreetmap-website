@@ -1,11 +1,13 @@
 inherit_from: .rubocop_todo.yml
 
 require:
+  - rubocop-minitest
   - rubocop-performance
   - rubocop-rails
 
 AllCops:
   TargetRubyVersion: 2.5
+  NewCops: enable
   Exclude:
     - 'vendor/**/*'
 
@@ -28,6 +30,9 @@ Metrics/BlockLength:
 Metrics/ClassLength:
   Exclude:
     - 'test/**/*'
+
+Metrics/ModuleLength:
+  Max: 150
 
 Naming/FileName:
   Exclude:
@@ -58,9 +63,6 @@ Rails/SkipsModelValidations:
     - 'db/migrate/*.rb'
     - 'app/controllers/users_controller.rb'
 
-Style/BracesAroundHashParameters:
-  EnforcedStyle: context_dependent
-
 Style/Documentation:
   Enabled: false
 
@@ -73,11 +75,20 @@ Style/IfInsideElse:
 Style/GuardClause:
   Enabled: false
 
+Style/HashEachMethods:
+  Enabled: true
+
 Style/HashSyntax:
   EnforcedStyle: hash_rockets
   Exclude:
     - 'lib/tasks/testing.rake'
     - 'config/initializers/wrap_parameters.rb'
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 Style/MixinUsage:
   Exclude:

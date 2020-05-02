@@ -185,6 +185,8 @@ class ApplicationController < ActionController::Base
 
   def api_call_handle_error
     yield
+  rescue ActionController::UnknownFormat
+    head :not_acceptable
   rescue ActiveRecord::RecordNotFound => e
     head :not_found
   rescue LibXML::XML::Error, ArgumentError => e

@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "6.0.2.1"
+gem "rails", "6.0.2.2"
 
 # Require things which have moved to gems in ruby 1.9
 gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
@@ -143,25 +143,19 @@ end
 
 # Gems needed for running tests
 group :test do
-  gem "cucumber-rails", :require => false
-  # database_cleaner is not required, but highly recommended
-  gem "database_cleaner"
-  gem "fakefs", :require => "fakefs/safe"
-  gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
-  gem "rails-controller-testing"
-  gem "rubocop"
-  gem "rubocop-performance"
-  gem "rubocop-rails"
-  gem "webmock"
-end
-
-# Needed in development as well so rake can see konacha tasks
-group :development, :test do
   gem "capybara", ">= 2.15"
   gem "coveralls", :require => false
+  gem "cucumber-rails", :require => false
+  gem "database_cleaner"
   gem "erb_lint", :require => false
   gem "factory_bot_rails"
-  gem "poltergeist"
+  gem "minitest", "~> 5.1"
   gem "puma", "~> 3.11"
+  gem "rails-controller-testing"
+  gem "rubocop"
+  gem "rubocop-minitest"
+  gem "rubocop-performance"
+  gem "rubocop-rails"
   gem "selenium-webdriver"
+  gem "webmock"
 end

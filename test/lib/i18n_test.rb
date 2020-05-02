@@ -36,19 +36,19 @@ class I18nTest < ActiveSupport::TestCase
               next if subvalue.nil?
 
               subvalue.scan(/%\{(\w+)\}/) do
-                assert variables.include?(Regexp.last_match(1)), "#{key}.#{subkey} uses unknown interpolation variable #{Regexp.last_match(1)}"
+                assert_includes variables, Regexp.last_match(1), "#{key}.#{subkey} uses unknown interpolation variable #{Regexp.last_match(1)}"
               end
             end
           else
             assert value.is_a?(String), "#{key} is not a string"
 
             value.scan(/%\{(\w+)\}/) do
-              assert variables.include?(Regexp.last_match(1)), "#{key} uses unknown interpolation variable #{Regexp.last_match(1)}"
+              assert_includes variables, Regexp.last_match(1), "#{key} uses unknown interpolation variable #{Regexp.last_match(1)}"
             end
           end
         end
 
-        assert %w[ltr rtl].include?(I18n.t("html.dir", :locale => locale)), "html.dir must be ltr or rtl"
+        assert_includes %w[ltr rtl], I18n.t("html.dir", :locale => locale), "html.dir must be ltr or rtl"
       end
     end
   end

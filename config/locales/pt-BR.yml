@@ -23,6 +23,7 @@
 # Author: Gusta
 # Author: Jgpacker
 # Author: L
+# Author: Leonardo9387
 # Author: Leosls
 # Author: Luckas
 # Author: Luckas Blade
@@ -38,6 +39,7 @@
 # Author: Rodrigo Avila
 # Author: Rodrigo codignoli
 # Author: Ruila
+# Author: Trigonometria87
 # Author: Tuliouel
 # Author: Vgeorge
 # Author: Vitalb
@@ -89,6 +91,7 @@ pt-BR:
       diary_comment: Comentário do diário
       diary_entry: Publicação do diário
       friend: Amigo
+      issue: Problema
       language: Idioma
       message: Mensagem
       node: Nó
@@ -103,8 +106,9 @@ pt-BR:
       old_way_node: Nó de linha antiga
       old_way_tag: Etiqueta de linha antiga
       relation: Relação
-      relation_member: Membros da relação
+      relation_member: Membro da relação
       relation_tag: Etiqueta de relação
+      report: Relatório
       session: Sessão
       trace: Trilha
       tracepoint: Ponto de trilha
@@ -204,6 +208,15 @@ pt-BR:
     remote:
       name: Controle Rrmoto
       description: Controle remoto (JOSM ou Merkaartor)
+  auth:
+    providers:
+      none: Nenhum
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipédia
   api:
     notes:
       comment:
@@ -299,7 +312,7 @@ pt-BR:
         changeset: conjunto de alterações
         note: Nota
     timeout:
-      sorry: Os dados para %{type} com id %{id} estão demorando demais para chegar.
+      sorry: Desculpe, os dados para %{type} com id %{id} demoraram demais para chegar.
       type:
         node: ponto
         way: linha
@@ -1263,7 +1276,7 @@ pt-BR:
       success:
         subject: '[OpenStreetMap] Sucesso ao importar arquivo GPX'
         loaded_successfully: |-
-          carregado com sucesso com %{trace_points} pontos além dos
+          carregado com sucesso com %{trace_points} de um 1 possível ponto.|carregado com sucesso com %{trace_points} de um possível
           %{possible_points} pontos possíveis."
     signup_confirm:
       subject: '[OpenStreetMap] Bem-vindo(a) ao OpenStreetMap'
@@ -2440,8 +2453,8 @@ pt-BR:
       hide: Ocultar Usuários Selecionados
       empty: Não há usuários correspondentes
     suspended:
-      title: Conta Suspensa
-      heading: Conta Suspensa
+      title: Conta suspensa
+      heading: Conta suspensa
       webmaster: webmaster
       body_html: |-
         <p>
@@ -2593,7 +2606,7 @@ pt-BR:
       display_name: Usuário bloqueado
       creator_name: Criador
       reason: Razão para o bloqueio
-      status: Estado
+      status: Status
       revoker_name: Retirado por
       showing_page: Página %{page}
       next: Próximo »
@@ -2641,25 +2654,33 @@ pt-BR:
         in: Aproximar
         out: Afastar
       locate:
-        title: Exibir Minha Localização
-        metersUnit: metros
-        feetUnit: pés
-        popup: Você está a menos de {distance} {unit} deste ponto
+        title: Exibir minha localização
+        metersPopup:
+          one: Você está dentro de um metro deste ponto
+          other: Você está dentro %{count} metros deste ponto
+        feetPopup:
+          one: Você está dentro de um pé deste ponto
+          other: Você está dentro %{count} pés deste ponto
       base:
         standard: Padrão
         cycle_map: Ciclístico
         transport_map: Transporte Público
         hot: Humanitário
       layers:
-        header: Camadas do Mapa
-        notes: Notas de Mapa
-        data: Dados do Mapa
+        header: Camadas do mapa
+        notes: Notas de mapa
+        data: Dados do mapa
         gps: Trilhas de GPS públicas
         overlays: Ativar sobreposições para solucionar problemas do mapa
         title: Camadas
       copyright: © <a href='%{copyright_url}'>contribuidores do OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Fazer uma doação</a>
       terms: <a href='%{terms_url}' target='_blank'>Termos do site e da API</a>
+      thunderforest: Mosaicos cortesia de <a href='%{thunderforest_url}' target='_blank'>Andy
+        Allan</a>
+      hotosm: Estilo de ladrilhos por <a href='%{hotosm_url}' target='_blank'>Equipe
+        de Humanitarian OpenStreetMap</a> hospedado por <a href='%{osmfrance_url}'
+        target='_blank'>OpenStreetMap França</a>
     site:
       edit_tooltip: Edite o mapa
       edit_disabled_tooltip: Aproxime para editar o mapa
@@ -2691,7 +2712,7 @@ pt-BR:
         hide: Esconder
         resolve: Marcar como Resolvido
         reactivate: Reativar
-        comment_and_resolve: Comentar e Resolver
+        comment_and_resolve: Comentar e resolver
         comment: Comentar
     edit_help: Mover o mapa e ampliar uma localização que pretende editar e clique
       aqui.
@@ -2769,7 +2790,7 @@ pt-BR:
         against_oneway_without_exit: Vá contra o sentido da mão única em %{name}
         end_oneway_without_exit: Final de mão única em %{name}
         roundabout_with_exit: Na rotatória, pegue a saída %{exit} para %{name}
-        roundabout_with_exit_ordinal: Na rotatória, pegue %{exit} sair para %{name}
+        roundabout_with_exit_ordinal: Na rotatória, pegue %{exit} saída para %{name}
         exit_roundabout: Saia da rotatória para %{name}
         unnamed: sem nome
         courtesy: Itinerário cortesia de %{link}
@@ -2793,8 +2814,8 @@ pt-BR:
       error: 'Erro ao contatar %{server}: %{error}'
       timeout: Tempo esgotado com %{server}
     context:
-      directions_from: Início da Rota
-      directions_to: Destino da Rota
+      directions_from: Início da rota
+      directions_to: Destino da rota
       add_note: Adicionar uma nota aqui
       show_address: Mostrar endereço
       query_features: Consultar elementos

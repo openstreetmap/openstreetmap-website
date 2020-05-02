@@ -30,7 +30,7 @@ These can be installed on Ubuntu 18.04 or later with:
 sudo apt-get update
 sudo apt-get install ruby2.5 libruby2.5 ruby2.5-dev bundler \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
-                     apache2 apache2-dev build-essential git-core phantomjs \
+                     apache2 apache2-dev build-essential git-core firefox-geckodriver \
                      postgresql postgresql-contrib libpq-dev libsasl2-dev \
                      imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev
 sudo gem2.5 install bundler
@@ -95,11 +95,11 @@ You will need to tell `bundler` that `libxml2` is installed in a Homebrew locati
 bundle config build.libxml-ruby --with-xml2-config=/usr/local/opt/libxml2/bin/xml2-config
 ```
 
-If you want to run the tests, you need `phantomjs` as well:
+If you want to run the tests, you need `geckodriver` as well:
 
 ```
 brew tap homebrew/cask
-brew cask install phantomjs
+brew cask install geckodriver
 ```
 
 Note that OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.

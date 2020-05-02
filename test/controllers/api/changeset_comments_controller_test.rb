@@ -125,38 +125,38 @@ module Api
     def test_destroy_comment_fail
       # unauthorized
       comment = create(:changeset_comment)
-      assert_equal true, comment.visible
+      assert comment.visible
 
       post :destroy, :params => { :id => comment.id }
       assert_response :unauthorized
-      assert_equal true, comment.reload.visible
+      assert comment.reload.visible
 
       basic_authorization create(:user).email, "test"
 
       # not a moderator
       post :destroy, :params => { :id => comment.id }
       assert_response :forbidden
-      assert_equal true, comment.reload.visible
+      assert comment.reload.visible
 
       basic_authorization create(:moderator_user).email, "test"
 
       # bad comment id
       post :destroy, :params => { :id => 999111 }
       assert_response :not_found
-      assert_equal true, comment.reload.visible
+      assert comment.reload.visible
     end
 
     ##
     # test hide comment succes
     def test_hide_comment_success
       comment = create(:changeset_comment)
-      assert_equal true, comment.visible
+      assert comment.visible
 
       basic_authorization create(:moderator_user).email, "test"
 
       post :destroy, :params => { :id => comment.id }
       assert_response :success
-      assert_equal false, comment.reload.visible
+      assert_not comment.reload.visible
     end
 
     ##
@@ -164,38 +164,38 @@ module Api
     def test_restore_comment_fail
       # unauthorized
       comment = create(:changeset_comment, :visible => false)
-      assert_equal false, comment.visible
+      assert_not comment.visible
 
       post :restore, :params => { :id => comment.id }
       assert_response :unauthorized
-      assert_equal false, comment.reload.visible
+      assert_not comment.reload.visible
 
       basic_authorization create(:user).email, "test"
 
       # not a moderator
       post :restore, :params => { :id => comment.id }
       assert_response :forbidden
-      assert_equal false, comment.reload.visible
+      assert_not comment.reload.visible
 
       basic_authorization create(:moderator_user).email, "test"
 
       # bad comment id
       post :restore, :params => { :id => 999111 }
       assert_response :not_found
-      assert_equal false, comment.reload.visible
+      assert_not comment.reload.visible
     end
 
     ##
     # test unhide comment succes
     def test_unhide_comment_success
       comment = create(:changeset_comment, :visible => false)
-      assert_equal false, comment.visible
+      assert_not comment.visible
 
       basic_authorization create(:moderator_user).email, "test"
 
       post :restore, :params => { :id => comment.id }
       assert_response :success
-      assert_equal true, comment.reload.visible
+      assert comment.reload.visible
     end
 
     # This test ensures that token capabilities behave correctly for a method that

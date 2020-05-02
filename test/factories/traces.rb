@@ -19,12 +19,12 @@ FactoryBot.define do
 
     after(:create) do |trace, evaluator|
       if evaluator.fixture
-        File.symlink(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}.gpx"),
-                     Rails.root.join("test", "gpx", "traces", "#{trace.id}.gpx"))
-        File.symlink(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}.gif"),
-                     Rails.root.join("test", "gpx", "images", "#{trace.id}.gif"))
-        File.symlink(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}_icon.gif"),
-                     Rails.root.join("test", "gpx", "images", "#{trace.id}_icon.gif"))
+        FileUtils.copy(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}.gpx"),
+                       File.join(Settings.gpx_trace_dir, "#{trace.id}.gpx"))
+        FileUtils.copy(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}.gif"),
+                       File.join(Settings.gpx_image_dir, "#{trace.id}.gif"))
+        FileUtils.copy(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}_icon.gif"),
+                       File.join(Settings.gpx_image_dir, "#{trace.id}_icon.gif"))
       end
     end
   end

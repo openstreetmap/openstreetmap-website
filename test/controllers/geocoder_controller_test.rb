@@ -1,6 +1,6 @@
 require "test_helper"
 
-class GeocoderControllerTest < ActionController::TestCase
+class GeocoderControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -37,10 +37,10 @@ class GeocoderControllerTest < ActionController::TestCase
   ##
   # Test identification with no arguments
   def test_identify_error
-    get :search
+    get search_path
     assert_response :bad_request
 
-    get :search, :xhr => true
+    get search_path, :xhr => true
     assert_response :bad_request
   end
 
@@ -240,9 +240,7 @@ class GeocoderControllerTest < ActionController::TestCase
       12345
       12345-6789
     ].each do |code|
-      post :search, :params => { :query => code }
-      assert_response :success
-      assert_equal %w[osm_nominatim], assigns(:sources)
+      search_check code, %w[osm_nominatim]
     end
   end
 
@@ -277,43 +275,43 @@ class GeocoderControllerTest < ActionController::TestCase
   ##
   # Test the builtin latitude+longitude search
   def test_search_latlon
-    get :search_latlon, :params => { :lat => 1.23, :lon => 4.56, :zoom => 16 }, :xhr => true
+    get geocoder_search_latlon_path(:lat => 1.23, :lon => 4.56, :zoom => 16), :xhr => true
     results_check :name => "1.23, 4.56", :lat => 1.23, :lon => 4.56, :zoom => 16
 
-    get :search_latlon, :params => { :lat => -91.23, :lon => 4.56, :zoom => 16 }, :xhr => true
+    get geocoder_search_latlon_path(:lat => -91.23, :lon => 4.56, :zoom => 16), :xhr => true
     results_check_error "Latitude -91.23 out of range"
 
-    get :search_latlon, :params => { :lat => 91.23, :lon => 4.56, :zoom => 16 }, :xhr => true
+    get geocoder_search_latlon_path(:lat => 91.23, :lon => 4.56, :zoom => 16), :xhr => true
     results_check_error "Latitude 91.23 out of range"
 
-    get :search_latlon, :params => { :lat => 1.23, :lon => -180.23, :zoom => 16 }, :xhr => true
+    get geocoder_search_latlon_path(:lat => 1.23, :lon => -180.23, :zoom => 16), :xhr => true
     results_check_error "Longitude -180.23 out of range"
 
-    get :search_latlon, :params => { :lat => 1.23, :lon => 180.23, :zoom => 16 }, :xhr => true
+    get geocoder_search_latlon_path(:lat => 1.23, :lon => 180.23, :zoom => 16), :xhr => true
     results_check_error "Longitude 180.23 out of range"
   end
 
   def test_search_latlon_digits
-    get :search_latlon, :params => { :lat => 1.23, :lon => 4.56, :zoom => 16, :latlon_digits => true }, :xhr => true
+    get geocoder_search_latlon_path(:lat => 1.23, :lon => 4.56, :zoom => 16, :latlon_digits => true), :xhr => true
     results_check({ :name => "1.23, 4.56", :lat => 1.23, :lon => 4.56, :zoom => 16 },
                   { :name => "4.56, 1.23", :lat => 4.56, :lon => 1.23, :zoom => 16 })
 
-    get :search_latlon, :params => { :lat => -91.23, :lon => 4.56, :zoom => 16, :latlon_digits => true }, :xhr => true
+    get geocoder_search_latlon_path(:lat => -91.23, :lon => 4.56, :zoom => 16, :latlon_digits => true), :xhr => true
     results_check :name => "4.56, -91.23", :lat => 4.56, :lon => -91.23, :zoom => 16
 
-    get :search_latlon, :params => { :lat => -1.23, :lon => 170.23, :zoom => 16, :latlon_digits => true }, :xhr => true
+    get geocoder_search_latlon_path(:lat => -1.23, :lon => 170.23, :zoom => 16, :latlon_digits => true), :xhr => true
     results_check :name => "-1.23, 170.23", :lat => -1.23, :lon => 170.23, :zoom => 16
 
-    get :search_latlon, :params => { :lat => 91.23, :lon => 94.56, :zoom => 16, :latlon_digits => true }, :xhr => true
+    get geocoder_search_latlon_path(:lat => 91.23, :lon => 94.56, :zoom => 16, :latlon_digits => true), :xhr => true
     results_check_error "Latitude or longitude are out of range"
 
-    get :search_latlon, :params => { :lat => -91.23, :lon => -94.56, :zoom => 16, :latlon_digits => true }, :xhr => true
+    get geocoder_search_latlon_path(:lat => -91.23, :lon => -94.56, :zoom => 16, :latlon_digits => true), :xhr => true
     results_check_error "Latitude or longitude are out of range"
 
-    get :search_latlon, :params => { :lat => 1.23, :lon => -180.23, :zoom => 16, :latlon_digits => true }, :xhr => true
+    get geocoder_search_latlon_path(:lat => 1.23, :lon => -180.23, :zoom => 16, :latlon_digits => true), :xhr => true
     results_check_error "Latitude or longitude are out of range"
 
-    get :search_latlon, :params => { :lat => 1.23, :lon => 180.23, :zoom => 16, :latlon_digits => true }, :xhr => true
+    get geocoder_search_latlon_path(:lat => 1.23, :lon => 180.23, :zoom => 16, :latlon_digits => true), :xhr => true
     results_check_error "Latitude or longitude are out of range"
   end
 
@@ -321,22 +319,20 @@ class GeocoderControllerTest < ActionController::TestCase
   # Test the Canadian postcode search
   def test_search_ca_postcode
     with_http_stubs "geocoder_ca" do
-      get :search_ca_postcode, :xhr => true,
-                               :params => { :query => "A1B 2C3", :zoom => 10,
-                                            :minlon => -0.559, :minlat => 51.217,
-                                            :maxlon => 0.836, :maxlat => 51.766 }
+      get geocoder_search_ca_postcode_path(:query => "A1B 2C3", :zoom => 10,
+                                           :minlon => -0.559, :minlat => 51.217,
+                                           :maxlon => 0.836, :maxlat => 51.766), :xhr => true
+
       results_check :name => "A1B 2C3", :lat => "47.172520", :lon => "-55.440515"
 
-      get :search_ca_postcode, :xhr => true,
-                               :params => { :query => "k1a 0b1", :zoom => 10,
-                                            :minlon => -0.559, :minlat => 51.217,
-                                            :maxlon => 0.836, :maxlat => 51.766 }
+      get geocoder_search_ca_postcode_path(:query => "k1a 0b1", :zoom => 10,
+                                           :minlon => -0.559, :minlat => 51.217,
+                                           :maxlon => 0.836, :maxlat => 51.766), :xhr => true
       results_check :name => "K1A 0B1", :lat => "45.375437", :lon => "-75.691041"
 
-      get :search_ca_postcode, :xhr => true,
-                               :params => { :query => "Q0Q 0Q0", :zoom => 10,
-                                            :minlon => -0.559, :minlat => 51.217,
-                                            :maxlon => 0.836, :maxlat => 51.766 }
+      get geocoder_search_ca_postcode_path(:query => "Q0Q 0Q0", :zoom => 10,
+                                           :minlon => -0.559, :minlat => 51.217,
+                                           :maxlon => 0.836, :maxlat => 51.766), :xhr => true
       results_check
     end
   end
@@ -345,19 +341,17 @@ class GeocoderControllerTest < ActionController::TestCase
   # Test the nominatim forward search
   def test_search_osm_nominatim
     with_http_stubs "nominatim" do
-      get :search_osm_nominatim, :xhr => true,
-                                 :params => { :query => "Hoddesdon", :zoom => 10,
-                                              :minlon => -0.559, :minlat => 51.217,
-                                              :maxlon => 0.836, :maxlat => 51.766 }
+      get geocoder_search_osm_nominatim_path(:query => "Hoddesdon", :zoom => 10,
+                                             :minlon => -0.559, :minlat => 51.217,
+                                             :maxlon => 0.836, :maxlat => 51.766), :xhr => true
       results_check "name" => "Hoddesdon, Hertfordshire, East of England, England, United Kingdom",
                     "min-lat" => 51.7216709, "max-lat" => 51.8016709,
                     "min-lon" => -0.0512898, "max-lon" => 0.0287102,
                     "type" => "node", "id" => 18007599
 
-      get :search_osm_nominatim, :xhr => true,
-                                 :params => { :query => "Broxbourne", :zoom => 10,
-                                              :minlon => -0.559, :minlat => 51.217,
-                                              :maxlon => 0.836, :maxlat => 51.766 }
+      get geocoder_search_osm_nominatim_path(:query => "Broxbourne", :zoom => 10,
+                                             :minlon => -0.559, :minlat => 51.217,
+                                             :maxlon => 0.836, :maxlat => 51.766), :xhr => true
       results_check({ "prefix" => "Suburb",
                       "name" => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
                       "min-lat" => 51.7265723, "max-lat" => 51.7665723,
@@ -380,16 +374,13 @@ class GeocoderControllerTest < ActionController::TestCase
   # Test the geonames forward search
   def test_search_geonames
     with_http_stubs "geonames" do
-      get :search_geonames, :xhr => true,
-                            :params => { :query => "Hoddesdon", :zoom => 10,
-                                         :minlon => -0.559, :minlat => 51.217,
-                                         :maxlon => 0.836, :maxlat => 51.766 }
+      get geocoder_search_geonames_path(:query => "Hoddesdon", :zoom => 10, :minlon => -0.559, :minlat => 51.217,
+                                        :maxlon => 0.836, :maxlat => 51.766), :xhr => true
       results_check :name => "Hoddesdon", :lat => 51.76148, :lon => -0.01144
 
-      get :search_geonames, :xhr => true,
-                            :params => { :query => "Broxbourne", :zoom => 10,
-                                         :minlon => -0.559, :minlat => 51.217,
-                                         :maxlon => 0.836, :maxlat => 51.766 }
+      get geocoder_search_geonames_path(:query => "Broxbourne", :zoom => 10,
+                                        :minlon => -0.559, :minlat => 51.217,
+                                        :maxlon => 0.836, :maxlat => 51.766), :xhr => true
       results_check({ :name => "Broxbourne", :lat => 51.74712, :lon => -0.01923 },
                     { :name => "Broxbourne District", :lat => 51.73026, :lon => -0.04821 },
                     { :name => "Cheshunt", :lat => 51.70791, :lon => -0.03739 },
@@ -414,20 +405,17 @@ class GeocoderControllerTest < ActionController::TestCase
   # Test the nominatim reverse search
   def test_search_osm_nominatim_reverse
     with_http_stubs "nominatim" do
-      get :search_osm_nominatim_reverse, :xhr => true,
-                                         :params => { :lat => 51.7632, :lon => -0.0076, :zoom => 15 }
+      get geocoder_search_osm_nominatim_reverse_path(:lat => 51.7632, :lon => -0.0076, :zoom => 15), :xhr => true
       results_check :name => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
                     :lat => 51.7465723, :lon => -0.0190782,
                     :type => "node", :id => 28825933, :zoom => 15
 
-      get :search_osm_nominatim_reverse, :xhr => true,
-                                         :params => { :lat => 51.7632, :lon => -0.0076, :zoom => 17 }
+      get geocoder_search_osm_nominatim_reverse_path(:lat => 51.7632, :lon => -0.0076, :zoom => 17), :xhr => true
       results_check :name => "Dinant Link Road, Broxbourne, Hertfordshire, East of England, England, EN11 8HX, United Kingdom",
                     :lat => 51.7634883, :lon => -0.0088373,
                     :type => "way", :id => 3489841, :zoom => 17
 
-      get :search_osm_nominatim_reverse, :xhr => true,
-                                         :params => { :lat => 13.7709, :lon => 100.50507, :zoom => 19 }
+      get geocoder_search_osm_nominatim_reverse_path(:lat => 13.7709, :lon => 100.50507, :zoom => 19), :xhr => true
       results_check :name => "MM Steak&Grill, ถนนศรีอยุธยา, บางขุนพรหม, กรุงเทพมหานคร, เขตดุสิต, กรุงเทพมหานคร, 10300, ประเทศไทย",
                     :lat => 13.7708691, :lon => 100.505073233221,
                     :type => "way", :id => 542901374, :zoom => 19
@@ -438,8 +426,7 @@ class GeocoderControllerTest < ActionController::TestCase
   # Test the geonames reverse search
   def test_search_geonames_reverse
     with_http_stubs "geonames" do
-      get :search_geonames_reverse, :xhr => true,
-                                    :params => { :lat => 51.7632, :lon => -0.0076, :zoom => 15 }
+      get geocoder_search_geonames_reverse_path(:lat => 51.7632, :lon => -0.0076, :zoom => 15), :xhr => true
       results_check :name => "England", :suffix => ", United Kingdom",
                     :lat => 51.7632, :lon => -0.0076
     end
@@ -448,7 +435,7 @@ class GeocoderControllerTest < ActionController::TestCase
   private
 
   def latlon_check(query, lat, lon)
-    get :search, :params => { :query => query }
+    get search_path(:query => query)
     assert_response :success
     assert_template :search
     assert_template :layout => "map"
@@ -457,7 +444,7 @@ class GeocoderControllerTest < ActionController::TestCase
     assert_in_delta lat, @controller.params[:lat]
     assert_in_delta lon, @controller.params[:lon]
 
-    get :search, :params => { :query => query }, :xhr => true
+    get search_path(:query => query), :xhr => true
     assert_response :success
     assert_template :search
     assert_template :layout => "xhr"
@@ -468,13 +455,13 @@ class GeocoderControllerTest < ActionController::TestCase
   end
 
   def search_check(query, sources)
-    get :search, :params => { :query => query }
+    get search_path(:query => query)
     assert_response :success
     assert_template :search
     assert_template :layout => "map"
     assert_equal sources, assigns(:sources)
 
-    get :search, :params => { :query => query }, :xhr => true
+    get search_path(:query => query), :xhr => true
     assert_response :success
     assert_template :search
     assert_template :layout => "xhr"

@@ -36,6 +36,7 @@
 # Author: Sendelbach
 # Author: Sertion
 # Author: Shirayuki
+# Author: Technic2
 # Author: The real emj
 # Author: Tor.klingberg
 # Author: Ufred
@@ -84,6 +85,7 @@ sv:
       diary_comment: Dagbokskommentar
       diary_entry: Dagboksinlägg
       friend: Vän
+      issue: Problem
       language: Språk
       message: Meddelande
       node: Nod
@@ -100,6 +102,7 @@ sv:
       relation: Relation
       relation_member: Relationsmedlem
       relation_tag: Relationstagg
+      report: Rapportera
       session: Session
       trace: Spår
       tracepoint: Spårpunkt
@@ -198,6 +201,15 @@ sv:
     remote:
       name: Fjärrstyrning
       description: Fjärrstyrning (JOSM eller Merkaartor)
+  auth:
+    providers:
+      none: Ingen
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -1250,8 +1262,15 @@ sv:
         more_info_2: 'de kan hittas på:'
       success:
         subject: '[OpenStreetMap] Lyckades importera GPX'
-        loaded_successfully: inläst med %{trace_points} av %{possible_points} möjliga
-          punkter.
+        loaded_successfully:
+          one: |-
+            inläst med %{trace_points} av 1 möjlig punkt.
+
+            inläst med %{trace_points} av %{possible_points} möjliga punkter.
+          other: |-
+            inläst med %{trace_points} av %{possible_points} möjliga punkter.
+
+            inläst med %{trace_points} av %{possible_points} möjliga punkter.
     signup_confirm:
       subject: '[OpenStreetMap] Välkommen till OpenStreetMap'
       greeting: Hej där!
@@ -2627,9 +2646,12 @@ sv:
         out: Zooma ut
       locate:
         title: Visa min position
-        metersUnit: meter
-        feetUnit: fot
-        popup: Du är inom {distance} {unit} från denna punkt
+        metersPopup:
+          one: Du är inom en meter av denna punkt
+          other: Du är inom %{count} meter av denna punkt
+        feetPopup:
+          one: Du är inom en fot av denna punkt
+          other: Du är inom %{count} fot av denna punkt
       base:
         standard: Standard
         cycle_map: Cykelkarta
@@ -2645,6 +2667,11 @@ sv:
       copyright: © <a href='%{copyright_url}'>OpenStreetMaps bidragsgivare</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donera</a>
       terms: <a href="%{terms_url}">Hemsidan och API-villkor</a>
+      thunderforest: Rutor av <a href='%{thunderforest_url}' target='_blank'>Andy
+        Allan</a>
+      hotosm: Rututseende av <a href='%{hotosm_url}' target='_blank'>Humanitarian
+        OpenStreetMap Team</a> som förvaltas av <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        Frankrike</a>
     site:
       edit_tooltip: Redigera kartan
       edit_disabled_tooltip: Zooma in för att redigera kartan

@@ -36,6 +36,7 @@ lb:
       changeset: Set vun Ännerungen
       country: Land
       friend: Frënd
+      issue: Problem
       language: Sprooch
       message: Message
       node: Knuet
@@ -43,6 +44,7 @@ lb:
       old_relation: Al Relatioun
       old_way: Ale Wee
       relation: Relatioun
+      report: Rapport
       session: Sessioun
       user: Benotzer
       user_preference: Benotzerastellung
@@ -91,6 +93,15 @@ lb:
       name: iD
     potlatch2:
       name: Potlatch 2
+  auth:
+    providers:
+      none: Keng
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       rss:
@@ -101,11 +112,11 @@ lb:
     created: Ugeluecht
     closed: Zou
     created_html: Ugeluecht <abbr title='%{title}'>viru(n) %{time}</abbr>
-    closed_html: Zougemaach <abbr title='%{title}'>viru(n) %{time}</abbr>
-    created_by_html: Ugeluecht <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
-    deleted_by_html: Geläscht <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
-    edited_by_html: Geännert <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
-    closed_by_html: Zougemaach <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
+    closed_html: Zougemaach <abbr title='%{title}'> %{time}</abbr>
+    created_by_html: Ugeluecht <abbr title='%{title}'>%{time}</abbr> vum %{user}
+    deleted_by_html: Geläscht <abbr title='%{title}'>%{time}</abbr> vum %{user}
+    edited_by_html: Geännert <abbr title='%{title}'>%{time}</abbr> vum %{user}
+    closed_by_html: Zougemaach <abbr title='%{title}'>%{time}</abbr> vum %{user}
     version: Versioun
     in_changeset: Set vun Ännerungen
     anonymous: anonym
@@ -125,9 +136,8 @@ lb:
       relation: Relatiounen (%{count})
       relation_paginated: Relatiounen (%{x}-%{y} vu(n) %{count})
       comment: Bemierkungen (%{count})
-      hidden_commented_by: Verstoppt Bemierkung vum %{user} <abbr title='%{exact_time}'>
-        viru(n) %{when}</abbr>
-      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'> viru(n) %{when}</abbr>
+      hidden_commented_by: Verstoppt Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML mam Set vun Ännerungen
       osmchangexml: osmChange XML
       feed:
@@ -192,16 +202,13 @@ lb:
       opened_by: Ugeluecht vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
       opened_by_anonymous: Ugeluecht vun engem Anonymen <abbr title='%{exact_time}'>
         viru(n) %{when}</abbr>
-      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'> viru(n) %{when}</abbr>
-      commented_by_anonymous: Bemierkung vun engem Anonymen <abbr title='%{exact_time}'>
-        viru(n) %{when}</abbr>
-      closed_by: Geléist vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
-      closed_by_anonymous: Geléist vun engem Anonymen <abbr title='%{exact_time}'>
-        viru(n) %{when}</abbr>
-      reopened_by: Reaktivéiert vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
-      reopened_by_anonymous: Reaktivéiert vun engem Anonymen <abbr title='%{exact_time}'>
-        viru(n) %{when}</abbr>
-      hidden_by: Verstoppt vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
+      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Bemierkung vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Geléist vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Geléist vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reaktivéiert vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reaktivéiert vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Verstoppt vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: Säit %{page}
@@ -220,17 +227,17 @@ lb:
       title: Sette vun Ännerungen
       title_user: Sette vun Ännerunge vum %{user}
       title_friend: Ännerungs-Sette vu menge Frënn
-      title_nearby: Sette vun Ännerunge vu Benotzer déi nobäi sinn
-      empty: Keng Sette vun Ännerunge fonnt.
-      empty_area: Keng Sette vun Ännerungen an dëser Géigend.
-      empty_user: Keng Sette vun Ännerunge vun dësem Benotzer.
-      no_more: Soss keng Ännerungssätz fonnt.
-      no_more_area: Keng weider Sette vun Ännerungen an dëser Géigend.
-      no_more_user: Keng weider Sette vun Ännerunge vun dësem Benotzer.
+      title_nearby: Gruppe vun Ännerunge vu Benotzer nobäi
+      empty: Keng Gruppe vun Ännerunge fonnt.
+      empty_area: Keng Gruppe vun Ännerungen an dëser Géigend.
+      empty_user: Keng Gruppe vun Ännerunge vun dësem Benotzer.
+      no_more: Soss keng Gruppe vun Ännerunge fonnt.
+      no_more_area: Keng weider Grupp vun Ännerungen an dëser Géigend.
+      no_more_user: Keng weider Gruppe vun Ännerunge vun dësem Benotzer.
       load_more: Méi lueden
   changeset_comments:
     comment:
-      commented_at_by_html: Viru(n) %{when} vum %{user} aktualiséiert
+      commented_at_by_html: '%{when} vum %{user} aktualiséiert'
   diary_entries:
     form:
       subject: 'Sujet:'
@@ -643,7 +650,7 @@ lb:
         open: Opmaachen
         resolved: Geléist
     update:
-      provide_details: Gitt w.e.g. déi gefroten Detailer un
+      provide_details: Gitt wgl. déi gefroten Detailer un
     show:
       resolve: Léisen
       ignore: Ignoréieren
@@ -663,7 +670,7 @@ lb:
           spam_label: Dës Notiz ass Spam
           abusive_label: Dës Notiz ass abusiv
     create:
-      provide_details: Gitt w.e.g. déi gefroten Detailer un
+      provide_details: Gitt wgl. déi gefroten Detailer un
   layouts:
     logo:
       alt_text: OpenStreetMap Logo
@@ -732,11 +739,11 @@ lb:
       subject: '[OpenStreetMap] Ufro fir d''Passwuert zréckzesetzen'
     lost_password_plain:
       greeting: Salut,
-      click_the_link: Wann Dir dat sidd da klickt w.e.g. op de Link hei drënner fir
+      click_the_link: Wann Dir dat sidd da klickt wgl. op de Link hei drënner fir
         Äert Passwuert zréckzesetzen.
     lost_password_html:
       greeting: Salut,
-      click_the_link: Wann Dir dat sidd da klickt w.e.g. op de Link hei drënner fir
+      click_the_link: Wann Dir dat sidd da klickt wgl. op de Link hei drënner fir
         Ärt Passwuert zréckzesetzen.
     note_comment_notification:
       anonymous: En anonyme Benotzer
@@ -943,7 +950,7 @@ lb:
       whats_on_the_map:
         title: Wat ass op der Kaart
       rules:
-        title: Regelen!
+        title: Reegelen!
       questions:
         title: Nach Froen?
       add_a_note:
@@ -1104,7 +1111,7 @@ lb:
     terms:
       heading: Bedingungen
       consider_pd_why: wat ass dat?
-      legale_select: 'Sicht w.e.g. d''Land eraus wou Dir wunnt:'
+      legale_select: 'Sicht wgl. d''Land eraus wou Dir wunnt:'
       legale_names:
         france: Frankräich
         italy: Italien
@@ -1129,7 +1136,7 @@ lb:
       notes: Notizen op der Kaart
       remove as friend: Frënd ewechhuelen
       add as friend: Frënd derbäisetzen
-      latest edit: 'Lescht Ännerung %{ago}:'
+      latest edit: 'Lescht Ännerung (%{ago}):'
       email address: 'E-Mail-Adress:'
       status: 'Status:'
       description: Beschreiwung
@@ -1195,7 +1202,7 @@ lb:
     confirm:
       heading: Iwwerpréift Är E-Mail!
       introduction_1: Mir hunn Iech eng Confirmatiouns-E-Mail geschéckt.
-      press confirm button: Klickt w.e.g. op de Knäppchen confirméieren fir Äre Benotzerkont
+      press confirm button: Klickt wgl. op de Knäppchen confirméieren fir Äre Benotzerkont
         z'aktivéieren.
       button: Confirméieren
       already active: Dëse Kont gouf scho confirméiert.
@@ -1228,8 +1235,8 @@ lb:
     auth_failure:
       no_authorization_code: Keen Autorisatiouns-Code
     auth_association:
-      option_1: Wann Dir nei sidd bei OpenSrreetMap da leet w.e.g. e Benotzerkont
-        un andeem Dir de Formulaire hei drënner benotzt.
+      option_1: Wann Dir nei sidd bei OpenSrreetMap da leet wgl. e Benotzerkont un
+        andeem Dir de Formulaire hei drënner benotzt.
   user_role:
     filter:
       not_a_role: D'Zeechen '%{role}' ass keng valabel Roll.
@@ -1250,7 +1257,7 @@ lb:
         ofhuele wëllt?
       confirm: Confirméieren
       fail: D'Roll '%{role}' konnt net vum Benotzer '%{name}' ewechgeholl ginn. Kuckt
-        w.e.g. no ob de Benotzer an d'Roll allen zwee valabel sinn.
+        wgl. no ob de Benotzer an d'Roll allen zwee valabel sinn.
   user_blocks:
     not_found:
       back: Zréck op d'Iwwersiicht
@@ -1327,7 +1334,12 @@ lb:
     map:
       locate:
         title: Weise wou ech sinn
-        popup: Dir sidd {distance} {unit} vun dësem Punkt ewech
+        metersPopup:
+          one: Dir sidd manner wéi ee Meter vun dësem Punkt ewech
+          other: Dir sidd %{count} Meter vun dësem Punkt ewech
+        feetPopup:
+          one: Dir sidd manner wéi ee Fouss vun dësem Punkt ewech
+          other: Dir sidd %{count} Féiss vun dësem Punkt ewech
       base:
         standard: Standard
         cycle_map: Vëloskaart

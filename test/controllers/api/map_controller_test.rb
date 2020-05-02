@@ -23,6 +23,87 @@ module Api
         { :path => "/api/0.6/map", :method => :get },
         { :controller => "api/map", :action => "index" }
       )
+      assert_routing(
+        { :path => "/api/0.6/map.json", :method => :get },
+        { :controller => "api/map", :action => "index", :format => "json" }
+      )
+    end
+
+    ##
+    # test http accept headers
+    def test_http_accept_header
+      node = create(:node)
+
+      minlon = node.lon - 0.1
+      minlat = node.lat - 0.1
+      maxlon = node.lon + 0.1
+      maxlat = node.lat + 0.1
+      bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
+
+      # Accept: XML format -> use XML
+      http_accept_format("text/xml")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: Any format -> use XML
+      http_accept_format("*/*")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: Any format, .json URL suffix -> use json
+      http_accept_format("*/*")
+      get :index, :params => { :bbox => bbox, :format => "json" }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/json; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: Firefox header -> use XML
+      http_accept_format("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: JOSM header text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2 -> use XML
+      # Note: JOSM's header does not comply with RFC 7231, section 5.3.1
+      http_accept_format("text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: text/plain, */* -> use XML
+      http_accept_format("text/plain, */*")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: text/* -> use XML
+      http_accept_format("text/*")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: json, */* format -> use json
+      http_accept_format("application/json, */*")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/json; charset=utf-8", @response.header["Content-Type"]
+
+      # Accept: json format -> use json
+      http_accept_format("application/json")
+      get :index, :params => { :bbox => bbox }
+      assert_response :success, "Expected success with the map call"
+      assert_equal "application/json; charset=utf-8", @response.header["Content-Type"]
+
+      # text/json is in invalid format, return HTTP 406 Not acceptable
+      http_accept_format("text/json")
+      get :index, :params => { :bbox => bbox }
+      assert_response :not_acceptable, "text/json should fail"
+
+      # image/jpeg is a format which we don't support, return HTTP 406 Not acceptable
+      http_accept_format("image/jpeg")
+      get :index, :params => { :bbox => bbox }
+      assert_response :not_acceptable, "text/json should fail"
     end
 
     # -------------------------------------
@@ -61,6 +142,54 @@ module Api
         assert_select "relation", :count => 1
         assert_select "relation[id='#{relation.id}']", :count => 1
       end
+    end
+
+    def test_map_json
+      node = create(:node, :lat => 7, :lon => 7)
+      tag = create(:node_tag, :node => node)
+      way1 = create(:way_node, :node => node).way
+      way2 = create(:way_node, :node => node).way
+      relation = create(:relation_member, :member => node).relation
+
+      # Need to split the min/max lat/lon out into their own variables here
+      # so that we can test they are returned later.
+      minlon = node.lon - 0.1
+      minlat = node.lat - 0.1
+      maxlon = node.lon + 0.1
+      maxlat = node.lat + 0.1
+      bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
+      get :index, :params => { :bbox => bbox, :format => "json" }
+      if $VERBOSE
+        print @request.to_yaml
+        print @response.body
+      end
+      assert_response :success, "Expected success with the map call"
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+
+      assert_equal Settings.api_version, js["version"]
+      assert_equal Settings.generator, js["generator"]
+      assert_equal GeoRecord::Coord.new(minlon), js["bounds"]["minlon"]
+      assert_equal GeoRecord::Coord.new(minlat), js["bounds"]["minlat"]
+      assert_equal GeoRecord::Coord.new(maxlon), js["bounds"]["maxlon"]
+      assert_equal GeoRecord::Coord.new(maxlat), js["bounds"]["maxlat"]
+
+      result_nodes = js["elements"].select { |a| a["type"] == "node" }
+                                   .select { |a| a["id"] == node.id }
+                                   .select { |a| a["lat"] == GeoRecord::Coord.new(node.lat) }
+                                   .select { |a| a["lon"] == GeoRecord::Coord.new(node.lon) }
+                                   .select { |a| a["version"] == node.version }
+                                   .select { |a| a["changeset"] == node.changeset_id }
+                                   .select { |a| a["timestamp"] == node.timestamp.xmlschema }
+      assert_equal result_nodes.count, 1
+      result_node = result_nodes.first
+
+      assert_equal result_node["tags"], tag.k => tag.v
+      assert_equal 2, (js["elements"].count { |a| a["type"] == "way" })
+      assert_equal 1, (js["elements"].count { |a| a["type"] == "way" && a["id"] == way1.id })
+      assert_equal 1, (js["elements"].count { |a| a["type"] == "way" && a["id"] == way2.id })
+      assert_equal 1, (js["elements"].count { |a| a["type"] == "relation" })
+      assert_equal 1, (js["elements"].count { |a| a["type"] == "relation" && a["id"] == relation.id })
     end
 
     # This differs from the above test in that we are making the bbox exactly

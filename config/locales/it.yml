@@ -47,6 +47,7 @@
 # Author: Shirayuki
 # Author: Simone
 # Author: SimoneSVC
+# Author: Sorcrosc
 # Author: Tuxfuzz
 # Author: Ximo17
 # Author: ZioNicco
@@ -204,6 +205,15 @@ it:
     remote:
       name: Controllo remoto
       description: Controllo remoto (JOSM o Merkaartor)
+  auth:
+    providers:
+      none: Nessuno
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -872,17 +882,17 @@ it:
         place:
           allotments: Orti casalinghi
           city: Città
-          city_block: Blocco urbano
+          city_block: Isolato urbano
           country: Nazione
           county: Contea
-          farm: Area agricola
-          hamlet: Gruppo di case
+          farm: Fattoria o cascina
+          hamlet: Piccolo borgo
           house: Casa
           houses: Gruppo di case
           island: Isola
           islet: Isoletta
-          isolated_dwelling: Case sparse
-          locality: Località (luogo con nome, non popolato)
+          isolated_dwelling: Abitazione isolata
+          locality: Località non popolata
           municipality: Comune
           neighbourhood: Quartiere
           postcode: CAP
@@ -893,9 +903,9 @@ it:
           state: Regione
           subdivision: Suddivisione
           suburb: Quartiere
-          town: Villaggio
+          town: Cittadina
           unincorporated_area: Area non inclusa
-          village: Frazione
+          village: Paese
           "yes": Luogo
         railway:
           abandoned: Ferrovia abbandonata
@@ -1065,7 +1075,7 @@ it:
         geonames: Località da <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Città
-        towns: Città
+        towns: Cittadine
         places: Luoghi
     results:
       no_results: Nessun risultato trovato
@@ -1259,8 +1269,10 @@ it:
         more_info_2: 'possono essere trovate su:'
       success:
         subject: '[OpenStreetMap] Importazione GPX completata con successo'
-        loaded_successfully: caricato con successo con %{trace_points} dei possibili
-          %{possible_points} punti.
+        loaded_successfully:
+          one: caricato con successo con %{trace_points} di 1 punto possibile.
+          other: caricato con successo con %{trace_points} dei possibili %{possible_points}
+            punti.
     signup_confirm:
       subject: '[OpenStreetMap] Benvenuti su OpenStreetMap'
       greeting: Ehilà!
@@ -2028,7 +2040,7 @@ it:
       allow_write_api: modifica la mappa.
       allow_read_gpx: Visualizza i tuoi tracciati GPS
       allow_write_gpx: carica tracciati GPS.
-      allow_write_notes: modificare le note.
+      allow_write_notes: modifica le note.
       grant_access: Concedi l'accesso
     authorize_success:
       title: Richiesta di autorizzazione consentita
@@ -2059,13 +2071,13 @@ it:
       delete: Eliminare Client
       confirm: Sei sicuro?
       requests: 'Richieste le seguenti autorizzazioni da parte dell''utente:'
-      allow_read_prefs: leggi le loro preferenze utente.
+      allow_read_prefs: leggi le sue preferenze utente.
       allow_write_prefs: modifica le sue preferenze utente.
       allow_write_diary: crea pagine di diario, commenti e fai amicizia.
       allow_write_api: modifica la mappa.
-      allow_read_gpx: leggi i loro tracciati GPS privati.
+      allow_read_gpx: leggi i suoi tracciati GPS privati.
       allow_write_gpx: carica tracciati GPS.
-      allow_write_notes: modificare le note.
+      allow_write_notes: modifica le note.
     index:
       title: I miei dettagli OAuth
       my_tokens: Le mie applicazioni autorizzate
@@ -2088,12 +2100,12 @@ it:
       support_url: Indirizzo URL di supporto
       requests: 'Richiedi le seguenti autorizzazioni da parte dell''utente:'
       allow_read_prefs: leggi le sue preferenze utente.
-      allow_write_prefs: modifica le loro preferenze utente.
+      allow_write_prefs: modifica le sue preferenze utente.
       allow_write_diary: crea pagine di diario, commenti e fai amicizia.
       allow_write_api: modifica la mappa.
-      allow_read_gpx: visualizza i loro tracciati GPS privati.
+      allow_read_gpx: leggi i suoi tracciati GPS privati.
       allow_write_gpx: carica tracciati GPS.
-      allow_write_notes: modificare le note.
+      allow_write_notes: modifica le note.
     not_found:
       sorry: Siamo dolenti, quel %{type} non è stato trovato.
     create:
@@ -2647,9 +2659,6 @@ it:
         out: Zoom indietro
       locate:
         title: Mostra la mia posizione
-        metersUnit: metri
-        feetUnit: piedi
-        popup: Ti trovi a {distance} {unit} da questo punto
       base:
         standard: Standard
         cycle_map: Mappa ciclabile

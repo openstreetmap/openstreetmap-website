@@ -14,8 +14,16 @@ module Api
         { :controller => "api/ways", :action => "full", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/way/1/full.json", :method => :get },
+        { :controller => "api/ways", :action => "full", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/way/1", :method => :get },
         { :controller => "api/ways", :action => "show", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/way/1.json", :method => :get },
+        { :controller => "api/ways", :action => "show", :id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1", :method => :put },
@@ -28,6 +36,10 @@ module Api
       assert_routing(
         { :path => "/api/0.6/ways", :method => :get },
         { :controller => "api/ways", :action => "index" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/ways.json", :method => :get },
+        { :controller => "api/ways", :action => "index", :format => "json" }
       )
     end
 
@@ -104,6 +116,18 @@ module Api
         assert_select "way[id='#{way4.id}'][visible='true']", :count => 1
       end
 
+      # test a working call with json format
+      get :index, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}", :format => "json" }
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 4, js["elements"].count
+      assert_equal 4, (js["elements"].count { |a| a["type"] == "way" })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == way1.id && a["visible"].nil? })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == way2.id && a["visible"] == false })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == way3.id && a["visible"].nil? })
+      assert_equal 1, (js["elements"].count { |a| a["id"] == way4.id && a["visible"].nil? })
+
       # check error when a non-existent way is included
       get :index, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0" }
       assert_response :not_found
@@ -166,8 +190,8 @@ module Api
                    "saved way does not belong to the correct changeset"
       assert_equal user.id, checkway.changeset.user_id,
                    "saved way does not belong to user that created it"
-      assert_equal true, checkway.visible,
-                   "saved way is not visible"
+      assert checkway.visible,
+             "saved way is not visible"
     end
 
     # -------------------------------------

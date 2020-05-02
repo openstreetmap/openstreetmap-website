@@ -1,6 +1,6 @@
 require "test_helper"
 
-class NotesControllerTest < ActionController::TestCase
+class NotesControllerTest < ActionDispatch::IntegrationTest
   def setup
     super
     # Stub nominatim response for note locations
@@ -33,28 +33,28 @@ class NotesControllerTest < ActionController::TestCase
     end
 
     # Note that the table rows include a header row
-    get :mine, :params => { :display_name => first_user.display_name }
+    get my_notes_path(:display_name => first_user.display_name)
     assert_response :success
     assert_select "table.note_list tr", :count => 2
 
-    get :mine, :params => { :display_name => second_user.display_name }
+    get my_notes_path(:display_name => second_user.display_name)
     assert_response :success
     assert_select "table.note_list tr", :count => 2
 
-    get :mine, :params => { :display_name => "non-existent" }
+    get my_notes_path(:display_name => "non-existent")
     assert_response :not_found
 
-    session[:user] = moderator_user.id
+    session_for(moderator_user)
 
-    get :mine, :params => { :display_name => first_user.display_name }
+    get my_notes_path(:display_name => first_user.display_name)
     assert_response :success
     assert_select "table.note_list tr", :count => 2
 
-    get :mine, :params => { :display_name => second_user.display_name }
+    get my_notes_path(:display_name => second_user.display_name)
     assert_response :success
     assert_select "table.note_list tr", :count => 3
 
-    get :mine, :params => { :display_name => "non-existent" }
+    get my_notes_path(:display_name => "non-existent")
     assert_response :not_found
   end
 
@@ -65,11 +65,11 @@ class NotesControllerTest < ActionController::TestCase
       create(:note_comment, :note => note, :author => user)
     end
 
-    get :mine, :params => { :display_name => user.display_name }
+    get my_notes_path(:display_name => user.display_name)
     assert_response :success
     assert_select "table.note_list tr", :count => 11
 
-    get :mine, :params => { :display_name => user.display_name, :page => 2 }
+    get my_notes_path(:display_name => user.display_name, :page => 2)
     assert_response :success
     assert_select "table.note_list tr", :count => 11
   end

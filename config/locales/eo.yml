@@ -63,6 +63,7 @@ eo:
       diary_comment: Taglibra komento
       diary_entry: Taglibra skribaĵo
       friend: Amiko
+      issue: Problemo
       language: Lingvo
       message: Mesaĝo
       node: Nodo
@@ -79,6 +80,7 @@ eo:
       relation: Rilato
       relation_member: Ano de rilato
       relation_tag: Etikedo de rilato
+      report: Raporti
       session: Seanco
       trace: Spuro
       tracepoint: Spur-punkto
@@ -175,6 +177,15 @@ eo:
     remote:
       name: ekstera redaktilo
       description: ekstera redaktilo (JOSM aŭ Merkaartor)
+  auth:
+    providers:
+      none: Neniu
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Vikipedio
   api:
     notes:
       comment:
@@ -1221,8 +1232,10 @@ eo:
         more_info_2: 'ilin vi povas trovi je:'
       success:
         subject: '[OpenStreetMap] GPX-dosiero enportita sukcese'
-        loaded_successfully: estas sukcese ŝargita kun %{trace_points} el %{possible_points}
-          punktoj.
+        loaded_successfully:
+          one: estas sukcese enlegita kun %{trace_points} el 1 punkto.
+          other: estas sukcese enlegita kun %{trace_points} el %{possible_points}
+            punktoj.
     signup_confirm:
       subject: '[OpenStreetMap] Bonvenon al OpenStreetMap'
       greeting: Saluton!
@@ -2042,7 +2055,7 @@ eo:
       login_button: Ensaluti
       register now: Registriĝi
       with username: 'Ĉu vi jam havas OpenStreetMap-konton? Bonvolu ensaluti per vian
-        salutnomon kaj pasvorton:'
+        uzantnomon kaj pasvorton:'
       with external: 'Alimaniere, ensalutu uzante:'
       new to osm: Ĉu vi estas nova al OpenStreetMap?
       to make changes: Por fari ŝanĝojn al datumoj de OpenStreetMap, vi devas havi
@@ -2396,14 +2409,14 @@ eo:
       are_you_sure: Ĉu vi certe volas doni la rolon '%{role}'  al la uzanto '%{name}'?
       confirm: Konfirmi
       fail: Ne povas doni rolon '%{role}' al la uzanto '%{name}'. Bonvolu kontroli,
-        ĉu kaj uzanto kaj rolo estas korektaj.
+        ĉu kaj uzanto kaj rolo estas ĝustaj.
     revoke:
       title: Konfirmi nuligo de rolo
       heading: Konfirmi nuligon de rolo
       are_you_sure: Ĉu vi certe volas nuligi la rolon '%{role}' de la uzanto '%{name}'?
       confirm: Konfirmi
       fail: Ne povas nuligi la rolon '%{role}' de la uzanto '%{name}'. Bonvolu kontroli,
-        ĉu kaj uzanto kaj rolo estas korektaj.
+        ĉu kaj uzanto kaj rolo estas ĝustaj.
   user_blocks:
     model:
       non_moderator_update: Vi devas esti kontrolanto por doni aŭ ĝisdatigi blokadon.
@@ -2560,9 +2573,12 @@ eo:
         out: Malgrandigi
       locate:
         title: Montri mian pozicion
-        metersUnit: metroj
-        feetUnit: futoj
-        popup: Vi estas {distance} {unit} de ĉi tiu punkto
+        metersPopup:
+          one: Vi estas unu metro for de tiu punkto
+          other: Vi estas %{count} metroj for de tiu punkto
+        feetPopup:
+          one: Vi estas unu futo for de tiu punkto
+          other: Vi estas %{count} futoj for de tiu punkto
       base:
         standard: Norma mapo
         cycle_map: Biciklada mapo
@@ -2578,6 +2594,11 @@ eo:
       copyright: © <a href='%{copyright_url}'>Kontribuintoj de OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donaci</a>
       terms: <a href='%{terms_url}' target='_blank'>Kondiĉoj pri Retejo kaj API</a>
+      thunderforest: Kaheloj danke al <a href='%{thunderforest_url}' target='_blank'>Andy
+        ALLAN</a>
+      hotosm: Kahela stilo de <a href='%{hotosm_url}' target='_blank'>Humanitarian
+        OpenStreetMap Team</a> gastigata de <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        France</a>
     site:
       edit_tooltip: Redakti la mapon
       edit_disabled_tooltip: Pligrandigu por redakti la mapon

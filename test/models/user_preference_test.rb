@@ -36,7 +36,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
       up.user = create(:user)
       up.k = key * i
       up.v = val * i
-      assert_equal false, up.valid?
+      assert_not up.valid?
       assert_raise(ActiveRecord::RecordInvalid) { up.save! }
     end
   end

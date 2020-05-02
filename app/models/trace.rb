@@ -117,7 +117,7 @@ class Trace < ApplicationRecord
   end
 
   def mime_type
-    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
+    filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -139,7 +139,7 @@ class Trace < ApplicationRecord
   end
 
   def extension_name
-    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
+    filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -208,33 +208,30 @@ class Trace < ApplicationRecord
   end
 
   def xml_file
-    # TODO: *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
-    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
+    filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
     tarred = filetype =~ /tar archive/
 
     if gzipped || bzipped || zipped || tarred
-      tmpfile = Tempfile.new("trace.#{id}")
+      file = Tempfile.new("trace.#{id}")
 
       if tarred && gzipped
-        system("tar -zxOf #{trace_name} > #{tmpfile.path}")
+        system("tar -zxOf #{trace_name} > #{file.path}")
       elsif tarred && bzipped
-        system("tar -jxOf #{trace_name} > #{tmpfile.path}")
+        system("tar -jxOf #{trace_name} > #{file.path}")
       elsif tarred
-        system("tar -xOf #{trace_name} > #{tmpfile.path}")
+        system("tar -xOf #{trace_name} > #{file.path}")
       elsif gzipped
-        system("gunzip -c #{trace_name} > #{tmpfile.path}")
+        system("gunzip -c #{trace_name} > #{file.path}")
       elsif bzipped
-        system("bunzip2 -c #{trace_name} > #{tmpfile.path}")
+        system("bunzip2 -c #{trace_name} > #{file.path}")
       elsif zipped
-        system("unzip -p #{trace_name} -x '__MACOSX/*' > #{tmpfile.path} 2> /dev/null")
+        system("unzip -p #{trace_name} -x '__MACOSX/*' > #{file.path} 2> /dev/null")
       end
 
-      tmpfile.unlink
-
-      file = tmpfile.file
+      file.unlink
     else
       file = File.open(trace_name)
     end

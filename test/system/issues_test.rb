@@ -72,7 +72,7 @@ class IssuesTest < ApplicationSystemTestCase
   end
 
   def test_commenting
-    issue = create(:issue)
+    issue = create(:issue, :assigned_role => "moderator")
     sign_in_as(create(:moderator_user))
 
     visit issue_path(issue)

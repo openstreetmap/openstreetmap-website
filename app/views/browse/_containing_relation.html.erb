@@ -1,7 +1,7 @@
-<li><%= linked_name = link_to h(printable_name(containing_relation.relation)), :action => "relation", :id => containing_relation.relation.id.to_s
+<li><%= linked_name = link_to printable_name(containing_relation.relation), :action => "relation", :id => containing_relation.relation.id.to_s
         if containing_relation.member_role.blank?
           t ".entry_html", :relation_name => linked_name
         else
-          t ".entry_role_html", :relation_name => linked_name, :relation_role => h(containing_relation.member_role)
+          t ".entry_role_html", :relation_name => linked_name, :relation_role => containing_relation.member_role
         end %>
 </li>

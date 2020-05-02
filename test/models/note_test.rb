@@ -37,14 +37,14 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   def test_visible?
-    assert_equal true, create(:note, :status => "open").visible?
-    assert_equal true, create(:note, :status => "closed").visible?
-    assert_equal false, create(:note, :status => "hidden").visible?
+    assert create(:note, :status => "open").visible?
+    assert create(:note, :status => "closed").visible?
+    assert_not create(:note, :status => "hidden").visible?
   end
 
   def test_closed?
-    assert_equal true, create(:note, :status => "closed", :closed_at => Time.now).closed?
-    assert_equal false, create(:note, :status => "open", :closed_at => nil).closed?
+    assert create(:note, :status => "closed", :closed_at => Time.now).closed?
+    assert_not create(:note, :status => "open", :closed_at => nil).closed?
   end
 
   def test_author

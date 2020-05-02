@@ -1,5 +1,5 @@
 <% content_for :heading do %>
-  <h2><%= t ".heading", :name => h(@trace.name) %></h2>
+  <h2><%= t ".heading", :name => @trace.name %></h2>
 <% end %>
 
 <img src="<%= url_for :controller => "traces", :action => "picture", :id => @trace.id, :display_name => @trace.user.display_name %>">
@@ -32,7 +32,7 @@
   <% end %>
     <div class='standard-form-row'>
       <label class='standard-label'><%= t ".owner" %></label>
-      <p class='deemphasize'><%= link_to h(@trace.user.display_name), user_path(@trace.user) %></p>
+      <p class='deemphasize'><%= link_to @trace.user.display_name, user_path(@trace.user) %></p>
     </div>
     <div class='standard-form-row'>
       <label class='standard-label'><%= t ".description" %></label>

@@ -80,6 +80,8 @@ class IssuesController < ApplicationController
   private
 
   def find_issue
-    @issue = Issue.find(params[:id])
+    @issue = Issue.visible_to(current_user).find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to :controller => "errors", :action => "not_found"
   end
 end

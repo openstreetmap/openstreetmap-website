@@ -83,6 +83,7 @@ zh-TW:
       diary_comment: 日記評論
       diary_entry: 日記項目
       friend: 好友
+      issue: 問題
       language: 語言
       message: 訊息
       node: 節點
@@ -99,6 +100,7 @@ zh-TW:
       relation: 關聯
       relation_member: 關聯成員
       relation_tag: 關聯標籤
+      report: 報告
       session: 作業階段
       trace: 軌跡
       tracepoint: 軌跡點
@@ -198,6 +200,15 @@ zh-TW:
     remote:
       name: 遠端控制
       description: 遠端控制 (JOSM 或 Merkaartor)
+  auth:
+    providers:
+      none: 無
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: 維基百科
   api:
     notes:
       comment:
@@ -1237,9 +1248,13 @@ zh-TW:
         import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       success:
         subject: '[OpenStreetMap] GPX 匯入成功'
-        loaded_successfully: |-
-          成功載入可能為 %{possible_points} 點中的
-          %{trace_points} 點。
+        loaded_successfully:
+          one: |-
+            成功載入 1 點中的
+            %{trace_points}。
+          other: |-
+            l成功載入 %{possible_points} 點中的
+            %{trace_points}。
     signup_confirm:
       subject: '[OpenStreetMap] 歡迎加入 OpenStreetMap'
       greeting: 您好！
@@ -1756,7 +1771,7 @@ zh-TW:
       description: 說明：
       tags: 標籤：
       tags_help: 以逗點分隔
-      visibility: 可見性：
+      visibility: 能見度
       visibility_help: 這是什麼意思？
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: 說明
@@ -1780,7 +1795,7 @@ zh-TW:
       description: 描述：
       tags: 標籤：
       tags_help: 以逗號分隔
-      visibility: 可見性：
+      visibility: 能見度
       visibility_help: 這是什麼意思？
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
@@ -1805,7 +1820,7 @@ zh-TW:
       edit_trace: 編輯這個軌跡
       delete_trace: 刪除這個軌跡
       trace_not_found: 找不到軌跡！
-      visibility: 可見性：
+      visibility: 能見度
       confirm_delete: 刪除這個軌跡？
     trace_paging_nav:
       showing_page: 第 %{page} 頁
@@ -2420,9 +2435,12 @@ zh-TW:
         out: 縮小
       locate:
         title: 顯示我的位置
-        metersUnit: 公尺
-        feetUnit: 英呎
-        popup: 你在該點的 {distance}{unit} 範圍內
+        metersPopup:
+          one: 您距離此地點在 1 公尺內
+          other: 您距離此地點在 %{count} 公尺內
+        feetPopup:
+          one: 您距離此地點在 1 英尺內
+          other: 您距離此地點在 %{count} 英尺內
       base:
         standard: 標準
         cycle_map: 自行車地圖
@@ -2438,6 +2456,10 @@ zh-TW:
       copyright: © <a href='%{copyright_url}'>OpenStreetMap 貢獻者</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>來捐款吧</a>
       terms: <a href='%{terms_url}' target='_blank'>網站與 API 項目</a>
+      thunderforest: 由 <a href='%{thunderforest_url}' target='_blank'>Andy Allan</a>
+        提供的影像塊
+      hotosm: 由 <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap 法國</a>主持的<a
+        href='%{hotosm_url}' target='_blank'>人道 OpenStreetMap 團隊</a>提供的影像塊樣式
     site:
       edit_tooltip: 編輯地圖
       edit_disabled_tooltip: 放大以編輯地圖

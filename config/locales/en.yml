@@ -73,6 +73,7 @@ en:
       diary_comment: "Diary Comment"
       diary_entry: "Diary Entry"
       friend: "Friend"
+      issue: "Issue"
       language: "Language"
       message: "Message"
       node: "Node"
@@ -89,6 +90,7 @@ en:
       relation: "Relation"
       relation_member: "Relation Member"
       relation_tag: "Relation Tag"
+      report: "Report"
       session: "Session"
       trace: "Trace"
       tracepoint: "Trace Point"
@@ -191,6 +193,15 @@ en:
     remote:
       name: "Remote Control"
       description: "Remote Control (JOSM or Merkaartor)"
+  auth:
+    providers:
+      none: None
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -1314,7 +1325,9 @@ en:
         import_failures_url: "https://wiki.openstreetmap.org/wiki/GPX_Import_Failures"
       success:
         subject: "[OpenStreetMap] GPX Import success"
-        loaded_successfully: loaded successfully with %{trace_points} out of a possible %{possible_points} points.
+        loaded_successfully:
+          one: loaded successfully with %{trace_points} out of a possible 1 point.
+          other: loaded successfully with %{trace_points} out of a possible %{possible_points} points.
     signup_confirm:
       subject: "[OpenStreetMap] Welcome to OpenStreetMap"
       greeting: "Hi there!"
@@ -2587,9 +2600,12 @@ en:
         out: Zoom Out
       locate:
         title: Show My Location
-        metersUnit: meters
-        feetUnit: feet
-        popup: You are within {distance} {unit} of this point
+        metersPopup:
+          one: You are within one meter of this point
+          other: You are within %{count} meters of this point
+        feetPopup:
+          one: You are within one foot of this point
+          other: You are within %{count} feet of this point
       base:
         standard: Standard
         cycle_map: Cycle Map
@@ -2605,6 +2621,8 @@ en:
       copyright: "© <a href='%{copyright_url}'>OpenStreetMap contributors</a>"
       donate_link_text: "<a class='donate-attr' href='%{donate_url}'>Make a Donation</a>"
       terms: "<a href='%{terms_url}' target='_blank'>Website and API terms</a>"
+      thunderforest: "Tiles courtesy of <a href='%{thunderforest_url}' target='_blank'>Andy Allan</a>"
+      hotosm: "Tiles style by <a href='%{hotosm_url}' target='_blank'>Humanitarian OpenStreetMap Team</a> hosted by <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>"
     site:
       edit_tooltip: Edit the map
       edit_disabled_tooltip: Zoom in to edit the map

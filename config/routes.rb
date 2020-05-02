@@ -10,13 +10,13 @@ OpenStreetMap::Application.routes.draw do
     get "permissions" => "api/permissions#show"
 
     put "changeset/create" => "api/changesets#create"
-    post "changeset/:id/upload" => "api/changesets#upload", :id => /\d+/
+    post "changeset/:id/upload" => "api/changesets#upload", :as => :changeset_upload, :id => /\d+/
     get "changeset/:id/download" => "api/changesets#download", :as => :changeset_download, :id => /\d+/
     get "changeset/:id" => "api/changesets#show", :as => :changeset_show, :id => /\d+/
     post "changeset/:id/subscribe" => "api/changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
     post "changeset/:id/unsubscribe" => "api/changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
     put "changeset/:id" => "api/changesets#update", :id => /\d+/
-    put "changeset/:id/close" => "api/changesets#close", :id => /\d+/
+    put "changeset/:id/close" => "api/changesets#close", :as => :changeset_close, :id => /\d+/
     get "changesets" => "api/changesets#query"
     post "changeset/:id/comment" => "api/changeset_comments#create", :as => :changeset_comment, :id => /\d+/
     post "changeset/comment/:id/hide" => "api/changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
@@ -28,7 +28,7 @@ OpenStreetMap::Application.routes.draw do
     get "node/:id/history" => "api/old_nodes#history", :id => /\d+/
     post "node/:id/:version/redact" => "api/old_nodes#redact", :version => /\d+/, :id => /\d+/
     get "node/:id/:version" => "api/old_nodes#version", :id => /\d+/, :version => /\d+/
-    get "node/:id" => "api/nodes#show", :id => /\d+/
+    get "node/:id" => "api/nodes#show", :as => :api_node, :id => /\d+/
     put "node/:id" => "api/nodes#update", :id => /\d+/
     delete "node/:id" => "api/nodes#delete", :id => /\d+/
     get "nodes" => "api/nodes#index"
@@ -39,7 +39,7 @@ OpenStreetMap::Application.routes.draw do
     get "way/:id/relations" => "api/relations#relations_for_way", :id => /\d+/
     post "way/:id/:version/redact" => "api/old_ways#redact", :version => /\d+/, :id => /\d+/
     get "way/:id/:version" => "api/old_ways#version", :id => /\d+/, :version => /\d+/
-    get "way/:id" => "api/ways#show", :id => /\d+/
+    get "way/:id" => "api/ways#show", :as => :api_way, :id => /\d+/
     put "way/:id" => "api/ways#update", :id => /\d+/
     delete "way/:id" => "api/ways#delete", :id => /\d+/
     get "ways" => "api/ways#index"
@@ -106,18 +106,18 @@ OpenStreetMap::Application.routes.draw do
 
   # Data browsing
   get "/way/:id" => "browse#way", :id => /\d+/, :as => :way
-  get "/way/:id/history" => "browse#way_history", :id => /\d+/
+  get "/way/:id/history" => "browse#way_history", :id => /\d+/, :as => :way_history
   get "/node/:id" => "browse#node", :id => /\d+/, :as => :node
-  get "/node/:id/history" => "browse#node_history", :id => /\d+/
+  get "/node/:id/history" => "browse#node_history", :id => /\d+/, :as => :node_history
   get "/relation/:id" => "browse#relation", :id => /\d+/, :as => :relation
-  get "/relation/:id/history" => "browse#relation_history", :id => /\d+/
+  get "/relation/:id/history" => "browse#relation_history", :id => /\d+/, :as => :relation_history
   get "/changeset/:id" => "browse#changeset", :as => :changeset, :id => /\d+/
   get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
   get "/note/new" => "browse#new_note"
   get "/user/:display_name/history" => "changesets#index"
   get "/user/:display_name/history/feed" => "changesets#feed", :defaults => { :format => :atom }
-  get "/user/:display_name/notes" => "notes#mine"
+  get "/user/:display_name/notes" => "notes#mine", :as => :my_notes
   get "/history/friends" => "changesets#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
   get "/history/nearby" => "changesets#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
 
@@ -180,7 +180,7 @@ OpenStreetMap::Application.routes.draw do
   match "/auth/:provider" => "users#auth", :via => [:get, :post], :as => :auth
 
   # permalink
-  get "/go/:code" => "site#permalink", :code => /[a-zA-Z0-9_@~]+[=-]*/
+  get "/go/:code" => "site#permalink", :code => /[a-zA-Z0-9_@~]+[=-]*/, :as => :permalink
 
   # rich text preview
   post "/preview/:type" => "site#preview", :as => :preview
@@ -193,9 +193,9 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/traces" => "traces#index"
   get "/user/:display_name/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/rss" => "traces#georss", :defaults => { :format => :rss }
-  get "/user/:display_name/traces/:id" => "traces#show"
-  get "/user/:display_name/traces/:id/picture" => "traces#picture"
-  get "/user/:display_name/traces/:id/icon" => "traces#icon"
+  get "/user/:display_name/traces/:id" => "traces#show", :as => "show_trace"
+  get "/user/:display_name/traces/:id/picture" => "traces#picture", :as => "trace_picture"
+  get "/user/:display_name/traces/:id/icon" => "traces#icon", :as => "trace_icon"
   get "/traces/tag/:tag/page/:page" => "traces#index", :page => /[1-9][0-9]*/
   get "/traces/tag/:tag" => "traces#index"
   get "/traces/page/:page" => "traces#index", :page => /[1-9][0-9]*/
@@ -220,13 +220,13 @@ OpenStreetMap::Application.routes.draw do
   get "/diary/:language/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/user/:display_name/diary/comments/:page" => "diary_entries#comments", :page => /[1-9][0-9]*/
-  get "/user/:display_name/diary/comments/" => "diary_entries#comments"
+  get "/user/:display_name/diary/comments/" => "diary_entries#comments", :as => :diary_comments
   get "/user/:display_name/diary" => "diary_entries#index"
   get "/diary/:language" => "diary_entries#index"
   scope "/user/:display_name" do
     resources :diary_entries, :path => "diary", :only => [:edit, :update, :show]
   end
-  post "/user/:display_name/diary/:id/newcomment" => "diary_entries#comment", :id => /\d+/
+  post "/user/:display_name/diary/:id/newcomment" => "diary_entries#comment", :id => /\d+/, :as => :comment_diary_entry
   post "/user/:display_name/diary/:id/hide" => "diary_entries#hide", :id => /\d+/, :as => :hide_diary_entry
   post "/user/:display_name/diary/:id/unhide" => "diary_entries#unhide", :id => /\d+/, :as => :unhide_diary_entry
   post "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_entries#hidecomment", :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
@@ -290,8 +290,8 @@ OpenStreetMap::Application.routes.draw do
   # roles and banning pages
   post "/user/:display_name/role/:role/grant" => "user_roles#grant", :as => "grant_role"
   post "/user/:display_name/role/:role/revoke" => "user_roles#revoke", :as => "revoke_role"
-  get "/user/:display_name/blocks" => "user_blocks#blocks_on"
-  get "/user/:display_name/blocks_by" => "user_blocks#blocks_by"
+  get "/user/:display_name/blocks" => "user_blocks#blocks_on", :as => "user_blocks_on"
+  get "/user/:display_name/blocks_by" => "user_blocks#blocks_by", :as => "user_blocks_by"
   get "/blocks/new/:display_name" => "user_blocks#new", :as => "new_user_block"
   resources :user_blocks
   match "/blocks/:id/revoke" => "user_blocks#revoke", :via => [:get, :post], :as => "revoke_user_block"

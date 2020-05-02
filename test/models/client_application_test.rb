@@ -3,7 +3,7 @@ require "test_helper"
 class ClientApplicationTest < ActiveSupport::TestCase
   def test_url_valid
     ok = ["http://example.com/test", "https://example.com/test"]
-    bad = ["", "ftp://example.com/test", "myapp://somewhere"]
+    bad = ["", "ftp://example.com/test", "myapp://somewhere", "http://example.com\nhttp://example.net"]
 
     ok.each do |url|
       app = build(:client_application)
@@ -20,7 +20,7 @@ class ClientApplicationTest < ActiveSupport::TestCase
 
   def test_support_url_valid
     ok = ["", "http://example.com/test", "https://example.com/test"]
-    bad = ["ftp://example.com/test", "myapp://somewhere", "gibberish"]
+    bad = ["ftp://example.com/test", "myapp://somewhere", "gibberish", "http://example.com\nhttp://example.net"]
 
     ok.each do |url|
       app = build(:client_application)
@@ -37,7 +37,7 @@ class ClientApplicationTest < ActiveSupport::TestCase
 
   def test_callback_url_valid
     ok = ["", "http://example.com/test", "https://example.com/test", "ftp://example.com/test", "myapp://somewhere"]
-    bad = ["gibberish"]
+    bad = ["gibberish", "http://example.com\nhttp://example.net"]
 
     ok.each do |url|
       app = build(:client_application)

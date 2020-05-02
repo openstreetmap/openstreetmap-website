@@ -92,8 +92,8 @@ class LocaleTest < ActiveSupport::TestCase
     assert_equal "zh-TW", Locale.available.preferred(Locale.list("zh-Hant-TW", "de")).to_s
     assert_equal "zh-TW", Locale.available.preferred(Locale.list("zh-TW", "de")).to_s
     assert_equal "zh-HK", Locale.available.preferred(Locale.list("yue", "zh-HK", "de")).to_s
-    assert_equal "zh-yue", Locale.available. preferred(Locale.list("yue", "zh-yue", "zh-HK", "de")).to_s
-    assert_equal "zh-yue", Locale.available. preferred(Locale.list("yue", "zh-YUE", "zh-HK", "de")).to_s
+    assert_equal "zh-yue", Locale.available.preferred(Locale.list("yue", "zh-yue", "zh-HK", "de")).to_s
+    assert_equal "zh-yue", Locale.available.preferred(Locale.list("yue", "zh-YUE", "zh-HK", "de")).to_s
     assert_equal "en", Locale.available.preferred(Locale.list("yue")).to_s
   end
 end
