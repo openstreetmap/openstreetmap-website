@@ -48,7 +48,7 @@ class Ability
         can [:edit, :update], Microcosm, :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER }
         can [:create], MicrocosmMember
         can [:edit, :update], MicrocosmMember, :microcosm => { :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER } }
-        can [:new, :create], Event, :microcosm => { :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER } }
+        can [:new, :create, :edit, :update], Event, :microcosm => { :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER } }
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry

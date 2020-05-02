@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   layout "site"
   before_action :authorize_web
-  before_action :set_event, :only => [:edit, :show]
+  before_action :set_event, :only => [:edit, :show, :update]
 
   authorize_resource
 
@@ -37,6 +37,16 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit; end
+
+  def update
+    respond_to do |format|
+      if @event.update(event_params)
+        format.html { redirect_to @event, :notice => t(".success") }
+      else
+        format.html { render :edit }
+      end
+    end
+  end
 
   # GET /events/1
   # GET /events/1.json

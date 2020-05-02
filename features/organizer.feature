@@ -53,3 +53,21 @@ Feature: Manage a Microcosm
     And I should see "Description: We will update the dc bike lane data in OSM."
     And I should see "Organized by: Abe"
     And I should see "20 January 2030 at 12:34"
+
+  Scenario: Edit an event
+    Given there is an event for this microcosm
+    And there is a user "abe@example.com" with name "Abe"
+    And this user is an organizer of this microcosm
+    When user "abe@example.com" logs in
+    And I am on the microcosm "MappingDC" page
+    And I click "Upcoming Events"
+    And I click "Edit"
+    And I set the event to "DC Bike Trails", "2030-02-20T12:34", "DC Park", "Hiking."
+    And I submit the form
+    And I am on the microcosm "MappingDC" page
+    Then I should see "DC Bike Trails"
+    And I click "DC Bike Trails"
+    Then I should see "DC Bike Trails"
+    And I should see "Location: DC Park"
+    And I should see "Description: Hiking."
+    And I should see "20 February 2030 at 12:34"
