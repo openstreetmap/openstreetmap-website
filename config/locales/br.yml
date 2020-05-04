@@ -52,6 +52,7 @@ br:
       diary_comment: Addispleg eus an deizlevr
       diary_entry: Enmoned en deizlevr
       friend: Mignon
+      issue: Kudenn
       language: Yezh
       message: Kemennadenn
       node: Skoulm
@@ -68,6 +69,7 @@ br:
       relation: Darempred
       relation_member: Ezel an darempred
       relation_tag: Tikedenn an darempred
+      report: Titourañ
       session: Dalc'h
       trace: Roud
       tracepoint: Poent eus ar roud
@@ -119,6 +121,12 @@ br:
       about_x_months:
         one: war-dro miz zo zo
         other: war-dro %{count} miz zo
+      about_x_years:
+        one: bloaz zo bennak
+        two: war-dro %{count} vloaz zo
+        few: war-dro %{count} bloaz zo
+        many: war-dro %{count} bloaz zo
+      half_a_minute: un hanter vunutenn zo
   editor:
     default: Dre ziouer (%{name} er mare-mañ)
     potlatch:
@@ -136,21 +144,23 @@ br:
   auth:
     providers:
       none: Hini ebet
+      openid: OpenID
       google: Google
       facebook: Facebook
+      windowslive: Windows Live
       github: GitHub
       wikipedia: Wikipedia
   api:
     notes:
       comment:
         opened_at_html: Bet krouet %{when}zo
-        opened_at_by_html: Bet krouet %{when} zo gant %{user}
-        commented_at_html: Hizivaet %{when} zo
-        commented_at_by_html: Hizivaet %{when} zo gant %{user}
-        closed_at_html: Diskoulmet %{when} zo
-        closed_at_by_html: Diskoulmet %{when} zo gant %{user}
-        reopened_at_html: adweredekaet %{when} zo
-        reopened_at_by_html: Adweredekaet %{when} zo gant %{user}
+        opened_at_by_html: Bet krouet %{when} gant %{user}
+        commented_at_html: Hizivaet %{when}
+        commented_at_by_html: Hizivaet %{when} gant %{user}
+        closed_at_html: Diskoulmet %{when}
+        closed_at_by_html: Diskoulmet %{when} gant %{user}
+        reopened_at_html: adweredekaet %{when}
+        reopened_at_by_html: Adweredekaet %{when} gant %{user}
       rss:
         title: Notennoù OpenStreetMap
         description_area: Ur roll notennoù, addispleget, gant evezhiadennoù pe serret
@@ -166,12 +176,12 @@ br:
   browse:
     created: Krouet
     closed: Serret
-    created_html: Krouet <abbr title='%{title}'>%{time} zo</abbr>
-    closed_html: Serret <abbr title='%{title}'>%{time} zo</abbr>
-    created_by_html: Krouet <abbr title='%{title}'>%{time} zo</abbr> gant %{user}
-    deleted_by_html: Dilamet <abbr title='%{title}'>%{time} zo</abbr> gant %{user}
-    edited_by_html: Aozet <abbr title='%{title}'>%{time} zo</abbr> gant %{user}
-    closed_by_html: Serret <abbr title='%{title}'>%{time} zo</abbr> gant %{user}
+    created_html: Krouet <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Serret <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Krouet <abbr title='%{title}'>%{time}</abbr> gant %{user}
+    deleted_by_html: Dilamet <abbr title='%{title}'>%{time}</abbr> gant %{user}
+    edited_by_html: Aozet <abbr title='%{title}'>%{time}</abbr> gant %{user}
+    closed_by_html: Serret <abbr title='%{title}'>%{time}</abbr> gant %{user}
     version: Stumm
     in_changeset: Strollad kemmoù
     anonymous: dizanv
@@ -191,9 +201,8 @@ br:
       relation: Darempredoù (%{count})
       relation_paginated: Darempredoù (%{x}-%{y} diwar %{count})
       comment: Addisplegoù(%{count})
-      hidden_commented_by: Addispleg kuzhet gant %{user} <abbr title='%{exact_time}'>%{when}
-        zo</abbr>
-      commented_by: Addispleg gant %{user} <abbr title='%{exact_time}'>%{when}zo</abbr>
+      hidden_commented_by: Addispleg kuzhet gant %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Addispleg gant %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Strollad kemmoù XML
       osmchangexml: osmChange XML
       feed:
@@ -264,6 +273,7 @@ br:
         tag: Pajenn deskrivañ ar wiki evit an dikedenn %{key}=%{value}
       wikidata_link: An elfenn %{page} e Wikidata
       wikipedia_link: Ar pennad %{page} war Wikipedia
+      wikimedia_commons_link: An elfenn %{page} war Wikimedia Commons
       telephone_link: Gervel %{phone_number}
     note:
       title: 'Notenn : %{id}'
@@ -275,16 +285,13 @@ br:
       opened_by: Krouet gant %{user} <abbr title='%{exact_time}'>%{when} zo</abbr>
       opened_by_anonymous: Krouet gant un den dianav <abbr title='%{exact_time}'>%{when}
         zo</abbr>
-      commented_by: Addispleg gant %{user} <abbr title='%{exact_time}'>%{when} zo</abbr>
-      commented_by_anonymous: Addispleg gant un den dianv <abbr title='%{exact_time}'>%{when}
-        zo</abbr>
-      closed_by: Diskoulmet gant %{user} <abbr title='%{exact_time}'>%{when} zo</abbr>
-      closed_by_anonymous: Diskoulmet gant un den dianv <abbr title='%{exact_time}'>%{when}
-        zo</abbr>
-      reopened_by: Adweredekaet gant %{user} <abbr title='%{exact_time}'>%{when} zo</abbr>
-      reopened_by_anonymous: Adweredekaet gant un den dianv <abbr title='%{exact_time}'>%{when}
-        zo</abbr>
-      hidden_by: Kuzhet gant %{user} <abbr title='%{exact_time}'>%{when} zo</abbr>
+      commented_by: Addispleg gant %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Addispleg gant un den dianv <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Diskoulmet gant %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Diskoulmet gant un den dianv <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Adweredekaet gant %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Adweredekaet gant un den dianv <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Kuzhet gant %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Disklêriañ an notenn-mañ
     query:
       title: Arc'hweladurioù enklask
@@ -324,7 +331,7 @@ br:
     comment:
       comment: 'Addispleg nevez diwar-benn ar strollad kemmoù #%{changeset_id} dre
         %{author}'
-      commented_at_by_html: Hizivaet %{when} zo gant %{user}
+      commented_at_by_html: Hizivaet %{when} gant %{user}
     comments:
       comment: Addispleg nevez war ar strollad kemmoù %{changeset_id} gant %{author}
     index:
@@ -357,7 +364,7 @@ br:
       older_entries: Enmonedoù koshañ
       newer_entries: Enmonedoù nevesañ
     edit:
-      title: Kemmañ an enmoned en deizlevr
+      title: Kemmañ enmoned an deizlevr
       marker_text: Lec'hiadur an enmoned en deizlevr
     show:
       title: Deizlevr %{user} | %{title}
@@ -1023,8 +1030,8 @@ br:
       status: Statud
       reports: Danevelloù
       last_updated: Hizivaet da ziwezhañ
-      last_updated_time_html: <abbr title='%{title}'>%{time} zo</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} zo</abbr> by %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> by %{user}
       link_to_reports: Gwelet an danevelloù
       reports_count:
         one: 1 Danevell
@@ -1065,7 +1072,7 @@ br:
     comments:
       reassign_param: Adfiziout ar gudenn ?
     reports:
-      reported_by_html: Disklêriet evel %{category} gant %{user}
+      reported_by_html: Disklêriet evel %{category} gant %{user} d'an %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, evezhiadenn#%{comment_id}'
@@ -1142,6 +1149,7 @@ br:
     partners_ucl: ↓"Universiy College" Londrez
     partners_bytemark: ↓Herberc'hiañ Bytemark
     partners_partners: Kevelourien
+    tou: Termenoù implijout
     osm_offline: Ezlinenn eo diaz roadennoù OpenStreetMap evit bremañ e-pad ma pleder
       gant ul labour kempenn bras.
     osm_read_only: Diaz roadennoù OpenStreetMap zo da lenn hepken evit bremañ evit
@@ -1622,7 +1630,7 @@ br:
         ha da deuliaduriñ sujedoù ar c'hartennoù.
       welcome:
         url: /welcome
-        title: Deuet-mat oc'h en OSM
+        title: Degemer mat e OSM
         description: Krogit gant ar sturlevr-mañ evit deskiñ diazezoù OpenStreetMap
       beginners_guide:
         url: http://wiki.openstreetmap.org/wiki/FR:Sturlevr an deraouidi
@@ -1630,9 +1638,9 @@ br:
         description: Sturlevr evit an deraouidi dalc'het gant ar gumuniezh
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Forom skoazellañ
         description: Ober ur goulenn pe klask respontoù e lec'hienn goulennoù-respontoù
-          OSM
+          OpenStreetMap
       mailing_lists:
         title: Roll skignañ
         description: Sevel ur goulenn pe divizout diwar-benn goulennoù dedennus war
@@ -1656,8 +1664,8 @@ br:
           ho peus ezhomm da c'houzout en tapis degemer.
       wiki:
         url: http://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: Merdeañ er wiki evit gouzout traoù resis diwar-benn OSM.
+        title: Wiki OpenStreetMap
+        description: Furchal er wiki evit gouzout traoù resis diwar-benn OpenStreetMap.
     sidebar:
       search_results: Disoc'hoù enklask
       close: Serriñ
@@ -2140,8 +2148,8 @@ br:
         bajenn wiki-mañ</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Diferadennoù ar c'henlabourer
-      heading: Diferadennoù ar c'henlabourer
+      title: Termenoù
+      heading: Termenoù
       consider_pd: Ouzhpenn an asant amañ a-us, ez anavezan emañ ma zegasadennoù en
         domani foran
       consider_pd_why: petra eo se ?
@@ -2188,7 +2196,7 @@ br:
       ct status: 'Diferadennoù ar c''henlabourer :'
       ct undecided: En entremar
       ct declined: Nac'het
-      latest edit: 'Kemm ziwezhañ %{ago} :'
+      latest edit: 'Kemm diwezhañ (%{ago}) :'
       email address: 'Chomlec''h postel :'
       created from: 'Krouet diwar :'
       status: 'Statud :'
