@@ -165,9 +165,9 @@ module ActiveSupport
     end
 
     ##
-    # set request header for HTTP Accept
-    def http_accept_format(format)
-      @request.env["HTTP_ACCEPT"] = format
+    # return request header for HTTP Accept
+    def accept_format_header(format)
+      { "Accept" => format }
     end
 
     ##
