@@ -1,7 +1,7 @@
 require "test_helper"
 
 module Api
-  class ChangesetCommentsControllerTest < ActionController::TestCase
+  class ChangesetCommentsControllerTest < ActionDispatch::IntegrationTest
     ##
     # test all routes which lead to this controller
     def test_routes
@@ -29,12 +29,12 @@ module Api
       deleted_user = create(:user, :deleted)
       private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
 
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
       assert_difference "ChangesetComment.count", 1 do
         assert_no_difference "ActionMailer::Base.deliveries.size" do
           perform_enqueued_jobs do
-            post :create, :params => { :id => private_user_closed_changeset.id, :text => "This is a comment" }
+            post changeset_comment_path(:id => private_user_closed_changeset, :text => "This is a comment"), :headers => auth_header
           end
         end
       end
@@ -49,7 +49,7 @@ module Api
       assert_difference "ChangesetComment.count", 1 do
         assert_difference "ActionMailer::Base.deliveries.size", 1 do
           perform_enqueued_jobs do
-            post :create, :params => { :id => changeset.id, :text => "This is a comment" }
+            post changeset_comment_path(:id => changeset, :text => "This is a comment"), :headers => auth_header
           end
         end
       end
@@ -62,12 +62,12 @@ module Api
 
       ActionMailer::Base.deliveries.clear
 
-      basic_authorization user2.email, "test"
+      auth_header = basic_authorization_header user2.email, "test"
 
       assert_difference "ChangesetComment.count", 1 do
         assert_difference "ActionMailer::Base.deliveries.size", 2 do
           perform_enqueued_jobs do
-            post :create, :params => { :id => changeset.id, :text => "This is a comment" }
+            post changeset_comment_path(:id => changeset, :text => "This is a comment"), :headers => auth_header
           end
         end
       end
@@ -90,32 +90,32 @@ module Api
     # create comment fail
     def test_create_comment_fail
       # unauthorized
-      post :create, :params => { :id => create(:changeset, :closed).id, :text => "This is a comment" }
+      post changeset_comment_path(:id => create(:changeset, :closed), :text => "This is a comment")
       assert_response :unauthorized
 
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # bad changeset id
       assert_no_difference "ChangesetComment.count" do
-        post :create, :params => { :id => 999111, :text => "This is a comment" }
+        post changeset_comment_path(:id => 999111, :text => "This is a comment"), :headers => auth_header
       end
       assert_response :not_found
 
       # not closed changeset
       assert_no_difference "ChangesetComment.count" do
-        post :create, :params => { :id => create(:changeset).id, :text => "This is a comment" }
+        post changeset_comment_path(:id => create(:changeset), :text => "This is a comment"), :headers => auth_header
       end
       assert_response :conflict
 
       # no text
       assert_no_difference "ChangesetComment.count" do
-        post :create, :params => { :id => create(:changeset, :closed).id }
+        post changeset_comment_path(:id => create(:changeset, :closed)), :headers => auth_header
       end
       assert_response :bad_request
 
       # empty text
       assert_no_difference "ChangesetComment.count" do
-        post :create, :params => { :id => create(:changeset, :closed).id, :text => "" }
+        post changeset_comment_path(:id => create(:changeset, :closed), :text => ""), :headers => auth_header
       end
       assert_response :bad_request
     end
@@ -127,21 +127,21 @@ module Api
       comment = create(:changeset_comment)
       assert comment.visible
 
-      post :destroy, :params => { :id => comment.id }
+      post changeset_comment_hide_path(:id => comment)
       assert_response :unauthorized
       assert comment.reload.visible
 
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # not a moderator
-      post :destroy, :params => { :id => comment.id }
+      post changeset_comment_hide_path(:id => comment), :headers => auth_header
       assert_response :forbidden
       assert comment.reload.visible
 
-      basic_authorization create(:moderator_user).email, "test"
+      auth_header = basic_authorization_header create(:moderator_user).email, "test"
 
       # bad comment id
-      post :destroy, :params => { :id => 999111 }
+      post changeset_comment_hide_path(:id => 999111), :headers => auth_header
       assert_response :not_found
       assert comment.reload.visible
     end
@@ -152,9 +152,9 @@ module Api
       comment = create(:changeset_comment)
       assert comment.visible
 
-      basic_authorization create(:moderator_user).email, "test"
+      auth_header = basic_authorization_header create(:moderator_user).email, "test"
 
-      post :destroy, :params => { :id => comment.id }
+      post changeset_comment_hide_path(:id => comment), :headers => auth_header
       assert_response :success
       assert_not comment.reload.visible
     end
@@ -166,21 +166,21 @@ module Api
       comment = create(:changeset_comment, :visible => false)
       assert_not comment.visible
 
-      post :restore, :params => { :id => comment.id }
+      post changeset_comment_unhide_path(:id => comment)
       assert_response :unauthorized
       assert_not comment.reload.visible
 
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # not a moderator
-      post :restore, :params => { :id => comment.id }
+      post changeset_comment_unhide_path(:id => comment), :headers => auth_header
       assert_response :forbidden
       assert_not comment.reload.visible
 
-      basic_authorization create(:moderator_user).email, "test"
+      auth_header = basic_authorization_header create(:moderator_user).email, "test"
 
       # bad comment id
-      post :restore, :params => { :id => 999111 }
+      post changeset_comment_unhide_path(:id => 999111), :headers => auth_header
       assert_response :not_found
       assert_not comment.reload.visible
     end
@@ -191,9 +191,9 @@ module Api
       comment = create(:changeset_comment, :visible => false)
       assert_not comment.visible
 
-      basic_authorization create(:moderator_user).email, "test"
+      auth_header = basic_authorization_header create(:moderator_user).email, "test"
 
-      post :restore, :params => { :id => comment.id }
+      post changeset_comment_unhide_path(:id => comment), :headers => auth_header
       assert_response :success
       assert comment.reload.visible
     end
@@ -208,13 +208,8 @@ module Api
       token = create(:access_token, :user => user, :allow_write_api => true)
       changeset = create(:changeset, :closed)
 
-      # Hack together an oauth request - an alternative would be to sign the request properly
-      @request.env["oauth.version"] = 1
-      @request.env["oauth.strategies"] = [:token]
-      @request.env["oauth.token"] = token
-
       assert_difference "ChangesetComment.count", 0 do
-        post :create, :params => { :id => changeset.id, :text => "This is a comment" }
+        signed_post changeset_comment_path(:id => changeset), :params => { :text => "This is a comment" }, :oauth => { :token => token }
       end
       assert_response :forbidden
 
@@ -223,7 +218,7 @@ module Api
       user.save!
 
       assert_difference "ChangesetComment.count", 1 do
-        post :create, :params => { :id => changeset.id, :text => "This is a comment" }
+        signed_post changeset_comment_path(:id => changeset), :params => { :text => "This is a comment" }, :oauth => { :token => token }
       end
       assert_response :success
     end
@@ -234,10 +229,10 @@ module Api
       user = create(:user, :terms_agreed => nil)
       changeset = create(:changeset, :closed)
 
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
       assert_difference "ChangesetComment.count", 0 do
-        post :create, :params => { :id => changeset.id, :text => "This is a comment" }
+        post changeset_comment_path(:id => changeset, :text => "This is a comment"), :headers => auth_header
       end
       assert_response :forbidden
 
@@ -246,7 +241,7 @@ module Api
       user.save!
 
       assert_difference "ChangesetComment.count", 1 do
-        post :create, :params => { :id => changeset.id, :text => "This is a comment" }
+        post changeset_comment_path(:id => changeset, :text => "This is a comment"), :headers => auth_header
       end
       assert_response :success
     end
