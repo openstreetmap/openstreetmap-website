@@ -16,6 +16,9 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
    Coveralls::SimpleCov::Formatter]
 )
 
+require "securerandom"
+require "digest/sha1"
+
 ENV["RAILS_ENV"] = "test"
 require_relative "../config/environment"
 require "rails/test_help"
@@ -122,6 +125,43 @@ module ActiveSupport
     # return request header for HTTP Basic Authorization
     def basic_authorization_header(user, pass)
       { "Authorization" => format("Basic %{auth}", :auth => Base64.encode64("#{user}:#{pass}")) }
+    end
+
+    ##
+    # make an OAuth signed request
+    def signed_request(method, uri, options = {})
+      uri = URI.parse(uri)
+      uri.scheme ||= "http"
+      uri.host ||= "www.example.com"
+
+      oauth = options.delete(:oauth)
+      params = options.fetch(:params, {}).transform_keys(&:to_s)
+
+      oauth[:consumer] ||= oauth[:token].client_application
+
+      helper = OAuth::Client::Helper.new(nil, oauth)
+
+      request = OAuth::RequestProxy.proxy(
+        "method" => method.to_s.upcase,
+        "uri" => uri,
+        "parameters" => params.merge(helper.oauth_parameters)
+      )
+
+      request.sign!(oauth)
+
+      method(method).call(request.signed_uri, options)
+    end
+
+    ##
+    # make an OAuth signed GET request
+    def signed_get(uri, options = {})
+      signed_request(:get, uri, options)
+    end
+
+    ##
+    # make an OAuth signed POST request
+    def signed_post(uri, options = {})
+      signed_request(:post, uri, options)
     end
 
     ##
