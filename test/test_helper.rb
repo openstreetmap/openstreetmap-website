@@ -171,11 +171,7 @@ module ActiveSupport
     end
 
     ##
-    # set request readers to ask for a particular error format
-    def error_format(format)
-      @request.env["HTTP_X_ERROR_FORMAT"] = format
-    end
-
+    # return request header to ask for a particular error format
     def error_format_header(f)
       { "X-Error-Format" => f }
     end
