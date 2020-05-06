@@ -1,7 +1,7 @@
 require "test_helper"
 
 module Api
-  class OldNodesControllerTest < ActionController::TestCase
+  class OldNodesControllerTest < ActionDispatch::IntegrationTest
     #
     # TODO: test history
     #
@@ -48,7 +48,7 @@ module Api
       propagate_tags(node, node.old_nodes.last)
 
       ## First try this with a non-public user
-      basic_authorization private_user.email, "test"
+      auth_header = basic_authorization_header private_user.email, "test"
 
       # setup a simple XML node
       xml_doc = xml_for_node(private_node)
@@ -68,7 +68,7 @@ module Api
         xml_node["lat"] = precision(rand * 180 - 90).to_s
         xml_node["lon"] = precision(rand * 360 - 180).to_s
         with_controller(NodesController.new) do
-          put :update, :params => { :id => nodeid }, :body => xml_doc.to_s
+          put api_node_path(:id => nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :forbidden, "Should have rejected node update"
           xml_node["version"] = @response.body.to_s
         end
@@ -83,7 +83,7 @@ module Api
         xml_tag["v"] = random_string
         xml_node << xml_tag
         with_controller(NodesController.new) do
-          put :update, :params => { :id => nodeid }, :body => xml_doc.to_s
+          put api_node_path(:id => nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :forbidden,
                           "should have rejected node #{nodeid} (#{@response.body}) with forbidden"
           xml_node["version"] = @response.body.to_s
@@ -95,7 +95,7 @@ module Api
       # probably should check that they didn't get written to the database
 
       ## Now do it with the public user
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
       # setup a simple XML node
 
@@ -116,7 +116,7 @@ module Api
         xml_node["lat"] = precision(rand * 180 - 90).to_s
         xml_node["lon"] = precision(rand * 360 - 180).to_s
         with_controller(NodesController.new) do
-          put :update, :params => { :id => nodeid }, :body => xml_doc.to_s
+          put api_node_path(:id => nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :success
           xml_node["version"] = @response.body.to_s
         end
@@ -131,7 +131,7 @@ module Api
         xml_tag["v"] = random_string
         xml_node << xml_tag
         with_controller(NodesController.new) do
-          put :update, :params => { :id => nodeid }, :body => xml_doc.to_s
+          put api_node_path(:id => nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :success,
                           "couldn't update node #{nodeid} (#{@response.body})"
           xml_node["version"] = @response.body.to_s
@@ -142,7 +142,7 @@ module Api
 
       # check all the versions
       versions.each_key do |key|
-        get :version, :params => { :id => nodeid, :version => key.to_i }
+        get node_version_path(:id => nodeid, :version => key.to_i)
 
         assert_response :success,
                         "couldn't get version #{key.to_i} of node #{nodeid}"
@@ -162,7 +162,7 @@ module Api
     end
 
     def check_not_found_id_version(id, version)
-      get :version, :params => { :id => id, :version => version }
+      get node_version_path(:id => id, :version => version)
       assert_response :not_found
     rescue ActionController::UrlGenerationError => e
       assert_match(/No route matches/, e.to_s)
@@ -210,13 +210,14 @@ module Api
     # test the redaction of an old version of a node, while being
     # authorised as a normal user.
     def test_redact_node_normal_user
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       node = create(:node, :with_history, :version => 4)
       node_v3 = node.old_nodes.find_by(:version => 3)
 
       do_redact_node(node_v3,
-                     create(:redaction))
+                     create(:redaction),
+                     auth_header)
       assert_response :forbidden, "should need to be moderator to redact."
     end
 
@@ -224,13 +225,14 @@ module Api
     # test that, even as moderator, the current version of a node
     # can't be redacted.
     def test_redact_node_current_version
-      basic_authorization create(:moderator_user).email, "test"
+      auth_header = basic_authorization_header create(:moderator_user).email, "test"
 
       node = create(:node, :with_history, :version => 4)
       node_v4 = node.old_nodes.find_by(:version => 4)
 
       do_redact_node(node_v4,
-                     create(:redaction))
+                     create(:redaction),
+                     auth_header)
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
     end
 
@@ -242,12 +244,12 @@ module Api
       node_v1 = node.old_nodes.find_by(:version => 1)
       node_v1.redact!(create(:redaction))
 
-      get :version, :params => { :id => node_v1.node_id, :version => node_v1.version }
+      get node_version_path(:id => node_v1.node_id, :version => node_v1.version)
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
 
       # not even to a logged-in user
-      basic_authorization create(:user).email, "test"
-      get :version, :params => { :id => node_v1.node_id, :version => node_v1.version }
+      auth_header = basic_authorization_header create(:user).email, "test"
+      get node_version_path(:id => node_v1.node_id, :version => node_v1.version), :headers => auth_header
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API, even when logged in."
     end
 
@@ -258,13 +260,13 @@ module Api
       node_v1 = node.old_nodes.find_by(:version => 1)
       node_v1.redact!(create(:redaction))
 
-      get :history, :params => { :id => node_v1.node_id }
+      get api_node_history_path(:id => node_v1.node_id)
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 0, "redacted node #{node_v1.node_id} version #{node_v1.version} shouldn't be present in the history."
 
       # not even to a logged-in user
-      basic_authorization create(:user).email, "test"
-      get :history, :params => { :id => node_v1.node_id }
+      auth_header = basic_authorization_header create(:user).email, "test"
+      get api_node_history_path(:id => node_v1.node_id), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 0, "redacted node #{node_v1.node_id} version #{node_v1.version} shouldn't be present in the history, even when logged in."
     end
@@ -275,23 +277,23 @@ module Api
     def test_redact_node_moderator
       node = create(:node, :with_history, :version => 4)
       node_v3 = node.old_nodes.find_by(:version => 3)
-      basic_authorization create(:moderator_user).email, "test"
+      auth_header = basic_authorization_header create(:moderator_user).email, "test"
 
-      do_redact_node(node_v3, create(:redaction))
+      do_redact_node(node_v3, create(:redaction), auth_header)
       assert_response :success, "should be OK to redact old version as moderator."
 
       # check moderator can still see the redacted data, when passing
       # the appropriate flag
-      get :version, :params => { :id => node_v3.node_id, :version => node_v3.version }
+      get node_version_path(:id => node_v3.node_id, :version => node_v3.version), :headers => auth_header
       assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
-      get :version, :params => { :id => node_v3.node_id, :version => node_v3.version, :show_redactions => "true" }
+      get node_version_path(:id => node_v3.node_id, :version => node_v3.version), :params => { :show_redactions => "true" }, :headers => auth_header
       assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
       # and when accessed via history
-      get :history, :params => { :id => node_v3.node_id }
+      get api_node_history_path(:id => node_v3.node_id)
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v3.node_id}'][version='#{node_v3.version}']", 0, "node #{node_v3.node_id} version #{node_v3.version} should not be present in the history for moderators when not passing flag."
-      get :history, :params => { :id => node_v3.node_id, :show_redactions => "true" }
+      get api_node_history_path(:id => node_v3.node_id), :params => { :show_redactions => "true" }, :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v3.node_id}'][version='#{node_v3.version}']", 1, "node #{node_v3.node_id} version #{node_v3.version} should still be present in the history for moderators when passing flag."
     end
@@ -301,20 +303,20 @@ module Api
     def test_redact_node_is_redacted
       node = create(:node, :with_history, :version => 4)
       node_v3 = node.old_nodes.find_by(:version => 3)
-      basic_authorization create(:moderator_user).email, "test"
+      auth_header = basic_authorization_header create(:moderator_user).email, "test"
 
-      do_redact_node(node_v3, create(:redaction))
+      do_redact_node(node_v3, create(:redaction), auth_header)
       assert_response :success, "should be OK to redact old version as moderator."
 
       # re-auth as non-moderator
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # check can't see the redacted data
-      get :version, :params => { :id => node_v3.node_id, :version => node_v3.version }
+      get node_version_path(:id => node_v3.node_id, :version => node_v3.version), :headers => auth_header
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
 
       # and when accessed via history
-      get :history, :params => { :id => node_v3.node_id }
+      get api_node_history_path(:id => node_v3.node_id), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v3.node_id}'][version='#{node_v3.version}']", 0, "redacted node #{node_v3.node_id} version #{node_v3.version} shouldn't be present in the history."
     end
@@ -327,7 +329,7 @@ module Api
       node_v1 = node.old_nodes.find_by(:version => 1)
       node_v1.redact!(create(:redaction))
 
-      post :redact, :params => { :id => node_v1.node_id, :version => node_v1.version }
+      post node_version_redact_path(:id => node_v1.node_id, :version => node_v1.version)
       assert_response :unauthorized, "should need to be authenticated to unredact."
     end
 
@@ -340,9 +342,9 @@ module Api
       node_v1 = node.old_nodes.find_by(:version => 1)
       node_v1.redact!(create(:redaction))
 
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
-      post :redact, :params => { :id => node_v1.node_id, :version => node_v1.version }
+      post node_version_redact_path(:id => node_v1.node_id, :version => node_v1.version), :headers => auth_header
       assert_response :forbidden, "should need to be moderator to unredact."
     end
 
@@ -355,54 +357,54 @@ module Api
       node_v1 = node.old_nodes.find_by(:version => 1)
       node_v1.redact!(create(:redaction))
 
-      basic_authorization moderator_user.email, "test"
+      auth_header = basic_authorization_header moderator_user.email, "test"
 
-      post :redact, :params => { :id => node_v1.node_id, :version => node_v1.version }
+      post node_version_redact_path(:id => node_v1.node_id, :version => node_v1.version), :headers => auth_header
       assert_response :success, "should be OK to unredact old version as moderator."
 
       # check moderator can now see the redacted data, when not
       # passing the aspecial flag
-      get :version, :params => { :id => node_v1.node_id, :version => node_v1.version }
+      get node_version_path(:id => node_v1.node_id, :version => node_v1.version), :headers => auth_header
       assert_response :success, "After unredaction, node should not be gone for moderator."
 
       # and when accessed via history
-      get :history, :params => { :id => node_v1.node_id }
+      get api_node_history_path(:id => node_v1.node_id)
       assert_response :success, "Unredaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 1, "node #{node_v1.node_id} version #{node_v1.version} should now be present in the history for moderators without passing flag."
 
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # check normal user can now see the redacted data
-      get :version, :params => { :id => node_v1.node_id, :version => node_v1.version }
+      get node_version_path(:id => node_v1.node_id, :version => node_v1.version), :headers => auth_header
       assert_response :success, "After unredaction, node should be visible to normal users."
 
       # and when accessed via history
-      get :history, :params => { :id => node_v1.node_id }
+      get api_node_history_path(:id => node_v1.node_id)
       assert_response :success, "Unredaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 1, "node #{node_v1.node_id} version #{node_v1.version} should now be present in the history for normal users without passing flag."
     end
 
     private
 
-    def do_redact_node(node, redaction)
-      get :version, :params => { :id => node.node_id, :version => node.version }
+    def do_redact_node(node, redaction, headers = {})
+      get node_version_path(:id => node.node_id, :version => node.version), :headers => headers
       assert_response :success, "should be able to get version #{node.version} of node #{node.node_id}."
 
       # now redact it
-      post :redact, :params => { :id => node.node_id, :version => node.version, :redaction => redaction.id }
+      post node_version_redact_path(:id => node.node_id, :version => node.version), :params => { :redaction => redaction.id }, :headers => headers
     end
 
     def check_current_version(node_id)
       # get the current version of the node
       current_node = with_controller(NodesController.new) do
-        get :show, :params => { :id => node_id }
+        get api_node_path(:id => node_id)
         assert_response :success, "cant get current node #{node_id}"
         Node.from_xml(@response.body)
       end
       assert_not_nil current_node, "getting node #{node_id} returned nil"
 
       # get the "old" version of the node from the old_node interface
-      get :version, :params => { :id => node_id, :version => current_node.version }
+      get node_version_path(:id => node_id, :version => current_node.version)
       assert_response :success, "cant get old node #{node_id}, v#{current_node.version}"
       old_node = Node.from_xml(@response.body)
 

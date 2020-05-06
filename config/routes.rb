@@ -23,34 +23,34 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/comment/:id/unhide" => "api/changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
 
     put "node/create" => "api/nodes#create"
-    get "node/:id/ways" => "api/ways#ways_for_node", :id => /\d+/
-    get "node/:id/relations" => "api/relations#relations_for_node", :id => /\d+/
-    get "node/:id/history" => "api/old_nodes#history", :id => /\d+/
-    post "node/:id/:version/redact" => "api/old_nodes#redact", :version => /\d+/, :id => /\d+/
-    get "node/:id/:version" => "api/old_nodes#version", :id => /\d+/, :version => /\d+/
+    get "node/:id/ways" => "api/ways#ways_for_node", :as => :node_ways, :id => /\d+/
+    get "node/:id/relations" => "api/relations#relations_for_node", :as => :node_relations, :id => /\d+/
+    get "node/:id/history" => "api/old_nodes#history", :as => :api_node_history, :id => /\d+/
+    post "node/:id/:version/redact" => "api/old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
+    get "node/:id/:version" => "api/old_nodes#version", :as => :node_version, :id => /\d+/, :version => /\d+/
     get "node/:id" => "api/nodes#show", :as => :api_node, :id => /\d+/
     put "node/:id" => "api/nodes#update", :id => /\d+/
     delete "node/:id" => "api/nodes#delete", :id => /\d+/
     get "nodes" => "api/nodes#index"
 
     put "way/create" => "api/ways#create"
-    get "way/:id/history" => "api/old_ways#history", :id => /\d+/
-    get "way/:id/full" => "api/ways#full", :id => /\d+/
-    get "way/:id/relations" => "api/relations#relations_for_way", :id => /\d+/
-    post "way/:id/:version/redact" => "api/old_ways#redact", :version => /\d+/, :id => /\d+/
-    get "way/:id/:version" => "api/old_ways#version", :id => /\d+/, :version => /\d+/
+    get "way/:id/history" => "api/old_ways#history", :as => :api_way_history, :id => /\d+/
+    get "way/:id/full" => "api/ways#full", :as => :way_full, :id => /\d+/
+    get "way/:id/relations" => "api/relations#relations_for_way", :as => :way_relations, :id => /\d+/
+    post "way/:id/:version/redact" => "api/old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
+    get "way/:id/:version" => "api/old_ways#version", :as => :way_version, :id => /\d+/, :version => /\d+/
     get "way/:id" => "api/ways#show", :as => :api_way, :id => /\d+/
     put "way/:id" => "api/ways#update", :id => /\d+/
     delete "way/:id" => "api/ways#delete", :id => /\d+/
     get "ways" => "api/ways#index"
 
     put "relation/create" => "api/relations#create"
-    get "relation/:id/relations" => "api/relations#relations_for_relation", :id => /\d+/
-    get "relation/:id/history" => "api/old_relations#history", :id => /\d+/
-    get "relation/:id/full" => "api/relations#full", :id => /\d+/
-    post "relation/:id/:version/redact" => "api/old_relations#redact", :version => /\d+/, :id => /\d+/
-    get "relation/:id/:version" => "api/old_relations#version", :id => /\d+/, :version => /\d+/
-    get "relation/:id" => "api/relations#show", :id => /\d+/
+    get "relation/:id/relations" => "api/relations#relations_for_relation", :as => :relation_relations, :id => /\d+/
+    get "relation/:id/history" => "api/old_relations#history", :as => :api_relation_history, :id => /\d+/
+    get "relation/:id/full" => "api/relations#full", :as => :relation_full, :id => /\d+/
+    post "relation/:id/:version/redact" => "api/old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
+    get "relation/:id/:version" => "api/old_relations#version", :as => :relation_version, :id => /\d+/, :version => /\d+/
+    get "relation/:id" => "api/relations#show", :as => :api_relation, :id => /\d+/
     put "relation/:id" => "api/relations#update", :id => /\d+/
     delete "relation/:id" => "api/relations#delete", :id => /\d+/
     get "relations" => "api/relations#index"
