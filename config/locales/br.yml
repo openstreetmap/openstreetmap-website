@@ -126,7 +126,62 @@ br:
         two: war-dro %{count} vloaz zo
         few: war-dro %{count} bloaz zo
         many: war-dro %{count} bloaz zo
+        other: war-dro %{count} bloaz zo
+      almost_x_years:
+        one: bloaz zo bennak
+        two: war-dro %{count} vloaz zo
+        few: war-dro %{count} bloaz zo
+        many: war-dro %{count} bloaz zo
+        other: war-dro %{count} bloaz zo
       half_a_minute: un hanter vunutenn zo
+      less_than_x_seconds:
+        one: nebeutoc'h eget un eilenn zo
+        two: nebeutoc'h eget %{count} eilenn zo
+        few: nebeutoc'h eget %{count} eilenn zo
+        many: nebeutoc'h eget %{count} eilenn zo
+        other: nebeutoc'h eget %{count} eilenn zo
+      less_than_x_minutes:
+        one: nebeutoc'h eget un nunutenn zo
+        two: nebeutoc'h eget %{count} vunutenn zo
+        few: nebeutoc'h eget %{count} munutenn zo
+        many: nebeutoc'h eget %{count} munutenn zo
+        other: nebeutoc'h eget %{count} munutenn zo
+      over_x_years:
+        one: ouzhpenn bloaz zo
+        two: ouzhpenn %{count} vloaz zo
+        few: ouzhpenn %{count} bloaz zo
+        many: ouzhpenn %{count} bloaz zo
+        other: ouzhpenn %{count} bloaz zo
+      x_seconds:
+        one: un eilenn zo
+        two: '%{count} eilenn zo'
+        few: '%{count} eilenn zo'
+        many: '%{count} eilenn zo'
+        other: '%{count} eilenn zo'
+      x_minutes:
+        one: ur vunutenn zo
+        two: '%{count} vunutenn zo'
+        few: '%{count} munutenn zo'
+        many: '%{count} munutenn zo'
+        other: '%{count} munutenn zo'
+      x_days:
+        one: un deiz zo
+        two: '%{count} zeiz zo'
+        few: '%{count} deiz zo'
+        many: '%{count} deiz zo'
+        other: '%{count} deiz zo'
+      x_months:
+        one: miz zo
+        two: '%{count} viz zo'
+        few: '%{count} miz zo'
+        many: '%{count} miz zo'
+        other: '%{count} miz zo'
+      x_years:
+        one: bloaz zo
+        two: '%{count} vloaz zo'
+        few: '%{count} bloaz zo'
+        many: '%{count} bloaz zo'
+        other: '%{count} bloaz zo'
   editor:
     default: Dre ziouer (%{name} er mare-mañ)
     potlatch:
@@ -275,6 +330,7 @@ br:
       wikipedia_link: Ar pennad %{page} war Wikipedia
       wikimedia_commons_link: An elfenn %{page} war Wikimedia Commons
       telephone_link: Gervel %{phone_number}
+      colour_preview: Rakwel al liv %{colour_value}
     note:
       title: 'Notenn : %{id}'
       new_note: Notenn nevez
@@ -388,11 +444,13 @@ br:
         other: '%{count} addipleg'
       edit_link: Aozañ an enmoned-mañ
       hide_link: Kuzhat an enmoned-mañ
+      unhide_link: Diguzhat an enmoned-mañ
       confirm: Kadarnaat
       report: Disklêriañ an enmoned-mañ
     diary_comment:
       comment_from_html: Addispleg gant %{link_user}  d'an %{comment_created_at}
       hide_link: Kuzhat an addispleg-mañ
+      unhide_link: Diguzhat an evezhiadenn-mañ
       confirm: Kadarnaat
       report: Diskêriañ an evheziadenn-mañ
     location:
@@ -1070,6 +1128,7 @@ br:
     reopen:
       reopened: Stad ar gudenn zo bet lakaet e "Digor"
     comments:
+      comment_from_html: Evezhiadenn gant %{user_link} war %{comment_created_at}
       reassign_param: Adfiziout ar gudenn ?
     reports:
       reported_by_html: Disklêriet evel %{category} gant %{user} d'an %{updated_at}
@@ -2010,6 +2069,7 @@ br:
       no_apps_html: Ha bez' hoc'h eus un arload ho pefe c'hoant da varilhañ evit implijout
         ar standard %{oauth} ganimp ? Ret eo deoc'h marilhañ hoc'h arload web a-raok
         dezhi ober rekedoù d'ar servij-mañ.
+      oauth: OAuth
       registered_apps: 'Marilhet eo an arloadoù arvalien-mañ ganeoc''h :'
       register_new: Marilhañ hoc'h arload
     form:
@@ -2150,6 +2210,7 @@ br:
     terms:
       title: Termenoù
       heading: Termenoù
+      read_tou: Lennet em eus ar reolennoù implijout hag asantiñ a ran doujañ dezho
       consider_pd: Ouzhpenn an asant amañ a-us, ez anavezan emañ ma zegasadennoù en
         domani foran
       consider_pd_why: petra eo se ?
@@ -2157,6 +2218,7 @@ br:
       guidance_html: 'Titouroù da skoazellañ kompren an termenoù-mañ : a <a href="%{summary}">diverradenn
         lennus gant mab-den</a> hag un nebeud <a href="%{translations}">troidigezhioù
         anfurmel</a>'
+      continue: Kenderc'hel
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Nac'h
       you need to accept or decline: Lennit da gentañ Termenoù ar berzhidi nevez ha
@@ -2462,7 +2524,8 @@ br:
       title: O tisteurel ur stankadur evit %{block_on}
       heading_html: O lemel ur stankadur war %{block_on} gant %{block_by}
       time_future: Echu e vo ar stankadur-mañ a-benn %{time}.
-      past: Echu eo ar stankadur-mañ %{time} zo ha ne c'hall ket bezañ torret bremañ.
+      past: Aet eo ar stankadur-mañ d'e dermen d'an %{time} ha ne c'hall ket bezañ
+        torret bremañ.
       confirm: Ha sur oc'h hoc'h eus c'hoant da derriñ ar stankadur-mañ ?
       revoke: Disteuler !
       flash: Torret eo bet ar stankadur-mañ.
@@ -2471,11 +2534,35 @@ br:
       until_login: Oberiant betek ma kevre an implijer.
       time_future_and_until_login: Echuiñ a ra a-benn %{time} hag ur wech kevreet
         an implijer.
-      time_past: Echuet %{time} zo.
+      time_past: Echuet da %{time}.
       block_duration:
         hours:
           one: 1 eurvezh
           other: '%{count} eurvezh'
+        days:
+          one: un deiz
+          two: '%{count} zeiz'
+          few: '%{count} deiz'
+          many: '%{count} deiz'
+          other: '%{count} deiz'
+        weeks:
+          one: ur sizhun
+          two: '%{count} sizhun'
+          few: '%{count} sizhun'
+          many: '%{count} sizhun'
+          other: '%{count} sizhun'
+        months:
+          one: ur miz
+          two: '%{count} viz'
+          few: '%{count} miz'
+          many: '%{count} miz'
+          other: '%{count} miz'
+        years:
+          one: ur bloaz
+          two: '%{count} vloaz'
+          few: '%{count} bloaz'
+          many: '%{count} bloaz'
+          other: '%{count} bloaz'
     blocks_on:
       title: Stankadurioù evit %{name}
       heading_html: Roll ar stankadurioù evit %{name}
@@ -2557,6 +2644,18 @@ br:
         out: Dizoumañ
       locate:
         title: Diskouez al lec'h m'emaon
+        metersPopup:
+          one: Emaoc'h dindan ur metr diouzh ar poent-mañ
+          two: Emaoc'h dindan %{count} vetr diouzh ar poent-mañ
+          few: Emaoc'h dindan %{count} metr diouzh ar poent-mañ
+          many: Emaoc'h dindan %{count} metr diouzh ar poent-mañ
+          other: Emaoc'h dindan %{count} metr diouzh ar poent-mañ
+        feetPopup:
+          one: Emaoc'h dindan un troad diouzh ar poent-mañ
+          two: Emaoc'h dindan %{count} droad diouzh ar poent-mañ
+          few: Emaoc'h dindan %{count} troad diouzh ar poent-mañ
+          many: Emaoc'h dindan %{count} troad diouzh ar poent-mañ
+          other: Emaoc'h dindan %{count} troad diouzh ar poent-mañ
       base:
         standard: Standard
         cycle_map: Kelc'hiad kartenn
@@ -2571,6 +2670,8 @@ br:
         title: Gwiskadoù
       copyright: © <a href='%{copyright_url}'>Kenlabourerien OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Grit un donezon</a>
+      terms: <a href='%{terms_url}' target='_blank'>Termenoù al lec'hienn Web hag
+        an API</a>
     site:
       edit_tooltip: Kemmañ ar gartenn
       edit_disabled_tooltip: Zoumañ da zegas kemmoù war ar gartenn
