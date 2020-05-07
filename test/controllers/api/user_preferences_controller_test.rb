@@ -1,7 +1,7 @@
 require "test_helper"
 
 module Api
-  class UserPreferencesControllerTest < ActionController::TestCase
+  class UserPreferencesControllerTest < ActionDispatch::IntegrationTest
     ##
     # test all routes which lead to this controller
     def test_routes
@@ -31,14 +31,14 @@ module Api
     # test showing all preferences
     def test_index
       # first try without auth
-      get :index
+      get user_preferences_path
       assert_response :unauthorized, "should be authenticated"
 
       # authenticate as a user with no preferences
-      basic_authorization create(:user).email, "test"
+      auth_header = basic_authorization_header create(:user).email, "test"
 
       # try the read again
-      get :index
+      get user_preferences_path, :headers => auth_header
       assert_select "osm" do
         assert_select "preferences", :count => 1 do
           assert_select "preference", :count => 0
@@ -49,10 +49,10 @@ module Api
       user = create(:user)
       user_preference = create(:user_preference, :user => user)
       user_preference2 = create(:user_preference, :user => user)
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
       # try the read again
-      get :index
+      get user_preferences_path, :headers => auth_header
       assert_response :success
       assert_equal "application/xml", @response.media_type
       assert_select "osm" do
@@ -71,20 +71,20 @@ module Api
       create(:user_preference, :user => user, :k => "key", :v => "value")
 
       # try a read without auth
-      get :show, :params => { :preference_key => "key" }
+      get user_preference_path(:preference_key => "key")
       assert_response :unauthorized, "should be authenticated"
 
       # authenticate as a user with preferences
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
       # try the read again
-      get :show, :params => { :preference_key => "key" }
+      get user_preference_path(:preference_key => "key"), :headers => auth_header
       assert_response :success
       assert_equal "text/plain", @response.media_type
       assert_equal "value", @response.body
 
       # try the read again for a non-existent key
-      get :show, :params => { :preference_key => "unknown_key" }
+      get user_preference_path(:preference_key => "unknown_key"), :headers => auth_header
       assert_response :not_found
     end
 
@@ -97,7 +97,7 @@ module Api
 
       # try a put without auth
       assert_no_difference "UserPreference.count" do
-        put :update_all, :body => "<osm><preferences><preference k='key' v='new_value'/><preference k='new_key' v='value'/></preferences></osm>"
+        put user_preferences_path, :params => "<osm><preferences><preference k='key' v='new_value'/><preference k='new_key' v='value'/></preferences></osm>"
       end
       assert_response :unauthorized, "should be authenticated"
       assert_equal "value", UserPreference.find([user.id, "key"]).v
@@ -107,11 +107,11 @@ module Api
       end
 
       # authenticate as a user with preferences
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
       # try the put again
       assert_no_difference "UserPreference.count" do
-        put :update_all, :body => "<osm><preferences><preference k='key' v='new_value'/><preference k='new_key' v='value'/></preferences></osm>"
+        put user_preferences_path, :params => "<osm><preferences><preference k='key' v='new_value'/><preference k='new_key' v='value'/></preferences></osm>", :headers => auth_header
       end
       assert_response :success
       assert_equal "text/plain", @response.media_type
@@ -124,7 +124,7 @@ module Api
 
       # try a put with duplicate keys
       assert_no_difference "UserPreference.count" do
-        put :update_all, :body => "<osm><preferences><preference k='key' v='value'/><preference k='key' v='newer_value'/></preferences></osm>"
+        put user_preferences_path, :params => "<osm><preferences><preference k='key' v='value'/><preference k='key' v='newer_value'/></preferences></osm>", :headers => auth_header
       end
       assert_response :bad_request
       assert_equal "text/plain", @response.media_type
@@ -133,7 +133,7 @@ module Api
 
       # try a put with invalid content
       assert_no_difference "UserPreference.count" do
-        put :update_all, :body => "nonsense"
+        put user_preferences_path, :params => "nonsense", :headers => auth_header
       end
       assert_response :bad_request
     end
@@ -146,7 +146,7 @@ module Api
 
       # try a put without auth
       assert_no_difference "UserPreference.count" do
-        put :update, :params => { :preference_key => "new_key" }, :body => "new_value"
+        put user_preference_path(:preference_key => "new_key"), :params => "new_value"
       end
       assert_response :unauthorized, "should be authenticated"
       assert_raises ActiveRecord::RecordNotFound do
@@ -154,11 +154,11 @@ module Api
       end
 
       # authenticate as a user with preferences
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
       # try adding a new preference
       assert_difference "UserPreference.count", 1 do
-        put :update, :params => { :preference_key => "new_key" }, :body => "new_value"
+        put user_preference_path(:preference_key => "new_key"), :params => "new_value", :headers => auth_header
       end
       assert_response :success
       assert_equal "text/plain", @response.media_type
@@ -167,7 +167,7 @@ module Api
 
       # try changing the value of a preference
       assert_no_difference "UserPreference.count" do
-        put :update, :params => { :preference_key => "new_key" }, :body => "newer_value"
+        put user_preference_path(:preference_key => "new_key"), :params => "newer_value", :headers => auth_header
       end
       assert_response :success
       assert_equal "text/plain", @response.media_type
@@ -183,17 +183,17 @@ module Api
 
       # try a delete without auth
       assert_no_difference "UserPreference.count" do
-        delete :destroy, :params => { :preference_key => "key" }
+        delete user_preference_path(:preference_key => "key")
       end
       assert_response :unauthorized, "should be authenticated"
       assert_equal "value", UserPreference.find([user.id, "key"]).v
 
       # authenticate as a user with preferences
-      basic_authorization user.email, "test"
+      auth_header = basic_authorization_header user.email, "test"
 
       # try the delete again
       assert_difference "UserPreference.count", -1 do
-        get :destroy, :params => { :preference_key => "key" }
+        delete user_preference_path(:preference_key => "key"), :headers => auth_header
       end
       assert_response :success
       assert_equal "text/plain", @response.media_type
@@ -204,7 +204,7 @@ module Api
 
       # try the delete again for the same key
       assert_no_difference "UserPreference.count" do
-        get :destroy, :params => { :preference_key => "key" }
+        delete user_preference_path(:preference_key => "key"), :headers => auth_header
       end
       assert_response :not_found
       assert_raises ActiveRecord::RecordNotFound do
@@ -219,12 +219,7 @@ module Api
       token = create(:access_token, :user => user, :allow_read_prefs => true)
       create(:user_preference, :user => user, :k => "key", :v => "value")
 
-      # Hack together an oauth request - an alternative would be to sign the request properly
-      @request.env["oauth.version"] = 1
-      @request.env["oauth.strategies"] = [:token]
-      @request.env["oauth.token"] = token
-
-      get :show, :params => { :preference_key => "key" }
+      signed_get user_preference_path(:preference_key => "key"), :oauth => { :token => token }
       assert_response :success
     end
 
@@ -235,11 +230,8 @@ module Api
       user = create(:user)
       token = create(:access_token, :user => user, :allow_read_prefs => false)
       create(:user_preference, :user => user, :k => "key", :v => "value")
-      @request.env["oauth.version"] = 1
-      @request.env["oauth.strategies"] = [:token]
-      @request.env["oauth.token"] = token
 
-      get :show, :params => { :preference_key => "key" }
+      signed_get user_preference_path(:preference_key => "key"), :oauth => { :token => token }
       assert_response :forbidden
     end
   end

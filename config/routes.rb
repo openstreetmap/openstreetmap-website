@@ -61,16 +61,16 @@ OpenStreetMap::Application.routes.draw do
 
     get "changes" => "api/changes#index"
 
-    get "user/:id" => "api/users#show", :id => /\d+/
+    get "user/:id" => "api/users#show", :id => /\d+/, :as => :api_user
     get "user/details" => "api/users#details"
     get "user/gpx_files" => "api/users#gpx_files"
     get "users" => "api/users#index", :as => :api_users
 
-    get "user/preferences" => "api/user_preferences#index"
-    get "user/preferences/:preference_key" => "api/user_preferences#show"
-    put "user/preferences" => "api/user_preferences#update_all"
-    put "user/preferences/:preference_key" => "api/user_preferences#update"
-    delete "user/preferences/:preference_key" => "api/user_preferences#destroy"
+    resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences", :controller => "api/user_preferences" do
+      collection do
+        put "" => "api/user_preferences#update_all", :as => ""
+      end
+    end
 
     post "gpx/create" => "api/traces#create"
     get "gpx/:id" => "api/traces#show", :id => /\d+/

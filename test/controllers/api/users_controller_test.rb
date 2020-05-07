@@ -1,7 +1,7 @@
 require "test_helper"
 
 module Api
-  class UsersControllerTest < ActionController::TestCase
+  class UsersControllerTest < ActionDispatch::IntegrationTest
     ##
     # test all routes which lead to this controller
     def test_routes
@@ -26,7 +26,7 @@ module Api
     def test_show
       user = create(:user, :description => "test", :terms_agreed => Date.yesterday)
       # check that a visible user is returned properly
-      get :show, :params => { :id => user.id }
+      get api_user_path(:id => user.id)
       assert_response :success
       assert_equal "text/xml", response.media_type
 
@@ -59,15 +59,15 @@ module Api
       assert_select "messages", false
 
       # check that a suspended user is not returned
-      get :show, :params => { :id => create(:user, :suspended).id }
+      get api_user_path(:id => create(:user, :suspended).id)
       assert_response :gone
 
       # check that a deleted user is not returned
-      get :show, :params => { :id => create(:user, :deleted).id }
+      get api_user_path(:id => create(:user, :deleted).id)
       assert_response :gone
 
       # check that a non-existent user is not returned
-      get :show, :params => { :id => 0 }
+      get api_user_path(:id => 0)
       assert_response :not_found
     end
 
@@ -77,12 +77,12 @@ module Api
       create(:message, :sender => user)
 
       # check that nothing is returned when not logged in
-      get :details
+      get user_details_path
       assert_response :unauthorized
 
       # check that we get a response when logged in
-      basic_authorization user.email, "test"
-      get :details
+      auth_header = basic_authorization_header user.email, "test"
+      get user_details_path, :headers => auth_header
       assert_response :success
       assert_equal "text/xml", response.media_type
 
@@ -128,7 +128,7 @@ module Api
       user2 = create(:user, :description => "test2", :terms_agreed => Date.yesterday)
       user3 = create(:user, :description => "test3", :terms_agreed => Date.yesterday)
 
-      get :index, :params => { :users => user1.id }
+      get api_users_path(:users => user1.id)
       assert_response :success
       assert_equal "text/xml", response.media_type
       assert_select "user", :count => 1 do
@@ -137,7 +137,7 @@ module Api
         assert_select "user[id='#{user3.id}']", :count => 0
       end
 
-      get :index, :params => { :users => user2.id }
+      get api_users_path(:users => user2.id)
       assert_response :success
       assert_equal "text/xml", response.media_type
       assert_select "user", :count => 1 do
@@ -146,7 +146,7 @@ module Api
         assert_select "user[id='#{user3.id}']", :count => 0
       end
 
-      get :index, :params => { :users => "#{user1.id},#{user3.id}" }
+      get api_users_path(:users => "#{user1.id},#{user3.id}")
       assert_response :success
       assert_equal "text/xml", response.media_type
       assert_select "user", :count => 2 do
@@ -155,13 +155,13 @@ module Api
         assert_select "user[id='#{user3.id}']", :count => 1
       end
 
-      get :index, :params => { :users => create(:user, :suspended).id }
+      get api_users_path(:users => create(:user, :suspended).id)
       assert_response :not_found
 
-      get :index, :params => { :users => create(:user, :deleted).id }
+      get api_users_path(:users => create(:user, :deleted).id)
       assert_response :not_found
 
-      get :index, :params => { :users => 0 }
+      get api_users_path(:users => 0)
       assert_response :not_found
     end
 
@@ -174,12 +174,12 @@ module Api
         create(:tracetag, :trace => trace, :tag => "Birmingham")
       end
       # check that nothing is returned when not logged in
-      get :gpx_files
+      get user_gpx_files_path
       assert_response :unauthorized
 
       # check that we get a response when logged in
-      basic_authorization user.email, "test"
-      get :gpx_files
+      auth_header = basic_authorization_header user.email, "test"
+      get user_gpx_files_path, :headers => auth_header
       assert_response :success
       assert_equal "application/xml", response.media_type
 
