@@ -31,6 +31,8 @@ module BrowseTagsHelper
       safe_join(phones, "; ")
     elsif colour_value = colour_preview(key, value)
       tag.span("", :class => "colour-preview-box", :"data-colour" => colour_value, :title => t("browse.tag_details.colour_preview", :colour_value => colour_value)) + colour_value
+    elsif link = tag2link(key, value)
+      link_to(h(link[:text]), link[:url], :rel => "nofollow")
     else
       linkify h(value)
     end
@@ -167,6 +169,17 @@ module BrowseTagsHelper
       end
     end
     nil
+  end
+
+  def tag2link(key, value)
+    return unless TAG2LINK.key? key
+
+    url = if value =~ %r{^https?://}
+            value
+          else
+            TAG2LINK[key].gsub("$1", value)
+          end
+    { :url => url, :text => value }
   end
 
   def colour_preview(key, value)
