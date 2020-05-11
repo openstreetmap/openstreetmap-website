@@ -50,6 +50,7 @@ oc:
       diary_comment: Comentari dau jornau
       diary_entry: Entrada del jornal
       friend: Amic
+      issue: Dificultat
       language: Lenga
       message: Messatge
       node: Nos
@@ -66,6 +67,7 @@ oc:
       relation: Relacion
       relation_member: Membre de la relacion
       relation_tag: Balisa de relacion
+      report: Senhalar
       session: Session
       trace: Traça
       tracepoint: Ponch de la traça
@@ -162,6 +164,15 @@ oc:
     remote:
       name: Editor extèrne
       description: Editor extèrne (JOSM o Merkaartor)
+  auth:
+    providers:
+      none: Ges
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipèdia
   api:
     notes:
       comment:
@@ -229,12 +240,12 @@ oc:
       title_html: 'Nos : %{name}'
       history_title_html: 'Istoric dau nos : %{name}'
     way:
-      title_html: 'Camin : %{name}'
-      history_title_html: 'Istoric dau camin : %{name}'
+      title_html: 'Linha : %{name}'
+      history_title_html: 'Istoric de la linha : %{name}'
       nodes: Nos
       also_part_of_html:
-        one: partida del camin %{related_ways}
-        other: partida dels camins %{related_ways}
+        one: partida de la linha %{related_ways}
+        other: partida dei linhas %{related_ways}
     relation:
       title_html: 'Relacion : %{name}'
       history_title_html: 'Istoric de la relacion : %{name}'
@@ -243,7 +254,7 @@ oc:
       entry_role_html: '%{type} %{name} amb lo ròtle %{role}'
       type:
         node: Nos
-        way: Camin
+        way: Linha
         relation: Relacion
     containing_relation:
       entry_html: Relacion %{relation_name}
@@ -252,7 +263,7 @@ oc:
       sorry: 'O planhèm, %{type} #%{id} a pas pogut èsser trobat.'
       type:
         node: nos
-        way: camin
+        way: linha
         relation: relacion
         changeset: grop de modificacions
         note: nòta
@@ -261,7 +272,7 @@ oc:
         temps per èsser recuperadas.
       type:
         node: nos
-        way: camin
+        way: linha
         relation: relacion
         changeset: grop de modificacions
         note: nòta
@@ -271,7 +282,7 @@ oc:
         perque es estada amagada. Consultatz %{redaction_link} per mai d'informacions.
       type:
         node: nos
-        way: camin
+        way: linha
         relation: relacion
     start_rjs:
       feature_warning: Lo cargament de %{num_features} caracteristicas poiriá rendre
@@ -1221,7 +1232,7 @@ oc:
         more_info_2: 'pòdon èsser trobats sus :'
       success:
         subject: '[OpenStreetMap] Impòrt GPX capitat'
-        loaded_successfully: s'es cargat corrèctament amb %{trace_points} punts sus
+        loaded_successfully: s'es cargat correctament amb %{trace_points} punch sus
           %{possible_points}.
     signup_confirm:
       subject: '[OpenStreetMap] Benvenguda dins OpenStreetMap'
@@ -1410,6 +1421,10 @@ oc:
         licéncia. Ligètz la <a href="%{copyright_path}">pagina de copyright e de licéncia</a>
         per mai de detalhs.'
       legal_title: Juridic
+      legal_2_html: |-
+        <a href="https://osmfoundation.org/Contact">Contacta</a> amb lo OSMF s'avètz de dobtes a prepaus de la  licéncia,  dei drechs de còpia o autras questions legalas.
+
+        OpenStreetMap, Lo logo e Estat de la Mapa son de <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">marcas enregistradas de la OSMF</a>.<br><br><br><br>
       partners_title: Partenaris
     copyright:
       foreign:
@@ -1443,6 +1458,15 @@ oc:
         credit_title_html: Cossí creditar OpenStreetMap
         credit_1_html: Demandam que vòstre crèdit compòrta la mencion « © los contributors
           d’OpenStreetMap ».
+        credit_2_html: Vos fau tanben botar en evidéncia que lei donadas son disponiblas
+          sota licéncia de basa de donadas dubèrtas e, s'utilizatz nòstrei mapas,
+          que la cartografia a licéncia CC-BY-SA. Podètz o far en ligant <a href="http://www.openstreetmap.org/copyright">aquela
+          pagina de copyright</a>. De maniera alternativa, mai coma requisit obligatòri
+          se distribuissètz OSM en forma de donadas en brut, podètz citar e ligar
+          directament a la licéncia. Dins lo cas d'utilizar de supòrts que lei ligams
+          de hipertext i son pas possibles (per exemple, òbras estampadas), vos suggerissèm
+          d'adreiçar lei lectors a openstreetmap.org (En indicant benlèu l'adreiça
+          completa de OpenStreetMap), a opendatacommons.org E, se s'escau, a creativecommons.org.
         credit_3_html: |-
           Per una mapa electronica navigabla, lo crèdit deuriá aparéisser dins lo canton de la mapa.
           Per exemple :
@@ -2045,6 +2069,7 @@ oc:
       consider_pd_why: qu’es aquò ?
       guidance_html: 'Per mai d''informacion sus aquestes tèrmes : un <a href="%{summary}">resumit
         legible</a> e qualques <a href="%{translations}">traduccions informalas</a>'
+      continue: Contunhar
       decline: Declinar
       you need to accept or decline: Legissètz e puèi, siá acceptatz o refusatz las
         novèlas condicions de contributor per contunhar.
@@ -2121,6 +2146,7 @@ oc:
       nearby_changesets: Percórrer totes los gropes de modificacions dels utilizaires
         a proximitat
       nearby_diaries: Entradas de jornal dels utilizaires a proximitat
+      report: Denonciatz aquel usatgièr
     popup:
       your location: Vòstre emplaçament
       nearby mapper: Mapaire dins los environs
@@ -2140,6 +2166,8 @@ oc:
         enabled: Activat. Pas anonim e pòt modificar las donadas.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: qu’es aquò ?
+        disabled: Desactivadas e sensa permés per editar; lei modificacions anterioras
+          son anonimas.
         disabled link text: perqué pòdi pas modificar ?
       public editing note:
         heading: Modificacion publica
@@ -2292,11 +2320,25 @@ oc:
     helper:
       time_future: Acaba a %{time}.
       until_login: Actiu fins al moment que l'utilizaire se connectarà.
+      time_future_and_until_login: Acabat dins %{time} i après que l'usancieri ague
+        començat la session.
       time_past: Acabat fa %{time}.
       block_duration:
         hours:
           one: 1 ora
           other: '%{count} oras'
+        days:
+          one: fa
+          other: ièr %{count} de jorns
+        weeks:
+          one: 1 setmana
+          other: '%{count} setmanas'
+        months:
+          one: 1 mes
+          other: '%{count} mes'
+        years:
+          one: 1 an
+          other: '%{count} ans'
     blocks_on:
       title: Blocatges de %{name}
       heading_html: Lista dels blocatges sus %{name}
@@ -2363,6 +2405,7 @@ oc:
       center_marker: Centrar la mapa sul marcador
       paste_html: Pegatz lo còdi HTML a incorporar dins un site web.
       view_larger_map: Mostrar una mapa pus granda
+      only_standard_layer: Sola la jaça estàndard se pòt exportar coma imatge
     embed:
       report_problem: Senhalar un problèma
     key:
@@ -2375,6 +2418,12 @@ oc:
         out: Zoom arrièr
       locate:
         title: Mostrar mon emplaçament
+        metersPopup:
+          one: Siatz a mens d'un mètre dau ponch
+          other: Siatz a mens de %{count} de mètres dau ponch
+        feetPopup:
+          one: Siatz a mens d'un pè dau ponch
+          other: Siatz a mens de %{count} de pès dau ponch
       base:
         standard: Estandard
         cycle_map: Mapa ciclista
@@ -2412,11 +2461,15 @@ oc:
           escrivètz una nòta per explicar lo problèma.
         add: Ajustar una nòta
       show:
+        anonymous_warning: Aquela nòta compren de comentaris d'usatgiers anonimes
+          que li faudriá èsser verificats independentament.
         hide: Amagar
         resolve: Resòlvre
         reactivate: Reactivar
         comment_and_resolve: Comentar e resòlvre
         comment: Comentari
+    edit_help: Movètz la mapa e fasètz zoom sus una posicion que volètz editar, e
+      de contunh, fasètz clic aicí.
     directions:
       ascend: Creissent
       engines:
@@ -2552,6 +2605,13 @@ oc:
     update:
       flash: Modificacions enregistradas.
     destroy:
+      not_empty: La redaccion es pas vueja. Se vos platz, desfasètz totei lei versions
+        qu'apartenon a aquela redaccion abans de la destruir.
       flash: Redaccion suprimida.
       error: I a agut una error en suprimissent aquesta redaccion.
+  validations:
+    leading_whitespace: A un espaci en blanc davant
+    trailing_whitespace: A un espaci en blanc a la fin
+    invalid_characters: Conten de caractèrs pas valides
+    url_characters: Conten de caractèrs URL especiaus (%{characters})
 ...
