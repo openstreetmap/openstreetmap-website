@@ -10,14 +10,8 @@
         <li><%= rss_link_to :action => "rss", :language => params[:language] %></li>
       <% end -%>
 
-      <% if @user %>
-        <% if @user == current_user %>
-          <li><%= link_to image_tag("new.png", :class => "small_icon") + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
-        <% end %>
-      <% else %>
-        <% if current_user %>
-          <li><%= link_to image_tag("new.png", :class => "small_icon") + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
-        <% end %>
+      <% if @user && @user == current_user || !@user && current_user %>
+        <li><%= link_to image_tag("new.png", :class => "small_icon") + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
       <% end %>
     </ul>
   </div>
