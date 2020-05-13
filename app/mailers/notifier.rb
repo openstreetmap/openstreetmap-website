@@ -192,7 +192,8 @@ class Notifier < ApplicationMailer
   def user_avatar_file(user)
     avatar = user&.avatar
     if avatar&.attached?
-      avatar.variant(:resize => "50x50>").blob.download
+      image = avatar.variant(:resize => "50x50>").processed
+      image.service.download(image.key)
     else
       File.read(Rails.root.join("app/assets/images/avatar_small.png"))
     end
