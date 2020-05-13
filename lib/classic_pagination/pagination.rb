@@ -309,6 +309,7 @@ module ActionController
           @number = 1 unless @paginator.has_page_number? @number
         end
         attr_reader :paginator, :number
+
         alias to_i number
 
         # Compares two Page objects and returns true when they represent the

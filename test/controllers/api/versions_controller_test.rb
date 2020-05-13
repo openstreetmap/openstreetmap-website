@@ -1,7 +1,7 @@
 require "test_helper"
 
 module Api
-  class VersionsControllerTest < ActionController::TestCase
+  class VersionsControllerTest < ActionDispatch::IntegrationTest
     ##
     # test all routes which lead to this controller
     def test_routes
@@ -16,7 +16,7 @@ module Api
     end
 
     def test_versions
-      get :show
+      get api_versions_path
       assert_response :success
       assert_select "osm[generator='#{Settings.generator}']", :count => 1 do
         assert_select "api", :count => 1 do
@@ -26,7 +26,7 @@ module Api
     end
 
     def test_no_version_in_root_element
-      get :show
+      get api_versions_path
       assert_response :success
       assert_select "osm[version]", :count => 0
     end

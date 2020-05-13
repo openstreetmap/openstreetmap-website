@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
 
   attr_accessor :current_user
+
   helper_method :current_user
 
   private
