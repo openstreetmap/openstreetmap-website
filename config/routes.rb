@@ -73,11 +73,11 @@ OpenStreetMap::Application.routes.draw do
     end
 
     post "gpx/create" => "api/traces#create"
-    get "gpx/:id" => "api/traces#show", :id => /\d+/
+    get "gpx/:id" => "api/traces#show", :as => :api_trace, :id => /\d+/
     put "gpx/:id" => "api/traces#update", :id => /\d+/
     delete "gpx/:id" => "api/traces#destroy", :id => /\d+/
     get "gpx/:id/details" => "api/traces#show", :id => /\d+/
-    get "gpx/:id/data" => "api/traces#data"
+    get "gpx/:id/data" => "api/traces#data", :as => :api_trace_data
 
     # AMF (ActionScript) API
     post "amf/read" => "api/amf#amf_read"
