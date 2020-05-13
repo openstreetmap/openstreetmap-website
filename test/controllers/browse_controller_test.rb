@@ -151,6 +151,25 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.note-comments ul li", :count => 1
   end
 
+  def test_read_closed_note
+    user = create(:user)
+    closed_note = create(:note_with_comments, :status => "closed", :closed_at => Time.now, :comments_count => 2) do |note|
+      create(:note_comment, :event => "closed", :note => note, :author => user)
+    end
+
+    browse_check :browse_note_path, closed_note.id, "browse/note"
+    assert_select "div.note-comments ul li", :count => 2
+    assert_select "div.details", /Resolved by #{user.display_name}/
+
+    user.delete
+
+    reset!
+
+    browse_check :browse_note_path, closed_note.id, "browse/note"
+    assert_select "div.note-comments ul li", :count => 1
+    assert_select "div.details", /Resolved by deleted/
+  end
+
   ##
   #  Methods to check redaction.
   #

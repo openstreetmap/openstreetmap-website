@@ -1,7 +1,7 @@
 require "test_helper"
 
 module Api
-  class PermissionsControllerTest < ActionController::TestCase
+  class PermissionsControllerTest < ActionDispatch::IntegrationTest
     ##
     # test all routes which lead to this controller
     def test_routes
@@ -12,7 +12,7 @@ module Api
     end
 
     def test_permissions_anonymous
-      get :show
+      get permissions_path
       assert_response :success
       assert_select "osm > permissions", :count => 1 do
         assert_select "permission", :count => 0
@@ -20,8 +20,8 @@ module Api
     end
 
     def test_permissions_basic_auth
-      basic_authorization create(:user).email, "test"
-      get :show
+      auth_header = basic_authorization_header create(:user).email, "test"
+      get permissions_path, :headers => auth_header
       assert_response :success
       assert_select "osm > permissions", :count => 1 do
         assert_select "permission", :count => ClientApplication.all_permissions.size
@@ -32,13 +32,11 @@ module Api
     end
 
     def test_permissions_oauth
-      @request.env["oauth.token"] = AccessToken.new do |token|
-        # Just to test a few
-        token.allow_read_prefs = true
-        token.allow_write_api = true
-        token.allow_read_gpx = false
-      end
-      get :show
+      token = create(:access_token,
+                     :allow_read_prefs => true,
+                     :allow_write_api => true,
+                     :allow_read_gpx => false)
+      signed_get permissions_path, :oauth => { :token => token }
       assert_response :success
       assert_select "osm > permissions", :count => 1 do
         assert_select "permission", :count => 2

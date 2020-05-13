@@ -78,7 +78,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_read_prefs]
 
-    signed_get "/oauth/access_token", :consumer => client, :token => token
+    signed_get "/oauth/access_token", :oauth => { :token => token }
     assert_response :success
     token.reload
     assert_not_nil token.created_at
@@ -91,10 +91,10 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_read_prefs]
 
-    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
     assert_response :success
 
-    signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
+    signed_get "/api/0.6/gpx/2", :oauth => { :token => token }
     assert_response :forbidden
 
     post "/oauth/revoke", :params => { :token => token.token }
@@ -102,7 +102,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
 
-    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
     assert_response :unauthorized
   end
 
@@ -156,7 +156,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
-    signed_get "/oauth/access_token", :consumer => client, :token => token
+    signed_get "/oauth/access_token", :oauth => { :token => token }
     assert_response :success
     token.reload
     assert_not_nil token.created_at
@@ -170,10 +170,10 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
     trace = create(:trace, :user => client.user)
-    signed_get "/api/0.6/gpx/#{trace.id}", :consumer => client, :token => token
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
     assert_response :success
 
-    signed_get "/api/0.6/user/details", :consumer => client, :token => token
+    signed_get "/api/0.6/user/details", :oauth => { :token => token }
     assert_response :forbidden
 
     post "/oauth/revoke", :params => { :token => token.token }
@@ -181,7 +181,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
 
-    signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
+    signed_get "/api/0.6/gpx/2", :oauth => { :token => token }
     assert_response :unauthorized
   end
 
@@ -212,11 +212,10 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_read_prefs]
 
-    signed_get "/oauth/access_token", :consumer => client, :token => token
+    signed_get "/oauth/access_token", :oauth => { :token => token }
     assert_response :unauthorized
 
-    signed_get "/oauth/access_token",
-               :consumer => client, :token => token, :oauth_verifier => verifier
+    signed_get "/oauth/access_token", :oauth => { :token => token, :oauth_verifier => verifier }
     assert_response :success
     token.reload
     assert_not_nil token.created_at
@@ -229,11 +228,11 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_read_prefs]
 
-    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
     assert_response :success
 
     trace = create(:trace, :user => client.user)
-    signed_get "/api/0.6/gpx/#{trace.id}", :consumer => client, :token => token
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
     assert_response :forbidden
 
     post "/oauth/revoke", :params => { :token => token.token }
@@ -241,7 +240,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
 
-    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
     assert_response :unauthorized
   end
 
@@ -264,11 +263,10 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
-    signed_get "/oauth/access_token", :consumer => client, :token => token
+    signed_get "/oauth/access_token", :oauth => { :token => token }
     assert_response :unauthorized
 
-    signed_get "/oauth/access_token",
-               :consumer => client, :token => token, :oauth_verifier => verifier
+    signed_get "/oauth/access_token", :oauth => { :token => token, :oauth_verifier => verifier }
     assert_response :success
     token.reload
     assert_not_nil token.created_at
@@ -282,10 +280,10 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
     trace = create(:trace, :user => client.user)
-    signed_get "/api/0.6/gpx/#{trace.id}", :consumer => client, :token => token
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
     assert_response :success
 
-    signed_get "/api/0.6/user/details", :consumer => client, :token => token
+    signed_get "/api/0.6/user/details", :oauth => { :token => token }
     assert_response :forbidden
 
     post "/oauth/revoke", :params => { :token => token.token }
@@ -293,7 +291,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
 
-    signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
+    signed_get "/api/0.6/gpx/2", :oauth => { :token => token }
     assert_response :unauthorized
   end
 
@@ -330,7 +328,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   end
 
   def get_request_token(client, options = {})
-    signed_get "/oauth/request_token", options.merge(:consumer => client)
+    signed_get "/oauth/request_token", :oauth => options.merge(:consumer => client)
     assert_response :success
     token = parse_token(response)
     assert_instance_of RequestToken, token
@@ -341,24 +339,6 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_allowed token, client.permissions
 
     token
-  end
-
-  def signed_get(uri, options)
-    uri = URI.parse(uri)
-    uri.scheme ||= "http"
-    uri.host ||= "www.example.com"
-
-    helper = OAuth::Client::Helper.new(nil, options)
-
-    request = OAuth::RequestProxy.proxy(
-      "method" => "GET",
-      "uri" => uri,
-      "parameters" => helper.oauth_parameters
-    )
-
-    request.sign!(options)
-
-    get request.signed_uri
   end
 
   def parse_token(response)

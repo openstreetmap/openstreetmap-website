@@ -16,6 +16,9 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
    Coveralls::SimpleCov::Formatter]
 )
 
+require "securerandom"
+require "digest/sha1"
+
 ENV["RAILS_ENV"] = "test"
 require_relative "../config/environment"
 require "rails/test_help"
@@ -125,17 +128,50 @@ module ActiveSupport
     end
 
     ##
-    # set request header for HTTP Accept
-    def http_accept_format(format)
-      @request.env["HTTP_ACCEPT"] = format
+    # make an OAuth signed request
+    def signed_request(method, uri, options = {})
+      uri = URI.parse(uri)
+      uri.scheme ||= "http"
+      uri.host ||= "www.example.com"
+
+      oauth = options.delete(:oauth)
+      params = options.fetch(:params, {}).transform_keys(&:to_s)
+
+      oauth[:consumer] ||= oauth[:token].client_application
+
+      helper = OAuth::Client::Helper.new(nil, oauth)
+
+      request = OAuth::RequestProxy.proxy(
+        "method" => method.to_s.upcase,
+        "uri" => uri,
+        "parameters" => params.merge(helper.oauth_parameters)
+      )
+
+      request.sign!(oauth)
+
+      method(method).call(request.signed_uri, options)
     end
 
     ##
-    # set request readers to ask for a particular error format
-    def error_format(format)
-      @request.env["HTTP_X_ERROR_FORMAT"] = format
+    # make an OAuth signed GET request
+    def signed_get(uri, options = {})
+      signed_request(:get, uri, options)
     end
 
+    ##
+    # make an OAuth signed POST request
+    def signed_post(uri, options = {})
+      signed_request(:post, uri, options)
+    end
+
+    ##
+    # return request header for HTTP Accept
+    def accept_format_header(format)
+      { "Accept" => format }
+    end
+
+    ##
+    # return request header to ask for a particular error format
     def error_format_header(f)
       { "X-Error-Format" => f }
     end

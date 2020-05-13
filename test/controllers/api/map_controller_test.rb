@@ -1,7 +1,7 @@
 require "test_helper"
 
 module Api
-  class MapControllerTest < ActionController::TestCase
+  class MapControllerTest < ActionDispatch::IntegrationTest
     def setup
       super
       @badbigbbox = %w[-0.1,-0.1,1.1,1.1 10,10,11,11]
@@ -41,68 +41,68 @@ module Api
       bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
 
       # Accept: XML format -> use XML
-      http_accept_format("text/xml")
-      get :index, :params => { :bbox => bbox }
+      accept_header = accept_format_header("text/xml")
+      get map_path(:bbox => bbox), :headers => accept_header
       assert_response :success, "Expected success with the map call"
       assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
 
       # Accept: Any format -> use XML
-      http_accept_format("*/*")
-      get :index, :params => { :bbox => bbox }
+      accept_header = accept_format_header("*/*")
+      get map_path(:bbox => bbox), :headers => accept_header
       assert_response :success, "Expected success with the map call"
       assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
 
       # Accept: Any format, .json URL suffix -> use json
-      http_accept_format("*/*")
-      get :index, :params => { :bbox => bbox, :format => "json" }
+      accept_header = accept_format_header("*/*")
+      get map_path(:bbox => bbox, :format => "json"), :headers => accept_header
       assert_response :success, "Expected success with the map call"
       assert_equal "application/json; charset=utf-8", @response.header["Content-Type"]
 
       # Accept: Firefox header -> use XML
-      http_accept_format("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
-      get :index, :params => { :bbox => bbox }
+      accept_header = accept_format_header("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+      get map_path(:bbox => bbox), :headers => accept_header
       assert_response :success, "Expected success with the map call"
       assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
 
       # Accept: JOSM header text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2 -> use XML
       # Note: JOSM's header does not comply with RFC 7231, section 5.3.1
-      http_accept_format("text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
-      get :index, :params => { :bbox => bbox }
+      accept_header = accept_format_header("text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
+      get map_path(:bbox => bbox), :headers => accept_header
       assert_response :success, "Expected success with the map call"
       assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
 
       # Accept: text/plain, */* -> use XML
-      http_accept_format("text/plain, */*")
-      get :index, :params => { :bbox => bbox }
+      accept_header = accept_format_header("text/plain, */*")
+      get map_path(:bbox => bbox), :headers => accept_header
       assert_response :success, "Expected success with the map call"
       assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
 
       # Accept: text/* -> use XML
-      http_accept_format("text/*")
-      get :index, :params => { :bbox => bbox }
+      accept_header = accept_format_header("text/*")
+      get map_path(:bbox => bbox), :headers => accept_header
       assert_response :success, "Expected success with the map call"
       assert_equal "application/xml; charset=utf-8", @response.header["Content-Type"]
 
       # Accept: json, */* format -> use json
-      http_accept_format("application/json, */*")
-      get :index, :params => { :bbox => bbox }
+      accept_header = accept_format_header("application/json, */*")
+      get map_path(:bbox => bbox), :headers => accept_header
       assert_response :success, "Expected success with the map call"
       assert_equal "application/json; charset=utf-8", @response.header["Content-Type"]
 
       # Accept: json format -> use json
-      http_accept_format("application/json")
-      get :index, :params => { :bbox => bbox }
+      accept_header = accept_format_header("application/json")
+      get map_path(:bbox => bbox), :headers => accept_header
       assert_response :success, "Expected success with the map call"
       assert_equal "application/json; charset=utf-8", @response.header["Content-Type"]
 
       # text/json is in invalid format, return HTTP 406 Not acceptable
-      http_accept_format("text/json")
-      get :index, :params => { :bbox => bbox }
+      accept_header = accept_format_header("text/json")
+      get map_path(:bbox => bbox), :headers => accept_header
       assert_response :not_acceptable, "text/json should fail"
 
       # image/jpeg is a format which we don't support, return HTTP 406 Not acceptable
-      http_accept_format("image/jpeg")
-      get :index, :params => { :bbox => bbox }
+      accept_header = accept_format_header("image/jpeg")
+      get map_path(:bbox => bbox), :headers => accept_header
       assert_response :not_acceptable, "text/json should fail"
     end
 
@@ -124,7 +124,7 @@ module Api
       maxlon = node.lon + 0.1
       maxlat = node.lat + 0.1
       bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
-      get :index, :params => { :bbox => bbox }
+      get map_path(:bbox => bbox)
       if $VERBOSE
         print @request.to_yaml
         print @response.body
@@ -158,7 +158,7 @@ module Api
       maxlon = node.lon + 0.1
       maxlat = node.lat + 0.1
       bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
-      get :index, :params => { :bbox => bbox, :format => "json" }
+      get map_path(:bbox => bbox, :format => "json")
       if $VERBOSE
         print @request.to_yaml
         print @response.body
@@ -202,7 +202,7 @@ module Api
       relation = create(:relation_member, :member => node).relation
 
       bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
-      get :index, :params => { :bbox => bbox }
+      get map_path(:bbox => bbox)
       assert_response :success, "The map call should have succeeded"
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
@@ -230,7 +230,7 @@ module Api
       relation = create(:relation_member, :member => way1).relation
 
       bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
-      get :index, :params => { :bbox => bbox }
+      get map_path(:bbox => bbox)
       assert_response :success, "The map call should have succeeded"
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
@@ -247,7 +247,7 @@ module Api
     end
 
     def test_map_empty
-      get :index, :params => { :bbox => "179.998,89.998,179.999.1,89.999" }
+      get map_path(:bbox => "179.998,89.998,179.999.1,89.999")
       assert_response :success, "The map call should have succeeded"
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='179.9980000'][minlat='89.9980000'][maxlon='179.9990000'][maxlat='89.9990000']", :count => 1
@@ -258,14 +258,14 @@ module Api
     end
 
     def test_map_without_bbox
-      get :index
+      get map_path
       assert_response :bad_request
       assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "A bbox param was expected"
     end
 
     def test_bbox_too_big
       @badbigbbox.each do |bbox|
-        get :index, :params => { :bbox => bbox }
+        get map_path(:bbox => bbox)
         assert_response :bad_request, "The bbox:#{bbox} was expected to be too big"
         assert_equal "The maximum bbox size is #{Settings.max_request_area}, and your request was too large. Either request a smaller area, or use planet.osm", @response.body, "bbox: #{bbox}"
       end
@@ -273,7 +273,7 @@ module Api
 
     def test_bbox_malformed
       @badmalformedbbox.each do |bbox|
-        get :index, :params => { :bbox => bbox }
+        get map_path(:bbox => bbox)
         assert_response :bad_request, "The bbox:#{bbox} was expected to be malformed"
         assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "bbox: #{bbox}"
       end
@@ -281,7 +281,7 @@ module Api
 
     def test_bbox_lon_mixedup
       @badlonmixedbbox.each do |bbox|
-        get :index, :params => { :bbox => bbox }
+        get map_path(:bbox => bbox)
         assert_response :bad_request, "The bbox:#{bbox} was expected to have the longitude mixed up"
         assert_equal "The minimum longitude must be less than the maximum longitude, but it wasn't", @response.body, "bbox: #{bbox}"
       end
@@ -289,7 +289,7 @@ module Api
 
     def test_bbox_lat_mixedup
       @badlatmixedbbox.each do |bbox|
-        get :index, :params => { :bbox => bbox }
+        get map_path(:bbox => bbox)
         assert_response :bad_request, "The bbox:#{bbox} was expected to have the latitude mixed up"
         assert_equal "The minimum latitude must be less than the maximum latitude, but it wasn't", @response.body, "bbox: #{bbox}"
       end
