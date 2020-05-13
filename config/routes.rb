@@ -161,7 +161,7 @@ OpenStreetMap::Application.routes.draw do
   post "/user/new" => "users#create"
   get "/user/terms" => "users#terms"
   post "/user/save" => "users#save"
-  get "/user/:display_name/confirm/resend" => "users#confirm_resend"
+  get "/user/:display_name/confirm/resend" => "users#confirm_resend", :as => :user_confirm_resend
   match "/user/:display_name/confirm" => "users#confirm", :via => [:get, :post]
   match "/user/confirm" => "users#confirm", :via => [:get, :post]
   match "/user/confirm-email" => "users#confirm_email", :via => [:get, :post]
@@ -238,7 +238,7 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name" => "users#show", :as => "user"
   match "/user/:display_name/make_friend" => "users#make_friend", :via => [:get, :post], :as => "make_friend"
   match "/user/:display_name/remove_friend" => "users#remove_friend", :via => [:get, :post], :as => "remove_friend"
-  match "/user/:display_name/account" => "users#account", :via => [:get, :post]
+  match "/user/:display_name/account" => "users#account", :via => [:get, :post], :as => "user_account"
   get "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
   get "/user/:display_name/delete" => "users#delete", :as => :delete_user
 
