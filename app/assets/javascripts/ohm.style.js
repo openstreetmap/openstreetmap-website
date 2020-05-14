@@ -4,7 +4,7 @@ ohmStyle = {
   "sources": {
     "osm": {
       "type": "vector",
-      "tiles": "https://vtiles.openhistoricalmap.org/maps/osm/{z}/{x}/{y}.pbf"
+      "tiles": ["https://vtiles.openhistoricalmap.org/maps/osm/{z}/{x}/{y}.pbf"]
     }
   },
   "sprite": "https://go-spatial.github.io/carto-assets/spritesets/osm_tegola_spritesheet",
