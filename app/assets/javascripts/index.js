@@ -406,10 +406,10 @@ $(document).ready(function () {
     position: 'bottomright',
     mbgllayer: ohmLayer,
     timeSliderOptions: {
-      sourcename: "ohm-data",
+      sourcename: "osm",
       date: 1850,
       range: [1800, currentYear],
-      datelimit: [1000, currentYear]
+      datelimit: [-4000, currentYear]
     }
   }
 
