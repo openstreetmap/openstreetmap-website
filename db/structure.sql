@@ -812,7 +812,7 @@ CREATE TABLE public.events (
     title character varying NOT NULL,
     moment timestamp without time zone,
     location character varying,
-    description text,
+    description text NOT NULL,
     microcosm_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
