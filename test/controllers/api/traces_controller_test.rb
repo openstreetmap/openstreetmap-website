@@ -1,7 +1,7 @@
 require "test_helper"
 
 module Api
-  class TracesControllerTest < ActionController::TestCase
+  class TracesControllerTest < ActionDispatch::IntegrationTest
     # Use temporary directories with unique names for each test
     # This allows the tests to be run in parallel.
     def setup
@@ -56,17 +56,17 @@ module Api
       public_trace_file = create(:trace, :visibility => "public")
 
       # First with no auth
-      get :show, :params => { :id => public_trace_file.id }
+      get api_trace_path(public_trace_file)
       assert_response :unauthorized
 
       # Now with some other user, which should work since the trace is public
-      basic_authorization create(:user).display_name, "test"
-      get :show, :params => { :id => public_trace_file.id }
+      auth_header = basic_authorization_header create(:user).display_name, "test"
+      get api_trace_path(public_trace_file), :headers => auth_header
       assert_response :success
 
       # And finally we should be able to do it with the owner of the trace
-      basic_authorization public_trace_file.user.display_name, "test"
-      get :show, :params => { :id => public_trace_file.id }
+      auth_header = basic_authorization_header public_trace_file.user.display_name, "test"
+      get api_trace_path(public_trace_file), :headers => auth_header
       assert_response :success
     end
 
@@ -75,17 +75,17 @@ module Api
       anon_trace_file = create(:trace, :visibility => "private")
 
       # First with no auth
-      get :show, :params => { :id => anon_trace_file.id }
+      get api_trace_path(anon_trace_file)
       assert_response :unauthorized
 
       # Now try with another user, which shouldn't work since the trace is anon
-      basic_authorization create(:user).display_name, "test"
-      get :show, :params => { :id => anon_trace_file.id }
+      auth_header = basic_authorization_header create(:user).display_name, "test"
+      get api_trace_path(anon_trace_file), :headers => auth_header
       assert_response :forbidden
 
       # And finally we should be able to get the trace details with the trace owner
-      basic_authorization anon_trace_file.user.display_name, "test"
-      get :show, :params => { :id => anon_trace_file.id }
+      auth_header = basic_authorization_header anon_trace_file.user.display_name, "test"
+      get api_trace_path(anon_trace_file), :headers => auth_header
       assert_response :success
     end
 
@@ -94,17 +94,17 @@ module Api
       deleted_trace_file = create(:trace, :deleted)
 
       # Try first with no auth, as it should require it
-      get :show, :params => { :id => 0 }
+      get api_trace_path(:id => 0)
       assert_response :unauthorized
 
       # Login, and try again
-      basic_authorization deleted_trace_file.user.display_name, "test"
-      get :show, :params => { :id => 0 }
+      auth_header = basic_authorization_header deleted_trace_file.user.display_name, "test"
+      get api_trace_path(:id => 0), :headers => auth_header
       assert_response :not_found
 
       # Now try a trace which did exist but has been deleted
-      basic_authorization deleted_trace_file.user.display_name, "test"
-      get :show, :params => { :id => deleted_trace_file.id }
+      auth_header = basic_authorization_header deleted_trace_file.user.display_name, "test"
+      get api_trace_path(deleted_trace_file), :headers => auth_header
       assert_response :not_found
     end
 
@@ -113,17 +113,17 @@ module Api
       public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
 
       # First with no auth
-      get :data, :params => { :id => public_trace_file.id }
+      get api_trace_data_path(public_trace_file)
       assert_response :unauthorized
 
       # Now with some other user, which should work since the trace is public
-      basic_authorization create(:user).display_name, "test"
-      get :data, :params => { :id => public_trace_file.id }
+      auth_header = basic_authorization_header create(:user).display_name, "test"
+      get api_trace_data_path(public_trace_file), :headers => auth_header
       check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
 
       # And finally we should be able to do it with the owner of the trace
-      basic_authorization public_trace_file.user.display_name, "test"
-      get :data, :params => { :id => public_trace_file.id }
+      auth_header = basic_authorization_header public_trace_file.user.display_name, "test"
+      get api_trace_data_path(public_trace_file), :headers => auth_header
       check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
     end
 
@@ -132,18 +132,18 @@ module Api
       identifiable_trace_file = create(:trace, :visibility => "identifiable", :fixture => "d")
 
       # Authenticate as the owner of the trace we will be using
-      basic_authorization identifiable_trace_file.user.display_name, "test"
+      auth_header = basic_authorization_header identifiable_trace_file.user.display_name, "test"
 
       # First get the data as is
-      get :data, :params => { :id => identifiable_trace_file.id }
+      get api_trace_data_path(identifiable_trace_file), :headers => auth_header
       check_trace_data identifiable_trace_file, "c6422a3d8750faae49ed70e7e8a51b93", "application/x-gzip", "gpx.gz"
 
       # Now ask explicitly for XML format
-      get :data, :params => { :id => identifiable_trace_file.id, :format => "xml" }
+      get api_trace_data_path(identifiable_trace_file, :format => "xml"), :headers => auth_header
       check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d", "application/xml", "xml"
 
       # Now ask explicitly for GPX format
-      get :data, :params => { :id => identifiable_trace_file.id, :format => "gpx" }
+      get api_trace_data_path(identifiable_trace_file, :format => "gpx"), :headers => auth_header
       check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d"
     end
 
@@ -152,17 +152,17 @@ module Api
       anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
 
       # First with no auth
-      get :data, :params => { :id => anon_trace_file.id }
+      get api_trace_data_path(anon_trace_file)
       assert_response :unauthorized
 
       # Now with some other user, which shouldn't work since the trace is anon
-      basic_authorization create(:user).display_name, "test"
-      get :data, :params => { :id => anon_trace_file.id }
+      auth_header = basic_authorization_header create(:user).display_name, "test"
+      get api_trace_data_path(anon_trace_file), :headers => auth_header
       assert_response :forbidden
 
       # And finally we should be able to do it with the owner of the trace
-      basic_authorization anon_trace_file.user.display_name, "test"
-      get :data, :params => { :id => anon_trace_file.id }
+      auth_header = basic_authorization_header anon_trace_file.user.display_name, "test"
+      get api_trace_data_path(anon_trace_file), :headers => auth_header
       check_trace_data anon_trace_file, "db4cb5ed2d7d2b627b3b504296c4f701"
     end
 
@@ -171,17 +171,17 @@ module Api
       deleted_trace_file = create(:trace, :deleted)
 
       # Try first with no auth, as it should require it
-      get :data, :params => { :id => 0 }
+      get api_trace_data_path(:id => 0)
       assert_response :unauthorized
 
       # Login, and try again
-      basic_authorization create(:user).display_name, "test"
-      get :data, :params => { :id => 0 }
+      auth_header = basic_authorization_header create(:user).display_name, "test"
+      get api_trace_data_path(:id => 0), :headers => auth_header
       assert_response :not_found
 
       # Now try a trace which did exist but has been deleted
-      basic_authorization deleted_trace_file.user.display_name, "test"
-      get :data, :params => { :id => deleted_trace_file.id }
+      auth_header = basic_authorization_header deleted_trace_file.user.display_name, "test"
+      get api_trace_data_path(deleted_trace_file), :headers => auth_header
       assert_response :not_found
     end
 
@@ -193,7 +193,7 @@ module Api
       user = create(:user)
 
       # First with no auth
-      post :create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
+      post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
       assert_response :unauthorized
 
       # Rewind the file
@@ -202,8 +202,8 @@ module Api
       # Now authenticated
       create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
       assert_not_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
-      basic_authorization user.display_name, "test"
-      post :create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
+      auth_header = basic_authorization_header user.display_name, "test"
+      post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }, :headers => auth_header
       assert_response :success
       trace = Trace.find(response.body.to_i)
       assert_equal "a.gpx", trace.name
@@ -220,8 +220,8 @@ module Api
 
       # Now authenticated, with the legacy public flag
       assert_not_equal "public", user.preferences.where(:k => "gps.trace.visibility").first.v
-      basic_authorization user.display_name, "test"
-      post :create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }
+      auth_header = basic_authorization_header user.display_name, "test"
+      post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }, :headers => auth_header
       assert_response :success
       trace = Trace.find(response.body.to_i)
       assert_equal "a.gpx", trace.name
@@ -239,8 +239,8 @@ module Api
       # Now authenticated, with the legacy private flag
       second_user = create(:user)
       assert_nil second_user.preferences.where(:k => "gps.trace.visibility").first
-      basic_authorization second_user.display_name, "test"
-      post :create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }
+      auth_header = basic_authorization_header second_user.display_name, "test"
+      post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }, :headers => auth_header
       assert_response :success
       trace = Trace.find(response.body.to_i)
       assert_equal "a.gpx", trace.name
@@ -260,36 +260,36 @@ module Api
       anon_trace_file = create(:trace, :visibility => "private")
 
       # First with no auth
-      put :update, :params => { :id => public_trace_file.id }, :body => create_trace_xml(public_trace_file)
+      put api_trace_path(public_trace_file), :params => create_trace_xml(public_trace_file)
       assert_response :unauthorized
 
       # Now with some other user, which should fail
-      basic_authorization create(:user).display_name, "test"
-      put :update, :params => { :id => public_trace_file.id }, :body => create_trace_xml(public_trace_file)
+      auth_header = basic_authorization_header create(:user).display_name, "test"
+      put api_trace_path(public_trace_file), :params => create_trace_xml(public_trace_file), :headers => auth_header
       assert_response :forbidden
 
       # Now with a trace which doesn't exist
-      basic_authorization create(:user).display_name, "test"
-      put :update, :params => { :id => 0 }, :body => create_trace_xml(public_trace_file)
+      auth_header = basic_authorization_header create(:user).display_name, "test"
+      put api_trace_path(:id => 0), :params => create_trace_xml(public_trace_file), :headers => auth_header
       assert_response :not_found
 
       # Now with a trace which did exist but has been deleted
-      basic_authorization deleted_trace_file.user.display_name, "test"
-      put :update, :params => { :id => deleted_trace_file.id }, :body => create_trace_xml(deleted_trace_file)
+      auth_header = basic_authorization_header deleted_trace_file.user.display_name, "test"
+      put api_trace_path(deleted_trace_file), :params => create_trace_xml(deleted_trace_file), :headers => auth_header
       assert_response :not_found
 
       # Now try an update with the wrong ID
-      basic_authorization public_trace_file.user.display_name, "test"
-      put :update, :params => { :id => public_trace_file.id }, :body => create_trace_xml(anon_trace_file)
+      auth_header = basic_authorization_header public_trace_file.user.display_name, "test"
+      put api_trace_path(public_trace_file), :params => create_trace_xml(anon_trace_file), :headers => auth_header
       assert_response :bad_request,
                       "should not be able to update a trace with a different ID from the XML"
 
       # And finally try an update that should work
-      basic_authorization public_trace_file.user.display_name, "test"
+      auth_header = basic_authorization_header public_trace_file.user.display_name, "test"
       t = public_trace_file
       t.description = "Changed description"
       t.visibility = "private"
-      put :update, :params => { :id => t.id }, :body => create_trace_xml(t)
+      put api_trace_path(t), :params => create_trace_xml(t), :headers => auth_header
       assert_response :success
       nt = Trace.find(t.id)
       assert_equal nt.description, t.description
@@ -300,9 +300,9 @@ module Api
     def test_update_tags
       tracetag = create(:tracetag)
       trace = tracetag.trace
-      basic_authorization trace.user.display_name, "test"
+      auth_header = basic_authorization_header trace.user.display_name, "test"
 
-      put :update, :params => { :id => trace.id }, :body => create_trace_xml(trace)
+      put api_trace_path(trace), :params => create_trace_xml(trace), :headers => auth_header
       assert_response :success
 
       updated = Trace.find(trace.id)
@@ -317,27 +317,27 @@ module Api
       public_trace_file = create(:trace, :visibility => "public")
 
       # First with no auth
-      delete :destroy, :params => { :id => public_trace_file.id }
+      delete api_trace_path(public_trace_file)
       assert_response :unauthorized
 
       # Now with some other user, which should fail
-      basic_authorization create(:user).display_name, "test"
-      delete :destroy, :params => { :id => public_trace_file.id }
+      auth_header = basic_authorization_header create(:user).display_name, "test"
+      delete api_trace_path(public_trace_file), :headers => auth_header
       assert_response :forbidden
 
       # Now with a trace which doesn't exist
-      basic_authorization create(:user).display_name, "test"
-      delete :destroy, :params => { :id => 0 }
+      auth_header = basic_authorization_header create(:user).display_name, "test"
+      delete api_trace_path(:id => 0), :headers => auth_header
       assert_response :not_found
 
       # And finally we should be able to do it with the owner of the trace
-      basic_authorization public_trace_file.user.display_name, "test"
-      delete :destroy, :params => { :id => public_trace_file.id }
+      auth_header = basic_authorization_header public_trace_file.user.display_name, "test"
+      delete api_trace_path(public_trace_file), :headers => auth_header
       assert_response :success
 
       # Try it a second time, which should fail
-      basic_authorization public_trace_file.user.display_name, "test"
-      delete :destroy, :params => { :id => public_trace_file.id }
+      auth_header = basic_authorization_header public_trace_file.user.display_name, "test"
+      delete api_trace_path(public_trace_file), :headers => auth_header
       assert_response :not_found
     end
 
