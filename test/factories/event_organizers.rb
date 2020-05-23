@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :event_organizer do
-    event { nil }
-    user { nil }
+    event
+    user
   end
 end
