@@ -161,6 +161,6 @@ class MicrocosmTest < ActiveSupport::TestCase
     assert_equal b.min_lat, 10
     assert_equal b.max_lat, 20
     assert_equal b.min_lon, 30
-    assert_equal b.max_lat, 40
+    assert_equal b.max_lon, 40
   end
 end
