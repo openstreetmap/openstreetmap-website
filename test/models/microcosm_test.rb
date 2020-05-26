@@ -64,7 +64,7 @@ class MicrocosmTest < ActiveSupport::TestCase
     m = create(:microcosm)
     site_name = "site_name"
     site_url_old = "http://example1.com"
-    ml = MicrocosmLink.new(:microcosm => m, :site => site_name, :url => site_url_old)
+    MicrocosmLink.new(:microcosm => m, :site => site_name, :url => site_url_old)
     site_url_new = "http://example2.com"
     # act
     m.set_link(site_name, site_url_new)
@@ -89,7 +89,7 @@ class MicrocosmTest < ActiveSupport::TestCase
     # act
     result = m.member?(u)
     # assert
-    assert !result
+    assert_not result
   end
 
   def test_organizer_that_does_exist
@@ -108,7 +108,7 @@ class MicrocosmTest < ActiveSupport::TestCase
     # act
     result = m.organizer?(u)
     # assert
-    assert !result
+    assert_not result
   end
 
   def test_organizer_that_is_member
@@ -117,7 +117,7 @@ class MicrocosmTest < ActiveSupport::TestCase
     # act
     result = mm.microcosm.organizer?(mm.user)
     # assert
-    assert !result
+    assert_not result
   end
 
   def test_organizer_that_is_organizer_of_other_microcosm
@@ -127,7 +127,7 @@ class MicrocosmTest < ActiveSupport::TestCase
     # act
     result = m.organizer?(mm.user)
     # assert
-    assert !result
+    assert_not result
   end
 
   def test_organizers_zero
