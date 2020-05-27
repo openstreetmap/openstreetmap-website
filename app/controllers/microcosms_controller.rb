@@ -9,7 +9,7 @@ class MicrocosmsController < ApplicationController
   authorize_resource
 
   def index
-    @microcosms = Microcosm.order(:name)
+    @microcosms = Microcosm.order(:longitude)
   end
 
   # GET /microcosms/mycity
