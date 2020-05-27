@@ -65,7 +65,7 @@ class Ability
           can :create, IssueComment
           can [:set_status, :delete, :index], User
           can [:grant, :revoke], UserRole
-          can [:edit, :update], MicrocosmMember  # TODO: Move
+          can [:edit, :update], MicrocosmMember # TODO: Move
         end
       end
     end
