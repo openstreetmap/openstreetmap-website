@@ -14,7 +14,6 @@ Feature: Administer a Microcosm
 
   Scenario: Create a microcosm
     Given there is a user "abe@example.com" with name "Abe"
-    And "abe@example.com" is an administrator
     When user "abe@example.com" logs in
     And I am on the microcosms page
     And I click the link to "/microcosms/new"

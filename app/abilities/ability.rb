@@ -45,6 +45,7 @@ class Ability
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public, :make_friend, :remove_friend], User
         can [:create, :update], EventAttendance
+        can [:new, :create], Microcosm
         can [:edit, :update], Microcosm, :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER }
         can [:create], MicrocosmMember
         can [:edit, :update], MicrocosmMember, :microcosm => { :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER } }
@@ -64,8 +65,7 @@ class Ability
           can :create, IssueComment
           can [:set_status, :delete, :index], User
           can [:grant, :revoke], UserRole
-          can [:new, :create, :update], Microcosm
-          can [:edit, :update], MicrocosmMember
+          can [:edit, :update], MicrocosmMember  # TODO: Move
         end
       end
     end
