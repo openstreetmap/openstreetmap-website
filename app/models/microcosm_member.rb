@@ -26,6 +26,9 @@ class MicrocosmMember < ApplicationRecord
   belongs_to :microcosm
   belongs_to :user
 
+  # TODO: Consider using scope like this.
+  # scope :organizer, -> { where(:role => Roles::ORGANIZER) }
+
   validates :microcosm, :presence => true, :associated => true
   validates :user, :presence => true, :associated => true
   validates :role, :inclusion => { :in => Roles::ALL_ROLES }
