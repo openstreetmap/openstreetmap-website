@@ -38,11 +38,17 @@ class MicrocosmsController < ApplicationController
 
   def create
     @microcosm = Microcosm.new(microcosm_params)
-    if @microcosm.save
+    if @microcosm.save && add_first_organizer
       redirect_to microcosms_path, :notice => t(".success")
     else
       redirect_to microcosms_path, :notice => t(".failure")
     end
+  end
+
+  def add_first_organizer
+    params = { :microcosm_id => @microcosm.id, :user_id => current_user.id, :role => MicrocosmMember::Roles::ORGANIZER }
+    membership = MicrocosmMember.new(params)
+    membership.save
   end
 
   def recent_changesets
