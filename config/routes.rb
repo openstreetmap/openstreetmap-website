@@ -319,6 +319,7 @@ OpenStreetMap::Application.routes.draw do
   resources :event_attendances
   get "microcosms/:id/members", :to => "microcosms#show_members", :as => :members_of_microcosm
   get "microcosms/:id/events", :to => "microcosms#show_events", :as => :events_of_microcosm
+  post "microcosms/:id/step_up", :to => "microcosms#step_up", :as => :step_up
 
   # errors
   match "/403", :to => "errors#forbidden", :via => :all

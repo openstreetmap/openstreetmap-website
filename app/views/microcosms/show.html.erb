@@ -39,6 +39,9 @@
             </li>
           <% end %>
         </ul>
+        <% if @microcosm.organizers.empty? %>
+          <%= link_to "Step up", step_up_path, :method => :post %>
+        <% end %>
       </div>
 
       <% if ! current_user || ! @microcosm.member?(current_user) %>

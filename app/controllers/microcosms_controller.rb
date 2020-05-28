@@ -2,7 +2,7 @@ class MicrocosmsController < ApplicationController
   layout "site"
   before_action :authorize_web
 
-  before_action :set_microcosm, :only => [:edit, :show, :show_events, :show_members, :update]
+  before_action :set_microcosm, :only => [:edit, :show, :show_events, :show_members, :step_up, :update]
 
   helper_method :recent_changesets
 
@@ -60,6 +60,16 @@ class MicrocosmsController < ApplicationController
              bbox.max_lat.to_i,
              bbox.min_lat.to_i)
       .order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
+  end
+
+  def step_up
+    if !@microcosm.member?(current_user)
+      flash[:warning] = t ".only_members_can_step_up"
+    else
+      flash[:notice] = t ".you_have_stepped_up"
+      @microcosm.organizers.empty? && add_first_organizer
+    end
+    render :show
   end
 
   private

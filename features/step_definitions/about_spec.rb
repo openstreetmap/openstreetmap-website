@@ -95,6 +95,10 @@ Given("this user is an organizer of this microcosm") do
   @the_microcosm.microcosm_members.create!(:user_id => @the_user.id, :role => MicrocosmMember::Roles::ORGANIZER)
 end
 
+Given("this microcosm has no organizers") do
+  @the_microcosm.organizers.map(&:destroy)
+end
+
 Then("I should see the microcosm {string} name") do |name|
   within(".content-heading") do
     page.assert_text name

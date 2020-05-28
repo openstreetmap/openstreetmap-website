@@ -32,3 +32,13 @@ Feature: Interact with the Microcosm
       And user "will_attend@example.com" logs in
       And I am on the microcosm "MappingDC" page
       Then I should not see a "Join" button
+
+    Scenario: Step up
+      Given there is a user "abe@example.com" with name "Abe"
+      And the user belongs to the microcosm
+      Given this microcosm has no organizers
+      When user "abe@example.com" logs in
+      And I am on the microcosm "MappingDC" page
+      And I click "Step up"
+      And print body
+      Then I should see "Organizers Abe"
