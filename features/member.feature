@@ -40,5 +40,4 @@ Feature: Interact with the Microcosm
       When user "abe@example.com" logs in
       And I am on the microcosm "MappingDC" page
       And I click "Step up"
-      And print body
       Then I should see "Organizers Abe"
