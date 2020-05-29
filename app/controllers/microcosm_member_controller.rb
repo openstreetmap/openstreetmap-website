@@ -3,7 +3,7 @@ class MicrocosmMemberController < ApplicationController
   before_action :authorize_web
   authorize_resource
 
-  before_action :set_microcosm_member, :only => [:edit, :update]
+  before_action :set_microcosm_member, :only => [:destroy, :edit, :update]
 
   def create
     membership = MicrocosmMember.new(mm_params)
@@ -23,6 +23,16 @@ class MicrocosmMemberController < ApplicationController
         format.html { redirect_to @microcosm_member.microcosm, :notice => t(".success") }
       else
         format.html { render :edit }
+      end
+    end
+  end
+
+  def destroy
+    respond_to do |format|
+      if @microcosm_member.destroy
+        format.html { redirect_to @microcosm_member.microcosm, :notice => t(".success") }
+      else
+        format.html { render :edit, :notice => t(".failure") }
       end
     end
   end

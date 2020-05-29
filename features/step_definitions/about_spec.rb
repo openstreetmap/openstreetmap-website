@@ -182,9 +182,13 @@ And("I click {string}") do |title|
   end
 end
 
-And("Within {string} I click the {int} {string}") do |scope, nth, text|
+And("Within {string} I click the {string} {string}") do |scope, nth, locator|
   within(scope) do
-    find(:xpath, "(.//a[contains(text(), #{text})])[#{nth}]").click
+    # all(:link_or_button).each do |el|
+    #   puts el.inspect
+    #   puts el.value
+    # end
+    all(:link_or_button, locator)[unordinalize(nth)].click
   end
 end
 
@@ -211,4 +215,8 @@ end
 
 When("I logout") do
   visit logout_path
+end
+
+def unordinalize(ordinal)
+  ordinal.scan(/^\d+/).first.to_i - 1
 end

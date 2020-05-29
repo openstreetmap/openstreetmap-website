@@ -31,7 +31,7 @@ Feature: Manage a Microcosm
     When user "organizer@example.com" logs in
     And I am on the microcosm "MappingDC" page
     And I click "Members"
-    And Within ".members" I click the 2 "edit"
+    And Within ".members" I click the "1st" "edit"
     And I set the user to "Organizer"
     And I submit the form
     Then I should see "Organizers Organizer Promotee"
@@ -71,3 +71,16 @@ Feature: Manage a Microcosm
     And I should see "Location: DC Park"
     And I should see "Description: Hiking."
     And I should see "20 February 2030 at 12:34"
+
+  Scenario: Remove a member
+    Given there is a user "organizer@example.com" with name "Organizer"
+    And this user is an organizer of this microcosm
+    And there is a user "abe@example.com" with name "Nicolas"
+    And the user belongs to the microcosm
+    When user "organizer@example.com" logs in
+    And I am on the microcosm "MappingDC" page
+    And I click "Members"
+    And Within ".members" I click the "1st" "remove"
+    And I am on the microcosm "MappingDC" page
+    And I click "Members"
+    Then I should not see "Nicolas"

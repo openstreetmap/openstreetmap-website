@@ -22,8 +22,7 @@ class Microcosm < ApplicationRecord
   friendly_id :name, :use => :slugged
   self.ignored_columns = ["key"]
 
-  # Organizers before members, a tad hacky, but works for now.
-  has_many :microcosm_members, -> { order(:role => :desc) }
+  has_many :microcosm_members, -> { order(:user_id) }
   has_many :users, :through => :microcosm_members # TODO: counter_cache
   has_many :microcosm_links
   has_many :events
