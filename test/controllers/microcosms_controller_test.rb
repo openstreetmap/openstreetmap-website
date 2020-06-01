@@ -160,7 +160,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     m1 = mm.microcosm # original object
     m2 = build(:microcosm) # new data
     # act
-    put microcosm_url(m1), params: {:microcosm => m2.as_json}, xhr: true
+    put microcosm_url(m1), :params => { :microcosm => m2.as_json }, :xhr => true
     # assert
     assert_redirected_to microcosm_path(m1)
     m1.reload
