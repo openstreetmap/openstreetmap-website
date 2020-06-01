@@ -168,8 +168,8 @@ cs:
         one: více než před rokem
         other: před více než %{count} lety
       x_seconds:
-        one: před vteřinou
-        other: před %{count} vteřinami
+        one: před sekundou
+        other: před %{count} sekundami
       x_minutes:
         one: před minutou
         other: před %{count} minutami
@@ -325,6 +325,7 @@ cs:
         tag: Stránka s popisem značky %{key}=%{value} na wiki
       wikidata_link: Položka %{page} na Wikidatech
       wikipedia_link: Článek %{page} na Wikipedii
+      wikimedia_commons_link: Položka %{page} na Wikimedia Commons
       telephone_link: Volat %{phone_number}
       colour_preview: Náhled barvy %{colour_value}
     note:
@@ -779,7 +780,7 @@ cs:
           crane: Jeřáb
           dolphin: Kotvicí bod
           dyke: Hráz
-          embankment: Nábřeží
+          embankment: Násep
           flagpole: Vlajkový stožár
           gasometer: Plynojem
           groyne: Vlnolam
@@ -1254,8 +1255,10 @@ cs:
         import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=cs
       success:
         subject: '[OpenStreetMap] Úspěšný import GPX'
-        loaded_successfully: se úspěšně nahrál s %{trace_points} z možných %{possible_points}
-          bodů.
+        loaded_successfully:
+          one: se úspěšně nahrál s %{trace_points} z možného 1 bodu.
+          other: se úspěšně nahrál s %{trace_points} z možných %{possible_points}
+            bodů.
     signup_confirm:
       subject: '[OpenStreetMap] Vítejte v OpenStreetMap'
       greeting: Ahoj!
@@ -1439,10 +1442,16 @@ cs:
         pod stejnou licencí. Podrobnosti najdete na stránce <a href=''%{copyright_path}''>Autorská
         práva a licence</a>.'
       legal_title: Právní informace
-      legal_1_html: |-
-        Tento web a mnoho dalších souvisejících služeb za komunitu oficiálně provozuje <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF). Použití všech služeb provozovaných OSMF podléhá našim <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Podmínkám užití</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Pravidlům přijatelného užití</a> a našim <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Pravidlům ochrany osobních údajů</a>.
-        <br>
+      legal_1_html: Tento web a mnoho dalších souvisejících služeb za komunitu oficiálně
+        provozuje <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a>
+        (OSMF). Použití všech služeb provozovaných OSMF podléhá našim <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Podmínkám
+        užití</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Pravidlům
+        přijatelného užití</a> a našim <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Pravidlům
+        ochrany osobních údajů</a>.
+      legal_2_html: |-
         Pokud máte problémy či dotazy týkající se licencování, autorských práv či jiných právních záležitostí, <a href='https://osmfoundation.org/Contact'>kontaktujte prosím OSMF</a>.
+        <br>
+        OpenStreetMap, logo s lupou a State of the Map jsou <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">registrované ochranné známky OSMF</a>.
       partners_title: Partneři
     copyright:
       foreign:
@@ -1916,7 +1925,8 @@ cs:
       pending: ZPRACOVÁVÁ SE
       count_points:
         one: 1 bod
-        other: '%{count} bodů'
+        few: '%{count} body'
+        many: '%{count} bodů'
       more: více
       trace_details: Zobrazit podrobnosti stopy
       view_map: Zobrazit mapu
@@ -2499,16 +2509,20 @@ cs:
           other: '%{count} hodiny'
         days:
           one: 1 den
-          other: '%{count} dnů'
+          few: '%{count} dny'
+          many: '%{count} dnů'
         weeks:
           one: 1 týden
-          other: '%{count} týdnů'
+          few: '%{count} týdny'
+          many: '%{count} týdnů'
         months:
           one: 1 měsíc
-          other: '%{count} měsíců'
+          few: '%{count} měsíce'
+          many: '%{count} měsíců'
         years:
           one: 1 rok
-          other: '%{count} let'
+          few: '%{count} roky'
+          many: '%{count} let'
     blocks_on:
       title: Zablokování uživatele %{name}
       heading_html: Seznam zablokování uživatele %{name}
@@ -2590,10 +2604,12 @@ cs:
         title: Ukázat moji polohu
         metersPopup:
           one: Od tohoto bodu jste vzdáleni metr
-          other: Od tohoto bodu jste vzdáleni %{count} metrů
+          few: Od tohoto bodu jste vzdáleni %{count} metry
+          many: Od tohoto bodu jste vzdáleni %{count} metrů
         feetPopup:
           one: Od tohoto bodu jste vzdáleni jednu stopu
-          other: Od tohoto bodu jste vzdáleni %{count} stop
+          few: Od tohoto bodu jste vzdáleni %{count} stopy
+          many: Od tohoto bodu jste vzdáleni %{count} stop
       base:
         standard: Standardní
         cycle_map: Cyklomapa
@@ -2609,6 +2625,11 @@ cs:
       copyright: © <a href='%{copyright_url}'>přispěvatelé OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Poskytněte dar</a>
       terms: <a href='%{terms_url}' target='_blank'>Pravidla webu a API</a>
+      thunderforest: Dlaždice díky <a href='%{thunderforest_url}' target='_blank'>Andy
+        Allanovi</a>
+      hotosm: Styl dlaždic <a href='%{hotosm_url}' target='_blank'>Humanitárního týmu
+        OpenStreetMap</a> provozuje <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        Francie</a>
     site:
       edit_tooltip: Upravit mapu
       edit_disabled_tooltip: Pro editaci mapy přejděte na větší měřítko

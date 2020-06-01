@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Abijeet Patro
+# Author: Chiak
 # Author: Helix84
 # Author: Jose1711
 # Author: KuboF
@@ -60,6 +61,7 @@ sk:
       diary_comment: Komentár k denníku
       diary_entry: Záznam denníka
       friend: Priateľ
+      issue: Problém
       language: Jazyk
       message: Správa
       node: Uzol
@@ -76,6 +78,7 @@ sk:
       relation: Relácia
       relation_member: Člen relácie
       relation_tag: Značka relácie
+      report: Hlásenie
       session: Relácia
       trace: Stopa
       tracepoint: Bod stopy
@@ -119,6 +122,9 @@ sk:
         description: Popis
         languages: Jazyky
         pass_crypt: Heslo
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: pred pol minútou
   editor:
     default: Predvolený (v súčasnosti %{name})
     potlatch:
@@ -133,6 +139,14 @@ sk:
     remote:
       name: Diaľkové ovládanie
       description: Diaľkové ovládanie (JOSM alebo Merkaartor)
+  auth:
+    providers:
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipédia
   api:
     notes:
       comment:
@@ -344,7 +358,7 @@ sk:
     location:
       location: 'Poloha:'
       view: Zobraziť
-      edit: Editovať
+      edit: Upraviť
     feed:
       user:
         title: Záznamy OpenStreetMap denníka používateľa %{user}
@@ -413,6 +427,7 @@ sk:
           charging_station: Nabíjacia stanica
           cinema: Kino
           clinic: Poliklinika
+          clock: Hodiny
           college: Vysoká škola
           community_centre: Kultúrne stredisko
           courthouse: Súd
@@ -565,6 +580,8 @@ sk:
           wayside_cross: Božie muky
           wayside_shrine: Malá kaplnka pri ceste
           wreck: Zrúcanina
+        junction:
+          "yes": Križovatka
         landuse:
           allotments: Záhradkárske osady
           basin: Vodná nádrž
@@ -601,6 +618,7 @@ sk:
           bird_hide: Vtáčia pozorovateľňa
           common: Verejné priestranstvo
           dog_park: Psí park
+          firepit: Ohnisko
           fishing: Rybolov (športový)
           fitness_centre: Fitnescentrum
           fitness_station: Fitnes zastávka
@@ -622,13 +640,26 @@ sk:
           swimming_pool: Plaváreň
           track: Bežecká dráha
           water_park: Aquapark
+          "yes": Voľný čas
         man_made:
+          beacon: Maják
+          bridge: Most
+          bunker_silo: Bunker
+          chimney: Komín
+          crane: Žeriav
+          embankment: Násyp
+          gasometer: Plynojem
           lighthouse: Maják
+          mast: Stožiar
           mine: Baňa
           mineshaft: Šachta bane
+          petroleum_well: Ropný vrt
           pipeline: Vodovod
           silo: Silo
           tower: Veža
+          water_tower: Vodojem
+          water_well: Studňa
+          windmill: Veterný mlyn
           works: Továreň
           "yes": Vytvorené človekom
         military:
@@ -706,12 +737,14 @@ sk:
           postcode: PSČ
           region: Región
           sea: More
+          square: Námestie
           state: Štát
           subdivision: Pododdelenie
           suburb: Mestský obvod
           town: Mesto 10 tis.-100 tis.
           unincorporated_area: Nezaradená oblasť
           village: Obec 200-10 tis.
+          "yes": Miesto
         railway:
           abandoned: Zrušená železničná trať
           construction: Železnica vo výstavbe
@@ -743,6 +776,7 @@ sk:
           beauty: Salón krásy
           beverages: Občerstvenie
           bicycle: Obchod s bicyklami
+          bookmaker: Stávková kancelária
           books: Kníhkupectvo
           boutique: Butik
           butcher: Mäsiarstvo
@@ -781,11 +815,14 @@ sk:
           hairdresser: Kaderníctvo,holičstvo
           hardware: Železiarstvo
           hifi: Hi-Fi
+          houseware: Domáce potreby
           jewelry: Zlatníctvo
           kiosk: Novinový stánok
           laundry: Práčovňa
+          lottery: Lotéria
           mall: Pešia zóna
           market: Obchod
+          massage: Masáž
           mobile_phone: Obchod s mobilnými telefónmi
           motorcycle: Motocyklový obchod
           music: Hudobniny
@@ -793,6 +830,7 @@ sk:
           optician: Očná optika
           organic: Obchod so zdravou výživou
           outdoor: Turistický obchod
+          pawnbroker: Záložňa
           pet: Chovprodukt
           pharmacy: Lekáreň
           photo: Fotokino
@@ -802,10 +840,12 @@ sk:
           stationery: Papierníctvo
           supermarket: Supermarket
           tailor: Krajčír
+          tobacco: Trafika
           toys: Hračkárstvo
           travel_agency: Cestovná kancelária
+          tyres: Pneuservis
           video: Videopožičovňa, predaj DVD
-          wine: Mimo povolenia
+          wine: Vináreň
           "yes": Obchod
         tourism:
           alpine_hut: Vysokohorská chata
@@ -869,6 +909,19 @@ sk:
     results:
       no_results: Neboli nájdené žiadne výsledky
       more_results: Viac výsledkov
+  issues:
+    index:
+      search: Hľadať
+      user_not_found: Používateľ neexistuje
+      status: Stav
+      states:
+        ignored: Ignorované
+        open: Otvorené
+        resolved: Vyriešené
+    show:
+      resolve: Vyriešiť
+      ignore: Ignorovať
+      reopen: Znovu otvoriť
   reports:
     new:
       title_html: Nahlásiť %{link}
@@ -909,6 +962,7 @@ sk:
     edit: Upraviť
     history: História
     export: Export
+    issues: Problémy
     data: Údaje
     export_data: Export údajov
     gps_traces: GPS stopy
@@ -921,9 +975,10 @@ sk:
     intro_text: OpenStreetMap je mapa sveta, vytvorené ľuďmi ako vy, voľne využiteľná
       pod slobodnou licenciou.
     intro_2_create_account: Založte si konto
-    partners_ucl: VR centrum UCL
+    partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: partneri
+    tou: Podmienky používania
     osm_offline: OpenStreetMap databáza je teraz offline, zatiaľ čo potrebná údržba
       databázy naďalej prebieha.
     osm_read_only: OpenStreetMap databáza je teraz len v móde čítania (bez možnosti
@@ -1080,6 +1135,7 @@ sk:
       date: Dátum
       reply_button: Odpovedať
       unread_button: Označiť ako neprečítané
+      destroy_button: Zmazať
       back: Späť
       to: Komu
       wrong_user: Ste prihlásený ako „%{user}“, ale správa, ktorú si chcete prečítať,
@@ -1267,6 +1323,7 @@ sk:
           title: Pripojte sa ku komunite
     help:
       welcome:
+        url: /welcome
         title: Vitajte na OSM
       beginners_guide:
         url: http://wiki.openstreetmap.org/wiki/Sk:Beginners%27_guide
@@ -1277,9 +1334,11 @@ sk:
         title: Fóra
       irc:
         title: IRC
+      switch2osm:
+        title: switch2osm
       wiki:
         url: http://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
+        title: OpenStreetMap Wiki
     sidebar:
       search_results: Výsledky vyhľadávania
       close: Zavrieť
@@ -1289,7 +1348,7 @@ sk:
       get_directions_title: Vyhľadať trasu medzi dvoma bodmi
       from: Odkiaľ
       to: Kam
-      where_am_i: Kde som?
+      where_am_i: Kde je toto?
       where_am_i_title: Opis aktuálnej polohy pomocou vyhľadávača
       submit_text: hľ.
       reverse_directions_text: Obrátiť smer
@@ -1573,6 +1632,7 @@ sk:
       no_apps_html: Máte nejakú aplikáciu, využívajúcu štandard %{oauth}, ktorá by
         s nami mala spolupracovať? Aplikáciu je potrebné najprv zaregistrovať, až
         potom sem bude môcť posielať OAuth požiadavky.
+      oauth: OAuth
       registered_apps: 'Máte zaregistrované nasledujúce klientské aplikácie:'
       register_new: Zaregistrovať aplikáciu
     form:
@@ -2029,6 +2089,7 @@ sk:
       previous: « Predchádzajúca stránka
   notes:
     mine:
+      id: ID
       creator: Autor
       description: Popis
       created_at: Vytvorené
@@ -2042,6 +2103,7 @@ sk:
       link: Odkaz alebo HTML
       long_link: Odkaz
       short_link: Krátky odkaz
+      geo_uri: Geo URI
       embed: HTML
       custom_dimensions: Nastaviť vlastné rozmery
       format: 'Formát:'
@@ -2085,6 +2147,8 @@ sk:
       createnote_disabled_tooltip: Pre vloženie poznámky priblížte mapu
     changesets:
       show:
+        subscribe: Odoberať
+        unsubscribe: Zrušiť odoberanie
         hide_comment: skryť
         unhide_comment: zobraziť
     notes:
@@ -2095,11 +2159,15 @@ sk:
         add: Pridať poznámku
       show:
         hide: Skryť
+        resolve: Vyriešiť
     directions:
       ascend: Stúpanie
       engines:
+        fossgis_osrm_bike: Bicykel (OSRM)
         fossgis_osrm_car: Automobil (OSRM)
+        fossgis_osrm_foot: Pešo (OSRM)
         graphhopper_bicycle: Bicykel (GraphHopper)
+        graphhopper_car: Automobil (GraphHopper)
         graphhopper_foot: Pešo (GraphHopper)
       descend: Klesanie
       directions: Trasa
