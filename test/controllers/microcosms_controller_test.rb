@@ -3,6 +3,9 @@ require "test_helper"
 class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
+  # Following guidance from Ruby on Rails Guide
+  # https://guides.rubyonrails.org/testing.html#functional-tests-for-your-controllers
+  #
   def test_routes
     assert_routing(
       { :path => "/microcosms", :method => :get },
@@ -48,16 +51,22 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index_get
+    # arrange
     m = create(:microcosm)
+    # act
     get microcosms_path
+    # assert
     check_page_basics
     assert_template "index"
     assert_match m.name, response.body
   end
 
   def test_show_get
+    # arrange
     m = create(:microcosm)
+    # act
     get microcosm_path(m)
+    # assert
     check_page_basics
     # assert_template("show")
     assert_match m.name, response.body
@@ -65,51 +74,69 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_show_members_get
+    # arrange
     mm = create(:microcosm_member)
+    # act
     get members_of_microcosm_path(mm.microcosm)
+    # assert
     check_page_basics
     assert_match mm.user.display_name, response.body
   end
 
   def test_show_events_get
+    # arrange
     e = create(:event)
+    # act
     get events_of_microcosm_path(e.microcosm)
+    # assert
     check_page_basics
     assert_match e.title, response.body
   end
 
   def test_edit_get_no_session
+    # arrange
     m = create(:microcosm)
+    # act
     get edit_microcosm_path(m)
+    # assert
     assert_response :redirect
     assert_redirected_to :controller => :users, :action => :login, :referer => "/microcosms/#{m.slug}/edit"
   end
 
   def test_edit_get_is_not_member_is_not_organizer
+    # arrange
     m = create(:microcosm)
     user = create(:user)
     session_for(user)
+    # act
     get edit_microcosm_path(m)
+    # assert
     follow_redirect!
     assert_response :forbidden
   end
 
   def test_edit_get_is_member_not_organizer
+    # arrange
     mm = create(:microcosm_member)
     session_for(mm.user)
+    # act
     get edit_microcosm_path(mm.microcosm)
+    # assert
     follow_redirect!
     assert_response :forbidden
   end
 
   def test_edit_get_is_organizer
+    # arrange
     mm = create(:microcosm_member, :organizer)
     # We need to reload the object from PG because the floats in Ruby translate
     # to double precision in PG and will actually loose 1 digit of precision.  PG
     # says 15, but it doesn't get that.  Reload so values below are correct.
     mm.reload
     session_for(mm.user)
+    # act
     get edit_microcosm_path(mm.microcosm)
+    # assert
     check_page_basics
     assert_select "div#content", :count => 1 do
       assert_select "form[action='/microcosms/#{mm.microcosm.slug}'][method=post]", :count => 1 do
@@ -124,5 +151,21 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
         assert_select "input", :count => 11
       end
     end
+  end
+
+  def test_update_put
+    # arrange
+    mm = create(:microcosm_member, :organizer)
+    session_for(mm.user)
+    m1 = mm.microcosm # original object
+    m2 = build(:microcosm) # new data
+    # act
+    put microcosm_url(m1), params: {:microcosm => m2.as_json}, xhr: true
+    # assert
+    assert_redirected_to microcosm_path(m1)
+    m1.reload
+    # Assign the id of m1 to m2, so we can do an equality test easily.
+    m2.id = m1.id
+    assert_equal(m2, m1)
   end
 end
