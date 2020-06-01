@@ -1,12 +1,14 @@
 FactoryBot.define do
   factory :event do
-    title { "MyString" }
-    moment { "2019-09-05T92:08:02" }
-    location { "Neverland" }
-    location_url { "https://example.org" }
-    description { "MyText" }
+    sequence(:title) { |n| "Title #{n}" }
+    moment { Time.now.utc }
+    sequence(:location) { |n| "Location #{n}" }
+    sequence(:location_url) { |n| "http://example.com/app/#{n}" }
+    sequence(:description) { |n| "Description #{n}" }
     microcosm
-    latitude { 12.34 }
-    longitude { 56.78 }
+    latitude { rand(-90.0...90.0) }
+    longitude { rand(-180.0...180.0) }
+
+    # TODO: trait for event with attendees
   end
 end
