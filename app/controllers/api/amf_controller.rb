@@ -868,7 +868,7 @@ module Api
     # not just the id, hence this abstraction
 
     def getuser(token)
-      if token =~ /^(.+)\:(.+)$/
+      if token =~ /^(.+):(.+)$/
         User.authenticate(:username => Regexp.last_match(1), :password => Regexp.last_match(2))
       else
         User.authenticate(:token => token)
