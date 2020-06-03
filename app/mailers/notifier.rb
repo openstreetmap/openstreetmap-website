@@ -106,16 +106,16 @@ class Notifier < ApplicationMailer
     end
   end
 
-  def friend_notification(friend)
-    with_recipient_locale friend.befriendee do
-      @friend = friend
-      @viewurl = user_url(@friend.befriender)
-      @friendurl = make_friend_url(@friend.befriender)
-      @author = @friend.befriender.display_name
+  def friendship_notification(friendship)
+    with_recipient_locale friendship.befriendee do
+      @friendship = friendship
+      @viewurl = user_url(@friendship.befriender)
+      @friendurl = make_friend_url(@friendship.befriender)
+      @author = @friendship.befriender.display_name
 
-      attach_user_avatar(@friend.befriender)
-      mail :to => friend.befriendee.email,
-           :subject => I18n.t("notifier.friend_notification.subject", :user => friend.befriender.display_name)
+      attach_user_avatar(@friendship.befriender)
+      mail :to => friendship.befriendee.email,
+           :subject => I18n.t("notifier.friendship_notification.subject", :user => friendship.befriender.display_name)
     end
   end
 
