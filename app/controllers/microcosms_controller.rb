@@ -27,12 +27,13 @@ class MicrocosmsController < ApplicationController
       if @microcosm.update(microcosm_params)
         format.html { redirect_to @microcosm, :notice => t(".success") }
       else
-        format.html { render :edit }
+        format.html { render :edit, :alert => t(".failure") }
       end
     end
   end
 
   def new
+    @title = t "microcosms.new.title"
     @microcosm = Microcosm.new
   end
 
