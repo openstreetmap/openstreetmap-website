@@ -110,8 +110,7 @@ class Notifier < ApplicationMailer
     with_recipient_locale friend.befriendee do
       @friend = friend
       @viewurl = user_url(@friend.befriender)
-      @friendurl = url_for(:controller => "users", :action => "make_friend",
-                           :display_name => @friend.befriender.display_name)
+      @friendurl = make_friend_url(@friend.befriender)
       @author = @friend.befriender.display_name
 
       attach_user_avatar(@friend.befriender)

@@ -6,19 +6,19 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
   def test_routes
     assert_routing(
       { :path => "/user/username/make_friend", :method => :get },
-      { :controller => "users", :action => "make_friend", :display_name => "username" }
+      { :controller => "friendships", :action => "make_friend", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/make_friend", :method => :post },
-      { :controller => "users", :action => "make_friend", :display_name => "username" }
+      { :controller => "friendships", :action => "make_friend", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/remove_friend", :method => :get },
-      { :controller => "users", :action => "remove_friend", :display_name => "username" }
+      { :controller => "friendships", :action => "remove_friend", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/remove_friend", :method => :post },
-      { :controller => "users", :action => "remove_friend", :display_name => "username" }
+      { :controller => "friendships", :action => "remove_friend", :display_name => "username" }
     )
   end
 
@@ -32,7 +32,7 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
 
     # When not logged in a GET should ask us to login
     get make_friend_path(friend)
-    assert_redirected_to :action => "login", :referer => make_friend_path(:display_name => friend.display_name)
+    assert_redirected_to login_path(:referer => make_friend_path(:display_name => friend.display_name))
 
     # When not logged in a POST should error
     post make_friend_path(friend)
@@ -129,7 +129,7 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
 
     # When not logged in a GET should ask us to login
     get remove_friend_path(friend)
-    assert_redirected_to :action => "login", :referer => remove_friend_path(:display_name => friend.display_name)
+    assert_redirected_to login_path(:referer => remove_friend_path(:display_name => friend.display_name))
 
     # When not logged in a POST should error
     post remove_friend_path, :params => { :display_name => friend.display_name }

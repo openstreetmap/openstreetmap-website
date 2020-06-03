@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   authorize_resource
 
   before_action :require_self, :only => [:account]
-  before_action :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public, :make_friend, :remove_friend]
+  before_action :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public]
   before_action :require_cookies, :only => [:new, :login, :confirm]
   before_action :lookup_user_by_name, :only => [:set_status, :delete]
   before_action :allow_thirdparty_images, :only => [:show, :account]
@@ -378,57 +378,6 @@ class UsersController < ApplicationController
     if @user &&
        (@user.visible? || current_user&.administrator?)
       @title = @user.display_name
-    else
-      render_unknown_user params[:display_name]
-    end
-  end
-
-  def make_friend
-    @new_friend = User.find_by(:display_name => params[:display_name])
-
-    if @new_friend
-      if request.post?
-        friendship = Friendship.new
-        friendship.befriender = current_user
-        friendship.befriendee = @new_friend
-        if current_user.is_friends_with?(@new_friend)
-          flash[:warning] = t "users.make_friend.already_a_friend", :name => @new_friend.display_name
-        elsif friendship.save
-          flash[:notice] = t "users.make_friend.success", :name => @new_friend.display_name
-          Notifier.friend_notification(friendship).deliver_later
-        else
-          friendship.add_error(t("users.make_friend.failed", :name => @new_friend.display_name))
-        end
-
-        if params[:referer]
-          redirect_to params[:referer]
-        else
-          redirect_to :action => "show"
-        end
-      end
-    else
-      render_unknown_user params[:display_name]
-    end
-  end
-
-  def remove_friend
-    @friend = User.find_by(:display_name => params[:display_name])
-
-    if @friend
-      if request.post?
-        if current_user.is_friends_with?(@friend)
-          Friendship.where(:befriender => current_user, :befriendee => @friend).delete_all
-          flash[:notice] = t "users.remove_friend.success", :name => @friend.display_name
-        else
-          flash[:error] = t "users.remove_friend.not_a_friend", :name => @friend.display_name
-        end
-
-        if params[:referer]
-          redirect_to params[:referer]
-        else
-          redirect_to :action => "show"
-        end
-      end
     else
       render_unknown_user params[:display_name]
     end
