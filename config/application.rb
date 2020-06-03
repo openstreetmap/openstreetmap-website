@@ -21,7 +21,7 @@ Bundler.require(*Rails.groups)
 module OpenStreetMap
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults 6.0
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -30,6 +30,13 @@ module OpenStreetMap
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W[#{config.root}/lib]
+
+    # Continue to use the classic autoloader for now
+    config.autoloader = :classic
+
+    # Force requests from old versions of IE (<= IE8) to be UTF-8 encoded.
+    # This has defaulted to false since rails 6.0
+    config.action_view.default_enforce_utf8 = true
 
     # This defaults to true from rails 5.0 but our code doesn't comply
     # with it at all so we turn it off
