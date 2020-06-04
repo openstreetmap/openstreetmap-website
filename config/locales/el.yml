@@ -18,6 +18,7 @@
 # Author: Logictheo
 # Author: Macofe
 # Author: Nikosgranturismogt
+# Author: Norhorn
 # Author: Omnipaedista
 # Author: Panos78
 # Author: Protnet
@@ -73,6 +74,7 @@ el:
       diary_comment: Σχόλιο Ημερολογίου
       diary_entry: Καταχώριση Ημερολογίου
       friend: Φίλος
+      issue: Ζήτημα
       language: Γλώσσα
       message: Μήνυμα
       node: Κόμβος
@@ -89,6 +91,7 @@ el:
       relation: Σχέση
       relation_member: Μέλος της Σχέσης
       relation_tag: Ετικέτα της Σχέσης
+      report: Αναφορά
       session: Συνεδρία
       trace: Ίχνος
       tracepoint: Σημείο Ίχνους
@@ -189,9 +192,11 @@ el:
       description: Εξωτερικό πρόγραμμα (JOSM ή Merkaartor)
   auth:
     providers:
+      none: Κανένα
       openid: OpenID
       google: Google
       facebook: Facebook
+      windowslive: Windows Live
       github: GitHub
       wikipedia: Βικιπαίδεια
   api:
@@ -408,6 +413,7 @@ el:
       in_language_title: Καταχωρήσεις ημερολογίων στα %{language}
       new: Νέα καταχώρηση ημερολογίου
       new_title: Σύνταξη νέας καταχώρησης στο ημερολόγιό μου
+      my_diary: Το ημερολόγιό μου
       no_entries: Δε βρέθηκαν καταχωρήσεις στο ημερολόγιο
       recent_entries: Πρόσφατες καταχωρίσεις ημερολογίου
       older_entries: Παλιότερες καταχωρήσεις
@@ -1261,8 +1267,10 @@ el:
         more_info_2: 'μπορούν να βρεθούν στο:'
       success:
         subject: '[OpenStreetMap] Η εισαγωγή GPX πέτυχε'
-        loaded_successfully: φόρτωσε επιτυχώς με %{trace_points} από %{possible_points}
-          πιθανά σημεία.
+        loaded_successfully:
+          one: φόρτωσε επιτυχώς με %{trace_points} από 1 πιθανό σημείο.
+          other: φόρτωσε επιτυχώς με %{trace_points} από πιθανά %{possible_points}
+            σημεία.
     signup_confirm:
       subject: '[OpenStreetMap] Καλώς ήλθατε στο OpenStreetMap'
       greeting: Γεια σου!
@@ -1530,6 +1538,11 @@ el:
           <a href="https://data.wien.gv.at/">Stadt Wien</a> (υπό  <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> και
           Land Tirol (υπό <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT με τροποποιήσεις</a>).
+        contributors_au_html: |-
+          <strong>Αυστραλία</strong>: Περιέχει δεδομένα από
+          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia Limited</a>
+          με άδεια από το Commonwealth of Australia υπό
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_ca_html: |-
           <strong>Καναδάς</strong>: Περιέχει δεδομένα από τα
           GeoBase®, GeoGratis (© Τμήμα Φυσικών
@@ -1552,6 +1565,11 @@ el:
           <strong>Σλοβενία</strong>: Περιέχει δεδομένα από την
           <a href="http://www.gu.gov.si/en/">Αρχή Τοπογραφίας και Χαρτογράφησης</a> και το <a href="http://www.mkgp.gov.si/en/">Υπουργείο Γεωργίας, Δασών και Τροφίμων</a>
           (δημόσιες πληροφορίες της Σλοβενίας).
+        contributors_es_html: |-
+          <strong>Ισπανία</strong>: Περιέχει δεδομένα από το
+          εθνικό γεωγραφικό ινστιτούτο Ισπανίας (<a href="http://www.ign.es/">IGN</a>) και το
+          Εθνικό σύστημα χαρτογράφησης (<a href="http://www.scne.es/">SCNE</a>)
+          αδειοδοτημένο για χρήση υπό <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_za_html: |-
           <strong>Νότια Αφρική</strong>: Περιεχέι δεδομένα που προέρχονται από το
           <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -1700,7 +1718,7 @@ el:
         description: Οδηγός αρχαρίων διατηρούμενος από την κοινότητα.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Κοινότητα βοήθειας
         description: Κάντε μία ερώτηση ή αναζητήσετε απαντήσεις στην ιστοσελίδα ερωτήσεων
           και απαντήσεων του OpenStreetMap.
       mailing_lists:
@@ -1726,7 +1744,7 @@ el:
           ό,τι χρειάζεστε να ξέρετε στο  Welcome Mat.
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
+        title: OpenStreetMap Wiki
         description: Περιηγηθείτε το wiki για επιμελής τεκμηρίωση του OpenStreetMap.
     sidebar:
       search_results: Αποτελέσματα Αναζήτησης
@@ -1904,6 +1922,8 @@ el:
       trace_uploaded: Το GPX αρχείο σας έχει μεταμορφωθεί και αναμένει την εισαγωγή
         στη βάση δεδομένων. Συνήθως αυτό θα συμβεί μέσα σε μισή ώρα, και μετά την
         ολοκλήρωση θα σας αποσταλεί ένα email.
+      upload_failed: Η μεταφόρτωση του GPX απέτυχε. Ένας διαχειριστής έχει ενημερωθεί
+        για το σφάλμα. Παρακαλούμε δοκιμάστε ξανά.
       traces_waiting:
         one: Έχετε %{count} ίχνος σε αναμονή για ανέβασμα. Παρακαλούμε περιμένετε
           να ολοκληρωθεί πριν ανεβάσετε άλλα, ώστε να μην εμποδίσετε τη σειρά αναμονής
@@ -2224,6 +2244,7 @@ el:
       terms declined: Λυπούμαστε για το ότι αποφασίσατε να μην αποδεχθείτε τους νέους
         όρους συνεισφοράς. Για περισσότερες πληροφορίες, παρακαλούμε δείτε <a href="%{url}">αυτήν
         τη σελίδα wiki</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Όροι
       heading: Όροι
@@ -2231,6 +2252,8 @@ el:
       read and accept with tou: Παρακαλώ διαβάστε τους όρους συνεισφοράς και όρους
         χρήσης, επιλέξτε τα δυο πλαίσια ελέγχου όταν έχετε τελειώσει και πατήστε το
         κουμπί για να συνεχίσετε.
+      contributor_terms_explain: Η συμφωνία διέπει τους όρους για υπάρχουσες και μελλοντικές
+        συνεισφορές σας.
       read_ct: Έχω διαβάσει και αποδέχομαι τους παραπάνω όρους συνεισφοράς
       tou_explain_html: Αυτοί %{tou_link} καλύπτουν τη χρήση της ιστοσελίδας και άλλης
         υποδομής που προσφέρει η OSMF. Παρακαλώ ακολουθήστε τον σύνδεσμο, διαβάστε
@@ -2239,10 +2262,12 @@ el:
       consider_pd: Και επιπρόσθετα στην παραπάνω συμφωνία, καταστώ τις συνεισφορές
         μου στο κοινό κτήμα (για ελεύθερη χρήση)
       consider_pd_why: τι είναι αυτό;
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: Πληροφορίες για να καταλάβετε αυτούς τους όρους:μία <href="%{summary}">
         αναγνώσιμη περίληψη</a>και μερικές <a href=''%{translations}''>ανεπίσημες
         μεταφράσεις </a>
       continue: Συνέχεια
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Διαφωνώ
       you need to accept or decline: Παρακαλώ διαβάστε και αποδεχτείτε ή απορρίψτε
         τους νέους Όρους Συνεισφοράς για να συνεχίσετε.
@@ -2366,6 +2391,7 @@ el:
           να διαβάσετε και να αποδεχθείτε τους νέους Όρους Συνεισφοράς.
         agreed_with_pd: Έχετε επίσης δηλώσει ότι θεωρείτε τις επεξεργασίες σας οτι
           είναι Public Domain.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: τι είναι αυτό;
       profile description: 'Περιγραφή Προφίλ:'
       preferred languages: 'Προτιμώμενες Γλώσσες:'
@@ -2373,6 +2399,7 @@ el:
       image: 'Εικόνα:'
       gravatar:
         gravatar: Χρήση Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: τι είναι αυτό;
         disabled: 'Το Gravatar έχει απενεργοποιηθεί:'
         enabled: Εμφάνισης του Gravatar σας έχει ενεργοποιηθεί.
@@ -2663,6 +2690,12 @@ el:
         out: Σμίκρυνση
       locate:
         title: Προβολή της Τοποθεσίας μου
+        metersPopup:
+          one: Είστε εντός ενός μέτρου από το σημείο
+          other: Είστε μεταξύ %{count} μέτρων από το σημείο
+        feetPopup:
+          one: Είστε εντός ενός ποδός από το σημείο
+          other: Είστε μεταξύ %{count} ποδιών από το σημείο
       base:
         standard: Κανονικός
         cycle_map: Χάρτης Ποδηλασίας
@@ -2678,6 +2711,11 @@ el:
       copyright: © <a href='%{copyright_url}'>Συνεισφέροντες του OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Κάνετε Δωρεά</a>
       terms: <a href='%{terms_url}' target='_blank'>Όροι ιστότοπου και API</a>
+      thunderforest: Ευγενική χορηγεία πλακιδίων από τον <a href='%{thunderforest_url}'
+        target='_blank'>Andy Allan</a>
+      hotosm: Στύλ πλακιδίων από την <a href='%{hotosm_url}' target='_blank'>Ομάδα
+        Humanitarian OpenStreetMap</a> φιλοξενείται από <a href='%{osmfrance_url}'
+        target='_blank'>OpenStreetMap Γαλλίας</a>
     site:
       edit_tooltip: Επεξεργασία του χάρτη
       edit_disabled_tooltip: Κάντε μεγέθυνση για να επεξεργαστείτε το χάρτη

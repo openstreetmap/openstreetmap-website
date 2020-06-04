@@ -58,6 +58,7 @@ ro:
       diary_comment: Comentariu jurnal
       diary_entry: Intrare în jurnal
       friend: Prieten
+      issue: problemă
       language: Limbă
       message: Mesaj
       node: Nod
@@ -74,6 +75,7 @@ ro:
       relation: Relație
       relation_member: Membru relație
       relation_tag: Etichetă relație
+      report: Raport
       session: Sesiune
       trace: Urmă
       tracepoint: Punct al unei înregistrări GPS
@@ -173,6 +175,15 @@ ro:
     remote:
       name: Control la distanță
       description: Control de la distanță (JOSM sau Merkaartor)
+  auth:
+    providers:
+      none: Fără
+      openid: OpenID
+      google: OpenID
+      facebook: OpenID
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -297,7 +308,9 @@ ro:
         tag: Pagina de pe wiki pentru tagul %{key}=%{value}
       wikidata_link: Elementul %{page} pe Wikidata
       wikipedia_link: Articolul %{page} pe Wikipedia
+      wikimedia_commons_link: Item-ul %{page} pe Wikimedia Commons
       telephone_link: Sună %{phone_number}
+      colour_preview: Previzualizează %{colour_value} culoare
     note:
       title: 'Notă: %{id}'
       new_note: Notă nouă
@@ -381,6 +394,7 @@ ro:
       in_language_title: Înregistrări de jurnal în %{language}
       new: O nouă înregistrare în jurnal
       new_title: Compune o înregistrare nouă în jurnalul meu de utilizator
+      my_diary: Jurnalul meu
       no_entries: Nu există înregistrări în jurnal
       recent_entries: Înregistrări recente din jurnal
       older_entries: Înregistrări mai vechi
@@ -555,7 +569,7 @@ ro:
           social_club: Club social
           social_facility: Facilitate socială
           studio: Studio
-          swimming_pool: Bazin de înot
+          swimming_pool: Piscină de înot
           taxi: Taxi
           telephone: Telefon public
           theatre: Teatru
@@ -1095,9 +1109,10 @@ ro:
     reopen:
       reopened: Starea problemei a fost setată la 'Deschis'
     comments:
+      comment_from_html: Comentariu de la %{user_link} pe %{comment_created_at}
       reassign_param: Realocaţi problema?
     reports:
-      reported_by_html: Realocați ca %{category} de %{user}
+      reported_by_html: Raportat %{category} de %{user} pe %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, coment #%{comment_id}'
@@ -1226,12 +1241,12 @@ ro:
         more_info_2: 'acestea pot fi găsite la adresa:'
       success:
         subject: '[OpenStreetMap] succes import fișier GPX'
-        loaded_successfully: încărcate cu succes cu %{trace_points} din cauza punctelor
-          posbibile %{possible_points}.
+        loaded_successfully:
+          other: încărcat cu succes cu %{trace_points} din 1 punct posibil.
     signup_confirm:
       subject: '[OpenStreetMap] Bun venit la OpenStreetMap'
-      greeting: Bună!
-      created: Cineva (sperăm că tu) tocmai ați creat un cont la %{site_url}.
+      greeting: Salut!
+      created: Cineva (sperăm că tu) tocmai a creat un cont la %{site_url}.
       confirm: 'Înainte de a face orice altceva, trebuie să confirmați că această
         solicitare a venit de la dvs., deci dacă este adevărat atunci faceți click
         pe link-ul de mai jos pentru a vă confirma contul:'
@@ -1243,12 +1258,12 @@ ro:
       greeting: Salut,
       hopefully_you: Cineva (sperăm că tu) dorește să schimbe adresa de e-mail de
         la %{server_url} la %{new_address}.
-      click_the_link: Dacă sunteți ală, faceți clic pe linkul de mai jos pentru a
-        confirma modificarea.
+      click_the_link: Dacă sunteți dumneavoastră, vă rugăm să faceți click pe linkul
+        de mai jos pentru a confirma modificarea.
     email_confirm_html:
       greeting: Salut,
-      hopefully_you: Cineva (sperăm că tu) doriți să schimbați adresa de e-mail de
-        la %{server_url} la %{new_address}.
+      hopefully_you: Cineva (sperăm că tu) ar dori să schimbe adresa de e-mail la
+        %{server_url} la %{new_address}.
       click_the_link: Dacă sunteți acesta, faceți click pe linkul de mai jos pentru
         a confirma modificarea.
     lost_password:
@@ -1257,14 +1272,14 @@ ro:
       greeting: Salut,
       hopefully_you: Cineva (posibil tu) a cerut resetarea parolei în contul openstreetmap.org
         al acestei adrese de e-mail.
-      click_the_link: Dacă vă aflați aici, faceți click pe linkul de mai jos pentru
-        a vă reseta parola.
+      click_the_link: Dacă sunteți dumneavoastră, vă rugăm să faceți click pe linkul
+        de mai jos pentru a vă reseta parola.
     lost_password_html:
       greeting: Salut,
       hopefully_you: Cineva (posibil tu) a cerut resetarea parolei în contul openstreetmap.org
         al acestei adrese de e-mail.
-      click_the_link: Dacă vă aflați aici, faceți clic pe linkul de mai jos pentru
-        a vă reseta parola.
+      click_the_link: Dacă sunteți dumneavoastră, vă rugăm să faceți click pe linkul
+        de mai jos pentru a vă reseta parola.
     note_comment_notification:
       anonymous: Un utilizator anonim
       greeting: Salut,
@@ -1297,11 +1312,10 @@ ro:
           de modificări'
         subject_other: '[OpenStreetMap] %{commenter} a comentat un set de modificări
           care vă interesează'
-        your_changeset: '%{commenter} a lăsat un comentariu asupra uneia dintre setările
-          de modificări create la %{time}'
-        commented_changeset: '%{commenter} a lăsat un comentariu cu privire la setările
-          de modificări ale hărții pe care le urmăriți create de %{changeset_author}
-          la %{time}'
+        your_changeset: '%{commenter} a lăsat un comentariu la %{time} asupra unui
+          set de modificări ale dvs.'
+        commented_changeset: '%{commenter} a lăsat un comentariu %{time} cu privire
+          la un set de modificări pe care îl urmăriți creat de %{changeset_author}'
         partial_changeset_with_comment: cu comentariul '%{changeset_comment}'
         partial_changeset_without_comment: fără comentarii
       details: Mai multe detalii despre setul de modificări pot fi găsite la adresa
@@ -1413,15 +1427,14 @@ ro:
         Drepturi de autor și Pagina de licență</a> pentru detalii.'
       legal_title: Legal
       legal_1_html: |-
-        Acest site și multe alte servicii conexe sunt operate în mod oficial de <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
-        în numele comunității. Utilizarea tuturor serviciilor operate de OSMF este supusă <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Termenilor de Utilizare</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
-        Politicile de Utilizare Acceptabile</a> şi <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Politica de confidenţialitate
-        </a>
+        Acest site și multe alte servicii conexe sunt operate în mod formal de <a href='https://osmfoundation.org/'>Fundația OpenStreetMap</a> (OSMF)
+        în numele comunității. Utilizarea tuturor serviciilor operate de OSMF este supusă <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Termeni de utilizare</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Politici de utilizare acceptabile</a> și a <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Politica de confidențialitate</a>.
+      legal_2_html: |-
+        Vă rugăm să <a href='https://osmfoundation.org/Contact'>contactați OSMF</a>
+        dacă aveți licență, drepturi de autor sau alte întrebări legale.
         <br>
-        Vă rugăm <a href='https://osmfoundation.org/Contact'>contactați OSMF</a>
-        dacă aveți licențe, drepturi de autor sau alte întrebări legale.
-        <br>
-        OpenStreetMap, sigla lupă și starea hărții sunt <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">mărci comerciale înregistrate ale OSMF</a>.
+        OpenStreetMap, logo-ul lupa și starea hărții sunt <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">mărci înregistrate ale OSMF</a>.
       partners_title: Parteneri
     copyright:
       foreign:
@@ -1660,7 +1673,7 @@ ro:
         legate de cartografiere.
       welcome:
         url: Bun venit
-        title: Bine ați venit la OSM
+        title: Bine ați venit la OpenStreetMap
         description: Începeți cu acest ghid rapid care acoperă elementele de bază
           OpenStreetMap.
       beginners_guide:
@@ -1669,9 +1682,9 @@ ro:
         description: Ghid menținut de comunitate pentru începători.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: Puneți o întrebare sau căutați răspunsuri pe site-ul de întrebări
-          și răspunsuri al OSM.
+        title: Ajutor Forum
+        description: Adresează o întrebare sau caută răspunsuri pe site-ul OpenStreetMap
+          de întrebări și răspunsuri.
       mailing_lists:
         title: Lista de e-mail-uri
         description: Adresați o întrebare sau discutați despre probleme interesante
@@ -1694,8 +1707,8 @@ ro:
           ce trebuie să știți în Matricea de întâmpinare.
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: Răsfoiți wiki-ul pentru o documentație OSM detaliată.
+        title: OpenStreetMap Wiki
+        description: Caută pe wiki pentru o documentație OpenStreetMap detaliată.
     sidebar:
       search_results: Rezultatele căutării
       close: Închide
@@ -1928,7 +1941,9 @@ ro:
       newer: Urme mai noi
     trace:
       pending: ÎN AȘTEPTARE
-      count_points: puncte %{count}
+      count_points:
+        one: 1 punct
+        other: '%{count} puncte'
       more: mai multe
       trace_details: Vezi detaliile urmei
       view_map: Vezi hartă
@@ -2048,6 +2063,7 @@ ro:
       no_apps_html: Aveți o aplicație pe care doriți să o înregistrați pentru a fi
         utilizată cu noi folosind standardul %{oauth}? Trebuie să vă înregistrați
         aplicația web înainte de a putea face cereri OAuth pentru acest serviciu.
+      oauth: OAuth
       registered_apps: 'Aveți următoarele aplicații de client înregistrate:'
       register_new: Înregistrați-vă cererea
     form:
@@ -2625,6 +2641,12 @@ ro:
         out: Micşorează
       locate:
         title: Arată locația mea
+        metersPopup:
+          one: Sunteți la un metru de acest punct
+          other: Sunteți la %{count} metri de acest punct
+        feetPopup:
+          one: Sunteți la un picior unitate de măsură de acest punct
+          other: Suntețî la %{count} picioare unitate de măsură de acest punct
       base:
         standard: Standard
         cycle_map: Hartă de ciclism
@@ -2640,6 +2662,11 @@ ro:
       copyright: © <a href='%{copyright_url}'>contribuitori OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donează</a>
       terms: <a href='%{terms_url}' target='_blank'>Website şi API terms</a>
+      thunderforest: Plăci amabilitatea <a href='%{thunderforest_url}' target='_blank'>Andy
+        Allan</a>
+      hotosm: Stilul plăcilor de <a href='%{hotosm_url}' target='_blank'>Humanitarian
+        OpenStreetMap Team</a> hosted by <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        France</a>
     site:
       edit_tooltip: Modifică harta
       edit_disabled_tooltip: Măriți pentru a edita harta
