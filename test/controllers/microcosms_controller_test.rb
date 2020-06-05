@@ -222,4 +222,23 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
       end
     end
   end
+
+  def test_create
+    # arrange
+    session_for(create(:user))
+    m_orig = create(:microcosm)
+
+    # act
+    m_new_slug = nil
+    assert_difference "Microcosm.count", 1 do
+      post microcosms_url, :params => { :microcosm => m_orig.as_json }, :xhr => true
+      m_new_slug = @response.headers["Location"].split("/")[-1]
+    end
+
+    # assert
+    m_new = Microcosm.find_by(:slug => m_new_slug)
+    # Assign the id m_new to m_orig, so we can do an equality test easily.
+    m_orig.id = m_new.id
+    assert_equal(m_orig, m_new)
+  end
 end

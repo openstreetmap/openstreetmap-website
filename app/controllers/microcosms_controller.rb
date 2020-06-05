@@ -40,9 +40,9 @@ class MicrocosmsController < ApplicationController
   def create
     @microcosm = Microcosm.new(microcosm_params)
     if @microcosm.save && add_first_organizer
-      redirect_to microcosms_path, :notice => t(".success")
+      redirect_to @microcosm, :notice => t(".success")
     else
-      redirect_to microcosms_path, :notice => t(".failure")
+      redirect_to edit_microcosm_path(@microcosms), :notice => t(".failure")
     end
   end
 
