@@ -15,7 +15,11 @@ class Locale < I18n::Locale::Tag::Rfc4646
     end
 
     def expand
-      map(&:candidates).flatten.uniq << Locale.default
+      List.new(reverse.each_with_object([]) do |locale, expanded|
+                 locale.candidates.uniq.reverse_each do |candidate|
+                   expanded << candidate if candidate == locale || !expanded.include?(candidate)
+                 end
+               end.reverse.uniq << Locale.default)
     end
   end
 
@@ -28,17 +32,23 @@ class Locale < I18n::Locale::Tag::Rfc4646
   end
 
   def self.available
-    @available ||= List.new(I18n.available_locales)
+    @available ||= List.new(I18n.available_locales).reject!(&:invalid?)
+  end
+
+  def invalid?
+    I18n.t("activerecord.models.acl", :locale => self, :fallback => false, :raise => true).nil?
+  rescue I18n::MissingTranslationData
+    true
   end
 
   def candidates
-    [self.class.new(language, script, region, variant),
-     self.class.new(language, script, region),
-     self.class.new(language, script, nil, variant),
-     self.class.new(language, script),
-     self.class.new(language, nil, region, variant),
-     self.class.new(language, nil, region),
-     self.class.new(language, nil, nil, variant),
-     self.class.new(language)]
+    List.new([self.class.new(language, script, region, variant),
+              self.class.new(language, script, region),
+              self.class.new(language, script, nil, variant),
+              self.class.new(language, script),
+              self.class.new(language, nil, region, variant),
+              self.class.new(language, nil, region),
+              self.class.new(language, nil, nil, variant),
+              self.class.new(language)])
   end
 end

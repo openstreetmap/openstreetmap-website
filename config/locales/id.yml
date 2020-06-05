@@ -10,6 +10,7 @@
 # Author: Dewisulistio
 # Author: Emirhartato
 # Author: Farras
+# Author: Hanif Al Husaini
 # Author: HarryMahar
 # Author: Hidayatsrf
 # Author: Ilham151096
@@ -58,6 +59,7 @@ id:
   activerecord:
     errors:
       messages:
+        invalid_email_address: tidak tampak sebagai alamat e-mail yang sah
         email_address_not_routable: tidak dapat dirutekan
     models:
       acl: Daftar Kontrol Akses
@@ -67,6 +69,7 @@ id:
       diary_comment: Komentar pada Catatan Harian
       diary_entry: Entri Catatan harian
       friend: Teman
+      issue: Masalah
       language: Bahasa
       message: Pesan
       node: Node/Titik
@@ -83,6 +86,7 @@ id:
       relation: Relasi
       relation_member: Anggota Relasi
       relation_tag: Tag Relasi
+      report: Laporan
       session: Sesi
       trace: Jejak
       tracepoint: Titik Digitasi
@@ -128,7 +132,43 @@ id:
         pass_crypt: Kata Sandi
   datetime:
     distance_in_words_ago:
+      about_x_hours:
+        one: sekitar 1 jam yang lalu
+        other: sekitar %{count} jam yang lalu
+      about_x_months:
+        one: sekitar 1 bulan yang lalu
+        other: sekitar %{count} bulan yang lalu
+      about_x_years:
+        one: sekitar 1 tahun yang lalu
+        other: sekitar %{count} tahun yang lalu
+      almost_x_years:
+        one: hampir 1 tahun yang lalu
+        other: hampir %{count} tahun yang lalu
       half_a_minute: setengah menit yang lalu
+      less_than_x_seconds:
+        one: tak sampai 1 detik yang lalu
+        other: tak sampai %{count} detik yang lalu
+      less_than_x_minutes:
+        one: tak sampai 1 menit yang lalu
+        other: tak sampai %{count} menit yang lalu
+      over_x_years:
+        one: lebih dari 1 tahun yang lalu
+        other: lebih dari %{count} tahun yang lalu
+      x_seconds:
+        one: 1 detik yang lalu
+        other: '%{count} detik yang lalu'
+      x_minutes:
+        one: 1 menit yang lalu
+        other: '%{count} menit yang lalu'
+      x_days:
+        one: 1 hari yang lalu
+        other: '%{count} hari yang lalu'
+      x_months:
+        one: 1 bulan yang lalu
+        other: '%{count} bulan yang lalu'
+      x_years:
+        one: 1 tahun yang lalu
+        other: '%{count} tahun yang lalu'
   editor:
     default: Standar (saat ini %{name})
     potlatch:
@@ -143,6 +183,15 @@ id:
     remote:
       name: Pengendali Jarak Jauh
       description: Remote Control (JOSM atau Merkaartor)
+  auth:
+    providers:
+      none: Tidak ada
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -207,6 +256,8 @@ id:
         title_comment: Set Perubahan %{id} - %{comment}
       join_discussion: Masuk untuk bergabung diskusi
       discussion: Diskusi
+      still_open: Set perubahan masih terbuka - diskusi akan dibuka ketika set perubahan
+        telah ditutup.
     node:
       title_html: 'Simpul: %{name}'
       history_title_html: 'Riwayat Simpul: %{name}'
@@ -266,6 +317,7 @@ id:
         tag: Deskripsi halaman wiki untuk  %{key}=%{value} tag
       wikidata_link: Item %{page} di Wikidata
       wikipedia_link: Artikel %{page} di Wikipedia
+      wikimedia_commons_link: Item %{page} di Wikimedia Commons
       telephone_link: Hubungi %{phone_number}
     note:
       title: 'Catatan: %{id}'
@@ -330,7 +382,7 @@ id:
   changeset_comments:
     comment:
       comment: 'Komentar baru di set perubahan #%{changeset_id} oleh %{author}'
-      commented_at_by_html: Diperbarui %{when} yang lalu oleh %{user}
+      commented_at_by_html: Diperbarui %{when} oleh %{user}
     comments:
       comment: 'Komentar baru di set perubahan #%{changeset_id} oleh %{author}'
     index:
@@ -441,6 +493,7 @@ id:
           gate: Gerbang
           hangar: Hanggar
           helipad: Helipad
+          parking_position: Posisi Parkir
           runway: Landasan pacu
           taxiway: Landas hubung
           terminal: Terminal
@@ -712,6 +765,7 @@ id:
           crane: Derek
           embankment: Tanggul
           flagpole: Tiang Bendera
+          gasometer: Kilang
           kiln: Tanur
           lighthouse: Mercusuar
           mine: Tambang
@@ -998,6 +1052,7 @@ id:
       title: Isu
       select_status: Pilih Status
       select_type: Pilih Jenis
+      not_updated: Tidak Diperbarui
       search: Cari
       user_not_found: Pengguna tidak ada
       issues_not_found: Isu tidak ditemukan
@@ -1116,6 +1171,7 @@ id:
     partners_ucl: UCL
     partners_bytemark: Hosting Bytemark
     partners_partners: mitra
+    tou: Ketentuan Penggunaan
     osm_offline: Database OpenStreetMap saat ini sedang dimatikan karena sedang dilakukan
       pekerjaan pemeliharaan database penting.
     osm_read_only: OpenStreetMap database saat ini adalah pada mode read-only (hanya
@@ -1638,6 +1694,7 @@ id:
       where_am_i: Di mana ini?
       where_am_i_title: Deskripsikan lokasi Anda saat ini menggunakan mesin pencari
       submit_text: Lanjut
+      reverse_directions_text: Balikkan Arah
     key:
       table:
         entry:
@@ -1712,7 +1769,7 @@ id:
       edit: Edit
       preview: Tinjauan
     markdown_help:
-      title_html: Diurai dengan <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Diurai dengan <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Judul
       heading: Judul
       subheading: Subjudul
@@ -1785,6 +1842,7 @@ id:
       identifiable: Dapat Diidentifikasi (ditampilkan dalam daftar jejak dan sebagai
         diidentifikasi, mengatur poin dengan waktu pengambilan)
     new:
+      upload_trace: Unggah Jejak GPS
       upload_gpx: 'Unggah File GPX:'
       description: Deskripsi
       tags: 'Tags:'
@@ -1822,6 +1880,8 @@ id:
       tags_help: dipisahkan oleh koma
       visibility: Visibilitas
       visibility_help: apa artinya ini?
+    update:
+      updated: Jejak diperbarui
     trace_optionals:
       tags: 'Tags:'
     show:
@@ -1843,6 +1903,7 @@ id:
       delete_trace: Hapus trek ini
       trace_not_found: Jejak tidak ditemukan!
       visibility: Visibilitas
+      confirm_delete: Hapus jejak ini?
     trace_paging_nav:
       showing_page: Halaman %{page}
       older: Jejak-jejak Lama
@@ -2556,7 +2617,9 @@ id:
     directions:
       ascend: Naik
       engines:
+        fossgis_osrm_bike: Sepeda (OSRM)
         fossgis_osrm_car: Mobil (OSRM)
+        fossgis_osrm_foot: Jalan Kaki (OSRM)
         graphhopper_bicycle: Sepeda (GraphHopper)
         graphhopper_car: Mobil (GraphHopper)
         graphhopper_foot: Jalan Kaki (GraphHopper)
@@ -2565,7 +2628,7 @@ id:
       distance: Jarak
       errors:
         no_route: Gagal menemukan rute antara dua tempat tersebut.
-        no_place: Maaf - tempat tidak ditemukan.
+        no_place: Maaf - '%{place}' tidak ditemukan.
       instructions:
         continue_without_exit: Lurus ke %{name}
         slight_right_without_exit: Kanan sedikit ke %{name}
@@ -2587,10 +2650,10 @@ id:
         slight_left_without_exit: Kiri sedikit ke %{name}
         via_point_without_exit: (lewat tempat)
         follow_without_exit: Ikuti %{name}
-        roundabout_without_exit: Di bundaran ambil %{name}
+        roundabout_without_exit: Di bundaran ambil keluar ke %{name}
         leave_roundabout_without_exit: Tinggalkan bundaran - %{name}
         stay_roundabout_without_exit: Tetap di bundaran - %{name}
-        start_without_exit: Mulai di ujung %{name}
+        start_without_exit: Mulai di %{name}
         destination_without_exit: Tiba di tujuan
         against_oneway_without_exit: Lawan arah pada %{name}
         end_oneway_without_exit: Akhir dari satu arah pada %{name}

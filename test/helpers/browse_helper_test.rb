@@ -151,4 +151,10 @@ class BrowseHelperTest < ActionView::TestCase
       create(:node_tag, :node => node, :k => key, :v => value)
     end
   end
+
+  private
+
+  def current_user
+    nil
+  end
 end

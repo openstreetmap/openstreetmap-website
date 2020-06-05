@@ -236,11 +236,13 @@ OpenStreetMap::Application.routes.draw do
 
   # user pages
   get "/user/:display_name" => "users#show", :as => "user"
-  match "/user/:display_name/make_friend" => "users#make_friend", :via => [:get, :post], :as => "make_friend"
-  match "/user/:display_name/remove_friend" => "users#remove_friend", :via => [:get, :post], :as => "remove_friend"
   match "/user/:display_name/account" => "users#account", :via => [:get, :post], :as => "user_account"
   get "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
   get "/user/:display_name/delete" => "users#delete", :as => :delete_user
+
+  # friendships
+  match "/user/:display_name/make_friend" => "friendships#make_friend", :via => [:get, :post], :as => "make_friend"
+  match "/user/:display_name/remove_friend" => "friendships#remove_friend", :via => [:get, :post], :as => "remove_friend"
 
   # user lists
   match "/users" => "users#index", :via => [:get, :post]

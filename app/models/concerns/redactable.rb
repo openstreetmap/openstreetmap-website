@@ -1,10 +1,8 @@
-require "osm"
-
 module Redactable
-  def self.included(base)
-    # this is used to extend activerecord bases, as these aren't
-    # in scope for the module itself.
-    base.scope :unredacted, -> { where(:redaction_id => nil) }
+  extend ActiveSupport::Concern
+
+  included do
+    scope :unredacted, -> { where(:redaction_id => nil) }
   end
 
   def redacted?

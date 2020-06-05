@@ -11,9 +11,21 @@ module BrowseHelper
     # don't look at object tags if redacted, so as to avoid giving
     # away redacted version tag information.
     unless object.redacted?
-      locale = I18n.locale.to_s
+      available_locales = Locale::List.new(name_locales(object))
 
-      locale = locale.sub(/-[^-]+/, "") while locale =~ /-[^-]+/ && !object.tags.include?("name:#{I18n.locale}")
+      Rails.logger.info "available_locales = #{available_locales.map(&:to_s)}"
+
+      preferred_locales = if current_user
+                            current_user.preferred_languages
+                          else
+                            Locale.new(I18n.locale).candidates
+                          end
+
+      Rails.logger.info "preferred_locales = #{preferred_locales.expand.map(&:to_s)}"
+
+      locale = available_locales.preferred(preferred_locales)
+
+      Rails.logger.info "locale = #{locale}"
 
       if object.tags.include? "name:#{locale}"
         name = t "printable_name.with_name_html", :name => content_tag(:bdi, object.tags["name:#{locale}"].to_s), :id => content_tag(:bdi, name)
@@ -70,5 +82,9 @@ module BrowseHelper
 
   def icon_tags(object)
     object.tags.find_all { |k, _v| ICON_TAGS.include? k }.sort
+  end
+
+  def name_locales(object)
+    object.tags.keys.map { |k| Regexp.last_match(1) if k =~ /^name:(.*)$/ }.flatten
   end
 end

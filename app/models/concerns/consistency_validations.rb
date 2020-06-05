@@ -1,4 +1,6 @@
 module ConsistencyValidations
+  extend ActiveSupport::Concern
+
   # Generic checks that are run for the updates and deletes of
   # node, ways and relations. This code is here to avoid duplication,
   # and allow the extention of the checks without having to modify the

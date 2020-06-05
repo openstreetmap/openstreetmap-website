@@ -1,0 +1,7 @@
+<%= t '.had_added_you', :user => @friendship.befriender.display_name %>
+
+<%= t '.see_their_profile', :userurl => @viewurl %>
+
+<% unless @friendship.befriendee.is_friends_with?(@friendship.befriender) -%>
+<%= t '.befriend_them', :befriendurl => @friendurl %>
+<% end -%>

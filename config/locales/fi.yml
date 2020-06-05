@@ -1,6 +1,7 @@
 # Messages for Finnish (suomi)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: 01miki10
 # Author: Abijeet Patro
 # Author: Alluk.
 # Author: Antsa
@@ -81,6 +82,7 @@ fi:
       diary_comment: Päiväkirjakommentti
       diary_entry: Päiväkirjamerkintä
       friend: Kaveri
+      issue: Ongelma
       language: Kieli
       message: Viesti
       node: Piste
@@ -97,6 +99,7 @@ fi:
       relation: Relaatio
       relation_member: Relaation jäsen
       relation_tag: Relaation tagi
+      report: Raportti
       session: Istunto
       trace: Jälki
       tracepoint: Jälkipiste
@@ -193,6 +196,15 @@ fi:
     remote:
       name: Kauko-ohjaus
       description: Kauko-ohjaus (JOSM tai Merkaartor)
+  auth:
+    providers:
+      none: Ei mitään
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -1113,9 +1125,10 @@ fi:
     reopen:
       reopened: Tapaus on merkitty käsittelyssä olevaksi
     comments:
+      comment_from_html: Kommentti käyttäjältä %{user_link} %{comment_created_at}
       reassign_param: Haluatko määrittää tapauksen tilan uudelleen?
     reports:
-      reported_by_html: Käyttäjä %{user} ilmiantanut merkinnällä %{category}
+      reported_by_html: Käyttäjä %{user} ilmiantanut merkinnällä %{category} %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, kommenttitunnus %{comment_id}'
@@ -1420,16 +1433,9 @@ fi:
         Lisätietoja on <a href=''%{copyright_path}''>Tekijänoikeus ja lisenssi</a>
         -sivulla.'
       legal_title: Lakitekninen jako
-      legal_1_html: "Tämä ja monet muut OSM-sivustot ovat muodollisesti <a href='https://osmfoundation.org/'>OpenStreetMap-säätiön</a>
-        (OSMF) hallinnoimia OSM-yhteisön puolesta. Kaikkien näiden sivustojen käyttöön
-        sovelletaan <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nsallitun
-        käytön käytäntöjä</a>, <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">käyttöehtoja</a>
-        ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">tietosuojakäytäntöä</a>
-        (molemmat sisällöt saatavilla vain englanniksi).\n<br> \n<a href='https://osmfoundation.org/Contact'>Ota
-        yhteys OSMF:ään</a> lisensointi-, tekijänoikeus- ja muissa lakiteknisissä
-        kysymyksissä.\n<br>\nNimi OpenStreetMap, suurennuslasilogo ja slogan State
-        of the Map ovat <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">säätiön
-        rekisteröimiä tavaramerkkejä</a>."
+      legal_1_html: |-
+        Tämä sivusto ja monet siihen liittyvät palvelut ovat muodollisesti <a href='https://osmfoundation.org/'>OpenStreetMap-säätiön</a> (OSMF) hallinnoimia OSM-yhteisön puolesta. Kaikkien OSMF:n hallinnoimien palveluiden käyttöön sovelletaan <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        sallitun käytön käytäntöjä</a>, <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">käyttöehtoja</a> ja <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">tietosuojakäytäntöä</a> (molemmat sisällöt saatavilla vain englanniksi).
       partners_title: Kumppanit
     copyright:
       foreign:
@@ -2583,6 +2589,12 @@ fi:
         out: Loitonna
       locate:
         title: Näytä oma sijaintini
+        metersPopup:
+          one: Olet yhden metrin etäisyydellä tästä pisteessä
+          other: Olet %{count} metrin etäisyydellä tästä pisteestä
+        feetPopup:
+          one: Olet yhden jalan etäisyydellä tästä pisteestä
+          other: Olet %{count} jalan etäisyydellä tästä pisteestä
       base:
         standard: Perinteinen
         cycle_map: Pyöräilykartta
