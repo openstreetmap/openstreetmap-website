@@ -244,4 +244,38 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     assert_equal(m_orig, m_new)
     assert_equal m_new.organizers[0].user, u
   end
+
+  def test_step_up_non_member
+    # arrange
+    u = create(:user)
+    session_for(u)
+    m = create(:microcosm)
+    # act
+    post step_up_url(m)
+    follow_redirect!
+    # assert
+    assert_equal "Only members can step up.", flash[:notice]
+  end
+
+  def test_step_up_member
+    # arrange
+    mm = create(:microcosm_member)
+    session_for(mm.user)
+    # act
+    post step_up_url(mm.microcosm)
+    follow_redirect!
+    # assert
+    assert_equal "You have stepped up.", flash[:notice]
+  end
+
+  def test_step_up_already_has_organizer
+    # arrange
+    mm = create(:microcosm_member, :organizer)
+    session_for(mm.user)
+    # act
+    post step_up_url(mm.microcosm)
+    follow_redirect!
+    # assert
+    assert_equal "This microcosm already has an organizer.", flash[:notice]
+  end
 end

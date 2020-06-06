@@ -64,13 +64,19 @@ class MicrocosmsController < ApplicationController
   end
 
   def step_up
-    if !@microcosm.member?(current_user)
-      flash[:warning] = t ".only_members_can_step_up"
+    message = nil
+    if @microcosm.organizers.empty?
+      if @microcosm.member?(current_user)
+        message = t ".you_have_stepped_up"
+        add_first_organizer
+      else
+        message = t ".only_members_can_step_up"
+      end
     else
-      flash[:notice] = t ".you_have_stepped_up"
-      @microcosm.organizers.empty? && add_first_organizer
+      message = t ".already_has_organizer"
     end
-    render :show
+    # render :show
+    redirect_to @microcosm, :notice => message
   end
 
   private
