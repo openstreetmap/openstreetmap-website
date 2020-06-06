@@ -1,61 +1,63 @@
 <%= stylesheet_link_tag "events" %>
 <%= javascript_include_tag "event" %>
 
-<%= form_with(:model => event, :local => true, :html => { :class => "standard-form" }) do |form| %>
-  <% if event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
-      <ul>
-        <% event.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<%= form_for @event do |form| %>
+  <div class="standard-form">
+    <% if event.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+        <ul>
+          <% event.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="standard-form-row">
+      <%= form.label :title, :class => "standard-label" %>
+      <%= form.text_field :title, :id => :event_title %>
     </div>
-  <% end %>
-  <div class="form-row">
-    <%= form.label :title, :class => "standard-label" %>
-    <%= form.text_field :title, :id => :event_title %>
-  </div>
-  <div class="form-row">
-    <%= form.label :moment, :class => "standard-label" %>
-    <%= form.datetime_field :moment, :pattern => "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" %>
-    <span>If your browser doesn't <a href="https://caniuse.com/#search=datetime-local">provide a
+    <div class="standard-form-row">
+      <%= form.label :moment, :class => "standard-label" %>
+      <%= form.datetime_field :moment, :pattern => "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" %>
+      <span>If your browser doesn't <a href="https://caniuse.com/#search=datetime-local">provide a
       widget</a> here, enter the date/time in this format yyyy-mm-ddThh:mm.</span>
-  </div>
-  <div class="form-row">
-    <%= form.label :location, :class => "standard-label" %>
-    <%= form.text_field :location, :id => :event_location %>
-  </div>
-  <div class="form-row">
-    <%= form.label :location_url, :class => "standard-label" %>
-    <%= form.text_field :location_url, :id => :event_location_url %>
-  </div>
-  <div class="form-row">
-    <%= form.label :description, :class => "standard-label" %>
-    <%= form.text_area :description, :id => :event_description %>
-  </div>
-  <fieldset>
-    <div class='form-row'>
-      <%= form.label :latitude, :class => "standard-label" %>
-      <%= form.text_field :latitude, :id => "latitude" %>
     </div>
-    <div class='form-row'>
-      <%= form.label :longitude, :class => "standard-label" %>
-      <%= form.text_field :longitude, :id => "longitude" %>
+    <div class="standard-form-row">
+      <%= form.label :location, :class => "standard-label" %>
+      <%= form.text_field :location, :id => :event_location %>
     </div>
-    <div class="event_set_location">
-      <%= content_tag "div", "", :id => "event_map_form" %>
+    <div class="standard-form-row">
+      <%= form.label :location_url, :class => "standard-label" %>
+      <%= form.text_field :location_url, :id => :event_location_url %>
     </div>
-  </fieldset>
-  <% if @event&.microcosm_id %>
-    <%= form.hidden_field(:microcosm_id, :value => @event.microcosm_id) %>
-  <% else %>
-    <div class="form-row">
-      <%= form.label :microcosm_id, :class => "standard-label" %>
-      <%= collection_select(:event, :microcosm_id, Microcosm.all, :id, :name, :prompt => true) %>
+    <div class="standard-form-row">
+      <%= form.label :description, :class => "standard-label" %>
+      <%= form.text_area :description, :id => :event_description %>
     </div>
-  <% end %>
-  <div class="actions">
-    <%= form.submit %>
+    <fieldset>
+      <div class="standard-form-row">
+        <%= form.label :latitude, :class => "standard-label" %>
+        <%= form.text_field :latitude, :id => "latitude" %>
+      </div>
+      <div class="standard-form-row">
+        <%= form.label :longitude, :class => "standard-label" %>
+        <%= form.text_field :longitude, :id => "longitude" %>
+      </div>
+      <div class="event_set_location">
+        <%= content_tag "div", "", :id => "event_map_form" %>
+      </div>
+    </fieldset>
+    <% if @event&.microcosm_id %>
+      <%= form.hidden_field(:microcosm_id, :value => @event.microcosm_id) %>
+    <% else %>
+      <div class="standard-form-row">
+        <%= form.label :microcosm_id, :class => "standard-label" %>
+        <%= collection_select(:event, :microcosm_id, Microcosm.all, :id, :name, :prompt => true) %>
+      </div>
+    <% end %>
+    <div class="actions">
+      <%= form.submit %>
+    </div>
   </div>
 <% end %>
