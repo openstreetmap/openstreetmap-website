@@ -223,9 +223,11 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # also tests add_first_organizer
   def test_create
     # arrange
-    session_for(create(:user))
+    u = create(:user)
+    session_for(u)
     m_orig = create(:microcosm)
 
     # act
@@ -240,5 +242,6 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     # Assign the id m_new to m_orig, so we can do an equality test easily.
     m_orig.id = m_new.id
     assert_equal(m_orig, m_new)
+    assert_equal m_new.organizers[0].user, u
   end
 end
