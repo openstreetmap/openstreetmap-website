@@ -52,6 +52,10 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @my_attendance = EventAttendance.find_or_initialize_by(:event_id => @event.id, :user_id => current_user&.id)
+    @yes_check = @my_attendance.intention == "Yes" ? "✓" : ""
+    @no_check = @my_attendance.intention == "No" ? "✓" : ""
+    @yes_disabled = @my_attendance.intention == "Yes"
+    @no_disabled = @my_attendance.intention == "No"
   end
 
   private
