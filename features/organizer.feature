@@ -16,7 +16,7 @@ Feature: Manage a Microcosm
     Given there is a user "abe@example.com" with name "Abe"
     And this user is an organizer of this microcosm
     When user "abe@example.com" logs in
-    And I am on the microcosms page
+    And I am on the microcosm "MappingDC" page
     And I click the link to "/microcosms/mappingdc/edit"
     And I set the microcosm in ".edit_microcosm" to "Baltimore", "40", "-76"
     And I submit the form
