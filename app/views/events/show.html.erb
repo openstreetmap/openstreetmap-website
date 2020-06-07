@@ -1,10 +1,16 @@
 <%= stylesheet_link_tag "events" %>
 <%= javascript_include_tag "event" %>
 
-<div class="container">
-  <h1 class="title">
-    <%= @event.title %>
+<% content_for :heading do %>
+  <h1>
+    <%= t(".header_title") + ": " + @event.title %>
   </h1>
+  <% if current_user && @event.microcosm.organizer?(current_user) %>
+    <%= link_to t(".edit"), edit_event_path %>
+  <% end %>
+<% end %>
+
+<div class="container">
   <div class="row">
     <div class="col-sm">
       <p class="when">
@@ -48,7 +54,11 @@
       <p>
         <%= t(".location") %>: <strong><%= event_location(@event) %></strong>
       </p>
-      <%= content_tag :div, "", :id => "event_map_show", :data => { :event => @event } %>
+      <%= @event.description %>
+      <%= @event.latitude %>
+      <%= @event.description %>
+      <%# TODO: replace these attributes @map_coords %>
+      <%= content_tag "div", "", :id => "event_map_show", :data => { :lat => @event.latitude, :lon => @event.longitude, :zoom => 11 } %>
     </div>
   </div>
 </div>
