@@ -154,7 +154,7 @@ class BrowseHelperTest < ActionView::TestCase
 
   private
 
-  def current_user
-    nil
+  def preferred_languages
+    Locale.list(I18n.locale)
   end
 end

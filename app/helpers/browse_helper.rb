@@ -11,21 +11,9 @@ module BrowseHelper
     # don't look at object tags if redacted, so as to avoid giving
     # away redacted version tag information.
     unless object.redacted?
-      available_locales = Locale::List.new(name_locales(object))
+      available_locales = Locale.list(name_locales(object))
 
-      Rails.logger.info "available_locales = #{available_locales.map(&:to_s)}"
-
-      preferred_locales = if current_user
-                            current_user.preferred_languages
-                          else
-                            Locale.new(I18n.locale).candidates
-                          end
-
-      Rails.logger.info "preferred_locales = #{preferred_locales.expand.map(&:to_s)}"
-
-      locale = available_locales.preferred(preferred_locales)
-
-      Rails.logger.info "locale = #{locale}"
+      locale = available_locales.preferred(preferred_languages)
 
       if object.tags.include? "name:#{locale}"
         name = t "printable_name.with_name_html", :name => content_tag(:bdi, object.tags["name:#{locale}"].to_s), :id => content_tag(:bdi, name)
