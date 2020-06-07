@@ -1,8 +1,12 @@
+<% content_for :heading do %>
+  <h1>
+    <%= t(".heading") %>
+  </h1>
+<% end %>
+
 <p id="notice"><%= notice %></p>
 
-<h1><%= t(".heading") %></h1>
-
-<table>
+<table class="table table-borderless table-striped">
   <thead>
   <tr>
     <th><%= t(".title") %></th>
@@ -10,19 +14,16 @@
     <th><%= t(".location") %></th>
     <th><%= t(".description") %></th>
     <th><%= t(".microcosm") %></th>
-    <th></th>
   </tr>
   </thead>
-
   <tbody>
-  <% @events.each do |event| %>
+  <% @events.future.each do |event| %>
     <tr>
-      <td><%= event.title %></td>
+      <td><%= link_to event.title, event %></td>
       <td><%= event.moment %></td>
       <td><%= event.location %></td>
       <td><%= event.description %></td>
       <td><%= link_to event.microcosm.name, microcosm_path(event.microcosm) %></td>
-      <td><%= link_to t(".show"), event %></td>
     </tr>
   <% end %>
   </tbody>

@@ -20,6 +20,8 @@ class Event < ApplicationRecord
   has_many :event_attendances
   has_many :event_organizers
 
+  scope :future, -> { where("moment > ?", Time.now) }
+
   validates :moment, :datetime_format => true
   validates :location, :length => 1..255, :characters => true, :if => :location?
   validates :location_url, :length => 1..255, :if => :location_url?
