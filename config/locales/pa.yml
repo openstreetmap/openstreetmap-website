@@ -5,6 +5,7 @@
 # Author: Abijeet Patro
 # Author: Babanwalia
 # Author: Jimidar
+# Author: Satnam S Virdi
 # Author: Tow
 ---
 pa:
@@ -17,6 +18,9 @@ pa:
         create: ਸਾਂਭੋ
       diary_entry:
         create: ਛਾਪੋ
+        update: ਅੱਪਡੇਟ ਕਰੋ
+      issue_comment:
+        create: ਟਿੱਪਣੀ ਕਰੋ
       message:
         create: ਭੇਜੋ
       client_application:
@@ -26,8 +30,12 @@ pa:
         create: ਚੜ੍ਹਾਉ
         update: ਤਬਦੀਲੀਆਂ ਸਾਂਭੋ
       user_block:
+        create: ਬਲਾਕ ਬਣਾਓ
         update: ਰੋਕ ਨਵਿਆਉ
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: ਜਾਇਜ਼ ਈਮੇਲ ਪਤਾ ਨਹੀਂ ਲੱਗ ਰਿਹਾ
     models:
       acl: ਅਸੈੱਸ ਕੰਟਰੋਲ ਲਿਸਟ
       changeset: ਤਬਦੀਲੀ ਲੜੀ
@@ -36,6 +44,7 @@ pa:
       diary_comment: ਡਾਇਰੀ ਟਿੱਪਣੀ
       diary_entry: ਡਾਇਰੀ ਇੰਦਰਾਜ
       friend: ਦੋਸਤ
+      issue: ਮੁੱਦਾ
       language: ਬੋਲੀ
       message: ਸੁਨੇਹਾ
       node: ਨੋਡ
@@ -52,6 +61,7 @@ pa:
       relation: ਸਬੰਧ
       relation_member: ਸਬੰਧ ਮੈਂਬਰ
       relation_tag: ਸਬੰਧ ਟੈਗ
+      report: ਰਿਪੋਰਟ ਕਰੋ
       session: ਸੈਸ਼ਨ
       trace: ਟਰੇਸ
       tracepoint: ਟਰੇਸ ਪੁਆਇੰਟ
@@ -95,12 +105,23 @@ pa:
         description: ਵੇਰਵਾ
         languages: ਬੋਲੀਆਂ
         pass_crypt: ਪਛਾਣ-ਸ਼ਬਦ
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: ਅੱਧਾ ਮਿੰਟ ਪਹਿਲਾਂ
   editor:
     default: ਮੂਲ (ਮੌਜੂਦਾ %{name})
     id:
       name: ਆਈਡੀ
     remote:
       name: ਰਿਮੋਟ ਕੰਟਰੋਲ
+  auth:
+    providers:
+      none: ਕੋਈ ਨਹੀਂ
+      google: ਗੂਗਲ
+      facebook: ਫੇਸਬੁੱਕ
+      windowslive: ਵਿੰਡੋਜ਼ ਲਾਈਵ
+      github: ਗਿੱਟਹੱਬ
+      wikipedia: ਵਿਕੀਪੀਡੀਆ
   api:
     notes:
       entry:
@@ -216,6 +237,15 @@ pa:
       comment: ਟਿੱਪਣੀ
       newer_comments: ਹੋਰ ਨਵੀਆਂ ਟਿੱਪਣੀਆਂ
       older_comments: ਹੋਰ ਪੁਰਾਣੀਆਂ ਟਿੱਪਣੀਆਂ
+  friendships:
+    make_friend:
+      heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਪਾਉਣੀ ਹੈ?'
+      button: ਦੋਸਤ ਵਜੋਂ ਜੋੜੋ
+      success: '%{name} ਹੁਣ ਤੁਹਾਡਾ ਦੋਸਤ ਹੈ!'
+      already_a_friend: ਤੁਸੀਂ ਪਹਿਲੋਂ ਹੀ %{name} ਨਾਲ਼ ਯਾਰੀ ਪਾ ਚੁੱਕੇ ਹੋ।
+    remove_friend:
+      heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਤੋੜਨੀ ਹੈ?'
+      button: ਯਾਰੀ ਤੋੜੋ
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1163,14 +1193,6 @@ pa:
     confirm_email:
       heading: ਈਮੇਲ ਪਤੇ ਦੀ ਤਬਦੀਲੀ ਤਸਦੀਕ ਕਰਾਉ
       button: ਤਸਦੀਕ ਕਰੋ
-    make_friend:
-      heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਪਾਉਣੀ ਹੈ?'
-      button: ਦੋਸਤ ਵਜੋਂ ਜੋੜੋ
-      success: '%{name} ਹੁਣ ਤੁਹਾਡਾ ਦੋਸਤ ਹੈ!'
-      already_a_friend: ਤੁਸੀਂ ਪਹਿਲੋਂ ਹੀ %{name} ਨਾਲ਼ ਯਾਰੀ ਪਾ ਚੁੱਕੇ ਹੋ।
-    remove_friend:
-      heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਤੋੜਨੀ ਹੈ?'
-      button: ਯਾਰੀ ਤੋੜੋ
     index:
       title: ਵਰਤੋਂਕਾਰ
       heading: ਵਰਤੋਂਕਾਰ
