@@ -1850,6 +1850,13 @@ img.user_thumbnail_tiny {
   }
   > div {
     @extend .card-body;
+    /*
+    Some display_names are long and break the uniform display of user cards.
+    For now, hide the overflow.  This does make some user names ambiguous.
+    TODO: Fix this.
+    */
+    overflow: hidden;
+    white-space: nowrap;
     padding: 0.5rem;  /* override bootstrap's 1.25rem */
     > h5 {
       @extend .card-title;
