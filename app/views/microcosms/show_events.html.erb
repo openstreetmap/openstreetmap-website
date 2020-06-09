@@ -8,7 +8,9 @@
     <% end %>
   </ul>
 <% end %>
-<table>
+<%# TODO: Refactor this DRY. %>
+<h2>Upcoming</h2>
+<table class="table table-striped table-borderless">
   <thead>
   <tr>
     <th><%= t(".when") %></th>
@@ -18,13 +20,36 @@
   </tr>
   </thead>
   <tbody>
-  <% @microcosm.events.each do |event| %>
+  <% @microcosm.events.future.each do |event| %>
     <tr>
       <td><%= l(event.moment, :format => :blog) %></td>
-      <td><%= event.title %></td>
+      <td><%= link_to event.title, event %></td>
       <td><%= event.location %></td>
-      <td><%= link_to t(".show"), event %><% if current_user && @microcosm.organizer?(current_user) %> <%= link_to t(".edit"), edit_event_path(event) %><% end %></td>
+      <td><% if current_user && @microcosm.organizer?(current_user) %> <%= link_to t(".edit"), edit_event_path(event) %><% end %></td>
     </tr>
   <% end %>
   </tbody>
 </table>
+<%# TODO: Refactor this DRY. %>
+<h2>Past</h2>
+<table class="table table-striped table-borderless">
+  <thead>
+  <tr>
+    <th><%= t(".when") %></th>
+    <th><%= t(".title") %></th>
+    <th><%= t(".location") %></th>
+    <th colspan="1"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @microcosm.events.past.each do |event| %>
+    <tr>
+      <td><%= l(event.moment, :format => :blog) %></td>
+      <td><%= link_to event.title, event %></td>
+      <td><%= event.location %></td>
+      <td><% if current_user && @microcosm.organizer?(current_user) %> <%= link_to t(".edit"), edit_event_path(event) %><% end %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+

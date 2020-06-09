@@ -25,7 +25,7 @@ class Microcosm < ApplicationRecord
   has_many :microcosm_members, -> { order(:user_id) }
   has_many :users, :through => :microcosm_members # TODO: counter_cache
   has_many :microcosm_links
-  has_many :events
+  has_many :events, -> { order(:moment) }
 
   validates :name, :presence => true, :length => 1..255, :characters => true
   validates :description, :presence => true, :length => 1..1023, :characters => true

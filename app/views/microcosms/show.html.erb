@@ -62,10 +62,10 @@
   <div class="row">
     <div class="col-sm">
       <h2>
-        <%= link_to t(".upcoming_events"), events_of_microcosm_path(@microcosm) %>
+        <%= link_to t(".events"), events_of_microcosm_path(@microcosm) %>
       </h2>
       <ul>
-        <% @microcosm.events.each do |event| %>
+        <% @microcosm.events.future.each do |event| %>
           <li>
             <%= l(event.moment, :format => "%e %B") + " - " %> <%= link_to(event.title, event_path(event)) %>
           </li>
