@@ -9,7 +9,11 @@ class MicrocosmsController < ApplicationController
   authorize_resource
 
   def index
-    @microcosms = Microcosm.order(:longitude)
+    # TODO: OMG is the math right here?
+    minute_of_day = "(60 * EXTRACT(HOUR FROM current_timestamp) + EXTRACT(MINUTE FROM current_timestamp))"
+    morning = "(60 * 6)" # 6 AM
+    long_facing_sun = "(#{minute_of_day} + #{morning}) / 4"
+    @microcosms = Microcosm.order("longitude + 180 + #{long_facing_sun} DESC")
   end
 
   # GET /microcosms/mycity
