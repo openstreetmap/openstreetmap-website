@@ -734,118 +734,6 @@ header .search_forms,
   display: none;
 }
 
-.search_form,
-.directions_form {
-  position: relative;
-  padding: $lineheight/2;
-  background-color: $lightgrey;
-
-  .query_wrapper {
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px 0 0 2px;
-  }
-
-  input[type=text] {
-    width: 100%;
-    height: 30px;
-    transition: 300ms linear;
-  }
-
-  input[type=text].overflow {
-    border-right: none;
-    border-radius: 3px 0px 0px 3px;
-  }
-
-  input:focus {
-    outline: none;
-    box-shadow: 0px 0px 7px $vibrant-green;
-  }
-
-  input[type=submit].float {
-    float: right;
-    width: auto;
-    min-width: 0;
-    border-radius: 0 2px 2px 0;
-  }
-
-  input.error {
-    background-color: rgba($red, 0.4);
-  }
-
-  select {
-    /* this next line is to polyfill the vertical alignment of text within a select element,
-     * which is different between firefox and chrome. */
-    padding: 0.3em 0;
-  }
-
-  .query_options {
-    text-align: right;
-    font-size: 10px;
-    color: $blue;
-  }
-
-  .describe_location {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    font-size: 10px;
-    color: $blue;
-  }
-
-  .switch_link {
-    float: right;
-    width: auto;
-    min-width: 0;
-    margin-left: 6px;
-  }
-
-  img.button {
-    display: block;
-    width: 20px;
-    height: 20px;
-  }
-
-  span.force_width {
-    width: 100%;
-    padding-right: 25px;
-    display: block;
-  }
-
-  select.routing_engines {
-    min-height: 30px;
-    margin: 0px 0px 5px 25px;
-  }
-
-  input.routing_go {
-    min-width: 100px;
-    float: right;
-  }
-
-  div.header {
-    width: 100%;
-    height: 30px;
-  }
-
-  div.line {
-    width: 100%;
-    margin: 0px 0px 5px 0px;
-  }
-
-  div.loader_copy {
-    display: none;
-
-    img {
-      vertical-align: middle;
-    }
-  }
-
-  a.reverse_directions {
-    cursor: pointer;
-    margin: 0px 0px 5px 25px;
-  }
-}
-
 /* Rules for the map key which appears in the popout sidebar */
 
 #mapkey {
@@ -1774,44 +1662,205 @@ tr.turn:hover {
     float: left;
     margin-top: 5px;
   }
-}
 
-#remember_me_openid {
-  display: block;
-}
-
-select {
-  padding: 2px;
-}
-
-input[type="checkbox"],
-input[type="radio"] {
-    margin-right: 5px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="url"],
-input[type="password"],
-textarea {
-  color: #222;
-  background-color: #fff;
-  border: 1px solid $grey;
-  border-radius: 3px;
-  padding: 2px 5px;
-  margin: 0;
-  width: 200px;
-
-  &.field_with_errors {
-    border: 2px solid #ff7070;
+  #remember_me_openid {
+    display: block;
   }
-}
 
-textarea {
-  padding: 5px;
-  width: 100%;
-  min-height: 50px;
-  resize: vertical;
+  select {
+    padding: 2px;
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+      margin-right: 5px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="url"],
+  input[type="password"],
+  textarea {
+    color: #222;
+    background-color: #fff;
+    border: 1px solid $grey;
+    border-radius: 3px;
+    padding: 2px 5px;
+    margin: 0;
+    width: 200px;
+
+    &.field_with_errors {
+      border: 2px solid #ff7070;
+    }
+  }
+
+  textarea {
+    padding: 5px;
+    width: 100%;
+    min-height: 50px;
+    resize: vertical;
+  }
+
+
+  /* Utility for general button styles */
+
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  a.button {
+    cursor: pointer;
+    border: 0;
+    display: inline-block;
+    padding: $lineheight/4 $lineheight/2;
+    min-height: 20px + $lineheight/2;
+    min-width: 120px;
+    margin: 0 0 $lineheight/2 0;
+    color: white;
+    background: $blue;
+    text-align: center;
+    border-radius: 2px;
+    &:hover {
+      background: darken($blue, $hovercolor);
+      text-decoration: none;
+    }
+    &.deemphasize {
+      background: $lightblue;
+      &:hover {
+        background: darken($lightblue, $hovercolor);
+      }
+    }
+    &:disabled {
+      background: $lightgrey;
+      &:hover {
+        background: $lightgrey;
+      }
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    line-height: normal;
+  }
+
+  a.button {
+    line-height: 20px;
+  }
+
+  .search_form,
+  .directions_form {
+    position: relative;
+    padding: $lineheight/2;
+    background-color: $lightgrey;
+
+    .query_wrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px 0 0 2px;
+    }
+
+    input[type=text] {
+      width: 100%;
+      height: 30px;
+      transition: 300ms linear;
+    }
+
+    input[type=text].overflow {
+      border-right: none;
+      border-radius: 3px 0px 0px 3px;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0px 0px 7px $vibrant-green;
+    }
+
+    input[type=submit].float {
+      float: right;
+      width: auto;
+      min-width: 0;
+      border-radius: 0 2px 2px 0;
+    }
+
+    input.error {
+      background-color: rgba($red, 0.4);
+    }
+
+    select {
+      /* this next line is to polyfill the vertical alignment of text within a select element,
+       * which is different between firefox and chrome. */
+      padding: 0.3em 0;
+    }
+
+    .query_options {
+      text-align: right;
+      font-size: 10px;
+      color: $blue;
+    }
+
+    .describe_location {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-size: 10px;
+      color: $blue;
+    }
+
+    .switch_link {
+      float: right;
+      width: auto;
+      min-width: 0;
+      margin-left: 6px;
+    }
+
+    img.button {
+      display: block;
+      width: 20px;
+      height: 20px;
+    }
+
+    span.force_width {
+      width: 100%;
+      padding-right: 25px;
+      display: block;
+    }
+
+    select.routing_engines {
+      min-height: 30px;
+      margin: 0px 0px 5px 25px;
+    }
+
+    input.routing_go {
+      min-width: 100px;
+      float: right;
+    }
+
+    div.header {
+      width: 100%;
+      height: 30px;
+    }
+
+    div.line {
+      width: 100%;
+      margin: 0px 0px 5px 0px;
+    }
+
+    div.loader_copy {
+      display: none;
+
+      img {
+        vertical-align: middle;
+      }
+    }
+
+    a.reverse_directions {
+      cursor: pointer;
+      margin: 0px 0px 5px 25px;
+    }
+  }
 }
 
 /* Rules for user images */
@@ -1890,54 +1939,6 @@ div.secondary-actions {
 .inner20 { padding: $lineheight 0;}
 
 .inner02 { padding: 0 $lineheight;}
-
-/* Utility for general button styles */
-
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
-a.button {
-  cursor: pointer;
-  border: 0;
-  display: inline-block;
-  padding: $lineheight/4 $lineheight/2;
-  min-height: 20px + $lineheight/2;
-  min-width: 120px;
-  margin: 0 0 $lineheight/2 0;
-  color: white;
-  background: $blue;
-  text-align: center;
-  border-radius: 2px;
-  &:hover {
-    background: darken($blue, $hovercolor);
-    text-decoration: none;
-  }
-  &.deemphasize {
-    background: $lightblue;
-    &:hover {
-      background: darken($lightblue, $hovercolor);
-    }
-  }
-  &:disabled {
-    background: $lightgrey;
-    &:hover {
-      background: $lightgrey;
-    }
-  }
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-input[type="button"],
-input[type="submit"],
-input[type="reset"] {
-  line-height: normal;
-}
-
-a.button {
-  line-height: 20px;
-}
 
 .buttons {
   min-width: 200px;
