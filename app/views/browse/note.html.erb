@@ -42,7 +42,7 @@
 
   <% if @note.status == "open" %>
     <% if current_user -%>
-      <form action="#">
+      <form action="#" class="standard-form">
         <textarea class="comment" name="text" cols="40" rows="5" maxlength="2000"></textarea>
         <div class="buttons clearfix">
           <% if current_user.moderator? -%>
@@ -54,7 +54,7 @@
       </form>
     <% end -%>
   <% else %>
-    <form action="#">
+    <form action="#" class="standard-form">
       <input type="hidden" name="text" value="">
       <div class="buttons clearfix">
         <% if current_user and current_user.moderator? -%>
