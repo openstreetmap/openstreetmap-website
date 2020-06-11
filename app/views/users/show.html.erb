@@ -111,7 +111,7 @@
 
       <% end %>
 
-      <% if can?(:set_status, User) || can?(:delete, User) %>
+      <% if can?(:set_status, User) || can?(:destroy, User) %>
 
         <ul class='secondary-actions clearfix'>
           <% if can? :set_status, User %>
@@ -138,7 +138,7 @@
               </li>
             <% end %>
           <% end %>
-          <% if can? :delete, User %>
+          <% if can? :destroy, User %>
             <li>
               <%= link_to t(".delete_user"), user_path(:display_name => @user.display_name), :method => :delete, :data => { :confirm => t(".confirm") } %>
             </li>
