@@ -39,6 +39,8 @@ class I18nTest < ActiveSupport::TestCase
                 assert_includes variables, Regexp.last_match(1), "#{key}.#{subkey} uses unknown interpolation variable #{Regexp.last_match(1)}"
               end
             end
+
+            assert_includes value, :other, "#{key}.other plural key missing"
           else
             assert value.is_a?(String), "#{key} is not a string"
 
