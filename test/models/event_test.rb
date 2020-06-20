@@ -93,4 +93,15 @@ class EventTest < ActiveSupport::TestCase
     assert_equal(1, event.attendees.length)
     assert_equal(u2.display_name, event.attendees[0].user.display_name)
   end
+
+  def test_organizers
+    # Zero
+    event = create(:event)
+    assert_equal(0, event.organizers.length)
+
+    # One
+    eo = create(:event_organizer)
+    assert_equal(1, eo.event.organizers.length)
+    assert_equal(eo.user.display_name, eo.event.organizers[0].user.display_name)
+  end
 end
