@@ -10,6 +10,6 @@ class EventHelperTest < ActionView::TestCase
   def test_event_location_no_url
     event = create(:event, :location_url => nil)
     location = event_location(event)
-    assert_match %r{^Location 1$}, location
+    assert_match(/^Location 1$/, location)
   end
 end
