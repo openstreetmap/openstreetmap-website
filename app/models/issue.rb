@@ -32,7 +32,7 @@
 
 class Issue < ApplicationRecord
   belongs_to :reportable, :polymorphic => true
-  belongs_to :reported_user, :class_name => "User", :foreign_key => :reported_user_id
+  belongs_to :reported_user, :class_name => "User"
   belongs_to :user_resolved, :class_name => "User", :foreign_key => :resolved_by
   belongs_to :user_updated, :class_name => "User", :foreign_key => :updated_by
 
