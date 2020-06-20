@@ -1,7 +1,11 @@
 FactoryBot.define do
   factory :event_attendance do
-    user_id { 1 }
-    event_id { 1 }
-    intention { "MyString" }
+    user
+    event
+    intention { "Yes" }
+
+    trait :no do
+      intention { "No" }
+    end
   end
 end
