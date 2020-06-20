@@ -122,12 +122,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     )
 
     assert_routing(
-      { :path => "/user/username/set_status", :method => :get },
+      { :path => "/user/username/set_status", :method => :post },
       { :controller => "users", :action => "set_status", :display_name => "username" }
     )
     assert_routing(
-      { :path => "/user/username/delete", :method => :get },
-      { :controller => "users", :action => "delete", :display_name => "username" }
+      { :path => "/user/username", :method => :delete },
+      { :controller => "users", :action => "destroy", :display_name => "username" }
     )
 
     assert_routing(
@@ -1223,41 +1223,39 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
 
     # Try without logging in
-    get set_status_user_path(user), :params => { :status => "suspended" }
-    assert_response :redirect
-    assert_redirected_to :action => :login, :referer => set_status_user_path(:status => "suspended")
+    post set_status_user_path(user), :params => { :status => "suspended" }
+    assert_response :forbidden
 
     # Now try as a normal user
     session_for(user)
-    get set_status_user_path(user), :params => { :status => "suspended" }
+    post set_status_user_path(user), :params => { :status => "suspended" }
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
-    get set_status_user_path(user), :params => { :status => "suspended" }
+    post set_status_user_path(user), :params => { :status => "suspended" }
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name
     assert_equal "suspended", User.find(user.id).status
   end
 
-  def test_delete
+  def test_destroy
     user = create(:user, :home_lat => 12.1, :home_lon => 12.1, :description => "test")
 
     # Try without logging in
-    get delete_user_path(user), :params => { :status => "suspended" }
-    assert_response :redirect
-    assert_redirected_to :action => :login, :referer => delete_user_path(:status => "suspended")
+    delete user_path(user), :params => { :status => "suspended" }
+    assert_response :forbidden
 
     # Now try as a normal user
     session_for(user)
-    get delete_user_path(user), :params => { :status => "suspended" }
+    delete user_path(user), :params => { :status => "suspended" }
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
-    get delete_user_path(user), :params => { :status => "suspended" }
+    delete user_path(user), :params => { :status => "suspended" }
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name
 

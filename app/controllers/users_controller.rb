@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   before_action :require_self, :only => [:account]
   before_action :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public]
   before_action :require_cookies, :only => [:new, :login, :confirm]
-  before_action :lookup_user_by_name, :only => [:set_status, :delete]
+  before_action :lookup_user_by_name, :only => [:set_status, :destroy]
   before_action :allow_thirdparty_images, :only => [:show, :account]
 
   def terms
@@ -393,7 +393,7 @@ class UsersController < ApplicationController
 
   ##
   # delete a user, marking them as deleted and removing personal data
-  def delete
+  def destroy
     @user.delete
     redirect_to user_path(:display_name => params[:display_name])
   end

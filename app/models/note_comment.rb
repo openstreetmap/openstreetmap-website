@@ -24,8 +24,8 @@
 #
 
 class NoteComment < ApplicationRecord
-  belongs_to :note, :foreign_key => :note_id, :touch => true
-  belongs_to :author, :class_name => "User", :foreign_key => :author_id
+  belongs_to :note, :touch => true
+  belongs_to :author, :class_name => "User"
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }

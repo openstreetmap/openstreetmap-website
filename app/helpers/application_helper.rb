@@ -21,15 +21,15 @@ module ApplicationHelper
     id = "#{object_name}_#{method}"
     type = options.delete(:format) || "markdown"
 
-    content_tag(:div, :id => "#{id}_container", :class => "richtext_container") do
-      output_buffer << content_tag(:div, :id => "#{id}_content", :class => "richtext_content") do
+    tag.div(:id => "#{id}_container", :class => "richtext_container") do
+      output_buffer << tag.div(:id => "#{id}_content", :class => "richtext_content") do
         output_buffer << text_area(object_name, method, options.merge("data-preview-url" => preview_url(:type => type)))
-        output_buffer << content_tag(:div, "", :id => "#{id}_preview", :class => "richtext_preview richtext")
+        output_buffer << tag.div("", :id => "#{id}_preview", :class => "richtext_preview richtext")
       end
 
-      output_buffer << content_tag(:div, :id => "#{id}_help", :class => "richtext_help") do
+      output_buffer << tag.div(:id => "#{id}_help", :class => "richtext_help") do
         output_buffer << render("site/#{type}_help")
-        output_buffer << content_tag(:div, :class => "buttons") do
+        output_buffer << tag.div(:class => "buttons") do
           output_buffer << submit_tag(I18n.t("site.richtext_area.edit"), :id => "#{id}_doedit", :class => "richtext_doedit deemphasize", :disabled => true)
           output_buffer << submit_tag(I18n.t("site.richtext_area.preview"), :id => "#{id}_dopreview", :class => "richtext_dopreview deemphasize")
         end
@@ -46,11 +46,11 @@ module ApplicationHelper
   end
 
   def friendly_date(date)
-    content_tag(:span, time_ago_in_words(date), :title => l(date, :format => :friendly))
+    tag.span(time_ago_in_words(date), :title => l(date, :format => :friendly))
   end
 
   def friendly_date_ago(date)
-    content_tag(:span, time_ago_in_words(date, :scope => :'datetime.distance_in_words_ago'), :title => l(date, :format => :friendly))
+    tag.span(time_ago_in_words(date, :scope => :'datetime.distance_in_words_ago'), :title => l(date, :format => :friendly))
   end
 
   def body_class

@@ -9,6 +9,7 @@
 # Author: Angrydog001
 # Author: Assoc
 # Author: Boyuan Yang
+# Author: C933103
 # Author: David S. Hwang
 # Author: Deathkon
 # Author: Dimension
@@ -21,6 +22,8 @@
 # Author: Jiwei
 # Author: Josephine W.
 # Author: Koalberry
+# Author: LaoShuBaby
+# Author: Lepus
 # Author: Liangent
 # Author: Liuxinyu970226
 # Author: Mmyangfl
@@ -65,7 +68,7 @@ zh-CN:
         create: 发布
         update: 更新
       issue_comment:
-        create: 添加评论
+        create: 添加批注
       message:
         create: 发送
       client_application:
@@ -76,15 +79,15 @@ zh-CN:
         update: 保存修订
       trace:
         create: 上传
-        update: 保存修改
+        update: 保存更改
       user_block:
         create: 创建封禁
         update: 更新封禁
   activerecord:
     errors:
       messages:
-        invalid_email_address: 看起来不是有效的电子邮件地址
-        email_address_not_routable: 不能路由
+        invalid_email_address: 似乎不是有效的电子邮件地址
+        email_address_not_routable: 不可路由
     models:
       acl: 访问控制列表
       changeset: 变更集
@@ -116,7 +119,7 @@ zh-CN:
       tracepoint: 轨迹点
       tracetag: 轨迹标签
       user: 用户
-      user_preference: 用户参数设置
+      user_preference: 用户偏好
       user_token: 用户密钥
       way: 路径
       way_node: 路径节点
@@ -136,7 +139,7 @@ zh-CN:
       trace:
         user: 用户
         visible: 可见
-        name: 姓名
+        name: 名称
         size: 大小
         latitude: 纬度
         longitude: 经度
@@ -150,7 +153,7 @@ zh-CN:
       user:
         email: 电子邮件
         active: 激活
-        display_name: 显示姓名
+        display_name: 显示名称
         description: 描述
         languages: 语言
         pass_crypt: 密码
@@ -195,7 +198,7 @@ zh-CN:
         other: '%{count}年前'
   printable_name:
     with_version: '%{id}，版本 %{version}'
-    with_name_html: '%{name}%{id}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: 默认（目前为 %{name}）
     potlatch:
@@ -252,16 +255,16 @@ zh-CN:
     edited_by_html: '%{user}编辑于<abbr title=''%{title}''>%{time}</abbr>'
     closed_by_html: '%{user}关闭于<abbr title=''%{title}''>%{time}</abbr>'
     version: 版本
-    in_changeset: 修改集合
+    in_changeset: 变更集
     anonymous: 匿名用户
-    no_comment: (无注解)
+    no_comment: (无注释)
     part_of: 属于
     download_xml: 下载 XML
     view_history: 查看历史
     view_details: 查看详情
     location: 位置：
     changeset:
-      title: 修改集合：%{id}
+      title: 变更集：%{id}
       belongs_to: 作者
       node: 节点 (%{count})
       node_paginated: 节点 (%{x}-%{y}，共 %{count})
@@ -272,14 +275,14 @@ zh-CN:
       comment: 评论 (%{count})
       hidden_commented_by: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的隐藏评论
       commented_by: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的评论
-      changesetxml: 修改集合 XML
+      changesetxml: 变更集 XML
       osmchangexml: osm 修改 XML
       feed:
-        title: 修改集合 %{id}
-        title_comment: 修改集合 %{id} - %{comment}
+        title: 变更集 %{id}
+        title_comment: 变更集 %{id} - %{comment}
       join_discussion: 登录以加入讨论
       discussion: 讨论
-      still_open: 修改集合仍在开启——一旦修改集合关闭将打开讨论。
+      still_open: 变更集依然有效——一旦变更集关闭将打开讨论。
     node:
       title_html: 节点：%{name}
       history_title_html: 节点历史：%{name}
@@ -305,12 +308,12 @@ zh-CN:
       entry_html: 关系 %{relation_name}
       entry_role_html: 关系 %{relation_name} (作为 %{relation_role})
     not_found:
-      sorry: '对不起，无法找到 %{type} #%{id}。'
+      sorry: '抱歉，无法找到 %{type} #%{id}。'
       type:
         node: 节点
         way: 路径
         relation: 关系
-        changeset: 修改集合
+        changeset: 变更集
         note: 注释
     timeout:
       sorry: 对不起，检索 id 为 %{id} 的 %{type} 的数据时间过长。
@@ -318,7 +321,7 @@ zh-CN:
         node: 节点
         way: 路径
         relation: 关系
-        changeset: 修改集合
+        changeset: 变更集
         note: 注释
     redacted:
       redaction: 编辑 %{id}
@@ -361,7 +364,7 @@ zh-CN:
     query:
       title: 查询要素
       introduction: 点击地图以查找附近要素。
-      nearby: 附近特征
+      nearby: 附近要素
       enclosing: 封闭要素
   changesets:
     changeset_paging_nav:
@@ -370,8 +373,8 @@ zh-CN:
       previous: « 上一页
     changeset:
       anonymous: 匿名用户
-      no_edits: (没有编辑)
-      view_changeset_details: 查看修改集合详情
+      no_edits: (无编辑)
+      view_changeset_details: 查看变更集详情
     changesets:
       id: ID
       saved_at: 保存于
@@ -379,30 +382,30 @@ zh-CN:
       comment: 注释
       area: 区域
     index:
-      title: 修改集合
-      title_user: '%{user} 的修改集合'
-      title_friend: 由我的朋友所做的修改集合
-      title_nearby: 附近用户的修改集合
-      empty: 没有找到修改集合。
-      empty_area: 该区域内没有修改集合。
-      empty_user: 没有该用户的修改集合。
-      no_more: 没有找到更多修改集合。
+      title: 变更集
+      title_user: '%{user} 的变更集'
+      title_friend: 由我的朋友所做的变更集
+      title_nearby: 附近用户的变更集
+      empty: 没有找到变更集。
+      empty_area: 该区域内没有变更集。
+      empty_user: 无该用户的修改集合。
+      no_more: 未找到更多变更集。
       no_more_area: 该区域内没有更多修改集合。
-      no_more_user: 没有该用户的更多修改集合。
-      load_more: 加载更多
+      no_more_user: 无该用户的更多修改集合。
+      load_more: 载入更多
     timeout:
-      sorry: 对不起，您所请求的更改集列表检索太长了。
+      sorry: 抱歉，您所请求的变更集列表检索时间过长。
   changeset_comments:
     comment:
-      comment: '%{author}对修改集合%{changeset_id}的新评论'
+      comment: '%{author}对变更集%{changeset_id}的新评论'
       commented_at_by_html: 由%{user}更新于%{when}
     comments:
-      comment: '%{author}对修改集合%{changeset_id}的新评论'
+      comment: '%{author}对变更集%{changeset_id}的新评论'
     index:
-      title_all: OpenStreetMap 修改集合讨论
-      title_particular: 'OpenStreetMap 修改集合 #%{changeset_id} 讨论'
+      title_all: OpenStreetMap 变更集讨论
+      title_particular: 'OpenStreetMap 变更集 #%{changeset_id} 讨论'
     timeout:
-      sorry: 对不起，您所请求的修改集合评论时间区间过长。
+      sorry: 抱歉，您所请求的变更集评论时间区间过长。
   diary_entries:
     new:
       title: 新日记文章
@@ -425,7 +428,7 @@ zh-CN:
       my_diary: 我的日记
       no_entries: 没有日记文章
       recent_entries: 最近的日记文章
-      older_entries: 较新的文章
+      older_entries: 较早的文章
       newer_entries: 较新的文章
     edit:
       title: 编辑日记文章
@@ -452,11 +455,11 @@ zh-CN:
       hide_link: 隐藏该文章
       unhide_link: 取消隐藏此项目
       confirm: 确认
-      report: 举报此记录
+      report: 举报此文章
     diary_comment:
       comment_from_html: '%{link_user} 于 %{comment_created_at} 发表的评论'
-      hide_link: 隐藏该评论
-      unhide_link: 取消隐藏该评论
+      hide_link: 隐藏此评论
+      unhide_link: 显示此评论
       confirm: 确认
       report: 举报此评论
     location:
@@ -478,15 +481,15 @@ zh-CN:
       post: 发布
       when: 时间
       comment: 评论
-      newer_comments: 新评论
-      older_comments: 旧评论
+      newer_comments: 较新评论
+      older_comments: 较旧评论
   friendships:
     make_friend:
       heading: 添加 %{user} 为朋友？
       button: 添加为朋友
-      success: '%{name} 现在已成为您的好友！'
+      success: '%{name} 现在已成为您的朋友！'
       failed: 对不起，未能添加 %{name} 为朋友。
-      already_a_friend: 您已经和 %{name} 是朋友了。
+      already_a_friend: 您和 %{name} 已经是朋友了。
     remove_friend:
       heading: 删除朋友 %{user}？
       button: 删除朋友
@@ -525,11 +528,11 @@ zh-CN:
           helipad: 直升机停机坪
           holding_position: 等车位置
           parking_position: 停车位置
-          runway: 跑道
+          runway: 飞机跑道
           taxiway: 滑行道
           terminal: 航站楼
         amenity:
-          animal_shelter: 动物收养所
+          animal_shelter: 动物收容所
           arts_centre: 艺术中心
           atm: 自动提款机
           bank: 银行
@@ -578,7 +581,7 @@ zh-CN:
           library: 图书馆
           marketplace: 商场
           monastery: 修道院
-          motorcycle_parking: 摩托车停放处
+          motorcycle_parking: 摩托车停车场
           nightclub: 夜总会
           nursing_home: 疗养院
           office: 办公室
@@ -599,7 +602,7 @@ zh-CN:
           retirement_home: 养老院
           sauna: 桑拿
           school: 学校
-          shelter: 亭
+          shelter: 避雨亭
           shop: 商店
           shower: 淋浴
           social_centre: 社区中心
@@ -636,14 +639,14 @@ zh-CN:
           "yes": 建筑物
         craft:
           brewery: 啤酒厂
-          carpenter: 木匠
-          electrician: 电工
-          gardener: 园丁
-          painter: 画家
-          photographer: 摄影师
-          plumber: 管道工
-          shoemaker: 鞋匠
-          tailor: 裁缝
+          carpenter: 木匠工坊
+          electrician: 电工工坊
+          gardener: 园艺工坊
+          painter: 装修工坊
+          photographer: 摄影室
+          plumber: 管道工坊
+          shoemaker: 鞋匠工坊
+          tailor: 裁缝店
           "yes": 工艺品店
         emergency:
           ambulance_station: 救护站
@@ -654,7 +657,7 @@ zh-CN:
           water_tank: 紧急水箱
           "yes": 紧急
         highway:
-          abandoned: 弃用公路
+          abandoned: 废弃公路
           bridleway: 马道
           bus_guideway: 导轨公交车道
           bus_stop: 公共汽车站
@@ -669,7 +672,7 @@ zh-CN:
           living_street: 生活街
           milestone: 里程碑
           motorway: 高速公路
-          motorway_junction: 高速公路连接线
+          motorway_junction: 高速公路匝道
           motorway_link: 高速公路
           passing_place: 避车道
           path: 小径
@@ -682,8 +685,8 @@ zh-CN:
           residential: 住宅道路
           rest_area: 休息区
           road: 道路
-          secondary: 二级公路
-          secondary_link: 二级公路
+          secondary: 二级道路
+          secondary_link: 二级道路
           service: 服务道路
           services: 高速公路服务区
           speed_camera: 测速摄像头
@@ -756,7 +759,7 @@ zh-CN:
           recreation_ground: 游乐场
           reservoir: 水库
           reservoir_watershed: 水库库区
-          residential: 住宅区
+          residential: 居住区
           retail: 商店区
           road: 道路区
           village_green: 乡村草坪
@@ -795,7 +798,7 @@ zh-CN:
           adit: 平坑
           beacon: 浮标
           beehive: 蜂窝
-          breakwater: 防浪堤
+          breakwater: 防波堤
           bridge: 桥
           bunker_silo: 地堡
           chimney: 烟囱
@@ -819,7 +822,7 @@ zh-CN:
           storage_tank: 储油罐
           surveillance: 监视
           tower: 塔
-          wastewater_plant: 污水厂
+          wastewater_plant: 污水处理厂
           watermill: 水磨
           water_tower: 水塔
           water_well: 井
@@ -902,7 +905,7 @@ zh-CN:
           houses: 房屋
           island: 岛
           islet: 屿
-          isolated_dwelling: 独立的住宅
+          isolated_dwelling: 孤立聚落
           locality: 地区
           municipality: 直辖市
           neighbourhood: 居住区
@@ -1073,12 +1076,12 @@ zh-CN:
           "yes": 航道
       admin_levels:
         level2: 国界
-        level4: 州界
-        level5: 地区界
+        level4: 州界(省界)
+        level5: 地区界(地级市界)
         level6: 县界
-        level8: 市界
+        level8: 市界(镇/街道界)
         level9: 村界
-        level10: 郊区界
+        level10: 郊区界(社区/行政村界)
     description:
       title:
         osm_nominatim: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
@@ -1087,9 +1090,9 @@ zh-CN:
       types:
         cities: 城市
         towns: 城镇
-        places: 地区
+        places: 地点
     results:
-      no_results: 没有找到结果
+      no_results: 未找到结果
       more_results: 更多结果
   issues:
     index:
@@ -1662,7 +1665,7 @@ zh-CN:
           wood: 林
           golf: 高尔夫球场
           park: 公园
-          resident: 住宅区
+          resident: 居住区
           common:
           - 公地
           - 草地
@@ -1727,7 +1730,7 @@ zh-CN:
         paragraph_1_html: OpenStreetMap 有一些自己的术语。这里是一些常用的关键词。
         editor_html: <strong>编辑器</strong>是您可以用于编辑地图的程序或网站。
         node_html: <strong>节点</strong>是地图上的点，例如一个餐馆或一棵树。
-        way_html: <strong>路径</strong>是线或区域，例如一条路、一条溪、一个湖或一个建筑物。
+        way_html: <strong>路径</strong>可以是线或区域，例如一条路、一条溪、一个湖或一栋建筑物。
         tag_html: <strong>标签</strong>是关于节点或路径的简短数据，例如餐馆的名字或者道路的速度限制。
       rules:
         title: 规则！
@@ -2423,7 +2426,7 @@ zh-CN:
         standard: 标准
         cycle_map: 自行车地图
         transport_map: 交通地图
-        hot: Humanitarian
+        hot: 人道主义地图
       layers:
         header: 地图图层
         notes: 地图笔记
@@ -2586,7 +2589,7 @@ zh-CN:
     create:
       flash: 修订已创建。
     update:
-      flash: 修改已保存。
+      flash: 更改已保存。
     destroy:
       not_empty: 修订非空。请在销毁该修订前清除所有属于它的版本。
       flash: 修订已销毁。
