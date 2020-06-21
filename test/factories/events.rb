@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :event do
     sequence(:title) { |n| "Title #{n}" }
-    moment { Time.now.utc }
+    moment { Time.now + 1000 }
     sequence(:location) { |n| "Location #{n}" }
     sequence(:location_url) { |n| "http://example.com/app/#{n}" }
     sequence(:description) { |n| "Description #{n}" }
