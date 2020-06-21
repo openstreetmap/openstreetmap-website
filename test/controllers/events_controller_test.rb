@@ -3,28 +3,28 @@ require "test_helper"
 class EventsControllerTest < ActionDispatch::IntegrationTest
   def test_routes
     assert_routing(
-        { :path => "/events", :method => :get },
-        { :controller => "events", :action => "index" }
+      { :path => "/events", :method => :get },
+      { :controller => "events", :action => "index" }
     )
     assert_routing(
-        { :path => "/events/new", :method => :get },
-        { :controller => "events", :action => "new" }
+      { :path => "/events/new", :method => :get },
+      { :controller => "events", :action => "new" }
     )
     assert_routing(
-        { :path => "/events", :method => :post },
-        { :controller => "events", :action => "create" }
+      { :path => "/events", :method => :post },
+      { :controller => "events", :action => "create" }
     )
     assert_routing(
-        { :path => "/events/1", :method => :get },
-        { :controller => "events", :action => "show", :id => "1" }
+      { :path => "/events/1", :method => :get },
+      { :controller => "events", :action => "show", :id => "1" }
     )
     assert_routing(
-        { :path => "/events/1/edit", :method => :get },
-        { :controller => "events", :action => "edit", :id => "1" }
+      { :path => "/events/1/edit", :method => :get },
+      { :controller => "events", :action => "edit", :id => "1" }
     )
     assert_routing(
-        { :path => "/events/1", :method => :patch },
-        { :controller => "events", :action => "update", :id => "1" }
+      { :path => "/events/1", :method => :patch },
+      { :controller => "events", :action => "update", :id => "1" }
     )
     # No ability in cancancan yet.
     # assert_routing(
@@ -71,5 +71,4 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     assert_match e.title, response.body
     assert_match e.location, response.body
   end
-
 end
