@@ -13,6 +13,7 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
+    @title = t "events.new.title"
     @event = Event.new
     @event.microcosm_id = params[:microcosm_id]
   end

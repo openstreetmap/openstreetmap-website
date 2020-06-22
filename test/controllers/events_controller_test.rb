@@ -71,4 +71,62 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     assert_match e.title, response.body
     assert_match e.location, response.body
   end
+
+  def test_new_no_login
+    # Make sure that you are redirected to the login page when you
+    # are not logged in
+    # act
+    get new_event_path
+    # assert
+    assert_response :redirect
+    assert_redirected_to :controller => :users, :action => :login, :referer => "/events/new"
+  end
+
+  def test_new_form
+    # Now try again when logged in
+    # arrange
+    session_for(create(:user))
+    # act
+    get new_event_path
+    # assert
+    check_page_basics
+    assert_select "title", :text => /New Event/, :count => 1
+    assert_select "div.content-heading", :count => 1 do
+      assert_select "h1", :text => /New Event/, :count => 1
+    end
+    assert_select "div#content", :count => 1 do
+      assert_select "form[action='/events'][method=post]", :count => 1 do
+        assert_select "input#event_title[name='event[title]']", :count => 1
+        assert_select "input#event_moment[name='event[moment]']", :count => 1
+        assert_select "input#event_location[name='event[location]']", :count => 1
+        assert_select "input#event_location_url[name='event[location_url]']", :count => 1
+        assert_select "textarea#event_description[name='event[description]']", :count => 1
+        assert_select "input#event_latitude[name='event[latitude]']", :count => 1
+        assert_select "input#event_longitude[name='event[longitude]']", :count => 1
+        assert_select "input", :count => 8
+      end
+    end
+  end
+
+  # also tests application_controller::nilify
+  def test_create
+    # arrange
+    u = create(:user)
+    session_for(u)
+    e_orig = create(:event)
+
+    # act
+    e_new_id = nil
+    assert_difference "Event.count", 1 do
+      post events_url, :params => { :event => e_orig.as_json }, :xhr => true
+      puts @response.headers["Location"]
+      e_new_id = @response.headers["Location"].split("/")[-1]
+    end
+
+    # assert
+    e_new = Event.find(e_new_id)
+    # Assign the id e_new to e_orig, so we can do an equality test easily.
+    e_orig.id = e_new.id
+    assert_equal(e_orig, e_new)
+  end
 end
