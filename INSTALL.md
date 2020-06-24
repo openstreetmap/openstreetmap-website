@@ -210,6 +210,13 @@ To create all the tables, indexes and constraints, run:
 bundle exec rake db:migrate
 ```
 
+### Build translations
+To build the translations, run:
+
+```
+bundle exec rake i18n:js:export
+```
+
 ## Running the tests
 
 To ensure that everything is set up properly, you should now run:
