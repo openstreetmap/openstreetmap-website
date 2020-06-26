@@ -129,4 +129,34 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     e_orig.id = e_new.id
     assert_equal(e_orig, e_new)
   end
+
+  def test_update_put_organizer
+    # arrange
+    mm = create(:microcosm_member, :organizer)
+    session_for(mm.user)
+    e1 = create(:event, :microcosm => mm.microcosm) # original object
+    e2 = build(:event, :microcosm => mm.microcosm) # new data
+    # act
+    put event_url(e1), :params => { :event => e2.as_json }, :xhr => true
+    # assert
+    assert_redirected_to event_path(e1)
+    # TODO: Is it better to use t() to translate?
+    assert_equal "The event was successfully updated.", flash[:notice]
+    e1.reload
+    # Assign the id of e1 to e2, so we can do an equality test easily.
+    e2.id = e1.id
+    assert_equal(e2, e1)
+  end
+
+  def test_update_put_non_organizer
+    # arrange
+    mm = create(:microcosm_member)
+    session_for(mm.user)
+    e1 = create(:event, :microcosm => mm.microcosm) # original object
+    e2 = build(:event, :microcosm => mm.microcosm) # new data
+    # act
+    put event_url(e1), :params => { :event => e2.as_json }, :xhr => true
+    # assert
+    assert_redirected_to :controller => :errors, :action => :forbidden
+  end
 end
