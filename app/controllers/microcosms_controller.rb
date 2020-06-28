@@ -13,7 +13,8 @@ class MicrocosmsController < ApplicationController
     minute_of_day = "(60 * EXTRACT(HOUR FROM current_timestamp) + EXTRACT(MINUTE FROM current_timestamp))"
     morning = "(60 * 6)" # 6 AM
     long_facing_sun = "(#{minute_of_day} + #{morning}) / 4"
-    @microcosms = Microcosm.order("longitude + 180 + #{long_facing_sun} DESC")
+    # Using Arel.sql here due to warning about non-attributes arguments will be disallowed in Rails 6.1.
+    @microcosms = Microcosm.order(Arel.sql("longitude + 180 + #{long_facing_sun} DESC"))
   end
 
   # GET /microcosms/mycity
