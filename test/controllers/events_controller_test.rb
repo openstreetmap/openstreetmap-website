@@ -69,6 +69,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     check_page_basics
     # assert_template("show")
     assert_match e.title, response.body
+    assert_match e.description, response.body
     assert_match e.location, response.body
   end
 
@@ -157,17 +158,5 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     put event_url(e1), :params => { :event => e2.as_json }, :xhr => true
     # assert
     assert_redirected_to :controller => :errors, :action => :forbidden
-  end
-
-  def test_show_get
-    # arrange
-    e = create(:event)
-    # act
-    get event_path(e)
-    # assert
-    check_page_basics
-    # assert_template("show")
-    assert_match e.title, response.body
-    assert_match e.description, response.body
   end
 end
