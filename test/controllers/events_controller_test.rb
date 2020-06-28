@@ -119,7 +119,6 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     e_new_id = nil
     assert_difference "Event.count", 1 do
       post events_url, :params => { :event => e_orig.as_json }, :xhr => true
-      puts @response.headers["Location"]
       e_new_id = @response.headers["Location"].split("/")[-1]
     end
 
@@ -158,5 +157,17 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     put event_url(e1), :params => { :event => e2.as_json }, :xhr => true
     # assert
     assert_redirected_to :controller => :errors, :action => :forbidden
+  end
+
+  def test_show_get
+    # arrange
+    e = create(:event)
+    # act
+    get event_path(e)
+    # assert
+    check_page_basics
+    # assert_template("show")
+    assert_match e.title, response.body
+    assert_match e.description, response.body
   end
 end
