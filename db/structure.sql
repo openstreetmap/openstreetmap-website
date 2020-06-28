@@ -739,6 +739,142 @@ CREATE TABLE public.diary_entry_subscriptions (
 
 
 --
+-- Name: event_attendances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.event_attendances (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    event_id bigint NOT NULL,
+    intention character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: event_attendances_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.event_attendances_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: event_attendances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.event_attendances_id_seq OWNED BY public.event_attendances.id;
+
+
+--
+-- Name: event_organizers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.event_organizers (
+    id bigint NOT NULL,
+    event_id bigint,
+    user_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: event_organizers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.event_organizers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: event_organizers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.event_organizers_id_seq OWNED BY public.event_organizers.id;
+
+
+--
+-- Name: events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.events (
+    id bigint NOT NULL,
+    title character varying NOT NULL,
+    moment timestamp without time zone,
+    location character varying,
+    description text,
+    microcosm_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    latitude double precision,
+    longitude double precision,
+    location_url character varying
+);
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
+
+
+--
+-- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.friendly_id_slugs (
+    id bigint NOT NULL,
+    slug character varying NOT NULL,
+    sluggable_id integer NOT NULL,
+    sluggable_type character varying(50),
+    scope character varying,
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.friendly_id_slugs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.friendly_id_slugs_id_seq OWNED BY public.friendly_id_slugs.id;
+
+
+--
 -- Name: friends; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -969,6 +1105,112 @@ CREATE SEQUENCE public.messages_id_seq
 --
 
 ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
+
+
+--
+-- Name: microcosm_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.microcosm_links (
+    id bigint NOT NULL,
+    microcosm_id bigint NOT NULL,
+    site character varying NOT NULL,
+    url character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: microcosm_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.microcosm_links_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: microcosm_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.microcosm_links_id_seq OWNED BY public.microcosm_links.id;
+
+
+--
+-- Name: microcosm_members; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.microcosm_members (
+    id bigint NOT NULL,
+    microcosm_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    role character varying(64) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: microcosm_members_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.microcosm_members_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: microcosm_members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.microcosm_members_id_seq OWNED BY public.microcosm_members.id;
+
+
+--
+-- Name: microcosms; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.microcosms (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    description text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    slug character varying,
+    location character varying NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    min_lat double precision NOT NULL,
+    max_lat double precision NOT NULL,
+    min_lon double precision NOT NULL,
+    max_lon double precision NOT NULL
+);
+
+
+--
+-- Name: microcosms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.microcosms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: microcosms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.microcosms_id_seq OWNED BY public.microcosms.id;
 
 
 --
@@ -1559,6 +1801,34 @@ ALTER TABLE ONLY public.diary_entries ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: event_attendances id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_attendances ALTER COLUMN id SET DEFAULT nextval('public.event_attendances_id_seq'::regclass);
+
+
+--
+-- Name: event_organizers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers ALTER COLUMN id SET DEFAULT nextval('public.event_organizers_id_seq'::regclass);
+
+
+--
+-- Name: events id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.events_id_seq'::regclass);
+
+
+--
+-- Name: friendly_id_slugs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('public.friendly_id_slugs_id_seq'::regclass);
+
+
+--
 -- Name: friends id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1598,6 +1868,27 @@ ALTER TABLE ONLY public.issues ALTER COLUMN id SET DEFAULT nextval('public.issue
 --
 
 ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
+
+
+--
+-- Name: microcosm_links id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_links ALTER COLUMN id SET DEFAULT nextval('public.microcosm_links_id_seq'::regclass);
+
+
+--
+-- Name: microcosm_members id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_members ALTER COLUMN id SET DEFAULT nextval('public.microcosm_members_id_seq'::regclass);
+
+
+--
+-- Name: microcosms id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosms ALTER COLUMN id SET DEFAULT nextval('public.microcosms_id_seq'::regclass);
 
 
 --
@@ -1823,6 +2114,38 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 
 --
+-- Name: event_attendances event_attendances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_attendances
+    ADD CONSTRAINT event_attendances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: event_organizers event_organizers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers
+    ADD CONSTRAINT event_organizers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: friendly_id_slugs friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.friendly_id_slugs
+    ADD CONSTRAINT friendly_id_slugs_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: friends friends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1876,6 +2199,38 @@ ALTER TABLE ONLY public.languages
 
 ALTER TABLE ONLY public.messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: microcosm_links microcosm_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_links
+    ADD CONSTRAINT microcosm_links_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: microcosm_members microcosm_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_members
+    ADD CONSTRAINT microcosm_members_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: microcosms microcosms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosms
+    ADD CONSTRAINT microcosms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: microcosms microcosms_slug_null; Type: CHECK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE public.microcosms
+    ADD CONSTRAINT microcosms_slug_null CHECK ((slug IS NOT NULL)) NOT VALID;
 
 
 --
@@ -2298,6 +2653,62 @@ CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON public.diary_e
 
 
 --
+-- Name: index_event_attendances_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_attendances_on_event_id ON public.event_attendances USING btree (event_id);
+
+
+--
+-- Name: index_event_attendances_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_attendances_on_user_id ON public.event_attendances USING btree (user_id);
+
+
+--
+-- Name: index_event_organizers_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_organizers_on_event_id ON public.event_organizers USING btree (event_id);
+
+
+--
+-- Name: index_event_organizers_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_organizers_on_user_id ON public.event_organizers USING btree (user_id);
+
+
+--
+-- Name: index_events_on_microcosm_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_events_on_microcosm_id ON public.events USING btree (microcosm_id);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON public.friendly_id_slugs USING btree (slug, sluggable_type);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope ON public.friendly_id_slugs USING btree (slug, sluggable_type, scope);
+
+
+--
+-- Name: index_friendly_id_slugs_on_sluggable_type_and_sluggable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_friendly_id_slugs_on_sluggable_type_and_sluggable_id ON public.friendly_id_slugs USING btree (sluggable_type, sluggable_id);
+
+
+--
 -- Name: index_issue_comments_on_issue_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2344,6 +2755,34 @@ CREATE INDEX index_issues_on_status ON public.issues USING btree (status);
 --
 
 CREATE INDEX index_issues_on_updated_by ON public.issues USING btree (updated_by);
+
+
+--
+-- Name: index_microcosm_links_on_microcosm_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_microcosm_links_on_microcosm_id ON public.microcosm_links USING btree (microcosm_id);
+
+
+--
+-- Name: index_microcosm_members_on_microcosm_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_microcosm_members_on_microcosm_id ON public.microcosm_members USING btree (microcosm_id);
+
+
+--
+-- Name: index_microcosm_members_on_microcosm_id_and_user_id_and_role; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_microcosm_members_on_microcosm_id_and_user_id_and_role ON public.microcosm_members USING btree (microcosm_id, user_id, role);
+
+
+--
+-- Name: index_microcosm_members_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_microcosm_members_on_user_id ON public.microcosm_members USING btree (user_id);
 
 
 --
@@ -2768,11 +3207,75 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 
 --
+-- Name: microcosm_members fk_rails_29dbef698e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_members
+    ADD CONSTRAINT fk_rails_29dbef698e FOREIGN KEY (microcosm_id) REFERENCES public.microcosms(id);
+
+
+--
+-- Name: microcosm_links fk_rails_4e3be5d646; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_links
+    ADD CONSTRAINT fk_rails_4e3be5d646 FOREIGN KEY (microcosm_id) REFERENCES public.microcosms(id);
+
+
+--
+-- Name: event_attendances fk_rails_64ad6920ae; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_attendances
+    ADD CONSTRAINT fk_rails_64ad6920ae FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: microcosm_members fk_rails_850250d78a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_members
+    ADD CONSTRAINT fk_rails_850250d78a FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: event_organizers fk_rails_b1c2c61554; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers
+    ADD CONSTRAINT fk_rails_b1c2c61554 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: event_organizers fk_rails_c1e082c91e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers
+    ADD CONSTRAINT fk_rails_c1e082c91e FOREIGN KEY (event_id) REFERENCES public.events(id);
+
+
+--
 -- Name: active_storage_attachments fk_rails_c3b3935057; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.active_storage_attachments
     ADD CONSTRAINT fk_rails_c3b3935057 FOREIGN KEY (blob_id) REFERENCES public.active_storage_blobs(id);
+
+
+--
+-- Name: event_attendances fk_rails_d082d0d206; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_attendances
+    ADD CONSTRAINT fk_rails_d082d0d206 FOREIGN KEY (event_id) REFERENCES public.events(id);
+
+
+--
+-- Name: events fk_rails_daa1b5e200; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT fk_rails_daa1b5e200 FOREIGN KEY (microcosm_id) REFERENCES public.microcosms(id);
 
 
 --
@@ -3137,7 +3640,19 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190623093642'),
 ('20190702193519'),
 ('20190716173946'),
+('20190826032448'),
+('20190831122812'),
+('20190901143302'),
+('20190901151436'),
+('20190901163613'),
+('20190902200639'),
+('20190903023243'),
+('20190903030453'),
+('20190905160802'),
+('20190905224243'),
 ('20191120140058'),
+('20200127033234'),
+('20200214135750'),
 ('21'),
 ('22'),
 ('23'),

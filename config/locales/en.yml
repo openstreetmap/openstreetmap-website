@@ -6,19 +6,50 @@ en:
       friendly: "%e %B %Y at %H:%M"
       blog: "%e %B %Y"
   helpers:
+    label:
+      event:
+        description: "Description"
+        location: "Location"
+        location_url: "Location URL"
+        microcosm_id: "Microcosm"
+        moment: "When"
+        title: "Title"
+      microcosm:
+        description: "Description"
+        latitude: "Latitude"
+        location: "Location"
+        longitude: "Longitude"
+        max_lat: "Maximum Latitude"
+        max_lon: "Maximum Longitude"
+        min_lat: "Minimum Latitude"
+        min_lon: "Minimum Longitude"
+        name: "Name"
+      microcosm_member:
+        microcosm_id: "Microcosm"
+        user_id: "User"
+        role: "Role"
     submit:
+      client_application:
+        create: Register
+        update: Edit
       diary_comment:
         create: Save
       diary_entry:
         create: "Publish"
         update: "Update"
+      event:
+        create: "Create Event"
+        update: "Update Event"
       issue_comment:
         create: Add Comment
       message:
         create: Send
-      client_application:
-        create: Register
-        update: Edit
+      microcosm:
+        create: "Create Microcosm"
+        update: "Update Microcosm"
+      microcosm_member:
+        create: "Add Membership"
+        update: "Update Membership"
       redaction:
         create: Create redaction
         update: Save redaction
@@ -431,6 +462,42 @@ en:
       comment: Comment
       newer_comments: "Newer Comments"
       older_comments: "Older Comments"
+  events:
+    create:
+      success: "Event was successfully created."
+    edit:
+      edit_event: "Edit Event"
+    index:
+      description: "Description"
+      heading: "Upcoming Events"
+      location: "Location"
+      microcosm: "Microcosm"
+      moment: "When"
+      title: "Title"
+    show:
+      are_you_going: "Are you going?"
+      description: "Description"
+      directions_to: "Directions to this location."
+      edit: "Edit"
+      going_no: "No"
+      going_yes: "Yes"
+      header_title: "Event"
+      when: "When"
+      hosted_by: "Hosted by"
+      location: "Location"
+      organized_by: "Organized by"
+      people_are_going: "people are going."
+      whos_going: "Who's going?"
+    new:
+      new: "New Event"
+    update:
+      success: "Event was successfully updated."
+  event_attendances:
+    create:
+      failure: "Attendance was not saved."
+      success: "Attendance was successfully saved."
+    update:
+      success: "Attendance was successfully updated."
   friendships:
     make_friend:
       heading: "Add %{user} as a friend?"
@@ -1153,6 +1220,8 @@ en:
     logout: Log Out
     log_in: Log In
     log_in_tooltip: Log in with an existing account
+    microcosms: Microcosms
+    events: Events
     sign_up: Sign Up
     start_mapping: Start Mapping
     sign_up_tooltip: Create an account for editing
@@ -1192,6 +1261,66 @@ en:
       text: Make a Donation
     learn_more: "Learn More"
     more: More
+  microcosms:
+    create:
+      failure: "Microcosm was not saved."
+      success: "Microcosm was successfully created."
+    edit:
+      edit_microcosm: "Edit Microcosm"
+    index:
+      all: "All Microcosms"
+      description: "Description"
+      location: "Location"
+      latitude: "Latitude"
+      longitude: "Longitude"
+      name: "Name"
+      new: "New"
+      new_title: "Create a new microcosm"
+    new:
+      title: "New Microcosm"
+    show:
+      diary_entries: "Diary Entries of Members"
+      edit: "Edit"
+      events: "Events"
+      header_title: "Microcosm"
+      members: "Members"
+      organizers: "Organizers"
+      review_requested: "review requested"
+      share: "Share"
+      join:
+        action: "Join"
+        confirm: "Join %{name}?"
+      recent_changes: "Recent Changes"
+    show_events:
+      edit: "Edit"
+      events: "Events"
+      location: "Location"
+      new_title: "new event"
+      title: "Title"
+      when: "When"
+    show_members:
+      edit: "edit"
+      members: "Members"
+      organizers: "Organizers"
+      remove: "remove"
+    step_up:
+      already_has_organizer: "This microcosm already has an organizer."
+      only_members_can_step_up: "Only members can step up."
+      you_have_stepped_up: "You have stepped up."
+    update:
+      success: "The microcosm was successfully updated."
+      failure: "The microcosm did not update successfully."
+  microcosm_member:
+    create:
+      failure: "Membership was not saved."
+      success: "Membership was successfully created."
+    destroy:
+      failure: "Member was not removed."
+      success: "Member was removed."
+    edit:
+      edit_member: "Edit Membership"
+    update:
+      success: "Microcosm Member was successfully updated."
   notifier:
     diary_comment_notification:
       subject: "[OpenStreetMap] %{user} commented on a diary entry"
@@ -2668,4 +2797,6 @@ en:
     leading_whitespace: "has leading whitespace"
     trailing_whitespace: "has trailing whitespace"
     invalid_characters: "contains invalid characters"
+    invalid_datetime_format: "contains invalid datetime format, use yyyy-mm-ddThh:mm"
+    invalid_datetime_range: "contains invalid datetime range"
     url_characters: "contains special URL characters (%{characters})"

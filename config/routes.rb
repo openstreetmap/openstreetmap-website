@@ -313,6 +313,15 @@ OpenStreetMap::Application.routes.draw do
   # redactions
   resources :redactions
 
+  # microcosms
+  resources :microcosms
+  resources :microcosm_member, :only => [:create, :destroy, :edit, :new, :update]
+  resources :events
+  resources :event_attendances
+  get "microcosms/:id/members", :to => "microcosms#show_members", :as => :members_of_microcosm
+  get "microcosms/:id/events", :to => "microcosms#show_events", :as => :events_of_microcosm
+  post "microcosms/:id/step_up", :to => "microcosms#step_up", :as => :step_up
+
   # errors
   match "/403", :to => "errors#forbidden", :via => :all
   match "/404", :to => "errors#not_found", :via => :all

@@ -1,0 +1,64 @@
+<%= stylesheet_link_tag "events" %>
+<%= javascript_include_tag "event" %>
+
+<% content_for :heading do %>
+  <h1>
+    <%= t(".header_title") + ": " + @event.title %>
+  </h1>
+  <% if current_user && @event.microcosm.organizer?(current_user) %>
+    <%= link_to t(".edit"), edit_event_path %>
+  <% end %>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <p class="when">
+        <%= t(".when") %>: <%= l @event.moment, :format => :friendly %>
+      </p>
+      <p>
+        <%= t(".hosted_by") %>: <strong><%= link_to @event.microcosm.name, microcosm_path(@event.microcosm) %></strong>
+      </p>
+      <p>
+        <%= t(".organized_by") %>: <% @event.organizers.each do |organizer| %>
+          <strong><%= link_to organizer.user.display_name, user_path(organizer.user) %></strong>
+        <% end %>
+      </p>
+    </div>
+    <div class="col-sm">
+      <p><%= @event.attendees.size %> <%= t(".people_are_going") %></p>
+      <p><%= t(".are_you_going") %></p>
+      <%= form_with :model => @my_attendance, :local => true do |form| %>
+        <%= form.hidden_field(:event_id, :value => @event.id) %>
+        <%= form.hidden_field(:user_id, :value => current_user&.id) %>
+        <%= form.submit :value => @yes_check + t(".going_yes"), :disabled => @yes_disabled %>
+        <%= form.submit :value => @no_check + t(".going_no"), :disabled => @no_disabled %>
+      <% end %>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-sm">
+      <p>
+        <strong><%= t(".description") %>:</strong>
+        <%= @event.description %>
+      </p>
+      <strong><%= t(".whos_going") %></strong>
+      <div>
+        <% @event.attendees.each do |attendance| %>
+          <%= user_card(attendance.user).html_safe %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-sm">
+      <p>
+        <%= t(".location") %>: <strong><%= event_location(@event) %></strong>
+      </p>
+      <%= @event.description %>
+      <%= @event.latitude %>
+      <%= @event.description %>
+      <%# TODO: replace these attributes @map_coords %>
+      <%= content_tag "div", "", :id => "event_map_show", :data => { :lat => @event.latitude, :lon => @event.longitude, :zoom => 11 } %>
+    </div>
+  </div>
+</div>

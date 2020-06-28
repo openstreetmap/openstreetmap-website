@@ -28,6 +28,8 @@ class Ability
       can [:history, :version], OldNode
       can [:history, :version], OldWay
       can [:history, :version], OldRelation
+      can [:index, :show, :show_events, :show_members], Microcosm
+      can [:show, :index], Event
     end
 
     if user
@@ -42,7 +44,13 @@ class Ability
         can [:close, :reopen], Note
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
-        can [:account, :go_public], User
+        can [:account, :go_public, :make_friend, :remove_friend], User
+        can [:create, :update], EventAttendance
+        can [:new, :create, :step_up], Microcosm
+        can [:edit, :update], Microcosm, :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER }
+        can [:create], MicrocosmMember
+        can [:destroy, :edit, :update], MicrocosmMember, :microcosm => { :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER } }
+        can [:new, :create, :edit, :update], Event, :microcosm => { :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER } }
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry

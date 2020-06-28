@@ -1,0 +1,42 @@
+<%= stylesheet_link_tag "microcosms" %>
+
+<% content_for :heading do %>
+  <h1>
+    <%= @microcosm.name + " " + t(".members") %>
+  </h1>
+<% end %>
+<%# TODO: Make Dry %>
+<h2>
+  <%= t(".organizers") %>
+</h2>
+<div class='organizers'>
+  <ul>
+    <% @microcosm.microcosm_members.organizers.each do |membership| %>
+      <li>
+        <%= user_image(membership.user) %>
+        <%= membership.user.display_name %>
+        <% if current_user and @microcosm.organizer?(current_user) %>
+          <%= button_to t(".edit"), edit_microcosm_member_path(membership), :method => :get %>
+          <%= button_to t(".remove"), membership, :method => :delete %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<h2>
+  <%= t(".members") %>
+</h2>
+<div class='members'>
+  <ul>
+    <% @microcosm.microcosm_members.members.each do |membership| %>
+      <li>
+        <%= user_image(membership.user) %>
+        <%= membership.user.display_name %>
+        <% if current_user and @microcosm.organizer?(current_user) %>
+          <%= button_to t(".edit"), edit_microcosm_member_path(membership), :method => :get %>
+          <%= button_to t(".remove"), membership, :method => :delete %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
