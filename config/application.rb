@@ -53,6 +53,10 @@ module OpenStreetMap
     # Use memcached for caching if required
     config.cache_store = :mem_cache_store, Settings.memcache_servers, { :namespace => "rails:cache" } if Settings.key?(:memcache_servers)
 
+    # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+    # the I18n.default_locale when a translation cannot be found).
+    config.i18n.fallbacks = true
+
     # Use logstash for logging if required
     if Settings.key?(:logstash_path)
       config.logstasher.enabled = true
