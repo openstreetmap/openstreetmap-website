@@ -1,4 +1,4 @@
-class MicrocosmMemberController < ApplicationController
+class MicrocosmMembersController < ApplicationController
   layout "site"
   before_action :authorize_web
   authorize_resource
