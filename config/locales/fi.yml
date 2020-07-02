@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: 01miki10
 # Author: Abijeet Patro
+# Author: Actuallyisjoha
 # Author: Alluk.
 # Author: Antsa
 # Author: BriskyBlizzard
@@ -64,7 +65,7 @@ fi:
         create: Luo redaktio
         update: Tallenna redaktio
       trace:
-        create: Lähetä
+        create: Lataa
         update: Tallenna muutokset
       user_block:
         create: Luo esto
@@ -265,7 +266,7 @@ fi:
       feed:
         title: Muutoskokoelma %{id}
         title_comment: Muutoskokoelma %{id} - %{comment}
-      join_discussion: Kirjaudu sisään, jos haluat osallistua keskusteluun
+      join_discussion: Kirjaudu sisään osallistuaksesi keskusteluun
       discussion: Keskustelu
       still_open: Muutoskokoelma on edelleen avoimena - keskustelu avataan heti kun
         muutoskokoelma on suljettu.
@@ -293,7 +294,7 @@ fi:
       entry_html: Relaatio %{relation_name}
       entry_role_html: Relaatio %{relation_name} (rooli %{relation_role})
     not_found:
-      sorry: 'Pahoittelemme, %{type} #%{id} ei ole olemassa.'
+      sorry: 'Pahoittelemme, %{type} #%{id} ei pystytty löytämään.'
       type:
         node: Pistettä
         way: Polkua
@@ -301,7 +302,7 @@ fi:
         changeset: muutoskokoelma
         note: merkintä
     timeout:
-      sorry: Tietojen hakeminen (kohde %{type}:%{id}) kesti liian kauan.
+      sorry: Pahoittelut, tietojen hakeminen (kohde %{type}:%{id}) kesti liian kauan.
       type:
         node: piste
         way: polku
@@ -414,6 +415,7 @@ fi:
       in_language_title: Päiväkirjamerkinnät kielellä %{language}
       new: Lisää päiväkirjamerkintä
       new_title: Kirjoita uusi merkintä käyttäjän päiväkirjaani
+      my_diary: Päiväkirjani
       no_entries: Päiväkirjassa ei ole merkintöjä.
       recent_entries: Uusimmat päiväkirjamerkinnät
       older_entries: Vanhempia...
@@ -1267,8 +1269,10 @@ fi:
         more_info_2: 'ne löytyvät osoitteesta:'
       success:
         subject: '[OpenStreetMap] GPX-tuonti onnistui'
-        loaded_successfully: '%{trace_points} pistettä ladattu onnistuneesti mahdollisista
-          %{possible_points} pisteestä.'
+        loaded_successfully:
+          one: '%{trace_points} pistettä mahdollisesta 1 pisteestä ladattu onnistuneesti.'
+          other: ' {trace_points} pistettä  mahdollisista %{possible_points} ladattu
+            onnistuneesti pisteestä.'
     signup_confirm:
       subject: '[OpenStreetMap] Tervetuloa OpenStreetMapiin'
       greeting: Hei!
@@ -1448,6 +1452,11 @@ fi:
       legal_1_html: |-
         Tämä sivusto ja monet siihen liittyvät palvelut ovat muodollisesti <a href='https://osmfoundation.org/'>OpenStreetMap-säätiön</a> (OSMF) hallinnoimia OSM-yhteisön puolesta. Kaikkien OSMF:n hallinnoimien palveluiden käyttöön sovelletaan <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
         sallitun käytön käytäntöjä</a>, <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">käyttöehtoja</a> ja <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">tietosuojakäytäntöä</a> (molemmat sisällöt saatavilla vain englanniksi).
+      legal_2_html: |-
+        <a href='https://osmfoundation.org/Contact'>Ota yhteyttä OSMF</a>:ään
+        jos sinulla on lisensointi-, tekijänoikeus- tai muita kysymyksiä.
+        <br>
+        OpenStreetMap, suurennuslasilogo ja State of the Map ovat <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">OSMF:n rekisteröityjä tavaramerkkejä</a>.
       partners_title: Kumppanit
     copyright:
       foreign:
@@ -1473,20 +1482,25 @@ fi:
           Jos karttoja tai tietoja muutetaan tai kehitetään, niitä saa levittää vain
           samalla lisenssillä.\n<a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">Lakitekstissä</a>
           mainitaan levittäjän oikeudet ja velvollisuudet."
-        intro_3_html: |-
+        intro_3_1_html: |-
           Kartta-aineisto ja dokumentaatio on lisensoitu <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.fi">Creative
           Commons Nimeä-Jaa samoin 2.0</a> -lisenssillä (CC-BY-SA).
         credit_title_html: OpenStreetMapin mainitseminen
         credit_1_html: OpenStreetMapin sisältöä levitettäessä on mainittava teksti
           &quot;&copy; OpenStreetMapin tekijät&quot; tai sen englanninkielinen vastine
           &quot;&copy; OpenStreetMap contributors&quot;.
-        credit_2_html: "Levittäjän tulee tehdä selväksi, että aineisto on saatavilla
+        credit_2_1_html: "Levittäjän tulee tehdä selväksi, että aineisto on saatavilla
           Open Database -lisenssillä\nja kartta-aineisto CC-BY-SA-lisenssillä. Tämä
           voidaan tehdä sijoittamalla sivulle linkki\n<a href=\"https://www.openstreetmap.org/copyright\">tälle
           tekijänoikeussivulle</a>. \nJos linkkien käyttö ei ole mahdollista (esimerkiksi
           paperille tulostettu aineisto),\nsuosittelemme ohjaamaan lukijat osoitteisiin
           www.openstreetmap.org, opendatacommons.org ja tarvittaessa myös creativecommons.org."
-        credit_3_html: 'Sivustolle upotetun interaktiivisen karttaikkunan tulee sisältää
+        credit_3_1_html: "&ldquo;Standardityylin&rdquo; karttalaatat osoitteessa www.openstreetmap.org
+          ovat OpenStreetMap Foundationin työtä käyttäen OpenStreetMapin datan Open
+          Database-lisenssin alaisuudessa. Jos käytät näitä karttalaattoja, käytä
+          seuraavaa lainausta: \n&ldquo;Pohjakartta ja data OpenStreetMapista ja OpenStreetMap
+          Foundationilta&rdquo;."
+        credit_4_html: 'Sivustolle upotetun interaktiivisen karttaikkunan tulee sisältää
           tekijän nimi kartan alaosassa:'
         attribution_example:
           alt: Esimerkki siitä, miten nimetä OpenStreetMap nettisivulla
@@ -2612,6 +2626,11 @@ fi:
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Tee lahjoitus</a>
       terms: <a href='%{terms_url}' target='_blank'>Sivuston ja sovellusrajapinnan
         ehdot</a>
+      thunderforest: Laattojen tekijä <a href='%{thunderforest_url}' target='_blank'>Andy
+        Allan</a>
+      hotosm: Laattojen tyylin on tehnyt <a href='%{hotosm_url}' target='_blank'>Humanitarian
+        OpenStreetMap Team</a> ja hostannut <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        France</a>
     site:
       edit_tooltip: Muokkaa karttaa
       edit_disabled_tooltip: Lähennä karttaa ennen muokkaamisen aloittamista
