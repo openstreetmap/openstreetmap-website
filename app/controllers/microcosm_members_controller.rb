@@ -11,7 +11,7 @@ class MicrocosmMembersController < ApplicationController
     if membership.save
       redirect_to microcosm_path(membership.microcosm), :notice => t(".success")
     else
-      redirect_to microcosm_path(membership.microcosm), :notice => t(".failure")
+      redirect_to microcosm_path(membership.microcosm), :alert => t(".failure")
     end
   end
 
