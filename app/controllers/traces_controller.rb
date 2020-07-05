@@ -90,6 +90,7 @@ class TracesController < ApplicationController
   end
 
   def new
+    logger.info "new"
     @title = t ".upload_trace"
     @trace = Trace.new(:visibility => default_visibility)
   end
@@ -317,7 +318,8 @@ class TracesController < ApplicationController
   end
 
   def offline_redirect
-    redirect_to :action => :offline if Settings.status == "gpx_offline"
+    logger.info "offline_redirect status is #{Settings.status}"
+    render :action => :offline if Settings.status == "gpx_offline"
   end
 
   def default_visibility
