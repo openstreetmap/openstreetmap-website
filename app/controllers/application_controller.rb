@@ -235,7 +235,7 @@ class ApplicationController < ActionController::Base
     e = e.cause
 
     if e.is_a?(Timeout::Error) ||
-       (e.is_a?(ActiveRecord::StatementInvalid) && e.message =~ /execution expired/)
+       (e.is_a?(ActiveRecord::StatementInvalid) && e.message.include?("execution expired"))
       render :action => "timeout"
     else
       raise

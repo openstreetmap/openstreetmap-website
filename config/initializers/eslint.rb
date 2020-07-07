@@ -3,7 +3,7 @@ if defined?(ESLintRails::Runner)
     module ESLintRails
       module ExcludeI18n
         def assets
-          super.reject { |a| a.to_s =~ %r{/i18n/} }
+          super.reject { |a| a.to_s.include?("/i18n/") }
         end
       end
     end
