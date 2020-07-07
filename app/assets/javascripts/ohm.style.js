@@ -103,7 +103,7 @@ ohmStyle = {
             ["stadium", "rgba(208, 220, 174, 1)"],
             ["grass", "rgba(208, 220, 174, 1)"],
             ["grassland", "rgba(208, 220, 174, 1)"],
-            ["garden", "rgba(208, 220, 174, 1)"],
+            ["garden", "rgba(228, 244, 202, 1)"],
             ["village_green", "rgba(208, 220, 174, 1)"],
             ["recreation_ground", "rgba(208, 220, 174, 1)"],
             ["picnic_site", "rgba(208, 220, 174, 1)"],
