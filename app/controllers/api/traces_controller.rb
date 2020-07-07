@@ -159,7 +159,7 @@ module Api
     end
 
     def offline_error
-      report_error "GPX files offline for maintenance", :service_unavailable
+      report_error "GPX files offline for maintenance", :service_unavailable if Settings.status == "gpx_offline"
     end
   end
 end
