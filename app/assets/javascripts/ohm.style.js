@@ -7,7 +7,7 @@ ohmStyle = {
     "osm": {
       "type": "vector",
       "tiles": [
-        "https://vtiles-staging.openhistoricalmap.org/maps/osm/{z}/{x}/{y}.pbf"
+        "https://vtiles.openhistoricalmap.org/maps/osm/{z}/{x}/{y}.pbf"
       ]
     }
   },
