@@ -1,5 +1,4 @@
 ohmStyle = {
-{
   "version": 8,
   "name": "ohmbasemap",
   "metadata": {"maputnik:renderer": "mbgljs"},
