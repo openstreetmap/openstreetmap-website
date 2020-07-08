@@ -29,7 +29,7 @@ class GuestAbilityTest < AbilityTest
   test "note permissions for a guest" do
     ability = Ability.new nil
 
-    [:mine].each do |action|
+    [:index].each do |action|
       assert ability.can?(action, Note), "should be able to #{action} Notes"
     end
   end
