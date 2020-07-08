@@ -1,5 +1,5 @@
 class NotesController < ApplicationController
-  layout "site", :only => [:mine]
+  layout "site"
 
   before_action :check_api_readable
   before_action :authorize_web
@@ -11,11 +11,11 @@ class NotesController < ApplicationController
 
   ##
   # Display a list of notes by a specified user
-  def mine
+  def index
     if params[:display_name]
       if @user = User.active.find_by(:display_name => params[:display_name])
         @params = params.permit(:display_name)
-        @title = t "notes.mine.title", :user => @user.display_name
+        @title = t ".title", :user => @user.display_name
         @page = (params[:page] || 1).to_i
         @page_size = 10
         @notes = @user.notes
