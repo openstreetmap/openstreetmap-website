@@ -1,7 +1,5 @@
 module Api
   class UsersController < ApiController
-    layout "site", :except => [:api_details]
-
     before_action :disable_terms_redirect, :only => [:details]
     before_action :authorize, :only => [:details, :gpx_files]
 
