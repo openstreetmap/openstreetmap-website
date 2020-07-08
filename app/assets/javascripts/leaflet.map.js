@@ -49,7 +49,7 @@ L.OSM.Map = L.Map.extend({
       }));
     }
 
-    this.baseLayers.push(new L.OSM.OPNVKarte ({
+    this.baseLayers.push(new L.OSM.OPNVKarte({
       attribution: copyright + ". " + memomaps + ". " + terms,
       code: "O",
       keyid: "opnvkarte",
