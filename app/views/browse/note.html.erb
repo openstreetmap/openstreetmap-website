@@ -24,7 +24,7 @@
   <% end -%>
 
   <% if current_user && current_user != @note.author %>
-    <p class="deemphasize"><%= report_link(t(".report"), @note) %></p>
+    <p class="text-muted"><%= report_link(t(".report"), @note) %></p>
   <% end %>
 
   <% if @note_comments.length > 1 %>
@@ -32,7 +32,7 @@
       <ul class="list-unstyled">
         <% @note_comments[1..-1].each do |comment| %>
           <li id="c<%= comment.id %>">
-            <small class='deemphasize'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
+            <small class='text-muted'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
             <%= comment.body.to_html %>
           </li>
         <% end %>

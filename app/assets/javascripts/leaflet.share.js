@@ -116,7 +116,7 @@ L.OSM.share = function (options) {
           .on("click", select))
       .append(
         $("<p>")
-          .attr("class", "deemphasize")
+          .attr("class", "text-muted")
           .text(I18n.t("javascripts.share.paste_html"))
           .appendTo($linkSection));
 
@@ -147,7 +147,7 @@ L.OSM.share = function (options) {
 
     $("<div>")
       .attr("id", "export-warning")
-      .attr("class", "deemphasize")
+      .attr("class", "text-muted")
       .text(I18n.t("javascripts.share.only_standard_layer"))
       .appendTo($imageSection);
 
@@ -223,7 +223,7 @@ L.OSM.share = function (options) {
       .appendTo($form);
 
     $("<p>")
-      .attr("class", "deemphasize")
+      .attr("class", "text-muted")
       .html(I18n.t("javascripts.share.image_size") + " <span id=\"mapnik_image_width\"></span> x <span id=\"mapnik_image_height\"></span>")
       .appendTo($form);
 

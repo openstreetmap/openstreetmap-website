@@ -34,7 +34,7 @@
           <% @comments.each do |comment| %>
             <% if comment.visible %>
               <li id="c<%= comment.id %>">
-                <small class='deemphasize'>
+                <small class='text-muted'>
                   <%= t(".commented_by",
                         :when => friendly_date_ago(comment.created_at),
                         :exact_time => l(comment.created_at),
@@ -47,7 +47,7 @@
               </li>
             <% elsif current_user and current_user.moderator? %>
               <li id="c<%= comment.id %>">
-                <small class='deemphasize'>
+                <small class='text-muted'>
                   <%= t(".hidden_commented_by",
                         :when => friendly_date_ago(comment.created_at),
                         :exact_time => l(comment.created_at),
