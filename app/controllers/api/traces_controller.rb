@@ -1,7 +1,5 @@
 module Api
   class TracesController < ApiController
-    layout "site", :except => :georss
-
     before_action :authorize_web
     before_action :set_locale
     before_action :authorize

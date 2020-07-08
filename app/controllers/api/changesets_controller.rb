@@ -2,7 +2,6 @@
 
 module Api
   class ChangesetsController < ApiController
-    layout "site"
     require "xml/libxml"
 
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
