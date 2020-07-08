@@ -19,6 +19,7 @@ L.OSM.Map = L.Map.extend({
     var donate = I18n.t("javascripts.map.donate_link_text", { donate_url: "https://donate.openstreetmap.org" });
     var terms = I18n.t("javascripts.map.terms", { terms_url: "https://wiki.osmfoundation.org/wiki/Terms_of_Use" });
     var thunderforest = I18n.t("javascripts.map.thunderforest", { thunderforest_url: "https://www.thunderforest.com/" });
+    var memomaps = I18n.t("javascripts.map.opnvkarte", { memomaps_url: "https://memomaps.de/" });
     var hotosm = I18n.t("javascripts.map.hotosm", { hotosm_url: "https://www.hotosm.org/", osmfrance_url: "https://openstreetmap.fr/" });
 
     this.baseLayers = [];
@@ -47,6 +48,13 @@ L.OSM.Map = L.Map.extend({
         name: I18n.t("javascripts.map.base.transport_map")
       }));
     }
+
+    this.baseLayers.push(new L.OSM.OPNVKarte ({
+      attribution: copyright + ". " + memomaps + ". " + terms,
+      code: "O",
+      keyid: "opnvkarte",
+      name: I18n.t("javascripts.map.base.opnvkarte")
+    }));
 
     this.baseLayers.push(new L.OSM.HOT({
       attribution: copyright + ". " + hotosm + ". " + terms,

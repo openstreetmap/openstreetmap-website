@@ -35,6 +35,14 @@ L.OSM.TransportMap = L.OSM.TileLayer.extend({
   }
 });
 
+L.OSM.OPNVKarte = L.OSM.TileLayer.extend({
+  options: {
+    url: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
+    maxZoom: 18,
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://memomaps.de/" target="_blank">MeMoMaps</a>'
+  }
+});
+
 L.OSM.HOT = L.OSM.TileLayer.extend({
   options: {
     url: 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
