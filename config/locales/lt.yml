@@ -59,6 +59,7 @@ lt:
       diary_comment: Dienoraščio komentaras
       diary_entry: Dienoraščio įrašas
       friend: Draugas
+      issue: Problema
       language: Kalba
       message: Žinutė
       node: Taškas
@@ -173,7 +174,12 @@ lt:
       description: nuotolinį valdymą (JOSM arba Merkaartor)
   auth:
     providers:
+      openid: OpenID
       google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -296,6 +302,7 @@ lt:
         tag: Žymos %{key}=%{value} wiki aprašymo puslapis
       wikidata_link: '%{page} elementas Wikidata svetainėje'
       wikipedia_link: '%{page} straipsnis Vikipedijoje'
+      wikimedia_commons_link: '%{page} Wikimedia Commons elementas'
       telephone_link: Skambinti %{phone_number}
       colour_preview: Spalvos %{colour_value} peržiūra
     note:
@@ -380,6 +387,7 @@ lt:
       in_language_title: 'Dienoraščio įrašai: %{language}'
       new: Naujas dienoraščio įrašas
       new_title: Sukurti naują mano dienoraščio įrašą
+      my_diary: Mano dienoraštis
       no_entries: Nėra dienoraščio įrašų
       recent_entries: Paskutiniai dienoraščio įrašai
       older_entries: Senesni įrašai
@@ -1020,6 +1028,7 @@ lt:
       search: Ieškoti
       status: Būsena
       last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> %{user}
       link_to_reports: Žiūrėti pranešimus
       reports_count:
         one: 1 Report
@@ -1057,8 +1066,14 @@ lt:
       ignored: Problemos būsena pakeista į „Ignoruota“
     reopen:
       reopened: Problemos būsena pakeista į „Atvira“
+    comments:
+      comment_from_html: '%{user_link} komentavo %{comment_created_at}'
+      reassign_param: Iš naujo priskirti problemą?
+    reports:
+      reported_by_html: Pranešta kaip %{category} naudotojo %{user} %{updated_at}
     helper:
       reportable_title:
+        diary_comment: '%{entry_title}, komentaras #%{comment_id}'
         note: 'Pastaba #%{note_id}'
   issue_comments:
     create:
@@ -1067,6 +1082,7 @@ lt:
     new:
       title_html: Pranešimas %{link}
       missing_params: Negalima sukurti naujo pranešimo
+      details: Prašoma pateikti daugiau informacijos apie problemą (privaloma).
       select: 'Parinktie jūsų pranešimo priežastį:'
       disclaimer:
         intro: 'Prieš siųsdami jūsų pranešimą svetainės moderatoriams, įsitikinkite,
@@ -1081,7 +1097,15 @@ lt:
           offensive_label: Dienoraššio įrašas yra įžeidžiantis
           threat_label: Dienoraščio įraše yra grasinimų
           other_label: Kita
+        diary_comment:
+          spam_label: Šiame/šis dienoraščio komentare yra reklama
+          offensive_label: Šis dienoraščio komentaras yra įžeidžiantis
+          threat_label: Šiame dienoraščio įraše yra grasinimas
+          other_label: Kita
         user:
+          spam_label: Šis naudotojo profilis yra/turi reklamos
+          offensive_label: Šis naudotojo profilis yra įžeidžiantis
+          threat_label: Šiame naudotojo profilyje yra grasinimas
           vandal_label: Šis naudotojas yra vandalas
           other_label: Kita
         note:
@@ -1385,7 +1409,7 @@ lt:
           Jūs galite laisvai platinti ir pritaikyti mūsų duomenis tol, kol paminite OpenStreetMap ir jo kūrėjus. Jei naudodamiesi mūsų duomenimis sukursite savo duomenis, jūsų duomenys irgi turi būti licencijuoti pagal tą pačią licenziją.
           <a href="http://opendatacommons.org/licenses/odbl/1.0/">Pilnas teisinis aprašymas</a> paaiškins jūsų teises ir atsakomybes.
         intro_3_1_html: |-
-          Mūsų žemėlapio duomenys ir mūsų dokumentacija yra licencijuoti pagal <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Mūsų dokumentacija yra licencijuoti pagal <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
           Commons Attribution-ShareAlike 2.0</a> licenciją (CC-BY-SA).
         credit_title_html: Kaip paminėti OpenStreetMap
         credit_1_html: |-
@@ -2473,7 +2497,7 @@ lt:
       next: Kitas »
       previous: « Ankstesnis
   notes:
-    mine:
+    index:
       title: Pastabas pateikė arba komentavo %{user}
       heading: '%{user} pastabos'
       subheading_html: Pastabas pateikė arba komentavo %{user}
