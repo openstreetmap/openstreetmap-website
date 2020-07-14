@@ -10,6 +10,8 @@
 # Author: Carsrac
 # Author: Donarreiskoffer
 # Author: Duckson32
+# Author: Dutchy45
+# Author: Eebie
 # Author: Elroy
 # Author: Esketti
 # Author: Freek
@@ -23,6 +25,7 @@
 # Author: Jochempluim
 # Author: Joost schouppe
 # Author: Jouke
+# Author: Kars
 # Author: Ldp
 # Author: Lemondoge
 # Author: M!dgard
@@ -62,7 +65,7 @@ nl:
         create: Opslaan
       diary_entry:
         create: Publiceren
-        update: Updaten
+        update: Bijwerken
       issue_comment:
         create: Opmerking toevoegen
       message:
@@ -82,7 +85,7 @@ nl:
   activerecord:
     errors:
       messages:
-        invalid_email_address: '"%s" lijkt geen geldig e-mailadres te zijn.'
+        invalid_email_address: lijkt geen geldig e-mailadres te zijn.
         email_address_not_routable: is niet routeerbaar
     models:
       acl: Rechtenoverzicht
@@ -108,6 +111,7 @@ nl:
       relation: Relatie
       relation_member: Relatielid
       relation_tag: Relatietag
+      report: Rapport
       session: Sessie
       trace: Track
       tracepoint: Trackpunt
@@ -204,6 +208,14 @@ nl:
     remote:
       name: Afstandsbediening
       description: Afstandsbediening (JOSM of Merkaartor)
+  auth:
+    providers:
+      none: Geen
+      openid: OpenID
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -418,6 +430,7 @@ nl:
       in_language_title: Dagboekberichten in het %{language}
       new: Nieuw dagboekbericht
       new_title: Nieuw bericht in mijn dagboek schrijven
+      my_diary: Mijn dagboek
       no_entries: Het dagboek is leeg
       recent_entries: Recente dagboekberichten
       older_entries: Oudere berichten
@@ -759,7 +772,7 @@ nl:
           "yes": Landgebruik
         leisure:
           beach_resort: Badplaats
-          bird_hide: Nestplaats
+          bird_hide: Vogelkijkplek
           common: Meent
           dog_park: Hondenpark
           firepit: Vuurplaats
@@ -1272,8 +1285,8 @@ nl:
         more_info_2: 'te vermijden is te vinden op:'
       success:
         subject: '[OpenStreetMap] GPX-import afgerond'
-        loaded_successfully: geladen met %{trace_points} punten van de mogelijke %{possible_points}
-          punten.
+        loaded_successfully: '{{PLURAL|one=geladen met %{trace_points} punt.|geladen
+          met %{trace_points} van de %{possible_points} mogelijke punten.'
     signup_confirm:
       subject: '[OpenStreetMap] Welkom bij OpenStreetMap'
       greeting: Hallo!
@@ -1437,8 +1450,8 @@ nl:
     about:
       next: Volgende
       copyright_html: <span>&copy;</span>OpenStreetMap-<br />bijdragers
-      used_by_html: '%{name} levert gegevens voor duizenden websites, mobiele apps
-        en hardwareimplementaties'
+      used_by_html: '%{name} levert kaart gegevens voor duizenden websites, mobiele
+        apps en hardware implementaties'
       lede_text: OpenStreetMap wordt gemaakt door een gemeenschap van kaartenmakers
         die gegevens over wegen, paden, cafés, treinstations en nog veel meer, over
         de hele wereld bijdragen en onderhouden.
@@ -1501,9 +1514,8 @@ nl:
           volledige <a href="https://opendatacommons.org/licenses/odbl/1.0/">juridische
           tekst</a> worden uw rechten en verantwoordelijkheden uitgelegd.
         intro_3_1_html: |-
-          De cartografie in onze kaarttegels en onze documentatie zijn
-          vrijgegeven onder de licentie <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Naamsvermelding-Gelijk delen 2.0</a> (CC BY-SA).
+          Onze documentatie is vrijgegeven onder de licentie <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Naamsvermelding-Gelijk delen 2.0</a> (CC BY-SA 2.0).
         credit_title_html: Hoe OpenStreetMap te vermelden
         credit_1_html: |-
           We vereisen dat u het volgende vermeldt bij gebruik:
@@ -2648,11 +2660,18 @@ nl:
         out: Uitzoomen
       locate:
         title: Uw locatie weergeven
+        metersPopup:
+          one: U bevindt zich binnen één meter van dit punt
+          other: U bevindt zich binnen %{count} meter van dit punt
+        feetPopup:
+          one: U bevindt zich binnen één voet van dit punt
+          other: U bevindt zich binnen %{count} voet van dit punt
       base:
         standard: Standaard
         cycle_map: Fietskaart
         transport_map: Transportkaart
         hot: Humanitarian
+        opnvkarte: ÖPNVKarte
       layers:
         header: Kaartlagen
         notes: Opmerkingen bij kaart
@@ -2663,6 +2682,12 @@ nl:
       copyright: © <a href='%{copyright_url}'>bijdragers OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Doneer nu</a>
       terms: <a href='%{terms_url}' target='_blank'>Website en API-voorwaarden</a>
+      thunderforest: Rasterkaart met dank aan <a href='%{thunderforest_url}' target='_blank'>Andy
+        Allan</a>
+      opnvkarte: Tegels met dank aan <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
+      hotosm: Rasterkaart in de stijl van <a href='%{hotosm_url}' target='_blank'>Humanitarian
+        OpenStreetMap Team</a> wordt gehost door <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        Frankrijk</a>
     site:
       edit_tooltip: Kaart bewerken
       edit_disabled_tooltip: Zoom in om de kaart te bewerken
