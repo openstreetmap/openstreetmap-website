@@ -49,15 +49,20 @@ OSM.initializeBrowse = function (map) {
 
   function displayFeatureWarning(count, limit, add, cancel) {
     $("#browse_status").html(
-      $("<p class='warning'></p>")
-        .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit }))
-        .prepend(
-          $("<span class='icon close'></span>")
-            .click(cancel))
+      $("<div>")
         .append(
-          $("<input type='submit'>")
-            .val(I18n.t("browse.start_rjs.load_data"))
-            .click(add)));
+          $("<h2>")
+            .text(I18n.t("browse.start_rjs.load_data"))
+            .prepend($("<span class='icon close'></span>").click(cancel)))
+        .append(
+          $("<div class='inner12'>")
+            .append(
+              $("<p class='alert alert-warning clearfix'></p>")
+                .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit })))
+            .append(
+              $("<input type='submit'>")
+                .val(I18n.t("browse.start_rjs.load_data"))
+                .click(add))));
   }
 
   var dataLoader;
