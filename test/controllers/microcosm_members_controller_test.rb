@@ -20,7 +20,7 @@ class MicrocosmMemberControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
-  def test_create
+  def test_create_when_save_works
     # arrange
     u = create(:user)
     session_for(u)
@@ -67,4 +67,79 @@ class MicrocosmMemberControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_equal I18n.t("microcosm_members.create.failure"), flash[:alert]
   end
+
+  def test_update_as_a_different_user
+    # arrange
+    mm = create(:microcosm_member) # N.b. not an organizer
+    session_for(create(:user))
+
+    # act
+    put microcosm_member_url(mm), :params => { :microcosm_member => mm.as_json }, :xhr => true
+
+    # assert
+    follow_redirect!
+    assert_response :forbidden
+  end
+
+  def test_update_when_save_works
+    # arrange
+    mm1 = create(:microcosm_member, :organizer) # original
+    session_for(mm1.user)
+    mm2 = build(:microcosm_member) # new data
+
+    # act
+    # Update mm1 with the values from mm2.
+    put microcosm_member_url(mm1), :params => { :microcosm_member => mm2.as_json }, :xhr => true
+
+    # assert
+    mm1.reload
+    # Assign the id of m1 to m2, so we can do an equality test easily.
+    mm2.id = mm1.id
+    assert_equal(mm2, mm1)
+  end
+
+  def test_update_when_save_fails
+    # arrange
+    mm = create(:microcosm_member, :organizer)
+    session_for(mm.user)
+    mm.role = "asdf" # assume does not exist
+
+    # act
+    put microcosm_member_url(mm), :params => { :microcosm_member => mm.as_json }, :xhr => true
+
+    # assert
+    assert_response :success
+    assert_template "microcosm_members/edit"
+  end
+
+  def test_delete_as_a_different_user
+    # arrange
+    mm = create(:microcosm_member) # N.b. not an organizer
+    session_for(create(:user))
+
+    # act
+    delete microcosm_member_url(mm), :xhr => true
+
+    # assert
+    follow_redirect!
+    assert_response :forbidden
+  end
+
+  def test_delete_when_destroy_works
+    # arrange
+    mm1 = create(:microcosm_member, :organizer) # original
+    session_for(mm1.user)
+    mm2 = create(:microcosm_member, :microcosm => mm1.microcosm)
+
+    # act
+    delete microcosm_member_url(mm2), :xhr => true
+
+    # assert
+    mm1.reload
+    assert_not mm1.microcosm.member?(mm2.user)
+  end
+
+  # def test_update_when_destroy_fails
+  #   # TODO: Find a way to get destroy to return false.
+  # end
 end

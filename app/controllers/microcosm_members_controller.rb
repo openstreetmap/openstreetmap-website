@@ -1,12 +1,11 @@
 class MicrocosmMembersController < ApplicationController
   layout "site"
   before_action :authorize_web
-  authorize_resource
-
   before_action :set_microcosm_member, :only => [:destroy, :edit, :update]
+  load_and_authorize_resource
 
   def create
-    membership = MicrocosmMember.new(mm_params)
+    membership = MicrocosmMember.new(create_params)
     membership.role = MicrocosmMember::Roles::MEMBER
     if membership.save
       redirect_to microcosm_path(membership.microcosm), :notice => t(".success")
@@ -19,10 +18,10 @@ class MicrocosmMembersController < ApplicationController
 
   def update
     respond_to do |format|
-      if @microcosm_member.update(mm_params)
+      if @microcosm_member.update(update_params)
         format.html { redirect_to @microcosm_member.microcosm, :notice => t(".success") }
       else
-        format.html { render :edit }
+        format.html { render :edit, :alert => t(".failure") }
       end
     end
   end
@@ -43,7 +42,11 @@ class MicrocosmMembersController < ApplicationController
     @microcosm_member = MicrocosmMember.find(params[:id])
   end
 
-  def mm_params
+  def create_params
     params.require(:microcosm_member).permit(:microcosm_id, :user_id, :role)
+  end
+
+  def update_params
+    params.require(:microcosm_member).permit(:role)
   end
 end

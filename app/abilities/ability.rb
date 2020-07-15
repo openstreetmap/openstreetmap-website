@@ -49,7 +49,9 @@ class Ability
         can [:new, :create, :step_up], Microcosm
         can [:edit, :update], Microcosm, :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER }
         can [:create], MicrocosmMember
-        can [:destroy, :edit, :update], MicrocosmMember, :microcosm => { :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER } }
+        can [:destroy, :edit, :update], MicrocosmMember do |membership|
+          membership.microcosm.organizer?(user)
+        end
         can [:new, :create, :edit, :update], Event, :microcosm => { :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER } }
 
         if user.moderator?
