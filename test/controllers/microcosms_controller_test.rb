@@ -159,12 +159,14 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     session_for(mm.user)
     m1 = mm.microcosm # original object
     m2 = build(:microcosm) # new data
+
     # act
+    # Update m1 with the values from m2.
     put microcosm_url(m1), :params => { :microcosm => m2.as_json }, :xhr => true
+
     # assert
     assert_redirected_to microcosm_path(m1)
-    # TODO: Is it better to use t() to translate?
-    assert_equal "The microcosm was successfully updated.", flash[:notice]
+    assert_equal I18n.t("microcosms.update.success"), flash[:notice]
     m1.reload
     # Assign the id of m1 to m2, so we can do an equality test easily.
     m2.id = m1.id
@@ -182,7 +184,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   #   # act
   #   put microcosm_url(m1), params: {:microcosm => m1.as_json}, xhr: true
   #   # assert
-  #   assert_equal "The microcosm did not update successfully.", flash[:notice]
+  #   assert_equal I18n.t("microcosms.update.failure"), flash[:notice]
   #   assert_template "microcosms/edit"
   # end
 
@@ -238,6 +240,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     end
 
     # assert
+    assert_equal I18n.t("microcosms.create.success"), flash[:notice]
     m_new = Microcosm.find_by(:slug => m_new_slug)
     # Assign the id m_new to m_orig, so we can do an equality test easily.
     m_orig.id = m_new.id
