@@ -81,11 +81,11 @@ $(document).ready(function () {
     var windowWidth = $(window).width();
 
     if (windowWidth < compactWidth) {
-      $("body").removeClass("compact").addClass("small");
+      $("body").removeClass("compact-nav").addClass("small-nav");
     } else if (windowWidth < headerWidth) {
-      $("body").addClass("compact").removeClass("small");
+      $("body").addClass("compact-nav").removeClass("small-nav");
     } else {
-      $("body").removeClass("compact").removeClass("small");
+      $("body").removeClass("compact-nav").removeClass("small-nav");
     }
   }
 
@@ -100,13 +100,13 @@ $(document).ready(function () {
       headerWidth = headerWidth + $(e).outerWidth();
     });
 
-    $("body").addClass("compact");
+    $("body").addClass("compact-nav");
 
     $("header").children(":visible").each(function (i, e) {
       compactWidth = compactWidth + $(e).outerWidth();
     });
 
-    $("body").removeClass("compact");
+    $("body").removeClass("compact-nav");
 
     updateHeader();
 
