@@ -1,7 +1,5 @@
 module Api
   class TracesController < ApiController
-    layout "site", :except => :georss
-
     before_action :authorize_web
     before_action :set_locale
     before_action :authorize
@@ -12,7 +10,7 @@ module Api
     before_action :check_database_writable, :only => [:create, :update, :destroy]
     before_action :check_api_readable, :only => [:show, :data]
     before_action :check_api_writable, :only => [:create, :update, :destroy]
-    before_action :offline_redirect, :only => [:create, :destroy, :data]
+    before_action :offline_error, :only => [:create, :destroy, :data]
     around_action :api_call_handle_error
 
     def show
@@ -158,8 +156,8 @@ module Api
       trace
     end
 
-    def offline_redirect
-      redirect_to :action => :offline if Settings.status == "gpx_offline"
+    def offline_error
+      report_error "GPX files offline for maintenance", :service_unavailable if Settings.status == "gpx_offline"
     end
   end
 end

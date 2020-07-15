@@ -1,7 +1,5 @@
 module Api
   class NotesController < ApiController
-    layout "site", :only => [:mine]
-
     before_action :check_api_readable
     before_action :setup_user_auth, :only => [:create, :comment, :show]
     before_action :authorize, :only => [:close, :reopen, :destroy, :comment]

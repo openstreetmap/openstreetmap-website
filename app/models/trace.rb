@@ -120,10 +120,10 @@ class Trace < ApplicationRecord
 
   def mime_type
     filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
-    gzipped = filetype =~ /gzip compressed/
-    bzipped = filetype =~ /bzip2 compressed/
-    zipped = filetype =~ /Zip archive/
-    tarred = filetype =~ /tar archive/
+    gzipped = filetype.include?("gzip compressed")
+    bzipped = filetype.include?("bzip2 compressed")
+    zipped = filetype.include?("Zip archive")
+    tarred = filetype.include?("tar archive")
 
     mimetype = if gzipped
                  "application/x-gzip"
@@ -142,10 +142,10 @@ class Trace < ApplicationRecord
 
   def extension_name
     filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
-    gzipped = filetype =~ /gzip compressed/
-    bzipped = filetype =~ /bzip2 compressed/
-    zipped = filetype =~ /Zip archive/
-    tarred = filetype =~ /tar archive/
+    gzipped = filetype.include?("gzip compressed")
+    bzipped = filetype.include?("bzip2 compressed")
+    zipped = filetype.include?("Zip archive")
+    tarred = filetype.include?("tar archive")
 
     extension = if tarred && gzipped
                   ".tar.gz"
@@ -211,10 +211,10 @@ class Trace < ApplicationRecord
 
   def xml_file
     filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
-    gzipped = filetype =~ /gzip compressed/
-    bzipped = filetype =~ /bzip2 compressed/
-    zipped = filetype =~ /Zip archive/
-    tarred = filetype =~ /tar archive/
+    gzipped = filetype.include?("gzip compressed")
+    bzipped = filetype.include?("bzip2 compressed")
+    zipped = filetype.include?("Zip archive")
+    tarred = filetype.include?("tar archive")
 
     if gzipped || bzipped || zipped || tarred
       file = Tempfile.new("trace.#{id}")

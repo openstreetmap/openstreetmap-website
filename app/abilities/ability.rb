@@ -17,7 +17,7 @@ class Ability
       can [:index, :feed], Changeset
       can :index, ChangesetComment
       can [:index, :rss, :show, :comments], DiaryEntry
-      can [:mine], Note
+      can [:index], Note
       can [:index, :show], Redaction
       can [:index, :show, :data, :georss, :picture, :icon], Trace
       can [:terms, :login, :logout, :new, :create, :save, :confirm, :confirm_resend, :confirm_email, :lost_password, :reset_password, :show, :auth_success, :auth_failure], User

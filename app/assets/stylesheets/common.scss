@@ -30,11 +30,6 @@ small, aside {
 
 #container { position: relative; }
 
-.column-1 {
-  width: 50%;
-  margin: 0 0 $lineheight/2 0;
-}
-
 .small_icon {
   vertical-align: middle;
   margin-right: $lineheight/4;
@@ -99,6 +94,10 @@ a {
   a {
     color: $blue;
   }
+}
+
+.text-muted a {
+  color: $blue;
 }
 
 /* Rules for the header */
@@ -1196,16 +1195,6 @@ tr.turn:hover {
   background: $lightgrey;
 }
 
-.content-body {
-  h1, h2, h3, p, ul, ol {
-    margin-bottom: $lineheight;
-  }
-
-  h1, h2, h3 {
-    margin-top: $lineheight/2;
-  }
-}
-
 .content-inner {
   position: relative;
   max-width: 900px;
@@ -1271,12 +1260,15 @@ tr.turn:hover {
 /* Rules for small maps in content areas */
 
 .content_map {
-  position: relative;
-  width: 45%;
-  height: 400px;
+  height: 200px;
   border: 1px solid $grey;
   margin-bottom: $lineheight;
-  float: right;
+}
+
+@include media-breakpoint-up(md) {
+  .content_map {
+    height: 400px;
+  }
 }
 
 /* Rules for the new trace form */
@@ -1306,20 +1298,13 @@ tr.turn:hover {
 /* Rules for the user profile page */
 
 #userinformation {
-
   min-height: 100px;
   .userinformation-inner {
     float: left;
   }
-  h2 {
-    margin-top: 0;
-  }
   .user-description {
     width: 100%;
     clear: both;
-  }
-  .deemphasize {
-    margin: 0;
   }
 }
 
@@ -1327,16 +1312,6 @@ tr.turn:hover {
   margin-bottom: $lineheight/2;
   display: inline;
   margin-right: $lineheight;
-}
-
-.activity-block {
-  clear: left;
-  border-bottom: 1px solid $grey;
-  padding-bottom: $lineheight;
-  float: left;
-  h3 {
-    margin-bottom: $lineheight/2;
-  }
 }
 
 .contact-activity {
@@ -1417,7 +1392,7 @@ tr.turn:hover {
     margin-top: $lineheight/2;
   }
 
-  &.deemphasize {
+  &.deleted {
     background-color: #fee;
   }
 
@@ -1472,7 +1447,7 @@ tr.turn:hover {
       padding-top: $lineheight;
       border-top: 1px solid $grey;
     }
-    &.deemphasize {
+    &.deleted {
       background-color: #fee;
     }
     p {
@@ -1567,11 +1542,6 @@ tr.turn:hover {
   display: inline !important;
 }
 
-.content_map.settings_map {
-  width: 50%;
-  float: none;
-}
-
 /* Rules for the oauth settings page */
 
 .oauth_clients .buttons .oauth-edit {
@@ -1638,17 +1608,6 @@ tr.turn:hover {
 
 .inbox-row-unread .inbox-mark-unread {
   display: none;
-}
-
-.messages-show .message-buttons {
-  margin-top: $lineheight;
-  margin-bottom: $lineheight * 1.5;
-  padding-top: $lineheight;
-  border-top: 1px solid $lightgrey;
-}
-
-.messages-show .buttons .mark-unread-button {
-  border-radius: 0;
 }
 
 /* Rules for "flash" notice boxes shown at the top of the content area */
