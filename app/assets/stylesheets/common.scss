@@ -35,10 +35,6 @@ small, aside {
   margin-right: $lineheight/4;
 }
 
-.red { color: $red; }
-
-.piwik { border: 0; }
-
 [dir=rtl] { /* no-r2 */ text-align: right; }
 
 [dir=ltr] { /* no-r2 */ text-align: left; }
@@ -80,7 +76,6 @@ small, aside {
 a {
   color: #24d;
   text-decoration: none;
-  -webkit-appearance: none;
   outline: 0;
   &:hover {
     text-decoration: underline;
@@ -271,7 +266,7 @@ nav.primary, nav.secondary {
   display: none;
 }
 
-body.compact {
+body.compact-nav {
   #compact-secondary-nav {
     display: inline-block;
   }
@@ -1511,13 +1506,6 @@ tr.turn:hover {
 
 /* Rules for the account settings page */
 
-#accountForm .user_map {
-  position: relative;
-  width: 500px;
-  height: 400px;
-  border: 1px solid $grey;
-}
-
 #accountForm .user_image {
   margin-bottom: 0;
 }
@@ -2218,9 +2206,15 @@ input.richtext_title[type="text"] {
       display: block;
       color: white;
       font-weight: 300;
-      font-size: 34px;
+      font-size: 28px;
       span {
         color: $vibrant-green;
+      }
+    }
+
+    @include media-breakpoint-up(sm) {
+      h1 {
+        font-size: 34px;
       }
     }
 
@@ -2298,9 +2292,4 @@ input.richtext_title[type="text"] {
   .header-illustration.new-user-arm {
     display: none;
   }
-}
-
-.read-reports {
-  background: $lightgrey;
-  opacity: 0.7;
 }
