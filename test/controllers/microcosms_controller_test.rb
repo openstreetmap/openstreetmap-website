@@ -1,4 +1,5 @@
 require "test_helper"
+require "minitest/mock"
 
 class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   ##
@@ -226,7 +227,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   end
 
   # also tests add_first_organizer
-  def test_create
+  def test_create_when_save_works
     # arrange
     u = create(:user)
     session_for(u)
@@ -246,6 +247,44 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     m_orig.id = m_new.id
     assert_equal(m_orig, m_new)
     assert_equal m_new.organizers[0].user, u
+  end
+
+  def test_create_when_save_fails
+    # arrange
+    u = create(:user)
+    session_for(u)
+    m = create(:microcosm)
+
+    # Can't stub :save on Microcosm because save is not a method that Microcosm
+    # will respond_to?  Only an instance of Microcosm will repond_to :save.
+
+    mic_mock = Minitest::Mock.new
+    mic_mock.expect :save, false
+
+    # Not a true Mock, because I needs the rest of the controller's methods there.
+    # num_calls = 0
+    controller_mock = MicrocosmsController.new
+    def controller_mock.render(partial)
+      # Evidently it's not even called, but if it's not overridden, rendering
+      # will happen and dive into new.html.erb and _form.html.erb.  That
+      # necessitates mocking more methods.
+      #
+      # assert_equal "new", partial
+      # num_calls += 1
+    end
+    # assert_equal 1, num_calls
+
+    # act
+    MicrocosmsController.stub :new, controller_mock do
+      Microcosm.stub :new, mic_mock do
+        assert_difference "Microcosm.count", 0 do
+          post microcosms_url, :params => { :microcosm => m.as_json }, :xhr => true
+        end
+      end
+    end
+
+    # assert
+    assert_equal I18n.t("microcosms.create.failure"), flash[:alert]
   end
 
   def test_step_up_non_member

@@ -47,7 +47,8 @@ class MicrocosmsController < ApplicationController
     if @microcosm.save && add_first_organizer
       redirect_to @microcosm, :notice => t(".success")
     else
-      redirect_to edit_microcosm_path(@microcosms), :alert => t(".failure")
+      flash[:alert] = t(".failure")
+      render "new"
     end
   end
 
