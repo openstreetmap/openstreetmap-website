@@ -26,7 +26,8 @@ class ExportController < ApplicationController
 
   def embed
     append_content_security_policy_directives(
-      :frame_ancestors => %w[*]
+      :frame_ancestors => %w[*],
+      :img_src => %w[*.global.ssl.fastly.net]
     )
   end
 end
