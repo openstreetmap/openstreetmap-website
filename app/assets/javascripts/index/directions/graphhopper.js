@@ -26,7 +26,6 @@ function GraphHopperEngine(id, vehicleType) {
           "vehicle": vehicleType,
           "locale": I18n.currentLocale(),
           "key": "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
-          "ch.disable": vehicleType === "car",
           "elevation": false,
           "instructions": true,
           "turn_costs": true,
