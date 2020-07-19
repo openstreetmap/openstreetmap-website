@@ -23,13 +23,13 @@ function GraphHopperEngine(id, vehicleType) {
       return $.ajax({
         url: OSM.GRAPHHOPPER_URL,
         data: {
-          "vehicle": vehicleType,
-          "locale": I18n.currentLocale(),
-          "key": "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
-          "elevation": false,
-          "instructions": true,
-          "turn_costs": true,
-          "point": points.map(function (p) { return p.lat + "," + p.lng; })
+          vehicle: vehicleType,
+          locale: I18n.currentLocale(),
+          key: "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
+          elevation: false,
+          instructions: true,
+          turn_costs: true,
+          point: points.map(function (p) { return p.lat + "," + p.lng; })
         },
         traditional: true,
         dataType: "json",
