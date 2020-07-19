@@ -1,2 +1,0 @@
-class EventOrganizersController < ApplicationController
-end
