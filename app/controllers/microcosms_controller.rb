@@ -28,12 +28,11 @@ class MicrocosmsController < ApplicationController
   def edit; end
 
   def update
-    respond_to do |format|
-      if @microcosm.update(microcosm_params)
-        format.html { redirect_to @microcosm, :notice => t(".success") }
-      else
-        format.html { render :edit, :alert => t(".failure") }
-      end
+    if @microcosm.update(microcosm_params)
+      redirect_to @microcosm, :notice => t(".success")
+    else
+      flash[:alert] = t(".failure")
+      render :edit
     end
   end
 

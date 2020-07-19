@@ -174,20 +174,36 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     assert_equal(m2, m1)
   end
 
-  # Not sure how to get this to fail.  "apple" is type_cast'ed to 0.  update() doesn't
-  # return falsy?
-  # def test_update_put_failure
-  #   # arrange
-  #   mm = create(:microcosm_member, :organizer)
-  #   session_for(mm.user)
-  #   m1 = mm.microcosm # original object
-  #   m1.latitude = "apple"
-  #   # act
-  #   put microcosm_url(m1), params: {:microcosm => m1.as_json}, xhr: true
-  #   # assert
-  #   assert_equal I18n.t("microcosms.update.failure"), flash[:notice]
-  #   assert_template "microcosms/edit"
-  # end
+  def test_update_put_failure
+    # arrange
+    mm = create(:microcosm_member, :organizer)
+    session_for(mm.user)
+    m1 = mm.microcosm # original object
+    def m1.update(params)
+      false
+    end
+
+    controller_mock = MicrocosmsController.new
+    def controller_mock.set_microcosm
+      @microcosm = Microcosm.new
+    end
+    def controller_mock.render(partial)
+      # Can't do assert_equal here.
+      # assert_equal :edit, partial
+    end
+
+    # act
+    MicrocosmsController.stub :new, controller_mock do
+      Microcosm.stub :new, m1 do
+        assert_difference "Microcosm.count", 0 do
+          put microcosm_url(m1), params: {:microcosm => m1.as_json}, xhr: true
+        end
+      end
+    end
+
+    # assert
+    assert_equal I18n.t("microcosms.update.failure"), flash[:alert]
+  end
 
   def test_new_no_login
     # Make sure that you are redirected to the login page when you
