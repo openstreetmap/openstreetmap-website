@@ -1,4 +1,5 @@
 require "test_helper"
+require "minitest/mock"
 
 class MicrocosmMemberControllerTest < ActionDispatch::IntegrationTest
   test "test routes" do
@@ -47,6 +48,7 @@ class MicrocosmMemberControllerTest < ActionDispatch::IntegrationTest
     assert_equal mm_new.user, u
   end
 
+  # This test could also mock controller.save like the other tests.
   def test_create_when_save_fails
     # arrange
     u = create(:user)
@@ -139,7 +141,35 @@ class MicrocosmMemberControllerTest < ActionDispatch::IntegrationTest
     assert_not mm1.microcosm.member?(mm2.user)
   end
 
-  # def test_update_when_destroy_fails
-  #   # TODO: Find a way to get destroy to return false.
-  # end
+  def test_delete_when_destroy_fails
+    # arrange
+    mm = create(:microcosm_member, :organizer)
+    session_for(mm.user)
+    # Customize this instance so delete returns false.
+    def mm.destroy
+      false
+    end
+
+    controller_mock = MicrocosmMembersController.new
+    def controller_mock.set_microcosm_member
+      @microcosm_member = MicrocosmMember.new
+    end
+
+    def controller_mock.render(_partial)
+      # Can't do assert_equal here.
+      # assert_equal :edit, partial
+    end
+
+    # act
+    MicrocosmMembersController.stub :new, controller_mock do
+      MicrocosmMember.stub :new, mm do
+        assert_difference "MicrocosmMember.count", 0 do
+          delete microcosm_member_url(mm), :xhr => true
+        end
+      end
+    end
+
+    # assert
+    assert_equal I18n.t("microcosm_members.destroy.failure"), flash[:alert]
+  end
 end

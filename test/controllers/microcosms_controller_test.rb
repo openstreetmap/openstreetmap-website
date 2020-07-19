@@ -179,7 +179,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     mm = create(:microcosm_member, :organizer)
     session_for(mm.user)
     m1 = mm.microcosm # original object
-    def m1.update(params)
+    def m1.update(_params)
       false
     end
 
@@ -187,7 +187,8 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     def controller_mock.set_microcosm
       @microcosm = Microcosm.new
     end
-    def controller_mock.render(partial)
+
+    def controller_mock.render(_partial)
       # Can't do assert_equal here.
       # assert_equal :edit, partial
     end
@@ -196,7 +197,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     MicrocosmsController.stub :new, controller_mock do
       Microcosm.stub :new, m1 do
         assert_difference "Microcosm.count", 0 do
-          put microcosm_url(m1), params: {:microcosm => m1.as_json}, xhr: true
+          put microcosm_url(m1), :params => { :microcosm => m1.as_json }, :xhr => true
         end
       end
     end

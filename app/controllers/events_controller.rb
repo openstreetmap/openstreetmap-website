@@ -21,18 +21,14 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    # TODO: Do we need a transaction here?
     @event = Event.new(event_params)
     @event_organizer = EventOrganizer.new(:event => @event, :user => current_user)
 
-    respond_to do |format|
-      if @event.save && @event_organizer.save
-        format.html { redirect_to @event, :notice => t(".success") }
-        format.json { render :show, :status => :created, :location => @event }
-      else
-        format.html { render :new }
-        format.json { render :json => @event.errors, :status => :unprocessable_entity }
-      end
+    if @event.save && @event_organizer.save
+      redirect_to @event, :notice => t(".success")
+    else
+      flash[:alert] = t(".failure")
+      render :new
     end
   end
 
@@ -40,12 +36,11 @@ class EventsController < ApplicationController
   def edit; end
 
   def update
-    respond_to do |format|
-      if @event.update(event_params)
-        format.html { redirect_to @event, :notice => t(".success") }
-      else
-        format.html { render :edit }
-      end
+    if @event.update(event_params)
+      redirect_to @event, :notice => t(".success")
+    else
+      flash[:alert] = t(".failure")
+      render :edit
     end
   end
 

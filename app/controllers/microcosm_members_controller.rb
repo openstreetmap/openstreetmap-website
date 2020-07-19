@@ -17,22 +17,20 @@ class MicrocosmMembersController < ApplicationController
   def edit; end
 
   def update
-    respond_to do |format|
-      if @microcosm_member.update(update_params)
-        format.html { redirect_to @microcosm_member.microcosm, :notice => t(".success") }
-      else
-        format.html { render :edit, :alert => t(".failure") }
-      end
+    if @microcosm_member.update(update_params)
+      redirect_to @microcosm_member.microcosm, :notice => t(".success")
+    else
+      flash[:alert] = t(".failure")
+      render :edit
     end
   end
 
   def destroy
-    respond_to do |format|
-      if @microcosm_member.destroy
-        format.html { redirect_to @microcosm_member.microcosm, :notice => t(".success") }
-      else
-        format.html { render :edit, :notice => t(".failure") }
-      end
+    if @microcosm_member.destroy
+      redirect_to @microcosm_member.microcosm, :notice => t(".success")
+    else
+      flash[:alert] = t(".failure")
+      render :edit
     end
   end
 

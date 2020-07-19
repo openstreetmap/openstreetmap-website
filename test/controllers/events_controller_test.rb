@@ -1,4 +1,5 @@
 require "test_helper"
+require "minitest/mock"
 
 class EventsControllerTest < ActionDispatch::IntegrationTest
   def test_routes
@@ -110,7 +111,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
   end
 
   # also tests application_controller::nilify
-  def test_create
+  def test_create_when_save_works
     # arrange
     u = create(:user)
     session_for(u)
@@ -128,6 +129,35 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     # Assign the id e_new to e_orig, so we can do an equality test easily.
     e_orig.id = e_new.id
     assert_equal(e_orig, e_new)
+  end
+
+  def test_create_when_save_fails
+    # arrange
+    mm = create(:microcosm_member, :organizer)
+    session_for(mm.user)
+
+    ev = create(:event, :microcosm => mm.microcosm)
+    # Customize this instance.
+    def ev.save
+      false
+    end
+
+    controller_mock = EventsController.new
+    def controller_mock.render(_partial)
+      # TODO: Would be nice to verify :new was rendered.
+    end
+
+    # act
+    EventsController.stub :new, controller_mock do
+      Event.stub :new, ev do
+        assert_difference "Event.count", 0 do
+          post events_url, :params => { :event => ev.as_json }, :xhr => true
+        end
+      end
+    end
+
+    # assert
+    assert_equal I18n.t("events.create.failure"), flash[:alert]
   end
 
   def test_update_put_organizer
@@ -158,5 +188,37 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     put event_url(e1), :params => { :event => e2.as_json }, :xhr => true
     # assert
     assert_redirected_to :controller => :errors, :action => :forbidden
+  end
+
+  def test_update_put_failure
+    # arrange
+    mm = create(:microcosm_member, :organizer)
+    session_for(mm.user)
+    ev = create(:event, :microcosm => mm.microcosm)
+    def ev.update(_params)
+      false
+    end
+
+    controller_mock = EventsController.new
+    def controller_mock.set_event
+      @event = Event.new
+    end
+
+    def controller_mock.render(_partial)
+      # Can't do assert_equal here.
+      # assert_equal :edit, partial
+    end
+
+    # act
+    EventsController.stub :new, controller_mock do
+      Event.stub :new, ev do
+        assert_difference "Event.count", 0 do
+          put event_url(ev), :params => { :event => ev.as_json }, :xhr => true
+        end
+      end
+    end
+
+    # assert
+    assert_equal I18n.t("events.update.failure"), flash[:alert]
   end
 end
