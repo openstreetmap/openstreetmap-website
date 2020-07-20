@@ -969,6 +969,7 @@ bn:
       resolve: মীমাংসা করুন
       ignore: উপেক্ষা করুন
       reopen: নতুন করে চালু করুন
+      reports_of_this_issue: এই সমস্যা প্রতিবেদন করুন
       read_reports: প্রতিবেদন পড়ুন
       new_reports: নতুন প্রতিবেদন
     helper:
@@ -1034,15 +1035,21 @@ bn:
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} একটি দিনলিপির ভুক্তিতে মন্তব্য করেছেন'
-      hi: হাই %{to_user},
+      hi: সুপ্রিয় %{to_user},
+      footer: এছাড়া আপনি %{readurl} এ মন্তব্যটি পড়তে পারেন এবং আপনি %{commenturl}
+        এ মন্তব্য করতে পারেন বা %{replyurl} এ উত্তর দিতে পারেন
     message_notification:
-      hi: হাই %{to_user},
+      hi: সুপ্রিয় %{to_user},
+      header: '%{from_user} ওপেনস্ট্রীটম্যাপের মাধ্যমে আপনাকে একটি বার্তা পাঠিয়েছেন
+        যার বিষয় হল %{subject}:'
+      footer_html: এছাড়া আপনি %{readurl} এ মন্তব্যটি পড়তে পারেন এবং %{replyurl}
+        এ উত্তর দিতে পারেন
     friendship_notification:
       hi: প্রিয় %{to_user},
       had_added_you: '%{user} আপনাকে ওপেনস্ট্রীটম্যাপে বন্ধু হিসেবে যোগ করেছেন।'
       see_their_profile: আপনি %{userurl}-এ তাদের প্রোফাইল দেখতে পারেন।
     gpx_notification:
-      greeting: হাই,
+      greeting: সুপ্রিয়,
       with_description: বিবরণ সহ
       and_the_tags: 'এবং নিম্নলিখিত ট্যাগ:'
     signup_confirm:
@@ -1053,40 +1060,41 @@ bn:
     email_confirm:
       subject: '[OpenStreetMap] আপনার ইমেইল ঠিকানা নিশ্চিত করুন'
     email_confirm_plain:
-      greeting: হাই,
+      greeting: সুপ্রিয়,
       click_the_link: এটি যদি আপনি হন, দয়া করে পরিবর্তন নিশ্চিত করতে নিচের লিংকে
         ক্লিক করুন।
     email_confirm_html:
-      greeting: হাই,
+      greeting: সুপ্রিয়,
       click_the_link: এটি যদি আপনি হন, দয়া করে পরিবর্তন নিশ্চিত করতে নিচের লিংকে
         ক্লিক করুন।
     lost_password:
       subject: '[ওপেনস্ট্রীটম্যাপ] পাসওয়ার্ড পুনঃধার্য করার অনুরোধ'
     lost_password_plain:
-      greeting: হাই,
+      greeting: সুপ্রিয়,
       hopefully_you: কোনো একজন (সম্ভবত আপনি) এই ইমেইল ঠিকানার সাথে যুক্ত openstreetmap.org
         অ্যাকাউন্টের পাসওয়ার্ড পরিবর্তনের অনুরোধ করেছেন।
       click_the_link: এটি যদি আপনি হন, তবে পাসওয়ার্ড পুনঃধার্য করতে দয়া করে নিচের
         লিংকে ক্লিক করুন।
     lost_password_html:
-      greeting: হাই,
+      greeting: সুপ্রিয়,
       hopefully_you: কোনো একজন (সম্ভবত আপনি) এই ইমেইল ঠিকানার সাথে যুক্ত openstreetmap.org
         অ্যাকাউন্টের পাসওয়ার্ড পরিবর্তনের অনুরোধ করেছেন।
       click_the_link: এটি যদি আপনি হন, তবে পাসওয়ার্ড পুনঃধার্য করতে দয়া করে নিচের
         লিংকে ক্লিক করুন।
     note_comment_notification:
       anonymous: একজন বেনামি ব্যবহারকারী
-      greeting: হাই,
+      greeting: সুপ্রিয়,
       details: টীকাটি সম্পর্কে আরও বিস্তারিত %{url} এ পাওয়া যাবে।
     changeset_comment_notification:
       hi: সুপ্রিয় %{to_user},
-      greeting: হাই,
+      greeting: সুপ্রিয়,
       details: পরিবর্তনধার্য সম্পর্কে আরও বিস্তারিত %{url} এ পাওয়া যাবে।
   messages:
     inbox:
       title: ইনবক্স
       my_inbox: আমার ইনবক্স
       outbox: আউটবক্স
+      messages: আপনার %{new_messages} ও %{old_messages} রয়েছে
       new_messages:
         one: '%{count}টি নতুন বার্তা'
         other: '%{count}টি নতুন বার্তা'
@@ -1120,6 +1128,9 @@ bn:
       my_inbox_html: আমার %{inbox_link}
       inbox: অন্তঃবাক্স
       outbox: বহির্বাক্স
+      messages:
+        one: আপনি %{count}টি বার্তা পাঠিয়েছেন
+        other: আপনি %{count}টি বার্তা পাঠিয়েছেন
       to: প্রাপক
       subject: বিষয়
       date: তারিখ
@@ -1145,6 +1156,11 @@ bn:
     about:
       next: পরবর্তী
       copyright_html: <span>&copy;</span>ওপেনস্ট্রীটম্যাপ<br>অবদানকারী
+      used_by_html: '%{name} হাজার হাজার ওয়েবসাইট, মোবাইল অ্যাপ্লিকেশন এবং হার্ডওয়্যার
+        ডিভাইসের জন্য মানচিত্রের উপাত্ত সরবরাহ করে'
+      lede_text: ওপেনস্ট্রীটম্যাপ মানচিত্রাঙ্কনকারীদের একটি সম্প্রদায় দ্বারা নির্মিত
+        যা সারা বিশ্বের রাস্তা, গমনপথ, ক্যাফে, রেলস্টেশন এবং আরও অনেক কিছু সম্পর্কিত
+        উপাত্ত যোগ ও রক্ষণাবেক্ষণ করে।
       local_knowledge_title: স্থানীয় অভিজ্ঞতা
       community_driven_title: সম্প্রদায় চালক
       open_data_title: মুক্ত তথ্য
@@ -1505,6 +1521,7 @@ bn:
       my diary: আমার দিনলিপি
       new diary entry: নতুন দিনলিপির ভুক্তি
       my edits: আমার সম্পাদনা
+      my notes: আমার নোট
       my messages: আমার বার্তাসমূহ
       my profile: আমার প্রোফাইল
       my settings: আমার সেটিংস
@@ -1518,6 +1535,7 @@ bn:
       mapper since: 'এ থেকে মানচিত্র বানাচ্ছেন:'
       ct undecided: সিদ্ধান্তহীন
       ct declined: বাতিলকৃত
+      latest edit: 'সর্বশেষ সম্পাদনা করেন (%{ago}):'
       email address: 'ই-মেইল ঠিকানা:'
       description: বিবরণ
       user location: ব্যবহারকারীর অবস্থান
