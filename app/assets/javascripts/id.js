@@ -5,24 +5,26 @@
 document.addEventListener("DOMContentLoaded", function () {
   var container = document.getElementById("id-container");
 
-  if (typeof iD === "undefined" || !iD.Detect().support) {
+  if (typeof iD === "undefined" || !iD.utilDetect().support) {
     container.innerHTML = "This editor is supported " +
       "in Firefox, Chrome, Safari, Opera, Edge, and Internet Explorer 11. " +
       "Please upgrade your browser or use Potlatch 2 to edit the map.";
     container.className = "unsupported";
   } else {
-    var id = iD.Context()
+    var id = iD.coreContext()
       .embed(true)
       .assetPath("iD/")
       .assetMap(JSON.parse(container.dataset.assetMap))
-      .locale(container.dataset.locale, container.dataset.localePath)
+      .locale(container.dataset.locale)
       .preauth({
         urlroot: location.protocol + "//" + location.host,
         oauth_consumer_key: container.dataset.consumerKey,
         oauth_secret: container.dataset.consumerSecret,
         oauth_token: container.dataset.token,
         oauth_token_secret: container.dataset.tokenSecret
-      });
+      })
+      .containerNode(container)
+      .init();
 
     id.map().on("move.embed", parent.$.throttle(250, function () {
       if (id.inIntro()) return;
@@ -52,7 +54,5 @@ document.addEventListener("DOMContentLoaded", function () {
           Math.max(data.zoom || 15, 13));
       }, 0);
     });
-
-    id.ui()(container);
   }
 });
