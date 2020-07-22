@@ -17,7 +17,7 @@ class SiteController < ApplicationController
 
   def permalink
     lon, lat, zoom = ShortLink.decode(params[:code])
-    new_params = params.except(:code, :lon, :lat, :zoom, :layers, :node, :way, :relation, :changeset)
+    new_params = params.except(:host, :controller, :action, :code, :lon, :lat, :zoom, :layers, :node, :way, :relation, :changeset)
 
     if new_params.key? :m
       new_params.delete :m
@@ -25,31 +25,24 @@ class SiteController < ApplicationController
       new_params[:mlon] = lon
     end
 
-    if params.key? :node
-      new_params[:controller] = "browse"
-      new_params[:action] = "node"
-      new_params[:id] = params[:node]
-    elsif params.key? :way
-      new_params[:controller] = "browse"
-      new_params[:action] = "way"
-      new_params[:id] = params[:way]
-    elsif params.key? :relation
-      new_params[:controller] = "browse"
-      new_params[:action] = "relation"
-      new_params[:id] = params[:relation]
-    elsif params.key? :changeset
-      new_params[:controller] = "browse"
-      new_params[:action] = "changeset"
-      new_params[:id] = params[:changeset]
-    else
-      new_params[:controller] = "site"
-      new_params[:action] = "index"
-    end
-
     new_params[:anchor] = "map=#{zoom}/#{lat}/#{lon}"
     new_params[:anchor] += "&layers=#{params[:layers]}" if params.key? :layers
 
-    redirect_to new_params.to_unsafe_h
+    options = new_params.to_unsafe_h.to_options
+
+    path = if params.key? :node
+             node_path(params[:node], options)
+           elsif params.key? :way
+             way_path(params[:way], options)
+           elsif params.key? :relation
+             relation_path(params[:relation], options)
+           elsif params.key? :changeset
+             changeset_path(params[:changeset], options)
+           else
+             root_url(options)
+           end
+
+    redirect_to path
   end
 
   def key
@@ -166,6 +159,6 @@ class SiteController < ApplicationController
       anchor << "layers=N"
     end
 
-    redirect_to params.to_unsafe_h.merge(:anchor => anchor.join("&")) if anchor.present?
+    redirect_to params.to_unsafe_h.merge(:only_path => true, :anchor => anchor.join("&")) if anchor.present?
   end
 end

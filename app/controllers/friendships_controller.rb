@@ -27,7 +27,7 @@ class FriendshipsController < ApplicationController
         end
 
         if params[:referer]
-          redirect_to params[:referer]
+          redirect_to safe_referer(params[:referer])
         else
           redirect_to user_path
         end
@@ -50,7 +50,7 @@ class FriendshipsController < ApplicationController
         end
 
         if params[:referer]
-          redirect_to params[:referer]
+          redirect_to safe_referer(params[:referer])
         else
           redirect_to user_path
         end

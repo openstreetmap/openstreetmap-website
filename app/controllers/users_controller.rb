@@ -43,7 +43,7 @@ class UsersController < ApplicationController
         flash[:notice] = t("users.new.terms declined", :url => t("users.new.terms declined url")).html_safe if current_user.save
 
         if params[:referer]
-          redirect_to params[:referer]
+          redirect_to safe_referer(params[:referer])
         else
           redirect_to :action => :account, :display_name => current_user.display_name
         end
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
       end
 
       if params[:referer]
-        redirect_to params[:referer]
+        redirect_to safe_referer(params[:referer])
       else
         redirect_to :action => :account, :display_name => current_user.display_name
       end
@@ -198,7 +198,11 @@ class UsersController < ApplicationController
 
   def new
     @title = t "users.new.title"
-    @referer = params[:referer] || session[:referer]
+    @referer = if params[:referer]
+                 safe_referer(params[:referer])
+               else
+                 session[:referer]
+               end
 
     append_content_security_policy_directives(
       :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
@@ -231,7 +235,9 @@ class UsersController < ApplicationController
     self.current_user = User.new(user_params)
 
     if check_signup_allowed(current_user.email)
-      session[:referer] = params[:referer]
+      session[:referer] = safe_referer(params[:referer]) if params[:referer]
+
+      Rails.logger.info "create: #{session[:referer]}"
 
       current_user.status = "pending"
 
@@ -258,7 +264,7 @@ class UsersController < ApplicationController
   end
 
   def login
-    session[:referer] = params[:referer] if params[:referer]
+    session[:referer] = safe_referer(params[:referer]) if params[:referer]
 
     if params[:username].present? && params[:password].present?
       session[:remember_me] ||= params[:remember_me]
@@ -278,7 +284,7 @@ class UsersController < ApplicationController
       session.delete(:user)
       session_expires_automatically
       if params[:referer]
-        redirect_to params[:referer]
+        redirect_to safe_referer(params[:referer])
       else
         redirect_to :controller => "site", :action => "index"
       end
@@ -300,7 +306,7 @@ class UsersController < ApplicationController
         user.email_valid = true
         flash[:notice] = gravatar_status_message(user) if gravatar_enable(user)
         user.save!
-        referer = token.referer
+        referer = safe_referer(token.referer) if token.referer
         token.destroy
 
         if session[:token]
