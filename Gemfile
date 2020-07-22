@@ -138,6 +138,7 @@ end
 
 # Gems needed for running tests
 group :test do
+  gem "brakeman"
   gem "capybara", ">= 2.15"
   gem "coveralls", :require => false
   gem "erb_lint", :require => false
