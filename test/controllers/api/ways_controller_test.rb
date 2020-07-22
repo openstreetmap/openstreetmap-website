@@ -64,29 +64,29 @@ module Api
     ##
     # check the "full" mode
     def test_full
-      Way.all.each do |way|
-        get way_full_path(way)
+      way = create(:way_with_nodes, :nodes_count => 3)
 
-        # full call should say "gone" for non-visible ways...
-        unless way.visible
-          assert_response :gone
-          next
-        end
+      get way_full_path(way)
 
-        # otherwise it should say success
-        assert_response :success
+      assert_response :success
 
-        # Check the way is correctly returned
-        assert_select "osm way[id='#{way.id}'][version='#{way.version}'][visible='#{way.visible}']", 1
+      # Check the way is correctly returned
+      assert_select "osm way[id='#{way.id}'][version='1'][visible='true']", 1
 
-        # check that each node in the way appears once in the output as a
-        # reference and as the node element.
-        way.nodes.each do |n|
-          count = (way.nodes - (way.nodes - [n])).length
-          assert_select "osm way nd[ref='#{n.id}']", count
-          assert_select "osm node[id='#{n.id}'][version='#{n.version}'][lat='#{format('%.7f', n.lat)}'][lon='#{format('%.7f', n.lon)}']", 1
-        end
+      # check that each node in the way appears once in the output as a
+      # reference and as the node element.
+      way.nodes.each do |n|
+        assert_select "osm way nd[ref='#{n.id}']", 1
+        assert_select "osm node[id='#{n.id}'][version='1'][lat='#{format('%.7f', n.lat)}'][lon='#{format('%.7f', n.lon)}']", 1
       end
+    end
+
+    def test_full_deleted
+      way = create(:way, :deleted)
+
+      get way_full_path(way)
+
+      assert_response :gone
     end
 
     ##
