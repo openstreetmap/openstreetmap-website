@@ -41,6 +41,14 @@ You can view test coverage statistics by browsing the `coverage` directory.
 The tests are automatically run on Pull Requests and other commits with the
 results shown on [Travis CI](https://travis-ci.org/openstreetmap/openstreetmap-website).
 
+## Static Analysis
+
+We also perform static analysis of our code. You can run the analysis yourself with:
+
+```
+bundle exec brakeman -q
+```
+
 ## Comments
 
 Sometimes it's not apparent from the code itself what it does, or,
