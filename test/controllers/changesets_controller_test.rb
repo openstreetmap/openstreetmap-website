@@ -33,6 +33,8 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   ##
   # This should display the last 20 changesets closed
   def test_index
+    changesets = create_list(:changeset, 30, :num_changes => 1)
+
     get history_path(:format => "html")
     assert_response :success
     assert_template "history"
@@ -43,12 +45,14 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "index"
 
-    check_index_result(Changeset.all)
+    check_index_result(changesets.last(20))
   end
 
   ##
   # This should display the last 20 changesets closed
   def test_index_xhr
+    changesets = create_list(:changeset, 30, :num_changes => 1)
+
     get history_path(:format => "html"), :xhr => true
     assert_response :success
     assert_template "history"
@@ -59,12 +63,22 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "index"
 
-    check_index_result(Changeset.all)
+    check_index_result(changesets.last(20))
   end
 
   ##
   # This should display the last 20 changesets closed in a specific area
   def test_index_bbox
+    changesets = create_list(:changeset, 10, :num_changes => 1, :min_lat => 50000000, :max_lat => 50000001, :min_lon => 50000000, :max_lon => 50000001)
+    other_changesets = create_list(:changeset, 10, :num_changes => 1, :min_lat => 0, :max_lat => 1, :min_lon => 0, :max_lon => 1)
+
+    # First check they all show up without a bbox parameter
+    get history_path(:format => "html", :list => "1"), :xhr => true
+    assert_response :success
+    assert_template "index"
+    check_index_result(changesets + other_changesets)
+
+    # Then check with bbox parameter
     get history_path(:format => "html", :bbox => "4.5,4.5,5.5,5.5")
     assert_response :success
     assert_template "history"
@@ -75,7 +89,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "index"
 
-    check_index_result(Changeset.where("min_lon < 55000000 and max_lon > 45000000 and min_lat < 55000000 and max_lat > 45000000"))
+    check_index_result(changesets)
   end
 
   ##
@@ -111,7 +125,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "index"
 
-    check_index_result(Changeset.none)
+    check_index_result([])
   end
 
   ##
@@ -131,7 +145,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   def test_index_friends
     private_user = create(:user, :data_public => true)
     friendship = create(:friendship, :befriender => private_user)
-    create(:changeset, :user => friendship.befriendee)
+    changeset = create(:changeset, :user => friendship.befriendee, :num_changes => 1)
 
     get friend_changesets_path
     assert_response :redirect
@@ -147,7 +161,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "index"
 
-    check_index_result(Changeset.where(:user => private_user.friends.identifiable))
+    check_index_result([changeset])
   end
 
   ##
@@ -155,7 +169,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   def test_index_nearby
     private_user = create(:user, :data_public => false, :home_lat => 51.1, :home_lon => 1.0)
     user = create(:user, :home_lat => 51.0, :home_lon => 1.0)
-    create(:changeset, :user => user)
+    changeset = create(:changeset, :user => user, :num_changes => 1)
 
     get nearby_changesets_path
     assert_response :redirect
@@ -171,23 +185,26 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "index"
 
-    check_index_result(Changeset.where(:user => user.nearby))
+    check_index_result([changeset])
   end
 
   ##
   # Check that we can't request later pages of the changesets index
   def test_index_max_id
-    get history_path(:format => "html", :max_id => 4), :xhr => true
+    changeset = create(:changeset, :num_changes => 1)
+    _changeset2 = create(:changeset, :num_changes => 1)
+
+    get history_path(:format => "html", :max_id => changeset.id), :xhr => true
     assert_response :success
     assert_template "history"
     assert_template :layout => "xhr"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get history_path(:format => "html", :list => "1", :max_id => 4), :xhr => true
+    get history_path(:format => "html", :list => "1", :max_id => changeset.id), :xhr => true
     assert_response :success
     assert_template "index"
 
-    check_index_result(Changeset.where("id <= 4"))
+    check_index_result([changeset])
   end
 
   ##
@@ -275,11 +292,6 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   ##
   # check the result of a index
   def check_index_result(changesets)
-    changesets = changesets.where("num_changes > 0")
-                           .order(:created_at => :desc)
-                           .limit(20)
-    assert changesets.size <= 20
-
     assert_select "ol.changesets", :count => [changesets.size, 1].min do
       assert_select "li", :count => changesets.size
 
