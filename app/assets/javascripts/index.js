@@ -30,7 +30,8 @@ $(document).ready(function () {
   var map = new L.OSM.Map("map", {
     zoomControl: false,
     layerControl: false,
-    contextmenu: true
+    contextmenu: true,
+    worldCopyJump: true
   });
 
   OSM.loadSidebarContent = function (path, callback) {
