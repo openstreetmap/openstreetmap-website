@@ -146,6 +146,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     private_user = create(:user, :data_public => true)
     friendship = create(:friendship, :befriender => private_user)
     changeset = create(:changeset, :user => friendship.befriendee, :num_changes => 1)
+    _changeset2 = create(:changeset, :user => create(:user), :num_changes => 1)
 
     get friend_changesets_path
     assert_response :redirect
@@ -169,7 +170,9 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   def test_index_nearby
     private_user = create(:user, :data_public => false, :home_lat => 51.1, :home_lon => 1.0)
     user = create(:user, :home_lat => 51.0, :home_lon => 1.0)
+    far_away_user = create(:user, :home_lat => 51.0, :home_lon => 130)
     changeset = create(:changeset, :user => user, :num_changes => 1)
+    _changeset2 = create(:changeset, :user => far_away_user, :num_changes => 1)
 
     get nearby_changesets_path
     assert_response :redirect
