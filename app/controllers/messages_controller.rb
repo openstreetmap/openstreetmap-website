@@ -120,7 +120,7 @@ class MessagesController < ApplicationController
       flash[:notice] = t ".destroyed"
 
       if params[:referer]
-        redirect_to params[:referer]
+        redirect_to safe_referer(params[:referer])
       else
         redirect_to :action => :inbox
       end

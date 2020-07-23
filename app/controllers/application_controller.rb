@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
     if request.cookies["_osm_session"].to_s == ""
       if params[:cookie_test].nil?
         session[:cookie_test] = true
-        redirect_to params.to_unsafe_h.merge(:cookie_test => "true")
+        redirect_to params.to_unsafe_h.merge(:only_path => true, :cookie_test => "true")
         false
       else
         flash.now[:warning] = t "application.require_cookies.cookies_needed"
@@ -376,5 +376,20 @@ class ApplicationController < ActionController::Base
   # Convert all blanks in a hash (e.g. params) to nil.
   def nilify(params)
     params.each { |k, v| params[k] = v.presence }
+  end
+
+  # clean any referer parameter
+  def safe_referer(referer)
+    referer = URI.parse(referer)
+
+    if referer.scheme == "http" || referer.scheme == "https"
+      referer.scheme = nil
+      referer.host = nil
+      referer.port = nil
+    elsif referer.scheme || referer.host || referer.port
+      referer = nil
+    end
+
+    referer.to_s
   end
 end
