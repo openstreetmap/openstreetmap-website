@@ -49,10 +49,13 @@ class Ability
         can [:new, :create, :step_up], Microcosm
         can [:edit, :update], Microcosm, :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER }
         can [:create], MicrocosmMember
+        # TODO: There's attribute level rules now.  We can use this for role.
         can [:destroy, :edit, :update], MicrocosmMember do |membership|
           membership.microcosm.organizer?(user)
         end
-        can [:new, :create, :edit, :update], Event, :microcosm => { :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER } }
+        can [:create, :update], Event do |event|
+          event.microcosm.organizer?(user)
+        end
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry

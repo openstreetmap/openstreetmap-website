@@ -78,18 +78,23 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     # Make sure that you are redirected to the login page when you
     # are not logged in
     # act
-    get new_event_path
+    # There must be microcosm to build an event against.
+    m = create(:microcosm)
+    params = { :event => { :microcosm_id => m.id } }
+    get new_event_path(params)
     # assert
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/events/new"
+    assert_redirected_to :controller => :users, :action => :login, :referer => "/events/new?#{params.to_query}"
   end
 
   def test_new_form
-    # Now try again when logged in
+    # Now try again when logged in.
+    # There must be microcosm to build an event against.
     # arrange
-    session_for(create(:user))
+    mm = create(:microcosm_member, :organizer)
+    session_for(mm.user)
     # act
-    get new_event_path
+    get new_event_path(:event => { :microcosm_id => mm.microcosm_id })
     # assert
     check_page_basics
     assert_select "title", :text => /New Event/, :count => 1
@@ -105,17 +110,29 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
         assert_select "textarea#event_description[name='event[description]']", :count => 1
         assert_select "input#event_latitude[name='event[latitude]']", :count => 1
         assert_select "input#event_longitude[name='event[longitude]']", :count => 1
-        assert_select "input", :count => 8
+        assert_select "input", :count => 9
       end
     end
+  end
+
+  def test_new_form_non_organizer
+    # Now try again when logged in.  There must be microcosm to build an event against.
+    # arrange
+    mm = create(:microcosm_member)
+    session_for(mm.user)
+    # act
+    get new_event_path(:event => { :microcosm_id => mm.microcosm_id })
+    # assert
+    follow_redirect!
+    assert_response :forbidden
   end
 
   # also tests application_controller::nilify
   def test_create_when_save_works
     # arrange
-    u = create(:user)
-    session_for(u)
-    e_orig = create(:event)
+    mm = create(:microcosm_member, :organizer)
+    e_orig = build(:event, :microcosm => mm.microcosm)
+    session_for(mm.user)
 
     # act
     e_new_id = nil
@@ -129,6 +146,22 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     # Assign the id e_new to e_orig, so we can do an equality test easily.
     e_orig.id = e_new.id
     assert_equal(e_orig, e_new)
+  end
+
+  def test_create_as_non_organizer
+    # arrange
+    mm = create(:microcosm_member)
+    ev = build(:event, :microcosm => mm.microcosm)
+    session_for(mm.user)
+
+    # act
+    assert_difference "Event.count", 0 do
+      post events_url, :params => { :event => ev.as_json }, :xhr => true
+    end
+
+    # assert
+    follow_redirect!
+    assert_response :forbidden
   end
 
   def test_create_when_save_fails
@@ -187,7 +220,8 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     # act
     put event_url(e1), :params => { :event => e2.as_json }, :xhr => true
     # assert
-    assert_redirected_to :controller => :errors, :action => :forbidden
+    follow_redirect!
+    assert_response :forbidden
   end
 
   def test_update_put_failure

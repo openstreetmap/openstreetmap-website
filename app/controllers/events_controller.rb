@@ -2,8 +2,11 @@ class EventsController < ApplicationController
   layout "site"
   before_action :authorize_web
   before_action :set_event, :only => [:edit, :show, :update]
+  # This needs to be one before load_and_authorize_resource, so cancancan will be handed
+  # an event that contains a microcosm, based on the input parameter microcosm_id.
+  before_action :set_params_for_new, :only => [:new]
 
-  authorize_resource
+  load_and_authorize_resource :event
 
   # GET /events
   # GET /events.json
@@ -14,8 +17,7 @@ class EventsController < ApplicationController
   # GET /events/new
   def new
     @title = t "events.new.title"
-    @event = Event.new
-    @event.microcosm_id = params[:microcosm_id]
+    @event = Event.new(event_params_new)
   end
 
   # POST /events
@@ -60,8 +62,16 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
   end
 
+  def set_params_for_new
+    @params = event_params_new
+  end
+
   def event_params
     nilify(params.require(:event).permit(:title, :moment, :location, :location_url,
                                          :description, :latitude, :longitude, :microcosm_id))
+  end
+
+  def event_params_new
+    params.require(:event).permit(:microcosm_id)
   end
 end

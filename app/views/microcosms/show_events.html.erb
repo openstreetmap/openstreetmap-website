@@ -4,7 +4,7 @@
   </h1>
   <ul class='secondary-actions clearfix'>
     <% if current_user && @microcosm.organizer?(current_user) %>
-      <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new_title"), new_event_path(:microcosm_id => @microcosm.id), :title => t(".new_title") %></li>
+      <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new_title"), new_event_path(:event => { :microcosm_id => @microcosm.id }), :title => t(".new_title") %></li>
     <% end %>
   </ul>
 <% end %>
