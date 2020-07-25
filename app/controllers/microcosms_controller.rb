@@ -6,6 +6,7 @@ class MicrocosmsController < ApplicationController
 
   helper_method :recent_changesets
 
+  load_and_authorize_resource :except => [:create, :new]
   authorize_resource
 
   def index

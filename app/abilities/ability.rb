@@ -47,15 +47,20 @@ class Ability
         can [:account, :go_public], User
         can [:create, :update], EventAttendance
         can [:new, :create, :step_up], Microcosm
-        can [:edit, :update], Microcosm, :microcosm_members => { :user => { :id => user.id }, :role => MicrocosmMember::Roles::ORGANIZER }
+
+        # This is a cancancan rule condition, effectively the same thing as
+        # microcosm.organizer?(user), as used in a block, but in declarative form.
+        user_is_microcosm_organizer = {
+          :microcosm_members => {
+            :user_id => user.id,
+            :role => MicrocosmMember::Roles::ORGANIZER
+          }
+        }
+        can [:edit, :update], Microcosm, user_is_microcosm_organizer
         can [:create], MicrocosmMember
-        # TODO: There's attribute level rules now.  We can use this for role.
-        can [:destroy, :edit, :update], MicrocosmMember do |membership|
-          membership.microcosm.organizer?(user)
-        end
-        can [:create, :update], Event do |event|
-          event.microcosm.organizer?(user)
-        end
+        # TODO: There's attribute level rules now.  We can use this for setting the role.
+        can [:destroy, :edit, :update], MicrocosmMember, :microcosm => user_is_microcosm_organizer
+        can [:create, :update], Event, :microcosm => user_is_microcosm_organizer
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry

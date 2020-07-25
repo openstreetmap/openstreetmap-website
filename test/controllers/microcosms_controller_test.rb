@@ -154,7 +154,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  def test_update_put_success
+  def test_update_success
     # arrange
     mm = create(:microcosm_member, :organizer)
     session_for(mm.user)
@@ -174,7 +174,26 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     assert_equal(m2, m1)
   end
 
-  def test_update_put_failure
+  # TODO: Really we should test abilities separately
+  # https://github.com/CanCanCommunity/cancancan/wiki/Testing-Abilities
+  def test_update_success_as_non_organizer
+    # arrange
+    mm = create(:microcosm_member)
+    # mm = create(:microcosm_member, :user => mm.user)
+    session_for(mm.user)
+    m1 = mm.microcosm # original object
+    m2 = build(:microcosm) # new data
+
+    # act
+    # Update m1 with the values from m2.
+    put microcosm_url(m1), :params => { :microcosm => m2.as_json }, :xhr => true
+
+    # assert
+    follow_redirect!
+    assert_response :forbidden
+  end
+
+  def test_update_failure
     # arrange
     mm = create(:microcosm_member, :organizer)
     session_for(mm.user)
@@ -273,7 +292,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     m = create(:microcosm)
 
     # Can't stub :save on Microcosm because save is not a method that Microcosm
-    # will respond_to?  Only an instance of Microcosm will repond_to :save.
+    # will respond_to?  Only an instance of Microcosm will respond_to :save.
 
     mic_mock = Minitest::Mock.new
     mic_mock.expect :save, false
@@ -281,7 +300,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     # Not a true Mock, because I needs the rest of the controller's methods there.
     # num_calls = 0
     controller_mock = MicrocosmsController.new
-    def controller_mock.render(partial)
+    def controller_mock.render(_partial)
       # Evidently it's not even called, but if it's not overridden, rendering
       # will happen and dive into new.html.erb and _form.html.erb.  That
       # necessitates mocking more methods.
@@ -289,7 +308,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
       # assert_equal "new", partial
       # num_calls += 1
     end
-    # assert_equal 1, num_calls
+    # assert_equal 1, num_calls # TODO: It would be nice if we could do this.
 
     # act
     MicrocosmsController.stub :new, controller_mock do

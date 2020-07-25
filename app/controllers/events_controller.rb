@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   # an event that contains a microcosm, based on the input parameter microcosm_id.
   before_action :set_params_for_new, :only => [:new]
 
-  load_and_authorize_resource :event
+  load_and_authorize_resource
 
   # GET /events
   # GET /events.json
