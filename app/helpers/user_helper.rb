@@ -51,12 +51,16 @@ module UserHelper
   end
 
   def user_card(user)
-    # Using semantic markup here with SASS
-    image = user_image(user)
     user_link = link_to user.display_name, user_path(user)
-    header = "<h5>#{user_link}</h5>"
-    body = "<div>#{header}</div>"
-    "<div class='user_card'>#{image}#{body}</div>"
+    tag.div :class => "user_card" do
+      img = user_image(user)
+      div = tag.div do
+        tag.h5 do
+          user_link
+        end
+      end
+      img + div
+    end
   end
 
   # External authentication support
