@@ -16,6 +16,13 @@
 #
 
 class EventAttendance < ApplicationRecord
+  module Intentions
+    YES = "yes".freeze
+    NO = "no".freeze
+    # MAYBE = "maybe".freeze  # This would be nice.
+    ALL_INTENTIONS = [YES, NO].freeze
+  end
+
   belongs_to :event
   belongs_to :user
 end

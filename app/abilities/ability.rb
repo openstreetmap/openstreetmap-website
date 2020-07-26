@@ -45,7 +45,14 @@ class Ability
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public], User
-        can [:create, :update], EventAttendance
+        # can [:create, :update], EventAttendance
+        can [:create, :update], EventAttendance, :event => {
+          :microcosm => {
+            :microcosm_members => {
+              :user_id => user.id
+            }
+          }
+        }
         can [:new, :create, :step_up], Microcosm
 
         # This is a cancancan rule condition, effectively the same thing as

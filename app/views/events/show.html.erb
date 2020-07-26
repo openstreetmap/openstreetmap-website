@@ -31,8 +31,8 @@
       <%= form_with :model => @my_attendance, :local => true do |form| %>
         <%= form.hidden_field(:event_id, :value => @event.id) %>
         <%= form.hidden_field(:user_id, :value => current_user&.id) %>
-        <%= form.submit :value => @yes_check + t(".going_yes"), :disabled => @yes_disabled %>
-        <%= form.submit :value => @no_check + t(".going_no"), :disabled => @no_disabled %>
+        <%= form.submit :name => "intention", :value => @yes_check + t(".going_yes"), :disabled => @yes_disabled %>
+        <%= form.submit :name => "intention", :value => @no_check + t(".going_no"), :disabled => @no_disabled %>
       <% end %>
     </div>
   </div>
