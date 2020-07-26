@@ -9,12 +9,12 @@ class EventAttendancesControllerTest < ActionDispatch::IntegrationTest
   #
   def test_routes
     assert_routing(
-        { :path => "/event_attendances/1", :method => :put },
-        { :controller => "event_attendances", :action => "update", :id => "1" }
+      { :path => "/event_attendances/1", :method => :put },
+      { :controller => "event_attendances", :action => "update", :id => "1" }
     )
     assert_routing(
-        { :path => "/event_attendances", :method => :post },
-        { :controller => "event_attendances", :action => "create" }
+      { :path => "/event_attendances", :method => :post },
+      { :controller => "event_attendances", :action => "create" }
     )
   end
 
@@ -24,7 +24,6 @@ class EventAttendancesControllerTest < ActionDispatch::IntegrationTest
     assert_no_missing_translations
   end
 
-  also tests add_first_organizer
   def test_create_when_save_works
     # arrange
     mm = create(:microcosm_member)
