@@ -2667,6 +2667,13 @@ CREATE INDEX index_event_attendances_on_user_id ON public.event_attendances USIN
 
 
 --
+-- Name: index_event_attendances_on_user_id_and_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_event_attendances_on_user_id_and_event_id ON public.event_attendances USING btree (user_id, event_id);
+
+
+--
 -- Name: index_event_organizers_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3653,6 +3660,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191120140058'),
 ('20200127033234'),
 ('20200214135750'),
+('20200727014256'),
 ('21'),
 ('22'),
 ('23'),
