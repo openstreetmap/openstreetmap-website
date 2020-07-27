@@ -45,15 +45,6 @@ class Ability
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public], User
-        # can [:create, :update], EventAttendance
-        can [:create, :update], EventAttendance, :event => {
-          :microcosm => {
-            :microcosm_members => {
-              :user_id => user.id
-            }
-          }
-        }
-        can [:new, :create, :step_up], Microcosm
 
         # This is a cancancan rule condition, effectively the same thing as
         # microcosm.organizer?(user), as used in a block, but in declarative form.
@@ -63,6 +54,19 @@ class Ability
             :role => MicrocosmMember::Roles::ORGANIZER
           }
         }
+        user_is_microcosm_member = {
+          :microcosm_members => {
+            :user_id => user.id,
+            :role => MicrocosmMember::Roles::MEMBER
+          }
+        }
+
+        can [:create], EventAttendance, :event => {
+          :microcosm => user_is_microcosm_member
+        }
+        # TODO: There's attribute level rules now.  We can use this for setting the intention.
+        can [:update], EventAttendance, :user_id => user.id
+        can [:new, :create, :step_up], Microcosm
         can [:edit, :update], Microcosm, user_is_microcosm_organizer
         can [:create], MicrocosmMember
         # TODO: There's attribute level rules now.  We can use this for setting the role.

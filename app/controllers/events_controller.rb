@@ -67,10 +67,8 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    nilify(params.require(:event).permit(
-      :title, :moment, :location, :location_url,
-      :description, :latitude, :longitude, :microcosm_id
-    ))
+    nilify(params.require(:event).permit(:title, :moment, :location, :location_url,
+                                         :description, :latitude, :longitude, :microcosm_id))
   end
 
   def event_params_new

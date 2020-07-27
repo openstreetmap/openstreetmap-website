@@ -28,11 +28,11 @@
     <div class="col-sm">
       <p><%= @event.attendees.size %> <%= t(".people_are_going") %></p>
       <p><%= t(".are_you_going") %></p>
-      <%= form_with :model => @my_attendance, :local => true do |form| %>
+        <%= form_with :model => @my_attendance, :local => true do |form| %>
         <%= form.hidden_field(:event_id, :value => @event.id) %>
         <%= form.hidden_field(:user_id, :value => current_user&.id) %>
-        <%= form.submit :name => "intention", :value => @yes_check + t(".going_yes"), :disabled => @yes_disabled %>
-        <%= form.submit :name => "intention", :value => @no_check + t(".going_no"), :disabled => @no_disabled %>
+        <%= form.submit :name => "event_attendance[intention]", :value => @yes_check + t(".going_yes"), :disabled => @yes_disabled %>
+        <%= form.submit :name => "event_attendance[intention]", :value => @no_check + t(".going_no"), :disabled => @no_disabled %>
       <% end %>
     </div>
   </div>

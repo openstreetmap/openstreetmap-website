@@ -22,6 +22,7 @@ class EventAttendance < ApplicationRecord
     # MAYBE = "maybe".freeze  # This would be nice.
     ALL_INTENTIONS = [YES, NO].freeze
   end
+  validates :intention, :inclusion => { :in => Intentions::ALL_INTENTIONS }
 
   belongs_to :event
   belongs_to :user
