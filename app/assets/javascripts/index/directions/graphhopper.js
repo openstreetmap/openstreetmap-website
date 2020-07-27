@@ -28,7 +28,7 @@ function GraphHopperEngine(id, vehicleType) {
           key: "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
           elevation: false,
           instructions: true,
-          turn_costs: true,
+          turn_costs: vehicleType === "car",
           point: points.map(function (p) { return p.lat + "," + p.lng; })
         },
         traditional: true,
