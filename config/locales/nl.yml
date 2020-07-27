@@ -14,6 +14,7 @@
 # Author: Eebie
 # Author: Elroy
 # Author: Esketti
+# Author: Ferdinand0101
 # Author: Freek
 # Author: Fruggo
 # Author: Goedegazelle
@@ -42,6 +43,7 @@
 # Author: Robin van der Linde
 # Author: Robin van der Vliet
 # Author: Robin0van0der0vliet
+# Author: RockyTDR
 # Author: Romaine
 # Author: Ruila
 # Author: SPQRobin
@@ -95,6 +97,7 @@ nl:
       diary_comment: Dagboekopmerking
       diary_entry: Dagboekbericht
       friend: Vriend
+      issue: Problemen
       language: Taal
       message: Bericht
       node: Node
@@ -113,9 +116,9 @@ nl:
       relation_tag: Relatietag
       report: Rapport
       session: Sessie
-      trace: Track
+      trace: Traject
       tracepoint: Trackpunt
-      tracetag: Tracklabel
+      tracetag: Trajectlabel
       user: Gebruiker
       user_preference: Gebruikersvoorkeur
       user_token: Gebruikersnummer
@@ -159,16 +162,16 @@ nl:
     distance_in_words_ago:
       about_x_hours:
         one: ongeveer 1 uur geleden
-        other: ongeveer %{count} uren geleden
+        other: ongeveer %{count} uur geleden
       about_x_months:
         one: ongeveer 1 maand geleden
-        other: ongeveer %{count} maanden geleden
+        other: ongeveer %{count} maand geleden
       about_x_years:
         one: ongeveer 1 jaar geleden
-        other: ongeveer %{count} jaren geleden
+        other: ongeveer %{count} jaar geleden
       almost_x_years:
         one: bijna 1 jaar geleden
-        other: bijna %{count} jaren geleden
+        other: bijna %{count} jaar geleden
       half_a_minute: een halve minuut geleden
       less_than_x_seconds:
         one: minder dan 1 seconde geleden
@@ -178,7 +181,7 @@ nl:
         other: minder dan %{count} minuten geleden
       over_x_years:
         one: meer dan 1 jaar geleden
-        other: meer dan %{count} jaren geleden
+        other: meer dan %{count} jaar geleden
       x_seconds:
         one: 1 seconde geleden
         other: '%{count} seconden geleden'
@@ -190,10 +193,10 @@ nl:
         other: '%{count} dagen geleden'
       x_months:
         one: 1 maand geleden
-        other: '%{count} maanden geleden'
+        other: '%{count} maand geleden'
       x_years:
         one: 1 jaar geleden
-        other: '%{count} jaren geleden'
+        other: '%{count} jaar geleden'
   editor:
     default: Standaard (op dit moment %{name})
     potlatch:
@@ -453,7 +456,7 @@ nl:
     diary_entry:
       posted_by_html: Geplaatst door %{link_user} op %{created} in het %{language_link}
       comment_link: Reactie plaatsen bij dit bericht
-      reply_link: Reageren op dit bericht
+      reply_link: Een bericht sturen naar de auteur
       comment_count:
         zero: Geen reactie
         one: '%{count} reactie'
@@ -1219,8 +1222,8 @@ nl:
     issues: Problemen
     data: Gegevens
     export_data: Gegevens exporteren
-    gps_traces: GPS-traces
-    gps_traces_tooltip: GPS-tracks beheren
+    gps_traces: GPS-trajecten
+    gps_traces_tooltip: GPS-trajecten beheren
     user_diaries: Gebruikersdagboeken
     user_diaries_tooltip: Gebruikersdagboeken bekijken
     edit_with: Bewerken met %{editor}
@@ -1260,13 +1263,13 @@ nl:
       header: '%{from_user} heeft een reactie geplaatst bij uw OpenStreetMap-dagboekbericht
         met het onderwerp %{subject}:'
       footer: U kunt de reactie ook lezen op %{readurl} en u kunt zelf ook reageren
-        op %{commenturl} of antwoorden op %{replyurl}
+        op %{commenturl} of een bericht sturen naar de auteur via %{replyurl}
     message_notification:
       hi: Hallo %{to_user},
       header: '%{from_user} heeft u een bericht gezonden via OpenStreetMap met het
         onderwerp %{subject}:'
-      footer_html: U kunt het bericht ook lezen op %{readurl} en u kunt antwoorden
-        op %{replyurl}
+      footer_html: U kunt het bericht ook lezen op %{readurl} en u kunt een bericht
+        sturen naar de auteur via %{replyurl}
     friendship_notification:
       hi: Hoi %{to_user},
       subject: '[OpenStreetMap] %{user} heeft u als vriend toegevoegd'
@@ -1286,8 +1289,9 @@ nl:
         more_info_2: 'te vermijden is te vinden op:'
       success:
         subject: '[OpenStreetMap] GPX-import afgerond'
-        loaded_successfully: '{{PLURAL|one=geladen met %{trace_points} punt.|geladen
-          met %{trace_points} van de %{possible_points} mogelijke punten.'
+        loaded_successfully:
+          one: geladen met %{trace_points} punt.
+          other: geladen met %{trace_points} van de %{possible_points} mogelijke punten.
     signup_confirm:
       subject: '[OpenStreetMap] Welkom bij OpenStreetMap'
       greeting: Hallo!
@@ -1531,6 +1535,11 @@ nl:
           naar openstreetmap.org (mogelijk door de naam \"OpenStreetMap\" naar dit
           webadres uit te breiden), naar opendatacommons.org en naar, indien van toepassing,
           creativecommons.org."
+        credit_3_1_html: "De kaarttegels in de &ldquo;standaard stijl&rdquo; op www.openstreetmap.org
+          zijn een geproduceerd werk van de OpenStreetMap Foundation met OpenStreetMap-gegevens
+          onder de Open Database Licentie. Als u deze tegels gebruikt, gebruik dan
+          de volgende omschrijving: \n&ldquo;Basiskaart en gegevens van OpenStreetMap
+          en OpenStreetMap Foundation&rdquo;"
         credit_4_html: |-
           Voor een doorbladerbare, digitale kaart, moet de naamsvermelding in een hoek van de kaart weergegeven worden.
           Bijvoorbeeld:
@@ -1913,9 +1922,9 @@ nl:
   traces:
     visibility:
       private: Persoonlijk (alleen gedeeld als anoniem; ongeordende punten)
-      public: Publiek (weergegeven in tracklijst en als anonieme, ongeordende punten)
+      public: Publiek (weergegeven in trajectlijst en als anonieme, ongeordende punten)
       trackable: Traceerbaar (alleen gedeeld als anoniem; geordende punten met tijdstempels)
-      identifiable: Identificeerbaar (weergegeven in tracklijst en als identificeerbare,
+      identifiable: Identificeerbaar (weergegeven in trajectlijst en als identificeerbare,
         geordende punten met tijdstempels)
     new:
       upload_trace: GPS-track uploaden
@@ -1929,22 +1938,22 @@ nl:
       help: Hulp
       help_url: http://wiki.openstreetmap.org/wiki/NL:Upload
     create:
-      upload_trace: GPS-track uploaden
+      upload_trace: GPS-traject uploaden
       trace_uploaded: Uw track is geüpload en staat te wachten totdat hij in de database
         wordt opgenomen. Dit gebeurt meestal binnen een half uur. U ontvangt dan een
         e-mail.
       upload_failed: Sorry, de GPX-upload is mislukt. Een beheerder is op de hoogte
         gesteld van de fout. Probeer het opnieuw
       traces_waiting:
-        one: U hebt al een trace die wacht om geüpload te worden. Overweeg om te wachten
-          totdat die verwerkt is, om te voorkomen dat de wachtrij voor andere gebruikers
-          geblokkeerd wordt.
-        other: U hebt al %{count} traces die wachten om geüpload te worden. Overweeg
+        one: U hebt al een traject dat wacht om geüpload te worden. Overweeg om te
+          wachten totdat het verwerkt is, om te voorkomen dat de wachtrij voor andere
+          gebruikers geblokkeerd wordt.
+        other: U hebt al %{count} trajecten die wachten om geüpload te worden. Overweeg
           om te wachten totdat die verwerkt zijn, om te voorkomen dat de wachtrij
           voor andere gebruikers geblokkeerd wordt.
     edit:
-      title: Trace %{name} aan het bewerken
-      heading: Trace %{name} aan het bewerken
+      title: Traject %{name} bewerken
+      heading: Traject %{name} bewerken
       filename: 'Bestandsnaam:'
       download: downloaden
       uploaded_at: 'Geüpload op:'
@@ -1959,11 +1968,11 @@ nl:
       visibility: 'Zichtbaarheid:'
       visibility_help: wat betekent dit?
     update:
-      updated: Trace bijgewerkt
+      updated: Traject bijgewerkt
     trace_optionals:
       tags: Labels
     show:
-      title: Trace %{name} aan het bekijken
+      title: Traject %{name} weergeven
       heading: Trace %{name} aan het bekijken
       pending: BEZIG
       filename: 'Bestandsnaam:'
@@ -1977,20 +1986,22 @@ nl:
       description: 'Beschrijving:'
       tags: 'Labels:'
       none: Geen
-      edit_trace: Deze trace bewerken
+      edit_trace: Dit traject bewerken
       delete_trace: Deze track verwijderen
-      trace_not_found: De track is niet gevonden!
+      trace_not_found: Traject is niet gevonden!
       visibility: 'Zichtbaarheid:'
-      confirm_delete: Dit spoor verwijderen?
+      confirm_delete: Dit traject verwijderen?
     trace_paging_nav:
       showing_page: Pagina %{page}
-      older: Oudere traces
-      newer: Nieuwere traces
+      older: Oudere trajecten
+      newer: Nieuwere trajecten
     trace:
       pending: BEZIG
-      count_points: '%{count} punten'
+      count_points:
+        one: 1 punt
+        other: '%{count} punten'
       more: meer
-      trace_details: Trackdetails bekijken
+      trace_details: Trajectdetails weergeven
       view_map: Kaart bekijken
       edit: bewerken
       edit_map: Kaart bewerken
@@ -2002,20 +2013,20 @@ nl:
       in: in
       map: kaart
     index:
-      public_traces: Openbare GPS-traces
+      public_traces: Openbare GPS-trajecten
       my_traces: Mijn GPS-tracks
-      public_traces_from: Openbare GPS-traces van %{user}
-      description: Recente GPS-trackuploads bekijken
+      public_traces_from: Openbare GPS-trajecten van %{user}
+      description: Door recente GPS-traject-uploads bladeren
       tagged_with: ' gelabeld met %{tags}'
-      empty_html: Hier is nog niets te zien. <a href='%{upload_link}'>Upload een nieuwe
-        trace</a> of kom meer te weten over GPS tracen op de <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikipagina</a>.
-      upload_trace: Trace uploaden
-      see_all_traces: Alle traces bekijken
-      see_my_traces: Mijn traces bekijken
+      empty_html: Hier is nog niets te zien. <a href='%{upload_link}'>Upload een nieuw
+        traject</a> of kom meer te weten over GPS-tracing op de <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikipagina</a>.
+      upload_trace: Traject uploaden
+      see_all_traces: Alle trajecten bekijken
+      see_my_traces: Mijn trajecten bekijken
     destroy:
-      scheduled_for_deletion: Trace staat op de lijst voor verwijdering
+      scheduled_for_deletion: Traject staat op de lijst voor verwijdering
     make_public:
-      made_public: Trace openbaar gemaakt
+      made_public: Traject openbaar gemaakt
     offline_warning:
       message: Het systeem voor het uploaden van GPX-bestanden is op het moment niet
         beschikbaar
@@ -2024,7 +2035,7 @@ nl:
       message: Het systeem voor het opslaan en uploaden van GPX-bestanden is op het
         moment niet beschikbaar.
     georss:
-      title: OpenStreetMap GPS-traces
+      title: OpenStreetMap GPS-trajecten
     description:
       description_with_count:
         one: GPX-bestand met één punt van %{user}
@@ -2056,7 +2067,7 @@ nl:
       allow_write_prefs: uw gebruikersvoorkeuren wijzigen
       allow_write_diary: dagboekberichten schrijven, reacties geven en vrienden maken
       allow_write_api: de kaart wijzigen
-      allow_read_gpx: uw persoonlijke GPS-tracks lezen
+      allow_read_gpx: uw persoonlijke GPS-trajecten lezen
       allow_write_gpx: GPS-tracks uploaden
       allow_write_notes: opmerkingen wijzigen.
       grant_access: Toegang verlenen
@@ -2093,7 +2104,7 @@ nl:
       allow_write_prefs: gebruikerseigenschappen wijzigen
       allow_write_diary: dagboekberichten schrijven, reacties geven en vrienden maken
       allow_write_api: kaart wijzigen
-      allow_read_gpx: eigen GPS-tracks bekijken
+      allow_read_gpx: eigen GPS-trajecten bekijken.
       allow_write_gpx: GPS-tracks uploaden
       allow_write_notes: opmerkingen wijzigen.
     index:
@@ -2121,7 +2132,7 @@ nl:
       allow_write_prefs: gebruikersinstellingen wijzigen
       allow_write_diary: dagboekberichten schrijven, reacties en vrienden toevoegen
       allow_write_api: de kaart wijzigen
-      allow_read_gpx: Persoonlijke GPS-tracks lezen
+      allow_read_gpx: Persoonlijke GPS-trajecten lezen
       allow_write_gpx: GPS-tracks uploaden
       allow_write_notes: opmerkingen wijzigen.
     not_found:
@@ -2285,7 +2296,7 @@ nl:
       my diary: Dagboek
       new diary entry: nieuw dagboekbericht
       my edits: Bewerkingen
-      my traces: Traces
+      my traces: Mijn trajecten
       my notes: Mijn opmerkingen
       my messages: Mijn berichten
       my profile: Profiel
@@ -2297,7 +2308,7 @@ nl:
       send message: Bericht verzenden
       diary: Dagboek
       edits: Bewerkingen
-      traces: Traces
+      traces: Trajecten
       notes: Opmerkingen bij kaart
       remove as friend: Vriend verwijderen
       add as friend: Vriend toevoegen
@@ -2677,7 +2688,7 @@ nl:
         header: Kaartlagen
         notes: Opmerkingen bij kaart
         data: Kaartgegevens
-        gps: Openbare GPS-traces
+        gps: Openbare GPS-trajecten
         overlays: Overlays inschakelen om fouten in de kaart te helpen identificeren
         title: Lagen
       copyright: © <a href='%{copyright_url}'>bijdragers OpenStreetMap</a>
