@@ -22,7 +22,10 @@ class MicrocosmsController < ApplicationController
   # GET /microcosms/mycity.json
   def show; end
 
-  def show_members; end
+  def show_members
+    # Could use pluralize, but we don't need that at this time.
+    @roles = MicrocosmMember::Roles::ALL_ROLES.map { |r| r + "s" }
+  end
 
   def show_events; end
 
