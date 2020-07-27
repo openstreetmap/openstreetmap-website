@@ -50,10 +50,10 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @my_attendance = EventAttendance.find_or_initialize_by(:event_id => @event.id, :user_id => current_user&.id)
-    @yes_check = @my_attendance.intention == "Yes" ? "✓" : ""
-    @no_check = @my_attendance.intention == "No" ? "✓" : ""
-    @yes_disabled = @my_attendance.intention == "Yes"
-    @no_disabled = @my_attendance.intention == "No"
+    @yes_check = @my_attendance.intention == EventAttendance::Intentions::YES ? "✓" : ""
+    @no_check = @my_attendance.intention == EventAttendance::Intentions::NO ? "✓" : ""
+    @yes_disabled = @my_attendance.intention == EventAttendance::Intentions::YES
+    @no_disabled = @my_attendance.intention == EventAttendance::Intentions::NO
   end
 
   private
@@ -67,8 +67,10 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    nilify(params.require(:event).permit(:title, :moment, :location, :location_url,
-                                         :description, :latitude, :longitude, :microcosm_id))
+    nilify(params.require(:event).permit(
+      :title, :moment, :location, :location_url,
+      :description, :latitude, :longitude, :microcosm_id
+    ))
   end
 
   def event_params_new

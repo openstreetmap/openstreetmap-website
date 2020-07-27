@@ -73,10 +73,10 @@ class EventTest < ActiveSupport::TestCase
     # 2 Yes
     event = create(:event)
     u1 = create(:user)
-    ea1 = EventAttendance.new(:event => event, :user => u1, :intention => "Yes")
+    ea1 = EventAttendance.new(:event => event, :user => u1, :intention => EventAttendance::Intentions::YES)
     ea1.save
     u2 = create(:user)
-    ea2 = EventAttendance.new(:event => event, :user => u2, :intention => "Yes")
+    ea2 = EventAttendance.new(:event => event, :user => u2, :intention => EventAttendance::Intentions::YES)
     ea2.save
     assert_equal(2, event.attendees.length)
     assert_equal(u1.display_name, event.attendees[0].user.display_name)
@@ -85,10 +85,10 @@ class EventTest < ActiveSupport::TestCase
     # 1 Yes and 1 No
     event = create(:event)
     u1 = create(:user)
-    ea1 = EventAttendance.new(:event => event, :user => u1, :intention => "No")
+    ea1 = EventAttendance.new(:event => event, :user => u1, :intention => EventAttendance::Intentions::NO)
     ea1.save
     u2 = create(:user)
-    ea2 = EventAttendance.new(:event => event, :user => u2, :intention => "Yes")
+    ea2 = EventAttendance.new(:event => event, :user => u2, :intention => EventAttendance::Intentions::YES)
     ea2.save
     assert_equal(1, event.attendees.length)
     assert_equal(u2.display_name, event.attendees[0].user.display_name)

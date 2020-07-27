@@ -40,7 +40,7 @@ class Event < ApplicationRecord
   end
 
   def attendees
-    EventAttendance.where(:event_id => id, :intention => "Yes")
+    EventAttendance.where(:event_id => id, :intention => EventAttendance::Intentions::YES)
   end
 
   def organizers
