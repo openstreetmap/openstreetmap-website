@@ -1,9 +1,10 @@
 jobs:
   include:
-  - name: "Locales"
+  - name: "Locale Authorship"
     install: skip
     script:
-      - git log $TRAVIS_COMMIT_RANGE
+      # Locale files (in config/locales) are updated via Translatewiki.
+      # Look for other authors and fail this test if any are found.
       - config/locales/check-authors.sh $TRAVIS_COMMIT_RANGE
   - name: "Website Code"
     dist: bionic
