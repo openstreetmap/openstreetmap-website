@@ -19,7 +19,7 @@ for FILE in *.yml; do
     HUMAN_AUTHOR=`git log --format='%ae' $COMMIT_RANGE -- $FILE | grep -v @translatewiki.net | head -n1`
     if [ $HUMAN_AUTHOR ]; then
       # Mark for failure if changes were made by anyone other than translatewiki.net
-      echo Found $HUMAN_AUTHOR in $FILE
+      echo "Unexpectedly found ${HUMAN_AUTHOR} in ${FILE} (see CONTRIBUTING.md, i18n)"
       STATUS=1
     fi
   fi
