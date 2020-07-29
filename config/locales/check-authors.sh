@@ -7,11 +7,20 @@
 #
 cd `dirname $0`
 
+# Name of current pull request, otherwise "false"
+PULL_REQUEST=$1
+
 # Look at just a specific commit range, expressed as "SHA1...SHA2"
-COMMIT_RANGE=$1
+COMMIT_RANGE=$2
 
 # Assume everything will be fine
 STATUS=0
+
+# Check nothing if we're not in a PR
+if [ "$PULL_REQUEST" = "false" ]; then
+    echo "Not checking locale authorship outside a pull request"
+    exit $STATUS;
+fi
 
 for FILE in *.yml; do
   # Don't check authorship of en.yml
