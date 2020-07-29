@@ -18,8 +18,11 @@ STATUS=0
 
 # Check nothing if we're not in a PR
 if [ "$PULL_REQUEST" = "false" ]; then
-    echo "Not checking locale authorship outside a pull request"
+    echo "--> Not checking locale authorship outside a pull request."
     exit $STATUS;
+else
+    echo "--> Checking locale authorship for PR ${PULL_REQUEST} commit range ${COMMIT_RANGE}"
+    echo "    See CONTRIBUTING.md, i18n section"
 fi
 
 for FILE in *.yml; do
@@ -28,10 +31,11 @@ for FILE in *.yml; do
     HUMAN_AUTHOR=`git log --format='%ae' $COMMIT_RANGE -- $FILE | grep -v @translatewiki.net | head -n1`
     if [ $HUMAN_AUTHOR ]; then
       # Mark for failure if changes were made by anyone other than translatewiki.net
-      echo "Unexpectedly found ${HUMAN_AUTHOR} in ${FILE} (see CONTRIBUTING.md, i18n)"
+      echo "    Unexpectedly found ${HUMAN_AUTHOR} in ${FILE}"
       STATUS=1
     fi
   fi
 done
 
+echo "    Done checking locale authorship."
 exit $STATUS
