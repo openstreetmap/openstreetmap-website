@@ -14,7 +14,7 @@ Feature: Interact with the Microcosm
     Scenario: RSVP for an event
       Given there is an event for this microcosm
       And there is a user "will_attend@example.com" with name "Will"
-      And the user belongs to the microcosm
+      And this user is an "member" of this microcosm
       And user "will_attend@example.com" logs in
       And I am on this event page
       Then I should see "0 people are going."
@@ -28,14 +28,14 @@ Feature: Interact with the Microcosm
 
     Scenario: Members should not see join button
       Given there is a user "will_attend@example.com" with name "Will"
-      And the user belongs to the microcosm
+      And this user is an "member" of this microcosm
       And user "will_attend@example.com" logs in
       And I am on the microcosm "MappingDC" page
       Then I should not see a "Join" button
 
     Scenario: Step up
       Given there is a user "abe@example.com" with name "Abe"
-      And the user belongs to the microcosm
+      And this user is an "member" of this microcosm
       Given this microcosm has no organizers
       When user "abe@example.com" logs in
       And I am on the microcosm "MappingDC" page

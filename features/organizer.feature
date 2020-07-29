@@ -14,7 +14,7 @@ Feature: Manage a Microcosm
 
   Scenario: Edit a microcosm
     Given there is a user "abe@example.com" with name "Abe"
-    And this user is an organizer of this microcosm
+    And this user is an "organizer" of this microcosm
     When user "abe@example.com" logs in
     And I am on the microcosm "MappingDC" page
     And I click the link to "/microcosms/mappingdc/edit"
@@ -25,9 +25,9 @@ Feature: Manage a Microcosm
 
   Scenario: Promote a user to organizer
     Given there is a user "organizer@example.com" with name "Organizer"
-    And this user is an organizer of this microcosm
+    And this user is an "organizer" of this microcosm
     Given there is a user "promotee@example.com" with name "Promotee"
-    And the user belongs to the microcosm
+    And this user is a "member" of this microcosm
     When user "organizer@example.com" logs in
     And I am on the microcosm "MappingDC" page
     And I click "Members"
@@ -38,7 +38,7 @@ Feature: Manage a Microcosm
 
   Scenario: Create an event
     Given there is a user "abe@example.com" with name "Abe"
-    And this user is an organizer of this microcosm
+    And this user is an "organizer" of this microcosm
     When user "abe@example.com" logs in
     And I am on the microcosm "MappingDC" page
     And I click "Upcoming Events"
@@ -57,7 +57,7 @@ Feature: Manage a Microcosm
   Scenario: Edit an event
     Given there is an event for this microcosm
     And there is a user "abe@example.com" with name "Abe"
-    And this user is an organizer of this microcosm
+    And this user is an "organizer" of this microcosm
     When user "abe@example.com" logs in
     And I am on the microcosm "MappingDC" page
     And I click "Upcoming Events"
@@ -74,9 +74,9 @@ Feature: Manage a Microcosm
 
   Scenario: Remove a member
     Given there is a user "organizer@example.com" with name "Organizer"
-    And this user is an organizer of this microcosm
+    And this user is an "organizer" of this microcosm
     And there is a user "abe@example.com" with name "Nicolas"
-    And the user belongs to the microcosm
+    And this user is a "member" of this microcosm
     When user "organizer@example.com" logs in
     And I am on the microcosm "MappingDC" page
     And I click "Members"

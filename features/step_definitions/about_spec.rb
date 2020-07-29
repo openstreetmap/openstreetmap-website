@@ -87,12 +87,8 @@ Given("the microcosm has description {string}") do |desc|
   @the_microcosm.save
 end
 
-Given("the user belongs to the microcosm") do
-  @the_microcosm.microcosm_members.create!(:user_id => @the_user.id, :role => MicrocosmMember::Roles::MEMBER)
-end
-
-Given("this user is an organizer of this microcosm") do
-  @the_microcosm.microcosm_members.create!(:user_id => @the_user.id, :role => MicrocosmMember::Roles::ORGANIZER)
+Given("this user is a(n) {string} of this microcosm") do |role|
+  @the_microcosm.microcosm_members.create!(:user_id => @the_user.id, :role => role)
 end
 
 Given("this microcosm has no organizers") do

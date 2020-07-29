@@ -61,7 +61,7 @@ Feature: Learn about the Microcosm
 
   Scenario: See upcoming events
     Given there is a user "abe@example.com" with name "Abe"
-    And this user is an organizer of this microcosm
+    And this user is an "organizer" of this microcosm
     When user "abe@example.com" logs in
     And I am on the microcosm "MappingDC" page
     And I click "Upcoming Events"
