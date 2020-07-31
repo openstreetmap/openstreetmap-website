@@ -56,6 +56,10 @@
           <%= form.hidden_field(:user_id, :value => current_user&.id) %>
           <%= form.submit :value => t(".join.action") %>
         <% end %>
+      <% else %>
+        <%= form_with :model => @my_membership, :local => true, :method => :delete do |form| %>
+          <%= form.submit :value => t(".leave.action") %>
+        <% end %>
       <% end %>
     </div>
   </div>

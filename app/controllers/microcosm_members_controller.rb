@@ -26,6 +26,7 @@ class MicrocosmMembersController < ApplicationController
   end
 
   def destroy
+    # TODO: Should we remove the user from all the relevant events?
     if @microcosm_member.destroy
       redirect_to @microcosm_member.microcosm, :notice => t(".success")
     else

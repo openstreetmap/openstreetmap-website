@@ -11,7 +11,16 @@ Feature: Interact with the Microcosm
     And the microcosm has the "Website" page "https://mappingdc.org"
     And I am on the microcosm "MappingDC" page
 
-    Scenario: RSVP for an event
+  Scenario: A user may leave a microcosm
+    Given there is a user "abe@example.com" with name "Abraham"
+    And this user is an "member" of this microcosm
+    When user "abe@example.com" logs in
+    And I am on the microcosm "MappingDC" page
+    And I should see a "Leave" button
+    And I press "Leave"
+    Then I should see a "Join" button
+
+  Scenario: RSVP for an event
       Given there is an event for this microcosm
       And there is a user "will_attend@example.com" with name "Will"
       And this user is an "member" of this microcosm

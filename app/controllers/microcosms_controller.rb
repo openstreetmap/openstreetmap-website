@@ -20,7 +20,9 @@ class MicrocosmsController < ApplicationController
 
   # GET /microcosms/mycity
   # GET /microcosms/mycity.json
-  def show; end
+  def show
+    @my_membership = MicrocosmMember.find_or_initialize_by(:microcosm_id => @microcosm.id, :user_id => current_user&.id)
+  end
 
   def show_members
     # Could use pluralize, but we don't need that at this time.

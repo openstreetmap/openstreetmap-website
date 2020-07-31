@@ -70,6 +70,7 @@ class Ability
         can [:edit, :update], Microcosm, user_is_microcosm_organizer
         can [:create], MicrocosmMember
         # TODO: There's attribute level rules now.  We can use this for setting the role.
+        can [:destroy], MicrocosmMember, :user_id => user.id
         can [:destroy, :edit, :update], MicrocosmMember, :microcosm => user_is_microcosm_organizer
         can [:create, :update], Event, :microcosm => user_is_microcosm_organizer
 
