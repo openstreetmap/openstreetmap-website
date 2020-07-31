@@ -43,9 +43,7 @@ module Api
       way = Way.find(params[:id])
       new_way = Way.from_xml(request.raw_post)
 
-      unless new_way && new_way.id == way.id
-        raise OSM::APIBadUserInput, "The id in the url (#{way.id}) is not the same as provided in the xml (#{new_way.id})"
-      end
+      raise OSM::APIBadUserInput, "The id in the url (#{way.id}) is not the same as provided in the xml (#{new_way.id})" unless new_way && new_way.id == way.id
 
       way.update_from(new_way, current_user)
       render :plain => way.version.to_s
@@ -90,9 +88,7 @@ module Api
     end
 
     def index
-      unless params["ways"]
-        raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]"
-      end
+      raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]" unless params["ways"]
 
       ids = params["ways"].split(",").collect(&:to_i)
 
