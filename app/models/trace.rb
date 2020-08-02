@@ -220,17 +220,17 @@ class Trace < ApplicationRecord
       file = Tempfile.new("trace.#{id}")
 
       if tarred && gzipped
-        system("tar -zxOf #{trace_name} > #{file.path}")
+        system("tar", "-zxOf", trace_name, :out => file.path)
       elsif tarred && bzipped
-        system("tar -jxOf #{trace_name} > #{file.path}")
+        system("tar", "-jxOf", trace_name, :out => file.path)
       elsif tarred
-        system("tar -xOf #{trace_name} > #{file.path}")
+        system("tar", "-xOf", trace_name, :out => file.path)
       elsif gzipped
-        system("gunzip -c #{trace_name} > #{file.path}")
+        system("gunzip", "-c", trace_name, :out => file.path)
       elsif bzipped
-        system("bunzip2 -c #{trace_name} > #{file.path}")
+        system("bunzip2", "-c", trace_name, :out => file.path)
       elsif zipped
-        system("unzip -p #{trace_name} -x '__MACOSX/*' > #{file.path} 2> /dev/null")
+        system("unzip", "-p", trace_name, "-x", "__MACOSX/*", :out => file.path, :err => "/dev/null")
       end
 
       file.unlink
