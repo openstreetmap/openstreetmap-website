@@ -23,6 +23,9 @@ class Event < ApplicationRecord
   scope :future, -> { where("moment >= ?", Time.now) }
   scope :past, -> { where("moment < ?", Time.now) }
 
+  has_many :yes_attandances, -> { where :intention => EventAttendance::Intentions::YES }, :class_name => "EventAttendance"
+  has_many :yes_attendees, :through => :yes_attandances, :source => :user
+
   validates :moment, :datetime_format => true
   validates :location, :length => 1..255, :characters => true, :if => :location?
   validates :location_url, :length => 1..255, :if => :location_url?

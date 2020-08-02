@@ -26,12 +26,13 @@ class MicrocosmMembersController < ApplicationController
   end
 
   def destroy
-    # TODO: Should we remove the user from all the relevant events?
-    if @microcosm_member.destroy
+    issues = @microcosm_member.can_be_deleted
+    if issues.empty? && @microcosm_member.destroy
       redirect_to @microcosm_member.microcosm, :notice => t(".success")
     else
-      flash[:alert] = t(".failure")
-      render :edit
+      issues = issues.map { |i| t("activerecord.errors.models.microcosm_member." + i.to_s) }
+      issues = issues.to_sentence.capitalize
+      redirect_to @microcosm_member.microcosm, :flash => { :error => "#{t('.failure')} #{issues}." }
     end
   end
 

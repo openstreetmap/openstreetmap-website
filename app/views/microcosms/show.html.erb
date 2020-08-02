@@ -58,7 +58,7 @@
         <% end %>
       <% else %>
         <%= form_with :model => @my_membership, :local => true, :method => :delete do |form| %>
-          <%= form.submit :value => t(".leave.action") %>
+          <%= form.submit :value => t(".leave.action"), :data => { :confirm => t(".leave.confirm", :name => @microcosm.name) } %>
         <% end %>
       <% end %>
     </div>

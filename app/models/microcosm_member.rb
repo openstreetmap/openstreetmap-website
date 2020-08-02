@@ -32,5 +32,16 @@ class MicrocosmMember < ApplicationRecord
   validates :microcosm, :presence => true, :associated => true
   validates :user, :presence => true, :associated => true
   validates :role, :inclusion => { :in => Roles::ALL_ROLES }
-  # TODO: validate uniqueness of user's role in each microcosm.
+
+  # We assume this user already belongs to this microcosm.
+  def can_be_deleted
+    issues = []
+    # The user may also be an organizer under a separate membership.
+    issues.append(:is_organizer) if MicrocosmMember.where(:microcosm_id => microcosm_id, :user_id => user_id, :role => Roles::ORGANIZER).exists?
+
+    # check if attending events
+    issues.append(:is_attending_future_events) if microcosm.future_attendees.where(:id => user_id).exists?
+
+    issues
+  end
 end
