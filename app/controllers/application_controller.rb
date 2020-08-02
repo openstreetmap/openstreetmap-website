@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery :with => :exception
 
+  add_flash_types :warning, :error
+
   rescue_from CanCan::AccessDenied, :with => :deny_access
   check_authorization
 
