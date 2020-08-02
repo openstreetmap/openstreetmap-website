@@ -186,7 +186,7 @@ class MessageTest < ActiveSupport::TestCase
   def assert_message_ok(char, count)
     message = make_message(char, count)
     assert message.save!
-    response = message.class.find(message.id) # stand by for some über-generalisation...
+    response = message.class.find(message.id) # stand by for some uber-generalisation...
     assert_equal char * count, response.title, "message with #{count} #{char} chars (i.e. #{char.length * count} bytes) fails"
   end
 end

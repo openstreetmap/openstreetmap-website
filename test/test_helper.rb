@@ -118,7 +118,7 @@ module ActiveSupport
     ##
     # return request header for HTTP Basic Authorization
     def basic_authorization_header(user, pass)
-      { "Authorization" => format("Basic %{auth}", :auth => Base64.encode64("#{user}:#{pass}")) }
+      { "Authorization" => format("Basic %<auth>s", :auth => Base64.encode64("#{user}:#{pass}")) }
     end
 
     ##

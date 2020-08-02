@@ -77,7 +77,7 @@ module Api
       # reference and as the node element.
       way.nodes.each do |n|
         assert_select "osm way nd[ref='#{n.id}']", 1
-        assert_select "osm node[id='#{n.id}'][version='1'][lat='#{format('%.7f', n.lat)}'][lon='#{format('%.7f', n.lon)}']", 1
+        assert_select "osm node[id='#{n.id}'][version='1'][lat='#{format('%<lat>.7f', :lat => n.lat)}'][lon='#{format('%<lon>.7f', :lon => n.lon)}']", 1
       end
     end
 

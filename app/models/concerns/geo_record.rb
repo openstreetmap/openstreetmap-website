@@ -10,11 +10,11 @@ module GeoRecord
     end
 
     def to_s
-      format("%.7f", self)
+      format("%<coord>.7f", :coord => self)
     end
 
     def as_json(_)
-      format("%.7f", self).to_f
+      format("%<coord>.7f", :coord => self).to_f
     end
   end
 

@@ -1,8 +1,8 @@
 attrs = {
-  "minlat" => format("%.7f", bounds.min_lat),
-  "minlon" => format("%.7f", bounds.min_lon),
-  "maxlat" => format("%.7f", bounds.max_lat),
-  "maxlon" => format("%.7f", bounds.max_lon)
+  "minlat" => format("%<lat>.7f", :lat => bounds.min_lat),
+  "minlon" => format("%<lon>.7f", :lon => bounds.min_lon),
+  "maxlat" => format("%<lat>.7f", :lat => bounds.max_lat),
+  "maxlon" => format("%<lon>.7f", :lon => bounds.max_lon)
 }
 
 xml.bounds(attrs)

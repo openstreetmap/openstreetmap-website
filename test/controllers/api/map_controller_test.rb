@@ -131,8 +131,8 @@ module Api
       end
       assert_response :success, "Expected scucess with the map call"
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
-        assert_select "bounds[minlon='#{format('%.7f', minlon)}'][minlat='#{format('%.7f', minlat)}'][maxlon='#{format('%.7f', maxlon)}'][maxlat='#{format('%.7f', maxlat)}']", :count => 1
-        assert_select "node[id='#{node.id}'][lat='#{format('%.7f', node.lat)}'][lon='#{format('%.7f', node.lon)}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
+        assert_select "bounds[minlon='#{format('%<lon>.7f', :lon => minlon)}'][minlat='#{format('%<lat>.7f', :lat => minlat)}'][maxlon='#{format('%<lon>.7f', :lon => maxlon)}'][maxlat='#{format('%<lat>.7f', :lat => maxlat)}']", :count => 1
+        assert_select "node[id='#{node.id}'][lat='#{format('%<lat>.7f', :lat => node.lat)}'][lon='#{format('%<lon>.7f', :lon => node.lon)}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
           # This should really be more generic
           assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
         end
@@ -206,7 +206,7 @@ module Api
       assert_response :success, "The map call should have succeeded"
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
-        assert_select "node[id='#{node.id}'][lat='#{format('%.7f', node.lat)}'][lon='#{format('%.7f', node.lon)}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
+        assert_select "node[id='#{node.id}'][lat='#{format('%<lat>.7f', :lat => node.lat)}'][lon='#{format('%<lon>.7f', :lon => node.lon)}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
           # This should really be more generic
           assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
         end

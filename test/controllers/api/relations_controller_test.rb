@@ -993,10 +993,10 @@ module Api
         assert_response :success, "can't re-read changeset for modify test"
         assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
         assert_select "osm>changeset[id='#{changeset_id}']", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
-        assert_select "osm>changeset[min_lon='#{format('%.7f', bbox.min_lon)}']", 1, "Changeset min_lon wrong in #{@response.body}"
-        assert_select "osm>changeset[min_lat='#{format('%.7f', bbox.min_lat)}']", 1, "Changeset min_lat wrong in #{@response.body}"
-        assert_select "osm>changeset[max_lon='#{format('%.7f', bbox.max_lon)}']", 1, "Changeset max_lon wrong in #{@response.body}"
-        assert_select "osm>changeset[max_lat='#{format('%.7f', bbox.max_lat)}']", 1, "Changeset max_lat wrong in #{@response.body}"
+        assert_select "osm>changeset[min_lon='#{format('%<lon>.7f', :lon => bbox.min_lon)}']", 1, "Changeset min_lon wrong in #{@response.body}"
+        assert_select "osm>changeset[min_lat='#{format('%<lat>.7f', :lat => bbox.min_lat)}']", 1, "Changeset min_lat wrong in #{@response.body}"
+        assert_select "osm>changeset[max_lon='#{format('%<lon>.7f', :lon => bbox.max_lon)}']", 1, "Changeset max_lon wrong in #{@response.body}"
+        assert_select "osm>changeset[max_lat='#{format('%<lat>.7f', :lat => bbox.max_lat)}']", 1, "Changeset max_lat wrong in #{@response.body}"
       end
     end
 

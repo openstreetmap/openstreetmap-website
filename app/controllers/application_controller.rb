@@ -12,8 +12,10 @@ class ApplicationController < ActionController::Base
   around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
 
   attr_accessor :current_user
+  attr_accessor :oauth_token
 
   helper_method :current_user
+  helper_method :oauth_token
   helper_method :preferred_langauges
 
   private
@@ -58,7 +60,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_oauth
-    @oauth = current_user.access_token(Settings.oauth_key) if current_user && Settings.key?(:oauth_key)
+    @oauth_token = current_user.access_token(Settings.oauth_key) if current_user && Settings.key?(:oauth_key)
   end
 
   ##
