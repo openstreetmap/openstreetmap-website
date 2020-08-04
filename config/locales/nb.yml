@@ -67,6 +67,7 @@ nb:
       diary_comment: Dagbokskommentar
       diary_entry: Dagbokoppføring
       friend: Venn
+      issue: Sak
       language: Språk
       message: Melding
       node: Node
@@ -83,6 +84,7 @@ nb:
       relation: Relasjon
       relation_member: Relasjonsmedlem
       relation_tag: Relasjonsmerkelapp
+      report: Rapporter
       session: Økt
       trace: Spor
       tracepoint: Punkt i spor
@@ -137,6 +139,34 @@ nb:
       about_x_years:
         one: omkring et år siden
         other: omkring %{count} år siden
+      almost_x_years:
+        one: nesten ett år siden
+        other: nesten %{count} år siden
+      half_a_minute: et halvt minutt siden
+      less_than_x_seconds:
+        one: mindre enn ett sekund siden
+        other: mindre enn %{count} sekunder siden
+      less_than_x_minutes:
+        one: mindre enn ett minutt siden
+        other: mindre enn %{count} minutter siden
+      over_x_years:
+        one: mer enn ett år siden
+        other: mer enn %{count} år siden
+      x_seconds:
+        one: ett sekund siden
+        other: '%{count} sekunder siden'
+      x_minutes:
+        one: 1 minutt siden
+        other: '%{count} minutter siden'
+      x_days:
+        one: én dag siden
+        other: '%{count} dager siden'
+      x_months:
+        one: én måned siden
+        other: '%{count} måneder siden'
+      x_years:
+        one: ett år siden
+        other: '%{count} år siden'
   editor:
     default: Standard (nåværende %{name})
     potlatch:
@@ -151,6 +181,15 @@ nb:
     remote:
       name: Lokalt installert program
       description: Lokalt installert program (JOSM eller Merkaartor)
+  auth:
+    providers:
+      none: Ingen
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -273,7 +312,9 @@ nb:
         tag: Wiki-beskrivelsessiden for %{key}=%{value}-elementet
       wikidata_link: Elementet %{page} på Wikidata
       wikipedia_link: Artikkelen %{page} på Wikipedia
+      wikimedia_commons_link: Elementet %{page} på Wikimedia Commons
       telephone_link: Ring %{phone_number}
+      colour_preview: Forhåndsvisning av fargen %{colour_value}
     note:
       title: 'Merknad: %{id}'
       new_note: Ny merknad
@@ -284,17 +325,13 @@ nb:
       opened_by: Opprettet av %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
       opened_by_anonymous: Opprettet av anonym bruker for <abbr title='%{exact_time}'>%{when}
         siden</abbr>
-      commented_by: Kommentar fra %{user} for <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
-      commented_by_anonymous: Kommentar fra anonym bruker for <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
-      closed_by: Løst av %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
-      closed_by_anonymous: Løst av anonym bruker for <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
-      reopened_by: Gjenåpnet av %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
-      reopened_by_anonymous: Gjenåpnet av anonym bruker for <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
-      hidden_by: Skjult av %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
+      commented_by: Kommentar fra %{user} for <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Kommentar fra anonym bruker for <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Løst av %{user} for <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Løst av anonym bruker for <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Gjenåpnet av %{user} for <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Gjenåpnet av anonym bruker for <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Skjult av %{user} for <abbr title='%{exact_time}'>%{when}</abbr>
       report: Rapporter denne notisen
     query:
       title: Se over elementer
@@ -360,6 +397,7 @@ nb:
       in_language_title: Dagboksoppføringer på %{language}
       new: Ny dagboksoppføring
       new_title: Skriv et nytt innlegg i brukerdagboken min
+      my_diary: Min dagbok
       no_entries: Ingen innlegg i dagboka
       recent_entries: Nye innlegg i dagboka
       older_entries: Eldre innlegg
@@ -381,7 +419,7 @@ nb:
     diary_entry:
       posted_by_html: Skrevet av %{link_user} den %{created} på %{language_link}
       comment_link: Kommenter dette innlegget
-      reply_link: Svar på dette innlegget
+      reply_link: Send en beskjed til forfatteren
       comment_count:
         zero: Ingen kommentarer
         one: '%{count} kommentar'
@@ -1078,9 +1116,10 @@ nb:
     reopen:
       reopened: Saksstatus har blitt satt til 'Åpen'
     comments:
+      comment_from_html: Kommentar fra %{user_link} %{comment_created_at}
       reassign_param: Omtildele sak?
     reports:
-      reported_by_html: Reportert som %{category} av %{user}
+      reported_by_html: Reportert som %{category} av %{user} %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, kommentar #%{comment_id}'
@@ -1616,7 +1655,7 @@ nb:
         kartleggingsemner.
       welcome:
         url: /velkommen
-        title: Velkommen til OSM
+        title: Velkommen til OpenStreetMap
         description: Start med denne hurtigguiden som dekker det grunnleggende om
           OpenStreetMap.
       beginners_guide:
@@ -1625,8 +1664,9 @@ nb:
         description: Dugnadsbasert guide for nybegynnere.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: Still spørsmål eller sjekk svar på OSM sine spørsmål- og svar-sider.
+        title: Hjelpeforum
+        description: Still spørsmål eller sjekk svar på OpenStreetMaps spørsmål- og
+          svar-sider.
       mailing_lists:
         title: E-postlister
         description: Still et spørsmål eller diskuter interessante tema på en rekke
@@ -1650,8 +1690,8 @@ nb:
           Finn ut av hva du har bruk for å vite på Velkomstmatten.
       wiki:
         url: http://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: Se gjennom wikien for dyptpløyende OSM-dokumentasjon.
+        title: OpenStreetMaps wiki
+        description: Se gjennom wikien for dyptgående OSM-dokumentasjon.
     sidebar:
       search_results: Søkeresultater
       close: Lukk
@@ -1879,7 +1919,9 @@ nb:
       newer: Nyere spor
     trace:
       pending: VENTER
-      count_points: '%{count} punkter'
+      count_points:
+        one: ett punkt
+        other: '%{count} punkter'
       more: mer
       trace_details: Vis detaljer for spor
       view_map: Vis kart
@@ -1997,6 +2039,7 @@ nb:
       no_apps_html: Har du et program som du vil registrere for bruk med oss gjennom
         %{oauth}-standarden? Da må du først registrere ditt nettprogram før det kan
         gjøre OAuth-forespørsler til denne tjenesten.
+      oauth: OAuth
       registered_apps: 'Du har registrert følgende klientapplikasjoner:'
       register_new: Registrer din applikasjon
     form:
@@ -2130,8 +2173,9 @@ nb:
         For mer informasjon, se <a href="%{url}">denne wiki-siden</a> .
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Bidragsytervilkår
-      heading: Bidragsytervilkårene
+      title: Vilkår
+      heading: Vilkår
+      heading_ct: Bidragsytervilkår
       consider_pd: I tillegg til den ovennevnte avtalen anser jeg mine bidrag for
         å være i public domain
       consider_pd_why: hva er dette?
@@ -2435,6 +2479,18 @@ nb:
         hours:
           one: 1 time
           other: '%{count} timer'
+        days:
+          one: én dag
+          other: '%{count} dager'
+        weeks:
+          one: én uke
+          other: '%{count} uker'
+        months:
+          one: én måned
+          other: '%{count} måneder'
+        years:
+          one: ett år
+          other: '%{count} år'
     blocks_on:
       title: Blokkeringer av %{name}
       heading_html: Liste over blokkeringer av %{name}
@@ -2514,11 +2570,18 @@ nb:
         out: Forminsk utvalg
       locate:
         title: Vis posisjonen min
+        metersPopup:
+          one: Du er innenfor én meter fra dette punktet
+          other: Du er innenfor %{count} meter fra dette punktet
+        feetPopup:
+          one: Du er innenfor én fot fra dette punktet
+          other: Du er innenfor %{count} fot fra dette punktet
       base:
         standard: Standard
         cycle_map: Sykkelkart
         transport_map: Transport-kart
         hot: Humanitært
+        opnvkarte: ÖPNVKarte
       layers:
         header: Kartlag
         notes: Kartmerknader
@@ -2528,6 +2591,13 @@ nb:
         title: Lag
       copyright: © <a href='%{copyright_url}'>OpenStreetMaps bidragsytere</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Gi en donasjon</a>
+      terms: <a href='%{terms_url}' target='_blank'>Nettside- og API-vilkår</a>
+      thunderforest: Fliser levert av <a href='%{thunderforest_url}' target='_blank'>Andy
+        Allan</a>
+      opnvkarte: Fliser levert av <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
+      hotosm: Flisestil av <a href='%{hotosm_url}' target='_blank'>Humanitarian OpenStreetMap
+        Team</a> levert av <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        France</a>
     site:
       edit_tooltip: Rediger kartet
       edit_disabled_tooltip: Forstørr utvalg for å redigere kartet
