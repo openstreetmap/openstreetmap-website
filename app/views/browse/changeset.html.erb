@@ -15,7 +15,7 @@
 
   <% if current_user %>
     <div class="buttons clearfix subscribe-buttons">
-      <form action="#">
+      <form action="#" class="standard-form">
         <% if @changeset.subscribers.exists?(current_user.id) %>
           <input class="action-button" type="submit" name="unsubscribe" value="<%= t("javascripts.changesets.show.unsubscribe") %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
         <% else %>
@@ -29,7 +29,7 @@
 
   <% if @comments.length > 0 %>
     <div class='changeset-comments'>
-      <form action="#">
+      <form action="#" class="standard-form">
         <ul class="list-unstyled">
           <% @comments.each do |comment| %>
             <% if comment.visible %>
@@ -71,7 +71,7 @@
 
   <% if current_user %>
     <% unless @changeset.is_open? %>
-      <form action="#">
+      <form action="#" class="standard-form">
         <textarea class="comment" name="text" cols="40" rows="5"></textarea>
         <div class="buttons clearfix">
           <input type="submit" name="comment" value="<%= t("javascripts.changesets.show.comment") %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1" />

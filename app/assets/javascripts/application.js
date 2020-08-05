@@ -16,6 +16,8 @@
 //= require piwik
 //= require richtext
 //= require querystring
+//= require bs-custom-file-input
+//= require bs-custom-file-input-init
 
 /*
  * Called as the user scrolls/zooms around to manipulate hrefs of the
