@@ -4,9 +4,7 @@ module GPX
 
     include LibXML
 
-    attr_reader :possible_points
-    attr_reader :actual_points
-    attr_reader :tracksegs
+    attr_reader :possible_points, :actual_points, :tracksegs
 
     def initialize(file)
       @file = file
@@ -16,7 +14,8 @@ module GPX
       point = nil
 
       while reader.read
-        if reader.node_type == XML::Reader::TYPE_ELEMENT
+        case reader.node_type
+        when XML::Reader::TYPE_ELEMENT
           if reader.name == "trkpt"
             point = TrkPt.new(@tracksegs, reader["lat"].to_f, reader["lon"].to_f)
             @possible_points += 1
@@ -25,7 +24,7 @@ module GPX
           elsif reader.name == "time" && point
             point.timestamp = Time.parse(reader.read_string)
           end
-        elsif reader.node_type == XML::Reader::TYPE_END_ELEMENT
+        when XML::Reader::TYPE_END_ELEMENT
           if reader.name == "trkpt" && point && point.valid?
             point.altitude ||= 0
             yield point

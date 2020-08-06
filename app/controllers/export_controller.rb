@@ -11,11 +11,12 @@ class ExportController < ApplicationController
     bbox = BoundingBox.from_lon_lat_params(params)
     format = params[:format]
 
-    if format == "osm"
+    case format
+    when "osm"
       # redirect to API map get
       redirect_to :controller => "api/map", :action => "index", :bbox => bbox
 
-    elsif format == "mapnik"
+    when "mapnik"
       # redirect to a special 'export' cgi script
       format = params[:mapnik_format]
       scale = params[:mapnik_scale]

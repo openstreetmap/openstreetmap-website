@@ -74,11 +74,13 @@ class Node < ApplicationRecord
   def self.from_xml(xml, create = false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
+    pt = doc.find_first("//osm/node")
 
-    doc.find("//osm/node").each do |pt|
-      return Node.from_xml_node(pt, create)
+    if pt
+      Node.from_xml_node(pt, create)
+    else
+      raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/node element.")
     end
-    raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/node element.")
   rescue LibXML::XML::Error, ArgumentError => e
     raise OSM::APIBadXMLError.new("node", xml, e.message)
   end

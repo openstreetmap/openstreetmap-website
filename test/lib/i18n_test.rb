@@ -63,13 +63,14 @@ class I18nTest < ActiveSupport::TestCase
     I18n.t(scope || ".", :locale => I18n.default_locale).map do |key, value|
       scoped_key = scope ? "#{scope}.#{key}" : key
 
-      if value.is_a?(Hash)
+      case value
+      when Hash
         if value.keys - plural_keys == []
           scoped_key
         else
           translation_keys(scoped_key)
         end
-      elsif value.is_a?(String)
+      when String
         scoped_key
       end
     end.flatten

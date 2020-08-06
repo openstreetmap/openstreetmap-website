@@ -83,11 +83,13 @@ class Changeset < ApplicationRecord
   def self.from_xml(xml, create = false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
+    pt = doc.find_first("//osm/changeset")
 
-    doc.find("//osm/changeset").each do |pt|
-      return Changeset.from_xml_node(pt, create)
+    if pt
+      Changeset.from_xml_node(pt, create)
+    else
+      raise OSM::APIBadXMLError.new("changeset", xml, "XML doesn't contain an osm/changeset element.")
     end
-    raise OSM::APIBadXMLError.new("changeset", xml, "XML doesn't contain an osm/changeset element.")
   rescue LibXML::XML::Error, ArgumentError => e
     raise OSM::APIBadXMLError.new("changeset", xml, e.message)
   end

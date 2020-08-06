@@ -86,9 +86,7 @@ class OldRelation < ApplicationRecord
     @tags ||= Hash[old_tags.collect { |t| [t.k, t.v] }]
   end
 
-  attr_writer :members
-
-  attr_writer :tags
+  attr_writer :members, :tags
 
   def to_xml
     doc = OSM::API.new.get_xml_doc

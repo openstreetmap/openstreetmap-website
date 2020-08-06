@@ -1390,8 +1390,8 @@ module Api
     def amf_content(target, ref, data)
       a, b = 1.divmod(256)
       c = StringIO.new
-      c.write 0.chr + 0.chr   # version 0
-      c.write 0.chr + 0.chr   # n headers
+      c.write 0.chr * 2       # version 0
+      c.write 0.chr * 2       # n headers
       c.write a.chr + b.chr   # n bodies
       c.write AMF.encodestring(target)
       c.write AMF.encodestring(ref)

@@ -41,8 +41,8 @@ gem "image_optim_rails"
 
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
-gem "active_record_union"
 gem "activerecord-import"
+gem "active_record_union"
 gem "bootstrap", "~> 4.5.0"
 gem "bootstrap_form", "~> 4.0"
 gem "cancancan"

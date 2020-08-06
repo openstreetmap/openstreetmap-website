@@ -11,8 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :fetch_body
   around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
 
-  attr_accessor :current_user
-  attr_accessor :oauth_token
+  attr_accessor :current_user, :oauth_token
 
   helper_method :current_user
   helper_method :oauth_token
@@ -115,9 +114,10 @@ class ApplicationController < ActionController::Base
   end
 
   def database_status
-    if Settings.status == "database_offline"
+    case Settings.status
+    when "database_offline"
       "offline"
-    elsif Settings.status == "database_readonly"
+    when "database_readonly"
       "readonly"
     else
       "online"
@@ -127,9 +127,10 @@ class ApplicationController < ActionController::Base
   def api_status
     status = database_status
     if status == "online"
-      if Settings.status == "api_offline"
+      case Settings.status
+      when "api_offline"
         status = "offline"
-      elsif Settings.status == "api_readonly"
+      when "api_readonly"
         status = "readonly"
       end
     end
@@ -288,9 +289,10 @@ class ApplicationController < ActionController::Base
       :style_src => %w['unsafe-inline']
     )
 
-    if Settings.status == "database_offline" || Settings.status == "api_offline"
+    case Settings.status
+    when "database_offline", "api_offline"
       flash.now[:warning] = t("layouts.osm_offline")
-    elsif Settings.status == "database_readonly" || Settings.status == "api_readonly"
+    when "database_readonly", "api_readonly"
       flash.now[:warning] = t("layouts.osm_read_only")
     end
 
@@ -302,15 +304,13 @@ class ApplicationController < ActionController::Base
   end
 
   def preferred_editor
-    editor = if params[:editor]
-               params[:editor]
-             elsif current_user&.preferred_editor
-               current_user.preferred_editor
-             else
-               Settings.default_editor
-             end
-
-    editor
+    if params[:editor]
+      params[:editor]
+    elsif current_user&.preferred_editor
+      current_user.preferred_editor
+    else
+      Settings.default_editor
+    end
   end
 
   helper_method :preferred_editor
