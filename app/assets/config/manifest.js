@@ -21,3 +21,5 @@
 //= link_tree ../../../vendor/assets/potlatch2 .zip
 
 //= link_directory ../../../vendor/assets/swfobject
+
+//= link html5shiv/dist/html5shiv.js
