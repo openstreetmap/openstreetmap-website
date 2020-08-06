@@ -6,7 +6,7 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require osm
-//= require leaflet
+//= require leaflet/dist/leaflet-src
 //= require leaflet.osm
 //= require leaflet.map
 //= require leaflet.zoom
