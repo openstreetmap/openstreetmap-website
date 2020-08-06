@@ -15,7 +15,7 @@
 //= require oauth
 //= require piwik
 //= require richtext
-//= require querystring
+//= require qs/dist/qs
 //= require bs-custom-file-input
 //= require bs-custom-file-input-init
 
@@ -25,9 +25,8 @@
  */
 window.updateLinks = function (loc, zoom, layers, object) {
   $(".geolink").each(function (index, link) {
-    var querystring = require("querystring-component"),
-        href = link.href.split(/[?#]/)[0],
-        args = querystring.parse(link.search.substring(1)),
+    var href = link.href.split(/[?#]/)[0],
+        args = Qs.parse(link.search.substring(1)),
         editlink = $(link).hasClass("editlink");
 
     delete args.node;
@@ -39,7 +38,7 @@ window.updateLinks = function (loc, zoom, layers, object) {
       args[object.type] = object.id;
     }
 
-    var query = querystring.stringify(args);
+    var query = Qs.stringify(args);
     if (query) href += "?" + query;
 
     args = {

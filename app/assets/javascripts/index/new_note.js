@@ -1,8 +1,6 @@
-//= require querystring
+//= require qs/dist/qs
 
 OSM.NewNote = function (map) {
-  var querystring = require("querystring-component");
-
   var noteLayer = map.noteLayer,
       content = $("#sidebar_content"),
       page = {},
@@ -111,7 +109,7 @@ OSM.NewNote = function (map) {
 
     map.addLayer(noteLayer);
 
-    var params = querystring.parse(path.substring(path.indexOf("?") + 1));
+    var params = Qs.parse(path.substring(path.indexOf("?") + 1));
     var markerLatlng;
 
     if (params.lat && params.lon) {

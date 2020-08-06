@@ -1,8 +1,6 @@
-//= require querystring
+//= require qs/dist/qs
 
 OSM.initializeContextMenu = function (map) {
-  var querystring = require("querystring-component");
-
   map.contextmenu.addItem({
     text: I18n.t("javascripts.context.directions_from"),
     callback: function directionsFromHere(e) {
@@ -11,7 +9,7 @@ OSM.initializeContextMenu = function (map) {
           lat = latlng.lat.toFixed(precision),
           lng = latlng.lng.toFixed(precision);
 
-      OSM.router.route("/directions?" + querystring.stringify({
+      OSM.router.route("/directions?" + Qs.stringify({
         from: lat + "," + lng,
         to: $("#route_to").val()
       }));
@@ -26,7 +24,7 @@ OSM.initializeContextMenu = function (map) {
           lat = latlng.lat.toFixed(precision),
           lng = latlng.lng.toFixed(precision);
 
-      OSM.router.route("/directions?" + querystring.stringify({
+      OSM.router.route("/directions?" + Qs.stringify({
         from: $("#route_from").val(),
         to: lat + "," + lng
       }));
