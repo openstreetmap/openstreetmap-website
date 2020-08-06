@@ -180,8 +180,7 @@ module Api
       assert_not_nil checkway,
                      "uploaded way not found in data base after upload"
       # compare values
-      assert_equal checkway.nds.length, 2,
-                   "saved way does not contain exactly one node"
+      assert_equal(2, checkway.nds.length, "saved way does not contain exactly one node")
       assert_equal checkway.nds[0], node1.id,
                    "saved way does not contain the right node on pos 0"
       assert_equal checkway.nds[1], node2.id,

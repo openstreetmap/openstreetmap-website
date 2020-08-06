@@ -218,7 +218,7 @@ class User < ApplicationRecord
   end
 
   def is_friends_with?(new_friend)
-    friendships.where(:befriendee => new_friend).exists?
+    friendships.exists?(:befriendee => new_friend)
   end
 
   ##

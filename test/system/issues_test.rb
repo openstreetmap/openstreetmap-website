@@ -83,7 +83,7 @@ class IssuesTest < ApplicationSystemTestCase
     assert page.has_content?("test comment")
 
     issue.reload
-    assert_equal issue.comments.first.body, "test comment"
+    assert_equal("test comment", issue.comments.first.body)
   end
 
   def test_reassign_issue

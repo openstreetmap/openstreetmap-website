@@ -307,7 +307,7 @@ module Api
 
       updated = Trace.find(trace.id)
       # Ensure there's only one tag in the database after updating
-      assert_equal Tracetag.count, 1
+      assert_equal(1, Tracetag.count)
       # The new tag object might have a different id, so check the string representation
       assert_equal trace.tagstring, updated.tagstring
     end

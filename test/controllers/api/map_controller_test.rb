@@ -181,7 +181,7 @@ module Api
                                    .select { |a| a["version"] == node.version }
                                    .select { |a| a["changeset"] == node.changeset_id }
                                    .select { |a| a["timestamp"] == node.timestamp.xmlschema }
-      assert_equal result_nodes.count, 1
+      assert_equal(1, result_nodes.count)
       result_node = result_nodes.first
 
       assert_equal result_node["tags"], tag.k => tag.v

@@ -89,7 +89,7 @@ class BoundingBox
   end
 
   def complete?
-    !to_a.include?(nil)
+    to_a.exclude?(nil)
   end
 
   def centre_lon

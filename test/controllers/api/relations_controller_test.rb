@@ -296,10 +296,8 @@ module Api
       assert_not_nil checkrelation,
                      "uploaded relation not found in data base after upload"
       # compare values
-      assert_equal checkrelation.members.length, 0,
-                   "saved relation contains members but should not"
-      assert_equal checkrelation.tags.length, 1,
-                   "saved relation does not contain exactly one tag"
+      assert_equal(0, checkrelation.members.length, "saved relation contains members but should not")
+      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
       assert_equal changeset.id, checkrelation.changeset.id,
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,
@@ -326,10 +324,8 @@ module Api
       assert_not_nil checkrelation,
                      "uploaded relation not found in data base after upload"
       # compare values
-      assert_equal checkrelation.members.length, 1,
-                   "saved relation does not contain exactly one member"
-      assert_equal checkrelation.tags.length, 1,
-                   "saved relation does not contain exactly one tag"
+      assert_equal(1, checkrelation.members.length, "saved relation does not contain exactly one member")
+      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
       assert_equal changeset.id, checkrelation.changeset.id,
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,
@@ -356,10 +352,8 @@ module Api
       assert_not_nil checkrelation,
                      "uploaded relation not found in data base after upload"
       # compare values
-      assert_equal checkrelation.members.length, 1,
-                   "saved relation does not contain exactly one member"
-      assert_equal checkrelation.tags.length, 1,
-                   "saved relation does not contain exactly one tag"
+      assert_equal(1, checkrelation.members.length, "saved relation does not contain exactly one member")
+      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
       assert_equal changeset.id, checkrelation.changeset.id,
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,
@@ -387,10 +381,8 @@ module Api
       assert_not_nil checkrelation,
                      "uploaded relation not found in data base after upload"
       # compare values
-      assert_equal checkrelation.members.length, 2,
-                   "saved relation does not have exactly two members"
-      assert_equal checkrelation.tags.length, 1,
-                   "saved relation does not contain exactly one tag"
+      assert_equal(2, checkrelation.members.length, "saved relation does not have exactly two members")
+      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
       assert_equal changeset.id, checkrelation.changeset.id,
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,

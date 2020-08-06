@@ -30,14 +30,14 @@ class Acl < ApplicationRecord
   end
 
   def self.no_account_creation(address, options = {})
-    match(address, options).where(:k => "no_account_creation").exists?
+    match(address, options).exists?(:k => "no_account_creation")
   end
 
   def self.no_note_comment(address, domain = nil)
-    match(address, :domain => domain).where(:k => "no_note_comment").exists?
+    match(address, :domain => domain).exists?(:k => "no_note_comment")
   end
 
   def self.no_trace_download(address, domain = nil)
-    match(address, :domain => domain).where(:k => "no_trace_download").exists?
+    match(address, :domain => domain).exists?(:k => "no_trace_download")
   end
 end

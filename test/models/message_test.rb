@@ -64,7 +64,7 @@ class MessageTest < ActiveSupport::TestCase
       db_msg = msg.class.find(msg.id)
       assert_equal char, db_msg.title, "Database silently truncated message title"
     rescue ArgumentError => e
-      assert_equal e.to_s, "invalid byte sequence in UTF-8"
+      assert_equal("invalid byte sequence in UTF-8", e.to_s)
     end
   end
 

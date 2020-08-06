@@ -88,7 +88,7 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal node_template.visible, node.visible
     assert_equal node_template.timestamp.to_i, node.timestamp.to_i
 
-    assert_equal OldNode.where(:node_id => node_template.id).count, 1
+    assert_equal(1, OldNode.where(:node_id => node_template.id).count)
     old_node = OldNode.where(:node_id => node_template.id).first
     assert_not_nil old_node
     assert_equal node_template.latitude, old_node.latitude
@@ -105,7 +105,7 @@ class NodeTest < ActiveSupport::TestCase
     node_template = Node.find(node.id)
 
     assert_not_nil node_template
-    assert_equal OldNode.where(:node_id => node_template.id).count, 1
+    assert_equal(1, OldNode.where(:node_id => node_template.id).count)
     assert_not_nil node
 
     node_template.lat = 12.3456
@@ -121,7 +121,7 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal node_template.visible, node.visible
     # assert_equal node_template.tags, node.tags
 
-    assert_equal OldNode.where(:node_id => node_template.id).count, 2
+    assert_equal(2, OldNode.where(:node_id => node_template.id).count)
     old_node = OldNode.where(:node_id => node_template.id, :version => 2).first
     assert_not_nil old_node
     assert_equal node_template.latitude, old_node.latitude
@@ -137,7 +137,7 @@ class NodeTest < ActiveSupport::TestCase
     node_template = Node.find(node.id)
 
     assert_not_nil node_template
-    assert_equal OldNode.where(:node_id => node_template.id).count, 1
+    assert_equal(1, OldNode.where(:node_id => node_template.id).count)
     assert_not_nil node
 
     assert node.delete_with_history!(node_template, node.changeset.user)
@@ -150,7 +150,7 @@ class NodeTest < ActiveSupport::TestCase
     assert_not node.visible
     # assert_equal node_template.tags, node.tags
 
-    assert_equal OldNode.where(:node_id => node_template.id).count, 2
+    assert_equal(2, OldNode.where(:node_id => node_template.id).count)
     old_node = OldNode.where(:node_id => node_template.id, :version => 2).first
     assert_not_nil old_node
     assert_equal node_template.latitude, old_node.latitude

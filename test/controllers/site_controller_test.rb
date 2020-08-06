@@ -275,8 +275,8 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "edit"
-    assert_equal 1.0, assigns(:lat)
-    assert_equal 1.0, assigns(:lon)
+    assert_in_delta(1.0, assigns(:lat))
+    assert_in_delta(1.0, assigns(:lon))
     assert_equal 18, assigns(:zoom)
   end
 
@@ -312,8 +312,8 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     get edit_path(:way => way.id)
     assert_response :success
     assert_template "edit"
-    assert_equal 3.0, assigns(:lat)
-    assert_equal 3.0, assigns(:lon)
+    assert_in_delta(3.0, assigns(:lat))
+    assert_in_delta(3.0, assigns(:lon))
     assert_equal 17, assigns(:zoom)
   end
 
@@ -349,8 +349,8 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     get edit_path(:note => note.id)
     assert_response :success
     assert_template "edit"
-    assert_equal 1.0, assigns(:lat)
-    assert_equal 1.0, assigns(:lon)
+    assert_in_delta(1.0, assigns(:lat))
+    assert_in_delta(1.0, assigns(:lon))
     assert_equal 17, assigns(:zoom)
   end
 
@@ -386,8 +386,8 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     get edit_path(:gpx => gpx.id)
     assert_response :success
     assert_template "edit"
-    assert_equal 1.0, assigns(:lat)
-    assert_equal 1.0, assigns(:lon)
+    assert_in_delta(1.0, assigns(:lat))
+    assert_in_delta(1.0, assigns(:lon))
     assert_equal 16, assigns(:zoom)
   end
 

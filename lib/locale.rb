@@ -17,7 +17,7 @@ class Locale < I18n::Locale::Tag::Rfc4646
     def expand
       List.new(reverse.each_with_object([]) do |locale, expanded|
                  locale.candidates.uniq.reverse_each do |candidate|
-                   expanded << candidate if candidate == locale || !expanded.include?(candidate)
+                   expanded << candidate if candidate == locale || expanded.exclude?(candidate)
                  end
                end.reverse.uniq)
     end

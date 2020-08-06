@@ -908,7 +908,7 @@ module Api
       CHANGESET
       post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
-      assert_equal @response.body, "Unknown action ping, choices are create, modify, delete"
+      assert_equal("Unknown action ping, choices are create, modify, delete", @response.body)
     end
 
     ##
