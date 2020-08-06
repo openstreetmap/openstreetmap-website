@@ -1,4 +1,4 @@
-//= require ohauth
+//= require ohauth/ohauth
 
 $(document).ready(function () {
   var application_data = $("head").data();
