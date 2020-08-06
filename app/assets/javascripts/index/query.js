@@ -1,4 +1,4 @@
-//= require jquery.simulate
+//= require jquery-simulate/jquery.simulate
 //= require querystring
 
 OSM.Query = function (map) {
