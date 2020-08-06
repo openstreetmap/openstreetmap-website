@@ -1,7 +1,7 @@
 //= require jquery3
 //= require jquery_ujs
 //= require jquery.timers
-//= require jquery.cookie
+//= require jquery.cookie/jquery.cookie
 //= require jquery.throttle-debounce
 //= require popper
 //= require bootstrap-sprockets
