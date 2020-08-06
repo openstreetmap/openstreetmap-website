@@ -10,8 +10,8 @@ class Locale < I18n::Locale::Tag::Rfc4646
       preferred.expand & self
     end
 
-    def preferred(preferred)
-      candidates(preferred).first
+    def preferred(preferred, options = { :default => Locale.default })
+      candidates(preferred).first || options[:default]
     end
 
     def expand
@@ -19,7 +19,7 @@ class Locale < I18n::Locale::Tag::Rfc4646
                  locale.candidates.uniq.reverse_each do |candidate|
                    expanded << candidate if candidate == locale || !expanded.include?(candidate)
                  end
-               end.reverse.uniq << Locale.default)
+               end.reverse.uniq)
     end
   end
 
