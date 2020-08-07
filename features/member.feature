@@ -26,14 +26,16 @@ Feature: Interact with the Microcosm
       And this user is an "member" of this microcosm
       And user "will_attend@example.com" logs in
       And I am on this event page
-      Then I should see "0 people are going."
+      Then I should not see "people are going."
+      And I should not see "person is going."
       Then I should see "Are you going?"
       And I press "yes"
       And I am on this event page
-      Then I should see "1 people are going."
+      Then I should see "One person is going."
       And I press "no"
       And I am on this event page
-      Then I should see "0 people are going."
+      Then I should not see "people are going."
+      And I should not see "person is going."
 
     Scenario: Members should not see join button
       Given there is a user "will_attend@example.com" with name "Will"
