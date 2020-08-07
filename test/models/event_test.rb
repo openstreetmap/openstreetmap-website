@@ -34,14 +34,6 @@ class EventTest < ActiveSupport::TestCase
     validate({ :longitude => -180.00001 }, false)
   end
 
-  # There's a possibility to factory this out.  See microcosm_member_test.rb.
-  def validate(attrs, result = true)
-    object = build(:event, attrs)
-    valid = object.valid?
-    errors = object.errors.messages
-    assert_equal result, valid, "Expected #{attrs.inspect} to be #{result} but #{errors}"
-  end
-
   def test_location
     event = build(:event)
     assert event.location?

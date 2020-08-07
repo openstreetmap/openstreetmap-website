@@ -18,12 +18,6 @@ class EventAttendancesControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
-  # TODO: Factor this out.
-  def check_page_basics
-    assert_response :success
-    assert_no_missing_translations
-  end
-
   def test_create_when_save_works
     # arrange
     mm = create(:microcosm_member)

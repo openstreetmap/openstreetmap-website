@@ -2,31 +2,31 @@ require "test_helper"
 
 class MicrocosmTest < ActiveSupport::TestCase
   def test_microcosm_validations
-    validate({})
+    validate({}, true)
 
     validate({ :name => nil }, false)
     validate({ :name => "" }, false)
-    validate(:name => "a" * 255)
+    validate({ :name => "a" * 255 }, true)
     validate({ :name => "a" * 256 }, false)
 
     validate({ :description => nil }, false)
     validate({ :description => "" }, false)
-    validate(:description => "a" * 1023)
+    validate({ :description => "a" * 1023 }, true)
     validate({ :description => "a" * 1024 }, false)
 
     validate({ :location => nil }, false)
     validate({ :location => "" }, false)
-    validate(:location => "a" * 255)
+    validate({ :location => "a" * 255 }, true)
     validate({ :location => "a" * 256 }, false)
 
-    validate(:latitude => 90)
+    validate({ :latitude => 90 }, true)
     validate({ :latitude => 90.00001 }, false)
-    validate(:latitude => -90)
+    validate({ :latitude => -90 }, true)
     validate({ :latitude => -90.00001 }, false)
 
-    validate(:longitude => 180)
+    validate({ :longitude => 180 }, true)
     validate({ :longitude => 180.00001 }, false)
-    validate(:longitude => -180)
+    validate({ :longitude => -180 }, true)
     validate({ :longitude => -180.00001 }, false)
 
     [:min, :max].each do |extremum|
@@ -37,14 +37,6 @@ class MicrocosmTest < ActiveSupport::TestCase
         validate({ attr => 200 }, false)
       end
     end
-  end
-
-  # There's a possibility to factory this out.  See microcosm_member_test.rb.
-  def validate(attrs, result = true)
-    object = build(:microcosm, attrs)
-    valid = object.valid?
-    errors = object.errors.messages
-    assert_equal result, valid, "Expected #{attrs.inspect} to be #{result} but #{errors}"
   end
 
   def test_set_link_that_does_not_exist
@@ -136,7 +128,7 @@ class MicrocosmTest < ActiveSupport::TestCase
     # act
     o = m.organizers
     # assert
-    assert_equal o, []
+    assert_equal [], o
   end
 
   def test_organizers_not_zero
@@ -158,9 +150,9 @@ class MicrocosmTest < ActiveSupport::TestCase
     # act
     b = m.bbox
     # assert
-    assert_equal b.min_lat, 10
-    assert_equal b.max_lat, 20
-    assert_equal b.min_lon, 30
-    assert_equal b.max_lon, 40
+    assert_equal 10, b.min_lat
+    assert_equal 20, b.max_lat
+    assert_equal 30, b.min_lon
+    assert_equal 40, b.max_lon
   end
 end

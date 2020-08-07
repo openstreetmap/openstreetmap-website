@@ -37,10 +37,10 @@ class MicrocosmMember < ApplicationRecord
   def can_be_deleted
     issues = []
     # The user may also be an organizer under a separate membership.
-    issues.append(:is_organizer) if MicrocosmMember.where(:microcosm_id => microcosm_id, :user_id => user_id, :role => Roles::ORGANIZER).exists?
+    issues.append(:is_organizer) if MicrocosmMember.exists?(:microcosm_id => microcosm_id, :user_id => user_id, :role => Roles::ORGANIZER)
 
     # check if attending events
-    issues.append(:is_attending_future_events) if microcosm.future_attendees.where(:id => user_id).exists?
+    issues.append(:is_attending_future_events) if microcosm.future_attendees.exists?(:id => user_id)
 
     issues
   end

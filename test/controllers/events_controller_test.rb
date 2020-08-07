@@ -34,11 +34,6 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     # )
   end
 
-  def check_page_basics
-    assert_response :success
-    assert_no_missing_translations
-  end
-
   def test_index_get_future
     # arrange
     e = create(:event)
