@@ -32,7 +32,7 @@ class MicrocosmMembersController < ApplicationController
     else
       issues = issues.map { |i| t("activerecord.errors.models.microcosm_member." + i.to_s) }
       issues = issues.to_sentence.capitalize
-      redirect_to @microcosm_member.microcosm, :flash => { :error => "#{t('.failure')} #{issues}." }
+      redirect_to @microcosm_member.microcosm, :error => "#{t('.failure')} #{issues}."
     end
   end
 

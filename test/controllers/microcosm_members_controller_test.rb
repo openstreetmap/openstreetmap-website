@@ -170,6 +170,6 @@ class MicrocosmMemberControllerTest < ActionDispatch::IntegrationTest
     end
 
     # assert
-    assert_equal I18n.t("microcosm_members.destroy.failure"), flash[:alert]
+    assert_match(/#{I18n.t("microcosm_members.destroy.failure")}/, flash[:error])
   end
 end
