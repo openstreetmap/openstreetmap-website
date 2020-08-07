@@ -116,6 +116,9 @@ nb:
         longitude: Lengdegrad
         public: Offentlig
         description: Beskrivelse
+        gpx_file: 'Last opp GPX-fil:'
+        visibility: 'Synlighet:'
+        tagstring: 'Egenskaper:'
       message:
         sender: Avsender
         title: Emne
@@ -128,6 +131,9 @@ nb:
         description: Beskrivelse
         languages: Språk
         pass_crypt: Passord
+    help:
+      trace:
+        tagstring: kommaseparert
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -426,11 +432,13 @@ nb:
         other: '%{count} kommentarer'
       edit_link: Rediger innlegget
       hide_link: Skjul innlegget
+      unhide_link: Fjern skjuling av dette innlegget
       confirm: Bekreft
       report: Rapporter denne innføringen
     diary_comment:
       comment_from_html: Kommentar fra %{link_user} den %{comment_created_at}
       hide_link: Skjul denne kommentaren
+      unhide_link: Fjern skjuling av denne kommentaren
       confirm: Bekreft
       report: Rapporter denne kommentaren
     location:
@@ -1223,14 +1231,15 @@ nb:
       hi: Hei %{to_user},
       header: '%{from_user} har kommentert på OpenStreetMap-dagbokinnlegget med emnet
         %{subject}:'
-      footer: Du kan også lese kommentaren på %{readurl} og du kan kommentere på %{commenturl}
-        eller svare på %{replyurl}
+      footer: Du kan også lese kommentaren på %{readurl}, og du kan kommentere på
+        %{commenturl} eller sende forfatteren en melding på %{replyurl}
     message_notification:
       subject_header: '[OpenStreetMap] %{subject}'
       hi: Hei %{to_user},
       header: '%{from_user} har sendt deg en melding gjennom OpenStreetMap med emnet
         %{subject}:'
-      footer_html: Du kan også lese meldingen på %{readurl} og du kan svare på %{replyurl}
+      footer_html: Du kan også lese meldingen på %{readurl}, eller sende forfatteren
+        en melding på %{replyurl}
     friendship_notification:
       hi: Hei %{to_user},
       subject: '[OpenStreetMap] %{user} la deg til som en venn'
@@ -1250,8 +1259,9 @@ nb:
         more_info_2: 'det kan bli funnet hos:'
       success:
         subject: '[OpenStreetMap] Vellykket import av GPX'
-        loaded_successfully: lastet med %{trace_points} av %{possible_points} mulige
-          punkter.
+        loaded_successfully:
+          one: lastet med %{trace_points} av %{possible_points} mulig punkt.
+          other: lastet med %{trace_points} av %{possible_points} mulige punkter.
     signup_confirm:
       subject: '[OpenStreetMap] Velkommen til OpenStreetMap'
       greeting: Hei der!
@@ -1320,8 +1330,8 @@ nb:
         subject_other: '[OpenStreetMap] %{commenter} har kommentert en endring du
           har vist interesse for'
         your_changeset: '%{commenter} har kommentert en av dine endringer %{time}'
-        commented_changeset: '%{commenter} har kommentert en kartendring som du holder
-          oversikten over, opprettet av %{changeset_author} den %{time}'
+        commented_changeset: '%{commenter} kommenterte %{time} en kartendring som
+          du holder oversikten over, opprettet av %{changeset_author}'
         partial_changeset_with_comment: med kommentaren '%{changeset_comment}'
         partial_changeset_without_comment: uten kommentar
       details: Flere detaljer om endringen finnes på %{url}.
@@ -1427,10 +1437,17 @@ nb:
         resultatet under samme lisens. Se <a href=''%{copyright_path}''>Opphavsrett
         og lisenssiden</a> for detaljer.'
       legal_title: Juridisk
-      legal_1_html: |-
-        Dette nettstedet og mange tilknyttede tjenester drives formelt av <a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) på vegne av fellesskapet. Bruken av alle OSMF-drevne tjenester er gjenstand for vår <a href="http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">politikk for akseptabel bruk</a> og vår <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy">personvernspolitikk</a>
-        <br>
-        Vennligst <a href='http://osmfoundation.org/Contact'>kontakt OSMF</a> om du har spørsmål knyttet til lisensiering, opphavsrett eller andre juridiske spørsmål.
+      legal_1_html: Dette nettstedet og mange tilknyttede tjenester drives formelt
+        av <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
+        på vegne av fellesskapet. Bruken av alle OSMF-drevne tjenester er gjenstand
+        for våre <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">bruksvilkår</a>,
+        vår <a href="http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">politikk
+        for akseptabel bruk</a> og vår <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy">personvernspolitikk</a>
+      legal_2_html: |-
+        <a href="https://osmfoundation.org/Contact">Kontakt OSMF</a>
+        hvis du har spørsmål rundt lisenser, opphavsrett eller andre juridiske spørsmål.
+        <br />
+        OpenStreetMap, forstørrelsesglasslogoen og State of the Map er <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">registrerte varemerker for OSMF</a>.
       partners_title: Partnere
     copyright:
       foreign:
@@ -1458,8 +1475,8 @@ nb:
           distribuere resultatet under samme lisens. Den
           fullstendige <a href="http://creativecommons.org/licenses/by-sa/2.0/legalcode">juridiske teksten</a> beskriver rettigheter og ansvar.
         intro_3_1_html: |-
-          Kartografien i våre kartruter, samt dokumentasjonen, er lisensiert under <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Attribution-ShareAlike 2.0</a> lisensen (CC BY-SA).
+          Dokumentasjonen vår er lisensiert under <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0).
         credit_title_html: Hvordan kreditere OpenStreetMap
         credit_1_html: Vi krever at du bruker godskrivinga «© OpenStreetMap-bidragsyterene».
         credit_2_1_html: "Du må også gjøre det klart at dataene er tilgjengelige under
@@ -1471,6 +1488,9 @@ nb:
           foreslår vi at du\n henviser dine lesere til openstreetmap.org (kanskje
           ved å utvide\n'OpenStreetMap' til denne fulle adressen), til opendatacommons.org,
           og\n hvis relevant, til creativecommons.org."
+        credit_3_1_html: |-
+          Kartflisene i standardkartlaget på www.openstreetmap.org er et produsert verk («Produced Work») av OpenStreetMap Foundation som bruker data from OpenStreetMap lisensiert under Open Database License. Hvis du bruker disse kartflisene, vennligst bruk følgende kreditering:
+          «Grunnkart og data fra OpenStreetMap og OpenStreetMap Foundation».
         credit_4_html: For et navigerbart elektronisk kart bør krediteringen vises
           i hjørnet på kartet.
         attribution_example:
@@ -1850,11 +1870,6 @@ nb:
         punkter med tidsstempel)
     new:
       upload_trace: Last opp GPS-spor
-      upload_gpx: 'Last opp GPX-fil:'
-      description: 'Beskrivelse:'
-      tags: 'Egenskaper:'
-      tags_help: kommaseparert
-      visibility: 'Synlighet:'
       visibility_help: hva betyr dette?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Hjelp
@@ -1876,18 +1891,6 @@ nb:
     edit:
       title: Redigerer spor %{name}
       heading: Redigerer spor %{name}
-      filename: 'Filnavn:'
-      download: last ned
-      uploaded_at: 'Lastet opp:'
-      points: 'Punkter:'
-      start_coord: 'Startkoordinat:'
-      map: kart
-      edit: rediger
-      owner: 'Eier:'
-      description: 'Beskrivelse:'
-      tags: 'Egenskaper:'
-      tags_help: kommaseparert
-      visibility: 'Synlighet:'
       visibility_help: hva betyr dette?
     update:
       updated: Sporet ble oppdatert
@@ -2176,12 +2179,21 @@ nb:
       title: Vilkår
       heading: Vilkår
       heading_ct: Bidragsytervilkår
-      consider_pd: I tillegg til den ovennevnte avtalen anser jeg mine bidrag for
-        å være i public domain
+      read and accept with tou: Les vilkårene for bidragsytere og bruksvilkårene,
+        merk av begge avkrysningsboksene og trykk fortsett.
+      contributor_terms_explain: Denne avtalen beskriver vilkårene for dine eksisterende
+        og framtidige bidrag.
+      read_ct: Jeg har lest og samtykker i vilkårene for bidragsytere
+      tou_explain_html: Disse %{tou_link} beskriver bruken av nettstedet og annen
+        infrastruktur som tilbys av OSMF. Trykk på lenka, les og samtykk til teksten.
+      read_tou: Jeg har lest og samtykker til bruksvilkårene
+      consider_pd: I tillegg til det ovennevnte anser jeg mine bidrag for å være i
+        public domain
       consider_pd_why: hva er dette?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Informasjon for å hjelpe å forstå disse vilkårene: et <a href="%{summary}">menneskelig
         lesbart sammendrag</a> og noen <a href="%{translations}">uformelle oversettelser</a>'
+      continue: Fortsett
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Avslå
       you need to accept or decline: Les og deretter enten godta eller avslå de nye
@@ -2221,7 +2233,7 @@ nb:
       ct status: 'Bidragsyters vilkår:'
       ct undecided: Usikker
       ct declined: Avslått
-      latest edit: 'Siste redigering %{ago}:'
+      latest edit: 'Siste redigering (%{ago}):'
       email address: 'E-postadresse:'
       created from: 'Opprettet fra:'
       status: 'Status:'
@@ -2465,7 +2477,7 @@ nb:
       title: Tilbakekaller blokkering på %{block_on}
       heading_html: Tilbakekaller blokkering på %{block_on} av %{block_by}
       time_future: Denne blokkeringen ender om %{time}
-      past: Denne blokkeringen endte for %{time} siden og kan ikke tilbakekalles nå.
+      past: Denne blokkeringen endte for %{time} og kan ikke tilbakekalles nå.
       confirm: Er du sikker på at du vil tilbakekalle denne blokkeringen?
       revoke: Tilbakekall!
       flash: Denne blokkeringen har blitt tilbakekalt.
@@ -2474,7 +2486,7 @@ nb:
       until_login: Aktiv inntil brukeren logger inn.
       time_future_and_until_login: Slutter om %{time} og etter at brukeren har logget
         inn.
-      time_past: Sluttet for %{time} siden.
+      time_past: Sluttet for %{time}.
       block_duration:
         hours:
           one: 1 time

@@ -123,6 +123,9 @@ el:
         longitude: Γεωγραφικό μήκος
         public: Δημόσιο
         description: Περιγραφή
+        gpx_file: 'Αποστολή αρχείου GPX:'
+        visibility: 'Ορατότητα:'
+        tagstring: 'Χαρακτηριστικά:'
       message:
         sender: Αποστολέας
         title: Θέμα
@@ -135,6 +138,9 @@ el:
         description: Περιγραφή
         languages: Γλώσσες
         pass_crypt: Κωδικός
+    help:
+      trace:
+        tagstring: διαχωρισμένο με κόμμα
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -1916,11 +1922,6 @@ el:
         ως αναγνωρίσιμο, τα σημεία ταξινόμησης με χρονικά σήματα)
     new:
       upload_trace: Μεταφόρτωση ίχνους GPS
-      upload_gpx: 'Αποστολή αρχείου GPX:'
-      description: 'Περιγραφή:'
-      tags: 'Χαρακτηριστικά:'
-      tags_help: διαχωρισμένο με κόμμα
-      visibility: 'Ορατότητα:'
       visibility_help: τι σημαίνει αυτό;
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Βοήθεια
@@ -1942,18 +1943,6 @@ el:
     edit:
       title: Επεξεργασία ίχνους %{name}
       heading: Επεξεργασία ίχνους %{name}
-      filename: 'Όνομα αρχείου:'
-      download: λήψη
-      uploaded_at: 'Μεταφορτώθηκε:'
-      points: 'Σημεία:'
-      start_coord: 'Συντεταγμένες αρχής:'
-      map: χάρτης
-      edit: επεξεργασία
-      owner: 'Ιδιοκτήτης:'
-      description: 'Περιγραφή:'
-      tags: 'Χαρακτηριστικά:'
-      tags_help: οριοθετημένο με κόμμα
-      visibility: 'Ορατότητα:'
       visibility_help: τι σημαίνει αυτό;
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
@@ -2072,9 +2061,9 @@ el:
       title: Η αίτηση επαλήθευσης απέτυχε
       denied: Έχετε αρνηθεί την πρόσβαση της εφαρμογής %{app_name} στον λογαριασμό
         σας.
-      invalid: Το κουπόνι εξουσιοδότησης δεν είναι έγκυρο.
+      invalid: Το αδειοδοτικό επαλήθευσης δεν είναι έγκυρο.
     revoke:
-      flash: Ανακαλέσατε το κουπόνι για το %{application}.
+      flash: Ανακαλέσατε την αδειοδότηση για το %{application}.
     permissions:
       missing: Δεν έχετε επιτρέψει την πρόσβαση εφαρμογής σε αυτήν την λειτουργία
   oauth_clients:
@@ -2086,8 +2075,8 @@ el:
       title: Λεπτομέρειες OAuth για το %{app_name}
       key: 'Κωδικός Καταναλωτή :'
       secret: 'Μυστικό του Καταναλωτή:'
-      url: 'Σημείο Ζήτησης URL:'
-      access_url: 'Πρόσβαση στο Σημείο URL:'
+      url: 'URL αιτήματος αδειοδότησης:'
+      access_url: 'URL πρόσβασης αδειοδότησης:'
       authorize_url: 'Εξουσιοδοτήστε το URL:'
       support_notice: Υποστηρίζουμε τις υπογραφές HMAC-SHA1 (συνιστάται) και RSA-SHA1.
       edit: Επεξεργασία λεπτομερειών
@@ -2106,8 +2095,8 @@ el:
       title: Οι λεπτομέρειες του OAuth μου
       my_tokens: Οι Εξουσιοδοτημένες Εφαρμογές μου
       list_tokens: 'Τα ακόλουθα σημεία έχουν εκδοθεί για προγράμματα στο όνομα σας:'
-      application: Όνομα Εφαρμογής
-      issued_at: Εκδόθηκε Στις
+      application: Όνομα εφαρμογής
+      issued_at: Εκδόθηκε στις
       revoke: Ανακαλέστε!
       my_apps: Οι Εφαρμογές Πελάτη Μου
       no_apps_html: Έχετε μια εφαρμογή που θέλετε να καταχωρήσετε για χρήση μαζί μας
@@ -2119,7 +2108,7 @@ el:
     form:
       name: Όνομα
       required: Απαιτείται
-      url: URL Κύριας Εφαρμογής
+      url: URL κύριας εφαρμογής
       callback_url: URL Επανάκλησης
       support_url: URL Υποστήριξης
       requests: 'Αιτηθείτε τις ακόλουθες άδειες από τον χρήστη:'
@@ -2294,10 +2283,10 @@ el:
         τη σελίδα.
       deleted: διεγράφη
     show:
-      my diary: Το Ημερολόγιό Μου
+      my diary: Το ημερολόγιό μου
       new diary entry: νέα καταχώρηση ημερολογίου
-      my edits: Οι Επεξεργασίες Μου
-      my traces: Τα Ίχνη Μου
+      my edits: Οι επεξεργασίες μου
+      my traces: Τα ίχνη μου
       my notes: Οι Σημειώσεις Μου
       my messages: Τα Μηνύματά Μου
       my profile: Το Προφίλ Μου
@@ -2316,7 +2305,7 @@ el:
       mapper since: 'Χαρτογράφος από:'
       ct status: 'Όροι συνεισφοράς:'
       ct undecided: Αναποφάσιστος
-      ct declined: Απόρριψη
+      ct declined: Απορρίφθηκε
       latest edit: 'Τελευταία επεξεργασία (%{ago}):'
       email address: 'Διεύθυνση Ηλ. Ταχυδρομείου:'
       created from: 'Δημιουργήθηκε από:'
@@ -2324,7 +2313,7 @@ el:
       spam score: 'Σκορ Spam:'
       description: Περιγραφή
       user location: Τοποθεσία χρήστη
-      if_set_location_html: Ορίσετε την τοποθεσία του σπιτιού σας στις %{settings_link}
+      if_set_location_html: Ορίστε την τοποθεσία του σπιτιού σας από %{settings_link},
         για να δείτε κοντινούς χρήστες.
       settings_link_text: ρυθμίσεις
       my friends: Οι φίλοι μου
@@ -2332,8 +2321,8 @@ el:
       km away: '%{count}χλμ μακριά'
       m away: '%{count}μ μακριά'
       nearby users: Άλλοι κοντινοί χρήστες
-      no nearby users: Δεν υπάρχουν άλλοι χρήστες που παραδέχονται ότι χαρτογραφούν
-        κοντά σου προς το παρόν.
+      no nearby users: Δεν υπάρχουν άλλοι χρήστες που δήλωσαν ότι χαρτογραφούν κοντά
+        σας προς το παρόν.
       role:
         administrator: Αυτός ο χρήστης είναι διαχειριστής
         moderator: Αυτός ο χρήστης είναι συντονιστής
@@ -2341,7 +2330,7 @@ el:
           administrator: Χορήγηση πρόσβασης διαχειριστή
           moderator: Χορήγηση πρόσβασης συντονιστή
         revoke:
-          administrator: Ανακαλέστε πρόσβαση διαχειριστή
+          administrator: Ανακαλέστε την πρόσβαση διαχειριστή
           moderator: Ανάκληση πρόσβασης συντονιστή
       block_history: Ενεργές Φραγές
       moderator_history: Φραγές που Επιβλήθηκαν
@@ -2366,10 +2355,10 @@ el:
     account:
       title: Επεξεργασία λογαριασμού
       my settings: Οι ρυθμίσεις μου
-      current email address: 'Τωρινή Διεύθυνση Ηλεκτρονικού Ταχυδρομείου:'
-      new email address: 'Νέα Διεύθυνση ηλεκτρονικού ταχυδρομείου:'
-      email never displayed publicly: (ποτέ δεν εμφανίζεται δημόσια)
-      external auth: 'Εξωτερικός Έλεγχος Ταυτότητας:'
+      current email address: 'Τρέχουσα διεύθυνση ηλεκτρονικού ταχυδρομείου:'
+      new email address: 'Νέα διεύθυνση ηλεκτρονικού ταχυδρομείου:'
+      email never displayed publicly: (να μην εμφανίζεται ποτέ δημόσια)
+      external auth: 'Εξωτερική επαλήθευση ταυτότητας:'
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: τι είναι αυτό;
@@ -2383,7 +2372,7 @@ el:
           οι προηγούμενες επεξεργασίες είναι ανώνυμες.
         disabled link text: γιατί δεν μπορώ να επεξεργαστώ τον χάρτη;
       public editing note:
-        heading: 'Δημόσια επεξεργασία:'
+        heading: Δημόσια επεξεργασία
         html: Αυτήν τη στιγμή οι επεξεργασίες σας είναι ανώνυμες και δεν μπορεί κανείς
           να σας στείλει μήνυμα ή να δει την τοποθεσία σας. Για να δείξετε τι έχετε
           επεξεργαστεί και να επιτρέψετε στους άλλους έρθουν σε επαφή μαζί σας μέσω
@@ -2397,22 +2386,22 @@ el:
         heading: 'Όροι Συνεισφοράς:'
         agreed: Έχετε αποδεχτεί τους νέους Όρους Συνεισφοράς.
         not yet agreed: Δεν έχετε αποδεχτεί τους νέους Όρους Συνεισφοράς.
-        review link text: Παρακαλώ ακολουθήστε αυτό το σύνδεσμο όταν μπορείτε για
-          να διαβάσετε και να αποδεχθείτε τους νέους Όρους Συνεισφοράς.
-        agreed_with_pd: Έχετε επίσης δηλώσει ότι θεωρείτε τις επεξεργασίες σας οτι
-          είναι Public Domain.
+        review link text: Παρακαλούμε ακολουθήστε αυτό το σύνδεσμο, για την ενημέρωση
+          σας και την αποδοχή των νέων όρων συνεισφοράς.
+        agreed_with_pd: Δηλώσατε επίσης ότι αποδέχεστε ότι οι τροποποιήσεις σας ανήκουν
+          στον δημόσιο τομέα.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: τι είναι αυτό;
       profile description: 'Περιγραφή Προφίλ:'
       preferred languages: 'Προτιμώμενες Γλώσσες:'
-      preferred editor: 'Προτιμώμενο Πρόγραμμα Επεξεργασίας:'
+      preferred editor: 'Προτιμώμενο πρόγραμμα επεξεργασίας:'
       image: 'Εικόνα:'
       gravatar:
         gravatar: Χρήση Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: τι είναι αυτό;
         disabled: 'Το Gravatar έχει απενεργοποιηθεί:'
-        enabled: Εμφάνισης του Gravatar σας έχει ενεργοποιηθεί.
+        enabled: Έχει ενεργοποιηθεί η εμφάνιση του Gravatar σας.
       new image: Προσθήκη εικόνας
       keep image: Διατήρηση της τρέχουσας εικόνας
       delete image: Αφαίρεση της τρέχουσας εικόνας
@@ -2424,8 +2413,8 @@ el:
       longitude: 'Γεωγραφικό μήκος:'
       update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ στον
         χάρτη;
-      save changes button: Αποθήκευση Αλλαγών
-      make edits public button: Κάνε όλες τις επεξεργασίες μου δημόσιες
+      save changes button: Αποθήκευση αλλαγών
+      make edits public button: Να γίνουν όλες οι επεξεργασίες μου δημόσιες
       return to profile: Επιστροφή στο προφίλ
       flash update success confirm needed: Οι πληροφορίες του χρήστη ενημερώθηκαν
         επιτυχώς. Ελέγξτε το ηλεκτρονικό ταχυδρομείο σας για μια ειδοποίηση επιβεβαίωσης
@@ -2439,9 +2428,9 @@ el:
       press confirm button: Πατήστε το κουμπί "Επιβεβαίωση" για να ενεργοποιήσετε
         το λογαριασμό σας.
       button: Επιβεβαίωση
-      success: Επιβεβαιώθηκε ο λογαριασμός σου, σε ευχαριστούμε για την εγγραφή σου!
+      success: Επιβεβαιώθηκε ο λογαριασμός σας, ευχαριστούμε για την εγγραφή σας!
       already active: Αυτός ο λογαριασμός έχει ήδη επιβεβαιωθεί.
-      unknown token: Αυτός ο κωδικός επιβεβαίωσης έχει λήξει ή δεν υπάρχει.
+      unknown token: Ο κωδικός επιβεβαίωσης έληξε ή δεν υπάρχει.
       reconfirm_html: Εάν θέλετε να σας ξαναστείλουμε το email επιβεβαίωσης <a href="%{reconfirm}">πατήστε
         εδώ</a>.
     confirm_resend:
@@ -2476,7 +2465,7 @@ el:
         %{date}'
       summary_no_ip_html: '%{name} δημιουργήθηκε στις %{date}'
       confirm: Επιβεβαίωση Επιλεγμένων Χρηστών
-      hide: Απόκρυψη Επιλεγμένων Χρηστών
+      hide: Απόκρυψη επιλεγμένων χρηστών
       empty: Δεν βρέθηκαν χρήστες που να ταιριάζουν
     suspended:
       title: Ο Λογαριασμός έχει Ανασταλεί
@@ -2507,7 +2496,7 @@ el:
         να συσχετίσετε τον λογαριασμό με το ID σας στις ρυθμίσεις χρήστη.
   user_role:
     filter:
-      not_a_role: Το αλφαριθμητικό `%{role}' δεν είναι ένας έγκυρος ρόλος.
+      not_a_role: Η στοιχειοσειρά `%{role}' δεν είναι ένας έγκυρος ρόλος.
       already_has_role: Ο χρήστης έχει ήδη ρόλο %{role}.
       doesnt_have_role: Ο χρήστης δεν έχει ρόλο %{role}.
       not_revoke_admin_current_user: Ο διαχειριστικός ρόλος δεν μπορεί να αναιρεθεί

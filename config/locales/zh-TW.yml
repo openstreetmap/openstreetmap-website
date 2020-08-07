@@ -49,6 +49,8 @@ zh-TW:
       friendly: '%Y 年 %B %e 日 %H 時 %M 分'
       blog: '%Y年%B%e日'
   helpers:
+    file:
+      prompt: 選擇檔案
     submit:
       diary_comment:
         create: 儲存
@@ -127,12 +129,15 @@ zh-TW:
       trace:
         user: 使用者
         visible: 可見的
-        name: 名稱
+        name: 檔案名稱
         size: 大小
         latitude: 緯度
         longitude: 經度
         public: 公開
         description: 說明
+        gpx_file: 上傳 GPX 檔案
+        visibility: 能見度
+        tagstring: 標籤
       message:
         sender: 寄件者
         title: 標題
@@ -145,6 +150,9 @@ zh-TW:
         description: 說明
         languages: 語言
         pass_crypt: 密碼
+    help:
+      trace:
+        tagstring: 以逗點分隔
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -433,7 +441,7 @@ zh-TW:
     diary_entry:
       posted_by_html: 於 %{created} 由 %{link_user} 以%{language_link}發表
       comment_link: 對這個項目的評論
-      reply_link: 回覆這個項目
+      reply_link: 發送訊息給作者
       comment_count:
         one: 1 項評論
         zero: 沒有評論
@@ -1236,12 +1244,12 @@ zh-TW:
       subject: '[OpenStreetMap] %{user} 已評論日記項目'
       hi: '%{to_user} 您好，'
       header: '%{from_user} 評論主旨為 %{subject} 的 OpenStreetMap 日記項目：'
-      footer: 您也可以在 %{readurl} 閱讀評論，並且在 %{commenturl} 留下評論，或在 %{replyurl} 回覆
+      footer: 您也可以在 %{readurl} 閱讀評論，並且在 %{commenturl} 留下評論，或在 %{replyurl} 發送訊息給作者
     message_notification:
       subject_header: '[OpenStreetMap] %{subject}'
       hi: '%{to_user} 您好，'
       header: '%{from_user} 透過 OpenStreetMap 寄給您主旨為 %{subject} 的訊息：'
-      footer_html: 您也可以在 %{readurl} 閱讀訊息，並且在 %{replyurl} 回覆
+      footer_html: 您也可以在 %{readurl} 閱讀訊息，並且在 %{replyurl} 發送訊息給作者
     friendship_notification:
       hi: 嗨 %{to_user}，
       subject: '[OpenStreetMap] %{user} 將您加入為好友'
@@ -1784,11 +1792,6 @@ zh-TW:
       identifiable: 可辨識 (以可辨認的方式顯示於軌跡清單，節點有時間戳記)
     new:
       upload_trace: 上傳 GPS 軌跡
-      upload_gpx: 上傳 GPX 檔案：
-      description: 說明：
-      tags: 標籤：
-      tags_help: 以逗點分隔
-      visibility: 能見度
       visibility_help: 這是什麼意思？
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: 說明
@@ -1799,20 +1802,9 @@ zh-TW:
       upload_failed: 很抱歉，GPX 上傳失敗。已向管理員警告此錯誤，請再重試
       traces_waiting: 您有 %{count} 個軌跡等待上傳。請先等待先前的軌跡處理完後，再來繼續上傳其他軌跡，以免影響其他使用者的排程。
     edit:
+      cancel: 取消
       title: 編輯軌跡 %{name}
       heading: 編輯軌跡 %{name}
-      filename: 檔案名稱：
-      download: 下載
-      uploaded_at: 上傳於：
-      points: 點數：
-      start_coord: 開始坐標：
-      map: 地圖
-      edit: 編輯
-      owner: 擁有者：
-      description: 描述：
-      tags: 標籤：
-      tags_help: 以逗號分隔
-      visibility: 能見度
       visibility_help: 這是什麼意思？
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:

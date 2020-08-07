@@ -48,6 +48,8 @@ fi:
       friendly: '%e. %Bta %Y klo %H.%M'
       blog: '%e. %Bta %Y'
   helpers:
+    file:
+      prompt: Valitse tiedosto
     submit:
       diary_comment:
         create: Tallenna
@@ -126,12 +128,15 @@ fi:
       trace:
         user: Käyttäjä
         visible: Näkyvissä
-        name: Nimi
+        name: Tiedostonimi
         size: Koko
         latitude: Leveyspiiri
         longitude: Pituuspiiri
         public: Julkinen
         description: Kuvaus
+        gpx_file: Tallenna GPX-tiedosto
+        visibility: Näkyvyys
+        tagstring: Ominaisuustiedot
       message:
         sender: Lähettäjä
         title: Aihe
@@ -144,6 +149,9 @@ fi:
         description: Kuvaus
         languages: Kielet
         pass_crypt: Salasana
+    help:
+      trace:
+        tagstring: pilkuilla eroteltu lista
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -437,7 +445,7 @@ fi:
     diary_entry:
       posted_by_html: Käyttäjä %{link_user} kirjoitti tämän %{created} kielellä %{language_link}
       comment_link: Kommentoi tätä kirjoitusta
-      reply_link: Vastaa tähän kirjoitukseen viestillä
+      reply_link: Lähetä viesti tekijälle
       comment_count:
         one: 1 kommentti
         zero: Ei kommentteja
@@ -1243,12 +1251,12 @@ fi:
       header: '%{from_user} kommentoi kirjoittamaasi päiväkirjamerkintää OpenStreetMapissa
         otsikolla %{subject}:'
       footer: Lue kommentti sivulla %{readurl}. Jatkokommentin voi lähettää sivulla
-        %{commenturl} tai vastausviestin sivulla %{replyurl}.
+        %{commenturl} tai lähettää viestin tekijälle sivulla %{replyurl}.
     message_notification:
       hi: Hei %{to_user}!
       header: '%{from_user} on lähettänyt sinulle viestin OpenStreetMapissa otsikkolla
         %{subject}:'
-      footer_html: Lue viesti osoitteessa %{readurl} ja vastaa siihen osoitteessa
+      footer_html: Lue viesti osoitteessa %{readurl} ja lähetä viesti tekijälle osoitteessa
         %{replyurl}.
     friendship_notification:
       hi: Hei %{to_user}!
@@ -1876,11 +1884,6 @@ fi:
         järjestettynä aikaleimoineen)
     new:
       upload_trace: Tallenna GPS-jälki
-      upload_gpx: 'Tallenna GPX-tiedosto:'
-      description: 'Kuvaus:'
-      tags: 'Ominaisuustiedot:'
-      tags_help: pilkuilla eroteltu lista
-      visibility: 'Näkyvyys:'
       visibility_help: Mitä tämä tarkoittaa?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Fi:GPS-j%C3%A4lkien_julkisuus
       help: Ohje
@@ -1902,20 +1905,9 @@ fi:
           kuin lähetät lisää jälkiä. Näin muidenkin käyttäjien lähettämät jäljet pääsevät
           aiemmin tietokantaan.
     edit:
+      cancel: Peruuta
       title: Muokataan jälkeä %{name}
       heading: Jäljen %{name} muokkaus
-      filename: 'Tiedostonimi:'
-      download: lataa
-      uploaded_at: 'Lähetetty:'
-      points: 'Pisteet:'
-      start_coord: 'Alun koordinaatit:'
-      map: kartta
-      edit: muokkaa
-      owner: 'Käyttäjä:'
-      description: 'Kuvaus:'
-      tags: 'Ominaisuustiedot:'
-      tags_help: pilkuilla eroteltu lista
-      visibility: 'Näkyvyys:'
       visibility_help: Mitä tämä tarkoittaa?
     update:
       updated: Jälki päivitetty
@@ -2615,6 +2607,7 @@ fi:
         cycle_map: Pyöräilykartta
         transport_map: Joukkoliikenne
         hot: Humanitaarinen
+        opnvkarte: ÖPNVKarte
       layers:
         header: Karttanäkymä
         notes: Karttailmoitukset
