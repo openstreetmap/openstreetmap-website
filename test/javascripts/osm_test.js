@@ -1,13 +1,11 @@
 //= require jquery
-//= require jquery.cookie
+//= require jquery.cookie/jquery.cookie
 //= require osm
-//= require leaflet
+//= require leaflet/dist/leaflet-src
 //= require leaflet.osm
 //= require leaflet.map
 //= require i18n/translations
-//= require querystring
-
-var querystring = require('querystring-component');
+//= require qs/dist/qs
 
 describe("OSM", function () {
   describe(".apiUrl", function () {

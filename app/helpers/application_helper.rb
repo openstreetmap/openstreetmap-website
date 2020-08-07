@@ -79,11 +79,11 @@ module ApplicationHelper
 
     data[:location] = session[:location] if session[:location]
 
-    if @oauth
-      data[:token] = @oauth.token
-      data[:token_secret] = @oauth.secret
-      data[:consumer_key] = @oauth.client_application.key
-      data[:consumer_secret] = @oauth.client_application.secret
+    if oauth_token
+      data[:token] = oauth_token.token
+      data[:token_secret] = oauth_token.secret
+      data[:consumer_key] = oauth_token.client_application.key
+      data[:consumer_secret] = oauth_token.client_application.secret
     end
 
     data

@@ -77,7 +77,7 @@ module Api
       # reference and as the node element.
       way.nodes.each do |n|
         assert_select "osm way nd[ref='#{n.id}']", 1
-        assert_select "osm node[id='#{n.id}'][version='1'][lat='#{format('%.7f', n.lat)}'][lon='#{format('%.7f', n.lon)}']", 1
+        assert_select "osm node[id='#{n.id}'][version='1'][lat='#{format('%<lat>.7f', :lat => n.lat)}'][lon='#{format('%<lon>.7f', :lon => n.lon)}']", 1
       end
     end
 
@@ -180,8 +180,7 @@ module Api
       assert_not_nil checkway,
                      "uploaded way not found in data base after upload"
       # compare values
-      assert_equal checkway.nds.length, 2,
-                   "saved way does not contain exactly one node"
+      assert_equal(2, checkway.nds.length, "saved way does not contain exactly one node")
       assert_equal checkway.nds[0], node1.id,
                    "saved way does not contain the right node on pos 0"
       assert_equal checkway.nds[1], node2.id,

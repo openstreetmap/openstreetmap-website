@@ -13,7 +13,7 @@ addresses = User.count(
 
 addresses.each do |address, count|
   next unless count > 1
-  next if Acl.where(:address => address).exists?
+  next if Acl.exists?(:address => address)
 
   Acl.create({
                :address => address,

@@ -1,4 +1,4 @@
-//= require querystring
+//= require qs/dist/qs
 
 L.extend(L.LatLngBounds.prototype, {
   getSize: function () {
@@ -126,9 +126,8 @@ L.OSM.Map = L.Map.extend({
       params.mlon = latLng.lng.toFixed(precision);
     }
 
-    var querystring = require("querystring-component"),
-        url = window.location.protocol + "//" + OSM.SERVER_URL + "/",
-        query = querystring.stringify(params),
+    var url = window.location.protocol + "//" + OSM.SERVER_URL + "/",
+        query = Qs.stringify(params),
         hash = OSM.formatHash(this);
 
     if (query) url += "?" + query;
@@ -193,8 +192,7 @@ L.OSM.Map = L.Map.extend({
       params[this._object.type] = this._object.id;
     }
 
-    var querystring = require("querystring-component"),
-        query = querystring.stringify(params);
+    var query = Qs.stringify(params);
     if (query) {
       str += "?" + query;
     }

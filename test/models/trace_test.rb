@@ -222,7 +222,7 @@ class TraceTest < ActiveSupport::TestCase
 
     trace.import
 
-    assert File.exist?(icon_path)
+    assert_path_exists(icon_path)
   end
 
   def test_import_creates_large_picture
@@ -233,7 +233,7 @@ class TraceTest < ActiveSupport::TestCase
 
     trace.import
 
-    assert File.exist?(large_picture_path)
+    assert_path_exists(large_picture_path)
   end
 
   def test_import_handles_bz2

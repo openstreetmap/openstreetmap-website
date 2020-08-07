@@ -1,12 +1,12 @@
 //= require jquery3
 //= require jquery_ujs
 //= require jquery.timers
-//= require jquery.cookie
+//= require jquery.cookie/jquery.cookie
 //= require jquery.throttle-debounce
 //= require popper
 //= require bootstrap-sprockets
 //= require osm
-//= require leaflet
+//= require leaflet/dist/leaflet-src
 //= require leaflet.osm
 //= require leaflet.map
 //= require leaflet.zoom
@@ -15,7 +15,9 @@
 //= require oauth
 //= require piwik
 //= require richtext
-//= require querystring
+//= require qs/dist/qs
+//= require bs-custom-file-input
+//= require bs-custom-file-input-init
 
 /*
  * Called as the user scrolls/zooms around to manipulate hrefs of the
@@ -23,9 +25,8 @@
  */
 window.updateLinks = function (loc, zoom, layers, object) {
   $(".geolink").each(function (index, link) {
-    var querystring = require("querystring-component"),
-        href = link.href.split(/[?#]/)[0],
-        args = querystring.parse(link.search.substring(1)),
+    var href = link.href.split(/[?#]/)[0],
+        args = Qs.parse(link.search.substring(1)),
         editlink = $(link).hasClass("editlink");
 
     delete args.node;
@@ -37,7 +38,7 @@ window.updateLinks = function (loc, zoom, layers, object) {
       args[object.type] = object.id;
     }
 
-    var query = querystring.stringify(args);
+    var query = Qs.stringify(args);
     if (query) href += "?" + query;
 
     args = {

@@ -38,7 +38,7 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
     post "/api/0.6/changeset/#{changeset.id}/upload",
          :params => diff,
          :headers => {
-           "HTTP_AUTHORIZATION" => format("Basic %{auth}", :auth => Base64.encode64("#{user.display_name}:test")),
+           "HTTP_AUTHORIZATION" => format("Basic %<auth>s", :auth => Base64.encode64("#{user.display_name}:test")),
            "HTTP_CONTENT_TYPE" => "application/xml"
          }
     assert_response :success,
@@ -87,7 +87,7 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
     post "/api/0.6/changeset/#{changeset.id}/upload",
          :params => gzip_content(diff),
          :headers => {
-           "HTTP_AUTHORIZATION" => format("Basic %{auth}", :auth => Base64.encode64("#{user.display_name}:test")),
+           "HTTP_AUTHORIZATION" => format("Basic %<auth>s", :auth => Base64.encode64("#{user.display_name}:test")),
            "HTTP_CONTENT_ENCODING" => "gzip",
            "HTTP_CONTENT_TYPE" => "application/xml"
          }
@@ -137,7 +137,7 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
     post "/api/0.6/changeset/#{changeset.id}/upload",
          :params => deflate_content(diff),
          :headers => {
-           "HTTP_AUTHORIZATION" => format("Basic %{auth}", :auth => Base64.encode64("#{user.display_name}:test")),
+           "HTTP_AUTHORIZATION" => format("Basic %<auth>s", :auth => Base64.encode64("#{user.display_name}:test")),
            "HTTP_CONTENT_ENCODING" => "deflate",
            "HTTP_CONTENT_TYPE" => "application/xml"
          }
@@ -158,7 +158,7 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
     post "/api/0.6/changeset/#{changeset.id}/upload",
          :params => "",
          :headers => {
-           "HTTP_AUTHORIZATION" => format("Basic %{auth}", :auth => Base64.encode64("#{user.display_name}:test")),
+           "HTTP_AUTHORIZATION" => format("Basic %<auth>s", :auth => Base64.encode64("#{user.display_name}:test")),
            "HTTP_CONTENT_ENCODING" => "unknown",
            "HTTP_CONTENT_TYPE" => "application/xml"
          }

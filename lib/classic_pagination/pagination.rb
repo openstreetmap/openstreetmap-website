@@ -158,7 +158,7 @@ module ActionController
 
     def create_paginators_and_retrieve_collections #:nodoc:
       Pagination::OPTIONS[self.class].each do |collection_id, options|
-        next if options[:actions] && !options[:actions].include?(action_name)
+        next if options[:actions]&.exclude?(action_name)
 
         paginator, collection =
           paginator_and_collection_for(collection_id, options)
@@ -394,7 +394,7 @@ module ActionController
           @page = page
           self.padding = padding
         end
-        attr_reader :paginator, :page
+        attr_reader :paginator, :page, :padding, :first, :last
 
         # Sets the window's padding (the number of pages on either side of the
         # window page).
@@ -412,7 +412,6 @@ module ActionController
                     @paginator.last
                   end
         end
-        attr_reader :padding, :first, :last
 
         # Returns an array of Page objects in the current window.
         def pages

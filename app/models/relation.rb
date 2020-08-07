@@ -57,11 +57,13 @@ class Relation < ApplicationRecord
   def self.from_xml(xml, create = false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
+    pt = doc.find_first("//osm/relation")
 
-    doc.find("//osm/relation").each do |pt|
-      return Relation.from_xml_node(pt, create)
+    if pt
+      Relation.from_xml_node(pt, create)
+    else
+      raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/relation element.")
     end
-    raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/relation element.")
   rescue LibXML::XML::Error, ArgumentError => e
     raise OSM::APIBadXMLError.new("relation", xml, e.message)
   end
@@ -132,9 +134,7 @@ class Relation < ApplicationRecord
     @tags ||= Hash[relation_tags.collect { |t| [t.k, t.v] }]
   end
 
-  attr_writer :members
-
-  attr_writer :tags
+  attr_writer :members, :tags
 
   def add_member(type, id, role)
     @members ||= []

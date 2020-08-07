@@ -84,9 +84,7 @@ class OldWay < ApplicationRecord
     @tags ||= Hash[old_tags.collect { |t| [t.k, t.v] }]
   end
 
-  attr_writer :nds
-
-  attr_writer :tags
+  attr_writer :nds, :tags
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el = XML::Node.new "way"

@@ -133,7 +133,8 @@ class DiffReader
 
     # loop at the top level, within the <osmChange> element
     with_element do |action_name, action_attributes|
-      if action_name == "create"
+      case action_name
+      when "create"
         # create a new element. this code is agnostic of the element type
         # because all the elements support the methods that we're using.
         with_model do |model, xml|
@@ -168,7 +169,7 @@ class DiffReader
           result.root << xml_result
         end
 
-      elsif action_name == "modify"
+      when "modify"
         # modify an existing element. again, this code doesn't directly deal
         # with types, but uses duck typing to handle them transparently.
         with_model do |model, xml|
@@ -200,7 +201,7 @@ class DiffReader
           result.root << xml_result
         end
 
-      elsif action_name == "delete"
+      when "delete"
         # delete action. this takes a payload in API 0.6, so we need to do
         # most of the same checks that are done for the modify.
         with_model do |model, xml|

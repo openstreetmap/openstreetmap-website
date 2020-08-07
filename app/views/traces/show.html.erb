@@ -55,10 +55,10 @@
 <br /><br />
 
 <% if current_user && (current_user==@trace.user || current_user.administrator? || current_user.moderator?) %>
-  <div class="buttons">
+  <div>
     <% if current_user == @trace.user %>
-      <%= link_to t(".edit_trace"), edit_trace_path(@trace), :class => "button" %>
+      <%= link_to t(".edit_trace"), edit_trace_path(@trace), :class => "btn btn-outline-primary" %>
     <% end %>
-    <%= button_to t(".delete_trace"), { :controller => "traces", :action => "destroy", :id => @trace.id }, { :method => :delete, :data => { :confirm => t(".confirm_delete") } } %>
+    <%= link_to t(".delete_trace"), { :controller => "traces", :action => "destroy", :id => @trace.id }, { :method => :delete, :class => "btn btn-outline-danger", :data => { :confirm => t(".confirm_delete") } } %>
   </div>
 <% end %>

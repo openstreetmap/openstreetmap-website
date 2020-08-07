@@ -144,7 +144,7 @@ module Potlatch
 
       # Output response header
       a, b = bodies.divmod(256)
-      yield 0.chr + 0.chr + 0.chr + 0.chr + a.chr + b.chr
+      yield 0.chr * 4 + a.chr + b.chr
 
       # Process the bodies
       bodies.times do                     # Read each body

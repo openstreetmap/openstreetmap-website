@@ -1,4 +1,4 @@
-//= require leaflet.locate
+//= require leaflet.locatecontrol/src/L.Control.Locate
 
 $(document).ready(function () {
   if ($("#map").length) {

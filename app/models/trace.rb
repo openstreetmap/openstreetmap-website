@@ -125,19 +125,17 @@ class Trace < ApplicationRecord
     zipped = filetype.include?("Zip archive")
     tarred = filetype.include?("tar archive")
 
-    mimetype = if gzipped
-                 "application/x-gzip"
-               elsif bzipped
-                 "application/x-bzip2"
-               elsif zipped
-                 "application/x-zip"
-               elsif tarred
-                 "application/x-tar"
-               else
-                 "application/gpx+xml"
-               end
-
-    mimetype
+    if gzipped
+      "application/x-gzip"
+    elsif bzipped
+      "application/x-bzip2"
+    elsif zipped
+      "application/x-zip"
+    elsif tarred
+      "application/x-tar"
+    else
+      "application/gpx+xml"
+    end
   end
 
   def extension_name
@@ -147,34 +145,33 @@ class Trace < ApplicationRecord
     zipped = filetype.include?("Zip archive")
     tarred = filetype.include?("tar archive")
 
-    extension = if tarred && gzipped
-                  ".tar.gz"
-                elsif tarred && bzipped
-                  ".tar.bz2"
-                elsif tarred
-                  ".tar"
-                elsif gzipped
-                  ".gpx.gz"
-                elsif bzipped
-                  ".gpx.bz2"
-                elsif zipped
-                  ".zip"
-                else
-                  ".gpx"
-                end
-
-    extension
+    if tarred && gzipped
+      ".tar.gz"
+    elsif tarred && bzipped
+      ".tar.bz2"
+    elsif tarred
+      ".tar"
+    elsif gzipped
+      ".gpx.gz"
+    elsif bzipped
+      ".gpx.bz2"
+    elsif zipped
+      ".zip"
+    else
+      ".gpx"
+    end
   end
 
   def update_from_xml(xml, create = false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
+    pt = doc.find_first("//osm/gpx_file")
 
-    doc.find("//osm/gpx_file").each do |pt|
-      return update_from_xml_node(pt, create)
+    if pt
+      update_from_xml_node(pt, create)
+    else
+      raise OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
     end
-
-    raise OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
   rescue LibXML::XML::Error, ArgumentError => e
     raise OSM::APIBadXMLError.new("trace", xml, e.message)
   end

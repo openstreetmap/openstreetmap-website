@@ -56,8 +56,7 @@ class ClientApplication < ApplicationRecord
     signature = OAuth::Signature.build(request, options, &block)
     return false unless OauthNonce.remember(signature.request.nonce, signature.request.timestamp)
 
-    value = signature.verify
-    value
+    signature.verify
   rescue OAuth::Signature::UnknownSignatureMethod
     false
   end

@@ -296,10 +296,8 @@ module Api
       assert_not_nil checkrelation,
                      "uploaded relation not found in data base after upload"
       # compare values
-      assert_equal checkrelation.members.length, 0,
-                   "saved relation contains members but should not"
-      assert_equal checkrelation.tags.length, 1,
-                   "saved relation does not contain exactly one tag"
+      assert_equal(0, checkrelation.members.length, "saved relation contains members but should not")
+      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
       assert_equal changeset.id, checkrelation.changeset.id,
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,
@@ -326,10 +324,8 @@ module Api
       assert_not_nil checkrelation,
                      "uploaded relation not found in data base after upload"
       # compare values
-      assert_equal checkrelation.members.length, 1,
-                   "saved relation does not contain exactly one member"
-      assert_equal checkrelation.tags.length, 1,
-                   "saved relation does not contain exactly one tag"
+      assert_equal(1, checkrelation.members.length, "saved relation does not contain exactly one member")
+      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
       assert_equal changeset.id, checkrelation.changeset.id,
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,
@@ -356,10 +352,8 @@ module Api
       assert_not_nil checkrelation,
                      "uploaded relation not found in data base after upload"
       # compare values
-      assert_equal checkrelation.members.length, 1,
-                   "saved relation does not contain exactly one member"
-      assert_equal checkrelation.tags.length, 1,
-                   "saved relation does not contain exactly one tag"
+      assert_equal(1, checkrelation.members.length, "saved relation does not contain exactly one member")
+      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
       assert_equal changeset.id, checkrelation.changeset.id,
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,
@@ -387,10 +381,8 @@ module Api
       assert_not_nil checkrelation,
                      "uploaded relation not found in data base after upload"
       # compare values
-      assert_equal checkrelation.members.length, 2,
-                   "saved relation does not have exactly two members"
-      assert_equal checkrelation.tags.length, 1,
-                   "saved relation does not contain exactly one tag"
+      assert_equal(2, checkrelation.members.length, "saved relation does not have exactly two members")
+      assert_equal(1, checkrelation.tags.length, "saved relation does not contain exactly one tag")
       assert_equal changeset.id, checkrelation.changeset.id,
                    "saved relation does not belong in the changeset it was assigned to"
       assert_equal user.id, checkrelation.changeset.user_id,
@@ -993,10 +985,10 @@ module Api
         assert_response :success, "can't re-read changeset for modify test"
         assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
         assert_select "osm>changeset[id='#{changeset_id}']", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
-        assert_select "osm>changeset[min_lon='#{format('%.7f', bbox.min_lon)}']", 1, "Changeset min_lon wrong in #{@response.body}"
-        assert_select "osm>changeset[min_lat='#{format('%.7f', bbox.min_lat)}']", 1, "Changeset min_lat wrong in #{@response.body}"
-        assert_select "osm>changeset[max_lon='#{format('%.7f', bbox.max_lon)}']", 1, "Changeset max_lon wrong in #{@response.body}"
-        assert_select "osm>changeset[max_lat='#{format('%.7f', bbox.max_lat)}']", 1, "Changeset max_lat wrong in #{@response.body}"
+        assert_select "osm>changeset[min_lon='#{format('%<lon>.7f', :lon => bbox.min_lon)}']", 1, "Changeset min_lon wrong in #{@response.body}"
+        assert_select "osm>changeset[min_lat='#{format('%<lat>.7f', :lat => bbox.min_lat)}']", 1, "Changeset min_lat wrong in #{@response.body}"
+        assert_select "osm>changeset[max_lon='#{format('%<lon>.7f', :lon => bbox.max_lon)}']", 1, "Changeset max_lon wrong in #{@response.body}"
+        assert_select "osm>changeset[max_lat='#{format('%<lat>.7f', :lat => bbox.max_lat)}']", 1, "Changeset max_lat wrong in #{@response.body}"
       end
     end
 

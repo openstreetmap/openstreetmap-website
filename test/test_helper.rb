@@ -118,7 +118,7 @@ module ActiveSupport
     ##
     # return request header for HTTP Basic Authorization
     def basic_authorization_header(user, pass)
-      { "Authorization" => format("Basic %{auth}", :auth => Base64.encode64("#{user}:#{pass}")) }
+      { "Authorization" => format("Basic %<auth>s", :auth => Base64.encode64("#{user}:#{pass}")) }
     end
 
     ##
@@ -175,7 +175,7 @@ module ActiveSupport
     # when the owner of the changset has their data not marked as public
     def assert_require_public_data(msg = "Shouldn't be able to use API when the user's data is not public")
       assert_response :forbidden, msg
-      assert_equal @response.headers["Error"], "You must make your edits public to upload new data", "Wrong error message"
+      assert_equal("You must make your edits public to upload new data", @response.headers["Error"], "Wrong error message")
     end
 
     ##

@@ -291,7 +291,7 @@ module Api
       assert_response :success
       amf_parse_response
       rel = amf_result("/1")
-      assert_equal rel[0], 0
+      assert_equal(0, rel[0])
       assert_equal rel[2], id
     end
 
@@ -301,8 +301,8 @@ module Api
       assert_response :success
       amf_parse_response
       rel = amf_result("/1")
-      assert_equal rel[0], -4
-      assert_equal rel[1], "relation"
+      assert_equal(-4, rel[0])
+      assert_equal("relation", rel[1])
       assert_equal rel[2], id
       assert(rel[3].nil?) && rel[4].nil?
     end
@@ -313,8 +313,8 @@ module Api
       assert_response :success
       amf_parse_response
       rel = amf_result("/1")
-      assert_equal rel[0], -4
-      assert_equal rel[1], "relation"
+      assert_equal(-4, rel[0])
+      assert_equal("relation", rel[1])
       assert_equal rel[2], id
       assert(rel[3].nil?) && rel[4].nil?
     end
@@ -426,8 +426,8 @@ module Api
       history = amf_result("/1")
 
       # ['way',wayid,history]
-      assert_equal history[0], "way"
-      assert_equal history[1], 0
+      assert_equal("way", history[0])
+      assert_equal(0, history[1])
       assert_empty history[2]
     end
 
@@ -445,8 +445,7 @@ module Api
       # ['node',nodeid,history]
       # note that (as per getway_history) we actually round up
       # to the next second
-      assert_equal history[0], "node",
-                   'first element should be "node"'
+      assert_equal("node", history[0], 'first element should be "node"')
       assert_equal history[1], node.id,
                    "second element should be the input node ID"
       assert_equal history[2].first[0],
@@ -464,8 +463,8 @@ module Api
       history = amf_result("/1")
 
       # ['node',nodeid,history]
-      assert_equal history[0], "node"
-      assert_equal history[1], 0
+      assert_equal("node", history[0])
+      assert_equal(0, history[1])
       assert_empty history[2]
     end
 
@@ -979,15 +978,15 @@ module Api
       new_node = Node.find(new_node_id)
       assert_equal 1, new_node.version
       assert new_node.visible
-      assert_equal 4.56, new_node.lon
-      assert_equal 12.34, new_node.lat
+      assert_in_delta(4.56, new_node.lon)
+      assert_in_delta(12.34, new_node.lat)
       assert_equal({ "test" => "new" }, new_node.tags)
 
       changed_node = Node.find(d)
       assert_equal 2, changed_node.version
       assert changed_node.visible
-      assert_equal 12.34, changed_node.lon
-      assert_equal 4.56, changed_node.lat
+      assert_in_delta(12.34, changed_node.lon)
+      assert_in_delta(4.56, changed_node.lat)
       assert_equal({ "test" => "ok" }, changed_node.tags)
 
       # node is not deleted because our other ways are using it
@@ -1074,15 +1073,15 @@ module Api
       new_node = Node.find(new_node_id)
       assert_equal 1, new_node.version
       assert new_node.visible
-      assert_equal 4.56, new_node.lon
-      assert_equal 12.34, new_node.lat
+      assert_in_delta(4.56, new_node.lon)
+      assert_in_delta(12.34, new_node.lat)
       assert_equal({ "test" => "new" }, new_node.tags)
 
       changed_node = Node.find(b)
       assert_equal 2, changed_node.version
       assert changed_node.visible
-      assert_equal 12.34, changed_node.lon
-      assert_equal 4.56, changed_node.lat
+      assert_in_delta(12.34, changed_node.lon)
+      assert_in_delta(4.56, changed_node.lat)
       assert_equal({ "test" => "ok" }, changed_node.tags)
 
       deleted_node = Node.find(d)
@@ -1390,8 +1389,8 @@ module Api
     def amf_content(target, ref, data)
       a, b = 1.divmod(256)
       c = StringIO.new
-      c.write 0.chr + 0.chr   # version 0
-      c.write 0.chr + 0.chr   # n headers
+      c.write 0.chr * 2       # version 0
+      c.write 0.chr * 2       # n headers
       c.write a.chr + b.chr   # n bodies
       c.write AMF.encodestring(target)
       c.write AMF.encodestring(ref)

@@ -1,4 +1,4 @@
-//= require jquery.simulate
+//= require jquery-simulate/jquery.simulate
 
 OSM.History = function (map) {
   var page = {};

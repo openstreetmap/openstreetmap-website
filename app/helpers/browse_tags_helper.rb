@@ -60,7 +60,8 @@ module BrowseTagsHelper
     # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
     return nil if %r{^https?://}.match?(value)
 
-    if key == "wikipedia"
+    case key
+    when "wikipedia"
       # This regex should match Wikipedia language codes, everything
       # from de to zh-classical
       lang = if value =~ /^([a-z-]{2,12}):(.+)$/i
@@ -71,7 +72,7 @@ module BrowseTagsHelper
                # Value is <title> so default to English Wikipedia
                "en"
              end
-    elsif key =~ /^wikipedia:(\S+)$/
+    when /^wikipedia:(\S+)$/
       # Language is in the key, so assume value is the title
       lang = Regexp.last_match(1)
     else

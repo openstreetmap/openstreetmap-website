@@ -616,7 +616,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     session_for(user)
     post traces_path, :params => { :trace => { :gpx_file => file, :description => "", :tagstring => "new,trace", :visibility => "trackable" } }
     assert_template :new
-    assert_match "Description is too short (minimum is 1 character)", response.body
+    assert_match "is too short (minimum is 1 character)", response.body
   end
 
   # Test fetching the edit page for a trace using GET

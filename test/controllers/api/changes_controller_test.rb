@@ -60,7 +60,7 @@ module Api
       zoom_to_test.each do |zoom|
         get changes_path(:zoom => zoom)
         assert_response :bad_request
-        assert_equal @response.body, "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours"
+        assert_equal("Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", @response.body)
       end
     end
 
@@ -81,7 +81,7 @@ module Api
       invalid.each do |hour|
         get changes_path(:hours => hour)
         assert_response :bad_request, "Problem with the hour: #{hour}"
-        assert_equal @response.body, "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", "Problem with the hour: #{hour}."
+        assert_equal("Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", @response.body, "Problem with the hour: #{hour}.")
       end
     end
 
@@ -95,7 +95,7 @@ module Api
     def test_changes_start_end_invalid
       get changes_path(:start => "2010-04-03 10:55:00", :end => "2010-04-03 09:55:00")
       assert_response :bad_request
-      assert_equal @response.body, "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours"
+      assert_equal("Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", @response.body)
     end
 
     def test_changes_start_end_valid
