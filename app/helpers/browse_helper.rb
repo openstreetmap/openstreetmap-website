@@ -44,7 +44,7 @@ module BrowseHelper
     if object.redacted?
       ""
     else
-      h(icon_tags(object).map { |k, v| k + "=" + v }.to_sentence)
+      h(icon_tags(object).map { |k, v| "#{k}=#{v}" }.to_sentence)
     end
   end
 

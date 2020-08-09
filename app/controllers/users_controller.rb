@@ -359,7 +359,7 @@ class UsersController < ApplicationController
         gravatar_enabled = gravatar_enable(current_user)
         if current_user.save
           flash[:notice] = if gravatar_enabled
-                             t("users.confirm_email.success") + " " + gravatar_status_message(current_user)
+                             "#{t('users.confirm_email.success')} #{gravatar_status_message(current_user)}"
                            else
                              t("users.confirm_email.success")
                            end
@@ -494,7 +494,7 @@ class UsersController < ApplicationController
   ##
   # omniauth failure callback
   def auth_failure
-    flash[:error] = t("users.auth_failure." + params[:message])
+    flash[:error] = t("users.auth_failure.#{params[:message]}")
     redirect_to params[:origin] || login_url
   end
 
@@ -524,7 +524,7 @@ class UsersController < ApplicationController
     if referer.nil?
       params[:origin] = request.path
     else
-      params[:origin] = request.path + "?referer=" + CGI.escape(referer)
+      params[:origin] = "#{request.path}?referer=#{CGI.escape(referer)}"
       params[:referer] = referer
     end
 

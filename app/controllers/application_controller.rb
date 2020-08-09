@@ -216,7 +216,7 @@ class ApplicationController < ActionController::Base
   # asserts that the request method is the +method+ given as a parameter
   # or raises a suitable error. +method+ should be a symbol, e.g: :put or :get.
   def assert_method(method)
-    ok = request.send((method.to_s.downcase + "?").to_sym)
+    ok = request.send(:"#{method.to_s.downcase}?")
     raise OSM::APIBadMethodError, method unless ok
   end
 
