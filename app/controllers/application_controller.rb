@@ -222,20 +222,16 @@ class ApplicationController < ActionController::Base
 
   ##
   # wrap an api call in a timeout
-  def api_call_timeout
-    OSM::Timer.timeout(Settings.api_timeout, Timeout::Error) do
-      yield
-    end
+  def api_call_timeout(&block)
+    OSM::Timer.timeout(Settings.api_timeout, Timeout::Error, &block)
   rescue Timeout::Error
     raise OSM::APITimeoutError
   end
 
   ##
   # wrap a web page in a timeout
-  def web_timeout
-    OSM::Timer.timeout(Settings.web_timeout, Timeout::Error) do
-      yield
-    end
+  def web_timeout(&block)
+    OSM::Timer.timeout(Settings.web_timeout, Timeout::Error, &block)
   rescue ActionView::Template::Error => e
     e = e.cause
 

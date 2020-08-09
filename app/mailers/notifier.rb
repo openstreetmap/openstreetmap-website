@@ -202,10 +202,8 @@ class Notifier < ApplicationMailer
     end
   end
 
-  def with_recipient_locale(recipient)
-    I18n.with_locale Locale.available.preferred(recipient.preferred_languages) do
-      yield
-    end
+  def with_recipient_locale(recipient, &block)
+    I18n.with_locale(Locale.available.preferred(recipient.preferred_languages), &block)
   end
 
   def from_address(name, type, id, digest, user_id = nil)

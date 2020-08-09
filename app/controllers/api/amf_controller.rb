@@ -128,11 +128,9 @@ module Api
       [-2, "An unusual error happened (in #{call}). The server said: #{e}"]
     end
 
-    def amf_handle_error_with_timeout(call, rootobj, rootid)
+    def amf_handle_error_with_timeout(call, rootobj, rootid, &block)
       amf_handle_error(call, rootobj, rootid) do
-        OSM::Timer.timeout(Settings.api_timeout, OSM::APITimeoutError) do
-          yield
-        end
+        OSM::Timer.timeout(Settings.api_timeout, OSM::APITimeoutError, &block)
       end
     end
 
