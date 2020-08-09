@@ -16,6 +16,7 @@ end
 module OpenStreetMap
   module ProviderController
     def self.prepended(mod)
+      super
       mod.singleton_class.prepend(OpenStreetMap::ProviderController::ClassMethods)
     end
 
