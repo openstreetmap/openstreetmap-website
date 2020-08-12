@@ -14,49 +14,45 @@ module OSM
 
   # The base class for API Errors.
   class APIError < RuntimeError
-    def status
-      :internal_server_error
+    def initialize(message = "Generic API Error")
+      super message
     end
 
-    def to_s
-      "Generic API Error"
+    def status
+      :internal_server_error
     end
   end
 
   # Raised when access is denied.
-  class APIAccessDenied < RuntimeError
-    def status
-      :forbidden
+  class APIAccessDenied < APIError
+    def initialize
+      super "Access denied"
     end
 
-    def to_s
-      "Access denied"
+    def status
+      :forbidden
     end
   end
 
   # Raised when an API object is not found.
   class APINotFoundError < APIError
-    def status
-      :not_found
+    def initialize
+      super "Object not found"
     end
 
-    def to_s
-      "Object not found"
+    def status
+      :not_found
     end
   end
 
   # Raised when a precondition to an API action fails sanity check.
   class APIPreconditionFailedError < APIError
     def initialize(message = "")
-      @message = message
+      super "Precondition failed: #{message}"
     end
 
     def status
       :precondition_failed
-    end
-
-    def to_s
-      "Precondition failed: #{@message}"
     end
   end
 
@@ -65,6 +61,8 @@ module OSM
     def initialize(object = "object", object_id = "")
       @object = object
       @object_id = object_id
+
+      super "The #{object} with the id #{object_id} has already been deleted"
     end
 
     attr_reader :object, :object_id
@@ -72,20 +70,16 @@ module OSM
     def status
       :gone
     end
-
-    def to_s
-      "The #{object} with the id #{object_id} has already been deleted"
-    end
   end
 
   # Raised when the user logged in isn't the same as the changeset
   class APIUserChangesetMismatchError < APIError
-    def status
-      :conflict
+    def initialize
+      super "The user doesn't own that changeset"
     end
 
-    def to_s
-      "The user doesn't own that changeset"
+    def status
+      :conflict
     end
   end
 
@@ -93,16 +87,14 @@ module OSM
   class APIChangesetAlreadyClosedError < APIError
     def initialize(changeset)
       @changeset = changeset
+
+      super "The changeset #{changeset.id} was closed at #{changeset.closed_at}"
     end
 
     attr_reader :changeset
 
     def status
       :conflict
-    end
-
-    def to_s
-      "The changeset #{@changeset.id} was closed at #{@changeset.closed_at}"
     end
   end
 
@@ -110,16 +102,14 @@ module OSM
   class APIChangesetNotYetClosedError < APIError
     def initialize(changeset)
       @changeset = changeset
+
+      super "The changeset #{changeset.id} is not yet closed."
     end
 
     attr_reader :changeset
 
     def status
       :conflict
-    end
-
-    def to_s
-      "The changeset #{@changeset.id} is not yet closed."
     end
   end
 
@@ -127,16 +117,14 @@ module OSM
   class APIChangesetAlreadySubscribedError < APIError
     def initialize(changeset)
       @changeset = changeset
+
+      super "You are already subscribed to changeset #{changeset.id}."
     end
 
     attr_reader :changeset
 
     def status
       :conflict
-    end
-
-    def to_s
-      "You are already subscribed to changeset #{@changeset.id}."
     end
   end
 
@@ -144,6 +132,8 @@ module OSM
   class APIChangesetNotSubscribedError < APIError
     def initialize(changeset)
       @changeset = changeset
+
+      super "You are not subscribed to changeset #{changeset.id}."
     end
 
     attr_reader :changeset
@@ -151,20 +141,16 @@ module OSM
     def status
       :not_found
     end
-
-    def to_s
-      "You are not subscribed to changeset #{@changeset.id}."
-    end
   end
 
   # Raised when a change is expecting a changeset, but the changeset doesn't exist
   class APIChangesetMissingError < APIError
-    def status
-      :conflict
+    def initialize
+      super "You need to supply a changeset to be able to make a change"
     end
 
-    def to_s
-      "You need to supply a changeset to be able to make a change"
+    def status
+      :conflict
     end
   end
 
@@ -172,16 +158,11 @@ module OSM
   # the changeset ID that the diff was uploaded to.
   class APIChangesetMismatchError < APIError
     def initialize(provided, allowed)
-      @provided = provided
-      @allowed = allowed
+      super "Changeset mismatch: Provided #{provided} but only #{allowed} is allowed"
     end
 
     def status
       :conflict
-    end
-
-    def to_s
-      "Changeset mismatch: Provided #{@provided} but only #{@allowed} is allowed"
     end
   end
 
@@ -189,15 +170,11 @@ module OSM
   # modify, or delete
   class APIChangesetActionInvalid < APIError
     def initialize(provided)
-      @provided = provided
+      super "Unknown action #{provided}, choices are create, modify, delete"
     end
 
     def status
       :bad_request
-    end
-
-    def to_s
-      "Unknown action #{@provided}, choices are create, modify, delete"
     end
   end
 
@@ -205,17 +182,11 @@ module OSM
   # they should.
   class APIBadXMLError < APIError
     def initialize(model, xml, message = "")
-      @model = model
-      @xml = xml
-      @message = message
+      super "Cannot parse valid #{model} from xml string #{xml}. #{message}"
     end
 
     def status
       :bad_request
-    end
-
-    def to_s
-      "Cannot parse valid #{@model} from xml string #{@xml}. #{@message}"
     end
   end
 
@@ -226,16 +197,14 @@ module OSM
       @type = type
       @provided = provided
       @latest = latest
+
+      super "Version mismatch: Provided #{provided}, server had: #{latest} of #{type} #{id}"
     end
 
     attr_reader :provided, :latest, :id, :type
 
     def status
       :conflict
-    end
-
-    def to_s
-      "Version mismatch: Provided #{provided}, server had: #{latest} of #{type} #{id}"
     end
   end
 
@@ -246,6 +215,8 @@ module OSM
       @type = type
       @id = id
       @tag_key = tag_key
+
+      super "Element #{type}/#{id} has duplicate tags with key #{tag_key}"
     end
 
     attr_reader :type, :id, :tag_key
@@ -253,16 +224,14 @@ module OSM
     def status
       :bad_request
     end
-
-    def to_s
-      "Element #{@type}/#{@id} has duplicate tags with key #{@tag_key}"
-    end
   end
 
   # Raised when a way has more than the configured number of way nodes.
   # This prevents ways from being to long and difficult to work with
   class APITooManyWayNodesError < APIError
     def initialize(id, provided, max)
+      super "You tried to add #{provided} nodes to way #{id}, however only #{max} are allowed"
+
       @id = id
       @provided = provided
       @max = max
@@ -273,25 +242,17 @@ module OSM
     def status
       :bad_request
     end
-
-    def to_s
-      "You tried to add #{provided} nodes to way #{id}, however only #{max} are allowed"
-    end
   end
 
   ##
   # raised when user input couldn't be parsed
   class APIBadUserInput < APIError
     def initialize(message)
-      @message = message
+      super message
     end
 
     def status
       :bad_request
-    end
-
-    def to_s
-      @message
     end
   end
 
@@ -299,15 +260,11 @@ module OSM
   # raised when bounding box is invalid
   class APIBadBoundingBox < APIError
     def initialize(message)
-      @message = message
+      super message
     end
 
     def status
       :bad_request
-    end
-
-    def to_s
-      @message
     end
   end
 
@@ -315,27 +272,23 @@ module OSM
   # raised when an API call is made using a method not supported on that URI
   class APIBadMethodError < APIError
     def initialize(supported_method)
-      @supported_method = supported_method
+      super "Only method #{supported_method} is supported on this URI"
     end
 
     def status
       :method_not_allowed
-    end
-
-    def to_s
-      "Only method #{@supported_method} is supported on this URI"
     end
   end
 
   ##
   # raised when an API call takes too long
   class APITimeoutError < APIError
-    def status
-      :request_timeout
+    def initialize
+      super "Request timed out"
     end
 
-    def to_s
-      "Request timed out"
+    def status
+      :request_timeout
     end
   end
 
@@ -343,12 +296,12 @@ module OSM
   # raised when someone tries to redact a current version of
   # an element - only historical versions can be redacted.
   class APICannotRedactError < APIError
-    def status
-      :bad_request
+    def initialize
+      super "Cannot redact current version of element, only historical versions may be redacted."
     end
 
-    def to_s
-      "Cannot redact current version of element, only historical versions may be redacted."
+    def status
+      :bad_request
     end
   end
 
@@ -356,16 +309,14 @@ module OSM
   class APINoteAlreadyClosedError < APIError
     def initialize(note)
       @note = note
+
+      super "The note #{note.id} was closed at #{note.closed_at}"
     end
 
     attr_reader :note
 
     def status
       :conflict
-    end
-
-    def to_s
-      "The note #{@note.id} was closed at #{@note.closed_at}"
     end
   end
 
@@ -373,6 +324,8 @@ module OSM
   class APINoteAlreadyOpenError < APIError
     def initialize(note)
       @note = note
+
+      super "The note #{note.id} is already open"
     end
 
     attr_reader :note
@@ -380,26 +333,20 @@ module OSM
     def status
       :conflict
     end
-
-    def to_s
-      "The note #{@note.id} is already open"
-    end
   end
 
   # raised when a two preferences have a duplicate key string.
   class APIDuplicatePreferenceError < APIError
     def initialize(key)
       @key = key
+
+      super "Duplicate preferences with key #{key}"
     end
 
     attr_reader :key
 
     def status
       :bad_request
-    end
-
-    def to_s
-      "Duplicate preferences with key #{@key}"
     end
   end
 

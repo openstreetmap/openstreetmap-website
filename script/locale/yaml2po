@@ -13,14 +13,14 @@ require "yaml"
 require "optparse"
 
 LOCALE_DIR = File.dirname(__FILE__) + "/../../config/locales/"
-EN = YAML.load_file(LOCALE_DIR + "en.yml")
+EN = YAML.load_file("#{LOCALE_DIR}en.yml")
 
 def iterate(hash, fhash = {}, path = "", outfile = $stdout)
   hash.each do |key, val|
     fhash[key] = {} unless fhash.key? key
     if val.is_a? Hash
       fhash[key] = {} unless fhash[key].is_a? Hash
-      iterate(val, fhash[key], path + key + ":", outfile)
+      iterate(val, fhash[key], "#{path}#{key}:#{outfile}")
     else
       outfile.puts "msgctxt \"#{path}#{key}\""
       outfile.puts "msgid \"#{val}\""
@@ -31,7 +31,7 @@ end
 
 def lang2po(lang, outfile = $stdout)
   puts lang
-  infile = LOCALE_DIR + lang + ".yml"
+  infile = "#{LOCALE_DIR}#{lang}.yml"
   if File.exist? infile
     oth = YAML.load_file(infile)
     oth = oth[lang]
@@ -44,17 +44,17 @@ end
 opt = ARGV[0]
 if opt == "--all"
   # Produce .po files for all langs, and a .pot template
-  PO_DIR = LOCALE_DIR + "po/"
-  Dir.mkdir(PO_DIR) unless File.directory?(PO_DIR)
-  Dir.glob(LOCALE_DIR + "*.yml") do |filename|
+  po_dir = "#{LOCALE_DIR}po/"
+  Dir.mkdir(po_dir) unless File.directory?(po_dir)
+  Dir.glob("#{LOCALE_DIR}/*.yml") do |filename|
     lang = File.basename(filename, ".yml")
     unless lang == "en"
-      outfile = File.new(PO_DIR + "#{lang}.po", "w")
+      outfile = File.new("#{po_dir}#{lang}.po", "w")
       lang2po(lang, outfile)
       outfile.close
     end
   end
-  outfile = File.new(PO_DIR + "rails_port.pot", "w")
+  outfile = File.new("#{po_dir}rails_port.pot", "w")
   iterate(EN["en"], {}, "", outfile)
   outfile.close
 elsif opt
