@@ -51,16 +51,20 @@ class MicrocosmMemberControllerTest < ActionDispatch::IntegrationTest
   # This test could also mock controller.save like the other tests.
   def test_create_when_save_fails
     # arrange
-    u = create(:user)
-    session_for(u)
     mm = create(:microcosm_member)
-    mm.user_id = rand(100000)
-    mm.readonly!
+    session_for(mm.user)
+
+    mm2 = create(:microcosm_member, :microcosm => mm.microcosm)
+    # Customize this instance.
+    def mm2.save
+      false
+    end
 
     # act
-    # TODO: Don't use hard coded string here.
-    assert_difference "MicrocosmMember.count", 0 do
-      post microcosm_members_url, :params => { :microcosm_member => mm.as_json }, :xhr => true
+    MicrocosmMember.stub :new, mm2 do
+      assert_difference "MicrocosmMember.count", 0 do
+        post microcosm_members_url, :params => { :microcosm_member => mm.as_json }, :xhr => true
+      end
     end
 
     # assert
