@@ -316,6 +316,7 @@ OpenStreetMap::Application.routes.draw do
   # microcosms
   resources :microcosms
   resources :microcosm_members, :only => [:create, :destroy, :edit, :new, :update]
+  get "/microcosm_members" => "microcosm_members#create", :as => "login_to_join"
   resources :events
   resources :event_attendances
   get "microcosms/:id/members", :to => "microcosms#show_members", :as => :members_of_microcosm

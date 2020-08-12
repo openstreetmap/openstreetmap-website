@@ -47,7 +47,8 @@ Feature: Learn about the Microcosm
   Scenario: Logged out user sees message to join microcosm
     Given there is a user "abe@example.com" with name "Abe"
     When I am on the microcosm "MappingDC" page
-    Then I press "Join"
+     And I click "Join"
+    Then I should see "Login"
 
 
   Scenario: A user may join a microcosm

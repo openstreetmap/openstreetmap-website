@@ -28,11 +28,17 @@
     <div class="col-sm">
       <p><%= t(".people_are_going", :count => @event.attendees.size) %></p>
       <p><%= t(".are_you_going") %></p>
+      <% if current_user %>
         <%= form_with :model => @my_attendance, :local => true do |form| %>
-        <%= form.hidden_field(:event_id, :value => @event.id) %>
-        <%= form.hidden_field(:user_id, :value => current_user&.id) %>
-        <%= form.submit :name => "event_attendance[intention]", :value => @yes_check + t(".going_yes"), :disabled => @yes_disabled %>
-        <%= form.submit :name => "event_attendance[intention]", :value => @no_check + t(".going_no"), :disabled => @no_disabled %>
+          <%= form.hidden_field(:event_id, :value => @event.id) %>
+          <%= form.hidden_field(:user_id, :value => current_user&.id) %>
+          <%= form.submit :name => "event_attendance[intention]", :value => @yes_check + t(".going_yes"), :disabled => @yes_disabled %>
+          <%= form.submit :name => "event_attendance[intention]", :value => @no_check + t(".going_no"), :disabled => @no_disabled %>
+        <% end %>
+      <% else %>
+        <p>
+          <%= t(".login_to_rsvp", :login_link => link_to(t(".login"), :controller => "users", :action => "login", :referer => request.fullpath)) %>
+        </p>
       <% end %>
     </div>
   </div>

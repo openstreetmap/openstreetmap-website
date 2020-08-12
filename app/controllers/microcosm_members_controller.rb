@@ -5,7 +5,8 @@ class MicrocosmMembersController < ApplicationController
   load_and_authorize_resource
 
   def create
-    membership = MicrocosmMember.new(create_params)
+    # If there's no given user, default to the current_user.
+    membership = MicrocosmMember.new(create_params.reverse_merge!(:user => current_user))
     membership.role = MicrocosmMember::Roles::MEMBER
     if membership.save
       redirect_to microcosm_path(membership.microcosm), :notice => t(".success")

@@ -50,15 +50,20 @@
         <% end %>
       </div>
 
-      <% if ! current_user || ! @microcosm.member?(current_user) %>
+      <% if ! current_user %>
+        <div>
+          <%# Just a link here.  application_controller will redirect to login.  That will be posted. %>
+          <%= link_to t(".join.action"), login_to_join_path(:microcosm_member => { :microcosm_id => @microcosm.id }), :class => "btn btn-primary btn-sm" %>
+        </div>
+      <% elsif ! @microcosm.member?(current_user) %>
         <%= form_with :scope => :microcosm_member, :url => microcosm_members_path, :local => true do |form| %>
           <%= form.hidden_field(:microcosm_id, :value => @microcosm.id) %>
-          <%= form.hidden_field(:user_id, :value => current_user&.id) %>
-          <%= form.submit :value => t(".join.action") %>
+          <%= form.hidden_field(:user_id, :value => current_user.id) %>
+          <%= form.submit :value => t(".join.action"), :class => "btn btn-primary btn-sm" %>
         <% end %>
       <% else %>
         <%= form_with :model => @my_membership, :local => true, :method => :delete do |form| %>
-          <%= form.submit :value => t(".leave.action"), :data => { :confirm => t(".leave.confirm", :name => @microcosm.name) } %>
+          <%= form.submit :value => t(".leave.action"), :class => "btn btn-primary btn-sm", :data => { :confirm => t(".leave.confirm", :name => @microcosm.name) } %>
         <% end %>
       <% end %>
     </div>
