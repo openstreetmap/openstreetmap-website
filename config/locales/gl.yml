@@ -24,6 +24,8 @@ gl:
       friendly: '%e de %B do %Y ás %H:%M'
       blog: '%e %B %Y'
   helpers:
+    file:
+      prompt: Escoller ficheiro
     submit:
       diary_comment:
         create: Gardar
@@ -102,15 +104,15 @@ gl:
       trace:
         user: Usuario
         visible: Visíbel
-        name: Nome
+        name: Nome do ficheiro
         size: Tamaño
         latitude: Latitude
         longitude: Lonxitude
         public: Público
         description: Descrición
-        gpx_file: 'Subir un ficheiro GPX:'
-        visibility: 'Visibilidade:'
-        tagstring: 'Etiquetas:'
+        gpx_file: Subir un ficheiro GPX
+        visibility: Visibilidade
+        tagstring: Etiquetas
       message:
         sender: Remitente
         title: Asunto
@@ -423,7 +425,7 @@ gl:
     diary_entry:
       posted_by_html: Publicado por %{link_user} no %{created} en %{language_link}
       comment_link: Comentar nesta entrada
-      reply_link: Respostar a esta entrada
+      reply_link: Enviar unha mensaxe ó autor
       comment_count:
         zero: Sen comentarios
         one: '%{count} comentario'
@@ -1234,14 +1236,15 @@ gl:
       hi: 'Ola %{to_user}:'
       header: '%{from_user} comentou na entrada de diario no OpenStreetMap co asunto
         "%{subject}":'
-      footer: Tamén pode ler o comentario en %{readurl}, comentar en %{commenturl}
-        ou respostar en %{replyurl}
+      footer: Tamén podes ler o comentario en %{readurl} e comentar en %{commenturl}
+        ou enviar unha mensaxe ó autor en %{replyurl}
     message_notification:
       subject_header: '[OpenStreetMap] %{subject}'
       hi: 'Ola %{to_user}:'
       header: '%{from_user} envioulle unha mensaxe a través do OpenStreetMap co asunto
         "%{subject}":'
-      footer_html: Tamén pode ler a mensaxe en %{readurl} e pode respostar en %{replyurl}
+      footer_html: Tamén podes ler a mensaxe en %{readurl} e enviar unha mensaxe ó
+        autor en %{replyurl}
     friendship_notification:
       hi: 'Ola %{to_user}:'
       subject: '[OpenStreetMap] %{user} engadiuno coma amizade'
@@ -1421,7 +1424,7 @@ gl:
     about:
       next: Seguinte
       copyright_html: <span>&copy;</span>Contribuíntes do<br>OpenStreetMap
-      used_by_html: '%{name} fornece datos xeográficos a milleiros de sitios web,
+      used_by_html: '%{name} fornece datos xeográficos para milleiros de sitios web,
         aplicacións para móbiles e dispositivos físicos'
       lede_text: |-
         O OpenStreetMap é obra dunha comunidade de xente que achega e mantén datos
@@ -1486,9 +1489,8 @@ gl:
           <a href="https://opendatacommons.org/licenses/odbl/1.0/">texto
           legal</a> ó completo explica os teus dereitos e responsabilidades.
         intro_3_1_html: |-
-          Os datos cartográficos das teselas dos nosos mapas e a nosa documentación
-          atópanse baixo a licenza <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons recoñecemento compartir igual 2.0</a> (CC BY-SA).
+          A nosa documentación está licenciada baixo a licenza <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0).
         credit_title_html: De que xeito acreditar o OpenStreetMap
         credit_1_html: |-
           Pedímoslle que acredite o traballo así: &ldquo;&copy; dos contribuíntes do
@@ -1503,6 +1505,12 @@ gl:
           (por exemplo, nas obras impresas), suxerimos\nque dirixa ós lectores ó openstreetmap.org
           (quizabes pondo o texto\n\"OpenStreetMap\" no enderezo completo), a opendatacommons.org
           e,\nse fose relevante, a creativecommons.org."
+        credit_3_1_html: |-
+          As teselas do mapa no &ldquo;estilo estándar&rdquo; en www.openstreetmap.org son un
+          traballo producido pola Fundación do OpenStreetMap empregando datos do OpenStreetMap
+          baixo a licenza de base de datos aberta (Open Database License). Se estás a empregar estas teselas, usa
+          a seguinte atribución:
+          &ldquo;Mapa base e datos do OpenStreetMap e OpenStreetMap Foundation&rdquo;.
         credit_4_html: |-
           Nun mapa electrónico explorábel, o crédito debe aparecer na beira do mapa.
           Por exemplo:
@@ -1913,6 +1921,7 @@ gl:
         other: Ten %{count} pistas ó agarde de ser subidas. Coide agardar a que remate
           antes de subir máis para non bloquear a quenda do resto de usuarios.
     edit:
+      cancel: Desbotar
       title: Editando a pista "%{name}"
       heading: Editando a pista "%{name}"
       visibility_help: que significa isto?
@@ -2637,6 +2646,7 @@ gl:
         cycle_map: Ciclista
         transport_map: Medios de transporte
         hot: Humanitario
+        opnvkarte: ÖPNVKarte (Medios de transporte)
       layers:
         header: Capas do mapa
         notes: Notas do mapa
@@ -2649,6 +2659,7 @@ gl:
       terms: <a href='%{terms_url}' target='_blank'>Termos da páxina web e da API</a>
       thunderforest: Teselas cortesía de <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
+      opnvkarte: Teselas cortesía de <a href="%{memomaps_url}">MeMoMaps</a>
       hotosm: Estilo das teselas por <a href='%{hotosm_url}' target='_blank'>Equipo
         Humanitario do OpenStreetMap</a> aloxado por <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
         Francia</a>
