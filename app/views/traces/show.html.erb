@@ -25,7 +25,13 @@
     <td><%= number_with_delimiter(@trace.size) %></td></tr>
   <tr>
     <td><%= t ".start_coordinates" %></td>
-    <td><div class="d-inline"><span class="latitude"><%= @trace.latitude %></span>; <span class="longitude"><%= @trace.longitude %></span></div> (<%= link_to t(".map"), :controller => "site", :action => "index", :mlat => @trace.latitude, :mlon => @trace.longitude, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %> / <%= link_to t(".edit"), :controller => "site", :action => "edit", :gpx => @trace.id, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %>)</td>
+    <td>
+      <div class="d-inline">
+        <%= t ".coordinates_html",
+              :latitude => tag.span(number_with_delimiter(@trace.latitude), :class => "latitude"),
+              :longitude => tag.span(number_with_delimiter(@trace.longitude), :class => "longitude") %>
+      </div>
+      (<%= link_to t(".map"), :controller => "site", :action => "index", :mlat => @trace.latitude, :mlon => @trace.longitude, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %> / <%= link_to t(".edit"), :controller => "site", :action => "edit", :gpx => @trace.id, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %>)</td>
   </tr>
   <% end %>
   <tr>

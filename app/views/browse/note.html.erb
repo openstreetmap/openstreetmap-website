@@ -19,7 +19,10 @@
       <% end %>
       <li>
         <%= t "browse.location" %>
-        <%= link_to(tag.span(number_with_delimiter(@note.lat), :class => "latitude") + ", " + tag.span(number_with_delimiter(@note.lon), :class => "longitude"), root_path(:anchor => "map=18/#{@note.lat}/#{@note.lon}")) %>
+        <%= link_to(t(".coordinates_html",
+                      :latitude => tag.span(number_with_delimiter(@note.lat), :class => "latitude"),
+                      :longitude => tag.span(number_with_delimiter(@note.lon), :class => "longitude")),
+                    root_path(:anchor => "map=18/#{@note.lat}/#{@note.lon}")) %>
       </li>
     </ul>
   </div>
