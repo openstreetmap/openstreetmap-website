@@ -38,42 +38,39 @@
     </div>
   </div>
 <% end %>
-<br />
 
 <% if @issues.length == 0 %>
   <p><%= t ".issues_not_found" %></p>
-<% end %>
-
-<br />
-
-<table class="table table-sm">
-  <thead>
-    <tr>
-      <th><%= t ".status" %></th>
-      <th><%= t ".reports" %></th>
-      <th><%= t ".reported_item" %></th>
-      <th><%= t ".reported_user" %></th>
-      <th><%= t ".last_updated" %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @issues.each do |issue| %>
+<% else %>
+  <table class="table table-sm">
+    <thead>
       <tr>
-        <td><%= t ".states.#{issue.status}" %></td>
-        <td class="text-nowrap"><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
-        <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
-        <td><%= link_to issue.reported_user.display_name, user_path(issue.reported_user) if issue.reported_user %></td>
-        <td>
-          <% if issue.user_updated %>
-            <%= t ".last_updated_time_user_html", :user => link_to(issue.user_updated.display_name, user_path(issue.user_updated)),
-                                                  :time => time_ago_in_words(issue.updated_at, :scope => :'datetime.distance_in_words_ago'),
-                                                  :title => l(issue.updated_at) %>
-          <% else %>
-            <%= t ".last_updated_time_html", :time => time_ago_in_words(issue.updated_at, :scope => :'datetime.distance_in_words_ago'),
-                                             :title => l(issue.updated_at) %>
-          <% end %>
-        </td>
+        <th><%= t ".status" %></th>
+        <th><%= t ".reports" %></th>
+        <th><%= t ".reported_item" %></th>
+        <th><%= t ".reported_user" %></th>
+        <th><%= t ".last_updated" %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @issues.each do |issue| %>
+        <tr>
+          <td><%= t ".states.#{issue.status}" %></td>
+          <td class="text-nowrap"><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
+          <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
+          <td><%= link_to issue.reported_user.display_name, user_path(issue.reported_user) if issue.reported_user %></td>
+          <td>
+            <% if issue.user_updated %>
+              <%= t ".last_updated_time_user_html", :user => link_to(issue.user_updated.display_name, user_path(issue.user_updated)),
+                                                    :time => time_ago_in_words(issue.updated_at, :scope => :'datetime.distance_in_words_ago'),
+                                                    :title => l(issue.updated_at) %>
+            <% else %>
+              <%= t ".last_updated_time_html", :time => time_ago_in_words(issue.updated_at, :scope => :'datetime.distance_in_words_ago'),
+                                               :title => l(issue.updated_at) %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
