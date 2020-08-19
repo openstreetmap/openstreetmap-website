@@ -19,6 +19,12 @@ window.onload = function () {
     args[parts[0]] = decodeURIComponent(parts[1] || '');
   }
 
+  var mapnikOptions = {
+<% if Settings.key?(:tile_cdn_url) %>
+    url: <%= Settings.tile_cdn_url.to_json %>
+<% end %>
+  };
+
   var thunderforestOptions = {
 <% if Settings.key?(:thunderforest_key) %>
     apikey: <%= Settings.thunderforest_key.to_json %>
@@ -30,7 +36,7 @@ window.onload = function () {
   map.removeControl(map.attributionControl);
 
   if (!args.layer || args.layer === "mapnik" || args.layer === "osmarender" || args.layer === "mapquest") {
-    new L.OSM.Mapnik().addTo(map);
+    new L.OSM.Mapnik(mapnikOptions).addTo(map);
   } else if (args.layer === "cyclemap" || args.layer === "cycle map") {
     new L.OSM.CycleMap(thunderforestOptions).addTo(map);
   } else if (args.layer === "transportmap") {
