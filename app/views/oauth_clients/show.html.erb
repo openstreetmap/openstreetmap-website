@@ -1,33 +1,31 @@
 <% content_for :heading do %>
   <h1><%= t(".title", :app_name => @client_application.name) %></h1>
 <% end %>
-<div class='prose'>
-  <p>
-    <strong><%= t ".key" %></strong> <%= @client_application.key %>
-  </p>
-  <p>
-    <strong><%= t ".secret" %></strong> <%= @client_application.secret %>
-  </p>
-  <p>
-    <strong><%= t ".url" %></strong> http<%= "s" if request.ssl? %>://<%= request.host_with_port %><%= @client_application.oauth_server.request_token_path %>
-  </p>
-  <p>
-    <strong><%= t ".access_url" %></strong> http<%= "s" if request.ssl? %>://<%= request.host_with_port %><%= @client_application.oauth_server.access_token_path %>
-  </p>
-  <p>
-    <strong><%= t ".authorize_url" %></strong> http<%= "s" if request.ssl? %>://<%= request.host_with_port %><%= @client_application.oauth_server.authorize_path %>
-  </p>
 
+<dl class="row">
+  <dt class="col-sm-3"><%= t ".key" %></dt>
+  <dd class="col-sm-9"><%= @client_application.key %></dt>
+  <dt class="col-sm-3"><%= t ".secret" %></dt>
+  <dd class="col-sm-9"><%= @client_application.secret %></dd>
+  <dt class="col-sm-3"><%= t ".url" %></dt>
+  <dd class="col-sm-9">http<%= "s" if request.ssl? %>://<%= request.host_with_port %><%= @client_application.oauth_server.request_token_path %></dd>
+  <dt class="col-sm-3"><%= t ".access_url" %></dt>
+  <dd class="col-sm-9">http<%= "s" if request.ssl? %>://<%= request.host_with_port %><%= @client_application.oauth_server.access_token_path %></dd>
+  <dt class="col-sm-3"><%= t ".authorize_url" %></dt>
+  <dd class="col-sm-9">http<%= "s" if request.ssl? %>://<%= request.host_with_port %><%= @client_application.oauth_server.authorize_path %></dd>
+</dl>
+
+<div>
   <p><%= t ".requests" %></p>
-  <ul><% @client_application.permissions.each do |perm| %>
-  <div class="field">
-    <li><%= t("oauth_clients.form." + perm.to_s) %></li>
-  </div>
-  <% end %></ul>
-
+  <ul>
+    <% @client_application.permissions.each do |perm| %>
+      <li><%= t("activerecord.attributes.client_application." + perm.to_s) %></li>
+    <% end %>
+  </ul>
   <p><%= t ".support_notice" %></p>
 </div>
-<div class="buttons standard-form">
-  <%= button_to t(".edit"), edit_oauth_client_path(@client_application.user.display_name, @client_application), :method => :get, :class => "oauth-edit" %>
-  <%= button_to t(".delete"), oauth_client_path(@client_application.user.display_name, @client_application), :method => :delete, :data => { :confirm => t(".confirm") }, :class => "oauth-delete deemphasize" %>
+
+<div>
+  <%= link_to t(".edit"), edit_oauth_client_path(@client_application.user.display_name, @client_application), :method => :get, :class => "btn btn-outline-primary" %>
+  <%= link_to t(".delete"), oauth_client_path(@client_application.user.display_name, @client_application), :method => :delete, :data => { :confirm => t(".confirm") }, :class => "btn btn-outline-danger" %>
 </div>
