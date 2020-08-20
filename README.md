@@ -45,3 +45,12 @@ More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTI
 
 * Tom Hughes [@tomhughes](https://github.com/tomhughes/)
 * Andy Allan [@gravitystorm](https://github.com/gravitystorm/)
+
+
+# Docker for local development
+Assuming you have a database setup:
+* Copy ohm-docker.env.example to ohm-docker.env
+* Supply appropriate variables in the env
+* Run `docker build . -t ohm-website:latest`
+* Start the container `docker run -p 3000:3000 --env-file ohm-docker.env ohm-website:latest`
+* Access the development server at http://localhost:3000
