@@ -131,6 +131,19 @@ pl:
       way_node: Węzeł linii
       way_tag: Znacznik linii
     attributes:
+      client_application:
+        name: Nazwa (wymagana)
+        url: Główny adres URL aplikacji (wymagany)
+        callback_url: Adres URL odwołania zwrotnego
+        support_url: Adres URL pomocy technicznej
+        allow_read_prefs: Odczytywanie ich ustawień
+        allow_write_prefs: Modyfikowanie ich ustawień
+        allow_write_diary: Tworzenie wpisów w dzienniku, dodawanie komentarzy i nawiązywanie
+          kontaktów
+        allow_write_api: Modyfikowanie mapy
+        allow_read_gpx: Odczytywanie ich prywatnych śladów GPS
+        allow_write_gpx: Przesyłanie śladów GPS
+        allow_write_notes: Modyfikowanie uwag
       diary_comment:
         body: Treść
       diary_entry:
@@ -159,6 +172,9 @@ pl:
         title: Temat
         body: Treść
         recipient: Odbiorca
+      report:
+        category: Wybierz powód zgłoszenia
+        details: Opisz, proszę, problem bardziej szczegółowo (wymagane).
       user:
         email: E-mail
         active: Aktywny
@@ -297,6 +313,8 @@ pl:
     view_history: Wyświetl historię
     view_details: Wyświetl szczegóły
     location: 'Położenie:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Zestaw zmian: %{id}'
       belongs_to: Autor
@@ -400,6 +418,7 @@ pl:
       reopened_by_anonymous: Ponownie aktywowana anonimowo <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Ukryte przez %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Zgłoś tę uwagę
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Dane obiektów
       introduction: Kliknij na mapie, by wyszukać pobliskie obiekty.
@@ -507,6 +526,7 @@ pl:
       location: 'Położenie:'
       view: Podgląd
       edit: Edytuj
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Wpisy dla %{user}
@@ -569,10 +589,13 @@ pl:
           hangar: Hangar
           helipad: Lądowisko dla helikopterów
           holding_position: Punkt oczekiwania
+          navigationaid: Stacja wspomagania nawigacji loticzej
           parking_position: Miejsce parkingowe
           runway: Pas startowy
+          taxilane: Droga na lotnisku
           taxiway: Droga kołowania
           terminal: Terminal
+          windsock: Wiatrowskaz
         amenity:
           animal_boarding: Hotel dla zwierząt
           animal_shelter: Schronisko dla zwierząt
@@ -631,6 +654,7 @@ pl:
           loading_dock: Dok załadunkowy
           love_hotel: Love hotel
           marketplace: Plac targowy
+          mobile_money_agent: Pośrednik płatności mobilnych
           monastery: Klasztor
           money_transfer: Placówka przekazów pieniężnych
           motorcycle_parking: Parking dla motocykli
@@ -651,6 +675,7 @@ pl:
           public_bath: Łaźnia publiczna
           public_bookcase: Publiczna wymiana książek
           public_building: Budynek publiczny
+          ranger_station: Leśniczówka
           recycling: Miejsce recyklingu
           restaurant: Restauracja
           sanitary_dump_station: Miejsce opróżniania toalety
@@ -666,6 +691,7 @@ pl:
           theatre: Teatr
           toilets: Toaleta publiczna
           townhall: Urząd miejski / Urząd gminy
+          training: Szkolenia
           university: Uniwersytet
           vehicle_inspection: Stacja kontroli pojazdów
           vending_machine: Automat do sprzedaży
@@ -673,14 +699,17 @@ pl:
           village_hall: Urząd gminy
           waste_basket: Kosz na śmieci
           waste_disposal: Śmietnik
+          waste_dump_site: Składowisko odpadów
           watering_place: Poidło dla zwierząt
           water_point: Punkt poboru wody
           weighbridge: Waga dla pojazdów
           "yes": Usługa
         boundary:
+          aboriginal_lands: Rezerwat Indian
           administrative: Granica gminy
           census: Granica spisu ludności
           national_park: Park narodowy
+          political: Granica okręgu wyborczego
           protected_area: Obszar chroniony
           "yes": Granica
         bridge:
@@ -691,6 +720,7 @@ pl:
           viaduct: Most wieloprzęsłowy
           "yes": Most
         building:
+          apartment: Blok mieszkalny
           apartments: Blok mieszkalny
           barn: Stodoła
           bungalow: Bungalow
@@ -703,6 +733,7 @@ pl:
           construction: Budynek w budowie
           detached: Dom wolnostojący
           dormitory: Bursa
+          duplex: Bliźniak
           farm: Dom mieszkalny na farmie
           farm_auxiliary: Budynek gospodarczy
           garage: Garaż
@@ -735,6 +766,10 @@ pl:
           university: Budynek uniwersytetu
           warehouse: Magazyn
           "yes": Budynek
+        club:
+          scout: Klub harcerski
+          sport: Klub sportowy
+          "yes": Klub
         craft:
           beekeper: Pszczelarz
           blacksmith: Kowal
@@ -762,11 +797,17 @@ pl:
           winery: Winiarnia
           "yes": Warsztat
         emergency:
+          access_point: Miejsce zbiórki ewakuacyjnej
           ambulance_station: Stacja pogotowia ratunkowego
           assembly_point: Miejsce zbiórki do ewakuacji
           defibrillator: Defibrylator
+          fire_xtinguisher: Gaśnica
+          fire_water_pond: Staw pożarowy
           landing_site: Miejsce awaryjnego lądowania
+          life_ring: Koło ratunkowe
           phone: Telefon alarmowy
+          siren: Syrena alarmowa
+          suction_point: Punkt pompowania wody
           water_tank: Awaryjny zbiornik wody
           "yes": Ratownictwo
         highway:
@@ -779,6 +820,7 @@ pl:
           cycleway: Droga rowerowa
           elevator: Winda
           emergency_access_point: Miejsce zbiórki ewakuacyjnej
+          emergency_bay: Zatoka awaryjna
           footway: Droga dla pieszych
           ford: Bród
           give_way: Znak drogowy „Ustąp pierwszeństwa przejazdu”
@@ -809,36 +851,45 @@ pl:
           tertiary: Droga trzeciorzędna
           tertiary_link: Droga trzeciorzędna – łącznik
           track: Droga polna lub leśna
+          traffic_mirror: Lustro drogowe
           traffic_signals: Sygnalizacja świetlna
+          trailhead: Początek szlaku
           trunk: Droga główna/ekspresowa
           trunk_link: Droga główna/ekspresowa – dojazd
           turning_loop: Pętla do zawracania
           unclassified: Droga czwartorzędna
           "yes": Droga
         historic:
+          aircraft: Samolot
           archaeological_site: Stanowisko archeologiczne
           bomb_crater: Lej bombowy
           battlefield: Miejsce historycznej bitwy
           boundary_stone: Graniczny głaz
           building: Budynek historyczny
           bunker: Bunkier
+          cannon: Działo
           castle: Zamek
+          charcoal_pile: Mielerz
           church: Kościół
           city_gate: Brama miasta
           citywalls: Mury miejskie
           fort: Fort
           heritage: Miejsce dziedzictwa kulturalnego
+          hollow_way: Zapadnięta droga
           house: Dom
           manor: Dwór
           memorial: Pomnik/miejsce pamięci (mały)
+          milestone: Historyczny słupek pikietażowy
           mine: Kopalnia
           mine_shaft: Szyb górniczy
           monument: Pomnik/miejsce pamięci (duży)
+          railway: Historyczny obiekt kolejowy
           roman_road: Droga rzymska
           ruins: Ruiny
           stone: Kamień
           tomb: Grób
           tower: Wieża
+          wayside_chapel: Przydrożna kapliczka
           wayside_cross: Przydrożny krzyż
           wayside_shrine: Przydrożna kapliczka
           wreck: Zatopiony statek
@@ -847,6 +898,7 @@ pl:
           "yes": Skrzyżowanie
         landuse:
           allotments: Ogródki działkowe
+          aquaculture: Teren akwakultury
           basin: Basen-zbiornik,niecka
           brownfield: Grunty poprzemysłowe
           cemetery: Cmentarz
@@ -866,9 +918,11 @@ pl:
           military: Teren wojskowy
           mine: Kopalnia
           orchard: Sad
+          plant_nursery: Szkółka leśna
           quarry: Kamieniołom
           railway: Teren kolejowy
           recreation_ground: Teren rekreacyjny
+          religious: Teren dla celów religijnych
           reservoir: Sztuczny zbiornik wodny
           reservoir_watershed: Zbiornik wodny
           residential: Zabudowa mieszkalna
@@ -877,9 +931,15 @@ pl:
           vineyard: Winnica
           "yes": Zagospodarowanie terenu
         leisure:
+          adult_gaming_centre: Salon gier hazardowych
+          amusement_arcade: Salon gier
+          bandstand: Estrada
           beach_resort: Strzeżona plaża
           bird_hide: Czatownia ornitologiczna
+          bleachers: Odkryta trybuna
+          bowling_alley: Kręgielnia
           common: Błonie
+          dance: Sala taneczna
           dog_park: Wybieg dla psów
           firepit: Palenisko
           fishing: Łowisko
@@ -892,7 +952,9 @@ pl:
           marina: Marina
           miniature_golf: Pole do miniaturowego golfa
           nature_reserve: Rezerwat przyrody
+          outdoor_seating: Ogródek
           park: Park
+          picnic_table: Stół piknikowy
           pitch: Boisko sportowe
           playground: Plac zabaw
           recreation_ground: Obszar rekreacyjno-wypoczynkowy
@@ -907,14 +969,21 @@ pl:
           "yes": Rekreacja
         man_made:
           adit: Szyb
+          advertising: Reklama
+          antenna: Antena
+          avalanche_protection: Ochrona przed lawinami
           beacon: Latarnia morska
+          beam: Belka
           beehive: Ul
           breakwater: Falochron
           bridge: Most
           bunker_silo: Bunkier
+          cairn: Kopiec
           chimney: Komin
           clearcut: Zrąb
+          communications_tower: Wieża komunikacyjna
           crane: Żuraw (dźwig)
+          cross: Krzyż
           dolphin: Dalba
           dyke: Grobla
           embankment: Nasyp
@@ -923,6 +992,7 @@ pl:
           groyne: Ostroga brzegowa
           kiln: Piec przemysłowy
           lighthouse: Latarnia morska
+          manhole: Właz do kanału
           mast: Maszt
           mine: Kopalnia
           mineshaft: Szyb górniczy
@@ -930,12 +1000,20 @@ pl:
           petroleum_well: Szyb naftowy
           pier: Molo/pomost
           pipeline: Rurociąg
+          pumping_station: Przepompownia
+          reservoir_covered: Podziemny zbiornik wody
           silo: Silos
+          snow_cannon: Armatka śnieżna
+          snow_fence: Płot przeciwśnieżny
           storage_tank: Zbiornik
+          street_cabinet: Skrzynka elektryczna
           surveillance: Punkt monitoringu
+          telescope: Teleskop
           tower: Wieża
+          utility_pole: Słup
           wastewater_plant: Oczyszczalnia ścieków
           watermill: Młyn wodny
+          water_tap: Kran z wodą
           water_tower: Wieża ciśnień
           water_well: Studnia
           water_works: Wodociągi
@@ -946,10 +1024,13 @@ pl:
           airfield: Lotnisko wojskowe
           barracks: Koszary
           bunker: Bunkier
+          checkpoint: Wojskowy punkt kontrolny
+          trench: Transzeja
           "yes": Obiekt wojskowy
         mountain_pass:
           "yes": Przełęcz
         natural:
+          bare_rock: Skała macierzysta
           bay: Zatoka
           beach: Plaża
           cape: Przylądek
@@ -965,6 +1046,7 @@ pl:
           grassland: Łąka
           heath: Wrzosowisko
           hill: Wzgórze
+          hot_spring: Źródło termalne
           island: Wyspa
           land: Ląd
           marsh: Bagno
@@ -988,6 +1070,7 @@ pl:
           water: Woda
           wetland: Obszar podmokły
           wood: Drzewa
+          "yes": Natura
         office:
           accountant: Księgowy
           administrative: Administracja
@@ -998,6 +1081,7 @@ pl:
           diplomatic: Placówka dyplomatyczna
           educational_institution: Instytucja edukacyjna
           employment_agency: Urząd pracy
+          energy_supplier: Biuro dostawcy energii
           estate_agent: Biuro nieruchomości
           financial: Biuro finansowe
           government: Biuro rządowe/samorządowe
@@ -1005,7 +1089,11 @@ pl:
           it: Biuro firmy informatycznej
           lawyer: Prawnik
           logistics: Biuro logistyczne
+          newspaper: Siedziba wydawcy gazety
           ngo: Biuro organizacji pozarządowej
+          notary: Notariusz
+          religion: Biuro organizacji religijnej
+          research: Biuro badawcze
           tax_advisor: Doradca podatkowy
           telecommunication: Urząd telekomunikacji
           travel_agent: Biuro podróży
@@ -1026,6 +1114,7 @@ pl:
           locality: Miejsce nazwane
           municipality: Gmina
           neighbourhood: Sąsiedztwo
+          plot: Działka
           postcode: Kod pocztowy
           quarter: Kwartał
           region: Rejon
@@ -1187,6 +1276,7 @@ pl:
           attraction: Atrakcja turystyczna
           bed_and_breakfast: Bed and Breakfast
           cabin: Domek letniskowy
+          camp_pitch: Miejsce na kempingu
           camp_site: Kemping
           caravan_site: Miejsce na przyczepę kempingową
           chalet: Schronisko
@@ -1200,6 +1290,7 @@ pl:
           picnic_site: Miejsce na piknik
           theme_park: Park rozrywki
           viewpoint: Punkt widokowy
+          wilderness_hut: Chata na odludziu
           zoo: Zoo
         tunnel:
           building_passage: Przejazd przez budynek
@@ -1316,8 +1407,6 @@ pl:
     new:
       title_html: Zgłoś użytkownika %{link}
       missing_params: Nie można utworzyć nowego zgłoszenia
-      details: Opisz, proszę, problem bardziej szczegółowo (wymagane).
-      select: 'Wybierz powód zgłoszenia:'
       disclaimer:
         intro: 'Przed wysłaniem zgłoszenia do moderatorów, upewnij się proszę, że:'
         not_just_mistake: Na pewno nie jest to pomyłka, a problem wymagający zgłoszenia
@@ -2093,6 +2182,7 @@ pl:
       uploaded: 'Czas dodania:'
       points: 'Liczba punktów:'
       start_coordinates: 'Współrzędne początkowe:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: mapa
       edit: edycja
       owner: 'Autor:'
@@ -2215,13 +2305,6 @@ pl:
       delete: Usuń klienta
       confirm: Jesteś pewien?
       requests: 'Zapytanie następujących uprawnień ze strony użytkownika:'
-      allow_read_prefs: Odczytywanie ustawień użytkownika
-      allow_write_prefs: Modyfikowanie ustawień użytkownika
-      allow_write_diary: Tworzenie wpisów w dzienniku, komentowanie i dodawanie znajomych
-      allow_write_api: Modyfikowanie mapy
-      allow_read_gpx: Odczytywanie prywatnych śladów GPS
-      allow_write_gpx: Przesyłanie śladów GPS.
-      allow_write_notes: Modyfikowanie uwag
     index:
       title: Szczegóły uwierzytelnienia OAuth
       my_tokens: Zarejestrowane programy
@@ -2237,20 +2320,7 @@ pl:
       registered_apps: 'Zarejestrowano następujące aplikacje klienckie:'
       register_new: Zarejestruj swoją aplikację
     form:
-      name: Nazwa
-      required: Wymagane
-      url: Główny adres URL aplikacji
-      callback_url: Adres URL odwołania zwrotnego
-      support_url: Adres URL pomocy technicznej
       requests: 'Żądanie następujących uprawnień od użytkowników:'
-      allow_read_prefs: Odczytywanie ich ustawień użytkownika
-      allow_write_prefs: Modyfikowanie ich ustawień użytkownika
-      allow_write_diary: Tworzenie wpisów w dzienniku, dodawanie komentarzy i nawiązywanie
-        kontaktów
-      allow_write_api: Modyfikowanie mapy
-      allow_read_gpx: Odczytywanie ich prywatnych śladów GPS
-      allow_write_gpx: Przesyłanie śladów GPS
-      allow_write_notes: Modyfikowanie uwag
     not_found:
       sorry: Niestety, nie odnaleziono %{type}.
     create:

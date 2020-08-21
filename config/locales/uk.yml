@@ -46,6 +46,8 @@ uk:
       friendly: '%e %B %Y в %H:%M'
       blog: '%e %B %Y'
   helpers:
+    file:
+      prompt: Обрати файл
     submit:
       diary_comment:
         create: Зберегти
@@ -110,6 +112,9 @@ uk:
       way_node: Точка лінії
       way_tag: Теґ лінії
     attributes:
+      client_application:
+        callback_url: URL зворотного виклику
+        support_url: URL підтримки
       diary_comment:
         body: Текст
       diary_entry:
@@ -130,14 +135,16 @@ uk:
         longitude: Довгота
         public: Публічний
         description: Опис
-        gpx_file: 'Завантажити GPX-файл:'
-        visibility: 'Видимість:'
-        tagstring: 'Мітки:'
+        gpx_file: Завантажити GPX-файл
+        visibility: Видимість
+        tagstring: Мітки
       message:
         sender: Відправник
         title: Тема
         body: Текст
         recipient: Одержувач
+      report:
+        details: Будь ласка, надайте більше подробиць (обов'язково).
       user:
         email: Ел. пошта
         active: Активний
@@ -459,7 +466,7 @@ uk:
     diary_entry:
       posted_by_html: 'Додано користувачем %{link_user} %{created}, мова: %{language_link}'
       comment_link: Коментувати
-      reply_link: Відповісти
+      reply_link: Надіслати повідомлення автору
       comment_count:
         zero: Немає коментарів
         one: '%{count} коментар'
@@ -640,15 +647,15 @@ uk:
           viaduct: Віадук
           "yes": Міст
         building:
-          apartments: Житловий масив
+          apartments: Багатоквартирний будинок
           chapel: Каплиця
-          church: Храм
+          church: Будівля храму
           commercial: Комерційна нерухомість
           dormitory: Гуртожиток
-          farm: Ферма
+          farm: Дім на фермі
           garage: Гараж
           hospital: Лікарня
-          hotel: Готель
+          hotel: Будівля готелю
           house: Будинок
           industrial: Промислова споруда
           office: Офісний будинок
@@ -656,8 +663,8 @@ uk:
           residential: Житловий будинок
           retail: Центр роздрібної торгівлі
           school: Школа
-          terrace: Тераса
-          train_station: Залізнична станція
+          terrace: Таунхаус
+          train_station: Будівля залізничної станції
           university: Університет
           "yes": Будівля
         craft:
@@ -1182,8 +1189,6 @@ uk:
     new:
       title_html: Скарга %{link}
       missing_params: Неможливо створити нову скаргу
-      details: Будь ласка, надайте більше подробиць (обов'язково).
-      select: 'Оберіть причину для вашої скарги:'
       disclaimer:
         intro: 'Перед тим як надіслати вашу скаргу до модераторів сайту, переконайтесь
           що:'
@@ -1935,6 +1940,7 @@ uk:
           дочекайтесь завершення їх завантаження перед завантаженням на сервер інших
           треків, що дозволить іншим користувачам також надіслати свої треки.'
     edit:
+      cancel: Скасувати
       title: Редагування треку %{name}
       heading: Редагування треку %{name}
       visibility_help: ще це означає?
@@ -2071,13 +2077,6 @@ uk:
       delete: Вилучити клієнта
       confirm: Ви впевнені?
       requests: 'Запит наступних дозволів з боку користувача:'
-      allow_read_prefs: читати налаштування користувача
-      allow_write_prefs: змінювати налаштування користувача.
-      allow_write_diary: створити записи щоденника, коментарі та завести нових друзів.
-      allow_write_api: правити мапу.
-      allow_read_gpx: переглядати його приватні GPS-треки
-      allow_write_gpx: передавати GPS-треки на сервер.
-      allow_write_notes: змінювати нотатки.
     index:
       title: Мої OAuth-подробиці
       my_tokens: Мої автентифіковані застосунки
@@ -2093,19 +2092,7 @@ uk:
       registered_apps: 'У вас зареєстровані наступні клієнтські застосунки:'
       register_new: Зареєструвати ваш застосунок
     form:
-      name: Ім’я
-      required: Потрібно
-      url: Основний URL застосунка
-      callback_url: URL зворотного виклику
-      support_url: URL підтримки
       requests: 'Запитати у користувача наступні дозволи:'
-      allow_read_prefs: читати налаштування користувача.
-      allow_write_prefs: змінювати налаштування користувача.
-      allow_write_diary: створити записи щоденника, коментарі та завести нових друзів.
-      allow_write_api: правити мапу.
-      allow_read_gpx: переглядати його приватні GPS-треки.
-      allow_write_gpx: передавати GPS-треки на сервер.
-      allow_write_notes: змінювати нотатки.
     not_found:
       sorry: На жаль, цей тип — %{type}, не можливо знайти.
     create:
@@ -2669,6 +2656,7 @@ uk:
         cycle_map: ВелоМапа
         transport_map: Мапа Транспорту
         hot: Humanitarian‎
+        opnvkarte: ÖPNVKarte
       layers:
         header: Шари мапи
         notes: Нотатки
@@ -2682,6 +2670,7 @@ uk:
         API</a>
       thunderforest: Тайли надав <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
+      opnvkarte: Тайли надані <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
       hotosm: Стиль тайлів — від <a href='%{hotosm_url}' target='_blank'>Гуманітарної
         команди OpenStreetMap</a>, хостинг — від <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
         Франція</a>
@@ -2727,7 +2716,7 @@ uk:
         fossgis_osrm_car: Машина (OSRM)
         fossgis_osrm_foot: Пішки (OSRM)
         graphhopper_bicycle: Велосипед (GraphHopper)
-        graphhopper_car: Автівкою (GraphHopper)
+        graphhopper_car: Машина (GraphHopper)
         graphhopper_foot: Пішки (GraphHopper)
       descend: Вниз
       directions: Маршрут

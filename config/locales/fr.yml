@@ -91,7 +91,7 @@ fr:
         create: Envoyer
       client_application:
         create: Enregistrer
-        update: Modifier
+        update: Mettre à jour
       redaction:
         create: Créer le masquage
         update: Enregistrer le masquage
@@ -143,6 +143,19 @@ fr:
       way_node: Nœud du chemin
       way_tag: Attribut du chemin
     attributes:
+      client_application:
+        name: Nom (obligatoire)
+        url: URL principale de l’application (obligatoire)
+        callback_url: URL de rappel
+        support_url: URL de soutien
+        allow_read_prefs: lire leurs préférences utilisateur
+        allow_write_prefs: modifier leurs préférences utilisateur
+        allow_write_diary: créer des entrées d’agenda, des commentaires, et se faire
+          des amis
+        allow_write_api: modifier la carte
+        allow_read_gpx: lire leurs traces GPS privées
+        allow_write_gpx: télécharger les traces GPS
+        allow_write_notes: modifier les notes
       diary_comment:
         body: Corps
       diary_entry:
@@ -171,6 +184,9 @@ fr:
         title: Sujet
         body: Corps
         recipient: Destinataire
+      report:
+        category: Sélectionner un motif pour votre rapport
+        details: Veuillez fournir plus de détails sur le problème (obligatoire).
       user:
         email: Courriel
         active: Actif
@@ -286,6 +302,8 @@ fr:
     view_history: Voir l’historique
     view_details: Afficher les détails
     location: 'Emplacement :'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Groupe de modifications : %{id}'
       belongs_to: Auteur
@@ -389,6 +407,7 @@ fr:
       reopened_by_anonymous: Réactivé par un utilisateur anonyme <abbr title="%{exact_time}">%{when}</abbr>
       hidden_by: Masqué par %{user} <abbr title="%{exact_time}">%{when}</abbr>
       report: Signaler cette note
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Requête sur les objets
       introduction: Cliquer sur la carte pour trouver les objets à proximité.
@@ -500,6 +519,7 @@ fr:
       location: 'Lieu :'
       view: Afficher
       edit: Modifier
+      coordinates: '%{latitude} ; %{longitude}'
     feed:
       user:
         title: Entrées du journal OpenStreetMap de %{user}
@@ -548,10 +568,12 @@ fr:
           chair_lift: Télésiège
           drag_lift: Téléski
           gondola: Télécabine
+          magic_carpet: Tapis roulant élévateur
           platter: Monte-plat
           pylon: Pylône
           station: Gare de télécabine
           t-bar: Monte-barre en T
+          "yes": Voie aérienne
         aeroway:
           aerodrome: Aérodrome
           airstrip: Piste d’atterrissage
@@ -560,11 +582,15 @@ fr:
           hangar: Hangar aéronautique
           helipad: Héliport
           holding_position: Position d’attente
+          navigationaid: Aide à la navigation aéromotrice
           parking_position: Place de parking
           runway: Piste
+          taxilane: Voie de taxi
           taxiway: Piste de circulation d’un aéroport
           terminal: Terminal
+          windsock: Manche à air
         amenity:
+          animal_boarding: Chargement d’animaux
           animal_shelter: Refuge pour animaux
           arts_centre: Centre artistique
           atm: Distributeur automatique de billets
@@ -574,7 +600,9 @@ fr:
           bench: Banc
           bicycle_parking: Parking à vélos
           bicycle_rental: Location de vélos
+          bicycle_repair_station: Atelier de réparation de vélos
           biergarten: Brasserie en plein air
+          blood_bank: Banque de sang
           boat_rental: Location de bateaux
           brothel: Bordel
           bureau_de_change: Bureau de change
@@ -591,6 +619,7 @@ fr:
           clock: Horloge
           college: Établissement d’enseignement supérieur
           community_centre: Salle polyvalente
+          conference_centre: Centre de conférence
           courthouse: Palais de justice
           crematorium: Crématorium
           dentist: Dentiste
@@ -598,6 +627,7 @@ fr:
           drinking_water: Eau potable
           driving_school: École de conduite
           embassy: Ambassade
+          events_venue: Survenue d’événements
           fast_food: Restauration rapide
           ferry_terminal: Terminal de ferry
           fire_station: Caserne des pompiers
@@ -610,16 +640,24 @@ fr:
           hospital: Hôpital
           hunting_stand: Stand de tir
           ice_cream: Glacier
+          internet_cafe: Café internet
           kindergarten: Jardin d’enfant
+          language_school: École de langue
           library: Bibliothèque
+          loading_dock: Quai de chargement
+          love_hotel: Hôtel d’amour
           marketplace: Marché
+          mobile_money_agent: Agent monétaire mobile
           monastery: Monastère
+          money_transfer: Transfert d'argent
           motorcycle_parking: Parking à motos
+          music_school: Ecole de musique
           nightclub: Boîte de nuit
           nursing_home: Maison de retraite médicalisée
           parking: Parking
           parking_entrance: Entrée d’un parking
           parking_space: Place de parking
+          payment_terminal: Terminal de paiement
           pharmacy: Pharmacie
           place_of_worship: Lieu de culte
           police: Police
@@ -627,9 +665,13 @@ fr:
           post_office: Bureau de poste
           prison: Prison
           pub: Pub
+          public_bath: Bains publics
+          public_bookcase: Bibliothèque publique
           public_building: Bâtiment public
+          ranger_station: Poste de garde-foreestier
           recycling: Point de recyclage
           restaurant: Restaurant
+          sanitary_dump_station: Station de pompage sanitaire
           school: École
           shelter: Abri
           shower: Douche
@@ -642,19 +684,27 @@ fr:
           theatre: Théâtre
           toilets: Toilettes
           townhall: Hôtel de ville / mairie
+          training: Établissement d’entraînement
           university: Université
+          vehicle_inspection: Inspection de véhicule
           vending_machine: Distributeur automatique
           veterinary: Clinique vétérinaire
           village_hall: Salle municipale
           waste_basket: Poubelle
           waste_disposal: Élimination des déchets
+          waste_dump_site: Site de décharge de déchets
+          watering_place: Lieu d’arrosage
           water_point: Point d’eau
+          weighbridge: Pont-bascule
+          "yes": Infrastructure
         boundary:
+          aboriginal_lands: Territoires aborigènes
           administrative: Limite administrative
           census: Frontière statistique
           national_park: Parc national
           political: Circonscription électorale
           protected_area: Zone protégée
+          "yes": Frontière
         bridge:
           aqueduct: Aqueduc
           boardwalk: Promenade
@@ -664,40 +714,83 @@ fr:
           "yes": Pont
         building:
           apartment: Appartement
-          apartments: Immeuble
+          apartments: Appartements
+          barn: Grange
+          bungalow: Bungalow
+          cabin: Cabine
           chapel: Chapelle
-          church: Église
+          church: Construction d'églises
+          civic: Bâtiment municipal
+          college: Bâtiment de collège
           commercial: Bâtiment de bureaux
+          construction: Bâtiment en construction
           detached: Maison isolée
           dormitory: Dortoir
-          farm: Bâtiment de ferme
+          duplex: Maison en duplex
+          farm: Corps de ferme
+          farm_auxiliary: Bâtiment de ferme auxiliaire
           garage: Garage
+          garages: Garages
+          greenhouse: Serre
+          hangar: Hangar
           hospital: Bâtiment hospitalier
-          hotel: Hôtel
+          hotel: Bâtiment d’hôtel
           house: Maison
+          houseboat: Péniche d’habitation
+          hut: Cahute
           industrial: Bâtiment industriel
+          kindergarten: Bâtiment de jardin d’enfant
+          manufacture: Bâtiment d’usine
           office: Bâtiment de bureaux
           public: Bâtiment public
           residential: Bâtiment résidentiel
           retail: Magasin
           roof: Toît
+          ruins: Bâtiment en ruine
           school: Bâtiment d'école
-          terrace: Terrasse
-          train_station: Gare ferroviaire
+          semidetached_house: Maison semi-détachée
+          service: Bâtiment de service
+          shed: Cabanon
+          stable: Écurie
+          static_caravan: Caravane
+          temple: Bâtiment de temple
+          terrace: Bâtiment de terrasse
+          train_station: Bâtiment de gare ferroviaire
           university: Bâtiment d'université
+          warehouse: Entrepôt
           "yes": Bâtiment
+        club:
+          scout: Base de groupe de scout
+          sport: Club de sport
+          "yes": Club
         craft:
+          beekeper: Apiculteur
+          blacksmith: Forgeron
           brewery: Brasserie
           carpenter: Charpentier
+          caterer: Traiteur
+          confectionery: Confiserie
+          dressmaker: Couturier
           electrician: Électricien
+          electronics_repair: Réparateur électronique
           gardener: Jardinier
+          glaziery: Vitrerie
+          handicraft: Artisanat
+          hvac: Fabricant de climatisation
+          metal_construction: Constructeur en métal
           painter: Peintre
           photographer: Photographe
           plumber: Plombier
+          roofer: Couvreur
+          sawmill: Scierie
           shoemaker: Cordonnier
+          stonemason: Maçon
           tailor: Tailleur
+          window_construction: Construction de fenêtre
+          winery: Domaine vinicole
           "yes": Boutique d’artisanat
         emergency:
+          access_point: Point d’accès
           ambulance_station: Dépôt d’ambulances
           assembly_point: Point de rassemblement
           defibrillator: Défibrillateur
@@ -758,6 +851,7 @@ fr:
           building: Bâtiment historique
           bunker: Bunker
           castle: Château
+          charcoal_pile: Historique de la pile à charbon
           church: Église
           city_gate: Porte de ville / porte fortifiée
           citywalls: Remparts / murailles
@@ -782,6 +876,7 @@ fr:
           "yes": Intersection / carrefour
         landuse:
           allotments: Jardins familiaux
+          aquaculture: Aquaculture
           basin: Bassin
           brownfield: Friche industrielle
           cemetery: Cimetière
@@ -844,7 +939,9 @@ fr:
           "yes": Loisirs
         man_made:
           adit: Galerie d’accès de mine
+          antenna: Antenne
           beacon: Balise
+          beam: Rayon
           beehive: Ruche
           breakwater: Brise-lames
           bridge: Pont
@@ -931,6 +1028,7 @@ fr:
           architect: Architecte
           association: Association
           company: Entreprise
+          diplomatic: Bureau diplomatique
           educational_institution: Institution éducative
           employment_agency: Agence pour l’emploi
           estate_agent: Agent immobilier
@@ -998,6 +1096,7 @@ fr:
           alcohol: Vendeur d’alcool à emporter / caviste
           antiques: Antiquaire
           art: Boutique d’art
+          bag: Maroquinerie
           bakery: Boulangerie
           beauty: Magasin de produits de beauté
           beverages: Magasin de boissons
@@ -1011,6 +1110,7 @@ fr:
           car_repair: Garage de réparation automobile
           carpet: Magasin de tapis
           charity: Boutique humanitaire
+          cheese: Fromager
           chemist: Droguerie
           chocolate: Chocolat
           clothes: Boutique de vêtements
@@ -1042,6 +1142,7 @@ fr:
           hardware: Quincaillerie
           hifi: Magasin Hi-Fi
           houseware: Magasin d’articles ménagers
+          ice_cream: Marchand de glace
           interior_decoration: Décoration intérieure
           jewelry: Bijouterie
           kiosk: Kiosque
@@ -1051,8 +1152,10 @@ fr:
           mall: Centre commercial
           massage: Massage
           mobile_phone: Boutique de téléphones mobiles
+          money_lender: Prêts d'argent
           motorcycle: Magasin de motos
           music: Boutique de musique / disquaire
+          musical_instrument: Instruments de musique
           newsagent: Marchand de journaux
           optician: Opticien
           organic: Magasin d’alimentation bio
@@ -1214,8 +1317,6 @@ fr:
     new:
       title_html: Rapport %{link}
       missing_params: Impossible de créer un nouveau rapport
-      details: Veuillez fournir plus de détails sur le problème (obligatoire).
-      select: 'Sélectionnez un motif pour votre rapport :'
       disclaimer:
         intro: 'Avant d’envoyer votre rapport aux modérateurs du site, veuillez vous
           assurer que :'
@@ -2135,14 +2236,6 @@ fr:
       delete: Supprimer le client
       confirm: Êtes-vous sûr ?
       requests: 'Demande les permissions suivantes à l’utilisateur :'
-      allow_read_prefs: consulter ses préférences utilisateur.
-      allow_write_prefs: modifier ses préférences utilisateur.
-      allow_write_diary: créez des entrées dans le journal, des commentaires et faites-vous
-        des amis.
-      allow_write_api: modifier la carte.
-      allow_read_gpx: lire ses traces GPS privées.
-      allow_write_gpx: téléverser des traces GPS.
-      allow_write_notes: modifier les notes.
     index:
       title: Mes détails OAuth
       my_tokens: Mes applications enregistrées
@@ -2160,20 +2253,7 @@ fr:
         :'
       register_new: Enregistrez votre application
     form:
-      name: Nom
-      required: Requis
-      url: URL principale de l’application
-      callback_url: URL de rappel
-      support_url: URL de soutien
       requests: 'Demander les permissions suivantes à l’utilisateur :'
-      allow_read_prefs: lire ses préférences utilisateur.
-      allow_write_prefs: modifier ses préférences utilisateur.
-      allow_write_diary: créez des entrées dans le journal, des commentaires et faites-vous
-        des amis.
-      allow_write_api: modifier la carte.
-      allow_read_gpx: lire ses traces GPS privées.
-      allow_write_gpx: envoyer des traces GPS.
-      allow_write_notes: modifier les notes.
     not_found:
       sorry: Désolé, ce %{type} n’a pas pu être trouvé.
     create:

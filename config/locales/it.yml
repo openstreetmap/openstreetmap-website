@@ -69,7 +69,7 @@ it:
         create: Invia
       client_application:
         create: Registrati
-        update: Modifica
+        update: Aggiorna
       redaction:
         create: Crea revisione
         update: Salvare la revisione
@@ -122,6 +122,17 @@ it:
       way_node: Nodo del percorso
       way_tag: Etichetta del percorso
     attributes:
+      client_application:
+        name: Nome (obbligatorio)
+        callback_url: URL di richiamata
+        support_url: Indirizzo URL di supporto
+        allow_read_prefs: leggi le sue preferenze utente
+        allow_write_prefs: modifica le sue preferenze utente
+        allow_write_diary: crea pagine di diario, commenti e fai amicizia
+        allow_write_api: modifica la mappa
+        allow_read_gpx: leggi i suoi tracciati GPS privati
+        allow_write_gpx: carica tracciati GPS
+        allow_write_notes: modifica le note
       diary_comment:
         body: Corpo
       diary_entry:
@@ -150,6 +161,9 @@ it:
         title: Oggetto
         body: Corpo
         recipient: Destinatario
+      report:
+        category: Seleziona un motivo per la tua segnalazione
+        details: Fornire più dettagli sul problema (obbligatorio).
       user:
         email: Email
         active: Attivo
@@ -263,6 +277,8 @@ it:
     view_history: Visualizza cronologia
     view_details: Visualizza dettagli
     location: 'Posizione:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Gruppo di modifiche: %{id}'
       belongs_to: Autore
@@ -365,6 +381,7 @@ it:
       reopened_by_anonymous: Riattivata da anonimo <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Nascosta da %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Segnala questa nota
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Ricerca di elementi
       introduction: Clicca sulla cartina per disponibilità nei pressi.
@@ -474,6 +491,7 @@ it:
       location: 'Luogo:'
       view: Visualizza
       edit: Modifica
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Voci del diario di OpenStreetMap per %{user}
@@ -1175,8 +1193,6 @@ it:
     new:
       title_html: Segnala %{link}
       missing_params: Impossibile creare una nuova segnalazione
-      details: Fornire più dettagli sul problema (obbligatorio).
-      select: 'Seleziona un motivo per la tua segnalazione:'
       disclaimer:
         intro: 'Prima di inviare una segnalazione ai moderatori del sito, verifica
           che:'
@@ -1964,6 +1980,7 @@ it:
       uploaded: 'Caricato il:'
       points: 'Punti:'
       start_coordinates: 'Coordinata iniziale:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: mappa
       edit: modifica
       owner: 'Proprietario:'
@@ -2049,7 +2066,7 @@ it:
       allow_to: 'Consenti all''applicazione client di:'
       allow_read_prefs: leggi le preferenze personali.
       allow_write_prefs: modificare le tue preferenze utente.
-      allow_write_diary: creare pagine di diario, commenti e fare amicizia.
+      allow_write_diary: crea pagine di diario, commenti e fai amicizia.
       allow_write_api: modifica la mappa.
       allow_read_gpx: Visualizza i tuoi tracciati GPS
       allow_write_gpx: carica tracciati GPS.
@@ -2084,13 +2101,6 @@ it:
       delete: Eliminare Client
       confirm: Sei sicuro?
       requests: 'Richieste le seguenti autorizzazioni da parte dell''utente:'
-      allow_read_prefs: leggi le sue preferenze utente.
-      allow_write_prefs: modifica le sue preferenze utente.
-      allow_write_diary: crea pagine di diario, commenti e fai amicizia.
-      allow_write_api: modifica la mappa.
-      allow_read_gpx: leggi i suoi tracciati GPS privati.
-      allow_write_gpx: carica tracciati GPS.
-      allow_write_notes: modifica le note.
     index:
       title: I miei dettagli OAuth
       my_tokens: Le mie applicazioni autorizzate
@@ -2106,19 +2116,7 @@ it:
       registered_apps: 'Hai le seguenti applicazioni client registrate:'
       register_new: Registra la tua applicazione
     form:
-      name: Nome
-      required: Richiesto
-      url: URL applicazione principale
-      callback_url: URL di richiamata
-      support_url: Indirizzo URL di supporto
       requests: 'Richiedi le seguenti autorizzazioni da parte dell''utente:'
-      allow_read_prefs: leggi le sue preferenze utente.
-      allow_write_prefs: modifica le sue preferenze utente.
-      allow_write_diary: crea pagine di diario, commenti e fai amicizia.
-      allow_write_api: modifica la mappa.
-      allow_read_gpx: leggi i suoi tracciati GPS privati.
-      allow_write_gpx: carica tracciati GPS.
-      allow_write_notes: modifica le note.
     not_found:
       sorry: Siamo dolenti, quel %{type} non è stato trovato.
     create:

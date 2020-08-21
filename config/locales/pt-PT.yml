@@ -44,6 +44,8 @@ pt-PT:
       friendly: '%e %B %Y às %H:%M'
       blog: '%e %B %Y'
   helpers:
+    file:
+      prompt: Escolher ficheiro
     submit:
       diary_comment:
         create: Gravar
@@ -56,7 +58,7 @@ pt-PT:
         create: Enviar
       client_application:
         create: Registar
-        update: Editar
+        update: Atualizar
       redaction:
         create: Criar supressão
         update: Gravar supressão
@@ -108,6 +110,18 @@ pt-PT:
       way_node: Nó da linha
       way_tag: Etiqueta da Linha
     attributes:
+      client_application:
+        name: Nome (necessário)
+        url: URL da Aplicação Principal (necessário)
+        callback_url: URL de retorno
+        support_url: URL de apoio
+        allow_read_prefs: ler preferências do utilizador
+        allow_write_prefs: modificar preferências do utilizador
+        allow_write_diary: criar publicações no diário, comentários e adicionar amigos
+        allow_write_api: modificar o mapa
+        allow_read_gpx: ler as rotas GPS privadas do utilizador
+        allow_write_gpx: enviar rotas GPS
+        allow_write_notes: modificar notas
       diary_comment:
         body: Conteúdo
       diary_entry:
@@ -122,20 +136,23 @@ pt-PT:
       trace:
         user: Utilizador
         visible: Visível
-        name: Nome
+        name: Nome do ficheiro
         size: Tamanho
         latitude: Latitude
         longitude: Longitude
         public: Público
         description: Descrição
-        gpx_file: 'Enviar ficheiro GPX:'
-        visibility: 'Visibilidade:'
-        tagstring: 'Etiquetas:'
+        gpx_file: Enviar ficheiro GPX
+        visibility: Visibilidade
+        tagstring: Etiquetas
       message:
         sender: Remetente
         title: Assunto
         body: Conteúdo
         recipient: Destinatário
+      report:
+        category: Seleciona um motivo para a tua denúncia
+        details: Por favor, fornece mais alguns detalhes sobre o problema (obrigatório).
       user:
         email: E-mail
         active: Ativo
@@ -249,6 +266,8 @@ pt-PT:
     view_history: Ver histórico
     view_details: Ver detalhes
     location: 'Localização:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Conjunto de alterações: %{id}'
       belongs_to: Autor
@@ -353,6 +372,7 @@ pt-PT:
       reopened_by_anonymous: Reaberto por um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Ocultado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Reportar esta nota
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Consultar elementos
       introduction: Clica no mapa para descobrir elementos próximos.
@@ -465,6 +485,7 @@ pt-PT:
       location: 'Localização:'
       view: Ver
       edit: Editar
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Publicações no diário OpenStreetMap de %{user}
@@ -513,10 +534,12 @@ pt-PT:
           chair_lift: Teleférico
           drag_lift: Elevador de esqui
           gondola: Gôndola
+          magic_carpet: Tapete rolante
           platter: Telesqui
           pylon: Pilone
           station: Estação de elevador de esqui
           t-bar: Telesqui de barra de metal em T
+          "yes": Via aérea
         aeroway:
           aerodrome: Aeródromo
           airstrip: Pista de aterragem
@@ -525,11 +548,15 @@ pt-PT:
           hangar: Hangar
           helipad: Heliporto
           holding_position: Posição de estabelecimento
+          navigationaid: Auxílio à navegação aérea
           parking_position: Posição de estacionamento
           runway: Pista de aterragem e descolagem
+          taxilane: Via de circulação
           taxiway: Taxiway
           terminal: Terminal
+          windsock: Manga de vento
         amenity:
+          animal_boarding: Hotel para animais
           animal_shelter: Abrigo de animais
           arts_centre: Centro de artes
           atm: Multibanco
@@ -539,7 +566,9 @@ pt-PT:
           bench: Banco de sentar
           bicycle_parking: Estacionamento de bicicletas
           bicycle_rental: Aluguer de bicicletas
+          bicycle_repair_station: Ponto de reparação de bicicletas
           biergarten: Biergarten (jardim da cerveja)
+          blood_bank: Banco de sangue
           boat_rental: Aluguer de barcos
           brothel: Bordel
           bureau_de_change: Casa de câmbio
@@ -556,6 +585,7 @@ pt-PT:
           clock: Relógio
           college: Colégio
           community_centre: Centro comunitário
+          conference_centre: Centro de conferências
           courthouse: Tribunal
           crematorium: Crematório
           dentist: Dentista
@@ -563,6 +593,7 @@ pt-PT:
           drinking_water: Água potável
           driving_school: Escola de condução
           embassy: Embaixada
+          events_venue: Espaço para eventos
           fast_food: Fast-food
           ferry_terminal: Terminal de ferry
           fire_station: Quartel de bombeiros
@@ -575,16 +606,24 @@ pt-PT:
           hospital: Hospital
           hunting_stand: Cabana de caça
           ice_cream: Gelataria
+          internet_cafe: Cibercafé
           kindergarten: Jardim de infância
+          language_school: Escola de línguas
           library: Biblioteca
+          loading_dock: Cais de carga
+          love_hotel: Motel para casais
           marketplace: Feira
+          mobile_money_agent: Agente de dinheiro eletrónico
           monastery: Mosteiro
+          money_transfer: Transferência de dinheiro
           motorcycle_parking: Parque de estacionamento para motas
+          music_school: Escola de música
           nightclub: Discoteca
           nursing_home: Lar geriátrico
           parking: Estacionamento
           parking_entrance: Entrada de estacionamento
           parking_space: Espaço para estacionamento
+          payment_terminal: Terminal de pagamento
           pharmacy: Farmácia
           place_of_worship: Lugar de oração
           police: Polícia
@@ -592,9 +631,13 @@ pt-PT:
           post_office: Correios
           prison: Prisão
           pub: Pub
+          public_bath: Banhos públicos
+          public_bookcase: Biblioteca de rua
           public_building: Edifício público
+          ranger_station: Posto de guarda florestal
           recycling: Ecoponto
           restaurant: Restaurante
+          sanitary_dump_station: Estação de despejo de esgotos
           school: Escola
           shelter: Abrigo
           shower: Chuveiro
@@ -607,18 +650,27 @@ pt-PT:
           theatre: Teatro
           toilets: Casas de banho
           townhall: Câmara Municipal / Junta de Freguesia
+          training: Centro de treino
           university: Universidade
+          vehicle_inspection: Centro de inspeção de veículos
           vending_machine: Máquina de venda automática
           veterinary: Clínica veterinária
           village_hall: Junta de freguesia
           waste_basket: Caixote do lixo
           waste_disposal: Contentor de lixo
+          waste_dump_site: Local de despejo de lixo
+          watering_place: Bebedouro para animais
           water_point: Ponto de água
+          weighbridge: Balança rodoviária
+          "yes": Infraestrutura
         boundary:
+          aboriginal_lands: Terras indígenas
           administrative: Fronteira administrativa
           census: Fronteira de censos
           national_park: Parque nacional
+          political: Zona eleitoral
           protected_area: Área protegida
+          "yes": Fronteira
         bridge:
           aqueduct: Aqueduto
           boardwalk: Passadiço
@@ -627,12 +679,32 @@ pt-PT:
           viaduct: Viaduto
           "yes": Ponte
         building:
+          apartment: Apartamento
           apartments: Bloco de apartamentos
+          barn: Barracão
+          bungalow: Bangaló
+          cabin: Casa de madeira
           chapel: Capela
-          church: Igreja
+          church: Edifício de Igreja
+          civic: Edifício cívico
+          college: Edifício de faculdade
+          commercial: Edifício comercial
+          construction: Edifício em construção
+          detached: Casa isolada
+          dormitory: Dormitório
+          duplex: Casa dupla
+          farm: Casa de quinta
+          farm_auxiliary: Casa auxiliar de quinta
           garage: Garagem
-          hotel: Hotel
+          garages: Garagens
+          greenhouse: Estufa
+          hangar: Hangar
+          hospital: Edifício hospitalar
+          hotel: Edifício hoteleiro
           house: Casa
+          houseboat: Casa flutuante
+          hut: Cabana
+          industrial: Edifício industrial
           terrace: Terraço
           "yes": Edifício
         craft:
@@ -1155,8 +1227,6 @@ pt-PT:
     new:
       title_html: Denunciar %{link}
       missing_params: Não foi possível criar nova denúncia
-      details: Por favor, fornece mais alguns detalhes sobre o problema (obrigatório).
-      select: Seleciona um motivo para a tua denúnciaː
       disclaimer:
         intro: Antes de enviares a denúncia aos moderadores, por favor, certifica-te
           de queː
@@ -1511,6 +1581,13 @@ pt-PT:
           sugerimos que indique o endereço do sítio www.openstreetmap.org (talvez
           substituindo &lsquo;OpenStreetMap&rsquo; por este endereço web), para www.opendatacommons.org
           e, caso se aplique, para www.creativecommons.org
+        credit_3_1_html: |-
+          Os mosaicos de mapa no &ldquo;estilo padrão&rdquo; em www.openstreetmap.org são um
+          trabalho produzido pela Fundação OpenStreetMap com recurso a
+          dados do OpenStreetMap
+          sob Licença Open Database. Se estiver a usar estes mosaicos, por favor, use
+          a seguinte atribuição:
+          &ldquo;Mapa base e dados de OpenStreetMap e Fundação OpenStreetMap&rdquo;.
         credit_4_html: |-
           Num mapa eletrónico navegável, os créditos devem aparecer num canto do mapa.
           Por exemplo:
@@ -1911,6 +1988,7 @@ pt-PT:
           a inclusão das rotas enviadas, de modo a não bloquear a fila para outros
           utilizadores.
     edit:
+      cancel: Cancelar
       title: A editar a rota %{name}
       heading: A editar a rota %{name}
       visibility_help: o que significa isto?
@@ -1927,6 +2005,7 @@ pt-PT:
       uploaded: 'Enviada:'
       points: 'Pontos:'
       start_coordinates: 'Coordenada inicial:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: mapa
       edit: editar
       owner: 'Autor:'
@@ -2047,13 +2126,6 @@ pt-PT:
       delete: Eliminar cliente
       confirm: Tens a certeza?
       requests: 'A pedir as seguintes permissões ao utilizador:'
-      allow_read_prefs: ler as preferências do utilizador.
-      allow_write_prefs: alterar as preferências do utilizador.
-      allow_write_diary: criar publicações no diário, comentários e adicionar amigos.
-      allow_write_api: modificar o mapa.
-      allow_read_gpx: ler as rotas GPS privadas do utilizador.
-      allow_write_gpx: enviar rotas GPS.
-      allow_write_notes: modificar notas.
     index:
       title: Os Meus Dados OAuth
       my_tokens: Aplicações autorizadas
@@ -2069,19 +2141,7 @@ pt-PT:
       registered_apps: 'Tens as seguintes aplicações registadas:'
       register_new: Regista a tua aplicação
     form:
-      name: Nome
-      required: Obrigatório
-      url: URL principal da aplicação
-      callback_url: URL de retorno
-      support_url: URL de apoio
       requests: 'Pedir as seguintes permissões do utilizador:'
-      allow_read_prefs: ler as preferências do utilizador.
-      allow_write_prefs: alterar as preferências do utilizador.
-      allow_write_diary: criar publicações no diário, comentários e adicionar amigos.
-      allow_write_api: modificar o mapa.
-      allow_read_gpx: ler as rotas GPS privadas do utilizador.
-      allow_write_gpx: enviar rotas GPS.
-      allow_write_notes: modificar notas.
     not_found:
       sorry: Lamentamos, não foi possível encontrar esse %{type}.
     create:
@@ -2654,6 +2714,7 @@ pt-PT:
         e da API</a>
       thunderforest: Mosaicos cortesia de <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
+      opnvkarte: Os mosaicos são uma cortesia de <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
       hotosm: Estilo dos mosaicos por <a href='%{hotosm_url}' target='_blank'>Equipa
         Humanitária OpenStreetMap</a> hospedaddo por <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
         França</a>

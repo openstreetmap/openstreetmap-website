@@ -38,7 +38,7 @@ vi:
         create: Gửi
       client_application:
         create: Đăng ký
-        update: Sửa đổi
+        update: Cập nhật
       redaction:
         create: Ẩn dãy phiên bản
         update: Lưu dãy ẩn
@@ -90,6 +90,18 @@ vi:
       way_node: Nốt Lối
       way_tag: Thẻ Lối
     attributes:
+      client_application:
+        name: Tựa đề (Yêu cầu)
+        url: URL ứng dụng chính (Bắt buộc)
+        callback_url: URL Gọi lại
+        support_url: URL Trợ giúp
+        allow_read_prefs: thay đổi tùy chọn cá nhân
+        allow_write_prefs: thay đổi tùy chọn cá nhân
+        allow_write_diary: tạo mục nhật ký, bình luận và kết bạn
+        allow_write_api: sửa đổi bản đồ
+        allow_read_gpx: đọc dấu vết GPS riêng tư của họ
+        allow_write_gpx: tải lên nật trình GPS
+        allow_write_notes: sửa đổi ghi chú
       diary_comment:
         body: Nội dung
       diary_entry:
@@ -111,13 +123,16 @@ vi:
         public: Công khai
         description: Miêu tả
         gpx_file: Tải lên Tập tin GPX
-        visibility: 'Mức độ Truy cập:'
+        visibility: 'Mức độ truy cập:'
         tagstring: 'Thẻ:'
       message:
         sender: Người gửi
         title: Tiêu đề
         body: Nội dung
         recipient: Người nhận
+      report:
+        category: Chọn lý do cho báo cáo của bạn
+        details: Vui lòng cung cấp thêm chi tiết về vấn đề (yêu cầu).
       user:
         email: Thư điện tử
         active: Tích cực
@@ -231,6 +246,8 @@ vi:
     view_history: Xem Lịch sử
     view_details: Xem Chi tiết
     location: 'Vị trí:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Bộ thay đổi: %{id}'
       belongs_to: Tác giả
@@ -332,6 +349,7 @@ vi:
       reopened_by_anonymous: Mở lại vô danh <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Ẩn bởi %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Báo cáo ghi chú này
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Thăm dò Yếu tố
       introduction: Nhấn chuột vào bản đồ để tìm những yếu tố lân cận.
@@ -438,6 +456,7 @@ vi:
       location: 'Vị trí:'
       view: Xem
       edit: Sửa
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Các mục nhật ký của %{user}
@@ -599,12 +618,12 @@ vi:
           viaduct: Cầu Cạn
           "yes": Cầu
         building:
-          apartments: Khối Căn hộ
+          apartments: Căn hộ
           chapel: Nhà nguyện
           church: Nhà thờ
           commercial: Tòa nhà Thương mại
           dormitory: Ký túc xá
-          farm: Công trình Nông trại
+          farm: Nông trại
           garage: Ga ra
           hospital: Tòa nhà Bệnh viện
           hotel: Khách sạn
@@ -1139,8 +1158,6 @@ vi:
     new:
       title_html: Báo cáo %{link}
       missing_params: Không thể tạo báo cáo mới
-      details: Vui lòng cung cấp thêm chi tiết về vấn đề (yêu cầu).
-      select: 'Chọn lý do bạn báo cáo vấn đề này:'
       disclaimer:
         intro: 'Trước khi bạn gửi báo cáo cho nhóm điều hành viên, xin hãy chắc chắn:'
         not_just_mistake: Bạn chắc chắn rằng vấn đề không chỉ là vụ nhầm lẫn
@@ -1895,6 +1912,7 @@ vi:
       uploaded: 'Lúc tải lên:'
       points: 'Số nốt:'
       start_coordinates: 'Tọa độ đầu đường:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: bản đồ
       edit: sửa đổi
       owner: 'Tác giả:'
@@ -2014,13 +2032,6 @@ vi:
       delete: Xóa Trình khách
       confirm: Bạn có chắc không?
       requests: 'Yêu cầu các khả năng của người dùng ở dưới:'
-      allow_read_prefs: truy cập tùy chọn cá nhân.
-      allow_write_prefs: thay đổi tùy chọn cá nhân.
-      allow_write_diary: tạo mục trong nhật ký, bình luận, và kết bạn.
-      allow_write_api: sửa đổi bản đồ.
-      allow_read_gpx: truy cập các tuyến đường GPS bí mật của họ.
-      allow_write_gpx: tải lên tuyến đường GPS.
-      allow_write_notes: thay đổi ghi chú.
     index:
       title: Chi tiết OAuth của Tôi
       my_tokens: Chương trình Tôi Cho phép
@@ -2036,19 +2047,7 @@ vi:
       registered_apps: 'Các trình khá ở dưới đã được đăng ký:'
       register_new: Đăng ký chương trình của bạn
     form:
-      name: Tên
-      required: Bắt buộc
-      url: URL Trang chủ Chương trình
-      callback_url: URL Gọi lại
-      support_url: URL Trợ giúp
       requests: 'Yêu cầu các khả năng của người dùng ở dưới:'
-      allow_read_prefs: truy cập tùy chọn cá nhân.
-      allow_write_prefs: thay đổi tùy chọn cá nhân.
-      allow_write_diary: tạo mục trong nhật ký, bình luận, và kết bạn.
-      allow_write_api: sửa đổi bản đồ.
-      allow_read_gpx: truy cập các tuyến đường GPS bí mật của họ.
-      allow_write_gpx: tải lên tuyến đường GPS.
-      allow_write_notes: thay đổi ghi chú.
     not_found:
       sorry: Rất tiếc, không tìm thấy %{type} đó.
     create:
