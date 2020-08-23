@@ -27,7 +27,7 @@ class MessagesController < ApplicationController
     @message.sent_on = Time.now.getutc
 
     if current_user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= Settings.max_messages_per_hour
-      flash[:error] = t ".limit_exceeded"
+      flash.now[:error] = t ".limit_exceeded"
       render :action => "new"
     elsif @message.save
       flash[:notice] = t ".message_sent"
