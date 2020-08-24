@@ -48,9 +48,12 @@
 # Author: Zvenzzon
 ---
 sv:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y kl. %H:%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Välj fil
@@ -66,7 +69,7 @@ sv:
         create: Skicka
       client_application:
         create: Registrera
-        update: Redigera
+        update: Uppdatera
       redaction:
         create: Skapa redaktering
         update: Spara redaktering
@@ -119,8 +122,16 @@ sv:
       way_tag: Sträcketikett
     attributes:
       client_application:
+        name: Namn (krävs)
         callback_url: Återkopplingsadress
         support_url: Support-adress
+        allow_read_prefs: läs deras användarinställningar
+        allow_write_prefs: ändra deras användarinställningar
+        allow_write_diary: skapa dagboksinlägg, kommentarer och hitta vänner
+        allow_write_api: ändra kartan
+        allow_read_gpx: läs deras privata GPS-spår
+        allow_write_gpx: ladda upp GPS-spår
+        allow_write_notes: ändra anteckningar
       diary_comment:
         body: Brödtext
       diary_entry:
@@ -150,6 +161,7 @@ sv:
         body: Brödtext
         recipient: Mottagare
       report:
+        category: Välj en anledning för din rapport
         details: Ange fler detaljer om problemet (nödvändigt).
       user:
         email: E-post
@@ -201,6 +213,7 @@ sv:
         one: 1 år sedan
         other: '%{count} år sedan'
   printable_name:
+    with_version: '%{id}, v%{version}'
     with_name_html: '%{name} (%{id})'
   editor:
     default: Standard (för närvarande %{name})
@@ -266,6 +279,8 @@ sv:
     view_history: Visa historik
     view_details: Visa detaljer
     location: 'Plats:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Ändringsset: %{id}'
       belongs_to: Författare
@@ -302,6 +317,7 @@ sv:
       history_title_html: 'Förbindelsehistorik: %{name}'
       members: Medlemmar
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} som %{role}'
       type:
         node: Nod
@@ -368,6 +384,7 @@ sv:
       reopened_by_anonymous: Återaktiverades av en anonym användare för <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Doldes av %{user} <abbr title='%{exact_time}'>för %{when}</abbr>
       report: Rapportera denna anteckning
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Undersök kartobjekt
       introduction: Klicka på kartan för att hitta funktioner i närheten.
@@ -476,6 +493,7 @@ sv:
       location: 'Plats:'
       view: Visa
       edit: Redigera
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: OpenStreetMap-dagboksinlägg för %{user}
@@ -517,6 +535,7 @@ sv:
           Nominatim</a>
         geonames_reverse_html: Resultat från <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Linbana
@@ -537,8 +556,10 @@ sv:
           holding_position: Väntplats
           parking_position: Parkeringsplats
           runway: Landningsbana
+          taxilane: Taxifil
           taxiway: Taxibana
           terminal: Terminal
+          windsock: Vindstrut
         amenity:
           animal_shelter: Djurhemmet
           arts_centre: Konstcenter
@@ -549,7 +570,9 @@ sv:
           bench: Bänk
           bicycle_parking: Cykelparkering
           bicycle_rental: Cykeluthyrning
+          bicycle_repair_station: Cykelreparationsstation
           biergarten: Uteservering
+          blood_bank: Blodbank
           boat_rental: Båtuthyrning
           brothel: Bordell
           bureau_de_change: Växlingskontor
@@ -566,6 +589,7 @@ sv:
           clock: Klocka
           college: College
           community_centre: Allaktivitetshus
+          conference_centre: Konferenscenter
           courthouse: Tingshus
           crematorium: Krematorium
           dentist: Tandläkare
@@ -573,6 +597,7 @@ sv:
           drinking_water: Dricksvatten
           driving_school: Körskola
           embassy: Ambassad
+          events_venue: Samlingslokal
           fast_food: Snabbmat
           ferry_terminal: Färjeterminal
           fire_station: Brandstation
@@ -585,11 +610,16 @@ sv:
           hospital: Sjukhus
           hunting_stand: Jakttorn
           ice_cream: Glass
+          internet_cafe: Internetcafé
           kindergarten: Dagis
+          language_school: Språkskola
           library: Bibliotek
+          loading_dock: Lastkaj
+          love_hotel: Kärlekshotell
           marketplace: Marknad
           monastery: Kloster
           motorcycle_parking: Motorcykelparkering
+          music_school: Musikskola
           nightclub: Nattklubb
           nursing_home: Vårdhem
           parking: Parkeringsplats
@@ -602,6 +632,7 @@ sv:
           post_office: Postkontor
           prison: Fängelse
           pub: Pub
+          public_bath: Badhus
           public_building: Offentlig byggnad
           recycling: Återvinningsstation
           restaurant: Restaurang
@@ -624,6 +655,7 @@ sv:
           waste_basket: Papperskorg
           waste_disposal: Avfallshantering
           water_point: Vattenpunkt
+          weighbridge: Fordonsvåg
         boundary:
           administrative: Administrativ gräns
           census: Folkräkningsgräns
@@ -637,44 +669,71 @@ sv:
           viaduct: Viadukt
           "yes": Bro
         building:
+          apartment: Lägenhet
           apartments: Lägenheter
+          barn: Lada
+          bungalow: Bungalow
+          cabin: Stuga
           chapel: Kapell
           church: Kyrkbyggnad
           commercial: Kommersiell byggnad
           dormitory: Studenthem
           farm: Ekonomibyggnad
           garage: Garage
+          garages: Garage
+          greenhouse: Växthus
+          hangar: Hangar
           hospital: Sjukhusbyggnad
-          hotel: Hotell
+          hotel: Hotellbyggnad
           house: Hus
+          houseboat: Husbåt
+          hut: Hydda
           industrial: Industribyggnad
           office: Kontorsbyggnad
           public: Offentlig byggnad
           residential: Bostadsbyggnad
           retail: Affärsbyggnad
+          roof: Tak
+          ruins: Byggnadsruin
           school: Skolbyggnad
-          terrace: Terass
+          shed: Skjul
+          stable: Stall
+          static_caravan: Husvagn
+          temple: Tempelbyggnad
+          terrace: Terrassbyggnad
           train_station: Järnvägsstation
           university: Universitetsbyggnad
+          warehouse: Varuhus
           "yes": Byggnad
         club:
           sport: Sportklubb
+          "yes": Klubb
         craft:
+          beekeper: Biodlare
+          blacksmith: Smed
           brewery: Bryggeri
           carpenter: Snickare
+          dressmaker: Sömmerska
           electrician: Elektriker
           gardener: Trädgårdsmästare
+          handicraft: Konsthantverk
           painter: Målare
           photographer: Fotograf
           plumber: Rörmokare
+          roofer: Takläggare
+          sawmill: Sågverk
           shoemaker: Skomakare
+          stonemason: Stenhuggare
           tailor: Skräddare
+          winery: Vingård
           "yes": Hantverksbutik
         emergency:
           ambulance_station: Ambulansstation
           assembly_point: Samlingsplats
           defibrillator: Defibrillator
+          fire_xtinguisher: Brandsläckare
           landing_site: Nödlandningsplats
+          life_ring: Livboj
           phone: Nödtelefon
           water_tank: Nödvattentank
           "yes": Nödsituation
@@ -788,6 +847,7 @@ sv:
           beach_resort: Badort
           bird_hide: Fågeltorn
           common: Allmänning
+          dance: Danslokal
           dog_park: Hundpark
           firepit: Eldgrop
           fishing: Fiskevatten
@@ -801,6 +861,7 @@ sv:
           miniature_golf: Minigolf
           nature_reserve: Naturreservat
           park: Park
+          picnic_table: Picknickbord
           pitch: Idrottsplan
           playground: Lekplats
           recreation_ground: Rekreationsområde
@@ -815,6 +876,7 @@ sv:
           "yes": Fritid
         man_made:
           adit: Gruvöppning
+          antenna: Antenn
           beacon: Fyr
           beehive: Bikupa
           breakwater: Vågbrytare
@@ -830,6 +892,7 @@ sv:
           groyne: Vågbrytare
           kiln: Kalkugn
           lighthouse: Fyr
+          manhole: Gatubrunn
           mast: Mast
           mine: Gruva
           mineshaft: Gruvschakt
@@ -837,9 +900,13 @@ sv:
           petroleum_well: Oljebrunn
           pier: Pir
           pipeline: Pipeline
+          pumping_station: Pumpstation
           silo: Silo
+          snow_cannon: Snökanon
+          snow_fence: Snöstaket
           storage_tank: Lagringstank
           surveillance: Övervakning
+          telescope: Teleskop
           tower: Torn
           wastewater_plant: Avfallsfabrik
           watermill: Vattenkvarn
@@ -1014,6 +1081,7 @@ sv:
           kiosk: Kiosk
           kitchen: Köksbutik
           laundry: Tvättservice
+          locksmith: Låssmed
           lottery: Lotteri
           mall: Köpcentrum
           massage: Massage
@@ -1026,6 +1094,7 @@ sv:
           outdoor: Friluftsbutik
           paint: Färgbutik
           pawnbroker: Pantlånare
+          perfumery: Parfymaffär
           pet: Djuraffär
           photo: Fotoaffär
           seafood: Skaldjur
@@ -1035,6 +1104,8 @@ sv:
           stationery: Pappershandel
           supermarket: Snabbköp
           tailor: Skräddare
+          tattoo: Tatueringstudio
+          tea: Teaffär
           ticket: Biljettbutik
           tobacco: Tobaksaffär
           toys: Leksaksaffär
@@ -1271,6 +1342,7 @@ sv:
       footer: Du kan också läsa kommentaren på %{readurl} och du kan kommentera på
         %{commenturl} eller skicka ett meddelande till författaren på %{replyurl}
     message_notification:
+      subject_header: '[OpenStreetMap] %{subject}'
       hi: Hej %{to_user},
       header: '%{from_user} har skickat ett meddelande via OpenStreetMap med ämnet
         %{subject}:'
@@ -1293,6 +1365,7 @@ sv:
         failed_to_import: 'misslyckats med att importera. Här är felet:'
         more_info_1: Mer information om importfel av GPX och hur man undviker dem
         more_info_2: 'de kan hittas på:'
+        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       success:
         subject: '[OpenStreetMap] Lyckades importera GPX'
         loaded_successfully:
@@ -1646,6 +1719,7 @@ sv:
       not_public_description_html: Du kan inte längre redigera kartan om du inte gör
         det. Du kan göra dina redigeringar offentliga från din %{user_page}.
       user_page_link: användarsida
+      anon_edits_html: (%{link})
       anon_edits_link_text: Ta reda på varför det är så.
       flash_player_required_html: Du måste ha Flash Player för att kunna använda Potlatch,
         OpenStreetMaps flasheditor. Du kan <a href="https://get.adobe.com/flashplayer">ladda
@@ -1948,6 +2022,7 @@ sv:
       title: Redigerar spår %{name}
       heading: Redigerar spår %{name}
       visibility_help: vad betyder detta?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: Spår uppdaterades
     trace_optionals:
@@ -1961,6 +2036,7 @@ sv:
       uploaded: 'Uppladdad:'
       points: 'Punkter:'
       start_coordinates: 'Startkoordinat:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: karta
       edit: redigera
       owner: 'Ägare:'

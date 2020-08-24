@@ -74,7 +74,7 @@ zh-CN:
         create: 发送
       client_application:
         create: 注册
-        update: 编辑
+        update: 更新
       redaction:
         create: 创建修订
         update: 保存修订
@@ -127,8 +127,12 @@ zh-CN:
       way_tag: 路径标签
     attributes:
       client_application:
+        name: 名称（必填）
         callback_url: 回调 URL
         support_url: 支持 URL
+        allow_read_prefs: 读取其用户设置
+        allow_write_api: 修改地图
+        allow_write_gpx: 上传GPS轨迹
       diary_comment:
         body: 正文
       diary_entry:
@@ -143,15 +147,15 @@ zh-CN:
       trace:
         user: 用户
         visible: 可见
-        name: 名称
+        name: 文件名
         size: 大小
         latitude: 纬度
         longitude: 经度
         public: 公开
         description: 描述
-        gpx_file: 上传 GPX 文件：
-        visibility: 可见性：
-        tagstring: 标签：
+        gpx_file: 上传 GPX 文件
+        visibility: 可见性
+        tagstring: 标签
       message:
         sender: 发件人
         title: 主题
@@ -275,6 +279,8 @@ zh-CN:
     view_history: 查看历史
     view_details: 查看详情
     location: 位置：
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 变更集：%{id}
       belongs_to: 作者
@@ -478,6 +484,7 @@ zh-CN:
       location: 位置：
       view: 查看
       edit: 编辑
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: '%{user} 的 OpenStreetMap 日记文章'
@@ -641,15 +648,15 @@ zh-CN:
           viaduct: 高架桥
           "yes": 桥
         building:
-          apartments: 公寓楼
+          apartments: 公寓
           chapel: 教堂
-          church: 教堂
+          church: 教堂建筑
           commercial: 商业建筑物
           dormitory: 宿舍
-          farm: 农场建筑物
+          farm: 农场屋
           garage: 车库
           hospital: 医院建筑物
-          hotel: 酒店
+          hotel: 酒店建筑
           house: 房屋
           industrial: 工业建筑物
           office: 办公楼
@@ -657,8 +664,8 @@ zh-CN:
           residential: 住宅建筑物
           retail: 零售建筑物
           school: 学校建筑物
-          terrace: 阳台
-          train_station: 火车站
+          terrace: 阳台建筑
+          train_station: 火车站建筑
           university: 大学建筑物
           "yes": 建筑物
         craft:
@@ -1801,6 +1808,7 @@ zh-CN:
       uploaded: 上传于：
       points: 点：
       start_coordinates: 起始坐标：
+      coordinates_html: '%{latitude}; %{longitude}'
       map: 地图
       edit: 编辑
       owner: 所有者：

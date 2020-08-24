@@ -30,7 +30,7 @@ mk:
         create: Испрати
       client_application:
         create: Пријави
-        update: Уреди
+        update: Поднови
       redaction:
         create: Создај исправка
         update: Зачувај исправка
@@ -83,8 +83,17 @@ mk:
       way_tag: Ознака на пат
     attributes:
       client_application:
+        name: Име (задолжително)
+        url: URL на главниот прилог (задолжително)
         callback_url: URL за одѕив
-        support_url: URL поддршка
+        support_url: URL за поддршка
+        allow_read_prefs: им ги чита корисничките нагодувања
+        allow_write_prefs: им ги менува корисничките нагодувања
+        allow_write_diary: создава ставки во дневникот, пишува коментари и да се спријателува
+        allow_write_api: ја менува картата
+        allow_read_gpx: им ги чита личните ГПС-траги
+        allow_write_gpx: подига ГПС-траги
+        allow_write_notes: менува белешки
       diary_comment:
         body: Содржина
       diary_entry:
@@ -114,6 +123,7 @@ mk:
         body: Содржина
         recipient: Примател
       report:
+        category: Изберете причина за пријавата
         details: Наведете повеќе подробности за проблемот (задолжително).
       user:
         email: Е-пошта
@@ -231,6 +241,8 @@ mk:
     view_history: Погл. историја
     view_details: Погл. подробности
     location: 'Местоположба:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Измена: %{id}'
       belongs_to: Автор
@@ -332,6 +344,7 @@ mk:
       reopened_by_anonymous: Преактивирано од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Скриено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Пријави го јазолов
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Пребарување на елементи
       introduction: Стиснете на картата за да ги најдете елементите во близина.
@@ -440,6 +453,7 @@ mk:
       location: 'Местоположба:'
       view: Преглед
       edit: Уреди
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Дневнички ставки на %{user}
@@ -2098,6 +2112,7 @@ mk:
       uploaded: 'Подигнато во:'
       points: 'Точки:'
       start_coordinates: 'Почетна координата:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: карта
       edit: уреди
       owner: 'Сопственик:'
