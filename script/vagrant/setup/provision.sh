@@ -16,18 +16,20 @@ apt-get update
 apt-get upgrade -y
 
 # install packages as explained in INSTALL.md
-apt-get install -y ruby2.5 libruby2.5 ruby2.5-dev \
-                     libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
+apt-get install -y ruby2.7 libruby2.7 ruby2.7-dev \
+                     libmagickwand-dev libxml2-dev libxslt1-dev nodejs yarnpkg \
                      apache2 apache2-dev build-essential git-core firefox-geckodriver \
                      postgresql postgresql-contrib libpq-dev \
                      libsasl2-dev imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev
-gem2.5 install rake
-gem2.5 install --version "~> 1.16.2" bundler
+gem2.7 install rake
+gem2.7 install --version "~> 2.1.4" bundler
 
 ## install the bundle necessary for openstreetmap-website
 pushd /srv/openstreetmap-website
 # do bundle install as a convenience
 bundle install --retry=10 --jobs=2
+# do yarn install as a convenience
+bundle exec rake yarn:install
 # create user and database for openstreetmap-website
 db_user_exists=`sudo -u postgres psql postgres -tAc "select 1 from pg_roles where rolname='vagrant'"`
 if [ "$db_user_exists" != "1" ]; then
