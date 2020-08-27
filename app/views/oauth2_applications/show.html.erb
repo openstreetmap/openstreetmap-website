@@ -1,0 +1,44 @@
+<% content_for :heading do %>
+  <h1><%= @application.name %></h1>
+<% end %>
+
+<% secret = flash[:application_secret].presence || @application.plaintext_secret %>
+
+<table class="table table-borderless">
+  <tr>
+    <th><%= t ".client_id" %></th>
+    <td><code><%= @application.uid %></code></td>
+  </tr>
+  <% unless secret.blank? && Doorkeeper.config.application_secret_hashed? -%>
+  <tr>
+    <th><%= t ".client_secret" %></th>
+    <td>
+      <code><%= secret %></code>
+      <% if Doorkeeper.config.application_secret_hashed? -%>
+      <br />
+      <small class="text-danger"><%= t ".client_secret_warning" %></small>
+      <% end -%>
+    </td>
+  </tr>
+  <% end -%>
+  <tr>
+    <th><%= t ".permissions" %></th>
+    <td>
+      <ul class="list-unstyled mb-0">
+        <% @application.scopes.each do |scope| -%>
+          <li><%= t "oauth.scopes.#{scope}" %></li>
+        <% end -%>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <th><%= t ".redirect_uris" %></th>
+    <td>
+      <ul class="list-unstyled mb-0">
+        <% @application.redirect_uri.split.each do |uri| -%>
+          <li><%= uri %></li>
+        <% end -%>
+      </ul>
+    </td>
+  </tr>
+</table>

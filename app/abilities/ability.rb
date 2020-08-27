@@ -39,6 +39,9 @@ class Ability
 
       if Settings.status != "database_offline"
         can [:index, :new, :create, :show, :edit, :update, :destroy], ClientApplication
+        can [:index, :new, :create, :show, :edit, :update, :destroy], :oauth2_application
+        can [:index, :destroy], :oauth2_authorized_application
+        can [:new, :show, :create, :destroy], :oauth2_authorization
         can [:new, :create, :edit, :update, :comment, :subscribe, :unsubscribe], DiaryEntry
         can [:make_friend, :remove_friend], Friendship
         can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message

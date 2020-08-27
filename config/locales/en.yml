@@ -95,6 +95,11 @@ en:
         latitude: "Latitude"
         longitude: "Longitude"
         language: "Language"
+      doorkeeper/application:
+        name: Name
+        redirect_uri: Redirect URIs
+        confidential: Confidential application?
+        scopes: Permissions
       friend:
         user: "User"
         friend: "Friend"
@@ -2274,6 +2279,14 @@ en:
       flash: "You've revoked the token for %{application}"
     permissions:
       missing: "You have not permitted the application access to this facility"
+    scopes:
+      read_prefs: Read user preferences
+      write_prefs: Modify user preferences
+      write_diary: Create diary entries, comments and make friends
+      write_api: Modify the map
+      read_gpx: Read private GPS traces
+      write_gpx: Upload GPS traces
+      write_notes: Modify notes
   oauth_clients:
     new:
       title: "Register a new application"
@@ -2313,6 +2326,47 @@ en:
       flash: "Updated the client information successfully"
     destroy:
       flash: "Destroyed the client application registration"
+  oauth2_applications:
+    index:
+      title: "My client applications"
+      new: "Create new application"
+    application:
+      edit: "Edit"
+      delete: "Delete"
+      confirm_delete: "Delete this application?"
+    new:
+      title: "Register a new application"
+    edit:
+      title: "Edit your application"
+    show:
+      client_id: "Client ID"
+      client_secret: "Client Secret"
+      client_secret_warning: "Make sure to save this secret - it will not be accessible again"
+      permissions: "Permissions"
+      redirect_uris: "Redirect URIs"
+    form:
+      redirect_uri_help: "Use one line per URI"
+      confidential_help: "Application will be used where the client secret can be kept confidential (native mobile apps and single page apps are not confidential)"
+    not_found:
+      sorry: "Sorry, that application could not be found."
+  oauth2_authorizations:
+    new:
+      title: "Authorization required"
+      introduction: "Authorize %{application} to access your account with the following permissions?"
+      authorize: "Authorize"
+      deny: "Deny"
+    error:
+      title: "An error has occurred"
+    show:
+      title: "Authorization code"
+  oauth2_authorized_applications:
+    index:
+      title: "My authorized applications"
+      application: "Application"
+      permissions: "Permissions"
+    application:
+      revoke: "Revoke Access"
+      confirm_revoke: "Revoke access for this application?"
   users:
     new:
       title: "Sign Up"
@@ -2372,7 +2426,6 @@ en:
       my profile: My Profile
       my settings: My Settings
       my comments: My Comments
-      oauth settings: oauth settings
       blocks on me: Blocks on Me
       blocks by me: Blocks by Me
       send message: Send Message
@@ -2474,6 +2527,9 @@ en:
       save changes button: Save Changes
       make edits public button: Make all my edits public
       return to profile: Return to profile
+      oauth1 settings: OAuth 1 settings
+      oauth2 applications: OAuth 2 applications
+      oauth2 authorizations: OAuth 2 authorizations
       flash update success confirm needed: "User information updated successfully. Check your email for a note to confirm your new email address."
       flash update success: "User information updated successfully."
     set_home:

@@ -61,7 +61,9 @@ class ApiController < ApplicationController
 
   def current_ability
     # Use capabilities from the oauth token if it exists and is a valid access token
-    if Authenticator.new(self, [:token]).allow?
+    if doorkeeper_token&.accessible?
+      ApiAbility.new(nil).merge(ApiCapability.new(doorkeeper_token))
+    elsif Authenticator.new(self, [:token]).allow?
       ApiAbility.new(nil).merge(ApiCapability.new(current_token))
     else
       ApiAbility.new(current_user)
@@ -69,7 +71,7 @@ class ApiController < ApplicationController
   end
 
   def deny_access(_exception)
-    if current_token
+    if doorkeeper_token || current_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
@@ -94,7 +96,11 @@ class ApiController < ApplicationController
   # is optional.
   def setup_user_auth
     # try and setup using OAuth
-    unless Authenticator.new(self, [:token]).allow?
+    if doorkeeper_token&.accessible?
+      self.current_user = User.find(doorkeeper_token.resource_owner_id)
+    elsif Authenticator.new(self, [:token]).allow?
+      # self.current_user setup by OAuth
+    else
       username, passwd = get_auth_data # parse from headers
       # authenticate per-scheme
       self.current_user = if username.nil?
