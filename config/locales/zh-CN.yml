@@ -62,6 +62,8 @@ zh-CN:
       friendly: '%Y 年%B %e 日 %H:%M'
       blog: '%Y年%B%e日'
   helpers:
+    file:
+      prompt: 选择文件
     submit:
       diary_comment:
         create: 保存
@@ -133,6 +135,7 @@ zh-CN:
         allow_read_prefs: 读取其用户设置
         allow_write_api: 修改地图
         allow_write_gpx: 上传GPS轨迹
+        allow_write_notes: 修改注记
       diary_comment:
         body: 正文
       diary_entry:
@@ -162,6 +165,7 @@ zh-CN:
         body: 正文
         recipient: 收件人
       report:
+        category: 选择您举报的原因
         details: 请提供一些有关问题的更多详情（必填）。
       user:
         email: 电子邮件
@@ -379,6 +383,7 @@ zh-CN:
       reopened_by_anonymous: 匿名用户重新激活于<abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: '%{user}隐藏于<abbr title=''%{exact_time}''>%{when}</abbr>'
       report: 举报此注记
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: 查询要素
       introduction: 点击地图以查找附近要素。
@@ -548,8 +553,10 @@ zh-CN:
           holding_position: 等车位置
           parking_position: 停车位置
           runway: 飞机跑道
+          taxilane: 滑行道
           taxiway: 滑行道
           terminal: 航站楼
+          windsock: 风向袋
         amenity:
           animal_shelter: 动物收容所
           arts_centre: 艺术中心
@@ -561,6 +568,7 @@ zh-CN:
           bicycle_parking: 自行车停车处
           bicycle_rental: 自行车出租点
           biergarten: 露天啤酒店
+          blood_bank: 血库
           boat_rental: 租船处
           brothel: 妓院
           bureau_de_change: 外汇兑换点
@@ -577,6 +585,7 @@ zh-CN:
           clock: 时钟
           college: 学院
           community_centre: 社区中心
+          conference_centre: 会议中心
           courthouse: 法院
           crematorium: 火葬场
           dentist: 牙科
@@ -596,11 +605,15 @@ zh-CN:
           hospital: 医院
           hunting_stand: 狩猎站
           ice_cream: 冰淇淋
+          internet_cafe: 网咖
           kindergarten: 幼儿园
+          language_school: 语言学校
           library: 图书馆
+          loading_dock: 装卸码头
           marketplace: 商场
           monastery: 修道院
           motorcycle_parking: 摩托车停车场
+          music_school: 音乐学校
           nightclub: 夜总会
           nursing_home: 疗养院
           parking: 停车场
@@ -613,6 +626,7 @@ zh-CN:
           post_office: 邮局
           prison: 监狱
           pub: 酒馆
+          public_bath: 公共浴场
           public_building: 公共建筑
           recycling: 回收点
           restaurant: 餐馆
@@ -629,17 +643,22 @@ zh-CN:
           toilets: 洗手间
           townhall: 市政厅
           university: 大学
+          vehicle_inspection: 车辆检测站
           vending_machine: 自动售货机
           veterinary: 兽医
           village_hall: 村政厅
           waste_basket: 垃圾桶
           waste_disposal: 废物处理
+          waste_dump_site: 垃圾倾倒场
           water_point: 引水点
+          weighbridge: 地磅
+          "yes": 便利设施
         boundary:
           administrative: 行政区边界
           census: 人口普查边界
           national_park: 国家公园
           protected_area: 保护区
+          "yes": 边界
         bridge:
           aqueduct: 沟渠
           boardwalk: 木板路
@@ -648,26 +667,42 @@ zh-CN:
           viaduct: 高架桥
           "yes": 桥
         building:
+          apartment: 公寓
           apartments: 公寓
+          barn: 谷仓
+          bungalow: 平房
+          cabin: 小屋
           chapel: 教堂
           church: 教堂建筑
+          college: 学院建筑
           commercial: 商业建筑物
+          detached: 独立式住宅
           dormitory: 宿舍
+          duplex: 双拼住宅
           farm: 农场屋
           garage: 车库
+          garages: 车库
+          greenhouse: 温室
           hospital: 医院建筑物
           hotel: 酒店建筑
           house: 房屋
+          houseboat: 船屋
           industrial: 工业建筑物
+          kindergarten: 幼儿园建筑
+          manufacture: 制造业建筑
           office: 办公楼
           public: 公共建筑物
           residential: 住宅建筑物
           retail: 零售建筑物
+          roof: 屋顶
           school: 学校建筑物
+          temple: 庙宇建筑
           terrace: 阳台建筑
           train_station: 火车站建筑
           university: 大学建筑物
           "yes": 建筑物
+        club:
+          sport: 体育俱乐部
         craft:
           brewery: 啤酒厂
           carpenter: 木匠工坊
@@ -678,6 +713,7 @@ zh-CN:
           plumber: 管道工坊
           shoemaker: 鞋匠工坊
           tailor: 裁缝店
+          winery: 酿酒厂
           "yes": 工艺品店
         emergency:
           ambulance_station: 救护站
@@ -849,6 +885,7 @@ zh-CN:
           silo: 发射井
           storage_tank: 储油罐
           surveillance: 监视
+          telescope: 望远镜
           tower: 塔
           wastewater_plant: 污水处理厂
           watermill: 水磨
@@ -879,7 +916,7 @@ zh-CN:
           geyser: 间歇泉
           glacier: 冰川
           grassland: 草原
-          heath: 希思地貌
+          heath: 荒野
           hill: 希尔地貌
           island: 岛
           land: 陆地
@@ -917,6 +954,7 @@ zh-CN:
           insurance: 保险办公室
           it: IT办公室
           lawyer: 律师事务所
+          newspaper: 报社
           ngo: 非政府组织办公室
           telecommunication: 电信办公室
           travel_agent: 旅行社
@@ -989,8 +1027,11 @@ zh-CN:
           car_repair: 汽车修理店
           carpet: 地毯店
           charity: 慈善商店
+          cheese: 奶酪店
           chemist: 化学品店
+          chocolate: 巧克力店
           clothes: 服装店
+          coffee: 咖啡店
           computer: 电脑店
           confectionery: 糖果店
           convenience: 便利店
@@ -1001,6 +1042,7 @@ zh-CN:
           discount: 折扣商品店
           doityourself: DIY
           dry_cleaning: 干洗店
+          e-cigarette: 电子烟店
           electronics: 电子产品店
           estate_agent: 地产代理
           farm: 农产品店
@@ -1044,6 +1086,8 @@ zh-CN:
           stationery: 文具店
           supermarket: 超市
           tailor: 裁缝店
+          tattoo: 纹身店
+          tea: 茶馆
           ticket: 售票处
           tobacco: 烟草店
           toys: 玩具店
@@ -1052,6 +1096,7 @@ zh-CN:
           vacant: 空店
           variety_store: 杂货店
           video: 音像店
+          video_games: 电子游戏商店
           wine: 葡萄酒店
           "yes": 商店
         tourism:
@@ -1698,7 +1743,7 @@ zh-CN:
           retail: 零售区
           industrial: 工业区
           commercial: 商业区
-          heathland: 荒野
+          heathland: 荒原
           lake:
           - 湖
           - 水库
@@ -1791,6 +1836,7 @@ zh-CN:
       upload_failed: 抱歉，GPX上传失败。管理员已收到错误警报。请再试一次
       traces_waiting: 您有 %{count} 条轨迹正等待上传，请在上传更多轨迹前等待这些传完，以确保不会给其他用户造成队列拥堵。
     edit:
+      cancel: 取消
       title: 编辑轨迹 %{name}
       heading: 编辑轨迹 %{name}
       visibility_help: 这是什么意思？

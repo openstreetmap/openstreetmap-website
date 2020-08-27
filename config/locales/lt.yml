@@ -7,6 +7,7 @@
 # Author: Eitvys200
 # Author: Empers
 # Author: Garas
+# Author: Kris2paz
 # Author: Macofe
 # Author: Mantak111
 # Author: Manvydasz
@@ -24,6 +25,8 @@ lt:
     formats:
       friendly: '%Y m. %B %e d., %H:%M'
   helpers:
+    file:
+      prompt: Pasirinkti failą
     submit:
       diary_comment:
         create: Įrašyti
@@ -36,7 +39,7 @@ lt:
         create: Siųsti
       client_application:
         create: Registruotis
-        update: Keisti
+        update: Atnaujinti
       redaction:
         create: Kurti redakciją
         update: Išsaugoti redakciją
@@ -76,6 +79,7 @@ lt:
       relation: Ryšys
       relation_member: Ryšio narys
       relation_tag: Ryšio žyma
+      report: Pranešti
       session: Sesija
       trace: Pėdsakas
       tracepoint: Pėdsako taškas
@@ -88,8 +92,16 @@ lt:
       way_tag: Kelio žyma
     attributes:
       client_application:
+        name: Vardas (Privalomas)
+        url: Pagrindinis aplikacijos URL (Privalomas)
         callback_url: Atgalinio ryšio nuoroda
         support_url: Palaikymo URL
+        allow_read_prefs: peržiūrėti jų naudotojo nustatymus
+        allow_write_prefs: redaguoti jų naudotojo nustatymus
+        allow_write_api: redaguoti žemėlapį
+        allow_read_gpx: peržiūrėti jų privačius GPS pėdsakus
+        allow_write_gpx: įkelti GPS pėdsakus
+        allow_write_notes: redaguoti užrašus
       diary_comment:
         body: Tekstas
       diary_entry:
@@ -104,21 +116,22 @@ lt:
       trace:
         user: Naudotojas
         visible: Matomas
-        name: Vardas
+        name: Failo vardas
         size: Dydis
         latitude: Platuma
         longitude: Ilguma
         public: Viešas
         description: Aprašymas
-        gpx_file: 'Įkelti GPX failą:'
-        visibility: 'Matomumas:'
-        tagstring: 'Žymos:'
+        gpx_file: Įkelti GPX failą
+        visibility: Matomumas
+        tagstring: Žymos
       message:
         sender: Siuntėjas
         title: Antraštė
         body: Tekstas
         recipient: Gavėjas
       report:
+        category: Pasirinkti pranešimo priežastį
         details: Prašoma pateikti daugiau informacijos apie problemą (privaloma).
       user:
         email: El. paštas
@@ -185,6 +198,7 @@ lt:
       description: nuotolinį valdymą (JOSM arba Merkaartor)
   auth:
     providers:
+      none: Nei vienas
       openid: OpenID
       google: Google
       facebook: Facebook
@@ -420,7 +434,7 @@ lt:
     diary_entry:
       posted_by_html: Parašė %{link_user}, laikas %{created}, kalba %{language_link}
       comment_link: Komentuoti šį įrašą
-      reply_link: Atsakyti į šį įrašą
+      reply_link: Siųsti žinutę autoriui
       comment_count:
         one: '%{count} komentaras'
         zero: Nėra komentarų
@@ -487,6 +501,7 @@ lt:
           chair_lift: Keltuvas
           drag_lift: Velkamas keltuvas
           gondola: Gondola
+          pylon: Stulpas
           station: Lyno stotis
         aeroway:
           aerodrome: Aerodromas
@@ -508,7 +523,9 @@ lt:
           bench: Suoliukas
           bicycle_parking: Dviračių stovėjimo aikštelė
           bicycle_rental: Dviračių nuoma
+          bicycle_repair_station: Dviračių Taisykla
           biergarten: Lauko baras
+          blood_bank: Kraujo Bankas
           boat_rental: Valčių nuoma
           brothel: Viešieji namai
           bureau_de_change: Valiutos keitimo punktas
@@ -525,6 +542,7 @@ lt:
           clock: Laikrodis
           college: Koledžas
           community_centre: Bendruomenės centras
+          conference_centre: Konferencijų Centras
           courthouse: Teismo pastatas
           crematorium: Krematoriumas
           dentist: Dantistas
@@ -544,11 +562,16 @@ lt:
           hospital: Ligoninė
           hunting_stand: Medžiotojų bokštelis
           ice_cream: Ledai
+          internet_cafe: Kavinė su Interneto prieiga
           kindergarten: Vaikų darželis
+          language_school: Kalbų mokykla
           library: Biblioteka
+          love_hotel: Meilės Viešbutis
           marketplace: Turgavietė
           monastery: Vienuolynas
+          money_transfer: Pinigų Perkėlimas
           motorcycle_parking: Motociklų stovėjimo aikštelė
+          music_school: Muzikos Mokykla
           nightclub: Naktinis klubas
           nursing_home: Slaugos namai
           parking: Stovėjimo aikštelė
@@ -561,6 +584,7 @@ lt:
           post_office: Paštas
           prison: Kalėjimas
           pub: Aludė
+          public_bath: Vieša Pirtis
           public_building: Visuomeninis pastatas
           recycling: Perdirbimo punktas
           restaurant: Restoranas
@@ -577,11 +601,13 @@ lt:
           toilets: Tualetas
           townhall: Rotušė
           university: Universitetas
+          vehicle_inspection: Automobilių Apžiūra
           vending_machine: Vendingas
           veterinary: Veterinarijos chirurgija
           village_hall: Nedidelio miestelio valdžios būstinė
           waste_basket: Atliekų krepšelis
           waste_disposal: Atliekų šalinimas
+          water_point: Vandens Punktas
         boundary:
           administrative: Administracinė riba
           census: Gyventojų surašymo teritorijos riba
@@ -594,24 +620,31 @@ lt:
           viaduct: Viadukas
           "yes": Tiltas
         building:
-          apartments: Gyvenamasis kvartalas
+          apartment: Apartamentas
+          apartments: Apartamentai
+          barn: Tvartas
           chapel: Koplyčia
-          church: Bažnyčia
+          church: Bažnyčios Pastatas
+          college: Koledžo Pastatas
           commercial: Komercinės paskirties pastatas
           dormitory: Bendrabutis
-          farm: Ūkio pastatas
+          farm: Ūkinis Namas
           garage: Garažas
+          garages: Garažai
+          greenhouse: Šiltnamis
+          hangar: Angaras
           hospital: Ligoninės pastatas
-          hotel: Viešbutis
+          hotel: Viešbučio Pastatas
           house: Namas
           industrial: Pramoninis pastatas
+          kindergarten: Darželio Pastatas
           office: Biurų pastatas
           public: Visuomeninis pastatas
           residential: Gyvenamasis pastatas
           retail: Mažmeninės prekybos pastatas
           school: Mokyklos pastatas
-          terrace: Terasa
-          train_station: Geležinkelio stotis
+          terrace: Terasos Pastatas
+          train_station: Traukinių Stoties Pastatas
           university: Universiteto pastatas
           "yes": Pastatas
         craft:
@@ -975,7 +1008,7 @@ lt:
           "yes": Parduotuvė
         tourism:
           alpine_hut: Kalnų trobelė
-          apartment: Apartamentai
+          apartment: Poilsio Apartamentai
           artwork: Meno dirbiniai
           attraction: Lankytina vieta
           bed_and_breakfast: Nakvynės namai (viešbutis)
@@ -1186,13 +1219,13 @@ lt:
       hi: Sveiki, %{to_user},
       header: '%{from_user} pakomentavo jūsų OpenStreetMap dienoraščio įrašą su tema
         %{subject}:'
-      footer: Taip pat galite perskaityti komentarą adresu %{readurl}, komentuoti
-        galite adresu %{commenturl}, o atsakyti - adresu %{replyurl}
+      footer: Taip pat galite perskaityti komentarą adresu %{readurl} ir komentuoti
+        galite adresu %{commenturl} arba nusiųsti žinutę autoriui adresu %{replyurl}
     message_notification:
       hi: Sveiki, %{to_user},
       header: '%{from_user} atsiuntė jums pranešimą per OpenStreetMap su tema „%{subject}“:'
-      footer_html: Pranešimą galite skaityti čia %{readurl}, o atsakyti galite čia
-        %{replyurl}
+      footer_html: Pranešimą galite skaityti čia %{readurl}, o nusiųsti žinutę autoriui
+        galite čia %{replyurl}
     friendship_notification:
       hi: Labas, %{to_user},
       subject: '[OpenStreetMap] %{user} prisidėjo jus kaip draugą'
@@ -1212,7 +1245,9 @@ lt:
         more_info_2: 'galima rasti čia:'
       success:
         subject: '[OpenStreetMap] Sėkmingai įkeltas pėdsakas (GPX)'
-        loaded_successfully: sėkminga įkelta su %{trace_points} taškų iš galimų %{possible_points}.
+        loaded_successfully: '{{PLURAL|one=sėkmingai įkelta su %{trace_points} iš
+          galimo 1 taško.|sėkmingai įkelta su %{trace_points} iš galimų %{possible_points}
+          taškų.'
     signup_confirm:
       subject: '[OpenStreetMap] Sveiki atvykę į OpenStreetMap'
       greeting: Sveiki!
@@ -1280,8 +1315,8 @@ lt:
         subject_other: '[OpenStreetMap] %{commenter} pakomentavo vieną iš jus dominančių
           pakeitimų'
         your_changeset: '%{commenter} %{time} pakomentavo vieną iš jūsų pakeitimų'
-        commented_changeset: '%{commenter} pakomentavo jūsų stebimą žemėlapio pakeitimą,
-          sukurtą %{changeset_author} %{time}'
+        commented_changeset: '%{commenter} paliko komentarą %{time} prie jūsų stebimo
+          pakeitimo sukurto %{changeset_author}'
         partial_changeset_with_comment: su komentaru '%{changeset_comment}'
         partial_changeset_without_comment: be komentaro
       details: Daugiau informacijos apie pakeitimą rasite čia %{url}.
@@ -1366,8 +1401,8 @@ lt:
     about:
       next: Kitas
       copyright_html: <span>&copy;</span>OpenStreetMap<br>talkininkai
-      used_by_html: '%{name} duomenis naudoja šimtai svetainių, mobilių aplikacijų
-        ir įrenginių'
+      used_by_html: '%{name} pateikia žemėlapio duomenis tūkstančiams puslapių, mobilių
+        aplikacijų ir techninės įrangos įrenginių'
       lede_text: OpenStreetMap kuria bendruomenė žymėtojų, kuriančių ir prižiūrinčių
         kelių, takų, kavinių, stočių ir kitokius pasaulio duomenis.
       local_knowledge_title: Vietinės žinios
@@ -1391,13 +1426,9 @@ lt:
       legal_1_html: "Šis puslapis ir daugelis kitų susijusių paslaugų yra formaliai
         valdomi \n<a href='https://osmfoundation.org/'>OpenStreetMap fondo</a> (OSMF)
         \nbendruomenės vardu. Visų OSMF valdomų paslaugų naudojimas turi <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">naudojimo
-        sąlygas</a>, <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npriimtino
+        sąlygas</a>, <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nPriimtino
         naudojimo politiką</a> ir mūsų <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">privatumo
-        politiką</a>.\n<br> \n<a href='https://osmfoundation.org/Contact'>Susisiekite
-        su OSMF</a>, \njei turite licencijavimo, autoriaus teisių ar kitų teisinių
-        klausimų ar problemų.\n<br>\nOpenStreetMap, lupos logo ir State of the Map
-        yra <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">registruoti
-        OSMF prekių ženklai</a>."
+        politiką</a>."
       partners_title: Partneriai
     copyright:
       foreign:
@@ -1751,7 +1782,7 @@ lt:
       edit: Redaguoti
       preview: Peržiūra
     markdown_help:
-      title_html: Išanalizuota su <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Išanalizuota su <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Antraštės
       heading: Antraštė
       subheading: Paantraštė
@@ -1874,7 +1905,7 @@ lt:
       newer: Naujesni pėdsakai
     trace:
       pending: LAUKIAMA
-      count_points: '%{count} taškai(-ų)'
+      count_points: '{{PLURAL|one=1 taškas|%{count} taškai(-ų)'
       more: daugiau
       trace_details: Žiūrėti pėdsako detales
       view_map: Žemėlapis
@@ -2115,8 +2146,7 @@ lt:
       contributor_terms_explain: Ši sutartis valdo jūsų dabartinį ir būsimą indėlį.
       read_ct: Aš perskaičiau ir sutinku su aukščiau pateiktomis talkininko sąlygomis
       read_tou: Aš perskaičiau ir sutinku su naudojimo sąlygomis
-      consider_pd: Be pirmiau minėto susitarimo, manau, kad mano indėlis būtų viešo
-        naudojimo
+      consider_pd: Be pirmiau paminėtų, laikau, kad mano indėlis būtų Viešo Naudojimo
       consider_pd_why: kas tai?
       guidance_html: 'Informacija, kuri padėti suprasti šias sąlygas: <a href="%{summary}">Paprasto
         stiliaus aprašymas</a> ir keletas <a href="%{translations}">neoficialių vertimų</a>'

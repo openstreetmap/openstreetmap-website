@@ -23,6 +23,8 @@ ro:
       friendly: '%e %B %Y la %H:%M'
       blog: '%e %B %Y'
   helpers:
+    file:
+      prompt: Selectează fişier
     submit:
       diary_comment:
         create: Salvează
@@ -35,7 +37,7 @@ ro:
         create: Trimite
       client_application:
         create: Înregistrează
-        update: Editează
+        update: Actualizează
       redaction:
         create: Creați redacție
         update: Salvați redacția
@@ -88,8 +90,17 @@ ro:
       way_tag: Etichetă cale
     attributes:
       client_application:
+        name: Nume (Obligatoriu)
+        url: URL-ul principal al aplicației (Obligatoriu)
         callback_url: Adresă URL cu inversare
         support_url: Suport URL
+        allow_read_prefs: citiți preferințele utilizatorului
+        allow_write_prefs: modifică preferințele utilizatorului
+        allow_write_diary: creați intrări în jurnal, comentarii și faceți prieteni
+        allow_write_api: modifică harta
+        allow_read_gpx: citiți traseele GPS private
+        allow_write_gpx: încărcați urma GPS
+        allow_write_notes: modificați notele
       diary_comment:
         body: Textul mesajului
       diary_entry:
@@ -104,21 +115,22 @@ ro:
       trace:
         user: Utilizator
         visible: Vizibil
-        name: Nume
+        name: Nume fișier
         size: Dimensiune
         latitude: Latitudine
         longitude: Longitudine
         public: Public
         description: Descriere
-        gpx_file: 'Încărcați fișier GPX:'
-        visibility: 'Vizibilitate:'
-        tagstring: 'Etichete:'
+        gpx_file: Încărcați fișier GPX
+        visibility: Vizibilitate
+        tagstring: Etichete
       message:
         sender: Expeditor
         title: Subiect
         body: Textul mesajului
         recipient: Destinatar
       report:
+        category: Selectați un motiv pentru raportul dvs
         details: Vă rugăm să furnizați mai multe detalii despre problemă (necesar).
       user:
         email: E-mail
@@ -236,6 +248,8 @@ ro:
     view_history: Vezi istoric
     view_details: Vezi detalii
     location: 'Amplasament:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Set de modificări: %{id}'
       belongs_to: Autor
@@ -339,6 +353,7 @@ ro:
       reopened_by_anonymous: Reactivat de anonim <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Ascunsă de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Raportează această notă
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Interogări ale funcțiilor
       introduction: Dați clic pe hartă pentru a găsi obiectivele din apropiere.
@@ -428,7 +443,7 @@ ro:
     diary_entry:
       posted_by_html: Postat de către %{link_user} pe %{created} în %{language_link}
       comment_link: Comentează la această înregistrare
-      reply_link: Răspunde la această înregistrare
+      reply_link: Trimite un mesaj autorului
       comment_count:
         zero: Niciun comentariu
         one: '%{count} comentariu'
@@ -448,6 +463,7 @@ ro:
       location: 'Localizare:'
       view: Vizualizează
       edit: Modifică
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Înregistrări în jurnalul OpenStreetMap pentru %{user}
@@ -498,10 +514,12 @@ ro:
           chair_lift: Telescaun
           drag_lift: Teleschiu
           gondola: Telecabină
+          magic_carpet: Tele Covorul Magic
           platter: Platter Lift
           pylon: Pilon
           station: Stație de antenă
           t-bar: Teleschi
+          "yes": Cale aeriană
         aeroway:
           aerodrome: Aerodrom
           airstrip: Pistă de aterizare
@@ -510,11 +528,15 @@ ro:
           hangar: Hangar
           helipad: Helipad
           holding_position: Păstrează poziția
+          navigationaid: Ajutor de navigație aeriană
           parking_position: Poziția de parcare
           runway: Pistă
+          taxilane: Banda de taxi
           taxiway: Pistă de manevră
           terminal: Terminal
+          windsock: Con de vânt
         amenity:
+          animal_boarding: Îmbarcarea animalelor
           animal_shelter: Adăpost de animale
           arts_centre: Centru de arte
           atm: Bancomat
@@ -524,7 +546,9 @@ ro:
           bench: Bancă
           bicycle_parking: Parcare de biciclete
           bicycle_rental: Închiriere de biciclete
+          bicycle_repair_station: Stația de reparare a bicicletelor
           biergarten: Braserie în aer liber
+          blood_bank: Banca de sânge
           boat_rental: Închiriere de bărci
           brothel: Bordel
           bureau_de_change: Casă de schimb valutar
@@ -541,6 +565,7 @@ ro:
           clock: Ceas
           college: Colegiu
           community_centre: Centru comunitar
+          conference_centre: Centru de conferințe
           courthouse: Tribunal
           crematorium: Crematoriu
           dentist: Dentist
@@ -548,6 +573,7 @@ ro:
           drinking_water: Cișmea
           driving_school: Școală de șoferi
           embassy: Ambasadă
+          events_venue: Sală de evenimente
           fast_food: Fast-food
           ferry_terminal: Terminal pentru feriboturi
           fire_station: Stație de pompieri
@@ -560,16 +586,24 @@ ro:
           hospital: Spital
           hunting_stand: Stand de vânătoare
           ice_cream: Înghețată
+          internet_cafe: Internet Cafe
           kindergarten: Grădiniță
+          language_school: Școală de limbi
           library: Bibliotecă
+          loading_dock: Doc de încărcare
+          love_hotel: Hotel de dragoste
           marketplace: Piață de mărfuri
+          mobile_money_agent: Agent de bani mobil
           monastery: Mănăstire
+          money_transfer: Transfer de bani
           motorcycle_parking: Parcare pentru motociclete
+          music_school: Şcoală de muzică
           nightclub: Club de noapte
           nursing_home: Azil de bătrâni
           parking: Parcare
           parking_entrance: Intrare în parcare
           parking_space: Spațiu de parcare
+          payment_terminal: Terminal de plăţi
           pharmacy: Farmacie
           place_of_worship: Lăcaș de cult
           police: Poliție
@@ -577,9 +611,13 @@ ro:
           post_office: Oficiu poștal
           prison: Închisoare
           pub: Pub
+          public_bath: Baie publică
+          public_bookcase: Bibliotecă publică
           public_building: Clădire publică
+          ranger_station: Cabană de pădurar
           recycling: Punct de reciclare
           restaurant: Restaurant
+          sanitary_dump_station: Stație de scurgere sanitară
           school: Școală
           shelter: Adăpost
           shower: Duș
@@ -592,18 +630,27 @@ ro:
           theatre: Teatru
           toilets: Toalete
           townhall: Primărie
+          training: Facilitatea de instruire
           university: Universitate
+          vehicle_inspection: Inspecția vehiculului
           vending_machine: Vendomat
           veterinary: Operație veterinară
           village_hall: Primărie comunală
           waste_basket: Coș de gunoi
           waste_disposal: Eliminarea deșeurilor
+          waste_dump_site: Groapă de gunoi
+          watering_place: Loc de irigare
           water_point: Punct de apă
+          weighbridge: Pod basculă
+          "yes": Infrastructură
         boundary:
+          aboriginal_lands: Pământuri aborigene
           administrative: Graniță administrativă
           census: Limită de recensământ
           national_park: Parc național
+          political: Granița electorală
           protected_area: Zonă protejată
+          "yes": Graniţa
         bridge:
           aqueduct: Apeduct
           boardwalk: Promenadă
@@ -612,39 +659,94 @@ ro:
           viaduct: Viaduct
           "yes": Pod
         building:
-          apartments: Bloc de apartamente
+          apartment: Apartment
+          apartments: Apartamente
+          barn: Hambar
+          bungalow: Bungalou
+          cabin: Cabană
           chapel: Capelă
-          church: Biserică
+          church: Clădire de Biserică
+          civic: Clădire Municipală
+          college: Clădirea colegiu
           commercial: Clădire comercială
+          construction: Clădire în construcție
+          detached: Casă decomandată
+          dormitory: Dormitor
+          duplex: Casă duplex
+          farm: Casă fermă
+          farm_auxiliary: Casă fermă auxiliară
           garage: Garaj
+          garages: Garaje
+          greenhouse: Seră
+          hangar: Hangar
           hospital: Clădire de spital
-          hotel: Hotel
+          hotel: Clădire de hotel
           house: Casă
+          houseboat: Casă ambarcaţiune
+          hut: Colibă
           industrial: Clădire industrială
+          kindergarten: Clădirea Grădiniței
+          manufacture: Clădire de Producţie
           office: Clădire de birouri
           public: Clădire publică
           residential: Clădire rezidențială
+          retail: Clădire de vânzare cu amănuntul
+          roof: Acoperiş
+          ruins: Clădire ruină
           school: Clădire școlară
-          terrace: Terasă
+          semidetached_house: Casă semidetaşată
+          service: Clădire de servicii
+          shed: Șură
+          stable: Grajd
+          static_caravan: Rulotă
+          temple: Clădire templu
+          terrace: Case înșiruite
           train_station: Gară
+          university: Clădire de Universitate
+          warehouse: Depozit
           "yes": Clădire
+        club:
+          scout: Sediu Grup de Cercetaşi
+          sport: Club Sportiv
+          "yes": Club
         craft:
+          beekeper: Apicultor
+          blacksmith: Fierar
           brewery: Berărie
           carpenter: Tâmplar
+          caterer: firmă de catering
+          confectionery: Cofetărie
+          dressmaker: Croitoreasă
           electrician: Electrician
+          electronics_repair: Reparații Electronice
           gardener: Grădinar
+          glaziery: Sticlărie
+          handicraft: Tehnici de lucru manual
+          hvac: Fabricant de încălzire, ventilație și aer condiționat
+          metal_construction: Constructor în metal
           painter: Pictor
           photographer: Fotograf
           plumber: Instalator
+          roofer: Constructor de acoperişuri
+          sawmill: Gater
           shoemaker: Cizmar
+          stonemason: Pietrar
           tailor: Croitor
+          window_construction: Construcție ferestre
+          winery: Domeniu viticol
           "yes": Magazin de artizanat
         emergency:
+          access_point: Punct de acces
           ambulance_station: Stație de ambulanță
           assembly_point: Punct de ansamblare
           defibrillator: Defibrilator
+          fire_xtinguisher: Extinctor
+          fire_water_pond: Bazinul cu apă pentru foc
           landing_site: Sit pentru aterizarea de urgență
+          life_ring: Colac de salvare de urgenţă
           phone: Telefon de urgență
+          siren: Sirenă de Urgenţă
+          suction_point: Punct de aspirare de urgenţă
           water_tank: Rezervor de apă de urgență
           "yes": Urgență
         highway:
@@ -657,6 +759,7 @@ ro:
           cycleway: Pistă de biciclete
           elevator: Lift
           emergency_access_point: Punct de acces de urgență
+          emergency_bay: Loc oprire de urgenţă
           footway: Cale pietonală
           ford: Vad
           give_way: Semn de cedează trecerea
@@ -687,35 +790,45 @@ ro:
           tertiary: Drum terțiar
           tertiary_link: Drum terțiar
           track: Drum forestier sau agricol
+          traffic_mirror: Oglindă de trafic
           traffic_signals: Semafor
+          trailhead: Punct pornire traseu
           trunk: Drum strategic
           trunk_link: Drum strategic
           turning_loop: Buclă de întoarcere
           unclassified: Drum neclasificat
           "yes": Drum
         historic:
+          aircraft: Avion istoric
           archaeological_site: Sit arheologic
+          bomb_crater: Crater de bombă istoric
           battlefield: Câmp de luptă
           boundary_stone: Bornă de graniță
           building: Clădire istorică
           bunker: Buncăr
+          cannon: Tun istoric
           castle: Castel
+          charcoal_pile: Gramadă de carbonizare istorică
           church: Biserică
           city_gate: Poarta orașului
           citywalls: Zidurile orașului
           fort: Fort
           heritage: Sit de patrimoniu
+          hollow_way: Drum tranşeu
           house: Casă
           manor: Conac
           memorial: Memorial
+          milestone: Bornă kilometrică istorică
           mine: Mină
           mine_shaft: Puțul minei
           monument: Monument
+          railway: Cale ferată istorică
           roman_road: Drumul roman
           ruins: Ruine
           stone: Piatră
           tomb: Mormânt
           tower: Turn
+          wayside_chapel: Wayside Chapel
           wayside_cross: Troiță
           wayside_shrine: Altar
           wreck: Epavă
@@ -724,6 +837,7 @@ ro:
           "yes": Intersecție
         landuse:
           allotments: Repartizări
+          aquaculture: Acvacultură
           basin: Bazin
           brownfield: Teren brun
           cemetery: Cimitir
@@ -743,6 +857,7 @@ ro:
           military: Zonă militară
           mine: Mină
           orchard: Livadă
+          plant_nursery: Pepinieră
           quarry: Carieră
           railway: Cale ferată
           recreation_ground: Zonă de recreere
