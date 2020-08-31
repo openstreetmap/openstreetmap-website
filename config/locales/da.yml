@@ -57,7 +57,7 @@ da:
         create: Opret omarbejdelse
         update: Gem omarbejdelse
       trace:
-        create: Upload
+        create: Overfør
         update: Gem ændringer
       user_block:
         create: Opret blokering
@@ -108,6 +108,13 @@ da:
         name: Navn (Påkrævet)
         callback_url: Callback URL
         support_url: Support URL
+        allow_read_prefs: læs deres brugerindstillinger
+        allow_write_prefs: ændre deres brugerindstillinger
+        allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber
+        allow_write_api: redigere kortet
+        allow_read_gpx: læse deres private GPS-spor
+        allow_write_gpx: overføre GPS-spor
+        allow_write_notes: redigere bemærkninger
       diary_comment:
         body: Brødtekst
       diary_entry:
@@ -128,7 +135,7 @@ da:
         longitude: Længdegrad
         public: Offentlig
         description: Beskrivelse
-        gpx_file: Upload GPX-fil
+        gpx_file: Overfør GPX-fil
         visibility: Synlighed
         tagstring: Egenskaber
       message:
@@ -137,6 +144,7 @@ da:
         body: Brødtekst
         recipient: Modtager
       report:
+        category: Vælg årsagen til din rapportering
         details: Forklar venligst problemet i flere detaljer (påkrævet).
       user:
         email: E-mail
@@ -225,7 +233,7 @@ da:
         title: OpenStreetMap-bemærkninger
         description_area: En liste over bemærkninger, rapporteret, kommenteret på
           eller lukket i dit område [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-        description_item: Et RSS-feed for bemærkninger %{id}
+        description_item: Et RSS-feed for bemærkning %{id}
         opened: ny bemærkning (nær %{place})
         commented: ny kommentar (nær %{place})
         closed: lukket bemærkning (nær %{place})
@@ -302,7 +310,7 @@ da:
         way: vej
         relation: relation
         changeset: ændringssæt
-        note: bemærk
+        note: bemærkning
     timeout:
       sorry: Beklager, data for %{type} med id %{id} tog for lang tid at hente
       type:
@@ -586,6 +594,7 @@ da:
           loading_dock: Læsserampe
           love_hotel: Kærlighedshotel
           marketplace: Markedsplads
+          mobile_money_agent: Mobilpenge-agent
           monastery: Kloster
           money_transfer: Valutaoverførsel
           motorcycle_parking: Motorcykelparkering
@@ -631,9 +640,12 @@ da:
           waste_basket: Skraldespand
           waste_disposal: Skraldecontainer
           waste_dump_site: Affaldsdeponi
+          watering_place: Dyrevandtrug
           water_point: Vandpunkt
+          weighbridge: Brovægt
           "yes": Facilitet
         boundary:
+          aboriginal_lands: Urbefolkningsområde
           administrative: Administrativ grænse
           census: Folketællingsgrænse
           national_park: Nationalpark
@@ -655,11 +667,15 @@ da:
           cabin: Hytte
           chapel: Kapel
           church: Kirkebygning
+          civic: Offentlig bygning
           college: Universitetsbygning
           commercial: Erhvervsbygning
           construction: Bygning under opførsel
+          detached: Parcelhus
           dormitory: Kollegium
+          duplex: Dobbelthus
           farm: Gård
+          farm_auxiliary: Landbrugsbygning
           garage: Garage
           garages: Garager
           greenhouse: Drivhus
@@ -679,6 +695,8 @@ da:
           roof: Tag
           ruins: Bygningsruin
           school: Skolebygning
+          semidetached_house: Rækkehus
+          service: Servicebygning
           shed: Skur
           stable: Stald
           static_caravan: Husvogn
@@ -704,6 +722,9 @@ da:
           electronics_repair: Elektronikmekaniker
           gardener: Gartner
           glaziery: Glarmester
+          handicraft: Kunsthåndværker
+          hvac: Varme og ventilationsværksted
+          metal_construction: Metalværksted
           painter: Maler
           photographer: Fotograf
           plumber: Blikkenslager
@@ -793,6 +814,7 @@ da:
           citywalls: Bymure
           fort: Skanse
           heritage: Kulturarvssted
+          hollow_way: Hulvej
           house: Hus
           manor: Herregård
           memorial: Mindesmærke
@@ -850,8 +872,10 @@ da:
         leisure:
           adult_gaming_centre: Voksen spillested
           amusement_arcade: Spillehal
+          bandstand: Orkesterpavillon
           beach_resort: Badestrand
           bird_hide: Fugleskjul
+          bleachers: Lægtepladser
           bowling_alley: Bowlinghal
           common: Fælles arealer
           dance: Dansested
@@ -918,6 +942,7 @@ da:
           snow_cannon: Snekanon
           snow_fence: Snehegn
           storage_tank: Lagertank
+          street_cabinet: Gadeskab
           surveillance: Overvågning
           telescope: Teleskop
           tower: Tårn
@@ -1763,8 +1788,8 @@ da:
       shortlink: Kort link
       createnote: Tilføj en bemærkning
       license:
-        copyright: Ophavsret tilhører OpenStreetMap og bidragsydere, under en open
-          license
+        copyright: Ophavsret tilhører OpenStreetMap og bidragsydere, under en åben
+          licens
       remote_failed: Redigering mislykkede - tjek at JOSM eller Merkaartor er startet
         og fjernbetjening er aktiveret
     edit:
@@ -2043,7 +2068,8 @@ da:
       add_a_note:
         title: Ikke tid til redigering? Tilføj en bemærkning!
         paragraph_1_html: Hvis du bare vil have en lille detalje rettet, men ikke
-          har tid til at gøre det selv, så kan du tilføje en note.
+          har tid til at registrere dig og gøre det selv, så kan du let tilføje en
+          bemærkning.
         paragraph_2_html: |-
           Bare gå ind på <a href='%{map_url}'>kortet</a> og klik på bemærknings-ikonet:
           <span class='icon note'></span>. Dette vil tilføje en markør som du kan trække rundt på kortet. Tilføj din besked,
@@ -2056,23 +2082,24 @@ da:
       identifiable: Identificerbar (vist i sporliste, punkterne er identificerbar
         og beholder rækkefølgen og tidsstempler)
     new:
-      upload_trace: Upload GPS-spor
+      upload_trace: Overfør GPS-spor
       visibility_help: hvad betyder det her?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Hjælp
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
-      upload_trace: Upload GPS-spor
-      trace_uploaded: Din GPX-fil er uploadet og afventer lagring i databasen. Det
-        sker normalt inden for en halv time, og en e-mail bliver tilsendt dig når
-        det er gjort.
-      upload_failed: Beklager, GPX-upload mislykkedes. En administrator er blevet
-        notificeret om fejlen. Prøv igen
+      upload_trace: Overfør GPS-spor
+      trace_uploaded: Din GPX-fil er overført og afventer lagring i databasen. Dette
+        sker normalt inden for en halv time, og en e-mail vil blive sendt til dig
+        når det er færdiggjort.
+      upload_failed: Beklager, GPX-overførslen mislykkedes. En administrator er blevet
+        notificeret om fejlen. Prøv venligst igen
       traces_waiting:
-        one: Du har allerede et GPS-spor i køen. Overvej at vente på dette før du
-          uploader flere spor for ikke at blokere køen for andre brugere.
-        other: Du har allerede %{count} GPS-spor i køen. Overvej at vente på disse
-          før du uploader flere spor for ikke at blokere køen for andre brugere.
+        one: Du har allerede et GPS-spor i køen. Overvej at vente på at dette færdiggøres
+          før du overfører flere spor for ikke at blokere køen for andre brugere.
+        other: Du har allerede %{count} GPS-spor i køen. Overvej at vente på at disse
+          færdiggøres før du overfører flere spor for ikke at blokere køen for andre
+          brugere.
     edit:
       cancel: Annuller
       title: Redigerer spor %{name}
@@ -2088,7 +2115,7 @@ da:
       pending: VENTENDE
       filename: 'Filnavn:'
       download: hent
-      uploaded: 'Uploadet:'
+      uploaded: 'Overført:'
       points: 'Punkter:'
       start_coordinates: 'Startkoordinat:'
       map: kort
@@ -2131,7 +2158,7 @@ da:
       tagged_with: ' med egenskaberne %{tags}'
       empty_html: Der er ingenting her endnu. <a href='%{upload_link}'>Overfør et
         nyt spor</a> eller lær mere om optagelse af GPS-spor på <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikisiden</a>.
-      upload_trace: Upload et spor
+      upload_trace: Overfør et spor
       see_all_traces: Vis alle spor
       see_my_traces: Se mine spor
     destroy:
@@ -2139,12 +2166,12 @@ da:
     make_public:
       made_public: Spor gjort offentlig
     offline_warning:
-      message: Systemet der håndterer upload af GPX-filer er på nuværende tidspunkt
-        ikke tilgængelig
+      message: Systemet der håndterer overførsler af GPX-filer er på nuværende tidspunkt
+        ikke tilgængeligt
     offline:
       heading: GPX-lagring ikke tilgængelig
-      message: Systemet der håndterer upload og lagring af GPX-filer er på nuværende
-        tidspunkt ikke tilgængelig
+      message: Systemet der håndterer overførsel og lagring af GPX-filer er på nuværende
+        tidspunkt ikke tilgængeligt
     georss:
       title: OpenStreetMap GPS-spor
     description:
@@ -2179,7 +2206,7 @@ da:
       allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber.
       allow_write_api: tilpas kortet.
       allow_read_gpx: læse dine private GPS-spor.
-      allow_write_gpx: uploade GPS-spor.
+      allow_write_gpx: overfør GPS-spor.
       allow_write_notes: ændre bemærkninger.
       grant_access: Tillad adgang
     authorize_success:
@@ -2528,7 +2555,7 @@ da:
       reconfirm_html: Hvis du har brug for at vi gensender bekræftelsesmailen, så
         <a href="%{reconfirm}">klik her</a>.
     confirm_resend:
-      success: Vi har sendt en ny e-mail bekræftelse til %{email}, og så snart du
+      success: Vi har sendt en ny bekræftelsesbesked til %{email}, og så snart du
         har bekræftet din konto, kan du gå i gang med kortlægningen.<br /><br />Hvis
         du bruger et antispam-system som sender bekræftelsesforespørgsler, så sørg
         for at du har hvidlistet %{sender} da vi ikke kan svare på den slags forespørgsler.
@@ -2780,7 +2807,7 @@ da:
         overlays: Aktiver overlejringer til fejlfinding af kortet
         title: Lag
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-bidragsydere</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Lav en donation</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Giv et bidrag</a>
       terms: <a href='%{terms_url}' target='_blank'>Hjemmeside og API-vilkår</a>
       thunderforest: Fliser venligst leveret af <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
