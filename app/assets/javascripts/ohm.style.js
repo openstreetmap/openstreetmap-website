@@ -344,6 +344,15 @@ ohmStyle = {
       }
     },
     {
+      "id": "amenity_areas",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "amenity_areas",
+      "filter": ["all", ["in", "type", "school", "university"]],
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(226, 214, 205, 1)"}
+    },
+    {
       "id": "landuse_naturereserveoutline",
       "type": "line",
       "source": "osm",
@@ -474,6 +483,20 @@ ohmStyle = {
       }
     },
     {
+      "id": "buildings_flat",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "buildings",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": "rgba(220, 215, 215, 1)",
+        "fill-outline-color": "rgba(195, 188, 188, 1)"
+      }
+    },
+    {
       "id": "historic_fort",
       "type": "fill",
       "source": "osm",
@@ -577,6 +600,13 @@ ohmStyle = {
         "line-dasharray": [6, 3],
         "line-width": 1.5
       }
+    },
+    {
+      "id": "roads_pedestrian_area",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "transport_areas",
+      "paint": {"fill-color": "rgba(230, 230, 230, 1)"}
     },
     {
       "id": "roads_trackfillcase",
@@ -1347,13 +1377,6 @@ ohmStyle = {
       "source-layer": "other_lines",
       "filter": ["all", ["==", "class", "man_made"], ["==", "type", "bridge"]],
       "paint": {"line-color": "rgba(233, 203, 176, 1)", "line-width": 3}
-    },
-    {
-      "id": "pedestrian_area",
-      "type": "fill",
-      "source": "osm",
-      "source-layer": "transport_areas",
-      "paint": {"fill-color": "rgba(230, 230, 230, 1)"}
     },
     {
       "id": "admin_admin3_z10",
