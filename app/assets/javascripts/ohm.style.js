@@ -344,6 +344,13 @@ ohmStyle = {
       }
     },
     {
+      "id": "pedestrian_area",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "transport_areas",
+      "paint": {"fill-color": "rgba(230, 230, 230, 1)"}
+    },
+    {
       "id": "amenity_areas",
       "type": "fill",
       "source": "osm",
@@ -602,11 +609,48 @@ ohmStyle = {
       }
     },
     {
-      "id": "roads_pedestrian_area",
-      "type": "fill",
+      "id": "state_lines_labels",
+      "type": "symbol",
       "source": "osm",
-      "source-layer": "transport_areas",
-      "paint": {"fill-color": "rgba(230, 230, 230, 1)"}
+      "source-layer": "land_ohm",
+      "minzoom": 2,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        ["==", "admin_level", 4],
+        ["==", "type", "administrative"]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "text-field": "{name}",
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 8,
+        "text-line-height": 1,
+        "text-transform": "uppercase",
+        "symbol-spacing": 25,
+        "symbol-avoid-edges": true,
+        "symbol-placement": "point"
+      },
+      "paint": {
+        "text-color": "rgba(114, 100, 100, 1)",
+        "text-halo-width": 0.5,
+        "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "roads_raceways",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": ["in", "type", "raceway"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(227, 107, 31, 1)",
+        "line-width": {"stops": [[14, 3], [18, 10]]},
+        "line-dasharray": [0.75, 0.1]
+      }
     },
     {
       "id": "roads_trackfillcase",
@@ -751,7 +795,7 @@ ohmStyle = {
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 12,
+      "minzoom": 9,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -769,7 +813,7 @@ ohmStyle = {
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 12,
+      "minzoom": 9,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -787,7 +831,7 @@ ohmStyle = {
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 12,
+      "minzoom": 9,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -806,7 +850,7 @@ ohmStyle = {
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 12,
+      "minzoom": 9,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -909,15 +953,15 @@ ohmStyle = {
         "line-join": "miter"
       },
       "paint": {
-        "line-color": "rgba(160, 152, 176, 1)",
+        "line-color": "rgba(168, 71, 24, 1)",
         "line-width": {
           "stops": [
-            [11, 3],
-            [13, 5],
-            [14, 5],
-            [15, 6],
-            [16, 8],
-            [17, 10],
+            [11, 1],
+            [13, 4],
+            [14, 4],
+            [15, 5],
+            [16, 7],
+            [17, 9],
             [18, 16]
           ]
         }
@@ -1316,7 +1360,7 @@ ohmStyle = {
         "line-join": "miter"
       },
       "paint": {
-        "line-color": "rgba(110, 102, 126, 1)",
+        "line-color": "rgba(168, 71, 24, 1)",
         "line-width": {
           "stops": [
             [11, 3],
@@ -1417,6 +1461,32 @@ ohmStyle = {
       "paint": {
         "line-color": "rgba(129, 150, 154, 1)",
         "line-width": {"stops": [[0, 0.5], [7, 3]]}
+      }
+    },
+    {
+      "id": "admin_countryl_labels",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "land_ohm",
+      "minzoom": 0,
+      "maxzoom": 20,
+      "filter": ["all", ["==", "admin_level", 2]],
+      "layout": {
+        "visibility": "visible",
+        "text-field": "{name}",
+        "text-size": 7,
+        "text-font": ["Open Sans Regular"],
+        "symbol-placement": "point",
+        "text-transform": "uppercase",
+        "text-justify": "center"
+      },
+      "paint": {
+        "text-color": "rgba(101, 108, 108, 1)",
+        "text-halo-width": 0.25,
+        "text-halo-color": "rgba(140, 163, 167, 1)",
+        "text-halo-blur": 1,
+        "text-opacity": 1,
+        "text-translate-anchor": "map"
       }
     },
     {
@@ -1630,12 +1700,16 @@ ohmStyle = {
       "maxzoom": 20,
       "filter": [
         "all",
-        ["==", "type", "city"],
-        ["==", "type", "suburb"],
-        ["==", "type", "town"],
-        ["==", "type", "village"],
-        ["==", "type", "locality"],
-        ["==", "type", "hamlet"]
+        [
+          "in",
+          "type",
+          "city",
+          "village",
+          "town",
+          "suburb",
+          "locality",
+          "hamlet"
+        ]
       ],
       "layout": {
         "text-field": "{name}",
@@ -1660,13 +1734,17 @@ ohmStyle = {
       "minzoom": 12,
       "maxzoom": 14,
       "filter": [
-        "all",
-        ["==", "type", "city"],
-        ["==", "type", "village"],
-        ["==", "type", "town"],
-        ["==", "type", "suburb"],
-        ["==", "type", "locality"],
-        ["==", "type", "hamlet"]
+            "all",
+        [
+          "in",
+          "type",
+          "city",
+          "village",
+          "town",
+          "suburb",
+          "locality",
+          "hamlet"
+        ]
       ],
       "layout": {
         "text-field": "{name}",
@@ -1898,14 +1976,14 @@ ohmStyle = {
       "source": "osm",
       "source-layer": "buildings",
       "minzoom": 16,
-      "filter": ["all", ["has", "tourism"]],
+      "filter": ["all"],
       "layout": {
         "icon-image": "{tourism}-18",
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": 8,
-        "text-anchor": "top",
-        "text-offset": [0, 1]
+        "text-size": 9,
+        "text-anchor": "center",
+        "text-offset": [0, 0]
       },
       "paint": {
         "text-color": "rgba(108, 132, 137, 1)",
