@@ -11,11 +11,8 @@ class MoveToInnodb < ActiveRecord::Migration[4.2]
 
     @ver_tbl.each do |tbl|
       change_column tbl, "version", :bigint, :null => false
-    end
-
-    @ver_tbl.each do |tbl|
       add_column "current_#{tbl}", "version", :bigint, :null => false
-      # As the initial version of all nodes, ways and relations is 0, we set the
+      # As the initial version of all nodes, ways and relations is 0, we set tehe
       # current version to something less so that we can update the version in
       # batches of 10000
       tbl.classify.constantize.update_all(:version => -1)
