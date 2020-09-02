@@ -5,9 +5,7 @@ ohmStyle = {
   "sources": {
     "osm": {
       "type": "vector",
-      "tiles": [
-        "https://vtiles.openhistoricalmap.org/maps/osm/{z}/{x}/{y}.pbf"
-      ]
+      "tiles": ["https://vtiles.openhistoricalmap.org/maps/osm/{z}/{x}/{y}.pbf"]
     }
   },
   "sprite": "https://go-spatial.github.io/carto-assets/spritesets/osm_tegola_spritesheet",
@@ -59,7 +57,104 @@ ohmStyle = {
       }
     },
     {
-      "id": "landuse_areas_z13",
+      "id": "landuse_areas_z13_generalized_land_use",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 13,
+      "maxzoom": 24,
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": {
+          "property": "type",
+          "type": "categorical",
+          "default": "transparent",
+          "stops": [
+            ["residential", "rgba(231, 223, 223, 1)"],
+            ["retail", "rgba(237, 236, 231, 1)"],
+            ["industrial", "rgba(204, 197, 197, 1)"]
+          ]
+        }
+      }
+    },
+    {
+      "id": "landuse_areas_z13_underlying_land_designation",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 13,
+      "maxzoom": 24,
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": {
+          "property": "type",
+          "type": "categorical",
+          "default": "transparent",
+          "stops": [
+            ["park", "rgba(208, 220, 174, 1)"],
+            ["nature_reserve", "rgba(178, 194, 157, 0.2)"],
+            ["pitch", "rgba(69, 150, 7, 0.39)"]
+          ]
+        }
+      }
+    },
+    {
+      "id": "landuse_areas_z13_localized_land_use",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 13,
+      "maxzoom": 24,
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": {
+          "property": "type",
+          "type": "categorical",
+          "default": "transparent",
+          "stops": [
+            ["quarry", "rgba(215, 200, 203, 1)"],
+            ["landfill", "rgba(194, 170, 175, 1)"],
+            ["brownfield", "rgba(191, 171, 142, 1)"],
+            ["commercial", "rgba(215, 200, 203, 1)"],
+            ["construction", "rgba(235, 235, 235, 1)"],
+            ["railway", "rgba(224, 224, 224, 1)"],
+            ["college", "rgba(226, 214, 205, 1)"],
+            ["school", "rgba(226, 214, 205, 1)"],
+            ["education", "rgba(226, 214, 205, 1)"],
+            ["university", "rgba(226, 214, 205, 1)"]
+          ]
+        }
+      }
+    },
+    {
+      "id": "landuse_areas_z13_landcover_short",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 13,
+      "maxzoom": 24,
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": {
+          "property": "type",
+          "type": "categorical",
+          "default": "transparent",
+          "stops": [
+            ["heath", "rgba(225, 233, 214, 1)"],
+            ["meadow", "rgba(225, 233, 214, 1)"],
+            ["grass", "rgba(208, 220, 174, 1)"],
+            ["grassland", "rgba(183, 214, 96, 0.81)"],
+            ["beach", "rgba(236, 235, 180, 1)"],
+            ["desert", "rgba(238, 229, 178, 1)"],
+            ["basin", "rgba(144, 204, 203, 1)"],
+            ["wetland", "rgba(227, 233, 226, 1)"],
+            ["salt_pond", "rgba(236, 240, 241, 1)"]
+          ]
+        }
+      }
+    },
+    {
+      "id": "landuse_areas_z13_landcover_tall",
       "type": "fill",
       "source": "osm",
       "source-layer": "landuse_areas",
@@ -74,50 +169,89 @@ ohmStyle = {
           "stops": [
             ["forest", "rgba(178, 194, 157, 1)"],
             ["wood", "rgba(178, 194, 157, 1)"],
-            ["wetland", "rgba(227, 233, 226, 1)"],
+            ["scrub", "rgba(166, 185, 162, 1)"]
+          ]
+        }
+      }
+    },
+    {
+      "id": "landuse_areas_z13_watercover",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 13,
+      "maxzoom": 24,
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": {
+          "property": "type",
+          "type": "categorical",
+          "default": "transparent",
+          "stops": [
+            ["wetland", "rgba(216, 229, 230, 1)"],
             ["salt_pond", "rgba(236, 240, 241, 1)"],
-            ["basin", "rgba(144, 204, 203, 1)"],
-            ["beach", "rgba(238, 229, 178, 1)"],
-            ["desert", "rgba(238, 229, 178, 1)"],
-            ["farmland", "rgba(222, 221, 190, 1)"],
+            ["glacier", "rgba(255, 255, 255, 1)"],
+            ["reservoir", "rgba(144, 204, 203, 1)"]
+          ]
+        }
+      }
+    },
+    {
+      "id": "landuse_areas_z13_food_and_farming",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 13,
+      "maxzoom": 24,
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": {
+          "property": "type",
+          "type": "categorical",
+          "default": "transparent",
+          "stops": [
+            ["farmland", "rgba(232, 219, 126, 0.61)"],
             ["farm", "rgba(222, 221, 190, 1)"],
-            ["orchard", "rgba(222, 221, 190, 1)"],
+            ["orchard", "rgba(218, 241, 184, 1)"],
+            ["farmyard", "rgba(232, 219, 126, 1)"],
+            ["vineyard", "rgba(180, 172, 199, 1)"],
             ["allotments", "rgba(222, 221, 190, 1)"],
-            ["heath", "rgba(225, 233, 214, 1)"],
-            ["meadow", "rgba(225, 233, 214, 1)"],
-            ["residential", "rgba(237, 236, 231, 1)"],
-            ["retail", "rgba(237, 236, 231, 1)"],
-            ["industrial", "rgba(230, 206, 206, 1)"],
-            ["quarry", "rgba(215, 200, 203, 1)"],
-            ["landfill", "rgba(194, 170, 175, 1)"],
-            ["college", "rgba(226, 214, 205, 1)"],
-            ["school", "rgba(226, 214, 205, 1)"],
-            ["education", "rgba(226, 214, 205, 1)"],
-            ["university", "rgba(226, 214, 205, 1)"],
+            ["garden", "rgba(228, 244, 202, 1)"]
+          ]
+        }
+      }
+    },
+    {
+      "id": "landuse_areas_z13_developed_open_space",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 13,
+      "maxzoom": 24,
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": {
+          "property": "type",
+          "type": "categorical",
+          "default": "transparent",
+          "stops": [
+            ["village_green", "rgba(208, 220, 174, 1)"],
             ["cemetery", "rgba(214, 222, 210, 1)"],
             ["grave_yard", "rgba(214, 222, 210, 1)"],
-            ["park", "rgba(208, 220, 174, 1)"],
-            ["pitch", "rgba(208, 220, 174, 1)"],
             ["sports_centre", "rgba(208, 220, 174, 1)"],
             ["stadium", "rgba(208, 220, 174, 1)"],
-            ["grass", "rgba(208, 220, 174, 1)"],
-            ["grassland", "rgba(208, 220, 174, 1)"],
-            ["garden", "rgba(228, 244, 202, 1)"],
-            ["village_green", "rgba(208, 220, 174, 1)"],
             ["recreation_ground", "rgba(208, 220, 174, 1)"],
             ["picnic_site", "rgba(208, 220, 174, 1)"],
             ["camp_site", "rgba(208, 220, 174, 1)"],
             ["playground", "rgba(208, 220, 174, 1)"],
-            ["nature_reserve", "rgba(178, 194, 157, 0.2)"],
-            ["commercial", "rgba(215,200,203,1)"],
-            ["construction", "rgba(235, 235, 235, 1)"],
-            ["railway", "rgba(224, 224, 224, 1)"],
-            ["glacier", "rgba(255, 255, 255, 1)"],
-            ["scrub", "rgba(241, 243, 219, 1)"],
-            ["farmyard", "rgba(243, 240, 219, 1)"],
-            ["vineyard", "rgba(230, 224, 241, 1)"],
-            ["brownfield", "rgba(241, 231, 224, 1)"]
+            ["bleachers", "rgba(220, 215, 215, 1)"]
           ]
+        },
+        "fill-outline-color": {
+          "property": "type",
+          "type": "categorical",
+          "default": "transparent",
+          "stops": [["bleachers", "rgba(195, 188, 188, 1)"]]
         }
       }
     },
@@ -198,6 +332,23 @@ ohmStyle = {
       ],
       "layout": {"visibility": "visible"},
       "paint": {"fill-color": "rgba(178, 194, 157, 1)"}
+    },
+    {
+      "id": "parking_lots",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "amenity_areas",
+      "paint": {
+        "fill-color": "rgba(236, 231, 231, 1)",
+        "fill-outline-color": "rgba(224, 217, 217, 1)"
+      }
+    },
+    {
+      "id": "pedestrian_area",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "transport_areas",
+      "paint": {"fill-color": "rgba(230, 230, 230, 1)"}
     },
     {
       "id": "amenity_areas",
@@ -353,6 +504,20 @@ ohmStyle = {
       }
     },
     {
+      "id": "historic_fort",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "other_areas",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": ["all", ["==", "class", "historic"], ["==", "type", "fort"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": "rgba(220, 215, 215, 1)",
+        "fill-outline-color": "rgba(195, 188, 188, 1)"
+      }
+    },
+    {
       "id": "aero_taxiway_lines",
       "type": "line",
       "source": "osm",
@@ -444,6 +609,50 @@ ohmStyle = {
       }
     },
     {
+      "id": "state_lines_labels",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "land_ohm",
+      "minzoom": 2,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        ["==", "admin_level", 4],
+        ["==", "type", "administrative"]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "text-field": "{name}",
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 8,
+        "text-line-height": 1,
+        "text-transform": "uppercase",
+        "symbol-spacing": 25,
+        "symbol-avoid-edges": true,
+        "symbol-placement": "point"
+      },
+      "paint": {
+        "text-color": "rgba(114, 100, 100, 1)",
+        "text-halo-width": 0.5,
+        "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "roads_raceways",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": ["in", "type", "raceway"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(227, 107, 31, 1)",
+        "line-width": {"stops": [[14, 3], [18, 10]]},
+        "line-dasharray": [0.75, 0.1]
+      }
+    },
+    {
       "id": "roads_trackfillcase",
       "type": "line",
       "source": "osm",
@@ -499,7 +708,7 @@ ohmStyle = {
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(191, 147, 98, 1)",
+        "line-color": "rgba(168, 71, 24, 1)",
         "line-width": 1,
         "line-dasharray": [1, 2]
       }
@@ -560,7 +769,7 @@ ohmStyle = {
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(226, 222, 204, 1)",
+        "line-color": "rgba(209, 122, 78, 1)",
         "line-width": {"stops": [[13, 2], [14, 3], [18, 10]]}
       }
     },
@@ -582,11 +791,29 @@ ohmStyle = {
       }
     },
     {
+      "id": "roads_rail_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 9,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["==", "type", "construction"],
+        ["==", "class", "railway"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(215, 215, 215, 1)",
+        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
+      }
+    },
+    {
       "id": "roads_rail",
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 12,
+      "minzoom": 9,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -600,11 +827,30 @@ ohmStyle = {
       }
     },
     {
+      "id": "roads_rail_construction_cross",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 9,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["==", "type", "construction"],
+        ["==", "class", "railway"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(215, 215, 215, 1)",
+        "line-width": 6,
+        "line-dasharray": [0.2, 2]
+      }
+    },
+    {
       "id": "roads_rail_cross",
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 12,
+      "minzoom": 9,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -627,7 +873,7 @@ ohmStyle = {
       "filter": ["all", ["==", "type", "tertiary"], ["==", "tunnel", 1]],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(245, 237, 179, 1)",
+        "line-color": "rgba(195, 188, 181, 1)",
         "line-width": {
           "stops": [
             [12, 2],
@@ -707,15 +953,15 @@ ohmStyle = {
         "line-join": "miter"
       },
       "paint": {
-        "line-color": "rgba(160, 152, 176, 1)",
+        "line-color": "rgba(168, 71, 24, 1)",
         "line-width": {
           "stops": [
-            [11, 3],
-            [13, 5],
-            [14, 5],
-            [15, 6],
-            [16, 8],
-            [17, 10],
+            [11, 1],
+            [13, 4],
+            [14, 4],
+            [15, 5],
+            [16, 7],
+            [17, 9],
             [18, 16]
           ]
         }
@@ -731,7 +977,7 @@ ohmStyle = {
       "filter": ["all", ["==", "type", "tertiary"], ["!=", "tunnel", 1]],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(214, 224, 152, 1)",
+        "line-color": "rgba(168, 84, 43, 1)",
         "line-width": {"stops": [[11, 2], [12, 2], [14, 3], [15, 6], [18, 11]]}
       }
     },
@@ -744,7 +990,7 @@ ohmStyle = {
       "filter": ["all", ["==", "type", "secondary"], ["==", "tunnel", 1]],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(255, 229, 202, 1)",
+        "line-color": "rgba(209, 122, 78, 1)",
         "line-width": {
           "stops": [
             [11, 3],
@@ -767,7 +1013,7 @@ ohmStyle = {
       "filter": ["all", ["==", "type", "secondary"], ["!=", "tunnel", 1]],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(233, 203, 176, 1)",
+        "line-color": "rgba(236, 148, 106, 1)",
         "line-width": {
           "stops": [
             [9, 1],
@@ -814,7 +1060,7 @@ ohmStyle = {
       "filter": ["all", ["in", "type", "primary"], ["!=", "tunnel", 1]],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(210, 147, 142, 1)",
+        "line-color": "rgba(207, 123, 84, 1)",
         "line-width": {
           "stops": [
             [9, 1],
@@ -860,7 +1106,7 @@ ohmStyle = {
         "line-join": "miter"
       },
       "paint": {
-        "line-color": "rgba(186, 178, 202, 1)",
+        "line-color": "rgba(168, 71, 24, 1)",
         "line-width": {
           "stops": [
             [11, 3],
@@ -892,7 +1138,7 @@ ohmStyle = {
         "line-join": "miter"
       },
       "paint": {
-        "line-color": "rgba(160, 152, 176, 1)",
+        "line-color": "rgba(168, 71, 24, 1)",
         "line-width": {
           "stops": [
             [11, 3],
@@ -916,7 +1162,7 @@ ohmStyle = {
       "filter": ["all", ["in", "type", "trunk", "primary"]],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(160, 152, 176, 1)",
+        "line-color": "rgba(168, 71, 24, 1)",
         "line-width": {"stops": [[7, 0.3], [8, 0.5], [10, 2]]}
       }
     },
@@ -930,7 +1176,7 @@ ohmStyle = {
       "filter": ["all", ["==", "type", "motorway"]],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(160, 152, 176, 1)",
+        "line-color": "rgba(168, 71, 24, 1)",
         "line-width": {"stops": [[7, 0.6], [8, 1], [10, 2]]}
       }
     },
@@ -971,7 +1217,7 @@ ohmStyle = {
       "filter": ["all", ["==", "type", "tertiary"], ["==", "bridge", 1]],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(169, 161, 103, 1)",
+        "line-color": "rgba(174, 165, 158, 1)",
         "line-width": {
           "stops": [
             [12, 2],
@@ -995,7 +1241,7 @@ ohmStyle = {
       "filter": ["all", ["==", "type", "tertiary"], ["==", "bridge", 1]],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(214, 224, 152, 1)",
+        "line-color": "rgba(174, 165, 158, 1)",
         "line-width": {"stops": [[11, 2], [12, 2], [14, 3], [15, 6], [18, 11]]}
       }
     },
@@ -1114,7 +1360,7 @@ ohmStyle = {
         "line-join": "miter"
       },
       "paint": {
-        "line-color": "rgba(110, 102, 126, 1)",
+        "line-color": "rgba(168, 71, 24, 1)",
         "line-width": {
           "stops": [
             [11, 3],
@@ -1146,7 +1392,7 @@ ohmStyle = {
         "line-join": "miter"
       },
       "paint": {
-        "line-color": "rgba(160, 152, 176, 1)",
+        "line-color": "rgba(168, 71, 24, 1)",
         "line-width": {
           "stops": [
             [11, 3],
@@ -1175,13 +1421,6 @@ ohmStyle = {
       "source-layer": "other_lines",
       "filter": ["all", ["==", "class", "man_made"], ["==", "type", "bridge"]],
       "paint": {"line-color": "rgba(233, 203, 176, 1)", "line-width": 3}
-    },
-    {
-      "id": "pedestrian_area",
-      "type": "fill",
-      "source": "osm",
-      "source-layer": "transport_areas",
-      "paint": {"fill-color": "rgba(230, 230, 230, 1)"}
     },
     {
       "id": "admin_admin3_z10",
@@ -1222,6 +1461,32 @@ ohmStyle = {
       "paint": {
         "line-color": "rgba(129, 150, 154, 1)",
         "line-width": {"stops": [[0, 0.5], [7, 3]]}
+      }
+    },
+    {
+      "id": "admin_countryl_labels",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "land_ohm",
+      "minzoom": 0,
+      "maxzoom": 20,
+      "filter": ["all", ["==", "admin_level", 2]],
+      "layout": {
+        "visibility": "visible",
+        "text-field": "{name}",
+        "text-size": 7,
+        "text-font": ["Open Sans Regular"],
+        "symbol-placement": "point",
+        "text-transform": "uppercase",
+        "text-justify": "center"
+      },
+      "paint": {
+        "text-color": "rgba(101, 108, 108, 1)",
+        "text-halo-width": 0.25,
+        "text-halo-color": "rgba(140, 163, 167, 1)",
+        "text-halo-blur": 1,
+        "text-opacity": 1,
+        "text-translate-anchor": "map"
       }
     },
     {
@@ -1435,12 +1700,16 @@ ohmStyle = {
       "maxzoom": 20,
       "filter": [
         "all",
-        ["==", "type", "city"],
-        ["==", "type", "suburb"],
-        ["==", "type", "town"],
-        ["==", "type", "village"],
-        ["==", "type", "locality"],
-        ["==", "type", "hamlet"]
+        [
+          "in",
+          "type",
+          "city",
+          "village",
+          "town",
+          "suburb",
+          "locality",
+          "hamlet"
+        ]
       ],
       "layout": {
         "text-field": "{name}",
@@ -1465,13 +1734,17 @@ ohmStyle = {
       "minzoom": 12,
       "maxzoom": 14,
       "filter": [
-        "all",
-        ["==", "type", "city"],
-        ["==", "type", "village"],
-        ["==", "type", "town"],
-        ["==", "type", "suburb"],
-        ["==", "type", "locality"],
-        ["==", "type", "hamlet"]
+            "all",
+        [
+          "in",
+          "type",
+          "city",
+          "village",
+          "town",
+          "suburb",
+          "locality",
+          "hamlet"
+        ]
       ],
       "layout": {
         "text-field": "{name}",
@@ -1679,7 +1952,8 @@ ohmStyle = {
             ["wood_fence", "rgba(241, 224, 200, 1)"],
             ["hedge", "rgba(204, 218, 190, 1)"],
             ["hedge_bank", "rgba(204, 218, 190, 1)"],
-            ["retaining_wall", "rgba(223, 223, 223, 1)"]
+            ["retaining_wall", "rgba(223, 223, 223, 1)"],
+            ["city_wall", "rgba(223, 223, 223, 1)"]
           ],
           "default": "transparent"
         },
@@ -1702,14 +1976,14 @@ ohmStyle = {
       "source": "osm",
       "source-layer": "buildings",
       "minzoom": 16,
-      "filter": ["all", ["has", "tourism"]],
+      "filter": ["all"],
       "layout": {
         "icon-image": "{tourism}-18",
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": 8,
-        "text-anchor": "top",
-        "text-offset": [0, 1]
+        "text-size": 9,
+        "text-anchor": "center",
+        "text-offset": [0, 0]
       },
       "paint": {
         "text-color": "rgba(108, 132, 137, 1)",
