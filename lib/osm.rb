@@ -247,10 +247,6 @@ module OSM
   ##
   # raised when user input couldn't be parsed
   class APIBadUserInput < APIError
-    def initialize(message)
-      super message
-    end
-
     def status
       :bad_request
     end
@@ -259,10 +255,6 @@ module OSM
   ##
   # raised when bounding box is invalid
   class APIBadBoundingBox < APIError
-    def initialize(message)
-      super message
-    end
-
     def status
       :bad_request
     end

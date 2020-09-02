@@ -87,7 +87,7 @@ module Api
           result = [-5, nil]
         else
           case message
-          when "putway" then
+          when "putway"
             orn = renumberednodes.dup
             result = putway(renumberednodes, *args)
             result[4] = renumberednodes.reject { |k, _v| orn.key?(k) }
@@ -96,7 +96,7 @@ module Api
             result = putrelation(renumberednodes, renumberedways, *args)
           when "deleteway"
             result = deleteway(*args)
-          when "putpoi" then
+          when "putpoi"
             result = putpoi(*args)
             renumberednodes[result[2]] = result[3] if result[0].zero? && result[2] != result[3]
           when "startchangeset"
