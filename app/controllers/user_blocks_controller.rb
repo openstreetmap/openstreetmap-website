@@ -79,11 +79,9 @@ class UserBlocksController < ApplicationController
   ##
   # revokes the block, setting the end_time to now
   def revoke
-    if params[:confirm]
-      if @user_block.revoke! current_user
-        flash[:notice] = t ".flash"
-        redirect_to(@user_block)
-      end
+    if params[:confirm] && @user_block.revoke!(current_user)
+      flash[:notice] = t ".flash"
+      redirect_to(@user_block)
     end
   end
 
