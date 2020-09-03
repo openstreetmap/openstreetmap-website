@@ -146,11 +146,11 @@ class UsersController < ApplicationController
   def lost_password
     @title = t "users.lost_password.title"
 
-    if params[:user] && params[:user][:email]
-      user = User.visible.find_by(:email => params[:user][:email])
+    if params[:email]
+      user = User.visible.find_by(:email => params[:email])
 
       if user.nil?
-        users = User.visible.where("LOWER(email) = LOWER(?)", params[:user][:email])
+        users = User.visible.where("LOWER(email) = LOWER(?)", params[:email])
 
         user = users.first if users.count == 1
       end
