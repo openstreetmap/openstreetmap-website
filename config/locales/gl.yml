@@ -38,7 +38,7 @@ gl:
         create: Enviar
       client_application:
         create: Rexistrarse
-        update: Editar
+        update: Actualizar
       redaction:
         create: Crear a redacción
         update: Gardar a redacción
@@ -91,8 +91,17 @@ gl:
       way_tag: Etiqueta da vía
     attributes:
       client_application:
+        name: Nome (Obrigatorio)
+        url: URL da Aplicación principal (Obrigatorio)
         callback_url: URL de retorno de chamada
         support_url: URL de apoio
+        allow_read_prefs: ler as súas preferencias de usuario
+        allow_write_prefs: modificar as súas preferencias de usuario
+        allow_write_diary: crear entradas de diario, comentarios e facer amizades
+        allow_write_api: modificar o mapa
+        allow_read_gpx: ler as súas pistas GPS privadas
+        allow_write_gpx: subir pistas GPS
+        allow_write_notes: modificar notas
       diary_comment:
         body: Corpo
       diary_entry:
@@ -122,6 +131,7 @@ gl:
         body: Corpo
         recipient: Destinatario
       report:
+        category: Escoller a razón da túa denuncia
         details: Por favor, achegue máis detalles sobre o problema (requirido)
       user:
         email: Enderezo de correo electrónico
@@ -239,6 +249,8 @@ gl:
     view_history: Ollar o historial
     view_details: Ollar os detalles
     location: 'Localización:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Conxunto de modificacións: %{id}'
       belongs_to: Autor
@@ -340,6 +352,7 @@ gl:
       reopened_by_anonymous: Reactivado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Agochado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Denunciar esta nota
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Consultar os elementos
       introduction: Prema no mapa para atopar elementos preto daquí.
@@ -450,6 +463,7 @@ gl:
       location: 'Localización:'
       view: Ollar
       edit: Editar
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Entradas no diario do OpenStreetMap de %{user}
@@ -500,10 +514,12 @@ gl:
           chair_lift: Telecadeira
           drag_lift: Telesquí
           gondola: Telecabina
+          magic_carpet: Fita transportadora
           platter: Telesquí
           pylon: Torre de alta tensión
           station: Estación de telesquí
           t-bar: Telesquí de barra de metal en T
+          "yes": Ruta aérea
         aeroway:
           aerodrome: Aeródromo
           airstrip: Aeródromo
@@ -512,11 +528,15 @@ gl:
           hangar: Hangar
           helipad: Heliporto
           holding_position: Posición de espera
+          navigationaid: Axuda á navegación aérea
           parking_position: Posición de estacionamento
           runway: Pista do aeroporto
+          taxilane: Pista de rodaxe
           taxiway: Vía de circulación do aeroporto
           terminal: Terminal
+          windsock: Manga de vento
         amenity:
+          animal_boarding: Embarque de animais
           animal_shelter: Abeiro de animais
           arts_centre: Centro artístico
           atm: Caixeiro automático
@@ -526,7 +546,9 @@ gl:
           bench: Asento
           bicycle_parking: Aparcadoiro de bicicletas
           bicycle_rental: Alugamento de bicicletas
+          bicycle_repair_station: Estación de arranxo de bicicletas
           biergarten: Terraza
+          blood_bank: Banco de sangue
           boat_rental: Alugamento de embarcacións
           brothel: Prostíbulo
           bureau_de_change: Casa de troco
@@ -543,6 +565,7 @@ gl:
           clock: Reloxo
           college: Instituto
           community_centre: Centro comunitario
+          conference_centre: Centro de conferencias
           courthouse: Xulgado
           crematorium: Crematorio
           dentist: Dentista
@@ -550,6 +573,7 @@ gl:
           drinking_water: Fonte de auga potábel
           driving_school: Autoescola
           embassy: Embaixada
+          events_venue: Espazo para eventos
           fast_food: Comida rápida
           ferry_terminal: Terminal de ferris
           fire_station: Parque de bombeiros
@@ -562,16 +586,24 @@ gl:
           hospital: Hospital
           hunting_stand: Lugar de caza
           ice_cream: Xeadaría
+          internet_cafe: Cibercafé
           kindergarten: Xardín de infancia
+          language_school: Escola de idiomas
           library: Biblioteca
+          loading_dock: Peirao de mercadorías
+          love_hotel: Hotel de amor
           marketplace: Praza de mercado
+          mobile_money_agent: Axente de diñeiro electrónico
           monastery: Mosteiro
+          money_transfer: Transferencia de diñeiro
           motorcycle_parking: Aparcadoiro para motocicletas
+          music_school: Escola de música
           nightclub: Club nocturno
           nursing_home: Residencia para a terceira idade
           parking: Aparcadoiro
           parking_entrance: Entrada de aparcadoiro
           parking_space: Espazo para aparcadoiro
+          payment_terminal: Terminal de pagamento
           pharmacy: Farmacia
           place_of_worship: Lugar de culto
           police: Policía
@@ -579,9 +611,13 @@ gl:
           post_office: Oficina de correos
           prison: Prisión
           pub: Pub
+          public_bath: Baño público
+          public_bookcase: Biblioteca de rúa
           public_building: Edificio público
+          ranger_station: Posto de garda forestal
           recycling: Punto de reciclaxe
           restaurant: Restaurante
+          sanitary_dump_station: Estación de refugallos sanitarios
           school: Escola
           shelter: Abeiro
           shower: Ducha
@@ -594,18 +630,27 @@ gl:
           theatre: Teatro
           toilets: Servizos
           townhall: Concello
+          training: Centro de adestramento
           university: Universidade
+          vehicle_inspection: Centro de inspección de vehículos
           vending_machine: Máquina expendedora
           veterinary: Clínica veterinaria
           village_hall: Concello
           waste_basket: Cesto do lixo
           waste_disposal: Contedor de lixo
+          waste_dump_site: Lugar de vertedoiro de lixo
+          watering_place: Bebedoiro para animais
           water_point: Punto de auga
+          weighbridge: Balanza de ponte
+          "yes": Instalación
         boundary:
+          aboriginal_lands: Terras aborixes
           administrative: Límite administrativo
           census: Fronteira administrativa
           national_park: Parque nacional
+          political: Fronteira electoral
           protected_area: Zona protexida
+          "yes": Fronteira
         bridge:
           aqueduct: Acueduto
           boardwalk: Pasarela
@@ -614,43 +659,94 @@ gl:
           viaduct: Viaduto
           "yes": Ponte
         building:
-          apartments: Bloque de apartamentos
+          apartment: Apartamento
+          apartments: Apartamentos
+          barn: Cabazo
+          bungalow: Bungaló
+          cabin: Cabana
           chapel: Capela
-          church: Igrexa
+          church: Edificio de igrexa
+          civic: Edificio cívico
+          college: Edificio de educación superior
           commercial: Edificio comercial
+          construction: Edificio en construción
+          detached: Casa independente
           dormitory: Residencia universitaria
-          farm: Granxa
+          duplex: Casa dúplex
+          farm: Casa de granxa
+          farm_auxiliary: Casa auxiliar de granxa
           garage: Garaxe
+          garages: Garaxes
+          greenhouse: Invernadoiro
+          hangar: Hangar
           hospital: Edificio hospitalario
-          hotel: Hotel
+          hotel: Edificio hoteleiro
           house: Casa
+          houseboat: Casa flotante
+          hut: Cabana
           industrial: Edificio industrial
+          kindergarten: Edificio de escola infantil
+          manufacture: Edificio de manufactura
           office: Edificio de oficinas
           public: Edificio público
           residential: Edificio residencial
           retail: Edificio comercial
+          roof: Tellado
+          ruins: Edificio en ruínas
           school: Edificio escolar
-          terrace: Terraza
-          train_station: Estación de ferrocarril
+          semidetached_house: Casa adosada
+          service: Edificio de servizo
+          shed: Cabana
+          stable: Corte
+          static_caravan: Caravana
+          temple: Edificio de templo
+          terrace: Edificio de terraza
+          train_station: Edificio de estación de trens
           university: Complexo universitario
+          warehouse: Almacén
           "yes": Edificio
+        club:
+          scout: Base do grupo de exploradores
+          sport: Clube deportivo
+          "yes": Clube
         craft:
+          beekeper: Apicultor
+          blacksmith: Ferreiro
           brewery: Fábrica de cervexa
           carpenter: Carpinteiro
+          caterer: Cátering
+          confectionery: Confeitaría
+          dressmaker: Costureiro
           electrician: Electricista
+          electronics_repair: Arranxo de eletrónica
           gardener: Xardineiro
+          glaziery: Cristalaría
+          handicraft: Artesán
+          hvac: Técnico de climatización
+          metal_construction: Construtor de estruturas metálicas
           painter: Pintor
           photographer: Fotógrafo
           plumber: Fontaneiro
+          roofer: Construtor de tellados
+          sawmill: Serraría
           shoemaker: Zapateiro
+          stonemason: Pedreiro
           tailor: Xastre
+          window_construction: Construtor de xanelas
+          winery: Adega
           "yes": Tenda de artesanía
         emergency:
+          access_point: Punto de acceso
           ambulance_station: Base de ambulancias
           assembly_point: Punto de reagrupamento
           defibrillator: Desfibrilador
+          fire_xtinguisher: Extintor de lume
+          fire_water_pond: Reserva de auga para incendios
           landing_site: Lugar de aterraxe de emerxencia
+          life_ring: Boia salvavidas
           phone: Teléfono de emerxencia
+          siren: Sirena de emerxencia
+          suction_point: Punto de succión de auga para emerxencias
           water_tank: Tanque de auga de emerxencia
           "yes": Emerxencia
         highway:
@@ -663,6 +759,7 @@ gl:
           cycleway: Senda ciclista
           elevator: Ascensor
           emergency_access_point: Punto de acceso de emerxencia
+          emergency_bay: Rampla de emerxencia
           footway: Senda peonil
           ford: Vao
           give_way: Sinal de ceda o paso
@@ -693,35 +790,45 @@ gl:
           tertiary: Estrada terciaria
           tertiary_link: Estrada terciaria
           track: Pista ou camiño rural
+          traffic_mirror: Espello de tráfico
           traffic_signals: Sinais de tráfico
+          trailhead: Marco de camiño
           trunk: Estrada principal
           trunk_link: Estrada principal
           turning_loop: Círculo de xiro
           unclassified: Estrada sen clasificar
           "yes": Estrada
         historic:
+          aircraft: Aeronave histórica
           archaeological_site: Xacemento arqueolóxico
+          bomb_crater: Cráter antigo de bomba
           battlefield: Campo de batalla
           boundary_stone: Marco
           building: Edificio histórico
           bunker: Búnker
+          cannon: Canón antigo
           castle: Castelo
+          charcoal_pile: Forno de carbón antigo
           church: Igrexa
           city_gate: Porta da cidade
           citywalls: Muralla
           fort: Forte
           heritage: Patrimonio da humanidade
+          hollow_way: Camiño oco
           house: Casa
           manor: Casa señorial
           memorial: Memorial
+          milestone: Marco histórico
           mine: Mina
           mine_shaft: Pozo mineiro
           monument: Monumento
+          railway: Vía férrea histórica
           roman_road: Estrada romana
           ruins: Ruínas
           stone: Pedra
           tomb: Sepulcro
           tower: Torre
+          wayside_chapel: Capela do camiño
           wayside_cross: Cruceiro
           wayside_shrine: Peto de ánimas
           wreck: Pecio
@@ -730,6 +837,7 @@ gl:
           "yes": Intersección
         landuse:
           allotments: Hortas
+          aquaculture: Acuicultura
           basin: Cunca
           brownfield: Terreo baldío
           cemetery: Cemiterio
@@ -749,9 +857,11 @@ gl:
           military: Zona militar
           mine: Mina
           orchard: Horta
+          plant_nursery: Viveiro de plantas
           quarry: Canteira
           railway: Ferrocarril
           recreation_ground: Área recreativa
+          religious: Terreo relixioso
           reservoir: Encoro
           reservoir_watershed: Conca do encoro
           residential: Zona residencial
@@ -760,9 +870,15 @@ gl:
           vineyard: Viñedo
           "yes": Uso da terra
         leisure:
+          adult_gaming_centre: Centro de xogos para adultos
+          amusement_arcade: Sala de máquinas de xogos
+          bandstand: Palco da música
           beach_resort: Balneario
           bird_hide: Observatorio de aves
+          bleachers: Chanzos
+          bowling_alley: Pista de birlos
           common: Terreo comunal
+          dance: Salón de baile
           dog_park: Parque canino
           firepit: Fogueira
           fishing: Área de pesca
@@ -775,7 +891,9 @@ gl:
           marina: Porto deportivo
           miniature_golf: Minigolf
           nature_reserve: Reserva natural
+          outdoor_seating: Terraza exterior
           park: Parque
+          picnic_table: Mesa de pícnic
           pitch: Cancha deportiva
           playground: Patio de recreo
           recreation_ground: Área recreativa
@@ -790,13 +908,21 @@ gl:
           "yes": Ocio
         man_made:
           adit: Galería de acceso
+          advertising: Publicidade
+          antenna: Antena
+          avalanche_protection: Protección de alude
           beacon: Baliza
+          beam: Trabe
           beehive: Colmea
           breakwater: Crebaondas
           bridge: Ponte
           bunker_silo: Búnker
+          cairn: Mollón
           chimney: Cheminea
+          clearcut: Liña de bosque tallada
+          communications_tower: Torre de comunicacións
           crane: Guindastre
+          cross: Cruz
           dolphin: Poste de amarradura
           dyke: Dique
           embankment: Terraplén
@@ -805,6 +931,7 @@ gl:
           groyne: Dique
           kiln: Forno
           lighthouse: Faro
+          manhole: Tapa de saneamento
           mast: Mastro
           mine: Mina
           mineshaft: Pozo mineiro
@@ -812,12 +939,20 @@ gl:
           petroleum_well: Pozo petrolífero
           pier: Peirao
           pipeline: Tubaxe
+          pumping_station: Estación de bombeo
+          reservoir_covered: Encoro cuberto
           silo: Silo
+          snow_cannon: Canón de neve
+          snow_fence: Valo de neve
           storage_tank: Tanque de almacenaxe
+          street_cabinet: Cabina de rúa
           surveillance: Vixilancia
+          telescope: Telescopio
           tower: Torre
+          utility_pole: Piar de soporte
           wastewater_plant: Planta de tratamento de augas
           watermill: Muíño hidráulico
+          water_tap: Billa de auga
           water_tower: Torre de auga
           water_well: Pozo
           water_works: Planta de tratamento de augas
@@ -828,10 +963,13 @@ gl:
           airfield: Aeródromo militar
           barracks: Barracas
           bunker: Búnker
+          checkpoint: Punto de control
+          trench: Trincheira
           "yes": Militar
         mountain_pass:
           "yes": Porto de montaña
         natural:
+          bare_rock: Rocha núa
           bay: Badía
           beach: Praia
           cape: Cabo
@@ -847,6 +985,7 @@ gl:
           grassland: Pradaría
           heath: Breixeira
           hill: Outeiro
+          hot_spring: Manancial quente
           island: Illa
           land: Terra
           marsh: Marisma
@@ -870,20 +1009,31 @@ gl:
           water: Auga
           wetland: Pantano
           wood: Bosque
+          "yes": Elemento natural
         office:
           accountant: Contable
           administrative: Administración
+          advertising_agency: Axencia de publicidade
           architect: Arquitecto
           association: Asociación
           company: Empresa
+          diplomatic: Oficina diplomática
           educational_institution: Institución educativa
           employment_agency: Axencia de emprego
+          energy_supplier: Oficina de fornecedor de enerxía
           estate_agent: Axencia inmobiliaria
+          financial: Oficina financeira
           government: Oficina gobernamental
           insurance: Oficina de seguros
           it: Oficina informática
           lawyer: Avogado
+          logistics: Oficina de loxística
+          newspaper: Oficina de xornal
           ngo: Oficina dunha ONG
+          notary: Notaría
+          religion: Oficina relixiosa
+          research: Oficina de investigación
+          tax_advisor: Consultor fiscal
           telecommunication: Oficina de telecomunicacións
           travel_agent: Axencia de viaxes
           "yes": Oficina
@@ -903,6 +1053,7 @@ gl:
           locality: Lugar
           municipality: Municipio
           neighbourhood: Veciñanza ou subarrio
+          plot: Parcela de terreo
           postcode: Código postal
           quarter: Trimestre
           region: Rexión
@@ -939,11 +1090,17 @@ gl:
           tram_stop: Paraxe de tranvías
           yard: Estación de clasificación
         shop:
+          agrarian: Tenda agrícola
           alcohol: Tenda de licores
           antiques: Tenda de antigüidades
+          appliance: Tenda de electrodomésticos
           art: Tenda de arte
+          baby_goods: Artigos para bebés
+          bag: Tenda de valixas
           bakery: Panadaría
+          bathroom_furnishing: Mobiliario para o baño
           beauty: Tenda de produtos de beleza
+          bed: Artigos para a cama
           beverages: Tenda de bebidas
           bicycle: Tenda de bicicletas
           bookmaker: Casa de apostas
@@ -955,61 +1112,90 @@ gl:
           car_repair: Taller mecánico
           carpet: Tenda de alfombras
           charity: Tenda benéfica
+          cheese: Tenda de queixos
           chemist: Farmacia
+          chocolate: Tenda de chocolates
           clothes: Tenda de roupa
+          coffee: Tenda de café
           computer: Tenda informática
           confectionery: Tenda de larpeiradas
           convenience: Tenda de ultramarinos
           copyshop: Copistaría
           cosmetics: Tenda de cosméticos
+          craft: Tenda de dubministracións de artesanía
+          curtain: Tenda de cortiñas
+          dairy: Tenda de produtos frescos
           deli: Tenda de delicias
           department_store: Grandes almacéns
           discount: Tenda de descontos
           doityourself: Tenda de bricolaxe
           dry_cleaning: Limpeza en seco
+          e-cigarette: Tenda de cigarros electrónicos
           electronics: Tenda de electrónica
+          erotic: Tenda erótica
           estate_agent: Axencia inmobiliaria
+          fabric: Tenda de tecidos
           farm: Tenda de produtos agrícolas
           fashion: Tenda de moda
+          fishing: Tenda de subministracións de pesca
           florist: Floraría
           food: Tenda de alimentación
+          frame: Tenda de marcos
           funeral_directors: Tanatorio
           furniture: Mobiliario
           garden_centre: Centro de xardinaría
+          gas: Venda de combustíbeis
           general: Tenda de ultramarinos
           gift: Tenda de agasallos
           greengrocer: Froitaría
           grocery: Tenda de alimentación
           hairdresser: Perrucaría
           hardware: Ferraxaría
+          health_food: Tenda de comida saudábel
+          hearing_aids: Tenda de audífonos
+          herbalist: Herboristaría
           hifi: Hi-Fi
           houseware: Tenda de artigos para o lar
+          ice_cream: Xeadaría
           interior_decoration: Decoración de interiores
           jewelry: Xoiaría
           kiosk: Quiosco
           kitchen: Tenda de cociñas
           laundry: Lavandaría
+          locksmith: Cerralleiro
           lottery: Lotaría
           mall: Centro comercial
           massage: Masaxe
+          medical_supply: Tenda de subministracións médicas
           mobile_phone: Tenda de telefonía móbil
+          money_lender: Prestamista de diñeiro
           motorcycle: Tenda de motocicletas
+          motorcycle_repair: Tenda de arranxo de motocicletas
           music: Tenda de música
+          musical_instrument: Tenda de instrumentos musicais
           newsagent: Quiosco
+          nutrition_supplements: Tenda de suplementos de nutrición
           optician: Oftalmólogo
           organic: Tenda de alimentos orgánicos
           outdoor: Tenda de deportes ao aire libre
           paint: Tenda de pintura
+          pastry: Pastelaría
           pawnbroker: Prestamista
+          perfumery: Perfumaría
           pet: Tenda de mascotas
+          pet_grooming: Lavado de mascotas
           photo: Tenda de fotografía
           seafood: Marisco
           second_hand: Tenda de segunda man
+          sewing: Tenda de costura
           shoes: Zapataría
           sports: Tenda de deportes
           stationery: Papelaría
+          storage_rental: Alugueiro de almacéns
           supermarket: Supermercado
           tailor: Xastraría
+          tattoo: Tenda de tatuaxes
+          tea: Tenda de tés
           ticket: Portelo
           tobacco: Estanco
           toys: Xoguetaría
@@ -1018,6 +1204,8 @@ gl:
           vacant: Tenda vacante
           variety_store: Tenda de variedades
           video: Tenda de vídeos
+          video_games: Tenda de videoxogos
+          wholesale: Tenda ó por maior
           wine: Tenda de viño
           "yes": Tenda
         tourism:
@@ -1027,6 +1215,7 @@ gl:
           attraction: Atracción
           bed_and_breakfast: Cama e almorzo
           cabin: Cabana
+          camp_pitch: Campo de acampada
           camp_site: Campamento
           caravan_site: Lugar de caravanas
           chalet: Chalé
@@ -1040,6 +1229,7 @@ gl:
           picnic_site: Lugar de pícnic
           theme_park: Parque temático
           viewpoint: Miradoiro
+          wilderness_hut: Cabana do deserto
           zoo: Zoolóxico
         tunnel:
           building_passage: Pasaxe do edificio
@@ -1947,6 +2137,7 @@ gl:
       uploaded: 'Subido o:'
       points: 'Puntos:'
       start_coordinates: 'Coordenada do inicio:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: mapa
       edit: editar
       owner: 'Dono:'

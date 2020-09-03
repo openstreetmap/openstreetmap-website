@@ -31,6 +31,7 @@
 # Author: Patriccck
 # Author: Paxt
 # Author: Reaperman
+# Author: Robins7
 # Author: Spotter
 # Author: StenSoft
 # Author: Tchoř
@@ -47,6 +48,8 @@ cs:
       friendly: '%e. %m. %Y v %H:%M'
       blog: '%e. %L. %Y'
   helpers:
+    file:
+      prompt: Vyberte soubor
     submit:
       diary_comment:
         create: Uložit
@@ -59,7 +62,7 @@ cs:
         create: Odeslat
       client_application:
         create: Zaregistrovat
-        update: Upravit
+        update: Aktualizovat
       redaction:
         create: Vytvořit redakci
         update: Uložit redakci
@@ -72,7 +75,7 @@ cs:
   activerecord:
     errors:
       messages:
-        invalid_email_address: nevypadá jako platná emailová adresa
+        invalid_email_address: nevypadá jako platná e-mailová adresa
         email_address_not_routable: není routovatelná
     models:
       acl: Seznam přístupových práv
@@ -112,8 +115,17 @@ cs:
       way_tag: Tag cesty
     attributes:
       client_application:
+        name: Jméno (vyžadováno)
+        url: URL hlavní aplikace (vyžadováno)
         callback_url: URL pro zpětné volání
         support_url: URL s podporou
+        allow_read_prefs: číst jejich uživatelské nastavení
+        allow_write_prefs: měnit jejich uživatelské nastavení
+        allow_write_diary: vytvářet deníkové záznamy, komentovat a navazovat přátelství
+        allow_write_api: upravovat mapu
+        allow_read_gpx: číst jejich soukromé GPS stopy
+        allow_write_gpx: nahrávat GPS stopy
+        allow_write_notes: měnit poznámky
       diary_comment:
         body: Text
       diary_entry:
@@ -128,21 +140,22 @@ cs:
       trace:
         user: Uživatel
         visible: Viditelný
-        name: Název
+        name: Název souboru
         size: Velikost
         latitude: Šířka
         longitude: Délka
         public: Veřejná
         description: Popis
-        gpx_file: 'Nahrát GPX soubor:'
-        visibility: 'Viditelnost:'
-        tagstring: 'Štítky:'
+        gpx_file: Nahrát GPX soubor
+        visibility: Viditelnost
+        tagstring: Značky
       message:
         sender: Odesílatel
         title: Předmět
         body: Text
         recipient: Příjemce
       report:
+        category: Uveďte důvod Vašeho hlášení
         details: Poskytněte prosím bližší informace k problému (nutné).
       user:
         email: E-mail
@@ -222,9 +235,9 @@ cs:
         opened_at_html: Vytvořeno %{when}
         opened_at_by_html: Vytvořeno %{when} uživatelem %{user}
         commented_at_html: Aktualizováno %{when}
-        commented_at_by_html: Aktualizováno %{when} od %{user}
+        commented_at_by_html: Aktualizováno %{when} uživatelem %{user}
         closed_at_html: Vyřešeno %{when}
-        closed_at_by_html: Vyřešeno %{when} od %{user}
+        closed_at_by_html: Vyřešeno %{when} uživatelem %{user}
         reopened_at_html: Reaktivováno %{when}
         reopened_at_by_html: Reaktivováno %{when} od %{user}
       rss:
@@ -244,10 +257,10 @@ cs:
     closed: Uzavřeno
     created_html: Vytvořeno <abbr title='%{title}'>%{time}</abbr>
     closed_html: Uzavřeno <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Vytvořeno <abbr title='%{title}'>%{time}</abbr> od %{user}
-    deleted_by_html: Smazáno <abbr title='%{title}'>%{time}</abbr> od %{user}
-    edited_by_html: Upraveno <abbr title='%{title}'>%{time}</abbr> od %{user}
-    closed_by_html: Uzavřeno <abbr title='%{title}'>%{time}</abbr> od %{user}
+    created_by_html: Vytvořeno <abbr title='%{title}'>%{time}</abbr> uživatelem %{user}
+    deleted_by_html: Smazáno <abbr title='%{title}'>%{time}</abbr> uživatelem %{user}
+    edited_by_html: Upraveno <abbr title='%{title}'>%{time}</abbr> uživatelem %{user}
+    closed_by_html: Uzavřeno <abbr title='%{title}'>%{time}</abbr> uživatelem %{user}
     version: Verze
     in_changeset: Sada změn
     anonymous: anonym
@@ -257,6 +270,8 @@ cs:
     view_history: Zobrazit historii
     view_details: Zobrazit detaily
     location: 'Pozice:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Sada změn: %{id}'
       belongs_to: Autor
@@ -360,6 +375,7 @@ cs:
         anonym
       hidden_by: Skryl <abbr title='%{exact_time}'>%{when}</abbr> uživatel %{user}
       report: Nahlásit tuto poznámku
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Průzkum prvků
       introduction: Pro nalezení okolních prvků klikněte na mapu.
@@ -397,7 +413,7 @@ cs:
   changeset_comments:
     comment:
       comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
-      commented_at_by_html: Aktualizováno %{when} od %{user}
+      commented_at_by_html: Aktualizováno %{when} uživatelem %{user}
     comments:
       comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
     index:
@@ -447,7 +463,7 @@ cs:
     diary_entry:
       posted_by_html: Zapsal %{link_user} %{created} v jazyce %{language_link}
       comment_link: Okomentovat tento zápis
-      reply_link: Odpovědět na tento zápis
+      reply_link: Pošlete zprávu autorovi
       comment_count:
         few: '%{count} komentáře'
         one: 1 komentář
@@ -455,19 +471,20 @@ cs:
         other: '%{count} komentářů'
       edit_link: Upravit tento záznam
       hide_link: Skrýt tento záznam
-      unhide_link: Odkrýt tento záznam
+      unhide_link: Zviditelnit tento záznam
       confirm: Potvrdit
       report: Nahlásit tento záznam
     diary_comment:
       comment_from_html: Komentář od %{link_user} z %{comment_created_at}
       hide_link: Skrýt tento komentář
-      unhide_link: Odkrýt tento komentář
+      unhide_link: Zviditelnit tento komentář
       confirm: Potvrdit
       report: Nahlásit tento komentář
     location:
       location: 'Místo:'
       view: Zobrazit
       edit: Upravit
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Záznamy v OpenStreetMap deníku uživatele %{user}
@@ -527,11 +544,15 @@ cs:
           hangar: Hangár
           helipad: Heliport
           holding_position: Vyčkávací místo
+          navigationaid: Letecké navigační příslušenství
           parking_position: Parkovací stání
           runway: Dráha
+          taxilane: Dopravní pruh pro taxi
           taxiway: Pojezdová dráha
           terminal: Terminál
+          windsock: Větrný rukáv
         amenity:
+          animal_boarding: Nakládání zvířat
           animal_shelter: Zvířecí útulek
           arts_centre: Kulturní centrum
           atm: Bankomat
@@ -541,7 +562,9 @@ cs:
           bench: Lavička
           bicycle_parking: Parkoviště pro kola
           bicycle_rental: Půjčovna kol
+          bicycle_repair_station: Stanice na opravu jízdních kol
           biergarten: Zahradní hospoda
+          blood_bank: Krevní banka
           boat_rental: Půjčovna lodí
           brothel: Nevěstinec
           bureau_de_change: Směnárna
@@ -558,6 +581,7 @@ cs:
           clock: Hodiny
           college: Univerzita
           community_centre: Komunitní centrum
+          conference_centre: Konferenční centrum
           courthouse: Soud
           crematorium: Krematorium
           dentist: Zubař
@@ -565,6 +589,7 @@ cs:
           drinking_water: Pitná voda
           driving_school: Autoškola
           embassy: Velvyslanectví
+          events_venue: Místo konání událostí
           fast_food: Rychlé občerstvení
           ferry_terminal: Přístaviště přívozu
           fire_station: Hasičská stanice
@@ -577,16 +602,24 @@ cs:
           hospital: Nemocnice
           hunting_stand: Posed
           ice_cream: Zmrzlina
+          internet_cafe: Internetová kavárna
           kindergarten: Mateřská škola
+          language_school: Jazyková škola
           library: Knihovna
+          loading_dock: Nakládaci dok
+          love_hotel: Hotel pro zamilované
           marketplace: Tržnice
+          mobile_money_agent: Mobilní peněžní agent
           monastery: Klášter
+          money_transfer: Převod peněz
           motorcycle_parking: Parkoviště pro motocykly
+          music_school: Hudební škola
           nightclub: Noční klub
           nursing_home: Pečovatelský dům
           parking: Parkoviště
           parking_entrance: Vjezd na parkoviště
           parking_space: Parkoviště
+          payment_terminal: Platební terminál
           pharmacy: Lékárna
           place_of_worship: Náboženský objekt
           police: Policie
@@ -594,7 +627,10 @@ cs:
           post_office: Pošta
           prison: Věznice
           pub: Hospoda
+          public_bath: Veřejné lázně
+          public_bookcase: Veřejná knihovnička
           public_building: Veřejná budova
+          ranger_station: Stanice poštovního kurýra
           recycling: Tříděný odpad
           restaurant: Restaurace
           school: Škola
@@ -609,18 +645,27 @@ cs:
           theatre: Divadlo
           toilets: WC
           townhall: Radnice
+          training: Školicí zařízení
           university: Univerzita
+          vehicle_inspection: Stanice technické kontroly
           vending_machine: Prodejní automat
           veterinary: Veterinární ordinace
           village_hall: Společenský sál
           waste_basket: Odpadkový koš
           waste_disposal: Popelnice
+          waste_dump_site: Skládka odpadků
+          watering_place: Lázně
           water_point: Vodní zdroj
+          weighbridge: Vážící most
+          "yes": Vybavení
         boundary:
+          aboriginal_lands: Půda domorodců
           administrative: Administrativní hranice
           census: Hranice pro potřeby sčítání
           national_park: Národní park
+          political: Volební hranice
           protected_area: Chráněné území
+          "yes": Hranice
         bridge:
           aqueduct: Akvadukt
           boardwalk: Dřevěný chodník
@@ -629,43 +674,93 @@ cs:
           viaduct: Viadukt
           "yes": Most
         building:
-          apartments: Bytový dům
+          apartment: Apartmán
+          apartments: Apartmány
+          barn: Stodola
+          bungalow: Bungalov
+          cabin: Chatka
           chapel: Kaple
           church: Kostel
+          civic: Budova občanské vybavenosti
+          college: Budova školy
           commercial: Komerční budova
+          construction: Budova ve výstavbě
+          detached: Rodinný dům
           dormitory: Kolej
+          duplex: Dvojdomek
           farm: Hospodářská budova
+          farm_auxiliary: Pomocná hospodářská budova
           garage: Garáž
+          garages: Garáže
+          greenhouse: Skleník
+          hangar: Hangár
           hospital: Nemocniční budova
           hotel: Hotel
           house: Dům
+          houseboat: Hausbot
+          hut: Chata
           industrial: Průmyslová budova
+          kindergarten: Budova mateřské školy
+          manufacture: Výrobní budova
           office: Kancelářská budova
           public: Veřejná budova
           residential: Obytná budova
           retail: Maloobchodní budova
+          roof: Střecha
+          ruins: Zničená budova
           school: Školní budova
-          terrace: Řadová zástavba
+          semidetached_house: Částečně oddělený dům
+          service: Servisní budova
+          shed: Kůlna
+          stable: Stáj
+          static_caravan: Karavan
+          temple: Budova chrámu
+          terrace: Terasovitá budova
           train_station: Železniční stanice
           university: Univerzitní budova
+          warehouse: Sklad
           "yes": Budova
+        club:
+          scout: Základna Skautů
+          sport: Sportovní klub
+          "yes": Klub
         craft:
+          beekeper: Včelař
+          blacksmith: Kovář
           brewery: Pivovar
           carpenter: Tesařství
+          caterer: Kuchař
+          confectionery: Cukrovinky
+          dressmaker: Švadlena
           electrician: Elektrikář
+          electronics_repair: Opravy elektroniky
           gardener: Zahradník
+          glaziery: Sklenářství
+          handicraft: Řemeslo
+          metal_construction: Montér kovových konstrukcí
           painter: Malíř
           photographer: Fotograf
           plumber: Instalatérství
+          roofer: Pokrývač
+          sawmill: Pila
           shoemaker: Ševcovství
+          stonemason: Kameník
           tailor: Krejčovství
+          window_construction: Konstrukce oken
+          winery: Vinařství
           "yes": Řemeslná dílna
         emergency:
+          access_point: Přístupový bod
           ambulance_station: Stanoviště záchranné služby
           assembly_point: Shromažďovací místo
           defibrillator: Defibrilátor
+          fire_xtinguisher: Hasicí přístroj
+          fire_water_pond: Požární nádrž
           landing_site: Přistávací plocha záchranky
+          life_ring: Záchranný kruh
           phone: Nouzový telefon
+          siren: Nouzová siréna
+          suction_point: Nouzové sací místo
           water_tank: Nouzová vodní nádrž
           "yes": Nouze
         highway:
@@ -678,6 +773,7 @@ cs:
           cycleway: Cyklostezka
           elevator: Výtah
           emergency_access_point: Nouzový lokalizační bod
+          emergency_bay: Nouzová zátoka
           footway: Chodník
           ford: Brod
           give_way: Značka „Dej přednost v jízdě!“
@@ -708,6 +804,7 @@ cs:
           tertiary: Silnice třetí třídy
           tertiary_link: Silnice třetí třídy
           track: Cesta
+          traffic_mirror: Dopravní zrcadlo
           traffic_signals: Světelná signalizace
           trunk: Významná silnice
           trunk_link: Významná silnice
@@ -715,12 +812,16 @@ cs:
           unclassified: Silnice
           "yes": Cesta
         historic:
+          aircraft: Historické letadlo
           archaeological_site: Archeologické naleziště
+          bomb_crater: Historický kráter od bomby
           battlefield: Bojiště
           boundary_stone: Hraniční kámen
           building: Historická budova
           bunker: Bunkr
+          cannon: Historické dělo
           castle: Hrad
+          charcoal_pile: Historický milíř
           church: Kostel
           city_gate: Městská brána
           citywalls: Městské hradby
@@ -729,14 +830,17 @@ cs:
           house: Dům
           manor: Panství
           memorial: Památník
+          milestone: Historický milník
           mine: Důl
           mine_shaft: Důlní šachta
           monument: Pomník
+          railway: Historická železnice
           roman_road: Římská cesta
           ruins: Zřícenina
           stone: Kámen
           tomb: Náhrobek
           tower: Věž
+          wayside_chapel: Kaplička u cesty
           wayside_cross: Boží muka
           wayside_shrine: Boží muka
           wreck: Vrak
@@ -745,6 +849,7 @@ cs:
           "yes": Křižovatka
         landuse:
           allotments: Zahrádkářská kolonie
+          aquaculture: Akvakultura
           basin: Vodní nádrž
           brownfield: Brownfield
           cemetery: Hřbitov
@@ -764,9 +869,11 @@ cs:
           military: Vojenský prostor
           mine: Důl
           orchard: Ovocný sad
+          plant_nursery: Lesní školka
           quarry: Lom
           railway: Železnice
           recreation_ground: Rekreační oblast
+          religious: Posvátná půda
           reservoir: Zásobník na vodu
           reservoir_watershed: Povodí nádrže
           residential: Rezidenční oblast
@@ -775,9 +882,15 @@ cs:
           vineyard: Vinice
           "yes": Využití krajiny
         leisure:
+          adult_gaming_centre: Herní centrum pro dospělé
+          amusement_arcade: Hrací automat
+          bandstand: hudební podium
           beach_resort: Pláž
           bird_hide: Ptačí pozorovatelna
+          bleachers: Bělidlo
+          bowling_alley: Bowlingová dráha
           common: Obecní půda
+          dance: Tančírna
           dog_park: Park pro psy
           firepit: Ohniště
           fishing: Rybářská oblast
@@ -790,7 +903,9 @@ cs:
           marina: Přístav
           miniature_golf: Minigolf
           nature_reserve: Přírodní rezervace
+          outdoor_seating: Venkovní posezení
           park: Park
+          picnic_table: Piknikový stůl
           pitch: Hřiště
           playground: Dětské hřiště
           recreation_ground: Rekreační oblast
@@ -805,13 +920,20 @@ cs:
           "yes": Volný čas
         man_made:
           adit: Štola
+          advertising: Reklamní plocha
+          antenna: Anténa
+          avalanche_protection: Ochrana před lavinami
           beacon: Maják
           beehive: Včelí úl
           breakwater: Vlnolam
           bridge: Most
           bunker_silo: Bunkr
+          cairn: Mohyla
           chimney: Komín
+          clearcut: Holoseč
+          communications_tower: Komunikační věž
           crane: Jeřáb
+          cross: Kříž
           dolphin: Kotvicí bod
           dyke: Hráz
           embankment: Násep
@@ -820,6 +942,7 @@ cs:
           groyne: Vlnolam
           kiln: Pec
           lighthouse: Maják
+          manhole: Průlez
           mast: Stožár
           mine: Důl
           mineshaft: Důlní šachta
@@ -827,12 +950,20 @@ cs:
           petroleum_well: Ropný vrt
           pier: Molo
           pipeline: Potrubí
+          pumping_station: Benzínka
+          reservoir_covered: Krytá nádrž
           silo: Silo
+          snow_cannon: Sněhové dělo
+          snow_fence: Sněhový plot
           storage_tank: Skladovací nádrž
+          street_cabinet: Pouliční skříňka
           surveillance: Dohled
+          telescope: Teleskop
           tower: Věž
+          utility_pole: Telefonní sloup
           wastewater_plant: Čistírna odpadních vod
           watermill: Vodní mlýn
+          water_tap: Vodovodní kohoutek
           water_tower: Vodojem
           water_well: Studna
           water_works: Vodárna
@@ -843,10 +974,13 @@ cs:
           airfield: Vojenské letiště
           barracks: Kasárna
           bunker: Bunkr
+          checkpoint: Kontrolní bod
+          trench: Příkop
           "yes": Armáda
         mountain_pass:
           "yes": Průsmyk
         natural:
+          bare_rock: Holá skála
           bay: Záliv
           beach: Pláž
           cape: Mys
@@ -862,6 +996,7 @@ cs:
           grassland: Pastviny
           heath: Vřesoviště
           hill: Kopec
+          hot_spring: Horké prameny
           island: Ostrov
           land: Země
           marsh: Mokřina
@@ -885,20 +1020,31 @@ cs:
           water: Vodní plocha
           wetland: Mokřad
           wood: Neudržovaný les
+          "yes": Přírodní prvek
         office:
           accountant: Účetní
           administrative: Správa
+          advertising_agency: Reklamní agentura
           architect: Architekt
           association: Asociace
           company: Firma
+          diplomatic: Kancelář diplomata
           educational_institution: Vzdělávací instituce
           employment_agency: Pracovní agentura
+          energy_supplier: Dodavatel energií
           estate_agent: Realitní kancelář
+          financial: Finanční úřad
           government: Vládní úřad
           insurance: Pojišťovna
           it: Počítačová kancelář
           lawyer: Právní kancelář
+          logistics: Kancelář přepravce
+          newspaper: Redakce novin
           ngo: Úřad nevládní organizace
+          notary: Notář
+          religion: Kancelář náboženské organizace
+          research: Výzkumná kancelář
+          tax_advisor: Daňový poradce
           telecommunication: Telekomunikační firma
           travel_agent: Cestovní kancelář
           "yes": Kancelář
@@ -918,6 +1064,7 @@ cs:
           locality: Oblast
           municipality: Obecní úřad
           neighbourhood: Čtvrť
+          plot: Pozemek
           postcode: PSČ
           quarter: Čtvrt
           region: Region
@@ -939,7 +1086,7 @@ cs:
           level_crossing: Železniční přejezd
           light_rail: Rychlodráha
           miniature: Zahradní železnice
-          monorail: Monorail
+          monorail: Jednokolejka
           narrow_gauge: Úzkorozchodná dráha
           platform: Železniční nástupiště
           preserved: Historická železnice
@@ -954,11 +1101,17 @@ cs:
           tram_stop: Tramvajová zastávka
           yard: Přednádraží
         shop:
+          agrarian: Obchod se zemědělskými stroji
           alcohol: Prodej alkoholu
           antiques: Starožitnosti
+          appliance: Obchod se spotřebiči
           art: Prodej umění
+          baby_goods: Dětské zboží
+          bag: Obchod s taškami
           bakery: Pekařství
+          bathroom_furnishing: Koupelnové vybavení
           beauty: Salón krásy
+          bed: Ložní výrobky
           beverages: Prodej nápojů
           bicycle: Cykloobchod
           bookmaker: Sázková kancelář
@@ -970,61 +1123,90 @@ cs:
           car_repair: Autoservis
           carpet: Obchod s koberci
           charity: Charitativní obchod
+          cheese: Obchod se sýry
           chemist: Drogerie
+          chocolate: Prodejna čokolády
           clothes: Prodej oděvů
+          coffee: Prodejna kávy
           computer: Prodej počítačů
           confectionery: Cukrárna
           convenience: Smíšené zboží
           copyshop: Copycentrum
           cosmetics: Parfumerie
+          craft: Obchod s řemeslnými nástroji
+          curtain: Obchod se závěsy
+          dairy: Mlékárna
           deli: Lahůdkářství
           department_store: Obchodní dům
           discount: Diskontní prodejna
           doityourself: Obchod pro kutily
           dry_cleaning: Chemická čistírna
+          e-cigarette: Prodejna e-cigaret
           electronics: Prodej elektroniky
+          erotic: Erotický obchod
           estate_agent: Realitní kancelář
+          fabric: Obchod s látkami
           farm: Prodej zemědělských výrobků
           fashion: Módní salón
+          fishing: Obchod s rybářskými potřebami
           florist: Květinářství
           food: Potraviny
+          frame: Obchod s rámy
           funeral_directors: Pohřební služba
           furniture: Prodej nábytku
           garden_centre: Zahradnictví
+          gas: Prodej plynových nádob
           general: Smíšené zboží
           gift: Suvenýry
           greengrocer: Ovoce–zelenina
           grocery: Potraviny
           hairdresser: Kadeřnictví
           hardware: Železářství
+          health_food: Obchod se zdravou výživou
+          hearing_aids: Naslouchací přístroje
+          herbalist: Bylinkář
           hifi: Hi-Fi technika
           houseware: Domácí potřeby
+          ice_cream: Zmrzlinový obchod
           interior_decoration: Vnitřní dekorace
           jewelry: Klenotnictví
           kiosk: Kiosek
           kitchen: Kuchyňský obchod
           laundry: Prádelna
+          locksmith: Zámečník
           lottery: Loterie
           mall: Nákupní centrum
           massage: Masáž
+          medical_supply: Obchod se zdravotnickými potřebami
           mobile_phone: Prodej mobilních telefonů
+          money_lender: Peněžní půjčky
           motorcycle: Prodej motocyklů
+          motorcycle_repair: Opravna motocyklů
           music: Prodej hudby
+          musical_instrument: Hudební nástroje
           newsagent: Novinový stánek
+          nutrition_supplements: Výživové doplňky
           optician: Oční optika
           organic: Prodej biopotravin
           outdoor: Outdoorový obchod
           paint: Obchod s barvami
+          pastry: Cukrárna
           pawnbroker: Zastavárník
+          perfumery: Parfumerie
           pet: Prodejna pro chovatele
+          pet_grooming: Psí salon
           photo: Prodejna foto
           seafood: Mořské plody
           second_hand: Bazar
+          sewing: Obchod se šicími potřebami
           shoes: Obuvnictví
           sports: Prodejna pro sportovce
           stationery: Papírnictví
+          storage_rental: Pronájem skladovacích prostor
           supermarket: Supermarket
           tailor: Krejčí
+          tattoo: Tetovací salon
+          tea: Prodej čaje
           ticket: Obchod s lístky
           tobacco: Trafika
           toys: Hračkářství
@@ -1033,6 +1215,8 @@ cs:
           vacant: Volný obchod
           variety_store: Levné zboží
           video: Videopůjčovna, prodej DVD
+          video_games: Prodejna počítačových her
+          wholesale: Velkoobchod
           wine: Vinárna
           "yes": Obchod
         tourism:
@@ -1042,6 +1226,7 @@ cs:
           attraction: Turistická atrakce
           bed_and_breakfast: Ubytování Bed & Breakfast
           cabin: Chatka
+          camp_pitch: Místo pro kempování
           camp_site: Tábořiště, kemp
           caravan_site: Autokemping
           chalet: Chalupa
@@ -1049,12 +1234,13 @@ cs:
           guest_house: Penzion
           hostel: Hostel
           hotel: Hotel
-          information: Turistické informace
+          information: Informace
           motel: Motel
           museum: Muzeum
           picnic_site: Piknikové místo
           theme_park: Zábavní park
           viewpoint: Vyhlídka
+          wilderness_hut: Chata v divočině
           zoo: Zoo
         tunnel:
           building_passage: Stavební průchod
@@ -1171,7 +1357,7 @@ cs:
       missing_params: Nelze vytvořit nové hlášení
       disclaimer:
         intro: 'Před odesláním hlášení moderátorům se prosím ujistěte, že:'
-        not_just_mistake: Jste si jistý, že problém není jen omyl
+        not_just_mistake: Jste si jisti, že problém není jen omyl
         unable_to_fix: Nejste schopen/na problém problém vyřešit svépomocí nebo s
           pomocí ostatních uživatelů.
         resolve_with_user: Jste se pokusil/a problém řešit přímo s dotčeným uživatelem.
@@ -1193,8 +1379,8 @@ cs:
           vandal_label: Tento uživatel je vandal
           other_label: Ostatní
         note:
-          spam_label: Tato poznámka je SPAM
-          personal_label: Tato poznámka obsahuje osobní data
+          spam_label: Tato poznámka je spam
+          personal_label: Tato poznámka obsahuje osobní údaje
           abusive_label: Tato poznámka je urážlivá
           other_label: Ostatní
     create:
@@ -1255,14 +1441,14 @@ cs:
       hi: Ahoj, uživateli %{to_user},
       header: '%{from_user} okomentoval záznam v deníku na OpenStreetMap s předmětem
         %{subject}:'
-      footer: Také si můžete komentář přečíst na %{readurl}, komentovat na %{commenturl}
-        nebo odpovědět na %{replyurl}
+      footer: Můžete si také přečíst komentář na %{readurl} a můžete komentovat na
+        %{commenturl} nebo poslat zprávu autorovi na %{replyurl}
     message_notification:
       hi: Dobrý den, uživateli %{to_user},
       header: '%{from_user} vám poslal(a) prostřednictvím OpenStreetMap zprávu s předmětem
         %{subject}:'
-      footer_html: Zprávu si také můžete přečíst na %{readurl} a odpovědět můžete
-        na %{replyurl}
+      footer_html: Můžete si také přečíst zprávu na %{readurl} a můžete poslat zprávu
+        autorovi na %{replyurl}
     friendship_notification:
       hi: Dobrý den, uživateli %{to_user},
       subject: '[OpenStreetMap] %{user} si vás přidal jako přítele'
@@ -1450,8 +1636,8 @@ cs:
     about:
       next: Další
       copyright_html: <span>&copy;</span>přispěvatelé<br>OpenStreetMap
-      used_by_html: Díky %{name} vidíte mapová data na tisících webových stránek,
-        aplikací i GPSkách
+      used_by_html: '%{name} poskytuje mapová data pro tisíce webových stránek, mobilních
+        aplikací a hardwarových zařízení'
       lede_text: OpenStreetMap tvoří komunita uživatelů, kteří přidávají a udržují
         data o silnicích, cestách, kavárnách, železničních stanicích a mnohém dalším
         po celém světě.
@@ -1505,9 +1691,10 @@ cs:
           naše data budete upravovat nebo je použijete ve svém díle, musíte výsledek
           šířit pod stejnou licencí. Vaše práva a povinnosti jsou vysvětleny v plném
           <a href="https://opendatacommons.org/licenses/odbl/1.0/">licenčním ujednání</a>.
-        intro_3_1_html: Kartografická díla v našich mapových dlaždicích a naše dokumentace
-          jsou k dispozici pod licencí <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.cs">Creative
-          Commons Uveďte autora-Zachovejte licenci 2.0</a> (CC-BY-SA).
+        intro_3_1_html: |-
+          Naše dokumentace je pod licencí
+          <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0).
         credit_title_html: Jak uvádět OpenStreetMap
         credit_1_html: Vyžadujeme uvádění autorství „© Přispěvatelé OpenStreetMap“.
         credit_2_1_html: |-
@@ -1900,6 +2087,7 @@ cs:
           nahráním dalších lepší počkat, dokud nebudou zpracovány, abyste neblokovali
           frontu dalším uživatelům.
     edit:
+      cancel: Storno
       title: Úprava stopy %{name}
       heading: Úprava stopy %{name}
       visibility_help: co tohle znamená?
@@ -1917,6 +2105,7 @@ cs:
       uploaded: 'Nahráno v:'
       points: 'Bodů:'
       start_coordinates: 'Souřadnice začátku:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: mapa
       edit: upravit
       owner: 'Vlastník:'
@@ -2122,18 +2311,18 @@ cs:
       title: Ztracené heslo
       heading: Zapomněli jste heslo?
       email address: 'E-mailová adresa:'
-      new password button: Znovu nastavit heslo
+      new password button: Resetovat heslo
       help_text: Zadejte e-mailovou adresu, pod kterou jste se zaregistrovali, my
         vám na ni pošleme odkaz, pomocí kterého si nastavíte nové heslo.
       notice email on way: Škoda zapomenutého hesla :-( e-mail už je na cestě, takže
         si budete brzy moci zvolit nové.
       notice email cannot find: Je mi líto, ale nemohu najít tuto e-mailovou adresu.
     reset_password:
-      title: Změnit heslo
-      heading: Vyresetovat heslo pro %{user}
+      title: Obnovit heslo
+      heading: Resetovat heslo pro %{user}
       password: 'Heslo:'
       confirm password: 'Potvrdit heslo:'
-      reset: Vyresetovat heslo
+      reset: Resetovat heslo
       flash changed: Vaše heslo bylo změněno.
       flash token bad: Odpovídající kód nebyl nalezen, možná zkontrolujte URL?
     new:
@@ -2234,7 +2423,7 @@ cs:
       status: 'Stav:'
       spam score: 'Spam skóre:'
       description: Popis
-      user location: Pozice uživatele
+      user location: Poloha uživatele
       if_set_location_html: Pokud chcete vidět blízké uživatele, nastavte si na stránce
         %{settings_link} domácí souřadnice.
       settings_link_text: nastavení
@@ -2596,6 +2785,7 @@ cs:
         cycle_map: Cyklomapa
         transport_map: Dopravní mapa
         hot: Humanitární
+        opnvkarte: ÖPNVKarte
       layers:
         header: Mapové vrstvy
         notes: Poznámky k mapě
@@ -2608,6 +2798,7 @@ cs:
       terms: <a href='%{terms_url}' target='_blank'>Pravidla webu a API</a>
       thunderforest: Dlaždice díky <a href='%{thunderforest_url}' target='_blank'>Andy
         Allanovi</a>
+      opnvkarte: Dlaždice se svolením <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
       hotosm: Styl dlaždic <a href='%{hotosm_url}' target='_blank'>Humanitárního týmu
         OpenStreetMap</a> provozuje <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
         Francie</a>
