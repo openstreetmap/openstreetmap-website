@@ -422,7 +422,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get logout_path
     assert_response :success
     assert_template :logout
-    assert_select "input[name=referer][value=?]", ""
+    assert_select "input[name=referer]:not([value])"
   end
 
   def test_logout_fallback_with_referer
