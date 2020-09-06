@@ -9,9 +9,15 @@ module Api
     around_action :api_call_handle_error
     before_action :lookup_user_by_id, :only => [:show]
 
+    before_action :set_request_formats, :except => [:gpx_files]
+
     def show
       if @user.visible?
-        render :content_type => "text/xml"
+        # Render the result
+        respond_to do |format|
+          format.xml
+          format.json
+        end
       else
         head :gone
       end
@@ -19,7 +25,11 @@ module Api
 
     def details
       @user = current_user
-      render :action => :show, :content_type => "text/xml"
+      # Render the result
+      respond_to do |format|
+        format.xml { render :show }
+        format.json { render :show }
+      end
     end
 
     def index
@@ -31,7 +41,11 @@ module Api
 
       @users = User.visible.find(ids)
 
-      render :content_type => "text/xml"
+      # Render the result
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     def gpx_files
