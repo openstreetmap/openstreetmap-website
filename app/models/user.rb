@@ -202,7 +202,7 @@ class User < ApplicationRecord
       sql_for_area = QuadTile.sql_for_area(gc.bounds(radius), "home_")
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
       nearby = User.active.identifiable
-                   .where("id != ?", id)
+                   .where.not(:id => id)
                    .where(sql_for_area)
                    .where("#{sql_for_distance} <= ?", radius)
                    .order(Arel.sql(sql_for_distance))

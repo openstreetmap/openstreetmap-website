@@ -24,7 +24,7 @@ class UserEnhancements < ActiveRecord::Migration[4.2]
     add_index "user_tokens", ["token"], :name => "user_tokens_token_idx", :unique => true
     add_index "user_tokens", ["user_id"], :name => "user_tokens_user_id_idx"
 
-    User.where("token is not null").each do |user|
+    User.where.not(:token => nil).each do |user|
       UserToken.create(:user_id => user.id, :token => user.token, :expiry => 1.week.from_now)
     end
 

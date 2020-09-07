@@ -904,7 +904,7 @@ module Api
     # Alternative SQL queries for getway/whichways
 
     def sql_find_ways_in_area(bbox)
-      sql = <<~SQL
+      sql = <<~SQL.squish
         SELECT DISTINCT current_ways.id AS wayid,current_ways.version AS version
           FROM current_way_nodes
         INNER JOIN current_nodes ON current_nodes.id=current_way_nodes.node_id
@@ -918,7 +918,7 @@ module Api
 
     def sql_find_pois_in_area(bbox)
       pois = []
-      sql = <<~SQL
+      sql = <<~SQL.squish
         SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.version
         FROM current_nodes
          LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id
@@ -939,7 +939,7 @@ module Api
     def sql_find_relations_in_area_and_ways(bbox, way_ids)
       # ** It would be more Potlatchy to get relations for nodes within ways
       #    during 'getway', not here
-      sql = <<~SQL
+      sql = <<~SQL.squish
         SELECT DISTINCT cr.id AS relid,cr.version AS version
         FROM current_relations cr
         INNER JOIN current_relation_members crm ON crm.id=cr.id
@@ -947,7 +947,7 @@ module Api
          WHERE #{OSM.sql_for_area(bbox, 'cn.')}
       SQL
       unless way_ids.empty?
-        sql += <<~SQL
+        sql += <<~SQL.squish
           UNION
            SELECT DISTINCT cr.id AS relid,cr.version AS version
            FROM current_relations cr
@@ -961,7 +961,7 @@ module Api
 
     def sql_get_nodes_in_way(wayid)
       points = []
-      sql = <<~SQL
+      sql = <<~SQL.squish
         SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,current_nodes.id,current_nodes.version
         FROM current_way_nodes,current_nodes
          WHERE current_way_nodes.id=#{wayid.to_i}
