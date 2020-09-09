@@ -1790,8 +1790,8 @@
                 "title": "Street Level Photos",
                 "intro": "Street level photos are useful for mapping traffic signs, businesses, and other details that you can't see from satellite and aerial images. The iD editor supports street level photos from [Bing Streetside](https://www.microsoft.com/en-us/maps/streetside), [Mapillary](https://www.mapillary.com), and [OpenStreetCam](https://www.openstreetcam.org).",
                 "using_h": "Using Street Level Photos",
-                "using": "To use street level photos for mapping, open the {data_icon} **{map_data}** panel on the side of the map to enable or disable the available photo layers.",
-                "photos": "When enabled, the photo layer displays a line along the sequence of photos. At higher zoom levels, a circle marks at each photo location, and at even higher zoom levels, a cone indicates the direction the camera was facing when the photo was taken.",
+                "using": "To use street level photos for mapping, open the {data_icon} **{map_data}** panel on the side of the map to enable or disable the available photo overlays.",
+                "photos": "When enabled, the photo overlay displays a line along the sequence of photos. At higher zoom levels, a circle marks at each photo location, and at even higher zoom levels, a cone indicates the direction the camera was facing when the photo was taken.",
                 "viewer": "When you select one of the photo locations, a photo viewer appears in the bottom corner of the map. The photo viewer contains controls to step forward and backward in the image sequence. It also shows the username of the person who captured the image, the date it was captured, and a link to view the image on the original site."
             },
             "gps": {
@@ -3070,6 +3070,10 @@
                     "label": "Building",
                     "terms": "structure"
                 },
+                "building/flats": {
+                    "label": "Units",
+                    "placeholder": "2, 4, 6, 8..."
+                },
                 "building/levels_building": {
                     "label": "Building Levels",
                     "terms": "",
@@ -3299,6 +3303,9 @@
                 },
                 "date": {
                     "label": "Date"
+                },
+                "defibrillator/location": {
+                    "label": "Location Description"
                 },
                 "delivery": {
                     "label": "Delivery",
@@ -4153,6 +4160,7 @@
                 },
                 "oneway": {
                     "label": "One Way",
+                    "terms": "bidirectional,oneway,unidirectional",
                     "options": {
                         "undefined": "Assumed to be No",
                         "yes": "Yes",
@@ -4209,6 +4217,13 @@
                 "park_ride": {
                     "label": "Park and Ride",
                     "terms": ""
+                },
+                "parking_entrance": {
+                    "label": "Type",
+                    "options": {
+                        "underground": "Underground",
+                        "multi-storey": "Multilevel"
+                    }
                 },
                 "parking_space": {
                     "label": "Type"
@@ -4376,6 +4391,10 @@
                 },
                 "population": {
                     "label": "Population"
+                },
+                "portable": {
+                    "label": "Portable",
+                    "terms": "detached,mobile,moveable"
                 },
                 "post": {
                     "label": "Delivery Address"
@@ -4916,6 +4935,9 @@
                 "target": {
                     "label": "Target"
                 },
+                "telecom": {
+                    "label": "Type"
+                },
                 "telecom/medium": {
                     "label": "Medium"
                 },
@@ -5136,6 +5158,10 @@
                 "water_source": {
                     "label": "Water Source"
                 },
+                "water_tank/volume": {
+                    "label": "Volume (Liters)",
+                    "placeholder": "10000, 20000, 30000…"
+                },
                 "water_volume": {
                     "label": "Water Reserve Volume (m³)",
                     "terms": ""
@@ -5262,6 +5288,9 @@
                 },
                 "seamark": {
                     "name": "Seamark"
+                },
+                "telecom": {
+                    "name": "Telecom Feature"
                 },
                 "tourism": {
                     "name": "Tourism Feature"
@@ -5653,6 +5682,10 @@
                     "name": "Hot Dog Fast Food",
                     "terms": "ballpark,frankfurter,frank,hotdog stand,sandwich,sausage,wiener"
                 },
+                "amenity/fast_food/juice": {
+                    "name": "Juice Fast Food",
+                    "terms": "cafe,café,beverages,fruit drinks,juice bar,shakes,smoothies"
+                },
                 "amenity/fast_food/kebab": {
                     "name": "Kebab Fast Food",
                     "terms": "bar,breakfast,cafe,café,canteen,dine,dining,dinner,drive-in,eat,grill,lunch,table"
@@ -5909,6 +5942,10 @@
                     "name": "Pub",
                     "terms": "alcohol,drink,dive,beer,bier,booze"
                 },
+                "amenity/pub/irish": {
+                    "name": "Irish Pub",
+                    "terms": "irish pub,irish bar"
+                },
                 "amenity/pub/lgbtq": {
                     "name": "LGBTQ+ Pub",
                     "terms": "gay pub,lesbian pub,lgbtq pub,lgbt pub,lgb pub"
@@ -6140,6 +6177,10 @@
                 "amenity/toilets/disposal/pitlatrine": {
                     "name": "Pit Latrine",
                     "terms": "head,lavatory,long drop,outhouse,pit toilet,privy"
+                },
+                "amenity/toilets/portable": {
+                    "name": "Portable Toilet",
+                    "terms": "restroom,privy,porta john,porta potty,portapot,chemical toilet"
                 },
                 "amenity/townhall": {
                     "name": "Town Hall",
@@ -7438,6 +7479,10 @@
                     "name": "Tertiary Road",
                     "terms": "road,street"
                 },
+                "highway/toll_gantry": {
+                    "name": "Open Road Toll",
+                    "terms": "license plate camera toll,cashless toll,electronic toll,free-flow toll,toll gantry,transponder toll"
+                },
                 "highway/track": {
                     "name": "Unmaintained Track Road",
                     "terms": "woods road,forest road,logging road,fire road,farm road,agricultural road,ranch road,carriage road,primitive,unmaintained,rut,offroad,4wd,4x4,four wheel drive,atv,quad,jeep,double track,two track"
@@ -7730,7 +7775,7 @@
                 },
                 "landuse/quarry": {
                     "name": "Quarry",
-                    "terms": ""
+                    "terms": "aggregate quarry,open pit mine,sand mine,sand pit,sand quarry,sandpit"
                 },
                 "landuse/railway": {
                     "name": "Railway Corridor",
@@ -8064,6 +8109,10 @@
                     "name": "Swimming Pool Facility",
                     "terms": "dive,water"
                 },
+                "leisure/sports_hall": {
+                    "name": "Gymnasium",
+                    "terms": "athletic courts,gym,sports hall,sports venue"
+                },
                 "leisure/stadium": {
                     "name": "Stadium",
                     "terms": ""
@@ -8159,6 +8208,10 @@
                 "man_made/cutline": {
                     "name": "Cut line",
                     "terms": ""
+                },
+                "man_made/dovecote": {
+                    "name": "Dovecote",
+                    "terms": "birds,doocot,dovecot,doves,pigeonholes,pigeons"
                 },
                 "man_made/dyke": {
                     "name": "Levee",
@@ -9205,8 +9258,8 @@
                     "terms": ""
                 },
                 "railway/crossing": {
-                    "name": "Railway Crossing (Path)",
-                    "terms": "crossing,pedestrian crossing,railroad crossing,level crossing,grade crossing,path through railroad,train crossing"
+                    "name": "Railway-Path Crossing",
+                    "terms": "crossing,path railway crossing,pedestrian crossing,level crossing,grade crossing,railroad crossing,railway path crossing,path through railroad,train crossing"
                 },
                 "railway/derail": {
                     "name": "Railway Derailer",
@@ -9221,8 +9274,8 @@
                     "terms": "venicular,cliff railway,cable car,cable railway,funicular railway"
                 },
                 "railway/level_crossing": {
-                    "name": "Railway Crossing (Road)",
-                    "terms": "crossing,railroad crossing,level crossing,grade crossing,road through railroad,train crossing"
+                    "name": "Railway-Road Crossing",
+                    "terms": "crossing,level crossing,grade crossing,railroad crossing,railway road crossing,road railway crossing,road through railroad,train crossing"
                 },
                 "railway/light_rail": {
                     "name": "Light Rail Track",
@@ -9260,6 +9313,10 @@
                     "name": "High-Speed Train Track",
                     "terms": "bullet train,fast rail,high speed rail,highspeed rail,HSR"
                 },
+                "railway/railway_crossing": {
+                    "name": "Railway-Railway Crossing",
+                    "terms": "diamond crossing,flat crossing,level junction,railway railway crossing"
+                },
                 "railway/signal": {
                     "name": "Railway Signal",
                     "terms": "signal,lights"
@@ -9279,6 +9336,14 @@
                 "railway/train_wash": {
                     "name": "Train Wash",
                     "terms": "wash,clean"
+                },
+                "railway/tram_crossing": {
+                    "name": "Tram-Path Crossing",
+                    "terms": "crossing,grade crossing,level crossing,path tram crossing,pedestrian crossing,streetcar crossing,tram path crossing,tramway crossing,trolley crossing"
+                },
+                "railway/tram_level_crossing": {
+                    "name": "Tram-Road Crossing",
+                    "terms": "crossing,grade crossing,level crossing,pedestrian crossing,road tram crossing,streetcar crossing,tram road crossing,tramway crossing,trolley crossing"
                 },
                 "railway/tram": {
                     "name": "Tram Track",
@@ -9855,7 +9920,7 @@
                 },
                 "shop/scuba_diving": {
                     "name": "Scuba Diving Shop",
-                    "terms": "diving,scuba"
+                    "terms": "diving,scuba,snorkel"
                 },
                 "shop/seafood": {
                     "name": "Seafood Shop",
@@ -9993,6 +10058,10 @@
                     "name": "Wholesale Store",
                     "terms": "warehouse club,cash and carry"
                 },
+                "shop/wigs": {
+                    "name": "Wig Shop",
+                    "terms": "hair extentions"
+                },
                 "shop/window_blind": {
                     "name": "Window Blind Store",
                     "terms": ""
@@ -10110,8 +10179,8 @@
                     "terms": ""
                 },
                 "tourism/information/office": {
-                    "name": "Tourist Information Office",
-                    "terms": ""
+                    "name": "Visitor Center",
+                    "terms": "information office,tour guide,tourism office,tourist information center,visitors center,visitors information center,welcome center"
                 },
                 "tourism/information/route_marker": {
                     "name": "Trail Marker",
@@ -10705,7 +10774,7 @@
                 "attribution": {
                     "text": "GSI KIBAN 2500"
                 },
-                "description": "GSI Kiban 2500 via finds.jp. Good for tracing, but a bit older.",
+                "description": "GSI Kiban 2500 via aginfo.cgk.affrc.go.jp. Good for tracing, but a bit older.",
                 "name": "Japan GSI KIBAN 2500"
             },
             "gothenburg-citymap": {
