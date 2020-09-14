@@ -10,6 +10,7 @@
 # Author: ShockD
 # Author: StanProg
 # Author: Stoyan
+# Author: Tlubenov
 # Author: Vlad5250
 # Author: Vodnokon4e
 # Author: АдмиралАнимЕ
@@ -19,6 +20,8 @@ bg:
     formats:
       friendly: '%e %B %Y в %H:%M'
   helpers:
+    file:
+      prompt: Избери файл
     submit:
       diary_comment:
         create: Съхраняване
@@ -31,13 +34,16 @@ bg:
         create: Изпращане
       client_application:
         create: Регистриране
-        update: Редактиране
+        update: Обнови
       redaction:
         create: Създаване на поправка
         update: Запазване на поправка
       trace:
         create: Качване
         update: Запазване на промените
+      user_block:
+        create: Създай блок
+        update: Обнови блок
   activerecord:
     errors:
       messages:
@@ -51,6 +57,7 @@ bg:
       diary_comment: Коментар към дневника
       diary_entry: Публикация в дневника
       friend: Приятел
+      issue: Проблем
       language: Език
       message: Съобщение
       node: Възел
@@ -59,12 +66,14 @@ bg:
       old_node: Стар възел
       old_node_tag: Етикет на стар възел
       old_relation: Стара релация
+      old_relation_tag: Стар Свързващ Таг
       old_way: Стар път
       old_way_node: Възел на стар път
       old_way_tag: Етикет на стар път
       relation: Релация
       relation_member: Член на релация
       relation_tag: Таг на релация
+      report: Отчет
       session: Сесия
       trace: Следа
       tracepoint: Точка от следа
@@ -75,6 +84,15 @@ bg:
       way_node: Възел на път
       way_tag: Етикет на път
     attributes:
+      client_application:
+        name: Име (Задължително)
+        url: Основно приложение URL(Задължително)
+        allow_read_prefs: прочетете потребителските предпочитания
+        allow_write_prefs: променете потребителските им предпочитания
+        allow_write_diary: създай дневник на бележките, коментарите и новите приятелства
+        allow_write_api: промени картата
+        allow_write_gpx: Качване на GPS следи
+        allow_write_notes: промени бележки
       diary_comment:
         body: Текст
       diary_entry:
@@ -89,21 +107,22 @@ bg:
       trace:
         user: Потребител
         visible: Видим
-        name: Име
+        name: Име на файл
         size: Размер
         latitude: Географска ширина
         longitude: Географска дължина
         public: Публичен
         description: Описание
-        gpx_file: 'Качване на GPX файл:'
-        visibility: 'Видимост:'
-        tagstring: 'Етикети:'
+        gpx_file: Качване на GPX файл
+        visibility: Видимост
+        tagstring: Етикети
       message:
         sender: Подател
         title: Тема
         body: Текст
         recipient: Получател
       report:
+        category: Посочете причина за доклада
         details: Моля, опишете проблема в подробности (задължително).
       user:
         email: Електронна поща
@@ -168,6 +187,15 @@ bg:
     remote:
       name: Дистанционно управление
       description: Дистанционно управление (JOSM или Merkaartor)
+  auth:
+    providers:
+      none: Нищо
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -181,6 +209,8 @@ bg:
         reopened_at_by_html: Повторно отворена %{when} от %{user}
       rss:
         title: Бележки на OpenStreetMap
+        description_area: Списък с бележки, докладвани и коментирани в или близо до
+          вашата територия [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Емисия на RSS за бележка %{id}
         opened: нова бележка (в близост до %{place})
         commented: нов коментар (в близост до %{place})
@@ -207,6 +237,8 @@ bg:
     view_history: Показване на историята
     view_details: Показване на детайли
     location: 'Местоположение:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Списък с промени: %{id}'
       belongs_to: Автор
@@ -260,6 +292,8 @@ bg:
         changeset: списък с промени
         note: бележка
     timeout:
+      sorry: Съжаляваме, данните за %{type} със id %{id}, отнемат твърде дълго да
+        се получат.
       type:
         node: възел
         way: път
@@ -277,6 +311,9 @@ bg:
       loading: Зареждане…
     tag_details:
       tags: Етикети
+      wiki_link:
+        key: Страница с описание за %{key} tag
+        tag: Страница с описание за %{key}=%{value} tag
       wikidata_link: Обектът %{page} в Уикиданни
       wikipedia_link: Статията %{page} в Уикипедия
       telephone_link: Позвънете на %{phone_number}
@@ -298,6 +335,7 @@ bg:
       reopened_by_anonymous: Повторно отворена от анонимен <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Скрита от %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Докладване на бележката
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Търсене на обекти
       introduction: Щракнете върху картата, за да търсите обекти в близост.
@@ -335,6 +373,8 @@ bg:
       commented_at_by_html: Обновен преди %{when} от %{user}
     comments:
       comment: Нов коментар към списък с промени № %{changeset_id} на %{author}
+    index:
+      title_all: Дискусия за промяна на OpenStreetMap
   diary_entries:
     new:
       title: Нова публикация в дневника
@@ -354,12 +394,14 @@ bg:
       in_language_title: Записи на %{language} в дневника
       new: Нова публикация в дневника
       new_title: Нова публикация в моя дневник
+      my_diary: Моя дневник
       no_entries: Няма записи в дневника
       recent_entries: Последни публикации в дневника
       older_entries: По-стари записи
       newer_entries: По-нови записи
     edit:
       title: Променяне на публикация в дневника
+      marker_text: Място на бележка от дневник
     show:
       title: Дневникът на %{user} | %{title}
       user_title: Дневникът на %{user}
@@ -368,10 +410,11 @@ bg:
       login: Влизане
     no_such_entry:
       title: Няма такива публикации в дневника
+      heading: Няма бележка със id:%{id}
     diary_entry:
       posted_by_html: Написано от %{link_user} на %{created} на %{language_link}
       comment_link: Коментар към публикацията
-      reply_link: Отговор към публикацията
+      reply_link: Изпрати послание на автора
       comment_count:
         zero: Няма коментари
         one: 1 коментар
@@ -379,6 +422,7 @@ bg:
       edit_link: Променяне на публикацията
       hide_link: Скриване на публикацията
       confirm: Потвърждаване
+      report: Докладване на бележката
     diary_comment:
       hide_link: Скриване на коментара
       unhide_link: Показване на коментара
@@ -388,6 +432,7 @@ bg:
       location: 'Местоположение:'
       view: Преглеждане
       edit: Променяне
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       all:
         title: Записи в дневника на OpenStreetMap
@@ -398,8 +443,13 @@ bg:
       newer_comments: По-нови коментари
       older_comments: По-стари коментари
   friendships:
+    make_friend:
+      button: Добави като приятел
+      success: Сега сте приятели с %{name}!
     remove_friend:
+      button: Премахване от приятели
       success: '%{name} беше премахнат от списъка с приятелите.'
+      not_a_friend: '%{name} не е между вашите приятели.'
   geocoder:
     search:
       title:
@@ -418,6 +468,7 @@ bg:
           chair_lift: Седалков лифт
           pylon: Пилон
         aeroway:
+          aerodrome: Летище
           apron: Перон
           gate: Врата
           hangar: Хангар
@@ -467,11 +518,15 @@ bg:
           grave_yard: Гробище
           hospital: Болница
           ice_cream: Сладолед
+          internet_cafe: Интернет Кафе
           kindergarten: Детска градина
+          language_school: Училище за езици
           library: Библиотека
+          loading_dock: Товарна рампа
           marketplace: Пазар
           monastery: Манастир
           motorcycle_parking: Паркинг за мотоцикли
+          music_school: Музикално училище
           nightclub: Нощен клуб
           nursing_home: Старчески дом
           parking: Паркинг
@@ -484,6 +539,7 @@ bg:
           post_office: Поща
           prison: Затвор
           pub: Кръчма
+          public_bath: Обществена баня
           public_building: Обществена сграда
           recycling: Рециклиране
           restaurant: Ресторант
@@ -514,8 +570,43 @@ bg:
           viaduct: Виадукт
           "yes": Мост
         building:
+          apartment: Апартамент
+          apartments: Апартаменти
+          bungalow: Бунгало
+          cabin: Кабина
+          chapel: Капела
+          church: Църква
+          college: Средно училище
+          commercial: Търговска Сграда
+          construction: Сграда в строеж
+          detached: Самостоятелна къща
+          duplex: Двойна къща
+          farm: Ферма
+          farm_auxiliary: Помощна къща във ферма
+          garage: Гараж
+          garages: Гаражи
+          greenhouse: Оранжерия
+          hangar: Хангар
+          hospital: Болница
+          hotel: Хотел
+          house: Къща
+          hut: Хижа
+          industrial: Индустриална сграда
+          kindergarten: Детска градина
+          office: Офис Сграда
+          public: Обществена сграда
+          roof: Покрив
+          school: Училище
+          static_caravan: Каравана
+          temple: Храм
+          train_station: Железопътна станция
+          university: Университет
+          warehouse: Склад
           "yes": Сграда
+        club:
+          "yes": Клуб
         craft:
+          blacksmith: Ковач
           brewery: Пивоварна
           carpenter: Дърводелец
           electrician: Електротехник
@@ -525,18 +616,21 @@ bg:
           plumber: Водопроводчик
           shoemaker: Обущар
           tailor: Шивач
+          winery: Винарна
           "yes": Работилница
         emergency:
           ambulance_station: Станция за линейки
           defibrillator: Дефибрилатор
           landing_site: Място за аварийно приземяване
           phone: Телефон за спешни повиквания
+          water_tank: Цистерна за спешни случаи
           "yes": Спешна помощ
         highway:
           abandoned: Изоставена магистрала
           bridleway: Конен път
           bus_stop: Автобусна спирка
           construction: Магистрала в строеж
+          corridor: Коридор
           cycleway: Велосипедна пътека
           elevator: Асансьор
           emergency_access_point: Пункт за спешна помощ
@@ -603,6 +697,7 @@ bg:
           "yes": Кръстовище
         landuse:
           allotments: Градини
+          aquaculture: Рибарник
           basin: Басейн
           brownfield: Замърсена земя
           cemetery: Гробище
@@ -615,6 +710,7 @@ bg:
           forest: Гора
           garages: Гаражи
           grass: Трева
+          greenfield: Затревена земя
           industrial: Промишлена зона
           landfill: Сметище
           meadow: Ливада
@@ -626,9 +722,11 @@ bg:
           reservoir: Язовир
           residential: Жилищна зона
           vineyard: Лозя
+          "yes": Земеползване
         leisure:
           beach_resort: Морски курорт
           common: Обществена земя
+          dance: Зала за танци
           dog_park: Парк за кучета
           firepit: Огнище
           fishing: Място за риболов
@@ -658,13 +756,18 @@ bg:
           flagpole: Пилон
           kiln: Пещ
           lighthouse: Фар
+          manhole: Шахта
           mast: Мачта
           mine: Рудник
           mineshaft: Шахта на мина
           pier: Пирс
+          pipeline: Тръбопровод
           silo: Силоз
           tower: Кула
+          watermill: Воденица
+          water_tower: Водна кула
           water_well: Кладенец
+          windmill: Вятърна мелница
           works: Фабрика
         military:
           airfield: Военно летище
@@ -685,6 +788,7 @@ bg:
           forest: Гора
           geyser: Гейзер
           glacier: Ледник
+          grassland: Ливада
           heath: Здраве
           hill: Хълм
           island: Остров
@@ -703,16 +807,22 @@ bg:
           volcano: Вулкан
           water: Вода
           wood: Гора
+          "yes": Природен елемент
         office:
           accountant: Счетоводител
           architect: Архитект
+          association: Асоциация
           company: Фирма
+          diplomatic: Дипломатическа служба
           educational_institution: Образователна институция
           employment_agency: Агенцията по заетостта
           estate_agent: Агент по недвижими имоти
+          financial: Финансова служба
+          government: Правителствена служба
           insurance: Застрахователно бюро
           lawyer: Адвокат
           ngo: Офис на НПО
+          notary: Нотариус
           travel_agent: Туристическа агенция
           "yes": Офис
         place:
@@ -775,10 +885,15 @@ bg:
           doityourself: Направи сам
           dry_cleaning: Химическо чистене
           electronics: Магазин за електроника
+          erotic: Еротичен магазин
           estate_agent: Недвижими имоти
+          fabric: Текстилен магазин
           farm: Фермерски магазин
+          fashion: Бутик
+          fishing: Рибарски магазин
           florist: Цветарски магазин
           food: Хранителни стоки
+          funeral_directors: Погребална служба
           furniture: Мебели
           garden_centre: Градински център
           general: Смесен магазин
@@ -786,31 +901,51 @@ bg:
           greengrocer: Плод и зеленчук
           grocery: Магазин за хранителни стоки
           hairdresser: Фризьорски салон
+          hardware: Железария
+          health_food: Магазин Здравословна храна
           hifi: Аудиосистеми
           houseware: Домашни потреби
+          ice_cream: Магазин за Сладолед
           jewelry: Бижутериен магазин
+          kitchen: Кухненско оборудване
           laundry: Пералня
+          locksmith: Ключар
+          lottery: Лотария
           mall: Търговски център
           massage: Масаж
           mobile_phone: Магазин за мобилни телефони
+          motorcycle: Магазин за Мотори и Мотоциклети
           music: Музикален магазин
+          musical_instrument: Музикални Инструменти
+          newsagent: Вестници и списания
           optician: Оптика
+          organic: Магазин Органична храна
+          outdoor: Туристически магазин
+          paint: Бои и лакови
+          perfumery: Парфюмерия
           pet: Магазин за домашни любимци
           photo: Фотомагазин
+          seafood: Морска храна
+          second_hand: Магазин Втора-ръка
           shoes: Магазин за обувки
           sports: Спортен магазин
           stationery: Канцеларски материали
           supermarket: Супермаркет
           tailor: Шивач
+          ticket: Билетна каса
           toys: Магазин за играчки
           travel_agency: Туристическа агенция
           tyres: Автогуми
+          video: Видеотека
+          video_games: Магазин за видеоигри
+          wine: Винарна
           "yes": Магазин
         tourism:
           alpine_hut: Планинска хижа
           apartment: Ваканционен апартамент
           artwork: Произведениe на изкуството
           attraction: Атракция
+          caravan_site: Къмпинг
           chalet: Бунгало
           gallery: Галерия
           guest_house: Къща за гости
@@ -821,14 +956,18 @@ bg:
           museum: Музей
           picnic_site: Място за пикник
           theme_park: Увеселителен парк
+          wilderness_hut: Горска хижа
           zoo: Зологическа градина
         tunnel:
           "yes": Тунел
         waterway:
           canal: Канал
           dam: Язовирна стена
+          dock: Док
           river: Река
+          stream: Поток
           waterfall: Водопад
+          "yes": Воден път
       admin_levels:
         level2: Държавна граница
         level4: Държавна граница

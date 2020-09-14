@@ -29,6 +29,7 @@
 # Author: Ruila
 # Author: Sanmosa
 # Author: Shangkuanlc
+# Author: Shoufen
 # Author: Simon Shek
 # Author: StephDC
 # Author: SupaplexTW
@@ -118,6 +119,10 @@ zh-TW:
       client_application:
         callback_url: 回呼 (Callback) URL
         support_url: 支援 URL
+        allow_write_api: 修改地圖
+        allow_read_gpx: 讀取他們的私人 GPS 軌跡
+        allow_write_gpx: 上傳 GPS 軌跡
+        allow_write_notes: 修改註記
       diary_comment:
         body: 內文
       diary_entry:
@@ -147,6 +152,7 @@ zh-TW:
         body: 內文
         recipient: 收件者
       report:
+        category: 選擇您回報的原因
         details: 請提供有關問題的更多些詳情（必需）
       user:
         email: 電子郵件
@@ -263,6 +269,8 @@ zh-TW:
     view_history: 檢視歷史
     view_details: 檢視詳細資料
     location: 位置：
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 變更集：%{id}
       belongs_to: 作者
@@ -361,6 +369,7 @@ zh-TW:
       reopened_by_anonymous: 於<abbr title='%{exact_time}'>%{when}</abbr>由匿名使用者重新開啟
       hidden_by: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}隱藏
       report: 回報此註記
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: 查詢圖徵
       introduction: 點選地圖以尋找附近的圖徵
@@ -466,6 +475,7 @@ zh-TW:
       location: 位置：
       view: 檢視
       edit: 編輯
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: '%{user} 的 OpenStreetMap 日記項目'
@@ -577,9 +587,12 @@ zh-TW:
           hospital: 醫院
           hunting_stand: 狩獵站
           ice_cream: 冰淇淋
+          internet_cafe: 網咖
           kindergarten: 幼兒園
           language_school: 語言學校
           library: 圖書館
+          loading_dock: 卸貨平台
+          love_hotel: 愛情賓館
           marketplace: 市場
           monastery: 修道院
           motorcycle_parking: 機車停車場
@@ -632,9 +645,19 @@ zh-TW:
           viaduct: 高架橋
           "yes": 橋
         building:
-          church: 教堂
+          barn: 穀倉
+          bungalow: 平房
+          cabin: 小木屋
+          chapel: 禮拜堂
+          church: 教堂建築
+          greenhouse: 溫室
+          hotel: 旅館建築
+          house: 房屋
           roof: 屋頂
           "yes": 建築物
+        club:
+          sport: 體育會
+          "yes": 俱樂部
         craft:
           brewery: 釀酒廠
           carpenter: 木匠
@@ -645,6 +668,7 @@ zh-TW:
           plumber: 管道工
           shoemaker: 鞋匠
           tailor: 裁縫師
+          winery: 酒廠
           "yes": 工藝品店
         emergency:
           ambulance_station: 急救站
@@ -791,6 +815,7 @@ zh-TW:
           "yes": 休閒
         man_made:
           adit: 坑道
+          antenna: 天線
           beacon: 信標台
           beehive: 蜂巢
           breakwater: 防波堤
@@ -806,6 +831,7 @@ zh-TW:
           groyne: 丁壩
           kiln: 窯
           lighthouse: 燈塔
+          manhole: 人孔
           mast: 柱杆
           mine: 礦場
           mineshaft: 礦井
@@ -814,8 +840,10 @@ zh-TW:
           pier: 碼頭
           pipeline: 管線
           silo: 筒倉
+          snow_cannon: 雪砲
           storage_tank: 儲油罐
           surveillance: 監視攝影機
+          telescope: 望遠鏡
           tower: 塔
           wastewater_plant: 污水處理處
           watermill: 水車
@@ -848,6 +876,7 @@ zh-TW:
           grassland: 雜草地
           heath: 石楠荒地
           hill: 小山
+          hot_spring: 溫泉
           island: 島嶼
           land: 陸地
           marsh: 河川濕地
@@ -871,15 +900,19 @@ zh-TW:
           water: 水
           wetland: 濕地
           wood: 自然林
+          "yes": 自然地貌
         office:
           accountant: 會計師事務所
           administrative: 管理局
           architect: 建築師事務所
           association: 協會
           company: 公司
+          diplomatic: 外交部
           educational_institution: 教育機構
           employment_agency: 人力仲介
+          energy_supplier: 能源供應辦公處
           estate_agent: 房地產仲介
+          financial: 財務處
           government: 政府辦事處
           insurance: 保險公司辦公室
           it: IT 辦公室
@@ -943,6 +976,7 @@ zh-TW:
           alcohol: 酒館
           antiques: 古董店
           art: 藝品店
+          bag: 包包店
           bakery: 麵包店
           beauty: 美容店
           beverages: 飲料店
@@ -966,12 +1000,15 @@ zh-TW:
           convenience: 便利商店
           copyshop: 複印店
           cosmetics: 化妝品店
+          curtain: 窗簾店
           deli: 高級食品店
           department_store: 百貨商店
           discount: 特價商品店
           doityourself: DIY 用品店
           dry_cleaning: 乾洗
+          e-cigarette: 電子菸店
           electronics: 電子材料行
+          erotic: 情趣用品店
           estate_agent: 房地產仲介
           farm: 農場商店
           fashion: 時裝店
@@ -987,35 +1024,46 @@ zh-TW:
           grocery: 雜貨店
           hairdresser: 理髮店
           hardware: 五金行
+          herbalist: 藥草供應商
           hifi: 音響店
           houseware: 生活用品店
+          ice_cream: 冰淇淋店
           interior_decoration: 室內裝潢
           jewelry: 珠寶店
           kiosk: 販售亭
           kitchen: 廚房用品店
           laundry: 洗衣店
+          locksmith: 鎖店
           lottery: 樂透
           mall: 購物商場
           massage: 按摩店
           mobile_phone: 行動通訊行
           motorcycle: 機車行
+          motorcycle_repair: 機車維修行
           music: 唱片行
+          musical_instrument: 樂器
           newsagent: 新聞代理商
           optician: 驗光師
           organic: 有機食品店
           outdoor: 戶外用品店
           paint: 油漆店
+          pastry: 糕餅店
           pawnbroker: 當鋪
+          perfumery: 香水店
           pet: 寵物店
+          pet_grooming: 寵物美容店
           photo: 照相館
           seafood: 海產
           second_hand: 二手商品店
+          sewing: 縫紉店
           shoes: 鞋店
           sports: 體育用品店
           stationery: 文具店
+          storage_rental: 迷你倉
           supermarket: 超級市場
           tailor: 裁縫店
           tattoo: 刺青屋
+          tea: 茶舖
           ticket: 售票處
           tobacco: 菸草販賣
           toys: 玩具店
@@ -1821,6 +1869,7 @@ zh-TW:
       uploaded: 上傳於：
       points: 點數：
       start_coordinates: 開始坐標：
+      coordinates_html: '%{latitude}; %{longitude}'
       map: 地圖
       edit: 編輯
       owner: 擁有者：
