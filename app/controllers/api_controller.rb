@@ -22,10 +22,10 @@ class ApiController < ApplicationController
         #
         # As a workaround, and for back compatibility, default to XML format.
         mimetypes = begin
-                      Mime::Type.parse(accept_header)
-                    rescue Mime::Type::InvalidMimeType
-                      Array(Mime[:xml])
-                    end
+          Mime::Type.parse(accept_header)
+        rescue Mime::Type::InvalidMimeType
+          Array(Mime[:xml])
+        end
 
         # Allow XML and JSON formats, and treat an all formats wildcard
         # as XML for backwards compatibility - all other formats are discarded
