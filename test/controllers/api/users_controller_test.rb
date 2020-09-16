@@ -10,8 +10,16 @@ module Api
         { :controller => "api/users", :action => "show", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/user/1.json", :method => :get },
+        { :controller => "api/users", :action => "show", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/user/details", :method => :get },
         { :controller => "api/users", :action => "details" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/user/details.json", :method => :get },
+        { :controller => "api/users", :action => "details", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/user/gpx_files", :method => :get },
@@ -20,6 +28,10 @@ module Api
       assert_routing(
         { :path => "/api/0.6/users", :method => :get },
         { :controller => "api/users", :action => "index" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/users.json", :method => :get },
+        { :controller => "api/users", :action => "index", :format => "json" }
       )
     end
 
@@ -136,6 +148,15 @@ module Api
         assert_select "user[id='#{user2.id}']", :count => 0
         assert_select "user[id='#{user3.id}']", :count => 0
       end
+
+      # Test json
+      get api_users_path(:users => user1.id, :format => "json")
+      assert_response :success
+      assert_equal "application/json", response.media_type
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 1, js["users"].count
 
       get api_users_path(:users => user2.id)
       assert_response :success
