@@ -422,7 +422,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get logout_path
     assert_response :success
     assert_template :logout
-    assert_select "input[name=referer][value=?]", ""
+    assert_select "input[name=referer]:not([value])"
   end
 
   def test_logout_fallback_with_referer
@@ -814,7 +814,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
-        post user_forgot_password_path, :params => { :user => { :email => user.email } }
+        post user_forgot_password_path, :params => { :email => user.email }
       end
     end
     assert_response :redirect
@@ -829,7 +829,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # that has the same address in a different case
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
-        post user_forgot_password_path, :params => { :user => { :email => user.email.upcase } }
+        post user_forgot_password_path, :params => { :email => user.email.upcase }
       end
     end
     assert_response :redirect
@@ -844,7 +844,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # for more than one user but not an exact match for either
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       perform_enqueued_jobs do
-        post user_forgot_password_path, :params => { :user => { :email => user.email.titlecase } }
+        post user_forgot_password_path, :params => { :email => user.email.titlecase }
       end
     end
     assert_response :success
@@ -856,7 +856,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     third_user = create(:user)
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
-        post user_forgot_password_path, :params => { :user => { :email => third_user.email } }
+        post user_forgot_password_path, :params => { :email => third_user.email }
       end
     end
     assert_response :redirect
@@ -871,7 +871,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # same (case insensitively unique) address in a different case
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
-        post user_forgot_password_path, :params => { :user => { :email => third_user.email.upcase } }
+        post user_forgot_password_path, :params => { :email => third_user.email.upcase }
       end
     end
     assert_response :redirect
@@ -906,7 +906,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     post user_reset_password_path, :params => { :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "different_password" } }
     assert_response :success
     assert_template :reset_password
-    assert_select "div#errorExplanation"
+    assert_select "div.invalid-feedback"
 
     # Test setting a new password
     post user_reset_password_path, :params => { :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "new_password" } }
