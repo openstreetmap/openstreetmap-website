@@ -1,5 +1,5 @@
 <% if way.redacted? %>
-  <div class='browse-section browse-redacted'>
+  <div class="browse-section browse-redacted">
     <%= t "browse.redacted.message_html",
           :type => t("browse.redacted.type.way"),
           :version => way.version,
@@ -7,13 +7,13 @@
                                        :id => way.redaction.id), way.redaction) %>
   </div>
 <% else %>
-  <div class='browse-section browse-way'>
+  <div class="browse-section browse-way">
     <%= render :partial => "common_details", :object => way %>
 
     <% unless way.containing_relation_members.empty? %>
       <h4><%= t "browse.part_of" %></h4>
-      <details <%= 'open' if way.containing_relation_members.count < 10 %>>
-        <summary><%= t 'browse.part_of_relations', :count => way.containing_relation_members.count %></summary>
+      <details <%= "open" if way.containing_relation_members.count < 10 %>>
+        <summary><%= t "browse.part_of_relations", :count => way.containing_relation_members.count %></summary>
         <ul class="list-unstyled">
           <%= render :partial => "containing_relation", :collection => way.containing_relation_members.uniq %>
         </ul>
@@ -22,8 +22,8 @@
 
     <% unless way.way_nodes.empty? %>
       <h4><%= t ".nodes" %></h4>
-      <details <%= 'open' if way.way_nodes.count < 10 %>>
-        <summary><%= t '.nodes_count', :count => way.way_nodes.count %></summary>
+      <details <%= "open" if way.way_nodes.count < 10 %>>
+        <summary><%= t ".nodes_count", :count => way.way_nodes.count %></summary>
         <ul class="list-unstyled">
           <% way.way_nodes.each do |wn| %>
             <li>
