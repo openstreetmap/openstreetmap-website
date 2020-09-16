@@ -28,7 +28,7 @@ module Api
       # check that a visible user is returned properly
       get api_user_path(:id => user.id)
       assert_response :success
-      assert_equal "text/xml", response.media_type
+      assert_equal "application/xml", response.media_type
 
       # check the data that is returned
       assert_select "description", :count => 1, :text => "test"
@@ -84,7 +84,7 @@ module Api
       auth_header = basic_authorization_header user.email, "test"
       get user_details_path, :headers => auth_header
       assert_response :success
-      assert_equal "text/xml", response.media_type
+      assert_equal "application/xml", response.media_type
 
       # check the data that is returned
       assert_select "description", :count => 1, :text => "test"
@@ -130,7 +130,7 @@ module Api
 
       get api_users_path(:users => user1.id)
       assert_response :success
-      assert_equal "text/xml", response.media_type
+      assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
         assert_select "user[id='#{user1.id}']", :count => 1
         assert_select "user[id='#{user2.id}']", :count => 0
@@ -139,7 +139,7 @@ module Api
 
       get api_users_path(:users => user2.id)
       assert_response :success
-      assert_equal "text/xml", response.media_type
+      assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
         assert_select "user[id='#{user1.id}']", :count => 0
         assert_select "user[id='#{user2.id}']", :count => 1
@@ -148,7 +148,7 @@ module Api
 
       get api_users_path(:users => "#{user1.id},#{user3.id}")
       assert_response :success
-      assert_equal "text/xml", response.media_type
+      assert_equal "application/xml", response.media_type
       assert_select "user", :count => 2 do
         assert_select "user[id='#{user1.id}']", :count => 1
         assert_select "user[id='#{user2.id}']", :count => 0
