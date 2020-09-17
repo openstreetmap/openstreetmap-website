@@ -117,8 +117,13 @@ zh-TW:
       way_tag: 路徑標籤
     attributes:
       client_application:
+        name: 名稱（必需）
+        url: 主程式 URL（必需）
         callback_url: 回呼 (Callback) URL
         support_url: 支援 URL
+        allow_read_prefs: 讀取他們的使用者偏好設定
+        allow_write_prefs: 修改他們的使用者偏好設定
+        allow_write_diary: 建立日記、評論和加入好友
         allow_write_api: 修改地圖
         allow_read_gpx: 讀取他們的私人 GPS 軌跡
         allow_write_gpx: 上傳 GPS 軌跡
@@ -161,6 +166,7 @@ zh-TW:
         description: 說明
         languages: 語言
         pass_crypt: 密碼
+        pass_crypt_confirmation: 確認密碼
     help:
       trace:
         tagstring: 以逗點分隔
@@ -265,6 +271,12 @@ zh-TW:
     anonymous: 匿名
     no_comment: (沒有評論)
     part_of: 屬於：
+    part_of_relations:
+      one: 1 個關聯
+      other: '%{count} 個關聯'
+    part_of_ways:
+      one: 1 條路
+      other: '%{count} 條路'
     download_xml: 下載 XML
     view_history: 檢視歷史
     view_details: 檢視詳細資料
@@ -298,6 +310,8 @@ zh-TW:
       title_html: 路徑：%{name}
       history_title_html: 路徑歷史：%{name}
       nodes: 節點
+      nodes_count:
+        other: '%{count} 個節點'
       also_part_of_html:
         one: 路徑 %{related_ways} 的部份
         other: 路徑 %{related_ways} 的部份
@@ -305,6 +319,9 @@ zh-TW:
       title_html: 關聯：%{name}
       history_title_html: 關聯歷史：%{name}
       members: 成員
+      members_count:
+        one: 1 個成員
+        other: '%{count} 個成員'
     relation_member:
       entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} 作為 %{role}'
@@ -541,6 +558,7 @@ zh-TW:
           runway: 跑道
           taxiway: 滑行道
           terminal: 航廈
+          windsock: 布製風標
         amenity:
           animal_shelter: 動物收容所
           arts_centre: 藝術中心
@@ -551,7 +569,9 @@ zh-TW:
           bench: 長椅
           bicycle_parking: 自行車停車場
           bicycle_rental: 自行車出租
+          bicycle_repair_station: 自行車維修站
           biergarten: 啤酒庭園
+          blood_bank: 血液銀行
           boat_rental: 船艇出租
           brothel: 妓院
           bureau_de_change: 外匯兌換店
@@ -568,6 +588,7 @@ zh-TW:
           clock: 時鐘
           college: 學院
           community_centre: 社區中心
+          conference_centre: 會議中心
           courthouse: 法院
           crematorium: 火葬場
           dentist: 牙醫
@@ -595,6 +616,7 @@ zh-TW:
           love_hotel: 愛情賓館
           marketplace: 市場
           monastery: 修道院
+          money_transfer: 匯款
           motorcycle_parking: 機車停車場
           music_school: 音樂學校
           nightclub: 夜總會
@@ -610,6 +632,7 @@ zh-TW:
           prison: 監獄
           pub: 酒館
           public_building: 公共建築
+          ranger_station: 護林員站
           recycling: 回收點
           restaurant: 餐廳
           school: 學校
@@ -630,9 +653,12 @@ zh-TW:
           village_hall: 村政廳
           waste_basket: 垃圾桶
           waste_disposal: 垃圾子車
+          waste_dump_site: 垃圾掩埋場
           water_point: 取水點
+          weighbridge: 地磅
           "yes": 便利設施
         boundary:
+          aboriginal_lands: 原住民土地
           administrative: 行政區邊界
           census: 人口普查邊界
           national_park: 國家公園
@@ -645,28 +671,51 @@ zh-TW:
           viaduct: 高架橋
           "yes": 橋
         building:
+          apartment: 公寓
+          apartments: 公寓
           barn: 穀倉
           bungalow: 平房
           cabin: 小木屋
           chapel: 禮拜堂
           church: 教堂建築
+          college: 學院建物
+          commercial: 商業建物
+          dormitory: 宿舍
+          duplex: 複式住宅
+          farm: 農舍
+          garage: 車庫
+          garages: 車庫
           greenhouse: 溫室
+          hangar: 機棚
+          hospital: 醫院建築
           hotel: 旅館建築
           house: 房屋
+          houseboat: 船屋
+          industrial: 工業建築
+          kindergarten: 幼稚園建築
+          office: 辦公建築
+          public: 公共建築
           roof: 屋頂
           "yes": 建築物
         club:
           sport: 體育會
           "yes": 俱樂部
         craft:
+          beekeper: 養蜂人家
+          blacksmith: 鐵匠
           brewery: 釀酒廠
           carpenter: 木匠
+          confectionery: 糖果店
           electrician: 電工
+          electronics_repair: 電子維修
           gardener: 園丁
+          glaziery: 玻璃工
+          handicraft: 手工藝
           painter: 畫家
           photographer: 攝影師
           plumber: 管道工
           shoemaker: 鞋匠
+          stonemason: 石工
           tailor: 裁縫師
           winery: 酒廠
           "yes": 工藝品店
@@ -674,6 +723,7 @@ zh-TW:
           ambulance_station: 急救站
           assembly_point: 集合處
           defibrillator: 除顫器
+          fire_xtinguisher: 滅火器
           landing_site: 緊急降落點
           phone: 緊急電話
           water_tank: 緊急水箱
@@ -725,11 +775,14 @@ zh-TW:
           unclassified: 無編制道路
           "yes": 道路
         historic:
+          aircraft: 歷史飛行機
           archaeological_site: 考古遺址
+          bomb_crater: 彈坑遺跡
           battlefield: 古戰場
           boundary_stone: 界石
           building: 歷史建築
           bunker: 掩體
+          cannon: 古砲
           castle: 城堡
           church: 教堂
           city_gate: 城門
@@ -739,9 +792,11 @@ zh-TW:
           house: 房屋
           manor: 莊園
           memorial: 紀念館
+          milestone: 歷史里程碑
           mine: 礦場
           mine_shaft: 礦井
           monument: 古蹟
+          railway: 歷史鐵路
           roman_road: 羅馬道路
           ruins: 廢墟
           stone: 石造史蹟
@@ -785,9 +840,12 @@ zh-TW:
           vineyard: 葡萄園
           "yes": 土地利用
         leisure:
+          adult_gaming_centre: 成人遊戲中心
+          amusement_arcade: 電子遊樂場
           beach_resort: 海灘遊樂區
           bird_hide: 賞鳥亭
           common: 公共用地
+          dance: 舞廳
           dog_park: 遛狗公園
           firepit: 火坑
           fishing: 垂釣區
@@ -800,7 +858,9 @@ zh-TW:
           marina: 小船塢
           miniature_golf: 小型高爾夫球場
           nature_reserve: 自然保護區
+          outdoor_seating: 戶外座椅
           park: 公園
+          picnic_table: 野餐桌
           pitch: 運動場
           playground: 遊樂區
           recreation_ground: 遊樂場
@@ -839,12 +899,14 @@ zh-TW:
           petroleum_well: 油井
           pier: 碼頭
           pipeline: 管線
+          pumping_station: 泵站
           silo: 筒倉
           snow_cannon: 雪砲
           storage_tank: 儲油罐
           surveillance: 監視攝影機
           telescope: 望遠鏡
           tower: 塔
+          utility_pole: 電線桿
           wastewater_plant: 污水處理處
           watermill: 水車
           water_tower: 水塔
@@ -917,7 +979,10 @@ zh-TW:
           insurance: 保險公司辦公室
           it: IT 辦公室
           lawyer: 律師
+          logistics: 物流辦公處
+          newspaper: 報社
           ngo: 非政府組織辦公室
+          research: 研究室
           telecommunication: 電信業辦事處
           travel_agent: 旅行社
           "yes": 辦公室
@@ -976,8 +1041,10 @@ zh-TW:
           alcohol: 酒館
           antiques: 古董店
           art: 藝品店
+          baby_goods: 嬰兒用品
           bag: 包包店
           bakery: 麵包店
+          bathroom_furnishing: 浴室裝潢
           beauty: 美容店
           beverages: 飲料店
           bicycle: 自行車店
@@ -1001,6 +1068,7 @@ zh-TW:
           copyshop: 複印店
           cosmetics: 化妝品店
           curtain: 窗簾店
+          dairy: 乳品店
           deli: 高級食品店
           department_store: 百貨商店
           discount: 特價商品店
@@ -1010,8 +1078,10 @@ zh-TW:
           electronics: 電子材料行
           erotic: 情趣用品店
           estate_agent: 房地產仲介
+          fabric: 布料行
           farm: 農場商店
           fashion: 時裝店
+          fishing: 釣魚用品店
           florist: 花店
           food: 食品店
           frame: 相框店
@@ -1024,6 +1094,8 @@ zh-TW:
           grocery: 雜貨店
           hairdresser: 理髮店
           hardware: 五金行
+          health_food: 保健食品店
+          hearing_aids: 助聽器
           herbalist: 藥草供應商
           hifi: 音響店
           houseware: 生活用品店
@@ -1037,6 +1109,7 @@ zh-TW:
           lottery: 樂透
           mall: 購物商場
           massage: 按摩店
+          medical_supply: 醫療用品店
           mobile_phone: 行動通訊行
           motorcycle: 機車行
           motorcycle_repair: 機車維修行
@@ -1267,7 +1340,7 @@ zh-TW:
     intro_header: 歡迎來到 OpenStreetMap！
     intro_text: OpenStreetMap 是一幅世界地圖，由像您這樣的人們所建立，在開放授權下可以自由使用。
     intro_2_create_account: 建立使用者帳號
-    hosting_partners_html: 主機由 %{ucl}、%{bytemark}，和其他 %{partners} 所支援。
+    hosting_partners_html: 主機由%{ucl}、%{bytemark}，和其他%{partners}所支援。
     partners_ucl: 倫敦大學學院
     partners_bytemark: Bytemark 主機代管
     partners_partners: 合作夥伴
@@ -1455,7 +1528,7 @@ zh-TW:
     about:
       next: 下一頁
       copyright_html: <span>&copy;</span>OpenStreetMap<br>貢獻者
-      used_by_html: '%{name} 為數以千計的網站、行動應用程式和硬件提供地圖資料'
+      used_by_html: '%{name} 為數以千計的網站、行動應用程式和硬體提供地圖資料'
       lede_text: OpenStreetMap 是由製圖者社群所建立，他們提供及不斷更新包括有關世界各地的道路、路徑、咖啡館、火車站等等的資料。
       local_knowledge_title: 地方知識
       local_knowledge_html: |-
@@ -1465,7 +1538,7 @@ zh-TW:
       community_driven_title: 社群推動
       community_driven_html: |-
         OpenStreetMap 的社群多元化、懷有熱情，而且日益壯大。我們的貢獻者包括地圖製作愛好者，地理訊息系統的專業人員，提供 OSM 伺服器的工程師，為受災害影響區域製圖的人道主義志願人士，以及其他各界人士。
-        想進一步了解這個社群，請參閱<a href='https://blog.openstreetmap.org'> OpenStreetMap 部落格</a>、<a href='%{diary_path}'>使用者日記</a>,
+        想進一步了解這個社群，請參閱<a href='https://blog.openstreetmap.org'> OpenStreetMap 部落格</a>、<a href='%{diary_path}'>使用者日記</a>、
         <a href='https://blogs.openstreetmap.org/'>社群部落格</a>，以及<a href='https://www.osmfoundation.org/'> OSM 基金會</a> 網站。
       open_data_title: 開放資料
       open_data_html: OpenStreetMap 是<i>開放資料</i>的：您可以自由地使用作任何用途，前提是您須標明作者為 OpenStreetMap
@@ -1473,8 +1546,8 @@ zh-TW:
       legal_title: 法律資訊
       legal_1_html: 本站以及許多相關的服務正式由<a href='https://osmfoundation.org/'> OpenStreetMap
         基金會</a>（OSMF）代表社群所營運。所有使用的 OSMF 運行服務皆符合我們的<a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">使用條款</a>、<a
-        href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">可接受使用方針<
-        /a>、和<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">隱私政策</a>。
+        href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">可接受使用方針</a>、和<a
+        href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">隱私政策</a>。
       legal_2_html: |-
         若您有任何授權、版權或其他法律諮詢，請<a href='https://osmfoundation.org/Contact'>聯絡 OSMF </a>。
         <br>
@@ -1732,7 +1805,7 @@ zh-TW:
           subway: 地下鐵
           tram:
           - 輕軌
-          - 輕軌
+          - 電車軌道
           cable:
           - 大型纜車
           - 升降吊椅
@@ -2067,8 +2140,6 @@ zh-TW:
     reset_password:
       title: 重設密碼
       heading: 重設 %{user} 的密碼
-      password: 密碼：
-      confirm password: 確認密碼：
       reset: 重設密碼
       flash changed: 您的密碼已經變更。
       flash token bad: 找不到該密鑰，可能要檢查一下 URL？

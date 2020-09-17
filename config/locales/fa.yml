@@ -44,6 +44,8 @@ fa:
     formats:
       friendly: '%e %B %Y ساعت %H:%M'
   helpers:
+    file:
+      prompt: انتخاب فایل
     submit:
       diary_comment:
         create: ذخیره
@@ -112,6 +114,13 @@ fa:
         name: نام (اجباری)
         callback_url: Callback URL
         support_url: URL پشتیبانی
+        allow_read_prefs: ترجیحات کاربری آن‌ها را بخواند
+        allow_write_prefs: ترجیحات کاربری آن‌ها را تغییر دهد
+        allow_write_diary: روزنوشت ایجاد کند، نظر ثبت کند و دوست اضافه کند
+        allow_write_api: نقشه را تغییر دهد
+        allow_read_gpx: ردهای GPS خصوصی آن‌ها را بخواند
+        allow_write_gpx: ردهای GPS بارگذاری کند
+        allow_write_notes: یادداشت‌ها را تغییر دهد
       diary_comment:
         body: متن
       diary_entry:
@@ -141,6 +150,7 @@ fa:
         body: متن
         recipient: گیرنده
       report:
+        category: دلیل گزارش خود را انتخاب کنید
         details: لطفاً جزئیات بیشتری از مشکل ارائه دهید (ضروری است).
       user:
         email: ایمیل
@@ -149,6 +159,7 @@ fa:
         description: توضیحات
         languages: زبان‌ها
         pass_crypt: گذرواژه
+        pass_crypt_confirmation: تأیید گذرواژه
     help:
       trace:
         tagstring: جداشده با کاما (,)
@@ -249,6 +260,12 @@ fa:
     anonymous: گمنام
     no_comment: (بدون توضیح)
     part_of: بخشی از
+    part_of_relations:
+      one: 1 رابطه
+      other: '%{count} رابطه'
+    part_of_ways:
+      one: 1 راه
+      other: '%{count} راه'
     download_xml: بارگیری XML
     view_history: نمایش تاریخچه
     view_details: نمایش جزئیات
@@ -281,6 +298,8 @@ fa:
       title_html: 'راه: %{name}'
       history_title_html: 'تاریخچهٔ راه: %{name}'
       nodes: گره‌ها
+      nodes_count:
+        other: '%{count} گره'
       also_part_of_html:
         one: بخشی از راه %{related_ways}
         other: ' بخشی از راه‌های %{related_ways}'
@@ -288,6 +307,9 @@ fa:
       title_html: 'رابطه: %{name}'
       history_title_html: 'تاریخچهٔ رابطه: %{name}'
       members: اعضا
+      members_count:
+        one: 1 عضو
+        other: '%{count} عضو'
     relation_member:
       entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} با نقش %{role}'
@@ -575,11 +597,14 @@ fa:
           hospital: بیمارستان
           hunting_stand: شکارگاه
           ice_cream: بستنی فروشی
+          internet_cafe: کافی‌نت
           kindergarten: کودکستان
+          language_school: آموزشگاه زبان
           library: کتابخانه
           marketplace: بازار
           monastery: صومعه
           motorcycle_parking: پارکینگ موتور سیکلت
+          music_school: آموزشگاه موسیقی
           nightclub: باشگاه شبانه
           nursing_home: خانه سالمندان
           parking: پارکینگ
@@ -592,6 +617,7 @@ fa:
           post_office: ادارهٔ پست
           prison: زندان
           pub: میخانه
+          public_bath: حمام عمومی
           public_building: ساختمان عمومی
           recycling: نقطه بازیافت
           restaurant: رستوران
@@ -608,6 +634,7 @@ fa:
           toilets: سرویس های بهداشتی
           townhall: شهرداری
           university: دانشگاه
+          vehicle_inspection: معاینه فنی
           vending_machine: دستگاه فروش
           veterinary: جراح دامپزشک
           village_hall: دهیاری
@@ -619,6 +646,7 @@ fa:
           census: مرز آماری
           national_park: پارک ملی
           protected_area: منطقه حفاظت‌شده
+          "yes": مرز
         bridge:
           aqueduct: قنات
           boardwalk: Boardwalk
@@ -627,27 +655,37 @@ fa:
           viaduct: پل راه آهن روی دره
           "yes": پل
         building:
-          apartments: بلوک آپارتمان
+          apartment: آپارتمان
+          apartments: آپارتمان‌ها
           chapel: کلیسا
-          church: کلیسا
+          church: ساختمان کلیسا
           commercial: ساختمان تجاری
+          construction: ساختمان در دست ساخت
           dormitory: خوابگاه دانشجویی
-          farm: ساختمان در مزرعه
+          farm: خانهٔ مزرعه
           garage: گاراژ
+          greenhouse: گلخانه
           hospital: ساختمان بیمارستان
-          hotel: هتل
+          hotel: ساختمان هتل
           house: خانه
           industrial: ساختمان صنعتی
+          kindergarten: ساختمان مهدکودک
           office: ساختمان اداری
           public: ساختمان عمومی
           residential: ساختمان مسکونی
           retail: معاملات املاک
+          roof: سقف
+          ruins: ساختمان ویران
           school: ساختمان مدرسه
-          terrace: تراس
-          train_station: ایستگاه راه‌آهن
+          terrace: ردیف ساختمان‌ها
+          train_station: ساختمان پایانهٔ قطار
           university: ساختمان دانشگاه
+          warehouse: انبار
           "yes": ساختمان
+        club:
+          "yes": باشگاه
         craft:
+          blacksmith: آهنگر
           brewery: ابجوسازی
           carpenter: نجار
           electrician: متخصص برق
@@ -803,6 +841,8 @@ fa:
           "yes": فراغت
         man_made:
           adit: مدخل
+          advertising: تبلیغات
+          antenna: آنتن
           beacon: نشانهٔ دریایی
           beehive: کندو عسل
           breakwater: موج‌شکن
@@ -818,6 +858,7 @@ fa:
           groyne: آبشکن
           kiln: کوره
           lighthouse: فانوس دریایی
+          manhole: دریچه بازدید
           mast: دکل
           mine: معدن
           mineshaft: رگه اصلی معدن
@@ -995,25 +1036,32 @@ fa:
           grocery: فروشگاه خواروبار
           hairdresser: سلمانی
           hardware: فروشگاه سخت افزار
+          herbalist: عطاری
           hifi: Hi-Fi
           houseware: فروشگاه لوازم خانگی
+          ice_cream: بستنی‌فروشی
           interior_decoration: دکوراسیون داخلی
           jewelry: فروشگاه طلا و جواهر
           kiosk: فروشگاه کیوسک
           kitchen: فروشگاه آشپزخانه
           laundry: خشکشویی
+          locksmith: قفل‌سازی
           lottery: بخت آزمایی
           mall: بازار
           massage: ماساژ
+          medical_supply: فروشگاه تجهیزات پزشکی
           mobile_phone: فروشگاه تلفن همراه
           motorcycle: فروشگاه موتورسیکلت
+          motorcycle_repair: تعمیرات موتورسیکلت
           music: فروشگاه موسیقی
+          musical_instrument: ادوات موسیقی
           newsagent: دکه روزنامه
           optician: عینک سازی
           organic: فروشگاه مواد غذایی آلی
           outdoor: فروشگاه رو باز
           paint: رنگ‌فروشی
           pawnbroker: كارگشا
+          perfumery: عطرفروشی
           pet: فروشگاه حیوانات خانگی
           photo: فروشگاه عکس
           seafood: غذای دریایی
@@ -1203,6 +1251,7 @@ fa:
   layouts:
     project_name:
       title: OpenStreetMap
+      h1: اوپن‌استریت‌مپ
     logo:
       alt_text: لوگوی OpenStreetMap
     home: رفتن به محل خانه
@@ -2164,8 +2213,6 @@ fa:
     reset_password:
       title: بازنشانی گذرواژه
       heading: بازنشانی گذرواژه برای %{user}
-      password: 'گذرواژه:'
-      confirm password: 'تأیید گذرواژه:'
       reset: بازنشانی گذرواژه
       flash changed: گذرواژهٔ شما عوض شد.
       flash token bad: توکن را نیافتید؟ نشانی را بررسی کنید شاید بیابید.

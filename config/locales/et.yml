@@ -27,7 +27,7 @@ et:
         create: Saada
       client_application:
         create: Registreeri
-        update: Redigeeri
+        update: Uuenda
       redaction:
         create: Loo redaktsioon
         update: Salvesta redaktsioon
@@ -89,15 +89,15 @@ et:
       trace:
         user: Kasutaja
         visible: Nähtav
-        name: Nimi
+        name: Failinimi
         size: Suurus
         latitude: Laius
         longitude: Pikkus
         public: Avalik
         description: Kirjeldus
-        gpx_file: 'Laadi üles GPX-fail:'
-        visibility: 'Nähtavus:'
-        tagstring: 'Sildid:'
+        gpx_file: Laadi üles GPX-fail
+        visibility: Nähtavus
+        tagstring: Sildid
       message:
         sender: Saatja
         title: Teema
@@ -390,7 +390,7 @@ et:
     diary_entry:
       posted_by_html: Postitas %{link_user} kuupäeval %{created} – %{language_link}
       comment_link: Kommenteeri seda sissekannet
-      reply_link: Vasta sellele sissekandele
+      reply_link: Saada autorile sõnum
       comment_count:
         one: '%{count} kommentaar'
         zero: Kommentaarid puuduvad
@@ -946,13 +946,13 @@ et:
       hi: Tere, %{to_user}!
       header: '%{from_user} kommenteeris hiljutist OpenStreetMapi päevikusissekannet
         pealkirjaga %{subject}:'
-      footer: Loe kommentaari lehel %{readurl}. Võid lisada oma kommentaari lehel
-        %{commenturl} või vastata kommentaarile lehel %{replyurl}.
+      footer: Saad lugeda kommentaari aadressil %{readurl}. Samuti saad lisada kommentaari
+        aadressil %{commenturl} või saata autorile sõnumi aadressil %{replyurl}.
     message_notification:
       hi: Tere, %{to_user}
       header: '%{from_user} on saatnud sulle OpenStreetMapi kaudu sõnumi teemaga %{subject}:'
-      footer_html: Sõnumit saad lugeda ka aadressil %{readurl} ning vastata saad aadressil
-        %{replyurl}.
+      footer_html: Saad lugeda sõnumit ka aadressil %{readurl} ja saata autorile sõnumi
+        aadressil %{replyurl}.
     friendship_notification:
       hi: Tere, %{to_user}
       subject: '[OpenStreetMap] %{user} lisas sind oma sõbraks'
@@ -972,8 +972,10 @@ et:
         more_info_2: 'neid vältida leiab:'
       success:
         subject: '[OpenStreetMap] GPX Importimine õnnestus'
-        loaded_successfully: laaditi üles edukalt %{trace_points} punkti võimalikust
-          %{possible_points} punktist.
+        loaded_successfully:
+          one: laaditi üles edukalt %{trace_points} punkt võimalikust ühest punktist.
+          other: laaditi üles edukalt %{trace_points} punkti võimalikust %{possible_points}
+            punktist.
     signup_confirm:
       subject: '[OpenStreetMap] Tere tulemast OpenStreetMapi'
       greeting: Tere!
@@ -1044,10 +1046,10 @@ et:
         subject_own: '[OpenStreetMap] %{commenter} on kommenteerinud üht sinu muudatuskogumit'
         subject_other: '[OpenStreetMap] %{commenter} on kommenteerinud muudatuskogumit,
           millest sa oled huvitunud'
-        your_changeset: '%{commenter} on jätnud kommentaari ühele sinu muudatuskogumile,
-          mis on loodud kuupäeval %{time}'
-        commented_changeset: '%{commenter} on jätnud kommentaari kaardi muudatuskogumile,
-          mida sa jälgid ja mille on loonud %{changeset_author} kuupäeval %{time}'
+        your_changeset: '%{commenter} jättis kommentaari ühele sinu muudatuskogumile
+          (%{time})'
+        commented_changeset: '%{commenter} jättis kommentaari muudatuskogumile (%{time}),
+          mida jälgid ja mille on loonud %{changeset_author}'
         partial_changeset_with_comment: kommentaariga '%{changeset_comment}'.
         partial_changeset_without_comment: ilma kommentaarita.
       details: Üksikasjad muudatuskogumi kohta leiad aadressilt %{url}.
@@ -1163,12 +1165,12 @@ et:
         \n<a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
         \nkogukonna nimel. Kõigis OSMF-i hallatavates teenustes kehtivad meie <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">kasutustingimused</a>,
         <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">võrgueeskiri</a>
-        ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">andmekaitsereeglid</a>.\n<br>\nPalun
-        <a href='https://osmfoundation.org/Contact'>võta ühendust OSMF-iga</a>,\nkui
-        sul on küsimusi litsentseerimise, autoriõiguste või muude õiguslike probleemide
-        kohta.\n<br>\nOpenStreetMap, suurendusklaasi logo ja State of the Map on <a
-        href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">OSMF-i registreeritud
-        kaubamärgid</a>."
+        ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">andmekaitsereeglid</a>."
+      legal_2_html: |-
+        Palun <a href='https://osmfoundation.org/Contact'>võta ühendust OSMF-iga</a>,
+        kui sul on küsimusi litsentsimise, autoriõiguse või muude õiguslike teemade kohta.
+        <br>
+        OpenStreetMap, suurendusklaasi logo ja State of the Map on <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">OSMF-i registreeritud kaubamärgid</a>.
       partners_title: Partnerid
     copyright:
       foreign:
@@ -1195,8 +1197,8 @@ et:
           tulemust levitada ainult sama litsentsi tingimustel.
           Sinu õigusi ja kohustusi selgitab litsentsi <a href="https://opendatacommons.org/licenses/odbl/1.0/">täistekst</a>.
         intro_3_1_html: |-
-          Kaardipaanide kujutised ja dokumentatsioon kuuluvad Creative Commonsi
-          litsentsi "<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.et">Autorile viitamine + jagamine samadel tingimustel 2.0</a>" (CC BY-SA) alla.
+          Meie dokumentatsioon kuulub Creative Commonsi
+          litsentsi "<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.et">Autorile viitamine + jagamine samadel tingimustel 2.0</a>" (CC BY-SA 2.0) alla.
         credit_title_html: OpenStreetMapile viitamine
         credit_1_html: |-
           Nõuame, et kasutad omistamiseks teksti &ldquo;&copy; OpenStreetMapi
@@ -1212,6 +1214,11 @@ et:
           aadressidele openstreetmap.org (võimalik, et laiendades teksti
           "OpenStreetMap" täisaadressiks), opendatacommons.org ja
           kui vaja, siis ka aadressile creativecommons.org.
+        credit_3_1_html: "Standardse kujundusega kaardipaanid asukohas www.openstreetmap.org
+          on\nlitsentsi Open Database License alla kuuluvatest andmetest loodud teos,\nmille
+          autor on OpenStreetMap Foundation. Kui kasutad neid kaardipaane,\nsiis palun
+          omista need autorile järgmiselt: \n&ldquo;Aluskaart ja andmed OpenStreetMapist
+          ja OpenStreetMap Foundationilt&rdquo;."
         credit_4_html: |-
           Sirvitaval elektroonilisel kaardil peaks viide olema näha kaardi nurgas.
           Näiteks:
@@ -1404,7 +1411,7 @@ et:
         arupidamiseks ja dokumenteerimiseks.
       welcome:
         url: /welcome
-        title: Tere tulemast OSMi
+        title: Tere tulemast OpenStreetMapi
         description: Alusta selle kiirjuhendiga, mis hõlmab OpenStreetMapi põhitõdesid.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Et:Beginners%27_guide
@@ -1412,8 +1419,9 @@ et:
         description: Kogukonna hallatav juhend algajatele.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: Esita küsimus või otsi vastuseid OSMi küsimuste ja vastuste veebilehel.
+        title: Abifoorum
+        description: Esita küsimus või otsi vastuseid OpenStreetMapi küsimuste ja
+          vastuste veebilehel.
       mailing_lists:
         title: Postiloendid
         description: Esita küsimusi või arutle huvipakkuvatel teemadel paljudes temaatilistes
@@ -1431,8 +1439,8 @@ et:
           võtta OpenStreetMapil põhinevad kaardid ja muud teenused.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Et:Main_Page
-        title: wiki.openstreetmap.org
-        description: Sirvi vikis OSMi põhjalikumat dokumentatsiooni.
+        title: OpenStreetMapi viki
+        description: Sirvi vikis OpenStreetMapi põhjalikumat dokumentatsiooni.
     sidebar:
       search_results: Otsingu tulemused
       close: Sulge
@@ -1621,7 +1629,9 @@ et:
       newer: Uuemad rajad
     trace:
       pending: OOTEL
-      count_points: '%{count} punkti'
+      count_points:
+        one: 1 punkt
+        other: '%{count} punkti'
       more: rohkem
       trace_details: Vaata raja üksikasju
       view_map: Vaata kaarti
@@ -1789,8 +1799,6 @@ et:
     reset_password:
       title: Lähtesta parool
       heading: Kasutaja %{user} parooli lähtestamine
-      password: 'Parool:'
-      confirm password: 'Kinnita parool:'
       reset: Lähtesta parool
       flash changed: Sinu parool on muudetud.
       flash token bad: Ei leitud sellist kinnituskoodi. Kontrolli URL-i.

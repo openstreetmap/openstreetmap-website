@@ -18,6 +18,7 @@
 # Author: Hydra
 # Author: Hzy980512
 # Author: Impersonator 1
+# Author: Irati
 # Author: Jienus
 # Author: Jiwei
 # Author: Josephine W.
@@ -136,7 +137,7 @@ zh-CN:
         support_url: 支持 URL
         allow_read_prefs: 读取其用户设置
         allow_write_prefs: 修改他们的用户首选项
-        allow_write_diary: 创建日记文章、评论与结交朋友。
+        allow_write_diary: 创建日记文章、评论并结交朋友。
         allow_write_api: 修改地图
         allow_read_gpx: 读取他们的私人GPS轨迹
         allow_write_gpx: 上传GPS轨迹
@@ -179,6 +180,7 @@ zh-CN:
         description: 描述
         languages: 语言
         pass_crypt: 密码
+        pass_crypt_confirmation: 确认密码
     help:
       trace:
         tagstring: 用逗号分隔
@@ -284,6 +286,12 @@ zh-CN:
     anonymous: 匿名用户
     no_comment: (无注释)
     part_of: 属于
+    part_of_relations:
+      one: 1 relation
+      other: '%{count} 个关系'
+    part_of_ways:
+      one: 1 way
+      other: '%{count} 条路径'
     download_xml: 下载 XML
     view_history: 查看历史
     view_details: 查看详情
@@ -317,6 +325,8 @@ zh-CN:
       title_html: 路径：%{name}
       history_title_html: 路径历史：%{name}
       nodes: 节点
+      nodes_count:
+        other: '%{count} 个节点'
       also_part_of_html:
         one: 属于路径 %{related_ways}
         other: 属于路径 %{related_ways}
@@ -324,6 +334,9 @@ zh-CN:
       title_html: 关系：%{name}
       history_title_html: 关系历史：%{name}
       members: 成员
+      members_count:
+        one: 1 member
+        other: '%{count} 位成员'
     relation_member:
       entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} 作为%{role}'
@@ -662,7 +675,7 @@ zh-CN:
           administrative: 行政区边界
           census: 人口普查边界
           national_park: 国家公园
-          political: 选举边界
+          political: 选区边界
           protected_area: 保护区
           "yes": 边界
         bridge:
@@ -2066,8 +2079,6 @@ zh-CN:
     reset_password:
       title: 重置密码
       heading: 重置%{user}的密码
-      password: 密码：
-      confirm password: 确认密码：
       reset: 重置密码
       flash changed: 您的密码已经更改。
       flash token bad: 未找到标记，建议检查 URL?

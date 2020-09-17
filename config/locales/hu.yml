@@ -36,6 +36,8 @@ hu:
     formats:
       friendly: '%Y. %B %e., %H.%M'
   helpers:
+    file:
+      prompt: Válassz egy fájlt
     submit:
       diary_comment:
         create: Mentés
@@ -48,7 +50,7 @@ hu:
         create: Küldés
       client_application:
         create: Regisztrálás
-        update: Szerkesztés
+        update: Frissítés
       redaction:
         create: Módosítás létrehozása
         update: Módosítás mentése
@@ -115,15 +117,15 @@ hu:
       trace:
         user: Felhasználó
         visible: Látható
-        name: Név
+        name: Fájlnév
         size: Méret
         latitude: Földrajzi szélesség
         longitude: Földrajzi hosszúság
         public: Nyilvános
         description: Leírás
-        gpx_file: 'GPX fájl feltöltése:'
-        visibility: 'Láthatóság:'
-        tagstring: 'Címkék:'
+        gpx_file: GPX fájl feltöltése
+        visibility: Láthatóság
+        tagstring: Címkék
       message:
         sender: Küldő
         title: Tárgy
@@ -194,6 +196,9 @@ hu:
     remote:
       name: Távirányító
       description: Távirányító (JOSM vagy Merkaartor)
+  auth:
+    providers:
+      wikipedia: Wikipédia
   api:
     notes:
       comment:
@@ -231,6 +236,12 @@ hu:
     anonymous: névtelen
     no_comment: (nincs hozzászólás)
     part_of: Része ennek
+    part_of_relations:
+      one: 1 kapcsolat
+      other: '%{count} kapcsolat'
+    part_of_ways:
+      one: 1 vonal
+      other: '%{count} vonal'
     download_xml: XML letöltése
     view_history: Előzmények megjelenítése
     view_details: Részletek megtekintése
@@ -263,6 +274,8 @@ hu:
       title_html: 'Vonal: %{name}'
       history_title_html: 'Vonal történet: %{name}'
       nodes: Pontok
+      nodes_count:
+        other: '%{count} pont'
       also_part_of_html:
         one: '%{related_ways} vonal része'
         other: '%{related_ways} vonalak része'
@@ -270,6 +283,9 @@ hu:
       title_html: Kapcsolat:%{name}
       history_title_html: 'Kapcsolat történet: %{name}'
       members: Tagok
+      members_count:
+        one: 1 tag
+        other: '%{count} tag'
     relation_member:
       entry_role_html: '%{type} %{name} mint %{role}'
       type:
@@ -402,6 +418,7 @@ hu:
       in_language_title: Naplóbejegyzések %{language} nyelven
       new: Új naplóbejegyzés
       new_title: Új bejegyzés írása a felhasználói naplómba
+      my_diary: Naplóm
       no_entries: Nincsenek naplóbejegyzések
       recent_entries: Legutóbbi naplóbejegyzések
       older_entries: Régebbi bejegyzések
@@ -424,7 +441,7 @@ hu:
     diary_entry:
       posted_by_html: '%{link_user} küldte ekkor: %{created} %{language_link} nyelven'
       comment_link: Hozzászólás ehhez a bejegyzéshez
-      reply_link: Válasz a bejegyzésre
+      reply_link: Üzenet küldése a szerzőnek
       comment_count:
         zero: Nincs hozzászólás
         one: '%{count} hozzászólás'
@@ -2117,8 +2134,6 @@ hu:
     reset_password:
       title: Jelszó alaphelyzetbe állítása
       heading: '%{user} jelszavának alaphelyzetbe állítása'
-      password: 'Jelszó:'
-      confirm password: 'Jelszó megerősítése:'
       reset: Jelszó alaphelyzetbe állítása
       flash changed: Jelszavad megváltozott.
       flash token bad: Nem található ez az utalvány, ellenőrizd az URL-t.
