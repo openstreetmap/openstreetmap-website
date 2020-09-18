@@ -81,6 +81,15 @@ module Api
       # check that a non-existent user is not returned
       get api_user_path(:id => 0)
       assert_response :not_found
+
+      # check that a visible user is returned properly in json
+      get api_user_path(:id => user.id, :format => "json")
+      assert_response :success
+      assert_equal "application/json", response.media_type
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal user.id, js["user"]["id"]
     end
 
     def test_details

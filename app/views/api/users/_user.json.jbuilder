@@ -54,11 +54,7 @@ json.user do
       end
     end
 
-    if user.languages
-      json.languages do
-        json.array! user.languages.split(",")
-      end
-    end
+    json.languages user.languages if user.languages?
 
     json.messages do
       json.received do
