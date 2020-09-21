@@ -19,6 +19,8 @@ is:
       friendly: '%e. %B %Y kl. %H:%M'
       blog: '%e. %B %Y'
   helpers:
+    file:
+      prompt: Veldu skrá
     submit:
       diary_comment:
         create: Vista
@@ -31,7 +33,7 @@ is:
         create: Senda
       client_application:
         create: Nýskrá
-        update: Breyta
+        update: Uppfæra
       redaction:
         create: Búa til leiðréttingu
         update: Vista leiðréttingu
@@ -84,8 +86,18 @@ is:
       way_tag: Merki leiðar
     attributes:
       client_application:
+        name: Nafn (krafist)
+        url: Slóð á aðalforritið (nauðsynleg)
         callback_url: Svarslóð
         support_url: Slóð á aðstoð
+        allow_read_prefs: lesa notandastillingar þeirra
+        allow_write_prefs: breyta notandastillingum þeirra
+        allow_write_diary: búa til bloggfærslur, setja inn athugasemdir og bæta við
+          vinum
+        allow_write_api: breyta kortagögnunum
+        allow_read_gpx: lesa einka-GPS-ferlana þeirra
+        allow_write_gpx: senda inn GPS ferla
+        allow_write_notes: breyta minnispunktum
       diary_comment:
         body: Texti
       diary_entry:
@@ -100,21 +112,22 @@ is:
       trace:
         user: Notandi
         visible: Sýnileg
-        name: Nafn
+        name: Skráarheiti
         size: Stærð
         latitude: Breiddargráða
         longitude: Lengdargráða
         public: Opinbert
         description: Lýsing
-        gpx_file: 'Hlaða inn GPX skrá:'
-        visibility: 'Sýnileiki:'
-        tagstring: 'Merki:'
+        gpx_file: Hlaða inn GPX-skrá
+        visibility: Sýnileiki
+        tagstring: Merki
       message:
         sender: Sendandi
         title: Fyrirsögn
         body: Texti
         recipient: Móttakandi
       report:
+        category: Veldu ástæðu fyrir að þú gerir skýrslu
         details: Tilgreindu öll nauðsynleg atriði um vandamálið (nauðsynlegt).
       user:
         email: Netfang
@@ -123,6 +136,7 @@ is:
         description: Lýsing
         languages: Tungumál
         pass_crypt: Lykilorð
+        pass_crypt_confirmation: Staðfestu lykilorð
     help:
       trace:
         tagstring: aðskilið með kommum
@@ -229,10 +243,18 @@ is:
     anonymous: nafnlaus
     no_comment: (engin athugasemd)
     part_of: Hluti af
+    part_of_relations:
+      one: 1 vensl
+      other: '%{count} vensl'
+    part_of_ways:
+      one: 1 leið
+      other: '%{count} leiðir'
     download_xml: Sækja XML
     view_history: Skoða feril
     view_details: Skoða nánar
     location: 'Staðsetning:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Breytingasett: %{id}'
       belongs_to: Höfundur
@@ -261,6 +283,9 @@ is:
       title_html: 'Leið: %{name}'
       history_title_html: 'Saga leiðar: %{name}'
       nodes: Hnútar
+      nodes_count:
+        one: liður
+        other: '%{count} liðir'
       also_part_of_html:
         one: hluti leiðar %{related_ways}
         other: hlutar leiða %{related_ways}
@@ -268,6 +293,9 @@ is:
       title_html: 'Vensl: %{name}'
       history_title_html: 'Ferill vensla: %{name}'
       members: Meðlimir
+      members_count:
+        one: 1 meðlimur
+        other: '%{count} meðlimir'
     relation_member:
       entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} sem „%{role}“'
@@ -338,6 +366,7 @@ is:
       reopened_by_anonymous: Endurvirkjað af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Falið af %{user} <abbr title='%{exact_time}'> %{when}</abbr>
       report: Tilkynna þennan minnispunkt
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Rannsaka fitjur
       introduction: Smelltu á kortið til að finna fitjur í nágrenninu.
@@ -404,6 +433,7 @@ is:
       in_language_title: Bloggfærslur á %{language}
       new: Ný bloggfærsla
       new_title: Semja nýja færslu á bloggið mitt
+      my_diary: Bloggið mitt
       no_entries: Engar bloggfærslur
       recent_entries: Nýlegar bloggfærslur
       older_entries: Eldri færslur
@@ -425,7 +455,7 @@ is:
     diary_entry:
       posted_by_html: Sett inn af %{link_user} %{created} á %{language_link}
       comment_link: Bæta athugasemd við þessa færslu
-      reply_link: Svara þessari færslu
+      reply_link: Senda skilaboð til höfundar
       comment_count:
         zero: Engar athugasemdir
         one: '%{count} athugasemd'
@@ -445,6 +475,7 @@ is:
       location: 'Staðsetning:'
       view: Skoða
       edit: Breyta
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: OpenStreetMap bloggfærslur eftir %{user}
@@ -493,10 +524,12 @@ is:
           chair_lift: Stólalyfta
           drag_lift: Toglyfta
           gondola: Eggjalyfta
+          magic_carpet: Töfrateppislyfta
           platter: Diskalyfta
           pylon: Lyftumastur
           station: Lyftustöð
           t-bar: T-lyfta
+          "yes": Víralyfta
         aeroway:
           aerodrome: Flugsvæði
           airstrip: Flugbraut
@@ -505,11 +538,15 @@ is:
           hangar: Flugskýli
           helipad: Þyrlupallur
           holding_position: Biðstæði
+          navigationaid: Aðstoð við flugleiðsögn
           parking_position: Loftfarastæði
           runway: Flugbraut
+          taxilane: Aksturbraut
           taxiway: Akbraut flugvéla
           terminal: Flugstöð
+          windsock: Vindpoki
         amenity:
+          animal_boarding: Dýrahótel
           animal_shelter: Dýraheimili
           arts_centre: Listamiðstöð
           atm: Hraðbanki
@@ -519,7 +556,9 @@ is:
           bench: Bekkur
           bicycle_parking: Hjólastæði
           bicycle_rental: Reiðhjólaleiga
+          bicycle_repair_station: Reiðhjólaviðgerðastöð
           biergarten: Bjórgarður
+          blood_bank: Blóðbanki
           boat_rental: Bátaleiga
           brothel: Hóruhús
           bureau_de_change: Gjaldeyrisskipti
@@ -536,6 +575,7 @@ is:
           clock: Klukka
           college: Framhaldsskóli
           community_centre: Samfélagsmiðstöð
+          conference_centre: Ráðstefnumiðstöð
           courthouse: Dómshús
           crematorium: Bálstofa
           dentist: Tannlæknir
@@ -543,6 +583,7 @@ is:
           drinking_water: Drykkjarvatn
           driving_school: Ökuskóli
           embassy: Sendiráð
+          events_venue: Aðstaða fyrir atburð
           fast_food: Skyndibitastaður
           ferry_terminal: Ferjustöð
           fire_station: Slökkvistöð
@@ -555,16 +596,24 @@ is:
           hospital: Sjúkrahús
           hunting_stand: Skotvöllur
           ice_cream: Ísbúð
+          internet_cafe: Netkaffi
           kindergarten: Leikskóli
+          language_school: Tungumálaskóli
           library: Bókasafn
+          loading_dock: Hleðslupallur
+          love_hotel: Elskendahótel
           marketplace: Markaður
+          mobile_money_agent: Afgreiðsla farsímapeninga
           monastery: Klaustur
+          money_transfer: Greiðslumiðlun
           motorcycle_parking: Mótorhjólastæði
+          music_school: Tónlistarskóli
           nightclub: Næturklúbbur
           nursing_home: Hjúkrunarheimili
           parking: Bílastæði
           parking_entrance: Aðgangur að bílastæði
           parking_space: Bílastæði
+          payment_terminal: Greiðslukassi
           pharmacy: Lyfjabúð
           place_of_worship: Tilbeiðslustaður
           police: Lögreglustöð
@@ -572,9 +621,13 @@ is:
           post_office: Pósthús
           prison: Fangelsi
           pub: Krá
+          public_bath: Almenningsbaðhús
+          public_bookcase: Almenningsbókakassi
           public_building: Opinber bygging
+          ranger_station: Landvarðastöð
           recycling: Endurvinnsla
           restaurant: Veitingastaður
+          sanitary_dump_station: Stöð fyrir hreinlætisúrgang
           school: Skóli
           shelter: Skýli
           shower: Sturta
@@ -587,18 +640,27 @@ is:
           theatre: Leikhús
           toilets: Klósett
           townhall: Ráðhús
+          training: Æfingaaðstaða
           university: Háskóli
+          vehicle_inspection: Bifreiðaskoðun
           vending_machine: Sjálfsali
           veterinary: Dýraspítali
           village_hall: Hreppsskrifstofa
           waste_basket: Ruslafata
           waste_disposal: Ruslsöfnun
+          waste_dump_site: Sorplosunarsvæði
+          watering_place: Vatnsból
           water_point: Vatnspóstur
+          weighbridge: Bílavog
+          "yes": Aðstaða
         boundary:
+          aboriginal_lands: Frumbyggjaland
           administrative: Stjórnsýslumörk
           census: Manntalsmörk
           national_park: Þjóðgarður
+          political: Kjördeilda/kjördæmamörk
           protected_area: Verndarsvæði
+          "yes": Mörk
         bridge:
           aqueduct: Vatnsveitubrú
           boardwalk: Plankabrú
@@ -607,39 +669,94 @@ is:
           viaduct: Dalbrú
           "yes": Brú
         building:
-          apartments: Háhýsi
+          apartment: Íbúð
+          apartments: Íbúðir
+          barn: Hlaða
+          bungalow: Sumarbústaður
+          cabin: Kofi
           chapel: Kapellan
-          church: Kirkjan
+          church: Kirkjubygging
+          civic: Almenningsbygging
+          college: Framhaldsskólabygging
           commercial: Verslunarhús
+          construction: Bygging á framkvæmdastigi
+          detached: Aðskilið hús
           dormitory: Heimavist
+          duplex: Parhús
           farm: Bóndabær
+          farm_auxiliary: Aðskilin bygging á býli
           garage: Bílskúr
+          garages: Verkstæði
+          greenhouse: Gróðurhús
+          hangar: Flugskýli
           hospital: Sjúkrahús
-          hotel: Hótel
+          hotel: Hótelbygging
           house: Hús
+          houseboat: Húsbátur
+          hut: Kofi
           industrial: Iðnaðarhús
+          kindergarten: Leikskólabygging
+          manufacture: Verksmiðjubygging
           office: Skrifstofuhús
           public: Opinber bygging
           residential: Íbúðarhús
+          retail: Verslunarbygging
+          roof: Þak
+          ruins: Byggingarústir
           school: Skóli
+          semidetached_house: Hálfaðgreint hús
+          service: Þjónustubygging
+          shed: Skúr
+          stable: Hesthús
+          static_caravan: Hjólhýsi
+          temple: Trúarleg bygging
+          terrace: Raðhús
+          train_station: Lestarstöðvarbygging
+          university: Háskólabygging
+          warehouse: Vöruhús
           "yes": Bygging
+        club:
+          scout: Aðstaða skátafélags
+          sport: Íþróttaklúbbur
+          "yes": Klúbbur
         craft:
+          beekeper: Býflugnabóndi
+          blacksmith: Járnsmiður
           brewery: Brugghús
           carpenter: Trésmiður
+          caterer: Veisluþjónusta
+          confectionery: Sælgætisverslun
+          dressmaker: Klæðskeri
           electrician: Rafvirki
+          electronics_repair: Raftækjaviðgerðir
           gardener: Garðyrkjumaður
+          glaziery: Glerverkstæði
+          handicraft: Handverk
+          hvac: Loftræsti- og hitunarkerfi
+          metal_construction: Málmsmíði
           painter: Málari
           photographer: Ljósmyndari
           plumber: Pípulagningamaður
+          roofer: Þaksmiður
+          sawmill: Sögunarmylla
           shoemaker: Skósmiður
+          stonemason: Steinsmiður
           tailor: Klæðskeri
+          window_construction: Gluggasmíði
+          winery: Víngerð
           "yes": Handverkshús
         emergency:
+          access_point: Aðgangspunktur
           ambulance_station: Sjúkrabílastöð
           assembly_point: Safnsvæði
           defibrillator: Hjartastuðtæki
+          fire_xtinguisher: Slökkvitæki
+          fire_water_pond: Slökkviliðsvatnsból
           landing_site: Neyðarlending
+          life_ring: Björgunarhringur
           phone: Neyðarsími
+          siren: Neyðarsírena
+          suction_point: Soghani fyrir neyðartilfelli
           water_tank: Vatnstankur fyrir neyðartilfelli
           "yes": Neyðartilfelli
         highway:
@@ -652,6 +769,7 @@ is:
           cycleway: Hjólastígur
           elevator: Lyfta
           emergency_access_point: Neyðaraðgangur
+          emergency_bay: Neyðarútskot
           footway: Göngustígur
           ford: Vað
           give_way: Víkja-skilti
@@ -682,35 +800,45 @@ is:
           tertiary: Annar vegur
           tertiary_link: Annar vegur
           track: Slóði
+          traffic_mirror: Umferðarspegill
           traffic_signals: Umferðarljós
+          trailhead: Upphaf slóða
           trunk: Stofnbraut (Hringvegurinn)
           trunk_link: Stofnbraut (Hringvegurinn)
           turning_loop: Snúningsslaufa
           unclassified: Óflokkaður vegur
           "yes": Vegur
         historic:
+          aircraft: Söguleg flugvél
           archaeological_site: Fornminjar
+          bomb_crater: Sögulegur sprengjugígur
           battlefield: Orustuvöllur
           boundary_stone: Landamerkjasteinn
           building: Söguleg bygging
           bunker: Sprengjubyrgi
+          cannon: Söguleg fallbyssa
           castle: Kastali
+          charcoal_pile: Sögulegur kolahaugur
           church: Kirkja
           city_gate: Borgarhlið
           citywalls: Borgarmúrar
           fort: Virki
           heritage: Sögulegur staður
+          hollow_way: Tröð (niðursokkin leið)
           house: Hús
           manor: Herragarður
           memorial: Minnismerki
+          milestone: Sögulegur kílómetrasteinn
           mine: Náma
           mine_shaft: Námugöng
           monument: Minnisvarði
+          railway: Sögulegt lestarspor
           roman_road: Rómverskur vegur
           ruins: Rústir
           stone: Steinn
           tomb: Gröf
           tower: Turn
+          wayside_chapel: Vegakapella
           wayside_cross: Vegakross
           wayside_shrine: Vegaskrín
           wreck: Flak
@@ -719,6 +847,7 @@ is:
           "yes": Tenging
         landuse:
           allotments: Úthlutuð svæði
+          aquaculture: Vatnseldi
           basin: Lægð
           brownfield: Byggingarsvæði
           cemetery: Grafreitur
@@ -738,9 +867,11 @@ is:
           military: Hersvæði
           mine: Náma
           orchard: Trjágarður
+          plant_nursery: Græðlingaræktun
           quarry: Grjótnáma
           railway: Lestarteinar
           recreation_ground: Leikvöllur
+          religious: Trúartengt svæði
           reservoir: Uppistöðulón
           reservoir_watershed: Vatnasvið uppistöðulóns
           residential: Íbúðasvæði
@@ -749,9 +880,15 @@ is:
           vineyard: Vínekra
           "yes": Landnotkun
         leisure:
+          adult_gaming_centre: Spilasalur fyrir fullorðna
+          amusement_arcade: Spilasalur
+          bandstand: Hljómsveitarpallur
           beach_resort: Strandbær
           bird_hide: Fuglaskoðunarhús
+          bleachers: Áhorfendapallar
+          bowling_alley: Keiluhöll
           common: Almenningur
+          dance: Danssalur
           dog_park: Hundagarður
           firepit: Eldhola
           fishing: Fiskveiði
@@ -764,7 +901,9 @@ is:
           marina: Bátalægi
           miniature_golf: Mínigolf
           nature_reserve: Náttúruverndarsvæði
+          outdoor_seating: Sæti utandyra
           park: Almenningsgarður
+          picnic_table: Nestisborð
           pitch: Íþróttavöllur
           playground: Leikvöllur
           recreation_ground: Leikvöllur
@@ -779,13 +918,21 @@ is:
           "yes": Afþreying
         man_made:
           adit: Námuinngangur
+          advertising: Auglýsing
+          antenna: Loftnet
+          avalanche_protection: Snjóflóðavörn
           beacon: Miðunarmerki
+          beam: Biti
           beehive: Býflugnabú
           breakwater: Brimvarnargarður
           bridge: Brú
           bunker_silo: Sprengjubyrgi
+          cairn: Varða
           chimney: Skorsteinn
+          clearcut: Höggvið
+          communications_tower: Samskiptamastur
           crane: Krani
+          cross: Kross
           dolphin: Bryggjustólpi
           dyke: Flóðgarður
           embankment: Stallur
@@ -794,6 +941,7 @@ is:
           groyne: Öldubrjótur
           kiln: Brennsluofn
           lighthouse: Viti
+          manhole: Mannop
           mast: Mastur
           mine: Náma
           mineshaft: Námugöng
@@ -801,12 +949,20 @@ is:
           petroleum_well: Olíulind
           pier: Bryggja
           pipeline: Leiðsla
+          pumping_station: Dælustöð
+          reservoir_covered: Yfirbyggt vatnsforðabúr
           silo: Síló
+          snow_cannon: Snjóbyssa
+          snow_fence: Snjógirðing
           storage_tank: Geymslutankur
+          street_cabinet: Götuklefi
           surveillance: Eftirlit
+          telescope: Sjónauki
           tower: Turn
+          utility_pole: Strengjamastur
           wastewater_plant: Vatnshreinsistöð
           watermill: Vatnsmylla
+          water_tap: Vatnshani
           water_tower: Vatnsturn
           water_well: Brunnur
           water_works: Vatnsvinnsla
@@ -817,10 +973,13 @@ is:
           airfield: Herflugvöllur
           barracks: Herbúðir
           bunker: Sprengjubyrgi
+          checkpoint: Varðstöð
+          trench: Skurður
           "yes": Hernaðar
         mountain_pass:
           "yes": Fjallaskarð
         natural:
+          bare_rock: Berar klappir
           bay: Flói
           beach: Strönd
           cape: Höfði
@@ -836,6 +995,7 @@ is:
           grassland: Gresja
           heath: Heiði
           hill: Hæð
+          hot_spring: Heit uppspretta
           island: Eyja
           land: Land
           marsh: Votlendi
@@ -859,20 +1019,31 @@ is:
           water: Vatn
           wetland: Votlendi
           wood: Skógur
+          "yes": Náttúrulegt fyrirbrigði
         office:
           accountant: Bókari
           administrative: Stjórnsýsla
+          advertising_agency: Auglýsingastofa
           architect: Arkítektar
           association: Samtök
           company: Fyrirtæki
+          diplomatic: Diplómataskrifstofa
           educational_institution: Menntastofnun
           employment_agency: Vinnumiðlun
+          energy_supplier: Skrifstofa orkusala
           estate_agent: Fasteignasali
+          financial: Fjármálaskrifstofa
           government: Stjórnarskrifstofa
           insurance: Tryggingaskrifstofa
           it: Upplýsingatækniskrifstofa
           lawyer: Lögmaður
+          logistics: Birgðastjórnunarskrifstofa
+          newspaper: Skrifstofa dagblaðs
           ngo: Skrifstofa frjálsra félagasamtaka
+          notary: Lögbókandi
+          religion: Skrifstofa trúarlegra málefna
+          research: Rannsóknaskrifstofa
+          tax_advisor: Skattaráðgjöf
           telecommunication: Fjarskiptaskrifstofa
           travel_agent: Ferðaskrifstofa
           "yes": Skrifstofa
@@ -892,6 +1063,7 @@ is:
           locality: Sveitarfélag
           municipality: Sveitarfélag
           neighbourhood: Nágrenni
+          plot: Lóð
           postcode: Póstnúmer
           quarter: Hverfi
           region: Hérað
@@ -926,12 +1098,19 @@ is:
           switch: Lestarteinaskipting
           tram: Sporvagn
           tram_stop: Sporvagnastöð
+          yard: Járnbrautagerði
         shop:
+          agrarian: Landbúnaðarverslun
           alcohol: Án vínveitingaleyfis
           antiques: Antíkverslun
+          appliance: Raftækjaverslun
           art: Listmunaverslun
+          baby_goods: Barnavörur
+          bag: Pokaverslun
           bakery: Bakarí
+          bathroom_furnishing: Baðherbergisinnréttingar
           beauty: Snyrtivöruverslun
+          bed: Svefnherbergisvörur
           beverages: Drykkjarfangaverslun
           bicycle: Hjólaverslun
           bookmaker: Veðmangari
@@ -943,61 +1122,90 @@ is:
           car_repair: Bílaviðgerðir
           carpet: Teppabúð
           charity: Góðgerðaverslun
+          cheese: Ostabúð
           chemist: Lyfsali
+          chocolate: Súkkulaði
           clothes: Fataverslun
+          coffee: Kaffiverslun
           computer: Tölvuverslun
           confectionery: Sælgætisverslun
           convenience: Kjörbúð
           copyshop: Ljósritunarverslun
           cosmetics: Snyrtivöruverslun
+          craft: Aðföng fyrir handverk
+          curtain: Gluggatjaldaverslun
+          dairy: Mjólkurbúð
           deli: Sælkeraverslun
           department_store: Kjörbúð
           discount: Afsláttarvöruverslun
           doityourself: Föndurvörur
           dry_cleaning: Þurrhreinsun
+          e-cigarette: Rafrettuverslun
           electronics: Raftækjaverslun
+          erotic: Erótísk verslun
           estate_agent: Fasteignasali
+          fabric: Vefnaðarvöruverslun
           farm: Beint frá býli
           fashion: Tískuverslun
+          fishing: Fiskveiðivöruverslun
           florist: Blómabúð
           food: Matvöruverslun
+          frame: Rammabúð
           funeral_directors: Útfararstjóri
           furniture: Húsgögn
           garden_centre: Garðyrkja
+          gas: Gasverslun
           general: Almenn verslun
           gift: Gjafabúð
           greengrocer: Grænmetissali
           grocery: Matvöruverslun
           hairdresser: Hársnyrting
           hardware: Verkfærabúð
+          health_food: Heilsufæðisverslun
+          hearing_aids: Heyrnartæki
+          herbalist: Jurtaverslun
           hifi: Hljómtækjaverslun
           houseware: Húsbúnaðarverslun
+          ice_cream: Ísbúð
           interior_decoration: Innanhúshönnun
           jewelry: Skartgripaverslun
           kiosk: Söluturn
           kitchen: Eldhúsvörur
           laundry: Þvottahús
+          locksmith: Lásasmíði
           lottery: Lottó
           mall: Verslunarkjarni
           massage: Nudd
+          medical_supply: Lækningavöruverslun
           mobile_phone: Farsímaverslun
+          money_lender: Peningaútlán
           motorcycle: Mótorhjólaverslun
+          motorcycle_repair: Mótorhjólaviðgerðir
           music: Tónlistarverslun
+          musical_instrument: Hljóðfæri
           newsagent: Blaðasali
+          nutrition_supplements: Fæðubótarefni
           optician: Sjóntækjafræðingur
           organic: Verslun með lífrænt fæði
           outdoor: Útivistarverslun
           paint: Málningarvöruverslun
+          pastry: Kökubúð
           pawnbroker: Veðlánari
+          perfumery: Ilmvötn
           pet: Gæludýraverslun
+          pet_grooming: Snyrting fyrir gæludýr
           photo: Ljósmyndavöruverslun
           seafood: Fiskmeti
           second_hand: Verslun með notað
+          sewing: Saumabúð
           shoes: Skóbúð
           sports: Íþróttavöruverslun
           stationery: Ritfangaverslun
+          storage_rental: Leigugeymslur
           supermarket: Kjörbúð
           tailor: Klæðskeri
+          tattoo: Húðflúrstofa
+          tea: Teverslun
           ticket: Miðasala
           tobacco: Tóbaksverslun
           toys: Leikfangaverslun
@@ -1006,6 +1214,8 @@ is:
           vacant: Laust verslunarrými
           variety_store: Smávörumarkaður
           video: Videoleiga
+          video_games: Tölvuleikjaverslun
+          wholesale: Heildsöluverslun
           wine: Vínbúð
           "yes": Verslun
         tourism:
@@ -1015,6 +1225,7 @@ is:
           attraction: Aðdráttarafl
           bed_and_breakfast: BB-gisting og veitingar
           cabin: Kofi
+          camp_pitch: Tjaldreitur
           camp_site: Tjaldstæði
           caravan_site: Hjólhýsastæði
           chalet: Fjallakofi
@@ -1028,6 +1239,7 @@ is:
           picnic_site: Nestisaðstaða
           theme_park: Þemagarður
           viewpoint: Útsýnisstaður
+          wilderness_hut: Óbyggðakofi
           zoo: Dýragarður
         tunnel:
           building_passage: Undirgöng í gegnum byggingu
@@ -1233,12 +1445,13 @@ is:
       header: '%{from_user} hefur bætt við athugasemd á OpenStreetMap bloggfærsluna
         með titlinum „%{subject}“:'
       footer: Þú getur einnig lesið athugasemdina á %{readurl} og skrifað athugasemd
-        á %{commenturl} eða svarað á %{replyurl}
+        á %{commenturl} eða sent skilaboð til höfundarins á %{replyurl}
     message_notification:
       subject_header: '[OpenStreetMap] %{subject}'
       hi: Hæ %{to_user},
       header: '%{from_user} hefur send þér skilaboð á OpenStreetMap með titlinum „%{subject}“:'
-      footer_html: Þú getur einnig lesið skilaboðin á %{readurl} og svarað á %{replyurl}
+      footer_html: Þú getur einnig lesið skilaboðin á %{readurl} og sent skilaboð
+        til höfundarins á %{replyurl}
     friendship_notification:
       hi: Hæ %{to_user},
       subject: '[OpenStreetMap] %{user} bætti þér við sem vin'
@@ -1428,8 +1641,8 @@ is:
     about:
       next: Næsta
       copyright_html: <span>&copy;</span>Þátttakendur í<br>OpenStreetMap<br>verkefninu
-      used_by_html: '%{name} drífur áfram kortagögn á þúsundum vefsíðna, símaforritum
-        og tækjum'
+      used_by_html: '%{name} veitir kortagögn á þúsundum vefsíðna, símaforritum og
+        tækjum'
       lede_text: OpenStreetMap er byggt upp af heilu samfélagi kortagerðarfólks sem
         leggur inn og viðheldur gögnum um vegi, stíga, kaffihús, járnbrautir og margt,
         margt fleira, út um víða veröld.
@@ -1499,10 +1712,8 @@ is:
           sama leyfi.
           <a href="https://opendatacommons.org/licenses/odbl/1.0/">Leyfistextinn</a>
           útskýrir réttindi þín og skyldur.
-        intro_3_1_html: |-
-          Landupplýsingarnar í kortaflísunum okkar, og í hjálparskjölunum, eru
-          gefnar út með <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Attribution-ShareAlike 2.0</a> notkunarleyfi (CC BY-SA).
+        intro_3_1_html: "Hjálparskjölin okkar eru gefin út með \n<a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons
+          Attribution-ShareAlike 2.0</a> notkunarleyfi (CC BY-SA 2.0)."
         credit_title_html: Hvernig á að vísa til OpenStreetMap
         credit_1_html: |-
           Við gerum kröfu um að þú notir tilvísunina &ldquo;&copy; Þátttakendur í
@@ -1516,6 +1727,11 @@ is:
           mögulegir (t.d. prentuðum verkum), stingum við upp á að\nþú beinir lesendum
           á openstreetmap.org (mögulega að tengja\n'OpenStreetMap' við fullt vistfang
           þessarar síðu), á opendatacommons.org, og\nef slíkt á við, á creativecommons.org."
+        credit_3_1_html: "Kortatíglarnir í &ldquo;staðlaða stílnum&rdquo; á www.openstreetmap.org
+          eru \nunnir af OpenStreetMap Foundation með OpenStreetMap-gögnum \nsem bera
+          Open Database notkunarleyfi. Ef þú ert að nota þessar kortaflísar skaltu
+          nota \neftirfarandi tilvísun: \n&ldquo;Grunnkort og gögn frá OpenStreetMap
+          og OpenStreetMap Foundation&rdquo;. \\"
         credit_4_html: |-
           Á flettanlegum rafrænum landakortum ætti tilvísunin að birtast í horni kortsins.
           Til dæmis:
@@ -1929,6 +2145,7 @@ is:
         other: Þú ert með %{count} ferla í bið. Íhugaðu að bíða með að senda inn fleiri
           ferla til að aðrir notendur komist að.
     edit:
+      cancel: Hætta við
       title: Breyti ferlinum %{name}
       heading: Breyti ferlinum %{name}
       visibility_help: hvað þýðir þetta?
@@ -1946,6 +2163,7 @@ is:
       uploaded: 'Hlaðið inn:'
       points: 'Punktar:'
       start_coordinates: 'Byrjunarhnit:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: kort
       edit: breyta
       owner: 'Eigandi:'
@@ -2207,7 +2425,13 @@ is:
       title: Skilmálar
       heading: Skilmálar
       heading_ct: Skilmálar vegna framlags
+      read and accept with tou: Vinsamlega lestu samkomulag vegna framlaga auk notkunarskilmálanna,
+        merktu í báða reitina þegar því er lokið og ýttu á hnappinn til að halda áfram.
+      contributor_terms_explain: Þessir skilmálar eru forsendur fyrir núverandi- jafnt
+        sem framtíðar-framlögum þínum.
       read_ct: Ég hef lesið og samþykki ofangreinda skilmála fyrir framlög þátttakenda
+      tou_explain_html: Þessi %{tou_link} stýra notkuninni á vefsvæðinu ásamt öðrum
+        stoðkerfum OSMF. Smelltu á tengilinn, lestu síðan og samþykktu textann.
       read_tou: Ég hef lesið og samþykki notkunarskilmálana
       consider_pd: Til viðbótar við ofangreint samkomulag, lít ég svo á að framlög
         mín verði í almenningseigu (Public Domain)
@@ -2617,6 +2841,7 @@ is:
         cycle_map: Hjólakort
         transport_map: Umferðarkort
         hot: Hjálparstarf
+        opnvkarte: ÖPNVKarte
       layers:
         header: Lög á korti
         notes: Minnispunktar á korti
@@ -2629,6 +2854,7 @@ is:
       terms: <a href='%{terms_url}' target='_blank'>Skilmálar vefsvæðis og API-kerfisviðmóts</a>
       thunderforest: Kortatíglar frá <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
+      opnvkarte: Kortatíglar frá <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
       hotosm: Stíll kortatígla frá <a href='%{hotosm_url}' target='_blank'>Humanitarian
         OpenStreetMap teyminu</a> hýst á <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
         France</a>

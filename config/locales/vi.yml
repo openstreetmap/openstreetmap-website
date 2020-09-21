@@ -26,6 +26,8 @@ vi:
       friendly: '%e tháng %m năm %Y lúc %H:%M'
       blog: '%d tháng %m năm %Y'
   helpers:
+    file:
+      prompt: Chọn tập tin
     submit:
       diary_comment:
         create: Lưu
@@ -140,6 +142,7 @@ vi:
         description: Miêu tả
         languages: Ngôn ngữ
         pass_crypt: Mật khẩu
+        pass_crypt_confirmation: Xác nhận mật khẩu
     help:
       trace:
         tagstring: dấu phẩy phân cách
@@ -242,6 +245,12 @@ vi:
     anonymous: vô danh
     no_comment: (không miêu tả)
     part_of: Trực thuộc
+    part_of_relations:
+      one: '%{count} quan hệ'
+      other: '%{count} quan hệ'
+    part_of_ways:
+      one: '%{count} lối'
+      other: '%{count} lối'
     download_xml: Tải về XML
     view_history: Xem Lịch sử
     view_details: Xem Chi tiết
@@ -276,6 +285,8 @@ vi:
       title_html: 'Lối: %{name}'
       history_title_html: 'Lịch sử Lối: %{name}'
       nodes: Các nốt
+      nodes_count:
+        other: '%{count} nốt'
       also_part_of_html:
         one: trực thuộc lối %{related_ways}
         other: trực thuộc các lối %{related_ways}
@@ -283,6 +294,9 @@ vi:
       title_html: 'Quan hệ: %{name}'
       history_title_html: 'Lịch sử Quan hệ: %{name}'
       members: Thành viên
+      members_count:
+        one: '%{count} thành viên'
+        other: '%{count} thành viên'
     relation_member:
       entry_role_html: '%{type} %{name} với vai trò %{role}'
       type:
@@ -520,6 +534,7 @@ vi:
           runway: Đường băng
           taxiway: Đường lăn
           terminal: Nhà ga Sân bay
+          windsock: Ống gió
         amenity:
           animal_shelter: Trạm Bảo vệ Động vật
           arts_centre: Trung tâm Nghệ thuật
@@ -571,6 +586,7 @@ vi:
           marketplace: Chợ phiên
           monastery: Nhà tu
           motorcycle_parking: Chỗ Đậu Xe máy
+          music_school: Trường Âm nhạc
           nightclub: Câu lạc bộ Đêm
           nursing_home: Viện Dưỡng lão
           parking: Chỗ Đậu xe
@@ -605,11 +621,13 @@ vi:
           waste_basket: Thùng rác
           waste_disposal: Thùng rác
           water_point: Trạm Đóng Bình Nước uống
+          "yes": Tiện nghi
         boundary:
           administrative: Biên giới Hành chính
           census: Biên giới Điều tra Dân số
           national_park: Vườn quốc gia
           protected_area: Khu bảo tồn
+          "yes": Biên giới
         bridge:
           aqueduct: Cống nước
           boardwalk: Lối đi có Lót Ván
@@ -618,26 +636,40 @@ vi:
           viaduct: Cầu Cạn
           "yes": Cầu
         building:
+          apartment: Chung cư
           apartments: Căn hộ
+          barn: Chuồng
+          bungalow: Boongalô
+          cabin: Túp lều
           chapel: Nhà nguyện
           church: Nhà thờ
+          college: Tòa nhà Cao đẳng
           commercial: Tòa nhà Thương mại
           dormitory: Ký túc xá
           farm: Nông trại
           garage: Ga ra
+          garages: Ga ra
+          greenhouse: Nhà kính
+          hangar: Nhà Máy bay
           hospital: Tòa nhà Bệnh viện
           hotel: Khách sạn
           house: Nhà ở
+          hut: Túp lều
           industrial: Tòa nhà Công nghiệp
           office: Tòa nhà Văn phòng
           public: Tòa nhà Công cộng
           residential: Nhà ở
           retail: Tòa nhà Cửa hàng
+          roof: Mái che
           school: Nhà trường
+          shed: Lán
           terrace: Thềm
           train_station: Nhà ga
           university: Tòa nhà Đại học
+          warehouse: Nhà kho
           "yes": Tòa nhà
+        club:
+          "yes": Câu lạc bộ
         craft:
           brewery: Nhà máy Bia
           carpenter: Thợ Đóng Đồ Gỗ
@@ -655,6 +687,7 @@ vi:
           defibrillator: Máy Khử Rung Tim
           landing_site: Nơi Hạ cánh Khẩn cấp
           phone: Điện thoại Khẩn cấp
+          siren: Còi Báo động
           water_tank: Bể Chứa Nước Khẩn cấp
           "yes": Khẩn cấp
         highway:
@@ -756,6 +789,7 @@ vi:
           quarry: Mỏ Đá
           railway: Đường sắt
           recreation_ground: Sân Giải trí
+          religious: Đất Tôn giáo
           reservoir: Bể nước
           reservoir_watershed: Lưu vực Hồ Nhân tạo
           residential: Khu vực Nhà ở
@@ -780,6 +814,7 @@ vi:
           miniature_golf: Golf Nhỏ
           nature_reserve: Khu Bảo tồn Thiên niên
           park: Công viên
+          picnic_table: Bàn ăn Ngoài trời
           pitch: Sân cỏ
           playground: Sân chơi
           recreation_ground: Sân Giải trí
@@ -794,13 +829,17 @@ vi:
           "yes": Giải trí
         man_made:
           adit: Lối vào
+          advertising: Quảng cáo
+          antenna: Ăng ten
           beacon: Đèn hiệu
           beehive: Tổ ong
           breakwater: Đê chắn sóng
           bridge: Cầu
           bunker_silo: Boong ke
           chimney: Ống khói
+          communications_tower: Tháp Viễn thông
           crane: Cần cẩu
+          cross: Thánh Giá
           dolphin: Cột neo đậu
           dyke: Đê
           embankment: Đê
@@ -809,6 +848,7 @@ vi:
           groyne: Đê biển
           kiln: Lò
           lighthouse: Hải đăng
+          manhole: Miệng Cống
           mast: Cột
           mine: Mỏ
           mineshaft: Hầm Mỏ
@@ -816,9 +856,11 @@ vi:
           petroleum_well: Giếng dầu
           pier: Cầu tàu
           pipeline: Ống dẫn
+          pumping_station: Trạm Bơm
           silo: Xi lô
           storage_tank: Bể chứa
           surveillance: Giám sát
+          telescope: Kính Thiên văn
           tower: Tháp
           wastewater_plant: Nhà máy Nước thải
           watermill: Cối xay nước
@@ -888,6 +930,9 @@ vi:
           it: Văn phòng CNTT
           lawyer: Luật sư
           ngo: Văn phòng Tổ chức Phi chính phủ
+          religion: Văn phòng Tôn giáo
+          research: Văn phòng Nghiên cứu
+          tax_advisor: Cố vấn Thuế
           telecommunication: Văn phòng Viễn thông
           travel_agent: Văn phòng Du lịch
           "yes": Văn phòng
@@ -960,6 +1005,7 @@ vi:
           carpet: Tiệm Thảm
           charity: Cửa hàng Từ thiện
           chemist: Tiệm Dược phẩm
+          chocolate: Sô cô la
           clothes: Tiệm Quần áo
           computer: Tiệm Máy tính
           confectionery: Tiệm Kẹo
@@ -988,6 +1034,7 @@ vi:
           hardware: Tiệm Ngũ kim
           hifi: Cửa hàng Hi-fi
           houseware: Cửa hàng gia dụng
+          ice_cream: Tiệm Kem
           interior_decoration: Trang trí Nội thất
           jewelry: Tiệm Kim hoàn
           kiosk: Quán
@@ -1004,6 +1051,7 @@ vi:
           organic: Tiệm Thực phẩm Hữu cơ
           outdoor: Tiệm Thể thao Ngoài trời
           paint: Tiệm Sơn
+          pastry: Tiệm Bánh ngọt
           pawnbroker: Tiệm Cầm đồ
           pet: Tiệm Vật nuôi
           photo: Tiệm Rửa Hình
@@ -1895,6 +1943,7 @@ vi:
         đợi việc xong trước khi tải lên thêm tuyến đường, để cho người khác vào hàng
         đợi kịp.
     edit:
+      cancel: Hủy bỏ
       title: Sửa đổi tuyến đường %{name}
       heading: Sửa đổi tuyến đường %{name}
       visibility_help: điều này có nghĩa là gì?
