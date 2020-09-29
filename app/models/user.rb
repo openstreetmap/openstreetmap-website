@@ -44,6 +44,7 @@
 #
 
 class User < ApplicationRecord
+  require "digest"
   require "xml/libxml"
 
   has_many :traces, -> { where(:visible => true) }
@@ -304,6 +305,13 @@ class User < ApplicationRecord
   # return an oauth access token for a specified application
   def access_token(application_key)
     ClientApplication.find_by(:key => application_key).access_token_for_user(self)
+  end
+
+  def fingerprint
+    digest = Digest::SHA256.new
+    digest.update(email)
+    digest.update(pass_crypt)
+    digest.hexdigest
   end
 
   private

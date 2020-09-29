@@ -23,7 +23,11 @@ class ApplicationController < ActionController::Base
     if session[:user]
       self.current_user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
 
-      if current_user.status == "suspended"
+      if session[:fingerprint] &&
+         session[:fingerprint] != current_user.fingerprint
+        reset_session
+        self.current_user = nil
+      elsif current_user.status == "suspended"
         session.delete(:user)
         session_expires_automatically
 
@@ -42,6 +46,8 @@ class ApplicationController < ActionController::Base
     elsif session[:token]
       session[:user] = current_user.id if self.current_user = User.authenticate(:token => session[:token])
     end
+
+    session[:fingerprint] = current_user.fingerprint if current_user && session[:fingerprint].nil?
   rescue StandardError => e
     logger.info("Exception authorizing user: #{e}")
     reset_session

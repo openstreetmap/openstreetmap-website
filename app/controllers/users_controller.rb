@@ -183,6 +183,7 @@ class UsersController < ApplicationController
 
           if current_user.save
             token.destroy
+            session[:fingerprint] = current_user.fingerprint
             flash[:notice] = t "users.reset_password.flash changed"
             successful_login(current_user)
           end
@@ -323,6 +324,7 @@ class UsersController < ApplicationController
           token.destroy
 
           session[:user] = user.id
+          session[:fingerprint] = user.fingerprint
 
           redirect_to referer || welcome_path
         end
@@ -368,6 +370,7 @@ class UsersController < ApplicationController
         end
         current_user.tokens.delete_all
         session[:user] = current_user.id
+        session[:fingerprint] = current_user.fingerprint
         redirect_to :action => "account", :display_name => current_user.display_name
       elsif token
         flash[:error] = t "users.confirm_email.failure"
@@ -552,6 +555,7 @@ class UsersController < ApplicationController
   # process a successful login
   def successful_login(user, referer = nil)
     session[:user] = user.id
+    session[:fingerprint] = user.fingerprint
     session_expires_after 28.days if session[:remember_me]
 
     target = referer || session[:referer] || url_for(:controller => :site, :action => :index)
@@ -642,6 +646,8 @@ class UsersController < ApplicationController
     end
 
     if user.save
+      session[:fingerprint] = user.fingerprint
+
       set_locale(true)
 
       if user.new_email.blank? || user.new_email == user.email
