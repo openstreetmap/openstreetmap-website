@@ -366,7 +366,7 @@ class UsersController < ApplicationController
         else
           flash[:errors] = current_user.errors
         end
-        token.destroy
+        current_user.tokens.delete_all
         session[:user] = current_user.id
         redirect_to :action => "account", :display_name => current_user.display_name
       elsif token

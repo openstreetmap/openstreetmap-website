@@ -56,7 +56,7 @@ class User < ApplicationRecord
   has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id
   has_many :friendships, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
   has_many :friends, :through => :friendships, :source => :befriendee
-  has_many :tokens, :class_name => "UserToken"
+  has_many :tokens, :class_name => "UserToken", :dependent => :destroy
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, -> { order(:created_at => :desc) }
   has_many :changeset_comments, :foreign_key => :author_id
