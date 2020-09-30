@@ -1,21 +1,21 @@
-<h4>
+<h4 class="details">
+  <%= t "browse.version" %>
+  #<%= common_details.version %>
+</h4>
+
+<p class="font-italic">
   <% if common_details.changeset.tags['comment'].present? %>
     <%= linkify(common_details.changeset.tags["comment"]) %>
   <% else %>
     <%= t "browse.no_comment" %>
   <% end %>
-</h4>
+</p>
 
 <div class="details">
   <%= t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
         :time => time_ago_in_words(common_details.timestamp, :scope => :'datetime.distance_in_words_ago'),
         :user => changeset_user_link(common_details.changeset),
         :title => l(common_details.timestamp) %>
-</div>
-
-<div class="details">
-  <%= t "browse.version" %>
-  #<%= common_details.version %>
   &middot;
   <%= t "browse.in_changeset" %>
   #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>

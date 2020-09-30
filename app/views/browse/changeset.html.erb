@@ -6,7 +6,9 @@
 </h2>
 
 <div class="browse-section">
-  <h6><%= linkify(@changeset.tags["comment"].to_s.presence || t("browse.no_comment")) %></h6>
+  <p class="font-italic">
+    <%= linkify(@changeset.tags["comment"].to_s.presence || t("browse.no_comment")) %>
+  </p>
   <div class="details"><%= changeset_details(@changeset) %></div>
 
   <%= render :partial => "tag_details", :object => @changeset.tags.except("comment") %>
