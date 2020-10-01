@@ -1,4 +1,4 @@
-## How do I create a banner to promote my OpenStreetMap event?
+## How do I create a  Beautifol banner to promote my OpenStreetMap event?
 
 We occasionally display banner images on the main page of [openstreetmap.org](https://www.openstreetmap.org/) to
 promote a large OpenStreetMap focused conference or host a worldwide donation
