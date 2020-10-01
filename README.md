@@ -1,3 +1,8 @@
+<p align="center">
+  <img width="80" alt="The openstreetmap Logo" src="https://avatars3.githubusercontent.com/u/261431?s=88&v=4">
+</p>
+</br>
+
 # "The Rails Port"
 
 [![Build Status](https://travis-ci.org/openstreetmap/openstreetmap-website.svg?branch=master)](https://travis-ci.org/openstreetmap/openstreetmap-website)
