@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Abijeet Patro
 # Author: Aftabuzzaman
+# Author: Al Riaz Uddin Ripon
 # Author: Bellayet
 # Author: Bodhisattwa
 # Author: Ehsanulhb
@@ -41,14 +42,21 @@ bn:
         create: পাঠান
       client_application:
         create: নিবন্ধন
-        update: সম্পাদনা
+        update: হালনাগাদ
       redaction:
         create: সম্পাদন তৈরি করুন
         update: সম্পাদন সংরক্ষণ করুন
       trace:
         create: আপলোড
         update: পরিবর্তন সংরক্ষণ
+      user_block:
+        create: বাধা তৈরি করুন
+        update: বাধা হালনাগাদ করুন
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: কোনও বৈধ ইমেল ঠিকানা বলে মনে হচ্ছে না
+        email_address_not_routable: রাউটের যোগ্য নয়
     models:
       acl: প্রবেশাধিকার নিয়ন্ত্রণ তালিকা
       changeset: পরিবর্তনসমূহ
@@ -88,7 +96,13 @@ bn:
     attributes:
       client_application:
         name: নাম (আবশ্যিক)
+        url: মূল অ্যাপ্লিকেশন ইউআরএল (প্রয়োজন)
+        callback_url: কলব্যাক ইউআরএল
+        support_url: সহায়তা ইউআরএল
         allow_read_prefs: ব্যবহারকারীর পছন্দগুলি পড়ে
+        allow_write_prefs: তাদের ব্যবহারকারী পছন্দসমূহ যাচাই করুন
+        allow_write_diary: ডায়েরি ভুক্তি তৈরি, মন্তব্য এবং বন্ধু বানান
+        allow_write_api: মানচিত্রটি মোডিফাই করুন
       diary_comment:
         body: মূলাংশ
       diary_entry:
@@ -117,6 +131,8 @@ bn:
         title: শিরোনাম
         body: বার্তার অংশ
         recipient: প্রাপক
+      report:
+        category: আপনার রিপোর্টের জন্য একটি কারণ নির্বাচন করুন
       user:
         email: ইমেইল
         active: সক্রিয়
@@ -180,6 +196,8 @@ bn:
       description: রিমোট কন্ট্রোল (JOSM অথবা Merkaartor)
   auth:
     providers:
+      none: কিছু নয়
+      openid: ওপেনআইডি
       google: গুগল
       facebook: ফেসবুক
       windowslive: উইন্ডোজ লাইভ
@@ -492,6 +510,7 @@ bn:
           bicycle_parking: সাইকেল পার্কিং
           bicycle_rental: ভাড়ার সাইকেল
           biergarten: বিয়ার বাগ
+          blood_bank: ব্লাড ব্যাংক
           boat_rental: ভাড়ার নৌকা
           brothel: পতিতালয়
           bureau_de_change: পরিবর্তন ব্যুরো
@@ -508,6 +527,7 @@ bn:
           clock: ঘড়ি
           college: কলেজ
           community_centre: কমিউনিটি সেন্টার
+          conference_centre: সম্মেলন কেন্দ্র
           courthouse: আদালত
           crematorium: শ্মশান
           dentist: দন্তচিকিৎসক
@@ -526,8 +546,11 @@ bn:
           hospital: হাসপাতাল
           hunting_stand: শিকারশালা
           ice_cream: আইসক্রিম
+          internet_cafe: ইন্টারনেট ক্যাফে
           kindergarten: শিশুবিদ্যালয়
+          language_school: ভাষা শিখন বিদ্যালয়
           library: পাঠাগার
+          love_hotel: লাভ হোটেল
           marketplace: নগরচত্বর
           monastery: আশ্রম
           motorcycle_parking: মোটরসাইকেল  পার্কিং
@@ -576,20 +599,35 @@ bn:
           viaduct: ভায়াডাক্ট
           "yes": সেতু
         building:
+          apartment: অ্যাপার্টমেন্ট
+          commercial: বাণিজ্যিক ভবন
           roof: ছাদ
+          school: বিদ্যালয় ভবন
+          stable: স্থিতিশীল
+          static_caravan: কাফেলা
+          temple: মন্দির ভবন
+          university: বিশ্ববিদ্যালয় ভবন
           "yes": ভবন
+        club:
+          "yes": ক্লাব
         craft:
           brewery: ভাটিখানা
           carpenter: ছুতোর
+          confectionery: মিষ্টির দোকান
+          dressmaker: দর্জি
           electrician: বিদ্যুৎ মিস্তিরি
+          electronics_repair: বৈদ্যুতিক যন্ত্রপাতি মেরামত
           gardener: মালি
+          handicraft: হস্তশিল্প
           painter: চিত্রশিল্পী
           photographer: আলোকচিত্ৰকর
           plumber: নল মিস্তিরি
+          sawmill: করাত কল
           shoemaker: মুচি
           tailor: দর্জি
           "yes": কারুকাজ দোকান
         emergency:
+          access_point: প্রবেশ বিন্দু
           ambulance_station: রুগ্নবাহিকা স্টেশন
           defibrillator: ডিফাইব্রিলেটর
           landing_site: জরুরি অবতরণ ক্ষেত্র
@@ -680,9 +718,11 @@ bn:
           quarry: আকরিক
           railway: রেলপথ
           recreation_ground: চিত্তবিনোদন মাঠ
+          religious: ধর্মীয় ভূমি
           reservoir: জলাধার
           reservoir_watershed: জলাধারের বিভাগরেখা
           residential: আবাসিক এলাকা
+          retail: খুচরা
           village_green: হরিত গ্রাম
           vineyard: আঙুর খেত
           "yes": ব্যবহার্য ভূমি
@@ -712,6 +752,8 @@ bn:
           "yes": অবসর
         man_made:
           adit: খনি সুড়ঙ্গ
+          advertising: বিজ্ঞাপন
+          antenna: অ্যান্টেনা
           beehive: মৌমাছির কৃত্রিম বাসা
           breakwater: বেড়িবাঁধ
           bridge: সেতু
@@ -729,6 +771,7 @@ bn:
           silo: সিলো
           snow_cannon: তুষার কামান
           surveillance: নজরদারী ক্যামেরা
+          telescope: দূরবীক্ষণ যন্ত্র
           tower: টাওয়ার
           water_tap: পানির কল
           water_tower: পানির ট্যাংক

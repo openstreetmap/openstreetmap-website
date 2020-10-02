@@ -18,6 +18,8 @@ et:
       friendly: '%e. %B %Y, kell %H:%M'
       blog: '%e. %B %Y'
   helpers:
+    file:
+      prompt: Vali fail
     submit:
       diary_comment:
         create: Salvesta
@@ -73,8 +75,17 @@ et:
       way_tag: Joone silt
     attributes:
       client_application:
+        name: Nimi (nõutav)
+        url: Pearakenduse URL (nõutav)
         callback_url: Tagasihelistamise URL
         support_url: Toe URL
+        allow_read_prefs: lugeda tema kasutajaeelistusi
+        allow_write_prefs: muuta tema kasutajaeelistusi
+        allow_write_diary: luua päeviku sissekandeid, kommenteerida ja lisada sõpru
+        allow_write_api: muuta kaarti
+        allow_read_gpx: lugeda tema isiklikke GPS-radu
+        allow_write_gpx: laadida üles GPS-radu
+        allow_write_notes: muuta märkusi
       diary_comment:
         body: Sisu
       diary_entry:
@@ -104,6 +115,7 @@ et:
         body: Sisu
         recipient: Saaja
       report:
+        category: Vali kaebuse põhjus
         details: Palun esita probleemi kohta veel üksikasju (nõutav).
       user:
         email: E-posti aadress
@@ -112,6 +124,7 @@ et:
         description: Kirjeldus
         languages: Keeled
         pass_crypt: Parool
+        pass_crypt_confirmation: Kinnita parool
     help:
       trace:
         tagstring: komaga eraldatud
@@ -158,16 +171,20 @@ et:
     default: Vaikimisi (praegu %{name})
     potlatch:
       name: Potlatch 1
-      description: Potlatch 1 (veebilehitsejapõhine redaktor)
+      description: Potlatch 1 (brauseripõhine redaktor)
     id:
       name: iD
-      description: iD (veebilehitsejapõhine redaktor)
+      description: iD (brauseripõhine redaktor)
     potlatch2:
       name: Potlatch 2
-      description: Potlatch 2 (veebilehitsejapõhine redaktor)
+      description: Potlatch 2 (brauseripõhine redaktor)
     remote:
       name: Kaugjuhtimine
       description: Kaugjuhtimine (JOSM või Merkaartor)
+  auth:
+    providers:
+      none: Puudub
+      wikipedia: Vikipeedia
   api:
     notes:
       comment:
@@ -205,6 +222,12 @@ et:
     anonymous: anonüümne
     no_comment: (kommentaare pole)
     part_of: Osa
+    part_of_relations:
+      one: 1 relatsioon
+      other: '%{count} relatsiooni'
+    part_of_ways:
+      one: 1 joon
+      other: '%{count} joont'
     download_xml: Laadi alla XML
     view_history: Vaata ajalugu
     view_details: Vaata üksikasju
@@ -237,6 +260,9 @@ et:
       title_html: 'Joon: %{name}'
       history_title_html: 'Joone ajalugu: %{name}'
       nodes: Sõlmed
+      nodes_count:
+        one: 1 sõlm
+        other: '%{count} sõlme'
       also_part_of_html:
         one: osa joonest %{related_ways}
         other: osa joontest %{related_ways}
@@ -244,6 +270,9 @@ et:
       title_html: 'Relatsioon: %{name}'
       history_title_html: 'Relatsiooni ajalugu: %{name}'
       members: Liikmed
+      members_count:
+        one: 1 liige
+        other: '%{count} liiget'
     relation_member:
       entry_role_html: '%{type} %{name} kui %{role}'
       type:
@@ -278,8 +307,8 @@ et:
         way: joone
         relation: relatsiooni
     start_rjs:
-      feature_warning: Laaditakse %{num_features} objekti, mis võib muuta su veebilehitseja
-        aeglaseks. Kas oled kindel, et soovid neid andmeid kuvada?
+      feature_warning: Laaditakse %{num_features} objekti, mis võib muuta su brauseri
+        aeglaseks. Kas oled kindel, et soovid need andmeid kuvada?
       load_data: Laadi andmed
       loading: Laadin andmeid...
     tag_details:
@@ -369,6 +398,7 @@ et:
       in_language_title: Päeviku sissekanded (%{language})
       new: Uus päeviku sissekanne
       new_title: Lisa päevikusse uus sissekanne
+      my_diary: Minu päevik
       no_entries: Päevikus pole sissekandeid.
       recent_entries: Hiljutised päeviku sissekanded
       older_entries: Vanemad...
@@ -1309,8 +1339,8 @@ et:
           on OpenStreetMap Foundationi registreeritud kaubamärgid. Kui sul on nende
           märkide kasutamise kohta küsimusi, siis vaata meie <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">kaubamärgireegleid</a>.
     index:
-      js_1: Sa kas kasutad veebilehitsejat, mis ei toeta JavaScript'i või sa oled
-        JavaScript'i ära keelanud.
+      js_1: Kasutad kas brauserit, mis ei toeta JavaScripti, või oled JavaScripti
+        keelanud.
       js_2: OpenStreetMap kasutab JavaScripti kaartide laadimiseks.
       permalink: Püsilink
       shortlink: Lühilink
@@ -1338,8 +1368,8 @@ et:
       potlatch2_unsaved_changes: Sul on salvestamata muudatusi. (Et salvestada programmis
         Potlatch 2, peaksid klikkima Salvesta nuppu.)
       id_not_configured: iD ei ole seadistatud
-      no_iframe_support: Antud veebilehitseja ei toeta  HTML iframes funktsiooni mis
-        on vajalik antud režiimi toimimiseks.
+      no_iframe_support: Sinu brauser ei toeta  HTML-i funktsiooni "iframes", mis
+        on vajalik selle režiimi toimimiseks.
     export:
       title: Eksportimine
       area_to_export: Eksporditav ala
@@ -1437,6 +1467,10 @@ et:
         title: switch2osm
         description: Abi ettevõtetele ja organisatsioonidele, kes plaanivad kasutusele
           võtta OpenStreetMapil põhinevad kaardid ja muud teenused.
+      welcomemat:
+        title: Organisatsioonidele
+        description: Kas sinu organisatsioonil on kavas teha midagi OpenStreetMapiga?
+          Vajamineva teabe leiad tervituslehelt.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Et:Main_Page
         title: OpenStreetMapi viki
@@ -1583,12 +1617,13 @@ et:
           <span class='icon note'></span>. See lisab kaardile markeri, mida sa saad liigutada seda hiirega lohistades. Lisa oma sõnum, seejärel kliki "Salvesta" ja teised kaardistajad näevad seda.
   traces:
     visibility:
-      private: Privaatne (jagatud ainult anonüümselt, järjestamata punktid)
+      private: Isiklik (jagatud ainult anonüümselt, järjestamata punktid)
       public: Avalik (nähtav rajaloendis ja anonüümsena, järjestamata punktid)
       trackable: Jälgitav (jagatud ainult anonüümselt, järjestatud punktid koos ajatemplitega)
       identifiable: Tuvastatav (nähtav rajaloendis ja tuvastatav, järjestatud punktid
         koos ajatemplitega)
     new:
+      upload_trace: GPS-raja üleslaadimine
       visibility_help: mida see tähendab?
       help: Abi
     create:
@@ -1639,7 +1674,7 @@ et:
       edit_map: Redigeeri kaarti
       public: AVALIK
       identifiable: TUVASTATAV
-      private: PRIVAATNE
+      private: ISIKLIK
       trackable: JÄLGITAV
       by: kasutajalt
       in: kohas
@@ -1680,7 +1715,7 @@ et:
       allow_write_prefs: muuta sinu kasutajaeelistusi.
       allow_write_diary: luua päeviku sissekandeid, kommentaare ja saada sõbraks.
       allow_write_api: muuta kaarti.
-      allow_read_gpx: lugeda sinu privaatseid GPS-radu.
+      allow_read_gpx: lugeda sinu isiklikke GPS-radu.
       allow_write_gpx: laadida üles GPS-radu.
       allow_write_notes: muuta märkuseid.
       grant_access: Luba juurdepääs
@@ -1736,17 +1771,17 @@ et:
       flash: Klientrakenduse registreering hävitati.
   users:
     login:
-      title: Sisselogimise leht
+      title: Sisselogimine
       heading: Logi sisse
       email or username: 'E-posti aadress või kasutajanimi:'
       password: 'Parool:'
       openid_html: '%{logo} OpenID:'
       remember: Jäta mind meelde
-      lost password link: Salasõna ununes?
+      lost password link: Kas unustasid parooli?
       login_button: Logi sisse
       register now: 'Registreeru:'
       with username: 'Kas sul on juba OpenStreetMapi konto? Palun logi sisse oma kasutajanime
-        ja salasõnaga:'
+        ja parooliga:'
       with external: 'Teise võimalusena võid sisse logida kolmanda osapoole kaudu:'
       new to osm: Kas OpenStreetMap on sulle uus?
       to make changes: Et OpenStreetMapi andmeid muuta, peab sul olema kasutajakonto.
@@ -1759,42 +1794,48 @@ et:
         tõttu.<br />Palun võta ühendust <a href="%{webmaster}">veebimeistriga</a>,
         kui soovid selle teema üle arutada.
       auth failure: Kahjuks ei õnnestu nende andmetega sisse logida.
-      openid_logo_alt: Sisene OpenID tunnusega
+      openid_logo_alt: Logi sisse OpenID-ga
       auth_providers:
         openid:
-          title: Sisene OpenID tunnusega
-          alt: Sisene OpenID URL abil
+          title: Logi sisse OpenID-ga
+          alt: Logi sisse OpenID URL-iga
         google:
-          title: Sisene Google'i tunnusega
-          alt: Sisene Google'i OpenID tunnusega
+          title: Logi sisse Google'i kaudu
+          alt: Logi sisse Google'i OpenID-ga
         facebook:
-          title: Sisene Facebooki tunnusega
-          alt: Sisene Facebooki kontoga
+          title: Logi sisse Facebooki kaudu
+          alt: Logi sisse Facebooki kontoga
         windowslive:
-          title: Sisene Windows Live'i tunnusega
-          alt: Sisene Windows Live'i kontoga
+          title: Logi sisse Windows Live'i kaudu
+          alt: Logi sisse Windows Live'i kontoga
+        github:
+          title: Logi sisse GitHubi kaudu
+          alt: Logi sisse GitHubi kontoga
+        wikipedia:
+          title: Logi sisse Vikipeedia kaudu
+          alt: Logi sisse Vikipeedia kontoga
         yahoo:
-          title: Sisene Yahoo tunnusega
-          alt: Sisene Yahoo OpenID tunnusega
+          title: Logi sisse Yahoo kaudu
+          alt: Logi sisse Yahoo OpenID-ga
         wordpress:
-          title: Sisene Wordpressi tunnusega
-          alt: Sisene Wordpressi OpenID tunnusega
+          title: Logi sisse Wordpressi kaudu
+          alt: Logi sisse Wordpressi OpenID-ga
         aol:
-          title: Sisene AOL-i tunnusega
-          alt: Sisene AOL-i OpenID tunnusega
+          title: Logi sisse AOL-i kaudu
+          alt: Logi sisse AOL-i OpenID-ga
     logout:
       title: Logi välja
       heading: Logi OpenStreetMapist välja
       logout_button: Logi välja
     lost_password:
-      title: Unustatud salasõna
+      title: Unustatud parool
       heading: Parool ununenud?
       email address: 'E-posti aadress:'
-      new password button: Saada mulle uus salasõna
-      help_text: Sisesta e-posti aadress, mida kasutasid registreerumisel. Me saadame
-        sinna lingi, mida saad kasutada oma parooli uuesti seadmiseks.
-      notice email on way: Kahju, et sa parooli kaotasid :-( kuid ära muretse, peagi
-        saad meili, et saaksid oma parooli ära muuta.
+      new password button: Lähtesta parool
+      help_text: Sisesta e-posti aadress, mida kasutasid registreerumisel. Saadame
+        sinna lingi, mida saad kasutada parooli lähtestamiseks.
+      notice email on way: Kahju, et parooli kaotasid, kuid ära muretse. Peagi saad
+        e-kirja, mille abil saad parooli lähtestada.
       notice email cannot find: Seda e-posti aadressi ei leitud.
     reset_password:
       title: Lähtesta parool
@@ -1812,8 +1853,8 @@ et:
       about:
         header: Vaba ja muudetav
         html: |-
-          <p>Erinevalt teistest kaartidest on OpenStreetMap loodud samade inimeste poolt nagu sina ja igaüks võib seda parandada, täiendada, alla laadida ja kasutada.</p>
-          <p>Registreeru, et alustada kaardi täiendamist. Me saadame sulle meili, et saaksid kinnitada oma kasutajakonto.</p>
+          <p>Erinevalt teistest kaartidest on kogu OpenStreetMapi loonud sinusugused inimesed ja igaüks võib seda parandada, täiendada, alla laadida ja kasutada.</p>
+          <p>Registreeru, et alustada kaardi täiendamist. Saadame sulle e-kirja, et saaksid kinnitada oma kasutajakonto.</p>
       license_agreement: Oma kasutajakonto kinnitamiseks pead nõustuma <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">kaastöö
         tingimustega</a>.
       email address: 'E-posti aadress:'
@@ -1824,9 +1865,12 @@ et:
       display name: 'Kuvatav nimi:'
       display name description: Avalikult kuvatud kasutajanimi. Seda saate muuta hiljem
         eelistustes.
+      external auth: 'Kolmanda osapoole autentimine:'
       password: 'Parool:'
       confirm password: 'Kinnita parool:'
       use external auth: Teise võimalusena võid sisse logida kolmanda osapoole kaudu
+      auth no password: Kolmanda osapoole autentimisega parooli ei nõuta, aga mõne
+        lisatööriista või serveri jaoks võib seda siiski tarvis minna.
       continue: Registreeru
       terms accepted: Täname, et nõustusid uute kaastöö tingimustega!
       terms declined: Meil on kahju, et otsustasid mitte nõustuda uute kaastöö tingimustega.
@@ -1923,7 +1967,7 @@ et:
       nearby mapper: Lähedaloevad kaardistajad
       friend: Sõber
     account:
-      title: Redigeeri kasutajakontot
+      title: Konto muutmine
       my settings: Minu seaded
       current email address: 'Praegune e-posti aadress:'
       new email address: 'Uus e-posti aadress:'
@@ -1960,7 +2004,7 @@ et:
         link text: mis see on?
       profile description: 'Profiili kirjeldus:'
       preferred languages: 'Eelistatud keeled:'
-      preferred editor: 'Vaikimisi redaktor:'
+      preferred editor: 'Vaikeredaktor:'
       image: 'Pilt:'
       gravatar:
         gravatar: Kasuta Gravatari
@@ -2239,6 +2283,7 @@ et:
         title: Kihid
       copyright: © <a href='%{copyright_url}'>OpenStreetMapi kaastöölised</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Tee annetus</a>
+      terms: <a href='%{terms_url}' target='_blank'>Veebisaidi ja API tingimused</a>
     site:
       edit_tooltip: Muuda kaarti
       edit_disabled_tooltip: Kaardi redigeerimiseks suurenda kaarti
@@ -2265,8 +2310,8 @@ et:
           kaartidelt ega kataloogiloenditest.
         add: Lisa märkus
       show:
-        anonymous_warning: Käesolev märkus sisaldab kommentaare anonüümsetelt kasutajatelt,
-          mida tuleks eraldi üle kontrollida.
+        anonymous_warning: See märkus sisaldab anonüümsete kasutajate kommentaare,
+          mis tuleks eraldi üle kontrollida.
         hide: Peida
         resolve: Lahenda
         reactivate: Aktiveeri uuesti
@@ -2292,6 +2337,7 @@ et:
         turn_left_without_exit: 'Pööra vasakule teele: %{name}'
         endofroad_left_without_exit: 'Tee lõpus pööra vasakule teele: %{name}'
         start_without_exit: 'Alusta teelt: %{name}'
+        destination_without_exit: Jõuad kohale
         unnamed: nimetu
       time: Ajakulu
     query:
