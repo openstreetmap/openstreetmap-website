@@ -14,6 +14,8 @@ ia:
     formats:
       friendly: '%e de %B %Y a %H:%M'
   helpers:
+    file:
+      prompt: Selige file
     submit:
       diary_comment:
         create: Salveguardar
@@ -26,7 +28,7 @@ ia:
         create: Inviar
       client_application:
         create: Registrar
-        update: Modificar
+        update: Actualisar
       redaction:
         create: Crear suppression
         update: Salveguardar suppression
@@ -79,8 +81,17 @@ ia:
       way_tag: Etiquetta de via
     attributes:
       client_application:
+        name: Nomine (obligatori)
+        url: URL principal del application (obligatori)
         callback_url: URL de retorno
         support_url: URl de supporto
+        allow_read_prefs: leger su preferentias de usator
+        allow_write_prefs: modificar su preferentias de usator
+        allow_write_diary: crear entratas de diario, commentos e adder amicos
+        allow_write_api: modificar le carta
+        allow_read_gpx: leger su tracias GPS private
+        allow_write_gpx: incargar tracias GPS
+        allow_write_notes: modificar notas
       diary_comment:
         body: Texto
       diary_entry:
@@ -95,21 +106,22 @@ ia:
       trace:
         user: Usator
         visible: Visibile
-        name: Nomine
+        name: Nomine de file
         size: Dimension
         latitude: Latitude
         longitude: Longitude
         public: Public
         description: Description
-        gpx_file: 'Incargar file GPX:'
-        visibility: 'Visibilitate:'
-        tagstring: 'Etiquettas:'
+        gpx_file: Incargar file GPX
+        visibility: Visibilitate
+        tagstring: Etiquettas
       message:
         sender: Expeditor
         title: Subjecto
         body: Texto
         recipient: Destinatario
       report:
+        category: Selige un motivo pro tu reporto
         details: Per favor, forni plus detalios sur le problema (obligatori).
       user:
         email: E-mail
@@ -118,6 +130,7 @@ ia:
         description: Description
         languages: Linguas
         pass_crypt: Contrasigno
+        pass_crypt_confirmation: Confirmar contrasigno
     help:
       trace:
         tagstring: separate per commas
@@ -220,6 +233,12 @@ ia:
     anonymous: anonyme
     no_comment: (sin commento)
     part_of: Parte de
+    part_of_relations:
+      one: 1 relation
+      other: '%{count} relationes'
+    part_of_ways:
+      one: 1 via
+      other: '%{count} vias'
     download_xml: Discargar XML
     view_history: Vider historia
     view_details: Vider detalios
@@ -252,6 +271,9 @@ ia:
       title_html: 'Via: %{name}'
       history_title_html: 'Historia del via: %{name}'
       nodes: Nodos
+      nodes_count:
+        one: 1 nodo
+        other: '%{count} nodos'
       also_part_of_html:
         one: parte del via %{related_ways}
         other: parte del vias %{related_ways}
@@ -259,6 +281,9 @@ ia:
       title_html: 'Relation: %{name}'
       history_title_html: 'Historia del relation: %{name}'
       members: Membros
+      members_count:
+        one: 1 membro
+        other: '%{count} membros'
     relation_member:
       entry_role_html: '%{type} %{name} como %{role}'
       type:
@@ -394,6 +419,7 @@ ia:
       in_language_title: Entratas de diario in %{language}
       new: Nove entrata de diario
       new_title: Componer un nove entrata in mi diario
+      my_diary: Mi diario
       no_entries: Nulle entrata in diario
       recent_entries: Entratas recente del diario
       older_entries: Entratas plus ancian
@@ -415,7 +441,7 @@ ia:
     diary_entry:
       posted_by_html: Publicate per %{link_user} le %{created} in %{language_link}
       comment_link: Commentar iste entrata
-      reply_link: Responder a iste entrata
+      reply_link: Inviar un message al autor
       comment_count:
         one: 1 commento
         zero: Nulle commento
@@ -482,10 +508,12 @@ ia:
           chair_lift: Telesedia
           drag_lift: Teleski
           gondola: Telecabina
+          magic_carpet: Tapete rolante
           platter: Teleski a platto
           pylon: Pylon
           station: Station de telecabina
           t-bar: Teleski a barras T
+          "yes": Via aeree
         aeroway:
           aerodrome: Aerodromo
           airstrip: Pista de atterrage
@@ -494,11 +522,15 @@ ia:
           hangar: Hangar
           helipad: Heliporto
           holding_position: Puncto de attender
+          navigationaid: Auxilio al navigation aeree
           parking_position: Puncto de parcamento
           runway: Pista
+          taxilane: Via de taxi
           taxiway: Via de circulation pro aviones
           terminal: Terminal
+          windsock: Manica a vento
         amenity:
+          animal_boarding: Pension pro animales
           animal_shelter: Refugio pro animales
           arts_centre: Centro artistic
           atm: Cassa automatic
@@ -508,7 +540,9 @@ ia:
           bench: Banco
           bicycle_parking: Stationamento pro bicyclettas
           bicycle_rental: Location de bicyclettas
+          bicycle_repair_station: Station de reparation de bicyclettas
           biergarten: Terrassa
+          blood_bank: Banco de sanguine
           boat_rental: Location de barcas
           brothel: Bordello
           bureau_de_change: Officio de cambio
@@ -525,6 +559,7 @@ ia:
           clock: Horologio
           college: Schola superior
           community_centre: Centro communitari
+          conference_centre: Centro de conferentias
           courthouse: Tribunal
           crematorium: Crematorio
           dentist: Dentista
@@ -532,6 +567,7 @@ ia:
           drinking_water: Aqua potabile
           driving_school: Autoschola
           embassy: Ambassada
+          events_venue: Loco de eventos
           fast_food: Fast food
           ferry_terminal: Terminal de ferry
           fire_station: Caserna de pumperos
@@ -544,16 +580,24 @@ ia:
           hospital: Hospital
           hunting_stand: Posto de chassa
           ice_cream: Gelato
+          internet_cafe: Café internet
           kindergarten: Schola pro juvene infantes
+          language_school: Schola de linguas
           library: Bibliotheca
+          loading_dock: Imbarcatorio
+          love_hotel: Hotel de amor
           marketplace: Mercato
+          mobile_money_agent: Agente monetari mobile
           monastery: Monasterio
+          money_transfer: Transferimento de moneta
           motorcycle_parking: Parking a motocyclo
+          music_school: Schola de musica
           nightclub: Club nocturne
           nursing_home: Casa de convalescentia
           parking: Parking
           parking_entrance: Entrata de autoparco
           parking_space: Spatio de parcamento
+          payment_terminal: Terminal de pagamento
           pharmacy: Pharmacia
           place_of_worship: Loco de adoration
           police: Policia
@@ -561,9 +605,13 @@ ia:
           post_office: Officio postal
           prison: Prision
           pub: Taverna
+          public_bath: Banio public
+          public_bookcase: Bibliotheca de strata
           public_building: Edificio public
+          ranger_station: Posto de guarda forestal
           recycling: Puncto de recyclage
           restaurant: Restaurante
+          sanitary_dump_station: Station de discarga sanitari
           school: Schola
           shelter: Refugio
           shower: Ducha
@@ -576,18 +624,27 @@ ia:
           theatre: Theatro
           toilets: Toilettes
           townhall: Casa municipal
+          training: Centro de training
           university: Universitate
+          vehicle_inspection: Inspection de vehiculos
           vending_machine: Distributor automatic
           veterinary: Clinica veterinari
           village_hall: Casa communal
           waste_basket: Corbe a papiro
           waste_disposal: Tractamento de immunditias
+          waste_dump_site: Sito de discarga de immunditias
+          watering_place: Abiberatorio
           water_point: Puncto de aqua
+          weighbridge: Ponte bascula
+          "yes": Facilitate
         boundary:
+          aboriginal_lands: Territorios aborigine
           administrative: Limite administrative
           census: Limite de censo
           national_park: Parco national
+          political: Circumscription electoral
           protected_area: Area protegite
+          "yes": Frontiera
         bridge:
           aqueduct: Aqueducto
           boardwalk: Passarella
@@ -596,24 +653,39 @@ ia:
           viaduct: Viaducto
           "yes": Ponte
         building:
-          apartments: Bloco de appartamentos
+          apartment: Appartamento
+          apartments: Appartamentos
+          barn: Granario
+          bungalow: Bungalow
+          cabin: Cabana de ligno
           chapel: Cappella
-          church: Ecclesia
+          church: Edificio de ecclesia
+          civic: Edificio civic
+          college: Edificio de academia
           commercial: Edificio commercial
+          construction: Edificio in construction
+          detached: Casa individual
           dormitory: Dormitorio
-          farm: Edificio agricole
+          duplex: Casa duple
+          farm: Casa de ferma
+          farm_auxiliary: Casa auxiliar de ferma
           garage: Garage
+          garages: Garages
+          greenhouse: Estufa
+          hangar: Hangar
           hospital: Edificio hospitalari
-          hotel: Hotel
+          hotel: Edificio de hotel
           house: Casa
+          houseboat: Casa flottante
+          hut: Cabana
           industrial: Edificio industrial
           office: Edificio de officio
           public: Edificio public
           residential: Edificio residential
           retail: Magazin
           school: Edificio de schola
-          terrace: Terrassa
-          train_station: Station ferroviari
+          terrace: Casas in serie
+          train_station: Edificio de station ferroviari
           university: Edificio de universitate
           "yes": Edificio
         craft:
@@ -1225,14 +1297,14 @@ ia:
       hi: Salute %{to_user},
       header: '%{from_user} ha commentate le entrata recente de diario OpenStreetMap
         con le subjecto %{subject}:'
-      footer: Tu pote tamben leger le commento a %{readurl} e tu pote commentar a
-        %{commenturl} o responder a %{replyurl}
+      footer: Tu pote etiam leger le commento a %{readurl} e tu pote commentar a %{commenturl}
+        o inviar un message al autor a %{replyurl}
     message_notification:
       hi: Salute %{to_user},
       header: '%{from_user} te ha inviate un message per OpenStreetMap con le subjecto
         %{subject}:'
-      footer_html: Tu pote anque leger le message a %{readurl} e tu pote responder
-        a %{replyurl}
+      footer_html: Tu pote etiam leger le message a %{readurl} e tu pote inviar un
+        message al autor a %{replyurl}
     friendship_notification:
       hi: Salute %{to_user},
       subject: '[OpenStreetMap] %{user} te ha addite como amico'
@@ -1478,9 +1550,8 @@ ia:
           Si vos altera o extende nostre datos, vos pote distribuer le resultato solmente
           sub le mesme licentia. Le <a href="https://opendatacommons.org/licenses/odbl/1.0/">codice
           juridic</a> complete explica vostre derectos e responsabilitates.
-        intro_3_1_html: Le cartographia in nostre tegulas cartographic, e nostre documentation,
-          es publicate sub licentia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA).
+        intro_3_1_html: Nostre documentation es publicate sub licentia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA 2.0).
         credit_title_html: Como dar recognoscentia a OpenStreetMap
         credit_1_html: |-
           Nos require que vos usa le recognoscentia &ldquo;&copy; OpenStreetMap
