@@ -180,13 +180,13 @@ module Potlatch
       #  StringIO.open(txt) do |file|
       File.open(Rails.root.join("config/potlatch/presets.txt")) do |file|
         file.each_line do |line|
-          t = line.chomp
-          if t =~ %r{(\w+)/(\w+)}
+          case line.chomp
+          when %r{(\w+)/(\w+)}
             presettype = Regexp.last_match(1)
             presetcategory = Regexp.last_match(2)
             presetmenus[presettype].push(presetcategory)
             presetnames[presettype][presetcategory] = ["(no preset)"]
-          elsif t =~ /^([\w\s]+):\s?(.+)$/
+          when /^([\w\s]+):\s?(.+)$/
             pre = Regexp.last_match(1)
             kv = Regexp.last_match(2)
             presetnames[presettype][presetcategory].push(pre)

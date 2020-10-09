@@ -71,7 +71,7 @@ module Api
       duration = cs.closed_at - cs.created_at
       # the difference can either be a rational, or a floating point number
       # of seconds, depending on the code path taken :-(
-      if duration.class == Rational
+      if duration.instance_of?(Rational)
         assert_equal Rational(1, 24), duration, "initial idle timeout should be an hour (#{cs.created_at} -> #{cs.closed_at})"
       else
         # must be number of seconds...
