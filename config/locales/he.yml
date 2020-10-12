@@ -35,6 +35,7 @@ he:
   time:
     formats:
       friendly: '%e ב%B %Y בשעה %H:%M'
+      blog: '%e ב%B %Y'
   helpers:
     file:
       prompt: בחירת קובץ
@@ -76,16 +77,16 @@ he:
       issue: סוגיה
       language: שפה
       message: הודעה
-      node: מפרק
+      node: נקודה
       node_tag: תג מפרק
       notifier: מודיע
-      old_node: מפרק ישן
+      old_node: נקודה ישנה
       old_node_tag: תג מפרק ישן
       old_relation: יחס ישן
       old_relation_member: איבר יחס ישן
       old_relation_tag: תג יחס ישן
       old_way: דרך ישנה
-      old_way_node: מפרק דרך ישנה
+      old_way_node: נקודת דרך ישנה
       old_way_tag: תג דרך ישנה
       relation: יחס
       relation_member: איבר יחס
@@ -99,7 +100,7 @@ he:
       user_preference: העדפת המשתמש
       user_token: אסימון משתמש
       way: דרך
-      way_node: מפרק דרך
+      way_node: נקודת דרך
       way_tag: תג דרך
     attributes:
       client_application:
@@ -283,7 +284,7 @@ he:
     changeset:
       title: 'ערכת שינויים: %{id}'
       belongs_to: יוצר
-      node: מפרקים (%{count})
+      node: נקודות (%{count})
       node_paginated: מפרקים (%{x}–%{y} מתוך %{count})
       way: דרכים (%{count})
       way_paginated: דרכים (%{x}–%{y} מתוך %{count})
@@ -301,13 +302,13 @@ he:
       discussion: דיון
       still_open: ערכת השינויים עדיין פתוחה – הדיון ייפתח אחרי שערכת השיניים תיסגר.
     node:
-      title_html: 'מפרק: %{name}'
+      title_html: 'נקודה: %{name}'
       history_title_html: 'היסטוריית הצומת: %{name}'
     way:
       title_html: 'דרך: %{name}'
       history_title_html: 'היסטוריית הדרך: %{name}'
-      nodes: מפרקים
-      nodes_count: '{{PLURAL|%{count} מפרקים}'
+      nodes: נקודות
+      nodes_count: '{{PLURAL|%{count} נקודות}'
       also_part_of_html:
         one: חלק מדרך %{related_ways}
         other: חלק מהדרכים %{related_ways}
@@ -323,7 +324,7 @@ he:
     relation_member:
       entry_role_html: '%{type} %{name} בתור %{role}'
       type:
-        node: מפרק
+        node: נקודה
         way: דרך
         relation: יחס
     containing_relation:
@@ -332,7 +333,7 @@ he:
     not_found:
       sorry: אנו מתנצלים, אך הסוג %{type} בעל המזהה %{id} לא נמצא.
       type:
-        node: מפרק
+        node: נקודה
         way: דרך
         relation: יחס
         changeset: ערכת שינויים
@@ -341,7 +342,7 @@ he:
       sorry: אנו מתנצלים, אך טעינת התוכן עבור ה%{type} עם המזהה %{id}, ארכה זמן רב
         מדי.
       type:
-        node: מפרק
+        node: נקודה
         way: דרך
         relation: קשר
         changeset: ערכת שינויים
@@ -351,7 +352,7 @@ he:
       message_html: 'לא ניתן להציג את הגרסה %{version} של %{type} מכיוון שהיא נחתכה.
         למידע נוסף: %{redaction_link}.'
       type:
-        node: מפרק
+        node: נקודה
         way: דרך
         relation: יחס
     start_rjs:
@@ -814,7 +815,7 @@ he:
           street_lamp: פנס רחוב
           tertiary: דרך שלישונית
           tertiary_link: דרך שלישונית
-          track: מסלול מרוצים
+          track: דרך עפר
           traffic_mirror: מראה פנורמית
           traffic_signals: רמזור
           trailhead: שלט תחילת מסלול
@@ -1950,7 +1951,7 @@ he:
           primary: כביש ראשי
           secondary: כביש משני
           unclassified: דרך לא מסווגת
-          track: מסלול מרוצים
+          track: מסלול
           bridleway: מסלול לרכיבת סוסים
           cycleway: דרך לאופניים
           cycleway_national: מסלול אופניים לאומי
@@ -2046,10 +2047,11 @@ he:
         paragraph_1_html: למיזם OpenStreetMap יש עגה משלו. הנה מספר מילות מפתח שיהיו
           שימושיות.
         editor_html: <strong>עורך</strong> הוא תכנה או אתר לעריכת המפה.
-        node_html: <strong>צומת</strong> נוא נקודה על מפה, כגון מסעדה אחת או עץ אחד.
+        node_html: <strong>נקודה</strong> מייצגת מיקום נקודתי, כגון מסעדה אחת או עץ
+          אחד.
         way_html: <strong>נתיב</strong> הוא קו או אזור כמו דרך, זרם, אגם או מבנה.
-        tag_html: <strong>תג</strong> הוא פיסת מידע על מפרק או על נתיב כמו שם של מסעדה
-          או מגבלת מהירות בדרך.
+        tag_html: <strong>תג</strong> הוא פיסת מידע על נקודה או על נתיב כמו שם של
+          מסעדה או מגבלת מהירות בדרך.
       rules:
         title: חוקים!
         paragraph_1_html: ל־OpenStreetMap יש מעט חוקים פורמליים, אבל אנחנו מצפים מכל
@@ -2911,7 +2913,7 @@ he:
           tenth: עשירית
       time: זמן
     query:
-      node: מפרק
+      node: נקודה
       way: דרך
       relation: יחס
       nothing_found: לא נמצאו ישויות

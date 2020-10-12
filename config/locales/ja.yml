@@ -67,7 +67,7 @@ ja:
         create: 送信
       client_application:
         create: 登録
-        update: 編集
+        update: 更新
       redaction:
         create: 改訂版を作成
         update: 改訂版を保存
@@ -120,8 +120,17 @@ ja:
       way_tag: ウェイのタグ
     attributes:
       client_application:
+        name: 名稱（必須）
+        url: メインのアプリケーションの URL（必須）
         callback_url: コールバック URL
         support_url: サポート URL
+        allow_read_prefs: ユーザー設定を読み込む。
+        allow_write_prefs: 利用者設定を変更する。
+        allow_write_diary: 日記エントリを作成する、コメントする、友達を作る。
+        allow_write_api: 地図を変更する。
+        allow_read_gpx: 非公開GPSトレースを読み込む。
+        allow_write_gpx: GPSトレースをアップロードする
+        allow_write_notes: メモを変更する。
       diary_comment:
         body: 本文
       diary_entry:
@@ -151,6 +160,7 @@ ja:
         body: 本文
         recipient: 受信者
       report:
+        category: 報告の理由を選択してください。
         details: 問題についてもう少し詳しく記述してください (必須)。
       user:
         email: メール
@@ -159,6 +169,7 @@ ja:
         description: 説明
         languages: 言語
         pass_crypt: パスワード
+        pass_crypt_confirmation: パスワードを確認
     help:
       trace:
         tagstring: カンマ区切り
@@ -264,6 +275,12 @@ ja:
     anonymous: 匿名
     no_comment: (コメントなし)
     part_of: 以下の一部
+    part_of_relations:
+      one: 1件のリレーション
+      other: '%{count}件のリレーション'
+    part_of_ways:
+      one: 1件のウェイ
+      other: '%{count}件のウェイ'
     download_xml: XMLをダウンロード
     view_history: 履歴を表示
     view_details: 詳細を表示
@@ -273,9 +290,9 @@ ja:
       belongs_to: 著者
       node: ノード (%{count})
       node_paginated: ノード (%{x}-%{y} / %{count})
-      way: ウェイ (%{count})
+      way: ウェイ (%{count}件)
       way_paginated: ウェイ (%{x}-%{y} / %{count})
-      relation: リレーション (%{count})
+      relation: リレーション (%{count}件)
       relation_paginated: リレーション (%{x}-%{y} / %{count})
       comment: コメント (%{count}件)
       hidden_commented_by: '%{user}さんからの<abbr title=''%{exact_time}''>%{when}</abbr>の非表示のコメント'
@@ -295,12 +312,17 @@ ja:
       title_html: 'ウェイ: %{name}'
       history_title_html: 'ウェイ: %{name} の履歴'
       nodes: ノード
+      nodes_count:
+        other: '%{count}件のノード'
       also_part_of_html:
         other: ウェイ %{related_ways} の一部
     relation:
       title_html: 'リレーション: %{name}'
       history_title_html: 'リレーション: %{name} の履歴'
       members: メンバー
+      members_count:
+        one: 1名
+        other: '%{count}名'
     relation_member:
       entry_role_html: '%{type} %{name} (%{role} として)'
       type:
@@ -522,6 +544,7 @@ ja:
           pylon: 送電塔
           station: 索道駅
           t-bar: Tバーリフト
+          "yes": ロープウェイ
         aeroway:
           aerodrome: 飛行場
           airstrip: 滑走路
@@ -530,8 +553,10 @@ ja:
           hangar: 格納庫
           helipad: ヘリポート
           holding_position: 停止位置
+          navigationaid: 飛行機用ナビ
           parking_position: 駐機位置
           runway: 滑走路
+          taxilane: 滑走路
           taxiway: 空港誘導路
           terminal: ターミナル
           windsock: 吹流し
@@ -573,6 +598,7 @@ ja:
           drinking_water: 飲み水
           driving_school: 自動車学校
           embassy: 大使館
+          events_venue: イベント会場
           fast_food: ファストフード
           ferry_terminal: フェリー乗り場
           fire_station: 消防署
@@ -589,9 +615,12 @@ ja:
           kindergarten: 幼稚園
           language_school: 語学学校
           library: 図書館
+          loading_dock: 貨物積み下ろし場
           love_hotel: ラブホテル
           marketplace: 市場
+          mobile_money_agent: モバイル決済
           monastery: 修道院
+          money_transfer: 送金
           motorcycle_parking: バイクの駐輪場
           music_school: 音楽学校
           nightclub: ナイト クラブ
@@ -599,6 +628,7 @@ ja:
           parking: 駐車場
           parking_entrance: 駐車場の入口
           parking_space: 駐車場
+          payment_terminal: 決済端末
           pharmacy: 薬局
           place_of_worship: 神社仏閣
           police: 警察署
@@ -608,6 +638,7 @@ ja:
           pub: パブ
           public_bath: 公衆浴場
           public_building: 公共建築物
+          ranger_station: 管理事務所
           recycling: リサイクル場
           restaurant: レストラン
           school: 学校
@@ -622,18 +653,24 @@ ja:
           theatre: 劇場
           toilets: トイレ
           townhall: 市庁舎
+          training: トレーニング施設
           university: 大学
+          vehicle_inspection: 車検場
           vending_machine: 自動販売機
           veterinary: 獣医外科
           village_hall: 役場
           waste_basket: ごみ箱
           waste_disposal: ごみ集積所
+          waste_dump_site: ゴミ処理場
           water_point: 給水所
         boundary:
+          aboriginal_lands: 先住民地域
           administrative: 行政境界
           census: 国勢調査の境界
           national_park: 国立公園
+          political: 選挙区
           protected_area: 保護された領域
+          "yes": 境界
         bridge:
           aqueduct: 水道橋
           boardwalk: 木道
@@ -642,44 +679,90 @@ ja:
           viaduct: 高架橋
           "yes": 橋
         building:
+          apartment: 集合住宅
           apartments: 団地
+          barn: 納屋
           bungalow: バンガロー
+          cabin: 山小屋
           chapel: 礼拝堂
           church: 教会
+          civic: 公共施設
+          college: 校舎
           commercial: 商業ビル
+          construction: 建設中の建物
+          detached: 戸建て住宅
           dormitory: 寮
           farm: 農舎
+          farm_auxiliary: 農家の離れ
           garage: 車庫
+          garages: 駐車場
+          greenhouse: 温室
+          hangar: 格納庫
           hospital: 病院
           hotel: ホテル
           house: 住宅
+          houseboat: ハウスボート
+          hut: 小屋
           industrial: 工業ビル
+          kindergarten: 幼稚園
+          manufacture: 工場施設
           office: オフィスビル
           public: 公共建築物
           residential: 住宅
           retail: 店舗ビル
+          roof: 屋根
+          ruins: 壊れた建物
           school: 校舎
+          service: 施設
+          shed: 小屋
+          stable: 畜舎
+          static_caravan: キャラバン
+          temple: 寺院
           terrace: テラスハウス
-          train_station: 鉄道駅
+          train_station: 駅舎
           university: 大学の建物
+          warehouse: 倉庫
           "yes": 建造物
+        club:
+          scout: スカウト集会所
+          sport: スポーツクラブ
+          "yes": クラブ
         craft:
+          beekeper: 養蜂家
+          blacksmith: 金属加工
           brewery: 醸造所
           carpenter: 工務店
+          caterer: 仕出し屋
+          confectionery: 製菓店
+          dressmaker: ドレスメーカー
           electrician: 電気工
+          electronics_repair: 電器修理業
           gardener: 造園業
+          handicraft: 手工芸
+          hvac: 空調システム施工業
+          metal_construction: 鉄工所
           painter: 塗装業
           photographer: 撮影者
           plumber: 配管業
+          roofer: 屋根施工業
+          sawmill: 製材所
           shoemaker: 靴屋
+          stonemason: 石材加工業
           tailor: 仕立て屋
+          window_construction: サッシ施工業
+          winery: ワイン醸造所
           "yes": 手芸店
         emergency:
           ambulance_station: 消防署
           assembly_point: 集合場所
           defibrillator: 自動体外式除細動器
+          fire_xtinguisher: 消火器
+          fire_water_pond: 防火水槽
           landing_site: 緊急着陸地点
+          life_ring: 救命浮き輪
           phone: 緊急電話
+          siren: 緊急警報機
+          suction_point: 緊急給水口
           water_tank: 緊急時給水槽
           "yes": 緊急
         highway:
@@ -692,6 +775,7 @@ ja:
           cycleway: 自転車道
           elevator: エレベータ
           emergency_access_point: 緊急アクセスポイント
+          emergency_bay: 緊急停車帯
           footway: 歩道
           ford: 砦
           give_way: 前方優先道路標識
@@ -722,6 +806,7 @@ ja:
           tertiary: 周辺道路
           tertiary_link: 周辺道路
           track: 農道・林道
+          traffic_mirror: カーブミラー
           traffic_signals: 信号機
           trunk: 国道
           trunk_link: 国道
@@ -730,6 +815,7 @@ ja:
           "yes": 道路
         historic:
           archaeological_site: 考古学サイト
+          bomb_crater: 着弾地跡
           battlefield: 戦場
           boundary_stone: 境界石
           building: 歴史的な建物
@@ -740,6 +826,7 @@ ja:
           citywalls: 城壁
           fort: 砦
           heritage: 遺産
+          hollow_way: 切土 (堀切)
           house: 住宅
           manor: 荘園
           memorial: 記念碑
@@ -751,6 +838,7 @@ ja:
           stone: 岩石
           tomb: 墓地
           tower: 塔
+          wayside_chapel: 祠 (ほこら)
           wayside_cross: 道路際の十字架
           wayside_shrine: 道祖神
           wreck: 沈没船
@@ -759,6 +847,7 @@ ja:
           "yes": 交差点
         landuse:
           allotments: 家庭菜園
+          aquaculture: 養魚場
           basin: 盆地
           brownfield: 褐色地
           cemetery: 墓地
@@ -778,6 +867,7 @@ ja:
           military: 軍用地域
           mine: 鉱山
           orchard: 果樹園
+          plant_nursery: 圃場
           quarry: 採石場
           railway: 鉄道
           recreation_ground: 遊園地
@@ -789,9 +879,14 @@ ja:
           vineyard: Vineyard
           "yes": 土地利用
         leisure:
+          amusement_arcade: ゲームセンター
+          bandstand: 舞台
           beach_resort: ビーチ リゾート
           bird_hide: 観察小屋
+          bleachers: 外野席
+          bowling_alley: ボーリング場
           common: 共有地
+          dance: ダンスホール
           dog_park: ドッグ・パーク
           firepit: 炉
           fishing: 釣り場
@@ -804,7 +899,9 @@ ja:
           marina: マリーナ
           miniature_golf: ミニチュア ゴルフ
           nature_reserve: 自然保護区
+          outdoor_seating: 野外席
           park: 公園
+          picnic_table: ピクニック用テーブル
           pitch: 運動場
           playground: 遊び場
           recreation_ground: 遊園地
@@ -819,13 +916,20 @@ ja:
           "yes": レジャー
         man_made:
           adit: 坑道
+          advertising: 広告
+          antenna: アンテナ
           beacon: 信号灯
+          beam: 梁
           beehive: 養蜂箱
           breakwater: 防波堤
           bridge: 橋
           bunker_silo: 地下壕
+          cairn: 石標
           chimney: 煙突
+          clearcut: 皆伐地
+          communications_tower: 電波塔
           crane: クレーン
+          cross: 十字架
           dolphin: 繋留杭
           dyke: 堤防
           embankment: 土手
@@ -834,6 +938,7 @@ ja:
           groyne: 防砂堤
           kiln: 窯場
           lighthouse: 灯台
+          manhole: マンホール
           mast: マスト
           mine: 鉱山
           mineshaft: 竪坑
@@ -841,12 +946,16 @@ ja:
           petroleum_well: 油井
           pier: 埠頭
           pipeline: パイプライン
+          reservoir_covered: 有蓋貯水槽
           silo: サイロ
           storage_tank: 貯蔵タンク
           surveillance: 監視カメラ
+          telescope: 望遠鏡
           tower: 塔
+          utility_pole: 電柱
           wastewater_plant: 下水処理場
           watermill: 水車
+          water_tap: 蛇口
           water_tower: 貯水塔
           water_well: 井戸
           water_works: 給水施設
@@ -857,10 +966,13 @@ ja:
           airfield: 軍用飛行場
           barracks: バラック
           bunker: 貯蔵庫
+          checkpoint: 検問所
+          trench: 溝
           "yes": 軍用施設
         mountain_pass:
           "yes": 山道
         natural:
+          bare_rock: 露頭
           bay: 入り江
           beach: 砂浜
           cape: 岬
@@ -876,6 +988,7 @@ ja:
           grassland: 草地
           heath: 荒れ地
           hill: 丘陵
+          hot_spring: 温泉
           island: 島
           land: 陸地
           marsh: 沼地
@@ -902,6 +1015,7 @@ ja:
         office:
           accountant: 会計
           administrative: 管理
+          advertising_agency: 広告代理店
           architect: 建築士
           association: 協会
           company: 会社
@@ -912,7 +1026,11 @@ ja:
           insurance: 保険事務所
           it: IT 企業
           lawyer: 弁護士
+          logistics: 運送会社
+          newspaper: 新聞社
           ngo: NGO オフィス
+          notary: 公証人役場
+          tax_advisor: 税理士
           telecommunication: 通信
           travel_agent: 旅行代理店
           "yes": オフィス
@@ -932,6 +1050,7 @@ ja:
           locality: 地域
           municipality: 市町村
           neighbourhood: 小字
+          plot: 耕作地
           postcode: Postcode
           quarter: 地区
           region: 地域
@@ -968,11 +1087,16 @@ ja:
           tram_stop: トラム停留所
           yard: 車両基地
         shop:
+          agrarian: 農業用品店
           alcohol: 酒屋
           antiques: 骨董品
+          appliance: 電器店
           art: アート ショップ
+          baby_goods: 赤ちゃん用品
+          bag: 鞄屋
           bakery: パン屋
           beauty: 美容室
+          bed: 寝具
           beverages: 飲料ショップ
           bicycle: 自転車販売店
           bookmaker: ブックメーカー
@@ -984,33 +1108,47 @@ ja:
           car_repair: 自動車修理
           carpet: カーペット店
           charity: チャリティ ショップ
+          cheese: チーズ店
           chemist: 薬局
+          chocolate: チョコレート屋
           clothes: 洋服店
+          coffee: 珈琲屋
           computer: コンピューターショップ
           confectionery: 駄菓子屋
           convenience: コンビニエンス ストア
           copyshop: コピー店
           cosmetics: 化粧品販売店
+          craft: 工芸用品店
+          curtain: カーテン屋
+          dairy: 乳製品店
           deli: デリ
           department_store: デパート
           discount: 安売り店
           doityourself: 日曜大工
           dry_cleaning: クリーニング
+          e-cigarette: 電子タバコ店
           electronics: 電気製品販売店
           estate_agent: 不動産代理店
+          fabric: 生地屋
           farm: 農産物店
           fashion: ファッション ショップ
+          fishing: 釣具店
           florist: 花屋
           food: 食品販売店
+          frame: 額縁屋
           funeral_directors: 葬儀屋
           furniture: 家具店
           garden_centre: 園芸用品店
+          gas: ガソリンスタンド
           general: 雑貨屋
           gift: ギフト ショップ
           greengrocer: 八百屋
           grocery: 食料品店
           hairdresser: 美容室
           hardware: ホームセンター
+          health_food: 健康食品店
+          hearing_aids: 補聴器
+          herbalist: 漢方薬局
           hifi: 高級オーディオ
           houseware: 雑貨店
           ice_cream: アイスクリーム屋
@@ -1019,27 +1157,40 @@ ja:
           kiosk: キオスク
           kitchen: キッチン用品店
           laundry: クリーニング店
+          locksmith: 鍵屋
           lottery: 宝くじ
           mall: モール
           massage: マッサージ店
+          medical_supply: 医療用品店
           mobile_phone: 携帯電話販売店
+          money_lender: 金融業
           motorcycle: バイクショップ
+          motorcycle_repair: バイク修理工場
           music: 音楽ショップ
+          musical_instrument: 楽器
           newsagent: 新聞販売店
+          nutrition_supplements: サプリ
           optician: メガネ店
           organic: 有機食材店
           outdoor: アウトドア ショップ
           paint: 画材店
+          pastry: パン屋
           pawnbroker: 質屋
+          perfumery: 香水店
           pet: ペット ショップ
+          pet_grooming: トリマー
           photo: 写真屋
           seafood: 海鮮品屋
           second_hand: 中古品店
+          sewing: 裁縫店
           shoes: 靴屋
           sports: スポーツ用品専門店
           stationery: 文房具店
+          storage_rental: トランクルーム
           supermarket: スーパーマーケット
           tailor: 洋服店
+          tattoo: 刺青屋
+          tea: 茶舖
           ticket: チケット店
           tobacco: タバコ屋
           toys: 玩具店
@@ -1048,6 +1199,8 @@ ja:
           vacant: 空き店舗
           variety_store: 雑貨店
           video: ビデオ ショップ
+          video_games: ビデオアーケード
+          wholesale: 卸売店
           wine: ワイン屋
           "yes": 店舗
         tourism:
@@ -1057,6 +1210,7 @@ ja:
           attraction: アトラクション
           bed_and_breakfast: 民宿(B&B)
           cabin: 山小屋
+          camp_pitch: 野営地
           camp_site: キャンプ場
           caravan_site: オートキャンプ場
           chalet: 別荘
@@ -1428,7 +1582,7 @@ ja:
         href='https://blog.openstreetmap.org'>OpenStreetMap のブログ</a>、<a href='%{diary_path}'>利用者の日記</a>、<a
         href='https://blogs.openstreetmap.org/'>コミュニティのブログ</a>と<a href='https://www.osmfoundation.org/'>OSM財団</a>のウェブサイトをご覧ください。
       open_data_title: オープン データ
-      open_data_html: OpenStreetMapは<i>オープンデータ</i>です。あなたはOpenStreetMapと協力者の著作権を表示すれば、いかなる目的でも無料で利用することができます。もし何らかの方法でデータを変更したり二次データを作成したりした場合も、同じライセンス条件下でのみ結果を配布できます。詳しくは、<a
+      open_data_html: OpenStreetMapは<i>オープンデータ</i>です。利用者はOpenStreetMapと協力者の著作権を表示すれば、いかなる目的にも無料で利用することができます。もし何らかの方法でデータを変更したり二次データを作成したりした場合も、同じライセンス条件下でのみ結果を配布できます。詳しくは、<a
         href='%{copyright_path}'>著作権とライセンス</a>をご覧ください。
       legal_title: 法律関係
       legal_1_html: このサイトおよびその他の関連サービスは、コミュニティを代表して<a href='https://osmfoundation.org/'>OpenStreetMap財団</a>
@@ -1811,6 +1965,7 @@ ja:
       uploaded: 'アップロード日時:'
       points: '点の個数:'
       start_coordinates: '開始座標:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: 地図
       edit: 編集
       owner: '所有者:'
