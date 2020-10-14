@@ -1,4 +1,4 @@
-class Notifier < ApplicationMailer
+class UserMailer < ApplicationMailer
   include ActionView::Helpers::AssetUrlHelper
 
   self.delivery_job = ActionMailer::MailDeliveryJob
@@ -17,7 +17,7 @@ class Notifier < ApplicationMailer
                      :confirm_string => token.token)
 
       mail :to => user.email,
-           :subject => I18n.t("notifier.signup_confirm.subject")
+           :subject => I18n.t("user_mailer.signup_confirm.subject")
     end
   end
 
@@ -28,7 +28,7 @@ class Notifier < ApplicationMailer
                      :confirm_string => token.token)
 
       mail :to => user.new_email,
-           :subject => I18n.t("notifier.email_confirm.subject")
+           :subject => I18n.t("user_mailer.email_confirm.subject")
     end
   end
 
@@ -38,7 +38,7 @@ class Notifier < ApplicationMailer
                      :token => token.token)
 
       mail :to => user.email,
-           :subject => I18n.t("notifier.lost_password.subject")
+           :subject => I18n.t("user_mailer.lost_password.subject")
     end
   end
 
@@ -51,7 +51,7 @@ class Notifier < ApplicationMailer
       @possible_points = possible_points
 
       mail :to => trace.user.email,
-           :subject => I18n.t("notifier.gpx_notification.success.subject")
+           :subject => I18n.t("user_mailer.gpx_notification.success.subject")
     end
   end
 
@@ -63,7 +63,7 @@ class Notifier < ApplicationMailer
       @error = error
 
       mail :to => trace.user.email,
-           :subject => I18n.t("notifier.gpx_notification.failure.subject")
+           :subject => I18n.t("user_mailer.gpx_notification.failure.subject")
     end
   end
 
@@ -81,7 +81,7 @@ class Notifier < ApplicationMailer
 
       mail :from => from_address(message.sender.display_name, "m", message.id, message.digest),
            :to => message.recipient.email,
-           :subject => I18n.t("notifier.message_notification.subject_header", :subject => message.title)
+           :subject => I18n.t("user_mailer.message_notification.subject_header", :subject => message.title)
     end
   end
 
@@ -102,7 +102,7 @@ class Notifier < ApplicationMailer
 
       mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest, recipient.id),
            :to => recipient.email,
-           :subject => I18n.t("notifier.diary_comment_notification.subject", :user => comment.user.display_name)
+           :subject => I18n.t("user_mailer.diary_comment_notification.subject", :user => comment.user.display_name)
     end
   end
 
@@ -115,7 +115,7 @@ class Notifier < ApplicationMailer
 
       attach_user_avatar(@friendship.befriender)
       mail :to => friendship.befriendee.email,
-           :subject => I18n.t("notifier.friendship_notification.subject", :user => friendship.befriender.display_name)
+           :subject => I18n.t("user_mailer.friendship_notification.subject", :user => friendship.befriender.display_name)
     end
   end
 
@@ -130,7 +130,7 @@ class Notifier < ApplicationMailer
       @commenter = if comment.author
                      comment.author.display_name
                    else
-                     I18n.t("notifier.note_comment_notification.anonymous")
+                     I18n.t("user_mailer.note_comment_notification.anonymous")
                    end
 
       @author = @commenter
@@ -139,9 +139,9 @@ class Notifier < ApplicationMailer
       set_references("note", comment.note)
 
       subject = if @owner
-                  I18n.t("notifier.note_comment_notification.#{@event}.subject_own", :commenter => @commenter)
+                  I18n.t("user_mailer.note_comment_notification.#{@event}.subject_own", :commenter => @commenter)
                 else
-                  I18n.t("notifier.note_comment_notification.#{@event}.subject_other", :commenter => @commenter)
+                  I18n.t("user_mailer.note_comment_notification.#{@event}.subject_other", :commenter => @commenter)
                 end
 
       mail :to => recipient.email, :subject => subject
@@ -161,9 +161,9 @@ class Notifier < ApplicationMailer
       @author = @commenter
 
       subject = if @owner
-                  I18n.t("notifier.changeset_comment_notification.commented.subject_own", :commenter => @commenter)
+                  I18n.t("user_mailer.changeset_comment_notification.commented.subject_own", :commenter => @commenter)
                 else
-                  I18n.t("notifier.changeset_comment_notification.commented.subject_other", :commenter => @commenter)
+                  I18n.t("user_mailer.changeset_comment_notification.commented.subject_other", :commenter => @commenter)
                 end
 
       attach_user_avatar(comment.author)

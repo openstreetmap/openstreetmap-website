@@ -21,7 +21,7 @@ class FriendshipsController < ApplicationController
           flash[:warning] = t "friendships.make_friend.already_a_friend", :name => @new_friend.display_name
         elsif friendship.save
           flash[:notice] = t "friendships.make_friend.success", :name => @new_friend.display_name
-          Notifier.friendship_notification(friendship).deliver_later
+          UserMailer.friendship_notification(friendship).deliver_later
         else
           friendship.add_error(t("friendships.make_friend.failed", :name => @new_friend.display_name))
         end

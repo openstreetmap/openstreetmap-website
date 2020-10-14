@@ -1,4 +1,4 @@
-module NotifierHelper
+module UserMailerHelper
   def fp(text)
     format_paragraph(text, 72, 0)
   end
