@@ -1,9 +1,7 @@
 <% set_title(@params[:query]) %>
 
-<h2>
-    <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-    <%= t("site.sidebar.search_results") %>
-</h2>
+<%= render "sidebar_header", :title => t("site.sidebar.search_results") %>
+
 <% @sources.each do |source| %>
   <h4 class="inner12"><%= t(".title.#{source}_html") %></h4>
   <div class="search_results_entry" data-href="<%= url_for @params.merge(:action => "search_#{source}") %>">

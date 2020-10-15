@@ -1,9 +1,6 @@
 <% set_title(t("browse.#{@type}.history_title_html", :name => printable_name(@feature))) %>
 
-<h2>
-  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= t("browse.#{@type}.history_title_html", :name => printable_name(@feature)) %>
-</h2>
+<%= render "sidebar_header", :title => t("browse.#{@type}.history_title_html", :name => printable_name(@feature)) %>
 
 <%= render :partial => @type, :collection => @feature.send("old_#{@type}s").reverse %>
 
