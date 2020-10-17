@@ -10,7 +10,6 @@
     <tr>
       <th><%= t ".application" %></th>
       <th><%= t ".issued_at" %></th>
-      <th><%= t ".valid_to" %></th>
       <th>&nbsp;</th>
     </tr>
   </thead>
@@ -18,7 +17,6 @@
     <tr>
       <td><%= link_to token.client_application.name, token.client_application.url, target: "_blank" %></td>
       <td><%= token.authorized_at %></td>
-      <td><%= token.valid_to %></td>
       <td>
         <%= form_tag({ :controller => "oauth", :action => "revoke" }, { :class => "standard-form" }) do %>
           <%= hidden_field_tag "token", token.token %>
@@ -28,6 +26,7 @@
     </tr>
   <% end %>
 </table>
+<p><%= t ".valid_until_revoked" %></p>
 <% end %>
 <h3><%= t ".my_apps" %></h3>
 <% if @client_applications.empty? %>
