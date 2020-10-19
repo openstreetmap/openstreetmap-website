@@ -19,17 +19,21 @@ th:
     formats:
       friendly: '%e %B %Y เมื่อเวลา %H:%M น.'
   helpers:
+    file:
+      prompt: เลือกแฟ้ม
     submit:
       diary_comment:
         create: บันทึก
       diary_entry:
         create: เผยแพร่
         update: อัปเดต
+      issue_comment:
+        create: เพิ่มคำอธิบายหรือความเห็น
       message:
         create: ส่ง
       client_application:
         create: ลงทะเบียน
-        update: แก้ไข
+        update: ปรับปรุง
       redaction:
         create: สร้างการตรวจทาน
         update: บันทึกการตรวจทาน
@@ -43,6 +47,7 @@ th:
     errors:
       messages:
         invalid_email_address: ดูเหมือนจะไม่ใช่ที่อยู่อีเมลที่ถูกต้อง
+        email_address_not_routable: ไม่สามารถกำหนดที่มาที่ไปได้
     models:
       acl: รายการควบคุมการเข้าถึง
       changeset: ชุดการเปลี่ยนแปลง
@@ -51,6 +56,7 @@ th:
       diary_comment: ความคิดเห็นสำหรับบันทึก
       diary_entry: รายการบันทึก
       friend: เพื่อน
+      issue: ปัญหา
       language: ภาษา
       message: ข้อความ
       node: หมุด
@@ -67,6 +73,7 @@ th:
       relation: ความสัมพันธ์
       relation_member: สมาชิกของความสัมพันธ์
       relation_tag: ป้ายกำกับของความสัมพันธ์
+      report: รายงาน
       session: การเข้าใช้งาน
       trace: รอยทาง
       tracepoint: จุดรอยทาง
@@ -79,8 +86,17 @@ th:
       way_tag: ป้ายกำกับเส้นทาง
     attributes:
       client_application:
+        name: ชื่อ (จำเป็นต้องใส่)
+        url: ที่อยู่ยูอาร์แอลแอปพลิเคชันหลัก (จำเป็นต้องใส่)
         callback_url: ที่อยู่เว็บเรียกกลับ
         support_url: ที่อยู่เว็บสำหรับสนับสนุน
+        allow_read_prefs: อ่านการตั้งค่าผู้ใช้
+        allow_write_prefs: แก้ไขการตั้งค่าผู้ใช้
+        allow_write_diary: สร้างรายการบันทึก ข้อคิดเห็น และพบเพื่อนใหม่
+        allow_write_api: แก้ไขแผนที่
+        allow_read_gpx: อ่านรอยทาง GPS ส่วนบุคคล
+        allow_write_gpx: อัปโหลดรอยทาง GPS
+        allow_write_notes: แก้ไขหมายเหตุ
       diary_comment:
         body: เนื้อหา
       diary_entry:
@@ -95,7 +111,7 @@ th:
       trace:
         user: ผู้ใช้งาน
         visible: เปิดเผย
-        name: ชื่อ
+        name: ชื่อแฟ้ม
         size: ขนาด
         latitude: ละติจูด
         longitude: ลองติจูด
@@ -109,6 +125,9 @@ th:
         title: หัวเรื่อง
         body: เนื้อหา
         recipient: ผู้รับ
+      report:
+        category: เลือกเหตุผลของปัญหาที่ท่านแจ้ง
+        details: โปรดให้คำอธิบายเพิ่มเติมเกี่ยวกับปัญหา (จำเป็นต้องใส่)
       user:
         email: อีเมล์
         active: เปิดใช้
@@ -116,14 +135,31 @@ th:
         description: คำอธิบาย
         languages: ภาษา
         pass_crypt: รหัสผ่าน
+        pass_crypt_confirmation: ยืนยันรหัสผ่าน
     help:
       trace:
         tagstring: คั่นด้วยจุลภาค
   datetime:
     distance_in_words_ago:
+      about_x_hours:
+        one: เมื่อประมาณ 1 ชั่วโมงที่แล้ว
+        other: ประมาณ %{count} ชั่วโมงที่แล้ว
+      about_x_months:
+        one: เมื่อประมาณ 1 เดือนที่แล้ว
+        other: ประมาณ %{count} เดือนที่แล้ว
       about_x_years: ประมาณ %{count} ปีก่อน
       almost_x_years: เกือบ %{count} ปีก่อน
+      half_a_minute: ครึ่งนาทีที่แล้ว
+      less_than_x_seconds:
+        one: น้อยกว่า 1 วินาทีที่แล้ว
+        other: น้อยกว่า %{count} วินาทีที่แล้ว
+      less_than_x_minutes:
+        one: น้อยกว่า 1 นาทีที่แล้ว
+        other: น้อยกว่า %{count} นาทีที่แล้ว
       over_x_years: มากกว่า %{count} ปีก่อน
+      x_seconds:
+        one: 1 วินาทีที่แล้ว
+        other: '%{count} วินาทีที่แล้ว'
       x_years: '%{count} ปีก่อน'
   editor:
     default: ค่าปกติ (ขณะนี้ %{name})
@@ -1057,7 +1093,7 @@ th:
       text: บริจาค
     learn_more: เรียนรู้เพิ่มเติม
     more: เพิ่มเติม
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] ผู้ใช้ %{user} แสดงความคิดเห็นต่อรายการบันทึก'
       hi: เรียนคุณ %{to_user},
