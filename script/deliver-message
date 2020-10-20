@@ -33,6 +33,6 @@ mail = Mail.new($stdin.read
 message = Message.from_mail(mail, from, to)
 message.save!
 
-Notifier.message_notification(message).deliver
+UserMailer.message_notification(message).deliver
 
 exit 0
