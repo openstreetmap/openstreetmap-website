@@ -344,7 +344,7 @@ class UsersController < ApplicationController
       flash[:error] = t "users.confirm_resend.failure", :name => params[:display_name]
     else
       UserMailer.signup_confirm(user, user.tokens.create).deliver_later
-      flash[:notice] = t("users.confirm_resend.success", :email => user.email, :sender => Settings.support_email).html_safe
+      flash[:notice] = t "users.confirm_resend.success_html", :email => user.email, :sender => Settings.support_email
     end
 
     redirect_to :action => "login"

@@ -1,14 +1,16 @@
 module NoteHelper
+  include ActionView::Helpers::TranslationHelper
+
   def note_event(event, at, by)
     if by.nil?
-      I18n.t("browse.note." + event + "_by_anonymous",
-             :when => friendly_date_ago(at),
-             :exact_time => l(at)).html_safe
+      t("browse.note." + event + "_by_anonymous_html",
+        :when => friendly_date_ago(at),
+        :exact_time => l(at))
     else
-      I18n.t("browse.note." + event + "_by",
-             :when => friendly_date_ago(at),
-             :exact_time => l(at),
-             :user => note_author(by)).html_safe
+      t("browse.note." + event + "_by_html",
+        :when => friendly_date_ago(at),
+        :exact_time => l(at),
+        :user => note_author(by))
     end
   end
 

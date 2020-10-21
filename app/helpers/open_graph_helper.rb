@@ -10,8 +10,8 @@ module OpenGraphHelper
       "og:description" => t("layouts.intro_text")
     }
 
-    tags.map do |property, content|
+    safe_join(tags.map do |property, content|
       tag(:meta, :property => property, :content => content)
-    end.join("").html_safe
+    end, "\n")
   end
 end

@@ -37,10 +37,10 @@
             <% if comment.visible %>
               <li id="c<%= comment.id %>">
                 <small class='text-muted'>
-                  <%= t(".commented_by",
+                  <%= t(".commented_by_html",
                         :when => friendly_date_ago(comment.created_at),
                         :exact_time => l(comment.created_at),
-                        :user => link_to(comment.author.display_name, user_path(comment.author))).html_safe %>
+                        :user => link_to(comment.author.display_name, user_path(comment.author))) %>
                   <% if current_user and current_user.moderator? %>
                     — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t("javascripts.changesets.show.hide_comment") %></span>
                   <% end %>
@@ -50,10 +50,10 @@
             <% elsif current_user and current_user.moderator? %>
               <li id="c<%= comment.id %>">
                 <small class='text-muted'>
-                  <%= t(".hidden_commented_by",
+                  <%= t(".hidden_commented_by_html",
                         :when => friendly_date_ago(comment.created_at),
                         :exact_time => l(comment.created_at),
-                        :user => link_to(comment.author.display_name, user_path(comment.author))).html_safe %>
+                        :user => link_to(comment.author.display_name, user_path(comment.author))) %>
                   — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t("javascripts.changesets.show.unhide_comment") %></span>
                  </small>
                 <%= comment.body.to_html %>
