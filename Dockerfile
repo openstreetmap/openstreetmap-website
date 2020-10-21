@@ -28,7 +28,6 @@ RUN apt-get update -qq && \
       nodejs \
       npm \
       vim \
-      yarn \
     && rm -rf /var/lib/apt/lists/*
 
 # ###########################
@@ -77,11 +76,11 @@ RUN npm install -g \
 RUN mkdir -p /ohm-website
 WORKDIR /ohm-website
 
-# bundle install takes a while, so only copy these in if Gemfiles have changed
+# Install app dependencies
 ADD ./Gemfile /ohm-website/Gemfile
 ADD ./Gemfile.lock /ohm-website/Gemfile.lock
-RUN echo 'gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"' >> /ohm-website/Gemfile
-RUN bundle install -j $(nproc)
+RUN bundle install
+RUN gem install rake
 
 # copy the Rails app in
 COPY . /ohm-website/
@@ -96,9 +95,9 @@ RUN vendorer
 RUN cp config/example.application.yml config/application.yml
 RUN cp config/example.database.yml config/database.yml
 
-# generate translated JS
+RUN npm install yarn -g
+RUN bundle exec rake yarn:install
 RUN bundle exec rake i18n:js:export
-# precompile the asset pipeline
 RUN bundle exec rake assets:precompile
 
 # 1. update the database with the current environment (known at runtime)
