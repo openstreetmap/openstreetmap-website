@@ -215,8 +215,8 @@ th:
       relation: ความสัมพันธ์ (%{count})
       relation_paginated: ความสัมพันธ์ (%{x}-%{y} จาก %{count})
       comment: ความคิดเห็น (%{count})
-      hidden_commented_by: ความคิดเห็นซ่อนจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: ความคิดเห็นจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by_html: ความคิดเห็นซ่อนจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: ความคิดเห็นจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: ชุดการเปลี่ยนแปลง XML
       osmchangexml: เอ็กซ์เอ็มแอลของ osmChange
       feed:
@@ -292,15 +292,15 @@ th:
       open_title: 'หมายเหตุที่ยังไม่มีคำตอบ #%{note_name}'
       closed_title: หมายเหตุที่ตอบสนองแล้ว %{note_name}
       hidden_title: 'หมายเหตุที่ซ่อนอยู่ #%{note_name}'
-      opened_by: จัดทำโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: จัดทำโดยผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: ความเห็นจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: ความเห็นจากผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: แก้ไขโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: แก้ไขโดยผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: เปิดใช้ซ้ำโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: เปิดใช้ซ้ำโดยผู้ไม่ประสงค์ออกนาม เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: ซ่อนโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: จัดทำโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: จัดทำโดยผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: ความเห็นจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: ความเห็นจากผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: แก้ไขโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: แก้ไขโดยผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: เปิดใช้ซ้ำโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: เปิดใช้ซ้ำโดยผู้ไม่ประสงค์ออกนาม เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: ซ่อนโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
       report: แจ้งปัญหาเกี่ยวกับหมายเหตุนี้
     query:
       title: ส่วนประกอบในพื้นที่
@@ -1001,11 +1001,6 @@ th:
         level8: แนวเขตเมือง/อำเภอ
         level9: แนวเขตหมู่บ้าน
         level10: แนวเขตชานเมือง
-    description:
-      title:
-        osm_nominatim: ตำบลที่ตั้งจาก <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: ตำบลที่ตั้งจาก <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: เมือง
         towns: เมือง
@@ -1958,9 +1953,10 @@ th:
       unknown token: รหัสยืนยันหมดอายุหรือผิดพลาด
       reconfirm_html: ถ้าท่านต้องการให้เราส่งอีเมลยืนยันซ้ำ <a href="%{reconfirm}">โปรดคลิกที่นี่</a>.
     confirm_resend:
-      success: เราได้ส่งบันทึกยืนยันใหม่ไปยังอีเมล %{email} เมื่อท่านยืนยันแล้ว จะสามารถเริ่มทำแผนที่ได้ทันที<br
-        /><br />ถ้าท่านมีระบบป้องกันสแปม โปรดให้ %{sender} อยู่ในรายการปลอดภัย (whitelist)
-        เพราะเราไม่สามารถตอบอีเมลยืนยันใด ๆ ได้
+      success_html: เราได้ส่งบันทึกยืนยันใหม่ไปยังอีเมล %{email} เมื่อท่านยืนยันแล้ว
+        จะสามารถเริ่มทำแผนที่ได้ทันที<br /><br />ถ้าท่านมีระบบป้องกันสแปม โปรดให้
+        %{sender} อยู่ในรายการปลอดภัย (whitelist) เพราะเราไม่สามารถตอบอีเมลยืนยันใด
+        ๆ ได้
       failure: ไม่พบผู้ใช้ %{name}
     confirm_email:
       heading: ยืนยันการเปลี่ยนแปลงที่อยู่อีเมล

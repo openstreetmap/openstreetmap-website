@@ -260,8 +260,8 @@ mk:
       relation: Односи (%{count})
       relation_paginated: Односи (%{x}-%{y} од вкупно %{count})
       comment: Коментари (%{count})
-      hidden_commented_by: Скриен коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by_html: Скриен коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML за измените
       osmchangexml: osmChange XML
       feed:
@@ -302,6 +302,7 @@ mk:
       entry_html: Однос %{relation_name}
       entry_role_html: Однос %{relation_name} (како %{relation_role})
     not_found:
+      title: Не е најдено
       sorry: За жал, не да најдам %{type} со бр. %{id}.
       type:
         node: јазол
@@ -310,6 +311,7 @@ mk:
         changeset: измени
         note: белешка
     timeout:
+      title: Грешка поради истек на времето
       sorry: Жалиме, но добивањето на податоците за %{type} со id %{id} трае предолго.
       type:
         node: јазол
@@ -347,15 +349,15 @@ mk:
       open_title: Нерешена белешка бр. %{note_name}
       closed_title: Решена белешка бр. %{note_name}
       hidden_title: 'Скриена белешка бр. #%{note_name}'
-      opened_by: Создадено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Создадено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Коментар на анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Решено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Решено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Преактивирано од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Преактивирано од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Скриено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Создадено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Создадено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Коментар на анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Решено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Решено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Преактивирано од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Преактивирано од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Скриено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Пријави го јазолов
       coordinates_html: '%{latitude}, %{longitude}'
     query:
@@ -1263,11 +1265,6 @@ mk:
         level8: Градска граница
         level9: Селска граница
         level10: Населбена граница
-    description:
-      title:
-        osm_nominatim: Местоположба од <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Местоположба од <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Градови
         towns: Гратчиња
@@ -2356,9 +2353,6 @@ mk:
         html: |-
           <p>За разлика од некои други карти, OpenStreetMap во целост ја изработуваат луѓе како вас. Секој слободно може да врши поправки, да ја подновува, да ја презема и користи.</p>
           <p>Зачленете се за да почнете со ваше учество. Ќе ви испратиме потврда за сметката по е-пошта.</p>
-      license_agreement: Кога ќе ја потврдите вашата сметка, ќе треба да се согласите
-        со <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">условите
-        за учесници</a>.
       email address: 'Е-пошта:'
       confirm email address: 'Потврдете ја е-поштата:'
       not_displayed_publicly_html: Вашата адреса нема да се прикажува јавно. Повеќе
@@ -2563,9 +2557,9 @@ mk:
       reconfirm_html: Ако сакате повторно да ви ја испратиме потврдната порака, <a
         href="%{reconfirm}">стиснете тука</a>.
     confirm_resend:
-      success: Испративме поврдна порака на %{email}, и штом ќе ја потврдите сметката,
-        ќе можете да почнете со картографска работа.<br /><br />Ако користите систем
-        против спам кој испраќа барања за потврда, тогаш ќе морате да ја дозволите
+      success_html: Испративме поврдна порака на %{email}, и штом ќе ја потврдите
+        сметката, ќе можете да почнете со картографска работа.<br /><br />Ако користите
+        систем против спам кој испраќа барања за потврда, тогаш ќе морате да ја дозволите
         адресата %{sender} бидејќи ние немаме начин да одговараме на такви потврди.
       failure: Корисникот %{name} не е пронајден.
     confirm_email:

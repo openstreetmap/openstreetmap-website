@@ -268,8 +268,8 @@ gl:
       relation: Relacións (%{count})
       relation_paginated: Relacións (%{x}-%{y} de %{count})
       comment: Comentarios (%{count})
-      hidden_commented_by: Comentario agochado de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Comentario de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by_html: Comentario agochado de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Comentario de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Conxunto de modificacións do XML
       osmchangexml: osmChange XML
       feed:
@@ -355,15 +355,15 @@ gl:
       open_title: Nota sen resolver nº%{note_name}
       closed_title: Nota resolta nº%{note_name}
       hidden_title: Nota agochada nº%{note_name}
-      opened_by: Creado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Creado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Comentado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Comentado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Resolto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Resolto por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Reactivado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Reactivado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Agochado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Creado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Creado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Comentado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Comentado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Resolto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Resolto por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Reactivado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Reactivado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Agochado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Denunciar esta nota
       coordinates_html: '%{latitude}, %{longitude}'
     query:
@@ -766,7 +766,7 @@ gl:
           abandoned: Estrada abandonada
           bridleway: Senda de cabalos
           bus_guideway: Liña de autobuses guiados
-          bus_stop: Paraxe de bus
+          bus_stop: Parada de bus
           construction: Autoestrada baixo construción
           corridor: Corredor
           cycleway: Senda ciclista
@@ -1083,7 +1083,7 @@ gl:
           construction: Vía ferroviaria baixo construción
           disused: Vía ferroviaria sen uso
           funicular: Vía de funicular
-          halt: Paraxe de trens
+          halt: Parada de tren
           junction: Unión de vías ferroviarias
           level_crossing: Paso a nivel
           light_rail: Metro lixeiro
@@ -1095,12 +1095,12 @@ gl:
           proposed: Proxecto de vía ferroviaria
           spur: Vía ramificada
           station: Estación de ferrocarrís
-          stop: Paraxe de ferrocarril
+          stop: Parada de ferrocarril
           subway: Metro
           subway_entrance: Boca de metro
           switch: Puntos de mudanza de vía
           tram: Vía de tranvías
-          tram_stop: Paraxe de tranvías
+          tram_stop: Parada de tranvía
           yard: Estación de clasificación
         shop:
           agrarian: Tenda agrícola
@@ -1275,11 +1275,6 @@ gl:
         level8: Fronteira da cidade
         level9: Fronteira da vila
         level10: Fronteira do barrio
-    description:
-      title:
-        osm_nominatim: Localización dende o <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Localización dende o <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Cidades
         towns: Municipios
@@ -2383,8 +2378,6 @@ gl:
         html: |-
           <p>A diferenza doutros mapas, o OpenStreetMap está completamente creado por xente coma ti, e calquera persoa é libre de corrixilo, actualizalo, baixalo e empregalo.</p>
           <p>Rexístrate para comezar a contribuír. Enviarémosche un correo electrónico para confirmar a túa conta.</p>
-      license_agreement: Cando confirmes a túa conta necesitarás aceptar os <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">termos
-        do contribuínte</a>.
       email address: 'Enderezo de correo electrónico:'
       confirm email address: Confirmar o enderezo de correo electrónico
       not_displayed_publicly_html: O teu enderezo IP non se amosa publicamente, olla
@@ -2589,10 +2582,10 @@ gl:
       reconfirm_html: Se quere que reenviemos o correo electrónico de confirmación,
         <a href="%{reconfirm}">prema aquí</a>.
     confirm_resend:
-      success: Procura unha nota de confirmación que che enviamos a %{email} e comezarás
-        a crear mapas decontado.<br /><br />Se empregas un sistema de bloqueo de spam,
-        asegúrate de incluír %{sender} na túa listaxe branca para poder completar
-        o proceso sen problemas.
+      success_html: Procura unha nota de confirmación que che enviamos a %{email}
+        e comezarás a crear mapas decontado.<br /><br />Se empregas un sistema de
+        bloqueo de spam, asegúrate de incluír %{sender} na túa listaxe branca para
+        poder completar o proceso sen problemas.
       failure: Non se atopou o usuario "%{name}".
     confirm_email:
       heading: Confirmar a modificación do enderezo de correo electrónico

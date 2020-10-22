@@ -295,8 +295,8 @@ tr:
       relation: İlişkiler (%{count})
       relation_paginated: İlişkiler (%{x}-%{y} - toplam %{count})
       comment: Yorumlar (%{count})
-      hidden_commented_by: '%{user} tarafından gizli yorum <abbr title="%{exact_time}">%{when}</abbr>'
-      commented_by: '%{user} kullanıcıdan yorum <abbr title="%{exact_time}">%{when}</abbr>'
+      hidden_commented_by_html: '%{user} tarafından gizli yorum <abbr title="%{exact_time}">%{when}</abbr>'
+      commented_by_html: '%{user} kullanıcıdan yorum <abbr title="%{exact_time}">%{when}</abbr>'
       changesetxml: Değişiklik kaydı XML
       osmchangexml: osmChange XML
       feed:
@@ -336,6 +336,7 @@ tr:
       entry_html: İlişki %{relation_name}
       entry_role_html: İlişki %{relation_name} (%{relation_role} olarak)
     not_found:
+      title: Bulunamadı
       sorry: 'Üzgünüm, #%{id} numaralı %{type} bulunamadı.'
       type:
         node: nokta
@@ -344,6 +345,7 @@ tr:
         changeset: değişiklik kaydı
         note: Not
     timeout:
+      title: Zaman Aşımı Hatası
       sorry: Üzgünüz, %{type} olan verisi %{id} almak için çok uzun sürdü.
       type:
         node: nokta
@@ -382,23 +384,23 @@ tr:
       open_title: 'Çözümlenmemiş not: #%{note_name}'
       closed_title: 'Çözümlenmiş not: #%{note_name}'
       hidden_title: 'Gizli not #%{note_name}'
-      opened_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
+      opened_by_html: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         oluşturuldu'
-      opened_by_anonymous: Anonim olarak <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Anonim olarak <abbr title='%{exact_time}'>%{when}</abbr>
         oluşturuldu
-      commented_by: '%{user} kullanıcısının <abbr title=''%{exact_time}''>%{when}</abbr>
+      commented_by_html: '%{user} kullanıcısının <abbr title=''%{exact_time}''>%{when}</abbr>
         yorumu'
-      commented_by_anonymous: Anonim kullanıcının <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Anonim kullanıcının <abbr title='%{exact_time}'>%{when}</abbr>
         yorumu
-      closed_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
+      closed_by_html: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         çözüldü'
-      closed_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
         çözüldü
-      reopened_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
+      reopened_by_html: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         yeniden etkin hâle getirildi.'
-      reopened_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
         yeniden etkin hâle getirildi.
-      hidden_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
+      hidden_by_html: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         gizlendi'
       report: Bu notu bildir
       coordinates_html: '%{latitude}, %{longitude}'
@@ -1311,11 +1313,6 @@ tr:
         level8: Şehir Sınırı
         level9: Köy Sınırı
         level10: Mahalle Sınırı
-    description:
-      title:
-        osm_nominatim: <a href="https://nominatim.openstreetmap.org/">OSM Nominatim</a>
-          tarafından konum
-        geonames: <a href="http://www.geonames.org/">GeoNames</a> tarafından konum
       types:
         cities: Büyükşehirler
         towns: Şehirler
@@ -1485,6 +1482,7 @@ tr:
       footer: Ayrıca yorumu %{readurl} adresinden okuyabilir ve %{commenturl} adresinden
         yorum yapabilir veya yazara %{replyurl} adresinden mesaj gönderebilirsiniz.
     message_notification:
+      subject_header: '[OpenStreetMap] %{subject}'
       hi: Merhaba %{to_user},
       header: 'OpenStreetMap kullanıcı %{from_user} sana %{subject} konulu bir mesaj
         gönderdi:'
@@ -1508,6 +1506,7 @@ tr:
         more_info_1: GPX alma hataları ve bu hatalardan kaçınma hakkında daha fazla
           bilgiyi
         more_info_2: 'şu adresten edinebilirsiniz:'
+        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       success:
         subject: '[OpenStreetMap] GPX dosyası başarıyla alındı'
         loaded_successfully:
@@ -2417,8 +2416,6 @@ tr:
         html: |-
           <p>Diğer haritaların aksine, OpenStreetMap tamamıyla sizin gibi insanlar tarafından oluşturulur ve düzeltme, güncelleme, indirme ve kullanma herkes için ücretsizdir.</p>
           <p>Katkıda bulunmaya başlamak için kaydolun. Hesabınızın onaylanması için size bir e-posta göndereceğiz.</p>
-      license_agreement: Hesabınızı onayladığınızda <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">katkıda
-        bulunan kullanıcı şartlarını</a> kabul etmeniz gerekecek.
       email address: 'E-posta Adresi:'
       confirm email address: E-posta Adresini Onayla
       not_displayed_publicly_html: Adresiniz herkese açık olarak gösterilmiyor, daha
@@ -2625,10 +2622,11 @@ tr:
       reconfirm_html: Doğrulama e-postasının tekrar gönderimi için bize ihtiyacınız
         varsa, <a href="%{reconfirm}">buraya tıklayın</a>.
     confirm_resend:
-      success: '%{email} hesabınıza yeni bir bilgilendirme notu gönderdik ve hesabınızı
-        onaylar onaylamaz harita yapımına başlayabileceksiniz.<br /><br />Onay isteği
-        gönderen bir anti-spam sistemi kullanırsanız onay isteklerine cevap veremediğimizden
-        lütfen kabul edilen adresler listesinde %{sender} olduğundan emin olunuz.'
+      success_html: '%{email} hesabınıza yeni bir bilgilendirme notu gönderdik ve
+        hesabınızı onaylar onaylamaz harita yapımına başlayabileceksiniz.<br /><br
+        />Onay isteği gönderen bir anti-spam sistemi kullanırsanız onay isteklerine
+        cevap veremediğimizden lütfen kabul edilen adresler listesinde %{sender} olduğundan
+        emin olunuz.'
       failure: '%{name} kullanıcısı bulunamadı.'
     confirm_email:
       heading: E-posta adresinde değişikliği onayla

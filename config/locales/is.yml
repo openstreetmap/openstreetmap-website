@@ -265,8 +265,8 @@ is:
       relation: Vensl (%{count})
       relation_paginated: Vensl (%{x}-%{y} af %{count})
       comment: Athugasemdir (%{count})
-      hidden_commented_by: Falin umsögn frá %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Umsögn frá %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by_html: Falin umsögn frá %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Umsögn frá %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Breytingasetts XML sniði
       osmchangexml: osmChange XML sniði
       feed:
@@ -355,16 +355,17 @@ is:
       open_title: 'Minnispunktur án lausnar #%{note_name}'
       closed_title: 'Minnispunktur með lausn #%{note_name}'
       hidden_title: 'Falinn minnispunktur #%{note_name}'
-      opened_by: Búið til af %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
-      opened_by_anonymous: Búið til af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}
+      opened_by_html: Búið til af %{user} <abbr title='%{exact_time}'>fyrir %{when}
         síðan</abbr>
-      commented_by: Umsögn frá %{user} <abbr title='%{exact_time}'> %{when}</abbr>
-      commented_by_anonymous: Umsögn frá nafnlausum notanda <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Leyst af %{user} <abbr title='%{exact_time}'> %{when}</abbr>
-      closed_by_anonymous: Leyst af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Endurvirkjað af %{user} <abbr title='%{exact_time}'> %{when}</abbr>
-      reopened_by_anonymous: Endurvirkjað af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Falið af %{user} <abbr title='%{exact_time}'> %{when}</abbr>
+      opened_by_anonymous_html: Búið til af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}
+        síðan</abbr>
+      commented_by_html: Umsögn frá %{user} <abbr title='%{exact_time}'> %{when}</abbr>
+      commented_by_anonymous_html: Umsögn frá nafnlausum notanda <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Leyst af %{user} <abbr title='%{exact_time}'> %{when}</abbr>
+      closed_by_anonymous_html: Leyst af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Endurvirkjað af %{user} <abbr title='%{exact_time}'> %{when}</abbr>
+      reopened_by_anonymous_html: Endurvirkjað af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Falið af %{user} <abbr title='%{exact_time}'> %{when}</abbr>
       report: Tilkynna þennan minnispunkt
       coordinates_html: '%{latitude}, %{longitude}'
     query:
@@ -1272,11 +1273,6 @@ is:
         level8: Borgarmörk
         level9: Þorpsmörk
         level10: Úthverfamörk
-    description:
-      title:
-        osm_nominatim: Staðsetning frá <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Staðsetning frá <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Borgir
         towns: Bæir
@@ -2398,8 +2394,6 @@ is:
           <p>Ólíkt öðrum landakortum, er OpenStreetMap gert frá grunni af fólki eins og þér,
           öllum er heimilt að laga það, uppfæra, sækja og nota.</p>
           <p>Skráðu þig sem notanda til að geta tekið þátt. Við munum senda þér tölvupóst til staðfestingar á skráningunni.</p>
-      license_agreement: Með því að staðfesta notandaaðganginn, samþykkirðu <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">skilmálana
-        vegna framlaga</a>.
       email address: 'Tölvupóstfang:'
       confirm email address: 'Staðfestu netfang:'
       not_displayed_publicly_html: Netfangið þitt er ekki birt opinberlega, sjá kaflann
@@ -2607,11 +2601,11 @@ is:
       reconfirm_html: Ef þú vilt að við sendum þér staðfestingarpóstinn aftur, <a
         href="%{reconfirm}">smelltu hér</a>.
     confirm_resend:
-      success: Við höfum sent staðfestingarskilaboð til %{email}, um leið og þú staðfestir
-        aðganginn þinn geturðu farið að vinna í kortunum.<br /><br />Ef þú ert að
-        nota ruslpóstsíukerfi sem sendir staðfestingarbeiðnir, gakktu úr skugga um
-        að %{sender} sé á lista yfir leyfða sendendur, því við erum ekki fær um að
-        svara neinum staðfestingarbeiðnum.
+      success_html: Við höfum sent staðfestingarskilaboð til %{email}, um leið og
+        þú staðfestir aðganginn þinn geturðu farið að vinna í kortunum.<br /><br />Ef
+        þú ert að nota ruslpóstsíukerfi sem sendir staðfestingarbeiðnir, gakktu úr
+        skugga um að %{sender} sé á lista yfir leyfða sendendur, því við erum ekki
+        fær um að svara neinum staðfestingarbeiðnum.
       failure: Notandinn %{name} fannst ekki.
     confirm_email:
       heading: Staðfesta breytingu á netfangi

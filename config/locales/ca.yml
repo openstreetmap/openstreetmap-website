@@ -30,6 +30,7 @@
 # Author: PerroVerd
 # Author: Pitort
 # Author: Quel.soler
+# Author: Rbndev
 # Author: Ruila
 # Author: SMP
 # Author: Sim6
@@ -91,7 +92,7 @@ ca:
       node_tag: Etiqueta del node
       notifier: Notificador
       old_node: Node antic
-      old_node_tag: Etiqueta de node antic
+      old_node_tag: Etiqueta de node antiga
       old_relation: Relació antiga
       old_relation_member: Membre de relació antiga
       old_relation_tag: Etiqueta de relació antiga
@@ -116,7 +117,7 @@ ca:
       client_application:
         name: Nom (Requerit)
         url: URL de l'aplicació principal (Requerit)
-        callback_url: URL de devolució de trucada
+        callback_url: URL de crida de retorn
         support_url: URL de suport
         allow_read_prefs: Llegeix les seves preferències d'usuari
         allow_write_prefs: Modifica les seves preferències d'usuari
@@ -128,11 +129,11 @@ ca:
       diary_comment:
         body: Cos
       diary_entry:
-        user: Usuari
+        user: Usuari/a
         title: Tema
         latitude: Latitud
         longitude: Longitud
-        language: Idioma
+        language: Llengua
       friend:
         user: Usuari/a
         friend: Amic
@@ -161,7 +162,7 @@ ca:
         active: Actiu
         display_name: Nom en pantalla
         description: Descripció
-        languages: Idiomes
+        languages: Llengües
         pass_crypt: Contrasenya
         pass_crypt_confirmation: Confirmeu la contrasenya
     help:
@@ -281,8 +282,8 @@ ca:
       relation: Relacions (%{count})
       relation_paginated: Relacions (%{x}-%{y} de %{count})
       comment: Comentaris(%{count})
-      hidden_commented_by: Comentari ocult de l'usuari %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Comentari de %{user} <abbr title='%{exact_time}'> a %{when}</abbr>
+      hidden_commented_by_html: Comentari ocult de l'usuari %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Comentari de %{user} <abbr title='%{exact_time}'> a %{when}</abbr>
       changesetxml: XML del conjunt de canvis
       osmchangexml: XML en format osmChange
       feed:
@@ -306,6 +307,9 @@ ca:
       title_html: 'Relació: %{name}'
       history_title_html: 'Historial de la relació: %{name}'
       members: Membres
+      members_count:
+        one: 1 membre
+        other: '%{count} membres'
     relation_member:
       entry_role_html: '%{type} %{name} com a %{role}'
       type:
@@ -363,15 +367,15 @@ ca:
       open_title: 'Nota no resolta: #%{note_name}'
       closed_title: 'Nota resolta #%{note_name}'
       hidden_title: 'Nota oculta #%{note_name}'
-      opened_by: Creat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Creat per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Comentari de %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Comentari d'un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Resolt per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Resolt per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Reactivat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Reactivat per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Ocultat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Creat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Creat per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Comentari de %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Comentari d'un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Resolt per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Resolt per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Reactivat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Reactivat per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Ocultat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
       report: Reportar aquesta nota
     query:
       title: Consultar objectes
@@ -532,6 +536,7 @@ ca:
           pylon: Piló
           station: Estació de telefèric
           t-bar: Telesquí amb seient en T
+          "yes": Vies per cables penjats
         aeroway:
           aerodrome: Aeròdrom
           airstrip: Aeròdrom
@@ -544,6 +549,7 @@ ca:
           runway: Pista
           taxiway: Carrer de rodatge
           terminal: Terminal
+          windsock: Mànega de vent
         amenity:
           animal_shelter: Refugi d'animals
           arts_centre: Centre d'art
@@ -554,7 +560,9 @@ ca:
           bench: Banc
           bicycle_parking: Aparcament de bicicletes
           bicycle_rental: Lloguer de bicicletes
+          bicycle_repair_station: Estació de reparació de bicicletes
           biergarten: Cerveseria a l'aire lliure
+          blood_bank: Banc de sang
           boat_rental: Lloguer d'embarcacions
           brothel: Prostíbul
           bureau_de_change: Oficina de canvi
@@ -571,6 +579,7 @@ ca:
           clock: Rellotge
           college: Facultat
           community_centre: Centre cívic
+          conference_centre: Centre de conferències
           courthouse: Jutjat
           crematorium: Crematori
           dentist: Dentista
@@ -578,6 +587,7 @@ ca:
           drinking_water: Punt d'aigua potable
           driving_school: Autoescola
           embassy: Ambaixada
+          events_venue: Recinte d'esdeveniments
           fast_food: Lloc de menjar ràpid
           ferry_terminal: Terminal de ferris
           fire_station: Parc de bombers
@@ -590,16 +600,23 @@ ca:
           hospital: Hospital
           hunting_stand: Mirador de fauna
           ice_cream: Gelateria
+          internet_cafe: Cibercafè
           kindergarten: Escola bressol
+          language_school: Escola d'idiomes
           library: Biblioteca
+          loading_dock: Moll de càrrega
+          love_hotel: Hotel d'amor
           marketplace: Mercat ambulant
           monastery: Monestir
+          money_transfer: Transferència de diners
           motorcycle_parking: Aparcament per a motos
+          music_school: Escola de música
           nightclub: Club nocturn
           nursing_home: Residència geriàtrica
           parking: Aparcament
           parking_entrance: Entrada d'aparcament
           parking_space: Plaça d’aparcament
+          payment_terminal: Terminal de pagament
           pharmacy: Farmàcia
           place_of_worship: Lloc de culte
           police: Policia
@@ -607,7 +624,10 @@ ca:
           post_office: Oficina de correus
           prison: Presó
           pub: Bar - Pub
+          public_bath: Bany públic
+          public_bookcase: Llibreria pública
           public_building: Edifici públic
+          ranger_station: Lloc de guarda forestal
           recycling: Punt de reciclatge
           restaurant: Restaurant
           school: Escola - Institut
@@ -623,17 +643,23 @@ ca:
           toilets: Lavabos
           townhall: Ajuntament
           university: Universitat
+          vehicle_inspection: Inspecció de vehicles
           vending_machine: Màquina expenedora
           veterinary: Cirurgia veterinària
           village_hall: Centre cívic
           waste_basket: Paperera
           waste_disposal: Contenidor d'escombraries
+          waste_dump_site: Abocador de residus
+          watering_place: Abeurador
           water_point: Punt d'aigua
+          weighbridge: Bàscula
         boundary:
           administrative: Límit administratiu
           census: Límit censal
           national_park: Parc nacional
+          political: Frontera electoral
           protected_area: Àrea protegida
+          "yes": Frontera
         bridge:
           aqueduct: Aqüeducte
           boardwalk: Passarel·la de fusta
@@ -642,26 +668,43 @@ ca:
           viaduct: Viaducte
           "yes": Pont
         building:
+          apartment: Apartament
           apartments: Apartaments
+          barn: Graner
+          bungalow: Bungalou
+          cabin: Cabanya
           chapel: Capella
           church: Edifici de l'església
+          civic: Centre cívic
+          college: Edifici universitari
           commercial: Edifici comercial
+          construction: Edifici en construcció
+          detached: Casa unifamiliar
           dormitory: Residència Universitària
+          duplex: Dúplex
           farm: Casa de pagès
           garage: Garatge
+          garages: Garatges
           hospital: Edifici hospitalari
           hotel: Edifici hoteler
           house: Casa
+          houseboat: Casa flotant
+          hut: Barraca
           industrial: Edifici industrial
           office: Edifici d'oficines
           public: Edifici públic
           residential: Edifici residencial
           retail: Edifici de Venda al detall
           school: Edifici escolar
+          static_caravan: Caravana
           terrace: Edifici de terrasses
           train_station: Edifici d'estació de trens
           university: Edifici universitari
+          warehouse: Magatzem
           "yes": Edifici
+        club:
+          sport: Club esportiu
+          "yes": Club
         craft:
           brewery: Fàbrica de cervesa
           carpenter: Fuster
@@ -672,11 +715,14 @@ ca:
           plumber: Lampista
           shoemaker: Sabater
           tailor: Sastre
+          winery: Bodega
           "yes": Botiga d'artesania
         emergency:
+          access_point: Punt d'accés
           ambulance_station: Base d'ambulàncies
           assembly_point: Punt de reunió
           defibrillator: Desfibril·lador
+          fire_xtinguisher: Extintor de foc
           landing_site: Lloc d'aterratge d'emergència
           phone: Telèfon per a emergències
           water_tank: Dipòsit d'aigua d'emergència
@@ -745,6 +791,7 @@ ca:
           mine: Mina
           mine_shaft: Pou miner
           monument: Monument
+          railway: Ferrocarril històric
           roman_road: Calçada romana
           ruins: Ruïnes
           stone: Pedra
@@ -758,7 +805,8 @@ ca:
           "yes": Intersecció
         landuse:
           allotments: Horts
-          basin: Conca
+          aquaculture: Aqüicultura
+          basin: Conca hidrogràfica
           brownfield: Terra no urbanitzada
           cemetery: Cementiri
           commercial: Zona comercial
@@ -780,6 +828,7 @@ ca:
           quarry: Pedrera
           railway: Ferrocarril
           recreation_ground: Zona d'esbarjo
+          religious: Terra religiosa
           reservoir: Embassament
           reservoir_watershed: Conca de l'embassament
           residential: Àrea residencial
@@ -790,7 +839,9 @@ ca:
         leisure:
           beach_resort: Complex turístic de platja
           bird_hide: Mirador d'ocells
+          bowling_alley: Bolera
           common: Terreny comunal
+          dance: Sala de ball
           dog_park: Parc caní
           firepit: Pou per a fer foc
           fishing: Àrea de pesca
@@ -803,7 +854,9 @@ ca:
           marina: Port esportiu
           miniature_golf: Minigolf
           nature_reserve: Reserva natural
+          outdoor_seating: Seient exterior
           park: Parc
+          picnic_table: Taula de pícnic
           pitch: Camp d'esports
           playground: Parc infantil
           recreation_ground: Zona d'esbarjo
@@ -818,13 +871,18 @@ ca:
           "yes": Oci
         man_made:
           adit: Galeria d'accés
+          advertising: Publicitat
+          antenna: Antena
+          avalanche_protection: Protecció d'allaus
           beacon: Balisa
           beehive: Rusc d'abelles
           breakwater: Escullera
           bridge: Pont
           bunker_silo: Búnquer
           chimney: Xemeneia
+          communications_tower: Torre de comunicacions
           crane: Grua
+          cross: Creu
           dolphin: Punt d'amarratge
           dyke: Dic
           embankment: Terraplè
@@ -840,12 +898,15 @@ ca:
           petroleum_well: Pou petrolífer
           pier: Moll
           pipeline: Canonada
+          reservoir_covered: Dipòsit cobert
           silo: Sitja
           storage_tank: Tanc d'emmagatzematge
           surveillance: Vigilància
+          telescope: Telescopi
           tower: Torre
           wastewater_plant: Estació depuradora d'aigües residuals
           watermill: Molí d'aigua
+          water_tap: Aixeta d'aigua
           water_tower: Torre d'aigua
           water_well: Pou
           water_works: Estructura hidràulica
@@ -856,6 +917,8 @@ ca:
           airfield: Aeroport militar
           barracks: Caserna
           bunker: Búnquer
+          checkpoint: Punt de control
+          trench: Trinxera
           "yes": Militar
         mountain_pass:
           "yes": Coll - Port de muntanya
@@ -901,17 +964,21 @@ ca:
         office:
           accountant: Comptable
           administrative: Administració
+          advertising_agency: Agència publicitària
           architect: Arquitecte
           association: Associació
           company: Empresa
           educational_institution: Institució educativa
           employment_agency: Agència d'ocupació
+          energy_supplier: Oficina subministradora d'energia
           estate_agent: Immobiliària
           government: Oficina governamental
           insurance: Oficina d'assegurances
           it: Oficina TIC
           lawyer: Advocat
           ngo: Oficina d'una ONG
+          notary: Notaria
+          religion: Oficina religiosa
           telecommunication: Oficina de telecomunicacions
           travel_agent: Agència de viatges
           "yes": Oficina
@@ -967,9 +1034,12 @@ ca:
           tram_stop: Parada de tramvia
           yard: Pati de ferrocarril
         shop:
+          agrarian: Botiga agrària
           alcohol: Licorista
           antiques: Antiquari
+          appliance: Botiga d'electrodomèstics
           art: Galeria d'art
+          bag: Botiga de bosses
           bakery: Fleca
           beauty: Saló de bellesa
           beverages: Botiga de begudes
@@ -983,19 +1053,25 @@ ca:
           car_repair: Taller mecànic
           carpet: Botiga de catifes
           charity: Botiga de beneficència
+          cheese: Botiga de formatge
           chemist: Farmàcia
+          chocolate: Xocolateria
           clothes: Botiga de roba
+          coffee: Cafeteria
           computer: Botiga d'informàtica
           confectionery: Confiteria
           convenience: Botiga de conveniència
           copyshop: Copisteria
           cosmetics: Botiga cosmètica
+          curtain: Botiga de cortines
           deli: Botiga gastronòmica
           department_store: Grans magatzems
           discount: Botiga de descompte
           doityourself: Botiga de bricolatge
           dry_cleaning: Tintoreria
+          e-cigarette: Botiga de cigarrets electrònics
           electronics: Botiga d'electrònica
+          erotic: Botiga eròtica
           estate_agent: Immobiliària
           farm: Agrobotiga
           fashion: Botiga de moda
@@ -1010,8 +1086,10 @@ ca:
           grocery: Botiga de queviures
           hairdresser: Perruqueria
           hardware: Ferreteria
+          herbalist: Herbolari
           hifi: Botiga de Hi-Fi
           houseware: Botiga d'objectes per a la llar
+          ice_cream: Gelateria
           interior_decoration: Decoració d'interiors
           jewelry: Joieria
           kiosk: Quiosc
@@ -1021,14 +1099,19 @@ ca:
           mall: Centre comercial
           massage: Massatgista
           mobile_phone: Botiga de telèfons mòbils
+          money_lender: Prestador de diners
           motorcycle: Botiga de motocicletes
+          motorcycle_repair: Botiga de reparació de motocicletes
           music: Botiga de música
+          musical_instrument: Instruments musicals
           newsagent: Quiosc de premsa
+          nutrition_supplements: Suplements de nutrició
           optician: Òptica
           organic: Botiga d'aliments ecològics
           outdoor: Botiga d'esports d'aventura
           paint: Botiga de pintures
           pawnbroker: Casa de penyores
+          perfumery: Perfumeria
           pet: Botiga d'animals
           photo: Fotògraf
           seafood: Botiga de marisc
@@ -1036,8 +1119,11 @@ ca:
           shoes: Sabateria
           sports: Botiga d'esports
           stationery: Papereria
+          storage_rental: Lloguer d'emmagatzematge
           supermarket: Supermercat
           tailor: Sastreria
+          tattoo: Botiga de tatuatges
+          tea: Botiga de te
           ticket: Venda d'entrades
           tobacco: Estanc
           toys: Botiga de joguines
@@ -1046,6 +1132,7 @@ ca:
           vacant: Botiga tancada
           variety_store: Botiga de preus baixos
           video: Videoclub
+          video_games: Botiga de videojocs
           wine: Vinateria - Celler
           "yes": Botiga
         tourism:
@@ -1100,11 +1187,6 @@ ca:
         level8: Límit municipal (nivell 8)
         level9: Límit intramunicipal (nivell 9)
         level10: Límit de suburbi-barri (nivell 10)
-    description:
-      title:
-        osm_nominatim: Ubicació segons <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Ubicació segons <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Ciutats
         towns: Viles
@@ -2191,8 +2273,6 @@ ca:
         html: |-
           <p>A diferència d'altres mapes, OpenStreetMap el crea gent com vós i qualsevol persona el pot modificar, actualitzar, descarregar i usar.</p>
           <p>Registreu-vos i comenceu a col·laborar. Us enviarem un e-mail per confirmar el vostre compte.</p>
-      license_agreement: Quan confirmeu el compte, heu d'acceptar els <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">termes
-        de col·laboració</a>.
       email address: 'Adreça de correu:'
       confirm email address: 'Confirmeu l''adreça de correu electrònic:'
       not_displayed_publicly_html: La vostra adreça no es mostrarà públicament (vegeu
@@ -2395,11 +2475,11 @@ ca:
       reconfirm_html: Si necessites que et reenviem el correu de confirmació, <a href="%{reconfirm}">clica
         aquí</a>.
     confirm_resend:
-      success: Hem enviat un bitllet de confirmació nou per %{email} i tan aviat com
-        confirmeu el vostre compte podreu cartografiar.<br><br>Si utilitzeu un sistema
-        contra el correu brossa que envia les sol·licituds de confirmació, llavors
-        autoritzeu %{sender} ja que no som capaços de respondre les sol·licituds de
-        confirmació.
+      success_html: Hem enviat un bitllet de confirmació nou per %{email} i tan aviat
+        com confirmeu el vostre compte podreu cartografiar.<br><br>Si utilitzeu un
+        sistema contra el correu brossa que envia les sol·licituds de confirmació,
+        llavors autoritzeu %{sender} ja que no som capaços de respondre les sol·licituds
+        de confirmació.
       failure: L'usuari %{name} no s'ha trobat.
     confirm_email:
       heading: Confirma un canvi d'adreça electrònica

@@ -308,8 +308,8 @@ zh-CN:
       relation: 关系 (%{count})
       relation_paginated: 关系 (%{x}-%{y}，共 %{count})
       comment: 评论 (%{count})
-      hidden_commented_by: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的隐藏评论
-      commented_by: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的评论
+      hidden_commented_by_html: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的隐藏评论
+      commented_by_html: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的评论
       changesetxml: 变更集 XML
       osmchangexml: osm 修改 XML
       feed:
@@ -391,15 +391,15 @@ zh-CN:
       open_title: '未解决注记 #%{note_name}'
       closed_title: '已解决注记 #%{note_name}'
       hidden_title: '隐藏注记 #%{note_name}'
-      opened_by: '%{user}创建于<abbr title=''%{exact_time}''>%{when}</abbr>'
-      opened_by_anonymous: 匿名用户创建于<abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: '%{user}于<abbr title=''%{exact_time}''>%{when}</abbr>发表的评论'
-      commented_by_anonymous: 匿名用户于<abbr title='%{exact_time}'>%{when}</abbr>发表的评论
-      closed_by: '%{user}解决于<abbr title=''%{exact_time}''>%{when}</abbr>'
-      closed_by_anonymous: 匿名用户解决于<abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: '%{user}重新激活于<abbr title=''%{exact_time}''>%{when}</abbr>'
-      reopened_by_anonymous: 匿名用户重新激活于<abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: '%{user}隐藏于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      opened_by_html: '%{user}创建于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      opened_by_anonymous_html: 匿名用户创建于<abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: '%{user}于<abbr title=''%{exact_time}''>%{when}</abbr>发表的评论'
+      commented_by_anonymous_html: 匿名用户于<abbr title='%{exact_time}'>%{when}</abbr>发表的评论
+      closed_by_html: '%{user}解决于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      closed_by_anonymous_html: 匿名用户解决于<abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: '%{user}重新激活于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      reopened_by_anonymous_html: 匿名用户重新激活于<abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: '%{user}隐藏于<abbr title=''%{exact_time}''>%{when}</abbr>'
       report: 举报此注记
       coordinates_html: '%{latitude}, %{longitude}'
     query:
@@ -741,6 +741,8 @@ zh-CN:
           electrician: 电工工坊
           electronics_repair: 电子维修处
           gardener: 园艺工坊
+          glaziery: 琉璃工坊
+          handicraft: 手工艺工坊
           painter: 装修工坊
           photographer: 摄影室
           plumber: 管道工坊
@@ -856,6 +858,7 @@ zh-CN:
           military: 军事区
           mine: 矿井
           orchard: 果园
+          plant_nursery: 植物苗圃
           quarry: 采石场
           railway: 铁路
           recreation_ground: 游乐场
@@ -872,6 +875,8 @@ zh-CN:
           bandstand: 演奏台
           beach_resort: 海滩度假村
           bird_hide: 野生动物观察站
+          bleachers: 露天看台
+          bowling_alley: 保龄球场
           common: 公共用地
           dance: 舞厅
           dog_park: 狗公园
@@ -886,7 +891,9 @@ zh-CN:
           marina: 小船坞
           miniature_golf: 迷您高尔夫球场
           nature_reserve: 自然保护区
+          outdoor_seating: 户外座位
           park: 公园
+          picnic_table: 野餐桌
           pitch: 体育场
           playground: 儿童游乐场
           recreation_ground: 游乐场
@@ -901,12 +908,18 @@ zh-CN:
           "yes": 闲暇
         man_made:
           adit: 平坑
+          advertising: 广告牌
+          antenna: 天线
+          avalanche_protection: 雪崩护栏
           beacon: 浮标
+          beam: 梁柱
           beehive: 蜂窝
           breakwater: 防波堤
           bridge: 桥
           bunker_silo: 地堡
+          cairn: 堆石标
           chimney: 烟囱
+          communications_tower: 通讯塔
           crane: 吊车
           cross: 十字架
           dolphin: 系船柱
@@ -926,14 +939,19 @@ zh-CN:
           pier: 码头
           pipeline: 管道
           pumping_station: 泵站
+          reservoir_covered: 地下水池
           silo: 发射井
+          snow_cannon: 雪炮
           snow_fence: 防雪栅栏
           storage_tank: 储油罐
+          street_cabinet: 街柜
           surveillance: 监视
           telescope: 望远镜
           tower: 塔
+          utility_pole: 电线杆
           wastewater_plant: 污水处理厂
           watermill: 水磨
+          water_tap: 水龙头
           water_tower: 水塔
           water_well: 井
           water_works: 自来水厂
@@ -945,10 +963,12 @@ zh-CN:
           barracks: 营房
           bunker: 掩体
           checkpoint: 检查站
+          trench: 堑壕
           "yes": 军队
         mountain_pass:
           "yes": 山口
         natural:
+          bare_rock: 裸岩
           bay: 湾
           beach: 滩
           cape: 海岬
@@ -992,6 +1012,7 @@ zh-CN:
         office:
           accountant: 会计师事务所
           administrative: 管理
+          advertising_agency: 广告代理办公室
           architect: 设计院
           association: 协会
           company: 公司
@@ -1009,6 +1030,7 @@ zh-CN:
           newspaper: 报社
           ngo: 非政府组织办公室
           notary: 公证处
+          religion: 宗教办公室
           research: 研究室
           tax_advisor: 税务顾问办公室
           telecommunication: 电信办公室
@@ -1069,11 +1091,13 @@ zh-CN:
           agrarian: 农用品店
           alcohol: 政府许可酒类店
           antiques: 古玩店
+          appliance: 电器店
           art: 艺术品店
           baby_goods: 婴儿用品
           bag: 包店
           bakery: 面包店
           beauty: 美容店
+          bed: 床上用品
           beverages: 饮料店
           bicycle: 自行车店
           bookmaker: 赌博业者
@@ -1095,6 +1119,7 @@ zh-CN:
           convenience: 便利店
           copyshop: 复印店
           cosmetics: 化妆品店
+          dairy: 乳品店
           deli: 熟食店
           department_store: 百货商场
           discount: 折扣商品店
@@ -1102,7 +1127,9 @@ zh-CN:
           dry_cleaning: 干洗店
           e-cigarette: 电子烟店
           electronics: 电子产品店
+          erotic: 情趣用品店
           estate_agent: 地产代理
+          fabric: 面料商店
           farm: 农产品店
           fashion: 时装店
           florist: 花店
@@ -1116,6 +1143,9 @@ zh-CN:
           grocery: 杂货店
           hairdresser: 理发店
           hardware: 五金店
+          health_food: 保健食品店
+          hearing_aids: 助听器店
+          herbalist: 草药铺
           hifi: Hi-Fi
           houseware: 家居店
           ice_cream: 冰淇淋店
@@ -1130,15 +1160,18 @@ zh-CN:
           massage: 按摩
           medical_supply: 医疗用品店
           mobile_phone: 手机店
+          money_lender: 放债店
           motorcycle: 摩托车店
           motorcycle_repair: 摩托车维修店
           music: 音乐商店
+          musical_instrument: 乐器店
           newsagent: 报摊
           nutrition_supplements: 营养补品店
           optician: 眼镜店
           organic: 有机食品店
           outdoor: 户外用品店
           paint: 油漆店
+          pastry: 糕点店
           pawnbroker: 当铺老板
           perfumery: 香水店
           pet: 宠物店
@@ -1150,6 +1183,7 @@ zh-CN:
           shoes: 鞋店
           sports: 体育用品店
           stationery: 文具店
+          storage_rental: 仓储租赁店
           supermarket: 超市
           tailor: 裁缝店
           tattoo: 纹身店
@@ -1163,6 +1197,7 @@ zh-CN:
           variety_store: 杂货店
           video: 音像店
           video_games: 电子游戏商店
+          wholesale: 批发店
           wine: 葡萄酒店
           "yes": 商店
         tourism:
@@ -1172,6 +1207,7 @@ zh-CN:
           attraction: 景点
           bed_and_breakfast: 家庭旅馆
           cabin: 小木屋
+          camp_pitch: 营地
           camp_site: 宿营地
           caravan_site: 房车宿营地
           chalet: 小屋
@@ -1218,11 +1254,6 @@ zh-CN:
         level8: 市界(乡/镇/街道界)
         level9: 村界
         level10: 郊区界(社区/行政村界)
-    description:
-      title:
-        osm_nominatim: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a> 中的位置
-        geonames: <a href="http://www.geonames.org/">GeoNames</a> 中的位置
       types:
         cities: 城市
         towns: 城镇
@@ -2131,7 +2162,6 @@ zh-CN:
         html: |-
           <p>不同于其他地图，OpenStreetMap 是完全由像您一样的人创建的，并且免费提供给任何人用以修正、更新、下载和使用。</p>
           <p>登录来贡献您的力量吧。我们将发送一份邮件来确认您的账号。</p>
-      license_agreement: 当您确认您的帐户时，您需要同意<a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">贡献者条款</a>。
       email address: 电子邮件地址：
       confirm email address: 确认电子邮件地址：
       not_displayed_publicly_html: 您的地址未公开显示，请参见我们的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
@@ -2307,7 +2337,7 @@ zh-CN:
       unknown token: 确认码已经过期或不存在。
       reconfirm_html: 如果您需要我们重新发送确认邮件，<a href="%{reconfirm}">请点击这里</a>。
     confirm_resend:
-      success: 我们已经发送一封新的确认电子邮件到 %{email}，只要您确认您的帐户，您就可以开始制图了。<br /><br />如果您使用的反垃圾邮件系统发送确认请求，那么请确保您的白名单中有%{sender}，因为我们无法回复任何确认请求。
+      success_html: 我们已经发送一封新的确认电子邮件到 %{email}，只要您确认您的帐户，您就可以开始制图了。<br /><br />如果您使用的反垃圾邮件系统发送确认请求，那么请确保您的白名单中有%{sender}，因为我们无法回复任何确认请求。
       failure: 用户 %{name} 未找到。
     confirm_email:
       heading: 确认电子邮件地址更改

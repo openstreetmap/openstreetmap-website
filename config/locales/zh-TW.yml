@@ -293,8 +293,8 @@ zh-TW:
       relation: 關聯 (%{count})
       relation_paginated: 關聯 (%{count} 的 %{x}-%{y})
       comment: 評論 (%{count})
-      hidden_commented_by: 隱藏來自%{user}於<abbr title='%{exact_time}'>%{when}</abbr>的評論
-      commented_by: 來自%{user}於<abbr title='%{exact_time}'>%{when}</abbr>的評論
+      hidden_commented_by_html: 隱藏來自%{user}於<abbr title='%{exact_time}'>%{when}</abbr>的評論
+      commented_by_html: 來自%{user}於<abbr title='%{exact_time}'>%{when}</abbr>的評論
       changesetxml: 變更集 XML
       osmchangexml: osmChange 格式 XML
       feed:
@@ -333,6 +333,7 @@ zh-TW:
       entry_html: 關聯 %{relation_name}
       entry_role_html: 關聯 %{relation_name} (作為 %{relation_role})
     not_found:
+      title: 找不到
       sorry: 抱歉，找不到 %{type}#%{id}。
       type:
         node: 節點
@@ -341,6 +342,7 @@ zh-TW:
         changeset: 變更集
         note: 註記
     timeout:
+      title: 逾時錯誤
       sorry: 抱歉，索取 id 為 %{id} 的 %{type} 資料，花費時間過長。
       type:
         node: 節點
@@ -376,15 +378,15 @@ zh-TW:
       open_title: 未解決的註記：#%{note_name}
       closed_title: 已解決的註記：#%{note_name}
       hidden_title: 已隱藏的註記：#%{note_name}
-      opened_by: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}建立
-      opened_by_anonymous: 於<abbr title='%{exact_time}'>%{when}</abbr>由匿名使用者建立
-      commented_by: '%{user}於<abbr title=''%{exact_time}''>%{when}</abbr>的評論'
-      commented_by_anonymous: 匿名使用者於<abbr title='%{exact_time}'>%{when}</abbr>的評論
-      closed_by: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}解決
-      closed_by_anonymous: 於<abbr title='%{exact_time}'>%{when}</abbr>由匿名使用者解決
-      reopened_by: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}重新開啟
-      reopened_by_anonymous: 於<abbr title='%{exact_time}'>%{when}</abbr>由匿名使用者重新開啟
-      hidden_by: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}隱藏
+      opened_by_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}建立
+      opened_by_anonymous_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由匿名使用者建立
+      commented_by_html: '%{user}於<abbr title=''%{exact_time}''>%{when}</abbr>的評論'
+      commented_by_anonymous_html: 匿名使用者於<abbr title='%{exact_time}'>%{when}</abbr>的評論
+      closed_by_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}解決
+      closed_by_anonymous_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由匿名使用者解決
+      reopened_by_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}重新開啟
+      reopened_by_anonymous_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由匿名使用者重新開啟
+      hidden_by_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}隱藏
       report: 回報此註記
       coordinates_html: '%{latitude}, %{longitude}'
     query:
@@ -1289,11 +1291,6 @@ zh-TW:
         level8: 市界
         level9: 村里界
         level10: 郊區邊界
-    description:
-      title:
-        osm_nominatim: 來自 <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a> 的位置
-        geonames: 位置來自 <a href="http://www.geonames.org/">GeoNames</a>的位置
       types:
         cities: 城市
         towns: 鄉鎮
@@ -2241,8 +2238,6 @@ zh-TW:
         html: |-
           <p>與其他地圖不同，OpenStreetMap 是完全由像你一樣的人們建立的，而且任何人都可自由地修正、更新、下載和使用。</p>
           <p>請註冊以開始貢獻吧。我們將發出電子郵件以確認你的帳號。</p>
-      license_agreement: 當您確認您的帳號，您需要同意<a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">貢獻者條款</a>
-        。
       email address: 電子郵件地址：
       confirm email address: 確認電子郵件地址：
       not_displayed_publicly_html: 您的地址未公開顯示，請看我們的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
@@ -2419,7 +2414,7 @@ zh-TW:
       unknown token: 確認碼已經過期或不存在。
       reconfirm_html: 如果你需要我們重新發送確認電子郵件，<a href="%{reconfirm}">請按這裡</a>。
     confirm_resend:
-      success: 我們已經傳送一封新的確認電子郵件至 %{email}，只要你確認你的帳號，你就可以開始製圖了。 <br /><br />如果你使用會傳送確認請求的反垃圾郵件系統，請確保你將
+      success_html: 我們已經傳送一封新的確認電子郵件至 %{email}，只要你確認你的帳號，你就可以開始製圖了。 <br /><br />如果你使用會傳送確認請求的反垃圾郵件系統，請確保你將
         %{sender} 加入白名單中，因為我們無法回覆任何確認請求。
       failure: 找不到使用者 %{name}。
     confirm_email:

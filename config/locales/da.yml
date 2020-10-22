@@ -257,6 +257,12 @@ da:
     anonymous: anonym
     no_comment: (ingen kommentar)
     part_of: Del af
+    part_of_relations:
+      one: 1 relation
+      other: '%{count} relationer'
+    part_of_ways:
+      one: 1 vej
+      other: '%{count} veje'
     download_xml: Hent XML
     view_history: Se historik
     view_details: Se detaljer
@@ -271,8 +277,9 @@ da:
       relation: Relationer (%{count})
       relation_paginated: Relationer (%{x}-%{y} af %{count})
       comment: Kommentarer (%{count})
-      hidden_commented_by: Skjult kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
+      hidden_commented_by_html: Skjult kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when}
+        siden</abbr>
       changesetxml: XML for ændringssæt
       osmchangexml: XML for osmChange
       feed:
@@ -289,6 +296,9 @@ da:
       title_html: 'Vej: %{name}'
       history_title_html: 'Vejhistorik: %{name}'
       nodes: Punkter
+      nodes_count:
+        one: 1 punkt
+        other: '%{count} punkter'
       also_part_of_html:
         one: del af vejen %{related_ways}
         other: del af vejene %{related_ways}
@@ -296,6 +306,9 @@ da:
       title_html: 'Relation: %{name}'
       history_title_html: 'Relationshistorik: %{name}'
       members: Medlemmer
+      members_count:
+        one: 1 medlem
+        other: '%{count} medlemmer'
     relation_member:
       entry_role_html: '%{type} %{name} som %{role}'
       type:
@@ -352,15 +365,15 @@ da:
       open_title: 'Uløst bemærkning #%{note_name}'
       closed_title: 'Løst bemærkning #%{note_name}'
       hidden_title: 'Skjult bemærkning #%{note_name}'
-      opened_by: Oprettet af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Oprettet af anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Kommentar fra anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Løst af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Løst af anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Genaktiveret af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Genaktiveret af anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Skjult af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Oprettet af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Oprettet af anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Kommentar fra anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Løst af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Løst af anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Genaktiveret af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Genaktiveret af anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Skjult af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Rapporter denne bemærkning
     query:
       title: Find kortobjekter
@@ -1265,11 +1278,6 @@ da:
         level8: Bygrænse
         level9: Bydelsgrænse
         level10: Sognegrænse
-    description:
-      title:
-        osm_nominatim: Position fra <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Position fra <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Storbyer
         towns: Byer
@@ -2354,8 +2362,6 @@ da:
         html: |-
           <p>I modsætning til andre kort, er OpenStreetMap helt lavet af folk som dig, og det er frit for alle at rette, opdatere, downloade og bruge.</p>
           <p>Tilmeld dig for at komme i gang med at bidrage. Vi vil sende en e-mail for at bekræfte din konto.</p>
-      license_agreement: Når du bekræfter din konto, skal du acceptere <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">vilkårene
-        for bidragydere</a>.
       email address: 'E-mailadresse:'
       confirm email address: 'Bekræft e-mailadresse:'
       not_displayed_publicly_html: Din adresse vises ikke offentligt; se vores <href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
@@ -2559,8 +2565,8 @@ da:
       reconfirm_html: Hvis du har brug for at vi gensender bekræftelsesmailen, så
         <a href="%{reconfirm}">klik her</a>.
     confirm_resend:
-      success: Vi har sendt en ny bekræftelsesbesked til %{email}, og så snart du
-        har bekræftet din konto, kan du gå i gang med kortlægningen.<br /><br />Hvis
+      success_html: Vi har sendt en ny bekræftelsesbesked til %{email}, og så snart
+        du har bekræftet din konto, kan du gå i gang med kortlægningen.<br /><br />Hvis
         du bruger et antispam-system som sender bekræftelsesforespørgsler, så sørg
         for at du har hvidlistet %{sender} da vi ikke kan svare på den slags forespørgsler.
       failure: Bruger %{name} ikke fundet.

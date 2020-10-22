@@ -323,8 +323,8 @@ fr:
       relation: Relations (%{count})
       relation_paginated: Relations (%{x} à %{y} sur %{count})
       comment: Commentaires (%{count})
-      hidden_commented_by: Commentaire masqué de %{user}, <abbr title="%{exact_time}">%{when}</abbr>
-      commented_by: Commentaire de %{user} <abbr title="%{exact_time}">%{when}</abbr>
+      hidden_commented_by_html: Commentaire masqué de %{user}, <abbr title="%{exact_time}">%{when}</abbr>
+      commented_by_html: Commentaire de %{user} <abbr title="%{exact_time}">%{when}</abbr>
       changesetxml: XML du groupe de modifications
       osmchangexml: XML osmChange
       feed:
@@ -365,6 +365,7 @@ fr:
       entry_html: Relation %{relation_name}
       entry_role_html: Relation %{relation_name} (avec le rôle %{relation_role})
     not_found:
+      title: Non trouvé
       sorry: 'Désolé, %{type} #%{id} n’a pas pu être trouvé.'
       type:
         node: nœud
@@ -373,6 +374,7 @@ fr:
         changeset: groupe de modifications
         note: note
     timeout:
+      title: Erreur de dépassement de temps
       sorry: Désolé, les données pour le type %{type} avec l’id %{id} prennent trop
         de temps à être récupérées.
       type:
@@ -412,15 +414,15 @@ fr:
       open_title: Note non résolue nº %{note_name}
       closed_title: Note résolue nº %{note_name}
       hidden_title: Note masquée nº %{note_name}
-      opened_by: Créée par %{user}, <abbr title="%{exact_time}">%{when}</abbr>
-      opened_by_anonymous: Créée par un utilisateur anonyme, <abbr title="%{exact_time}">%{when}</abbr>
-      commented_by: Commenté par %{user} <abbr title="%{exact_time}">%{when}</abbr>
-      commented_by_anonymous: Commenté par un utilisateur anonyme <abbr title="%{exact_time}">%{when}</abbr>
-      closed_by: Résolu par %{user} <abbr title="%{exact_time}">%{when}</abbr>
-      closed_by_anonymous: Résolu par un utilisateur anonyme le <abbr title="%{exact_time}">%{when}</abbr>
-      reopened_by: Réactivée par %{user}, <abbr title="%{exact_time}">%{when}</abbr>
-      reopened_by_anonymous: Réactivé par un utilisateur anonyme <abbr title="%{exact_time}">%{when}</abbr>
-      hidden_by: Masqué par %{user} <abbr title="%{exact_time}">%{when}</abbr>
+      opened_by_html: Créée par %{user}, <abbr title="%{exact_time}">%{when}</abbr>
+      opened_by_anonymous_html: Créée par un utilisateur anonyme, <abbr title="%{exact_time}">%{when}</abbr>
+      commented_by_html: Commenté par %{user} <abbr title="%{exact_time}">%{when}</abbr>
+      commented_by_anonymous_html: Commenté par un utilisateur anonyme <abbr title="%{exact_time}">%{when}</abbr>
+      closed_by_html: Résolu par %{user} <abbr title="%{exact_time}">%{when}</abbr>
+      closed_by_anonymous_html: Résolu par un utilisateur anonyme le <abbr title="%{exact_time}">%{when}</abbr>
+      reopened_by_html: Réactivée par %{user}, <abbr title="%{exact_time}">%{when}</abbr>
+      reopened_by_anonymous_html: Réactivé par un utilisateur anonyme <abbr title="%{exact_time}">%{when}</abbr>
+      hidden_by_html: Masqué par %{user} <abbr title="%{exact_time}">%{when}</abbr>
       report: Signaler cette note
       coordinates_html: '%{latitude}, %{longitude}'
     query:
@@ -1331,11 +1333,6 @@ fr:
         level8: Limite communale
         level9: Limite de village ou arrondissement municipal
         level10: Limite de quartier
-    description:
-      title:
-        osm_nominatim: Localisation depuis <a href="https://nominatim.openstreetmap.org/">Nominatim
-          sur OpenStreetMap</a>
-        geonames: Localisation depuis <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Villes
         towns: Villages
@@ -1507,6 +1504,7 @@ fr:
       footer: Vous pouvez également lire le commentaire sur %{readurl}, le commenter
         sur %{commenturl} ou envoyer un message à l'auteur sur %{replyurl}
     message_notification:
+      subject_header: '[OpenStreetMap] %{subject}'
       hi: Bonjour %{to_user},
       header: '%{from_user} vous a envoyé un message depuis OpenStreetMap avec le
         sujet %{subject} :'
@@ -1530,6 +1528,7 @@ fr:
         more_info_1: Plus d’informations sur les échecs d’import GPX et comment les
           éviter
         more_info_2: 'peuvent être trouvés sur :'
+        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       success:
         subject: '[OpenStreetMap] Import GPX réussi'
         loaded_successfully:
@@ -2449,8 +2448,6 @@ fr:
         html: |-
           <p>À la différence des autres cartes, OpenStreetMap est entièrement créé par des gens comme vous, et chacun est libre de le modifier, le mettre à jour, le télécharger et l’utiliser.</p>
           <p>Inscrivez-vous pour commencer à participer. Nous vous enverrons un courriel pour confirmer votre compte.</p>
-      license_agreement: En confirmant votre compte, vous devrez accepter les <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">termes
-        du contributeur</a>.
       email address: 'Adresse de courriel :'
       confirm email address: 'Confirmez l’adresse de courriel :'
       not_displayed_publicly_html: Votre adresse n'est pas affichée publiquement,
@@ -2662,11 +2659,11 @@ fr:
       reconfirm_html: Si vous avez besoin que nous vous renvoyions un courriel de
         confirmation, <a href="%{reconfirm}">cliquez ici</a>.
     confirm_resend:
-      success: Nous avons envoyé une nouvelle confirmation à %{email} et dès que vous
-        aurez confirmé votre compte, vous pourrez commencer à cartographier.<br /><br
-        /> Si vous utilisez un filtre contre les courriels indésirables qui renvoie
-        à l’expéditeur des demandes de confirmation, veuillez ajouter %{sender} à
-        votre liste blanche, car nous ne sommes pas en mesure de répondre à aucune
+      success_html: Nous avons envoyé une nouvelle confirmation à %{email} et dès
+        que vous aurez confirmé votre compte, vous pourrez commencer à cartographier.<br
+        /><br /> Si vous utilisez un filtre contre les courriels indésirables qui
+        renvoie à l’expéditeur des demandes de confirmation, veuillez ajouter %{sender}
+        à votre liste blanche, car nous ne sommes pas en mesure de répondre à aucune
         des demandes de confirmation.
       failure: L’utilisateur %{name} est introuvable.
     confirm_email:
