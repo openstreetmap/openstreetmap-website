@@ -15,7 +15,7 @@
   </thead>
   <% @tokens.each do |token| %>
     <tr>
-      <td><%= link_to token.client_application.name, token.client_application.url, target: "_blank" %></td>
+      <td><%= link_to token.client_application.name, token.client_application.url, :target => "_blank", :rel => "noopener" %></td>
       <td><%= token.authorized_at %></td>
       <td>
         <%= form_tag({ :controller => "oauth", :action => "revoke" }, { :class => "standard-form" }) do %>
