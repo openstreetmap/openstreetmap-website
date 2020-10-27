@@ -26,16 +26,12 @@
                 "changes": "({changes}) {base}",
                 "changes_context": "({changes}) {base} – {context}"
             },
-            "labeled_and_more": "{labeled} and {count} more"
+            "labeled_and_more": {
+                "one": "{labeled} and {count} more",
+                "other": "{labeled} and {count} more"
+            }
         },
         "modes": {
-            "add_feature": {
-                "title": "Add a feature",
-                "description": "Search for features to add to the map.",
-                "key": "Tab",
-                "result": "{count} result",
-                "results": "{count} results"
-            },
             "add_area": {
                 "title": "Area",
                 "description": "Add parks, buildings, lakes or other areas to the map.",
@@ -98,7 +94,10 @@
                 "annotation": "Canceled drawing."
             },
             "change_role": {
-                "annotation": "Changed the role of a relation member."
+                "annotation": {
+                    "one": "Changed the role of a relation member.",
+                    "other": "Changed the roles of {n} relation members."
+                }
             },
             "change_tags": {
                 "annotation": "Changed tags."
@@ -106,27 +105,27 @@
             "copy": {
                 "title": "Copy",
                 "description": {
-                    "single": "Set this feature for pasting.",
-                    "multiple": "Set these features for pasting."
+                    "one": "Set this feature for pasting.",
+                    "other": "Set these features for pasting."
                 },
                 "annotation": {
-                    "single": "Copied a feature.",
-                    "multiple": "Copied {n} features."
+                    "one": "Copied a feature.",
+                    "other": "Copied {n} features."
                 },
                 "too_large": {
-                    "single": "This can't be copied because not enough of it is currently visible.",
-                    "multiple": "These can't be copied because not enough of them are currently visible."
+                    "one": "This can't be copied because not enough of it is currently visible.",
+                    "other": "These can't be copied because not enough of them are currently visible."
                 }
             },
             "paste": {
                 "title": "Paste",
                 "description": {
-                    "single": "Add a duplicate {feature} here.",
-                    "multiple": "Add {n} duplicate features here."
+                    "one": "Add a duplicate {feature} here.",
+                    "other": "Add {n} duplicate features here."
                 },
                 "annotation": {
-                    "single": "Pasted a feature.",
-                    "multiple": "Pasted {n} features."
+                    "one": "Pasted a feature.",
+                    "other": "Pasted {n} features."
                 },
                 "nothing_copied": "No features have been copied."
             },
@@ -138,8 +137,10 @@
                 },
                 "key": "O",
                 "annotation": {
-                    "single": "Made a feature circular.",
-                    "multiple": "Made features circular."
+                    "feature": {
+                        "one": "Made a feature circular.",
+                        "other": "Made {n} features circular."
+                    }
                 },
                 "multiple_blockers": {
                     "multiple": "These can't be made circular for multiple reasons."
@@ -180,12 +181,12 @@
                 "key": "Q",
                 "annotation": {
                     "corner": {
-                        "single": "Squared a corner.",
-                        "multiple": "Squared several corners."
+                        "one": "Squared a corner.",
+                        "other": "Squared {n} corners."
                     },
                     "feature": {
-                        "single": "Squared the corners of a feature.",
-                        "multiple": "Squared the corners of several features."
+                        "one": "Squared the corners of a feature.",
+                        "other": "Squared the corners of {n} features."
                     }
                 },
                 "multiple_blockers": {
@@ -225,9 +226,14 @@
                 },
                 "key": "S",
                 "annotation": {
-                    "points": "Straightened several points.",
-                    "line": "Straightened a line.",
-                    "lines": "Straightened several lines."
+                    "point": {
+                        "one": "Straightened a point.",
+                        "other": "Straightened {n} points."
+                    },
+                    "line": {
+                        "one": "Straightened a line.",
+                        "other": "Straightened {n} lines."
+                    }
                 },
                 "too_bendy": {
                     "single": "This can't be straightened because it bends too much.",
@@ -262,7 +268,10 @@
                     "line": "Deleted a line.",
                     "area": "Deleted an area.",
                     "relation": "Deleted a relation.",
-                    "multiple": "Deleted {n} features."
+                    "feature": {
+                        "one": "Deleted a feature.",
+                        "other": "Deleted {n} features."
+                    }
                 },
                 "too_large": {
                     "single": "This feature can't be deleted because not enough of it is currently visible.",
@@ -294,18 +303,22 @@
                 "description": {
                     "building_address": "Remove all non-address and non-building tags.",
                     "building": "Remove all non-building tags.",
-                    "address": "Remove all non-address tags."
+                    "address": "Remove all non-address tags.",
+                    "generic": "Remove tags."
                 },
                 "annotation": {
                     "building": {
-                        "single": "Downgraded a feature to a basic building.",
-                        "multiple": "Downgraded {n} features to basic buildings."
+                        "one": "Downgraded a feature to a basic building.",
+                        "other": "Downgraded {n} features to basic buildings."
                     },
                     "address": {
-                        "single": "Downgraded a feature to an address.",
-                        "multiple": "Downgraded {n} features to addresses."
+                        "one": "Downgraded a feature to an address.",
+                        "other": "Downgraded {n} features to addresses."
                     },
-                    "multiple": "Downgraded {n} features."
+                    "generic": {
+                        "one": "Downgraded a feature.",
+                        "other": "Downgraded {n} features."
+                    }
                 },
                 "has_wikidata_tag": {
                     "single": "This feature can't be downgraded because it has a Wikidata tag.",
@@ -313,10 +326,16 @@
                 }
             },
             "add_member": {
-                "annotation": "Added a member to a relation."
+                "annotation": {
+                    "one": "Added a member to a relation.",
+                    "other": "Added {n} members to a relation."
+                }
             },
             "delete_member": {
-                "annotation": "Removed a member from a relation."
+                "annotation": {
+                    "one": "Removed a member from a relation.",
+                    "other": "Removed {n} members from a relation."
+                }
             },
             "reorder_members": {
                 "annotation": "Reordered a relation's members."
@@ -389,7 +408,10 @@
                 "title": "Merge",
                 "description": "Merge these features.",
                 "key": "C",
-                "annotation": "Merged {n} features.",
+                "annotation": {
+                    "one": "Merged a feature.",
+                    "other": "Merged {n} features."
+                },
                 "not_eligible": "These features can't be merged.",
                 "not_adjacent": "These features can't be merged because their endpoints aren't connected.",
                 "restriction": "These features can't be merged because it would damage a \"{relation}\" relation.",
@@ -412,7 +434,10 @@
                     "line": "Moved a line.",
                     "area": "Moved an area.",
                     "relation": "Moved a relation.",
-                    "multiple": "Moved multiple features."
+                    "feature": {
+                        "one": "Moved a feature.",
+                        "other": "Moved {n} features."
+                    }
                 },
                 "incomplete_relation": {
                     "single": "This feature can't be moved because it hasn't been fully downloaded.",
@@ -433,17 +458,17 @@
             },
             "reflect": {
                 "title": {
-                    "long": "Reflect Long",
-                    "short": "Reflect Short"
+                    "long": "Flip Long",
+                    "short": "Flip Short"
                 },
                 "description": {
                     "long": {
-                        "single": "Reflect this feature across its long axis.",
-                        "multiple": "Reflect these features across their long axis."
+                        "single": "Flip this feature across its long axis.",
+                        "multiple": "Flip these features across their long axis."
                     },
                     "short": {
-                        "single": "Reflect this feature across its short axis.",
-                        "multiple": "Reflect these features across their short axis."
+                        "single": "Flip this feature across its short axis.",
+                        "multiple": "Flip these features across their short axis."
                     }
                 },
                 "key": {
@@ -452,29 +477,33 @@
                 },
                 "annotation": {
                     "long": {
-                        "single": "Reflected a feature across its long axis.",
-                        "multiple": "Reflected multiple features across their long axis."
+                        "feature": {
+                            "one": "Flipped a feature across its long axis.",
+                            "other": "Flipped {n} features across their long axis."
+                        }
                     },
                     "short": {
-                        "single": "Reflected a feature across its short axis.",
-                        "multiple": "Reflected multiple features across their short axis."
+                        "feature": {
+                            "one": "Flipped a feature across its short axis.",
+                            "other": "Flipped {n} features across their short axis."
+                        }
                     }
                 },
                 "incomplete_relation": {
-                    "single": "This feature can't be reflected because it hasn't been fully downloaded.",
-                    "multiple": "These features can't be reflected because they haven't been fully downloaded."
+                    "single": "This feature can't be flipped because it hasn't been fully downloaded.",
+                    "multiple": "These features can't be flipped because they haven't been fully downloaded."
                 },
                 "too_large": {
-                    "single": "This feature can't be reflected because not enough of it is currently visible.",
-                    "multiple": "These features can't be reflected because not enough of them are currently visible."
+                    "single": "This feature can't be flipped because not enough of it is currently visible.",
+                    "multiple": "These features can't be flipped because not enough of them are currently visible."
                 },
                 "connected_to_hidden": {
-                    "single": "This feature can't be reflected because it is connected to a hidden feature.",
-                    "multiple": "These features can't be reflected because some are connected to hidden features."
+                    "single": "This feature can't be flipped because it is connected to a hidden feature.",
+                    "multiple": "These features can't be flipped because some are connected to hidden features."
                 },
                 "not_downloaded": {
-                    "single": "This feature can't be reflected because parts of it have not yet been downloaded.",
-                    "multiple": "These features can't be reflected because parts of them have not yet been downloaded."
+                    "single": "This feature can't be flipped because parts of it have not yet been downloaded.",
+                    "multiple": "These features can't be flipped because parts of them have not yet been downloaded."
                 }
             },
             "rotate": {
@@ -487,8 +516,11 @@
                 "annotation": {
                     "line": "Rotated a line.",
                     "area": "Rotated an area.",
-                    "multiple": "Rotated multiple features.",
-                    "relation": "Rotated a relation."
+                    "relation": "Rotated a relation.",
+                    "feature": {
+                        "one": "Rotated a feature.",
+                        "other": "Rotated {n} features."
+                    }
                 },
                 "incomplete_relation": {
                     "single": "This feature can't be rotated because it hasn't been fully downloaded.",
@@ -518,28 +550,98 @@
                 },
                 "key": "V",
                 "annotation": {
-                    "point": "Reversed a point.",
-                    "points": "Reversed multiple points.",
-                    "line": "Reversed a line.",
-                    "lines": "Reversed multiple lines.",
-                    "features": "Reversed multiple features."
+                    "point": {
+                        "one": "Reversed a point.",
+                        "other": "Reversed {n} points."
+                    },
+                    "line": {
+                        "one": "Reversed a line.",
+                        "other": "Reversed {n} lines."
+                    },
+                    "feature": {
+                        "one": "Reversed a feature.",
+                        "other": "Reversed {n} features."
+                    }
+                }
+            },
+            "scale": {
+                "annotation": {
+                    "down": {
+                        "feature": {
+                            "one": "Scaled down a feature.",
+                            "other": "Scaled down {n} features."
+                        }
+                    },
+                    "up": {
+                        "feature": {
+                            "one": "Scaled up a feature.",
+                            "other": "Scaled up {n} features."
+                        }
+                    }
+                },
+                "too_small": {
+                    "single": "This feature can't be scaled down because it would become too small.",
+                    "multiple": "These features can't be scaled down because they would become too small."
+                },
+                "too_large": {
+                    "single": "This feature can't be scaled because not enough of it is currently visible.",
+                    "multiple": "These features can't be scaled because not enough of them are currently visible."
+                },
+                "connected_to_hidden": {
+                    "single": "This feature can't be scaled because it is connected to a hidden feature.",
+                    "multiple": "These features can't be scaled because some are connected to hidden features."
+                },
+                "not_downloaded": {
+                    "single": "This feature can't be scaled because parts of it have not yet been downloaded.",
+                    "multiple": "These features can't be scaled because parts of them have not yet been downloaded."
                 }
             },
             "split": {
                 "title": "Split",
                 "description": {
-                    "line": "Split this line into two at this node.",
-                    "area": "Split the boundary of this area into two.",
-                    "multiple": "Split the lines/area boundaries at this node into two."
+                    "line": {
+                        "single": {
+                            "single_node": "Divide this line into two at this point.",
+                            "multiple_node": "Divide this line at these points."
+                        },
+                        "multiple": {
+                            "single_node": "Divide these lines at this point.",
+                            "multiple_node": "Divide these lines at these points."
+                        }
+                    },
+                    "area": {
+                        "single": {
+                            "single_node": "Divide the edge of this area into two at this point.",
+                            "multiple_node": "Divide the edge of this area at these points."
+                        },
+                        "multiple": {
+                            "single_node": "Divide the edges of these areas at this point.",
+                            "multiple_node": "Divide the edges of these areas at these points."
+                        }
+                    },
+                    "feature": {
+                        "multiple": {
+                            "single_node": "Divide these features at this point.",
+                            "multiple_node": "Divide these features at these points."
+                        }
+                    }
                 },
                 "key": "X",
                 "annotation": {
-                    "line": "Split a line.",
-                    "area": "Split an area boundary.",
-                    "multiple": "Split {n} lines/area boundaries."
+                    "line": {
+                        "one": "Split a line.",
+                        "other": "Split {n} lines."
+                    },
+                    "area": {
+                        "one": "Split the edge of an area.",
+                        "other": "Split {n} areas."
+                    },
+                    "feature": {
+                        "one": "Split a feature.",
+                        "other": "Split {n} features."
+                    }
                 },
                 "not_eligible": "Lines can't be split at their beginning or end.",
-                "multiple_ways": "There are too many lines here to split.",
                 "connected_to_hidden": "This can't be split because it is connected to a hidden feature."
             },
             "restriction": {
@@ -569,8 +671,8 @@
                     }
                 },
                 "annotation": {
-                    "single": "Extracted a point.",
-                    "multiple": "Extracted {n} points."
+                    "one": "Extracted a point.",
+                    "other": "Extracted {n} points."
                 },
                 "too_large": {
                     "single": "A point can't be extracted because not enough of this feature is visible.",
@@ -648,8 +750,10 @@
             "tooltip": "Toggle the sidebar."
         },
         "feature_info": {
-            "hidden_warning": "{count} hidden features",
-            "hidden_details": "These features are currently hidden: {details}"
+            "hidden_warning": {
+                "one": "{count} hidden feature",
+                "other": "{count} hidden features"
+            }
         },
         "osm_api_status": {
             "message": {
@@ -667,7 +771,7 @@
             "request_review": "I would like someone to review my edits.",
             "save": "Upload",
             "cancel": "Cancel",
-            "changes": "Changes ({count})",
+            "changes": "Changes",
             "download_changes": "Download osmChange file",
             "errors": "Errors",
             "warnings": "Warnings",
@@ -683,10 +787,17 @@
         },
         "contributors": {
             "list": "Edits by {users}",
-            "truncated_list": "Edits by {users} and {count} others"
+            "truncated_list": {
+                "one": "Edits by {users} and {count} other",
+                "other": "Edits by {users} and {count} others"
+            }
         },
         "info_panels": {
             "key": "I",
+            "selected": {
+                "one": "{n} selected",
+                "other": "{n} selected"
+            },
             "background": {
                 "key": "B",
                 "title": "Background",
@@ -705,7 +816,6 @@
             "history": {
                 "key": "H",
                 "title": "History",
-                "selected": "{n} selected",
                 "no_history": "No History (New Feature)",
                 "version": "Version",
                 "last_edit": "Last Edit",
@@ -727,13 +837,13 @@
             "measurement": {
                 "key": "M",
                 "title": "Measurement",
-                "selected": "{n} selected",
                 "geometry": "Geometry",
                 "closed_line": "closed line",
                 "closed_area": "closed area",
                 "center": "Center",
                 "perimeter": "Perimeter",
                 "length": "Length",
+                "distance": "Distance",
                 "area": "Area",
                 "centroid": "Centroid",
                 "location": "Location",
@@ -781,8 +891,12 @@
             "new_relation": "New relation...",
             "choose_relation": "Choose a parent relation",
             "role": "Role",
+            "multiple_roles": "Multiple Roles",
             "choose": "Select feature type",
-            "results": "{n} results for {search}",
+            "results": {
+                "one": "{n} result for {search}",
+                "other": "{n} results for {search}"
+            },
             "no_documentation_key": "There is no documentation available.",
             "edit_reference": "edit/translate",
             "wiki_reference": "View documentation",
@@ -928,6 +1042,20 @@
                     "title": "Panoramic Photos",
                     "tooltip": "360° photos"
                 }
+            },
+            "date_filter": {
+                "fromDate": {
+                    "title": "From",
+                    "tooltip": "Show photos taken after this date"
+                },
+                "toDate": {
+                    "title": "To",
+                    "tooltip": "Show photos taken before this date"
+                }
+            },
+            "username_filter": {
+                "title": "Username",
+                "tooltip": "Show only photos by this user"
             }
         },
         "feature": {
@@ -1650,7 +1778,7 @@
                 "title": "Editing & Saving",
                 "select_h": "Select",
                 "select_left_click": "{leftclick} Left-click or {tap_icon} tap a feature to select it. This will highlight it with a pulsing glow and display further details about it in the sidebar.",
-                "select_right_click": "{rightclick} Right-click or {longpress_icon} long-press a feature to display the edit menu, which provides commands such as copy, rotate, and delete.",
+                "select_right_click": "{rightclick} Right-click or {longpress_icon} long-press a feature to display the edit menu, which provides operations such as copy, rotate, and delete.",
                 "select_space": "The `{space}` key can also be used instead of left-click when selecting and drawing.",
                 "multiselect_h": "Multiselect",
                 "multiselect": "Selecting multiple features together lets you quickly edit them all at once.",
@@ -1693,7 +1821,7 @@
                 "move_point": "To move a point, {leftclick} left-click and drag it with a mouse or {touchdrag_icon} tap-and-drag it on a touchscreen.",
                 "delete_point_h": "Deleting Points",
                 "delete_point": "It's OK to delete features that don't exist in the real world. Deleting a feature from OpenStreetMap removes it from the map that everyone uses, so you should make sure a feature is really gone before you delete it.",
-                "delete_point_command": "To delete a point, {rightclick} right-click or {longpress_icon} long-press the point to show the edit menu, then use the {delete_icon} **{delete}** command."
+                "delete_point_command": "To delete a point, {rightclick} right-click or {longpress_icon} long-press the point to show the edit menu, then use the {delete_icon} **{delete}** operation."
             },
             "lines": {
                 "title": "Lines",
@@ -1712,13 +1840,13 @@
                 "connect_line_drag": "To connect a line to another feature, drag one of the line's nodes onto the other feature until both features snap together. Tip: You can hold down the `{alt}` key to prevent nodes from connecting to other features.",
                 "connect_line_tag": "If you know that the connection has traffic lights or crosswalks, you can add them by selecting the connecting node and using the feature editor to select the correct feature's type.",
                 "disconnect_line_h": "Disconnecting Lines",
-                "disconnect_line_command": "To disconnect a road from another feature, {rightclick} right-click or {longpress_icon} long-press the connecting node and select the {disconnect_icon} **{disconnect}** command from the edit menu.",
+                "disconnect_line_command": "To disconnect a road from another feature, {rightclick} right-click or {longpress_icon} long-press the connecting node and choose the {disconnect_icon} **{disconnect}** operation from the edit menu.",
                 "move_line_h": "Moving Lines",
-                "move_line_command": "To move an entire line, {rightclick} right-click the line and select the {move_icon} **{move}** command from the edit menu. Then move the mouse, and {leftclick} left-click to place the line in a new location.",
+                "move_line_command": "To move an entire line, {rightclick} right-click the line and choose the {move_icon} **{move}** operation from the edit menu. Then move the mouse, and {leftclick} left-click to place the line in a new location.",
                 "move_line_connected": "Lines that are connected to other features will stay connected as you move the line to a new location. iD may prevent you from moving a line across another connected line.",
                 "delete_line_h": "Deleting Lines",
                 "delete_line": "If a line is entirely incorrect, for example a road that doesn't exist in the real world, it's OK to delete it. Be careful when deleting features: the background imagery you are using might be outdated, and a road that looks wrong could simply be newly built.",
-                "delete_line_command": "To delete a line, {rightclick} right-click or {longpress_icon} long-press the line to show the edit menu, then use the {delete_icon} **{delete}** command."
+                "delete_line_command": "To delete a line, {rightclick} right-click or {longpress_icon} long-press the line to show the edit menu, then use the {delete_icon} **{delete}** operation."
             },
             "areas": {
                 "title": "Areas",
@@ -1731,13 +1859,13 @@
                 "add_area_continue": "Continue placing nodes by {leftclick} clicking or {tap_icon} tapping along the edge of the area. While drawing, you can zoom in or drag the map in order to add more detail.",
                 "add_area_finish": "To finish an area, click or tap on the first or last node again or press `{return}`.",
                 "square_area_h": "Square Corners",
-                "square_area_command": "Many area features like buildings have square corners. To square the corners of an area, {rightclick} right-click or {longpress_icon} long-press the edge of the area and select the {orthogonalize_icon} **{orthogonalize}** command from the edit menu.",
+                "square_area_command": "Many area features like buildings have square corners. To square the corners of an area, {rightclick} right-click or {longpress_icon} long-press the edge of the area and choose the {orthogonalize_icon} **{orthogonalize}** operation from the edit menu.",
                 "modify_area_h": "Modifying Areas",
                 "modify_area_dragnode": "Often you'll see areas that aren't shaped correctly, for example a building that does not match up with the background imagery. To adjust the shape of an area, first select it. All nodes of the area will be drawn as small circles. You can then drag the nodes to better locations.",
                 "modify_area_addnode": "You can also create new nodes along an area by {leftclick}**x2** double-clicking or {doubletap_icon} double-tapping an edge, or by dragging the small triangles at the midpoints between nodes.",
                 "delete_area_h": "Deleting Areas",
                 "delete_area": "If an area is entirely incorrect, for example a building that doesn't exist in the real world, it's OK to delete it. Be cautious when deleting features - the background imagery you are using might be outdated, and a building that looks wrong could simply be newly built.",
-                "delete_area_command": "To delete an area, {rightclick} right-click or {longpress_icon} long-press the area to show the edit menu, then use the {delete_icon} **{delete}** command."
+                "delete_area_command": "To delete an area, {rightclick} right-click or {longpress_icon} long-press the area to show the edit menu, then use the {delete_icon} **{delete}** operation."
             },
             "relations": {
                 "title": "Relations",
@@ -1751,7 +1879,7 @@
                 "relation_types_h": "Relation Types",
                 "multipolygon_h": "Multipolygons",
                 "multipolygon": "A *multipolygon* relation is a group of one or more *outer* features and one or more inner features. The outer features define the outer edges of the multipolygon, and the inner features define sub-areas or holes cut out from the inside of the multipolygon.",
-                "multipolygon_create": "To create a multipolygon, for example a building with a hole in it, draw the outer edge as an area and the inner edge as a line or different kind of area. Then `{shift}`+{leftclick} left-click to select both features, {rightclick} right-click to show the edit menu, and select the {merge_icon} **{merge}** command.",
+                "multipolygon_create": "To create a multipolygon, for example a building with a hole in it, draw the outer edge as an area and the inner edge as a line or different kind of area. Then `{shift}`+{leftclick} left-click to select both features, {rightclick} right-click to show the edit menu, and choose the {merge_icon} **{merge}** operation.",
                 "multipolygon_merge": "Merging several lines or areas will create a new multipolygon relation with all selected areas as members. iD will choose the inner and outer roles automatically, based on which features are contained inside other features.",
                 "turn_restriction_h": "Turn restrictions",
                 "turn_restriction": "A *turn restriction* relation is a group of several road segments in an intersection. Turn restrictions consist of a *from* road, *via* node or roads, and a *to* road.",
@@ -1763,6 +1891,26 @@
                 "boundary_h": "Boundaries",
                 "boundary": "A *boundary* relation is a group of one or more line features that together form an administrative boundary.",
                 "boundary_add": "To add a feature to a boundary relation, select the feature and scroll down to the \"{relations}\" section of the feature editor, then press the {plus} add button to add this feature to a nearby existing relation or a new relation."
+            },
+            "operations": {
+                "title": "Operations",
+                "intro": "*Operations* are special commands you can use to edit features. {rightclick} Right-click or {longpress_icon} long-press any feature to view the available operations.",
+                "intro_2": "Each operation has its own keyboard shortcut. Most operations can be applied to multiple features at once.",
+                "straighten": "{straighten_icon} **{straighten}** removes bends from lines. It can also align groups of points into neat rows.",
+                "orthogonalize": "{orthogonalize_icon} **{orthogonalize}** snaps the corners of areas and lines to 90°. You can square individual corners or entire features.",
+                "circularize": "{circularize_icon} **{circularize}** turns areas and closed lines into circles.",
+                "move": "{move_icon} **{move}** lets you drag features around the map.",
+                "rotate": "{rotate_icon} **{rotate}** lets you swivel features around their center points.",
+                "reflect": "{reflect_short_icon} **{reflect_short}** and {reflect_long_icon} **{reflect_long}** reflect features over their short and long axes.",
+                "continue": "{continue_icon} **{continue}** lets you extend existing lines from their endpoints.",
+                "reverse": "{reverse_icon} **{reverse}** changes the direction of features. The direction matters for things like one-way roads, traffic signs, waterways, and cliffs.",
+                "disconnect": "{disconnect_icon} **{disconnect}** separates connected lines and areas from each other. You can disconnect entire features or just selected points.",
+                "merge": "{merge_icon} **{merge}** combines multiple features into one. You can merge areas together to create multipolygons, merge lines together to create longer lines, and merge points into anything to transfer their tags.",
+                "split": "{split_icon} **{split}** divides lines at the selected points. If specific lines are also selected, only those are split.",
+                "extract": "{extract_icon} **{extract}** detaches points from lines. It also pulls points out of buildings and other areas.",
+                "delete": "{delete_icon} **{delete}** removes features from the map. Anything that doesn't exist in the real world should be deleted.",
+                "downgrade": "{downgrade_icon} **{downgrade}** removes most tags except building and address info. This is helpful when businesses close yet their facilities remain.",
+                "copy_paste": "{copy_icon} **{copy}** and {paste_icon} **{paste}** let you duplicate features."
             },
             "notes": {
                 "title": "Notes",
@@ -1781,7 +1929,7 @@
                 "intro": "The background imagery that appears beneath the map data is an important resource for mapping. This imagery can be aerial photos collected from satellites, airplanes, and drones, or it can be scanned historical maps or other freely available source data.",
                 "sources_h": "Imagery Sources",
                 "choosing": "To see which imagery sources are available for editing, open the {layers_icon} **{background_settings}** panel on the side of the map.",
-                "sources": "By default, a [Bing Maps](https://www.bing.com/maps/) satellite layer is chosen as the background image. Depending on where you are editing, other imagery sources will be available. Some may be newer or have higher resolution, so it is always useful to check and see which layer is the best one to use as a mapping reference.",
+                "sources": "The [Bing Maps](https://www.bing.com/maps/) satellite layer or the best local imagery is set as the default background. Depending on where you are editing, multiple imagery sources are available. Some may be newer or have higher resolution, so it is always useful to check and see which layer is the best one to use as a mapping reference.",
                 "offsets_h": "Adjusting Imagery Offset",
                 "offset": "Imagery is sometimes offset slightly from accurate map data. If you see a lot of roads or buildings shifted from the background imagery, it may be the imagery that's incorrect, so don't move them all to match the background. Instead, you can adjust the background so that it matches the existing data by expanding the \"{imagery_offset}\" section at the bottom of the Background Settings pane.",
                 "offset_change": "Press the small triangle buttons to adjust the imagery offset in small steps, or hold the {leftclick} left mouse button and drag within the gray square to slide the imagery into alignment."
@@ -1853,12 +2001,12 @@
         "issues": {
             "title": "Issues",
             "key": "I",
-            "list_title": "Issues ({count})",
+            "list_title": "Issues",
             "errors": {
-                "list_title": "Errors ({count})"
+                "list_title": "Errors"
             },
             "warnings": {
-                "list_title": "Warnings ({count})"
+                "list_title": "Warnings"
             },
             "rules": {
                 "title": "Rules"
@@ -1899,7 +2047,7 @@
             "suggested": "Suggested updates:",
             "enable_all": "Enable All",
             "disable_all": "Disable All",
-            "reset_ignored": "Reset Ignored ({count})",
+            "reset_ignored": "Reset Ignored",
             "fix_one": {
                 "title": "fix"
             },
@@ -1986,12 +2134,10 @@
                 "tip": "Find unroutable roads, paths, and ferry routes",
                 "routable": {
                     "message": {
-                        "multiple": "{count} routable features are connected only to each other."
+                        "one": "{highway} is disconnected from other roads and paths",
+                        "other": "{count} routable features are connected only to each other"
                     },
                     "reference": "All roads, paths, and ferry routes should connect to form a single routing network."
-                },
-                "highway": {
-                    "message": "{highway} is disconnected from other roads and paths"
                 }
             },
             "fixme_tag": {
@@ -2548,7 +2694,7 @@
                 "edit_menu_tank_touch": "**{longpress_icon} Long-press the storage tank you created to show the edit menu.**",
                 "circle_tank": "**Press the {circularize_icon} {circularize} button to make the tank a circle.**",
                 "retry_circle": "You didn't press the {circularize_icon} {circularize} button. Try again.",
-                "play": "Great Job! Practice tracing a few more buildings, and try some of the other commands on the edit menu. **When you are ready to continue to the next chapter, press '{next}'.**"
+                "play": "Great Job! Practice tracing a few more buildings, and try some of the other operations in the edit menu. **When you are ready to continue to the next chapter, press '{next}'.**"
             },
             "startediting": {
                 "title": "Start Editing",
@@ -2656,17 +2802,19 @@
                     "merge": "Combine (merge) selected features",
                     "disconnect": "Disconnect selected features",
                     "extract": "Extract a point from a feature",
-                    "split": "Split a line into two at the selected node",
+                    "split": "Split features at the selected points",
                     "reverse": "Reverse selected features",
                     "move": "Move selected features",
                     "nudge": "Nudge selected features",
                     "nudge_more": "Nudge selected features by a lot",
+                    "scale": "Scale selected features",
+                    "scale_more": "Scale selected features by a lot",
                     "rotate": "Rotate selected features",
                     "orthogonalize": "Square corners of a line or area",
                     "straighten": "Straighten a line or points",
                     "circularize": "Circularize a closed line or area",
-                    "reflect_long": "Reflect features across the longer axis",
-                    "reflect_short": "Reflect features across the shorter axis",
+                    "reflect_long": "Flip features across the longer axis",
+                    "reflect_short": "Flip features across the shorter axis",
                     "delete": "Delete selected features"
                 },
                 "commands": {
@@ -2710,7 +2858,8 @@
             "east": "E",
             "west": "W",
             "coordinate": "{coordinate}{direction}",
-            "coordinate_pair": "{latitude}, {longitude}"
+            "coordinate_pair": "{latitude}, {longitude}",
+            "year_month_day": "YYYY-MM-DD"
         },
         "wikidata": {
             "identifier": "Identifier",
@@ -3381,33 +3530,16 @@
                 "diplomatic/services": {
                     "label": "Services"
                 },
-                "direction_cardinal": {
-                    "label": "Direction",
-                    "options": {
-                        "N": "North",
-                        "E": "East",
-                        "S": "South",
-                        "W": "West",
-                        "NE": "Northeast",
-                        "SE": "Southeast",
-                        "SW": "Southwest",
-                        "NW": "Northwest",
-                        "NNE": "North-northeast",
-                        "ENE": "East-northeast",
-                        "ESE": "East-southeast",
-                        "SSE": "South-southeast",
-                        "SSW": "South-southwest",
-                        "WSW": "West-southwest",
-                        "WNW": "West-northwest",
-                        "NNW": "North-northwest"
-                    }
-                },
                 "direction_clock": {
                     "label": "Direction",
                     "options": {
                         "clockwise": "Clockwise",
                         "anticlockwise": "Counterclockwise"
                     }
+                },
+                "direction_point": {
+                    "label": "Direction (Degrees Clockwise)",
+                    "placeholder": "45, 90, 180, 270"
                 },
                 "direction_vertex_dual": {
                     "label": "Direction Affected",
@@ -3438,6 +3570,9 @@
                 "distance": {
                     "label": "Distance",
                     "terms": "length,mileage"
+                },
+                "disused/amenity": {
+                    "label": "Type"
                 },
                 "disused/railway": {
                     "label": "Type"
@@ -3686,6 +3821,9 @@
                 },
                 "healthcare/speciality": {
                     "label": "Specialties"
+                },
+                "heating": {
+                    "label": "Heating"
                 },
                 "height_building": {
                     "label": "Building Height (Meters)",
@@ -4443,6 +4581,10 @@
                         "both": "Both / All"
                     }
                 },
+                "ramp": {
+                    "label": "Embedded Ramp",
+                    "terms": ""
+                },
                 "rating": {
                     "label": "Power Rating"
                 },
@@ -5092,6 +5234,19 @@
                 "valve": {
                     "label": "Type"
                 },
+                "vehicles": {
+                    "label": "Vehicles",
+                    "options": {
+                        "bus": "Bus",
+                        "trolleybus": "Trolleybus",
+                        "tram": "Tram",
+                        "train": "Train",
+                        "subway": "Subway",
+                        "light_rail": "Light Rail",
+                        "monorail": "Monorail",
+                        "ferry": "Ferry"
+                    }
+                },
                 "vending": {
                     "label": "Types of Goods"
                 },
@@ -5519,9 +5674,17 @@
                     "name": "Biergarten",
                     "terms": "beer,bier,booze"
                 },
+                "amenity/binoculars": {
+                    "name": "Mounted Binoculars",
+                    "terms": "observation viewer,optical ranger,spotting scope,sight,spyglass,telescope,tower viewer,viewfinder,viewing stand"
+                },
                 "amenity/boat_rental": {
                     "name": "Boat Rental",
                     "terms": ""
+                },
+                "amenity/boat_storage": {
+                    "name": "Boat Storage",
+                    "terms": "boathouse,dry dock,marina"
                 },
                 "amenity/bureau_de_change": {
                     "name": "Currency Exchange",
@@ -5533,7 +5696,7 @@
                 },
                 "amenity/cafe/bubble_tea": {
                     "name": "Bubble Tea Cafe",
-                    "terms": "boba,bubble milk tea,pearl milk tea,taiwanese tea drink,tapioca"
+                    "terms": "boba,bubble milk tea,pearl milk tea,taiwanese tea drink,tapioca,pearl tea,boba drink"
                 },
                 "amenity/cafe/coffee_shop": {
                     "name": "Coffeehouse",
@@ -5756,7 +5919,7 @@
                 },
                 "amenity/kindergarten": {
                     "name": "Preschool / Kindergarten Grounds",
-                    "terms": "kindergarden,pre-school"
+                    "terms": "kindergarten,kindergarden,pre-school"
                 },
                 "amenity/kneipp_water_cure": {
                     "name": "Kneipp Water Cure",
@@ -5782,6 +5945,10 @@
                     "name": "Loading Dock",
                     "terms": "door,loading bay,shipping,unloading,warehouse"
                 },
+                "amenity/lounger": {
+                    "name": "Lounger",
+                    "terms": "seat,chair,bench"
+                },
                 "amenity/love_hotel": {
                     "name": "Love Hotel",
                     "terms": ""
@@ -5797,6 +5964,10 @@
                 "amenity/money_transfer": {
                     "name": "Money Transfer Station",
                     "terms": "money order,check,bill,currency,finance,wire transfer,cable,person to person,cash to cash,exchange"
+                },
+                "amenity/mortuary": {
+                    "name": "Morgue",
+                    "terms": "crematorium,funeral home,memorial home,morgue,mortuary,undertaker"
                 },
                 "amenity/motorcycle_parking": {
                     "name": "Motorcycle Parking",
@@ -6636,7 +6807,7 @@
                 },
                 "building/farm_auxiliary": {
                     "name": "Farm Building",
-                    "terms": "agriculture,auxilary,chicken coop,farm auxiliary,pigsty,sty"
+                    "terms": "agriculture,auxiliary,auxilary,chicken coop,farm auxiliary,pigsty,sty"
                 },
                 "building/farm": {
                     "name": "Farm House",
@@ -6688,7 +6859,7 @@
                 },
                 "building/kindergarten": {
                     "name": "Preschool / Kindergarten Building",
-                    "terms": "kindergarden,pre-school"
+                    "terms": "kindergarten,kindergarden,pre-school"
                 },
                 "building/mosque": {
                     "name": "Mosque Building",
@@ -6999,6 +7170,9 @@
                 "demolished/building": {
                     "name": "Recently Demolished Building"
                 },
+                "disused/amenity": {
+                    "name": "Disused Amenity"
+                },
                 "disused/railway": {
                     "name": "Disused Railway Feature"
                 },
@@ -7102,6 +7276,10 @@
                 "golf/cartpath": {
                     "name": "Golf Cartpath",
                     "terms": ""
+                },
+                "golf/clubhouse": {
+                    "name": "Golf Clubhouse",
+                    "terms": "club house,golf clubhouse,golf house,pro shop"
                 },
                 "golf/driving_range": {
                     "name": "Driving Range",
@@ -8381,6 +8559,10 @@
                     "name": "Communication Tower",
                     "terms": "antenna,broadcast tower,cell phone tower,cell tower,communication mast,communication tower,guyed tower,mobile phone tower,radio mast,radio tower,television tower,transmission mast,transmission tower,tv tower"
                 },
+                "man_made/tower/cooling": {
+                    "name": "Cooling Tower",
+                    "terms": "power plant"
+                },
                 "man_made/tower/defensive": {
                     "name": "Fortified Tower",
                     "terms": "Defensive Tower,Castle Tower"
@@ -8428,6 +8610,10 @@
                 "man_made/windmill": {
                     "name": "Windmill",
                     "terms": "wind,wheel,mill"
+                },
+                "man_made/windpump": {
+                    "name": "Windpump",
+                    "terms": "aerorotor,water pump,windmill,wind pump"
                 },
                 "man_made/works": {
                     "name": "Factory",
@@ -8512,6 +8698,10 @@
                 "natural/heath": {
                     "name": "Heath",
                     "terms": ""
+                },
+                "natural/hot_spring": {
+                    "name": "Hot Spring",
+                    "terms": "geothermal spring,thermal pool"
                 },
                 "natural/mud": {
                     "name": "Mud",
@@ -9105,6 +9295,10 @@
                     "name": "Bus Stop",
                     "terms": "bus,platform,public transit,public transportation,transit,transportation"
                 },
+                "public_transport/platform/bus_tram_point": {
+                    "name": "Tram & Bus Stop",
+                    "terms": "bus,light rail,platform,public transit,public transportation,rail,streetcar,track,tram,transit,transportation,trolley"
+                },
                 "public_transport/platform/bus": {
                     "name": "Bus Platform",
                     "terms": "bus,platform,public transit,public transportation,transit,transportation"
@@ -9608,7 +9802,7 @@
                 },
                 "shop/doityourself": {
                     "name": "DIY Store",
-                    "terms": ""
+                    "terms": "craft,diy,do it yourself,hardware,home improvement,tools"
                 },
                 "shop/doors": {
                     "name": "Door Shop",
@@ -9720,7 +9914,7 @@
                 },
                 "shop/hardware": {
                     "name": "Hardware Store",
-                    "terms": ""
+                    "terms": "craft,diy,do it yourself,hardware,home improvement,tools"
                 },
                 "shop/health_food": {
                     "name": "Health Food Shop",
@@ -9832,7 +10026,7 @@
                 },
                 "shop/music": {
                     "name": "Music Store",
-                    "terms": "tape casettes,CDs,compact discs,vinyl records"
+                    "terms": "tape cassettes,CDs,compact discs,vinyl records,CD store,casette,casette store"
                 },
                 "shop/musical_instrument": {
                     "name": "Musical Instrument Store",
@@ -9960,7 +10154,7 @@
                 },
                 "shop/supermarket": {
                     "name": "Supermarket",
-                    "terms": "grocery,store,shop"
+                    "terms": "grocery,store,shop,grocery store,market,food market"
                 },
                 "shop/supermarket/organic": {
                     "name": "Organic Supermarket",
@@ -10036,7 +10230,7 @@
                 },
                 "shop/video": {
                     "name": "Video Store",
-                    "terms": "DVD,VHS,video casette"
+                    "terms": "DVD,VHS,video cassette,video casette"
                 },
                 "shop/watches": {
                     "name": "Watches Shop",
@@ -10060,7 +10254,7 @@
                 },
                 "shop/wigs": {
                     "name": "Wig Shop",
-                    "terms": "hair extentions"
+                    "terms": "hair extensions,hair extentions"
                 },
                 "shop/window_blind": {
                     "name": "Window Blind Store",
@@ -10100,7 +10294,7 @@
                 },
                 "tourism/artwork/graffiti": {
                     "name": "Graffiti",
-                    "terms": "Street Artwork,Guerilla Artwork,Graffiti Artwork"
+                    "terms": "Street Artwork,Guerrilla Artwork,Guerilla Artwork,Graffiti Artwork"
                 },
                 "tourism/artwork/installation": {
                     "name": "Art Installation",
@@ -10169,6 +10363,10 @@
                 "tourism/information/board": {
                     "name": "Information Board",
                     "terms": ""
+                },
+                "tourism/information/board/welcome_sign": {
+                    "name": "Welcome Sign",
+                    "terms": "new location"
                 },
                 "tourism/information/guidepost": {
                     "name": "Guidepost",
@@ -10278,25 +10476,13 @@
                     "name": "Speed Table",
                     "terms": "flat top,hump,speed,slow"
                 },
-                "traffic_sign_vertex": {
-                    "name": "Traffic Sign",
-                    "terms": "road,highway"
-                },
                 "traffic_sign": {
                     "name": "Traffic Sign",
                     "terms": "road,highway"
                 },
-                "traffic_sign/city_limit_vertex": {
-                    "name": "City Limit Sign",
-                    "terms": "town,village,hamlet,boundary,edge,border,road,highway"
-                },
                 "traffic_sign/city_limit": {
                     "name": "City Limit Sign",
                     "terms": "town,village,hamlet,boundary,edge,border,road,highway"
-                },
-                "traffic_sign/maxspeed_vertex": {
-                    "name": "Speed Limit Sign",
-                    "terms": "max speed,maximum speed,road,highway"
                 },
                 "traffic_sign/maxspeed": {
                     "name": "Speed Limit Sign",
@@ -10394,7 +10580,7 @@
                     "terms": ""
                 },
                 "type/route/foot": {
-                    "name": "Foot Route",
+                    "name": "Walking Route",
                     "terms": ""
                 },
                 "type/route/hiking": {
@@ -10967,6 +11153,13 @@
                 "description": "Orthophotos from the municipality of Stockholm 2016, CC0 license",
                 "name": "Stockholm Orthophoto"
             },
+            "susono_shizuoka_jp_orthophoto": {
+                "attribution": {
+                    "text": "Susono city orthophoto"
+                },
+                "description": "The aerial photos released by Susono City as open data.",
+                "name": "Susono city orthophoto"
+            },
             "tf-cycle": {
                 "attribution": {
                     "text": "Maps © Thunderforest, Data © OpenStreetMap contributors"
@@ -11111,8 +11304,8 @@
                 "description": "Mappers and OpenStreetMap enthusiasts in the Twin Cities area",
                 "extendedDescription": "Connecting OpenStreetMap enthusiasts in Minnesota and the Twin Cities!"
             },
-            "Mapping-DC-meetup": {
-                "name": "Mapping DC",
+            "MappingDC-meetup": {
+                "name": "MappingDC",
                 "description": "Improve OpenStreetMap in the DC area",
                 "extendedDescription": "We are a group of volunteer mappers who aim to improve the OpenStreetMap in the DC area. We also aim to teach others about the OSM ecosystem, data analytics, cartography, and GIS. We gather every other month at meetups to focus on one area of our city."
             },
@@ -11261,10 +11454,6 @@
                 "name": "OSM Cuba on Telegram",
                 "description": "OpenStreetMap Cuba Telegram chat"
             },
-            "OSM-CZ-telegram": {
-                "name": "OpenStreetMap CZ Telegram",
-                "description": "A Telegram group for the OSM Czech community: {url}"
-            },
             "OSM-Central-Salish-Sea": {
                 "name": "OpenStreetMap Central Salish Sea",
                 "description": "Mappers and OpenStreetMap users around Mount Vernon, WA",
@@ -11360,7 +11549,7 @@
             },
             "OSM-MY-matrix": {
                 "name": "OpenStreetMap Malaysia Riot channel",
-                "description": "All mappers are welcome! Sign up at {signupUrl}"
+                "description": "All mappers are welcome! Sign up at {url}"
             },
             "OSM-Nepal-facebook": {
                 "name": "OpenStreetMap Nepal",
@@ -11418,6 +11607,10 @@
             "OSM-PL-forum": {
                 "name": "OpenStreetMap Poland Forum",
                 "description": "Forum of Polish OpenStreetMap community"
+            },
+            "OSM-PL-github": {
+                "name": "OpenStreetMap Polska on GitHub",
+                "description": "GitHub organization for Polish OpenStreetMap community"
             },
             "OSM-PY-telegram": {
                 "name": "OSM Paraguay on Telegram",
@@ -11760,6 +11953,10 @@
                 "name": "OpenStreetMap Berlin Twitter",
                 "description": "Follow us on Twitter: {url}"
             },
+            "de-berlin-xmpp": {
+                "name": "OpenStreetMap Berlin-Brandenburg XMPP",
+                "description": "Join our XMPP Multi-User Chat: {url}"
+            },
             "de-forum": {
                 "name": "OpenStreetMap DE forum",
                 "description": "OpenStreetMap Germany web forum"
@@ -11772,13 +11969,21 @@
                 "name": "OpenStreetMap Germany IRC",
                 "description": "Join #osm-de on irc.oftc.net (port 6667)"
             },
+            "de-karlsruhe-mailinglist": {
+                "name": "Karlsruhe Mailing List",
+                "description": "This is the mailing list for the OSM community of Karlsruhe area"
+            },
+            "de-karlsruhe-meetup": {
+                "name": "OpenStreetMap Karlsruhe Meetup",
+                "description": "Mappers and OpenStreetMap users in the Karlsruhe area"
+            },
             "de-mailinglist": {
                 "name": "Talk-de Mailing List",
                 "description": "Talk-de is the official mailing list for the German OSM community"
             },
             "de-matrix": {
                 "name": "OpenStreetMap Germany Matrix",
-                "description": "Join #osm-de:matrix.org at https://riot.im/app/#/room/%23osm-de:matrix.org"
+                "description": "Join #osm-de:matrix.org at {url}"
             },
             "de-mv-mailinglist": {
                 "name": "Mecklenburg-Vorpommern Mailing List",
@@ -11792,9 +11997,25 @@
                 "name": "OWL Mailing List",
                 "description": "This is the mailing list for the Ostwestfalen-Lippe OSM community"
             },
+            "de-stuttgart-mailinglist": {
+                "name": "Stuttgart and Baden-Wuerttemberg Mailing List",
+                "description": "This is the mailing list for the OSM community of Stuttgart and whole Baden-Wuerttemberg"
+            },
+            "de-stuttgart-meetup": {
+                "name": "OpenStreetMap Stuttgart Meetup",
+                "description": "Mappers and OpenStreetMap users in the Stuttgart area"
+            },
             "de-telegram": {
                 "name": "OpenStreetMap Germany Telegram",
                 "description": "Join the OpenStreetMap Germany Telegram supergroup at {url}"
+            },
+            "de-ulm_neuulm-meetup": {
+                "name": "OpenStreetMap Ulm Neu-Ulm Meetup",
+                "description": "Mappers and OpenStreetMap users in the Ulm and Neu-Ulm area"
+            },
+            "de-ulmeralb-meetup": {
+                "name": "OpenStreetMap Ulmer Alb Meetup",
+                "description": "Mappers and OpenStreetMap users in the Ulmer Alb area"
             },
             "de-viersen-meetup": {
                 "name": "OpenStreetMap Viersen Meetup",
@@ -11836,6 +12057,10 @@
                 "name": "OpenStreetMap Rennes Wiki page",
                 "description": "Wiki page of Rennes OSM local group"
             },
+            "fr-38-wiki": {
+                "name": "OpenStreetMap Grenoble Wiki page",
+                "description": "Wiki page of Grenoble OSM local group"
+            },
             "fr-bzh-mailinglist": {
                 "name": "Talk-fr-bzh Mailing List",
                 "description": "Talk-fr-bzh mailing list"
@@ -11876,6 +12101,10 @@
                 "name": "OpenStreetMap France on Twitter",
                 "description": "OpenStreetMap France on Twitter: {url}"
             },
+            "fr-xmpp": {
+                "name": "OpenStreetMap France on XMPP",
+                "description": "Join osm-fr@chat.jabberfr.org"
+            },
             "galicia-wiki": {
                 "name": "OpenStreetMap Wikiproject Galicia",
                 "description": "Everything you need to know about mapping in Galicia: {url}"
@@ -11903,7 +12132,7 @@
             },
             "gr-matrix": {
                 "name": "OpenStreetMap Greece Matrix",
-                "description": "Join #osm-gr:matrix.org at https://riot.im/app/#/room/%23osm-gr:matrix.org"
+                "description": "Join #osm-gr:matrix.org at {url}"
             },
             "guatemala-telegram": {
                 "name": "OSM Guatemala on Telegram",
@@ -11914,7 +12143,7 @@
                 "description": "OpenStreetMap Croatia Facebook group"
             },
             "hr-forum": {
-                "name": "OSM Croaria Forum",
+                "name": "OSM Croatia Forum",
                 "description": "OpenStreetMap Croatia Forum"
             },
             "hr-irc": {
@@ -12056,9 +12285,28 @@
                 "name": "OpenStreetMap Wikiproject Latin America",
                 "description": "Everything you need to know about mapping in Latin America"
             },
+            "lombardia-telegram": {
+                "name": "OpenStreetMap Lombardia Mappers",
+                "description": "OpenStreetMap Lombardia Telegram chat"
+            },
+            "lu-github": {
+                "name": "OpenStreetMap LU on GitHub",
+                "description": "Everyone is welcome!",
+                "extendedDescription": "OSM Luxembourg on GitHub"
+            },
+            "lu-irc": {
+                "name": "OpenStreetMap LU IRC channel",
+                "description": "Join #osm-lu on irc.oftc.net (port 6667).",
+                "extendedDescription": "Feel free to join our IRC Room, it is bridged with Matrix. Let's bring the community together."
+            },
             "lu-mailinglist": {
                 "name": "Talk-lu Mailing List",
                 "description": "Official mailing list for the Luxembourgish OSM community"
+            },
+            "lu-matrix": {
+                "name": "OpenStreetMap LU Matrix channel",
+                "description": "Everyone is welcome!",
+                "extendedDescription": "Feel free to join our Matrix Chat Room! Let's bring the community together."
             },
             "mailinglist-sk-googlegroups": {
                 "name": "Slovak mailing list on google groups",
@@ -12081,6 +12329,11 @@
             "md-telegram": {
                 "name": "@OSMMoldova on Telegram",
                 "description": "OpenStreetMap Moldova Telegram chat"
+            },
+            "mt-irc": {
+                "name": "OpenStreetMap Malta IRC",
+                "description": "Join #osm-mt on irc.oftc.net (port 6667)",
+                "extendedDescription": "Join #osm-mt on irc.oftc.net (port 6667), please be patient and wait for a few minutes if you ask a question"
             },
             "ni-facebook": {
                 "name": "OpenStreetMap NI Community",
@@ -12346,6 +12599,11 @@
                 "name": "OpenStreetMap IT Lazio",
                 "description": "All are welcome! Sign up at {signupUrl}",
                 "extendedDescription": "Mailinglist for Rome and Lazio area."
+            },
+            "talk-it-lombardia_mailinglist": {
+                "name": "OSM Italy regional talk list for Lombardia",
+                "description": "All are welcome! Sign up at {signupUrl}",
+                "extendedDescription": "Mailinglist for Lombardia region."
             },
             "talk-it-piemonte_mailinglist": {
                 "name": "OSM Italy regional talk list for Piemonte",
@@ -13131,6 +13389,635 @@
                 "description": "YouthMappers chapter at Yarmouk University",
                 "extendedDescription": "YouthMappers chapter at YU is the first mapping group in the Middle East and North Africa region where refugees, drought, and poverty are rising crises and in urgent need for humanitarian mapping  activities to mitigate the consequences of such crises. YU Mappers are encouraged to use open data to address challenges in MENA region to bring relief and development to target areas within the region."
             }
+        },
+        "languageNames": {
+            "aa": "Afar",
+            "ab": "Abkhazian",
+            "ace": "Achinese",
+            "ach": "Acoli",
+            "ada": "Adangme",
+            "ady": "Adyghe",
+            "ae": "Avestan",
+            "aeb": "Tunisian Arabic",
+            "af": "Afrikaans",
+            "afh": "Afrihili",
+            "agq": "Aghem",
+            "ain": "Ainu",
+            "ak": "Akan",
+            "akk": "Akkadian",
+            "akz": "Alabama",
+            "ale": "Aleut",
+            "aln": "Gheg Albanian",
+            "alt": "Southern Altai",
+            "am": "Amharic",
+            "an": "Aragonese",
+            "ang": "Old English",
+            "anp": "Angika",
+            "ar": "Arabic",
+            "ar-001": "Modern Standard Arabic",
+            "arc": "Aramaic",
+            "arn": "Mapuche",
+            "aro": "Araona",
+            "arp": "Arapaho",
+            "arq": "Algerian Arabic",
+            "ars": "Najdi Arabic",
+            "arw": "Arawak",
+            "ary": "Moroccan Arabic",
+            "arz": "Egyptian Arabic",
+            "as": "Assamese",
+            "asa": "Asu",
+            "ase": "American Sign Language",
+            "ast": "Asturian",
+            "av": "Avaric",
+            "avk": "Kotava",
+            "awa": "Awadhi",
+            "ay": "Aymara",
+            "az": "Azerbaijani",
+            "ba": "Bashkir",
+            "bal": "Baluchi",
+            "ban": "Balinese",
+            "bar": "Bavarian",
+            "bas": "Basaa",
+            "bax": "Bamun",
+            "bbc": "Batak Toba",
+            "bbj": "Ghomala",
+            "be": "Belarusian",
+            "bej": "Beja",
+            "bem": "Bemba",
+            "bew": "Betawi",
+            "bez": "Bena",
+            "bfd": "Bafut",
+            "bfq": "Badaga",
+            "bg": "Bulgarian",
+            "bgn": "Western Balochi",
+            "bho": "Bhojpuri",
+            "bi": "Bislama",
+            "bik": "Bikol",
+            "bin": "Bini",
+            "bjn": "Banjar",
+            "bkm": "Kom",
+            "bla": "Siksika",
+            "bm": "Bambara",
+            "bn": "Bangla",
+            "bo": "Tibetan",
+            "bpy": "Bishnupriya",
+            "bqi": "Bakhtiari",
+            "br": "Breton",
+            "bra": "Braj",
+            "brh": "Brahui",
+            "brx": "Bodo",
+            "bs": "Bosnian",
+            "bss": "Akoose",
+            "bua": "Buriat",
+            "bug": "Buginese",
+            "bum": "Bulu",
+            "byn": "Blin",
+            "byv": "Medumba",
+            "ca": "Catalan",
+            "cad": "Caddo",
+            "car": "Carib",
+            "cay": "Cayuga",
+            "cch": "Atsam",
+            "ccp": "Chakma",
+            "ce": "Chechen",
+            "ceb": "Cebuano",
+            "cgg": "Chiga",
+            "ch": "Chamorro",
+            "chb": "Chibcha",
+            "chg": "Chagatai",
+            "chk": "Chuukese",
+            "chm": "Mari",
+            "chn": "Chinook Jargon",
+            "cho": "Choctaw",
+            "chp": "Chipewyan",
+            "chr": "Cherokee",
+            "chy": "Cheyenne",
+            "cic": "Chickasaw",
+            "ckb": "Central Kurdish",
+            "co": "Corsican",
+            "cop": "Coptic",
+            "cps": "Capiznon",
+            "cr": "Cree",
+            "crh": "Crimean Turkish",
+            "crs": "Seselwa Creole French",
+            "cs": "Czech",
+            "csb": "Kashubian",
+            "cu": "Church Slavic",
+            "cv": "Chuvash",
+            "cy": "Welsh",
+            "da": "Danish",
+            "dak": "Dakota",
+            "dar": "Dargwa",
+            "dav": "Taita",
+            "de": "German",
+            "de-AT": "Austrian German",
+            "de-CH": "Swiss High German",
+            "del": "Delaware",
+            "den": "Slave",
+            "dgr": "Dogrib",
+            "din": "Dinka",
+            "dje": "Zarma",
+            "doi": "Dogri",
+            "dsb": "Lower Sorbian",
+            "dtp": "Central Dusun",
+            "dua": "Duala",
+            "dum": "Middle Dutch",
+            "dv": "Divehi",
+            "dyo": "Jola-Fonyi",
+            "dyu": "Dyula",
+            "dz": "Dzongkha",
+            "dzg": "Dazaga",
+            "ebu": "Embu",
+            "ee": "Ewe",
+            "efi": "Efik",
+            "egl": "Emilian",
+            "egy": "Ancient Egyptian",
+            "eka": "Ekajuk",
+            "el": "Greek",
+            "elx": "Elamite",
+            "en": "English",
+            "en-AU": "Australian English",
+            "en-CA": "Canadian English",
+            "en-GB": "British English",
+            "en-US": "American English",
+            "enm": "Middle English",
+            "eo": "Esperanto",
+            "es": "Spanish",
+            "es-419": "Latin American Spanish",
+            "es-ES": "European Spanish",
+            "es-MX": "Mexican Spanish",
+            "esu": "Central Yupik",
+            "et": "Estonian",
+            "eu": "Basque",
+            "ewo": "Ewondo",
+            "ext": "Extremaduran",
+            "fa": "Persian",
+            "fa-AF": "Dari",
+            "fan": "Fang",
+            "fat": "Fanti",
+            "ff": "Fulah",
+            "fi": "Finnish",
+            "fil": "Filipino",
+            "fit": "Tornedalen Finnish",
+            "fj": "Fijian",
+            "fo": "Faroese",
+            "fon": "Fon",
+            "fr": "French",
+            "fr-CA": "Canadian French",
+            "fr-CH": "Swiss French",
+            "frc": "Cajun French",
+            "frm": "Middle French",
+            "fro": "Old French",
+            "frp": "Arpitan",
+            "frr": "Northern Frisian",
+            "frs": "Eastern Frisian",
+            "fur": "Friulian",
+            "fy": "Western Frisian",
+            "ga": "Irish",
+            "gaa": "Ga",
+            "gag": "Gagauz",
+            "gan": "Gan Chinese",
+            "gay": "Gayo",
+            "gba": "Gbaya",
+            "gbz": "Zoroastrian Dari",
+            "gd": "Scottish Gaelic",
+            "gez": "Geez",
+            "gil": "Gilbertese",
+            "gl": "Galician",
+            "glk": "Gilaki",
+            "gmh": "Middle High German",
+            "gn": "Guarani",
+            "goh": "Old High German",
+            "gom": "Goan Konkani",
+            "gon": "Gondi",
+            "gor": "Gorontalo",
+            "got": "Gothic",
+            "grb": "Grebo",
+            "grc": "Ancient Greek",
+            "gsw": "Swiss German",
+            "gu": "Gujarati",
+            "guc": "Wayuu",
+            "gur": "Frafra",
+            "guz": "Gusii",
+            "gv": "Manx",
+            "gwi": "Gwichʼin",
+            "ha": "Hausa",
+            "hai": "Haida",
+            "hak": "Hakka Chinese",
+            "haw": "Hawaiian",
+            "he": "Hebrew",
+            "hi": "Hindi",
+            "hif": "Fiji Hindi",
+            "hil": "Hiligaynon",
+            "hit": "Hittite",
+            "hmn": "Hmong",
+            "ho": "Hiri Motu",
+            "hr": "Croatian",
+            "hsb": "Upper Sorbian",
+            "hsn": "Xiang Chinese",
+            "ht": "Haitian Creole",
+            "hu": "Hungarian",
+            "hup": "Hupa",
+            "hy": "Armenian",
+            "hz": "Herero",
+            "ia": "Interlingua",
+            "iba": "Iban",
+            "ibb": "Ibibio",
+            "id": "Indonesian",
+            "ie": "Interlingue",
+            "ig": "Igbo",
+            "ii": "Sichuan Yi",
+            "ik": "Inupiaq",
+            "ilo": "Iloko",
+            "inh": "Ingush",
+            "io": "Ido",
+            "is": "Icelandic",
+            "it": "Italian",
+            "iu": "Inuktitut",
+            "izh": "Ingrian",
+            "ja": "Japanese",
+            "jam": "Jamaican Creole English",
+            "jbo": "Lojban",
+            "jgo": "Ngomba",
+            "jmc": "Machame",
+            "jpr": "Judeo-Persian",
+            "jrb": "Judeo-Arabic",
+            "jut": "Jutish",
+            "jv": "Javanese",
+            "ka": "Georgian",
+            "kaa": "Kara-Kalpak",
+            "kab": "Kabyle",
+            "kac": "Kachin",
+            "kaj": "Jju",
+            "kam": "Kamba",
+            "kaw": "Kawi",
+            "kbd": "Kabardian",
+            "kbl": "Kanembu",
+            "kcg": "Tyap",
+            "kde": "Makonde",
+            "kea": "Kabuverdianu",
+            "ken": "Kenyang",
+            "kfo": "Koro",
+            "kg": "Kongo",
+            "kgp": "Kaingang",
+            "kha": "Khasi",
+            "kho": "Khotanese",
+            "khq": "Koyra Chiini",
+            "khw": "Khowar",
+            "ki": "Kikuyu",
+            "kiu": "Kirmanjki",
+            "kj": "Kuanyama",
+            "kk": "Kazakh",
+            "kkj": "Kako",
+            "kl": "Kalaallisut",
+            "kln": "Kalenjin",
+            "km": "Khmer",
+            "kmb": "Kimbundu",
+            "kn": "Kannada",
+            "ko": "Korean",
+            "koi": "Komi-Permyak",
+            "kok": "Konkani",
+            "kos": "Kosraean",
+            "kpe": "Kpelle",
+            "kr": "Kanuri",
+            "krc": "Karachay-Balkar",
+            "kri": "Krio",
+            "krj": "Kinaray-a",
+            "krl": "Karelian",
+            "kru": "Kurukh",
+            "ks": "Kashmiri",
+            "ksb": "Shambala",
+            "ksf": "Bafia",
+            "ksh": "Colognian",
+            "ku": "Kurdish",
+            "kum": "Kumyk",
+            "kut": "Kutenai",
+            "kv": "Komi",
+            "kw": "Cornish",
+            "ky": "Kyrgyz",
+            "la": "Latin",
+            "lad": "Ladino",
+            "lag": "Langi",
+            "lah": "Lahnda",
+            "lam": "Lamba",
+            "lb": "Luxembourgish",
+            "lez": "Lezghian",
+            "lfn": "Lingua Franca Nova",
+            "lg": "Ganda",
+            "li": "Limburgish",
+            "lij": "Ligurian",
+            "liv": "Livonian",
+            "lkt": "Lakota",
+            "lmo": "Lombard",
+            "ln": "Lingala",
+            "lo": "Lao",
+            "lol": "Mongo",
+            "lou": "Louisiana Creole",
+            "loz": "Lozi",
+            "lrc": "Northern Luri",
+            "lt": "Lithuanian",
+            "ltg": "Latgalian",
+            "lu": "Luba-Katanga",
+            "lua": "Luba-Lulua",
+            "lui": "Luiseno",
+            "lun": "Lunda",
+            "luo": "Luo",
+            "lus": "Mizo",
+            "luy": "Luyia",
+            "lv": "Latvian",
+            "lzh": "Literary Chinese",
+            "lzz": "Laz",
+            "mad": "Madurese",
+            "maf": "Mafa",
+            "mag": "Magahi",
+            "mai": "Maithili",
+            "mak": "Makasar",
+            "man": "Mandingo",
+            "mas": "Masai",
+            "mde": "Maba",
+            "mdf": "Moksha",
+            "mdr": "Mandar",
+            "men": "Mende",
+            "mer": "Meru",
+            "mfe": "Morisyen",
+            "mg": "Malagasy",
+            "mga": "Middle Irish",
+            "mgh": "Makhuwa-Meetto",
+            "mgo": "Metaʼ",
+            "mh": "Marshallese",
+            "mi": "Maori",
+            "mic": "Mi'kmaq",
+            "min": "Minangkabau",
+            "mk": "Macedonian",
+            "ml": "Malayalam",
+            "mn": "Mongolian",
+            "mnc": "Manchu",
+            "mni": "Manipuri",
+            "moh": "Mohawk",
+            "mos": "Mossi",
+            "mr": "Marathi",
+            "mrj": "Western Mari",
+            "ms": "Malay",
+            "mt": "Maltese",
+            "mua": "Mundang",
+            "mus": "Muscogee",
+            "mwl": "Mirandese",
+            "mwr": "Marwari",
+            "mwv": "Mentawai",
+            "my": "Burmese",
+            "mye": "Myene",
+            "myv": "Erzya",
+            "mzn": "Mazanderani",
+            "na": "Nauru",
+            "nan": "Min Nan Chinese",
+            "nap": "Neapolitan",
+            "naq": "Nama",
+            "nb": "Norwegian Bokmål",
+            "nd": "North Ndebele",
+            "nds": "Low German",
+            "nds-NL": "Low Saxon",
+            "ne": "Nepali",
+            "new": "Newari",
+            "ng": "Ndonga",
+            "nia": "Nias",
+            "niu": "Niuean",
+            "njo": "Ao Naga",
+            "nl": "Dutch",
+            "nl-BE": "Flemish",
+            "nmg": "Kwasio",
+            "nn": "Norwegian Nynorsk",
+            "nnh": "Ngiemboon",
+            "no": "Norwegian",
+            "nog": "Nogai",
+            "non": "Old Norse",
+            "nov": "Novial",
+            "nqo": "N’Ko",
+            "nr": "South Ndebele",
+            "nso": "Northern Sotho",
+            "nus": "Nuer",
+            "nv": "Navajo",
+            "nwc": "Classical Newari",
+            "ny": "Nyanja",
+            "nym": "Nyamwezi",
+            "nyn": "Nyankole",
+            "nyo": "Nyoro",
+            "nzi": "Nzima",
+            "oc": "Occitan",
+            "oj": "Ojibwa",
+            "om": "Oromo",
+            "or": "Odia",
+            "os": "Ossetic",
+            "osa": "Osage",
+            "ota": "Ottoman Turkish",
+            "pa": "Punjabi",
+            "pag": "Pangasinan",
+            "pal": "Pahlavi",
+            "pam": "Pampanga",
+            "pap": "Papiamento",
+            "pau": "Palauan",
+            "pcd": "Picard",
+            "pcm": "Nigerian Pidgin",
+            "pdc": "Pennsylvania German",
+            "pdt": "Plautdietsch",
+            "peo": "Old Persian",
+            "pfl": "Palatine German",
+            "phn": "Phoenician",
+            "pi": "Pali",
+            "pl": "Polish",
+            "pms": "Piedmontese",
+            "pnt": "Pontic",
+            "pon": "Pohnpeian",
+            "prg": "Prussian",
+            "pro": "Old Provençal",
+            "ps": "Pashto",
+            "pt": "Portuguese",
+            "pt-BR": "Brazilian Portuguese",
+            "pt-PT": "European Portuguese",
+            "qu": "Quechua",
+            "quc": "Kʼicheʼ",
+            "qug": "Chimborazo Highland Quichua",
+            "raj": "Rajasthani",
+            "rap": "Rapanui",
+            "rar": "Rarotongan",
+            "rgn": "Romagnol",
+            "rif": "Riffian",
+            "rm": "Romansh",
+            "rn": "Rundi",
+            "ro": "Romanian",
+            "ro-MD": "Moldavian",
+            "rof": "Rombo",
+            "rom": "Romany",
+            "root": "Root",
+            "rtm": "Rotuman",
+            "ru": "Russian",
+            "rue": "Rusyn",
+            "rug": "Roviana",
+            "rup": "Aromanian",
+            "rw": "Kinyarwanda",
+            "rwk": "Rwa",
+            "sa": "Sanskrit",
+            "sad": "Sandawe",
+            "sah": "Sakha",
+            "sam": "Samaritan Aramaic",
+            "saq": "Samburu",
+            "sas": "Sasak",
+            "sat": "Santali",
+            "saz": "Saurashtra",
+            "sba": "Ngambay",
+            "sbp": "Sangu",
+            "sc": "Sardinian",
+            "scn": "Sicilian",
+            "sco": "Scots",
+            "sd": "Sindhi",
+            "sdc": "Sassarese Sardinian",
+            "sdh": "Southern Kurdish",
+            "se": "Northern Sami",
+            "see": "Seneca",
+            "seh": "Sena",
+            "sei": "Seri",
+            "sel": "Selkup",
+            "ses": "Koyraboro Senni",
+            "sg": "Sango",
+            "sga": "Old Irish",
+            "sgs": "Samogitian",
+            "sh": "Serbo-Croatian",
+            "shi": "Tachelhit",
+            "shn": "Shan",
+            "shu": "Chadian Arabic",
+            "si": "Sinhala",
+            "sid": "Sidamo",
+            "sk": "Slovak",
+            "sl": "Slovenian",
+            "sli": "Lower Silesian",
+            "sly": "Selayar",
+            "sm": "Samoan",
+            "sma": "Southern Sami",
+            "smj": "Lule Sami",
+            "smn": "Inari Sami",
+            "sms": "Skolt Sami",
+            "sn": "Shona",
+            "snk": "Soninke",
+            "so": "Somali",
+            "sog": "Sogdien",
+            "sq": "Albanian",
+            "sr": "Serbian",
+            "sr-ME": "Montenegrin",
+            "srn": "Sranan Tongo",
+            "srr": "Serer",
+            "ss": "Swati",
+            "ssy": "Saho",
+            "st": "Southern Sotho",
+            "stq": "Saterland Frisian",
+            "su": "Sundanese",
+            "suk": "Sukuma",
+            "sus": "Susu",
+            "sux": "Sumerian",
+            "sv": "Swedish",
+            "sw": "Swahili",
+            "sw-CD": "Congo Swahili",
+            "swb": "Comorian",
+            "syc": "Classical Syriac",
+            "syr": "Syriac",
+            "szl": "Silesian",
+            "ta": "Tamil",
+            "tcy": "Tulu",
+            "te": "Telugu",
+            "tem": "Timne",
+            "teo": "Teso",
+            "ter": "Tereno",
+            "tet": "Tetum",
+            "tg": "Tajik",
+            "th": "Thai",
+            "ti": "Tigrinya",
+            "tig": "Tigre",
+            "tiv": "Tiv",
+            "tk": "Turkmen",
+            "tkl": "Tokelau",
+            "tkr": "Tsakhur",
+            "tl": "Tagalog",
+            "tlh": "Klingon",
+            "tli": "Tlingit",
+            "tly": "Talysh",
+            "tmh": "Tamashek",
+            "tn": "Tswana",
+            "to": "Tongan",
+            "tog": "Nyasa Tonga",
+            "tpi": "Tok Pisin",
+            "tr": "Turkish",
+            "tru": "Turoyo",
+            "trv": "Taroko",
+            "ts": "Tsonga",
+            "tsd": "Tsakonian",
+            "tsi": "Tsimshian",
+            "tt": "Tatar",
+            "ttt": "Muslim Tat",
+            "tum": "Tumbuka",
+            "tvl": "Tuvalu",
+            "tw": "Twi",
+            "twq": "Tasawaq",
+            "ty": "Tahitian",
+            "tyv": "Tuvinian",
+            "tzm": "Central Atlas Tamazight",
+            "udm": "Udmurt",
+            "ug": "Uyghur",
+            "uga": "Ugaritic",
+            "uk": "Ukrainian",
+            "umb": "Umbundu",
+            "ur": "Urdu",
+            "uz": "Uzbek",
+            "vai": "Vai",
+            "ve": "Venda",
+            "vec": "Venetian",
+            "vep": "Veps",
+            "vi": "Vietnamese",
+            "vls": "West Flemish",
+            "vmf": "Main-Franconian",
+            "vo": "Volapük",
+            "vot": "Votic",
+            "vro": "Võro",
+            "vun": "Vunjo",
+            "wa": "Walloon",
+            "wae": "Walser",
+            "wal": "Wolaytta",
+            "war": "Waray",
+            "was": "Washo",
+            "wbp": "Warlpiri",
+            "wo": "Wolof",
+            "wuu": "Wu Chinese",
+            "xal": "Kalmyk",
+            "xh": "Xhosa",
+            "xmf": "Mingrelian",
+            "xog": "Soga",
+            "yao": "Yao",
+            "yap": "Yapese",
+            "yav": "Yangben",
+            "ybb": "Yemba",
+            "yi": "Yiddish",
+            "yo": "Yoruba",
+            "yrl": "Nheengatu",
+            "yue": "Cantonese",
+            "za": "Zhuang",
+            "zap": "Zapotec",
+            "zbl": "Blissymbols",
+            "zea": "Zeelandic",
+            "zen": "Zenaga",
+            "zgh": "Standard Moroccan Tamazight",
+            "zh": "Mandarin Chinese",
+            "zh-Hans": "Simplified Mandarin Chinese",
+            "zh-Hant": "Traditional Mandarin Chinese",
+            "zu": "Zulu",
+            "zun": "Zuni",
+            "zza": "Zaza"
+        },
+        "scriptNames": {
+            "Cyrl": "Cyrillic",
+            "Latn": "Latin",
+            "Arab": "Arabic",
+            "Guru": "Gurmukhi",
+            "Tfng": "Tifinagh",
+            "Vaii": "Vai",
+            "Hans": "Simplified",
+            "Hant": "Traditional"
         }
     }
 }
