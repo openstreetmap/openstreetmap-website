@@ -43,7 +43,8 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_dom_equal "<a title=\"The Q42 item on Wikidata\" href=\"//www.wikidata.org/entity/Q42?uselang=en\">Q42</a>", html
 
     html = format_value("operator:wikidata", "Q12;Q98")
-    assert_dom_equal "<a title=\"The Q12 item on Wikidata\" href=\"//www.wikidata.org/entity/Q12?uselang=en\">Q12</a>;<a title=\"The Q98 item on Wikidata\" href=\"//www.wikidata.org/entity/Q98?uselang=en\">Q98</a>", html
+    assert_dom_equal "<a title=\"The Q12 item on Wikidata\" href=\"//www.wikidata.org/entity/Q12?uselang=en\">Q12</a>;" \
+                     "<a title=\"The Q98 item on Wikidata\" href=\"//www.wikidata.org/entity/Q98?uselang=en\">Q98</a>", html
 
     html = format_value("name:etymology:wikidata", "Q123")
     assert_dom_equal "<a title=\"The Q123 item on Wikidata\" href=\"//www.wikidata.org/entity/Q123?uselang=en\">Q123</a>", html

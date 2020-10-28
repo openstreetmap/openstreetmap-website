@@ -103,14 +103,16 @@ module Api
 
       get api_relation_history_path(:id => relation_v1.relation_id)
       assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 0, "redacted relation #{relation_v1.relation_id} version #{relation_v1.version} shouldn't be present in the history."
+      assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 0,
+                    "redacted relation #{relation_v1.relation_id} version #{relation_v1.version} shouldn't be present in the history."
 
       # not even to a logged-in user
       auth_header = basic_authorization_header create(:user).email, "test"
       get relation_version_path(:id => relation_v1.relation_id, :version => relation_v1.version), :headers => auth_header
       get api_relation_history_path(:id => relation_v1.relation_id), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 0, "redacted relation #{relation_v1.relation_id} version #{relation_v1.version} shouldn't be present in the history, even when logged in."
+      assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 0,
+                    "redacted relation #{relation_v1.relation_id} version #{relation_v1.version} shouldn't be present in the history, even when logged in."
     end
 
     ##
@@ -135,10 +137,12 @@ module Api
       # and when accessed via history
       get api_relation_history_path(:id => relation_v3.relation_id), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 0, "relation #{relation_v3.relation_id} version #{relation_v3.version} should not be present in the history for moderators when not passing flag."
+      assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 0,
+                    "relation #{relation_v3.relation_id} version #{relation_v3.version} should not be present in the history for moderators when not passing flag."
       get api_relation_history_path(:id => relation_v3.relation_id), :params => { :show_redactions => "true" }, :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 1, "relation #{relation_v3.relation_id} version #{relation_v3.version} should still be present in the history for moderators when passing flag."
+      assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 1,
+                    "relation #{relation_v3.relation_id} version #{relation_v3.version} should still be present in the history for moderators when passing flag."
     end
 
     # testing that if the moderator drops auth, he can't see the
@@ -162,7 +166,8 @@ module Api
       # and when accessed via history
       get api_relation_history_path(:id => relation_v3.relation_id), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 0, "redacted relation #{relation_v3.relation_id} version #{relation_v3.version} shouldn't be present in the history."
+      assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 0,
+                    "redacted relation #{relation_v3.relation_id} version #{relation_v3.version} shouldn't be present in the history."
     end
 
     ##
@@ -212,7 +217,8 @@ module Api
       # and when accessed via history
       get api_relation_history_path(:id => relation_v1.relation_id), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 1, "relation #{relation_v1.relation_id} version #{relation_v1.version} should still be present in the history for moderators."
+      assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 1,
+                    "relation #{relation_v1.relation_id} version #{relation_v1.version} should still be present in the history for moderators."
 
       auth_header = basic_authorization_header create(:user).email, "test"
 
@@ -223,7 +229,8 @@ module Api
       # and when accessed via history
       get api_relation_history_path(:id => relation_v1.relation_id), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
-      assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 1, "relation #{relation_v1.relation_id} version #{relation_v1.version} should still be present in the history for normal users."
+      assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 1,
+                    "relation #{relation_v1.relation_id} version #{relation_v1.version} should still be present in the history for normal users."
     end
 
     private
