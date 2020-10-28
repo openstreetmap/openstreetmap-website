@@ -5,7 +5,7 @@ If you want to deploy the software for your own project, then see the notes at t
 
 You can install the software directly on your machine, which is the traditional and probably best-supported approach. However, there is an alternative which may be easier: Vagrant. This installs the software into a virtual machine, which makes it easier to get a consistent development environment and may avoid installation difficulties. For Vagrant instructions, see [VAGRANT.md](VAGRANT.md).
 
-These instructions are based on Ubuntu 18.04 LTS, which is the platform used by the OSMF servers.
+These instructions are based on Ubuntu 20.04 LTS, which is the platform used by the OSMF servers.
 The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and MacOSX
 
 We don't recommend attempting to develop or deploy this software on Windows. If you need to use Windows, then try developing this software using Ubuntu in a virtual machine, or use [Vagrant](VAGRANT.md).
@@ -18,22 +18,22 @@ of packages required before you can get the various gems installed.
 
 ## Minimum requirements
 
-* Ruby 2.5+
+* Ruby 2.7+
 * PostgreSQL 9.1+
 * ImageMagick
 * Bundler (see note below about [developer Ruby setup](#rbenv))
 * Javascript Runtime
 
-These can be installed on Ubuntu 18.04 or later with:
+These can be installed on Ubuntu 20.04 or later with:
 
 ```
 sudo apt-get update
-sudo apt-get install ruby2.5 libruby2.5 ruby2.5-dev bundler \
+sudo apt-get install ruby2.7 libruby2.7 ruby2.7-dev bundler \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core firefox-geckodriver \
                      postgresql postgresql-contrib libpq-dev libsasl2-dev \
                      imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev
-sudo gem2.5 install bundler
+sudo gem2.7 install bundler
 ```
 
 ### Alternative platforms
@@ -285,7 +285,7 @@ For simplicity, this document explains how to install all the website dependenci
 
 If you choose to install Ruby and Bundler via `rbenv`, then you do not need to install the system libraries for Ruby:
 
-* For Ubuntu, you do not need to install the following packages: `ruby2.5 libruby2.5 ruby2.5-dev bundler`,
+* For Ubuntu, you do not need to install the following packages: `ruby2.7 libruby2.7 ruby2.7-dev bundler`,
 * For Fedora, you do not need to install the following packages: `ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems`
 * For MacOSX, you do not need to `brew install ruby` - but make sure you've installed a version of Ruby using `rbenv` before running `gem install bundler`!
 
