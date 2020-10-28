@@ -161,13 +161,6 @@ module Api
       check_not_found_id_version(24356, create(:node).version)
     end
 
-    def check_not_found_id_version(id, version)
-      get node_version_path(:id => id, :version => version)
-      assert_response :not_found
-    rescue ActionController::UrlGenerationError => e
-      assert_match(/No route matches/, e.to_s)
-    end
-
     ##
     # Test that getting the current version is identical to picking
     # that version with the version URI call.
@@ -417,6 +410,13 @@ module Api
 
       # check the nodes are the same
       assert_nodes_are_equal current_node, old_node
+    end
+
+    def check_not_found_id_version(id, version)
+      get node_version_path(:id => id, :version => version)
+      assert_response :not_found
+    rescue ActionController::UrlGenerationError => e
+      assert_match(/No route matches/, e.to_s)
     end
 
     ##

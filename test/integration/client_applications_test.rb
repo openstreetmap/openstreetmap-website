@@ -76,6 +76,8 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
     # tests, as its too tied into the HTTP headers and stuff that it signs.
   end
 
+  private
+
   ##
   # utility method to make the HTML screening easier to read.
   def assert_in_heading(&block)

@@ -754,6 +754,8 @@ module Api
       end
     end
 
+    private
+
     ##
     # update the changeset_id of a way element
     def update_changeset(xml, changeset_id)

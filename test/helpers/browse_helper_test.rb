@@ -132,6 +132,8 @@ class BrowseHelperTest < ActionView::TestCase
     assert_includes tags, %w[shop gift]
   end
 
+  private
+
   def add_old_tags_selection(old_node)
     { "building" => "yes",
       "shop" => "gift",
@@ -151,8 +153,6 @@ class BrowseHelperTest < ActionView::TestCase
       create(:node_tag, :node => node, :k => key, :v => value)
     end
   end
-
-  private
 
   def preferred_languages
     Locale.list(I18n.locale)

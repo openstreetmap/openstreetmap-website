@@ -1,17 +1,13 @@
 require "test_helper"
 
 class UserBlocksTest < ActionDispatch::IntegrationTest
-  def auth_header(user, pass)
-    { "HTTP_AUTHORIZATION" => format("Basic %<auth>s", :auth => Base64.encode64("#{user}:#{pass}")) }
-  end
-
   def test_api_blocked
     blocked_user = create(:user)
 
     get "/api/#{Settings.api_version}/user/details"
     assert_response :unauthorized
 
-    get "/api/#{Settings.api_version}/user/details", :headers => auth_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
     assert_response :success
 
     # now block the user
@@ -21,7 +17,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :reason => "testing",
       :ends_at => Time.now.getutc + 5.minutes
     )
-    get "/api/#{Settings.api_version}/user/details", :headers => auth_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
     assert_response :forbidden
   end
 
@@ -35,7 +31,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :reason => "testing",
       :ends_at => Time.now.getutc + 5.minutes
     )
-    get "/api/#{Settings.api_version}/user/details", :headers => auth_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
     assert_response :forbidden
 
     # revoke the ban
@@ -54,7 +50,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
     reset!
 
     # access the API again. this time it should work
-    get "/api/#{Settings.api_version}/user/details", :headers => auth_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
     assert_response :success
   end
 end
