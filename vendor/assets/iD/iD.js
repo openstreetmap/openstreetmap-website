@@ -84960,7 +84960,7 @@
 	    wrap.selectAll('.preset-input-access').on('change', change).on('blur', change);
 	  }
 
-	  function change(d) {
+	  function change(d3_event, d) {
 	    var tag = {};
 	    var value = context.cleanTagValue(utilGetSetValue(select(this))); // don't override multiple values with blank string
 
@@ -85428,7 +85428,7 @@
 	    wrap.selectAll('.preset-input-cycleway').on('change', change).on('blur', change);
 	  }
 
-	  function change(key) {
+	  function change(d3_event, key) {
 	    var newValue = context.cleanTagValue(utilGetSetValue(select(this))); // don't override multiple values with blank string
 
 	    if (!newValue && (Array.isArray(_tags.cycleway) || Array.isArray(_tags[key]))) return;
@@ -89837,16 +89837,8 @@
 	      }
 	    };
 
-	    sidebar.toggle = function (d3_event, moveMap) {
-	      var e = d3_event;
-
-	      if (e && e.sourceEvent) {
-	        e.sourceEvent.preventDefault();
-	      } else if (e) {
-	        e.preventDefault();
-	      } // Don't allow sidebar to toggle when the user is in the walkthrough.
-
-
+	    sidebar.toggle = function (moveMap) {
+	      // Don't allow sidebar to toggle when the user is in the walkthrough.
 	      if (context.inIntro()) return;
 	      var isCollapsed = selection.classed('collapsed');
 	      var isCollapsing = !isCollapsed;
@@ -89885,7 +89877,15 @@
 	    }; // toggle the sidebar collapse when double-clicking the resizer
 
 
-	    resizer.on('dblclick', sidebar.toggle); // ensure hover sidebar is closed when zooming out beyond editable zoom
+	    resizer.on('dblclick', function (d3_event) {
+	      d3_event.preventDefault();
+
+	      if (d3_event.sourceEvent) {
+	        d3_event.sourceEvent.preventDefault();
+	      }
+
+	      sidebar.toggle();
+	    }); // ensure hover sidebar is closed when zooming out beyond editable zoom
 
 	    context.map().on('crossEditableZoom.sidebar', function (within) {
 	      if (!within && !selection.select('.inspector-hover').empty()) {
@@ -97775,7 +97775,7 @@
 	    var overMap = content.append('div').attr('class', 'over-map'); // HACK: Mobile Safari 14 likes to select anything selectable when long-
 	    // pressing, even if it's not targeted. This conflicts with long-pressing
 	    // to show the edit menu. We add a selectable offscreen element as the first
-	    // child to trick Safari into not showing the selection UI.  
+	    // child to trick Safari into not showing the selection UI.
 
 	    overMap.append('div').attr('class', 'select-trap').text('t');
 	    overMap.append('div').attr('class', 'spinner').call(uiSpinner(context));
@@ -98094,7 +98094,7 @@
 
 	  var _deferred = new Set();
 
-	  context.version = '2.19.0';
+	  context.version = '2.19.1';
 	  context.privacyVersion = '20200407'; // iD will alter the hash so cache the parameters intended to setup the session
 
 	  context.initialHashParams = window.location.hash ? utilStringQs(window.location.hash) : {};
