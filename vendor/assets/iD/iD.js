@@ -81075,7 +81075,9 @@
 	    context.history().on('change.intro', function (changed) {
 	      wasChanged = true;
 	      timeout(function () {
-	        if (context.history().undoAnnotation() === _t('operations.split.annotation.line')) {
+	        if (context.history().undoAnnotation() === _t('operations.split.annotation.line', {
+	          n: 1
+	        })) {
 	          _washingtonSegmentID = changed.created()[0].id;
 	          continueTo(didSplit);
 	        } else {
@@ -98094,7 +98096,7 @@
 
 	  var _deferred = new Set();
 
-	  context.version = '2.19.1';
+	  context.version = '2.19.2';
 	  context.privacyVersion = '20200407'; // iD will alter the hash so cache the parameters intended to setup the session
 
 	  context.initialHashParams = window.location.hash ? utilStringQs(window.location.hash) : {};
