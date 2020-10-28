@@ -559,6 +559,8 @@ module Api
       assert_includes apinode.tags, "\#{@user.inspect}"
     end
 
+    private
+
     ##
     # update the changeset_id of a node element
     def update_changeset(xml, changeset_id)

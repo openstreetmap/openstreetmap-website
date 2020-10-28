@@ -157,7 +157,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   # Check that the user can successfully recover their password
-  def lost_password_recovery_success
+  def test_lost_password_recovery_success
     # Open the lost password form
     # Submit the lost password form
     # Check the e-mail

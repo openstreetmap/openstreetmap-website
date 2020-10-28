@@ -9,6 +9,8 @@ class ShortLinksTest < ActionDispatch::IntegrationTest
     assert_short_link_redirect(ShortLink.encode(-0.107846, 51.50771, 18))
   end
 
+  private
+
   ##
   # utility method to test short links
   def assert_short_link_redirect(short_link)
