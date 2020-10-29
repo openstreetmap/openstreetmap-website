@@ -4004,6 +4004,9 @@
     left: -6px;
 }
 
+.ideditor .sidebar.collapsed > *:not(.sidebar-resizer) {
+    display: none;
+}
 .ideditor .sidebar.collapsed .sidebar-resizer {
     /* make target wider to avoid the user accidentally resizing window */
     width: 10px;
@@ -5094,6 +5097,15 @@
 }
 .ideditor[dir='rtl'] .form-field-input-check > .reverser {
     padding-left: 2px;
+}
+.ideditor .form-field-input-check > .reverser:active,
+.ideditor .form-field-input-check > .reverser:focus {
+    background: #e3e8ef;
+}
+@media (hover: hover) {
+    .ideditor .form-field-input-check > .reverser:hover {
+        background: #e3e8ef;
+    }
 }
 .ideditor .form-field-input-check > .reverser.hide {
     display: none;
@@ -6379,6 +6391,7 @@
 }
 .ideditor .over-map > * {
     pointer-events: auto;
+    z-index: 5;
 }
 /* offscreen this without hiding it */
 .ideditor .over-map .select-trap {
@@ -7723,7 +7736,7 @@
     top: 10px;
     width: 200px;
     height: 150px;
-    z-index: 5;
+    z-index: 2;
     background: #000;
     border: #aaa 1px solid;
     -webkit-box-shadow: 0 0 2em black;
@@ -8023,6 +8036,7 @@
     -webkit-box-align: end;
         -ms-flex-align: end;
             align-items: flex-end;
+    z-index: 0;
 }
 
 .ideditor .attribution-wrap * { pointer-events: all; }
@@ -8283,12 +8297,19 @@
 ------------------------------------------------------- */
 /* For an icon (e.g. new version) */
 .ideditor .badge {
-    display: inline-block;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
     background: #d32232;
     width: 21px;
-    height: 20px;
-    border-radius: 11px;
-    text-align: center;
+    height: 21px;
+    border-radius: 50%;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
 }
 .ideditor[dir='ltr'] .badge {
     margin-left: 6px;
@@ -8301,6 +8322,9 @@
     width: 11px;
     height: 11px;
     color: #fff;
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
 }
 
 /* For text (e.g. upcoming events) */
