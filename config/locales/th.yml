@@ -160,6 +160,15 @@ th:
       x_seconds:
         one: 1 วินาทีที่แล้ว
         other: '%{count} วินาทีที่แล้ว'
+      x_minutes:
+        one: 1 นาทีที่แล้ว
+        other: '%{count} นาทีที่แล้ว'
+      x_days:
+        one: 1 วันที่แล้ว
+        other: '%{count} วันที่แล้ว'
+      x_months:
+        one: 1 เดือนที่แล้ว
+        other: '%{count} เดือนที่แล้ว'
       x_years: '%{count} ปีก่อน'
   editor:
     default: ค่าปกติ (ขณะนี้ %{name})
@@ -175,13 +184,26 @@ th:
     remote:
       name: การควบคุมระยะไกล
       description: ตัวควบคุมระยะไกล (JOSM หรือ Merkaartor)
+  auth:
+    providers:
+      none: ไม่มี
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: วิกิพีเดีย
   api:
     notes:
       comment:
         opened_at_html: สร้างเมื่อ %{when}
+        opened_at_by_html: สร้างเมื่อ %{when} โดย %{user}
         commented_at_html: ปรับปรุงเมื่อ %{when}
+        commented_at_by_html: ปรับปรุงเมื่อ %{when} โดย %{user}
         closed_at_html: ปิดเรื่องเมื่อ %{when}
+        closed_at_by_html: แก้ไขเมื่อ %{when} โดย %{user}
         reopened_at_html: รื้อฟื้นเมื่อ %{when}
+        reopened_at_by_html: เปิดใช้งานซ้ำเมื่อ %{when} โดย %{user}
       rss:
         title: หมายเหตุแผนที่ บน OpenStreetMap
       entry:
@@ -340,12 +362,16 @@ th:
     comment:
       comment: 'ความคิดเห็นใหม่ที่มีต่อชุดการเปลี่ยนแปลง #%{changeset_id} โดย %{author}'
       commented_at_by_html: ปรับปรุงเมื่อ %{when} โดย %{user}
+    comments:
+      comment: 'ความคิดเห็นใหม่ที่มีต่อชุดการเปลี่ยนแปลง #%{changeset_id} โดย %{author}'
     index:
-      title_all: การสนทนาชุดการเปลี่ยนแปลงของ OpenStreetMap
-      title_particular: 'การอภิปรายชุดการเปลี่ยนแปลง OpenStreetMap  #%{changeset_id}'
+      title_all: การอภิปรายชุดการเปลี่ยนแปลงของ OpenStreetMap
+      title_particular: 'การอภิปรายชุดการเปลี่ยนแปลง OpenStreetMap #%{changeset_id}'
+    timeout:
+      sorry: ขออภัย รายการชุดการเปลี่ยนแปลงที่ท่านร้องขอใช้เวลานานเกินสมควรในการสืบค้น
   diary_entries:
     new:
-      title: สร้างบันทึกใหม่
+      title: สร้างรายการบันทึกใหม่
     form:
       subject: 'เรื่อง:'
       body: 'เนื้อหา:'
@@ -360,8 +386,9 @@ th:
       title_nearby: บันทึกของผู้ใช้ที่อยู่ใกล้เคียง
       user_title: บันทึกของ %{user}
       in_language_title: รายการบันทึกทั้งหมดในภาษา %{language}
-      new: สร้างบันทึกใหม่
-      new_title: สร้างบันทึกใหม่ในสมุดบันทึกประจำตัวของฉัน
+      new: สร้างรายการบันทึกใหม่
+      new_title: สร้างรายการบันทึกใหม่ในสมุดบันทึกประจำตัวของฉัน
+      my_diary: บันทึกของฉัน
       no_entries: ไม่มีรายการบันทึก
       recent_entries: รายการบันทึกล่าสุด
       older_entries: รายการก่อนหน้า
@@ -374,16 +401,16 @@ th:
       user_title: บันทึกของ %{user}
       leave_a_comment: แสดงความคิดเห็น
       login_to_leave_a_comment_html: '%{login_link} เพื่อแสดงความคิดเห็น'
-      login: ลงชื่อเข้าใช้
+      login: เข้าสู่ระบบ
     no_such_entry:
       title: ไม่มีรายการบันทึกที่ระบุ
-      heading: 'ไม่มีรายการรหัส: %{id}'
-      body: ขออภัย ไม่พบรายการบันทึกหรือข้อคิดเห็นที่กำกับด้วยรหัส %{id} โปรดตรวจการสะกดของท่าน
+      heading: 'ไม่มีรายการ id: %{id}'
+      body: ขออภัย ไม่พบรายการบันทึกหรือข้อคิดเห็นที่กำกับด้วย id %{id} โปรดตรวจการสะกดของท่าน
         หรือถ้าไม่เป็นผลแสดงว่าลิงก์ที่ท่านคลิกมาผิดพลาด
     diary_entry:
       posted_by_html: ประกาศโดย %{link_user} เมื่อ %{created} ในภาษา %{language_link}
       comment_link: แสดงความคิดเห็นต่อรายการนี้
-      reply_link: ตอบกลับข้อความรายการนี้
+      reply_link: ตอบกลับข้อความถึงผู้เขียนนี้
       comment_count:
         zero: ไม่มีข้อคิดเห็น
         one: '%{count} ข้อคิดเห็น'
@@ -396,6 +423,7 @@ th:
     diary_comment:
       comment_from_html: ความคิดเห็นจาก %{link_user} เมื่อ %{comment_created_at}
       hide_link: ซ่อนข้อคิดเห็นนี้
+      unhide_link: เลิกซ่อนข้อคิดเห็นนี้
       confirm: ยืนยัน
       report: แจ้งปัญหาเกี่ยวกับความเห็นนี้
     location:
@@ -404,8 +432,8 @@ th:
       edit: แก้ไข
     feed:
       user:
-        title: รายการบันทึก OpenStreetMap สำหรับผู้ใช้ %{user}
-        description: รายการบันทึกล่าสุด OpenStreetMap จากผู้ใช้ %{user}
+        title: รายการบันทึก OpenStreetMap สำหรับ %{user}
+        description: รายการบันทึกล่าสุด OpenStreetMap จาก %{user}
       language:
         title: รายการบันทึก OpenStreetMap ในภาษา%{language_name}
         description: รายการบันทึกล่าสุดจากผู้ใช้ OpenStreetMap ในภาษา%{language_name}
@@ -1449,7 +1477,7 @@ th:
     help:
       title: ขอรับความช่วยเหลือ
       welcome:
-        title: ยินดีต้อนรับสู่ OSM
+        title: ยินดีต้อนรับสู่ OpenStreetMap
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Th:Beginners%27_guide
         title: คำแนะนำสำหรับผู้เริ่มต้น
@@ -1642,7 +1670,9 @@ th:
       newer: รอยทางที่ใหม่กว่า
     trace:
       pending: ค้างอยู่
-      count_points: '%{count} จุด'
+      count_points:
+        one: 1 จุด
+        other: '%{count} จุด'
       more: เพิ่มเติม
       trace_details: ดูรายละเอียดรอยทาง
       view_map: แสดงแผนที่
@@ -1830,8 +1860,9 @@ th:
       terms declined: ขออภัย ท่านมิได้ยอมรับเงื่อนไขผู้ร่วมสร้างสรรค์ เราจึงไม่สามารถดำเนินการต่อไปได้
         รายละเอียดเพิ่มเติมโปรดดู<a href="%{url}">หน้านี้</a>.
     terms:
-      title: เงื่อนไขผู้ร่วมสร้างสรรค์
-      heading: เงื่อนไขผู้ร่วมสร้างสรรค์
+      title: ข้อกำหนด
+      heading: ข้อกำหนด
+      heading_ct: ข้อกำหนดผู้มีส่วนร่วม
       consider_pd: นอกเหนือจากข้อตกลงข้างต้น ข้าพเจ้ายินดีสละการสร้างสรรค์ของข้าพเจ้าให้เป็นงานอันไม่มีลิขสิทธิ์
       consider_pd_why: นี้คืออะไร?
       decline: ไม่ยอมรับ
@@ -2068,9 +2099,9 @@ th:
       confirm: แน่ใจหรือว่าต้องการจะยกเิลิกการระงับนี้?
       flash: ได้ยกเลิกการระงับนี้แล้ว
     helper:
-      time_future: จะสิ้นสุดใน %{time}
+      time_future_html: จะสิ้นสุดใน %{time}
       until_login: มีผลจนถึงการเริ่มเข้าระบบครั้งถัดไป
-      time_past: สิ้นสุดไปเมื่อ %{time}
+      time_past_html: สิ้นสุดไปเมื่อ %{time}
       block_duration:
         years: '%{count} ปี'
     blocks_on:
