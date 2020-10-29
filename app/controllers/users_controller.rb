@@ -119,6 +119,10 @@ class UsersController < ApplicationController
   def account
     @tokens = current_user.oauth_tokens.authorized
 
+    append_content_security_policy_directives(
+      :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
+    )
+
     if params[:user] && params[:user][:display_name] && params[:user][:description]
       if params[:user][:auth_provider].blank? ||
          (params[:user][:auth_provider] == current_user.auth_provider &&
