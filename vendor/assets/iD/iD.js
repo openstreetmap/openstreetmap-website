@@ -26336,6 +26336,52 @@
 	  return action;
 	}
 
+	var geojsonRewind = rewind;
+
+	function rewind(gj, outer) {
+	  var type = gj && gj.type,
+	      i;
+
+	  if (type === 'FeatureCollection') {
+	    for (i = 0; i < gj.features.length; i++) {
+	      rewind(gj.features[i], outer);
+	    }
+	  } else if (type === 'GeometryCollection') {
+	    for (i = 0; i < gj.geometries.length; i++) {
+	      rewind(gj.geometries[i], outer);
+	    }
+	  } else if (type === 'Feature') {
+	    rewind(gj.geometry, outer);
+	  } else if (type === 'Polygon') {
+	    rewindRings(gj.coordinates, outer);
+	  } else if (type === 'MultiPolygon') {
+	    for (i = 0; i < gj.coordinates.length; i++) {
+	      rewindRings(gj.coordinates[i], outer);
+	    }
+	  }
+
+	  return gj;
+	}
+
+	function rewindRings(rings, outer) {
+	  if (rings.length === 0) return;
+	  rewindRing(rings[0], outer);
+
+	  for (var i = 1; i < rings.length; i++) {
+	    rewindRing(rings[i], !outer);
+	  }
+	}
+
+	function rewindRing(ring, dir) {
+	  var area = 0;
+
+	  for (var i = 0, len = ring.length, j = len - 1; i < len; j = i++) {
+	    area += (ring[i][0] - ring[j][0]) * (ring[j][1] + ring[i][1]);
+	  }
+
+	  if (area >= 0 !== !!dir) ring.reverse();
+	}
+
 	function actionExtract(entityID) {
 	  var extractedNodeID;
 
@@ -26370,8 +26416,9 @@
 	    var fromGeometry = entity.geometry(graph);
 	    var keysToCopyAndRetain = ['source', 'wheelchair'];
 	    var keysToRetain = ['area'];
-	    var buildingKeysToRetain = ['architect', 'building', 'height', 'layer'];
-	    var extractedLoc = d3_geoCentroid(entity.asGeoJSON(graph));
+	    var buildingKeysToRetain = ['architect', 'building', 'height', 'layer']; // d3_geoCentroid is wrong for counterclockwise-wound polygons, so wind them clockwise
+
+	    var extractedLoc = d3_geoCentroid(geojsonRewind(Object.assign({}, entity.asGeoJSON(graph)), true));
 
 	    if (!extractedLoc || !isFinite(extractedLoc[0]) || !isFinite(extractedLoc[1])) {
 	      extractedLoc = entity.extent(graph).center();
@@ -38558,8 +38605,11 @@
 	          loc: loc,
 	          key: feature.properties.key,
 	          value: feature.properties.value,
-	          "package": feature.properties["package"],
-	          detections: feature.properties.detections
+	          detections: feature.properties.detections,
+	          direction: feature.properties.direction,
+	          accuracy: feature.properties.accuracy,
+	          first_seen_at: feature.properties.first_seen_at,
+	          last_seen_at: feature.properties.last_seen_at
 	        };
 	      }
 
@@ -38625,7 +38675,6 @@
 	          key: feature.properties.key,
 	          image_key: feature.properties.image_key,
 	          value: feature.properties.value,
-	          "package": feature.properties["package"],
 	          shape: feature.properties.shape
 	        };
 
@@ -50656,6 +50705,7 @@
 	  return _boolean(subject, clipping, UNION);
 	}
 
+	/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 	var read$6 = function read(buffer, offset, isLE, mLen, nBytes) {
 	  var e, m;
 	  var eLen = nBytes * 8 - mLen - 1;
@@ -56930,7 +56980,10 @@
 	            if (buildingKeysToKeep.indexOf(key) !== -1 || key.match(/^building:.{1,}/) || key.match(/^roof:.{1,}/)) continue;
 	          }
 
-	          if (type !== 'generic' && key.match(/^addr:.{1,}/)) continue;
+	          if (type !== 'generic') {
+	            if (key.match(/^addr:.{1,}/) || key.match(/^source:.{1,}/)) continue;
+	          }
+
 	          delete tags[key];
 	        }
 
@@ -72430,8 +72483,6 @@
 	    layer.selectAll('.viewfield-group.currentView').attr('transform', transform);
 	  }
 
-	  context.photos().on('change.streetside', update);
-
 	  function filterBubbles(bubbles) {
 	    var fromDate = context.photos().fromDate();
 	    var toDate = context.photos().toDate();
@@ -72584,8 +72635,10 @@
 
 	    if (svgStreetside.enabled) {
 	      showLayer();
+	      context.photos().on('change.streetside', update);
 	    } else {
 	      hideLayer();
+	      context.photos().on('change.streetside', null);
 	    }
 
 	    dispatch.call('change');
@@ -72690,8 +72743,6 @@
 
 	    return t;
 	  }
-
-	  context.photos().on('change.mapillary_images', update);
 
 	  function filterImages(images) {
 	    var showsPano = context.photos().showsPanoramic();
@@ -72862,8 +72913,10 @@
 
 	    if (svgMapillaryImages.enabled) {
 	      showLayer();
+	      context.photos().on('change.mapillary_images', update);
 	    } else {
 	      hideLayer();
+	      context.photos().on('change.mapillary_images', null);
 	    }
 
 	    dispatch.call('change');
@@ -73075,9 +73128,43 @@
 	    }
 	  }
 
+	  function filterData(detectedFeatures) {
+	    var service = getService();
+	    var fromDate = context.photos().fromDate();
+	    var toDate = context.photos().toDate();
+	    var usernames = context.photos().usernames();
+
+	    if (fromDate) {
+	      var fromTimestamp = new Date(fromDate).getTime();
+	      detectedFeatures = detectedFeatures.filter(function (feature) {
+	        return new Date(feature.last_seen_at).getTime() >= fromTimestamp;
+	      });
+	    }
+
+	    if (toDate) {
+	      var toTimestamp = new Date(toDate).getTime();
+	      detectedFeatures = detectedFeatures.filter(function (feature) {
+	        return new Date(feature.first_seen_at).getTime() <= toTimestamp;
+	      });
+	    }
+
+	    if (usernames && service) {
+	      detectedFeatures = detectedFeatures.filter(function (feature) {
+	        return feature.detections.some(function (detection) {
+	          var imageKey = detection.image_key;
+	          var image = service.cachedImage(imageKey);
+	          return image && usernames.indexOf(image.captured_by) !== -1;
+	        });
+	      });
+	    }
+
+	    return detectedFeatures;
+	  }
+
 	  function update() {
 	    var service = getService();
 	    var data = service ? service.signs(projection) : [];
+	    data = filterData(data);
 	    var selectedImageKey = service.getSelectedImageKey();
 	    var transform = svgPointTransform(projection);
 	    var signs = layer.selectAll('.icon-sign').data(data, function (d) {
@@ -73141,8 +73228,10 @@
 
 	    if (svgMapillarySigns.enabled) {
 	      showLayer();
+	      context.photos().on('change.mapillary_signs', update);
 	    } else {
 	      hideLayer();
+	      context.photos().on('change.mapillary_signs', null);
 	    }
 
 	    dispatch.call('change');
@@ -73232,9 +73321,43 @@
 	    }
 	  }
 
+	  function filterData(detectedFeatures) {
+	    var service = getService();
+	    var fromDate = context.photos().fromDate();
+	    var toDate = context.photos().toDate();
+	    var usernames = context.photos().usernames();
+
+	    if (fromDate) {
+	      var fromTimestamp = new Date(fromDate).getTime();
+	      detectedFeatures = detectedFeatures.filter(function (feature) {
+	        return new Date(feature.last_seen_at).getTime() >= fromTimestamp;
+	      });
+	    }
+
+	    if (toDate) {
+	      var toTimestamp = new Date(toDate).getTime();
+	      detectedFeatures = detectedFeatures.filter(function (feature) {
+	        return new Date(feature.first_seen_at).getTime() <= toTimestamp;
+	      });
+	    }
+
+	    if (usernames && service) {
+	      detectedFeatures = detectedFeatures.filter(function (feature) {
+	        return feature.detections.some(function (detection) {
+	          var imageKey = detection.image_key;
+	          var image = service.cachedImage(imageKey);
+	          return image && usernames.indexOf(image.captured_by) !== -1;
+	        });
+	      });
+	    }
+
+	    return detectedFeatures;
+	  }
+
 	  function update() {
 	    var service = getService();
 	    var data = service ? service.mapFeatures(projection) : [];
+	    data = filterData(data);
 	    var selectedImageKey = service && service.getSelectedImageKey();
 	    var transform = svgPointTransform(projection);
 	    var mapFeatures = layer.selectAll('.icon-map-feature').data(data, function (d) {
@@ -73307,8 +73430,10 @@
 
 	    if (svgMapillaryMapFeatures.enabled) {
 	      showLayer();
+	      context.photos().on('change.mapillary_map_features', update);
 	    } else {
 	      hideLayer();
+	      context.photos().on('change.mapillary_map_features', null);
 	    }
 
 	    dispatch.call('change');
@@ -73405,8 +73530,6 @@
 
 	    return t;
 	  }
-
-	  context.photos().on('change.openstreetcam_images', update);
 
 	  function filterImages(images) {
 	    var fromDate = context.photos().fromDate();
@@ -73535,8 +73658,10 @@
 
 	    if (svgOpenstreetcamImages.enabled) {
 	      showLayer();
+	      context.photos().on('change.openstreetcam_images', update);
 	    } else {
 	      hideLayer();
+	      context.photos().on('change.openstreetcam_images', null);
 	    }
 
 	    dispatch.call('change');
@@ -78178,11 +78303,12 @@
 	    return result;
 	  }
 
+	  var _isImperial = !_mainLocalizer.usesMetric();
+
 	  function redraw(selection) {
 	    var graph = context.graph();
 	    var selectedNoteID = context.selectedNoteID();
 	    var osm = services.osm;
-	    var isImperial = !_mainLocalizer.usesMetric();
 	    var localeCode = _mainLocalizer.localeCode();
 	    var heading;
 	    var center, location, centroid;
@@ -78223,8 +78349,9 @@
 	          if (geometry === 'line' || geometry === 'area') {
 	            closed = entity.type === 'relation' || entity.isClosed() && !entity.isDegenerate();
 	            var feature = entity.asGeoJSON(graph);
-	            length += radiansToMeters(d3_geoLength(toLineString(feature)));
-	            centroid = d3_geoCentroid(feature);
+	            length += radiansToMeters(d3_geoLength(toLineString(feature))); // d3_geoCentroid is wrong for counterclockwise-wound polygons, so wind them clockwise
+
+	            centroid = d3_geoCentroid(geojsonRewind(Object.assign({}, feature), true));
 
 	            if (closed) {
 	              area += steradiansToSqmeters(entity.area(graph));
@@ -78272,15 +78399,15 @@
 	    }
 
 	    if (area) {
-	      list.append('li').html(_t.html('info_panels.measurement.area') + ':').append('span').html(displayArea(area, isImperial));
+	      list.append('li').html(_t.html('info_panels.measurement.area') + ':').append('span').html(displayArea(area, _isImperial));
 	    }
 
 	    if (length) {
-	      list.append('li').html(_t.html('info_panels.measurement.' + (closed ? 'perimeter' : 'length')) + ':').append('span').html(displayLength(length, isImperial));
+	      list.append('li').html(_t.html('info_panels.measurement.' + (closed ? 'perimeter' : 'length')) + ':').append('span').html(displayLength(length, _isImperial));
 	    }
 
 	    if (typeof distance === 'number') {
-	      list.append('li').html(_t.html('info_panels.measurement.distance') + ':').append('span').html(displayLength(distance, isImperial));
+	      list.append('li').html(_t.html('info_panels.measurement.distance') + ':').append('span').html(displayLength(distance, _isImperial));
 	    }
 
 	    if (location) {
@@ -78302,10 +78429,10 @@
 	    }
 
 	    if (length || area || typeof distance === 'number') {
-	      var toggle = isImperial ? 'imperial' : 'metric';
+	      var toggle = _isImperial ? 'imperial' : 'metric';
 	      selection.append('a').html(_t.html('info_panels.measurement.' + toggle)).attr('href', '#').attr('class', 'button button-toggle-units').on('click', function (d3_event) {
 	        d3_event.preventDefault();
-	        isImperial = !isImperial;
+	        _isImperial = !_isImperial;
 	        selection.call(redraw);
 	      });
 	    }
@@ -87316,7 +87443,11 @@
 	    _titleInput = titleContainer.selectAll('input.wiki-title').data([0]);
 	    _titleInput = _titleInput.enter().append('input').attr('type', 'text').attr('class', 'wiki-title').attr('id', field.domId).call(utilNoAuto).call(titleCombo).merge(_titleInput);
 
-	    _titleInput.on('blur', blur).on('change', change);
+	    _titleInput.on('blur', function () {
+	      change(true);
+	    }).on('change', function () {
+	      change(false);
+	    });
 
 	    var link = titleContainer.selectAll('.wiki-link').data([0]);
 	    link = link.enter().append('button').attr('class', 'form-field-button wiki-link').attr('title', _t('icons.view_on', {
@@ -87356,10 +87487,6 @@
 
 	  function changeLang() {
 	    utilGetSetValue(_langInput, language()[1]);
-	    change(true);
-	  }
-
-	  function blur() {
 	    change(true);
 	  }
 
@@ -88352,9 +88479,9 @@
 	    });
 	  }).disclosureContent(renderDisclosureContent);
 	  var taginfo = services.taginfo;
-	  var nearbyCombo = uiCombobox(context, 'parent-relation').minItems(1).fetcher(fetchNearbyRelations).itemsMouseEnter(function (d) {
+	  var nearbyCombo = uiCombobox(context, 'parent-relation').minItems(1).fetcher(fetchNearbyRelations).itemsMouseEnter(function (d3_event, d) {
 	    if (d.relation) utilHighlightEntities([d.relation.id], true, context);
-	  }).itemsMouseLeave(function (d) {
+	  }).itemsMouseLeave(function (d3_event, d) {
 	    if (d.relation) utilHighlightEntities([d.relation.id], false, context);
 	  });
 	  var _inChange = false;
@@ -89860,6 +89987,11 @@
 	        endMargin = 0;
 	      }
 
+	      if (!isCollapsing) {
+	        // unhide the sidebar's content before it transitions onscreen
+	        selection.classed('collapsed', isCollapsing);
+	      }
+
 	      selection.transition().style(xMarginProperty, endMargin + 'px').tween('panner', function () {
 	        var i = d3_interpolateNumber(startMargin, endMargin);
 	        return function (t) {
@@ -89868,7 +90000,11 @@
 	          context.ui().onResize(moveMap ? undefined : [dx * scaleX, 0]);
 	        };
 	      }).on('end', function () {
-	        selection.classed('collapsed', isCollapsing); // switch back from px to %
+	        if (isCollapsing) {
+	          // hide the sidebar's content after it transitions offscreen
+	          selection.classed('collapsed', isCollapsing);
+	        } // switch back from px to %
+
 
 	        if (!isCollapsing) {
 	          var containerWidth = container.node().getBoundingClientRect().width;
@@ -95672,9 +95808,9 @@
 	    selection.append('a').attr('target', '_blank').attr('href', 'https://github.com/openstreetmap/iD').html(currVersion); // only show new version indicator to users that have used iD before
 
 	    if (isNewVersion && !isNewUser) {
-	      selection.append('div').attr('class', 'badge').append('a').attr('target', '_blank').attr('href', 'https://github.com/openstreetmap/iD/blob/release/CHANGELOG.md#whats-new').call(svgIcon('#maki-gift-11')).call(uiTooltip().title(_t.html('version.whats_new', {
+	      selection.append('a').attr('class', 'badge').attr('target', '_blank').attr('href', 'https://github.com/openstreetmap/iD/blob/release/CHANGELOG.md#whats-new').call(svgIcon('#maki-gift-11')).call(uiTooltip().title(_t.html('version.whats_new', {
 	        version: currVersion
-	      })).placement('top'));
+	      })).placement('top').scrollContainer(context.container().select('.main-footer-wrap')));
 	    }
 	  };
 	}
@@ -96591,14 +96727,14 @@
 
 	    var itemsEnter = items.enter().append('li').attr('class', function (d) {
 	      return 'issue severity-' + d.severity;
-	    }).on('click', function (d3_event, d) {
+	    });
+	    var labelsEnter = itemsEnter.append('button').attr('class', 'issue-label').on('click', function (d3_event, d) {
 	      context.validator().focusIssue(d);
 	    }).on('mouseover', function (d3_event, d) {
 	      utilHighlightEntities(d.entityIds, true, context);
 	    }).on('mouseout', function (d3_event, d) {
 	      utilHighlightEntities(d.entityIds, false, context);
 	    });
-	    var labelsEnter = itemsEnter.append('div').attr('class', 'issue-label');
 	    var textEnter = labelsEnter.append('span').attr('class', 'issue-text');
 	    textEnter.append('span').attr('class', 'issue-icon').each(function (d) {
 	      var iconName = '#iD-icon-' + (d.severity === 'warning' ? 'alert' : 'error');
@@ -97780,8 +97916,8 @@
 	    // child to trick Safari into not showing the selection UI.
 
 	    overMap.append('div').attr('class', 'select-trap').text('t');
-	    overMap.append('div').attr('class', 'spinner').call(uiSpinner(context));
-	    overMap.append('div').attr('class', 'attribution-wrap').attr('dir', 'ltr').call(uiAttribution(context)); // Map controls
+	    overMap.call(uiMapInMap(context)).call(uiNotice(context));
+	    overMap.append('div').attr('class', 'spinner').call(uiSpinner(context)); // Map controls
 
 	    var controls = overMap.append('div').attr('class', 'map-controls');
 	    controls.append('div').attr('class', 'map-control zoombuttons').call(uiZoom(context));
@@ -97795,12 +97931,11 @@
 	      controls.append('div').attr('class', 'map-control map-pane-control ' + pane.id + '-control').call(pane.renderToggleButton);
 	      panes.call(pane.renderPane);
 	    });
-	    ui.info = uiInfo(context); // Add absolutely-positioned elements that sit on top of the map
-	    // This should happen after the map is ready (center/zoom)
-
-	    overMap.call(uiMapInMap(context)).call(ui.info).call(uiNotice(context));
+	    ui.info = uiInfo(context);
+	    overMap.call(ui.info);
 	    overMap.append('div').attr('class', 'photoviewer').classed('al', true) // 'al'=left,  'ar'=right
-	    .classed('hide', true).call(ui.photoviewer); // Add footer
+	    .classed('hide', true).call(ui.photoviewer);
+	    overMap.append('div').attr('class', 'attribution-wrap').attr('dir', 'ltr').call(uiAttribution(context)); // Add footer
 
 	    var about = content.append('div').attr('class', 'map-footer');
 	    about.append('div').attr('class', 'api-status').call(uiStatus(context));
@@ -97999,20 +98134,21 @@
 	      delete _needWidth[selector];
 	    }
 
-	    var element = select(selector);
-	    var scrollWidth = element.property('scrollWidth');
-	    var clientWidth = element.property('clientWidth');
+	    var selection = context.container().select(selector);
+	    if (selection.empty()) return;
+	    var scrollWidth = selection.property('scrollWidth');
+	    var clientWidth = selection.property('clientWidth');
 	    var needed = _needWidth[selector] || scrollWidth;
 
 	    if (scrollWidth > clientWidth) {
 	      // overflow happening
-	      element.classed('narrow', true);
+	      selection.classed('narrow', true);
 
 	      if (!_needWidth[selector]) {
 	        _needWidth[selector] = scrollWidth;
 	      }
 	    } else if (scrollWidth >= needed) {
-	      element.classed('narrow', false);
+	      selection.classed('narrow', false);
 	    }
 	  };
 
@@ -98096,7 +98232,7 @@
 
 	  var _deferred = new Set();
 
-	  context.version = '2.19.2';
+	  context.version = '2.19.3';
 	  context.privacyVersion = '20200407'; // iD will alter the hash so cache the parameters intended to setup the session
 
 	  context.initialHashParams = window.location.hash ? utilStringQs(window.location.hash) : {};
