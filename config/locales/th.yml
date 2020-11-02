@@ -20,7 +20,7 @@ th:
       friendly: '%e %B %Y เมื่อเวลา %H:%M น.'
   helpers:
     file:
-      prompt: เลือกแฟ้ม
+      prompt: เลือกไฟล์
     submit:
       diary_comment:
         create: บันทึก
@@ -28,7 +28,7 @@ th:
         create: เผยแพร่
         update: อัปเดต
       issue_comment:
-        create: เพิ่มคำอธิบายหรือความเห็น
+        create: เพิ่มความคิดเห็น
       message:
         create: ส่ง
       client_application:
@@ -41,8 +41,8 @@ th:
         create: อัปโหลด
         update: บันทึกการเปลี่ยนแปลง
       user_block:
-        create: สร้างการกีดกัน
-        update: ปรับปรุงการกีดกัน
+        create: สร้างการบล็อก
+        update: ปรับปรุงการบล็อก
   activerecord:
     errors:
       messages:
@@ -205,7 +205,13 @@ th:
         reopened_at_html: รื้อฟื้นเมื่อ %{when}
         reopened_at_by_html: เปิดใช้งานซ้ำเมื่อ %{when} โดย %{user}
       rss:
-        title: หมายเหตุแผนที่ บน OpenStreetMap
+        title: หมายเหตุ OpenStreetMap
+        description_area: รายชื่อหมายเหตุที่มีการรายงาน แสดงความคิดเห็น หรือถูกปิดในพื้นที่ของคุณ
+          [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: ฟีด rss สำหรับหมายเหตุ %{id}
+        commented: ความคิดเห็นใหม่ (ใกล้เคียง %{place})
+        closed: หมายเหตุที่ถูกปิด (ใกล้เคียง %{place})
+        reopened: หมายเหตุที่ถูกเปิดใช้งานใหม่ (ใกล้เคียง %{place})
       entry:
         comment: ความคิดเห็น
         full: เนื้อความเต็มในหมายเหตุ
@@ -304,9 +310,11 @@ th:
       wiki_link:
         key: หน้าคำอธิบายวิกิาสำหรับป้ายระบุ %{key}
         tag: หน้าคำอธิบายวิกิาสำหรับป้ายระบุ %{key}=%{value}
-      wikidata_link: รายการ %{page} ที่วิกิสนเทศ
-      wikipedia_link: บทความ %{page} ที่วิกิพีเดีย
-      telephone_link: โทรศัพท์ไปที่หมายเลข %{phone_number}
+      wikidata_link: รายการ %{page} บนวิกิสนเทศ
+      wikipedia_link: บทความ %{page} บนวิกิพีเดีย
+      wikimedia_commons_link: รายการ %{page} บนวิกิมีเดียคอมมอนส์
+      telephone_link: โทรไปที่หมายเลข %{phone_number}
+      colour_preview: แสดงตัวอย่างสี %{colour_value}
     note:
       title: 'หมายเหตุ: %{id}'
       new_note: หมายเหตุใหม่
@@ -591,6 +599,18 @@ th:
           viaduct: สะพานบก
           "yes": สะพาน
         building:
+          garage: โรงรถ
+          garages: โรงรถ
+          hospital: อาคารโรงพยาบาล
+          hotel: อาคารโรงแรม
+          house: บ้าน
+          industrial: อาคารอุตสาหกรรม
+          office: อาคารสำนักงาน
+          public: อาคารสาธารณะ
+          residential: อาคารที่อยู่อาศัย
+          retail: อาคารให้เช่า
+          school: อาคารโรงเรียน
+          university: อาคารมหาวิทยาลัย
           "yes": อาคาร
         craft:
           brewery: โรงทำสุรา
@@ -1041,14 +1061,71 @@ th:
       title: ปัญหา
       select_status: เลือกสถานะ
       select_type: เลือกชนิด
+      select_last_updated_by: เลือกที่ปรับปรุงล่าสุดโดย
+      reported_user: ผู้ใช้ที่รายงาน
+      not_updated: ไม่ได้ปรับปรุง
       search: ค้นหา
+      search_guidance: 'ปัญหาในการค้นหา:'
       user_not_found: ไม่มีผู้ใช้นี้
+      issues_not_found: ไม่พบปัญหาดังกล่าว
       status: สถานะ
       reports: รายการปัญหาที่รับแจ้งจากผู้ใช้
+      last_updated: ปรับปรุงล่าสุดเมื่อ
       last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> โดย %{user}
+      link_to_reports: ดูรายงาน
+      reports_count:
+        one: 1 รายงาน
+        other: '%{count} รายงาน'
+      reported_item: รายการที่รายงาน
+      states:
+        ignored: ละเว้น
+        open: เปิด
+        resolved: ปิดเรื่องแล้ว
+    update:
+      new_report: ลงทะเบียนรายงานของคุณสำเร็จแล้ว
+      successful_update: ปรับปรุงรายงานของคุณสำเร็จแล้ว
+      provide_details: โปรดระบุรายละเอียดที่จำเป็น
+    show:
+      title: 'ปัญหา %{status} #%{issue_id}'
+      reports:
+        zero: ไม่มีรายงาน
+        one: 1 รายงาน
+        other: '%{count} รายงาน'
+      report_created_at: รายงานครั้งแรกเมื่อ %{datetime}
+      last_resolved_at: ปิดเรื่องล่าสุดเมื่อ %{datetime}
+      last_updated_at: ปรับปรุงล่าสุดเมื่อ %{datetime} โดย %{displayname}
+      resolve: ปิดเรื่อง
+      ignore: ละเว้น
+      reopen: เปิดใหม่
+      reports_of_this_issue: รายงานของปัญหานี้
+      read_reports: อ่านรายงาน
+      new_reports: รายงานใหม่
+      other_issues_against_this_user: รายงานอื่น ๆ เกี่ยวกับผู้ใช้นี้
+      no_other_issues: ไม่มีรายงานอื่น ๆ เกี่ยวกับผู้ใช้นี้
+      comments_on_this_issue: ความคิดเห็นที่มีต่อปัญหานี้
+    resolve:
+      resolved: สถานะปัญหาได้ถูกตั้งค่าเป็น 'ปิดเรื่องแล้ว'
+    ignore:
+      ignored: สถานะปัญหาได้ถูกตั้งค่าเป็น 'ละเว้น'
+    reopen:
+      reopened: สถานะปัญหาได้ถูกตั้งค่าเป็น 'เปิด'
+    comments:
+      comment_from_html: ความคิดเห็นจาก %{user_link} เมื่อ %{comment_created_at}
+      reassign_param: กำหนดปัญหาใหม่หรือไม่
+    reports:
+      reported_by_html: รายงานเป็น %{category} โดย %{user} เมื่อ %{updated_at}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, ความคิดเห็น #%{comment_id}'
+        note: 'หมายเหตุ #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: สร้างความคิดเห็นของคุณสำเร็จแล้ว
   reports:
     new:
       title_html: แจ้งปัญหาเกี่ยวกับ %{link}
+      missing_params: ไม่สามารถสร้างรายงานใหม่ได้
       disclaimer:
         intro: 'ก่อนที่จะแจ้งปัญหาไปยังผู้ดูแล ขอให้ดูจนแน่ใจก่อนว่า:'
         not_just_mistake: ปัญหานี้ไม่ได้เกิดจากเพียงความพลั้งเผลอ
@@ -1056,11 +1133,18 @@ th:
         resolve_with_user: คุณได้พยายามพูดคุยแก้ไขปัญหากับผู้ใช้คนดังกล่าวแล้ว
       categories:
         diary_entry:
+          spam_label: รายการบันทึกนี้เป็น/มีสแปม
+          offensive_label: รายการบันทึกนี้หยาบคาย/ก้าวร้าว
           threat_label: บันทึกนี้มีใจความข่มขู่คุกคาม
           other_label: อื่นๆ
         diary_comment:
+          spam_label: ความคิดเห็นบันทึกนี้เป็น/มีสแปม
+          offensive_label: ความคิดเห็นบันทึกนี้หยาบคาย/ก้าวร้าว
+          threat_label: ความคิดเห็นบันทึกนี้มีใจความข่มขู่คุกคาม
           other_label: อื่นๆ
         user:
+          spam_label: โปรไฟล์ผู้ใช้นี้เป็น/มีสแปม
+          offensive_label: โปรไฟล์ผู้ใช้นี้หยาบคาย/ก้าวร้าว
           threat_label: หน้าของผู้ใช้คนนี้มีใจความข่มขู่คุกคาม
           vandal_label: ผู้ใช้คนนี้มือบอน/มีพฤติกรรมแก้ไขก่อกวนบนแผนที่
           other_label: อื่นๆ
@@ -1097,9 +1181,12 @@ th:
     intro_header: ยินดีต้อนรับสู่ OpenStreetMap!
     intro_text: OpenStreetMap เป็นแผนที่โลกที่สร้างโดยผู้คนเช่นท่าน และใช้งานได้ไม่เสียค่าใช้จ่ายภายใต้สัญญาอนุญาตแบบเปิด
     intro_2_create_account: สร้างบัญชีผู้ใช้ใหม่
+    hosting_partners_html: การโฮสต์ได้รับการสนับสนุนโดย %{ucl}, %{bytemark}, และ%{partners}อื่น
+      ๆ
     partners_ucl: ยูซีแอล (วิทยาลัยอุดมศึกษาลอนดอน)
     partners_bytemark: ไบต์มาร์กโฮสติง
     partners_partners: องค์กรพันธมิตร
+    tou: ข้อกำหนดการใช้งาน
     osm_offline: ฐานข้อมูลของ OpenStreetMap กำลังออฟไลน์เพื่อให้สามารถดำเนินการบำรุงรักษาตามปกติได้
     osm_read_only: ฐานข้อมูลของ OpenStreetMap กำลังอยู่ในโหมดอ่านอย่างเดียวเพื่อให้สามารถดำเนินการบำรุงรักษาตามปกติได้
     donate: สนับสนุน OpenStreetMap โดย %{link} สมทบทุนปรับปรุงฮาร์ดแวร์
@@ -1125,6 +1212,7 @@ th:
       footer: ท่านสามารถอ่านความคิดเห็นได้ที่ลิงก์ %{readurl} และแสดงความคิดเห็นตอบได้ที่
         %{commenturl} หรือตอบกลับได้ที่ %{replyurl}
     message_notification:
+      subject_header: '[OpenStreetMap] %{subject}'
       hi: เรียนคุณ %{to_user},
       header: 'ผู้ใช้ %{from_user} ส่งข้อความหาท่านผ่านทาง OpenStreetMap โดยมีหัวเรื่อง
         %{subject}:'
@@ -1324,10 +1412,16 @@ th:
       legal_title: ข้อกำหนดทางกฎหมาย
       legal_1_html: "เว็บไซต์และบริการที่เกี่ยวข้องนี้ดำเนินการและบำรุงรักษาอย่างเป็นทางการโดย\n<a
         href='https://osmfoundation.org/'>มูลนิธิ OpenStreetMap</a> (OSMF) \nในนามสมาชิกทุกคน
-        การใช้บริการที่ดำเนินการโดย OSMF จะต้องอยู่ใต้เงื่อนไข<a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nการใช้งานที่ยอมรับได้</a>
-        และ<a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">นโยบายความเป็นส่วนบุคคล</a>\n<br>
-        \nโปรด<a href='https://osmfoundation.org/Contact'>ติดต่อ OSMF</a> \nถ้าท่านมีข้อสงสัยเกี่ยวกับสัญญาอนุญาต
-        ข้อมูลลิขสิทธิ์ คำถามกฎหมายและประเด็นที่เกี่ยวข้อง"
+        การใช้บริการที่ดำเนินการโดย OSMF จะต้องอยู่ภายใต้<a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">ข้อกำหนดการใช้งาน</a>
+        <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nเงื่อนไขการใช้งานที่ยอมรับได้</a>
+        และ<a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">นโยบายความเป็นส่วนตัว</a>\n<br>
+        \nโปรด<a href='https://osmfoundation.org/Contact'>ติดต่อ OSMF</a> \nหากคุณมีข้อสงสัยเกี่ยวกับสัญญาอนุญาต
+        ลิขสิทธิ์ คำถามกฎหมาย และประเด็นอื่น ๆ ที่เกี่ยวข้อง"
+      legal_2_html: "โปรด<a href='https://osmfoundation.org/Contact'>ติดต่อ OSMF</a>
+        \nหากคุณมีข้อสงสัยเกี่ยวกับสัญญาอนุญาต ลิขสิทธิ์ คำถามกฎหมาย และประเด็นอื่น
+        ๆ ที่เกี่ยวข้อง\n<br>\nOpenStreetMap, โลโก้แว่นขยาย และ State of the Map เป็น<a
+        href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">เครื่องหมายการค้าที่ลงทะเบียนของ
+        OSMF</a>"
       partners_title: องค์กรพันธมิตร
     copyright:
       foreign:
@@ -1375,13 +1469,26 @@ th:
         more_1_html: |-
           อ่านเพิ่มเติมเกี่ยวกับการใช้ข้อมูลของเรา ตลอดจนการอ้างอิงเราได้ที่ <a
           href="https://osmfoundation.org/Licence">หน้าสัญญาอนุญาต OSMF</a>
+        more_2_html: |-
+          ถึงแม้ว่า OpenStreetMap จะเป็นข้อมูลแบบเปิด เราก็ไม่สามารถมอบ API แผนที่แบบไม่คิดค่าใช้จ่ายให้แก่บุคคลที่สามได้
+          ดูที่<a href="https://operations.osmfoundation.org/policies/api/">นโยบายการใช้ API</a>
+          <a href="https://operations.osmfoundation.org/policies/tiles/">นโยบายการใช้ไทล์</a>
+          และ<a href="https://operations.osmfoundation.org/policies/nominatim/">นโยบายการใช้ Nominatim</a> ของเรา
         contributors_title_html: ผู้ร่วมสร้างสรรค์ของเรา
+        contributors_intro_html: |-
+          ผู้มีส่วนร่วมของเราคือบุคคลนับพัน เรายังมีข้อมูลที่ใช้สัญญาอนุญาตแบบเปิดเผย
+          จากตัวแทนการทำแผนที่ของชาติต่าง ๆ และแหล่งข้อมูลอื่น ๆ ต่อไปนี้:
         contributors_at_html: |-
           <strong>ออสเตรีย</strong>: มีข้อมูลจาก
           <a href="https://data.wien.gv.at/">Stadt Wien</a> (under
           <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> และ
           Land Tirol (under <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT with amendments</a>).
+        contributors_au_html: |-
+          <strong>ออสเตรเลีย</strong>: มีข้อมูลที่มาจาก
+          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia Limited</a>
+          ซึ่งได้รับอนุญาตโดย Commonwealth of Australia ภายใต้
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
         contributors_ca_html: |-
           <strong>แคนาดา</strong>: มีข้อมูลจาก
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -1396,11 +1503,45 @@ th:
         contributors_fr_html: |-
           <strong>ฝรั่งเศส</strong>: มีข้อมูลจากอธิบดีกรมภาษี (
           Direction Générale des Impôts)
+        contributors_nl_html: |-
+          <strong>เนเธอร์แลนด์</strong>: Contains &copy; AND data, 2007
+          (<a href="https://www.and.com">www.and.com</a>)
+        contributors_nz_html: |-
+          <strong>นิวซีแลนด์</strong>: มีข้อมูลที่มาจาก
+          <a href="https://data.linz.govt.nz/">LINZ Data Service</a> และ
+          ได้รับอนุญาตให้ใช้ซ้ำได้ภายใต้
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+        contributors_si_html: |-
+          <strong>สโลวีเนีย</strong>: มีข้อมูลที่มาจาก
+          <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> และ
+          <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>
+          (ข้อมูลสาธารณะของสโลวีเนีย)
+        contributors_es_html: |-
+          <strong>สเปน</strong>: มีข้อมูลที่มาจาก
+          Spanish National Geographic Institute (<a href="http://www.ign.es/">IGN</a>) และ
+          National Cartographic System (<a href="http://www.scne.es/">SCNE</a>)
+          ซึ่งได้รับอนุญาตให้ใช้ซ้ำภายใต้ <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+        contributors_za_html: |-
+          <strong>แอฟริกาใต้</strong>: มีข้อมูลที่มาจาก
+          <a href="http://www.ngi.gov.za/">Chief Directorate:
+          National Geo-Spatial Information</a>, State copyright reserved.
         contributors_gb_html: |-
           <strong>สหราชอาณาจักร</strong>: มีข้อมูลจากกองแผนที่ Ordnance
           Survey data &copy; ลิขสิทธิ์ราชการและสิทธิ์แห่งฐานข้อมูล
           2010-19
+        contributors_footer_1_html: |-
+          สำหรับรายละเอียดเพิ่มเติมเกี่ยวกับแหล่งข้อมูลเหล่านี้ และแหล่งข้อมูลอื่น ๆ
+          ที่ใช้เพื่อช่วยปรับปรุง OpenStreetMap โปรดดูที่<a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">หน้า
+          ผู้มีส่วนร่วม</a>บน OpenStreetMap Wiki
+        contributors_footer_2_html: |-
+          การรวมข้อมูลใน OpenStreetMap ไม่ได้หมายความว่าผู้ให้บริการข้อมูลดั้งเดิม
+          จะรับรอง OpenStreetMap รับประกัน หรือรับผิดชอบใด ๆ
         infringement_title_html: การละเมิดลิขสิทธิ์
+        infringement_1_html: |-
+          ผู้มีส่วนร่วม OSM จะถูกเตือนไม่ให้เพิ่มข้อมูลจากแหล่งข้อมูลที่มีลิขสิทธิ์
+          (เช่น Google Maps หรือแผนที่แบบพิมพ์) โดยไม่ได้รับอนุญาตอย่าง
+          ชัดเจนจากเจ้าของลิขสิทธิ์
         infringement_2_html: |-
           หากท่านเชื่อว่าข้อมูลละเมิดลิขสิทธิ์ปรากฏในเว็บไซต์นี้หรือในฐานข้อมูล OpenStreetMap โปรดดู <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">ขั้นตอนการลบข้อมูลละเมิดลิขสิทธิ์</a> หรือแจ้งได้ที่
           <a href="https://dmca.openstreetmap.org/">หน้ารับแจ้งการละเมิดข้อมูลลิขสิทธิ์</a>
@@ -1414,12 +1555,27 @@ th:
       permalink: ลิงก์ถาวร
       shortlink: ลิงก์ย่อ
       createnote: เพิ่มหมายเหตุ
+      license:
+        copyright: สงวนลิขสิทธิ์โดย OpenStreetMap และผู้มีส่วนร่วม ภายใต้สัญญาอนุญาตแบบเปิด
+      remote_failed: การแก้ไขล้มเหลว - ตรวจสอบให้แน่ใจว่าได้โหลด JOSM หรือ Merkaartor
+        และได้เปิดใช้งานตัวเลือกการควบคุมระยะไกลแล้ว
     edit:
       not_public: ท่านยังไม่ได้ตั้งค่าการแก้ไขให้มองเห็นได้ทั่วไป
       not_public_description_html: ท่านไม่สามารถแก้ไขแผนที่นี้ได้เว้นแต่จะดำเนินการสิ่งอื่นบางอย่าง
         ท่านสามารถตั้งให้การแก้ไขของท่านมองเห็นได้ทั่วไปที่%{user_page}
       user_page_link: หน้าผู้ใช้
       anon_edits_link_text: ค้นหาว่าทำไมจึงเป็นเช่นนี้
+      flash_player_required_html: คุณต้องมี Flash Player เพื่อใช้ Potlatch ตัวแก้ไข
+        OpenStreetMap Flash คุณสามารถ<a href="https://get.adobe.com/flashplayer/">ดาวน์โหลด
+        Flash Player ได้จาก Adobe.com</a> นอกาจากนี้ยังมี<a href="https://wiki.openstreetmap.org/wiki/Editing">ตัวเลือกอื่น
+        ๆ</a>อีกสำหรับแก้ไข OpenStreetMap
+      potlatch_unsaved_changes: คุณมีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก (เมื่อต้องการบันทึกใน
+        Potlatch คุณควรเลิกเลือกเส้นทางหรือจุดปัจจุบัน หากคุณกำลังแก้ไขในโหมดสด หรือคลิกบันทึกหากคุณมีปุ่มบันทึก)
+      potlatch2_not_configured: ยังไม่ได้กำหนดค่า Potlatch 2 - โปรดดู https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
+        สำหรับข้อมูลเพิ่มเติม
+      potlatch2_unsaved_changes: คุณมีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก (เมื่อต้องการบันทึกใน
+        Potlatch 2 คุณจะต้องคลิกบันทึก)
+      id_not_configured: ยังไม่ได้กำหนดค่า iD
       no_iframe_support: เบราว์เซอร์ของท่านไม่รองรับการใช้งานเฟรมภายในหน้า HTML จึงไม่สามารถใช้ส่วนประกอบนี้ได้
     export:
       title: ส่งออก
@@ -1438,8 +1594,13 @@ th:
         body: พื้นที่ใหญ่เกินกว่าที่จะส่งออกเป็นข้อมูล XML ของ OpenStreetMap โปรดขยายเข้าหรือเลือกพื้นที่ที่เล็กลง
           หรืออาจจะใช้แหล่งข้อมูลข้างล่างในการดาวน์โหลดแฟ้มข้อมูลจำนวนมาก
         planet:
+          title: Planet OSM
           description: สำเนาของฐานข้อมูล OpenStreetMap ซึ่งปรับปรุงอย่างสม่ำเสมอ
+        overpass:
+          title: API ของ Overpass
+          description: ดาวน์โหลดกล่องแบบมีขอบเขตจากมิเรอร์ของฐานข้อมูล OpenStreetMap
         geofabrik:
+          title: การดาวน์โหลด Geofabrik
           description: รายการทวีป ประเทศ และเมืองสำคัญซึ่งปรับปรุงอย่างสม่ำเสมอ
         metro:
           title: เมโทรเอกซ์แทรกซ์

@@ -22,6 +22,8 @@ sl:
     formats:
       friendly: '%e. %B %Y ob %H:%M'
   helpers:
+    file:
+      prompt: Izberi datoteko
     submit:
       diary_comment:
         create: Shrani
@@ -34,7 +36,7 @@ sl:
         create: Pošlji
       client_application:
         create: Registriraj
-        update: Uredi
+        update: Posodobi
       redaction:
         create: Ustvarite redakcijo
         update: Shrani redakcijo
@@ -84,6 +86,7 @@ sl:
       way_tag: Oznaka poti
     attributes:
       client_application:
+        name: Ime (zahtevano)
         callback_url: URL povratnih klicev
         support_url: URL za podporo
       diary_comment:
@@ -100,21 +103,22 @@ sl:
       trace:
         user: Uporabnik
         visible: Vidnost sledi
-        name: Ime
+        name: Ime datoteke
         size: Velikost
         latitude: Zemljepisna širina
         longitude: Zemljepisna dolžina
         public: Javnost sledi
         description: Opis
-        gpx_file: 'Naložite datoteko GPX:'
-        visibility: 'Vidljivost:'
-        tagstring: 'Oznake:'
+        gpx_file: Naloži datoteko GPX
+        visibility: Vidljivost
+        tagstring: Oznake
       message:
         sender: Pošiljatelj
         title: Zadeva
         body: Besedilo
         recipient: Prejemnik
       report:
+        category: Izberite razlog za poročilo
         details: Prosimo, opišite še več podrobnosti o težavi (polje je obvezno).
       user:
         email: Elektronski naslov
@@ -123,6 +127,7 @@ sl:
         description: Opis
         languages: Jeziki
         pass_crypt: Geslo
+        pass_crypt_confirmation: Potrditev gesla
     help:
       trace:
         tagstring: uporabite vejice
@@ -145,6 +150,15 @@ sl:
     remote:
       name: Zunanji urejevalnik
       description: Zunanji urejevalnik (JOSM ali Merkaartor)
+  auth:
+    providers:
+      none: Brez
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedija
   api:
     notes:
       comment:
@@ -270,6 +284,7 @@ sl:
       wikidata_link: Element %{page} na strani Wikidata
       wikipedia_link: Članek %{page} na Wikipediji
       telephone_link: Pokliči %{phone_number}
+      colour_preview: Predogled barve %{colour_value}
     note:
       title: 'Opomba: %{id}'
       new_note: Nova opomba
@@ -305,7 +320,7 @@ sl:
       previous: « Prejšnja
     changeset:
       anonymous: Brezimen
-      no_edits: (brez sprememb)
+      no_edits: (brez urejanj)
       view_changeset_details: Ogled podrobnosti paketa sprememb
     changesets:
       id: ID
@@ -353,6 +368,7 @@ sl:
       in_language_title: Dnevniki v jeziku %{language}
       new: Nov zapis v dnevnik uporabnikov
       new_title: Nov zapis v moj uporabniški dnevnik
+      my_diary: Moj dnevnik
       no_entries: Ni zapisov v dnevnik
       recent_entries: Nedavni vnosi v dnevnik
       older_entries: Starejši zapisi
@@ -374,7 +390,7 @@ sl:
     diary_entry:
       posted_by_html: Objavil %{link_user} v %{created} v jeziku %{language_link}
       comment_link: Komentiraj ta vnos
-      reply_link: Odgovori na ta vnos
+      reply_link: Pošlji sporočilo avtorju
       comment_count:
         one: '%{count} komentar'
         two: '%{count} komentarja'
@@ -500,11 +516,13 @@ sl:
           hospital: Bolnišnica
           hunting_stand: Lovska opazovalnica
           ice_cream: Sladoled
+          internet_cafe: Internetna kavarna
           kindergarten: Vrtec
           library: Knjižnica
           marketplace: Tržnica
           monastery: Samostan
           motorcycle_parking: Parkirišče motornih koles
+          music_school: Glasbena šola
           nightclub: Nočni klub
           nursing_home: Dom za starejše
           parking: Parkirišče
@@ -517,6 +535,7 @@ sl:
           post_office: Pošta
           prison: Zapor
           pub: Pivnica
+          public_bath: Kopališče
           public_building: Javne zgradba
           recycling: Reciklirna točka
           restaurant: Restavracija
@@ -552,26 +571,41 @@ sl:
           "yes": Most
         building:
           apartments: Stanovanjski blok
+          barn: Skedenj
+          bungalow: Bungalov
           chapel: Kapelica
           church: Cerkev
           commercial: Poslovna zgradba
           dormitory: Študentski dom
+          duplex: Dvostanovanjska hiša
           farm: Kmetija
           garage: Garaža
+          garages: Garaže
+          greenhouse: Rastlinjak
           hospital: Bolnišnica
           hotel: Hotel
           house: Hiša
+          hut: Koča
           industrial: Industrijski objekt
           office: Poslovna stavba
           public: Javne zgradba
           residential: Stanovanjska stavba
           retail: Trgovina na drobno
+          roof: Streha
+          ruins: Razvalina
           school: Šola
+          semidetached_house: Dvojček
+          shed: Lopa
+          stable: Hlev
           terrace: Terasa
           train_station: Železniška postaja
           university: Univerza
+          warehouse: Skladišče
           "yes": Zgradba
+        club:
+          "yes": Klub
         craft:
+          beekeper: Čebelar
           brewery: Pivovarna
           carpenter: Mizarstvo
           electrician: Elektrikar
@@ -696,6 +730,7 @@ sl:
           beach_resort: kopališče
           bird_hide: Ptičja opazovalnica
           common: Javno zemljišče
+          dance: Plesna dvorana
           dog_park: Pasji park
           fishing: Ribolovno področje
           fitness_centre: Fitnes center
@@ -721,6 +756,7 @@ sl:
           water_park: Vodni park
           "yes": Prosti čas
         man_made:
+          antenna: Antena
           beehive: Čebelnjak
           breakwater: Valobran
           bridge: Most
@@ -901,6 +937,7 @@ sl:
           jewelry: Draguljarna
           kiosk: Kiosk prodajalna
           laundry: Pralnica
+          locksmith: Ključavničar
           lottery: Loterija
           mall: Trgovski center
           massage: Masaža
@@ -912,6 +949,7 @@ sl:
           organic: Trgovina z ekološko hrano
           outdoor: Trgovina za dejavnosti na prostem
           paint: Trgovina z barvami
+          perfumery: Parfumerija
           pet: Trgovina za male živali
           photo: Fotograf
           seafood: Morska hrana
@@ -988,23 +1026,31 @@ sl:
       more_results: Več zadetkov
   issues:
     index:
+      user_not_found: Uporabnik ne obstaja
       status: Stanje
     show:
       resolve: Razreši
       ignore: Prezri
       reopen: Ponovno odpri
+      read_reports: Prebrana poročila
+      new_reports: Nova poročila
   issue_comments:
     create:
       comment_created: Vaš komentar je bil uspešno ustvarjen
   reports:
     new:
+      title_html: Prijavi %{link}
       disclaimer:
         intro: 'Pred pošiljanjem poročila moderatorjem strani se prosimo prepričajte,
           da:'
       categories:
+        diary_entry:
+          other_label: Drugo
         diary_comment:
           other_label: Ostalo
         user:
+          spam_label: Uporabniški profil vsebuje reklamno vsebino
+          vandal_label: Uporabnik je vandal
           other_label: Ostalo
         note:
           other_label: Ostalo
@@ -1410,8 +1456,8 @@ sl:
         title: Za organizacije
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: Prebrskajte wiki za poglobljeno OSM dokumentacijo.
+        title: Wiki OpenStreetMap
+        description: Prebrskajte wiki za poglobljeno dokumentacijo OSM.
     sidebar:
       search_results: Rezultati iskanja
       close: Zapri
@@ -1579,6 +1625,7 @@ sl:
           obdelajo pred nadaljnjim nalaganjem, tako da lahko storitev uporabljajo
           tudi drugi uporabniki.
     edit:
+      cancel: Prekliči
       title: Urejanje sledi %{name}
       heading: Urejanje sledi %{name}
       visibility_help: kaj to pomeni?
@@ -1653,9 +1700,12 @@ sl:
         other: Datoteka GPX z %{count} točkami uporabnika %{user}
       description_without_count: Datoteka GPX uporabnika %{user}
   application:
+    permission_denied: Za dostop do tega dejanja nimate dovoljenja.
     require_cookies:
       cookies_needed: Izgleda imate onemogočene piškotke - prosim omogočite jih v
         vašem brskalniku preden nadaljujete.
+    require_admin:
+      not_an_admin: Za izvedbo tega dejanja morate biti administrator.
     setup_user_auth:
       blocked: Vaš dostop do API je bil blokiran. Prosimo, prijavite se na spletno
         stran, če želite izvedeti več.
@@ -1838,6 +1888,8 @@ sl:
     terms:
       title: Pogoji
       heading: Pogoji
+      read_ct: Prebral sem zgornje pogoje in soglašam z njimi
+      read_tou: Prebral sem pogoje uporabe in soglašam z njimi
       consider_pd: Poleg zgoraj navedenega sporazuma menim, da so moji prispevki v
         javni domeni
       consider_pd_why: kaj je to?
