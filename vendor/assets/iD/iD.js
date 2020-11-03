@@ -82985,6 +82985,8 @@
 
 	  var _selection = select(null);
 
+	  var _dataShortcuts;
+
 	  function shortcutsModal(_modalSelection) {
 	    _modalSelection.select('.modal').classed('modal-shortcuts', true);
 
@@ -82992,24 +82994,28 @@
 
 	    content.append('div').attr('class', 'modal-section').append('h3').html(_t.html('shortcuts.title'));
 	    _mainFileFetcher.get('shortcuts').then(function (data) {
-	      content.call(render, data);
+	      _dataShortcuts = data;
+	      content.call(render);
 	    })["catch"](function () {
 	      /* ignore */
 	    });
 	  }
 
-	  function render(selection, dataShortcuts) {
+	  function render(selection) {
+	    if (!_dataShortcuts) return;
 	    var wrapper = selection.selectAll('.wrapper').data([0]);
 	    var wrapperEnter = wrapper.enter().append('div').attr('class', 'wrapper modal-section');
 	    var tabsBar = wrapperEnter.append('div').attr('class', 'tabs-bar');
 	    var shortcutsList = wrapperEnter.append('div').attr('class', 'shortcuts-list');
 	    wrapper = wrapper.merge(wrapperEnter);
-	    var tabs = tabsBar.selectAll('.tab').data(dataShortcuts);
-	    var tabsEnter = tabs.enter().append('a').attr('class', 'tab').attr('href', '#').on('click', function (d3_event) {
+	    var tabs = tabsBar.selectAll('.tab').data(_dataShortcuts);
+	    var tabsEnter = tabs.enter().append('a').attr('class', 'tab').attr('href', '#').on('click', function (d3_event, d) {
 	      d3_event.preventDefault();
-	      var i = tabs.nodes().indexOf(this);
+
+	      var i = _dataShortcuts.indexOf(d);
+
 	      _activeTab = i;
-	      render(selection, dataShortcuts);
+	      render(selection);
 	    });
 	    tabsEnter.append('span').html(function (d) {
 	      return _t.html(d.text);
@@ -83018,7 +83024,7 @@
 	    wrapper.selectAll('.tab').classed('active', function (d, i) {
 	      return i === _activeTab;
 	    });
-	    var shortcuts = shortcutsList.selectAll('.shortcut-tab').data(dataShortcuts);
+	    var shortcuts = shortcutsList.selectAll('.shortcut-tab').data(_dataShortcuts);
 	    var shortcutsEnter = shortcuts.enter().append('div').attr('class', function (d) {
 	      return 'shortcut-tab shortcut-tab-' + d.tab;
 	    });
@@ -88890,8 +88896,6 @@
 	  }
 
 	  function deselectEntity(d3_event, entity) {
-	    d3_event.stopPropagation();
-
 	    var selectedIDs = _selectedIDs.slice();
 
 	    var index = selectedIDs.indexOf(entity.id);
@@ -88904,7 +88908,7 @@
 
 	  function renderDisclosureContent(selection) {
 	    var list = selection.selectAll('.feature-list').data([0]);
-	    list = list.enter().append('div').attr('class', 'feature-list').merge(list);
+	    list = list.enter().append('ul').attr('class', 'feature-list').merge(list);
 
 	    var entities = _selectedIDs.map(function (id) {
 	      return context.hasEntity(id);
@@ -88913,20 +88917,18 @@
 	    var items = list.selectAll('.feature-list-item').data(entities, osmEntity.key);
 	    items.exit().remove(); // Enter
 
-	    var enter = items.enter().append('button').attr('class', 'feature-list-item').on('click', selectEntity);
-	    enter.each(function (d) {
+	    var enter = items.enter().append('li').attr('class', 'feature-list-item').each(function (d) {
 	      select(this).on('mouseover', function () {
 	        utilHighlightEntities([d.id], true, context);
-	      });
-	      select(this).on('mouseout', function () {
+	      }).on('mouseout', function () {
 	        utilHighlightEntities([d.id], false, context);
 	      });
 	    });
-	    var label = enter.append('div').attr('class', 'label');
-	    enter.append('button').attr('class', 'close').attr('title', _t('icons.deselect')).on('click', deselectEntity).call(svgIcon('#iD-icon-close'));
+	    var label = enter.append('button').attr('class', 'label').on('click', selectEntity);
 	    label.append('span').attr('class', 'entity-geom-icon').call(svgIcon('', 'pre-text'));
 	    label.append('span').attr('class', 'entity-type');
-	    label.append('span').attr('class', 'entity-name'); // Update
+	    label.append('span').attr('class', 'entity-name');
+	    enter.append('button').attr('class', 'close').attr('title', _t('icons.deselect')).on('click', deselectEntity).call(svgIcon('#iD-icon-close')); // Update
 
 	    items = items.merge(enter);
 	    items.selectAll('.entity-geom-icon use').attr('href', function () {
@@ -89825,10 +89827,10 @@
 	    var inspectorWrap = selection.append('div').attr('class', 'inspector-hidden inspector-wrap');
 
 	    var hoverModeSelect = function hoverModeSelect(targets) {
-	      context.container().selectAll('.feature-list-item').classed('hover', false);
+	      context.container().selectAll('.feature-list-item button').classed('hover', false);
 
 	      if (context.selectedIDs().length > 1 && targets && targets.length) {
-	        var elements = context.container().selectAll('.feature-list-item').filter(function (node) {
+	        var elements = context.container().selectAll('.feature-list-item button').filter(function (node) {
 	          return targets.indexOf(node) !== -1;
 	        });
 
@@ -96300,7 +96302,10 @@
 	    });
 	    enter.filter(function (d) {
 	      return d.id === 'custom';
-	    }).append('button').attr('class', 'layer-browse').call(uiTooltip().title(_t.html('settings.custom_background.tooltip')).placement(_mainLocalizer.textDirection() === 'rtl' ? 'right' : 'left')).on('click', editCustom).call(svgIcon('#iD-icon-more'));
+	    }).append('button').attr('class', 'layer-browse').call(uiTooltip().title(_t.html('settings.custom_background.tooltip')).placement(_mainLocalizer.textDirection() === 'rtl' ? 'right' : 'left')).on('click', function (d3_event) {
+	      d3_event.preventDefault();
+	      editCustom();
+	    }).call(svgIcon('#iD-icon-more'));
 	    enter.filter(function (d) {
 	      return d.best();
 	    }).append('div').attr('class', 'best').call(uiTooltip().title(_t.html('background.best_imagery')).placement(_mainLocalizer.textDirection() === 'rtl' ? 'right' : 'left')).append('span').html('&#9733;');
@@ -96340,8 +96345,7 @@
 	    }
 	  }
 
-	  function editCustom(d3_event) {
-	    d3_event.preventDefault();
+	  function editCustom() {
 	    context.container().call(_settingsCustomBackground);
 	  }
 
@@ -97461,7 +97465,10 @@
 	      toggleLayer('data');
 	    });
 	    labelEnter.append('span').html(_t.html('map_data.layers.custom.title'));
-	    liEnter.append('button').attr('class', 'open-data-options').call(uiTooltip().title(_t.html('settings.custom_data.tooltip')).placement(_mainLocalizer.textDirection() === 'rtl' ? 'right' : 'left')).on('click', editCustom).call(svgIcon('#iD-icon-more'));
+	    liEnter.append('button').attr('class', 'open-data-options').call(uiTooltip().title(_t.html('settings.custom_data.tooltip')).placement(_mainLocalizer.textDirection() === 'rtl' ? 'right' : 'left')).on('click', function (d3_event) {
+	      d3_event.preventDefault();
+	      editCustom();
+	    }).call(svgIcon('#iD-icon-more'));
 	    liEnter.append('button').attr('class', 'zoom-to-data').call(uiTooltip().title(_t.html('map_data.layers.custom.zoom')).placement(_mainLocalizer.textDirection() === 'rtl' ? 'right' : 'left')).on('click', function (d3_event) {
 	      if (select(this).classed('disabled')) return;
 	      d3_event.preventDefault();
@@ -97474,8 +97481,7 @@
 	    ul.selectAll('button.zoom-to-data').classed('disabled', !hasData);
 	  }
 
-	  function editCustom(d3_event) {
-	    d3_event.preventDefault();
+	  function editCustom() {
 	    context.container().call(settingsCustomData);
 	  }
 
@@ -98232,7 +98238,7 @@
 
 	  var _deferred = new Set();
 
-	  context.version = '2.19.3';
+	  context.version = '2.19.4';
 	  context.privacyVersion = '20200407'; // iD will alter the hash so cache the parameters intended to setup the session
 
 	  context.initialHashParams = window.location.hash ? utilStringQs(window.location.hash) : {};
