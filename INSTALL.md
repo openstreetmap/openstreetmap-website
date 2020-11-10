@@ -32,7 +32,7 @@ sudo apt-get install ruby2.7 libruby2.7 ruby2.7-dev bundler \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core firefox-geckodriver \
                      postgresql postgresql-contrib libpq-dev libsasl2-dev \
-                     imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev
+                     imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev yarnpkg
 sudo gem2.7 install bundler
 ```
 
