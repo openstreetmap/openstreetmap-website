@@ -331,6 +331,7 @@ $(document).ready(function () {
 
     page.load = function(path, id) {
       addObject(type, id, true);
+      addInspector();
     };
 
     function addObject(type, id, center) {
@@ -342,6 +343,12 @@ $(document).ready(function () {
           });
         }
       });
+    }
+
+    //Add the enhanced inspector
+    function addInspector() {
+      var inspector = new openhistoricalmap.OpenHistoricaMapInspector();
+      inspector.selectFeatureFromUrl();
     }
 
     page.unload = function() {
