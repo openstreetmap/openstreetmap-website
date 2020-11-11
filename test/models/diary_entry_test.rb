@@ -8,18 +8,18 @@ class DiaryEntryTest < ActiveSupport::TestCase
 
   def test_diary_entry_validations
     diary_entry_valid({})
-    diary_entry_valid({ :title => "" }, false)
+    diary_entry_valid({ :title => "" }, :valid => false)
     diary_entry_valid(:title => "a" * 255)
-    diary_entry_valid({ :title => "a" * 256 }, false)
-    diary_entry_valid({ :body => "" }, false)
+    diary_entry_valid({ :title => "a" * 256 }, :valid => false)
+    diary_entry_valid({ :body => "" }, :valid => false)
     diary_entry_valid(:latitude => 90)
-    diary_entry_valid({ :latitude => 90.00001 }, false)
+    diary_entry_valid({ :latitude => 90.00001 }, :valid => false)
     diary_entry_valid(:latitude => -90)
-    diary_entry_valid({ :latitude => -90.00001 }, false)
+    diary_entry_valid({ :latitude => -90.00001 }, :valid => false)
     diary_entry_valid(:longitude => 180)
-    diary_entry_valid({ :longitude => 180.00001 }, false)
+    diary_entry_valid({ :longitude => 180.00001 }, :valid => false)
     diary_entry_valid(:longitude => -180)
-    diary_entry_valid({ :longitude => -180.00001 }, false)
+    diary_entry_valid({ :longitude => -180.00001 }, :valid => false)
   end
 
   def test_diary_entry_visible
@@ -48,8 +48,8 @@ class DiaryEntryTest < ActiveSupport::TestCase
 
   private
 
-  def diary_entry_valid(attrs, result = true)
+  def diary_entry_valid(attrs, valid: true)
     entry = build(:diary_entry, attrs)
-    assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
+    assert_equal valid, entry.valid?, "Expected #{attrs.inspect} to be #{valid}"
   end
 end
