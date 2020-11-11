@@ -53,24 +53,22 @@ module Api
       trkseg = nil
       anon_track = nil
       anon_trkseg = nil
-      gpx_file = nil
       timestamps = false
 
       points.each do |point|
         if gpx_id != point.gpx_id
           gpx_id = point.gpx_id
           trackid = -1
-          gpx_file = Trace.find(gpx_id)
 
-          if gpx_file.trackable?
+          if point.trace.trackable?
             track = XML::Node.new "trk"
             doc.root << track
             timestamps = true
 
-            if gpx_file.identifiable?
-              track << (XML::Node.new("name") << gpx_file.name)
-              track << (XML::Node.new("desc") << gpx_file.description)
-              track << (XML::Node.new("url") << url_for(:controller => "/traces", :action => "show", :display_name => gpx_file.user.display_name, :id => gpx_file.id))
+            if point.trace.identifiable?
+              track << (XML::Node.new("name") << point.trace.name)
+              track << (XML::Node.new("desc") << point.trace.description)
+              track << (XML::Node.new("url") << url_for(:controller => "/traces", :action => "show", :display_name => point.trace.user.display_name, :id => point.trace.id))
             end
           else
             # use the anonymous track segment if the user hasn't allowed
@@ -85,7 +83,7 @@ module Api
         end
 
         if trackid != point.trackid
-          if gpx_file.trackable?
+          if point.trace.trackable?
             trkseg = XML::Node.new "trkseg"
             track << trkseg
             trackid = point.trackid
