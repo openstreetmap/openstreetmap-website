@@ -652,7 +652,7 @@ class UsersController < ApplicationController
     if user.save
       session[:fingerprint] = user.fingerprint
 
-      set_locale(true)
+      set_locale(:reset => true)
 
       if user.new_email.blank? || user.new_email == user.email
         flash.now[:notice] = t "users.account.flash update success"
