@@ -5,7 +5,7 @@
   <%= javascript_include_tag "es5" unless browser.es5? %>
   <%= javascript_include_tag "es6" unless browser.es6? %>
   <%= javascript_include_tag "application" %>
-  <%= javascript_include_tag "i18n/" + I18n.locale.to_s %>
+  <%= javascript_include_tag "i18n/#{I18n.locale}" %>
   <%= stylesheet_link_tag "screen-#{dir}", :media => "screen" %>
   <%= stylesheet_link_tag "print-#{dir}", :media => "print" %>
   <%= stylesheet_link_tag "leaflet-all", :media => "screen, print" %>
@@ -14,5 +14,5 @@
   <%= yield :auto_discovery_link_tag %>
   <%= csrf_meta_tag %>
   <%= csp_meta_tag %>
-  <title><%= @title + " | " if @title %><%= t "layouts.project_name.title" %></title>
+  <title><%= "#{@title} | " if @title %><%= t "layouts.project_name.title" %></title>
 <% end %>

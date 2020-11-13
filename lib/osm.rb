@@ -497,8 +497,8 @@ module OSM
 
   # Return the terms and conditions text for a given country
   def self.legal_text_for_country(country_code)
-    file_name = Rails.root.join("config", "legales", country_code.to_s + ".yml")
-    file_name = Rails.root.join("config", "legales", Settings.default_legale + ".yml") unless File.exist? file_name
+    file_name = Rails.root.join("config", "legales", "#{country_code}.yml")
+    file_name = Rails.root.join("config", "legales", "#{Settings.default_legale}.yml") unless File.exist? file_name
     YAML.load_file(file_name).transform_values!(&:html_safe)
   end
 
