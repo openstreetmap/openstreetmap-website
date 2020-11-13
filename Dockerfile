@@ -1,4 +1,4 @@
-FROM ruby:2.5
+FROM ruby:2.7
 
 # Add yarn apt repository
 # https://classic.yarnpkg.com/en/docs/install#debian-stable
