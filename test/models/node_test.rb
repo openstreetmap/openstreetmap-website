@@ -168,11 +168,11 @@ class NodeTest < ActiveSupport::TestCase
     noid = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset}' version='#{version}' /></osm>"
     # First try a create which doesn't need the id
     assert_nothing_raised do
-      Node.from_xml(noid, true)
+      Node.from_xml(noid, :create => true)
     end
     # Now try an update with no id, and make sure that it gives the appropriate exception
     message = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(noid, false)
+      Node.from_xml(noid, :create => false)
     end
     assert_match(/ID is required when updating./, message.message)
   end
@@ -180,11 +180,11 @@ class NodeTest < ActiveSupport::TestCase
   def test_from_xml_no_lat
     nolat = "<osm><node id='1' lon='23.3' changeset='2' version='23' /></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(nolat, true)
+      Node.from_xml(nolat, :create => true)
     end
     assert_match(/lat missing/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(nolat, false)
+      Node.from_xml(nolat, :create => false)
     end
     assert_match(/lat missing/, message_update.message)
   end
@@ -192,11 +192,11 @@ class NodeTest < ActiveSupport::TestCase
   def test_from_xml_no_lon
     nolon = "<osm><node id='1' lat='23.1' changeset='2' version='23' /></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(nolon, true)
+      Node.from_xml(nolon, :create => true)
     end
     assert_match(/lon missing/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(nolon, false)
+      Node.from_xml(nolon, :create => false)
     end
     assert_match(/lon missing/, message_update.message)
   end
@@ -204,11 +204,11 @@ class NodeTest < ActiveSupport::TestCase
   def test_from_xml_no_changeset_id
     nocs = "<osm><node id='123' lon='23.23' lat='23.1' version='23' /></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(nocs, true)
+      Node.from_xml(nocs, :create => true)
     end
     assert_match(/Changeset id is missing/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(nocs, false)
+      Node.from_xml(nocs, :create => false)
     end
     assert_match(/Changeset id is missing/, message_update.message)
   end
@@ -216,10 +216,10 @@ class NodeTest < ActiveSupport::TestCase
   def test_from_xml_no_version
     no_version = "<osm><node id='123' lat='23' lon='23' changeset='23' /></osm>"
     assert_nothing_raised do
-      Node.from_xml(no_version, true)
+      Node.from_xml(no_version, :create => true)
     end
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(no_version, false)
+      Node.from_xml(no_version, :create => false)
     end
     assert_match(/Version is required when updating/, message_update.message)
   end
@@ -227,11 +227,11 @@ class NodeTest < ActiveSupport::TestCase
   def test_from_xml_double_lat
     nocs = "<osm><node id='123' lon='23.23' lat='23.1' lat='12' changeset='23' version='23' /></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(nocs, true)
+      Node.from_xml(nocs, :create => true)
     end
     assert_match(/Fatal error: Attribute lat redefined at/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(nocs, false)
+      Node.from_xml(nocs, :create => false)
     end
     assert_match(/Fatal error: Attribute lat redefined at/, message_update.message)
   end
@@ -241,10 +241,10 @@ class NodeTest < ActiveSupport::TestCase
     id_list.each do |id|
       zero_id = "<osm><node id='#{id}' lat='12.3' lon='12.3' changeset='33' version='23' /></osm>"
       assert_nothing_raised do
-        Node.from_xml(zero_id, true)
+        Node.from_xml(zero_id, :create => true)
       end
       message_update = assert_raise(OSM::APIBadUserInput) do
-        Node.from_xml(zero_id, false)
+        Node.from_xml(zero_id, :create => false)
       end
       assert_match(/ID of node cannot be zero when updating/, message_update.message)
     end
@@ -253,11 +253,11 @@ class NodeTest < ActiveSupport::TestCase
   def test_from_xml_no_text
     no_text = ""
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(no_text, true)
+      Node.from_xml(no_text, :create => true)
     end
     assert_match(/Must specify a string with one or more characters/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(no_text, false)
+      Node.from_xml(no_text, :create => false)
     end
     assert_match(/Must specify a string with one or more characters/, message_update.message)
   end
@@ -265,11 +265,11 @@ class NodeTest < ActiveSupport::TestCase
   def test_from_xml_no_node
     no_node = "<osm></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(no_node, true)
+      Node.from_xml(no_node, :create => true)
     end
     assert_match %r{XML doesn't contain an osm/node element}, message_create.message
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(no_node, false)
+      Node.from_xml(no_node, :create => false)
     end
     assert_match %r{XML doesn't contain an osm/node element}, message_update.message
   end
@@ -277,11 +277,11 @@ class NodeTest < ActiveSupport::TestCase
   def test_from_xml_no_k_v
     nokv = "<osm><node id='23' lat='12.3' lon='23.4' changeset='12' version='23'><tag /></node></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(nokv, true)
+      Node.from_xml(nokv, :create => true)
     end
     assert_match(/tag is missing key/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(nokv, false)
+      Node.from_xml(nokv, :create => false)
     end
     assert_match(/tag is missing key/, message_update.message)
   end
@@ -289,11 +289,11 @@ class NodeTest < ActiveSupport::TestCase
   def test_from_xml_no_v
     no_v = "<osm><node id='23' lat='23.43' lon='23.32' changeset='23' version='32'><tag k='key' /></node></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(no_v, true)
+      Node.from_xml(no_v, :create => true)
     end
     assert_match(/tag is missing value/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Node.from_xml(no_v, false)
+      Node.from_xml(no_v, :create => false)
     end
     assert_match(/tag is missing value/, message_update.message)
   end
@@ -301,11 +301,11 @@ class NodeTest < ActiveSupport::TestCase
   def test_from_xml_duplicate_k
     dupk = "<osm><node id='23' lat='23.2' lon='23' changeset='34' version='23'><tag k='dup' v='test' /><tag k='dup' v='tester' /></node></osm>"
     message_create = assert_raise(OSM::APIDuplicateTagsError) do
-      Node.from_xml(dupk, true)
+      Node.from_xml(dupk, :create => true)
     end
     assert_equal "Element node/ has duplicate tags with key dup", message_create.message
     message_update = assert_raise(OSM::APIDuplicateTagsError) do
-      Node.from_xml(dupk, false)
+      Node.from_xml(dupk, :create => false)
     end
     assert_equal "Element node/23 has duplicate tags with key dup", message_update.message
   end

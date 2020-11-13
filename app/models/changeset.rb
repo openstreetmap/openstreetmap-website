@@ -80,13 +80,13 @@ class Changeset < ApplicationRecord
     self.closed_at = Time.now.getutc if is_open?
   end
 
-  def self.from_xml(xml, create = false)
+  def self.from_xml(xml, create: false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
     pt = doc.find_first("//osm/changeset")
 
     if pt
-      Changeset.from_xml_node(pt, create)
+      Changeset.from_xml_node(pt, :create => create)
     else
       raise OSM::APIBadXMLError.new("changeset", xml, "XML doesn't contain an osm/changeset element.")
     end
@@ -94,7 +94,7 @@ class Changeset < ApplicationRecord
     raise OSM::APIBadXMLError.new("changeset", xml, e.message)
   end
 
-  def self.from_xml_node(pt, create = false)
+  def self.from_xml_node(pt, create: false)
     cs = Changeset.new
     if create
       cs.created_at = Time.now.getutc

@@ -21,7 +21,7 @@ module Api
     def create
       assert_method :put
 
-      cs = Changeset.from_xml(request.raw_post, true)
+      cs = Changeset.from_xml(request.raw_post, :create => true)
 
       # Assume that Changeset.from_xml has thrown an exception if there is an error parsing the xml
       cs.user = current_user

@@ -32,7 +32,7 @@ class Tracepoint < ApplicationRecord
 
   belongs_to :trace, :foreign_key => "gpx_id"
 
-  def to_xml_node(print_timestamp = false)
+  def to_xml_node(print_timestamp: false)
     el1 = XML::Node.new "trkpt"
     el1["lat"] = lat.to_s
     el1["lon"] = lon.to_s

@@ -16,7 +16,7 @@ module Api
     def create
       assert_method :put
 
-      relation = Relation.from_xml(request.raw_post, true)
+      relation = Relation.from_xml(request.raw_post, :create => true)
 
       # Assume that Relation.from_xml has thrown an exception if there is an error parsing the xml
       relation.create_with_history current_user

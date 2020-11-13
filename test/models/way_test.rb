@@ -43,10 +43,10 @@ class WayTest < ActiveSupport::TestCase
   def test_from_xml_no_id
     noid = "<osm><way version='12' changeset='23' /></osm>"
     assert_nothing_raised do
-      Way.from_xml(noid, true)
+      Way.from_xml(noid, :create => true)
     end
     message = assert_raise(OSM::APIBadXMLError) do
-      Way.from_xml(noid, false)
+      Way.from_xml(noid, :create => false)
     end
     assert_match(/ID is required when updating/, message.message)
   end
@@ -54,11 +54,11 @@ class WayTest < ActiveSupport::TestCase
   def test_from_xml_no_changeset_id
     nocs = "<osm><way id='123' version='23' /></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Way.from_xml(nocs, true)
+      Way.from_xml(nocs, :create => true)
     end
     assert_match(/Changeset id is missing/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Way.from_xml(nocs, false)
+      Way.from_xml(nocs, :create => false)
     end
     assert_match(/Changeset id is missing/, message_update.message)
   end
@@ -66,10 +66,10 @@ class WayTest < ActiveSupport::TestCase
   def test_from_xml_no_version
     no_version = "<osm><way id='123' changeset='23' /></osm>"
     assert_nothing_raised do
-      Way.from_xml(no_version, true)
+      Way.from_xml(no_version, :create => true)
     end
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Way.from_xml(no_version, false)
+      Way.from_xml(no_version, :create => false)
     end
     assert_match(/Version is required when updating/, message_update.message)
   end
@@ -79,10 +79,10 @@ class WayTest < ActiveSupport::TestCase
     id_list.each do |id|
       zero_id = "<osm><way id='#{id}' changeset='33' version='23' /></osm>"
       assert_nothing_raised do
-        Way.from_xml(zero_id, true)
+        Way.from_xml(zero_id, :create => true)
       end
       message_update = assert_raise(OSM::APIBadUserInput) do
-        Way.from_xml(zero_id, false)
+        Way.from_xml(zero_id, :create => false)
       end
       assert_match(/ID of way cannot be zero when updating/, message_update.message)
     end
@@ -91,11 +91,11 @@ class WayTest < ActiveSupport::TestCase
   def test_from_xml_no_text
     no_text = ""
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Way.from_xml(no_text, true)
+      Way.from_xml(no_text, :create => true)
     end
     assert_match(/Must specify a string with one or more characters/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Way.from_xml(no_text, false)
+      Way.from_xml(no_text, :create => false)
     end
     assert_match(/Must specify a string with one or more characters/, message_update.message)
   end
@@ -103,11 +103,11 @@ class WayTest < ActiveSupport::TestCase
   def test_from_xml_no_k_v
     nokv = "<osm><way id='23' changeset='23' version='23'><tag /></way></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Way.from_xml(nokv, true)
+      Way.from_xml(nokv, :create => true)
     end
     assert_match(/tag is missing key/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Way.from_xml(nokv, false)
+      Way.from_xml(nokv, :create => false)
     end
     assert_match(/tag is missing key/, message_update.message)
   end
@@ -115,11 +115,11 @@ class WayTest < ActiveSupport::TestCase
   def test_from_xml_no_v
     no_v = "<osm><way id='23' changeset='23' version='23'><tag k='key' /></way></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) do
-      Way.from_xml(no_v, true)
+      Way.from_xml(no_v, :create => true)
     end
     assert_match(/tag is missing value/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
-      Way.from_xml(no_v, false)
+      Way.from_xml(no_v, :create => false)
     end
     assert_match(/tag is missing value/, message_update.message)
   end
@@ -127,11 +127,11 @@ class WayTest < ActiveSupport::TestCase
   def test_from_xml_duplicate_k
     dupk = "<osm><way id='23' changeset='23' version='23'><tag k='dup' v='test' /><tag k='dup' v='tester' /></way></osm>"
     message_create = assert_raise(OSM::APIDuplicateTagsError) do
-      Way.from_xml(dupk, true)
+      Way.from_xml(dupk, :create => true)
     end
     assert_equal "Element way/ has duplicate tags with key dup", message_create.message
     message_update = assert_raise(OSM::APIDuplicateTagsError) do
-      Way.from_xml(dupk, false)
+      Way.from_xml(dupk, :create => false)
     end
     assert_equal "Element way/23 has duplicate tags with key dup", message_update.message
   end

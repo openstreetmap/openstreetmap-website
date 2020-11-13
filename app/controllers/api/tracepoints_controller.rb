@@ -98,7 +98,7 @@ module Api
           end
         end
 
-        trkseg << point.to_xml_node(timestamps)
+        trkseg << point.to_xml_node(:print_timestamp => timestamps)
       end
 
       response.headers["Content-Disposition"] = "attachment; filename=\"tracks.gpx\""
