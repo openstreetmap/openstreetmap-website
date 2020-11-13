@@ -240,7 +240,7 @@ module Api
         @note.status = "hidden"
         @note.save
 
-        add_comment(@note, comment, "hidden", false)
+        add_comment(@note, comment, "hidden", :notify => false)
       end
 
       # Return a copy of the updated note
@@ -369,7 +369,7 @@ module Api
 
     ##
     # Add a comment to a note
-    def add_comment(note, text, event, notify = true)
+    def add_comment(note, text, event, notify: true)
       attributes = { :visible => true, :event => event, :body => text }
 
       if current_user

@@ -1,5 +1,5 @@
 module BrowseHelper
-  def printable_name(object, version = false)
+  def printable_name(object, version: false)
     id = if object.id.is_a?(Array)
            object.id[0]
          else

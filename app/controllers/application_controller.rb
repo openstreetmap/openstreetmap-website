@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def check_database_readable(need_api = false)
+  def check_database_readable(need_api: false)
     if Settings.status == "database_offline" || (need_api && Settings.status == "api_offline")
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
@@ -94,7 +94,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def check_database_writable(need_api = false)
+  def check_database_writable(need_api: false)
     if Settings.status == "database_offline" || Settings.status == "database_readonly" ||
        (need_api && (Settings.status == "api_offline" || Settings.status == "api_readonly"))
       if request.xhr?
@@ -171,7 +171,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def preferred_languages(reset = false)
+  def preferred_languages(reset: false)
     @preferred_languages = nil if reset
     @preferred_languages ||= if params[:locale]
                                Locale.list(params[:locale])
@@ -184,13 +184,13 @@ class ApplicationController < ActionController::Base
 
   helper_method :preferred_languages
 
-  def set_locale(reset = false)
+  def set_locale(reset: false)
     if current_user&.languages&.empty? && !http_accept_language.user_preferred_languages.empty?
       current_user.languages = http_accept_language.user_preferred_languages
       current_user.save
     end
 
-    I18n.locale = Locale.available.preferred(preferred_languages(reset))
+    I18n.locale = Locale.available.preferred(preferred_languages(:reset => reset))
 
     response.headers["Vary"] = "Accept-Language"
     response.headers["Content-Language"] = I18n.locale.to_s
