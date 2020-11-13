@@ -245,7 +245,7 @@ module Api
       # create an relation with a node as member, this time test that we don't
       # need a role attribute to be included
       xml = "<osm><relation changeset='#{private_changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
+            "<member  ref='#{node.id}' type='node'/><tag k='test' v='yes' /></relation></osm>"
       put relation_create_path, :params => xml, :headers => auth_header
       # hope for forbidden due to user
       assert_response :forbidden,
@@ -322,7 +322,7 @@ module Api
       # create an relation with a node as member, this time test that we don't
       # need a role attribute to be included
       xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
+            "<member  ref='#{node.id}' type='node'/><tag k='test' v='yes' /></relation></osm>"
       put relation_create_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,

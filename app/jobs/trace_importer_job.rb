@@ -13,7 +13,7 @@ class TraceImporterJob < ApplicationJob
   rescue StandardError => e
     logger.info e.to_s
     e.backtrace.each { |l| logger.info l }
-    UserMailer.gpx_failure(trace, e.to_s + "\n" + e.backtrace.join("\n")).deliver
+    UserMailer.gpx_failure(trace, "#{e}\n#{e.backtrace.join("\n")}").deliver
     trace.destroy
   end
 end

@@ -62,7 +62,7 @@ module Potlatch
 
     # Envelope data into AMF writeable form
     def self.putdata(index, n)
-      d = encodestring(index + "/onResult")
+      d = encodestring("#{index}/onResult")
       d += encodestring("null")
       d += [-1].pack("N")
       d += encodevalue(n)

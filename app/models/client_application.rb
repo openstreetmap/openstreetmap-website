@@ -66,7 +66,7 @@ class ClientApplication < ApplicationRecord
   end
 
   def oauth_server
-    @oauth_server ||= OAuth::Server.new("https://" + Settings.server_url)
+    @oauth_server ||= OAuth::Server.new("https://#{Settings.server_url}")
   end
 
   def credentials
