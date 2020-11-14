@@ -73,10 +73,10 @@ class UserHelperTest < ActionView::TestCase
 
   def test_auth_button
     button = auth_button("google", "google")
-    assert_equal("<a class=\"auth_button\" title=\"Login with Google\" href=\"/auth/google\"><img alt=\"Login with a Google OpenID\" src=\"/images/google.png\" /></a>", button)
+    assert_equal("<a class=\"auth_button\" title=\"Login with Google\" href=\"/auth/google\"><img alt=\"Login with a Google OpenID\" src=\"/images/google.svg\" /></a>", button)
 
     button = auth_button("yahoo", "openid", :openid_url => "yahoo.com")
-    assert_equal("<a class=\"auth_button\" title=\"Login with Yahoo\" href=\"/auth/openid?openid_url=yahoo\.com\"><img alt=\"Login with a Yahoo OpenID\" src=\"/images/yahoo.png\" /></a>", button)
+    assert_equal("<a class=\"auth_button\" title=\"Login with Yahoo\" href=\"/auth/openid?openid_url=yahoo\.com\"><img alt=\"Login with a Yahoo OpenID\" src=\"/images/yahoo.svg\" /></a>", button)
   end
 
   private
