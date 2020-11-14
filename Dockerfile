@@ -41,4 +41,4 @@ RUN bundle install
 
 # Install NodeJS packages
 ADD package.json yarn.lock /app/
-RUN yarn
+RUN yarn install
