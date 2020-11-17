@@ -37,7 +37,7 @@ module GPX
     end
 
     def points(&block)
-      return enum_for(:points) unless block_given?
+      return enum_for(:points) unless block
 
       @possible_points = 0
       @actual_points = 0
