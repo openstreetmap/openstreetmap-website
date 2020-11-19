@@ -80,7 +80,9 @@ module RichText
 
   class Markdown < Base
     def to_html
-      linkify(sanitize(Kramdown::Document.new(self).to_html), :all)
+      html1 = Kramdown::Document.new(self).to_html
+      html2 = html1.gsub(/<table\b/, '<table class="table table-sm w-auto"')
+      linkify(sanitize(html2), :all)
     end
 
     def to_text
