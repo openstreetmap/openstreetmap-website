@@ -8,6 +8,7 @@
 # Author: ArlandGa
 # Author: Atriwidada
 # Author: C5st4wr6ch
+# Author: Daud I.F. Argana
 # Author: Dewisulistio
 # Author: Emirhartato
 # Author: Farras
@@ -50,7 +51,7 @@ id:
         create: Kirim
       client_application:
         create: Daftar
-        update: Edit
+        update: Perbarui
       redaction:
         create: Membuat Redaksi
         update: Simpan Redaksi
@@ -152,6 +153,7 @@ id:
         description: Keterangan
         languages: Bahasa
         pass_crypt: Kata Sandi
+        pass_crypt_confirmation: Konfirmasi Kata Sandi
     help:
       trace:
         tagstring: dipisahkan oleh koma
@@ -256,6 +258,12 @@ id:
     anonymous: Anonimitas
     no_comment: (tidak ada komentar)
     part_of: Bagian dari
+    part_of_relations:
+      one: 1 relasi
+      other: '%{count} relasi'
+    part_of_ways:
+      one: 1 arah
+      other: '%{count} arah'
     download_xml: Unduh XML
     view_history: Versi terdahulu
     view_details: Lihat Rincian
@@ -290,6 +298,8 @@ id:
       title_html: 'Jalan: %{name}'
       history_title_html: 'Riwayat Jalan: %{name}'
       nodes: Simpul
+      nodes_count:
+        other: '%{count} simpul'
       also_part_of_html:
         one: bagian dari jalan %{related_ways}
         other: bagian dari jalan %{related_ways}
@@ -297,6 +307,9 @@ id:
       title_html: 'Hubungan: %{name}'
       history_title_html: 'Riwayat Hubungan: %{name}'
       members: Anggota
+      members_count:
+        one: 1 anggota
+        other: '%{count} anggota'
     relation_member:
       entry_role_html: '%{type} %{name} sebagai %{role}'
       type:
@@ -307,6 +320,7 @@ id:
       entry_html: Relasi %{relation_name}
       entry_role_html: Relasi %{relation_name} (as %{relation_role})
     not_found:
+      title: Tidak Ditemukan
       sorry: 'Maaf, %{type} #%{id} tidak dapat ditemukan.'
       type:
         node: node/titik
@@ -443,7 +457,7 @@ id:
       older_entries: Entri Lama
       newer_entries: Entri Baru
     edit:
-      title: Edit entri catatan harian
+      title: Sunting Entri Catatan Harian
       marker_text: Lokasi entri catatan harian
     show:
       title: Catatan harian %{user} | %{title}
@@ -459,18 +473,20 @@ id:
     diary_entry:
       posted_by_html: Diterbitkan oleh %{link_user} pada %{created} dalam %{language_link}
       comment_link: Komentar di entri ini
-      reply_link: Balasan untuk entri ini
+      reply_link: Kirim pesan ke penulis
       comment_count:
         one: '%{count} komentar'
         zero: Tidak ada komentar
         other: '%{count} komentar'
       edit_link: Edit entri ini
       hide_link: Sembunyikan entri ini
+      unhide_link: Tampilkan kembali entri ini
       confirm: Konfirmasi
       report: Laporkan entri ini
     diary_comment:
       comment_from_html: Komentar dari %{link_user} pada %{comment_created_at}
       hide_link: Sembunyikan komentar ini
+      unhide_link: Tampilkan kembali komentar ini
       confirm: Konfirmasi
       report: Laporkan komentar ini
     location:
@@ -1080,9 +1096,8 @@ id:
       status: Status
       reports: Laporan
       last_updated: Terakhir Diperbarui
-      last_updated_time_html: <abbr title='%{title}'>%{time} yang lalu</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} yang lalu</abbr>
-        oleh %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> oleh %{user}
       link_to_reports: Lihat Laporan
       reports_count:
         one: 1 Laporan
@@ -1120,8 +1135,10 @@ id:
       ignored: Status isu telah diset ke 'Diabaikan'
     reopen:
       reopened: Status isu telah diset ke 'Terbuka'
+    comments:
+      comment_from_html: Komentar dari %{user_link} pada %{comment_created_at}
     reports:
-      reported_by_html: Dilaporkan sebagai %{category} oleh %{user}
+      reported_by_html: Dilaporkan sebagai %{category} oleh %{user} pada %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, komentar #%{comment_id}'
@@ -1142,8 +1159,14 @@ id:
           yang bersangkutan
       categories:
         diary_entry:
+          spam_label: Entri catatan harian ini adalah/mengandung spam
+          offensive_label: Entri catatan harian ini bersifat cabul/menyinggung
+          threat_label: Entri catatan harian ini mengandung ancaman
           other_label: Lainnya
         diary_comment:
+          spam_label: Komentar catatan pribadi ini adalah/mengandung spam
+          offensive_label: Komentar catatan harian ini bersifat cabul/menyinggung
+          threat_label: Komentar catatan harian ini mengandung ancaman
           other_label: Lainnya
         user:
           spam_label: Profil pengguna ini/mengandung spam
@@ -1408,8 +1431,8 @@ id:
     about:
       next: Berikutnya
       copyright_html: <span>&copy;</span>Kontributor<br>OpenStreetMap
-      used_by_html: Kekuatan %{name} memetakan data pada ribuan situs web, aplikasi
-        seluler, dan perangkat keras
+      used_by_html: Kekuatan %{name} menyediakan peta data untuk ribuan situs web,
+        aplikasi seluler, dan perangkat keras
       lede_text: "OpenStreetMap dibangun oleh komunitas pembuat peta yang berkontribusi
         dan memelihara data \ntentang jalan, jalur, kafe, stasiun kereta api, dan
         masih banyak lagi, di seluruh dunia."
@@ -1434,10 +1457,12 @@ id:
         perinciannya.'
       legal_title: Legal
       legal_1_html: |-
-        Situs ini dan layanan terkait lainnya dioperasikan secara resmi oleh <a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) atas nama komunitas. Menggunakan semua layanan yang dioperasikan oleh OSMF tunduk kepada <a href="http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
-        Kebijakan Penggunaan Diterima</a> dan <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy">Kebijakan Privasi</a> kami
+        Situs ini dan layanan terkait lainnya dioperasikan secara resmi oleh <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) atas nama komunitas. Menggunakan semua layanan yang dioperasikan oleh OSMF tunduk kepada <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Syarat Penggunaan</a>, <a href="https:://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Kebijakan Penggunaan Diterima</a> dan <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Kebijakan Privasi</a> kami.
+      legal_2_html: |-
+        Silakan <a href='https://osmfoundation.org/Contact'>menghubungi OSMF</a> jika Anda punya pertanyaan seputar lisensi, hak cipta, atau isu dan pertanyaan hukum lainnya.
         <br>
-        Silakan <a href='http://osmfoundation.org/Contact'>menghubungi OSMF</a> jika Anda punya pertanyaan seputar lisensi, hak cipta, atau isu dan pertanyaan hukum lainnya.
+        OpenStreetMap, logo kaca pembesar dan Peta adalah <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">merek dagang terdaftar OSMF</a>.
       partners_title: Rekan
     copyright:
       foreign:
@@ -1465,9 +1490,8 @@ id:
           data kami, Anda harus menyalurkan hasilnya dalam lisensi yang sama.
           <a href="http://opendatacommons.org/licenses/odbl/1.0/">Kode legal</a> berisi penjelasan hak dan kewajiban Anda.
         intro_3_1_html: |-
-          Kartografi dalam tampilan peta dan dokumentasi kami
-           berlisensi di bawah <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Attribution-ShareAlike 2.0</a> lisensi (CC-BY-SA).
+          Dokumentasi kami dilisensikan di bawah <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> lisensi (CC BY-SA 2.0).
         credit_title_html: Cara memberikan kredit pada OpenStreetMap
         credit_1_html: Kami mewajibkan Anda untuk menggunakan kredit &ldquo;&copy;
           Kontributor OpenStreetMap&rdquo;.
@@ -1668,7 +1692,7 @@ id:
         dan mendokumentasikan topik pemetaan."
       welcome:
         url: /welcome
-        title: Selamat datang di OSM
+        title: Selamat datang di OpenStreetMap
         description: Mulailah dengan panduan cepat meliputi dasar-dasar OpenStreetMap.
       beginners_guide:
         url: http://wiki.openstreetmap.org/wiki/Panduan%27_pemula
@@ -1676,8 +1700,8 @@ id:
         description: Panduan yang ditunjang komunitas bagi pemula.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: Ajukan pertanyaan atau mencari jawaban di situs tanya-jawab OSM
+        title: Forum Bantuan
+        description: Ajukan pertanyaan atau mencari jawaban di situs tanya-jawab OpenStreetMap
           ini.
       mailing_lists:
         title: Daftar Alamat
@@ -1698,10 +1722,12 @@ id:
       welcomemat:
         url: https://welcome.openstreetmap.org/
         title: Untuk Lembaga-lembaga
+        description: Bersama sebuah organisasi sedang membuat rencana untuk OpenStreetMap?
+          Temukan apa yang Anda perlu tahu di Keset Selamat Datang.
       wiki:
         url: http://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: Telusuri wiki untuk dokumentasi mendalam OSM.
+        title: Wiki OpenStreetMap
+        description: Telusuri wiki untuk dokumentasi mendalam OpenStreetMap.
     sidebar:
       search_results: Hasil Pencarian
       close: Tutup
