@@ -83,7 +83,7 @@ class UserMailer < ApplicationMailer
 
       mail :from => from_address(message.sender.display_name, "m", message.id, message.digest),
            :to => message.recipient.email,
-           :subject => I18n.t("user_mailer.message_notification.subject_header", :subject => message.title)
+           :subject => t(".subject", :message_title => message.title)
     end
   end
 
