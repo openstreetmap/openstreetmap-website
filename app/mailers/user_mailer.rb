@@ -44,6 +44,7 @@ class UserMailer < ApplicationMailer
 
   def gpx_success(trace, possible_points)
     with_recipient_locale trace.user do
+      @to_user = trace.user.display_name
       @trace_name = trace.name
       @trace_points = trace.size
       @trace_description = trace.description
@@ -51,19 +52,20 @@ class UserMailer < ApplicationMailer
       @possible_points = possible_points
 
       mail :to => trace.user.email,
-           :subject => I18n.t("user_mailer.gpx_notification.success.subject")
+           :subject => I18n.t("user_mailer.gpx_success.subject")
     end
   end
 
   def gpx_failure(trace, error)
     with_recipient_locale trace.user do
+      @to_user = trace.user.display_name
       @trace_name = trace.name
       @trace_description = trace.description
       @trace_tags = trace.tags
       @error = error
 
       mail :to => trace.user.email,
-           :subject => I18n.t("user_mailer.gpx_notification.failure.subject")
+           :subject => I18n.t("user_mailer.gpx_failure.subject")
     end
   end
 

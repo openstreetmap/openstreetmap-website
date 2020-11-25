@@ -1,12 +1,8 @@
-<%= t "user_mailer.gpx_notification.your_gpx_file" %>
-<strong><%= @trace_name %></strong>
-<%= t "user_mailer.gpx_notification.with_description" %>
-<em><%= @trace_description %></em>
-<% if @trace_tags.length>0 %>
-  <%= t "user_mailer.gpx_notification.and_the_tags" %>
-  <em><% @trace_tags.each do |tag| %>
-    <%= tag.tag.rstrip %>
-  <% end %></em>
+<% trace_name = tag.strong(@trace_name) %>
+<% trace_description = tag.em(@trace_description) %>
+<% if @trace_tags.length > 0 %>
+  <% tags = @trace_tags.map(&:tag).join(" ") %>
+  <%= t ".description_with_tags_html", :trace_name => trace_name, :trace_description => trace_description, :tags => tags %>
 <% else %>
-  <%= t "user_mailer.gpx_notification.and_no_tags" %>
+  <%= t ".description_with_no_tags_html", :trace_name => trace_name, :trace_description => trace_description %>
 <% end %>
