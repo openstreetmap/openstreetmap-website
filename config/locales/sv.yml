@@ -276,6 +276,12 @@ sv:
     anonymous: anonym
     no_comment: (inga kommentarer)
     part_of: Del av
+    part_of_relations:
+      one: 1 relation
+      other: '%{count} relationer'
+    part_of_ways:
+      one: 1 sätt
+      other: '%{count} sätt'
     download_xml: Ladda ner XML
     view_history: Visa historik
     view_details: Visa detaljer
@@ -310,6 +316,9 @@ sv:
       title_html: 'Sträcka: %{name}'
       history_title_html: 'Sträckhistorik: %{name}'
       nodes: Noder
+      nodes_count:
+        one: 1 nod
+        other: '%{count} noder'
       also_part_of_html:
         one: del av sträcka %{related_ways}
         other: del av sträckorna %{related_ways}
@@ -317,6 +326,9 @@ sv:
       title_html: 'Förbindelse: %{name}'
       history_title_html: 'Förbindelsehistorik: %{name}'
       members: Medlemmar
+      members_count:
+        one: 1 medlemmar
+        other: '%{count} medlemmar'
     relation_member:
       entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} som %{role}'
@@ -328,6 +340,7 @@ sv:
       entry_html: Relation %{relation_name}
       entry_role_html: Relation %{relation_name} (som %{relation_role})
     not_found:
+      title: Hittades inte
       sorry: 'Tyvärr kunde inte %{type} #%{id} hittas.'
       type:
         node: nod
@@ -336,6 +349,7 @@ sv:
         changeset: ändringsset
         note: not
     timeout:
+      title: Timeout-fel
       sorry: Tyvärr tog data för %{type} med id %{id} för lång tid att hämta.
       type:
         node: nod
@@ -544,10 +558,12 @@ sv:
           chair_lift: Stollift
           drag_lift: Släplift
           gondola: Gondolbana
+          magic_carpet: Flygande matta-attraktion
           platter: Knapplift
           pylon: Pylon
           station: Linbanestation
           t-bar: Ankarlift
+          "yes": Svävarbana
         aeroway:
           aerodrome: Flygfält
           airstrip: Landningsbana
@@ -1005,6 +1021,7 @@ sv:
           locality: Läge
           municipality: Kommun
           neighbourhood: Grannskap
+          plot: Plöj
           postcode: Postnummer
           quarter: Kvarter
           region: Region
@@ -1057,7 +1074,9 @@ sv:
           car_repair: Bilverkstad
           carpet: Mattaffär
           charity: Välgörenhetsbutik
+          cheese: Ostbutik
           chemist: Apotek
+          chocolate: Choklad
           clothes: Klädbutik
           coffee: Kaffebutik
           computer: Datorbutik
@@ -1099,6 +1118,7 @@ sv:
           mall: Köpcentrum
           massage: Massage
           mobile_phone: Mobiltelefonbutik
+          money_lender: Pengautlånare
           motorcycle: Motorcykelhandlare
           motorcycle_repair: Motorcykelverkstad
           music: Musikaffär
@@ -1115,9 +1135,11 @@ sv:
           photo: Fotoaffär
           seafood: Skaldjur
           second_hand: Second hand-butik
+          sewing: Sybutik
           shoes: Skoaffär
           sports: Sportaffär
           stationery: Pappershandel
+          storage_rental: Magasinering
           supermarket: Snabbköp
           tailor: Skräddare
           tattoo: Tatueringstudio
@@ -1131,6 +1153,7 @@ sv:
           variety_store: Varuhus
           video: Videobutik
           video_games: TV-spelsbutik
+          wholesale: Grosshandel
           wine: Vinbutik
           "yes": Affär
         tourism:
@@ -1140,6 +1163,7 @@ sv:
           attraction: Attraktion
           bed_and_breakfast: Bed and breakfast
           cabin: Stuga
+          camp_pitch: Campingplats
           camp_site: Campingplats
           caravan_site: Husvagnsuppställningsplats
           chalet: Stuga
@@ -1153,6 +1177,7 @@ sv:
           picnic_site: Picknickplats
           theme_park: Nöjespark
           viewpoint: Utsiktspunkt
+          wilderness_hut: Vildmarksstuga
           zoo: Djurpark
         tunnel:
           building_passage: Byggpassage
@@ -1366,29 +1391,21 @@ sv:
       had_added_you: '%{user} har lagt till dig som vän på OpenStreetMap.'
       see_their_profile: Du kan se deras profil på %{userurl}.
       befriend_them: Du kan också lägga till dem som en vän på %{befriendurl}.
-    gpx_notification:
-      greeting: Hej,
-      your_gpx_file: Det verkar som om din GPX-fil
-      with_description: med beskrivningen
-      and_the_tags: 'och följande taggar:'
-      and_no_tags: och inga taggar.
-      failure:
-        subject: '[OpenStreetMap] Misslyckades importera GPX'
-        failed_to_import: 'misslyckats med att importera. Här är felet:'
-        more_info_1: Mer information om importfel av GPX och hur man undviker dem
-        more_info_2: 'de kan hittas på:'
-        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
-      success:
-        subject: '[OpenStreetMap] Lyckades importera GPX'
-        loaded_successfully:
-          one: |-
-            inläst med %{trace_points} av 1 möjlig punkt.
+    gpx_failure:
+      failed_to_import: 'misslyckats med att importera. Här är felet:'
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+      subject: '[OpenStreetMap] Misslyckades importera GPX'
+    gpx_success:
+      loaded_successfully:
+        one: |-
+          inläst med %{trace_points} av 1 möjlig punkt.
 
-            inläst med %{trace_points} av %{possible_points} möjliga punkter.
-          other: |-
-            inläst med %{trace_points} av %{possible_points} möjliga punkter.
+          inläst med %{trace_points} av %{possible_points} möjliga punkter.
+        other: |-
+          inläst med %{trace_points} av %{possible_points} möjliga punkter.
 
-            inläst med %{trace_points} av %{possible_points} möjliga punkter.
+          inläst med %{trace_points} av %{possible_points} möjliga punkter.
+      subject: '[OpenStreetMap] Lyckades importera GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Välkommen till OpenStreetMap'
       greeting: Hej där!

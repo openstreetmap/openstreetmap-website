@@ -115,6 +115,7 @@ fi:
       way_tag: Viivan tagi
     attributes:
       client_application:
+        name: Nimi (pakollinen)
         callback_url: Takaisinsoiton verkko-osoite
         support_url: Tuen osoite (URL)
       diary_comment:
@@ -519,6 +520,7 @@ fi:
           chair_lift: Tuolihissi
           drag_lift: Vetohissi
           gondola: Gondolihissi
+          magic_carpet: Mattohissi
           platter: Hiihtohissi
           pylon: Pylväs
           station: Ilmarata-asema
@@ -535,6 +537,7 @@ fi:
           runway: Kiitorata
           taxiway: Rullaustie
           terminal: Terminaali
+          windsock: Tuulipussi
         amenity:
           animal_shelter: Eläinsuoja
           arts_centre: Taidekeskus
@@ -587,6 +590,7 @@ fi:
           library: Kirjasto
           marketplace: Tori
           monastery: Luostari
+          money_transfer: Rahansiirto
           motorcycle_parking: Moottoripyöräpysäköinti
           music_school: Musiikkikoulu
           nightclub: Yökerho
@@ -622,12 +626,15 @@ fi:
           village_hall: Kyläkoti
           waste_basket: Roskakori
           waste_disposal: Jätehuolto
+          waste_dump_site: Kaatopaikka
           water_point: vesipiste
         boundary:
           administrative: Hallinnollinen raja
           census: Väestönlaskenta-alueen raja
           national_park: Kansallispuisto
+          political: Vaalipiirin raja
           protected_area: Suojelualue
+          "yes": Raja
         bridge:
           aqueduct: Akvedukti
           boardwalk: Laudoitettu polku
@@ -636,14 +643,20 @@ fi:
           viaduct: Maasilta
           "yes": Silta
         building:
-          apartments: Talo
+          apartments: Kerrostalo
+          barn: Lato
           chapel: Kappeli
           church: Kirkkorakennus
           commercial: Liikerakennus
+          construction: Rakenteilla oleva rakennus
+          detached: Omakotitalo
           dormitory: Asuntola
+          duplex: Paritalo
           farm: Maalaistalo
           garage: Autotalli
+          garages: Autotalleja
           greenhouse: Kasvihuone
+          hangar: Hangaari
           hospital: Sairaalarakennus
           hotel: Hotellirakennus
           house: Talo
@@ -655,7 +668,7 @@ fi:
           retail: Liikerakennus
           roof: Katto
           school: Koulurakennus
-          terrace: Terassi
+          terrace: Rivitalo
           train_station: Rautatieasema
           university: Yliopistorakennus
           warehouse: Varasto
@@ -1276,6 +1289,7 @@ fi:
       footer: Lue kommentti sivulla %{readurl}. Jatkokommentin voi lähettää sivulla
         %{commenturl} tai lähettää viestin tekijälle sivulla %{replyurl}.
     message_notification:
+      subject_header: '[OpenStreetMap] %{subject}'
       hi: Hei %{to_user}!
       header: '%{from_user} on lähettänyt sinulle viestin OpenStreetMapissa otsikkolla
         %{subject}:'
@@ -1287,23 +1301,15 @@ fi:
       had_added_you: Käyttäjä %{user} lisäsi sinut kaverikseen OpenStreetMapissa.
       see_their_profile: Voit tutustua hänen käyttäjäsivuunsa osoitteessa %{userurl}.
       befriend_them: Voit myös lisätä lähettäjän kaveriksi osoitteessa %{befriendurl}.
-    gpx_notification:
-      greeting: Hei!
-      your_gpx_file: Lähettämäsi GPX-tiedosto
-      with_description: ', jonka kuvaus on'
-      and_the_tags: 'ja seuraavat avainsanat:'
-      and_no_tags: ja jolla ei tageja.
-      failure:
-        subject: '[OpenStreetMap] GPX-tuonti epäonnistui'
-        failed_to_import: 'epäonnistui tuoda. Tässä virhe:'
-        more_info_1: Lisätietoja GPX-tuontiongelmista ja miten niitä voi välttää
-        more_info_2: 'ne löytyvät osoitteesta:'
-      success:
-        subject: '[OpenStreetMap] GPX-tuonti onnistui'
-        loaded_successfully:
-          one: '%{trace_points} pistettä mahdollisesta 1 pisteestä ladattu onnistuneesti.'
-          other: ' {trace_points} pistettä  mahdollisista %{possible_points} ladattu
-            onnistuneesti pisteestä.'
+    gpx_failure:
+      failed_to_import: 'epäonnistui tuoda. Tässä virhe:'
+      subject: '[OpenStreetMap] GPX-tuonti epäonnistui'
+    gpx_success:
+      loaded_successfully:
+        one: '%{trace_points} pistettä mahdollisesta 1 pisteestä ladattu onnistuneesti.'
+        other: ' {trace_points} pistettä  mahdollisista %{possible_points} ladattu
+          onnistuneesti pisteestä.'
+      subject: '[OpenStreetMap] GPX-tuonti onnistui'
     signup_confirm:
       subject: '[OpenStreetMap] Tervetuloa OpenStreetMapiin'
       greeting: Hei!
@@ -2623,6 +2629,7 @@ fi:
         ehdot</a>
       thunderforest: Laattojen tekijä <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
+      opnvkarte: Laattojen tekijä <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
       hotosm: Laattojen tyylin on tehnyt <a href='%{hotosm_url}' target='_blank'>Humanitarian
         OpenStreetMap Team</a> ja hostannut <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
         France</a>
