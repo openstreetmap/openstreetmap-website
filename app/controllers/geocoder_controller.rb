@@ -149,10 +149,10 @@ class GeocoderController < ApplicationController
                       t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.tr("_", " ").capitalize
                     end
       if klass == "boundary" && type == "administrative"
-        rank = (place.attributes["place_rank"].to_i + 1) / 2
+        rank = (place.attributes["address_rank"].to_i + 1) / 2
         prefix_name = t "geocoder.search_osm_nominatim.admin_levels.level#{rank}", :default => prefix_name
         place.elements["extratags"].elements.each("tag") do |extratag|
-          prefix_name = t "geocoder.search_osm_nominatim.prefix.place.#{extratag.attributes['value']}", :default => prefix_name if extratag.attributes["key"] == "place"
+          prefix_name = t "geocoder.search_osm_nominatim.prefix.place.#{extratag.attributes['value']}", :default => prefix_name if extratag.attributes["key"] == "linked_place" || extratag.attributes["key"] == "place"
         end
       end
       prefix = t "geocoder.search_osm_nominatim.prefix_format", :name => prefix_name
