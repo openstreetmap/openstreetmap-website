@@ -3,12 +3,12 @@
 </p>
 <p>
   <% if @owner %>
-    <%= raw t ".commented.your_changeset", :commenter => link_to_user(@commenter), :time => @time %>
+    <%= t ".commented.your_changeset_html", :commenter => link_to_user(@commenter), :time => @time %>
   <% else %>
-    <%= raw t ".commented.commented_changeset", :commenter => link_to_user(@commenter), :time => @time, :changeset_author => @changeset_author %>
+    <%= t ".commented.commented_changeset_html", :commenter => link_to_user(@commenter), :time => @time, :changeset_author => @changeset_author %>
   <% end %>
   <% if @changeset_comment %>
-    <%= raw t ".commented.partial_changeset_with_comment", :changeset_comment => tag.em(@changeset_comment) %>
+    <%= t ".commented.partial_changeset_with_comment_html", :changeset_comment => tag.em(@changeset_comment) %>
   <% else %>
     <%= t ".commented.partial_changeset_without_comment" %>
   <% end %>
@@ -19,11 +19,11 @@
 <% end %>
 
 <p>
-  <%= raw t ".details", :url => link_to(@changeset_url, @changeset_url) %>
+  <%= t ".details_html", :url => link_to(@changeset_url, @changeset_url) %>
 </p>
 
 <% content_for :footer do %>
   <p>
-    <%= raw t ".unsubscribe", :url => link_to(@changeset_url, @changeset_url, :style => "color: #222") %>
+    <%= t ".unsubscribe_html", :url => link_to(@changeset_url, @changeset_url, :style => "color: #222") %>
   </p>
 <% end %>

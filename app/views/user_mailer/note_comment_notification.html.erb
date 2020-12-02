@@ -1,9 +1,9 @@
 <p><%= t ".greeting" %></p>
 
 <% if @owner %>
-  <p><%= raw t ".#{@event}.your_note", :commenter => link_to_user(@commenter), :place => @place %></p>
+  <p><%= t ".#{@event}.your_note_html", :commenter => link_to_user(@commenter), :place => @place %></p>
 <% else %>
-  <p><%= raw t ".#{@event}.commented_note", :commenter => link_to_user(@commenter), :place => @place %></p>
+  <p><%= t ".#{@event}.commented_note_html", :commenter => link_to_user(@commenter), :place => @place %></p>
 <% end %>
 
 <% unless @comment.empty? %>
@@ -12,4 +12,4 @@
   <% end %>
 <% end %>
 
-<p><%= raw t ".details", :url => link_to(@noteurl, @noteurl) %></p>
+<p><%= t ".details_html", :url => link_to(@noteurl, @noteurl) %></p>
