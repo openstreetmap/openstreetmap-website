@@ -39,6 +39,8 @@ window.onload = function () {
 
   if (!args.layer || args.layer === "mapnik" || args.layer === "osmarender" || args.layer === "mapquest") {
     new L.OSM.Mapnik(mapnikOptions).addTo(map);
+  } else if (args.layer === "cyclosm") {
+    new L.OSM.CyclOSM().addTo(map);
   } else if (args.layer === "cyclemap" || args.layer === "cycle map") {
     new L.OSM.CycleMap(thunderforestOptions).addTo(map);
   } else if (args.layer === "transportmap") {

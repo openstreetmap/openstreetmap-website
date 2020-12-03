@@ -18,6 +18,7 @@ L.OSM.Map = L.Map.extend({
     var copyright = I18n.t("javascripts.map.copyright", { copyright_url: "/copyright" });
     var donate = I18n.t("javascripts.map.donate_link_text", { donate_url: "https://donate.openstreetmap.org" });
     var terms = I18n.t("javascripts.map.terms", { terms_url: "https://wiki.osmfoundation.org/wiki/Terms_of_Use" });
+    var cyclosm = I18n.t("javascripts.map.cyclosm", { cyclosm_url: "https://www.cyclosm.org", osmfrance_url: "https://openstreetmap.fr/" });
     var thunderforest = I18n.t("javascripts.map.thunderforest", { thunderforest_url: "https://www.thunderforest.com/" });
     var memomaps = I18n.t("javascripts.map.opnvkarte", { memomaps_url: "https://memomaps.de/" });
     var hotosm = I18n.t("javascripts.map.hotosm", { hotosm_url: "https://www.hotosm.org/", osmfrance_url: "https://openstreetmap.fr/" });
@@ -29,6 +30,13 @@ L.OSM.Map = L.Map.extend({
       code: "M",
       keyid: "mapnik",
       name: I18n.t("javascripts.map.base.standard")
+    }));
+
+    this.baseLayers.push(new L.OSM.CyclOSM({
+      attribution: copyright + ". " + cyclosm + ". " + terms,
+      code: "Y",
+      keyid: "cyclosm",
+      name: I18n.t("javascripts.map.base.cyclosm")
     }));
 
     if (OSM.THUNDERFOREST_KEY) {
