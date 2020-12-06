@@ -147,7 +147,7 @@ group :test do
   gem "minitest", "~> 5.1"
   gem "puma", "~> 5.0"
   gem "rails-controller-testing"
-  gem "rubocop"
+  gem "rubocop", "~> 0.93"
   gem "rubocop-minitest"
   gem "rubocop-performance"
   gem "rubocop-rails"
