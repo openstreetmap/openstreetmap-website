@@ -1,9 +1,9 @@
 <p><%= t ".had_added_you", :user => @friendship.befriender.display_name %></p>
 
 <%= message_body do %>
-  <p><%= raw t ".see_their_profile", :userurl => link_to(@viewurl, @viewurl) %></p>
+  <p><%= t ".see_their_profile_html", :userurl => link_to(@viewurl, @viewurl) %></p>
 
   <% unless @friendship.befriendee.is_friends_with?(@friendship.befriender) -%>
-  <p><%= raw t ".befriend_them", :befriendurl => link_to(@friendurl, @friendurl) %></p>
+  <p><%= t ".befriend_them_html", :befriendurl => link_to(@friendurl, @friendurl) %></p>
   <% end -%>
 <% end %>

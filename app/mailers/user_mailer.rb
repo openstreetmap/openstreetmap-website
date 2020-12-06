@@ -17,7 +17,7 @@ class UserMailer < ApplicationMailer
                      :confirm_string => token.token)
 
       mail :to => user.email,
-           :subject => I18n.t("user_mailer.signup_confirm.subject")
+           :subject => t(".subject")
     end
   end
 
@@ -28,7 +28,7 @@ class UserMailer < ApplicationMailer
                      :confirm_string => token.token)
 
       mail :to => user.new_email,
-           :subject => I18n.t("user_mailer.email_confirm.subject")
+           :subject => t(".subject")
     end
   end
 
@@ -38,7 +38,7 @@ class UserMailer < ApplicationMailer
                      :token => token.token)
 
       mail :to => user.email,
-           :subject => I18n.t("user_mailer.lost_password.subject")
+           :subject => t(".subject")
     end
   end
 
@@ -52,7 +52,7 @@ class UserMailer < ApplicationMailer
       @possible_points = possible_points
 
       mail :to => trace.user.email,
-           :subject => I18n.t("user_mailer.gpx_success.subject")
+           :subject => t(".subject")
     end
   end
 
@@ -65,7 +65,7 @@ class UserMailer < ApplicationMailer
       @error = error
 
       mail :to => trace.user.email,
-           :subject => I18n.t("user_mailer.gpx_failure.subject")
+           :subject => t(".subject")
     end
   end
 
@@ -83,7 +83,7 @@ class UserMailer < ApplicationMailer
 
       mail :from => from_address(message.sender.display_name, "m", message.id, message.digest),
            :to => message.recipient.email,
-           :subject => I18n.t("user_mailer.message_notification.subject_header", :subject => message.title)
+           :subject => t(".subject", :message_title => message.title)
     end
   end
 
@@ -104,7 +104,7 @@ class UserMailer < ApplicationMailer
 
       mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest, recipient.id),
            :to => recipient.email,
-           :subject => I18n.t("user_mailer.diary_comment_notification.subject", :user => comment.user.display_name)
+           :subject => t(".subject", :user => comment.user.display_name)
     end
   end
 
@@ -117,7 +117,7 @@ class UserMailer < ApplicationMailer
 
       attach_user_avatar(@friendship.befriender)
       mail :to => friendship.befriendee.email,
-           :subject => I18n.t("user_mailer.friendship_notification.subject", :user => friendship.befriender.display_name)
+           :subject => t(".subject", :user => friendship.befriender.display_name)
     end
   end
 
@@ -132,7 +132,7 @@ class UserMailer < ApplicationMailer
       @commenter = if comment.author
                      comment.author.display_name
                    else
-                     I18n.t("user_mailer.note_comment_notification.anonymous")
+                     t(".anonymous")
                    end
 
       @author = @commenter
@@ -141,9 +141,9 @@ class UserMailer < ApplicationMailer
       set_references("note", comment.note)
 
       subject = if @owner
-                  I18n.t("user_mailer.note_comment_notification.#{@event}.subject_own", :commenter => @commenter)
+                  t(".#{@event}.subject_own", :commenter => @commenter)
                 else
-                  I18n.t("user_mailer.note_comment_notification.#{@event}.subject_other", :commenter => @commenter)
+                  t(".#{@event}.subject_other", :commenter => @commenter)
                 end
 
       mail :to => recipient.email, :subject => subject
@@ -163,9 +163,9 @@ class UserMailer < ApplicationMailer
       @author = @commenter
 
       subject = if @owner
-                  I18n.t("user_mailer.changeset_comment_notification.commented.subject_own", :commenter => @commenter)
+                  t(".commented.subject_own", :commenter => @commenter)
                 else
-                  I18n.t("user_mailer.changeset_comment_notification.commented.subject_other", :commenter => @commenter)
+                  t(".commented.subject_other", :commenter => @commenter)
                 end
 
       attach_user_avatar(comment.author)

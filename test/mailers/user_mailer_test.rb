@@ -17,4 +17,13 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_match(/one two three/, email.html_part.body.to_s)
   end
+
+  def test_html_encoding
+    user = create(:user, :display_name => "Jack & Jill <br>")
+    message = create(:message, :sender => user)
+    email = UserMailer.message_notification(message)
+
+    assert_match("Jack & Jill <br>", email.text_part.body.to_s)
+    assert_match("Jack &amp; Jill &lt;br&gt;", email.html_part.body.to_s)
+  end
 end
