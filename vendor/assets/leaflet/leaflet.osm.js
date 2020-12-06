@@ -19,6 +19,15 @@ L.OSM.Mapnik = L.OSM.TileLayer.extend({
   }
 });
 
+L.OSM.CyclOSM = L.OSM.TileLayer.extend({
+  options: {
+    url: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
+    maxZoom: 20,
+    subdomains: 'abc',
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="https://www.openstreetmap.fr" target="_blank">OpenStreetMap France</a>'
+  }
+});
+
 L.OSM.CycleMap = L.OSM.TileLayer.extend({
   options: {
     url: 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey={apikey}',
