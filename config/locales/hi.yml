@@ -13,6 +13,7 @@
 # Author: Sfic
 # Author: Shubhamkanodia
 # Author: Siddhartha Ghai
+# Author: ThisIsACreeper0101
 # Author: Vdhatterwal
 ---
 hi:
@@ -32,14 +33,21 @@ hi:
         create: भेजें
       client_application:
         create: खाता बनाएं
-        update: संपादन
+        update: अपडेट करें
+      redaction:
+        create: रिडैक्शन बनाएँ
+        update: रिडैक्शन सहेजें
       trace:
         create: अपलोड
         update: बदलाव सहेजें
+      user_block:
+        create: ब्लॉक बनाएँ
+        update: ब्लॉक को अपडेट करें
   activerecord:
     errors:
       messages:
         invalid_email_address: 'यह ई-मेल ऐड्रेस संभवत: अमान्य है'
+        email_address_not_routable: रास्ता बनाने लायक नहीं है
     models:
       acl: अभिगम नियंत्रण सूची
       changeset: बदलाव
@@ -48,6 +56,7 @@ hi:
       diary_comment: डायरी टिप्पणी
       diary_entry: डायरी प्रविष्टि
       friend: दोस्त
+      issue: समस्या
       language: भाषा
       message: संदेश
       node: बिंदु
@@ -64,6 +73,7 @@ hi:
       relation: संबंध
       relation_member: संबंध का सदस्य
       relation_tag: संबंध का अंकितक
+      report: रिपोर्ट करें
       session: सत्र
       trace: अनुरेख
       tracepoint: अनुरेखण बिंदु
@@ -75,6 +85,18 @@ hi:
       way_node: रेखा का बिंदु
       way_tag: रेखा का अंकितक
     attributes:
+      client_application:
+        name: नाम (ज़रूरी)
+        url: मुख्य ऐप्लिकेशन URL (ज़रूरी)
+        callback_url: कॉलबैक URL
+        support_url: सहायता URL
+        allow_read_prefs: उनकी सदस्य प्राथमिकाताएँ पढ़ें
+        allow_write_prefs: उनके सदस्य प्राथमिकताओं को बदलें
+        allow_write_diary: डायरी एंट्री, कमेंट बनाइए और दोस्ती कीजिए
+        allow_write_api: मैप को मॉडिफाई करें
+        allow_read_gpx: उनके GPS रेखा को देखें
+        allow_write_gpx: GPS रेखा अपलोड करें
+        allow_write_notes: नोट मॉडिफाई करें
       diary_comment:
         body: शरीर
       diary_entry:
@@ -89,18 +111,23 @@ hi:
       trace:
         user: सदस्य
         visible: दृश्य
-        name: नाम
+        name: चित्र का नाम
         size: आकार
         latitude: अक्षांश
         longitude: देशांतर
         public: सार्वजनिक
         description: वर्णन
-        visibility: दृष्टता
+        gpx_file: GPX फाइल अपलोड करें
+        visibility: दृश्यता
+        tagstring: टैग
       message:
         sender: प्रेषक
         title: विषय
         body: संदेश का शारीर
         recipient: प्राप्तकर्ता
+      report:
+        category: अपने रिपोर्ट का एक कारण दें
+        details: कृपया अपनी समस्या के बारे में थोड़ी और जानकारी दें (ज़रूरी)
       user:
         email: ई-मेल
         active: सक्रिय
@@ -108,6 +135,10 @@ hi:
         description: वर्णन
         languages: भाषाओं
         pass_crypt: पासवर्ड
+        pass_crypt_confirmation: पासवर्ड कन्फर्म करें
+    help:
+      trace:
+        tagstring: कॉमा डीलिमिट किया गया है
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -123,14 +154,53 @@ hi:
         one: करीब १ साल पहले
         other: करीब %{count} साल पहले
       half_a_minute: करीब एक मिनट पहले
+      less_than_x_seconds:
+        one: १ सेकंड से कम समय पहले
+        other: '%{count} से कम समय पहले'
+      less_than_x_minutes:
+        one: १ मिनट से कम समय पहले
+        other: '%{count} से कम समय पहले'
+      over_x_years:
+        one: १ साल से ज़यादा समय पहले
+        other: less than %{count} सालों से ज़्यादा समय पहले
+      x_seconds:
+        one: १ सेकंड पहले
+        other: '%{count} सेकंड पहले'
+      x_minutes:
+        one: १ मिनट पहले
+        other: '%{count} मिनट पहले'
+      x_days:
+        one: १ दिन पहले
+        other: '%{count} दिन पहले'
+      x_months:
+        one: एक महीने पहले
+        other: '%{count} महीने पहले'
+      x_years:
+        one: १ साल पहले
+        other: '%{count} साल पहले'
   editor:
     default: डिफ़ॉल्ट (currently %{name})
     potlatch:
       name: पौटलैच 1
+      description: पॉटलैच १ (ब्राउज़र का एडिटर)
     id:
       name: आईडी
+      description: iD (ब्राउज़र का एडिटर)
     potlatch2:
       name: पौटलैच 2
+      description: पॉटलैच २ (ब्राउज़र का एडिटर)
+    remote:
+      name: रिमोट कंट्रोल
+      description: रिमोट कंट्रोल (JOSM या Merkaartor)
+  auth:
+    providers:
+      none: कुछ नहीं
+      openid: OpenID
+      google: गूगल
+      facebook: फेसबुक
+      windowslive: विन्डोज़ लाइव
+      github: गिट्हब
+      wikipedia: विकिपीडिया
   api:
     notes:
       comment:
@@ -143,20 +213,52 @@ hi:
         reopened_at_html: '%{when} पर पुन: सक्रिय किया गया'
         reopened_at_by_html: '%{when} पर %{user} ने पुन: सक्रिय किया'
       rss:
+        title: ओपनस्ट्रीटमैप नोट
+        description_area: आपके इलाके में नोट, रिपोर्ट किए गए, कमेंट किए गए या बंद
+          किए चीज़ों गए की सूची [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: नोट %{id} के लिए rss फीड
+        opened: नया नोट (%{place} के पास)
         commented: नया जवाब (%{place} के पास)
+        closed: बंद किया गया नोट (%{place} के पास)
+        reopened: फिर से खोला गया नोट (%{place} के पास)
       entry:
         comment: जवाब
+        full: पूरा नोट
   browse:
+    created: बनाया गया
+    closed: बंद किया गया
+    created_html: <abbr title='%{title}'>%{time}</abbr> बनाया गया
+    closed_html: <abbr title='%{title}'>%{time}</abbr> बंद किया गया
+    created_by_html: '%{user} द्वारा <abbr title=''%{title}''>%{time}</abbr> खोला
+      गया'
+    deleted_by_html: '%{user} द्वारा <abbr title=''%{title}''>%{time}</abbr> को बंद
+      किया गया'
+    edited_by_html: '%{user} द्वारा <abbr title=''%{title}''>%{time}</abbr> को सम्पादित
+      किया गया'
+    closed_by_html: '%{user} द्वारा <abbr title=''%{title}''>%{time}</abbr> को बंद
+      किया गया'
     version: संस्करण
+    in_changeset: Changeset
     anonymous: अनामक
     no_comment: (कोई टिप्पणी नहीं)
+    part_of: इसका भाग
+    part_of_relations:
+      one: १ सम्बंध
+      other: '%{count} सम्बंध'
+    part_of_ways:
+      one: १ रास्ता
+      other: '%{count} रास्तें'
+    download_xml: XML डाउनलोड करें
     view_history: इतिहास देखें
     view_details: जानकारी देखें
     location: 'स्थान:'
     changeset:
+      title: 'Changeset: %{id}'
       belongs_to: लेखक
       node: बिंदु (%{count})
+      node_paginated: नोड (%{count} का %{x}-%{y})
       way: रेखाएं (%{count})
+      way_paginated: रास्तें (%{count} का %{x}-%{y})
       comment: जवाब (%{count})
       discussion: चर्चा
       still_open: चेंजसेट अभी भी खुला - चेंजसेट के एक बार बंद होने के पश्चात चर्चा
@@ -326,7 +428,6 @@ hi:
           marketplace: बाज़ार
           nightclub: नाईट क्लब
           nursing_home: नर्सिंग होम
-          office: कार्यालय
           parking: पार्किंग
           parking_entrance: पार्किंग प्रवेश
           parking_space: पार्किंग की जगह
@@ -341,7 +442,6 @@ hi:
           restaurant: भोजनालय
           school: विद्यालय
           shelter: आश्रालय
-          shop: दुकान
           studio: स्टुडियो
           swimming_pool: तरणताल
           taxi: टैक्सी
@@ -353,7 +453,6 @@ hi:
           waste_basket: कूड़ादान
           waste_disposal: ढलाव
           water_point: जल बिंदु
-          youth_centre: युवा केन्द्र
         boundary:
           national_park: राष्ट्रीय उद्यान
           protected_area: संरक्षित क्षेत्र
@@ -505,7 +604,6 @@ hi:
           kitchen: रसोई की वस्तुओं की दुकान
           lottery: लॉटरी
           mall: मौल
-          market: बाज़ार
           massage: मालिश
           pawnbroker: साहूकार
           seafood: समुद्री खाद्य
@@ -539,7 +637,6 @@ hi:
         level8: शहर सीमा
         level9: गांव सीमा
         level10: इलाके की सीमा
-    description:
       types:
         cities: नगर
         towns: शहर
@@ -576,15 +673,13 @@ hi:
     help: सहायता
     community: समुदाय
     foundation: संस्थान
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} ने एक दैनिकी पर प्रतिक्रिया दी'
     friendship_notification:
       subject: '[OpenStreetMap] %{user} ने आपको अपने दोस्तों में शामिल किया है'
       had_added_you: '%{user} ने आपको OpenStreetMap पर अपने दोस्तों में शामिल किया
         है।'
-    gpx_notification:
-      greeting: नमस्कार,
     note_comment_notification:
       greeting: नमस्कार,
   messages:
@@ -669,19 +764,12 @@ hi:
   oauth_clients:
     show:
       key: उपभोक्ता कुंजी
-      allow_write_api: नक्शे में तब्दीली
-    form:
-      name: नाम
-      required: आवश्यकता
-      allow_write_api: नक्शा संपादित करें.
-      allow_write_notes: नोट संशोधित करें।
   users:
     lost_password:
       title: lost password
       new password button: Send me a new password
     reset_password:
       title: reset password
-      password: 'पासवर्ड:'
     show:
       my friends: मेरे मित्र
     account:

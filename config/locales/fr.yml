@@ -1331,7 +1331,7 @@ fr:
           "yes": Cours d’eau
       admin_levels:
         level2: Frontière de pays
-        level3: Limite de région
+        level3: Frontière de région
         level4: Limite d’État, province ou région
         level5: Limite de région
         level6: Limite de département ou province
@@ -1339,7 +1339,7 @@ fr:
         level8: Limite communale
         level9: Limite de village ou arrondissement municipal
         level10: Limite de quartier
-        level11: Limite de voisinage
+        level11: Frontière de voisinage
       types:
         cities: Villes
         towns: Villages
@@ -1508,13 +1508,21 @@ fr:
       hi: Bonjour %{to_user},
       header: '%{from_user} a publié un commentaire sur un article récent du journal
         OpenStreetMap avec le sujet %{subject} :'
+      header_html: '%{from_user} a commenté sur l’entrée d’agenda de OpenStreetMap
+        avec le sujet %{subject} :'
       footer: Vous pouvez également lire le commentaire sur %{readurl}, le commenter
         sur %{commenturl} ou envoyer un message à l'auteur sur %{replyurl}
+      footer_html: Vous pouvez aussi lire le commentaire sur %{readurl} et vous pouvez
+        commenter sur %{commenturl} ou envoyer un message à l’auteur sur %{replyurl}
     message_notification:
-      subject_header: '[OpenStreetMap] %{subject}'
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Bonjour %{to_user},
       header: '%{from_user} vous a envoyé un message depuis OpenStreetMap avec le
         sujet %{subject} :'
+      header_html: '%{from_user} vous a envoyé un message via OpenStreetMap avec le
+        sujet %{subject} :'
+      footer: Vous pouvez aussi lire le message sur %{readurl} et pouvez envoyer un
+        message à l’auteur sur %{replyurl}
       footer_html: Vous pouvez aussi lire le message sur %{readurl} ou envoyer un
         message à l'auteur sur %{replyurl}
     friendship_notification:
@@ -1522,7 +1530,9 @@ fr:
       subject: '[OpenStreetMap] %{user} vous a ajouté comme ami'
       had_added_you: '%{user} vous a ajouté comme ami dans OpenStreetMap.'
       see_their_profile: 'Vous pouvez voir son profil ici : %{userurl}.'
+      see_their_profile_html: Vous pouvez voir leur profil sur %{userurl}.
       befriend_them: 'Vous pouvez également l''ajouter comme ami ici : %{befriendurl}.'
+      befriend_them_html: Vous pouvez aussi les ajouter comme amis sur %{befriendurl}.
     gpx_description:
       description_with_tags_html: 'Il ressemble à votre fichier GPX %{trace_name}
         avec la description %{trace_description} et les balises suivantes : %{tags}'
@@ -1553,27 +1563,13 @@ fr:
         supplémentaires pour bien démarrer.
     email_confirm:
       subject: '[OpenStreetMap] Confirmation de votre adresse de courriel'
-    email_confirm_plain:
       greeting: Bonjour,
       hopefully_you: Quelqu’un (vous, espérons-le) aimerait modifier son adresse de
         courriel sur %{server_url} en %{new_address}.
       click_the_link: Si vous êtes à l’origine de cette demande, cliquez le lien ci-dessous
         pour confirmer cette modification.
-    email_confirm_html:
-      greeting: Bonjour,
-      hopefully_you: Quelqu’un (vous, espérons-le) aimerait changer son adresse de
-        courriel de %{server_url} en %{new_address}.
-      click_the_link: Si vous êtes à l’origine de cette demande, cliquez le lien ci-dessous
-        pour confirmer cette modification.
     lost_password:
       subject: '[OpenStreetMap] Demande de réinitialisation du mot de passe'
-    lost_password_plain:
-      greeting: Bonjour,
-      hopefully_you: Quelqu’un (vous, espérons-le) a demandé la réinitialisation du
-        mot de passe du compte openstreetmap.org associé à cette adresse de courriel.
-      click_the_link: Si vous êtes à l’origine de cette demande, cliquez le lien ci-dessous
-        pour réinitialiser votre mot de passe.
-    lost_password_html:
       greeting: Bonjour,
       hopefully_you: Quelqu’un (vous, espérons-le) a demandé la réinitialisation du
         mot de passe du compte openstreetmap.org associé à cette adresse de courriel.
@@ -1588,23 +1584,35 @@ fr:
           vous vous intéressez'
         your_note: '%{commenter} a laissé un commentaire sur une de vos notes de carte
           près de %{place}.'
+        your_note_html: '%{commenter} a laissé un commentaire sur une de vos notes
+          de carte près de %{place}.'
         commented_note: '%{commenter} a laissé un commentaire sur une note de carte
           que vous avez commentée. La note est proche de %{place}.'
+        commented_note_html: '%{commenter} a laissé un commentaire sur une note de
+          carte que vous avez commentée. La note est proche de %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} a résolu une de vos notes'
         subject_other: '[OpenStreetMap] %{commenter} a résolu une note à laquelle
           vous vous intéressez'
         your_note: '%{commenter} a résolu une de vos notes de carte près de %{place}.'
+        your_note_html: '%{commenter} a résolu une de vos notes de carte près de %{place}.'
         commented_note: '%{commenter} a résolu une note de carte que vous avez commentée.
           La note est proche de %{place}.'
+        commented_note_html: '%{commenter} a résolu une note de carte que vous avez
+          commentée. La note est près de %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} a réactivé une de vos notes'
         subject_other: '[OpenStreetMap] %{commenter} a réactivé une note à laquelle
           vous vous intéressez'
         your_note: '%{commenter} a réactivé une de vos notes de carte près de %{place}.'
+        your_note_html: '%{commenter} a réactivé une de vos notes de carte près de
+          %{place}.'
         commented_note: '%{commenter} a réactivé une note de carte que vous avez commentée.
           La note se trouve près de %{place}.'
+        commented_note_html: '%{commenter} a réactivé une note de carte que vous avez
+          commentée. La note est près de %{place}.'
       details: Plus de détails concernant la note se trouvent à %{url}.
+      details_html: Vous pouvez trouver plus de détails sur la note sur %{url}.
     changeset_comment_notification:
       hi: Bonjour %{to_user},
       greeting: Bonjour,
@@ -1615,13 +1623,22 @@ fr:
           auquel vous vous intéressez'
         your_changeset: '%{commenter} a laissé un commentaire le %{time} sur un de
           vos ensembles de changements'
+        your_changeset_html: '%{commenter} a laissé un commentaire à %{time} sur un
+          de vos ensembles de modifications'
         commented_changeset: '%{commenter} a laissé un commentaire le %{time} sur
           un ensemble de changements créé par %{changeset_author} et que vous suivez'
+        commented_changeset_html: '%{commenter} a laissé un commentaire à %{time}
+          sur un ensemble de modifications que vous suivez créée par %{changeset_author}'
         partial_changeset_with_comment: avec le commentaire « %{changeset_comment}' »
+        partial_changeset_with_comment_html: avec le commentaire '%{changeset_comment}'
         partial_changeset_without_comment: sans commentaire
       details: Plus de détails sur l’ensemble de modifications à %{url}.
+      details_html: Vous pouvez trouver plus de détails sur l’ensemble de modifications
+        sur %{url}.
       unsubscribe: Pour vous désabonner des mises à jour de cet ensemble de modifications,
         visitez %{url} et cliquez sur « Désabonner ».
+      unsubscribe_html: Pour vous désabonner des mises à jour de cet ensemble de modifications,
+        visitez %{url} et cliquez sur « Désabonner ».
   messages:
     inbox:
       title: Boîte de réception

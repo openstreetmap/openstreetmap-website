@@ -1302,12 +1302,15 @@ pt-BR:
           "yes": Via Aquática
       admin_levels:
         level2: Fronteira nacional
+        level3: Limite de região
         level4: Divisa Estadual
         level5: Limite Regional
         level6: Limite de Condado
+        level7: Limite do município
         level8: Limite Municipal
         level9: Limite de Distrito Municipal
         level10: Limite de Bairro
+        level11: Limite da vizinhança
       types:
         cities: Cidades Maiores
         towns: Cidades Menores
@@ -1476,13 +1479,21 @@ pt-BR:
       hi: Olá %{to_user},
       header: '%{from_user} comentou na publicação do diário do OpenStreetMap com
         o assunto %{subject}:'
+      header_html: '%{from_user} comentou na publicação do diário do OpenStreetMap
+        com o assunto %{subject}:'
       footer: Você pode ler o comentário em %{readurl}, pode comentá-lo em %{commenturl}
         ou respondê-lo em %{replyurl}
+      footer_html: Você pode ler o comentário em %{readurl}, pode comentá-lo em %{commenturl}
+        ou respondê-lo em %{replyurl}
     message_notification:
-      subject_header: '[OpenStreetMap] %{subject}'
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Olá %{to_user},
       header: '%{from_user} enviou uma mensagem pelo OpenStreetMap para você com o
         assunto %{subject}:'
+      header_html: '%{from_user} enviou uma mensagem pelo OpenStreetMap para você
+        com o assunto %{subject}:'
+      footer: Você pode também ler a mensagem em %{readurl} e você pode enviar uma
+        mensagem ao autor em %{replyurl}
       footer_html: Você pode também ler a mensagem em %{readurl} e você pode enviar
         uma mensagem ao autor em %{replyurl}
     friendship_notification:
@@ -1490,7 +1501,9 @@ pt-BR:
       subject: '[OpenStreetMap] %{user} adicionou você como amigo(a)'
       had_added_you: '%{user} adicionou você como amigo(a) no OpenStreetMap.'
       see_their_profile: Você pode ver o perfil dele(a) em %{userurl}.
+      see_their_profile_html: Você pode ver o perfil dele(a) em %{userurl}.
       befriend_them: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
+      befriend_them_html: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
     gpx_description:
       description_with_tags_html: 'Parece seu arquivo GPX %{trace_name} com a descrição
         %{trace_description} e as seguintes etiquetas: %{tags}'
@@ -1520,13 +1533,6 @@ pt-BR:
         para começar.
     email_confirm:
       subject: '[OpenStreetMap] Confirmação de endereço de e-mail'
-    email_confirm_plain:
-      greeting: Olá,
-      hopefully_you: Alguém (provavelmente você) quer alterar o seu endereço de e-mail
-        de %{server_url} para %{new_address}.
-      click_the_link: Se esta pessoa é você, por favor clique no link abaixo para
-        confirmar a alteração.
-    email_confirm_html:
       greeting: Olá,
       hopefully_you: Alguém (provavelmente você) quer alterar o seu endereço de e-mail
         de %{server_url} para %{new_address}.
@@ -1534,13 +1540,6 @@ pt-BR:
         confirmar a alteração.
     lost_password:
       subject: '[OpenStreetMap] Solicitação de nova senha'
-    lost_password_plain:
-      greeting: Olá,
-      hopefully_you: Alguém (talvez você) pediu uma nova senha para a conta no openstreetmap.org
-        ligada a este e-mail.
-      click_the_link: Se esta pessoa é você, por favor clique no link abaixo para
-        receber uma nova senha.
-    lost_password_html:
       greeting: Olá,
       hopefully_you: Alguém (talvez você) pediu uma nova senha para a conta no openstreetmap.org
         ligada a este e-mail.
@@ -1555,23 +1554,34 @@ pt-BR:
           a você'
         your_note: '%{commenter} deixou um comentário numa nota sua no mapa perto
           de %{place}.'
+        your_note_html: '%{commenter} deixou um comentário numa nota sua no mapa perto
+          de %{place}.'
         commented_note: '%{commenter} deixou um comentário numa nota de mapa que você
           comentou. A notá está perto de %{place}.'
+        commented_note_html: '%{commenter} deixou um comentário numa nota de mapa
+          que você comentou. A notá está perto de %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} resolveu uma nota sua'
         subject_other: '[OpenStreetMap] %{commenter} resolveu uma nota que interessa
           a você'
         your_note: '%{commenter} resolveu uma nota sua no mapa perto de %{place}.'
+        your_note_html: '%{commenter} resolveu uma nota sua no mapa perto de %{place}.'
         commented_note: '%{commenter} resolveu uma nota de um mapa que você comentou.
+          A nota está perto de %{place}.'
+        commented_note_html: '%{commenter} resolveu uma nota de um mapa que você comentou.
           A nota está perto de %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} reativou uma nota sua'
         subject_other: '[OpenStreetMap] %{commenter} reativou uma nota que interessa
           a você'
         your_note: '%{commenter} reativou uma nota sua no mapa perto de %{place}.'
+        your_note_html: '%{commenter} reativou uma nota sua no mapa perto de %{place}.'
         commented_note: '%{commenter} reativou uma nota de mapa que você comentou.
           A nota está perto de %{place}.'
+        commented_note_html: '%{commenter} reativou uma nota de mapa que você comentou.
+          A nota está perto de %{place}.'
       details: Mais detalhes sobre a nota podem ser encontrados em %{url}.
+      details_html: Mais detalhes sobre a nota podem ser encontrados em %{url}.
     changeset_comment_notification:
       hi: Olá %{to_user},
       greeting: Olá,
@@ -1582,14 +1592,23 @@ pt-BR:
           que interessa a você'
         your_changeset: '%{commenter} deixou um comentário em %{time} em conjunto
           de alterações'
+        your_changeset_html: '%{commenter} deixou um comentário em %{time} em conjunto
+          de alterações'
         commented_changeset: '%{commenter} deixou um comentário a %{time} num conjunto
           de alterações em que está interessado, criado por %{changeset_author}'
+        commented_changeset_html: '%{commenter} deixou um comentário a %{time} num
+          conjunto de alterações em que está interessado, criado por %{changeset_author}'
         partial_changeset_with_comment: com comentário %{changeset_comment}
+        partial_changeset_with_comment_html: com comentário %{changeset_comment}
         partial_changeset_without_comment: sem comentários
       details: Mais detalhes sobre o conjunto de alterações podem ser encontrados
         em %{url}
+      details_html: Mais detalhes sobre o conjunto de alterações podem ser encontrados
+        em %{url}
       unsubscribe: Para cancelar a subscrição das atualizações deste conjunto de alterações,
         visite %{url} e clique em "Anular subscrição".
+      unsubscribe_html: Para cancelar a subscrição das atualizações deste conjunto
+        de alterações, visite %{url} e clique em "Anular subscrição".
   messages:
     inbox:
       title: Caixa de Entrada

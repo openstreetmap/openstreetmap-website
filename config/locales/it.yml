@@ -1464,13 +1464,19 @@ it:
       hi: Ciao %{to_user},
       header: '%{from_user} ha commentato la voce del diario OpenStreetMap con l''oggetto
         %{subject}:'
+      header_html: '%{from_user} ha commentato la voce del diario OpenStreetMap con
+        l''oggetto %{subject}:'
       footer: Puoi anche leggere il commento su %{readurl} e puoi commentare su %{commenturl}
         oppure inviare un messaggio all'autore su %{replyurl}
+      footer_html: Puoi anche leggere il commento su %{readurl} e puoi commentare
+        su %{commenturl} oppure inviare un messaggio all'autore su %{replyurl}
     message_notification:
-      subject_header: '[OpenStreetMap] %{subject}'
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Ciao %{to_user},
       header: '%{from_user} ti ha inviato un messaggio tramite OpenStreetMap con l''oggetto
         %{subject}:'
+      footer: Puoi anche leggere il messaggio al %{readurl} e puoi inviare un messaggio
+        all'autore al %{replyurl}
       footer_html: Puoi anche leggere il messaggio al %{readurl} e puoi inviare un
         messaggio all'autore al %{replyurl}
     friendship_notification:
@@ -1478,7 +1484,9 @@ it:
       subject: '[OpenStreetMap] %{user} ti ha aggiunto come amico'
       had_added_you: '%{user} ti ha aggiunto come suo amico su OpenStreetMap.'
       see_their_profile: Puoi vedere il suo profilo su %{userurl}.
+      see_their_profile_html: Puoi vedere il suo profilo su %{userurl}.
       befriend_them: Puoi anche aggiungerli come amici in %{befriendurl}.
+      befriend_them_html: Puoi anche aggiungerli come amici in %{befriendurl}.
     gpx_failure:
       hi: Ciao %{to_user},
       failed_to_import: 'fallito nell''importazione. Questo è l''errore:'
@@ -1502,34 +1510,19 @@ it:
         aggiuntive per consentirti di iniziare.
     email_confirm:
       subject: '[OpenStreetMap] Conferma il tuo indirizzo email'
-    email_confirm_plain:
       greeting: Ciao,
       hopefully_you: Qualcuno (si spera proprio tu) vuole modificare il tuo indirizzo
         di posta elettronica su %{server_url} con il nuovo indirizzo %{new_address}.
       click_the_link: Se questo sei proprio tu, per favore clicca sul collegamento
         sottostante per confermare il cambiamento.
-    email_confirm_html:
-      greeting: Ciao,
-      hopefully_you: Qualcuno (si spera proprio tu) vuole modificare il tuo indirizzo
-        di posta elettronica su %{server_url} con il nuovo indirizzo %{new_address}.
-      click_the_link: Se sei tu, per favore clicca il link sotto per confermare le
-        variazioni.
     lost_password:
       subject: '[OpenStreetMap] Richiesta nuova password'
-    lost_password_plain:
       greeting: Ciao,
       hopefully_you: Qualcuno (probabilmente tu stesso) ha chiesto di resettare la
         password del profilo utente di openstreetmap.org associato a questo indirizzo
         di posta elettronica.
       click_the_link: Se sei tu, per favore clicca sul link sotto per resettare la
         password
-    lost_password_html:
-      greeting: Ciao,
-      hopefully_you: Qualcuno (probabilmente tu stesso) ha richiesto che la tua password
-        sia impostata nuovamente su questo indirizzo di posta elettronica associato
-        al profilo utente di openstreetmap.org.
-      click_the_link: Se sei proprio tu, per favore clicca sul collegamento sottostante
-        per impostare nuovamente la tua password.
     note_comment_notification:
       anonymous: Un utente anonimo
       greeting: Ciao,
@@ -1539,23 +1532,35 @@ it:
           cui sei interessato'
         your_note: '%{commenter} ha lasciato un commento su una delle tue note sulla
           mappa vicina a %{place}.'
+        your_note_html: '%{commenter} ha lasciato un commento su una delle tue note
+          sulla mappa vicina a %{place}.'
         commented_note: '%{commenter} ha lasciato un commento su una nota sulla mappa
           da te commentata. La nota è vicina a %{place}.'
+        commented_note_html: '%{commenter} ha lasciato un commento su una nota sulla
+          mappa da te commentata. La nota è vicina a %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} ha chiuso una delle tue note'
         subject_other: '[OpenStreetMap] %{commenter} ha chiuso una nota cui sei interessato'
         your_note: '%{commenter} ha chiuso una delle tue note sulla mappa vicina a
           %{place}.'
+        your_note_html: '%{commenter} ha chiuso una delle tue note sulla mappa vicina
+          a %{place}.'
         commented_note: '%{commenter} ha chiuso una nota sulla mappa da te commentata.
+          La nota è vicina a %{place}.'
+        commented_note_html: '%{commenter} ha chiuso una nota sulla mappa da te commentata.
           La nota è vicina a %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} ha riattivato una delle tue note'
         subject_other: '[OpenStreetMap] %{commenter} ha riattivato una nota a cui
           eri interesssato'
-        your_note: '%{commenter}ha riattivato una delle tue note vicino a %{place}.'
+        your_note: '%{commenter} ha riattivato una delle tue note vicino a %{place}.'
+        your_note_html: '%{commenter} ha riattivato una delle tue note vicino a %{place}.'
         commented_note: '%{commenter} ha riattivato una nota che avevi commentato.
           La nota si trova vicino a %{place}.'
+        commented_note_html: '%{commenter} ha riattivato una nota che avevi commentato.
+          La nota si trova vicino a %{place}.'
       details: Ulteriori dettagli sulla nota possono essere trovati su %{url}.
+      details_html: Ulteriori dettagli sulla nota possono essere trovati su %{url}.
     changeset_comment_notification:
       hi: Ciao %{to_user},
       greeting: Ciao,
@@ -1565,13 +1570,22 @@ it:
           cui sei interessato'
         your_changeset: '%{commenter} ha lasciato un commento alle %{time} su uno
           dei tuoi gruppo di modifiche'
+        your_changeset_html: '%{commenter} ha lasciato un commento alle %{time} su
+          uno dei tuoi gruppo di modifiche'
         commented_changeset: In data %{time}, %{commenter} ha lasciato un commento
           alle %{time} su un gruppo di modifiche che stai osservando creato da %{changeset_author}
+        commented_changeset_html: In data %{time}, %{commenter} ha lasciato un commento
+          alle %{time} su un gruppo di modifiche che stai osservando creato da %{changeset_author}
         partial_changeset_with_comment: con il commento '%{changeset_comment}'
+        partial_changeset_with_comment_html: con il commento '%{changeset_comment}'
         partial_changeset_without_comment: senza commento
       details: Ulteriori dettagli sul gruppo di modifiche possono essere trovati su
         %{url}.
+      details_html: Ulteriori dettagli sul gruppo di modifiche possono essere trovati
+        su %{url}.
       unsubscribe: Per cancellarsi dagli aggiornamenti di questo insieme di modifiche,
+        visita %{url} e fai clic su "Cancellazione".
+      unsubscribe_html: Per cancellarsi dagli aggiornamenti di questo insieme di modifiche,
         visita %{url} e fai clic su "Cancellazione".
   messages:
     inbox:

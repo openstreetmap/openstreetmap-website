@@ -25,6 +25,7 @@
 # Author: YaronSh
 # Author: Yona b
 # Author: Ypnypn
+# Author: Zstadler
 # Author: יאיר מן
 # Author: ישראל קלר
 # Author: נדב ס
@@ -54,8 +55,8 @@ he:
         create: רישום
         update: עדכון
       redaction:
-        create: יצירת חיתוך
-        update: שמירת חיתוך
+        create: יצירת הסרה
+        update: שמירת הסרה
       trace:
         create: העלאה
         update: שמירת שינויים
@@ -66,7 +67,7 @@ he:
     errors:
       messages:
         invalid_email_address: זאת אינה כתובת דוא״ל תקנית
-        email_address_not_routable: אין אפשרות לטוות מסלול
+        email_address_not_routable: אי אפשר ליצור נתיב
     models:
       acl: רשימת בקרת גישה
       changeset: ערכת שינויים
@@ -75,46 +76,46 @@ he:
       diary_comment: תגובה ליומן
       diary_entry: רשומה ביומן
       friend: חבר
-      issue: סוגיה
+      issue: דיווח
       language: שפה
       message: הודעה
       node: נקודה
-      node_tag: תג מפרק
-      notifier: מודיע
+      node_tag: תג של נקודה
+      notifier: מתריע
       old_node: נקודה ישנה
-      old_node_tag: תג מפרק ישן
+      old_node_tag: תג של נקודה ישנה
       old_relation: יחס ישן
       old_relation_member: איבר יחס ישן
       old_relation_tag: תג יחס ישן
-      old_way: דרך ישנה
-      old_way_node: נקודת דרך ישנה
-      old_way_tag: תג דרך ישנה
+      old_way: קו ישן
+      old_way_node: נקודת קו ישנה
+      old_way_tag: תג קו ישן
       relation: יחס
       relation_member: איבר יחס
       relation_tag: תג יחס
-      report: דיווח
+      report: דו"ח
       session: שיח
-      trace: מסלול
-      tracepoint: נקודת מסלול
-      tracetag: תג מסלול
+      trace: הקלטה
+      tracepoint: נקודת הקלטה
+      tracetag: תג הקלטה
       user: משתמש
-      user_preference: העדפת המשתמש
+      user_preference: העדפות משתמש
       user_token: אסימון משתמש
-      way: דרך
-      way_node: נקודת דרך
-      way_tag: תג דרך
+      way: קו
+      way_node: נקודה של קו
+      way_tag: תג קו
     attributes:
       client_application:
         name: שם (נדרש)
         url: כתובת יישום ראשית (נדרש)
-        callback_url: כתובת קריאה (callback)
+        callback_url: כתובת קריאה חוזרת (callback)
         support_url: כתובת לתמיכה
         allow_read_prefs: לקרוא את העדפות המשתמש שלהם
         allow_write_prefs: לשנות את העדפות המשתמש שלהם
         allow_write_diary: ליצור רשומות ביומן, הערות וליצור חברויות
         allow_write_api: לשנות את המפה
-        allow_read_gpx: לקרוא את מסלולי ה־GPS הפרטיים שלהם
-        allow_write_gpx: להעלות מסלולי GPS
+        allow_read_gpx: לקרוא את הקלטות ה־GPS הפרטיות שלהם
+        allow_write_gpx: להעלות הקלטות GPS
         allow_write_notes: לשנות הערות
       diary_comment:
         body: גוף
@@ -138,7 +139,7 @@ he:
         description: תיאור
         gpx_file: העלאת קובץ GPX
         visibility: נִראוּת
-        tagstring: תגיות
+        tagstring: תגים
       message:
         sender: שולח
         title: נושא
@@ -146,7 +147,7 @@ he:
         recipient: נמען
       report:
         category: נא לבחור את הסיבה לדיווח שלך
-        details: נא לספק פרטים על הבעיה (נדרש).
+        details: נא לספק פרטים נוספים על הבעיה (נדרש).
       user:
         email: דוא״ל
         active: פעיל
@@ -154,58 +155,73 @@ he:
         description: תיאור
         languages: שפות
         pass_crypt: סיסמה
-        pass_crypt_confirmation: אימות ססמה
+        pass_crypt_confirmation: אימות סיסמה
     help:
       trace:
         tagstring: מופרד בפסיקים
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: לפני בערך שעה
-        two: לפני בערך שעתיים
-        many: לפני בערך %{count} שעות
-        other: לפני בערך %{count} שעות
+        one: לפני שעה בערך
+        two: לפני שעתיים בערך
+        many: לפני %{count} שעות בערך
+        other: לפני %{count} שעות בערך
       about_x_months:
-        one: לפני בערך חודש
-        two: לפני בערך חודשיים
-        other: לפני בערך %{count} חודשים
+        one: לפני חודש בערך
+        two: לפני חודשיים בערך
+        many: לפני %{count} חודשים בערך
+        other: לפני %{count} חודשים בערך
       about_x_years:
-        one: לפני בערך שנה
-        two: לפני בערך שנתיים
-        other: לפני בערך %{count} שנים
+        one: לפני שנה בערך
+        two: לפני שנתיים בערך
+        many: לפני %{count} שנים בערך
+        other: לפני %{count} שנים בערך
       almost_x_years:
         one: לפני כמעט שנה
         two: לפני כמעט שנתיים
+        many: לפני כמעט %{count} שנים
         other: לפני כמעט %{count} שנים
       half_a_minute: לפני חצי דקה
       less_than_x_seconds:
         one: לפני פחות משנייה
+        two: לפני פחות מ־%{count} שניות
+        many: לפני פחות מ־%{count} שניות
         other: לפני פחות מ־%{count} שניות
       less_than_x_minutes:
         one: לפני פחות מדקה
+        two: לפני פחות מ־%{count} דקות
+        many: לפני פחות מ־%{count} דקות
         other: לפני פחות מ־%{count} דקות
       over_x_years:
         one: לפני למעלה משנה
         two: לפני למעלה משנתיים
+        many: לפני למעלה מ־%{count} שנים
         other: לפני למעלה מ־%{count} שנים
       x_seconds:
         one: לפני שנייה
+        two: לפני %{count} שניות
+        many: לפני %{count} שניות
         other: לפני %{count} שניות
       x_minutes:
         one: לפני דקה
+        two: לפני %{count} דקות
+        many: לפני %{count} דקות
         other: לפני %{count} דקות
       x_days:
         one: אתמול
         two: שלשום
+        many: לפני %{count} ימים
         other: לפני %{count} ימים
       x_months:
         one: לפני חודש
         two: לפני חודשיים
+        many: לפני %{count} חודשים
         other: לפני %{count} חודשים
       x_years:
         one: לפני שנה
         two: לפני שנתיים
-        other: לפני בערך %{count} שנים
+        many: לפני %{count} שנים
+        other: לפני %{count} שנים
   printable_name:
     with_name_html: '%{name} (%{id})'
   editor:
@@ -229,7 +245,7 @@ he:
       google: גוגל
       facebook: פייסבוק
       windowslive: Windows Live
-      github: GitHub
+      github: גיטהאב
       wikipedia: ויקיפדיה
   api:
     notes:
@@ -244,12 +260,12 @@ he:
         reopened_at_by_html: הופעלה מחדש %{when} על־ידי %{user}
       rss:
         title: הערות של OpenStreetMap
-        description_area: רשימת הערות שהוספו, שהתקבלו עליהן הערות ושנדבגרו באזור שלך
+        description_area: רשימת הערות שהוספו, שהתקבלו עליהן הערות ושנפתרו באזור שלך
           [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
         description_item: הזנת rss עבור ההערה %{id}
         opened: הערה חדשה (ליד %{place})
         commented: תגובה חדשה (ליד %{place})
-        closed: הערה סגורה (ליד %{place})
+        closed: הערה פתורה (ליד %{place})
         reopened: הערה שהופעלה מחדש (ליד %{place})
       entry:
         comment: תגובה
@@ -286,15 +302,15 @@ he:
       title: 'ערכת שינויים: %{id}'
       belongs_to: יוצר
       node: נקודות (%{count})
-      node_paginated: מפרקים (%{x}–%{y} מתוך %{count})
-      way: דרכים (%{count})
-      way_paginated: דרכים (%{x}–%{y} מתוך %{count})
+      node_paginated: נקודות (%{x}–%{y} מתוך %{count})
+      way: קווים (%{count})
+      way_paginated: קווים (%{x}–%{y} מתוך %{count})
       relation: יחסים (%{count})
       relation_paginated: יחסים (%{x}–%{y} מתוך %{count})
       comment: הערות (%{count})
       hidden_commented_by_html: הערה מוסתרת ממשתמש %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by_html: הערה ממשתמש %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      changesetxml: XML של ערכת שינויים
+      changesetxml: XML של ערכת השינויים
       osmchangexml: osmChange XML
       feed:
         title: ערכת שינויים %{id}
@@ -304,10 +320,10 @@ he:
       still_open: ערכת השינויים עדיין פתוחה – הדיון ייפתח אחרי שערכת השיניים תיסגר.
     node:
       title_html: 'נקודה: %{name}'
-      history_title_html: 'היסטוריית הצומת: %{name}'
+      history_title_html: 'היסטוריית הנקודה: %{name}'
     way:
-      title_html: 'דרך: %{name}'
-      history_title_html: 'היסטוריית הדרך: %{name}'
+      title_html: 'קו: %{name}'
+      history_title_html: 'היסטוריית הקו: %{name}'
       nodes: נקודות
       nodes_count:
         one: נקודה אחת
@@ -315,7 +331,9 @@ he:
         many: '%{count} נקודות'
         other: '%{count} נקודות'
       also_part_of_html:
-        one: חלק מדרך %{related_ways}
+        one: חלק מקו%{related_ways}
+        two: חלק מהדרכים %{related_ways}
+        many: חלק מהדרכים %{related_ways}
         other: חלק מהדרכים %{related_ways}
     relation:
       title_html: 'יחס: %{name}'
@@ -330,33 +348,32 @@ he:
       entry_role_html: '%{type} %{name} בתור %{role}'
       type:
         node: נקודה
-        way: דרך
+        way: קו
         relation: יחס
     containing_relation:
       entry_html: יחס %{relation_name}
       entry_role_html: יחס %{relation_name} (בתור %{relation_role})
     not_found:
       title: לא נמצא
-      sorry: אנו מתנצלים, אך הסוג %{type} בעל המזהה %{id} לא נמצא.
+      sorry: אנו מתנצלים, אך לא מצאנו %{type} מספר %{id}.
       type:
         node: נקודה
-        way: דרך
+        way: קו
         relation: יחס
         changeset: ערכת שינויים
         note: הערה
     timeout:
       title: שגיאת זמן מוקצב
-      sorry: אנו מתנצלים, אך טעינת התוכן עבור ה%{type} עם המזהה %{id}, ארכה זמן רב
-        מדי.
+      sorry: אנו מתנצלים, אך טעינת המידע עבור %{type} מספר %{id}, ארכה זמן רב מדי.
       type:
         node: נקודה
-        way: דרך
+        way: קו
         relation: קשר
         changeset: ערכת שינויים
         note: הערה
     redacted:
-      redaction: חיתוך %{id}
-      message_html: 'לא ניתן להציג את הגרסה %{version} של %{type} מכיוון שהיא נחתכה.
+      redaction: הסרה %{id}
+      message_html: 'לא ניתן להציג את הגרסה %{version} של %{type} מכיוון שהיא הוסרה.
         למידע נוסף: %{redaction_link}.'
       type:
         node: נקודה
@@ -479,7 +496,8 @@ he:
       body: עדיין אין רשומת יומן או תגובה עם המזהה %{id}. אולי האיות לא נכון ואולי
         לחצת על קישור שגוי, עמך הסליחה.
     diary_entry:
-      posted_by_html: פורסם על־ידי %{link_user} ב־%{created} ב%{language_link}
+      posted_by_html: פורסם על־ידי %{link_user} ב־%{created} ב%{language_link}.
+      updated_at_html: עודכן לאחרונה ב־%{updated}.
       comment_link: הערות לרשומה הזאת
       reply_link: שליחת תגובה למחבר
       comment_count:
@@ -523,13 +541,13 @@ he:
       heading: להוסיף את %{user} בתור חבר?
       button: להוסיף כחבר
       success: '%{name} חבר שלך עכשיו!'
-      failed: סליחה, הוספת %{name} כחבר נכשלה.
+      failed: מצטערים, הוספת %{name} כחבר נכשלה.
       already_a_friend: '%{name} כבר חבר שלך.'
     remove_friend:
       heading: להסיר את %{user} מרשימת החברים?
       button: להסיר מרשימת החברים
       success: '%{name} הוסר מרשימת החברים שלך.'
-      not_a_friend: '%{name} לא אחד מהחברים שלך.'
+      not_a_friend: '%{name} אינו אחד מהחברים שלך.'
   geocoder:
     search:
       title:
@@ -547,13 +565,13 @@ he:
           cable_car: רכבל
           chair_lift: מעלית סקי בישיבה
           drag_lift: מעלית סקי בגרירה
-          gondola: רכבל גונדולה
+          gondola: רכבל
           magic_carpet: מסוע סקי
-          platter: מעלית צלחת
-          pylon: פילון
+          platter: מעלית סקי בגרירת צלחת
+          pylon: עמוד רכבל
           station: תחנת רכבל
-          t-bar: מעלית טי־בר
-          "yes": אווירי
+          t-bar: מעלית סקי טי־בר
+          "yes": רכבל כללי
         aeroway:
           aerodrome: מנחת
           airstrip: מִנחת
@@ -565,6 +583,7 @@ he:
           navigationaid: עזר ניווט אווירי
           parking_position: מיקום חניה
           runway: מסלול המראה
+          taxilane: נתיב הסעה
           taxiway: מסלול נסיעת מטוס
           terminal: מסוף
           windsock: שרוול רוח
@@ -785,7 +804,7 @@ he:
         highway:
           abandoned: כביש נטוש
           bridleway: שביל עבור סוסים
-          bus_guideway: נתיב תחבורה ציבורית מונחית
+          bus_guideway: נתיב תחבורה ציבורית מודרכת
           bus_stop: תחנת אוטובוס
           construction: כביש מהיר בבנייה
           corridor: פרוזדור
@@ -802,7 +821,7 @@ he:
           motorway_junction: צומת כבישים
           motorway_link: כביש מכוניות
           passing_place: מיקום חולף
-          path: נתיב
+          path: שביל
           pedestrian: דרך להולכי רגל
           platform: פלטפורמה
           primary: דרך ראשית
@@ -847,6 +866,7 @@ he:
           citywalls: חומות העיר
           fort: מעוז
           heritage: אתר מורשת
+          hollow_way: דרך ששקעה
           house: בית
           manor: אחוזה
           memorial: אנדרטה זיכרון
@@ -1288,12 +1308,15 @@ he:
           "yes": מעבר מימי
       admin_levels:
         level2: גבול המדינה
+        level3: גבול אזור
         level4: גבול המדינה
         level5: גבול האזור
         level6: גבול המחוז
+        level7: גבול שטח עירוני
         level8: גבול העיר
         level9: גבול הכפר
         level10: גבול הפרוור
+        level11: גבול שכונה
       types:
         cities: ערים
         towns: עיירות
@@ -1455,12 +1478,17 @@ he:
       subject: '[אופן סטריט מאפ OpenStreetMap] תגובה מאת %{user} נוספה לרשומת יומן'
       hi: שלום %{to_user},
       header: '%{from_user} הגיב לרשומת היומן ב־OpenStreetMap עם הנושא %{subject}:'
+      header_html: '%{from_user} הגיב לרשומת היומן ב־OpenStreetMap עם הנושא %{subject}:'
       footer: אפשר גם לקרוא את התגובה בכתובת %{readurl} ולהגיב בכתובת %{commenturl}
         או לשלוח הודעה ליוצר בכתובת %{replyurl}
+      footer_html: אפשר גם לקרוא את התגובה בכתובת %{readurl} ולהגיב בכתובת %{commenturl}
+        או לשלוח הודעה למחבר בכתובת %{replyurl}
     message_notification:
-      subject_header: '[OpenStreetMap] %{subject}'
+      subject: '[OpenStreetMap] %{message_title}'
       hi: שלום %{to_user},
       header: 'לתיבתך ב־OpenStreetMap הגיעה הודעה מאת %{from_user} עם הנושא %{subject}:'
+      header_html: '%{from_user} שלח לך הודעה דרך OpenStreetMap על הנושא %{subject}:'
+      footer: ניתן גם לקרוא את ההודעה בכתובת %{readurl} ולשלוח הודעה לשולח דרך %{replyurl}
       footer_html: ניתן גם לקרוא את ההודעה בכתובת %{readurl} ולשלוח הודעה ליוצר דרך
         %{replyurl}
     friendship_notification:
@@ -1468,11 +1496,22 @@ he:
       subject: '[אופן סטריט מאפ OpenStreetMap] נוספת לרשימת החברים של %{user}'
       had_added_you: '%{user} הוסיף אותך כחבר ב־OpenStreetMap.'
       see_their_profile: באפשרותך לצפות בפרופיל שלו בכתובת %{userurl}.
+      see_their_profile_html: באפשרותך לצפות בפרופיל שלו בכתובת %{userurl}.
       befriend_them: באפשרותך לסמנו כחבר בכתובת %{befriendurl}.
+      befriend_them_html: באפשרותך לסמנו כחבר בכתובת %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'זה נראה כמו קובץ ה־GPX שלך %{trace_name} עם התיאור
+        %{trace_description} והתגיות הבאות: %{tags}'
+      description_with_no_tags_html: זה נראה כמו קובץ ה־GPX שלך %{trace_name} עם התיאור
+        %{trace_description} וללא תגיות
     gpx_failure:
+      hi: שלום %{to_user},
       failed_to_import: 'לא יובא כראוי. הנה השגיאה:'
+      more_info_html: מידע על תקלות בייבוא GPX וכיצד להימנע מהן נמצא תחת %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[אופן סטריט מאפ OpenStreetMap] שגיאה בייבוא GPX'
     gpx_success:
+      hi: שלום %{to_user},
       loaded_successfully:
         one: נטען כראוי עם %{trace_points} מתוך נקודה אחת אפשרית.
         two: נטען כראוי עם %{trace_points} מתוך %{possible_points} נקודות אפשריות.
@@ -1488,28 +1527,16 @@ he:
       welcome: אחרי אמות החשבון שלך, נספק לך מידע נוסף שיעזור לך להתחיל.
     email_confirm:
       subject: '[אופן סטריט מאפ OpenStreetMap] נא לאמת את כתובת הדוא״ל שלך'
-    email_confirm_plain:
       greeting: שלום,
       hopefully_you: מישהו (אנחנו מקווים שאת או אתה) ביקש לשנות את כתובת הדוא"ל הזאת
         באתר %{server_url} לכתובת %{new_address}
       click_the_link: אם באמת עשית את זה, נא ללחוץ על הקישור להלן כדי לאשר את השינוי.
-    email_confirm_html:
-      greeting: שלום,
-      hopefully_you: מישהו (בתקווה מדובר בך) רוצה לשנות את כתובת הדוא״ל המשויכת לחשבון
-        בשרת %{server_url} אל %{new_address}.
-      click_the_link: אם באמת עשית את זה, נא ללחוץ על הקישור להלן כדי לאשר את השינוי.
     lost_password:
       subject: '[אופן סטריט מאפ OpenStreetMap] בקשת איפוס סיסמה'
-    lost_password_plain:
       greeting: שלום,
       hopefully_you: מישהו (אולי את או אתה) ביקש שהסיסמה המשויכת לחשבון המזוהה עם
         כתובת הדוא"ל הזאת באתר openstreetmap.org.
       click_the_link: אם אכן עשית זאת, יש ללחוץ על הקישור להלן כדי לאפס את הסיסמה.
-    lost_password_html:
-      greeting: שלום,
-      hopefully_you: מישהו (בתקווה שמדובר בך) ביקש כי הסיסמה לחשבון המזוהה עם כתובת
-        הדוא״ל הזאת באתר openstreetmap.org תאופס.
-      click_the_link: אם באמת ביקשת את זה, נא ללחוץ על הקישור להלן כדי לאפס את הסיסמה.
     note_comment_notification:
       anonymous: משתמש אלמוני
       greeting: שלום,
@@ -1519,21 +1546,31 @@ he:
         subject_other: '[OpenStreetMap] התקבלה תגובה מאת %{commenter} על הערה שהתעניינת
           בה'
         your_note: התקבלה תגובה מאת %{commenter} על אחת מהערות המפה שלך ליד %{place}
+        your_note_html: התקבלה תגובה מאת %{commenter} על אחת מהערות המפה שלך ליד %{place}
         commented_note: התקלבה תגובה מאת %{commenter} על הערה על מפה שהגבת עליה. הערה
           נמצאת ליד %{place}
+        commented_note_html: '%{commenter} הגיב על הערת מפה שהגבת עליה מוקדם יותר.
+          הערה נמצאת ליד %{place}'
       closed:
         subject_own: ‫[OpenStreetMap] אחת מההערות שלך נפתרה על־ידי %{commenter}
         subject_other: '[OpenStreetMap] הערה שהתעניינת בה נפתרה על־ידי %{commenter}'
         your_note: אחת מהערות המפה שלך ליד %{place} נפתרה על־ידי %{commenter}.
+        your_note_html: '%{commenter} פתר את אחת מהערות המפה שלך ליד %{place}.'
         commented_note: הערת מפה שהגבת עליה נפתרה על־ידי %{commenter}. ההערה נמצאת
           ליד %{place}
+        commented_note_html: '%{commenter} פתר הערת מפה שהגבת עליה. ההערה נמצאת ליד
+          %{place}.'
       reopened:
         subject_own: ‫[OpenStreetMap] אחת ההערות שלך הופעלה מחדש ע״י %{commenter}
         subject_other: '[OpenStreetMap] הערה שמעניינת אותך הופעלה מחדש על־ידי %{commenter}'
         your_note: הערה שהוספת ליד %{place} הופעלה מחדש על־ידי %{commenter}.
+        your_note_html: '%{commenter} הפעיל מחדש הערת מפה שהוספת ליד %{place}.'
         commented_note: הערה במפה שהגבת עליה הופעלה מחדש על־ידי %{commenter}. ההערה
           היא ליד %{place}.
+        commented_note_html: '%{commenter} הפעיל מחדש הערת מפה שהגבת עליה. הערה נמצאת
+          ליד %{place}'
       details: אפשר למצוא פרטים נוספים על ההערה בכתובת %{url}
+      details_html: אפשר למצוא פרטים נוספים על ההערה בכתובת %{url}.
     changeset_comment_notification:
       hi: שלום %{to_user},
       greeting: שלום,
@@ -1544,13 +1581,21 @@ he:
           שהתעניינת בהן'
         your_changeset: קיבלת הערה מהמשתמש %{commenter} על את מערכות השינויים שיצרת
           ב־%{time}
+        your_changeset_html: המשתמש %{commenter} הוסיף הערה ב-%{time} על אחת מערכות
+          השינויים שלך.
         commented_changeset: קיבלת הערה מהמשתמש %{commenter} ב־%{time} על אחת מערכות
           השינויים במפה שעקבת אחריה ונוצרה על־ידי %{changeset_author}
+        commented_changeset_html: המשתמש %{commenter} הוסיף הערה ב-%{time} על ערכת
+          שינויים שיצר %{changeset_author} ואת/ה עוקב/ת אחריה.
         partial_changeset_with_comment: עם ההערה '%{changeset_comment}'
+        partial_changeset_with_comment_html: עם ההערה '%{changeset_comment}'
         partial_changeset_without_comment: ללא הערה
       details: פרטים נוספים על ערכת השינויים אפשר למצוא בכתובת %{url}
+      details_html: פרטים נוספים על ערכת השינויים אפשר למצוא בכתובת %{url}
       unsubscribe: כדי לבטל את המינוי לעדכונים מערכת השינויים הזאת, נא לבקר בכתובת
         %{url} וללחוץ על „ביטול מינוי”.
+      unsubscribe_html: כדי לבטל את המעקב אחרי עדכוני מערכת השינויים הזאת, נא לבקר
+        בכתובת %{url} וללחוץ על „ביטול מינוי”.
   messages:
     inbox:
       title: תיבת דואר נכנס
@@ -2045,8 +2090,8 @@ he:
         node_html: <strong>נקודה</strong> מייצגת מיקום נקודתי, כגון מסעדה אחת או עץ
           אחד.
         way_html: <strong>נתיב</strong> הוא קו או אזור כמו דרך, זרם, אגם או מבנה.
-        tag_html: <strong>תג</strong> הוא פיסת מידע על נקודה או על נתיב כמו שם של
-          מסעדה או מגבלת מהירות בדרך.
+        tag_html: <strong>תג</strong> הוא פיסת מידע על נקודה או על קו כמו שם של מסעדה
+          או מגבלת מהירות בדרך.
       rules:
         title: חוקים!
         paragraph_1_html: ל־OpenStreetMap יש מעט חוקים פורמליים, אבל אנחנו מצפים מכל
@@ -2143,9 +2188,9 @@ he:
       map: מפה
     index:
       public_traces: מסלולי GPS ציבוריים
-      my_traces: נתיבי ה־GPS שלי
+      my_traces: הקלטות ה־GPS שלי
       public_traces_from: מסלולי GPS ציבוריים מאת %{user}
-      description: עיון בהעלאות אחרונות של נתיבי GPS
+      description: עיון בהעלאות אחרונות של הקלטות GPS
       tagged_with: ' מתויג עם %{tags}'
       empty_html: אין פה עדיין שום דבר. אפשר <a href='%{upload_link}'>להעלות מידע
         חדש</a> או ללמוד עוד על מעקב מסלולים ב־GPS ב<a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>דף
@@ -2922,33 +2967,33 @@ he:
   redactions:
     edit:
       description: תיאור
-      heading: עריכת חיתוך
+      heading: עריכת הסרה
       title: עריכת חיתוך
     index:
-      empty: אין חיתוכים שאפשר להציג
+      empty: אין הסרות שאפשר להציג
       heading: רשימת חיתוכים
-      title: רשימת חיתוכים
+      title: רשימת הסרות
     new:
       description: תיאור
-      heading: הזנת מידע לחיתוך חדש
+      heading: הוספת מידע להסרה חדשה
       title: מתבצעת יצירת חיתוך חדש
     show:
       description: 'תיאור:'
-      heading: הצגת החיתוך „%{title}”
+      heading: הצגת ההסרה „%{title}”
       title: הצגת חיתוך
       user: 'יוצר:'
-      edit: עריכת החיתוך הזה
+      edit: עריכת ההסרה הזו
       destroy: הסרת החיתוך הזה
       confirm: באמת?
     create:
-      flash: נוצר חיתוך
+      flash: הסרה נוצרה.
     update:
       flash: השינויים שנשמרו.
     destroy:
-      not_empty: החיתוך אינו ריק. נא לבטל את החיתוכים של הגרסאות ששיכות לחיתוך הזה
-        לפני הריסתו.
+      not_empty: ההסרה אינה ריקה. נא לבטל את ההסרות של הגרסאות ששיכות להסרה זו לפני
+        ביטולה.
       flash: החיתוך נהרס.
-      error: אירעה שגיאה בעת הריסת החיתוך הזה.
+      error: אירעה שגיאה בעת ביטול ההסרה הזו.
   validations:
     leading_whitespace: יש רווח בהתחלה
     trailing_whitespace: יש רווח בסוף
