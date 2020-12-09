@@ -268,24 +268,4 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.visible?
     assert_not user.active?
   end
-
-  def test_to_xml
-    user = build(:user, :with_home_location)
-    xml = user.to_xml
-    assert_select Nokogiri::XML::Document.parse(xml.to_s), "user" do
-      assert_select "[display_name=?]", user.display_name
-      assert_select "[account_created=?]", user.creation_time.xmlschema
-      assert_select "home[lat=?][lon=?][zoom=?]", user.home_lat.to_s, user.home_lon.to_s, user.home_zoom.to_s
-    end
-  end
-
-  def test_to_xml_node
-    user = build(:user, :with_home_location)
-    xml = user.to_xml_node
-    assert_select Nokogiri::XML::DocumentFragment.parse(xml.to_s), "user" do
-      assert_select "[display_name=?]", user.display_name
-      assert_select "[account_created=?]", user.creation_time.xmlschema
-      assert_select "home[lat=?][lon=?][zoom=?]", user.home_lat.to_s, user.home_lon.to_s, user.home_zoom.to_s
-    end
-  end
 end

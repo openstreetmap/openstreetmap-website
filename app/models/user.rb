@@ -153,26 +153,6 @@ class User < ApplicationRecord
     user
   end
 
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node
-    el1 = XML::Node.new "user"
-    el1["display_name"] = display_name.to_s
-    el1["account_created"] = creation_time.xmlschema
-    if home_lat && home_lon
-      home = XML::Node.new "home"
-      home["lat"] = home_lat.to_s
-      home["lon"] = home_lon.to_s
-      home["zoom"] = home_zoom.to_s
-      el1 << home
-    end
-    el1
-  end
-
   def description
     RichText.new(self[:description_format], self[:description])
   end
