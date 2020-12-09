@@ -3,7 +3,7 @@ on:
   - push
   - pull_request
 jobs:
-  tests:
+  test:
     name: Ubuntu ${{ matrix.ubuntu }}, Ruby ${{ matrix.ruby }}
     strategy:
       matrix:
@@ -67,3 +67,19 @@ jobs:
       run: bundle exec rake yarn:install
     - name: Run tests
       run: bundle exec rake test:db
+    - name: Report completion to Coveralls
+      uses: coverallsapp/github-action@v1.1.2
+      with:
+        github-token: ${{ secrets.github_token }}
+        flag-name: ubuntu-${{ matrix.ubuntu }}-ruby-${{ matrix.ruby }}
+        parallel: true
+  finish:
+    name: Finalise
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Report completion to Coveralls
+      uses: coverallsapp/github-action@v1.1.2
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true
