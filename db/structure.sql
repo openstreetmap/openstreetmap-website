@@ -1,5 +1,6 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -7,20 +8,6 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
 
 --
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
@@ -165,7 +152,7 @@ $$;
 --
 
 CREATE FUNCTION public.xid_to_int4(t xid) RETURNS integer
-    LANGUAGE plpgsql STRICT
+    LANGUAGE plpgsql IMMUTABLE STRICT
     AS $$
 DECLARE
   tl bigint;
@@ -186,7 +173,7 @@ $$;
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: acls; Type: TABLE; Schema: public; Owner: -
@@ -266,7 +253,8 @@ CREATE TABLE public.active_storage_blobs (
     metadata text,
     byte_size bigint NOT NULL,
     checksum character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    service_name character varying NOT NULL
 );
 
 
@@ -287,6 +275,36 @@ CREATE SEQUENCE public.active_storage_blobs_id_seq
 --
 
 ALTER SEQUENCE public.active_storage_blobs_id_seq OWNED BY public.active_storage_blobs.id;
+
+
+--
+-- Name: active_storage_variant_records; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.active_storage_variant_records (
+    id bigint NOT NULL,
+    blob_id bigint NOT NULL,
+    variation_digest character varying NOT NULL
+);
+
+
+--
+-- Name: active_storage_variant_records_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.active_storage_variant_records_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: active_storage_variant_records_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.active_storage_variant_records_id_seq OWNED BY public.active_storage_variant_records.id;
 
 
 --
@@ -320,6 +338,7 @@ CREATE TABLE public.changeset_comments (
 --
 
 CREATE SEQUENCE public.changeset_comments_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -421,6 +440,7 @@ CREATE TABLE public.client_applications (
 --
 
 CREATE SEQUENCE public.client_applications_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -846,6 +866,7 @@ CREATE TABLE public.issue_comments (
 --
 
 CREATE SEQUENCE public.issue_comments_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -885,6 +906,7 @@ CREATE TABLE public.issues (
 --
 
 CREATE SEQUENCE public.issues_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -997,6 +1019,7 @@ CREATE TABLE public.note_comments (
 --
 
 CREATE SEQUENCE public.note_comments_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1032,6 +1055,7 @@ CREATE TABLE public.notes (
 --
 
 CREATE SEQUENCE public.notes_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1064,6 +1088,7 @@ CREATE TABLE public.oauth_nonces (
 --
 
 CREATE SEQUENCE public.oauth_nonces_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1112,6 +1137,7 @@ CREATE TABLE public.oauth_tokens (
 --
 
 CREATE SEQUENCE public.oauth_tokens_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1146,6 +1172,7 @@ CREATE TABLE public.redactions (
 --
 
 CREATE SEQUENCE public.redactions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1220,6 +1247,7 @@ CREATE TABLE public.reports (
 --
 
 CREATE SEQUENCE public.reports_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1266,6 +1294,7 @@ CREATE TABLE public.user_blocks (
 --
 
 CREATE SEQUENCE public.user_blocks_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1310,6 +1339,7 @@ CREATE TABLE public.user_roles (
 --
 
 CREATE SEQUENCE public.user_roles_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1469,6 +1499,13 @@ ALTER TABLE ONLY public.active_storage_attachments ALTER COLUMN id SET DEFAULT n
 --
 
 ALTER TABLE ONLY public.active_storage_blobs ALTER COLUMN id SET DEFAULT nextval('public.active_storage_blobs_id_seq'::regclass);
+
+
+--
+-- Name: active_storage_variant_records id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_storage_variant_records ALTER COLUMN id SET DEFAULT nextval('public.active_storage_variant_records_id_seq'::regclass);
 
 
 --
@@ -1668,6 +1705,14 @@ ALTER TABLE ONLY public.active_storage_attachments
 
 ALTER TABLE ONLY public.active_storage_blobs
     ADD CONSTRAINT active_storage_blobs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: active_storage_variant_records active_storage_variant_records_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_storage_variant_records
+    ADD CONSTRAINT active_storage_variant_records_pkey PRIMARY KEY (id);
 
 
 --
@@ -2225,6 +2270,13 @@ CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_b
 
 
 --
+-- Name: index_active_storage_variant_records_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_active_storage_variant_records_uniqueness ON public.active_storage_variant_records USING btree (blob_id, variation_digest);
+
+
+--
 -- Name: index_changeset_comments_on_changeset_id_and_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2751,6 +2803,14 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 
 --
+-- Name: active_storage_variant_records fk_rails_993965df05; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_storage_variant_records
+    ADD CONSTRAINT fk_rails_993965df05 FOREIGN KEY (blob_id) REFERENCES public.active_storage_blobs(id);
+
+
+--
 -- Name: active_storage_attachments fk_rails_c3b3935057; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3124,6 +3184,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201006213836'),
 ('20201006220807'),
 ('20201214144017'),
+('20210510083027'),
+('20210510083028'),
 ('20210511104518'),
 ('21'),
 ('22'),

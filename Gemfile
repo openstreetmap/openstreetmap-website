@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "6.0.3.7"
+gem "rails", "6.1.3.2"
 
 # Require json for multi_json
 gem "json"
@@ -40,7 +40,7 @@ gem "active_record_union"
 gem "bootstrap", "~> 4.5.0"
 gem "bootstrap_form", "~> 4.0"
 gem "cancancan"
-gem "composite_primary_keys", "~> 12.0.0"
+gem "composite_primary_keys", "~> 13.0.0"
 gem "config"
 gem "delayed_job_active_record"
 gem "http_accept_language", "~> 2.1.1"
