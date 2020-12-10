@@ -1,5 +1,3 @@
-require "migrate"
-
 class CreateLanguages < ActiveRecord::Migration[4.2]
   def change
     create_table :languages, :id => false do |t|

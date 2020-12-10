@@ -1,5 +1,3 @@
-require "migrate"
-
 class AddTextFormat < ActiveRecord::Migration[4.2]
   def up
     create_enumeration :format_enum, %w[html markdown text]

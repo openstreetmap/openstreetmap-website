@@ -1,5 +1,3 @@
-require "migrate"
-
 class ChangeMapBugCommentType < ActiveRecord::Migration[4.2]
   def self.up
     change_column :map_bug_comment, :comment, :text

@@ -1,5 +1,3 @@
-require "migrate"
-
 class RefactorMapBugTables < ActiveRecord::Migration[4.2]
   def self.up
     create_table :map_bug_comment do |t|

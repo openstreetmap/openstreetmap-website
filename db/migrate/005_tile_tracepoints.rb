@@ -1,5 +1,3 @@
-require "migrate"
-
 class TileTracepoints < ActiveRecord::Migration[4.2]
   class Tracepoint < ApplicationRecord
     self.table_name = "gps_points"

@@ -1,5 +1,3 @@
-require "migrate"
-
 class AlterUserRolesAndBlocks < ActiveRecord::Migration[4.2]
   class UserRole < ApplicationRecord
   end
