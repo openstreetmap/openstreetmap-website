@@ -58,6 +58,12 @@ Run the test suite by running:
 
     docker-compose run --rm web bundle exec rake test:db
 
+### Node Modules
+
+Install required front-end Node modules:
+
+    docker-compose run --rm web bundle exec rake yarn:install
+
 ### Loading an OSM extract
 
 This installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract. Here an example for loading an OSM extract into your Docker-based OSM instance.
