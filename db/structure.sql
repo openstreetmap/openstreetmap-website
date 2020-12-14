@@ -1075,7 +1075,7 @@ ALTER SEQUENCE public.notes_id_seq OWNED BY public.notes.id;
 --
 
 CREATE TABLE public.oauth_nonces (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     nonce character varying,
     "timestamp" integer,
     created_at timestamp without time zone,
@@ -3147,6 +3147,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191120140058'),
 ('20201006213836'),
 ('20201006220807'),
+('20201214144017'),
 ('21'),
 ('22'),
 ('23'),

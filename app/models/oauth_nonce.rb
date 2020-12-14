@@ -2,7 +2,7 @@
 #
 # Table name: oauth_nonces
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  nonce      :string
 #  timestamp  :integer
 #  created_at :datetime
