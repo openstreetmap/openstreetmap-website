@@ -24,6 +24,7 @@
 # Author: DraconicDark
 # Author: Drolbr
 # Author: Elliot
+# Author: Farad
 # Author: Ferdinand0101
 # Author: Fujnky
 # Author: Geitost
@@ -159,7 +160,7 @@ de:
         allow_write_prefs: Ihre Benutzereinstellungen verändern.
         allow_write_diary: Blogeinträge und Kommentare schreiben und Freunde finden
         allow_write_api: Karte bearbeiten
-        allow_read_gpx: Zugriff auf ihre privaten GPS-Tracks.
+        allow_read_gpx: Zugriff auf ihre privaten GPS-Tracks
         allow_write_gpx: GPS-Track hochladen
         allow_write_notes: Notizen bearbeiten
       diary_comment:
@@ -1185,7 +1186,7 @@ de:
           clothes: Bekleidungsgeschäft
           coffee: Kaffeegeschäft
           computer: Computergeschäft
-          confectionery: Konditorei
+          confectionery: Süßwarenladen
           convenience: Nachbarschaftsladen
           copyshop: Copyshop
           cosmetics: Parfümerie
@@ -1323,9 +1324,11 @@ de:
           "yes": Wasserstraße
       admin_levels:
         level2: Staatsgrenze
+        level3: Regionsgrenze
         level4: Landesgrenze
         level5: Regionsgrenze
         level6: Kreis-/Bezirksgrenze
+        level7: Gemeindegrenze
         level8: Gemeinde-/Stadtgrenze
         level9: Stadtteilgrenze
         level10: Nachbarschaftsgrenze
@@ -1525,11 +1528,20 @@ de:
       see_their_profile_html: Du kannst sein/ihr Profil unter %{userurl} ansehen.
       befriend_them: Du kannst sie/ihn unter %{befriendurl} ebenfalls als Freund hinzufügen.
       befriend_them_html: Du kannst sie/ihn unter %{befriendurl} auch als Freund hinzufügen.
+    gpx_description:
+      description_with_tags_html: 'Es scheint, dass deine GPX-Datei %{trace_name}
+        mit der Beschreibung %{trace_description} und den folgenden Tags: %{tags}'
+      description_with_no_tags_html: Es scheint, dass deine GPX-Datei %{trace_name}
+        mit der Beschreibung %{trace_description} und ohne Tags
     gpx_failure:
+      hi: Hallo %{to_user},
       failed_to_import: 'konnte nicht importiert werden, die Fehlermeldung:'
+      more_info_html: Weitere Informationen über Fehler bei GPX-Importen und wie sie
+        vermieden werden können finden sich in %{url}
       import_failures_url: https://wiki.openstreetmap.org/wiki/DE:GPX
       subject: '[OpenStreetMap] GPX-Import Fehler'
     gpx_success:
+      hi: Hallo %{to_user},
       loaded_successfully:
         one: mit %{trace_points} von 1 möglichem Punkt erfolgreich geladen.
         other: mit %{trace_points} von %{possible_points} möglichen Punkten erfolgreich
@@ -1568,6 +1580,8 @@ de:
           an dem du interessiert bist'
         your_note: '%{commenter} hat einen von dir gemeldeten Hinweis in der Nähe
           von %{place} kommentiert.'
+        your_note_html: '%{commenter} hat einen von dir gemeldeten Hinweis in der
+          Nähe von %{place} kommentiert.'
         commented_note: '%{commenter} hat zu einem Hinweis, den du kommentiert hattest,
           einen weiteren Kommentar hinterlegt. Der Hinweis ist in der Nähe von %{place}.'
         commented_note_html: '%{commenter} hat zu einem Hinweis, den du kommentiert
@@ -1580,6 +1594,8 @@ de:
           an dem du interessiert bist'
         your_note: '%{commenter} hat ein von dir gemeldetes Problem in der Nähe von
           %{place} gelöst.'
+        your_note_html: '%{commenter} hat ein von dir gemeldetes Problem in der Nähe
+          von %{place} gelöst.'
         commented_note: '%{commenter} hat Problem gelöst, das du kommentiert hattest.
           Der Hinweis war in der Nähe von %{place}.'
         commented_note_html: '%{commenter} hat ein Problem/Thema gelöst, zu dem Du
@@ -1594,6 +1610,8 @@ de:
           reaktiviert.'
         commented_note: '%{commenter} hat einen Hinweis in der Nähe von %{place},
           den du kommentiert hattest, reaktivert.'
+        commented_note_html: '%{commenter} hat einen Hinweis in der Nähe von %{place},
+          den du kommentiert hattest, reaktivert.'
       details: Weitere Details über den Hinweis findest du unter %{url}.
       details_html: Weitere Details über den Hinweis findest du unter %{url}.
     changeset_comment_notification:
@@ -1606,8 +1624,12 @@ de:
           an dem du interessiert bist'
         your_changeset: '%{commenter} hinterließ einen Diskussionsbeitrag  um %{time}
           zu einem deiner Änderungssätze'
+        your_changeset_html: '%{commenter} hat um %{time} zu einem deiner Änderungssätze
+          einen Diskussionsbeitrag hinterlassen'
         commented_changeset: '%{commenter} hinterließ einen Diskussionbeitrag um %{time}
           zu einem Kartenänderungssatz, den du beobachtest, erstellt von %{changeset_author}'
+        commented_changeset_html: '%{commenter} hat um %{time} einen Diskussionsbeitrag
+          zu einem von dir beobachteten Änderungssatz von %{changeset_author} hinterlassen'
         partial_changeset_with_comment: mit der Bemerkung „%{changeset_comment}“
         partial_changeset_with_comment_html: mit der Bemerkung „%{changeset_comment}“
         partial_changeset_without_comment: ohne Kommentar

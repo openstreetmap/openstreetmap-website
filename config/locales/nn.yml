@@ -1,6 +1,7 @@
 # Messages for Norwegian Nynorsk (norsk nynorsk)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abaksle
 # Author: Abijeet Patro
 # Author: Bjorni
 # Author: Dittaeva
@@ -36,7 +37,7 @@ nn:
         create: Send
       client_application:
         create: Registrer
-        update: Rediger
+        update: Oppdater
       redaction:
         create: Lag maskering
         update: Lagre markering
@@ -49,7 +50,7 @@ nn:
   activerecord:
     errors:
       messages:
-        invalid_email_address: ser ikkje uttil å vera ei gyldig e-postadresse
+        invalid_email_address: ser ikkje ut til å vere ei gyldig e-postadresse
         email_address_not_routable: kan ikkje rutast
     models:
       acl: Tilgangskontrolliste
@@ -89,6 +90,7 @@ nn:
       way_tag: Vegmerkelapp
     attributes:
       client_application:
+        name: Namn (Påkravd)
         callback_url: 'URL for tilbakekall:'
         support_url: Støytte-URL
       diary_comment:
@@ -105,13 +107,13 @@ nn:
       trace:
         user: Brukar
         visible: Synleg
-        name: Namn
+        name: Filnamn
         size: Storleik
         latitude: Breiddegrad
         longitude: Lengdegrad
         public: Offentleg
         description: Skildring
-        gpx_file: 'Last opp GPX-fil:'
+        gpx_file: Last opp GPX-fil
         visibility: 'Synligheit:'
         tagstring: 'Merkelappar:'
       message:
@@ -126,9 +128,45 @@ nn:
         description: Skildring
         languages: Språk
         pass_crypt: Passord
+        pass_crypt_confirmation: Stadfest passord
     help:
       trace:
         tagstring: kommaseparert
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: omkring 1 time sidan
+        other: omkring %{count} timar sidan
+      about_x_months:
+        one: omkring 1 månad sidan
+        other: omkring %{count} månader sidan
+      about_x_years:
+        one: omkring 1 år sidan
+        other: omkring %{count} år sidan
+      almost_x_years:
+        one: nesten 1 år sidan
+        other: nesten %{count} år sidan
+      less_than_x_seconds:
+        one: mindre enn 1 sekund sidan
+        other: mindre enn %{count} sekund sidan
+      less_than_x_minutes:
+        one: mindre enn eit minutt sidan
+        other: mindre enn %{count} minutt sidan
+      over_x_years:
+        one: over 1 år sidan
+        other: over %{count} år sidan
+      x_seconds:
+        one: 1 sekund sidan
+        other: '%{count} sekund sidan'
+      x_minutes:
+        one: 1 minutt sidan
+        other: '%{count} minutt sidan'
+      x_months:
+        one: 1 månad sidan
+        other: '%{count} månader sidan'
+      x_years:
+        one: 1 år sidan
+        other: '%{count} år sidan'
   printable_name:
     with_version: '%{id}, v%{version}'
   editor:
@@ -137,42 +175,48 @@ nn:
       name: Potlatch 1
       description: Potlatch 1 (rediger i nettlesaren)
     id:
-      name: ID
-      description: iD (redigering i nettlesaren)
+      name: iD
+      description: iD (i nettlesaren)
     potlatch2:
       name: Potlatch 2
-      description: Potlatch 2 (rediger i nettleseran)
+      description: Potlatch 2 (i nettlesaren)
     remote:
-      name: Lokalt installert program
+      name: lokalt installert program
       description: Lokalt installert program (JOSM eller Merkaartor)
   auth:
     providers:
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
       wikipedia: Wikipedia
   api:
     notes:
       comment:
         opened_at_html: Oppretta for %{when} sidan
         opened_at_by_html: Oppretta for %{when} sidan av %{user}
-        commented_at_html: Oppdatert for %{when} sidan
-        commented_at_by_html: Oppdatert for %{when} sidan av %{user}
-        closed_at_html: Løyst for %{when} sidan
-        closed_at_by_html: Løyst for %{when} sidan av %{user}
-        reopened_at_html: Reaktivert for %{when} sidan
-        reopened_at_by_html: Reaktivert %{when} sidan av %{user}
+        commented_at_html: Oppdatert %{when}
+        commented_at_by_html: Oppdatert %{when} av %{user}
+        closed_at_html: Løyst %{when}
+        closed_at_by_html: Løyst %{when} av %{user}
+        reopened_at_html: Opna att %{when}
+        reopened_at_by_html: Opna att %{when} av %{user}
       rss:
         title: OpenStreetMap-merknadar
+        commented: ny kommentar (nær %{place})
       entry:
         comment: Kommentar
         full: Fullstendig merknad
   browse:
     created: Oppretta
     closed: Attlaten
-    created_html: Oppretta for <abbr title='%{title}'>%{time} sidan</abbr>
-    closed_html: Stengt <abbr title='%{title}'>%{time} sidan</abbr>
-    created_by_html: Oppretta for <abbr title='%{title}'>%{time} sidan</abbr> av %{user}
-    deleted_by_html: Sletta for <abbr title='%{title}'>%{time} sidan</abbr> av %{user}
-    edited_by_html: Redigert for <abbr title='%{title}'>%{time} sidan</abbr> av %{user}
-    closed_by_html: Stengt for <abbr title='%{title}'>%{time} sidan</abbr> by %{user}
+    created_html: Oppretta <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Lukka <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Oppretta <abbr title='%{title}'>%{time}</abbr> av %{user}
+    deleted_by_html: Sletta <abbr title='%{title}'>%{time}</abbr> av %{user}
+    edited_by_html: Redigert <abbr title='%{title}'>%{time}</abbr> av %{user}
+    closed_by_html: Lukka <abbr title='%{title}'>%{time}</abbr> av %{user}
     version: 'Versjon:'
     anonymous: anonym
     no_comment: (ingen kommentar)
@@ -263,8 +307,7 @@ nn:
       opened_by_html: Oppretta av %{user} <abbr title='%{exact_time}'>%{when} sidan</abbr>
       opened_by_anonymous_html: Oppretta av anonym <abbr title='%{exact_time}'>%{when}
         sidan</abbr>
-      commented_by_html: Kommentar frå %{user} <abbr title='%{exact_time}'>%{when}
-        sidan</abbr>
+      commented_by_html: Kommentar frå %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by_anonymous_html: Kommentar frå anonym <abbr title='%{exact_time}'>%{when}
         sidan</abbr>
       closed_by_html: Løyst av %{user} <abbr title='%{exact_time}'>%{when} sidan</abbr>
@@ -274,6 +317,7 @@ nn:
         sidan</abbr>
       reopened_by_anonymous_html: Reaktivert av anonym for <abbr title='%{exact_time}'>%{when}
         sidan</abbr>
+      report: Rapporter denne merknaden
     query:
       title: Førespurnadsfunksjonar
       nearby: Nærliggjande funksjonar
@@ -281,7 +325,7 @@ nn:
     changeset_paging_nav:
       showing_page: Side %{page}
       next: Neste »
-      previous: « Forrige
+      previous: « Førre
     changeset:
       anonymous: Anonym
       no_edits: (ingen redigeringar)
@@ -296,11 +340,11 @@ nn:
       title: Endringssett
       title_user: Endringssett av %{user}
       title_friend: Endringssett av venene dine
-      title_nearby: Endringssett av naboar
+      title_nearby: Endringssett av brukarar i nærleiken
       empty: Fann ingen endringssett.
       empty_area: Ingen endringssett i dette området.
       empty_user: Ingen endringssett av denne brukaren.
-      no_more: Fann ingen fleire endringssett.
+      no_more: Fann ikkje fleire endringssett.
       no_more_area: Ingen fleire endringssett i dette området.
       no_more_user: Ingen fleire endringssett av denne brukaren.
       load_more: Last inn meir
@@ -328,7 +372,7 @@ nn:
       in_language_title: Dagbokoppføringar på %{language}
       new: Ny dagbokoppføring
       new_title: Skriv ei ny oppføring i dagboka di
-      no_entries: Ingen oppføringer i dagboka
+      no_entries: Ingen oppføringar i dagboka
       recent_entries: Nye oppføringer i dagboka
       older_entries: Eldre oppføringar
       newer_entries: Nyare oppføringar
@@ -361,6 +405,7 @@ nn:
       comment_from_html: Kommentar frå %{link_user}, %{comment_created_at}
       hide_link: Skjul denne kommentaren
       confirm: Stadfest
+      report: Rapporter denne kommentaren
     location:
       location: 'Posisjon:'
       view: Vis
@@ -648,7 +693,7 @@ nn:
           reservoir_watershed: Nedbørfelt
           residential: Boligområde
           retail: Detaljsalg
-          village_green: landsbypark
+          village_green: Landsbypark
           vineyard: Vingård
           "yes": Arealbruk
         leisure:
@@ -917,6 +962,12 @@ nn:
     results:
       no_results: Ingen resultat funne
       more_results: Fleire resultat
+  reports:
+    new:
+      categories:
+        note:
+          spam_label: Denne merknaden er søppel
+          abusive_label: Denne merknaden er støytande
   layouts:
     project_name:
       title: OpenStreetMap
@@ -942,9 +993,10 @@ nn:
     edit_with: Rediger med %{editor}
     tag_line: Fritt Wiki-verdenskart
     intro_header: Velkomen til OpenStreetMap!
-    intro_text: OpenStreetMap er eit verdskart, laga av folks som deg, det er ope
-      og gratis å bruke, med ein open lisens.
+    intro_text: OpenStreetMap er eit verdskart, laga av folk som deg. Kartet er gratis
+      å bruke under ein open lisens.
     intro_2_create_account: Opprett ein brukarkonto
+    hosting_partners_html: Drifta er støtta av %{ucl}, %{bytemark} og andre %{partners}.
     partners_ucl: UCL VR-senteret
     partners_bytemark: Bytemark Hosting
     partners_partners: partnarar
@@ -1661,6 +1713,9 @@ nn:
         ein konto. Me vil prøve å handsame førespurnaden så fort som mogleg.
       about:
         header: Fri og redigerbar
+        html: |-
+          <p>I motsetnad til andre kart, er heile OpenStreetMap laga av folk som deg. Alle står fritt til å rette, oppdatere, laste ned og bruke kartet.</p>
+          <p>Registrer deg for å starte å bidra. Vi sender deg ein e-post for å stadfeste kontoen din.</p>
       email address: 'E-postadresse:'
       confirm email address: 'Stadfest e-postadresse:'
       not_displayed_publicly_html: Ikkje vist offentleg (sjå <a href="http://wiki.openstreetmap.org/wiki/Privacy_policy"
@@ -1724,7 +1779,7 @@ nn:
       ct status: 'Bidragsytarvilkår:'
       ct undecided: Usikker
       ct declined: Avslått
-      latest edit: 'Siste redigering %{ago}:'
+      latest edit: 'Siste redigering (%{ago}):'
       email address: 'E-postadresse:'
       created from: 'Oppretta frå:'
       status: 'Status:'
@@ -1734,10 +1789,11 @@ nn:
       if_set_location_html: Set heimeposisjonen på di %{settings_link}-sida for å
         sjå naboar.
       settings_link_text: innstillingar
+      my friends: Mine vener
       no friends: Du har ikkje lagt til nokon venner enno.
       km away: '%{count}km unna'
       m away: '%{count}m unna'
-      nearby users: Andre næliggande brukarar
+      nearby users: Andre brukarar i nærleiken
       no nearby users: Det er ingen andre brukarar som innrømmer kartlegging i området
         ditt enno.
       role:
@@ -1764,6 +1820,7 @@ nn:
       friends_diaries: dagbokoppføringar av vener
       nearby_changesets: endringssett av naboar
       nearby_diaries: dagbokoppføringar av naboar
+      report: Rapporter denne brukaren
     popup:
       your location: Posisjonen din
       nearby mapper: Brukarar i nærleiken
@@ -2075,6 +2132,8 @@ nn:
       new:
         add: Legg til merknad
       show:
+        anonymous_warning: Denne merknaden har kommentarar frå anonyme brukarar og
+          bør stadfestast.
         hide: Gøym
         resolve: Løys
         reactivate: Reaktiver

@@ -472,7 +472,8 @@ id:
       body: Maaf, tidak ada catatan harian atau komentar dengan id %{id}. Harap periksa
         ejaan atau mungkin Anda mengklik tautan yang salah.
     diary_entry:
-      posted_by_html: Diterbitkan oleh %{link_user} pada %{created} dalam %{language_link}
+      posted_by_html: Diterbitkan oleh %{link_user} pada %{created} dalam %{language_link}.
+      updated_at_html: Terakhir diperbarui pada %{updated}.
       comment_link: Komentar di entri ini
       reply_link: Kirim pesan ke penulis
       comment_count:
@@ -683,6 +684,7 @@ id:
           office: Bangunan Kantor
           public: Bangunan Publik
           residential: Bangunan Perumahan
+          retail: Bangunan Retail
           school: Bangunan Sekolah
           stable: Istal
           static_caravan: Karavan
@@ -1177,9 +1179,11 @@ id:
           "yes": Jalur Air
       admin_levels:
         level2: Batas Negara
+        level3: Batas Wilayah
         level4: Batas Negara Bagian
         level5: Batas Wilayah
         level6: Batas Provinsi
+        level7: Batas Munisipalitas
         level8: Batas Kota/Kabupaten
         level9: Batas Desa
         level10: Batas kota pinggiran
@@ -1347,12 +1351,21 @@ id:
       hi: Halo %{to_user},
       header: '%{from_user} mengomentari entri terbaru dari catatan harian OpenStreetMap
         dengan subjek %{subject}:'
+      header_html: '%{from_user} mengomentari entri dari catatan harian OpenStreetMap
+        dengan subjek %{subject}:'
       footer: Anda juga dapat membaca komentar pada %{readurl} dan Anda juga dapat
         berkomentar pada %{commenturl} atau membalas pada %{replyurl}
+      footer_html: Anda juga dapat membaca komentar di %{readurl} dan Anda dapat berkomentar
+        di %{commenturl} atau mengirim pesan kepada penulisnya di %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Halo %{to_user},
       header: '%{from_user} telah mengirim sebuah pesan kepada Anda melalui OpenStreetMap
         dengan subjek %{subject}:'
+      header_html: '%{from_user} telah mengirim sebuah pesan kepada Anda melalui OpenStreetMap
+        dengan subjek %{subject}:'
+      footer: Anda juga dapat membaca pesan di %{readurl} dan Anda bisa mengirim pesan
+        kepada penulis di %{replyurl}
       footer_html: Anda juga dapat membaca pesan di  %{readurl} dan membalasnya di
         %{replyurl}
     friendship_notification:
@@ -1360,11 +1373,23 @@ id:
       subject: '[OpenStreetMap] %{user} menambahkan Anda sebagai teman'
       had_added_you: '%{user} telah menambahkan Anda sebagai teman pada OpenStreetMap.'
       see_their_profile: Anda dapat melihat profilnya pada %{userurl}.
+      see_their_profile_html: Anda dapat melihat profil mereka di %{userurl}.
       befriend_them: Anda juga dapat menambahkannua sebagai teman di %{befriendurl}.
+      befriend_them_html: Anda juga bisa menambahkan mereka sebagai teman di %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Kelihatannya berkas GPX Anda %{trace_name} dengan
+        deskripsi %{trace_description} dan tag-tag berikut: %{tags}'
+      description_with_no_tags_html: Kelihatannya berkas GPX Anda %{trace_name} dengan
+        deskripsi %{trace_description} dan tanpa tag
     gpx_failure:
+      hi: Halo %{to_user},
       failed_to_import: 'gagal melakukan impor. Berikut ini adalah kesalahannya:'
+      more_info_html: Informasi lebih lanjut tentang kegagalan impor GPX dan cara
+        menghindarinya bisa ditemukan di %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] gagal impor GPX'
     gpx_success:
+      hi: Halo %{to_user},
       loaded_successfully: telah berhasil dengan %{trace_points} dari %{possible_points}
         titik yang mungkin.
       subject: '[OpenStreetMap] impor GPX sukses'
@@ -1401,7 +1426,11 @@ id:
           yang Anda minati'
         your_note: '%{commenter} telah meninggalkan komentar pada salah satu catatan
           peta Anda dekat %{place}.'
+        your_note_html: '%{commenter} telah meninggalkan komentar di salah satu catatan
+          peta Anda dekat %{place}.'
         commented_note: '%{commenter} memberi komentar pada catatan peta yang Anda
+          komentari. Catatan ini dekat %{place}.'
+        commented_note_html: '%{commenter} memberi komentar di catatan peta yang Anda
           komentari. Catatan ini dekat %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} telah menyelesaikan salah satu
@@ -1410,8 +1439,12 @@ id:
           yang Anda minati'
         your_note: '%{commenter} telah menyelesaikan salah satu catatan peta Anda
           dekat %{place}.'
+        your_note_html: '%{commenter} telah menyelesaikan salah satu catatan peta
+          Anda di dekat %{place}.'
         commented_note: '%{commenter} telah meninggalkan komentar pada peta catatan
           yang Anda komentari. Catatan ini dekat %{place}.'
+        commented_note_html: '%{commenter} telah menyelesaikan salah satu catatan
+          peta yang Anda komentari. Catatan ini terletak di dekat %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} telah mengaktifkan kembali salah
           satu catatan Anda'
@@ -1419,9 +1452,14 @@ id:
           yang Anda minati'
         your_note: '%{commenter} telah mengaktifkan kembali salah satu catatan peta
           Anda dekat %{place}.'
+        your_note_html: '%{commenter} telah mengaktifkan kembali salah satu catatan
+          peta Anda di dekat %{place}.'
         commented_note: '%{commenter} telah meninggalkan komentar pada catatan peta
           yang Anda komentari. Catatan ini dekat %{place}.'
+        commented_note_html: '%{commenter} telah mengaktifkan kembali salah satu catatan
+          peta yang Anda komentari. Catatannya terletak di dekat %{place}.'
       details: Rincian lebih lanjut mengenai catatan dapat ditemukan di %{url}.
+      details_html: Rincian lebih lanjut mengenai catatan dapat ditemukan di %{url}.
     changeset_comment_notification:
       hi: Halo %{to_user},
       greeting: Halo,
@@ -1432,13 +1470,22 @@ id:
           ikuti'
         your_changeset: '%{commenter} meninggalkan komentar di salah satu perubahan
           Anda pukul %{time}'
+        your_changeset_html: '%{commenter} meninggalkan komentar pada %{time} di salah
+          satu set perubahan Anda'
         commented_changeset: '%{commenter} meninggalkan komentar di perubahan peta
           pantauan Anda yang dibuat %{changeset_author} pukul %{time}'
+        commented_changeset_html: '%{commenter} meninggalkan komentar pada %{time}
+          di set perubahan yang Anda pantau dan dibuat oleh %{changeset_author}'
         partial_changeset_with_comment: dengan komentar '%{changeset_comment}'
+        partial_changeset_with_comment_html: dengan komentar '%{changeset_comment}'
         partial_changeset_without_comment: tanpa komentar
       details: Rincian lebuh lanjut soal perubahan ini dapat dilihat di %{url}.
+      details_html: Rincian lebih lanjut tentang set perubahan ini dapat dilihat di
+        %{url}.
       unsubscribe: Untuk berhenti berlangganan pembaruan perubahan set ini, kunjungi
         %{url} dan kli "Berhenti berlangganan".
+      unsubscribe_html: Untuk berhenti berlangganan pembaruan perubahan set ini, kunjungi
+        %{url} dan tekan "Berhenti berlangganan".
   messages:
     inbox:
       title: Kotak Masuk
@@ -1591,6 +1638,12 @@ id:
           cetak), kami menyarankan Anda untuk mengarahkan pembaca Anda pada openstreetmap.org
           (mungkin dengan memperluas halaman 'OpenStreetMap' secara penuh), untuk
           opendatacommons.org, dan jika relevan, untuk creativecommons.org.
+        credit_3_1_html: |-
+          Tile peta dalam &ldquo;gaya standar&rdquo; di www.openstreetmap.org adalah
+          Karya Produksi oleh OpenStreetMap Foundation menggunakan data OpenStreetMap
+          di bawah Open Database License. Jika Anda menggunakan tile ini tolong gunakan
+          atribusi berikut:
+          &ldquo;Peta dasar dan data dari OpenStreetMap dan OpenStreetMap Foundation&rdquo;.
         credit_4_html: |-
           Untuk peta elektronik dapat ditelusuri, kredit harus muncul di sudut peta.
           Sebagai contoh:
@@ -1646,6 +1699,11 @@ id:
           <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> dan
           <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>
           (informasi publik Slovenia).
+        contributors_es_html: |-
+          <strong>Spanyol</strong>: Mengandung data yang bersumber dari
+          Institut Geografi Nasional (<a href="http://www.ign.es/">IGN</a>) dan
+          Sistem Kartografi Nasional Spanyol (<a href="http://www.scne.es/">SCNE</a>)
+          dilisensikan untuk digunakan kembali di bawah <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_za_html: |-
           <strong>Afrika Selatan</strong>: Berisi data yang bersumber dari
           <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -2076,6 +2134,8 @@ id:
     require_cookies:
       cookies_needed: Anda tampaknya memiliki cookies yang tidak aktif - mohon aktifkan
         cookies pada browser anda sebelum melanjutkan.
+    require_admin:
+      not_an_admin: Anda harus merupakan administrator untuk melakukan tindakan itu.
     setup_user_auth:
       blocked_zero_hour: Anda mendapat pesan penting di situs web OpenStreetMap. Anda
         harus membaca pesan tersebut sebelum Anda bisa menyimpan suntingan Anda.
