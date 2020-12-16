@@ -1,20 +1,29 @@
-require "coveralls"
-Coveralls.wear!("rails")
+require "simplecov"
+require "simplecov-lcov"
 
-# Override the simplecov output message, since it is mostly unwanted noise
-module SimpleCov
-  module Formatter
-    class HTMLFormatter
-      def output_message(_result); end
+# Fix incompatibility of simplecov-lcov with older versions of simplecov that are not expresses in its gemspec.
+# https://github.com/fortissimo1997/simplecov-lcov/pull/25
+unless SimpleCov.respond_to?(:branch_coverage)
+  module SimpleCov
+    def self.branch_coverage?
+      false
     end
   end
 end
 
-# Output both the local simplecov html and the coveralls report
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
-  [SimpleCov::Formatter::HTMLFormatter,
-   Coveralls::SimpleCov::Formatter]
+SimpleCov::Formatter::LcovFormatter.config do |config|
+  config.report_with_single_file = true
+  config.single_report_path = "coverage/lcov.info"
+end
+
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(
+  [
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::LcovFormatter
+  ]
 )
+
+SimpleCov.start("rails")
 
 require "securerandom"
 require "digest/sha1"

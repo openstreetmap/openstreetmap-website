@@ -141,7 +141,6 @@ end
 group :test do
   gem "brakeman"
   gem "capybara", ">= 2.15"
-  gem "coveralls", :require => false
   gem "erb_lint", :require => false
   gem "factory_bot_rails"
   gem "minitest", "~> 5.1"
@@ -152,5 +151,7 @@ group :test do
   gem "rubocop-performance"
   gem "rubocop-rails"
   gem "selenium-webdriver"
+  gem "simplecov", :require => false
+  gem "simplecov-lcov", :require => false
   gem "webmock"
 end

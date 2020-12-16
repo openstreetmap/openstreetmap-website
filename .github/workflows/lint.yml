@@ -1,0 +1,115 @@
+name: Lint
+on:
+  - push
+  - pull_request
+env:
+  os: ubuntu-20.04
+  ruby: 2.7
+jobs:
+  rubocop:
+    name: RuboCop
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: Setup ruby
+      uses: actions/setup-ruby@v1.1.2
+      with:
+        ruby-version: ${{ env.ruby }}
+    - name: Cache gems
+      uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
+        restore-keys: |
+          bundle-${{ env.os }}-${{ env.ruby }}-
+    - name: Install gems
+      run: |
+        gem install bundler
+        bundle config set deployment true
+        bundle install --jobs 4 --retry 3
+    - name: Run rubocop
+      run: bundle exec rubocop --format fuubar
+  erblint:
+    name: ERB Lint
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: Setup ruby
+      uses: actions/setup-ruby@v1.1.2
+      with:
+        ruby-version: ${{ env.ruby }}
+    - name: Cache gems
+      uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
+        restore-keys: |
+          bundle-${{ env.os }}-${{ env.ruby }}-
+    - name: Install gems
+      run: |
+        gem install bundler
+        bundle config set deployment true
+        bundle install --jobs 4 --retry 3
+    - name: Run erblint
+      run: bundle exec erblint .
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: Setup ruby
+      uses: actions/setup-ruby@v1.1.2
+      with:
+        ruby-version: ${{ env.ruby }}
+    - name: Cache gems
+      uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
+        restore-keys: |
+          bundle-${{ env.os }}-${{ env.ruby }}-
+    - name: Cache node modules
+      uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: yarn-${{ env.os }}-${{ hashFiles('yarn.lock') }}
+        restore-keys: |
+          yarn-${{ env.os }}-
+    - name: Install gems
+      run: |
+        gem install bundler
+        bundle config set deployment true
+        bundle install --jobs 4 --retry 3
+    - name: Install node modules
+      run: bundle exec rake yarn:install
+    - name: Create dummy database configuration
+      run: cp config/example.database.yml config/database.yml
+    - name: Run eslint
+      run: bundle exec rake eslint
+  brakeman:
+    name: Brakeman
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: Setup ruby
+      uses: actions/setup-ruby@v1.1.2
+      with:
+        ruby-version: ${{ env.ruby }}
+    - name: Cache gems
+      uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
+        restore-keys: |
+          bundle-${{ env.os }}-${{ env.ruby }}-
+    - name: Install gems
+      run: |
+        gem install bundler
+        bundle config set deployment true
+        bundle install --jobs 4 --retry 3
+    - name: Run brakeman
+      run: bundle exec brakeman -q
