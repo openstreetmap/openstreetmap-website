@@ -44,8 +44,8 @@ module GPX
       @tracksegs = 0
 
       begin
-        Archive::Reader.open_filename(@file).each_entry_with_data do |_entry, data|
-          parse_file(XML::Reader.string(data), &block)
+        Archive::Reader.open_filename(@file).each_entry_with_data do |entry, data|
+          parse_file(XML::Reader.string(data), &block) if entry.regular?
         end
       rescue Archive::Error
         io = ::File.open(@file)
