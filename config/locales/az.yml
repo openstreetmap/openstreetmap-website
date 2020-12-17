@@ -4,6 +4,7 @@
 # Author: AZISS
 # Author: Abijeet Patro
 # Author: Cekli829
+# Author: Huseyn
 # Author: Mushviq Abdulla
 # Author: Ruila
 # Author: SalihB
@@ -17,14 +18,23 @@ az:
     formats:
       friendly: '%e %B %Y  %H:%M'
   helpers:
+    file:
+      prompt: Fayl seçin
     submit:
       diary_comment:
         create: Qeyd et
       diary_entry:
         create: Yayımla
+        update: Yenilə
+      issue_comment:
+        create: Şərh əlavə et
       message:
         create: Göndər
+      client_application:
+        create: Qeydiyyatdan keç
+        update: Yenilə
       trace:
+        create: Yüklə
         update: Dəyişiklikləri yadda saxla
       user_block:
         create: Blok yarat
@@ -38,6 +48,7 @@ az:
       diary_comment: Gündəliyə şərh
       diary_entry: Gündəlikdə Yazı
       friend: Dost
+      issue: Problem
       language: Dil
       message: Mesaj
       node: Nöqtə
@@ -54,6 +65,7 @@ az:
       relation: Əlaqə
       relation_member: Əlaqənin İştirakçısı
       relation_tag: Əlaqənin Teqi
+      report: Hesabat
       session: Sessiya
       trace: Trek
       tracepoint: Trek Nöqtəsi
@@ -65,6 +77,11 @@ az:
       way_node: Xəttin Nöqtələri
       way_tag: Xəttin Teqi
     attributes:
+      client_application:
+        name: Ad (Vacib)
+        support_url: Dəstək linki
+        allow_read_prefs: Digər istifadəçilərin fikirlərini oxu
+        allow_write_api: Xəritəni dəyişmək
       diary_comment:
         body: Mətn
       diary_entry:
@@ -79,12 +96,14 @@ az:
       trace:
         user: İstifadəçi
         visible: Görünüş
-        name: Ad
+        name: Fayl adı
         size: Ölçüsü
         latitude: En dairəsi
         longitude: Uzunluq dairəsi
         public: İctimai
         description: İzah
+        gpx_file: GPX faylı yüklə
+        visibility: Görünüş
         tagstring: Etiketlər
       message:
         sender: Göndərən
@@ -93,6 +112,7 @@ az:
         recipient: Qəbul edən
       report:
         category: Şikayətinizin səbəbini seçin
+        details: Çətinlik haqqında daha ətraflı danışın (vacib)
       user:
         email: E-poçt
         active: Aktivdir
@@ -100,6 +120,13 @@ az:
         description: İzah
         languages: Dillər
         pass_crypt: Parol
+        pass_crypt_confirmation: Parolu təsdiqlə
+    help:
+      trace:
+        tagstring: Vergül ilə ayrılmış
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: yarım dəqiqə əvvəl
   editor:
     default: Susmaya görə (hal-hazırda %{name})
     potlatch:
@@ -116,11 +143,20 @@ az:
       description: Uzaqdan idarəetmə (JOSM və ya Merkaartor)
   auth:
     providers:
+      none: Heç biri
+      openid: OpenID
       google: Google
       facebook: Facebook
       windowslive: Windows Live
       github: GitHub
       wikipedia: Vikipediya
+  api:
+    notes:
+      rss:
+        title: OpenStreetMap haqqında qeydlər
+      entry:
+        comment: Şərh
+        full: Tam qeydlər
   browse:
     created: Yaradılıb
     closed: Bağlanıb

@@ -466,6 +466,7 @@ cs:
         Zkontrolujte překlepy, nebo jste možná klikli na chybný odkaz.
     diary_entry:
       posted_by_html: Zapsal %{link_user} %{created} v jazyce %{language_link}
+      updated_at_html: Naposledy aktualizováno %{updated}
       comment_link: Okomentovat tento zápis
       reply_link: Pošlete zprávu autorovi
       comment_count:
@@ -1278,12 +1279,15 @@ cs:
           "yes": Vodní cesta
       admin_levels:
         level2: Státní hranice
+        level3: Hranice regionu
         level4: Hranice země, provincie či regionu
         level5: Hranice regionu
         level6: Hranice okresu
+        level7: Hranice obce
         level8: Hranice obce
         level9: Hranice vesnice
         level10: Hranice městské části
+        level11: Hranice sousedství
       types:
         cities: Velkoměsta
         towns: Města
@@ -1447,12 +1451,21 @@ cs:
       hi: Ahoj, uživateli %{to_user},
       header: '%{from_user} okomentoval záznam v deníku na OpenStreetMap s předmětem
         %{subject}:'
+      header_html: '%{from_user} okomentoval záznam v deníku na OpenStreetMap s předmětem
+        %{subject}:'
       footer: Můžete si také přečíst komentář na %{readurl} a můžete komentovat na
         %{commenturl} nebo poslat zprávu autorovi na %{replyurl}
+      footer_html: Můžete si také přečíst komentář na %{readurl} a můžete komentovat
+        na %{commenturl} nebo poslat zprávu autorovi na %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Dobrý den, uživateli %{to_user},
       header: '%{from_user} vám poslal(a) prostřednictvím OpenStreetMap zprávu s předmětem
         %{subject}:'
+      header_html: '%{from_user} vám poslal(a) prostřednictvím OpenStreetMap zprávu
+        s předmětem %{subject}:'
+      footer: Můžete si také přečíst zprávu na %{readurl} a můžete poslat zprávu autorovi
+        na %{replyurl}
       footer_html: Můžete si také přečíst zprávu na %{readurl} a můžete poslat zprávu
         autorovi na %{replyurl}
     friendship_notification:
@@ -1460,12 +1473,16 @@ cs:
       subject: '[OpenStreetMap] %{user} si vás přidal jako přítele'
       had_added_you: '%{user} si vás na OpenStreetMap přidal(a) jako přítele.'
       see_their_profile: Jeho/její profil si můžete prohlédnout na %{userurl}.
+      see_their_profile_html: Jeho/její profil si můžete prohlédnout na %{userurl}.
       befriend_them: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
+      befriend_them_html: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
     gpx_failure:
+      hi: Ahoj, %{to_user},
       failed_to_import: 'se nepodařilo nahrát. Chybové hlášení následuje:'
       import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=cs
       subject: '[OpenStreetMap] Neúspěšný import GPX'
     gpx_success:
+      hi: Ahoj %{to_user},
       loaded_successfully:
         one: se úspěšně nahrál s %{trace_points} z možného 1 bodu.
         other: se úspěšně nahrál s %{trace_points} z možných %{possible_points} bodů.
@@ -1502,14 +1519,22 @@ cs:
           která vás zajímá'
         your_note: '%{commenter} okomentoval jednu z vašich poznámek k mapě nedaleko
           %{place}.'
+        your_note_html: '%{commenter} okomentoval jednu z vašich poznámek k mapě nedaleko
+          %{place}.'
         commented_note: '%{commenter} okomentoval poznámku k mapě, kterou jste také
           komentovali. Poznámka je umístěna poblíž %{place}.'
+        commented_note_html: '%{commenter} okomentoval poznámku k mapě, kterou jste
+          také komentovali. Poznámka je umístěna poblíž %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} vyřešil jednu z vašich poznámek'
         subject_other: '[OpenStreetMap] %{commenter} vyřešil jednu z poznámek, která
           vás zajímá'
         your_note: '%{commenter} vyřešil jednu z vašich poznámek k mapě nedaleko %{place}.'
+        your_note_html: '%{commenter} vyřešil jednu z vašich poznámek k mapě nedaleko
+          %{place}.'
         commented_note: '%{commenter} vyřešil poznámku k mapě, kterou jste komentovali.
+          Poznámka je umístěna poblíž %{place}.'
+        commented_note_html: '%{commenter} vyřešil poznámku k mapě, kterou jste komentovali.
           Poznámka je umístěna poblíž %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} reaktivoval jednu z vašich poznámek'
@@ -1517,9 +1542,14 @@ cs:
           která vás zajímá'
         your_note: '%{commenter} reaktivoval jednu z vašich poznámek k mapě nedaleko
           %{place}.'
+        your_note_html: '%{commenter} reaktivoval jednu z vašich poznámek k mapě nedaleko
+          %{place}.'
         commented_note: '%{commenter} reaktivoval poznámku k mapě, kterou jste komentovali.
           Poznámka je umístěna poblíž %{place}.'
+        commented_note_html: '%{commenter} reaktivoval poznámku k mapě, kterou jste
+          komentovali. Poznámka je umístěna poblíž %{place}.'
       details: Podrobnosti k poznámce můžete najít na %{url}.
+      details_html: Podrobnosti k poznámce můžete najít na %{url}.
     changeset_comment_notification:
       hi: Dobrý den, uživateli %{to_user},
       greeting: Dobrý den,
@@ -1530,13 +1560,21 @@ cs:
           která vás zajímá'
         your_changeset: '%{commenter} zanechal %{time} komentář na jedné z vašich
           sad změn.'
+        your_changeset_html: '%{commenter} zanechal %{time} komentář na jedné z vašich
+          sad změn.'
         commented_changeset: '%{commenter} zanechal %{time} komentář na Vámi sledované
           sadě změn, kterou vytvořil %{changeset_author}.'
+        commented_changeset_html: '%{commenter} zanechal %{time} komentář na Vámi
+          sledované sadě změn, kterou vytvořil %{changeset_author}.'
         partial_changeset_with_comment: s komentářem „%{changeset_comment}“
+        partial_changeset_with_comment_html: s komentářem „%{changeset_comment}“
         partial_changeset_without_comment: bez komentáře
       details: Více informací o této sadě změn lze nalézt na %{url}.
+      details_html: Více informací o této sadě změn lze nalézt na %{url}.
       unsubscribe: Pro odhlášení z aktualizací této sady změn jděte na %{url} a klikněte
         na „Zrušit odebírání“.
+      unsubscribe_html: Pro odhlášení z aktualizací této sady změn jděte na %{url}
+        a klikněte na „Zrušit odebírání“.
   messages:
     inbox:
       title: Doručená pošta
