@@ -1,14 +1,14 @@
-FROM ruby:2.7
+FROM ubuntu:20.04
 
-# Add yarn apt repository
-# https://classic.yarnpkg.com/en/docs/install#debian-stable
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install system packages
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
       build-essential \
+      curl \
+      default-jre-headless \
+      firefox-geckodriver \
       imagemagick \
       libarchive-dev \
       libffi-dev \
@@ -19,11 +19,11 @@ RUN apt-get update && \
       libxslt1-dev \
       locales \
       nodejs \
-      default-jre-headless \
-      phantomjs \
       postgresql-client \
-      ruby-dev \
-      yarn && \
+      ruby2.7 \
+      ruby2.7-dev \
+      tzdata \
+      yarnpkg && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -31,14 +31,17 @@ RUN apt-get update && \
 RUN curl -OL https://github.com/openstreetmap/osmosis/releases/download/0.47.2/osmosis-0.47.2.tgz && \
     tar -C /usr/local -xzf osmosis-0.47.2.tgz
 
+ENV DEBIAN_FRONTEND=dialog
+
 # Setup app location
 RUN mkdir -p /app
 WORKDIR /app
 
 # Install Ruby packages
 ADD Gemfile Gemfile.lock /app/
-RUN bundle install
+RUN gem install bundler && \
+    bundle install
 
 # Install NodeJS packages
 ADD package.json yarn.lock /app/
-RUN yarn install
+RUN yarnpkg install
