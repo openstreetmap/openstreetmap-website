@@ -108,6 +108,65 @@ other commits, namely:
 For simple commits the one line summary is often enough and the body
 of the commit message can be left out.
 
+### Issue/Pull Request Labels
+
+We use GitHub labels to keep track of issues.  Some guidelines:
+
+
+
+Light blue labels are for **components**, the specific parts of the openstreetmap website.
+
+* <sub>[![notes][notes]][notes_link]
+[![moderation][moderation]][moderation_link]
+[![diaries][diaries]][diaries_link]
+[![mapview][mapview]][mapview_link]
+[![changesets][changesets]][changesets_link]</sub>
+
+[notes]: http://labl.es/svg?text=notes&bgcolor=c5def5
+[moderation]: http://labl.es/svg?text=moderation&bgcolor=c5def5
+[diaries]: http://labl.es/svg?text=diaries&bgcolor=c5def5
+[mapview]: http://labl.es/svg?text=mapview&bgcolor=c5def5
+[changesets]: http://labl.es/svg?text=changesets&bgcolor=c5def5
+
+[notes_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Anotes
+[moderation_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%moderation
+[diaries_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Adiaries
+[mapview_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Amapview
+[changesets_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Achangesets
+
+Other Labels:
+
+* <sub>[![good-first-issue][good-first-issue]][good-first-issue_link]</sub> -
+Best for new contributors.  No experience necessary!
+* <sub>[![help-wanted][help-wanted]][help-wanted_link]</sub> -
+For more intermediate contributors, probably requires investigation or knowledge of openstreetmap-website code.
+* <sub>[![awaiting upstream][awaiting_upstream]][awaiting_upstream_link]</sub> -
+Awaiting Upstream. These issues won't be resolved until changes are made upstream.
+* <sub>[![enhancement][enhancement]][enhancement_link]</sub> -
+Enhancements. These are features that improve already supported .
+* <sub>[![changes requested][changes_requested]][changes_requested_link]</sub> -
+Changes Requested. There are more changes needed before a pull request will be accepted.
+* <sub>[![dx][dx]][dx_link]</sub> -
+Developer Experience. The things that help with development (Docker, Vagrant, Rake, etc.)
+* <sub>[![work-in-progress][wip]][wip_link]</sub> -
+Work in Progress.  Don't start work on these, somebody else already did!
+
+[good-first-issue]: http://labl.es/svg?text=good%20first%20issue&bgcolor=0e8a16
+[help-wanted]: http://labl.es/svg?text=help%20wanted&bgcolor=0e8a16
+[awaiting_upstream]: http://labl.es/svg?text=awaiting%20upstream&bgcolor=E0D05C
+[enhancement]: http://labl.es/svg?text=enhancment&bgcolor=E105D8
+[changes_requested]: http://labl.es/svg?text=changes%20requested&bgcolor=5319E7
+[wip]: http://labl.es/svg?text=work-in-progress&bgcolor=dddddd
+[dx]: http://labl.es/svg?text=dx&bgcolor=0052CC
+
+[good-first-issue_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3A%22good%20first%20issue%22
+[help-wanted_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3A%22help%20wanted%22
+[awaiting_upstream_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Aawaiting%20upstream
+[enhancement_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement
+[changes_requested_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Achanges%20requested
+[wip_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Awip
+[dx_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Adx
+
 ## Sending the patches
 
 If you have forked on GitHub then the best way to submit your patches is to
