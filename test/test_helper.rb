@@ -43,6 +43,14 @@ module ActiveSupport
     # Run tests in parallel with specified workers
     parallelize(:workers => :number_of_processors)
 
+    parallelize_setup do |worker|
+      SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
+    end
+
+    parallelize_teardown do
+      SimpleCov.result
+    end
+
     ##
     # takes a block which is executed in the context of a different
     # ActionController instance. this is used so that code can call methods
