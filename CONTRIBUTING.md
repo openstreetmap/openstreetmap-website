@@ -152,7 +152,7 @@ Developer Experience. The things that help with development (Docker, Vagrant, Ra
 Work in Progress.  Don't start work on these, somebody else already did!
 
 [good-first-issue]: http://labl.es/svg?text=good%20first%20issue&bgcolor=0e8a16
-[help-wanted]: http://labl.es/svg?text=help%20wanted&bgcolor=0e8a16
+[help-wanted]: http://labl.es/svg?text=help%20wanted&bgcolor=1D76DB
 [awaiting_upstream]: http://labl.es/svg?text=awaiting%20upstream&bgcolor=E0D05C
 [enhancement]: http://labl.es/svg?text=enhancment&bgcolor=E105D8
 [changes_requested]: http://labl.es/svg?text=changes%20requested&bgcolor=5319E7
@@ -161,10 +161,10 @@ Work in Progress.  Don't start work on these, somebody else already did!
 
 [good-first-issue_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3A%22good%20first%20issue%22
 [help-wanted_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3A%22help%20wanted%22
-[awaiting_upstream_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Aawaiting%20upstream
+[awaiting_upstream_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3A%22awaiting%20upstream%22
 [enhancement_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement
-[changes_requested_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Achanges%20requested
-[wip_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Awip
+[changes_requested_link]: https://github.com/openstreetmap/openstreetmap-website/pulls?q=is%3Apr+is%3Aopen+label%3A%22changes+requested%22
+[wip_link]: https://github.com/openstreetmap/openstreetmap-website/labels/work-in-progress
 [dx_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Adx
 
 ## Sending the patches
