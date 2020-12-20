@@ -1,0 +1,19 @@
+name: Docker
+on:
+  - push
+  - pull_request
+jobs:
+  test:
+    name: Docker
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v1
+    - name: Poke config
+      run: |
+        cp config/example.storage.yml config/storage.yml
+        cp config/docker.database.yml config/database.yml
+        touch config/settings.local.yml
+    - name: Docker Build
+      run: |
+        docker-compose build
