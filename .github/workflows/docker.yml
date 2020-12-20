@@ -14,6 +14,20 @@ jobs:
         cp config/example.storage.yml config/storage.yml
         cp config/docker.database.yml config/database.yml
         touch config/settings.local.yml
-    - name: Docker Build
+    - name: Build Docker Image
       run: |
         docker-compose build
+    - name: Start Docker-Compose
+      run: |
+        docker-compose up -d
+        sleep 15 # let the DB warm up a little
+    - name: Prepare Database
+      run: |
+        docker-compose run --rm web rake db:migrate
+        docker-compose run --rm web osmosis --rx docker/null-island.osm.xml --wd host=db database=openstreetmap user=openstreetmap password=openstreetmap validateSchemaVersion=no
+        docker-compose run web bundle exec rake yarn:install
+    - name: Test Basic Website
+      run: |
+        curl -siL http://127.0.0.1:3000 | egrep '^HTTP/1.1 200 OK'
+        curl -siL http://127.0.0.1:3000 | grep 'OpenStreetMap is the free wiki world map'
+        curl -siL http://127.0.0.1:3000/api/0.6/node/1 | grep 'Null Island'
