@@ -144,26 +144,32 @@ For more intermediate contributors, probably requires investigation or knowledge
 Awaiting Upstream. These issues won't be resolved until changes are made upstream.
 * <sub>[![enhancement][enhancement]][enhancement_link]</sub> -
 Enhancements. These are features that improve already supported .
-* <sub>[![changes requested][changes_requested]][changes_requested_link]</sub> -
-Changes Requested. There are more changes needed before a pull request will be accepted.
 * <sub>[![dx][dx]][dx_link]</sub> -
 Developer Experience. The things that help with development (Docker, Vagrant, Rake, etc.)
-* <sub>[![work-in-progress][wip]][wip_link]</sub> -
-Work in Progress.  Don't start work on these, somebody else already did!
 
 [good-first-issue]: http://labl.es/svg?text=good%20first%20issue&bgcolor=0e8a16
 [help-wanted]: http://labl.es/svg?text=help%20wanted&bgcolor=1D76DB
 [awaiting_upstream]: http://labl.es/svg?text=awaiting%20upstream&bgcolor=E0D05C
 [enhancement]: http://labl.es/svg?text=enhancment&bgcolor=E105D8
 [changes_requested]: http://labl.es/svg?text=changes%20requested&bgcolor=5319E7
-[wip]: http://labl.es/svg?text=work-in-progress&bgcolor=dddddd
-[dx]: http://labl.es/svg?text=dx&bgcolor=0052CC
 
 [good-first-issue_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3A%22good%20first%20issue%22
 [help-wanted_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3A%22help%20wanted%22
 [awaiting_upstream_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3A%22awaiting%20upstream%22
 [enhancement_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement
 [changes_requested_link]: https://github.com/openstreetmap/openstreetmap-website/pulls?q=is%3Apr+is%3Aopen+label%3A%22changes+requested%22
+
+PR Labels:
+
+* <sub>[![changes requested][changes_requested]][changes_requested_link]</sub> -
+Changes Requested. More changes needed before a pull request will be accepted.
+* <sub>[![work-in-progress][wip]][wip_link]</sub> -
+Work in Progress. Pull requests that are not ready to be merged.
+
+[wip]: http://labl.es/svg?text=work-in-progress&bgcolor=dddddd
+[dx]: http://labl.es/svg?text=dx&bgcolor=0052CC
+
+
 [wip_link]: https://github.com/openstreetmap/openstreetmap-website/labels/work-in-progress
 [dx_link]: https://github.com/openstreetmap/openstreetmap-website/issues?q=is%3Aopen+is%3Aissue+label%3Adx
 
