@@ -21,6 +21,8 @@ hi:
     formats:
       friendly: '%e %B %Y को %H:%M पर'
   helpers:
+    file:
+      prompt: फाइल चुनें
     submit:
       diary_comment:
         create: सहेजें
@@ -259,22 +261,42 @@ hi:
       node_paginated: नोड (%{count} का %{x}-%{y})
       way: रेखाएं (%{count})
       way_paginated: रास्तें (%{count} का %{x}-%{y})
+      relation: सम्बन्ध (%{count})
+      relation_paginated: सम्बन्ध (%{count} के %{x}-%{y})
       comment: जवाब (%{count})
+      hidden_commented_by_html: '%{user} से कमेंट छिपाया गया <abbr title=''%{exact_time}''>%{when}</abbr>'
+      commented_by_html: '%{user} से कमेंट <abbr title=''%{exact_time}''>%{when}</abbr>'
+      changesetxml: Changeset XML
+      osmchangexml: osmChange XML
+      feed:
+        title: 'Changeset: %{id}'
+        title_comment: Changeset %{id} - %{comment}
+      join_discussion: चर्चा में भाग लेने के लिए लॉग इन करें
       discussion: चर्चा
       still_open: चेंजसेट अभी भी खुला - चेंजसेट के एक बार बंद होने के पश्चात चर्चा
         होगी।
     node:
       title_html: 'बिंदु: %{name}'
+      history_title_html: 'नोड इतिहास: %{name}'
     way:
       title_html: 'रेखा: %{name}'
       history_title_html: 'रेखा का इतिहास: %{name}'
       nodes: बिंदु
+      nodes_count:
+        one: १ नोड
+        other: '%{count} नोड'
       also_part_of_html:
         one: इस रेखा का हिस्सा है‌ %{related_ways}
         other: इन रेखाओं का हिस्सा है %{related_ways}
     relation:
+      title_html: 'सम्बन्ध: %{name}'
+      history_title_html: 'सम्बन्ध इतिहास: %{name}'
       members: सदस्य
+      members_count:
+        one: '१ सदस्य '
+        other: '%{count} सदस्य'
     relation_member:
+      entry_role_html: '%{type} %{role} के रूप में %{name}'
       type:
         node: बिंदु
         way: रेखा
@@ -283,17 +305,26 @@ hi:
       entry_html: संबंध %{relation_name}
       entry_role_html: संबंध %{relation_name} (as %{relation_role})
     not_found:
-      sorry: क्षमा करें, ये %{type} इस आईडी %{id } के साथ, पाया नहीं जा सका
+      title: नहीं मिला
+      sorry: 'माफ़ कीजिए, %{type} #%{id} नहीं मिल पाया।'
       type:
         node: बिंदु
         way: रेखा
         relation: संबंध
+        changeset: changeset
+        note: नोट
     timeout:
+      title: समय ज़्यादा हो जाने पर त्रुटि
+      sorry: माफ़ कीजिए, ID %{id} वाले %{type} का डेटा लाते वक्त कुछ ज़्यादा ही समय
+        लगा।
       type:
         node: बिंदु
         way: रेखा
         relation: संबंध
+        changeset: changeset
+        note: नोट
     redacted:
+      redaction: लोपन %{id}
       type:
         node: बिंदु
         way: रेखा
