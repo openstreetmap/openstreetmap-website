@@ -5,13 +5,6 @@ module OSM
   require "rexml/text"
   require "xml/libxml"
 
-  if defined?(SystemTimer)
-    Timer = SystemTimer
-  else
-    require "timeout"
-    Timer = Timeout
-  end
-
   # The base class for API Errors.
   class APIError < RuntimeError
     def initialize(message = "Generic API Error")

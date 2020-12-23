@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  require "timeout"
+
   include SessionPersistence
 
   protect_from_forgery :with => :exception
@@ -229,7 +231,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap an api call in a timeout
   def api_call_timeout(&block)
-    OSM::Timer.timeout(Settings.api_timeout, Timeout::Error, &block)
+    Timeout.timeout(Settings.api_timeout, Timeout::Error, &block)
   rescue Timeout::Error
     raise OSM::APITimeoutError
   end
@@ -237,7 +239,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap a web page in a timeout
   def web_timeout(&block)
-    OSM::Timer.timeout(Settings.web_timeout, Timeout::Error, &block)
+    Timeout.timeout(Settings.web_timeout, Timeout::Error, &block)
   rescue ActionView::Template::Error => e
     e = e.cause
 
