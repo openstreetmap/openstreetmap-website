@@ -378,12 +378,17 @@ module OSM
     end
 
     # and these two will give you the right points on your image. all the constants can be reduced to speed things up. FIXME
+    # If the bbox has no extent, return the centre of the image to avoid dividing by zero.
 
     def y(lat)
+      return @height / 2 if (@by - @ty).zero?
+
       @height - ((ysheet(lat) - @ty) / (@by - @ty) * @height)
     end
 
     def x(lon)
+      return @width / 2 if (@bx - @tx).zero?
+
       ((xsheet(lon) - @tx) / (@bx - @tx) * @width)
     end
   end
