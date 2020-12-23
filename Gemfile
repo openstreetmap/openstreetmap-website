@@ -88,9 +88,6 @@ gem "libxml-ruby", ">= 2.0.5", :require => "libxml"
 gem "htmlentities"
 gem "sanitize"
 
-# Load SystemTimer for implementing request timeouts
-gem "SystemTimer", ">= 1.1.3", :require => "system_timer", :platforms => :ruby_18
-
 # Load faraday for mockable HTTP client
 gem "faraday"
 

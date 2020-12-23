@@ -37,6 +37,8 @@
 
 module Api
   class AmfController < ApiController
+    require "timeout"
+
     include Potlatch
 
     before_action :check_api_writable
@@ -130,7 +132,7 @@ module Api
 
     def amf_handle_error_with_timeout(call, rootobj, rootid, &block)
       amf_handle_error(call, rootobj, rootid) do
-        OSM::Timer.timeout(Settings.api_timeout, OSM::APITimeoutError, &block)
+        Timeout.timeout(Settings.api_timeout, OSM::APITimeoutError, &block)
       end
     end
 
