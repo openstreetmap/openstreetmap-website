@@ -1,3 +1,7 @@
+# Currently unmaintaned 
+
+The Vagrant setup is currently unmaintaned. See https://github.com/openstreetmap/openstreetmap-website/issues/2344 for more.
+
 # Installing Vagrant
 
 On Ubuntu, it should be as simple as:
