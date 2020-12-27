@@ -23,7 +23,7 @@
     <%= render :partial => "location", :object => diary_entry %>
   <% end %>
 
-  <ul class='secondary-actions clearfix'>
+  <ul class='secondary-actions clearfix pt-3'>
     <% if params[:action] == 'index' %>
       <li><%= link_to t(".comment_link"), diary_entry_path(diary_entry.user, diary_entry, :anchor => "newcomment") %></li>
       <li><%= link_to t(".reply_link"), new_message_path(diary_entry.user, :message => { :title => "Re: #{diary_entry.title}" }) %></li>
@@ -31,7 +31,7 @@
     <% end %>
 
     <% if current_user && current_user == diary_entry.user %>
-      <li><%= link_to t(".edit_link"), :action => "edit", :display_name => diary_entry.user.display_name, :id => diary_entry.id %></li>
+      <li><%= link_to t(".edit_link"), { :action => "edit", :display_name => diary_entry.user.display_name, :id => diary_entry.id }, { :class => "btn btn-primary mt-3" } %></li>
     <% end %>
 
     <% if current_user and diary_entry.user != current_user %>
