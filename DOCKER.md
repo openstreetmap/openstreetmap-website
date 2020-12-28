@@ -68,7 +68,7 @@ Install required front-end Node modules:
 
 This installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract. Here an example for loading an OSM extract into your Docker-based OSM instance.
 
-For example, let's download the District of Columbia from Geofabrik:
+For example, let's download the District of Columbia from Geofabrik or [any other region](https://download.geofabrik.de):
 
     wget https://download.geofabrik.de/north-america/us/district-of-columbia-latest.osm.pbf
 
@@ -83,11 +83,11 @@ You can now use Docker to load this extract into your local Docker-based OSM ins
             user="openstreetmap" \
             validateSchemaVersion="no"
 
-Once you have data loaded for Washington, DC you should be able to navigate to `http://localhost:3000/#map=12/38.8938/-77.0146` to begin working with your local instance.
+Once you have data loaded for Washington, DC you should be able to navigate to [`http://localhost:3000/#map=12/38.8938/-77.0146`](http://localhost:3000/#map=12/38.8938/-77.0146) to begin working with your local instance.
 
 ### Additional Configuration
 
-See `CONFIGURE.md` for information on how to manage users and enable OAuth for iD, JOSM etc.
+See [`CONFIGURE.md`](CONFIGURE.md) for information on how to manage users and enable OAuth for iD, JOSM etc.
 
 ### Bash
 
