@@ -25,7 +25,6 @@ jobs:
       run: |
         docker-compose run --rm web rake db:migrate
         docker-compose run --rm web osmosis --rx docker/null-island.osm.xml --wd host=db database=openstreetmap user=openstreetmap password=openstreetmap validateSchemaVersion=no
-        docker-compose run web bundle exec rake yarn:install
     - name: Test Basic Website
       run: |
         curl -siL http://127.0.0.1:3000 | egrep '^HTTP/1.1 200 OK'

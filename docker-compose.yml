@@ -8,6 +8,8 @@ services:
       - .:/app
       # don't mount tmp directory (https://github.com/Shopify/bootsnap/issues/177)
       - /app/tmp
+      # Prevent node_modules from mounting so it's not shared between host OS and Docker
+      - /app/node_modules/
     ports:
       - "3000:3000"
     environment:
