@@ -440,12 +440,7 @@ ja:
     new:
       title: 日記エントリの新規作成
     form:
-      subject: 'タイトル:'
-      body: '本文:'
-      language: '言語:'
-      location: '位置:'
-      latitude: '緯度:'
-      longitude: '経度:'
+      location: 位置
       use_map_link: 地図を使用
     index:
       title: 利用者さんの日記
@@ -474,7 +469,7 @@ ja:
       heading: ID %{id} にコメントはまだありません。
       body: ID が %{id} のコメントや日記は存在しません。URLにスペルミスがないか確認をしてください。またはリンク元が間違っています。
     diary_entry:
-      posted_by_html: '%{link_user} が %{created} に投稿 (%{language_link})'
+      posted_by_html: '%{link_user} が %{created} に投稿 (%{language_link}) 。'
       updated_at_html: 最終更新日は %{updated}
       comment_link: このエントリにコメント
       reply_link: 筆者にメッセージを送る
@@ -1461,8 +1456,10 @@ ja:
       befriend_them_html: '%{befriendurl} で友達になることができます。'
     gpx_failure:
       failed_to_import: 'インポートするのに失敗しました。エラーはここです。:'
+      more_info_html: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
       subject: '[OpenStreetMap] GPX のインポートが失敗'
     gpx_success:
+      hi: こんにちは、%{to_user} さん。
       loaded_successfully:
         other: 利用可能な点 %{possible_points} 個のうち、%{trace_points} 個の読み込みに成功しました。
       subject: '[OpenStreetMap] GPX のインポートが成功'
@@ -1489,18 +1486,25 @@ ja:
         subject_own: '[OpenStreetMap] %{commenter} さんがあなたのメモにコメントしました'
         subject_other: '[OpenStreetMap] %{commenter}さんがあなたが関心を持っているメモにコメントしました'
         your_note: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つにコメントを残しました。'
+        your_note_html: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つにコメントを残しました。'
         commented_note: '%{commenter}さんがあなたがコメントした地図上の%{place}付近にあるメモにコメントしました。'
+        commented_note_html: '%{commenter}さんがあなたがコメントした地図上の%{place}付近にあるメモにコメントしました。'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} さんがあなたのメモを解決しました'
         subject_other: '[OpenStreetMap] %{commenter}さんが、あなたが関心を持っているメモを解決しました'
         your_note: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを解決しました。'
+        your_note_html: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを解決しました。'
         commented_note: '%{commenter}さんが、あなたがコメントした地図上の%{place}付近にあるメモを解決しました。'
+        commented_note_html: '%{commenter}さんが、あなたがコメントした地図上の%{place}付近にあるメモを解決しました。'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter}さんがあなたのメモの1つを再開しました'
         subject_other: '[OpenStreetMap] %{commenter}さんがあなたが関心を持っているメモを再開しました'
         your_note: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを再開しました。'
+        your_note_html: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを再開しました。'
         commented_note: '%{commenter}さんが、%{place}付近にあるあなたがコメントした地図メモを再開しました。'
+        commented_note_html: '%{commenter}さんが、%{place}付近にあるあなたがコメントした地図メモを再開しました。'
       details: メモについての詳細は %{url} を参照。
+      details_html: メモについての詳細は %{url} を参照。
     changeset_comment_notification:
       hi: こんにちは、%{to_user} さん。
       greeting: こんにちは、
@@ -1508,11 +1512,16 @@ ja:
         subject_own: '[OpenStreetMap] %{commenter} さんがあなたの変更セットにコメントしました'
         subject_other: '[OpenStreetMap] %{commenter}さんがあなたが関心を持っているメモにコメントしました'
         your_changeset: '%{commenter}さんが%{time}にあなたの変更セットにコメントしました'
+        your_changeset_html: '%{commenter}さんが%{time}にあなたの変更セットにコメントしました'
         commented_changeset: '%{commenter}さんが%{time}に、%{changeset_author}さんが作成したあなたが監視中の変更セットにコメントしました'
+        commented_changeset_html: '%{commenter}さんが%{time}に、%{changeset_author}さんが作成したあなたが監視中の変更セットにコメントしました'
         partial_changeset_with_comment: 「%{changeset_comment}」に対するコメント
+        partial_changeset_with_comment_html: 「%{changeset_comment}」に対するコメント
         partial_changeset_without_comment: コメントなし
       details: 変更セットについての詳細は %{url} を参照。
+      details_html: 変更セットについての詳細は %{url} を参照。
       unsubscribe: この変更セットの購読を中止するには%{url}を開いて"購読を中止 Unsubscribe"をクリック。
+      unsubscribe_html: この変更セットの購読を中止するには%{url}を開いて「購読を中止」をクリック。
   messages:
     inbox:
       title: 受信箱
@@ -1578,6 +1587,10 @@ ja:
       as_unread: 未読メッセージ
     destroy:
       destroyed: メッセージを削除しました
+  shared:
+    markdown_help:
+      title_html: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>で構文解析します
+      url: URL
   site:
     about:
       next: 次へ

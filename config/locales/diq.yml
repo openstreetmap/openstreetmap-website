@@ -90,6 +90,10 @@ diq:
         support_url: Gırey Destegi
         allow_read_prefs: Tercihanê karberi bıwanê
         allow_write_prefs: Tercihanê karberanê inan bıvurne
+        allow_write_api: Xeritay bıvurne
+        allow_read_gpx: Bağse şopanê GPSi bıwanê
+        allow_write_gpx: Şopanê GPSi bar kerê
+        allow_write_notes: Notan bıvurne
       diary_comment:
         body: Metın
       diary_entry:
@@ -110,6 +114,7 @@ diq:
         longitude: Derganiye
         public: Pêroyi
         description: Şınasnayış
+        gpx_file: Dosyay GPXi bar kerê
         visibility: Asayış
         tagstring: Etiketi
       message:
@@ -117,6 +122,8 @@ diq:
         title: Mewzu
         body: Metın
         recipient: Grotker
+      report:
+        category: Qandê rapor jew sebeb weçinê
       user:
         email: E-poste
         active: Aktiv
@@ -124,6 +131,7 @@ diq:
         description: Şınasnayış
         languages: Zıwani
         pass_crypt: Parola
+        pass_crypt_confirmation: Parola tesdiq ke
   editor:
     default: Hesabiyaye (%{name}yo nıkayên)
     potlatch:
@@ -156,6 +164,7 @@ diq:
         commented_at_by_html: Terefê %{user} ra %{when} de rocaneyayo
       entry:
         comment: Mışewre
+        full: Note pêro
   browse:
     created: Vıraziya
     closed: Kerd kip
@@ -171,6 +180,12 @@ diq:
     anonymous: anonim
     no_comment: (be vatış)
     part_of: Letey
+    part_of_relations:
+      one: '1 eleqe '
+      other: '%{count} eleqey'
+    part_of_ways:
+      one: 1 ray
+      other: '%{count} rayi'
     download_xml: XML ron
     view_history: Verêni bıvêne
     view_details: Teferuatan Bıvêne
@@ -189,6 +204,7 @@ diq:
       osmchangexml: OsmVurnayışê XML
       feed:
         title: 'Koma vurnayışi: %{id}'
+        title_comment: '%{id} - %{comment} vurniyayışi'
       join_discussion: Dekewtena vatenayışi rê qeyd bê
       discussion: Werênayış
     node:
@@ -246,6 +262,8 @@ diq:
       title: 'Not: %{id}'
       new_note: Nota Newi
       description: Şınasnayış
+      hidden_by_html: '%{user} <abbr title=''%{exact_time}''>%{when}</abbr> bınımnê'
+      report: Nê noti rapor ke
     query:
       title: Xısusiyetan bıasne
       introduction: Xısusiyetanê nezdiyan vinayışi rê xeriter sero bıploğnê
@@ -276,22 +294,21 @@ diq:
     new:
       title: Roceko newe definayış
     form:
-      subject: 'Mewzu:'
-      body: 'Metın:'
-      language: 'Zıwan:'
-      location: 'Lokasyon:'
-      latitude: 'Verıniye:'
-      longitude: 'Derganiye:'
-      use_map_link: xerita bıgurene
+      location: Lokasyon
+      use_map_link: Xerita bıgurene
     index:
       title: Rocekê Karberi
       title_friends: Rocekê embazan
       title_nearby: Nezdı ra rocekê karberan
       user_title: '%{user} rocek'
+      in_language_title: '%{language} dekewtekê roci'
+      new: Roceko newe definayış
       my_diary: Rocekê mı
     edit:
       marker_text: Lokasyonê rocekê cıkewtışi
     show:
+      title: Rocekê %{user}'i | %{title}
+      user_title: Rocekê %{user}'i
       leave_a_comment: Yew mışewre bınuse
       login_to_leave_a_comment_html: Seba mışewreyi rê %{login_link}
       login: Cıkewtış
@@ -336,16 +353,21 @@ diq:
           gondola: Telesiyej
           pylon: Pylon
           station: İstasyona teleferiki
+          "yes": Hewaray
         aeroway:
           aerodrome: Hewaherun
+          airstrip: Pistê perayışi
           apron: Apron
           gate: Keyber
           hangar: Hangar
           helipad: Hruna Helikopteri
+          holding_position: Pozisyonê tesbiti
+          parking_position: Pozisyonê parki
           runway: Pista teyera
           taxilane: Taxilane
           taxiway: Raya Texsiyan
           terminal: Terminal
+          windsock: Loğavay
         amenity:
           animal_shelter: Kozıkê heywanan
           arts_centre: Merkeze Zagoni
