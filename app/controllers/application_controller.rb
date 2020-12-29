@@ -208,7 +208,7 @@ class ApplicationController < ActionController::Base
     report_error e.message, :bad_request
   rescue ActiveRecord::RecordInvalid => e
     message = "#{e.record.class} #{e.record.id}: "
-    e.record.errors.each { |attr, msg| message << "#{attr}: #{msg} (#{e.record[attr].inspect})" }
+    e.record.errors.each { |error| message << "#{error.attribute}: #{error.message} (#{e.record[error.attribute].inspect})" }
     report_error message, :bad_request
   rescue OSM::APIError => e
     report_error e.message, e.status
