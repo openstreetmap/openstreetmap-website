@@ -31,6 +31,9 @@ module OpenStreetMap
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W[#{config.root}/lib]
 
+    # Continue to use the classic autoloader for now
+    config.autoloader = :classic
+
     # Force requests from old versions of IE (<= IE8) to be UTF-8 encoded.
     # This has defaulted to false since rails 6.0
     config.action_view.default_enforce_utf8 = true
