@@ -24,9 +24,13 @@ jobs:
     - name: Prepare Database
       run: |
         docker-compose run --rm web rake db:migrate
+        docker-compose run web bundle exec rake i18n:js:export
         docker-compose run --rm web osmosis --rx docker/null-island.osm.xml --wd host=db database=openstreetmap user=openstreetmap password=openstreetmap validateSchemaVersion=no
     - name: Test Basic Website
       run: |
         curl -siL http://127.0.0.1:3000 | egrep '^HTTP/1.1 200 OK'
         curl -siL http://127.0.0.1:3000 | grep 'OpenStreetMap is the free wiki world map'
         curl -siL http://127.0.0.1:3000/api/0.6/node/1 | grep 'Null Island'
+    - name: Test Complete Suite
+      run: |
+        docker-compose run --rm web bundle exec rails test:db
