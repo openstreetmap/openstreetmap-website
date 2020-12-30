@@ -39,15 +39,16 @@
         <%= report_link(t(".report"), diary_entry) %>
       </li>
     <% end %>
-
-    <% if can? :hide, DiaryEntry %>
-      <li>
-        <% if diary_entry.visible %>
-          <%= link_to t(".hide_link"), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") } %>
-        <% else %>
-          <%= link_to t(".unhide_link"), unhide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") } %>
-        <% end %>
-      </li>
-    <% end %>
   </ul>
+
+  <% if can? :hide, DiaryEntry %>
+    <div class='alert alert-secondary'>
+      <% if diary_entry.visible %>
+        <%= link_to t(".hide_link"), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") }, :class => 'btn btn-danger' %>
+      <% else %>
+        <%= link_to t(".unhide_link"), unhide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") }, :class => 'btn btn-danger' %>
+      <% end %>
+    </div>
+  <% end %>
+
 </div>
