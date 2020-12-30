@@ -19,9 +19,11 @@
     <%= diary_entry.body.to_html %>
   </div>
 
-  <% if diary_entry.latitude and diary_entry.longitude %>
-    <%= render :partial => "location", :object => diary_entry %>
-  <% end %>
+  <div class='mb-3'>
+    <% if diary_entry.latitude and diary_entry.longitude %>
+      <%= render :partial => "location", :object => diary_entry %>
+    <% end %>
+  </div>
 
   <ul class='list-inline'>
     <% if current_user == diary_entry.user %>
