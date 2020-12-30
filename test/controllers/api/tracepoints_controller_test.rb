@@ -38,7 +38,10 @@ module Api
       assert_response :success
       assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
         assert_select "trk" do
-          assert_select "trkseg"
+          assert_select "name", :count => 0
+          assert_select "desc", :count => 0
+          assert_select "url", :count => 0
+          assert_select "trkseg", :count => 1
         end
       end
     end
@@ -57,7 +60,10 @@ module Api
       assert_response :success
       assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
         assert_select "trk", :count => 1 do
-          assert_select "trk > trkseg", :count => 2 do |trksegs|
+          assert_select "name", :count => 0
+          assert_select "desc", :count => 0
+          assert_select "url", :count => 0
+          assert_select "trkseg", :count => 2 do |trksegs|
             trksegs.each do |trkseg|
               assert_select trkseg, "trkpt", :count => 1 do |trkpt|
                 assert_select trkpt[0], "time", :count => 1
@@ -81,9 +87,9 @@ module Api
       assert_response :success
       assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
         assert_select "trk", :count => 1 do
-          assert_select "trk>name", :count => 1
-          assert_select "trk>desc", :count => 1
-          assert_select "trk>url", :count => 1
+          assert_select "name", :count => 1
+          assert_select "desc", :count => 1
+          assert_select "url", :count => 1
           assert_select "trkseg", :count => 1 do
             assert_select "trkpt", :count => 1 do
               assert_select "time", :count => 1
