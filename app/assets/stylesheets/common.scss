@@ -40,6 +40,14 @@ small, aside {
 
 [dir=ltr] { /* no-r2 */ text-align: left; }
 
+@media (prefers-color-scheme:dark)
+{
+  body {
+    color: $common-body-invcolor;
+    background-color: $common-body-background-invcolor;
+  }
+}
+
 /* Rules for icons */
 
 .icon {
@@ -83,6 +91,13 @@ a {
   }
 }
 
+@media (prefers-color-scheme:dark)
+{
+  a {
+    color: $common-a-invcolor;
+  }
+}
+
 /* Utility for de-emphasizing content */
 
 .deemphasize {
@@ -94,6 +109,20 @@ a {
 
 .text-muted a {
   color: $blue-color;
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .deemphasize {
+    color: $darkgrey-invcolor;
+    a {
+      color: $blue-invcolor;
+    }
+  }
+
+  .text-muted a {
+    color: $blue-invcolor;
+  }
 }
 
 /* Rules for the header */
@@ -162,6 +191,22 @@ header {
 }
 
 
+@media (prefers-color-scheme:dark)
+{
+  header {
+    h1 {
+      a {
+        color: $common-header-h1-a-invcolor;
+      }
+
+      a:hover {
+        color: $common-header-h1-a-invcolor;
+      }
+    }
+  }
+}
+
+
 nav.primary {
   .btn-outline-primary {
     @include button-outline-variant($green-color, $white);
@@ -190,6 +235,40 @@ nav.primary {
 
     &:focus {
       box-shadow: 0 0 0 0.2rem fade-out($green-color, 0.5);
+    }
+  }
+}
+
+@media (prefers-color-scheme:dark)
+{
+  nav.primary {
+    .btn-outline-primary {
+      @include button-outline-variant($green-invcolor, $white);
+    }
+
+    .disabled {
+      .btn-outline-primary {
+        color: $grey-invcolor;
+
+        .caret {
+          border-top-color: $grey-invcolor;
+        }
+
+        &:hover {
+          background-color: lighten($green-invcolor, 30%);
+        }
+      }
+    }
+
+    // Small tweaks to the toggle to stop the primary colour showing through
+    // when the menu is shown
+    .show > .btn-outline-primary.dropdown-toggle {
+      background-color: $green-invcolor;
+      border-color: $green-invcolor;
+
+      &:focus {
+        box-shadow: 0 0 0 0.2rem fade-out($green-invcolor, 0.5);
+      }
     }
   }
 }
@@ -276,6 +355,55 @@ body.compact-nav {
   }
 }
 
+@media (prefers-color-scheme:dark)
+{
+  nav.secondary {
+    .nav-link {
+      color: $darkgrey-invcolor;
+    }
+
+    > ul li.current a {
+      color: darken($darkgrey-invcolor, 25%);
+    }
+
+    .login-menu {
+      .btn-outline-secondary {
+        @include button-outline-variant($darkgrey-invcolor);
+      }
+    }
+
+    .user-menu {
+      .btn-outline-secondary {
+        @include button-outline-variant($darkgrey-invcolor, $darkgrey-invcolor, $common-nav-secondary-user-menu-btn-outline-secondary-active-background-invcolor, $darkgrey-invcolor);
+        border-color: $grey-invcolor;
+        &:hover {
+          border-color: $grey-invcolor;
+        }
+        &:focus {
+          background-color: $common-nav-secondary-user-menu-btn-outline-secondary-focus-background-invcolor;
+          box-shadow: none;
+        }
+      }
+      &.show .btn-outline-secondary {
+        background-color: $common-nav-secondary-user-menu-show-btn-outline-secondary-background-invcolor;
+      }
+    }
+
+    #inboxanchor {
+      background-color: lighten($grey-invcolor, 10%);
+    }
+  }
+
+  nav.primary, nav.secondary {
+    .dropdown-item {
+      &:hover, &:active {
+        background-color: $green-invcolor;
+        color: $common-nav-primary-secondary-hover-active-invcolor;
+      }
+    }
+  }
+}
+
 /* Utility for styling notification numbers */
 
 .count-number {
@@ -285,6 +413,14 @@ body.compact-nav {
   margin: 0 2px;
   font-size: 11px;
   color: $common-count-number-color;
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .count-number {
+    background: lighten($green-invcolor, 30%);
+    color: $common-count-number-invcolor;
+  }
 }
 
 /* Rules for the message shown in place of the map when javascript is disabled */
@@ -342,6 +478,28 @@ body.compact-nav {
 .control-locate .control-button,
 .control-share .control-button {
   border-radius: 0 0 0 4px;
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .leaflet-control .control-button {
+    background-color: $common-leaflet-control-control-button-background-invcolor;
+    background-color: $common-leaflet-control-control-button-background-shade-invcolor;
+
+    &:hover {
+      background-color: $common-leaflet-control-control-button-hover-background-invcolor;
+    }
+
+    &.disabled,
+    &.leaflet-disabled {
+      background-color: $common-leaflet-control-control-button-disabled-background-invcolor;
+      background-color: $common-leaflet-control-control-button-disabled-background-shade-invcolor;
+    }
+
+    &.active {
+      background-color: $vibrant-green-invcolor;
+    }
+  }
 }
 
 /* Rules for the sidebar and main map area */
@@ -529,6 +687,43 @@ body.compact-nav {
   }
 }
 
+@media (prefers-color-scheme:dark)
+{
+  .map-layout {
+    #sidebar {
+      background: $common-map-layout-sidebar-background-invcolor;
+    }
+
+    .welcome {
+      .button {
+        &.learn-more {
+          border-right-color: $common-map-layout-welcome-button-learn-more-border-invcolor;
+        }
+      }
+    }
+
+    #map-ui {
+      background: $common-map-layout-map-ui-background-invcolor;
+
+      .section {
+        border-bottom-color: $grey-invcolor;
+      }
+
+      a.close-button {
+        color: $common-map-layout-map-ui-a-close-button-invcolor;
+        border-color: $grey-invcolor;
+      }
+
+      .tooltip {
+        border-color: $grey-invcolor;
+        .tooltip-arrow {
+          border-top-color: $grey-invcolor;
+        }
+      }
+    }
+  }
+}
+
 .layers-ui,
 .share-ui {
   li:last-child {
@@ -583,6 +778,32 @@ body.compact-nav {
       margin-bottom: 8px;
     }
     li.disabled { color: $darkgrey-color; }
+  }
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .layers-ui {
+    .base-layers {
+      li  {
+        border-color: $common-layers-ui-base-layers-li-border-invcolor;
+
+        label {
+          text-stroke: 2px $common-layers-ui-base-layers-li-label-text-invstroke;
+          background: $common-layers-ui-base-layers-li-label-background-invcolor;
+        }
+
+        &.active { border-color: darken($green-invcolor, 10%); }
+        &:hover {
+          border-color: $grey-invcolor;
+          &.active { border-color: darken($green-invcolor, 20%); }
+        }
+      }
+    }
+
+    .overlay-layers {
+      li.disabled { color: $darkgrey-invcolor; }
+    }
   }
 }
 
@@ -641,6 +862,27 @@ body.compact-nav {
   }
 }
 
+@media (prefers-color-scheme:dark)
+{
+  .share-ui {
+    .share-tabs {
+      a {
+        color: $common-share-ui-share-tabs-a-invcolor;
+        background-color: $lightblue-invcolor;
+        border-right-color: $common-share-ui-share-tabs-a-border-invcolor;
+      }
+
+      a:first-child {
+        border-right-color: $common-share-ui-share-tabs-a-border-invcolor;
+      }
+
+      a.active {
+        background-color: $blue-invcolor;
+      }
+    }
+  }
+}
+
 .leaflet-top {
   top: $lineheight/2 !important;
   .leaflet-control {
@@ -680,6 +922,11 @@ body.compact-nav {
 
 .donate-attr { color: darken($green-color, 10%) !important; }
 
+@media (prefers-color-scheme:dark)
+{
+  .donate-attr { color: darken($green-invcolor, 10%) !important; }
+}
+
 /* Rules for the sidebar */
 
 .sidebar_heading {
@@ -714,6 +961,14 @@ body.compact-nav {
     margin: auto;
     width: 40px;
     display: block;
+  }
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .sidebar_heading {
+    // background: $offwhite-invcolor;
+    // border-bottom: 1px solid $grey-invcolor;
   }
 }
 
@@ -759,6 +1014,19 @@ header .search_forms,
 .search_results_error {
   color: $common-search-results-error-color;
   padding: 10px 20px;
+}
+
+@media (prefers-color-scheme:dark)
+{
+  #sidebar .search_results_entry {
+    ul li {
+      &.selected { background: $list-highlight-invcolor; }
+    }
+  }
+
+  .search_results_error {
+    color: $common-search-results-error-invcolor;
+  }
 }
 
 /* Rules for routing */
@@ -816,6 +1084,19 @@ tr.turn:hover {
   display: none;
 }
 
+@media (prefers-color-scheme:dark)
+{
+  td.instruction, td.distance {
+      border-bottom-color: $grey-invcolor;
+  }
+  td.distance {
+      color: $darkgrey-invcolor;
+  }
+  tr.turn:hover {
+      background: $list-highlight-invcolor;
+  }
+}
+
 /* Rules for the history sidebar */
 
 #sidebar .changesets {
@@ -838,6 +1119,20 @@ tr.turn:hover {
   .changeset_more .loader {
     display: none;
     width: 100%;
+  }
+}
+
+@media (prefers-color-scheme:dark)
+{
+  #sidebar .changesets {
+    li {
+      &.selected { background: $list-highlight-invcolor; }
+      /* color is derived from changeset bbox fillColor in history.js */
+    }
+
+    .comments {
+      color: $darkgrey-invcolor;
+    }
   }
 }
 
@@ -992,6 +1287,64 @@ tr.turn:hover {
   }
 }
 
+@media (prefers-color-scheme:dark)
+{
+  #sidebar_content {
+    .browse-section {
+      border-bottom-color: $grey-invcolor;
+    }
+
+    .paginate {
+      border-color: $lightgrey-invcolor;
+    }
+
+    .browse-field {
+      h4 {
+        border-color: $grey-invcolor;
+        background-color: $offwhite-invcolor;
+      }
+
+      p {
+        background-color: $common-sidebar-content-browse-field-p-background-invcolor;
+        border-color: $grey-invcolor;
+      }
+    }
+
+    .browse-tag-list {
+      background-color: $offwhite-invcolor;
+      border-color: $grey-invcolor;
+
+      th, td {
+        border-bottom-color: $grey-invcolor;
+      }
+
+      .browse-tag-k {
+        background-color: $offwhite-invcolor;
+      }
+
+      .browse-tag-v {
+        border-left-color: $grey-invcolor;
+        background-color: $common-sidebar-content-browse-tag-list-browse-tag-v-background-invcolor;
+      }
+
+      .colour-preview-box {
+        border-color: $common-sidebar-content-browse-tag-list-colour-preview-box-border-invcolor;
+        // add color via inline css on element: background-color: <tag value>;
+      }
+    }
+
+    .query-results {
+      ul {
+        li {
+          &.selected {
+            background: $list-highlight-color;
+          }
+        }
+      }
+    }
+  }
+}
+
 /* Rules for export sidebar */
 
 .export_form {
@@ -1046,6 +1399,16 @@ tr.turn:hover {
   }
 }
 
+@media (prefers-color-scheme:dark)
+{
+  .export_form {
+    .export_boxy {
+      background: $lightgrey-invcolor;
+      border-color: $grey-invcolor;
+    }
+  }
+}
+
 /* Rules for the routing sidebar */
 
 #sidebar_content {
@@ -1082,6 +1445,13 @@ tr.turn:hover {
   max-width: 900px;
   margin: auto;
   padding: $lineheight;
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .content-heading {
+    background: $lightgrey-invcolor;
+  }
 }
 
 /* Overrides for pages that use new layout conventions */
@@ -1150,6 +1520,13 @@ tr.turn:hover {
 @include media-breakpoint-up(md) {
   .content_map {
     height: 400px;
+  }
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .content_map {
+    border-color: $grey-invcolor;
   }
 }
 
@@ -1277,6 +1654,17 @@ tr.turn:hover {
   padding-top: $lineheight;
 }
 
+@media (prefers-color-scheme:dark)
+{
+  .diary_post {
+    border-top-color: $grey-invcolor;
+
+    &.deleted {
+      background-color: $common-diary-post-deleted-background-invcolor;
+    }
+  }
+}
+
 /* Rules for the diary entry page */
 
 .diary_entries {
@@ -1327,6 +1715,27 @@ tr.turn:hover {
   left: 130px;
 }
 
+@media (prefers-color-scheme:dark)
+{
+  .diary_entries {
+    #map {
+      border-color: $grey-invcolor;
+    }
+    #newcomment {
+      border-top-color: $grey-invcolor;
+    }
+    .diary-comment {
+      border-top-color: $grey-invcolor;
+      &:first-child {
+        border-top-color: $grey-invcolor;
+      }
+      &.deleted {
+        background-color: $common-diary-entries-diary-comment-deleted-background-invcolor;
+      }
+    }
+  }
+}
+
 /* Rules for the log in page */
 
 #login_auth_buttons {
@@ -1360,7 +1769,23 @@ tr.turn:hover {
   #decline {
     background: $lightblue-color;
     &:hover {
-      background: darken($lightblue-color, $hovercolor-color);
+      background: darken($lightblue-color, $hovercolor-opacity);
+    }
+  }
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .users-terms {
+    .legale {
+      border-color: $grey-invcolor;
+    }
+
+    #decline {
+      background: $lightblue-invcolor;
+      &:hover {
+        background: darken($lightblue-invcolor, $hovercolor-opacity);
+      }
     }
   }
 }
@@ -1459,6 +1884,23 @@ tr.turn:hover {
   display: none;
 }
 
+@media (prefers-color-scheme:dark)
+{
+  .messages {
+    .inbox-row {
+      background: $offwhite-invcolor;
+    }
+
+    .inbox-row-unread {
+      background: $common-messages-inbox-row-unread-background-invcolor;
+    }
+  }
+
+  .info-line {
+    border-bottom-color: $grey-invcolor;
+  }
+}
+
 /* Rules for "flash" notice boxes shown at the top of the content area */
 
 .flash {
@@ -1496,6 +1938,23 @@ tr.turn:hover {
   }
 }
 
+@media (prefers-color-scheme:dark)
+{
+  .flash {
+    &.error {
+      background-color: $common-flash-error-background-invcolor;
+    }
+
+    &.warning {
+      background-color: $common-flash-warning-background-invcolor;
+    }
+
+    &.notice {
+      background-color: $common-flash-notice-background-invcolor;
+    }
+  }
+}
+
 /* Rules for highlighting fields with rails validation errors */
 
 .formError {
@@ -1506,6 +1965,14 @@ tr.turn:hover {
   font-size: 12px;
   color: $common-form-error-color;
   background-color: $common-form-error-background-color;
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .formError {
+    color: $common-form-error-invcolor;
+    background-color: $common-form-error-background-invcolor;
+  }
 }
 
 /* Rules for rails validation error boxes */
@@ -1531,6 +1998,23 @@ tr.turn:hover {
     color: $common-error-explanation-p-color;
     margin-bottom: 0px;
     padding: $lineheight/4;
+  }
+}
+
+@media (prefers-color-scheme:dark)
+{
+  #errorExplanation {
+    border-color: $common-error-explanation-border-invcolor;
+    background-color: $common-error-explanation-background-invcolor;
+
+    h2 {
+      background-color: $common-error-explanation-h2-background-invcolor;
+      color: $common-error-explanation-h2-invcolor;
+    }
+
+    p {
+      color: $common-error-explanation-p-invcolor;
+    }
   }
 }
 
@@ -1640,13 +2124,13 @@ tr.turn:hover {
     text-align: center;
     border-radius: 2px;
     &:hover {
-      background: darken($blue-color, $hovercolor-color);
+      background: darken($blue-color, $hovercolor-opacity);
       text-decoration: none;
     }
     &.deemphasize {
       background: $lightblue-color;
       &:hover {
-        background: darken($lightblue-color, $hovercolor-color);
+        background: darken($lightblue-color, $hovercolor-opacity);
       }
     }
     &:disabled {
@@ -1783,6 +2267,75 @@ tr.turn:hover {
   }
 }
 
+@media (prefers-color-scheme:dark)
+{
+  .standard-form {
+    .form-divider {
+      border-top-color: $lightgrey-invcolor;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    input[type="password"],
+    textarea {
+      color: $common-standard-form-textarea-invcolor;
+      background-color: $common-standard-form-textarea-background-invcolor;
+      border-color: $grey-invcolor;
+
+      &.field_with_errors {
+        border-color: $common-standard-form-textarea-field-with-errors-border-invcolor;
+      }
+    }
+
+    /* Utility for general button styles */
+
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    a.button {
+      color: $common-standard-form-a-button-invcolor;
+      background: $blue-invcolor;
+      &:hover {
+        background: darken($blue-invcolor, $hovercolor-opacity);
+      }
+      &.deemphasize {
+        background: $lightblue-invcolor;
+        &:hover {
+          background: darken($lightblue-invcolor, $hovercolor-opacity);
+        }
+      }
+      &:disabled {
+        background: $lightgrey-invcolor;
+        &:hover {
+          background: $lightgrey-invcolor;
+        }
+      }
+    }
+
+    .search_form,
+    .directions_form {
+      background-color: $lightgrey-invcolor;
+
+      input:focus {
+        box-shadow: 0px 0px 7px $vibrant-green-invcolor;
+      }
+
+      input.error {
+        background-color: $common-standard-form-search-directions-form-input-error-background-invcolor;
+      }
+
+      .query_options {
+        color: $blue-invcolor;
+      }
+
+      .describe_location {
+        color: $blue-invcolor;
+      }
+    }
+  }
+}
+
 /* Rules for user images */
 
 img.user_image {
@@ -1807,6 +2360,21 @@ img.user_thumbnail_tiny {
   max-width: 25px;
   max-height: 25px;
   border: 1px solid $grey-color;
+}
+
+@media (prefers-color-scheme:dark)
+{
+  img.user_image {
+    border-color: $grey-invcolor;
+  }
+
+  img.user_thumbnail {
+    border-color: $grey-invcolor;
+  }
+
+  img.user_thumbnail_tiny {
+    border-color: $grey-invcolor;
+  }
 }
 
 /* Rules for geo microformats */
@@ -1846,6 +2414,15 @@ ul.secondary-actions {
 div.secondary-actions {
   padding: 10px;
   text-align: center;
+}
+
+@media (prefers-color-scheme:dark)
+{
+  ul.secondary-actions {
+    > li {
+      border-left-color: $grey-invcolor;
+    }
+  }
 }
 
 /* Utility for managing inner content areas */
@@ -1914,11 +2491,32 @@ div.secondary-actions {
   }
 }
 
+@media (prefers-color-scheme:dark)
+{
+  .buttons {
+    input[type="submit"],
+    input[type="button"],
+    input[type="reset"],
+    .button,
+    .button_to {
+      border-right-color: $common-buttons-button-to-border-invcolor;
+    }
+  }
+}
+
 /* Customise the background colour of striped tables */
 
 .table-striped > tbody > tr:nth-child(2n+1) > td,
 .table-striped > tbody > tr:nth-child(2n+1) > th {
    background-color: $offwhite-color;
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .table-striped > tbody > tr:nth-child(2n+1) > td,
+  .table-striped > tbody > tr:nth-child(2n+1) > th {
+     background-color: $offwhite-invcolor;
+  }
 }
 
 /* Rules for OpenID logo */
@@ -1972,6 +2570,29 @@ div.secondary-actions {
 .comments .richtext {
   margin-left: 70px;
   margin-top: 0;
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .richtext,
+  .prose {
+    code {
+      background: $lightgrey-invcolor;
+    }
+
+    pre {
+      background: $lightgrey-invcolor;
+    }
+
+    img {
+      background-color: $offwhite-invcolor;
+    }
+
+    blockquote {
+      border-left: $lineheight solid $offwhite-invcolor;
+      color: $darkgrey-invcolor;
+    }
+  }
 }
 
 /* Rules for rich text editors */
@@ -2056,11 +2677,41 @@ div.secondary-actions {
   }
 }
 
+@media (prefers-color-scheme:dark)
+{
+  .standard-form {
+    .richtext_container {
+      .richtext_content {
+        .richtext_preview {
+          background-color: $offwhite-invcolor;
+        }
+      }
+
+      .richtext_help {
+        background-color: $offwhite-invcolor;
+
+        h4.heading, li {
+          border-bottom-color: $grey-invcolor;
+        }
+      }
+    }
+  }
+}
+
 /* Rules for the user notes list */
 
 .note_list {
   tr.creator {
     background-color: $offwhite-color;
+  }
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .note_list {
+    tr.creator {
+      background-color: $offwhite-invcolor;
+    }
   }
 }
 
@@ -2147,6 +2798,15 @@ div.secondary-actions {
   .icon.note {
     background-color: $common-site-welcome-fixthemap-icon-note-background-color;
     border-radius: 4px;
+  }
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .site-welcome, .site-fixthemap {
+    .icon.note {
+      background-color: $common-site-welcome-fixthemap-icon-note-background-invcolor;
+    }
   }
 }
 
@@ -2258,6 +2918,40 @@ div.secondary-actions {
     &.legal {
       /* no-r2 */
       background-position: -45px -160px;
+    }
+  }
+}
+
+@media (prefers-color-scheme:dark)
+{
+  .site-about #content {
+    .content-inner {
+      color: $common-site-about-content-inner-invcolor;
+    }
+
+    .text {
+      background: $common-site-about-content-text-background-invcolor;
+    }
+
+    .attr {
+      background: $common-site-about-content-attr-background-invcolor;
+      background: $common-site-about-content-attr-background-shade-invcolor;
+
+      h1 {
+        color: $common-site-about-content-attr-h1-invcolor;
+        span {
+          color: $vibrant-green-invcolor;
+        }
+      }
+
+      .user-image {
+        background-color: $vibrant-green-invcolor;
+      }
+
+      .byosm {
+        color: $common-site-about-attr-byosm-invcolor;
+        background: $vibrant-green-invcolor;
+      }
     }
   }
 }
