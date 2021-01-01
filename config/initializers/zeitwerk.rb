@@ -3,7 +3,6 @@ Rails.autoloaders.each do |autoloader|
     "gpx" => "GPX",
     "id" => "ID",
     "osm" => "OSM",
-    "rubyvm" => "RubyVM",
     "utf8" => "UTF8"
   )
 end
