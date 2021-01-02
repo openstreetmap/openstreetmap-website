@@ -67,7 +67,6 @@ class TracesController < ApplicationController
 
     # final helper vars for view
     @target_user = target_user
-    @display_name = target_user.display_name if target_user
   end
 
   def mine
