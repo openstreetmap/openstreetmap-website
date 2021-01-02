@@ -48,3 +48,6 @@ RUN gem install bundler \
 # Install NodeJS packages
 ADD package.json yarn.lock /app/
 RUN yarnpkg install
+
+# Create directories for traces and images
+RUN mkdir -pv /home/osm/traces /home/osm/images
