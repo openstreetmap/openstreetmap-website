@@ -1,12 +1,12 @@
-<div class='diary_post<%= " text-muted px-3 deleted" unless diary_entry.visible %> user_<%= diary_entry.user.id %>'>
-  <div class='post_heading clearfix'>
+<div class="diary_post<%= " text-muted px-3 deleted" unless diary_entry.visible %> user_<%= diary_entry.user.id %>">
+  <div class="post_heading clearfix">
     <% if !@user %>
       <%= user_thumbnail diary_entry.user %>
     <% end %>
 
     <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
 
-    <small class='text-muted'>
+    <small class="text-muted">
       <%= t(".posted_by_html", :link_user => (link_to diary_entry.user.display_name, user_path(diary_entry.user)), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to diary_entry.language.name, :controller => "diary_entries", :action => "index", :display_name => nil, :language => diary_entry.language_code)) %>
       <% if (l(diary_entry.updated_at, :format => :blog) != l(diary_entry.created_at, :format => :blog)) %>
         <%= t(".updated_at_html", :updated => l(diary_entry.updated_at, :format => :blog)) %>
@@ -15,48 +15,48 @@
 
   </div>
 
-  <div class="richtext text-break" lang="<%= diary_entry.language_code %>">
+  <div class="richtext text-break" xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
     <%= diary_entry.body.to_html %>
   </div>
 
-  <div class='mb-3'>
+  <div class="mb-3">
     <% if diary_entry.latitude and diary_entry.longitude %>
       <%= render :partial => "location", :object => diary_entry %>
     <% end %>
   </div>
 
-  <ul class='list-inline'>
-    <% if current_user == diary_entry.user %>
-      <li class='list-inline-item'>
-        <%= link_to t(".edit_link"), edit_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :class => ['btn btn-primary', ('btn-sm' if params[:action] == 'index')] %>
+  <ul class="list-inline">
+    <% if current_user && current_user == diary_entry.user %>
+      <li class="list-inline-item">
+        <%= link_to t(".edit_link"), edit_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :class => ["btn btn-primary", ("btn-sm" if params[:action] == "index")] %>
       </li>
     <% end %>
-    <% if params[:action] == 'index' %>
-      <li class='list-inline-item'>
+    <% if params[:action] == "index" %>
+      <li class="list-inline-item">
         <%= link_to t(".comment_link"), diary_entry_path(diary_entry.user, diary_entry, :anchor => "newcomment") %>
       </li>
-      <li class='list-inline-item'>
+      <li class="list-inline-item">
         <%= link_to t(".comment_count", :count => diary_entry.visible_comments.count), diary_entry_path(diary_entry.user, diary_entry, :anchor => "comments") %>
       </li>
     <% end %>
-    <% if current_user != diary_entry.user %>
-      <li class='list-inline-item'>
+    <% if current_user && current_user != diary_entry.user %>
+      <li class="list-inline-item">
         <%= link_to t(".reply_link"), new_message_path(diary_entry.user, :message => { :title => "Re: #{diary_entry.title}" }) %>
       </li>
     <% end %>
     <% if current_user and diary_entry.user != current_user %>
-      <li class='list-inline-item'>
+      <li class="list-inline-item">
         <%= report_link(t(".report"), diary_entry) %>
       </li>
     <% end %>
   </ul>
 
   <% if can? :hide, DiaryEntry %>
-    <div class='alert alert-secondary'>
+    <div class="bg-light border border-warning rounded p-3">
       <% if diary_entry.visible %>
-        <%= link_to t(".hide_link"), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") }, :class => 'btn btn-danger' %>
+        <%= link_to t(".hide_link"), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") }, :class => "btn btn-danger" %>
       <% else %>
-        <%= link_to t(".unhide_link"), unhide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") }, :class => 'btn btn-danger' %>
+        <%= link_to t(".unhide_link"), unhide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") }, :class => "btn btn-danger" %>
       <% end %>
     </div>
   <% end %>
