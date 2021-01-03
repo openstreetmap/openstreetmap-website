@@ -1,4 +1,4 @@
-<li class="media mb-1 p-2 <%= cycle('', ' bg-light') %>">
+<li class="media mb-1 p-2 <%= cycle("", " bg-light") %>">
   <% if Settings.status != "gpx_offline" %>
     <% if trace.inserted %>
       <a href="<%= url_for :controller => "traces", :action => "show", :id => trace.id, :display_name => trace.user.display_name %>">
@@ -26,10 +26,7 @@
       <% else %>
         <span class="text-warning"><%= t ".pending" %></span>
       <% end %>
-      <% badge_class = case trace.visibility
-                        when "public", "identifiable" then "success"
-                        else "danger"
-                        end %>
+      <% badge_class = trace.visibility.in?("public", "identifiable") ? "success" : "danger" %>
       <span class="ml-2 badge badge-<%= badge_class %> text-white"><%= t(".#{trace.visibility}") %></span>
     </p>
 
