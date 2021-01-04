@@ -436,8 +436,8 @@ ca:
     new:
       title: Entrada de diari nova
     form:
-      location: 'Ubicació:'
-      use_map_link: usa el mapa
+      location: Ubicació
+      use_map_link: Useu el mapa
     index:
       title: Diaris dels usuaris
       title_friends: Diaris d'amics
@@ -467,6 +467,7 @@ ca:
         comproveu-ne l'ortografia. O potser l'enllaç que heu clicat no és correcte.
     diary_entry:
       posted_by_html: Publicat per %{link_user} el %{created} en %{language_link}.
+      updated_at_html: Última actualització de %{updated}
       comment_link: Comenta aquesta entrada
       reply_link: Enviar un missatge a l'autor
       comment_count:
@@ -1399,12 +1400,21 @@ ca:
       hi: Hola %{to_user},
       header: '%{from_user} ha comentat l''entrada de diari de l''OpenStreetMap amb
         el tema %{subject}:'
+      header_html: '%{from_user} ha comentat l''entrada de diari de l''OpenStreetMap
+        amb el tema %{subject}:'
       footer: Pots també llegit el comentari a %{readurl} i pots comentar a %{commenturl}
         o enviar un missatge a l'autor a %{replyurl}
+      footer_html: També podeu llegir el comentari a %{readurl} i comentar-lo a %{commenturl}
+        o enviar un missatge a l'autor a %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Hola %{to_user},
       header: '%{from_user} ha enviat un missatge a través d''OpenStreetMap amb el
         tema %{subject}:'
+      header_html: '%{from_user} us ha enviat un missatge a través d''OpenStreetMap
+        amb el tema %{subject}:'
+      footer: També podeu llegir el missatge a %{readurl} i podeu enviar un missatge
+        a l'autor a %{replyurl}
       footer_html: També podeu llegir el missatge a %{readurl} i podeu enviar un missatge
         a l'autor a %{replyurl}
     friendship_notification:
@@ -1412,10 +1422,19 @@ ca:
       subject: '[OpenStreetMap] %{user} us ha afegit a la llista d''amics'
       had_added_you: '%{user} us ha afegit com a amic a l''OpenStreetMap.'
       see_their_profile: Podeu veure el seu perfil a %{userurl}.
+      see_their_profile_html: Podeu veure el seu perfil a %{userurl}.
       befriend_them: També el podeu afegir com a amic a %{befriendurl}.
+      befriend_them_html: També el podeu afegir com a amic a %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Sembla que el vostre fitxer GPX %{trace_name} amb
+        la descripció %{trace_description} i les etiquetes següents: %{tags}'
+      description_with_no_tags_html: Sembla que el vostre fitxer GPX %{trace_name}
+        amb la descripció %{trace_description} i sense etiquetes
     gpx_failure:
       hi: Hola %{to_user},
       failed_to_import: 'no es pot importar. L''error ha estat:'
+      more_info_html: Podeu trobar més informació sobre les fallades d'importació
+        de GPX i com per evitar-les a %{url}.
       subject: '[OpenStreetMap] Error d''importació de GPX'
     gpx_success:
       hi: Hola %{to_user},
@@ -1455,15 +1474,23 @@ ca:
         subject_other: '[OpenStreetMap] %{commenter} ha comentat una nota que us interessa'
         your_note: '%{commenter} ha fet un comentari en una de les vostres notes de
           mapa a prop de %{place}.'
+        your_note_html: '%{commenter} ha deixat un comentari en una de les vostres
+          notes de mapa a prop de %{place}.'
         commented_note: '%{commenter} ha fet un comentari en una nota de mapa que
           havíeu comentat. Aquesta nota és a prop de %{place}.'
+        commented_note_html: '%{commenter} ha deixat un comentari en una nota de mapa
+          que havíeu comentat. Aquesta nota és a prop de %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} ha solucionat una de les vostres
           notes'
         subject_other: '[OpenStreetMap] %{commenter} ha solucionat una nota que us
           interessa'
         your_note: '%{commenter} ha resolt una de les notes de mapa a prop %{place}.'
+        your_note_html: '%{commenter} ha resolt una de les vostres notes de mapa a
+          prop de %{place}.'
         commented_note: '%{commenter} ha resolt una nota de mapa que havíeu comentat.
+          Aquesta nota és a prop de %{place}.'
+        commented_note_html: '%{commenter} ha resolt una nota de mapa que havíeu comentat.
           Aquesta nota és a prop de %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} ha reactivat una de les vostres
@@ -1471,9 +1498,14 @@ ca:
         subject_other: '[OpenStreetMap] %{commenter} ha reactivat una nota que us
           interessa'
         your_note: '%{commenter} ha reactivat una de les notes de mapa a prop de %{place}.'
+        your_note_html: '%{commenter} ha reactivat una de les vostres notes de mapa
+          a prop de %{place}.'
         commented_note: '%{commenter} ha reactivat una nota de mapa que havíeu comentat.
           La nota és a prop de %{place}.'
+        commented_note_html: '%{commenter} ha reactivat una nota de mapa que havíeu
+          comentat. La nota és a prop de %{place}.'
       details: Podeu trobar més detalls de la nota a %{url}.
+      details_html: Podeu trobar més detalls de la nota a %{url}.
     changeset_comment_notification:
       hi: Hola %{to_user},
       greeting: Hola,
@@ -1484,13 +1516,21 @@ ca:
           que us interessa'
         your_changeset: '%{commenter} ha fet un comentari a %{time} en un dels vostres
           conjunts de canvis'
-        commented_changeset: '%{commenter} ha fet un comentari a %{time} en un conjunt
-          de canvis de %{changeset_author} que esteu mirant'
+        your_changeset_html: '%{commenter} ha fet un comentari a %{time} en un dels
+          vostres conjunts de canvis'
+        commented_changeset: '%{commenter} ha deixat un comentari a %{time} en un
+          conjunt de canvis que esteu seguint de %{changeset_author}'
+        commented_changeset_html: '%{commenter} ha deixat un comentari a %{time} en
+          un conjunt de canvis que esteu seguint creat per %{changeset_author}'
         partial_changeset_with_comment: amb comentari '%{changeset_comment}'
+        partial_changeset_with_comment_html: amb el comentari '%{changeset_comment}'
         partial_changeset_without_comment: cap comentari
       details: Podeu trobar més detalls del conjunt de canvis a %{url}
+      details_html: Podeu trobar més detalls del conjunt de canvis a %{url}.
       unsubscribe: Per deixar de seguir les actualitzacions d'aquest conjunt de canvis,
-        visita %{url} i clica "Deixa de seguir"
+        visita %{url} i clica "Dona de baixa"
+      unsubscribe_html: Per deixar de seguir les actualitzacions d'aquest conjunt
+        de canvis, visiteu %{url} i cliqueu "Dona de baixa".
   messages:
     inbox:
       title: Safata d'entrada
@@ -1565,6 +1605,24 @@ ca:
       as_unread: Missatge marcat com a no llegit
     destroy:
       destroyed: Missatge suprimit
+  shared:
+    markdown_help:
+      title_html: Analitzat amb <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      headings: Encapçalaments
+      heading: Encapçalament
+      subheading: Subtítol
+      unordered: Llista sense ordenar
+      ordered: Llista ordenada
+      first: Primer element
+      second: Segon element
+      link: Enllaç
+      text: Text
+      image: Imatge
+      alt: Text alternatiu
+      url: URL
+    richtext_field:
+      edit: Edita
+      preview: Previsualitza
   site:
     about:
       next: Següent
@@ -2777,7 +2835,7 @@ ca:
       show:
         comment: Comentari
         subscribe: Subscriure's
-        unsubscribe: Donar-se de baixa
+        unsubscribe: Dona de baixa
         hide_comment: ocultar
         unhide_comment: mostrar
     notes:

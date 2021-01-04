@@ -5,6 +5,7 @@
 # Author: Alem
 # Author: Amsideg
 # Author: Belkacem77
+# Author: Bilalbill
 # Author: K Messaoudi
 # Author: Marzuquccen
 # Author: Mastanabal
@@ -18,6 +19,8 @@ kab:
     formats:
       friendly: '%e %B %Y ɣef %H:%M'
   helpers:
+    file:
+      prompt: Fren afaylu
     submit:
       diary_comment:
         create: Sekles
@@ -30,7 +33,10 @@ kab:
         create: Azen
       client_application:
         create: Sekles
-        update: Ẓreg
+        update: Setrer
+      redaction:
+        create: Snulfu tirra
+        update: Kles tirra
       trace:
         create: Sali
         update: Sekles ibeddilen
@@ -38,6 +44,9 @@ kab:
         create: Rnu iḥder
         update: Beddel iḥder
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: Ur yettbin ara d tansa n imayl taɣbalt
     models:
       acl: Tabdart n usenqed n unekcum
       changeset: Agraw n ibeddilen
@@ -76,8 +85,11 @@ kab:
       way_tag: Imyerr n ubrid
     attributes:
       client_application:
+        name: Isem (D usfik)
+        url: URL n usnas agejdan (D usfik)
         callback_url: Tansa URL n usmekti
         support_url: Tansa URL n tallelt
+        allow_write_api: Ẓreg tagertilt
       diary_comment:
         body: Tafekka
       diary_entry:
@@ -111,6 +123,10 @@ kab:
         description: Aglam
         languages: Tutlayin
         pass_crypt: Awal uffir
+        pass_crypt_confirmation: Sentem awal uffir
+    help:
+      trace:
+        tagstring: Ticcert yettulessesen
   datetime:
     distance_in_words_ago:
       half_a_minute: Azgen n tsedast aya
