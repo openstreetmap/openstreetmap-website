@@ -12,7 +12,7 @@ This repository consists of:
 
 * The web site, including user accounts, diary entries, user-to-user messaging.
 * The XML-based editing [API](https://wiki.openstreetmap.org/wiki/API_v0.6).
-* The integrated versions of the [Potlatch](https://wiki.openstreetmap.org/wiki/Potlatch_1), [Potlatch 2](https://wiki.openstreetmap.org/wiki/Potlatch_2) and [iD](https://wiki.openstreetmap.org/wiki/ID) editors.
+* The integrated version of the [iD](https://wiki.openstreetmap.org/wiki/ID) editors.
 * The Browse pages - a web front-end to the OpenStreetMap data.
 * The GPX uploads, browsing and API.
 

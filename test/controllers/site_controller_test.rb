@@ -7,14 +7,12 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     super
 
     Settings.id_key = create(:client_application).key
-    Settings.potlatch2_key = create(:client_application).key
   end
 
   ##
   # clear oauth keys
   def teardown
     Settings.id_key = nil
-    Settings.potlatch2_key = nil
   end
 
   ##

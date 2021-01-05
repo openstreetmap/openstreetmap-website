@@ -969,13 +969,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected]", false
 
     # Changing to a valid editor should work
-    user.preferred_editor = "potlatch2"
+    user.preferred_editor = "id"
     post user_account_path(user), :params => { :user => user.attributes }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected][value=?]", "potlatch2"
+    assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected][value=?]", "id"
 
     # Changing to the default editor should work
     user.preferred_editor = "default"
