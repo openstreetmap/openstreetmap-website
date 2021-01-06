@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (typeof iD === "undefined" || !iD.utilDetect().support) {
     container.innerHTML = "This editor is supported " +
       "in Firefox, Chrome, Safari, Opera, Edge, and Internet Explorer 11. " +
-      "Please upgrade your browser or use Potlatch 2 to edit the map.";
+      "Please upgrade your browser or use JOSM to edit the map.";
     container.className = "unsupported";
   } else {
     var id = iD.coreContext()

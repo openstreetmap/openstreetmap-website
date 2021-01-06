@@ -19,12 +19,6 @@
 
 //= link_directory ../../../vendor/assets/polyfill .js
 
-//= link_directory ../../../vendor/assets/potlatch2/help
-//= link_tree ../../../vendor/assets/potlatch2 .swf
-//= link_tree ../../../vendor/assets/potlatch2 .zip
-
-//= link_directory ../../../vendor/assets/swfobject
-
 //= link html5shiv/dist/html5shiv.js
 
 //= link leaflet/dist/images/marker-icon.png

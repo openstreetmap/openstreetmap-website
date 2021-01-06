@@ -151,8 +151,8 @@ class UserTest < ActiveSupport::TestCase
   def test_user_preferred_editor
     user = create(:user)
     assert_nil user.preferred_editor
-    user.preferred_editor = "potlatch"
-    assert_equal "potlatch", user.preferred_editor
+    user.preferred_editor = "id"
+    assert_equal "id", user.preferred_editor
     user.save!
 
     user.preferred_editor = "invalid_editor"

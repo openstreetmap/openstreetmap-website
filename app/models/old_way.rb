@@ -103,37 +103,6 @@ class OldWay < ApplicationRecord
     el
   end
 
-  # Read full version of old way
-  # For get_nodes_undelete, uses same nodes, even if they've moved since
-  # For get_nodes_revert,   allocates new ids
-  # Currently returns Potlatch-style array
-  # where [5] indicates whether latest version is usable as is (boolean)
-  # (i.e. is it visible? are we actually reverting to an earlier version?)
-
-  def get_nodes_undelete
-    nds.collect do |n|
-      node = Node.find(n)
-      [node.lon, node.lat, n, node.version, node.tags_as_hash, node.visible]
-    end
-  end
-
-  def get_nodes_revert(timestamp)
-    points = []
-    nds.each do |n|
-      oldnode = OldNode.where("node_id = ? AND timestamp <= ?", n, timestamp).unredacted.order("timestamp DESC").first
-      curnode = Node.find(n)
-      id = n
-      reuse = curnode.visible
-      # if node has changed and it's in other ways, give it a new id
-      if !curnode.ways.all?(way_id) && (oldnode.lat != curnode.lat || oldnode.lon != curnode.lon || oldnode.tags != curnode.tags)
-        id = -1
-        reuse = false
-      end
-      points << [oldnode.lon, oldnode.lat, id, curnode.version, oldnode.tags_as_hash, reuse]
-    end
-    points
-  end
-
   # Temporary method to match interface to ways
   def way_nodes
     old_nodes
