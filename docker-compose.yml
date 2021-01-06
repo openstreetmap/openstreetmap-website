@@ -6,10 +6,12 @@ services:
       context: .
     volumes:
       - .:/app
-      # don't mount tmp directory (https://github.com/Shopify/bootsnap/issues/177)
-      - /app/tmp
-      # Prevent node_modules from mounting so it's not shared between host OS and Docker
+      # Prevent these directories from mounting so they're not shared between host OS and Docker
       - /app/node_modules/
+      - /app/tmp/
+      # Mount these upload directories so they persist between runs
+      - web-traces:/home/osm/traces
+      - web-images:/home/osm/images
     ports:
       - "3000:3000"
     environment:
@@ -29,7 +31,10 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: openstreetmap
     volumes:
+      # Mount the Postgres data directory so it persists between runs
       - db-data:/var/lib/postgresql/data
 
 volumes:
+  web-traces:
+  web-images:
   db-data:
