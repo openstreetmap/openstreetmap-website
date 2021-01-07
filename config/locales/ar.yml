@@ -21,6 +21,7 @@
 # Author: Mido
 # Author: Mohammed Qubati
 # Author: Mutarjem horr
+# Author: NEHAOUA
 # Author: Omda4wady
 # Author: OsamaK
 # Author: Ruila
@@ -58,7 +59,7 @@ ar:
         create: أرسل
       client_application:
         create: سجِّل
-        update: تعديل
+        update: تحديث
       redaction:
         create: إنشاء تنقيح
         update: حفظ التنقيح
@@ -111,8 +112,17 @@ ar:
       way_tag: سمة طريق
     attributes:
       client_application:
+        name: الاسم (مطلوب)
+        url: ' مسار (URL) للتطبيق الرئيسي (مطلوب)'
         callback_url: رابط الرد
         support_url: رابط الدعم
+        allow_read_prefs: قراءة تفضيلات المستخدم الخاصة بهم
+        allow_write_prefs: تعديل تفضيلات المستخدم الخاصة بهم
+        allow_write_diary: إنشاء إدخالات اليوميات والتعليقات وتكوين صداقات
+        allow_write_api: تعديل الخريطة.
+        allow_read_gpx: قراءة آثار جي بي إس الخاصة بهم
+        allow_write_gpx: رفع آثار جي بي إس.
+        allow_write_notes: تعديل الملاحظات.
       diary_comment:
         body: الجسم
       diary_entry:
@@ -127,21 +137,22 @@ ar:
       trace:
         user: المستخدم
         visible: ظاهر
-        name: الاسم
+        name: اسم الملف
         size: الحجم
         latitude: خط العرض
         longitude: خط الطول
         public: عام
         description: الوصف
-        gpx_file: 'ارفع ملف GPX:'
-        visibility: 'الرؤية:'
-        tagstring: 'الوسوم:'
+        gpx_file: رفع ملف GPX
+        visibility: الرؤية
+        tagstring: الوسوم
       message:
         sender: المرسل
         title: الموضوع
         body: نص الرسالة
         recipient: المستلم
       report:
+        category: حدد سبب التقرير الخاص بك
         details: يُرجَى تقديم بعض التفاصيل حول المشكلة (مطلوب).
       user:
         email: البريد الإلكتروني
@@ -150,6 +161,7 @@ ar:
         description: الوصف
         languages: اللغات
         pass_crypt: كلمة السر
+        pass_crypt_confirmation: أكد كلمة السر
     help:
       trace:
         tagstring: محدد بفواصل
@@ -197,15 +209,9 @@ ar:
     with_name_html: '%{name} (%{id})'
   editor:
     default: الافتراضي (حالياً %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (محرر ضمن المتصفح)
     id:
       name: آي دي
       description: آي دي (محرر عبر المتصفح)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (محرر ضمن المتصفح)
     remote:
       name: تحكم عن بعد
       description: تحكم عن بعد (JOSM أو Merkaartor)
@@ -1608,17 +1614,6 @@ ar:
       user_page_link: صفحة مستخدم
       anon_edits_html: (%{link})
       anon_edits_link_text: ابحث عن السبب لماذا هو هذا الحال.
-      flash_player_required_html: أنت بحاجة لمشغل فلاش لاستخدام Potlatch، محرر فلاش
-        خريطة الشارع المفتوحة. يمكنك <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">تنزيل
-        مشغل الفلاش من موقع أدوبي</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">وهناك
-        خيارات أخرى</a> أيضًا متاحة لتعديل خريطة الشارع المفتوحة.
-      potlatch_unsaved_changes: لديك تغييرات غير محفوظة. (للحفظ في Potlatch؛ يجب إلغاء
-        الطريق أو النقطة الحاليين إن كان التعديل في الوضع الحي، أو انقر فوق حفظ إن
-        كان لديك زر الحفظ.)
-      potlatch2_not_configured: لم يتم تكوين Potlatch 2 - يُرجَى الاطلاع على  http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-        للمزيد من المعلومات
-      potlatch2_unsaved_changes: لديك تغييرات غير محفوظة. (للحفظ في Potlatch 2; يجب
-        النقر فوق حفظ.)
       id_not_configured: لم يتم تكوين آي دي
       no_iframe_support: متصفحك لا يدعم الإطارات المضمنة HTML، والتي هي ضرورية لهذه
         الميزة.
