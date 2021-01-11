@@ -319,9 +319,7 @@ module Api
       end
       # stupid Time seems to throw both of these for bad parsing, so
       # we have to catch both and ensure the correct code path is taken.
-    rescue ArgumentError => e
-      raise OSM::APIBadUserInput, e.message.to_s
-    rescue RuntimeError => e
+    rescue ArgumentError, RuntimeError => e
       raise OSM::APIBadUserInput, e.message.to_s
     end
 

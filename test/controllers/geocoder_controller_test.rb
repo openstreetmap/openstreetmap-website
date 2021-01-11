@@ -479,7 +479,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
         assert_select "li.search_results_entry", results.count
 
         results.each do |result|
-          attrs = result.collect { |k, v| "[data-#{k}='#{v}']" }.join("")
+          attrs = result.collect { |k, v| "[data-#{k}='#{v}']" }.join
           assert_select "li.search_results_entry a.set_position#{attrs}", result[:name]
         end
       end

@@ -35,12 +35,12 @@ module OpenStreetMap
     module ClassMethods
       def included(controller)
         controller.class_eval do
-          def self.before_filter(*names, &blk)
-            before_action(*names, &blk)
+          def self.before_filter(...)
+            before_action(...)
           end
 
-          def self.skip_before_filter(*names, &blk)
-            skip_before_action(*names, &blk)
+          def self.skip_before_filter(...)
+            skip_before_action(...)
           end
         end
 

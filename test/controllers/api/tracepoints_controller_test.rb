@@ -105,7 +105,7 @@ module Api
       assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "A bbox param was expected"
     end
 
-    def test_traces_page_less_than_0
+    def test_traces_page_less_than_zero
       -10.upto(-1) do |i|
         get trackpoints_path(:page => i, :bbox => "-0.1,-0.1,0.1,0.1")
         assert_response :bad_request

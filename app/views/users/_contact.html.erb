@@ -22,7 +22,7 @@
       <% changeset = contact.changesets.first %>
       <% if changeset %>
         <%= t("users.show.latest edit", :ago => time_ago_in_words(changeset.created_at, :scope => :'datetime.distance_in_words_ago')) %>
-        <% comment = changeset.tags["comment"].to_s != "" ? changeset.tags["comment"] : t("browse.no_comment") %>
+        <% comment = changeset.tags["comment"].to_s == "" ? t("browse.no_comment") : changeset.tags["comment"] %>
         <q><%= link_to(comment,
                        { :controller => "browse", :action => "changeset", :id => changeset.id },
                        { :title => t("changesets.changeset.view_changeset_details") }) %></q>

@@ -761,7 +761,9 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "index"
 
-    if !traces.empty?
+    if traces.empty?
+      assert_select "h4", /Nothing here yet/
+    else
       assert_select "table#trace_list tbody", :count => 1 do
         assert_select "tr", :count => traces.length do |rows|
           traces.zip(rows).each do |trace, row|
@@ -772,8 +774,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
           end
         end
       end
-    else
-      assert_select "h4", /Nothing here yet/
     end
   end
 

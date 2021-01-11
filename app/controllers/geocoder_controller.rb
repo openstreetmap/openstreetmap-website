@@ -319,11 +319,11 @@ class GeocoderController < ApplicationController
   def nsew_to_decdeg(captures)
     begin
       Float(captures[0])
-      lat = !captures[2].casecmp("s").zero? ? captures[0].to_f : -captures[0].to_f
-      lon = !captures[5].casecmp("w").zero? ? captures[3].to_f : -captures[3].to_f
+      lat = captures[2].casecmp("s").zero? ? -captures[0].to_f : captures[0].to_f
+      lon = captures[5].casecmp("w").zero? ? -captures[3].to_f : captures[3].to_f
     rescue StandardError
-      lat = !captures[0].casecmp("s").zero? ? captures[1].to_f : -captures[1].to_f
-      lon = !captures[3].casecmp("w").zero? ? captures[4].to_f : -captures[4].to_f
+      lat = captures[0].casecmp("s").zero? ? -captures[1].to_f : captures[1].to_f
+      lon = captures[3].casecmp("w").zero? ? -captures[4].to_f : captures[4].to_f
     end
     { :lat => lat, :lon => lon }
   end
@@ -331,11 +331,11 @@ class GeocoderController < ApplicationController
   def ddm_to_decdeg(captures)
     begin
       Float(captures[0])
-      lat = !captures[3].casecmp("s").zero? ? captures[0].to_f + captures[1].to_f / 60 : -(captures[0].to_f + captures[1].to_f / 60)
-      lon = !captures[7].casecmp("w").zero? ? captures[4].to_f + captures[5].to_f / 60 : -(captures[4].to_f + captures[5].to_f / 60)
+      lat = captures[3].casecmp("s").zero? ? -(captures[0].to_f + captures[1].to_f / 60) : captures[0].to_f + captures[1].to_f / 60
+      lon = captures[7].casecmp("w").zero? ? -(captures[4].to_f + captures[5].to_f / 60) : captures[4].to_f + captures[5].to_f / 60
     rescue StandardError
-      lat = !captures[0].casecmp("s").zero? ? captures[1].to_f + captures[2].to_f / 60 : -(captures[1].to_f + captures[2].to_f / 60)
-      lon = !captures[4].casecmp("w").zero? ? captures[5].to_f + captures[6].to_f / 60 : -(captures[5].to_f + captures[6].to_f / 60)
+      lat = captures[0].casecmp("s").zero? ? -(captures[1].to_f + captures[2].to_f / 60) : captures[1].to_f + captures[2].to_f / 60
+      lon = captures[4].casecmp("w").zero? ? -(captures[5].to_f + captures[6].to_f / 60) : captures[5].to_f + captures[6].to_f / 60
     end
     { :lat => lat, :lon => lon }
   end
@@ -343,11 +343,11 @@ class GeocoderController < ApplicationController
   def dms_to_decdeg(captures)
     begin
       Float(captures[0])
-      lat = !captures[4].casecmp("s").zero? ? captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60 : -(captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60)
-      lon = !captures[9].casecmp("w").zero? ? captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60 : -(captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60)
+      lat = captures[4].casecmp("s").zero? ? -(captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60) : captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60
+      lon = captures[9].casecmp("w").zero? ? -(captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60) : captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60
     rescue StandardError
-      lat = !captures[0].casecmp("s").zero? ? captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60 : -(captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60)
-      lon = !captures[5].casecmp("w").zero? ? captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60 : -(captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60)
+      lat = captures[0].casecmp("s").zero? ? -(captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60) : captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60
+      lon = captures[5].casecmp("w").zero? ? -(captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60) : captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60
     end
     { :lat => lat, :lon => lon }
   end
