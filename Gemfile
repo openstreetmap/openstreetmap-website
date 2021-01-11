@@ -3,12 +3,6 @@ source "https://rubygems.org"
 # Require rails
 gem "rails", "6.0.3.4"
 
-# Require things which have moved to gems in ruby 1.9
-gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
-
-# Require things which have moved to gems in ruby 2.0
-gem "psych", :platforms => :ruby_20
-
 # Require json for multi_json
 gem "json"
 
