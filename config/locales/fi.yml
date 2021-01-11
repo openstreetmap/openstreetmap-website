@@ -62,7 +62,7 @@ fi:
       message:
         create: Lähetä
       client_application:
-        create: Rekisteröidy
+        create: Rekisteröi
         update: Päivitä
       redaction:
         create: Luo redaktio
@@ -120,12 +120,13 @@ fi:
         url: Pääsovelluksen URL-osoite (pakollinen)
         callback_url: Takaisinsoiton verkko-osoite
         support_url: Tuen osoite (URL)
-        allow_read_prefs: lue heidän käyttäjäasetuksensa
-        allow_write_prefs: muokata käyttäjän asetuksia
-        allow_write_diary: luoda päiväkirjamerkintöjä, kommentteja ja saada ystäviä
+        allow_read_prefs: pääsyä käyttäjäasetuksiin
+        allow_write_prefs: muokata käyttäjäasetuksia
+        allow_write_diary: lisätä päiväkirjamerkintöjä, kommentteja ja kavereita
         allow_write_api: muokata karttaa
-        allow_read_gpx: lukea heidän yksityiset GPS-jälkensä
-        allow_write_gpx: tallenna GPS-jälki
+        allow_read_gpx: pääsyä yksityisiin GPS-jälkiin
+        allow_write_gpx: tallentaa GPS-jälkiä
+        allow_write_notes: muokata karttailmoituksia
       diary_comment:
         body: Leipäteksti
       diary_entry:
@@ -180,7 +181,7 @@ fi:
         other: noin %{count} vuotta sitten
       almost_x_years:
         one: 1 vuosi sitten
-        other: lähes%{count} vuotta sitten
+        other: lähes %{count} vuotta sitten
       half_a_minute: puoli minuuttia sitten
       less_than_x_seconds:
         one: vähemmän kuin 1 sekuntia sitten
@@ -403,7 +404,7 @@ fi:
     index:
       title: Muutoskokoelmat
       title_user: Käyttäjän %{user} muutoskokoelmat
-      title_friend: Kaverieni muutoskokoelmat
+      title_friend: Kaverien muutoskokoelmat
       title_nearby: Lähellä olevien käyttäjien muutoskokoelmat
       empty: Muutosryhmiä ei löytynyt.
       empty_area: Ei muutosryhmiä tällä alueella.
@@ -537,6 +538,7 @@ fi:
           pylon: Pylväs
           station: Ilmarata-asema
           t-bar: Ankkurihissi
+          "yes": Ilmarata
         aeroway:
           aerodrome: Lentokenttä
           airstrip: Kiitorata
@@ -545,8 +547,10 @@ fi:
           hangar: Hangaari
           helipad: Helikopterikenttä
           holding_position: Odotuspaikka
+          navigationaid: Ilmailunavigointituki
           parking_position: Parkkialue
           runway: Kiitorata
+          taxilane: Taksikaista
           taxiway: Rullaustie
           terminal: Terminaali
           windsock: Tuulipussi
@@ -560,7 +564,9 @@ fi:
           bench: Penkki
           bicycle_parking: Pyöräparkki
           bicycle_rental: Pyörävuokraamo
+          bicycle_repair_station: Pyöränkorjauspiste
           biergarten: Terassi
+          blood_bank: Veripalvelu
           boat_rental: Venevuokraamo
           brothel: Bordelli
           bureau_de_change: Rahanvaihto
@@ -577,6 +583,7 @@ fi:
           clock: Kello
           college: Oppilaitos
           community_centre: Yhteisökeskus
+          conference_centre: Konferenssikeskus
           courthouse: Oikeustalo
           crematorium: Krematorio
           dentist: Hammaslääkäri
@@ -584,6 +591,7 @@ fi:
           drinking_water: Juomavesi
           driving_school: Autokoulu
           embassy: Lähetystö
+          events_venue: Tapahtumakeskus
           fast_food: Pikaruokaravintola
           ferry_terminal: Lauttaterminaali
           fire_station: Paloasema
@@ -600,6 +608,8 @@ fi:
           kindergarten: Päiväkoti
           language_school: Kielikoulu
           library: Kirjasto
+          loading_dock: Lastauslaituri
+          love_hotel: Rakkaushotelli
           marketplace: Tori
           monastery: Luostari
           money_transfer: Rahansiirto
@@ -610,6 +620,7 @@ fi:
           parking: Parkkipaikka
           parking_entrance: Pysäköintialueen sisäänkäynti
           parking_space: Parkkipaikka
+          payment_terminal: Maksupääte
           pharmacy: Apteekki
           place_of_worship: Kirkko, temppeli, pyhä paikka
           police: Poliisi
@@ -617,6 +628,8 @@ fi:
           post_office: Postitoimisto
           prison: Vankila
           pub: Pubi
+          public_bath: Uimahalli
+          public_bookcase: Julkinen kirjahylly
           public_building: Julkinen rakennus
           recycling: Kierrätyspaikka
           restaurant: Ravintola
@@ -1781,6 +1794,14 @@ fi:
         title: OpenStreetMap-wiki
         description: Tutustu syvällisemmin OpenStreetMapiin wikikirjastossa. Osittain
           englanninkielinen.
+    potlatch:
+      removed: OpenStreetMapin oletusmuokkausohjelmaksi on valittu Potlatch. Adoben
+        Flash Player -lisäosan tuki on päättynyt, minkä vuoksi Potlatch ei ole enää
+        saatavilla verkkoselaimessa.
+      desktop_html: Potlatchia voi yhä käyttää <a href="https://www.systemed.net/potlatch/">Mac-
+        ja PC-ohjelmalla</a>.
+      id_html: Vaihtoehtoisesti voit siirtyä iD-ohjelman käyttöön, joka toimii verkkoselaimessa.
+        <a href="%{settings_url}">Muuta käyttäjäasetuksiasi</a>.
     sidebar:
       search_results: Hakutulokset
       close: Sulje
@@ -2064,11 +2085,11 @@ fi:
       allow_to: 'Salli asiakassovelluksen:'
       allow_read_prefs: lukea käyttäjäsi asetuksia
       allow_write_prefs: muokata käyttäjäsi asetuksia
-      allow_write_diary: kirjoita päiväkirjamerkintöjä, kommentoi ja löydä ystäviä.
+      allow_write_diary: kirjoita päiväkirjamerkintöjä, kommentoi ja löydä kavereita.
       allow_write_api: muokata karttaa
       allow_read_gpx: lukea yksityisiä GPS-jälkiäsi
       allow_write_gpx: tallenna GPS-jälkiä.
-      allow_write_notes: Muokkaa muistiinpanoja.
+      allow_write_notes: Muokkaa karttailmoituksia.
       grant_access: Myönnä oikeudet
     authorize_success:
       title: Valtuutuspyyntö hyväksytty
@@ -2114,7 +2135,7 @@ fi:
       registered_apps: 'Seuraavat sovellukset käyttävät käyttäjätunnustasi:'
       register_new: Rekisteröi sovelluksesi
     form:
-      requests: 'Sovellus pyytää käyttäjältä seuraavia tietoja:'
+      requests: 'Sovellus pyytää lupaa:'
     not_found:
       sorry: Valitettavasti tyyppiä %{type} ei löydy.
     create:
@@ -2280,7 +2301,7 @@ fi:
       notes: Karttailmoitukset
       remove as friend: Poista kavereista
       add as friend: Lisää kaveriksi
-      mapper since: 'Rekisteröitymispäivämäärä:'
+      mapper since: 'Rekisteröitynyt:'
       ct status: 'Osallistumisehdot:'
       ct undecided: Ei valittu
       ct declined: Hylätty
@@ -2294,7 +2315,7 @@ fi:
       if_set_location_html: Määrittelet sijaintisi sivulla %{settings_link} nähdäksesi
         lähialueen käyttäjiä.
       settings_link_text: asetussivulla
-      my friends: Ystäväni
+      my friends: Kaverit
       no friends: Sinulla ei ole vielä kavereita.
       km away: '%{count} kilometrin päässä'
       m away: '%{count} metrin päässä'

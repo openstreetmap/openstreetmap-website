@@ -215,7 +215,7 @@ cs:
       description: iD (editor v prohlížeči)
     remote:
       name: Dálkové ovládání
-      description: Dálkové ovládání (JOSM nebo Merkaartor)
+      description: Dálkové ovládání (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Žádná
@@ -262,6 +262,16 @@ cs:
     anonymous: anonym
     no_comment: (bez komentáře)
     part_of: Součást
+    part_of_relations:
+      one: 1 relace
+      few: '%{count} relace'
+      many: '%{count} relací'
+      other: '%{count} relací'
+    part_of_ways:
+      one: 1 cesta
+      few: '%{count} cesty'
+      many: '%{count} cest'
+      other: '%{count} cest'
     download_xml: Stáhnout XML
     view_history: Zobrazit historii
     view_details: Zobrazit detaily
@@ -296,6 +306,11 @@ cs:
       title_html: 'Cesta: %{name}'
       history_title_html: 'Historie cesty: %{name}'
       nodes: Uzly
+      nodes_count:
+        one: 1 uzel
+        few: '%{count} uzly'
+        many: '%{count} uzlů'
+        other: '%{count} uzlů'
       also_part_of_html:
         one: patří do cesty %{related_ways}
         other: patří do cest %{related_ways}
@@ -303,6 +318,11 @@ cs:
       title_html: 'Relace: %{name}'
       history_title_html: 'Historie relace: %{name}'
       members: Prvky
+      members_count:
+        one: 1 prvek
+        few: '%{count} prvky'
+        many: '%{count} prvků'
+        other: '%{count} prvků'
     relation_member:
       entry_role_html: '%{type} %{name} jako %{role}'
       type:
@@ -454,7 +474,7 @@ cs:
       body: Je nám líto, ale žádný deníkový záznam či komentář s ID %{id} neexistuje.
         Zkontrolujte překlepy, nebo jste možná klikli na chybný odkaz.
     diary_entry:
-      posted_by_html: Zapsal %{link_user} %{created} v jazyce %{language_link}
+      posted_by_html: Zapsal %{link_user} %{created} v jazyce %{language_link}.
       updated_at_html: Naposledy aktualizováno %{updated}
       comment_link: Okomentovat tento zápis
       reply_link: Pošlete zprávu autorovi
@@ -1465,9 +1485,16 @@ cs:
       see_their_profile_html: Jeho/její profil si můžete prohlédnout na %{userurl}.
       befriend_them: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
       befriend_them_html: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Vypadá to, že váš GPX soubor %{trace_name} s popisem
+        %{trace_description} a s těmito značkami: %{tags}'
+      description_with_no_tags_html: Vypadá to, že váš GPX soubor %{trace_name} s
+        popisem %{trace_description} a bez značek
     gpx_failure:
       hi: Ahoj, %{to_user},
       failed_to_import: 'se nepodařilo nahrát. Chybové hlášení následuje:'
+      more_info_html: Více informací o chybách při importu GPX a jak se jim vyhnout,
+        najdete na %{url}.
       import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=cs
       subject: '[OpenStreetMap] Neúspěšný import GPX'
     gpx_success:
@@ -1644,6 +1671,7 @@ cs:
       destroyed: Zpráva smazána
   shared:
     markdown_help:
+      title_html: Zpracovává se <a href="https://kramdown.gettalong.org/quickref.html">kramdownem</a>
       headings: Nadpisy
       heading: Nadpis
       subheading: Podnadpis
@@ -1930,6 +1958,15 @@ cs:
         url: https://wiki.openstreetmap.org/wiki/Cs:Main_Page?uselang=cs
         title: OpenStreetMap Wiki
         description: Podrobnou dokumentaci OpenStreetMap najdete na wiki.
+    potlatch:
+      removed: Jako preferovaný editor pro OpenStreetMap máte nastaven Potlatch. Protože
+        byl ale Adobe Flash Player ukončen, Potlatch již pro použití ve webovém prohlížeči
+        není dostupný.
+      desktop_html: Potlatch můžete stále používat <a href="https://www.systemed.net/potlatch/">stažením
+        desktopové aplikace pro Mac a Windows</a>.
+      id_html: Nebo si můžete jako preferovaný editor nastavit iD, které běží ve webovém
+        prohlížeči tak, jak dříve fungoval Potlatch. <a href="%{settings_url}">Nastavení
+        můžete změnit zde</a>.
     sidebar:
       search_results: Výsledky hledání
       close: Zavřít
