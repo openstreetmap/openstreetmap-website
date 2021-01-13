@@ -9,22 +9,17 @@
   </ul>
 <% end %>
 
-<%= form_for(@user_block, :html => { :class => "standard-form" }) do |f| %>
-  <%= f.error_messages %>
+<%= bootstrap_form_for(@user_block) do |f| %>
+  <%= f.richtext_field :reason, :cols => 80, :rows => 20, :format => @user_block.reason_format %>
 
-  <p>
-    <%= f.label :reason, t(".reason", :name => @user_block.user.display_name) %><br />
-    <%= richtext_area :user_block, :reason, :cols => 80, :rows => 20, :format => @user_block.reason_format %>
-  </p>
-  <p>
+  <%= f.form_group do %>
     <%= label_tag "user_block_period", t(".period") %><br />
     <%= select_tag("user_block_period", options_for_select(UserBlock::PERIODS.collect { |h| [block_duration_in_words(h.hours), h.to_s] }, params[:user_block_period])) %>
-  </p>
-  <p>
+  <% end %>
+
+  <%= f.form_group :needs_view do %>
     <%= f.check_box :needs_view %>
-    <%= f.label :needs_view, t(".needs_view") %>
-  </p>
-  <p>
-    <%= f.submit %>
-  </p>
+  <% end %>
+
+  <%= f.primary %>
 <% end %>
