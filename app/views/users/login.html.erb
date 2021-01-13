@@ -7,41 +7,18 @@
 <% end %>
 
 <div id="login_login">
-  <%= form_tag({ :action => "login" }, { :id => "login_form" }) do %>
+  <p class='text-muted'><%= t ".no account" %> <%= link_to t(".register now"), :action => :new, :referer => params[:referer] %></p>
+
+  <%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
     <%= hidden_field_tag("referer", h(params[:referer])) %>
 
-    <p class='text-muted'><%= t ".no account" %> <%= link_to t(".register now"), :action => :new, :referer => params[:referer] %></p>
+    <%= f.text_field :username, :label => t(".email or username"), :tabindex => 1, :value => params[:username] %>
+    <%= f.password_field :password, :label => t(".password"), :tabindex => 2, :value => "", :help => link_to(t(".lost password link"), :controller => "users", :action => "lost_password") %>
+    <%= f.form_group do %>
+      <%= f.check_box :remember_me, { :label => t(".remember"), :tabindex => 3, :checked => (params[:remember_me] == "yes") }, "yes" %>
+    <% end %>
 
-    <div id="loginForm" class="standard-form">
-
-      <fieldset>
-        <div class="standard-form-row">
-          <label for="username" class="standard-label">
-            <%= t ".email or username" %>
-          </label>
-          <%= text_field_tag "username", params[:username], :tabindex => 1 %>
-        </div>
-        <div class="standard-form-row">
-          <label for="password" class="standard-label">
-            <%= t ".password" %>
-          </label>
-          <%= password_field_tag "password", "", :tabindex => 2 %>
-        </div>
-        <span class="form-help deemphasize">
-          <%= link_to t(".lost password link"), :controller => "users", :action => "lost_password" %>
-        </span>
-      </fieldset>
-
-      <fieldset>
-        <%= check_box_tag "remember_me", "yes", params[:remember_me] == "yes", :tabindex => 3 %>
-        <label for="remember_me" class="standard-label">
-          <%= t ".remember" %>
-        </label>
-        <%= submit_tag t(".login_button"), :tabindex => 4 %>
-      </fieldset>
-
-    </div>
-
+    <%= f.primary t(".login_button"), :tabindex => 4 %>
   <% end %>
 
   <%= form_tag(auth_path(:provider => "openid"), :id => "openid_login_form") do %>
