@@ -99,8 +99,17 @@ nb:
       way_tag: Linjemerkelapp
     attributes:
       client_application:
+        name: Navn (påkrevd)
+        url: Hovedapplikasjons-URL (påkrevd)
         callback_url: 'URL for tilbakekall:'
         support_url: Støtte-URL
+        allow_read_prefs: lese brukerinnstillingene deres
+        allow_write_prefs: endre brukerinnstillingene deres
+        allow_write_diary: opprette dagbokoppføringer, kommentarer og finne venner
+        allow_write_api: endre kartet
+        allow_read_gpx: lese deres private GPS-spor
+        allow_write_gpx: laste opp GPS-spor
+        allow_write_notes: endre merknader
       diary_comment:
         body: Brødtekst
       diary_entry:
@@ -130,6 +139,7 @@ nb:
         body: Brødtekst
         recipient: Mottaker
       report:
+        category: Begrunn rapporten din
         details: Fremskaff flere detaljer om problemet (påkrevet)
       user:
         email: E-post
@@ -138,9 +148,12 @@ nb:
         description: Beskrivelse
         languages: Språk
         pass_crypt: Passord
+        pass_crypt_confirmation: Bekreft passord
     help:
       trace:
         tagstring: kommaseparert
+      user_block:
+        needs_view: Må brukeren logge inn før denne blokkeringen blir fjernet?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -187,7 +200,7 @@ nb:
       description: iD (redigering i nettleseren)
     remote:
       name: Lokalt installert program
-      description: Lokalt installert program (JOSM eller Merkaartor)
+      description: Fjernkontroll (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Ingen
@@ -234,6 +247,12 @@ nb:
     anonymous: anonym
     no_comment: (ingen kommentar)
     part_of: Del av
+    part_of_relations:
+      one: 1 relasjon
+      other: '%{count} relasjoner'
+    part_of_ways:
+      one: 1 linje
+      other: '%{count} linjer'
     download_xml: Last ned XML
     view_history: Vis historikk
     view_details: Vis detaljer
@@ -683,7 +702,7 @@ nb:
           tertiary: Tertiær vei
           tertiary_link: Tertiær vei
           track: Traktorvei
-          traffic_signals: Trafikksignalering
+          traffic_signals: Trafikklys
           trunk: Hovedvei
           trunk_link: Hovedvei
           turning_loop: Vendesløyfe
@@ -2376,25 +2395,16 @@ nb:
     new:
       title: Oppretter blokkering av %{name}
       heading_html: Oppretter blokkering av %{name}
-      reason: Årsaken til at %{name} blir blokkert. Vennligst vær så rolig og rimelig
-        som mulig og gi så mange detaljer du kan om situasjonen, og husk på at meldingen
-        blir synlig for offentligheten. Husk på at ikke alle brukere forstår fellesskapssjargongen
-        så prøv å bruke lekmannsuttrykk.
       period: Hvor lenge, fra nå, skal brukeren blokkeres fra API-en.
       tried_contacting: Jeg har kontaktet brukeren og bedt vedkommende stoppe.
       tried_waiting: Jeg har gitt brukeren rimelig med tid til å svare på kommunikasjonen.
-      needs_view: Brukeren må logge inn før denne blokkeringen blir fjernet.
       back: Vis alle blokkeringer
     edit:
       title: Endrer blokkering av %{name}
       heading_html: Endrer blokkering av %{name}
-      reason: Årsaken til hvorfor %{name} blir blokkert. Vennligst vær så rolig og
-        rimelig som mulig og oppgi så mange detaljer du kan om situasjonen. Husk at
-        ikke alle brukere forstår felleskapssjargongen så prøv å bruke lekmannsuttrykk.
       period: Hvor lenge, fra nå, brukeren skal bli blokkert fra API-en.
       show: Vis denne blokkeringen
       back: Vis alle blokkeringer
-      needs_view: Må brukeren logge inn før denne blokkeringen blir fjernet?
     filter:
       block_expired: Blokkeringen har allerede utløpt og kan ikke endres.
       block_period: Blokkeringsperioden må være en av verdiene som kan velges fra

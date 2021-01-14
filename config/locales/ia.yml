@@ -134,6 +134,8 @@ ia:
     help:
       trace:
         tagstring: separate per commas
+      user_block:
+        needs_view: Debe le usator aperir un session ante que iste blocada es cancellate?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -180,7 +182,7 @@ ia:
       description: iD (editor in navigator)
     remote:
       name: Controlo remote
-      description: Controlo remote (JOSM o Merkaartor)
+      description: Controlo remote (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Necun
@@ -1326,12 +1328,21 @@ ia:
       hi: Salute %{to_user},
       header: '%{from_user} ha commentate le entrata recente de diario OpenStreetMap
         con le subjecto %{subject}:'
+      header_html: '%{from_user} ha commentate le entrata de diario OpenStreetMap
+        con le subjecto %{subject}:'
       footer: Tu pote etiam leger le commento a %{readurl} e tu pote commentar a %{commenturl}
         o inviar un message al autor a %{replyurl}
+      footer_html: Tu pote etiam leger le commento sur %{readurl} e tu pote commentar
+        sur %{commenturl} o inviar un message al autor sur %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Salute %{to_user},
       header: '%{from_user} te ha inviate un message per OpenStreetMap con le subjecto
         %{subject}:'
+      header_html: '%{from_user} te ha inviate un message per OpenStreetMap con le
+        subjecto %{subject}:'
+      footer: Tu pote etiam leger le message sur %{readurl} e tu pote inviar un message
+        al autor sur %{replyurl}
       footer_html: Tu pote etiam leger le message a %{readurl} e tu pote inviar un
         message al autor a %{replyurl}
     friendship_notification:
@@ -2490,27 +2501,17 @@ ia:
     new:
       title: Crea blocada de %{name}
       heading_html: Crea blocada de %{name}
-      reason: Le motivo proque %{name} es blocate. Per favor sia tanto calme e rationabile
-        como possibile, e da tante detalios super le situation como tu pote. Non oblida
-        que le message essera publicamente visibile. Nota ben que non tote le usatores
-        comprende le jargon del communitate, dunque usa terminos simple e precise.
       period: Quante tempore, a partir de ora, essera le usator blocate del API?
       tried_contacting: Io ha contactate le usator pro demandar le/la de cessar.
       tried_waiting: Io ha date sufficiente tempore al usator pro responder a iste
         communicationes.
-      needs_view: Le usator debe aperir un session ante que iste blocada essera cancellate
       back: Vider tote le blocadas
     edit:
       title: Modification de un blocada super %{name}
       heading_html: Modification de un blocada super %{name}
-      reason: Le motivo proque %{name} es blocate. Per favor sia tanto calme e rationabile
-        como possibile, e da tante detalios super le situation como tu pote. Nota
-        ben que non tote le usatores comprende le jargon del communitate, dunque usa
-        terminos simple e precise.
       period: Quante tempore, a partir de ora, essera le usator blocate del API?
       show: Examinar iste blocada
       back: Examinar tote le blocadas
-      needs_view: Debe le usator aperir un session ante que iste blocada es cancellate?
     filter:
       block_expired: Le blocada ha ja expirate e non pote esser modificate.
       block_period: Le periodo de blocada debe esser un del valores seligibile in
