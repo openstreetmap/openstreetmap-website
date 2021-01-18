@@ -176,6 +176,7 @@ ja:
       trace:
         tagstring: カンマ区切り
       user_block:
+        reason: ユーザーがブロックされている理由です。メッセージは多くの人の目にふれることになるため、できるだけ冷静かつ理性的になり、できるだけ丁寧に状況を説明するようにしてください。すべての利用者がコミュニティ固有の用語を理解しているわけではないため、分かりやすい用語を使うように努めてください。
         needs_view: このブロックを解消するには、先に利用者がログインする必要がありますか？
   datetime:
     distance_in_words_ago:
@@ -226,7 +227,7 @@ ja:
       description: iD (ブラウザー内エディター)
     remote:
       name: リモート制御
-      description: 遠隔制御 (JOSM または Merkaartor)
+      description: 遠隔制御 (JOSM、Potlatch または Merkaartor)
   auth:
     providers:
       none: なし
@@ -660,6 +661,7 @@ ja:
           waste_basket: ごみ箱
           waste_disposal: ごみ集積所
           waste_dump_site: ゴミ処理場
+          watering_place: 集水地
           water_point: 給水所
           weighbridge: 台貫
         boundary:
@@ -929,6 +931,7 @@ ja:
           adit: 坑道
           advertising: 広告
           antenna: アンテナ
+          avalanche_protection: 雪崩対策
           beacon: 信号灯
           beam: 梁
           beehive: 養蜂箱
@@ -957,8 +960,11 @@ ja:
           petroleum_well: 油井
           pier: 埠頭
           pipeline: パイプライン
+          pumping_station: ポンプ場
           reservoir_covered: 有蓋貯水槽
           silo: サイロ
+          snow_cannon: 人工降雪機
+          snow_fence: 防雪フェンス
           storage_tank: 貯蔵タンク
           surveillance: 監視カメラ
           telescope: 望遠鏡
@@ -1112,6 +1118,7 @@ ja:
           baby_goods: 赤ちゃん用品
           bag: 鞄屋
           bakery: パン屋
+          bathroom_furnishing: 浴室トイレ設備施工
           beauty: 美容室
           bed: 寝具
           beverages: 飲料ショップ
@@ -1145,6 +1152,7 @@ ja:
           dry_cleaning: クリーニング
           e-cigarette: 電子タバコ店
           electronics: 電気製品販売店
+          erotic: 大人のおもちゃ
           estate_agent: 不動産代理店
           fabric: 生地屋
           farm: 農産物店
@@ -1241,6 +1249,7 @@ ja:
           picnic_site: ピクニック サイト
           theme_park: テーマパーク
           viewpoint: 景勝地
+          wilderness_hut: 野外施設
           zoo: 動物園
         tunnel:
           building_passage: ビルの通路
@@ -1267,12 +1276,15 @@ ja:
           "yes": 水路
       admin_levels:
         level2: 国境
+        level3: 行政境界
         level4: 都道府県・州境
         level5: 行政境界
         level6: 郡境
+        level7: 自治市界
         level8: 市区町村境
         level9: 村境
         level10: 街区境
+        level11: 町会の境界
       types:
         cities: 都市
         towns: 町
@@ -1448,11 +1460,17 @@ ja:
       subject: '[OpenStreetMap] %{user} さんがあなたを友達に追加しました。'
       had_added_you: OpenStreetMap で %{user} さんがあなたを友達に追加しました。
       see_their_profile: '%{userurl} でプロフィールを閲覧できます。'
+      see_their_profile_html: '%{userurl} でプロフィールを閲覧できます。'
       befriend_them: '%{befriendurl} で友達になることができます。'
       befriend_them_html: '%{befriendurl} で友達になることができます。'
+    gpx_description:
+      description_with_tags_html: その GPX ファイル%{trace_name}は解説が%{trace_description}で次のタグがついているようです：%{tags}
+      description_with_no_tags_html: その GPX ファイル%{trace_name}は解説が%{trace_description}ですが、タグがないようです
     gpx_failure:
+      hi: こんにちは、%{to_user} さん。
       failed_to_import: 'インポートするのに失敗しました。エラーはここです。:'
       more_info_html: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] GPX のインポートが失敗'
     gpx_success:
       hi: こんにちは、%{to_user} さん。
@@ -1586,7 +1604,21 @@ ja:
   shared:
     markdown_help:
       title_html: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>で構文解析します
+      headings: 見出し
+      heading: 見出し
+      subheading: 小見出し
+      unordered: 番号なしリスト
+      ordered: 番号付きリスト
+      first: 最初の項目
+      second: 2番目の項目
+      link: リンク
+      text: テキスト
+      image: 画像
+      alt: 代替テキスト
       url: URL
+    richtext_field:
+      edit: 編集
+      preview: プレビュー
   site:
     about:
       next: 次へ
@@ -1807,6 +1839,13 @@ ja:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
         description: 詳細な OpenStreetMap の説明が書かれたウィキを参照します。
+    potlatch:
+      removed: お使いの OpenStreetMap エディタは既定では Potlatch が選択されています。 Adobe Flash Player
+        の撤退により、 Potlatch is はウェブブラウザ上で利用できなくなりました。
+      desktop_html: 現在も Potlatch の利用は可能で、ダウンロードリンク<a href="https://www.systemed.net/potlatch/">でデスクトップ版を
+        Mac 用と Windows 用を入手できます</a>。
+      id_html: 代替手段として、以前の Potlatch のようにウェブブラウザで使うエディターなら、既定のエディターを iD に設定する方法があります。<a
+        href="%{settings_url}">個人設定の変更はこちら</a>。
     sidebar:
       search_results: 検索結果
       close: 閉じる
@@ -2579,6 +2618,7 @@ ja:
           other: この地点まで%{count}フィート
       base:
         standard: 標準
+        cyclosm: CyclOSM
         cycle_map: サイクリングマップ
         transport_map: 交通マップ
         hot: Humanitarian
@@ -2593,6 +2633,8 @@ ja:
       copyright: © <a href='%{copyright_url}'>OpenStreetMap 協力者</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>寄付する</a>
       terms: <a href='%{terms_url}' target='_blank'>ウェブサイトおよびAPI規約</a>
+      cyclosm: タイル様式のホストは<a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        フランス</a>であり<a href='%{cyclosm_url}' target='_blank'>CyclOSMチーム</a>から提供を受けました
       thunderforest: タイルは <a href='%{thunderforest_url}' target='_blank'>Andy Allen</a>
         のご好意による
       opnvkarte: タイルは<a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>の提供

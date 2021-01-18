@@ -167,6 +167,9 @@ ko:
       trace:
         tagstring: 쉼표로 구분
       user_block:
+        reason: 사용자를 차단하는 이유입니다. 메시지가 대중에 공개적으로 보이기 때문에, 상황에 대해 가능한 한 자세히, 냉정하고 합리적으로
+          최대한 정중하게 상황을 설명하도록 하세요. 모든 사용자가 공동체 내에서의 전문 용어를 이해하고 있는 것인 아니기 때문에 알기 쉬운
+          용어를 사용하도록 노력하세요.
         needs_view: 이 차단을 해제하기 전에 사용자가 로그인을 해야 합니까?
   datetime:
     distance_in_words_ago:
@@ -237,6 +240,9 @@ ko:
     anonymous: 익명
     no_comment: (댓글 없음)
     part_of: '다음의 일부:'
+    part_of_relations:
+      one: 관계 1건
+      other: 관계 %{count}건
     download_xml: XML 다운로드
     view_history: 역사 보기
     view_details: 자세한 내용 보기
@@ -269,6 +275,8 @@ ko:
       title_html: '길: %{name}'
       history_title_html: '길 역사: %{name}'
       nodes: 교점
+      nodes_count:
+        other: 노드 %{count}개
       also_part_of_html:
         one: '%{related_ways} 길의 일부'
         other: '%{related_ways} 길의 일부'
@@ -276,6 +284,9 @@ ko:
       title_html: '관계: %{name}'
       history_title_html: '관계 역사: %{name}'
       members: 구성 요소
+      members_count:
+        one: 구성 항목 1개
+        other: 구성 항목 %{count}개
     relation_member:
       entry_role_html: '%{type}에서 %{role}의 %{name}'
       type:
@@ -424,7 +435,8 @@ ko:
       heading: 'id에 항목 없음: %{id}'
       body: 안타깝게도, %{id} id로 된 일기 항목이나 덧글이 없습니다. 맞춤법이나 클릭한 링크가 잘못됐는지를 확인해보세요.
     diary_entry:
-      posted_by_html: '%{link_user}님이 %{language_link}로 %{created}에 게시함'
+      posted_by_html: '%{link_user}님이 %{language_link}로 %{created}에 게시함.'
+      updated_at_html: 최근 %{updated}에 업데이트됨.
       comment_link: 이 항목에 의견 남기기
       reply_link: 저자에게 메시지 보내기
       comment_count:
@@ -803,6 +815,7 @@ ko:
           vineyard: 포도밭
           "yes": 토지 이용
         leisure:
+          adult_gaming_centre: 성인 오락실
           beach_resort: 해수욕장
           bird_hide: 조류 관찰소
           bowling_alley: 볼링장
@@ -837,6 +850,7 @@ ko:
           "yes": 여가
         man_made:
           adit: 갱도
+          advertising: 광고
           beacon: 신호등
           beehive: 벌통
           breakwater: 방파제
@@ -864,6 +878,7 @@ ko:
           pumping_station: 펌프 스테이션
           silo: 사일로
           snow_cannon: 인공 눈 제작 기계
+          snow_fence: 방설책
           storage_tank: 저장 탱크
           surveillance: 감시카메라
           telescope: 망원경
@@ -903,6 +918,7 @@ ko:
           grassland: 초원
           heath: 황무지
           hill: 언덕
+          hot_spring: 온천
           island: 섬
           land: 토지
           marsh: 습지
@@ -999,6 +1015,7 @@ ko:
           tram_stop: 전차 정거장
           yard: 철도 기지
         shop:
+          agrarian: 농업용품점
           alcohol: 주점
           antiques: 골동품 상점
           art: 예술품 가게
@@ -1040,8 +1057,10 @@ ko:
           electronics: 전자 제품 가게
           erotic: 성인용품점
           estate_agent: 공인 중개사
+          fabric: 원단 가게
           farm: 농장 가게
           fashion: 패션 상점
+          fishing: 낚시용품점
           florist: 꽃집
           food: 음식 가게
           funeral_directors: 장례식장
@@ -1128,6 +1147,7 @@ ko:
           picnic_site: 피크닉장
           theme_park: 테마 파크
           viewpoint: 경승지
+          wilderness_hut: 삼림 오두막
           zoo: 동물원
         tunnel:
           building_passage: 건물 통로
@@ -1154,12 +1174,15 @@ ko:
           "yes": 수로
       admin_levels:
         level2: 국가 경계
+        level3: 지역 경계
         level4: 주 경계
         level5: 지역 경계
         level6: 군 경계
+        level7: 지자체 경계
         level8: 시 경계
         level9: 마을 경계
         level10: 교외 경계
+        level11: 이웃 경계
       types:
         cities: 도시
         towns: 마을
@@ -2559,9 +2582,11 @@ ko:
           other: 이 지점까지 %{count}피트
       base:
         standard: 표준
+        cyclosm: CyclOSM
         cycle_map: 사이클 지도
         transport_map: 교통 지도
         hot: 인도주의
+        opnvkarte: 대중교통 지도
       layers:
         header: 지도 레이어
         notes: 지도 참고
