@@ -953,6 +953,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user.description = "new description"
     user.preferred_editor = "default"
     post user_account_path(user), :params => { :user => user.attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -971,6 +974,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # Changing to a valid editor should work
     user.preferred_editor = "id"
     post user_account_path(user), :params => { :user => user.attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -980,6 +986,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # Changing to the default editor should work
     user.preferred_editor = "default"
     post user_account_path(user), :params => { :user => user.attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -989,6 +998,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # Changing to an uploaded image should work
     image = Rack::Test::UploadedFile.new("test/gpx/fixtures/a.gif", "image/gif")
     post user_account_path(user), :params => { :avatar_action => "new", :user => user.attributes.merge(:avatar => image) }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -997,6 +1009,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # Changing to a gravatar image should work
     post user_account_path(user), :params => { :avatar_action => "gravatar", :user => user.attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -1005,6 +1020,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # Removing the image should work
     post user_account_path(user), :params => { :avatar_action => "delete", :user => user.attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -1037,6 +1055,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # Changing name to one that doesn't exist should work
     new_attributes = user.attributes.dup.merge(:display_name => "new tester")
     post user_account_path(user), :params => { :user => new_attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(:display_name => "new tester")
+    get user_account_path(:display_name => "new tester")
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -1079,6 +1100,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         post user_account_path(user), :params => { :user => user.attributes }
       end
     end
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false

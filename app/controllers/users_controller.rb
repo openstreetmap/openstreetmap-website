@@ -128,6 +128,7 @@ class UsersController < ApplicationController
          (params[:user][:auth_provider] == current_user.auth_provider &&
           params[:user][:auth_uid] == current_user.auth_uid)
         update_user(current_user, params)
+        redirect_to user_account_url(current_user) if current_user.errors.count.zero?
       else
         session[:new_user_settings] = params
         redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid])
@@ -461,6 +462,8 @@ class UsersController < ApplicationController
 
       update_user(current_user, settings)
 
+      flash.discard
+
       session[:user_errors] = current_user.errors.as_json
 
       redirect_to :action => "account", :display_name => current_user.display_name
@@ -655,12 +658,12 @@ class UsersController < ApplicationController
       set_locale(:reset => true)
 
       if user.new_email.blank? || user.new_email == user.email
-        flash.now[:notice] = t "users.account.flash update success"
+        flash[:notice] = t "users.account.flash update success"
       else
         user.email = user.new_email
 
         if user.valid?
-          flash.now[:notice] = t "users.account.flash update success confirm needed"
+          flash[:notice] = t "users.account.flash update success confirm needed"
 
           begin
             UserMailer.email_confirm(user, user.tokens.create).deliver_later
