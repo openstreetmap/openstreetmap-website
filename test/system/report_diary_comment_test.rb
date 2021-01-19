@@ -29,7 +29,7 @@ class ReportDiaryCommentTest < ApplicationSystemTestCase
       click_on "Create Report"
     end
 
-    assert page.has_content? "Your report has been registered sucessfully"
+    assert page.has_content? "Your report has been registered successfully"
 
     assert_equal @comment, Issue.last.reportable
     assert_equal "administrator", Issue.last.assigned_role
