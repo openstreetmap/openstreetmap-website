@@ -15,72 +15,31 @@
   </div>
 
   <div class="col-sm">
-    <%= form_for current_user, :url => { :action => "create" }, :html => { :class => "standard-form" } do |f| %>
+    <%= bootstrap_form_for current_user, :url => { :action => "create" } do |f| %>
       <%= hidden_field_tag("referer", h(@referer)) unless @referer.nil? %>
 
-      <fieldset>
-        <div class="standard-form-row">
-          <label for="email" class="standard-label">
-            <%= t ".email address" %>
-          </label>
-          <%= f.email_field(:email, :tabindex => 1) %>
-          <%= f.error_message_on(:email) %>
+      <%= f.email_field :email, :label => t(".email address"), :tabindex => 1 %>
+      <%= f.email_field :email_confirmation, :label => t(".confirm email address"), :help => t(".not_displayed_publicly_html"), :tabindex => 2 %>
+
+      <%= f.text_field :display_name, :label => t(".display name"), :help => t(".display name description"), :tabindex => 3 %>
+
+      <fieldset class="form-group" id="auth_field">
+        <label for="user_auth_provider"><%= t(".external auth") %></label>
+        <div class="form-row">
+          <%= f.select(:auth_provider, Auth.providers, :default => "", :hide_label => "true", :wrapper => { :class => "col-auto mb-0" }, :tabindex => 4) %>
+          <%= f.text_field(:auth_uid, :hide_label => true, :wrapper => { :class => "col mb-0" }, :tabindex => 5) %>
         </div>
-        <div class="standard-form-row">
-          <label for="email_confirmation" class="standard-label">
-            <%= t ".confirm email address" %>
-          </label>
-          <%= f.email_field(:email_confirmation, :tabindex => 2) %>
-          <%= f.error_message_on(:email_confirmation) %>
-        </div>
-        <span class="form-help deemphasize"><%= t(".not_displayed_publicly_html") %></span>
+        <small class="form-text text-muted"><%= t ".auth no password" %></small>
       </fieldset>
 
-      <fieldset>
-        <div class="standard-form-row">
-          <label for="display_name" class="standard-label">
-            <%= t ".display name" %>
-          </label>
-          <%= f.text_field(:display_name, :tabindex => 3) %>
-          <%= f.error_message_on(:display_name) %>
-        </div>
-        <span class="form-help deemphasize"><%= t ".display name description" %></span>
-      </fieldset>
+      <%= f.password_field :pass_crypt, :tabindex => 6 %>
+      <%= f.password_field :pass_crypt_confirmation, :tabindex => 7 %>
 
-      <fieldset class="form-divider" id="auth_field">
-        <div class="standard-form-row">
-          <label for="openid_url" class="standard-label">
-            <%= t ".external auth" %>
-          </label>
-          <%= f.select(:auth_provider, Auth.providers, :default => "", :tabindex => 4) %>
-          <%= f.text_field(:auth_uid, :tabindex => 5) %>
-          <%= f.error_message_on(:auth_uid) %>
-        </div>
-        <span class="form-help deemphasize"><%= t ".auth no password" %></span>
-      </fieldset>
-
-      <fieldset>
-        <div class="standard-form-row">
-          <label for='user[pass_crypt]' class="standard-label">
-            <%= t ".password" %>
-          </label>
-          <%= f.password_field(:pass_crypt, :tabindex => 6) %>
-          <%= f.error_message_on(:pass_crypt) %>
-        </div>
-        <div class="standard-form-row">
-          <label class="standard-label">
-            <%= t ".confirm password" %>
-          </label>
-          <%= f.password_field(:pass_crypt_confirmation, :tabindex => 7) %>
-          <%= f.error_message_on(:pass_crypt_confirmation) %>
-        </div>
-      </fieldset>
-
-      <div id="auth_prompt" class="standard-form-row">
-        <%= link_to t(".use external auth"), "#", :id => "auth_enable" %>
+      <div id="auth_prompt">
+        <p><%= link_to t(".use external auth"), "#", :id => "auth_enable" %></p>
       </div>
 
-      <%= submit_tag t(".continue"), :tabindex => 8 %>
+      <%= f.primary t(".continue"), :tabindex => 8 %>
     <% end %>
   </div>
 </div>
