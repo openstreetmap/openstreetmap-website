@@ -222,9 +222,14 @@ L.OSM.share = function (options) {
       .attr("type", "hidden")
       .appendTo($form);
 
+    var args = {
+      width: "<span id=\"mapnik_image_width\"></span>",
+      height: "<span id=\"mapnik_image_height\"></span>"
+    };
+
     $("<p>")
       .attr("class", "text-muted")
-      .html(I18n.t("javascripts.share.image_size") + " <span id=\"mapnik_image_width\"></span> x <span id=\"mapnik_image_height\"></span>")
+      .html(I18n.t("javascripts.share.image_dimensions", args))
       .appendTo($form);
 
     $("<input>")
