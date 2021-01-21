@@ -145,6 +145,11 @@ gl:
       trace:
         tagstring: separadas por comas
       user_block:
+        reason: O motivo polo que se bloquea ao usuario. Mantente o máis tranquilo
+          e razoábel posíbel, dando tantos detalles como poidas sobre a situación,
+          lembrando que a mensaxe será visíbel de xeito públicamo. Ten en conta que
+          non todos os usuarios comprenden a xerga da comunidade, así que tenta empregar
+          termos sinxelos.
         needs_view: O usuario ten que acceder ó sistema antes de que o bloqueo sexa
           revogado?
   datetime:
@@ -196,7 +201,7 @@ gl:
       description: iD (editor integrado no navegador)
     remote:
       name: Control remoto
-      description: Control remoto (JOSM ou Merkaartor)
+      description: Control remoto (JOSM, Potlatch ou Merkaartor)
   auth:
     providers:
       none: Ningún
@@ -418,8 +423,8 @@ gl:
     new:
       title: Nova entrada no diario
     form:
-      location: 'Localización:'
-      use_map_link: empregar mapa
+      location: Localización
+      use_map_link: Empregar mapa
     index:
       title: Diarios dos usuarios
       title_friends: Diarios das amizades
@@ -448,7 +453,8 @@ gl:
       body: Non existe ningunha entrada no diario ou comentario co ID %{id}. Comprobe
         a ortografía ou que a ligazón que seguiu estea ben.
     diary_entry:
-      posted_by_html: Publicado por %{link_user} no %{created} en %{language_link}
+      posted_by_html: Publicado por %{link_user} no %{created} en %{language_link}.
+      updated_at_html: Última actualización no %{updated}.
       comment_link: Comentar nesta entrada
       reply_link: Enviar unha mensaxe ó autor
       comment_count:
@@ -1263,12 +1269,15 @@ gl:
           "yes": Curso de auga
       admin_levels:
         level2: Fronteira do país
+        level3: Fronteira de rexión
         level4: Fronteira do estado/Rexión
         level5: Fronteira da rexión
         level6: Fronteira do condado/Provincia
+        level7: Fronteira de municipalidade
         level8: Fronteira da cidade
         level9: Fronteira da vila
         level10: Fronteira do barrio
+        level11: Fronteira de barrio
       types:
         cities: Cidades
         towns: Municipios
@@ -1436,12 +1445,21 @@ gl:
       hi: 'Ola %{to_user}:'
       header: '%{from_user} comentou na entrada de diario no OpenStreetMap co asunto
         "%{subject}":'
+      header_html: '%{from_user} comentou na entrada de diario no OpenStreetMap co
+        asunto %{subject}:'
       footer: Tamén podes ler o comentario en %{readurl} e comentar en %{commenturl}
         ou enviar unha mensaxe ó autor en %{replyurl}
+      footer_html: Tamén podes ler o comentario en %{readurl} e comentar en %{commenturl}
+        ou enviar unha mensaxe ao autor en %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: 'Ola %{to_user}:'
       header: '%{from_user} envioulle unha mensaxe a través do OpenStreetMap co asunto
         "%{subject}":'
+      header_html: '%{from_user} enviouche unha mensaxe a través do OpenStreetMap
+        co asunto %{subject}:'
+      footer: Tamén podes ler a mensaxe en %{readurl} e enviar unha mensaxe ao autor
+        en %{replyurl}
       footer_html: Tamén podes ler a mensaxe en %{readurl} e enviar unha mensaxe ó
         autor en %{replyurl}
     friendship_notification:
@@ -1449,12 +1467,23 @@ gl:
       subject: '[OpenStreetMap] %{user} engadiuno coma amizade'
       had_added_you: '%{user} engadiuno coma amizade no OpenStreetMap.'
       see_their_profile: Podes ollar o seu perfil en %{userurl}.
+      see_their_profile_html: Podes ollar o seu perfil en %{userurl}.
       befriend_them: Tamén pode engadilo coma amizade no %{befriendurl}.
+      befriend_them_html: Tamén podes engadilo como amizade no %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Parece o teu ficheiro GPX %{trace_name} coa descrición
+        %{trace_description} e as seguintes etiquetas: %{tags}'
+      description_with_no_tags_html: Parece o teu ficheiro GPX %{trace_name} coa descrición
+        %{trace_description} e sen etiquetas
     gpx_failure:
+      hi: Ola %{to_user},
       failed_to_import: 'erro ao importar. Velaquí atópase o erro:'
+      more_info_html: Máis información sobre os erros de importación de GPX e como
+        evitalos en %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Importación GPX errónea'
     gpx_success:
+      hi: Ola %{to_user},
       loaded_successfully:
         one: cargado con %{trace_points} de entre un 1 punto posíbel.
         other: cargado con %{trace_points} de entre %{possible_points} puntos posíbeis.
@@ -1489,23 +1518,36 @@ gl:
           que ten interese'
         your_note: '%{commenter} deixou un comentario nunha das túas notas do mapa
           preto de %{place}.'
+        your_note_html: '%{commenter} deixou un comentario nunha das túas notas do
+          mapa preto de %{place}.'
         commented_note: '%{commenter} deixou un comentario nunha das notas do mapa
           nas que comentaches. A nota está preto de %{place}.'
+        commented_note_html: '%{commenter} deixou un comentario nunha das notas do
+          mapa nas que comentaches. A nota está preto de %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} resolveu unha das túas notas'
         subject_other: '[OpenStreetMap] %{commenter} resolveu unha das notas nas que
           ten interese'
         your_note: '%{commenter} resolveu unha das túas notas do mapa preto de %{place}.'
+        your_note_html: '%{commenter} resolveu unha das túas notas do mapa preto de
+          %{place}.'
         commented_note: '%{commenter} resolveu unha das notas do mapa nas que comentaches.
           A nota está preto de %{place}.'
+        commented_note_html: '%{commenter} resolveu unha das notas do mapa nas que
+          comentaches. A nota está preto de %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} reactivou unha das túas notas'
         subject_other: '[OpenStreetMap] %{commenter} reactivou unha das notas nas
           que ten interese'
         your_note: '%{commenter} reactivou unha das túas notas do mapa preto de %{place}.'
+        your_note_html: '%{commenter} reactivou unha das túas notas do mapa preto
+          de %{place}.'
         commented_note: '%{commenter} reactivou unha das notas do mapa nas que comentaches.
           A nota está preto de %{place}.'
+        commented_note_html: '%{commenter} reactivou unha das notas do mapa nas que
+          comentaches. A nota está preto de %{place}.'
       details: Pode atopar máis detalles da nota en %{url}.
+      details_html: Podes atopar máis detalles da nota en %{url}.
     changeset_comment_notification:
       hi: Ola %{to_user},
       greeting: Ola,
@@ -1516,13 +1558,22 @@ gl:
           no que estás atinxido'
         your_changeset: '%{commenter} deixou un comentario ás %{time} nun dos teus
           conxuntos de modificacións'
+        your_changeset_html: '%{commenter} deixou un comentario ás %{time} nun dos
+          teus conxuntos de modificacións'
         commented_changeset: '%{commenter} deixou un comentario ás %{time} nun conxunto
           de modificacións que estás a seguir por %{changeset_author}'
+        commented_changeset_html: '%{commenter} deixou un comentario ás %{time} nun
+          conxunto de modificacións que estás a seguir de %{changeset_author}'
         partial_changeset_with_comment: co comentario '%{changeset_comment}'
+        partial_changeset_with_comment_html: con comentario '%{changeset_comment}'
         partial_changeset_without_comment: sen comentarios
       details: Pódense atopar máis detalles acerca do conxunto de modificacións en
         %{url}.
+      details_html: Pódense atopar máis detalles sobre o conxunto de modificacións
+        en %{url}.
       unsubscribe: Para darse de baixa das actualizacións deste conxunto de modificacións,
+        olla %{url} e preme en "darse de baixa".
+      unsubscribe_html: Para darse de baixa das actualizacións deste conxunto de modificacións,
         olla %{url} e preme en "darse de baixa".
   messages:
     inbox:
@@ -1598,6 +1649,24 @@ gl:
       as_unread: Mensaxe marcada coma non lida
     destroy:
       destroyed: Mensaxe eliminada
+  shared:
+    markdown_help:
+      title_html: Analizado co <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      headings: Cabeceiras
+      heading: Cabeceira
+      subheading: Subcabeceira
+      unordered: Listaxe sen ordenar
+      ordered: Listaxe ordenada
+      first: Primeiro elemento
+      second: Segundo elemento
+      link: Ligazón
+      text: Texto
+      image: Imaxe
+      alt: Texto alternativo
+      url: URL
+    richtext_field:
+      edit: Editar
+      preview: Vista previa
   site:
     about:
       next: Seguinte
@@ -1911,6 +1980,15 @@ gl:
         url: https://wiki.openstreetmap.org/
         title: Wiki do OpenStreetMap
         description: Na wiki atopará documentación detallada do OpenStreetMap.
+    potlatch:
+      removed: O teu editor predeterminado do OpenStreetMap é o Potlatch. Debido a
+        que o Adobe Flash Player xa non é compatíbel, Potlatch xa non está dispoñíbel
+        para o seu uso nun navegador web.
+      desktop_html: Aínda podes empregar o Potlatch <a href="https://www.systemed.net/potlatch/">baixando
+        a aplicación de escritorio para Mac e Windows</a>.
+      id_html: Alternativamente, podes poñer como o teu editor predeterminado o iD,
+        así será executado no teu navegador web como antes facía o Potlatch. <a href="%{settings_url}">Muda
+        a túa configuración de usuario aquí</a>.
     sidebar:
       search_results: Resultados da procura
       close: Pechar
@@ -2776,10 +2854,11 @@ gl:
           other: Estás a menos de %{count} pés deste punto
       base:
         standard: Estándar
+        cyclosm: CyclOSM (Ciclista)
         cycle_map: Ciclista
-        transport_map: Medios de transporte
+        transport_map: Transporte
         hot: Humanitario
-        opnvkarte: ÖPNVKarte (Medios de transporte)
+        opnvkarte: ÖPNVKarte (Transporte)
       layers:
         header: Capas do mapa
         notes: Notas do mapa
@@ -2790,6 +2869,8 @@ gl:
       copyright: © <a href='%{copyright_url}'>Contribuíntes do OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Facer unha doazón</a>
       terms: <a href='%{terms_url}' target='_blank'>Termos da páxina web e da API</a>
+      cyclosm: Estilo das teselas por <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        aloxado por <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap Francia</a>
       thunderforest: Teselas cortesía de <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       opnvkarte: Teselas cortesía de <a href="%{memomaps_url}">MeMoMaps</a>
