@@ -30,7 +30,7 @@ class MicrocosmTest < ActiveSupport::TestCase
     validate({ :longitude => -180.00001 }, false)
 
     [:min, :max].each do |extremum|
-      [:lat, :lon].each do |coord|
+      [:lat, :lon].each do |coord| # rubocop:disable Performance/CollectionLiteralInLoop
         attr = "#{extremum}_#{coord}"
         validate({ attr => nil }, false)
         validate({ attr => -200 }, false)
