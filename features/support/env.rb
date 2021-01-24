@@ -4,8 +4,13 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # fi les.
 
-require "coveralls"
-Coveralls.wear!("rails")
+require "simplecov"
+require "simplecov-lcov"
+
+# TODO: Might need to handle incompatibility.
+# See https://github.com/openstreetmap/openstreetmap-website/commit/4a9f8a5e696b55840ad0ffcaf8941f0454dbf405#diff-d09ea66f8227784ff4393d88a19836f321c915ae10031d16c93d67e6283ab55f
+
+SimpleCov.start("rails")
 
 require "cucumber/rails"
 
