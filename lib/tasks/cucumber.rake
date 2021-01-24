@@ -7,7 +7,7 @@
 unless ARGV.any? { |a| a.starts_with? "gems" } # Don't load anything when running the gems:* tasks
 
 vendored_cucumber_bin = Dir[Rails.root.join("vendor/{gems,plugins}/cucumber*/bin/cucumber")].first # rubocop:disable Layout/IndentationWidth
-$LOAD_PATH.unshift(File.dirname(vendored_cucumber_bin) + "/../lib") unless vendored_cucumber_bin.nil?
+$LOAD_PATH.unshift("#{File.dirname(vendored_cucumber_bin)}/../lib") unless vendored_cucumber_bin.nil?
 
 begin
   require "cucumber/rake/task"
@@ -59,8 +59,7 @@ begin
   end
 
   # In case we don't have the generic Rails test:prepare hook, append a no-op task that we can depend upon.
-  task "test:prepare" => :environment do
-  end
+  task "test:prepare" => :environment
 
   task :stats => "cucumber:statsetup"
 

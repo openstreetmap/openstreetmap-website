@@ -61,9 +61,7 @@ class EventsController < ApplicationController
   private
 
   def warn_if_event_in_past
-    if @event.past?
-      flash[:warning] = t "events.show.past"
-    end
+    flash[:warning] = t "events.show.past" if @event.past?
   end
 
   def set_event

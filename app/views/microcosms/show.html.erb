@@ -3,7 +3,7 @@
 
 <% content_for :heading do %>
   <h1>
-    <%= @microcosm.name + " " + t(".header_title") %>
+    <%= "#{@microcosm.name} " + t(".header_title") %>
   </h1>
   <% if current_user && @microcosm.organizer?(current_user) %>
     <%= link_to t(".edit"), edit_microcosm_path %>
@@ -76,7 +76,7 @@
       <ul>
         <% @microcosm.events.future.each do |event| %>
           <li>
-            <%= l(event.moment, :format => "%e %B") + " - " %> <%= link_to(event.title, event_path(event)) %>
+            <%= l(event.moment, :format => "%e %B") %> - <%= link_to(event.title, event_path(event)) %>
           </li>
         <% end %>
       </ul>
@@ -90,7 +90,7 @@
             &middot;
             <%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %>
             &middot;
-            <%= link_to("#" + changeset.id.to_s, changeset_path(changeset)) %>
+            <%= link_to("##{changeset.id}", changeset_path(changeset)) %>
             <% if changeset.tags["review_requested"] == "yes" %>
               <%= t(".review_requested") %>
             <% end %>

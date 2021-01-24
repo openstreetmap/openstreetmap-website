@@ -4,7 +4,15 @@ Feature: User associated operations for a Microcosm
   I want to create the microcosm
 
   Background:
-    Given there is a microcosm "MappingDC", "Washington, DC, USA", "38.9", "-77.03", "38.516", "39.472", "-77.671", "-76.349"
+    Given there is this microcosm:
+      | name      | MappingDC           |
+      | location  | Washington, DC, USA |
+      | latitude  | 38.9                |
+      | longitude | -77.03              |
+      | min_lat   | 38.516              |
+      | max_lat   | 39.472              |
+      | min_lon   | -77.671             |
+      | max_lon   | -76.349             |
     And the microcosm has description "MappingDC strives to improve OSM in the DC area"
     And the microcosm has the "Facebook" page "https://facebook.com/groups/mappingdc"
     And the microcosm has the "Twitter" page "https://twitter.com/mappingdc"

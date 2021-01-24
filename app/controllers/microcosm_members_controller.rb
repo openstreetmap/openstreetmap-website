@@ -31,7 +31,7 @@ class MicrocosmMembersController < ApplicationController
     if issues.empty? && @microcosm_member.destroy
       redirect_to @microcosm_member.microcosm, :notice => t(".success")
     else
-      issues = issues.map { |i| t("activerecord.errors.models.microcosm_member." + i.to_s) }
+      issues = issues.map { |i| t("activerecord.errors.models.microcosm_member.#{i}") }
       issues = issues.to_sentence.capitalize
       redirect_to @microcosm_member.microcosm, :error => "#{t('.failure')} #{issues}."
     end

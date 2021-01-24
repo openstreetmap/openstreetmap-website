@@ -5,7 +5,7 @@ class DatetimeFormatValidator < ActiveModel::EachValidator
   # FORMAT = "\d\d\d\d-\d\d-\d\dT\d\d:\d\d".freeze
 
   def validate_each(record, attribute, value)
-    return if value.class.name == "Time" # oddly instance_of? Time does not work here.
+    return if value.instance_of?(ActiveSupport::TimeWithZone)
 
     # Validate the format.
     # Not sure if this is worth doing.  It's probably faster, but unlikely to happen.

@@ -3,7 +3,7 @@
 
 <% content_for :heading do %>
   <h1>
-    <%= t(".header_title") + ": " + @event.title %>
+    <%= t(".header_title") + ": #{@event.title}" %>
   </h1>
   <% if current_user && @event.microcosm.organizer?(current_user) %>
     <%= link_to t(".edit"), edit_event_path %>

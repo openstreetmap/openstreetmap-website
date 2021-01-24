@@ -1,15 +1,9 @@
-Given("there is a microcosm {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}") do |name, location, lat, lon, min_lat, max_lat, min_lon, max_lon|
-  @the_microcosm = Microcosm.create!(
-    :name => name,
-    :description => "Some description",
-    :location => location,
-    :latitude => Float(lat),
-    :longitude => Float(lon),
-    :min_lat => min_lat,
-    :min_lon => min_lon,
-    :max_lat => max_lat,
-    :max_lon => max_lon
-  )
+Given("there is this microcosm:") do |table|
+  attribs = table.rows_hash
+  attribs["description"] = "Some description"
+  attribs["latitude"] = Float(attribs["latitude"])
+  attribs["longitude"] = Float(attribs["longitude"])
+  @the_microcosm = Microcosm.create!(attribs)
 end
 
 Given("there is a changeset by {string} at {string}, {string}, {string}, {string} with comment {string}") do |author, min_lat, max_lat, min_lon, max_lon, comment|
