@@ -250,4 +250,18 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     # assert
     assert_equal I18n.t("events.update.failure"), flash[:alert]
   end
+
+  def test_in_past_warns
+    # arrange
+    mm = create(:microcosm_member, :organizer)
+    session_for(mm.user)
+    ev = create(:event, :microcosm => mm.microcosm)
+    ev.moment = Time.new - 1000
+
+    # act
+    post events_url, :params => { :event => ev.attributes }
+
+    # assert
+    assert_equal I18n.t("events.show.past"), flash[:warning]
+  end
 end

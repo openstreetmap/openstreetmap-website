@@ -49,4 +49,8 @@ class Event < ApplicationRecord
   def organizers
     EventOrganizer.where(:event_id => id)
   end
+
+  def past?
+    moment < Time.now
+  end
 end

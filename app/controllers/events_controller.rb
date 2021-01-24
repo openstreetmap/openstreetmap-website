@@ -27,6 +27,7 @@ class EventsController < ApplicationController
     @event_organizer = EventOrganizer.new(:event => @event, :user => current_user)
 
     if @event.save && @event_organizer.save
+      warn_if_event_in_past
       redirect_to @event, :notice => t(".success")
     else
       flash[:alert] = t(".failure")
@@ -39,6 +40,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
+      warn_if_event_in_past
       redirect_to @event, :notice => t(".success")
     else
       flash[:alert] = t(".failure")
@@ -57,6 +59,12 @@ class EventsController < ApplicationController
   end
 
   private
+
+  def warn_if_event_in_past
+    if @event.past?
+      flash[:warning] = t "events.show.past"
+    end
+  end
 
   def set_event
     @event = Event.find(params[:id])
