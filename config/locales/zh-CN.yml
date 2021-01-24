@@ -1,6 +1,7 @@
 # Messages for Simplified Chinese (中文（简体）‎)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: )8
 # Author: 500000000006城
 # Author: A Chinese Wikipedian
 # Author: A Retired User
@@ -15,13 +16,16 @@
 # Author: Dimension
 # Author: Duolaimi
 # Author: Fanjiayi
+# Author: Hudafu
 # Author: Hydra
 # Author: Hzy980512
 # Author: Impersonator 1
+# Author: Irati
 # Author: Jienus
 # Author: Jiwei
 # Author: Josephine W.
 # Author: Koalberry
+# Author: Lakejason0
 # Author: LaoShuBaby
 # Author: Lepus
 # Author: Liangent
@@ -33,6 +37,7 @@
 # Author: PhiLiP
 # Author: Qiyue2001
 # Author: RyRubyy
+# Author: RyanCray88
 # Author: Shizhao
 # Author: SinonJZH
 # Author: StephDC
@@ -40,6 +45,7 @@
 # Author: VulpesVulpes825
 # Author: WQL
 # Author: Wong128cn
+# Author: Wuqianye
 # Author: Xiaomingyan
 # Author: Yfdyh000
 # Author: Zazzzz
@@ -59,9 +65,11 @@ zh-CN:
     dir: ltr
   time:
     formats:
-      friendly: '%Y 年%B %e 日 %H:%M'
+      friendly: '%Y年%B%e日 %H:%M'
       blog: '%Y年%B%e日'
   helpers:
+    file:
+      prompt: 选择文件
     submit:
       diary_comment:
         create: 保存
@@ -74,7 +82,7 @@ zh-CN:
         create: 发送
       client_application:
         create: 注册
-        update: 编辑
+        update: 更新
       redaction:
         create: 创建修订
         update: 保存修订
@@ -95,7 +103,7 @@ zh-CN:
       changeset_tag: 变更集标签
       country: 国家
       diary_comment: 日记评论
-      diary_entry: 日记条目
+      diary_entry: 日记文章
       friend: 朋友
       issue: 问题
       language: 语言
@@ -126,6 +134,18 @@ zh-CN:
       way_node: 路径节点
       way_tag: 路径标签
     attributes:
+      client_application:
+        name: 名称（必填）
+        url: 主程序URL（必填）
+        callback_url: 回调 URL
+        support_url: 支持 URL
+        allow_read_prefs: 读取其用户设置
+        allow_write_prefs: 修改他们的用户首选项
+        allow_write_diary: 创建日记文章、评论并结交朋友。
+        allow_write_api: 修改地图
+        allow_read_gpx: 读取他们的私人GPS轨迹
+        allow_write_gpx: 上传GPS轨迹
+        allow_write_notes: 修改注记
       diary_comment:
         body: 正文
       diary_entry:
@@ -140,20 +160,23 @@ zh-CN:
       trace:
         user: 用户
         visible: 可见
-        name: 名称
+        name: 文件名
         size: 大小
         latitude: 纬度
         longitude: 经度
         public: 公开
         description: 描述
-        gpx_file: 上传 GPX 文件：
-        visibility: 可见性：
-        tagstring: 标签：
+        gpx_file: 上传 GPX 文件
+        visibility: 可见性
+        tagstring: 标签
       message:
         sender: 发件人
         title: 主题
         body: 正文
         recipient: 收件人
+      report:
+        category: 选择您举报的原因
+        details: 请提供一些有关问题的更多详情（必填）。
       user:
         email: 电子邮件
         active: 激活
@@ -161,9 +184,12 @@ zh-CN:
         description: 描述
         languages: 语言
         pass_crypt: 密码
+        pass_crypt_confirmation: 确认密码
     help:
       trace:
         tagstring: 用逗号分隔
+      user_block:
+        needs_view: 在清除这个封禁之前，是否需要用户先登录？
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -208,18 +234,12 @@ zh-CN:
     with_name_html: '%{name} (%{id})'
   editor:
     default: 默认（目前为 %{name}）
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (浏览器内编辑器)
     id:
       name: iD
       description: iD (浏览器内编辑器)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (浏览器内编辑器)
     remote:
       name: 远程控制
-      description: 远程控制 (JOSM 或 Merkaartor)
+      description: 远程控制 (JOSM、Potlatch、Merkaartor)
   auth:
     providers:
       none: 无
@@ -266,10 +286,18 @@ zh-CN:
     anonymous: 匿名用户
     no_comment: (无注释)
     part_of: 属于
+    part_of_relations:
+      one: 1 relation
+      other: '%{count} 个关系'
+    part_of_ways:
+      one: 1 way
+      other: '%{count} 条路径'
     download_xml: 下载 XML
     view_history: 查看历史
     view_details: 查看详情
     location: 位置：
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 变更集：%{id}
       belongs_to: 作者
@@ -279,9 +307,9 @@ zh-CN:
       way_paginated: 路径 (%{x}-%{y}，共 %{count})
       relation: 关系 (%{count})
       relation_paginated: 关系 (%{x}-%{y}，共 %{count})
-      comment: 评论 (%{count})
-      hidden_commented_by: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的隐藏评论
-      commented_by: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的评论
+      comment: 评论（%{count}）
+      hidden_commented_by_html: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的隐藏评论
+      commented_by_html: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的评论
       changesetxml: 变更集 XML
       osmchangexml: osm 修改 XML
       feed:
@@ -297,6 +325,8 @@ zh-CN:
       title_html: 路径：%{name}
       history_title_html: 路径历史：%{name}
       nodes: 节点
+      nodes_count:
+        other: '%{count} 个节点'
       also_part_of_html:
         one: 属于路径 %{related_ways}
         other: 属于路径 %{related_ways}
@@ -304,6 +334,9 @@ zh-CN:
       title_html: 关系：%{name}
       history_title_html: 关系历史：%{name}
       members: 成员
+      members_count:
+        one: 1 member
+        other: '%{count} 位成员'
     relation_member:
       entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} 作为%{role}'
@@ -315,6 +348,7 @@ zh-CN:
       entry_html: 关系 %{relation_name}
       entry_role_html: 关系 %{relation_name} (作为 %{relation_role})
     not_found:
+      title: 未找到
       sorry: '抱歉，无法找到 %{type} #%{id}。'
       type:
         node: 节点
@@ -323,6 +357,7 @@ zh-CN:
         changeset: 变更集
         note: 注记
     timeout:
+      title: 超时错误
       sorry: 对不起，检索 id 为 %{id} 的 %{type} 的数据时间过长。
       type:
         node: 节点
@@ -358,16 +393,17 @@ zh-CN:
       open_title: '未解决注记 #%{note_name}'
       closed_title: '已解决注记 #%{note_name}'
       hidden_title: '隐藏注记 #%{note_name}'
-      opened_by: '%{user}创建于<abbr title=''%{exact_time}''>%{when}</abbr>'
-      opened_by_anonymous: 匿名用户创建于<abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: '%{user}于<abbr title=''%{exact_time}''>%{when}</abbr>发表的评论'
-      commented_by_anonymous: 匿名用户于<abbr title='%{exact_time}'>%{when}</abbr>发表的评论
-      closed_by: '%{user}解决于<abbr title=''%{exact_time}''>%{when}</abbr>'
-      closed_by_anonymous: 匿名用户解决于<abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: '%{user}重新激活于<abbr title=''%{exact_time}''>%{when}</abbr>'
-      reopened_by_anonymous: 匿名用户重新激活于<abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: '%{user}隐藏于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      opened_by_html: '%{user}创建于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      opened_by_anonymous_html: 匿名用户创建于<abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: '%{user}于<abbr title=''%{exact_time}''>%{when}</abbr>发表的评论'
+      commented_by_anonymous_html: 匿名用户于<abbr title='%{exact_time}'>%{when}</abbr>发表的评论
+      closed_by_html: '%{user}解决于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      closed_by_anonymous_html: 匿名用户解决于<abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: '%{user}重新激活于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      reopened_by_anonymous_html: 匿名用户重新激活于<abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: '%{user}隐藏于<abbr title=''%{exact_time}''>%{when}</abbr>'
       report: 举报此注记
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: 查询要素
       introduction: 点击地图以查找附近要素。
@@ -390,10 +426,10 @@ zh-CN:
       area: 区域
     index:
       title: 变更集
-      title_user: '%{user} 的变更集'
+      title_user: '%{user}的变更集'
       title_friend: 由我的朋友所做的变更集
       title_nearby: 附近用户的变更集
-      empty: 没有找到变更集。
+      empty: 未找到变更集。
       empty_area: 该区域内没有变更集。
       empty_user: 无该用户的变更集。
       no_more: 未找到更多变更集。
@@ -417,23 +453,18 @@ zh-CN:
     new:
       title: 新日记文章
     form:
-      subject: 主题：
-      body: 正文：
-      language: 语言：
-      location: 位置：
-      latitude: 纬度：
-      longitude: 经度：
+      location: 位置
       use_map_link: 使用地图
     index:
       title: 用户日记
       title_friends: 朋友的日记
       title_nearby: 附近用户的日记
-      user_title: '%{user} 的日记'
+      user_title: '%{user}的日记'
       in_language_title: '%{language}日记文章'
       new: 新日记文章
       new_title: 在我的用户日记中撰写新文章
       my_diary: 我的日记
-      no_entries: 没有日记文章
+      no_entries: 无日记文章
       recent_entries: 最近的日记文章
       older_entries: 较早的文章
       newer_entries: 较新的文章
@@ -442,16 +473,17 @@ zh-CN:
       marker_text: 日记文章位置
     show:
       title: '%{user} 的日记 | %{title}'
-      user_title: '%{user} 的日记'
+      user_title: '%{user}的日记'
       leave_a_comment: 留下评论
       login_to_leave_a_comment_html: '%{login_link}以留下评论'
       login: 登录
     no_such_entry:
       title: 没有这篇日记文章
-      heading: 没有ID为 %{id} 的条目
+      heading: 没有文章ID为：%{id}
       body: 对不起，没有 id 为 %{id} 的日记文章或评论。请检查您的拼写，或是您可能点击了错误的链接。
     diary_entry:
-      posted_by_html: '%{link_user} 于 %{created} 以%{language_link}发表'
+      posted_by_html: '%{link_user}在%{created}用%{language_link}发布'
+      updated_at_html: 最后一次更新于%{updated}。
       comment_link: 评论该文章
       reply_link: 向作者发送信息
       comment_count:
@@ -464,7 +496,7 @@ zh-CN:
       confirm: 确认
       report: 举报此文章
     diary_comment:
-      comment_from_html: '%{link_user} 于 %{comment_created_at} 发表的评论'
+      comment_from_html: '%{link_user}在%{comment_created_at}的评论'
       hide_link: 隐藏此评论
       unhide_link: 显示此评论
       confirm: 确认
@@ -473,6 +505,7 @@ zh-CN:
       location: 位置：
       view: 查看
       edit: 编辑
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: '%{user} 的 OpenStreetMap 日记文章'
@@ -522,10 +555,12 @@ zh-CN:
           chair_lift: 登山吊椅
           drag_lift: 上山牵引机
           gondola: 索道
+          magic_carpet: 魔毯电梯
           platter: 拼盘电梯
           pylon: 桥塔
           station: 索道站
           t-bar: T字形电梯
+          "yes": 航空
         aeroway:
           aerodrome: 小型飞机场
           airstrip: 飞机跑道
@@ -534,11 +569,15 @@ zh-CN:
           hangar: 飞机库
           helipad: 直升机停机坪
           holding_position: 等车位置
+          navigationaid: 航空导航辅助
           parking_position: 停车位置
           runway: 飞机跑道
+          taxilane: 滑行道
           taxiway: 滑行道
           terminal: 航站楼
+          windsock: 风向袋
         amenity:
+          animal_boarding: 动物寄养处
           animal_shelter: 动物收容所
           arts_centre: 艺术中心
           atm: 自动提款机
@@ -548,7 +587,9 @@ zh-CN:
           bench: 长椅
           bicycle_parking: 自行车停车处
           bicycle_rental: 自行车出租点
+          bicycle_repair_station: 自行车维修站
           biergarten: 露天啤酒店
+          blood_bank: 血库
           boat_rental: 租船处
           brothel: 妓院
           bureau_de_change: 外汇兑换点
@@ -565,6 +606,7 @@ zh-CN:
           clock: 时钟
           college: 学院
           community_centre: 社区中心
+          conference_centre: 会议中心
           courthouse: 法院
           crematorium: 火葬场
           dentist: 牙科
@@ -572,6 +614,7 @@ zh-CN:
           drinking_water: 饮用水
           driving_school: 驾驶学校
           embassy: 大使馆
+          events_venue: 活动场地
           fast_food: 快餐
           ferry_terminal: 轮渡码头
           fire_station: 消防局
@@ -584,36 +627,41 @@ zh-CN:
           hospital: 医院
           hunting_stand: 狩猎站
           ice_cream: 冰淇淋
+          internet_cafe: 网咖
           kindergarten: 幼儿园
+          language_school: 语言学校
           library: 图书馆
+          loading_dock: 装卸码头
+          love_hotel: 爱情旅馆
           marketplace: 商场
           monastery: 修道院
+          money_transfer: 汇款处
           motorcycle_parking: 摩托车停车场
+          music_school: 音乐学校
           nightclub: 夜总会
           nursing_home: 疗养院
-          office: 办公室
           parking: 停车场
           parking_entrance: 停车场入口
           parking_space: 停车位
+          payment_terminal: 支付终端
           pharmacy: 药店
           place_of_worship: 宗教场所
           police: 警察局
           post_box: 信箱
           post_office: 邮局
-          preschool: 学前教育
           prison: 监狱
           pub: 酒馆
+          public_bath: 公共浴场
+          public_bookcase: 公共书柜
           public_building: 公共建筑
+          ranger_station: 公园管理站
           recycling: 回收点
           restaurant: 餐馆
-          retirement_home: 养老院
-          sauna: 桑拿
+          sanitary_dump_station: 储粪池
           school: 学校
           shelter: 避雨亭
-          shop: 商店
           shower: 淋浴
           social_centre: 社区中心
-          social_club: 社交俱乐部
           social_facility: 公共设施
           studio: 工作室
           swimming_pool: 游泳池
@@ -622,19 +670,27 @@ zh-CN:
           theatre: 剧院
           toilets: 洗手间
           townhall: 市政厅
+          training: 训练设施
           university: 大学
+          vehicle_inspection: 车辆检测站
           vending_machine: 自动售货机
           veterinary: 兽医
           village_hall: 村政厅
           waste_basket: 垃圾桶
           waste_disposal: 废物处理
+          waste_dump_site: 垃圾倾倒场
+          watering_place: 动物饮水处
           water_point: 引水点
-          youth_centre: 青少年中心
+          weighbridge: 地磅
+          "yes": 便利设施
         boundary:
+          aboriginal_lands: 原住民土地
           administrative: 行政区边界
           census: 人口普查边界
           national_park: 国家公园
+          political: 选区边界
           protected_area: 保护区
+          "yes": 边界
         bridge:
           aqueduct: 沟渠
           boardwalk: 木板路
@@ -643,24 +699,90 @@ zh-CN:
           viaduct: 高架桥
           "yes": 桥
         building:
+          apartment: 公寓
+          apartments: 公寓
+          barn: 谷仓
+          bungalow: 平房
+          cabin: 小屋
+          chapel: 教堂
+          church: 教堂建筑
+          civic: 公共建筑
+          college: 学院建筑
+          commercial: 商业建筑物
+          construction: 在建建筑
+          detached: 独立式住宅
+          dormitory: 宿舍
+          duplex: 双拼住宅
+          farm: 农场屋
+          garage: 车库
+          garages: 车库
+          greenhouse: 温室
+          hangar: 机库
+          hospital: 医院建筑物
+          hotel: 酒店建筑
+          house: 房屋
+          houseboat: 船屋
+          hut: 小屋
+          industrial: 工业建筑物
+          kindergarten: 幼儿园建筑
+          manufacture: 制造业建筑
+          office: 办公楼
+          public: 公共建筑物
+          residential: 住宅建筑物
+          retail: 零售建筑物
+          roof: 屋顶
+          ruins: 损毁建筑
+          school: 学校建筑物
+          semidetached_house: 双拼住宅
+          service: 服务建筑
+          shed: 棚
+          stable: 马厩
+          static_caravan: 大篷车
+          temple: 庙宇建筑
+          terrace: 阳台建筑
+          train_station: 火车站建筑
+          university: 大学建筑物
+          warehouse: 仓库
           "yes": 建筑物
+        club:
+          sport: 体育俱乐部
+          "yes": 俱乐部
         craft:
+          beekeper: 养蜂人工作室
+          blacksmith: 铁匠铺
           brewery: 啤酒厂
           carpenter: 木匠工坊
+          caterer: 餐饮服务商
+          confectionery: 糖果店
+          dressmaker: 裁缝工作室
           electrician: 电工工坊
+          electronics_repair: 电子产品维修
           gardener: 园艺工坊
+          glaziery: 琉璃工坊
+          handicraft: 手工艺工坊
+          metal_construction: 金属结构坊
           painter: 装修工坊
           photographer: 摄影室
           plumber: 管道工坊
+          roofer: 屋顶工作室
+          sawmill: 锯木厂
           shoemaker: 鞋匠工坊
+          stonemason: 石匠铺
           tailor: 裁缝店
+          window_construction: 窗户施工
+          winery: 酿酒厂
           "yes": 工艺品店
         emergency:
           ambulance_station: 救护站
           assembly_point: 集合地点
           defibrillator: 除颤仪
+          fire_xtinguisher: 灭火器
+          fire_water_pond: 消防水塘
           landing_site: 紧急着陆地点
+          life_ring: 紧急救生圈
           phone: 紧急电话
+          siren: 防空警报
+          suction_point: 消防吸水点
           water_tank: 紧急水箱
           "yes": 紧急
         highway:
@@ -673,6 +795,7 @@ zh-CN:
           cycleway: 自行车道
           elevator: 电梯
           emergency_access_point: 紧急求救点
+          emergency_bay: 应急停车带
           footway: 人行道
           ford: 浅滩
           give_way: 让路标志
@@ -685,8 +808,8 @@ zh-CN:
           path: 小径
           pedestrian: 步行街
           platform: 车站
-          primary: 一级道路
-          primary_link: 一级道路
+          primary: 主要道路
+          primary_link: 主要道路
           proposed: 规划道路
           raceway: 赛道
           residential: 住宅道路
@@ -703,37 +826,43 @@ zh-CN:
           tertiary: 三级道路
           tertiary_link: 三级道路
           track: 小路
+          traffic_mirror: 道路反光镜
           traffic_signals: 交通信号灯
-          trail: 小路
+          trailhead: 步道起点
           trunk: 主干道路
           trunk_link: 干道
           turning_loop: 环形回车道
           unclassified: 无等级道路
           "yes": 道路
         historic:
+          aircraft: 历史航空器
           archaeological_site: 遗址
+          bomb_crater: 弹坑遗址
           battlefield: 战场
           boundary_stone: 界碑
           building: 古建筑
           bunker: 地堡
+          cannon: 古炮
           castle: 城堡
           church: 教堂
           city_gate: 城门
           citywalls: 城墙
           fort: 堡垒
           heritage: 遗产地
+          hollow_way: 坳路
           house: 房屋
-          icon: 圣像画
           manor: 庄园
           memorial: 纪念碑
           mine: 矿井
           mine_shaft: 矿井
           monument: 纪念碑
+          railway: 历史铁路
           roman_road: 罗马道路
           ruins: 遗迹
           stone: 石头
           tomb: 墓
           tower: 塔
+          wayside_chapel: 路边小教堂
           wayside_cross: 路旁十字架
           wayside_shrine: 路旁神龛
           wreck: 残骸
@@ -742,6 +871,7 @@ zh-CN:
           "yes": 交叉点
         landuse:
           allotments: 小块园地
+          aquaculture: 水产养殖
           basin: 盆地
           brownfield: 棕地
           cemetery: 公墓
@@ -761,21 +891,28 @@ zh-CN:
           military: 军事区
           mine: 矿井
           orchard: 果园
+          plant_nursery: 植物苗圃
           quarry: 采石场
           railway: 铁路
           recreation_ground: 游乐场
+          religious: 宗教场所
           reservoir: 水库
           reservoir_watershed: 水库库区
           residential: 居住区
           retail: 商店区
-          road: 道路区
           village_green: 乡村草坪
           vineyard: 葡萄园
           "yes": 土地利用
         leisure:
+          adult_gaming_centre: 成人游戏中心
+          amusement_arcade: 娱乐厅
+          bandstand: 演奏台
           beach_resort: 海滩度假村
           bird_hide: 野生动物观察站
+          bleachers: 露天看台
+          bowling_alley: 保龄球场
           common: 公共用地
+          dance: 舞厅
           dog_park: 狗公园
           firepit: 火山坑
           fishing: 垂钓区
@@ -786,9 +923,11 @@ zh-CN:
           horse_riding: 骑马运动
           ice_rink: 滑冰场
           marina: 小船坞
-          miniature_golf: 迷您高尔夫球场
+          miniature_golf: 迷你高尔夫球场
           nature_reserve: 自然保护区
+          outdoor_seating: 户外座位
           park: 公园
+          picnic_table: 野餐桌
           pitch: 体育场
           playground: 儿童游乐场
           recreation_ground: 游乐场
@@ -803,13 +942,21 @@ zh-CN:
           "yes": 闲暇
         man_made:
           adit: 平坑
+          advertising: 广告牌
+          antenna: 天线
+          avalanche_protection: 雪崩护栏
           beacon: 浮标
+          beam: 梁柱
           beehive: 蜂窝
           breakwater: 防波堤
           bridge: 桥
           bunker_silo: 地堡
+          cairn: 堆石标
           chimney: 烟囱
+          clearcut: 采伐迹地
+          communications_tower: 通讯塔
           crane: 吊车
+          cross: 十字架
           dolphin: 系船柱
           dyke: 堤
           embankment: 路堤
@@ -818,6 +965,7 @@ zh-CN:
           groyne: 防波堤
           kiln: 窑
           lighthouse: 灯塔
+          manhole: 窨井
           mast: 桅杆
           mine: 矿石
           mineshaft: 矿井
@@ -825,12 +973,20 @@ zh-CN:
           petroleum_well: 石油井
           pier: 码头
           pipeline: 管道
+          pumping_station: 泵站
+          reservoir_covered: 覆盖水库
           silo: 发射井
+          snow_cannon: 雪炮
+          snow_fence: 防雪栅栏
           storage_tank: 储油罐
+          street_cabinet: 街柜
           surveillance: 监视
+          telescope: 望远镜
           tower: 塔
+          utility_pole: 电线杆
           wastewater_plant: 污水处理厂
           watermill: 水磨
+          water_tap: 水龙头
           water_tower: 水塔
           water_well: 井
           water_works: 自来水厂
@@ -841,10 +997,13 @@ zh-CN:
           airfield: 军用机场
           barracks: 营房
           bunker: 掩体
+          checkpoint: 检查站
+          trench: 堑壕
           "yes": 军队
         mountain_pass:
           "yes": 山口
         natural:
+          bare_rock: 裸岩
           bay: 湾
           beach: 滩
           cape: 海岬
@@ -858,8 +1017,9 @@ zh-CN:
           geyser: 间歇泉
           glacier: 冰川
           grassland: 草原
-          heath: 希思地貌
+          heath: 荒野
           hill: 希尔地貌
+          hot_spring: 温泉
           island: 岛
           land: 陆地
           marsh: 沼泽
@@ -883,20 +1043,31 @@ zh-CN:
           water: 水
           wetland: 湿地
           wood: 树林
+          "yes": 自然要素
         office:
           accountant: 会计师事务所
           administrative: 管理
+          advertising_agency: 广告代理办公室
           architect: 设计院
           association: 协会
           company: 公司
+          diplomatic: 外交办公室
           educational_institution: 教育机构
           employment_agency: 职业介绍所
+          energy_supplier: 能源供应商办公室
           estate_agent: 地产代理
+          financial: 财务处
           government: 政府办公室
           insurance: 保险办公室
           it: IT办公室
           lawyer: 律师事务所
+          logistics: 物流办
+          newspaper: 报社
           ngo: 非政府组织办公室
+          notary: 公证处
+          religion: 宗教办公室
+          research: 研究室
+          tax_advisor: 税务顾问办公室
           telecommunication: 电信办公室
           travel_agent: 旅行社
           "yes": 办公室
@@ -916,6 +1087,7 @@ zh-CN:
           locality: 地区
           municipality: 直辖市
           neighbourhood: 居住区
+          plot: 地块
           postcode: 邮政编码
           quarter: 街角
           region: 地区
@@ -925,7 +1097,6 @@ zh-CN:
           subdivision: 细分
           suburb: 郊区
           town: 镇
-          unincorporated_area: 非建制地区
           village: 村
           "yes": 地方
         railway:
@@ -951,12 +1122,19 @@ zh-CN:
           switch: 道岔
           tram: 电车轨道
           tram_stop: 有轨电车站
+          yard: 车辆段
         shop:
+          agrarian: 农用品店
           alcohol: 政府许可酒类店
           antiques: 古玩店
+          appliance: 电器店
           art: 艺术品店
+          baby_goods: 婴儿用品
+          bag: 包店
           bakery: 面包店
+          bathroom_furnishing: 浴室装修
           beauty: 美容店
+          bed: 床上用品
           beverages: 饮料店
           bicycle: 自行车店
           bookmaker: 赌博业者
@@ -968,28 +1146,36 @@ zh-CN:
           car_repair: 汽车修理店
           carpet: 地毯店
           charity: 慈善商店
+          cheese: 奶酪店
           chemist: 化学品店
+          chocolate: 巧克力店
           clothes: 服装店
+          coffee: 咖啡店
           computer: 电脑店
           confectionery: 糖果店
           convenience: 便利店
           copyshop: 复印店
           cosmetics: 化妆品店
+          craft: 工艺品供应店
+          curtain: 窗帘店
+          dairy: 乳品店
           deli: 熟食店
           department_store: 百货商场
           discount: 折扣商品店
           doityourself: DIY
           dry_cleaning: 干洗店
+          e-cigarette: 电子烟店
           electronics: 电子产品店
+          erotic: 情趣用品店
           estate_agent: 地产代理
+          fabric: 面料商店
           farm: 农产品店
           fashion: 时装店
-          fish: 鱼店
+          fishing: 钓鱼用品店
           florist: 花店
           food: 食品店
           funeral_directors: 殡仪馆
           furniture: 家具店
-          gallery: 画廊
           garden_centre: 园艺品店
           general: 杂货店
           gift: 礼品店
@@ -997,36 +1183,51 @@ zh-CN:
           grocery: 杂货店
           hairdresser: 理发店
           hardware: 五金店
+          health_food: 保健食品店
+          hearing_aids: 助听器店
+          herbalist: 草药铺
           hifi: Hi-Fi
           houseware: 家居店
+          ice_cream: 冰淇淋店
           interior_decoration: 室内装饰
           jewelry: 珠宝店
           kiosk: 售货亭
           kitchen: 厨房商店
           laundry: 洗衣店
+          locksmith: 锁匠铺
           lottery: 彩票
           mall: 购物中心
-          market: 市场
           massage: 按摩
+          medical_supply: 医疗用品店
           mobile_phone: 手机店
+          money_lender: 放债店
           motorcycle: 摩托车店
+          motorcycle_repair: 摩托车维修店
           music: 音乐商店
+          musical_instrument: 乐器店
           newsagent: 报摊
+          nutrition_supplements: 营养补品店
           optician: 眼镜店
           organic: 有机食品店
           outdoor: 户外用品店
           paint: 油漆店
-          pawnbroker: 当铺老板
+          pastry: 糕点店
+          pawnbroker: 典当行
+          perfumery: 香水店
           pet: 宠物店
-          pharmacy: 药店
+          pet_grooming: 宠物美容店
           photo: 照相馆
           seafood: 海鲜
           second_hand: 二手商品店
+          sewing: 缝纫店
           shoes: 鞋店
           sports: 体育用品店
           stationery: 文具店
+          storage_rental: 仓储租赁店
           supermarket: 超市
           tailor: 裁缝店
+          tattoo: 纹身店
+          tea: 茶馆
           ticket: 售票处
           tobacco: 烟草店
           toys: 玩具店
@@ -1035,15 +1236,18 @@ zh-CN:
           vacant: 空店
           variety_store: 杂货店
           video: 音像店
+          video_games: 电子游戏商店
+          wholesale: 批发店
           wine: 葡萄酒店
           "yes": 商店
         tourism:
           alpine_hut: 高山小屋
-          apartment: 假日公寓
+          apartment: 度假公寓
           artwork: 艺术品
           attraction: 景点
           bed_and_breakfast: 家庭旅馆
           cabin: 小木屋
+          camp_pitch: 营地
           camp_site: 宿营地
           caravan_site: 房车宿营地
           chalet: 小屋
@@ -1051,12 +1255,13 @@ zh-CN:
           guest_house: 旅馆
           hostel: 招待所
           hotel: 酒店
-          information: 信息
+          information: 信息处
           motel: 汽车旅馆
           museum: 博物馆
           picnic_site: 野餐地
           theme_park: 主题公园
           viewpoint: 观景点
+          wilderness_hut: 荒野小屋
           zoo: 动物园
         tunnel:
           building_passage: 建筑通道
@@ -1086,20 +1291,15 @@ zh-CN:
         level4: 州界(省界)
         level5: 地区界(地级市界)
         level6: 县界
-        level8: 市界(镇/街道界)
+        level8: 市界(乡/镇/街道界)
         level9: 村界
         level10: 郊区界(社区/行政村界)
-    description:
-      title:
-        osm_nominatim: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a> 中的位置
-        geonames: <a href="http://www.geonames.org/">GeoNames</a> 中的位置
       types:
         cities: 城市
         towns: 城镇
         places: 地点
     results:
-      no_results: 未找到结果
+      no_results: 没有找到结果
       more_results: 更多结果
   issues:
     index:
@@ -1112,7 +1312,7 @@ zh-CN:
       search: 搜索
       search_guidance: 搜索问题：
       user_not_found: 用户不存在
-      issues_not_found: 找不到这个问题
+      issues_not_found: 找不到此问题
       status: 状态
       reports: 举报
       last_updated: 最后更新
@@ -1148,7 +1348,7 @@ zh-CN:
       new_reports: 新举报
       other_issues_against_this_user: 其他有关此用户的问题
       no_other_issues: 没有其他有关此用户的问题。
-      comments_on_this_issue: 评论此问题
+      comments_on_this_issue: 评论该问题
     resolve:
       resolved: 问题状态已设置为“已解决”
     ignore:
@@ -1171,8 +1371,6 @@ zh-CN:
     new:
       title_html: 举报%{link}
       missing_params: 不能创建新的举报
-      details: 请提供一些有关问题的更多详情（必填）。
-      select: 选择您举报的原因：
       disclaimer:
         intro: 在发送您的举报至网站版主前，请确保：
         not_just_mistake: 您确信这个问题不只是失误
@@ -1223,7 +1421,7 @@ zh-CN:
     data: 数据
     export_data: 导出数据
     gps_traces: GPS 轨迹
-    gps_traces_tooltip: 管理 GPS 轨迹
+    gps_traces_tooltip: 管理GPS轨迹
     user_diaries: 用户日记
     user_diaries_tooltip: 查看用户日记
     edit_with: 使用 %{editor} 编辑
@@ -1252,14 +1450,13 @@ zh-CN:
       text: 捐款
     learn_more: 了解更多
     more: 更多
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} 在日记项目留下了评论'
       hi: 您好，%{to_user}：
       header: '%{from_user} 评论了主题为 %{subject} 的 OpenStreetMap 日记文章：'
       footer: 您也可以通过%{readurl}来读取评论，并且在%{commenturl}来撰写评论或者通过%{replyurl}向作者发送消息
     message_notification:
-      subject_header: '[OpenStreetMap] %{subject}'
       hi: 您好，%{to_user}：
       header: '%{from_user} 已经通过 OpenStreetMap 给您发送了一条主题为 %{subject} 的信息：'
       footer_html: 您还可以在%{readurl}阅读这条信息并在%{replyurl}向作者发送信息
@@ -1268,22 +1465,17 @@ zh-CN:
       subject: '[OpenStreetMap] %{user} 添加您为朋友'
       had_added_you: '%{user} 已经在 OpenStreetMap 添加您为朋友。'
       see_their_profile: 您可以在%{userurl}查看他们的个人资料。
+      see_their_profile_html: 您可以在%{userurl}查看他们的个人资料。
       befriend_them: 您也可以在%{befriendurl}添加他们为朋友。
-    gpx_notification:
-      greeting: 您好，
-      your_gpx_file: 看起来像是您的 GPX 文件
-      with_description: 有说明
-      and_the_tags: 和以下标签：
-      and_no_tags: 并且没有标签。
-      failure:
-        subject: '[OpenStreetMap] GPX 导入失败'
-        failed_to_import: 导入失败。下面是错误信息：
-        more_info_1: 更多有关 GPX 导入失败的详细信息，以及如何避免
-        more_info_2: 它们的信息可以在这里找到：
-        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
-      success:
-        subject: '[OpenStreetMap] GPX 导入成功'
-        loaded_successfully: 成功载入可能 %{possible_points} 点中的 %{trace_points} 点。
+    gpx_description:
+      description_with_no_tags_html: 似乎您的GPX文件%{trace_name}，描述为%{trace_description}，没有标签
+    gpx_failure:
+      failed_to_import: 导入失败。下面是错误信息：
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+      subject: '[OpenStreetMap] GPX 导入失败'
+    gpx_success:
+      loaded_successfully: 成功载入可能 %{possible_points} 点中的 %{trace_points} 点。
+      subject: '[OpenStreetMap] GPX 导入成功'
     signup_confirm:
       subject: '[OpenStreetMap] 欢迎加入 OpenStreetMap'
       greeting: 您好！
@@ -1292,23 +1484,13 @@ zh-CN:
       welcome: 等您确认帐号后，我们将提供一些额外的信息以帮助您开始使用。
     email_confirm:
       subject: '[OpenStreetMap] 确认您的电子邮件地址'
-    email_confirm_plain:
       greeting: 您好，
       hopefully_you: 有人(希望是您)想要在%{server_url}将他的电子邮件地址更改为 %{new_address}。
       click_the_link: 如果这是您，请点击下面的链接以确认更改。
-    email_confirm_html:
-      greeting: 您好，
-      hopefully_you: 某人(希望是您)想要更改他们的电子邮件地址 %{server_url} 为 %{new_address}。
-      click_the_link: 如果这是您，请点击下面的链接以确认更改。
     lost_password:
       subject: '[OpenStreetMap] 密码重置请求'
-    lost_password_plain:
       greeting: 您好，
       hopefully_you: 某人(可能是您)已要求重置该电子邮件地址上的 openstreetmap.org 帐户密码。
-      click_the_link: 如果这是您，请点击下面的链接重置您的密码。
-    lost_password_html:
-      greeting: 您好，
-      hopefully_you: 某人(可能是您)已要求重置该电子邮件地址上的 openstreetmap.org 账户密码
       click_the_link: 如果这是您，请点击下面的链接重置您的密码。
     note_comment_notification:
       anonymous: 匿名用户
@@ -1323,20 +1505,24 @@ zh-CN:
         subject_other: '[OpenStreetMap] %{commenter} 已经解决了一个您感兴趣的注记'
         your_note: '%{commenter} 解决了您在 %{place} 附近的一个注记。'
         commented_note: '%{commenter} 解决了您感兴趣的一个地图注记。该注记位于 %{place} 附近。'
+        commented_note_html: '%{commenter} 解决了您感兴趣的一个地图注记。该注记位于 %{place} 附近。'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} 重新激活了您的一个注记'
         subject_other: '[OpenStreetMap] %{commenter} 重新激活了您感兴趣的一个注记'
         your_note: '%{commenter} 重新激活了您在 %{place} 附近的一个注记。'
         commented_note: '%{commenter} 重新激活了您感兴趣的一个地图注记。该注记位于 %{place} 附近。'
+        commented_note_html: '%{commenter} 重新激活了您感兴趣的一个地图注记。该注记位于 %{place} 附近。'
       details: 更多关于笔记的详细信息可以在%{url}找到。
     changeset_comment_notification:
       hi: 您好，%{to_user}：
       greeting: 您好，
       commented:
-        subject_own: '[OpenStreetMap] %{commenter}在您的一个变更集中做出了评论'
+        subject_own: '[OpenStreetMap] %{commenter}评论了您的一个变更集'
         subject_other: '[OpenStreetMap] %{commenter} 评论了您感兴趣的一个变更集'
-        your_changeset: '%{commenter} 于 %{time} 在您创建的一个变更集留了言'
-        commented_changeset: '%{commenter} 于 %{time} 在您监视的由 %{changeset_author} 创建的一个地图变更集中留了言'
+        your_changeset: '%{commenter}在%{time}对你的变更集留下评论'
+        your_changeset_html: '%{commenter} 于 %{time} 在您创建的一个变更集留下评论'
+        commented_changeset: '%{commenter}在%{time}对你监视的%{changeset_author}创建的变更集留下评论'
+        commented_changeset_html: '%{commenter}于%{time}在您监视的由%{changeset_author}创建的一个地图变更集中留下评论'
         partial_changeset_with_comment: 带评论“%{changeset_comment}”
         partial_changeset_without_comment: 没有评论
       details: 更多关于变更集的详细信息可以在 %{url} 找到。
@@ -1369,7 +1555,7 @@ zh-CN:
       message_sent: 信息已发出
       limit_exceeded: 您刚发送了很多消息。在尝试发送其他消息之前，请稍等一会儿。
     no_such_message:
-      title: 没有此消息
+      title: 无此消息
       heading: 没有此消息
       body: 对不起，没有具有该 id 的消息。
     outbox:
@@ -1405,6 +1591,23 @@ zh-CN:
       as_unread: 标记消息为未读
     destroy:
       destroyed: 消息已删除
+  shared:
+    markdown_help:
+      headings: 标题
+      heading: 标题
+      subheading: 副标题
+      unordered: 无序列表
+      ordered: 有序列表
+      first: 第一项
+      second: 第二项
+      link: 链接
+      text: 文字
+      image: 图像
+      alt: 替代文本
+      url: URL
+    richtext_field:
+      edit: 编辑
+      preview: 预览
   site:
     about:
       next: 下一页
@@ -1447,8 +1650,8 @@ zh-CN:
           OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup>是<i>开放数据</i>，由<a
           href="https://osmfoundation.org/">OpenStreetMap基金会</a>（OSMF）采用<a
           href="https://opendatacommons.org/licenses/odbl/">开放数据共享开放数据库许可协议</a>（ODbL）授权。
-        intro_2_html: 只要您表明来源为 OpenStreetMap 及其贡献者，您就可以自由地复制、分发、传送和改编我们的数据。如果您想转换或者以我们的数据为基础进行创作，您只能采用相同的许可协议发表您的作品。完整的<a
-          href="https://opendatacommons.org/licenses/odbl/1.0/">法律文本</a>阐明了您的权利和义务。
+        intro_2_html: 只要你表明来源为OpenStreetMap及其贡献者，你就可以自由地复制、分发、传送和改编我们的数据。如果你想转换或者以我们的数据为基础进行创作，你只能采用相同的许可协议发表你的作品。完整的<a
+          href="https://opendatacommons.org/licenses/odbl/1.0/">法律文本</a>阐明了你的权利和义务。
         intro_3_1_html: 我们的文档采用<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.zh">知识共享
           署名-相同方式共享 2.0 （CC BY-SA 2.0）</a>许可协议授权。
         credit_title_html: 如何表明作者是 OpenStreetMap
@@ -1483,8 +1686,8 @@ zh-CN:
         contributors_au_html: |-
           <strong>澳大利亚</strong>：包含来自
           <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA 澳大利亚有限公司是</a>的资料，依据<a href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">CC BY 4.0 国际</a>澳大利亚联邦条款授权。
-        contributors_ca_html: <strong>加拿大</strong>：含有来自 GeoBase&reg;，GeoGratis(&copy;
-          加拿大自然资源部)，CanVec (&copy; 加拿大自然资源部)和StatCan (加拿大统计局地理处)的数据。
+        contributors_ca_html: <strong>加拿大</strong>：含有来自GeoBase&reg;，GeoGratis（&copy;
+          加拿大自然资源部），CanVec（&copy; 加拿大自然资源部）和StatCan（加拿大统计局地理处）的数据。
         contributors_fi_html: <strong>芬兰</strong>：包含来自芬兰国家测绘局地形数据库和其他测绘机构的数据，依据 <a
           href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">NLSFI
           协议</a>授权。
@@ -1529,13 +1732,6 @@ zh-CN:
       user_page_link: 用户页面
       anon_edits_html: (%{link})
       anon_edits_link_text: 了解为什么这很重要。
-      flash_player_required_html: 您需要 Flash Player 来使用 OpenStreetMap Flash 编辑器 Potlatch。您可以<a
-        href="https://get.adobe.com/flashplayer/">从 Adobe.com 下载 Flash Player</a>。<a
-        href="https://wiki.openstreetmap.org/wiki/Editing">其他几种选择</a>也可以用来编辑 OpenStreetMap。
-      potlatch_unsaved_changes: 您有尚未保存的更改。(要在 Potlatch 中保存，如果在在线模式下编辑，您需要取消选择当前的路径或节点；或者点击保存，如果有保存按钮。)
-      potlatch2_not_configured: 尚未配置 Potlatch 2 - 请参阅 https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-        以获得更多信息
-      potlatch2_unsaved_changes: 您有尚未保存的更改。(要在 Potlatch 2 中保存，您应该点击保存。)
       id_not_configured: iD 尚未配置
       no_iframe_support: 您的浏览器不支持 HTML 嵌入式框架，这是此功能所需要的。
     export:
@@ -1553,13 +1749,13 @@ zh-CN:
         advice: 如果用上面的导出工具失败了，请考虑使用下面列出的来源来导出：
         body: 该区域过大，不能导出为 OpenStreetMap XML 数据。请放大地图或选择一个更小的区域，或使用以下大量数据下载来源之一：
         planet:
-          title: OSM 星球
+          title: OSM星球
           description: 定期更新的完整 OpenStreetMap 数据库副本
         overpass:
           title: Overpass API
           description: 从 OpenStreetMap 数据库的一个镜像下载此限定边框
         geofabrik:
-          title: Geofabrik 下载
+          title: Geofabrik下载
           description: 定期更新的洲、 国家和特定城市的摘录
         metro:
           title: 大都市摘录
@@ -1602,7 +1798,7 @@ zh-CN:
         description: 本快速指南涵盖了快速入门 OpenStreetMap 的基本知识。
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Zh-hans:Beginners%27_guide
-        title: 初学者指南
+        title: 新手指南
         description: 社群维护的新手指南。
       help:
         url: https://help.openstreetmap.org/
@@ -1640,7 +1836,7 @@ zh-CN:
       where_am_i: 这是哪里？
       where_am_i_title: 使用搜索引擎说明当前位置
       submit_text: 提交
-      reverse_directions_text: 反向
+      reverse_directions_text: 换向
     key:
       table:
         entry:
@@ -1664,7 +1860,7 @@ zh-CN:
           - 电车
           cable:
           - 缆车
-          - 升降椅
+          - 吊椅缆车
           runway:
           - 机场跑道
           - 滑行道
@@ -1683,7 +1879,7 @@ zh-CN:
           retail: 零售区
           industrial: 工业区
           commercial: 商业区
-          heathland: 荒野
+          heathland: 荒原
           lake:
           - 湖
           - 水库
@@ -1703,14 +1899,14 @@ zh-CN:
           summit:
           - 山峰
           - 高峰
-          tunnel: 双虚线 = 隧道
-          bridge: 双实线 = 桥
+          tunnel: 双虚线=隧道
+          bridge: 双实线=桥
           private: 私人
-          destination: 目标访问
+          destination: 目的地进入权
           construction: 在建道路
           bicycle_shop: 自行车店
           bicycle_parking: 自行车停车场
-          toilets: 洗手间
+          toilets: 厕所
     richtext_area:
       edit: 编辑
       preview: 预览
@@ -1771,13 +1967,14 @@ zh-CN:
       help: 帮助
       help_url: http://wiki.openstreetmap.org/wiki/Upload
     create:
-      upload_trace: 上传 GPS 轨迹
+      upload_trace: 上传GPS轨迹
       trace_uploaded: 您的 GPX 文件已经被上传，正等待被输入数据库。这通常在半小时之内，当上传结束后会发邮件通知您。
       upload_failed: 抱歉，GPX上传失败。管理员已收到错误警报。请再试一次
       traces_waiting: 您有 %{count} 条轨迹正等待上传，请在上传更多轨迹前等待这些传完，以确保不会给其他用户造成队列拥堵。
     edit:
-      title: 编辑轨迹 %{name}
-      heading: 编辑轨迹 %{name}
+      cancel: 取消
+      title: 编辑轨迹%{name}
+      heading: 编辑轨迹%{name}
       visibility_help: 这是什么意思？
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
@@ -1785,14 +1982,15 @@ zh-CN:
     trace_optionals:
       tags: 标签
     show:
-      title: 查看轨迹 %{name}
-      heading: 查看轨迹 %{name}
+      title: 查看轨迹%{name}
+      heading: 查看轨迹%{name}
       pending: 挂起
       filename: 文件名：
       download: 下载
-      uploaded: 上传于：
+      uploaded: 上传时间：
       points: 点：
       start_coordinates: 起始坐标：
+      coordinates_html: '%{latitude}; %{longitude}'
       map: 地图
       edit: 编辑
       owner: 所有者：
@@ -1803,9 +2001,9 @@ zh-CN:
       delete_trace: 删除这条轨迹
       trace_not_found: 未找到轨迹！
       visibility: 可见性：
-      confirm_delete: 删除这条轨迹么？
+      confirm_delete: 删除这条轨迹？
     trace_paging_nav:
-      showing_page: 第 %{page} 页
+      showing_page: 第%{page}页
       older: 较旧轨迹
       newer: 较新轨迹
     trace:
@@ -1822,15 +2020,15 @@ zh-CN:
       identifiable: 可识别
       private: 私有
       trackable: 可追踪
-      by: 被
-      in: 于
+      by: 由
+      in: 使用
       map: 地图
     index:
-      public_traces: 公开 GPS 轨迹
+      public_traces: 公开GPS轨迹
       my_traces: 我的GPS轨迹
       public_traces_from: 来自 %{user} 的公开 GPS 轨迹
-      description: 浏览最近的GPS踪迹上传
-      tagged_with: 以 %{tags} 标记
+      description: 浏览最近的GPS轨迹上传
+      tagged_with: ' 标签为%{tags}'
       empty_html: 尚无轨迹。<a href='%{upload_link}'>上传新轨迹</a>或在<a href='https://wiki.openstreetmap.org/wiki/Zh-hans:Beginners_Guide_1.2'>wiki页面</a>上了解
         GPS 轨迹。
       upload_trace: 上传轨迹
@@ -1904,13 +2102,6 @@ zh-CN:
       delete: 删除客户端
       confirm: 您确定吗？
       requests: 向用户请求以下权限：
-      allow_read_prefs: 读取他们的用户首选项。
-      allow_write_prefs: 修改他们的用户首选项。
-      allow_write_diary: 创建日记文章、评论和交朋友。
-      allow_write_api: 修改地图。
-      allow_read_gpx: 读取他们的私人 GPS 轨迹。
-      allow_write_gpx: 上传 GPS 轨迹。
-      allow_write_notes: 修改注记。
     index:
       title: 我的 OAuth 详细信息
       my_tokens: 我的已授权应用程序
@@ -1924,19 +2115,7 @@ zh-CN:
       registered_apps: 您已注册以下客户应用程序：
       register_new: 注册您的应用程序
     form:
-      name: 名称
-      required: 必要
-      url: 主要应用程序 URL
-      callback_url: 回调 URL
-      support_url: 支持 URL
       requests: 向用户请求以下权限：
-      allow_read_prefs: 读取他们的用户首选项。
-      allow_write_prefs: 修改他们的用户首选项。
-      allow_write_diary: 创建日记文章、评论和交朋友。
-      allow_write_api: 修改地图。
-      allow_read_gpx: 读取他们的私有 GPS 轨迹。
-      allow_write_gpx: 上传 GPS 轨迹。
-      allow_write_notes: 修改注记。
     not_found:
       sorry: 对不起，无法找到那个 %{type}。
     create:
@@ -1996,7 +2175,7 @@ zh-CN:
           alt: 使用AOL OpenID登录
     logout:
       title: 退出
-      heading: 退出 OpenStreetMap
+      heading: 退出登录OpenStreetMap
       logout_button: 退出
     lost_password:
       title: 忘记密码
@@ -2009,8 +2188,6 @@ zh-CN:
     reset_password:
       title: 重置密码
       heading: 重置%{user}的密码
-      password: 密码：
-      confirm password: 确认密码：
       reset: 重置密码
       flash changed: 您的密码已经更改。
       flash token bad: 未找到标记，建议检查 URL?
@@ -2023,13 +2200,12 @@ zh-CN:
         html: |-
           <p>不同于其他地图，OpenStreetMap 是完全由像您一样的人创建的，并且免费提供给任何人用以修正、更新、下载和使用。</p>
           <p>登录来贡献您的力量吧。我们将发送一份邮件来确认您的账号。</p>
-      license_agreement: 当您确认您的帐户时，您需要同意<a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">贡献者条款</a>。
       email address: 电子邮件地址：
       confirm email address: 确认电子邮件地址：
-      not_displayed_publicly_html: 您的地址未公开显示，请参见我们的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-        title="OSMF隐私政策，包含部分电子邮件地址">隐私政策</a>以获取更多信息
+      not_displayed_publicly_html: 你的电子邮件地址不会被公开展示，更多信息请查看请我们的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+        title="包含有关电子邮件地址的部分的OSMF隐私政策">隐私政策</a>
       display name: 显示名称：
-      display name description: 您公开显示的用户名。您可以稍后在首选项中进行修改。
+      display name description: 你的公开展示的用户名。你可以稍后在设置中进行修改。
       external auth: 第三方身份验证：
       password: 密码：
       confirm password: 确认密码：
@@ -2062,7 +2238,7 @@ zh-CN:
         italy: 意大利
         rest_of_world: 世界其他地区
     no_such_user:
-      title: 没有此用户
+      title: 无此用户
       heading: 用户 %{user} 不存在
       body: 对不起，没有名为 %{user} 的用户。请检查您的拼写，或者可能是点击了错误的链接。
       deleted: 已删除
@@ -2101,8 +2277,8 @@ zh-CN:
       settings_link_text: 设置
       my friends: 我的朋友
       no friends: 您还没有添加任何好友。
-      km away: '%{count} 千米远'
-      m away: '%{count} 米远'
+      km away: '%{count}千米外'
+      m away: '%{count}米外'
       nearby users: 其他附近的用户
       no nearby users: 附近没有在进行制图的用户。
       role:
@@ -2199,7 +2375,7 @@ zh-CN:
       unknown token: 确认码已经过期或不存在。
       reconfirm_html: 如果您需要我们重新发送确认邮件，<a href="%{reconfirm}">请点击这里</a>。
     confirm_resend:
-      success: 我们已经发送一封新的确认电子邮件到 %{email}，只要您确认您的帐户，您就可以开始制图了。<br /><br />如果您使用的反垃圾邮件系统发送确认请求，那么请确保您的白名单中有%{sender}，因为我们无法回复任何确认请求。
+      success_html: 我们已经发送一封新的确认电子邮件到 %{email}，只要您确认您的帐户，您就可以开始制图了。<br /><br />如果您使用的反垃圾邮件系统发送确认请求，那么请确保您的白名单中有%{sender}，因为我们无法回复任何确认请求。
       failure: 用户 %{name} 未找到。
     confirm_email:
       heading: 确认电子邮件地址更改
@@ -2218,11 +2394,11 @@ zh-CN:
       showing:
         one: '%{page} 页(%{items} 的第 %{first_item} 页)'
         other: '%{page} 页(%{items} 的第 %{first_item} 至 %{last_item} 页)'
-      summary_html: '%{name} 由 %{ip_address} 于 %{date} 创建'
+      summary_html: '%{name}在%{date}从%{ip_address}创建'
       summary_no_ip_html: '%{name} 创建于 %{date}'
       confirm: 确认所选用户
       hide: 隐藏所选用户
-      empty: 没有找到匹配的用户
+      empty: 未找到匹配用户
     suspended:
       title: 帐户已暂停
       heading: 帐户已暂停
@@ -2239,7 +2415,7 @@ zh-CN:
     auth_failure:
       connection_failed: 连接身份验证提供方失败
       invalid_credentials: 无效的身份验证凭证
-      no_authorization_code: 没有授权码
+      no_authorization_code: 无授权码
       unknown_signature_algorithm: 未知签名算法
       invalid_scope: 无效范围
     auth_association:
@@ -2274,20 +2450,16 @@ zh-CN:
     new:
       title: 正在建立对 %{name} 的封禁
       heading_html: 正在建立对 %{name} 的封禁
-      reason: '%{name} 被封禁的原因。请尽可能以冷静、合理的态度，尽量详细的说明有关情况，并请记住，该信息将被公开。并非所有用户都了解社区的术语，所以请尝试使用较通俗的说法。'
       period: 从现在开始，此用户将被 API 阻挡的时间。
       tried_contacting: 我已联系此用户并请他们停止。
       tried_waiting: 我已经给予这位用户合理的时间回应这些问题。
-      needs_view: 用户需要先登录，然后此封禁将被清除。
       back: 查看所有封禁
     edit:
       title: 编辑对 %{name} 的封禁
       heading_html: 编辑对 %{name} 的封禁
-      reason: '%{name} 被封禁的原因。请尽可能以冷静、合理的态度，尽量详细的说明有关情况。请记住，并非所有用户都了解社区的术语，所以请尝试使用较通俗的说法。'
       period: 从现在开始，该用户要被封禁不能使用 API 多久。
       show: 查看此封禁
       back: 查看所有封禁
-      needs_view: 在清除这个封禁之前，是否需要用户先登录？
     filter:
       block_expired: 这个封禁已经过期，并且不能再编辑。
       block_period: 封禁时期必须是在下拉菜单中可选择的数值之一。
@@ -2311,10 +2483,10 @@ zh-CN:
       revoke: 撤销！
       flash: 该封禁已经被撤销。
     helper:
-      time_future: 结束于 %{time}。
+      time_future_html: 结束于 %{time}。
       until_login: 用户登录时激活。
-      time_future_and_until_login: 结束于%{time}，并在用户登录之后。
-      time_past: 结束于%{time}。
+      time_future_and_until_login_html: 结束于%{time}，并在用户登录之后。
+      time_past_html: 结束于%{time}。
       block_duration:
         hours:
           one: 1 小时
@@ -2418,10 +2590,11 @@ zh-CN:
           other: 你就在这个位置的%{count}英尺范围内
       base:
         standard: 标准
-        cycle_map: 自行车地图
-        transport_map: 交通地图
-        hot: 人道主义地图
-        opnvkarte: 公共交通
+        cyclosm: 自行车地图
+        cycle_map: 骑行运动地图
+        transport_map: 交通路网地图
+        hot: 人道救援地图
+        opnvkarte: 公共交通地图
       layers:
         header: 地图图层
         notes: 地图注记
@@ -2432,6 +2605,8 @@ zh-CN:
       copyright: © <a href='%{copyright_url}'>OpenStreetMap 贡献者</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>捐赠</a>
       terms: <a href='%{terms_url}' target='_blank'>网站和API使用条款</a>
+      cyclosm: 图块风格作者为<a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>，由<a href='%{osmfrance_url}'
+        target='_blank'>OpenStreetMap France</a>托管
       thunderforest: 地图图块来源<a href='%{thunderforest_url}' target='_blank'>Andy Allan</a>
       opnvkarte: 由<a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>提供的图块
       hotosm: 图块风格作者为<a href='%{hotosm_url}' target='_blank'>Humanitarian OpenStreetMap
@@ -2443,8 +2618,8 @@ zh-CN:
       createnote_disabled_tooltip: 放大地图以添加注记
       map_notes_zoom_in_tooltip: 放大地图以查看注记
       map_data_zoom_in_tooltip: 放大地图以查看数据
-      queryfeature_tooltip: 查询要素
-      queryfeature_disabled_tooltip: 放大以查询要素
+      queryfeature_tooltip: 查询特征
+      queryfeature_disabled_tooltip: 放大以查询特征
     changesets:
       show:
         comment: 评论
@@ -2524,8 +2699,8 @@ zh-CN:
         via_point_without_exit: （通过点）
         follow_without_exit: 关注%{name}
         roundabout_without_exit: 在环形交叉驶出至%{name}
-        leave_roundabout_without_exit: 离开转盘 - %{name}
-        stay_roundabout_without_exit: 在转盘停留 - %{name}
+        leave_roundabout_without_exit: 离开环岛 - %{name}
+        stay_roundabout_without_exit: 在环岛停留 - %{name}
         start_without_exit: 在%{name}开始
         destination_without_exit: 到达目的地
         against_oneway_without_exit: '%{name}单向行驶'
@@ -2551,7 +2726,7 @@ zh-CN:
       node: 节点
       way: 路径
       relation: 关系
-      nothing_found: 没有找到要素
+      nothing_found: 未找到要素
       error: 连接 %{server} 时出错：%{error}
       timeout: 连接 %{server} 超时
     context:
@@ -2567,7 +2742,7 @@ zh-CN:
       heading: 编辑修订
       title: 编辑修订
     index:
-      empty: 没有可显示的修订。
+      empty: 无可显示的修订。
       heading: 修订列表
       title: 修订列表
     new:

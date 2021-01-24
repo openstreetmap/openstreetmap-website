@@ -11,6 +11,7 @@
 # Author: Arturyatsko
 # Author: Avatar6
 # Author: Base
+# Author: Bicolino34
 # Author: Choomaq
 # Author: Dim Grits
 # Author: Dittaeva
@@ -21,6 +22,8 @@
 # Author: Green Zero
 # Author: Gzhegozh
 # Author: KEL
+# Author: Kareyac
+# Author: Lxlalexlxl
 # Author: Macofe
 # Author: Movses
 # Author: Mykola Swarnyk
@@ -46,6 +49,8 @@ uk:
       friendly: '%e %B %Y в %H:%M'
       blog: '%e %B %Y'
   helpers:
+    file:
+      prompt: Обрати файл
     submit:
       diary_comment:
         create: Зберегти
@@ -58,7 +63,7 @@ uk:
         create: Надіслати
       client_application:
         create: Зареєструвати
-        update: Редагувати
+        update: Оновити
       redaction:
         create: Створити редакцію
         update: Зберегти редакцію
@@ -110,6 +115,18 @@ uk:
       way_node: Точка лінії
       way_tag: Теґ лінії
     attributes:
+      client_application:
+        name: Назва (Обов’язково)
+        url: Основний URL застосунку (Обов’язково)
+        callback_url: URL зворотного виклику
+        support_url: URL підтримки
+        allow_read_prefs: отримувати налаштування користувача
+        allow_write_prefs: змінювати налаштування користувача
+        allow_write_diary: створювати записи у щоденнику, коментарі та заводити друзів
+        allow_write_api: змінювати мапу
+        allow_read_gpx: отримувати приватні GPS-треки.
+        allow_write_gpx: надсилати GPS-треки на сервер
+        allow_write_notes: змінювати нотатки
       diary_comment:
         body: Текст
       diary_entry:
@@ -130,14 +147,17 @@ uk:
         longitude: Довгота
         public: Публічний
         description: Опис
-        gpx_file: 'Завантажити GPX-файл:'
-        visibility: 'Видимість:'
-        tagstring: 'Мітки:'
+        gpx_file: Завантажити GPX-файл
+        visibility: Видимість
+        tagstring: Мітки
       message:
         sender: Відправник
         title: Тема
         body: Текст
         recipient: Одержувач
+      report:
+        category: 'Оберіть причину вашої скарги:'
+        details: Будь ласка, надайте більше подробиць (обов'язково).
       user:
         email: Ел. пошта
         active: Активний
@@ -145,9 +165,13 @@ uk:
         description: Опис
         languages: Мови
         pass_crypt: Пароль
+        pass_crypt_confirmation: Підтвердьте пароль
     help:
       trace:
         tagstring: через кому
+      user_block:
+        needs_view: Дозволити користувачу входити в систему, перш, ніж блокування
+          буде знято?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -204,17 +228,14 @@ uk:
         few: '%{count} роки тому'
         many: '%{count} років тому'
         other: '%{count} років тому'
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Типовий (зараз %{name})
-    potlatch:
-      name: Потлач 1
-      description: Потлач 1 (редактор в оглядачі)
     id:
       name: iD
       description: iD (редактор в оглядачі)
-    potlatch2:
-      name: Потлач 2
-      description: Потлач 2 (редактор в оглядачі)
     remote:
       name: Дистанційне керування
       description: Дистанційне керування (JOSM або Merkaartor)
@@ -268,6 +289,8 @@ uk:
     view_history: Перегляд історії
     view_details: Поточна інформація
     location: 'Координати:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Набір змін: %{id}'
       belongs_to: Автор
@@ -278,8 +301,8 @@ uk:
       relation: Зв’язки (%{count})
       relation_paginated: Зв’язки (%{x}-%{y} із %{count})
       comment: Коментарі (%{count})
-      hidden_commented_by: Прихований коментар від %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Коментар від %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by_html: Прихований коментар від %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Коментар від %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML опис набору змін
       osmchangexml: osmChange XML
       feed:
@@ -361,16 +384,17 @@ uk:
       open_title: 'Неопрацьована нотатка #%{note_name}'
       closed_title: 'Опрацьована нотатка #%{note_name}'
       hidden_title: 'Прихована нотатка #%{note_name}'
-      opened_by: Створено учасником %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Створено анонімом <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Прокоментовано учасником %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Прокоментовано анонімом <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Розв’язано учасником %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Розв’язано анонімом <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Відновлено учасником %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Відновлено анонімом <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Приховано учасником %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Створено учасником %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Створено анонімом <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Прокоментовано учасником %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Прокоментовано анонімом <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Розв’язано учасником %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Розв’язано анонімом <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Відновлено учасником %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Відновлено анонімом <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Приховано учасником %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Поскаржитися на цю нотатку
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Отримати об’єкти
       introduction: Клацніть на мапі, щоб отримати дані про об’єкти поруч.
@@ -422,12 +446,7 @@ uk:
     new:
       title: Створити новий запис у щоденнику
     form:
-      subject: 'Тема:'
-      body: 'Текст:'
-      language: 'Мова:'
       location: 'Місце:'
-      latitude: 'Широта:'
-      longitude: 'Довгота:'
       use_map_link: Вказати на мапі
     index:
       title: Щоденники користувачів
@@ -459,7 +478,7 @@ uk:
     diary_entry:
       posted_by_html: 'Додано користувачем %{link_user} %{created}, мова: %{language_link}'
       comment_link: Коментувати
-      reply_link: Відповісти
+      reply_link: Надіслати повідомлення автору
       comment_count:
         zero: Немає коментарів
         one: '%{count} коментар'
@@ -480,6 +499,7 @@ uk:
       location: 'Місце:'
       view: Переглянути
       edit: Змінити
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Записи щоденника OpenStreetMap користувача %{user}
@@ -590,12 +610,13 @@ uk:
           ice_cream: Морозиво
           kindergarten: Дитячий садок
           library: Бібліотека
+          love_hotel: Любовний Готель
           marketplace: Ринок
           monastery: Монастир
           motorcycle_parking: Стоянка мотоциклів
+          music_school: Музична Школа
           nightclub: Нічний клуб
           nursing_home: Будинок престарілих
-          office: Офіс
           parking: Стоянка
           parking_entrance: В’їзд на стоянку
           parking_space: Стоянка
@@ -604,20 +625,15 @@ uk:
           police: Поліція (міліція)
           post_box: Поштова скринька
           post_office: Пошта
-          preschool: Дошкільний заклад
           prison: В’язниця
           pub: Паб
           public_building: Громадський заклад
           recycling: Місце переробки відходів
           restaurant: Ресторан
-          retirement_home: Будинок для людей похилого віку
-          sauna: Сауна
           school: Школа
           shelter: Притулок
-          shop: Магазин
           shower: Душ
           social_centre: Суспільний центр
-          social_club: Клуб за інтересами
           social_facility: Соціальна установа
           studio: Студія
           swimming_pool: Басейн
@@ -633,7 +649,6 @@ uk:
           waste_basket: Контейнер для сміття
           waste_disposal: Утилізація відходів
           water_point: Питна вода
-          youth_centre: Молодіжний центр
         boundary:
           administrative: Адміністративна межа
           census: Межа переписної ділянки
@@ -647,7 +662,31 @@ uk:
           viaduct: Віадук
           "yes": Міст
         building:
+          apartments: Багатоквартирний будинок
+          chapel: Каплиця
+          church: Будівля храму
+          commercial: Комерційна нерухомість
+          dormitory: Гуртожиток
+          farm: Дім на фермі
+          garage: Гараж
+          garages: Гаражі
+          hangar: Ангар
+          hospital: Лікарня
+          hotel: Будівля готелю
+          house: Будинок
+          industrial: Промислова споруда
+          office: Офісний будинок
+          public: Суспільна будівля
+          residential: Житловий будинок
+          retail: Центр роздрібної торгівлі
+          school: Школа
+          terrace: Таунхаус
+          train_station: Будівля залізничної станції
+          university: Університет
           "yes": Будівля
+        club:
+          sport: Спортивний клуб
+          "yes": Клуб
         craft:
           brewery: Пивоварня
           carpenter: Столяр
@@ -708,7 +747,6 @@ uk:
           tertiary_link: Виїзд на третьорядну дорогу
           track: Путівець
           traffic_signals: Світлофор
-          trail: Стежка
           trunk: Шосе
           trunk_link: З’їзд з/на шосе
           turning_loop: Місце для розвороту
@@ -727,7 +765,6 @@ uk:
           fort: Форт
           heritage: Об’єкт культурної спадщини
           house: Дім
-          icon: Ікона
           manor: Маєток
           memorial: Меморіал
           mine: Копальня
@@ -772,7 +809,6 @@ uk:
           reservoir_watershed: Водозбірна площа водосховища
           residential: Житловий квартал
           retail: Роздрібна торгівля
-          road: Зона дорожньої мережі
           village_green: Сільський майдан
           vineyard: Виноградник
           "yes": Землекористування
@@ -929,7 +965,6 @@ uk:
           subdivision: Підрозділ
           suburb: Передмістя
           town: Місто
-          unincorporated_area: Неприєднанні території
           village: Село
           "yes": Місцевість
         railway:
@@ -955,6 +990,7 @@ uk:
           switch: Стрілка
           tram: Трамвайні колії
           tram_stop: Трамвайна зупинка
+          yard: Депо
         shop:
           alcohol: Спиртні напої на винос
           antiques: Антикваріат
@@ -985,15 +1021,14 @@ uk:
           doityourself: Зроби сам
           dry_cleaning: Хімчистка
           electronics: Магазин електроніки
+          erotic: Еротичний Магазин
           estate_agent: Агентство нерухомості
           farm: Фермерський магазин
           fashion: Модний одяг
-          fish: Риба
           florist: Квіти
           food: Продовольчі товари
           funeral_directors: Ритуальні послуги
           furniture: Меблі
-          gallery: Галерея
           garden_centre: Сад та город
           general: Універсам
           gift: Подарунки
@@ -1010,7 +1045,6 @@ uk:
           laundry: Пральня
           lottery: Лотерея
           mall: Торгівельно-розважальний центр
-          market: Магазин
           massage: Массаж
           mobile_phone: Магазин мобільних телефонів
           motorcycle: Мотоцикли
@@ -1022,7 +1056,6 @@ uk:
           paint: Магазин фарб
           pawnbroker: Ломбард
           pet: Зоомагазин
-          pharmacy: Аптека
           photo: Фотомагазин
           seafood: Морепродукти
           second_hand: Комісійний магазин
@@ -1093,11 +1126,6 @@ uk:
         level8: Межа міста
         level9: Межа села
         level10: Межа передмістя
-    description:
-      title:
-        osm_nominatim: Місце знаходження з <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Місце знаходження з <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Міста
         towns: Містечка
@@ -1177,8 +1205,6 @@ uk:
     new:
       title_html: Скарга %{link}
       missing_params: Неможливо створити нову скаргу
-      details: Будь ласка, надайте більше подробиць (обов'язково).
-      select: 'Оберіть причину для вашої скарги:'
       disclaimer:
         intro: 'Перед тим як надіслати вашу скаргу до модераторів сайту, переконайтесь
           що:'
@@ -1261,7 +1287,7 @@ uk:
       text: Підтримайте проект
     learn_more: Дізнатись більше
     more: Більше
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} залишив коментар у вашому щоденнику'
       hi: Привіт, %{to_user},
@@ -1281,24 +1307,17 @@ uk:
       had_added_you: '%{user} додав Вас як друга у OpenStreetMap.'
       see_their_profile: Ви можете побачити їх профіль на %{userurl}.
       befriend_them: Ви також можете додати їх у якості друзів %{befriendurl}.
-    gpx_notification:
-      greeting: Привіт,
-      your_gpx_file: Схоже, що ваш файл GPX
-      with_description: з описом
-      and_the_tags: 'та наступними теґами:'
-      and_no_tags: та без теґів.
-      failure:
-        subject: '[OpenStreetMap] Збій імпорту GPX'
-        failed_to_import: 'не вдалось імпортувати. Трапилась помилка:'
-        more_info_1: Додаткову інформацію про збої імпорту GPX та як їх уникнути
-        more_info_2: 'можна знайти на:'
-      success:
-        subject: '[OpenStreetMap] Імпорт GPX пройшов успішно'
-        loaded_successfully:
-          one: успішно завантажено 1 точку з 1 можливої.
-          few: успішно завантажено %{trace_points} точки з %{possible_points} можливих.
-          many: успішно завантажено %{trace_points} точок з %{possible_points} можливих.
-          other: успішно завантажено %{trace_points} точок з %{possible_points} можливих.
+    gpx_failure:
+      failed_to_import: 'не вдалось імпортувати. Трапилась помилка:'
+      subject: '[OpenStreetMap] Збій імпорту GPX'
+    gpx_success:
+      hi: Привіт, %{to_user},
+      loaded_successfully:
+        one: успішно завантажено 1 точку з 1 можливої.
+        few: успішно завантажено %{trace_points} точки з %{possible_points} можливих.
+        many: успішно завантажено %{trace_points} точок з %{possible_points} можливих.
+        other: успішно завантажено %{trace_points} точок з %{possible_points} можливих.
+      subject: '[OpenStreetMap] Імпорт GPX пройшов успішно'
     signup_confirm:
       subject: '[OpenStreetMap] Ласкаво просимо до OpenStreetMap'
       greeting: Привіт!
@@ -1310,26 +1329,13 @@ uk:
         інформацію, щоб ви розпочали роботу.
     email_confirm:
       subject: '[OpenStreetMap] Підтвердження адреси електронної пошти'
-    email_confirm_plain:
       greeting: Привіт,
       hopefully_you: 'Хтось (сподіваємось, що ви) хоче змінити свою адресу електронної
         пошти в %{server_url} на адресу: %{new_address}.'
       click_the_link: Якщо це ви, будь ласка, клацніть на посилання нижче, щоб підтвердити
         зміни.
-    email_confirm_html:
-      greeting: Привіт,
-      hopefully_you: 'Хтось (сподіваємось, що ви) хоче змінити свою адресу електронної
-        пошти в %{server_url} на адресу: %{new_address}.'
-      click_the_link: Якщо це ви, клацніть на посиланню, нижче, щоб підтвердити зміни.
     lost_password:
       subject: '[OpenStreetMap] Запит на зміну пароля'
-    lost_password_plain:
-      greeting: Привіт,
-      hopefully_you: Хтось (сподіваємось, що ви) замовив зміну пароля для цієї адреси
-        електронної пошти, зареєстрованої на openstreetmap.org.
-      click_the_link: Якщо це ви, будь ласка, клацніть на посилання нижче, щоб змінити
-        свій пароль.
-    lost_password_html:
       greeting: Привіт,
       hopefully_you: Хтось (сподіваємось, що ви) замовив зміну пароля для цієї адреси
         електронної пошти, зареєстрованої на openstreetmap.org.
@@ -1343,13 +1349,19 @@ uk:
         subject_other: '[OpenStreetMap] %{commenter} прокоментував цікаву вам нотатку'
         your_note: '%{commenter} залишив коментар до однієї з ваших нотаток на мапі
           біля %{place}.'
+        your_note_html: '%{commenter} залишив коментар до однієї з ваших нотаток на
+          мапі біля %{place}.'
         commented_note: '%{commenter} залишив коментар до однієї з прокоментованих
+          вами нотаток, що знаходиться біля %{place}.'
+        commented_note_html: '%{commenter} залишив коментар до однієї з прокоментованих
           вами нотаток, що знаходиться біля %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} опрацював одну з ваших нотаток'
         subject_other: '[OpenStreetMap] %{commenter} розв’язав нотатку до якови ви
           виявили зацікавленість'
         your_note: '%{commenter} опрацював одну з ваших нотаток на мапі біля %{place}.'
+        your_note_html: '%{commenter} опрацював одну з ваших нотаток на мапі біля
+          %{place}.'
         commented_note: '%{commenter} розв’язав нотатку, прокоментовану вами, що знаходиться
           біля %{place}.'
       reopened:
@@ -1373,6 +1385,7 @@ uk:
         commented_changeset: '%{commenter} залишив коментар у %{time} до набору змін,
           що ви переглядаєте, створений %{changeset_author}'
         partial_changeset_with_comment: з коментарем '%{changeset_comment}'
+        partial_changeset_with_comment_html: з коментарем '%{changeset_comment}'
         partial_changeset_without_comment: без коментарів
       details: |2-
 
@@ -1387,8 +1400,9 @@ uk:
       messages: У вас %{new_messages} і %{old_messages}
       new_messages:
         one: '%{count} нове повідомлення'
-        few: '%{count} нових повідомлення'
-        other: '%{count} нових повідомлень'
+        few: '%{count} нові повідомлення'
+        many: '%{count} нових повідомлень'
+        other: ""
       old_messages:
         one: '%{count} старе повідомлення'
         few: '%{count} старих повідомлення'
@@ -1456,6 +1470,20 @@ uk:
       as_unread: Повідомлення позначене як непрочитане
     destroy:
       destroyed: Повідомлення вилучено
+  shared:
+    markdown_help:
+      title_html: Оброблено <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      headings: Заголовки
+      subheading: Підзаголовок
+      ordered: Впорядкований список
+      link: Посилання
+      text: Текст
+      image: Зображення
+      alt: Alt текст
+      url: URL
+    richtext_field:
+      edit: Редагувати
+      preview: Попередній перегляд
   site:
     about:
       next: Далі
@@ -1629,16 +1657,6 @@ uk:
         Ви можете зробити ваші редагування загальнодоступними тут: %{user_page}.'
       user_page_link: сторінка користувача
       anon_edits_link_text: З’ясувати в чому справа.
-      flash_player_required_html: Для використання редактора Potlatch потрібний Flash-плеєр.
-        Ви можете <a href="https://get.adobe.com/flashplayer/">завантажити Flash-плеєр
-        з Adobe.com</a>. Існують також <a href="http://wiki.openstreetmap.org/wiki/Uk:Editing">інші
-        можливості</a> редагування даних в OpenStreetMap.
-      potlatch_unsaved_changes: Є незбережені зміни. (Для збереження в Potlatch зніміть
-        виділення з колії або точки, якщо редагуєте «вживу», або натисніть кнопку
-        «зберегти», якщо ви в режимі відкладеного збереження.)
-      potlatch2_not_configured: Потлатч 2 не був налаштований — див https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-      potlatch2_unsaved_changes: Ви маєте незбережені зміни. (Для збереження в Потлач
-        2, ви повинні натиснути Зберегти.)
       id_not_configured: iD не був налаштований
       no_iframe_support: Ваш оглядач не підтримує фрейми HTML, які необхідні для цієї
         функції.
@@ -1930,6 +1948,7 @@ uk:
           дочекайтесь завершення їх завантаження перед завантаженням на сервер інших
           треків, що дозволить іншим користувачам також надіслати свої треки.'
     edit:
+      cancel: Скасувати
       title: Редагування треку %{name}
       heading: Редагування треку %{name}
       visibility_help: ще це означає?
@@ -1946,6 +1965,7 @@ uk:
       uploaded: 'Завантажений на сервер:'
       points: 'Кількість точок:'
       start_coordinates: 'Координати початку:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: на мапі
       edit: правити
       owner: 'Власник:'
@@ -2060,19 +2080,12 @@ uk:
       secret: 'Секретна фраза абонента:'
       url: 'URL маркеру запита:'
       access_url: 'URL маркер доступу:'
-      authorize_url: 'URL автентифікації:'
+      authorize_url: 'URL авторизації:'
       support_notice: Ми підтримуємо підписи HMAC-SHA1 (рекомендується) і RSA-SHA1.
       edit: Змінити подробиці
       delete: Вилучити клієнта
       confirm: Ви впевнені?
       requests: 'Запит наступних дозволів з боку користувача:'
-      allow_read_prefs: читати налаштування користувача
-      allow_write_prefs: змінювати налаштування користувача.
-      allow_write_diary: створити записи щоденника, коментарі та завести нових друзів.
-      allow_write_api: правити мапу.
-      allow_read_gpx: переглядати його приватні GPS-треки
-      allow_write_gpx: передавати GPS-треки на сервер.
-      allow_write_notes: змінювати нотатки.
     index:
       title: Мої OAuth-подробиці
       my_tokens: Мої автентифіковані застосунки
@@ -2088,19 +2101,7 @@ uk:
       registered_apps: 'У вас зареєстровані наступні клієнтські застосунки:'
       register_new: Зареєструвати ваш застосунок
     form:
-      name: Ім’я
-      required: Потрібно
-      url: Основний URL застосунка
-      callback_url: URL зворотного виклику
-      support_url: URL підтримки
       requests: 'Запитати у користувача наступні дозволи:'
-      allow_read_prefs: читати налаштування користувача.
-      allow_write_prefs: змінювати налаштування користувача.
-      allow_write_diary: створити записи щоденника, коментарі та завести нових друзів.
-      allow_write_api: правити мапу.
-      allow_read_gpx: переглядати його приватні GPS-треки.
-      allow_write_gpx: передавати GPS-треки на сервер.
-      allow_write_notes: змінювати нотатки.
     not_found:
       sorry: На жаль, цей тип — %{type}, не можливо знайти.
     create:
@@ -2182,8 +2183,6 @@ uk:
     reset_password:
       title: Перевстановлення пароля
       heading: Перевстановлення паролю для %{user}
-      password: 'Пароль:'
-      confirm password: 'Підтвердження пароля:'
       reset: Перевстановити пароль
       flash changed: Ваш пароль було змінено.
       flash token bad: Неможливо знайти такий код підтвердження, перевірте посилання.
@@ -2200,8 +2199,6 @@ uk:
           <p>На відміну від інших мап, мапи OpenStreetMap повністю створюються такими ж людьми як ви,
           вони доступні всім для виправлення, оновлення, завантаження і використання.</p>
           <p>Зареєструйтесь, аби зробити свій внесок. Ми надішлемо вам лист для підтвердження вашого облікового запису.</p>
-      license_agreement: Створюючи обліковий запис, вам треба погодитись з <a href="http://wiki.openstreetmap.org/wiki/Uk:Open_Database_License/Contributor_Terms">Умовами
-        Співпраці</a>.
       email address: 'Адреса ел. пошти:'
       confirm email address: 'Підтвердити адресу ел. пошти:'
       not_displayed_publicly_html: Не показується загальнодоступно, див. нашу <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy"
@@ -2408,7 +2405,7 @@ uk:
       reconfirm_html: Якщо ви бажаєте, аби ми повторно надіслали ще одне підтвердження
         електронною поштою, то <a href="%{reconfirm}">натисніть тут</a>.
     confirm_resend:
-      success: Ми надіслали на вашу електрону пошту (%{email}) листа для підтвердження
+      success_html: Ми надіслали на вашу електрону пошту (%{email}) листа для підтвердження
         реєстрації, після того як ви натиснете на посиланні в ньому, ви отримаєте
         можливість вносити зміни до мапи.<br /><br />Якщо ви користуєтесь системою
         анти-спаму, що надсилає запити на підтвердження, внесіть до «білого» списку
@@ -2491,32 +2488,19 @@ uk:
     new:
       title: Накладання блокування на %{name}
       heading_html: Накладення блокування на %{name}
-      reason: Наведіть пояснення, чому %{name} заблокований. Будь ласка, будьте толерантні
-        та дійте розумно, надаючи користувачеві, як можна більше інформації про причини
-        блокування, пам'ятаючи, що повідомлення буде видно всім. Пам'ятайте, що не
-        всі користувачі розуміють жаргон, тому користуйтесь для пояснення простою
-        мовою.
       period: Як довго, починаючи з поточного моменту, користувача буде заблоковано
         від API.
       tried_contacting: Я звертався до користувача з проханням зупинитись.
       tried_waiting: Я дав достатньо часу для користувачу, щоб відреагувати на ці
         повідомлення.
-      needs_view: Користувачу потрібно спочатку увійти до системи перед тим, як блокування
-        буде знято.
       back: Показати всі блокування
     edit:
       title: Редагування блокування для %{name}
       heading_html: Редагування блокування для %{name}
-      reason: Причина з якої користувача %{name} було заблоковано. Будь ласка, будьте
-        терпимі і дійте розумно, надаючи користувачеві, як можна більше інформації
-        про ситуацію. Майте на увазі, що не всі користувачі розуміють жаргон спільноти,
-        тому, будь ласка, спробуйте використовувати прості пояснення.
       period: Як довго, починаючи з поточного моменту, користувач буде заблокований
         від API.
       show: Переглянути блокування
       back: Переглянути всі блокування
-      needs_view: Дозволити користувачу входити в систему, перш, ніж блокування буде
-        знято?
     filter:
       block_expired: Блокування вже закінчилось і не може бути змінено.
       block_period: Період блокування повинен бути одним із значень з списку, що розкривається.
@@ -2543,11 +2527,11 @@ uk:
       revoke: Зняти блокування!
       flash: Це блокування було знято.
     helper:
-      time_future: До закінчення %{time}.
+      time_future_html: До закінчення %{time}.
       until_login: Активне до тих пір, доки користувач не увійде в систему.
-      time_future_and_until_login: Закінчується через %{time} і після входу користувача
+      time_future_and_until_login_html: Закінчується через %{time} і після входу користувача
         в систему.
-      time_past: Закінчилось %{time}.
+      time_past_html: Закінчилось %{time}.
       block_duration:
         hours:
           one: '%{count} година'
@@ -2617,7 +2601,7 @@ uk:
   javascripts:
     close: Закрити
     share:
-      title: Поділитись
+      title: Поділитися
       cancel: Скасувати
       image: Зображення
       link: Посилання або HTML
@@ -2664,6 +2648,7 @@ uk:
         cycle_map: ВелоМапа
         transport_map: Мапа Транспорту
         hot: Humanitarian‎
+        opnvkarte: ÖPNVKarte
       layers:
         header: Шари мапи
         notes: Нотатки
@@ -2677,6 +2662,7 @@ uk:
         API</a>
       thunderforest: Тайли надав <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
+      opnvkarte: Тайли надані <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
       hotosm: Стиль тайлів — від <a href='%{hotosm_url}' target='_blank'>Гуманітарної
         команди OpenStreetMap</a>, хостинг — від <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
         Франція</a>
@@ -2722,7 +2708,7 @@ uk:
         fossgis_osrm_car: Машина (OSRM)
         fossgis_osrm_foot: Пішки (OSRM)
         graphhopper_bicycle: Велосипед (GraphHopper)
-        graphhopper_car: Автівкою (GraphHopper)
+        graphhopper_car: Машина (GraphHopper)
         graphhopper_foot: Пішки (GraphHopper)
       descend: Вниз
       directions: Маршрут

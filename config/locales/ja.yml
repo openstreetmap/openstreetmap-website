@@ -1,11 +1,13 @@
 # Messages for Japanese (日本語)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: A2y4
 # Author: Abijeet Patro
 # Author: Aefgh39622
 # Author: Atysn
 # Author: CmplstofB
 # Author: Endres
+# Author: Foomin10
 # Author: Fryed-peach
 # Author: Hayashi
 # Author: Higa4
@@ -53,6 +55,8 @@ ja:
       friendly: '%Y年%m月%e日 %H:%M'
       blog: '%Y年%B%e日'
   helpers:
+    file:
+      prompt: ファイルを選択
     submit:
       diary_comment:
         create: 保存
@@ -65,7 +69,7 @@ ja:
         create: 送信
       client_application:
         create: 登録
-        update: 編集
+        update: 更新
       redaction:
         create: 改訂版を作成
         update: 改訂版を保存
@@ -117,6 +121,18 @@ ja:
       way_node: ウェイのノード
       way_tag: ウェイのタグ
     attributes:
+      client_application:
+        name: 名稱（必須）
+        url: メインのアプリケーションの URL（必須）
+        callback_url: コールバック URL
+        support_url: サポート URL
+        allow_read_prefs: ユーザー設定を読み込む。
+        allow_write_prefs: 利用者設定を変更する。
+        allow_write_diary: 日記エントリを作成する、コメントする、友達を作る。
+        allow_write_api: 地図を変更する。
+        allow_read_gpx: 非公開GPSトレースを読み込む。
+        allow_write_gpx: GPSトレースをアップロードする
+        allow_write_notes: メモを変更する。
       diary_comment:
         body: 本文
       diary_entry:
@@ -131,20 +147,23 @@ ja:
       trace:
         user: 利用者
         visible: 可視
-        name: 名前
+        name: ファイル名
         size: サイズ
         latitude: 緯度
         longitude: 経度
         public: 公開
         description: 説明
-        gpx_file: 'アップロードする GPX ファイル:'
-        visibility: '可視性:'
-        tagstring: 'タグ:'
+        gpx_file: ' GPX ファイルをアップロード'
+        visibility: 可視性
+        tagstring: タグ
       message:
         sender: 送信者
         title: 件名
         body: 本文
         recipient: 受信者
+      report:
+        category: 報告の理由を選択してください。
+        details: 問題についてもう少し詳しく記述してください (必須)。
       user:
         email: メール
         active: アクティブ
@@ -152,9 +171,13 @@ ja:
         description: 説明
         languages: 言語
         pass_crypt: パスワード
+        pass_crypt_confirmation: パスワードを確認
     help:
       trace:
         tagstring: カンマ区切り
+      user_block:
+        reason: ユーザーがブロックされている理由です。メッセージは多くの人の目にふれることになるため、できるだけ冷静かつ理性的になり、できるだけ丁寧に状況を説明するようにしてください。すべての利用者がコミュニティ固有の用語を理解しているわけではないため、分かりやすい用語を使うように努めてください。
+        needs_view: このブロックを解消するには、先に利用者がログインする必要がありますか？
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -180,7 +203,7 @@ ja:
         one: 1年以上前
         other: '%{count}年以上前'
       x_seconds:
-        one: 1秒
+        one: 1秒前
         other: '%{count}秒前'
       x_minutes:
         one: 1分前
@@ -199,18 +222,12 @@ ja:
     with_name_html: '%{name} (%{id})'
   editor:
     default: 既定 (現在は %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (ブラウザー内エディター)
     id:
       name: iD
       description: iD (ブラウザー内エディター)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (ブラウザー内エディター)
     remote:
       name: リモート制御
-      description: 遠隔制御 (JOSM または Merkaartor)
+      description: 遠隔制御 (JOSM、Potlatch または Merkaartor)
   auth:
     providers:
       none: なし
@@ -257,6 +274,12 @@ ja:
     anonymous: 匿名
     no_comment: (コメントなし)
     part_of: 以下の一部
+    part_of_relations:
+      one: 1件のリレーション
+      other: '%{count}件のリレーション'
+    part_of_ways:
+      one: 1件のウェイ
+      other: '%{count}件のウェイ'
     download_xml: XMLをダウンロード
     view_history: 履歴を表示
     view_details: 詳細を表示
@@ -266,13 +289,13 @@ ja:
       belongs_to: 著者
       node: ノード (%{count})
       node_paginated: ノード (%{x}-%{y} / %{count})
-      way: ウェイ (%{count})
+      way: ウェイ (%{count}件)
       way_paginated: ウェイ (%{x}-%{y} / %{count})
-      relation: リレーション (%{count})
+      relation: リレーション (%{count}件)
       relation_paginated: リレーション (%{x}-%{y} / %{count})
       comment: コメント (%{count}件)
-      hidden_commented_by: '%{user}さんからの<abbr title=''%{exact_time}''>%{when}</abbr>の非表示のコメント'
-      commented_by: '%{user}さんからの<abbr title=''%{exact_time}''>%{when}</abbr>のコメント'
+      hidden_commented_by_html: '%{user}さんからの<abbr title=''%{exact_time}''>%{when}</abbr>の非表示のコメント'
+      commented_by_html: '%{user}さんからの<abbr title=''%{exact_time}''>%{when}</abbr>のコメント'
       changesetxml: 変更セット XML
       osmchangexml: OSM 差分 XML
       feed:
@@ -288,12 +311,17 @@ ja:
       title_html: 'ウェイ: %{name}'
       history_title_html: 'ウェイ: %{name} の履歴'
       nodes: ノード
+      nodes_count:
+        other: '%{count}件のノード'
       also_part_of_html:
         other: ウェイ %{related_ways} の一部
     relation:
       title_html: 'リレーション: %{name}'
       history_title_html: 'リレーション: %{name} の履歴'
       members: メンバー
+      members_count:
+        one: 1名
+        other: '%{count}名'
     relation_member:
       entry_role_html: '%{type} %{name} (%{role} として)'
       type:
@@ -304,6 +332,7 @@ ja:
       entry_html: リレーション %{relation_name}
       entry_role_html: リレーション %{relation_name} (%{relation_role} として)
     not_found:
+      title: 見つかりません
       sorry: '%{type} #%{id} は見つかりませんでした。'
       type:
         node: ノード
@@ -312,6 +341,7 @@ ja:
         changeset: 変更セット
         note: メモ
     timeout:
+      title: タイムアウトエラー
       sorry: 申し訳ありませんが、ID %{id} の %{type} のデータは時間がかかりすぎたため取得できませんでした。
       type:
         node: ノード
@@ -334,11 +364,11 @@ ja:
     tag_details:
       tags: タグ
       wiki_link:
-        key: '%{key} タグのウィキでの説明ページ'
-        tag: '%{key}=%{value} タグのウィキでの説明ページ'
+        key: タグ %{key} のウィキでの説明ページ
+        tag: タグ %{key}=%{value} のウィキでの説明ページ
       wikidata_link: Wikidataの%{page}項目目
       wikipedia_link: ウィキペディアの %{page} 記事
-      wikimedia_commons_link: ウィキメディアコモンズの項目The %{page}件
+      wikimedia_commons_link: ウィキメディアコモンズの項目 %{page}件
       telephone_link: '%{phone_number}に電話'
       colour_preview: 色彩%{colour_value}プレビュー
     note:
@@ -348,15 +378,15 @@ ja:
       open_title: '未解決のメモ #%{note_name}'
       closed_title: '解決済のメモ #%{note_name}'
       hidden_title: '非表示のメモ #%{note_name}'
-      opened_by: '%{user}さんが<abbr title=''%{exact_time}''>%{when}</abbr>に作成'
-      opened_by_anonymous: 誰かが<abbr title='%{exact_time}'>%{when}</abbr>に作成
-      commented_by: '%{user}さんによる<abbr title=''%{exact_time}''>%{when}</abbr>のコメント'
-      commented_by_anonymous: 誰かによる<abbr title='%{exact_time}'>%{when}</abbr>のコメント
-      closed_by: '%{user}さんが<abbr title=''%{exact_time}''>%{when}</abbr>に解決'
-      closed_by_anonymous: 誰かが<abbr title='%{exact_time}'>%{when}</abbr>に解決
-      reopened_by: '%{user}さんが<abbr title=''%{exact_time}''>%{when}</abbr>に再開'
-      reopened_by_anonymous: 誰かが<abbr title='%{exact_time}'>%{when}</abbr>に再開
-      hidden_by: '%{user}さんが<abbr title=''%{exact_time}''>%{when}</abbr>に非表示化'
+      opened_by_html: '%{user}さんが<abbr title=''%{exact_time}''>%{when}</abbr>に作成'
+      opened_by_anonymous_html: 誰かが<abbr title='%{exact_time}'>%{when}</abbr>に作成
+      commented_by_html: '%{user}さんによる<abbr title=''%{exact_time}''>%{when}</abbr>のコメント'
+      commented_by_anonymous_html: 誰かによる<abbr title='%{exact_time}'>%{when}</abbr>のコメント
+      closed_by_html: '%{user}さんが<abbr title=''%{exact_time}''>%{when}</abbr>に解決'
+      closed_by_anonymous_html: 誰かが<abbr title='%{exact_time}'>%{when}</abbr>に解決
+      reopened_by_html: '%{user}さんが<abbr title=''%{exact_time}''>%{when}</abbr>に再開'
+      reopened_by_anonymous_html: 誰かが<abbr title='%{exact_time}'>%{when}</abbr>に再開
+      hidden_by_html: '%{user}さんが<abbr title=''%{exact_time}''>%{when}</abbr>に非表示化'
       report: このメモを報告
     query:
       title: 地物を検索
@@ -407,12 +437,7 @@ ja:
     new:
       title: 日記エントリの新規作成
     form:
-      subject: 'タイトル:'
-      body: '本文:'
-      language: '言語:'
-      location: '位置:'
-      latitude: '緯度:'
-      longitude: '経度:'
+      location: 位置
       use_map_link: 地図を使用
     index:
       title: 利用者さんの日記
@@ -441,7 +466,8 @@ ja:
       heading: ID %{id} にコメントはまだありません。
       body: ID が %{id} のコメントや日記は存在しません。URLにスペルミスがないか確認をしてください。またはリンク元が間違っています。
     diary_entry:
-      posted_by_html: '%{link_user} が %{created} に投稿 (%{language_link})'
+      posted_by_html: '%{link_user} が %{created} に投稿 (%{language_link}) 。'
+      updated_at_html: 最終更新日は %{updated}
       comment_link: このエントリにコメント
       reply_link: 筆者にメッセージを送る
       comment_count:
@@ -510,10 +536,12 @@ ja:
           chair_lift: チェアリフト
           drag_lift: 牽引リフト
           gondola: 循環式ロープウェイ
+          magic_carpet: マジックカーペット
           platter: Jバーリフト
           pylon: 送電塔
           station: 索道駅
           t-bar: Tバーリフト
+          "yes": ロープウェイ
         aeroway:
           aerodrome: 飛行場
           airstrip: 滑走路
@@ -522,11 +550,15 @@ ja:
           hangar: 格納庫
           helipad: ヘリポート
           holding_position: 停止位置
+          navigationaid: 飛行機用ナビ
           parking_position: 駐機位置
           runway: 滑走路
+          taxilane: 滑走路
           taxiway: 空港誘導路
           terminal: ターミナル
+          windsock: 吹流し
         amenity:
+          animal_boarding: 動物宿泊施設
           animal_shelter: 動物保護施設
           arts_centre: アート センター
           atm: ATM
@@ -536,7 +568,9 @@ ja:
           bench: ベンチ
           bicycle_parking: 駐輪場
           bicycle_rental: レンタサイクル
+          bicycle_repair_station: 自転車修理場
           biergarten: ビアガーデン
+          blood_bank: 血液銀行
           boat_rental: 貸ボート
           brothel: 売春宿
           bureau_de_change: 両替
@@ -553,6 +587,7 @@ ja:
           clock: 時計
           college: 大学
           community_centre: コミュニティ センター
+          conference_centre: 会議施設
           courthouse: 裁判所
           crematorium: 火葬場
           dentist: 歯科医
@@ -560,6 +595,7 @@ ja:
           drinking_water: 飲み水
           driving_school: 自動車学校
           embassy: 大使館
+          events_venue: イベント会場
           fast_food: ファストフード
           ferry_terminal: フェリー乗り場
           fire_station: 消防署
@@ -572,36 +608,42 @@ ja:
           hospital: 病院
           hunting_stand: ハンティング スタンド
           ice_cream: アイスクリーム販売店
+          internet_cafe: インターネットカフェ
           kindergarten: 幼稚園
+          language_school: 語学学校
           library: 図書館
+          loading_dock: 貨物積み下ろし場
+          love_hotel: ラブホテル
           marketplace: 市場
+          mobile_money_agent: モバイル決済
           monastery: 修道院
+          money_transfer: 送金
           motorcycle_parking: バイクの駐輪場
+          music_school: 音楽学校
           nightclub: ナイト クラブ
           nursing_home: 老人ホーム
-          office: オフィス
           parking: 駐車場
           parking_entrance: 駐車場の入口
           parking_space: 駐車場
+          payment_terminal: 決済端末
           pharmacy: 薬局
           place_of_worship: 神社仏閣
           police: 警察署
           post_box: 郵便ポスト
           post_office: 郵便局
-          preschool: 幼稚園
           prison: 刑務所
           pub: パブ
+          public_bath: 公衆浴場
+          public_bookcase: ブックポスト
           public_building: 公共建築物
+          ranger_station: 管理事務所
           recycling: リサイクル場
           restaurant: レストラン
-          retirement_home: 老人ホーム
-          sauna: サウナ
+          sanitary_dump_station: 下水処理場
           school: 学校
           shelter: 避難所
-          shop: 店舗
           shower: シャワー
           social_centre: 社会センター
-          social_club: 社交クラブ
           social_facility: 公共施設
           studio: スタジオ
           swimming_pool: 水泳用プール
@@ -610,19 +652,26 @@ ja:
           theatre: 劇場
           toilets: トイレ
           townhall: 市庁舎
+          training: トレーニング施設
           university: 大学
+          vehicle_inspection: 車検場
           vending_machine: 自動販売機
           veterinary: 獣医外科
           village_hall: 役場
           waste_basket: ごみ箱
           waste_disposal: ごみ集積所
+          waste_dump_site: ゴミ処理場
+          watering_place: 集水地
           water_point: 給水所
-          youth_centre: 青少年センター
+          weighbridge: 台貫
         boundary:
+          aboriginal_lands: 先住民地域
           administrative: 行政境界
           census: 国勢調査の境界
           national_park: 国立公園
+          political: 選挙区
           protected_area: 保護された領域
+          "yes": 境界
         bridge:
           aqueduct: 水道橋
           boardwalk: 木道
@@ -631,24 +680,94 @@ ja:
           viaduct: 高架橋
           "yes": 橋
         building:
+          apartment: 集合住宅
+          apartments: 団地
+          barn: 納屋
+          bungalow: バンガロー
+          cabin: 山小屋
+          chapel: 礼拝堂
+          church: 教会
+          civic: 公共施設
+          college: 校舎
+          commercial: 商業ビル
+          construction: 建設中の建物
+          detached: 戸建て住宅
+          dormitory: 寮
+          duplex: 2世帯住宅
+          farm: 農舎
+          farm_auxiliary: 農家の離れ
+          garage: 車庫
+          garages: 駐車場
+          greenhouse: 温室
+          hangar: 格納庫
+          hospital: 病院
+          hotel: ホテル
+          house: 住宅
+          houseboat: ハウスボート
+          hut: 小屋
+          industrial: 工業ビル
+          kindergarten: 幼稚園
+          manufacture: 工場施設
+          office: オフィスビル
+          public: 公共建築物
+          residential: 住宅
+          retail: 店舗ビル
+          roof: 屋根
+          ruins: 壊れた建物
+          school: 校舎
+          semidetached_house: タウンハウス
+          service: 施設
+          shed: 小屋
+          stable: 畜舎
+          static_caravan: キャラバン
+          temple: 寺院
+          terrace: テラスハウス
+          train_station: 駅舎
+          university: 大学の建物
+          warehouse: 倉庫
           "yes": 建造物
+        club:
+          scout: スカウト集会所
+          sport: スポーツクラブ
+          "yes": クラブ
         craft:
+          beekeper: 養蜂家
+          blacksmith: 金属加工
           brewery: 醸造所
           carpenter: 工務店
+          caterer: 仕出し屋
+          confectionery: 製菓店
+          dressmaker: ドレスメーカー
           electrician: 電気工
+          electronics_repair: 電器修理業
           gardener: 造園業
+          glaziery: ガラス屋
+          handicraft: 手工芸
+          hvac: 空調システム施工業
+          metal_construction: 鉄工所
           painter: 塗装業
           photographer: 撮影者
           plumber: 配管業
+          roofer: 屋根施工業
+          sawmill: 製材所
           shoemaker: 靴屋
+          stonemason: 石材加工業
           tailor: 仕立て屋
+          window_construction: サッシ施工業
+          winery: ワイン醸造所
           "yes": 手芸店
         emergency:
+          access_point: アクセスポイント
           ambulance_station: 消防署
           assembly_point: 集合場所
           defibrillator: 自動体外式除細動器
+          fire_xtinguisher: 消火器
+          fire_water_pond: 防火水槽
           landing_site: 緊急着陸地点
+          life_ring: 救命浮き輪
           phone: 緊急電話
+          siren: 緊急警報機
+          suction_point: 緊急給水口
           water_tank: 緊急時給水槽
           "yes": 緊急
         highway:
@@ -661,6 +780,7 @@ ja:
           cycleway: 自転車道
           elevator: エレベータ
           emergency_access_point: 緊急アクセスポイント
+          emergency_bay: 緊急停車帯
           footway: 歩道
           ford: 砦
           give_way: 前方優先道路標識
@@ -691,37 +811,45 @@ ja:
           tertiary: 周辺道路
           tertiary_link: 周辺道路
           track: 農道・林道
+          traffic_mirror: カーブミラー
           traffic_signals: 信号機
-          trail: 小道
+          trailhead: トレイル終始点
           trunk: 国道
           trunk_link: 国道
           turning_loop: 環形ターミナル
           unclassified: 未分類の道路
           "yes": 道路
         historic:
+          aircraft: 引退飛行機
           archaeological_site: 考古学サイト
+          bomb_crater: 着弾地跡
           battlefield: 戦場
           boundary_stone: 境界石
           building: 歴史的な建物
           bunker: 貯蔵庫
+          cannon: 引退大砲
           castle: 城
+          charcoal_pile: 炭窯跡
           church: 教会
           city_gate: 城門
           citywalls: 城壁
           fort: 砦
           heritage: 遺産
+          hollow_way: 切土 (堀切)
           house: 住宅
-          icon: アイコン
           manor: 荘園
           memorial: 記念碑
+          milestone: 古い道標
           mine: 鉱山
           mine_shaft: 竪坑
           monument: 記念碑
+          railway: 廃線
           roman_road: ローマ街道
           ruins: 廃墟
           stone: 岩石
           tomb: 墓地
           tower: 塔
+          wayside_chapel: 祠 (ほこら)
           wayside_cross: 道路際の十字架
           wayside_shrine: 道祖神
           wreck: 沈没船
@@ -730,6 +858,7 @@ ja:
           "yes": 交差点
         landuse:
           allotments: 家庭菜園
+          aquaculture: 養魚場
           basin: 盆地
           brownfield: 褐色地
           cemetery: 墓地
@@ -749,21 +878,28 @@ ja:
           military: 軍用地域
           mine: 鉱山
           orchard: 果樹園
+          plant_nursery: 圃場
           quarry: 採石場
           railway: 鉄道
           recreation_ground: 遊園地
+          religious: 聖域
           reservoir: 貯水池
           reservoir_watershed: 貯水池流域
           residential: 住宅地
           retail: 小売店
-          road: 道路エリア
           village_green: 緑地広場
           vineyard: Vineyard
           "yes": 土地利用
         leisure:
+          adult_gaming_centre: 成人向けゲームセンター
+          amusement_arcade: ゲームセンター
+          bandstand: 舞台
           beach_resort: ビーチ リゾート
           bird_hide: 観察小屋
+          bleachers: 外野席
+          bowling_alley: ボーリング場
           common: 共有地
+          dance: ダンスホール
           dog_park: ドッグ・パーク
           firepit: 炉
           fishing: 釣り場
@@ -776,7 +912,9 @@ ja:
           marina: マリーナ
           miniature_golf: ミニチュア ゴルフ
           nature_reserve: 自然保護区
+          outdoor_seating: 野外席
           park: 公園
+          picnic_table: ピクニック用テーブル
           pitch: 運動場
           playground: 遊び場
           recreation_ground: 遊園地
@@ -791,13 +929,21 @@ ja:
           "yes": レジャー
         man_made:
           adit: 坑道
+          advertising: 広告
+          antenna: アンテナ
+          avalanche_protection: 雪崩対策
           beacon: 信号灯
+          beam: 梁
           beehive: 養蜂箱
           breakwater: 防波堤
           bridge: 橋
           bunker_silo: 地下壕
+          cairn: 石標
           chimney: 煙突
+          clearcut: 皆伐地
+          communications_tower: 電波塔
           crane: クレーン
+          cross: 十字架
           dolphin: 繋留杭
           dyke: 堤防
           embankment: 土手
@@ -806,6 +952,7 @@ ja:
           groyne: 防砂堤
           kiln: 窯場
           lighthouse: 灯台
+          manhole: マンホール
           mast: マスト
           mine: 鉱山
           mineshaft: 竪坑
@@ -813,12 +960,19 @@ ja:
           petroleum_well: 油井
           pier: 埠頭
           pipeline: パイプライン
+          pumping_station: ポンプ場
+          reservoir_covered: 有蓋貯水槽
           silo: サイロ
+          snow_cannon: 人工降雪機
+          snow_fence: 防雪フェンス
           storage_tank: 貯蔵タンク
           surveillance: 監視カメラ
+          telescope: 望遠鏡
           tower: 塔
+          utility_pole: 電柱
           wastewater_plant: 下水処理場
           watermill: 水車
+          water_tap: 蛇口
           water_tower: 貯水塔
           water_well: 井戸
           water_works: 給水施設
@@ -829,10 +983,13 @@ ja:
           airfield: 軍用飛行場
           barracks: バラック
           bunker: 貯蔵庫
+          checkpoint: 検問所
+          trench: 溝
           "yes": 軍用施設
         mountain_pass:
           "yes": 山道
         natural:
+          bare_rock: 露頭
           bay: 入り江
           beach: 砂浜
           cape: 岬
@@ -848,6 +1005,7 @@ ja:
           grassland: 草地
           heath: 荒れ地
           hill: 丘陵
+          hot_spring: 温泉
           island: 島
           land: 陸地
           marsh: 沼地
@@ -871,20 +1029,31 @@ ja:
           water: 湖水
           wetland: 湿地帯
           wood: 森林
+          "yes": 自然地形
         office:
           accountant: 会計
           administrative: 管理
+          advertising_agency: 広告代理店
           architect: 建築士
           association: 協会
           company: 会社
+          diplomatic: 大使館
           educational_institution: 教育施設
           employment_agency: 職業紹介
+          energy_supplier: 電力会社
           estate_agent: 不動産代理店
+          financial: 金融機関
           government: 官公庁
           insurance: 保険事務所
           it: IT 企業
           lawyer: 弁護士
+          logistics: 運送会社
+          newspaper: 新聞社
           ngo: NGO オフィス
+          notary: 公証人役場
+          religion: 宗教団体
+          research: 研究機関
+          tax_advisor: 税理士
           telecommunication: 通信
           travel_agent: 旅行代理店
           "yes": オフィス
@@ -904,6 +1073,7 @@ ja:
           locality: 地域
           municipality: 市町村
           neighbourhood: 小字
+          plot: 耕作地
           postcode: Postcode
           quarter: 地区
           region: 地域
@@ -913,7 +1083,6 @@ ja:
           subdivision: 区分
           suburb: 郊外
           town: 町
-          unincorporated_area: 国有地
           village: 村
           "yes": 場所
         railway:
@@ -939,12 +1108,19 @@ ja:
           switch: 鉄道の分岐器
           tram: 路面軌道
           tram_stop: トラム停留所
+          yard: 車両基地
         shop:
+          agrarian: 農業用品店
           alcohol: 酒屋
           antiques: 骨董品
+          appliance: 電器店
           art: アート ショップ
+          baby_goods: 赤ちゃん用品
+          bag: 鞄屋
           bakery: パン屋
+          bathroom_furnishing: 浴室トイレ設備施工
           beauty: 美容室
+          bed: 寝具
           beverages: 飲料ショップ
           bicycle: 自転車販売店
           bookmaker: ブックメーカー
@@ -956,65 +1132,90 @@ ja:
           car_repair: 自動車修理
           carpet: カーペット店
           charity: チャリティ ショップ
+          cheese: チーズ店
           chemist: 薬局
+          chocolate: チョコレート屋
           clothes: 洋服店
+          coffee: 珈琲屋
           computer: コンピューターショップ
           confectionery: 駄菓子屋
           convenience: コンビニエンス ストア
           copyshop: コピー店
           cosmetics: 化粧品販売店
+          craft: 工芸用品店
+          curtain: カーテン屋
+          dairy: 乳製品店
           deli: デリ
           department_store: デパート
           discount: 安売り店
           doityourself: 日曜大工
           dry_cleaning: クリーニング
+          e-cigarette: 電子タバコ店
           electronics: 電気製品販売店
+          erotic: 大人のおもちゃ
           estate_agent: 不動産代理店
+          fabric: 生地屋
           farm: 農産物店
           fashion: ファッション ショップ
-          fish: 鮮魚販売店
+          fishing: 釣具店
           florist: 花屋
           food: 食品販売店
+          frame: 額縁屋
           funeral_directors: 葬儀屋
           furniture: 家具店
-          gallery: ギャラリー
           garden_centre: 園芸用品店
+          gas: ガソリンスタンド
           general: 雑貨屋
           gift: ギフト ショップ
           greengrocer: 八百屋
           grocery: 食料品店
           hairdresser: 美容室
           hardware: ホームセンター
+          health_food: 健康食品店
+          hearing_aids: 補聴器
+          herbalist: 漢方薬局
           hifi: 高級オーディオ
           houseware: 雑貨店
+          ice_cream: アイスクリーム屋
           interior_decoration: インテリア
           jewelry: 宝石店
           kiosk: キオスク
           kitchen: キッチン用品店
           laundry: クリーニング店
+          locksmith: 鍵屋
           lottery: 宝くじ
           mall: モール
-          market: 市場
           massage: マッサージ店
+          medical_supply: 医療用品店
           mobile_phone: 携帯電話販売店
+          money_lender: 金融業
           motorcycle: バイクショップ
+          motorcycle_repair: バイク修理工場
           music: 音楽ショップ
+          musical_instrument: 楽器
           newsagent: 新聞販売店
+          nutrition_supplements: サプリ
           optician: メガネ店
           organic: 有機食材店
           outdoor: アウトドア ショップ
           paint: 画材店
+          pastry: パン屋
           pawnbroker: 質屋
+          perfumery: 香水店
           pet: ペット ショップ
-          pharmacy: 薬局
+          pet_grooming: トリマー
           photo: 写真屋
           seafood: 海鮮品屋
           second_hand: 中古品店
+          sewing: 裁縫店
           shoes: 靴屋
           sports: スポーツ用品専門店
           stationery: 文房具店
+          storage_rental: トランクルーム
           supermarket: スーパーマーケット
           tailor: 洋服店
+          tattoo: 刺青屋
+          tea: 茶舖
           ticket: チケット店
           tobacco: タバコ屋
           toys: 玩具店
@@ -1023,6 +1224,8 @@ ja:
           vacant: 空き店舗
           variety_store: 雑貨店
           video: ビデオ ショップ
+          video_games: ビデオアーケード
+          wholesale: 卸売店
           wine: ワイン屋
           "yes": 店舗
         tourism:
@@ -1032,6 +1235,7 @@ ja:
           attraction: アトラクション
           bed_and_breakfast: 民宿(B&B)
           cabin: 山小屋
+          camp_pitch: 野営地
           camp_site: キャンプ場
           caravan_site: オートキャンプ場
           chalet: 別荘
@@ -1045,6 +1249,7 @@ ja:
           picnic_site: ピクニック サイト
           theme_park: テーマパーク
           viewpoint: 景勝地
+          wilderness_hut: 野外施設
           zoo: 動物園
         tunnel:
           building_passage: ビルの通路
@@ -1071,17 +1276,15 @@ ja:
           "yes": 水路
       admin_levels:
         level2: 国境
+        level3: 行政境界
         level4: 都道府県・州境
         level5: 行政境界
         level6: 郡境
+        level7: 自治市界
         level8: 市区町村境
         level9: 村境
         level10: 街区境
-    description:
-      title:
-        osm_nominatim: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a> からの位置
-        geonames: <a href="http://www.geonames.org/">GeoNames</a> からの位置
+        level11: 町会の境界
       types:
         cities: 都市
         towns: 町
@@ -1159,8 +1362,6 @@ ja:
     new:
       title_html: '%{link} を報告'
       missing_params: 新規報告を作成できません
-      details: 問題についてもう少し詳しく記述してください (必須)。
-      select: '報告の理由を選択してください:'
       disclaimer:
         intro: サイトの仲裁者にレポートを送信する前に、以下の各点をご確認ください。
         not_just_mistake: 問題が単純ミスでないと確証している
@@ -1239,37 +1440,43 @@ ja:
       text: 寄付
     learn_more: 詳細
     more: その他
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap]の%{user}さんが日記エントリにコメントしました'
       hi: こんにちは、%{to_user} さん。
       header: 'OpenStreetMap 日記エントリ (タイトル: %{subject}) に、%{from_user} がコメントしました。'
+      header_html: 'OpenStreetMap 日記エントリ (タイトル: %{subject}) に、%{from_user} がコメントしました。'
       footer: '%{readurl}でコメントを読み、%{commenturl} でコメントし、%{replyurl} で筆者へメッセージを送信することができます。'
+      footer_html: '%{readurl}でコメントを読み、%{commenturl} でコメントし、%{replyurl} で筆者へメッセージを送信することができます。'
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: こんにちは、%{to_user} さん。
       header: '%{from_user} さんが、OpenStreetMap であなたに件名 %{subject} のメッセージを送信しました:'
+      header_html: '%{from_user} さんが、OpenStreetMap であなたに件名 %{subject} のメッセージを送信しました:'
+      footer: メッセージを読むにはこちら %{readurl}、筆者に返信するにはこちら %{replyurl}
       footer_html: メッセージを読むにはこちら %{readurl}、筆者に返信するにはこちら %{replyurl}
     friendship_notification:
       hi: '%{to_user},'
       subject: '[OpenStreetMap] %{user} さんがあなたを友達に追加しました。'
       had_added_you: OpenStreetMap で %{user} さんがあなたを友達に追加しました。
       see_their_profile: '%{userurl} でプロフィールを閲覧できます。'
+      see_their_profile_html: '%{userurl} でプロフィールを閲覧できます。'
       befriend_them: '%{befriendurl} で友達になることができます。'
-    gpx_notification:
-      greeting: こんにちは、
-      your_gpx_file: これはあなたの GPX ファイルのようです
-      with_description: '説明:'
-      and_the_tags: '、タグ:'
-      and_no_tags: 、タグはありません。
-      failure:
-        subject: '[OpenStreetMap] GPX のインポートが失敗'
-        failed_to_import: 'インポートするのに失敗しました。エラーはここです。:'
-        more_info_1: GPX インポートの失敗を避ける方法についての詳細情報は
-        more_info_2: 'こちらにあります:'
-      success:
-        subject: '[OpenStreetMap] GPX のインポートが成功'
-        loaded_successfully:
-          other: 利用可能な点 %{possible_points} 個のうち、%{trace_points} 個の読み込みに成功しました。
+      befriend_them_html: '%{befriendurl} で友達になることができます。'
+    gpx_description:
+      description_with_tags_html: その GPX ファイル%{trace_name}は解説が%{trace_description}で次のタグがついているようです：%{tags}
+      description_with_no_tags_html: その GPX ファイル%{trace_name}は解説が%{trace_description}ですが、タグがないようです
+    gpx_failure:
+      hi: こんにちは、%{to_user} さん。
+      failed_to_import: 'インポートするのに失敗しました。エラーはここです。:'
+      more_info_html: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+      subject: '[OpenStreetMap] GPX のインポートが失敗'
+    gpx_success:
+      hi: こんにちは、%{to_user} さん。
+      loaded_successfully:
+        other: 利用可能な点 %{possible_points} 個のうち、%{trace_points} 個の読み込みに成功しました。
+      subject: '[OpenStreetMap] GPX のインポートが成功'
     signup_confirm:
       subject: '[OpenStreetMap] OpenStreetMapへようこそ'
       greeting: やあ、皆さん!
@@ -1278,21 +1485,11 @@ ja:
       welcome: アカウントを確認したあと、開始するための追加情報を提供します。
     email_confirm:
       subject: '[OpenStreetMap] あなたのメール アドレスの確認'
-    email_confirm_plain:
       greeting: こんにちは。
       hopefully_you: 誰か (おそらくあなた) が %{server_url} で、メール アドレスを %{new_address} に変更しようとしています。
       click_the_link: この要求を出したのがあなたなら、下のリンクをクリックして、変更の認証をしてください。
-    email_confirm_html:
-      greeting: こんにちは、
-      hopefully_you: 誰か (おそらくあなた) が %{server_url} で、メール アドレスを %{new_address} に変更しようとしています。
-      click_the_link: これがあなたであれば、以下のリンクをクリックして変更を確認してください。
     lost_password:
       subject: '[OpenStreetMap] パスワードリセットの要求'
-    lost_password_plain:
-      greeting: こんにちは、
-      hopefully_you: 誰か (おそらくあなた) が、このメール アドレスの openstreetmap.org アカウントに対するパスワードをリセットするように依頼しました。
-      click_the_link: これがあなたであれば、以下のリンクをクリックしてパスワードをリセットしてください。
-    lost_password_html:
       greeting: こんにちは、
       hopefully_you: 誰か (おそらくあなた) が、このメール アドレスの openstreetmap.org アカウントに対するパスワードをリセットするように依頼しました。
       click_the_link: これがあなたであれば、以下のリンクをクリックしてパスワードをリセットしてください。
@@ -1303,18 +1500,25 @@ ja:
         subject_own: '[OpenStreetMap] %{commenter} さんがあなたのメモにコメントしました'
         subject_other: '[OpenStreetMap] %{commenter}さんがあなたが関心を持っているメモにコメントしました'
         your_note: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つにコメントを残しました。'
+        your_note_html: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つにコメントを残しました。'
         commented_note: '%{commenter}さんがあなたがコメントした地図上の%{place}付近にあるメモにコメントしました。'
+        commented_note_html: '%{commenter}さんがあなたがコメントした地図上の%{place}付近にあるメモにコメントしました。'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} さんがあなたのメモを解決しました'
         subject_other: '[OpenStreetMap] %{commenter}さんが、あなたが関心を持っているメモを解決しました'
         your_note: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを解決しました。'
+        your_note_html: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを解決しました。'
         commented_note: '%{commenter}さんが、あなたがコメントした地図上の%{place}付近にあるメモを解決しました。'
+        commented_note_html: '%{commenter}さんが、あなたがコメントした地図上の%{place}付近にあるメモを解決しました。'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter}さんがあなたのメモの1つを再開しました'
         subject_other: '[OpenStreetMap] %{commenter}さんがあなたが関心を持っているメモを再開しました'
         your_note: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを再開しました。'
+        your_note_html: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを再開しました。'
         commented_note: '%{commenter}さんが、%{place}付近にあるあなたがコメントした地図メモを再開しました。'
+        commented_note_html: '%{commenter}さんが、%{place}付近にあるあなたがコメントした地図メモを再開しました。'
       details: メモについての詳細は %{url} を参照。
+      details_html: メモについての詳細は %{url} を参照。
     changeset_comment_notification:
       hi: こんにちは、%{to_user} さん。
       greeting: こんにちは、
@@ -1322,11 +1526,16 @@ ja:
         subject_own: '[OpenStreetMap] %{commenter} さんがあなたの変更セットにコメントしました'
         subject_other: '[OpenStreetMap] %{commenter}さんがあなたが関心を持っているメモにコメントしました'
         your_changeset: '%{commenter}さんが%{time}にあなたの変更セットにコメントしました'
+        your_changeset_html: '%{commenter}さんが%{time}にあなたの変更セットにコメントしました'
         commented_changeset: '%{commenter}さんが%{time}に、%{changeset_author}さんが作成したあなたが監視中の変更セットにコメントしました'
+        commented_changeset_html: '%{commenter}さんが%{time}に、%{changeset_author}さんが作成したあなたが監視中の変更セットにコメントしました'
         partial_changeset_with_comment: 「%{changeset_comment}」に対するコメント
+        partial_changeset_with_comment_html: 「%{changeset_comment}」に対するコメント
         partial_changeset_without_comment: コメントなし
       details: 変更セットについての詳細は %{url} を参照。
+      details_html: 変更セットについての詳細は %{url} を参照。
       unsubscribe: この変更セットの購読を中止するには%{url}を開いて"購読を中止 Unsubscribe"をクリック。
+      unsubscribe_html: この変更セットの購読を中止するには%{url}を開いて「購読を中止」をクリック。
   messages:
     inbox:
       title: 受信箱
@@ -1392,6 +1601,24 @@ ja:
       as_unread: 未読メッセージ
     destroy:
       destroyed: メッセージを削除しました
+  shared:
+    markdown_help:
+      title_html: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>で構文解析します
+      headings: 見出し
+      heading: 見出し
+      subheading: 小見出し
+      unordered: 番号なしリスト
+      ordered: 番号付きリスト
+      first: 最初の項目
+      second: 2番目の項目
+      link: リンク
+      text: テキスト
+      image: 画像
+      alt: 代替テキスト
+      url: URL
+    richtext_field:
+      edit: 編集
+      preview: プレビュー
   site:
     about:
       next: 次へ
@@ -1405,7 +1632,7 @@ ja:
         href='https://blog.openstreetmap.org'>OpenStreetMap のブログ</a>、<a href='%{diary_path}'>利用者の日記</a>、<a
         href='https://blogs.openstreetmap.org/'>コミュニティのブログ</a>と<a href='https://www.osmfoundation.org/'>OSM財団</a>のウェブサイトをご覧ください。
       open_data_title: オープン データ
-      open_data_html: OpenStreetMapは<i>オープンデータ</i>です。あなたはOpenStreetMapと協力者の著作権を表示すれば、いかなる目的でも無料で利用することができます。もし何らかの方法でデータを変更したり二次データを作成したりした場合も、同じライセンス条件下でのみ結果を配布できます。詳しくは、<a
+      open_data_html: OpenStreetMapは<i>オープンデータ</i>です。利用者はOpenStreetMapと協力者の著作権を表示すれば、いかなる目的にも無料で利用することができます。もし何らかの方法でデータを変更したり二次データを作成したりした場合も、同じライセンス条件下でのみ結果を配布できます。詳しくは、<a
         href='%{copyright_path}'>著作権とライセンス</a>をご覧ください。
       legal_title: 法律関係
       legal_1_html: このサイトおよびその他の関連サービスは、コミュニティを代表して<a href='https://osmfoundation.org/'>OpenStreetMap財団</a>
@@ -1517,12 +1744,6 @@ ja:
       not_public_description_html: このようなことをしない限り、あなたは地図を編集できません。あなたは%{user_page}から編集内容を公開できます。
       user_page_link: ユーザーページ
       anon_edits_link_text: なぜこれれが事例なのかを見る。
-      flash_player_required_html: Flash 版 OpenStreetMap エディターである Potlatch を使用するには、Flash
-        Player が必要です。Flash Player は<a href="https://get.adobe.com/flashplayer">Adobe.com</a>
-        でダウンロードできます。OpenStreetMap を編集する<a href="https://wiki.openstreetmap.org/wiki/JA:Editing?uselang=ja">他の方法</a>もあります。
-      potlatch_unsaved_changes: 保存していない変更があります。(Potlatch では、一覧モードで編集している場合、ウェイや点の選択を解除する必要があります。または、保存ボタンをクリックして保存してください。)
-      potlatch2_not_configured: 'Potlatch 2 が設定されていません - 詳細情報はこちらをご覧ください: https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2'
-      potlatch2_unsaved_changes: 保存していない変更があります。(Potlatch 2 では、保存をクリックして保存する必要があります。)
       id_not_configured: iDが設定されていません。
       no_iframe_support: あなたのブラウザーは、この機能に必須の HTML iframe に未対応です。
     export:
@@ -1618,6 +1839,13 @@ ja:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
         description: 詳細な OpenStreetMap の説明が書かれたウィキを参照します。
+    potlatch:
+      removed: お使いの OpenStreetMap エディタは既定では Potlatch が選択されています。 Adobe Flash Player
+        の撤退により、 Potlatch is はウェブブラウザ上で利用できなくなりました。
+      desktop_html: 現在も Potlatch の利用は可能で、ダウンロードリンク<a href="https://www.systemed.net/potlatch/">でデスクトップ版を
+        Mac 用と Windows 用を入手できます</a>。
+      id_html: 代替手段として、以前の Potlatch のようにウェブブラウザで使うエディターなら、既定のエディターを iD に設定する方法があります。<a
+        href="%{settings_url}">個人設定の変更はこちら</a>。
     sidebar:
       search_results: 検索結果
       close: 閉じる
@@ -1770,6 +1998,7 @@ ja:
       traces_waiting:
         other: あなたの %{count} 件のトレースがアップロード待ち中です。これらのアップロードが完了するまでお待ちください。さもなければ他のユーザーのアップロードが制限されてしまいます。
     edit:
+      cancel: キャンセル
       title: トレース %{name} の編集
       heading: トレース %{name} の編集
       visibility_help: これはどういう意味?
@@ -1787,6 +2016,7 @@ ja:
       uploaded: 'アップロード日時:'
       points: '点の個数:'
       start_coordinates: '開始座標:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: 地図
       edit: 編集
       owner: '所有者:'
@@ -1897,13 +2127,6 @@ ja:
       delete: クライアントを削除
       confirm: 本当によろしいですか?
       requests: '利用者が以下の許可をリクエストしています:'
-      allow_read_prefs: ユーザー設定を読み込む。
-      allow_write_prefs: 利用者設定を変更する。
-      allow_write_diary: 日記エントリを作成する、コメントする、友達を作る。
-      allow_write_api: 地図を変更する。
-      allow_read_gpx: 非公開GPSトレースを読み込む。
-      allow_write_gpx: GPSトレースをアップロードする。
-      allow_write_notes: メモを変更する。
     index:
       title: 自分の OAuth の詳細
       my_tokens: 認証を許可したアプリケーション
@@ -1917,19 +2140,7 @@ ja:
       registered_apps: '以下のクライアント アプリケーションが登録済みです:'
       register_new: アプリケーションの登録
     form:
-      name: 名前
-      required: 必須
-      url: メイン アプリケーションの URL
-      callback_url: コールバック URL
-      support_url: サポート URL
       requests: '利用者が以下の許可をリクエストしています:'
-      allow_read_prefs: ユーザー設定を読み込む。
-      allow_write_prefs: 利用者設定を変更する。
-      allow_write_diary: 日記エントリを作成する、コメントする、友達を作る。
-      allow_write_api: 地図を変更する。
-      allow_read_gpx: 非公開GPSトレースを読み込む。
-      allow_write_gpx: GPSトレースをアップロードする。
-      allow_write_notes: メモを変更する。
     not_found:
       sorry: 申し訳ありませんが、この %{type} は見つかりませんでした。
     create:
@@ -2004,8 +2215,6 @@ ja:
     reset_password:
       title: パスワードの再設定
       heading: '%{user} のパスワードのリセット'
-      password: 'パスワード:'
-      confirm password: 'パスワードの確認:'
       reset: パスワードを初期化
       flash changed: あなたのパスワードは変更されました。
       flash token bad: キーワードが見つかりません。URL を確認してください。
@@ -2019,7 +2228,6 @@ ja:
         html: |-
           <p>他の地図とは異なり、OpenStreetMapは完全にあなたのような人々によって作成され、だれでも自由に修正、更新、ダウンロード、利用することができます。</p>
           <p>協力を始めるにはサインアップしてください。あなたのアカウントの確認メールが送信されます。</p>
-      license_agreement: アカウントを確認するには<a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">協力者規約</a>を承諾する必要があります。
       email address: 'メール アドレス:'
       confirm email address: 'メール アドレスの確認:'
       not_displayed_publicly_html: あなたのアドレスは非公開です。詳細は弊財団の<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
@@ -2197,7 +2405,7 @@ ja:
       unknown token: この確認コードは期限切れ、または存在しません。
       reconfirm_html: 確認メールを再送する必要がある場合は、<a href="%{reconfirm}">ここをクリック</a>してください。
     confirm_resend:
-      success: '%{email}に確認メッセージを再送信しました。メールを確認してアカウントを有効にし次第、編集を開始できます。<br /><br
+      success_html: '%{email}に確認メッセージを再送信しました。メールを確認してアカウントを有効にし次第、編集を開始できます。<br /><br
         />あなたの指定したアドレスに確認メールが届くまであなたはログインできません。メールボックスでスパムフィルターを使用している場合は %{sender}
         からの確認メールを受信できるようホワイトリストを設定してください。'
       failure: '%{name}というアカウントは登録されていません。'
@@ -2272,20 +2480,16 @@ ja:
     new:
       title: '%{name} のブロックの作成'
       heading_html: '%{name} のブロックの作成'
-      reason: '%{name} さんがブロックされている理由です。メッセージは多くの人の目にふれることになるため、できるだけ冷静かつ理性的になり、できるだけ丁寧に状況を説明するようにしてください。すべての利用者がコミュニティ固有の用語を理解しているわけではないため、分かりやすい用語を使うように努めてください。'
       period: ユーザーが今からどれくらいの間、APIからブロックされるか。
       tried_contacting: 利用者に連絡して、それらをやめるよう依頼しました。
       tried_waiting: 私は利用者との対話に応じるために、合理的な時間を費やしました。
-      needs_view: ブロックを解除するにはログインし直す必要があります。
       back: すべてのブロックを表示
     edit:
       title: '%{name} のブロックの編集'
       heading_html: '%{name} のブロックの編集'
-      reason: '%{name} さんがブロックされている理由です。できるだけ冷静かつ理性的になり、できるだけ丁寧に状況を説明するようにしてください。すべてのユーザーがコミュニティ内での隠語を理解しているわけではないため、分かりやすい用語を使うように努めてください。'
       period: ユーザーが今からどれくらいの間、APIからブロックされるか。
       show: このブロックを閲覧
       back: すべてのブロックを閲覧
-      needs_view: このブロックを解消するには、先に利用者がログインする必要がありますか？
     filter:
       block_expired: このブロック期間は既に終了しており、変更できません。
       block_period: ブロック期間はドロップダウンリストから一つ選択してください。
@@ -2309,10 +2513,10 @@ ja:
       revoke: 取り消す!
       flash: このブロックは取り消されました。
     helper:
-      time_future: '%{time} に終了します。'
+      time_future_html: '%{time} に終了します。'
       until_login: 利用者がログインするまで有効です。
-      time_future_and_until_login: 利用者のログイン後%{time}で終了します。
-      time_past: '%{time}に終了しました。'
+      time_future_and_until_login_html: 利用者のログイン後%{time}で終了します。
+      time_past_html: '%{time}に終了しました。'
       block_duration:
         hours: '%{count}時間'
         days:
@@ -2414,6 +2618,7 @@ ja:
           other: この地点まで%{count}フィート
       base:
         standard: 標準
+        cyclosm: CyclOSM
         cycle_map: サイクリングマップ
         transport_map: 交通マップ
         hot: Humanitarian
@@ -2428,6 +2633,8 @@ ja:
       copyright: © <a href='%{copyright_url}'>OpenStreetMap 協力者</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>寄付する</a>
       terms: <a href='%{terms_url}' target='_blank'>ウェブサイトおよびAPI規約</a>
+      cyclosm: タイル様式のホストは<a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        フランス</a>であり<a href='%{cyclosm_url}' target='_blank'>CyclOSMチーム</a>から提供を受けました
       thunderforest: タイルは <a href='%{thunderforest_url}' target='_blank'>Andy Allen</a>
         のご好意による
       opnvkarte: タイルは<a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>の提供

@@ -91,7 +91,12 @@ class LocaleTest < ActiveSupport::TestCase
     assert_equal "de", Locale.available.preferred(Locale.list("zh-Hant", "de")).to_s
     assert_equal "zh-TW", Locale.available.preferred(Locale.list("zh-Hant-TW", "de")).to_s
     assert_equal "zh-TW", Locale.available.preferred(Locale.list("zh-TW", "de")).to_s
-    assert_equal "zh-TW", Locale.available.preferred(Locale.list("zh-HK", "zh-hk", "zh-Hant", "zh-hant", "zh-TW", "zh-tw", "zh", "zh-yue", "yue", "yue-Hant", "yue-HK", "yue-Hans", "zh-classical", "lzh", "ja-Hani", "ko-Hani", "ko_hanja", "vi-Hani", "ja-hani", "ko-hani", "vi-hani", "en-HK", "en-hk", "en-SG", "en-sg", "en-GB", "en-gb", "en-US", "en-us", "en", "ja")).to_s
+    assert_equal "zh-HK", Locale.available.preferred(
+      Locale.list("zh-HK", "zh-hk", "zh-Hant", "zh-hant", "zh-TW", "zh-tw", "zh", "zh-yue",
+                  "yue", "yue-Hant", "yue-HK", "yue-Hans", "zh-classical", "lzh", "ja-Hani",
+                  "ko-Hani", "ko_hanja", "vi-Hani", "ja-hani", "ko-hani", "vi-hani", "en-HK",
+                  "en-hk", "en-SG", "en-sg", "en-GB", "en-gb", "en-US", "en-us", "en", "ja")
+    ).to_s
     assert_equal "en", Locale.available.preferred(Locale.list("yue")).to_s
   end
 end

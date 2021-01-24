@@ -16,6 +16,7 @@
 # Author: Jaumeortola
 # Author: Jconstanti
 # Author: Jlrb+
+# Author: Jmaspons
 # Author: Jmontane
 # Author: Macofe
 # Author: Martorell
@@ -29,6 +30,7 @@
 # Author: PerroVerd
 # Author: Pitort
 # Author: Quel.soler
+# Author: Rbndev
 # Author: Ruila
 # Author: SMP
 # Author: Sim6
@@ -60,7 +62,7 @@ ca:
         create: Envia
       client_application:
         create: Registreu-vos
-        update: Edita
+        update: Actualitza
       redaction:
         create: Crea un informe
         update: Desa un informe
@@ -90,7 +92,7 @@ ca:
       node_tag: Etiqueta del node
       notifier: Notificador
       old_node: Node antic
-      old_node_tag: Etiqueta de node antic
+      old_node_tag: Etiqueta de node antiga
       old_relation: Relació antiga
       old_relation_member: Membre de relació antiga
       old_relation_tag: Etiqueta de relació antiga
@@ -112,14 +114,26 @@ ca:
       way_node: Node de la via
       way_tag: Etiqueta de la via
     attributes:
+      client_application:
+        name: Nom (Requerit)
+        url: URL de l'aplicació principal (Requerit)
+        callback_url: URL de crida de retorn
+        support_url: URL de suport
+        allow_read_prefs: Llegeix les seves preferències d'usuari
+        allow_write_prefs: Modifica les seves preferències d'usuari
+        allow_write_diary: Escriviu entrades de diari, comentaris i feu amics
+        allow_write_api: Modifica el mapa
+        allow_read_gpx: Llegeix les seves traces GPS privades
+        allow_write_gpx: Carrega traces GPS
+        allow_write_notes: Modifica notes
       diary_comment:
         body: Cos
       diary_entry:
-        user: Usuari
+        user: Usuari/a
         title: Tema
         latitude: Latitud
         longitude: Longitud
-        language: Idioma
+        language: Llengua
       friend:
         user: Usuari/a
         friend: Amic
@@ -140,16 +154,27 @@ ca:
         title: Tema
         body: Cos
         recipient: Destinatari
+      report:
+        category: Trieu un motiu per a la vostra denúncia
+        details: Proporcioneu més detalls del problema (obligatori).
       user:
         email: Adreça electrònica
         active: Actiu
         display_name: Nom en pantalla
         description: Descripció
-        languages: Idiomes
+        languages: Llengües
         pass_crypt: Contrasenya
+        pass_crypt_confirmation: Confirmeu la contrasenya
     help:
       trace:
         tagstring: separat per comes
+      user_block:
+        reason: La raó per què l'usuari s'està blocant. Mantingueu la calma i sigueu
+          tan raonable com sigui possible, doneu tants detalls com sigui possible
+          sobre la situació, recordeu que el missatge serà visible públicament. Tingueu
+          en compte que no tots els usuaris comprenen l'argot de la comunitat, així
+          que intenteu utilitzar termes comuns.
+        needs_view: L'usuari necessita connectar-se abans que aquest blocatge es suprimeixi?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -192,18 +217,12 @@ ca:
     with_version: '%{id}, v%{version}'
   editor:
     default: Predeterminat (actualment %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (editor integrat en el navegador)
     id:
       name: iD
       description: iD (editor integrat en el navegador)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (editor integrat en el navegador)
     remote:
       name: Control remot
-      description: Control remot (JOSM o Merkaartor)
+      description: Control remot (JOSM, Potlatch o Merkaartor)
   auth:
     providers:
       none: Cap
@@ -250,6 +269,12 @@ ca:
     anonymous: anònim
     no_comment: (cap comentari)
     part_of: Part de
+    part_of_relations:
+      one: 1 relació
+      other: '%{count} relacions'
+    part_of_ways:
+      one: 1 via
+      other: '%{count} vies'
     download_xml: Baixa l’XML
     view_history: Mostra l’historial
     view_details: Mostra els detalls
@@ -264,8 +289,8 @@ ca:
       relation: Relacions (%{count})
       relation_paginated: Relacions (%{x}-%{y} de %{count})
       comment: Comentaris(%{count})
-      hidden_commented_by: Comentari ocult de l'usuari %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Comentari de %{user} <abbr title='%{exact_time}'> a %{when}</abbr>
+      hidden_commented_by_html: Comentari ocult de l'usuari %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Comentari de %{user} <abbr title='%{exact_time}'> a %{when}</abbr>
       changesetxml: XML del conjunt de canvis
       osmchangexml: XML en format osmChange
       feed:
@@ -282,6 +307,9 @@ ca:
       title_html: 'Via: %{name}'
       history_title_html: 'Historial de la via: %{name}'
       nodes: Nodes
+      nodes_count:
+        one: 1 node
+        other: '%{count} nodes'
       also_part_of_html:
         one: part de la via %{related_ways}
         other: part de les vies %{related_ways}
@@ -289,6 +317,9 @@ ca:
       title_html: 'Relació: %{name}'
       history_title_html: 'Historial de la relació: %{name}'
       members: Membres
+      members_count:
+        one: 1 membre
+        other: '%{count} membres'
     relation_member:
       entry_role_html: '%{type} %{name} com a %{role}'
       type:
@@ -299,6 +330,7 @@ ca:
       entry_html: Relació %{relation_name}
       entry_role_html: Relació %{relation_name} (com a %{relation_role})
     not_found:
+      title: No s'ha trobat
       sorry: 'No s''ha trobat el %{type} #%{id}.'
       type:
         node: node
@@ -307,6 +339,7 @@ ca:
         changeset: conjunt de canvis
         note: nota
     timeout:
+      title: Error d'esgotament del temps d'espera
       sorry: S'ha trigat massa a obtenir les dades per al tipus %{type} amb l'identificador
         %{id}.
       type:
@@ -346,15 +379,15 @@ ca:
       open_title: 'Nota no resolta: #%{note_name}'
       closed_title: 'Nota resolta #%{note_name}'
       hidden_title: 'Nota oculta #%{note_name}'
-      opened_by: Creat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Creat per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Comentari de %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Comentari d'un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Resolt per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Resolt per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Reactivat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Reactivat per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Ocultat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Creat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Creat per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Comentari de %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Comentari d'un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Resolt per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Resolt per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Reactivat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Reactivat per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Ocultat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
       report: Reportar aquesta nota
     query:
       title: Consultar objectes
@@ -407,13 +440,8 @@ ca:
     new:
       title: Entrada de diari nova
     form:
-      subject: 'Assumpte:'
-      body: 'Cos del missatge:'
-      language: 'Idioma:'
-      location: 'Ubicació:'
-      latitude: 'Latitud:'
-      longitude: 'Longitud:'
-      use_map_link: usa el mapa
+      location: Ubicació
+      use_map_link: Useu el mapa
     index:
       title: Diaris dels usuaris
       title_friends: Diaris d'amics
@@ -442,7 +470,8 @@ ca:
       body: No hi ha cap entrada o comentari en el diari amb l'id %{id}. Si us plau,
         comproveu-ne l'ortografia. O potser l'enllaç que heu clicat no és correcte.
     diary_entry:
-      posted_by_html: Publicat per %{link_user} el %{created} en %{language_link}
+      posted_by_html: Publicat per %{link_user} el %{created} en %{language_link}.
+      updated_at_html: Última actualització de %{updated}
       comment_link: Comenta aquesta entrada
       reply_link: Enviar un missatge a l'autor
       comment_count:
@@ -515,6 +544,7 @@ ca:
           pylon: Piló
           station: Estació de telefèric
           t-bar: Telesquí amb seient en T
+          "yes": Vies per cables penjats
         aeroway:
           aerodrome: Aeròdrom
           airstrip: Aeròdrom
@@ -525,8 +555,10 @@ ca:
           holding_position: Punt d'espera
           parking_position: Punt d'estacionament
           runway: Pista
+          taxilane: Carril de taxi
           taxiway: Carrer de rodatge
           terminal: Terminal
+          windsock: Mànega de vent
         amenity:
           animal_shelter: Refugi d'animals
           arts_centre: Centre d'art
@@ -537,7 +569,9 @@ ca:
           bench: Banc
           bicycle_parking: Aparcament de bicicletes
           bicycle_rental: Lloguer de bicicletes
+          bicycle_repair_station: Estació de reparació de bicicletes
           biergarten: Cerveseria a l'aire lliure
+          blood_bank: Banc de sang
           boat_rental: Lloguer d'embarcacions
           brothel: Prostíbul
           bureau_de_change: Oficina de canvi
@@ -554,6 +588,7 @@ ca:
           clock: Rellotge
           college: Facultat
           community_centre: Centre cívic
+          conference_centre: Centre de conferències
           courthouse: Jutjat
           crematorium: Crematori
           dentist: Dentista
@@ -561,6 +596,7 @@ ca:
           drinking_water: Punt d'aigua potable
           driving_school: Autoescola
           embassy: Ambaixada
+          events_venue: Recinte d'esdeveniments
           fast_food: Lloc de menjar ràpid
           ferry_terminal: Terminal de ferris
           fire_station: Parc de bombers
@@ -573,36 +609,40 @@ ca:
           hospital: Hospital
           hunting_stand: Mirador de fauna
           ice_cream: Gelateria
+          internet_cafe: Cibercafè
           kindergarten: Escola bressol
+          language_school: Escola d'idiomes
           library: Biblioteca
+          loading_dock: Moll de càrrega
+          love_hotel: Hotel d'amor
           marketplace: Mercat ambulant
           monastery: Monestir
+          money_transfer: Transferència de diners
           motorcycle_parking: Aparcament per a motos
+          music_school: Escola de música
           nightclub: Club nocturn
           nursing_home: Residència geriàtrica
-          office: Oficina
           parking: Aparcament
           parking_entrance: Entrada d'aparcament
           parking_space: Plaça d’aparcament
+          payment_terminal: Terminal de pagament
           pharmacy: Farmàcia
           place_of_worship: Lloc de culte
           police: Policia
           post_box: Bústia
           post_office: Oficina de correus
-          preschool: Parvulari
           prison: Presó
           pub: Bar - Pub
+          public_bath: Bany públic
+          public_bookcase: Llibreria pública
           public_building: Edifici públic
+          ranger_station: Lloc de guarda forestal
           recycling: Punt de reciclatge
           restaurant: Restaurant
-          retirement_home: Casal d'avis
-          sauna: Sauna
           school: Escola - Institut
           shelter: Refugi
-          shop: Botiga
           shower: Dutxa
           social_centre: Centre social
-          social_club: Club social
           social_facility: Equipament social
           studio: Estudi de grabació
           swimming_pool: Piscina
@@ -611,19 +651,27 @@ ca:
           theatre: Teatre
           toilets: Lavabos
           townhall: Ajuntament
+          training: Instal·lacions d'entrenament
           university: Universitat
+          vehicle_inspection: Inspecció de vehicles
           vending_machine: Màquina expenedora
           veterinary: Cirurgia veterinària
           village_hall: Centre cívic
           waste_basket: Paperera
           waste_disposal: Contenidor d'escombraries
+          waste_dump_site: Abocador de residus
+          watering_place: Abeurador
           water_point: Punt d'aigua
-          youth_centre: Centre juvenil
+          weighbridge: Bàscula
+          "yes": Servei
         boundary:
+          aboriginal_lands: Terres aborígens
           administrative: Límit administratiu
           census: Límit censal
           national_park: Parc nacional
+          political: Frontera electoral
           protected_area: Àrea protegida
+          "yes": Frontera
         bridge:
           aqueduct: Aqüeducte
           boardwalk: Passarel·la de fusta
@@ -632,24 +680,84 @@ ca:
           viaduct: Viaducte
           "yes": Pont
         building:
+          apartment: Apartament
+          apartments: Apartaments
+          barn: Graner
+          bungalow: Bungalou
+          cabin: Cabanya
+          chapel: Capella
+          church: Edifici de l'església
+          civic: Centre cívic
+          college: Edifici universitari
+          commercial: Edifici comercial
+          construction: Edifici en construcció
+          detached: Casa unifamiliar
+          dormitory: Residència Universitària
+          duplex: Dúplex
+          farm: Casa de pagès
+          farm_auxiliary: Edifici auxiliar d'una granja
+          garage: Garatge
+          garages: Garatges
+          greenhouse: Hivernacle
+          hangar: Hangar
+          hospital: Edifici hospitalari
+          hotel: Edifici hoteler
+          house: Casa
+          houseboat: Casa flotant
+          hut: Barraca
+          industrial: Edifici industrial
+          kindergarten: Edifici d'escola bressol
+          office: Edifici d'oficines
+          public: Edifici públic
+          residential: Edifici residencial
+          retail: Edifici de Venda al detall
+          roof: Sostre
+          ruins: Edifici en ruïnes
+          school: Edifici escolar
+          semidetached_house: Casa semiadossada
+          service: Edifici de servei
+          shed: Cobert
+          stable: Estable
+          static_caravan: Caravana
+          temple: Edifici d'un temple
+          terrace: Edifici de terrasses
+          train_station: Edifici d'estació de trens
+          university: Edifici universitari
+          warehouse: Magatzem
           "yes": Edifici
+        club:
+          scout: Centre escolta
+          sport: Club esportiu
+          "yes": Club
         craft:
+          beekeper: Apicultor
+          blacksmith: Ferrer
           brewery: Fàbrica de cervesa
           carpenter: Fuster
+          confectionery: Confiteria
+          dressmaker: Modista
           electrician: Electricista
           gardener: Jardiner
+          glaziery: Vidrier
+          handicraft: Artesania
           painter: Pintor
           photographer: Fotògraf
           plumber: Lampista
           shoemaker: Sabater
+          stonemason: Picapedrer
           tailor: Sastre
+          window_construction: Construcció de finestres
+          winery: Bodega
           "yes": Botiga d'artesania
         emergency:
+          access_point: Punt d'accés
           ambulance_station: Base d'ambulàncies
           assembly_point: Punt de reunió
           defibrillator: Desfibril·lador
+          fire_xtinguisher: Extintor de foc
           landing_site: Lloc d'aterratge d'emergència
           phone: Telèfon per a emergències
+          siren: Sirena d'emergència
           water_tank: Dipòsit d'aigua d'emergència
           "yes": Emergència
         highway:
@@ -693,31 +801,35 @@ ca:
           tertiary_link: Carretera terciària
           track: Pista - Camí
           traffic_signals: Semàfors
-          trail: Trialera
           trunk: Via ràpida
           trunk_link: Via ràpida
           turning_loop: Canvi de sentit final
           unclassified: Carretera sense classificar
           "yes": Carretera
         historic:
+          aircraft: Avió històric
           archaeological_site: Jaciment arqueològic
+          bomb_crater: Cràter de bomba històric
           battlefield: Camp de batalla
           boundary_stone: Fita fronterera
           building: Edifici històric
           bunker: Búnquer
+          cannon: Canó històric
           castle: Castell
+          charcoal_pile: Carbonera històrica
           church: Església
           city_gate: Porta de la població
           citywalls: Muralles de la població
           fort: Fortí
           heritage: Patrimoni de la humanitat
           house: Casa
-          icon: Icona
           manor: Casa pairal
           memorial: Memorial
+          milestone: Fita històrica
           mine: Mina
           mine_shaft: Pou miner
           monument: Monument
+          railway: Ferrocarril històric
           roman_road: Calçada romana
           ruins: Ruïnes
           stone: Pedra
@@ -731,7 +843,8 @@ ca:
           "yes": Intersecció
         landuse:
           allotments: Horts
-          basin: Conca
+          aquaculture: Aqüicultura
+          basin: Conca hidrogràfica
           brownfield: Terra no urbanitzada
           cemetery: Cementiri
           commercial: Zona comercial
@@ -753,18 +866,22 @@ ca:
           quarry: Pedrera
           railway: Ferrocarril
           recreation_ground: Zona d'esbarjo
+          religious: Terra religiosa
           reservoir: Embassament
           reservoir_watershed: Conca de l'embassament
           residential: Àrea residencial
           retail: Zona comercial
-          road: Àrea de carretera
           village_green: Prat municipal
           vineyard: Vinya
           "yes": Ús del terreny
         leisure:
+          adult_gaming_centre: Centre recreatiu per a adults
+          amusement_arcade: Sala recreativa de videojocs
           beach_resort: Complex turístic de platja
           bird_hide: Mirador d'ocells
+          bowling_alley: Bolera
           common: Terreny comunal
+          dance: Sala de ball
           dog_park: Parc caní
           firepit: Pou per a fer foc
           fishing: Àrea de pesca
@@ -777,7 +894,9 @@ ca:
           marina: Port esportiu
           miniature_golf: Minigolf
           nature_reserve: Reserva natural
+          outdoor_seating: Seient exterior
           park: Parc
+          picnic_table: Taula de pícnic
           pitch: Camp d'esports
           playground: Parc infantil
           recreation_ground: Zona d'esbarjo
@@ -792,13 +911,18 @@ ca:
           "yes": Oci
         man_made:
           adit: Galeria d'accés
+          advertising: Publicitat
+          antenna: Antena
+          avalanche_protection: Protecció d'allaus
           beacon: Balisa
           beehive: Rusc d'abelles
           breakwater: Escullera
           bridge: Pont
           bunker_silo: Búnquer
           chimney: Xemeneia
+          communications_tower: Torre de comunicacions
           crane: Grua
+          cross: Creu
           dolphin: Punt d'amarratge
           dyke: Dic
           embankment: Terraplè
@@ -814,12 +938,17 @@ ca:
           petroleum_well: Pou petrolífer
           pier: Moll
           pipeline: Canonada
+          pumping_station: Estació de bombeig
+          reservoir_covered: Dipòsit cobert
           silo: Sitja
+          snow_cannon: Canó de neu
           storage_tank: Tanc d'emmagatzematge
           surveillance: Vigilància
+          telescope: Telescopi
           tower: Torre
           wastewater_plant: Estació depuradora d'aigües residuals
           watermill: Molí d'aigua
+          water_tap: Aixeta d'aigua
           water_tower: Torre d'aigua
           water_well: Pou
           water_works: Estructura hidràulica
@@ -830,10 +959,13 @@ ca:
           airfield: Aeroport militar
           barracks: Caserna
           bunker: Búnquer
+          checkpoint: Punt de control
+          trench: Trinxera
           "yes": Militar
         mountain_pass:
           "yes": Coll - Port de muntanya
         natural:
+          bare_rock: Roca pelada
           bay: Badia
           beach: Platja
           cape: Cap
@@ -849,6 +981,7 @@ ca:
           grassland: Prats
           heath: Bruguerar
           hill: Pujol
+          hot_spring: Surgència termal
           island: Illa
           land: Terra
           marsh: Aiguamoll
@@ -875,17 +1008,26 @@ ca:
         office:
           accountant: Comptable
           administrative: Administració
+          advertising_agency: Agència publicitària
           architect: Arquitecte
           association: Associació
           company: Empresa
+          diplomatic: Oficina diplomàtica
           educational_institution: Institució educativa
           employment_agency: Agència d'ocupació
+          energy_supplier: Oficina subministradora d'energia
           estate_agent: Immobiliària
+          financial: Oficina financera
           government: Oficina governamental
           insurance: Oficina d'assegurances
           it: Oficina TIC
           lawyer: Advocat
+          logistics: Oficina logística
           ngo: Oficina d'una ONG
+          notary: Notaria
+          religion: Oficina religiosa
+          research: Oficina de recerca
+          tax_advisor: Gestoria
           telecommunication: Oficina de telecomunicacions
           travel_agent: Agència de viatges
           "yes": Oficina
@@ -914,7 +1056,6 @@ ca:
           subdivision: Subdivisió
           suburb: Suburbi
           town: Vila
-          unincorporated_area: Àrea no incorporada
           village: Poble
           "yes": Lloc
         railway:
@@ -940,10 +1081,14 @@ ca:
           switch: Canvi d'agulles
           tram: Tramvia
           tram_stop: Parada de tramvia
+          yard: Pati de ferrocarril
         shop:
+          agrarian: Botiga agrària
           alcohol: Licorista
           antiques: Antiquari
+          appliance: Botiga d'electrodomèstics
           art: Galeria d'art
+          bag: Botiga de bosses
           bakery: Fleca
           beauty: Saló de bellesa
           beverages: Botiga de begudes
@@ -957,37 +1102,46 @@ ca:
           car_repair: Taller mecànic
           carpet: Botiga de catifes
           charity: Botiga de beneficència
+          cheese: Botiga de formatge
           chemist: Farmàcia
+          chocolate: Xocolateria
           clothes: Botiga de roba
+          coffee: Cafeteria
           computer: Botiga d'informàtica
           confectionery: Confiteria
           convenience: Botiga de conveniència
           copyshop: Copisteria
           cosmetics: Botiga cosmètica
+          curtain: Botiga de cortines
+          dairy: Lleteria
           deli: Botiga gastronòmica
           department_store: Grans magatzems
           discount: Botiga de descompte
           doityourself: Botiga de bricolatge
           dry_cleaning: Tintoreria
+          e-cigarette: Botiga de cigarrets electrònics
           electronics: Botiga d'electrònica
+          erotic: Botiga eròtica
           estate_agent: Immobiliària
           farm: Agrobotiga
           fashion: Botiga de moda
-          fish: Peixateria
+          fishing: Botiga d'accessoris de pesca
           florist: Floristeria
           food: Botiga d'alimentació
           funeral_directors: Funerària
           furniture: Botiga de mobles
-          gallery: Galeria
           garden_centre: Centre de jardineria
+          gas: Gasolinera
           general: Botiga generalista
           gift: Botiga de regals
           greengrocer: Verduleria
           grocery: Botiga de queviures
           hairdresser: Perruqueria
           hardware: Ferreteria
+          herbalist: Herbolari
           hifi: Botiga de Hi-Fi
           houseware: Botiga d'objectes per a la llar
+          ice_cream: Gelateria
           interior_decoration: Decoració d'interiors
           jewelry: Joieria
           kiosk: Quiosc
@@ -995,27 +1149,37 @@ ca:
           laundry: Bugaderia
           lottery: Loteria
           mall: Centre comercial
-          market: Mercat
           massage: Massatgista
+          medical_supply: Botiga de subministraments mèdics
           mobile_phone: Botiga de telèfons mòbils
+          money_lender: Prestador de diners
           motorcycle: Botiga de motocicletes
+          motorcycle_repair: Botiga de reparació de motocicletes
           music: Botiga de música
+          musical_instrument: Instruments musicals
           newsagent: Quiosc de premsa
+          nutrition_supplements: Suplements de nutrició
           optician: Òptica
           organic: Botiga d'aliments ecològics
           outdoor: Botiga d'esports d'aventura
           paint: Botiga de pintures
+          pastry: Pastisseria
           pawnbroker: Casa de penyores
+          perfumery: Perfumeria
           pet: Botiga d'animals
-          pharmacy: Farmàcia
+          pet_grooming: Perruqueria de mascotes
           photo: Fotògraf
           seafood: Botiga de marisc
           second_hand: Botiga de segona mà
+          sewing: Merceria
           shoes: Sabateria
           sports: Botiga d'esports
           stationery: Papereria
+          storage_rental: Lloguer d'emmagatzematge
           supermarket: Supermercat
           tailor: Sastreria
+          tattoo: Botiga de tatuatges
+          tea: Botiga de te
           ticket: Venda d'entrades
           tobacco: Estanc
           toys: Botiga de joguines
@@ -1024,6 +1188,8 @@ ca:
           vacant: Botiga tancada
           variety_store: Botiga de preus baixos
           video: Videoclub
+          video_games: Botiga de videojocs
+          wholesale: Magatzem a l'engròs
           wine: Vinateria - Celler
           "yes": Botiga
         tourism:
@@ -1033,6 +1199,7 @@ ca:
           attraction: Atracció
           bed_and_breakfast: Bed and breakfast
           cabin: Cabanya
+          camp_pitch: Parcel·la de càmping
           camp_site: Càmping
           caravan_site: Càmping per a caravanes
           chalet: Xalet
@@ -1046,6 +1213,7 @@ ca:
           picnic_site: Àrea de pícnic
           theme_park: Parc temàtic
           viewpoint: Mirador
+          wilderness_hut: Refugi lliure
           zoo: Zoològic
         tunnel:
           building_passage: Passatge en edifici
@@ -1072,17 +1240,13 @@ ca:
           "yes": Curs d'aigua
       admin_levels:
         level2: Frontera (nivell 2)
+        level3: Límit regional
         level4: Límit estatal (nivell 4)
         level5: Límit regional (nivell 5)
         level6: Límit comarcal (nivell 6)
         level8: Límit municipal (nivell 8)
         level9: Límit intramunicipal (nivell 9)
         level10: Límit de suburbi-barri (nivell 10)
-    description:
-      title:
-        osm_nominatim: Ubicació segons <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Ubicació segons <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Ciutats
         towns: Viles
@@ -1160,8 +1324,6 @@ ca:
     new:
       title_html: Denunciar %{link}
       missing_params: No s'ha pogut crear una nova denúncia
-      details: Proporcioneu més detalls del problema (obligatori).
-      select: 'Tria un motiu de la teva denúncia:'
       disclaimer:
         intro: 'Abans d''enviar la teva denúncia als moderadors del lloc web, comprova
           que:'
@@ -1247,18 +1409,27 @@ ca:
       text: Feu una donació
     learn_more: Aprèn-ne més
     more: Més
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} ha comentat una entrada de diari'
       hi: Hola %{to_user},
       header: '%{from_user} ha comentat l''entrada de diari de l''OpenStreetMap amb
         el tema %{subject}:'
+      header_html: '%{from_user} ha comentat l''entrada de diari de l''OpenStreetMap
+        amb el tema %{subject}:'
       footer: Pots també llegit el comentari a %{readurl} i pots comentar a %{commenturl}
         o enviar un missatge a l'autor a %{replyurl}
+      footer_html: També podeu llegir el comentari a %{readurl} i comentar-lo a %{commenturl}
+        o enviar un missatge a l'autor a %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Hola %{to_user},
       header: '%{from_user} ha enviat un missatge a través d''OpenStreetMap amb el
         tema %{subject}:'
+      header_html: '%{from_user} us ha enviat un missatge a través d''OpenStreetMap
+        amb el tema %{subject}:'
+      footer: També podeu llegir el missatge a %{readurl} i podeu enviar un missatge
+        a l'autor a %{replyurl}
       footer_html: També podeu llegir el missatge a %{readurl} i podeu enviar un missatge
         a l'autor a %{replyurl}
     friendship_notification:
@@ -1266,25 +1437,27 @@ ca:
       subject: '[OpenStreetMap] %{user} us ha afegit a la llista d''amics'
       had_added_you: '%{user} us ha afegit com a amic a l''OpenStreetMap.'
       see_their_profile: Podeu veure el seu perfil a %{userurl}.
+      see_their_profile_html: Podeu veure el seu perfil a %{userurl}.
       befriend_them: També el podeu afegir com a amic a %{befriendurl}.
-    gpx_notification:
-      greeting: Hola,
-      your_gpx_file: Sembla el vostre fitxer GPX
-      with_description: amb la descripció
-      and_the_tags: 'i les etiquetes següents:'
-      and_no_tags: i cap etiqueta.
-      failure:
-        subject: '[OpenStreetMap] Error d''importació de GPX'
-        failed_to_import: 'no es pot importar. L''error ha estat:'
-        more_info_1: Més informació en relació a errades d'importació de GPX i com
-          evitar-les
-        more_info_2: 'els podeu trobar a:'
-      success:
-        subject: '[OpenStreetMap] Importació de GPX correcta'
-        loaded_successfully:
-          one: carregat correctament amb %{trace_points} d'un total d'un punt possible.
-          other: carregat correctament amb %{trace_points} d'un total de %{possible_points}
-            punts possibles.
+      befriend_them_html: També el podeu afegir com a amic a %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Sembla que el vostre fitxer GPX %{trace_name} amb
+        la descripció %{trace_description} i les etiquetes següents: %{tags}'
+      description_with_no_tags_html: Sembla que el vostre fitxer GPX %{trace_name}
+        amb la descripció %{trace_description} i sense etiquetes
+    gpx_failure:
+      hi: Hola %{to_user},
+      failed_to_import: 'no es pot importar. L''error ha estat:'
+      more_info_html: Podeu trobar més informació sobre les fallades d'importació
+        de GPX i com per evitar-les a %{url}.
+      subject: '[OpenStreetMap] Error d''importació de GPX'
+    gpx_success:
+      hi: Hola %{to_user},
+      loaded_successfully:
+        one: carregat correctament amb %{trace_points} d'un total d'un punt possible.
+        other: carregat correctament amb %{trace_points} d'un total de %{possible_points}
+          punts possibles.
+      subject: '[OpenStreetMap] Importació de GPX correcta'
     signup_confirm:
       subject: '[OpenStreetMap] OpenStreetMap us dona la benvinguda'
       greeting: Hola
@@ -1295,13 +1468,6 @@ ca:
         començar.
     email_confirm:
       subject: '[OpenStreetMap] Confirmeu l''adreça de correu'
-    email_confirm_plain:
-      greeting: Hola,
-      hopefully_you: Algú (esperem que vós) vol canviar la vostra adreça electrònica
-        a %{server_url} per %{new_address}.
-      click_the_link: Si sou vós mateix, feu clic a l'enllaç de sota per confirmar
-        el canvi.
-    email_confirm_html:
       greeting: Hola,
       hopefully_you: Algú (esperem que vós) vol canviar la vostra adreça electrònica
         a %{server_url} per %{new_address}.
@@ -1309,18 +1475,11 @@ ca:
         el canvi.
     lost_password:
       subject: '[OpenStreetMap] Sol·licitud de reinicialització de contrasenya'
-    lost_password_plain:
       greeting: Hola,
       hopefully_you: Algú (possiblement vós) ha demanat reincialitzar la contrasenya
         del compte d'openstreetmap.org associat a aquesta adreça de correu electrònic.
       click_the_link: Si sou vós mateix, feu clic a l'enllaç de sota per reinicialitzar
         la contrasenya.
-    lost_password_html:
-      greeting: Hola,
-      hopefully_you: Algú (possiblement vós) ha demanat reincialitzar la contrasenya
-        del compte d'openstreetmap.org associat a aquesta adreça de correu electrònic.
-      click_the_link: Si sou vós, feu clic a l'enllaç de sota per reinicialitzar la
-        vostra contrasenya.
     note_comment_notification:
       anonymous: Un usuari anònim
       greeting: Hola,
@@ -1330,15 +1489,23 @@ ca:
         subject_other: '[OpenStreetMap] %{commenter} ha comentat una nota que us interessa'
         your_note: '%{commenter} ha fet un comentari en una de les vostres notes de
           mapa a prop de %{place}.'
+        your_note_html: '%{commenter} ha deixat un comentari en una de les vostres
+          notes de mapa a prop de %{place}.'
         commented_note: '%{commenter} ha fet un comentari en una nota de mapa que
           havíeu comentat. Aquesta nota és a prop de %{place}.'
+        commented_note_html: '%{commenter} ha deixat un comentari en una nota de mapa
+          que havíeu comentat. Aquesta nota és a prop de %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} ha solucionat una de les vostres
           notes'
         subject_other: '[OpenStreetMap] %{commenter} ha solucionat una nota que us
           interessa'
         your_note: '%{commenter} ha resolt una de les notes de mapa a prop %{place}.'
+        your_note_html: '%{commenter} ha resolt una de les vostres notes de mapa a
+          prop de %{place}.'
         commented_note: '%{commenter} ha resolt una nota de mapa que havíeu comentat.
+          Aquesta nota és a prop de %{place}.'
+        commented_note_html: '%{commenter} ha resolt una nota de mapa que havíeu comentat.
           Aquesta nota és a prop de %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} ha reactivat una de les vostres
@@ -1346,9 +1513,14 @@ ca:
         subject_other: '[OpenStreetMap] %{commenter} ha reactivat una nota que us
           interessa'
         your_note: '%{commenter} ha reactivat una de les notes de mapa a prop de %{place}.'
+        your_note_html: '%{commenter} ha reactivat una de les vostres notes de mapa
+          a prop de %{place}.'
         commented_note: '%{commenter} ha reactivat una nota de mapa que havíeu comentat.
           La nota és a prop de %{place}.'
+        commented_note_html: '%{commenter} ha reactivat una nota de mapa que havíeu
+          comentat. La nota és a prop de %{place}.'
       details: Podeu trobar més detalls de la nota a %{url}.
+      details_html: Podeu trobar més detalls de la nota a %{url}.
     changeset_comment_notification:
       hi: Hola %{to_user},
       greeting: Hola,
@@ -1359,13 +1531,21 @@ ca:
           que us interessa'
         your_changeset: '%{commenter} ha fet un comentari a %{time} en un dels vostres
           conjunts de canvis'
-        commented_changeset: '%{commenter} ha fet un comentari a %{time} en un conjunt
-          de canvis de %{changeset_author} que esteu mirant'
+        your_changeset_html: '%{commenter} ha fet un comentari a %{time} en un dels
+          vostres conjunts de canvis'
+        commented_changeset: '%{commenter} ha deixat un comentari a %{time} en un
+          conjunt de canvis que esteu seguint de %{changeset_author}'
+        commented_changeset_html: '%{commenter} ha deixat un comentari a %{time} en
+          un conjunt de canvis que esteu seguint creat per %{changeset_author}'
         partial_changeset_with_comment: amb comentari '%{changeset_comment}'
+        partial_changeset_with_comment_html: amb el comentari '%{changeset_comment}'
         partial_changeset_without_comment: cap comentari
       details: Podeu trobar més detalls del conjunt de canvis a %{url}
+      details_html: Podeu trobar més detalls del conjunt de canvis a %{url}.
       unsubscribe: Per deixar de seguir les actualitzacions d'aquest conjunt de canvis,
-        visita %{url} i clica "Deixa de seguir"
+        visita %{url} i clica "Dona de baixa"
+      unsubscribe_html: Per deixar de seguir les actualitzacions d'aquest conjunt
+        de canvis, visiteu %{url} i cliqueu "Dona de baixa".
   messages:
     inbox:
       title: Safata d'entrada
@@ -1440,6 +1620,24 @@ ca:
       as_unread: Missatge marcat com a no llegit
     destroy:
       destroyed: Missatge suprimit
+  shared:
+    markdown_help:
+      title_html: Analitzat amb <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      headings: Encapçalaments
+      heading: Encapçalament
+      subheading: Subtítol
+      unordered: Llista sense ordenar
+      ordered: Llista ordenada
+      first: Primer element
+      second: Segon element
+      link: Enllaç
+      text: Text
+      image: Imatge
+      alt: Text alternatiu
+      url: URL
+    richtext_field:
+      edit: Edita
+      preview: Previsualitza
   site:
     about:
       next: Següent
@@ -1615,17 +1813,6 @@ ca:
         vostra %{user_page}.
       user_page_link: pàgina d'usuari
       anon_edits_link_text: Llegeix aquí perquè.
-      flash_player_required_html: Necessiteu un reproductor de Flash per a usar el
-        Potlatch, l'editor Flash de l'OpenStreetMap. Podeu <a href="https://get.adobe.com/flashplayer/"></a>baixar
-        el reproductor Flash Player des del web Adobe.com</a>. També hi ha <a href="http://wiki.openstreetmap.org/wiki/Editing">altres
-        opcions</a> per a editar l'OpenStreetMap.
-      potlatch_unsaved_changes: Teniu canvis sense desar. (Per desar els canvis al
-        Potlatch, desseleccioneu la via o el punt actuals si esteu en mode d'edició
-        en viu o feu clic a "Desa" si teniu un botó "Desa".)
-      potlatch2_not_configured: No s'ha configurat el Potlatch 2 - mireu http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-        per a més informació
-      potlatch2_unsaved_changes: Teniu canvis sense desar. (Per desar els canvis al
-        Potlatch 2, feu clic a "Desa".)
       id_not_configured: iD no s'ha configurat
       no_iframe_support: El vostre navegador no és compatible amb iframes HTML, que
         són necessàries per a aquesta funcionalitat.
@@ -1741,6 +1928,10 @@ ca:
         url: https://wiki.openstreetmap.org/
         title: Wiki d'OpenStreetMap
         description: Navegueu per la wiki per a trobar documentació detallada d'OpenStreetMap.
+    potlatch:
+      removed: El vostre editor d'OpenStreetMap per defecte és el Potlatch. Atès que
+        s'ha discontinuat l'Adobe Flash Player, el Potlach deixarà d'estar disponible
+        des del navegador web.
     sidebar:
       search_results: Resultats de la cerca
       close: Tanca
@@ -1851,7 +2042,7 @@ ca:
         title: Què hi ha al mapa
         on_html: L'OpenStreetMap cartografia coses que són <em>reals i actuals</em>-
           això inclou milions d'edificis, carreteres i altres detalls sobre llocs.
-          Pots cartografiar totes els elements del món real que et semblin interessants.
+          Pots cartografiar tots els elements del món real que et semblin interessants.
         off_html: El que <em>no</em> inclou són dades subjectives com ara puntuacions,
           característiques històriques o hipotètiques i dades de fonts amb drets d'autor.
           Tret que posseeixis un permís especial, no copiïs res de mapes de paper
@@ -1939,6 +2130,7 @@ ca:
       uploaded: 'Pujat el:'
       points: 'Punts:'
       start_coordinates: 'Coordenades d''inici:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: mapa
       edit: edita
       owner: 'Propietari:'
@@ -1973,7 +2165,7 @@ ca:
       map: mapa
     index:
       public_traces: Traces GPS públiques
-      my_traces: Les meves traçes de GPS
+      my_traces: Les meves traces de GPS
       public_traces_from: Traces GPS públiques de %{user}
       description: Navega per les traces pujades recentment
       tagged_with: etiquetat amb %{tags}
@@ -1982,7 +2174,7 @@ ca:
         wiki</a>.
       upload_trace: Puja una traça
       see_all_traces: Mostra totes les traces
-      see_my_traces: Veure les meves traces
+      see_my_traces: Mostra les meves traces
     destroy:
       scheduled_for_deletion: Traça programada per a ser suprimida
     make_public:
@@ -2060,13 +2252,6 @@ ca:
       delete: Esborra el client
       confirm: N'esteu segur?
       requests: 'Demana els permisos següents a l''usuari:'
-      allow_read_prefs: llegir les vostres preferències d'usuari.
-      allow_write_prefs: modificar les vostres preferències d'usuari.
-      allow_write_diary: crear entrades de diari, comentaris i fer amics.
-      allow_write_api: modificar el mapa.
-      allow_read_gpx: llegir les vostres traces GPS privades.
-      allow_write_gpx: pujar traces GPS.
-      allow_write_notes: modificar notes.
     index:
       title: Els meus detalls OAuth
       my_tokens: Les meves aplicacions autoritzades
@@ -2083,19 +2268,7 @@ ca:
       registered_apps: 'Teniu les següents aplicacions client registrades:'
       register_new: Registreu l'aplicació
     form:
-      name: Nom
-      required: Requerit
-      url: URL principal de l'aplicació
-      callback_url: URL de devolució de trucada
-      support_url: URL de suport
       requests: 'Sol·licitar els permisos següents a l''usuari:'
-      allow_read_prefs: llegir les vostres preferències d'usuari.
-      allow_write_prefs: modificar les vostres preferències d'usuari.
-      allow_write_diary: crear entrades de diari, comentaris i fer amics.
-      allow_write_api: modificar el mapa.
-      allow_read_gpx: llegir les vostres traces GPS privades.
-      allow_write_gpx: carregar traces GPS.
-      allow_write_notes: modificar notes.
     not_found:
       sorry: No s'ha pogut trobar aquest %{type}.
     create:
@@ -2176,8 +2349,6 @@ ca:
     reset_password:
       title: Restableix la contrasenya
       heading: Restableix la contrasenya per a %{user}
-      password: 'Contrasenya:'
-      confirm password: 'Confirmeu la contrasenya:'
       reset: Restableix la contrasenya
       flash changed: S'ha canviat la contrasenya.
       flash token bad: No s'ha trobat el testimoni. Comproveu la URL.
@@ -2192,8 +2363,6 @@ ca:
         html: |-
           <p>A diferència d'altres mapes, OpenStreetMap el crea gent com vós i qualsevol persona el pot modificar, actualitzar, descarregar i usar.</p>
           <p>Registreu-vos i comenceu a col·laborar. Us enviarem un e-mail per confirmar el vostre compte.</p>
-      license_agreement: Quan confirmeu el compte, heu d'acceptar els <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">termes
-        de col·laboració</a>.
       email address: 'Adreça de correu:'
       confirm email address: 'Confirmeu l''adreça de correu electrònic:'
       not_displayed_publicly_html: La vostra adreça no es mostrarà públicament (vegeu
@@ -2396,11 +2565,11 @@ ca:
       reconfirm_html: Si necessites que et reenviem el correu de confirmació, <a href="%{reconfirm}">clica
         aquí</a>.
     confirm_resend:
-      success: Hem enviat un bitllet de confirmació nou per %{email} i tan aviat com
-        confirmeu el vostre compte podreu cartografiar.<br><br>Si utilitzeu un sistema
-        contra el correu brossa que envia les sol·licituds de confirmació, llavors
-        autoritzeu %{sender} ja que no som capaços de respondre les sol·licituds de
-        confirmació.
+      success_html: Hem enviat un bitllet de confirmació nou per %{email} i tan aviat
+        com confirmeu el vostre compte podreu cartografiar.<br><br>Si utilitzeu un
+        sistema contra el correu brossa que envia les sol·licituds de confirmació,
+        llavors autoritzeu %{sender} ja que no som capaços de respondre les sol·licituds
+        de confirmació.
       failure: L'usuari %{name} no s'ha trobat.
     confirm_email:
       heading: Confirma un canvi d'adreça electrònica
@@ -2484,29 +2653,18 @@ ca:
     new:
       title: Creació de bloc %{name}
       heading_html: Creació de bloc %{name}
-      reason: La raó per què està sent blocat %{name}. Manteniu la tranquil·litat
-        i sigueu raonable com sigui possible, donant tants detalls com sigui possible
-        sobre la situació, recordeu que el missatge serà visible públicament. Tingueu
-        en compte que no tots els usuaris comprenen l'argot de la comunitat, així
-        que intenteu utilitzar termes de comuns.
       period: Quant de temps, a partir d'ara, l'usuari es bloca des de l'API.
       tried_contacting: Em vaig posar en contacte amb l'usuari i li vaig demanar que
         s'aturés.
       tried_waiting: Li he donat una quantitat raonable de temps a l'usuari per a
         respondre a aquestes comunicacions.
-      needs_view: L'usuari necessita connectar-se abans que aquest blocatge es suprimeixi
       back: Mostra tots els blocs
     edit:
       title: Bloc d'edició en %{name}
       heading_html: Bloc d'edició en %{name}
-      reason: La raó per la qual %{name} està sent blocat. Si us plau, sigueu tan
-        tranquil i tan raonable com sigui possible, donant tant detall com sigui possible
-        sobre la situació. Tingueu en compte que no tots els usuaris comprenen l'argot
-        de la comunitat, així que si us plau, intenteu utilitzar termes comuns.
       period: Quant de temps, a partir d'ara, l'usuari tindrà blocat l'accés a l'API.
       show: Mostra el bloc
       back: Mostra tots els blocs
-      needs_view: L'usuari necessita connectar-se abans que aquest blocatge es suprimeixi?
     filter:
       block_expired: El bloc ja ha expirat i no es pot editar.
       block_period: El període de blocatge ha de ser un dels valors seleccionables
@@ -2533,11 +2691,11 @@ ca:
       revoke: Revoca!
       flash: Aquest bloc ha estat revocat.
     helper:
-      time_future: Finalitza en %{time}.
+      time_future_html: Finalitza en %{time}.
       until_login: Activa fins que l'usuari es connecta.
-      time_future_and_until_login: Acaba a %{time} i després que l'usuari hagi iniciat
-        la sessió.
-      time_past: Va acabar a %{time}.
+      time_future_and_until_login_html: Acaba a %{time} i després que l'usuari hagi
+        iniciat la sessió.
+      time_past_html: Va acabar a %{time}.
       block_duration:
         hours:
           one: 1 hora
@@ -2674,7 +2832,7 @@ ca:
       show:
         comment: Comentari
         subscribe: Subscriure's
-        unsubscribe: Donar-se de baixa
+        unsubscribe: Dona de baixa
         hide_comment: ocultar
         unhide_comment: mostrar
     notes:
@@ -2801,7 +2959,7 @@ ca:
       directions_to: Direccions cap aquí
       add_note: Afegeix una nota aquí
       show_address: Mostra l'adreça
-      query_features: Consulta les funcionalitats
+      query_features: Consulta les característiques
       centre_map: Centra el mapa aquí
   redactions:
     edit:

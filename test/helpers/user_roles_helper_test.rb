@@ -51,10 +51,10 @@ class UserRolesHelperTest < ActionView::TestCase
     self.current_user = create(:user)
 
     icons = role_icons(current_user)
-    assert_dom_equal "  ", icons
+    assert_dom_equal "", icons
 
     icons = role_icons(create(:moderator_user))
-    expected = "  " + <<~HTML.delete("\n")
+    expected = <<~HTML.delete("\n")
       <picture>
       <source srcset="/images/roles/moderator.svg" type="image/svg+xml" />
       <img srcset="/images/roles/moderator.svg" border="0" alt="This user is a moderator" title="This user is a moderator" src="/images/roles/moderator.png" width="20" height="20" />
@@ -63,7 +63,7 @@ class UserRolesHelperTest < ActionView::TestCase
     assert_dom_equal expected, icons
 
     icons = role_icons(create(:super_user))
-    expected = " " + <<~HTML.delete("\n")
+    expected = <<~HTML.delete("\n")
       <picture>
       <source srcset="/images/roles/administrator.svg" type="image/svg+xml" />
       <img srcset="/images/roles/administrator.svg" border="0" alt="This user is an administrator" title="This user is an administrator" src="/images/roles/administrator.png" width="20" height="20" />
@@ -81,7 +81,7 @@ class UserRolesHelperTest < ActionView::TestCase
 
     user = create(:user)
     icons = role_icons(user)
-    expected = " " + <<~HTML.delete("\n")
+    expected = <<~HTML.delete("\n")
       <a confirm="Are you sure you want to grant the role `administrator&#39; to the user `#{user.display_name}&#39;?" rel="nofollow" data-method="post" href="/user/#{ERB::Util.u(user.display_name)}/role/administrator/grant">
       <picture>
       <source srcset="/images/roles/blank_administrator.svg" type="image/svg+xml" />
@@ -99,7 +99,7 @@ class UserRolesHelperTest < ActionView::TestCase
 
     moderator_user = create(:moderator_user)
     icons = role_icons(moderator_user)
-    expected = " " + <<~HTML.delete("\n")
+    expected = <<~HTML.delete("\n")
       <a confirm="Are you sure you want to grant the role `administrator&#39; to the user `#{moderator_user.display_name}&#39;?" rel="nofollow" data-method="post" href="/user/#{ERB::Util.u(moderator_user.display_name)}/role/administrator/grant">
       <picture>
       <source srcset="/images/roles/blank_administrator.svg" type="image/svg+xml" />
@@ -117,7 +117,7 @@ class UserRolesHelperTest < ActionView::TestCase
 
     super_user = create(:super_user)
     icons = role_icons(super_user)
-    expected = " " + <<~HTML.delete("\n")
+    expected = <<~HTML.delete("\n")
       <a confirm="Are you sure you want to revoke the role `administrator&#39; from the user `#{super_user.display_name}&#39;?" rel="nofollow" data-method="post" href="/user/#{ERB::Util.u(super_user.display_name)}/role/administrator/revoke">
       <picture>
       <source srcset="/images/roles/administrator.svg" type="image/svg+xml" />

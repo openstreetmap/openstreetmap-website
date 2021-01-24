@@ -4,16 +4,15 @@
 
 <p><%= t(".request_access_html", :app_name => link_to(@token.client_application.name, @token.client_application.url), :user => link_to(current_user.display_name, user_path(current_user))) %></p>
 
-<%= form_tag authorize_url do %>
-  <%= hidden_field_tag "oauth_token", @token.token %>
-  <%- if params[:oauth_callback] -%>
-    <%= hidden_field_tag "oauth_callback", params[:oauth_callback] %>
-  <%- end -%>
-  <p><%= t ".allow_to" %></p>
-  <ul>
-  <% @token.client_application.permissions.each do |perm| %>
-    <li><%= check_box_tag perm.to_s, "yes", @token.read_attribute(perm) %><%= label_tag perm.to_s, t(".#{perm}") %></li>
-  <% end %>
-  </ul>
-  <p><%= submit_tag t(".grant_access") %></p>
+<%= bootstrap_form_tag do |f| %>
+  <%= f.hidden_field :oauth_token, :value => @token.token %>
+  <% if params[:oauth_callback] -%>
+    <%= f.hidden_field :oauth_callback, :value => params[:oauth_callback] %>
+  <% end -%>
+  <%= f.form_group :permissions, :label => { :text => t(".allow_to") } do %>
+    <% @token.client_application.permissions.each do |perm| -%>
+      <%= f.check_box perm, :value => "yes", :checked => @token.read_attribute(perm), :label => t(".#{perm}") %>
+    <% end -%>
+  <% end -%>
+  <%= f.primary t(".grant_access") %>
 <% end %>

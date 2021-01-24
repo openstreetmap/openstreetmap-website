@@ -233,7 +233,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > fieldset > div.standard-form-row > input.field_with_errors#user_email"
+    assert_select "form > div.form-group > input.is-invalid#user_email"
   end
 
   def test_save_duplicate_email
@@ -262,7 +262,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > fieldset > div.standard-form-row > input.field_with_errors#user_email"
+    assert_select "form > div.form-group > input.is-invalid#user_email"
   end
 
   def test_save_duplicate_email_uppercase
@@ -291,7 +291,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > fieldset > div.standard-form-row > input.field_with_errors#user_email"
+    assert_select "form > div.form-group > input.is-invalid#user_email"
   end
 
   def test_save_duplicate_name
@@ -320,7 +320,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > fieldset > div.standard-form-row > input.field_with_errors#user_display_name"
+    assert_select "form > div.form-group > input.is-invalid#user_display_name"
   end
 
   def test_save_duplicate_name_uppercase
@@ -349,7 +349,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > fieldset > div.standard-form-row > input.field_with_errors#user_display_name"
+    assert_select "form > div.form-group > input.is-invalid#user_display_name"
   end
 
   def test_save_blocked_domain
@@ -422,7 +422,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get logout_path
     assert_response :success
     assert_template :logout
-    assert_select "input[name=referer][value=?]", ""
+    assert_select "input[name=referer]:not([value])"
   end
 
   def test_logout_fallback_with_referer
@@ -814,7 +814,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
-        post user_forgot_password_path, :params => { :user => { :email => user.email } }
+        post user_forgot_password_path, :params => { :email => user.email }
       end
     end
     assert_response :redirect
@@ -829,7 +829,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # that has the same address in a different case
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
-        post user_forgot_password_path, :params => { :user => { :email => user.email.upcase } }
+        post user_forgot_password_path, :params => { :email => user.email.upcase }
       end
     end
     assert_response :redirect
@@ -844,7 +844,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # for more than one user but not an exact match for either
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       perform_enqueued_jobs do
-        post user_forgot_password_path, :params => { :user => { :email => user.email.titlecase } }
+        post user_forgot_password_path, :params => { :email => user.email.titlecase }
       end
     end
     assert_response :success
@@ -856,7 +856,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     third_user = create(:user)
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
-        post user_forgot_password_path, :params => { :user => { :email => third_user.email } }
+        post user_forgot_password_path, :params => { :email => third_user.email }
       end
     end
     assert_response :redirect
@@ -871,7 +871,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # same (case insensitively unique) address in a different case
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
-        post user_forgot_password_path, :params => { :user => { :email => third_user.email.upcase } }
+        post user_forgot_password_path, :params => { :email => third_user.email.upcase }
       end
     end
     assert_response :redirect
@@ -906,7 +906,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     post user_reset_password_path, :params => { :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "different_password" } }
     assert_response :success
     assert_template :reset_password
-    assert_select "div#errorExplanation"
+    assert_select "div.invalid-feedback"
 
     # Test setting a new password
     post user_reset_password_path, :params => { :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "new_password" } }
@@ -953,6 +953,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user.description = "new description"
     user.preferred_editor = "default"
     post user_account_path(user), :params => { :user => user.attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -969,17 +972,23 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected]", false
 
     # Changing to a valid editor should work
-    user.preferred_editor = "potlatch2"
+    user.preferred_editor = "id"
     post user_account_path(user), :params => { :user => user.attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected][value=?]", "potlatch2"
+    assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected][value=?]", "id"
 
     # Changing to the default editor should work
     user.preferred_editor = "default"
     post user_account_path(user), :params => { :user => user.attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -989,6 +998,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # Changing to an uploaded image should work
     image = Rack::Test::UploadedFile.new("test/gpx/fixtures/a.gif", "image/gif")
     post user_account_path(user), :params => { :avatar_action => "new", :user => user.attributes.merge(:avatar => image) }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -997,6 +1009,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # Changing to a gravatar image should work
     post user_account_path(user), :params => { :avatar_action => "gravatar", :user => user.attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -1005,6 +1020,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # Removing the image should work
     post user_account_path(user), :params => { :avatar_action => "delete", :user => user.attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -1037,6 +1055,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # Changing name to one that doesn't exist should work
     new_attributes = user.attributes.dup.merge(:display_name => "new tester")
     post user_account_path(user), :params => { :user => new_attributes }
+    assert_response :redirect
+    assert_redirected_to user_account_url(:display_name => "new tester")
+    get user_account_path(:display_name => "new tester")
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -1079,6 +1100,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         post user_account_path(user), :params => { :user => user.attributes }
       end
     end
+    assert_response :redirect
+    assert_redirected_to user_account_url(user)
+    get user_account_path(user)
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false

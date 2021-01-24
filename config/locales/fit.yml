@@ -99,6 +99,8 @@ fit:
         title: Aihe
         body: Viesti
         recipient: Vastaanottaja
+      report:
+        details: Kuvaile prupleemaa (pakollinen)
       user:
         email: E-posti
         active: Aktivoitu
@@ -147,15 +149,9 @@ fit:
         other: '%{count} vuotta sitten'
   editor:
     default: Oletus (tällä hetkellä %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (selainkäyttöinen mookkain)
     id:
       name: iD
       description: iD (selainkäyttöinen mookkain)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (selainkäyttöinen mookkain)
     remote:
       name: Kauko-ohjaus
       description: Kauko-ohjaus (JOSM eli Merkaartor)
@@ -215,8 +211,8 @@ fit:
       relation: Relaatiot (%{count})
       relation_paginated: Relaatiot (%{x}-%{y} / %{count})
       comment: Kommentit (%{count})
-      hidden_commented_by: Käyttäjän %{user} piilotettu kommentti <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by_html: Käyttäjän %{user} piilotettu kommentti <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Muutoskokoelman XML
       osmchangexml: osmChange XML
       feed:
@@ -295,15 +291,15 @@ fit:
       open_title: 'Ratkaisematon karttailmotus #%{note_name}'
       closed_title: 'Ratkaistu karttailmotus #%{note_name}'
       hidden_title: 'Piilotettu karttailmotus #%{note_name}'
-      opened_by: Lähättänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Luonut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Kommentti tuntemattomalta käyttäjältä <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Ratkaissut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Aukassu uuesti käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Aukassu uuesti tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Lähättänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Luonut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Kommentti tuntemattomalta käyttäjältä <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Ratkaissut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Aukassu uuesti käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Aukassu uuesti tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Ilmianna karttailmotus
     query:
       title: Ominaisuuskysely
@@ -356,12 +352,7 @@ fit:
     new:
       title: Uusi päiväkirjamerkintä
     form:
-      subject: 'Aihe:'
-      body: 'Teksti:'
-      language: 'Kieli:'
       location: 'Paikka:'
-      latitude: 'Leveyspiiri:'
-      longitude: 'Pituuspiiri:'
       use_map_link: valitte kartalta
     index:
       title: Käyttäjitten päiväkirjamerkinnät
@@ -490,8 +481,6 @@ fit:
           post_box: Kirjeloota
           prison: Fankila
           restaurant: Restayrangi
-          retirement_home: Vanhuuskoti
-          sauna: Sauna
           school: Skoulu
           toilets: Tualetit
           university: Yniversiteetti
@@ -508,11 +497,6 @@ fit:
         tourism:
           museum: Myseymmi
           zoo: Elläintarha
-    description:
-      title:
-        osm_nominatim: Sijainti <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatimista</a>
-        geonames: Sijainti palvelusta <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Kaupunkit
         towns: Kylät
@@ -587,8 +571,6 @@ fit:
     new:
       title_html: Ilmianna %{link}
       missing_params: Ilmotuksen luominen epäonnistui
-      details: Kuvaile prupleemaa (pakollinen)
-      select: 'Valitte ilmiannon syy:'
       categories:
         diary_entry:
           other_label: Muu
@@ -628,24 +610,17 @@ fit:
     community: Föreeninki
     learn_more: Lue lissää
     more: Lissää
-  notifier:
+  user_mailer:
     diary_comment_notification:
       hi: Hei %{to_user},
     message_notification:
       hi: Hei %{to_user},
     friendship_notification:
       hi: Hei %{to_user},
-    gpx_notification:
-      greeting: Hei!
-      your_gpx_file: Ylöslattaamasi GPX-fiili
-      with_description: ', jonka kuvvaus oon'
-      failure:
-        failed_to_import: 'epäonnistui importeerata. Tässä virhe:'
-        more_info_1: Lissää tietoja GPX-importeerausongelmista ja miten niitä voi
-          välttää
-        more_info_2: 'ne löytyvät atressista:'
-      success:
-        subject: '[OpenStreetMap] GPX-importeeraus onnistui'
+    gpx_failure:
+      failed_to_import: 'epäonnistui importeerata. Tässä virhe:'
+    gpx_success:
+      subject: '[OpenStreetMap] GPX-importeeraus onnistui'
     signup_confirm:
       subject: '[OpenStreetMap] Tervetuloa OpenStreetMaphiin'
       greeting: Hei!
@@ -656,19 +631,11 @@ fit:
         asioita, jotta pääset alkuun.
     email_confirm:
       subject: '[OpenStreetMap] Vahvista e-postiatressi'
-    email_confirm_plain:
       greeting: Hei,
       hopefully_you: Joku (toivottavasti sinä) haluaa vaihtaa e-postiatressin palvelimella
         %{server_url} atressiksi %{new_address}
       click_the_link: Jos tämä olet sinä, knapauta länkkiä alla vahvistaaksesi muutoksen.
-    email_confirm_html:
-      greeting: Hei,
-      hopefully_you: Joku (toivottavasti sinä) tahtoo muuttaa e-postiatressinsa sivula
-        %{server_url} atressiksi %{new_address}.
-      click_the_link: Jos tämä olet sinä, knapauta länkkiä alla vahvistaaksesi muutoksen.
-    lost_password_plain:
-      greeting: Hei,
-    lost_password_html:
+    lost_password:
       greeting: Hei,
     note_comment_notification:
       anonymous: Tuntematon käyttäjä
@@ -946,10 +913,6 @@ fit:
       edit: Mookkaa yksityiskohtia
       delete: Ota poies kynti
       confirm: Oletko varma?
-    form:
-      name: Nimi
-      allow_read_prefs: käyttäjäinställninkien näkeminen.
-      allow_write_prefs: käyttäjäinställninkien muuttaminen.
   users:
     login:
       title: Lokkaussivu
@@ -979,9 +942,6 @@ fit:
       heading: Unohditko salasanasi?
       email address: 'E-postiatressi:'
       new password button: Lähätä salasanan palautusohjeet
-    reset_password:
-      password: 'Salasana:'
-      confirm password: 'Vahvista salasana:'
     new:
       title: Luo konttu
       about:

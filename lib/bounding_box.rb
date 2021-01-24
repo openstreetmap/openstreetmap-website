@@ -72,7 +72,7 @@ class BoundingBox
   def check_size(max_area = Settings.max_request_area)
     # check the bbox isn't too large
     if area > max_area
-      raise OSM::APIBadBoundingBox, "The maximum bbox size is " + max_area.to_s +
+      raise OSM::APIBadBoundingBox, "The maximum bbox size is #{max_area}" \
                                     ", and your request was too large. Either request a smaller area, or use planet.osm"
     end
     self

@@ -1,0 +1,15 @@
+<p><%= t ".greeting" %></p>
+
+<% if @owner %>
+  <p><%= t ".#{@event}.your_note_html", :commenter => link_to_user(@commenter), :place => @place %></p>
+<% else %>
+  <p><%= t ".#{@event}.commented_note_html", :commenter => link_to_user(@commenter), :place => @place %></p>
+<% end %>
+
+<% unless @comment.empty? %>
+  <%= message_body do %>
+    <%= @comment.to_html %>
+  <% end %>
+<% end %>
+
+<p><%= t ".details_html", :url => link_to(@noteurl, @noteurl) %></p>

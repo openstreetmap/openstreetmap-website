@@ -14,6 +14,8 @@ ia:
     formats:
       friendly: '%e de %B %Y a %H:%M'
   helpers:
+    file:
+      prompt: Selige file
     submit:
       diary_comment:
         create: Salveguardar
@@ -26,7 +28,7 @@ ia:
         create: Inviar
       client_application:
         create: Registrar
-        update: Modificar
+        update: Actualisar
       redaction:
         create: Crear suppression
         update: Salveguardar suppression
@@ -78,6 +80,18 @@ ia:
       way_node: Nodo de via
       way_tag: Etiquetta de via
     attributes:
+      client_application:
+        name: Nomine (obligatori)
+        url: URL principal del application (obligatori)
+        callback_url: URL de retorno
+        support_url: URl de supporto
+        allow_read_prefs: leger su preferentias de usator
+        allow_write_prefs: modificar su preferentias de usator
+        allow_write_diary: crear entratas de diario, commentos e adder amicos
+        allow_write_api: modificar le carta
+        allow_read_gpx: leger su tracias GPS private
+        allow_write_gpx: incargar tracias GPS
+        allow_write_notes: modificar notas
       diary_comment:
         body: Texto
       diary_entry:
@@ -92,20 +106,23 @@ ia:
       trace:
         user: Usator
         visible: Visibile
-        name: Nomine
+        name: Nomine de file
         size: Dimension
         latitude: Latitude
         longitude: Longitude
         public: Public
         description: Description
-        gpx_file: 'Incargar file GPX:'
-        visibility: 'Visibilitate:'
-        tagstring: 'Etiquettas:'
+        gpx_file: Incargar file GPX
+        visibility: Visibilitate
+        tagstring: Etiquettas
       message:
         sender: Expeditor
         title: Subjecto
         body: Texto
         recipient: Destinatario
+      report:
+        category: Selige un motivo pro tu reporto
+        details: Per favor, forni plus detalios sur le problema (obligatori).
       user:
         email: E-mail
         active: Active
@@ -113,9 +130,12 @@ ia:
         description: Description
         languages: Linguas
         pass_crypt: Contrasigno
+        pass_crypt_confirmation: Confirmar contrasigno
     help:
       trace:
         tagstring: separate per commas
+      user_block:
+        needs_view: Debe le usator aperir un session ante que iste blocada es cancellate?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -157,18 +177,12 @@ ia:
         other: '%{count} annos retro'
   editor:
     default: Predefinite (actualmente %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (editor in navigator del web)
     id:
       name: iD
       description: iD (editor in navigator)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (editor in navigator del web)
     remote:
       name: Controlo remote
-      description: Controlo remote (JOSM o Merkaartor)
+      description: Controlo remote (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Necun
@@ -215,6 +229,12 @@ ia:
     anonymous: anonyme
     no_comment: (sin commento)
     part_of: Parte de
+    part_of_relations:
+      one: 1 relation
+      other: '%{count} relationes'
+    part_of_ways:
+      one: 1 via
+      other: '%{count} vias'
     download_xml: Discargar XML
     view_history: Vider historia
     view_details: Vider detalios
@@ -229,8 +249,8 @@ ia:
       relation: Relationes (%{count})
       relation_paginated: Relationes (%{x}-%{y} de %{count})
       comment: Commentos (%{count})
-      hidden_commented_by: Commento celate de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Commento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by_html: Commento celate de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Commento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML del gruppo de modificationes
       osmchangexml: XML osmChange
       feed:
@@ -247,6 +267,9 @@ ia:
       title_html: 'Via: %{name}'
       history_title_html: 'Historia del via: %{name}'
       nodes: Nodos
+      nodes_count:
+        one: 1 nodo
+        other: '%{count} nodos'
       also_part_of_html:
         one: parte del via %{related_ways}
         other: parte del vias %{related_ways}
@@ -254,6 +277,9 @@ ia:
       title_html: 'Relation: %{name}'
       history_title_html: 'Historia del relation: %{name}'
       members: Membros
+      members_count:
+        one: 1 membro
+        other: '%{count} membros'
     relation_member:
       entry_role_html: '%{type} %{name} como %{role}'
       type:
@@ -264,6 +290,7 @@ ia:
       entry_html: Relation %{relation_name}
       entry_role_html: Relation %{relation_name} (como %{relation_role})
     not_found:
+      title: Non trovate
       sorry: Le %{type} №%{id} non ha essite trovate.
       type:
         node: nodo
@@ -272,6 +299,7 @@ ia:
         changeset: gruppo de modificationes
         note: nota
     timeout:
+      title: Tempore limite excedite
       sorry: Pardono, le datos pro le %{type} con le ID %{id} ha prendite troppo de
         tempore pro esser recuperate.
       type:
@@ -310,15 +338,15 @@ ia:
       open_title: Nota non resolvite №%{note_name}
       closed_title: Nota resolvite №%{note_name}
       hidden_title: Nota celate №%{note_name}
-      opened_by: Create per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Create per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Commento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Commento de un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Resolvite per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Resolvite per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Reactivate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Reactivate per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Celate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Create per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Create per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Commento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Commento de un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Resolvite per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Resolvite per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Reactivate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Reactivate per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Celate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Signalar iste nota
     query:
       title: Cercar objectos
@@ -374,13 +402,8 @@ ia:
     new:
       title: Nove entrata de diario
     form:
-      subject: 'Subjecto:'
-      body: 'Texto:'
-      language: 'Lingua:'
-      location: 'Loco:'
-      latitude: 'Latitude:'
-      longitude: 'Longitude:'
-      use_map_link: usar carta
+      location: Loco
+      use_map_link: Usar le carta
     index:
       title: Diarios de usatores
       title_friends: Diarios de amicos
@@ -389,6 +412,7 @@ ia:
       in_language_title: Entratas de diario in %{language}
       new: Nove entrata de diario
       new_title: Componer un nove entrata in mi diario
+      my_diary: Mi diario
       no_entries: Nulle entrata in diario
       recent_entries: Entratas recente del diario
       older_entries: Entratas plus ancian
@@ -408,9 +432,10 @@ ia:
       body: Pardono, il non ha un entrata de diario o commento con le ID %{id}. Verifica
         le orthographia, o pote esser que le ligamine que tu sequeva es incorrecte.
     diary_entry:
-      posted_by_html: Publicate per %{link_user} le %{created} in %{language_link}
+      posted_by_html: Publicate per %{link_user} le %{created} in %{language_link}.
+      updated_at_html: Ultime actualisation le %{updated}.
       comment_link: Commentar iste entrata
-      reply_link: Responder a iste entrata
+      reply_link: Inviar un message al autor
       comment_count:
         one: 1 commento
         zero: Nulle commento
@@ -477,10 +502,12 @@ ia:
           chair_lift: Telesedia
           drag_lift: Teleski
           gondola: Telecabina
+          magic_carpet: Tapete rolante
           platter: Teleski a platto
           pylon: Pylon
           station: Station de telecabina
           t-bar: Teleski a barras T
+          "yes": Via aeree
         aeroway:
           aerodrome: Aerodromo
           airstrip: Pista de atterrage
@@ -489,11 +516,15 @@ ia:
           hangar: Hangar
           helipad: Heliporto
           holding_position: Puncto de attender
+          navigationaid: Auxilio al navigation aeree
           parking_position: Puncto de parcamento
           runway: Pista
+          taxilane: Via de taxi
           taxiway: Via de circulation pro aviones
           terminal: Terminal
+          windsock: Manica a vento
         amenity:
+          animal_boarding: Pension pro animales
           animal_shelter: Refugio pro animales
           arts_centre: Centro artistic
           atm: Cassa automatic
@@ -503,7 +534,9 @@ ia:
           bench: Banco
           bicycle_parking: Stationamento pro bicyclettas
           bicycle_rental: Location de bicyclettas
+          bicycle_repair_station: Station de reparation de bicyclettas
           biergarten: Terrassa
+          blood_bank: Banco de sanguine
           boat_rental: Location de barcas
           brothel: Bordello
           bureau_de_change: Officio de cambio
@@ -520,6 +553,7 @@ ia:
           clock: Horologio
           college: Schola superior
           community_centre: Centro communitari
+          conference_centre: Centro de conferentias
           courthouse: Tribunal
           crematorium: Crematorio
           dentist: Dentista
@@ -527,6 +561,7 @@ ia:
           drinking_water: Aqua potabile
           driving_school: Autoschola
           embassy: Ambassada
+          events_venue: Loco de eventos
           fast_food: Fast food
           ferry_terminal: Terminal de ferry
           fire_station: Caserna de pumperos
@@ -539,36 +574,42 @@ ia:
           hospital: Hospital
           hunting_stand: Posto de chassa
           ice_cream: Gelato
+          internet_cafe: Café internet
           kindergarten: Schola pro juvene infantes
+          language_school: Schola de linguas
           library: Bibliotheca
+          loading_dock: Imbarcatorio
+          love_hotel: Hotel de amor
           marketplace: Mercato
+          mobile_money_agent: Agente monetari mobile
           monastery: Monasterio
+          money_transfer: Transferimento de moneta
           motorcycle_parking: Parking a motocyclo
+          music_school: Schola de musica
           nightclub: Club nocturne
           nursing_home: Casa de convalescentia
-          office: Officio
           parking: Parking
           parking_entrance: Entrata de autoparco
           parking_space: Spatio de parcamento
+          payment_terminal: Terminal de pagamento
           pharmacy: Pharmacia
           place_of_worship: Loco de adoration
           police: Policia
           post_box: Cassa postal
           post_office: Officio postal
-          preschool: Pre-schola
           prison: Prision
           pub: Taverna
+          public_bath: Banio public
+          public_bookcase: Bibliotheca de strata
           public_building: Edificio public
+          ranger_station: Posto de guarda forestal
           recycling: Puncto de recyclage
           restaurant: Restaurante
-          retirement_home: Residentia pro vetere personas
-          sauna: Sauna
+          sanitary_dump_station: Station de discarga sanitari
           school: Schola
           shelter: Refugio
-          shop: Boteca
           shower: Ducha
           social_centre: Centro social
-          social_club: Club social
           social_facility: Servicio social
           studio: Appartamento de un camera
           swimming_pool: Piscina
@@ -577,19 +618,27 @@ ia:
           theatre: Theatro
           toilets: Toilettes
           townhall: Casa municipal
+          training: Centro de training
           university: Universitate
+          vehicle_inspection: Inspection de vehiculos
           vending_machine: Distributor automatic
           veterinary: Clinica veterinari
           village_hall: Casa communal
           waste_basket: Corbe a papiro
           waste_disposal: Tractamento de immunditias
+          waste_dump_site: Sito de discarga de immunditias
+          watering_place: Abiberatorio
           water_point: Puncto de aqua
-          youth_centre: Centro pro le juventute
+          weighbridge: Ponte bascula
+          "yes": Facilitate
         boundary:
+          aboriginal_lands: Territorios aborigine
           administrative: Limite administrative
           census: Limite de censo
           national_park: Parco national
+          political: Circumscription electoral
           protected_area: Area protegite
+          "yes": Frontiera
         bridge:
           aqueduct: Aqueducto
           boardwalk: Passarella
@@ -598,24 +647,94 @@ ia:
           viaduct: Viaducto
           "yes": Ponte
         building:
+          apartment: Appartamento
+          apartments: Appartamentos
+          barn: Granario
+          bungalow: Bungalow
+          cabin: Cabana de ligno
+          chapel: Cappella
+          church: Edificio de ecclesia
+          civic: Edificio civic
+          college: Edificio de academia
+          commercial: Edificio commercial
+          construction: Edificio in construction
+          detached: Casa individual
+          dormitory: Dormitorio
+          duplex: Casa duple
+          farm: Casa de ferma
+          farm_auxiliary: Casa auxiliar de ferma
+          garage: Garage
+          garages: Garages
+          greenhouse: Estufa
+          hangar: Hangar
+          hospital: Edificio hospitalari
+          hotel: Edificio de hotel
+          house: Casa
+          houseboat: Casa flottante
+          hut: Cabana
+          industrial: Edificio industrial
+          kindergarten: Edificio de schola infantil
+          manufacture: Edificio de fabrica
+          office: Edificio de officio
+          public: Edificio public
+          residential: Edificio residential
+          retail: Magazin
+          roof: Tecto
+          ruins: Edificio in ruina
+          school: Edificio de schola
+          semidetached_house: Casa geminate
+          service: Edificio de servicio
+          shed: Remissa
+          stable: Stabulo
+          static_caravan: Caravana
+          temple: Edificio de templo
+          terrace: Casas in serie
+          train_station: Edificio de station ferroviari
+          university: Edificio de universitate
+          warehouse: Deposito
           "yes": Edificio
+        club:
+          scout: Base de gruppo de scout
+          sport: Club de sport
+          "yes": Club
         craft:
+          beekeper: Apicultor
+          blacksmith: Ferrero
           brewery: Fabrica de bira
           carpenter: Carpentero
+          caterer: Catering
+          confectionery: Confecteria
+          dressmaker: Modista
           electrician: Electricista
+          electronics_repair: Reparation de electronica
           gardener: Jardinero
+          glaziery: Vitreria
+          handicraft: Artisanato
+          hvac: Fabricante de climatisation
+          metal_construction: Constructor in metallo
           painter: Pictor
           photographer: Photographo
           plumber: Plumbero
+          roofer: Copertor de tectos
+          sawmill: Serreria
           shoemaker: Scarpero
+          stonemason: Taliator de petras
           tailor: Sartor
+          window_construction: Construction de fenestras
+          winery: Vinia
           "yes": Boteca de artisanato
         emergency:
+          access_point: Puncto de accesso
           ambulance_station: Station de ambulantias
           assembly_point: Puncto de incontro
           defibrillator: Defibrillator
+          fire_xtinguisher: Extinctor de incendios
+          fire_water_pond: Bassino de aqua contra incendios
           landing_site: Loco de atterrage de emergentia
+          life_ring: Boia de salvamento
           phone: Telephono de emergentia
+          siren: Sirena de emergentia
+          suction_point: Puncto de suction de emergentia
           water_tank: Cisterna de aqua de emergentia
           "yes": Emergentia
         highway:
@@ -628,6 +747,7 @@ ia:
           cycleway: Pista cyclabile
           elevator: Ascensor
           emergency_access_point: Puncto de accesso de emergentia
+          emergency_bay: Rampa de emergentia
           footway: Sentiero pro pedones
           ford: Vado
           give_way: Signal de ceder le passage
@@ -658,19 +778,23 @@ ia:
           tertiary: Via tertiari
           tertiary_link: Via tertiari
           track: Pista
+          traffic_mirror: Speculo de traffico
           traffic_signals: Lumines de traffico
-          trail: Pista
+          trailhead: Initio de sentiero
           trunk: Via national
           trunk_link: Via national
           turning_loop: Bucla de giro
           unclassified: Via non classificate
           "yes": Cammino
         historic:
+          aircraft: Avion historic
           archaeological_site: Sito archeologic
+          bomb_crater: Crater de bomba historic
           battlefield: Campo de battalia
           boundary_stone: Lapide de frontiera
           building: Edificio historic
           bunker: Bunker
+          cannon: Cannon historic
           castle: Castello
           church: Ecclesia
           city_gate: Porta de citate
@@ -678,7 +802,6 @@ ia:
           fort: Forte
           heritage: Sito de patrimonio
           house: Casa
-          icon: Icone
           manor: Casa seniorial
           memorial: Memorial
           mine: Mina
@@ -723,7 +846,6 @@ ia:
           reservoir_watershed: Bassino interfluvial
           residential: Area residential
           retail: Magazines
-          road: Area de cammino
           village_green: Parco de village
           vineyard: Vinia
           "yes": Uso de terreno
@@ -880,7 +1002,6 @@ ia:
           subdivision: Subdivision
           suburb: Suburbio
           town: Urbe
-          unincorporated_area: Area sin municipalitate
           village: Village
           "yes": Loco
         railway:
@@ -906,6 +1027,7 @@ ia:
           switch: Agulia
           tram: Tramvia
           tram_stop: Halto de tram
+          yard: Station de manovras
         shop:
           alcohol: Magazin de bibitas alcoholic
           antiques: Antiquitates
@@ -939,12 +1061,10 @@ ia:
           estate_agent: Agentia immobiliari
           farm: Magazin agricole
           fashion: Boteca de moda
-          fish: Pischeria
           florist: Florista
           food: Magazin de alimentation
           funeral_directors: Directores de pompas funebre
           furniture: Magazin de mobiles
-          gallery: Galeria
           garden_centre: Jardineria
           general: Magazin general
           gift: Boteca de donos
@@ -961,7 +1081,6 @@ ia:
           laundry: Lavanderia
           lottery: Lotteria
           mall: Galeria mercante
-          market: Mercato
           massage: Massage
           mobile_phone: Boteca de telephonos mobile
           motorcycle: Magazin de motocyclos
@@ -973,7 +1092,6 @@ ia:
           paint: Magazin de colores
           pawnbroker: Prestator sur pignore
           pet: Boteca de animales
-          pharmacy: Pharmacia
           photo: Magazin de photographia
           seafood: Fructos de mar
           second_hand: Magazin de secunde mano
@@ -1044,11 +1162,6 @@ ia:
         level8: Limite de citate
         level9: Limite de village
         level10: Limite de suburbio
-    description:
-      title:
-        osm_nominatim: Loco de <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Position de <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Citates
         towns: Villages
@@ -1126,8 +1239,6 @@ ia:
     new:
       title_html: Reportar %{link}
       missing_params: Impossibile crear un nove reporto
-      details: Per favor, forni plus detalios sur le problema (obligatori).
-      select: 'Selige un motivo pro tu reporto:'
       disclaimer:
         intro: 'Ante de inviar tu reporto al moderatores del sito, per favor assecura
           te que:'
@@ -1211,45 +1322,45 @@ ia:
       text: Facer un donation
     learn_more: Leger plus
     more: Plus
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} commentava un entrata de diario'
       hi: Salute %{to_user},
       header: '%{from_user} ha commentate le entrata recente de diario OpenStreetMap
         con le subjecto %{subject}:'
-      footer: Tu pote tamben leger le commento a %{readurl} e tu pote commentar a
-        %{commenturl} o responder a %{replyurl}
+      header_html: '%{from_user} ha commentate le entrata de diario OpenStreetMap
+        con le subjecto %{subject}:'
+      footer: Tu pote etiam leger le commento a %{readurl} e tu pote commentar a %{commenturl}
+        o inviar un message al autor a %{replyurl}
+      footer_html: Tu pote etiam leger le commento sur %{readurl} e tu pote commentar
+        sur %{commenturl} o inviar un message al autor sur %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Salute %{to_user},
       header: '%{from_user} te ha inviate un message per OpenStreetMap con le subjecto
         %{subject}:'
-      footer_html: Tu pote anque leger le message a %{readurl} e tu pote responder
-        a %{replyurl}
+      header_html: '%{from_user} te ha inviate un message per OpenStreetMap con le
+        subjecto %{subject}:'
+      footer: Tu pote etiam leger le message sur %{readurl} e tu pote inviar un message
+        al autor sur %{replyurl}
+      footer_html: Tu pote etiam leger le message a %{readurl} e tu pote inviar un
+        message al autor a %{replyurl}
     friendship_notification:
       hi: Salute %{to_user},
       subject: '[OpenStreetMap] %{user} te ha addite como amico'
       had_added_you: '%{user} te ha addite como amico in OpenStreetMap.'
       see_their_profile: Tu pote vider su profilo a %{userurl}.
       befriend_them: Tu pote equalmente adder le/la como amico a %{befriendurl}.
-    gpx_notification:
-      greeting: Salute,
-      your_gpx_file: Il pare que tu file GPX
-      with_description: con le description
-      and_the_tags: 'e le sequente etiquettas:'
-      and_no_tags: e sin etiquettas.
-      failure:
-        subject: '[OpenStreetMap] Importation GPX fallite'
-        failed_to_import: 'ha fallite de importar. Ecce le error:'
-        more_info_1: Plus informationes super le fallimentos de importation GPX e
-          como evitar los
-        more_info_2: 'los se trova a:'
-      success:
-        subject: '[OpenStreetMap] Importation GPX succedite'
-        loaded_successfully:
-          one: ha essite cargate con successo con %{trace_points} ex un maximo de
-            1 puncto.
-          other: ha essite cargate con successo con %{trace_points} ex un maximo de
-            %{possible_points} punctos.
+    gpx_failure:
+      failed_to_import: 'ha fallite de importar. Ecce le error:'
+      subject: '[OpenStreetMap] Importation GPX fallite'
+    gpx_success:
+      loaded_successfully:
+        one: ha essite cargate con successo con %{trace_points} ex un maximo de 1
+          puncto.
+        other: ha essite cargate con successo con %{trace_points} ex un maximo de
+          %{possible_points} punctos.
+      subject: '[OpenStreetMap] Importation GPX succedite'
     signup_confirm:
       subject: '[OpenStreetMap] Benvenite a OpenStreetMap'
       greeting: Bon die!
@@ -1261,29 +1372,15 @@ ia:
         supplementari pro adjutar te a comenciar.
     email_confirm:
       subject: '[OpenStreetMap] Confirma tu adresse de e-mail'
-    email_confirm_plain:
       greeting: Salute,
       hopefully_you: Alcuno (probabilemente tu) vole cambiar su adresse de e-mail
         in %{server_url} a %{new_address}.
       click_the_link: Si isto es tu, per favor clicca super le ligamine ci infra pro
         confirmar le alteration.
-    email_confirm_html:
-      greeting: Salute,
-      hopefully_you: Alcuno (sperabilemente tu) vole cambiar su adresse de e-mail
-        in %{server_url} a %{new_address}.
-      click_the_link: Si isto es tu, per favor clicca super le ligamine ci infra pro
-        confirmar le alteration.
     lost_password:
       subject: '[OpenStreetMap] Requesta de reinitialisation del contrasigno'
-    lost_password_plain:
       greeting: Salute,
       hopefully_you: Alcuno (probabilemente tu) ha demandate que le contrasigno del
-        conto openstreetmap.org associate con iste adresse de e-mail sia reinitialisate.
-      click_the_link: Si isto es tu, per favor clicca super le ligamine ci infra pro
-        reinitialisar tu contrasigno.
-    lost_password_html:
-      greeting: Salute,
-      hopefully_you: Alcuno (possibilemente tu) ha demandate que le contrasigno del
         conto openstreetmap.org associate con iste adresse de e-mail sia reinitialisate.
       click_the_link: Si isto es tu, per favor clicca super le ligamine ci infra pro
         reinitialisar tu contrasigno.
@@ -1470,16 +1567,15 @@ ia:
           Si vos altera o extende nostre datos, vos pote distribuer le resultato solmente
           sub le mesme licentia. Le <a href="https://opendatacommons.org/licenses/odbl/1.0/">codice
           juridic</a> complete explica vostre derectos e responsabilitates.
-        intro_3_1_html: Le cartographia in nostre tegulas cartographic, e nostre documentation,
-          es publicate sub licentia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA).
+        intro_3_1_html: Nostre documentation es publicate sub licentia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA 2.0).
         credit_title_html: Como dar recognoscentia a OpenStreetMap
         credit_1_html: |-
           Nos require que vos usa le recognoscentia &ldquo;&copy; OpenStreetMap
           contributors&rdquo;.
         credit_2_1_html: |-
-          Vos debe etiam indicar clarmente que le datos es disponibile sub Open Database License, e si vos usa nostre tegulas cartographic, que le cartographia es licentiate sub CC-BY-SA. Vos pote facer isto con un ligamine a <a href="https://www.openstreetmap.org/copyright">iste pagina de copyright</a>.
-          Alternativemente, e obligatorimente si vos distribue OSM in forma de datos, vos pote mentionar le licentia(s) e ligar directemente a illo(s). Si vos usa un medio de communication in le qual le ligamines non es possibile (p.ex. un obra imprimite), nos suggere que vos dirige vostre lectores a openstreetmap.org (forsan per inserer iste adresse complete in loco del parola &lsquo;OpenStreetMap&rsquo;), a opendatacommons.org, e (si relevante) a creativecommons.org.
+          Vos debe etiam indicar clarmente que le datos es disponibile sub Open Database License. Vos pote facer isto con un ligamine a <a href="https://www.openstreetmap.org/copyright">iste pagina de copyright</a>.
+          Alternativemente, e obligatorimente si vos distribue OSM in forma de datos, vos pote mentionar le licentia(s) e ligar directemente a illo(s). Si vos usa un medio de communication in le qual le ligamines non es possibile (p.ex. un obra imprimite), nos suggere que vos dirige vostre lectores a openstreetmap.org (forsan per inserer iste adresse complete in loco del parola &lsquo;OpenStreetMap&rsquo;) e a opendatacommons.org.
         credit_4_html: 'Pro un carta electronic navigabile, le recognoscentia debe
           apparer in le angulo del carta. Per exemplo:'
         attribution_example:
@@ -1584,17 +1680,6 @@ ia:
         lo face. Tu pote configurar tu modificationes como public a partir de tu %{user_page}.
       user_page_link: pagina de usator
       anon_edits_link_text: Lege proque isto es le caso.
-      flash_player_required_html: Es necessari haber un reproductor Flash pro usar
-        Potlatch, le editor Flash de OpenStreetMap. Tu pote <a href="https://get.adobe.com/flashplayer/">discargar
-        Flash Player a Adobe.com</a>. <a href="https://wiki.openstreetmap.org/wiki/Editing">Plure
-        altere optiones</a> es tamben disponibile pro modificar OpenStreetMap.
-      potlatch_unsaved_changes: Tu ha modificationes non salveguardate. (Pro salveguardar
-        in Potlatch, tu debe deseliger le via o puncto actual si tu modifica in modo
-        directe, o cliccar super le button Salveguardar si presente.)
-      potlatch2_not_configured: Potlatch 2 non ha essite configurate. Visita https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-        pro plus information
-      potlatch2_unsaved_changes: Tu ha modificationes non salveguardate. (In Potlatch
-        2, tu debe cliccar super Salveguardar.)
       id_not_configured: iD non ha essite configurate
       no_iframe_support: Tu navigator non supporta le iframes in HTML, necessari pro
         iste functionalitate.
@@ -2018,13 +2103,6 @@ ia:
       delete: Deler cliente
       confirm: Es tu secur?
       requests: 'Le sequente permissiones es requestate del usator:'
-      allow_read_prefs: leger su preferentias de usator.
-      allow_write_prefs: modificar su preferentias de usator.
-      allow_write_diary: crear entratas de diario, commentos e adder amicos.
-      allow_write_api: modificar le carta.
-      allow_read_gpx: leger su tracias GPS private.
-      allow_write_gpx: incargar tracias GPS.
-      allow_write_notes: modificar notas.
     index:
       title: Mi detalios OAuth
       my_tokens: Mi applicationes autorisate
@@ -2040,19 +2118,7 @@ ia:
       registered_apps: 'Tu ha le sequente applicationes cliente registrate:'
       register_new: Registrar tu application
     form:
-      name: Nomine
-      required: Requirite
-      url: URl principal del application
-      callback_url: URL de retorno
-      support_url: URl de supporto
       requests: 'Requestar le sequente permissiones del usator:'
-      allow_read_prefs: leger su preferentias de usator.
-      allow_write_prefs: modificar su preferentias de usator.
-      allow_write_diary: crear entratas de diario, commentos e adder amicos.
-      allow_write_api: modificar le carta.
-      allow_read_gpx: leger su tracias GPS private.
-      allow_write_gpx: incargar tracias GPS.
-      allow_write_notes: modificar notas.
     not_found:
       sorry: Pardono, iste %{type} non poteva esser trovate.
     create:
@@ -2133,8 +2199,6 @@ ia:
     reset_password:
       title: Reinitialisar contrasigno
       heading: Reinitialisar le contrasigno de %{user}
-      password: 'Contrasigno:'
-      confirm password: 'Confirma contrasigno:'
       reset: Reinitialisar contrasigno
       flash changed: Tu contrasigno ha essite cambiate.
       flash token bad: Token non trovate. Verifica le URL.
@@ -2151,8 +2215,6 @@ ia:
           <p>A differentia de altere cartas, OpenStreetMap es completemente create per gente como tu,
           e cata uno es libere de modificar, actualisar, discargar e usar lo.</p>
           <p>Crea un conto pro comenciar a contribuer. Nos te inviara un e-mail pro confirmar tu conto.</p>
-      license_agreement: Quando tu confirma tu conto, tu debera acceptar le <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">conditiones
-        de contributor</a>.
       email address: 'Adresse de e-mail:'
       confirm email address: 'Confirmar adresse de e-mail:'
       not_displayed_publicly_html: Tu adresse non es monstrate publicamente. Vide
@@ -2353,11 +2415,11 @@ ia:
       reconfirm_html: Pro reciper un altere message de confirmation, <a href="%{reconfirm}">clicca
         hic</a>.
     confirm_resend:
-      success: Nos ha inviate un nove message de confirmation a %{email} e si tosto
-        que tu confirma le conto, tu potera comenciar a cartographar.<br /><br />Si
-        tu usa un systema anti-spam que invia requestas de confirmation, alora per
-        favor assecura te de adder %{sender} al lista blanc, alteremente nos non pote
-        responder a requestas de confirmation.
+      success_html: Nos ha inviate un nove message de confirmation a %{email} e si
+        tosto que tu confirma le conto, tu potera comenciar a cartographar.<br /><br
+        />Si tu usa un systema anti-spam que invia requestas de confirmation, alora
+        per favor assecura te de adder %{sender} al lista blanc, alteremente nos non
+        pote responder a requestas de confirmation.
       failure: Usator %{name} non trovate.
     confirm_email:
       heading: Confirmar un cambio de adresse de e-mail
@@ -2439,27 +2501,17 @@ ia:
     new:
       title: Crea blocada de %{name}
       heading_html: Crea blocada de %{name}
-      reason: Le motivo proque %{name} es blocate. Per favor sia tanto calme e rationabile
-        como possibile, e da tante detalios super le situation como tu pote. Non oblida
-        que le message essera publicamente visibile. Nota ben que non tote le usatores
-        comprende le jargon del communitate, dunque usa terminos simple e precise.
       period: Quante tempore, a partir de ora, essera le usator blocate del API?
       tried_contacting: Io ha contactate le usator pro demandar le/la de cessar.
       tried_waiting: Io ha date sufficiente tempore al usator pro responder a iste
         communicationes.
-      needs_view: Le usator debe aperir un session ante que iste blocada essera cancellate
       back: Vider tote le blocadas
     edit:
       title: Modification de un blocada super %{name}
       heading_html: Modification de un blocada super %{name}
-      reason: Le motivo proque %{name} es blocate. Per favor sia tanto calme e rationabile
-        como possibile, e da tante detalios super le situation como tu pote. Nota
-        ben que non tote le usatores comprende le jargon del communitate, dunque usa
-        terminos simple e precise.
       period: Quante tempore, a partir de ora, essera le usator blocate del API?
       show: Examinar iste blocada
       back: Examinar tote le blocadas
-      needs_view: Debe le usator aperir un session ante que iste blocada es cancellate?
     filter:
       block_expired: Le blocada ha ja expirate e non pote esser modificate.
       block_period: Le periodo de blocada debe esser un del valores seligibile in
@@ -2487,11 +2539,11 @@ ia:
       revoke: Revocar!
       flash: Iste blocada ha essite revocate.
     helper:
-      time_future: Expira in %{time}.
+      time_future_html: Expira in %{time}.
       until_login: Active usque le usator aperi un session.
-      time_future_and_until_login: Termina in %{time} e post que le usator ha aperite
-        session.
-      time_past: Expirava %{time}.
+      time_future_and_until_login_html: Termina in %{time} e post que le usator ha
+        aperite session.
+      time_past_html: Expirava %{time}.
       block_duration:
         hours:
           one: 1 hora

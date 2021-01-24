@@ -4,26 +4,37 @@
 # Author: AZISS
 # Author: Abijeet Patro
 # Author: Cekli829
+# Author: Huseyn
 # Author: Mushviq Abdulla
 # Author: Ruila
 # Author: SalihB
 # Author: Toghrul Rahimli
 # Author: Vugar 1981
 # Author: Wertuose
+# Author: Şeyx Şamil
 ---
 az:
   time:
     formats:
       friendly: '%e %B %Y  %H:%M'
   helpers:
+    file:
+      prompt: Fayl seçin
     submit:
       diary_comment:
         create: Qeyd et
       diary_entry:
         create: Yayımla
+        update: Yenilə
+      issue_comment:
+        create: Şərh əlavə et
       message:
         create: Göndər
+      client_application:
+        create: Qeydiyyatdan keç
+        update: Yenilə
       trace:
+        create: Yüklə
         update: Dəyişiklikləri yadda saxla
       user_block:
         create: Blok yarat
@@ -37,6 +48,7 @@ az:
       diary_comment: Gündəliyə şərh
       diary_entry: Gündəlikdə Yazı
       friend: Dost
+      issue: Problem
       language: Dil
       message: Mesaj
       node: Nöqtə
@@ -53,6 +65,7 @@ az:
       relation: Əlaqə
       relation_member: Əlaqənin İştirakçısı
       relation_tag: Əlaqənin Teqi
+      report: Hesabat
       session: Sessiya
       trace: Trek
       tracepoint: Trek Nöqtəsi
@@ -64,6 +77,11 @@ az:
       way_node: Xəttin Nöqtələri
       way_tag: Xəttin Teqi
     attributes:
+      client_application:
+        name: Ad (Vacib)
+        support_url: Dəstək linki
+        allow_read_prefs: Digər istifadəçilərin fikirlərini oxu
+        allow_write_api: Xəritəni dəyişmək
       diary_comment:
         body: Mətn
       diary_entry:
@@ -78,17 +96,23 @@ az:
       trace:
         user: İstifadəçi
         visible: Görünüş
-        name: Ad
+        name: Fayl adı
         size: Ölçüsü
         latitude: En dairəsi
         longitude: Uzunluq dairəsi
         public: İctimai
         description: İzah
+        gpx_file: GPX faylı yüklə
+        visibility: Görünüş
+        tagstring: Etiketlər
       message:
         sender: Göndərən
         title: Mövzu
         body: Mətn
         recipient: Qəbul edən
+      report:
+        category: Şikayətinizin səbəbini seçin
+        details: Çətinlik haqqında daha ətraflı danışın (vacib)
       user:
         email: E-poçt
         active: Aktivdir
@@ -96,20 +120,37 @@ az:
         description: İzah
         languages: Dillər
         pass_crypt: Parol
+        pass_crypt_confirmation: Parolu təsdiqlə
+    help:
+      trace:
+        tagstring: Vergül ilə ayrılmış
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: yarım dəqiqə əvvəl
   editor:
     default: Susmaya görə (hal-hazırda %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (brauzer üzərindən redaktə)
     id:
       name: iD
       description: iD (brauzerdaxili redaktə)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (brauzer üzərindən redaktə)
     remote:
       name: Uzaqdan idarəetmə
       description: Uzaqdan idarəetmə (JOSM və ya Merkaartor)
+  auth:
+    providers:
+      none: Heç biri
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Vikipediya
+  api:
+    notes:
+      rss:
+        title: OpenStreetMap haqqında qeydlər
+      entry:
+        comment: Şərh
+        full: Tam qeydlər
   browse:
     created: Yaradılıb
     closed: Bağlanıb
@@ -215,12 +256,7 @@ az:
     new:
       title: Yeni Gündəlik Yazısı
     form:
-      subject: 'Mövzu:'
-      body: 'Mətn:'
-      language: 'Dil:'
       location: 'Yerləşdiyi yer:'
-      latitude: 'En dairəsi:'
-      longitude: 'Uzunluq dairəsi:'
       use_map_link: xəritə üzərində göstər
     index:
       title: İstifadəçi gündəlikləri
@@ -364,7 +400,6 @@ az:
           monastery: Monastr
           nightclub: Gecə klubu
           nursing_home: Qocalar evi
-          office: Ofis
           parking: Dayanacaq
           parking_space: Parkinq ərazisi
           pharmacy: Aptek
@@ -372,20 +407,15 @@ az:
           police: Polis
           post_box: Poçt qutusu
           post_office: Poçt
-          preschool: Məktəbəqədər hazırlıq
           prison: Həbsxana
           pub: Pivəxana
           public_building: İctimai Binalar
           recycling: Utilizasiya yeri
           restaurant: Restoran
-          retirement_home: Qocalar Evi
-          sauna: Sauna
           school: Məktəb
           shelter: Sığınacaq
-          shop: Mağaza
           shower: Duş
           social_centre: İctimai Mərkəz
-          social_club: İctimai Club
           studio: Studiya
           swimming_pool: Üzgüçülük hovuzu
           taxi: Taksi
@@ -398,7 +428,6 @@ az:
           veterinary: Veterenar Klinikası
           village_hall: Villa
           waste_basket: Zibillik
-          youth_centre: Gənclər Mərkəzi
         boundary:
           administrative: Administrativ sərhəd
           census: Siyahıya alma sərhədi
@@ -471,7 +500,6 @@ az:
           tertiary_link: Üçüncü dərəcəli yol
           track: Torpaq yol
           traffic_signals: Svetafor
-          trail: Cığır
           trunk: Baş yol
           trunk_link: Baş yol
           unclassified: Təsnifatsız yol
@@ -486,7 +514,6 @@ az:
           church: Kilsə
           fort: Qala
           house: Ev
-          icon: Ikona
           manor: Malikanə
           memorial: Memorial
           mine: Mədən
@@ -524,7 +551,6 @@ az:
           reservoir_watershed: Suayrıcı su anbarı
           residential: Yaşayış sahəsi
           retail: Ticarət ərazisi
-          road: Yol şəbəkəsi ərazisi
           village_green: Yaşıllıq kənd
           vineyard: Üzümlük
         leisure:
@@ -623,7 +649,6 @@ az:
           subdivision: Bölmə
           suburb: Şəhərətrafı
           town: Şəhərcik
-          unincorporated_area: Şəhərkənarı zona
           village: Kənd
         railway:
           abandoned: Sökülmüş dəmiryol xətti
@@ -646,6 +671,7 @@ az:
           switch: Dəmiryol oxu
           tram: Tramvay
           tram_stop: Tramvay dayanacağı
+          yard: Depo
         shop:
           alcohol: Alkoqol dükanı
           antiques: Əntiq əşyalar
@@ -676,12 +702,10 @@ az:
           estate_agent: Əmlak agenti
           farm: Kənd təsərrüfatı malları dükanı
           fashion: Dəb dükanı
-          fish: Balıq Dükanı
           florist: Gül Dükanı
           food: Ərzaq Dükanı
           funeral_directors: Dəfn mərasimi bürosu
           furniture: Mebel
-          gallery: Qalereya
           garden_centre: Bağçılıq mərkəzi
           general: Baş Dükan
           gift: Hədiyyələr Dükanı
@@ -694,7 +718,6 @@ az:
           kiosk: Kiosk
           laundry: Camaşırxana
           mall: Mall
-          market: Bazar
           mobile_phone: Mobil telefon dükanı
           motorcycle: Motosiklet Dükanı
           music: Musiqi dükanı
@@ -761,11 +784,6 @@ az:
         level8: Şəhər sərhəddi
         level9: Kənd sərhəddi
         level10: Məhəllə sərhəddi
-    description:
-      title:
-        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a> -dan yerləşməsi
-        geonames: <a href="http://www.geonames.org/">GeoNames</a> -dən yerləşməsi
       types:
         cities: Şəhərlər
         towns: Şəhər qəsəbələri
@@ -806,34 +824,20 @@ az:
     make_a_donation:
       title: OpenStreetMap-i dəstəkləmək üçün maddi yardım et
       text: Maddi yardım et
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} adlı istifadəçi sənin gündəliy yazına şərh
         yazıb'
       hi: Salam %{to_user},
     message_notification:
       hi: Salam %{to_user},
-    gpx_notification:
-      greeting: Salam,
-      and_no_tags: və teqlərsiz.
-      failure:
-        more_info_2: 'nasazlığı, buradan tapmaq olar:'
     signup_confirm:
       subject: '[OpenStreetMap] OpenStreetMap-ə xoş gəldiniz'
       greeting: Salam!
-    email_confirm_plain:
+    email_confirm:
       greeting: Salam,
-    email_confirm_html:
-      greeting: Salam,
-      click_the_link: Əgər bu sizsinizsə, zəhmət olmasa, dəyişiklikləri təsdiqləmək
-        üçün aşağı göstərilmiş istinaddakı ünvana keçin.
     lost_password:
       subject: '[OpenStreetMap] Parolu yeniləmək tələbi'
-    lost_password_plain:
-      greeting: Salam,
-      click_the_link: Əgər bu sizsinizsə, zəhmət olmasa, parolunuzu əvəzləmək üçün
-        aşağı göstərilmiş istinaddakı ünvana keçin.
-    lost_password_html:
       greeting: Salam,
       click_the_link: Əgər bu sizsinizsə, zəhmət olmasa, parolunuzu əvəzləmək üçün
         aşağı göstərilmiş istinaddakı ünvana keçin.
@@ -1042,8 +1046,6 @@ az:
       confirm: Əminsinizmi?
     index:
       revoke: Ləğv et!
-    form:
-      name: Ad
   users:
     login:
       title: Daxil olun
@@ -1068,8 +1070,6 @@ az:
     reset_password:
       title: Parolu yenilə
       heading: '%{user} üçün parolu yenilə'
-      password: 'Parol:'
-      confirm password: 'Parolu təkrarla:'
       reset: Parolu Yenilə
       flash changed: Parolun indi dəyişildi.
     new:
@@ -1160,7 +1160,7 @@ az:
       revoke: Ləğv et!
       flash: Bu blok ləğv edilib.
     helper:
-      time_past: '%{time} əvvəl sona çatıb.'
+      time_past_html: '%{time} əvvəl sona çatıb.'
     blocks_by:
       title: '%{name} tərəfindən blok edilib'
     show:

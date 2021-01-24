@@ -1,8 +1,10 @@
 # Messages for Bashkir (башҡортса)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: AiseluRB
 # Author: Lizalizaufa
+# Author: MR973
 # Author: Roustammr
 # Author: Sagan
 # Author: Visem
@@ -17,7 +19,36 @@ ba:
   time:
     formats:
       friendly: '%e %B %Y cәғәт %H:%M'
+  helpers:
+    file:
+      prompt: Файлды һайлағыҙ
+    submit:
+      diary_comment:
+        create: Һаҡларға
+      diary_entry:
+        create: Баҫтырырға
+        update: Яңыртырға
+      issue_comment:
+        create: Фекер өҫтәргә
+      message:
+        create: Ебәреү
+      client_application:
+        create: Теркәлеү
+        update: Яңыртырға
+      redaction:
+        create: Төҙәтеүҙе эшләү
+        update: Төҙәтеүҙе һаҡлау
+      trace:
+        create: Тейәү
+        update: Үҙгәрештәрҙе һаҡларға
+      user_block:
+        create: Блок яһау
+        update: Блокты яңыртыу
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: Ысын электрон почта адресына оҡшамаған
+        email_address_not_routable: йүнәлешле түгел
     models:
       acl: Инеүҙе сикләү исемлеге
       changeset: Төҙәтеүҙәр пакеты
@@ -26,6 +57,7 @@ ba:
       diary_comment: Көндәлеккә комментарий
       diary_entry: Көндәлектәге яҙыу
       friend: Рәхим итегеҙ!
+      issue: бурыс
       language: Тел
       message: Хәбәр
       node: Төйөн
@@ -42,6 +74,7 @@ ba:
       relation: Мөнәсәбәт
       relation_member: Мөнәсәбәттәрҙә ҡатнашыусы
       relation_tag: Мөнәсәбәт тегы
+      report: Отчёт
       session: Сессия
       trace: Маршрут
       tracepoint: Маршрут нөктәһе
@@ -53,6 +86,18 @@ ba:
       way_node: Һыҙат нөктәһе
       way_tag: Һыҙат тегы
     attributes:
+      client_application:
+        name: Исем (Мотлаҡ)
+        url: Ҡушымта Url (Мотлаҡ)
+        support_url: Ҡулланыусыларға ярҙам URL
+        allow_read_prefs: ҡулланыусы көйләүҙәрен уҡыу
+        allow_write_prefs: ҡулланыусы көйләүҙәрен үҙгәртеү
+        allow_write_diary: көндәлектә яҙмалар булдырыу, комментарий биреү һәм дуҫтар
+          табыу
+        allow_write_api: картаны мөхәррирләү
+        allow_read_gpx: шәхси GPS-тректарҙы уҡыу
+        allow_write_gpx: GPS-тректарҙы тейәү
+        allow_write_notes: яҙмаларҙы төҙәтеү
       diary_comment:
         body: Текст
       diary_entry:
@@ -67,17 +112,23 @@ ba:
       trace:
         user: Ҡатнашыусы
         visible: Күренеш
-        name: Атама
+        name: Файл исеме
         size: Күләм
         latitude: Киңлек
         longitude: Оҙонлоҡ
         public: Дөйөм
         description: Тасуирлау
+        gpx_file: GPX-файл тейәү
+        visibility: Күренеүсәнлек
+        tagstring: Тегтар
       message:
         sender: Ебәреүсе
         title: Тема
         body: Текст
         recipient: Алыусы
+      report:
+        category: 'Хәбәрегеҙҙең сәбәбен һайлағыҙ:'
+        details: Зинһар, проблема тураһында бер аҙ тулыраҡ мәғлүмәт бирегеҙ (мотлаҡ).
       user:
         email: Электрон почта адресы
         active: Әүҙем
@@ -85,38 +136,110 @@ ba:
         description: Тасуирлау
         languages: Телдәр
         pass_crypt: Серһүҙ
+        pass_crypt_confirmation: Паролде раҫлағыҙ
+    help:
+      trace:
+        tagstring: өтөр аша
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: яҡынса 1 сәғәт элек
+        other: яҡынса %{count} сәғәт элек
+      about_x_months:
+        one: яҡынса 1 ай элек
+        other: яҡынса %{count} ай элек
+      about_x_years:
+        one: яҡынса 1 йыл элек
+        other: яҡынса %{count} йыл элек
+      almost_x_years:
+        one: 1 йыл элек тиерлек
+        other: '%{count} йыл элек тиерлек'
+      half_a_minute: ярты минут элек
+      less_than_x_seconds:
+        one: 1 секунд кәм элек
+        other: '%{count} секунд кәм элек'
+      less_than_x_minutes:
+        one: 1 минут кәм элек
+        other: '%{count} минут кәм элек'
+      over_x_years:
+        one: яҡынса 1 йыл элек
+        other: яҡынса %{count} йыл элек
+      x_seconds:
+        one: 1 секунд элек
+        other: '%{count} секунд элек'
+      x_minutes:
+        one: 1 минут элек
+        other: '%{count} минут элек'
+      x_days:
+        one: 1 көн элек
+        other: '%{count} көн элек'
+      x_months:
+        one: 1 ай элек
+        other: '%{count} ай элек'
+      x_years:
+        one: 1 йыл элек
+        other: '%{count} йыл элек'
   editor:
     default: Һайланмаған (ҡуйылған %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (браузерҙағы мөхәррир)
     id:
       name: iD
       description: iD (браузерҙағы мөхәррир)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (браузерҙағы мөхәррир)
     remote:
       name: Ситтән тороп идара итеү
-      description: Ситтән тороп идара итеү (JOSM йәки Merkaartor)
+      description: Ситтән тороп идара итеү (JOSM, Potlatch, Merkaartor)
+  auth:
+    providers:
+      none: Юҡ
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Википедия
+  api:
+    notes:
+      comment:
+        opened_at_html: Яһалған %{when}
+        opened_at_by_html: Яһалған %{when} ҡулланыусы %{user}
+        commented_at_html: Яңыртылды %{when}
+        commented_at_by_html: Яңыртылды %{when} ҡулланыусы %{user}
+        closed_at_html: Эшкәртелгән %{when}
+        closed_at_by_html: Эшкәртелгән %{when} ҡулланыусы %{user}
+        reopened_at_html: Кире асылды %{when}
+        reopened_at_by_html: Кире асылды %{when} ҡулланыусы %{user}
+      rss:
+        title: OpenStreetMap Яҙмалары
+        description_area: Һеҙҙең өлкәлә яһалған, комментарий бирелгән йәки ябылған
+          яҙмалар исемлеге [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: RSS-яҙмалар ағымы %{id}
+        opened: яңы яҙма (яҡынса %{place})
+        closed: ябылған яҙма (яҡынса %{place})
+        reopened: яңы асылған яҙма (яҡынса %{place})
+      entry:
+        comment: Комментарий
+        full: Тулы текст
   browse:
     created: Булдырылған
     closed: Ябыҡ
-    created_html: Булдырылған <abbr title='%{title}'>%{time} кирегә</abbr>
-    closed_html: Ябылған <abbr title='%{title}'>%{time} кирегә</abbr>
-    created_by_html: Төҙәтелгән <abbr title='%{title}'>%{time} кирегә</abbr> ҡулланыусы
-      тарафынан %{user}
-    deleted_by_html: Ябылған <abbr title='%{title}'>%{time} кирегә</abbr>ҡулланыусы
-      тарафынан%{user}
-    edited_by_html: Төҙәтелгән <abbr title='%{title}'>%{time} кирегә</abbr> ҡулланыусы
-      тарафынан %{user}
-    closed_by_html: Ябылған <abbr title='%{title}'>%{time} кирегә</abbr>ҡулланыусы
-      тарафынан%{user}
+    created_html: Яһалған <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Ябылған <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Яһалған <abbr title='%{title}'>%{time}</abbr> ҡулланыусы тарафынан
+      %{user}
+    deleted_by_html: Юйылған <abbr title='%{title}'>%{time}</abbr>ҡулланыусы тарафынан%{user}
+    edited_by_html: Төҙәтелгән <abbr title='%{title}'>%{time}</abbr> ҡулланыусы тарафынан
+      %{user}
+    closed_by_html: Ябылған <abbr title='%{title}'>%{time}</abbr>ҡулланыусы тарафынан%{user}
     version: Версия
     in_changeset: Төҙәтеүҙәр пакеты
     anonymous: Аноним
     no_comment: (комментарий юҡ)
     part_of: Ҡатнаша
+    part_of_relations:
+      one: 1 мөнәсәбәт
+      other: '%{count} мөнәсәбәттәр'
+    part_of_ways:
+      one: 1 юл
+      other: '%{count} юлдар'
     download_xml: ' XML-ды күсереү'
     view_history: Тарихты ҡарау
     view_details: Ентекләберәк
@@ -127,13 +250,13 @@ ba:
       node: Нөктәләр (%{count})
       node_paginated: Нөктәләр (%{x}-%{y} из %{count})
       way: Һыҙыҡтар (%{count})
-      way_paginated: Юлдар (%{x}-%{y} %{графа}һынан)
+      way_paginated: Юлдар (%{x}-%{y} %{count}һынан)
       relation: Мөнәсәбәттәр (%{count})
-      relation_paginated: Бәйләнештәр (%{x}-%{y} %{графа}нан)
+      relation_paginated: Мөнәсәбәттәр (%{x}-%{y} %{count}нан)
       comment: Комментарийҙар (%{count})
-      hidden_commented_by: ' %{user} <abbr title=''%{exact_time}''>%{when}тан йәшерен
-        комментарий, кирегә</abbr>'
-      commented_by: Ҡулланыусы комментарийы %{user} <abbr title='%{exact_time}'>%{when}
+      hidden_commented_by_html: ' %{user} <abbr title=''%{exact_time}''>%{when}тан
+        йәшерен комментарий, кирегә</abbr>'
+      commented_by_html: Ҡулланыусы комментарийы %{user} <abbr title='%{exact_time}'>%{when}
         кирегә</abbr>
       changesetxml: Төҙәтеүҙәр пакетының XML-ы
       osmchangexml: osmChange XML
@@ -142,30 +265,36 @@ ba:
         title_comment: Төҙәтеүҙәр пакеты %{id} — %{comment}
       join_discussion: Фекер алышыуға ҡушылыу өсөн системаға инегеҙ
       discussion: Фекер алышыу
+      still_open: Төҙәтмәләр пакеты әле асыҡ. Фекер алышыу, төҙәтмәләр пакеты ябылғандан
+        һуң ғына буласаҡ.
     node:
-      title: 'Нөктә: %{name}'
-      history_title: 'Нөктә тарихы: %{name}'
+      title_html: 'Нөктә: %{name}'
+      history_title_html: 'Нөктә тарихы: %{name}'
     way:
-      title: 'Һыҙат: %{name}'
-      history_title: 'Һыҙат тарихы: %{name}'
+      title_html: 'Һыҙат: %{name}'
+      history_title_html: 'Һыҙат тарихы: %{name}'
       nodes: Нөктәләр
-      also_part_of:
+      also_part_of_html:
         one: һыҙатта бар %{related_ways}
         other: һыҙаттарҙа бар %{related_ways}
     relation:
-      title: 'Мөнәсәбәт: %{name}'
-      history_title: 'Мөнәсәбәт тарихы: %{name}'
+      title_html: 'Мөнәсәбәт: %{name}'
+      history_title_html: 'Мөнәсәбәт тарихы: %{name}'
       members: Ҡатнашыусылар
+      members_count:
+        one: 1 ағза
+        other: '%{count} ағзалар'
     relation_member:
-      entry_role: '%{type} %{name} ролендә %{role}'
+      entry_role_html: '%{type} %{name} ролендә %{role}'
       type:
         node: Нөктә
         way: Һыҙат
         relation: Мөнәсәбәт
     containing_relation:
-      entry: Мөнәсәбәт %{relation_name}
-      entry_role: Мөнәсәбәт %{relation_name} (ролендә %{relation_role})
+      entry_html: Мөнәсәбәт %{relation_name}
+      entry_role_html: Мөнәсәбәт %{relation_name} (ролендә %{relation_role})
     not_found:
+      title: Табылманы
       sorry: 'Үкенескә ҡаршы, %{type} #%{id} табылманы.'
       type:
         node: Нөктә
@@ -174,6 +303,7 @@ ba:
         changeset: Төҙәтеүҙәр пакеты
         note: Иҫкәрмә
     timeout:
+      title: Тайм-аут Хата
       sorry: Ғәфү итегеҙ, %{id}-тағы %{type} өсөн мәғлүмәттәр күсереү өсөн бик оҙон.
       type:
         node: Нөктә
@@ -193,6 +323,7 @@ ba:
       feature_warning: Объекттарҙың %{num_features}-ын күсереп алыу мотлаҡ, был брауҙерығыҙҙы
         яйлатыуы мөмкин. Ошо мәғлүмәттәрҙе ысынлап та ҡарарға теләйһегеҙме?
       load_data: Мәғлүмәттәрҙе күсерергә
+      loading: Тейәү...
     tag_details:
       tags: Тегтар
       wiki_link:
@@ -201,6 +332,7 @@ ba:
       wikidata_link: Викимәғлүмәттәрҙәге %{page} элементы
       wikipedia_link: ' Википедиялағы %{page} мәҡәләһе'
       telephone_link: Шылтыратырға %{phone_number}
+      colour_preview: Төҫтәрҙе ҡарау %{colour_value}
     note:
       title: ' %{id} искәрмәһе'
       new_note: Яңы мәҡәлә
@@ -208,33 +340,34 @@ ba:
       open_title: 'Эшкәртелмәгән мәҡәлә #%{note_name}'
       closed_title: 'Эшкәртелгән мәҡәләа #%{note_name}'
       hidden_title: 'Йәшерелгән яҙма #%{note_name}'
-      open_by: Ҡулланыусы тарафынан булдырылған %{user} <abbr title='%{exact_time}'>%{when}
+      opened_by_html: Ҡулланыусы тарафынан булдырылған %{user} <abbr title='%{exact_time}'>%{when}
         кирегә</abbr>
-      open_by_anonymous: Аноним тарафынан булдырылған <abbr title='%{exact_time}'>%{when}
+      opened_by_anonymous_html: Аноним тарафынан булдырылған <abbr title='%{exact_time}'>%{when}
         кирегә</abbr>
-      commented_by: Ҡулланыусы комментарийы %{user} <abbr title='%{exact_time}'>%{when}
+      commented_by_html: Ҡулланыусы комментарийы %{user} <abbr title='%{exact_time}'>%{when}
         кирегә</abbr>
-      commented_by_anonymous: Аноним комментарийы  <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous_html: Аноним комментарийы  <abbr title='%{exact_time}'>%{when}
         кирегә</abbr>
-      closed_by: Ҡулланыусы тарафынан эшкәртелгән %{user} <abbr title='%{exact_time}'>%{when}
+      closed_by_html: Ҡулланыусы тарафынан эшкәртелгән %{user} <abbr title='%{exact_time}'>%{when}
         кирегә</abbr>
-      closed_by_anonymous: Аноним тарафынан рөхсәт ителгән <abbr title='%{exact_time}'>%{when}
+      closed_by_anonymous_html: Аноним тарафынан рөхсәт ителгән <abbr title='%{exact_time}'>%{when}
         кирегә</abbr>
-      reopened_by: Ҡулланыусы тарафынан ҡабаттан асылған %{user} <abbr title='%{exact_time}'>%{when}
+      reopened_by_html: Ҡулланыусы тарафынан ҡабаттан асылған %{user} <abbr title='%{exact_time}'>%{when}
         кирегә</abbr>
-      reopened_by_anonymous: Аноним тарафынан ҡабаттан асылған <abbr title='%{exact_time}'>%{when}
+      reopened_by_anonymous_html: Аноним тарафынан ҡабаттан асылған <abbr title='%{exact_time}'>%{when}
         кирегә</abbr>
-      hidden_by: Йәшерелгән %{user} <abbr title='%{exact_time}'>%{when} кирегә</abbr>
+      hidden_by_html: Йәшерелгән %{user} <abbr title='%{exact_time}'>%{when} кирегә</abbr>
+      report: Был яҙма тураһында хәбәр итеү
     query:
       title: Объекттар тураһында мәғлүмәт
       introduction: Яҡындағы объекттарҙы табыу өсөн картаға баҫығыҙ
       nearby: Яҡындағы объекттар
       enclosing: Урыны
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: ' %{page} бите'
       next: Киләһе »
-      previous: Алдағы
+      previous: « Алдағы
     changeset:
       anonymous: Аноним
       no_edits: (төҙәтеүҙәр юҡ)
@@ -248,11 +381,11 @@ ba:
     index:
       title: Төҙәтеүҙәр пакеты
       title_user: ' %{user} ҡулланыусыһының төҙәтеүҙәр пакеты'
-      title_friend: Дуҫтарығыҙҙың төҙәтеүҙәре пакеты
-      title_nearby: Эргәләге ҡатнашыусыларҙың төҙәтеүҙәре пакеты
-      empty: Төҙәтеүҙәр пакеты табылманы
-      empty_area: Был өлкәлә төҙәтеүҙәр пакеты юҡ
-      empty_user: Был ҡулланыусының төҙәтеүҙәре пакеы юҡ
+      title_friend: Дуҫтарҙың төҙәтеүҙәр пакеты
+      title_nearby: Эргәләге ҡатнашыусыларҙың төҙәтеүҙәр пакеты
+      empty: Төҙәтеүҙәр пакеты табылманы.
+      empty_area: Был өлкәлә төҙәтеүҙәр пакеты юҡ.
+      empty_user: Был ҡулланыусының төҙәтеүҙәр пакеы юҡ.
       no_more: Башҡаса бер ниндәй ҙә төҙәтеүҙәр пакеты табылманы
       no_more_area: Был өлкәлә башҡа төҙәтеүҙәр пакеты юҡ
       no_more_user: Был ҡулланыусының башҡа төҙәтеүҙәре пакеы юҡ
@@ -260,17 +393,18 @@ ba:
     timeout:
       sorry: Үкенескә күрә, һеҙ һораған төҙәтеүҙәр пакеты исемлеге күсереү өсөн бик
         оҙон
-    rss:
+  changeset_comments:
+    comment:
+      commented_at_by_html: Яңыртылған%{}элек %{ҡулланыусы}тарафынан
+    index:
       title_all: OpenStreetMap төҙәтеүҙәр пакеты буйынса фекерләшеү
       title_particular: ' OpenStreetMap #%{changeset_id} төҙәтеүҙәр пакеты буйынса
         фекерләшеү'
-      commented_at_html: Яңыртылған%{}элек
-      commented_at_by_html: Яңыртылған%{}элек %{ҡулланыусы}тарафынан
-      full: Бөтөн фекерләшеү
-  diary_entry:
+  diary_entries:
     new:
       title: Яңы көндәлеккә инеү
-      publish_button: Баҫтырырға
+    form:
+      use_map_link: картаны ҡуллан
     index:
       title: Көндәлектәр
       title_friends: Дуҫтарың көндәлектәре
@@ -284,25 +418,19 @@ ba:
       newer_entries: Яңыраҡ яҙмалар
     edit:
       title: Яҙманы мөхәррирләү
-      body: Нигеҙ текст
-      language: 'Тел:'
-      latitude: Географик киңлек
-      longitude: Географик оҙонлоҡ
-      use_map_link: картаны ҡуллан
-      save_button: Һаҡларға
       marker_text: Көндәлек яҙыу урыны
     show:
       title: '%{ҡулланыусы}ның көндәлеге|%{титул}'
       user_title: '%{ҡулланыусы}ның көндәлеге'
       leave_a_comment: Фекер ҡалдыр
-      login_to_leave_a_comment: Фекер яҙыу өсөн %{login_link}
+      login_to_leave_a_comment_html: Фекер яҙыу өсөн %{login_link}
     no_such_entry:
       title: Бындай көндәлек яҙыуы юҡ
       heading: '%{id} шәхси яҙыуына инеп булмай'
       body: Ҡыҙғанысҡа ҡаршы, %{id}шәхси яҙыуы йәки фекере табылманы. Дөрөҫ яҙылышын
         тикшер. Яңылыш ссылкаға күскәнһең, ахыры.
     diary_entry:
-      posted_by: Ебәрҙем%{link_user}%{created}, тел:%{language_link}
+      posted_by_html: Ебәрҙем%{link_user}%{created}, тел:%{language_link}
       comment_link: Фекереңде яҙ
       reply_link: Инеүеңде раҫла
       comment_count:
@@ -310,7 +438,7 @@ ba:
       edit_link: Был яҙманы үҙгәрт
       hide_link: Был яҙманы йәшер
     diary_comment:
-      comment_from: '%{link_user}тарафынан%{comment_created_at}көндө ҡаралған'
+      comment_from_html: '%{link_user}тарафынан%{comment_created_at}көндө ҡаралған'
       hide_link: Был фекерҙе йәшереү
     feed:
       user:
@@ -327,24 +455,23 @@ ba:
         яҙҙы'
       post: Йәшереү
       when: ҡасан
-      ago: '%{ago}элек'
       newer_comments: Яңыраҡ фекерҙәр
       older_comments: Иҫкерәк фекерҙәр
   geocoder:
     search:
       title:
-        latlon: |2-
+        latlon_html: |2-
 
           <a href="http://openstreetmap.org/">эсендәге һөҙөмтәләр</a>
-        ca_postcode: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>алынған
+        ca_postcode_html: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>алынған
           һөҙөмтәләр
-        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim_html: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>нан сыҡҡан һөҙөмтәләр
-        geonames: <a href="http://www.geonames.org/">GeoNames</a>нан сыҡҡан һөҙөмтәләр
-        osm_nominatim_reverse: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: <a href="http://www.geonames.org/">GeoNames</a>нан сыҡҡан һөҙөмтәләр
+        osm_nominatim_reverse_html: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>нан һөҙөмтәләр
-        geonames_reverse: <a href="http://www.geonames.org/">GeoNames</a>нан сыҡҡан
-          һөҙөмтәләр
+        geonames_reverse_html: <a href="http://www.geonames.org/">GeoNames</a>нан
+          сыҡҡан һөҙөмтәләр
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -418,19 +545,15 @@ ba:
           police: Полиция
           post_box: Почта йәшниге
           post_office: Почта бүлексәһе
-          preschool: Мәктәпкәсә уҡытыу учреждениеһы
           prison: Төрмә
           pub: Һырахана
           public_building: Йәмғиәти бина
           recycling: Киренән эшкәртеү урыны
           restaurant: Ресторан
-          retirement_home: Ҡарттар йорто
-          sauna: Сауна
           school: Мәктәп
           shelter: Йәшенеү урыны
           shower: Душ
           social_centre: Йәмғиәти үҙәк
-          social_club: Берләшмә
           social_facility: Йәмәғәт ойошмаһы
           studio: Студия
           swimming_pool: Бассейн
@@ -445,7 +568,6 @@ ba:
           village_hall: Утар
           waste_basket: Сүп һауыты
           waste_disposal: ҡалдыҡтарҙы юҡ итеү
-          youth_centre: Йәштәр үҙәге
         boundary:
           administrative: административ сик
           census: иҫәп алыу участогының сиге
@@ -511,7 +633,6 @@ ba:
           tertiary_link: Сиҙәм юлы
           track: Ауыл юлы
           traffic_signals: Светофор
-          trail: Һуҡмаҡ
           trunk: Төп юл
           trunk_link: Магистраль
           unclassified: Урындағы юл
@@ -528,7 +649,6 @@ ba:
           fort: Ҡойма
           heritage: Мәҙәни мираҫ
           house: Йорт
-          icon: Тәре
           manor: Поместье
           memorial: Һәйкәл
           mine: Карьер
@@ -570,7 +690,6 @@ ba:
           reservoir_watershed: Һыу һаҡлағыстың һыу айырсаһы
           residential: Йәшәү районы
           retail: Һатыу итеү биләмәһе
-          road: Юл селтәре зонаһы
           village_green: Йәшел ауыл
           vineyard: Йөҙөм баҡсаһы
           "yes": Ерҙе ҡулланыу

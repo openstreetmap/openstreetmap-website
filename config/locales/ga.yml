@@ -59,6 +59,9 @@ ga:
       way_node: Nód Bealaigh
       way_tag: Clib Bhealaigh
     attributes:
+      client_application:
+        callback_url: URL Aisghlaoigh
+        support_url: URL Tacaíochta
       diary_comment:
         body: Corp
       diary_entry:
@@ -97,17 +100,13 @@ ga:
     help:
       trace:
         tagstring: teormharcáilte le camóga
+      user_block:
+        needs_view: An gá don úsáideoir logáil isteach sula mbainfear an bac seo?
   editor:
     default: Réamhshocraithe (%{name} faoi láthair)
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (eagathóir sa bhrabhsálaí)
     id:
       name: iD
       description: iD (eagathóir sa bhrabhsálaí)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (eagathóir sa bhrabhsálaí)
     remote:
       name: Cianrialú
       description: Cianrialú (JOSM nó Merkaartor)
@@ -151,9 +150,10 @@ ga:
       relation: Gaolta (%{count})
       relation_paginated: Gaolta (%{x}-%{y} de %{count})
       comment: Nótaí tráchta (%{count})
-      hidden_commented_by: Nóta tráchta folaithe ó %{user} <abbr title='%{exact_time}'>%{when}
+      hidden_commented_by_html: Nóta tráchta folaithe ó %{user} <abbr title='%{exact_time}'>%{when}
         ó shin</abbr>
-      commented_by: Nóta tráchta ó %{user} <abbr title='%{exact_time}'>%{when} ó shin</abbr>
+      commented_by_html: Nóta tráchta ó %{user} <abbr title='%{exact_time}'>%{when}
+        ó shin</abbr>
       changesetxml: XML an Tacair athruithe
       osmchangexml: XML osmChange
       feed:
@@ -229,20 +229,22 @@ ga:
       open_title: 'Nóta neamhréitithe #%{note_name}'
       closed_title: 'Nóta réitithe #%{note_name}'
       hidden_title: 'Nóta folaithe #%{note_name}'
-      opened_by: Cruthaithe ag %{user} <abbr title='%{exact_time}'>%{when} ó shin</abbr>
-      opened_by_anonymous: Cruthaithe ag duine gan ainm <abbr title='%{exact_time}'>%{when}
+      opened_by_html: Cruthaithe ag %{user} <abbr title='%{exact_time}'>%{when} ó
+        shin</abbr>
+      opened_by_anonymous_html: Cruthaithe ag duine gan ainm <abbr title='%{exact_time}'>%{when}
         ó shin</abbr>
-      commented_by: Nóta tráchta ó %{user} <abbr title='%{exact_time}'>%{when} ó shin</abbr>
-      commented_by_anonymous: Nóta tráchta ó dhuine gan ainm <abbr title='%{exact_time}'>%{when}
+      commented_by_html: Nóta tráchta ó %{user} <abbr title='%{exact_time}'>%{when}
         ó shin</abbr>
-      closed_by: Réitithe ag %{user} <abbr title='%{exact_time}'>%{when} ó shin</abbr>
-      closed_by_anonymous: Réitithe ag duine gan ainm <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous_html: Nóta tráchta ó dhuine gan ainm <abbr title='%{exact_time}'>%{when}
         ó shin</abbr>
-      reopened_by: Athghníomhachtaithe ag %{user} <abbr title='%{exact_time}'>%{when}
+      closed_by_html: Réitithe ag %{user} <abbr title='%{exact_time}'>%{when} ó shin</abbr>
+      closed_by_anonymous_html: Réitithe ag duine gan ainm <abbr title='%{exact_time}'>%{when}
         ó shin</abbr>
-      reopened_by_anonymous: Athghníomhachtaithe ag duine gan ainm <abbr title='%{exact_time}'>%{when}
+      reopened_by_html: Athghníomhachtaithe ag %{user} <abbr title='%{exact_time}'>%{when}
         ó shin</abbr>
-      hidden_by: Folaithe ag %{user} <abbr title='%{exact_time}'>%{when} ó shin</abbr>
+      reopened_by_anonymous_html: Athghníomhachtaithe ag duine gan ainm <abbr title='%{exact_time}'>%{when}
+        ó shin</abbr>
+      hidden_by_html: Folaithe ag %{user} <abbr title='%{exact_time}'>%{when} ó shin</abbr>
     query:
       title: Gnéithe a Fhiosrú
       introduction: Cliceáil ar an léarscáil chun gnéithe in aice láimhe a aimsiú.
@@ -289,12 +291,7 @@ ga:
     new:
       title: Iontráil Nua Dialainne
     form:
-      subject: 'Ábhar:'
-      body: 'Corp:'
-      language: 'Teanga:'
       location: 'Suíomh:'
-      latitude: 'Domhanleithead:'
-      longitude: 'Domhanfhad:'
       use_map_link: an léarscáil a úsáid
     index:
       title: Dialanna úsáideoirí
@@ -451,7 +448,6 @@ ga:
           motorcycle_parking: Páirceáil do Ghluaisrothair
           nightclub: Club Oíche
           nursing_home: Teach Altranais
-          office: Oifig
           parking: Páirceáil
           parking_entrance: Bealach Isteach ar Áit Pháirceála
           parking_space: Spás páirceála
@@ -460,20 +456,15 @@ ga:
           police: Póilíní
           post_box: Bosca Poist
           post_office: Oifig an Phoist
-          preschool: Réamhscoil
           prison: Príosún
           pub: Teach tábhairne
           public_building: Foirgneamh Poiblí
           recycling: Ionad Athchúrsála
           restaurant: Bialann
-          retirement_home: Áras Seanóirí
-          sauna: Seomra allais/sauna
           school: Scoil
           shelter: Scáthlán
-          shop: Siopa
           shower: Cithfholcadh
           social_centre: Ionad Sóisialta
-          social_club: Club Sóisialta
           social_facility: Áislann Shóisialta
           studio: Stiúideo
           swimming_pool: Linn Snámha
@@ -489,7 +480,6 @@ ga:
           waste_basket: Bosca Bruscair
           waste_disposal: Diúscairt Dramhaíola
           water_point: Pointe uisce
-          youth_centre: Ionad Óige
         boundary:
           administrative: Teorainn Riaracháin
           census: Teorainn Daonáirimh
@@ -564,7 +554,6 @@ ga:
           tertiary_link: Bóthar Tríú-Grád
           track: Cosán
           traffic_signals: Soilse Tráchta
-          trail: Conair
           trunk: Mórbhóthar
           trunk_link: Mórbhóthar
           unclassified: Bóthar Neamhaicmithe
@@ -582,7 +571,6 @@ ga:
           fort: Dún/Ráth
           heritage: Láithreán Oidhreachta
           house: Teach
-          icon: Íocón
           manor: Mainéar
           memorial: Leac cuimhneacháin
           mine: Mianach
@@ -627,7 +615,6 @@ ga:
           reservoir_watershed: Dobhardhroim Thaiscumair
           residential: Ceantar Cónaithe
           retail: Miondíol
-          road: Limistéar Bóthair
           village_green: Faiche an tSráidbhaile
           vineyard: Fíonghort
           "yes": Úsáid na Talún
@@ -779,7 +766,6 @@ ga:
           subdivision: Fo-roinn
           suburb: Bruachbhaile
           town: Baile
-          unincorporated_area: Limistéar Neamhchorpraithe
           village: Sráidbhaile
           "yes": Áit
         railway:
@@ -838,12 +824,10 @@ ga:
           estate_agent: Gníomhaire Eastáit
           farm: Siopa Feirme
           fashion: Siopa Faisin
-          fish: Siopa Éisc
           florist: Bláthadóir
           food: Siopa Bia
           funeral_directors: Adhlacóir
           furniture: Troscán
-          gallery: Dánlann
           garden_centre: Ionad Garraíodóireachta
           general: Siopa Ginearálta
           gift: Siopa Bronntanas
@@ -860,7 +844,6 @@ ga:
           laundry: Neachtlann
           lottery: Crannchur
           mall: Ionad Siopadóireachta
-          market: Margadh
           massage: Suathaireacht
           mobile_phone: Siopa Fón Póca
           motorcycle: Siopa Gluaisrothar
@@ -872,7 +855,6 @@ ga:
           paint: Siopa Péinte
           pawnbroker: Geallbhróicéir
           pet: Siopa Peataí
-          pharmacy: Cógaslann
           photo: Siopa Grianghrafadóireachta
           seafood: Bia mara
           second_hand: Siopa Earraí Athláimhe
@@ -941,11 +923,6 @@ ga:
         level8: Teorainn Cathrach
         level9: Teorainn Sráidbhaile
         level10: Teorainn Bruachbhaile
-    description:
-      title:
-        osm_nominatim: Suíomh ó <a href="https://nominatim.openstreetmap.org/">Nominatim
-          OpenStreetMap</a>
-        geonames: Suíomh ó <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Cathracha
         towns: Bailte
@@ -985,7 +962,6 @@ ga:
       reassign_param: Athshann an Fhadhb?
   reports:
     new:
-      select: 'Roghnaigh cúis don tuairisc uait:'
       disclaimer:
         intro: 'Sula gcuire tú do thuairisc chuig modhnóirí an tsuímh, déan cinnte:'
         not_just_mistake: Go bhfuil tú deimhin de nach díreach botún atá san fhadhb
@@ -1068,7 +1044,7 @@ ga:
       text: Tabhair Síntiús Airgid
     learn_more: Tuilleadh Eolais
     more: Tuilleadh
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] Rinne %{user} nóta tráchta faoi iontráil dialainne'
       hi: A %{to_user}, a chara,
@@ -1090,22 +1066,13 @@ ga:
       see_their_profile: Is féidir leat a p(h)róifíl a fheiceáil ag %{userurl}.
       befriend_them: Is féidir an duine sin a chur ar liosta na gcairde atá agatsa
         ag %{befriendurl}.
-    gpx_notification:
-      greeting: Haigh,
-      your_gpx_file: An comhad GPX sin a bhí agat
-      with_description: a bhfuil an cur síos seo ag gabháil leis
-      and_the_tags: 'agus na clibeanna seo a leanas:'
-      and_no_tags: agus clib ar bith.
-      failure:
-        subject: '[OpenStreetMap] Theip ar Iompórtáil GPX'
-        failed_to_import: ', theip ar an iompórtáil. Seo an earráid:'
-        more_info_1: Is féidir tuilleadh eolais maidir le teipeanna ar iompórtálacha
-          GPX agus conas
-        more_info_2: 'iad a sheachaint a fháil ag:'
-      success:
-        subject: '[OpenStreetMap] Iompórtáladh an GPX'
-        loaded_successfully: ', lódáladh é gan fhadhb le %{trace_points} as %{possible_points}
-          pointe féideartha.'
+    gpx_failure:
+      failed_to_import: ', theip ar an iompórtáil. Seo an earráid:'
+      subject: '[OpenStreetMap] Theip ar Iompórtáil GPX'
+    gpx_success:
+      loaded_successfully: ', lódáladh é gan fhadhb le %{trace_points} as %{possible_points}
+        pointe féideartha.'
+      subject: '[OpenStreetMap] Iompórtáladh an GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Fáilte go OpenStreetMap'
       greeting: A chara,
@@ -1117,28 +1084,13 @@ ga:
         duit le go mbeidh tú in ann tosú amach.
     email_confirm:
       subject: '[OpenStreetMap] Do sheoladh ríomhphoist a dheimhniú'
-    email_confirm_plain:
       greeting: A chara,
       hopefully_you: Is mian le duit éigin (tusa, tá súil againn), a s(h)eoladh ríomhphoist
         ag %{server_url} a athrú go %{new_address}.
       click_the_link: Más tusa atá ann, cliceáil ar an nasc thíos chun an t-athrú
         a dheimhniú.
-    email_confirm_html:
-      greeting: A chara,
-      hopefully_you: Is mian le duit éigin (tusa, tá súil againn) a s(h)eoladh ríomhphoist
-        ag %{server_url} a athrú go %{new_address}.
-      click_the_link: Más tusa atá ann, cliceáil ar an nasc thíos chun an t-athrú
-        a dheimhniú.
     lost_password:
       subject: '[OpenStreetMap] Iarratas ar athshocrú pasfhocail'
-    lost_password_plain:
-      greeting: A chara,
-      hopefully_you: D'iarr duine éigin (tusa, b'fhéidir) go ndéanfaí an pasfhocal
-        a athshocrú ar an gcuntas openstreetmap.org atá ceangailte leis an seoladh
-        ríomhphoist seo.
-      click_the_link: Más tusa a bhí ann, cliceáil ar an nasc thíos chun do phasfhocal
-        a athshocrú.
-    lost_password_html:
       greeting: A chara,
       hopefully_you: D'iarr duine éigin (tusa, b'fhéidir) go ndéanfaí an pasfhocal
         a athshocrú ar an gcuntas openstreetmap.org atá ceangailte leis an seoladh
@@ -1394,18 +1346,6 @@ ga:
         poiblí ar do %{user_page}.
       user_page_link: leathanach úsáideora
       anon_edits_link_text: Faigh amach cén fáth ar amhlaidh atá.
-      flash_player_required_html: Beidh seinnteoir Flash ag teastáil uait chun Potlatch,
-        eagarthóir Flash OpenStreetMap, a úsáid. Is féidir leat <<a href="https://get.adobe.com/flashplayer/">Seinnteoir
-        Flash a íoslódáil ó Adobe.com</a>. <a href="https://wiki.openstreetmap.org/wiki/Editing">Tá
-        cúpla rogha eile</a> ar fáil freisin chun eagarthóireacht a dhéanamh ar OpenStreetMap.
-      potlatch_unsaved_changes: Tá athruithe nár sábháladh déanta agat. (Chun sábháil
-        i bPotlatch, ba cheart duit an bealach nó poine reatha a dhíroghnú, má tá
-        tú i mbun eagarthóireachta sa mhód beo, nó cliceáil ar sábháil má tá cnaipe
-        sábhála le feiceáil).
-      potlatch2_not_configured: Níor cumraíodh Potlatch 2 - féach https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-        chun tuilleadh eolais a fháil
-      potlatch2_unsaved_changes: Tá athruithe nár sábháladh déanta agat. (Chun sábháil
-        a dhéanamh i bPotlatch2 , ba chóir duit cliceáil ar 'sábháil'.
       id_not_configured: Níor cumraíodh iD
       no_iframe_support: Ní thacaíonn do bhrabhsálaí leis an ngné 'iframe' de chuid
         HTML, rud atá riachtanach don ghné seo.
@@ -1787,14 +1727,6 @@ ga:
       delete: Scrios Cliant
       confirm: An bhfuil tú cinnte?
       requests: 'Na ceadanna seo a leanas á n-iarraidh ón úsáideoir:'
-      allow_read_prefs: a s(h)ainroghanna úsáideora a léamh.
-      allow_write_prefs: a s(h)ainroghanna úsáideora a athrú.
-      allow_write_diary: iontrálacha dialainne agus nótaí tráchta a chruthú agus cairde
-        a dhéanamh.
-      allow_write_api: an léarscáil a athrú.
-      allow_read_gpx: a loirg phríobháideacha GPS a léamh.
-      allow_write_gpx: loirg GPS a uaslódáil.
-      allow_write_notes: nótaí a athrú.
     index:
       title: Mo Shonraí OAuth
       my_tokens: Na Feidhmchláir atá údaraithe agam
@@ -1809,20 +1741,7 @@ ga:
       registered_apps: 'Tá na cliant-fheidhmchláir seo a leanas cláraithe agat:'
       register_new: D'fheidhmchlár a chlárú
     form:
-      name: Ainm
-      required: Ag teastáil
-      url: URL an Phríomh-Fheidhmchláir
-      callback_url: URL Aisghlaoigh
-      support_url: URL Tacaíochta
       requests: 'Na ceadanna seo a leanas a iarraidh ón úsáideoir:'
-      allow_read_prefs: a s(h)ainroghanna úsáideora a léamh.
-      allow_write_prefs: a s(h)ainroghanna úsáideora a athrú.
-      allow_write_diary: iontrálacha dialainne agus nótaí tráchta a chruthú agus cairde
-        a dhéanamh.
-      allow_write_api: an léarscáil a athrú.
-      allow_read_gpx: a loirg phríobháideacha GPS a léamh.
-      allow_write_gpx: loirg GPS a uaslódáil.
-      allow_write_notes: nótaí a athrú.
     not_found:
       sorry: Ár leithscéil, níorbh fhéidir an %{type} sin a aimsiú.
     create:
@@ -1902,8 +1821,6 @@ ga:
     reset_password:
       title: Focal faire a athshocrú
       heading: Focal Faire le haghaidh %{user} a Athshocrú
-      password: 'Focal Faire:'
-      confirm password: 'Deimhnigh an Focal Faire:'
       reset: Athshocraigh an Focal Faire
       flash changed: Athraíodh d'fhocal faire.
       flash token bad: Níor aimsíodh an ceadchomhartha sin, seiceáil an bhfuil an
@@ -2052,10 +1969,6 @@ ga:
     revoke:
       confirm: Deimhnigh
   user_blocks:
-    new:
-      needs_view: Ní mór don úsáideoir logáil isteach sula mbainfear an bac seo
-    edit:
-      needs_view: An gá don úsáideoir logáil isteach sula mbainfear an bac seo?
     revoke:
       confirm: An bhfuil tú cinnte gur mhaith leat an bac seo a tharraingt siar?
       revoke: Tarraing siar!

@@ -1,12 +1,11 @@
 <% set_title(t(".title", :id => @changeset.id)) %>
 
-<h2>
-  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= t(".title", :id => @changeset.id) %>
-</h2>
+<%= render "sidebar_header", :title => t(".title", :id => @changeset.id) %>
 
 <div class="browse-section">
-  <h6><%= linkify(@changeset.tags["comment"].to_s.presence || t("browse.no_comment")) %></h6>
+  <p class="font-italic">
+    <%= linkify(@changeset.tags["comment"].to_s.presence || t("browse.no_comment")) %>
+  </p>
   <div class="details"><%= changeset_details(@changeset) %></div>
 
   <%= render :partial => "tag_details", :object => @changeset.tags.except("comment") %>
@@ -35,10 +34,10 @@
             <% if comment.visible %>
               <li id="c<%= comment.id %>">
                 <small class='text-muted'>
-                  <%= t(".commented_by",
+                  <%= t(".commented_by_html",
                         :when => friendly_date_ago(comment.created_at),
                         :exact_time => l(comment.created_at),
-                        :user => link_to(comment.author.display_name, user_path(comment.author))).html_safe %>
+                        :user => link_to(comment.author.display_name, user_path(comment.author))) %>
                   <% if current_user and current_user.moderator? %>
                     — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t("javascripts.changesets.show.hide_comment") %></span>
                   <% end %>
@@ -48,10 +47,10 @@
             <% elsif current_user and current_user.moderator? %>
               <li id="c<%= comment.id %>">
                 <small class='text-muted'>
-                  <%= t(".hidden_commented_by",
+                  <%= t(".hidden_commented_by_html",
                         :when => friendly_date_ago(comment.created_at),
                         :exact_time => l(comment.created_at),
-                        :user => link_to(comment.author.display_name, user_path(comment.author))).html_safe %>
+                        :user => link_to(comment.author.display_name, user_path(comment.author))) %>
                   — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t("javascripts.changesets.show.unhide_comment") %></span>
                  </small>
                 <%= comment.body.to_html %>
@@ -91,7 +90,7 @@
     </h4>
     <ul class="list-unstyled">
       <% @ways.each do |way| %>
-        <li><%= link_to printable_name(way, true), { :action => "way", :id => way.way_id.to_s }, { :class => link_class("way", way), :title => link_title(way) } %></li>
+        <li><%= link_to printable_name(way, :version => true), { :action => "way", :id => way.way_id.to_s }, { :class => link_class("way", way), :title => link_title(way) } %></li>
       <% end %>
     </ul>
   <% end %>
@@ -103,7 +102,7 @@
     </h4>
     <ul class="list-unstyled">
       <% @relations.each do |relation| %>
-        <li><%= link_to printable_name(relation, true), { :action => "relation", :id => relation.relation_id.to_s }, { :class => link_class("relation", relation), :title => link_title(relation) } %></li>
+        <li><%= link_to printable_name(relation, :version => true), { :action => "relation", :id => relation.relation_id.to_s }, { :class => link_class("relation", relation), :title => link_title(relation) } %></li>
       <% end %>
     </ul>
   <% end %>
@@ -115,7 +114,7 @@
     </h4>
     <ul class="list-unstyled">
       <% @nodes.each do |node| %>
-        <li><%= link_to printable_name(node, true), { :action => "node", :id => node.node_id.to_s }, { :class => link_class("node", node), :title => link_title(node), :rel => link_follow(node) } %></li>
+        <li><%= link_to printable_name(node, :version => true), { :action => "node", :id => node.node_id.to_s }, { :class => link_class("node", node), :title => link_title(node), :rel => link_follow(node) } %></li>
       <% end %>
     </ul>
   <% end %>

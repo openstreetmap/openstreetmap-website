@@ -79,6 +79,9 @@ oc:
       way_node: Nos dau camin
       way_tag: Balisa del camin
     attributes:
+      client_application:
+        callback_url: URL de rapèl
+        support_url: URL de supòrt
       diary_comment:
         body: Còrs
       diary_entry:
@@ -107,6 +110,8 @@ oc:
         title: Subjècte
         body: Còrs
         recipient: Destinatari
+      report:
+        details: Se vos plai, fornissètz mai de detalhs sus la dificultat (obligatòri).
       user:
         email: Adreça de corrièr electronic
         active: Actiu
@@ -117,6 +122,9 @@ oc:
     help:
       trace:
         tagstring: separadas per de virgulas
+      user_block:
+        needs_view: L’utilizaire se deu connectar abans qu'aqueste blocatge expire
+          ?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -158,15 +166,9 @@ oc:
         other: fa près de %{count} d'ans
   editor:
     default: Per defaut (actualament %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (editor integrat au navigador)
     id:
       name: iD
       description: iD (editor integrat al navigador)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (editor integrat au navigador)
     remote:
       name: Editor extèrne
       description: Editor extèrne (JOSM o Merkaartor)
@@ -230,9 +232,9 @@ oc:
       relation: Relacions (%{count})
       relation_paginated: Relacions (%{x} a %{y} sus %{count})
       comment: Comentaris (%{count})
-      hidden_commented_by: Comentari amagat de %{user} <abbr title='%{exact_time}'>i
+      hidden_commented_by_html: Comentari amagat de %{user} <abbr title='%{exact_time}'>i
         a %{when}</abbr>
-      commented_by: Comentari de %{user} <abbr title='%{exact_time}'>i a %{when}</abbr>
+      commented_by_html: Comentari de %{user} <abbr title='%{exact_time}'>i a %{when}</abbr>
       changesetxml: Grop de modificacions XML
       osmchangexml: osmChange XML
       feed:
@@ -313,18 +315,18 @@ oc:
       open_title: Nòta pas resolguda nº %{note_name}
       closed_title: Nòta resolguda nº %{note_name}
       hidden_title: Nòta amagada nº %{note_name}
-      opened_by: Creat per %{user} <abbr title='%{exact_time}'>fa %{when}</abbr>
-      opened_by_anonymous: Creat per un utilizaire anonim <abbr title='%{exact_time}'>fa
+      opened_by_html: Creat per %{user} <abbr title='%{exact_time}'>fa %{when}</abbr>
+      opened_by_anonymous_html: Creat per un utilizaire anonim <abbr title='%{exact_time}'>fa
         %{when}</abbr>
-      commented_by: Comentari de %{user} fa <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Comentat per un utilizaire anonim <abbr title='%{exact_time}'>fa
+      commented_by_html: Comentari de %{user} fa <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Comentat per un utilizaire anonim <abbr title='%{exact_time}'>fa
         %{when}</abbr>
-      closed_by: Reglat per %{user} <abbr title='%{exact_time}'>fa %{when}</abbr>
-      closed_by_anonymous: Reglat per un utilizaire anonim <abbr title='%{exact_time}'>fa
+      closed_by_html: Reglat per %{user} <abbr title='%{exact_time}'>fa %{when}</abbr>
+      closed_by_anonymous_html: Reglat per un utilizaire anonim <abbr title='%{exact_time}'>fa
         %{when}</abbr>
-      reopened_by: Reactivat per %{user}  fa <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Reactivat per un utilizaire anonim fa <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Amagat per %{user} <abbr title='%{exact_time}'>fa %{when}</abbr>
+      reopened_by_html: Reactivat per %{user}  fa <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Reactivat per un utilizaire anonim fa <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Amagat per %{user} <abbr title='%{exact_time}'>fa %{when}</abbr>
       report: Avisar d’aquesta noticia
     query:
       title: Requèsta suls objèctes
@@ -379,12 +381,7 @@ oc:
     new:
       title: Novèla entrada de jornau
     form:
-      subject: 'Subjècte :'
-      body: 'Còrs :'
-      language: 'Lenga :'
       location: 'Luòc :'
-      latitude: 'Latitud :'
-      longitude: 'Longitud :'
       use_map_link: Utilizar la mapa
     index:
       title: Jornaus deis utilizaires
@@ -552,7 +549,6 @@ oc:
           motorcycle_parking: Aparcament de bicicleta
           nightclub: Discotèca
           nursing_home: Ostal de santat
-          office: Burèu
           parking: Aparcament
           parking_entrance: Entrada de l’aparcament
           parking_space: Plaça d’aparcament
@@ -561,20 +557,15 @@ oc:
           police: Polícia
           post_box: Bóstia de letras
           post_office: Burèu de pòsta
-          preschool: Preescolar
           prison: Preson
           pub: Bar
           public_building: Bastissa publica
           recycling: Ponch de reciclatge
           restaurant: Restaurant
-          retirement_home: Ostau de retirada
-          sauna: Sauna
           school: Escòla
           shelter: Abric
-          shop: Botiga
           shower: Docha
           social_centre: Centre social
-          social_club: Club social
           social_facility: Servici social
           studio: Estúdio
           swimming_pool: Piscina
@@ -590,7 +581,6 @@ oc:
           waste_basket: Escobilhièr
           waste_disposal: Eliminacion de sobras
           water_point: Ponch d'aiga
-          youth_centre: Centre per la joventud
         boundary:
           administrative: Limit administratiu
           census: Frontièra estatistica
@@ -665,7 +655,6 @@ oc:
           tertiary_link: Rota terciària
           track: Pista
           traffic_signals: Fuòcs de circulacion
-          trail: Pista
           trunk: Via exprèssa
           trunk_link: Via exprèssa
           turning_loop: Virada en bocla
@@ -684,7 +673,6 @@ oc:
           fort: Fòrt
           heritage: Site del patrimòni
           house: Ostal
-          icon: Icòna
           manor: Castelet
           memorial: Memoriau
           mine: Mina
@@ -729,7 +717,6 @@ oc:
           reservoir_watershed: Bacin versant de sèrva
           residential: Zòna residenciala
           retail: Zòna comerciala
-          road: Zòna rotiera
           village_green: Zòna publica erborada
           vineyard: Vinha
           "yes": Usatge del terren
@@ -886,7 +873,6 @@ oc:
           subdivision: Subdivision
           suburb: Quartier de vila, borgada
           town: Vila
-          unincorporated_area: Luòc pas organizat
           village: Vilatge
           "yes": Luòc
         railway:
@@ -912,6 +898,7 @@ oc:
           switch: Agulhas
           tram: Tramvia
           tram_stop: Arrèst de tram
+          yard: Via de triatge
         shop:
           alcohol: Magazin oficial d'alcoòl
           antiques: Antiquari
@@ -945,12 +932,10 @@ oc:
           estate_agent: Agent immobilièr
           farm: Venda de produchs agricòlas
           fashion: Magazin de mòda
-          fish: Pescariá
           florist: Florista
           food: Botiga d'alimentacion
           funeral_directors: Pompas funèbras
           furniture: Amòblament
-          gallery: Galariá
           garden_centre: Jardinariá
           general: Magazin generalista
           gift: Botiga de presents
@@ -967,7 +952,6 @@ oc:
           laundry: Bugadariá
           lottery: Lotariá
           mall: Galariá mercanda
-          market: Mercat
           massage: Massatge
           mobile_phone: Botiga de telefòns mobils
           motorcycle: Magazin de mòto
@@ -979,7 +963,6 @@ oc:
           paint: Galariá de pintura
           pawnbroker: Prestaire per gatges
           pet: Animalariá
-          pharmacy: Farmacia
           photo: Magazin de fotografia
           seafood: Crustacèus e cauquilhatges de mar
           second_hand: Botiga d’ocasions
@@ -1050,11 +1033,6 @@ oc:
         level8: Limit de la vila
         level9: Limit del vilatge
         level10: Limit de la banlèga
-    description:
-      title:
-        osm_nominatim: Localizacion dempuèi <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Localizacion dempuèi <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Vilas
         towns: Vilas
@@ -1132,8 +1110,6 @@ oc:
     new:
       title_html: Raportar %{link}
       missing_params: Se pòt pas crear un rapòrt nòu
-      details: Se vos plai, fornissètz mai de detalhs sus la dificultat (obligatòri).
-      select: 'Seleccionatz una rason per la denóncia:'
       disclaimer:
         intro: 'Abans d''enviar la denóncia ais moderadors dau luòc, se vos plai asseguratz-vos
           que:'
@@ -1216,7 +1192,7 @@ oc:
       text: Far un don
     learn_more: Ne saber mai
     more: Mai
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} a postat un comentari sus un article de jornal'
       hi: Bonjorn %{to_user},
@@ -1236,22 +1212,13 @@ oc:
       had_added_you: '%{user} vos a apondut coma amic dins OpenStreetMap.'
       see_their_profile: 'Podètz veire son perfil aicí : %{userurl}.'
       befriend_them: 'Tanben, lo podètz apondre coma amic aicí : %{befriendurl}.'
-    gpx_notification:
-      greeting: Bonjorn,
-      your_gpx_file: Sembla que vòstre fichièr GPX
-      with_description: amb la descripcion
-      and_the_tags: 'e las balisas seguentas :'
-      and_no_tags: e sens balisa.
-      failure:
-        subject: '[OpenStreetMap] Error al moment de l''impòrt GPX'
-        failed_to_import: 'a pas pogut èsser importat. Aquí l''error :'
-        more_info_1: Mai d'informacions sus las errors al moment de l'impòrt GPX e
-          cossí las evitar
-        more_info_2: 'pòdon èsser trobats sus :'
-      success:
-        subject: '[OpenStreetMap] Impòrt GPX capitat'
-        loaded_successfully: s'es cargat correctament amb %{trace_points} punch sus
-          %{possible_points}.
+    gpx_failure:
+      failed_to_import: 'a pas pogut èsser importat. Aquí l''error :'
+      subject: '[OpenStreetMap] Error al moment de l''impòrt GPX'
+    gpx_success:
+      loaded_successfully: s'es cargat correctament amb %{trace_points} punch sus
+        %{possible_points}.
+      subject: '[OpenStreetMap] Impòrt GPX capitat'
     signup_confirm:
       subject: '[OpenStreetMap] Benvenguda dins OpenStreetMap'
       greeting: Bonjorn !
@@ -1264,32 +1231,18 @@ oc:
         perque poscatz començar.
     email_confirm:
       subject: '[OpenStreetMap] Confirmacion de vòstra adreça de corrièr electronic'
-    email_confirm_plain:
       greeting: Bonjorn,
       hopefully_you: Qualqu’un (vos, esperam-lo) voldriá modificar son adreça de corrièr
         electronic sus %{server_url} en %{new_address}.
       click_the_link: Se sètz a l'origina d'aquesta requèsta, clicatz sul ligam çaijós
         per confirmar aquesta modificacion.
-    email_confirm_html:
-      greeting: Bonjorn,
-      hopefully_you: Qualqu’un (vos, esperam-lo) voldriá cambiar son adreça de corrièr
-        electronic de %{server_url} en %{new_address}.
-      click_the_link: Se sètz vos, clicatz sul ligam çaijós per confirmar aquesta
-        la modificacion.
     lost_password:
       subject: '[OpenStreetMap] Demanda de reïnicializacion del senhal'
-    lost_password_plain:
       greeting: Bonjorn,
       hopefully_you: Quauqu’un (possiblament vos) a demandat que lo senhau d'aqueu
         còmpte openstreetmap.org siegue remandat a vòstra adreiça de corrier electronic.
       click_the_link: Se sètz a l'origina d'aquesta requèsta, clicatz sul ligam çaijós
         per reïnicializar vòstre senhal.
-    lost_password_html:
-      greeting: Bonjorn,
-      hopefully_you: Quauqu’un (possiblament vos) a demandat de restaurar lo senhau
-        dau còmpte openstreetmap.org liat a aquesta adreiça de corrier electronic.
-      click_the_link: Se sètz vos, clicatz sul ligam çaijós per reïnicializar vòstre
-        senhal.
     note_comment_notification:
       anonymous: Un utilizaire anonim
       greeting: Bonjorn,
@@ -1545,8 +1498,6 @@ oc:
       not_public: Avètz pas reglat vòstras modificacions per que sián publicas.
       user_page_link: pagina d'utilizaire
       anon_edits_link_text: Trobatz perqué aicí.
-      potlatch2_unsaved_changes: Avètz de modificacions pas salvadas. (Per salvar
-        vòstras modificacions dins Potlach2, clicar sus "enregistrar".)
       id_not_configured: iD es pas estat configurat
     export:
       title: Exportar
@@ -1934,14 +1885,6 @@ oc:
       delete: Suprimir lo client
       confirm: Sètz segur ?
       requests: 'Demanda las permissions seguentas a l''utilizaire :'
-      allow_read_prefs: consultar sas preferéncias d'utilizaire.
-      allow_write_prefs: modificar sas preferéncias d'utilizaire.
-      allow_write_diary: creatz d'entradas dins lo jornal, de comentaris e fasètz-vos
-        d'amics.
-      allow_write_api: modificar la mapa.
-      allow_read_gpx: legir lors traças GPS privadas.
-      allow_write_gpx: mandar la traça GPS
-      allow_write_notes: modificar las nòtas.
     index:
       title: Mos detalhs OAuth
       my_tokens: Mas aplicacions enregistradas
@@ -1954,20 +1897,7 @@ oc:
       registered_apps: 'Avètz las aplicacions clientas seguentas enregistradas :'
       register_new: Enregistratz vòstra aplicacion
     form:
-      name: Nom
-      required: Requesit
-      url: URL principala de l'aplicacion
-      callback_url: URL de rapèl
-      support_url: URL de supòrt
       requests: 'Demandar las permissions seguentas a l''utilizaire :'
-      allow_read_prefs: legir sas preferéncias d'utilizaire.
-      allow_write_prefs: modificar sas preferéncias d'utilizaire.
-      allow_write_diary: creatz d'entradas dins lo jornal, de comentaris e fasètz-vos
-        d'amics.
-      allow_write_api: modificar la mapa.
-      allow_read_gpx: legir sas traças GPS privadas.
-      allow_write_gpx: mandar de traças GPS.
-      allow_write_notes: modificar las nòtas.
     not_found:
       sorry: O planhèm, aqueste %{type} a pas pogut èsser trobat.
     create:
@@ -2039,8 +1969,6 @@ oc:
     reset_password:
       title: Reïnicializar lo senhal
       heading: Reïnicializar lo senhal de %{user}
-      password: 'Senhal :'
-      confirm password: 'Confirmatz lo senhal :'
       reset: Reïnicializar lo senhal
       flash changed: Vòstre senhal es estat modificat.
       flash token bad: Avètz pas trobat aqueste geton, avètz verificat l'URL ?
@@ -2268,26 +2196,15 @@ oc:
     new:
       title: Creat un blocatge sus %{name}
       heading_html: Creat un blocatge sus %{name}
-      reason: Rason per la quala %{name} es blocat. Mercé d'èsser tant suau e rasonable
-        com possible, e de balhar tant de detalhs coma possible sus la situacion.
-        Doblidetz pas qu'aqueste messatge serà visible per totes. Sapiatz que tot
-        lo monde compren pas lo girgon de la comunautat, alara utilizatz de tèrmes
-        simples e precises.
       tried_contacting: Ai contactat l'utilizaire e li ai demandat d'arrestar.
-      needs_view: L’utilizaire se deu connectar abans qu'aqueste blocatge siá escafat
       back: Veire totes los blocatges
     edit:
       title: Modifica un blocatge sus %{name}
       heading_html: Modifica un blocatge sus %{name}
-      reason: Rason per la quala %{name} es blocat. Mercé d'èsser tant suau e rasonable
-        com possible, e de balhar tant de detalhs coma possible sus la situacion.
-        Sapiatz que tot lo monde compren pas lo girgon de la comunautat, alara utilizatz
-        de tèrmes simples e precises.
       period: Quant de temps, a partir d'ara, l’utilizaire deu èsser blocat sus l’API
         ?
       show: Afichar aqueste blocatge
       back: Veire totes los blocatges
-      needs_view: L’utilizaire se deu connectar abans qu'aqueste blocatge expire ?
     filter:
       block_expired: Lo blocatge a ja expirat e pòt pas èsser modificat.
     create:
@@ -2308,11 +2225,11 @@ oc:
       revoke: Revocar !
       flash: Aqueste blocatge es estat revocat.
     helper:
-      time_future: Acaba a %{time}.
+      time_future_html: Acaba a %{time}.
       until_login: Actiu fins al moment que l'utilizaire se connectarà.
-      time_future_and_until_login: Acabat dins %{time} i après que l'usancieri ague
-        començat la session.
-      time_past: Acabat fa %{time}.
+      time_future_and_until_login_html: Acabat dins %{time} i après que l'usancieri
+        ague començat la session.
+      time_past_html: Acabat fa %{time}.
       block_duration:
         hours:
           one: 1 ora

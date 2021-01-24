@@ -1,5 +1,3 @@
-require "migrate"
-
 class DiaryComments < ActiveRecord::Migration[4.2]
   def self.up
     create_table "diary_comments", :id => false do |t|

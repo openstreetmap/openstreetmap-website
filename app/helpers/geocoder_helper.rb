@@ -14,13 +14,13 @@ module GeocoderHelper
       html_options[:data][key.to_s.tr("_", "-")] = value
     end
 
-    html = ""
+    html = []
     html << result[:prefix] if result[:prefix]
     html << " " if result[:prefix] && result[:name]
     html << link_to(result[:name], url, html_options) if result[:name]
     html << " " if result[:suffix] && result[:name]
     html << result[:suffix] if result[:suffix]
-    html.html_safe
+    safe_join(html)
   end
 
   def describe_location(lat, lon, zoom = nil, language = nil)

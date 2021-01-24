@@ -17,7 +17,7 @@ module ChangesetsHelper
     else
       action = :closed
       time = time_ago_in_words(changeset.closed_at, :scope => :'datetime.distance_in_words_ago')
-      title = "#{t('browse.created')}: #{l(changeset.created_at)}&#10;#{t('browse.closed')}: #{l(changeset.closed_at)}".html_safe
+      title = safe_join([t("browse.created"), ": ", l(changeset.created_at), "&#10;".html_safe, t("browse.closed"), ": ", l(changeset.closed_at)])
     end
 
     if params.key?(:display_name)

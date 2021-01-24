@@ -37,15 +37,15 @@ module GPX
     end
 
     def points(&block)
-      return enum_for(:points) unless block_given?
+      return enum_for(:points) unless block
 
       @possible_points = 0
       @actual_points = 0
       @tracksegs = 0
 
       begin
-        Archive::Reader.open_filename(@file).each_entry_with_data do |_entry, data|
-          parse_file(XML::Reader.string(data), &block)
+        Archive::Reader.open_filename(@file).each_entry_with_data do |entry, data|
+          parse_file(XML::Reader.string(data), &block) if entry.regular?
         end
       rescue Archive::Error
         io = ::File.open(@file)

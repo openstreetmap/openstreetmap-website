@@ -5,13 +5,6 @@ module OSM
   require "rexml/text"
   require "xml/libxml"
 
-  if defined?(SystemTimer)
-    Timer = SystemTimer
-  else
-    require "timeout"
-    Timer = Timeout
-  end
-
   # The base class for API Errors.
   class APIError < RuntimeError
     def initialize(message = "Generic API Error")
@@ -247,10 +240,6 @@ module OSM
   ##
   # raised when user input couldn't be parsed
   class APIBadUserInput < APIError
-    def initialize(message)
-      super message
-    end
-
     def status
       :bad_request
     end
@@ -259,10 +248,6 @@ module OSM
   ##
   # raised when bounding box is invalid
   class APIBadBoundingBox < APIError
-    def initialize(message)
-      super message
-    end
-
     def status
       :bad_request
     end
@@ -386,12 +371,17 @@ module OSM
     end
 
     # and these two will give you the right points on your image. all the constants can be reduced to speed things up. FIXME
+    # If the bbox has no extent, return the centre of the image to avoid dividing by zero.
 
     def y(lat)
+      return @height / 2 if (@by - @ty).zero?
+
       @height - ((ysheet(lat) - @ty) / (@by - @ty) * @height)
     end
 
     def x(lon)
+      return @width / 2 if (@bx - @tx).zero?
+
       ((xsheet(lon) - @tx) / (@bx - @tx) * @width)
     end
   end
@@ -505,8 +495,8 @@ module OSM
 
   # Return the terms and conditions text for a given country
   def self.legal_text_for_country(country_code)
-    file_name = Rails.root.join("config", "legales", country_code.to_s + ".yml")
-    file_name = Rails.root.join("config", "legales", Settings.default_legale + ".yml") unless File.exist? file_name
+    file_name = Rails.root.join("config", "legales", "#{country_code}.yml")
+    file_name = Rails.root.join("config", "legales", "#{Settings.default_legale}.yml") unless File.exist? file_name
     YAML.load_file(file_name).transform_values!(&:html_safe)
   end
 

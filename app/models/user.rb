@@ -44,6 +44,7 @@
 #
 
 class User < ApplicationRecord
+  require "digest"
   require "xml/libxml"
 
   has_many :traces, -> { where(:visible => true) }
@@ -56,7 +57,7 @@ class User < ApplicationRecord
   has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id
   has_many :friendships, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
   has_many :friends, :through => :friendships, :source => :befriendee
-  has_many :tokens, :class_name => "UserToken"
+  has_many :tokens, :class_name => "UserToken", :dependent => :destroy
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, -> { order(:created_at => :desc) }
   has_many :changeset_comments, :foreign_key => :author_id
@@ -152,26 +153,6 @@ class User < ApplicationRecord
     user
   end
 
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node
-    el1 = XML::Node.new "user"
-    el1["display_name"] = display_name.to_s
-    el1["account_created"] = creation_time.xmlschema
-    if home_lat && home_lon
-      home = XML::Node.new "home"
-      home["lat"] = home_lat.to_s
-      home["lon"] = home_lon.to_s
-      home["zoom"] = home_zoom.to_s
-      el1 << home
-    end
-    el1
-  end
-
   def description
     RichText.new(self[:description_format], self[:description])
   end
@@ -202,7 +183,7 @@ class User < ApplicationRecord
       sql_for_area = QuadTile.sql_for_area(gc.bounds(radius), "home_")
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
       nearby = User.active.identifiable
-                   .where("id != ?", id)
+                   .where.not(:id => id)
                    .where(sql_for_area)
                    .where("#{sql_for_distance} <= ?", radius)
                    .order(Arel.sql(sql_for_distance))
@@ -304,6 +285,13 @@ class User < ApplicationRecord
   # return an oauth access token for a specified application
   def access_token(application_key)
     ClientApplication.find_by(:key => application_key).access_token_for_user(self)
+  end
+
+  def fingerprint
+    digest = Digest::SHA256.new
+    digest.update(email)
+    digest.update(pass_crypt)
+    digest.hexdigest
   end
 
   private

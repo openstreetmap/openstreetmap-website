@@ -1,5 +1,3 @@
-require "migrate"
-
 class CreateChangesetComments < ActiveRecord::Migration[4.2]
   def change
     create_table :changeset_comments do |t|

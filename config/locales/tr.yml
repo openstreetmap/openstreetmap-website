@@ -20,15 +20,19 @@
 # Author: Katpatuka
 # Author: Kumkumuk
 # Author: LuCKY
+# Author: Makina88
 # Author: Mavrikant
 # Author: McAang
 # Author: Meelo
 # Author: Mirzali
+# Author: MuratTheTurkish
 # Author: Rapsar
 # Author: Ruila
 # Author: Sadrettin
 # Author: SalihB
 # Author: Sayginer
+# Author: Sezgin İbiş
+# Author: Stonecy
 # Author: Sucsuzz
 # Author: Szoszv
 # Author: Talha Samil Cakir
@@ -50,6 +54,8 @@ tr:
     formats:
       friendly: '%e %B %Y saat %H:%M'
   helpers:
+    file:
+      prompt: Dosya seç
     submit:
       diary_comment:
         create: Kaydet
@@ -62,7 +68,7 @@ tr:
         create: Gönder
       client_application:
         create: Kaydol
-        update: Düzenle
+        update: Güncelle
       redaction:
         create: Redaksiyon oluştur
         update: Redaksiyonu kaydet
@@ -114,6 +120,18 @@ tr:
       way_node: Yol Noktası
       way_tag: Yol Etiketi
     attributes:
+      client_application:
+        name: Ad (Gerekli)
+        url: Ana Uygulama URL'si (Gerekli)
+        callback_url: Geri Arama Bağlantısı
+        support_url: Destek Bağlantısı
+        allow_read_prefs: kullanıcı tercihlerini okuyun
+        allow_write_prefs: onların kullanıcı tercihlerini değiştir
+        allow_write_diary: günlük girdiler, yorumlar oluşturun ve arkadaş edinin
+        allow_write_api: haritayı değiştir
+        allow_read_gpx: özel GPS izlerini oku
+        allow_write_gpx: GPS izlerini yükle
+        allow_write_notes: notları değiştir
       diary_comment:
         body: Gövde
       diary_entry:
@@ -136,12 +154,15 @@ tr:
         description: Açıklama
         gpx_file: GPX Dosyası yükle
         visibility: Görünürlük
-        tagstring: 'Etiketler:'
+        tagstring: Etiketler
       message:
         sender: Gönderen
         title: Konu
         body: Gövde
         recipient: Alıcı
+      report:
+        category: Raporunuz için bir neden seçin
+        details: Lütfen problemle ilgili daha fazla bilgi veriniz (zorunlu).
       user:
         email: E-posta
         active: Etkin
@@ -149,9 +170,13 @@ tr:
         description: Açıklama
         languages: Diller
         pass_crypt: Parola
+        pass_crypt_confirmation: Parolayı Onayla
     help:
       trace:
         tagstring: virgül (,) ile ayır
+      user_block:
+        needs_view: Engel kaldırılmadan önce kullanıcının giriş yapması gerekiyor
+          mu?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -193,18 +218,12 @@ tr:
         other: '%{count} yıl önce'
   editor:
     default: Varsayılan (kullanılan %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (tarayıcı içi düzenleyici)
     id:
       name: iD
       description: iD (tarayıcı düzenleyici)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (tarayıcı içi düzenleyici)
     remote:
       name: Uzaktan Denetim
-      description: Uzaktan Denetim (JOSM veya Merkaartor)
+      description: Uzaktan Kontrolü (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Hiçbiri
@@ -251,10 +270,18 @@ tr:
     anonymous: anonim
     no_comment: (yorum yok)
     part_of: Ortak parça
+    part_of_relations:
+      one: 1 ilişki
+      other: '%{count} ilişki'
+    part_of_ways:
+      one: 1 yol
+      other: '%{count} yol'
     download_xml: XML İndir
     view_history: Geçmişi Görüntüle
     view_details: Ayrıntıları Görüntüle
     location: 'Konum:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Değişiklik kaydı: %{id}'
       belongs_to: Yazar
@@ -265,14 +292,14 @@ tr:
       relation: İlişkiler (%{count})
       relation_paginated: İlişkiler (%{x}-%{y} - toplam %{count})
       comment: Yorumlar (%{count})
-      hidden_commented_by: '%{user} tarafından gizli yorum <abbr title="%{exact_time}">%{when}</abbr>'
-      commented_by: '%{user} kullanıcıdan yorum <abbr title="%{exact_time}">%{when}</abbr>'
-      changesetxml: Değişiklik kaydı XML
+      hidden_commented_by_html: '%{user} tarafından gizli yorum <abbr title="%{exact_time}">%{when}</abbr>'
+      commented_by_html: '%{user} kullanıcıdan yorum <abbr title="%{exact_time}">%{when}</abbr>'
+      changesetxml: ' XML değişiklik kaydı'
       osmchangexml: osmChange XML
       feed:
         title: Değişiklik kaydı %{id}
         title_comment: Değişiklik takımı %{id} - %{comment}
-      join_discussion: Tartışmaya katılmak için lütfen giriş yap
+      join_discussion: Tartışmaya katılmak için lütfen giriş yapın
       discussion: Tartışma
       still_open: Değişiklik kaydı hâlâ açık - tartışma, değişiklik serisi kapatıldığında
         açılacaktır.
@@ -283,6 +310,8 @@ tr:
       title_html: 'Yol: %{name}'
       history_title_html: 'Yol geçmişi: %{name}'
       nodes: Noktalar
+      nodes_count:
+        other: '%{count} düğüm'
       also_part_of_html:
         one: yol parçası %{related_ways}
         other: yol parçası %{related_ways}
@@ -290,6 +319,9 @@ tr:
       title_html: 'İlişki: %{name}'
       history_title_html: 'İlişki Geçmişi: %{name}'
       members: Üyeler
+      members_count:
+        one: 1 üye
+        other: '%{count} üye'
     relation_member:
       entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name}, adı %{role}'
@@ -301,21 +333,23 @@ tr:
       entry_html: İlişki %{relation_name}
       entry_role_html: İlişki %{relation_name} (%{relation_role} olarak)
     not_found:
+      title: Bulunamadı
       sorry: 'Üzgünüm, #%{id} numaralı %{type} bulunamadı.'
       type:
         node: nokta
         way: yol
         relation: ilişki
         changeset: değişiklik kaydı
-        note: Not
+        note: not
     timeout:
+      title: Zaman Aşımı Hatası
       sorry: Üzgünüz, %{type} olan verisi %{id} almak için çok uzun sürdü.
       type:
         node: nokta
         way: yol
         relation: ilişki
         changeset: değişiklik kaydı
-        note: Not
+        note: not
     redacted:
       redaction: Redaksiyon %{id}
       message_html: Bu %{type} için %{version} versiyonununda düzenlemeler hemen görülemez.
@@ -335,11 +369,11 @@ tr:
       wiki_link:
         key: '%{key} parametresi için Viki açıklaması'
         tag: '%{key}=%{value} parametresi için Viki açıklaması'
-      wikidata_link: Vikidata'da bulunan %{page} öğesi
-      wikipedia_link: Vikipedi'deki %{page} makalesi
-      wikimedia_commons_link: Wikimedia Commons'daki %{page} maddesi
-      telephone_link: '%{phone_number} ara'
-      colour_preview: Renk %{colour_value} önizleme
+      wikidata_link: Vikiveri'deki %{page} ögesi
+      wikipedia_link: Vikipedi'deki %{page} maddesi
+      wikimedia_commons_link: Wikimedia Commons'daki %{page} ögesi
+      telephone_link: 'Ara: %{phone_number}'
+      colour_preview: '%{colour_value} renginin önizlemesi'
     note:
       title: 'Not: %{id}'
       new_note: Yeni Not
@@ -347,30 +381,31 @@ tr:
       open_title: 'Çözümlenmemiş not: #%{note_name}'
       closed_title: 'Çözümlenmiş not: #%{note_name}'
       hidden_title: 'Gizli not #%{note_name}'
-      opened_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
+      opened_by_html: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         oluşturuldu'
-      opened_by_anonymous: Anonim olarak <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Anonim olarak <abbr title='%{exact_time}'>%{when}</abbr>
         oluşturuldu
-      commented_by: '%{user} kullanıcısının <abbr title=''%{exact_time}''>%{when}</abbr>
+      commented_by_html: '%{user} kullanıcısının <abbr title=''%{exact_time}''>%{when}</abbr>
         yorumu'
-      commented_by_anonymous: Anonim kullanıcının <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Anonim kullanıcının <abbr title='%{exact_time}'>%{when}</abbr>
         yorumu
-      closed_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
+      closed_by_html: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         çözüldü'
-      closed_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
         çözüldü
-      reopened_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
+      reopened_by_html: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         yeniden etkin hâle getirildi.'
-      reopened_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
         yeniden etkin hâle getirildi.
-      hidden_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
+      hidden_by_html: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         gizlendi'
       report: Bu notu bildir
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
-      title: Özellikleri Göster
-      introduction: Yakın diğer özellikleri bulmak için harita üzerine tıklayın.
-      nearby: Yakındaki özellikleri
-      enclosing: Kapsayan özellikleri
+      title: Sorgu Özellikleri
+      introduction: Yakındaki özellikleri bulmak için haritaya tıklayın.
+      nearby: Yakındaki özellikler
+      enclosing: Kapsayan özellikler
   changesets:
     changeset_paging_nav:
       showing_page: '%{page}. sayfa'
@@ -402,35 +437,30 @@ tr:
       sorry: Üzgünüz, değişiklik kayıtlarının listelenmesi fazla sürdü.
   changeset_comments:
     comment:
-      comment: 'Değişiklik seti #%{changeset_id} hakkında %{author} yeni bir yorum
+      comment: '#%{changeset_id} değişiklik kaydı hakkında %{author}, yeni bir yorum
         yaptı.'
       commented_at_by_html: '%{user} tarafından %{when} güncellendi'
     comments:
-      comment: 'Değişiklik seti #%{changeset_id} hakkında %{author} yeni bir yorum
-        yaptı.'
+      comment: '#%{changeset_id} değişiklik kaydı hakkında %{author}, yeni bir yorum
+        yaptı'
     index:
-      title_all: OpenStreetMap değişiklik tartışması
-      title_particular: 'OpenStreetMap değişiklik #%{changeset_id} tartışması'
+      title_all: OpenStreetMap değişiklik kaydı tartışması
+      title_particular: 'OpenStreetMap #%{changeset_id} değişiklik kaydı tartışması'
     timeout:
-      sorry: Üzgünüz, talep ettiğiniz değişiklik listesi yorumlarının alınması çok
-        uzun sürdü.
+      sorry: Üzgünüz, talep ettiğiniz değişiklik kaydı yorumlarının alınması çok uzun
+        sürdü.
   diary_entries:
     new:
       title: Yeni Günlük Girdisi
     form:
-      subject: 'Konu:'
-      body: 'Mesaj:'
-      language: 'Dil:'
-      location: 'Konum:'
-      latitude: 'Enlem:'
-      longitude: 'Boylam:'
-      use_map_link: haritayı kullan
+      location: Konum
+      use_map_link: Haritayı Kullan
     index:
       title: Kullanıcıların günlükleri
       title_friends: Arkadaşların günlükleri
       title_nearby: Yakındaki kullanıcıların günlükleri
       user_title: '%{user} kullanıcısının günlüğü'
-      in_language_title: '%{language} dillindeki günlük girdileri'
+      in_language_title: '%{language} dillindeki günlük girdiler'
       new: Yeni Günlük Girdisi
       new_title: Kullanıcı günlüğümde yeni bir girdi oluştur
       my_diary: Günlüğüm
@@ -439,7 +469,7 @@ tr:
       older_entries: Daha Eski Girdiler
       newer_entries: Daha Yeni Girdiler
     edit:
-      title: Günlük Girdisi Düzenle
+      title: Günlük Girdisini Düzenle
       marker_text: Günlük girdisinin konumu
     show:
       title: '%{user} kullanıcısının günlüğü | %{title}'
@@ -454,12 +484,13 @@ tr:
         kontrol edin ya da tıkladığınız link yanlış olabilir.
     diary_entry:
       posted_by_html: '%{link_user} tarafından %{created} tarihinde %{language_link}
-        dilinde gönderildi'
+        dilinde gönderildi.'
+      updated_at_html: En son %{updated} tarihinde güncellendi.
       comment_link: Bu girdiyi yorumla
       reply_link: Yazara mesaj gönder
       comment_count:
-        one: 1 yorum
-        zero: yorumsuz
+        zero: Yorum yok
+        one: '%{count} yorum'
         other: '%{count} yorum'
       edit_link: Bu girdiyi düzenle
       hide_link: Bu girdiyi gizle
@@ -477,10 +508,11 @@ tr:
       location: 'Konum:'
       view: Görüntüle
       edit: Düzenle
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: '%{user} için OpenStreetMap günlük girdileri'
-        description: '%{user} kullanıcısından en yeni OpenStreetMap günlük girdileri'
+        description: '%{user} kullanıcısının en yeni OpenStreetMap günlük girdileri'
       language:
         title: '%{language_name} dillindeki OpenStreetMap günlük girdileri'
         description: OpenStreetMap kullanıcılarının %{language_name} dillindeki en
@@ -499,50 +531,55 @@ tr:
     make_friend:
       heading: '%{user} adlı kullanıcı arkadaş olarak eklensin mi?'
       button: Arkadaş olarak ekle
-      success: '%{name} arkadaş listesinde eklendi.'
-      failed: Üzgünüz, %{name} adlı kullanıcı arkadaş olarak eklenemedi.
+      success: '%{name} arkadaş listesine eklendi!'
+      failed: Üzgünüz, %{name} arkadaş olarak eklenemedi.
       already_a_friend: '%{name} ile zaten arkadaşsın.'
     remove_friend:
-      heading: '%{user} adlı kullanıcı arkadaşlıktan çıkarılsın mı?'
+      heading: '%{user}, arkadaşlıktan çıkarılsın mı?'
       button: Arkadaşlıktan çıkar
-      success: '%{name} arkadaş listesinden çıkarıldı.'
+      success: '%{name}, arkadaş listesinden çıkarıldı.'
       not_a_friend: '%{name}, arkadaşın değil.'
   geocoder:
     search:
       title:
-        latlon_html: <a href="https://openstreetmap.org/">OSM</a>'in sonuçları
-        ca_postcode_html: <a href="https://geocoder.ca/">Geocoder.CA</a>'dan sonuçları
+        latlon_html: <a href="https://openstreetmap.org/">OSM</a> sonuçları
+        ca_postcode_html: <a href="https://geocoder.ca/">Geocoder.CA</a> sonuçları
         osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">OSM Nominatim</a>
           sonuçları
-        geonames_html: <a href="http://www.geonames.org/">GeoNames</a>'in sonuçları
+        geonames_html: <a href="http://www.geonames.org/">GeoNames</a> sonuçları
         osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>'in sonuçları
-        geonames_reverse_html: <a href="http://www.geonames.org/">GeoNames</a>'in
-          sonuçları
+          Nominatim</a> sonuçları
+        geonames_reverse_html: <a href="http://www.geonames.org/">GeoNames</a> sonuçları
     search_osm_nominatim:
       prefix:
         aerialway:
           cable_car: Teleferik
-          chair_lift: Chair Lift
-          drag_lift: Sürükleyen Asansör
-          gondola: Telesiyej
-          platter: Teleferik
-          pylon: Pilon
+          chair_lift: Telesiyej
+          drag_lift: Kayak Teleferiği
+          gondola: Telesiyej Hattı
+          magic_carpet: Magic Halı Kaydırağı
+          platter: Tabak Asansörü
+          pylon: Direk
           station: Teleferik İstasyonu
-          t-bar: T-Bar Kaldırma
+          t-bar: T-Bar Asansörü
+          "yes": Havayolu
         aeroway:
           aerodrome: Havaalanı
           airstrip: Uçuş Pisti
           apron: Apron
           gate: Kapı
           hangar: Hangar
-          helipad: Helikopter alanı
+          helipad: Helikopter Pisti
           holding_position: Tespit Mevzii
+          navigationaid: Havacılık Gezinme yardımı
           parking_position: Park Yeri
-          runway: Uçak pisti
-          taxiway: Taksi yolu
+          runway: Uçak Pisti
+          taxilane: Taksi Şeridi
+          taxiway: Taksi Yolu
           terminal: Terminal
+          windsock: Rüzgâr Hortumu
         amenity:
+          animal_boarding: Hayvan Binişi
           animal_shelter: Hayvan Barınağı
           arts_centre: Sanat Merkezi
           atm: ATM
@@ -551,73 +588,83 @@ tr:
           bbq: Mangal alanı
           bench: Bank
           bicycle_parking: Bisiklet Parkı
-          bicycle_rental: Bisiklet kiralama
+          bicycle_rental: Bisiklet Kiralama
+          bicycle_repair_station: Bisiklet Tamir İstasyonu
           biergarten: Bira Bahçesi
+          blood_bank: Kan Bankası
           boat_rental: Tekne Kiralama
           brothel: Genelev
-          bureau_de_change: Döviz bürosu
+          bureau_de_change: Döviz Bürosu
           bus_station: Otogar
-          cafe: Cafe
+          cafe: Kafe
           car_rental: Araba Kiralama
           car_sharing: Araç Paylaşımı
           car_wash: Oto Yıkama
-          casino: Kasino
+          casino: Gazino
           charging_station: Şarj İstasyonu
           childcare: Çocuk Bakımı
           cinema: Sinema
           clinic: Klinik
           clock: Saat
-          college: Lise
+          college: Yüksekokul
           community_centre: Topluluk Merkezi
+          conference_centre: Konferans Merkezi
           courthouse: Adliye
           crematorium: Krematoryum
-          dentist: Diş hekimi
+          dentist: Diş Hekimi
           doctors: Doktorlar
           drinking_water: İçme Suyu
           driving_school: Sürücü Kursu
           embassy: Elçilik
-          fast_food: Büfe / Fast Food
+          events_venue: Etkinlik Mekanı
+          fast_food: Fast Food
           ferry_terminal: Feribot Terminali
-          fire_station: Itfaiye
+          fire_station: İtfaiye
           food_court: Yiyecek Reyonu
-          fountain: Fıskiye
-          fuel: Petrol ofisi
+          fountain: Çeşme
+          fuel: Petrol Ofisi
           gambling: Kumarhane
           grave_yard: Mezarlık
-          grit_bin: kum kovası
+          grit_bin: Kum Kovası
           hospital: Hastane
           hunting_stand: Avcılık Standı
           ice_cream: Dondurma
+          internet_cafe: İnternet Kafe
           kindergarten: Kreş
+          language_school: Dil Okulu
           library: Kütüphane
-          marketplace: Pazar yeri
+          loading_dock: Yükleme Peronu
+          love_hotel: Aşk Oteli
+          marketplace: Pazar Yeri
+          mobile_money_agent: Mobil Para Aracısı
           monastery: Manastır
+          money_transfer: Para Transferi
           motorcycle_parking: Motosiklet Park Yeri
+          music_school: Müzik Okulu
           nightclub: Gece Kulübü
           nursing_home: Huzurevi
-          office: Ofis
           parking: Otopark
-          parking_entrance: Park Yerinin Girişi
+          parking_entrance: Park Yeri Girişi
           parking_space: Park Alanı
+          payment_terminal: Ödeme Terminali
           pharmacy: Eczane
-          place_of_worship: İbadethane / Tapınak
+          place_of_worship: İbadethane
           police: Polis
           post_box: Posta kutusu
           post_office: Postane
-          preschool: Anaokulu
           prison: Cezaevi
-          pub: Birahane
+          pub: Pub
+          public_bath: Hamam
+          public_bookcase: Kamu Kütüphanesi
           public_building: Kamu Binası
-          recycling: Geri dönüşüm noktası
+          ranger_station: Bekçi İstasyonu
+          recycling: Geri Dönüşüm Noktası
           restaurant: Restoran
-          retirement_home: Bakımevi
-          sauna: Hamam / Sauna
+          sanitary_dump_station: Sıhhi Boşaltma İstasyonu
           school: Okul
-          shelter: Korunak
-          shop: Dükkan
+          shelter: Barınak
           shower: Duş
           social_centre: Sosyal Merkez
-          social_club: Sosyal kulübü
           social_facility: Sosyal Tesis
           studio: Stüdyo
           swimming_pool: Yüzme Havuzu
@@ -625,81 +672,160 @@ tr:
           telephone: Telefon
           theatre: Tiyatro
           toilets: Tuvalet
-          townhall: Belediye binası
+          townhall: Belediye Binası
+          training: Eğitim Tesisi
           university: Üniversite
-          vending_machine: Satış makinesi
+          vehicle_inspection: Araç Muayenesi
+          vending_machine: Satış Otomatı
           veterinary: Veteriner
-          village_hall: Köy odası
-          waste_basket: Çöp sepeti
+          village_hall: Köy Meydanı
+          waste_basket: Çöp Sepeti
           waste_disposal: Atık Alanı
+          waste_dump_site: Atık Boşaltma Alanı
+          watering_place: Sulama Yeri
           water_point: Musluk
-          youth_centre: Gençlik Merkezi
+          weighbridge: Kantar
+          "yes": Tesis
         boundary:
+          aboriginal_lands: Aborijin Toprakları
           administrative: İdari Sınır
           census: Nüfus Sayımı Sınırı
           national_park: Milli Park
+          political: Seçim Sınırı
           protected_area: Korumalı Alan
+          "yes": Sınır
         bridge:
-          aqueduct: Su kemeri
-          boardwalk: Deniz kıyısındaki tahta yol
-          suspension: Asma köprüsü
-          swing: Asma Köprüsü
+          aqueduct: Su Kemeri
+          boardwalk: Kaldırım
+          suspension: Asma Köprü
+          swing: Açılır Kapanır Köprü
           viaduct: Viyadük
           "yes": Köprü
         building:
+          apartment: Apartman
+          apartments: Apartmanlar
+          barn: Ahır
+          bungalow: Bungalov
+          cabin: Kulübe
+          chapel: Şapel
+          church: Kilise Binası
+          civic: Sivil Yapı
+          college: Üniversite Binası
+          commercial: Ticari Binası
+          construction: Yapım Aşamasındaki Bina
+          detached: Müstakil Ev
+          dormitory: Yurt
+          duplex: İki Katlı Ev
+          farm: Çiftlik Evi
+          farm_auxiliary: Yedek Çiftlik Evi
+          garage: Garaj
+          garages: Garajlar
+          greenhouse: Sera
+          hangar: Hangar
+          hospital: Hastane Binası
+          hotel: Otel Binası
+          house: Ev
+          houseboat: Tekne Ev
+          hut: Baraka
+          industrial: Endüstriyel Bina
+          kindergarten: Anaokulu Binası
+          manufacture: İmalat Binası
+          office: Ofis Binası
+          public: Kamu Binası
+          residential: Konut İnşaatı
+          retail: Perakende Binası
+          roof: Çatı
+          ruins: Virane
+          school: Okul Binası
+          semidetached_house: Yarı Müstakil Ev
+          service: Hizmet Binası
+          shed: Kulübe
+          stable: Ahır
+          static_caravan: Karavan
+          temple: Tapınak Binası
+          terrace: Teras Binası
+          train_station: Tren İstasyon Binası
+          university: Üniversite Binası
+          warehouse: Depo
           "yes": Bina
+        club:
+          scout: İzci Grup Tabanı
+          sport: Spor Kulübü
+          "yes": Kulüp
         craft:
+          beekeper: Arı Yetiştiricisi
+          blacksmith: Demirci
           brewery: Bira Fabrikası
           carpenter: Marangoz
+          caterer: Bayi
+          confectionery: Şekerlemeci
+          dressmaker: Terzi
           electrician: Elektrikçi
+          electronics_repair: Elektronik Tamiri
           gardener: Bahçıvan
+          glaziery: Camcılık
+          handicraft: El İşi
+          hvac: HVAC İşi
+          metal_construction: Metal Üreticisi
           painter: Badanacı
           photographer: Fotoğrafçı
           plumber: Tesisatçı
+          roofer: Çatıcı
+          sawmill: Kereste Fabrikası
           shoemaker: Ayakkabıcı
+          stonemason: Taş Ustası
           tailor: Terzi
+          window_construction: Pencere Üreticisi
+          winery: Şaraphane
           "yes": El Sanatları Mağazası
         emergency:
+          access_point: Erişim Noktası
           ambulance_station: Ambulans İstasyonu
           assembly_point: Toplanma Noktası
           defibrillator: Defibrilatör
+          fire_xtinguisher: Yangın Söndürücü
+          fire_water_pond: Ateş Suyu Göleti
           landing_site: Acil İniş Alanı
+          life_ring: Can Yeleği
           phone: Acil Durum Telefonu
+          siren: Acil Siren
+          suction_point: Acil Emiş Noktası
           water_tank: Acil Su Tankı
           "yes": Acil
         highway:
           abandoned: Terk Edilmiş Karayolu
-          bridleway: At yürüyüş yolu
-          bus_guideway: Rehberli otobüs hattı
-          bus_stop: Otobüs durağı
-          construction: İnşaa halinde yolu
+          bridleway: At Binme Yolu
+          bus_guideway: Rehberli Otobüs Hattı
+          bus_stop: Otobüs Durağı
+          construction: Yapım Aşamasında Karayolu
           corridor: Koridor
           cycleway: Bisiklet Yolu
           elevator: Asansör
           emergency_access_point: Acil Erişim Noktası
-          footway: Yaya yolu
-          ford: Akarsu geçidi
-          give_way: Yol işareti ver
-          living_street: Yaşam sokağı
+          emergency_bay: Acil Durum Yuvası
+          footway: Yaya Yolu
+          ford: Akarsu Geçidi
+          give_way: Yol İşareti Ver
+          living_street: Yaya Öncelikli Yol
           milestone: Kilometre taşı
           motorway: Otoyol
           motorway_junction: Otoyol Kavşağı
-          motorway_link: Otoyol bağlantısı
-          passing_place: Geçilen yer
+          motorway_link: Otoyol Bağlantısı
+          passing_place: Geçiş Yeri
           path: Patika
-          pedestrian: Trafiğe kapalı yolu
+          pedestrian: Yaya Yolu
           platform: Peron
-          primary: Devlet Yolu
-          primary_link: Devlet Yolu bağlantısı
+          primary: Ana Yol
+          primary_link: Ana Yol Bağlantısı
           proposed: Planlanmış Yol
-          raceway: Koşu yolu
+          raceway: Yarış Pisti
           residential: Sokak
           rest_area: Dinlenme Alanı
           road: Yol
-          secondary: İl yolu
-          secondary_link: İl yolunun bağlantısı
+          secondary: Tali Yol
+          secondary_link: Tali Yol Bağlantısı
           service: Servis Yolu
-          services: Dinleme Tesisi
+          services: Otoyol Hizmetleri
           speed_camera: Hız Kamerası
           steps: Merdiven
           stop: Dur işareti
@@ -707,37 +833,45 @@ tr:
           tertiary: Köy arası yolu
           tertiary_link: Köy arası yolu
           track: Toprak yol
+          traffic_mirror: Trafik Aynası
           traffic_signals: Trafik İşaretleri
-          trail: İz
+          trailhead: Trailhead
           trunk: Bölünmüş anayol
           trunk_link: Bölünmüş anayol bağlantısı
           turning_loop: Dönüş
           unclassified: Sınıflandırılmamış yolu
           "yes": Yol
         historic:
+          aircraft: Tarihi Uçak
           archaeological_site: Arkeolojik Alan
+          bomb_crater: Tarihi Bomba Krateri
           battlefield: Savaş alanı
           boundary_stone: Sınır Taşı
           building: Tarihi Bina
           bunker: Sığınak
+          cannon: Tarihi Topu
           castle: Kale
+          charcoal_pile: Tarihi Kömür Yığını
           church: Kilise
           city_gate: Şehir Kapısı
           citywalls: Şehir Surları
           fort: Hisar
           heritage: Miras Alanı
+          hollow_way: İçi Boş Yolu
           house: Tarihi Konak
-          icon: Simge
           manor: Köşk
           memorial: Anıt
+          milestone: Tarihi Dönüm Noktası
           mine: Maden Ocağı
           mine_shaft: Maden Kuyusu
           monument: Anıt
+          railway: Tarihi Demiryolu
           roman_road: Roma Yolu
           ruins: Harabe
           stone: Taş
           tomb: Mezar
           tower: Kule
+          wayside_chapel: Wayside Şapeli
           wayside_cross: Wayside Cross
           wayside_shrine: Wayside Shrine
           wreck: Batık Gemi
@@ -746,6 +880,7 @@ tr:
           "yes": Yol Ayrımı
         landuse:
           allotments: Bostan
+          aquaculture: Su Kültürü
           basin: Havuz
           brownfield: Çıplak Arazi
           cemetery: Mezarlık
@@ -765,21 +900,28 @@ tr:
           military: Askeri Bölge
           mine: Maden Ocağı
           orchard: Meyve Bahçesi
+          plant_nursery: Bitki Fidanlığı
           quarry: Ocak
           railway: Demiryolu
           recreation_ground: Eğlence Parkı
+          religious: Dini Zemin
           reservoir: Baraj Gölü
           reservoir_watershed: Akarsu Havzası
           residential: Yerleşim Bölgesi
           retail: Esnaf
-          road: Yol Alanı
           village_green: Yeşil Alan
           vineyard: Bağ
           "yes": Arazi kullanımı
         leisure:
+          adult_gaming_centre: Yetişkin Oyun Merkezi
+          amusement_arcade: Eğlence Oyunu
+          bandstand: Bando Standı
           beach_resort: Plajlı tatilköyü
           bird_hide: Kuş Gözleme Yeri
+          bleachers: Çamaşır Suyu
+          bowling_alley: Bowling Pisti
           common: Genel Arazi
+          dance: Dans Salonu
           dog_park: Köpek Parkı
           firepit: Ateş Yeri
           fishing: Balıkçılık alanı
@@ -792,7 +934,9 @@ tr:
           marina: Marina
           miniature_golf: Minyatür Golf
           nature_reserve: Doğa Koruma Alanı
+          outdoor_seating: Açık Oturma
           park: Park
+          picnic_table: Piknik Masası
           pitch: Spor sahası
           playground: Çocuk parkı
           recreation_ground: Eğlence parkı
@@ -807,13 +951,21 @@ tr:
           "yes": Serbest Zaman
         man_made:
           adit: Maden Galerisi
+          advertising: Reklâm
+          antenna: Anten
+          avalanche_protection: Çığ Koruması
           beacon: Fener
+          beam: Işın
           beehive: Arı Kovanı
           breakwater: Dalgakıran
           bridge: Köprü
           bunker_silo: Sığınak
+          cairn: Cairn
           chimney: Baca
+          clearcut: Clearcut
+          communications_tower: İletişim Kulesi
           crane: Vinç
+          cross: Çapraz
           dolphin: Palamar
           dyke: Bent
           embankment: Toprak set
@@ -822,6 +974,7 @@ tr:
           groyne: Erozyonu önleyici set
           kiln: Çömlek Fırını
           lighthouse: Deniz Feneri
+          manhole: Menhol
           mast: Direk
           mine: Maden Ocağı
           mineshaft: Maden Kuyusu
@@ -829,12 +982,20 @@ tr:
           petroleum_well: Petrol Kuyusu
           pier: İskele
           pipeline: Boru Hattı
+          pumping_station: Pompa İstasyonu
+          reservoir_covered: Örtülü Depo
           silo: Silo
+          snow_cannon: Kar Topu
+          snow_fence: Kar Çiti
           storage_tank: Depolama Tankı
+          street_cabinet: Sokak Dolabı
           surveillance: Gözetim
+          telescope: Teleskop
           tower: Kule
+          utility_pole: Yardımcı Direk
           wastewater_plant: Atıksu Arıtma Tesisi
           watermill: Su Değirmeni
+          water_tap: Su Musluğu
           water_tower: Su Kulesi
           water_well: Kuyu
           water_works: Su Tesisatı
@@ -845,10 +1006,13 @@ tr:
           airfield: Askeri Havaalanı
           barracks: Kışla
           bunker: Sığınak
+          checkpoint: Kontröl Noktası
+          trench: Hendek
           "yes": Askerî
         mountain_pass:
           "yes": Dağ Geçidi
         natural:
+          bare_rock: Çıplak Kaya
           bay: Koy / körfez
           beach: Plaj
           cape: Burun
@@ -864,6 +1028,7 @@ tr:
           grassland: Otlak
           heath: Fundalık
           hill: Tepe
+          hot_spring: Kaplıca
           island: Ada
           land: Kara
           marsh: Bataklık
@@ -887,20 +1052,31 @@ tr:
           water: Su
           wetland: Sulak alan
           wood: Orman
+          "yes": Doğal Özellik
         office:
           accountant: Muhasebeci
           administrative: Yönetim
+          advertising_agency: Reklam Ajansı
           architect: Mimar
           association: Dernek
           company: Şirket
+          diplomatic: Diplomatik Ofisi
           educational_institution: Eğitim Enstitüsü
           employment_agency: İş ve İşçi Bulma Kurumu
+          energy_supplier: Enerji Tedarik Ofisi
           estate_agent: Emlakçı
+          financial: Finans Ofisi
           government: Devlet Ofisi
           insurance: Sigorta Ofisi
           it: IT Ofisi
           lawyer: Avukat
+          logistics: Lojistik Ofisi
+          newspaper: Gazete Ofisi
           ngo: STK Ofisi
+          notary: Noter
+          religion: Dini Ofisi
+          research: Araştırma Ofisi
+          tax_advisor: Vergi Danışmanı
           telecommunication: Telekomünikasyon Ofisi
           travel_agent: Seyahat Acentası
           "yes": Ofis
@@ -910,7 +1086,7 @@ tr:
           city_block: Ada
           country: Ülke
           county: İlçe
-          farm: Tarla
+          farm: Çiftlik
           hamlet: Mezra
           house: Ev
           houses: Evler
@@ -920,6 +1096,7 @@ tr:
           locality: Yer/mevkii
           municipality: Belediye
           neighbourhood: Mahalle
+          plot: Arsa
           postcode: Posta kodu
           quarter: Mahalle
           region: Bölge
@@ -929,7 +1106,6 @@ tr:
           subdivision: Alt bölüm
           suburb: Mahalle / Banliyö
           town: Şehir / ilçe merkezi
-          unincorporated_area: Tüzel Kişiliği Olmayan Bölge
           village: Köy
           "yes": Yer
         railway:
@@ -955,12 +1131,19 @@ tr:
           switch: Demiryolu makası
           tram: Tramvay
           tram_stop: Tramvay Durağı
+          yard: Tren Avlusu
         shop:
+          agrarian: Tarım Dükkanı
           alcohol: Tekel bayii
           antiques: Antikacı
+          appliance: Beyaz Eşya Dükkanı
           art: Sanat Galerisi
+          baby_goods: Bebek Ürünleri
+          bag: Çanta Mağazası
           bakery: Fırın
+          bathroom_furnishing: Banyo Mobilyası
           beauty: Güzellik Salonu
+          bed: Yatak Ürünleri
           beverages: İçecek Dükkânı
           bicycle: Bisikletçi
           bookmaker: İddia Bayii
@@ -972,65 +1155,90 @@ tr:
           car_repair: Oto tamir
           carpet: Halı Dükkânı
           charity: Hayır Kurumu Mağazası
+          cheese: Peynir Dükkanı
           chemist: Eczacı
+          chocolate: Çikolata
           clothes: Giysi Dükkânı
+          coffee: Kahve Dükkanı
           computer: Bilgisayar Mağazası
           confectionery: Pastane
           convenience: Bakkal
           copyshop: Fotokopi Merkezi
           cosmetics: Kozmetik Mağazası
+          craft: El Sanat Malzeme Mağazası
+          curtain: Perde Mağazası
+          dairy: Süt Ürün Mağazası
           deli: Şarküteri
           department_store: Mağaza
           discount: İndirimli Ürünler Mağazası
           doityourself: Kendin Yap
           dry_cleaning: Kuru Temizleme
+          e-cigarette: E-Sigara Dükkanı
           electronics: Elektronik Mağazası
+          erotic: Erotik Dükkanı
           estate_agent: Emlakçı
+          fabric: Kumaş Dükkanı
           farm: Manav
           fashion: Moda Dükkânı
-          fish: Balık Dükkânı
+          fishing: Balıkçılık Malzemeleri Mağazası
           florist: Çiçekçi
           food: Yiyecek Dükkânı
+          frame: Çerçeve Mağazası
           funeral_directors: Cenaze Levazımcısı
           furniture: Mobilya
-          gallery: Galeri
           garden_centre: Bahçe Merkezi
+          gas: Benzin Dükkanı
           general: Bakkal
           gift: Hediyelik Eşya Dükkânı
           greengrocer: Manav
           grocery: Manav
           hairdresser: Kuaför
           hardware: Hırdavatçı
+          health_food: Sağlıklı Yiyecek Mağazası
+          hearing_aids: İşitme Cihazları
+          herbalist: Bitki Uzmanı
           hifi: Hi-Fi
           houseware: Ev Eşyaları Mağazası
+          ice_cream: Dondurma Dükkanı
           interior_decoration: İç Dekorasyon
           jewelry: Kuyumcu
           kiosk: Tekel Bayii
           kitchen: Mutfak Mağazası
           laundry: Çamaşırhane
+          locksmith: Çilingir
           lottery: Piyango
           mall: Alışveriş merkezi
-          market: Market
           massage: Masaj
+          medical_supply: Tıbbi Malzeme Mağazası
           mobile_phone: Cep Telefonu Dükkânı
+          money_lender: Borç Verici
           motorcycle: Motosiklet Dükkânı
+          motorcycle_repair: Motosiklet Tamir Dükkanı
           music: Müzik Mağazası
+          musical_instrument: Müzik Aletleri
           newsagent: Gazete bayii
+          nutrition_supplements: Besin Takviyeleri
           optician: Gözlükçü
           organic: Organik Yiyecek Dükkânı
           outdoor: Outdoor Sporları Mağazası
           paint: Boya mağazası
+          pastry: Pastahane
           pawnbroker: Rehinci
+          perfumery: Parfümeri
           pet: Hayvan Mağazası
-          pharmacy: Eczane
+          pet_grooming: Evcil Hayvan Bakımı
           photo: Fotoğrafçı
           seafood: Deniz Ürünleri
           second_hand: İkinci El Dükkânı
+          sewing: Dikiş Dükkanı
           shoes: Ayakkabı Dükkânı
           sports: Spor Malzemeleri Mağazası
           stationery: Kırtasiye
+          storage_rental: Depo Kiralama
           supermarket: Süpermarket
           tailor: Terzi
+          tattoo: Dövme Dükkanı
+          tea: Çay Dükkanı
           ticket: Bilet Dükkânı
           tobacco: Tütün Dükkânı
           toys: Oyuncakçı
@@ -1039,6 +1247,8 @@ tr:
           vacant: Boş Mağaza
           variety_store: Çeşitli Mağaza
           video: Video-CD Dükkânı
+          video_games: Video Oyun Mağazası
+          wholesale: Toptan Satış Mağazası
           wine: Şarap Evi
           "yes": Dükkan
         tourism:
@@ -1048,6 +1258,7 @@ tr:
           attraction: Gezelim görelim yeri
           bed_and_breakfast: Oda Kahvaltı
           cabin: Dam
+          camp_pitch: Kamp Alanı
           camp_site: Kamp yeri
           caravan_site: Karavan yeri
           chalet: Yayla evi
@@ -1061,6 +1272,7 @@ tr:
           picnic_site: Piknik yeri
           theme_park: Lunapark
           viewpoint: Manzara noktası
+          wilderness_hut: El Değmemiş Doğa Kulübesi
           zoo: Hayvanat bahçesi
         tunnel:
           building_passage: Bina Geçidi
@@ -1087,17 +1299,15 @@ tr:
           "yes": Suyolu
       admin_levels:
         level2: Ülke Sınırı
+        level3: Bölge Sınırı
         level4: Eyalet Sınırı
         level5: Bölge Sınırı
         level6: İlçe Sınırı
+        level7: Belediye Sınırı
         level8: Şehir Sınırı
         level9: Köy Sınırı
         level10: Mahalle Sınırı
-    description:
-      title:
-        osm_nominatim: <a href="https://nominatim.openstreetmap.org/">OSM Nominatim</a>
-          tarafından konum
-        geonames: <a href="http://www.geonames.org/">GeoNames</a> tarafından konum
+        level11: Mahalle Sınırı
       types:
         cities: Büyükşehirler
         towns: Şehirler
@@ -1177,8 +1387,6 @@ tr:
     new:
       title_html: Bildir %{link}
       missing_params: Yeni rapor oluşturulamadı
-      details: Lütfen problemle ilgili daha fazla bilgi veriniz (zorunlu).
-      select: 'Raporunuz için bir neden seçin:'
       disclaimer:
         intro: 'Raporunuzu site moderatörlerine göndermeden önce, lütfen şunlardan
           emin olun:'
@@ -1260,18 +1468,27 @@ tr:
       text: Bağış Yapın
     learn_more: Daha Fazla Bilgi
     more: Daha fazla
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user}, günlük bir girdi hakkında yorum yaptı.'
       hi: Merhaba %{to_user},
       header: '%{from_user}, %{subject} konulu OpenStreetMap günlük girdisi hakkında
         yorum yaptı.'
+      header_html: '%{from_user}, %{subject} konulu OpenStreetMap günlük girdisi hakkında
+        yorum yaptı:'
       footer: Ayrıca yorumu %{readurl} adresinden okuyabilir ve %{commenturl} adresinden
         yorum yapabilir veya yazara %{replyurl} adresinden mesaj gönderebilirsiniz.
+      footer_html: Ayrıca yorumu %{readurl} adresinden okuyabilir ve %{commenturl}
+        adresinden yorum yapabilir veya yazara %{replyurl} adresinden mesaj gönderebilirsiniz.
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Merhaba %{to_user},
       header: 'OpenStreetMap kullanıcı %{from_user} sana %{subject} konulu bir mesaj
         gönderdi:'
+      header_html: '%{from_user}, size OpenStreetMap üzerinden %{subject} konulu bir
+        mesaj gönderdi:'
+      footer: Ayrıca mesajı %{readurl} adresinde okuyabilir ve yazara %{replyurl}
+        adresinden mesaj gönderebilirsiniz.
       footer_html: İletiyi %{readurl} adresinden de okuyabilir ve yazara %{replyurl}
         adresinden ileti gönderebilirsiniz.
     friendship_notification:
@@ -1279,24 +1496,27 @@ tr:
       subject: '[OpenStreetMap] kullanıcı %{user} seni arkadaş olarak ekledi'
       had_added_you: Kullanıcı %{user} seni arkadaş olarak OpenStreetMap'te ekledi.
       see_their_profile: '%{userurl} üzerinden profillerini görebilirsiniz.'
+      see_their_profile_html: '%{userurl} üzerinden profilini görebilirsiniz.'
       befriend_them: '%{befriendurl} üzerinden arkadaş olarak da ekleyebilirsiniz.'
-    gpx_notification:
-      greeting: Merhaba,
-      your_gpx_file: GPX dosyanıza benziyor
-      with_description: açıklamayla beraber
-      and_the_tags: 've etiketleri:'
-      and_no_tags: ve etiket yok.
-      failure:
-        subject: '[OpenStreetMap] GPX dosyası maalesef alınamadı'
-        failed_to_import: 'GPX dosyası alınamadı. Hata bu:'
-        more_info_1: GPX alma hataları ve bu hatalardan kaçınma hakkında daha fazla
-          bilgiyi
-        more_info_2: 'şu adresten edinebilirsiniz:'
-      success:
-        subject: '[OpenStreetMap] GPX dosyası başarıyla alındı'
-        loaded_successfully:
-          one: '%{trace_points} olası 1 puan üzerinden başarıyla yüklendi.'
-          other: '%{trace_points} olası %{possible_points} puanından başarıyla yüklendi.'
+      befriend_them_html: '%{befriendurl} üzerinden arkadaş olarak da ekleyebilirsiniz.'
+    gpx_description:
+      description_with_tags_html: '%{trace_description} açıklamasına ve şu etiketlere
+        sahip %{trace_name} GPX dosyanız gibi görünüyor: %{tags}'
+      description_with_no_tags_html: '%{trace_description} açıklamasına sahip ve etiket
+        içermeyen %{trace_name} GPX dosyanız gibi görünüyor'
+    gpx_failure:
+      hi: Merhaba %{to_user},
+      failed_to_import: 'GPX dosyası alınamadı. Hata bu:'
+      more_info_html: GPX içe aktarma hataları ve bunların nasıl önleneceği hakkında
+        daha fazla bilgi %{url} adresinde bulunabilir.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+      subject: '[OpenStreetMap] GPX dosyası maalesef alınamadı'
+    gpx_success:
+      hi: Merhaba %{to_user},
+      loaded_successfully:
+        one: '%{trace_points} olası 1 puan üzerinden başarıyla yüklendi.'
+        other: '%{trace_points} olası %{possible_points} puanından başarıyla yüklendi.'
+      subject: '[OpenStreetMap] GPX dosyası başarıyla alındı'
     signup_confirm:
       subject: '[OpenStreetMap]''e hoş geldin'
       greeting: Merhaba!
@@ -1308,27 +1528,13 @@ tr:
         bilgiler vereceğiz.
     email_confirm:
       subject: '[OpenStreetMap] E-posta adresi onaylama mesajı'
-    email_confirm_plain:
       greeting: Merhaba,
       hopefully_you: Birisi (umarız ki siz) %{server_url} adresindeki e-posta adresinizi
         %{new_address} olarak değiştirmek istiyor.
       click_the_link: Bu e-posta adresi sana aitse onaylamak için aşağıdaki bağlantıyı
         tıkla.
-    email_confirm_html:
-      greeting: Merhaba,
-      hopefully_you: Birisi (umarım sen) %{server_url} deki kayıtlı olan e-posta adresi
-        %{new_address} olarak değiştirmek istiyor.
-      click_the_link: Bu e-postayı sana aitse onaylamak için aşağıdaki bağlantıyı
-        tıkla.
     lost_password:
       subject: '[OpenStreetMap] Parola sıfırlama isteği'
-    lost_password_plain:
-      greeting: Merhaba,
-      hopefully_you: Birisi (muhtemelen siz) bu e-posta adresinin openstreetmap.org
-        hesabındaki şifresinin sıfırlanmasını istedi.
-      click_the_link: Bu sizseniz, lütfen parolanızı sıfırlamak için aşağıdaki bağlantıya
-        tıklayın.
-    lost_password_html:
       greeting: Merhaba,
       hopefully_you: Birisi (muhtemelen siz) bu e-posta adresinin openstreetmap.org
         hesabındaki şifresinin sıfırlanmasını istedi.
@@ -1344,15 +1550,23 @@ tr:
           yorum yaptı.'
         your_note: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan biri
           üzerinde bir yorum yaptı.'
+        your_note_html: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan
+          biri üzerinde bir yorum yaptı.'
         commented_note: '%{commenter}, yorum yaptığınız bir harita notu üzerine yorum
           yaptı. Bu not %{place} yakınlarında.'
+        commented_note_html: '%{commenter}, yorum yaptığınız bir harita notu üzerine
+          yorum yaptı. Bu not %{place} yakınlarında.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter}, notlarınızdan birini çözdü.'
         subject_other: '[OpenStreetMap] %{commenter}, ilgilendiğiniz notlardan birini
           çözdü'
         your_note: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan birini
           çözdü.'
+        your_note_html: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan
+          birini çözdü.'
         commented_note: '%{commenter} yorum yaptığınız harita notlarınızdan birini
+          çözdü. Bu not %{place} yakınlarında.'
+        commented_note_html: '%{commenter} yorum yaptığınız harita notlarınızdan birini
           çözdü. Bu not %{place} yakınlarında.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter}, notlarınızdan birini yeniden etkinleştirdi.'
@@ -1360,9 +1574,14 @@ tr:
           etkinleştirdi'
         your_note: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan birini
           yeniden etkinleştirdi.'
+        your_note_html: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan
+          birini yeniden etkinleştirdi.'
         commented_note: '%{commenter}, yorumladığınız bir harita notunu yeniden etkinleştirdi.
           Not, %{place} yakınlarında yer almakta.'
+        commented_note_html: '%{commenter}, yorumladığınız bir harita notunu yeniden
+          etkinleştirdi. Not, %{place} yakınlarında yer almakta.'
       details: Not hakkındaki ayrıntılı bilgiler %{url} bağlantısında görülebilir.
+      details_html: Notla ilgili daha fazla ayrıntı %{url} adresinde bulunabilir.
     changeset_comment_notification:
       hi: Merhaba %{to_user},
       greeting: Merhaba,
@@ -1373,16 +1592,25 @@ tr:
           hakkında yorum yaptı.'
         your_changeset: '%{commenter}, değişiklik kümelerinizden birine %{time} tarihinde
           yorum yaptı'
+        your_changeset_html: '%{commenter}, değişiklik kümelerinizden birine %{time}
+          tarihinde yorum yaptı'
         commented_changeset: '%{commenter}, %{time} tarihinde, izlemekte olduğunuz
           bir değişiklik kümesi için %{changeset_author} tarafından yorum yaptı.'
+        commented_changeset_html: '%{commenter}, %{time} tarihinde, izlemekte olduğunuz
+          bir değişiklik kümesi için %{changeset_author} tarafından yorum yaptı.'
         partial_changeset_with_comment: '''%{changeset_comment}'' yorumuyla'
+        partial_changeset_with_comment_html: '''%{changeset_comment}'' yorumuyla'
         partial_changeset_without_comment: yorumsuz
       details: Değişiklik kaydıyla ilgili daha fazla bilgi %{url} sayfasından edinebilirsiniz.
+      details_html: Değişiklik kümesiyle ilgili daha fazla ayrıntı %{url} adresinde
+        bulunabilir.
       unsubscribe: Bu değişiklik kaydının güncellemelerini aboneliğinizden çıkarmak
         için %{url} sayfasını ziyaret edin ve "Aboneliği iptal et"i tıklayın.
+      unsubscribe_html: Bu değişiklik kümesiyle ilgili güncellemelerden çıkmak için
+        %{url} adresini ziyaret edin ve "Abonelikten çık" seçeneğine tıklayın.
   messages:
     inbox:
-      title: Gelen Kutusu
+      title: Gelen kutusu
       my_inbox: Gelen kutusu
       outbox: giden kutusu
       messages: '%{new_messages} ve %{old_messages}'
@@ -1404,7 +1632,7 @@ tr:
       reply_button: Yanıtla
       destroy_button: Sil
     new:
-      title: Mesaj Gönder
+      title: Mesaj gönder
       send_message_to_html: '%{name}''ya yeni bir mesaj gönder'
       subject: Konu
       body: Mesaj
@@ -1455,6 +1683,25 @@ tr:
       as_unread: Mesaj okunmadı olarak işaretlendi
     destroy:
       destroyed: Mesaj silindi
+  shared:
+    markdown_help:
+      title_html: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+        ile ayrştırıldı
+      headings: Başlıklar
+      heading: Başlık
+      subheading: Alt başlık
+      unordered: Sırasız liste
+      ordered: Sıralı liste
+      first: İlk öğe
+      second: İkinci öğe
+      link: Bağlantı
+      text: Metin
+      image: Resim
+      alt: Alt metin
+      url: URL
+    richtext_field:
+      edit: Düzenle
+      preview: Önizleme
   site:
     about:
       next: İleri
@@ -1480,10 +1727,10 @@ tr:
         <a href='https://www.osmfoundation.org/'>OSM Foundation</a> websitesine bakınız.
       open_data_title: Açık Veri
       open_data_html: |-
-        OpenStreetMap, <i>açık veri</i>dir: OpenStreetMap ve katkıda bulunan
+        OpenStreetMap, <i>açık veridir</i>: OpenStreetMap ve katkıda bulunan
         kişilere referans verdiğiniz sürece OpenStreetMap herhangi bir amaç için kullanabilirsiniz.
-        Verileri belirli şekillerde değiştirir veya üzerine inşa ederseniz  sonucu sadece aynı lisansla dağıtabilirsiniz. Detaylı bilgi için <a href='%{copyright_path}'>Telif hakkı ve
-        Lisans sayfasına</a> göz atınız.
+        Verileri belirli şekillerde değiştirir veya üzerine inşa ederseniz, sonucu yalnızca aynı lisansla dağıtabilirsiniz. Ayrıntılı bilgi için <a href='%{copyright_path}'>Telif hakkı ve
+        Lisans sayfasına</a> bakın.
       legal_title: Yasal
       legal_1_html: |-
         Bu site ve diğer birçok ilgili hizmet resmi olarak
@@ -1649,18 +1896,6 @@ tr:
       user_page_link: kullanıcı sayfası
       anon_edits_html: (%{link})
       anon_edits_link_text: Durumun neden böyle olduğunu öğrenin.
-      flash_player_required_html: OpenStreetMap Flash düzenleyicisi Potlatch'ı kullanmak
-        için bir Flash oynatıcıya ihtiyacınız var. <a href="https://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.com'dan
-        Flash Player yükleyebilirsiniz</a>. OpenStreetMap'i düzenlemek için başka
-        <a href="https://wiki.openstreetmap.org/wiki/Editing">birçok seçenek</a> de
-        mevcuttur.
-      potlatch_unsaved_changes: Kaydedilmemiş değişiklikleriniz mevcut. (Potlatch'te
-        kaydetmek için canlı modda düzenleme yapıyorsanız geçerli yolu veya noktayı
-        seçmeniz veya bir kaydetme düğmeniz varsa kaydet'i tıklamanız gerekir.)
-      potlatch2_not_configured: 'Potlatch 2 yapılandırılmadı - daha fazla bilgi için
-        lütfen bakınız: https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2'
-      potlatch2_unsaved_changes: Kaydedilmemiş değişiklikleriniz var. (Potlatch 2'de
-        kaydetmek için kaydet'e tıklamalısınız.)
       id_not_configured: iD yapılandırılmamış
       no_iframe_support: Bu özelliği görüntülemek için gerekli olan HTML iframe tarayıcınız
         desteklemiyor.
@@ -1773,6 +2008,15 @@ tr:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMap Viki
         description: Ayrıntılı OpenStreetMap belgeleri için wiki'ye göz atın.
+    potlatch:
+      removed: Varsayılan OpenStreetMap düzenleyiciniz Potlatch olarak ayarlanmıştır.
+        Adobe Flash Player geri çekildiğinden, Potlatch artık bir web tarayıcısında
+        kullanılamaz.
+      desktop_html: Potlatch'ı <a href="https://www.systemed.net/potlatch/">Mac ve
+        Windows için masaüstü uygulamasını indirerek</a> kullanmaya devam edebilirsiniz.
+      id_html: Alternatif olarak, varsayılan düzenleyicinizi, daha önce Potlatch'ın
+        yaptığı gibi web tarayıcınızda çalışan iD olarak ayarlayabilirsiniz. <a href="%{settings_url}">Kullanıcı
+        ayarlarınızı buradan değiştirin</a>.
     sidebar:
       search_results: Arama Sonuçları
       close: Kapat
@@ -1972,13 +2216,14 @@ tr:
       uploaded: 'Yüklendi:'
       points: 'Nokta sayısı:'
       start_coordinates: 'Başlangıç koordinatı:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: harita
       edit: düzenle
-      owner: 'Gönderen:'
+      owner: 'Sahibi:'
       description: 'Açıklama:'
       tags: 'Etiketler:'
       none: Hiçbiri
-      edit_trace: Bu iz düzenle
+      edit_trace: Bu izi düzenle
       delete_trace: Bu izi sil
       trace_not_found: İz bulunmadı!
       visibility: 'Görünürlük:'
@@ -2091,13 +2336,6 @@ tr:
       delete: İstemci Sil
       confirm: Emin misiniz?
       requests: 'Kullanıcıdan istenen izinler şöyledir:'
-      allow_read_prefs: kullanıcı tercihleri okuma.
-      allow_write_prefs: kullanıcı tercihleri değiştirme.
-      allow_write_diary: günlük girdiler, yorumlar ve arkadaşlıklar oluşturma.
-      allow_write_api: haritayı değiştirme.
-      allow_read_gpx: özel GPS izlerini okuma.
-      allow_write_gpx: GPS izlerini yükleme.
-      allow_write_notes: notları değiştirme.
     index:
       title: OAuth Ayrıntılarım
       my_tokens: Yetkilendirdiğim Uygulamalarım
@@ -2113,19 +2351,7 @@ tr:
       registered_apps: 'Aşağıdaki istemci uygulamalarını kaydettiniz:'
       register_new: Uygulamanızı kaydedin
     form:
-      name: Ad
-      required: Zorunlu
-      url: Ana Uygulama Bağlantısı
-      callback_url: Geri Arama Bağlantısı
-      support_url: Destek Bağlantısı
       requests: 'Kullanıcıdan istenen izinler şöyledir:'
-      allow_read_prefs: kullanıcı tercihlerini okuma.
-      allow_write_prefs: kullanıcı tercihlerini değiştirme.
-      allow_write_diary: günlük girdiler, yorumlar ve arkadaşlıklar oluşturma.
-      allow_write_api: haritayı düzenle.
-      allow_read_gpx: özel GPS izlerini okuma.
-      allow_write_gpx: GPS izlerini yükleme.
-      allow_write_notes: notları değiştirme.
     not_found:
       sorry: Üzgünüz, bu %{type} bulunamadı.
     create:
@@ -2141,7 +2367,7 @@ tr:
       email or username: 'E-posta Adresi veya Kullanıcı Adı:'
       password: 'Parola:'
       openid_html: '%{logo} OpenID:'
-      remember: 'Beni hatırla:'
+      remember: Beni hatırla
       lost password link: Parolanızı mı kaybettiniz?
       login_button: Oturum aç
       register now: Şimdi kaydol
@@ -2206,8 +2432,6 @@ tr:
     reset_password:
       title: Parolayı sıfırla
       heading: '%{user} İçin Parolayı Sıfırlayın'
-      password: 'Parola:'
-      confirm password: 'Sifre Onayla:'
       reset: Parolayı Sıfırla
       flash changed: Parolanız değiştirildi.
       flash token bad: Bu simgeyi bulamadıysanız belki de bağlantıyı kontrol etmelisiniz?
@@ -2221,8 +2445,6 @@ tr:
         html: |-
           <p>Diğer haritaların aksine, OpenStreetMap tamamıyla sizin gibi insanlar tarafından oluşturulur ve düzeltme, güncelleme, indirme ve kullanma herkes için ücretsizdir.</p>
           <p>Katkıda bulunmaya başlamak için kaydolun. Hesabınızın onaylanması için size bir e-posta göndereceğiz.</p>
-      license_agreement: Hesabınızı onayladığınızda <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">katkıda
-        bulunan kullanıcı şartlarını</a> kabul etmeniz gerekecek.
       email address: 'E-posta Adresi:'
       confirm email address: E-posta Adresini Onayla
       not_displayed_publicly_html: Adresiniz herkese açık olarak gösterilmiyor, daha
@@ -2422,17 +2644,17 @@ tr:
       press confirm button: Hesabınızı etkinleştirmek için aşağıdaki onaylama butonuna
         basın.
       button: Onayla
-      success: Hesabın onaylandı, teşekkür ve iyi çalışmalar!<br /><br /><a href="http://wiki.openstreetmap.org/wiki/Tr:Main_Page">Hoş
-        geldin sayfasında</a> Türkiye'deki harita durumu konusunda bilgi alabilirsin.
+      success: Hesabınızı doğruladınız, kaydolduğunuz için teşekkürler!
       already active: Bu hesap zaten doğrulandı.
       unknown token: Onay kodu geçerliliğini yitirmiş veya mevcut değil.
       reconfirm_html: Doğrulama e-postasının tekrar gönderimi için bize ihtiyacınız
         varsa, <a href="%{reconfirm}">buraya tıklayın</a>.
     confirm_resend:
-      success: '%{email} hesabınıza yeni bir bilgilendirme notu gönderdik ve hesabınızı
-        onaylar onaylamaz harita yapımına başlayabileceksiniz.<br /><br />Onay isteği
-        gönderen bir anti-spam sistemi kullanırsanız onay isteklerine cevap veremediğimizden
-        lütfen kabul edilen adresler listesinde %{sender} olduğundan emin olunuz.'
+      success_html: '%{email} hesabınıza yeni bir bilgilendirme notu gönderdik ve
+        hesabınızı onaylar onaylamaz harita yapımına başlayabileceksiniz.<br /><br
+        />Onay isteği gönderen bir anti-spam sistemi kullanırsanız onay isteklerine
+        cevap veremediğimizden lütfen kabul edilen adresler listesinde %{sender} olduğundan
+        emin olunuz.'
       failure: '%{name} kullanıcısı bulunamadı.'
     confirm_email:
       heading: E-posta adresinde değişikliği onayla
@@ -2497,11 +2719,11 @@ tr:
     revoke:
       title: Görev iptalini onayla
       heading: Görev iptalini onayla
-      are_you_sure: '%{name} kullanıcısından %{role} görevini almak istediğinizden
+      are_you_sure: '%{name} adlı kullanıcıyı %{role} görevinden almak istediğinizden
         emin misiniz?'
       confirm: Onayla
-      fail: '%{name} kullanıcısından %{role} görevi alma işlemi başarısız oldu. Lütfen,
-        hem kullanıcının hem görevin geçerli olduğunu kontrol edin.'
+      fail: '`%{name}'' adlı kullanıcı `%{role}'' görevinden alınamadı. Lütfen kullanıcı
+        ve görevin geçerli olup olmadığını kontrol edin.'
   user_blocks:
     model:
       non_moderator_update: Engelleme yapmak ya da engellemeyi güncellemek için bir
@@ -2513,29 +2735,17 @@ tr:
     new:
       title: '%{name} adlı kullanıcıyı engelle'
       heading_html: '%{name} adlı kullanıcıyı engelle'
-      reason: '%{name} adlı kullanıcının engellenme sebebi. Durum hakkında olabildiğince
-        fazla ayrıntı vererek mesajın herkes tarafından görülebileceğini hatırlayarak
-        mümkün olduğunca makûl ve sakin olun. Tüm kullanıcıların topluluk jargonunu
-        anlamadıklarını lütfen unutmayın; bu nedenle acemilerin anlayabileceği terimleri
-        kullanmaya çalışın.'
       period: Şu andan itibaren ne zamana kadar kullanıcıdan API engellenecek?
       tried_contacting: Kullanıcıyla iletişime geçtim ve durmasını istedim.
       tried_waiting: Kullanıcının bu iletişimlere cevap vermesi için makul bir süre
         verdim.
-      needs_view: Engel kaldırılmadan önce kullanıcının giriş yapması gerekiyor.
       back: Tüm engellemeleri göster
     edit:
       title: '%{name} adlı kullanıcının engelini değiştir'
       heading_html: '%{name} adlı kullanıcının engelini değiştir'
-      reason: '%{name} adlı kullanıcının engellenme sebebi. Durum hakkında olabildiğince
-        fazla ayrıntı vererek mesajın herkes tarafından görülebileceğini hatırlayarak
-        mümkün olduğunca makûl ve sakin olun. Tüm kullanıcıların topluluk jargonunu
-        anlamadıklarını lütfen unutmayın; bu nedenle acemilerin anlayabileceği terimleri
-        kullanmaya çalışın.'
       period: Şu andan itibaren ne zamana kadar kullanıcıdan API engellenecek?
       show: Bu engellemeyi gör
       back: Tüm engellemeleri göster
-      needs_view: Engel kaldırılmadan önce kullanıcının giriş yapması gerekiyor mu?
     filter:
       block_expired: Engelin süresi dolmuş ve değiştirilemiyor.
       block_period: Engel süresi, açılır listeden seçilebilen değerlerden biri olmalıdır.
@@ -2562,10 +2772,11 @@ tr:
       revoke: İptal!
       flash: Bu engelleme iptal edildi.
     helper:
-      time_future: '%{time} içinde bitecek.'
+      time_future_html: '%{time} içinde bitecek.'
       until_login: Kullanıcı giriş yapana kadar aktif.
-      time_future_and_until_login: '%{time} içinde ve kullanıcı oturum açtığında bitecek.'
-      time_past: '%{time} bitti.'
+      time_future_and_until_login_html: '%{time} içinde ve kullanıcı oturum açtığında
+        bitecek.'
+      time_past_html: '%{time} bitti.'
       block_duration:
         hours:
           one: 1 saat
@@ -2598,7 +2809,7 @@ tr:
       show: Göster
       edit: Düzenle
       revoke: İptal!
-      confirm: Emin misin?
+      confirm: Emin misiniz?
       reason: 'Engelleme sebebi:'
       back: Tüm engellemeleri göster
       revoker: 'Geri alan:'

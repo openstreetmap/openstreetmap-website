@@ -1,5 +1,3 @@
-require "migrate"
-
 class AddUserForeignKeys < ActiveRecord::Migration[4.2]
   def change
     add_foreign_key :changesets, :users, :name => "changesets_user_id_fkey"

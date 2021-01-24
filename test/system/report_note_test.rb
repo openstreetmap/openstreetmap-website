@@ -24,7 +24,7 @@ class ReportNoteTest < ApplicationSystemTestCase
       click_on "Create Report"
     end
 
-    assert page.has_content? "Your report has been registered sucessfully"
+    assert page.has_content? "Your report has been registered successfully"
 
     assert_equal note, Issue.last.reportable
     assert_equal "moderator", Issue.last.assigned_role
@@ -45,7 +45,7 @@ class ReportNoteTest < ApplicationSystemTestCase
       click_on "Create Report"
     end
 
-    assert page.has_content? "Your report has been registered sucessfully"
+    assert page.has_content? "Your report has been registered successfully"
 
     assert_equal note, Issue.last.reportable
     assert_equal "moderator", Issue.last.assigned_role

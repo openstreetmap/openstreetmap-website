@@ -1,5 +1,3 @@
-require "migrate"
-
 class RenameBugsToNotes < ActiveRecord::Migration[4.2]
   def self.up
     rename_enumeration "map_bug_status_enum", "note_status_enum"

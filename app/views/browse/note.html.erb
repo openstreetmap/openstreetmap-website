@@ -1,9 +1,6 @@
 <% set_title(t(".title", :id => @note.id)) %>
 
-<h2>
-  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= t ".#{@note.status}_title", :note_name => @note.id %>
-</h2>
+<%= render "sidebar_header", :title => t(".#{@note.status}_title", :note_name => @note.id) %>
 
 <div class="browse-section">
   <h4><%= t(".description") %></h4>
@@ -19,7 +16,10 @@
       <% end %>
       <li>
         <%= t "browse.location" %>
-        <%= link_to(tag.span(number_with_delimiter(@note.lat), :class => "latitude") + ", " + tag.span(number_with_delimiter(@note.lon), :class => "longitude"), root_path(:anchor => "map=18/#{@note.lat}/#{@note.lon}")) %>
+        <%= link_to(t(".coordinates_html",
+                      :latitude => tag.span(number_with_delimiter(@note.lat), :class => "latitude"),
+                      :longitude => tag.span(number_with_delimiter(@note.lon), :class => "longitude")),
+                    root_path(:anchor => "map=18/#{@note.lat}/#{@note.lon}")) %>
       </li>
     </ul>
   </div>
@@ -35,7 +35,7 @@
   <% if @note_comments.length > 1 %>
     <div class='note-comments'>
       <ul class="list-unstyled">
-        <% @note_comments[1..].each do |comment| %>
+        <% @note_comments.drop(1).each do |comment| %>
           <li id="c<%= comment.id %>">
             <small class='text-muted'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
             <%= comment.body.to_html %>

@@ -151,25 +151,6 @@ module Api
                                   [relation_with_relation, second_relation])
     end
 
-    def check_relations_for_element(path, type, id, expected_relations)
-      # check the "relations for relation" mode
-      get path
-      assert_response :success
-
-      # count one osm element
-      assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
-
-      # we should have only the expected number of relations
-      assert_select "osm>relation", expected_relations.size
-
-      # and each of them should contain the element we originally searched for
-      expected_relations.each do |relation|
-        # The relation should appear once, but the element could appear multiple times
-        assert_select "osm>relation[id='#{relation.id}']", 1
-        assert_select "osm>relation[id='#{relation.id}']>member[type='#{type}'][ref='#{id}']"
-      end
-    end
-
     def test_full
       # check the "full" mode
       get relation_full_path(:id => 999999)
@@ -264,7 +245,7 @@ module Api
       # create an relation with a node as member, this time test that we don't
       # need a role attribute to be included
       xml = "<osm><relation changeset='#{private_changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
+            "<member  ref='#{node.id}' type='node'/><tag k='test' v='yes' /></relation></osm>"
       put relation_create_path, :params => xml, :headers => auth_header
       # hope for forbidden due to user
       assert_response :forbidden,
@@ -341,7 +322,7 @@ module Api
       # create an relation with a node as member, this time test that we don't
       # need a role attribute to be included
       xml = "<osm><relation changeset='#{changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
+            "<member  ref='#{node.id}' type='node'/><tag k='test' v='yes' /></relation></osm>"
       put relation_create_path, :params => xml, :headers => auth_header
       # hope for success
       assert_response :success,
@@ -926,9 +907,26 @@ module Api
       end
     end
 
-    # ============================================================
-    # utility functions
-    # ============================================================
+    private
+
+    def check_relations_for_element(path, type, id, expected_relations)
+      # check the "relations for relation" mode
+      get path
+      assert_response :success
+
+      # count one osm element
+      assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+
+      # we should have only the expected number of relations
+      assert_select "osm>relation", expected_relations.size
+
+      # and each of them should contain the element we originally searched for
+      expected_relations.each do |relation|
+        # The relation should appear once, but the element could appear multiple times
+        assert_select "osm>relation[id='#{relation.id}']", 1
+        assert_select "osm>relation[id='#{relation.id}']>member[type='#{type}'][ref='#{id}']"
+      end
+    end
 
     ##
     # checks that the XML document and the string arguments have

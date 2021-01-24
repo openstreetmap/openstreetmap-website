@@ -52,13 +52,13 @@ class Way < ApplicationRecord
   scope :invisible, -> { where(:visible => false) }
 
   # Read in xml as text and return it's Way object representation
-  def self.from_xml(xml, create = false)
+  def self.from_xml(xml, create: false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
     pt = doc.find_first("//osm/way")
 
     if pt
-      Way.from_xml_node(pt, create)
+      Way.from_xml_node(pt, :create => create)
     else
       raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/way element.")
     end
@@ -66,7 +66,7 @@ class Way < ApplicationRecord
     raise OSM::APIBadXMLError.new("way", xml, e.message)
   end
 
-  def self.from_xml_node(pt, create = false)
+  def self.from_xml_node(pt, create: false)
     way = Way.new
 
     raise OSM::APIBadXMLError.new("way", pt, "Version is required when updating") unless create || !pt["version"].nil?

@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  require "timeout"
+
   include SessionPersistence
 
   protect_from_forgery :with => :exception
@@ -23,7 +25,11 @@ class ApplicationController < ActionController::Base
     if session[:user]
       self.current_user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
 
-      if current_user.status == "suspended"
+      if session[:fingerprint] &&
+         session[:fingerprint] != current_user.fingerprint
+        reset_session
+        self.current_user = nil
+      elsif current_user.status == "suspended"
         session.delete(:user)
         session_expires_automatically
 
@@ -42,6 +48,8 @@ class ApplicationController < ActionController::Base
     elsif session[:token]
       session[:user] = current_user.id if self.current_user = User.authenticate(:token => session[:token])
     end
+
+    session[:fingerprint] = current_user.fingerprint if current_user && session[:fingerprint].nil?
   rescue StandardError => e
     logger.info("Exception authorizing user: #{e}")
     reset_session
@@ -78,7 +86,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def check_database_readable(need_api = false)
+  def check_database_readable(need_api: false)
     if Settings.status == "database_offline" || (need_api && Settings.status == "api_offline")
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
@@ -88,7 +96,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def check_database_writable(need_api = false)
+  def check_database_writable(need_api: false)
     if Settings.status == "database_offline" || Settings.status == "database_readonly" ||
        (need_api && (Settings.status == "api_offline" || Settings.status == "api_readonly"))
       if request.xhr?
@@ -165,7 +173,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def preferred_languages(reset = false)
+  def preferred_languages(reset: false)
     @preferred_languages = nil if reset
     @preferred_languages ||= if params[:locale]
                                Locale.list(params[:locale])
@@ -178,13 +186,13 @@ class ApplicationController < ActionController::Base
 
   helper_method :preferred_languages
 
-  def set_locale(reset = false)
+  def set_locale(reset: false)
     if current_user&.languages&.empty? && !http_accept_language.user_preferred_languages.empty?
       current_user.languages = http_accept_language.user_preferred_languages
       current_user.save
     end
 
-    I18n.locale = Locale.available.preferred(preferred_languages(reset))
+    I18n.locale = Locale.available.preferred(preferred_languages(:reset => reset))
 
     response.headers["Vary"] = "Accept-Language"
     response.headers["Content-Language"] = I18n.locale.to_s
@@ -223,7 +231,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap an api call in a timeout
   def api_call_timeout(&block)
-    OSM::Timer.timeout(Settings.api_timeout, Timeout::Error, &block)
+    Timeout.timeout(Settings.api_timeout, Timeout::Error, &block)
   rescue Timeout::Error
     raise OSM::APITimeoutError
   end
@@ -231,7 +239,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap a web page in a timeout
   def web_timeout(&block)
-    OSM::Timer.timeout(Settings.web_timeout, Timeout::Error, &block)
+    Timeout.timeout(Settings.web_timeout, Timeout::Error, &block)
   rescue ActionView::Template::Error => e
     e = e.cause
 

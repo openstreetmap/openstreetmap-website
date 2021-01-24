@@ -39,6 +39,7 @@
 # Author: Rodrigo Avila
 # Author: Rodrigo codignoli
 # Author: Ruila
+# Author: Suburbanno
 # Author: Trigonometria87
 # Author: Tuliouel
 # Author: Vgeorge
@@ -56,6 +57,8 @@ pt-BR:
       friendly: '%e de %B de %Y às %H:%M'
       blog: '%e %B %Y'
   helpers:
+    file:
+      prompt: Escolher arquivo
     submit:
       diary_comment:
         create: Salvar
@@ -68,7 +71,7 @@ pt-BR:
         create: Enviar
       client_application:
         create: Registrar
-        update: Editar
+        update: Atualizar
       redaction:
         create: Criar redação
         update: Salvar redação
@@ -120,6 +123,18 @@ pt-BR:
       way_node: Nó de linha
       way_tag: Etiqueta de linha
     attributes:
+      client_application:
+        name: Nome (necessário)
+        url: URL do aplicativo principal (necessário)
+        callback_url: URL de callback
+        support_url: URL de suporte
+        allow_read_prefs: ler preferências do usuário
+        allow_write_prefs: modificar preferências do usuário
+        allow_write_diary: criar publicações no diário, comentários e adicionar amigos
+        allow_write_api: modificar o mapa
+        allow_read_gpx: ler as rotas GPS privadas do usuário
+        allow_write_gpx: enviar rotas GPS
+        allow_write_notes: modificar notas
       diary_comment:
         body: Corpo
       diary_entry:
@@ -134,20 +149,23 @@ pt-BR:
       trace:
         user: Usuário
         visible: Visível
-        name: Nome
+        name: Nome do arquivo
         size: Tamanho
         latitude: Latitude
         longitude: Longitude
         public: Público
         description: Descrição
-        gpx_file: 'Enviar Arquivo GPX:'
-        visibility: 'Visibilidade:'
-        tagstring: 'Etiquetas:'
+        gpx_file: Enviar Arquivo GPX
+        visibility: Visibilidade
+        tagstring: Etiquetas
       message:
         sender: Remetente
         title: Assunto
         body: Corpo
         recipient: Destinatário
+      report:
+        category: Seleciona um motivo para o seu relatório
+        details: Por favor, forneça mais alguns detalhes sobre o problema (obrigatório).
       user:
         email: E-mail
         active: Ativo
@@ -155,9 +173,17 @@ pt-BR:
         description: Descrição
         languages: Idiomas
         pass_crypt: Senha
+        pass_crypt_confirmation: Confirmar Senha
     help:
       trace:
         tagstring: separados por vírgulas
+      user_block:
+        reason: O motivo pelo qual o usuário está sendo bloqueado. Por favor, seja
+          o mais calmo e razoável possível, dando o máximo de detalhes que puder sobre
+          a situação, lembrando que a mensagem será visível publicamente. Lembre-se
+          de que nem todos os usuários entendem o jargão da comunidade, então tente
+          usar termos leigos.
+        needs_view: O usuário precisa se logar para esse bloqueio ser retirado?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -165,7 +191,7 @@ pt-BR:
         other: cerca de %{count} horas atrás
       about_x_months:
         one: cerca de 1 mês atrás
-        other: cerca de %{count} meses antes
+        other: cerca de %{count} meses atrás
       about_x_years:
         one: cerca de 1 ano atrás
         other: cerca de %{count} anos atrás
@@ -193,7 +219,7 @@ pt-BR:
         other: '%{count} dias atrás'
       x_months:
         one: 1 mês atrás
-        other: '%{count} meses antes'
+        other: '%{count} meses atrás'
       x_years:
         one: 1 ano atrás
         other: '%{count} anos atrás'
@@ -202,18 +228,12 @@ pt-BR:
     with_name_html: '%{name} (%{id})'
   editor:
     default: Padrão (atualmente %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (editor no navegador)
     id:
       name: iD
       description: iD (editor no navegador web)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (editor no navegador web)
     remote:
-      name: Controle Rrmoto
-      description: Controle remoto (JOSM ou Merkaartor)
+      name: Controle remoto
+      description: Controle remoto (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Nenhum
@@ -242,7 +262,7 @@ pt-BR:
         opened: nova nota (perto de %{place})
         commented: novo comentário (perto de %{place})
         closed: nota encerrada (perto de %{place})
-        reopened: reativando nota (perto de %{place})
+        reopened: Nota reativada (perto de %{place})
       entry:
         comment: Comentar
         full: Nota completa
@@ -260,10 +280,18 @@ pt-BR:
     anonymous: anônimo
     no_comment: (nenhum comentário)
     part_of: Parte de
+    part_of_relations:
+      one: 1 relação
+      other: '%{count} relações'
+    part_of_ways:
+      one: 1 via
+      other: '%{count} vias'
     download_xml: Baixar XML
     view_history: Ver histórico
     view_details: Ver detalhes
     location: 'Localização:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Conjunto de alterações: %{id}'
       belongs_to: Autor
@@ -274,8 +302,8 @@ pt-BR:
       relation: Relações (%{count})
       relation_paginated: Relações (%{x}-%{y} de %{count})
       comment: Comentários (%{count})
-      hidden_commented_by: Comentário oculto de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Comentário de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by_html: Comentário oculto de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Comentário de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML do conjunto de alterações
       osmchangexml: XML osmChange
       feed:
@@ -292,6 +320,9 @@ pt-BR:
       title_html: 'Linha: %{name}'
       history_title_html: 'Histórico da linha: %{name}'
       nodes: Pontos
+      nodes_count:
+        one: 1 nó
+        other: '%{count} nós'
       also_part_of_html:
         one: parte da linha %{related_ways}
         other: parte das linhas %{related_ways}
@@ -299,6 +330,9 @@ pt-BR:
       title_html: 'Relação: %{name}'
       history_title_html: 'Histórico da relação: %{name}'
       members: Membros
+      members_count:
+        one: 1 membro
+        other: '%{count} membros'
     relation_member:
       entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} como %{role}'
@@ -310,6 +344,7 @@ pt-BR:
       entry_html: Relação %{relation_name}
       entry_role_html: Relação %{relation_name} (como %{relation_role})
     not_found:
+      title: Não encontrado
       sorry: Não foi possível encontrar %{type} com id %{id}.
       type:
         node: ponto
@@ -318,6 +353,7 @@ pt-BR:
         changeset: conjunto de alterações
         note: Nota
     timeout:
+      title: Erro de tempo limite
       sorry: Desculpe, os dados para %{type} com id %{id} demoraram demais para chegar.
       type:
         node: ponto
@@ -355,16 +391,17 @@ pt-BR:
       open_title: 'Nota não resolvida #%{note_name}'
       closed_title: 'Nota resolvida #%{note_name}'
       hidden_title: 'Nota oculta #%{note_name}'
-      opened_by: Criado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Criado por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Comentado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Comentado por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Resolvido por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Resolvido por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Reaberto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Reaberto por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Ocultado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Criado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Criado por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Comentado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Comentado por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Resolvido por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Resolvido por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Reaberto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Reaberto por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Ocultado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Denunciar esta nota
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Consultar elementos
       introduction: Clique no mapa para achar elementos próximos
@@ -416,13 +453,8 @@ pt-BR:
     new:
       title: Nova publicação no diário
     form:
-      subject: 'Assunto:'
-      body: 'Conteúdo:'
-      language: 'Idioma:'
-      location: 'Localização:'
-      latitude: 'Latitude:'
-      longitude: 'Longitude:'
-      use_map_link: usar mapa
+      location: Localização
+      use_map_link: Usar mapa
     index:
       title: Diários dos usuários
       title_friends: Diários dos amigos
@@ -451,7 +483,8 @@ pt-BR:
       body: Não há postagens no diário ou comentário com o id %{id}. Confira a digitação,
         ou talvez o link clicado esteja errado.
     diary_entry:
-      posted_by_html: Publicado por %{link_user} em %{created} em %{language_link}
+      posted_by_html: Publicado por %{link_user} em %{created} em %{language_link}.
+      updated_at_html: Última atualização em %{updated}.
       comment_link: Comentar nesta publicação
       reply_link: Enviar uma mensagem ao autor
       comment_count:
@@ -473,6 +506,7 @@ pt-BR:
       location: 'Local:'
       view: Exibir
       edit: Editar
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Publicações do diário do OpenStreetMap de %{user}
@@ -522,10 +556,12 @@ pt-BR:
           chair_lift: Teleférico
           drag_lift: Telesquis
           gondola: Telecabine
+          magic_carpet: Esteira de Ski
           platter: Telesqui
           pylon: Pilone
           station: Estação teleférica
           t-bar: Telesqui de barra de metal em T
+          "yes": Via aérea
         aeroway:
           aerodrome: Aeródromo
           airstrip: Pista de pouso
@@ -534,11 +570,15 @@ pt-BR:
           hangar: Hangar
           helipad: Heliponto
           holding_position: Posição de estabelecimento
+          navigationaid: Auxílio à navegação de aviação
           parking_position: Posição de estacionamento
           runway: Pista de pouso
+          taxilane: Faixa de táxi
           taxiway: Pista de Taxiamento
           terminal: Terminal de Aeródromo
+          windsock: Biruta
         amenity:
+          animal_boarding: Hotel para animais
           animal_shelter: Abrigo para Animais
           arts_centre: Centro/Escola de Artes
           atm: Caixa Eletrônico
@@ -548,7 +588,9 @@ pt-BR:
           bench: Assento
           bicycle_parking: Bicicletário
           bicycle_rental: Estação de Bicicletas Públicas
+          bicycle_repair_station: Estação de conserto de bicicletas
           biergarten: Cervejaria ao ar livre
+          blood_bank: Banco de sangue
           boat_rental: Aluguel de barcos
           brothel: Bordel
           bureau_de_change: Casa de câmbio
@@ -565,6 +607,7 @@ pt-BR:
           clock: Relógio
           college: Escola técnica
           community_centre: Centro/Clube Comunitário
+          conference_centre: Centro de conferências
           courthouse: Tribunal
           crematorium: Crematório
           dentist: Dentista
@@ -572,6 +615,7 @@ pt-BR:
           drinking_water: Água potável
           driving_school: Escola de condutores
           embassy: Embaixada
+          events_venue: Local de eventos
           fast_food: Fast-Food
           ferry_terminal: Terminal de balsas
           fire_station: Quartel de bombeiros
@@ -584,36 +628,42 @@ pt-BR:
           hospital: Hospital
           hunting_stand: Cabana de caça
           ice_cream: Sorveteria
+          internet_cafe: Internet café
           kindergarten: Escola infantil
+          language_school: Escola de idiomas
           library: Biblioteca
+          loading_dock: Doca de carregamento
+          love_hotel: Motel
           marketplace: Mercado/Feira
+          mobile_money_agent: Agente de dinheiro eletrônico
           monastery: Monastério
+          money_transfer: Transferência de dinheiro
           motorcycle_parking: Estacionamento de motocicletas
+          music_school: Escola de música
           nightclub: Danceteria
           nursing_home: Clínica Geriátrica
-          office: Escritório
           parking: Estacionamento
           parking_entrance: Entrada de Estacionamento
           parking_space: Espaço para estacionamento
+          payment_terminal: Terminal de pagamento
           pharmacy: Drogaria
           place_of_worship: Lugar de Prática Religiosa
           police: Delegacia de Polícia
           post_box: Caixa de Correio
           post_office: Agência de Correios
-          preschool: Pré-escola
           prison: Prisão
           pub: Pub
+          public_bath: Banho público
+          public_bookcase: Estante pública
           public_building: Edifício Público
+          ranger_station: Estação de patrulha
           recycling: Posto de Reciclagem
           restaurant: Restaurante
-          retirement_home: Lar de Idosos
-          sauna: Sauna
+          sanitary_dump_station: Estação de descarga sanitária
           school: Escola
           shelter: Abrigo
-          shop: Loja
           shower: Chuveiro
           social_centre: Centro Social
-          social_club: Clube Recreativo
           social_facility: Serviço Social
           studio: Estúdio de Gravação/TV/Rádio
           swimming_pool: Piscina
@@ -622,19 +672,27 @@ pt-BR:
           theatre: Teatro
           toilets: Banheiro público
           townhall: Prefeitura
+          training: Centro de treinamento
           university: Universidade
+          vehicle_inspection: Inspeção veicular
           vending_machine: Máquina de Venda Automática
           veterinary: Clínica Veterinária
           village_hall: Prefeitura
           waste_basket: Cesto de Lixo
           waste_disposal: Ponto de Entrega de Lixo
+          waste_dump_site: Local de despejo de lixo
+          watering_place: Bebedouro para animais
           water_point: Ponto de água
-          youth_centre: Centro Juvenil
+          weighbridge: Balança
+          "yes": Comodidade
         boundary:
+          aboriginal_lands: Terras indígenas
           administrative: Limite Administrativo
           census: Limite Censitário
           national_park: Parque Nacional
+          political: Zona eleitoral
           protected_area: Área Protegida
+          "yes": Limite
         bridge:
           aqueduct: Aqueduto
           boardwalk: Passeio à beira mar
@@ -643,36 +701,107 @@ pt-BR:
           viaduct: Viaduto
           "yes": Ponte
         building:
+          apartment: Apartamento
+          apartments: Apartamentos
+          barn: Celeiro
+          bungalow: Bangalô
+          cabin: Cabana
+          chapel: Capela
+          church: Edifício de Igreja
+          civic: Edifício de uso público
+          college: Edifício de escola técnica
+          commercial: Edifício comercial
+          construction: Edifício em construção
+          detached: Casa separada
+          dormitory: Dormitório
+          duplex: Casa com duplex
+          farm: Casa de fazenda
+          farm_auxiliary: Casa auxiliar de fazenda
+          garage: Garagem
+          garages: Garagens
+          greenhouse: Estufa
+          hangar: Hangar
+          hospital: Hospital
+          hotel: Edifício de hotel
+          house: Casa
+          houseboat: Casa flutuante
+          hut: Cabana
+          industrial: Edifício industrial
+          kindergarten: Edifício de escola de ensino infantil
+          manufacture: Edifício de manufatura
+          office: Edifício de escritórios
+          public: Edifício público
+          residential: Edifício residencial
+          retail: Edifício comercial
+          roof: Cobertura
+          ruins: Edifício em ruínas
+          school: Edifício escolar
+          semidetached_house: Casa geminada
+          service: Casa de máquinas
+          shed: Galpão
+          stable: Estábulo
+          static_caravan: Caravana
+          temple: Edifício de templo
+          terrace: Edifício terraço
+          train_station: Edifício de estação de trem
+          university: Edifício universitário
+          warehouse: Armazém
           "yes": Edifício
+        club:
+          scout: Grupamento de escoteiro
+          sport: Clube de esportes
+          "yes": Clube
         craft:
+          beekeper: Apicultor
+          blacksmith: Ferreiro
           brewery: Cervejaria
           carpenter: Carpinteiro
+          caterer: Fornecedor de refeições
+          confectionery: Confeitaria
+          dressmaker: Costureira
           electrician: Eletricista
+          electronics_repair: Oficina de eletrônicos
           gardener: Jardineiro
+          glaziery: Vidraria
+          handicraft: Artesanato
+          hvac: Técnico de climatização
+          metal_construction: Construção metálica
           painter: Pintor
           photographer: Fotógrafo
           plumber: Encanador
+          roofer: Carpinteiro
+          sawmill: Serraria
           shoemaker: Sapateiro
+          stonemason: Pedreira
           tailor: Alfaiate
+          window_construction: Construção de janela
+          winery: Adega
           "yes": Loja de Artesanato
         emergency:
+          access_point: Ponto de acesso
           ambulance_station: Posto de Ambulâncias
           assembly_point: Centro de agrupamento
           defibrillator: Desfibrilador
+          fire_xtinguisher: Extintor de incêndio
+          fire_water_pond: Lagoa de água de fogo
           landing_site: Local de Pouso de Emergência
+          life_ring: Boia salva-vidas
           phone: Telefone de Emergência
+          siren: Sirene de Emergência
+          suction_point: Ponto de sucção de emergência
           water_tank: Tanque de água de emergência
           "yes": Emergência
         highway:
           abandoned: Via Abandonada
           bridleway: Hipovia
           bus_guideway: Guiamento de Ônibus
-          bus_stop: Ponto de Ônibus
+          bus_stop: Ponto de ônibus
           construction: Via em Construção
           corridor: Corredor
           cycleway: Ciclovia
           elevator: Elevador
           emergency_access_point: Ponto de Resgate Emergencial
+          emergency_bay: Baía de emergência
           footway: Caminho de pedestre
           ford: Vau
           give_way: Sinal de preferência de passagem
@@ -685,14 +814,14 @@ pt-BR:
           path: Caminho Informal
           pedestrian: Calçadão
           platform: Plataforma
-          primary: Via Primária
+          primary: Via primária
           primary_link: Ligação Primária
           proposed: Via Planejada
           raceway: Pista de Corrida
-          residential: Via Residencial
+          residential: Via residencial
           rest_area: Área de Repouso
           road: Estrada
-          secondary: Via Secundária
+          secondary: Via secundária
           secondary_link: Ligação Secundária
           service: Via de Serviço
           services: Serviços de Estrada
@@ -700,40 +829,48 @@ pt-BR:
           steps: Escada
           stop: Sinal de parada
           street_lamp: Poste de Luz
-          tertiary: Via Terciária
+          tertiary: Via terciária
           tertiary_link: Ligação Terciária
           track: Estrada Informal
+          traffic_mirror: Espelho de tráfego
           traffic_signals: Semáforo
-          trail: Caminho
-          trunk: Via Troncal
-          trunk_link: Ligação Troncal
+          trailhead: Parada de trilha
+          trunk: Via troncal
+          trunk_link: Ligação troncal
           turning_loop: Circuito reverso
           unclassified: Via Não Classificada
           "yes": Estrada
         historic:
+          aircraft: Aeronave histórica
           archaeological_site: Sítio Arqueológico
+          bomb_crater: Cratera de bomba histórica
           battlefield: Campo de Batalha Histórico
           boundary_stone: Marco de Fronteira
           building: Edifício Histórico
           bunker: Casamata
+          cannon: Canhão histórico
           castle: Castelo
+          charcoal_pile: Pilha histórica de carvão
           church: Igreja
           city_gate: Porta da Cidade
           citywalls: Muralha
           fort: Forte
           heritage: Local Tombado
+          hollow_way: Caminho buracado
           house: Casa Histórica
-          icon: Ícone Histórico
           manor: Casa Senhorial
           memorial: Monumento Comemorativo
+          milestone: Marco histórico
           mine: Mina Histórica
           mine_shaft: Mina subterrânea
           monument: Monumento Simbólico
+          railway: Trilho histórico
           roman_road: Estrada Romana
           ruins: Ruína
           stone: Pedra Histórica
           tomb: Túmulo
           tower: Torre Histórica
+          wayside_chapel: Capela
           wayside_cross: Cruz de beira de estrada
           wayside_shrine: Capelinha de Beira de Estrada
           wreck: Naufrágio
@@ -742,6 +879,7 @@ pt-BR:
           "yes": Entroncamento
         landuse:
           allotments: Horta Urbana
+          aquaculture: Aquicultura
           basin: Bacia
           brownfield: Terreno Abandonado
           cemetery: Cemitério Secular
@@ -750,7 +888,7 @@ pt-BR:
           construction: Área de Construção
           farm: Lavoura
           farmland: Lavoura
-          farmyard: Pátio de Fazenda
+          farmyard: Pátio de fazenda
           forest: Floresta Manejada
           garages: Garagens
           grass: Gramado
@@ -761,34 +899,43 @@ pt-BR:
           military: Área Militar
           mine: Mina
           orchard: Pomar
+          plant_nursery: Viveiro de plantas
           quarry: Pedreira
           railway: Área Ferroviária
           recreation_ground: Área Recreativa
+          religious: Terreno religioso
           reservoir: Lago Artificial
           reservoir_watershed: Bacia Artificial
           residential: Área Residencial
           retail: Área de Varejo
-          road: Área de Estrada
           village_green: Parque Municipal
           vineyard: Vinha
           "yes": Terreno
         leisure:
+          adult_gaming_centre: Centro de jogos para adultos
+          amusement_arcade: Arcade de diversões
+          bandstand: Coreto
           beach_resort: Estação Praiana
           bird_hide: Observatório de Pássaros
+          bleachers: Arquibancada simples
+          bowling_alley: Pista de boliche
           common: Baldio Comunitário
+          dance: Salão de dança
           dog_park: Cachorródromo
           firepit: Fogueira
           fishing: Área de Pesca
           fitness_centre: Academia de Ginástica
           fitness_station: Estação de Ginástica
           garden: Jardim
-          golf_course: Campo de Golfe
+          golf_course: Campo de golfe
           horse_riding: Local de Equitação
           ice_rink: Pista de Patinação no Gelo
           marina: Marina
           miniature_golf: Minigolfe
-          nature_reserve: Reserva Ambiental
+          nature_reserve: Reserva ambiental
+          outdoor_seating: Mesas externas
           park: Parque
+          picnic_table: Mesa de piquenique
           pitch: Quadra Esportiva
           playground: Parquinho
           recreation_ground: Área Recreativa
@@ -803,13 +950,21 @@ pt-BR:
           "yes": Lazer
         man_made:
           adit: Galeria de acesso
+          advertising: Publicidade
+          antenna: Antena
+          avalanche_protection: Proteção de avalanche
           beacon: Baliza
+          beam: Feixe
           beehive: Colmeia
           breakwater: Quebra-mar
           bridge: Ponte
           bunker_silo: Búnquer
+          cairn: Moledros
           chimney: Chaminé
+          clearcut: Floresta desmatada
+          communications_tower: Torre de comunicações
           crane: Guindaste
+          cross: Cruz
           dolphin: Posto de amarração
           dyke: Represa
           embankment: Aterro
@@ -818,6 +973,7 @@ pt-BR:
           groyne: Estacada
           kiln: Estufa
           lighthouse: Farol
+          manhole: Bueiro
           mast: Mastro
           mine: Mina
           mineshaft: Poços de mina
@@ -825,12 +981,20 @@ pt-BR:
           petroleum_well: Poço de petróleo
           pier: Doca
           pipeline: Tubulação
+          pumping_station: Estação de bombeamento
+          reservoir_covered: Reservatório coberto
           silo: Silo
+          snow_cannon: Canhão de neve
+          snow_fence: Cerca de neve
           storage_tank: Reservatório
+          street_cabinet: Armário de rua
           surveillance: Vigilância
+          telescope: Telescópio
           tower: Torre
+          utility_pole: Poste
           wastewater_plant: Planta de águas residuais
           watermill: Moinho de água
+          water_tap: Torneira
           water_tower: Torre de água
           water_well: Poço
           water_works: Estação de tratamento de água
@@ -841,10 +1005,13 @@ pt-BR:
           airfield: Aeródromo Militar
           barracks: Quartel
           bunker: Casamata
+          checkpoint: Ponto de verificação
+          trench: Trincheira
           "yes": Militar
         mountain_pass:
           "yes": Passo de Montanha
         natural:
+          bare_rock: Rocha nua
           bay: Baía
           beach: Praia
           cape: Cabo
@@ -860,6 +1027,7 @@ pt-BR:
           grassland: Relvado
           heath: Urzal
           hill: Colina
+          hot_spring: Primavera quente
           island: Ilha
           land: Ilha
           marsh: Pântano
@@ -883,20 +1051,31 @@ pt-BR:
           water: Água
           wetland: Zona Úmida
           wood: Bosque Nativo
+          "yes": Característica natural
         office:
           accountant: Contador
           administrative: Escritório Administrativo
+          advertising_agency: Agencia de propaganda
           architect: Arquiteto
           association: Associação
           company: Empresa
+          diplomatic: Escritório diplomático
           educational_institution: Instituição educativa
           employment_agency: Agência de Emprego
+          energy_supplier: Escritório de fornecedor de energia
           estate_agent: Agente Imobiliário
+          financial: Escritório financeiro
           government: Escritório Governamental
           insurance: Seguradora
           it: Escritórios de informática
           lawyer: Advogado
+          logistics: Escritório de logística
+          newspaper: Escritório de jornal
           ngo: Escritório de ONG
+          notary: Tabelião
+          religion: Escritório religioso
+          research: Escritório de pesquisa
+          tax_advisor: Conselheiro fiscal
           telecommunication: Escritório de Telecomunicações
           travel_agent: Agência de Viagens
           "yes": Escritório
@@ -916,6 +1095,7 @@ pt-BR:
           locality: Localidade
           municipality: Município
           neighbourhood: Vizinhança
+          plot: Parcelas
           postcode: Código Postal
           quarter: Quarto
           region: Região
@@ -925,7 +1105,6 @@ pt-BR:
           subdivision: Subdivisão
           suburb: Bairro
           town: Cidade Menor
-          unincorporated_area: Área Não Incorporada
           village: Povoado
           "yes": Lugar
         railway:
@@ -951,12 +1130,19 @@ pt-BR:
           switch: Chave de Ferrovia
           tram: Trilho de Bonde
           tram_stop: Ponto de bonde
+          yard: Estação de classificação
         shop:
+          agrarian: Loja agrária
           alcohol: Loja de Bebidas Alcoólicas
           antiques: Loja de Antiguidades
+          appliance: Loja de eletrodomésticos
           art: Loja de Artigos de Arte
+          baby_goods: Artigos para bebês
+          bag: Loja de bolsas
           bakery: Padaria
-          beauty: Salão de Beleza
+          bathroom_furnishing: Móveis de banheiro
+          beauty: Salão de beleza
+          bed: Produtos de cama
           beverages: Loja de Bebidas Alcoólicas
           bicycle: Loja de Bicicletas
           bookmaker: Casa de apostas
@@ -968,65 +1154,90 @@ pt-BR:
           car_repair: Oficina Mecânica
           carpet: Tapeçaria
           charity: Loja Beneficente
+          cheese: Queijaria
           chemist: Loja de Cosméticos e Higiene
+          chocolate: Chocolate
           clothes: Loja de Roupas
+          coffee: Cafeteria
           computer: Loja de Informática
           confectionery: Doçaria
           convenience: Loja de Conveniência
           copyshop: Reprografia
           cosmetics: Loja de Cosméticos
+          craft: Loja de artigos de artesanato
+          curtain: Loja de cortinas
+          dairy: Loja de laticínios
           deli: Delicatessen
           department_store: Loja de Departamento
           discount: Loja de Descontos
           doityourself: Loja de Ferragens/Bricolagem
           dry_cleaning: Lavanderia a Seco
+          e-cigarette: Loja de cigarro eletrônico
           electronics: Loja de Eletroeletrônicos
+          erotic: Loja erótica
           estate_agent: Imobiliária
+          fabric: Loja de tecidos
           farm: Loja de Produtos Agrícolas
           fashion: Loja de Roupas
-          fish: Peixaria
+          fishing: Loja de artigos de pesca
           florist: Floricultura
           food: Loja de Alimentos
+          frame: Loja de molduras
           funeral_directors: Agência Funerária
           furniture: Loja de Móveis
-          gallery: Galeria de Vendas
           garden_centre: Centro de Jardinagem
+          gas: Loja de gás
           general: Loja de Artigos Gerais
           gift: Loja de Presentes
           greengrocer: Verdureira
           grocery: Mercearia
           hairdresser: Cabeleireiro/Barbeiro
           hardware: Loja de Material de Construção
+          health_food: Loja de comida saudável
+          hearing_aids: Aparelhos auditivos
+          herbalist: Fitoterapeuta
           hifi: Loja de Aparelhos Hi-Fi
           houseware: Loja de utensílios domésticos
+          ice_cream: Sorveteria
           interior_decoration: Decoração de interiores
           jewelry: Joalheria
           kiosk: Quiosque Comercial
           kitchen: Loja de cozinha
           laundry: Lavanderia
+          locksmith: Chaveiro
           lottery: Loteria
           mall: Galeria Comercial
-          market: Mercado
           massage: Massagem
+          medical_supply: Loja de suprimentos médicos
           mobile_phone: Loja de Celulares
+          money_lender: Financiadora
           motorcycle: Loja de Motocicletas
+          motorcycle_repair: Oficina de motocicletas
           music: Loja de Música
+          musical_instrument: Instrumentos musicais
           newsagent: Banca de Revistas
+          nutrition_supplements: Suplementos nutricionais
           optician: Ótica
           organic: Loja de Produtos Orgânicos
           outdoor: Loja de Esportes de Aventura
           paint: Lojas de pintura
+          pastry: Pastelaria
           pawnbroker: Penhor
-          pet: Pet Shop
-          pharmacy: Drogaria
+          perfumery: Perfumaria
+          pet: Loja de animais
+          pet_grooming: Cuidados de animais de estimação
           photo: Loja Fotográfica
           seafood: Frutos do mar
           second_hand: Brechó
+          sewing: Loja de costura
           shoes: Loja de Calçados
           sports: Loja de Artigos Esportivos
           stationery: Papelaria
+          storage_rental: Aluguel de armazenamento
           supermarket: Supermercado
           tailor: Alfaiataria
+          tattoo: Loja de tatuagem
+          tea: Loja de chá
           ticket: Loja de ingressos
           tobacco: Tabacaria
           toys: Loja de Brinquedos
@@ -1035,15 +1246,18 @@ pt-BR:
           vacant: Lojas vagas
           variety_store: Loja de variedades
           video: Loja/Locadora de Vídeo
+          video_games: Loja de videogame
+          wholesale: Loja de atacado
           wine: Venda de bebidas
           "yes": Loja
         tourism:
           alpine_hut: Abrigo de Montanha
           apartment: Apartamento de Férias
-          artwork: Obra de Arte
+          artwork: Obra de arte
           attraction: Atração Turística
           bed_and_breakfast: Hospedagem Domiciliar
           cabin: Cabana
+          camp_pitch: Campo de acampamento
           camp_site: Local de Acampamento
           caravan_site: Local de Caravanas
           chalet: Chalé
@@ -1057,6 +1271,7 @@ pt-BR:
           picnic_site: Local de Piquenique
           theme_park: Parque Temático
           viewpoint: Mirante
+          wilderness_hut: Abrigo isolado
           zoo: Jardim Zoológico
         tunnel:
           building_passage: Passagem de construção
@@ -1082,18 +1297,16 @@ pt-BR:
           weir: Vertedouro
           "yes": Via Aquática
       admin_levels:
-        level2: Fronteira Nacional
+        level2: Fronteira nacional
+        level3: Limite de região
         level4: Divisa Estadual
         level5: Limite Regional
         level6: Limite de Condado
+        level7: Limite do município
         level8: Limite Municipal
         level9: Limite de Distrito Municipal
         level10: Limite de Bairro
-    description:
-      title:
-        osm_nominatim: Resultado de <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Localização do <a href="http://www.geonames.org/">GeoNames</a>
+        level11: Limite da vizinhança
       types:
         cities: Cidades Maiores
         towns: Cidades Menores
@@ -1171,10 +1384,8 @@ pt-BR:
     new:
       title_html: Denuncia %{link}
       missing_params: Não é possível criar um novo relatório
-      details: Por favor, forneça mais alguns detalhes sobre o problema (obrigatório).
-      select: 'Selecione um motivo para seu denúncia:'
       disclaimer:
-        intro: 'Antes de enviar seu denuncia para os moderadores do site, certifique-se
+        intro: 'Antes de enviar sua denúncia para os moderadores do site, certifique-se
           de que:'
         not_just_mistake: Você está certo de que o problema não é apenas um erro
         unable_to_fix: Você é incapaz de resolver o problema sozinho ou com a ajuda
@@ -1223,13 +1434,13 @@ pt-BR:
     export: Exportar
     issues: Problemas
     data: Dados
-    export_data: Exportar Dados
+    export_data: Exportar dados
     gps_traces: Trilhas GPS
     gps_traces_tooltip: Gerenciar trilhas de GPS
-    user_diaries: Diários de Usuário
+    user_diaries: Diários de usuário
     user_diaries_tooltip: Ver os diários dos usuários
     edit_with: Edite com %{editor}
-    tag_line: O Wiki de Mapas Livres
+    tag_line: A Wiki de mapas livres
     intro_header: Bem-vindo(a) ao OpenStreetMap!
     intro_text: O OpenStreetMap é um mapa do mundo, criado por pessoas como você e
       de uso livre sob uma licença aberta.
@@ -1249,7 +1460,7 @@ pt-BR:
     about: Sobre
     copyright: Direitos autorais
     community: Comunidade
-    community_blogs: Blogs da Comunidade
+    community_blogs: Blogs da comunidade
     community_blogs_title: Blogs de membros da comunidade OpenStreetMap
     foundation: Fundação
     foundation_title: A OpenStreetMap Foundation
@@ -1258,19 +1469,27 @@ pt-BR:
       text: Faça uma doação
     learn_more: Saiba Mais
     more: Mais
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} comentou em uma entrada do diário'
       hi: Olá %{to_user},
       header: '%{from_user} comentou na publicação do diário do OpenStreetMap com
         o assunto %{subject}:'
+      header_html: '%{from_user} comentou na publicação do diário do OpenStreetMap
+        com o assunto %{subject}:'
       footer: Você pode ler o comentário em %{readurl}, pode comentá-lo em %{commenturl}
         ou respondê-lo em %{replyurl}
+      footer_html: Você pode ler o comentário em %{readurl}, pode comentá-lo em %{commenturl}
+        ou respondê-lo em %{replyurl}
     message_notification:
-      subject_header: '[OpenStreetMap] %{subject}'
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Olá %{to_user},
       header: '%{from_user} enviou uma mensagem pelo OpenStreetMap para você com o
         assunto %{subject}:'
+      header_html: '%{from_user} enviou uma mensagem pelo OpenStreetMap para você
+        com o assunto %{subject}:'
+      footer: Você pode também ler a mensagem em %{readurl} e você pode enviar uma
+        mensagem ao autor em %{replyurl}
       footer_html: Você pode também ler a mensagem em %{readurl} e você pode enviar
         uma mensagem ao autor em %{replyurl}
     friendship_notification:
@@ -1278,25 +1497,27 @@ pt-BR:
       subject: '[OpenStreetMap] %{user} adicionou você como amigo(a)'
       had_added_you: '%{user} adicionou você como amigo(a) no OpenStreetMap.'
       see_their_profile: Você pode ver o perfil dele(a) em %{userurl}.
+      see_their_profile_html: Você pode ver o perfil dele(a) em %{userurl}.
       befriend_them: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
-    gpx_notification:
-      greeting: Olá,
-      your_gpx_file: Isto parece ser o seu arquivo GPX
-      with_description: com a descrição
-      and_the_tags: 'e as seguintes etiquetas:'
-      and_no_tags: e sem etiquetas.
-      failure:
-        subject: '[OpenStreetMap] Falha ao importar arquivo GPX'
-        failed_to_import: 'falha ao importar. Veja a mensagem de erro:'
-        more_info_1: Mais informações sobre erros de importação de arquivos GPX e
-          como evitá-los
-        more_info_2: 'podem ser encontradas em:'
-        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=pt-br
-      success:
-        subject: '[OpenStreetMap] Sucesso ao importar arquivo GPX'
-        loaded_successfully: |-
-          carregado com sucesso com %{trace_points} de um 1 possível ponto.|carregado com sucesso com %{trace_points} de um possível
-          %{possible_points} pontos possíveis."
+      befriend_them_html: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Parece seu arquivo GPX %{trace_name} com a descrição
+        %{trace_description} e as seguintes etiquetas: %{tags}'
+      description_with_no_tags_html: Parece que seu arquivo GPX %{trace_name} com
+        a descrição %{trace_description} e sem etiquetas
+    gpx_failure:
+      hi: Olá %{to_user},
+      failed_to_import: 'falha ao importar. Veja a mensagem de erro:'
+      more_info_html: Mais informações sobre as falhas de importação GPX e como evitá-las
+        podem ser encontradas em %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=pt-br
+      subject: '[OpenStreetMap] Falha ao importar arquivo GPX'
+    gpx_success:
+      hi: Olá %{to_user},
+      loaded_successfully: |-
+        carregado com sucesso com %{trace_points} de um 1 possível ponto.|carregado com sucesso com %{trace_points} de um possível
+        %{possible_points} pontos possíveis."
+      subject: '[OpenStreetMap] Sucesso ao importar arquivo GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Bem-vindo(a) ao OpenStreetMap'
       greeting: Olá!
@@ -1308,13 +1529,6 @@ pt-BR:
         para começar.
     email_confirm:
       subject: '[OpenStreetMap] Confirmação de endereço de e-mail'
-    email_confirm_plain:
-      greeting: Olá,
-      hopefully_you: Alguém (provavelmente você) quer alterar o seu endereço de e-mail
-        de %{server_url} para %{new_address}.
-      click_the_link: Se esta pessoa é você, por favor clique no link abaixo para
-        confirmar a alteração.
-    email_confirm_html:
       greeting: Olá,
       hopefully_you: Alguém (provavelmente você) quer alterar o seu endereço de e-mail
         de %{server_url} para %{new_address}.
@@ -1322,13 +1536,6 @@ pt-BR:
         confirmar a alteração.
     lost_password:
       subject: '[OpenStreetMap] Solicitação de nova senha'
-    lost_password_plain:
-      greeting: Olá,
-      hopefully_you: Alguém (talvez você) pediu uma nova senha para a conta no openstreetmap.org
-        ligada a este e-mail.
-      click_the_link: Se esta pessoa é você, por favor clique no link abaixo para
-        receber uma nova senha.
-    lost_password_html:
       greeting: Olá,
       hopefully_you: Alguém (talvez você) pediu uma nova senha para a conta no openstreetmap.org
         ligada a este e-mail.
@@ -1343,23 +1550,34 @@ pt-BR:
           a você'
         your_note: '%{commenter} deixou um comentário numa nota sua no mapa perto
           de %{place}.'
+        your_note_html: '%{commenter} deixou um comentário numa nota sua no mapa perto
+          de %{place}.'
         commented_note: '%{commenter} deixou um comentário numa nota de mapa que você
           comentou. A notá está perto de %{place}.'
+        commented_note_html: '%{commenter} deixou um comentário numa nota de mapa
+          que você comentou. A notá está perto de %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} resolveu uma nota sua'
         subject_other: '[OpenStreetMap] %{commenter} resolveu uma nota que interessa
           a você'
         your_note: '%{commenter} resolveu uma nota sua no mapa perto de %{place}.'
+        your_note_html: '%{commenter} resolveu uma nota sua no mapa perto de %{place}.'
         commented_note: '%{commenter} resolveu uma nota de um mapa que você comentou.
+          A nota está perto de %{place}.'
+        commented_note_html: '%{commenter} resolveu uma nota de um mapa que você comentou.
           A nota está perto de %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} reativou uma nota sua'
         subject_other: '[OpenStreetMap] %{commenter} reativou uma nota que interessa
           a você'
         your_note: '%{commenter} reativou uma nota sua no mapa perto de %{place}.'
+        your_note_html: '%{commenter} reativou uma nota sua no mapa perto de %{place}.'
         commented_note: '%{commenter} reativou uma nota de mapa que você comentou.
           A nota está perto de %{place}.'
+        commented_note_html: '%{commenter} reativou uma nota de mapa que você comentou.
+          A nota está perto de %{place}.'
       details: Mais detalhes sobre a nota podem ser encontrados em %{url}.
+      details_html: Mais detalhes sobre a nota podem ser encontrados em %{url}.
     changeset_comment_notification:
       hi: Olá %{to_user},
       greeting: Olá,
@@ -1370,14 +1588,23 @@ pt-BR:
           que interessa a você'
         your_changeset: '%{commenter} deixou um comentário em %{time} em conjunto
           de alterações'
+        your_changeset_html: '%{commenter} deixou um comentário em %{time} em conjunto
+          de alterações'
         commented_changeset: '%{commenter} deixou um comentário a %{time} num conjunto
           de alterações em que está interessado, criado por %{changeset_author}'
+        commented_changeset_html: '%{commenter} deixou um comentário a %{time} num
+          conjunto de alterações em que está interessado, criado por %{changeset_author}'
         partial_changeset_with_comment: com comentário %{changeset_comment}
+        partial_changeset_with_comment_html: com comentário %{changeset_comment}
         partial_changeset_without_comment: sem comentários
       details: Mais detalhes sobre o conjunto de alterações podem ser encontrados
         em %{url}
+      details_html: Mais detalhes sobre o conjunto de alterações podem ser encontrados
+        em %{url}
       unsubscribe: Para cancelar a subscrição das atualizações deste conjunto de alterações,
         visite %{url} e clique em "Anular subscrição".
+      unsubscribe_html: Para cancelar a subscrição das atualizações deste conjunto
+        de alterações, visite %{url} e clique em "Anular subscrição".
   messages:
     inbox:
       title: Caixa de Entrada
@@ -1453,11 +1680,29 @@ pt-BR:
       as_unread: Mensagem marcada como não lida
     destroy:
       destroyed: Mensagem apagada
+  shared:
+    markdown_help:
+      title_html: 'Linguagem de formatação: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>'
+      headings: Títulos
+      heading: Cabeçalho
+      subheading: Subtítulo
+      unordered: Lista não ordenada
+      ordered: Lista ordenada
+      first: Primeiro item
+      second: Segundo item
+      link: Link
+      text: Texto
+      image: Imagem
+      alt: Texto alternativo
+      url: URL
+    richtext_field:
+      edit: Editar
+      preview: Pré-visualizar
   site:
     about:
       next: Próximo
       copyright_html: <span>&copy;</span>contribuidores<br>do OpenStreetMap
-      used_by_html: O %{name} ffornece dados de mapa para milhares de sites, aplicativos
+      used_by_html: O %{name} provê dados de mapa para milhares de sites, aplicativos
         móveis e dispositivos de hardware
       lede_text: O OpenStreetMap é desenvolvido por uma comunidade voluntária de mapeadores
         que contribuem e mantêm atualizados os dados sobre estradas, trilhos, cafés,
@@ -1628,7 +1873,7 @@ pt-BR:
       js_1: Você está usando um navegador sem suporte a JavaScript, ou está com o
         JavaScript desativado.
       js_2: O OpenStreetMap usa JavaScript para a navegação dos mapas.
-      permalink: Link Permanente
+      permalink: Link permanente
       shortlink: Link Curto
       createnote: Incluir uma nota
       license:
@@ -1643,17 +1888,6 @@ pt-BR:
       user_page_link: página de usuário
       anon_edits_html: (%{link})
       anon_edits_link_text: Descubra se é esse o seu caso.
-      flash_player_required_html: Necessita do Flash instalado e ativado para usar
-        o Potlatch, o editor em Flash do OpenStreetMap. Pode <a href="https://get.adobe.com/flashplayer/">descarregar
-        o Flash do sítio Adobe.com</a>. <a href="https://wiki.openstreetmap.org/wiki/Editing">Também
-        estão disponíveis outras opções</a> para editar o OpenStreetMap.
-      potlatch_unsaved_changes: Você tem alterações não salvas. (Para salvar no Potlatch,
-        você deve deselecionar a linha ou ponto atual se estiver editando ao vivo,
-        ou clicar em salvar se estiver editando offline.
-      potlatch2_not_configured: O Potlatch 2 não foi configurado - por favor veja
-        https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 para mais informações
-      potlatch2_unsaved_changes: Você tem alterações não salvas. (Para salvar no Potlatch
-        2, você deve clicar em Salvar.)
       id_not_configured: iD não foi configurado
       no_iframe_support: Seu navegador não suporta iframes HTML, que são necessários
         para esse recurso.
@@ -1767,8 +2001,17 @@ pt-BR:
         title: OpenStreetMap Wiki
         description: Navegue no wiki para ver a documentação do OpenStreetMap com
           mais detalhes.
+    potlatch:
+      removed: Seu editor padrão do OpenStreetMap é definido como Potlatch. Como o
+        Adobe Flash Player foi retirado, o Potlatch não está mais disponível para
+        uso em um navegador da web.
+      desktop_html: Você ainda pode usar o Potlatch por <a href="https://www.systemed.net/potlatch/">baixando
+        o aplicativo de desktop para Mac e Windows</a>.
+      id_html: Alternativamente, você pode definir seu editor padrão para iD, que
+        é executado em seu navegador da Web como o Potlatch fazia anteriormente. <a
+        href="%{settings_url}">Altere suas configurações de usuário aqui</a>.
     sidebar:
-      search_results: Resultados da Busca
+      search_results: Resultados da busca
       close: Fechar
     search:
       search: Buscar
@@ -1837,7 +2080,7 @@ pt-BR:
           school:
           - Escola
           - universidade
-          building: Edificação
+          building: Edifício importante
           station: Estação ferroviária
           summit:
           - Cume
@@ -1944,6 +2187,7 @@ pt-BR:
           esperar que o envio destas seja concluído antes de adicionar outras, de
           forma a não bloquear a fila para outros usuários.
     edit:
+      cancel: Cancelar
       title: Editando trilha %{name}
       heading: Editando trilha %{name}
       visibility_help: o que isso significa?
@@ -1961,6 +2205,7 @@ pt-BR:
       uploaded: 'Enviado em:'
       points: 'Pontos:'
       start_coordinates: 'Coordenada inicial:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: mapa
       edit: editar
       owner: 'Dono:'
@@ -2070,23 +2315,16 @@ pt-BR:
       title: Editar sua aplicação
     show:
       title: Detalhes do OAuth de %{app_name}
-      key: Chave de Consumidor
-      secret: Segredo do Consumidor
+      key: Chave de consumidor
+      secret: Segredo do consumidor
       url: URL do token de requisição
       access_url: 'URL do token de acesso:'
       authorize_url: 'URL de autorização:'
       support_notice: Adotamos assinaturas HMAC-SHA1 (recomendado) e RSA-SHA1.
       edit: Editar detalhes
-      delete: Excluir Cliente
+      delete: Excluir cliente
       confirm: Tem certeza?
       requests: 'Pedindo as seguintes permissões ao usuário:'
-      allow_read_prefs: ler suas preferências de usuário.
-      allow_write_prefs: modificar suas preferências de usuário.
-      allow_write_diary: criar entradas de diário, comentários e adicionar amigos.
-      allow_write_api: modificar o mapa
-      allow_read_gpx: ler suas trilhas de GPS privadas.
-      allow_write_gpx: enviar trilhas de GPS.
-      allow_write_notes: alterar notas.
     index:
       title: Meus detalhes do OAuth
       my_tokens: Meus aplicativos autorizados
@@ -2103,19 +2341,7 @@ pt-BR:
       registered_apps: 'Você tem as seguintes aplicações cliente registradas:'
       register_new: Registre seu aplicativo
     form:
-      name: Nome
-      required: Obrigatório
-      url: URL Principal da Aplicação
-      callback_url: URL de callback
-      support_url: URL de suporte
       requests: 'Solicitar as seguintes permissões ao usuário:'
-      allow_read_prefs: ler as preferências de usuário dele.
-      allow_write_prefs: modificar as preferências de usuário dele.
-      allow_write_diary: criar entradas de diário, comentários e adicionar amigos.
-      allow_write_api: modificar o mapa.
-      allow_read_gpx: ler trilhas de GPS privadas deles.
-      allow_write_gpx: enviar trilhas de GPS.
-      allow_write_notes: alterar notas.
     not_found:
       sorry: Esse %{type} não pôde ser encontrado.
     create:
@@ -2196,8 +2422,6 @@ pt-BR:
     reset_password:
       title: Redefinir senha
       heading: Redefinir Senha de %{user}
-      password: 'Senha:'
-      confirm password: 'Confirmar senha:'
       reset: Redefinir Senha
       flash changed: Sua senha foi alterada.
       flash token bad: O código não confere, verifique a URL.
@@ -2214,9 +2438,6 @@ pt-BR:
           <p>Diferente de outros mapas, OpenStreetMap é completamente criado por pessoas como você,
           e é livre para todos arrumarem, atualizarem, baixarem e usarem.</p>
           <p>Inscreva-se para começar a contribuir. Enviaremos um e-mail para confirmar sua conta.</p>
-      license_agreement: Quando confirmar a sua conta, será necessário aceitar os
-        <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">termos
-        de colaboração</a>.
       email address: 'Endereço de E-mail:'
       confirm email address: 'Confirme o Endereço de E-mail:'
       not_displayed_publicly_html: O seu endereço de IP não será visível publicamente.
@@ -2290,7 +2511,7 @@ pt-BR:
       edits: Edições
       traces: Trilhas
       notes: Notas de Mapa
-      remove as friend: Desfazer Amizade
+      remove as friend: Desfazer amizade
       add as friend: Adicionar como amigo
       mapper since: 'Mapeador desde:'
       ct status: 'Termos do contribuidor:'
@@ -2419,9 +2640,9 @@ pt-BR:
       reconfirm_html: Caso precise que enviemos de novo o e-mail de confirmação, <a
         href="%{reconfirm}">clique aqui</a>.
     confirm_resend:
-      success: Enviamos uma nova mensagem de confirmação para %{email} e, assim que
-        você confirmar o seu cadastro, poderá começar a mapear.<br /><br />Se você
-        usa um sistema antispam que exige uma mensagem de confirmação então certifique-se
+      success_html: Enviamos uma nova mensagem de confirmação para %{email} e, assim
+        que você confirmar o seu cadastro, poderá começar a mapear.<br /><br />Se
+        você usa um sistema antispam que exige uma mensagem de confirmação então certifique-se
         de que o endereço %{sender} esteja na sua lista de e-mails confiáveis, já
         que não conseguimos responder a nenhum pedido de confirmação.
       failure: Usuário %{name} não encontrado.
@@ -2507,26 +2728,16 @@ pt-BR:
     new:
       title: Criando bloqueio em %{name}
       heading_html: Criando bloqueio em %{name}
-      reason: A razão para bloquear %{name}. Por favor seja o mais calmo e razoável
-        possível, dando o máximo de detalhes que você puder sobre a situação, lembrando
-        que a mensagem será visível publicamente. Tenha em mente que nem todos usuários
-        entendem os jargões da comunidade, então, por favor, use termos leigos.
       period: Começando agora, por quanto tempo impedir o usuário de usar a API.
       tried_contacting: Eu contatei o usuário e pedi para parar.
       tried_waiting: Eu dei um tempo razoável para o usuário responder a esses comunicados.
-      needs_view: O usuário precisa se logar para esse bloqueio ser retirado
       back: Ver todos bloqueios
     edit:
       title: Editando bloqueio em %{name}
       heading_html: Editando bloqueio em %{name}
-      reason: A razão pela qual %{name} está sendo bloqueado. Por favor seja o mais
-        calmo e razoável possível, dando tantos detalhes quanto você puder sobre a
-        situação. Tenha em mente que nem todos usuários entendem o jargão da comunidade,
-        então tente usar termos gerais.
       period: Começando agora, por quanto tempo impedir o usuário de usar a API.
       show: Ver esse bloqueio
       back: Ver todos bloqueios
-      needs_view: O usuário precisa se logar para esse bloqueio ser retirado?
     filter:
       block_expired: O bloqueio já expirou e não pode mais ser editado.
       block_period: O período de bloqueio deve ser um dos valores selecionáveis na
@@ -2553,10 +2764,10 @@ pt-BR:
       revoke: Cancelar!
       flash: Esse bloqueio foi retirado.
     helper:
-      time_future: Termina em %{time}.
+      time_future_html: Termina em %{time}.
       until_login: Ativo até que o usuário se conecte.
-      time_future_and_until_login: Termina em %{time} e após o usuário ter logado.
-      time_past: Terminou há %{time}
+      time_future_and_until_login_html: Termina em %{time} e após o usuário ter logado.
+      time_past_html: Terminou há %{time}
       block_duration:
         hours:
           one: uma hora
@@ -2626,7 +2837,7 @@ pt-BR:
       image: Imagem
       link: Link ou HTML
       long_link: Link
-      short_link: Link Curto
+      short_link: Link curto
       geo_uri: Geo URI
       embed: HTML
       custom_dimensions: Definir dimensões personalizadas
@@ -2638,7 +2849,7 @@ pt-BR:
       include_marker: Incluir marcador
       center_marker: Centralizar o mapa no marcador
       paste_html: Cole o HTML para publicar no site
-      view_larger_map: Ver Mapa Ampliado
+      view_larger_map: Ver mapa ampliado
       only_standard_layer: Somente a camada padrão pode ser exportada como uma imagem
     embed:
       report_problem: Reportar um problema
@@ -2660,6 +2871,7 @@ pt-BR:
           other: Você está dentro %{count} pés deste ponto
       base:
         standard: Padrão
+        cyclosm: CyclOSM
         cycle_map: Ciclístico
         transport_map: Transporte Público
         hot: Humanitário
@@ -2674,6 +2886,8 @@ pt-BR:
       copyright: © <a href='%{copyright_url}'>contribuidores do OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Fazer uma doação</a>
       terms: <a href='%{terms_url}' target='_blank'>Termos do site e da API</a>
+      cyclosm: Estilo de ladrilhos por <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        hospedado por <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap França</a>
       thunderforest: Mosaicos cortesia de <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       opnvkarte: A camada cortesia por <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
@@ -2709,7 +2923,7 @@ pt-BR:
         anonymous_warning: Esta nota contém comentários de usuários anônimos que devem
           ser conferidos separadamente.
         hide: Esconder
-        resolve: Marcar como Resolvido
+        resolve: Resolver
         reactivate: Reativar
         comment_and_resolve: Comentar e resolver
         comment: Comentar

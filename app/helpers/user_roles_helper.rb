@@ -1,8 +1,6 @@
 module UserRolesHelper
   def role_icons(user)
-    UserRole::ALL_ROLES.reduce("".html_safe) do |acc, elem|
-      acc + " " + role_icon(user, elem)
-    end
+    safe_join(UserRole::ALL_ROLES.collect { |role| role_icon(user, role) }.compact, " ")
   end
 
   def role_icon(user, role)

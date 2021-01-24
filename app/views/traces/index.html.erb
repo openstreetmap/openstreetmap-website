@@ -23,7 +23,7 @@
 <% end %>
 
 <% if @traces.size > 0 %>
-  <%= render :partial => "trace_paging_nav" %>
+  <%= render "trace_paging_nav", :page => @page, :page_size => @page_size, :traces => @traces, :params => @params %>
 
   <table id="trace_list" class="table table-borderless table-striped">
     <tbody>
@@ -31,7 +31,7 @@
     </tbody>
   </table>
 
-  <%= render :partial => "trace_paging_nav" %>
+  <%= render "trace_paging_nav", :page => @page, :page_size => @page_size, :traces => @traces, :params => @params %>
 <% else %>
   <h4><%= t ".empty_html", :upload_link => new_trace_path %></h4>
 <% end %>

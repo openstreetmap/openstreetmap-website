@@ -21,7 +21,7 @@ module Api
     def create
       assert_method :put
 
-      cs = Changeset.from_xml(request.raw_post, true)
+      cs = Changeset.from_xml(request.raw_post, :create => true)
 
       # Assume that Changeset.from_xml has thrown an exception if there is an error parsing the xml
       cs.user = current_user
@@ -319,9 +319,7 @@ module Api
       end
       # stupid Time seems to throw both of these for bad parsing, so
       # we have to catch both and ensure the correct code path is taken.
-    rescue ArgumentError => e
-      raise OSM::APIBadUserInput, e.message.to_s
-    rescue RuntimeError => e
+    rescue ArgumentError, RuntimeError => e
       raise OSM::APIBadUserInput, e.message.to_s
     end
 

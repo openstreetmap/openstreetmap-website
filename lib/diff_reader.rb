@@ -138,7 +138,7 @@ class DiffReader
         # create a new element. this code is agnostic of the element type
         # because all the elements support the methods that we're using.
         with_model do |model, xml|
-          new = model.from_xml_node(xml, true)
+          new = model.from_xml_node(xml, :create => true)
           check(model, xml, new)
 
           # when this element is saved it will get a new ID, so we save it
@@ -174,7 +174,7 @@ class DiffReader
         # with types, but uses duck typing to handle them transparently.
         with_model do |model, xml|
           # get the new element from the XML payload
-          new = model.from_xml_node(xml, false)
+          new = model.from_xml_node(xml, :create => false)
           check(model, xml, new)
 
           # if the ID is a placeholder then map it to the real ID

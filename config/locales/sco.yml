@@ -84,15 +84,9 @@ sco:
         pass_crypt: Passwird
   editor:
     default: Default (currently %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (in-brouser eeditor)
     id:
       name: iD
       description: iD (in-brouser eeditor)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (in-brouser eeditor)
     remote:
       name: Remote Control
       description: Remote Control (JOSM or Merkaartor)
@@ -124,9 +118,10 @@ sco:
       relation: Relations (%{count})
       relation_paginated: Relations (%{x}-%{y} of %{count})
       comment: Comments (%{count})
-      hidden_commented_by: Hidden comment frae %{user} <abbr title='%{exact_time}'>%{when}
+      hidden_commented_by_html: Hidden comment frae %{user} <abbr title='%{exact_time}'>%{when}
         ago</abbr>
-      commented_by: Comment frae %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
+      commented_by_html: Comment frae %{user} <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
       changesetxml: Chyngeset XML
       osmchangexml: osmChange XML
       feed:
@@ -199,19 +194,21 @@ sco:
       open_title: 'Unresolved note #%{note_name}'
       closed_title: 'Resolved note #%{note_name}'
       hidden_title: 'Hidden note #%{note_name}'
-      opened_by: Creatit bi %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      opened_by_anonymous: Creatit bi anonymous <abbr title='%{exact_time}'>%{when}
+      opened_by_html: Creatit bi %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
+      opened_by_anonymous_html: Creatit bi anonymous <abbr title='%{exact_time}'>%{when}
         ago</abbr>
-      commented_by: Comment frae %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      commented_by_anonymous: Comment frae anonymous <abbr title='%{exact_time}'>%{when}
+      commented_by_html: Comment frae %{user} <abbr title='%{exact_time}'>%{when}
         ago</abbr>
-      closed_by: Resolved bi %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      closed_by_anonymous: Resolved bi anonymous <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous_html: Comment frae anonymous <abbr title='%{exact_time}'>%{when}
         ago</abbr>
-      reopened_by: Reactivatit bi %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      reopened_by_anonymous: Reactivatit bi anonymous <abbr title='%{exact_time}'>%{when}
+      closed_by_html: Resolved bi %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
+      closed_by_anonymous_html: Resolved bi anonymous <abbr title='%{exact_time}'>%{when}
         ago</abbr>
-      hidden_by: Hidden bi %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
+      reopened_by_html: Reactivatit bi %{user} <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      reopened_by_anonymous_html: Reactivatit bi anonymous <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      hidden_by_html: Hidden bi %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: Page %{page}
@@ -248,12 +245,7 @@ sco:
     new:
       title: New Diary Entry
     form:
-      subject: 'Subject:'
-      body: 'Body:'
-      language: 'Leid:'
       location: 'Location:'
-      latitude: 'Latitude:'
-      longitude: 'Longitude:'
       use_map_link: uise map
     index:
       title: Uisers' diaries
@@ -387,27 +379,21 @@ sco:
           marketplace: Mercatplace
           nightclub: Nicht Club
           nursing_home: Nursin Home
-          office: Office
           parking: Pairkin
           pharmacy: Pharmacy
           place_of_worship: Place o Worship
           police: Polis
           post_box: Post Box
           post_office: Post Office
-          preschool: Pre-Schuil
           prison: Prison
           pub: Pub
           public_building: Public Biggin
           recycling: Recyclin Pynt
           restaurant: Restaurant
-          retirement_home: Retirement Home
-          sauna: Sauna
           school: Schuil
           shelter: Shelter
-          shop: Shop
           shower: Shower
           social_centre: Social Centre
-          social_club: Social Club
           social_facility: Social Facility
           studio: Studio
           swimming_pool: Swimmin Puil
@@ -421,7 +407,6 @@ sco:
           veterinary: Veterinary Surgery
           village_hall: Veelage Haw
           waste_basket: Waste Basket
-          youth_centre: Youth Centre
         boundary:
           administrative: Admeenistrative Boondary
           census: Census Boondary
@@ -474,7 +459,6 @@ sco:
           tertiary: Tertiary Road
           tertiary_link: Tertiary Road
           track: Track
-          trail: Trail
           trunk: Trunk Road
           trunk_link: Trunk Road
           unclassified: Unclassified Road
@@ -489,7 +473,6 @@ sco:
           fort: Fort
           heritage: Heritage Steid
           house: Hoose
-          icon: Icon
           manor: Manor
           memorial: Memorial
           mine: Mine
@@ -529,7 +512,6 @@ sco:
           reservoir_watershed: Reservoir Wattershed
           residential: Residential Aurie
           retail: Retail
-          road: Road Aurie
           village_green: Village Green
           vineyard: Vineyard
           "yes": Launduise
@@ -642,7 +624,6 @@ sco:
           subdivision: Subdiveesion
           suburb: Suburb
           town: Toun
-          unincorporated_area: Unincorporatit Aurie
           village: Veelage
         railway:
           abandoned: Abandoned Railway
@@ -667,6 +648,7 @@ sco:
           switch: Railway Pynts
           tram: Tramway
           tram_stop: Tram Stap
+          yard: Railway Yard
         shop:
           alcohol: Off License
           antiques: Antiques
@@ -699,12 +681,10 @@ sco:
           estate_agent: Estate Agent
           farm: Ferm Shop
           fashion: Fashion Shop
-          fish: Fish Shop
           florist: Florist
           food: Fuid Shop
           funeral_directors: Funeral Directors
           furniture: Furnitur
-          gallery: Gallery
           garden_centre: Gairden Centre
           general: General Store
           gift: Gift Shop
@@ -717,7 +697,6 @@ sco:
           kiosk: Kiosk Shop
           laundry: Laundry
           mall: Maw
-          market: Mercat
           mobile_phone: Mobile Phone Shop
           motorcycle: Motorcycle Shop
           music: Muisic Shop
@@ -726,7 +705,6 @@ sco:
           organic: Organic Fuid Shop
           outdoor: Ootduir Shop
           pet: Pet Shop
-          pharmacy: Pharmacy
           photo: Photo Shop
           second_hand: Seicont-haund Shop
           shoes: Shoe Shop
@@ -788,11 +766,6 @@ sco:
         level8: Ceety Boondary
         level9: Veelage Boondary
         level10: Suburb Boondary
-    description:
-      title:
-        osm_nominatim: Location frae <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Location frae <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Ceeties
         towns: Touns
@@ -846,14 +819,9 @@ sco:
       text: Make a Donation
     learn_more: Learn Mair
     more: Mair
-  notifier:
-    lost_password_plain:
+  user_mailer:
+    lost_password:
       hopefully_you: Someane (possibly ye) haes asked for the passwird tae be reset
-        on this email address's openstreetmap.org accoont.
-      click_the_link: If this is ye, please click the airtin ablo tae reset yer passwird.
-    lost_password_html:
-      greeting: Hi,
-      hopefully_you: Someane (possibly ye) has asked for the passwird tae be reset
         on this email address's openstreetmap.org accoont.
       click_the_link: If this is ye, please click the airtin ablo tae reset yer passwird.
     note_comment_notification:

@@ -1,13 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "6.0.3.2"
-
-# Require things which have moved to gems in ruby 1.9
-gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
-
-# Require things which have moved to gems in ruby 2.0
-gem "psych", :platforms => :ruby_20
+gem "rails", "6.0.3.4"
 
 # Require json for multi_json
 gem "json"
@@ -89,9 +83,6 @@ gem "libxml-ruby", ">= 2.0.5", :require => "libxml"
 gem "htmlentities"
 gem "sanitize"
 
-# Load SystemTimer for implementing request timeouts
-gem "SystemTimer", ">= 1.1.3", :require => "system_timer", :platforms => :ruby_18
-
 # Load faraday for mockable HTTP client
 gem "faraday"
 
@@ -137,6 +128,7 @@ group :development do
   gem "annotate"
   gem "better_errors"
   gem "binding_of_caller"
+  gem "debug_inspector", "< 1.0.0"
   gem "listen"
   gem "vendorer"
 end
@@ -145,18 +137,19 @@ end
 group :test do
   gem "brakeman"
   gem "capybara", ">= 2.15"
-  gem "coveralls", :require => false
   gem "cucumber-rails", :require => false
   gem "database_cleaner"
   gem "erb_lint", :require => false
   gem "factory_bot_rails"
   gem "minitest", "~> 5.1"
-  gem "puma", "~> 4.3"
+  gem "puma", "~> 5.0"
   gem "rails-controller-testing"
   gem "rubocop"
   gem "rubocop-minitest"
   gem "rubocop-performance"
   gem "rubocop-rails"
   gem "selenium-webdriver"
+  gem "simplecov", :require => false
+  gem "simplecov-lcov", :require => false
   gem "webmock"
 end

@@ -10,7 +10,7 @@
 
 <p><%= t ".press confirm button" %></p>
 
-<%= form_tag({}, { :id => "confirm", :class => "standard-form" }) do %>
-  <input type="hidden" name="confirm_string" value="<%= params[:confirm_string] %>">
-  <input type="submit" name="confirm_action" value="<%= t ".button" %>">
+<%= bootstrap_form_tag :html => { :id => "confirm" } do |f| %>
+  <%= f.hidden_field :confirm_string, :value => params[:confirm_string] %>
+  <%= f.primary t(".button") %>
 <% end %>

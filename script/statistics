@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require File.dirname(__FILE__) + "/../config/environment"
+require File.join(File.dirname(__FILE__), "..", "config", "environment")
 
 start_time = Time.now
 
@@ -86,7 +86,7 @@ rescue StandardError => e
   puts "<p><em>Exception: #{e}</em><br />#{e.backtrace.join('<br />')}</p>"
 end
 
-puts "<p>Report took #{(Time.new - start_time)} seconds to run</p>"
+puts "<p>Report took #{Time.new - start_time} seconds to run</p>"
 puts "</body>"
 puts "</html>"
 

@@ -82,8 +82,6 @@ oauth_10_support: true
 nominatim_url: "https://nominatim.openstreetmap.org/"
 # Default editor
 default_editor: "id"
-# OAuth consumer key for Potlatch 2
-#potlatch2_key: ""
 # OAuth consumer key for the web site
 #oauth_key: ""
 # OAuth consumer key for iD
@@ -97,6 +95,9 @@ imagery_blacklist:
   - "http://xdworld\\.vworld\\.kr:8080/.*"
   # Blacklist here
   - ".*\\.here\\.com[/:].*"
+  # Blacklist Kanton SH and GL
+  - ".*wms.geo.sh.ch.*Luftbild_201[06].*"
+  - ".*wms.geo.gl.ch.*ch.gl.imagery.orthofoto201[357].*"
 # URL of Overpass instance to use for feature queries
 overpass_url: "https://overpass-api.de/api/interpreter"
 # Routing endpoints
@@ -126,3 +127,13 @@ csp_enforce: false
 storage_service: "local"
 # Root URL for storage service
 # storage_url:
+# URL for tile CDN
+#tile_cdn_url: ""
+# SMTP settings for outbound mail
+smtp_address: "localhost"
+smtp_port: 25
+smtp_domain: "localhost"
+smtp_enable_starttls_auto: false
+smtp_authentication: null
+smtp_user_name: null
+smtp_password: null

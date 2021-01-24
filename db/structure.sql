@@ -1317,7 +1317,7 @@ ALTER SEQUENCE public.notes_id_seq OWNED BY public.notes.id;
 --
 
 CREATE TABLE public.oauth_nonces (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     nonce character varying,
     "timestamp" integer,
     created_at timestamp without time zone,
@@ -2611,6 +2611,13 @@ CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_b
 
 
 --
+-- Name: index_changeset_comments_on_changeset_id_and_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_changeset_comments_on_changeset_id_and_created_at ON public.changeset_comments USING btree (changeset_id, created_at);
+
+
+--
 -- Name: index_changeset_comments_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3661,6 +3668,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200127033234'),
 ('20200214135750'),
 ('20200727014256'),
+('20201006213836'),
+('20201006220807'),
+('20201214144017'),
 ('21'),
 ('22'),
 ('23'),

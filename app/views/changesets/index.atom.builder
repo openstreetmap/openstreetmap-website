@@ -79,7 +79,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
         lower_corner = "#{bbox.min_lat} #{bbox.min_lon}"
         upper_corner = "#{bbox.max_lat} #{bbox.max_lon}"
 
-        feed.georss :box, lower_corner + " " + upper_corner
+        feed.georss :box, "#{lower_corner} #{upper_corner}"
       end
     end
   end

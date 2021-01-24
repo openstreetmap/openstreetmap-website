@@ -70,6 +70,9 @@ aln:
       way_node: Nyja Way
       way_tag: Rruga Tag
     attributes:
+      client_application:
+        callback_url: Callback URL
+        support_url: Asistenca URL
       diary_comment:
         body: Organ
       diary_entry:
@@ -108,6 +111,9 @@ aln:
     help:
       trace:
         tagstring: Presje e kufizume
+      user_block:
+        needs_view: A i përdoruesit duhet të identifikoheni për para këtij blloku
+          do të fshihet?
   browse:
     changeset:
       title: Ndryshim
@@ -171,12 +177,7 @@ aln:
     new:
       title: Hyrja e re Ditari
     form:
-      subject: 'Titulli:'
-      body: 'Trupi:'
-      language: 'Gjuha:'
       location: 'Lokacioni:'
-      latitude: 'Latitude:'
-      longitude: 'Gjatësi:'
       use_map_link: Harta e përdorimit
     index:
       title: ditarë Përdorues ,
@@ -290,25 +291,19 @@ aln:
           marketplace: Treg
           nightclub: Night Club
           nursing_home: shtëpi pleqsh
-          office: Zyrë
           parking: Parking
           pharmacy: Barnatore
           place_of_worship: Vendi i Adhurimi
           police: Polici
           post_box: Postbox
           post_office: Zyra Postare
-          preschool: Para-shkollor
           prison: Burg
           pub: Pijetore
           public_building: Publike Ndërtimi
           recycling: Pika riciklimit
           restaurant: Restorant
-          retirement_home: Daljes në pension Home
-          sauna: Saunë
           school: Shkoll
           shelter: Strehim
-          shop: Shitore
-          social_club: klub shoqërore
           studio: Studio
           taxi: Taxi
           telephone: Telefon Publik
@@ -320,10 +315,28 @@ aln:
           veterinary: Kirurgji Veterinare
           village_hall: Fshati Hall
           waste_basket: Mbeturinat Shporta
-          youth_centre: Qendër Rinore
         boundary:
           administrative: Administrative kufitare
         building:
+          apartments: Apartament Blloku
+          chapel: Kishëz
+          church: Kishë
+          commercial: Komercial Ndërtimi
+          dormitory: Konvikt
+          farm: Farm Ndërtimi
+          garage: Garazh
+          hospital: Spitali Ndërtimi
+          hotel: Hotel
+          house: Shpi
+          industrial: ndërtesë industriale
+          office: Zyra për ndërtim
+          public: Publike Ndërtimi
+          residential: godinë banimi
+          retail: Shitje me pakicë për ndërtim
+          school: Shkolla Ndërtimi
+          terrace: Tarracë
+          train_station: Stacion hekurudhor
+          university: Universiteti për ndërtim
           "yes": Ndërtesë
         highway:
           bridleway: Rruge pa osfallt
@@ -353,7 +366,6 @@ aln:
           steps: Hapat
           tertiary: Rruge tericiere
           track: Udhë
-          trail: Shteg
           trunk: rrugën kryesore
           trunk_link: rrugën kryesore
           unclassified: Paklasifikuara Road
@@ -365,7 +377,6 @@ aln:
           castle: Kala
           church: Kisha
           house: Shpi
-          icon: Ikonë
           manor: Pronë e madhe
           memorial: Përkujtim
           mine: Imi
@@ -474,7 +485,6 @@ aln:
           subdivision: Nenndamje
           suburb: Periferi
           town: Veni
-          unincorporated_area: Zone e painkorpuruar
           village: Fshati
         railway:
           abandoned: Braktisur hekurudhave
@@ -496,6 +506,7 @@ aln:
           switch: Hekurudhave Pikët
           tram: Tramvajëve
           tram_stop: Tramvaj Stop
+          yard: depo stacioni hekurudhor
         shop:
           alcohol: kiosk
           art: Shitore e kafshëve
@@ -525,12 +536,10 @@ aln:
           estate_agent: agjent immobile
           farm: fermë dyqan
           fashion: Moda Shop
-          fish: Shitore e Peshqve
           florist: Luleshitës
           food: Shitore Ushqimore
           funeral_directors: drejtor funeral
           furniture: Mobilje
-          gallery: Galeri
           garden_centre: Kopshti Qendra
           general: Përgjithshëm Shitore
           gift: Shitore e Dhuratave
@@ -543,7 +552,6 @@ aln:
           kiosk: kiosk
           laundry: Lavanderi
           mall: Shëtitore
-          market: Treg
           mobile_phone: Shop Mobile Phone
           motorcycle: Shitore e Motorrave
           music: dyqan muzikë
@@ -597,11 +605,6 @@ aln:
           wadi: luginë
           waterfall: Ujëvarë
           weir: Pendë
-    description:
-      title:
-        osm_nominatim: Lokacioni prej <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Lokacioni prej <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Qytetet
         towns: Qytetet
@@ -635,7 +638,7 @@ aln:
     make_a_donation:
       title: OpenStreetMap Mbështetje me një donacion monetar
       text: Bëni një donacion
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} ka komentu në shënimin tond të ditarit'
       hi: Tung %{to_user},
@@ -652,46 +655,23 @@ aln:
       had_added_you: '%{user} ju ka shtu juve si një shok në OpenStreetMap.'
       see_their_profile: Ju muni me pa profilin e tyre tek %{userurl}.
       befriend_them: Ju muni gjithashtu me i shtu ata si shokë tek %{befriendurl}.
-    gpx_notification:
-      greeting: Tung,
-      your_gpx_file: Ajo duket si te re dosjen tuaj
-      with_description: me përshkrimin e
-      and_the_tags: 'dhe të mëposhtme tags:'
-      and_no_tags: dhe nuk tags.
-      failure:
-        subject: '[OpenStreetMap] te re dështimit Import'
-        failed_to_import: 'nuk arriti të importit. Këtu është gabim:'
-        more_info_1: Më shumë informacion në lidhje me dështimet e importit te re
-          dhe si për të shmangur
-        more_info_2: 'ato mund të gjenden në:'
-      success:
-        subject: '[OpenStreetMap] Import sukses te re'
-        loaded_successfully: ngarkuar me sukses me %{trace_points} nga një jetë e
-          mundur %{possible_points} piket.
+    gpx_failure:
+      failed_to_import: 'nuk arriti të importit. Këtu është gabim:'
+      subject: '[OpenStreetMap] te re dështimit Import'
+    gpx_success:
+      loaded_successfully: ngarkuar me sukses me %{trace_points} nga një jetë e mundur
+        %{possible_points} piket.
+      subject: '[OpenStreetMap] Import sukses te re'
     signup_confirm:
       subject: '[OpenStreetMap] Konfirmoje email adresën tonde'
     email_confirm:
       subject: '[OpenStreetMap] Konfirmoje email adresën tonde'
-    email_confirm_plain:
       greeting: Tung,
-      click_the_link: Nëse ky je ti, ju lutem trusni lidhjen e mëposhtme për me konfirmu
-        ndryshimin.
-    email_confirm_html:
-      greeting: Tung,
-      hopefully_you: Dikush (shpresojmë se ju), do të doja të ndryshuar adresën e-mail
-        e tyre gjatë në %{server_url} në %{new_address}.
       click_the_link: Nëse ky je ti, ju lutem trusni lidhjen e mëposhtme për me konfirmu
         ndryshimin.
     lost_password:
       subject: '[OpenStreetMap] kërkesës Password reset'
-    lost_password_plain:
       greeting: Tung,
-      click_the_link: Nëse kjo është që ju, ju lutemi klikoni lidhjen më poshtë për
-        të rivendosni fjalëkalimin tuaj.
-    lost_password_html:
-      greeting: Tung,
-      hopefully_you: Dikush (ndoshta ju) ka kërkuar një fjalëkalim për t,u rivendosur
-        në llogarinë openstreetmap.org këtë adresë email-i.
       click_the_link: Nëse kjo është që ju, ju lutemi klikoni lidhjen më poshtë për
         të rivendosni fjalëkalimin tuaj.
   messages:
@@ -854,14 +834,6 @@ aln:
         tuaj.
       user_page_link: faqe përdorues
       anon_edits_link_text: Find out pse kjo është e rastit.
-      flash_player_required_html: Ju duhet me pas Flash player për me përdor Potlatch,
-        Flash editorin e OpenStreetMap. Ju muni <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">me
-        marr Flash Player nga Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Disa
-        mënyra të tjera</a> janë të mundshme për me editu OpenStreetMap.
-      potlatch_unsaved_changes: Ju keni para shpëtimit të ndryshimeve. (Për të ruajtur
-        në Potlatch, ju duhet të asnjërën mënyrë e tanishme ose me pikën e, në qoftë
-        se redaktimi në mënyrë të jetojnë, ose klikoni ruani në qoftë se ju keni një
-        buton të shpëtuar.)
     export:
       area_to_export: Zona për Eksport
       manually_select: Manualisht zgedhe ni zon te ndryshme
@@ -1069,12 +1041,6 @@ aln:
         mënyrë SSL.
       edit: Edit Details
       requests: 'Kërkuar të drejtat e mëposhtme nga përdoruesit:'
-      allow_read_prefs: lexoni preferencat e tyre të përdoruesit.
-      allow_write_prefs: ndryshuar parapëlqimet e tyre të përdoruesit.
-      allow_write_diary: krijojnë të hyra ditar, komentet dhe të bëni miq të rinj.
-      allow_write_api: modifikimin e hartes.
-      allow_read_gpx: lexo privat GPS gjurmë e tyre.
-      allow_write_gpx: GPS upload gjurmë.
     index:
       title: Detajet e mia OAuth
       my_tokens: Aplikimet e mia i Autorizuar
@@ -1089,18 +1055,7 @@ aln:
       registered_apps: 'Ju keni aplikimet e mëposhtme klientit të regjistruar:'
       register_new: Regjistroje aplikacionin tond
     form:
-      name: Emni
-      required: E kërkume
-      url: URL Kryesore Aplikimi
-      callback_url: Callback URL
-      support_url: Asistenca URL
       requests: 'Kërkesë të drejtat e mëposhtme nga përdoruesit:'
-      allow_read_prefs: lexoni preferencat e tyre të përdoruesit.
-      allow_write_prefs: ndryshuar parapëlqimet e tyre të përdoruesit.
-      allow_write_diary: krijojnë të hyra ditar, komentet dhe të bëni miq të rinj.
-      allow_write_api: ndryshoje hartën.
-      allow_read_gpx: lexo privat GPS gjurmë e tyre.
-      allow_write_gpx: GPS upload gjurmë.
     not_found:
       sorry: Na vjen keq, se %{type} nuk mund të gjendet.
     create:
@@ -1138,8 +1093,6 @@ aln:
     reset_password:
       title: Ricakto fjalëkalimin
       heading: Ricakto fjalëkalimin për %{user}
-      password: 'Fjalëkalimi:'
-      confirm password: 'Konfirmo Fjalëkalimin:'
       reset: Ricakto Fjalëkalimin
       flash changed: Fjalëkalimi juaj u ndryshua.
       flash token bad: Sun e gjetëm qat token, kontrolloje URL?
@@ -1149,8 +1102,6 @@ aln:
       contact_webmaster_html: Ju lutna kontaktoni <a href="%{webmaster}">webmaster</a>
         per më caktu ni akount që të ju krijohet - na do të merremi me kërkesën sa
         ma shpejt që tjet e mundshme.
-      license_agreement: Kur e konfirmoni llogarinë tuaj ju duhet ti pranoni <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">kushtet
-        e kontributit</a>.
       email address: 'Email Adresa:'
       confirm email address: 'Konfirmo Adresën e Emailit:'
       not_displayed_publicly_html: Nuk u shfaq publikisht (kshyre <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
@@ -1346,30 +1297,18 @@ aln:
     new:
       title: Krijimi i bllokuar në %{name}
       heading_html: Krijimi i bllokuar në %{name}
-      reason: Arsyja pse %{name} osht blloku. Ju lutem bëhuni sa më i qet dhe arsyeshëm
-        që osht e mundshme, tu dhon sa ma shumë detaje që muni rreth situatës, tu
-        e mbajt në men që mesazhi munet me u pa prej publikut. Maje në men se jo krejt
-        anëtarët e kuptojn gjuhën e komunitetit, pra ju lutem munoni me përdor terma
-        të mirë.
       period: Sa kohë, duke filluar nga tani, përdoruesi do të bllokohet nga API për.
       tried_contacting: Unë kam kontaktuar me përdorues dhe u kërkoi atyre për të
         ndaluar.
       tried_waiting: Unë kam dhënë një sasi të arsyeshme kohore për përdoruesit për
         t,iu përgjigjur atyre të komunikimit.
-      needs_view: Përdoruesi duhet të hyni në para këtij blloku do të pastrohen
       back: Shiko të gjitha blloqet e
     edit:
       title: Editimi bllokuar në %{name}
       heading_html: Editimi bllokuar në %{name}
-      reason: Arsyeja pse %{name} është bllokuar. Ju lutemi të jetë si të qetë dhe
-        të arsyeshme të jetë e mundur, duke i dhënë sa më shumë hollësi si ju mund
-        të lidhur me situatën. Të ketë parasysh se jo të gjithë përdoruesit e kuptojnë
-        zhargon komunitetit, kështu që ju lutemi provoni të përdorni laymans kushtet.
       period: Sa kohë, duke filluar nga tani, përdoruesi do të bllokohet nga API për.
       show: Shiko këtë bllok
       back: Shiko të gjitha blloqet e
-      needs_view: A i përdoruesit duhet të identifikoheni për para këtij blloku do
-        të fshihet?
     filter:
       block_expired: Blloku ka skaduar dhe nuk mund të redaktohen.
       block_period: Periudha e bllokuar duhet të jetë një nga vlerat selectable në
@@ -1396,9 +1335,9 @@ aln:
       revoke: Tërheq!
       flash: Ky bllok është revokuar.
     helper:
-      time_future: Përfundon në %{time}.
+      time_future_html: Përfundon në %{time}.
       until_login: Aktiv deri kur përdoruesi shkrimet in
-      time_past: Përfundoi %{time} më parë.
+      time_past_html: Përfundoi %{time} më parë.
       block_duration:
         hours:
           one: 1 orë

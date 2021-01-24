@@ -1,5 +1,3 @@
-require "migrate"
-
 class AddMapBugTables < ActiveRecord::Migration[4.2]
   def self.up
     create_enumeration :map_bug_status_enum, %w[open closed hidden]

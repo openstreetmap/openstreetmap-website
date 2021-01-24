@@ -84,8 +84,8 @@ module BrowseTagsHelper
       # Contains a reference to a section of the wikipedia article
       # Must break it up to correctly build the url
       value = Regexp.last_match(1)
-      section = "#" + Regexp.last_match(2)
-      encoded_section = "#" + CGI.escape(Regexp.last_match(2).gsub(/ +/, "_")).tr("%", ".")
+      section = "##{Regexp.last_match(2)}"
+      encoded_section = "##{CGI.escape(Regexp.last_match(2).gsub(/ +/, '_')).tr('%', '.')}"
     else
       section = ""
       encoded_section = ""

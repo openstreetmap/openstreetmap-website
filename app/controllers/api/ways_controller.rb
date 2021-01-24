@@ -16,7 +16,7 @@ module Api
     def create
       assert_method :put
 
-      way = Way.from_xml(request.raw_post, true)
+      way = Way.from_xml(request.raw_post, :create => true)
 
       # Assume that Way.from_xml has thrown an exception if there is an error parsing the xml
       way.create_with_history current_user

@@ -5,6 +5,7 @@
 # Author: Alem
 # Author: Amsideg
 # Author: Belkacem77
+# Author: Bilalbill
 # Author: K Messaoudi
 # Author: Marzuquccen
 # Author: Mastanabal
@@ -18,6 +19,8 @@ kab:
     formats:
       friendly: '%e %B %Y ɣef %H:%M'
   helpers:
+    file:
+      prompt: Fren afaylu
     submit:
       diary_comment:
         create: Sekles
@@ -30,7 +33,10 @@ kab:
         create: Azen
       client_application:
         create: Sekles
-        update: Ẓreg
+        update: Setrer
+      redaction:
+        create: Snulfu tirra
+        update: Kles tirra
       trace:
         create: Sali
         update: Sekles ibeddilen
@@ -38,6 +44,9 @@ kab:
         create: Rnu iḥder
         update: Beddel iḥder
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: Ur yettbin ara d tansa n imayl taɣbalt
     models:
       acl: Tabdart n usenqed n unekcum
       changeset: Agraw n ibeddilen
@@ -75,6 +84,12 @@ kab:
       way_node: Tikerrist n ubrid
       way_tag: Imyerr n ubrid
     attributes:
+      client_application:
+        name: Isem (D usfik)
+        url: URL n usnas agejdan (D usfik)
+        callback_url: Tansa URL n usmekti
+        support_url: Tansa URL n tallelt
+        allow_write_api: Ẓreg tagertilt
       diary_comment:
         body: Tafekka
       diary_entry:
@@ -108,20 +123,18 @@ kab:
         description: Aglam
         languages: Tutlayin
         pass_crypt: Awal uffir
+        pass_crypt_confirmation: Sentem awal uffir
+    help:
+      trace:
+        tagstring: Ticcert yettulessesen
   datetime:
     distance_in_words_ago:
       half_a_minute: Azgen n tsedast aya
   editor:
     default: Amezwer (tura %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (amaẓrag ineṭḍen deg iminig)
     id:
       name: iD
       description: iD (yeddan deg iminig)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (amaẓrag ineṭḍen deg iminig)
     remote:
       name: Amaẓrag azɣaray
       description: Amaẓrag azɣaray (JOSM neɣ Merkaartor)
@@ -187,9 +200,9 @@ kab:
       relation: Assaɣen (%{count})
       relation_paginated: Assaɣen (%{x}-%{y} si %{count})
       comment: Iwenniten (%{count})
-      hidden_commented_by: Awennit yeffren n  %{user} <abbr title='%{exact_time}'>%{when}
+      hidden_commented_by_html: Awennit yeffren n  %{user} <abbr title='%{exact_time}'>%{when}
         aya</abbr>
-      commented_by: Awennit n %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
+      commented_by_html: Awennit n %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
       changesetxml: XML n ugraw n ibeddilen
       osmchangexml: XML osmChange
       feed:
@@ -269,19 +282,20 @@ kab:
       open_title: 'Tazmilt ur yefrin ara  #%{note_name}'
       closed_title: 'Tazmilt ur yefrin ara #%{note_name}'
       hidden_title: 'Tazmilt yeffren #%{note_name}'
-      opened_by: Yerna-t %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
-      opened_by_anonymous: Yernat useqdac udrig <abbr title='%{exact_time}'>%{when}
+      opened_by_html: Yerna-t %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
+      opened_by_anonymous_html: Yernat useqdac udrig <abbr title='%{exact_time}'>%{when}
         aya</abbr>
-      commented_by: Awennit sɣur %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
-      commented_by_anonymous: Awennit n useqdac udrig <abbr title='%{exact_time}'>%{when}
+      commented_by_html: Awennit sɣur %{user} <abbr title='%{exact_time}'>%{when}
         aya</abbr>
-      closed_by: Yefra-t %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
-      closed_by_anonymous: YEfra-t useqdac udrig <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous_html: Awennit n useqdac udrig <abbr title='%{exact_time}'>%{when}
         aya</abbr>
-      reopened_by: Irmed-it %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
-      reopened_by_anonymous: Irmed-it useqdac udrig <abbr title='%{exact_time}'>%{when}
+      closed_by_html: Yefra-t %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
+      closed_by_anonymous_html: YEfra-t useqdac udrig <abbr title='%{exact_time}'>%{when}
         aya</abbr>
-      hidden_by: Yeffer-it %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
+      reopened_by_html: Irmed-it %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
+      reopened_by_anonymous_html: Irmed-it useqdac udrig <abbr title='%{exact_time}'>%{when}
+        aya</abbr>
+      hidden_by_html: Yeffer-it %{user} <abbr title='%{exact_time}'>%{when} aya</abbr>
       report: Sillef tazmilt agi
     query:
       title: Tuttriwin ɣef tɣawsiwin
@@ -334,12 +348,7 @@ kab:
     new:
       title: Anekcam amaynut n uɣmis
     form:
-      subject: 'Asentel:'
-      body: 'Tafekka:'
-      language: 'Tutlayt:'
       location: 'Adig:'
-      latitude: 'Tarrut:'
-      longitude: 'Tazegrart:'
       use_map_link: seqdec takarḍa
     index:
       title: Iɣmisen n useqdac
@@ -504,7 +513,6 @@ kab:
           motorcycle_parking: Aneɣsar n imuṭuten
           nightclub: Tazeqqa n yiḍ
           nursing_home: Axxam n tastaɣt s udawi
-          office: Tanarit
           parking: Aneɣsar
           parking_entrance: Tabburt n uneɣsar
           parking_space: Amḍiq n aniɣsur
@@ -513,20 +521,15 @@ kab:
           police: Tamsulta
           post_box: Tanaka n tebṛatin
           post_office: Tanarit n lpusṭa
-          preschool: Aɣerbaz uzwir
           prison: Lḥebs
           pub: Ttberna
           public_building: Azadaɣ azayez
           recycling: Point de wallus n usseqdec
           restaurant: Asečču
-          retirement_home: Axxam n testaɣt
-          sauna: Sauna
           school: Aɣerbaz
           shelter: Aglat
-          shop: Taḥanut
           shower: Tasnuceft
           social_centre: Almus amettan
-          social_club: Aqusis amettan
           social_facility: Ameẓlu amettan
           studio: Astudyu
           swimming_pool: Tanerdabt
@@ -542,7 +545,6 @@ kab:
           waste_basket: Iḍumman
           waste_disposal: Affas n yiḍuman
           water_point: Adig n waman
-          youth_centre: Axxam n yilemẓiyen
         boundary:
           administrative: Talast tanedbalant
           census: Talast taddadant
@@ -615,7 +617,6 @@ kab:
           city_gate: Tabburt n temdint
           citywalls: Iɣraben n temdint
           house: Axxam
-          icon: Tignit
           stone: Ablaḍ
           tomb: Tanḍelt
           "yes": Asmel amazray
@@ -690,7 +691,6 @@ kab:
           cosmetics: Taḥanut n rwayeḥ
           department_store: Taḥanut tameqqrant
           farm: Tahanutt n tkeryas n tfellaḥt
-          fish: Taḥanut n iselman
           florist: Taḥanut n ijeǧǧigen
           food: Taḥanut n wuččan
           gift: Taḥanut n isefan
@@ -700,11 +700,9 @@ kab:
           interior_decoration: Azewweq n daxel
           jewelry: Taḥanut n sdaq
           lottery: Loto
-          market: Suq
           mobile_phone: Taḥanut n tilifunat ufus
           newsagent: Ameznuz n iǧarnanen
           optician: Taḥanut n nwaḍer
-          pharmacy: Taḥanut n ddwa
           shoes: Taḥanut n isebbaḍen
           sports: Taḥanut n tɣawsiwin n waddal
           supermarket: Ssuq ameqqran
@@ -736,11 +734,6 @@ kab:
         level8: Talast n temdint
         level9: Talast n taddart
         level10: Talast n ugmama
-    description:
-      title:
-        osm_nominatim: Asideg si <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Adig si <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Timdinin
         towns: Tuddar
@@ -794,7 +787,7 @@ kab:
       text: Mudd tawsa
     learn_more: Issin ugar
     more: Ugar
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} yuzen-d awennit ar umagrad n uɣmis'
       hi: Azzul %{to_user},
@@ -811,39 +804,24 @@ kab:
       had_added_you: '%{user} yerna-k d amdakkel di OpenStreetMap.'
       see_their_profile: 'Tzemred ad twaliḍ amaɣnu-is dagi : %{userurl}.'
       befriend_them: 'Tzemred daɣed ad tt-rnuḍ-t d amdakkel dagi : %{befriendurl}.'
-    gpx_notification:
-      greeting: Azul,
-      your_gpx_file: Ittemcabi ar ufayli-ik GPX
-      with_description: s uglam
-      and_the_tags: 'akked wawalen-agi n tsura:'
-      and_no_tags: s war awalen n tsura
-      failure:
-        subject: '[OpenStreetMap] Akter GPX ur yeddi ara'
-        failed_to_import: 'ur d-yettwakter ara. Hatta tuccḍa:'
-        more_info_1: Ugar n telɣut ɣef tuccḍiwin n ukter GPX akked wamek ur ḍerrunt
-          ara
-        more_info_2: 'zemren ad ttwafen di:'
-      success:
-        subject: '[OpenStreetMap] Akter GPX yedda'
-        loaded_successfully: yuli-d akken iwata s %{trace_points} n %{possible_points}
-          n tneqqiḍin izemren ad ilint.
+    gpx_failure:
+      failed_to_import: 'ur d-yettwakter ara. Hatta tuccḍa:'
+      subject: '[OpenStreetMap] Akter GPX ur yeddi ara'
+    gpx_success:
+      loaded_successfully: yuli-d akken iwata s %{trace_points} n %{possible_points}
+        n tneqqiḍin izemren ad ilint.
+      subject: '[OpenStreetMap] Akter GPX yedda'
     signup_confirm:
       subject: '[OpenStreetMap] Anṣuf ar OpenStreetMap'
       greeting: Azul din!
       created: Yella win (nessaram d kečč) yernan amiḍan ɣef %{site_url}.
     email_confirm:
       subject: '[OpenStreetMap] Sentem tansa-ik imayl'
-    email_confirm_plain:
-      greeting: Azul,
-    email_confirm_html:
       greeting: Azul,
     lost_password:
       subject: '[OpenStreetMap] Asuter n tulsa n uwennez n wawal uffir'
-    lost_password_plain:
       greeting: Azul,
       click_the_link: Ma d kečč, sit ɣef useɣwen akken ad talseḍ awennez n wawal uffir.
-    lost_password_html:
-      greeting: Azul,
     note_comment_notification:
       anonymous: Aseqdac udrig
       greeting: Azul,
@@ -1212,13 +1190,6 @@ kab:
       delete: Kkes amsaɣ
       confirm: Tebɣiḍ?
       requests: 'Asuter n tsirag-agi i useqdac:'
-      allow_read_prefs: ɣeṛ ismenyifen n useqdac.
-      allow_write_prefs: snifel ismenyifen n useqdac.
-      allow_write_diary: rnu inekcam deg uɣmis, iwenniten akked imdukkal.
-      allow_write_api: snifel takarḍa.
-      allow_read_gpx: ɣeṛ lǧerrat GPS usligen.
-      allow_write_gpx: azen lǧerrat GPS.
-      allow_write_notes: snifel tizmilin.
     index:
       title: Talqayt-iw OAuth
       my_tokens: Isnasen-iw yettwaskelsen
@@ -1227,18 +1198,6 @@ kab:
       revoke: Ḥwi!
       my_apps: Isnasen-iw imsaɣen
       register_new: Sekles asnas-il
-    form:
-      name: Isem
-      required: Ilaq
-      url: Tansa URL tagejdant n usnas
-      callback_url: Tansa URL n usmekti
-      support_url: Tansa URL n tallelt
-      allow_read_prefs: ɣeṛ ismenyifen n useqdac.
-      allow_write_prefs: snifel ismenyifen n useqdac.
-      allow_write_api: snifel takarḍa
-      allow_read_gpx: ɣeṛ lǧerrat GPS usligen.
-      allow_write_gpx: azen lǧerrat GPS.
-      allow_write_notes: snifel tizmilin.
   users:
     login:
       title: Qqen
@@ -1293,8 +1252,6 @@ kab:
     reset_password:
       title: Ales awennez n wawal uffir
       heading: Ales awennez n wawal uffir i %{user}
-      password: 'Awal uffir:'
-      confirm password: Sentem awal uffir
       reset: Ales awennez n wawal uffir
       flash changed: Awal-ik uffir ibeddel.
       flash token bad: Ajiṭun-agi ulac-it, ahat tuccḍa di tansa URL?
@@ -1455,9 +1412,9 @@ kab:
       confirm: Sentem
   user_blocks:
     helper:
-      time_future: Ad ifak di %{time}.
+      time_future_html: Ad ifak di %{time}.
       until_login: D urmid arama yeqqen useqdac
-      time_past: Ifuk %{time} aya.
+      time_past_html: Ifuk %{time} aya.
     blocks_on:
       title: Asewḥel n %{name}
       empty: '%{name} ur yewḥil ara yakan.'

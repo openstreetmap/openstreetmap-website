@@ -1,5 +1,3 @@
-require "migrate"
-
 class AddMoreChangesetIndexes < ActiveRecord::Migration[4.2]
   def self.up
     add_index "changesets", ["created_at"], :name => "changesets_created_at_idx"

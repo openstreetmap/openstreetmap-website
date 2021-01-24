@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Abijeet Patro
 # Author: Aftabuzzaman
+# Author: Al Riaz Uddin Ripon
 # Author: Bellayet
 # Author: Bodhisattwa
 # Author: Ehsanulhb
@@ -15,7 +16,9 @@
 # Author: Rasal Lia
 # Author: Sayma Jahan
 # Author: Tauhid16
+# Author: Titodutta
 # Author: Wikisagnik
+# Author: YahyA
 # Author: আজিজ
 # Author: আফতাবুজ্জামান
 # Author: এম আবু সাঈদ
@@ -25,6 +28,8 @@ bn:
     formats:
       friendly: '%e %B %Y %H:%M-এ'
   helpers:
+    file:
+      prompt: ফাইল পছন্দ করুন
     submit:
       diary_comment:
         create: সংরক্ষণ
@@ -37,14 +42,21 @@ bn:
         create: পাঠান
       client_application:
         create: নিবন্ধন
-        update: সম্পাদনা
+        update: হালনাগাদ
       redaction:
         create: সম্পাদন তৈরি করুন
         update: সম্পাদন সংরক্ষণ করুন
       trace:
         create: আপলোড
         update: পরিবর্তন সংরক্ষণ
+      user_block:
+        create: বাধা তৈরি করুন
+        update: বাধা হালনাগাদ করুন
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: কোনও বৈধ ইমেল ঠিকানা বলে মনে হচ্ছে না
+        email_address_not_routable: রাউটের যোগ্য নয়
     models:
       acl: প্রবেশাধিকার নিয়ন্ত্রণ তালিকা
       changeset: পরিবর্তনসমূহ
@@ -82,6 +94,15 @@ bn:
       way_node: রাস্তার নোড
       way_tag: রাস্তার ট্যাগ
     attributes:
+      client_application:
+        name: নাম (আবশ্যিক)
+        url: মূল অ্যাপ্লিকেশন ইউআরএল (প্রয়োজন)
+        callback_url: কলব্যাক ইউআরএল
+        support_url: সহায়তা ইউআরএল
+        allow_read_prefs: ব্যবহারকারীর পছন্দগুলি পড়ে
+        allow_write_prefs: তাদের ব্যবহারকারী পছন্দসমূহ যাচাই করুন
+        allow_write_diary: ডায়েরি ভুক্তি তৈরি, মন্তব্য এবং বন্ধু বানান
+        allow_write_api: মানচিত্রটি সম্পাদন করুন
       diary_comment:
         body: মূলাংশ
       diary_entry:
@@ -96,20 +117,22 @@ bn:
       trace:
         user: ব্যবহারকারী
         visible: দৃশ্যমান
-        name: নাম
+        name: ফাইলের নাম
         size: আকার
         latitude: অক্ষাংশ
         longitude: দ্রাঘিমাংশ
         public: সার্বজনীন
         description: বিবরণ
-        gpx_file: 'জিপিএক্স ফাইল আপলোড:'
-        visibility: 'দৃষ্টিযোগ্যতা:'
-        tagstring: 'ট্যাগসমূহ:'
+        gpx_file: জিপিএক্স ফাইল আপলোড করুন
+        visibility: দৃষ্টিযোগ্যতা
+        tagstring: ট্যাগসমূহ
       message:
         sender: প্রেরক
         title: শিরোনাম
         body: বার্তার অংশ
         recipient: প্রাপক
+      report:
+        category: আপনার রিপোর্টের জন্য একটি কারণ নির্বাচন করুন
       user:
         email: ইমেইল
         active: সক্রিয়
@@ -117,6 +140,7 @@ bn:
         description: বিবরণ
         languages: ভাষা
         pass_crypt: পাসওয়ার্ড
+        pass_crypt_confirmation: পাসওয়ার্ড নিশ্চিত করুন
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -158,20 +182,16 @@ bn:
         other: '%{count} বছর আগে'
   editor:
     default: পূর্বনির্ধারিত (বর্তমানে %{name})
-    potlatch:
-      name: পটল্যাচ ১
-      description: পটল্যাচ ১ (ব্রাউজার থেকে সম্পাদনা)
     id:
       name: আইডি
       description: আইডি (ব্রাউজার থেকে সম্পাদনা)
-    potlatch2:
-      name: পটল্যাচ ২
-      description: পটল্যাচ ২ (ব্রাউজার থেকে সম্পাদনা)
     remote:
       name: রিমোট কন্ট্রোল
       description: রিমোট কন্ট্রোল (JOSM অথবা Merkaartor)
   auth:
     providers:
+      none: কিছু নয়
+      openid: ওপেনআইডি
       google: গুগল
       facebook: ফেসবুক
       windowslive: উইন্ডোজ লাইভ
@@ -187,7 +207,7 @@ bn:
         closed_at_html: '%{when} মীমাংসিত'
         closed_at_by_html: '%{user} কর্তৃক %{when} মীমাংসিত'
       rss:
-        title: ওপেনস্ট্রীটম্যাপ টীকা
+        title: ওপেনস্ট্রিটম্যাপ টীকা
       entry:
         comment: মন্তব্য
   browse:
@@ -204,10 +224,15 @@ bn:
     anonymous: নামহীন
     no_comment: (কোন মন্তব্য নেই)
     part_of: অংশ
+    part_of_relations:
+      one: ১টি সম্পর্ক
+      other: '%{count}টি সম্পর্ক'
     download_xml: XML ডাউনলোড করুন
     view_history: ইতিহাস দেখুন
     view_details: বিস্তারিত দেখুন
     location: 'অবস্থান:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'পরিবর্তনধার্য: %{id}'
       belongs_to: লেখক
@@ -218,10 +243,10 @@ bn:
       relation: সম্পর্ক (%{count}টি)
       relation_paginated: সম্পর্ক (%{count}টির %{x}-%{y})
       comment: মন্তব্য (%{count}টি)
-      hidden_commented_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr>
+      hidden_commented_by_html: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr>
         করা লুকানো মন্তব্য'
-      commented_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> করা
-        মন্তব্য'
+      commented_by_html: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr>
+        করা মন্তব্য'
       changesetxml: পরিবর্তনধার্য এক্সএমএল
       osmchangexml: osmChange এক্সএমএল
       feed:
@@ -294,20 +319,25 @@ bn:
       open_title: 'অমীমাংসিত টীকা #%{note_name}'
       closed_title: 'মীমাংসিত টীকা #%{note_name}'
       hidden_title: 'লুকানো টীকা #%{note_name}'
-      opened_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> তৈরিকৃত'
-      opened_by_anonymous: বেনামী ব্যবহারকারী কর্তৃক <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr>
+        তৈরিকৃত'
+      opened_by_anonymous_html: বেনামী ব্যবহারকারী কর্তৃক <abbr title='%{exact_time}'>%{when}</abbr>
         তৈরিকৃত
-      commented_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> করা
-        মন্তব্য'
-      commented_by_anonymous: বেনামী ব্যবহারকারী কর্তৃক <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr>
+        করা মন্তব্য'
+      commented_by_anonymous_html: বেনামী ব্যবহারকারী কর্তৃক <abbr title='%{exact_time}'>%{when}</abbr>
         করা মন্তব্য
-      closed_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> মীমাংসিত'
-      closed_by_anonymous: বেনামি ব্যবহারকারী দ্বারা <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr>
+        মীমাংসিত'
+      closed_by_anonymous_html: বেনামি ব্যবহারকারী দ্বারা <abbr title='%{exact_time}'>%{when}</abbr>
         মীমাংসিত
-      reopened_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> পুনঃসক্রিয়কৃত'
-      reopened_by_anonymous: বেনামি ব্যবহারকারী দ্বারা <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr>
+        পুনঃসক্রিয়কৃত'
+      reopened_by_anonymous_html: বেনামি ব্যবহারকারী দ্বারা <abbr title='%{exact_time}'>%{when}</abbr>
         পুনঃসক্রিয়কৃত
-      hidden_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> লুক্কায়িত'
+      hidden_by_html: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr>
+        লুক্কায়িত'
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: বৈশিষ্ট্য অনুসন্ধান করুন
       introduction: নিকটবর্তী বৈশিষ্ট্য খুঁজে পেতে মানচিত্রে ক্লিক করুন।
@@ -350,18 +380,13 @@ bn:
     comments:
       comment: '%{author} কর্তৃক পরিবর্তনধার্য #%{changeset_id} এ নতুন মন্তব্য'
     index:
-      title_all: ওপেনস্ট্রীটম্যাপ পরিবর্তনধার্যের আলোচনা
-      title_particular: 'ওপেনস্ট্রীটম্যাপ পরিবর্তনধার্য #%{changeset_id} আলোচনা'
+      title_all: ওপেনস্ট্রিটম্যাপ পরিবর্তনধার্যের আলোচনা
+      title_particular: 'ওপেনস্ট্রিটম্যাপ পরিবর্তনধার্য #%{changeset_id} আলোচনা'
   diary_entries:
     new:
       title: নতুন দিনলিপির ভুক্তি
     form:
-      subject: 'বিষয়:'
-      body: 'মূলাংশ:'
-      language: 'ভাষা:'
-      location: 'অবস্থান:'
-      latitude: 'অক্ষাংশ:'
-      longitude: 'দ্রাঘিমাংশ:'
+      location: অবস্থান
       use_map_link: মানচিত্র ব্যবহার করুন
     index:
       title: ব্যবহারকারীর দিনলিপি
@@ -411,17 +436,18 @@ bn:
       location: 'অবস্থান:'
       view: দেখুন
       edit: সম্পাদনা
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
-        title: ওপেনস্ট্রীটম্যাপে %{user}-এর দিনলিপির ভুক্তি
-        description: ওপেনস্ট্রীটম্যাপে %{user}-এর সাম্প্রতিক দিনলিপির ভুক্তি
+        title: ওপেনস্ট্রিটম্যাপে %{user}-এর দিনলিপির ভুক্তি
+        description: ওপেনস্ট্রিটম্যাপে %{user}-এর সাম্প্রতিক দিনলিপির ভুক্তি
       language:
-        title: ওপেনস্ট্রীটম্যাপে %{language_name} ভাষায় দিনলিপির ভুক্তি
-        description: ওপেনস্ট্রীটম্যাপ ব্যবহারকারীগণ কর্তৃক %{language_name} ভাষায়
+        title: ওপেনস্ট্রিটম্যাপে %{language_name} ভাষায় দিনলিপির ভুক্তি
+        description: ওপেনস্ট্রিটম্যাপ ব্যবহারকারীগণ কর্তৃক %{language_name} ভাষায়
           সাম্প্রতিক দিনলিপির ভুক্তি
       all:
-        title: ওপেনস্ট্রীটম্যাপ দিনলিপির ভুক্তি
-        description: ওপেনস্ট্রীটম্যাপ ব্যবহারকারীগণ কর্তৃক সাম্প্রতিক দিনলিপির ভুক্তি
+        title: ওপেনস্ট্রিটম্যাপ দিনলিপির ভুক্তি
+        description: ওপেনস্ট্রিটম্যাপ ব্যবহারকারীগণ কর্তৃক সাম্প্রতিক দিনলিপির ভুক্তি
     comments:
       has_commented_on: '%{display_name} নিম্নলিখিত দিনলিপির ভুক্তিতে মন্তব্য করেছেন'
       post: পোস্ট
@@ -444,10 +470,10 @@ bn:
       title:
         latlon_html: <a href="https://openstreetmap.org/">অভ্যন্তরীণ</a> থেকে ফলাফলগুলি
         ca_postcode_html: <a href="https://geocoder.ca/">Geocoder.CA</a> থেকে ফলাফলগুলি
-        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">ওপেনস্ট্রীটম্যাপ
+        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">ওপেনস্ট্রিটম্যাপ
           নমিনাতিম</a> থেকে ফলাফলগুলি
         geonames_html: <a href="http://www.geonames.org/">জিওনেমস</a> থেকে ফলাফল
-        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">ওপেনস্ট্রীটম্যাপ
+        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">ওপেনস্ট্রিটম্যাপ
           Nominatim</a> থেকে ফলাফল
         geonames_reverse_html: <a href="http://www.geonames.org/">জিওনেমস</a> থেকে
           ফলাফল
@@ -477,6 +503,7 @@ bn:
           bicycle_parking: সাইকেল পার্কিং
           bicycle_rental: ভাড়ার সাইকেল
           biergarten: বিয়ার বাগ
+          blood_bank: ব্লাড ব্যাংক
           boat_rental: ভাড়ার নৌকা
           brothel: পতিতালয়
           bureau_de_change: পরিবর্তন ব্যুরো
@@ -493,6 +520,7 @@ bn:
           clock: ঘড়ি
           college: কলেজ
           community_centre: কমিউনিটি সেন্টার
+          conference_centre: সম্মেলন কেন্দ্র
           courthouse: আদালত
           crematorium: শ্মশান
           dentist: দন্তচিকিৎসক
@@ -511,14 +539,17 @@ bn:
           hospital: হাসপাতাল
           hunting_stand: শিকারশালা
           ice_cream: আইসক্রিম
+          internet_cafe: ইন্টারনেট ক্যাফে
           kindergarten: শিশুবিদ্যালয়
+          language_school: ভাষা শিখন বিদ্যালয়
           library: পাঠাগার
+          love_hotel: লাভ হোটেল
           marketplace: নগরচত্বর
           monastery: আশ্রম
           motorcycle_parking: মোটরসাইকেল  পার্কিং
+          music_school: সঙ্গীত বিদ্যালয়
           nightclub: নৈশক্লাব
           nursing_home: নার্সিংহোম
-          office: দপ্তর
           parking: পার্কিং
           parking_entrance: পার্কিং প্রবেশপথ
           parking_space: গাড়ি রাখার স্থান
@@ -527,19 +558,14 @@ bn:
           police: পুলিশ
           post_box: ডাকবাক্স
           post_office: ডাকঘর
-          preschool: প্রাক-বিদ্যালয়
           prison: কারাগার
           pub: মদ্যশালা
           public_building: সরকারি ভবন
           restaurant: রেঁস্তোরা
-          retirement_home: অবসর গৃহ
-          sauna: বাষ্পস্নান
           school: বিদ্যালয়
           shelter: আশ্রয়
-          shop: দোকান
           shower: ঝরনা
           social_centre: সামাজিক কেন্দ্র
-          social_club: সামাজিক সমিতি
           social_facility: সামাজিক সুবিধা
           studio: স্টুডিও
           swimming_pool: সুইমিং পুল
@@ -554,7 +580,6 @@ bn:
           village_hall: গ্রামগৃহ
           waste_basket: বর্জ্যদানি
           waste_disposal: বর্জ্য পুনর্বাসন
-          youth_centre: যুব কেন্দ্র
         boundary:
           administrative: প্রশাসনিক সীমানা
           census: আদমশুমারি এলাকা
@@ -567,19 +592,35 @@ bn:
           viaduct: ভায়াডাক্ট
           "yes": সেতু
         building:
+          apartment: অ্যাপার্টমেন্ট
+          commercial: বাণিজ্যিক ভবন
+          roof: ছাদ
+          school: বিদ্যালয় ভবন
+          stable: স্থিতিশীল
+          static_caravan: কাফেলা
+          temple: মন্দির ভবন
+          university: বিশ্ববিদ্যালয় ভবন
           "yes": ভবন
+        club:
+          "yes": ক্লাব
         craft:
           brewery: ভাটিখানা
           carpenter: ছুতোর
+          confectionery: মিষ্টির দোকান
+          dressmaker: দর্জি
           electrician: বিদ্যুৎ মিস্তিরি
+          electronics_repair: বৈদ্যুতিক যন্ত্রপাতি মেরামত
           gardener: মালি
+          handicraft: হস্তশিল্প
           painter: চিত্রশিল্পী
           photographer: আলোকচিত্ৰকর
           plumber: নল মিস্তিরি
+          sawmill: করাত কল
           shoemaker: মুচি
           tailor: দর্জি
           "yes": কারুকাজ দোকান
         emergency:
+          access_point: প্রবেশ বিন্দু
           ambulance_station: রুগ্নবাহিকা স্টেশন
           defibrillator: ডিফাইব্রিলেটর
           landing_site: জরুরি অবতরণ ক্ষেত্র
@@ -619,7 +660,6 @@ bn:
           tertiary_link: প্রশাখা সড়ক
           track: নির্ধারিত পথ
           traffic_signals: ট্রাফিক সংকেত
-          trail: চলাচলের নিশানা
           trunk: মূল সড়ক
           trunk_link: মূল সড়ক
           unclassified: অশ্রেণীকৃত সড়ক
@@ -630,6 +670,7 @@ bn:
           boundary_stone: সীমানাজ্ঞাপক পাথর
           building: ঐতিহাসিক ভবন
           bunker: আপদকালীন ভূগর্ভস্থ আশ্রয়স্থল
+          cannon: ঐতিহাসিক কামান
           castle: কেল্লা
           church: গির্জা
           city_gate: নগর দ্বার
@@ -637,7 +678,6 @@ bn:
           fort: দুর্গ
           heritage: ঐতিহ্য স্থান
           house: বাড়ি
-          icon: আইকন
           manor: জমিদারি
           memorial: স্মারক
           mine: খনি
@@ -671,10 +711,11 @@ bn:
           quarry: আকরিক
           railway: রেলপথ
           recreation_ground: চিত্তবিনোদন মাঠ
+          religious: ধর্মীয় ভূমি
           reservoir: জলাধার
           reservoir_watershed: জলাধারের বিভাগরেখা
           residential: আবাসিক এলাকা
-          road: সড়ক এলাকা
+          retail: খুচরা
           village_green: হরিত গ্রাম
           vineyard: আঙুর খেত
           "yes": ব্যবহার্য ভূমি
@@ -704,6 +745,8 @@ bn:
           "yes": অবসর
         man_made:
           adit: খনি সুড়ঙ্গ
+          advertising: বিজ্ঞাপন
+          antenna: অ্যান্টেনা
           beehive: মৌমাছির কৃত্রিম বাসা
           breakwater: বেড়িবাঁধ
           bridge: সেতু
@@ -719,8 +762,11 @@ bn:
           petroleum_well: তেলের খনি
           pipeline: পাইপলাইন
           silo: সিলো
+          snow_cannon: তুষার কামান
           surveillance: নজরদারী ক্যামেরা
+          telescope: দূরবীক্ষণ যন্ত্র
           tower: টাওয়ার
+          water_tap: পানির কল
           water_tower: পানির ট্যাংক
           water_well: পানির কূপ
           works: কারখানা
@@ -797,6 +843,7 @@ bn:
           locality: বসতি
           municipality: পৌরসভা
           neighbourhood: শহরতলি
+          plot: কাহিনী
           postcode: ডাক সংখ্যা
           region: অঞ্চল
           sea: সাগর
@@ -805,7 +852,6 @@ bn:
           subdivision: মহকুমা
           suburb: উপনগর
           town: শহর
-          unincorporated_area: অনিগমিত এলাকা
           village: গ্রাম
           "yes": স্থান
         railway:
@@ -840,6 +886,7 @@ bn:
           car_repair: গাড়ি মেরামত
           carpet: কার্পেটের দোকান
           chemist: রাসায়নবিদ
+          chocolate: চকলেট
           clothes: কাপড়ের দোকান
           computer: কম্পিউটারের দোকান
           confectionery: মিষ্টান্নের দোকান
@@ -855,12 +902,10 @@ bn:
           estate_agent: এস্টেট এজেন্ট
           farm: কৃষি ভাণ্ডার
           fashion: ফ্যাশন সামগ্রীর দোকান
-          fish: মাছের দোকান
           florist: ফুলওয়ালা
           food: খাবারের দোকান
           funeral_directors: অন্ত্যেষ্টিক্রিয়া পরিচালকবৃন্দ
           furniture: আসবাবপত্র
-          gallery: চিত্রশালা
           garden_centre: বাগান কেন্দ্র
           general: সাধারণ দোকান
           gift: উপহারের দোকান
@@ -868,13 +913,13 @@ bn:
           grocery: মুদি দোকান
           hairdresser: নাপিত
           hardware: যন্ত্রাংশের দোকান
+          hearing_aids: শ্রবণসহায়ক যন্ত্র
           hifi: হাই-ফাই
           jewelry: গহনার দোকান
           kitchen: রান্নাঘরের দোকান
           laundry: ধোপার দোকান
           lottery: লটারি
           mall: বিপণী বিতান
-          market: বাজার
           massage: ম্যাসেজ
           mobile_phone: মোবাইল ফোনের দোকান
           motorcycle: মোটোরসইকেলের দোকান
@@ -883,7 +928,6 @@ bn:
           optician: চশমা বিক্রেতা
           organic: জৈব খাদ্যের দোকান
           paint: রঙের দোকান
-          pharmacy: ঔষধালয়
           photo: ছবির দোকান
           seafood: সামুদ্রিক খাবার
           second_hand: পুরনো-সামগ্রীর দোকান
@@ -941,11 +985,6 @@ bn:
         level8: নগরের সীমান
         level9: গ্রামের সীমানা
         level10: উপনগরের সীমানা
-    description:
-      title:
-        osm_nominatim: <a href="https://nominatim.openstreetmap.org/">ওপেনস্ট্রীটম্যাপ
-          Nominatim</a> থেকে অবস্থান
-        geonames: <a href="http://www.geonames.org/">জিওনেম্স</a> থেকে অবস্থান
       types:
         cities: নগর
         towns: শহর
@@ -995,7 +1034,7 @@ bn:
           other_label: অন্যান্য
   layouts:
     logo:
-      alt_text: ওপেনস্ট্রীটম্যাপ লোগো
+      alt_text: ওপেনস্ট্রিটম্যাপ লোগো
     home: নিড় অবস্থানে যান
     logout: প্রস্থান
     log_in: প্রবেশ
@@ -1015,8 +1054,8 @@ bn:
     user_diaries_tooltip: ব্যবহারকারী দিনলিপি দেখুন
     edit_with: '%{editor} দিয়ে সম্পাদনা করুন'
     tag_line: মুক্ত উইকি বিশ্ব মানচিত্র
-    intro_header: ওপেনস্ট্রীটম্যাপে স্বাগতম!
-    intro_text: ওপেনস্ট্রীটম্যাপ বিশ্বের, একটি মানচিত্র; যা আপনার মতো মানুষের দ্বারা
+    intro_header: ওপেনস্ট্রিটম্যাপে স্বাগতম!
+    intro_text: ওপেনস্ট্রিটম্যাপ বিশ্বের একটি মানচিত্র; যা আপনার মতো মানুষের দ্বারা
       নির্মিত এবং এটি মুক্ত লাইসেন্সের অধীনে বিনামূল্যে ব্যবহারযোগ্য।
     intro_2_create_account: একটি ব্যবহারকারী অ্যাকাউন্ট তৈরি করুন
     partners_ucl: UCL
@@ -1027,15 +1066,15 @@ bn:
     copyright: মেধাস্বত্ব
     community: সম্প্রদায়
     community_blogs: সম্প্রদায়ের ব্লগ
-    community_blogs_title: ওপেনস্ট্রীটম্যাপ সম্প্রদায়ের সদস্যগণের ব্লগ
+    community_blogs_title: ওপেনস্ট্রিটম্যাপ সম্প্রদায়ের সদস্যগণের ব্লগ
     foundation: ফাউন্ডেশন
-    foundation_title: ওপেনস্ট্রীটম্যাপ ফাউন্ডেশন
+    foundation_title: ওপেনস্ট্রিটম্যাপ ফাউন্ডেশন
     make_a_donation:
-      title: আর্থিক অনুদান দিয়ে ওপেনস্ট্রীটম্যাপকে সাহায্য করুন
+      title: আর্থিক অনুদান দিয়ে ওপেনস্ট্রিটম্যাপকে সাহায্য করুন
       text: দান করুন
     learn_more: আরও পড়ুন
     more: আরও
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} একটি দিনলিপির ভুক্তিতে মন্তব্য করেছেন'
       hi: সুপ্রিয় %{to_user},
@@ -1043,42 +1082,26 @@ bn:
         এ মন্তব্য করতে পারেন বা %{replyurl} এ লেখককে একটি বার্তা দিতে পারেন
     message_notification:
       hi: সুপ্রিয় %{to_user},
-      header: '%{from_user} ওপেনস্ট্রীটম্যাপের মাধ্যমে আপনাকে একটি বার্তা পাঠিয়েছেন
+      header: '%{from_user} ওপেনস্ট্রিটম্যাপের মাধ্যমে আপনাকে একটি বার্তা পাঠিয়েছেন
         যার বিষয় হল %{subject}:'
       footer_html: এছাড়া আপনি %{readurl} এ মন্তব্যটি পড়তে পারেন এবং আপনি %{replyurl}
         এ লেখককে একটি বার্তা দিতে পারেন
     friendship_notification:
       hi: প্রিয় %{to_user},
-      had_added_you: '%{user} আপনাকে ওপেনস্ট্রীটম্যাপে বন্ধু হিসেবে যোগ করেছেন।'
+      had_added_you: '%{user} আপনাকে ওপেনস্ট্রিটম্যাপে বন্ধু হিসেবে যোগ করেছেন।'
       see_their_profile: আপনি %{userurl}-এ তাদের প্রোফাইল দেখতে পারেন।
-    gpx_notification:
-      greeting: সুপ্রিয়,
-      with_description: বিবরণ সহ
-      and_the_tags: 'এবং নিম্নলিখিত ট্যাগ:'
     signup_confirm:
-      subject: '[OpenStreetMap] ওপেনস্ট্রীটম্যাপে স্বাগতম'
+      subject: '[OpenStreetMap] ওপেনস্ট্রিটম্যাপে স্বাগতম'
       greeting: এই যে আপনি!
       created: কেউ একজন (আশা করছি আপনি) এইমাত্র %{site_url}-এ একটি অ্যাকাউন্ট তৈরি
         করেছেন।
     email_confirm:
       subject: '[OpenStreetMap] আপনার ইমেইল ঠিকানা নিশ্চিত করুন'
-    email_confirm_plain:
-      greeting: সুপ্রিয়,
-      click_the_link: এটি যদি আপনি হন, দয়া করে পরিবর্তন নিশ্চিত করতে নিচের লিংকে
-        ক্লিক করুন।
-    email_confirm_html:
       greeting: সুপ্রিয়,
       click_the_link: এটি যদি আপনি হন, দয়া করে পরিবর্তন নিশ্চিত করতে নিচের লিংকে
         ক্লিক করুন।
     lost_password:
-      subject: '[ওপেনস্ট্রীটম্যাপ] পাসওয়ার্ড পুনঃধার্য করার অনুরোধ'
-    lost_password_plain:
-      greeting: সুপ্রিয়,
-      hopefully_you: কোনো একজন (সম্ভবত আপনি) এই ইমেইল ঠিকানার সাথে যুক্ত openstreetmap.org
-        অ্যাকাউন্টের পাসওয়ার্ড পরিবর্তনের অনুরোধ করেছেন।
-      click_the_link: এটি যদি আপনি হন, তবে পাসওয়ার্ড পুনঃধার্য করতে দয়া করে নিচের
-        লিংকে ক্লিক করুন।
-    lost_password_html:
+      subject: '[ওপেনস্ট্রিটম্যাপ] পাসওয়ার্ড পুনঃধার্য করার অনুরোধ'
       greeting: সুপ্রিয়,
       hopefully_you: কোনো একজন (সম্ভবত আপনি) এই ইমেইল ঠিকানার সাথে যুক্ত openstreetmap.org
         অ্যাকাউন্টের পাসওয়ার্ড পরিবর্তনের অনুরোধ করেছেন।
@@ -1155,13 +1178,30 @@ bn:
       as_unread: বার্তা অপঠিত হিসেবে চিহ্নিত করুন
     destroy:
       destroyed: বার্তা মোছা হয়েছে
+  shared:
+    markdown_help:
+      title_html: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+        দিয়ে পার্সকৃত
+      headings: শিরোনামগুলি
+      heading: শিরোনাম
+      subheading: উপশিরোনাম
+      first: প্রথম আইটেম
+      second: দ্বিতীয় আইটেম
+      link: সংযোগ
+      text: পাঠ্য
+      image: ছবি
+      alt: বিকল্প পাঠ্য
+      url: ইউআরএল
+    richtext_field:
+      edit: সম্পাদনা
+      preview: প্রাকদর্শন
   site:
     about:
       next: পরবর্তী
-      copyright_html: <span>&copy;</span>ওপেনস্ট্রীটম্যাপ<br>অবদানকারী
+      copyright_html: <span>&copy;</span>ওপেনস্ট্রিটম্যাপ<br>অবদানকারী
       used_by_html: '%{name} হাজার হাজার ওয়েবসাইট, মোবাইল অ্যাপ্লিকেশন এবং হার্ডওয়্যার
         ডিভাইসের জন্য মানচিত্রের উপাত্ত সরবরাহ করে'
-      lede_text: ওপেনস্ট্রীটম্যাপ মানচিত্রাঙ্কনকারীদের একটি সম্প্রদায় দ্বারা নির্মিত
+      lede_text: ওপেনস্ট্রিটম্যাপ মানচিত্রাঙ্কনকারীদের একটি সম্প্রদায় দ্বারা নির্মিত
         যা সারা বিশ্বের রাস্তা, গমনপথ, ক্যাফে, রেলস্টেশন এবং আরও অনেক কিছু সম্পর্কিত
         উপাত্ত যোগ ও রক্ষণাবেক্ষণ করে।
       local_knowledge_title: স্থানীয় অভিজ্ঞতা
@@ -1183,13 +1223,13 @@ bn:
       legal_babble:
         title_html: কপিরাইট ও লাইসেন্স
         intro_1_html: |-
-          ওপেনস্ট্রীটম্যাপ<sup><a href="#trademarks">&reg;</a></sup> একটি <i>মুক্ত উপাত্ত</i> যা <a
-          href="http://osmfoundation.org/">ওপেনস্ট্রীটম্যাপ ফাউন্ডেশন কর্তৃক</a> (OSMF) <a
-          href="http://opendatacommons.org/licenses/odbl/">মুক্ত উপাত্ত কমন্স মুক্ত তথ্যভিত লাইসেন্সের</a> (ODbL) আওতায় লাইসেন্সকৃত।
+          ওপেনস্ট্রিটম্যাপ<sup><a href="#trademarks">&reg;</a></sup> একটি <i>মুক্ত উপাত্ত</i> যা <a
+          href="https://osmfoundation.org/">ওপেনস্ট্রিটম্যাপ ফাউন্ডেশন কর্তৃক</a> (OSMF) <a
+          href="https://opendatacommons.org/licenses/odbl/">মুক্ত উপাত্ত কমন্স মুক্ত তথ্যভিত লাইসেন্সের</a> (ODbL) আওতায় লাইসেন্সকৃত।
         intro_3_1_html: আমাদের নথিপত্র <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.bn">ক্রিয়েটিভ
           কমন্স অ্যাট্রিবিউশন-শেয়ারএলাইক ২.০</a> (সিসি বাই-এসএ ২.০) লাইসেন্সের অধীনে
           লাইসেন্সকৃত।
-        credit_title_html: ওপেনস্ট্রীটম্যাপকে কীভাবে কৃতিত্ব দিবেন
+        credit_title_html: ওপেনস্ট্রিটম্যাপকে কীভাবে কৃতিত্ব দিবেন
         attribution_example:
           title: আরোপণ উদাহরণ
         more_title_html: আরও খুঁজা হচ্ছে
@@ -1212,25 +1252,25 @@ bn:
       area_to_export: রপ্তানির এলাকা
       manually_select: ম্যানুয়ালি একটি ভিন্ন জায়গা নির্বাচন করুন
       format_to_export: রপ্তানির বিন্যাস
-      osm_xml_data: ওপেনস্ট্রীটম্যাপ এক্সএমএল উপাত্ত
+      osm_xml_data: ওপেনস্ট্রিটম্যাপ এক্সএমএল উপাত্ত
       map_image: মানচিত্র ছবি (মান্য স্তর দেখাও)
       embeddable_html: অভ্যন্তরীণ HTML
       licence: লাইসেন্স
-      export_details_html: ওপেনস্ট্রীটম্যাপের সমস্ত উপাত্ত <a href="http://opendatacommons.org/licenses/odbl/1.0/">ওপেন
+      export_details_html: ওপেনস্ট্রিটম্যাপের সমস্ত উপাত্ত <a href="https://opendatacommons.org/licenses/odbl/1.0/">ওপেন
         ডাটা কমন্স ওপেন ডাটাবেস লাইসেন্সের</a> (ODbL) আওতায় প্রকাশিত।
       too_large:
         advice: 'যদি উপরের রপ্তানি ব্যর্থ হয়, দয়া করে নীচে তালিকাভুক্ত উৎসের কোন
           একটি ব্যবহারের জন্য বিবেচনা করুন:'
         planet:
           title: ওএসএম জগৎ
-          description: সম্পূর্ণ ওপেনস্ট্রীটম্যাপ ডাটাবেসের নিয়মিত হালনাগাদের অনুলিপি
+          description: সম্পূর্ণ ওপেনস্ট্রিটম্যাপ ডাটাবেসের নিয়মিত হালনাগাদের অনুলিপি
         overpass:
           title: ওভারপাস API
         geofabrik:
           title: জিওফ্যাব্রিক ডাউনলোড
         other:
           title: অন্যান্য উৎস
-          description: ওপেনস্ট্রীটম্যাপ উইকিতে তালিকাভুক্ত অতিরিক্ত সূত্র
+          description: ওপেনস্ট্রিটম্যাপ উইকিতে অতিরিক্ত সূত্র তালিকাভুক্ত রয়েছে
       options: বিকল্প
       format: বিন্যাস
       scale: স্কেল
@@ -1255,7 +1295,7 @@ bn:
       title: সাহায্য পান
       welcome:
         url: /স্বাগতম
-        title: ওপেনস্ট্রীটম্যাপে স্বাগতম
+        title: ওপেনস্ট্রিটম্যাপে স্বাগতম
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: আরম্ভকারী সহায়িকা
@@ -1273,7 +1313,7 @@ bn:
         url: https://welcome.openstreetmap.org/
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: ওপেনস্ট্রীটম্যাপ উইকি
+        title: ওপেনস্ট্রিটম্যাপ উইকি
     sidebar:
       search_results: অনুসন্ধানের ফলাফল
       close: বন্ধ
@@ -1369,6 +1409,7 @@ bn:
         হওয়া পর্যন্ত অপেক্ষা করুন, যেন অন্য ব্যবহারকারীদের অনুসরণ আপলোড করার সুযোগ
         দেয়া যায়।
     edit:
+      cancel: বাতিল
       title: অনুসরণ সম্পাদনা %{name}
       heading: অনুসরণ সম্পাদনা %{name}
       visibility_help: এটার মানে কি?
@@ -1383,6 +1424,7 @@ bn:
       uploaded: 'আপলোড হয়েছে:'
       points: 'পয়েন্ট:'
       start_coordinates: 'প্রারম্ভের কোঅর্ডিনেট:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: মানচিত্র
       edit: সম্পাদনা
       owner: 'মালিক:'
@@ -1432,8 +1474,6 @@ bn:
         করা হয়েছে:'
       application: অ্যাপলিকেশনের নাম
       issued_at: অনুমোদনের তারিখ
-    form:
-      name: নাম
   users:
     login:
       title: প্রবেশ
@@ -1476,8 +1516,6 @@ bn:
         আমরা একটি লিঙ্ক পাঠাবো যার মাধ্যমে আপনি পাসওয়ার্ড পরিবর্তন করতে পারবেন।
     reset_password:
       title: পাসওয়ার্ড পুনঃনির্ধারণ
-      password: 'পাসওয়ার্ড:'
-      confirm password: 'পাসওয়ার্ড নিশ্চিত করুন:'
       reset: পাসওয়ার্ড পুনঃনির্ধারণ
       flash changed: আপনার পাসওয়ার্ড পরিবর্তন করা হয়েছে।
     new:

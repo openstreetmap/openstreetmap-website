@@ -31,8 +31,8 @@ class BrowseHelperTest < ActionView::TestCase
     assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node)
     assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node_v2)
     assert_dom_equal node.id.to_s, printable_name(node_v1)
-    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, true)
-    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, true)
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, :version => true)
+    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, :version => true)
     assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>#{node_with_ref_without_name.id}</bdi>)", printable_name(node_with_ref_without_name)
 
     I18n.locale = "pt"
@@ -41,8 +41,8 @@ class BrowseHelperTest < ActionView::TestCase
     assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node)
     assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node_v2)
     assert_dom_equal node.id.to_s, printable_name(node_v1)
-    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, true)
-    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, true)
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, :version => true)
+    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, :version => true)
     assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>#{node_with_ref_without_name.id}</bdi>)", printable_name(node_with_ref_without_name)
 
     I18n.locale = "pt-BR"
@@ -51,8 +51,8 @@ class BrowseHelperTest < ActionView::TestCase
     assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node)
     assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node_v2)
     assert_dom_equal node.id.to_s, printable_name(node_v1)
-    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, true)
-    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, true)
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, :version => true)
+    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, :version => true)
     assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>#{node_with_ref_without_name.id}</bdi>)", printable_name(node_with_ref_without_name)
 
     I18n.locale = "de"
@@ -61,8 +61,8 @@ class BrowseHelperTest < ActionView::TestCase
     assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node)
     assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node_v2)
     assert_dom_equal node.id.to_s, printable_name(node_v1)
-    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, true)
-    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, true)
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, :version => true)
+    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, :version => true)
     assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>#{node_with_ref_without_name.id}</bdi>)", printable_name(node_with_ref_without_name)
   end
 
@@ -132,6 +132,8 @@ class BrowseHelperTest < ActionView::TestCase
     assert_includes tags, %w[shop gift]
   end
 
+  private
+
   def add_old_tags_selection(old_node)
     { "building" => "yes",
       "shop" => "gift",
@@ -151,8 +153,6 @@ class BrowseHelperTest < ActionView::TestCase
       create(:node_tag, :node => node, :k => key, :v => value)
     end
   end
-
-  private
 
   def preferred_languages
     Locale.list(I18n.locale)

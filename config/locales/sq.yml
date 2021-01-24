@@ -115,15 +115,9 @@ sq:
     with_version: '%{id}, v%{version}'
   editor:
     default: E parazgjedhur (aktualisht %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (redaktorin e shfletuesit)
     id:
       name: iD
       description: iD (në redaktorin e shfletuesit)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (në redaktorin e shfletuesit)
     remote:
       name: Kontrollë nga larg
       description: Kontrollë nga larg (JOSM apo Merkaartor)
@@ -155,9 +149,10 @@ sq:
       relation: Marrëdhëniet (%{count})
       relation_paginated: Marrëdhëniet (%{x}-%{y} nga %{count})
       comment: Komentet (%{count})
-      hidden_commented_by: Koment i fshehur nga %{user} në <abbr title="%{exact_time}">%{when}
+      hidden_commented_by_html: Koment i fshehur nga %{user} në <abbr title="%{exact_time}">%{when}
         më parë</abbr>
-      commented_by: Koment nga %{user} në <abbr title="%{exact_time}">%{when} më parë</abbr>
+      commented_by_html: Koment nga %{user} në <abbr title="%{exact_time}">%{when}
+        më parë</abbr>
       changesetxml: Grupi i ndryshimeve në XML
       osmchangexml: osmNdrsyhimi XML
       feed:
@@ -235,21 +230,24 @@ sq:
       open_title: 'Shënim i pazgjidhur #%{note_name}'
       closed_title: 'Shënim i zgjidhur #%{note_name}'
       hidden_title: 'Shënim i fshehur #%{note_name}'
-      opened_by: Krijuar nga %{user} në <abbr title="%{exact_time}">%{when} më parë</abbr>
-      opened_by_anonymous: Krijuar nga person anonim <abbr title="%{exact_time}">%{when}
-        më parë</abbr>
-      commented_by: Krijuar nga %{user} në <abbr title="%{exact_time}">%{when} më
+      opened_by_html: Krijuar nga %{user} në <abbr title="%{exact_time}">%{when} më
         parë</abbr>
-      commented_by_anonymous: Krijuar nga person anonim <abbr title="%{exact_time}">%{when}
+      opened_by_anonymous_html: Krijuar nga person anonim <abbr title="%{exact_time}">%{when}
         më parë</abbr>
-      closed_by: Zgjidhur nga %{user} në <abbr title="%{exact_time}">%{when} më parë</abbr>
-      closed_by_anonymous: Zgjidhur nga person anonim <abbr title='%{exact_time}'>%{when}
+      commented_by_html: Krijuar nga %{user} në <abbr title="%{exact_time}">%{when}
         më parë</abbr>
-      reopened_by: Riaktivizuar nga %{user} në <abbr title="%{exact_time}">%{when}
+      commented_by_anonymous_html: Krijuar nga person anonim <abbr title="%{exact_time}">%{when}
         më parë</abbr>
-      reopened_by_anonymous: Riaktivizuar nga person anonim <abbr title="%{exact_time}">%{when}
+      closed_by_html: Zgjidhur nga %{user} në <abbr title="%{exact_time}">%{when}
         më parë</abbr>
-      hidden_by: Fshehur nga %{user} në <abbr title="%{exact_time}">%{when} më parë</abbr>
+      closed_by_anonymous_html: Zgjidhur nga person anonim <abbr title='%{exact_time}'>%{when}
+        më parë</abbr>
+      reopened_by_html: Riaktivizuar nga %{user} në <abbr title="%{exact_time}">%{when}
+        më parë</abbr>
+      reopened_by_anonymous_html: Riaktivizuar nga person anonim <abbr title="%{exact_time}">%{when}
+        më parë</abbr>
+      hidden_by_html: Fshehur nga %{user} në <abbr title="%{exact_time}">%{when} më
+        parë</abbr>
     query:
       title: Tiparet e pyetsorit
       introduction: Kliko në hartë për të gjetur tipare në afërsi.
@@ -296,12 +294,7 @@ sq:
     new:
       title: Shënim i ri në ditar
     form:
-      subject: 'Titulli:'
-      body: 'Trupi i mesazhit:'
-      language: 'Gjuha:'
       location: 'Lokacioni:'
-      latitude: 'Gjerësia gjeografike:'
-      longitude: 'Gjatësia gjeografike:'
       use_map_link: përdor hartën
     index:
       title: Ditarët e përdoruesve
@@ -454,7 +447,6 @@ sq:
           motorcycle_parking: Vendparkim motoçikletash
           nightclub: Klub nate
           nursing_home: Çerdhe
-          office: Zyrë
           parking: Vendparkim
           parking_entrance: Hyrje parkimi
           pharmacy: Barnatore
@@ -462,20 +454,15 @@ sq:
           police: Policia
           post_box: Kuti postare
           post_office: Zyrë postare
-          preschool: Cikël para-shkollor
           prison: Burg
           pub: Pub
           public_building: Ndërtesë publike
           recycling: Pikë riciklimi
           restaurant: Restorant
-          retirement_home: Shtëpi pleqësh
-          sauna: Saunë
           school: Shkollë
           shelter: Strehë
-          shop: Dyqan
           shower: Dush
           social_centre: Qendrën sociale
-          social_club: Klub shoqëror
           social_facility: Institucion social
           studio: Studio
           swimming_pool: Pishinë
@@ -490,7 +477,6 @@ sq:
           village_hall: Bashkësi lokale
           waste_basket: Kosh plehrash
           waste_disposal: Deponi mbeturinash
-          youth_centre: Qendër rinore
         boundary:
           administrative: Kufi administrativ
           census: Regjistrim kufitar
@@ -503,6 +489,17 @@ sq:
           viaduct: Viadukt
           "yes": Urë
         building:
+          apartments: Bllok apartamentesh
+          chapel: Kishë
+          church: Kishë
+          commercial: Qendër tregtare
+          dormitory: Konvikt
+          hotel: Hotel
+          house: Shtëpi
+          public: Ndërtesë publike
+          terrace: Tarracë
+          train_station: Stacion hekurudhor
+          university: Godinë universitare
           "yes": Ndërtesë
         craft:
           brewery: Birrari
@@ -557,7 +554,6 @@ sq:
           tertiary_link: Rrugë terciare
           track: Gjurmë
           traffic_signals: Shenja trafiku
-          trail: Shteg
           trunk: Rrugë magjistrale
           trunk_link: Rrugë magjistrale
           unclassified: Rrugë e paklasifikuar
@@ -575,7 +571,6 @@ sq:
           fort: Fortesë
           heritage: Vend trashigimie
           house: Shtëpi
-          icon: Ikonë
           manor: Pronë e madhe
           memorial: Memorial
           mine: Minierë
@@ -618,7 +613,6 @@ sq:
           reservoir_watershed: Rezervuar ujëmbledhës
           residential: Zonë e banuar
           retail: Me pakicë
-          road: Zonë rruge
           village_green: Fshat me gjelbrim
           vineyard: Vreshtë
           "yes": Përdorim toke
@@ -738,7 +732,6 @@ sq:
           subdivision: Nënndarje
           suburb: Periferi
           town: Qytezë
-          unincorporated_area: Zone e lirë
           village: Fshat
           "yes": Vend
         railway:
@@ -783,12 +776,10 @@ sq:
           electronics: Dyqan elektronike
           estate_agent: Agjent i patundshmërive
           fashion: Dyqan i veshjeve të modës
-          fish: Dyqan peshku
           florist: Luleshitës
           food: Ushqimore
           funeral_directors: Ndërmarrje varrimi
           furniture: Mobilieri
-          gallery: Galeri
           garden_centre: Qendër kopshti
           general: Dyqab me fushëveprim të përgjithshëm
           gift: Dyqan dhuratash
@@ -801,12 +792,10 @@ sq:
           kiosk: Kiosk
           laundry: Lavanderi
           mall: Qendër tregtare
-          market: Treg
           mobile_phone: Dyqan telefonash celular
           motorcycle: Dyqan motoçikletash
           music: Dyqan i veglave muzikore
           optician: Optikë
-          pharmacy: Barnatore
           photo: Fotograf
           supermarket: Supermarket
           tailor: Rrobaqepës
@@ -845,9 +834,6 @@ sq:
         level2: Kufi vendi
         level4: Kufi i njësisë federale
         level5: Kufi regjional
-    description:
-      title:
-        geonames: Lokacioni nga <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Qytetet
         towns: Qyteza
@@ -892,7 +878,6 @@ sq:
       reassign_param: Problemi i ri-caktimit
   reports:
     new:
-      select: Përzgjedh një arsye për raportimin tuaj
       disclaimer:
         not_just_mistake: Ju jeni të sigurt që problemi nuk është vetëm një gabim
       categories:
@@ -948,30 +933,20 @@ sq:
       text: Dhuro
     learn_more: Mëso më shumë
     more: Më shumë
-  notifier:
+  user_mailer:
     diary_comment_notification:
       hi: Përshëndetje %{to_user},
     message_notification:
-      subject_header: '[OpenStreetMap] %{subject}'
       hi: Përshëndetje %{to_user},
-    gpx_notification:
-      greeting: Përshëndetje,
-      failure:
-        import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+    gpx_failure:
+      import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
     signup_confirm:
       subject: '[OpenStreetMap] Mirësevjen në OpenStreetMap'
       greeting: Tungjatjeta!
     email_confirm:
       subject: '[OpenStreetMap] Konfirmo adresën e emailit tënd'
-    email_confirm_plain:
       greeting: Përshëndetje,
-    email_confirm_html:
-      greeting: Përshëndetje,
-      click_the_link: Nëse ky je ti, të lutem kliko në lidhjen e mëposhtme për të
-        konfirmuar ndryshimin.
-    lost_password_plain:
-      greeting: Përshëndetje,
-    lost_password_html:
+    lost_password:
       greeting: Përshëndetje,
     note_comment_notification:
       greeting: Përshëndetje,
@@ -1111,10 +1086,6 @@ sq:
     edit:
       user_page_link: '{{GENDER:{{ROOTPAGENAME}}|faqja e përdoruesit|faqja e përdorueses}}'
       anon_edits_html: (%{link})
-      flash_player_required_html: Ti duhet të kesh 'Flash Player' për ta përdorur
-        'Potlatch', redaktorin e 'OpenStreetMap Flash'. Ti mund ta shkarkosh <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Flash
-        Player nga Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Disa
-        mënyra të tjera</a>të për ta redaktuar OpenStreetMap, gjithashtu janë të mundshme.
     export:
       title: Eksporto
       area_to_export: Zona për tu eksportuar
@@ -1335,8 +1306,6 @@ sq:
     show:
       edit: Redakto detajet
       confirm: A je i sigurt?
-    form:
-      name: Emri
   users:
     login:
       title: Identifikohu
@@ -1384,8 +1353,6 @@ sq:
     reset_password:
       title: Rivendos fjalëkalimin
       heading: Rivendos fjalëkalimin për %{user}
-      password: 'Fjalëkalimi:'
-      confirm password: 'Konfirmo fjalëkalimin:'
       reset: Rivendos fjalëkalimin
       flash changed: Fjalëkalimi yt është ndryshuar.
       flash token bad: Nuk e gjet atë shenjë, kontrollo URL-në?
@@ -1398,9 +1365,6 @@ sq:
         me kërkesën sa më shpejt që të jetë e mundur.
       about:
         header: E lirë dhe e redaktueshme
-      license_agreement: Kur ju konfirmoni llograinë tuaj, duhet të pajtoheni me <a
-        href="http://www.osmfoundation.org/wiki/License/Contributor_Terms"> kushtet
-        e përdoruesit</a>.
       email address: 'Adresa e emailit:'
       confirm email address: 'Konfirmo adresën e emailit:'
       not_displayed_publicly_html: Nuk shihet publikisht (shih <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
@@ -1554,8 +1518,8 @@ sq:
       already active: Kjo llogari tashmë është konfirmuar.
       unknown token: Kodi i konfirmimit ka skaduar ose nuk ekziston.
     confirm_resend:
-      success: Ne kemi dërguar një shënim konfrimimi tek %{email} juaj dhe sapo të
-        konfirmoni llogarnië ju do të jeni në gjendje të filloni punën me harta.<br
+      success_html: Ne kemi dërguar një shënim konfrimimi tek %{email} juaj dhe sapo
+        të konfirmoni llogarnië ju do të jeni në gjendje të filloni punën me harta.<br
         /><br />Nëse ju përdorni një antispam sistem që dërgon kërkesat e konfirmimit
         atëherë ju lutem që të shtoni në listën e bardhë %{sender} pasi që ne nuk
         do të jemi në gjendje të përgjigjemi ndaj çfarëdo kërkese për konfirmim.
@@ -1605,11 +1569,6 @@ sq:
       fail: Nuk ia doli ta revokoj rolin `%{role}' prej perdoruesit `%{name}'. Të
         lutem kontrollo përdoruesin dhe rolin nëse janë të dy të vlefshëm.
   user_blocks:
-    new:
-      reason: Arsyeja pse %{name} është duke u bllokuar. Të lutem je sa më i qetë
-        dhe arsyeshëm, mundësisht përshkruaj sa më shumë detaje rreth situatës, dhe
-        mendo që që mesazhi yt është publik. Mendoje që jo të gjithë anëtarët e kuptojnë
-        gjuhën e komunitetit, prandaj përdor formulime sa më lehtë të kuptueshme.
     revoke:
       revoke: Revoko!
     show:

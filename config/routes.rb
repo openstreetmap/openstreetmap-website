@@ -79,10 +79,6 @@ OpenStreetMap::Application.routes.draw do
     get "gpx/:id/details" => "api/traces#show", :id => /\d+/
     get "gpx/:id/data" => "api/traces#data", :as => :api_trace_data
 
-    # AMF (ActionScript) API
-    post "amf/read" => "api/amf#amf_read"
-    post "amf/write" => "api/amf#amf_write"
-
     # Map notes API
     resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :defaults => { :format => "xml" }, :controller => "api/notes" do
       collection do

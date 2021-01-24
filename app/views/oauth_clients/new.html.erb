@@ -2,9 +2,6 @@
   <h1><%= t ".title" %></h1>
 <% end %>
 
-<div class='standard-form'>
-  <%= form_for @client_application, :url => { :action => :create } do |f| %>
-    <%= render :partial => "form", :locals => { :f => f } %>
-    <%= f.submit %>
-  <% end %>
-</div>
+<%= bootstrap_form_for @client_application, :url => { :action => :create } do |f| %>
+  <%= render :partial => "form", :locals => { :f => f } %>
+<% end %>

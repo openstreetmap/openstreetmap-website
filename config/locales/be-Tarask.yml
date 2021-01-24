@@ -14,6 +14,8 @@ be-Tarask:
     formats:
       friendly: '%e %B %Y у %H:%M'
   helpers:
+    file:
+      prompt: Абярыце файл
     submit:
       diary_comment:
         create: Захаваць
@@ -26,7 +28,7 @@ be-Tarask:
         create: Даслаць
       client_application:
         create: Рэгістрацыя
-        update: Рэдагаваць
+        update: Абнавіць
       redaction:
         create: Стварыць рэдакцыю
         update: Захаваць рэдакцыю
@@ -78,6 +80,18 @@ be-Tarask:
       way_node: Вузел дарогі
       way_tag: Тэг дарогі
     attributes:
+      client_application:
+        name: Імя (абавязкова)
+        url: Асноўны URL праграмы (абавязкова)
+        callback_url: URL-адрас зваротнага выкліку
+        support_url: URL-адрас падтрымкі
+        allow_read_prefs: чытаць іх налады ўдзельніка
+        allow_write_prefs: зьмяняць іх налады ўдзельніка
+        allow_write_diary: ствараць запісы ў дзёньніку, камэнтары і знаёміцца
+        allow_write_api: зьмяняць мапу
+        allow_read_gpx: чытаць іх прыватныя GPS-трэкі
+        allow_write_gpx: загружаць GPS-трэкі
+        allow_write_notes: зьмяняць нататкі
       diary_comment:
         body: Тэкст
       diary_entry:
@@ -92,15 +106,15 @@ be-Tarask:
       trace:
         user: Карыстальнік
         visible: Бачны
-        name: Назва
+        name: Назва файлу
         size: Памер
         latitude: Шырата
         longitude: Даўгата
         public: Публічны
         description: Апісаньне
-        gpx_file: 'Загрузіць GPX-файл:'
-        visibility: 'Бачнасьць:'
-        tagstring: 'Тэгі:'
+        gpx_file: Загрузіць GPX-файл
+        visibility: Бачнасьць
+        tagstring: Тэгі
       message:
         sender: Адпраўшчык
         title: Тэма
@@ -116,6 +130,9 @@ be-Tarask:
     help:
       trace:
         tagstring: падзеленае коскамі
+      user_block:
+        needs_view: Ці трэба ўдзельніку ўвайсьці ў сыстэму, перад тым як блякаваньне
+          будзе зьнятае?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -157,18 +174,12 @@ be-Tarask:
         other: '%{count} гады таму'
   editor:
     default: Па змоўчваньні (цяпер %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (рэдактар у браўзэры)
     id:
       name: iD
       description: iD (рэдактар у браўзэры)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (рэдактар у браўзэры)
     remote:
       name: Аддаленае кіраваньне
-      description: Аддаленае кіраваньне (JOSM ці Merkaartor)
+      description: Аддаленае кіраваньне (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Няма
@@ -191,7 +202,15 @@ be-Tarask:
         reopened_at_by_html: Пераадкрыта %{when} удзельнікам %{user}
       rss:
         title: Нататкі OpenStreetMap
+        description_area: Сьпіс заўвагаў, створаных, пракамэнтаваных ці закрытых каля
+          вас [(%{min_lat}|%{min_lon}) — (%{max_lat}|%{max_lon})]
+        description_item: RSS-стужка для заўвагаў %{id}
+        opened: новая нататка (каля %{place})
+        commented: новы камэнтар (каля %{place})
+        closed: закрытая нататка (каля %{place})
+        reopened: пераадкрытая нататка (каля %{place})
       entry:
+        comment: Камэнтар
         full: Поўны тэкст
   browse:
     created: Створана
@@ -257,7 +276,7 @@ be-Tarask:
       wikipedia_link: Артыкул %{page} у Вікіпэдыі
     note:
       title: 'Нататка: %{id}'
-      commented_by_anonymous: Камэнтар ад ананіма <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Камэнтар ад ананіма <abbr title='%{exact_time}'>%{when}</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: Старонка %{page}
@@ -285,13 +304,8 @@ be-Tarask:
     new:
       title: Новы запіс у дзёньніку
     form:
-      subject: 'Тэма:'
-      body: 'Тэкст:'
-      language: 'Мова:'
-      location: 'Месцазнаходжаньне:'
-      latitude: 'Шырата:'
-      longitude: 'Даўгата:'
-      use_map_link: на мапе
+      location: Месцазнаходжаньне
+      use_map_link: Выкарыстаць мапу
     index:
       title: Дзёньнікі карыстальнікаў
       title_friends: Дзёньнікі сяброў
@@ -320,9 +334,9 @@ be-Tarask:
         Калі ласка, праверце дакладнасьць напісаньня, ці, магчыма, спасылка па якой
         Вы перайшлі, няслушная.
     diary_entry:
-      posted_by_html: Дасланы %{link_user} %{created} на %{language_link}
+      posted_by_html: Дасланы %{link_user} %{created} на %{language_link}.
       comment_link: Камэнтаваць гэты запіс
-      reply_link: Адказаць на гэты запіс
+      reply_link: Адаслаць аўтару паведамленьне
       comment_count:
         few: '%{count} камэнтары'
         one: '%{count} камэнтар'
@@ -415,25 +429,19 @@ be-Tarask:
           marketplace: Рынкавая плошча
           nightclub: Начны клюб
           nursing_home: Дом састарэлых
-          office: Офіс
           parking: Стаянка
           pharmacy: Аптэка
           place_of_worship: Культавае збудаваньне
           police: Паліцыя (Міліцыя)
           post_box: Паштовая скрыня
           post_office: Паштовае аддзяленьне
-          preschool: Дашкольная ўстанова
           prison: Турма
           pub: Шынок
           public_building: Грамадзкі будынак
           recycling: Месца перапрацоўкі адыходаў
           restaurant: Рэстаран
-          retirement_home: Дом састарэлых
-          sauna: Лазьня
           school: Школа
           shelter: Прытулак
-          shop: Крама
-          social_club: Клюб па інтарэсах
           studio: Студыя
           taxi: Таксі
           telephone: Тэлефон
@@ -445,11 +453,30 @@ be-Tarask:
           veterinary: Вэтэрынарная клініка
           village_hall: Кіраўніцтва вёскі
           waste_basket: Сьметніца
-          youth_centre: Моладзевы цэнтар
         boundary:
           administrative: Адміністрацыйная мяжа
           national_park: Нацыянальны парк
           protected_area: Ахоўная зона
+        building:
+          apartments: Апартамэнты
+          chapel: Капліца
+          church: Будынак храму
+          commercial: Камэрцыйны будынак
+          dormitory: Інтэрнат
+          farm: Дом на фэрме
+          garage: Гараж
+          hospital: Будынак шпіталю
+          hotel: Будынак гатэлю
+          house: Дом
+          industrial: Прамысловы будынак
+          office: Офісны будынак
+          public: Грамадзкі будынак
+          residential: Жылы будынак
+          retail: Будынак розьнічнага гандлю
+          school: Школа
+          terrace: Шэраг жылых будынкаў
+          train_station: Будынак чыгуначнай станцыі
+          university: Унівэрсытэт
         highway:
           bridleway: Дарога для коней
           bus_guideway: Аўтобусная паласа
@@ -478,7 +505,6 @@ be-Tarask:
           steps: Прыступкі
           tertiary: Дарога раённага значэньня
           track: Грунтовая дарога
-          trail: Сьцежка
           trunk: Шаша
           trunk_link: Шаша
           unclassified: Дарога раённага значэньня
@@ -492,7 +518,6 @@ be-Tarask:
           citywalls: Мескія муры
           fort: Форт
           house: Дом
-          icon: Ікона
           manor: Маёнтак
           memorial: Мэмарыял
           mine: Капальня
@@ -527,7 +552,6 @@ be-Tarask:
           reservoir: Вадасховішча
           residential: Жылы раён
           retail: Тэрыторыя дробнага гандлю
-          road: Зона дарожнай сеткі
           village_green: Гарадзкі парк
           vineyard: Вінаграднік
         leisure:
@@ -616,7 +640,6 @@ be-Tarask:
           subdivision: Падразьдзел
           suburb: Прадмесьце
           town: Горад
-          unincorporated_area: Загарадная зона
           village: Вёска
         railway:
           abandoned: Пакінутая чыгуначная лінія
@@ -639,6 +662,7 @@ be-Tarask:
           switch: Чыгуначная стрэлка
           tram: Трамвайная каляя
           tram_stop: Трамвайны прыпынак
+          yard: Чыгуначнае дэпо
         shop:
           alcohol: Алькагольная крама
           antiques: Антыкварыят
@@ -669,12 +693,10 @@ be-Tarask:
           estate_agent: Агенцтва нерухомасьці
           farm: Сельская крама
           fashion: Крама моднага адзеньня
-          fish: Рыбная крама
           florist: Кветкавая крама
           food: Харчовая крама
           funeral_directors: Паслугі па пахаваньні
           furniture: Мэбля
-          gallery: Галерэя
           garden_centre: Сад і агарод
           general: Унівэрсальная крама
           gift: Крама падарункаў
@@ -687,7 +709,6 @@ be-Tarask:
           kiosk: Шапік
           laundry: Пральня
           mall: Гандлёвы цэнтар
-          market: Рынак
           mobile_phone: Крама мабільных тэлефонаў
           motorcycle: Крама матацыклаў
           music: Музычная крама
@@ -744,11 +765,6 @@ be-Tarask:
           wadi: Сухое рэчышча
           waterfall: Вадаспад
           weir: Плаціна
-    description:
-      title:
-        osm_nominatim: Месцазнаходжаньне з <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Месцазнаходжаньне з <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Гарады
         towns: Гарады
@@ -790,7 +806,7 @@ be-Tarask:
     make_a_donation:
       title: Падтрымаць OpenStreetMap грашовым ахвяраваньнем
       text: Зрабіць ахвяраваньне
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: Карыстальнік [OpenStreetMap] %{user} пакінуў камэнтар у дзёньніку
       hi: Вітаем, %{to_user},
@@ -806,48 +822,26 @@ be-Tarask:
       had_added_you: '%{user} дадаў Вас у сьпіс сяброў на OpenStreetMap.'
       see_their_profile: Вы можаце прагледзець яго профіль на %{userurl}.
       befriend_them: Вы таксама можаце дадаць іх у якасьці сябраў на %{befriendurl}.
-    gpx_notification:
-      greeting: Вітаем,
-      your_gpx_file: Выглядае, што гэта Ваш файл GPX
-      with_description: з апісаньнем
-      and_the_tags: 'з наступнымі тэгамі:'
-      and_no_tags: і бяз тэгаў.
-      failure:
-        subject: '[OpenStreetMap] памылка імпарту GPX'
-        failed_to_import: 'немагчыма імпартаваць. Адбылася памылка:'
-        more_info_1: Дадатковая інфармацыя пра памылкі імпарту GPX і як іх пазьбегнуць
-        more_info_2: 'іх можна знайсьці на:'
-      success:
-        subject: '[OpenStreetMap] імпарт GPX адбыўся пасьпяхова'
-        loaded_successfully:
-          one: пасьпяхова загружаны з %{trace_points} з 1 магчымага пункту.
-          few: пасьпяхова загружаныя %{trace_points} пункты з магчымых %{possible_points}.
-          many: пасьпяхова загружаныя %{trace_points} пунктаў з магчымых %{possible_points}.
-          other: пасьпяхова загружаныя %{trace_points} пунктаў з магчымых %{possible_points}.
+    gpx_failure:
+      failed_to_import: 'немагчыма імпартаваць. Адбылася памылка:'
+      subject: '[OpenStreetMap] памылка імпарту GPX'
+    gpx_success:
+      loaded_successfully:
+        one: пасьпяхова загружаны з %{trace_points} з 1 магчымага пункту.
+        few: пасьпяхова загружаныя %{trace_points} пункты з магчымых %{possible_points}.
+        many: пасьпяхова загружаныя %{trace_points} пунктаў з магчымых %{possible_points}.
+        other: пасьпяхова загружаныя %{trace_points} пунктаў з магчымых %{possible_points}.
+      subject: '[OpenStreetMap] імпарт GPX адбыўся пасьпяхова'
     signup_confirm:
       subject: '[OpenStreetMap] Вітаем у OpenStreetMap'
     email_confirm:
       subject: '[OpenStreetMap] Пацьвердзіце Ваш адрас электроннай пошты'
-    email_confirm_plain:
       greeting: Вітаем,
-      click_the_link: Калі гэта Вы, калі ласка, націсьніце на спасылку ніжэй, каб
-        пацьвердзіць зьмену.
-    email_confirm_html:
-      greeting: Вітаем,
-      hopefully_you: Нехта (спадзяемся што Вы) жадае зьмяніць свой адрас электроннай
-        пошты ў %{server_url} на %{new_address}.
       click_the_link: Калі гэта Вы, калі ласка, націсьніце на спасылку ніжэй, каб
         пацьвердзіць зьмену.
     lost_password:
       subject: '[OpenStreetMap] Запыт на зьмену паролю'
-    lost_password_plain:
       greeting: Вітаем,
-      click_the_link: Калі гэта Вы, калі ласка, націсьніце на спасылку ніжэй, каб
-        скінуць Ваш пароль.
-    lost_password_html:
-      greeting: Вітаем,
-      hopefully_you: Нехта (магчыма Вы) запытаў зьмену паролю для гэтага адрасу электроннай
-        пошты openstreetmap.org.
       click_the_link: Калі гэта Вы, калі ласка, націсьніце на спасылку ніжэй, каб
         скінуць Ваш пароль.
   messages:
@@ -1015,18 +1009,6 @@ be-Tarask:
         Вы можаце зрабіць Вашыя рэдагаваньні публічнымі на Вашай %{user_page}.
       user_page_link: старонцы карыстальніка
       anon_edits_link_text: Даведацца ў чым справа.
-      flash_player_required_html: Каб выкарыстоўваць Potlatch, флэш-рэдактар для OpenStreetMap,
-        неабходны Flash-плэер. Вы можаце <a href="https://get.adobe.com/flashplayer/">загрузіць
-        Flash-плэер з Adobe.com</a>. Існуюць і <a href="https://wiki.openstreetmap.org/wiki/Editing">іншыя
-        магчымасьці</a> для рэдагаваньня OpenStreetMap.
-      potlatch_unsaved_changes: Вы маеце незахаваныя зьмены. (Для таго каб захаваць
-        зьмены ў Potlatch, Вам неабходна зьняць пазначэньне з цяперашняй дарогі ці
-        пункту, калі рэдагуеце ўжывую, ці націснуць кнопку «захаваць».)
-      potlatch2_not_configured: Potlatch 2 ня быў наладжаны — калі ласка, паглядзіце
-        https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 дзеля дадатковых
-        зьвестак
-      potlatch2_unsaved_changes: Вы маеце незахаваныя зьмены. (Каб захаваць у Potlatch
-        2, Вам неабходна націснуць кнопку «захаваць».)
       no_iframe_support: Ваш браўзэр не падтрымлівае рамкі HTML, якія зьяўляюцца неабходнымі
         для гэтай магчымасьці.
     export:
@@ -1268,12 +1250,6 @@ be-Tarask:
       support_notice: Мы падтрымліваем HMAC-SHA1 (рэкамэндуецца) і подпісы RSA-SHA1.
       edit: Рэдагаваць падрабязнасьці
       requests: 'Запыт наступных дазволаў ад удзельніка:'
-      allow_read_prefs: чытаць іх налады ўдзельніка.
-      allow_write_prefs: зьмяняць іх налады ўдзельніка.
-      allow_write_diary: ствараць запісы ў дзёньніку, камэнтары і знаёміцца.
-      allow_write_api: зьмяняць мапу.
-      allow_read_gpx: чытаць іх прыватныя GPS-трэкі.
-      allow_write_gpx: загружаць GPS-трэкі.
     index:
       title: Мае падрабязнасьці OAuth
       my_tokens: Мае аўтарызаваныя дастасаваньні
@@ -1288,18 +1264,7 @@ be-Tarask:
       registered_apps: 'Вы маеце зарэгістраванымі наступныя кліенцкія дастасаваньні:'
       register_new: Зарэгістраваць Вашае дастасаваньне
     form:
-      name: Назва
-      required: Абавязковае
-      url: Галоўны URL-адрас дастасаваньня
-      callback_url: URL-адрас зваротнага выкліку
-      support_url: URL-адрас падтрымкі
       requests: 'Запытаць наступныя дазволы ад удзельніка:'
-      allow_read_prefs: чытаць іх налады ўдзельніка.
-      allow_write_prefs: зьмяняць іх налады ўдзельніка.
-      allow_write_diary: ствараць запісы ў дзёньніку, камэнтары і знаёміцца.
-      allow_write_api: зьмяняць мапу.
-      allow_read_gpx: чытаць іх прыватныя GPS-трэкі.
-      allow_write_gpx: загружаць GPS-трэкі.
     not_found:
       sorry: Прабачце, немагчыма знайсьці гэты %{type}.
     create:
@@ -1352,8 +1317,6 @@ be-Tarask:
     reset_password:
       title: Ачысьціць пароль
       heading: Скінуць пароль для %{user}
-      password: 'Пароль:'
-      confirm password: 'Пацьверджаньне паролю:'
       reset: Ачысьціць пароль
       flash changed: Ваш пароль быў зьменены.
       flash token bad: Немагчыма знайсьці такі ключ, можа праверце URL-адрас?
@@ -1364,9 +1327,6 @@ be-Tarask:
       contact_webmaster_html: Калі ласка, зьвяжыцеся з <a href="%{webmaster}">вэбмайстрам</a>
         з запытам на стварэньне падобнага рахунку. Мы паспрабуем стварыць Вам рахунак
         як мага хутчэй.
-      license_agreement: Калі вы пацьвердзіце свой рахунак, вам трэба будзе пагадзіцца
-        з <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">умовамі
-        супрацоўніцтва</a>.
       email address: 'Адрас электроннай пошты:'
       confirm email address: 'Пацьвердзіць адрас электроннай пошты:'
       not_displayed_publicly_html: Ваш адрас ня будзе не паказвацца публічна, глядзіце
@@ -1533,11 +1493,12 @@ be-Tarask:
       already active: Гэты рахунак ужо пацьверджаны.
       unknown token: Гэты код пацьверджаньня скончыўся альбо не існуе.
     confirm_resend:
-      success: Мы даслалі новы ліст з пацьверджаньнем на адрас %{email} і, як толькі
-        Вы пацьвердзіце Ваш рахунак, Вы зможаце пачаць працаваць з мапамі.<br /><br
-        />Калі Вы карыстаецеся сыстэмай абароны ад спаму, якая дасылае запыты на пацьверджаньне,
-        калі ласка, упэўніцеся, што адрас %{sender} знаходзіцца ў Вашым давераным
-        сьпісе, таму што мы ня маем магчымасьці адказваць на любыя запыты.
+      success_html: Мы даслалі новы ліст з пацьверджаньнем на адрас %{email} і, як
+        толькі Вы пацьвердзіце Ваш рахунак, Вы зможаце пачаць працаваць з мапамі.<br
+        /><br />Калі Вы карыстаецеся сыстэмай абароны ад спаму, якая дасылае запыты
+        на пацьверджаньне, калі ласка, упэўніцеся, што адрас %{sender} знаходзіцца
+        ў Вашым давераным сьпісе, таму што мы ня маем магчымасьці адказваць на любыя
+        запыты.
       failure: Удзельнік %{name} ня знойдзены.
     confirm_email:
       heading: Пацьвердзіць зьмену адрасу электроннай пошты
@@ -1585,7 +1546,7 @@ be-Tarask:
     revoke:
       title: Пацьвердзіць адмену ролі
       heading: Пацьвердзіць адмену ролі
-      are_you_sure: Вы ўпэўнены, што жадаеце адмяніць ролю `%{role}' удзельніка `%{name}'?
+      are_you_sure: Вы ўпэўнены, што жадаеце скасаваць ролю `%{role}' удзельніка `%{name}'?
       confirm: Пацьвердзіць
       fail: Не магчыма адмяніць ролю `%{role}' удзельніка `%{name}'. Калі ласка, праверце
         каб удзельнік і роля былі слушнымі.
@@ -1600,31 +1561,18 @@ be-Tarask:
     new:
       title: Стварэньне блякаваньня для %{name}
       heading_html: Стварэньне блякаваньня для %{name}
-      reason: Падайце прычыну па якой %{name} блякуецца. Калі ласка, будзьце цярплівы
-        і дзейнічайце разумна, прадстаўляючы ўдзельніку падрабязную інфармацыю пра
-        прычыны блякаваньня, помніце, што паведамленьне будзе бачнае для ўсіх. Помніце,
-        што ня ўсе ўдзельнікі разумеюць жаргон супольнасьці, таму выкарыстоўвайце
-        зразумелыя паняцьці.
       period: Як доўга, пачынаючы з гэтага моманту, карыстальнік будзе заблякаваны
         ад API.
       tried_contacting: Я зьвярнуўся да удзельніка і папрасіў яго спыніцца.
       tried_waiting: Я даў дастаткова часу ўдзельніку, каб адказаць на тыя паведамленьні.
-      needs_view: Удзельніку трэба ўвайсьці ў сыстэму, перад тым як блякаваньне будзе
-        зьнятае
       back: Паказаць усе блякаваньні
     edit:
       title: Рэдагаваньне блякаваньня для %{name}
       heading_html: Рэдагаваньне блякаваньня для %{name}
-      reason: Падайце прычыну, па якой %{name} блякуецца. Калі ласка, будзьце цярплівы
-        і дзейнічайце разумна, прадстаўляючы ўдзельніку падрабязную інфармацыю пра
-        прычыны блякаваньня. Помніце, што ня ўсе ўдзельнікі разумеюць жаргон супольнасьці,
-        таму выкарыстоўвайце зразумелыя паняцьці.
       period: Як доўга, пачынаючы з гэтага моманту, карыстальнік будзе заблякаваны
         ад API.
       show: Паказаць гэтае блякаваньне
       back: Паказаць усе блякаваньні
-      needs_view: Ці трэба ўдзельніку ўвайсьці ў сыстэму, перад тым як блякаваньне
-        будзе зьнятае?
     filter:
       block_expired: Блякаваньне ўжо скончылася і ня можа рэдагавацца.
       block_period: Час блякаваньня павінен быць выбраны са значэньняў з разгортваемага
@@ -1651,9 +1599,9 @@ be-Tarask:
       revoke: Адклікаць!
       flash: Гэтае блякаваньне было адкліканае.
     helper:
-      time_future: Канчаецца ў %{time}.
+      time_future_html: Канчаецца ў %{time}.
       until_login: Актыўнае да моманту ўваходу ўдзельніка ў сыстэму.
-      time_past: Скончылася %{time}.
+      time_past_html: Скончылася %{time}.
       block_duration:
         hours:
           one: '%{count} гадзіна'

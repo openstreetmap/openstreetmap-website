@@ -12,6 +12,8 @@ lb:
     formats:
       friendly: '%e %B %Y um %H:%M'
   helpers:
+    file:
+      prompt: Fichier eraussichen
     submit:
       diary_comment:
         create: Späicheren
@@ -24,7 +26,7 @@ lb:
         create: Schécken
       client_application:
         create: Registréieren
-        update: Änneren
+        update: Aktualiséieren
       trace:
         create: Eroplueden
         update: Ännerunge späicheren
@@ -50,6 +52,9 @@ lb:
       user_preference: Benotzerastellung
       way: Wee
     attributes:
+      client_application:
+        name: Numm (Obligatoresch)
+        allow_write_api: d'Kaart änneren
       diary_entry:
         user: Benotzer
         title: Sujet
@@ -62,15 +67,15 @@ lb:
       trace:
         user: Benotzer
         visible: Visibel
-        name: Numm
+        name: Numm vum Fichier
         size: Gréisst
         latitude: Geografesch Breet
         longitude: Geografesch Längt
         public: Ëffentlech
         description: Beschreiwung
-        gpx_file: 'GPX-Fichier eroplueden:'
-        visibility: 'Visibilitéit:'
-        tagstring: 'Markéierungen:'
+        gpx_file: GPX-Fichier eroplueden
+        visibility: Visibilitéit
+        tagstring: Markéierungen
       message:
         sender: Sender
         title: Sujet
@@ -82,23 +87,53 @@ lb:
         description: Beschreiwung
         languages: Sproochen
         pass_crypt: Passwuert
+        pass_crypt_confirmation: Passwuert confirméieren
     help:
       trace:
         tagstring: Mat Komma getrennt
   datetime:
     distance_in_words_ago:
+      about_x_hours:
+        one: virun ongeféier 1 Stonn
+        other: virun ongeféier %{count} Stonnen
+      about_x_months:
+        one: virun ongeféier 1 Mount
+        other: virun ongeféier %{count} Méint
+      about_x_years:
+        one: virun ongeféier 1 Joer
+        other: virun ongeféier %{count} Joer
+      almost_x_years:
+        one: viru bal 1 Joer
+        other: viru bal %{count} Joer
       half_a_minute: virun enger hallwer Minutt
+      less_than_x_seconds:
+        one: viru manner wéi 1 Sekonn
+        other: viru manner wéi %{count} Sekonnen
+      less_than_x_minutes:
+        one: viru manner wéi 1 Minutt
+        other: viru manner wéi %{count} Minutten
+      over_x_years:
+        one: viru méi wéi 1 Joer
+        other: viru méi wéi %{count} Joer
       x_seconds:
         one: virun 1 virun enger Sekonn
         other: virun viru(n) %{count} Sekonnen
+      x_minutes:
+        one: virun 1 Minutt
+        other: viru(n) %{count} Minutten
+      x_days:
+        one: virun 1 Dag
+        other: viru(n) %{count} Deeg
+      x_months:
+        one: virun 1 Mount
+        other: viru(n) %{count} Méint
+      x_years:
+        one: virun 1 Joer
+        other: viru(n) %{count} Joer
   editor:
     default: Standard (elo %{name})
-    potlatch:
-      name: Potlatch 1
     id:
       name: iD
-    potlatch2:
-      name: Potlatch 2
   auth:
     providers:
       none: Keng
@@ -110,6 +145,11 @@ lb:
       wikipedia: Wikipedia
   api:
     notes:
+      comment:
+        closed_at_html: Geléist %{when}
+        closed_at_by_html: Geléist %{when} vum %{user}
+        reopened_at_html: Reaktivéiert %{when}
+        reopened_at_by_html: Reaktivéiert %{when} vum %{user}
       rss:
         title: OpenStreetMap Notizen
       entry:
@@ -142,8 +182,8 @@ lb:
       relation: Relatiounen (%{count})
       relation_paginated: Relatiounen (%{x}-%{y} vu(n) %{count})
       comment: Bemierkungen (%{count})
-      hidden_commented_by: Verstoppt Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by_html: Verstoppt Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML mam Set vun Ännerungen
       osmchangexml: osmChange XML
       feed:
@@ -170,6 +210,7 @@ lb:
       entry_html: Relatioun %{relation_name}
       entry_role_html: Relatioun %{relation_name} (als %{relation_role})
     not_found:
+      title: Net fonnt
       sorry: Pardon, den %{type}#%{id}, konnt net fonnt ginn.
       type:
         node: Knuet
@@ -205,16 +246,16 @@ lb:
       new_note: Nei Notiz
       description: Beschreiwung
       hidden_title: Verstoppt Notiz N° %{note_name}
-      opened_by: Ugeluecht vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
-      opened_by_anonymous: Ugeluecht vun engem Anonymen <abbr title='%{exact_time}'>
+      opened_by_html: Ugeluecht vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
+      opened_by_anonymous_html: Ugeluecht vun engem Anonymen <abbr title='%{exact_time}'>
         viru(n) %{when}</abbr>
-      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Bemierkung vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Geléist vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Geléist vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Reaktivéiert vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Reaktivéiert vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Verstoppt vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Bemierkung vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Bemierkung vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Geléist vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Geléist vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Reaktivéiert vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Reaktivéiert vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Verstoppt vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: Säit %{page}
@@ -246,11 +287,7 @@ lb:
       commented_at_by_html: '%{when} vum %{user} aktualiséiert'
   diary_entries:
     form:
-      subject: 'Sujet:'
-      language: 'Sprooch:'
-      location: 'Plaz:'
-      latitude: 'Breedegrad:'
-      longitude: 'Längegrad:'
+      location: Plaz
       use_map_link: Kaart benotzen
     index:
       title: Blogge vun de Benotzer
@@ -260,7 +297,8 @@ lb:
       login_to_leave_a_comment_html: '%{login_link} fir eng Bemierkung ze schreiwen'
       login: Aloggen
     diary_entry:
-      posted_by_html: Vum %{link_user} matgedeelt de(n) %{created} op %{language_link}
+      posted_by_html: Vum %{link_user} matgedeelt de(n) %{created} op %{language_link}.
+      updated_at_html: Lescht Aktualiséierung de(n) %{updated}
       reply_link: Dem Auteur e Message schécken
       comment_count:
         one: '%{count} Bemierkung'
@@ -303,14 +341,17 @@ lb:
           cable_car: Kabelwon
           pylon: Mast
           t-bar: Schlepplift
+          "yes": Seelbunn
         aeroway:
           aerodrome: Fluchhafen
           gate: Paart
           hangar: Hangar
           helipad: Helikopterlandeplaz
           runway: Start- a Landepist
+          taxilane: Taxispur
           terminal: Terminal
         amenity:
+          animal_boarding: Déierepensioun
           arts_centre: Konschtzentrum
           atm: Bancomat
           bank: Bank
@@ -319,6 +360,7 @@ lb:
           bench: Bänk
           bicycle_parking: Vëlos-Parking
           bicycle_rental: Locatioun vu Vëloen
+          bicycle_repair_station: Vëlosatelier
           biergarten: Béiergaard
           brothel: Bordell
           bureau_de_change: Wiesselbüro
@@ -330,6 +372,7 @@ lb:
           cinema: Kino
           clinic: Klinik
           clock: Auer
+          conference_centre: Konferenzzentrum
           courthouse: Geriicht
           crematorium: Crematoire
           dentist: Zänndokter
@@ -347,25 +390,21 @@ lb:
           library: Bibliothéik
           marketplace: Maartplaz
           monastery: Klouschter
+          music_school: Museksschoul
           nightclub: Bar (Nightclub)
           nursing_home: Altersheim
-          office: Büro
           parking: Parking
           parking_space: Parkplaz(en)
           pharmacy: Apdikt
           police: Police
           post_box: Bréifboîte
           post_office: Postbüro
-          preschool: Spillschoul
           prison: Prisong
           pub: Bistro
           public_building: Ëffentlecht Gebai
           recycling: Recycling-Center
           restaurant: Restaurant
-          retirement_home: Altersheim
-          sauna: Sauna
           school: Schoul
-          shop: Geschäft
           shower: Douche
           social_facility: Sozial Ariichtung
           studio: Studio
@@ -379,8 +418,9 @@ lb:
           vending_machine: Verkaafsautomat
           veterinary: Déiereklinik
           waste_basket: Drecksback
-          youth_centre: Jugendhaus
+          waste_dump_site: Dreckstipp
         boundary:
+          aboriginal_lands: Reservat
           national_park: Nationalpark
         bridge:
           aqueduct: Aquädukt
@@ -389,18 +429,45 @@ lb:
           viaduct: Viadukt
           "yes": Bréck
         building:
+          apartment: Appartement
+          apartments: Appartementer
+          bungalow: Bungalow
+          chapel: Kapell
+          church: Kierchegebai
+          detached: Eenzelt Haus
+          farm: Bauerenhaff
+          garages: Garagen
+          greenhouse: Zär
+          hangar: Hangar
+          hotel: Hotelgebai
+          house: Haus
+          houseboat: Hausboot
+          hut: Hütt
+          office: Bürosgebai
+          school: Schoulgebai
+          shed: Schapp
+          stable: Stall
+          terrace: Terrasse
+          train_station: Gebai vun der Gare (Eisebunn)
+          warehouse: Lager
           "yes": Gebai
+        club:
+          sport: Sportsclub
         craft:
+          beekeper: Beiemann
           brewery: Brauerei
           carpenter: Zammermann
           electrician: Elektriker
           gardener: Gäertner
+          handicraft: Handwierk
           painter: Usträicher
           photographer: Fotograf
           shoemaker: Schouster
           tailor: Schneider
         emergency:
+          access_point: Zougangspunkt
           defibrillator: Defibrillator
+          fire_xtinguisher: Feierläscher
           phone: Noutruff-Telefon
           "yes": Urgence
         highway:
@@ -431,6 +498,7 @@ lb:
           tertiary: Kleng Strooss
           "yes": Strooss
         historic:
+          aircraft: Historesche Fliger
           archaeological_site: Archeologesche Site
           battlefield: Schluechtfeld
           building: Historescht Gebai
@@ -453,6 +521,7 @@ lb:
         junction:
           "yes": Kräizung
         landuse:
+          aquaculture: Aquakultur
           cemetery: Kierfecht
           construction: Chantier
           farm: Bauerenhaff
@@ -471,6 +540,7 @@ lb:
           residential: Wunngéigend
           vineyard: Wéngert
         leisure:
+          dance: Danzsall
           garden: Gaart
           golf_course: Golfterrain
           ice_rink: Äispist
@@ -478,6 +548,7 @@ lb:
           miniature_golf: Minigolf
           nature_reserve: Naturschutzgebitt
           park: Park
+          picnic_table: Picknickdësch
           pitch: Sportsterrain
           playground: Spillplaz
           sauna: Sauna
@@ -485,6 +556,8 @@ lb:
           swimming_pool: Schwämm
           "yes": Fräizäit
         man_made:
+          antenna: Antenn
+          avalanche_protection: Lawineschutz
           bridge: Bréck
           bunker_silo: Bunker
           chimney: Kamäin
@@ -494,7 +567,9 @@ lb:
           mast: Mast
           mine: Minn
           pipeline: Pipeline
+          pumping_station: Pompel-Statioun
           surveillance: Iwwerwaachung
+          telescope: Teleskop
           tower: Tuerm
           watermill: Waassermillen
           water_tower: Waassertuerm
@@ -541,6 +616,8 @@ lb:
           employment_agency: Aarbechtsamt
           estate_agent: Immobilière
           lawyer: Affekot
+          notary: Notaire
+          tax_advisor: Steierberoder
           travel_agent: Reesbüro
           "yes": Büro
         place:
@@ -587,28 +664,31 @@ lb:
           car_repair: Garage
           carpet: Teppechgeschäft
           chemist: Apdikt
+          chocolate: Schockela
           clothes: Kleedergeschäft
           computer: Computergeschäft
           cosmetics: Parfümerie
           dry_cleaning: Botzerei
+          erotic: Sex-Shop
+          fabric: Stoffgeschäft
           fashion: Moudegeschäft
-          fish: Fëschgeschäft
           florist: Fleurist
           food: Epicerie
           funeral_directors: Doudegriewer
           furniture: Miwwelgeschäft
-          gallery: Galerie
           hairdresser: Coiffeur
           hardware: Quincaillerie
+          hearing_aids: Hörapparat
+          ice_cream: Glacëbuttek
           jewelry: Bijouterie
           laundry: Botzerei
           lottery: Lotterie
-          market: Maart
           massage: Massage
           music: Museksgeschäft
           optician: Optiker
+          perfumery: Parfümerie
           pet: Déierebuttek
-          pharmacy: Apdikt
+          pet_grooming: Honds-Salon
           photo: Fotosgeschäft
           seafood: Mieresfriichten
           second_hand: Secondhand-Geschäft
@@ -644,7 +724,6 @@ lb:
           river: Floss
           wadi: Wadi
           waterfall: Waasserfall
-    description:
       types:
         cities: Stied
         towns: Dierfer
@@ -687,6 +766,7 @@ lb:
           spam_label: Dës Notiz ass Spam
           abusive_label: Dës Notiz ass abusiv
     create:
+      successful_report: Äre Rapport gouf enregistréiert
       provide_details: Gitt wgl. déi gefroten Detailer un
   layouts:
     logo:
@@ -722,10 +802,11 @@ lb:
       text: En Don maachen
     learn_more: Méi wëssen
     more: Méi
-  notifier:
+  user_mailer:
     diary_comment_notification:
       hi: Salut %{to_user},
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Salut %{to_user},
       footer_html: Dir kënnt de Message och op %{readurl} liesen an Dir kënnt op %{replyurl}
         äntwerten
@@ -734,34 +815,23 @@ lb:
       had_added_you: '%{user} hat Iech als Frënd op OpenStreet Map dobäigesat.'
       see_their_profile: Dir kënnt säin/hire Profil op %{userurl} kucken.
       befriend_them: Dir kënnt hien/si och als Frënd op %{befriendurl} derbäisetzen.
-    gpx_notification:
-      greeting: Salut,
-      your_gpx_file: Et gesäit aus wéi Äre GPX-Fichier
-      with_description: mat der Beschreiwung
-      failure:
-        failed_to_import: 'konnt net importéiert ginn. Hei ass de Feeler:'
+    gpx_failure:
+      hi: Salut %{to_user},
+      failed_to_import: 'konnt net importéiert ginn. Hei ass de Feeler:'
+    gpx_success:
+      hi: Salut %{to_user},
     signup_confirm:
       greeting: Bonjour !
     email_confirm:
       subject: '[OpenStreetMap] Confirméiert Är E-Mailadress'
-    email_confirm_plain:
-      greeting: Salut,
-      click_the_link: Wann Dir dat sidd, da klickt op de Link hei drënner fir d'Ännerung
-        ze confirméieren.
-    email_confirm_html:
       greeting: Salut,
       click_the_link: Wann Dir dat sidd, da klickt op de Link hei drënner fir d'Ännerung
         ze confirméieren.
     lost_password:
       subject: '[OpenStreetMap] Ufro fir d''Passwuert zréckzesetzen'
-    lost_password_plain:
       greeting: Salut,
       click_the_link: Wann Dir dat sidd da klickt wgl. op de Link hei drënner fir
         Äert Passwuert zréckzesetzen.
-    lost_password_html:
-      greeting: Salut,
-      click_the_link: Wann Dir dat sidd da klickt wgl. op de Link hei drënner fir
-        Ärt Passwuert zréckzesetzen.
     note_comment_notification:
       anonymous: En anonyme Benotzer
       greeting: Salut,
@@ -814,6 +884,22 @@ lb:
       as_unread: Message als net geliest markéiert
     destroy:
       destroyed: Message geläscht
+  shared:
+    markdown_help:
+      headings: Iwwerschrëften
+      heading: Iwwerschrëft
+      subheading: Ënneriwwerschrëft
+      unordered: Net-nummeréiert Lëscht
+      ordered: Nummeréiert Lëscht
+      first: Éischt Element
+      second: Zweet Element
+      link: Link
+      text: Text
+      image: Bild
+      alt: Alternativen Text
+      url: URL
+    richtext_field:
+      edit: Änneren
   site:
     about:
       next: Weider
@@ -977,6 +1063,7 @@ lb:
       visibility_help: wat heescht dat?
       help: Hëllef
     edit:
+      cancel: Ofbriechen
       visibility_help: wat heescht dat?
     show:
       pending: AM SUSPENS
@@ -1023,15 +1110,10 @@ lb:
       edit: Detailer änneren
       delete: Client läschen
       confirm: Sidd Dir sécher?
-      allow_write_api: Kaart änneren
     index:
       title: Meng OAuth Detailer
       revoke: Ophiewen!
       oauth: OAuth
-    form:
-      name: Numm
-      required: Obligatoresch
-      allow_write_api: Kaart änneren
   users:
     login:
       title: Umellen
@@ -1088,8 +1170,6 @@ lb:
     reset_password:
       title: Passwuert zrécksetzen
       heading: Passwuert fir %{user} zrécksetzen
-      password: 'Passwuert:'
-      confirm password: 'Passwuert confirméieren:'
       reset: Passwuert zrécksetzen
       flash changed: Äert Passwuert gouf geännert.
     new:

@@ -5,10 +5,6 @@ module GeoRecord
   # and not e.g. 4.0e-05
   # Unfortunately you can't extend Numeric classes directly (e.g. `Coord < Float`).
   class Coord < DelegateClass(Float)
-    def initialize(obj)
-      super(obj)
-    end
-
     def to_s
       format("%<coord>.7f", :coord => self)
     end

@@ -54,13 +54,13 @@ class Relation < ApplicationRecord
 
   TYPES = %w[node way relation].freeze
 
-  def self.from_xml(xml, create = false)
+  def self.from_xml(xml, create: false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
     pt = doc.find_first("//osm/relation")
 
     if pt
-      Relation.from_xml_node(pt, create)
+      Relation.from_xml_node(pt, :create => create)
     else
       raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/relation element.")
     end
@@ -68,7 +68,7 @@ class Relation < ApplicationRecord
     raise OSM::APIBadXMLError.new("relation", xml, e.message)
   end
 
-  def self.from_xml_node(pt, create = false)
+  def self.from_xml_node(pt, create: false)
     relation = Relation.new
 
     raise OSM::APIBadXMLError.new("relation", pt, "Version is required when updating") unless create || !pt["version"].nil?

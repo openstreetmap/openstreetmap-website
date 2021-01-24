@@ -3,6 +3,8 @@
 require "test_helper"
 
 class ApiCapabilityTest < ActiveSupport::TestCase
+  private
+
   def tokens(*toks)
     AccessToken.new do |token|
       toks.each do |t|

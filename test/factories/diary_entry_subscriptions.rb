@@ -1,4 +1,3 @@
 FactoryBot.define do
-  factory :diary_entry_subscription do
-  end
+  factory :diary_entry_subscription
 end

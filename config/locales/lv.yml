@@ -74,6 +74,7 @@ lv:
       relation: Relācija
       relation_member: Relācijas loceklis
       relation_tag: Relācijas birka
+      report: Ziņot
       session: Sesija
       trace: Trase
       tracepoint: Trases punkts
@@ -85,6 +86,9 @@ lv:
       way_node: Līnijas punkts
       way_tag: Līnijas apzīmējums
     attributes:
+      client_application:
+        callback_url: Atzvanīšanas URL
+        support_url: Atbalsta URL
       diary_comment:
         body: Teksts
       diary_entry:
@@ -99,15 +103,15 @@ lv:
       trace:
         user: Lietotājs
         visible: Redzams
-        name: Nosaukums
+        name: Faila nosaukums
         size: Izmērs
         latitude: Platums
         longitude: Garums
         public: Publisks
         description: Apraksts
         gpx_file: 'Augšupielādēt GPX failu:'
-        visibility: 'Redzamība:'
-        tagstring: 'Iezīmes:'
+        visibility: Redzamība
+        tagstring: Iezīmes
       message:
         sender: Sūtītājs
         title: Temats
@@ -123,17 +127,13 @@ lv:
     help:
       trace:
         tagstring: atdalīts ar komatiem
+      user_block:
+        needs_view: Vai lietotājam ir nepieciešams ieiet pirms šis bloks tiks noņemts?
   editor:
     default: Noklusējuma (pašlaik %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (atvērt pārlūkā)
     id:
       name: iD
       description: iD (pārlūka redaktors)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (atvērt pārlūkā)
     remote:
       name: Attālinātā palaišana
       description: Attālinātā palaišana  (JOSM vai Merkaartor)
@@ -196,9 +196,10 @@ lv:
       relation: Relācijas (%{count})
       relation_paginated: Relācijas (%{x}-%{y} no %{count})
       comment: Komentāri (%{count})
-      hidden_commented_by: Slēptais komentārs no %{user} <abbr title='%{exact_time}'>pirms
+      hidden_commented_by_html: Slēptais komentārs no %{user} <abbr title='%{exact_time}'>pirms
         %{when}</abbr>
-      commented_by: Komentārs no %{user} <abbr title='%{exact_time}'>%{when} atpakaļ</abbr>
+      commented_by_html: Komentārs no %{user} <abbr title='%{exact_time}'>%{when}
+        atpakaļ</abbr>
       changesetxml: Izmaiņu kopas XML
       osmchangexml: osmChange XML
       feed:
@@ -273,18 +274,21 @@ lv:
       open_title: 'Neatrisināta piezīme: #%{note_name}'
       closed_title: 'Atrisināta piezīme: #%{note_name}'
       hidden_title: 'Paslēpta piezīme #%{note_name}'
-      opened_by: Izveidoja %{user} <abbr title='%{exact_time}'>%{when} atpakaļ</abbr>
-      opened_by_anonymous: Izveidoja anonīms <abbr title='%{exact_time}'>%{when} atpakaļ</abbr>
-      commented_by: Komentārs no %{user} <abbr title='%{exact_time}'>%{when} atpakaļ</abbr>
-      commented_by_anonymous: Komentārs no anonīma <abbr title='%{exact_time}'>%{when}
+      opened_by_html: Izveidoja %{user} <abbr title='%{exact_time}'>%{when} atpakaļ</abbr>
+      opened_by_anonymous_html: Izveidoja anonīms <abbr title='%{exact_time}'>%{when}
         atpakaļ</abbr>
-      closed_by: Atrisināja %{user} <abbr title='%{exact_time}'>%{when} atpakaļ</abbr>
-      closed_by_anonymous: Atrisināja anonīms <abbr title='%{exact_time}'>%{when}
+      commented_by_html: Komentārs no %{user} <abbr title='%{exact_time}'>%{when}
         atpakaļ</abbr>
-      reopened_by: Atkal aktivizēja %{user} <abbr title='%{exact_time}'>%{when} atpakaļ</abbr>
-      reopened_by_anonymous: Atkal aktivizēja anonīms <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous_html: Komentārs no anonīma <abbr title='%{exact_time}'>%{when}
         atpakaļ</abbr>
-      hidden_by: Paslēpa %{user} <abbr title='%{exact_time}'>%{when} atpakaļ</abbr>
+      closed_by_html: Atrisināja %{user} <abbr title='%{exact_time}'>%{when} atpakaļ</abbr>
+      closed_by_anonymous_html: Atrisināja anonīms <abbr title='%{exact_time}'>%{when}
+        atpakaļ</abbr>
+      reopened_by_html: Atkal aktivizēja %{user} <abbr title='%{exact_time}'>%{when}
+        atpakaļ</abbr>
+      reopened_by_anonymous_html: Atkal aktivizēja anonīms <abbr title='%{exact_time}'>%{when}
+        atpakaļ</abbr>
+      hidden_by_html: Paslēpa %{user} <abbr title='%{exact_time}'>%{when} atpakaļ</abbr>
       report: Ziņot par šo piezīmi
     query:
       title: Vaicājuma funkcijas
@@ -332,12 +336,7 @@ lv:
     new:
       title: Jauns dienasgrāmatas ieraksts
     form:
-      subject: 'Temats:'
-      body: 'Teksts:'
-      language: 'Valoda:'
       location: 'Atrašanās vieta:'
-      latitude: 'Platums:'
-      longitude: 'Garums:'
       use_map_link: izmantot karti
     index:
       title: Lietotāju dienasgrāmatas
@@ -347,6 +346,7 @@ lv:
       in_language_title: Dienasgrāmatas ieraksti valodā %{language}
       new: Jauns dienasgrāmatas ieraksts
       new_title: Izveidot jaunu ierakstu jūsu dienasgrāmatā
+      my_diary: Mana dienasgrāmata
       no_entries: Dienasgrāmatā nav ierakstu
       recent_entries: Pēdējie dienasgrāmatas ieraksti
       older_entries: Vecāki ieraksti
@@ -495,9 +495,9 @@ lv:
           marketplace: Tirgus
           monastery: Klosteris
           motorcycle_parking: Motociklu stāvvieta
+          music_school: Mūzikas skola
           nightclub: Naktsklubs
           nursing_home: Pansionāts
-          office: Birojs
           parking: Autostāvvieta
           parking_entrance: Autostāvvietas iebrauktuve
           pharmacy: Aptieka
@@ -505,20 +505,16 @@ lv:
           police: Policija
           post_box: Pastkaste
           post_office: Pasts
-          preschool: Pirmsskolas apmācība
           prison: Cietums
           pub: Krogs
+          public_bath: Publiskā pirts
           public_building: Sabiedriskā ēka
           recycling: Pārstrādes punkts
           restaurant: Restorāns
-          retirement_home: Pansionāts
-          sauna: Sauna
           school: Skola
           shelter: Pajumte
-          shop: Veikals
           shower: Dušas
           social_centre: Sociālais centrs
-          social_club: Sociālais klubs
           social_facility: Sociālā ēka
           studio: Studija
           swimming_pool: Peldbaseins
@@ -533,7 +529,6 @@ lv:
           village_hall: Pagastmāja
           waste_basket: Atkritumu grozs
           waste_disposal: Atkritumu izgāztuve
-          youth_centre: Jauniešu centrs
         boundary:
           administrative: Administratīvā robeža
           census: Skaitīšanas robeža
@@ -546,7 +541,32 @@ lv:
           viaduct: Viadukts
           "yes": Tilts
         building:
+          chapel: Kapela
+          church: Baznīca
+          commercial: Tirdzniecības ēka
+          dormitory: Kopmītnes
+          farm: Saimniecības ēka
+          garage: Garāža
+          garages: Garāžas
+          hangar: Angārs
+          hospital: Slimnīcas ēka
+          hotel: Viesnīca
+          house: Māja
+          industrial: Ražošanas ēka
+          office: Biroju ēka
+          public: Sabiedriskā ēka
+          residential: Dzīvojamā ēka
+          retail: Mazumtirdzniecības ēka
+          roof: Jumts
+          school: Skolas ēka
+          terrace: Terase
+          train_station: Dzelzceļa stacija
+          university: Universitātes ēka
+          warehouse: Noliktava
           "yes": Ēka
+        club:
+          sport: Sporta klubs
+          "yes": Klubs
         craft:
           brewery: Alus darītava
           carpenter: Galdnieks
@@ -555,6 +575,8 @@ lv:
           painter: Krāsotājs
           photographer: Fotogrāfs
           plumber: Santehniķis
+          roofer: Jumiķis
+          sawmill: Kokzāģētava
           shoemaker: Kurpnieks
           tailor: Drēbnieks
           "yes": Amatnieks
@@ -601,8 +623,8 @@ lv:
           tertiary: Pašvaldību autoceļi
           tertiary_link: Pašvaldību autoceļš
           track: Zemesceļš
+          traffic_mirror: Satiksmes spogulis
           traffic_signals: Satiksmes regulators
-          trail: Taka
           trunk: Maģistrālais ceļš
           trunk_link: Maģistrālais ceļš
           unclassified: Neklasificēts ceļš
@@ -620,7 +642,6 @@ lv:
           fort: Forts
           heritage: Kultūras mantojums
           house: Māja
-          icon: Ikona
           manor: Muiža
           memorial: Memoriāls
           mine: Raktuves
@@ -663,7 +684,6 @@ lv:
           reservoir_watershed: Rezervuāru ūdensšķirtne
           residential: Dzīvojamā zona
           retail: Mazumtirdzniecība
-          road: Ceļa Apgabals
           village_green: Ciema Centrālais Parks
           vineyard: Vīna dārzs
           "yes": Zemes izmantojums
@@ -683,6 +703,7 @@ lv:
           miniature_golf: Minigolfs
           nature_reserve: Dabas rezervāts
           park: Parks
+          picnic_table: Piknika galds
           pitch: Sporta laukums
           playground: Spēļu laukums
           recreation_ground: Atpūtas Zona
@@ -704,6 +725,7 @@ lv:
           lighthouse: Bāka
           mine: Raktuves
           pipeline: Cauruļvads
+          snow_cannon: Sniega lielgabals
           surveillance: Novērošana
           tower: Tornis
           watermill: Ūdens dzirnavas
@@ -794,7 +816,6 @@ lv:
           subdivision: Subdivīzija
           suburb: Piepilsēta
           town: Pilsēta
-          unincorporated_area: Neiekļauts apgabals
           village: Ciems
           "yes": Vieta
         railway:
@@ -820,6 +841,7 @@ lv:
           switch: Dzelzceļa punkti
           tram: Tramvajs
           tram_stop: Tramvaja pietura
+          yard: Dzelzceļa Pagalms
         shop:
           alcohol: Alkohola Veikals
           antiques: Senlietas
@@ -836,6 +858,7 @@ lv:
           car_repair: Auto remonts
           carpet: Paklāju veikals
           charity: Labdarības veikals
+          cheese: Siera veikals
           chemist: Ķīmiķis
           clothes: Apģērbu veikals
           computer: Datorveikals
@@ -852,12 +875,10 @@ lv:
           estate_agent: Nekustamā īpašuma aģents
           farm: Saimniecības Veikals
           fashion: Modes veikals
-          fish: Zivju veikals
           florist: Florists
           food: Pārtikas veikals
           funeral_directors: Apbedīšanas birojs
           furniture: Mēbeles
-          gallery: Galerija
           garden_centre: Dārza centrs
           general: Veikals
           gift: Dāvanu veikals
@@ -871,7 +892,6 @@ lv:
           laundry: Veļas mazgātava
           lottery: Loterija
           mall: Tirdzniecības centrs
-          market: Tirgus
           massage: Masāža
           mobile_phone: Mobilo telefonu veikals
           motorcycle: Motociklu veikals
@@ -882,7 +902,6 @@ lv:
           outdoor: Ārtelpu Veikals
           paint: Krāsas veikals
           pet: Zooveikals
-          pharmacy: Aptieka
           photo: Fotoveikals
           seafood: Jūras veltes
           second_hand: Lietoto preču veikals
@@ -943,17 +962,14 @@ lv:
           "yes": Ūdensceļš
       admin_levels:
         level2: Valsts robeža
+        level3: Reģiona robeža
         level4: Štata robeža
         level5: Rajona robeža
         level6: Pagasta robeža
+        level7: Pašvaldības robeža
         level8: Pilsētas robeža
         level9: Ciema robeža
         level10: Priekšpilsētas robeža
-    description:
-      title:
-        osm_nominatim: Atrašanās vieta no <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Atrašanās vieta no <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Pilsētas
         towns: Pilsētas
@@ -1018,7 +1034,7 @@ lv:
       text: Ziedot attīstībai
     learn_more: Uzzināt Vairāk
     more: Vairāk
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} komentēja jūsu dienasgrāmatas ierakstu'
       hi: Sveiks %{to_user},
@@ -1037,21 +1053,13 @@ lv:
       had_added_you: '%{user} pievienoja jūs kā draugu OpenStreetMap.'
       see_their_profile: Jūs variet redzēt viņu profilu %{userurl}.
       befriend_them: Jūs variet viņus arī pievienot par draugiem %{befriendurl}.
-    gpx_notification:
-      greeting: Sveicināti,
-      your_gpx_file: Izskatās, ka jūsu GPX fails
-      with_description: ar aprakstu
-      and_the_tags: 'un šīs iezīmes:'
-      and_no_tags: bez birkām.
-      failure:
-        subject: '[OpenStreetMap] GPX importēšanas kļūme'
-        failed_to_import: 'imports neizdevās. Kļūda:'
-        more_info_1: Sīkāka informācija par GPX importa kļūmēm un, kā no tām izvairīties
-        more_info_2: 'atrodams šeit:'
-      success:
-        subject: '[OpenStreetMap] GPX imports paveikts'
-        loaded_successfully: tika ielādēts veiksmīgi ar %{trace_points} no iespējamiem
-          %{possible_points} punktiem.
+    gpx_failure:
+      failed_to_import: 'imports neizdevās. Kļūda:'
+      subject: '[OpenStreetMap] GPX importēšanas kļūme'
+    gpx_success:
+      loaded_successfully: tika ielādēts veiksmīgi ar %{trace_points} no iespējamiem
+        %{possible_points} punktiem.
+      subject: '[OpenStreetMap] GPX imports paveikts'
     signup_confirm:
       subject: '[OpenStreetMap] Laipni lūgti OpenStreetMap'
       greeting: Sveicināti!
@@ -1063,30 +1071,16 @@ lv:
         lai tu varētu sākt kartēt.
     email_confirm:
       subject: '[OpenStreetMap] Apstipriniet savu e-pasta adresi'
-    email_confirm_plain:
       greeting: Sveicināti,
       hopefully_you: Kāds (cerams Tu) vēlas mainīt savu e-pasta adresi %{server_url}
         uz %{new_address}.
       click_the_link: Ja tas esat jūs, lūdzu klikšķiniet uz zemāk esošās saites lai
         apstiprinātu e-pasta adreses nomaiņu.
-    email_confirm_html:
-      greeting: Sveicināti,
-      hopefully_you: Kāds (cerams, ka jūs) vēlas mainīt savu e-pasta adresi %{server_url}
-        uz %{new_address}.
-      click_the_link: Ja tas esat jūs, lūdzu klikšķiniet uz zemāk esošās saites lai
-        apstiprinātu e-pasta adreses nomaiņu.
     lost_password:
       subject: '[OpenStreetMap] Paroles atiestatīšanas pieprasījums'
-    lost_password_plain:
       greeting: Sveicināti,
       hopefully_you: Kāds (iespējams Tu) ir pieprasījis paroles atjaunošanu ar šo
         e-pasta adresi reģistrētam openstreetmap.org lietotājam.
-      click_the_link: Ja tas esat jūs, lūdzu klikšķiniet uz zemāk esošās saites lai
-        atiestatītu savu paroli.
-    lost_password_html:
-      greeting: Sveicināti,
-      hopefully_you: Kāds (iespējams, jūs) ir vēlējies atiestatīt paroli šīs e-pasta
-        adreses openstreetmap.org kontam.
       click_the_link: Ja tas esat jūs, lūdzu klikšķiniet uz zemāk esošās saites lai
         atiestatītu savu paroli.
     note_comment_notification:
@@ -1380,17 +1374,6 @@ lv:
         Tu vari uzstādīt savus labojumus kā publiskus no savas %{user_page}s.
       user_page_link: dalībnieka lapa
       anon_edits_link_text: Uzzini, kāpēc tā notiek.
-      flash_player_required_html: Jums nepieciešams Flash playeris lai izmantotu Potlatch
-        - OpenStreetMap Flash redaktoru. Jūs varat <a href="https://get.adobe.com/flashplayer/">Lejupielādēt
-        Flash Player no Adobe.com</a>.  OpenStreetMap rediģēšanai ir pieejamas arī<a
-        href="https://wiki.openstreetmap.org/wiki/Editing">vairākas citas iespējas</a>
-        .
-      potlatch_unsaved_changes: Tev ir nesaglabātas izmaiņas. (Lai saglabātu iekš
-        Potlatch, tev ir jānoņem atlase no esošā ceļa vai punkta, ja labojiet tiešraides
-        režīmā, vai spiediet saglabāt, ja Jums ir Saglabāt poga.)
-      potlatch2_not_configured: Potlatch 2 nav konfigurēts - lūdzu apskati http://wiki.openstreetmap.org/wiki/The_Rails_Port
-      potlatch2_unsaved_changes: Tev ir nesaglabātas izmaiņas. (Lai saglabātu iekš
-        Potlach 2, tev ir jāspiež saglabāt.)
       id_not_configured: iD nav konfigurēts
       no_iframe_support: Tavs pārlūks neatbalsta HTML rāmjus, kas ir nepieciešami
         šai iezīmei.
@@ -1790,13 +1773,6 @@ lv:
       delete: Dzēst klientu
       confirm: Vai esat pārliecināts?
       requests: 'Pieprasīt sekojošās atļaujas no lietotāja:'
-      allow_read_prefs: lasīt lietotāja uzstādījumus.
-      allow_write_prefs: mainīt lietotāja uzstādījumus.
-      allow_write_diary: veidot dienasgrāmatas ierakstus, komentārus un veidot draugus.
-      allow_write_api: labot karti.
-      allow_read_gpx: lasīt viņu privātās GPS trases.
-      allow_write_gpx: augšupielādēt GPS ceļus.
-      allow_write_notes: labot piezīmes.
     index:
       title: Manas OAuth detaļas
       my_tokens: Manas autorizētās aplikācijas
@@ -1812,19 +1788,7 @@ lv:
       registered_apps: 'Tev ir reģistrētas sekojošās klientu aplikācijas:'
       register_new: Reģistrēt savu aplikāciju
     form:
-      name: Nosaukums
-      required: Obligāts
-      url: Galvenais Aplikācijas URL
-      callback_url: Atzvanīšanas URL
-      support_url: Atbalsta URL
       requests: 'Pieprasa sekojošās atļaujas no lietotāja:'
-      allow_read_prefs: lasīt viņa lietotāja uzstāījumus.
-      allow_write_prefs: mainīt viņa lietotāja uzstādījumus.
-      allow_write_diary: veidot dienasgrāmatas ierakstus, komentārus un veidot draugus.
-      allow_write_api: labot karti.
-      allow_read_gpx: lasīt savas privātās GPS trases.
-      allow_write_gpx: augšupielādēt GPS trases.
-      allow_write_notes: labot piezīmes.
     not_found:
       sorry: Atvainojiet, šis %{type} nav atrasts.
     create:
@@ -1904,8 +1868,6 @@ lv:
     reset_password:
       title: Atiestatīt paroli
       heading: Atcelt %{user} paroli
-      password: 'Parole:'
-      confirm password: 'Atkārtot paroli:'
       reset: Atcelt paroli
       flash changed: Jūsu parole ir nomainīta.
       flash token bad: Neatradu to pilnvaru, varbūt pārbaudi URL?
@@ -1920,9 +1882,6 @@ lv:
         html: |-
           <p>Atšķirībā no citām kartēm, OpenStreetMap pilnībā rada cilvēki kā tu, un tā ir bezmaksas jebkuram priekš labošanas, atjaunošanas, lejupielādes un lietošanas.</p>
           <p>Reģistrējies, lai sāktu papildināt karti. Mēs tev nosūtīsim e-pastu, lai apstiprinātu tavu lietotāju.</p>
-      license_agreement: Kad tu apstiprini savu lietotāju, tev būs nepieciešams pieņemt
-        <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">veidotāju
-        noteikumus</a>.
       email address: 'E-pasta adrese:'
       confirm email address: 'Apstipriniet e-pasta adresi:'
       not_displayed_publicly_html: Netiek rādīts publiski (skati <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
@@ -2105,10 +2064,10 @@ lv:
       reconfirm_html: Ja nepieciešams, lai izsūtam apstiprinājuma e-pastu vēlreiz,
         <a href="%{reconfirm}">spied te</a>.
     confirm_resend:
-      success: Mēs nosūtījām jaunu pārbaudes e-pastu uz %{email} un tiklīdz tu apstiprināsi
-        savu lietotāju, tu varēti kartēt.<br /><br />Ja tu lieto pretmēstuļu sistēmu,
-        kura nosūta pārbaudes pieprasījumus, tad pārliecinies, ka esi ielicis %{sender}
-        baltajā sarakstā, jo mēs nevaram atbildēt uz pārbaudes pieprasījumiem.
+      success_html: Mēs nosūtījām jaunu pārbaudes e-pastu uz %{email} un tiklīdz tu
+        apstiprināsi savu lietotāju, tu varēti kartēt.<br /><br />Ja tu lieto pretmēstuļu
+        sistēmu, kura nosūta pārbaudes pieprasījumus, tad pārliecinies, ka esi ielicis
+        %{sender} baltajā sarakstā, jo mēs nevaram atbildēt uz pārbaudes pieprasījumiem.
       failure: Lietotājs %{name} nav atrasts.
     confirm_email:
       heading: Apstiprināt e-pasta adreses maiņu
@@ -2190,26 +2149,17 @@ lv:
     new:
       title: Veidoju bloku uz %{name}
       heading_html: Veidoju bloku uz %{name}
-      reason: Iemesls kāpēc %{name} tika bloķēts. Lūdzu esi tik mierīgs un saprotošs,
-        cik vien ir iespējams, dodot pēc iespējas detalizētāku izskaidrojumu par situāciju,
-        atceroties, ka ziņojums būs publiski redzams. Atceries, ka ne visi lietotāji
-        izprot kopienas žargonus, tāpēc centies izmantot nespeciālistu terminus.
       period: Cik ilgi, no šī brīža, lietotājam būs liegta pieeja pie API.
       tried_contacting: Es sazinājos ar lietotāju un lūdzu tam pārtraukt.
       tried_waiting: Esmu devis lietotājam atbilstošu laika daudzumu, lai atbildētu
         uz paziņojumiem.
-      needs_view: Lietotājam ir jāautorizējas, pirms liegums tiks noņemts
       back: Skatīt visus liegumus
     edit:
       title: Rediģē liegumu uz %{name}
       heading_html: Rediģē liegumu uz %{name}
-      reason: Iemesls, kāpēc %{name} ir bloķēts. Lūdzu esi mierīgs un saprotošs, dod
-        detalizētu izskaidrojumu par situāciju. Atceries, ka ne visi lietotāji saprot
-        kopienas žargonus, tāpēc centies izmantot nespeciālistu terminus.
       period: Cik ilgi, no šī brīža, lietotājam būs liegta pieeja pie API.
       show: Apskatīt šo bloku
       back: Skatīt visus blokus
-      needs_view: Vai lietotājam ir nepieciešams ieiet pirms šis bloks tiks noņemts?
     filter:
       block_expired: Šis liegums jau ir beidzies un nevar tikt labots.
       block_period: Lieguma periodam jābūt vienam no izvēlamām iespējām krītošajā
@@ -2236,9 +2186,9 @@ lv:
       revoke: Atsaukt!
       flash: Šis bloks ir atsaukts.
     helper:
-      time_future: Beidzas %{time}.
+      time_future_html: Beidzas %{time}.
       until_login: Aktīvs līdz lietotājs autorizēsies.
-      time_past: Pabeigts %{time} atpakaļ.
+      time_past_html: Pabeigts %{time} atpakaļ.
       block_duration:
         hours:
           one: 1 stunda
@@ -2324,6 +2274,7 @@ lv:
         title: Rādīt manu atrašanās vietu
       base:
         standard: Standarta
+        cyclosm: CyclOSM
         cycle_map: Velokarte
         transport_map: Transporta karte
         hot: Humanitārās
@@ -2366,7 +2317,7 @@ lv:
         hide: Slēpt
         resolve: Atrisināt
         reactivate: Atkal aktivizēt
-        comment_and_resolve: Komentēt un Atrisināt
+        comment_and_resolve: Komentēt un atrisināt
         comment: Komentēt
     edit_help: Pārvieto karti un pietuvini vietai, kuru vēlies labot, tad spied šeit.
     directions:

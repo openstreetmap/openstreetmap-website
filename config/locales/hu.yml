@@ -4,6 +4,7 @@
 # Author: --szabi--
 # Author: Abijeet Patro
 # Author: Athoss
+# Author: Balint36
 # Author: BanKris
 # Author: Bencemac
 # Author: BáthoryPéter
@@ -14,6 +15,7 @@
 # Author: GBAB
 # Author: Glanthor Reviol
 # Author: Grin
+# Author: Hanna Tardos
 # Author: Kempelen
 # Author: Leiric
 # Author: Macofe
@@ -36,6 +38,8 @@ hu:
     formats:
       friendly: '%Y. %B %e., %H.%M'
   helpers:
+    file:
+      prompt: Válassz egy fájlt
     submit:
       diary_comment:
         create: Mentés
@@ -48,7 +52,7 @@ hu:
         create: Küldés
       client_application:
         create: Regisztrálás
-        update: Szerkesztés
+        update: Frissítés
       redaction:
         create: Módosítás létrehozása
         update: Módosítás mentése
@@ -98,6 +102,9 @@ hu:
       way_node: Vonal pontja
       way_tag: Vonal címkéje
     attributes:
+      client_application:
+        callback_url: Visszahívási URL
+        support_url: Támogatás URL
       diary_comment:
         body: Szöveg
       diary_entry:
@@ -112,20 +119,22 @@ hu:
       trace:
         user: Felhasználó
         visible: Látható
-        name: Név
+        name: Fájlnév
         size: Méret
         latitude: Földrajzi szélesség
         longitude: Földrajzi hosszúság
         public: Nyilvános
         description: Leírás
-        gpx_file: 'GPX fájl feltöltése:'
-        visibility: 'Láthatóság:'
-        tagstring: 'Címkék:'
+        gpx_file: GPX fájl feltöltése
+        visibility: Láthatóság
+        tagstring: Címkék
       message:
         sender: Küldő
         title: Tárgy
         body: Szöveg
         recipient: Címzett
+      report:
+        details: Kérlek részletezd a problémát (kötelező).
       user:
         email: E-mail
         active: Aktív
@@ -133,9 +142,12 @@ hu:
         description: Leírás
         languages: Nyelvek
         pass_crypt: Jelszó
+        pass_crypt_confirmation: Jelszó megerősítése
     help:
       trace:
         tagstring: vesszővel elválasztva
+      user_block:
+        needs_view: Be kell jelentkeznie a felhasználónak, mielőtt a blokkolás feloldódik?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -152,8 +164,8 @@ hu:
         other: majdnem %{count} éve
       half_a_minute: fél perccel ezelőtt
       less_than_x_seconds:
-        one: kevesebb, mint 1 másodperce
-        other: kevesebb, mint %{count} másodperce
+        one: kevesebb mint 1 másodperce
+        other: kevesebb mint %{count} másodperce
       less_than_x_minutes:
         one: kevesebb mint 1 perce
         other: kevesebb mint %{count} perce
@@ -177,18 +189,15 @@ hu:
         other: '%{count} éve'
   editor:
     default: Alapértelmezett (jelenleg %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (böngészőn belüli szerkesztő)
     id:
       name: iD
       description: iD (böngészőben futó szerkesztő)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (böngészőn belüli szerkesztő)
     remote:
       name: Távirányító
       description: Távirányító (JOSM vagy Merkaartor)
+  auth:
+    providers:
+      wikipedia: Wikipédia
   api:
     notes:
       comment:
@@ -226,6 +235,12 @@ hu:
     anonymous: névtelen
     no_comment: (nincs hozzászólás)
     part_of: Része ennek
+    part_of_relations:
+      one: 1 kapcsolat
+      other: '%{count} kapcsolat'
+    part_of_ways:
+      one: 1 vonal
+      other: '%{count} vonal'
     download_xml: XML letöltése
     view_history: Előzmények megjelenítése
     view_details: Részletek megtekintése
@@ -240,8 +255,8 @@ hu:
       relation: Kapcsolatok (%{count})
       relation_paginated: Kapcsolatok (%{x}-%{y} összesen %{count})
       comment: Hozzászólások (%{count})
-      hidden_commented_by: 'Rejtett hozzászólás tőle: %{user}, <abbr title=''%{exact_time}''>%{when}</abbr>'
-      commented_by: '%{user} megjegyzése, <abbr title=''%{exact_time}''>%{when}</abbr>'
+      hidden_commented_by_html: 'Rejtett hozzászólás tőle: %{user}, <abbr title=''%{exact_time}''>%{when}</abbr>'
+      commented_by_html: '%{user} megjegyzése, <abbr title=''%{exact_time}''>%{when}</abbr>'
       changesetxml: Changeset XML
       osmchangexml: osmChange XML
       feed:
@@ -258,6 +273,8 @@ hu:
       title_html: 'Vonal: %{name}'
       history_title_html: 'Vonal történet: %{name}'
       nodes: Pontok
+      nodes_count:
+        other: '%{count} pont'
       also_part_of_html:
         one: '%{related_ways} vonal része'
         other: '%{related_ways} vonalak része'
@@ -265,6 +282,9 @@ hu:
       title_html: Kapcsolat:%{name}
       history_title_html: 'Kapcsolat történet: %{name}'
       members: Tagok
+      members_count:
+        one: 1 tag
+        other: '%{count} tag'
     relation_member:
       entry_role_html: '%{type} %{name} mint %{role}'
       type:
@@ -321,15 +341,15 @@ hu:
       open_title: 'Megoldatlan jegyzet: %{note_name}'
       closed_title: 'Megoldott jegyzet: %{note_name}'
       hidden_title: Rejtett jegyzet %{note_name}
-      opened_by: Létrehozta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Létrehozva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: '%{user} megjegyzése, <abbr title=''%{exact_time}''>%{when}</abbr>'
-      commented_by_anonymous: Megjegyzés névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Megoldotta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Megoldva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Újraaktiválta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Újraaktiválva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Elrejtette %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Létrehozta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Létrehozva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: '%{user} megjegyzése, <abbr title=''%{exact_time}''>%{when}</abbr>'
+      commented_by_anonymous_html: Megjegyzés névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Megoldotta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Megoldva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Újraaktiválta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Újraaktiválva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Elrejtette %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
       report: Jegyzet jelentése
     query:
       title: Funkciók lekérdezése
@@ -382,12 +402,7 @@ hu:
     new:
       title: Új naplóbejegyzés
     form:
-      subject: 'Tárgy:'
-      body: 'Szöveg:'
-      language: 'Nyelv:'
       location: 'Hely:'
-      latitude: 'Földrajzi szélesség:'
-      longitude: 'Földrajzi hosszúság:'
       use_map_link: térkép használata
     index:
       title: Felhasználók naplói
@@ -397,6 +412,7 @@ hu:
       in_language_title: Naplóbejegyzések %{language} nyelven
       new: Új naplóbejegyzés
       new_title: Új bejegyzés írása a felhasználói naplómba
+      my_diary: Naplóm
       no_entries: Nincsenek naplóbejegyzések
       recent_entries: Legutóbbi naplóbejegyzések
       older_entries: Régebbi bejegyzések
@@ -419,7 +435,7 @@ hu:
     diary_entry:
       posted_by_html: '%{link_user} küldte ekkor: %{created} %{language_link} nyelven'
       comment_link: Hozzászólás ehhez a bejegyzéshez
-      reply_link: Válasz a bejegyzésre
+      reply_link: Üzenet küldése a szerzőnek
       comment_count:
         zero: Nincs hozzászólás
         one: '%{count} hozzászólás'
@@ -556,7 +572,6 @@ hu:
           motorcycle_parking: Motoros parkoló
           nightclub: Éjszakai bár
           nursing_home: Idősek otthona
-          office: Iroda
           parking: Parkoló
           parking_entrance: Parkoló bejárat
           parking_space: Parkolóhely
@@ -565,20 +580,15 @@ hu:
           police: Rendőrség
           post_box: Postaláda
           post_office: Posta
-          preschool: Óvoda
           prison: Börtön
           pub: Kocsma
           public_building: Középület
           recycling: Szelektív hulladékgyűjtő
           restaurant: Étterem
-          retirement_home: Nyugdíjasotthon
-          sauna: Szauna
           school: Iskola
           shelter: Menedékhely
-          shop: Bolt
           shower: Zuhanyzó
           social_centre: Szociális központ
-          social_club: Társasági klub
           social_facility: Szociális létesítmény
           studio: Stúdió
           swimming_pool: Úszómedence
@@ -594,7 +604,6 @@ hu:
           waste_basket: Szemétgyűjtő kosár
           waste_disposal: Hulladék lerakó
           water_point: Víz mérő
-          youth_centre: Ifjúsági központ
         boundary:
           administrative: Közigazgatási határ
           census: Népszámlálási határ
@@ -608,6 +617,26 @@ hu:
           viaduct: Viadukt
           "yes": Híd
         building:
+          apartments: Társasház
+          chapel: Kápolna
+          church: Templom
+          commercial: Kereskedelmi épület
+          construction: Építés alatt álló épület
+          dormitory: Kollégium
+          farm: Tanyaépület
+          garage: Garázs
+          hospital: Kórházépület
+          hotel: Szálloda
+          house: Ház
+          industrial: Ipari épület
+          office: Irodaház
+          public: Középület
+          residential: Lakóház
+          retail: Kereskedelmi épület
+          school: Iskolaépület
+          terrace: Sorház
+          train_station: Felvételi épület
+          university: Egyetemi épület
           "yes": Épület
         craft:
           brewery: Sörfőzde
@@ -669,7 +698,6 @@ hu:
           tertiary_link: Bekötőút
           track: Földút
           traffic_signals: Jelzőlámpák
-          trail: Túraút
           trunk: Autóút
           trunk_link: Autóút
           turning_loop: Autóforduló
@@ -688,7 +716,6 @@ hu:
           fort: Erőd
           heritage: Világörökségi helyszín
           house: Ház
-          icon: Ikon
           manor: Majorság
           memorial: Emlékmű
           mine: Bánya
@@ -733,7 +760,6 @@ hu:
           reservoir_watershed: Víztározó
           residential: Lakóövezet
           retail: Kereskedelmi terület
-          road: Közúti terület
           village_green: Közös mező
           vineyard: Szőlős
           "yes": Földhasználat
@@ -791,6 +817,7 @@ hu:
           pier: Móló
           pipeline: Csővezeték
           silo: Siló
+          snow_fence: Hófogó háló
           storage_tank: Tároló tartály
           surveillance: Megfigyelés
           tower: Torony
@@ -890,7 +917,6 @@ hu:
           subdivision: Településrész
           suburb: Városrész
           town: Város
-          unincorporated_area: Jogi személyiséggel nem rendelkező terület
           village: Nagyközség
           "yes": Hely
         railway:
@@ -916,6 +942,7 @@ hu:
           switch: Vasúti váltó
           tram: Villamos
           tram_stop: Villamosmegálló
+          yard: Rendező-pályaudvar
         shop:
           alcohol: Alkoholos italbolt
           antiques: Régiségek
@@ -949,12 +976,10 @@ hu:
           estate_agent: Ingatlankereskedés
           farm: Kertészbolt
           fashion: Divatbolt
-          fish: Halbolt
           florist: Virágárus
           food: Élelmiszerbolt
           funeral_directors: Temetkezési vállalkozó
           furniture: Bútorbolt
-          gallery: Galéria
           garden_centre: Cserepes virágbolt
           general: Vegyeskereskedés
           gift: Ajándékbolt
@@ -971,7 +996,6 @@ hu:
           laundry: Mosoda
           lottery: Lottózó
           mall: Üzletház
-          market: Piac
           massage: Masszázs
           mobile_phone: Mobiltelefonbolt
           motorcycle: Motorbolt
@@ -983,7 +1007,6 @@ hu:
           paint: Festékbolt
           pawnbroker: Zálog
           pet: Állatkereskedés
-          pharmacy: Gyógyszertár
           photo: Fotóbolt
           seafood: Tengeri étel
           second_hand: Használtcikk kereskedés
@@ -1054,11 +1077,6 @@ hu:
         level8: Városhatár
         level9: Faluhatár
         level10: Városrészhatár
-    description:
-      title:
-        osm_nominatim: Helyek az <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>tól
-        geonames: Helyek a <a href="http://www.geonames.org/">GeoNames</a>ről
       types:
         cities: Nagyvárosok
         towns: Városok
@@ -1135,8 +1153,6 @@ hu:
     new:
       title_html: '%{link} bejelentése'
       missing_params: Nem hozhatsz létre új bejelentést
-      details: Kérlek részletezd a problémát (kötelező).
-      select: 'Válaszd ki a bejelentés okát:'
       disclaimer:
         intro: Mielőtt elküldöd a bejelentést, kérlek bizonyosodj meg afelől, hogy
         not_just_mistake: A probléma biztosan nem egy véletlen hiba
@@ -1218,7 +1234,7 @@ hu:
       text: Adományozz
     learn_more: További info
     more: Több
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} hozzászólt a naplóbejegyzésedhez'
       hi: Szia, %{to_user}!
@@ -1227,7 +1243,6 @@ hu:
       footer: 'A hozzászólást elolvashatod itt is: %{readurl} és hozzászólhatsz itt:
         %{commenturl} vagy válaszolhatsz rá itt: %{replyurl}'
     message_notification:
-      subject_header: '[OpenStreetMap] %{subject}'
       hi: Szia %{to_user}!
       header: '%{from_user} küldött neked egy üzenetet az OpenStreetMapon keresztül
         %{subject} tárggyal:'
@@ -1239,22 +1254,14 @@ hu:
       had_added_you: '%{user} felvett a barátai közé az OpenStreetMapon.'
       see_their_profile: 'Megnézheted a profilját itt: %{userurl}.'
       befriend_them: 'Felveheted őt barátnak is itt: %{befriendurl}.'
-    gpx_notification:
-      greeting: Szia!
-      your_gpx_file: 'Úgy tűnik, hogy ez a GPX fájlod:'
-      with_description: 'ezzel a leírással:'
-      and_the_tags: 'és a következő címkékkel:'
-      and_no_tags: és címkék nélkül
-      failure:
-        subject: '[OpenStreetMap] GPX importálás sikertelen'
-        failed_to_import: 'importálása sikertelen. Ez a hiba:'
-        more_info_1: További információ a GPX importálás sikertelenségeiről és
-        more_info_2: 'megelőzéséről itt található:'
-      success:
-        subject: '[OpenStreetMap] GPX importálás sikeres'
-        loaded_successfully: |-
-          sikeresen betöltődött %{trace_points} ponttal a lehetséges
-          %{possible_points} pontból.
+    gpx_failure:
+      failed_to_import: 'importálása sikertelen. Ez a hiba:'
+      subject: '[OpenStreetMap] GPX importálás sikertelen'
+    gpx_success:
+      loaded_successfully: |-
+        sikeresen betöltődött %{trace_points} ponttal a lehetséges
+        %{possible_points} pontból.
+      subject: '[OpenStreetMap] GPX importálás sikeres'
     signup_confirm:
       subject: '[OpenStreetMap] Üdvözlünk az OpenStreetMapnál'
       greeting: Szia!
@@ -1266,30 +1273,16 @@ hu:
         az elinduláshoz.
     email_confirm:
       subject: '[OpenStreetMap] E-mail cím megerősítése'
-    email_confirm_plain:
       greeting: Szia!
       hopefully_you: 'Valaki (remélhetőleg te) szeretné megváltoztatni az e-mail címét
         a %{server_url} címen, erre: %{new_address}.'
       click_the_link: Ha ez Te vagy, akkor a módosítás megerősítéséhez kattints az
         alábbi hivatkozásra.
-    email_confirm_html:
-      greeting: Szia!
-      hopefully_you: 'Valaki (remélhetőleg Te) meg szeretné változtatni az e-mail
-        címét az %{server_url} oldalon erre: %{new_address}.'
-      click_the_link: Ha ez Te vagy, akkor a módosítás megerősítéséhez kattints az
-        alábbi hivatkozásra.
     lost_password:
       subject: '[OpenStreetMap] Jelszó alaphelyzetbe állításának kérése'
-    lost_password_plain:
       greeting: Szia!
       hopefully_you: Valaki (remélhetőleg te) jelszó visszaállítást kért, ehhez az
         e-mail címhez tartozó openstreetmap.org felhasználónak.
-      click_the_link: Ha ez Te vagy, akkor a jelszó alaphelyzetbe állításához kattints
-        az alábbi hivatkozásra.
-    lost_password_html:
-      greeting: Szia!
-      hopefully_you: Valaki (esetleg Te) kérte, hogy az ehhez az e-mail címhez tartozó
-        openstreetmap.org felhasználói fiók jelszava kerüljön alaphelyzetbe.
       click_the_link: Ha ez Te vagy, akkor a jelszó alaphelyzetbe állításához kattints
         az alábbi hivatkozásra.
     note_comment_notification:
@@ -1584,17 +1577,6 @@ hu:
         teszed meg. Nyilvánossá teheted szerkesztéseidet a %{user_page}adról.
       user_page_link: felhasználói oldal
       anon_edits_link_text: Nézz utána, miért van ez.
-      flash_player_required_html: A Potlatch, az OpenStreetMap Flash szerkesztő használatához
-        Flash Player szükséges. <a href="https://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Letöltheted
-        a Flash Playert az Adobe.com-ról</a>. <a href="https://wiki.openstreetmap.org/wiki/Editing">Számos
-        más lehetőség</a> is elérhető az OpenStreetMap szerkesztéséhez.
-      potlatch_unsaved_changes: Nem mentett módosítások vannak. (Potlatchban való
-        mentéshez szüntesd meg a jelenlegi vonal vagy pont kijelölését, ha élő módban
-        szerkesztesz, vagy kattints a mentésre, ha van mentés gomb.)
-      potlatch2_not_configured: 'A Potlatch 2 nincs beállítva – további információért
-        lásd: https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2'
-      potlatch2_unsaved_changes: Mentetlen módosításaid vannak. (A mentéshez a Potlatch
-        2-ben kattintanod kell a mentésre.)
       id_not_configured: Az iD nincs beállítva
       no_iframe_support: A böngésződ nem támogatja a HTML-kereteket, amely ehhez a
         funkcióhoz szükséges.
@@ -1833,10 +1815,10 @@ hu:
           mint például egy étterem neve vagy egy sebességkorlátozás mértéke.
       rules:
         title: Szabályok!
-        paragraph_1_html: "Az openStreetMap-nek van néhány formális szabálya is de
-          alapvetően minden résztvevőtől azt várjuk el hogy együttműködjön és kommunikáljon
+        paragraph_1_html: "Az OpenStreetMap-nek van néhány formális szabálya is, de
+          alapvetően minden résztvevőtől azt várjuk el, hogy együttműködjön és kommunikáljon
           a közösség többi tagjával. Ha bármilyen kézi szerkesztésen túlmutató tevékenységet
-          tervezel akkor kérjük, hogy olvasd el az erről szóló útmutatókat az \n<a
+          tervezel, akkor kérjük, hogy olvasd el az erről szóló útmutatókat az \n<a
           href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>Importálásról</a>
           és az \n<a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Automatikus
           szerkesztésekről</a> szóló lapokon."
@@ -2013,13 +1995,6 @@ hu:
       delete: Ügyfél törlése
       confirm: Biztos vagy benne?
       requests: 'A következő engedélyek kérése a felhasználótól:'
-      allow_read_prefs: felhasználó beállításainak olvasása.
-      allow_write_prefs: felhasználó beállításainak módosítása.
-      allow_write_diary: naplóbejegyzések, hozzászólások készítése és barátok hozzáadása.
-      allow_write_api: a térkép módosítása.
-      allow_read_gpx: magán GPS nyomvonalainak olvasása.
-      allow_write_gpx: GPS nyomvonalak feltöltése.
-      allow_write_notes: jegyzet módosítása.
     index:
       title: OAuth részletek
       my_tokens: Engedélyezett alkalmazások
@@ -2034,19 +2009,7 @@ hu:
       registered_apps: 'A következő kliensalkalmazások vannak regisztrálva:'
       register_new: Alkalmazás regisztrálása
     form:
-      name: Név
-      required: Szükséges
-      url: Fő alkalmazás URL
-      callback_url: Visszahívási URL
-      support_url: Támogatás URL
       requests: 'A következő engedélyek kérése a felhasználótól:'
-      allow_read_prefs: felhasználó beállításainak olvasása.
-      allow_write_prefs: felhasználó beállításainak módosítása.
-      allow_write_diary: naplóbejegyzések, hozzászólások készítése és barátok hozzáadása.
-      allow_write_api: a térkép módosítása.
-      allow_read_gpx: magán GPS nyomvonalainak olvasása.
-      allow_write_gpx: GPS nyomvonalak feltöltése.
-      allow_write_notes: jegyzetek módosítása.
     not_found:
       sorry: Sajnálom, a(z) %{type} nem található.
     create:
@@ -2128,8 +2091,6 @@ hu:
     reset_password:
       title: Jelszó alaphelyzetbe állítása
       heading: '%{user} jelszavának alaphelyzetbe állítása'
-      password: 'Jelszó:'
-      confirm password: 'Jelszó megerősítése:'
       reset: Jelszó alaphelyzetbe állítása
       flash changed: Jelszavad megváltozott.
       flash token bad: Nem található ez az utalvány, ellenőrizd az URL-t.
@@ -2145,9 +2106,6 @@ hu:
         html: |-
           <p>Ellentétben más térképekkel, az OpenStreetMapet teljes mértékben hozzád hasonló emberek készítik és bárki szabadon javíthatja, frissítheti, letöltheti vagy felhasználhatja.</p>
           <p>Regisztrálj és máris kezdheted a térképszerkesztést. Egy jóváhagyó e-mailt fogunk küldeni a címedre.</p>
-      license_agreement: Amikor megerősíted a felhasználói fiókodat, el kell fogadnod
-        a <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">hozzájárulási
-        feltételeket</a>.
       email address: 'E-mail cím:'
       confirm email address: 'E-mail cím megerősítése:'
       not_displayed_publicly_html: Nem jelenik meg nyilvánosan (lásd <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
@@ -2349,11 +2307,11 @@ hu:
       reconfirm_html: A jóváhagyó link újraküldéséhez <a href="%{reconfirm}">kattints
         ide</a>.
     confirm_resend:
-      success: Elküldtünk egy új megerősítő üzenetet a(z) %{email} címre, és amint
-        megerősíted a felhasználói fiókodat, hozzákezdhetsz a térképezéshez.<br /><br
-        />Ha használsz olyan antispam rendszert, amely megerősítési kérelmeket küld,
-        akkor győződj meg róla, hogy engedélylistára tetted a %{sender} címet, mivel
-        nem tudunk válaszolni megerősítési kérelmekre.
+      success_html: Elküldtünk egy új megerősítő üzenetet a(z) %{email} címre, és
+        amint megerősíted a felhasználói fiókodat, hozzákezdhetsz a térképezéshez.<br
+        /><br />Ha használsz olyan antispam rendszert, amely megerősítési kérelmeket
+        küld, akkor győződj meg róla, hogy engedélylistára tetted a %{sender} címet,
+        mivel nem tudunk válaszolni megerősítési kérelmekre.
       failure: '%{name} felhasználó nem található.'
     confirm_email:
       heading: E-mail cím módosításának megerősítése
@@ -2362,7 +2320,7 @@ hu:
       button: Megerősítés
       success: Az e-mail címed módosítása megerősítve!
       failure: Egy e-mail cím már megerősítésre került ezzel az utalvánnyal.
-      unknown_token: Ez a megerősítő kódo lejárt, vagy nem létezik.
+      unknown_token: Ez a megerősítő kód lejárt, vagy nem létezik.
     set_home:
       flash success: Otthon helye sikeresen mentve
     go_public:
@@ -2436,29 +2394,18 @@ hu:
     new:
       title: '%{name} blokkolása'
       heading_html: '%{name} blokkolása'
-      reason: Az ok, amiért %{name} blokkolásra került. Kérlek légy nyugodt és méltányos,
-        amennyire csak lehetséges, olyan sok részlet megadásával, amennyit csak tudsz
-        a helyzetről, emlékezve arra, hogy ez az üzenet nyilvánosan látható lesz.
-        Tartsd szem előtt, hogy nem minden felhasználó érti a közösségi zsargont,
-        ezért próbálj laikus nyelvezetet használni.
       period: Mennyi ideig lesz a felhasználó blokkolva az API-tól, mostantól számítva.
       tried_contacting: Kapcsolatba léptem a felhasználóval, és megkértem, hogy hagyja
         abba.
       tried_waiting: Adtam egy ésszerű határidőt a felhasználónak, hogy válaszoljon
         az értesítésre.
-      needs_view: A felhasználónak be kell jelentkeznie, mielőtt a blokkolás feloldódna
       back: Összes blokkolás megtekintése
     edit:
       title: '%{name} blokkolásának szerkesztése'
       heading_html: '%{name} blokkolásának szerkesztése'
-      reason: Az ok, amiért %{name} blokkolásra került. Kérlek légy nyugodt és méltányos,
-        amennyire csak lehetséges, olyan sok részlet megadásával, amennyit csak tudsz
-        a helyzetről. Tartsd szem előtt, hogy nem minden felhasználó érti a közösségi
-        zsargont, ezért próbálj laikus nyelvezetet használni.
       period: Mennyi ideig lesz a felhasználó blokkolva az API-tól, mostantól számítva.
       show: blokkolás megjelenítése
       back: Összes blokkolás megjelenítése
-      needs_view: Be kell jelentkeznie a felhasználónak, mielőtt a blokkolás feloldódik?
     filter:
       block_expired: A blokkolás már lejárt, és nem szerkeszthető.
       block_period: A blokkolási időszaknak egy, a legördülő listából kiválasztható
@@ -2485,10 +2432,11 @@ hu:
       revoke: Visszavonás!
       flash: Ez a blokkolás vissza lett vonva.
     helper:
-      time_future: Véget ér %{time} múlva.
+      time_future_html: Véget ér %{time} múlva.
       until_login: Aktív a felhasználó bejelentkezéséig.
-      time_future_and_until_login: '%{time} múlva van vége, miután a felhasználó bejelentkezett.'
-      time_past: Véget ért %{time} időpontban.
+      time_future_and_until_login_html: '%{time} múlva van vége, miután a felhasználó
+        bejelentkezett.'
+      time_past_html: Véget ért %{time} időpontban.
       block_duration:
         hours:
           one: 1 órája
@@ -2710,7 +2658,7 @@ hu:
       node: Csomópont
       way: Vonal
       relation: Kapcsolat
-      nothing_found: Nem találhatóak jellemzők
+      nothing_found: Nem találhatók adatok
       error: 'Hiba a %{server} szerverhez való kapcsolódáshoz: %{error}'
       timeout: Időtúllépés a %{server}szerverhez kapcsolódás során
     context:

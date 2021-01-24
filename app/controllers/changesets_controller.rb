@@ -6,7 +6,7 @@ class ChangesetsController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action -> { check_database_readable(true) }, :only => [:index, :feed]
+  before_action -> { check_database_readable(:need_api => true) }, :only => [:index, :feed]
 
   authorize_resource
 

@@ -76,17 +76,17 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_validations
     trace_valid({})
-    trace_valid({ :user_id => nil }, false)
+    trace_valid({ :user_id => nil }, :valid => false)
     trace_valid(:name => "a" * 255)
-    trace_valid({ :name => "a" * 256 }, false)
-    trace_valid({ :description => nil }, false)
+    trace_valid({ :name => "a" * 256 }, :valid => false)
+    trace_valid({ :description => nil }, :valid => false)
     trace_valid(:description => "a" * 255)
-    trace_valid({ :description => "a" * 256 }, false)
+    trace_valid({ :description => "a" * 256 }, :valid => false)
     trace_valid(:visibility => "private")
     trace_valid(:visibility => "public")
     trace_valid(:visibility => "trackable")
     trace_valid(:visibility => "identifiable")
-    trace_valid({ :visibility => "foo" }, false)
+    trace_valid({ :visibility => "foo" }, :valid => false)
   end
 
   def test_tagstring
@@ -319,9 +319,9 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal md5sum, md5sum(create(:trace, :fixture => id).xml_file)
   end
 
-  def trace_valid(attrs, result = true)
+  def trace_valid(attrs, valid: true)
     entry = build(:trace, attrs)
-    assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
+    assert_equal valid, entry.valid?, "Expected #{attrs.inspect} to be #{valid}"
   end
 
   def md5sum(io)

@@ -240,10 +240,8 @@ module ActionController
       # object, its +number+ attribute is used as the value; if the page does
       # not belong to this Paginator, an ArgumentError is raised.
       def current_page=(page)
-        if page.is_a? Page
-          raise ArgumentError, "Page/Paginator mismatch" unless
-            page.paginator == self
-        end
+        raise ArgumentError, "Page/Paginator mismatch" if page.is_a?(Page) && page.paginator != self
+
         page = page.to_i
         @current_page_number = has_page_number?(page) ? page : 1
       end

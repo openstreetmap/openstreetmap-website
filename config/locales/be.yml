@@ -7,9 +7,11 @@
 # Author: Goshaproject
 # Author: Jhnrvr
 # Author: Jim-by
+# Author: Kareyac
 # Author: Macofe
 # Author: Maksim L.
 # Author: Mechanizatar
+# Author: Nerogaf
 # Author: Unomano
 # Author: Дзяніс Тутэйшы
 # Author: Тест
@@ -20,6 +22,8 @@ be:
     formats:
       friendly: '%e %B %Y у %H:%M'
   helpers:
+    file:
+      prompt: Абраць файл
     submit:
       diary_comment:
         create: Захаваць
@@ -32,7 +36,7 @@ be:
         create: Даслаць
       client_application:
         create: Зарэгістравацца
-        update: Рэдагаваць
+        update: Абнавіць
       redaction:
         create: Стварыць рэдакцыю
         update: Захаваць рэдакцыю
@@ -84,6 +88,11 @@ be:
       way_node: Пункт лініі
       way_tag: Тэг лініі
     attributes:
+      client_application:
+        name: Імя (абявязкова)
+        url: Галоўны URL-адрас дастасаваньня (абявязкова)
+        callback_url: URL-адрас зваротнага выкліку
+        support_url: URL-адрас падтрымкі
       diary_comment:
         body: Тэкст
       diary_entry:
@@ -104,7 +113,7 @@ be:
         longitude: Даўгата
         public: Агульны
         description: Апісанне
-        gpx_file: 'Адаслаць GPX-файл:'
+        gpx_file: 'Даслаць GPX-файл:'
         visibility: 'Бачнасць:'
         tagstring: 'Тэгі:'
       message:
@@ -112,6 +121,8 @@ be:
         title: Тэма
         body: Тэкст
         recipient: Каму
+      report:
+        details: Просьба прадставіць некаторыя падрабязнасці аб праблеме (абавязкова).
       user:
         email: Электронная пошта
         active: Актыўны
@@ -122,6 +133,9 @@ be:
     help:
       trace:
         tagstring: падзеленыя коскамі
+      user_block:
+        needs_view: Ці трэба ўдзельніку ўвайсці ў сістэму, перад тым як блакіроўка
+          будзе знята?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -187,15 +201,9 @@ be:
         other: '%{count} гады(оў) таму'
   editor:
     default: Тыповы (зараз %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (браўзэрны рэдактар)
     id:
       name: iD
       description: iD (браўзэрны рэдактар)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (браўзэрны рэдактар)
     remote:
       name: Вонкавы рэдактар
       description: вонкавага рэдактара (JOSM або Merkaartor)
@@ -261,8 +269,9 @@ be:
       relation: Дачыненні (%{count})
       relation_paginated: Дачыненні (%{x}-%{y} з %{count})
       comment: Каментары (%{count})
-      hidden_commented_by: Схаваны каментарый ад %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Каментарый ад %{user} <abbr title='%{exact_time}'>%{when} </abbr>
+      hidden_commented_by_html: Схаваны каментарый ад %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Каментарый ад %{user} <abbr title='%{exact_time}'>%{when}
+        </abbr>
       changesetxml: XML пакета правак
       osmchangexml: osmChange XML
       feed:
@@ -342,16 +351,17 @@ be:
       open_title: 'Нявырашаная заўвага #%{note_name}'
       closed_title: 'Вырашаная заўвага #%{note_name}'
       hidden_title: 'Схаваная заўвага #%{note_name}'
-      opened_by: Створана %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Створана ананімным карыстальнікам <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Каментарый ад %{user} <abbr title='%{exact_time}'>%{when} </abbr>
-      commented_by_anonymous: Ананімны каментарый <abbr title='%{exact_time}'>%{when}
+      opened_by_html: Створана %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Створана ананімным карыстальнікам <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Каментарый ад %{user} <abbr title='%{exact_time}'>%{when}
         </abbr>
-      closed_by: Вырашана ўдзельнікам %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Вырашана ананімным удзельнікам <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Паўторна актывавана ўдзельнікам %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Пераадкрыта ананімным удзельнікам <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Схавана ўдзельнікам %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Ананімны каментарый <abbr title='%{exact_time}'>%{when}
+        </abbr>
+      closed_by_html: Вырашана ўдзельнікам %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Вырашана ананімным удзельнікам <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Паўторна актывавана ўдзельнікам %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Пераадкрыта ананімным удзельнікам <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Схавана ўдзельнікам %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Паскардзіцца на гэтую заўвагу
     query:
       title: Пошук аб’ектаў
@@ -402,12 +412,7 @@ be:
     new:
       title: Новы запіс дзённіку
     form:
-      subject: 'Тэма:'
-      body: 'Змест:'
-      language: 'Мова:'
       location: 'Месца:'
-      latitude: 'Шырата:'
-      longitude: 'Даўгата:'
       use_map_link: карыстацца картай
     index:
       title: Дзённікі карыстальнікаў
@@ -575,7 +580,6 @@ be:
           motorcycle_parking: Паркоўка для матацыклаў
           nightclub: Начны клуб
           nursing_home: Прыватная лякарня
-          office: Офіс
           parking: Паркоўка
           parking_entrance: Заезд на паркоўку
           parking_space: Паркоўка
@@ -584,20 +588,15 @@ be:
           police: Паліцыя
           post_box: Паштовая скрыня
           post_office: Паштовае аддзяленне
-          preschool: Дашкольная установа
           prison: Турма
           pub: Паб
           public_building: Грамадскі будынак
           recycling: Пункт перапрацоўкі
           restaurant: Рэстаран
-          retirement_home: Дом састарэлых
-          sauna: Сауна
           school: Школа
           shelter: Укрыццё
-          shop: Крама
           shower: Душ
           social_centre: Сацыяльны цэнтр
-          social_club: Грамадскі клуб
           social_facility: Сацыяльны аб'ект
           studio: Студыя
           swimming_pool: Плавальны басейн
@@ -613,7 +612,6 @@ be:
           waste_basket: Кош для смецця
           waste_disposal: Смеццевы бак
           water_point: Вада
-          youth_centre: Маладзежны цэнтр
         boundary:
           administrative: Адміністрацыйная мяжа
           census: Межы перапісу
@@ -688,7 +686,6 @@ be:
           tertiary_link: Трэцясная дарога
           track: Каляя
           traffic_signals: Святлафор
-          trail: След
           trunk: Шаша
           trunk_link: Магістраль
           turning_loop: Разваротнае кальцо
@@ -707,7 +704,6 @@ be:
           fort: Форт
           heritage: Культурная спадчына
           house: Дом
-          icon: Ікона
           manor: Сядзіба
           memorial: Мемарыял
           mine: Шахта
@@ -752,7 +748,6 @@ be:
           reservoir_watershed: Водападзел вадасховішча
           residential: Жылы раён
           retail: Рознічны гандаль
-          road: Прыдарожная паласа
           village_green: Вясковая паляна
           vineyard: Вінаграднік
           "yes": Землекарыстанне
@@ -909,7 +904,6 @@ be:
           subdivision: Падраздзяленне
           suburb: Прыгарад
           town: Горад
-          unincorporated_area: Загарадная зона
           village: Вёска
           "yes": Месца
         railway:
@@ -935,6 +929,7 @@ be:
           switch: Чыгуначная стрэлка
           tram: Трамвай
           tram_stop: Трамвайны прыпынак
+          yard: Сартавальная станцыя
         shop:
           alcohol: Алкагольная крама
           antiques: Антыкварыят
@@ -968,12 +963,10 @@ be:
           estate_agent: Агент па нерухомасці
           farm: Фермерская крама
           fashion: Крама моднай вопраткі
-          fish: Рыбная крама
           florist: Фларыст
           food: Прадуктовая крама
           funeral_directors: Рытуальныя паслугі
           furniture: Мэбля
-          gallery: Галерэя
           garden_centre: Садовы цэнтр
           general: Універсам
           gift: Крама падарункаў
@@ -990,7 +983,6 @@ be:
           laundry: Пральня
           lottery: Латарэя
           mall: Гандлёвы цэнтр
-          market: Рынак
           massage: Паведамленне
           mobile_phone: Салон мабільнай сувязі
           motorcycle: Крама матацыклаў
@@ -1002,7 +994,6 @@ be:
           paint: Крама мастака
           pawnbroker: Ламбард
           pet: Заалагічная крама
-          pharmacy: Аптэка
           photo: Фота майстэрня
           seafood: Морапрадукты
           second_hand: Крама патрыманых рэчаў
@@ -1073,11 +1064,6 @@ be:
         level8: Мяжа горада
         level9: Мяжа раёну н/п
         level10: Мяжа прыгараду
-    description:
-      title:
-        osm_nominatim: Месцазнаходжанне з <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Месцазнаходжанне з <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Гарады
         towns: Мястэчкі
@@ -1156,8 +1142,6 @@ be:
     new:
       title_html: Скарга %{link}
       missing_params: Немагчыма стварыць новую скаргу
-      details: Просьба прадставіць некаторыя падрабязнасці аб праблеме (абавязкова).
-      select: 'Абярыце прычыну для скаргі:'
       disclaimer:
         intro: 'Перад адпраўкай скаргі мадэратарам сайта, калі ласка, пераканайцеся,
           што:'
@@ -1239,7 +1223,7 @@ be:
       text: Зрабіць ахвяраванне
     learn_more: Даведацца больш
     more: Больш падрабязна
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} пакінуў каментар у вашым дзённіку'
       hi: Вітанні, %{to_user},
@@ -1259,27 +1243,17 @@ be:
       see_their_profile: Вы можаце прагледзець профіль на %{userurl} і дадаць, як
         сябра, у адказ, калі хочаце.
       befriend_them: Вы таксама можаце пасябраваць з імі на %{befriendurl}.
-    gpx_notification:
-      greeting: Прывітанне,
-      your_gpx_file: Падобна, што ваш файл GPX
-      with_description: з апісаннем
-      and_the_tags: 'і наступнымі тэгамі:'
-      and_no_tags: і без тэгаў.
-      failure:
-        subject: '[OpenStreetMap] Збой імпарту GPX'
-        failed_to_import: 'збой імпарту. Адбылася памылка:'
-        more_info_1: Дадатковую інфармацыю аб збоі імпарту GPX і аб тым, як пазбегнуць
-        more_info_2: 'збой,  можна знайсці тут:'
-      success:
-        subject: '[OpenStreetMap] Паспяховы імпарт GPX'
-        loaded_successfully:
-          one: паспяхова загружаны (%{trace_points} з магчымага 1 пункта).
-          few: паспяхова загружаны (%{trace_points} з магчымых %{possible_points}
-            пунктаў).
-          many: паспяхова загружаны (%{trace_points} з магчымых %{possible_points}
-            пунктаў).
-          other: паспяхова загружаны (%{trace_points} з магчымых %{possible_points}
-            пунктаў).
+    gpx_failure:
+      failed_to_import: 'збой імпарту. Адбылася памылка:'
+      subject: '[OpenStreetMap] Збой імпарту GPX'
+    gpx_success:
+      loaded_successfully:
+        one: паспяхова загружаны (%{trace_points} з магчымага 1 пункта).
+        few: паспяхова загружаны (%{trace_points} з магчымых %{possible_points} пунктаў).
+        many: паспяхова загружаны (%{trace_points} з магчымых %{possible_points} пунктаў).
+        other: паспяхова загружаны (%{trace_points} з магчымых %{possible_points}
+          пунктаў).
+      subject: '[OpenStreetMap] Паспяховы імпарт GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Сардэчна запрашаем у OpenStreetMap'
       greeting: Прывітанне!
@@ -1291,13 +1265,6 @@ be:
         інфармацыю.
     email_confirm:
       subject: '[OpenStreetMap] Пацвердзіце ваш адрас электроннай пошты'
-    email_confirm_plain:
-      greeting: Добры дзень,
-      hopefully_you: 'Хтосьці (спадзяемся, што вы) жадае змяніць свой адрас электроннай
-        пошты ў %{server_url} на адрас: %{new_address}.'
-      click_the_link: Калі гэта вы, то перайдзіце па спасылцы, размешчанай ніжэй,
-        каб пацвердзіць змену.
-    email_confirm_html:
       greeting: Добры дзень,
       hopefully_you: 'Хтосьці (спадзяемся, што вы) жадае змяніць свой адрас электроннай
         пошты ў %{server_url} на адрас: %{new_address}.'
@@ -1305,16 +1272,9 @@ be:
         каб пацвердзіць змену.
     lost_password:
       subject: '[OpenStreetMap] Запыт на змену пароля'
-    lost_password_plain:
-      greeting: Прывітанне,
+      greeting: Добры дзень,
       hopefully_you: Хтосьці (спадзяемся, што вы) запытаў змену пароля для рахунка
         на openstreetmap.org, прывязанага да гэтага адраса электроннай пошты.
-      click_the_link: Калі гэта вы, калі ласка, перайдзіце па спасылцы, паказанай
-        ніжэй, каб змяніць ваш пароль.
-    lost_password_html:
-      greeting: Прывітанне,
-      hopefully_you: Хтосьці (магчыма, вы) запытаў змену пароля для рахунка на openstreetmap.org,
-        які выкарыстоўвае гэты адрас электроннай пошты.
       click_the_link: Калі гэта вы, калі ласка, перайдзіце па спасылцы, паказанай
         ніжэй, каб змяніць ваш пароль.
     note_comment_notification:
@@ -1435,6 +1395,14 @@ be:
       as_unread: Паведамленне адмечана нечытаным
     destroy:
       destroyed: Паведамленне выдалена
+  shared:
+    markdown_help:
+      subheading: Падзагаловак
+      link: Спасылка
+      text: Тэкст
+      image: Выява
+    richtext_field:
+      edit: Правіць
   site:
     about:
       next: Далей
@@ -1611,17 +1579,6 @@ be:
         Вы можаце зрабіць Вашыя рэдагаваньні публічнымі на Вашай %{user_page}.
       user_page_link: старонка карыстальніка
       anon_edits_link_text: Даведацца ў чым справа.
-      flash_player_required_html: Каб выкарыстоўваць рэдактар Potlatch неабходны Flash-плэер.
-        Вы можаце <a href="https://get.adobe.com/flashplayer/">загрузіць Flash-плэер
-        з Adobe.com</a>. Існуюць і <a href="https://wiki.openstreetmap.org/wiki/Editing">іншыя
-        магчымасці</a> для рэдагавання OpenStreetMap.
-      potlatch_unsaved_changes: Маюцца незахаваныя змены. (Для захавання ў Potlatch
-        зніміце вылучэнне з лініі або пункта, калі рэдагуеце ў «жывым» рэжыме, альбо
-        націсніце кнопку «захаваць», калі вы ў рэжыме адкладзенага захавання.)
-      potlatch2_not_configured: Potlatch 2 не быў наладжаны. Калі ласка, паглядзіце
-        https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-      potlatch2_unsaved_changes: Вы маеце незахаваныя змены. (Каб захаваць у Potlatch
-        2, Вам неабходна націснуць кнопку «захаваць».)
       id_not_configured: iD не быў настроены
       no_iframe_support: Ваш браўзэр не падтрымлівае HTML iframe, якія неабходныя
         для гэтай функцыі.
@@ -2052,13 +2009,6 @@ be:
       delete: Выдаліць кліента
       confirm: Вы ўпэўненыя?
       requests: 'Запыт наступных дазволаў ад удзельніка:'
-      allow_read_prefs: чытаць іх налады карыстальніка.
-      allow_write_prefs: змяняць іх налады ўдзельніка.
-      allow_write_diary: ствараць запісы ў дзённіку, каментары і знаёміцца.
-      allow_write_api: змяняць карту.
-      allow_read_gpx: чытаць іх прыватныя GPS-сляды.
-      allow_write_gpx: адсылаць GPS-сляды.
-      allow_write_notes: змяняць заўвагі.
     index:
       title: Мае падрабязнасці OAuth
       my_tokens: Мае аўтарызаваныя дастасаванні
@@ -2074,19 +2024,7 @@ be:
       registered_apps: 'Вы маеце зарэгістраванымі наступныя кліенцкія дастасаванні:'
       register_new: Зарэгістраваць Вашае дастасаванне
     form:
-      name: Імя
-      required: Патрабуецца
-      url: Галоўны URL-адрас дастасавання
-      callback_url: URL-адрас зваротнага выкліку
-      support_url: URL-адрас падтрымкі
       requests: 'Запытаць наступныя дазволы ад удзельніка:'
-      allow_read_prefs: чытаць іх налады ўдзельніка.
-      allow_write_prefs: змяняць іх налады ўдзельніка.
-      allow_write_diary: ствараць запісы ў дзённіку, каментары і знаёміцца.
-      allow_write_api: змяняць карту.
-      allow_read_gpx: чытаць іх прыватныя GPS-сляды.
-      allow_write_gpx: адсылаць GPS-сляды.
-      allow_write_notes: змяняць заўвагі.
     not_found:
       sorry: Прабачце, немагчыма знайсці гэты %{type}.
     create:
@@ -2168,8 +2106,6 @@ be:
     reset_password:
       title: скінуць пароль
       heading: Скінуць пароль для %{user}
-      password: 'Пароль:'
-      confirm password: 'Пацвердзіце пароль:'
       reset: 'Скінуць пароль:'
       flash changed: Ваш пароль быў зменены.
       flash token bad: Не знайшоў такі токен, можа, праверце URL?
@@ -2184,8 +2120,6 @@ be:
           такімі ж людзьмі як вы, яны даступныя ўсім для праўкі, абнаўлення, сцягвання
           і выкарыстання.</p> \n<p>Зарэгіструйцеся, каб зрабіць свой ​​уклад. Мы вышлем
           вам ліст для пацверджання рахунка.</p>"
-      license_agreement: Ствараючы рахунак, вы згаджаецеся з <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">умовамі
-        удзелу</a>.
       email address: 'Паштовы адрас:'
       confirm email address: 'Пацвердзіце электронны адрас:'
       not_displayed_publicly_html: Не паказваецца астатнім (глядзіце <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
@@ -2388,7 +2322,7 @@ be:
       reconfirm_html: Калі вам трэба зноў даслаць пацверджанне па электроннай пошце,
         <a href="%{reconfirm}"><a href="%{пацвердзіць}">націсніце тут</a>.
     confirm_resend:
-      success: Мы даслалі новы ліст з пацверджаннем на адрас %{email} і, як толькі
+      success_html: Мы даслалі новы ліст з пацверджаннем на адрас %{email} і, як толькі
         Вы пацвердзіце Ваш рахунак, Вы зможаце пачаць працаваць з картай.<br /><br
         />Калі Вы карыстаецеся сістэмай абароны ад спаму, якая дасылае запыты на пацверджанне,
         калі ласка, упэўніцеся, што адрас %{sender} знаходзіцца ў Вашым давераным
@@ -2471,31 +2405,18 @@ be:
     new:
       title: Стварэнне блакіроўкі для %{name}
       heading_html: Стварэнне блакіроўкі для %{name}
-      reason: Падайце прычыну па якой %{name} блакуецца. Калі ласка, будзьце цярплівы
-        і дзейнічайце разумна, прадстаўляючы ўдзельніку падрабязную інфармацыю пра
-        прычыны блакавання, помніце, што паведамленне будзе бачнае для ўсіх. Помніце,
-        што ня ўсе ўдзельнікі разумеюць жаргон супольнасьці, таму выкарыстоўвайце
-        зразумелыя паняцці.
       period: Як доўга, пачынаючы з гэтага моманту, карыстальніку будзе заблакіраваны
         доступ да API.
       tried_contacting: Я звярнуўся да ўдзельніка і папрасіў яго спыніцца.
       tried_waiting: Я даў дастаткова часу ўдзельніку, каб адказаць на тыя паведамленні.
-      needs_view: Удзельніку трэба ўвайсці ў сістэму, перад тым як блакіроўка будзе
-        знятая
       back: Паказаць усе блакіроўкі
     edit:
       title: Рэдагаванне блакіроўкі для %{name}
       heading_html: Рэдагаванне блакіроўкі для %{name}
-      reason: Падайце прычыну, па якой %{name} блакуецца. Калі ласка, будзьце цярплівы
-        і дзейнічайце разумна, прадстаўляючы ўдзельніку падрабязную інфармацыю пра
-        прычыны блакавання. Помніце, што не ўсе ўдзельнікі разумеюць жаргон супольнасьці,
-        таму выкарыстоўвайце зразумелыя паняцці.
       period: Як доўга, пачынаючы з гэтага моманту, карыстальніку будзе заблакіраваны
         доступ да API.
       show: Паказаць гэтую блакіроўку
       back: Паказаць усе блакіроўкі
-      needs_view: Ці трэба ўдзельніку ўвайсці ў сістэму, перад тым як блакіроўка будзе
-        знята?
     filter:
       block_expired: Блакіроўка ўжо скончылася і не можа рэдагавацца.
       block_period: Час блакіроўкі павінен быць выбраны са значэнняў з разгортваемага
@@ -2522,11 +2443,11 @@ be:
       revoke: Адазваць!
       flash: Гэтая блакіроўка была адклікана.
     helper:
-      time_future: Заканчваецца праз %{time}.
+      time_future_html: Заканчваецца праз %{time}.
       until_login: Актыўная да моманту ўваходу ўдзельніка ў сістэму.
-      time_future_and_until_login: Заканчваецца праз %{time} і пасля таго, як карыстальнік
-        увойдзе ў сістэму.
-      time_past: Скончылася %{time}.
+      time_future_and_until_login_html: Заканчваецца праз %{time} і пасля таго, як
+        карыстальнік увойдзе ў сістэму.
+      time_past_html: Скончылася %{time}.
       block_duration:
         hours:
           one: 1 гадзіна

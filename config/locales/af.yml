@@ -77,6 +77,8 @@ af:
       way_node: Weg-knooppunt
       way_tag: Weg-merker
     attributes:
+      client_application:
+        support_url: Ondersteunings-URL
       diary_comment:
         body: Teks
       diary_entry:
@@ -105,6 +107,8 @@ af:
         title: Onderwerp
         body: Teks
         recipient: Ontvanger
+      report:
+        details: Verskaf asseblief meer besonderhede oor die probleem (verlang).
       user:
         email: E-pos
         active: Bedrywig
@@ -156,15 +160,9 @@ af:
         other: '%{count} jaar gelede'
   editor:
     default: Verstek (tans %{name})
-    potlatch:
-      name: Potknip 1
-      description: Potknip 1 (aanlynredigeerder)
     id:
       name: iD
       description: iD (aanlynredigeerder)
-    potlatch2:
-      name: Potknip 2
-      description: Potknip 2 (aanlynredigeerder)
     remote:
       name: Afstandsbeheer
       description: Afstandsbeheer (JOSM of Merkaartor)
@@ -219,9 +217,10 @@ af:
       relation: Verwantskappe (%{count})
       relation_paginated: Verwantskappe (%{x}-%{y} of %{count})
       comment: Kommentaar (%{count})
-      hidden_commented_by: Verskuilde kommentaar deur %{user} <abbr title='%{exact_time}'>%{when}
+      hidden_commented_by_html: Verskuilde kommentaar deur %{user} <abbr title='%{exact_time}'>%{when}
         ago</abbr>
-      commented_by: Kommentaar deur %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
+      commented_by_html: Kommentaar deur %{user} <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
       changesetxml: Wysigingsstel XML
       osmchangexml: osmWysiging XML
       feed:
@@ -298,16 +297,16 @@ af:
       title: 'Nota: %{id}'
       new_note: Nuwe nota
       description: Beskrywing
-      opened_by: Geskep deur %{user} <abbr title ='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Geskep deur anoniem <abbr title='%{exact_time}'>%{when}
+      opened_by_html: Geskep deur %{user} <abbr title ='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Geskep deur anoniem <abbr title='%{exact_time}'>%{when}
         ago</abbr>
-      commented_by: Kommentaar deur %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Kommentaar deur anoniem <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Opgelos deur %{user} <abbr title ='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Opgelos deur anoniem <abbr title ='%{exact_time}'>%{when}</abbr>
-      reopened_by: Geheraktiveer deur %{user} <abbr title ='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Geheraktiveer deur anoniem <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Versteek deur %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Kommentaar deur %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Kommentaar deur anoniem <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Opgelos deur %{user} <abbr title ='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Opgelos deur anoniem <abbr title ='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Geheraktiveer deur %{user} <abbr title ='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Geheraktiveer deur anoniem <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Versteek deur %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Rapporteer hierdie nota
     query:
       title: Soek bakens op
@@ -358,12 +357,7 @@ af:
     new:
       title: Nuwe dagboekinskrywing
     form:
-      subject: 'Onderwerp:'
-      body: 'Teks:'
-      language: 'Taal:'
       location: 'Ligging:'
-      latitude: 'Breedtegraad:'
-      longitude: 'Lengtegraad:'
       use_map_link: gebruik kaart
     index:
       title: Gebruikersdagboeke
@@ -528,7 +522,6 @@ af:
           motorcycle_parking: Motorfietsparkering
           nightclub: Nagklub
           nursing_home: Verpleging- en versorgingshuis
-          office: Kantoor
           parking: Parkering
           parking_entrance: Parkeeringang
           parking_space: Parkeerplek
@@ -537,20 +530,15 @@ af:
           police: Polisie
           post_box: Posbus
           post_office: Poskantoor
-          preschool: Kleuterskool
           prison: Tronk
           pub: Kroeg
           public_building: Openbare gebou
           recycling: Herwinningspunt
           restaurant: Restaurant
-          retirement_home: Ouetehuis
-          sauna: Sauna
           school: Skool
           shelter: Skuiling
-          shop: Winkel
           shower: Stort
           social_centre: Maatskaplike sentrum
-          social_club: Sosiale klub
           social_facility: Sosiale fasiliteit
           studio: Ateljee
           swimming_pool: Swembad
@@ -566,7 +554,6 @@ af:
           waste_basket: Snippermandjie
           waste_disposal: Stortingsterrein
           water_point: Waterpunt
-          youth_centre: Jeugsentrum
         boundary:
           administrative: Administratiewe grens
           census: Sensusgrens
@@ -580,6 +567,25 @@ af:
           viaduct: Viaduk
           "yes": Brug
         building:
+          apartments: Woonstelblok
+          chapel: Kapel
+          church: Kerk
+          commercial: Kommersiële-gebou
+          dormitory: Studentehuis
+          farm: Plaasgebou
+          garage: Garage
+          hospital: Hospitaal-gebou
+          hotel: Hotel
+          house: Huis
+          industrial: Industriële gebou
+          office: Kantoorgebou
+          public: Openbare gebou
+          residential: Residensiële gebou
+          retail: Kleinhandel-gebou
+          school: Skoolgebou
+          terrace: Terras
+          train_station: Spoorwegstasie
+          university: Universiteitsgebou
           "yes": Gebou
         craft:
           brewery: Brouery
@@ -640,7 +646,6 @@ af:
           tertiary_link: Tersiêre pad
           track: Spoor
           traffic_signals: Verkeerstekens
-          trail: Wandelpad
           trunk: Hoofroete
           trunk_link: Hoofroete
           turning_loop: Draailus
@@ -659,7 +664,6 @@ af:
           fort: Fort
           heritage: Erfenisterrein
           house: Huis
-          icon: Ikoon
           manor: Landgoed
           memorial: Gedenkteken
           mine: Myn
@@ -701,7 +705,6 @@ af:
           reservoir: Reservoir
           residential: Woongebied
           retail: Kleinhandel
-          road: Padgebied
           vineyard: Wingerd
           "yes": Landgebruik
         leisure:
@@ -854,7 +857,6 @@ af:
           subdivision: Onderverdeling
           suburb: Voorstad
           town: Dorp
-          unincorporated_area: Uitgeslote ruimte
           village: Gehug
           "yes": Plek
         railway:
@@ -913,12 +915,10 @@ af:
           estate_agent: Eiendomsagent
           farm: Plaaswinkel
           fashion: Modewinkel
-          fish: Viswinkel
           florist: Bloemiste
           food: Koswinkel
           funeral_directors: Begrafnisondernemer
           furniture: Meubels
-          gallery: Galery
           garden_centre: Kwekery/Tuinsentrum
           general: Algemene handelaar
           gift: Geskenkewinkel
@@ -935,7 +935,6 @@ af:
           laundry: Wassery
           lottery: Lotery
           mall: Winkelsentrum
-          market: Mark
           massage: Masseer
           mobile_phone: Selfoonwinkel
           motorcycle: Motorfietswinkel
@@ -947,7 +946,6 @@ af:
           paint: Verfwinkel
           pawnbroker: Pandhandelaar
           pet: Troeteldierwinkel
-          pharmacy: Apteek
           photo: Fotowinkel
           seafood: Seekos
           second_hand: Tweedehandswinkel
@@ -1018,11 +1016,6 @@ af:
         level8: Stadsgrens
         level9: Dorpsgrens
         level10: Voorstedelike grens
-    description:
-      title:
-        osm_nominatim: Ligging vanaf <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Ligging vanaf <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Stede
         towns: Dorpe
@@ -1092,8 +1085,6 @@ af:
     new:
       title_html: Rapporteer %{link}
       missing_params: Kan nie 'n nuwe verslag skep nie
-      details: Verskaf asseblief meer besonderhede oor die probleem (verlang).
-      select: 'Kies ''n rede vir u verslag:'
       disclaimer:
         intro: 'Voordat u die verslag aan die moderator van die werf stuur, moet u
           eers seker maak van die volgende:'
@@ -1155,7 +1146,7 @@ af:
       text: Skenk aan die projek
     learn_more: Meer inligting
     more: Meer
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} het kommentaar op ''n dagboekinskrywing gelewer'
       hi: Hallo %{to_user},
@@ -1166,14 +1157,6 @@ af:
     friendship_notification:
       hi: Hallo %{to_user},
       subject: '[OpenStreetMap] %{user} het u as ''n vriend bygevoeg'
-    gpx_notification:
-      greeting: Hallo,
-      your_gpx_file: Dit lyk asof jou GPX-lêer
-      with_description: met die beskrywing
-      and_the_tags: 'en die volgende merkers:'
-      and_no_tags: en geen merkers nie.
-      failure:
-        more_info_2: 'hulle kan gevind word te:'
     signup_confirm:
       subject: '[OpenStreetMap] Welkom by OpenStreetMap'
       greeting: Hallo!
@@ -1184,21 +1167,11 @@ af:
         sodat u kan wegtrek.
     email_confirm:
       subject: '[OpenStreetMap] Bevestig u e-posadres'
-    email_confirm_plain:
       greeting: Hallo,
-    email_confirm_html:
-      greeting: Hallo,
-      hopefully_you: Iemand (hopelik u) wil hul e-posadres op %{server_url} verander
-        na %{new_address}.
-      click_the_link: As dit u is, klik die onderstaande skakel om die verandering
-        te bevestig.
     lost_password:
       subject: '[OpenStreetMap] Versoek om wagwoord te herstel'
-    lost_password_plain:
       greeting: Hallo,
       click_the_link: As dit u is, klik die onderstaande skakel om u wagwoord te herstel.
-    lost_password_html:
-      greeting: Hallo,
     note_comment_notification:
       anonymous: '''n Anonieme gebruiker'
       greeting: Hallo,
@@ -1536,10 +1509,6 @@ af:
       authorize_url: 'Magtig URL:'
       edit: Redigeer besonderhede
       confirm: Is u seker?
-      allow_read_prefs: lees hul gebruikersvoorkeure.
-      allow_write_diary: skep dagboekinskrywings, maak opmerkings en maak vriende.
-      allow_write_api: wysig die kaart.
-      allow_write_gpx: laai GPS-spore op.
     index:
       title: My OAuth-gegewens
       application: Programnaam
@@ -1547,15 +1516,6 @@ af:
       revoke: Herroep!
       my_apps: My kliëntprogramme
       register_new: Registreer u program
-    form:
-      name: Naam
-      required: Verplig
-      url: Toepassing-URL
-      support_url: Ondersteunings-URL
-      allow_read_prefs: lees hul gebruikersvoorkeure.
-      allow_write_prefs: verander hulle gebruikersvoorkeure.
-      allow_write_diary: skep dagboekinskrywings, lewer kommentaar en ontmoet vriende.
-      allow_write_api: wysig die kaart.
     not_found:
       sorry: Jammer, die %{type} blyk onverkrygbaar te wees.
   users:
@@ -1613,8 +1573,6 @@ af:
     reset_password:
       title: Herstel wagwoord
       heading: Herstel wagwoord vir %{user}
-      password: 'Wagwoord:'
-      confirm password: 'Bevestig wagwoord:'
       reset: Herstel wagwoord
       flash changed: U wagwoord is verander.
     new:
@@ -1624,8 +1582,6 @@ af:
         html: |-
           <p>Anders as ander kaarte, skep mense soos jy OpenStreetMap geheel en al; daarbenewens is dit gratis vir enigeen om te herstel, by te werk, af te laai en te benut.</p>
           <p>Registreer om 'n bydrae te lewer. Ons sal dan u registrasie per e-pos bevestig.</p>
-      license_agreement: Wanneer u u rekening bevestig, sal u tot die <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">bepalings
-        vir bydraers</a> moet instem.
       email address: 'E-posadres:'
       confirm email address: 'Bevestig e-posadres:'
       not_displayed_publicly_html: U adres word nie openbaar gemaak nie; raadpleeg
@@ -1804,9 +1760,9 @@ af:
       revoke: Herroep!
       flash: Hierdie versperring is herroep.
     helper:
-      time_future: Tyd oor %{time} verstreke.
+      time_future_html: Tyd oor %{time} verstreke.
       until_login: Aktief totdat die gebruiker aanmeld.
-      time_past: Tyd is %{time} gelede verstreke.
+      time_past_html: Tyd is %{time} gelede verstreke.
       block_duration:
         hours:
           one: 1 uur

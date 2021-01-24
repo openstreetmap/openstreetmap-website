@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: 1233qwer1234qwer4
 # Author: Abijeet Patro
+# Author: Balyozxane
 # Author: Bikarhêner
 # Author: George Animal
 # Author: Ghybu
@@ -18,27 +19,29 @@ ku-Latn:
       friendly: '%e %B %Y saet %H:%M'
       blog: '%e %B %Y'
   helpers:
+    file:
+      prompt: Dosyeyê bibijêre
     submit:
       diary_comment:
         create: Tomar bike
       diary_entry:
-        create: Biweșîne
+        create: Biweşîne
         update: Rojane bike
       issue_comment:
-        create: Şîroveyekê tevlî bike
+        create: Şîroveyekê lê zêde bike
       message:
         create: Bişîne
       client_application:
-        create: Qeyd bibe
-        update: Biguherîne
+        create: Hesab çêke
+        update: Rojane bike
       redaction:
-        create: Redaksiyonê çêbike
+        create: Redaksiyonê çêke
         update: Redaksiyonê qeyd bike
       trace:
         create: Bar bike
-        update: Guherandinan qeyd bike
+        update: Guhartinan qeyd bike
       user_block:
-        create: Astengiyê çêbike
+        create: Astengiyê çêke
         update: Astengê nû bike
   activerecord:
     errors:
@@ -76,12 +79,24 @@ ku-Latn:
       tracepoint: Nuqteya Taqîbkirinê
       tracetag: Nîşana Şopandinê
       user: Bikarhêner
-      user_preference: Tercîhên bikarhêner
+      user_preference: Tercîha bikarhêner
       user_token: Sembola bikarhênerê
       way: Rê
       way_node: Girêdana rê
       way_tag: Nîşana rê
     attributes:
+      client_application:
+        name: Nav (Hewce ye)
+        url: URLya Sepana Sereke (Hewce ye)
+        callback_url: URLya paşve lêgerînê
+        support_url: URLya piştgirîkirinê
+        allow_read_prefs: tercîhên wan ên bikarhêneriyê bixwîne
+        allow_write_prefs: tercîhên wan ên bikarhêneriyê biguherîne
+        allow_write_diary: rojnivîsk, şîroveyan çêke û ji xwe re hevalan hevalan çêke
+        allow_write_api: nexşeyê biguherîne
+        allow_read_gpx: şopên wan ên GPSê yên xisûsî bixwîne
+        allow_write_gpx: şopên GPSê bar bike
+        allow_write_notes: notan biguherîne
       diary_comment:
         body: Nivîs
       diary_entry:
@@ -96,20 +111,24 @@ ku-Latn:
       trace:
         user: Bikarhêner
         visible: Xuya
-        name: Nav
+        name: Navê dosyeyê
         size: Mezinbûn
         latitude: Hêlîpan
         longitude: Hêlîlar
         public: Giştî
         description: Danasîn
-        gpx_file: Dosyeyek GPXê bar bikeː
-        visibility: Kî dikare bibîneː
-        tagstring: Etîketên vêː
+        gpx_file: Dosyeyek GPXê bar bike
+        visibility: Kî dikare bibîne
+        tagstring: Etîketên vê
       message:
         sender: Şander
         title: Mijar
         body: Nivîs
         recipient: Wergir
+      report:
+        category: Ji bo rapora xwe sedemekî bibijêre
+        details: Ji kerema xwe di derbarê pirsgirêkê de zêdetir zanyarî bide (hewce
+          ye).
       user:
         email: E-name
         active: Çalak
@@ -117,9 +136,17 @@ ku-Latn:
         description: Danasîn
         languages: Ziman
         pass_crypt: Şîfre
+        pass_crypt_confirmation: Şîfreyê Bipejirîne
     help:
       trace:
         tagstring: bi bêhnokê veqetandî
+      user_block:
+        reason: Sedema ku bikarhêner çima hatiye astengkirin. Der barê rewşê de, çiqas
+          bikaribî maqûl û aram be, dêtayan bide û ji bîr neke ku ev peyam dikare
+          ji aliyê kesên din ve jî were dîtin. Bi bîr bîne ku hemû bikarhêner ji jargona
+          civatê fam nakin, lewma xêra xwe gotinên ku yên nû dest pê kirine jî bikaribin
+          fam bikin bi kar bîne.
+        needs_view: Gelo hewce dike bikarhêner berî ku ev astengî rabe têkeve?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -161,18 +188,12 @@ ku-Latn:
         other: berî %{count} salan
   editor:
     default: Standard (vêga %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (sererastkirina ji ser geroka webê)
     id:
       name: iD
       description: iD (sererastkirina ji ser geroka webê)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (sererastkirina ji ser geroka webê)
     remote:
       name: Ji Dûr Ve Îdarekirin
-      description: Ji dûr ve kontrol (JOSM yan jî Merkaartor)
+      description: Ji dûr ve kontrol (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Tune
@@ -223,7 +244,13 @@ ku-Latn:
     anonymous: anonîm
     no_comment: (bêşirove)
     part_of: Perçeyek ji
-    download_xml: XML'ê daxîne
+    part_of_relations:
+      one: 1 pêwendî
+      other: '%{count} pêwendî'
+    part_of_ways:
+      one: 1 rê
+      other: '%{count} rê'
+    download_xml: XMLê daxe
     view_history: Dîrokê Bibîne
     view_details: Detayan Bibîne
     location: 'Cih:'
@@ -237,8 +264,9 @@ ku-Latn:
       relation: Eleqe (%{count})
       relation_paginated: Eleqe (%{x}-%{y} bi tevahî %{count})
       comment: Şîrove (%{count})
-      hidden_commented_by: Şîroveya veşartî yê ji alî %{user} ve </abbr> <abbr title='%{exact_time}'>%{when}
-      commented_by: Şîrove ji aliyê %{user} ve, </abbr> <abbr title='%{exact_time}'>%{when}
+      hidden_commented_by_html: Şîroveya veşartî yê ji alî %{user} ve </abbr> <abbr
+        title='%{exact_time}'>%{when}
+      commented_by_html: Şîrove ji aliyê %{user} ve, </abbr> <abbr title='%{exact_time}'>%{when}
       changesetxml: Desteya guhertinan a XML
       osmchangexml: osmChange XML
       feed:
@@ -255,6 +283,8 @@ ku-Latn:
       title_html: Rêː %{name}
       history_title_html: Dîroka Riyêː %{name}
       nodes: Nuqte
+      nodes_count:
+        other: '%{count} nuqte'
       also_part_of_html:
         one: parçeya riyê %{related_ways}
         other: parçeya riyê %{related_ways}
@@ -262,6 +292,9 @@ ku-Latn:
       title_html: Eleqeː %{name}
       history_title_html: Dîroka Eleqeyêː %{name}
       members: Endam
+      members_count:
+        one: 1 endam
+        other: '%{count} endam'
     relation_member:
       entry_role_html: '%{type} %{name} bi rola %{role}'
       type:
@@ -272,6 +305,7 @@ ku-Latn:
       entry_html: Eleqe %{relation_name}
       entry_role_html: Eleqe %{relation_name} (wekî %{relation_role})
     not_found:
+      title: Peyda Nebû
       sorry: Bibore %{type} a bi nimreya %{id} nehate dîtin.
       type:
         node: nuqte
@@ -280,6 +314,7 @@ ku-Latn:
         changeset: qeyda guhertinan
         note: not
     timeout:
+      title: Çewtiya Demborînê
       sorry: Li me bibore, anîna daneyên %{type} ji bo anîna %{id}yek demekî zahf
         dirêj girt.
       type:
@@ -319,22 +354,23 @@ ku-Latn:
       open_title: 'Nota ku nehatiye çarekirin #%{note_name}'
       closed_title: 'Nota ku hatiye çarekirin #%{note_name}'
       hidden_title: 'Notê veşartî #%{note_name}'
-      opened_by: Ji alî %{user} ve berî</abbr>  <abbr title='%{exact_time}'>%{when}
+      opened_by_html: Ji alî %{user} ve berî</abbr>  <abbr title='%{exact_time}'>%{when}
         hatiye çêkirin
-      opened_by_anonymous: Berî</abbr> <abbr title='%{exact_time}'>%{when} wek anonîm
-        hate çêkirin.
-      commented_by: Şiroveya ji %{user} </abbr> <abbr title='%{exact_time}'>%{when}
-      commented_by_anonymous: Şîrove ji alî bikarhênerek anonîm ve </abbr> <abbr title='%{exact_time}'>%{when}
-      closed_by: Ji aliyê %{user} ve </abbr> <abbr title='%{exact_time}'>%{when} hate
-        çareserkirin
-      closed_by_anonymous: Ji aliyê bikarhênerek anonîm ve </abbr> <abbr title='%{exact_time}'>%{when}
+      opened_by_anonymous_html: Berî</abbr> <abbr title='%{exact_time}'>%{when} wek
+        anonîm hate çêkirin.
+      commented_by_html: Şiroveya ji %{user} </abbr> <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous_html: Şîrove ji alî bikarhênerek anonîm ve </abbr> <abbr
+        title='%{exact_time}'>%{when}
+      closed_by_html: Ji aliyê %{user} ve </abbr> <abbr title='%{exact_time}'>%{when}
         hate çareserkirin
-      reopened_by: Ji aliyê %{user} ve </abbr> <abbr title='%{exact_time}'>%{when}
+      closed_by_anonymous_html: Ji aliyê bikarhênerek anonîm ve </abbr> <abbr title='%{exact_time}'>%{when}
+        hate çareserkirin
+      reopened_by_html: Ji aliyê %{user} ve </abbr> <abbr title='%{exact_time}'>%{when}
         ji nû ve hate aktîvkirin
-      reopened_by_anonymous: Ji aliyê bikarhênerek anonîm ve </abbr> <abbr title='%{exact_time}'>%{when}
+      reopened_by_anonymous_html: Ji aliyê bikarhênerek anonîm ve </abbr> <abbr title='%{exact_time}'>%{when}
         ji nû ve hate aktîvkirin
-      hidden_by: Ji aliyê %{user} ve </abbr> <abbr title='%{exact_time}'>%{when} hate
-        veşartin
+      hidden_by_html: Ji aliyê %{user} ve </abbr> <abbr title='%{exact_time}'>%{when}
+        hate veşartin
       report: Vê nîşeyê gilî bike
     query:
       title: Taybetmendiyan Nîşan Bide
@@ -381,7 +417,7 @@ ku-Latn:
       comment: 'Şîroveya nû li ser desteya guhertinan ya #%{changeset_id} ji aliyê
         %{author} ve'
     index:
-      title_all: Gotûbêja qeyda guhertinên OpenStreetMapê
+      title_all: Gotûbêja qeyda guhartinên OpenStreetMapê
       title_particular: Gotûbêja qeyda guhertinan a %{changeset_id} yê OpenStreetMapê
     timeout:
       sorry: Bibore, bidestxistina lîsteya şîroveyên desteya guhertinan ê ku te xwest
@@ -390,13 +426,8 @@ ku-Latn:
     new:
       title: Nivîsa nû yê rojane
     form:
-      subject: 'Mijar:'
-      body: Nivîsː
-      language: 'Ziman:'
-      location: 'Cih:'
-      latitude: 'Hêlîpan:'
-      longitude: 'Hêlîlar:'
-      use_map_link: nexşeyê bikarbîne
+      location: Cih
+      use_map_link: Nexşeyê bi kar bîne
     index:
       title: Rojnivîskên bikarhêneran
       title_friends: Rojnivîskên hevalan
@@ -426,14 +457,15 @@ ku-Latn:
         xwe herfan rast binivîse, an jî belkî lînkê ku te tikandiye nerast be.
     diary_entry:
       posted_by_html: Ji alî %{link_user} ve di %{created} de bi %{language_link}
-        hatiye nivîsîn
+        hatiye nivîsîn.
+      updated_at_html: Cara dawiyê di %{updated} de hatiye nûkirin.
       comment_link: Vê nivîsê şîrove bike
-      reply_link: Cewab bide vê nivîsê
+      reply_link: Peyamekî bişînê nivîserê
       comment_count:
         zero: Bêşîrove
         one: '%{count} şîrove'
         other: '%{count} şîrove'
-      edit_link: Vê nivîsê biguherîne
+      edit_link: Vê nivîsê biguhêre
       hide_link: Vê nivîsê biveşêre
       unhide_link: Veşartina vê nivîsê rake
       confirm: Tesdîq bike
@@ -447,7 +479,7 @@ ku-Latn:
     location:
       location: 'Cih:'
       view: Bibîne
-      edit: Biguherîne
+      edit: Biguhêre
     feed:
       user:
         title: Nivîsên rojane yên %{user} a OpenStreetMapê
@@ -470,13 +502,13 @@ ku-Latn:
       heading: Bila %{user} li hevalên te were zêdekirin?
       button: Bibe heval
       success: '%{name} niha hevalê te yeǃ'
-      failed: Bibore, %{name} li hevalên te nehate zêdekirin.
+      failed: Bibore, %{name} li hevalên te nikarîbû were zêdekirin.
       already_a_friend: Tu bi %{name} re jixwe heval î.
     remove_friend:
       heading: Bila %{user} ji hevaltiyê were derxistin?
       button: Ji hevaltiyê derxe
       success: '%{name} ji hevalên te hate derxistin.'
-      not_a_friend: '%{name} ne hevalê te ye.'
+      not_a_friend: '%{name} ne hevalekî/eke te ye.'
   geocoder:
     search:
       title:
@@ -495,10 +527,12 @@ ku-Latn:
           chair_lift: Teleferîk
           drag_lift: Teleferîka Şemitînê
           gondola: Teleferîkên Gondolê
+          magic_carpet: Kaşkera Asansorî
           platter: Teleferîk
           pylon: Dîrek / Birc
           station: Stasyona Teleferîkê
           t-bar: Teleferîka T-Bar'ê
+          "yes": Neqla hewayî
         aeroway:
           aerodrome: Balafirrgeh
           airstrip: Pîsta ji bo danînê
@@ -507,11 +541,15 @@ ku-Latn:
           hangar: Garaja Teyareyan
           helipad: Pîsta Helîkopterê
           holding_position: Cihê sekinandinê ji bo balafiran
+          navigationaid: Alîkariya Navîgasyona Hewageriyê
           parking_position: Pozîsyona Parkê
           runway: Pîsta teyareyê
+          taxilane: Xeta taksiyê
           taxiway: Rêya balafirgehê
           terminal: Termînal
+          windsock: Lûleya bayê
         amenity:
+          animal_boarding: Sitareya Heywanan
           animal_shelter: Sitargeha Heywanan
           arts_centre: Navenda Huneran
           atm: ATM
@@ -521,7 +559,9 @@ ku-Latn:
           bench: Textebend
           bicycle_parking: Parka bisiklêtê
           bicycle_rental: Kirêkirina Bisiklêtê
+          bicycle_repair_station: Stastona Tamîrkirina Bisiklêtan
           biergarten: Baxçeya Araqê
+          blood_bank: Banka Xwînê
           boat_rental: Kirêkirina Şikevê
           brothel: Kerxane
           bureau_de_change: Ofîsa Diwîzê
@@ -538,6 +578,7 @@ ku-Latn:
           clock: Saet
           college: Lîse
           community_centre: Merkeza Civakî
+          conference_centre: Merkeza Konferansê
           courthouse: Edliye
           crematorium: Krematoryûm (sotingeh)
           dentist: Doktorê Diranan
@@ -545,6 +586,7 @@ ku-Latn:
           drinking_water: Ava Vexwarinê
           driving_school: Mekteba Ajokeriyê
           embassy: Konsolxane
+          events_venue: Cihê Çalakiyan
           fast_food: Fast Food
           ferry_terminal: Termînala Ferîbotê
           fire_station: Îtfaiye
@@ -557,36 +599,42 @@ ku-Latn:
           hospital: Nexweşxane
           hunting_stand: Standa nêçîrê
           ice_cream: Bestenî
+          internet_cafe: Înternet Kafe
           kindergarten: Zarokxane
+          language_school: Dibistana zimanê
           library: Pirtûkxane
+          loading_dock: Cihê Barkirinê
+          love_hotel: Hotela Evînê
           marketplace: Cihê Bazarê
+          mobile_money_agent: Acenteya Pereya Mobîl
           monastery: Manastir
+          money_transfer: Neqlkirina Pereyê
           motorcycle_parking: Cihê Parkê yê Motorsiklêtan
+          music_school: Dibistana Muzîkê
           nightclub: Klûba şevê
           nursing_home: Aramxane
-          office: Ofîs
           parking: Otopark
           parking_entrance: Deriyê Ketinê yê Parkê
           parking_space: Cihê parkê
+          payment_terminal: Termînala Peredanê
           pharmacy: Îlacxane
           place_of_worship: Îbadetxane / Perestîşgeh
           police: Polîs
           post_box: Qutiya Posteyê
           post_office: Postexane
-          preschool: Pêşdibistan
           prison: Girtîgeh
           pub: Bar
+          public_bath: Hemam
+          public_bookcase: Kitêbxaneya Giştî
           public_building: Avahiya Dewletê
+          ranger_station: Stasyona Çavdêran
           recycling: Nuqteya Cardin Bikaranînê
           restaurant: Restorant
-          retirement_home: Xaniya Lênêrînê
-          sauna: Sauna
+          sanitary_dump_station: Stasyona Valakirina Avêtiyên Saxlemiyê
           school: Dibistan
           shelter: Sitare / Cihê Ewle
-          shop: Firoşgeh
           shower: Dûş
           social_centre: Merkeza civakî
-          social_club: Klûba sosyal
           social_facility: Tesîsa civakî
           studio: Stûdyo
           swimming_pool: Hewza soberîkirinê
@@ -595,19 +643,27 @@ ku-Latn:
           theatre: Şano
           toilets: Çolik
           townhall: Bînahiya Şaredariyê
+          training: Tesîsa Perwerdeyê
           university: Zanîngeh
+          vehicle_inspection: Kontrolkirina Wesayîtê
           vending_machine: Makîneya Firotinê
           veterinary: Muayenexaneya Veterînerê
           village_hall: Odeya Gund
           waste_basket: Sêlika sergoyê
           waste_disposal: Sêlika avêtiyan
+          waste_dump_site: Qada Valakirina Avêtiyan
+          watering_place: Cihê Avdanê
           water_point: Nuqteya Avê
-          youth_centre: Merkeza gencan
+          weighbridge: Qentar
+          "yes": Rehetî
         boundary:
+          aboriginal_lands: Erdên Aborcînî
           administrative: Sînorê îdarî
           census: Sînorê Jimartina Nifûsê
           national_park: Parka Neteweyî
+          political: Sînorên Hilbijartinî
           protected_area: Erdên Muhafezekirî
+          "yes": Sînor
         bridge:
           aqueduct: Coyê Avê
           boardwalk: Rêya ji textê
@@ -616,24 +672,94 @@ ku-Latn:
           viaduct: Viyadûk
           "yes": Pir
         building:
+          apartment: Apartman
+          apartments: Apartman
+          barn: Axur
+          bungalow: Bungalow
+          cabin: Kabîn
+          chapel: Dêra biçûk
+          church: Avahiya Dêrê
+          civic: Avahiya Sivîl
+          college: Avahiya Zanîngehê
+          commercial: Avahiya Bazirganî
+          construction: Avahiya ku tê çêkirin
+          detached: Xaniyê Musteqîl
+          dormitory: Razanxane
+          duplex: Xaniyê Dubleks
+          farm: Xaniyê Çiftlikê
+          farm_auxiliary: Xaniyê Çiftlikê yê Yedek
+          garage: Garaj
+          garages: Garaj
+          greenhouse: Sera
+          hangar: Hangar
+          hospital: Avahiya Nexweşxaneyê
+          hotel: Avahiya Otelê
+          house: Xanî
+          houseboat: Xaniyê Qayîkî
+          hut: Kulube
+          industrial: Avahiya Endustriyî
+          kindergarten: Avahiya Pêşdibistanê
+          manufacture: Avahiya Îmalatê
+          office: Avahiya Ofîsê
+          public: Avahiya Dewletê
+          residential: Avahiya Rûniştgehê
+          retail: Avahiya Perakendeyê
+          roof: Serban
+          ruins: Avahiya Hilweşiyayî
+          school: Avahiya Dibistanê
+          semidetached_house: Xaniyê Nîv-musteqîl
+          service: Avahiya Xizmetê
+          shed: Kulube
+          stable: Axur
+          static_caravan: Karavan
+          temple: Avahiya Peristgehê
+          terrace: Avahiya Terasê
+          train_station: Avahiya Stasyona Trênê
+          university: Avahiya Zanîngehê
+          warehouse: Embar
           "yes": Bînahî
+        club:
+          scout: Bingeha Koma Rêçenasê
+          sport: Kluba Sporê
+          "yes": Klub
         craft:
+          beekeper: Mêşvan
+          blacksmith: Hesinkar
           brewery: Febrîqayê Bîrayê
           carpenter: Xerat
+          caterer: Xwarinpêşkêşker
+          confectionery: Şîrînayî
+          dressmaker: Terziyê Jinan
           electrician: Ceyranvan
+          electronics_repair: Tamîrkerê Elektronîkan
           gardener: Baxçevan
+          glaziery: Camsazî
+          handicraft: Destkarî
+          hvac: Çêkerê klîmatîzasyonê
+          metal_construction: Çêkerê Metalê
           painter: Boyaxker
           photographer: Fotografkêş
           plumber: Tesîsatkar
+          roofer: Serbansaz
+          sawmill: Farbîqeya Keresteyan
           shoemaker: Soldir - Solfiroş
+          stonemason: Kevirtraş
           tailor: Cildirû
+          window_construction: Îmalkera Paceyê
+          winery: Meyxane
           "yes": Dikana Hunerên Destan
         emergency:
+          access_point: Nuqteya Gihînê
           ambulance_station: Stasyona Ambûlansê
           assembly_point: Cihê Civînê
           defibrillator: Defîbrîllator
+          fire_xtinguisher: Agirkuj
+          fire_water_pond: Hewza Ava Agirî
           landing_site: Cihê Daketinê yê ji bo Rewşa Acîl
+          life_ring: Xeleka Cenxelaskirinê
           phone: Telefonê ji bo Rewşa Acîl
+          siren: Sîrema Rewşa Acîl
+          suction_point: Nuqteya Avkişandinê ya Rewşên Lezgîn
           water_tank: Depoya avê yê ji bo rewşên acîl
           "yes": Rewşa Acîl
         highway:
@@ -646,6 +772,7 @@ ku-Latn:
           cycleway: Rêya Bisiklêtê
           elevator: Asansor
           emergency_access_point: Nuqteya Gihandinê yê ji bo Rewşên Acîl
+          emergency_bay: Qada ji bo Rewşên Lezgîn
           footway: Peyarê (rêya peyadeyan)
           ford: Bihura Avê
           give_way: Sînyala "Rê Bide"yê
@@ -676,37 +803,45 @@ ku-Latn:
           tertiary: Rêya di Dereceya Sêyem de
           tertiary_link: Rêya di Dereceya Sêyem de
           track: Rêyên ji xweliyê
+          traffic_mirror: Eyneyê Trafîkê
           traffic_signals: Sînyalên trafîkê
-          trail: Şop
+          trailhead: Serê parkurê
           trunk: Rêya serekî
           trunk_link: Girêdana bi rêya serekî re
           turning_loop: Çerxa Zivirrînê
           unclassified: Rêya Nesinifandî
           "yes": Rê
         historic:
+          aircraft: Balafira Tarîxî
           archaeological_site: Cîhê arkeolojîk
+          bomb_crater: Kratera Bombeyê ya Tarîxî
           battlefield: Meydana Herbê
           boundary_stone: Kevira Hidûdê
           building: Avahiya dîrokî
           bunker: Sitare
+          cannon: Topa Tarîxî
           castle: Keleh
+          charcoal_pile: Komek Komira Tarîxî
           church: Dêr
           city_gate: Dergehê bajarê
           citywalls: Kelheya Bajarê
           fort: Kelhe
           heritage: Cihê Bermayiyên Tarîxî
+          hollow_way: Rêya Xulole
           house: Xanî
-          icon: Îkon
           manor: Koşk
           memorial: Abîde
+          milestone: Xala Werçerxê ya Tarîxî
           mine: Kana Madenê
           mine_shaft: Bîra madenê
           monument: Yadpeyker
+          railway: Rêhesinê Tarîxî
           roman_road: Rêya Romayê
           ruins: Xerabe
           stone: Kevir
           tomb: Qebr
           tower: Birc
+          wayside_chapel: Çapela Rêrexî
           wayside_cross: Wayside Cross (Xaçên li kinara rêyê)
           wayside_shrine: Wayside Shrine (Tirbeyên li kinara rêyê)
           wreck: Keştiya Binavbûyî
@@ -715,6 +850,7 @@ ku-Latn:
           "yes": Terqarê
         landuse:
           allotments: Bax û bostan
+          aquaculture: Kultura Avê
           basin: Hewz
           brownfield: Erdên Terkkirî
           cemetery: Goristan
@@ -734,21 +870,28 @@ ku-Latn:
           military: Qada Eskerî
           mine: Kana Madenê
           orchard: Baxçeya Fêkiyan
+          plant_nursery: Şitilgeha Giyayan
           quarry: Kana Madenê
           railway: Rêhesin
           recreation_ground: Meydana Bêhnvedanê
+          religious: Erdê Dînî
           reservoir: Enbara Avê
           reservoir_watershed: Hewzeya Çemê
           residential: Cihê îkametê
           retail: Esnaf (Perakendefiroş)
-          road: Cihê Rêyê
           village_green: Meydana Şînahiyan
           vineyard: Rez
           "yes": Emilandina erdê
         leisure:
+          adult_gaming_centre: Merkeza Lîstikên Mezinan
+          amusement_arcade: Salona Vîdeolîstikê
+          bandstand: Standa Bandoyê
           beach_resort: Havîngeha li ber Plajê
           bird_hide: Cihê Çavdêrîkirina Çivîkan
+          bleachers: Standên Bîneran
+          bowling_alley: Pîsta Bowlîngê
           common: Erdê umûmî
+          dance: Salona Reqsê
           dog_park: Parka Kûçikan
           firepit: Cihê ji bo şewatê
           fishing: Cihê masîgirtinê
@@ -761,7 +904,9 @@ ku-Latn:
           marina: Marîna
           miniature_golf: Golfa Mînyatûr
           nature_reserve: Herêma Muhefezekirina Tebîetê
+          outdoor_seating: Kursiyên Derveyî
           park: Park
+          picnic_table: Maseya Pîknîkê
           pitch: Sehaya Sporê
           playground: Lîstikgeha zarokan
           recreation_ground: Meydana Bêhnvedanê
@@ -776,13 +921,21 @@ ku-Latn:
           "yes": Wextên vala
         man_made:
           adit: Galerî
+          advertising: Reklamkarî
+          antenna: Anten
+          avalanche_protection: Muhafezeya Aşîtê
           beacon: Fanûsa deryayê
+          beam: Tîrêj
           beehive: Kewara mozan
           breakwater: Pêlşkên
           bridge: Pir
           bunker_silo: Sitare
+          cairn: Cairn
           chimney: Dûkêş
+          clearcut: Daristana bêdarkirî
+          communications_tower: Birca Komunîkasyonê
           crane: Wînç
+          cross: Çeperast
           dolphin: Cihê lenger avêtinê
           dyke: Bendav
           embankment: Benda erdê
@@ -791,6 +944,7 @@ ku-Latn:
           groyne: Bend
           kiln: Firûn
           lighthouse: Birca Deryayî
+          manhole: Qepaxa Kanalîzasyonê
           mast: Stûn
           mine: Maden
           mineshaft: Bîra madenê
@@ -798,12 +952,20 @@ ku-Latn:
           petroleum_well: Bîra petrolê
           pier: Îskele
           pipeline: Xeta boriyê
+          pumping_station: Stasyona Pumpeyê
+          reservoir_covered: Xezneya Sergirtî
           silo: Sîlo
+          snow_cannon: Topa Berfê
+          snow_fence: Çeperê Berfê
           storage_tank: Tanka embarkirinê
+          street_cabinet: Kabîneya Kolanê
           surveillance: Muşahede
+          telescope: Teleskop
           tower: Birc
+          utility_pole: Stûna Kêrhatî
           wastewater_plant: Tesîsa parzinandinê yê avên qirêj
           watermill: Aşê avê
+          water_tap: Kaniya Avê
           water_tower: Birca avî
           water_well: Bîr
           water_works: Tesîsa safîkirina avê
@@ -814,10 +976,13 @@ ku-Latn:
           airfield: Balafirgeha Eskerî
           barracks: Eskergeh
           bunker: Sitare
+          checkpoint: Nuqteya Kontrolê
+          trench: Xendek
           "yes": Eskerî
         mountain_pass:
           "yes": Derbasgeha Çiyayan
         natural:
+          bare_rock: Kevirê Sade
           bay: Kendav
           beach: Plaj
           cape: Nîvgirav
@@ -833,6 +998,7 @@ ku-Latn:
           grassland: Mêrg
           heath: Devî
           hill: Gir
+          hot_spring: Germav
           island: Girav
           land: Erd
           marsh: Çirav
@@ -856,20 +1022,31 @@ ku-Latn:
           water: Av
           wetland: Erdê avî
           wood: Daristan
+          "yes": Taybetiya Tebîî
         office:
           accountant: Mihasebekar
           administrative: Rêveberî
+          advertising_agency: Ajansa Reklamkariyê
           architect: Mîmar
           association: Komele
           company: Şirket
+          diplomatic: Ofîsa Dîplomatîk
           educational_institution: Enstîtuya perwerdehiyê
           employment_agency: Saziya Karê
+          energy_supplier: Ofîsa Pêşkêşkerê Enerjiyê
           estate_agent: Emlaqfiroş
+          financial: Ofîsa Fînansê
           government: Daîreya Dewletê
           insurance: Ofîsa Sîgortayê
           it: Ofîsa Teknolojiyên Enformasyonê
           lawyer: Eboqat
+          logistics: Ofîsa Lojîstîkê
+          newspaper: Ofîsa Rojnameyê
           ngo: Ofîsa Komeleyên Civata Sivîl
+          notary: Noter
+          religion: Ofîsa Karûbarên Dînî
+          research: Ofîsa Lêkolînê
+          tax_advisor: Şewirmendê Bacê
           telecommunication: Ofîsa telekomunîkasyonê
           travel_agent: Acenteya seyahetê
           "yes": Ofîs
@@ -889,6 +1066,7 @@ ku-Latn:
           locality: Cih
           municipality: Şaredarî
           neighbourhood: Mehel / herêm
+          plot: Erd
           postcode: Koda posteyê
           quarter: Herêmek bajarê
           region: Herêm
@@ -898,7 +1076,6 @@ ku-Latn:
           subdivision: Binbeş
           suburb: Tax / Banliyo
           town: Bajarok
-          unincorporated_area: Herêma ku şexsiyeta we ya qanûnî tine ye
           village: Gund
           "yes": Cih
         railway:
@@ -924,12 +1101,19 @@ ku-Latn:
           switch: Meqesa rêhesinê
           tram: Rêya tramwayê
           tram_stop: Rawestgeha tramwayê
+          yard: Hewşa Rêhesinê
         shop:
+          agrarian: Dikana Amûrên Çandiniyê
           alcohol: Dikana Araqan
           antiques: Antîkafiroş
+          appliance: Dikana Makîneyên Malê
           art: Dikanê tiştên hunerî
+          baby_goods: Berhemên Pitikan
+          bag: Dikana Çenteyan
           bakery: Firrin
+          bathroom_furnishing: Ekîpmanên Serşokê
           beauty: Salona Bedewiyê
+          bed: Berhemên Nivînê
           beverages: Dikana tiştên vexwarinê
           bicycle: Bisiklêtfiroş
           bookmaker: Girew / Miçilge
@@ -941,65 +1125,90 @@ ku-Latn:
           car_repair: Tamîrkera erebeyan
           carpet: Dikanê xaliyan
           charity: Dikana malên xêrkariyê
+          cheese: Dikana Penîran
           chemist: Dermanfiroş
+          chocolate: Çoklata
           clothes: Dikana cilan
+          coffee: Firoşgeha Qehweyê
           computer: Dikana Kompûteran
           confectionery: Dikana Şîraniyan
           convenience: Beqal
           copyshop: Dikana kopîkirinê
           cosmetics: Dikana kozmetîkan
+          craft: Dikana Malzemeyên Destkariyan
+          curtain: Dikana Perdeyan
+          dairy: Dikana Berhemên Şîrî
           deli: Şarkuterî
           department_store: Firoşgeha mezin
           discount: Dikana tiştûmiştên di erzaniyê de
           doityourself: Tu Bixwe Çêbike
           dry_cleaning: Paqijiya ziwa
+          e-cigarette: Firoşgeha e-cixareyê
           electronics: Dikana elektronîkan
+          erotic: Dikana Erotîkî
           estate_agent: Emlaqfiroş
+          fabric: Dikana Qumaşan
           farm: Dikana mehsûlên çandiniyê
           fashion: Dikana Cil û Bergên Mode
-          fish: Dikana Firotana Masiyan
+          fishing: Dikana Malzemeyên Masîgiriyê
           florist: Kulîlkfiroş
           food: Dikana Xwarinê
+          frame: Dikana Çarçoveyan
           funeral_directors: Rêvebirên merasima cenazeyê
           furniture: Mobîlya
-          gallery: Galerî
           garden_centre: Navenda Tişt û miştên Baxçeyan
+          gas: Dikana Gazê
           general: Dikan / Mexeze
           gift: Dikana Tişt û miştên diyariyê
           greengrocer: Dikana Şînahiyan
           grocery: Beqal
           hairdresser: Kuafor
           hardware: Xurdefiroş
+          health_food: Dikana Xwarinên Tenduristiyê
+          hearing_aids: Cîhazên Bihîstinê
+          herbalist: Dikana Giyayên Şîfadar
           hifi: Dikana Cîhazên Hi-Fi
           houseware: Dikana eşyayên xaniyan
+          ice_cream: Dikana Berfeşîrê
           interior_decoration: Dekorasyona hundirê malê
           jewelry: Gewherfiroş
           kiosk: Kîosk (Dikanên biçûk)
           kitchen: Dikana malzemeyên mitbaxê
           laundry: Cihê Cilşûştinê
+          locksmith: Kilîdveker
           lottery: Piyango
           mall: Mexezeyên Mezin
-          market: Market
           massage: Masaj
+          medical_supply: Dikana Malzemeyên Tibî
           mobile_phone: Dikana Telefonên Mobîl
+          money_lender: Bideyndêr
           motorcycle: Dikana motorsîklêtan
+          motorcycle_repair: Dikana Tamîrkirina Motorsîkletê
           music: Dikanên muzîkê
+          musical_instrument: Enstrumanên Muzîkê
           newsagent: Bayiya Rojnameyan
+          nutrition_supplements: Temamkerên Xwarinan
           optician: Berçavkvan
           organic: Dikana xwarinên organîk
           outdoor: Dikana ekîpmanê yê sporên servekirî
           paint: Dikana boyaxan
+          pastry: Dikana Pasteyan
           pawnbroker: Rehîngir / selefxur
+          perfumery: Parfûmfiroş
           pet: Dikana firotana heywanan
-          pharmacy: Dermanxane
+          pet_grooming: Xwedîkirina Heywanên Kedî
           photo: Dikana fotografê
           seafood: Berhemên behrê
           second_hand: Dikana destê diduyan
+          sewing: Dikana Dirûnê
           shoes: Dikana solan
           sports: Dikana malzemeyên werzişê
           stationery: Qirtasiye
+          storage_rental: Kirêkirina Depoyan
           supermarket: Supermarket
           tailor: Cildirû
+          tattoo: Dikana Deqçêkirinê
+          tea: Firoşgeha Çayê
           ticket: Firoşgeha bilêtan
           tobacco: Dikana titûnê
           toys: Dikana pêlîstokan
@@ -1008,6 +1217,8 @@ ku-Latn:
           vacant: Dikanê vala
           variety_store: Dikana tiştên çeşîd bi çeşîd
           video: Dikana vîdeoyan
+          video_games: Firoşgeha Lîstikên Vîdeoyî
+          wholesale: Mexezeya Komfiroşiyê
           wine: Dikana araqê
           "yes": Dikan
         tourism:
@@ -1017,6 +1228,7 @@ ku-Latn:
           attraction: Cihên balkêş
           bed_and_breakfast: Pansiyona tevî 'taştê û nivîn'
           cabin: Xanîk
+          camp_pitch: Qada Kampê
           camp_site: Cihê kampê
           caravan_site: Cihê karavanê
           chalet: Xaniya zozanê
@@ -1030,6 +1242,7 @@ ku-Latn:
           picnic_site: Cihê seyranê
           theme_park: Lûnapark
           viewpoint: Xala nêrîna menzereyê
+          wilderness_hut: Kulubeya Destpênebûyî
           zoo: Baxçeyê heywanan
         tunnel:
           building_passage: Korîdora avahiyê
@@ -1056,17 +1269,15 @@ ku-Latn:
           "yes": Robar
       admin_levels:
         level2: Hidûda welatê
+        level3: Sînora Herêmê
         level4: Sînora parêzgehê
         level5: Sînora herêmê
         level6: Hidûda navçeyê
+        level7: Sînora Şaredariyê
         level8: Hidûda bajarê
         level9: Sînora gundê
         level10: Sînora taxê
-    description:
-      title:
-        osm_nominatim: Cihên ji <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Cihên ji <a href="http://www.geonames.org/">GeoNames</a>
+        level11: Sînora Taxê
       types:
         cities: Bajarên mezin
         towns: Bajar
@@ -1146,9 +1357,6 @@ ku-Latn:
     new:
       title_html: Rapor %{link}
       missing_params: Raporeke nû nehat çêkirin
-      details: Ji kerema xwe di derbarê pirsgirêkê de zêdetir zanyarî bide (pêwist
-        e).
-      select: Ji bo rapora xwe sedemekî hilbijêre
       disclaimer:
         intro: 'Berî şandina rapora xwe ji moderatorên malperê, ji keram xwe vê piştrast
           bike:'
@@ -1231,18 +1439,29 @@ ku-Latn:
       text: Bexş bike
     learn_more: Zêdetir Hîn Bibe
     more: Zêdetir
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} li ser nivîsek rojane şirove kir'
       hi: Silav %{to_user},
       header: '%{from_user} nivîsa rojane yê OpenStreetMapê a bi mijara %{subject}
         şirove kir:'
+      header_html: '%{from_user} nivîsa rojane yê OpenStreetMapê a bi mijara %{subject}
+        şirove kir:'
       footer: Herwiha ji ser rûpela %{readurl} jî dikarî şiroveyê bixwînî û ji ser
-        %{commenturl} dikarî şirove bikî an jî ji ser %{replyurl} dikarî cewab bidî.
+        %{commenturl} dikarî şirove bikî an jî ji ser %{replyurl} peyamekî bişîne
+        nivîserê.
+      footer_html: Herwiha ji ser rûpela %{readurl} jî dikarî şiroveyê bixwînî û ji
+        ser %{commenturl} dikarî şirove bikî an jî ji ser %{replyurl} peyamekî bişîne
+        nivîserê.
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Merheba %{to_user},
       header: '%{from_user} ji te re bi rêya OpenStreetMapê peyamek bi mijara %{subject}
         şand:'
+      header_html: '%{from_user} ji te re bi rêya OpenStreetMapê peyamek bi mijara
+        %{subject} şand:'
+      footer: Tu dikarî peyamê li ser %{readurl} jî bixwînî û li ser %{replyurl} jî
+        dikarî bersiv bidî ê go ji te re şand.
       footer_html: Tu dikarî peyamê li ser %{readurl} jî bixwînî û li ser %{replyurl}
         jî dikarî bersiv bidî ê go ji te re şand.
     friendship_notification:
@@ -1251,26 +1470,30 @@ ku-Latn:
       had_added_you: Bikarhêner %{user} li ser OpenStreetMapê te wek heval lê zêde
         kir.
       see_their_profile: Ji ser %{userurl} dikarî binêrî profîlê wan.
+      see_their_profile_html: Ji ser %{userurl} dikarî binêrî profîlê wan.
       befriend_them: Herwiha ji ser %{befriendurl} wan dikarî wek heval lê zêde bikî.
-    gpx_notification:
-      greeting: Silav,
-      your_gpx_file: Ev mîna dosyeya te ya GPXê tê xuyan
-      with_description: tevî vê îzahê
-      and_the_tags: 'û etîketên bi dû ve de:'
-      and_no_tags: û etîket tine ye.
-      failure:
-        subject: '[OpenStreetMap] Anîna GPXê bi ser neket'
-        failed_to_import: 'anîna dosyeyê bi ser neket. Çewtî ev e:'
-        more_info_1: Derbarê çewtiyên împortkirina GPXê de û ji bo ku xwe ji van çewtiyan
-          dûr bixî, zêdetir agahiyan
-        more_info_2: 'ji vir dikarî bibînî:'
-      success:
-        subject: '[OpenStreetMap] Împortkirina GPXê bi ser ket'
-        loaded_successfully:
-          one: ji nuqteyekê %{possible_points} yê muhtemel bi %{trace_points} bi awayekî
-            serkefî hate barkirin.
-          other: Ji nuqteyên %{possible_points} yê muhtemel bi %{trace_points} bi
-            awayekî serkefî hate barkirin.
+      befriend_them_html: Herwiha ji ser %{befriendurl} wan dikarî wek heval lê zêde
+        bikî.
+    gpx_description:
+      description_with_tags_html: 'Dosyeya te ya GPXê %{trace_name} tevî danasîna
+        %{trace_description} û van etîketan wisa dixuye: %{tags}'
+      description_with_no_tags_html: Wisa dixuye ku dosyeya te ya GPxê %{trace_name}
+        tevî danasîna %{trace_description} ye û bêetîket e
+    gpx_failure:
+      hi: Merheba %{to_user},
+      failed_to_import: 'anîna dosyeyê bi ser neket. Çewtî ev e:'
+      more_info_html: Agahiyên zêdetir ên derbarê çewtiyên împortkirinê û rêlibergirtina
+        wê ji %{url} dikarî peyda bikî.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+      subject: '[OpenStreetMap] Anîna GPXê bi ser neket'
+    gpx_success:
+      hi: Merheba %{to_user},
+      loaded_successfully:
+        one: ji nuqteyekê %{possible_points} yê muhtemel bi %{trace_points} bi awayekî
+          serkefî hate barkirin.
+        other: Ji nuqteyên %{possible_points} yê muhtemel bi %{trace_points} bi awayekî
+          serkefî hate barkirin.
+      subject: '[OpenStreetMap] Împortkirina GPXê bi ser ket'
     signup_confirm:
       subject: '[OpenStreetMap] Bi xêr hatî OpenStreetMapê'
       greeting: Merhebaǃ
@@ -1283,27 +1506,13 @@ ku-Latn:
         pê bikî hinek agahiyên din jî bidin.
     email_confirm:
       subject: '[OpenStreetMap] E-peyama xwe tesdîq bike'
-    email_confirm_plain:
       greeting: Silav,
       hopefully_you: Yekî (em hêvî dikin ku ew tu bî) dixwaze adrêsa e-peyama te ya
         li %{server_url}, wek %{new_address} biguherîne.
       click_the_link: Eger, ev ê te be, xêra xwe ji bo tesdîqkirina guhertinê bitikîne
         ser lînka li jêr.
-    email_confirm_html:
-      greeting: Silav,
-      hopefully_you: Yekî (em hêvî dikin ku ew tu bî) dixwaze adrêsa e-peyama te ya
-        li %{server_url} qeydkîrî ye, wek %{new_address} biguherîne.
-      click_the_link: Eger, ew tu bî, xêra xwe ji bo tesdîqkirina guhertinê bitikîne
-        ser lînka li jêr.
     lost_password:
       subject: '[OpenStreetMap] Daxwaza nûkirina şîfreyê'
-    lost_password_plain:
-      greeting: Silav,
-      hopefully_you: Yekî (dibe be ku tu bî) xwest ku şîfreya vê adrêsa e-peyamê ya
-        hesaba openstreetmap.orgê were nûkirin.
-      click_the_link: Eger ev tu bî, xêra xwe ji bo nûkirina şîfreyê bitikîne ser
-        lînla li jêr.
-    lost_password_html:
       greeting: Silav,
       hopefully_you: Yekî (dibe be ku tu bî) xwest ku şîfreya vê adrêsa e-peyamê ya
         hesaba openstreetmap.orgê were nûkirin.
@@ -1318,7 +1527,11 @@ ku-Latn:
           dibî şiroveyek nivîsand'
         your_note: '%{commenter} li ser notekî te yê nexşeyê a nêzîkî %{place} şiroveyek
           berda.'
+        your_note_html: '%{commenter} li ser notekî te yê nexşeyê a nêzîkî %{place}
+          şiroveyek berda.'
         commented_note: '%{commenter} li ser notekî te yê nexşeyê a ku te şiroveyek
+          berdabû şiroveyek nivîsand. Ev not nêzîkî %{place} (y)e.'
+        commented_note_html: '%{commenter} li ser notekî te yê nexşeyê a ku te şiroveyek
           berdabû şiroveyek nivîsand. Ev not nêzîkî %{place} (y)e.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} yek ji notên te çareser kir'
@@ -1326,8 +1539,12 @@ ku-Latn:
           çareser kir'
         your_note: '%{commenter} yek ji notên te yên nexşeyê a nêzîkî %{place} çareser
           kir.'
+        your_note_html: '%{commenter} yek ji notên te yên nexşeyê a nêzîkî %{place}
+          çareser kir.'
         commented_note: '%{commenter} notekî nexşeyê yê ku te şiroveyek berdabû çareser
           kir. Ev not nêzîkî %{place} (y)e.'
+        commented_note_html: '%{commenter} notekî nexşeyê yê ku te şiroveyek berdabû
+          çareser kir. Ev not nêzîkî %{place} (y)e.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} yek ji notên te ji nû ve aktîv
           kir'
@@ -1335,9 +1552,14 @@ ku-Latn:
           ji nû ve aktîv kir'
         your_note: '%{commenter} yek ji notên te yên nexşeyê a nêzîkî %{place} ji
           nû ve da aktîvkirin.'
+        your_note_html: '%{commenter} yek ji notên te yên nexşeyê a nêzîkî %{place}
+          ji nû ve da aktîvkirin.'
         commented_note: '%{commenter} notekî nexşeyê yê ku te şiroveyek berdabû jinûve
           da aktîvkirin. Ev not nêzîkî %{place} (y)e.'
+        commented_note_html: '%{commenter} notekî nexşeyê yê ku te şiroveyek berdabû
+          jinûve da aktîvkirin. Ev not nêzîkî %{place} (y)e.'
       details: Dêtayên zêdetir yên derbarê notê de hûn dikarin ji %{url} bibînin.
+      details_html: Dêtayên zêdetir yên derbarê notê de hûn dikarin ji %{url} bibînin.
     changeset_comment_notification:
       hi: Merheba %{to_user},
       greeting: Merheba,
@@ -1348,15 +1570,25 @@ ku-Latn:
           pê eleqedar dibî şirove kir'
         your_changeset: '%{commenter} li ser desteyekî te yê guherandinê şîroveyekê
           berda di  %{time} de'
+        your_changeset_html: '%{commenter} li ser desteyekî te yê guherandinê şîroveyekê
+          berda di  %{time} de'
         commented_changeset: '%{commenter} di %{time} de li ser desteya guhertinê
           yê ku tu dişopînî şiroveyek berda, ji aliyê %{changeset_author} ve hatiye
           çêkirin'
+        commented_changeset_html: '%{commenter} di %{time} de li ser desteya guhertinê
+          yê ku tu dişopînî şiroveyek berda, ji aliyê %{changeset_author} ve hatiye
+          çêkirin'
         partial_changeset_with_comment: tevî şiroveya '%{changeset_comment}'
+        partial_changeset_with_comment_html: tevî şiroveya '%{changeset_comment}'
         partial_changeset_without_comment: bêyî şirove
       details: Dêtayên zêdetir yên derbarê desteya guherandinê de hûn dikarin ji %{url}
         bibînin.
+      details_html: Dêtayên zêdetir yên derbarê desteya guherandinê de hûn dikarin
+        ji %{url} bibînin.
       unsubscribe: Ji bo ku ji abonetiya rojanekirinên vê desteya guherandinê derbikevî,
         here %{url} û bitikîne ser "Abonetiyê betal bike".
+      unsubscribe_html: Ji bo ku ji abonetiya rojanekirinên vê desteya guherandinê
+        derbikevî, here %{url} û bitikîne ser "Abonetiyê betal bike".
   messages:
     inbox:
       title: Qutiya hatiyan
@@ -1432,6 +1664,26 @@ ku-Latn:
       as_unread: Peyam wek nexwendî hate nîşankirin
     destroy:
       destroyed: Payam hate jêbirin
+  shared:
+    markdown_help:
+      title_html: |-
+        Bi <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+        hate analîzkirin
+      headings: Sernivîs
+      heading: Sernivîs
+      subheading: Sernivîsa binî
+      unordered: Lîsta nerêzkirî
+      ordered: Lîsta rêzkirî
+      first: Hêmana yekem
+      second: Hêmana duyem
+      link: Lînk
+      text: Nivîs
+      image: Wêne
+      alt: Nivîsa alternatîv
+      url: URL
+    richtext_field:
+      edit: Biguherîne
+      preview: Pêşdîtin
   site:
     about:
       next: Pêşve
@@ -1615,19 +1867,6 @@ ku-Latn:
         herkesê re vekirî eyar bikî.
       user_page_link: rûpela bikarhêner
       anon_edits_link_text: Hîn bibe ku ev rewş çima wisa bûye.
-      flash_player_required_html: Ji bo ku edîtora OpenStreetMap Flashê yê bi navê
-        Potlatch bi kar bînî, ihtîyaca te bi Flash playerê heye. Tu dikarî <a href="https://get.adobe.com/flashplayer/">Flash
-        Playerê ji ser Adobe.com'ê daxînî</a>. Ji bo sererastkirina OpenStreetMapê
-        <a href="https://wiki.openstreetmap.org/wiki/Editing">gelek vebijêrkên din</a>
-        jî hene.
-      potlatch_unsaved_changes: Guherandinên te yên neqeydkirî hene. (Ji bo di Potlatchê
-        de qeyd bikî, divê gava ku guherandinê xwe di moda zindî de dikî, rê an jî
-        nuqteya ku vêga heyî bibijêrî, û heke bişkokek qeydkirinê hebe bitikînî ser
-        qeyd bike'yê.)
-      potlatch2_not_configured: Potlach 2 nehate vesazkirin - ji bo zêdetir agahiyan
-        xêra xwe binêre https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-      potlatch2_unsaved_changes: Guherandinên te yên neqeydkirî hene. (Ji bo ku di
-        Potlatch 2'ê de qeyd bikî bitikîne ser qeyd bike'yê.)
       id_not_configured: iD nehatiye mîhengkirin
       no_iframe_support: Geroka te piştgiriyê nade iframe'yên HTML ku ji bo nişandana
         vê taybetmendiyê lazim e.
@@ -1743,6 +1982,15 @@ ku-Latn:
         url: https://wiki.openstreetmap.org/
         title: Wîkiya OpenStreetMapê
         description: Ji bo belgeyên OpenStreetMapyê yên bi berfirehî binêrin wîkiyê.
+    potlatch:
+      removed: Edîtora te ya OpenStreetMapê ya standard wek Potlatch hate bijartin.
+        Ji ber ku Adobe Flash Player vekişiya, Potlatch êdî di gerokeke webê de ne
+        berdest e.
+      desktop_html: Tu hê jî dikarî Potlatchê bi kar bînî bi <a href="https://www.systemed.net/potlatch/">daxistina
+        sepana sermaseyê yên ji Mac û Windowsê</a>.
+      id_html: Wek alternatîv, tu dikarî edîtora xwe ya standard bikî iD ku ew di
+        geroka te ya webê de wekî şixula Potlatchê dixebite. <a href="%{settings_url}">Ji
+        vir mîhengên xwe yên bikarhêneriyê biguherîne</a>.
     sidebar:
       search_results: Encamên lêgerînê
       close: Bigire
@@ -1928,6 +2176,7 @@ ku-Latn:
           ku ji bikarhênerên din re nebî asteng, xêra xwe hêj ku te zêdetir şopan
           bar nekir, li bendê bimînin ku yên berî van temam bibin.'
     edit:
+      cancel: Betal bike
       title: Şopa %{name} tê guherandin
       heading: Şopa %{name} tê guherandin
       visibility_help: Ev tê çi maneyê?
@@ -1944,6 +2193,7 @@ ku-Latn:
       uploaded: Hate barkirinː
       points: Hejmara nuqteyanː
       start_coordinates: Koordînata destpêkêː
+      coordinates_html: '%{latitude}; %{longitude}'
       map: nexşe
       edit: biguherîne
       owner: 'Xweyî:'
@@ -2063,13 +2313,6 @@ ku-Latn:
       delete: Telebkarê jê bibe
       confirm: Tu piştrast î?
       requests: Destûrên ku ji bikarhênerê têne xwestin ev inː
-      allow_read_prefs: xwendina hevyazên wan yên bikarheneriyê.
-      allow_write_prefs: guherandina hevyazên wan ên bikarheneriyê.
-      allow_write_diary: çêkirina rojnivîskan, şiroveyan û hevaltîyan.
-      allow_write_api: guherandina nexşeyê.
-      allow_read_gpx: xwendina şopên wan yên GPSê ên xisûsî.
-      allow_write_gpx: barkirina şopên GPSê.
-      allow_write_notes: guherandina notan.
     index:
       title: Dêtayên min ên OAuthê
       my_tokens: Sepanên min ên destûrdayî
@@ -2085,19 +2328,7 @@ ku-Latn:
       registered_apps: Van sepanên telebkar bide qeydkirinː
       register_new: Sepanê xwe qeyd bike
     form:
-      name: Nav
-      required: Hewce ye
-      url: URLya sepana sereke
-      callback_url: URLya paşve lêgerînê
-      support_url: URLya piştgirîkirinê
       requests: Destûrên ku ji bikarhênerê têne xwestin ev inː
-      allow_read_prefs: xwendina hevyazên te yên bikarheneriyê.
-      allow_write_prefs: guherandina hevyazên te yên bikarheneriyê.
-      allow_write_diary: çêkirina rojnivîskan, şiroveyan û hevaltîyan.
-      allow_write_api: guherandina nexşeyê.
-      allow_read_gpx: xwendina şopên te yên GPSê ên xisûsî.
-      allow_write_gpx: barkirina şopên GPSê.
-      allow_write_notes: guherandina notan.
     not_found:
       sorry: Li me bibore, me ev %{type} nedît.
     create:
@@ -2178,8 +2409,6 @@ ku-Latn:
     reset_password:
       title: Şîfreyê nû bike
       heading: Şîfreyê nû bike ji bo %{user}
-      password: 'Şîfre:'
-      confirm password: 'Şîfreyê bipejirîne:'
       reset: Şîfreyê nû bike
       flash changed: Şîfreya te hate guhertin.
       flash token bad: Eger te vê sembolê nedîtibe, belkî jî divê tu URLyê kontrol
@@ -2196,8 +2425,6 @@ ku-Latn:
         html: |-
           <p>OpenStreetMap, ne wek nexşeyên din e. Ev xerîte, bi temamî ji aliyê însanên mîna te ve tê çêkirin û rastkirin, daxistin û bikaranîn ji her kesê re belaş e.</p>
           <p>Ji bo ku dest bi beşdariyê bikî qeyd bibe. Ji bo pejirandina hesabê te, em ê ji te re e-peyamek bişînin.</p>
-      license_agreement: Gava ku te hesabê xwe pejirand hewce ye tu <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">şertên
-        beşdariyê</a> qebûl bikî.
       email address: 'Navnîşana e-peyamê:'
       confirm email address: Navnîşana e-peyamê nas bike
       not_displayed_publicly_html: Adrêsa te ji her kesê re nayê nîşandan, ji bo zêdetir
@@ -2409,11 +2636,11 @@ ku-Latn:
       reconfirm_html: Heke ji bo ku em koda pejirandinê ji te re dîsa bişînin îhtiyaciya
         te bi me hebe <a href="%{reconfirm}">bitikîne ser vir</a>.
     confirm_resend:
-      success: Me ji hesabê te yê %{email} re notekî teyîdê şand û gava ku te hesabê
-        xwe pejirand tu yê bikaribî dest bi çêkirina nexşeyê bikî.<br /><br />Eger
-        tu sîstemekî antî-spam bi kar bînî, ji ber ku em nikarin ji daxwazên pejirandinê
-        re cewab bidin, xêra xwe jê piştrast be ku di navbera adrêsên ku têne qebûlkirin
-        (whitelist) de %{sender} jî heye.
+      success_html: Me ji hesabê te yê %{email} re notekî teyîdê şand û gava ku te
+        hesabê xwe pejirand tu yê bikaribî dest bi çêkirina nexşeyê bikî.<br /><br
+        />Eger tu sîstemekî antî-spam bi kar bînî, ji ber ku em nikarin ji daxwazên
+        pejirandinê re cewab bidin, xêra xwe jê piştrast be ku di navbera adrêsên
+        ku têne qebûlkirin (whitelist) de %{sender} jî heye.
       failure: Bikarhêner %{name} nehate dîtin.
     confirm_email:
       heading: Guherandina navnîşana e-nameyê bipejirîne
@@ -2493,28 +2720,17 @@ ku-Latn:
     new:
       title: Li ser %{name} astengî çêbike
       heading_html: Li ser %{name} astengî çêbike
-      reason: Sedema ku %{name} çima hatiye astengkirin. Der barê rewşê de, çiqas
-        bikaribî maqûl û aram be, dêtayan bide û ji bîr neke ku ev peyam dikare ji
-        aliyê kesên din ve jî were dîtin. Bi bîr bîne ku hemû bikarhêner ji jargona
-        civatê fam nakin, lewma xêra xwe gotinên ku yên nû dest pê kirine jî bikaribin
-        fam bikin bi kar bîne.
       period: Ji niha û pê ve wê heta kengê API ji bikarhêner were astengkirin?
       tried_contacting: Min bi bikarhênerê re têkiliyê danî û min jê xwest ku bisekine.
       tried_waiting: Ji bo ku ji van têkiliyan re cewabê bide min jê re wextekî maqûl
         da.
-      needs_view: Divê bikarhêner berî ku ev astengî rabe têbikeve
       back: Hemû astengiyan bibîne
     edit:
       title: Astenga li ser %{name} biguherîne
       heading_html: Astenga li ser %{name} biguherîne
-      reason: Sedema astengkirina %{name}. Der barê rewşê de, çiqas bikaribî maqûl
-        û aram be, dêtayan bide. Bila di bîra te de be ku hemû bikarhêner ji jargona
-        civatê fam nakin, lewma xêra xwe gotinên ku yên nû dest pê kirine jî bikaribin
-        fam bikin bi kar bîne.
       period: Ji niha û pê ve wê heta kengê API ji bikarhêner were astengkirin?
       show: Vê astengiyê bibîne
       back: Hemû astengiyan bibîne
-      needs_view: Gelo hewce dike bikarhêner berî ku ev astengî rabe têkeve?
     filter:
       block_expired: Wextê astengiyê derbas bûye û nikare were guherandin.
       block_period: Wextê astengiyê, divê yek ji nirxên vê lîsteya ku dikare were
@@ -2543,10 +2759,11 @@ ku-Latn:
       revoke: Betal bike!
       flash: Ev astengî hate betalkirin.
     helper:
-      time_future: Di %{time} de diqede.
+      time_future_html: Di %{time} de diqede.
       until_login: Heta ku bikarhêner têkeve aktîv e
-      time_future_and_until_login: Di %{time} de û gava ku bikarhêner têket wê biqede.
-      time_past: '%{time} qediya.'
+      time_future_and_until_login_html: Di %{time} de û gava ku bikarhêner têket wê
+        biqede.
+      time_past_html: '%{time} qediya.'
       block_duration:
         hours:
           one: 1 saetê
@@ -2650,6 +2867,7 @@ ku-Latn:
           other: Tu d nava %{count} gavên vê nuqteyê de yî
       base:
         standard: Standard
+        cyclosm: CyclOSM
         cycle_map: Nexşeya bisiklête
         transport_map: Nexşeya transportê
         hot: Mirovatî
@@ -2664,6 +2882,9 @@ ku-Latn:
       copyright: © <a href='%{copyright_url}'>Beşdarên OpenStreetMapê</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Bexşek bike</a>
       terms: <a href='%{terms_url}' target='_blank'>Mercên malper û APIyê</a>
+      cyclosm: Şêweya kiremîtan ji aliyê <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        ve, hewandin ji aliyê <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        Fransa</a> ve
       thunderforest: Kiremît bi destûra <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       opnvkarte: Kiremît bi xêra <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>

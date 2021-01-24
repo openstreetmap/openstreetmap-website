@@ -38,6 +38,8 @@ da:
     formats:
       friendly: '%e. %B %Y kl. %H:%M'
   helpers:
+    file:
+      prompt: Vælg fil
     submit:
       diary_comment:
         create: Gem
@@ -50,12 +52,12 @@ da:
         create: Send
       client_application:
         create: Registrér
-        update: Redigér
+        update: Opdater
       redaction:
         create: Opret omarbejdelse
         update: Gem omarbejdelse
       trace:
-        create: Upload
+        create: Overfør
         update: Gem ændringer
       user_block:
         create: Opret blokering
@@ -102,6 +104,18 @@ da:
       way_node: Vejpunkt
       way_tag: Vejegenskab
     attributes:
+      client_application:
+        name: Navn (Påkrævet)
+        url: Hovedapplikations-URL (påkrævet)
+        callback_url: Callback URL
+        support_url: Support URL
+        allow_read_prefs: læs deres brugerindstillinger
+        allow_write_prefs: ændre deres brugerindstillinger
+        allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber
+        allow_write_api: redigere kortet
+        allow_read_gpx: læse deres private GPS-spor
+        allow_write_gpx: overføre GPS-spor
+        allow_write_notes: redigere bemærkninger
       diary_comment:
         body: Brødtekst
       diary_entry:
@@ -122,14 +136,17 @@ da:
         longitude: Længdegrad
         public: Offentlig
         description: Beskrivelse
-        gpx_file: Upload GPX-fil
+        gpx_file: Overfør GPX-fil
         visibility: Synlighed
-        tagstring: 'Egenskaber:'
+        tagstring: Egenskaber
       message:
         sender: Afsender
         title: Emne
         body: Brødtekst
         recipient: Modtager
+      report:
+        category: Vælg årsagen til din rapportering
+        details: Forklar venligst problemet i flere detaljer (påkrævet).
       user:
         email: E-mail
         active: Aktiv
@@ -137,9 +154,12 @@ da:
         description: Beskrivelse
         languages: Sprog
         pass_crypt: Adgangskode
+        pass_crypt_confirmation: Bekræft adgangskode
     help:
       trace:
         tagstring: kommasepareret
+      user_block:
+        needs_view: Skal brugeren logge på, før denne blokering vil blive fjernet?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -181,15 +201,9 @@ da:
         other: '%{count} år siden'
   editor:
     default: Foretrukket (i øjeblikket %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (redigér i browseren)
     id:
       name: iD
       description: iD (redigér i browseren)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (redigér i browseren)
     remote:
       name: Fjernbetjening
       description: Fjernbetjening (JOSM eller Merkaartor)
@@ -217,7 +231,7 @@ da:
         title: OpenStreetMap-bemærkninger
         description_area: En liste over bemærkninger, rapporteret, kommenteret på
           eller lukket i dit område [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-        description_item: Et RSS-feed for bemærkninger %{id}
+        description_item: Et RSS-feed for bemærkning %{id}
         opened: ny bemærkning (nær %{place})
         commented: ny kommentar (nær %{place})
         closed: lukket bemærkning (nær %{place})
@@ -239,6 +253,12 @@ da:
     anonymous: anonym
     no_comment: (ingen kommentar)
     part_of: Del af
+    part_of_relations:
+      one: 1 relation
+      other: '%{count} relationer'
+    part_of_ways:
+      one: 1 vej
+      other: '%{count} veje'
     download_xml: Hent XML
     view_history: Se historik
     view_details: Se detaljer
@@ -253,8 +273,9 @@ da:
       relation: Relationer (%{count})
       relation_paginated: Relationer (%{x}-%{y} af %{count})
       comment: Kommentarer (%{count})
-      hidden_commented_by: Skjult kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
+      hidden_commented_by_html: Skjult kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when}
+        siden</abbr>
       changesetxml: XML for ændringssæt
       osmchangexml: XML for osmChange
       feed:
@@ -271,6 +292,9 @@ da:
       title_html: 'Vej: %{name}'
       history_title_html: 'Vejhistorik: %{name}'
       nodes: Punkter
+      nodes_count:
+        one: 1 punkt
+        other: '%{count} punkter'
       also_part_of_html:
         one: del af vejen %{related_ways}
         other: del af vejene %{related_ways}
@@ -278,6 +302,9 @@ da:
       title_html: 'Relation: %{name}'
       history_title_html: 'Relationshistorik: %{name}'
       members: Medlemmer
+      members_count:
+        one: 1 medlem
+        other: '%{count} medlemmer'
     relation_member:
       entry_role_html: '%{type} %{name} som %{role}'
       type:
@@ -288,13 +315,14 @@ da:
       entry_html: Relation %{relation_name}
       entry_role_html: Relation %{relation_name} (som %{relation_role})
     not_found:
+      title: Ikke fundet
       sorry: Beklager, %{type} med id %{id} blev ikke fundet.
       type:
         node: punkt
         way: vej
         relation: relation
         changeset: ændringssæt
-        note: bemærk
+        note: bemærkning
     timeout:
       sorry: Beklager, data for %{type} med id %{id} tog for lang tid at hente
       type:
@@ -334,15 +362,15 @@ da:
       open_title: 'Uløst bemærkning #%{note_name}'
       closed_title: 'Løst bemærkning #%{note_name}'
       hidden_title: 'Skjult bemærkning #%{note_name}'
-      opened_by: Oprettet af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Oprettet af anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Kommentar fra anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Løst af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Løst af anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Genaktiveret af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Genaktiveret af anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Skjult af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Oprettet af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Oprettet af anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Kommentar fra anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Løst af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Løst af anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Genaktiveret af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Genaktiveret af anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Skjult af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Rapporter denne bemærkning
     query:
       title: Find kortobjekter
@@ -395,13 +423,8 @@ da:
     new:
       title: Nyt blogindlæg
     form:
-      subject: 'Emne:'
-      body: 'Indhold:'
-      language: 'Sprog:'
-      location: 'Position:'
-      latitude: 'Breddegrad:'
-      longitude: 'Længdegrad:'
-      use_map_link: brug kort
+      location: Position
+      use_map_link: Brug kort
     index:
       title: Brugerblogs
       title_friends: Venners blogs
@@ -499,10 +522,12 @@ da:
           chair_lift: Stolelift
           drag_lift: Træklift
           gondola: Gondolbane
+          magic_carpet: Trækkende skilift
           platter: Tallerkenlift
           pylon: Pylon
           station: Svævebanestation
           t-bar: Ankerlift
+          "yes": Svævebane
         aeroway:
           aerodrome: Flyveplads
           airstrip: Landingsbane
@@ -511,11 +536,15 @@ da:
           hangar: Hangar
           helipad: Helikopterplads
           holding_position: Venteposition
+          navigationaid: Luftfartsnavigationsudstyr
           parking_position: Parkeringsposition
           runway: Landingsbane
+          taxilane: Taxibane
           taxiway: Rullevej
           terminal: Terminal
+          windsock: Vindpose
         amenity:
+          animal_boarding: Dyrepension
           animal_shelter: Dyreinternat
           arts_centre: Kunstcenter
           atm: Pengeautomat
@@ -525,7 +554,9 @@ da:
           bench: Bænk
           bicycle_parking: Cykelparkering
           bicycle_rental: Cykeludlejning
+          bicycle_repair_station: Cykelreparationsstation
           biergarten: Udendørs øludskænkning
+          blood_bank: Blodbank
           boat_rental: Bådudlejning
           brothel: Bordel
           bureau_de_change: Vekselkontor
@@ -542,6 +573,7 @@ da:
           clock: Ur
           college: Videregående uddannelsesinstitution
           community_centre: Forsamlingshus / lokalcenter
+          conference_centre: Konferencecenter
           courthouse: Retsbygning
           crematorium: Krematorium
           dentist: Tandlæge
@@ -549,6 +581,7 @@ da:
           drinking_water: Drikkevand
           driving_school: Køreskole
           embassy: Ambassade
+          events_venue: Begivenhedsarena
           fast_food: Fastfood
           ferry_terminal: Færgeterminal
           fire_station: Brandstation
@@ -561,36 +594,42 @@ da:
           hospital: Sygehus
           hunting_stand: Jagtplatform
           ice_cream: Is
+          internet_cafe: Internetcafe
           kindergarten: Børnehave
+          language_school: Sprogskole
           library: Bibliotek
+          loading_dock: Læsserampe
+          love_hotel: Kærlighedshotel
           marketplace: Markedsplads
+          mobile_money_agent: Mobilpenge-agent
           monastery: Kloster
+          money_transfer: Valutaoverførsel
           motorcycle_parking: Motorcykelparkering
+          music_school: Musikskole
           nightclub: Natklub
           nursing_home: Plejehjem
-          office: Kontor
           parking: Parkering
           parking_entrance: Parkeringsindkørsel
           parking_space: Parkeringsplads
+          payment_terminal: Betalingsterminal
           pharmacy: Apotek
           place_of_worship: Sted for gudstjenester
           police: Politi
           post_box: Postkasse
           post_office: Postkontor
-          preschool: Før-børnehaveklasse
           prison: Fængsel
           pub: Pub
+          public_bath: Offentligt bad
+          public_bookcase: Offentlig bogkasse
           public_building: Offentlig bygning
+          ranger_station: Skovridderbolig
           recycling: Genbrugsstation
           restaurant: Restaurant
-          retirement_home: Plejehjem
-          sauna: Sauna
+          sanitary_dump_station: Toilettømningsstation
           school: Skole
           shelter: Shelter
-          shop: Forretning
           shower: Brusebad
           social_centre: Socialcenter
-          social_club: Social klub
           social_facility: Socialforsogsfacilitet
           studio: Studie
           swimming_pool: Swimmingpool
@@ -599,19 +638,27 @@ da:
           theatre: Teater
           toilets: Toiletter
           townhall: Rådhus
+          training: Træningsfacilitet
           university: Universitet
+          vehicle_inspection: Køretøjsinspektion
           vending_machine: Automat
           veterinary: Dyrlæge
           village_hall: Forsamlingshus
           waste_basket: Skraldespand
           waste_disposal: Skraldecontainer
+          waste_dump_site: Affaldsdeponi
+          watering_place: Dyrevandtrug
           water_point: Vandpunkt
-          youth_centre: Ungdomscenter
+          weighbridge: Brovægt
+          "yes": Facilitet
         boundary:
+          aboriginal_lands: Urbefolkningsområde
           administrative: Administrativ grænse
           census: Folketællingsgrænse
           national_park: Nationalpark
+          political: Valggrænse
           protected_area: Beskyttet område
+          "yes": Afgrænsning
         bridge:
           aqueduct: Akvædukt
           boardwalk: Strandbro
@@ -620,24 +667,94 @@ da:
           viaduct: Viadukt
           "yes": Bro
         building:
+          apartment: Lejlighed
+          apartments: Lejligheder
+          barn: Lade
+          bungalow: Bungalow
+          cabin: Hytte
+          chapel: Kapel
+          church: Kirkebygning
+          civic: Offentlig bygning
+          college: Universitetsbygning
+          commercial: Erhvervsbygning
+          construction: Bygning under opførsel
+          detached: Parcelhus
+          dormitory: Kollegium
+          duplex: Dobbelthus
+          farm: Gård
+          farm_auxiliary: Landbrugsbygning
+          garage: Garage
+          garages: Garager
+          greenhouse: Drivhus
+          hangar: Hangar
+          hospital: Sygehusbygning
+          hotel: Hotelbygning
+          house: Hus
+          houseboat: Husbåd
+          hut: Hytte
+          industrial: Industribygning
+          kindergarten: Børnehavebygning
+          manufacture: Fabrikationsbygning
+          office: Kontorbygning
+          public: Offentlig bygning
+          residential: Beboelsesbygning
+          retail: Detailhandelbygning
+          roof: Tag
+          ruins: Bygningsruin
+          school: Skolebygning
+          semidetached_house: Rækkehus
+          service: Servicebygning
+          shed: Skur
+          stable: Stald
+          static_caravan: Husvogn
+          temple: Tempelbygning
+          terrace: Rækkehus
+          train_station: Jernbanestation
+          university: Universitetsbygning
+          warehouse: Lagerhal
           "yes": Bygning
+        club:
+          scout: Spejderklubhus
+          sport: Sportsklub
+          "yes": Klub
         craft:
+          beekeper: Biavler
+          blacksmith: Grovsmed
           brewery: Bryggeri
           carpenter: Tømrer
+          caterer: Diner transportable
+          confectionery: Slikbutik
+          dressmaker: Kjolesyerske
           electrician: Elektriker
+          electronics_repair: Elektronikmekaniker
           gardener: Gartner
+          glaziery: Glarmester
+          handicraft: Kunsthåndværker
+          hvac: Varme og ventilationsværksted
+          metal_construction: Metalværksted
           painter: Maler
           photographer: Fotograf
           plumber: Blikkenslager
+          roofer: Taglægger
+          sawmill: Savværk
           shoemaker: Skomager
+          stonemason: Stenhugger
           tailor: Skrædder
+          window_construction: Vinduessnedker
+          winery: Vingård
           "yes": Håndsværksbutik
         emergency:
+          access_point: Redningspunkt
           ambulance_station: Ambulancestation
           assembly_point: Mødested
           defibrillator: Hjertestarter
+          fire_xtinguisher: Brandslukker
+          fire_water_pond: Branddam
           landing_site: Nødlandingsplads
+          life_ring: Redningskrans
           phone: Nødtelefon
+          siren: Varslingssirene
+          suction_point: Beredskabssugepunkt
           water_tank: Nødvandtank
           "yes": Nødsituation
         highway:
@@ -650,6 +767,7 @@ da:
           cycleway: Cykelsti
           elevator: Elevator
           emergency_access_point: Nødudgangspunkt
+          emergency_bay: Nødvigespor
           footway: Gangsti
           ford: Vadested
           give_way: Ubetinget vigepligt skilt
@@ -680,37 +798,45 @@ da:
           tertiary: Hovedvej
           tertiary_link: Hovedvej
           track: Hjulspor
+          traffic_mirror: Trafikspejl
           traffic_signals: Trafiklys
-          trail: Spor
+          trailhead: Vandrerutestartpunkt
           trunk: Motortrafikvej
           trunk_link: Motortrafikvej
           turning_loop: Vendesløjfe
           unclassified: Anden vej
           "yes": Vej
         historic:
+          aircraft: Historisk flyvemaskine
           archaeological_site: Arkæologisk sted
+          bomb_crater: Historisk bombekrater
           battlefield: Slagmark
           boundary_stone: Grænsesten
           building: Historisk Bygning
           bunker: Bunker
+          cannon: Historisk kanon
           castle: Slot
+          charcoal_pile: Historisk kulbunke
           church: Kirke
           city_gate: Byport
           citywalls: Bymure
           fort: Skanse
           heritage: Kulturarvssted
+          hollow_way: Hulvej
           house: Hus
-          icon: Ikon
           manor: Herregård
           memorial: Mindesmærke
+          milestone: Historisk milesten
           mine: Mine
           mine_shaft: Mineskakt
           monument: Monument
+          railway: Historisk jernbane
           roman_road: Romersk vej
           ruins: Ruin
           stone: Sten
           tomb: Grav
           tower: Tårn
+          wayside_chapel: Vejkirke
           wayside_cross: Vejkors
           wayside_shrine: Vejside helligdom
           wreck: Vrag
@@ -719,6 +845,7 @@ da:
           "yes": Kryds
         landuse:
           allotments: Kolonihaver
+          aquaculture: Akvakultur
           basin: Bassin
           brownfield: Tidligere industriområde
           cemetery: Begravelsesplads
@@ -738,21 +865,28 @@ da:
           military: Militært område
           mine: Mine
           orchard: Plantage
+          plant_nursery: Planteskole
           quarry: Stenbrud/grusgrav
           railway: Jernbane
           recreation_ground: Rekreativt område
+          religious: Religiøs jordsstykke
           reservoir: Reservoir
           reservoir_watershed: Vandreservoir
           residential: Boligområde
           retail: Detailhandel
-          road: Vejområde
           village_green: Forte
           vineyard: Vingård
           "yes": Arealanvendelse
         leisure:
+          adult_gaming_centre: Voksen spillested
+          amusement_arcade: Spillehal
+          bandstand: Orkesterpavillon
           beach_resort: Badestrand
           bird_hide: Fugleskjul
+          bleachers: Lægtepladser
+          bowling_alley: Bowlinghal
           common: Fælles arealer
+          dance: Dansested
           dog_park: Hundepark
           firepit: Kogegrube
           fishing: Fiskeområde
@@ -765,7 +899,9 @@ da:
           marina: Bådehavn
           miniature_golf: Minigolf
           nature_reserve: Naturreservat
+          outdoor_seating: Udendørs siddeplads
           park: Park
+          picnic_table: Madpakkebord
           pitch: Sportsarena
           playground: Legeplads
           recreation_ground: Rekreativt område
@@ -780,13 +916,21 @@ da:
           "yes": Fritid
         man_made:
           adit: Stoll
+          advertising: Reklame
+          antenna: Antenne
+          avalanche_protection: Lavinebeskyttelse
           beacon: Fyr
+          beam: Bjælke
           beehive: Bikube
           breakwater: Mole
           bridge: Bro
           bunker_silo: Bunker
+          cairn: Varde
           chimney: Skorsten
+          clearcut: Renafdriftsområde
+          communications_tower: Kommunikationstårn
           crane: Kran
+          cross: Kors
           dolphin: Fortøjningspæl
           dyke: Grøft
           embankment: Dige
@@ -795,6 +939,7 @@ da:
           groyne: Høfde
           kiln: Kalkovn
           lighthouse: Fyr
+          manhole: Brønddæksel
           mast: Mast
           mine: Mine
           mineshaft: Mineskakt
@@ -802,12 +947,20 @@ da:
           petroleum_well: Oliebrønd
           pier: Mole
           pipeline: Rørledning
+          pumping_station: Pumpestation
+          reservoir_covered: Overdækket reservoir
           silo: Silo
+          snow_cannon: Snekanon
+          snow_fence: Snehegn
           storage_tank: Lagertank
+          street_cabinet: Gadeskab
           surveillance: Overvågning
+          telescope: Teleskop
           tower: Tårn
+          utility_pole: Elmast
           wastewater_plant: Affaldsfabrik
           watermill: Vandmølle
+          water_tap: Vandaftapning
           water_tower: Vandtårn
           water_well: Brønd
           water_works: Vandanlæg
@@ -818,10 +971,13 @@ da:
           airfield: Militær flyveplads
           barracks: Kaserne
           bunker: Bunker
+          checkpoint: Kontrolpost
+          trench: Skyttegrav
           "yes": Militær
         mountain_pass:
           "yes": Bjergpas
         natural:
+          bare_rock: Blottet klippe
           bay: Bugt
           beach: Strand
           cape: Odde
@@ -837,6 +993,7 @@ da:
           grassland: Græsslette
           heath: Hede
           hill: Bakke
+          hot_spring: Varm kilde
           island: Ø
           land: Land
           marsh: Marsk
@@ -860,20 +1017,31 @@ da:
           water: Vand
           wetland: Vådområde
           wood: Skov
+          "yes": Naturseværdighed
         office:
           accountant: Revisor
           administrative: Administration
+          advertising_agency: Reklamebureau
           architect: Arkitekt
           association: Forening
           company: Firma
+          diplomatic: Diplomatkontor
           educational_institution: Uddannelsesanstalt
           employment_agency: Arbejdsløshedskontor
+          energy_supplier: Forsyningsvirksomhedskontor
           estate_agent: Ejendomsmægler
-          government: Statligt kontor
+          financial: Finanskontor
+          government: Statsligt kontor
           insurance: Forsikringskontor
           it: IT-kontor
           lawyer: Advokat
+          logistics: Logistikkontor
+          newspaper: Avisredaktion
           ngo: ikkestatsligt kontor (NGO)
+          notary: Notar
+          religion: Trossamfundsadministration
+          research: Udviklingskontor
+          tax_advisor: Skatterådgiver
           telecommunication: Telekommunikationskontor
           travel_agent: Rejsebureau
           "yes": Kontor
@@ -893,6 +1061,7 @@ da:
           locality: Sted
           municipality: Kommune
           neighbourhood: Kvarter
+          plot: Byggegrund
           postcode: Postnummer
           quarter: Kvarter
           region: Region
@@ -902,7 +1071,6 @@ da:
           subdivision: Bydel
           suburb: Forstad
           town: By
-          unincorporated_area: Kommunefrit område
           village: Landsby
           "yes": Sted
         railway:
@@ -928,12 +1096,19 @@ da:
           switch: Sporskifte
           tram: Sporvej
           tram_stop: Sporvognsstoppested
+          yard: Jernbaneterræn
         shop:
+          agrarian: Grovvareforretning
           alcohol: Spiritusforretning
           antiques: Antikviteter
+          appliance: Hvidevareforretning
           art: Kunstbutik
+          baby_goods: Spædbørnsudstyrsforretning
+          bag: Taskeforretning
           bakery: Bager
+          bathroom_furnishing: Badeværelsesmøbelforretning
           beauty: Skønhedssalon
+          bed: Sengeforretning
           beverages: Drikkevareforretning
           bicycle: Cykelhandel
           bookmaker: Boghandler
@@ -945,65 +1120,90 @@ da:
           car_repair: Bilværksted
           carpet: Tæppebutik
           charity: Velgørenhedsbutik
+          cheese: Osteforhandler
           chemist: Apotek
+          chocolate: Chokolade
           clothes: Tøjbutik
+          coffee: Kaffeforhandler
           computer: Computerforretning
           confectionery: Slikbutik
           convenience: Kiosk
           copyshop: Kopibutik
           cosmetics: Kosmetikforretning
+          craft: Hobbyforhandler
+          curtain: Gardinforretning
+          dairy: Mejriudsalg
           deli: Delikatessebutik
           department_store: Varehus
           discount: Tilbudsbutik
           doityourself: Gør-det-selv
           dry_cleaning: Renseri
+          e-cigarette: E-cigaret-forhandler
           electronics: Elektronikforretning
+          erotic: Sexkiosk
           estate_agent: Ejendomsmægler
+          fabric: Stofforretning
           farm: Gårdbutik
           fashion: Modebutik
-          fish: Fiskehandler
+          fishing: Fiskeudstyrsforretning
           florist: Blomsterhandler
           food: Fødevarehandel
+          frame: Rammeforhanlder
           funeral_directors: Begravelsesforretning
           furniture: Møbler
-          gallery: Galleri
           garden_centre: Havecenter
+          gas: Gasudsalg
           general: Landhandel
           gift: Souvenirbutik
           greengrocer: Grønthandler
           grocery: Købmand
           hairdresser: Frisør
           hardware: Byggemarked
+          health_food: Helskostforetning
+          hearing_aids: Høreapparater
+          herbalist: Urteforretning
           hifi: Hi-Fi
           houseware: Køkkenudstyr
+          ice_cream: Isbutik
           interior_decoration: Indretning
           jewelry: Guldsmed
           kiosk: Kiosk
           kitchen: Køkkenbutik
           laundry: Vaskeri
+          locksmith: Låsesmed
           lottery: Lotteri
           mall: Indkøbscenter
-          market: Marked
           massage: Massage
+          medical_supply: Forhandler af medicinsk udstyr
           mobile_phone: Mobiltelefonforretning
+          money_lender: Pengeudlåner
           motorcycle: Motorcykelbutik
+          motorcycle_repair: Motorcykelmekaniker
           music: Musikforretning
+          musical_instrument: Musikforretning
           newsagent: Bladkiosk
+          nutrition_supplements: Kosttilskudsforhandler
           optician: Optiker
           organic: Økologisk fødevarebutik
           outdoor: Udendørs butik
           paint: Malerbutik
+          pastry: Wienerbrødsbager
           pawnbroker: Pantelåner
+          perfumery: Parfumeri
           pet: Dyrehandel
-          pharmacy: Apotek
+          pet_grooming: Kæledyrsfrisør
           photo: Fotobutik
           seafood: Fisk og skaldyr
           second_hand: Genbrugsbutik
+          sewing: Syforretning
           shoes: Skobutik
           sports: Sportsforretning
           stationery: Papirvarehandel
+          storage_rental: Opmagasineringsudlejning
           supermarket: Supermarked
           tailor: Skrædder
+          tattoo: Tattovør
+          tea: Teforhandler
           ticket: Billetbutik
           tobacco: Tobaksbutik
           toys: Legetøjsbutik
@@ -1012,6 +1212,8 @@ da:
           vacant: Ledig butik
           variety_store: Stormagasin
           video: Videoforretning
+          video_games: Videospilsforhandler
+          wholesale: Engrosforretning
           wine: Vinforretning
           "yes": Forretning
         tourism:
@@ -1021,6 +1223,7 @@ da:
           attraction: Seværdighed
           bed_and_breakfast: Bed and Breakfast
           cabin: Hytte
+          camp_pitch: Teltplads
           camp_site: Lejrplads
           caravan_site: Campingplads
           chalet: Chalet
@@ -1034,6 +1237,7 @@ da:
           picnic_site: Picnicsted
           theme_park: Forlystelsespark
           viewpoint: Udsigtspunkt
+          wilderness_hut: Vildmarkshytte
           zoo: Zoologisk have
         tunnel:
           building_passage: Bygningspassage
@@ -1066,11 +1270,6 @@ da:
         level8: Bygrænse
         level9: Bydelsgrænse
         level10: Sognegrænse
-    description:
-      title:
-        osm_nominatim: Position fra <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Position fra <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Storbyer
         towns: Byer
@@ -1148,8 +1347,6 @@ da:
     new:
       title_html: Rapport %{link}
       missing_params: Kan ikke oprette en ny rapport
-      details: Forklar venligst problemet i flere detaljer (påkrævet).
-      select: 'Vælg årsagen til din rapport:'
       disclaimer:
         intro: 'Før din rapport sendes til moderatorerne, så sørg venligst for at:'
         not_just_mistake: Du er sikker på at problemet ikke bare er en misforståelse
@@ -1231,7 +1428,7 @@ da:
       text: Donér
     learn_more: Lær mere
     more: Mere
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} kommenterede på et blogindlæg'
       hi: Hej %{to_user},
@@ -1251,22 +1448,14 @@ da:
       had_added_you: '%{user} har tilføjet dig som ven på OpenStreetMap.'
       see_their_profile: Du kan se deres profil på %{userurl}.
       befriend_them: Du kan også tilføje dem som ven på %{befriendurl}.
-    gpx_notification:
-      greeting: Hej,
-      your_gpx_file: Det ser ud til at din GPX-fil
-      with_description: med beskrivelsen
-      and_the_tags: 'og de følgende egenskaber:'
-      and_no_tags: og ingen egenskaber.
-      failure:
-        subject: '[OpenStreetMap] GPX-importering mislykkedes'
-        failed_to_import: 'kunne ikke importeres. Her er fejlen:'
-        more_info_1: Flere oplysninger om GPX-importeringsfejl og hvordan man undgår
-        more_info_2: 'dem kan findes på:'
-      success:
-        subject: '[OpenStreetMap] GPX-importering lykkedes'
-        loaded_successfully:
-          one: indlæst med %{trace_points} ud af 1 muligt punkt.
-          other: indlæst med %{trace_points} ud af %{possible_points} mulige punkter.
+    gpx_failure:
+      failed_to_import: 'kunne ikke importeres. Her er fejlen:'
+      subject: '[OpenStreetMap] GPX-importering mislykkedes'
+    gpx_success:
+      loaded_successfully:
+        one: indlæst med %{trace_points} ud af 1 muligt punkt.
+        other: indlæst med %{trace_points} ud af %{possible_points} mulige punkter.
+      subject: '[OpenStreetMap] GPX-importering lykkedes'
     signup_confirm:
       subject: '[OpenStreetMap] Velkommen til OpenStreetMap'
       greeting: Halløj!
@@ -1278,13 +1467,6 @@ da:
         så du kan komme godt i gang.
     email_confirm:
       subject: '[OpenStreetMap] Bekræft din e-mailadresse'
-    email_confirm_plain:
-      greeting: Hej,
-      hopefully_you: En eller anden (forhåbentlig dig) ønsker at ændre sin e-mailadresse
-        på %{server_url} til %{new_address}.
-      click_the_link: Hvis det er dig, skal du klikke på linket nedenfor for at bekræfte
-        ændringen.
-    email_confirm_html:
       greeting: Hej,
       hopefully_you: En eller anden (forhåbentlig dig) ønsker at ændre sin e-mailadresse
         på %{server_url} til %{new_address}.
@@ -1292,16 +1474,9 @@ da:
         ændringen.
     lost_password:
       subject: '[OpenStreetMap] Nulstilling af adgangskode'
-    lost_password_plain:
       greeting: Hej,
       hopefully_you: En eller anden (forhåbentlig dig) har bedt om at få adgangskoden
         nulstillet på denne e-mailadresses openstreetmap.org-konto.
-      click_the_link: Hvis dette er dig, så klik på linket nedenfor for at nulstille
-        din adgangskode.
-    lost_password_html:
-      greeting: Hej,
-      hopefully_you: En eller anden (forhåbentlig dig) har bedt om at få adgangskoden
-        nulstillet på denne emailadresses openstreetmap.org-konto.
       click_the_link: Hvis dette er dig, så klik på linket nedenfor for at nulstille
         din adgangskode.
     note_comment_notification:
@@ -1422,6 +1597,12 @@ da:
       as_unread: Besked markeret som ulæst
     destroy:
       destroyed: Besked slettet
+  shared:
+    markdown_help:
+      text: Tekst
+      image: Billede
+    richtext_field:
+      edit: Rediger
   site:
     about:
       next: Næste
@@ -1597,8 +1778,8 @@ da:
       shortlink: Kort link
       createnote: Tilføj en bemærkning
       license:
-        copyright: Ophavsret tilhører OpenStreetMap og bidragsydere, under en open
-          license
+        copyright: Ophavsret tilhører OpenStreetMap og bidragsydere, under en åben
+          licens
       remote_failed: Redigering mislykkede - tjek at JOSM eller Merkaartor er startet
         og fjernbetjening er aktiveret
     edit:
@@ -1607,18 +1788,6 @@ da:
         gør dette. Du kan gøre dine ændringer offentlige fra din %{user_page}.
       user_page_link: brugerside
       anon_edits_link_text: Find ud af hvorfor.
-      flash_player_required_html: Du har brug for en Flashafspiller for at bruge Potlatch,
-        OpenStreetMap Flash-redigeringsprogrammet. Du kan <a href="https://get.adobe.com/flashplayer/">hent
-        Flash Player fra Adobe.com</a>. <a href="https://wiki.openstreetmap.org/wiki/Editing">Flere
-        andre indstillinger</a> er også tilgængelige til redigering af OpenStreetMap.
-      potlatch_unsaved_changes: Du har ugemte ændringer (for at gemme i Potlatch skal
-        du afmarkere den nuværende vej eller nuværende punkt hvis du retter i live-tilstand,
-        eller klikke på gem-knappen hvis du har en).
-      potlatch2_not_configured: Potlatch 2 er ikke blevet konfigureret - se venligst
-        https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 for yderligere
-        information
-      potlatch2_unsaved_changes: Du har ugemte ændringer (for at gemme i Potlatch
-        2 skal du trykke på gem-knappen).
       id_not_configured: iD er ikke blevet konfigureret
       no_iframe_support: Din browser understøtter ikke HTML-iframes, hvilket er nødvendigt
         for denne funktion.
@@ -1726,7 +1895,7 @@ da:
         url: https://welcome.openstreetmap.org/
         title: Til organisationer
         description: Er du del af en organisation der har planer med OpenStreetMap?
-          Find ud af hvad du har brug for at vide på Velkomstmåtten.
+          Find ud af hvad du har brug for at vide på velkomstsiden.
       wiki:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
@@ -1872,12 +2041,13 @@ da:
         title: Spørgsmål?
         paragraph_1_html: |-
           OpenStreetMap har adskillige ressourcer der kan hjælpe dig med at lære mere om projektet, stille og svare på spørgsmål samt diskutere og dokumentere emner inden for kortlægning.
-          <a href='%{help_url}'>Få hjælp her</a>. Er du del af en organisation der har planer med OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Se mere på  Velkomstmåtten.</a>.
+          <a href='%{help_url}'>Få hjælp her</a>. Er du del af en organisation der har planer med OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Se mere på  velkomstsiden.</a>.
       start_mapping: Editér kortet
       add_a_note:
         title: Ikke tid til redigering? Tilføj en bemærkning!
         paragraph_1_html: Hvis du bare vil have en lille detalje rettet, men ikke
-          har tid til at gøre det selv, så kan du tilføje en note.
+          har tid til at registrere dig og gøre det selv, så kan du let tilføje en
+          bemærkning.
         paragraph_2_html: |-
           Bare gå ind på <a href='%{map_url}'>kortet</a> og klik på bemærknings-ikonet:
           <span class='icon note'></span>. Dette vil tilføje en markør som du kan trække rundt på kortet. Tilføj din besked,
@@ -1890,24 +2060,26 @@ da:
       identifiable: Identificerbar (vist i sporliste, punkterne er identificerbar
         og beholder rækkefølgen og tidsstempler)
     new:
-      upload_trace: Upload GPS-spor
+      upload_trace: Overfør GPS-spor
       visibility_help: hvad betyder det her?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Hjælp
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
-      upload_trace: Upload GPS-spor
-      trace_uploaded: Din GPX-fil er uploadet og afventer lagring i databasen. Det
-        sker normalt inden for en halv time, og en e-mail bliver tilsendt dig når
-        det er gjort.
-      upload_failed: Beklager, GPX-upload mislykkedes. En administrator er blevet
-        notificeret om fejlen. Prøv igen
+      upload_trace: Overfør GPS-spor
+      trace_uploaded: Din GPX-fil er overført og afventer lagring i databasen. Dette
+        sker normalt inden for en halv time, og en e-mail vil blive sendt til dig
+        når det er færdiggjort.
+      upload_failed: Beklager, GPX-overførslen mislykkedes. En administrator er blevet
+        notificeret om fejlen. Prøv venligst igen
       traces_waiting:
-        one: Du har allerede et GPS-spor i køen. Overvej at vente på dette før du
-          uploader flere spor for ikke at blokere køen for andre brugere.
-        other: Du har allerede %{count} GPS-spor i køen. Overvej at vente på disse
-          før du uploader flere spor for ikke at blokere køen for andre brugere.
+        one: Du har allerede et GPS-spor i køen. Overvej at vente på at dette færdiggøres
+          før du overfører flere spor for ikke at blokere køen for andre brugere.
+        other: Du har allerede %{count} GPS-spor i køen. Overvej at vente på at disse
+          færdiggøres før du overfører flere spor for ikke at blokere køen for andre
+          brugere.
     edit:
+      cancel: Annuller
       title: Redigerer spor %{name}
       heading: Redigerer spor %{name}
       visibility_help: hvad betyder det her?
@@ -1921,7 +2093,7 @@ da:
       pending: VENTENDE
       filename: 'Filnavn:'
       download: hent
-      uploaded: 'Uploadet:'
+      uploaded: 'Overført:'
       points: 'Punkter:'
       start_coordinates: 'Startkoordinat:'
       map: kort
@@ -1964,7 +2136,7 @@ da:
       tagged_with: ' med egenskaberne %{tags}'
       empty_html: Der er ingenting her endnu. <a href='%{upload_link}'>Overfør et
         nyt spor</a> eller lær mere om optagelse af GPS-spor på <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikisiden</a>.
-      upload_trace: Upload et spor
+      upload_trace: Overfør et spor
       see_all_traces: Vis alle spor
       see_my_traces: Se mine spor
     destroy:
@@ -1972,12 +2144,12 @@ da:
     make_public:
       made_public: Spor gjort offentlig
     offline_warning:
-      message: Systemet der håndterer upload af GPX-filer er på nuværende tidspunkt
-        ikke tilgængelig
+      message: Systemet der håndterer overførsler af GPX-filer er på nuværende tidspunkt
+        ikke tilgængeligt
     offline:
       heading: GPX-lagring ikke tilgængelig
-      message: Systemet der håndterer upload og lagring af GPX-filer er på nuværende
-        tidspunkt ikke tilgængelig
+      message: Systemet der håndterer overførsel og lagring af GPX-filer er på nuværende
+        tidspunkt ikke tilgængeligt
     georss:
       title: OpenStreetMap GPS-spor
     description:
@@ -2012,7 +2184,7 @@ da:
       allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber.
       allow_write_api: tilpas kortet.
       allow_read_gpx: læse dine private GPS-spor.
-      allow_write_gpx: uploade GPS-spor.
+      allow_write_gpx: overfør GPS-spor.
       allow_write_notes: ændre bemærkninger.
       grant_access: Tillad adgang
     authorize_success:
@@ -2044,13 +2216,6 @@ da:
       delete: Slet klient
       confirm: Er du sikker?
       requests: 'Anmoder brugeren om følgende tilladelser:'
-      allow_read_prefs: læs deres brugerindstillinger.
-      allow_write_prefs: ændre deres brugerindstillinger.
-      allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber.
-      allow_write_api: tilpas kortet.
-      allow_read_gpx: læse deres private GPS-spor.
-      allow_write_gpx: uploade GPS-spor.
-      allow_write_notes: ændre bemærkninger.
     index:
       title: Mine OAuth detaljer
       my_tokens: Mine godkendte programmer
@@ -2066,19 +2231,7 @@ da:
       registered_apps: 'Du har registreret følgende klientprogrammer:'
       register_new: Registrer dit program
     form:
-      name: Navn
-      required: Påkrævet
-      url: Programmets hovedadresse
-      callback_url: Callback URL
-      support_url: Support URL
       requests: 'Anmod brugeren om følgende tilladelser:'
-      allow_read_prefs: læs deres brugerindstillinger.
-      allow_write_prefs: ændre deres brugerindstillinger.
-      allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber.
-      allow_write_api: ændre kortet.
-      allow_read_gpx: læse deres private GPS-spor.
-      allow_write_gpx: uploade GPS-spor.
-      allow_write_notes: ændre bemærkninger.
     not_found:
       sorry: Beklager, men %{type} kunne ikke findes.
     create:
@@ -2158,8 +2311,6 @@ da:
     reset_password:
       title: Nulstil adgangskode
       heading: Nulstil adgangskode for %{user}
-      password: 'Adgangskode:'
-      confirm password: 'Bekræft adgangskode:'
       reset: Nulstil adgangskode
       flash changed: Din adgangskode er ændret.
       flash token bad: Kunne ikke finde denne nøgle, prøv at kontrollere URL'en?
@@ -2175,8 +2326,6 @@ da:
         html: |-
           <p>I modsætning til andre kort, er OpenStreetMap helt lavet af folk som dig, og det er frit for alle at rette, opdatere, downloade og bruge.</p>
           <p>Tilmeld dig for at komme i gang med at bidrage. Vi vil sende en e-mail for at bekræfte din konto.</p>
-      license_agreement: Når du bekræfter din konto, skal du acceptere <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">vilkårene
-        for bidragydere</a>.
       email address: 'E-mailadresse:'
       confirm email address: 'Bekræft e-mailadresse:'
       not_displayed_publicly_html: Din adresse vises ikke offentligt; se vores <href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
@@ -2380,8 +2529,8 @@ da:
       reconfirm_html: Hvis du har brug for at vi gensender bekræftelsesmailen, så
         <a href="%{reconfirm}">klik her</a>.
     confirm_resend:
-      success: Vi har sendt en ny e-mail bekræftelse til %{email}, og så snart du
-        har bekræftet din konto, kan du gå i gang med kortlægningen.<br /><br />Hvis
+      success_html: Vi har sendt en ny bekræftelsesbesked til %{email}, og så snart
+        du har bekræftet din konto, kan du gå i gang med kortlægningen.<br /><br />Hvis
         du bruger et antispam-system som sender bekræftelsesforespørgsler, så sørg
         for at du har hvidlistet %{sender} da vi ikke kan svare på den slags forespørgsler.
       failure: Bruger %{name} ikke fundet.
@@ -2464,27 +2613,17 @@ da:
     new:
       title: Opretter blokering af %{name}
       heading_html: Opretter blokering af %{name}
-      reason: Årsagen hvorfor %{name} er blokeret. Vær venligst så rolig og så fornuftig
-        som muligt, giv så mange detaljer, som kan du om situationen. Husk på, at
-        meddelelsen bliver offentligt synlig. Tænk på, at ikke alle brugerer forstår
-        fællesskabsjargonen, så prøv at bruge hverdags udtryk.
       period: Hvor længe, fra og med nu, brugeren vil blive blokeret fra API.
       tried_contacting: Jeg har kontaktet brugeren og bedt dem stoppe.
       tried_waiting: Jeg har givet en rimelig tidsfrist for brugeren til at reagere
         på disse meddelelser.
-      needs_view: Brugeren skal logge på, før denne blokering vil blive fjernet
       back: Vis alle blokeringer
     edit:
       title: Redigerer blokering af %{name}
       heading_html: Redigerer blokering af %{name}
-      reason: Årsagen hvorfor %{name} er blokeret. Vær venligst så rolig og så fornuftig
-        som muligt, giv så mange detaljer, som kan du om situationen. Tænk på, at
-        ikke alle brugerer forstår fællesskabsjargonen, så prøv at bruge hverdags
-        udtryk.
       period: Hvor længe, fra og med nu, brugeren vil blive blokeret fra API.
       show: Vis denne blokering
       back: Vis alle blokeringer
-      needs_view: Skal brugeren logge på, før denne blokering vil blive fjernet?
     filter:
       block_expired: Blokeringen er allerede udløbet og kan ikke redigeres.
       block_period: Blokeringsperioden skal være en af de værdier der er valgbar i
@@ -2512,11 +2651,11 @@ da:
       revoke: Tilbagekald!
       flash: Denne blokering er blevet tilbagekaldt.
     helper:
-      time_future: Slutter om %{time}.
+      time_future_html: Slutter om %{time}.
       until_login: Aktiv, indtil brugeren logger på.
-      time_future_and_until_login: Slutter om %{time} og efter brugeren er logget
+      time_future_and_until_login_html: Slutter om %{time} og efter brugeren er logget
         ind.
-      time_past: Sluttede %{time}.
+      time_past_html: Sluttede %{time}.
       block_duration:
         hours:
           one: 1 time
@@ -2632,7 +2771,7 @@ da:
         overlays: Aktiver overlejringer til fejlfinding af kortet
         title: Lag
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-bidragsydere</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Lav en donation</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Giv et bidrag</a>
       terms: <a href='%{terms_url}' target='_blank'>Hjemmeside og API-vilkår</a>
       thunderforest: Fliser venligst leveret af <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>

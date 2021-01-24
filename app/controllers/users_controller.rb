@@ -106,7 +106,7 @@ class UsersController < ApplicationController
             successful_login(current_user)
           else
             session[:token] = current_user.tokens.create.token
-            Notifier.signup_confirm(current_user, current_user.tokens.create(:referer => referer)).deliver_later
+            UserMailer.signup_confirm(current_user, current_user.tokens.create(:referer => referer)).deliver_later
             redirect_to :action => "confirm", :display_name => current_user.display_name
           end
         else
@@ -119,11 +119,16 @@ class UsersController < ApplicationController
   def account
     @tokens = current_user.oauth_tokens.authorized
 
+    append_content_security_policy_directives(
+      :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
+    )
+
     if params[:user] && params[:user][:display_name] && params[:user][:description]
       if params[:user][:auth_provider].blank? ||
          (params[:user][:auth_provider] == current_user.auth_provider &&
           params[:user][:auth_uid] == current_user.auth_uid)
         update_user(current_user, params)
+        redirect_to user_account_url(current_user) if current_user.errors.count.zero?
       else
         session[:new_user_settings] = params
         redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid])
@@ -146,18 +151,18 @@ class UsersController < ApplicationController
   def lost_password
     @title = t "users.lost_password.title"
 
-    if params[:user] && params[:user][:email]
-      user = User.visible.find_by(:email => params[:user][:email])
+    if params[:email]
+      user = User.visible.find_by(:email => params[:email])
 
       if user.nil?
-        users = User.visible.where("LOWER(email) = LOWER(?)", params[:user][:email])
+        users = User.visible.where("LOWER(email) = LOWER(?)", params[:email])
 
         user = users.first if users.count == 1
       end
 
       if user
         token = user.tokens.create
-        Notifier.lost_password(user, token).deliver_later
+        UserMailer.lost_password(user, token).deliver_later
         flash[:notice] = t "users.lost_password.notice email on way"
         redirect_to :action => "login"
       else
@@ -183,6 +188,7 @@ class UsersController < ApplicationController
 
           if current_user.save
             token.destroy
+            session[:fingerprint] = current_user.fingerprint
             flash[:notice] = t "users.reset_password.flash changed"
             successful_login(current_user)
           end
@@ -323,6 +329,7 @@ class UsersController < ApplicationController
           token.destroy
 
           session[:user] = user.id
+          session[:fingerprint] = user.fingerprint
 
           redirect_to referer || welcome_path
         end
@@ -341,8 +348,8 @@ class UsersController < ApplicationController
     if user.nil? || token.nil? || token.user != user
       flash[:error] = t "users.confirm_resend.failure", :name => params[:display_name]
     else
-      Notifier.signup_confirm(user, user.tokens.create).deliver_later
-      flash[:notice] = t("users.confirm_resend.success", :email => user.email, :sender => Settings.support_email).html_safe
+      UserMailer.signup_confirm(user, user.tokens.create).deliver_later
+      flash[:notice] = t "users.confirm_resend.success_html", :email => user.email, :sender => Settings.support_email
     end
 
     redirect_to :action => "login"
@@ -366,8 +373,9 @@ class UsersController < ApplicationController
         else
           flash[:errors] = current_user.errors
         end
-        token.destroy
+        current_user.tokens.delete_all
         session[:user] = current_user.id
+        session[:fingerprint] = current_user.fingerprint
         redirect_to :action => "account", :display_name => current_user.display_name
       elsif token
         flash[:error] = t "users.confirm_email.failure"
@@ -453,6 +461,8 @@ class UsersController < ApplicationController
       current_user.auth_uid = uid
 
       update_user(current_user, settings)
+
+      flash.discard
 
       session[:user_errors] = current_user.errors.as_json
 
@@ -552,6 +562,7 @@ class UsersController < ApplicationController
   # process a successful login
   def successful_login(user, referer = nil)
     session[:user] = user.id
+    session[:fingerprint] = user.fingerprint
     session_expires_after 28.days if session[:remember_me]
 
     target = referer || session[:referer] || url_for(:controller => :site, :action => :index)
@@ -616,13 +627,13 @@ class UsersController < ApplicationController
     user.languages = params[:user][:languages].split(",")
 
     case params[:avatar_action]
-    when "new" then
+    when "new"
       user.avatar.attach(params[:user][:avatar])
       user.image_use_gravatar = false
-    when "delete" then
+    when "delete"
       user.avatar.purge_later
       user.image_use_gravatar = false
-    when "gravatar" then
+    when "gravatar"
       user.avatar.purge_later
       user.image_use_gravatar = true
     end
@@ -642,18 +653,20 @@ class UsersController < ApplicationController
     end
 
     if user.save
-      set_locale(true)
+      session[:fingerprint] = user.fingerprint
+
+      set_locale(:reset => true)
 
       if user.new_email.blank? || user.new_email == user.email
-        flash.now[:notice] = t "users.account.flash update success"
+        flash[:notice] = t "users.account.flash update success"
       else
         user.email = user.new_email
 
         if user.valid?
-          flash.now[:notice] = t "users.account.flash update success confirm needed"
+          flash[:notice] = t "users.account.flash update success confirm needed"
 
           begin
-            Notifier.email_confirm(user, user.tokens.create).deliver_later
+            UserMailer.email_confirm(user, user.tokens.create).deliver_later
           rescue StandardError
             # Ignore errors sending email
           end

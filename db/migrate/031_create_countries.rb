@@ -1,4 +1,3 @@
-require "migrate"
 require "rexml/document"
 
 class CreateCountries < ActiveRecord::Migration[4.2]

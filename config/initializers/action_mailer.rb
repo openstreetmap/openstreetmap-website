@@ -1,9 +1,12 @@
 # Configure ActionMailer SMTP settings
 ActionMailer::Base.smtp_settings = {
-  :address => "localhost",
-  :port => 25,
-  :domain => "localhost",
-  :enable_starttls_auto => false
+  :address => Settings.smtp_address,
+  :port => Settings.smtp_port,
+  :domain => Settings.smtp_domain,
+  :enable_starttls_auto => Settings.smtp_enable_starttls_auto,
+  :authentication => Settings.smtp_authentication,
+  :user_name => Settings.smtp_user_name,
+  :password => Settings.smtp_password
 }
 
 # Set the host and protocol for all ActionMailer URLs

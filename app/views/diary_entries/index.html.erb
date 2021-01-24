@@ -5,7 +5,7 @@
     <% end %>
     <h1><%= @title %></h1>
 
-    <ul class='secondary-actions clearfix'>
+    <ul class="secondary-actions clearfix">
       <% unless params[:friends] or params[:nearby] -%>
         <li><%= rss_link_to :action => "rss", :language => params[:language] %></li>
       <% end -%>
@@ -28,21 +28,29 @@
 
   <%= render @entries %>
 
-  <div class="pagination">
-    <% if @entries.size < @page_size -%>
-      <%= t(".older_entries") %>
-    <% else -%>
-      <%= link_to t(".older_entries"), @params.merge(:page => @page + 1) %>
-    <% end -%>
+  <nav>
+    <ul class="pagination">
+      <% if @entries.size >= @page_size -%>
+        <li class="page-item">
+          <%= link_to t(".older_entries"), @params.merge(:page => @page + 1), :class => "page-link" %>
+        </li>
+      <% else -%>
+        <li class="page-item disabled">
+          <span class="page-link"><%= t(".older_entries") %></span>
+        </li>
+      <% end -%>
 
-    |
-
-    <% if @page > 1 -%>
-      <%= link_to t(".newer_entries"), @params.merge(:page => @page - 1) %>
-    <% else -%>
-      <%= t(".newer_entries") %>
-    <% end -%>
-  </div>
+      <% if @page > 1 -%>
+        <li class="page-item">
+          <%= link_to t(".newer_entries"), @params.merge(:page => @page - 1), :class => "page-link" %>
+        </li>
+      <% else -%>
+        <li class="page-item disabled">
+          <span class="page-link"><%= t(".newer_entries") %></span>
+        </li>
+      <% end -%>
+    </ul>
+  </nav>
 <% end %>
 
 <% unless params[:friends] or params[:nearby] -%>

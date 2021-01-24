@@ -84,6 +84,9 @@ eu:
       way_node: Bidearen nodoa
       way_tag: Bidearen etiketa
     attributes:
+      client_application:
+        callback_url: Berriz deitzeko URLa
+        support_url: Laguntza URLa
       diary_comment:
         body: Gorputza
       diary_entry:
@@ -112,6 +115,8 @@ eu:
         title: Gaia
         body: Testua
         recipient: Hartzailea
+      report:
+        details: Mesedez, eman arazoaren inguruko xehetasun gehiago (beharrezkoa).
       user:
         email: Eposta
         active: Aktibo
@@ -122,17 +127,13 @@ eu:
     help:
       trace:
         tagstring: koma mugatua
+      user_block:
+        needs_view: Erabiltzaileak saioa hasi behar al du bloke hau garbitu aurretik?
   editor:
     default: Lehenetsia (orain %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (nabigatzaile barneko editorea)
     id:
       name: iD
       description: iD (nabigatzaile barneko editorea)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (nabigatzaile barneko editorea)
     remote:
       name: Urrutiko agintea
       description: Urrutiko kontrola (JOSM edo Merkaartor)
@@ -191,9 +192,9 @@ eu:
       relation: Erlazioak (%{count})
       relation_paginated: Erlazioak (%{x}-%{y} %{count}-tik)
       comment: Iruzkinak (%{count})
-      hidden_commented_by: '%{user} erabiltzaileak egindako iruzkin ezkutua duela
+      hidden_commented_by_html: '%{user} erabiltzaileak egindako iruzkin ezkutua duela
         <abbr title=''%{exact_time}''>%{when}</abbr>'
-      commented_by: '%{user} erabiltzaileak egindako iruzkina duela <abbr title=''%{exact_time}''>%{when}</abbr>'
+      commented_by_html: '%{user} erabiltzaileak egindako iruzkina duela <abbr title=''%{exact_time}''>%{when}</abbr>'
       changesetxml: Aldaketaren XML kodea
       osmchangexml: osmChange XML kodea
       feed:
@@ -271,22 +272,22 @@ eu:
       open_title: 'Konpondugabeko #%{note_name} oharra'
       closed_title: 'Konpondutako #%{note_name} oharra'
       hidden_title: 'Ezkutatuko #%{note_name} oharra'
-      opened_by: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}</abbr>
+      opened_by_html: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}</abbr>
         sortua'
-      opened_by_anonymous: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}</abbr>
         sortua
-      commented_by: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}</abbr>
+      commented_by_html: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}</abbr>
         egindako iruzkina'
-      commented_by_anonymous: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous_html: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}
         </abbr> egindako iruzkina
-      closed_by: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}
+      closed_by_html: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}
         </abbr> konpondua'
-      closed_by_anonymous: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}
+      closed_by_anonymous_html: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}
         </abbr> konpondua
-      reopened_by: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}
+      reopened_by_html: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}
         </abbr> berraktibatua'
-      reopened_by_anonymous: Ezezagun batek berraktibatua duela <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: '%{user} erabiltzaileak ezkutatua duela <abbr title=''%{exact_time}''>%{when}</abbr>'
+      reopened_by_anonymous_html: Ezezagun batek berraktibatua duela <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: '%{user} erabiltzaileak ezkutatua duela <abbr title=''%{exact_time}''>%{when}</abbr>'
       report: Reportatu ohar hau
     query:
       title: Eskaeraren ezaugarriak
@@ -340,12 +341,7 @@ eu:
     new:
       title: Eguneroko Sarrera Berria
     form:
-      subject: 'Gaia:'
-      body: 'Testua:'
-      language: 'Hizkuntza:'
       location: 'Kokapena:'
-      latitude: 'Latitudea:'
-      longitude: 'Longitudea:'
       use_map_link: erabili mapa
     index:
       title: Erabiltzaileen egunerokoak
@@ -511,7 +507,6 @@ eu:
           motorcycle_parking: Motorrentzako aparkalekua
           nightclub: Gau-kluba
           nursing_home: Zaharren egoitza
-          office: Bulegoa
           parking: Aparkalekua
           parking_entrance: Aparkalekuko sarrera
           parking_space: Aparkalekua
@@ -520,20 +515,15 @@ eu:
           police: Polizia
           post_box: Postontzia
           post_office: Postetxea
-          preschool: Haurreskola
           prison: Espetxea
           pub: Pub-a
           public_building: Eraikin publiko
           recycling: Birziklatze gune
           restaurant: Jatetxea
-          retirement_home: Nagusien etxea
-          sauna: Sauna
           school: Eskola
           shelter: Aterpea
-          shop: Denda
           shower: Dutxa
           social_centre: Gizarte zentroa
-          social_club: Klub soziala
           social_facility: Gizarte Instalazioa
           studio: Estudioa
           swimming_pool: Igerilekua
@@ -549,7 +539,6 @@ eu:
           waste_basket: Hondakin Saskia
           waste_disposal: Hondakin Ezabatze Puntua
           water_point: Ur-puntua
-          youth_centre: Gaztelekua
         boundary:
           administrative: Muga Administratiboa
           census: Erroldaren muga
@@ -563,6 +552,17 @@ eu:
           viaduct: Bidezubia
           "yes": Zubia
         building:
+          chapel: Kapera
+          church: Eliza
+          garage: Garajea
+          hospital: Ospitale erakina
+          hotel: Hotela
+          house: Etxe
+          industrial: Eraikin industriala
+          public: Eraikin publiko
+          school: Eskola eraikina
+          train_station: Tren Geltokia
+          university: Unibertsitate eraikina
           "yes": Eraikina
         craft:
           brewery: Garagardotegia
@@ -624,7 +624,6 @@ eu:
           tertiary_link: Hirugarren Mailako Errepidea
           track: Pista
           traffic_signals: Trafiko Seinaleak
-          trail: Ibilbidea
           trunk: Errepide nagusia
           trunk_link: Errepide nagusia
           turning_loop: Buklea biratu
@@ -643,7 +642,6 @@ eu:
           fort: Gotorlekua
           heritage: Gizateriaren ondarea
           house: Etxea
-          icon: Ikonoa
           manor: Jauregia
           memorial: Memoriala
           mine: Meategia
@@ -688,7 +686,6 @@ eu:
           reservoir_watershed: Urtegiko arroa
           residential: Etxebizitza Ingurua
           retail: Txikizkako merkataritza gunea
-          road: Errepide Area
           village_green: Udal Berdegunea
           vineyard: Mahastia
           "yes": Lur-erabilera
@@ -845,7 +842,6 @@ eu:
           subdivision: Azpi-banaketa
           suburb: Aldiri
           town: Herria
-          unincorporated_area: Elkartu gabeko gunea
           village: Herrixka
           "yes": Tokia
         railway:
@@ -904,12 +900,10 @@ eu:
           estate_agent: Higiezinen agentea
           farm: Baserri-denda
           fashion: Moda-denda
-          fish: Arrantza-denda
           florist: Lore-saltzailea
           food: Janari-denda
           funeral_directors: Hileta-zuzendariak
           furniture: Altzari-denda
-          gallery: Galeria
           garden_centre: Lorategia
           general: Denetariko-denda
           gift: Opari-denda
@@ -926,7 +920,6 @@ eu:
           laundry: Garbitegia
           lottery: Loteria
           mall: Merkataritza-gunea
-          market: Azoka
           massage: Masajea
           mobile_phone: Sakelakoen denda
           motorcycle: Motozikleta-denda
@@ -938,7 +931,6 @@ eu:
           paint: Margo denda
           pawnbroker: Mailegu-emailea
           pet: Animalia-denda
-          pharmacy: Farmazia
           photo: Argazki-denda
           seafood: Itsaskiak
           second_hand: Bigarren eskuko denda
@@ -1009,11 +1001,6 @@ eu:
         level8: Udal muga
         level9: Herriko muga
         level10: Auzoko muga
-    description:
-      title:
-        osm_nominatim: 'Helbidea hemendik: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>'
-        geonames: 'Helbidea hemendik: <a href="http://www.geonames.org/">GeoNames</a>'
       types:
         cities: Hiriak
         towns: Herriak
@@ -1091,8 +1078,6 @@ eu:
     new:
       title_html: '%{link} reportatu'
       missing_params: Ezin da reporte berririk sortu
-      details: Mesedez, eman arazoaren inguruko xehetasun gehiago (beharrezkoa).
-      select: 'Aukeratu arrazoi bat zure reporterako:'
       disclaimer:
         intro: 'Zure reportea guneko moderatzaileei bidali aurretik, mesedez ziurtatu:'
         not_just_mistake: Ziur zaude arazoa ez dela akats bat bakarrik
@@ -1174,7 +1159,7 @@ eu:
       text: Dohaintza egin
     learn_more: Ikasi gehiago
     more: Gehiago
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} eguneroko sarrera batean iruzkina utzi du'
       hi: Kaixo %{to_user},
@@ -1193,22 +1178,13 @@ eu:
       had_added_you: '%{user} lagun bezala gehitu zaitu OpenStreetMap-en.'
       see_their_profile: Haien profila %{userurl}n ikusi dezakezu.
       befriend_them: Haiek ere lagun bezala gehitu ditzakezu %{befriendurl}n.
-    gpx_notification:
-      greeting: Kaixo,
-      your_gpx_file: Zure GPX fitxategia bezala dirudi
-      with_description: deskribapenarekin
-      and_the_tags: 'eta hurrengo etiketak:'
-      and_no_tags: eta etiketarik ez.
-      failure:
-        subject: '[OpenStreetMap] GPX Inportazioan porrota'
-        failed_to_import: 'inportzean kale egin du. Hemen dago akatsa:'
-        more_info_1: GPX inportazio akatsei buruzko informazio gehiago eta hauek nola
-          saihesteari buruz.
-        more_info_2: 'hemen aurkitu daitezke:'
-      success:
-        subject: '[OpenStreetMap] GPX Inportazioan arrakasta'
-        loaded_successfully: '%{trace_points} puntuekin %{possible_points} puntuetatik
-          arrakastaz kargatu da.'
+    gpx_failure:
+      failed_to_import: 'inportzean kale egin du. Hemen dago akatsa:'
+      subject: '[OpenStreetMap] GPX Inportazioan porrota'
+    gpx_success:
+      loaded_successfully: '%{trace_points} puntuekin %{possible_points} puntuetatik
+        arrakastaz kargatu da.'
+      subject: '[OpenStreetMap] GPX Inportazioan arrakasta'
     signup_confirm:
       subject: '[OpenStreetMap] Ongi etorri OpenStreetMap-era'
       greeting: Kaixo!
@@ -1219,24 +1195,12 @@ eu:
         hasteko.
     email_confirm:
       subject: '[OpenStreetMap] Baieztatu zure eposta helbidea'
-    email_confirm_plain:
-      greeting: Kaixo,
-      hopefully_you: Norbaitek (zuk zorionez) zure helbide elektronikoa aldatu nahi
-        du %{server_url}en %{new_address}ra.
-      click_the_link: Hau zu bazara, beheko estekan klik egin aldaketa baieztatzeko.
-    email_confirm_html:
       greeting: Kaixo,
       hopefully_you: Norbaitek (zuk zorionez) zure helbide elektronikoa aldatu nahi
         du %{server_url}en %{new_address}ra.
       click_the_link: Hau zu bazara, beheko estekan klik egin aldaketa baieztatzeko.
     lost_password:
       subject: '[OpenStreetMap] Pasahitza berrezartzeko eskaera'
-    lost_password_plain:
-      greeting: Kaixo,
-      hopefully_you: Norbaitek (zuk posibleki) helbide elektroniko kontu honetara
-        openstreetmap.org  berrezartzeko pasahitza eskatu du.
-      click_the_link: Hau zu bazara, egin klik beheko estekan zure pasahitza berrezartzeko.
-    lost_password_html:
       greeting: Kaixo,
       hopefully_you: Norbaitek (zuk posibleki) helbide elektroniko kontu honetara
         openstreetmap.org  berrezartzeko pasahitza eskatu du.
@@ -1535,18 +1499,6 @@ eu:
         Aldaketak publiko gisa ezar ditzakezu zure %{user_page}-tik.
       user_page_link: Lankide orria
       anon_edits_link_text: Aurkitu zergatik hau kasua den.
-      flash_player_required_html: Potlatch, OpenStreetMap Flash editorea erabiltzeko
-        Flash erreproduzitzailea behar duzu. <a href="https://get.adobe.com/flashplayer/">download
-        Flash Player from Adobe.com</a> Adobe Flash Player-tik deskargatu dezakezu
-        </a>. <a href="https://wiki.openstreetmap.org/wiki/Editing"> Beste hainbat
-        aukera </a> ere eskuragarri daude OpenStreetMap editatzeko.
-      potlatch_unsaved_changes: Aldaketak gorde gabe dituzu. (Potlatch-en gordetzeko,
-        uneko bidea edo puntuazioa desautatu beharko zenituzke, modu zuzenean editatzen
-        baduzu, edo egin klik gorde botoian.)
-      potlatch2_not_configured: Potlacth 2 ez da konfiguratu - mesedez ikusi https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-        informazio gehiagorako
-      potlatch2_unsaved_changes: Gorde gabeko aldaketak dituzu. (Potlatch 2 gordetzeko,
-        egin klik gorde botoian.)
       id_not_configured: iD-a ez da konfiguratu
       no_iframe_support: Zure nabigatzaileak ez ditu onartzen HTML iframe-ak, funtzio
         honetarako ezinbestekoak direnak.
@@ -1622,7 +1574,7 @@ eu:
         elkarlana.
       welcome:
         url: /welcome
-        title: Ongi etorri OSM-ra
+        title: Ongi etorri OSMra
         description: OpenStreetMap-en oinarrizkoak betetzen dituen gida azkar honekin
           hasi.
       beginners_guide:
@@ -1632,7 +1584,7 @@ eu:
       help:
         url: https://help.openstreetmap.org/
         title: help.openstreetmap.org
-        description: Egin galdera bat edo begiratu OSM-en galdera-eta-erantzun gunean.
+        description: Egin galdera bat edo begiratu OSMn galdera-eta-erantzun gunean.
       mailing_lists:
         title: Posta Bidaltze Zerrendak
         description: Galdera bat egin edo eztabaidatu gai interesgarriak gaikako edo
@@ -1656,7 +1608,7 @@ eu:
       wiki:
         url: http://wiki.openstreetmap.org/wiki/Eu:Main_Page
         title: wiki.openstreetmap.org
-        description: OSM informazio zehatzerako wiki arakatu.
+        description: Arakatu wikia informazio zehatzeko OSM dokumentaziorako.
     sidebar:
       search_results: Bilaketaren emaitzak
       close: Itxi
@@ -1828,6 +1780,7 @@ eu:
           igotzeko agindua ez ematea zain zauden bitartean, beste erabiltzaile batzuei
           ilarak ez blokeatzeko.'
     edit:
+      cancel: Utzi
       title: '%{name} aztarna aldatzen'
       heading: '%{name} aztarna aldatzen'
       visibility_help: Zer esan nahi du honek?
@@ -1961,13 +1914,6 @@ eu:
       delete: Ezabatu bezeroa
       confirm: Ziur zaude?
       requests: 'Erabiltzaile honen ondorengo baimenak eskatu:'
-      allow_read_prefs: Irakurri haien erabiltzaile hobespenak.
-      allow_write_prefs: aldatu haien erabiltzaile hobespenak.
-      allow_write_diary: sortu eguroko sarreak, iruzkinak eta lagunak egin.
-      allow_write_api: mapa aldatu.
-      allow_read_gpx: irakurri haien GPS aztarna pribatuak.
-      allow_write_gpx: GPS aztarnak igo.
-      allow_write_notes: oharrak aldatu.
     index:
       title: Nire OAuth xehetasunak
       my_tokens: Nire Baimendutako Aplikazioak
@@ -1982,19 +1928,7 @@ eu:
       registered_apps: 'Ondorengo bezero aplikazio erregistratuak dituzu:'
       register_new: Zure aplikazio erregistratu
     form:
-      name: Izena
-      required: Nahitaezkoa
-      url: URL Aplikazio Nagusia
-      callback_url: Berriz deitzeko URLa
-      support_url: Laguntza URLa
       requests: 'Erabiltzaile honen ondorengo baimenak eskatu:'
-      allow_read_prefs: irakurri haien erabiltzaile hobespenak.
-      allow_write_prefs: aldatu haien erabiltzaile hobespenak.
-      allow_write_diary: sortu eguroko sarreak, iruzkinak eta lagunak egin.
-      allow_write_api: mapa aldatu.
-      allow_read_gpx: irakurri haien GPS aztarna pribatuak.
-      allow_write_gpx: GPS aztarnak igo.
-      allow_write_notes: oharrak aldatu.
     not_found:
       sorry: Barkatu, %{type} hori ezin izan da aurkitu.
     create:
@@ -2076,8 +2010,6 @@ eu:
     reset_password:
       title: Pasahitza berrezarri
       heading: '%{user}-ren pasahitza berrezarri'
-      password: 'Pasahitza:'
-      confirm password: 'Pasahitza berretsi:'
       reset: Pasahitza berrezarri
       flash changed: Zure pasahitza aldatu da.
       flash token bad: Token hori ez da aurkitu, URL egiaztatu beharbada?
@@ -2093,8 +2025,6 @@ eu:
           <p> Beste mapei ez bezala, OpenStreetMap zure gustuko pertsonek sortutakoa da guztiz,
           eta doakoa da edonork konpontzeko, eguneratzeko, deskargatzeko eta erabiltzeko. </p>
           <p> Erregistratu lehenengo laguntzeko. Zure kontua baieztatzeko mezu elektronikoa bidaliko dizugu. </p>
-      license_agreement: Kontua baieztatzen duzunean <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">
-        laguntzako terminoak </a> adostu beharko dituzu.
       email address: 'Eposta Helbidea:'
       confirm email address: 'Eposta Helbidea baieztatu:'
       not_displayed_publicly_html: Zure helbidea ez da publikoki erakutsiko, ikusi
@@ -2287,10 +2217,11 @@ eu:
       reconfirm_html: Berrespen-mezu elektronikoa bidaltzea behar baduzu, <a href="%{reconfirm}">egin
         klik hemen</a>.
     confirm_resend:
-      success: Berrespen ohar bat bidali dugu %{email} helbidera eta zure kontua berretsi
-        bezain laster, mapak eskuratu ahal izango dituzu. <br/> <br/> Berrespen eskaerak
-        bidaltzen dituen antispam sistema erabiltzen baduzu, mesedez ziurta zaitez
-        %{sender} zurien zerrenda duzula, baieztapen eskaerei erantzun ezin diegulako.
+      success_html: Berrespen ohar bat bidali dugu %{email} helbidera eta zure kontua
+        berretsi bezain laster, mapak eskuratu ahal izango dituzu. <br/> <br/> Berrespen
+        eskaerak bidaltzen dituen antispam sistema erabiltzen baduzu, mesedez ziurta
+        zaitez %{sender} zurien zerrenda duzula, baieztapen eskaerei erantzun ezin
+        diegulako.
       failure: '%{name} erabiltzailea ez da aurkitu.'
     confirm_email:
       heading: Helbide elektronikoan aldaketa bat baieztatu
@@ -2374,28 +2305,17 @@ eu:
     new:
       title: '%{name}n blokeoa sortzen'
       heading_html: '%{name}n blokeoa sortzen'
-      reason: ' %{name} blokeatuta dagoen zergatia. Behar bezain lasai eta ahalik
-        eta arrazoizkoa izan, egoeraren inguruko xehetasun guztiak emanez, mezu hori
-        publikoki ikusgai egongo dela gogoratuz. Gogoan izan, erabiltzaile guztiek
-        ez dutela komunitatearen jargia ulertzen, beraz, saiatu laymans terminoak
-        erabiltzen.'
       period: Zenbat denbora, orain hasita, erabiltzaileak APIan blokeoa jasoko duen.
       tried_contacting: Erabiltzailearekin kontaktuan jarri naiz eta gelditzeko eskatu
         diet.
       tried_waiting: Denbora egokia eman diet erabiltzaileei komunikazio horiei erantzuteko.
-      needs_view: Erabiltzaileak saioa hasi behar du blokeoa kendu baino lehen.
       back: Ikusi bloke guztiak
     edit:
       title: '%{name}n blokeoa editatzen'
       heading_html: '%{name}n blokeoa editatzen'
-      reason: ' %{name} blokeatuta dagoen zergatia. Behar bezain lasai eta ahalik
-        eta arrazoizkoa izan, egoeraren inguruko xehetasun guztiak emanez. Gogoan
-        izan, erabiltzaile guztiek ez dutela komunitatearen jargia ulertzen, beraz,
-        saiatu laymans terminoak erabiltzen.'
       period: Zenbat denbora, orain hasita, erabiltzaileak APIan blokeoa jasoko duen.
       show: Ikusi bloke hau
       back: Ikusi bloke guztiak
-      needs_view: Erabiltzaileak saioa hasi behar al du bloke hau garbitu aurretik?
     filter:
       block_expired: Blokea dagoeneko iraungi da eta ezin da editatu.
       block_period: Blokeoaren iraupena goitibeherako zerrendan hautatutako balioetariko
@@ -2422,11 +2342,11 @@ eu:
       revoke: Ezeztatu!
       flash: Blokeo hau ezeztatu da.
     helper:
-      time_future: '%{time}n bukatzen du'
+      time_future_html: '%{time}n bukatzen du'
       until_login: Erabiltzaileak saioa hasi arte aktiboa.
-      time_future_and_until_login: '%{time} denbora barru bukatzen du eta erabiltzaileak
+      time_future_and_until_login_html: '%{time} denbora barru bukatzen du eta erabiltzaileak
         saioa hasi eta gero.'
-      time_past: '%{time} bukatua.'
+      time_past_html: '%{time} bukatua.'
       block_duration:
         hours:
           one: ordu bat

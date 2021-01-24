@@ -10,8 +10,16 @@ module Api
         { :controller => "api/users", :action => "show", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/user/1.json", :method => :get },
+        { :controller => "api/users", :action => "show", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/user/details", :method => :get },
         { :controller => "api/users", :action => "details" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/user/details.json", :method => :get },
+        { :controller => "api/users", :action => "details", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/user/gpx_files", :method => :get },
@@ -21,6 +29,10 @@ module Api
         { :path => "/api/0.6/users", :method => :get },
         { :controller => "api/users", :action => "index" }
       )
+      assert_routing(
+        { :path => "/api/0.6/users.json", :method => :get },
+        { :controller => "api/users", :action => "index", :format => "json" }
+      )
     end
 
     def test_show
@@ -28,7 +40,7 @@ module Api
       # check that a visible user is returned properly
       get api_user_path(:id => user.id)
       assert_response :success
-      assert_equal "text/xml", response.media_type
+      assert_equal "application/xml", response.media_type
 
       # check the data that is returned
       assert_select "description", :count => 1, :text => "test"
@@ -69,6 +81,15 @@ module Api
       # check that a non-existent user is not returned
       get api_user_path(:id => 0)
       assert_response :not_found
+
+      # check that a visible user is returned properly in json
+      get api_user_path(:id => user.id, :format => "json")
+      assert_response :success
+      assert_equal "application/json", response.media_type
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal user.id, js["user"]["id"]
     end
 
     def test_details
@@ -84,7 +105,7 @@ module Api
       auth_header = basic_authorization_header user.email, "test"
       get user_details_path, :headers => auth_header
       assert_response :success
-      assert_equal "text/xml", response.media_type
+      assert_equal "application/xml", response.media_type
 
       # check the data that is returned
       assert_select "description", :count => 1, :text => "test"
@@ -130,16 +151,25 @@ module Api
 
       get api_users_path(:users => user1.id)
       assert_response :success
-      assert_equal "text/xml", response.media_type
+      assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
         assert_select "user[id='#{user1.id}']", :count => 1
         assert_select "user[id='#{user2.id}']", :count => 0
         assert_select "user[id='#{user3.id}']", :count => 0
       end
 
+      # Test json
+      get api_users_path(:users => user1.id, :format => "json")
+      assert_response :success
+      assert_equal "application/json", response.media_type
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 1, js["users"].count
+
       get api_users_path(:users => user2.id)
       assert_response :success
-      assert_equal "text/xml", response.media_type
+      assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
         assert_select "user[id='#{user1.id}']", :count => 0
         assert_select "user[id='#{user2.id}']", :count => 1
@@ -148,7 +178,7 @@ module Api
 
       get api_users_path(:users => "#{user1.id},#{user3.id}")
       assert_response :success
-      assert_equal "text/xml", response.media_type
+      assert_equal "application/xml", response.media_type
       assert_select "user", :count => 2 do
         assert_select "user[id='#{user1.id}']", :count => 1
         assert_select "user[id='#{user2.id}']", :count => 0

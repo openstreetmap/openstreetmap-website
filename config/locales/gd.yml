@@ -69,6 +69,9 @@ gd:
       way_node: Nòd slighe
       way_tag: Taga slighe
     attributes:
+      client_application:
+        callback_url: URL ais-ghairm
+        support_url: URL taice
       diary_comment:
         body: Bodhaig
       diary_entry:
@@ -107,20 +110,17 @@ gd:
     help:
       trace:
         tagstring: sgaradh le cromagan
+      user_block:
+        needs_view: Am bi aig a' chleachdaiche clàradh a-steach mus dèid am bacadh
+          seo a thoirt air falamh?
   printable_name:
     with_version: '%{id}, v%{version}'
     with_name_html: '%{name} (%{id})'
   editor:
     default: Bun-roghainn (%{name} an-dràsta)
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (deasaiche am broinn a' bhrabhsair)
     id:
       name: iD
       description: iD (deasaiche am broinn a' bhrabhsair)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (deasaiche am broinn a' bhrabhsair)
     remote:
       name: Inneal-smachd cèin
       description: Inneal-smachd cèin (JOSM no Merkaartor)
@@ -178,9 +178,9 @@ gd:
       relation: Dàimhean (%{count})
       relation_paginated: Dàimhean (%{x}-%{y} à %{count})
       comment: Beachdan (%{count})
-      hidden_commented_by: Beachd falaichte le %{user} <abbr title='%{exact_time}'>o
+      hidden_commented_by_html: Beachd falaichte le %{user} <abbr title='%{exact_time}'>o
         chionn %{when}</abbr>
-      commented_by: Beachd le %{user} <abbr title='%{exact_time}'>o chionn %{when}</abbr>
+      commented_by_html: Beachd le %{user} <abbr title='%{exact_time}'>o chionn %{when}</abbr>
       changesetxml: XML le seata atharraichean
       osmchangexml: XML osmChange
       feed:
@@ -258,22 +258,23 @@ gd:
       open_title: Nòta àireamh %{note_name} gun fhuasgladh
       closed_title: Nòta àireamh %{note_name} a chaidh fhuasgladh
       hidden_title: Nòta falaichte àireamh %{note_name}
-      opened_by: Chaidh a chruthachadh le %{user} <abbr title='%{exact_time}'>o chionn
+      opened_by_html: Chaidh a chruthachadh le %{user} <abbr title='%{exact_time}'>o
+        chionn %{when}</abbr>
+      opened_by_anonymous_html: Chaidh a chruthachadh gun urra <abbr title='%{exact_time}'>o
+        chionn %{when}</abbr>
+      commented_by_html: Beachd le %{user} <abbr title='%{exact_time}'>o chionn %{when}</abbr>
+      commented_by_anonymous_html: Beachd gun urra <abbr title='%{exact_time}'>o chionn
         %{when}</abbr>
-      opened_by_anonymous: Chaidh a chruthachadh gun urra <abbr title='%{exact_time}'>o
-        chionn %{when}</abbr>
-      commented_by: Beachd le %{user} <abbr title='%{exact_time}'>o chionn %{when}</abbr>
-      commented_by_anonymous: Beachd gun urra <abbr title='%{exact_time}'>o chionn
+      closed_by_html: Chaidh fhuasgladh le %{user} <abbr title='%{exact_time}'>o chionn
         %{when}</abbr>
-      closed_by: Chaidh fhuasgladh le %{user} <abbr title='%{exact_time}'>o chionn
+      closed_by_anonymous_html: Chaidh fhuasgladh gun urra <abbr title='%{exact_time}'>o
+        chionn %{when}</abbr>
+      reopened_by_html: Chaidh ath-ghnìomhachadh le %{user} <abbr title='%{exact_time}'>o
+        chionn %{when}</abbr>
+      reopened_by_anonymous_html: Chaidh ath-ghnìomhachadh gun urra <abbr title='%{exact_time}'>o
+        chionn %{when}</abbr>
+      hidden_by_html: Chaidh fhalach le %{user} <abbr title='%{exact_time}'>o chionn
         %{when}</abbr>
-      closed_by_anonymous: Chaidh fhuasgladh gun urra <abbr title='%{exact_time}'>o
-        chionn %{when}</abbr>
-      reopened_by: Chaidh ath-ghnìomhachadh le %{user} <abbr title='%{exact_time}'>o
-        chionn %{when}</abbr>
-      reopened_by_anonymous: Chaidh ath-ghnìomhachadh gun urra <abbr title='%{exact_time}'>o
-        chionn %{when}</abbr>
-      hidden_by: Chaidh fhalach le %{user} <abbr title='%{exact_time}'>o chionn %{when}</abbr>
     query:
       title: Lorg feartan sònraichte
       introduction: Briog air a' mhapa gus feartan faisg air a lorg.
@@ -322,12 +323,7 @@ gd:
     new:
       title: Clàr ùr an leabhair-latha
     form:
-      subject: 'Cuspair:'
-      body: 'Bodhaig:'
-      language: 'Cànan:'
       location: 'Àite:'
-      latitude: 'Domhan-leud:'
-      longitude: 'Domhan-fhad:'
       use_map_link: cleachd mapa
     index:
       title: Leabhraichean-latha
@@ -488,7 +484,6 @@ gd:
           motorcycle_parking: Ionad-pàircidh motar-baidhseagal
           nightclub: Club-oidhche
           nursing_home: Taigh-altraim
-          office: Oifis
           parking: Ionad-pàircidh
           parking_entrance: Doras ionaid-phàircidh
           pharmacy: Bùth-chungaidhean
@@ -496,20 +491,15 @@ gd:
           police: Poileas
           post_box: Bogsa-phuist
           post_office: Oifis a' phuist
-          preschool: Ro-sgoil
           prison: Prìosan
           pub: Taigh-seinnse
           public_building: Togalach poblach
           recycling: Ionad ath-chuairteachaidh
           restaurant: Taigh-bìdh
-          retirement_home: Taigh-cluaineis
-          sauna: Sauna
           school: Sgoil
           shelter: Fasgadh
-          shop: Bùth
           shower: Frasair
           social_centre: Ionad-sòisealta
-          social_club: Club-soisealta
           social_facility: Goireas sòisealta
           studio: Stiùideo
           swimming_pool: Amar-snàimh
@@ -524,7 +514,6 @@ gd:
           village_hall: Talla a' bhaile
           waste_basket: Bogsa-sgudail
           waste_disposal: Ionad-sgudail
-          youth_centre: Ionad-òigridh
         boundary:
           administrative: Crìoch rianachd
           census: Crìoch cunntas-sluaigh
@@ -591,7 +580,6 @@ gd:
           tertiary_link: Rathad treasach
           track: Traca
           traffic_signals: Solasan-trafaig
-          trail: Staran
           trunk: Prìomh-rathad
           trunk_link: Prìomh-rathad
           unclassified: Rathad neo-sheòrsaichte
@@ -609,7 +597,6 @@ gd:
           fort: Gearastan
           heritage: Làrach dualchais
           house: Taigh
-          icon: Ìomhaigh
           manor: Taigh-maineir
           memorial: Carragh-chuimhne
           mine: Mèinn
@@ -652,7 +639,6 @@ gd:
           reservoir_watershed: Amar-tasgaidh
           residential: Raon-còmhnaidh
           retail: Bhuitean
-          road: Raon rathaid
           village_green: Rèidhlean
           vineyard: Fìon-lios
           "yes": Cleachdadh-fearainn
@@ -771,7 +757,6 @@ gd:
           subdivision: Fo-roinn
           suburb: Frith-bhaile
           town: Baile
-          unincorporated_area: Raon neo-chorpaichte
           village: Baile beag
           "yes": Àite
         railway:
@@ -829,12 +814,10 @@ gd:
           estate_agent: Ceannaiche-seilbhe
           farm: Bùth tuathanais
           fashion: Bùth aodaich
-          fish: Bùth èisg
           florist: Bùth-fhlùraichean
           food: Bùth bìdh
           funeral_directors: Seirbheis tìodhlacaidh
           furniture: Àirneis
-          gallery: Gailearaidh
           garden_centre: Margadh-gàrraidh
           general: Bùth a' bhaile
           gift: Bùth phrèasantan
@@ -847,7 +830,6 @@ gd:
           kiosk: Cìtheasg
           laundry: Taigh-nigheachain
           mall: Ionad-seopadaireachd
-          market: Margadh
           mobile_phone: Bùth fhònaichean-làmhe
           motorcycle: Bùth mhotar-baidhseagalan
           music: Bùth ciùil
@@ -856,7 +838,6 @@ gd:
           organic: Bùth bìdh fhàs-bheartaich
           outdoor: Bùth acainnean blàir
           pet: Bùth pheatachan
-          pharmacy: Bùth-chungaidhean
           photo: Bùth dhealbhan
           second_hand: Bùth rudan ath-làimhe
           shoes: Bùth bhrògan
@@ -920,11 +901,6 @@ gd:
         level8: Crìoch baile
         level9: Crìoch baile bhig
         level10: Crìoch frith-bhaile
-    description:
-      title:
-        osm_nominatim: Àite o <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Àite o <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Bailtean
         towns: Bailtean
@@ -981,7 +957,7 @@ gd:
       text: Thoir tìodhlac dhuinn
     learn_more: Barrachd fiosrachaidh
     more: Barrachd
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] Thug %{user} seachad beachd air leabhar-latha'
       hi: Shin thu, %{to_user},
@@ -991,7 +967,6 @@ gd:
         beachd agad fhèin a chur ris air %{commenturl} no freagairt a sgrìobhadh air
         %{replyurl}'
     message_notification:
-      subject_header: '[OpenStreetMap] %{subject}'
       hi: Shin thu, %{to_user},
       header: 'Chuir %{from_user} teachdaireachd thugad slighe OpenStreetMap air a
         bheil an cuspair "%{subject}":'
@@ -1004,24 +979,15 @@ gd:
         air %{userurl}.'
       befriend_them: '''S urrainn dhut an neach ud a a chur ''nad caraid ris air %{befriendurl}
         cuideachd.'
-    gpx_notification:
-      greeting: Shin thu,
-      your_gpx_file: Tha coltas
-      with_description: nach deach leinn am faidhle GPX agad air a bheil an tuairisgeul
-      and_the_tags: 'agus na tagaichean a leanas:'
-      and_no_tags: agus air nach eil taga
-      failure:
-        subject: '[OpenStreetMap] Dh''fhàillig le ion-phortadh GPX'
-        failed_to_import: 'ion-phortachadh. Seo a'' mhearachd:'
-        more_info_1: Gheibh thu barrachd fiosrachaidh air duilgheadasan le ion-phortadh
-          GPX agus air mar a sheachnas tu
-        more_info_2: 'iad air:'
-        import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
-      success:
-        subject: '[OpenStreetMap] Shoirbhich le ion-phortadh GPX'
-        loaded_successfully: gun deach am faidhle GPX agad a luchdachadh gu soirbheachail
-          le %{trace_points} a-mach às an uiread de %{possible_points} p(h)uing(ean)
-          a ghabhas.
+    gpx_failure:
+      failed_to_import: 'ion-phortachadh. Seo a'' mhearachd:'
+      import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+      subject: '[OpenStreetMap] Dh''fhàillig le ion-phortadh GPX'
+    gpx_success:
+      loaded_successfully: gun deach am faidhle GPX agad a luchdachadh gu soirbheachail
+        le %{trace_points} a-mach às an uiread de %{possible_points} p(h)uing(ean)
+        a ghabhas.
+      subject: '[OpenStreetMap] Shoirbhich le ion-phortadh GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Fàilte gu OpenStreetMap'
       greeting: Shin thu!
@@ -1034,13 +1000,6 @@ gd:
         fiosrachaidh dhut ach am bi e nas fhasa dhut tòiseachadh.
     email_confirm:
       subject: '[OpenStreetMap] Dearbhaich an seòladh puist-d agad'
-    email_confirm_plain:
-      greeting: Shin thu,
-      hopefully_you: Tha cuideigin (an dòchas gur e tusa a th' ann) airson an seòladh
-        puist-d agad atharrachadh gu %{new_address} air %{server_url}.
-      click_the_link: Mas e tusa a th' ann, briog air a' cheangal gu h-ìosal gus an
-        atharrachadh a dhearbhadh.
-    email_confirm_html:
       greeting: Shin thu,
       hopefully_you: Tha cuideigin (an dòchas gur e tusa a th' ann) airson an seòladh
         puist-d agad atharrachadh gu %{new_address} air %{server_url}.
@@ -1048,14 +1007,6 @@ gd:
         atharrachadh a dhearbhadh.
     lost_password:
       subject: '[OpenStreetMap] Chaidh ath-shuidheachadh air facal-faire iarraidh'
-    lost_password_plain:
-      greeting: Shin thu,
-      hopefully_you: Dh'iarr cuideigin (an dòchas gur e tusa a bh' ann) gun dèid am
-        facal-faire agad atharrachadh airson cunntas an t-seòlaidh phuist-d seo air
-        openstreetmap.org.
-      click_the_link: Mas e tusa a bh' ann, briog air a' cheangal gu h-ìosal gus am
-        facal-faire agad ath-shuidheachadh.
-    lost_password_html:
       greeting: Shin thu,
       hopefully_you: Dh'iarr cuideigin (an dòchas gur e tusa a bh' ann) gun dèid am
         facal-faire agad atharrachadh airson cunntas an t-seòlaidh phuist-d seo air
@@ -1348,19 +1299,6 @@ gd:
       user_page_link: duilleag a' chleachdaiche
       anon_edits_html: (%{link})
       anon_edits_link_text: Faigh a-mach carson
-      flash_player_required_html: Bidh feum agad air cluicheadair Flash gus an deasaiche
-        Flash OpenStreetMap air a bheil Potlatch a chleachdadh. 'S urrainn dhut <a
-        href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Flash
-        Player a luchadh a-nuas o Adobe.com</a>. Tha <a href="http://wiki.openstreetmap.org/wiki/Editing">roghainnean
-        eile</a> ri làimh cuideachd gus OpenStreetMap a dheasachadh.
-      potlatch_unsaved_changes: Tha atharrachadh gun sàbhaladh agad. (airson sàbhaladh
-        ann am Potlatch, bu chòir dhut a' phuing no slighe làithreach a dhì-thaghadh
-        ma tha thu 'ga deasachadh sa mhodh bheò no briog air "Sàbhail" ma tha putan
-        sàbhalaidh agad.)
-      potlatch2_not_configured: Cha deach Potlatch 2 a rèiteachadh - tadhail air http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-        airson barrachd fiosrachaidh
-      potlatch2_unsaved_changes: Tha atharrachadh gun sàbhaladh agad. (Gus sàbhaladh
-        ann am 2, bu chòir dhut briogadh air "Sàbhail".)
       id_not_configured: Cha deach iD a rèiteachadh
       no_iframe_support: Cha toir am brabhsair agad taic ri HTML iframes a tha riatanach
         airson an fhearta seo.
@@ -1759,14 +1697,6 @@ gd:
       delete: Sguab às an cliant
       confirm: A bheil thu cinnteach?
       requests: 'Ag iarraidh on chleachdaiche gum faodar:'
-      allow_read_prefs: roghainnean a' chleachdaiche aca a leughadh.
-      allow_write_prefs: roghainnean a' chleachdaiche aca atharrachadh.
-      allow_write_diary: clàran leabhair-latha a chruthachadh, beachdan a thoirt agus
-        caraidean a chur ris.
-      allow_write_api: am mapa atharrachadh.
-      allow_read_gpx: na lorgaidhean GPS prìobhaideach aca a leughadh.
-      allow_write_gpx: lorgaidhean GPS a luchdadh suas.
-      allow_write_notes: nòtaichean atharrachadh.
     index:
       title: Am fiosrachadh OAuth agad
       my_tokens: Na h-aplacaidean agam air a bheil cead
@@ -1782,20 +1712,7 @@ gd:
       registered_apps: 'Seo na h-aplacaidean cliant a clàraich thu leinn:'
       register_new: Clàraich an aplacaid agad
     form:
-      name: Ainm
-      required: Riatanach
-      url: Prìomh URL na h-aplacaid
-      callback_url: URL ais-ghairm
-      support_url: URL taice
       requests: 'Iarr on chleachdaiche gum faodar:'
-      allow_read_prefs: roghainnean a' chleachdaiche aige/aice a leughadh.
-      allow_write_prefs: roghainnean a' chleachdaiche aige/aice atharrachadh.
-      allow_write_diary: clàran leabhair-latha a chruthachadh, beachdan a thoirt agus
-        caraidean a chur ris.
-      allow_write_api: am mapa atharrachadh.
-      allow_read_gpx: na lorgaidhean GPS prìobhaideach aige/aice a leughadh.
-      allow_write_gpx: lorgaidhean GPS a luchdadh suas.
-      allow_write_notes: nòtaichean atharrachadh.
     not_found:
       sorry: Duilich ach cha deach a' %{type} ud a lorg.
     create:
@@ -1878,8 +1795,6 @@ gd:
     reset_password:
       title: Ath-shuidhich am facal-faire
       heading: Ath-shuidhich am facal-faire aig %{user}
-      password: 'Facal-faire:'
-      confirm password: 'Dearbhaich am facal-faire:'
       reset: Ath-shuidhich am facal-faire
       flash changed: Chaidh am facal-faire agad atharrachadh.
       flash token bad: Cha do rinn sinn lorg air an tòcan ud, an toir thu sùil air
@@ -1896,9 +1811,6 @@ gd:
         html: |-
           <p>Eu-coltach ri mapaichean eile, tha OpenStreetMap 'ga chruthachadh gu tur le cleachdaichean mar a tha thu fhèin agus faodaidh duine sam bith a chàradh, ùrachadh, a luchdadh a-nuas is a chleachdadh gu saor.</p>
           <p>Clàraich gus taic a thoirt dhuinn. Cuiridh sinn post-d thugad gus an cunntas agad a dhearbhadh.</p>
-      license_agreement: Nuair a dhearbhaicheas tu an cunntas agad, feumaidh tu aontachadh
-        ri <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">teirmichean
-        a' chom-pàirtiche</a>.
       email address: 'Seòladh puist-d:'
       confirm email address: 'Dearbhaich an seòladh puist-d:'
       not_displayed_publicly_html: Cha dèid do sheòladh shealltainn gu poblach, thoir
@@ -2095,7 +2007,7 @@ gd:
       reconfirm_html: <a href="%{reconfirm}">Briog an-seo</a> ma tha thu airson 's
         gun cuir sinn post-d dearbhaidh dhut a-rithist.
     confirm_resend:
-      success: Chuir sinn teachdaireachd dearbhaidh ùr gu %{email} agus 's urrainn
+      success_html: Chuir sinn teachdaireachd dearbhaidh ùr gu %{email} agus 's urrainn
         dhut tòiseachadh air an obair-mhapa nuair a bhios tu air an cunntas agad a
         dhearbhadh.<br /><br />Ma chleachdas tu siostam an aghaidh spama a chuireas
         iarrtasan dearbhaidh, dèan cinnteach gun cuir thu %{sender} air a gheal-liosta
@@ -2174,33 +2086,20 @@ gd:
     new:
       title: A' cruthachadh bacadh air %{name}
       heading_html: A' cruthachadh bacadh air %{name}
-      reason: An t-adhbhar carson a nì thu bacadh air %{name}. Feuch am bi thu cho
-        sìtheil is ciallach 's a ghabhas, a' toirt seachad na tha agad de dh'fhiosrachadh
-        mun t-suidheachadh agus cuimhnich gun gabh an teachdaireachd a leughadh gu
-        poblach. Thoir an aire nach tuig a h-uile duine cainnt shònraichte na coimhearsnachd,
-        mar sin feuch an cleachd thu cànan àbhaisteach.
       period: Dè cho fad 's nach fhaod an cleachdaiche an API a chleachdach o seo
         a-mach.
       tried_contacting: Chuir mi fios dhan chleachdaiche agus dh'iarr mi dha sgur
         dheth.
       tried_waiting: Thug mi ùine chiallach dhan chleachdaiche gus freagairt dhan
         chonaltradh sin.
-      needs_view: Feumaidh an cleachdaiche clàradh a-steach mus dèid am bacadh seo
-        a thoirt air falamh
       back: Seall a h-uile bacadh
     edit:
       title: A' deasachadh bacadh air %{name}
       heading_html: A' deasachadh bacadh air %{name}
-      reason: An t-adhbhar carson a nì thu bacadh air %{name}. Feuch am bi thu cho
-        sìtheil is ciallach 's a ghabhas, a' toirt seachad na tha agad de dh'fhiosrachadh
-        mun t-suidheachadh. Thoir an aire nach tuig a h-uile duine cainnt shònraichte
-        na coimhearsnachd, mar sin feuch an cleachd thu cànan àbhaisteach.
       period: Dè cho fad 's nach fhaod an cleachdaiche an API a chleachdach o seo
         a-mach.
       show: Seall am bacadh seo
       back: Seall a h-uile bacadh
-      needs_view: Am bi aig a' chleachdaiche clàradh a-steach mus dèid am bacadh seo
-        a thoirt air falamh?
     filter:
       block_expired: Dh'fhalbh an ùine air a' bhacadh seo mar-thà is cha ghabh a dheasachadh
         tuilleadh.
@@ -2230,9 +2129,9 @@ gd:
       revoke: Cùl-ghairm!
       flash: Chaidh am bacadh seo a chùl-ghairm.
     helper:
-      time_future: Falbhaidh an ùine air an ceann %{time}.
+      time_future_html: Falbhaidh an ùine air an ceann %{time}.
       until_login: Gnìomhach gus an clàraich an cleachdaiche a-steach.
-      time_past: Dh'fhalbh an ùine air o chionn %{time}.
+      time_past_html: Dh'fhalbh an ùine air o chionn %{time}.
       block_duration:
         hours:
           other: '%{count} uair a thìde'

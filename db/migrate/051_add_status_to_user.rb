@@ -1,5 +1,3 @@
-require "migrate"
-
 class AddStatusToUser < ActiveRecord::Migration[4.2]
   class User < ApplicationRecord
   end

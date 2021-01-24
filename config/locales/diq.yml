@@ -17,6 +17,8 @@ diq:
     formats:
       friendly: '%e %B %Y seate %H:%M'
   helpers:
+    file:
+      prompt: Dosya weçinê
     submit:
       diary_comment:
         create: Qeyd ke
@@ -29,7 +31,10 @@ diq:
         create: Bırışe
       client_application:
         create: Qeyd Be
-        update: Bıvurne
+        update: Rocane kerê
+      redaction:
+        create: Redaksiyon vırazê
+        update: Redaksiyoni qeyd kerê
       trace:
         create: Bar ke
         update: Vurnayışan qeyd ke
@@ -37,6 +42,10 @@ diq:
         create: Bloqe vırazê
         update: Bloqi noroc resn
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: Ravêrde ze yew adresê eposta nêaseno
+        email_address_not_routable: Tadeyaye niyo
     models:
       acl: Qontrol Listeyê Resayışi
       changeset: Qeydê Vurnayışan
@@ -74,6 +83,17 @@ diq:
       way_node: Ray Qedyin
       way_tag: Etikete ray
     attributes:
+      client_application:
+        name: Name (ganiyo)
+        url: Gıray Esas Aplikasyoni (ganiyo)
+        callback_url: Gırey Peyd Cıgeyrayışi
+        support_url: Gırey Destegi
+        allow_read_prefs: Tercihanê karberi bıwanê
+        allow_write_prefs: Tercihanê karberanê inan bıvurne
+        allow_write_api: Xeritay bıvurne
+        allow_read_gpx: Rêça GPSanê xısusiyan bıwane
+        allow_write_gpx: Şopanê GPSi bar kerê
+        allow_write_notes: Notan bıvurne
       diary_comment:
         body: Metın
       diary_entry:
@@ -88,19 +108,22 @@ diq:
       trace:
         user: Karber
         visible: Aseno
-        name: Name
+        name: Namedosya
         size: Gırdiye
         latitude: Verıniye
         longitude: Derganiye
-        public: Şar
+        public: Pêroyi
         description: Şınasnayış
-        visibility: Vinayîşî
-        tagstring: 'Etiketi:'
+        gpx_file: Dosyay GPXi bar kerê
+        visibility: Asayış
+        tagstring: Etiketi
       message:
         sender: Rıster
         title: Mewzu
         body: Metın
         recipient: Grotker
+      report:
+        category: Qandê rapor jew sebeb weçinê
       user:
         email: E-poste
         active: Aktiv
@@ -108,17 +131,12 @@ diq:
         description: Şınasnayış
         languages: Zıwani
         pass_crypt: Parola
+        pass_crypt_confirmation: Parola tesdiq ke
   editor:
     default: Hesabiyaye (%{name}yo nıkayên)
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (browser vurnayoğ)
     id:
       name: iD
       description: iD (browser vurnayoğ)
-    potlatch2:
-      name: Potlatch 1
-      description: Potlatch 2 (browser vurnayoğ)
     remote:
       name: Duri da qontrol
       description: Duri ra Qonrtol (JOSM yana  Merkaartor)
@@ -140,6 +158,7 @@ diq:
         commented_at_by_html: Terefê %{user} ra %{when} de rocaneyayo
       entry:
         comment: Mışewre
+        full: Note pêro
   browse:
     created: Vıraziya
     closed: Kerd kip
@@ -155,6 +174,12 @@ diq:
     anonymous: anonim
     no_comment: (be vatış)
     part_of: Letey
+    part_of_relations:
+      one: '1 eleqe '
+      other: '%{count} eleqey'
+    part_of_ways:
+      one: 1 ray
+      other: '%{count} rayi'
     download_xml: XML ron
     view_history: Verêni bıvêne
     view_details: Teferuatan Bıvêne
@@ -173,6 +198,7 @@ diq:
       osmchangexml: OsmVurnayışê XML
       feed:
         title: 'Koma vurnayışi: %{id}'
+        title_comment: '%{id} - %{comment} vurniyayışi'
       join_discussion: Dekewtena vatenayışi rê qeyd bê
       discussion: Werênayış
     node:
@@ -199,6 +225,7 @@ diq:
       entry_html: Elaqe %{relation_name}
       entry_role_html: Eleqe %{relation_name} (%{relation_role} deye)
     not_found:
+      title: Nêvineya
       sorry: 'Qısur mewni,  #%{id} numreya %{type} nêvine yê.'
       type:
         node: qedyin
@@ -229,6 +256,8 @@ diq:
       title: 'Not: %{id}'
       new_note: Nota Newi
       description: Şınasnayış
+      hidden_by_html: '%{user} <abbr title=''%{exact_time}''>%{when}</abbr> bınımnê'
+      report: Nê noti rapor ke
     query:
       title: Xısusiyetan bıasne
       introduction: Xısusiyetanê nezdiyan vinayışi rê xeriter sero bıploğnê
@@ -256,20 +285,24 @@ diq:
       title_nearby: Nezdıra vurriyayışê setê karberi
       load_more: Dehana vêşi barkerê
   diary_entries:
+    new:
+      title: Roceko newe definayış
     form:
-      subject: 'Mewzu:'
-      body: 'Metın:'
-      language: 'Zıwan:'
-      location: 'Lokasyon:'
-      latitude: 'Verıniye:'
-      longitude: 'Derganiye:'
-      use_map_link: xerita bıgurene
+      location: Lokasyon
+      use_map_link: Xerita bıgurene
     index:
+      title: Rocekê Karberi
+      title_friends: Rocekê embazan
+      title_nearby: Nezdı ra rocekê karberan
       user_title: '%{user} rocek'
+      in_language_title: '%{language} dekewtekê roci'
+      new: Roceko newe definayış
       my_diary: Rocekê mı
     edit:
       marker_text: Lokasyonê rocekê cıkewtışi
     show:
+      title: Rocekê %{user}'i | %{title}
+      user_title: Rocekê %{user}'i
       leave_a_comment: Yew mışewre bınuse
       login_to_leave_a_comment_html: Seba mışewreyi rê %{login_link}
       login: Cıkewtış
@@ -312,15 +345,23 @@ diq:
         aerialway:
           cable_car: Kabloy ereber
           gondola: Telesiyej
+          pylon: Pylon
           station: İstasyona teleferiki
+          "yes": Hewaray
         aeroway:
           aerodrome: Hewaherun
+          airstrip: Pistê perayışi
           apron: Apron
           gate: Keyber
+          hangar: Hangar
           helipad: Hruna Helikopteri
+          holding_position: Pozisyonê tesbiti
+          parking_position: Pozisyonê parki
           runway: Pista teyera
+          taxilane: Taxilane
           taxiway: Raya Texsiyan
           terminal: Terminal
+          windsock: Loğavay
         amenity:
           animal_shelter: Kozıkê heywanan
           arts_centre: Merkeze Zagoni
@@ -373,28 +414,25 @@ diq:
           motorcycle_parking: Motorpiskilet park kerdış
           nightclub: Kluba Şewer
           nursing_home: Rehatxane
-          office: Ofis
           parking: Otopark
           parking_entrance: Keyberê par kerdışi
+          parking_space: Cay parki
+          payment_terminal: Terminalê Dayışi
           pharmacy: Eczaxane
           place_of_worship: Bawerxane
           police: Pulis
           post_box: Dora Postay
           post_office: Postexane
-          preschool: Ver-Wendxane
           prison: Hepısxane
           pub: Biraxane
+          public_bath: Hemam
           public_building: Binaya Şaran
           recycling: Heruna peyd amayışi
           restaurant: Restaurant
-          retirement_home: Weynexane
-          sauna: Hemam
           school: Wendxane
           shelter: Starek
-          shop: Dukan
           shower: Çımecek
           social_centre: Merkezo Sosyal
-          social_club: Kluba Sosyal
           social_facility: Tesiso sosyal
           studio: Studyo
           swimming_pool: Dola Asnawkerdışi
@@ -409,19 +447,29 @@ diq:
           village_hall: Wedaya Dewe
           waste_basket: Tenkey Sıloy
           waste_disposal: Cay sıloy
-          youth_centre: Merkezê Gencan
+          "yes": Rehatey
         boundary:
           administrative: Sinorê İdari
           census: Sinora amora nıfusi
           national_park: Perka Milli
           protected_area: Star biyaye erd
+          "yes": Sinor
         bridge:
           aqueduct: Kemerê awer
+          boardwalk: İskela
           suspension: Pırdo layın
           swing: Pırde Asnawi
           viaduct: Viyaduk
           "yes": Pırd
         building:
+          apartment: Apartman
+          apartments: Apartmani
+          barn: Axur
+          bungalow: Bungalow
+          cabin: Kabin
+          chapel: Şapel
+          church: Kılise
+          civic: İmaret
           "yes": Bina
         craft:
           brewery: Fabriqay bira
@@ -476,7 +524,6 @@ diq:
           tertiary_link: Raya Dewan
           track: Raya Herın
           traffic_signals: Signalê trafiki
-          trail: Şop
           trunk: Letebıyayi ser ray
           trunk_link: Lwtebıyayi ser ray
           unclassified: Nêrêzbıyayi ray
@@ -494,7 +541,6 @@ diq:
           fort: Qula
           heritage: Cayo Miras
           house: Keye
-          icon: Ikon
           manor: Kosk
           memorial: Qub
           mine: Mahden
@@ -535,7 +581,6 @@ diq:
           reservoir_watershed: Merga awer
           residential: Heruna Cıwiyayışi
           retail: Esnaf
-          road: Cay ray
           village_green: Cayo kıho
           vineyard: Rez
           "yes": Karıyayışa erdi
@@ -655,7 +700,6 @@ diq:
           subdivision: Qısımo bınên
           suburb: Mahle / Banliyö
           town: bacar
-          unincorporated_area: Wareyo Yewnêbiyaye
           village: Dewe
           "yes": Ca
         railway:
@@ -689,7 +733,6 @@ diq:
           department_store: Meğaza
           florist: Çiçekdar
           furniture: Mobilya
-          gallery: Galeri
           garden_centre: Merkeza Hêgay
           gift: Çiyo Hediye
           "yes": Dukan
@@ -706,7 +749,6 @@ diq:
           dam: Berac
           lock: İskele
           river: Ro
-    description:
       types:
         cities: Sûki
         towns: Bacari
@@ -733,20 +775,14 @@ diq:
     community_blogs: Blogê Cemaeti
     learn_more: Tayêna bımuse
     more: Zêde
-  notifier:
+  user_mailer:
     diary_comment_notification:
       hi: Merheba %{to_user},
     message_notification:
       hi: Merheba %{to_user},
-    gpx_notification:
+    email_confirm:
       greeting: Merheba,
-    email_confirm_plain:
-      greeting: Merheba,
-    email_confirm_html:
-      greeting: Merheba,
-    lost_password_plain:
-      greeting: Merheba,
-    lost_password_html:
+    lost_password:
       greeting: Merheba,
     note_comment_notification:
       greeting: Merheba,
@@ -777,7 +813,7 @@ diq:
     show:
       title: Mesaci bıwane
       subject: Mewzu
-      date: Dem
+      date: Tarix
       reply_button: Cewab bıde
       destroy_button: Bestere
       back: Peyser
@@ -917,9 +953,6 @@ diq:
     index:
       issued_at: Mersela
       revoke: Terkne!
-    form:
-      name: Name
-      required: Mecburiyo
   users:
     login:
       title: Cıkewtış
@@ -945,8 +978,6 @@ diq:
     reset_password:
       title: Parola reset ke
       heading: Parolay %{user} reset ke
-      password: 'Parola:'
-      confirm password: 'Parola tesdiq ke:'
       reset: Parola reset ke
     new:
       email address: 'Adresa e-postey:'
@@ -1044,7 +1075,7 @@ diq:
       preferred editor: 'Editorê ke tercih kerê:'
       image: 'Resım:'
       new image: Yew resım cı ke
-      home location: 'Herun:'
+      home location: 'Herune:'
       latitude: 'Verıniye:'
       longitude: 'Derganiye:'
       save changes button: Vurnayışan qeyd ke
@@ -1089,8 +1120,8 @@ diq:
     revoke:
       revoke: Terkne!
     helper:
-      time_future: '%{time} dı bıqediyo'
-      time_past: '%{time} qedya'
+      time_future_html: '%{time} dı bıqediyo'
+      time_past_html: '%{time} qedya'
       block_duration:
         hours:
           one: 1 seate
@@ -1132,6 +1163,8 @@ diq:
       title: Vıla ke
       cancel: Bıtexelne
       image: Resım
+      link: Gıre ya zi HTML
+      long_link: Gıre
       format: 'Format:'
       download: Biya war
     map:

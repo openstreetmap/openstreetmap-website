@@ -24,7 +24,7 @@ module ApplicationHelper
     tag.div(:id => "#{id}_container", :class => "richtext_container") do
       output_buffer << tag.div(:id => "#{id}_content", :class => "richtext_content") do
         output_buffer << text_area(object_name, method, options.merge("data-preview-url" => preview_url(:type => type)))
-        output_buffer << tag.div("", :id => "#{id}_preview", :class => "richtext_preview richtext")
+        output_buffer << tag.div("", :id => "#{id}_preview", :class => "richtext_preview richtext text-break")
       end
 
       output_buffer << tag.div(:id => "#{id}_help", :class => "richtext_help") do

@@ -21,6 +21,7 @@
 # Author: Mido
 # Author: Mohammed Qubati
 # Author: Mutarjem horr
+# Author: NEHAOUA
 # Author: Omda4wady
 # Author: OsamaK
 # Author: Ruila
@@ -44,6 +45,8 @@ ar:
       friendly: '%e %B %Y في %H:%M'
       blog: '%e %B %Y'
   helpers:
+    file:
+      prompt: اختر الملف
     submit:
       diary_comment:
         create: حفظ
@@ -56,7 +59,7 @@ ar:
         create: أرسل
       client_application:
         create: سجِّل
-        update: تعديل
+        update: تحديث
       redaction:
         create: إنشاء تنقيح
         update: حفظ التنقيح
@@ -108,6 +111,18 @@ ar:
       way_node: عقدة طريق
       way_tag: سمة طريق
     attributes:
+      client_application:
+        name: الاسم (مطلوب)
+        url: ' مسار (URL) للتطبيق الرئيسي (مطلوب)'
+        callback_url: رابط الرد
+        support_url: رابط الدعم
+        allow_read_prefs: قراءة تفضيلات المستخدم الخاصة بهم
+        allow_write_prefs: تعديل تفضيلات المستخدم الخاصة بهم
+        allow_write_diary: إنشاء إدخالات اليوميات والتعليقات وتكوين صداقات
+        allow_write_api: تعديل الخريطة.
+        allow_read_gpx: قراءة آثار جي بي إس الخاصة بهم
+        allow_write_gpx: رفع آثار جي بي إس.
+        allow_write_notes: تعديل الملاحظات.
       diary_comment:
         body: الجسم
       diary_entry:
@@ -122,20 +137,23 @@ ar:
       trace:
         user: المستخدم
         visible: ظاهر
-        name: الاسم
+        name: اسم الملف
         size: الحجم
         latitude: خط العرض
         longitude: خط الطول
         public: عام
         description: الوصف
-        gpx_file: 'ارفع ملف GPX:'
-        visibility: 'الرؤية:'
-        tagstring: 'الوسوم:'
+        gpx_file: رفع ملف GPX
+        visibility: الرؤية
+        tagstring: الوسوم
       message:
         sender: المرسل
         title: الموضوع
         body: نص الرسالة
         recipient: المستلم
+      report:
+        category: حدد سبب التقرير الخاص بك
+        details: يُرجَى تقديم بعض التفاصيل حول المشكلة (مطلوب).
       user:
         email: البريد الإلكتروني
         active: نشط
@@ -143,9 +161,12 @@ ar:
         description: الوصف
         languages: اللغات
         pass_crypt: كلمة السر
+        pass_crypt_confirmation: أكد كلمة السر
     help:
       trace:
         tagstring: محدد بفواصل
+      user_block:
+        needs_view: هل يحتاج المستخدم لتسجيل الدخول قبل أن يتم مسح هذه العرقلة؟
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -190,15 +211,9 @@ ar:
     with_name_html: '%{name} (%{id})'
   editor:
     default: الافتراضي (حالياً %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (محرر ضمن المتصفح)
     id:
       name: آي دي
       description: آي دي (محرر عبر المتصفح)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (محرر ضمن المتصفح)
     remote:
       name: تحكم عن بعد
       description: تحكم عن بعد (JOSM أو Merkaartor)
@@ -262,8 +277,8 @@ ar:
       relation: الصلات (%{count})
       relation_paginated: الصلات (%{x}-%{y} من %{count})
       comment: التعليقات (%{count})
-      hidden_commented_by: تعليق مخفي من %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: تعليق من %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by_html: تعليق مخفي من %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: تعليق من %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: حزمة التغييرات XML
       osmchangexml: osmChange XML
       feed:
@@ -343,18 +358,19 @@ ar:
       open_title: 'ملاحظة لم يتم حلها: %{note_name}'
       closed_title: 'ملاحظات محلولة: %{note_name}'
       hidden_title: 'ملاحظة مخفيّة #%{note_name}'
-      opened_by: أنشأه المستخدم %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: أنشأه مستخدم مجهول <abbr title='%{exact_time}'>%{when}
+      opened_by_html: أنشأه المستخدم %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: أنشأه مستخدم مجهول <abbr title='%{exact_time}'>%{when}
         </abbr>
-      commented_by: تعليق من %{user} <abbr title='%{exact_time}'>%{when} </abbr>
-      commented_by_anonymous: تعليق من مجهول <abbr title='%{exact_time}'>%{when} </abbr>
-      closed_by: تم الحل بواسطة %{user} <abbr title='%{exact_time}'>%{when} </abbr>
-      closed_by_anonymous: تم الحل بواسطة مجهول <abbr title='%{exact_time}'>%{when}
+      commented_by_html: تعليق من %{user} <abbr title='%{exact_time}'>%{when} </abbr>
+      commented_by_anonymous_html: تعليق من مجهول <abbr title='%{exact_time}'>%{when}
         </abbr>
-      reopened_by: أعاد تنشيطه %{user}<abbr title='%{exact_time}'>%{when} </abbr>
-      reopened_by_anonymous: أعاد تنشيطه مجهول <abbr title='%{exact_time}'>%{when}
+      closed_by_html: تم الحل بواسطة %{user} <abbr title='%{exact_time}'>%{when} </abbr>
+      closed_by_anonymous_html: تم الحل بواسطة مجهول <abbr title='%{exact_time}'>%{when}
         </abbr>
-      hidden_by: أخفاه %{user} <abbr title='%{exact_time}'>%{when} =</abbr>
+      reopened_by_html: أعاد تنشيطه %{user}<abbr title='%{exact_time}'>%{when} </abbr>
+      reopened_by_anonymous_html: أعاد تنشيطه مجهول <abbr title='%{exact_time}'>%{when}
+        </abbr>
+      hidden_by_html: أخفاه %{user} <abbr title='%{exact_time}'>%{when} =</abbr>
       report: أبلغ عن هذه الملاحظة
     query:
       title: ميزات الاستفهام
@@ -406,12 +422,7 @@ ar:
     new:
       title: مدخلة يومية جديدة
     form:
-      subject: 'الموضوع:'
-      body: 'النص:'
-      language: 'اللغة:'
       location: 'الموقع:'
-      latitude: 'خط العرض:'
-      longitude: 'خط الطول:'
       use_map_link: استخدم الخريطة
     index:
       title: يوميات المستخدمين
@@ -574,13 +585,14 @@ ar:
           hunting_stand: مربط للصيد
           ice_cream: مثلجات
           kindergarten: حضانة أطفال
+          language_school: مدرسة لغات
           library: مكتبة
           marketplace: سوق
           monastery: دير
           motorcycle_parking: مرآب دراجات نارية
+          music_school: مدرسة موسيقى
           nightclub: نادي ليلي
           nursing_home: دار رعاية
-          office: مكتب
           parking: موقف سيارات
           parking_entrance: مدخل مرآب
           parking_space: مكان وقوف سيارات
@@ -589,20 +601,15 @@ ar:
           police: شرطة
           post_box: صندوق بريد
           post_office: مكتب بريد
-          preschool: روضة أطفال
           prison: سجن
           pub: حانة
           public_building: مبنى عام
           recycling: نقطة إعادة تصنيع
           restaurant: مطعم
-          retirement_home: بيت مسنين
-          sauna: حمّام بخاري حار
           school: مدرسة
           shelter: ملجأ
-          shop: متجر
           shower: غسيل بالدش
           social_centre: مركز اجتماعي
-          social_club: نادي اجتماعي
           social_facility: مرفق اجتماعي
           studio: ستوديو
           swimming_pool: مسبح
@@ -611,6 +618,7 @@ ar:
           theatre: مسرح
           toilets: مراحيض
           townhall: مبنى بلدية
+          training: منشأة تدريب
           university: جامعة
           vending_machine: آلة بيع
           veterinary: جراحة بيطرية
@@ -618,7 +626,6 @@ ar:
           waste_basket: سلة نفايات
           waste_disposal: التخلص من النفايات
           water_point: موقع مياه
-          youth_centre: مركز شباب
         boundary:
           administrative: حدود إدارية
           census: حدود تعدادية
@@ -632,11 +639,33 @@ ar:
           viaduct: جسر
           "yes": جسر
         building:
+          apartment: شقة
+          apartments: مجموعة شقق
+          chapel: معبد/مصلى
+          church: كنيسة
+          commercial: مبنى تجاري
+          dormitory: عنبر نوم
+          farm: مبنى مزرعة
+          garage: مرآب
+          hospital: مبنى مستشفى
+          hotel: فندق
+          house: منزل
+          industrial: مبنى صناعي
+          office: مبنى مكتب
+          public: مبنى عام
+          residential: مبنى سكني
+          retail: مبنى بيع بالمفرق
+          school: مبنى مدرسة
+          terrace: صف منازل
+          train_station: محطة قطار
+          university: مبنى جامعة
           "yes": مبنى
         craft:
           brewery: مصنع الجعة
           carpenter: نجار
+          confectionery: محل حلوى
           electrician: كهربائي
+          electronics_repair: إصلاح إلكترونيات
           gardener: بستاني
           painter: رسام
           photographer: مصور
@@ -693,7 +722,6 @@ ar:
           tertiary_link: طريق فرعي
           track: مسار
           traffic_signals: إشارات مرور
-          trail: درب
           trunk: طريق رئيسي
           trunk_link: طريق رئيسي
           turning_loop: جولة
@@ -712,7 +740,6 @@ ar:
           fort: حصن
           heritage: موقع تراثي
           house: منزل
-          icon: أيقونة
           manor: عزبة
           memorial: نصب تذكاري
           mine: منجم
@@ -757,7 +784,6 @@ ar:
           reservoir_watershed: خزان مستجمعات المياه
           residential: منطقة سكنية
           retail: بيع بالتجزئة
-          road: منطقة الطريق
           village_green: أرض خضراء
           vineyard: حقل عنب
           "yes": استخدام الأرض
@@ -914,7 +940,6 @@ ar:
           subdivision: التقسيم الفرعي
           suburb: ضاحية
           town: بلدة
-          unincorporated_area: منطقة فردية
           village: قرية
           "yes": مكان
         railway:
@@ -940,6 +965,7 @@ ar:
           switch: مبدل السكة الحديدية
           tram: سكة ترام
           tram_stop: موقف ترام
+          yard: فناء سكة حديد
         shop:
           alcohol: متجر كحول للبيع الخارجي
           antiques: تحف
@@ -973,12 +999,10 @@ ar:
           estate_agent: وكيل عقاري
           farm: متجر منتوجات زراعية
           fashion: متجر أزياء
-          fish: متجر أسماك
           florist: بائع زهور
           food: دكان مأكولات
           funeral_directors: وكلاء ترتيبات جنازة
           furniture: أثاث
-          gallery: معرض
           garden_centre: متجر للسلع الزراعية
           general: متجر عام
           gift: متجر هدايا
@@ -995,7 +1019,6 @@ ar:
           laundry: مصبغة
           lottery: محل يانصيب
           mall: مركز تسوق
-          market: سوق
           massage: محل تدليك
           mobile_phone: متجر هواتف محمولة
           motorcycle: متجر دراجات نارية
@@ -1007,7 +1030,6 @@ ar:
           paint: متجر طلاء
           pawnbroker: مكتب رهن
           pet: متجر حيوانات أليفة
-          pharmacy: صيدلية
           photo: متجر صور
           seafood: أكلات بحرية
           second_hand: متجر أغراض مستعملة
@@ -1078,11 +1100,6 @@ ar:
         level8: حدود المدينة
         level9: حدود قرية
         level10: حدود الضاحية
-    description:
-      title:
-        osm_nominatim: موقع من <a href="http://nominatim.openstreetmap.org/">Nominatim
-          خريطة الشارع المفتوحة</a>
-        geonames: موقع من <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: مدن
         towns: بلدات
@@ -1160,8 +1177,6 @@ ar:
     new:
       title_html: بلاغ %{link}
       missing_params: لا يمكن إنشاء بلاغ جديد
-      details: يُرجَى تقديم بعض التفاصيل حول المشكلة (مطلوب).
-      select: 'حدد سببا لبلاغك:'
       disclaimer:
         intro: 'قبل إرسال تقريرك إلى مشرف الموقع، يُرجَى التأكد مما يلي:'
         not_just_mistake: أنك متأكد من أن المشكلة ليست مجرد خطأ
@@ -1246,7 +1261,7 @@ ar:
       text: تبرع
     learn_more: التعرف على المزيد
     more: المزيد
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[خريطة الشارع المفتوحة] %{user} علق على مدخلتك في اليومية'
       hi: مرحبًا %{to_user}،
@@ -1254,7 +1269,6 @@ ar:
       footer: يمكنك أيضًا قراءة التعليق على %{readurl} ويمكنك التعليق على %{commenturl}
         أو الرد على %{replyurl}
     message_notification:
-      subject_header: '[OpenStreetMap] %{subject}'
       hi: مرحبًا %{to_user}،
       header: '%{from_user} قام بإرسال رسالة لك عبر خريطة الشارع المفتوحة بالعنوان
         %{subject}:'
@@ -1265,22 +1279,14 @@ ar:
       had_added_you: '%{user} قام بإضافتك كصديق على خريطة الشارع المفتوحة.'
       see_their_profile: يمكنك أن تشاهد ملفهم الشخصي على %{userurl}.
       befriend_them: "\uFEFFيمكنك أيضًا إضافتهم كصديق على %{befriendurl}."
-    gpx_notification:
-      greeting: تحياتي،
-      your_gpx_file: يبدو أنه ملف جي بي إكس الخاص بك
-      with_description: مع الوصف
-      and_the_tags: 'والوسوم التالية:'
-      and_no_tags: ولا توجد وسوم.
-      failure:
-        subject: '[خريطة الشارع المفتوحة] فشل استيراد جي بي إكس'
-        failed_to_import: 'فشل الاستيراد، الخطأ هو:'
-        more_info_1: المزيد من المعلومات حول فشل استيراد جي بي إكس وكيفية تجنبه
-        more_info_2: 'وهي موجودة على:'
-        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
-      success:
-        subject: '[خريطة الشارع المفتوحة] نجاح استيراد جي بي إكس'
-        loaded_successfully: تم تحميل بنجاح %{trace_points} نقطة من أصل %{possible_points}
-          نقطة ممكنة.
+    gpx_failure:
+      failed_to_import: 'فشل الاستيراد، الخطأ هو:'
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+      subject: '[خريطة الشارع المفتوحة] فشل استيراد جي بي إكس'
+    gpx_success:
+      loaded_successfully: تم تحميل بنجاح %{trace_points} نقطة من أصل %{possible_points}
+        نقطة ممكنة.
+      subject: '[خريطة الشارع المفتوحة] نجاح استيراد جي بي إكس'
     signup_confirm:
       subject: '[خريطة الشارع المفتوحة] مرحبا بك في خريطة الشارع المفتوحة'
       greeting: مرحبا هناك!
@@ -1290,27 +1296,14 @@ ar:
       welcome: بعد تأكيد حسابك، سوف نقدم لك بعض المعلومات الإضافية للبدء.
     email_confirm:
       subject: '[خريطة الشارع المفتوحة] أكّد عنوان بريدك الإلكتروني'
-    email_confirm_plain:
       greeting: تحياتي،
       hopefully_you: شخص ما (نأمل أن تكون أنت) يرغب في تغيير عنوان بريده الإلكتروني
         في %{server_url} إلى %{new_address}.
       click_the_link: إذا كان هذا أنت، يُرجَى الضغط على الرابط أدناه لتأكيد التغيير.
-    email_confirm_html:
-      greeting: مرحبًا،
-      hopefully_you: شخص ما (نأمل أنت) يرغب بتغيير عنوان بريده الإلكتروني على %{server_url}
-        إلى %{new_address}.
-      click_the_link: إذا كان هذا أنت، رجاءً انقر فوق الرابط أدناه لتأكيد التغيير.
     lost_password:
       subject: '[خريطة الشارع المفتوحة] طلب إعادة تعيين كلمة السر'
-    lost_password_plain:
-      greeting: تحياتي،
+      greeting: مرحبًا،
       hopefully_you: طالب شخص ما (ربما أنت) بإعادة تعيين كلمة السر على حساب openstreetmap.org
-        لعنوان البريد الإلكتروني هذا.
-      click_the_link: إذا كان هذا أنت، يُرجَى الضغط على الرابط أدناه لإعادة تعيين
-        كلمة المرور.
-    lost_password_html:
-      greeting: تحياتي،
-      hopefully_you: طالب شخص ما (ربما أنت) بإعادة تعيين كلمة المرور على حساب openstreetmap.org
         لعنوان البريد الإلكتروني هذا.
       click_the_link: إذا كان هذا أنت، يُرجَى الضغط على الرابط أدناه لإعادة تعيين
         كلمة المرور.
@@ -1423,6 +1416,14 @@ ar:
       as_unread: عُلِّمت الرسالة كغير مقروءة
     destroy:
       destroyed: حُذِفت الرسالة
+  shared:
+    markdown_help:
+      unordered: قائمة غير مرتبة
+      ordered: قائمة مرتبة
+      link: وصلة
+      alt: كل النص
+    richtext_field:
+      preview: معاينة
   site:
     about:
       next: التالي
@@ -1615,17 +1616,6 @@ ar:
       user_page_link: صفحة مستخدم
       anon_edits_html: (%{link})
       anon_edits_link_text: ابحث عن السبب لماذا هو هذا الحال.
-      flash_player_required_html: أنت بحاجة لمشغل فلاش لاستخدام Potlatch، محرر فلاش
-        خريطة الشارع المفتوحة. يمكنك <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">تنزيل
-        مشغل الفلاش من موقع أدوبي</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">وهناك
-        خيارات أخرى</a> أيضًا متاحة لتعديل خريطة الشارع المفتوحة.
-      potlatch_unsaved_changes: لديك تغييرات غير محفوظة. (للحفظ في Potlatch؛ يجب إلغاء
-        الطريق أو النقطة الحاليين إن كان التعديل في الوضع الحي، أو انقر فوق حفظ إن
-        كان لديك زر الحفظ.)
-      potlatch2_not_configured: لم يتم تكوين Potlatch 2 - يُرجَى الاطلاع على  http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-        للمزيد من المعلومات
-      potlatch2_unsaved_changes: لديك تغييرات غير محفوظة. (للحفظ في Potlatch 2; يجب
-        النقر فوق حفظ.)
       id_not_configured: لم يتم تكوين آي دي
       no_iframe_support: متصفحك لا يدعم الإطارات المضمنة HTML، والتي هي ضرورية لهذه
         الميزة.
@@ -2037,13 +2027,6 @@ ar:
       delete: أمحي الزبون
       confirm: هل أنت متأكد؟
       requests: 'طلب الصلاحيات التالية من المستخدم:'
-      allow_read_prefs: قراءة تفضيلاته.
-      allow_write_prefs: تعديل تفضيلاته.
-      allow_write_diary: إنشاء مدخلات يومية، تعليقات وإضافة أصدقاء.
-      allow_write_api: تعديل الخريطة.
-      allow_read_gpx: قراءة آثاره للجي بي إس الخصوصية.
-      allow_write_gpx: ارفع آثار GPS.
-      allow_write_notes: تعديل الملاحظات.
     index:
       title: تفاصيل OAuth الخاص بي
       my_tokens: تطبيقاتي المصرحة
@@ -2059,19 +2042,7 @@ ar:
       registered_apps: 'لديك التطبيقات المسجلة التالية:'
       register_new: سجِّل تطبيقك
     form:
-      name: الاسم
-      required: مطلوب
-      url: رابط التطبيق الرئيسي
-      callback_url: رابط الرد
-      support_url: رابط الدعم
       requests: 'اطلب الصلاحيات التالية من المستخدم:'
-      allow_read_prefs: قراءة تفضيلاته.
-      allow_write_prefs: تعديل تفضيلاته.
-      allow_write_diary: إنشاء مدخلات يومية، تعليقات وإضافة أصدقاء.
-      allow_write_api: تعديل الخريطة.
-      allow_read_gpx: قراءة آثاره للجي بي إس الخصوصية.
-      allow_write_gpx: رفع آثار جي بي إس.
-      allow_write_notes: تعديل الملاحظات.
     not_found:
       sorry: عذرًا، لم يتم العثور على تلك %{type}.
     create:
@@ -2151,8 +2122,6 @@ ar:
     reset_password:
       title: إعادة ضبط كلمة السر
       heading: إعادة تعيين كلمة السر %{user}
-      password: 'كلمة السر:'
-      confirm password: 'تأكيد كلمة السر:'
       reset: أعد ضبط كلمة السر
       flash changed: كلمة مرورك قد تغيرت.
       flash token bad: لم نجد هذا النموذج، تحقق من المسار ربما؟
@@ -2167,8 +2136,6 @@ ar:
         html: |-
           <p>على عكس الخرائط الأخرى تماما، يتم إنشاء خريطة الشارع المفتوحة من قبل الناس مثلك، وهي حرة ويمكن لأي أحد الإصلاح والتحديث والتنزيل والاستخدام.</p>
           <P> أنشىء حسابا لبدء المساهمة.سنقوم بإرسال بريد إلكتروني لتأكيد حسابك.</p>
-      license_agreement: عند تأكيد حسابك ستحتاج إلى الموافقة على <a href="HTTPS://www.osmfoundation.org/wiki/License/Contributor_Terms">شروط
-        المساهم</a>.
       email address: 'عنوان البريد الإلكتروني:'
       confirm email address: 'تأكيد عنوان البريد الإلكتروني:'
       not_displayed_publicly_html: لا يتم عرض عنوانك بشكل عام، راجع <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
@@ -2365,7 +2332,7 @@ ar:
       reconfirm_html: إذا كنت في حاجة لإعادة إرسال تأكيد البريد الإلكتروني، <a href="%{reconfirm}">انقر
         هنا</a>.
     confirm_resend:
-      success: لقد أرسلنا رسالة تأكيد جديدة إلى %{email} وبمجرد تأكيد حسابك ستتمكن
+      success_html: لقد أرسلنا رسالة تأكيد جديدة إلى %{email} وبمجرد تأكيد حسابك ستتمكن
         من رسم الخرائط.<br /><br />إذا كنت تستخدم نظاما مضادا للبريد العشوائي يرسل
         طلبات تأكيد، فيُرجَى التأكد من أنك وضعت في القائمة البيضاء %{sender} لأننا
         غير قادرين على الرد على أي طلبات تأكيد.
@@ -2445,25 +2412,16 @@ ar:
     new:
       title: إنشاء عرقلة على %{name}
       heading_html: إنشاء عرقلة على %{name}
-      reason: السبب وراء عرقلة %{name}. يرجى أن تكون هادئًا بالقدر الممكن والمعقول،
-        مع إعطاء القدر المستطاع من التفاصيل عن الحالة، وتذكر أن تلك الرسالة ستظهر
-        للعلن. آخذًا بالاعتبار أن ليس كل المستخدمين يفهم مصطلحات المجتمع، لذا يرجى
-        محاولة استخدام كلمات بسيطة ومعبرة.
       period: ماهي المدة بدءًا من الآن، سيتم عرقلة المستخدم من الـ API.
       tried_contacting: لقد اتصلت بالمستخدم وطلبت منه التوقف.
       tried_waiting: لقد أعطيت المستخدم قدرًا معقولًا من الوقت للرد على تلك الاتصالات.
-      needs_view: يحتاج المستخدم لتسجيل الدخول قبل أن يتم مسح هذه العرقلة
       back: اعرض كل العرقلات
     edit:
       title: تعديل العرقلة على %{name}
       heading_html: تعديل العرقلة على %{name}
-      reason: السبب وراء عرقلة %{name}. يرجى أن تكون هادئًا بالقدر الممكن والمعقول،
-        مع إعطاء القدر المستطاع من التفاصيل عن الحالة. آخذًا بالاعتبار أن ليس كل المستخدمين
-        يفهم مصطلحات المجتمع، لذا يرجى محاولة استخدام كلمات بسيطة ومعبرة.
       period: ماهي المدة بدءًا من الآن، سيتم عرقلة المستخدم من الـ API.
       show: اعرض هذه العرقلة
       back: اعرض كل العرقلات
-      needs_view: هل يحتاج المستخدم لتسجيل الدخول قبل أن يتم مسح هذه العرقلة؟
     filter:
       block_expired: العرقلة قد انتهت ولا يمكن تعديلها.
       block_period: فترة العرقلة يجب أن تكون واحدة من القيم الاختيارية في القائمة
@@ -2489,10 +2447,10 @@ ar:
       revoke: ابطل!
       flash: تم إبطال هذه العرقلة.
     helper:
-      time_future: ينتهي في %{time}.
+      time_future_html: ينتهي في %{time}.
       until_login: نشط حتى يقوم المستخدم بتسجيل الدخول.
-      time_future_and_until_login: ينتهي في %{time} وبعد تسجيل دخول المستخدم.
-      time_past: انتهى %{time}.
+      time_future_and_until_login_html: ينتهي في %{time} وبعد تسجيل دخول المستخدم.
+      time_past_html: انتهى %{time}.
       block_duration:
         hours:
           few: '%{count} ساعات'

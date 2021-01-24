@@ -16,6 +16,8 @@ mk:
       friendly: '%e %B %Y г. во %H:%M ч.'
       blog: '%e %B %Y г.'
   helpers:
+    file:
+      prompt: Одберете податотека
     submit:
       diary_comment:
         create: Зачувај
@@ -28,7 +30,7 @@ mk:
         create: Испрати
       client_application:
         create: Пријави
-        update: Уреди
+        update: Поднови
       redaction:
         create: Создај исправка
         update: Зачувај исправка
@@ -80,6 +82,18 @@ mk:
       way_node: Јазол на пат
       way_tag: Ознака на пат
     attributes:
+      client_application:
+        name: Име (задолжително)
+        url: URL на главниот прилог (задолжително)
+        callback_url: URL за одѕив
+        support_url: URL за поддршка
+        allow_read_prefs: им ги чита корисничките нагодувања
+        allow_write_prefs: им ги менува корисничките нагодувања
+        allow_write_diary: создава ставки во дневникот, пишува коментари и да се спријателува
+        allow_write_api: ја менува картата
+        allow_read_gpx: им ги чита личните ГПС-траги
+        allow_write_gpx: подига ГПС-траги
+        allow_write_notes: менува белешки
       diary_comment:
         body: Содржина
       diary_entry:
@@ -94,20 +108,23 @@ mk:
       trace:
         user: Корисник
         visible: Видливо
-        name: Име
+        name: Име на податотеката
         size: Големина
         latitude: Гео. ширина
         longitude: Гео. должина
         public: Јавно
         description: Опис
-        gpx_file: 'Подгни GPX -одатотека:'
-        visibility: 'Видливост:'
-        tagstring: 'Ознаки:'
+        gpx_file: Подигни GPX-податотека
+        visibility: Видливост
+        tagstring: Ознаки
       message:
         sender: Испраќач
         title: Тема
         body: Содржина
         recipient: Примател
+      report:
+        category: Изберете причина за пријавата
+        details: Наведете повеќе подробности за проблемот (задолжително).
       user:
         email: Е-пошта
         active: Активно
@@ -115,9 +132,16 @@ mk:
         description: Опис
         languages: Јазици
         pass_crypt: Лозинка
+        pass_crypt_confirmation: Потврдете ја лозинката
     help:
       trace:
         tagstring: одделено со запирка
+      user_block:
+        reason: Причината зошто корисникот е блокиран. Бидете што посмирени и поразумни,
+          наведете што повеќе подробности за ситуацијата, имајќи на ум дека пораката
+          ќе биде јавно видлива. Имајте предвид и дека не сите корисници го разбираат
+          жаргонот на заедницата, па затоа обидете се да користите лаички поими.
+        needs_view: Дали корисникот треба да се најави пред да се исчисти овој блок?
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -162,18 +186,12 @@ mk:
     with_name_html: '%{name} (%{id})'
   editor:
     default: По основно (моментално %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (уредник во прелистувач)
     id:
       name: iD
       description: iD (прелистувачки програм за уредување)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (уредник во прелистувач)
     remote:
       name: Далечинско управување
-      description: Далечинско управување (JOSM или Merkaartor)
+      description: Далечинско управување (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Нема
@@ -220,10 +238,18 @@ mk:
     anonymous: анонимен
     no_comment: (нема коментари)
     part_of: Дел од
+    part_of_relations:
+      one: 1 однос
+      other: '%{count} односи'
+    part_of_ways:
+      one: 1 пат
+      other: '%{count} патишта'
     download_xml: Преземи XML
     view_history: Погл. историја
     view_details: Погл. подробности
     location: 'Местоположба:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Измена: %{id}'
       belongs_to: Автор
@@ -234,8 +260,8 @@ mk:
       relation: Односи (%{count})
       relation_paginated: Односи (%{x}-%{y} од вкупно %{count})
       comment: Коментари (%{count})
-      hidden_commented_by: Скриен коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by_html: Скриен коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML за измените
       osmchangexml: osmChange XML
       feed:
@@ -252,6 +278,9 @@ mk:
       title_html: 'Пат: %{name}'
       history_title_html: 'Историја на патот: %{name}'
       nodes: Јазли
+      nodes_count:
+        one: 1 јазол
+        other: '%{count} јазли'
       also_part_of_html:
         one: дел од патот %{related_ways}
         other: дел од патиштата %{related_ways}
@@ -259,6 +288,9 @@ mk:
       title_html: 'Однос: %{name}'
       history_title_html: 'Историја на односот: %{name}'
       members: Членови
+      members_count:
+        one: 1 член
+        other: '%{count} члена'
     relation_member:
       entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} како %{role}'
@@ -270,6 +302,7 @@ mk:
       entry_html: Однос %{relation_name}
       entry_role_html: Однос %{relation_name} (како %{relation_role})
     not_found:
+      title: Не е најдено
       sorry: За жал, не да најдам %{type} со бр. %{id}.
       type:
         node: јазол
@@ -278,6 +311,7 @@ mk:
         changeset: измени
         note: белешка
     timeout:
+      title: Грешка поради истек на времето
       sorry: Жалиме, но добивањето на податоците за %{type} со id %{id} трае предолго.
       type:
         node: јазол
@@ -315,16 +349,17 @@ mk:
       open_title: Нерешена белешка бр. %{note_name}
       closed_title: Решена белешка бр. %{note_name}
       hidden_title: 'Скриена белешка бр. #%{note_name}'
-      opened_by: Создадено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous: Создадено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Коментар на анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Решено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Решено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Преактивирано од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Преактивирано од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Скриено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_html: Создадено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Создадено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Коментар на анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Решено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Решено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Преактивирано од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Преактивирано од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Скриено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Пријави го јазолов
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Пребарување на елементи
       introduction: Стиснете на картата за да ги најдете елементите во близина.
@@ -376,13 +411,8 @@ mk:
     new:
       title: Нова дневничка ставка
     form:
-      subject: 'Наслов:'
-      body: 'Содржина:'
-      language: 'Јазик:'
-      location: 'Местоположба:'
-      latitude: Г.Ш.
-      longitude: Г.Д.
-      use_map_link: на карта
+      location: Местоположба
+      use_map_link: На карта
     index:
       title: Дневници на корисници
       title_friends: Дневници на пријателите
@@ -411,9 +441,10 @@ mk:
       body: Жалиме, но нема дневничка ставка или коментар со назнаката %{id}. Проверете
         дали сте ја напишале правилно, или да не сте стиснале на погрешна врска.
     diary_entry:
-      posted_by_html: Испратено од %{link_user} во %{created} на %{language_link}
+      posted_by_html: Објавено од %{link_user} во %{created} на %{language_link}.
+      updated_at_html: Последна поднова на %{updated}.
       comment_link: Коментирај на ставкава
-      reply_link: Одговори на ставкава
+      reply_link: Испрати порака на авторот
       comment_count:
         zero: Нема коментари
         one: '%{count} коментар'
@@ -433,6 +464,7 @@ mk:
       location: 'Местоположба:'
       view: Преглед
       edit: Уреди
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Дневнички ставки на %{user}
@@ -481,10 +513,12 @@ mk:
           chair_lift: Клупна жичница
           drag_lift: Влечна жичница
           gondola: Кабинска жичница
+          magic_carpet: Искачна подвижна лента
           platter: Скилифт
           pylon: Жичен јарбол
           station: Гондолска станица
           t-bar: Влечен лифт
+          "yes": Жичница
         aeroway:
           aerodrome: Аеродром
           airstrip: Леталиште
@@ -493,11 +527,15 @@ mk:
           hangar: Хангар
           helipad: Хелиодром
           holding_position: Задржна положба
+          navigationaid: Воздухопловно помагало
           parking_position: Оставна положба
           runway: Писта
+          taxilane: Рулница
           taxiway: Рулажна патека
           terminal: Терминал
+          windsock: Ветроказен ракав
         amenity:
+          animal_boarding: Престојувалиште за животни
           animal_shelter: Засолниште за животни
           arts_centre: Дом на уметноста
           atm: Банкомат
@@ -507,7 +545,9 @@ mk:
           bench: Клупа
           bicycle_parking: Велосипедско паркирање
           bicycle_rental: Изнајмување велосипеди
+          bicycle_repair_station: Поправка на велосипеди
           biergarten: Пивска градина
+          blood_bank: Банка на крв
           boat_rental: Изнајмување пловила
           brothel: Бордел
           bureau_de_change: Менувачница
@@ -524,6 +564,7 @@ mk:
           clock: Часовник
           college: Колеџ
           community_centre: Центар на заедница
+          conference_centre: Конференциски центар
           courthouse: Суд
           crematorium: Крематориум
           dentist: Забар
@@ -531,6 +572,7 @@ mk:
           drinking_water: Пивка вода
           driving_school: Автошкола
           embassy: Амбасада
+          events_venue: Одржувалиште за настани
           fast_food: Брза храна
           ferry_terminal: Траектска станица
           fire_station: Пожарна
@@ -543,36 +585,42 @@ mk:
           hospital: Болница
           hunting_stand: Ловечка кула
           ice_cream: Сладолед
+          internet_cafe: Интернет-кафуле
           kindergarten: Градинка
+          language_school: Училиште за јазици
           library: Библиотека
+          loading_dock: Товарна рампа
+          love_hotel: Љубовен хотел
           marketplace: Пазариште
+          mobile_money_agent: Подвижен префрлач на пари
           monastery: Манастир
+          money_transfer: Префрлање пари
           motorcycle_parking: Паркиралиште за мотоцикли
+          music_school: Музичко училиште
           nightclub: Ноќен клуб
           nursing_home: Старечки дом
-          office: Канцеларија
           parking: Паркиралиште
           parking_entrance: Влез во паркиралиште
           parking_space: Паркинг-место
+          payment_terminal: Платежен терминал
           pharmacy: Аптека
           place_of_worship: Верски објект
           police: Полиција
           post_box: Поштенско сандаче
           post_office: Пошта
-          preschool: Претшколска установа
           prison: Затвор
           pub: Пивница
+          public_bath: Јавна бања
+          public_bookcase: Јавен шкаф за книги
           public_building: Јавен објект
+          ranger_station: Шумарска куќарка
           recycling: Рециклирање
           restaurant: Ресторан
-          retirement_home: Старечки дом
-          sauna: Сауна
+          sanitary_dump_station: Санитарно одлагалиште
           school: Училиште
           shelter: Засолниште
-          shop: Продавница
           shower: Туш
           social_centre: Социјален центар
-          social_club: Друштвен клуб
           social_facility: Општествена постројка
           studio: Студио
           swimming_pool: Базен
@@ -581,19 +629,27 @@ mk:
           theatre: Театар
           toilets: Тоалет
           townhall: Градски дом
+          training: Вежбалиште
           university: Универзитет
+          vehicle_inspection: Преглед на возила
           vending_machine: Вендинг-машина
           veterinary: Ветеринарна клиника
           village_hall: Месна заедница
           waste_basket: Корпа за отпадоци
           waste_disposal: Депонија
+          waste_dump_site: Депонија
+          watering_place: Поило
           water_point: Водоводен приклучок
-          youth_centre: Младински центар
+          weighbridge: Мосна вага
+          "yes": Услужна постројка
         boundary:
+          aboriginal_lands: Домородни предели
           administrative: Административна граница
           census: Пописна граница
           national_park: Национален парк
+          political: Граници на изборни единици
           protected_area: Заштитено подрачје
+          "yes": Граница
         bridge:
           aqueduct: Аквадукт
           boardwalk: Шеталиште
@@ -602,24 +658,94 @@ mk:
           viaduct: Вијадукт
           "yes": Мост
         building:
+          apartment: Стан
+          apartments: Станови
+          barn: Амбар
+          bungalow: Бунгалов
+          cabin: Куќичка
+          chapel: Капела
+          church: Црква
+          civic: Јавно здание
+          college: Средно училиште
+          commercial: Комерцијална зграда
+          construction: Градилиште
+          detached: Самостојна куќа
+          dormitory: Студентски дом
+          duplex: Двојна куќа
+          farm: Земјоделска куќа
+          farm_auxiliary: Помошно земјоделско здание
+          garage: Гаража
+          garages: Гаража
+          greenhouse: Стакленик
+          hangar: Хангар
+          hospital: Болничка зграда
+          hotel: Хотел
+          house: Куќа
+          houseboat: Пловечка куќа
+          hut: Колиба
+          industrial: Индустриски објект
+          kindergarten: Детска градинка
+          manufacture: Производно здание
+          office: Деловна зграда
+          public: Јавен објект
+          residential: Станбена зграда
+          retail: Продажен објект
+          roof: Покрив
+          ruins: Градба во рушевини
+          school: Школско здание
+          semidetached_house: Полусамостојна куќа
+          service: Услужна градба
+          shed: Шупа
+          stable: Штала
+          static_caravan: Приколка
+          temple: Храм
+          terrace: Лепенка
+          train_station: Железничка станица
+          university: Универзитетска зграда
+          warehouse: Магацин
           "yes": Градба
+        club:
+          scout: Извиднички логор
+          sport: Спортски клуб
+          "yes": Клуб
         craft:
+          beekeper: Пчелар
+          blacksmith: Ковач
           brewery: Пиварница
           carpenter: Столар
+          caterer: Доставен угостител
+          confectionery: Слаткарница
+          dressmaker: Дамски кројач
           electrician: Електричар
+          electronics_repair: Електричар
           gardener: Градинар
+          glaziery: Стаклар
+          handicraft: Ракотворби
+          hvac: Климатизација
+          metal_construction: Металоградежник
           painter: Сликар
           photographer: Фотограф
           plumber: Водоводџија
+          roofer: Покривар
+          sawmill: Пилана
           shoemaker: Чевлар
+          stonemason: Каменорезец
           tailor: Кројач
+          window_construction: Изработка на прозорци
+          winery: Винарија
           "yes": Занаетчиски дуќан
         emergency:
+          access_point: Пристапна точка
           ambulance_station: Итна помош
           assembly_point: Собиралиште
           defibrillator: Дефибрилатор
+          fire_xtinguisher: Противпожарен апарат
+          fire_water_pond: Езерце за гаснење пожари
           landing_site: Место за итно слетување
+          life_ring: Спасителен појас
           phone: Итен телефон
+          siren: Сирена
+          suction_point: Водовлечно место за гаснење
           water_tank: Итен водосклад
           "yes": Итна помош
         highway:
@@ -632,6 +758,7 @@ mk:
           cycleway: Велосипедска патека
           elevator: Лифт
           emergency_access_point: Прва помош
+          emergency_bay: Итно засолниште
           footway: Тротоар
           ford: Брод
           give_way: Знак за предност
@@ -662,37 +789,45 @@ mk:
           tertiary: Третостепен пат
           tertiary_link: Третостепен пат
           track: Полски пат
+          traffic_mirror: Сообраќајно огледало
           traffic_signals: Сообраќајна сигнализација
-          trail: Патека
+          trailhead: Почеток на патеката
           trunk: Магистрала
           trunk_link: Магистрала
           turning_loop: Повратен јазол
           unclassified: Некласификуван пат
           "yes": Пат
         historic:
+          aircraft: Историски воздухоплов
           archaeological_site: Археолошки локалитет
+          bomb_crater: Историски кратер од бомба
           battlefield: Бојно поле
           boundary_stone: Граничен камен
           building: Историска градба
           bunker: Бункер
+          cannon: Историски топ
           castle: Замок
+          charcoal_pile: Историско ќумуриште
           church: Црква
           city_gate: Градска порта
           citywalls: Градски ѕидини
           fort: Утврдување
           heritage: Културно наследство
+          hollow_way: Всечена патека
           house: Куќа
-          icon: Икона
           manor: Велепоседнички дом
           memorial: Споменик
+          milestone: Историски милјоказ
           mine: Рудник
           mine_shaft: Рудничко окно
           monument: Споменик
+          railway: Историска железница
           roman_road: Римски пат
           ruins: Рушевини
           stone: Камен
           tomb: Гроб
           tower: Кула
+          wayside_chapel: Крајпатен параклис
           wayside_cross: Крајпатен крст
           wayside_shrine: Крајпатен параклис
           wreck: Бродолом
@@ -701,6 +836,7 @@ mk:
           "yes": Раскрсница
         landuse:
           allotments: Парцели
+          aquaculture: Рибник
           basin: Котлина
           brownfield: Угар
           cemetery: Гробишта
@@ -720,21 +856,28 @@ mk:
           military: Воено подрачје
           mine: Рудник
           orchard: Овоштарник
+          plant_nursery: Расадник
           quarry: Каменолом
           railway: Железница
           recreation_ground: Рекреативен терен
+          religious: Земјиште од духовно значење
           reservoir: Резервоар
           reservoir_watershed: Акумулациска вододелница
           residential: Станбено подрачје
           retail: Дуќани
-          road: Патно подрачје
           village_green: Селско зеленило
           vineyard: Лозници
           "yes": Употреба на земјиште
         leisure:
+          adult_gaming_centre: Казино со автомати
+          amusement_arcade: Флиперница
+          bandstand: Оркестарска естрада
           beach_resort: Крајбрежно одморалиште
           bird_hide: Набљудувалиште за птици
+          bleachers: Непокриени трибини
+          bowling_alley: Кугларница
           common: Општествена земја
+          dance: Сала за танцување
           dog_park: Парк за кучиња
           firepit: Огниште
           fishing: Рибарење
@@ -747,7 +890,9 @@ mk:
           marina: Марина
           miniature_golf: Миниголф
           nature_reserve: Природен резерват
+          outdoor_seating: Седишта на отворено
           park: Парк
+          picnic_table: Излетничка маса
           pitch: Спортски терен
           playground: Детско игралиште
           recreation_ground: Разонодно место
@@ -762,13 +907,21 @@ mk:
           "yes": Разонода
         man_made:
           adit: Помошно окно
+          advertising: Реклама
+          antenna: Антена
+          avalanche_protection: Лавинозаштита
           beacon: Светилник
+          beam: Греда
           beehive: Пчеларник
           breakwater: Бранобран
           bridge: Мост
           bunker_silo: Бункер
+          cairn: Могила
           chimney: Оџак
+          clearcut: Сосечена шума
+          communications_tower: Предавател
           crane: Кран
+          cross: Крст
           dolphin: Пристан. дирек
           dyke: Ров
           embankment: Кеј
@@ -777,6 +930,7 @@ mk:
           groyne: Брежна препрека
           kiln: Печка
           lighthouse: Светилник
+          manhole: Шахта
           mast: Јарбол
           mine: Рудник
           mineshaft: Рудничко окно
@@ -784,12 +938,20 @@ mk:
           petroleum_well: Нафтен извор
           pier: Пристан. мост
           pipeline: Цевковод
+          pumping_station: Пумпарница
+          reservoir_covered: Покриен резервоар
           silo: Силос
+          snow_cannon: Снегофрлачки топ
+          snow_fence: Снежна ограда
           storage_tank: Резервоар
+          street_cabinet: Уличен шкаф
           surveillance: Надзор
+          telescope: Телескоп
           tower: Кула
+          utility_pole: Бандера
           wastewater_plant: Пречистителна станица
           watermill: Воденица
+          water_tap: Чешма
           water_tower: Водокула
           water_well: Бунар
           water_works: Водоводна станица
@@ -800,10 +962,13 @@ mk:
           airfield: Воено слетувалиште
           barracks: Касарна
           bunker: Бункер
+          checkpoint: Контролна точка
+          trench: Ров
           "yes": Војска
         mountain_pass:
           "yes": Планински превој
         natural:
+          bare_rock: Гола карпа
           bay: Залив
           beach: Плажа
           cape: ‘Рт
@@ -819,6 +984,7 @@ mk:
           grassland: Полјана
           heath: Голет
           hill: Рид
+          hot_spring: Топол извор
           island: Остров
           land: Земја
           marsh: Бара
@@ -842,20 +1008,31 @@ mk:
           water: Вода
           wetland: Мочуриште
           wood: Шума
+          "yes": Природен елемент
         office:
           accountant: Сметководител
           administrative: Управа
+          advertising_agency: Рекламна агенција
           architect: Архитект
           association: Здружение
           company: Фирма
+          diplomatic: Дипломатска служба
           educational_institution: Образовна установа
           employment_agency: Агенција за вработување
+          energy_supplier: Енергостопанска служба
           estate_agent: Агенција за недвижности
+          financial: Финансова служба
           government: Владина служба
           insurance: Служба за осигурување
           it: Информатичка служба
           lawyer: Адвокат
+          logistics: Логистичка служба
+          newspaper: Новинарска служба
           ngo: НВО-канцеларија
+          notary: Нотар
+          religion: Верска служба
+          research: Истражувачка служба
+          tax_advisor: Даночен советник
           telecommunication: Телекомуникациска канцеларија
           travel_agent: Туристичка агенција
           "yes": Канцеларија
@@ -875,6 +1052,7 @@ mk:
           locality: Месност
           municipality: Општина
           neighbourhood: Соседство
+          plot: Парцела
           postcode: Поштенски број
           quarter: Четврт
           region: Област
@@ -884,7 +1062,6 @@ mk:
           subdivision: Админ. подрачје
           suburb: Населба
           town: Град
-          unincorporated_area: Нездружено подрачје
           village: Село
           "yes": Место
         railway:
@@ -910,12 +1087,19 @@ mk:
           switch: Железнички пунктови
           tram: Трамвајска линија
           tram_stop: Трамвајска постојка
+          yard: Железничко депо
         shop:
+          agrarian: Земјоделска продавница
           alcohol: Алкохол на црно
           antiques: Старинарница
+          appliance: Продавница за апарати и уреди
           art: Уметнички дуќан
+          baby_goods: Бебешка опрема
+          bag: Продавница за чанти
           bakery: Пекара
+          bathroom_furnishing: Санитарии
           beauty: Козметика
+          bed: Кревети и постелнина
           beverages: Пијалоци
           bicycle: Продавница за велосипеди
           bookmaker: Бележник
@@ -927,65 +1111,90 @@ mk:
           car_repair: Автосервис
           carpet: Дуќан за теписи
           charity: Добротворна продавница
+          cheese: Продавница за сирење
           chemist: Аптека
+          chocolate: Чоколада
           clothes: Дуќан за облека
+          coffee: Продавница за кафе
           computer: Продавница за сметачи
           confectionery: Слаткарница
           convenience: Бакалница
           copyshop: Фотокопир
           cosmetics: Козметика
+          craft: Продавница за ракотворни залихи
+          curtain: Продавница за завеси
+          dairy: Бакалница
           deli: Гастрономски дуќан
           department_store: Стоковна куќа
           discount: Распродажен дуќан
           doityourself: Направи-сам
           dry_cleaning: Хемиско чистење
+          e-cigarette: Продавница за е-цигари
           electronics: Електронска опрема
+          erotic: Еротска продавница
           estate_agent: Недвижности
+          fabric: Продавница за ткаенини
           farm: Земјоделска продавница
           fashion: Бутик
-          fish: Рибарница
+          fishing: Рибарска продавница
           florist: Цвеќара
           food: Продавница за храна
+          frame: Врамувач
           funeral_directors: Погребална служба
           furniture: Мебел
-          gallery: Галерија
           garden_centre: Градинарски центар
+          gas: Плинар
           general: Колонијал
           gift: Дуќан за подароци
           greengrocer: Пиљара
           grocery: Бакалница
           hairdresser: Фризер
           hardware: Алат и опрема
+          health_food: Продавница за здрава храна
+          hearing_aids: Слушни апарати
+          herbalist: Билна аптека
           hifi: Аудиосистеми
           houseware: Продавница за покуќнина
+          ice_cream: Сладоледара
           interior_decoration: Внатрешно уредување
           jewelry: Јувелир
           kiosk: Трафика
           kitchen: Кујнска продавница
           laundry: Пералница
+          locksmith: Бравар
           lottery: Лотарија
           mall: Трговски центар
-          market: Пазар
           massage: Масажа
+          medical_supply: Санитетска продавница
           mobile_phone: Мобиларница
+          money_lender: Лихвар
           motorcycle: Моторцикли
+          motorcycle_repair: Поправка на мотоцикли
           music: Музички дуќан
+          musical_instrument: Музички инструменти
           newsagent: Весникара
+          nutrition_supplements: Прехранбени додатоци
           optician: Оптичар
           organic: Здрава храна
           outdoor: Продавница на отворено
           paint: Бои и лакови
+          pastry: Пекарница
           pawnbroker: Заложница
+          perfumery: Парфимерија
           pet: Домашни миленици
-          pharmacy: Аптека
+          pet_grooming: Нега за миленици
           photo: Фотографски дуќан
           seafood: Морска храна
           second_hand: Половна роба
+          sewing: Шивачка продавница
           shoes: Обувки
           sports: Спортски дуќан
           stationery: Прибор и репроматеријали
+          storage_rental: Изнајмување складиштен простор
           supermarket: Супермаркет
           tailor: Кројач
+          tattoo: Тетоважи
+          tea: Продавница за чаеви
           ticket: Билетарница
           tobacco: Тутунарница
           toys: Продавница за играчки
@@ -994,6 +1203,8 @@ mk:
           vacant: Празна продавница
           variety_store: Сештарница
           video: Видеотека
+          video_games: Продавница за видеоигри
+          wholesale: Големопродажба
           wine: Винска продавница
           "yes": Дуќан
         tourism:
@@ -1003,6 +1214,7 @@ mk:
           attraction: Атракција
           bed_and_breakfast: Полупансион
           cabin: Колиба
+          camp_pitch: Логориште
           camp_site: Камп
           caravan_site: Автокамп
           chalet: Брвнара
@@ -1016,6 +1228,7 @@ mk:
           picnic_site: Излетничко место
           theme_park: Забавен парк
           viewpoint: Видиковец
+          wilderness_hut: Колиба во дивина
           zoo: Зоолошка
         tunnel:
           building_passage: Премин на зграда
@@ -1042,17 +1255,15 @@ mk:
           "yes": Воден пат
       admin_levels:
         level2: Државна граница
+        level3: Регионална граница
         level4: Покраинска граница
         level5: Регионална граница
         level6: Окружна граница
+        level7: Општинска граница
         level8: Градска граница
         level9: Селска граница
         level10: Населбена граница
-    description:
-      title:
-        osm_nominatim: Местоположба од <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Местоположба од <a href="http://www.geonames.org/">GeoNames</a>
+        level11: Маалска граница
       types:
         cities: Градови
         towns: Гратчиња
@@ -1130,8 +1341,6 @@ mk:
     new:
       title_html: Пријава %{link}
       missing_params: Не можам да создадам нов извештај
-      details: Наведете повеќе подробности за проблемот (задолжително).
-      select: 'Изберете причина за пријавата:'
       disclaimer:
         intro: 'Пред да ја поднесете пријавата кај модераторите, проверете дали:'
         not_just_mistake: Сте сигурни дека проблемот не е просто грешка
@@ -1214,44 +1423,54 @@ mk:
       text: Дарувајте
     learn_more: Дознајте повеќе
     more: Повеќе
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} коментираше на дневничка ставка'
       hi: Здраво %{to_user},
       header: '%{from_user} коментираше на дневничката ставка на OpenStreetMap со
         наслов %{subject}:'
-      footer: Можете да го прочитате коментарот и на %{readurl} и можете да коментирате
-        на %{commenturl} или да одговорите на %{replyurl}
+      header_html: '%{from_user} коментираше на дневничката ставка на OpenStreetMap
+        со наслов %{subject}:'
+      footer: Можете и да го прочитате коментарот на %{readurl}, да коментирате на
+        %{commenturl} или пак да му испратите порака на авторот на %{replyurl}
+      footer_html: Можете и да го прочитате коментарот на %{readurl}, да коментирате
+        на %{commenturl} или пак да му испратите порака на авторот на %{replyurl}
     message_notification:
-      subject_header: '[OpenStreetMap] — %{subject}'
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Здраво %{to_user},
       header: '%{from_user} ви испрати порака преку OpenStreetMap со насловот %{subject}:'
-      footer_html: Можете и да ја прочитате пораката на %{readurl}, и да одговорите
-        на %{replyurl}
+      header_html: '%{from_user} ви испрати порака преку OpenStreetMap со насловот
+        %{subject}:'
+      footer: Можете и да ја прочитате пораката на %{readurl} и да му испратите порака
+        на авторот на %{replyurl}
+      footer_html: Можете и да ја прочитате пораката на %{readurl} и да му испратите
+        порака на авторот на %{replyurl}
     friendship_notification:
       hi: Здраво %{to_user},
       subject: '[OpenStreetMap] %{user} ве додаде како пријател'
       had_added_you: '%{user} ве додаде како пријател на OpenStreetMap.'
       see_their_profile: Можете да го погледате профилот на оваа личност на %{userurl}.
+      see_their_profile_html: Можете да го погледате профилот на оваа личност на %{userurl}.
       befriend_them: Можете личноста и да ја додадете како пријател на %{befriendurl}.
-    gpx_notification:
-      greeting: Здраво,
-      your_gpx_file: Изгледа дека вашата GPX податотека
-      with_description: со описот
-      and_the_tags: 'и следниве ознаки:'
-      and_no_tags: и без ознаки.
-      failure:
-        subject: '[OpenStreetMap] Проблем при увозот на GPX податотека'
-        failed_to_import: не можеше да се увезе. Еве ја грешката;
-        more_info_1: Повеќе информации за проблеми при увозот на GPX податотеки, и
-          како да
-        more_info_2: 'ги избегнете ,ќе најдете на:'
-        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=mk
-      success:
-        subject: '[OpenStreetMap] Успешен увоз на GPX-податотека'
-        loaded_successfully:
-          one: успешно вчитана %{trace_points} од можната една точка.
-          other: успешно вчитани %{trace_points} од можните %{possible_points} точки.
+      befriend_them_html: Можете личноста и да ја додадете како пријател на %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Вашата GPX-податотека %{trace_name} со описот %{trace_description}
+        и следниве ознаки: %{tags}'
+      description_with_no_tags_html: Вашата GPX-податотека %{trace_name} со описот
+        %{trace_description} и без ознаки
+    gpx_failure:
+      hi: Здраво %{to_user},
+      failed_to_import: не можеше да се увезе. Еве ја грешката;
+      more_info_html: Повеќе информации за неуспесите на увозот на GPX и тоа како
+        да ги одбегнете ќе најдете на %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=mk
+      subject: '[OpenStreetMap] Проблем при увозот на GPX податотека'
+    gpx_success:
+      hi: Здраво %{to_user},
+      loaded_successfully:
+        one: успешно вчитана %{trace_points} од можната една точка.
+        other: успешно вчитани %{trace_points} од можните %{possible_points} точки.
+      subject: '[OpenStreetMap] Успешен увоз на GPX-податотека'
     signup_confirm:
       subject: '[OpenStreetMap] Добре дојдовте на OpenStreetMap'
       greeting: Здраво!
@@ -1262,31 +1481,18 @@ mk:
         да почнете со уредување.
     email_confirm:
       subject: '[OpenStreetMap] Потврдете ја вашата е-поштенска адреса'
-    email_confirm_plain:
       greeting: Здраво,
       hopefully_you: Некој (се надеваме, Вие) сака да ја смени е-поштенската адреса
         на %{server_url} со новата адреса %{new_address}.
       click_the_link: Ако ова сте вие, стиснете на врската подолу за да ја потврдите
         измената.
-    email_confirm_html:
-      greeting: Здраво,
-      hopefully_you: Некој (се надеваме, Вие) сака да ја смени е-поштенската адреса
-        на %{server_url} со новата адреса %{new_address}.
-      click_the_link: Ако ова сте вие, стиснете подолу за да ја потврдите измената.
     lost_password:
       subject: '[OpenStreetMap] Барање за промена на лозинка'
-    lost_password_plain:
       greeting: Здраво,
       hopefully_you: Некој (можеби Вие) побарал да се промени лозинката на сметката
         на openstreetmap.org која ѝ припаѓа на оваа адреса.
       click_the_link: Ако ова сте вие, стиснете на врската подолу за да си ја смените
         лозинката.
-    lost_password_html:
-      greeting: Здраво,
-      hopefully_you: Некој (можеби Вие) побарал да се промени лозинката на сметката
-        на openstreetmap.org која ѝ припаѓа на оваа адреса.
-      click_the_link: Ако ова сте вие, тогаш стиснете на врската подолу за да си ја
-        промените лозинката.
     note_comment_notification:
       anonymous: Анонимен корисник
       greeting: Здраво,
@@ -1296,22 +1502,35 @@ mk:
           интересира'
         your_note: '%{commenter} искоментира на една од вашите белешки на картите
           близу %{place}.'
+        your_note_html: '%{commenter} искоментира на една од вашите белешки на картите
+          близу %{place}.'
         commented_note: '%{commenter} искоментира на картографска белешка на која
           вие веќе коментиравте. Белешката се наоѓа кај %{place}.'
+        commented_note_html: '%{commenter} искоментира на картографска белешка на
+          која вие веќе коментиравте. Белешката се наоѓа кај %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} реши една од вашите белешки'
         subject_other: '[OpenStreetMap] %{commenter} реши белешка што ве интересира'
         your_note: '%{commenter} реши една од вашите белешки на картите близу %{place}.'
+        your_note_html: '%{commenter} реши една од вашите белешки на картите близу
+          %{place}.'
         commented_note: '%{commenter} реши картографска белешка на која вие веќе коментиравте.
           Белешката се наоѓа кај %{place}.'
+        commented_note_html: '%{commenter} реши картографска белешка на која вие веќе
+          коментиравте. Белешката се наоѓа кај %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} преактивира една од вашите белешки'
         subject_other: '[OpenStreetMap] %{commenter} преактивира белешка што ве интересира'
         your_note: '[OpenStreetMap] %{commenter} преактивира една од вашите белешки
           на каритте близу %{place}.'
+        your_note_html: '[OpenStreetMap] %{commenter} преактивира една од вашите белешки
+          на каритте близу %{place}.'
         commented_note: '%{commenter} реши картографска белешка на која имате коментирано.
           Белешката се наоѓа близу %{place}.'
+        commented_note_html: '%{commenter} реши картографска белешка на која имате
+          коментирано. Белешката се наоѓа близу %{place}.'
       details: Поподробно за белешката на %{url}.
+      details_html: Поподробно за белешката на %{url}.
     changeset_comment_notification:
       hi: Здраво %{to_user},
       greeting: Здраво,
@@ -1320,13 +1539,21 @@ mk:
         subject_other: '[OpenStreetMap] %{commenter} искоментира на промена што ве
           интересира'
         your_changeset: '%{commenter} во %{time} даде коментар на една од вашите промени'
+        your_changeset_html: '%{commenter} во %{time} даде коментар на една од вашите
+          промени'
         commented_changeset: '%{commenter} во %{time} даде коментар на променa што
           ја набљудувате, направена од %{changeset_author}'
+        commented_changeset_html: '%{commenter} во %{time} даде коментар на променa
+          што ја набљудувате, направена од %{changeset_author}'
         partial_changeset_with_comment: со коментарот „%{changeset_comment}“
+        partial_changeset_with_comment_html: со коментарот „%{changeset_comment}“
         partial_changeset_without_comment: без коментар
       details: Поподробно за промената на %{url}.
+      details_html: Поподробно за промената на %{url}.
       unsubscribe: За да се отпишете од подновите на овие промени, посетете ја страницата
         %{url} и стиснете на „Отпиши се“.
+      unsubscribe_html: За да се отпишете од подновите на овие промени, посетете ја
+        страницата %{url} и стиснете на „Отпиши се“.
   messages:
     inbox:
       title: Примени
@@ -1402,6 +1629,24 @@ mk:
       as_unread: Пораката е означена како непрочитана
     destroy:
       destroyed: Пораката е избришана
+  shared:
+    markdown_help:
+      title_html: Расчленето со <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      headings: Наслови
+      heading: Наслов
+      subheading: Поднаслов
+      unordered: Неподреден список
+      ordered: Подреден список
+      first: Прва ставка
+      second: Втора ставка
+      link: Врска
+      text: Текст
+      image: Слика
+      alt: Алтернативен текст
+      url: URL
+    richtext_field:
+      edit: Уреди
+      preview: Преглед
   site:
     about:
       next: Следно
@@ -1599,17 +1844,6 @@ mk:
       user_page_link: корисничка страница
       anon_edits_html: (%{link})
       anon_edits_link_text: Дознајте зошто ова е така.
-      flash_player_required_html: Ќе ви треба Flash-програм за да го користите Potlatch
-        — Flash-уредник за OpenStreetMap. Можете да <a href="https://get.adobe.com/flashplayer/">го
-        преземете Flash Player од Adobe.com</a>. Имате и <a href="https://wiki.openstreetmap.org/wiki/Editing">неколку
-        други можности</a> за уредување на OpenStreetMap.
-      potlatch_unsaved_changes: Имате незачувани промени. (За да зачувате во Potlatch,
-        треба го одселектирате тековниот пат или точка, ако уредувате во живо, или
-        стиснете на „зачувај“ ако го имате тоа копче.)
-      potlatch2_not_configured: Potlatch 2 не е поставен — погледајте ја страницата
-        https://wiki.openstreetmap.org/wiki/The_Rails_Port
-      potlatch2_unsaved_changes: Имате незачувани промени. (Зачувувањето во Potlatch
-        2 се врши со стискање на „зачувај“.)
       id_not_configured: Не му се зададени поставки на уредувачкиот програм „iD“
       no_iframe_support: Вашиот прелистувач не поддржува „иРамки“ (iframes) со HTML,
         без кои оваа можност не може да работи.
@@ -1719,6 +1953,15 @@ mk:
         url: https://wiki.openstreetmap.org/wiki/Mk:Main_Page
         title: Вики на OpenStreetMap
         description: Прелистајте ја подробната документација за OpenStreetMap на викито.
+    potlatch:
+      removed: Вашиот стандарден уредник на OpenStreetMap е наместен да биде Potlatch.
+        Поради укинувањето на Adobe Flash Player, Potlatch повеќе не е достапен за
+        употреба во прелистувач.
+      desktop_html: Сепак, можете да го користите Potlatch со <a href="https://www.systemed.net/potlatch/">преземајќи
+        го ова програмче за Mac и Windows</a>.
+      id_html: Во спротивно, ставете го уредникот iD како стандарден, кој работи на
+        прелистувачот како што тоа беше со Potlatch. <a href="%{settings_url}">Сменете
+        си ги корисничките нагодувања овде</a>.
     sidebar:
       search_results: Исход од пребарувањето
       close: Затвори
@@ -1894,6 +2137,7 @@ mk:
           ги почекате да завршат пред да подигате други, за да не ја кочите редицата
           во која чекаат други корисници.
     edit:
+      cancel: Откажи
       title: Ја уредувате трагата %{name}
       heading: Ја уредувате трагата %{name}
       visibility_help: што значи ова?
@@ -1911,6 +2155,7 @@ mk:
       uploaded: 'Подигнато во:'
       points: 'Точки:'
       start_coordinates: 'Почетна координата:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: карта
       edit: уреди
       owner: 'Сопственик:'
@@ -2030,13 +2275,6 @@ mk:
       delete: Избриши клиент
       confirm: Дали сте сигурни?
       requests: Ги барам следните дозволи од корисникот
-      allow_read_prefs: им ги чита корисничките прилагодувања.
-      allow_write_prefs: им ги менува корисничките прилагодувања.
-      allow_write_diary: прави ставки во дневници, да коментира и да се сптијателува.
-      allow_write_api: ја менува картата.
-      allow_read_gpx: им ги чита личните ГПС-траги.
-      allow_write_gpx: подига ГПС-траги.
-      allow_write_notes: измена на белешки.
     index:
       title: Мои OAuth податоци
       my_tokens: Мои овластени прилози
@@ -2052,19 +2290,7 @@ mk:
       registered_apps: 'Ги имате пријавено следниве клиентски прилози:'
       register_new: Пријавете го вашиот пирлог
     form:
-      name: Име
-      required: Се бара
-      url: URL на главниот прилог
-      callback_url: URL за одѕив
-      support_url: URL поддршка
       requests: 'Побарај ги следниве дозволи од корисникот:'
-      allow_read_prefs: им ги чита корисничките прилагодувања.
-      allow_write_prefs: им ги менува корисничките прилагодувања.
-      allow_write_diary: создава ставки во дневници, да коментира, и да се спријателува.
-      allow_write_api: ја менува картата.
-      allow_read_gpx: им ги чита личните ГПС-траги.
-      allow_write_gpx: подига ГПС-траги.
-      allow_write_notes: измена на белешки.
     not_found:
       sorry: За жал, тој %{type} не е пронајден.
     create:
@@ -2145,8 +2371,6 @@ mk:
     reset_password:
       title: Смени лозинка
       heading: Смени лозинка за %{user}
-      password: 'Лозинка:'
-      confirm password: 'Потврдете ја лозинката:'
       reset: Смени лозинка
       flash changed: Лозинката ви е сменета.
       flash token bad: Не ја пронајдов таа шифра. Проверете ја URL-адресата.
@@ -2162,9 +2386,6 @@ mk:
         html: |-
           <p>За разлика од некои други карти, OpenStreetMap во целост ја изработуваат луѓе како вас. Секој слободно може да врши поправки, да ја подновува, да ја презема и користи.</p>
           <p>Зачленете се за да почнете со ваше учество. Ќе ви испратиме потврда за сметката по е-пошта.</p>
-      license_agreement: Кога ќе ја потврдите вашата сметка, ќе треба да се согласите
-        со <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">условите
-        за учесници</a>.
       email address: 'Е-пошта:'
       confirm email address: 'Потврдете ја е-поштата:'
       not_displayed_publicly_html: Вашата адреса нема да се прикажува јавно. Повеќе
@@ -2369,9 +2590,9 @@ mk:
       reconfirm_html: Ако сакате повторно да ви ја испратиме потврдната порака, <a
         href="%{reconfirm}">стиснете тука</a>.
     confirm_resend:
-      success: Испративме поврдна порака на %{email}, и штом ќе ја потврдите сметката,
-        ќе можете да почнете со картографска работа.<br /><br />Ако користите систем
-        против спам кој испраќа барања за потврда, тогаш ќе морате да ја дозволите
+      success_html: Испративме поврдна порака на %{email}, и штом ќе ја потврдите
+        сметката, ќе можете да почнете со картографска работа.<br /><br />Ако користите
+        систем против спам кој испраќа барања за потврда, тогаш ќе морате да ја дозволите
         адресата %{sender} бидејќи ние немаме начин да одговараме на такви потврди.
       failure: Корисникот %{name} не е пронајден.
     confirm_email:
@@ -2457,27 +2678,16 @@ mk:
     new:
       title: Правење на блок за %{name}
       heading_html: Правење на блок за %{name}
-      reason: Причината зошто корисникот %{name} е блокиран. Бидете што посмирени
-        и поразумни, наведете што повеќе подробности за ситуацијата, имајќи на ум
-        дека пораката ќе биде јавно видлива. Имајте предвид и дека не сите корисници
-        го разбираат жаргонот на заедницата, па затоа обидете се да користите лаички
-        поими.
       period: Колку да трае блокот за овој корисник?
       tried_contacting: Го контактирав корисникот и побарав да престане.
       tried_waiting: На корисникот му дадов разумен рок за да одговори на тие преписки.
-      needs_view: Корисникот треба да се најави пред да се исчисти овој блок.
       back: Преглед на сите блокови
     edit:
       title: Уредување на блок за %{name}
       heading_html: Уредување на блок за %{name}
-      reason: Причината зошто е блокиран корисникот %{name}. Бидете што посмирени
-        и поразумни, и напишете што повеќе подробности за ситуацијата. Имајте на ум
-        дека не сите корисници го разбираат жаргонот на заедницата, па затоа користете
-        лаички поими.
       period: Колку да трае блокот на корисникот?
       show: Преглед на овој блок
       back: Преглед на сите блокови
-      needs_view: Дали корисникот треба да се најави пред да се исчисти овој блок?
     filter:
       block_expired: Блокот е веќе истечен и затоа не може да се менува.
       block_period: Периодот на блокада мора да биде со рок избран од паѓачкиот список.
@@ -2503,10 +2713,11 @@ mk:
       revoke: Поништи!
       flash: Овој блок е поништен.
     helper:
-      time_future: Истекува за %{time}.
+      time_future_html: Истекува за %{time}.
       until_login: Активно додека не се најави корисникот.
-      time_future_and_until_login: Завршува во %{time} и откако корисникот ќе се најави.
-      time_past: Истечено %{time}.
+      time_future_and_until_login_html: Завршува во %{time} и откако корисникот ќе
+        се најави.
+      time_past_html: Истечено %{time}.
       block_duration:
         hours:
           one: еден час
@@ -2610,6 +2821,7 @@ mk:
           other: Се наоѓате на %{count} стапки од оваа точка
       base:
         standard: Стандардна
+        cyclosm: CyclOSM
         cycle_map: Велосипедска
         transport_map: Сообраќајна
         hot: Хуманитарна
@@ -2624,6 +2836,8 @@ mk:
       copyright: © <a href='%{copyright_url}'>Учесници во OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Дарувајте</a>
       terms: <a href='%{terms_url}' target='_blank'>Услови за мреж. место и приложникот</a>
+      cyclosm: 'Стил на полињата: <a href=''%{cyclosm_url}'' target=''_blank''>CyclOSM</a>
+        вдомена од <a href=''%{osmfrance_url}'' target=''_blank''>OpenStreetMap Франција</a>'
       thunderforest: 'Полиња: <a href=''%{thunderforest_url}'' target=''_blank''>Енди
         Алан</a>'
       opnvkarte: Полињата ги достави <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
