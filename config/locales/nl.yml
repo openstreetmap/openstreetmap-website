@@ -77,7 +77,7 @@ nl:
         create: Verzenden
       client_application:
         create: Registreren
-        update: Bewerken
+        update: Bijwerken
       redaction:
         create: Redigering maken
         update: Redigering opslaan
@@ -130,8 +130,17 @@ nl:
       way_tag: Weg-tag
     attributes:
       client_application:
+        name: Naam (verplicht)
+        url: Hoofd-URL van applicatie (verplicht)
         callback_url: Callback-URL
         support_url: Ondersteunings-URL
+        allow_read_prefs: gebruikersvoorkeuren lezen
+        allow_write_prefs: gebruikersvoorkeuren wijzigen
+        allow_write_diary: dagboekberichten schrijven, reacties en vrienden toevoegen
+        allow_write_api: de kaart wijzigen
+        allow_read_gpx: privé-gps-trajecten lezen
+        allow_write_gpx: gps-trajecten uploaden
+        allow_write_notes: opmerkingen wijzigen
       diary_comment:
         body: Tekst
       diary_entry:
@@ -146,7 +155,7 @@ nl:
       trace:
         user: Gebruiker
         visible: Zichtbaar
-        name: Naam
+        name: Bestandsnaam
         size: Grootte
         latitude: Breedtegraad
         longitude: Lengtegraad
@@ -161,6 +170,7 @@ nl:
         body: Tekst
         recipient: Ontvanger
       report:
+        category: Selecteer een reden voor je melding
         details: Verschaf a.u.b. nog wat meer details over het probleem (vereist).
       user:
         email: E-mail
@@ -169,10 +179,15 @@ nl:
         description: Beschrijving
         languages: Talen
         pass_crypt: Wachtwoord
+        pass_crypt_confirmation: Wachtwoord bevestigen
     help:
       trace:
         tagstring: kommagescheiden
       user_block:
+        reason: De reden waarom de gebruiker geblokkeerd wordt. Blijf kalm en redelijk
+          en geef zoveel mogelijk details over de situatie. Dit bericht is voor iedereen
+          zichtbaar. Bedenk dat niet alle gebruikers het gemeenschapsjargon begrijpen,
+          dus formuleer begrijpelijk.
         needs_view: Moet de gebruiker aanmelden voordat deze blokkade wordt verwijderd?
   datetime:
     distance_in_words_ago:
@@ -220,7 +235,7 @@ nl:
       description: iD (bewerken in de browser)
     remote:
       name: Afstandsbediening
-      description: Afstandsbediening (JOSM of Merkaartor)
+      description: Afstandsbediening (JOSM, Potlatch of Merkaartor)
   auth:
     providers:
       none: Geen
@@ -267,6 +282,12 @@ nl:
     anonymous: anoniem
     no_comment: (geen opmerking)
     part_of: Onderdeel van
+    part_of_relations:
+      one: 1 relatie
+      other: '%{count} relaties'
+    part_of_ways:
+      one: 1 weg
+      other: '%{count} wegen'
     download_xml: XML downloaden
     view_history: Geschiedenis weergeven
     view_details: Gegevens bekijken
@@ -299,6 +320,9 @@ nl:
       title_html: 'Weg: %{name}'
       history_title_html: 'Weggeschiedenis: %{name}'
       nodes: Nodes
+      nodes_count:
+        one: 1 node
+        other: '%{count} nodes'
       also_part_of_html:
         one: onderdeel van weg %{related_ways}
         other: onderdeel van wegen %{related_ways}
@@ -306,6 +330,9 @@ nl:
       title_html: 'Relatie: %{name}'
       history_title_html: 'Relatiegeschiedenis: %{name}'
       members: Leden
+      members_count:
+        one: 1 lid
+        other: '%{count} leden'
     relation_member:
       entry_role_html: '%{type} %{name} als %{role}'
       type:
@@ -325,6 +352,7 @@ nl:
         changeset: wijzigingenset
         note: opmerking
     timeout:
+      title: Tijdslimiet overschreden
       sorry: Het ophalen van de gegevens voor de %{type} met het ID %{id} duurde te
         lang.
       type:
@@ -431,8 +459,8 @@ nl:
     new:
       title: Nieuw dagboekbericht
     form:
-      location: 'Plaats:'
-      use_map_link: kaart gebruiken
+      location: Locatie
+      use_map_link: Kies op kaart
     index:
       title: Gebruikersdagboeken
       title_friends: Dagboeken van vrienden
@@ -461,7 +489,8 @@ nl:
       body: Er is geen dagboekbericht of opmerking met het id %{id}. Controleer de
         spelling, of misschien is de koppeling waarop u geklikt hebt onjuist.
     diary_entry:
-      posted_by_html: Geplaatst door %{link_user} op %{created} in het %{language_link}
+      posted_by_html: Geplaatst door %{link_user} op %{created} in het %{language_link}.
+      updated_at_html: Laatst aangepast op %{updated}.
       comment_link: Reactie plaatsen bij dit bericht
       reply_link: Een bericht sturen naar de auteur
       comment_count:
@@ -535,6 +564,7 @@ nl:
           pylon: Pilaar
           station: Kabelbaanstation
           t-bar: T-lift
+          "yes": Kabelbaan
         aeroway:
           aerodrome: Vliegveld
           airstrip: Landingsbaan
@@ -543,11 +573,15 @@ nl:
           hangar: Hangaar
           helipad: Helikopterplatform
           holding_position: Positie vasthouden
+          navigationaid: Luchtvaartnavigatiehulp
           parking_position: Parkeerpositie
           runway: Start- en landingsbaan
+          taxilane: Taxibaan
           taxiway: Taxibaan
           terminal: Terminal
+          windsock: Windzak
         amenity:
+          animal_boarding: Dierenhotel
           animal_shelter: Dierenasiel
           arts_centre: Kunstcentrum
           atm: Geldautomaat
@@ -557,7 +591,9 @@ nl:
           bench: Bankje
           bicycle_parking: Fietsenstalling
           bicycle_rental: Fietsverhuur
+          bicycle_repair_station: Fietszelfherstelpunt
           biergarten: Biertuin
+          blood_bank: Bloedbank
           boat_rental: Bootverhuur
           brothel: Bordeel
           bureau_de_change: Wisselkantoor
@@ -581,6 +617,7 @@ nl:
           drinking_water: Drinkwater
           driving_school: Rijschool
           embassy: Ambassade
+          events_venue: Evenementenhal
           fast_food: Fast food
           ferry_terminal: Veerterminal
           fire_station: Brandweer
@@ -593,16 +630,22 @@ nl:
           hospital: Ziekenhuis
           hunting_stand: Jachttoren
           ice_cream: IJs
+          internet_cafe: Internetcafé
           kindergarten: Kleuterschool
+          language_school: Taalschool
           library: Bibliotheek
+          love_hotel: Discrete kamers
           marketplace: Marktplein
           monastery: Klooster
+          money_transfer: Geldtransfer
           motorcycle_parking: Motorfietsparkeerplaats
+          music_school: Muziekschool
           nightclub: Nachtclub
           nursing_home: Verpleeghuis
           parking: Parkeerterrein
           parking_entrance: Ingang parkeerterrein
           parking_space: Parkeerplaats
+          payment_terminal: Betaalautomaat
           pharmacy: Apotheek
           place_of_worship: Religieuze samenkomstplaats
           police: Politie
@@ -610,6 +653,8 @@ nl:
           post_office: Postkantoor
           prison: Gevangenis
           pub: Café
+          public_bath: Openbaar bad
+          public_bookcase: Ruilboekenkast
           public_building: Openbaar gebouw
           recycling: Recyclingpunt
           restaurant: Restaurant
@@ -618,7 +663,7 @@ nl:
           shower: Douche
           social_centre: Sociaal centrum
           social_facility: Sociale voorziening
-          studio: Eenkamerappartement
+          studio: Studio
           swimming_pool: Zwembad
           taxi: Taxi
           telephone: Openbare telefoon
@@ -626,17 +671,23 @@ nl:
           toilets: Toiletten
           townhall: Gemeentehuis
           university: Universiteit
+          vehicle_inspection: Voertuiginspectie
           vending_machine: Automaat
           veterinary: Dierenarts
           village_hall: Gemeentehuis
           waste_basket: Prullenbak
           waste_disposal: Afval
           water_point: Tappunt
+          weighbridge: Weegbrug
+          "yes": Infrastructuur
         boundary:
+          aboriginal_lands: Reservaat
           administrative: Administratieve grens
           census: Volkstellingsgrens
           national_park: Nationaal park
+          political: Kiesgrens
           protected_area: Beschermd gebied
+          "yes": Grens
         bridge:
           aqueduct: Aquaduct
           boardwalk: Plankenweg
@@ -645,43 +696,90 @@ nl:
           viaduct: Viaduct
           "yes": Brug
         building:
+          apartment: Appartement
           apartments: Appartementen
+          barn: Schuur
+          bungalow: Bungalow
+          cabin: Blokhut
           chapel: Kapel
           church: Kerk
+          civic: Openbaar gebouw
           commercial: Commercieel gebouw
+          construction: Gebouw in aanbouw
+          detached: Alleenstaande woning
           dormitory: Studentenhuis
-          farm: Agrarisch gebouw
+          duplex: Koppelwoning
+          farm: Boerderijhuis
+          farm_auxiliary: Nevengebouw op boerderij
           garage: Garage
+          garages: Garages
+          greenhouse: Broeikas
+          hangar: Hangaar
           hospital: Ziekenhuis
-          hotel: Hotel
+          hotel: Hotelgebouw
           house: Huis
+          houseboat: Woonboot
+          hut: Hut
           industrial: Industrieel gebouw
+          manufacture: Productiegebouw
           office: Kantoorgebouw
           public: Openbaar gebouw
           residential: Woningen
           retail: Winkelpand
+          roof: Dak
+          ruins: Vervallen gebouw
           school: Schoolgebouw
-          terrace: Terras
-          train_station: Spoorwegstation
+          semidetached_house: Halfopen woning
+          service: Nutsgebouw
+          shed: Schuurtje
+          stable: Stal
+          static_caravan: Stacaravan
+          temple: Tempelgebouw
+          terrace: Rijhuizen
+          train_station: Spoorwegstationsgebouw
           university: Universiteitsgebouw
+          warehouse: Pakhuis
           "yes": Gebouw
+        club:
+          scout: Scouts
+          sport: Sportclub
+          "yes": Club
         craft:
+          beekeper: Imker
+          blacksmith: Smid
           brewery: Brouwerij
           carpenter: Timmerman
+          caterer: Caterer
+          confectionery: Snoepwinkel
+          dressmaker: Couturier
           electrician: Elektricien
+          electronics_repair: Elektronicahersteller
           gardener: Hovenier
+          glaziery: Glazenzetter
+          handicraft: Handwerk
+          hvac: Verwarming/ventilatie/airco
           painter: Schilder
           photographer: Fotograaf
           plumber: Loodgieter
+          roofer: Daklegger
+          sawmill: Houtzagerij
           shoemaker: Schoenmaker
+          stonemason: Steenhouwer
           tailor: Kleermaker
+          winery: Wijnboer
           "yes": Ambachtswinkel
         emergency:
+          access_point: Rendez-vouspunt voor reddingsdiensten
           ambulance_station: Ambulancepost
           assembly_point: Verzamelplaats
           defibrillator: Defibrillator
+          fire_xtinguisher: Brandblusser
+          fire_water_pond: Bluswaterreservoir
           landing_site: Noodlandingsbaan
+          life_ring: Reddingsboei
           phone: Noodtelefoon
+          siren: Noodsirene
+          suction_point: Bluswateropzuigpunt
           water_tank: Watertank voor noodgevallen
           "yes": Noodgeval
         highway:
@@ -694,6 +792,7 @@ nl:
           cycleway: Fietspad
           elevator: Lift
           emergency_access_point: Noodafslag
+          emergency_bay: Pechhaven
           footway: Voetpad
           ford: Voorde
           give_way: Voorrangsbord
@@ -724,35 +823,45 @@ nl:
           tertiary: Tertiaire weg
           tertiary_link: Tertiaire weg
           track: Veld- of bosweg
+          traffic_mirror: Verkeersspiegel
           traffic_signals: Verkeerslichten
+          trailhead: Wandelvertrekpunt
           trunk: Autoweg
           trunk_link: Autoweg
           turning_loop: Keerlus
           unclassified: Lokale weg
           "yes": Weg
         historic:
+          aircraft: Historisch luchtvaarttuig
           archaeological_site: Archeologische opgraving
+          bomb_crater: Historische bomkrater
           battlefield: Slagveld
           boundary_stone: Grenspaal
           building: Historisch gebouw
           bunker: Bunker
+          cannon: Historisch kanon
           castle: Kasteel
+          charcoal_pile: Historische meiler
           church: Kerk
           city_gate: Stadspoort
           citywalls: Stadsmuren
           fort: Fort
           heritage: Erfgoedlocatie
+          hollow_way: Holle weg / grubbe
           house: Huis
           manor: Landgoed
           memorial: Herdenkingsmonument
+          milestone: Historische mijlpaal
           mine: Mijn
           mine_shaft: Mijnschacht
           monument: Monument
+          railway: Historische spoorweg
           roman_road: Romeinse weg
           ruins: Ruïne
           stone: Steen
           tomb: Graf
           tower: Toren
+          wayside_chapel: Wegkapel
           wayside_cross: Kruis langs de weg
           wayside_shrine: Altaar langs de weg
           wreck: Wrak
@@ -761,6 +870,7 @@ nl:
           "yes": Kruising
         landuse:
           allotments: Volkstuinen
+          aquaculture: Aquacultuur
           basin: Waterbekken
           brownfield: Braakliggend terrein
           cemetery: Begraafplaats
@@ -780,9 +890,11 @@ nl:
           military: Militair gebied
           mine: Mijn
           orchard: Boomgaard
+          plant_nursery: Kwekerij
           quarry: Steengroeve
           railway: Spoor
           recreation_ground: Recreatiegebied
+          religious: Religieus terrein
           reservoir: Reservoir
           reservoir_watershed: Overloopgebied
           residential: Woongebied
@@ -791,9 +903,14 @@ nl:
           vineyard: Wijngaard
           "yes": Landgebruik
         leisure:
+          amusement_arcade: Arcadehal
+          bandstand: Muziekpaviljoen
           beach_resort: Badplaats
           bird_hide: Vogelkijkplek
+          bleachers: Tribune
+          bowling_alley: Bowling
           common: Meent
+          dance: Danszaal
           dog_park: Hondenpark
           firepit: Vuurplaats
           fishing: Visgrond
@@ -806,7 +923,9 @@ nl:
           marina: Jachthaven
           miniature_golf: Midgetgolf
           nature_reserve: Natuurreservaat
+          outdoor_seating: Terras
           park: Park
+          picnic_table: Picknicktafel
           pitch: Sportveld
           playground: Speelplaats
           recreation_ground: Recreatiegebied
@@ -821,13 +940,20 @@ nl:
           "yes": Recreatie
         man_made:
           adit: Horizontale Schacht
+          advertising: Reclame
+          antenna: Antenne
+          avalanche_protection: Lawinebescherming
           beacon: Baken
           beehive: Bijenkorf
           breakwater: Havendam
           bridge: Brug
           bunker_silo: Bunker
+          cairn: Steenman
           chimney: Schoorsteen
+          clearcut: Kaalkap
+          communications_tower: Antennetoren
           crane: Kraan
+          cross: Kruis
           dolphin: Meerpaal
           dyke: Dijk
           embankment: Dijk
@@ -836,6 +962,7 @@ nl:
           groyne: Golfbreker
           kiln: Oven
           lighthouse: Vuurtoren
+          manhole: Putdeksel
           mast: Mast
           mine: Mijn
           mineshaft: Mijnschacht
@@ -843,12 +970,20 @@ nl:
           petroleum_well: Aardoliebron
           pier: Pier
           pipeline: Pijplijn
+          pumping_station: Pompstation
+          reservoir_covered: Overdekt reservoir
           silo: Silo
+          snow_cannon: Sneeuwkanon
+          snow_fence: Sneeuwvanger
           storage_tank: Opslagtank
+          street_cabinet: Nutskast
           surveillance: Surveillance
+          telescope: Telescoop
           tower: Toren
+          utility_pole: Nutspaal
           wastewater_plant: Afvalwaterzuiveringsinstallatie
           watermill: Watermolen
+          water_tap: Waterkraan
           water_tower: Watertoren
           water_well: Put
           water_works: Waterwerken
@@ -859,10 +994,13 @@ nl:
           airfield: Militair vliegveld
           barracks: Kazerne
           bunker: Bunker
+          checkpoint: Checkpoint
+          trench: Loopgraaf
           "yes": Militair
         mountain_pass:
           "yes": Bergpas
         natural:
+          bare_rock: Kale rotsen
           bay: Baai
           beach: Strand
           cape: Kaap
@@ -878,6 +1016,7 @@ nl:
           grassland: Grasland
           heath: Heide
           hill: Heuvel
+          hot_spring: Warmwaterbron
           island: Eiland
           land: Land
           marsh: Moeras
@@ -901,20 +1040,30 @@ nl:
           water: Water
           wetland: Moeras
           wood: Bomen
+          "yes": Landschapselement
         office:
           accountant: Boekhouder
           administrative: Administratie
+          advertising_agency: Reclamebureau
           architect: Architect
           association: Vereniging
           company: Bedrijf
+          diplomatic: Diplomatenkantoor
           educational_institution: Educatieve Instelling
           employment_agency: Uitzendbureau
+          energy_supplier: Kantoor van energiemaatschappij
           estate_agent: Makelaar
+          financial: Financieel kantoor
           government: Overheidskantoor
           insurance: Verzekeringskantoor
           it: ICT-kantoor
           lawyer: Advocaat
+          logistics: Logistiek kantoor
           ngo: NGO-kantoor
+          notary: Notariaat
+          religion: Religieus kantoor
+          research: Onderzoekskantoor
+          tax_advisor: Belastingadviseur
           telecommunication: Telecommunicatiekantoor
           travel_agent: Reisbureau
           "yes": Kantoor
@@ -934,6 +1083,7 @@ nl:
           locality: Plaats
           municipality: Gemeente
           neighbourhood: Buurt
+          plot: Lot
           postcode: Postcode
           quarter: Wijk
           region: Regio
@@ -970,11 +1120,15 @@ nl:
           tram_stop: Tramhalte
           yard: Rangeerterrein
         shop:
+          agrarian: Landbouwwinkel
           alcohol: Slijterij
           antiques: Antiek
           art: Kunstwinkel
+          baby_goods: Babywaren
           bakery: Bakkerij
+          bathroom_furnishing: Badkamermeubilairwinkel
           beauty: Schoonheidssalon
+          bed: Beddenwinkel
           beverages: Frisdrankverkooppunt
           bicycle: Fietsenwinkel
           bookmaker: Bookmaker
@@ -986,61 +1140,85 @@ nl:
           car_repair: Autogarage
           carpet: Tapijtzaak
           charity: Liefdadigheidswinkel
+          cheese: Kaaswinkel
           chemist: Drogist
+          chocolate: Chocolatier
           clothes: Kledingwinkel
+          coffee: Koffiewinkel
           computer: Computerwinkel
           confectionery: Snoepwinkel
           convenience: Buurtwinkel
           copyshop: Copyshop
           cosmetics: Cosmeticawinkel
+          curtain: Gordijnenwinkel
+          dairy: Zuivelwinkel
           deli: Speciaalzaak
           department_store: Warenhuis
           discount: Discountwinkel
           doityourself: Doe-het-zelf-winkel
           dry_cleaning: Stomerij
+          e-cigarette: E-sigarettenwinkel
           electronics: Elektronicawinkel
+          erotic: Erotische winkel
           estate_agent: Makelaar
+          fabric: Stoffenwinkel
           farm: Boerenwinkel
           fashion: Modezaak
+          fishing: Hengelwinkel
           florist: Bloemist
           food: Etenswarenwinkel
+          frame: Kaderwinkel
           funeral_directors: Uitvaartcentrum
           furniture: Meubelzaak
           garden_centre: Tuincentrum
+          gas: Gaswinkel
           general: Algemene winkel
           gift: Cadeauwinkel
           greengrocer: Groenteboer
           grocery: Kruidenierswinkel
           hairdresser: Kapper
           hardware: IJzerhandel
+          herbalist: Medischekruidenwinkel
           hifi: Hi-fi
           houseware: Huisraadwinkel
+          ice_cream: IJswinkel
           interior_decoration: Binneninrichting
           jewelry: Juwelier
           kiosk: Kioskwinkel
           kitchen: Keukenwinkel
           laundry: Wasserij
+          locksmith: Slotenmaker
           lottery: Loterij
           mall: Overdekt winkelcentrum
           massage: Massage
           mobile_phone: Mobieletelefoonwinkel
           motorcycle: Motorfietsenwinkel
+          motorcycle_repair: Motorfietshersteller
           music: Muziekwinkel
+          musical_instrument: Muziekinstrumenten
           newsagent: Straatkiosk
+          nutrition_supplements: Voedingssupplementen
           optician: Opticien
           organic: Reformwinkel
           outdoor: Buitensportwinkel
           paint: Verfwinkel
+          pastry: Patissier
           pawnbroker: Pandmakelaar
+          perfumery: Parfumerie
           pet: Dierenwinkel
+          pet_grooming: Huisdierenverzorger
           photo: Fotowinkel
           seafood: Zeevruchten
           second_hand: Kringloopwinkel
+          sewing: Naaiwinkel
           shoes: Schoenenzaak
           sports: Sportwinkel
           stationery: Kantoorboekhandel
+          storage_rental: Verhuur van opslagruimte
           supermarket: Supermarkt
           tailor: Kleermaker
+          tattoo: Tatoeëerder
+          tea: Theewinkel
           ticket: Ticketwinkel
           tobacco: Tabakswinkel
           toys: Speelgoedwinkel
@@ -1049,6 +1227,8 @@ nl:
           vacant: Leegstaande winkel
           variety_store: Voordeelwinkel
           video: Videotheek
+          video_games: Videospellenwinkel
+          wholesale: Groothandel
           wine: Wijnwinkel
           "yes": Winkel
         tourism:
@@ -1058,6 +1238,7 @@ nl:
           attraction: Attractie
           bed_and_breakfast: Pension
           cabin: Hut
+          camp_pitch: Kampeerstek
           camp_site: Kampeerterrein
           caravan_site: Caravankampeerterrein
           chalet: Vakantiehuisje
@@ -1071,6 +1252,7 @@ nl:
           picnic_site: Picknickplaats
           theme_park: Pretpark
           viewpoint: Uitzichtspunt
+          wilderness_hut: Hut in wildernis
           zoo: Dierentuin
         tunnel:
           building_passage: Gebouwdoorgang
@@ -1097,12 +1279,15 @@ nl:
           "yes": Waterweg
       admin_levels:
         level2: Landsgrens
+        level3: Regiogrens
         level4: Staatsgrens
         level5: Regiogrens
         level6: Districtsgrens
+        level7: Gemeentegrens
         level8: Stadsgrens
         level9: Dorpsgrens
         level10: Stadsdeelgrens
+        level11: Grens van buurt
       types:
         cities: Steden
         towns: Steden
@@ -1267,12 +1452,21 @@ nl:
       hi: Hallo %{to_user},
       header: '%{from_user} heeft een reactie geplaatst bij uw OpenStreetMap-dagboekbericht
         met het onderwerp %{subject}:'
+      header_html: '%{from_user} heeft een reactie geplaatst bij het OpenStreetMap-dagboekbericht
+        met onderwerp %{subject}:'
       footer: U kunt de reactie ook lezen op %{readurl} en u kunt zelf ook reageren
         op %{commenturl} of een bericht sturen naar de auteur via %{replyurl}
+      footer_html: U kunt de reactie ook lezen op %{readurl} en u kunt zelf ook reageren
+        op %{commenturl} of een bericht sturen naar de auteur via %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Hallo %{to_user},
       header: '%{from_user} heeft u een bericht gezonden via OpenStreetMap met het
         onderwerp %{subject}:'
+      header_html: '%{from_user} heeft u een bericht gezonden via OpenStreetMap met
+        het onderwerp %{subject}:'
+      footer: U kunt het bericht ook lezen op %{readurl} en u kunt een bericht sturen
+        naar de auteur via %{replyurl}
       footer_html: U kunt het bericht ook lezen op %{readurl} en u kunt een bericht
         sturen naar de auteur via %{replyurl}
     friendship_notification:
@@ -1280,11 +1474,23 @@ nl:
       subject: '[OpenStreetMap] %{user} heeft u als vriend toegevoegd'
       had_added_you: '%{user} heeft u toegevoegd als vriend op OpenStreetMap.'
       see_their_profile: U kunt zijn/haar profiel bekijken op %{userurl}.
+      see_their_profile_html: U kunt zijn/haar profiel bekijken op %{userurl}.
       befriend_them: U kunt deze gebruiker ook als vriend toevoegen op %{befriendurl}.
+      befriend_them_html: U kunt deze gebruiker ook als vriend toevoegen op %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: Het ziet ernaar uit dat uw GPX-bestand %{trace_name}
+        met beschrijving %{trace_description} en de labels %{tags}
+      description_with_no_tags_html: Het ziet ernaar uit dat uw GPX-bestand %{trace_name}
+        met beschrijving %{trace_description} zonder labels
     gpx_failure:
+      hi: Hallo %{to_user},
       failed_to_import: 'is niet geïmporteerd. Hier volgt de foutmelding:'
+      more_info_html: Meer informatie over mislukte GPX-imports en hoe u ze kunt vermijden,
+        kunt u vinden op %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] GPX-import mislukt'
     gpx_success:
+      hi: Hallo %{to_user},
       loaded_successfully:
         one: met succes geladen is met %{trace_points} punt.
         other: met succes geladen is met %{trace_points} van de %{possible_points}
@@ -1323,16 +1529,23 @@ nl:
           waar u interesse in hebt'
         your_note: '%{commenter} heeft gereageerd op een opmerking van u bij een kaart
           nabij %{place}.'
+        your_note_html: '%{commenter} heeft gereageerd op een opmerking van u nabij
+          %{place}.'
         commented_note: '%{commenter} heeft gereageerd op een opmerking bij een kaart
           waar u op gereageerd hebt. De opmerking is gemaakt nabij %{place}.'
+        commented_note_html: '%{commenter} heeft gereageerd op een opmerking waar
+          u op gereageerd hebt. De opmerking is gemaakt nabij %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} heeft een van uw opmerkingen opgelost'
         subject_other: '[OpenStreetMap] %{commenter} heeft een opmerking opgelost
           waar u interesse in hebt'
         your_note: '%{commenter} heeft een opmerking van u opgelost bij een kaart
           nabij %{place}.'
+        your_note_html: '%{commenter} heeft een opmerking van u opgelost nabij %{place}.'
         commented_note: '%{commenter} heeft een opmerking opgelost bij een kaart waar
           u op hebt gereageerd. De opmerking is gemaakt nabij %{place}.'
+        commented_note_html: '%{commenter} heeft een opmerking opgelost waar u op
+          hebt gereageerd. De opmerking is gemaakt nabij %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} heeft een van uw opmerkingen opnieuw
           geactiveerd'
@@ -1340,9 +1553,14 @@ nl:
           in hebt opnieuw geactiveerd'
         your_note: '%{commenter} heeft een van uw kaartnotities bij %{place} opnieuw
           geactiveerd.'
+        your_note_html: '%{commenter} heeft een van uw opmerkingen bij %{place} opnieuw
+          geactiveerd.'
         commented_note: '%{commenter} heeft een kaartopmerking waarop u hebt gereageerd
           opnieuw geactiveerd. De opmerking is gemaakt bij %{place}.'
+        commented_note_html: '%{commenter} heeft een opmerking waarop u hebt gereageerd
+          opnieuw geactiveerd. De opmerking is gemaakt bij %{place}.'
       details: Meer details over de opmerking zijn te vinden op %{url}.
+      details_html: Meer details over de opmerking zijn te vinden op %{url}.
     changeset_comment_notification:
       hi: Hoi %{to_user},
       greeting: Hallo,
@@ -1353,13 +1571,21 @@ nl:
           waar u interesse in hebt'
         your_changeset: '%{commenter} heeft om %{time} op een van uw wijzigingensets
           gereageerd'
+        your_changeset_html: '%{commenter} heeft om %{time} op een van uw wijzigingensets
+          gereageerd'
         commented_changeset: '%{commenter} heeft gereageerd om %{time} op een wijzigingenset
           die u volgt van %{changeset_author}'
+        commented_changeset_html: '%{commenter} heeft om %{time} gereageerd op een
+          wijzigingenset die u volgt van %{changeset_author}'
         partial_changeset_with_comment: met reactie "%{changeset_comment}"
+        partial_changeset_with_comment_html: met commentaar "%{changeset_comment}"
         partial_changeset_without_comment: zonder reactie
       details: Meer details over de wijzigingenset kunt u vinden op %{url}.
+      details_html: Meer details over de wijzigingenset kunt u vinden op %{url}.
       unsubscribe: Om je af te melden van de updates van deze wijziging, ga naar %{url}
         en klik op "Afmelden".
+      unsubscribe_html: Om geen meldingen meer te krijgen over deze wijzigingset,
+        gaat u naar %{url} en klikt u op "Afmelden".
   messages:
     inbox:
       title: Postvak IN
@@ -1435,6 +1661,24 @@ nl:
       as_unread: Gemarkeerd als ongelezen
     destroy:
       destroyed: Het bericht is verwijderd
+  shared:
+    markdown_help:
+      title_html: Verwerkt met <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      headings: Kopjes
+      heading: Kopje
+      subheading: Onderkop
+      unordered: Ongeordende lijst
+      ordered: Geordende lijst
+      first: Eerste item
+      second: Tweede item
+      link: Link
+      text: Tekst
+      image: Afbeelding
+      alt: Alternatieve tekst
+      url: URL
+    richtext_field:
+      edit: Bewerken
+      preview: Voorvertoning
   site:
     about:
       next: Volgende
@@ -1744,6 +1988,14 @@ nl:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
         description: In de wiki kijken voor diepgaande documentatie over OpenStreetMap.
+    potlatch:
+      removed: Uw standaard OpenStreetMap-bewerkingsprogramma staat ingesteld op Potlatch.
+        Omdat Adobe Flash Player niet meer bestaat, kan Potlatch niet langer gebruikt
+        worden in de webbrowser.
+      desktop_html: U kunt Potlatch nog gebruiken door <a href="https://www.systemed.net/potlatch/">de
+        applicatie voor Mac en Windows te downloaden</a>.
+      id_html: U kunt ook overschakelen op iD, die in de browser werkt zoals Potlatch
+        dat vroeger deed. <a href="%{settings_url}">Verander uw instellingen hier</a>.
     sidebar:
       search_results: Zoekresultaten
       close: Sluiten
@@ -1920,6 +2172,7 @@ nl:
           om te wachten totdat die verwerkt zijn, om te voorkomen dat de wachtrij
           voor andere gebruikers geblokkeerd wordt.
     edit:
+      cancel: Annuleren
       title: Traject %{name} bewerken
       heading: Traject %{name} bewerken
       visibility_help: wat betekent dit?
@@ -1936,6 +2189,7 @@ nl:
       uploaded: 'Geüpload op:'
       points: 'Punten:'
       start_coordinates: 'Startcoördinaat:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: kaart
       edit: bewerken
       owner: 'Eigenaar:'
@@ -2574,7 +2828,6 @@ nl:
       custom_dimensions: Aangepaste afmetingen instellen
       format: 'Formaat:'
       scale: 'Schaal:'
-      image_size: Afbeelding geeft standaardlaag weer op
       download: Downloaden
       short_url: Korte URL
       include_marker: Marker opnemen
@@ -2602,6 +2855,7 @@ nl:
           other: U bevindt zich binnen %{count} voet van dit punt
       base:
         standard: Standaard
+        cyclosm: CyclOSM
         cycle_map: Fietskaart
         transport_map: Transportkaart
         hot: Humanitarian
@@ -2616,6 +2870,9 @@ nl:
       copyright: © <a href='%{copyright_url}'>bijdragers OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Doneer nu</a>
       terms: <a href='%{terms_url}' target='_blank'>Website en API-voorwaarden</a>
+      cyclosm: Rasterkaart in de stijl van <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        wordt gehost door <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        Frankrijk</a>
       thunderforest: Rasterkaart met dank aan <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       opnvkarte: Rasterkaart met dank aan <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
