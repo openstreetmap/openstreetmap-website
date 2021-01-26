@@ -410,33 +410,46 @@ $(document).ready(function () {
       e.preventDefault();
   });
 
-  // Find the OHM layer
+  // Find the OHM layer (a Leaflet MBGL "layer") by its name matching historicalLayerKey
+  // Define the slider options: default date and min/max date allowable
+  // params come from mapParams() which sets defaults for the map etc.
   var historicalLayerKey = 'historical';
   var ohmLayer = map._layers[Object.keys(map._layers).filter(function(id) {
     return map._layers[id].options.keyid === historicalLayerKey;
   })[0]];
-  var currentYear = (new Date()).getFullYear();
 
-  // Define the slider options
-  var sliderOptions ={
+  var timeSliderHardMaxYear = (new Date()).getFullYear();  // current calendar year
+  var timeSliderHardMinYear = -4000;
+  var timeSliderDateRange = params.daterange.split(',').map(function (i) { return parseInt(i); });
+
+  var sliderOptions = {
     position: 'bottomright',
     mbgllayer: ohmLayer,
     timeSliderOptions: {
       sourcename: "osm",
-      date: 1850,
-      range: [1800, currentYear],
-      datelimit: [-4000, currentYear]
+      date: parseInt(params.date),
+      range: timeSliderDateRange,
+      datelimit: [timeSliderHardMinYear, timeSliderHardMaxYear],
+      onDateSelect: function () {
+        OSM.router.updateHash();
+      },
+      onRangeChange: function () {
+        OSM.router.updateHash();
+      },
+      onReady: function () {
+        OSM.router.updateHash('force');
+      },
     }
-  }
+  };
 
   // Add the slider
-  var slider = new L.Control.MBGLTimeSlider(sliderOptions).addTo(map);
-
   // Detect when the baseLayer is changed, and add the slider back in (or store its last state)
+  map.timeslider = new L.Control.MBGLTimeSlider(sliderOptions).addTo(map);
+
   map.on('baselayerchange', function(e) {
-    sliderOptions.timeSliderOptions.date = slider._timeslider._current_date;
+    sliderOptions.timeSliderOptions.date = this.timeslider._timeslider._current_date;
     if (e.layer.options.keyid === historicalLayerKey) {
-      slider = new L.Control.MBGLTimeSlider(sliderOptions).addTo(map);
+      this.timeslider = new L.Control.MBGLTimeSlider(sliderOptions).addTo(map);
     }
   });
 
