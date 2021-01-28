@@ -3,12 +3,6 @@ source "https://rubygems.org"
 # Require rails
 gem "rails", "5.2.2"
 
-# Require things which have moved to gems in ruby 1.9
-gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
-
-# Require things which have moved to gems in ruby 2.0
-gem "psych", :platforms => :ruby_20
-
 # Require json for multi_json
 gem "json"
 
@@ -32,7 +26,7 @@ gem "jquery-rails"
 gem "jsonify-rails"
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.1.0", :require => false
+gem "bootsnap", ">= 1.4.6", :require => false
 
 # Use R2 for RTL conversion
 gem "r2", "~> 0.2.7"

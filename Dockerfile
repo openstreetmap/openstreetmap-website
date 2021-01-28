@@ -26,7 +26,6 @@ RUN apt-get update -qq && \
       libxml2-dev \ 
       libxslt1-dev \
       nodejs \
-      npm \
       vim \
     && rm -rf /var/lib/apt/lists/*
 
