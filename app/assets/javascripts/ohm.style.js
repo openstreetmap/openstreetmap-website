@@ -1,11 +1,27 @@
-ohmStyle = {
+// two sets of vector tiles: staging & production
+// to use staging, either point yourt browser at http://localhost/ or else set &stagingtiles=1 in your URL params
+
+const ohmTileServiceName = window.location.hostname.toLowerCase() == 'localhost' || window.location.hostname.toLowerCase() == 'staging.openhistoricalmap.org' || window.location.hash.indexOf('stagingtiles=1') !== 0 ? 'staging' : 'production';
+
+const ohmTileServicesLists = {
+  "production": [
+    "https://vtiles.openhistoricalmap.org/maps/osm/{z}/{x}/{y}.pbf",
+  ],
+  "staging": [
+    "https://vtiles-staging.openhistoricalmap.org/maps/osm/{z}/{x}/{y}.pbf",
+  ],
+};
+
+const ohmTileServicesList = ohmTileServicesLists[ohmTileServiceName];
+
+const ohmStyle = {
   "version": 8,
   "name": "ohmbasemap",
   "metadata": {"maputnik:renderer": "mbgljs"},
   "sources": {
     "osm": {
       "type": "vector",
-      "tiles": ["https://vtiles.openhistoricalmap.org/maps/osm/{z}/{x}/{y}.pbf"]
+      "tiles": ohmTileServicesList,
     }
   },
   "sprite": "https://go-spatial.github.io/carto-assets/spritesets/osm_tegola_spritesheet",
