@@ -15,7 +15,13 @@ class MicrocosmsController < ApplicationController
     morning = "(60 * 6)" # 6 AM
     long_facing_sun = "(#{minute_of_day} + #{morning}) / 4"
     # Using Arel.sql here due to warning about non-attributes arguments will be disallowed in Rails 6.1.
-    @microcosms = Microcosm.order(Arel.sql("longitude + 180 + #{long_facing_sun} DESC"))
+    # Only list out microcosms that have at least 2 members in order to mitigate spam.  In order to get
+    # a microcosm listed, the organizer must find 2 members and give them the link to the page manually.
+    @microcosms = Microcosm
+      .joins(:microcosm_members)
+      .group('microcosms.id')
+      .having("COUNT(microcosms.id) > 2")
+      .order(Arel.sql("longitude + 180 + #{long_facing_sun} DESC"))
   end
 
   # GET /microcosms/mycity
