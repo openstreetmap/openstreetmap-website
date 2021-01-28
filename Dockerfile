@@ -1,4 +1,4 @@
-FROM ruby:2.3
+FROM ruby:2.7
 
 ARG OSM_overpass_url=//overpass-api.de/api/interpreter
 ARG OSM_nominatim_url=//nominatim.openstreetmap.org/
@@ -26,7 +26,6 @@ RUN apt-get update -qq && \
       libxml2-dev \ 
       libxslt1-dev \
       nodejs \
-      npm \
       vim \
     && rm -rf /var/lib/apt/lists/*
 
