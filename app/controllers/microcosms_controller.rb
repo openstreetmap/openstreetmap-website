@@ -58,8 +58,13 @@ class MicrocosmsController < ApplicationController
   end
 
   def add_first_organizer
-    params = { :microcosm_id => @microcosm.id, :user_id => current_user.id, :role => MicrocosmMember::Roles::ORGANIZER }
-    membership = MicrocosmMember.new(params)
+    membership = MicrocosmMember.new(
+      {
+        :microcosm_id => @microcosm.id,
+        :user_id => current_user.id,
+        :role => MicrocosmMember::Roles::ORGANIZER
+      }
+    )
     membership.save
   end
 

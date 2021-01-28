@@ -16,6 +16,9 @@
 #  min_lon     :float            not null
 #  max_lon     :float            not null
 #
+# At this time a microcosm has at least one organizer.  The first organizer is
+# the user that created the microcosm.  There is no way to stop being an
+# organizer.  That's a feature of microcosms 2.0.
 
 class Microcosm < ApplicationRecord
   extend FriendlyId

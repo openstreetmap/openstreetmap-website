@@ -5,8 +5,11 @@
   <h1>
     <%= "#{@microcosm.name} " + t(".header_title") %>
   </h1>
-  <% if current_user && @microcosm.organizer?(current_user) %>
-    <%= link_to t(".edit"), edit_microcosm_path %>
+  <% if current_user %>
+    <%= report_link(t(".report"), @microcosm) %>
+    <% if @microcosm.organizer?(current_user) %>
+      <%= link_to t(".edit"), edit_microcosm_path %>
+    <% end %>
   <% end %>
 <% end %>
 
