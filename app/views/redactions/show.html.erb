@@ -13,12 +13,12 @@
 </div>
 
 <% if can?(:edit, Redaction) || can?(:destroy, Redaction) %>
-<div class="buttons">
+<div>
   <% if can?(:edit, Redaction) %>
-    <%= button_to t(".edit"), edit_redaction_path(@redaction), :method => :get %></td>
+    <%= link_to t(".edit"), edit_redaction_path(@redaction), :class => "btn btn-outline-primary" %>
   <% end %>
   <% if can?(:destroy, Redaction) %>
-    <%= button_to t(".destroy"), @redaction, :method => "delete", :remote => true, :data => { :confirm => t(".confirm") } %>
+    <%= link_to t(".destroy"), @redaction, :method => "delete", :class => "btn btn-outline-danger", :remote => true, :data => { :confirm => t(".confirm") } %>
   <% end %>
 </div>
 <% end %>
