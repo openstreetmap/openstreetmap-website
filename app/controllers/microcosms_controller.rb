@@ -18,10 +18,10 @@ class MicrocosmsController < ApplicationController
     # Only list out microcosms that have at least 2 members in order to mitigate spam.  In order to get
     # a microcosm listed, the organizer must find 2 members and give them the link to the page manually.
     @microcosms = Microcosm
-      .joins(:microcosm_members)
-      .group('microcosms.id')
-      .having("COUNT(microcosms.id) > 2")
-      .order(Arel.sql("longitude + 180 + #{long_facing_sun} DESC"))
+                  .joins(:microcosm_members)
+                  .group("microcosms.id")
+                  .having("COUNT(microcosms.id) > 2")
+                  .order(Arel.sql("longitude + 180 + #{long_facing_sun} DESC"))
   end
 
   # GET /microcosms/mycity

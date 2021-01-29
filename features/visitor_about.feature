@@ -17,6 +17,12 @@ Feature: Learn about the Microcosm
     And the microcosm has the "Facebook" page "https://facebook.com/groups/mappingdc"
     And the microcosm has the "Twitter" page "https://twitter.com/mappingdc"
     And the microcosm has the "Website" page "https://mappingdc.org"
+    Given there is a user "aaa@example.com" with name "A User"
+    And this user is an "member" of this microcosm
+    Given there is a user "bbb@example.com" with name "B User"
+    And this user is an "member" of this microcosm
+    Given there is a user "ccc@example.com" with name "C User"
+    And this user is an "member" of this microcosm
     And I am on the microcosm "MappingDC" page
 
 
