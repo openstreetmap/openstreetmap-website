@@ -165,15 +165,25 @@ it:
         title: Oggetto
         body: Corpo
         recipient: Destinatario
+      redaction:
+        title: Titolo
+        description: Descrizione
       report:
         category: Seleziona un motivo per la tua segnalazione
         details: Fornire più dettagli sul problema (obbligatorio).
       user:
+        auth_provider: Fornitore d'autenticazione
+        auth_uid: UID d'autenticazione
         email: Email
+        email_confirmation: Conferma email
+        new_email: Nuovo indirizzo email
         active: Attivo
         display_name: Nome visualizzato
-        description: Descrizione
-        languages: Lingue
+        description: Descrizione del profilo
+        home_lat: Latitudine
+        home_lon: Longitudine
+        languages: Lingue preferite
+        preferred_editor: Editor preferito
         pass_crypt: Password
         pass_crypt_confirmation: Conferma password
     help:
@@ -187,6 +197,12 @@ it:
           quindi cerca di utilizzare dei termini comuni.
         needs_view: L'utente ha bisogno di collegarsi prima che questo blocco sia
           cancellato?
+      user:
+        email_confirmation: Il tuo indirizzo non è visualizzato pubblicamente, vedi
+          l'<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Norme
+          sulla privacy della OSMF inclusa la sezione sull'indirizzo email">informativa
+          sulla privacy</a> per ulteriori informazioni.
+        new_email: (mai visualizzato pubblicamente)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -2281,13 +2297,13 @@ it:
         tuo profilo, %{user}. Si prega di verificare se si desidera che l'applicazione
         abbia le seguenti capacità. È possibile scegliere a piacere.
       allow_to: 'Consenti all''applicazione client di:'
-      allow_read_prefs: leggi le preferenze personali.
+      allow_read_prefs: leggere le tue preferenze.
       allow_write_prefs: modificare le tue preferenze utente.
       allow_write_diary: crea pagine di diario, commenti e fai amicizia.
-      allow_write_api: modifica la mappa.
-      allow_read_gpx: Visualizza i tuoi tracciati GPS
-      allow_write_gpx: carica tracciati GPS.
-      allow_write_notes: modifica le note.
+      allow_write_api: modificare la mappa.
+      allow_read_gpx: leggere i tuoi tracciati GPS privati.
+      allow_write_gpx: caricare tracciati GPS.
+      allow_write_notes: modificare le note.
       grant_access: Concedi l'accesso
     authorize_success:
       title: Richiesta di autorizzazione consentita
@@ -2435,16 +2451,10 @@ it:
           <p>Registrati per iniziare a contribuire. Ti invieremo un'email per confermare il tuo account.</p>
       email address: 'Indirizzo email:'
       confirm email address: 'Conferma indirizzo email:'
-      not_displayed_publicly_html: Il tuo indirizzo non visualizzato pubblicamente,
-        vedi l'<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
-        privacy policy including section on email addresses">informativa sulla privacy</a>
-        per ulteriori informazioni
       display name: 'Nome visualizzato:'
       display name description: Il proprio nome utente visualizzato pubblicamente.
         Può essere modificato più tardi nelle preferenze.
       external auth: 'Autenticazione tramite terze parti:'
-      password: 'Password:'
-      confirm password: 'Conferma password:'
       use external auth: In alternativa, effettua l'accesso tramite terze parti
       auth no password: Con l'autenticazione tramite terze parti non è richiesta una
         password, ma alcuni strumenti o server aggiuntivi potrebbero ancora averne
@@ -2501,7 +2511,7 @@ it:
       my profile: Il mio profilo
       my settings: Impostazioni
       my comments: Miei commenti
-      oauth settings: impostazioni oauth
+      oauth settings: Impostazioni oauth
       blocks on me: Blocchi su di me
       blocks by me: Blocchi applicati da me
       send message: Invia messaggio
@@ -2564,15 +2574,13 @@ it:
     account:
       title: Modifica profilo
       my settings: Impostazioni
-      current email address: 'Indirizzo e-mail attuale:'
-      new email address: 'Nuovo indirizzo e-mail:'
-      email never displayed publicly: (mai visualizzato pubblicamente)
-      external auth: 'Autenticazione Esterna:'
+      current email address: Indirizzo email attuale
+      external auth: Autenticazione esterna
       openid:
         link: https://wiki.openstreetmap.org/wiki/IT:OpenID
         link text: che cos'è questo?
       public editing:
-        heading: 'Modifiche pubbliche:'
+        heading: Modifica pubblica
         enabled: Abilitate. Non anonimo con il permesso di modificare i dati.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: che cos'è questo?
@@ -2590,7 +2598,7 @@ it:
           decisione non può essere revocata e tutti i nuovi utenti sono ora pubblici
           in modo predefinito.</li></ul>
       contributor terms:
-        heading: 'Regole per contribuire:'
+        heading: Regole per contribuire
         agreed: Hai accettato le nuove regole per contribuire.
         not yet agreed: Non hai ancora accettato le nuove regole per contribuire.
         review link text: Quando puoi segui per favore questo link per leggere ed
@@ -2599,14 +2607,11 @@ it:
           fossero di pubblico dominio.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: che cos'è questo?
-      profile description: 'Descrizione del profilo:'
-      preferred languages: 'Lingua preferita:'
-      preferred editor: 'Editor preferito:'
-      image: 'Immagine:'
+      image: Immagine
       gravatar:
         gravatar: Usa Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
-        link text: che cos'è questo?
+        what_is_gravatar: Che cosa è un Gravatar?
         disabled: Gravatar è stato disattivato.
         enabled: La visualizzazione del vostro Gravatar è stata attivata.
       new image: Aggiungi un'immagine
@@ -2614,10 +2619,8 @@ it:
       delete image: Rimuovi l'immagine attuale
       replace image: Sostituisci l'immagine attuale
       image size hint: (immagini quadrate di almeno 100x100 funzionano meglio)
-      home location: 'Posizione:'
+      home location: Posizione
       no home location: Non si è inserita la propria posizione.
-      latitude: 'Latitudine:'
-      longitude: 'Longitudine:'
       update home location on click: Aggiorna la posizione quando clicco sulla mappa?
       save changes button: Salva modifiche
       make edits public button: Rendi pubbliche tutte le mie modifiche
@@ -2841,6 +2844,7 @@ it:
       custom_dimensions: Imposta dimensioni personalizzate
       format: 'Formato:'
       scale: 'Scala:'
+      image_dimensions: L'immagine mostrerà il livello standard in %{width} x %{height}
       download: Scarica
       short_url: URL breve
       include_marker: Includi il marcatore
@@ -3033,7 +3037,6 @@ it:
       centre_map: Centra la mappa qui
   redactions:
     edit:
-      description: Descrizione
       heading: Modifica revisione
       title: Modifica revisione
     index:
@@ -3041,7 +3044,6 @@ it:
       heading: Elenco di revisioni
       title: Elenco di revisioni
     new:
-      description: Descrizione
       heading: Inserire informazioni per una nuova revisione
       title: Crea nuova revisione
     show:

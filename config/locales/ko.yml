@@ -152,15 +152,24 @@ ko:
         title: 제목
         body: 본문
         recipient: 받는 사람
+      redaction:
+        title: 제목
+        description: 설명
       report:
         category: 보고 이유를 선택하세요
         details: 문제와 관련하여 더 자세한 사항을 제공해주세요.(필수)
       user:
+        auth_uid: 인증 UID
         email: 이메일
+        email_confirmation: 이메일 인증
+        new_email: 새 이메일 주소
         active: 활성
         display_name: 표시되는 이름
-        description: 설명
-        languages: 언어
+        description: 프로필 설명
+        home_lat: 위도
+        home_lon: 경도
+        languages: 주로 사용하는 언어
+        preferred_editor: 주로 사용하는 편집기
         pass_crypt: 비밀번호
         pass_crypt_confirmation: 비밀번호 확인
     help:
@@ -171,6 +180,8 @@ ko:
           최대한 정중하게 상황을 설명하도록 하세요. 모든 사용자가 공동체 내에서의 전문 용어를 이해하고 있는 것인 아니기 때문에 알기 쉬운
           용어를 사용하도록 노력하세요.
         needs_view: 이 차단을 해제하기 전에 사용자가 로그인을 해야 합니까?
+      user:
+        new_email: (절대 공개하지 않습니다)
   datetime:
     distance_in_words_ago:
       about_x_hours: 약 %{count}시간 전
@@ -2186,13 +2197,9 @@ ko:
           <p>기여를 시작하려면 가입하세요. 계정 확인용 이메일을 보내드립니다.</p>
       email address: '이메일 주소:'
       confirm email address: '이메일 주소 확인:'
-      not_displayed_publicly_html: 당신의 주소는 공개되지 않습니다. 자세한 내용은 <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-        title="이메일 주소 절을 포함한 OSMF 개인정보처리방침">개인정보처리방침</a>을 참조하시기 바랍니다.
       display name: '표시 이름:'
       display name description: 공개적으로 표시되는 사용자 이름입니다. 나중에 환경 설정에서 바꿀 수 있습니다.
       external auth: '제3자 인증:'
-      password: '비밀번호:'
-      confirm password: '비밀번호 확인:'
       use external auth: 다른 제3자 로그인 방식 사용하기
       auth no password: 제3자 인증은 비밀번호가 필요하지 않지만, 일부 추가 도구나 서버는 여전히 필요할 수 있습니다.
       continue: 가입하기
@@ -2298,15 +2305,13 @@ ko:
     account:
       title: 계정 편집
       my settings: 프로필 설정
-      current email address: '현재 이메일 주소:'
-      new email address: '새 이메일 주소:'
-      email never displayed publicly: (절대 공개하지 않습니다)
-      external auth: '외부 인증:'
+      current email address: 현재 이메일 주소
+      external auth: 외부 인증
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: 무엇인가요?
       public editing:
-        heading: '공개 편집:'
+        heading: 공개 편집
         enabled: 활성화했습니다. 익명이 아니며 데이터를 편집할 수 있습니다.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: 무엇인가요?
@@ -2320,21 +2325,17 @@ ko:
           알아보기</a>).<ul><li>공개 사용자가 되더라도 이메일 주소는 공개되지 않습니다.</li><li>이 동작은 취소할 수 없으며,
           모든 새로운 사용자는 현재 기본적으로 공개 계정입니다.</li></ul>
       contributor terms:
-        heading: '기여자 약관:'
+        heading: 기여자 약관
         agreed: 새 기여자 약관에 동의했습니다.
         not yet agreed: 아직 새 기여자 약관에 동의하지 않았습니다.
         review link text: 검토할 사용자의 편의에 이 링크를 따르고 새 기여자 약관에 동의하세요.
         agreed_with_pd: 또한 자신의 편집이 퍼블릭 도메인에 있어야 한다고 생각하는 것도 선언하고 있습니다.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: 무엇인가요?
-      profile description: '프로필 설명:'
-      preferred languages: 주로 사용하는 언어
-      preferred editor: '주로 사용하는 편집기:'
-      image: '그림:'
+      image: 이미지
       gravatar:
         gravatar: Gravatar 사용
         link: https://wiki.openstreetmap.org/wiki/Gravatar
-        link text: 무엇인가요?
         disabled: 그라바타가 비활성화되었습니다.
         enabled: 그라바타의 표시가 활성화되었습니다
       new image: 그림 추가
@@ -2342,10 +2343,8 @@ ko:
       delete image: 현재 그림 제거
       replace image: 현재 그림 바꾸기
       image size hint: (100x100 이하의 정사각형 그림이 최적)
-      home location: '집 위치:'
+      home location: 집 위치
       no home location: 집 위치를 입력하지 않았습니다.
-      latitude: '위도:'
-      longitude: '경도:'
       update home location on click: 지도에서 클릭하면 집 위치로 업데이트할까요?
       save changes button: 변경사항 저장
       make edits public button: 내 편집을 공개하기
@@ -2729,7 +2728,6 @@ ko:
       centre_map: 여기를 가운데로 지정
   redactions:
     edit:
-      description: 설명
       heading: 교정 편집
       title: 교정 편집
     index:
@@ -2737,7 +2735,6 @@ ko:
       heading: 교정 목록
       title: 교정 목록
     new:
-      description: 설명
       heading: 새 교정에 대한 정보 입력
       title: 새 교정 만들기
     show:

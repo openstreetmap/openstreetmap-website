@@ -155,23 +155,46 @@ uk:
         title: Тема
         body: Текст
         recipient: Одержувач
+      redaction:
+        title: Заголовок
+        description: Опис
       report:
         category: 'Оберіть причину вашої скарги:'
         details: Будь ласка, надайте більше подробиць (обов'язково).
       user:
+        auth_provider: Автентифікатор
+        auth_uid: Ідентифікатор автентифікації
         email: Ел. пошта
+        email_confirmation: Підтвердження адреси
+        new_email: Нова адреса електронної пошти
         active: Активний
         display_name: 'Прізвисько:'
         description: Опис
-        languages: Мови
+        home_lat: Широта
+        home_lon: Довгота
+        languages: Типові мови
+        preferred_editor: Типовий редактор
         pass_crypt: Пароль
         pass_crypt_confirmation: Підтвердьте пароль
     help:
       trace:
         tagstring: через кому
       user_block:
+        reason: Наведіть пояснення, чому учасника було заблоковано. Будь ласка, будьте
+          толерантні та дійте розумно, надаючи як можна більше інформації про причини
+          блокування. Пам’ятайте, що повідомлення буде доступне всім. Не всі учасники
+          розуміють жаргон спільноти, тому користуйтесь для пояснення простою мовою.
         needs_view: Дозволити користувачу входити в систему, перш, ніж блокування
           буде знято?
+      user:
+        email_confirmation: Ваша адреса не є загальнодоступною і не показується іншим,
+          ознайомтесь з <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="Правила OSMF по захисту персональних даних, розділ про адреси електронной
+          пошти">правилами захисту персональних даних</a> для отримання докладної
+          інформації.
+        new_email: |2-
+
+          (ніколи не показується загальнодоступно)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -336,6 +359,7 @@ uk:
       entry_html: Зв’язок %{relation_name}
       entry_role_html: Зв’язок %{relation_name} (як %{relation_role})
     not_found:
+      title: Не знайдено
       sorry: На жаль, об’єкт „%{type}“ № %{id} не знайдено.
       type:
         node: точка
@@ -344,6 +368,7 @@ uk:
         changeset: набір змін
         note: примітка
     timeout:
+      title: Час вичерпано
       sorry: На жаль, %{type} з ідентифікатором %{id}, має занадто багато даних, щоб
         їх отримати.
       type:
@@ -476,7 +501,8 @@ uk:
       body: На жаль, запис чи коментар з id %{id} не знайдені. Перевірте правильність
         введення адреси. Можливо, посилання, за яким ви перейшли, хибне.
     diary_entry:
-      posted_by_html: 'Додано користувачем %{link_user} %{created}, мова: %{language_link}'
+      posted_by_html: 'Опубліковано учасником %{link_user} %{created}, мова: %{language_link}'
+      updated_at_html: В останнє оновлено %{updated}.
       comment_link: Коментувати
       reply_link: Надіслати повідомлення автору
       comment_count:
@@ -1296,8 +1322,11 @@ uk:
       footer: Ви можете також прочитати коментар — %{readurl}, залишити свій — %{commenturl}
         або відповісти — %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Привіт, %{to_user},
       header: '%{from_user} надіслав вам повідомлення через OpenStreetMap з темою
+        %{subject}:'
+      header_html: '%{from_user} надіслав повідомлення через OpenStreetMap з темою
         %{subject}:'
       footer_html: Ви також можете прочитати повідомлення в %{readurl} і ви можете
         відповісти на %{replyurl}
@@ -1851,7 +1880,7 @@ uk:
           bicycle_parking: Велопарковка
           toilets: Туалети
     richtext_area:
-      edit: Правити
+      edit: Редагувати
       preview: Попередній перегляд
     markdown_help:
       title_html: Оброблено <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
@@ -1967,12 +1996,12 @@ uk:
       start_coordinates: 'Координати початку:'
       coordinates_html: '%{latitude}; %{longitude}'
       map: на мапі
-      edit: правити
+      edit: редагувати
       owner: 'Власник:'
       description: 'Опис:'
       tags: 'Теґи:'
       none: Нічого
-      edit_trace: Правити трек
+      edit_trace: Редагувати трек
       delete_trace: Вилучити цей трек
       trace_not_found: Трек не знайдено!
       visibility: 'Видимість:'
@@ -1989,8 +2018,8 @@ uk:
       more: більше
       trace_details: Показати дані треку
       view_map: Перегляд Мапи
-      edit: правити
-      edit_map: Правити Мапу
+      edit: редагувати
+      edit_map: Редагувати Мапу
       public: ЗАГАЛЬНИЙ
       identifiable: ІДЕНТИФІКОВУВАНИЙ
       private: ПРИВАТНИЙ
@@ -2073,7 +2102,7 @@ uk:
     new:
       title: Зареєструвати новий застосунок
     edit:
-      title: Правити данні вашого застосунка
+      title: Змінити дані вашого застосунку
     show:
       title: Подробиці OAuth для %{app_name}
       key: 'Позначки абонента:'
@@ -2201,15 +2230,10 @@ uk:
           <p>Зареєструйтесь, аби зробити свій внесок. Ми надішлемо вам лист для підтвердження вашого облікового запису.</p>
       email address: 'Адреса ел. пошти:'
       confirm email address: 'Підтвердити адресу ел. пошти:'
-      not_displayed_publicly_html: Не показується загальнодоступно, див. нашу <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy"
-        title="OSMF privacy policy including section on email addresses">політику
-        конфіденційності</a>, щоб отримати більше інформації
       display name: 'Прізвисько:'
       display name description: Ваше ім’я користувача, доступне всім. Ви можете змінити
         його потім у ваших налаштуваннях.
       external auth: 'Автентифікація через:'
-      password: 'Пароль:'
-      confirm password: 'Повторіть пароль:'
       use external auth: Або використовуйте, облікові записи з інших ресурсів для
         входу
       auth no password: Під час використання автентифікації через третю сторону пароль
@@ -2329,10 +2353,6 @@ uk:
       title: Редагувати обліковий запис
       my settings: Налаштування
       current email address: 'Поточна адреса електронної пошти:'
-      new email address: 'Нова адреса електронної пошти:'
-      email never displayed publicly: |2-
-
-        (ніколи не показується загальнодоступно)
       external auth: 'Зовнішня автентифікація:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/Uk:OpenID
@@ -2346,14 +2366,14 @@ uk:
         disabled link text: чому я не можу вносити зміни?
       public editing note:
         heading: Загальнодоступне редагування
-        html: На даний момент ваші редагування анонімні й ніхто не може відправляти
-          вам повідомлення або бачити ваше місце розташування. Щоб показати, що ви
-          редагували і дозволити людям зв'язатися з вами через веб-сайт, натисніть
-          на кнопку нижче. <b>З переходом на  API версії 0.6, тільки загальнодоступні
-          користувачі можуть правити мапу.</b>  (<a href="http://wiki.openstreetmap.org/wiki/Uk:Anonymous_edits">З'ясувати,
+        html: На цей час ваші редагування анонімні й ніхто не може відправляти вам
+          повідомлення або бачити ваше місце розташування. Щоб показати, що ви редагували
+          та дозволити людям зв’язатися з вами через веб-сайт, натисніть на кнопку
+          нижче. <b>З переходом на  API версії 0.6, тільки зареєстровані користувачі
+          можуть правити мапу.</b>  (<a href="http://wiki.openstreetmap.org/wiki/Uk:Anonymous_edits">З'ясувати,
           чому</a>). <ul><li>Ваша електронна адреса не буде розкрита іншим, але зв’язатись
           з вами стане можливо.</li><li>Ця дія не має зворотної сили, а всі нові користувачі
-          зазвичай тепер доступні для зв'язку.</li></ul>
+          зазвичай тепер доступні для зв’язку.</li></ul>
       contributor terms:
         heading: 'Умови Співпраці:'
         agreed: Ви погодилися на нові Умови Співпраці.
@@ -2364,14 +2384,10 @@ uk:
           Суспільного Надбання.
         link: http://wiki.openstreetmap.org/wiki/Uk:Open_Database_License/Contributor_Terms
         link text: що це?
-      profile description: 'Опис профілю:'
-      preferred languages: 'Бажані мови:'
-      preferred editor: 'Редактор:'
       image: 'Зображення:'
       gravatar:
         gravatar: Використовувати Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
-        link text: Що це?
         disabled: Gravatar вимкнено.
         enabled: Показ Вашого Gravatar'а увімкнено.
       new image: Додати зображення
@@ -2381,8 +2397,6 @@ uk:
       image size hint: (найкраще підходять квадратні зображення, принаймні 100х100)
       home location: 'Основне місце розташування:'
       no home location: Ви не позначили своє основне місце розташування.
-      latitude: 'Широта:'
-      longitude: 'Довгота:'
       update home location on click: Оновлювати моє місце розташування, коли я клацаю
         на мапу?
       save changes button: Зберегти зміни
@@ -2511,7 +2525,7 @@ uk:
         перед тим як блокувати його.
       flash: 'Заблоковано користувача: %{name}.'
     update:
-      only_creator_can_edit: Тільки модератор, який створив це блокування, може правити
+      only_creator_can_edit: Тільки модератор, який створив це блокування, може змінювати
         його.
       success: Блокування оновлено.
     index:
@@ -2566,7 +2580,7 @@ uk:
       created: Створено
       status: Стан
       show: Показувати
-      edit: Правити
+      edit: Редагувати
       revoke: Розблокувати!
       confirm: Ви впевнені?
       reason: 'Причина блокування:'
@@ -2577,7 +2591,7 @@ uk:
     block:
       not_revoked: (не розблокований)
       show: Показати
-      edit: Правити
+      edit: Редагувати
       revoke: Розблокувати!
     blocks:
       display_name: Заблокований користувач
@@ -2806,15 +2820,13 @@ uk:
       centre_map: Центрувати мапу тут
   redactions:
     edit:
-      description: Опис
-      heading: Правити редакцію
-      title: Правити редакцію
+      heading: Змінити редакцію
+      title: Змінити редакцію
     index:
       empty: Редакції для показу відсутні.
       heading: Перелік редакцій
       title: Перелік редакцій
     new:
-      description: Опис
       heading: Введіть інформацію для нової редакції
       title: Створення нової редакції
     show:

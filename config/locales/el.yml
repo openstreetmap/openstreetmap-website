@@ -139,14 +139,19 @@ el:
         title: Θέμα
         body: Κύριο μέρος
         recipient: Παραλήπτης
+      redaction:
+        description: Περιγραφή
       report:
         details: Παρακαλούμε παράσχετε περισσότερες λεπτομέρειες σχετικά με το πρόβλημα
           (απαιτείται).
       user:
         email: Ηλεκτρονικό ταχυδρομείο
+        new_email: 'Νέα διεύθυνση ηλεκτρονικού ταχυδρομείου:'
         active: Ενεργό
         display_name: Εμφάνιση ονόματος
         description: Περιγραφή
+        home_lat: 'Γεωγραφικό πλάτος:'
+        home_lon: 'Γεωγραφικό μήκος:'
         languages: Γλώσσες
         pass_crypt: Κωδικός
     help:
@@ -154,6 +159,8 @@ el:
         tagstring: διαχωρισμένο με κόμμα
       user_block:
         needs_view: Πρέπει ο χρήστης να συνδεθεί προτού εκκαθαριστεί αυτή η φραγή;
+      user:
+        new_email: (να μην εμφανίζεται ποτέ δημόσια)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -2162,16 +2169,10 @@ el:
           <p>Εγγραφείτε για να αρχίσετε να συνεισφέρετε. Θα σας στείλουμε ένα email για να επιβεβαιώσουμε τον λογαριασμό σας.</p>
       email address: 'Διεύθυνση Ηλ. Ταχυδρομείου:'
       confirm email address: 'Επιβεβαίωση Διεύθυνσης Ηλ. Ταχυδρομείου:'
-      not_displayed_publicly_html: Η διεύθυνσή σας δεν εμφανίζεται δημόσια (δείτε
-        την <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
-        privacy policy including section on email addresses">πολιτική απορρήτου</a>
-        για περισσότερες πληροφορίες)
       display name: 'Εμφανιζόμενο όνομα:'
       display name description: Το δημόσια εμφανιζόμενο όνομα χρήστη. Μπορείτε να
         το αλλάξετε αργότερα από τις προτιμήσεις.
       external auth: 'Έλεγχος ταυτότητας από τρίτο μέρος:'
-      password: 'Συνθηματικό:'
-      confirm password: 'Επιβεβαίωση συνθηματικού:'
       use external auth: Εναλλακτικά, χρησιμοποιήστε τρίτη υπηρεσία για είσοδο
       auth no password: Για την έγκριση τρίτων δεν απαιτείται κωδικός πρόσβασης, αλλά
         μερικά ειδικά εργαλεία αλλιώς ο διακομιστής μπορεί να χρειάζεται ένα.
@@ -2293,8 +2294,6 @@ el:
       title: Επεξεργασία λογαριασμού
       my settings: Οι ρυθμίσεις μου
       current email address: 'Τρέχουσα διεύθυνση ηλεκτρονικού ταχυδρομείου:'
-      new email address: 'Νέα διεύθυνση ηλεκτρονικού ταχυδρομείου:'
-      email never displayed publicly: (να μην εμφανίζεται ποτέ δημόσια)
       external auth: 'Εξωτερική επαλήθευση ταυτότητας:'
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
@@ -2329,14 +2328,10 @@ el:
           στον δημόσιο τομέα.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: τι είναι αυτό;
-      profile description: 'Περιγραφή Προφίλ:'
-      preferred languages: 'Προτιμώμενες Γλώσσες:'
-      preferred editor: 'Προτιμώμενο πρόγραμμα επεξεργασίας:'
       image: 'Εικόνα:'
       gravatar:
         gravatar: Χρήση Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
-        link text: τι είναι αυτό;
         disabled: 'Το Gravatar έχει απενεργοποιηθεί:'
         enabled: Έχει ενεργοποιηθεί η εμφάνιση του Gravatar σας.
       new image: Προσθήκη εικόνας
@@ -2346,8 +2341,6 @@ el:
       image size hint: (τετράγωνες εικόνες τουλάχιστον 100 x 100 λειτουργούν καλύτερα)
       home location: 'Τοποθεσία Σπιτιού:'
       no home location: Δεν έχετε εισάγει την τοποθεσία του σπιτιού σας.
-      latitude: 'Γεωγραφικό πλάτος:'
-      longitude: 'Γεωγραφικό μήκος:'
       update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ στον
         χάρτη;
       save changes button: Αποθήκευση αλλαγών
@@ -2777,7 +2770,6 @@ el:
       centre_map: Κεντράρισμα χάρτη εδώ
   redactions:
     edit:
-      description: Περιγραφή
       heading: Επεξεργασία παράληψης
       title: Επεξεργαστείτε την παράληψη
     index:
@@ -2785,7 +2777,6 @@ el:
       heading: Κατάλογος παραλήψεων
       title: Κατάλογος συντακτικών αλλαγών
     new:
-      description: Περιγραφή
       heading: Εισαγωγή πληροφοριών για νέα παράληψη
       title: Δημιουργώντας νέα παράληψη
     show:

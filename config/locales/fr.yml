@@ -189,15 +189,25 @@ fr:
         title: Sujet
         body: Corps
         recipient: Destinataire
+      redaction:
+        title: Titre
+        description: Description
       report:
         category: Sélectionner un motif pour votre signalement
         details: Veuillez fournir plus de détails sur le problème (obligatoire).
       user:
+        auth_provider: Fournisseur d’authentification
+        auth_uid: UID d’authentification
         email: Courriel
+        email_confirmation: Confirmation du courriel
+        new_email: Nouvelle adresse de courriel
         active: Actif
         display_name: Pseudonyme
-        description: Description
-        languages: Langues
+        description: Description du profil
+        home_lat: Latitude
+        home_lon: Longitude
+        languages: Langues préférées
+        preferred_editor: Éditeur préféré
         pass_crypt: Mot de passe
         pass_crypt_confirmation: Confirmer le mot de passe
     help:
@@ -211,6 +221,12 @@ fr:
           le jargon de la communauté, donc essayez d’utiliser des termes simples.
         needs_view: Est-ce que l’utilisateur ou l’utilisatrice doit se connecter avant
           qu’expire ce blocage ?
+      user:
+        email_confirmation: Votre adresse n’est pas affichée publiquement, voyez notre
+          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="politique
+          de confidentialité OSMF incluant une section sur les adresses de messagerie">politique
+          de confidentialité</a> pour plus d’informations.
+        new_email: (jamais affichée publiquement)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -2484,16 +2500,10 @@ fr:
           <p>Inscrivez-vous pour commencer à participer. Nous vous enverrons un courriel pour confirmer votre compte.</p>
       email address: 'Adresse de courriel :'
       confirm email address: 'Confirmez l’adresse de courriel :'
-      not_displayed_publicly_html: Votre adresse n’est pas affichée publiquement,
-        voir notre <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Politique
-        de confidentialité de l’OSMF, qui comprend une section relative aux adresses
-        de courriel">politique de confidentialité</a> pour plus d’informations
       display name: 'Nom affiché :'
       display name description: Votre nom d’utilisateur affiché publiquement. Vous
         pouvez changer ceci ultérieurement dans les préférences.
       external auth: 'Authentification tierce :'
-      password: 'Mot de passe :'
-      confirm password: 'Confirmez le mot de passe :'
       use external auth: Vous pouvez également utiliser un service tiers pour vous
         connecter.
       auth no password: Avec l’authentification par tiers, un mot de passe n’est pas
@@ -2614,15 +2624,13 @@ fr:
     account:
       title: Modifier le compte
       my settings: Mes options
-      current email address: 'Adresse de courriel actuelle :'
-      new email address: 'Nouvelle adresse de courriel :'
-      email never displayed publicly: (jamais affichée publiquement)
-      external auth: 'Authentification externe :'
+      current email address: Adresse de courriel actuelle
+      external auth: Authentification externe
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: qu’est-ce que ceci ?
       public editing:
-        heading: 'Modification publique :'
+        heading: Modification publique
         enabled: Activée. Non anonyme et peut modifier les données.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: qu’est-ce que ceci ?
@@ -2642,7 +2650,7 @@ fr:
           opération ne peut pas être annulée et tous les nouveaux utilisateurs sont
           maintenant en mode de « modifications publiques » par défaut.</li></ul>
       contributor terms:
-        heading: 'Conditions de contribution :'
+        heading: Conditions de contribution
         agreed: Vous avez accepté les nouvelles Conditions de contribution.
         not yet agreed: Vous n’avez pas encore accepté les nouvelles Conditions de
           contribution.
@@ -2652,14 +2660,11 @@ fr:
           comme relevant du domaine public.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: qu’est-ce que ceci ?
-      profile description: 'Description du profil :'
-      preferred languages: 'Langues préférées :'
-      preferred editor: 'Éditeur préféré :'
-      image: 'Image :'
+      image: Image
       gravatar:
         gravatar: Utiliser Gravatar
         link: https://wiki.openstreetmap.org/wiki/FR:Gravatar
-        link text: qu’est-ce que ceci ?
+        what_is_gravatar: Qu’est-ce que Gravatar ?
         disabled: Gravatar a été désactivé.
         enabled: L’affichage de votre Gravatar a été activé.
       new image: Ajouter une image
@@ -2668,10 +2673,8 @@ fr:
       replace image: Remplacer l’image actuelle
       image size hint: (les images carrées d’au moins 100×100 pixels fonctionnent
         le mieux)
-      home location: 'Lieu de domicile :'
+      home location: Lieu de domicile
       no home location: Vous n’avez pas indiqué votre lieu de domicile.
-      latitude: 'Latitude :'
-      longitude: 'Longitude :'
       update home location on click: Mettre à jour mon lieu de domicile quand je clique
         sur la carte ?
       save changes button: Enregistrer les modifications
@@ -3097,7 +3100,6 @@ fr:
       centre_map: Centrer la carte ici
   redactions:
     edit:
-      description: Description
       heading: Modifier le masquage
       title: Modifier le masquage
     index:
@@ -3105,7 +3107,6 @@ fr:
       heading: Liste des masquages
       title: Liste des masquages
     new:
-      description: Description
       heading: Saisissez les informations sur le nouveau masquage
       title: Création d’un nouveau masquage
     show:

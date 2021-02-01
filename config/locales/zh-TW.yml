@@ -156,15 +156,25 @@ zh-TW:
         title: 標題
         body: 內文
         recipient: 收件者
+      redaction:
+        title: 標題
+        description: 說明
       report:
         category: 選擇您回報的原因
         details: 請提供有關問題的更多些詳情（必需）
       user:
+        auth_provider: 認證提供方
+        auth_uid: 認證 UID
         email: 電子郵件
+        email_confirmation: 電子郵件確認
+        new_email: 新的電子郵件地址
         active: 開啟中
         display_name: 顯示名稱
-        description: 說明
-        languages: 語言
+        description: 基本資料說明
+        home_lat: 緯度
+        home_lon: 經度
+        languages: 偏好的語言
+        preferred_editor: 偏好編輯器
         pass_crypt: 密碼
         pass_crypt_confirmation: 確認密碼
     help:
@@ -173,6 +183,10 @@ zh-TW:
       user_block:
         reason: 使用者之所以被封鎖的理由。請盡量以平靜、合理的態度，來詳細地描述情況，另外請記住訊息是公開可見的。請注意，並非所有使用者都能了解社群術語，所以請嘗試使用較為通用的說法。
         needs_view: 在清除這項封鎖之前是否需要使用者登入？
+      user:
+        email_confirmation: 您的地址未公開顯示，請查看我們的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="包含有關電郵地址部分的 OSMF 隱私權政策">隱私權政策</a>來獲得更多資訊。
+        new_email: (永遠不公開顯示)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -2258,13 +2272,9 @@ zh-TW:
           <p>請註冊以開始貢獻吧。我們將發出電子郵件以確認你的帳號。</p>
       email address: 電子郵件地址：
       confirm email address: 確認電子郵件地址：
-      not_displayed_publicly_html: 您的地址未公開顯示，請看我們的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-        title="包含部份電郵地址的OSMF隱私權政策">隱私權政策</a>來獲得更多訊息
       display name: 顯示名稱：
       display name description: 您公開顯示的使用者名稱。您可以稍後在偏好設定中改變它。
       external auth: 第三方身份認證
-      password: 密碼：
-      confirm password: 確認密碼：
       use external auth: 或者使用第三方服務登入
       auth no password: 使用第三方認証無須填寫密碼，但部份額外工具或伺服器可能仍需要使用密碼。
       continue: 註冊
@@ -2369,15 +2379,13 @@ zh-TW:
     account:
       title: 編輯帳號
       my settings: 我的設定值
-      current email address: 目前的電子郵件地址：
-      new email address: 新的電子郵件地址：
-      email never displayed publicly: (永遠不公開顯示)
-      external auth: 外部認證：
+      current email address: 目前的電子郵件地址
+      external auth: 外部認證
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: 這是什麼？
       public editing:
-        heading: 公開編輯：
+        heading: 公開編輯
         enabled: 已開啟。非匿名且可以編輯資料。
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: 這是什麼？
@@ -2389,21 +2397,18 @@ zh-TW:
           API 的轉換，只有公開的使用者可以編輯地圖資料</b>。（<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">知道為什麼</a>）。<ul><li>您的電子郵件地址將不會被因為成為公開使用者而被透露。
           </li><li>這個動作不能逆轉，所有新的使用者現在都預設為公開的。 </li></ul>
       contributor terms:
-        heading: 貢獻者條款：
+        heading: 貢獻者條款
         agreed: 您已同意新的貢獻者條款。
         not yet agreed: 您未同意新的貢獻者條款。
         review link text: 請跟隨此連結，方便你檢視並接受新的貢獻者條款。
         agreed_with_pd: 您亦同意將您的編輯放到公共領域
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: 這是什麼？
-      profile description: 基本資料描述：
-      preferred languages: 偏好的語言：
-      preferred editor: '偏好編輯器:'
-      image: 圖片：
+      image: 圖片
       gravatar:
         gravatar: 使用 Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
-        link text: 這是什麼？
+        what_is_gravatar: 什麼是 Gravatar？
         disabled: Gravatar已停用。
         enabled: 您的Gravatar顯示功能已啟用。
       new image: 加入圖片
@@ -2411,10 +2416,8 @@ zh-TW:
       delete image: 移除目前的圖片
       replace image: 取代目前的圖片
       image size hint: ' (方形圖片至少 100x100 的效果最好)'
-      home location: 家的位置：
+      home location: 家的位置
       no home location: 您尚未輸入家的位置。
-      latitude: 緯度：
-      longitude: 經度：
       update home location on click: 當我點選地圖時更新家的位置？
       save changes button: 儲存變更
       make edits public button: 將我所有的編輯設為公開
@@ -2790,7 +2793,6 @@ zh-TW:
       centre_map: 中央地圖在此
   redactions:
     edit:
-      description: 說明
       heading: 編輯修訂
       title: 編輯修訂
     index:
@@ -2798,7 +2800,6 @@ zh-TW:
       heading: 修訂清單
       title: 修訂清單
     new:
-      description: 說明
       heading: 輸入新增修訂資訊
       title: 建立修訂中
     show:
