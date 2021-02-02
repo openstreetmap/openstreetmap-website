@@ -16,7 +16,7 @@ end
 # rubocop:enable Rails/Output, Rails/Exit
 
 # Allowed status values
-ALLOWED_STATUS ||= [
+ALLOWED_STATUS = [
   "online",            # online and operating normally
   "api_readonly",      # site online but API in read-only mode
   "api_offline",       # site online but API offline
