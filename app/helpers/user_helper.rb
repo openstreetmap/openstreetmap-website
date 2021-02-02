@@ -60,6 +60,7 @@ module UserHelper
     link_to(
       image_tag("#{name}.svg", :alt => t("users.login.auth_providers.#{name}.alt"), :class => "rounded-lg"),
       auth_path(options.merge(:provider => provider)),
+      :method => :post,
       :class => "auth_button",
       :title => t("users.login.auth_providers.#{name}.title")
     )

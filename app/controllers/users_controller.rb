@@ -260,7 +260,7 @@ class UsersController < ApplicationController
       elsif current_user.auth_provider.present?
         # Verify external authenticator before moving on
         session[:new_user] = current_user
-        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid)
+        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid), :status => :temporary_redirect
       else
         # Save the user record
         session[:new_user] = current_user

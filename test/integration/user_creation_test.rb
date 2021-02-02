@@ -243,7 +243,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
           follow_redirect!
@@ -289,7 +289,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
           follow_redirect!
@@ -328,7 +328,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :referer => referer }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
           follow_redirect!
@@ -397,7 +397,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "google")
           follow_redirect!
@@ -442,7 +442,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "google")
           follow_redirect!
@@ -482,7 +482,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :referer => referer }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "google")
           follow_redirect!
@@ -549,7 +549,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "facebook")
           follow_redirect!
@@ -594,7 +594,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "facebook")
           follow_redirect!
@@ -632,7 +632,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :referer => referer }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "facebook")
           follow_redirect!
@@ -699,7 +699,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "windowslive")
           follow_redirect!
@@ -744,7 +744,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "windowslive")
           follow_redirect!
@@ -782,7 +782,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :referer => referer }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "windowslive")
           follow_redirect!
@@ -849,7 +849,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "github")
           follow_redirect!
@@ -895,7 +895,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "github")
           follow_redirect!
@@ -933,7 +933,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :referer => referer }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "github")
           follow_redirect!
@@ -1001,7 +1001,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
           follow_redirect!
@@ -1047,7 +1047,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
           follow_redirect!
@@ -1085,7 +1085,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :referer => referer }
           assert_response :redirect
           assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
-          follow_redirect!
+          post response.location
           assert_response :redirect
           assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
           follow_redirect!
