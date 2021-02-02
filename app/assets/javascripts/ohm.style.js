@@ -1,7 +1,7 @@
 // two sets of vector tiles: staging & production
 // to use staging, either point yourt browser at http://localhost/ or else set &stagingtiles=1 in your URL params
 
-const ohmTileServiceName = window.location.hostname.toLowerCase() == 'localhost' || window.location.hostname.toLowerCase() == 'staging.openhistoricalmap.org' || window.location.hash.indexOf('stagingtiles=1') !== 0 ? 'staging' : 'production';
+const ohmTileServiceName = window.location.hostname.toLowerCase() == 'localhost' || window.location.hostname.toLowerCase() == 'staging.openhistoricalmap.org' !== false ? 'staging' : 'production';
 
 const ohmTileServicesLists = {
   "production": [
