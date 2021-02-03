@@ -2,17 +2,17 @@
 
 <%= render "sidebar_header", :title => t(".title") %>
 
-<%= form_tag({ :controller => "export", :action => "finish" }, { :class => "export_form standard-form" }) do %>
+<%= form_tag({ :controller => "export", :action => "finish" }, { :class => "export_form" }) do %>
   <%= hidden_field_tag "format", "osm" %>
 
   <div class='export_area_inputs'>
     <div class='export_boxy'>
-      <%= text_field_tag("maxlat", nil, :size => 10, :class => "export_bound") %>
-      <br />
-      <%= text_field_tag("minlon", nil, :size => 10, :class => "export_bound") %>
-      <%= text_field_tag("maxlon", nil, :size => 10, :class => "export_bound") %>
-      <br /><br />
-      <%= text_field_tag("minlat", nil, :size => 10, :class => "export_bound") %>
+      <%= text_field_tag("maxlat", nil, :size => 10, :class => "export_bound form-control mx-auto") %>
+      <div class="clearfix">
+        <%= text_field_tag("minlon", nil, :size => 10, :class => "export_bound form-control") %>
+        <%= text_field_tag("maxlon", nil, :size => 10, :class => "export_bound form-control") %>
+      </div>
+      <%= text_field_tag("minlat", nil, :size => 10, :class => "export_bound form-control mx-auto") %>
       </div>
     <a id='drag_box' href="#"><%= t ".manually_select" %></a>
   </div>
@@ -27,8 +27,8 @@
   </div>
 
   <div id="export_commit">
-    <div class="export_button">
-      <%= submit_tag t(".export_button") %>
+    <div class="form-group d-flex">
+      <%= submit_tag t(".export_button"), :class => "btn btn-primary mx-auto" %>
     </div>
 
     <p><%= t ".too_large.advice" %></p>
