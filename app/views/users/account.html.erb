@@ -100,9 +100,9 @@
         <%= f.text_field :home_lon, :wrapper_class => "col-sm-4", :id => "home_lon" %>
       </div>
     </div>
-    <div class="standard-form-row">
-      <input type="checkbox" name="updatehome" value="1" <% unless current_user.home_lat and current_user.home_lon %> checked="checked" <% end %> id="updatehome" />
-      <label class="standard-label" for="updatehome"><%= t ".update home location on click" %></label>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" name="updatehome" value="1" <% unless current_user.home_lat and current_user.home_lon %> checked="checked" <% end %> id="updatehome" />
+      <label class="form-check-label" for="updatehome"><%= t ".update home location on click" %></label>
     </div>
     <%= tag.div "", :id => "map", :class => "content_map set_location" %>
   </fieldset>

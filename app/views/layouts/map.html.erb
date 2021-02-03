@@ -41,15 +41,21 @@
     <% unless current_user %>
       <div class="welcome">
         <%= render "sidebar_header", :title => t("layouts.intro_header") %>
-        <p><%= t "layouts.intro_text" %></p>
-        <p><%= t "layouts.hosting_partners_html",
-                 :ucl => link_to(t("layouts.partners_ucl"), "https://www.ucl.ac.uk"),
-                 :bytemark => link_to(t("layouts.partners_bytemark"), "https://www.bytemark.co.uk"),
-                 :partners => link_to(t("layouts.partners_partners"), "https://hardware.openstreetmap.org/thanks/") %>
-        </p>
-        <div class="standard-form">
-          <a class="button learn-more" href="<%= about_path %>"><%= t("layouts.learn_more") %></a>
-          <a class="button sign-up" href="<%= user_new_path %>"><%= t("layouts.start_mapping") %></a>
+        <div class="px-3 pb-3">
+          <p><%= t "layouts.intro_text" %></p>
+          <p><%= t "layouts.hosting_partners_html",
+                   :ucl => link_to(t("layouts.partners_ucl"), "https://www.ucl.ac.uk"),
+                   :bytemark => link_to(t("layouts.partners_bytemark"), "https://www.bytemark.co.uk"),
+                   :partners => link_to(t("layouts.partners_partners"), "https://hardware.openstreetmap.org/thanks/") %>
+          </p>
+          <div class="d-flex mx-n1">
+            <div class="w-50 px-1">
+              <a class="btn btn-primary w-100" href="<%= about_path %>"><%= t("layouts.learn_more") %></a>
+            </div>
+            <div class="w-50 px-1">
+              <a class="btn btn-primary w-100" href="<%= user_new_path %>"><%= t("layouts.start_mapping") %></a>
+            </div>
+          </div>
         </div>
       </div>
     <% end %>
