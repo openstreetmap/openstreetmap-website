@@ -11,23 +11,23 @@
 <% end %>
 
 <% if @user_block.ends_at > Time.now %>
-<p><b>
-  <%= t(".time_future", :time => distance_of_time_in_words_to_now(@user_block.ends_at)) %>
-</b></p>
+  <p>
+    <%= t(".time_future", :time => distance_of_time_in_words_to_now(@user_block.ends_at)) %>
+  </p>
 
-<%= form_for :revoke, :url => { :action => "revoke" }, :html => { :class => "standard-form" } do |f| %>
-  <%= f.error_messages %>
-<p>
-  <%= check_box_tag "confirm", "yes" %>
-  <%= label_tag "confirm", t(".confirm") %>
-</p>
-<p>
-  <%= submit_tag t(".revoke") %>
-</p>
-<% end %>
+  <%= bootstrap_form_for :revoke, :url => { :action => "revoke" } do |f| %>
+    <div class="form-group">
+      <div class="form-check">
+        <%= check_box_tag "confirm", "yes", false, { :class => "form-check-input" } %>
+        <%= label_tag "confirm", t(".confirm"), { :class => "form-check-label" } %>
+      </div>
+    </div>
+
+    <%= f.primary t(".revoke") %>
+  <% end %>
 
 <% else %>
-<p>
-  <%= t(".past", :time => time_ago_in_words(@user_block.ends_at, :scope => :'datetime.distance_in_words_ago')) %>
-</p>
+  <p>
+    <%= t(".past", :time => time_ago_in_words(@user_block.ends_at, :scope => :'datetime.distance_in_words_ago')) %>
+  </p>
 <% end %>
