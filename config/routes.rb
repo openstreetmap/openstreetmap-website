@@ -171,7 +171,7 @@ OpenStreetMap::Application.routes.draw do
   # omniauth
   get "/auth/failure" => "users#auth_failure"
   match "/auth/:provider/callback" => "users#auth_success", :via => [:get, :post], :as => :auth_success
-  match "/auth/:provider" => "users#auth", :via => [:get, :post], :as => :auth
+  post "/auth/:provider" => "users#auth", :as => :auth
 
   # permalink
   get "/go/:code" => "site#permalink", :code => /[a-zA-Z0-9_@~]+[=-]*/, :as => :permalink
