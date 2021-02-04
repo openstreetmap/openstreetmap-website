@@ -71,6 +71,7 @@ You can now use Docker to load this extract into your local Docker-based OSM ins
     docker-compose run --rm web osmosis \
         -verbose    \
         --read-pbf district-of-columbia-latest.osm.pbf \
+        --log-progress \
         --write-apidb \
             host="db" \
             database="openstreetmap" \
