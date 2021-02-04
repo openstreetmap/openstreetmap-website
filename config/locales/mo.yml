@@ -69,11 +69,17 @@ mo:
         recipient: Дестинатар
       user:
         email: Пошта електроникэ
+        new_email: 'Адреса де поштэ електроникэ ноуэ:'
         active: Актив
         display_name: Нумеле афишат
         description: Дескриере
+        home_lat: 'Латитудине:'
+        home_lon: 'Лонӂитудине:'
         languages: Лимбь
         pass_crypt: Паролэ
+    help:
+      user:
+        new_email: (ну се афишязэ публик)
   browse:
     created: Креат
     closed: Ынкис
@@ -101,10 +107,10 @@ mo:
       relation: Релаций (%{count})
       relation_paginated: Релаций (%{x}-%{y} дин %{count})
       comment: Коментарий (%{count})
-      hidden_commented_by: Коментариу аскунс скрис де %{user} <abbr title='%{exact_time}'>ку
+      hidden_commented_by_html: Коментариу аскунс скрис де %{user} <abbr title='%{exact_time}'>ку
         %{when} ын урмэ</abbr>
-      commented_by: Коментариу скрис де %{user} <abbr title='%{exact_time}'>ку %{when}
-        ын урмэ</abbr>
+      commented_by_html: Коментариу скрис де %{user} <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
       join_discussion: Вэ ругэм сэ ынтраць ын конт пентру а вэ алэтура дискуцией
       discussion: Дискуцие
     node:
@@ -146,22 +152,24 @@ mo:
       open_title: 'Нотэ нерезолватэ #%{note_name}'
       closed_title: 'Нотэ резолватэ #%{note_name}'
       hidden_title: 'Нотэ аскунсэ #%{note_name}'
-      opened_by: Креатэ де %{user} <abbr title='%{exact_time}'>ку %{when} ын урмэ</abbr>
-      opened_by_anonymous: Креатэ аноним <abbr title='%{exact_time}'>ку %{when} ын
+      opened_by_html: Креатэ де %{user} <abbr title='%{exact_time}'>ку %{when} ын
         урмэ</abbr>
-      commented_by: Коментариу скрис де %{user} <abbr title='%{exact_time}'>ку %{when}
+      opened_by_anonymous_html: Креатэ аноним <abbr title='%{exact_time}'>ку %{when}
         ын урмэ</abbr>
-      commented_by_anonymous: Коментариу аноним <abbr title='%{exact_time}'>ку %{when}
+      commented_by_html: Коментариу скрис де %{user} <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
+      commented_by_anonymous_html: Коментариу аноним <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
+      closed_by_html: Резолватэ де %{user} <abbr title='%{exact_time}'>ку %{when}
         ын урмэ</abbr>
-      closed_by: Резолватэ де %{user} <abbr title='%{exact_time}'>ку %{when} ын урмэ</abbr>
-      closed_by_anonymous: Резолватэ аноним <abbr title='%{exact_time}'>ку %{when}
+      closed_by_anonymous_html: Резолватэ аноним <abbr title='%{exact_time}'>ку %{when}
         ын урмэ</abbr>
-      reopened_by: Редескисэ де %{user} <abbr title='%{exact_time}'>ку %{when} ын
-        урмэ</abbr>
-      reopened_by_anonymous: Редескисэ аноним <abbr title='%{exact_time}'>ку %{when}
+      reopened_by_html: Редескисэ де %{user} <abbr title='%{exact_time}'>ку %{when}
         ын урмэ</abbr>
-      hidden_by: Аскунсэ де кэтре %{user} <abbr title='%{exact_time}'>ку %{when} ын
-        урмэ</abbr>
+      reopened_by_anonymous_html: Редескисэ аноним <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
+      hidden_by_html: Аскунсэ де кэтре %{user} <abbr title='%{exact_time}'>ку %{when}
+        ын урмэ</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: Паӂина %{page}
@@ -175,12 +183,7 @@ mo:
       comment: Коментариу
   diary_entries:
     form:
-      subject: 'Субьект:'
-      body: 'Концинут:'
-      language: 'Лимбэ:'
       location: 'Ситуаре:'
-      latitude: 'Латитудине:'
-      longitude: 'Лонӂитудине:'
     show:
       login: Ынтраря ын конт
     diary_entry:
@@ -231,20 +234,16 @@ mo:
           library: Библиотекэ
           monastery: Мэнэстире
           motorcycle_parking: Паркаре пентру моточиклете
-          office: Офичиу
           parking: Паркаре
           pharmacy: Фармачие
           police: Полицие
           post_box: Кутие пошталэ
           post_office: Офичиу поштал
-          preschool: Институцие прешколарэ
           prison: Ынкисоаре
           public_building: Клэдире публикэ
           restaurant: Рестаурант
-          sauna: Саунэ
           school: Шкоалэ
           shelter: Адэпост
-          shop: Магазин
           shower: Душ
           studio: Студиоу
           swimming_pool: Базин де ынот
@@ -255,7 +254,6 @@ mo:
           university: Университате
           veterinary: Ветеринар
           waste_basket: Ладэ де гуной
-          youth_centre: Чентрул пентру тинерет
         boundary:
           administrative: Граница административэ
           national_park: Парк национал
@@ -303,7 +301,6 @@ mo:
           street_lamp: Фелинар де страдэ
           track: Друм де царэ
           traffic_signals: Семафор
-          trail: Потекэ
           "yes": Друм
         historic:
           archaeological_site: Лукрэрь археолоӂиче
@@ -474,10 +471,8 @@ mo:
           dry_cleaning: Курэцэторие кимикэ
           estate_agent: Аӂенция имобилиарэ
           fashion: Магазин де модэ
-          fish: Пескэрие
           florist: Флорэрие
           furniture: Магазин де мобилэ
-          gallery: Галерие
           general: Магазин
           gift: Магазин де кадоурь
           greengrocer: Магазин де легуме
@@ -487,14 +482,12 @@ mo:
           kiosk: Кьоск
           laundry: Спэлэторие
           lottery: Лотерие
-          market: Пяцэ/Тырг
           massage: Масаж
           mobile_phone: Магазин де телефоане мобиле
           motorcycle: Вынзаря моточиклетелор
           music: Магазин де музикэ
           newsagent: Кьоск де зиаре
           pawnbroker: Ломбард
-          pharmacy: Фармачие
           shoes: Магазин де ынкэлцэминте
           sports: Магазин де мэрфурь спортиве
           stationery: Папетэрие
@@ -529,7 +522,6 @@ mo:
           river: Рыу/Флувиу
           stream: Пырэу
           waterfall: Каскадэ
-    description:
       types:
         cities: Ораше
         towns: Орэшеле
@@ -632,13 +624,8 @@ mo:
       heading: Аць уйтат парола?
       email address: 'Адреса де поштэ електроникэ:'
       new password button: Рестабилиря паролей
-    reset_password:
-      password: 'Паролэ:'
-      confirm password: 'Конфирмаць парола:'
     new:
       display name: 'Нумеле афишат:'
-      password: 'Паролэ:'
-      confirm password: 'Конфирмаць парола:'
     show:
       my diary: Журналул меу
       my messages: Месажеле меле
@@ -649,8 +636,6 @@ mo:
     account:
       my settings: Реглажеле меле
       current email address: 'Адреса де поштэ електроникэ курентэ:'
-      new email address: 'Адреса де поштэ електроникэ ноуэ:'
-      email never displayed publicly: (ну се афишязэ публик)
       external auth: 'Ынтраря ын конт екстернэ:'
       openid:
         link text: че май есте ши аста?
@@ -659,16 +644,10 @@ mo:
         enabled link text: че май есте ши аста?
       contributor terms:
         link text: че май есте ши аста?
-      profile description: 'Дескриеря профилулуй:'
-      preferred languages: 'Лимбиле преферате:'
-      preferred editor: 'Редактор преферат:'
       image: 'Имаӂине:'
       gravatar:
         gravatar: Фолосиря Граватарулуй
-        link text: че май есте ши аста?
       new image: Адэугаря имаӂиний
       home location: 'Локул де решединцэ:'
-      latitude: 'Латитудине:'
-      longitude: 'Лонӂитудине:'
       save changes button: Апликаря модификэрилор
 ...

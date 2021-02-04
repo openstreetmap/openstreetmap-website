@@ -1,24 +1,37 @@
 # Messages for Guadeloupean Creole French (Guadeloupean Creole French)
 # Exported from translatewiki.net
-# Export driver: spyc
+# Export driver: phpyaml
+# Author: Abijeet Patro
+# Author: Léon973
 ---
 gcf:
+  activerecord:
+    attributes:
+      user:
+        home_lat: 'Latitid:'
+        home_lon: 'Longitid:'
+    help:
+      user:
+        new_email: (Pa janmen maké piblikman)
   browse:
     changeset:
       changesetxml: Niméwo Chanjeman XML
       osmchangexml: osmChanjeman XML
     containing_relation:
-      entry: 'Rèlasion %{relation_name}'
-      entry_role: 'Rèlasion %{relation_name} (adan wol %{relation_role})'
+      entry_html: Rèlasion %{relation_name}
+      entry_role_html: Rèlasion %{relation_name} (adan wol %{relation_role})
     not_found:
-      sorry: 'Woy, pa ti ni %{type} èvè niméwo %{id}.'
+      sorry: 'Désolé, %{type} #%{id} n’a pas pu être trouvé.'
     start_rjs:
       load_data: Chajé sé doné la
       loading: Y ka chajé...
-  diary_entry:
+  diary_entries:
     new:
       title: Nouvel nèf an jounal la
-    list:
+    form:
+      location: 'Ki koté:'
+      use_map_link: Sèvi èvè kat la
+    index:
       new: Nouvel nèf an jounal la
       new_title: Mèt on nouvel nèf an jounal aw
       no_entries: Pa ni nouvel an jounal aw
@@ -26,20 +39,13 @@ gcf:
       older_entries: Nouvel rasi
       newer_entries: Nouvel pi fré
     edit:
-      subject: 'Sijè:'
-      body: 'Mésaj:'
-      language: 'Lang:'
-      location: 'Ki koté:'
-      latitude: 'Latitid:'
-      longitude: 'Longitid:'
-      use_map_link: Sèvi èvè kat la
-      save_button: Enrèjistré
       marker_text: Ola jounal la ka koumansé
     no_such_entry:
       heading: 'Pa ti ni nouvel èvè niméwo la sa : %{id}'
-      body: 'Woy, pa ti ni pon nouvel adan jounal la ouben komantè èvè niméwo la sa %{id}. Kontrolé lòtograf la ouben lien la ou kliké asiy la pa bon.'
+      body: Woy, pa ti ni pon nouvel adan jounal la ouben komantè èvè niméwo la sa
+        %{id}. Kontrolé lòtograf la ouben lien la ou kliké asiy la pa bon.
     diary_entry:
-      posted_by: 'Sé %{link_user} ki voyé sa , koté %{created} i maké an %{language_link}'
+      posted_by_html: Sé %{link_user} ki voyé sa , koté %{created} i maké an %{language_link}
       comment_link: Palé asi nouvel la sa
       reply_link: Réponn nouvel la sa
       comment_count:
@@ -47,7 +53,7 @@ gcf:
         other: '%{count} Komantè'
       edit_link: Modifié nouvel la sa
     diary_comment:
-      comment_from: 'Komantè a %{link_user} koté %{comment_created_at}'
+      comment_from_html: Komantè a %{link_user} koté %{comment_created_at}
   layouts:
     logout: Chapé
     log_in: Rantré
@@ -58,42 +64,25 @@ gcf:
     gps_traces: Chimen GPS
     user_diaries: Jounal
     tag_line: Lyannaj pou kat lib
-    osm_offline: >
-      Base a doné a OpenStreetMap dékonekté
-      atchelman ; Yo ka fè on gwo travay
-      enpòtan asi-y pou-y maché bien.
-    osm_read_only: >
-      Atchelman ou pé li selamn base a doné
-      a OpenStreetMap ; Yo ka fè on gwo
+    osm_offline: Base a doné a OpenStreetMap dékonekté atchelman ; Yo ka fè on gwo
       travay enpòtan asi-y pou-y maché bien.
-    donate: 'Ba OpenStreetMap on Fòs, %{link} Pou fè matériel la vansé.'
+    osm_read_only: Atchelman ou pé li selamn base a doné a OpenStreetMap ; Yo ka fè
+      on gwo travay enpòtan asi-y pou-y maché bien.
+    donate: Ba OpenStreetMap on Fòs, %{link} Pou fè matériel la vansé.
     make_a_donation:
       text: Ba OpenStreetMap On Fòs
   site:
     index:
-      js_1: >
-        Ou ka sèvi èvè on navigatè ki pa ka
-        sipòté Javascript ouben Javascript
+      js_1: Ou ka sèvi èvè on navigatè ki pa ka sipòté Javascript ouben Javascript
         éten.
-      js_2: >
-        OpenStreetMap ka sèvi èvè Javascript
-        pou kat glisad.
+      js_2: OpenStreetMap ka sèvi èvè Javascript pou kat glisad.
       permalink: Permalink
     edit:
-      not_public: >
-        Ou pé pa réglé édision aw pou yo
-        piblik.
-      not_public_description: 'Pou modifié kat la fok édision aw piblik. Ou pé rann édision aw piblik asi %{user_page}.'
+      not_public: Ou pé pa réglé édision aw pou yo piblik.
+      not_public_description_html: Pou modifié kat la fok édision aw piblik. Ou pé
+        rann édision aw piblik asi %{user_page}.
       user_page_link: paj_itilizatè
       anon_edits_link_text: Ka y ni la.
-      flash_player_required: "Ou bizwen on lektè Flash pou itilizé Potlatch ki sé éditè Flash a OpenStreetMap. Ou pé<a href='http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'>télécharjé Flash Player asi site a Adobe</a>. <a href='http://wiki.openstreetmap.org/wiki/Editing'>Ni dot opsion</a> pour modifié OpenStreetMap."
-      potlatch_unsaved_changes: >
-        Ou ti ni modifikasion ou pa
-        anrègistré. (Pou anrègistré adan
-        Potlatch, fow déséleksioné lin la ou
-        pwen ou asiy la,si ou ka édité an mod
-        list. Ouben kliké asi Anregistré si ou
-        ti ni bouton la sa.)
     sidebar:
       search_results: Rézilta a chèché aw
       close: Fèmé
@@ -101,7 +90,7 @@ gcf:
       search: Chèché
       where_am_i: Ki moun an yé?
       submit_text: Voyé
-  user:
+  users:
     login:
       heading: Konekté
       email or username: 'Adres imél ouben nom itilizaté aw :'
@@ -113,20 +102,16 @@ gcf:
       email address: 'Adres imél aw :'
       new password button: Voyé on nouvo kòd
     new:
-      no_auto_account_create: >
-        Malérezman, alè kilé, nou pé pa
-        ouvè kont automatikman.
-      contact_webmaster: "Kontakté <a href='mailto:webmaster@openstreetmap.org'>mèt web la</a> pou y ouvè an kont baw - nou ké éséyé travay pli vit posib."
-      license_agreement: "Lè ou ka kréyé kont aw, ou ka aksepté kè tout travay aw voyé asi Openstreetmap.org evè tout doné kréyé èvè zouti konekté asi Openstreetmap.org asi lisans (y pa esklisif) <a href='http://creativecommons.org/licenses/by-sa/2.0/'>Creative Commons license (by-sa)</a>."
+      no_auto_account_create: Malérezman, alè kilé, nou pé pa ouvè kont automatikman.
+      contact_webmaster_html: Kontakté <a href="%{webmaster}">mèt web la</a> pou y
+        ouvè an kont baw - nou ké éséyé travay pli vit posib.
       email address: 'Adres imél :'
       confirm email address: 'konfimé adres imél :'
-      not displayed publicly: 'Sa pa vizib piblikman (Ay vwè<a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section an email addresses">prencip an nou asi konfidansialité</a>)'
       display name: 'Non aw afiché :'
-      password: 'Kòd :'
-      confirm password: 'Konfirmé kòd aw:'
     no_such_user:
-      body: 'Malérezman, pa ti ni pon itilisatè èvè non la sa %{user}. Kontrolé lòtograf la ouben lien la ou kliké asiy la pa bon.'
-    view:
+      body: Malérezman, pa ti ni pon itilisatè èvè non la sa %{user}. Kontrolé lòtograf
+        la ouben lien la ou kliké asiy la pa bon.
+    show:
       my diary: Jounal an mwen
       new diary entry: On dot nouvel an jounal la
       my edits: Édision an mwen
@@ -141,9 +126,9 @@ gcf:
       mapper since: 'Arpantè dèpi:'
       description: Deskription
       user location: Ola itilizatè yé
-      if set location: 'Si ou ka ba on koté ou yé, On bel ti kat ké aprarèt. Ou pé défini koté la ou yé la asi paj aw %{settings_link}.'
+      if_set_location_html: Si ou ka ba on koté ou yé, On bel ti kat ké aprarèt. Ou
+        pé défini koté la ou yé la asi paj aw %{settings_link}.
       settings_link_text: Opsion
-      your friends: Kanmarad aw
       no friends: Ou poko ni pon zanmi
       km away: '%{count} km'
       nearby users: 'Itilizatè owa aw :'
@@ -153,52 +138,35 @@ gcf:
       nearby mapper: Arpantè owa aw
     account:
       my settings: Mes options
-      email never displayed publicly: (Pa janmen maké piblikman)
       public editing:
         heading: 'Édision piblik:'
-        enabled: >
-          Aktif. Y pa anonnim, y pé édité
-          doné.
-        enabled link: >
-          http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
+        enabled: Aktif. Y pa anonnim, y pé édité doné.
+        enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
         enabled link text: Ka sa yé?
-        disabled: >
-          Inaktif y pé pa édité doné ; tout
-          édision pasé anonim.
+        disabled: Inaktif y pé pa édité doné ; tout édision pasé anonim.
         disabled link text: Poukwa an pé pa édité?
-      profile description: 'Deskripsion a profil la :'
       home location: 'La ou ka rété :'
       no home location: Ou po ko mèt la ou ka rété.
-      latitude: 'Latitid:'
-      longitude: 'Longitid:'
-      update home location on click: >
-        Eskè y fo modifié la ou ka rété lè
-        ou ka kliké asi kat la?
+      update home location on click: Eskè y fo modifié la ou ka rété lè ou ka kliké
+        asi kat la?
       save changes button: Enrèjisré tout chanjman
       make edits public button: Mèt tou sa an fè piblik
-      return to profile: "Rouvin' asi pwofil la"
-      flash update success confirm needed: >
-        Enfowmasion asi itilisatè la bien
-        anrèjistré. Gadé bwet imél aw pou
-        konfirmé adres nouvo imél aw
-      flash update success: >
-        Efowmasion asi itilisatè la bien
-        anrejistré.
+      return to profile: Rouvin' asi pwofil la
+      flash update success confirm needed: Enfowmasion asi itilisatè la bien anrèjistré.
+        Gadé bwet imél aw pou konfirmé adres nouvo imél aw
+      flash update success: Efowmasion asi itilisatè la bien anrejistré.
     confirm:
       heading: Konfirmé kont a itilizatè la
-      press confirm button: >
-        Apiyé asi bouton la ki an ba pou
-        konfirmé kont aw aktif menm.
+      press confirm button: Apiyé asi bouton la ki an ba pou konfirmé kont aw aktif
+        menm.
       button: Konfirmé
     confirm_email:
       heading: Konfirmé chanjman a adres imél aw
-      press confirm button: >
-        Apiyé asi bouton la ki an ba pou
-        konfirmé nouvo adres imél aw.
+      press confirm button: Apiyé asi bouton la ki an ba pou konfirmé nouvo adres
+        imél aw.
       button: Konfirmé
     set_home:
       flash success: La ou ka rété la bien anrèjistré
     go_public:
-      flash success: >
-        Tou sa ou fè jis alè ki lé piblik ou
-        pa otorizé édité.
+      flash success: Tou sa ou fè jis alè ki lé piblik ou pa otorizé édité.
+...

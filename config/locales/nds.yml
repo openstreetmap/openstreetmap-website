@@ -1,12 +1,24 @@
 # Messages for Low German (Plattdüütsch)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Slomox
 ---
 nds:
   time:
     formats:
       friendly: '%e. %B %Y üm %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Spiekern
+      message:
+        create: Versennen
+      client_application:
+        update: Ännern
+      trace:
+        create: Hoochladen
+        update: Ännern spiekern
   activerecord:
     models:
       country: Land
@@ -37,6 +49,8 @@ nds:
         latitude: Bredengraad
         longitude: Längengraad
         public: Apen
+        gpx_file: GPX-Datei hoochladen
+        visibility: Sichtborkeit
       message:
         sender: Senner
         title: Titel
@@ -44,11 +58,16 @@ nds:
         email: E-Mail
         active: Aktiv
         description: Beschrieven
+        home_lat: 'Bredengraad:'
+        home_lon: 'Längengraad:'
         languages: Spraken
         pass_crypt: Passwoord
+    help:
+      user:
+        new_email: (nich apen wiesen)
   browse:
     relation_member:
-      entry_role: '%{type} %{name} as %{role}'
+      entry_role_html: '%{type} %{name} as %{role}'
       type:
         node: Knütt
         way: Weg
@@ -61,7 +80,7 @@ nds:
         way: Weg
     start_rjs:
       loading: An’t Laden...
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Sied %{page}
     changeset:
@@ -73,9 +92,12 @@ nds:
       user: Bruker
       comment: Kommentar
       area: Rebeed
-  diary_entry:
+  diary_entries:
     new:
       title: Ne’en Dagbook-Indrag
+    form:
+      location: 'Oort:'
+      use_map_link: Koort bruken
     index:
       title: Bruker-Dagböker
       user_title: '%{user} sien Dagbook'
@@ -88,19 +110,12 @@ nds:
       newer_entries: Jünger Indrääg
     edit:
       title: Dagbook-Indrag ännern
-      language: 'Spraak:'
-      location: 'Oort:'
-      latitude: 'Bredengraad:'
-      longitude: 'Längengraad:'
-      use_map_link: Koort bruken
-      save_button: Spiekern
       marker_text: Oort von’n Indrag
     show:
       title: Bruker-Dagbook | %{user}
       user_title: '%{user} sien Dagbook'
       leave_a_comment: Kommentar schrieven
       login: Anmellen
-      save_button: Spiekern
     no_such_entry:
       heading: Keen Indrag mit de Nummer %{id}
     diary_entry:
@@ -112,6 +127,14 @@ nds:
     location:
       view: Ankieken
       edit: Ännern
+  friendships:
+    make_friend:
+      success: '%{name} ist nu dien Fründ.'
+      failed: Dat hett nich klappt,  %{name} as Fründ totofögen.
+      already_a_friend: '%{name} is al dien Fründ.'
+    remove_friend:
+      success: '%{name} is rutnahmen bi de Frünn.'
+      not_a_friend: '%{name} is keen von dien Frünn.'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -152,29 +175,37 @@ nds:
           marketplace: Marktplatz
           nightclub: Nachtclub
           nursing_home: Pleeghuus
-          office: Kontoor
           parking: Parkplatz
           pharmacy: Avtheek
           police: Polizei
           post_box: Postkassen
           post_office: Postamt
-          preschool: Vörschool
           prison: Gefängnis
           pub: Kroog
           restaurant: Restaurant
-          retirement_home: Olenhuus
-          sauna: Sauna
           school: School
           shelter: Schuulruum
-          shop: Laden
-          social_club: Sozialvereen
           studio: Eenkamer-Appartement
           taxi: Taxi
           theatre: Theater
           toilets: Toiletten
           university: Universität
           village_hall: Gemeendehuus
-          youth_centre: Jöögdcenter
+        building:
+          apartments: Wahnblock
+          chapel: Kapell
+          church: Kark
+          dormitory: Studentenhuus
+          farm: Buuree-Bowark
+          garage: Garaasch
+          hospital: Krankenhuus
+          hotel: Hotel
+          house: Huus
+          industrial: Industriebowark
+          public: Apenboor Bowark
+          residential: Wahnhuus
+          school: School-Bowark
+          terrace: Terrass
         highway:
           bridleway: Riedpadd
           bus_stop: Busstopp
@@ -193,7 +224,6 @@ nds:
           road: Straat
           steps: Trepp
           track: Feldweg
-          trail: Padd
         historic:
           building: Bowark
           castle: Slott
@@ -297,10 +327,8 @@ nds:
           chemist: Avtheek
           computer: Computerladen
           cosmetics: Kosmetikladen
-          fish: Fischhöker
           florist: Blomenladen
           furniture: Möbelladen
-          gallery: Galerie
           garden_centre: Goorncenter
           gift: Geschenkladen
           greengrocer: Gröönhöker
@@ -309,7 +337,6 @@ nds:
           kiosk: Kiosk
           laundry: Wäscheree
           mall: Inkööpcenter
-          market: Markt
           motorcycle: Motoorradladen
           newsagent: Kiosk
           optician: Optiker
@@ -340,11 +367,6 @@ nds:
           wadi: Wadi
           waterfall: Waterfall
           weir: Wehr
-    description:
-      title:
-        osm_nominatim: Steed von <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Steed von <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Städer
         towns: lüttje Städer
@@ -367,20 +389,14 @@ nds:
     help: Hülp
     make_a_donation:
       text: Spenn wat
-  notifier:
+  user_mailer:
     diary_comment_notification:
       hi: Moin %{to_user},
     message_notification:
       hi: Moin %{to_user},
-    gpx_notification:
+    email_confirm:
       greeting: Moin,
-    email_confirm_plain:
-      greeting: Moin,
-    email_confirm_html:
-      greeting: Moin,
-    lost_password_plain:
-      greeting: Moin,
-    lost_password_html:
+    lost_password:
       greeting: Moin,
   messages:
     inbox:
@@ -397,13 +413,12 @@ nds:
       destroy_button: Wegdoon
     new:
       title: Naricht sennen
-      send_button: Versennen
       back_to_inbox: Trüch na’t Postfack Ingang
     create:
       message_sent: Naricht afsennt
     outbox:
       title: Postfack Utgang
-      my_inbox: Mien %{inbox_link}
+      my_inbox_html: Mien %{inbox_link}
       inbox: Postfack Ingang
       outbox: Postfack Utgang
       to: An
@@ -422,7 +437,7 @@ nds:
   site:
     copyright:
       native:
-        title: Över disse Sied
+        title: Över disse Siet
     index:
       permalink: Permalink
       shortlink: Kortlink
@@ -510,23 +525,8 @@ nds:
           construction: Straat, an de noch boot warrt
   traces:
     new:
-      upload_gpx: GPX-Datei hoochladen
-      description: Beschrieven
-      visibility: Sichtborkeit
-      upload_button: Hoochladen
       help: Hülp
     edit:
-      filename: 'Dateinaam:'
-      download: dalladen
-      uploaded_at: 'Hoochladen an’n:'
-      start_coord: 'Startkoordinaat:'
-      map: Koort
-      edit: ännern
-      owner: 'Besitter:'
-      description: 'Beschrieven:'
-      tags_help: dör Kommas trennt
-      save_button: Ännern spiekern
-      visibility: 'Sichtborkeit:'
       visibility_help: wat bedüüdt dat?
     show:
       filename: 'Dateinaam:'
@@ -548,14 +548,8 @@ nds:
       in: in
       map: Koort
   oauth_clients:
-    edit:
-      submit: Ännern
     show:
       edit: Details ännern
-    form:
-      name: Naam
-      required: Nödig
-      allow_write_api: Koort ännern.
   users:
     login:
       title: Anmellen
@@ -572,14 +566,12 @@ nds:
     reset_password:
       title: Passwoord trüchsetten
       heading: Passwoord för %{user} trüchsetten
-      password: 'Passwoord:'
       reset: Passwoord trüchsetten
       flash changed: Dien Passwoord is nu ännert.
     new:
       title: Brukerkonto opstellen
       email address: 'E-Mail-Adress:'
       display name: 'wiest Brukernaam:'
-      password: 'Passwoord:'
       continue: Wieder
     no_such_user:
       title: Bruker nich funnen
@@ -594,7 +586,6 @@ nds:
       remove as friend: as Fründ rutnehmen
       add as friend: as Fründ tofögen
       mapper since: 'Koortenmaker sied:'
-      ago: (vör %{time_in_words_ago})
       email address: 'E-Mail-Adress:'
       description: Beschrieven
       km away: '%{count} km weg'
@@ -606,27 +597,17 @@ nds:
       friend: Fründ
     account:
       title: Brukerkonto ännern
-      email never displayed publicly: (nich apen wiesen)
       public editing:
         enabled link text: Wat is dat?
         disabled link text: Worüm kann ik nix ännern?
       image: 'Bild:'
       new image: Bild tofögen
       no home location: Du hest dien Standoort nich angeven.
-      latitude: 'Bredengraad:'
-      longitude: 'Längengraad:'
       save changes button: Ännern spiekern
       make edits public button: All mien Ännern apen wiesen
       return to profile: Trüch na’t Profil
     set_home:
       flash success: Standoort is spiekert.
-    make_friend:
-      success: '%{name} ist nu dien Fründ.'
-      failed: Dat hett nich klappt,  %{name} as Fründ totofögen.
-      already_a_friend: '%{name} is al dien Fründ.'
-    remove_friend:
-      success: '%{name} is rutnahmen bi de Frünn.'
-      not_a_friend: '%{name} is keen von dien Frünn.'
   user_blocks:
     show:
       status: Status

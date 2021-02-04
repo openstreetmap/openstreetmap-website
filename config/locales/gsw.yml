@@ -1,99 +1,217 @@
 # Messages for Swiss German (Alemannisch)
 # Exported from translatewiki.net
-# Export driver: spyc
+# Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Als-Chlämens
 # Author: Als-Holder
+# Author: Doktorpixel14
 ---
 gsw:
+  helpers:
+    submit:
+      trace:
+        create: Uffelade
+        update: Änderige spychere
+  activerecord:
+    models:
+      acl: Zuegangskontrolllischt
+      changeset: Änderige
+      changeset_tag: Changeset-XML
+      country: Lond
+      diary_comment: Blog-Kommendar
+      diary_entry: Blog-Intraa
+      friend: Fraind
+      language: Sprooch
+      message: Nochricht
+      node: Gnode
+      node_tag: Gnode-Attribuet
+      notifier: Bnoochrichtiger
+      old_node: Alder Gnode
+      old_node_tag: Alds Gnode-Attribuet
+      old_relation: Aldi Relation
+      old_relation_member: Aldes Midgliid vun are Relation
+      old_relation_tag: Alds Relations-Attribuet
+      old_way: Alder Wäg
+      old_way_node: Alder Wäg-Gnode
+      old_way_tag: Alds Wäg-Attribuet
+      relation: Relation
+      relation_member: Midgliid vun are Relation
+      relation_tag: Relations-Attribuet
+      session: Sitzung
+      trace: Pfad
+      tracepoint: Pfad-Punkt
+      tracetag: Pfad-Attribuet
+      user: Benutzer
+      user_preference: Benutzer-Iistellunge
+      user_token: Benutzer-Zeiche
+      way: Wäg
+      way_node: Wäg-Gnode
+      way_tag: Wäg-Attribuet
+    attributes:
+      diary_comment:
+        body: 'Inhalt:'
+      diary_entry:
+        user: Benutzer
+        title: Beträff
+        latitude: Geografischi Breit
+        longitude: Geografischi Läng
+        language: Sprooch
+      friend:
+        user: Benutzer
+        friend: Fraind
+      trace:
+        user: Benutzer
+        visible: Sichtbor
+        name: Nome
+        size: Greeß
+        latitude: Geografischi Breit
+        longitude: Geografischi Läng
+        public: Effentlig
+        description: Bschryybig
+        gpx_file: GPX-Datei uffelade
+        visibility: Sichtbarkeit
+        tagstring: Markierige
+      message:
+        sender: Absänder
+        title: Beträff
+        body: Tekscht
+        recipient: Empfänger
+      user:
+        email: E-Mail
+        active: Aktiv
+        display_name: Anzeigenome
+        description: Bschryybig
+        languages: Sprooche
+        pass_crypt: Passwort
+    help:
+      trace:
+        tagstring: Trännig dur Komma
+  editor:
+    default: Standard (jetz grad %{name})
+    id:
+      name: iD
+      description: iD (Editor im Browser)
+    remote:
+      name: externer Editor
+      description: externer Editor (JOSM odda Merkaartor)
   browse:
+    created: Aagleit
+    closed: Zue
+    created_html: <abbr title='%{title}'>%{time} vor </abbr> aagleit
+    closed_html: <abbr title='%{title}'>%{time} vor </abbr> zuegmacht
+    created_by_html: <abbr title='%{title}'>%{time} vor </abbr> vum %{user} aagleit
+    deleted_by_html: <abbr title='%{title}'>%{time} vor </abbr> vum %{user} glescht.
+    edited_by_html: <abbr title='%{title}'>%{time} vor </abbr> vum %{user} bearbeitet.
+    closed_by_html: <abbr title='%{title}'>%{time} vor </abbr> vum %{user} zuegmacht
+    version: Version
+    in_changeset: Änderige
+    anonymous: anonym
+    no_comment: (kä Kommendar)
+    part_of: Dail von
+    download_xml: XML runderlade
+    view_history: Versionsgschicht
+    view_details: Details aagucke
+    location: 'Ort:'
     changeset:
-      title: Changeset
+      title: 'Änderigssatz: %{id}'
+      belongs_to: Autor
+      node: Gnode (%{count})
+      node_paginated: Gnode (%{x}-%{y} of %{count})
+      way: Wäg (%{count})
+      way_paginated: Wäg (%{x}-%{y} von %{count})
+      relation: Relatione (%{count})
+      relation_paginated: Relatione (%{x}-%{y} of %{count})
+      comment: Kommendar (%{count})
+      hidden_commented_by_html: Varschtäckder Kommendar vum  %{user} <abbr title='%{exact_time}'>%{when}
+        vor </abbr>
+      commented_by_html: Kommenmdar vom %{user} <abbr title='%{exact_time}'>%{when}
+        vor </abbr>
       changesetxml: Changeset-XML
       osmchangexml: osmChange XML
       feed:
-        title: 'Changeset %{id}'
-        title_comment: 'Changeset %{id} - %{comment}'
+        title: Changeset %{id}
+        title_comment: Changeset %{id} - %{comment}
+      join_discussion: Meld dich aa, wennd mitdiskutiere willsch.
+      discussion: Diskussion
+    node:
+      title_html: 'Gnode: %{name}'
+      history_title_html: 'Versionsgschicht vum Gnote: %{name}'
+    way:
+      title_html: 'Wäg: %{name}'
+      history_title_html: 'Versionsgschicht vum Wäg: %{name}'
+      nodes: Gnode
+      also_part_of_html:
+        one: Dail vum Wäg %{related_ways}
+        other: Deil vo de Wäg %{related_ways}
+    relation:
+      title_html: 'Relation: %{name}'
+      history_title_html: 'Versionsgschicht vo de Relation: %{name}'
+      members: Mitgliider
     relation_member:
-      entry_role: '%{type} %{name} as %{role}'
+      entry_role_html: '%{type} %{name} as %{role}'
       type:
         node: Chnote
         way: Wäg
         relation: Relation
     containing_relation:
-      entry: 'Relation %{relation_name}'
-      entry_role: 'Relation %{relation_name} (as %{relation_role})'
+      entry_html: Relation %{relation_name}
+      entry_role_html: Relation %{relation_name} (as %{relation_role})
     not_found:
-      sorry: 'Mir hän dr %{type} mit dr Nummere %{id} leider nit chenne finde. Du hesch Di villicht verschribe oder Du bisch eme nit giltige Link nogange.'
+      sorry: '%{type} mit de Nummer %{id} konnt leider net gfunde wärre.'
       type:
         node: Chnote
         way: Wäg
         relation: Relation
         changeset: Mängi vu Änderige
+        note: Notiz
+    timeout:
+      sorry: S hät z lang gduurte, d Daate fir %{type} mit de ID %{id} abzuruefe.
+      type:
+        node: Gnode
+        way: Wäg
+        relation: Relation
+        changeset: Änderige
+        note: Notiz
+    redacted:
+      redaction: Noch mol aagucke vun %{id}
     start_rjs:
       load_data: Date lade
       loading: Am Lade ...
     tag_details:
       tags: 'Tags:'
-  trace:
+  friendships:
+    make_friend:
+      success: '%{name} isch jetz Dyy Frynd.'
+      failed: Excusez, %{name} het nit as Frynd chenne zuegfiegt wäre.
+      already_a_friend: Du bisch scho ne Frynd vu %{name}.
+  traces:
     visibility:
-      private: >
-        Privat (nume as anonymi, nit sortierti
-        Pinkt ohni Zytstämpfel aazeigt)
-      public: >
-        Effentlig (wird in dr Tracklischt
-        aazeigt, aber numen as anonymi, nit
+      private: Privat (nume as anonymi, nit sortierti Pinkt ohni Zytstämpfel aazeigt)
+      public: Effentlig (wird in dr Tracklischt aazeigt, aber numen as anonymi, nit
         sortierti Punktfolg ohni Zytstämpfel)
-      trackable: >
-        Track (wird in dr Tracklischt as
-        anonymi, sortierti Punktfolg mit
+      trackable: Track (wird in dr Tracklischt as anonymi, sortierti Punktfolg mit
         Zytstämpfel aazeigt)
-      identifiable: >
-        Identifizierbar (wird in dr Tracklischt
-        as anonymi, sortierti Punktfolg mit
-        Zytstämpfel aazeigt)
+      identifiable: Identifizierbar (wird in dr Tracklischt as anonymi, sortierti
+        Punktfolg mit Zytstämpfel aazeigt)
+    new:
+      visibility_help: Was heißt des?
+      help: Hilf
     create:
       upload_trace: E GPS-Track uffelade
-      trace_uploaded: >
-        Dyy GPX-Datei isch uffeglade wore un
-        wartet uf d Ufnahm in d Datebank. Des
-        gschiht normalerwyys innerhalb vun ere
-        halbe Stund, derno wird Dir e
-        Bstetigungs-E-Mail gschickt.
+      trace_uploaded: Dyy GPX-Datei isch uffeglade wore un wartet uf d Ufnahm in d
+        Datebank. Des gschiht normalerwyys innerhalb vun ere halbe Stund, derno wird
+        Dir e Bstetigungs-E-Mail gschickt.
+      traces_waiting: '%{count} vu Dyyne Tracks sin zur Zyt in dr Warteschlang. Bitte
+        wart, bis die fertig sin go d Verarbeitig nit fir anderi Nutzer blockiere.'
     edit:
-      title: 'Am Bearbeite vum Track %{name}'
-      heading: 'Track %{name} bearbeite'
-      filename: 'Dateiname:'
-      download: abelade
-      uploaded_at: 'Uffegladen am:'
-      points: 'Pinkt:'
-      start_coord: 'Aafangskoordinate:'
-      map: Charte
-      edit: bearbeite
-      owner: 'Bsitzer:'
-      description: 'Bschryybig:'
-      tags: 'Tags:'
-      tags_help: Trännig dur Komma
-      save_button: Änderige spychere
-      visibility: 'Sichtbarkeit:'
+      title: Am Bearbeite vum Track %{name}
+      heading: Track %{name} bearbeite
       visibility_help: Was heißt des?
-    trace_form:
-      upload_gpx: GPX-Datei uffelade
-      description: Bschryybig
-      tags: Markierige
-      tags_help: Trännig dur Komma
-      visibility: Sichtbarkeit
-      visibility_help: Was heißt des?
-      upload_button: Uffelade
-      help: Hilf
-    trace_header:
-      see_all_traces: Alli Tracks aaluege
-      see_your_traces: Eigeni GPS-Tracks aazeige
-      traces_waiting: '%{count} vu Dyyne Tracks sin zur Zyt in dr Warteschlang. Bitte wart, bis die fertig sin go d Verarbeitig nit fir anderi Nutzer blockiere.'
     trace_optionals:
       tags: Markierige
-    view:
-      title: 'Am Aaluege vum Track %{name}'
-      heading: 'Am Bschaue vum Track %{name}'
+    show:
+      title: Am Aaluege vum Track %{name}
+      heading: Am Bschaue vum Track %{name}
       pending: HÄNGIG
       filename: 'Dateiname:'
       download: abelade
@@ -106,14 +224,13 @@ gsw:
       description: 'Bschryybig:'
       tags: 'Markierige:'
       none: Keini
-      edit_track: Dää Track bearbeite
-      delete_track: Dää Track lesche
+      edit_trace: Dää Track bearbeite
+      delete_trace: Dää Track lesche
       trace_not_found: Track nit gfunde!
       visibility: 'Sichtbarkeit:'
     trace:
       pending: HÄNGIG
       count_points: '%{count} Pinkt'
-      ago: '%{time_in_words_ago} här'
       more: meh
       trace_details: Track-Einzelheite aaluege
       view_map: Charten aazeige
@@ -124,71 +241,55 @@ gsw:
       by: vu
       in: in
       map: Charte
-    list:
+    index:
       public_traces: Effetligi GPS-Track
-      your_traces: Dyy GPS-Track
-      public_traces_from: 'Effetligi GPS-Track vu %{user}'
-      tagged_with: 'Gchännzeichnet mit %{tags}'
-    delete:
+      public_traces_from: Effetligi GPS-Track vu %{user}
+      tagged_with: Gchännzeichnet mit %{tags}
+      see_all_traces: Alli Tracks aaluege
+    destroy:
       scheduled_for_deletion: Track, wu zum Lesche vorgsäh isch
     make_public:
       made_public: Track, wu vereffetligt isch
-  user:
+  users:
     reset_password:
       title: Passwort zrucksetze
-      heading: 'Passwort fir %{user} zrucksetze'
-      confirm password: 'Passwort bstetige:'
+      heading: Passwort fir %{user} zrucksetze
       reset: Passwort zrucksetze
       flash changed: Dyy Passwort isch gänderet wore.
-      flash token bad: >
-        Mir hän des Chirzel leider nit chenne
-        finde. Iberprief d URL.
+      flash token bad: Mir hän des Chirzel leider nit chenne finde. Iberprief d URL.
     popup:
       your location: Dyy Standort
       nearby mapper: Mapper in dr Nechi
     confirm_email:
       heading: Änderig vu dr E-Mail-Adräss bstetige
-      press confirm button: >
-        Druck unte uf dr „Bstetige“-Chnopf
-        go Dyy nej E-Mail-Adräss bstetige.
+      press confirm button: Druck unte uf dr „Bstetige“-Chnopf go Dyy nej E-Mail-Adräss
+        bstetige.
       button: Bstetige
-      success: >
-        Dyy E-Mail-Adräss isch bstetigt wore,
-        dankschen fir s Regischtriere!
-      failure: >
-        E E-Mail-Adräss isch scho mit däm Link
-        bstetigt wore.
+      success: Dyy E-Mail-Adräss isch bstetigt wore, dankschen fir s Regischtriere!
+      failure: E E-Mail-Adräss isch scho mit däm Link bstetigt wore.
     go_public:
-      flash success: >
-        Alli Dyyni Bearbeitige sion jetz
-        effetlig, un Du derfsch jetz Bearbeitige
-        mache.
-    make_friend:
-      success: '%{name} isch jetz Dyy Frynd.'
-      failed: 'Excusez, %{name} het nit as Frynd chenne zuegfiegt wäre.'
-      already_a_friend: 'Du bisch scho ne Frynd vu %{name}.'
-    filter:
-      not_an_administrator: >
-        Du muesch e Administrator syy go die
-        Aktion uusfiere.
+      flash success: Alli Dyyni Bearbeitige sion jetz effetlig, un Du derfsch jetz
+        Bearbeitige mache.
   user_role:
     filter:
-      not_an_administrator: >
-        Benutzerrolle chenne nume vu
-        Adminischtratore verwaltet wäre, un Du
-        bisch kei Adminischtrator.
-      not_a_role: 'D Zeichechette „%{role}“ bezeichnet kei giltigi Rolle.'
-      already_has_role: 'Dr Nutzer ghert scho zue dr Rolle %{role}.'
-      doesnt_have_role: 'Dr Nutzer het kei Roll %{role}.'
+      not_a_role: D Zeichechette „%{role}“ bezeichnet kei giltigi Rolle.
+      already_has_role: Dr Nutzer ghert scho zue dr Rolle %{role}.
+      doesnt_have_role: Dr Nutzer het kei Roll %{role}.
     grant:
       title: Rollezueornig bstetige
       heading: Rollezueornig bstetige
-      are_you_sure: 'Bisch sicher, ass Du dr Benutzer „%{name}“ dr Rolle „%{role}“ witt zueordne?'
+      are_you_sure: Bisch sicher, ass Du dr Benutzer „%{name}“ dr Rolle „%{role}“
+        witt zueordne?
       confirm: Bstetige
-      fail: 'Dr Benutzer „%{name}“ het dr Rolle „%{role}“ nit chenne zuegordnet wären. Bitte iberprief, eb s sich um e giltige Benutzer un e giltigi Rolle handlet.'
+      fail: Dr Benutzer „%{name}“ het dr Rolle „%{role}“ nit chenne zuegordnet wären.
+        Bitte iberprief, eb s sich um e giltige Benutzer un e giltigi Rolle handlet.
     revoke:
       title: Ufhebig vu dr Rollezueornig bstetige
       heading: D Ufhebig vu dr Rollezueornig bstetige
-      are_you_sure: 'Bisch sicher, ass Du d Zueornig vum Benutzer „%{name}“ zue dr Rolle „%{role}“ witt ufhebe?'
+      are_you_sure: Bisch sicher, ass Du d Zueornig vum Benutzer „%{name}“ zue dr
+        Rolle „%{role}“ witt ufhebe?
       confirm: Bstetige
-      fail: 'Het d Zueornig vum Benutzer „%{name}“ zue dr Rolle „%{role}“ nit chenne ufhebe. Bitte iberprief, eb s sich um e giltige Benutzer un e giltigi Rolle handlet.'
+      fail: Het d Zueornig vum Benutzer „%{name}“ zue dr Rolle „%{role}“ nit chenne
+        ufhebe. Bitte iberprief, eb s sich um e giltige Benutzer un e giltigi Rolle
+        handlet.
+...

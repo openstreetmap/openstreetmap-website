@@ -1,12 +1,20 @@
 # Messages for Western Frisian (Frysk)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
+# Author: PiefPafPier
 # Author: Robin van der Vliet
 ---
 fy:
   time:
     formats:
       friendly: '%e %B %Y om %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Bewarje
+      client_application:
+        update: Bewurkje
   activerecord:
     models:
       acl: Rjochtenoersjoch
@@ -39,25 +47,26 @@ fy:
         longitude: Lingtegraad
         public: Iepenbier
         description: Beskriuwing
+        visibility: 'Sichtberheid:'
       message:
         sender: Ofstjoerder
         title: Ûnderwerp
         body: Tekst
         recipient: Untfanger
+      redaction:
+        description: Beskriuwing
       user:
         email: E-mail
         active: Aktyf
         description: Beskriuwing
+        home_lat: 'Breedtegraad:'
+        home_lon: 'Lingtegraad:'
         languages: Talen
         pass_crypt: Wachtwurd
   editor:
     default: Standert (op dit momint %{name})
-    potlatch:
-      name: Potlatch 1
     id:
       name: iD
-    potlatch2:
-      name: Potlatch 2
     remote:
       name: Remote Control
       description: Remote Control (JOSM of Merkaartor)
@@ -71,18 +80,18 @@ fy:
       relation: Relaasjes (%{count})
       relation_paginated: Relaasjes (%{x}-%{y} fan %{count})
     way:
-      title: 'Wei: %{name}'
+      title_html: 'Wei: %{name}'
     relation:
-      title: 'Relaasje: %{name}'
+      title_html: 'Relaasje: %{name}'
       members: Lidden
     relation_member:
-      entry_role: '%{type} %{name} as %{role}'
+      entry_role_html: '%{type} %{name} as %{role}'
       type:
         way: Wei
         relation: Relaasje
     containing_relation:
-      entry: Relaasje %{relation_name}
-      entry_role: Relaasje %{relation_name} (as %{relation_role})
+      entry_html: Relaasje %{relation_name}
+      entry_role_html: Relaasje %{relation_name} (as %{relation_role})
     not_found:
       type:
         way: wei
@@ -97,7 +106,7 @@ fy:
         relation: relaasje
     note:
       description: Beskriuwing
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Side %{page}
       next: Folgjende »
@@ -108,24 +117,14 @@ fy:
       id: ID
       user: Meidogger
       area: Gebiet
-    list:
+    index:
       load_more: Mear laden
-  diary_entry:
-    edit:
-      subject: 'Ûnderwerp:'
-      body: 'Tekst:'
-      language: 'Taal:'
+  diary_entries:
+    form:
       location: 'Lokaasje:'
-      latitude: 'Breedtegraad:'
-      longitude: 'Lingtegraad:'
-      save_button: Bewarje
-    view:
-      save_button: Bewarje
     location:
       location: 'Lokaasje:'
       edit: Bewurkje
-    comments:
-      ago: '%{ago} lyn'
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -182,21 +181,16 @@ fy:
           marketplace: Merkplein
           nightclub: Nachtklub
           nursing_home: Ferpleechhûs
-          office: Kantoar
           parking: Parkeare
           pharmacy: Apoteek
           police: Plysje
           post_box: Brievebus
           post_office: Postkantoar
-          preschool: Pjutteboartersplak of beukerskoalle
           prison: Finzenis
           pub: Kafee
           restaurant: Restaurant
-          retirement_home: Bejaardetehûs
-          sauna: Sauna
           school: Skoalle
           shelter: Beskutting
-          shop: Winkel
           shower: Dûs
           swimming_pool: Swimbad
           taxi: Taksy
@@ -208,7 +202,6 @@ fy:
           veterinary: Bistedokter
           village_hall: Gemeentehûs
           waste_basket: Papierkoer
-          youth_centre: Jeugdsintrum
         bridge:
           aqueduct: Akwadukt
           viaduct: Fiadukt
@@ -233,7 +226,6 @@ fy:
           citywalls: Stedsmuorren
           fort: Fort
           house: Hûs
-          icon: Piktogram
           memorial: Betinkingsmonumint
           mine: Myn
           monument: Monumint
@@ -342,7 +334,6 @@ fy:
           butcher: Slachterij
           chemist: Apoteek
           dry_cleaning: Stomerij
-          fish: Fiskwinkel
           florist: Blommist
           furniture: Meubelsaak
           greengrocer: Grienteboer
@@ -350,10 +341,8 @@ fy:
           hifi: Hi-fi
           jewelry: Juwelier
           laundry: Waskerij
-          market: Merk
           optician: Optisien
           pet: Bistewinkel
-          pharmacy: Apoteek
           photo: Fotowinkel
           second_hand: Kringloopwinkel
           supermarket: Supermerk
@@ -395,11 +384,6 @@ fy:
       admin_levels:
         level2: Lânsgrins
         level4: Steatsgrins
-    description:
-      title:
-        osm_nominatim: Lokaasje fan <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        geonames: Lokaasje fan <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Stêden
         towns: Stêden
@@ -413,7 +397,6 @@ fy:
     history: Skiednis
     data: Gegevens
     intro_header: Wolkom by OpenStreetMap!
-    partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
     help: Help
@@ -422,20 +405,14 @@ fy:
     foundation: Stifting
     foundation_title: De OpenStreetMap Foundation
     more: Mear
-  notifier:
+  user_mailer:
     diary_comment_notification:
       hi: Hallo %{to_user},
     message_notification:
       hi: Hallo %{to_user},
-    gpx_notification:
+    email_confirm:
       greeting: Hallo,
-    email_confirm_plain:
-      greeting: Hallo,
-    email_confirm_html:
-      greeting: Hallo,
-    lost_password_plain:
-      greeting: Hallo,
-    lost_password_html:
+    lost_password:
       greeting: Hallo,
     note_comment_notification:
       greeting: Hallo,
@@ -524,18 +501,9 @@ fy:
       title: Wolkom!
   traces:
     new:
-      description: 'Beskriuwing:'
-      visibility: 'Sichtberheid:'
       help: Help
-    edit:
-      filename: 'Triemnamme:'
-      map: kaart
-      edit: bewurkje
-      owner: 'Eigner:'
-      description: 'Beskriuwing:'
-      visibility: 'Sichtberheid:'
-    view:
-      filename: 'Triemnamme:'
+    show:
+      filename: 'Bestânsnamme:'
       map: kaart
       edit: bewurkje
       owner: 'Eigner:'
@@ -546,7 +514,6 @@ fy:
       showing_page: Side %{page}
     trace:
       count_points: '%{count} punten'
-      ago: '%{time_in_words_ago} lyn'
       more: mear
       edit: bewurkje
       public: IEPENBIER
@@ -554,33 +521,24 @@ fy:
       by: troch
       in: yn
       map: kaart
-  oauth_clients:
-    edit:
-      submit: Bewurkje
-    form:
-      name: Namme
-  user:
+  users:
     login:
       password: 'Wachtwurd:'
-      openid: '%{logo} OpenID:'
+      openid_html: '%{logo} OpenID:'
     lost_password:
       email address: 'E-mailadres:'
-    reset_password:
-      password: 'Wachtwurd:'
     new:
       email address: 'E-mailadres:'
       confirm email address: 'Befêstigjen e-mailadres:'
-      password: 'Wachtwurd:'
     terms:
       legale_names:
         france: Frankryk
         italy: Itaalje
-    view:
+    show:
       my diary: Myn deiboek
       my messages: Myn berjochtsje
       my profile: Myn profyl
       diary: Deiboek
-      ago: (%{time_in_words_ago} lyn)
       email address: 'E-mailadres:'
       status: 'Status:'
       description: Beskriuwing
@@ -593,9 +551,7 @@ fy:
       public editing:
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       image: 'Ôfbylding:'
-      latitude: 'Breedtegraad:'
-      longitude: 'Lingtegraad:'
-    list:
+    index:
       title: Meidoggers
       heading: Meidoggers
   user_blocks:
@@ -610,11 +566,10 @@ fy:
       next: Folgjende »
       previous: « Foarige
   notes:
-    mine:
+    index:
       id: Id
       creator: Auteur
       description: Beskriuwing
-      ago_html: '%{when} lyn'
   javascripts:
     close: Slute
     share:
@@ -631,10 +586,6 @@ fy:
     query:
       relation: Relaasje
   redactions:
-    edit:
-      description: Beskriuwing
-    new:
-      description: Beskriuwing
     show:
       description: 'Beskriuwing:'
       user: 'Auteur:'
