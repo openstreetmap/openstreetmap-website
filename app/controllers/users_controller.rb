@@ -123,7 +123,7 @@ class UsersController < ApplicationController
       :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
     )
 
-    if params[:user] && params[:user][:display_name] && params[:user][:description]
+    if request.post?
       if params[:user][:auth_provider].blank? ||
          (params[:user][:auth_provider] == current_user.auth_provider &&
           params[:user][:auth_uid] == current_user.auth_uid)

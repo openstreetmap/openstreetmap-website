@@ -949,6 +949,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_equal "/user/#{ERB::Util.u(user.display_name)}/account", form.attr("action").to_s
     end
 
+    # Updating the description using GET should fail
+    user.description = "new description"
+    user.preferred_editor = "default"
+    get user_account_path(user), :params => { :user => user.attributes }
+    assert_response :success
+    assert_template :account
+    assert_not_equal user.description, User.find(user.id).description
+
     # Updating the description should work
     user.description = "new description"
     user.preferred_editor = "default"
