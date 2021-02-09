@@ -812,6 +812,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     uppercase_user = build(:user, :email => user.email.upcase).tap { |u| u.save(:validate => false) }
 
+    # Resetting with GET should fail
+    assert_no_difference "ActionMailer::Base.deliveries.size" do
+      perform_enqueued_jobs do
+        get user_forgot_password_path, :params => { :email => user.email }
+      end
+    end
+    assert_response :success
+    assert_template :lost_password
+
+    # Resetting with POST should work
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
         post user_forgot_password_path, :params => { :email => user.email }

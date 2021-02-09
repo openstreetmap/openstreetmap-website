@@ -151,7 +151,7 @@ class UsersController < ApplicationController
   def lost_password
     @title = t "users.lost_password.title"
 
-    if params[:email]
+    if request.post?
       user = User.visible.find_by(:email => params[:email])
 
       if user.nil?
