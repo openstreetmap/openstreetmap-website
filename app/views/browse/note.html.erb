@@ -53,10 +53,10 @@
         </div>
         <div>
           <% if current_user.moderator? -%>
-            <input type="submit" name="hide" value="<%= t("javascripts.notes.show.hide") %>" class="btn btn-light" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, "json") %>">
+            <input type="submit" name="hide" value="<%= t("javascripts.notes.show.hide") %>" class="btn btn-light mb-2" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, "json") %>">
           <% end -%>
-          <input type="submit" name="close" value="<%= t("javascripts.notes.show.resolve") %>" class="btn btn-primary" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= close_note_url(@note, "json") %>">
-          <input type="submit" name="comment" value="<%= t("javascripts.notes.show.comment") %>" class="btn btn-primary" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= comment_note_url(@note, "json") %>" disabled="1">
+          <input type="submit" name="close" value="<%= t("javascripts.notes.show.resolve") %>" class="btn btn-primary mb-2" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= close_note_url(@note, "json") %>">
+          <input type="submit" name="comment" value="<%= t("javascripts.notes.show.comment") %>" class="btn btn-primary mb-2" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= comment_note_url(@note, "json") %>" disabled="1">
         </div>
       </form>
     <% end -%>
@@ -65,10 +65,10 @@
       <input type="hidden" name="text" value="">
       <div>
         <% if current_user and current_user.moderator? -%>
-          <input type="submit" name="hide" value="<%= t("javascripts.notes.show.hide") %>" class="btn btn-light" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, "json") %>">
+          <input type="submit" name="hide" value="<%= t("javascripts.notes.show.hide") %>" class="btn btn-light mb-2" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, "json") %>">
         <% end -%>
         <% if current_user -%>
-          <input type="submit" name="reopen" value="<%= t("javascripts.notes.show.reactivate") %>" class="btn btn-primary" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= reopen_note_url(@note, "json") %>">
+          <input type="submit" name="reopen" value="<%= t("javascripts.notes.show.reactivate") %>" class="btn btn-primary mb-2" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= reopen_note_url(@note, "json") %>">
         <% end -%>
       </div>
     </form>
