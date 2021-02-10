@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "6.0.3.4"
+gem "rails", "6.0.3.5"
 
 # Require json for multi_json
 gem "json"
