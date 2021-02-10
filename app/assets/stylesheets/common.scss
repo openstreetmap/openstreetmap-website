@@ -783,8 +783,8 @@ tr.turn {
 tr.turn:hover {
     background: $list-highlight;
 }
-.routing_engines, #route_from, #route_to { margin-left: 25px; }
-.routing_marker { width: 15px; position: absolute; cursor: move; }
+
+.routing_marker { width: 15px; cursor: move; }
 
 /* Rules for entity history */
 
@@ -1633,117 +1633,32 @@ tr.turn:hover {
   a.button {
     line-height: 20px;
   }
+}
 
-  .search_form,
-  .directions_form {
-    position: relative;
-    padding: $lineheight/2;
-    background-color: $lightgrey;
+.search_form {
+  background-color: $lightgrey;
 
-    .query_wrapper {
-      position: relative;
-      overflow: hidden;
-      border-radius: 2px 0 0 2px;
+  .describe_location {
+    top: 6px;
+    right: 6px;
+    font-size: 10px;
+    color: $blue;
+  }
+}
+
+.directions_form {
+  background-color: $lightgrey;
+
+  .loader_copy {
+    display: none;
+
+    img {
+      vertical-align: middle;
     }
+  }
 
-    input[type=text] {
-      width: 100%;
-      height: 30px;
-      transition: 300ms linear;
-    }
-
-    input[type=text].overflow {
-      border-right: none;
-      border-radius: 3px 0px 0px 3px;
-    }
-
-    input:focus {
-      outline: none;
-      box-shadow: 0px 0px 7px $vibrant-green;
-    }
-
-    input[type=submit].float {
-      float: right;
-      width: auto;
-      min-width: 0;
-      border-radius: 0 2px 2px 0;
-    }
-
-    input.error {
-      background-color: rgba($red, 0.4);
-    }
-
-    select {
-      /* this next line is to polyfill the vertical alignment of text within a select element,
-       * which is different between firefox and chrome. */
-      padding: 0.3em 0;
-    }
-
-    .query_options {
-      text-align: right;
-      font-size: 10px;
-      color: $blue;
-    }
-
-    .describe_location {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      font-size: 10px;
-      color: $blue;
-    }
-
-    .switch_link {
-      float: right;
-      width: auto;
-      min-width: 0;
-      margin-left: 6px;
-    }
-
-    img.button {
-      display: block;
-      width: 20px;
-      height: 20px;
-    }
-
-    span.force_width {
-      width: 100%;
-      padding-right: 25px;
-      display: block;
-    }
-
-    select.routing_engines {
-      min-height: 30px;
-      margin: 0px 0px 5px 25px;
-    }
-
-    input.routing_go {
-      min-width: 100px;
-      float: right;
-    }
-
-    div.header {
-      width: 100%;
-      height: 30px;
-    }
-
-    div.line {
-      width: 100%;
-      margin: 0px 0px 5px 0px;
-    }
-
-    div.loader_copy {
-      display: none;
-
-      img {
-        vertical-align: middle;
-      }
-    }
-
-    a.reverse_directions {
-      cursor: pointer;
-      margin: 0px 0px 5px 25px;
-    }
+  a.reverse_directions {
+    cursor: pointer;
   }
 }
 
