@@ -276,7 +276,7 @@ class UsersController < ApplicationController
 
     session[:referer] = safe_referer(params[:referer]) if params[:referer]
 
-    if params[:username].present? && params[:password].present?
+    if request.post?
       session[:remember_me] ||= params[:remember_me]
       password_authentication(params[:username], params[:password])
     end

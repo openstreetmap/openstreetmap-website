@@ -406,6 +406,25 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
   end
 
+  def test_login
+    user = create(:user)
+
+    get login_path
+    assert_response :redirect
+    assert_redirected_to login_path(:cookie_test => true)
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    get login_path, :params => { :username => user.display_name, :password => "test" }
+    assert_response :success
+    assert_template "login"
+
+    post login_path, :params => { :username => user.display_name, :password => "test" }
+    assert_response :redirect
+    assert_redirected_to root_path
+  end
+
   def test_logout_without_referer
     post logout_path
     assert_response :redirect

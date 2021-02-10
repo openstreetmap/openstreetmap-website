@@ -6,8 +6,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post "/login", :params => { :username => client.user.email, :password => "test" }
+    get "/login"
     follow_redirect!
+    post "/login", :params => { :username => client.user.email, :password => "test" }
     follow_redirect!
     assert_response :success
 
@@ -19,8 +20,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10_desktop_app
     client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post "/login", :params => { :username => client.user.email, :password => "test" }
+    get "/login"
     follow_redirect!
+    post "/login", :params => { :username => client.user.email, :password => "test" }
     follow_redirect!
     assert_response :success
 
@@ -31,8 +33,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10a_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post "/login", :params => { :username => client.user.email, :password => "test" }
+    get "/login"
     follow_redirect!
+    post "/login", :params => { :username => client.user.email, :password => "test" }
     follow_redirect!
     assert_response :success
 
@@ -44,8 +47,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10a_desktop_app
     client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post "/login", :params => { :username => client.user.email, :password => "test" }
+    get "/login"
     follow_redirect!
+    post "/login", :params => { :username => client.user.email, :password => "test" }
     follow_redirect!
     assert_response :success
 

@@ -243,6 +243,7 @@ module ActiveSupport
     end
 
     def session_for(user)
+      get login_path
       post login_path, :params => { :username => user.display_name, :password => "test" }
       follow_redirect!
     end
