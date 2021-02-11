@@ -1,7 +1,6 @@
 # Messages for Croatian (hrvatski)
 # Exported from translatewiki.net
 # Export driver: phpyaml
-# Author: Abijeet Patro
 # Author: Anarhistička Maca
 # Author: Astrind
 # Author: Bugoslav
@@ -48,6 +47,9 @@ hr:
         create: Napravi blokadu
         update: Ažuriraj blokadu
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: ne izgleda kao ispravna adresa e-pošte
     models:
       acl: Kontrole pristupa
       changeset: Set promjena
@@ -72,6 +74,7 @@ hr:
       relation: Relacija
       relation_member: Član relacije
       relation_tag: Oznaka relacije
+      report: Prijavi
       session: Sesija
       trace: Trag
       tracepoint: Točka trase
@@ -87,6 +90,7 @@ hr:
         name: Naziv (obvezno)
         callback_url: Callback URL
         support_url: Podrška URL
+        allow_write_api: uredi kartu
         allow_write_notes: izmijeni bilješke
       diary_comment:
         body: Tijelo
@@ -117,17 +121,21 @@ hr:
         body: Tijelo
         recipient: Primatelj
       redaction:
+        title: Naslov
         description: Opis
       user:
         email: Email
-        new_email: 'Nova E-mail adresa:'
+        email_confirmation: 'Potvrda adrese e-pošte:'
+        new_email: 'Nova adresa e-pošte:'
         active: Aktivan
         display_name: Prikaži ime
-        description: Opis
-        home_lat: 'Geografska širina (Latitude):'
-        home_lon: 'Geografska dužina (Longitude):'
-        languages: Jezici
+        description: 'Opis profila:'
+        home_lat: 'Geografska širina (latitude):'
+        home_lon: 'Geografska dužina (longitude):'
+        languages: 'Željeni jezici:'
+        preferred_editor: 'Preferencijalni uređivač:'
         pass_crypt: Lozinka
+        pass_crypt_confirmation: Potvrdi zaporku
     help:
       trace:
         tagstring: odvojeno zarezom
@@ -137,7 +145,55 @@ hr:
         new_email: (nikada se ne prikazuje javno)
   datetime:
     distance_in_words_ago:
+      about_x_hours:
+        one: prije otprilike 1 sat
+        few: prije otprilike %{count} sata
+        other: prije otprilike %{count} sati
+      about_x_months:
+        one: prije otprilike 1 mjesec
+        few: prije otprilike %{count} mjeseca
+        other: prije otprilike %{count} mjeseci
+      about_x_years:
+        one: prije otprilike 1 godine
+        few: prije otprilike %{count} godine
+        other: prije otprilike %{count} godina
+      almost_x_years:
+        one: prije skoro 1 godine
+        few: prije skoro %{count} godine
+        other: prije skoro %{count} godina
       half_a_minute: prije pola minute
+      less_than_x_seconds:
+        one: prije manje od sekunde
+        few: prije manje od %{count} sekunde
+        other: prije manje od %{count} sekundi
+      less_than_x_minutes:
+        one: prije manje od minute
+        few: prije manje od %{count} minute
+        other: prije manje od %{count} minuta
+      over_x_years:
+        one: prije preko 1 godine
+        few: prije preko %{count} godine
+        other: prije preko %{count} godina
+      x_seconds:
+        one: prije 1 sekunde
+        few: prije %{count} sekunde
+        other: prije %{count} sekundi
+      x_minutes:
+        one: prije 1 minute
+        few: prije %{count} minute
+        other: prije %{count} minuta
+      x_days:
+        one: prije 1 dana
+        few: prije %{count} dana
+        other: prije %{count} dana
+      x_months:
+        one: prije 1 mjeseca
+        few: prije %{count} mjeseca
+        other: prije %{count} mjeseci
+      x_years:
+        one: prije 1 godine
+        few: prije %{count} godine
+        other: prije %{count} godina
   editor:
     default: Zadano (currently %{name})
     id:
@@ -145,7 +201,16 @@ hr:
       description: iD (uređivač u pregledniku)
     remote:
       name: Remote Control
-      description: Remote Control (JOSM ili Merkaartor)
+      description: Remote Control (JOSM, Potlatch ili Merkaartor)
+  auth:
+    providers:
+      none: Nijedan
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -159,6 +224,8 @@ hr:
         reopened_at_by_html: Reaktivirao korisnik %{user} u %{when}
       rss:
         title: Bilješke OpenStreetMap-a
+        description_area: Lista bilješki, prijavljenih, komentiranih ili zatvorenih
+          u tvojem području [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: RSS-tok bilješke %{id}
         opened: nova bilješka (blizu %{place})
         commented: novi komentar (blizu %{place})
@@ -181,6 +248,14 @@ hr:
     anonymous: anonimno
     no_comment: (bez komentara)
     part_of: Dio od
+    part_of_relations:
+      one: 1 relacija
+      few: '%{count} relacije'
+      other: '%{count} relacija'
+    part_of_ways:
+      one: 1 put
+      few: '%{count} puta'
+      other: '%{count} putova'
     download_xml: Preuzmi XML
     view_history: Prikaži povijest
     view_details: Prikaži detalje
@@ -212,6 +287,10 @@ hr:
       title_html: 'Put: %{name}'
       history_title_html: 'Povijest puta: %{name}'
       nodes: Točke
+      nodes_count:
+        one: 1 točka
+        few: '%{count} točke'
+        other: '%{count} točaka'
       also_part_of_html:
         one: dio puta %{related_ways}
         other: dio putova %{related_ways}
@@ -219,6 +298,10 @@ hr:
       title_html: 'Relacija: %{name}'
       history_title_html: 'Povijest relacije: %{name}'
       members: Članovi
+      members_count:
+        one: 1 član
+        few: '%{count} člana'
+        other: '%{count} članova'
     relation_member:
       entry_role_html: '%{type} %{name} kao %{role}'
       type:
@@ -264,6 +347,7 @@ hr:
         tag: Opis wiki stranica za oznaku %{key}=%{value} (tag)
       wikidata_link: '%{page} Predmet na Wikidata'
       wikipedia_link: Članak o %{page} na Wikipediji
+      wikimedia_commons_link: '%{page} element na Wikimedia Commons'
       telephone_link: Nazovi %{phone_number}
     note:
       title: 'Bilješka: %{id}'
@@ -285,6 +369,7 @@ hr:
       reopened_by_anonymous_html: Ponovno aktivirano anonimno <abbr title='%{exact_time}'>
         u %{when}</abbr>
       hidden_by_html: Sakrio/la %{user} <abbr title='%{exact_time}'> u %{when}</abbr>
+      report: Prijavi ovu bilješku
     query:
       title: Provjeri elemente karte
       introduction: Klikni na kartu za pronalazak okolnih elemenata karte.
@@ -323,6 +408,8 @@ hr:
     comment:
       comment: 'Novi komentar na setu promjena #%{changeset_id} od %{author}'
       commented_at_by_html: Osvježio korisnik %{user} %{when}
+    comments:
+      comment: 'Novi komentar od %{author} na setu promjena #%{changeset_id}'
     index:
       title_all: Rasprava o OpenStreetMap setu promjena
       title_particular: 'Rasprava o OpenStreetMap setu promjena #%{changeset_id}'
@@ -330,8 +417,8 @@ hr:
     new:
       title: Novi zapis u dnevnik
     form:
-      location: 'Lokacija:'
-      use_map_link: koristi kartu
+      location: Lokacija
+      use_map_link: Koristi kartu
     index:
       title: Dnevnici korisnika
       title_friends: Dnevnici prijatelja
@@ -340,6 +427,7 @@ hr:
       in_language_title: 'Zapisi u dnevniku na jeziku: %{language}'
       new: Novi zapis u dnevnik
       new_title: Sročite novi zapis u vaš dnevnik
+      my_diary: Moj dnevnik
       no_entries: Nema zapisa u dnevniku
       recent_entries: Nedavni zapisi u dnevnik
       older_entries: Stariji zapisi
@@ -359,7 +447,8 @@ hr:
       body: Žao mi je, ne postoji zapis u dnevniku ili komentar sa id %{id}. Provjerite
         ispravnost upisa, ili je poveznica na koji ste kliknuli neispravna.
     diary_entry:
-      posted_by_html: 'Postano od %{link_user} u %{created} na jeziku: %{language_link}'
+      posted_by_html: Poslao %{link_user} u %{created} na jeziku %{language_link}
+      updated_at_html: Zadnji put ažurirano %{updated}.
       comment_link: Komentiraj ovaj zapis
       reply_link: Pošalji poruku autoru
       comment_count:
@@ -424,10 +513,14 @@ hr:
           drag_lift: Sidro/tanjurić
           gondola: Žičara
           station: Stanica žičare
+          t-bar: Sidro
+          "yes": Žičara
         aeroway:
           aerodrome: Zračna luka
+          airstrip: Uzletno/sletna pista
           apron: Pristanišna platforma
           gate: Izlaz
+          hangar: Hangar
           helipad: Heliodrom
           runway: Pista
           taxiway: Rulnica
@@ -528,16 +621,18 @@ hr:
           viaduct: Vijadukt
           "yes": Most
         building:
-          apartments: Stambeni blok
+          apartments: Stambena zgrada
           chapel: Kapelica
-          church: Crkva
+          church: Crkvena zgrada
           commercial: Poslovna zgrada
           construction: Zgrada u izgradnji
           dormitory: Studentski dom
-          farm: Farma (zgrada)
+          farm: Zgrada farme
           garage: Garaža
+          garages: Garaže
+          greenhouse: Plastenik/staklenik
           hospital: Bolnica
-          hotel: Hotel
+          hotel: Zgrada hotela
           house: Kuća
           industrial: Industrijska zgrada
           manufacture: Tvornička zgrada
@@ -545,10 +640,13 @@ hr:
           public: Javna zgrada
           residential: Stambena zgrada
           retail: Maloprodajna zgrada
+          roof: Krov
           school: Školska zgrada
-          terrace: Terasa
-          train_station: Željeznički kolodvor
+          stable: Staja
+          terrace: Kućica u nizu
+          train_station: Zgrada željezničkog kolodvora
           university: Zgrada Sveučilišta
+          warehouse: Skladište
           "yes": Zgrada
         craft:
           brewery: Pivovara
@@ -560,6 +658,7 @@ hr:
           plumber: Vodoinstalater
           shoemaker: Obućar
           tailor: Krojač
+          winery: Vinarija
           "yes": Radionica
         emergency:
           ambulance_station: Garaža hitne pomoći
@@ -902,9 +1001,11 @@ hr:
           "yes": Vodotok
       admin_levels:
         level2: Državna granica
+        level3: Granica regije
         level5: Granica regije
         level6: Granica županije
-        level8: Granica grada
+        level7: Granica općine/grada
+        level8: Granica naselja
         level9: Granica sela
         level10: Granica predgrađa
       types:
@@ -1856,6 +1957,22 @@ hr:
         hours:
           one: 1 sat
           other: '%{count} sati'
+        days:
+          one: 1 dan
+          few: '%{count} dana'
+          other: '%{count} dana'
+        weeks:
+          one: 1 tjedan
+          few: '%{count} tjedna'
+          other: '%{count} tjedana'
+        months:
+          one: 1 mjesec
+          few: '%{count} mjeseca'
+          other: '%{count} mjeseci'
+        years:
+          one: 1 godina
+          few: '%{count} godine'
+          other: '%{count} godina'
     blocks_on:
       title: Blokade na %{name}
       heading_html: Lista blokada na %{name}
@@ -1867,6 +1984,7 @@ hr:
     show:
       title: '%{block_on} blokiran od %{block_by}'
       heading_html: '%{block_on} blokiran od %{block_by}'
+      created: Stvoreno
       status: Status
       show: Prikaži
       edit: Uredi
@@ -1909,6 +2027,7 @@ hr:
       link: Poveznica ili HTML
       long_link: Poveznica
       short_link: Kratka poveznica
+      geo_uri: Geo URI
       embed: HTML
       custom_dimensions: Postavi prilagođene dimenzije
       format: 'Format:'
@@ -1954,12 +2073,22 @@ hr:
       map_data_zoom_in_tooltip: Približi da vidiš podatke karte
       queryfeature_tooltip: Provjeri elemente karte
       queryfeature_disabled_tooltip: Približi za provjeru elemenata
+    changesets:
+      show:
+        comment: Komentiraj
+        subscribe: Pretplati se
+        unsubscribe: Otkaži pretplatu
+        hide_comment: sakrij
+        unhide_comment: vrati sakriveno
     notes:
       new:
         intro: Primjetili ste grešku ili nedostatak nečega? Javite ostalim kartografima
           kako bismo to ispravili. Stavite oznaku na pravo mjesto i dodajte bilješku
           s opisom problema. (Molimo ne unašajte osobne podatke ili podatke s karata
           koje su zaštićene autorskim pravima)
+        advice: Vaša bilješka je javna i može se koristiti za ažuriranje karte, zato
+          ne upisujte osobne podatke, ili podatke sa karata ili tablica podataka zaštićenih
+          autorskim pravima.
         add: Dodaj bilješku
       show:
         anonymous_warning: Ova bilješka sadrži komentare anonimnih korisnika koje
@@ -1987,14 +2116,34 @@ hr:
       instructions:
         continue_without_exit: Nastavi na %{name}
         slight_right_without_exit: Lagano desno na %{name}
+        offramp_right: Uđite na autocestu desno
+        offramp_right_with_exit: Skrenite na izlaz %{exit} desno
         offramp_right_with_name: Siđi sa autoceste desno na %{name}
         onramp_right_without_exit: Skreni desno na autocestu %{name}
         endofroad_right_without_exit: Na kraju ceste skreni desno na %{name}
+        exit_counts:
+          first: "1."
+          second: "2."
+          third: "3."
+          fourth: "4."
+          fifth: "5."
+          sixth: "6."
+          seventh: "7."
+          eighth: "8."
+          ninth: "9."
+          tenth: "10."
+      time: Vrijeme
+    query:
+      node: Točka
+      way: Put
+      relation: Relacija
     context:
       directions_from: Upute odavde
       directions_to: Upute do ovog mjesta
+      add_note: Dodaj bilješku ovdje
       show_address: Prikaži adresu
       query_features: Provjeri elemente karte
+      centre_map: Centriraj kartu ovdje
   redactions:
     show:
       description: 'Opis:'

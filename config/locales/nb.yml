@@ -2,7 +2,6 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Abbe98
-# Author: Abijeet Patro
 # Author: Citadell
 # Author: Danmichaelo
 # Author: Dittaeva
@@ -46,7 +45,7 @@ nb:
         create: Send
       client_application:
         create: Registrer
-        update: Rediger
+        update: Oppdater
       redaction:
         create: Lag maskering
         update: Lagre markering
@@ -139,27 +138,40 @@ nb:
         body: Brødtekst
         recipient: Mottaker
       redaction:
+        title: Tittel
         description: Beskrivelse
       report:
         category: Begrunn rapporten din
         details: Fremskaff flere detaljer om problemet (påkrevet)
       user:
+        auth_provider: Leverandør av autentisering
+        auth_uid: Autentisering UID
         email: E-post
-        new_email: 'Ny e-postadresse:'
+        email_confirmation: E-post-bekreftelse
+        new_email: Ny e-postadresse
         active: Aktiv
         display_name: Visningsnavn
-        description: Beskrivelse
-        home_lat: 'Breddegrad:'
-        home_lon: 'Lengdegrad:'
-        languages: Språk
+        description: Profilbeskrivelse
+        home_lat: Breddegrad
+        home_lon: Lengdegrad
+        languages: Foretrukne språk
+        preferred_editor: Foretrukket redigeringsverktøy
         pass_crypt: Passord
         pass_crypt_confirmation: Bekreft passord
     help:
       trace:
         tagstring: kommaseparert
       user_block:
+        reason: Grunnen til at brukeren er blitt blokkert. Vennligst vær så rolig
+          og fornuftig som mulig, og gi så mye informasjon som du kan om situasjonen,
+          mens du husker på at meldingen vil være offentlig synlig. Husk på at ikke
+          alle brukere skjønner seg på kartuttrykk, så vennligst bruk hverdagslige
+          uttrykk.
         needs_view: Må brukeren logge inn før denne blokkeringen blir fjernet?
       user:
+        email_confirmation: Adressen din vises ikke offentlig, se våre <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF-personvernsregler, inkludert en seksjon om e-postadresser">personvernsregler</a>
+          for mer informasjon.
         new_email: ' (vises aldri offentlig)'
   datetime:
     distance_in_words_ago:
@@ -299,6 +311,9 @@ nb:
       title_html: 'Forbindelse: %{name}'
       history_title_html: 'Forbindelseshistorikk: %{name}'
       members: Medlemmer
+      members_count:
+        one: ett medlem
+        other: '%{count} medlemmer'
     relation_member:
       entry_role_html: '%{type} %{name} som %{role}'
       type:
@@ -309,6 +324,7 @@ nb:
       entry_html: Relasjon %{relation_name}
       entry_role_html: Relasjon %{relation_name} (som %{relation_role})
     not_found:
+      title: Ikke funnet
       sorry: Beklager, klarte ikke finne %{type}-en med ID %{id}.
       type:
         node: node
@@ -317,6 +333,7 @@ nb:
         changeset: endringssett
         note: merknad
     timeout:
+      title: Feil pga. tidsavbrudd
       sorry: Beklager, det tok for lang tid å hente data for %{type} med ID %{id}.
       type:
         node: node
@@ -416,8 +433,8 @@ nb:
     new:
       title: Ny dagboksoppføring
     form:
-      location: 'Posisjon:'
-      use_map_link: bruk kart
+      location: Posisjon
+      use_map_link: Bruk kart
     index:
       title: Brukeres dagbøker
       title_friends: Dine venners dagbøker
@@ -446,7 +463,8 @@ nb:
       body: Beklager, det er ingen dagbokinnlegg eller kommentar med ID %{id}. Sjekk
         om du har skrevet riktig eller om lenka du klikket er feil.
     diary_entry:
-      posted_by_html: Skrevet av %{link_user} den %{created} på %{language_link}
+      posted_by_html: Skrevet av %{link_user} den %{created} på %{language_link}.
+      updated_at_html: Sist oppdatert den %{updated}.
       comment_link: Kommenter dette innlegget
       reply_link: Send en beskjed til forfatteren
       comment_count:
@@ -516,6 +534,7 @@ nb:
           chair_lift: Stolheis
           drag_lift: Skitrekk
           gondola: Gondolheis
+          magic_carpet: Magisk-teppe-heis
           platter: Tallerken-heis
           pylon: Pylon
           station: Fjellheisstasjon
@@ -530,8 +549,10 @@ nb:
           holding_position: Venteposisjon
           parking_position: Parkeringsposisjon
           runway: Rullebane
+          taxilane: Taxifelt
           taxiway: Taxibane
           terminal: Terminal
+          windsock: Vindpose
         amenity:
           animal_shelter: Dyrehospits
           arts_centre: Kunstsenter
@@ -542,7 +563,9 @@ nb:
           bench: Benk
           bicycle_parking: Sykkelparkering
           bicycle_rental: Sykkelutleie
+          bicycle_repair_station: Sykkelreparasjonsstasjon
           biergarten: Ølhage
+          blood_bank: Blodbank
           boat_rental: Båtutleie
           brothel: Bordell
           bureau_de_change: Vekslingskontor
@@ -559,6 +582,7 @@ nb:
           clock: Klokke
           college: Høyskole
           community_centre: Samfunnshus
+          conference_centre: Konferansesenter
           courthouse: Rettsbygning
           crematorium: Krematorium
           dentist: Tannlege
@@ -578,16 +602,20 @@ nb:
           hospital: Sykehus
           hunting_stand: Jaktbod
           ice_cream: Iskrem
+          internet_cafe: Internettcafe
           kindergarten: Barnehage
+          language_school: Språkskole
           library: Bibliotek
           marketplace: Markedsplass
           monastery: Kloster
           motorcycle_parking: Motorsykkelparkering
+          music_school: Musikkskole
           nightclub: Nattklubb
           nursing_home: Pleiehjem
           parking: Parkeringsplass
           parking_entrance: Innkjøring til parkeringsgarasje
           parking_space: Parkeringsplass
+          payment_terminal: Betalingsterminal
           pharmacy: Apotek
           place_of_worship: Tilbedelsesplass
           police: Politi
@@ -595,6 +623,8 @@ nb:
           post_office: Postkontor
           prison: Fengsel
           pub: Pub
+          public_bath: Offentlig bad
+          public_bookcase: Offentlig bokkasse
           public_building: Offentlig bygning
           recycling: Resirkuleringspunkt
           restaurant: Restaurant
@@ -616,12 +646,14 @@ nb:
           village_hall: Forsamlingshus
           waste_basket: Søppelkasse
           waste_disposal: Avfallshåndtering
+          waste_dump_site: Avfallsdeponi
           water_point: Vannpunkt
         boundary:
           administrative: Administrativ grense
           census: Folketellingsgrense
           national_park: Nasjonalpark
           protected_area: Verna område
+          "yes": Avgrensning
         bridge:
           aqueduct: Akvadukt
           boardwalk: Strandpromenade
@@ -630,41 +662,71 @@ nb:
           viaduct: Viadukt
           "yes": Bru
         building:
-          apartments: Leilighetsblokk
+          apartments: Leiligheter
+          barn: Låve
+          bungalow: Bungalow
+          cabin: Hytte
           chapel: Kapell
-          church: Kirke
+          church: Kirkebygning
           commercial: Kommersiell bygning
+          construction: Bygning under konstruksjon
           dormitory: Sovesal
-          farm: Gårdsbygg
+          farm: Gårdshus
+          farm_auxiliary: Ytterlig gårdsbygning
           garage: Garasje
+          garages: Garasjer
+          greenhouse: Drivhus
+          hangar: Hangar
           hospital: Sykehusbygg
-          hotel: Hotell
+          hotel: Hotellbygning
           house: Hus
+          houseboat: Husbåt
           industrial: Industribygg
+          kindergarten: Barnehagebygning
           office: Kontorbygg
           public: Offentlig bygg
           residential: Boligbygg
           retail: Detaljsalgbygg
+          roof: Tak
+          ruins: Bygningsruin
           school: Skolebygg
-          terrace: Terrasse
-          train_station: Jernbanestasjon
+          shed: Skur
+          stable: Stall
+          static_caravan: Husvogn
+          temple: Tempelbygning
+          terrace: Terrassebygning
+          train_station: Jernbanestasjonsbygning
           university: Universitetsbygg
+          warehouse: Lagerhall
           "yes": Bygning
+        club:
+          scout: Speiderklubbhus
+          sport: Sportsklubb
+          "yes": Klubb
         craft:
+          beekeper: Birøkter
+          blacksmith: Smed
           brewery: Bryggeri
           carpenter: Tømrer
+          caterer: Catering
           electrician: Elektriker
+          electronics_repair: Elektronikkreparatør
           gardener: Gartner
           painter: Maler
           photographer: Fotograf
           plumber: Rørlegger
+          roofer: Taklegger
+          sawmill: Sagbruk
           shoemaker: Skomaker
           tailor: Skredder
+          window_construction: Vindussnekker
+          winery: Vingård
           "yes": Handtverksbutikk
         emergency:
           ambulance_station: Ambulansestasjon
           assembly_point: Samlingsplass
           defibrillator: Hjertestarter
+          fire_xtinguisher: Brannslukker
           landing_site: Nødlandingsplass
           phone: Nødtelefon
           water_tank: Nødvanntank
@@ -709,6 +771,7 @@ nb:
           tertiary: Tertiær vei
           tertiary_link: Tertiær vei
           track: Traktorvei
+          traffic_mirror: Trafikkspeil
           traffic_signals: Trafikklys
           trunk: Hovedvei
           trunk_link: Hovedvei
@@ -721,6 +784,7 @@ nb:
           boundary_stone: Grensestein
           building: Historisk bygning
           bunker: Bunker
+          cannon: Historisk kanon
           castle: Slott
           church: Kirke
           city_gate: Byport
@@ -778,6 +842,7 @@ nb:
         leisure:
           beach_resort: Strandsted
           bird_hide: Fugletårn
+          bowling_alley: Bowlinghall
           common: Allmenning
           dog_park: Hundepark
           firepit: Bålgrop
@@ -806,13 +871,16 @@ nb:
           "yes": Fritid
         man_made:
           adit: Stoll
+          antenna: Antenne
           beacon: Fyr
           beehive: Bikube
           breakwater: Molo
           bridge: Bro
           bunker_silo: Bunker
+          cairn: Varde
           chimney: Skorstein
           crane: Kran
+          cross: Kors
           dolphin: Fortøyningspæl
           dyke: Grøft
           embankment: Dike
@@ -828,9 +896,13 @@ nb:
           petroleum_well: Oljebrønn
           pier: Molo
           pipeline: Rørgate
+          pumping_station: Pumpestasjon
           silo: Silo
+          snow_cannon: Snøkanon
           storage_tank: Lagringstank
+          street_cabinet: Gatekabinett
           surveillance: Overvåkning
+          telescope: Teleskop
           tower: Tårn
           wastewater_plant: Kloakkanlegg
           watermill: Vannmølle
@@ -972,7 +1044,9 @@ nb:
           carpet: Teppebutikk
           charity: Veldedighetsbutikk
           chemist: Kjemiker
+          chocolate: Sjokolade
           clothes: Klesbutikk
+          coffee: Kaffebutikk
           computer: Databutikk
           confectionery: Konditori
           convenience: Nærbutikk
@@ -2243,13 +2317,13 @@ nb:
     account:
       title: Rediger konto
       my settings: Mine innstillinger
-      current email address: 'Nåværende e-postadresse:'
-      external auth: 'Ekstern bekreftelse:'
+      current email address: Nåværende e-postadresse
+      external auth: Ekstern autentisering
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: hva er dette?
       public editing:
-        heading: 'Offentlig redigering:'
+        heading: Offentlig redigering
         enabled: Aktivert. Ikke anonym og kan redigere data.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: hva er dette?
@@ -2266,7 +2340,7 @@ nb:
           ). <ul><li>Din e-postadresse vil ikke bli avslørt ved å bli offentlig.</li><li>Denne
           handlingen kan ikke angres, og alle nye brukere er nå offentlige som standard.</li></ul>
       contributor terms:
-        heading: 'Bidragsytervilkår:'
+        heading: Bidragsytervilkår
         agreed: Du har godkjent de nye Bidragsytervilkårene.
         not yet agreed: Du har ennå ikke godkjent de nye bidragsytervilkårene.
         review link text: Vennligst følg denne lenken når det passer deg, for å se
@@ -2275,10 +2349,11 @@ nb:
           offentlig eiendom (Public Domain).
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: hva er dette?
-      image: 'Bilde:'
+      image: Bilde
       gravatar:
         gravatar: Bruk Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Hva er Gravatar?
         disabled: Gravatar har blitt slått av.
         enabled: Visning av din Gravatar er slått på.
       new image: Legg til et bilde
@@ -2286,7 +2361,7 @@ nb:
       delete image: Fjern gjeldende bilde
       replace image: Erstatt gjeldende bilde
       image size hint: (kvadratiske bilder som er minst 100x100 fungerer best)
-      home location: 'Hjemmeposisjon:'
+      home location: Hjemmeposisjon
       no home location: Du har ikke angitt din hjemmeposisjon.
       update home location on click: Oppdater hjemmeposisjon når jeg klikker på kartet?
       save changes button: Lagre endringer
