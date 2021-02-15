@@ -44,6 +44,7 @@
 # Author: RicoElectrico
 # Author: Rmikke
 # Author: Ruila
+# Author: SemanticPioneer
 # Author: Soeb
 # Author: Sp5uhe
 # Author: Stojex
@@ -305,7 +306,7 @@ pl:
         title: Uwagi OpenStreetMap
         description_area: Lista uwag stworzonych, skomentowanych lub zamkniętych w
           twojej okolicy [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-        description_item: Kanał RSS dla uwagi %{id}
+        description_item: Kanał RSS uwagi %{id}
         opened: 'nowa uwaga (w lokalizacji: %{place})'
         commented: nowy komentarz (w pobliżu %{place})
         closed: 'zamknięta uwaga (w lokalizacji: %{place})'
@@ -409,14 +410,14 @@ pl:
         note: uwaga
     timeout:
       title: Przekroczono limit czasu
-      sorry: Niestety, pobranie danych dla %{type} o identyfikatorze %{id} trwało
-        zbyt długo.
+      sorry: Niestety, pobranie danych %{type} o identyfikatorze %{id} trwało zbyt
+        długo.
       type:
-        node: węzeł
-        way: linia
-        relation: relacja
-        changeset: zestaw zmian
-        note: Uwaga
+        node: węzła
+        way: linii
+        relation: relacji
+        changeset: zestawu zmian
+        note: uwagi
     redacted:
       redaction: Poprawka %{id}
       message_html: '%{type} w wersji %{version} nie może zostać wyświetlony z powodu
@@ -434,8 +435,8 @@ pl:
     tag_details:
       tags: Znaczniki
       wiki_link:
-        key: Strona wiki dla znacznika %{key}
-        tag: Strona wiki dla znacznika %{key}=%{value}
+        key: Strona wiki znacznika %{key}
+        tag: Strona wiki znacznika %{key}=%{value}
       wikidata_link: '%{page} element na Wikidata'
       wikipedia_link: Artykuł %{page} w Wikipedii
       wikimedia_commons_link: Plik %{page} na Wikimedia Commons
@@ -565,8 +566,8 @@ pl:
       coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
-        title: Wpisy dla %{user}
-        description: Ostatnie wpisy od %{user}
+        title: Wpisy użytkownika %{user}
+        description: Ostatnie wpisy dziennika użytkownika %{user}
       language:
         title: Wpisy dziennika w języku %{language_name}
         description: Ostatnie wpisy użytkowników OpenStreetMap w języku %{language_name}
@@ -958,7 +959,7 @@ pl:
           quarry: Kamieniołom
           railway: Teren kolejowy
           recreation_ground: Teren rekreacyjny
-          religious: Teren dla celów religijnych
+          religious: Teren do celów religijnych
           reservoir: Sztuczny zbiornik wodny
           reservoir_watershed: Zbiornik wodny
           residential: Zabudowa mieszkalna
@@ -1593,7 +1594,7 @@ pl:
       subject: '[OpenStreetMap] Prośba zmiany hasła'
       greeting: Cześć,
       hopefully_you: Ktoś (prawdopodobnie ty) poprosił o zresetowanie hasła do konta
-        w serwisie openstreetmap.org dla tego adresu e-mail.
+        w serwisie openstreetmap.org przypisanego do tego adresu e-mail.
       click_the_link: Jeśli to ty, kliknij poniższy odnośnik, aby wyczyścić hasło.
     note_comment_notification:
       anonymous: Anonimowy użytkownik
@@ -1764,8 +1765,8 @@ pl:
     about:
       next: Dalej
       copyright_html: <span>&copy;</span>Autorzy<br>OpenStreetMap
-      used_by_html: '%{name} dostarcza dane mapowe dla tysięcy stron internetowych,
-        aplikacji oraz urządzeń'
+      used_by_html: '%{name} dostarcza dane mapowe tysiącom stron internetowych, aplikacji
+        oraz urządzeń'
       lede_text: OpenStreetMap jest tworzony przez społeczność dodającą dane o drogach,
         ścieżkach, kawiarniach, dworcach i wielu innych, na całym świecie.
       local_knowledge_title: Wiedza lokalna
@@ -1774,7 +1775,7 @@ pl:
         czy dane w OSM są dokładne i aktualne.
       community_driven_title: Zarządzany przez społeczność
       community_driven_html: |-
-        Społeczność OpenStreetMap jest różnorodna, zaangażowana i każdego dnia coraz większa. Wśród edytujących mapę są amatorscy kartografowie, specjaliści GIS, inżynierowie odpowiadający za pracę serwerów OSM, osoby tworzące mapy obszarów dotkniętych skutkami klęski żywiołowej dla potrzeb służb ratunkowych oraz wielu innych ludzi.
+        Społeczność OpenStreetMap jest różnorodna, zaangażowana i każdego dnia coraz większa. Wśród edytujących mapę są amatorscy kartografowie, specjaliści GIS, inżynierowie odpowiadający za pracę serwerów OSM, osoby tworzące mapy obszarów dotkniętych skutkami klęski żywiołowej potrzebne służbom ratunkowym oraz wielu innych ludzi.
         Aby dowiedzieć się więcej na temat wspólnoty, odwiedź
         <a href='https://blog.openstreetmap.org'>Blog OpenStreetMap</a>,
         <a href='%{diary_path}'>blogi użytkowników</a>,
@@ -1936,7 +1937,7 @@ pl:
       anon_edits_link_text: Tu dowiesz się dlaczego.
       id_not_configured: iD nie został skonfigurowany
       no_iframe_support: Używana przeglądarka nie obsługuje HTML iframes, które są
-        niezbędne dla tej funkcji.
+        niezbędne do tej funkcji.
     export:
       title: Eksportuj
       area_to_export: Obszar do wyeksportowania
@@ -1967,7 +1968,7 @@ pl:
             miast
         metro:
           title: Metro Extracts
-          description: Wyciągi dla dużych miast i otaczających je obszarów
+          description: Wyciągi dużych miast i otaczających je obszarów
         other:
           title: Inne zasoby
           description: Dodatkowe zasoby wymienione w OpenStreetMap wiki
@@ -2178,7 +2179,7 @@ pl:
         way_html: <strong>Linia</strong> to droga lub obszar, np. ulica, rzeka, jezioro
           lub budynek.
         tag_html: <strong>Znacznik</strong> to część danych opisująca linię lub węzeł,
-          np. nazwa restauracji lub ograniczenie prędkości dla drogi.
+          np. nazwa restauracji lub ograniczenie prędkości na drodze.
       rules:
         title: Zasady!
         paragraph_1_html: W OpenStreetMap jest kilka formalnych zasad, ale oczekujemy,
@@ -2381,8 +2382,8 @@ pl:
       issued_at: Czas wydania
       revoke: Odwołaj!
       my_apps: Programy klienckie
-      no_apps_html: Poniżej zarejestrować można programy korzystające ze standardu
-        %{oauth}. Programy muszą być wcześniej zarejestrowane, nim będzie można skorzystać
+      no_apps_html: Poniżej można zarejestrować programy korzystające ze standardu
+        %{oauth}. Programy należy wcześniej zarejestrować, nim będzie można skorzystać
         z zapytań OAuth do tej usługi.
       oauth: OAuth
       registered_apps: 'Zarejestrowano następujące aplikacje klienckie:'
@@ -2897,13 +2898,13 @@ pl:
     key:
       title: Legenda
       tooltip: Legenda
-      tooltip_disabled: Legenda nie jest dostępna dla tej warstwy
+      tooltip_disabled: Legenda nie jest dostępna do tej warstwy
     map:
       zoom:
         in: Przybliż
         out: Oddal
       locate:
-        title: Wyświetl dla mojego aktualnego położenia
+        title: Wyświetl moje aktualne położenie
         metersPopup:
           one: Jesteś w promieniu 1 metra od tego punktu
           few: Jesteś w promieniu %{count} metrów od tego punktu
@@ -2966,7 +2967,7 @@ pl:
         add: Dodaj uwagę
       show:
         anonymous_warning: Uwaga zawiera informacje od anonimowych użytkowników, które
-          powinny być dodatkowo zweryfikowane przed wprowadzeniem zmian na mapie.
+          należy zweryfikować przed wprowadzeniem zmian na mapie.
         hide: Ukryj
         resolve: Oznacz jako rozwiązaną
         reactivate: Ponownie aktywuj
@@ -3088,7 +3089,7 @@ pl:
       heading: Lista poprawek
       title: Lista poprawek
     new:
-      heading: Wprowadź informację dla nowej poprawki
+      heading: Wprowadź informacje o nowej poprawce
       title: Tworzenie nowej poprawki
     show:
       description: 'Opis:'
