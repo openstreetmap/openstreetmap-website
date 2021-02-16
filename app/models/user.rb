@@ -107,6 +107,7 @@ class User < ApplicationRecord
 
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => proc { |u| u.new_email_changed? }
+  validates :image, allow_blank: true, format: { with: %r{.(gif|jpg|png|jpeg)\Z}i, message: 'must be a URL for GIF, JPG ,PNG or JPEG image.' }
 
   after_initialize :set_defaults
   before_save :encrypt_password
