@@ -9,12 +9,12 @@ module ApplicationHelper
     end
   end
 
-  def rss_link_to(*args)
-    link_to(image_tag("RSS.png", :size => "16x16", :border => 0), Hash[*args], :class => "rsssmall")
+  def rss_link_to(args = {})
+    link_to(image_tag("RSS.png", :size => "16x16", :border => 0), args, :class => "rsssmall")
   end
 
-  def atom_link_to(*args)
-    link_to(image_tag("RSS.png", :size => "16x16", :border => 0), Hash[*args], :class => "rsssmall")
+  def atom_link_to(args = {})
+    link_to(image_tag("RSS.png", :size => "16x16", :border => 0), args, :class => "rsssmall")
   end
 
   def richtext_area(object_name, method, options = {})
