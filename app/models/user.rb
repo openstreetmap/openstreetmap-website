@@ -104,6 +104,8 @@ class User < ApplicationRecord
   validates :preferred_editor, :inclusion => Editors::ALL_EDITORS, :allow_nil => true
   validates :auth_uid, :unless => proc { |u| u.auth_provider.nil? },
                        :uniqueness => { :scope => :auth_provider }
+  validates :avatar, :if => proc { |u| u.attachment_changes["avatar"] },
+                     :image => true
 
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => proc { |u| u.new_email_changed? }
