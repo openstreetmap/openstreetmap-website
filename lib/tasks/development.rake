@@ -7,7 +7,11 @@ if Rails.env.development?
 
       # Ensure that all dates (e.g. terms_agreed) are consistent
       Timecop.freeze(Time.utc(2015, 10, 21, 12, 0, 0)) do
-        _user = FactoryBot.find_or_create(:user, :display_name => Faker::Name.name)
+        user = FactoryBot.find_or_create(:user, :display_name => Faker::Name.name)
+
+        FactoryBot.find_or_create(:diary_entry, :title => Faker::Lorem.sentence,
+                                                :body => Array.new(3) { Faker::Lorem.paragraph(:sentence_count => 12) }.join("\n\n"),
+                                                :user_id => user.id)
       end
     end
   end
