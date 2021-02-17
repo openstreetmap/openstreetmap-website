@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install system packages
+# Install system packages then clean up to minimize image size
 RUN apt-get update \
  && apt-get install --no-install-recommends -y \
       build-essential \
@@ -30,7 +30,7 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# Install current Osmosis
+# Install compatible Osmosis to help users import sample data in a new instance
 RUN curl -OL https://github.com/openstreetmap/osmosis/releases/download/0.47.2/osmosis-0.47.2.tgz \
  && tar -C /usr/local -xzf osmosis-0.47.2.tgz
 
@@ -45,6 +45,7 @@ ADD Gemfile Gemfile.lock /app/
 RUN gem install bundler \
  && bundle install
 
-# Install NodeJS packages
+# Install NodeJS packages using yarnpkg
+# `bundle exec rake yarn:install` will not work
 ADD package.json yarn.lock /app/
 RUN yarnpkg install
