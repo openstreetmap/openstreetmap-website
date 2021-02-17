@@ -1,3 +1,11 @@
+# Create some fake data to help developers get started with the app
+
+# This rake task will add some fake data, which is particularly helpful when
+# developing the user interface, since it avoids time-consuming manual work
+
+# The data should be created in a idempotent fashion, so that the script can be
+# run again without causing errors or duplication.
+
 if Rails.env.development?
   desc "Populate the development database with some fake data"
   namespace "dev" do
