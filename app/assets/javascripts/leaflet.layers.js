@@ -119,7 +119,7 @@ L.OSM.layers = function (options) {
         .attr("class", "text-muted")
         .appendTo(overlaySection);
 
-      var overlays = $("<ul class='list-unstyled standard-form'>")
+      var overlays = $("<ul class='list-unstyled form-check'>")
         .appendTo(overlaySection);
 
       var addOverlay = function (layer, name, maxArea) {
@@ -130,12 +130,14 @@ L.OSM.layers = function (options) {
           .appendTo(overlays);
 
         var label = $("<label>")
+          .attr("class", "form-check-label")
           .appendTo(item);
 
         var checked = map.hasLayer(layer);
 
         var input = $("<input>")
           .attr("type", "checkbox")
+          .attr("class", "form-check-input")
           .prop("checked", checked)
           .appendTo(label);
 
