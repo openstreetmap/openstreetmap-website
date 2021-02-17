@@ -44,19 +44,20 @@ L.OSM.share = function (options) {
       .appendTo($linkSection);
 
     var $form = $("<form>")
-      .attr("class", "standard-form")
       .appendTo($linkSection);
 
     $("<div>")
-      .attr("class", "standard-form-row")
+      .attr("class", "form-check form-group")
       .appendTo($form)
       .append(
         $("<label>")
           .attr("for", "link_marker")
+          .attr("class", "form-check-label")
           .append(
             $("<input>")
               .attr("id", "link_marker")
               .attr("type", "checkbox")
+              .attr("class", "form-check-input")
               .bind("change", toggleMarker))
           .append(I18n.t("javascripts.share.include_marker")));
 
@@ -91,7 +92,7 @@ L.OSM.share = function (options) {
       });
 
     $("<div>")
-      .attr("class", "standard-form-row share-tab")
+      .attr("class", "share-tab")
       .css("display", "block")
       .appendTo($form)
       .append($("<input>")
@@ -100,7 +101,7 @@ L.OSM.share = function (options) {
         .on("click", select));
 
     $("<div>")
-      .attr("class", "standard-form-row share-tab")
+      .attr("class", "share-tab")
       .appendTo($form)
       .append($("<input>")
         .attr("id", "short_input")
@@ -108,7 +109,7 @@ L.OSM.share = function (options) {
         .on("click", select));
 
     $("<div>")
-      .attr("class", "standard-form-row share-tab")
+      .attr("class", "share-tab")
       .appendTo($form)
       .append(
         $("<textarea>")
@@ -153,26 +154,26 @@ L.OSM.share = function (options) {
 
     $form = $("<form>")
       .attr("id", "export-image")
-      .attr("class", "standard-form")
       .attr("action", "/export/finish")
       .attr("method", "post")
       .appendTo($imageSection);
 
     $("<div>")
-      .attr("class", "standard-form-row")
+      .attr("class", "form-group form-check")
       .appendTo($form)
       .append(
         $("<label>")
           .attr("for", "image_filter")
+          .attr("class", "form-check-label")
           .append(
             $("<input>")
               .attr("id", "image_filter")
               .attr("type", "checkbox")
+              .attr("class", "form-check-input")
               .bind("change", toggleFilter))
           .append(I18n.t("javascripts.share.custom_dimensions")));
 
     $("<div>")
-      .attr("class", "standard-form-row")
       .appendTo($form)
       .append(
         $("<label>")
@@ -187,7 +188,6 @@ L.OSM.share = function (options) {
         .append($("<option>").val("pdf").text("PDF")));
 
     $("<div>")
-      .attr("class", "standard-form-row")
       .appendTo($form)
       .append($("<label>")
         .attr("for", "mapnik_scale")
@@ -234,6 +234,7 @@ L.OSM.share = function (options) {
 
     $("<input>")
       .attr("type", "submit")
+      .attr("class", "btn btn-primary")
       .attr("value", I18n.t("javascripts.share.download"))
       .appendTo($form);
 
