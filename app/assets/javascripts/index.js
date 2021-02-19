@@ -189,7 +189,7 @@ $(document).ready(function () {
       map._object);
 
     $.removeCookie("_osm_location");
-    $.cookie("_osm_location", OSM.locationCookie(map), { expires: expiry, path: "/" });
+    $.cookie("_osm_location", OSM.locationCookie(map), { secure: true, expires: expiry, path: "/" });
   });
 
   if ($.cookie("_osm_welcome") !== "hide") {
@@ -198,7 +198,7 @@ $(document).ready(function () {
 
   $(".welcome .close").on("click", function () {
     $(".welcome").removeClass("visible");
-    $.cookie("_osm_welcome", "hide", { expires: expiry, path: "/" });
+    $.cookie("_osm_welcome", "hide", { secure: true, expires: expiry, path: "/" });
   });
 
   var bannerExpiry = new Date();
@@ -209,7 +209,7 @@ $(document).ready(function () {
     $("#banner").hide();
     e.preventDefault();
     if (cookieId) {
-      $.cookie(cookieId, "hide", { expires: bannerExpiry, path: "/" });
+      $.cookie(cookieId, "hide", { secure: true, expires: bannerExpiry, path: "/" });
     }
   });
 
