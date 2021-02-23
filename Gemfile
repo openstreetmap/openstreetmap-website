@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "6.0.3.4"
+gem "rails", "6.0.3.5"
 
 # Require json for multi_json
 gem "json"
@@ -62,12 +62,13 @@ gem "quad_tile", "~> 1.0.1"
 gem "rack-uri_sanitizer"
 
 # Omniauth for authentication
-gem "omniauth"
+gem "omniauth", "~> 2.0.2"
 gem "omniauth-facebook"
 gem "omniauth-github"
 gem "omniauth-google-oauth2", ">= 0.6.0"
 gem "omniauth-mediawiki", ">= 0.0.4"
 gem "omniauth-openid"
+gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem "omniauth-windowslive"
 
 # Markdown formatting support

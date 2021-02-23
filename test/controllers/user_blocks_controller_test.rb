@@ -351,7 +351,14 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       assert_select "input[type='submit'][value='Revoke!']", :count => 1
     end
 
-    # Check that revoking a block works
+    # Check that revoking a block using GET should fail
+    get revoke_user_block_path(:id => active_block, :confirm => true)
+    assert_response :success
+    assert_template "revoke"
+    b = UserBlock.find(active_block.id)
+    assert b.ends_at - Time.now > 100
+
+    # Check that revoking a block works using POST
     post revoke_user_block_path(:id => active_block, :confirm => true)
     assert_redirected_to user_block_path(active_block)
     b = UserBlock.find(active_block.id)

@@ -83,7 +83,7 @@ class OldRelation < ApplicationRecord
   end
 
   def tags
-    @tags ||= Hash[old_tags.collect { |t| [t.k, t.v] }]
+    @tags ||= old_tags.collect { |t| [t.k, t.v] }.to_h
   end
 
   attr_writer :members, :tags

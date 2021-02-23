@@ -113,7 +113,7 @@ class Way < ApplicationRecord
   end
 
   def tags
-    @tags ||= Hash[way_tags.collect { |t| [t.k, t.v] }]
+    @tags ||= way_tags.collect { |t| [t.k, t.v] }.to_h
   end
 
   attr_writer :nds, :tags

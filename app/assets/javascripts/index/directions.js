@@ -334,10 +334,8 @@ OSM.Directions = function (map) {
 
   select.on("change", function (e) {
     chosenEngine = engines[e.target.selectedIndex];
-    $.cookie("_osm_directions_engine", chosenEngine.id, { expires: expiry, path: "/" });
-    if (map.hasLayer(polyline)) {
-      getRoute(true, true);
-    }
+    $.cookie("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/" });
+    getRoute(true, true);
   });
 
   $(".directions_form").on("submit", function (e) {

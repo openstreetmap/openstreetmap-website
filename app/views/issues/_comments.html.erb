@@ -1,4 +1,4 @@
-<div class="issue-comments">
+<div>
   <% comments.each do |comment| %>
     <div class="comment">
       <div class="float-left">
@@ -13,13 +13,13 @@
     <hr>
   <% end %>
 </div>
-<br />
-<div class="comment standard-form">
-  <%= form_for @new_comment, :url => issue_comments_path(@issue) do |f| %>
-  <%= richtext_area :issue_comment, :body, :cols => 10, :rows => 8, :required => true %>
-  <%= label_tag :reassign, t(".reassign_param") %> <%= check_box_tag :reassign, true %>
-  <br />
-  <br />
-  <%= f.submit %>
+
+<div>
+  <%= bootstrap_form_for @new_comment, :url => issue_comments_path(@issue) do |f| %>
+    <%= f.richtext_field :body, :cols => 80, :rows => 20, :hide_label => true %>
+    <%= f.form_group do %>
+      <%= f.check_box :reassign, { :label => t(".reassign_param"), :id => "reassign", :name => "reassign", :checked => false }, true, false %>
+    <% end %>
+    <%= f.primary %>
   <% end %>
 </div>

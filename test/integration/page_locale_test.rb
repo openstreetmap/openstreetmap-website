@@ -12,6 +12,8 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
   def test_defaulting
     user = create(:user, :languages => [])
 
+    get "/login"
+    follow_redirect!
     post "/login", :params => { :username => user.email, :password => "test" }
     follow_redirect!
 
@@ -33,6 +35,8 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
     get "/diary", :params => { :locale => "es" }
     assert_select "html[lang=?]", "es"
 
+    get "/login"
+    follow_redirect!
     post "/login", :params => { :username => user.email, :password => "test" }
     follow_redirect!
 

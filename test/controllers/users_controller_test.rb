@@ -406,6 +406,25 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
   end
 
+  def test_login
+    user = create(:user)
+
+    get login_path
+    assert_response :redirect
+    assert_redirected_to login_path(:cookie_test => true)
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    get login_path, :params => { :username => user.display_name, :password => "test" }
+    assert_response :success
+    assert_template "login"
+
+    post login_path, :params => { :username => user.display_name, :password => "test" }
+    assert_response :redirect
+    assert_redirected_to root_path
+  end
+
   def test_logout_without_referer
     post logout_path
     assert_response :redirect
@@ -812,6 +831,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     uppercase_user = build(:user, :email => user.email.upcase).tap { |u| u.save(:validate => false) }
 
+    # Resetting with GET should fail
+    assert_no_difference "ActionMailer::Base.deliveries.size" do
+      perform_enqueued_jobs do
+        get user_forgot_password_path, :params => { :email => user.email }
+      end
+    end
+    assert_response :success
+    assert_template :lost_password
+
+    # Resetting with POST should work
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
         post user_forgot_password_path, :params => { :email => user.email }
@@ -949,6 +978,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_equal "/user/#{ERB::Util.u(user.display_name)}/account", form.attr("action").to_s
     end
 
+    # Updating the description using GET should fail
+    user.description = "new description"
+    user.preferred_editor = "default"
+    get user_account_path(user), :params => { :user => user.attributes }
+    assert_response :success
+    assert_template :account
+    assert_not_equal user.description, User.find(user.id).description
+
     # Updating the description should work
     user.description = "new description"
     user.preferred_editor = "default"
@@ -958,9 +995,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_account_path(user)
     assert_response :success
     assert_template :account
-    assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.standard-form-row > div#user_description_container > div#user_description_content > textarea#user_description", user.description
+    assert_select "form#accountForm > div.form-group > div#user_description_container > div#user_description_content > textarea#user_description", user.description
 
     # Changing to a invalid editor should fail
     user.preferred_editor = "unknown"
@@ -968,8 +1004,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :account
     assert_select ".notice", false
-    assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected]", false
+    assert_select "form#accountForm > div.form-group > select#user_preferred_editor > option[selected]", false
 
     # Changing to a valid editor should work
     user.preferred_editor = "id"
@@ -979,9 +1014,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_account_path(user)
     assert_response :success
     assert_template :account
-    assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected][value=?]", "id"
+    assert_select "form#accountForm > div.form-group > select#user_preferred_editor > option[selected][value=?]", "id"
 
     # Changing to the default editor should work
     user.preferred_editor = "default"
@@ -991,9 +1025,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_account_path(user)
     assert_response :success
     assert_template :account
-    assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.standard-form-row > select#user_preferred_editor > option[selected]", false
+    assert_select "form#accountForm > div.form-group > select#user_preferred_editor > option[selected]", false
 
     # Changing to an uploaded image should work
     image = Rack::Test::UploadedFile.new("test/gpx/fixtures/a.gif", "image/gif")
@@ -1003,9 +1036,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_account_path(user)
     assert_response :success
     assert_template :account
-    assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.standard-form-row.accountImage input[name=avatar_action][checked][value=?]", "keep"
+    assert_select "form#accountForm > fieldset.form-group > div.form-row > div.col-sm-10 > div.form-check > input[name=avatar_action][checked][value=?]", "keep"
 
     # Changing to a gravatar image should work
     post user_account_path(user), :params => { :avatar_action => "gravatar", :user => user.attributes }
@@ -1014,9 +1046,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_account_path(user)
     assert_response :success
     assert_template :account
-    assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.standard-form-row.accountImage input[name=avatar_action][checked][value=?]", "gravatar"
+    assert_select "form#accountForm > fieldset.form-group > div.form-row > div.col-sm-10 > div.form-group > div.form-check > input[name=avatar_action][checked][value=?]", "gravatar"
 
     # Removing the image should work
     post user_account_path(user), :params => { :avatar_action => "delete", :user => user.attributes }
@@ -1025,9 +1056,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_account_path(user)
     assert_response :success
     assert_template :account
-    assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.standard-form-row.accountImage input[name=avatar_action][checked]", false
+    assert_select "form#accountForm > fieldset.form-group > div.form-row > div.col-sm-10 > div.form-check > input[name=avatar_action][checked]", false
+    assert_select "form#accountForm > fieldset.form-group > div.form-row > div.col-sm-10 > div.form-group > div.form-check > input[name=avatar_action][checked]", false
 
     # Adding external authentication should redirect to the auth provider
     post user_account_path(user), :params => { :user => user.attributes.merge(:auth_provider => "openid", :auth_uid => "gmail.com") }
@@ -1040,8 +1071,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :account
     assert_select ".notice", false
-    assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.standard-form-row > input.field_with_errors#user_display_name"
+    assert_select "form#accountForm > div.form-group > input.is-invalid#user_display_name"
 
     # Changing name to one that exists should fail, regardless of case
     new_attributes = user.attributes.dup.merge(:display_name => create(:user).display_name.upcase)
@@ -1049,8 +1079,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :account
     assert_select ".notice", false
-    assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.standard-form-row > input.field_with_errors#user_display_name"
+    assert_select "form#accountForm > div.form-group > input.is-invalid#user_display_name"
 
     # Changing name to one that doesn't exist should work
     new_attributes = user.attributes.dup.merge(:display_name => "new tester")
@@ -1060,9 +1089,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_account_path(:display_name => "new tester")
     assert_response :success
     assert_template :account
-    assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.standard-form-row > input#user_display_name[value=?]", "new tester"
+    assert_select "form#accountForm > div.form-group > input#user_display_name[value=?]", "new tester"
 
     # Record the change of name
     user.display_name = "new tester"
@@ -1077,8 +1105,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :account
     assert_select ".notice", false
-    assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.standard-form-row > input.field_with_errors#user_new_email"
+    assert_select "form#accountForm > div.form-group > input.is-invalid#user_new_email"
 
     # Changing email to one that exists should fail, regardless of case
     user.new_email = create(:user).email.upcase
@@ -1090,8 +1117,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :account
     assert_select ".notice", false
-    assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.standard-form-row > input.field_with_errors#user_new_email"
+    assert_select "form#accountForm > div.form-group > input.is-invalid#user_new_email"
 
     # Changing email to one that doesn't exist should work
     user.new_email = "new_tester@example.com"
@@ -1105,9 +1131,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_account_path(user)
     assert_response :success
     assert_template :account
-    assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.standard-form-row > input#user_new_email[value=?]", user.new_email
+    assert_select "form#accountForm > div.form-group > input#user_new_email[value=?]", user.new_email
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal user.new_email, email.to.first

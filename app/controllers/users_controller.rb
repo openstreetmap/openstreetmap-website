@@ -123,7 +123,7 @@ class UsersController < ApplicationController
       :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
     )
 
-    if params[:user] && params[:user][:display_name] && params[:user][:description]
+    if request.post?
       if params[:user][:auth_provider].blank? ||
          (params[:user][:auth_provider] == current_user.auth_provider &&
           params[:user][:auth_uid] == current_user.auth_uid)
@@ -151,7 +151,7 @@ class UsersController < ApplicationController
   def lost_password
     @title = t "users.lost_password.title"
 
-    if params[:email]
+    if request.post?
       user = User.visible.find_by(:email => params[:email])
 
       if user.nil?
@@ -260,7 +260,7 @@ class UsersController < ApplicationController
       elsif current_user.auth_provider.present?
         # Verify external authenticator before moving on
         session[:new_user] = current_user
-        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid)
+        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid), :status => :temporary_redirect
       else
         # Save the user record
         session[:new_user] = current_user
@@ -270,9 +270,13 @@ class UsersController < ApplicationController
   end
 
   def login
+    append_content_security_policy_directives(
+      :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
+    )
+
     session[:referer] = safe_referer(params[:referer]) if params[:referer]
 
-    if params[:username].present? && params[:password].present?
+    if request.post?
       session[:remember_me] ||= params[:remember_me]
       password_authentication(params[:username], params[:password])
     end

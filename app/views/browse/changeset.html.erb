@@ -14,11 +14,11 @@
 
   <% if current_user %>
     <div class="buttons clearfix subscribe-buttons">
-      <form action="#" class="standard-form">
+      <form action="#">
         <% if @changeset.subscribers.exists?(current_user.id) %>
-          <input class="action-button" type="submit" name="unsubscribe" value="<%= t("javascripts.changesets.show.unsubscribe") %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
+          <input class="action-button btn btn-sm btn-primary" type="submit" name="unsubscribe" value="<%= t("javascripts.changesets.show.unsubscribe") %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
         <% else %>
-          <input class="action-button" type="submit" name="subscribe" value="<%= t("javascripts.changesets.show.subscribe") %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
+          <input class="action-button btn btn-sm btn-primary" type="submit" name="subscribe" value="<%= t("javascripts.changesets.show.subscribe") %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
         <% end %>
       </form>
     </div>
@@ -28,7 +28,7 @@
 
   <% if @comments.length > 0 %>
     <div class='changeset-comments'>
-      <form action="#" class="standard-form">
+      <form action="#">
         <ul class="list-unstyled">
           <% @comments.each do |comment| %>
             <% if comment.visible %>
@@ -39,7 +39,7 @@
                         :exact_time => l(comment.created_at),
                         :user => link_to(comment.author.display_name, user_path(comment.author))) %>
                   <% if current_user and current_user.moderator? %>
-                    — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t("javascripts.changesets.show.hide_comment") %></span>
+                    — <span class="action-button" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t("javascripts.changesets.show.hide_comment") %></span>
                   <% end %>
                 </small>
                 <%= comment.body.to_html %>
@@ -70,10 +70,12 @@
 
   <% if current_user %>
     <% unless @changeset.is_open? %>
-      <form action="#" class="standard-form">
-        <textarea class="comment" name="text" cols="40" rows="5"></textarea>
+      <form action="#">
+        <div class="form-group">
+          <textarea class="form-control" name="text" cols="40" rows="5"></textarea>
+        </div>
         <div class="buttons clearfix">
-          <input type="submit" name="comment" value="<%= t("javascripts.changesets.show.comment") %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1" />
+          <input type="submit" name="comment" value="<%= t("javascripts.changesets.show.comment") %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1" class="btn btn-sm btn-primary" />
         </div>
       </form>
     <% else %>

@@ -1,7 +1,6 @@
 # Messages for German (Deutsch)
 # Exported from translatewiki.net
 # Export driver: phpyaml
-# Author: Abijeet Patro
 # Author: Al
 # Author: Alefar
 # Author: Als-Holder
@@ -9,6 +8,7 @@
 # Author: Apmon
 # Author: Atomkraftzwerg
 # Author: Avatar
+# Author: BPX-web
 # Author: Bergrübe
 # Author: Bpw85
 # Author: Bxalber
@@ -79,6 +79,7 @@
 # Author: Thomas Bohn
 # Author: Umherirrender
 # Author: Unkn0wnCat
+# Author: Wolfdietmann
 # Author: Woodpeck
 # Author: Zauberzunge2000
 ---
@@ -193,15 +194,22 @@ de:
         title: Betreff
         body: Inhalt
         recipient: Empfänger
+      redaction:
+        title: Titel
+        description: Beschreibung
       report:
         category: Wähle einen Grund für deine Meldung aus
         details: Bitte mehr Einzelheiten zum Problem angeben (erforderlich).
       user:
         email: E-Mail
+        new_email: Neue E-Mail-Adresse
         active: Aktiv
         display_name: Anzeigename
-        description: Beschreibung
-        languages: Sprachen
+        description: Profilbeschreibung
+        home_lat: Breitengrad
+        home_lon: 'Längengrad:'
+        languages: Bevorzugte Sprachen
+        preferred_editor: Bevorzugter Editor
         pass_crypt: Passwort
         pass_crypt_confirmation: Passwort bestätigen
     help:
@@ -209,6 +217,11 @@ de:
         tagstring: durch Komma getrennt
       user_block:
         needs_view: Muss der Benutzer sich anmelden, damit die Sperre aufgehoben wird?
+      user:
+        email_confirmation: Deine E-Mail-Adresse wird nicht öffentlich gezeigt. Für
+          mehr Informationen lesen sie die <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">Datenschutzerklärung</a>.
+        new_email: (nicht öffentlich sichtbar)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -257,7 +270,7 @@ de:
       description: iD (im Browser eingebetteter Editor)
     remote:
       name: Fernsteuerung
-      description: externem Editor (JOSM oder Merkaartor)
+      description: externe Editoren (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Keine
@@ -2032,6 +2045,12 @@ de:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
         description: Durchsuche das Wiki für eine ausführliche OSM-Dokumentation.
+    potlatch:
+      removed: Deine Standard OpenStreetMap Editor ist Potlatch. Da die Entwicklung
+        des Adobe Flash Player eingestellt wurde, ist Potlatch nicht mehr für die
+        Nutzung im Browser verfügbar.
+      desktop_html: Wenn du Potlatch weiternutzen möchtest kannst du die Desktopanwendung
+        für Mac und Windows <a href="https://www.systemed.net/potlatch/">hier Herunterladen</a>.
     sidebar:
       search_results: Suchergebnisse
       close: Schließen
@@ -2469,16 +2488,10 @@ de:
           <p>Melde dich an und mache mit. Zur Bestätigung wird eine E-Mail an die angegebene Adresse geschickt werden, bitte gehe wie darin beschrieben vor.</p>
       email address: 'E-Mail-Adresse:'
       confirm email address: 'Bitte wiederhole die E-Mail-Adresse:'
-      not_displayed_publicly_html: Deine Adresse wird nicht öffentlich angezeigt,
-        siehe unsere <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-        title="OSMF-Datenschutzrichtlinie inklusive des Abschnitts zu E-Mail-Adressen">Datenschutzrichtlinie</a>
-        für weitere Informationen.
       display name: 'Benutzername:'
       display name description: Dein öffentlich angezeigter Benutzername. Er kann
         später in den Einstellungen geändert werden.
       external auth: 'Drittparteiauthentifikation:'
-      password: 'Passwort:'
-      confirm password: 'Passwort bestätigen:'
       use external auth: Verwende alternativ eine Drittpartei zur Anmeldung
       auth no password: Mit Drittparteiauthentifikation ist kein Passwort erforderlich,
         jedoch können einige Extrawerkzeuge oder Server eines benötigen.
@@ -2600,15 +2613,13 @@ de:
     account:
       title: Benutzerkonto bearbeiten
       my settings: Einstellungen
-      current email address: 'Aktuelle E-Mail-Adresse:'
-      new email address: 'Neue E-Mail-Adresse:'
-      email never displayed publicly: (nicht öffentlich sichtbar)
-      external auth: 'Externe Authentifikation:'
+      current email address: Aktuelle E-Mail-Adresse
+      external auth: Externe Authentifikation
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: Was ist das?
       public editing:
-        heading: 'Karte bearbeiten (public editing):'
+        heading: Karte bearbeiten (public editing)
         enabled: Aktiviert. Normales Bearbeiten der Kartendaten ist möglich.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Was bedeutet das?
@@ -2626,7 +2637,7 @@ de:
           Aktion kann nicht rückgängig gemacht werden. Für neu registrierte Benutzer
           besteht die Möglichkeit des anonymen Benutzerkontos nicht mehr.</li></ul>
       contributor terms:
-        heading: 'Bedingungen für Mitwirkende:'
+        heading: Bedingungen für Mitwirkende
         agreed: Du hast den neuen Bedingungen für Mitwirkende zugestimmt.
         not yet agreed: Du hast der neuen Bedingungen für Mitwirkende bislang noch
           nicht zugestimmt.
@@ -2636,14 +2647,11 @@ de:
           (unter Public Domain stellst).
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Worum handelt es sich?
-      profile description: 'Profil-Beschreibung:'
-      preferred languages: 'Bevorzugte Sprachen:'
-      preferred editor: 'Bevorzugter Editor:'
-      image: 'Bild:'
+      image: Bild
       gravatar:
         gravatar: Gravatar verwenden
         link: https://wiki.openstreetmap.org/wiki/Gravatar
-        link text: Was ist das?
+        what_is_gravatar: Was ist Gravatar?
         disabled: Gravatar wurde deaktiviert.
         enabled: Die Anzeige deines Gravatars wurde aktiviert.
       new image: Bild einfügen
@@ -2652,10 +2660,8 @@ de:
       replace image: Bild austauschen
       image size hint: (quadratische Bilder mit zumindest 100x100 Pixel funktionieren
         am besten)
-      home location: 'Standort:'
+      home location: Heimatstandort
       no home location: Du hast noch keinen Standort angegeben.
-      latitude: 'Breitengrad:'
-      longitude: 'Längengrad:'
       update home location on click: Standort beim Klick auf die Karte aktualisieren
       save changes button: Änderungen speichern
       make edits public button: Alle meine Bearbeitungen öffentlich machen
@@ -2887,7 +2893,6 @@ de:
       custom_dimensions: Ausschnitt festlegen
       format: 'Format:'
       scale: 'Maßstab:'
-      image_size: Bild zeigt Standardebene bei
       download: Herunterladen
       short_url: Kurz-URL
       include_marker: Kartenmarker setzen
@@ -2915,6 +2920,7 @@ de:
           other: Du bist weniger als %{count} Fuß von diesem Punkt entfernt
       base:
         standard: Standard
+        cyclosm: CyclOSM
         cycle_map: Radfahrerkarte
         transport_map: Verkehrskarte
         hot: Humanitär
@@ -3083,7 +3089,6 @@ de:
       centre_map: Karte hier zentrieren
   redactions:
     edit:
-      description: Beschreibung
       heading: Redaction bearbeiten
       title: Redaction bearbeiten
     index:
@@ -3091,7 +3096,6 @@ de:
       heading: Liste der Redactions
       title: Liste der Redaktionen
     new:
-      description: Beschreibung
       heading: Informationenen für eine neue Redaction eingeben
       title: Neue Redaction erstellen
     show:

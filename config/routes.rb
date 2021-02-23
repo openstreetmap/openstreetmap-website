@@ -59,8 +59,6 @@ OpenStreetMap::Application.routes.draw do
 
     get "trackpoints" => "api/tracepoints#index"
 
-    get "changes" => "api/changes#index"
-
     get "user/:id" => "api/users#show", :id => /\d+/, :as => :api_user
     get "user/details" => "api/users#details"
     get "user/gpx_files" => "api/users#gpx_files"
@@ -173,7 +171,7 @@ OpenStreetMap::Application.routes.draw do
   # omniauth
   get "/auth/failure" => "users#auth_failure"
   match "/auth/:provider/callback" => "users#auth_success", :via => [:get, :post], :as => :auth_success
-  match "/auth/:provider" => "users#auth", :via => [:get, :post], :as => :auth
+  post "/auth/:provider" => "users#auth", :as => :auth
 
   # permalink
   get "/go/:code" => "site#permalink", :code => /[a-zA-Z0-9_@~]+[=-]*/, :as => :permalink

@@ -18,9 +18,9 @@
       <td><%= link_to token.client_application.name, token.client_application.url %></td>
       <td><%= token.authorized_at %></td>
       <td>
-        <%= form_tag({ :controller => "oauth", :action => "revoke" }, { :class => "standard-form" }) do %>
+        <%= form_tag({ :controller => "oauth", :action => "revoke" }) do %>
           <%= hidden_field_tag "token", token.token %>
-          <%= submit_tag t(".revoke") %>
+          <%= submit_tag t(".revoke"), :class => "btn btn-sm btn-primary" %>
         <% end %>
       </td>
     </tr>

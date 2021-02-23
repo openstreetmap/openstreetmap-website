@@ -2,7 +2,6 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: A Retired User
-# Author: Abijeet Patro
 # Author: Dinhxuanduyet
 # Author: Ioe2015
 # Author: JohnsonLee01
@@ -11,6 +10,7 @@
 # Author: Macofe
 # Author: Minh Nguyen
 # Author: Nemo bis
+# Author: Nghiemtrongdai VN
 # Author: Nguyễn Mạnh An
 # Author: Ninomax
 # Author: Phjtieudoc
@@ -132,14 +132,19 @@ vi:
         title: Tiêu đề
         body: Nội dung
         recipient: Người nhận
+      redaction:
+        description: Miêu tả
       report:
         category: Chọn lý do cho báo cáo của bạn
         details: Vui lòng cung cấp thêm chi tiết về vấn đề (yêu cầu).
       user:
         email: Thư điện tử
+        new_email: 'Địa chỉ Thư điện tử Mới:'
         active: Tích cực
         display_name: Tên Hiển thị
         description: Miêu tả
+        home_lat: 'Vĩ độ:'
+        home_lon: 'Kinh độ:'
         languages: Ngôn ngữ
         pass_crypt: Mật khẩu
         pass_crypt_confirmation: Xác nhận mật khẩu
@@ -151,6 +156,8 @@ vi:
           nhiều chi tiết về trường hợp này. Nhớ rằng thôn báo này sẽ công khai. Xin
           hãy tránh thuật ngữ chuyên môn vì người dùng có thể không rành.
         needs_view: Người dùng có phải cần đăng nhập trước khi bỏ cấm được không?
+      user:
+        new_email: (không lúc nào hiện công khai)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -519,6 +526,7 @@ vi:
           pylon: Cột tháp
           station: Trạm Cáp treo
           t-bar: T-Bar Lift
+          "yes": Đường trên không
         aeroway:
           aerodrome: Sân bay
           airstrip: Bãi hạ cánh
@@ -527,12 +535,14 @@ vi:
           hangar: Nhà Máy bay
           helipad: Sân bay Trực thăng
           holding_position: Chỗ Dừng Máy bay
+          navigationaid: Hỗ trợ điều hướng hàng không
           parking_position: Chỗ Đậu Máy bay
           runway: Đường băng
           taxiway: Đường lăn
           terminal: Nhà ga Sân bay
           windsock: Ống gió
         amenity:
+          animal_boarding: Vườn bách thú
           animal_shelter: Trạm Bảo vệ Động vật
           arts_centre: Trung tâm Nghệ thuật
           atm: Máy Rút tiền Tự động
@@ -569,6 +579,7 @@ vi:
           drinking_water: Vòi Nước uống
           driving_school: Trường Lái xe
           embassy: Tòa Đại sứ
+          events_venue: Địa điểm tổ chức sự kiện
           fast_food: Nhà hàng Ăn nhanh
           ferry_terminal: Trạm Phà
           fire_station: Trạm Cứu hỏa
@@ -587,6 +598,7 @@ vi:
           library: Thư viện
           love_hotel: Khách sạn tình yêu
           marketplace: Chợ phiên
+          mobile_money_agent: Đại lý tiền di động
           monastery: Nhà tu
           money_transfer: Gửi Tiền
           motorcycle_parking: Chỗ Đậu Xe máy
@@ -1040,6 +1052,7 @@ vi:
           discount: Cửa hàng Giảm giá
           doityourself: Tiệm Ngũ kim
           dry_cleaning: Hấp tẩy
+          e-cigarette: Tiệm Thuốc lá Điện tử
           electronics: Tiệm Thiết bị Điện tử
           estate_agent: Văn phòng Bất động sản
           farm: Tiệm Nông cụ
@@ -1055,6 +1068,7 @@ vi:
           grocery: Tiệm Tạp phẩm
           hairdresser: Tiệm Làm tóc
           hardware: Tiệm Ngũ kim
+          herbalist: Tiệm Dược thảo
           hifi: Cửa hàng Hi-fi
           houseware: Cửa hàng gia dụng
           ice_cream: Tiệm Kem
@@ -2255,16 +2269,10 @@ vi:
           <p>Hãy mở tài khoản để bắt đầu đóng góp. Chúng tôi sẽ gửi thư điện tử để xác nhận tài khoản của bạn.</p>
       email address: 'Địa chỉ Thư điện tử:'
       confirm email address: 'Xác nhận Địa chỉ Thư điện tử:'
-      not_displayed_publicly_html: Địa chỉ thư điện tử của bạn không được hiển thị
-        công khai (xem thêm chi tiết trong <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy?uselang=vi"
-        title="Quy định quyền riêng tư Quỹ OSM, có đoạn nói về địa chỉ thư điện tử">quy
-        định quyền riêng tư</a> của chúng tôi)
       display name: 'Tên hiển thị:'
       display name description: Tên người dùng của bạn được hiển thị công khai. Bạn
         có thể thay đổi tên này về sau trong tùy chọn.
       external auth: 'Xác minh qua Dịch vụ Bên thứ ba:'
-      password: 'Mật khẩu:'
-      confirm password: 'Xác nhận Mật khẩu:'
       use external auth: Hoặc đăng nhập qua dịch vụ bên thứ ba
       auth no password: Nếu xác minh qua dịch vụ bên thứ ba, bạn không cần nhập mật
         khẩu, nhưng một số công cụ hoặc máy chủ khác có thể vẫn yêu cầu mật khẩu.
@@ -2383,8 +2391,6 @@ vi:
       title: Chỉnh sửa tài khoản
       my settings: Tùy chọn
       current email address: 'Địa chỉ Thư điện tử Hiện tại:'
-      new email address: 'Địa chỉ Thư điện tử Mới:'
-      email never displayed publicly: (không lúc nào hiện công khai)
       external auth: 'Xác minh Bên ngoài:'
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
@@ -2415,14 +2421,10 @@ vi:
           phạm vi công cộng.
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms?uselang=vi
         link text: đây là gì?
-      profile description: 'Tự giới thiệu:'
-      preferred languages: 'Ngôn ngữ Ưu tiên:'
-      preferred editor: 'Trình vẽ Ưa thích:'
       image: 'Hình:'
       gravatar:
         gravatar: Sử dụng Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=vi
-        link text: đây là gì?
         disabled: Hình Gravatar của bạn đã bị tắt.
         enabled: Hình Gravatar của bạn đã bị kích hoạt.
       new image: Thêm hình
@@ -2432,8 +2434,6 @@ vi:
       image size hint: (hình vuông ít nhất 100×100 điểm ảnh là tốt nhất)
       home location: 'Vị trí Nhà:'
       no home location: Bạn chưa định vị trí nhà.
-      latitude: 'Vĩ độ:'
-      longitude: 'Kinh độ:'
       update home location on click: Cập nhật vị trí nhà khi tôi nhấn chuột vào bản
         đồ?
       save changes button: Lưu các Thay đổi
@@ -2658,7 +2658,7 @@ vi:
       custom_dimensions: Tùy biến kích thước
       format: 'Định dạng:'
       scale: 'Tỷ lệ:'
-      image_size: Hình lớp chuẩn với kích thước
+      image_dimensions: Hình của lớp tiêu chuẩn với kích thước %{width}×%{height}
       download: Tải về
       short_url: URL Ngắn gọn
       include_marker: Ghim trên bản đồ
@@ -2849,7 +2849,6 @@ vi:
       centre_map: Tập trung bản đồ tại đây
   redactions:
     edit:
-      description: Miêu tả
       heading: Sửa đổi dãy ẩn
       title: Sửa đổi dãy ẩn
     index:
@@ -2857,7 +2856,6 @@ vi:
       heading: Danh sách dãy ẩn
       title: Danh sách dãy ẩn
     new:
-      description: Miêu tả
       heading: Ghi thông tin của dãy ẩn mới
       title: Đang ẩn dãy phiên bản
     show:
