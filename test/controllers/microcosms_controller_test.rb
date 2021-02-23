@@ -46,9 +46,23 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
+  def test_index_get_too_few_members
+    # arrange
+    m = create(:microcosm)
+    # act
+    get microcosms_path
+    # assert
+    check_page_basics
+    assert_template "index"
+    assert_no_match m.name, response.body
+  end
+
   def test_index_get
     # arrange
     m = create(:microcosm)
+    create(:microcosm_member, :microcosm => m)
+    create(:microcosm_member, :microcosm => m)
+    create(:microcosm_member, :microcosm => m)
     # act
     get microcosms_path
     # assert
