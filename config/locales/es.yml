@@ -57,6 +57,7 @@
 # Author: Peter17
 # Author: Pompilos
 # Author: Remux
+# Author: Rodhos
 # Author: Rodm23
 # Author: Rodney Araujo
 # Author: Rubenwap
@@ -183,29 +184,43 @@ es:
         body: Cuerpo
         recipient: Destinatario
       redaction:
+        title: Título
         description: Descripción
       report:
-        category: Seleccione un motivo de su informe
+        category: Seleccione el motivo de su informe
         details: Es necesario proporcionar más detalles sobre el problema.
       user:
+        auth_provider: Proveedor de autentificación
+        auth_uid: UID de autentificación
         email: Correo electrónico
-        new_email: 'Nueva dirección de correo electrónico:'
+        email_confirmation: Confirmación de correo electrónico
+        new_email: Nueva dirección de correo electrónico
         active: Activo
         display_name: Nombre para mostrar
-        description: Descripción
-        home_lat: 'Latitud:'
-        home_lon: 'Longitud:'
-        languages: Idiomas
+        description: Descripción del perfil
+        home_lat: Latitud
+        home_lon: Longitud
+        languages: Idiomas preferidos
+        preferred_editor: Editor preferido
         pass_crypt: Contraseña
         pass_crypt_confirmation: Confirmar contraseña
     help:
       trace:
         tagstring: delimitado por comas
       user_block:
+        reason: El motivo por el que el usuario está siendo bloqueado. Manténgase
+          lo más tranquilo y razonable posible, dando tantos detalles como pueda sobre
+          la situación, recordando que el mensaje será visible públicamente. Tenga
+          en cuenta que no todos los usuarios comprenden la jerga de la comunidad,
+          así que intente utilizar términos simples.
         needs_view: ¿Tiene que iniciar sesión el usuario antes de que este bloqueo
           sea eliminado?
       user:
-        new_email: (nunca es mostrado públicamente)
+        email_confirmation: Tu dirección no se muestra de forma pública. Consulta
+          la <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Normativa
+          de privacidad de OSMF, que incluye una sección sobre las direcciones de
+          correo electrónico">normativa de privacidad</a> para más información.
+        new_email: (nunca se muestra públicamente)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -393,7 +408,7 @@ es:
         su navegador se ralentice o que no responda. ¿Está seguro de que desea mostrar
         estos datos?
       load_data: Cargar datos
-      loading: Cargando...
+      loading: Cargando…
     tag_details:
       tags: Etiquetas
       wiki_link:
@@ -423,7 +438,7 @@ es:
       report: Denunciar esta nota
     query:
       title: Consultar elementos
-      introduction: Haga clic en el mapa para encontrar elementos cercanos.
+      introduction: Pulse en el mapa para encontrar elementos cercanos.
       nearby: Elementos cercanos
       enclosing: Elementos envolventes
   changesets:
@@ -450,7 +465,7 @@ es:
       empty_area: No hay conjuntos de cambios en este área.
       empty_user: No hay conjuntos de cambios por este usuario.
       no_more: No se han encontrado más conjuntos de cambios.
-      no_more_area: No hay más conjuntos de cambios en esta área.
+      no_more_area: No hay más conjuntos de cambios en este área.
       no_more_user: No hay más conjuntos de cambios por este usuario.
       load_more: Cargar más
     timeout:
@@ -490,7 +505,7 @@ es:
       older_entries: Entradas más antiguas
       newer_entries: Entradas más recientes
     edit:
-      title: Editar Entrada del Diario
+      title: Editar entrada del diario
       marker_text: Lugar de la entrada del diario
     show:
       title: Diario de %{user} | %{title}
@@ -2575,13 +2590,13 @@ es:
     account:
       title: Editar cuenta
       my settings: Mis preferencias
-      current email address: 'Dirección de correo electrónico actual:'
-      external auth: 'Autenticación externa:'
+      current email address: Dirección de correo electrónico actual
+      external auth: Autenticación externa
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: ¿Qué es esto?
       public editing:
-        heading: 'Ediciones públicas:'
+        heading: Edición pública
         enabled: Activadas. No es anónimo y puede editar datos.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ¿Qué es esto?
@@ -2599,7 +2614,7 @@ es:
           revelada al hacerse pública.</li><li> Esta acción no se puede revertir y
           todos los usuarios nuevos ahora son públicos de forma predeterminada.</li></ul>
       contributor terms:
-        heading: 'Términos de colaborador:'
+        heading: Términos de colaborador
         agreed: Ha aceptado los nuevos Términos de colaborador.
         not yet agreed: Aún no ha aceptado los nuevos Términos de Colaborador.
         review link text: Siga este enlace cuando le resulte conveniente para revisar
@@ -2608,10 +2623,11 @@ es:
           Dominio Público.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: ¿Qué es esto?
-      image: 'Imagen:'
+      image: Imagen
       gravatar:
         gravatar: Usa Gravatar
         link: http://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: ¿Qué es Gravatar?
         disabled: Gravatar se ha deshabilitado.
         enabled: Se ha habilitado la visualización de su Gravatar.
       new image: Añadir una imagen
@@ -2619,7 +2635,7 @@ es:
       delete image: Eliminar la imagen actual
       replace image: Reemplazar la imagen actual
       image size hint: (las imágenes cuadradas de al menos 100x100 funcionan mejor)
-      home location: 'Lugar de origen:'
+      home location: Lugar de origen
       no home location: No ha introducido su lugar de origen.
       update home location on click: ¿Actualizar su lugar de origen cuando pulses
         sobre el mapa?
@@ -2855,6 +2871,7 @@ es:
       custom_dimensions: Establecer dimensiones personalizadas
       format: 'Formato:'
       scale: 'Escala:'
+      image_dimensions: La imagen mostrará la capa estándar en %{width} x %{height}
       download: Descargar
       short_url: URL corta
       include_marker: Incluir marcador
@@ -2882,6 +2899,7 @@ es:
           other: Estás dentro de una distancia de %{count} pies desde este punto
       base:
         standard: Estándar
+        cyclosm: CyclOSM
         cycle_map: Mapa ciclista
         transport_map: Mapa de transporte
         hot: Humanitario
@@ -2897,6 +2915,8 @@ es:
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Hacer una donación</a>
       terms: <a href='%{terms_url}' target='_blank'>Términos del sitio web y de la
         API</a>
+      cyclosm: Estilo de teselas por <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        alojado por <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap Francia</a>
       thunderforest: Teselas cortesía de <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       opnvkarte: Teselas cortesía de <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
