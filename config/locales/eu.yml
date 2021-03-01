@@ -24,17 +24,21 @@ eu:
     formats:
       friendly: '%e %B %Y %H:%M-ean'
   helpers:
+    file:
+      prompt: Aukeratu fitxategia
     submit:
       diary_comment:
         create: Gorde
       diary_entry:
         create: Argitaratu
         update: Eguneratu
+      issue_comment:
+        create: Iruzkina gehitu
       message:
         create: Bidali
       client_application:
         create: Erregistratu
-        update: Aldatu
+        update: Eguneratu
       redaction:
         create: Erredakzioa sortu
         update: Gorde erredakzioa
@@ -73,6 +77,7 @@ eu:
       relation: Erlazioa
       relation_member: Erlazio kidea
       relation_tag: Erlazio etiketa
+      report: Txostena
       session: Saioa
       trace: Trazoa
       tracepoint: Trazo puntua
@@ -101,14 +106,14 @@ eu:
       trace:
         user: Erabiltzailea
         visible: Ikusgai
-        name: Izena
+        name: Fitxategi izena
         size: Tamaina
         latitude: Latitude
         longitude: Longitude
         public: Publikoa
         description: Deskribapena
-        gpx_file: 'GPX fitxategi igo:'
-        visibility: 'Ikusgarritasuna:'
+        gpx_file: 'GPX fitxategia igo:'
+        visibility: Ikusgarritasuna
         tagstring: 'Etiketak:'
       message:
         sender: Igorlea
@@ -116,25 +121,38 @@ eu:
         body: Testua
         recipient: Hartzailea
       redaction:
+        title: Izenburua
         description: Deskribapena
       report:
+        category: 'Aukeratu arrazoi bat zure txostenerako:'
         details: Mesedez, eman arazoaren inguruko xehetasun gehiago (beharrezkoa).
       user:
         email: Eposta
+        email_confirmation: 'E-posta egiaztapena:'
         new_email: 'E-posta helbide berria:'
         active: Aktibo
         display_name: Erakusteko izena
-        description: Deskribapena
-        home_lat: 'Latitude:'
-        home_lon: 'Longitude:'
-        languages: Hizkuntzak
+        description: 'Profilaren deskribapena:'
+        home_lat: Latitudea
+        home_lon: 'Longitudea:'
+        languages: Hizkuntza lehenetsiak
+        preferred_editor: 'Lehenetsitako editorea:'
         pass_crypt: Pasahitza
+        pass_crypt_confirmation: 'Berretsi pasahitza:'
     help:
       trace:
         tagstring: koma mugatua
       user_block:
+        reason: Erabiltzailea blokaturik egoteko arrazoia. Egon ahal bezain lasai
+          eta zentzudun, egoeraren inguruko xehetasun guztiak emanez, mezu hori publikoki
+          ikusgai egongo dela gogoratuz. Gogoan izan erabiltzaile guztiek ez dutela
+          komunitatearen hizkera ulertzen; beraz, saiatu hitz arruntak erabiltzen.
         needs_view: Erabiltzaileak saioa hasi behar al du bloke hau garbitu aurretik?
       user:
+        email_confirmation: Zure helbidea ez da publikoki erakutsiko, ikusi gure <a
+          href="https://wiki.openstreetmap.org/wiki/Privacy_Policy" title="OSMFren
+          pribatutasun politika, helbide elektronikoei buruzko atala ere bai">pribatutasun
+          politika</a>) informazio gehiagorako.
         new_email: (inoiz ez da publikoki bistaratuko)
   editor:
     default: Lehenetsia (orain %{name})

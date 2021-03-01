@@ -88,6 +88,7 @@ ba:
       client_application:
         name: Исем (Мотлаҡ)
         url: Ҡушымта Url (Мотлаҡ)
+        callback_url: Callback URL
         support_url: Ҡулланыусыларға ярҙам URL
         allow_read_prefs: ҡулланыусы көйләүҙәрен уҡыу
         allow_write_prefs: ҡулланыусы көйләүҙәрен үҙгәртеү
@@ -125,20 +126,43 @@ ba:
         title: Тема
         body: Текст
         recipient: Алыусы
+      redaction:
+        title: Баш һүҙ
+        description: Тасуирлау
       report:
         category: 'Хәбәрегеҙҙең сәбәбен һайлағыҙ:'
         details: Зинһар, проблема тураһында бер аҙ тулыраҡ мәғлүмәт бирегеҙ (мотлаҡ).
       user:
+        auth_provider: Аутентификация провайдеры
+        auth_uid: Аутентификация UID
         email: Электрон почта адресы
+        email_confirmation: Электрон почтаны раҫлау
+        new_email: Яңы электрон почта адресы
         active: Әүҙем
         display_name: Сағылдырылған исем
-        description: Тасуирлау
-        languages: Телдәр
+        description: Профиль тасуирламаһы
+        home_lat: Киңлек
+        home_lon: Оҙонлоҡ
+        languages: Тәҡдим ителгән телдәр
+        preferred_editor: Тәҡдим ителгән редактор
         pass_crypt: Серһүҙ
         pass_crypt_confirmation: Паролде раҫлағыҙ
     help:
       trace:
         tagstring: өтөр аша
+      user_block:
+        reason: Ҡулланыусының блоклауының сәбәбе. Зинһар, мөмкин тиклем тыныс һәм
+          аҡыллы булығыҙ. Ҡулланыусының блок сәбәптәре тураһында мөмкин тиклем күберәк
+          мәғлүиәт бирегеҙ, хәбәрҙең һәр кемгә күренеүен иҫтә тотоғоҙ. Бөтә ҡулланыусылыр
+          ҙа берләшмә жаргонын аңламайҙар, шуға күрә профессиональһеҙ терминдарҙы
+          ҡулланып ҡарағыҙ.
+        needs_view: Ҡулланыусыға блоктан сыҡҡансы системаға инергә рөхсәт итергәме?
+      user:
+        email_confirmation: Һеҙҙең адресығыҙ асыҡ күренмәйәсәк, тулыраҡ мәғлүмәт алыу
+          өсөн беҙҙең <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses"> конфиденциаллек
+          сәйәсәтен</a> ҡарағыҙ.
+        new_email: (күрһәтелмәй)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -212,6 +236,7 @@ ba:
           яҙмалар исемлеге [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: RSS-яҙмалар ағымы %{id}
         opened: яңы яҙма (яҡынса %{place})
+        commented: яңы комментарий (яҡынса %{place})
         closed: ябылған яҙма (яҡынса %{place})
         reopened: яңы асылған яҙма (яҡынса %{place})
       entry:
@@ -273,6 +298,8 @@ ba:
       title_html: 'Һыҙат: %{name}'
       history_title_html: 'Һыҙат тарихы: %{name}'
       nodes: Нөктәләр
+      nodes_count:
+        other: '%{count} төйөндәр'
       also_part_of_html:
         one: һыҙатта бар %{related_ways}
         other: һыҙаттарҙа бар %{related_ways}
@@ -330,6 +357,7 @@ ba:
         tag: ' %{key}=%{value} тегы битен һүрәтләүсе вики бите'
       wikidata_link: Викимәғлүмәттәрҙәге %{page} элементы
       wikipedia_link: ' Википедиялағы %{page} мәҡәләһе'
+      wikimedia_commons_link: Wikimedia Commonsта %{page} элемент
       telephone_link: Шылтыратырға %{phone_number}
       colour_preview: Төҫтәрҙе ҡарау %{colour_value}
     note:
@@ -385,64 +413,87 @@ ba:
       empty: Төҙәтеүҙәр пакеты табылманы.
       empty_area: Был өлкәлә төҙәтеүҙәр пакеты юҡ.
       empty_user: Был ҡулланыусының төҙәтеүҙәр пакеы юҡ.
-      no_more: Башҡаса бер ниндәй ҙә төҙәтеүҙәр пакеты табылманы
-      no_more_area: Был өлкәлә башҡа төҙәтеүҙәр пакеты юҡ
-      no_more_user: Был ҡулланыусының башҡа төҙәтеүҙәре пакеы юҡ
-      load_more: Тағы ла күсерергә
+      no_more: Башҡа төҙәтмәләр пакеттары табылманы.
+      no_more_area: Был өлкәлә башҡа төҙәтмәләр пакеты юҡ.
+      no_more_user: Был ҡулланыусынан башҡа төҙәтмәләр пакеты юҡ.
+      load_more: Күберәк тейәү
     timeout:
-      sorry: Үкенескә күрә, һеҙ һораған төҙәтеүҙәр пакеты исемлеге күсереү өсөн бик
-        оҙон
+      sorry: Ҡыҙғанысҡа ҡаршы, һеҙ һораған төҙәтмә пакеттары исемлеген алыу өсөн күп
+        ваҡыт талап итә.
   changeset_comments:
     comment:
-      commented_at_by_html: Яңыртылған%{}элек %{ҡулланыусы}тарафынан
+      comment: '%{author} тарафынан төҙәтмәләр пакетына %{changeset_id} яңы комментарий'
+      commented_at_by_html: Яңыртылған %{when} ҡулланыусы %{user} тарафынан
+    comments:
+      comment: '%{author} тарафынан төҙәтмәләр пакетына %{changeset_id} яңы комментарий'
     index:
-      title_all: OpenStreetMap төҙәтеүҙәр пакеты буйынса фекерләшеү
-      title_particular: ' OpenStreetMap #%{changeset_id} төҙәтеүҙәр пакеты буйынса
+      title_all: OpenStreetMap төҙәтмәләр пакеты буйынса фекерләшеү
+      title_particular: ' OpenStreetMap #%{changeset_id} төҙәтмәләр пакеты буйынса
         фекерләшеү'
+    timeout:
+      sorry: Ҡыҙғанысҡа ҡаршы, һеҙ һораған төҙәтмә пакеттары исемлеген алыу өсөн күп
+        ваҡыт талап итә.
   diary_entries:
     new:
-      title: Яңы көндәлеккә инеү
+      title: Көндәлектә яңы яҙма
     form:
-      use_map_link: картаны ҡуллан
+      location: Урын
+      use_map_link: Картаны ҡулланырға
     index:
       title: Көндәлектәр
-      title_friends: Дуҫтарың көндәлектәре
-      title_nearby: Йәнәш ҡатнашыусылар көндәлеге
-      user_title: '%{ҡулланыусы} көндәлеге'
-      in_language_title: Көндәлектәге яҙмалар %{телдә}
-      new_title: Көндәлегеңә яңы яҙма яҙ
-      no_entries: Көндәлектә яңы яҙма юҡ
-      recent_entries: Һуңғы яҙмалар
+      title_friends: Дуҫтар көндәлектәре
+      title_nearby: Йәнәш ҡатнашыусыларҙың көндәлектәре
+      user_title: '%{user} ҡулланыусының көндәлеге'
+      in_language_title: Көндәлектәге яҙмалар телдә %{language}
+      new: Көндәлектә яңы яҙма
+      new_title: Минең көндәлектә яңы яҙма яҙыу
+      my_diary: Минең көндәлек
+      no_entries: Көндәлектә яҙмалар юҡ
+      recent_entries: Һуңғы көндәлек яҙмалары
       older_entries: Иҫкерәк яҙмалар
       newer_entries: Яңыраҡ яҙмалар
     edit:
-      title: Яҙманы мөхәррирләү
-      marker_text: Көндәлек яҙыу урыны
+      title: Көндәлек яҙианы редакторлау
+      marker_text: Иҫкәрмә яҙыу урыны
     show:
-      title: '%{ҡулланыусы}ның көндәлеге|%{титул}'
-      user_title: '%{ҡулланыусы}ның көндәлеге'
-      leave_a_comment: Фекер ҡалдыр
+      title: Ҡуланыусы %{user} көндәлеге %{title}
+      user_title: '%{user} өулланыусының көндәлеге'
+      leave_a_comment: Комментарий ҡалдырыу
       login_to_leave_a_comment_html: Фекер яҙыу өсөн %{login_link}
+      login: Инеү
     no_such_entry:
-      title: Бындай көндәлек яҙыуы юҡ
-      heading: '%{id} шәхси яҙыуына инеп булмай'
-      body: Ҡыҙғанысҡа ҡаршы, %{id}шәхси яҙыуы йәки фекере табылманы. Дөрөҫ яҙылышын
-        тикшер. Яңылыш ссылкаға күскәнһең, ахыры.
+      title: Бындай яҙма көндәлектә юҡ
+      heading: '%{id} номерлы яҙма юҡ'
+      body: Ҡыҙғанысҡа ҡаршы, %{id} номерлы яҙма йәки комментарий юҡ. Яҙылыуҙың дөрөҫлөгөн
+        тикшерегеҙ. Йәки, һеҙ күскән һылтанма дөрөҫ түгелдер.
     diary_entry:
-      posted_by_html: Ебәрҙем%{link_user}%{created}, тел:%{language_link}
-      comment_link: Фекереңде яҙ
-      reply_link: Инеүеңде раҫла
+      posted_by_html: '%{language_link} телендә %{link_user}%{created} баҫылып сыҡты.'
+      updated_at_html: Һуңғы яңыртыуҙар %{updated}.
+      comment_link: Комментарий ҡалдырыу
+      reply_link: Авторға яҙыу
       comment_count:
-        other: нуль=фекерҙәр юҡ
-      edit_link: Был яҙманы үҙгәрт
-      hide_link: Был яҙманы йәшер
+        zero: Крмментарийҙар юҡ
+        one: '%{count} комментарий'
+        other: '%{count} комментарийҙар'
+      edit_link: Яҙманы үҙгәртеү
+      hide_link: Был яҙманы йәшереү
+      unhide_link: Был яҙманы күрһәтеү
+      confirm: Раҫлау
+      report: Был яҙма тураһында хәбәр итеү
     diary_comment:
       comment_from_html: '%{link_user}тарафынан%{comment_created_at}көндө ҡаралған'
-      hide_link: Был фекерҙе йәшереү
+      hide_link: Был комментарийҙы йәшереү
+      unhide_link: Был комментарийҙы күрһәтеү
+      confirm: Раҫлау
+      report: Был комментарий тураһында хәбәр итеү
+    location:
+      location: Урын
+      view: Ҡарау
+      edit: Төҙәтмә
     feed:
       user:
-        title: '%{user}өсөн OpenStreetMap көндәлеге яҙмаһы'
-        description: '%{user}өсөн OpenStreetMap көндәлек яҙмаһының һуңғыһы'
+        title: '%{user} OpenStreetMap көндәлеге яҙмаһы'
+        description: '%{user}  OpenStreetMap көндәлек яҙмаһының һуңғыһы'
       language:
         title: '%{language_name} OpenStreetMap көндәлек яҙмаһы'
         description: OpenStreetMap ҡулланыусыларының %{language_name}тағы һуңғы яҙмалары
@@ -450,12 +501,25 @@ ba:
         title: OpenStreetMap көндәлек яҙмаһы
         description: OpenStreetMap ҡулланысыларының һуңғы көндәлек яҙмалары
     comments:
-      has_commented_on: '%{display_name} әле генә  көндәлектең ошо яҙмаһына фекер
+      has_commented_on: '%{display_name} әле генә  көндәлектең ошо яҙмаһына комментарий
         яҙҙы'
-      post: Йәшереү
-      when: ҡасан
+      post: Post
+      when: Ҡасан
+      comment: Комментарий
       newer_comments: Яңыраҡ фекерҙәр
       older_comments: Иҫкерәк фекерҙәр
+  friendships:
+    make_friend:
+      heading: '%{user} дуҫтарға өҫтәргә?'
+      button: Дуҫтарға өҫтәргә
+      success: '%{name} хәҙер һеҙҙең дуҫ!'
+      failed: Ғәфү итегеҙ, %{name} дуҫтарға өҫтәп булманы.
+      already_a_friend: Һеҙ %{name} менән әле дуҫтарһығыҙ.
+    remove_friend:
+      heading: '%{user} дуҫтарҙан алып ташларға?'
+      button: Дуҫтарҙан алып ташларға
+      success: '%{name} дуҫтарҙан алып ташланды.'
+      not_a_friend: '%{name} һеҙҙең дуҫ түгел.'
   geocoder:
     search:
       title:
@@ -478,16 +542,28 @@ ba:
           chair_lift: Креслолы канат күтәргесе
           drag_lift: Якорлы (бугеллы) күтәргес
           gondola: Канат юлы
+          magic_carpet: Magic Carpet Lift
+          platter: Platter Lift
+          pylon: Пилон
           station: Канат күтәргесе станцияһы
+          "yes": Һауа юлы
         aeroway:
           aerodrome: Аэродром
+          airstrip: Осоу-ултырыу һыҙаты
           apron: Перрон
           gate: Ҡапҡа (аэропорт)
+          hangar: Ангар
           helipad: Вертолет майҙансығы
+          holding_position: Көтөү урыны
+          navigationaid: Авиация навигацион системаһы
+          parking_position: Туҡталка позицияһы
           runway: Осоу-ултырыу юлы
+          taxilane: Такси юлы
           taxiway: Рулләү юлы
           terminal: Терминал
+          windsock: Виндсок
         amenity:
+          animal_boarding: Хайуандар өсөн интернат
           animal_shelter: Хайуандар приюты
           arts_centre: Сәнғәт йорто
           atm: Банкомат
@@ -497,7 +573,9 @@ ba:
           bench: Эскәмйә
           bicycle_parking: Велопарковка
           bicycle_rental: Велосипед прокаты
+          bicycle_repair_station: Велосипед ремонтлау станцияһы
           biergarten: Асыҡ һауалағы һырахана
+          blood_bank: Ҡан банкы
           boat_rental: Прокатҡа кәмәләр
           brothel: Фәхешхана
           bureau_de_change: Валюта алмаштырыу
@@ -514,6 +592,7 @@ ba:
           clock: Сәғәт
           college: Колледж
           community_centre: Йәмәғәти үҙәк
+          conference_centre: Конференц-центр
           courthouse: Суд бинаһы
           crematorium: Крематорий
           dentist: Стоматология
@@ -521,6 +600,7 @@ ba:
           drinking_water: Эсәр һыу
           driving_school: Автошкола
           embassy: Илселек
+          events_venue: Саралар үткәреү урыны
           fast_food: Фаст-фуд
           ferry_terminal: Паром станцияһы
           fire_station: Янғын һүндереү һағы
@@ -529,16 +609,28 @@ ba:
           fuel: Заправка
           gambling: Уйын йорто
           grave_yard: Зыярат
+          grit_bin: Грит Бин
           hospital: Госпиталь
           hunting_stand: Һунарсы вышкаһы
           ice_cream: Туңдырма
+          internet_cafe: Интернет кафе
           kindergarten: Балалар баҡсаһы
+          language_school: Тел мәктәбе
+          library: Китапхана
+          loading_dock: Док тейәү
+          love_hotel: Мөхәббәт йорто
           marketplace: Баҙар
+          mobile_money_agent: Мобиль аҡса агенты
+          monastery: Монастырь
+          money_transfer: Аҡса күсереү
           motorcycle_parking: Мотоцикл парковкаһы
+          music_school: Музыкаль мәктәп
           nightclub: Төнгө клуб
           nursing_home: Ҡарттар йорто
           parking: Туҡталҡа
           parking_entrance: Туҡталҡаға инеү
+          parking_space: Туҡталка
+          payment_terminal: Түләү терминалы
           pharmacy: Дарыухана
           place_of_worship: Ғибәҙәт ҡылыу урыны
           police: Полиция
@@ -546,9 +638,13 @@ ba:
           post_office: Почта бүлексәһе
           prison: Төрмә
           pub: Һырахана
+          public_bath: Йəмғиəт мунсаһы
+          public_bookcase: Ижтимағи китап шкаф
           public_building: Йәмғиәти бина
+          ranger_station: Рейнджер станцияһы
           recycling: Киренән эшкәртеү урыны
           restaurant: Ресторан
+          sanitary_dump_station: Санитар сүплек станцияһы
           school: Мәктәп
           shelter: Йәшенеү урыны
           shower: Душ
@@ -561,56 +657,142 @@ ba:
           theatre: Театр
           toilets: Бәҙрәф
           townhall: Ҡала администрацияһы
+          training: Уҡыу үҙәге
           university: Университет
+          vehicle_inspection: Техник тикшереү
           vending_machine: Сауҙа автоматы
           veterinary: Ветеринар клиника
           village_hall: Утар
           waste_basket: Сүп һауыты
           waste_disposal: ҡалдыҡтарҙы юҡ итеү
+          waste_dump_site: Сүплек
+          watering_place: Һыу эсеү урыны
+          water_point: Һыу алыу
+          "yes": Уңайлыҡ
         boundary:
+          aboriginal_lands: Абориген ерҙәре
           administrative: административ сик
           census: иҫәп алыу участогының сиге
           national_park: Милли парк
+          political: Һайлау сиктәре
           protected_area: Һаҡлы район
+          "yes": Сик
         bridge:
           aqueduct: Һыу каналы
+          boardwalk: Тротуар
           suspension: Аҫылма күпер
           swing: Айырсалы күпер
           viaduct: Юл һуҙымы
           "yes": Күпер
         building:
+          apartment: Фатир
+          apartments: Фатирҙар
+          barn: Балалар
+          bungalow: Бунгало
+          cabin: Хижина
+          chapel: Капел
+          church: Сиркәү
+          civic: Граждандар бинаһы
+          college: Колледж бинаһы
+          commercial: Офис бинаһы
+          construction: Төҙөлөп ятҡан бина
+          detached: Айырым йорт
+          dormitory: Дөйөм ятаҡ
+          duplex: Дуплекс
+          farm: Ферма
+          farm_auxiliary: Ярҙамсы фермер йорто
+          garage: Гараж
+          garages: Гараждар
+          greenhouse: Теплица
+          hangar: Ангар
+          hospital: Дауахана бинаһы
+          hotel: Ҡунаҡхана
+          house: Өй
+          hut: Хижина
+          industrial: Сәнәғәт бинаһы
+          kindergarten: Балалар баҡсаһы
+          manufacture: Сәнәғәт бинаһы
+          office: Офис бинаһы
+          public: Йəмəғəт бинаһы
+          residential: Торлаҡ йорто
+          retail: Һатыуға бина
+          roof: Ҡыйыҡ
+          ruins: Емерелгән бина
+          school: Мәктәп бинаһы
+          semidetached_house: Үҙ-аралы йорт
+          service: Граждандар бинаһы
+          shed: Һарай
+          stable: Тотороҡло
+          static_caravan: Ҡарауан
+          temple: Храм бинаһы
+          terrace: Терраса менән бина
+          train_station: Тимер юл вокзалы
+          university: Университет
+          warehouse: Склад
           "yes": Бина
+        club:
+          scout: Скаут төркөмө базаһы
+          sport: Спортклуб
+          "yes": Клуб
         craft:
+          beekeper: Умартасы
+          blacksmith: Тимерсе
           brewery: Һыра заводы
           carpenter: Балта оҫтаһы
+          caterer: Тәьминәтсе
+          confectionery: Кондитер
+          dressmaker: Кейем тегеүсе
           electrician: Электрик
+          electronics_repair: Электроника ремонты
           gardener: Баҡсасы
+          glaziery: Глазери
+          handicraft: Ҡул эштәре
+          hvac: HVAC Craft
+          metal_construction: Металл конструкция
           painter: Рәссам
+          photographer: Фотограф
           plumber: Сантехник
+          roofer: Ҡыйыҡ ябыусы
+          sawmill: Урман ҡырҡыу заводы
           shoemaker: Итексе
+          stonemason: Ташсы
           tailor: Тегенсе
+          window_construction: Тәҙрә конструкцияһы
+          winery: Вино-эшләү
           "yes": Ҡул эштәре магазины
         emergency:
+          access_point: Инеү нөктәһе
           ambulance_station: Тиҙ ярҙам станцияһы
+          assembly_point: Йыйыу урыны
           defibrillator: Дефибриллятор
+          fire_xtinguisher: Ут һүндергес
+          fire_water_pond: Янғын һыу ятҡылығы
           landing_site: Авария мәлендә ултырыу урыны
+          life_ring: Авария ҡотҡарыу түңәрәге
           phone: Тиҙ бәйләнеш телефоны
+          siren: Авария сиренаһы
+          suction_point: Ашығыс ярҙам пункты
+          water_tank: Һыу өсөн резервуар
+          "yes": Ашығыс хеҙмәттәр өсөн
         highway:
           abandoned: Ташландыҡ юл
           bridleway: Атта йөрөү юлы
           bus_guideway: Автобус рельс-юлы
           bus_stop: Автобус туҡталышы
           construction: Ремонт барған юл
+          corridor: Коридор
           cycleway: Велосипед юлы
           elevator: Лифт
           emergency_access_point: Ашығыс ярҙам пункты
           footway: Тротуар
           ford: Йөҙөп сығыу урыны
+          give_way: '"Юл бир" билдәһе'
           living_street: Кеше йәшәгән урам
           milestone: Километр бағанаһы
           motorway: Автомагистраль
           motorway_junction: Автомагистраль киҫелеше
           motorway_link: Автомагистраль айырсаһы
+          passing_place: Күсеп йөрөү юлы
           path: Һуҡмаҡ
           pedestrian: Йәйәүле юлы
           platform: Платформа
@@ -627,29 +809,40 @@ ba:
           services: Юл яны хеҙмәттәре
           speed_camera: Радар
           steps: Баҫҡыстар
+          stop: Туҡталыш билдәһе
           street_lamp: Урам фонары
           tertiary: Ауыл араһы юлы
           tertiary_link: Сиҙәм юлы
           track: Ауыл юлы
+          traffic_mirror: Трафик көҙгөһө
           traffic_signals: Светофор
+          trailhead: Trailhead
           trunk: Төп юл
           trunk_link: Магистраль
+          turning_loop: Боролош өсөн юл
           unclassified: Урындағы юл
+          "yes": Юл
         historic:
+          aircraft: Тарихи самолет
           archaeological_site: Археологик ҡаҙыныуҙар
+          bomb_crater: Тарихи бомба кратеры
           battlefield: Һуғыш яланы
           boundary_stone: Сик буйы ташы
           building: Тарихи бина
           bunker: Бункер
+          cannon: Тарихи пушка
           castle: Ҡәлғә
+          charcoal_pile: Тарихи күмер өйөмө
           church: Сиркәү
           city_gate: Ҡала ҡапҡаһы
           citywalls: Тарихи нығытма
           fort: Ҡойма
           heritage: Мәҙәни мираҫ
+          hollow_way: Буш юл
           house: Йорт
           manor: Поместье
           memorial: Һәйкәл
+          milestone: Тарихи ваҡиға
           mine: Карьер
           monument: Монумент
           roman_road: Рим юлы
