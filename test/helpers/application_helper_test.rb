@@ -47,11 +47,6 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_dom_equal "<a class=\"rsssmall\" href=\"/history/feed\"><img border=\"0\" height=\"16\" src=\"/images/RSS.png\" width=\"16\" /></a>", link
   end
 
-  def test_richtext_area
-    html = richtext_area(:message, :body, :cols => 40, :rows => 20)
-    assert_not_nil html
-  end
-
   def test_dir
     assert_equal "ltr", dir
 
