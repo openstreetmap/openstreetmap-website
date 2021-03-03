@@ -3,7 +3,7 @@
     <%= render @changesets %>
   </ol>
 <% if @changesets.size == 20 -%>
-  <div class="changeset_more text-center">
+  <div class="changeset_more mt-3 text-center">
     <%= link_to t(".load_more"), url_for(@params.merge(:max_id => @changesets.last.id - 1)), :class => "btn btn-primary" %>
     <div class="loader"><%= image_tag "searching.gif" %></div>
   </div>
