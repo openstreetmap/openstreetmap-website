@@ -131,7 +131,7 @@ class UsersController < ApplicationController
         redirect_to user_account_url(current_user) if current_user.errors.count.zero?
       else
         session[:new_user_settings] = params
-        redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid])
+        redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid]), :status => :temporary_redirect
       end
     elsif errors = session.delete(:user_errors)
       errors.each do |attribute, error|
