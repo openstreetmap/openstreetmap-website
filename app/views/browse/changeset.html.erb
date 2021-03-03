@@ -51,7 +51,7 @@
                         :when => friendly_date_ago(comment.created_at),
                         :exact_time => l(comment.created_at),
                         :user => link_to(comment.author.display_name, user_path(comment.author))) %>
-                  — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t("javascripts.changesets.show.unhide_comment") %></span>
+                  — <span class="action-button text-muted" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t("javascripts.changesets.show.unhide_comment") %></span>
                  </small>
                 <%= comment.body.to_html %>
               </li>
