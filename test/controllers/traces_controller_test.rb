@@ -178,7 +178,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     # First try to get it when not logged in
     get traces_mine_path
-    assert_redirected_to :controller => "users", :action => "login", :referer => "/traces/mine"
+    assert_redirected_to login_path(:referer => "/traces/mine")
 
     session_for(user)
 
@@ -541,7 +541,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     # First with no auth
     get new_trace_path
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => new_trace_path
+    assert_redirected_to login_path(:referer => new_trace_path)
 
     # Now authenticated as a user with gps.trace.visibility set
     user = create(:user)
@@ -627,7 +627,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     # First with no auth
     get edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file.id)
+    assert_redirected_to login_path(:referer => edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file.id))
 
     # Now with some other user, which should fail
     session_for(create(:user))

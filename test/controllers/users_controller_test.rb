@@ -602,7 +602,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     confirm_string = User.find_by(:email => user.email).tokens.create(:referer => new_diary_entry_path).token
     post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
-    assert_redirected_to :action => "login"
+    assert_redirected_to login_path
     assert_match(/already been confirmed/, flash[:error])
   end
 
@@ -847,7 +847,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
     assert_response :redirect
-    assert_redirected_to :action => :login
+    assert_redirected_to login_path
     assert_match(/^Sorry you lost it/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
@@ -862,7 +862,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
     assert_response :redirect
-    assert_redirected_to :action => :login
+    assert_redirected_to login_path
     assert_match(/^Sorry you lost it/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
@@ -889,7 +889,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
     assert_response :redirect
-    assert_redirected_to :action => :login
+    assert_redirected_to login_path
     assert_match(/^Sorry you lost it/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
@@ -904,7 +904,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
     assert_response :redirect
-    assert_redirected_to :action => :login
+    assert_redirected_to login_path
     assert_match(/^Sorry you lost it/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
@@ -960,7 +960,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # you are not logged in
     get user_account_path(user)
     assert_response :redirect
-    assert_redirected_to :action => "login", :referer => "/user/#{ERB::Util.u(user.display_name)}/account"
+    assert_redirected_to login_path(:referer => "/user/#{ERB::Util.u(user.display_name)}/account")
 
     # Make sure that you are blocked when not logged in as the right user
     session_for(create(:user))
@@ -1336,7 +1336,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # Shouldn't work when not logged in
     get users_path
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_redirected_to login_path(:referer => users_path)
 
     session_for(user)
 

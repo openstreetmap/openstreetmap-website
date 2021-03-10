@@ -164,7 +164,7 @@ class UsersController < ApplicationController
         token = user.tokens.create
         UserMailer.lost_password(user, token).deliver_later
         flash[:notice] = t "users.lost_password.notice email on way"
-        redirect_to :action => "login"
+        redirect_to login_path
       else
         flash.now[:error] = t "users.lost_password.notice email cannot find"
       end
@@ -306,7 +306,7 @@ class UsersController < ApplicationController
       token = UserToken.find_by(:token => params[:confirm_string])
       if token&.user&.active?
         flash[:error] = t("users.confirm.already active")
-        redirect_to :action => "login"
+        redirect_to login_path
       elsif !token || token.expired?
         flash[:error] = t("users.confirm.unknown token")
         redirect_to :action => "confirm"
@@ -328,7 +328,7 @@ class UsersController < ApplicationController
 
         if token.nil? || token.user != user
           flash[:notice] = t("users.confirm.success")
-          redirect_to :action => :login, :referer => referer
+          redirect_to login_path(:referer => referer)
         else
           token.destroy
 
@@ -356,7 +356,7 @@ class UsersController < ApplicationController
       flash[:notice] = t "users.confirm_resend.success_html", :email => user.email, :sender => Settings.support_email
     end
 
-    redirect_to :action => "login"
+    redirect_to login_path
   end
 
   def confirm_email
