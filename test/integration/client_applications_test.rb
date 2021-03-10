@@ -9,7 +9,7 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to login_path(:cookie_test => "true")
     follow_redirect!
     assert_response :success
     post "/login", :params => { "username" => user.email, "password" => "test", :referer => "/user/#{ERB::Util.u(user.display_name)}" }

@@ -355,7 +355,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :cookie_test => true, :referer => "/history"
+    assert_redirected_to login_path(:cookie_test => true, :referer => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -376,7 +376,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :cookie_test => true, :referer => "/history"
+    assert_redirected_to login_path(:cookie_test => true, :referer => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -401,7 +401,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :cookie_test => true, :referer => "/history"
+    assert_redirected_to login_path(:cookie_test => true, :referer => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -425,7 +425,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :cookie_test => true, :referer => "/history"
+    assert_redirected_to login_path(:cookie_test => true, :referer => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -448,7 +448,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -468,7 +468,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -492,7 +492,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -518,7 +518,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -541,7 +541,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -566,7 +566,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -586,7 +586,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -610,7 +610,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -634,7 +634,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -655,7 +655,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -675,7 +675,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -699,7 +699,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -723,7 +723,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -744,7 +744,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -764,7 +764,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -788,7 +788,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -812,7 +812,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -833,7 +833,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -853,7 +853,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -877,7 +877,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -901,7 +901,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
     assert_template "users/login"
@@ -921,7 +921,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   def try_password_login(username, password, remember_me = nil)
     get "/login"
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :cookie_test => true
+    assert_redirected_to login_path(:cookie_test => true)
     follow_redirect!
     assert_response :success
     assert_template "login"

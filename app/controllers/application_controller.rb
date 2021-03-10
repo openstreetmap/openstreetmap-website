@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
   def require_user
     unless current_user
       if request.get?
-        redirect_to :controller => "users", :action => "login", :referer => request.fullpath
+        redirect_to login_path(:referer => request.fullpath)
       else
         head :forbidden
       end
@@ -356,7 +356,7 @@ class ApplicationController < ActionController::Base
       end
     elsif request.get?
       respond_to do |format|
-        format.html { redirect_to :controller => "users", :action => "login", :referer => request.fullpath }
+        format.html { redirect_to login_path(:referer => request.fullpath) }
         format.any { head :forbidden }
       end
     else
