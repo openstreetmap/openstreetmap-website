@@ -145,8 +145,9 @@ OpenStreetMap::Application.routes.draw do
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
   get "/export" => "site#export"
-  match "/login" => "users#login", :via => [:get, :post]
-  match "/logout" => "users#logout", :via => [:get, :post]
+  get "/login" => "sessions#new"
+  post "/login" => "sessions#create"
+  match "/logout" => "sessions#destroy", :via => [:get, :post]
   get "/offline" => "site#offline"
   get "/key" => "site#key"
   get "/id" => "site#id"

@@ -22,7 +22,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
     get "/login"
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post "/login", :params => { :username => user.email, :password => "test", :referer => "/diary/new" }
     assert_response :redirect
     # but now we need to look at the terms
@@ -47,7 +47,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
     get "/login"
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post "/login", :params => { :username => user.email, :password => "test", :referer => "/diary/new" }
     assert_response :redirect
     # but now we need to look at the terms

@@ -6,27 +6,27 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_routes
     assert_routing(
       { :path => "/login", :method => :get },
-      { :controller => "users", :action => "login" }
+      { :controller => "sessions", :action => "new" }
     )
     assert_routing(
       { :path => "/login", :method => :post },
-      { :controller => "users", :action => "login" }
+      { :controller => "sessions", :action => "create" }
     )
     assert_recognizes(
-      { :controller => "users", :action => "login", :format => "html" },
+      { :controller => "sessions", :action => "new", :format => "html" },
       { :path => "/login.html", :method => :get }
     )
 
     assert_routing(
       { :path => "/logout", :method => :get },
-      { :controller => "users", :action => "logout" }
+      { :controller => "sessions", :action => "destroy" }
     )
     assert_routing(
       { :path => "/logout", :method => :post },
-      { :controller => "users", :action => "logout" }
+      { :controller => "sessions", :action => "destroy" }
     )
     assert_recognizes(
-      { :controller => "users", :action => "logout", :format => "html" },
+      { :controller => "sessions", :action => "destroy", :format => "html" },
       { :path => "/logout.html", :method => :get }
     )
 
@@ -414,11 +414,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path(:cookie_test => true)
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
 
     get login_path, :params => { :username => user.display_name, :password => "test" }
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
 
     post login_path, :params => { :username => user.display_name, :password => "test" }
     assert_response :redirect
@@ -440,14 +440,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_logout_fallback_without_referer
     get logout_path
     assert_response :success
-    assert_template :logout
+    assert_template "sessions/destroy"
     assert_select "input[name=referer]:not([value])"
   end
 
   def test_logout_fallback_with_referer
     get logout_path, :params => { :referer => "/test" }
     assert_response :success
-    assert_template :logout
+    assert_template "sessions/destroy"
     assert_select "input[name=referer][value=?]", "/test"
   end
 
