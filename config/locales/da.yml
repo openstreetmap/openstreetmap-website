@@ -9,6 +9,7 @@
 # Author: Fnielsen
 # Author: Freek
 # Author: Fugithora
+# Author: Funkyboris
 # Author: Gnonthgol
 # Author: Gorbi
 # Author: Hede2000
@@ -151,6 +152,7 @@ da:
         details: Forklar venligst problemet i flere detaljer (påkrævet).
       user:
         email: E-mail
+        email_confirmation: E-mail-bekræftelse
         new_email: Ny e-mailadresse
         active: Aktiv
         display_name: Vist navn
@@ -158,14 +160,23 @@ da:
         home_lat: Breddegrad
         home_lon: Længdegrad
         languages: Foretrukne sprog
+        preferred_editor: Foretrukken editor
         pass_crypt: Adgangskode
         pass_crypt_confirmation: Bekræft adgangskode
     help:
       trace:
         tagstring: kommasepareret
       user_block:
+        reason: Årsagen til at brugeren blokeres. Vær venligst så rolig og fornuftig
+          som muligt. Giv så mange detaljer som kan du om situationen. Husk på, at
+          meddelelsen bliver synlig offentligt. Husk at ikke alle brugere forstår
+          fællesskabsjargonen, så prøv at bruge hverdagsudtryk i det omfang det er
+          muligt.
         needs_view: Skal brugeren logge på, før denne blokering vil blive fjernet?
       user:
+        email_confirmation: Din adresse vises ikke offentligt. Se vores href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">privatlivspolitik</a>
+          for yderligere information.
         new_email: (vises aldrig offentligt)
   datetime:
     distance_in_words_ago:
@@ -213,7 +224,7 @@ da:
       description: iD (redigér i browseren)
     remote:
       name: Fjernbetjening
-      description: Fjernbetjening (JOSM eller Merkaartor)
+      description: Fjernbetjening (JOSM, Potlatch eller Merkaartor)
   auth:
     providers:
       none: Ingen
@@ -331,6 +342,7 @@ da:
         changeset: ændringssæt
         note: bemærkning
     timeout:
+      title: Timeoutfejl
       sorry: Beklager, data for %{type} med id %{id} tog for lang tid at hente
       type:
         node: punkt
@@ -461,6 +473,7 @@ da:
         stavningen, eller måske er den henvisning du klikkede på forkert.
     diary_entry:
       posted_by_html: Skrevet af %{link_user} den %{created} på %{language_link}
+      updated_at_html: Sidst opdateret den %{updated}.
       comment_link: Kommentér dette indlæg
       reply_link: Send en besked til forfatteren
       comment_count:
@@ -1271,12 +1284,15 @@ da:
           "yes": Vandløb
       admin_levels:
         level2: Landegrænse
+        level3: Regionsgrænse
         level4: Regionsgrænse
         level5: Regionsgrænse
         level6: Kommunegrænse
+        level7: Kommunegrænse
         level8: Bygrænse
         level9: Bydelsgrænse
         level10: Sognegrænse
+        level11: Nabolagsgrænse
       types:
         cities: Storbyer
         towns: Byer
@@ -1441,12 +1457,21 @@ da:
       hi: Hej %{to_user},
       header: '%{from_user} har kommenteret på OpenStreetMap-blogindlægget med emnet
         %{subject}:'
+      header_html: '%{from_user} har kommenteret på OpenStreetMap-blogindlægget med
+        emnet %{subject}:'
       footer: Du kan også læse kommentaren på %{readurl}, og du kan kommentere på
         %{commenturl} eller sende en besked til forfatteren på %{replyurl}
+      footer_html: Du kan også læse kommentaren på %{readurl}, og du kan kommentere
+        på %{commenturl} eller sende en besked til forfatteren på %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Hej %{to_user},
       header: '%{from_user} har sendt dig en besked gennem OpenStreetMap med emnet
         %{subject}:'
+      header_html: '%{from_user} har sendt dig en besked gennem OpenStreetMap med
+        emnet %{subject}:'
+      footer: Du kan også læse beskeden på %{readurl} og du kan sende en besked til
+        forfatteren på %{replyurl}
       footer_html: Du kan også læse beskeden på %{readurl} og du kan sende en besked
         til forfatteren på %{replyurl}
     friendship_notification:
@@ -1454,11 +1479,17 @@ da:
       subject: '[OpenStreetMap] %{user} tilføjede dig som ven'
       had_added_you: '%{user} har tilføjet dig som ven på OpenStreetMap.'
       see_their_profile: Du kan se deres profil på %{userurl}.
+      see_their_profile_html: Du kan se deres profil på %{userurl}.
       befriend_them: Du kan også tilføje dem som ven på %{befriendurl}.
+      befriend_them_html: Du kan også tilføje dem som ven på %{befriendurl}.
     gpx_failure:
+      hi: Hej %{to_user},
       failed_to_import: 'kunne ikke importeres. Her er fejlen:'
+      more_info_html: Yderligere information vedrørende fejl i forbindelse med GPX-import
+        og hvordan de kan undgås, kan findes på %{url}
       subject: '[OpenStreetMap] GPX-importering mislykkedes'
     gpx_success:
+      hi: Hej %{to_user},
       loaded_successfully:
         one: indlæst med %{trace_points} ud af 1 muligt punkt.
         other: indlæst med %{trace_points} ud af %{possible_points} mulige punkter.
@@ -1495,14 +1526,22 @@ da:
           du er interesseret i'
         your_note: '%{commenter} har efterladt en kommentar på en af dine kortbemærkninger
           nær %{place}.'
+        your_note_html: '%{commenter} har efterladt en kommentar til en af dine kortbemærkninger
+          nær %{place}.'
         commented_note: '%{commenter} har efterladt en kommentar til en kortbemærkning
+          du har kommenteret. Bemærkningen er i nærheden af %{place}.'
+        commented_note_html: '%{commenter} har efterladt en kommentar til en kortbemærkning
           du har kommenteret. Bemærkningen er i nærheden af %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} har løst en af dine bemærkninger'
         subject_other: '[OpenStreetMap] %{commenter} har løst en bemærkning, du er
           interesseret i'
         your_note: '%{commenter} har løst en af dine kortbemærkninger nær %{place}.'
+        your_note_html: '%{commenter} har løst en af dine kortbemærkninger i nærheden
+          af %{place}.'
         commented_note: '%{commenter} har løst en kortbemærkning du har kommenteret
+          på. Bemærkningen er i nærheden af %{place}.'
+        commented_note_html: '%{commenter} har løst en kortbemærkning du har kommenteret
           på. Bemærkningen er i nærheden af %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} har genaktiveret en af dine bemærkninger'
@@ -1510,9 +1549,14 @@ da:
           du er interesseret i'
         your_note: '%{commenter} har genaktiveret en af dine kortbemærkninger nær
           %{place}.'
+        your_note_html: '%{commenter} har genaktiveret en af dine kortbemærkninger
+          i nærheden af %{place}.'
         commented_note: '%{commenter} har genaktiveret en kortbemærkning du har kommenteret.
           Bemærkningen er i nærheden af %{place}.'
+        commented_note_html: '%{commenter} har genaktiveret en kortbemærkning du har
+          kommenteret. Bemærkningen er i nærheden af %{place}.'
       details: Flere oplysninger om bemærkningen kan findes på %{url}.
+      details_html: Flere oplysninger om kortbemærkningen kan findes på %{url}.
     changeset_comment_notification:
       hi: Hej %{to_user},
       greeting: Hej,
@@ -1522,13 +1566,21 @@ da:
           du er interesseret i'
         your_changeset: '%{commenter} har kommenteret på et af dine ændringssæt, oprettet
           %{time}'
+        your_changeset_html: '%{commenter} har kl. %{time} kommenteret på et af dine
+          ændringssæt'
         commented_changeset: '%{commenter} har efterladt en kommentar på et ændringssæt
           som du overvåger, oprettet %{time} af %{changeset_author}'
+        commented_changeset_html: '%{commenter} har kl. %{time} efterladt en kommentar
+          på et ændringssæt, oprettet af %{changeset_author}, som du overvåger'
         partial_changeset_with_comment: med kommentaren '%{changeset_comment}'
+        partial_changeset_with_comment_html: med kommentaren '%{changeset_comment}'
         partial_changeset_without_comment: uden kommentar
       details: Flere oplysninger om ændringssættet kan findes på %{url}.
+      details_html: Flere oplysninger om ændringssættet kan findes på %{url}.
       unsubscribe: For at afmelde opdateringer til dette ændringssæt, kan du besøge
         %{url} og klikke "Afmeld".
+      unsubscribe_html: For at afmelde opdateringer vedrørende dette ændringssæt,
+        kan du besøge %{url} og klikke "Afmeld".
   messages:
     inbox:
       title: Indbakke
@@ -1606,10 +1658,22 @@ da:
       destroyed: Besked slettet
   shared:
     markdown_help:
+      title_html: Fortolket med <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      headings: Overskrifter
+      heading: Overskrift
+      subheading: Underoverskrift
+      unordered: Usorteret liste
+      ordered: Sorteret liste
+      first: Første punkt
+      second: Andet punkt
+      link: Link
       text: Tekst
       image: Billede
+      alt: Alt-tekst
+      url: URL
     richtext_field:
       edit: Rediger
+      preview: Forhåndsvisning
   site:
     about:
       next: Næste
@@ -1907,6 +1971,14 @@ da:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
         description: Gennemse wikien for dybdegående OSM dokumentation.
+    potlatch:
+      removed: Din foretrukne OpenStreetMap-editor er sat til Potlatch. Da Adobe Flash
+        Player er blevet trukket tilbage, er Potlatch ikke længere tilgængelig i browseren.
+      desktop_html: Du kan stadig bruge Potlatch ved at <a href="https://www.systemed.net/potlatch/">hente
+        applikationen til Mac og Windows</a>.
+      id_html: Alternativt kan du sætte iD som din foretrukne editor. iD kører i din
+        browser, ligesom Potlatch gjorde. <a href="%{settings_url}">Du kan ændre din
+        foretrukne editor her</a>.
     sidebar:
       search_results: Søgeresultater
       close: Luk
@@ -2086,6 +2158,7 @@ da:
       uploaded: 'Overført:'
       points: 'Punkter:'
       start_coordinates: 'Startkoordinat:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: kort
       edit: redigér
       owner: 'Ejer:'
@@ -2709,6 +2782,7 @@ da:
       custom_dimensions: Angiv brugerdefinerede dimensioner
       format: 'Format:'
       scale: 'Skala:'
+      image_dimensions: Billedet vil vise standardlaget i %{width} x %{height}
       download: Hent
       short_url: Kort URL
       include_marker: Tilføj markør
@@ -2736,6 +2810,7 @@ da:
           other: Du er indenfor %{count} fod fra dette punkt
       base:
         standard: Standard
+        cyclosm: CyclOSM
         cycle_map: Cykelkort
         transport_map: Transportkort
         hot: Humanitær

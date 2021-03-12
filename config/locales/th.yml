@@ -125,27 +125,38 @@ th:
         body: เนื้อหา
         recipient: ผู้รับ
       redaction:
+        title: ชื่อเรื่อง
         description: คำอธิบาย
       report:
         category: เลือกเหตุผลของปัญหาที่ท่านแจ้ง
         details: โปรดให้คำอธิบายเพิ่มเติมเกี่ยวกับปัญหา (จำเป็นต้องใส่)
       user:
+        auth_provider: ผู้ให้การยืนยัน
+        auth_uid: UID การยืนยัน
         email: อีเมล์
-        new_email: 'ที่อยู่อีเมลใหม่:'
+        email_confirmation: การยืนยันอีเมล
+        new_email: ที่อยู่อีเมลใหม่
         active: เปิดใช้
         display_name: ชื่อที่ใช้แสดง
-        description: คำอธิบาย
-        home_lat: 'ละติจูด:'
-        home_lon: 'ลองจิจูด:'
-        languages: ภาษา
+        description: คำอธิบายโปรไฟล์
+        home_lat: ละติจูด
+        home_lon: ลองจิจูด
+        languages: ภาษาที่เลือก
+        preferred_editor: เครื่องมือแก้ไขที่เลือกใช้
         pass_crypt: รหัสผ่าน
         pass_crypt_confirmation: ยืนยันรหัสผ่าน
     help:
       trace:
         tagstring: คั่นด้วยจุลภาค
       user_block:
+        reason: เหตุผลที่ผู้ใช้กำลังถูกระงับ โปรดอย่าเขียนด้วยอารมณ์รุนแรงและระบุรายละเอียดเกี่ยวกับสถานการณ์ที่พบให้ละเอียดชัดเจน
+          ควรใช้คำอธิบายที่เข้าใจง่ายเป็นหลัก เพราะไม่ใช่ว่าผู้ใช้ทุกคนจะเข้าใจศัพท์เฉพาะ
+          และต้องอย่าลืมว่าสิ่งที่คุณเขียนนี้จะแสดงต่อสาธารณะด้วย
         needs_view: ต้องการให้ผู้ใช้คนนี้เข้าระบบก่อนเพิกถอนการระงับหรือไม่?
       user:
+        email_confirmation: ที่อยู่อีเมลของคุณจะไม่แสดงเป็นสาธารณะ โปรดดูเพิ่มเติมที่<a
+          href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="นโยบายความเป็นส่วนตัวของ
+          OSMF ซึ่งมีเนื้อหาเกี่ยวข้องกับการจัดการที่อยู่อีเมลของคุณ">นโยบายความเป็นส่วนตัว</a>สำหรับสารสนเทศเพิ่มเติม
         new_email: (จะไม่แสดงต่อสาธารณะ)
   datetime:
     distance_in_words_ago:
@@ -185,7 +196,7 @@ th:
       description: iD (ตัวแก้ไขในเบราว์เซอร์)
     remote:
       name: การควบคุมระยะไกล
-      description: ตัวควบคุมระยะไกล (JOSM หรือ Merkaartor)
+      description: การควบคุมทางไกล (JOSM, Potlatch, Merkaator)
   auth:
     providers:
       none: ไม่มี
@@ -211,6 +222,7 @@ th:
         description_area: รายชื่อหมายเหตุที่มีการรายงาน แสดงความคิดเห็น หรือถูกปิดในพื้นที่ของคุณ
           [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: ฟีด rss สำหรับหมายเหตุ %{id}
+        opened: หมายเหตุใหม่ (พิกัดใกล้กับ %{place})
         commented: ความคิดเห็นใหม่ (ใกล้เคียง %{place})
         closed: หมายเหตุที่ถูกปิด (ใกล้เคียง %{place})
         reopened: หมายเหตุที่ถูกเปิดใช้งานใหม่ (ใกล้เคียง %{place})
@@ -231,6 +243,10 @@ th:
     anonymous: ไม่ระบุตัวตน
     no_comment: (ไม่มีความคิดเห็น)
     part_of: เป็นส่วนหนึ่งของ
+    part_of_relations:
+      other: '%{count} ความเกี่ยวข้อง'
+    part_of_ways:
+      other: '%{count} ทาง'
     download_xml: ดาวน์โหลด XML
     view_history: ดูประวัติ
     view_details: ดูรายละเอียด
