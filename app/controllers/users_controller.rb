@@ -271,7 +271,7 @@ class UsersController < ApplicationController
 
   def login
     append_content_security_policy_directives(
-      :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
+      :form_action => %w[*]
     )
 
     session[:referer] = safe_referer(params[:referer]) if params[:referer]
