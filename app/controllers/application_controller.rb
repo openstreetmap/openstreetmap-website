@@ -393,6 +393,8 @@ class ApplicationController < ActionController::Base
       referer = nil
     end
 
+    referer = nil if referer&.path&.first != "/"
+
     referer.to_s
   end
 end
