@@ -768,7 +768,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
         assert_select "tr", :count => traces.length do |rows|
           traces.zip(rows).each do |trace, row|
             assert_select row, "a", Regexp.new(Regexp.escape(trace.name))
-            assert_select row, "span", Regexp.new(Regexp.escape("#{trace.size} points")) if trace.inserted?
+            assert_select row, "li", Regexp.new(Regexp.escape("#{trace.size} points")) if trace.inserted?
             assert_select row, "td", Regexp.new(Regexp.escape(trace.description))
             assert_select row, "td", Regexp.new(Regexp.escape("by #{trace.user.display_name}"))
           end
