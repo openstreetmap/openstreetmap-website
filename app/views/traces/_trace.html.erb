@@ -8,28 +8,49 @@
       <% end %>
     <% end %>
   </td>
-  <td><%= link_to trace.name, :controller => "traces", :action => "show", :display_name => trace.user.display_name, :id => trace.id %>
-    <span class="text-muted" title="<%= trace.timestamp %>"> ...
-      <% if trace.inserted %>
-        (<%= t ".count_points", :count => trace.size %>)
-      <% end %>
-      ... <%= time_ago_in_words(trace.timestamp, :scope => :'datetime.distance_in_words_ago') %></span>
-      <%= link_to_if trace.inserted?, t(".map"), { :controller => "site", :action => "index", :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}" }, { :title => t(".view_map") } %> /
-      <%= link_to t(".edit"), { :controller => "site", :action => "edit", :gpx => trace.id }, { :title => t(".edit_map") } %>
+  <td>
+    <span class="mr-2">
+      <%= link_to trace.name, :controller => "traces", :action => "show", :display_name => trace.user.display_name, :id => trace.id %>
+    </span>
 
-      <% badge_class = case trace.visibility
-                       when "public", "identifiable" then "success"
-                       else "danger"
-                       end %>
-      <span class="badge badge-<%= badge_class %> text-white"><%= t(".#{trace.visibility}") %></span>
+    <% if trace.inserted? %>
+      <span class="mr-2">
+        <%= t ".count_points", :count => trace.size %>
+      </span>
+    <% end %>
 
-      <br />
-      <%= trace.description %>
+    <% badge_class = case trace.visibility
+                     when "public", "identifiable" then "success"
+                     else "danger"
+                     end %>
+    <span class="badge badge-<%= badge_class %> text-white"><%= t(".#{trace.visibility}") %></span>
+
     <br />
-    <%= t ".by" %> <%= link_to trace.user.display_name, user_path(trace.user) %>
-    <% if !trace.tags.empty? %>
-      <%= t ".in" %>
-      <%= safe_join(trace.tags.collect { |tag| link_to_tag tag.tag }, ", ") %>
+    <span class="text-muted">
+      <span title="<%= trace.timestamp %>">
+        <%= time_ago_in_words(trace.timestamp, :scope => :'datetime.distance_in_words_ago') %>
+      </span>
+      <%= t ".by" %> <%= link_to trace.user.display_name, user_path(trace.user) %>
+      <% if !trace.tags.empty? %>
+        <%= t ".in" %>
+        <%= safe_join(trace.tags.collect { |tag| link_to_tag tag.tag }, ", ") %>
+      <% end %>
+    </span>
+    <br />
+    <p class="font-italic my-1">
+      <%= trace.description %>
+    </p>
+  </td>
+  <td>
+    <% if trace.inserted? %>
+      <ul class="secondary-actions">
+        <li>
+          <%= link_to t(".view_map"), { :controller => "site", :action => "index", :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}" } %>
+        </li>
+        <li>
+          <%= link_to t(".edit_map"), { :controller => "site", :action => "edit", :gpx => trace.id } %>
+        </li>
+      </ul>
     <% end %>
   </td>
 </tr>
