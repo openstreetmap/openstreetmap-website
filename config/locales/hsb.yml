@@ -11,6 +11,8 @@ hsb:
     formats:
       friendly: '%e. %B %Y %H:%M'
   helpers:
+    file:
+      prompt: Dataju wubrać
     submit:
       diary_comment:
         create: Składować
@@ -23,7 +25,7 @@ hsb:
         create: Pósłać
       client_application:
         create: Registrować
-        update: Wobdźěłać
+        update: Aktualizować
       redaction:
         create: Redakciju wutworić
         update: Redakciju składować
@@ -46,6 +48,7 @@ hsb:
       diary_comment: Dźenikowy komentar
       diary_entry: Dźenikowy zapisk
       friend: Přećel
+      issue: Problem
       language: Rěč
       message: Powěsć
       node: Suk
@@ -62,6 +65,7 @@ hsb:
       relation: Relacija
       relation_member: Relaciski čłon
       relation_tag: Relaciski atribut
+      report: Rozprawa
       session: Posedźenje
       trace: Ćěr
       tracepoint: Ćěrjowy dypk
@@ -74,8 +78,17 @@ hsb:
       way_tag: Pućny atribut
     attributes:
       client_application:
+        name: Mjeno (trěbne)
+        url: URL hłowneje aplikacije (trěbna)
         callback_url: URL wróćowołanja
         support_url: URL podpěry
+        allow_read_prefs: twoje wužiwarske nastajenja wučitać
+        allow_write_prefs: twoje wužiwarske nastajenja změnić.
+        allow_write_diary: dźenikowe zapiski a komentary spisać a přećelow namakać
+        allow_write_api: kartu wobdźěłać
+        allow_read_gpx: twoje priwatne GPS-ćěrje čitać.
+        allow_write_gpx: GPS-ćěrje nahrawać
+        allow_write_notes: noticy wobdźěłać
       diary_comment:
         body: Tekst
       diary_entry:
@@ -90,34 +103,41 @@ hsb:
       trace:
         user: Wužiwar
         visible: Widźomny
-        name: Mjeno
+        name: Datajowe mjeno
         size: Wulkosć
         latitude: Šěrokostnik
         longitude: Dołhostnik
         public: Zjawny
         description: Wopisanje
         gpx_file: 'GPX-dataju nahrać:'
-        visibility: 'Widźomnosć:'
-        tagstring: 'Atributy:'
+        visibility: Widźomnosć
+        tagstring: Tagy
       message:
         sender: Wotpósłar
         title: Tema
         body: Tekst
         recipient: Přijimowar
       redaction:
+        title: Titul
         description: Wopisanje
       report:
+        category: Wubjer přičinu za twoju rozprawu
         details: Prošu zapodaj wjace podrobnosćow k tutomu problemej (trěbne).
       user:
+        auth_provider: Poskićowar awtentifikacije
+        auth_uid: UID awtentifikacije
         email: E-mejl
-        new_email: 'Nowa e-mejlowa adresa:'
+        email_confirmation: Wobkrućenje mejlki
+        new_email: Nowa mejlowa adresa
         active: Aktiwny
         display_name: Wužiwarske mjeno
-        description: Wopisanje
-        home_lat: 'Šěrokostnik:'
-        home_lon: 'Dołhostnik:'
-        languages: Rěče
+        description: Profilowy wopis
+        home_lat: Šěrina
+        home_lon: Dołhota
+        languages: Preferowane rěče
+        preferred_editor: Preferowany editor
         pass_crypt: Hesło
+        pass_crypt_confirmation: Hesło wobkrućić
     help:
       trace:
         tagstring: přez komu dźěleny
@@ -168,6 +188,14 @@ hsb:
     remote:
       name: Dalokowodźenje
       description: Dalokowodźenje (JOSM abo Merkaartor)
+  auth:
+    providers:
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedija
   api:
     notes:
       comment:
@@ -256,6 +284,7 @@ hsb:
       entry_html: Relacija %{relation_name}
       entry_role_html: Relacija %{relation_name} (jako %{relation_role})
     not_found:
+      title: Njenamakane
       sorry: 'Wodaj, %{type} #%{id} njebu namakany.'
       type:
         node: suk
@@ -324,7 +353,7 @@ hsb:
       next: Přichodna »
       previous: « Předchadna
     changeset:
-      anonymous: Anonymny
+      anonymous: Anonymnje
       no_edits: (žane změny)
       view_changeset_details: Podrobnosće sadźby změnow pokazać
     changesets:
@@ -362,8 +391,8 @@ hsb:
     new:
       title: Nowy zapisk do dźenika
     form:
-      location: 'Městno:'
-      use_map_link: kartu wužiwać
+      location: Městno
+      use_map_link: Kartu wužiwać
     index:
       title: Wužiwarske dźeniki
       title_friends: Dźeniki přećelow
@@ -372,6 +401,7 @@ hsb:
       in_language_title: Dźenikowe zapiski w rěči %{language}
       new: Nowy zapisk do dźenika
       new_title: Nowy zapisk do twojeho wužiwarskeho dźenika pisać
+      my_diary: Mój dźenik
       no_entries: Žane zapiski w dźeniku
       recent_entries: Najnowše zapiski w dźeniku
       older_entries: Starše zapiski
@@ -393,7 +423,7 @@ hsb:
     diary_entry:
       posted_by_html: Spisany wot %{link_user} dnja %{created} w rěči %{language_link}
       comment_link: Komentar k tutomu zapiskej
-      reply_link: Na tutón zapisk wotmołwić
+      reply_link: Awtorej powěsć pósłać
       comment_count:
         few: '%{count} komentary'
         one: Jedyn komentar
@@ -404,11 +434,13 @@ hsb:
       hide_link: Tutón zapisk schować
       unhide_link: Tutón zapisk zaso pokazać
       confirm: Wobkrućić
+      report: Tutón zapisk zdźělić
     diary_comment:
       comment_from_html: Komentar wot %{link_user} spisany dnja %{comment_created_at}
       hide_link: Tutón komentar schować
       unhide_link: Tutón komentar zaso pokazać
       confirm: Wobkrućić
+      report: Tutón komentar zdźělić
     location:
       location: 'Městno:'
       view: Pokazać
@@ -521,6 +553,7 @@ hsb:
           marketplace: torhošćo
           monastery: klóšter
           motorcycle_parking: parkowanišćo za motorske
+          music_school: hudźbna šula
           nightclub: nócny klub
           nursing_home: starownja
           parking: parkowanišćo
@@ -533,6 +566,7 @@ hsb:
           post_office: póštowy zarjad
           prison: jastwo
           pub: korčma
+          public_bath: zjawna kupjel
           public_building: zjawne twarjenje
           recycling: přijimarnja starowiznow
           restaurant: hosćenc
@@ -560,6 +594,7 @@ hsb:
           census: mjeza ludličenskeho wobwoda
           national_park: nacionalny park
           protected_area: škitane pasmo
+          "yes": hranica
         bridge:
           aqueduct: akwedukt
           boardwalk: přibrjóžna promenada
@@ -568,27 +603,55 @@ hsb:
           viaduct: wiadukt
           "yes": móst
         building:
-          apartments: Bydlenski blok
+          apartment: bydlenje
+          apartments: wjaceswójbny dom
+          barn: bróžnja
+          bungalow: bungalow
+          cabin: chata
           chapel: Kapałka
-          church: Cyrkej
+          church: cyrkwinske twarjenje
+          civic: zjawne twarjenje
+          college: wysokošulske twarjenje
           commercial: Wobchodniske twarjenje
+          construction: twarjenje w konstrukciji
           dormitory: Studentski internat
           farm: Hospodarske twarjenje
           garage: Garaža
+          garages: garaže
+          greenhouse: rostlinarnja
+          hangar: hangar
           hospital: Chorownja
-          hotel: Hotel
+          hotel: hotelowe twarjenje
           house: Dom
+          houseboat: bydlenski čołm
+          hut: chěžka
           industrial: Industrijowe twarjenje
+          kindergarten: pěstowarske twarjenje
+          manufacture: fabrikowe twarjenje
           office: Běrowowe twarjenje
           public: Zjawne twarjenje
           residential: Bydlenske twarjenje
           retail: Priwatne twarjenje
+          roof: třěcha
+          ruins: rozpadace twarjenje
           school: Šulske twarjenje
+          service: zawodne twarjenje
+          shed: kólnja
+          stable: hródź/konjenc
+          static_caravan: bydlenski wóz
+          temple: templowe twarjenje
           terrace: Terasa
-          train_station: Dwórnišćo
+          train_station: dwórnišćowe twarjenje
           university: Uniwersitne twarjenje
+          warehouse: skład
           "yes": twarjenje
+        club:
+          scout: skawtowe lěhwo
+          sport: sportowe towarstwo
+          "yes": towarstwo
         craft:
+          beekeper: pčołar
+          blacksmith: kowar
           brewery: piwarnja
           carpenter: ćěsla
           electrician: elektrikar
@@ -596,8 +659,12 @@ hsb:
           painter: moler
           photographer: fotograf
           plumber: blachar
+          sawmill: rězak
           shoemaker: šewc
+          stonemason: kamjenjećesar
           tailor: krawc
+          window_construction: woknatwarc
+          winery: winicy
           "yes": rjemjeslniski wobchod
         emergency:
           ambulance_station: wuchowanska stacija
@@ -665,14 +732,17 @@ hsb:
           house: dom
           manor: knježi dwór
           memorial: wopomnišćo
+          milestone: historiski milnik
           mine: podkopki
           mine_shaft: překop
           monument: pomnik
+          railway: historiska železniska čara
           roman_road: romska dróha
           ruins: rozpadanki
           stone: błudźenk
           tomb: row
           tower: wěža
+          wayside_chapel: přidróžna kapałka
           wayside_cross: swjaty křiž
           wayside_shrine: modlerski stołp
           wreck: wrak
@@ -681,6 +751,7 @@ hsb:
           "yes": křižowanišćo
         landuse:
           allotments: zahrodki
+          aquaculture: akwakultura
           basin: basenk
           brownfield: lado
           cemetery: pohrjebnišćo
@@ -700,9 +771,11 @@ hsb:
           military: wojerska kónčina
           mine: podkopki
           orchard: sadowa zahroda
+          plant_nursery: štomownja
           quarry: skała
           railway: železniski teren
           recreation_ground: wočerstwjenišćo
+          religious: nabožinski teritorij
           reservoir: zběranski basenk
           reservoir_watershed: wodowe přitočnišćo
           residential: sydlišćo
@@ -714,6 +787,7 @@ hsb:
           beach_resort: mórske kupjele
           bird_hide: ptači schow
           common: gmejnski kraj
+          dance: rejowanska žurla
           dog_park: psyči park
           firepit: wohnišćo
           fishing: rybnišćo
@@ -727,6 +801,7 @@ hsb:
           miniature_golf: minigolf
           nature_reserve: přirodoškitne pasmo
           park: park
+          picnic_table: piknikowe blido
           pitch: sportnišćo
           playground: hrajkanišćo
           recreation_ground: wočerstwjenišćo
@@ -741,13 +816,21 @@ hsb:
           "yes": wólny čas
         man_made:
           adit: podkopk
+          advertising: wonkowne wabjenje
+          antenna: antena
+          avalanche_protection: škit před lawinami
           beacon: swětłownja
+          beam: hrjada
           beehive: kołć
           breakwater: přistawny nasyp
           bridge: móst
           bunker_silo: bunker
+          cairn: kamjentny mužik
           chimney: wuheń
+          clearcut: trjebjenje
+          communications_tower: škričkowy sćežor
           crane: kran
+          cross: křiž
           dyke: haćenje
           embankment: skłonina
           flagpole: chorhojowy sćežor
@@ -763,11 +846,15 @@ hsb:
           pier: stołp
           pipeline: rołowód
           silo: silo
+          snow_cannon: sněhowa kanona
+          snow_fence: sněhowy płót
           storage_tank: składowanski tank
           surveillance: dohladowanje
+          telescope: teleskop
           tower: wěža
           wastewater_plant: wodočisćernja
           watermill: wodowy młyn
+          water_tap: wodowy honač
           water_tower: wodowa wěža
           water_well: studnja
           water_works: wodarnja
@@ -778,6 +865,7 @@ hsb:
           airfield: wojerske lětanišćo
           barracks: kaserna
           bunker: bunker
+          checkpoint: kontrolny dypk
           "yes": wójsko
         mountain_pass:
           "yes": hórski přesmyk
@@ -787,6 +875,7 @@ hsb:
           cape: kap
           cave_entrance: zachod prózdnjeńcy
           cliff: wuskała
+          coastline: Pobrjóžna linija
           crater: krater
           dune: nawěw
           fell: fjeld
@@ -1018,6 +1107,7 @@ hsb:
         level4: krajna hranica
         level5: regionalna hranica
         level6: wokrjesna hranica
+        level7: gmejnska hranica
         level8: měšćanska hranica
         level9: hranica měšćanskeho dźěla
         level10: hranica štwórće
@@ -1277,7 +1367,6 @@ hsb:
     inbox:
       title: Póštowy kašćik
       my_inbox: Moja póšta
-      outbox: pósłane
       messages: Maš %{new_messages} a %{old_messages}
       new_messages:
         few: '%{count} nowe powěsće'
@@ -1316,9 +1405,6 @@ hsb:
       body: Bohužel njeje powěsć z tutej ID.
     outbox:
       title: Pósłane
-      my_inbox_html: Moja %{inbox_link}
-      inbox: póšta
-      outbox: pósłane
       messages:
         few: Sy %{count} powěsće pósłał(a)
         one: Sy %{count} powěsć pósłał(a)
@@ -1789,7 +1875,6 @@ hsb:
       more: wjace
       trace_details: Podrobnosće ćěrje pokazać
       view_map: Kartu pokazać
-      edit: wobdźěłać
       edit_map: Kartu wobdźěłać
       public: ZJAWNY
       identifiable: IDENTIFIKUJOMNY
@@ -1797,7 +1882,6 @@ hsb:
       trackable: SĆĚHUJOMNY
       by: wot
       in: w
-      map: karta
     index:
       public_traces: Zjawne GPS-ćěrje
       public_traces_from: Zjawne GPS-ćěrje wot %{user}
