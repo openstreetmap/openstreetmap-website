@@ -753,11 +753,17 @@ class UsersController < ApplicationController
     # code from example https://en.gravatar.com/site/implement/images/ruby/
     return false if user.avatar.attached?
 
-    hash = Digest::MD5.hexdigest(user.email.downcase)
-    url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
-    response = OSM.http_client.get(URI.parse(url))
+    begin
+      hash = Digest::MD5.hexdigest(user.email.downcase)
+      url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
+      response = OSM.http_client.get(URI.parse(url))
+      available = response.success?
+    rescue StandardError
+      available = false
+    end
+
     oldsetting = user.image_use_gravatar
-    user.image_use_gravatar = response.success?
+    user.image_use_gravatar = available
     oldsetting != user.image_use_gravatar
   end
 
