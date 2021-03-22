@@ -881,6 +881,7 @@ ru:
           boundary_stone: Пограничный камень
           building: Историческое здание
           bunker: Бункер
+          cannon: Историческая пушка
           castle: Крепость
           church: Церковь
           city_gate: Городские ворота
@@ -893,6 +894,7 @@ ru:
           mine: Рудник
           mine_shaft: Шахтный ствол
           monument: Монумент
+          railway: Историческая железная дорога
           roman_road: Римская дорога
           ruins: Развалины
           stone: Камень
@@ -953,6 +955,7 @@ ru:
           miniature_golf: Минигольф
           nature_reserve: Заповедник
           park: Парк
+          picnic_table: Стол для пикника
           pitch: Спортивная площадка
           playground: Детская игровая площадка
           recreation_ground: Зона отдыха
@@ -967,6 +970,8 @@ ru:
           "yes": Досуг
         man_made:
           adit: Штольня
+          advertising: Реклама
+          antenna: Антенна
           avalanche_protection: Защита от лавин
           beacon: Маяк
           beehive: Улей
@@ -1039,6 +1044,7 @@ ru:
           moor: Вересковая пустошь
           mud: Грязь
           peak: Вершина горы
+          peninsula: Полуостров
           point: Мыс
           reef: Риф
           ridge: Хребет
@@ -1070,11 +1076,13 @@ ru:
           it: IT-офис
           lawyer: Юрист
           ngo: Офис некоммерческой организации
+          tax_advisor: Налоговый консультант
           telecommunication: Офис телекоммуникационной компании
           travel_agent: Туристическое агентство
           "yes": Офисы
         place:
           allotments: Садоводство
+          archipelago: Архипелаг
           city: Город
           city_block: Городской квартал
           country: Страна
@@ -1127,12 +1135,14 @@ ru:
         shop:
           alcohol: Магазин алкоголя
           antiques: Антиквариат
+          appliance: Магазин бытовой техники
           art: Художественный салон
           baby_goods: Товары для детей
           bag: Магазин сумок
           bakery: Булочная
           bathroom_furnishing: Мебель для ванной
           beauty: Салон красоты
+          bed: Постельные принадлежности
           beverages: Магазин напитков
           bicycle: Веломагазин
           bookmaker: Букмекер
@@ -1154,6 +1164,8 @@ ru:
           convenience: Продовольственный магазин
           copyshop: Услуги копирования
           cosmetics: Косметика
+          curtain: Магазин штор
+          dairy: Молочный магазин
           deli: Магазин деликатесов
           department_store: Универсам
           discount: Магазин распродаж
@@ -1186,6 +1198,7 @@ ru:
           kiosk: Киоск
           kitchen: Магазин кухонь
           laundry: Прачечная
+          locksmith: Слесарь
           lottery: Лотерея
           mall: Молл
           massage: Массаж
@@ -1270,6 +1283,7 @@ ru:
           "yes": Водный маршрут
       admin_levels:
         level2: Граница страны
+        level3: Граница региона
         level4: Граница штата, субъекта
         level5: Граница региона
         level6: Граница района
@@ -1440,12 +1454,18 @@ ru:
       subject: Пользователь [OpenStreetMap] %{user} оставил комментарий в дневнике
       hi: Здравствуйте, %{to_user},
       header: '%{from_user} прокомментировал на OpenStreetMap с темой %{subject}:'
+      header_html: '%{from_user} прокомментировал на OpenStreetMap с темой %{subject}:'
       footer: Вы можете также прочитать комментарий — %{readurl}, оставить свой —
         %{commenturl} или ответить — %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Здравствуйте, %{to_user},
       header: 'Пользователь OpenStreetMap %{from_user} отправил вам сообщение с темой
         %{subject}:'
+      header_html: 'Пользователь OpenStreetMap %{from_user} отправил вам сообщение
+        с темой %{subject}:'
+      footer: Вы можете также прочитать сообщение на странице %{readurl} и ответить
+        на него на %{replyurl}
       footer_html: Вы можете также прочитать сообщение на странице %{readurl} и ответить
         на него на %{replyurl}
     friendship_notification:
@@ -1453,12 +1473,16 @@ ru:
       subject: Пользователь [OpenStreetMap] %{user} добавил вас в список своих друзей
       had_added_you: '%{user} добавил вас в друзья на OpenStreetMap.'
       see_their_profile: 'Вы можете просмотреть информацию о них по ссылке: %{userurl}.'
+      see_their_profile_html: 'Вы можете просмотреть информацию о них по ссылке: %{userurl}.'
       befriend_them: Вы также можете добавить их в качестве друзей в %{befriendurl}.
+      befriend_them_html: Вы также можете добавить их в качестве друзей в %{befriendurl}.
     gpx_failure:
+      hi: Здравствуйте, %{to_user},
       failed_to_import: 'сбой импорта. Произошла ошибка:'
       import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Сбой импорта GPX'
     gpx_success:
+      hi: Здравствуйте, %{to_user},
       loaded_successfully:
         one: успешно загружена %{trace_points} точка из %{possible_points} возможной.
         few: успешно загружены %{trace_points} точки из %{possible_points} возможных.
@@ -1497,8 +1521,12 @@ ru:
           заметку'
         your_note: '%{commenter} оставил комментарий к одной из ваших заметок около
           %{place}.'
+        your_note_html: '%{commenter} оставил комментарий к одной из ваших заметок
+          около %{place}.'
         commented_note: '%{commenter} оставил комментарий к одной из заметок, которую
           вы тоже комментировали. Заметка находится около %{place}.'
+        commented_note_html: '%{commenter} оставил комментарий к одной из заметок,
+          которую вы тоже комментировали. Заметка находится около %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} обработал вашу заметку'
         subject_other: '[OpenStreetMap] %{commenter} обработал интересную вам заметку'
@@ -1506,13 +1534,19 @@ ru:
           от %{place}.'
         commented_note: '%{commenter} обработал одну из вами прокомментированных заметок
           недалеко от %{place}.'
+        commented_note_html: '%{commenter} обработал одну из вами прокомментированных
+          заметок недалеко от %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} открыл заново вашу заметку'
         subject_other: '[OpenStreetMap] %{commenter} открыл заново интересную вам
           заметку'
         your_note: '%{commenter} открыл заново одну из ваших заметок на карте недалеко
           от %{place}.'
+        your_note_html: '%{commenter} открыл заново одну из ваших заметок на карте
+          недалеко от %{place}.'
         commented_note: '%{commenter} открыл заново одну из вами прокомментированных
+          заметок недалеко от %{place}.'
+        commented_note_html: '%{commenter} открыл заново одну из вами прокомментированных
           заметок недалеко от %{place}.'
       details: Подробнее о заметке %{url}.
     changeset_comment_notification:
@@ -1525,11 +1559,17 @@ ru:
           который вас интересует'
         your_changeset: '%{time} %{commenter} оставил комментарий к одному из ваших
           пакетов правок'
+        your_changeset_html: '%{time} %{commenter} оставил комментарий к одному из
+          ваших пакетов правок'
         commented_changeset: '%{time} участник %{commenter} оставил комментарий к
           отслеживаемому вами пакету правок, который был создан участником %{changeset_author}'
+        commented_changeset_html: '%{time} участник %{commenter} оставил комментарий
+          к отслеживаемому вами пакету правок, который был создан участником %{changeset_author}'
         partial_changeset_with_comment: с комментарием '%{changeset_comment}'
+        partial_changeset_with_comment_html: с комментарием '%{changeset_comment}'
         partial_changeset_without_comment: без комментария
       details: Дополнительные сведения о пакете правок можно найти на %{url}.
+      details_html: Дополнительные сведения о пакете правок можно найти на %{url}.
       unsubscribe: Чтобы отказаться от новых сообщений для этого пакета правок, перейдите
         по ссылке %{url} и нажмите кнопку "Отписаться".
       unsubscribe_html: Чтобы отказаться от подписки на обновления этого набора изменений,
@@ -1538,6 +1578,7 @@ ru:
     inbox:
       title: Входящие
       my_inbox: Мои входящие
+      my_outbox: Мои исходящие
       messages: У вас %{new_messages} и %{old_messages}
       new_messages:
         few: '%{count} новых сообщения'
@@ -1581,6 +1622,8 @@ ru:
         Извините, но сообщения с таким ID нет.
     outbox:
       title: Исходящие
+      my_inbox: Мои входящие
+      my_outbox: Мои исходящие
       messages:
         few: У вас %{count} отправленных сообщения
         many: У вас %{count} отправленных сообщений
