@@ -18,7 +18,7 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
     follow_redirect!
 
     get "/diary/new"
-    assert_equal [], User.find(user.id).languages
+    assert_empty User.find(user.id).languages
     assert_select "html[lang=?]", "en"
 
     get "/diary/new", :headers => { "HTTP_ACCEPT_LANGUAGE" => "fr, en" }

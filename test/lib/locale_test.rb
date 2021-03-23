@@ -68,7 +68,7 @@ class LocaleTest < ActiveSupport::TestCase
   end
 
   def test_list
-    assert_equal [], Locale.list
+    assert_empty Locale.list
     assert_equal [EN], Locale.list("en")
     assert_equal [EN, ZH_YUE, ZH_HANT_TW], Locale.list("en", "zh-yue", "zh-Hant-TW")
     assert_equal [ZH_YUE, ZH_HANT_TW], Locale.list("en;de", "zh-yue", "zh-Hant-TW")

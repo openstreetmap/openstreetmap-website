@@ -52,7 +52,7 @@ class UserTest < ActiveSupport::TestCase
     ok.each do |name|
       user = build(:user)
       user.email = name
-      assert user.valid?(:save), user.errors.full_messages.join(",")
+      assert user.valid?(:save), "#{name} isn't valid when it should be"
     end
 
     bad.each do |name|
@@ -129,11 +129,11 @@ class UserTest < ActiveSupport::TestCase
     # charlie and alice are both near bob, but alice has their data private
     assert_equal [charlie], bob.nearby
     # david has no user nearby, since edward is not active
-    assert_equal [], david.nearby
+    assert_empty david.nearby
     # south_pole_user has no user nearby, and doesn't throw exception
-    assert_equal [], south_pole_user.nearby
+    assert_empty south_pole_user.nearby
     # vagrant_user has no home location
-    assert_equal [], vagrant_user.nearby
+    assert_empty vagrant_user.nearby
   end
 
   def test_friends
@@ -144,7 +144,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [sec], norm.friends
     assert_equal 1, norm.friends.size
 
-    assert_equal [], sec.friends
+    assert_empty sec.friends
     assert_equal 0, sec.friends.size
   end
 
