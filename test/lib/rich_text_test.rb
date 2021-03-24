@@ -47,6 +47,17 @@ class RichTextTest < ActiveSupport::TestCase
       assert_select "style", false
       assert_select "p", /^foo *baz$/
     end
+
+    r = RichText.new("html", "<table><tr><td>column</td></tr></table>")
+    assert_html r do
+      assert_select "table[class='table table-sm w-auto']"
+    end
+
+    r = RichText.new("html", "<p class='btn btn-warning'>Click Me</p>")
+    assert_html r do
+      assert_select "p[class='btn btn-warning']", false
+      assert_select "p", /^Click Me$/
+    end
   end
 
   def test_html_to_text
@@ -144,6 +155,18 @@ class RichTextTest < ActiveSupport::TestCase
     r = RichText.new("markdown", "    foo bar baz")
     assert_html r do
       assert_select "pre", /^\s*foo bar baz\s*$/
+    end
+
+    r = RichText.new("markdown", "|column|column")
+    assert_html r do
+      assert_select "table[class='table table-sm w-auto']"
+    end
+
+    r = RichText.new("markdown", "Click Me\n{:.btn.btn-warning}")
+    # raise r.to_html
+    assert_html r do
+      assert_select "p[class='btn btn-warning']", false
+      assert_select "p", /^Click Me$/
     end
   end
 

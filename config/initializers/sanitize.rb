@@ -1,8 +1,10 @@
-Sanitize::Config::OSM = Sanitize::Config::RELAXED.dup
-
-Sanitize::Config::OSM[:elements] -= %w[div style]
-Sanitize::Config::OSM[:add_attributes] = { "a" => { "rel" => "nofollow noopener noreferrer" } }
-Sanitize::Config::OSM[:remove_contents] = %w[script style]
-Sanitize::Config::OSM[:transformers] = lambda do |env|
-  env[:node].add_class("table table-sm w-auto") if env[:node_name] == "table"
-end
+Sanitize::Config::OSM = Sanitize::Config.merge(
+  Sanitize::Config::RELAXED,
+  :elements => Sanitize::Config::RELAXED[:elements] - %w[div style],
+  :add_attributes => { "a" => { "rel" => "nofollow noopener noreferrer" } },
+  :remove_contents => %w[script style],
+  :transformers => lambda do |env|
+    env[:node].remove_class
+    env[:node].add_class("table table-sm w-auto") if env[:node_name] == "table"
+  end
+)
