@@ -58,6 +58,12 @@ class RichTextTest < ActiveSupport::TestCase
       assert_select "p[class='btn btn-warning']", false
       assert_select "p", /^Click Me$/
     end
+
+    r = RichText.new("html", "<p style='color:red'>Danger</p>")
+    assert_html r do
+      assert_select "p[style='color:red']", false
+      assert_select "p", /^Danger$/
+    end
   end
 
   def test_html_to_text
@@ -163,10 +169,15 @@ class RichTextTest < ActiveSupport::TestCase
     end
 
     r = RichText.new("markdown", "Click Me\n{:.btn.btn-warning}")
-    # raise r.to_html
     assert_html r do
       assert_select "p[class='btn btn-warning']", false
       assert_select "p", /^Click Me$/
+    end
+
+    r = RichText.new("markdown", "<p style='color:red'>Danger</p>")
+    assert_html r do
+      assert_select "p[style='color:red']", false
+      assert_select "p", /^Danger$/
     end
   end
 

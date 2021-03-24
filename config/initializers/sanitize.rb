@@ -5,6 +5,7 @@ Sanitize::Config::OSM = Sanitize::Config.merge(
   :remove_contents => %w[script style],
   :transformers => lambda do |env|
     env[:node].remove_class
+    env[:node].kwattr_remove("style", nil)
     env[:node].add_class("table table-sm w-auto") if env[:node_name] == "table"
   end
 )
