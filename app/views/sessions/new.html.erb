@@ -7,7 +7,7 @@
 <% end %>
 
 <div id="login_login">
-  <p class='text-muted'><%= t ".no account" %> <%= link_to t(".register now"), :action => :new, :referer => params[:referer] %></p>
+  <p class='text-muted'><%= t ".no account" %> <%= link_to t(".register now"), user_new_path(:referer => params[:referer]) %></p>
 
   <%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
     <%= hidden_field_tag("referer", h(params[:referer])) %>
