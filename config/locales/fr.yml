@@ -79,9 +79,12 @@
 # Author: Zarisi
 ---
 fr:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y à %-Hh%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Choisir un fichier
@@ -268,6 +271,7 @@ fr:
         one: l’année dernière
         other: il y a %{count} ans
   printable_name:
+    with_version: '%{id}, v%{version}'
     with_name_html: '%{name} (%{id})'
   editor:
     default: Par défaut (actuellement %{name})
@@ -597,6 +601,7 @@ fr:
           sur OpenStreetMap</a>
         geonames_reverse_html: Résultats venant de <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Téléphérique
@@ -1058,6 +1063,7 @@ fr:
         mountain_pass:
           "yes": Col de montagne
         natural:
+          atoll: Atoll
           bare_rock: Roche nue
           bay: Baie
           beach: Plage
@@ -1130,6 +1136,7 @@ fr:
           "yes": Bureau
         place:
           allotments: Jardins familiaux
+          archipelago: Archipel
           city: Ville
           city_block: Bloc urbain
           country: Pays
@@ -1468,6 +1475,9 @@ fr:
       successful_report: Votre rapport a bien été enregistré
       provide_details: Veuillez fournir les détails requis
   layouts:
+    project_name:
+      title: OpenStreetMap
+      h1: OpenStreetMap
     logo:
       alt_text: Logo d’OpenStreetMap
     home: Aller à votre domicile
@@ -1731,6 +1741,66 @@ fr:
       as_unread: Message marqué comme non lu
     destroy:
       destroyed: Message supprimé
+  sessions:
+    new:
+      title: Connexion
+      heading: Connexion
+      email or username: 'Adresse de courriel ou nom d’utilisateur :'
+      password: 'Mot de passe :'
+      openid_html: '%{logo} OpenID :'
+      remember: Se souvenir de moi
+      lost password link: Vous avez perdu votre mot de passe ?
+      login_button: Se connecter
+      register now: S’inscrire maintenant
+      with username: 'Vous avez déjà un compte sur OpenStreetMap ? Connectez-vous
+        avec votre identifiant et votre mot de passe :'
+      with external: 'Vous pouvez également utiliser un service tiers pour vous connecter :'
+      new to osm: Nouveau sur OpenStreetMap ?
+      to make changes: Pour apporter des modifications aux données d’OpenStreetMap,
+        vous devez posséder un compte.
+      create account minute: Créer un compte. Ça ne prend qu’une minute.
+      no account: Vous n’avez pas encore de compte ?
+      account not active: Désolé, votre compte n’est pas encore actif.<br /> Veuillez
+        cliquer sur le lien dans le courriel de confirmation pour activer votre compte,
+        sinon <a href="%{reconfirm}">demandez un nouveau courriel de confirmation</a>.
+      account is suspended: Désolé, votre compte a été suspendu en raison d’une activité
+        suspecte.<br /> Veuillez contacter le <a href="%{webmaster}">responsable du
+        site</a> si vous voulez en discuter.
+      auth failure: Désolé, mais les informations fournies n’ont pas permis de vous
+        identifier.
+      openid_logo_alt: Se connecter avec un OpenID
+      auth_providers:
+        openid:
+          title: Se connecter avec OpenID
+          alt: Se connecter avec une URL OpenID
+        google:
+          title: Connexion avec Google
+          alt: Se connecter avec un OpenID de Google
+        facebook:
+          title: Connexion avec Facebook
+          alt: Se connecter avec un compte de Facebook
+        windowslive:
+          title: Connexion avec Windows Live
+          alt: Se connecter avec un compte de Windows Live
+        github:
+          title: Connexion avec GitHub
+          alt: Se connecter avec un compte de GitHub
+        wikipedia:
+          title: Connexion avec Wikipédia
+          alt: Se connecter avec un compte de Wikipédia
+        yahoo:
+          title: Connexion avec Yahoo
+          alt: Se connecter avec un OpenID de Yahoo
+        wordpress:
+          title: Connexion avec Wordpress
+          alt: Se connecter avec un OpenID de Wordpress
+        aol:
+          title: Connexion avec AOL
+          alt: Se connecter avec un OpenID d’AOL
+    destroy:
+      title: Déconnexion
+      heading: Se déconnecter d’OpenStreetMap
+      logout_button: Déconnexion
   shared:
     markdown_help:
       title_html: Analysé avec <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
@@ -2229,6 +2299,7 @@ fr:
       title: Modifier la trace %{name}
       heading: Modifier la trace %{name}
       visibility_help: qu’est-ce que cela signifie ?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/FR:Visibilit%C3%A9_des_traces_GPS
     update:
       updated: Traces mises à jour
     trace_optionals:
@@ -2393,65 +2464,6 @@ fr:
     destroy:
       flash: Enregistrement de l’application cliente supprimé
   users:
-    login:
-      title: Connexion
-      heading: Connexion
-      email or username: 'Adresse de courriel ou nom d’utilisateur :'
-      password: 'Mot de passe :'
-      openid_html: '%{logo} OpenID :'
-      remember: Se souvenir de moi
-      lost password link: Vous avez perdu votre mot de passe ?
-      login_button: Se connecter
-      register now: S’inscrire maintenant
-      with username: 'Vous avez déjà un compte sur OpenStreetMap ? Connectez-vous
-        avec votre identifiant et votre mot de passe :'
-      with external: 'Vous pouvez également utiliser un service tiers pour vous connecter :'
-      new to osm: Nouveau sur OpenStreetMap ?
-      to make changes: Pour apporter des modifications aux données d’OpenStreetMap,
-        vous devez posséder un compte.
-      create account minute: Créer un compte. Ça ne prend qu’une minute.
-      no account: Vous n’avez pas encore de compte ?
-      account not active: Désolé, votre compte n’est pas encore actif.<br /> Veuillez
-        cliquer sur le lien dans le courriel de confirmation pour activer votre compte,
-        sinon <a href="%{reconfirm}">demandez un nouveau courriel de confirmation</a>.
-      account is suspended: Désolé, votre compte a été suspendu en raison d’une activité
-        suspecte.<br /> Veuillez contacter le <a href="%{webmaster}">responsable du
-        site</a> si vous voulez en discuter.
-      auth failure: Désolé, mais les informations fournies n’ont pas permis de vous
-        identifier.
-      openid_logo_alt: Se connecter avec un OpenID
-      auth_providers:
-        openid:
-          title: Se connecter avec OpenID
-          alt: Se connecter avec une URL OpenID
-        google:
-          title: Se connecter avec Google
-          alt: Se connecter avec un OpenID de Google
-        facebook:
-          title: Se connecter avec Facebook
-          alt: Se connecter avec un compte de Facebook
-        windowslive:
-          title: Connexion avec Windows Live
-          alt: Se connecter avec un compte de Windows Live
-        github:
-          title: Connexion avec GitHub
-          alt: Connexion avec un compte de GitHub
-        wikipedia:
-          title: Se connecter avec Wikipédia
-          alt: Se connecter avec un compte de Wikipédia
-        yahoo:
-          title: Se connecter avec Yahoo
-          alt: Se connecter avec un OpenID de Yahoo
-        wordpress:
-          title: Se connecter avec Wordpress
-          alt: Se connecter avec un OpenID de Wordpress
-        aol:
-          title: Se connecter avec AOL
-          alt: Se connecter avec un OpenID d’AOL
-    logout:
-      title: Déconnexion
-      heading: Déconnexion d’OpenStreetMap
-      logout_button: Déconnexion
     lost_password:
       title: Mot de passe perdu
       heading: Vous avez perdu votre mot de passe ?

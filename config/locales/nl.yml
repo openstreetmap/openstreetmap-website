@@ -39,6 +39,7 @@
 # Author: MrLeopold
 # Author: Mvexel
 # Author: Optilete
+# Author: Peb-kac
 # Author: Pje335
 # Author: Robin van der Linde
 # Author: Robin van der Vliet
@@ -169,19 +170,24 @@ nl:
         body: Tekst
         recipient: Ontvanger
       redaction:
+        title: Titel
         description: Beschrijving
       report:
         category: Selecteer een reden voor je melding
         details: Verschaf a.u.b. nog wat meer details over het probleem (vereist).
       user:
+        auth_provider: Authenticatiedienst
+        auth_uid: Authenticatie UID
         email: E-mail
-        new_email: 'Nieuw e-mailadres:'
+        email_confirmation: Emailbevestiging
+        new_email: Nieuw e-mailadres
         active: Actief
         display_name: Weergavenaam
-        description: Beschrijving
-        home_lat: 'Breedtegraad:'
-        home_lon: 'Lengtegraad:'
-        languages: Talen
+        description: Profielbeschrijving
+        home_lat: Breedtegraad
+        home_lon: Lengtegraad
+        languages: Voorkeurstalen
+        preferred_editor: Voorkeursprogramma voor kaartbewerking
         pass_crypt: Wachtwoord
         pass_crypt_confirmation: Wachtwoord bevestigen
     help:
@@ -616,6 +622,7 @@ nl:
           clock: Klok
           college: Hogeschool
           community_centre: Buurtcentrum
+          conference_centre: Conferentiecentrum
           courthouse: Rechtbank
           crematorium: Crematorium
           dentist: Tandarts
@@ -640,6 +647,7 @@ nl:
           kindergarten: Kleuterschool
           language_school: Taalschool
           library: Bibliotheek
+          loading_dock: Laadperron
           love_hotel: Discrete kamers
           marketplace: Marktplein
           monastery: Klooster
@@ -662,6 +670,7 @@ nl:
           public_bath: Openbaar bad
           public_bookcase: Ruilboekenkast
           public_building: Openbaar gebouw
+          ranger_station: Boswachtershut
           recycling: Recyclingpunt
           restaurant: Restaurant
           school: School
@@ -676,6 +685,7 @@ nl:
           theatre: Theater
           toilets: Toiletten
           townhall: Gemeentehuis
+          training: Trainingsfaciliteit
           university: Universiteit
           vehicle_inspection: Voertuiginspectie
           vending_machine: Automaat
@@ -683,6 +693,7 @@ nl:
           village_hall: Gemeentehuis
           waste_basket: Prullenbak
           waste_disposal: Afval
+          waste_dump_site: Afvalstortplaats
           water_point: Tappunt
           weighbridge: Weegbrug
           "yes": Infrastructuur
@@ -710,6 +721,7 @@ nl:
           chapel: Kapel
           church: Kerk
           civic: Openbaar gebouw
+          college: Schoolgebouw
           commercial: Commercieel gebouw
           construction: Gebouw in aanbouw
           detached: Alleenstaande woning
@@ -727,6 +739,7 @@ nl:
           houseboat: Woonboot
           hut: Hut
           industrial: Industrieel gebouw
+          kindergarten: Kleuterschool gebouw
           manufacture: Productiegebouw
           office: Kantoorgebouw
           public: Openbaar gebouw
@@ -764,6 +777,7 @@ nl:
           glaziery: Glazenzetter
           handicraft: Handwerk
           hvac: Verwarming/ventilatie/airco
+          metal_construction: Metaalbewerker
           painter: Schilder
           photographer: Fotograaf
           plumber: Loodgieter
@@ -772,6 +786,7 @@ nl:
           shoemaker: Schoenmaker
           stonemason: Steenhouwer
           tailor: Kleermaker
+          window_construction: Raamconstructie
           winery: Wijnboer
           "yes": Ambachtswinkel
         emergency:
@@ -909,6 +924,7 @@ nl:
           vineyard: Wijngaard
           "yes": Landgebruik
         leisure:
+          adult_gaming_centre: Gamingcentrum voor volwassenen
           amusement_arcade: Arcadehal
           bandstand: Muziekpaviljoen
           beach_resort: Badplaats
@@ -1006,6 +1022,7 @@ nl:
         mountain_pass:
           "yes": Bergpas
         natural:
+          atoll: Atol
           bare_rock: Kale rotsen
           bay: Baai
           beach: Strand
@@ -1030,6 +1047,7 @@ nl:
           moor: Veen
           mud: Modder
           peak: Top
+          peninsula: Schiereiland
           point: Punt
           reef: Rif
           ridge: Bergkam
@@ -1066,6 +1084,7 @@ nl:
           it: ICT-kantoor
           lawyer: Advocaat
           logistics: Logistiek kantoor
+          newspaper: Krantenkantoor
           ngo: NGO-kantoor
           notary: Notariaat
           religion: Religieus kantoor
@@ -1664,6 +1683,65 @@ nl:
       as_unread: Gemarkeerd als ongelezen
     destroy:
       destroyed: Het bericht is verwijderd
+  sessions:
+    new:
+      title: Aanmelden
+      heading: Aanmelden
+      email or username: 'E-mailadres of gebruikersnaam:'
+      password: 'Wachtwoord:'
+      openid_html: '%{logo} OpenID:'
+      remember: 'Aanmeldgegevens onthouden:'
+      lost password link: Wachtwoord vergeten?
+      login_button: Aanmelden
+      register now: Nu inschrijven
+      with username: 'Hebt u al een account bij OpenStreetMap? Meld aan met uw gebruikersnaam
+        en wachtwoord:'
+      with external: 'U kunt ook gebruik maken van een derde partij om aan te melden:'
+      new to osm: Is OpenStreetMap nieuw voor u?
+      to make changes: Om wijzigingen in OpenStreetMap te maken, moet u een gebruiker
+        hebben.
+      create account minute: Maak een gebruiker aan. Dat is snel gebeurd.
+      no account: Hebt u geen account?
+      account not active: Uw gebruiker is helaas nog niet actief.<br />Klik op de
+        koppeling in de bevestiging om deze te activeren of <a href="%{reconfirm}">vraag
+        een nieuwe bevestiging per e-mail aan</a>.
+      account is suspended: Uw gebruiker is automatisch opgeschort vanwege verdachte
+        activiteit.<br />Neem contact op met de <a href="%{webmaster}">webmaster</a>
+        als u deze handeling wilt bespreken.
+      auth failure: Met deze gegevens kunt u helaas niet aanmelden.
+      openid_logo_alt: Aanmelden met een OpenID
+      auth_providers:
+        openid:
+          title: Aanmelden met OpenID
+          alt: Aanmelden met een OpenID URL
+        google:
+          title: Aanmelden met Google
+          alt: Aanmelden met een Google OpenID
+        facebook:
+          title: Aanmelden met Facebook
+          alt: Aanmelden met een Facebookaccount
+        windowslive:
+          title: Aanmelden met Windows Live
+          alt: Aanmelden met een Windows Live-account
+        github:
+          title: Aanmelden met GitHub
+          alt: Aanmelden met een GitHub-account
+        wikipedia:
+          title: Aanmelden met Wikipedia
+          alt: Aanmelden met een Wikipedia account
+        yahoo:
+          title: Aanmelden met Yahoo
+          alt: Aanmelden met een Yahoo OpenID
+        wordpress:
+          title: Aanmelden met Wordpress
+          alt: Aanmelden met een Wordpress OpenID
+        aol:
+          title: Aanmelden met AOL
+          alt: Aanmelden met een AOL OpenID
+    destroy:
+      title: Afmelden
+      heading: Afmelden van OpenStreetMap
+      logout_button: Afmelden
   shared:
     markdown_help:
       title_html: Verwerkt met <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
@@ -2319,64 +2397,6 @@ nl:
     destroy:
       flash: De clientapplicatieregistratie is verwijderd
   users:
-    login:
-      title: Aanmelden
-      heading: Aanmelden
-      email or username: 'E-mailadres of gebruikersnaam:'
-      password: 'Wachtwoord:'
-      openid_html: '%{logo} OpenID:'
-      remember: 'Aanmeldgegevens onthouden:'
-      lost password link: Wachtwoord vergeten?
-      login_button: Aanmelden
-      register now: Nu inschrijven
-      with username: 'Hebt u al een account bij OpenStreetMap? Meld aan met uw gebruikersnaam
-        en wachtwoord:'
-      with external: 'U kunt ook gebruik maken van een derde partij om aan te melden:'
-      new to osm: Is OpenStreetMap nieuw voor u?
-      to make changes: Om wijzigingen in OpenStreetMap te maken, moet u een gebruiker
-        hebben.
-      create account minute: Maak een gebruiker aan. Dat is snel gebeurd.
-      no account: Hebt u geen account?
-      account not active: Uw gebruiker is helaas nog niet actief.<br />Klik op de
-        koppeling in de bevestiging om deze te activeren of <a href="%{reconfirm}">vraag
-        een nieuwe bevestiging per e-mail aan</a>.
-      account is suspended: Uw gebruiker is automatisch opgeschort vanwege verdachte
-        activiteit.<br />Neem contact op met de <a href="%{webmaster}">webmaster</a>
-        als u deze handeling wilt bespreken.
-      auth failure: Met deze gegevens kunt u helaas niet aanmelden.
-      openid_logo_alt: Aanmelden met een OpenID
-      auth_providers:
-        openid:
-          title: Aanmelden met OpenID
-          alt: Aanmelden met een OpenID URL
-        google:
-          title: Aanmelden met Google
-          alt: Aanmelden met een Google OpenID
-        facebook:
-          title: Aanmelden met Facebook
-          alt: Aanmelden met een Facebookaccount
-        windowslive:
-          title: Aanmelden met Windows Live
-          alt: Aanmelden met een Windows Live-account
-        github:
-          title: Aanmelden met GitHub
-          alt: Aanmelden met een GitHub-account
-        wikipedia:
-          title: Aanmelden met Wikipedia
-          alt: Aanmelden met een Wikipedia account
-        yahoo:
-          title: Aanmelden met Yahoo
-          alt: Aanmelden met een Yahoo OpenID
-        wordpress:
-          title: Aanmelden met Wordpress
-          alt: Aanmelden met een Wordpress OpenID
-        aol:
-          title: Aanmelden met AOL
-          alt: Aanmelden met een AOL OpenID
-    logout:
-      title: Afmelden
-      heading: Afmelden van OpenStreetMap
-      logout_button: Afmelden
     lost_password:
       title: Wachtwoord vergeten
       heading: Wachtwoord vergeten?

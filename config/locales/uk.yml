@@ -76,7 +76,7 @@ uk:
     errors:
       messages:
         invalid_email_address: не схоже на коректну адресу електронної пошти
-        email_address_not_routable: не маршрутизований
+        email_address_not_routable: недоступний
     models:
       acl: Список контролю доступу
       changeset: Набір змін
@@ -159,7 +159,7 @@ uk:
         description: Опис
       report:
         category: 'Оберіть причину вашої скарги:'
-        details: Будь ласка, надайте більше подробиць (обов'язково).
+        details: Будь ласка, надайте більше відомостей (обов'язково).
       user:
         auth_provider: Автентифікатор
         auth_uid: Ідентифікатор автентифікації
@@ -183,8 +183,7 @@ uk:
           толерантні та дійте розумно, надаючи як можна більше інформації про причини
           блокування. Пам’ятайте, що повідомлення буде доступне всім. Не всі учасники
           розуміють жаргон спільноти, тому користуйтесь для пояснення простою мовою.
-        needs_view: Дозволити користувачу входити в систему, перш, ніж блокування
-          буде знято?
+        needs_view: Дозволити користувачу увійти, перш, ніж блокування буде знято?
       user:
         email_confirmation: Ваша адреса не є загальнодоступною і не показується іншим,
           ознайомтесь з <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
@@ -197,59 +196,66 @@ uk:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: годину тому
+        one: '%{count} годину тому'
         few: '%{count} години тому'
-        other: '%{count} годин тому'
+        many: '%{count} годин тому'
+        other: ""
       about_x_months:
-        one: місяць тому
+        one: '%{count} місяць тому'
         few: '%{count} місяці тому'
-        other: '%{count} місяців тому'
+        many: '%{count} місяців тому'
+        other: ""
       about_x_years:
-        one: рік тому
+        one: '%{count} рік тому'
         few: '%{count} роки тому'
-        other: '%{count} років тому'
+        many: '%{count} років тому'
+        other: ""
       almost_x_years:
-        one: майже рік тому
+        one: майже %{count} рік тому
         few: майже %{count} роки тому
-        other: майже %{count} років тому
+        many: майже %{count} років тому
+        other: ""
       half_a_minute: пів хвилини тому
       less_than_x_seconds:
         one: менше ніж секунду тому
         few: менше ніж %{count} секунди тому
-        other: менше ніж %{count} секунд тому
+        many: менше ніж %{count} секунд тому
+        other: ""
       less_than_x_minutes:
-        one: менше ніж хвилину тому
+        one: менше ніж %{count} хвилину тому
         few: менше ніж %{count} хвилини тому
-        other: менше ніж %{count} хвилин тому
+        many: менше ніж %{count} хвилин тому
+        other: ""
       over_x_years:
-        one: більше ніж 1 рік тому
+        one: більше ніж %{count} рік тому
         few: більше ніж %{count} роки тому
-        other: більше ніж %{count} років тому
+        many: більше ніж %{count} років тому
+        other: ""
       x_seconds:
         one: '%{count} секунду тому'
         few: '%{count} секунди тому'
         many: '%{count} секунд тому'
-        other: '%{count} секунд тому'
+        other: ""
       x_minutes:
         one: '%{count} хвилину тому'
         few: '%{count} хвилини тому'
         many: '%{count} хвилин тому'
-        other: '%{count} хвилин тому'
+        other: ""
       x_days:
         one: '%{count} день тому'
         few: '%{count} дні тому'
         many: '%{count} днів тому'
-        other: '%{count} днів тому'
+        other: ""
       x_months:
         one: '%{count} місяць тому'
         few: '%{count} місяці тому'
         many: '%{count} місяців тому'
-        other: '%{count} місяців тому'
+        other: ""
       x_years:
         one: '%{count} рік тому'
         few: '%{count} роки тому'
         many: '%{count} років тому'
-        other: '%{count} років тому'
+        other: ""
   printable_name:
     with_version: '%{id}, v%{version}'
     with_name_html: '%{name} (%{id})'
@@ -307,6 +313,16 @@ uk:
     anonymous: анонім
     no_comment: (без коментарів)
     part_of: Входить до складу
+    part_of_relations:
+      one: '%{count} зв’язок'
+      few: '%{count} зв’язки'
+      many: '%{count} зв’язків'
+      other: ""
+    part_of_ways:
+      one: '%{count} день'
+      few: '%{count} дні'
+      many: '%{count} днів'
+      other: ""
     download_xml: Завантажити XML
     view_history: Перегляд історії
     view_details: Поточна інформація
@@ -341,6 +357,11 @@ uk:
       title_html: 'Лінія: %{name}'
       history_title_html: 'Історія лінії: %{name}'
       nodes: Точки
+      nodes_count:
+        one: '%{count} точка'
+        few: '%{count} точки'
+        many: '%{count} точок'
+        other: ""
       also_part_of_html:
         one: також є частиною лінії %{related_ways}
         other: також є частиною ліній %{related_ways}
@@ -348,6 +369,11 @@ uk:
       title_html: 'Зв’язок: %{name}'
       history_title_html: 'Історія зв’язку: %{name}'
       members: Учасники
+      members_count:
+        one: '%{count} учасник'
+        few: '%{count} учасники'
+        many: '%{count} учасників'
+        other: ""
     relation_member:
       entry_role_html: '%{type} %{name} як %{role}'
       type:
@@ -598,6 +624,7 @@ uk:
           bicycle_parking: Велопарковка
           bicycle_rental: Велопрокат
           biergarten: Пивний сад
+          blood_bank: Банк крові
           boat_rental: Прокат човнів
           brothel: Бордель
           bureau_de_change: Обмін валют
@@ -633,7 +660,9 @@ uk:
           hospital: Шпиталь
           hunting_stand: Мисливська вежа
           ice_cream: Морозиво
+          internet_cafe: Інтернет-кафе
           kindergarten: Дитячий садок
+          language_school: Мовна школа
           library: Бібліотека
           love_hotel: Любовний Готель
           marketplace: Ринок
@@ -645,6 +674,7 @@ uk:
           parking: Стоянка
           parking_entrance: В’їзд на стоянку
           parking_space: Стоянка
+          payment_terminal: Платіжний термінал
           pharmacy: Аптека
           place_of_worship: Культова споруда
           police: Поліція (міліція)
@@ -652,6 +682,7 @@ uk:
           post_office: Пошта
           prison: В’язниця
           pub: Паб
+          public_bath: Громадська лазня
           public_building: Громадський заклад
           recycling: Місце переробки відходів
           restaurant: Ресторан
@@ -688,6 +719,9 @@ uk:
           "yes": Міст
         building:
           apartments: Багатоквартирний будинок
+          barn: Амбар
+          bungalow: Бунгало
+          cabin: Хатинка
           chapel: Каплиця
           church: Будівля храму
           commercial: Комерційна нерухомість
@@ -695,6 +729,7 @@ uk:
           farm: Дім на фермі
           garage: Гараж
           garages: Гаражі
+          greenhouse: Парник
           hangar: Ангар
           hospital: Лікарня
           hotel: Будівля готелю
@@ -705,6 +740,8 @@ uk:
           residential: Житловий будинок
           retail: Центр роздрібної торгівлі
           school: Школа
+          shed: Сарай
+          stable: Стайня
           terrace: Таунхаус
           train_station: Будівля залізничної станції
           university: Університет
@@ -713,21 +750,37 @@ uk:
           sport: Спортивний клуб
           "yes": Клуб
         craft:
+          beekeper: Пасіка
           brewery: Пивоварня
           carpenter: Столяр
+          confectionery: Кондитерська
           electrician: Електрик
+          electronics_repair: Ремонт електроніки
           gardener: Садівник
+          glaziery: Льодовик
+          handicraft: Сувенірка
+          hvac: Опалення, вентиляція, кондиціонування
+          metal_construction: Майстер металевих конструкцій
           painter: Художник
           photographer: Фотограф
           plumber: Сантехнік
+          roofer: Покрівельник
+          sawmill: Лісопильня
           shoemaker: Швець
+          stonemason: Каменяр
           tailor: Кравець
+          window_construction: Майстер віконних конструкцій
+          winery: Виноробня
           "yes": Товари для рукоділля
         emergency:
+          access_point: Точка доступу
           ambulance_station: Станція швидкої медичної допомоги
           assembly_point: Місце збору
           defibrillator: Дефібрилятор
+          fire_xtinguisher: Вогнегасник
+          fire_water_pond: Пожежний ставок
           landing_site: Місце аварійної посадки
+          life_ring: Рятувальний круг
           phone: Телефон для екстрених викликів
           water_tank: Пожежний резервуар
           "yes": Аварійні служби
@@ -771,6 +824,7 @@ uk:
           tertiary: Третьорядна дорога
           tertiary_link: Виїзд на третьорядну дорогу
           track: Путівець
+          traffic_mirror: Дорожнє дзеркало
           traffic_signals: Світлофор
           trunk: Шосе
           trunk_link: З’їзд з/на шосе
@@ -827,6 +881,7 @@ uk:
           military: Військова зона
           mine: Копальня
           orchard: Сад
+          plant_nursery: Розплідник рослин
           quarry: Кар’єр
           railway: Залізниця
           recreation_ground: Зона відпочинку
@@ -838,6 +893,7 @@ uk:
           vineyard: Виноградник
           "yes": Землекористування
         leisure:
+          bandstand: Естрада
           beach_resort: Пляжний курорт
           bird_hide: Засідка (пункт спостереження за птахами)
           common: Громадська земля
@@ -868,6 +924,7 @@ uk:
           "yes": Дозвілля
         man_made:
           adit: Штольня
+          antenna: Антена
           beacon: Маяк
           beehive: Вулик
           breakwater: Хвилеріз
@@ -875,6 +932,7 @@ uk:
           bunker_silo: Бункер
           chimney: Труба
           crane: Кран
+          cross: Хрест
           dolphin: Причальна тумба
           dyke: Прибережний насип
           embankment: Насип
@@ -883,6 +941,7 @@ uk:
           groyne: Хвилеріз
           kiln: Піч
           lighthouse: Маяк
+          manhole: Люк
           mast: Мачта
           mine: Копальня
           mineshaft: Шахтний вал
@@ -890,9 +949,12 @@ uk:
           petroleum_well: Нафтова скважина
           pier: Пірс
           pipeline: Трубопровід
+          pumping_station: Насосна станція
           silo: Силосна яма
+          snow_cannon: Снігова гармата
           storage_tank: Резервуар для зберігання
           surveillance: Відеоспостереження
+          telescope: Телескоп
           tower: Вежа
           wastewater_plant: Очисні споруди
           watermill: Водяний млин
@@ -910,6 +972,7 @@ uk:
         mountain_pass:
           "yes": Гірський перевал
         natural:
+          atoll: Атол
           bay: Затока
           beach: Пляж
           cape: Мис
@@ -965,6 +1028,7 @@ uk:
           it: ІТ-офіс
           lawyer: Юрист
           ngo: Недержавна установа
+          notary: Нотаріус
           telecommunication: Офіс телекомунікаційної компанії
           travel_agent: Туристична агенція
           "yes": Офіси
@@ -1180,9 +1244,10 @@ uk:
       last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr>, %{user}
       link_to_reports: Дивитсь скарги
       reports_count:
-        one: 1 Скарга
+        one: '%{count} Скарга'
         few: '%{count} Скарги'
-        other: '%{count} Скарг'
+        many: '%{count} Скарг'
+        other: ""
       reported_item: Оскаржено
       states:
         ignored: Проігноровано
@@ -1319,10 +1384,13 @@ uk:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} залишив коментар у вашому щоденнику'
       hi: Привіт, %{to_user},
-      header: '%{from_user} прокоментував ваш запис у щоденнику у OpenStreetMap з
+      header: '%{from_user} прокоментував ваш допис у щоденнику у OpenStreetMap з
         темою %{subject}:'
+      header_html: '%{from_user} прокоментував допис %{subject} в щоденнику OpenStreetMap'
       footer: Ви можете також прочитати коментар — %{readurl}, залишити свій — %{commenturl}
         або відповісти — %{replyurl}
+      footer_html: Ви можете ознайомитись з коментарем за посиланням %{readurl}, відповісти
+        на коментар - %{commenturl}, чи надіслати повідомлення автору - %{replyurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Привіт, %{to_user},
@@ -1330,6 +1398,8 @@ uk:
         %{subject}:'
       header_html: '%{from_user} надіслав повідомлення через OpenStreetMap з темою
         %{subject}:'
+      footer: Ви також можете прочитати повідомлення – %{readurl} та відповісти -
+        %{replyurl}
       footer_html: Ви також можете прочитати повідомлення в %{readurl} і ви можете
         відповісти на %{replyurl}
     friendship_notification:
@@ -1337,9 +1407,19 @@ uk:
       subject: '[OpenStreetMap] %{user} додав Вас як друга'
       had_added_you: '%{user} додав Вас як друга у OpenStreetMap.'
       see_their_profile: Ви можете побачити їх профіль на %{userurl}.
+      see_their_profile_html: Ви можете ознайомитись з його/її профілем - %{userurl}.
       befriend_them: Ви також можете додати їх у якості друзів %{befriendurl}.
+      befriend_them_html: Ви також можете додати його/її до друзів %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Схоже це ваш файл GPX %{trace_name}, що має опис
+        - %{trace_description} та наступні теґи: %{tags}'
+      description_with_no_tags_html: Схоже це ваш файл GPX %{trace_name}, що має опис
+        - %{trace_description} та без теґів
     gpx_failure:
+      hi: Привіт, %{to_user},
       failed_to_import: 'не вдалось імпортувати. Трапилась помилка:'
+      more_info_html: Докладна інформація про проблеми імпорту GPX та шляхи їх вирішення
+        знаходяться за посиланням %{url}.
       subject: '[OpenStreetMap] Збій імпорту GPX'
     gpx_success:
       hi: Привіт, %{to_user},
@@ -1395,14 +1475,20 @@ uk:
           %{place}.'
         commented_note: '%{commenter} розв’язав нотатку, прокоментовану вами, що знаходиться
           біля %{place}.'
+        commented_note_html: '%{commenter} розв’язав нотатку, прокоментовану вами,
+          що знаходиться біля %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} поновив одну з ваших нотаток'
         subject_other: '[OpenStreetMap] %{commenter} поновив  нотатку до якови ви
           виявили зацікавленість'
         your_note: '%{commenter} поновив одну з ваших нотаток на мапі біля %{place}.'
+        your_note_html: '%{commenter} поновив одну з ваших нотаток на мапі біля %{place}.'
         commented_note: '%{commenter} поновив нотатку, прокоментовану вами, що знаходиться
           біля %{place}.'
+        commented_note_html: '%{commenter} поновив нотатку, прокоментовану вами, що
+          знаходиться біля %{place}.'
       details: Докладніше про нотатку %{url}.
+      details_html: Докладніше про нотатку %{url}.
     changeset_comment_notification:
       hi: Привіт %{to_user},
       greeting: Привіт,
@@ -1413,20 +1499,28 @@ uk:
           якого ви залишали свій коментар'
         your_changeset: '%{commenter} залишив коментар у %{time} до одного з ваших
           наборів змін'
+        your_changeset_html: '%{commenter} залишив коментар %{time} до одного з ваших
+          наборів змін'
         commented_changeset: '%{commenter} залишив коментар у %{time} до набору змін,
           що ви переглядаєте, створений %{changeset_author}'
+        commented_changeset_html: '%{commenter} залишив коментар %{time} до набору
+          змін, за яким ви стежите, створений %{changeset_author}'
         partial_changeset_with_comment: з коментарем '%{changeset_comment}'
         partial_changeset_with_comment_html: з коментарем '%{changeset_comment}'
         partial_changeset_without_comment: без коментарів
       details: |2-
 
         Більше деталей про зміни, які можуть бути знайдені в %{url}.
+      details_html: Більше деталей про набір змін можна знайти за посиланням - %{url}.
       unsubscribe: Щоб відмовитись від отримання повідомлень для цього набору змін,
         перейдіть за посиланням %{url} й натисніть кнопку „Відписатись“.
+      unsubscribe_html: Щоб відмовитись від отримання повідомлень для цього набору
+        змін, перейдіть за посиланням %{url} й натисніть кнопку «Відписатись».
   messages:
     inbox:
       title: Вхідні
       my_inbox: Мої вхідні
+      my_outbox: Вихідні
       messages: У вас %{new_messages} і %{old_messages}
       new_messages:
         one: '%{count} нове повідомлення'
@@ -1436,7 +1530,8 @@ uk:
       old_messages:
         one: '%{count} старе повідомлення'
         few: '%{count} старих повідомлення'
-        other: '%{count} старих повідомлень'
+        many: '%{count} старих повідомлень'
+        other: ""
       from: Від
       subject: Тема
       date: Дата
@@ -1464,9 +1559,13 @@ uk:
       body: Вибачте, але повідомлення з цим ідентифікатором не існує.
     outbox:
       title: Вихідні
+      my_inbox: Вхідні
+      my_outbox: Вихідні
       messages:
         one: У вас %{count} надіслане повідомлення
-        other: У вас %{count} надісланих повідомлень
+        few: У вас %{count} надісланих повідомлення
+        many: У вас %{count} надісланих повідомлень
+        other: ""
       to: Кому
       subject: Тема
       date: Дата
@@ -1497,12 +1596,76 @@ uk:
       as_unread: Повідомлення позначене як непрочитане
     destroy:
       destroyed: Повідомлення вилучено
+  sessions:
+    new:
+      title: Ласкаво просимо
+      heading: Ласкаво просимо
+      email or username: 'Ел. пошта або ім''я користувача:'
+      password: 'Пароль:'
+      openid_html: '%{logo} OpenID:'
+      remember: Запам’ятати мене
+      lost password link: Забули пароль?
+      login_button: Увійти
+      register now: Зареєструйтеся зараз
+      with username: 'Вже є обліковий запис OpenStreetMap? Будь ласка, введіть ваше
+        ім''я користувача та пароль:'
+      with external: 'Або використовуйте, облікові записи з інших ресурсів:'
+      new to osm: Вперше на OpenStreetMap?
+      to make changes: Щоб вносити зміни до даних OpenStreetMap, ви повинні мати обліковий
+        запис.
+      create account minute: Створити обліковий запис. Це займе всього хвилину.
+      no account: Не маєте облікового запису?
+      account not active: Вибачте, ваш обліковий запис ще не активовано. <br /> Щоб
+        його активувати, будь ласка, перевірте вашу поштову скриньку та натисніть
+        на посилання в листі з проханням про підтвердження, або <a href="%{reconfirm}">
+        запросіть нове підтвердження по електронній пошті</a>.
+      account is suspended: На жаль, ваш обліковий запис був заблокований через підозрілу
+        діяльність.<br />Будь ласка, зв'яжіться з <a href="%{webmaster}">адміністратором</a>,
+        якщо ви маєте заперечення.
+      auth failure: Вибачте, вхід з цими ім'ям або паролем неможливий.
+      openid_logo_alt: Увійти з допомогою OpenID
+      auth_providers:
+        openid:
+          title: Увійти за допомогою OpenID
+          alt: Увійти за допомогою OpenID URL
+        google:
+          title: Увійти через Google
+          alt: Увійти через Google OpenID
+        facebook:
+          title: Увійти з Facebook
+          alt: Увійти з облікового запису Facebook
+        windowslive:
+          title: Увійти з Windows Live
+          alt: Увійти з облікового запису Windows Live
+        github:
+          title: Увійти через GitHub
+          alt: Вхід через обліковий запис GitHub
+        wikipedia:
+          title: Увійти через Вікіпедію
+          alt: Вхід через обліковий запис у Вікіпедії
+        yahoo:
+          title: Увійти з облікового запису Yahoo
+          alt: Увійти з Yahoo OpenID
+        wordpress:
+          title: Увійти через Wordpress
+          alt: Увійти через Wordpress OpenID
+        aol:
+          title: Увійти через AOL
+          alt: Увійти через AOL OpenID
+    destroy:
+      title: Вийти
+      heading: Вийти з OpenStreetMap
+      logout_button: Вийти
   shared:
     markdown_help:
       title_html: Оброблено <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Заголовки
+      heading: Заголовок
       subheading: Підзаголовок
+      unordered: Невпорядкований список
       ordered: Впорядкований список
+      first: Перший елемент
+      second: Другий елемент
       link: Посилання
       text: Текст
       image: Зображення
@@ -1793,6 +1956,13 @@ uk:
         url: http://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
         description: Перегляньте вікі щоб отримати докладу документацію OpenStreetMap.
+    potlatch:
+      removed: Вашим типовим редактором зазначено Potlatch. Через припинення роботи
+        Adobe Flash Player він більше не доступний для використання у вебоглядачі.
+      desktop_html: Ви можете використовувати Potlatch <a href="https://www.systemed.net/potlatch/">завантаживши</a>
+        його у вигляді застосунку для Mac чи Windows.
+      id_html: Або ж ви можете встановити типовим редактором iD, який працює у вебоглядачі,
+        так само як до цього працював Potlatch. Змініть ваші <a href="%{settings_url}">налаштування</a>.
     sidebar:
       search_results: Результати пошуку
       close: Закрити
@@ -1954,9 +2124,10 @@ uk:
         few: '%{count} ваших треки очікують завантаження на сервер. Будь ласка, дочекайтесь
           завершення їх завантаження перед завантаженням на сервер інших треків, що
           дозволить іншим користувачам також надіслати свої треки.'
-        other: '%{count} ваших треків очікують завантаження на сервер. Будь ласка,
+        many: '%{count} ваших треків очікують завантаження на сервер. Будь ласка,
           дочекайтесь завершення їх завантаження перед завантаженням на сервер інших
           треків, що дозволить іншим користувачам також надіслати свої треки.'
+        other: ""
     edit:
       cancel: Скасувати
       title: Редагування треку %{name}
@@ -1994,8 +2165,10 @@ uk:
     trace:
       pending: ОЧІКУЄ
       count_points:
-        one: 1 точка
-        other: '%{count} точки'
+        one: '%{count} точка'
+        few: '%{count} точки'
+        many: '%{count} точок'
+        other: ""
       more: більше
       trace_details: Показати дані треку
       view_map: Перегляд Мапи
@@ -2033,7 +2206,9 @@ uk:
     description:
       description_with_count:
         one: Файл GPX з %{count} точкою від %{user}
-        other: Файл GPX з %{count} точками від %{user}
+        few: Файл GPX з %{count} точками від %{user}
+        many: Файл GPX з %{count} точками від %{user}
+        other: ""
       description_without_count: GPX файл від %{user}
   application:
     permission_denied: Вибачте, у вас недостатньо прав для виконання цієї дії.
@@ -2119,65 +2294,6 @@ uk:
     destroy:
       flash: Знищено реєстрацію клієнтського застосунку
   users:
-    login:
-      title: Ласкаво просимо
-      heading: Ласкаво просимо
-      email or username: 'Ел. пошта або ім''я користувача:'
-      password: 'Пароль:'
-      openid_html: '%{logo} OpenID:'
-      remember: Запам’ятати мене
-      lost password link: Забули пароль?
-      login_button: Увійти
-      register now: Зареєструйтеся зараз
-      with username: 'Вже є обліковий запис OpenStreetMap? Будь ласка, введіть ваше
-        ім''я користувача та пароль:'
-      with external: 'Або використовуйте, облікові записи з інших ресурсів:'
-      new to osm: Вперше на OpenStreetMap?
-      to make changes: Щоб вносити зміни до даних OpenStreetMap, ви повинні мати обліковий
-        запис.
-      create account minute: Створити обліковий запис. Це займе всього хвилину.
-      no account: Не маєте облікового запису?
-      account not active: Вибачте, ваш обліковий запис ще не активовано. <br /> Щоб
-        його активувати, будь ласка, перевірте вашу поштову скриньку та натисніть
-        на посилання в листі з проханням про підтвердження, або <a href="%{reconfirm}">
-        запросіть нове підтвердження по електронній пошті</a>.
-      account is suspended: На жаль, ваш обліковий запис був заблокований через підозрілу
-        діяльність.<br />Будь ласка, зв'яжіться з <a href="%{webmaster}">адміністратором</a>,
-        якщо ви маєте заперечення.
-      auth failure: Вибачте, вхід з цими ім'ям або паролем неможливий.
-      openid_logo_alt: Увійти з допомогою OpenID
-      auth_providers:
-        openid:
-          title: Увійти за допомогою OpenID
-          alt: Увійти за допомогою OpenID URL
-        google:
-          title: Увійти через Google
-          alt: Увійти через Google OpenID
-        facebook:
-          title: Увійти з Facebook
-          alt: Увійти з облікового запису Facebook
-        windowslive:
-          title: Увійти з Windows Live
-          alt: Увійти з облікового запису Windows Live
-        github:
-          title: Увійти через GitHub
-          alt: Вхід через обліковий запис GitHub
-        wikipedia:
-          title: Увійти через Вікіпедію
-          alt: Вхід через обліковий запис у Вікіпедії
-        yahoo:
-          title: Увійти з облікового запису Yahoo
-          alt: Увійти з Yahoo OpenID
-        wordpress:
-          title: Увійти через Wordpress
-          alt: Увійти через Wordpress OpenID
-        aol:
-          title: Увійти через AOL
-          alt: Увійти через AOL OpenID
-    logout:
-      title: Вийти
-      heading: Вийти з OpenStreetMap
-      logout_button: Вийти
     lost_password:
       title: Відновлення пароля
       heading: Забули пароль?
@@ -2331,13 +2447,13 @@ uk:
     account:
       title: Редагувати обліковий запис
       my settings: Налаштування
-      current email address: 'Поточна адреса електронної пошти:'
-      external auth: 'Зовнішня автентифікація:'
+      current email address: Поточна адреса електронної пошти
+      external auth: Зовнішня автентифікація
       openid:
         link: http://wiki.openstreetmap.org/wiki/Uk:OpenID
         link text: що це?
       public editing:
-        heading: 'Загальнодоступне редагування:'
+        heading: Загальнодоступне редагування
         enabled: Увімкнено. Не анонім і можна редагувати дані.
         enabled link: http://wiki.openstreetmap.org/wiki/Uk:Anonymous_edits
         enabled link text: що це?
@@ -2354,7 +2470,7 @@ uk:
           з вами стане можливо.</li><li>Ця дія не має зворотної сили, а всі нові користувачі
           зазвичай тепер доступні для зв’язку.</li></ul>
       contributor terms:
-        heading: 'Умови Співпраці:'
+        heading: Умови Співпраці
         agreed: Ви погодилися на нові Умови Співпраці.
         not yet agreed: Ви ще не погодилися на нові Умови Співпраці.
         review link text: Перейдіть за цим посиланням у зручний для Вас спосіб, щоб
@@ -2363,10 +2479,11 @@ uk:
           Суспільного Надбання.
         link: http://wiki.openstreetmap.org/wiki/Uk:Open_Database_License/Contributor_Terms
         link text: що це?
-      image: 'Зображення:'
+      image: Зображення
       gravatar:
         gravatar: Використовувати Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Про Gravatar.
         disabled: Gravatar вимкнено.
         enabled: Показ Вашого Gravatar'а увімкнено.
       new image: Додати зображення
@@ -2374,7 +2491,7 @@ uk:
       delete image: Видалити поточне зображення
       replace image: Замінити поточне зображення
       image size hint: (найкраще підходять квадратні зображення, принаймні 100х100)
-      home location: 'Основне місце розташування:'
+      home location: Основне місце розташування
       no home location: Ви не позначили своє основне місце розташування.
       update home location on click: Оновлювати моє місце розташування, коли я клацаю
         на мапу?
@@ -2529,22 +2646,28 @@ uk:
         hours:
           one: '%{count} година'
           few: '%{count} години'
-          other: '%{count} годин'
+          many: '%{count} годин'
+          other: ""
         days:
           one: 1 день
           few: '%{count} дні'
-          other: '%{count} днів'
+          many: '%{count} днів'
+          other: ""
         weeks:
           one: 1 тиждень
           few: '%{count} тижні'
-          other: '%{count} тижнів'
+          many: '%{count} тижнів'
+          other: ""
         months:
-          one: 1 місяць
-          few: '%{count} місячи'
-          other: '%{count} місяців'
+          one: '%{count} місяць'
+          few: '%{count} місяці'
+          many: '%{count} місяців'
+          other: ""
         years:
-          one: 1 рік
-          other: '%{count} роки'
+          one: '%{count} рік'
+          few: '%{count} роки'
+          many: '%{count} років'
+          other: ""
     blocks_on:
       title: Блокування для %{name}
       heading_html: Перелік блокувань користувача %{name}
@@ -2629,12 +2752,12 @@ uk:
           one: Ви перебуваєте за один метр від цієї точки
           few: Ви перебуваєте за %{count} метри від цієї точки
           many: Ви перебуваєте за %{count} метрів від цієї точки
-          other: Ви перебуваєте за %{count} метрів від цієї точки
+          other: ""
         feetPopup:
           one: Ви перебуваєте за %{count} фут від цієї точки
           few: Ви перебуваєте за %{count} фути від цієї точки
           many: Ви перебуваєте за %{count} футів від цієї точки
-          other: Ви перебуваєте за %{count} футів від цієї точки
+          other: ""
       base:
         standard: Стандартний
         cycle_map: ВелоМапа

@@ -11,6 +11,7 @@
 # Author: Daeron
 # Author: Espeox
 # Author: Jnovikov
+# Author: Joquliina
 # Author: Konstaduck
 # Author: Laurianttila
 # Author: Lliehu
@@ -155,6 +156,7 @@ fi:
         body: Viesti
         recipient: Vastaanottaja
       redaction:
+        title: Otsikko
         description: Kuvaus
       report:
         details: Kuvaile ongelmaa (pakollinen)
@@ -695,6 +697,7 @@ fi:
           hotel: Hotellirakennus
           house: Talo
           houseboat: Asuntovene
+          hut: Maja
           industrial: Teollisuusrakennus
           office: Toimistorakennus
           public: Julkinen rakennus
@@ -702,6 +705,7 @@ fi:
           retail: Liikerakennus
           roof: Katto
           school: Koulurakennus
+          stable: Talli
           terrace: Rivitalo
           train_station: Rautatieasema
           university: Yliopistorakennus
@@ -724,6 +728,7 @@ fi:
           ambulance_station: Ensihoitoasema
           assembly_point: kohtaamispaikka
           defibrillator: Defibrillaattori
+          fire_xtinguisher: Palosammutin
           landing_site: Hätälaskualue
           phone: Hätäpuhelin
           water_tank: hätävesitankki
@@ -838,7 +843,9 @@ fi:
         leisure:
           beach_resort: Rantakohde
           bird_hide: Linnunpesä
+          bowling_alley: Keilahalli
           common: Yhteinen maa
+          dance: Tanssisali
           dog_park: Koirapuisto
           firepit: Tulentekopaikka
           fishing: Kalastusalue
@@ -895,6 +902,7 @@ fi:
           tower: Torni
           wastewater_plant: Jätevesilaitos
           watermill: Vesimylly
+          water_tap: Vesihana
           water_tower: Vesitorni
           water_well: Kaivo
           water_works: Vedenpuhdistuslaitos
@@ -1058,6 +1066,7 @@ fi:
           funeral_directors: Hautausurakoitsija
           furniture: Huonekaluliike
           garden_centre: Puutarhakeskus
+          gas: Huoltoasema
           general: Sekatavarakauppa
           gift: Lahjakauppa
           greengrocer: Vihanneskauppa
@@ -1073,6 +1082,7 @@ fi:
           kiosk: Kioski
           kitchen: Keittiöliike
           laundry: Pesula
+          locksmith: Lukkoseppä
           lottery: Lotto
           mall: Ostoskeskus
           massage: hieronta
@@ -1503,6 +1513,62 @@ fi:
       as_unread: Viesti on merkitty lukemattomaksi.
     destroy:
       destroyed: Viesti on poistettu.
+  sessions:
+    new:
+      title: Kirjautumissivu
+      heading: Kirjaudu
+      email or username: 'Sähköpostiosoite tai käyttäjätunnus:'
+      password: 'Salasana:'
+      openid_html: '%{logo} OpenID:'
+      remember: Pidä minut sisäänkirjautuneena
+      lost password link: Unohditko salasanasi?
+      login_button: Kirjaudu sisään
+      register now: Rekisteröidy
+      with username: 'Onko sinulla jo OpenStreetMap-tunnus? Kirjaudu sillä sisään:'
+      with external: 'Voit myös kirjautua jonkun muun palvelun tunnuksilla:'
+      new to osm: Oletko uusi OpenStreetMapin käyttäjä?
+      to make changes: OpenStreetMapin karttatietojen muuttaminen vaatii käyttäjätunnuksen.
+      create account minute: Luo käyttäjätunnus. Se kestää vain hetken.
+      no account: Eikö sinulla vielä ole käyttäjätunnusta?
+      account not active: Käyttäjätunnustasi ei ole vielä aktivoitu.<br />Aktivoi
+        käyttäjätunnuksesi napsauttamalla sähköpostitse saamaasi vahvistuslinkkiä,
+        tai <a href="%{reconfirm}">pyydä uusi varmistusviesti</a>.
+      account is suspended: Valitettavasti käyttäjätilisi käyttö on estetty epäilyttävän
+        toiminnan seurauksena.<br />Saat lisätietoja ottamalla yhteyttä <a href="%{webmaster}">ylläpitoon</a>.
+      auth failure: Kirjautuminen epäonnistui.
+      openid_logo_alt: Kirjaudu sisään OpenID-tunnuksella
+      auth_providers:
+        openid:
+          title: Kirjaudu sisään OpenID:llä
+          alt: Kirjaudu sisään OpenID-osoitteella
+        google:
+          title: Kirjaudu käyttämällä Google-tunnustasi
+          alt: Kirjaudu käyttämällä Google OpenID-tunnustasi
+        facebook:
+          title: Kirjaudu Facebookin avulla
+          alt: Kirjaudu käyttämällä Facebook-tunnustasi
+        windowslive:
+          title: Kirjaudu Windows Liven avulla
+          alt: Kirjaudu sisään Windows Live -tililläsi
+        github:
+          title: Kirjaudu GitHubin avulla
+          alt: Kirjaudu käyttämällä GitHub-tiliäsi
+        wikipedia:
+          title: Kirjaudu sisään Wikipedialla
+          alt: Kirjaudu sisään Wikipedia-tunnuksella
+        yahoo:
+          title: Kirjaudu Yahoon avulla
+          alt: Kirjaudu käyttämällä Yahoo OpenID -tunnustasi
+        wordpress:
+          title: Kirjaudu WordPressin avulla
+          alt: Kirjaudu käyttämällä Wordpress OpenID -tunnustasi
+        aol:
+          title: Kirjaudu AOL:n avulla
+          alt: Kirjaudu käyttämällä AOL OpenID -tunnustasi
+    destroy:
+      title: Kirjaudu ulos
+      heading: Kirjaudu ulos OpenStreetMapista
+      logout_button: Kirjaudu ulos
   shared:
     markdown_help:
       title_html: Jäsennä <a href="https://daringfireball.net/projects/markdown/">Wikitekstinä</a>
@@ -2132,61 +2198,6 @@ fi:
     destroy:
       flash: Sovelluksen käyttöoikeus on poistettu.
   users:
-    login:
-      title: Kirjautumissivu
-      heading: Kirjaudu
-      email or username: 'Sähköpostiosoite tai käyttäjätunnus:'
-      password: 'Salasana:'
-      openid_html: '%{logo} OpenID:'
-      remember: Pidä minut sisäänkirjautuneena
-      lost password link: Unohditko salasanasi?
-      login_button: Kirjaudu sisään
-      register now: Rekisteröidy
-      with username: 'Onko sinulla jo OpenStreetMap-tunnus? Kirjaudu sillä sisään:'
-      with external: 'Voit myös kirjautua jonkun muun palvelun tunnuksilla:'
-      new to osm: Oletko uusi OpenStreetMapin käyttäjä?
-      to make changes: OpenStreetMapin karttatietojen muuttaminen vaatii käyttäjätunnuksen.
-      create account minute: Luo käyttäjätunnus. Se kestää vain hetken.
-      no account: Eikö sinulla vielä ole käyttäjätunnusta?
-      account not active: Käyttäjätunnustasi ei ole vielä aktivoitu.<br />Aktivoi
-        käyttäjätunnuksesi napsauttamalla sähköpostitse saamaasi vahvistuslinkkiä,
-        tai <a href="%{reconfirm}">pyydä uusi varmistusviesti</a>.
-      account is suspended: Valitettavasti käyttäjätilisi käyttö on estetty epäilyttävän
-        toiminnan seurauksena.<br />Saat lisätietoja ottamalla yhteyttä <a href="%{webmaster}">ylläpitoon</a>.
-      auth failure: Kirjautuminen epäonnistui.
-      openid_logo_alt: Kirjaudu sisään OpenID-tunnuksella
-      auth_providers:
-        openid:
-          title: Kirjaudu sisään OpenID:llä
-          alt: Kirjaudu sisään OpenID-osoitteella
-        google:
-          title: Kirjaudu käyttämällä Google-tunnustasi
-          alt: Kirjaudu käyttämällä Google OpenID-tunnustasi
-        facebook:
-          title: Kirjaudu Facebookin avulla
-          alt: Kirjaudu käyttämällä Facebook-tunnustasi
-        windowslive:
-          title: Kirjaudu Windows Liven avulla
-          alt: Kirjaudu sisään Windows Live -tililläsi
-        github:
-          title: Kirjaudu GitHubin avulla
-          alt: Kirjaudu käyttämällä GitHub-tiliäsi
-        wikipedia:
-          title: Kirjaudu sisään Wikipedialla
-          alt: Kirjaudu sisään Wikipedia-tunnuksella
-        yahoo:
-          title: Kirjaudu Yahoon avulla
-          alt: Kirjaudu käyttämällä Yahoo OpenID -tunnustasi
-        wordpress:
-          title: Kirjaudu WordPressin avulla
-          alt: Kirjaudu käyttämällä Wordpress OpenID -tunnustasi
-        aol:
-          title: Kirjaudu AOL:n avulla
-          alt: Kirjaudu käyttämällä AOL OpenID -tunnustasi
-    logout:
-      title: Kirjaudu ulos
-      heading: Kirjaudu ulos OpenStreetMapista
-      logout_button: Kirjaudu ulos
     lost_password:
       title: Unohtunut salasana
       heading: Unohditko salasanasi?
