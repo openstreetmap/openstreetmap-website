@@ -109,7 +109,7 @@ gem "logstasher"
 gem "bzip2-ffi"
 gem "ffi-libarchive"
 gem "gd2-ffij", ">= 0.4.0"
-gem "mimemagic"
+gem "marcel"
 
 # Used for browser detection
 gem "browser"
