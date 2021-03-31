@@ -46,7 +46,7 @@ class Issue < ApplicationRecord
 
   before_validation :set_reported_user
 
-  scope :with_status, ->(issue_status) { where(:status => statuses[issue_status]) }
+  scope :with_status, ->(issue_status) { where(:status => issue_status) }
   scope :visible_to, ->(user) { where(:assigned_role => user.roles.map(&:role)) }
 
   def read_reports

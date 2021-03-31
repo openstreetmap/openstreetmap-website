@@ -296,6 +296,15 @@ class User < ApplicationRecord
     digest.hexdigest
   end
 
+  def max_messages_per_hour
+    account_age_in_seconds = Time.now.utc - creation_time
+    account_age_in_hours = account_age_in_seconds / 3600
+    recent_messages = messages.where("sent_on >= ?", Time.now.utc - 3600).count
+    active_reports = issues.with_status(:open).sum(:reports_count)
+    max_messages = account_age_in_hours.ceil + recent_messages - active_reports * 10
+    max_messages.clamp(0, Settings.max_messages_per_hour)
+  end
+
   private
 
   def set_defaults
