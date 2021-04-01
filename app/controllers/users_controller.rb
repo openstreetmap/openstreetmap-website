@@ -280,6 +280,8 @@ class UsersController < ApplicationController
       elsif !token || token.expired?
         flash[:error] = t("users.confirm.unknown token")
         redirect_to :action => "confirm"
+      elsif !token.user.visible?
+        render_unknown_user token.user.display_name
       else
         user = token.user
         user.status = "active"
@@ -309,14 +311,14 @@ class UsersController < ApplicationController
         end
       end
     else
-      user = User.find_by(:display_name => params[:display_name])
+      user = User.visible.find_by(:display_name => params[:display_name])
 
       redirect_to root_path if user.nil? || user.active?
     end
   end
 
   def confirm_resend
-    user = User.find_by(:display_name => params[:display_name])
+    user = User.visible.find_by(:display_name => params[:display_name])
     token = UserToken.find_by(:token => session[:token])
 
     if user.nil? || token.nil? || token.user != user

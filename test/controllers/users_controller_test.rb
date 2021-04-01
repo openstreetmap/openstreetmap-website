@@ -523,6 +523,26 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_match(/already been confirmed/, flash[:error])
   end
 
+  def test_confirm_deleted
+    user = build(:user, :pending)
+    stub_gravatar_request(user.email)
+    post user_new_path, :params => { :user => user.attributes }
+    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
+    confirm_string = User.find_by(:email => user.email).tokens.create.token
+
+    User.find_by(:display_name => user.display_name).update(:status => "deleted")
+
+    # Get the confirmation page
+    get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
+    assert_response :redirect
+    assert_redirected_to root_path
+
+    # Confirm the user
+    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
+    assert_response :not_found
+    assert_template :no_such_user
+  end
+
   def test_confirm_resend_success
     user = build(:user, :pending)
     post user_new_path, :params => { :user => user.attributes }
@@ -549,6 +569,24 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     # only complete first half of registration
     post user_new_path, :params => { :user => user.attributes }
+
+    assert_no_difference "ActionMailer::Base.deliveries.size" do
+      perform_enqueued_jobs do
+        get user_confirm_resend_path(user)
+      end
+    end
+
+    assert_response :redirect
+    assert_redirected_to login_path
+    assert_match "User #{user.display_name} not found.", flash[:error]
+  end
+
+  def test_confirm_resend_deleted
+    user = build(:user, :pending)
+    post user_new_path, :params => { :user => user.attributes }
+    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
+
+    User.find_by(:display_name => user.display_name).update(:status => "deleted")
 
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       perform_enqueued_jobs do
