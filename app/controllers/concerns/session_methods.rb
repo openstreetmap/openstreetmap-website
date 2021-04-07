@@ -81,7 +81,7 @@ module SessionMethods
   def unconfirmed_login(user)
     session[:token] = user.tokens.create.token
 
-    redirect_to :controller => "users", :action => "confirm", :display_name => user.display_name
+    redirect_to :controller => "confirmations", :action => "confirm", :display_name => user.display_name
 
     session.delete(:remember_me)
     session.delete(:referer)

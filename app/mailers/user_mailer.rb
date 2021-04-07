@@ -12,7 +12,7 @@ class UserMailer < ApplicationMailer
 
   def signup_confirm(user, token)
     with_recipient_locale user do
-      @url = url_for(:controller => "users", :action => "confirm",
+      @url = url_for(:controller => "confirmations", :action => "confirm",
                      :display_name => user.display_name,
                      :confirm_string => token.token)
 
@@ -24,7 +24,7 @@ class UserMailer < ApplicationMailer
   def email_confirm(user, token)
     with_recipient_locale user do
       @address = user.new_email
-      @url = url_for(:controller => "users", :action => "confirm_email",
+      @url = url_for(:controller => "confirmations", :action => "confirm_email",
                      :confirm_string => token.token)
 
       mail :to => user.new_email,
