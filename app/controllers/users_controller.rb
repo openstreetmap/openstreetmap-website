@@ -12,8 +12,8 @@ class UsersController < ApplicationController
   authorize_resource
 
   before_action :require_self, :only => [:account]
-  before_action :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public]
-  before_action :require_cookies, :only => [:new, :confirm]
+  before_action :check_database_writable, :only => [:new, :account, :go_public]
+  before_action :require_cookies, :only => [:new]
   before_action :lookup_user_by_name, :only => [:set_status, :destroy]
   before_action :allow_thirdparty_images, :only => [:show, :account]
 
@@ -109,7 +109,7 @@ class UsersController < ApplicationController
           else
             session[:token] = current_user.tokens.create.token
             UserMailer.signup_confirm(current_user, current_user.tokens.create(:referer => referer)).deliver_later
-            redirect_to :action => "confirm", :display_name => current_user.display_name
+            redirect_to :controller => :confirmations, :action => :confirm, :display_name => current_user.display_name
           end
         else
           render :action => "new", :referer => params[:referer]
@@ -148,60 +148,6 @@ class UsersController < ApplicationController
     current_user.save
     flash[:notice] = t "users.go_public.flash success"
     redirect_to :action => "account", :display_name => current_user.display_name
-  end
-
-  def lost_password
-    @title = t "users.lost_password.title"
-
-    if request.post?
-      user = User.visible.find_by(:email => params[:email])
-
-      if user.nil?
-        users = User.visible.where("LOWER(email) = LOWER(?)", params[:email])
-
-        user = users.first if users.count == 1
-      end
-
-      if user
-        token = user.tokens.create
-        UserMailer.lost_password(user, token).deliver_later
-        flash[:notice] = t "users.lost_password.notice email on way"
-        redirect_to login_path
-      else
-        flash.now[:error] = t "users.lost_password.notice email cannot find"
-      end
-    end
-  end
-
-  def reset_password
-    @title = t "users.reset_password.title"
-
-    if params[:token]
-      token = UserToken.find_by(:token => params[:token])
-
-      if token
-        self.current_user = token.user
-
-        if params[:user]
-          current_user.pass_crypt = params[:user][:pass_crypt]
-          current_user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
-          current_user.status = "active" if current_user.status == "pending"
-          current_user.email_valid = true
-
-          if current_user.save
-            token.destroy
-            session[:fingerprint] = current_user.fingerprint
-            flash[:notice] = t "users.reset_password.flash changed"
-            successful_login(current_user)
-          end
-        end
-      else
-        flash[:error] = t "users.reset_password.flash token bad"
-        redirect_to :action => "lost_password"
-      end
-    else
-      head :bad_request
-    end
   end
 
   def new
@@ -267,97 +213,6 @@ class UsersController < ApplicationController
         # Save the user record
         session[:new_user] = current_user
         redirect_to :action => :terms
-      end
-    end
-  end
-
-  def confirm
-    if request.post?
-      token = UserToken.find_by(:token => params[:confirm_string])
-      if token&.user&.active?
-        flash[:error] = t("users.confirm.already active")
-        redirect_to login_path
-      elsif !token || token.expired?
-        flash[:error] = t("users.confirm.unknown token")
-        redirect_to :action => "confirm"
-      elsif !token.user.visible?
-        render_unknown_user token.user.display_name
-      else
-        user = token.user
-        user.status = "active"
-        user.email_valid = true
-        flash[:notice] = gravatar_status_message(user) if gravatar_enable(user)
-        user.save!
-        referer = safe_referer(token.referer) if token.referer
-        token.destroy
-
-        if session[:token]
-          token = UserToken.find_by(:token => session[:token])
-          session.delete(:token)
-        else
-          token = nil
-        end
-
-        if token.nil? || token.user != user
-          flash[:notice] = t("users.confirm.success")
-          redirect_to login_path(:referer => referer)
-        else
-          token.destroy
-
-          session[:user] = user.id
-          session[:fingerprint] = user.fingerprint
-
-          redirect_to referer || welcome_path
-        end
-      end
-    else
-      user = User.visible.find_by(:display_name => params[:display_name])
-
-      redirect_to root_path if user.nil? || user.active?
-    end
-  end
-
-  def confirm_resend
-    user = User.visible.find_by(:display_name => params[:display_name])
-    token = UserToken.find_by(:token => session[:token])
-
-    if user.nil? || token.nil? || token.user != user
-      flash[:error] = t "users.confirm_resend.failure", :name => params[:display_name]
-    else
-      UserMailer.signup_confirm(user, user.tokens.create).deliver_later
-      flash[:notice] = t "users.confirm_resend.success_html", :email => user.email, :sender => Settings.support_email
-    end
-
-    redirect_to login_path
-  end
-
-  def confirm_email
-    if request.post?
-      token = UserToken.find_by(:token => params[:confirm_string])
-      if token&.user&.new_email?
-        self.current_user = token.user
-        current_user.email = current_user.new_email
-        current_user.new_email = nil
-        current_user.email_valid = true
-        gravatar_enabled = gravatar_enable(current_user)
-        if current_user.save
-          flash[:notice] = if gravatar_enabled
-                             "#{t('users.confirm_email.success')} #{gravatar_status_message(current_user)}"
-                           else
-                             t("users.confirm_email.success")
-                           end
-        else
-          flash[:errors] = current_user.errors
-        end
-        current_user.tokens.delete_all
-        session[:user] = current_user.id
-        session[:fingerprint] = current_user.fingerprint
-        redirect_to :action => "account", :display_name => current_user.display_name
-      elsif token
-        flash[:error] = t "users.confirm_email.failure"
-        redirect_to :action => "account", :display_name => token.user.display_name
-      else
-        flash[:error] = t "users.confirm_email.unknown_token"
       end
     end
   end
@@ -620,36 +475,6 @@ class UsersController < ApplicationController
   def domain_mx_servers(domain)
     Resolv::DNS.open do |dns|
       dns.getresources(domain, Resolv::DNS::Resource::IN::MX).collect(&:exchange).collect(&:to_s)
-    end
-  end
-
-  ##
-  # check if this user has a gravatar and set the user pref is true
-  def gravatar_enable(user)
-    # code from example https://en.gravatar.com/site/implement/images/ruby/
-    return false if user.avatar.attached?
-
-    begin
-      hash = Digest::MD5.hexdigest(user.email.downcase)
-      url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
-      response = OSM.http_client.get(URI.parse(url))
-      available = response.success?
-    rescue StandardError
-      available = false
-    end
-
-    oldsetting = user.image_use_gravatar
-    user.image_use_gravatar = available
-    oldsetting != user.image_use_gravatar
-  end
-
-  ##
-  # display a message about th current status of the gravatar setting
-  def gravatar_status_message(user)
-    if user.image_use_gravatar
-      t "users.account.gravatar.enabled"
-    else
-      t "users.account.gravatar.disabled"
     end
   end
 end

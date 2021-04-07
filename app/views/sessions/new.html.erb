@@ -13,7 +13,7 @@
     <%= hidden_field_tag("referer", h(params[:referer])) %>
 
     <%= f.text_field :username, :label => t(".email or username"), :tabindex => 1, :value => params[:username] %>
-    <%= f.password_field :password, :label => t(".password"), :tabindex => 2, :value => "", :help => link_to(t(".lost password link"), :controller => "users", :action => "lost_password") %>
+    <%= f.password_field :password, :label => t(".password"), :tabindex => 2, :value => "", :help => link_to(t(".lost password link"), :controller => "passwords", :action => "lost_password") %>
     <%= f.form_group do %>
       <%= f.check_box :remember_me, { :label => t(".remember"), :tabindex => 3, :checked => (params[:remember_me] == "yes") }, "yes" %>
     <% end %>
