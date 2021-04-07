@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   authorize_resource
 
   before_action :require_self, :only => [:account]
-  before_action :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public]
+  before_action :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :go_public]
   before_action :require_cookies, :only => [:new, :confirm]
   before_action :lookup_user_by_name, :only => [:set_status, :destroy]
   before_action :allow_thirdparty_images, :only => [:show, :account]
@@ -148,60 +148,6 @@ class UsersController < ApplicationController
     current_user.save
     flash[:notice] = t "users.go_public.flash success"
     redirect_to :action => "account", :display_name => current_user.display_name
-  end
-
-  def lost_password
-    @title = t "users.lost_password.title"
-
-    if request.post?
-      user = User.visible.find_by(:email => params[:email])
-
-      if user.nil?
-        users = User.visible.where("LOWER(email) = LOWER(?)", params[:email])
-
-        user = users.first if users.count == 1
-      end
-
-      if user
-        token = user.tokens.create
-        UserMailer.lost_password(user, token).deliver_later
-        flash[:notice] = t "users.lost_password.notice email on way"
-        redirect_to login_path
-      else
-        flash.now[:error] = t "users.lost_password.notice email cannot find"
-      end
-    end
-  end
-
-  def reset_password
-    @title = t "users.reset_password.title"
-
-    if params[:token]
-      token = UserToken.find_by(:token => params[:token])
-
-      if token
-        self.current_user = token.user
-
-        if params[:user]
-          current_user.pass_crypt = params[:user][:pass_crypt]
-          current_user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
-          current_user.status = "active" if current_user.status == "pending"
-          current_user.email_valid = true
-
-          if current_user.save
-            token.destroy
-            session[:fingerprint] = current_user.fingerprint
-            flash[:notice] = t "users.reset_password.flash changed"
-            successful_login(current_user)
-          end
-        end
-      else
-        flash[:error] = t "users.reset_password.flash token bad"
-        redirect_to :action => "lost_password"
-      end
-    else
-      head :bad_request
-    end
   end
 
   def new

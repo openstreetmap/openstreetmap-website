@@ -18,10 +18,11 @@ class Ability
       can :index, ChangesetComment
       can [:index, :rss, :show, :comments], DiaryEntry
       can [:index], Note
+      can [:lost_password, :reset_password], :password
       can [:index, :show], Redaction
       can [:new, :create, :destroy], :session
       can [:index, :show, :data, :georss, :picture, :icon], Trace
-      can [:terms, :new, :create, :save, :confirm, :confirm_resend, :confirm_email, :lost_password, :reset_password, :show, :auth_success, :auth_failure], User
+      can [:terms, :new, :create, :save, :confirm, :confirm_resend, :confirm_email, :show, :auth_success, :auth_failure], User
       can [:index, :show, :blocks_on, :blocks_by], UserBlock
       can [:index, :show], Node
       can [:index, :show, :full, :ways_for_node], Way

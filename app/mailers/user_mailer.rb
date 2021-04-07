@@ -34,7 +34,7 @@ class UserMailer < ApplicationMailer
 
   def lost_password(user, token)
     with_recipient_locale user do
-      @url = url_for(:controller => "users", :action => "reset_password",
+      @url = url_for(:controller => "passwords", :action => "reset_password",
                      :token => token.token)
 
       mail :to => user.email,
