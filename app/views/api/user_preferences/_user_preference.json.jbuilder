@@ -1,6 +1,5 @@
 attrs = {
-  "k" => user_preference.k,
-  "v" => user_preference.v
+  user_preference.k => user_preference.v
 }
 
 json.preference(attrs)
