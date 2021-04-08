@@ -22,6 +22,7 @@
 # Author: Mediawikitranslator
 # Author: Mikahama
 # Author: Moiman
+# Author: Moj
 # Author: MrTapsa
 # Author: Nedergard
 # Author: Nelg
@@ -180,6 +181,9 @@ fi:
       user_block:
         needs_view: Pitääkö tämän käyttäjän kirjautua sisään ennen kuin esto poistetaan?
       user:
+        email_confirmation: Osoitettasi ei esitetä julkisesti. Lisätietoja <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="tietosuojakäytäntö wikisivulla, ml. osio sähköpostiosoitteiden käsittelystä">tietosuojakäytännöstä</a>
+          on saatavilla englanniksi.
         new_email: (ei näy muille)
   datetime:
     distance_in_words_ago:
@@ -1447,6 +1451,33 @@ fi:
         %{url} ja napsauttamalla Lopeta tilaus.
       unsubscribe_html: Peru tämän muutoskokoelman sähköposti-ilmoitukset siirtymällä
         osoitteeseen %{url} ja napsauttamalla Lopeta tilaus.
+  confirmations:
+    confirm:
+      heading: Tarkista sähköpostisi!
+      introduction_1: Vahvistusviesti lähetetty.
+      introduction_2: Aktivoi tili napsauttamalla vahvistustilissä olevaa linkkiä,
+        minkä jälkeen voit aloittaa kartan muokkaamisen!
+      press confirm button: Aktivoi uusi käyttäjätunnuksesi valitsemalla Vahvista.
+      button: Vahvista
+      success: Käyttäjätunnuksesi on nyt vahvistettu.
+      already active: Tämä tunnus on jo vahvistettu.
+      unknown token: Vahvistuskoodi on vanhentunut tai sitä ei ole.
+      reconfirm_html: Vahvistusviestin voi tilata uudelleen <a href="%{reconfirm}">napsauttamalla
+        tästä</a>.
+    confirm_resend:
+      success_html: Aktivointilinkin sisältävä viesti on lähetetty osoitteeseen %{email}.
+        Kartan muokkaamisen voi aloittaa heti käyttäjätunnuksen vahvistamisen jälkeen.<br
+        /><br />Jos käytät vahvistuspyyntöjä lähettävää roskapostinesto-ohjelmaa,
+        lisää %{sender} sallittujen osoitteiden listalle, sillä vahvistuspyyntöihin
+        ei vastata.
+      failure: Käyttäjää %{name} ei löytynyt.
+    confirm_email:
+      heading: Vahvista sähköpostiosoitteen muutos
+      press confirm button: Varmenna sähköpostiosoitteesi valitsemalla Vahvista.
+      button: Vahvista
+      success: Sähköpostiosoitteesi muutos on nyt vahvistettu!
+      failure: Tällä tunnisteella on jo vahvistettu sähköpostiosoite.
+      unknown_token: Vahvistuskoodi on vanhentunut tai sitä ei ole.
   messages:
     inbox:
       title: Saapuneet
@@ -1520,6 +1551,22 @@ fi:
       as_unread: Viesti on merkitty lukemattomaksi.
     destroy:
       destroyed: Viesti on poistettu.
+  passwords:
+    lost_password:
+      title: Unohtunut salasana
+      heading: Unohditko salasanasi?
+      email address: 'Sähköpostiosoite:'
+      new password button: Lähetä salasanan palautusohjeet
+      help_text: Kirjoita alapuolelle kirjautumissähköpostiosoitteesi. Osoitteeseen
+        lähetetään salasanan palautusohjeet.
+      notice email on way: Salasanan palautusohjeet on lähetetty annettuun sähköpostiosoitteeseen.
+      notice email cannot find: Annettu sähköpostiosoite ei ole käytössä.
+    reset_password:
+      title: Salasanan vaihto
+      heading: Vaihda käyttäjän %{user} salasana
+      reset: Vaihda salasana
+      flash changed: Salasanasi on vaihdettu.
+      flash token bad: Tuntematon tunniste. Tarkista että URL on sama kuin postissasi.
   sessions:
     new:
       title: Kirjautumissivu
@@ -1971,7 +2018,7 @@ fi:
         kartan muokkaamisen. Tutustu ensin kuitenkin näihin perusasioihin.'
       whats_on_the_map:
         title: Kartan sisältö
-        on_html: OpenStreetMapissä voi kartoittaa asioita, jotka ovat <em>olemassa
+        on_html: OpenStreetMapissa voi kartoittaa asioita, jotka ovat <em>olemassa
           juuri nyt</em> – se sisältää miljoonia rakennuksia, teitä ja muita tietoja
           maailmasta. Voit kartoittaa mitä tahansa reaalimaailman piirteitä, jotka
           sinua kiinnostavat.
@@ -2205,21 +2252,6 @@ fi:
     destroy:
       flash: Sovelluksen käyttöoikeus on poistettu.
   users:
-    lost_password:
-      title: Unohtunut salasana
-      heading: Unohditko salasanasi?
-      email address: 'Sähköpostiosoite:'
-      new password button: Lähetä salasanan palautusohjeet
-      help_text: Kirjoita alapuolelle kirjautumissähköpostiosoitteesi. Osoitteeseen
-        lähetetään salasanan palautusohjeet.
-      notice email on way: Salasanan palautusohjeet on lähetetty annettuun sähköpostiosoitteeseen.
-      notice email cannot find: Annettu sähköpostiosoite ei ole käytössä.
-    reset_password:
-      title: Salasanan vaihto
-      heading: Vaihda käyttäjän %{user} salasana
-      reset: Vaihda salasana
-      flash changed: Salasanasi on vaihdettu.
-      flash token bad: Tuntematon tunniste. Tarkista että URL on sama kuin postissasi.
     new:
       title: Rekisteröidy
       no_auto_account_create: Automaattinen käyttäjätunnuksen luonti ei ole juuri
@@ -2406,31 +2438,6 @@ fi:
       flash update success confirm needed: Käyttäjätietojen muutokset on tallennettu.
         Vahvista uusi sähköpostiosoite siihen lähetettyjen ohjeiden mukaisesti.
       flash update success: Käyttäjätietojen muutokset on tallennettu.
-    confirm:
-      heading: Tarkista sähköpostisi!
-      introduction_1: Vahvistusviesti lähetetty.
-      introduction_2: Aktivoi tilisi napsauttamalla vahvistustilissä olevaa linkkiä
-        ja olet valmis aloittamaan kartan muokkaamisen!
-      press confirm button: Aktivoi uusi käyttäjätunnuksesi valitsemalla Vahvista.
-      button: Vahvista
-      success: Käyttäjätunnuksesi on nyt vahvistettu.
-      already active: Tämä tunnus on jo vahvistettu.
-      unknown token: Vahvistuskoodi on vanhentunut tai sitä ei ole.
-      reconfirm_html: Tarvittaessa voimme lähettää uuden vahvistusviestin, <a href="%{reconfirm}">napsauta
-        tästä</a>.
-    confirm_resend:
-      success_html: Olemme lähettäneet aktivointilinkin sisältävän viestin osoitteeseen
-        %{email}. Vahvistettuasi käyttäjätunnuksesi voit aloittaa kartoittamisen.<br
-        /><br />Jos käytät vahvistusviestejä lähettävää roskapostinesto-ohjelmaa,
-        lisää %{sender} sallittujen osoitteiden listalle, sillä emme voi vastata vahvistuspyyntöihin.
-      failure: Käyttäjää %{name} ei löytynyt.
-    confirm_email:
-      heading: Vahvista sähköpostiosoitteen muutos
-      press confirm button: Varmenna sähköpostiosoitteesi valitsemalla Vahvista.
-      button: Vahvista
-      success: Sähköpostiosoitteesi muutos on nyt vahvistettu!
-      failure: Tällä tunnisteella on jo vahvistettu sähköpostiosoite.
-      unknown_token: Vahvistuskoodi on vanhentunut tai sitä ei ole.
     set_home:
       flash success: Kodin sijainnin tallennus onnistui
     go_public:
@@ -2466,7 +2473,7 @@ fi:
       unknown_signature_algorithm: Tunnistamaton allekirjoitusalgoritmi
       invalid_scope: Virheellinen ala
     auth_association:
-      heading: Sinun ID:tä ei ole vielä liitetty OpenStreetMap-tiliisi.
+      heading: ID:täsi ei ole vielä liitetty OpenStreetMap-tiliisi.
       option_1: 'Uusi OpenStreetMapin käyttäjä: luo käyttäjätunnus tällä lomakkeella.'
       option_2: 'Nykyinen OpenStreetMapin käyttäjä: kirjaudu sisään käyttäjätunnuksella
         ja salasanalla ja yhdistä tili käyttäjäasetuksissa.'
