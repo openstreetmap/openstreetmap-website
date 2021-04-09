@@ -62,6 +62,15 @@ module Api
           assert_select "preference[k=\"#{user_preference2.k}\"][v=\"#{user_preference2.v}\"]", :count => 1
         end
       end
+
+      # Test json
+      get user_preferences_path(:format => "json"), :headers => auth_header
+      assert_response :success
+      assert_equal "application/json", @response.media_type
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 2, js["preferences"].count
     end
 
     ##
