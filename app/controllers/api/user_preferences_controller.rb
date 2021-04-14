@@ -7,12 +7,17 @@ module Api
 
     around_action :api_call_handle_error
 
+    before_action :set_request_formats
+
     ##
-    # return all the preferences as an XML document
+    # return all the preferences
     def index
       @user_preferences = current_user.preferences
 
-      render :formats => [:xml]
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     ##
