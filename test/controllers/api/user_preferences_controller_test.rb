@@ -10,6 +10,10 @@ module Api
         { :controller => "api/user_preferences", :action => "index" }
       )
       assert_routing(
+        { :path => "/api/0.6/user/preferences.json", :method => :get },
+        { :controller => "api/user_preferences", :action => "index", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/user/preferences", :method => :put },
         { :controller => "api/user_preferences", :action => "update_all" }
       )
@@ -71,6 +75,7 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 2, js["preferences"].count
+      assert_equal user_preference.v, js["preferences"][user_preference.k]
     end
 
     ##

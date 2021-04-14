@@ -10,7 +10,7 @@ module Api
     before_action :set_request_formats
 
     ##
-    # return all the preferences as an XML document
+    # return all the preferences
     def index
       @user_preferences = current_user.preferences
 
