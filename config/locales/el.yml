@@ -145,18 +145,26 @@ el:
           (απαιτείται).
       user:
         email: Ηλεκτρονικό ταχυδρομείο
-        new_email: 'Νέα διεύθυνση ηλεκτρονικού ταχυδρομείου:'
+        email_confirmation: Επιβεβαίωση διεύθυνσης ηλεκτρονικού ταχυδρομείου
+        new_email: Νέα διεύθυνση ηλεκτρονικού ταχυδρομείου
         active: Ενεργό
         display_name: Εμφάνιση ονόματος
-        description: Περιγραφή
-        home_lat: 'Γεωγραφικό πλάτος:'
-        home_lon: 'Γεωγραφικό μήκος:'
-        languages: Γλώσσες
+        description: Περιγραφή προφίλ
+        home_lat: Γεωγραφικό πλάτος
+        home_lon: Γεωγραφικό μήκος
+        languages: Προτιμώμενες γλώσσες
+        preferred_editor: Προτιμώμενο πρόγραμμα επεξεργασίας
         pass_crypt: Κωδικός
+        pass_crypt_confirmation: Επιβεβαίωση κωδικού
     help:
       trace:
         tagstring: διαχωρισμένο με κόμμα
       user_block:
+        reason: Η αιτία αποκλεισμού του χρήστη. Παρακαλώ να είστε όσο το δυνατόν πιο
+          ήρεμος/-η και λογικός/-ή, δίνοντας όσες περισσότερες λεπτομέρειες μπορείτε
+          για την κατάσταση και σκεπτόμενος/-η ότι το μήνυμα θα είναι δημόσια ορατό.
+          Λάβετε υπόψη σας ότι δεν κατανοούν όλοι οι χρήστες την ορολογία της κοινότητας,
+          γι' αυτό προσπαθήστε να χρησιμοποιήσετε απλούς και κατανοητούς όρους.
         needs_view: Πρέπει ο χρήστης να συνδεθεί προτού εκκαθαριστεί αυτή η φραγή;
       user:
         new_email: (να μην εμφανίζεται ποτέ δημόσια)
@@ -255,6 +263,12 @@ el:
     anonymous: ανώνυμος
     no_comment: (χωρίς σχόλιο)
     part_of: Μέρος του
+    part_of_relations:
+      one: 1 σχέση
+      other: '%{count} σχέσεις'
+    part_of_ways:
+      one: 1 διαδρομή
+      other: '%{count} διαδρομές'
     download_xml: Λήψη XML
     view_history: Προβολή ιστορικού
     view_details: Προβολή λεπτομερειών
@@ -294,6 +308,9 @@ el:
       title_html: 'Σχέση: %{name}'
       history_title_html: 'Ιστορικό σχέσης: %{name}'
       members: Μέλη
+      members_count:
+        one: 1 μέλος
+        other: '%{count} μέλη'
     relation_member:
       entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} ως %{role}'
@@ -305,6 +322,7 @@ el:
       entry_html: Σχέση %{relation_name}
       entry_role_html: Σχέση %{relation_name} (ως %{relation_role})
     not_found:
+      title: Δεν βρέθηκε
       sorry: 'Λυπάμαι, το %{type} #%{id} δεν βρέθηκε.'
       type:
         node: κόμβος
@@ -532,6 +550,7 @@ el:
           holding_position: κράτηση θέσης
           parking_position: Θέση στάθμευσης
           runway: Διάδρομος
+          taxilane: Λωρίδα ταξί
           taxiway: Τροχιόδρομος
           terminal: Τερματικός σταθμός
         amenity:
@@ -545,6 +564,7 @@ el:
           bicycle_parking: Στάθμευση ποδηλάτων
           bicycle_rental: Ενοικίαση ποδηλάτων
           biergarten: Υπαίθρια μπυραρία
+          blood_bank: Τράπεζα αίματος
           boat_rental: Ενοικίαση σκαφών
           brothel: Οίκος ανοχής
           bureau_de_change: Ανταλλακτήριο συναλλάγματος
@@ -581,10 +601,12 @@ el:
           hunting_stand: Κυνηγητικό κιόσκι
           ice_cream: Παγωτό
           kindergarten: Νηπιαγωγείο
+          language_school: Φροντιστήριο ξένων γλωσσών
           library: Βιβλιοθήκη
           marketplace: Αγορά
           monastery: Μοναστήρι
           motorcycle_parking: Χώρος στάθμευσης μοτοσικλετών
+          music_school: Ωδείο
           nightclub: Νυχτερινό κέντρο
           nursing_home: Οίκος ευγηρίας
           parking: Χώρος στάθμευσης
@@ -597,6 +619,7 @@ el:
           post_office: Ταχυδρομείο
           prison: Φυλακή
           pub: Παμπ
+          public_bath: Δημόσιο λουτρό
           public_building: Δημόσιο κτίριο
           recycling: Σημείο ανακύκλωσης
           restaurant: Εστιατόριο
@@ -632,14 +655,21 @@ el:
           viaduct: Κοιλαδογέφυρα
           "yes": Γέφυρα
         building:
+          apartments: Διαμερίσματα
           chapel: Παρεκκλήσι
           church: Εκκλησία
+          commercial: Εμπορικό κτίριο
+          construction: Κτίριο υπό κατασκευή
           dormitory: Κοιτώνας
+          farm: Αγροικία
+          farm_auxiliary: Βοηθητική αγροικία
           garage: Γκαράζ
+          greenhouse: Θερμοκήπιο
           hospital: Κτήριο Νοσοκομείου
           hotel: Ξενοδοχείο
           house: Σπίτι
           industrial: Βιομηχανικό Κτήριο
+          kindergarten: Κτίριο νηπιαγωγείου
           office: Κτήριο Γραφείων
           public: Δημόσιο κτήριο
           residential: Πολυκατοικία
@@ -649,11 +679,13 @@ el:
           warehouse: Αποθήκη
           "yes": Κτίριο
         craft:
+          beekeper: Μελισσοκόμος
           blacksmith: Σιδηρουργός
           brewery: Ζυθοποιείο
           carpenter: Ξυλουργός
           electrician: Ηλεκτρολόγος
           gardener: Κηπουρός
+          handicraft: Χειροκατασκευές
           painter: Ζωγράφος
           photographer: Φωτογράφος
           plumber: Υδραυλικός
@@ -664,6 +696,7 @@ el:
           ambulance_station: Σταθμός ασθενοφόρων
           assembly_point: Σημείο συγκέντρωσης
           defibrillator: Απινιδωτής
+          fire_xtinguisher: Πυροσβεστήρας
           landing_site: Τοποθεσία έκτακτης προσγείωσης
           phone: Τηλέφωνο έκτακτης ανάγκης
           water_tank: Δεξαμενή νερού έκτακτης ανάγκης
@@ -805,6 +838,7 @@ el:
           "yes": Ψυχαγωγία
         man_made:
           adit: Οριζόντια είσοδος σε ορυχείο
+          antenna: Κεραία
           beacon: φάρος
           beehive: Κυψέλη
           breakwater: Κυματοθραύστης
@@ -830,6 +864,7 @@ el:
           silo: Σιλό
           storage_tank: Δεξαμενή αποθήκευσης
           surveillance: Επιτήρηση
+          telescope: Τηλεσκόπιο
           tower: Πύργος
           wastewater_plant: Μονάδα επεξεργασίας λυμάτων
           watermill: Νερόμυλος
@@ -843,6 +878,7 @@ el:
           airfield: Στρατιωτικό αεροδρόμιο
           barracks: Στρατώνας
           bunker: Οχυρό
+          checkpoint: Σημείο ελέγχου
           "yes": Στρατός
         mountain_pass:
           "yes": Ορεινό πέρασμα
@@ -869,6 +905,7 @@ el:
           moor: Δέστρα
           mud: Λάσπη
           peak: Κορυφή
+          peninsula: Χερσόνησος
           point: Σημείο
           reef: Ύφαλος
           ridge: Σκόπελος
@@ -892,19 +929,24 @@ el:
           architect: Αρχιτέκτονας
           association: Σύλλογος
           company: Εταιρεία
+          diplomatic: Διπλωματικό γραφείο
           educational_institution: Εκπαιδευτικό ίδρυμα
           employment_agency: Οργανισμός απασχόλησης
+          energy_supplier: Γραφείο παροχής ενέργειας
           estate_agent: Κτηματομεσιτικό γραφείο
+          financial: Γραφείο οικονομικών
           government: Κυβερνητικό γραφείο
           insurance: Ασφαλιστικό γραφείο
           it: Γραφείο πληροφορικής
           lawyer: Δικηγόρος
+          logistics: Λογιστικό γραφείο
           ngo: Γραφείο ΜΚΟ
           telecommunication: Γραφείο τηλεπικοινωνιών
           travel_agent: Ταξιδιωτικό πρακτορείο
           "yes": Γραφείο
         place:
           allotments: Λαχανόκηποι
+          archipelago: Αρχιπέλαγος
           city: Πόλη
           city_block: Οικοδομικό τετράγωνο πόλης
           country: Χώρα
@@ -958,7 +1000,9 @@ el:
           alcohol: Εκτός άδειας
           antiques: Αντίκες
           art: Κατάστημα τέχνης
+          baby_goods: Βρεφικά είδη
           bakery: Φούρνος
+          bathroom_furnishing: Εξοπλισμός μπάνιου
           beauty: Σαλόνι ομορφιάς
           beverages: Κατάστημα ποτών
           bicycle: Κατάστημα ποδηλάτων
@@ -971,7 +1015,9 @@ el:
           car_repair: Συνεργείο αυτοκινήτων
           carpet: Κατάστημα χαλιών
           charity: Φιλανθρωπικό κατάστημα
+          cheese: Τυροπωλείο
           chemist: Χημικός
+          chocolate: Σοκολατερί
           clothes: Κατάστημα ρούχων
           computer: Κατάστημα υπολογιστών
           confectionery: Ζαχαροπλαστική
@@ -983,10 +1029,12 @@ el:
           discount: Εκπτωτικό κατάστημα
           doityourself: Ιδιοκατασκευές
           dry_cleaning: Στεγνό καθάρισμα
+          e-cigarette: Κατάστημα ηλεκτρονικών τσιγάρων
           electronics: Κατάστημα ηλεκτρονικών
           estate_agent: Κτηματομεσίτης
           farm: Γεωργικά εφόδια
           fashion: Κατάστημα μόδας
+          fishing: Κατάστημα ειδών αλιείας
           florist: Ανθοπώλης
           food: Κατάστημα τροφίμων
           funeral_directors: Γραφείο κηδειών
@@ -998,13 +1046,16 @@ el:
           grocery: Οπωροπωλείο
           hairdresser: Κομμωτήριο
           hardware: Κατάστημα με χρώματα-σιδηρικά
+          hearing_aids: Βοηθήματα ακοής
           hifi: Hi-Fi
           houseware: Μαγαζί με οικιακά είδη
+          ice_cream: Παγωτατζίδικο
           interior_decoration: Διακόσμηση εσωτερικού χώρου
           jewelry: Κοσμηματοπωλείο
           kiosk: Περίπτερο
           kitchen: Μαγαζί κουζινών
           laundry: Πλυντήριο
+          locksmith: Κλειδαράς
           lottery: Λοταρία
           mall: Εμπορικό κέντρο
           massage: Μασάζ
@@ -1017,6 +1068,7 @@ el:
           outdoor: Υπαίθριο κατάστημα
           paint: Χρωματοπωλείο
           pawnbroker: Ενεχυροδανειστής
+          perfumery: Αρωματοπωλείο
           pet: Κατάστημα κατοικίδιων
           photo: Φωτογραφείο
           seafood: Θαλασσινό φαγητό
@@ -2303,13 +2355,13 @@ el:
     account:
       title: Επεξεργασία λογαριασμού
       my settings: Οι ρυθμίσεις μου
-      current email address: 'Τρέχουσα διεύθυνση ηλεκτρονικού ταχυδρομείου:'
-      external auth: 'Εξωτερική επαλήθευση ταυτότητας:'
+      current email address: Τρέχουσα διεύθυνση ηλεκτρονικού ταχυδρομείου
+      external auth: Εξωτερική επαλήθευση ταυτότητας
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: τι είναι αυτό;
       public editing:
-        heading: 'Δημόσια επεξεργασία:'
+        heading: Δημόσια επεξεργασία
         enabled: Ενεργοποιήθηκε. Δεν είστε πια ανώνυμοι και μπορείτε να επεξεργαστείτε
           δεδομένα.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
@@ -2329,7 +2381,7 @@ el:
           </li><li> Αυτή η ενέργεια δεν μπορεί να αναιρεθεί και όλοι οι νέοι χρήστες
           είναι επώνυμοι εξ' αρχής.</li></ul>
       contributor terms:
-        heading: 'Όροι Συνεισφοράς:'
+        heading: Όροι Συνεισφοράς
         agreed: Έχετε αποδεχτεί τους νέους Όρους Συνεισφοράς.
         not yet agreed: Δεν έχετε αποδεχτεί τους νέους Όρους Συνεισφοράς.
         review link text: Παρακαλούμε ακολουθήστε αυτό το σύνδεσμο, για την ενημέρωση
@@ -2338,7 +2390,7 @@ el:
           στον δημόσιο τομέα.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: τι είναι αυτό;
-      image: 'Εικόνα:'
+      image: Εικόνα
       gravatar:
         gravatar: Χρήση Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
@@ -2349,7 +2401,7 @@ el:
       delete image: Αφαίρεση της τρέχουσας εικόνας
       replace image: Αντικατάσταση της τρέχουσας εικόνας
       image size hint: (τετράγωνες εικόνες τουλάχιστον 100 x 100 λειτουργούν καλύτερα)
-      home location: 'Τοποθεσία Σπιτιού:'
+      home location: Τοποθεσία Σπιτιού
       no home location: Δεν έχετε εισάγει την τοποθεσία του σπιτιού σας.
       update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ στον
         χάρτη;
