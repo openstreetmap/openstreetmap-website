@@ -79,7 +79,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     get new_event_path(params)
     # assert
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/events/new?#{params.to_query}"
+    assert_redirected_to login_path(:referer => new_event_path(:params => params))
   end
 
   def test_new_form

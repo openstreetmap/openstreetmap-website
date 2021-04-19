@@ -128,7 +128,7 @@ class MicrocosmTest < ActiveSupport::TestCase
     # act
     o = m.organizers
     # assert
-    assert_equal [], o
+    assert_empty o
   end
 
   def test_organizers_not_zero

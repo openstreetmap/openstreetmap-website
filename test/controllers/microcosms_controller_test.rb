@@ -110,7 +110,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     get edit_microcosm_path(m)
     # assert
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/microcosms/#{m.slug}/edit"
+    assert_redirected_to login_path(:referer => edit_microcosm_path(m))
   end
 
   def test_edit_get_is_not_member_is_not_organizer
@@ -241,7 +241,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     get new_microcosm_path
     # assert
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/microcosms/new"
+    assert_redirected_to login_path(:referer => new_microcosm_path)
   end
 
   def test_new_form
