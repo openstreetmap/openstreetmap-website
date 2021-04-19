@@ -4,6 +4,7 @@
 # Author: Aefgh39622
 # Author: Ariesanywhere
 # Author: B20180
+# Author: Bebiezaza
 # Author: Karit
 # Author: Korrawit
 # Author: Patsagorn Y.
@@ -125,27 +126,38 @@ th:
         body: เนื้อหา
         recipient: ผู้รับ
       redaction:
+        title: ชื่อเรื่อง
         description: คำอธิบาย
       report:
         category: เลือกเหตุผลของปัญหาที่ท่านแจ้ง
         details: โปรดให้คำอธิบายเพิ่มเติมเกี่ยวกับปัญหา (จำเป็นต้องใส่)
       user:
+        auth_provider: ผู้ให้การยืนยัน
+        auth_uid: UID การยืนยัน
         email: อีเมล์
-        new_email: 'ที่อยู่อีเมลใหม่:'
+        email_confirmation: การยืนยันอีเมล
+        new_email: ที่อยู่อีเมลใหม่
         active: เปิดใช้
         display_name: ชื่อที่ใช้แสดง
-        description: คำอธิบาย
-        home_lat: 'ละติจูด:'
-        home_lon: 'ลองจิจูด:'
-        languages: ภาษา
+        description: คำอธิบายโปรไฟล์
+        home_lat: ละติจูด
+        home_lon: ลองจิจูด
+        languages: ภาษาที่เลือก
+        preferred_editor: เครื่องมือแก้ไขที่เลือกใช้
         pass_crypt: รหัสผ่าน
         pass_crypt_confirmation: ยืนยันรหัสผ่าน
     help:
       trace:
         tagstring: คั่นด้วยจุลภาค
       user_block:
+        reason: เหตุผลที่ผู้ใช้กำลังถูกระงับ โปรดอย่าเขียนด้วยอารมณ์รุนแรงและระบุรายละเอียดเกี่ยวกับสถานการณ์ที่พบให้ละเอียดชัดเจน
+          ควรใช้คำอธิบายที่เข้าใจง่ายเป็นหลัก เพราะไม่ใช่ว่าผู้ใช้ทุกคนจะเข้าใจศัพท์เฉพาะ
+          และต้องอย่าลืมว่าสิ่งที่คุณเขียนนี้จะแสดงต่อสาธารณะด้วย
         needs_view: ต้องการให้ผู้ใช้คนนี้เข้าระบบก่อนเพิกถอนการระงับหรือไม่?
       user:
+        email_confirmation: ที่อยู่อีเมลของคุณจะไม่แสดงเป็นสาธารณะ โปรดดูเพิ่มเติมที่<a
+          href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="นโยบายความเป็นส่วนตัวของ
+          OSMF ซึ่งมีเนื้อหาเกี่ยวข้องกับการจัดการที่อยู่อีเมลของคุณ">นโยบายความเป็นส่วนตัว</a>สำหรับสารสนเทศเพิ่มเติม
         new_email: (จะไม่แสดงต่อสาธารณะ)
   datetime:
     distance_in_words_ago:
@@ -185,7 +197,7 @@ th:
       description: iD (ตัวแก้ไขในเบราว์เซอร์)
     remote:
       name: การควบคุมระยะไกล
-      description: ตัวควบคุมระยะไกล (JOSM หรือ Merkaartor)
+      description: การควบคุมทางไกล (JOSM, Potlatch, Merkaator)
   auth:
     providers:
       none: ไม่มี
@@ -211,6 +223,7 @@ th:
         description_area: รายชื่อหมายเหตุที่มีการรายงาน แสดงความคิดเห็น หรือถูกปิดในพื้นที่ของคุณ
           [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: ฟีด rss สำหรับหมายเหตุ %{id}
+        opened: หมายเหตุใหม่ (พิกัดใกล้กับ %{place})
         commented: ความคิดเห็นใหม่ (ใกล้เคียง %{place})
         closed: หมายเหตุที่ถูกปิด (ใกล้เคียง %{place})
         reopened: หมายเหตุที่ถูกเปิดใช้งานใหม่ (ใกล้เคียง %{place})
@@ -231,6 +244,10 @@ th:
     anonymous: ไม่ระบุตัวตน
     no_comment: (ไม่มีความคิดเห็น)
     part_of: เป็นส่วนหนึ่งของ
+    part_of_relations:
+      other: '%{count} ความเกี่ยวข้อง'
+    part_of_ways:
+      other: '%{count} ทาง'
     download_xml: ดาวน์โหลด XML
     view_history: ดูประวัติ
     view_details: ดูรายละเอียด
@@ -828,6 +845,7 @@ th:
           moor: ทุ่งหญ้าที่สูง
           mud: โคลน
           peak: ยอดเขา
+          peninsula: คาบสมุทร
           point: จุด
           reef: แนวปะการัง
           ridge: สันเขา
@@ -1286,11 +1304,35 @@ th:
       details: รายละเอียดเพิ่มเติมเกี่ยวกับชุดการเปลี่ยนแปลงสามารถหาได้ที่ %{url}
       unsubscribe: เพื่อบอกเลิกการรับข้อมูลการปรับปรุงชุดการเปลี่ยนแปลงนี้ โปรดไปนี้
         %{url} แล้วคลิก "เลิกรับข้อมูล".
+  confirmations:
+    confirm:
+      heading: โปรดตรวจสอบอีเมลของท่าน!
+      introduction_1: เราได้ส่งอีเมลยืนยันให้ท่านแล้ว
+      introduction_2: โปรดยืนยันบัญชีของท่านโดยคลิกลิงก์ในอีเมล หลังจากนั้นท่านสามารถเริ่มใช้งานแผนที่ได้
+      press confirm button: คลิกปุ่ม ยืนยัน ข้างล่างเพื่อเปิดใช้บัญชีของท่าน
+      button: ยืนยัน
+      success: บัญชีของท่านยืนยันเสร็จแล้ว ขอบคุณสำหรับการสมัครใช้งาน!
+      already active: บัญชีนี้ได้ถูกยืนยันมาก่อนแล้ว
+      unknown token: รหัสยืนยันหมดอายุหรือผิดพลาด
+      reconfirm_html: ถ้าท่านต้องการให้เราส่งอีเมลยืนยันซ้ำ <a href="%{reconfirm}">โปรดคลิกที่นี่</a>.
+    confirm_resend:
+      success_html: เราได้ส่งบันทึกยืนยันใหม่ไปยังอีเมล %{email} เมื่อท่านยืนยันแล้ว
+        จะสามารถเริ่มทำแผนที่ได้ทันที<br /><br />ถ้าท่านมีระบบป้องกันสแปม โปรดให้
+        %{sender} อยู่ในรายการปลอดภัย (whitelist) เพราะเราไม่สามารถตอบอีเมลยืนยันใด
+        ๆ ได้
+      failure: ไม่พบผู้ใช้ %{name}
+    confirm_email:
+      heading: ยืนยันการเปลี่ยนแปลงที่อยู่อีเมล
+      press confirm button: คลิกปุ่ม ยืนยัน ข้างล่างเพื่อยืนยันที่อยู่อีเมลใหม่
+      button: ยืนยัน
+      success: ยืนยันการเปลี่ยนแปลงที่อยู่อีเมลเรียบร้อย!
+      failure: อีเมลนี้ถูกยืนยันกับคำขอนี้เรียบร้อย
+      unknown_token: รหัสยืนยันหมดอายุหรือผิดพลาด
   messages:
     inbox:
       title: จดหมายรับ
       my_inbox: จดหมายรับส่วนตัว
-      outbox: จดหมายออก
+      my_outbox: กล่องจดหมายขาออกส่วนตัว
       messages: ท่านมี %{new_messages} และ %{old_messages}
       new_messages:
         one: ข้อความใหม่ %{count} ข้อความ
@@ -1323,9 +1365,8 @@ th:
       body: ขออภัย ไม่พบข้อความที่กำกับด้วยรหัสดังกล่าว
     outbox:
       title: จดหมายออก
-      my_inbox_html: '%{inbox_link}ส่วนตัว'
-      inbox: จดหมายรับ
-      outbox: จดหมายออก
+      my_inbox: กล่องจดหมายขาเข้าส่วนตัว
+      my_outbox: กล่องจดหมายขาออกส่วนตัว
       messages:
         one: ท่านมีข้อความส่งแล้ว %{count} ฉบับ
         other: ท่านมีข้อความส่งแล้ว %{count} ฉบับ
@@ -1356,6 +1397,73 @@ th:
       as_unread: ข้อความถูกทำเครื่องหมายว่ายังไม่ได้อ่าน
     destroy:
       destroyed: ข้อความถูกลบแล้ว
+  passwords:
+    lost_password:
+      title: ตั้งรหัสผ่านใหม่
+      heading: ลืมรหัสผ่านหรือ?
+      email address: 'ที่อยู่อีเมล:'
+      new password button: ตั้งรหัสผ่านใหม่
+      notice email cannot find: ขออภัย, ไม่พบที่อยู่อีเมลที่ระบุ
+    reset_password:
+      title: ตั้งรหัสผ่านใหม่
+      heading: 'ตั้วรหัสผ่านใหม่สำหรับ: %{user}'
+      reset: ตั้งรหัสผ่านใหม่
+      flash changed: เปลี่ยนรหัสผ่านของคุณแล้วเรียบร้อย
+  sessions:
+    new:
+      title: ลงชื่อเข้าใช้
+      heading: ลงชื่อเข้าใช้
+      email or username: 'อีเมลหรือชื่อผู้ใช้:'
+      password: 'รหัสผ่าน:'
+      openid_html: 'โอเพนไอดีของ %{logo}:'
+      remember: จดจำฉันไว้ในระบบ
+      lost password link: ลืมรหัสผ่านหรือ?
+      login_button: ลงชื่อเข้าใช้
+      register now: สมัครเลย!
+      with username: มีบัญชี OpenStreetMap แล้วหรือยัง? ถ้ามีโปรดเข้าระบบด้วยชื่อผู้ใช้และรหัสผ่านที่ท่านมี
+      with external: นอกจากนี้ ท่านสามารถใช้บัญชีผู้ใช้จากเว็บอื่นในการเข้าใช้งานได้
+      new to osm: เพิ่งเริ่มใช้ OpenStreetMap หรือ?
+      to make changes: หากต้องการเปลี่ยนแปลงข้อมูลใน OpenStreetMap ท่านต้องมีบัญชีเสียก่อน
+      create account minute: สร้างบัญชีเดี๋ยวนี้ ใช้เวลาไม่นาน
+      no account: ยังไม่ได้เป็นสมาชิก?
+      account not active: ขออภัย บัญชีของท่านยังไม่เปิดใช้งาน<br/>โปรดใช้ลิงก์ที่ให้ไว้ในอีเมลตอบรับเพื่อเปิดใช้งานบัญชี
+        หรือ<a href="%{reconfirm}">ขออีเมลตอบรับใหม่</a> หากสูญหาย
+      account is suspended: ขออภัย บัญชีของคุณถูกระงับการใช้งานเนื่องจากกิจกรรมที่น่าสงสัย<br/>หากต้องการพูดคุยในรายละเอียด
+        กรุณาติดต่อ<a href="%{webmaster}">ผู้ดูแลระบบ</a>
+      auth failure: ขออภัย ไม่สามารถเข้าระบบด้วยชื่อผู้ใช้และรหัสผ่านดังกล่าวได้
+      openid_logo_alt: เข้าใช้งานด้วย OpenID
+      auth_providers:
+        openid:
+          title: เข้าใช้งานด้วย OpenID
+          alt: เข้าใช้งานด้วยลิงก์ OpenID
+        google:
+          title: เข้าใช้งานด้วย Google
+          alt: เข้าใช้งานด้วย Google OpenID
+        facebook:
+          title: เข้าใช้งานด้วย Facebook
+          alt: เข้าใช้งานด้วยบัญชี Facebook
+        windowslive:
+          title: เข้าใช้งานด้วย Windows Live
+          alt: เข้าใช้งานด้วยบัญชี Windows Live
+        github:
+          title: เข้าใช้งานด้วย GitHub
+          alt: เข้าใช้งานด้วยบัญชี GitHub
+        wikipedia:
+          title: เข้าใช้งานด้วยวิกิพีเดีย
+          alt: เข้าสู่ระบบด้วยบัญชีวิกิพีเดีย
+        yahoo:
+          title: เข้าใช้งานด้วย Yahoo
+          alt: เข้าใช้งานด้วย Yahoo OpenID
+        wordpress:
+          title: เข้าใช้งานด้วย Wordpress
+          alt: เข้าสู่ระบบด้วย Wordpress OpenID
+        aol:
+          title: เข้าใช้งานด้วย AOL
+          alt: เข้าใช้งานด้วย AOL OpenID
+    destroy:
+      title: ออกจากระบบ
+      heading: ออกจากระบบ OpenStreetMap
+      logout_button: ออกจากระบบ
   site:
     about:
       next: ถัดไป
@@ -1695,23 +1803,6 @@ th:
           bicycle_shop: ร้านขายและเช่าจักรยาน
           bicycle_parking: ที่จอดจักรยาน
           toilets: ห้องน้ำสาธารณะ
-    richtext_area:
-      edit: แก้ไข
-      preview: แสดงตัวอย่าง
-    markdown_help:
-      title_html: เขียนด้วยรูปแบบ <a href="https://kramdown.gettalong.org/quickref.html">Kramdown</a>
-      headings: หัวเรื่องหลัก
-      heading: หัวเรื่องหลัก
-      subheading: หัวเรื่องย่อย
-      unordered: รายการไม่เรียงลำดับ
-      ordered: รายการเรียงลำดับ
-      first: รายการแรก
-      second: รายการที่สอง
-      link: ลิงก์
-      text: ข้อความ
-      image: รูปภาพ
-      alt: ข้อความทดแทนภาพ
-      url: ที่อยู่ลิงก์
     welcome:
       title: ยินดีต้อนรับ!
       introduction_html: 'ยินดิต้อนรับสู่ OpenStreetMap, แผนที่โลกแบบเสรีที่ทุกคนสามารถแก้ไขได้
@@ -1802,7 +1893,6 @@ th:
       more: เพิ่มเติม
       trace_details: ดูรายละเอียดรอยทาง
       view_map: แสดงแผนที่
-      edit: แก้ไข
       edit_map: แก้ไขแผนที่
       public: สาธารณะ
       identifiable: ระบุได้
@@ -1810,7 +1900,6 @@ th:
       trackable: ติดตามได้
       by: โดย
       in: ใน
-      map: แผนที่
     index:
       public_traces: รอยทาง GPS สาธารณะ
       my_traces: รอยทาง GPS ของฉัน
@@ -1899,71 +1988,6 @@ th:
     destroy:
       flash: ถอนการลงทะเบียนแอปพลิเคชันฝั่งผู้ใช้แล้ว
   users:
-    login:
-      title: ลงชื่อเข้าใช้
-      heading: ลงชื่อเข้าใช้
-      email or username: 'อีเมลหรือชื่อผู้ใช้:'
-      password: 'รหัสผ่าน:'
-      openid_html: 'โอเพนไอดีของ %{logo}:'
-      remember: จดจำฉันไว้ในระบบ
-      lost password link: ลืมรหัสผ่านหรือ?
-      login_button: ลงชื่อเข้าใช้
-      register now: สมัครเลย!
-      with username: มีบัญชี OpenStreetMap แล้วหรือยัง? ถ้ามีโปรดเข้าระบบด้วยชื่อผู้ใช้และรหัสผ่านที่ท่านมี
-      with external: นอกจากนี้ ท่านสามารถใช้บัญชีผู้ใช้จากเว็บอื่นในการเข้าใช้งานได้
-      new to osm: เพิ่งเริ่มใช้ OpenStreetMap หรือ?
-      to make changes: หากต้องการเปลี่ยนแปลงข้อมูลใน OpenStreetMap ท่านต้องมีบัญชีเสียก่อน
-      create account minute: สร้างบัญชีเดี๋ยวนี้ ใช้เวลาไม่นาน
-      no account: ยังไม่ได้เป็นสมาชิก?
-      account not active: ขออภัย บัญชีของท่านยังไม่เปิดใช้งาน<br/>โปรดใช้ลิงก์ที่ให้ไว้ในอีเมลตอบรับเพื่อเปิดใช้งานบัญชี
-        หรือ<a href="%{reconfirm}">ขออีเมลตอบรับใหม่</a> หากสูญหาย
-      account is suspended: ขออภัย บัญชีของคุณถูกระงับการใช้งานเนื่องจากกิจกรรมที่น่าสงสัย<br/>หากต้องการพูดคุยในรายละเอียด
-        กรุณาติดต่อ<a href="%{webmaster}">ผู้ดูแลระบบ</a>
-      auth failure: ขออภัย ไม่สามารถเข้าระบบด้วยชื่อผู้ใช้และรหัสผ่านดังกล่าวได้
-      openid_logo_alt: เข้าใช้งานด้วย OpenID
-      auth_providers:
-        openid:
-          title: เข้าใช้งานด้วย OpenID
-          alt: เข้าใช้งานด้วยลิงก์ OpenID
-        google:
-          title: เข้าใช้งานด้วย Google
-          alt: เข้าใช้งานด้วย Google OpenID
-        facebook:
-          title: เข้าใช้งานด้วย Facebook
-          alt: เข้าใช้งานด้วยบัญชี Facebook
-        windowslive:
-          title: เข้าใช้งานด้วย Windows Live
-          alt: เข้าใช้งานด้วยบัญชี Windows Live
-        github:
-          title: เข้าใช้งานด้วย GitHub
-          alt: เข้าใช้งานด้วยบัญชี GitHub
-        wikipedia:
-          title: เข้าใช้งานด้วยวิกิพีเดีย
-          alt: เข้าสู่ระบบด้วยบัญชีวิกิพีเดีย
-        yahoo:
-          title: เข้าใช้งานด้วย Yahoo
-          alt: เข้าใช้งานด้วย Yahoo OpenID
-        wordpress:
-          title: เข้าใช้งานด้วย Wordpress
-          alt: เข้าสู่ระบบด้วย Wordpress OpenID
-        aol:
-          title: เข้าใช้งานด้วย AOL
-          alt: เข้าใช้งานด้วย AOL OpenID
-    logout:
-      title: ออกจากระบบ
-      heading: ออกจากระบบ OpenStreetMap
-      logout_button: ออกจากระบบ
-    lost_password:
-      title: ตั้งรหัสผ่านใหม่
-      heading: ลืมรหัสผ่านหรือ?
-      email address: 'ที่อยู่อีเมล:'
-      new password button: ตั้งรหัสผ่านใหม่
-      notice email cannot find: ขออภัย, ไม่พบที่อยู่อีเมลที่ระบุ
-    reset_password:
-      title: ตั้งรหัสผ่านใหม่
-      heading: 'ตั้วรหัสผ่านใหม่สำหรับ: %{user}'
-      reset: ตั้งรหัสผ่านใหม่
-      flash changed: เปลี่ยนรหัสผ่านของคุณแล้วเรียบร้อย
     new:
       title: สมัครสมาชิก
       about:
@@ -2086,29 +2110,6 @@ th:
       flash update success confirm needed: การปรับปรุงข้อมูลผู้ใช้งานสำเร็จเรียบร้อย
         โปรดตรวจสอบอีเมลของท่านเพื่อยืนยันที่อยู่อีเมลใหม่
       flash update success: การปรับปรุงข้อมูลผู้ใช้งานสำเร็จเรียบร้อย
-    confirm:
-      heading: โปรดตรวจสอบอีเมลของท่าน!
-      introduction_1: เราได้ส่งอีเมลยืนยันให้ท่านแล้ว
-      introduction_2: โปรดยืนยันบัญชีของท่านโดยคลิกลิงก์ในอีเมล หลังจากนั้นท่านสามารถเริ่มใช้งานแผนที่ได้
-      press confirm button: คลิกปุ่ม ยืนยัน ข้างล่างเพื่อเปิดใช้บัญชีของท่าน
-      button: ยืนยัน
-      success: บัญชีของท่านยืนยันเสร็จแล้ว ขอบคุณสำหรับการสมัครใช้งาน!
-      already active: บัญชีนี้ได้ถูกยืนยันมาก่อนแล้ว
-      unknown token: รหัสยืนยันหมดอายุหรือผิดพลาด
-      reconfirm_html: ถ้าท่านต้องการให้เราส่งอีเมลยืนยันซ้ำ <a href="%{reconfirm}">โปรดคลิกที่นี่</a>.
-    confirm_resend:
-      success_html: เราได้ส่งบันทึกยืนยันใหม่ไปยังอีเมล %{email} เมื่อท่านยืนยันแล้ว
-        จะสามารถเริ่มทำแผนที่ได้ทันที<br /><br />ถ้าท่านมีระบบป้องกันสแปม โปรดให้
-        %{sender} อยู่ในรายการปลอดภัย (whitelist) เพราะเราไม่สามารถตอบอีเมลยืนยันใด
-        ๆ ได้
-      failure: ไม่พบผู้ใช้ %{name}
-    confirm_email:
-      heading: ยืนยันการเปลี่ยนแปลงที่อยู่อีเมล
-      press confirm button: คลิกปุ่ม ยืนยัน ข้างล่างเพื่อยืนยันที่อยู่อีเมลใหม่
-      button: ยืนยัน
-      success: ยืนยันการเปลี่ยนแปลงที่อยู่อีเมลเรียบร้อย!
-      failure: อีเมลนี้ถูกยืนยันกับคำขอนี้เรียบร้อย
-      unknown_token: รหัสยืนยันหมดอายุหรือผิดพลาด
     set_home:
       flash success: ตำแหน่งที่อยู่บ้านบันทึกเรียบร้อย
     go_public:

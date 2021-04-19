@@ -4,6 +4,7 @@
 # Author: Enolp
 # Author: Fitoschido
 # Author: Macofe
+# Author: Tokvo
 # Author: TomH
 # Author: Xuacu
 ---
@@ -94,15 +95,15 @@ ast:
       trace:
         user: Usuariu
         visible: Visible
-        name: Nome
+        name: Nome del ficheru
         size: Tamañu
         latitude: Llatitú
         longitude: Llonxitú
         public: Públicu
         description: Descripción
-        gpx_file: 'Xubir un ficheru GPX:'
-        visibility: 'Visibilidá:'
-        tagstring: 'Etiquetes:'
+        gpx_file: Xubir un ficheru GPX
+        visibility: Visibilidá
+        tagstring: Etiquetes
       message:
         sender: Remitente
         title: Asuntu
@@ -114,13 +115,13 @@ ast:
         details: Por favor, apurre más detalles sobro'l problema (obligatoriu).
       user:
         email: Corréu
-        new_email: 'Nueva direición de corréu electrónicu:'
+        new_email: Nueva direición de corréu electrónicu
         active: Activu
         display_name: Nome a amosar
         description: Descripción
-        home_lat: 'Llatitú:'
-        home_lon: 'Llonxitú:'
-        languages: Llingües
+        home_lat: Llatitú
+        home_lon: Llonxitú
+        languages: Llingües preferíes
         pass_crypt: Contraseña
     help:
       trace:
@@ -176,7 +177,7 @@ ast:
       description: iD (editor nel navegador)
     remote:
       name: Control remotu
-      description: Control remotu (JOSM o Merkaartor)
+      description: Control remotu (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Nengunu
@@ -380,7 +381,7 @@ ast:
     new:
       title: Nueva entrada del diariu
     form:
-      location: 'Allugamientu:'
+      location: Allugamientu
       use_map_link: usar mapa
     index:
       title: Diarios d'usuarios
@@ -412,7 +413,7 @@ ast:
     diary_entry:
       posted_by_html: Unviáu por %{link_user} el %{created} en %{language_link}
       comment_link: Comentar esta entrada
-      reply_link: Responder a esta entrada
+      reply_link: Unviar un mensaxe al autor
       comment_count:
         zero: Ensin comentarios
         one: '%{count} comentariu'
@@ -816,6 +817,7 @@ ast:
           cape: Cabu
           cave_entrance: Boca de cueva
           cliff: Cantil
+          coastline: Llinia de costa
           crater: Cráter
           dune: Duna
           fell: Braña
@@ -1300,11 +1302,39 @@ ast:
       details: Puen alcontrase más detalles del conxuntu de cambios en %{url}
       unsubscribe: Pa date de baxa de les actualizaciones d'esti conxuntu de cambeos,
         visita %{url} y fai clic en «dase de baxa».
+  confirmations:
+    confirm:
+      heading: ¡Revisa el corréu!
+      introduction_1: Unviamoste un corréu de confirmación.
+      introduction_2: Confirma la cuenta calcando nel enllaz del corréu y podrás ponete
+        a editar los mapes.
+      press confirm button: Calca nel botón de confirmación d'abaxo p'activar la to
+        cuenta.
+      button: Confirmar
+      success: Cuenta confirmada, ¡gracies por rexistrate!
+      already active: Esta cuenta yá se confirmó.
+      unknown token: El códigu de confirmación caducó o nun esiste.
+      reconfirm_html: Si necesites que volvamos a unviate'l corréu de confirmación,
+        <a href="%{reconfirm}">calca equí</a>.
+    confirm_resend:
+      success_html: Venimos d'unviar un nuevu corréu de confirmación a %{email} y
+        darréu de confirmar la to cuenta tarás preparáu pa mapear. <br /><br />Si
+        uses un sistema escontra'l corréu puxarra qu'unvia solicitúes de confirmación,
+        asegúrate d'amestar %{sender} na llista blanca de remitentes seguros, porque
+        nós nun podemos responder solicitúes de confirmación.
+      failure: Nun s'alcontró l'usuariu %{name}.
+    confirm_email:
+      heading: Confirmar el cambiu de direición de corréu electrónicu
+      press confirm button: Calca nel botón de confirmación qu'apaez abaxo pa confirmar
+        la to direición de corréu nueva.
+      button: Confirmar
+      success: ¡Confirmóse'l to cambiu de direición de corréu electrónicu!
+      failure: Yá se confirmó una direición de corréu electrónicu con esti token.
+      unknown_token: El códigu de confirmación caducó o nun esiste.
   messages:
     inbox:
       title: Buzón
       my_inbox: El mio buzón
-      outbox: buzón de salida
       messages: Tienes %{new_messages} y %{old_messages}
       new_messages:
         one: '%{count} mensaxe nuevu'
@@ -1339,9 +1369,6 @@ ast:
       body: Nun hai dengún mensaxe con esa id.
     outbox:
       title: Buzón de salida
-      my_inbox_html: El mio %{inbox_link}
-      inbox: buzón
-      outbox: buzón de salida
       messages:
         one: Tienes %{count} mensaxe unviáu
         other: Tienes %{count} mensaxes unviaos
@@ -1373,6 +1400,81 @@ ast:
       as_unread: Mensaxe marcáu como non lleíu
     destroy:
       destroyed: Mensaxe desaniciáu
+  passwords:
+    lost_password:
+      title: Contraseña perdida
+      heading: ¿Escaecisti la contraseña?
+      email address: 'Direición de corréu electrónicu:'
+      new password button: Reestablecer contraseña
+      help_text: Escribi les señes de corréu qu'usasti pa date d'alta, unviarémoste
+        un enllaz que pues usar pa reestablecer la contraseña.
+      notice email on way: Sentimos que la perdieres :-( pero hai un corréu en camín
+        pa que puedas reaniciala ceo.
+      notice email cannot find: Nun s'alcontró esa direición de corréu.
+    reset_password:
+      title: Reestablecer contraseña
+      heading: Reestablecer la contraseña de %{user}
+      reset: Reaniciar contraseña
+      flash changed: Cambióse la contraseña
+      flash token bad: Nun s'alcontró esi token, ¿tendríes de comprobar la URL, seique?
+  sessions:
+    new:
+      title: Entrar
+      heading: Entrar
+      email or username: 'Direición de corréu o nome d''usuariu:'
+      password: 'Contraseña:'
+      openid_html: '%{logo} OpenID:'
+      remember: 'Recordame:'
+      lost password link: ¿Perdisti la contraseña?
+      login_button: Entrar
+      register now: Rexistrate agora
+      with username: '¿Yá tienes cuenta n''OpenStreetMap? Anicia sesión col to nome
+        d''usuariu y contraseña:'
+      with external: 'Alternativamente, usa un terceru p''aniciar sesión:'
+      new to osm: ¿Yes nuevu con OpenStreetMap?
+      to make changes: Pa camudar los datos d'OpenStreetMap, has de tener una cuenta.
+      create account minute: Crea una cuenta. Lleva namái un minutu.
+      no account: ¿Nun tienes una cuenta?
+      account not active: Sentímoslo, la to cuenta inda nun ta activada.<br />Usa
+        l'enllaz del corréu de confirmación de la cuenta p'activala o <a href="%{reconfirm}">pidi
+        otru corréu de confirmación</a>.
+      account is suspended: Sentímoslo, la to cuenta ta torgada a causa d'actividaes
+        sospechoses.<br />Ponte en contautu col <a href="%{webmaster}">webmaster</a>
+        si quies discutilo.
+      auth failure: Sentímoslo, nun se pudo coneutar al sistema con esos datos.
+      openid_logo_alt: Coneutar con una OpenID
+      auth_providers:
+        openid:
+          title: Aniciar sesión con OpenID
+          alt: Aniciar sesión con una URL d'OpenID
+        google:
+          title: Aniciar sesión con Google
+          alt: Aniciar sesión con una OpenID de Google
+        facebook:
+          title: Anicia sesión con Facebook
+          alt: Anicia sesión con una cuenta de Facebook
+        windowslive:
+          title: Anicia sesión con Windows Live
+          alt: Anicia sesión con una cuenta de Windows Live
+        github:
+          title: Aniciar sesión con GitHub
+          alt: Aniciar sesión con una cuenta de GitHub
+        wikipedia:
+          title: Aniciar sesión con Wikipedia
+          alt: Aniciar sesión con una cuenta de Wikipedia
+        yahoo:
+          title: Aniciar sesión con Yahoo
+          alt: Aniciar sesión con una OpenID de Yahoo
+        wordpress:
+          title: Aniciar sesión con Wordpress
+          alt: Aniciar sesión con una OpenID de Wordpress
+        aol:
+          title: Aniciar sesión con AOL
+          alt: Aniciar sesión con una OpenID de AOL
+    destroy:
+      title: Salir
+      heading: Colar d'OpenStreetMap
+      logout_button: Salir
   site:
     about:
       next: Siguiente
@@ -1751,23 +1853,6 @@ ast:
           bicycle_shop: Tienda de bicicletes
           bicycle_parking: Aparcamientu de bicicletes
           toilets: Servicios
-    richtext_area:
-      edit: Editar
-      preview: Vista previa
-    markdown_help:
-      title_html: Analizáu con <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
-      headings: Cabeceres
-      heading: Cabecera
-      subheading: Cabecera secundaria
-      unordered: Llista ensin ordenar
-      ordered: Llista ordenada
-      first: Primer elementu
-      second: Segundu elementu
-      link: Enllaz
-      text: Testu
-      image: Imaxe
-      alt: Testu alternativu
-      url: URL
     welcome:
       title: ¡Afáyate!
       introduction_html: |-
@@ -1886,7 +1971,6 @@ ast:
       more: más
       trace_details: Amosar detalles de la traza
       view_map: Ver el Mapa
-      edit: editar
       edit_map: Editar el Mapa
       public: PÚBLICU
       identifiable: IDENTIFICABLE
@@ -1894,7 +1978,6 @@ ast:
       trackable: RASTREABLE
       by: por
       in: en
-      map: mapa
     index:
       public_traces: Traces GPS públiques
       my_traces: Les mios traces GPS
@@ -2008,79 +2091,6 @@ ast:
     destroy:
       flash: Se destruyó'l rexistru de l'aplicación cliente
   users:
-    login:
-      title: Entrar
-      heading: Entrar
-      email or username: 'Direición de corréu o nome d''usuariu:'
-      password: 'Contraseña:'
-      openid_html: '%{logo} OpenID:'
-      remember: 'Recordame:'
-      lost password link: ¿Perdisti la contraseña?
-      login_button: Entrar
-      register now: Rexistrate agora
-      with username: '¿Yá tienes cuenta n''OpenStreetMap? Anicia sesión col to nome
-        d''usuariu y contraseña:'
-      with external: 'Alternativamente, usa un terceru p''aniciar sesión:'
-      new to osm: ¿Yes nuevu con OpenStreetMap?
-      to make changes: Pa camudar los datos d'OpenStreetMap, has de tener una cuenta.
-      create account minute: Crea una cuenta. Lleva namái un minutu.
-      no account: ¿Nun tienes una cuenta?
-      account not active: Sentímoslo, la to cuenta inda nun ta activada.<br />Usa
-        l'enllaz del corréu de confirmación de la cuenta p'activala o <a href="%{reconfirm}">pidi
-        otru corréu de confirmación</a>.
-      account is suspended: Sentímoslo, la to cuenta ta torgada a causa d'actividaes
-        sospechoses.<br />Ponte en contautu col <a href="%{webmaster}">webmaster</a>
-        si quies discutilo.
-      auth failure: Sentímoslo, nun se pudo coneutar al sistema con esos datos.
-      openid_logo_alt: Coneutar con una OpenID
-      auth_providers:
-        openid:
-          title: Aniciar sesión con OpenID
-          alt: Aniciar sesión con una URL d'OpenID
-        google:
-          title: Aniciar sesión con Google
-          alt: Aniciar sesión con una OpenID de Google
-        facebook:
-          title: Anicia sesión con Facebook
-          alt: Anicia sesión con una cuenta de Facebook
-        windowslive:
-          title: Anicia sesión con Windows Live
-          alt: Anicia sesión con una cuenta de Windows Live
-        github:
-          title: Aniciar sesión con GitHub
-          alt: Aniciar sesión con una cuenta de GitHub
-        wikipedia:
-          title: Aniciar sesión con Wikipedia
-          alt: Aniciar sesión con una cuenta de Wikipedia
-        yahoo:
-          title: Aniciar sesión con Yahoo
-          alt: Aniciar sesión con una OpenID de Yahoo
-        wordpress:
-          title: Aniciar sesión con Wordpress
-          alt: Aniciar sesión con una OpenID de Wordpress
-        aol:
-          title: Aniciar sesión con AOL
-          alt: Aniciar sesión con una OpenID de AOL
-    logout:
-      title: Salir
-      heading: Colar d'OpenStreetMap
-      logout_button: Salir
-    lost_password:
-      title: Contraseña perdida
-      heading: ¿Escaecisti la contraseña?
-      email address: 'Direición de corréu electrónicu:'
-      new password button: Reestablecer contraseña
-      help_text: Escribi les señes de corréu qu'usasti pa date d'alta, unviarémoste
-        un enllaz que pues usar pa reestablecer la contraseña.
-      notice email on way: Sentimos que la perdieres :-( pero hai un corréu en camín
-        pa que puedas reaniciala ceo.
-      notice email cannot find: Nun s'alcontró esa direición de corréu.
-    reset_password:
-      title: Reestablecer contraseña
-      heading: Reestablecer la contraseña de %{user}
-      reset: Reaniciar contraseña
-      flash changed: Cambióse la contraseña
-      flash token bad: Nun s'alcontró esi token, ¿tendríes de comprobar la URL, seique?
     new:
       title: Date d'alta
       no_auto_account_create: Por desgracia anguaño nun podemos crear una cuenta por
@@ -2214,13 +2224,13 @@ ast:
     account:
       title: Editar la cuenta
       my settings: Les mios preferencies
-      current email address: 'Direición de corréu electrónicu actual:'
-      external auth: 'Autenticación esterna:'
+      current email address: Direición de corréu electrónicu actual
+      external auth: Autenticación esterna
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: ¿qué ye esto?
       public editing:
-        heading: 'Ediciones públiques:'
+        heading: Ediciones públiques
         enabled: Activaes. Nun yes anónimu y puedes editar los datos.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ¿qué ye esto?
@@ -2247,7 +2257,7 @@ ast:
           al Dominiu Públicu.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: ¿qué ye esto?
-      image: 'Imaxe:'
+      image: Imaxe
       gravatar:
         gravatar: Usar Gravatar
         link: http://wiki.openstreetmap.org/wiki/Gravatar
@@ -2268,34 +2278,6 @@ ast:
         Nel to corréu electrónicu alcontrarás una nota pa confirmar la to nueva direición
         de corréu.
       flash update success: La información del usuariu s'anovó correutamente.
-    confirm:
-      heading: ¡Revisa el corréu!
-      introduction_1: Unviamoste un corréu de confirmación.
-      introduction_2: Confirma la cuenta calcando nel enllaz del corréu y podrás ponete
-        a editar los mapes.
-      press confirm button: Calca nel botón de confirmación d'abaxo p'activar la to
-        cuenta.
-      button: Confirmar
-      success: Cuenta confirmada, ¡gracies por rexistrate!
-      already active: Esta cuenta yá se confirmó.
-      unknown token: El códigu de confirmación caducó o nun esiste.
-      reconfirm_html: Si necesites que volvamos a unviate'l corréu de confirmación,
-        <a href="%{reconfirm}">calca equí</a>.
-    confirm_resend:
-      success_html: Venimos d'unviar un nuevu corréu de confirmación a %{email} y
-        darréu de confirmar la to cuenta tarás preparáu pa mapear. <br /><br />Si
-        uses un sistema escontra'l corréu puxarra qu'unvia solicitúes de confirmación,
-        asegúrate d'amestar %{sender} na llista blanca de remitentes seguros, porque
-        nós nun podemos responder solicitúes de confirmación.
-      failure: Nun s'alcontró l'usuariu %{name}.
-    confirm_email:
-      heading: Confirmar el cambiu de direición de corréu electrónicu
-      press confirm button: Calca nel botón de confirmación qu'apaez abaxo pa confirmar
-        la to direición de corréu nueva.
-      button: Confirmar
-      success: ¡Confirmóse'l to cambiu de direición de corréu electrónicu!
-      failure: Yá se confirmó una direición de corréu electrónicu con esti token.
-      unknown_token: El códigu de confirmación caducó o nun esiste.
     set_home:
       flash success: Llocalización d'aniciu guardada correutamente
     go_public:

@@ -26,7 +26,7 @@ class MessagesController < ApplicationController
     @message.sender = current_user
     @message.sent_on = Time.now.getutc
 
-    if current_user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= Settings.max_messages_per_hour
+    if current_user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= current_user.max_messages_per_hour
       flash.now[:error] = t ".limit_exceeded"
       render :action => "new"
     elsif @message.save
@@ -57,7 +57,7 @@ class MessagesController < ApplicationController
       render :action => "new"
     else
       flash[:notice] = t ".wrong_user", :user => current_user.display_name
-      redirect_to :controller => "users", :action => "login", :referer => request.fullpath
+      redirect_to login_path(:referer => request.fullpath)
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
@@ -74,7 +74,7 @@ class MessagesController < ApplicationController
       @message.save
     else
       flash[:notice] = t ".wrong_user", :user => current_user.display_name
-      redirect_to :controller => "users", :action => "login", :referer => request.fullpath
+      redirect_to login_path(:referer => request.fullpath)
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"

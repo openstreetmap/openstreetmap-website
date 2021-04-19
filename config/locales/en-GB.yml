@@ -1265,11 +1265,38 @@ en-GB:
       details: More details about the changeset can be found at %{url}.
       unsubscribe: To unsubscribe from updates to this changeset, visit %{url} and
         click "Unsubscribe".
+  confirmations:
+    confirm:
+      heading: Check your email!
+      introduction_1: We sent you a confirmation email.
+      introduction_2: Confirm your account by clicking on the link in the email and
+        you'll be able to start mapping.
+      press confirm button: Press the confirm button below to activate your account.
+      button: Confirm
+      success: Confirmed your account, thanks for signing up!
+      already active: This account has already been confirmed.
+      unknown token: That confirmation code has expired or does not exist.
+      reconfirm_html: If you need us to resend the confirmation email, <a href="%{reconfirm}">click
+        here</a>.
+    confirm_resend:
+      success_html: We've sent a new confirmation note to %{email} and as soon as
+        you confirm your account you'll be able to get mapping.<br /><br />If you
+        use an antispam system which sends confirmation requests then please make
+        sure you whitelist %{sender} as we are unable to reply to any confirmation
+        requests.
+      failure: User %{name} not found.
+    confirm_email:
+      heading: Confirm a change of e-mail address
+      press confirm button: Press the confirm button below to confirm your new e-mail
+        address.
+      button: Confirm
+      success: Confirmed your change of email address!
+      failure: An e-mail address has already been confirmed with this token.
+      unknown_token: That confirmation code has expired or does not exist.
   messages:
     inbox:
       title: Inbox
       my_inbox: My Inbox
-      outbox: outbox
       messages: You have %{new_messages} and %{old_messages}
       new_messages:
         one: '%{count} new message'
@@ -1304,9 +1331,6 @@ en-GB:
       body: Sorry, there is no message with that id.
     outbox:
       title: Outbox
-      my_inbox_html: My %{inbox_link}
-      inbox: inbox
-      outbox: outbox
       messages:
         one: You have %{count} sent message
         other: You have %{count} sent messages
@@ -1340,6 +1364,82 @@ en-GB:
       as_unread: Message marked as unread
     destroy:
       destroyed: Message deleted
+  passwords:
+    lost_password:
+      title: Lost password
+      heading: Forgotten Password?
+      email address: E-mail address
+      new password button: Reset password
+      help_text: Enter the e-mail address you used to sign up, we will send a link
+        to it that you can use to reset your password.
+      notice email on way: Sorry you lost it :-( but an email is on its way so you
+        can reset it soon.
+      notice email cannot find: Could not find that email address, sorry.
+    reset_password:
+      title: Reset password
+      heading: Reset Password for %{user}
+      reset: Reset Password
+      flash changed: Your password has been changed.
+      flash token bad: Did not find that token, check the URL maybe?
+  sessions:
+    new:
+      title: Login
+      heading: Login
+      email or username: 'E-mail Address or Username:'
+      password: 'Password:'
+      openid_html: '%{logo} OpenID:'
+      remember: Remember me
+      lost password link: Lost your password?
+      login_button: Login
+      register now: Register now
+      with username: 'Already have an OpenStreetMap account? Please login with your
+        username and password:'
+      with external: 'Alternatively, use a third party to login:'
+      new to osm: New to OpenStreetMap?
+      to make changes: To make changes to the OpenStreetMap data, you must have an
+        account.
+      create account minute: Create an account. It only takes a minute.
+      no account: Don't have an account?
+      account not active: Sorry, your account is not active yet.<br />Please use the
+        link in the account confirmation email to activate your account, or <a href="%{reconfirm}">request
+        a new confirmation email</a>.
+      account is suspended: Sorry, your account has been suspended due to suspicious
+        activity.<br />Please contact the <a href="%{webmaster}">webmaster</a> if
+        you wish to discuss this.
+      auth failure: Sorry, could not log in with those details.
+      openid_logo_alt: Log in with an OpenID
+      auth_providers:
+        openid:
+          title: Login with OpenID
+          alt: Login with an OpenID URL
+        google:
+          title: Login with Google
+          alt: Login with a Google OpenID
+        facebook:
+          title: Login with Facebook
+          alt: Login with a Facebook Account
+        windowslive:
+          title: Login with Windows Live
+          alt: Login with a Windows Live Account
+        github:
+          title: Login with GitHub
+          alt: Login with a GitHub Account
+        wikipedia:
+          title: Login with Wikipedia
+          alt: Login with a Wikipedia Account
+        yahoo:
+          title: Login with Yahoo
+          alt: Login with a Yahoo OpenID
+        wordpress:
+          title: Login with Wordpress
+          alt: Login with a Wordpress OpenID
+        aol:
+          title: Login with AOL
+          alt: Login with an AOL OpenID
+    destroy:
+      title: Logout
+      heading: Logout of OpenStreetMap
+      logout_button: Logout
   site:
     about:
       next: Next
@@ -1700,23 +1800,6 @@ en-GB:
           bicycle_shop: Bicycle shop
           bicycle_parking: Bicycle parking
           toilets: Toilets
-    richtext_area:
-      edit: Edit
-      preview: Preview
-    markdown_help:
-      title_html: Parsed with <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
-      headings: Headings
-      heading: Heading
-      subheading: Subheading
-      unordered: Unordered list
-      ordered: Ordered list
-      first: First item
-      second: Second item
-      link: Link
-      text: Text
-      image: Image
-      alt: Alt text
-      url: URL
     welcome:
       title: Welcome!
       introduction_html: Welcome to OpenStreetMap, the free and editable map of the
@@ -1827,7 +1910,6 @@ en-GB:
       more: more
       trace_details: View Trace Details
       view_map: View Map
-      edit: edit
       edit_map: Edit Map
       public: PUBLIC
       identifiable: IDENTIFIABLE
@@ -1835,7 +1917,6 @@ en-GB:
       trackable: TRACKABLE
       by: by
       in: in
-      map: map
     index:
       public_traces: Public GPS traces
       public_traces_from: Public GPS traces from %{user}
@@ -1943,80 +2024,6 @@ en-GB:
     destroy:
       flash: Destroyed the client application registration
   users:
-    login:
-      title: Login
-      heading: Login
-      email or username: 'E-mail Address or Username:'
-      password: 'Password:'
-      openid_html: '%{logo} OpenID:'
-      remember: Remember me
-      lost password link: Lost your password?
-      login_button: Login
-      register now: Register now
-      with username: 'Already have an OpenStreetMap account? Please login with your
-        username and password:'
-      with external: 'Alternatively, use a third party to login:'
-      new to osm: New to OpenStreetMap?
-      to make changes: To make changes to the OpenStreetMap data, you must have an
-        account.
-      create account minute: Create an account. It only takes a minute.
-      no account: Don't have an account?
-      account not active: Sorry, your account is not active yet.<br />Please use the
-        link in the account confirmation email to activate your account, or <a href="%{reconfirm}">request
-        a new confirmation email</a>.
-      account is suspended: Sorry, your account has been suspended due to suspicious
-        activity.<br />Please contact the <a href="%{webmaster}">webmaster</a> if
-        you wish to discuss this.
-      auth failure: Sorry, could not log in with those details.
-      openid_logo_alt: Log in with an OpenID
-      auth_providers:
-        openid:
-          title: Login with OpenID
-          alt: Login with an OpenID URL
-        google:
-          title: Login with Google
-          alt: Login with a Google OpenID
-        facebook:
-          title: Login with Facebook
-          alt: Login with a Facebook Account
-        windowslive:
-          title: Login with Windows Live
-          alt: Login with a Windows Live Account
-        github:
-          title: Login with GitHub
-          alt: Login with a GitHub Account
-        wikipedia:
-          title: Login with Wikipedia
-          alt: Login with a Wikipedia Account
-        yahoo:
-          title: Login with Yahoo
-          alt: Login with a Yahoo OpenID
-        wordpress:
-          title: Login with Wordpress
-          alt: Login with a Wordpress OpenID
-        aol:
-          title: Login with AOL
-          alt: Login with an AOL OpenID
-    logout:
-      title: Logout
-      heading: Logout of OpenStreetMap
-      logout_button: Logout
-    lost_password:
-      title: Lost password
-      heading: Forgotten Password?
-      email address: E-mail address
-      new password button: Reset password
-      help_text: Enter the e-mail address you used to sign up, we will send a link
-        to it that you can use to reset your password.
-      notice email on way: Sorry you lost it :-( but an email is on its way so you
-        can reset it soon.
-      notice email cannot find: Could not find that email address, sorry.
-    reset_password:
-      title: Reset password
-      heading: Reset Password for %{user}
-      reset: Reset Password
-      flash changed: Your password has been changed.
-      flash token bad: Did not find that token, check the URL maybe?
     new:
       title: Sign Up
       no_auto_account_create: Unfortunately we are not currently able to create an
@@ -2188,33 +2195,6 @@ en-GB:
       flash update success confirm needed: User information updated successfully.
         Check your email for a note to confirm your new email address.
       flash update success: User information updated successfully.
-    confirm:
-      heading: Check your email!
-      introduction_1: We sent you a confirmation email.
-      introduction_2: Confirm your account by clicking on the link in the email and
-        you'll be able to start mapping.
-      press confirm button: Press the confirm button below to activate your account.
-      button: Confirm
-      success: Confirmed your account, thanks for signing up!
-      already active: This account has already been confirmed.
-      unknown token: That confirmation code has expired or does not exist.
-      reconfirm_html: If you need us to resend the confirmation email, <a href="%{reconfirm}">click
-        here</a>.
-    confirm_resend:
-      success_html: We've sent a new confirmation note to %{email} and as soon as
-        you confirm your account you'll be able to get mapping.<br /><br />If you
-        use an antispam system which sends confirmation requests then please make
-        sure you whitelist %{sender} as we are unable to reply to any confirmation
-        requests.
-      failure: User %{name} not found.
-    confirm_email:
-      heading: Confirm a change of e-mail address
-      press confirm button: Press the confirm button below to confirm your new e-mail
-        address.
-      button: Confirm
-      success: Confirmed your change of email address!
-      failure: An e-mail address has already been confirmed with this token.
-      unknown_token: That confirmation code has expired or does not exist.
     set_home:
       flash success: Home location saved successfully
     go_public:

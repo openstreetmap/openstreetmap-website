@@ -57,6 +57,7 @@
 # Author: Peter17
 # Author: Pompilos
 # Author: Remux
+# Author: Rodhos
 # Author: Rodm23
 # Author: Rodney Araujo
 # Author: Rubenwap
@@ -183,29 +184,43 @@ es:
         body: Cuerpo
         recipient: Destinatario
       redaction:
+        title: Título
         description: Descripción
       report:
-        category: Seleccione un motivo de su informe
+        category: Seleccione el motivo de su informe
         details: Es necesario proporcionar más detalles sobre el problema.
       user:
+        auth_provider: Proveedor de autentificación
+        auth_uid: UID de autentificación
         email: Correo electrónico
-        new_email: 'Nueva dirección de correo electrónico:'
+        email_confirmation: Confirmación de correo electrónico
+        new_email: Nueva dirección de correo electrónico
         active: Activo
         display_name: Nombre para mostrar
-        description: Descripción
-        home_lat: 'Latitud:'
-        home_lon: 'Longitud:'
-        languages: Idiomas
+        description: Descripción del perfil
+        home_lat: Latitud
+        home_lon: Longitud
+        languages: Idiomas preferidos
+        preferred_editor: Editor preferido
         pass_crypt: Contraseña
         pass_crypt_confirmation: Confirmar contraseña
     help:
       trace:
         tagstring: delimitado por comas
       user_block:
+        reason: El motivo por el que el usuario está siendo bloqueado. Manténgase
+          lo más tranquilo y razonable posible, dando tantos detalles como pueda sobre
+          la situación, recordando que el mensaje será visible públicamente. Tenga
+          en cuenta que no todos los usuarios comprenden la jerga de la comunidad,
+          así que intente utilizar términos simples.
         needs_view: ¿Tiene que iniciar sesión el usuario antes de que este bloqueo
           sea eliminado?
       user:
-        new_email: (nunca es mostrado públicamente)
+        email_confirmation: Tu dirección no se muestra de forma pública. Consulta
+          la <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Normativa
+          de privacidad de OSMF, que incluye una sección sobre las direcciones de
+          correo electrónico">normativa de privacidad</a> para más información.
+        new_email: (nunca se muestra públicamente)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -393,7 +408,7 @@ es:
         su navegador se ralentice o que no responda. ¿Está seguro de que desea mostrar
         estos datos?
       load_data: Cargar datos
-      loading: Cargando...
+      loading: Cargando…
     tag_details:
       tags: Etiquetas
       wiki_link:
@@ -423,7 +438,7 @@ es:
       report: Denunciar esta nota
     query:
       title: Consultar elementos
-      introduction: Haga clic en el mapa para encontrar elementos cercanos.
+      introduction: Pulse en el mapa para encontrar elementos cercanos.
       nearby: Elementos cercanos
       enclosing: Elementos envolventes
   changesets:
@@ -450,7 +465,7 @@ es:
       empty_area: No hay conjuntos de cambios en este área.
       empty_user: No hay conjuntos de cambios por este usuario.
       no_more: No se han encontrado más conjuntos de cambios.
-      no_more_area: No hay más conjuntos de cambios en esta área.
+      no_more_area: No hay más conjuntos de cambios en este área.
       no_more_user: No hay más conjuntos de cambios por este usuario.
       load_more: Cargar más
     timeout:
@@ -490,7 +505,7 @@ es:
       older_entries: Entradas más antiguas
       newer_entries: Entradas más recientes
     edit:
-      title: Editar Entrada del Diario
+      title: Editar entrada del diario
       marker_text: Lugar de la entrada del diario
     show:
       title: Diario de %{user} | %{title}
@@ -1037,6 +1052,7 @@ es:
           cape: Cabo
           cave_entrance: Entrada a cueva
           cliff: Acantilado
+          coastline: Costa
           crater: Cráter
           dune: Duna
           fell: Monte
@@ -1623,11 +1639,39 @@ es:
         de cambios, visite %{url} y haga clic en "Cancelar suscripción".
       unsubscribe_html: Para darte de baja de las actualizaciones de este conjunto
         de cambios, visita %{url} y haz clic en "darse de baja".
+  confirmations:
+    confirm:
+      heading: Revise su correo electrónico!
+      introduction_1: Le hemos enviado un correo electrónico de confirmación.
+      introduction_2: Confirme su cuenta haciendo clic en el enlace del correo electrónico
+        y podrá comenzar a mapear.
+      press confirm button: Pulse botón de confirmación de abajo para activar su cuenta.
+      button: Confirmar
+      success: ¡Cuenta confirmada, gracias por registrarse!
+      already active: Esta cuenta ya ha sido confirmada.
+      unknown token: Ese código de confirmación ha caducado o no existe.
+      reconfirm_html: Si necesita que le reenviemos el correo electrónico de confirmación,
+        <a href="%{reconfirm}">haga clic aquí</a>.
+    confirm_resend:
+      success_html: Hemos enviado un nuevo aviso de confirmación a %{email} y tan
+        pronto como confirme su cuenta, podrá comenzar a editar el mapa.<br /><br
+        />Si utiliza un sistema antispam que envía solicitudes de confirmación, asegúrese
+        de incluir a %{sender} en la lista blanca, ya que no podemos responder a ninguna
+        solicitud de confirmación.
+      failure: No se ha encontrado el usuario %{name}
+    confirm_email:
+      heading: Confirmar el cambio de dirección de correo electrónico
+      press confirm button: Pulse el botón de confirmación de debajo para confirmar
+        su nueva dirección de correo electrónico.
+      button: Confirmar
+      success: Se confirmó el cambio de dirección de correo electrónico.
+      failure: Ya se ha confirmado una dirección de correo electrónico con esta credencial
+        de autenticación.
+      unknown_token: Ese código de confirmación ha caducado o no existe.
   messages:
     inbox:
       title: Buzón de entrada
       my_inbox: Mi buzón
-      outbox: bandeja de salida
       messages: Tiene %{new_messages} y %{old_messages}
       new_messages:
         one: '%{count} nuevo mensaje'
@@ -1662,9 +1706,6 @@ es:
       body: Lo sentimos, no hay ningún mensaje con este identificador.
     outbox:
       title: Bandeja de salida
-      my_inbox_html: Mi %{inbox_link}
-      inbox: bandeja de entrada
-      outbox: bandeja de salida
       messages:
         one: Tiene %{count} mensaje enviado
         other: Tiene %{count} mensajes enviados
@@ -1700,6 +1741,85 @@ es:
       as_unread: Mensaje marcado como no leído
     destroy:
       destroyed: Mensaje borrado
+  passwords:
+    lost_password:
+      title: Contraseña perdida
+      heading: ¿Contraseña olvidada?
+      email address: 'Dirección de correo electrónico:'
+      new password button: Restablecer contraseña
+      help_text: Escriba el correo electrónico con el que se registró. Le enviaremos
+        un vínculo a esa dirección, que podrá utilizar para restablecer su contraseña.
+      notice email on way: Sentimos que la haya perdido :-( pero ya va de camino un
+        correo electrónico que le servirá para restablecer su contraseña enseguida.
+      notice email cannot find: Lo sentimos, no se pudo encontrar esa dirección de
+        correo electrónico.
+    reset_password:
+      title: Restablecer contraseña
+      heading: Restablecer contraseña para %{user}
+      reset: Restablecer contraseña
+      flash changed: Su contraseña ha sido cambiada.
+      flash token bad: No se ha encontrado este elemento, ¿Quizá debería comprobar
+        la URL?
+  sessions:
+    new:
+      title: Iniciar sesión
+      heading: Iniciar sesión
+      email or username: 'Dirección de correo electrónico o nombre de usuario:'
+      password: 'Contraseña:'
+      openid_html: '%{logo} OpenID:'
+      remember: 'Recordarme:'
+      lost password link: ¿Ha perdido su contraseña?
+      login_button: Iniciar sesión
+      register now: Regístrese ahora
+      with username: '¿Ya tiene una cuenta en OpenStreetMap? Inicie sesión con su
+        nombre de usuario y contraseña:'
+      with external: 'O bien, utilice un servicio de terceros para acceder:'
+      new to osm: ¿Nuevo en OpenStreetMap?
+      to make changes: Para realizar cambios en los datos de OpenStreetMap, debe tener
+        una cuenta.
+      create account minute: Cree una cuenta. Sólo se tarda un minuto.
+      no account: ¿No está registrado?
+      account not active: |-
+        Lo sentimos, tu cuenta aún no está activa.<br />Usa el enlace que hay en el correo de confirmación para activarla, o <a href="%{reconfirm}">solicita un nuevo correo de confirmación</a>.
+
+        Lo sentimos, su cuenta aún no está activa.<br />Utilice el enlace que hay en el correo de confirmación para activarla, o <a href="%{reconfirm}">solicite un nuevo correo de confirmación</a>.
+      account is suspended: Lo sentimos, su cuenta se ha suspendido debido a actividad
+        sospechosa.<br>Póngase en contacto con el <a href="%{webmaster}">webmaster</a>
+        si desea hablar de ello.
+      auth failure: Lo sentimos. No pude iniciar sesión con esos datos.
+      openid_logo_alt: Inicia sesión con una OpenID
+      auth_providers:
+        openid:
+          title: Iniciar sesión con OpenID
+          alt: Iniciar sesión con una URL OpenID
+        google:
+          title: Iniciar sesión con Google
+          alt: Iniciar sesión con una OpenID de Google
+        facebook:
+          title: Inicia sesión con Facebook
+          alt: Inicia sesión con una cuenta de Facebook
+        windowslive:
+          title: Inicia sesión con Windows Live
+          alt: Iniciar sesión con una cuenta de Windows Live
+        github:
+          title: Iniciar sesión con GitHub
+          alt: Iniciar sesión con una cuenta de GitHub
+        wikipedia:
+          title: Iniciar sesión con Wikipedia
+          alt: Iniciar sesión con una cuenta de Wikipedia
+        yahoo:
+          title: Iniciar sesión con Yahoo
+          alt: Iniciar sesión con una OpenID de Yahoo
+        wordpress:
+          title: Iniciar sesión con Wordpress
+          alt: Iniciar sesión con una OpenID de Wordpress
+        aol:
+          title: Iniciar sesión con AOL
+          alt: Iniciar sesión con una OpenID de AOL
+    destroy:
+      title: Cerrar sesión
+      heading: Cerrar sesión de OpenStreetMap
+      logout_button: Cerrar sesión
   shared:
     markdown_help:
       title_html: Analizado con <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
@@ -2105,23 +2225,6 @@ es:
           bicycle_shop: Tienda de bicicletas
           bicycle_parking: Aparcamiento de bicicletas
           toilets: Baños
-    richtext_area:
-      edit: Editar
-      preview: Vista previa
-    markdown_help:
-      title_html: Procesado con <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
-      headings: Títulos
-      heading: Título
-      subheading: Subcabecera
-      unordered: Lista sin ordenar
-      ordered: Lista ordenada
-      first: Primer elemento
-      second: Segundo elemento
-      link: Enlace
-      text: Texto
-      image: Imagen
-      alt: Texto alternativo
-      url: URL
     welcome:
       title: ¡Bienvenido!
       introduction_html: Bienvenido a OpenStreetMap, el mapa libre y editable del
@@ -2241,7 +2344,6 @@ es:
       more: más
       trace_details: Ver detalles de la traza
       view_map: Ver mapa
-      edit: editar
       edit_map: Editar mapa
       public: PÚBLICO
       identifiable: IDENTIFICABLE
@@ -2249,7 +2351,6 @@ es:
       trackable: RASTREABLE
       by: por
       in: en
-      map: mapa
     index:
       public_traces: Trazas GPS públicas
       my_traces: Mis trazas de GPS
@@ -2364,83 +2465,6 @@ es:
     destroy:
       flash: Destruido el registro de aplicación del cliente
   users:
-    login:
-      title: Iniciar sesión
-      heading: Iniciar sesión
-      email or username: 'Dirección de correo electrónico o nombre de usuario:'
-      password: 'Contraseña:'
-      openid_html: '%{logo} OpenID:'
-      remember: 'Recordarme:'
-      lost password link: ¿Ha perdido su contraseña?
-      login_button: Iniciar sesión
-      register now: Regístrese ahora
-      with username: '¿Ya tiene una cuenta en OpenStreetMap? Inicie sesión con su
-        nombre de usuario y contraseña:'
-      with external: 'O bien, utilice un servicio de terceros para acceder:'
-      new to osm: ¿Nuevo en OpenStreetMap?
-      to make changes: Para realizar cambios en los datos de OpenStreetMap, debe tener
-        una cuenta.
-      create account minute: Cree una cuenta. Sólo se tarda un minuto.
-      no account: ¿No está registrado?
-      account not active: |-
-        Lo sentimos, tu cuenta aún no está activa.<br />Usa el enlace que hay en el correo de confirmación para activarla, o <a href="%{reconfirm}">solicita un nuevo correo de confirmación</a>.
-
-        Lo sentimos, su cuenta aún no está activa.<br />Utilice el enlace que hay en el correo de confirmación para activarla, o <a href="%{reconfirm}">solicite un nuevo correo de confirmación</a>.
-      account is suspended: Lo sentimos, su cuenta se ha suspendido debido a actividad
-        sospechosa.<br>Póngase en contacto con el <a href="%{webmaster}">webmaster</a>
-        si desea hablar de ello.
-      auth failure: Lo sentimos. No pude iniciar sesión con esos datos.
-      openid_logo_alt: Inicia sesión con una OpenID
-      auth_providers:
-        openid:
-          title: Iniciar sesión con OpenID
-          alt: Iniciar sesión con una URL OpenID
-        google:
-          title: Iniciar sesión con Google
-          alt: Iniciar sesión con una OpenID de Google
-        facebook:
-          title: Inicia sesión con Facebook
-          alt: Inicia sesión con una cuenta de Facebook
-        windowslive:
-          title: Inicia sesión con Windows Live
-          alt: Iniciar sesión con una cuenta de Windows Live
-        github:
-          title: Iniciar sesión con GitHub
-          alt: Iniciar sesión con una cuenta de GitHub
-        wikipedia:
-          title: Iniciar sesión con Wikipedia
-          alt: Iniciar sesión con una cuenta de Wikipedia
-        yahoo:
-          title: Iniciar sesión con Yahoo
-          alt: Iniciar sesión con una OpenID de Yahoo
-        wordpress:
-          title: Iniciar sesión con Wordpress
-          alt: Iniciar sesión con una OpenID de Wordpress
-        aol:
-          title: Iniciar sesión con AOL
-          alt: Iniciar sesión con una OpenID de AOL
-    logout:
-      title: Cerrar sesión
-      heading: Cerrar sesión de OpenStreetMap
-      logout_button: Cerrar sesión
-    lost_password:
-      title: Contraseña perdida
-      heading: ¿Contraseña olvidada?
-      email address: 'Dirección de correo electrónico:'
-      new password button: Restablecer contraseña
-      help_text: Escriba el correo electrónico con el que se registró. Le enviaremos
-        un vínculo a esa dirección, que podrá utilizar para restablecer su contraseña.
-      notice email on way: Sentimos que la haya perdido :-( pero ya va de camino un
-        correo electrónico que le servirá para restablecer su contraseña enseguida.
-      notice email cannot find: Lo sentimos, no se pudo encontrar esa dirección de
-        correo electrónico.
-    reset_password:
-      title: Restablecer contraseña
-      heading: Restablecer contraseña para %{user}
-      reset: Restablecer contraseña
-      flash changed: Su contraseña ha sido cambiada.
-      flash token bad: No se ha encontrado este elemento, ¿Quizá debería comprobar
-        la URL?
     new:
       title: Registrarse
       no_auto_account_create: Lamentablemente, ahora no podemos crear su cuenta automáticamente.
@@ -2575,13 +2599,13 @@ es:
     account:
       title: Editar cuenta
       my settings: Mis preferencias
-      current email address: 'Dirección de correo electrónico actual:'
-      external auth: 'Autenticación externa:'
+      current email address: Dirección de correo electrónico actual
+      external auth: Autenticación externa
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: ¿Qué es esto?
       public editing:
-        heading: 'Ediciones públicas:'
+        heading: Edición pública
         enabled: Activadas. No es anónimo y puede editar datos.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ¿Qué es esto?
@@ -2599,7 +2623,7 @@ es:
           revelada al hacerse pública.</li><li> Esta acción no se puede revertir y
           todos los usuarios nuevos ahora son públicos de forma predeterminada.</li></ul>
       contributor terms:
-        heading: 'Términos de colaborador:'
+        heading: Términos de colaborador
         agreed: Ha aceptado los nuevos Términos de colaborador.
         not yet agreed: Aún no ha aceptado los nuevos Términos de Colaborador.
         review link text: Siga este enlace cuando le resulte conveniente para revisar
@@ -2608,10 +2632,11 @@ es:
           Dominio Público.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: ¿Qué es esto?
-      image: 'Imagen:'
+      image: Imagen
       gravatar:
         gravatar: Usa Gravatar
         link: http://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: ¿Qué es Gravatar?
         disabled: Gravatar se ha deshabilitado.
         enabled: Se ha habilitado la visualización de su Gravatar.
       new image: Añadir una imagen
@@ -2619,7 +2644,7 @@ es:
       delete image: Eliminar la imagen actual
       replace image: Reemplazar la imagen actual
       image size hint: (las imágenes cuadradas de al menos 100x100 funcionan mejor)
-      home location: 'Lugar de origen:'
+      home location: Lugar de origen
       no home location: No ha introducido su lugar de origen.
       update home location on click: ¿Actualizar su lugar de origen cuando pulses
         sobre el mapa?
@@ -2630,34 +2655,6 @@ es:
         correctamente. Compruebe su correo electrónico para ver una nota sobre cómo
         confirmar su nueva dirección de correo electrónico.
       flash update success: La información del usuario se ha actualizado correctamente.
-    confirm:
-      heading: Revise su correo electrónico!
-      introduction_1: Le hemos enviado un correo electrónico de confirmación.
-      introduction_2: Confirme su cuenta haciendo clic en el enlace del correo electrónico
-        y podrá comenzar a mapear.
-      press confirm button: Pulse botón de confirmación de abajo para activar su cuenta.
-      button: Confirmar
-      success: ¡Cuenta confirmada, gracias por registrarse!
-      already active: Esta cuenta ya ha sido confirmada.
-      unknown token: Ese código de confirmación ha caducado o no existe.
-      reconfirm_html: Si necesita que le reenviemos el correo electrónico de confirmación,
-        <a href="%{reconfirm}">haga clic aquí</a>.
-    confirm_resend:
-      success_html: Hemos enviado un nuevo aviso de confirmación a %{email} y tan
-        pronto como confirme su cuenta, podrá comenzar a editar el mapa.<br /><br
-        />Si utiliza un sistema antispam que envía solicitudes de confirmación, asegúrese
-        de incluir a %{sender} en la lista blanca, ya que no podemos responder a ninguna
-        solicitud de confirmación.
-      failure: No se ha encontrado el usuario %{name}
-    confirm_email:
-      heading: Confirmar el cambio de dirección de correo electrónico
-      press confirm button: Pulse el botón de confirmación de debajo para confirmar
-        su nueva dirección de correo electrónico.
-      button: Confirmar
-      success: Se confirmó el cambio de dirección de correo electrónico.
-      failure: Ya se ha confirmado una dirección de correo electrónico con esta credencial
-        de autenticación.
-      unknown_token: Ese código de confirmación ha caducado o no existe.
     set_home:
       flash success: Ubicación guardada correctamente
     go_public:
@@ -2855,6 +2852,7 @@ es:
       custom_dimensions: Establecer dimensiones personalizadas
       format: 'Formato:'
       scale: 'Escala:'
+      image_dimensions: La imagen mostrará la capa estándar en %{width} x %{height}
       download: Descargar
       short_url: URL corta
       include_marker: Incluir marcador
@@ -2882,6 +2880,7 @@ es:
           other: Estás dentro de una distancia de %{count} pies desde este punto
       base:
         standard: Estándar
+        cyclosm: CyclOSM
         cycle_map: Mapa ciclista
         transport_map: Mapa de transporte
         hot: Humanitario
@@ -2897,6 +2896,8 @@ es:
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Hacer una donación</a>
       terms: <a href='%{terms_url}' target='_blank'>Términos del sitio web y de la
         API</a>
+      cyclosm: Estilo de teselas por <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        alojado por <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap Francia</a>
       thunderforest: Teselas cortesía de <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       opnvkarte: Teselas cortesía de <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>

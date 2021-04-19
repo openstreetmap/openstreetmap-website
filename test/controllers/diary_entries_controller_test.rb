@@ -113,7 +113,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # are not logged in
     get new_diary_entry_path
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/diary/new"
+    assert_redirected_to login_path(:referer => "/diary/new")
   end
 
   def test_new_form
@@ -257,7 +257,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # not logged in, without and with the id of the entry you want to edit
     get edit_diary_entry_path(:display_name => entry.user.display_name, :id => entry)
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit"
+    assert_redirected_to login_path(:referer => "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit")
 
     session_for(other_user)
 
@@ -506,7 +506,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Try a list of diary entries for your friends when not logged in
     get friends_diary_entries_path
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/diary/friends"
+    assert_redirected_to login_path(:referer => "/diary/friends")
 
     # Try a list of diary entries for your friends when logged in
     session_for(user)
@@ -526,7 +526,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Try a list of diary entries for nearby users when not logged in
     get nearby_diary_entries_path
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/diary/nearby"
+    assert_redirected_to login_path(:referer => "/diary/nearby")
 
     # Try a list of diary entries for nearby users when logged in
     session_for(nearby_user)

@@ -178,7 +178,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     get edit_path
 
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/edit"
+    assert_redirected_to login_path(:referer => "/edit")
   end
 
   # Test the error when trying to edit without public edits
@@ -452,7 +452,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
   def test_welcome
     get welcome_path
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/welcome"
+    assert_redirected_to login_path(:referer => "/welcome")
 
     session_for(create(:user))
     get welcome_path

@@ -145,8 +145,9 @@ OpenStreetMap::Application.routes.draw do
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
   get "/export" => "site#export"
-  match "/login" => "users#login", :via => [:get, :post]
-  match "/logout" => "users#logout", :via => [:get, :post]
+  get "/login" => "sessions#new"
+  post "/login" => "sessions#create"
+  match "/logout" => "sessions#destroy", :via => [:get, :post]
   get "/offline" => "site#offline"
   get "/key" => "site#key"
   get "/id" => "site#id"
@@ -155,13 +156,13 @@ OpenStreetMap::Application.routes.draw do
   post "/user/new" => "users#create"
   get "/user/terms" => "users#terms"
   post "/user/save" => "users#save"
-  get "/user/:display_name/confirm/resend" => "users#confirm_resend", :as => :user_confirm_resend
-  match "/user/:display_name/confirm" => "users#confirm", :via => [:get, :post]
-  match "/user/confirm" => "users#confirm", :via => [:get, :post]
-  match "/user/confirm-email" => "users#confirm_email", :via => [:get, :post]
+  get "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
+  match "/user/:display_name/confirm" => "confirmations#confirm", :via => [:get, :post]
+  match "/user/confirm" => "confirmations#confirm", :via => [:get, :post]
+  match "/user/confirm-email" => "confirmations#confirm_email", :via => [:get, :post]
   post "/user/go_public" => "users#go_public"
-  match "/user/reset-password" => "users#reset_password", :via => [:get, :post]
-  match "/user/forgot-password" => "users#lost_password", :via => [:get, :post]
+  match "/user/reset-password" => "passwords#reset_password", :via => [:get, :post], :as => :user_reset_password
+  match "/user/forgot-password" => "passwords#lost_password", :via => [:get, :post], :as => :user_forgot_password
   get "/user/suspended" => "users#suspended"
 
   get "/index.html", :to => redirect(:path => "/")

@@ -308,7 +308,7 @@ module Api
         # low, second is high - same as with bounding boxes.
 
         # check that we actually have 2 elements in the array
-        times = time.split(/,/)
+        times = time.split(",")
         raise OSM::APIBadUserInput, "bad time range" if times.size != 2
 
         from, to = times.collect { |t| Time.parse(t) }

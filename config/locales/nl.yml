@@ -39,6 +39,7 @@
 # Author: MrLeopold
 # Author: Mvexel
 # Author: Optilete
+# Author: Peb-kac
 # Author: Pje335
 # Author: Robin van der Linde
 # Author: Robin van der Vliet
@@ -169,19 +170,24 @@ nl:
         body: Tekst
         recipient: Ontvanger
       redaction:
+        title: Titel
         description: Beschrijving
       report:
         category: Selecteer een reden voor je melding
         details: Verschaf a.u.b. nog wat meer details over het probleem (vereist).
       user:
+        auth_provider: Authenticatiedienst
+        auth_uid: Authenticatie UID
         email: E-mail
-        new_email: 'Nieuw e-mailadres:'
+        email_confirmation: Emailbevestiging
+        new_email: Nieuw e-mailadres
         active: Actief
         display_name: Weergavenaam
-        description: Beschrijving
-        home_lat: 'Breedtegraad:'
-        home_lon: 'Lengtegraad:'
-        languages: Talen
+        description: Profielbeschrijving
+        home_lat: Breedtegraad
+        home_lon: Lengtegraad
+        languages: Voorkeurstalen
+        preferred_editor: Voorkeursprogramma voor kaartbewerking
         pass_crypt: Wachtwoord
         pass_crypt_confirmation: Wachtwoord bevestigen
     help:
@@ -616,6 +622,7 @@ nl:
           clock: Klok
           college: Hogeschool
           community_centre: Buurtcentrum
+          conference_centre: Conferentiecentrum
           courthouse: Rechtbank
           crematorium: Crematorium
           dentist: Tandarts
@@ -640,6 +647,7 @@ nl:
           kindergarten: Kleuterschool
           language_school: Taalschool
           library: Bibliotheek
+          loading_dock: Laadperron
           love_hotel: Discrete kamers
           marketplace: Marktplein
           monastery: Klooster
@@ -662,6 +670,7 @@ nl:
           public_bath: Openbaar bad
           public_bookcase: Ruilboekenkast
           public_building: Openbaar gebouw
+          ranger_station: Boswachtershut
           recycling: Recyclingpunt
           restaurant: Restaurant
           school: School
@@ -676,6 +685,7 @@ nl:
           theatre: Theater
           toilets: Toiletten
           townhall: Gemeentehuis
+          training: Trainingsfaciliteit
           university: Universiteit
           vehicle_inspection: Voertuiginspectie
           vending_machine: Automaat
@@ -683,6 +693,7 @@ nl:
           village_hall: Gemeentehuis
           waste_basket: Prullenbak
           waste_disposal: Afval
+          waste_dump_site: Afvalstortplaats
           water_point: Tappunt
           weighbridge: Weegbrug
           "yes": Infrastructuur
@@ -710,6 +721,7 @@ nl:
           chapel: Kapel
           church: Kerk
           civic: Openbaar gebouw
+          college: Schoolgebouw
           commercial: Commercieel gebouw
           construction: Gebouw in aanbouw
           detached: Alleenstaande woning
@@ -727,6 +739,7 @@ nl:
           houseboat: Woonboot
           hut: Hut
           industrial: Industrieel gebouw
+          kindergarten: Kleuterschool gebouw
           manufacture: Productiegebouw
           office: Kantoorgebouw
           public: Openbaar gebouw
@@ -764,6 +777,7 @@ nl:
           glaziery: Glazenzetter
           handicraft: Handwerk
           hvac: Verwarming/ventilatie/airco
+          metal_construction: Metaalbewerker
           painter: Schilder
           photographer: Fotograaf
           plumber: Loodgieter
@@ -772,6 +786,7 @@ nl:
           shoemaker: Schoenmaker
           stonemason: Steenhouwer
           tailor: Kleermaker
+          window_construction: Raamconstructie
           winery: Wijnboer
           "yes": Ambachtswinkel
         emergency:
@@ -909,6 +924,7 @@ nl:
           vineyard: Wijngaard
           "yes": Landgebruik
         leisure:
+          adult_gaming_centre: Gamingcentrum voor volwassenen
           amusement_arcade: Arcadehal
           bandstand: Muziekpaviljoen
           beach_resort: Badplaats
@@ -1006,12 +1022,14 @@ nl:
         mountain_pass:
           "yes": Bergpas
         natural:
+          atoll: Atol
           bare_rock: Kale rotsen
           bay: Baai
           beach: Strand
           cape: Kaap
           cave_entrance: Grotingang
           cliff: Klif
+          coastline: Kustlijn
           crater: Krater
           dune: Duin
           fell: Fjell
@@ -1029,6 +1047,7 @@ nl:
           moor: Veen
           mud: Modder
           peak: Top
+          peninsula: Schiereiland
           point: Punt
           reef: Rif
           ridge: Bergkam
@@ -1065,6 +1084,7 @@ nl:
           it: ICT-kantoor
           lawyer: Advocaat
           logistics: Logistiek kantoor
+          newspaper: Krantenkantoor
           ngo: NGO-kantoor
           notary: Notariaat
           religion: Religieus kantoor
@@ -1592,11 +1612,38 @@ nl:
         en klik op "Afmelden".
       unsubscribe_html: Om geen meldingen meer te krijgen over deze wijzigingset,
         gaat u naar %{url} en klikt u op "Afmelden".
+  confirmations:
+    confirm:
+      heading: Controleer uw e-mail
+      introduction_1: We hebben u een bevestiging per e-mail gestuurd.
+      introduction_2: Bevestig uw gebruiker door op de koppeling in de e-mail te klikken
+        en dan kunt u kaarten gaan maken.
+      press confirm button: Klik op de knop "Bevestigen" hieronder om uw gebruiker
+        te activeren.
+      button: Bevestigen
+      success: De account is geactiveerd. Dank u wel voor het registreren!
+      already active: Deze account is al bevestigd.
+      unknown token: De opgegeven bevestigingscode is verlopen of bestaat niet.
+      reconfirm_html: Als nodig, kunt u <a href="%{reconfirm}">de bevestigingscode
+        opnieuw laten verzenden</a>.
+    confirm_resend:
+      success_html: Er is ter bevestiging een e-mail verstuurd naar %{email} en als
+        u uw account hebt bevestigd, kunt u gaan mappen.<br /><br />Als u een spamfilter
+        gebruikt die per e-mail een bevestiging stuurt, zorg er dan voor dat u %{sender}
+        toestaat. Dit systeem stuurt geen antwoord op bevestigingsverzoeken.
+      failure: De gebruiker %{name} is niet gevonden.
+    confirm_email:
+      heading: Gewijzigd e-mailadres bevestigen
+      press confirm button: Klik op de knop "Bevestigen" hieronder om uw e-mailadres
+        te bevestigen.
+      button: Bevestigen
+      success: Uw e-mailadreswijziging is bevestigd.
+      failure: Er is al een e-mailadres bevestigd met dit token.
+      unknown_token: De opgegeven bevestigingscode is verlopen of bestaat niet.
   messages:
     inbox:
       title: Postvak IN
       my_inbox: Mijn Postvak IN
-      outbox: Postvak UIT
       messages: U hebt %{new_messages} en %{old_messages}
       new_messages:
         one: '%{count} nieuw bericht'
@@ -1631,9 +1678,6 @@ nl:
       body: Er is geen bericht met dat ID.
     outbox:
       title: Postvak UIT
-      my_inbox_html: Mijn %{inbox_link}
-      inbox: Postvak IN
-      outbox: Postvak UIT
       messages:
         one: U hebt één verzonden bericht
         other: U hebt %{count} verzonden berichten
@@ -1667,6 +1711,83 @@ nl:
       as_unread: Gemarkeerd als ongelezen
     destroy:
       destroyed: Het bericht is verwijderd
+  passwords:
+    lost_password:
+      title: Wachtwoord vergeten
+      heading: Wachtwoord vergeten?
+      email address: 'E-mailadres:'
+      new password button: Nieuw wachtwoord verzenden
+      help_text: Voer het e-mailadres in dat u hebt opgegeven bij uw registratie.
+        We sturen u dan een webkoppeling die u kunt gebruiken om uw wachtwoord opnieuw
+        in te stellen.
+      notice email on way: Spijtig om te horen dat u het vergeten bent, maar er is
+        een e-mail onderweg zodat u uw wachtwoord opnieuw kunt instellen.
+      notice email cannot find: Dat e-mailadres kon helaas niet gevonden worden.
+    reset_password:
+      title: Wachtwoord opnieuw instellen
+      heading: Wachtwoord voor %{user} opnieuw instellen
+      reset: Wachtwoord opnieuw instellen
+      flash changed: Uw wachtwoord is gewijzigd.
+      flash token bad: Het token kon niet gevonden worden. Controleer de URL.
+  sessions:
+    new:
+      title: Aanmelden
+      heading: Aanmelden
+      email or username: 'E-mailadres of gebruikersnaam:'
+      password: 'Wachtwoord:'
+      openid_html: '%{logo} OpenID:'
+      remember: 'Aanmeldgegevens onthouden:'
+      lost password link: Wachtwoord vergeten?
+      login_button: Aanmelden
+      register now: Nu inschrijven
+      with username: 'Hebt u al een account bij OpenStreetMap? Meld aan met uw gebruikersnaam
+        en wachtwoord:'
+      with external: 'U kunt ook gebruik maken van een derde partij om aan te melden:'
+      new to osm: Is OpenStreetMap nieuw voor u?
+      to make changes: Om wijzigingen in OpenStreetMap te maken, moet u een gebruiker
+        hebben.
+      create account minute: Maak een gebruiker aan. Dat is snel gebeurd.
+      no account: Hebt u geen account?
+      account not active: Uw gebruiker is helaas nog niet actief.<br />Klik op de
+        koppeling in de bevestiging om deze te activeren of <a href="%{reconfirm}">vraag
+        een nieuwe bevestiging per e-mail aan</a>.
+      account is suspended: Uw gebruiker is automatisch opgeschort vanwege verdachte
+        activiteit.<br />Neem contact op met de <a href="%{webmaster}">webmaster</a>
+        als u deze handeling wilt bespreken.
+      auth failure: Met deze gegevens kunt u helaas niet aanmelden.
+      openid_logo_alt: Aanmelden met een OpenID
+      auth_providers:
+        openid:
+          title: Aanmelden met OpenID
+          alt: Aanmelden met een OpenID URL
+        google:
+          title: Aanmelden met Google
+          alt: Aanmelden met een Google OpenID
+        facebook:
+          title: Aanmelden met Facebook
+          alt: Aanmelden met een Facebookaccount
+        windowslive:
+          title: Aanmelden met Windows Live
+          alt: Aanmelden met een Windows Live-account
+        github:
+          title: Aanmelden met GitHub
+          alt: Aanmelden met een GitHub-account
+        wikipedia:
+          title: Aanmelden met Wikipedia
+          alt: Aanmelden met een Wikipedia account
+        yahoo:
+          title: Aanmelden met Yahoo
+          alt: Aanmelden met een Yahoo OpenID
+        wordpress:
+          title: Aanmelden met Wordpress
+          alt: Aanmelden met een Wordpress OpenID
+        aol:
+          title: Aanmelden met AOL
+          alt: Aanmelden met een AOL OpenID
+    destroy:
+      title: Afmelden
+      heading: Afmelden van OpenStreetMap
+      logout_button: Afmelden
   shared:
     markdown_help:
       title_html: Verwerkt met <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
@@ -2085,23 +2206,6 @@ nl:
           bicycle_shop: Fietsenwinkel
           bicycle_parking: Fietsenstalling
           toilets: Toiletten
-    richtext_area:
-      edit: Bewerken
-      preview: Voorvertoning
-    markdown_help:
-      title_html: Verwerkt met <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
-      headings: Kopjes
-      heading: Kopje
-      subheading: Onderkop
-      unordered: Ongeordende lijst
-      ordered: Geordende lijst
-      first: Eerste item
-      second: Tweede item
-      link: Koppeling
-      text: Tekst
-      image: Afbeelding
-      alt: Alternatieve tekst
-      url: URL
     welcome:
       title: Welkom!
       introduction_html: Welkom bij OpenStreetMap, de open en te bewerken kaart van
@@ -2219,7 +2323,6 @@ nl:
       more: meer
       trace_details: Trajectdetails weergeven
       view_map: Kaart bekijken
-      edit: bewerken
       edit_map: Kaart bewerken
       public: OPENBAAR
       identifiable: IDENTIFICEERBAAR
@@ -2227,7 +2330,6 @@ nl:
       trackable: TRACEERBAAR
       by: door
       in: in
-      map: kaart
     index:
       public_traces: Openbare gps-trajecten
       my_traces: Mijn gps-trajecten
@@ -2341,81 +2443,6 @@ nl:
     destroy:
       flash: De clientapplicatieregistratie is verwijderd
   users:
-    login:
-      title: Aanmelden
-      heading: Aanmelden
-      email or username: 'E-mailadres of gebruikersnaam:'
-      password: 'Wachtwoord:'
-      openid_html: '%{logo} OpenID:'
-      remember: 'Aanmeldgegevens onthouden:'
-      lost password link: Wachtwoord vergeten?
-      login_button: Aanmelden
-      register now: Nu inschrijven
-      with username: 'Hebt u al een account bij OpenStreetMap? Meld aan met uw gebruikersnaam
-        en wachtwoord:'
-      with external: 'U kunt ook gebruik maken van een derde partij om aan te melden:'
-      new to osm: Is OpenStreetMap nieuw voor u?
-      to make changes: Om wijzigingen in OpenStreetMap te maken, moet u een gebruiker
-        hebben.
-      create account minute: Maak een gebruiker aan. Dat is snel gebeurd.
-      no account: Hebt u geen account?
-      account not active: Uw gebruiker is helaas nog niet actief.<br />Klik op de
-        koppeling in de bevestiging om deze te activeren of <a href="%{reconfirm}">vraag
-        een nieuwe bevestiging per e-mail aan</a>.
-      account is suspended: Uw gebruiker is automatisch opgeschort vanwege verdachte
-        activiteit.<br />Neem contact op met de <a href="%{webmaster}">webmaster</a>
-        als u deze handeling wilt bespreken.
-      auth failure: Met deze gegevens kunt u helaas niet aanmelden.
-      openid_logo_alt: Aanmelden met een OpenID
-      auth_providers:
-        openid:
-          title: Aanmelden met OpenID
-          alt: Aanmelden met een OpenID URL
-        google:
-          title: Aanmelden met Google
-          alt: Aanmelden met een Google OpenID
-        facebook:
-          title: Aanmelden met Facebook
-          alt: Aanmelden met een Facebookaccount
-        windowslive:
-          title: Aanmelden met Windows Live
-          alt: Aanmelden met een Windows Live-account
-        github:
-          title: Aanmelden met GitHub
-          alt: Aanmelden met een GitHub-account
-        wikipedia:
-          title: Aanmelden met Wikipedia
-          alt: Aanmelden met een Wikipedia account
-        yahoo:
-          title: Aanmelden met Yahoo
-          alt: Aanmelden met een Yahoo OpenID
-        wordpress:
-          title: Aanmelden met Wordpress
-          alt: Aanmelden met een Wordpress OpenID
-        aol:
-          title: Aanmelden met AOL
-          alt: Aanmelden met een AOL OpenID
-    logout:
-      title: Afmelden
-      heading: Afmelden van OpenStreetMap
-      logout_button: Afmelden
-    lost_password:
-      title: Wachtwoord vergeten
-      heading: Wachtwoord vergeten?
-      email address: 'E-mailadres:'
-      new password button: Nieuw wachtwoord verzenden
-      help_text: Voer het e-mailadres in dat u hebt opgegeven bij uw registratie.
-        We sturen u dan een webkoppeling die u kunt gebruiken om uw wachtwoord opnieuw
-        in te stellen.
-      notice email on way: Spijtig om te horen dat u het vergeten bent, maar er is
-        een e-mail onderweg zodat u uw wachtwoord opnieuw kunt instellen.
-      notice email cannot find: Dat e-mailadres kon helaas niet gevonden worden.
-    reset_password:
-      title: Wachtwoord opnieuw instellen
-      heading: Wachtwoord voor %{user} opnieuw instellen
-      reset: Wachtwoord opnieuw instellen
-      flash changed: Uw wachtwoord is gewijzigd.
-      flash token bad: Het token kon niet gevonden worden. Controleer de URL.
     new:
       title: Registreren
       no_auto_account_create: Helaas is het niet mogelijk om automatisch een gebruiker
@@ -2607,33 +2634,6 @@ nl:
       flash update success confirm needed: De gebruikersinformatie is bijgewerkt.
         Controleer uw e-mail om uw nieuwe e-mailadres te bevestigen.
       flash update success: De gebruikersinformatie is bijgewerkt.
-    confirm:
-      heading: Controleer uw e-mail
-      introduction_1: We hebben u een bevestiging per e-mail gestuurd.
-      introduction_2: Bevestig uw gebruiker door op de koppeling in de e-mail te klikken
-        en dan kunt u kaarten gaan maken.
-      press confirm button: Klik op de knop "Bevestigen" hieronder om uw gebruiker
-        te activeren.
-      button: Bevestigen
-      success: De account is geactiveerd. Dank u wel voor het registreren!
-      already active: Deze account is al bevestigd.
-      unknown token: De opgegeven bevestigingscode is verlopen of bestaat niet.
-      reconfirm_html: Als nodig, kunt u <a href="%{reconfirm}">de bevestigingscode
-        opnieuw laten verzenden</a>.
-    confirm_resend:
-      success_html: Er is ter bevestiging een e-mail verstuurd naar %{email} en als
-        u uw account hebt bevestigd, kunt u gaan mappen.<br /><br />Als u een spamfilter
-        gebruikt die per e-mail een bevestiging stuurt, zorg er dan voor dat u %{sender}
-        toestaat. Dit systeem stuurt geen antwoord op bevestigingsverzoeken.
-      failure: De gebruiker %{name} is niet gevonden.
-    confirm_email:
-      heading: Gewijzigd e-mailadres bevestigen
-      press confirm button: Klik op de knop "Bevestigen" hieronder om uw e-mailadres
-        te bevestigen.
-      button: Bevestigen
-      success: Uw e-mailadreswijziging is bevestigd.
-      failure: Er is al een e-mailadres bevestigd met dit token.
-      unknown_token: De opgegeven bevestigingscode is verlopen of bestaat niet.
     set_home:
       flash success: De thuislocatie is opgeslagen
     go_public:

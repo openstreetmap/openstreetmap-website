@@ -30,7 +30,7 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
     follow_redirect!
     # We should now be at the login page
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     # We can now login
     post "/login", :params => { "username" => user.email, "password" => "test" }
     assert_response :redirect

@@ -9,6 +9,7 @@
 # Author: Fnielsen
 # Author: Freek
 # Author: Fugithora
+# Author: Funkyboris
 # Author: Gnonthgol
 # Author: Gorbi
 # Author: Hede2000
@@ -108,7 +109,7 @@ da:
         url: Hovedapplikations-URL (påkrævet)
         callback_url: Callback URL
         support_url: Support URL
-        allow_read_prefs: læs deres brugerindstillinger
+        allow_read_prefs: læse deres brugerindstillinger
         allow_write_prefs: ændre deres brugerindstillinger
         allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber
         allow_write_api: redigere kortet
@@ -151,6 +152,7 @@ da:
         details: Forklar venligst problemet i flere detaljer (påkrævet).
       user:
         email: E-mail
+        email_confirmation: E-mail-bekræftelse
         new_email: Ny e-mailadresse
         active: Aktiv
         display_name: Vist navn
@@ -158,14 +160,23 @@ da:
         home_lat: Breddegrad
         home_lon: Længdegrad
         languages: Foretrukne sprog
+        preferred_editor: Foretrukken editor
         pass_crypt: Adgangskode
         pass_crypt_confirmation: Bekræft adgangskode
     help:
       trace:
         tagstring: kommasepareret
       user_block:
+        reason: Årsagen til at brugeren blokeres. Vær venligst så rolig og fornuftig
+          som muligt. Giv så mange detaljer som kan du om situationen. Husk på, at
+          meddelelsen bliver synlig offentligt. Husk at ikke alle brugere forstår
+          fællesskabsjargonen, så prøv at bruge hverdagsudtryk i det omfang det er
+          muligt.
         needs_view: Skal brugeren logge på, før denne blokering vil blive fjernet?
       user:
+        email_confirmation: Din adresse vises ikke offentligt. Se vores href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">privatlivspolitik</a>
+          for yderligere information.
         new_email: (vises aldrig offentligt)
   datetime:
     distance_in_words_ago:
@@ -207,13 +218,13 @@ da:
         one: 1 år siden
         other: '%{count} år siden'
   editor:
-    default: Foretrukket (i øjeblikket %{name})
+    default: Standard (nuværende %{name})
     id:
       name: iD
       description: iD (redigér i browseren)
     remote:
       name: Fjernbetjening
-      description: Fjernbetjening (JOSM eller Merkaartor)
+      description: Fjernbetjening (JOSM, Potlatch eller Merkaartor)
   auth:
     providers:
       none: Ingen
@@ -331,6 +342,7 @@ da:
         changeset: ændringssæt
         note: bemærkning
     timeout:
+      title: Timeoutfejl
       sorry: Beklager, data for %{type} med id %{id} tog for lang tid at hente
       type:
         node: punkt
@@ -461,6 +473,7 @@ da:
         stavningen, eller måske er den henvisning du klikkede på forkert.
     diary_entry:
       posted_by_html: Skrevet af %{link_user} den %{created} på %{language_link}
+      updated_at_html: Sidst opdateret den %{updated}.
       comment_link: Kommentér dette indlæg
       reply_link: Send en besked til forfatteren
       comment_count:
@@ -984,12 +997,14 @@ da:
         mountain_pass:
           "yes": Bjergpas
         natural:
+          atoll: Atol
           bare_rock: Blottet klippe
           bay: Bugt
           beach: Strand
           cape: Odde
           cave_entrance: Huleindgang
           cliff: Forbjerg
+          coastline: Kystlinje
           crater: Krater
           dune: Klit
           fell: Fjeld
@@ -1007,6 +1022,7 @@ da:
           moor: Bjerghede
           mud: Mudder
           peak: Top
+          peninsula: Halvø
           point: Punkt
           reef: Rev
           ridge: Bjergkam
@@ -1054,6 +1070,7 @@ da:
           "yes": Kontor
         place:
           allotments: Kolonihaver
+          archipelago: Øgruppe
           city: Storby
           city_block: Bykvarter
           country: Land
@@ -1271,12 +1288,15 @@ da:
           "yes": Vandløb
       admin_levels:
         level2: Landegrænse
+        level3: Regionsgrænse
         level4: Regionsgrænse
         level5: Regionsgrænse
         level6: Kommunegrænse
+        level7: Kommunegrænse
         level8: Bygrænse
         level9: Bydelsgrænse
         level10: Sognegrænse
+        level11: Nabolagsgrænse
       types:
         cities: Storbyer
         towns: Byer
@@ -1441,12 +1461,21 @@ da:
       hi: Hej %{to_user},
       header: '%{from_user} har kommenteret på OpenStreetMap-blogindlægget med emnet
         %{subject}:'
+      header_html: '%{from_user} har kommenteret på OpenStreetMap-blogindlægget med
+        emnet %{subject}:'
       footer: Du kan også læse kommentaren på %{readurl}, og du kan kommentere på
         %{commenturl} eller sende en besked til forfatteren på %{replyurl}
+      footer_html: Du kan også læse kommentaren på %{readurl}, og du kan kommentere
+        på %{commenturl} eller sende en besked til forfatteren på %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Hej %{to_user},
       header: '%{from_user} har sendt dig en besked gennem OpenStreetMap med emnet
         %{subject}:'
+      header_html: '%{from_user} har sendt dig en besked gennem OpenStreetMap med
+        emnet %{subject}:'
+      footer: Du kan også læse beskeden på %{readurl} og du kan sende en besked til
+        forfatteren på %{replyurl}
       footer_html: Du kan også læse beskeden på %{readurl} og du kan sende en besked
         til forfatteren på %{replyurl}
     friendship_notification:
@@ -1454,11 +1483,17 @@ da:
       subject: '[OpenStreetMap] %{user} tilføjede dig som ven'
       had_added_you: '%{user} har tilføjet dig som ven på OpenStreetMap.'
       see_their_profile: Du kan se deres profil på %{userurl}.
+      see_their_profile_html: Du kan se deres profil på %{userurl}.
       befriend_them: Du kan også tilføje dem som ven på %{befriendurl}.
+      befriend_them_html: Du kan også tilføje dem som ven på %{befriendurl}.
     gpx_failure:
+      hi: Hej %{to_user},
       failed_to_import: 'kunne ikke importeres. Her er fejlen:'
+      more_info_html: Yderligere information vedrørende fejl i forbindelse med GPX-import
+        og hvordan de kan undgås, kan findes på %{url}
       subject: '[OpenStreetMap] GPX-importering mislykkedes'
     gpx_success:
+      hi: Hej %{to_user},
       loaded_successfully:
         one: indlæst med %{trace_points} ud af 1 muligt punkt.
         other: indlæst med %{trace_points} ud af %{possible_points} mulige punkter.
@@ -1495,14 +1530,22 @@ da:
           du er interesseret i'
         your_note: '%{commenter} har efterladt en kommentar på en af dine kortbemærkninger
           nær %{place}.'
+        your_note_html: '%{commenter} har efterladt en kommentar til en af dine kortbemærkninger
+          nær %{place}.'
         commented_note: '%{commenter} har efterladt en kommentar til en kortbemærkning
+          du har kommenteret. Bemærkningen er i nærheden af %{place}.'
+        commented_note_html: '%{commenter} har efterladt en kommentar til en kortbemærkning
           du har kommenteret. Bemærkningen er i nærheden af %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} har løst en af dine bemærkninger'
         subject_other: '[OpenStreetMap] %{commenter} har løst en bemærkning, du er
           interesseret i'
         your_note: '%{commenter} har løst en af dine kortbemærkninger nær %{place}.'
+        your_note_html: '%{commenter} har løst en af dine kortbemærkninger i nærheden
+          af %{place}.'
         commented_note: '%{commenter} har løst en kortbemærkning du har kommenteret
+          på. Bemærkningen er i nærheden af %{place}.'
+        commented_note_html: '%{commenter} har løst en kortbemærkning du har kommenteret
           på. Bemærkningen er i nærheden af %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} har genaktiveret en af dine bemærkninger'
@@ -1510,9 +1553,14 @@ da:
           du er interesseret i'
         your_note: '%{commenter} har genaktiveret en af dine kortbemærkninger nær
           %{place}.'
+        your_note_html: '%{commenter} har genaktiveret en af dine kortbemærkninger
+          i nærheden af %{place}.'
         commented_note: '%{commenter} har genaktiveret en kortbemærkning du har kommenteret.
           Bemærkningen er i nærheden af %{place}.'
+        commented_note_html: '%{commenter} har genaktiveret en kortbemærkning du har
+          kommenteret. Bemærkningen er i nærheden af %{place}.'
       details: Flere oplysninger om bemærkningen kan findes på %{url}.
+      details_html: Flere oplysninger om kortbemærkningen kan findes på %{url}.
     changeset_comment_notification:
       hi: Hej %{to_user},
       greeting: Hej,
@@ -1522,18 +1570,54 @@ da:
           du er interesseret i'
         your_changeset: '%{commenter} har kommenteret på et af dine ændringssæt, oprettet
           %{time}'
+        your_changeset_html: '%{commenter} har kl. %{time} kommenteret på et af dine
+          ændringssæt'
         commented_changeset: '%{commenter} har efterladt en kommentar på et ændringssæt
           som du overvåger, oprettet %{time} af %{changeset_author}'
+        commented_changeset_html: '%{commenter} har kl. %{time} efterladt en kommentar
+          på et ændringssæt, oprettet af %{changeset_author}, som du overvåger'
         partial_changeset_with_comment: med kommentaren '%{changeset_comment}'
+        partial_changeset_with_comment_html: med kommentaren '%{changeset_comment}'
         partial_changeset_without_comment: uden kommentar
       details: Flere oplysninger om ændringssættet kan findes på %{url}.
+      details_html: Flere oplysninger om ændringssættet kan findes på %{url}.
       unsubscribe: For at afmelde opdateringer til dette ændringssæt, kan du besøge
         %{url} og klikke "Afmeld".
+      unsubscribe_html: For at afmelde opdateringer vedrørende dette ændringssæt,
+        kan du besøge %{url} og klikke "Afmeld".
+  confirmations:
+    confirm:
+      heading: Tjek din e-mail!
+      introduction_1: Vi har sendt dig en bekræftelse via e-mail.
+      introduction_2: Bekræft din konto ved at klikke på linket i e-mailen, og du
+        vil kunne starte kortlægningen.
+      press confirm button: Tryk på "Bekræft"-knappen nedenfor for at aktivere din
+        konto.
+      button: Bekræft
+      success: Din konto er bekræftet, tak for din registrering!
+      already active: Denne konto er allerede blevet bekræftet.
+      unknown token: Den bekræftelseskode er udløbet eller eksisterer ikke.
+      reconfirm_html: Hvis du har brug for at vi gensender bekræftelsesmailen, så
+        <a href="%{reconfirm}">klik her</a>.
+    confirm_resend:
+      success_html: Vi har sendt en ny bekræftelsesbesked til %{email}, og så snart
+        du har bekræftet din konto, kan du gå i gang med kortlægningen.<br /><br />Hvis
+        du bruger et antispam-system som sender bekræftelsesforespørgsler, så sørg
+        for at du har hvidlistet %{sender} da vi ikke kan svare på den slags forespørgsler.
+      failure: Bruger %{name} ikke fundet.
+    confirm_email:
+      heading: Bekræft ændring af e-mailadresse
+      press confirm button: Tryk på bekræft-knappen nedenfor for at bekræfte din nye
+        e-mailadresse.
+      button: Bekræft
+      success: Bekræftet din ændring af e-mailadresse!
+      failure: En e-mailadresse er allerede blevet bekræftet med denne nøgle.
+      unknown_token: Den bekræftelseskode er udløbet eller eksisterer ikke.
   messages:
     inbox:
       title: Indbakke
       my_inbox: Min indbakke
-      outbox: udbakke
+      my_outbox: Min udbakke
       messages: Du har %{new_messages} og %{old_messages}
       new_messages:
         one: '%{count} nye besked'
@@ -1568,9 +1652,8 @@ da:
       body: Beklager, der er ingen besked med det id.
     outbox:
       title: Udbakke
-      my_inbox_html: Min %{inbox_link}
-      inbox: indbakke
-      outbox: udbakke
+      my_inbox: Min indbakke
+      my_outbox: Min udbakke
       messages:
         one: Du har %{count} sendt besked
         other: Du har %{count} sendte beskeder
@@ -1604,12 +1687,99 @@ da:
       as_unread: Besked markeret som ulæst
     destroy:
       destroyed: Besked slettet
+  passwords:
+    lost_password:
+      title: Glemt adgangskode
+      heading: Glemt adgangskode?
+      email address: 'E-mailadresse:'
+      new password button: Nulstil adgangskode
+      help_text: Indtast e-mailadressen du brugte da du oprettede kontoen. Vi sender
+        et link til den som du kan bruge til at nulstille din adgangskode.
+      notice email on way: Synd du har glemt den, men en e-mail er på vej så du kan
+        snart indstille en ny.
+      notice email cannot find: Kunne ikke finde den e-mailadresse, beklager.
+    reset_password:
+      title: Nulstil adgangskode
+      heading: Nulstil adgangskode for %{user}
+      reset: Nulstil adgangskode
+      flash changed: Din adgangskode er ændret.
+      flash token bad: Kunne ikke finde denne nøgle, prøv at kontrollere URL'en?
+  sessions:
+    new:
+      title: Log på
+      heading: Log på
+      email or username: 'E-mailadresse eller brugernavn:'
+      password: 'Adgangskode:'
+      openid_html: '%{logo} OpenID:'
+      remember: Husk mig
+      lost password link: Glemt din adgangskode?
+      login_button: Log på
+      register now: Opret nu
+      with username: 'Har du allerede en OpenStreetMap konto? Log på med dit brugernavn
+        og din adgangskode:'
+      with external: 'Alternativt kan du bruge en tredjepart for at logge på:'
+      new to osm: Ny på OpenStreetMap?
+      to make changes: For at ændre i OpenStreetMaps data skal du have en konto.
+      create account minute: Opret en konto. Det tager kun et minut.
+      no account: Har du ingen konto?
+      account not active: Din konto er ikke aktiveret endnu.<br />Klik på linket i
+        bekræftelsesemailen for at aktivere din konto eller <a href="%{reconfirm}">få
+        sendt en ny bekræftelsesemail</a>.
+      account is suspended: Beklager, din konto er suspenderet på grund af mistænkelig
+        aktivitet.<br />Kontakt <a href="%{webmaster}">webmasteren</a> , hvis du ønsker
+        at drøfte dette.
+      auth failure: Kunne ikke logge på med disse oplysninger.
+      openid_logo_alt: Log på med et OpenID
+      auth_providers:
+        openid:
+          title: Log på med OpenID
+          alt: Log på med en OpenID-URL
+        google:
+          title: Log på med Google
+          alt: Log på med et Google OpenID
+        facebook:
+          title: Log på med Facebook
+          alt: Log på med en Facebook-konto
+        windowslive:
+          title: Log på med Windows Live
+          alt: Log på med en Windows Live-konto
+        github:
+          title: Log ind med GitHub
+          alt: Log ind med en GitHub-konto
+        wikipedia:
+          title: Log ind med Wikipedia
+          alt: Log ind med en Wikipedia-konto
+        yahoo:
+          title: Log på med Yahoo
+          alt: Log på med et Yahoo OpenID
+        wordpress:
+          title: Log på med Wordpress
+          alt: Log på med et Wordpress OpenID
+        aol:
+          title: Log på med AOL
+          alt: Log på med et AOL OpenID
+    destroy:
+      title: Log af
+      heading: Log af fra OpenStreetMap
+      logout_button: Log af
   shared:
     markdown_help:
+      title_html: Fortolket med <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      headings: Overskrifter
+      heading: Overskrift
+      subheading: Underoverskrift
+      unordered: Usorteret liste
+      ordered: Sorteret liste
+      first: Første punkt
+      second: Andet punkt
+      link: Link
       text: Tekst
       image: Billede
+      alt: Alt-tekst
+      url: URL
     richtext_field:
       edit: Rediger
+      preview: Forhåndsvisning
   site:
     about:
       next: Næste
@@ -1907,6 +2077,14 @@ da:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
         description: Gennemse wikien for dybdegående OSM dokumentation.
+    potlatch:
+      removed: Din foretrukne OpenStreetMap-editor er sat til Potlatch. Da Adobe Flash
+        Player er blevet trukket tilbage, er Potlatch ikke længere tilgængelig i browseren.
+      desktop_html: Du kan stadig bruge Potlatch ved at <a href="https://www.systemed.net/potlatch/">hente
+        applikationen til Mac og Windows</a>.
+      id_html: Alternativt kan du sætte iD som din foretrukne editor. iD kører i din
+        browser, ligesom Potlatch gjorde. <a href="%{settings_url}">Du kan ændre din
+        foretrukne editor her</a>.
     sidebar:
       search_results: Søgeresultater
       close: Luk
@@ -1990,23 +2168,6 @@ da:
           bicycle_shop: Cykelhandler
           bicycle_parking: Cykelparkering
           toilets: Toiletter
-    richtext_area:
-      edit: Redigér
-      preview: Forhåndsvisning
-    markdown_help:
-      title_html: Fortolket med <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
-      headings: Overskrifter
-      heading: Overskrift
-      subheading: Underoverskrift
-      unordered: Usorteret liste
-      ordered: Sorteret liste
-      first: Første objekt
-      second: Andet objekt
-      link: Link
-      text: Tekst
-      image: Billede
-      alt: Alt-tekst
-      url: URL
     welcome:
       title: Velkommen!
       introduction_html: Velkommen til OpenStreetMap, det frie brugerredigerede verdenskort.
@@ -2103,6 +2264,7 @@ da:
       uploaded: 'Overført:'
       points: 'Punkter:'
       start_coordinates: 'Startkoordinat:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: kort
       edit: redigér
       owner: 'Ejer:'
@@ -2126,7 +2288,6 @@ da:
       more: detaljer
       trace_details: Vis spordetaljer
       view_map: Vis kort
-      edit: redigér
       edit_map: Redigér kort
       public: OFFENTLIG
       identifiable: IDENTIFICERBAR
@@ -2134,7 +2295,6 @@ da:
       trackable: SPORBAR
       by: af
       in: i
-      map: kort
     index:
       public_traces: Offentlige GPS-spor
       my_traces: Mine GPS-spor
@@ -2248,79 +2408,6 @@ da:
     destroy:
       flash: Annulerede klient programmets registrering
   users:
-    login:
-      title: Log på
-      heading: Log på
-      email or username: 'E-mailadresse eller brugernavn:'
-      password: 'Adgangskode:'
-      openid_html: '%{logo} OpenID:'
-      remember: Husk mig
-      lost password link: Glemt din adgangskode?
-      login_button: Log på
-      register now: Opret nu
-      with username: 'Har du allerede en OpenStreetMap konto? Log på med dit brugernavn
-        og din adgangskode:'
-      with external: 'Alternativt kan du bruge en tredjepart for at logge på:'
-      new to osm: Ny på OpenStreetMap?
-      to make changes: For at ændre i OpenStreetMaps data skal du have en konto.
-      create account minute: Opret en konto. Det tager kun et minut.
-      no account: Har du ingen konto?
-      account not active: Din konto er ikke aktiveret endnu.<br />Klik på linket i
-        bekræftelsesemailen for at aktivere din konto eller <a href="%{reconfirm}">få
-        sendt en ny bekræftelsesemail</a>.
-      account is suspended: Beklager, din konto er suspenderet på grund af mistænkelig
-        aktivitet.<br />Kontakt <a href="%{webmaster}">webmasteren</a> , hvis du ønsker
-        at drøfte dette.
-      auth failure: Kunne ikke logge på med disse oplysninger.
-      openid_logo_alt: Log på med et OpenID
-      auth_providers:
-        openid:
-          title: Log på med OpenID
-          alt: Log på med en OpenID-URL
-        google:
-          title: Log på med Google
-          alt: Log på med et Google OpenID
-        facebook:
-          title: Log på med Facebook
-          alt: Log på med en Facebook-konto
-        windowslive:
-          title: Log på med Windows Live
-          alt: Log på med en Windows Live-konto
-        github:
-          title: Log ind med GitHub
-          alt: Log ind med en GitHub-konto
-        wikipedia:
-          title: Log ind med Wikipedia
-          alt: Log ind med en Wikipedia-konto
-        yahoo:
-          title: Log på med Yahoo
-          alt: Log på med et Yahoo OpenID
-        wordpress:
-          title: Log på med Wordpress
-          alt: Log på med et Wordpress OpenID
-        aol:
-          title: Log på med AOL
-          alt: Log på med et AOL OpenID
-    logout:
-      title: Log af
-      heading: Log af fra OpenStreetMap
-      logout_button: Log af
-    lost_password:
-      title: Glemt adgangskode
-      heading: Glemt adgangskode?
-      email address: 'E-mailadresse:'
-      new password button: Nulstil adgangskode
-      help_text: Indtast e-mailadressen du brugte da du oprettede kontoen. Vi sender
-        et link til den som du kan bruge til at nulstille din adgangskode.
-      notice email on way: Synd du har glemt den, men en e-mail er på vej så du kan
-        snart indstille en ny.
-      notice email cannot find: Kunne ikke finde den e-mailadresse, beklager.
-    reset_password:
-      title: Nulstil adgangskode
-      heading: Nulstil adgangskode for %{user}
-      reset: Nulstil adgangskode
-      flash changed: Din adgangskode er ændret.
-      flash token bad: Kunne ikke finde denne nøgle, prøv at kontrollere URL'en?
     new:
       title: Opret konto
       no_auto_account_create: Vi kan desværre ikke oprette en konto automatisk for
@@ -2510,33 +2597,6 @@ da:
       flash update success confirm needed: Brugeroplysningerne blev opdateret. Tjek
         din e-mail for en besked om at bekræfte din nye e-mailadresse.
       flash update success: Brugerinformation opdateret.
-    confirm:
-      heading: Tjek din e-mail!
-      introduction_1: Vi har sendt dig en bekræftelse via e-mail.
-      introduction_2: Bekræft din konto ved at klikke på linket i e-mailen, og du
-        vil kunne starte kortlægningen.
-      press confirm button: Tryk på "Bekræft"-knappen nedenfor for at aktivere din
-        konto.
-      button: Bekræft
-      success: Din konto er bekræftet, tak for din registrering!
-      already active: Denne konto er allerede blevet bekræftet.
-      unknown token: Den bekræftelseskode er udløbet eller eksisterer ikke.
-      reconfirm_html: Hvis du har brug for at vi gensender bekræftelsesmailen, så
-        <a href="%{reconfirm}">klik her</a>.
-    confirm_resend:
-      success_html: Vi har sendt en ny bekræftelsesbesked til %{email}, og så snart
-        du har bekræftet din konto, kan du gå i gang med kortlægningen.<br /><br />Hvis
-        du bruger et antispam-system som sender bekræftelsesforespørgsler, så sørg
-        for at du har hvidlistet %{sender} da vi ikke kan svare på den slags forespørgsler.
-      failure: Bruger %{name} ikke fundet.
-    confirm_email:
-      heading: Bekræft ændring af e-mailadresse
-      press confirm button: Tryk på bekræft-knappen nedenfor for at bekræfte din nye
-        e-mailadresse.
-      button: Bekræft
-      success: Bekræftet din ændring af e-mailadresse!
-      failure: En e-mailadresse er allerede blevet bekræftet med denne nøgle.
-      unknown_token: Den bekræftelseskode er udløbet eller eksisterer ikke.
     set_home:
       flash success: Hjemmeposition gemt
     go_public:
@@ -2726,6 +2786,7 @@ da:
       custom_dimensions: Angiv brugerdefinerede dimensioner
       format: 'Format:'
       scale: 'Skala:'
+      image_dimensions: Billedet vil vise standardlaget i %{width} x %{height}
       download: Hent
       short_url: Kort URL
       include_marker: Tilføj markør
@@ -2753,6 +2814,7 @@ da:
           other: Du er indenfor %{count} fod fra dette punkt
       base:
         standard: Standard
+        cyclosm: CyclOSM
         cycle_map: Cykelkort
         transport_map: Transportkort
         hot: Humanitær
@@ -2767,6 +2829,8 @@ da:
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-bidragsydere</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Giv et bidrag</a>
       terms: <a href='%{terms_url}' target='_blank'>Hjemmeside og API-vilkår</a>
+      cyclosm: Flise-stil af <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        hosted af <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap Frankrig</a>
       thunderforest: Fliser venligst leveret af <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       opnvkarte: Fliser venligst leveret af <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>

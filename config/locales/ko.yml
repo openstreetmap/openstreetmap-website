@@ -8,6 +8,7 @@
 # Author: B891202
 # Author: CYAN
 # Author: Codenstory
+# Author: Cubbe
 # Author: D6283
 # Author: Drhyme
 # Author: Freebiekr
@@ -703,7 +704,9 @@ ko:
           painter: 화가
           photographer: 사진 작가
           plumber: 배관공
+          sawmill: 제재소
           shoemaker: 구두공
+          stonemason: 석공
           tailor: 재단사
           winery: 포도주 양조장
           "yes": 공예품점
@@ -796,6 +799,7 @@ ko:
           "yes": 교차로
         landuse:
           allotments: 텃밭
+          aquaculture: 수경 재배
           basin: 유역
           brownfield: 재개발지역
           cemetery: 묘지
@@ -914,11 +918,13 @@ ko:
         mountain_pass:
           "yes": 산길
         natural:
+          atoll: 환초
           bay: 만
           beach: 해변
           cape: 곶
           cave_entrance: 동굴 입구
           cliff: 절벽
+          coastline: 해안선
           crater: 크레이터
           dune: 모래 언덕
           fell: 언덕
@@ -936,6 +942,7 @@ ko:
           moor: 습지
           mud: 진흙
           peak: 봉우리
+          peninsula: 반도
           point: 점
           reef: 암초
           ridge: 산등성이
@@ -976,6 +983,7 @@ ko:
           "yes": 사옥
         place:
           allotments: 텃밭
+          archipelago: 군도
           city: 시
           city_block: 도시 구획
           country: 국가
@@ -1181,7 +1189,7 @@ ko:
           stream: 하천
           wadi: 와디
           waterfall: 폭포
-          weir: 어량
+          weir: 보
           "yes": 수로
       admin_levels:
         level2: 국가 경계
@@ -1431,11 +1439,34 @@ ko:
         partial_changeset_without_comment: 의견 없이
       details: 바뀜집합에 대한 자세한 사항은 %{url}에서 찾을 수 있습니다.
       unsubscribe: 이 바뀜집합의 업데이트를 받지 않으려면 %{url} 에 방문하여 "구독 해지"를 클릭하십시오.
+  confirmations:
+    confirm:
+      heading: 이메일을 확인하세요!
+      introduction_1: 확인 이메일을 보냈습니다.
+      introduction_2: 이메일에 있는 링크를 클릭하여 계정을 확인하면 매핑을 시작할 수 있습니다.
+      press confirm button: 계정을 활성화하려면 아래 확인 버튼을 누르세요.
+      button: 확인
+      success: 계정을 확인했습니다, 가입해주셔서 감사합니다!
+      already active: 이 계정은 이미 확인했습니다.
+      unknown token: 확인 코드가 만료되었거나 존재하지 않습니다.
+      reconfirm_html: 확인 이메일을 다시 보낼 필요가 있다면, <a href="%{reconfirm}">여기를 클릭하세요</a>.
+    confirm_resend:
+      success_html: '%{email}(으)로 새 확인 쪽지를 보냈는데 즉시 계정을 확인하는 대로 매핑을 할 수 있습니다.<br /><br
+        />확인 요청을 보낼 때 스팸 방지 시스템을 사용한다면 어떤 확인 요청에 답변할 수 없으므로 화이트리스트에 %{sender}이(가)
+        있는지 확인하세요.'
+      failure: '%{name} 사용자를 찾을 수 없습니다.'
+    confirm_email:
+      heading: 이메일 주소 바꾸기 확인
+      press confirm button: 새 이메일 주소를 확인하여면 아래에 확인 버튼을 누르세요.
+      button: 확인
+      success: 이메일 주소 변경을 확인했습니다!
+      failure: 이미 이 토큰으로 이메일 주소를 확인했습니다.
+      unknown_token: 확인 코드가 만료되었거나 존재하지 않습니다.
   messages:
     inbox:
       title: 받은 쪽지함
       my_inbox: 내 받은 쪽지함
-      outbox: 보낸 쪽지함
+      my_outbox: 내 보낸 쪽지함
       messages: '%{new_messages}와 %{old_messages}가 있습니다'
       new_messages:
         one: 새 메시지 %{count}개
@@ -1469,9 +1500,8 @@ ko:
       body: 죄송합니다 해당 id로 된 메시지가 없습니다.
     outbox:
       title: 보낸 쪽지함
-      my_inbox_html: 내 %{inbox_link}
-      inbox: 받은 쪽지함
-      outbox: 보낸 쪽지함
+      my_inbox: 내 받은 쪽지함
+      my_outbox: 내 보낸 쪽지함
       messages:
         one: 메시지 %{count}개를 보냈습니다
         other: 메시지 %{count}개를 보냈습니다
@@ -1503,6 +1533,76 @@ ko:
       as_unread: 메시지를 읽지 않은 것으로 표시
     destroy:
       destroyed: 메시지가 삭제됨
+  passwords:
+    lost_password:
+      title: 잊어버린 비밀번호
+      heading: 비밀번호를 잊으셨나요?
+      email address: '이메일 주소:'
+      new password button: 비밀번호 재설정
+      help_text: 가입할 때 사용한 이메일 주소를 입력하세요, 비밀번호를 재설정하여 사용할 수 있는 링크를 보내드립니다.
+      notice email on way: 비밀번호를 잊었다니, 안타깝습니다 :-( 비밀번호 재설정을 할 수 있도록 이메일이 발송되었습니다.
+      notice email cannot find: 이메일 주소를 찾지 못해 죄송합니다.
+    reset_password:
+      title: 비밀번호 재설정
+      heading: '%{user}의 비밀번호 재설정'
+      reset: 비밀번호 재설정
+      flash changed: 비밀번호가 바뀌었습니다.
+      flash token bad: 토큰을 찾지 못했습니다. URL을 확인했습니까?
+  sessions:
+    new:
+      title: 로그인
+      heading: 로그인
+      email or username: '이메일 주소 또는 사용자 이름:'
+      password: '비밀번호:'
+      openid_html: '%{logo} OpenID:'
+      remember: 로그인 상태를 기억하기
+      lost password link: 비밀번호를 잊으셨나요?
+      login_button: 로그인
+      register now: 지금 등록하세요
+      with username: '이미 OpenStreetMap 계정을 가지고 있나요? 계정 이름과 비밀번호로 로그인하세요:'
+      with external: 다른 제3자 로그인 방식 사용하기
+      new to osm: OpenStreetMap이 처음이세요?
+      to make changes: OpenStreetMap 데이터를 바꾸려면 계정이 있어야 합니다.
+      create account minute: 계정을 만듭니다. 1분도 걸리지 않습니다.
+      no account: 계정이 없나요?
+      account not active: 죄송합니다, 계정을 아직 활성화하지 않았습니다.<br />계정을 활성화하려면 계정 확인 이메일에 있는
+        링크를 사용하거나 <a href="%{reconfirm}">새 확인 이메일을 요청하세요</a>.
+      account is suspended: 죄송합니다, 의심스러운 활동으로 인해 계정이 일시 중지되었습니다.<br />이 문제를 토론하려면
+        <a href="%{webmaster}">웹마스터</a>에게 문의하세요.
+      auth failure: 죄송합니다, 입력한 정보로 로그인할 수 없습니다.
+      openid_logo_alt: OpenID로 로그인
+      auth_providers:
+        openid:
+          title: OpenID로 로그인하기
+          alt: OpenID URL로 로그인
+        google:
+          title: 구글로 로그인하기
+          alt: Google OpenID로 로그인하기
+        facebook:
+          title: 페이스북으로 로그인
+          alt: 페이스북 계정으로 로그인하기
+        windowslive:
+          title: 윈도 라이브로 로그인하기
+          alt: 윈도 라이브 계정으로 로그인하기
+        github:
+          title: GitHub로 로그인
+          alt: GitHub 계정으로 로그인
+        wikipedia:
+          title: 위키백과로 로그인하기
+          alt: 위키백과 계정으로 로그인
+        yahoo:
+          title: 야후로 로그인
+          alt: Yahoo OpenID로 로그인하기
+        wordpress:
+          title: 워드프레스로 로그인하기
+          alt: Wordpress OpenID로 로그인하기
+        aol:
+          title: AOL로 로그인하기
+          alt: AOL OpenID로 로그인하기
+    destroy:
+      title: 로그아웃
+      heading: OpenStreetMap에서 로그아웃
+      logout_button: 로그아웃
   shared:
     markdown_help:
       title_html: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>으로
@@ -1872,24 +1972,6 @@ ko:
           bicycle_shop: 자전거 가게
           bicycle_parking: 자전거 주차장
           toilets: 화장실
-    richtext_area:
-      edit: 편집
-      preview: 미리 보기
-    markdown_help:
-      title_html: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>으로
-        구문 분석
-      headings: 문단 제목
-      heading: 문단 제목
-      subheading: 하위 문단 제목
-      unordered: 순서 없는 목록
-      ordered: 순서 있는 목록
-      first: 첫째 항목
-      second: 둘째 항목
-      link: 링크
-      text: 텍스트
-      image: 그림
-      alt: 대체 텍스트
-      url: URL
     welcome:
       title: 환영합니다!
       introduction_html: |-
@@ -2000,7 +2082,6 @@ ko:
       more: 더 보기
       trace_details: 궤적 상세보기
       view_map: 지도 보기
-      edit: 편집
       edit_map: 지도 편집
       public: 공개
       identifiable: 식별 가능
@@ -2008,7 +2089,6 @@ ko:
       trackable: 추적 가능
       by: 사용자
       in: 위치
-      map: 지도
     index:
       public_traces: 공개 GPS 궤적
       my_traces: 내 GPS 궤적
@@ -2116,74 +2196,6 @@ ko:
     destroy:
       flash: 클라이언트 애플리케이션 등록을 파기했습니다
   users:
-    login:
-      title: 로그인
-      heading: 로그인
-      email or username: '이메일 주소 또는 사용자 이름:'
-      password: '비밀번호:'
-      openid_html: '%{logo} OpenID:'
-      remember: 로그인 상태를 기억하기
-      lost password link: 비밀번호를 잊으셨나요?
-      login_button: 로그인
-      register now: 지금 등록하세요
-      with username: '이미 OpenStreetMap 계정을 가지고 있나요? 계정 이름과 비밀번호로 로그인하세요:'
-      with external: 다른 제3자 로그인 방식 사용하기
-      new to osm: OpenStreetMap이 처음이세요?
-      to make changes: OpenStreetMap 데이터를 바꾸려면 계정이 있어야 합니다.
-      create account minute: 계정을 만듭니다. 1분도 걸리지 않습니다.
-      no account: 계정이 없나요?
-      account not active: 죄송합니다, 계정을 아직 활성화하지 않았습니다.<br />계정을 활성화하려면 계정 확인 이메일에 있는
-        링크를 사용하거나 <a href="%{reconfirm}">새 확인 이메일을 요청하세요</a>.
-      account is suspended: 죄송합니다, 의심스러운 활동으로 인해 계정이 일시 중지되었습니다.<br />이 문제를 토론하려면
-        <a href="%{webmaster}">웹마스터</a>에게 문의하세요.
-      auth failure: 죄송합니다, 입력한 정보로 로그인할 수 없습니다.
-      openid_logo_alt: OpenID로 로그인
-      auth_providers:
-        openid:
-          title: OpenID로 로그인하기
-          alt: OpenID URL로 로그인
-        google:
-          title: 구글로 로그인하기
-          alt: Google OpenID로 로그인하기
-        facebook:
-          title: 페이스북으로 로그인
-          alt: 페이스북 계정으로 로그인하기
-        windowslive:
-          title: 윈도 라이브로 로그인하기
-          alt: 윈도 라이브 계정으로 로그인하기
-        github:
-          title: GitHub로 로그인
-          alt: GitHub 계정으로 로그인
-        wikipedia:
-          title: 위키백과로 로그인하기
-          alt: 위키백과 계정으로 로그인
-        yahoo:
-          title: 야후로 로그인
-          alt: Yahoo OpenID로 로그인하기
-        wordpress:
-          title: 워드프레스로 로그인하기
-          alt: Wordpress OpenID로 로그인하기
-        aol:
-          title: AOL로 로그인하기
-          alt: AOL OpenID로 로그인하기
-    logout:
-      title: 로그아웃
-      heading: OpenStreetMap에서 로그아웃
-      logout_button: 로그아웃
-    lost_password:
-      title: 잊어버린 비밀번호
-      heading: 비밀번호를 잊으셨나요?
-      email address: '이메일 주소:'
-      new password button: 비밀번호 재설정
-      help_text: 가입할 때 사용한 이메일 주소를 입력하세요, 비밀번호를 재설정하여 사용할 수 있는 링크를 보내드립니다.
-      notice email on way: 비밀번호를 잊었다니, 안타깝습니다 :-( 비밀번호 재설정을 할 수 있도록 이메일이 발송되었습니다.
-      notice email cannot find: 이메일 주소를 찾지 못해 죄송합니다.
-    reset_password:
-      title: 비밀번호 재설정
-      heading: '%{user}의 비밀번호 재설정'
-      reset: 비밀번호 재설정
-      flash changed: 비밀번호가 바뀌었습니다.
-      flash token bad: 토큰을 찾지 못했습니다. URL을 확인했습니까?
     new:
       title: 가입하기
       no_auto_account_create: 불행하게도 현재로서는 자동으로 계정을 만들 수 없습니다.
@@ -2353,28 +2365,6 @@ ko:
       flash update success confirm needed: 사용자 정보를 성공적으로 업데이트했습니다. 새 이메일 주소를 확인하기
         위해 이메일을 확인하세요.
       flash update success: 사용자 정보를 성공적으로 업데이트했습니다.
-    confirm:
-      heading: 이메일을 확인하세요!
-      introduction_1: 확인 이메일을 보냈습니다.
-      introduction_2: 이메일에 있는 링크를 클릭하여 계정을 확인하면 매핑을 시작할 수 있습니다.
-      press confirm button: 계정을 활성화하려면 아래 확인 버튼을 누르세요.
-      button: 확인
-      success: 계정을 확인했습니다, 가입해주셔서 감사합니다!
-      already active: 이 계정은 이미 확인했습니다.
-      unknown token: 확인 코드가 만료되었거나 존재하지 않습니다.
-      reconfirm_html: 확인 이메일을 다시 보낼 필요가 있다면, <a href="%{reconfirm}">여기를 클릭하세요</a>.
-    confirm_resend:
-      success_html: '%{email}(으)로 새 확인 쪽지를 보냈는데 즉시 계정을 확인하는 대로 매핑을 할 수 있습니다.<br /><br
-        />확인 요청을 보낼 때 스팸 방지 시스템을 사용한다면 어떤 확인 요청에 답변할 수 없으므로 화이트리스트에 %{sender}이(가)
-        있는지 확인하세요.'
-      failure: '%{name} 사용자를 찾을 수 없습니다.'
-    confirm_email:
-      heading: 이메일 주소 바꾸기 확인
-      press confirm button: 새 이메일 주소를 확인하여면 아래에 확인 버튼을 누르세요.
-      button: 확인
-      success: 이메일 주소 변경을 확인했습니다!
-      failure: 이미 이 토큰으로 이메일 주소를 확인했습니다.
-      unknown_token: 확인 코드가 만료되었거나 존재하지 않습니다.
     set_home:
       flash success: 집 위치를 성공적으로 저장했습니다
     go_public:

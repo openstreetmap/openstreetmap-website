@@ -8,28 +8,50 @@
       <% end %>
     <% end %>
   </td>
-  <td><%= link_to trace.name, :controller => "traces", :action => "show", :display_name => trace.user.display_name, :id => trace.id %>
-    <span class="text-muted" title="<%= trace.timestamp %>"> ...
-      <% if trace.inserted %>
-        (<%= t ".count_points", :count => trace.size %>)
+  <td>
+    <ul class="list-inline mb-0">
+      <li class="list-inline-item">
+        <%= link_to trace.name, :controller => "traces", :action => "show", :display_name => trace.user.display_name, :id => trace.id %>
+      </li>
+
+      <% if trace.inserted? %>
+        <li class="list-inline-item">
+          <%= t ".count_points", :count => trace.size %>
+        </li>
       <% end %>
-      ... <%= time_ago_in_words(trace.timestamp, :scope => :'datetime.distance_in_words_ago') %></span>
-      <%= link_to_if trace.inserted?, t(".map"), { :controller => "site", :action => "index", :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}" }, { :title => t(".view_map") } %> /
-      <%= link_to t(".edit"), { :controller => "site", :action => "edit", :gpx => trace.id }, { :title => t(".edit_map") } %>
 
-      <% badge_class = case trace.visibility
-                       when "public", "identifiable" then "success"
-                       else "danger"
-                       end %>
-      <span class="badge badge-<%= badge_class %> text-white"><%= t(".#{trace.visibility}") %></span>
-
-      <br />
+      <li class="list-inline-item">
+        <% badge_class = case trace.visibility
+                         when "public", "identifiable" then "success"
+                         else "danger"
+                         end %>
+        <span class="badge badge-<%= badge_class %> text-white"><%= t(".#{trace.visibility}") %></span>
+      </li>
+    </ul>
+    <p class="text-muted mb-0">
+      <span title="<%= trace.timestamp %>">
+        <%= time_ago_in_words(trace.timestamp, :scope => :'datetime.distance_in_words_ago') %>
+      </span>
+      <%= t ".by" %> <%= link_to trace.user.display_name, user_path(trace.user) %>
+      <% if !trace.tags.empty? %>
+        <%= t ".in" %>
+        <%= safe_join(trace.tags.collect { |tag| link_to_tag tag.tag }, ", ") %>
+      <% end %>
+    </p>
+    <p class="font-italic mb-0">
       <%= trace.description %>
-    <br />
-    <%= t ".by" %> <%= link_to trace.user.display_name, user_path(trace.user) %>
-    <% if !trace.tags.empty? %>
-      <%= t ".in" %>
-      <%= safe_join(trace.tags.collect { |tag| link_to_tag tag.tag }, ", ") %>
+    </p>
+  </td>
+  <td>
+    <% if trace.inserted? %>
+      <ul class="secondary-actions">
+        <li>
+          <%= link_to t(".view_map"), { :controller => "site", :action => "index", :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}" } %>
+        </li>
+        <li>
+          <%= link_to t(".edit_map"), { :controller => "site", :action => "edit", :gpx => trace.id } %>
+        </li>
+      </ul>
     <% end %>
   </td>
 </tr>

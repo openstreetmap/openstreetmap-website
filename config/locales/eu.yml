@@ -6,6 +6,7 @@
 # Author: An13sa
 # Author: Asieriko
 # Author: EukeneFL
+# Author: Garaolaza
 # Author: Gorkaazk
 # Author: Ibai
 # Author: Iñaki LL
@@ -23,17 +24,21 @@ eu:
     formats:
       friendly: '%e %B %Y %H:%M-ean'
   helpers:
+    file:
+      prompt: Aukeratu fitxategia
     submit:
       diary_comment:
         create: Gorde
       diary_entry:
         create: Argitaratu
         update: Eguneratu
+      issue_comment:
+        create: Iruzkina gehitu
       message:
         create: Bidali
       client_application:
         create: Erregistratu
-        update: Aldatu
+        update: Eguneratu
       redaction:
         create: Erredakzioa sortu
         update: Gorde erredakzioa
@@ -72,6 +77,7 @@ eu:
       relation: Erlazioa
       relation_member: Erlazio kidea
       relation_tag: Erlazio etiketa
+      report: Txostena
       session: Saioa
       trace: Trazoa
       tracepoint: Trazo puntua
@@ -100,14 +106,14 @@ eu:
       trace:
         user: Erabiltzailea
         visible: Ikusgai
-        name: Izena
+        name: Fitxategi izena
         size: Tamaina
         latitude: Latitude
         longitude: Longitude
         public: Publikoa
         description: Deskribapena
-        gpx_file: 'GPX fitxategi igo:'
-        visibility: 'Ikusgarritasuna:'
+        gpx_file: 'GPX fitxategia igo:'
+        visibility: Ikusgarritasuna
         tagstring: 'Etiketak:'
       message:
         sender: Igorlea
@@ -115,25 +121,38 @@ eu:
         body: Testua
         recipient: Hartzailea
       redaction:
+        title: Izenburua
         description: Deskribapena
       report:
+        category: 'Aukeratu arrazoi bat zure txostenerako:'
         details: Mesedez, eman arazoaren inguruko xehetasun gehiago (beharrezkoa).
       user:
         email: Eposta
+        email_confirmation: 'E-posta egiaztapena:'
         new_email: 'E-posta helbide berria:'
         active: Aktibo
         display_name: Erakusteko izena
-        description: Deskribapena
-        home_lat: 'Latitude:'
-        home_lon: 'Longitude:'
-        languages: Hizkuntzak
+        description: 'Profilaren deskribapena:'
+        home_lat: Latitudea
+        home_lon: 'Longitudea:'
+        languages: Hizkuntza lehenetsiak
+        preferred_editor: 'Lehenetsitako editorea:'
         pass_crypt: Pasahitza
+        pass_crypt_confirmation: 'Berretsi pasahitza:'
     help:
       trace:
         tagstring: koma mugatua
       user_block:
+        reason: Erabiltzailea blokaturik egoteko arrazoia. Egon ahal bezain lasai
+          eta zentzudun, egoeraren inguruko xehetasun guztiak emanez, mezu hori publikoki
+          ikusgai egongo dela gogoratuz. Gogoan izan erabiltzaile guztiek ez dutela
+          komunitatearen hizkera ulertzen; beraz, saiatu hitz arruntak erabiltzen.
         needs_view: Erabiltzaileak saioa hasi behar al du bloke hau garbitu aurretik?
       user:
+        email_confirmation: Zure helbidea ez da publikoki erakutsiko, ikusi gure <a
+          href="https://wiki.openstreetmap.org/wiki/Privacy_Policy" title="OSMFren
+          pribatutasun politika, helbide elektronikoei buruzko atala ere bai">pribatutasun
+          politika</a>) informazio gehiagorako.
         new_email: (inoiz ez da publikoki bistaratuko)
   editor:
     default: Lehenetsia (orain %{name})
@@ -773,6 +792,7 @@ eu:
           cape: Lurmuturra
           cave_entrance: Kobazulo sarrera
           cliff: Labarra
+          coastline: Itsasertz
           crater: Kraterra
           dune: Duna
           fell: Ebakia
@@ -797,7 +817,7 @@ eu:
           sand: Harea
           scree: Pilaketa
           scrub: Sasiak
-          spring: Udaberria
+          spring: Iturburua
           stone: Harria
           strait: Itsasartea
           tree: Zuhaitza
@@ -1258,11 +1278,38 @@ eu:
       details: Aldaketari buruzko xehetasun gehiago %{url}n aurki daitezke.
       unsubscribe: Aldaketaren aldaketa eguneratzeak ezeztatzeko, bisitatu %{url}
         eta sakatu "Ezabatu harpidetza".
+  confirmations:
+    confirm:
+      heading: Helbide elektronikoa begiratu!
+      introduction_1: Berrespen-mezu bat bidali dizugu.
+      introduction_2: Berretsi kontua posta elektronikoaren estekan klik eginez eta
+        mapak hasteko gai izango zara.
+      press confirm button: Sakatu beheko berresteko botoia zure kontua aktibatzeko.
+      button: Berretsi
+      success: Zure kontua berretsi du, erregistratzeagatik milesker!
+      already active: Kontu hau dagoeneko berretsi da.
+      unknown token: Berrespen-kodea iraungi egin da edo ez da existitzen.
+      reconfirm_html: Berrespen-mezu elektronikoa bidaltzea behar baduzu, <a href="%{reconfirm}">egin
+        klik hemen</a>.
+    confirm_resend:
+      success_html: Berrespen ohar bat bidali dugu %{email} helbidera eta zure kontua
+        berretsi bezain laster, mapak eskuratu ahal izango dituzu. <br/> <br/> Berrespen
+        eskaerak bidaltzen dituen antispam sistema erabiltzen baduzu, mesedez ziurta
+        zaitez %{sender} zurien zerrenda duzula, baieztapen eskaerei erantzun ezin
+        diegulako.
+      failure: '%{name} erabiltzailea ez da aurkitu.'
+    confirm_email:
+      heading: Helbide elektronikoan aldaketa bat baieztatu
+      press confirm button: Sakatu beheko berresteko botoia zure helbide elektroniko
+        berria berresteko.
+      button: Berretsi
+      success: Helbide elektronikoan aldaketa baieztatu da!
+      failure: Helbide elektroniko bat egiaztatu da token honekin.
+      unknown_token: Baieztapen-kode hori iraungi da edo ez da existitzen.
   messages:
     inbox:
       title: Sarrera-ontzia
       my_inbox: Nire sarrera-ontzia
-      outbox: irteerako ontzia
       messages: '%{new_messages} eta %{old_messages} dituzu'
       new_messages:
         one: '%Mezu berri {count}'
@@ -1297,9 +1344,6 @@ eu:
       body: Barkatu baina id horrekin ez dago mezurik.
     outbox:
       title: Irteerako ontzia
-      my_inbox_html: Nire %{inbox_link}
-      inbox: Sarrera-ontzia
-      outbox: irteerako ontzia
       messages:
         one: '%{count} Mezua bidali duzu'
         other: ' %{count} Mezuak bidali dituzu'
@@ -1333,6 +1377,83 @@ eu:
       as_unread: Mezua irakurri gabe gisa markatu da
     destroy:
       destroyed: Mezua ezabatuta
+  passwords:
+    lost_password:
+      title: Ahaztutako pasahitza
+      heading: Pasahitza ahaztuta?
+      email address: 'Eposta helbidea:'
+      new password button: Pasahitza berrezarri
+      help_text: Sartu saioa hastean erabiltzen zenuen helbide elektronikoa, zure
+        pasahitza berrezarri ahal izateko erabil dezakezu bidaliko dizugun esteka.
+      notice email on way: Sentitzen duzu hau galdu izatea :-( baina posta elektronikoa
+        bidaltzen ari zaizu laster berrabiarazi dezakezun.
+      notice email cannot find: Eposta helbide hori ezin izan dugu aurkitu, barkatu.
+    reset_password:
+      title: Pasahitza berrezarri
+      heading: '%{user}-ren pasahitza berrezarri'
+      reset: Pasahitza berrezarri
+      flash changed: Zure pasahitza aldatu da.
+      flash token bad: Token hori ez da aurkitu, URL egiaztatu beharbada?
+  sessions:
+    new:
+      title: Saio-hasiera
+      heading: Saio-hasiera
+      email or username: 'Eposta helbidea edo Erabiltzaile izena:'
+      password: 'Pasahitza:'
+      openid_html: '%{logo} OpenID:'
+      remember: 'Gogora nazazu:'
+      lost password link: Pasahitza ahaztu duzu?
+      login_button: Saioa hasi
+      register now: Erregistratu orain
+      with username: 'Dagoeneko OpenStreetMap kontu bat duzu? Mesedez, saioa hasi
+        zure erabiltzaile-izenarekin eta pasahitzarekin:'
+      with external: 'Bestela, erabili hirugarrenen bat saioa hasteko:'
+      new to osm: Berria zara OpenStreetMapen?
+      to make changes: OpenStreetMap-en aldaketak egiteko, kontu bat izatea beharrezkoa
+        duzu.
+      create account minute: Sortu kontu bat. Minutu bat besterik ez duzu behar.
+      no account: Ez al duzu konturik?
+      account not active: Barkatu, zure kontua ez dago aktibo oraindik. <br/> Mesedez,
+        erabili esteka kontuko berrespena mezu elektronikoa zure kontua aktibatzeko
+        edo <a href="%{reconfirm}"> baieztapen mezu elektroniko berri bat eskatzeko
+        </a>.
+      account is suspended: Barkatu, zure kontua eten egin da jarduera susmagarriak
+        direla-eta. <br/> Mesedez, jarri harremanetan <a href="%{webmaster}"> webmasterrekin
+        </a> honi buruz hitz egin nahi baduzu.
+      auth failure: Barkatu, ezin izan da saioa hasi xehetasun horiekin.
+      openid_logo_alt: ID irekiarekin saioa hasi
+      auth_providers:
+        openid:
+          title: ID irekiarekin saioa hasi
+          alt: Hasi saioa ID irekia duen URL batekin
+        google:
+          title: Saioa hasi Googlekin
+          alt: Google ID irekiarekin saioa hasi
+        facebook:
+          title: Saioa hasi Facebookekin
+          alt: Saioa hasi Facebookekin
+        windowslive:
+          title: Saioa hasi Windows Livekin
+          alt: Windows Live kontu batekin saioa hasi
+        github:
+          title: GitHub-rekin saioa hasi
+          alt: GitHub kontuarekin saioa hasi
+        wikipedia:
+          title: Saioa hasi Wikipediarekin
+          alt: Wikipedia kontuarekin saioa hasi
+        yahoo:
+          title: Saioa hasi Yahoorekin
+          alt: Yahoo Open IDarekin saioa hasi
+        wordpress:
+          title: Wordpress bidez saioa hasi
+          alt: Wordpress ID irekiarekin saioa hasi
+        aol:
+          title: AOL erabiliz saioa hasi
+          alt: AOL ID irekiarekin saioa hasi
+    destroy:
+      title: Saio-itxiera
+      heading: OpenStreetMap-etik saioa itxi
+      logout_button: Saioa itxi
   site:
     about:
       next: Hurrengoa
@@ -1699,23 +1820,6 @@ eu:
           bicycle_shop: Bizikleta-denda
           bicycle_parking: Bizikleta-aparkalekua
           toilets: Komunak
-    richtext_area:
-      edit: Aldatu
-      preview: Aurrikusi
-    markdown_help:
-      title_html: Honekin analizatua:<a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
-      headings: Atalburuak
-      heading: Goiburua
-      subheading: Azpi-goiburua
-      unordered: Ordenik gabeko zerrenda
-      ordered: Ordenatutako zerrenda
-      first: Lehenengo itema
-      second: Bigarren itema
-      link: Esteka
-      text: Testua
-      image: Irudia
-      alt: Testu alternatiboa
-      url: URLa
     welcome:
       title: Ongi etorri!
       introduction_html: Ongi etorri OpenStreetMapera, edonork alda dezakeen munduko
@@ -1825,7 +1929,6 @@ eu:
       more: gehiago
       trace_details: Ikusi Aztarna Xehetasunak
       view_map: Mapa ikusi
-      edit: aldatu
       edit_map: Mapa aldatu
       public: PUBLIKOA
       identifiable: IDENTIFIKAGARRIA
@@ -1833,7 +1936,6 @@ eu:
       trackable: JARRAIGARRIA
       by: 'honen arabera:'
       in: barruan
-      map: mapa
     index:
       public_traces: GPS aztarna publikoak
       my_traces: Nire GPS aztarnak
@@ -1945,81 +2047,6 @@ eu:
     destroy:
       flash: Bezeroaren eskaera erregistroa suntsitua
   users:
-    login:
-      title: Saio-hasiera
-      heading: Saio-hasiera
-      email or username: 'Eposta helbidea edo Erabiltzaile izena:'
-      password: 'Pasahitza:'
-      openid_html: '%{logo} OpenID:'
-      remember: 'Gogora nazazu:'
-      lost password link: Pasahitza ahaztu duzu?
-      login_button: Saioa hasi
-      register now: Erregistratu orain
-      with username: 'Dagoeneko OpenStreetMap kontu bat duzu? Mesedez, saioa hasi
-        zure erabiltzaile-izenarekin eta pasahitzarekin:'
-      with external: 'Bestela, erabili hirugarrenen bat saioa hasteko:'
-      new to osm: Berria zara OpenStreetMapen?
-      to make changes: OpenStreetMap-en aldaketak egiteko, kontu bat izatea beharrezkoa
-        duzu.
-      create account minute: Sortu kontu bat. Minutu bat besterik ez duzu behar.
-      no account: Ez al duzu konturik?
-      account not active: Barkatu, zure kontua ez dago aktibo oraindik. <br/> Mesedez,
-        erabili esteka kontuko berrespena mezu elektronikoa zure kontua aktibatzeko
-        edo <a href="%{reconfirm}"> baieztapen mezu elektroniko berri bat eskatzeko
-        </a>.
-      account is suspended: Barkatu, zure kontua eten egin da jarduera susmagarriak
-        direla-eta. <br/> Mesedez, jarri harremanetan <a href="%{webmaster}"> webmasterrekin
-        </a> honi buruz hitz egin nahi baduzu.
-      auth failure: Barkatu, ezin izan da saioa hasi xehetasun horiekin.
-      openid_logo_alt: ID irekiarekin saioa hasi
-      auth_providers:
-        openid:
-          title: ID irekiarekin saioa hasi
-          alt: Hasi saioa ID irekia duen URL batekin
-        google:
-          title: Saioa hasi Googlekin
-          alt: Google ID irekiarekin saioa hasi
-        facebook:
-          title: Saioa hasi Facebookekin
-          alt: Saioa hasi Facebookekin
-        windowslive:
-          title: Saioa hasi Windows Livekin
-          alt: Windows Live kontu batekin saioa hasi
-        github:
-          title: GitHub-rekin saioa hasi
-          alt: GitHub kontuarekin saioa hasi
-        wikipedia:
-          title: Saioa hasi Wikipediarekin
-          alt: Wikipedia kontuarekin saioa hasi
-        yahoo:
-          title: Saioa hasi Yahoorekin
-          alt: Yahoo Open IDarekin saioa hasi
-        wordpress:
-          title: Wordpress bidez saioa hasi
-          alt: Wordpress ID irekiarekin saioa hasi
-        aol:
-          title: AOL erabiliz saioa hasi
-          alt: AOL ID irekiarekin saioa hasi
-    logout:
-      title: Saio-itxiera
-      heading: OpenStreetMap-etik saioa itxi
-      logout_button: Saioa itxi
-    lost_password:
-      title: Ahaztutako pasahitza
-      heading: Pasahitza ahaztuta?
-      email address: 'Eposta helbidea:'
-      new password button: Pasahitza berrezarri
-      help_text: Sartu saioa hastean erabiltzen zenuen helbide elektronikoa, zure
-        pasahitza berrezarri ahal izateko erabil dezakezu bidaliko dizugun esteka.
-      notice email on way: Sentitzen duzu hau galdu izatea :-( baina posta elektronikoa
-        bidaltzen ari zaizu laster berrabiarazi dezakezun.
-      notice email cannot find: Eposta helbide hori ezin izan dugu aurkitu, barkatu.
-    reset_password:
-      title: Pasahitza berrezarri
-      heading: '%{user}-ren pasahitza berrezarri'
-      reset: Pasahitza berrezarri
-      flash changed: Zure pasahitza aldatu da.
-      flash token bad: Token hori ez da aurkitu, URL egiaztatu beharbada?
     new:
       title: Eman izena
       no_auto_account_create: Zoritxarrez ezin  dizugu automatikoki kontu bat sortu.
@@ -2197,33 +2224,6 @@ eu:
       flash update success confirm needed: Erabiltzaile informazio igoera arrakastatsua.
         Zure email-a begiratu posta elektroniko berria egiaztatzeko oharra ikusteko.
       flash update success: Erabiltzailearen informazioa behar bezala eguneratu da.
-    confirm:
-      heading: Helbide elektronikoa begiratu!
-      introduction_1: Berrespen-mezu bat bidali dizugu.
-      introduction_2: Berretsi kontua posta elektronikoaren estekan klik eginez eta
-        mapak hasteko gai izango zara.
-      press confirm button: Sakatu beheko berresteko botoia zure kontua aktibatzeko.
-      button: Berretsi
-      success: Zure kontua berretsi du, erregistratzeagatik milesker!
-      already active: Kontu hau dagoeneko berretsi da.
-      unknown token: Berrespen-kodea iraungi egin da edo ez da existitzen.
-      reconfirm_html: Berrespen-mezu elektronikoa bidaltzea behar baduzu, <a href="%{reconfirm}">egin
-        klik hemen</a>.
-    confirm_resend:
-      success_html: Berrespen ohar bat bidali dugu %{email} helbidera eta zure kontua
-        berretsi bezain laster, mapak eskuratu ahal izango dituzu. <br/> <br/> Berrespen
-        eskaerak bidaltzen dituen antispam sistema erabiltzen baduzu, mesedez ziurta
-        zaitez %{sender} zurien zerrenda duzula, baieztapen eskaerei erantzun ezin
-        diegulako.
-      failure: '%{name} erabiltzailea ez da aurkitu.'
-    confirm_email:
-      heading: Helbide elektronikoan aldaketa bat baieztatu
-      press confirm button: Sakatu beheko berresteko botoia zure helbide elektroniko
-        berria berresteko.
-      button: Berretsi
-      success: Helbide elektronikoan aldaketa baieztatu da!
-      failure: Helbide elektroniko bat egiaztatu da token honekin.
-      unknown_token: Baieztapen-kode hori iraungi da edo ez da existitzen.
     set_home:
       flash success: Etxeko helbidea modu egokian gorde da.
     go_public:

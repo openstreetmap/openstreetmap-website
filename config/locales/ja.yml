@@ -34,6 +34,7 @@
 # Author: Sudachi
 # Author: Sujiniku
 # Author: Surgical21
+# Author: Tamaki Wakita
 # Author: Tmv
 # Author: Tombi-aburage
 # Author: Vigorous action
@@ -161,19 +162,24 @@ ja:
         body: 本文
         recipient: 受信者
       redaction:
+        title: タイトル
         description: 説明
       report:
         category: 報告の理由を選択してください。
         details: 問題についてもう少し詳しく記述してください (必須)。
       user:
+        auth_provider: 認証提供者
+        auth_uid: 認証 ID
         email: メール
-        new_email: '新しいメール アドレス:'
+        email_confirmation: メールアドレスの確認
+        new_email: 新しいメール アドレス
         active: アクティブ
         display_name: 表示名
-        description: 説明
-        home_lat: '緯度:'
-        home_lon: '経度:'
-        languages: 言語
+        description: プロフィールの説明
+        home_lat: 緯度
+        home_lon: 経度
+        languages: 優先言語
+        preferred_editor: 優先エディター
         pass_crypt: パスワード
         pass_crypt_confirmation: パスワードを確認
     help:
@@ -183,6 +189,8 @@ ja:
         reason: ユーザーがブロックされている理由です。メッセージは多くの人の目にふれることになるため、できるだけ冷静かつ理性的になり、できるだけ丁寧に状況を説明するようにしてください。すべての利用者がコミュニティ固有の用語を理解しているわけではないため、分かりやすい用語を使うように努めてください。
         needs_view: このブロックを解消するには、先に利用者がログインする必要がありますか？
       user:
+        email_confirmation: あなたのアドレスは非公開です。詳細は弊財団の<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="メール アドレスの節を含む、OSMFのプライバシーポリシー">プライバシーポリシー</a>をご参照ください。
         new_email: (非公開)
   datetime:
     distance_in_words_ago:
@@ -670,6 +678,7 @@ ja:
           watering_place: 集水地
           water_point: 給水所
           weighbridge: 台貫
+          "yes": 便利な施設
         boundary:
           aboriginal_lands: 先住民地域
           administrative: 行政境界
@@ -972,6 +981,7 @@ ja:
           snow_cannon: 人工降雪機
           snow_fence: 防雪フェンス
           storage_tank: 貯蔵タンク
+          street_cabinet: 屋外仕様キャビネット
           surveillance: 監視カメラ
           telescope: 望遠鏡
           tower: 塔
@@ -995,12 +1005,14 @@ ja:
         mountain_pass:
           "yes": 山道
         natural:
+          atoll: 環礁
           bare_rock: 露頭
           bay: 入り江
           beach: 砂浜
           cape: 岬
           cave_entrance: 洞窟入口
           cliff: 崖
+          coastline: 海岸線
           crater: クレーター
           dune: 砂丘
           fell: 荒野
@@ -1018,6 +1030,7 @@ ja:
           moor: 沼地
           mud: 泥
           peak: 山頂
+          peninsula: 半島
           point: 点
           reef: 砂州
           ridge: 海嶺
@@ -1065,6 +1078,7 @@ ja:
           "yes": オフィス
         place:
           allotments: 家庭菜園
+          archipelago: 諸島
           city: 市
           city_block: 街区
           country: 国
@@ -1542,11 +1556,34 @@ ja:
       details_html: 変更セットについての詳細は %{url} を参照。
       unsubscribe: この変更セットの購読を中止するには%{url}を開いて"購読を中止 Unsubscribe"をクリック。
       unsubscribe_html: この変更セットの購読を中止するには%{url}を開いて「購読を中止」をクリック。
+  confirmations:
+    confirm:
+      heading: メールを確認してください
+      introduction_1: 確認メールをお送りしました。
+      introduction_2: メール内のリンクをクリックしてアカウントの確認をすれば、マッピングを始められます。
+      press confirm button: アカウントを有効にして良ければ、以下の確認ボタンを押してください。
+      button: 確認
+      success: アカウントを確認しました。登録ありがとうございます!
+      already active: このアカウントは確認済みです。
+      unknown token: この確認コードは期限切れ、または存在しません。
+      reconfirm_html: 確認メールを再送する必要がある場合は、<a href="%{reconfirm}">ここをクリック</a>してください。
+    confirm_resend:
+      success_html: '%{email}に確認メッセージを再送信しました。メールを確認してアカウントを有効にし次第、編集を開始できます。<br /><br
+        />あなたの指定したアドレスに確認メールが届くまであなたはログインできません。メールボックスでスパムフィルターを使用している場合は %{sender}
+        からの確認メールを受信できるようホワイトリストを設定してください。'
+      failure: '%{name}というアカウントは登録されていません。'
+    confirm_email:
+      heading: メール アドレスの変更を確認
+      press confirm button: 新しいメール アドレスを確認するために確認ボタンを押してください。
+      button: 確認
+      success: メール アドレスが変更されたことを確認しました。
+      failure: このトークンは、メール アドレスの確認に使用済みです。
+      unknown_token: その確認コードは期限切れ、または存在しません。
   messages:
     inbox:
       title: 受信箱
       my_inbox: 自分の受信箱
-      outbox: 送信箱
+      my_outbox: 自分の送信ボックス
       messages: '%{new_messages}、%{old_messages}があります'
       new_messages:
         other: '%{count} 件の新着メッセージ'
@@ -1577,9 +1614,8 @@ ja:
       body: 申し訳ありませんが、この ID のメッセージはありません。
     outbox:
       title: 送信箱
-      my_inbox_html: 自分の%{inbox_link}
-      inbox: 受信箱
-      outbox: 送信箱
+      my_inbox: 自分の受信箱
+      my_outbox: 自分の送信ボックス
       messages:
         other: '%{count} 件の送信済みメッセージがあります'
       to: 宛先
@@ -1607,6 +1643,76 @@ ja:
       as_unread: 未読メッセージ
     destroy:
       destroyed: メッセージを削除しました
+  passwords:
+    lost_password:
+      title: パスワードを忘れた
+      heading: パスワードを忘れた場合はこちら
+      email address: 'メール アドレス:'
+      new password button: パスワードを再設定
+      help_text: ユーザー登録に使用したメール アドレスを入力してください。そのアドレス宛に、パスワードを再設定するためのリンクをお送りします。
+      notice email on way: すみません。紛失してしまいました :-( しかし、メールをお送りしたので、すぐにリセットできるでしょう。
+      notice email cannot find: 申し訳ありませんが、このメール アドレスは見つかりません。
+    reset_password:
+      title: パスワードの再設定
+      heading: '%{user} のパスワードのリセット'
+      reset: パスワードを初期化
+      flash changed: あなたのパスワードは変更されました。
+      flash token bad: キーワードが見つかりません。URL を確認してください。
+  sessions:
+    new:
+      title: ログイン
+      heading: ログイン
+      email or username: 'メール アドレスまたは利用者名:'
+      password: 'パスワード:'
+      openid_html: '%{logo} OpenID:'
+      remember: ログイン状態を保持
+      lost password link: パスワードを忘れた場合はこちら
+      login_button: ログイン
+      register now: 今すぐ登録
+      with username: 'OpenStreetMap アカウントを既にお持ちですか? 自分の利用者名とパスワードでログインしてください:'
+      with external: 'サードパーティのアカウントでもログインできます:'
+      new to osm: OpenStreetMap は初めてですか?
+      to make changes: OpenStreetMap データを変更するには、アカウントが必要です。
+      create account minute: アカウントを作成します。1分でできます。
+      no account: アカウントを持っていませんか?
+      account not active: 申し訳ありませんが、あなたのアカウントはまだ有効ではありません。<br />アカウント確認メール内のリンクをクリックするか、<a
+        href="%{reconfirm}">新しい確認メールを要求</a>をしてください。
+      account is suspended: 申し訳ありませんが、不審な活動のため、あなたのアカウントは一時停止されております。<br />本件についてご相談がある場合は
+        <a href="%{webmaster}">ウェブマスター</a>にご連絡ください。
+      auth failure: 申し訳ありませんが、入力した情報でログインできませんでした。
+      openid_logo_alt: OpenID でログイン
+      auth_providers:
+        openid:
+          title: OpenID を使用してログイン
+          alt: OpenID URL を使用してログイン
+        google:
+          title: Google を使用してログイン
+          alt: Google OpenID を使用してログイン
+        facebook:
+          title: Facebook を使用してログイン
+          alt: Facebook アカウントを使用してログイン
+        windowslive:
+          title: Windows Live を使用してログイン
+          alt: Windows Live アカウントを使用してログイン
+        github:
+          title: GitHubでログイン
+          alt: GitHubのアカウントでログイン
+        wikipedia:
+          title: ウィキペディアでログイン
+          alt: ウィキペディアのアカウントでログイン
+        yahoo:
+          title: Yahoo を使用してログイン
+          alt: Yahoo OpenID を使用してログイン
+        wordpress:
+          title: Wordpress を使用してログイン
+          alt: Wordpress OpenID を使用してログイン
+        aol:
+          title: AOL を使用してログイン
+          alt: AOL OpenID を使用してログイン
+    destroy:
+      title: ログアウト
+      heading: OpenStreetMap からログアウト
+      logout_button: ログアウト
   shared:
     markdown_help:
       title_html: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>で構文解析します
@@ -1935,23 +2041,6 @@ ja:
           bicycle_shop: 自転車販売店
           bicycle_parking: 駐輪場
           toilets: トイレ
-    richtext_area:
-      edit: 編集
-      preview: プレビュー
-    markdown_help:
-      title_html: <a href="https://kramdown.gettalong.org/quickref.html"></a>で構文解析します
-      headings: 見出し
-      heading: 見出し
-      subheading: 小見出し
-      unordered: 番号なしリスト
-      ordered: 番号付きリスト
-      first: 項目 1
-      second: 項目 2
-      link: リンク
-      text: テキスト
-      image: 画像
-      alt: 代替テキスト
-      url: URL
     welcome:
       title: ようこそ!
       introduction_html: フリーで編集可能な世界地図、OpenStreetMapへようこそ。サインアップしたので、マッピングの準備はすべて整いました。知っておかなければならない重要事項を簡単に説明します。
@@ -2046,7 +2135,6 @@ ja:
       more: 詳細
       trace_details: トレースの詳細表示
       view_map: 地図で表示
-      edit: 編集
       edit_map: 地図を編集
       public: 公開
       identifiable: 識別可能
@@ -2054,7 +2142,6 @@ ja:
       trackable: 追跡可能
       by: '投稿者:'
       in: 'タグ:'
-      map: 地図
     index:
       public_traces: 公開GPSトレース
       my_traces: 保存したGPS位置情報
@@ -2156,74 +2243,6 @@ ja:
     destroy:
       flash: 破棄されたクライアント アプリケーションの登録
   users:
-    login:
-      title: ログイン
-      heading: ログイン
-      email or username: 'メール アドレスまたは利用者名:'
-      password: 'パスワード:'
-      openid_html: '%{logo} OpenID:'
-      remember: ログイン状態を保持
-      lost password link: パスワードを忘れた場合はこちら
-      login_button: ログイン
-      register now: 今すぐ登録
-      with username: 'OpenStreetMap アカウントを既にお持ちですか? 自分の利用者名とパスワードでログインしてください:'
-      with external: 'サードパーティのアカウントでもログインできます:'
-      new to osm: OpenStreetMap は初めてですか?
-      to make changes: OpenStreetMap データを変更するには、アカウントが必要です。
-      create account minute: アカウントを作成します。1分でできます。
-      no account: アカウントを持っていませんか?
-      account not active: 申し訳ありませんが、あなたのアカウントはまだ有効ではありません。<br />アカウント確認メール内のリンクをクリックするか、<a
-        href="%{reconfirm}">新しい確認メールを要求</a>をしてください。
-      account is suspended: 申し訳ありませんが、不審な活動のため、あなたのアカウントは一時停止されております。<br />本件についてご相談がある場合は
-        <a href="%{webmaster}">ウェブマスター</a>にご連絡ください。
-      auth failure: 申し訳ありませんが、入力した情報でログインできませんでした。
-      openid_logo_alt: OpenID でログイン
-      auth_providers:
-        openid:
-          title: OpenID を使用してログイン
-          alt: OpenID URL を使用してログイン
-        google:
-          title: Google を使用してログイン
-          alt: Google OpenID を使用してログイン
-        facebook:
-          title: Facebook を使用してログイン
-          alt: Facebook アカウントを使用してログイン
-        windowslive:
-          title: Windows Live を使用してログイン
-          alt: Windows Live アカウントを使用してログイン
-        github:
-          title: GitHubでログイン
-          alt: GitHubのアカウントでログイン
-        wikipedia:
-          title: ウィキペディアでログイン
-          alt: ウィキペディアのアカウントでログイン
-        yahoo:
-          title: Yahoo を使用してログイン
-          alt: Yahoo OpenID を使用してログイン
-        wordpress:
-          title: Wordpress を使用してログイン
-          alt: Wordpress OpenID を使用してログイン
-        aol:
-          title: AOL を使用してログイン
-          alt: AOL OpenID を使用してログイン
-    logout:
-      title: ログアウト
-      heading: OpenStreetMap からログアウト
-      logout_button: ログアウト
-    lost_password:
-      title: パスワードを忘れた
-      heading: パスワードを忘れた場合はこちら
-      email address: 'メール アドレス:'
-      new password button: パスワードを再設定
-      help_text: ユーザー登録に使用したメール アドレスを入力してください。そのアドレス宛に、パスワードを再設定するためのリンクをお送りします。
-      notice email on way: すみません。紛失してしまいました :-( しかし、メールをお送りしたので、すぐにリセットできるでしょう。
-      notice email cannot find: 申し訳ありませんが、このメール アドレスは見つかりません。
-    reset_password:
-      title: パスワードの再設定
-      heading: '%{user} のパスワードのリセット'
-      reset: パスワードを初期化
-      flash changed: あなたのパスワードは変更されました。
-      flash token bad: キーワードが見つかりません。URL を確認してください。
     new:
       title: ユーザー登録
       no_auto_account_create: 残念ながら、現在、自動ではアカウントを作成できません。
@@ -2344,13 +2363,13 @@ ja:
     account:
       title: アカウントの編集
       my settings: 設定
-      current email address: '現在のメール アドレス:'
-      external auth: '外部認証:'
+      current email address: 現在のメール アドレス
+      external auth: 外部認証
       openid:
         link: https://wiki.openstreetmap.org/wiki/JA:OpenID?uselang=ja
         link text: これは何ですか?
       public editing:
-        heading: '公開編集:'
+        heading: 公開編集
         enabled: 有効。匿名ではなく、データを編集できます。
         enabled link: http://wiki.openstreetmap.org/wiki/JA:Anonymous_edits?uselang=ja
         enabled link text: これは何ですか?
@@ -2362,17 +2381,18 @@ ja:
           API 更新より地図データの編集は公開利用者以外、できなくなりました</b>。 (<a href="https://wiki.openstreetmap.org/wiki/JA:Anonymous_edits?uselang=ja">その理由はこちらで</a>)。<ul><li>公開扱いに変更しても、あなたのメール
           アドレスが暴露されることはありません。</li><li>この変更は取り消せません。なお新しい利用者は、既定で公開扱いとなります。</li></ul>
       contributor terms:
-        heading: '協力者規約:'
+        heading: 協力者規約
         agreed: あなたは、新しい協力者規約を承諾しています。
         not yet agreed: あなたはまだ新しい投稿規約を承諾していません。
         review link text: ご都合の良い時にこのリンクをクリックして新しい協力者規約を確認の上、承諾してしてください。
         agreed_with_pd: また、あなたは、自分の編集結果がパブリックドメインにあるべきだと考えているということも宣言しています。
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: これは何ですか?
-      image: '画像:'
+      image: 画像
       gravatar:
         gravatar: Gravatar を使用
         link: http://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Gravatarってなに?
         disabled: Gravatarは無効です。
         enabled: Gravatarの表示が有効になりました。
       new image: 画像を追加
@@ -2380,7 +2400,7 @@ ja:
       delete image: 現在の画像を削除
       replace image: 現在の画像を置換
       image size hint: (100x100 以下の正方形の画像が最適)
-      home location: 'ホーム地点:'
+      home location: ホーム地点
       no home location: あなたはまだホーム地点を登録していません。
       update home location on click: ホーム地点を、地図上のクリックした地点に変更
       save changes button: 変更を保存
@@ -2388,28 +2408,6 @@ ja:
       return to profile: プロフィールに戻る
       flash update success confirm needed: 利用者情報を更新しました。新着メールを確認して新しいメール アドレスを検証してください。
       flash update success: ユーザー情報を更新しました。
-    confirm:
-      heading: メールを確認してください
-      introduction_1: 確認メールをお送りしました。
-      introduction_2: メール内のリンクをクリックしてアカウントの確認をすれば、マッピングを始められます。
-      press confirm button: アカウントを有効にして良ければ、以下の確認ボタンを押してください。
-      button: 確認
-      success: アカウントを確認しました。登録ありがとうございます!
-      already active: このアカウントは確認済みです。
-      unknown token: この確認コードは期限切れ、または存在しません。
-      reconfirm_html: 確認メールを再送する必要がある場合は、<a href="%{reconfirm}">ここをクリック</a>してください。
-    confirm_resend:
-      success_html: '%{email}に確認メッセージを再送信しました。メールを確認してアカウントを有効にし次第、編集を開始できます。<br /><br
-        />あなたの指定したアドレスに確認メールが届くまであなたはログインできません。メールボックスでスパムフィルターを使用している場合は %{sender}
-        からの確認メールを受信できるようホワイトリストを設定してください。'
-      failure: '%{name}というアカウントは登録されていません。'
-    confirm_email:
-      heading: メール アドレスの変更を確認
-      press confirm button: 新しいメール アドレスを確認するために確認ボタンを押してください。
-      button: 確認
-      success: メール アドレスが変更されたことを確認しました。
-      failure: このトークンは、メール アドレスの確認に使用済みです。
-      unknown_token: その確認コードは期限切れ、または存在しません。
     set_home:
       flash success: ホーム地点を保存しました。
     go_public:
@@ -2584,6 +2582,7 @@ ja:
       custom_dimensions: 独自の寸法を設定
       format: '形式:'
       scale: '縮尺:'
+      image_dimensions: 画像の表示は標準レイヤで %{width} x %{height} となります
       download: ダウンロード
       short_url: 短縮 URL
       include_marker: マーカーを含める

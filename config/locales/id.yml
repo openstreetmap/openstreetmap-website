@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Akmaie Ajam
+# Author: Andikbuyung
 # Author: Arief
 # Author: Arifin.wijaya
 # Author: ArlandGa
@@ -21,6 +22,7 @@
 # Author: JakArtisan
 # Author: Kenrick95
 # Author: Macofe
+# Author: Mnam23
 # Author: Pebaryan
 # Author: RXerself
 # Author: Rachmat04
@@ -143,19 +145,22 @@ id:
         body: Isi
         recipient: Penerima
       redaction:
+        title: Judul
         description: Deskripsi
       report:
         category: 'Pilih alasan laporan Anda:'
         details: Silakan berikan rincian tentang masalah (wajib).
       user:
         email: Email
-        new_email: 'Alamat Email Baru:'
+        email_confirmation: Konfirmasi Surel
+        new_email: Alamat Surel Baru
         active: Aktif
         display_name: Nama Tampilan
-        description: Keterangan
-        home_lat: 'Garis Lintang:'
-        home_lon: 'Garis Bujur:'
-        languages: Bahasa
+        description: Deskripsi Profil
+        home_lat: Garis Lintang
+        home_lon: Garis Bujur
+        languages: Bahasa yang Dipilih
+        preferred_editor: Editor yang Dipilih
         pass_crypt: Kata Sandi
         pass_crypt_confirmation: Konfirmasi Kata Sandi
     help:
@@ -211,7 +216,7 @@ id:
       description: iD (editor di dalam browser internet)
     remote:
       name: Pengendali Jarak Jauh
-      description: Remote Control (JOSM atau Merkaartor)
+      description: Remote Control (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Tidak ada
@@ -439,8 +444,8 @@ id:
     new:
       title: Entri Baru Catatan Harian
     form:
-      location: 'Lokasi:'
-      use_map_link: gunakan peta
+      location: Lokasi
+      use_map_link: Gunakan Peta
     index:
       title: Catatan harian pengguna
       title_friends: Catatan harian teman
@@ -1483,11 +1488,39 @@ id:
         %{url} dan kli "Berhenti berlangganan".
       unsubscribe_html: Untuk berhenti berlangganan pembaruan perubahan set ini, kunjungi
         %{url} dan tekan "Berhenti berlangganan".
+  confirmations:
+    confirm:
+      heading: Periksa surel Anda!
+      introduction_1: Kami telah mengirim konfirmasi ke surel Anda.
+      introduction_2: Konfirmasi akun Anda dengan mengklik pranala dalam surel dan
+        Anda akan dapat memulai pemetaan.
+      press confirm button: Tekan tombol konfirmasi di bawah ini untuk mengaktifkan
+        akun Anda.
+      button: Konfirmasi
+      success: Akun Anda telah dikonfirmasi, terima kasih telah mendaftar!
+      already active: Akun ini telah dikonfirmasi.
+      unknown token: Kode konfirmasi telah kedaluwarsa atau tidak ada.
+      reconfirm_html: Jika Anda membutuhkan kami mengirimkan ulang surel konfirmasi,
+        <a href="%{reconfirm}">klik di sini</a>.
+    confirm_resend:
+      success_html: Kami telah mengirim catatan konfirmasi baru ke %{email} dan setelah
+        Anda mengkonfirmasi akun, Anda akan dapat mulai melakukan pemetaan.<br /><br
+        />Jika Anda menggunakan sistem anti spam yang mengirimkan permintaan konfirmasi
+        silahkan pastikan Anda memasukkan %{sender} ke dalam daftar putih karena kami
+        tidak dapat membalas permintaan konfirmasi Anda.
+      failure: Pengguna %{name} tidak ditemukan.
+    confirm_email:
+      heading: Konfirmasi perubahan alamat email
+      press confirm button: Tekan tombol konfirmasi di bawah ini untuk melakukan konfirmasi
+        alamat email baru Anda.
+      button: Konfirmasi
+      success: Perubahan alamat email Anda telah dikonfirmasi!
+      failure: Sebuah alamat email telah dikonfirmasikan dengan token ini.
+      unknown_token: Kode konfirmasi tersebut telah kedaluwarsa atau tidak ada.
   messages:
     inbox:
       title: Kotak Masuk
       my_inbox: Kotak Masuk Saya
-      outbox: Kotak keluar
       messages: Anda memiliki %{new_messages} dan %{old_messages}
       new_messages:
         one: '%{count} pesan baru'
@@ -1522,9 +1555,6 @@ id:
       body: Maaf tidak ada pesan dengan id tersebut.
     outbox:
       title: Kotak keluar
-      my_inbox_html: '%{inbox_link} saya'
-      inbox: kotak masuk
-      outbox: kotak keluar
       messages:
         one: Anda memiliki %{count} pesan terkirim
         other: Anda memiliki %{count} pesan terkirim
@@ -1557,6 +1587,83 @@ id:
       as_unread: Pesan ditandai sebagai belum dibaca
     destroy:
       destroyed: Pesan dihapus
+  passwords:
+    lost_password:
+      title: Kehilangan kata sandi
+      heading: Lupa Kata Sandi?
+      email address: 'Alamat Email:'
+      new password button: Setel ulang kata sandi
+      help_text: Masukkan alamat email yang Anda gunakan untuk mendaftar, kami akan
+        mengirim link ke alamat tersebut yang dapat Anda gunakan untuk menyetel ulang
+        kata sandi Anda.
+      notice email on way: Maaf sudah hilang :-( namun sebuah email telah dikirimkan
+        agar Anda dapat segera mengatur ulang.
+      notice email cannot find: Tidak dapat menemukan alamat email tersebut, maaf.
+    reset_password:
+      title: Setel ulang kata sandi
+      heading: Setel ulang kata sandi untuk %{user}
+      reset: Setel Ulang Kata Sandi
+      flash changed: Kata sandi Anda telah diubah.
+      flash token bad: Tidak dapat menemukan token tersebut, cek URL nya mungkin?
+  sessions:
+    new:
+      title: Login
+      heading: Login
+      email or username: 'Alamat Email atau Nama Pengguna:'
+      password: 'Kata Sandi:'
+      openid_html: '%{logo} OpenID:'
+      remember: Ingat saya
+      lost password link: Kehilangan kata sandi Anda?
+      login_button: Login
+      register now: Daftar sekarang
+      with username: 'Sudah memiliki akun OpenStreetMap? Silahkan login menggunakan
+        nama pengguna dan kata sandi Anda:'
+      with external: 'Atau, gunakan pihak ketiga untuk masuk:'
+      new to osm: Baru di OpenStreetMap?
+      to make changes: Untuk membuat perubahan data OpenStreetMap, Anda harus memiliki
+        sebuah akun.
+      create account minute: Buat sebuah akun. Hanya membutuhkan satu menit.
+      no account: Belum memiliki akun?
+      account not active: Maaf, akun Anda belum aktif.<br />Silahkan gunakan link
+        pada email konfirmasi untuk mengaktifkan akun Anda, atau <a href="%{reconfirm}">minta
+        email konfirmasi yang baru</a>.
+      account is suspended: Maaf, akun Anda telah dihentikan karena adanya aktivitas
+        mencurigakan.<br />Silahkan kontak/hubungi<a href="%{webmaster}">webmaster</a>
+        jika Anda ingin mendiskusikannya.
+      auth failure: Maaf, tidak bisa login dengan rincian tersebut.
+      openid_logo_alt: Login dengan OpenID
+      auth_providers:
+        openid:
+          title: Masuk log dengan OpenID
+          alt: Masuk log dengan URL OpenID
+        google:
+          title: Masuk log dengan Google
+          alt: Masuk dengan Google OpenID
+        facebook:
+          title: Masuk dengan Facebook
+          alt: Masuk dengan akun Facebook
+        windowslive:
+          title: Masuk dengan Windows Live
+          alt: Masuk dengan akun Windows Live
+        github:
+          title: Masuk dengan GitHub.
+          alt: Masuk dengan Akun GitHub.
+        wikipedia:
+          title: Masuk log dengan Wikipedia
+          alt: Masuk log dengan akun Wikipedia
+        yahoo:
+          title: Masuk log dengan Yahoo
+          alt: Masuk log dengan Yahoo OpenID
+        wordpress:
+          title: Masuk log dengan Wordpress
+          alt: Masuk log dengan Wordpress OpenID
+        aol:
+          title: Masuk log dengan AOL
+          alt: Masuk dengan AOL OpenID
+    destroy:
+      title: Logout
+      heading: Logout dari OpenStreetMap
+      logout_button: Logout
   site:
     about:
       next: Berikutnya
@@ -1941,23 +2048,6 @@ id:
           bicycle_shop: Toko sepeda
           bicycle_parking: Tempat parkir sepeda
           toilets: Toilet
-    richtext_area:
-      edit: Edit
-      preview: Tinjauan
-    markdown_help:
-      title_html: Diurai dengan <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
-      headings: Judul
-      heading: Judul
-      subheading: Subjudul
-      unordered: Daftar tak berurut
-      ordered: Daftar terurut
-      first: Objek pertama
-      second: Objek kedua
-      link: Tautan
-      text: Teks
-      image: Gambar
-      alt: Teks Alternatif
-      url: URL
     welcome:
       title: Selamat datang!
       introduction_html: Selamat datang di OpenStreetMap, peta dunia gratis dan dapat
@@ -2078,7 +2168,6 @@ id:
       more: selebihnya
       trace_details: Lihat Perincian Jejak
       view_map: Lihat peta
-      edit: edit
       edit_map: Edit Peta
       public: UMUM
       identifiable: DIIDENTIFIKASI
@@ -2086,7 +2175,6 @@ id:
       trackable: DILACAK
       by: oleh
       in: dalam
-      map: peta
     index:
       public_traces: Jejak GPS Umum
       my_traces: Trek GPS saya
@@ -2199,81 +2287,6 @@ id:
     destroy:
       flash: Registrasi aplikasi klien telah dibatalkan.
   users:
-    login:
-      title: Login
-      heading: Login
-      email or username: 'Alamat Email atau Nama Pengguna:'
-      password: 'Kata Sandi:'
-      openid_html: '%{logo} OpenID:'
-      remember: Ingat saya
-      lost password link: Kehilangan kata sandi Anda?
-      login_button: Login
-      register now: Daftar sekarang
-      with username: 'Sudah memiliki akun OpenStreetMap? Silahkan login menggunakan
-        nama pengguna dan kata sandi Anda:'
-      with external: 'Atau, gunakan pihak ketiga untuk masuk:'
-      new to osm: Baru di OpenStreetMap?
-      to make changes: Untuk membuat perubahan data OpenStreetMap, Anda harus memiliki
-        sebuah akun.
-      create account minute: Buat sebuah akun. Hanya membutuhkan satu menit.
-      no account: Belum memiliki akun?
-      account not active: Maaf, akun Anda belum aktif.<br />Silahkan gunakan link
-        pada email konfirmasi untuk mengaktifkan akun Anda, atau <a href="%{reconfirm}">minta
-        email konfirmasi yang baru</a>.
-      account is suspended: Maaf, akun Anda telah dihentikan karena adanya aktivitas
-        mencurigakan.<br />Silahkan kontak/hubungi<a href="%{webmaster}">webmaster</a>
-        jika Anda ingin mendiskusikannya.
-      auth failure: Maaf, tidak bisa login dengan rincian tersebut.
-      openid_logo_alt: Login dengan OpenID
-      auth_providers:
-        openid:
-          title: Masuk log dengan OpenID
-          alt: Masuk log dengan URL OpenID
-        google:
-          title: Masuk log dengan Google
-          alt: Masuk dengan Google OpenID
-        facebook:
-          title: Masuk dengan Facebook
-          alt: Masuk dengan akun Facebook
-        windowslive:
-          title: Masuk dengan Windows Live
-          alt: Masuk dengan akun Windows Live
-        github:
-          title: Masuk dengan GitHub.
-          alt: Masuk dengan Akun GitHub.
-        wikipedia:
-          title: Masuk log dengan Wikipedia
-          alt: Masuk log dengan akun Wikipedia
-        yahoo:
-          title: Masuk log dengan Yahoo
-          alt: Masuk log dengan Yahoo OpenID
-        wordpress:
-          title: Masuk log dengan Wordpress
-          alt: Masuk log dengan Wordpress OpenID
-        aol:
-          title: Masuk log dengan AOL
-          alt: Masuk dengan AOL OpenID
-    logout:
-      title: Logout
-      heading: Logout dari OpenStreetMap
-      logout_button: Logout
-    lost_password:
-      title: Kehilangan kata sandi
-      heading: Lupa Kata Sandi?
-      email address: 'Alamat Email:'
-      new password button: Setel ulang kata sandi
-      help_text: Masukkan alamat email yang Anda gunakan untuk mendaftar, kami akan
-        mengirim link ke alamat tersebut yang dapat Anda gunakan untuk menyetel ulang
-        kata sandi Anda.
-      notice email on way: Maaf sudah hilang :-( namun sebuah email telah dikirimkan
-        agar Anda dapat segera mengatur ulang.
-      notice email cannot find: Tidak dapat menemukan alamat email tersebut, maaf.
-    reset_password:
-      title: Setel ulang kata sandi
-      heading: Setel ulang kata sandi untuk %{user}
-      reset: Setel Ulang Kata Sandi
-      flash changed: Kata sandi Anda telah diubah.
-      flash token bad: Tidak dapat menemukan token tersebut, cek URL nya mungkin?
     new:
       title: Mendaftar
       no_auto_account_create: Sayangnya saat ini kami tidak dapat membuatkan akun
@@ -2411,13 +2424,13 @@ id:
     account:
       title: Edit akun
       my settings: Pengaturan saya
-      current email address: 'Alamat Email Saat Ini:'
-      external auth: 'Autentikasi Eksternal:'
+      current email address: Alamat surel saat ini
+      external auth: Autentikasi Eksternal
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: Apa ini?
       public editing:
-        heading: 'Mengedit secara publik:'
+        heading: Menyunting secara publik
         enabled: Diaktifkan. Tidak anonim dan dapat mengedit data.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Apa ini?
@@ -2435,7 +2448,7 @@ id:
           anda menjadi pengguna umum.</li><li>Tindakan ini tidak dapat dikembalikan
           dan semua pengguna baru akan diatur sebagai pengguna umum secara standar.</li></ul>
       contributor terms:
-        heading: 'Syarat-syarat Kontributor:'
+        heading: Syarat-syarat Kontributor
         agreed: Anda telah menyetujui Persyaratan Kontributor yang baru.
         not yet agreed: Anda belum menyetujui Persyaratan Kontributor yang baru.
         review link text: Silahkan ikuti link ini untuk kenyamanan Anda untuk meninjau
@@ -2444,7 +2457,7 @@ id:
           Anda berada dalam Domain publik.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Apa ini?
-      image: 'Gambar:'
+      image: Gambar
       gravatar:
         gravatar: Gunakan Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
@@ -2456,7 +2469,7 @@ id:
       replace image: Ganti gambar saat ini
       image size hint: (kotak gambar yang dapat bekerja terbaik paling tidak berukuran
         100x100)
-      home location: 'Lokasi Beranda:'
+      home location: Lokasi Beranda
       no home location: Anda telah memasukkan lokasi rumah Anda.
       update home location on click: Memperbarui lokasi rumah ketika saya klik pada
         peta?
@@ -2466,34 +2479,6 @@ id:
       flash update success confirm needed: Informasi pengguna telah berhasil diperbarui.
         Periksa email untuk melakukan konfirmasi alamat email.
       flash update success: Informasi mengenai pengguna sudah berhasil diperbarui.
-    confirm:
-      heading: Periksa surel Anda!
-      introduction_1: Kami telah mengirim konfirmasi ke surel Anda.
-      introduction_2: Konfirmasi akun Anda dengan mengklik pranala dalam surel dan
-        Anda akan dapat memulai pemetaan.
-      press confirm button: Tekan tombol konfirmasi di bawah ini untuk mengaktifkan
-        akun Anda.
-      button: Konfirmasi
-      success: Akun Anda telah dikonfirmasi, terima kasih telah mendaftar!
-      already active: Akun ini telah dikonfirmasi.
-      unknown token: Kode konfirmasi telah kedaluwarsa atau tidak ada.
-      reconfirm_html: Jika Anda membutuhkan kami mengirimkan ulang surel konfirmasi,
-        <a href="%{reconfirm}">klik di sini</a>.
-    confirm_resend:
-      success_html: Kami telah mengirim catatan konfirmasi baru ke %{email} dan setelah
-        Anda mengkonfirmasi akun, Anda akan dapat mulai melakukan pemetaan.<br /><br
-        />Jika Anda menggunakan sistem anti spam yang mengirimkan permintaan konfirmasi
-        silahkan pastikan Anda memasukkan %{sender} ke dalam daftar putih karena kami
-        tidak dapat membalas permintaan konfirmasi Anda.
-      failure: Pengguna %{name} tidak ditemukan.
-    confirm_email:
-      heading: Konfirmasi perubahan alamat email
-      press confirm button: Tekan tombol konfirmasi di bawah ini untuk melakukan konfirmasi
-        alamat email baru Anda.
-      button: Konfirmasi
-      success: Perubahan alamat email Anda telah dikonfirmasi!
-      failure: Sebuah alamat email telah dikonfirmasikan dengan token ini.
-      unknown_token: Kode konfirmasi tersebut telah kedaluwarsa atau tidak ada.
     set_home:
       flash success: Lokasi rumah berhasil disimpan
     go_public:

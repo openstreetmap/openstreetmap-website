@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "6.0.3.5"
+gem "rails", "6.0.3.6"
 
 # Require json for multi_json
 gem "json"
@@ -110,7 +110,7 @@ gem "logstasher"
 gem "bzip2-ffi"
 gem "ffi-libarchive"
 gem "gd2-ffij", ">= 0.4.0"
-gem "mimemagic"
+gem "marcel"
 
 # Used for browser detection
 gem "browser"

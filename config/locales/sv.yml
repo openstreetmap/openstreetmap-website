@@ -235,7 +235,7 @@ sv:
       description: iD (webbläsarredigeraren)
     remote:
       name: Fjärrstyrning
-      description: Fjärrstyrning (JOSM eller Merkaartor)
+      description: Fjärrstyrning (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Ingen
@@ -488,7 +488,8 @@ sv:
       body: Tyvärr finns inget dagboksinlägg eller -kommentar med id %{id}. Kontrollera
         stavning, eller så kan länken du klickade på vara felaktig.
     diary_entry:
-      posted_by_html: Skrivet av %{link_user} den %{created} på %{language_link}
+      posted_by_html: Skrivet av %{link_user} den %{created} på %{language_link}.
+      updated_at_html: Uppdaterades senast %{updated}.
       comment_link: Kommentera detta inlägg
       reply_link: Skicka ett meddelande till skribenten
       comment_count:
@@ -573,6 +574,7 @@ sv:
           hangar: Hangar
           helipad: Helikopterplatta
           holding_position: Väntplats
+          navigationaid: Luftfartsnavigationshjälp
           parking_position: Parkeringsplats
           runway: Landningsbana
           taxilane: Taxifil
@@ -637,6 +639,7 @@ sv:
           love_hotel: Kärlekshotell
           marketplace: Marknad
           monastery: Kloster
+          money_transfer: Valutaöverföring
           motorcycle_parking: Motorcykelparkering
           music_school: Musikskola
           nightclub: Nattklubb
@@ -741,6 +744,7 @@ sv:
           dressmaker: Sömmerska
           electrician: Elektriker
           gardener: Trädgårdsmästare
+          glaziery: Glasblåseri
           handicraft: Konsthantverk
           painter: Målare
           photographer: Fotograf
@@ -904,6 +908,7 @@ sv:
         man_made:
           adit: Gruvöppning
           antenna: Antenn
+          avalanche_protection: Lavinskydd
           beacon: Fyr
           beehive: Bikupa
           breakwater: Vågbrytare
@@ -947,16 +952,19 @@ sv:
           airfield: Militärt flygfält
           barracks: Kaserner
           bunker: Bunker
+          checkpoint: Kontrollpost
           trench: Skyttegrav
           "yes": Militär
         mountain_pass:
           "yes": Bergspass
         natural:
+          bare_rock: Klippa
           bay: Bukt
           beach: Strand
           cape: Udde
           cave_entrance: Grottmynning
           cliff: Klippa
+          coastline: Kustlinje
           crater: Krater
           dune: Sanddyn
           fell: Fjäll
@@ -967,12 +975,14 @@ sv:
           grassland: Betesmark
           heath: Ljunghed
           hill: Kulle
+          hot_spring: Varm källa
           island: Ö
           land: Land
           marsh: Träsk
           moor: Hed
           mud: Lera
           peak: Topp
+          peninsula: Halvö
           point: Punkt
           reef: Rev
           ridge: Bergskam
@@ -1009,6 +1019,7 @@ sv:
           "yes": Kontor
         place:
           allotments: Kolonilotter
+          archipelago: Skärgård
           city: Stad
           city_block: Kvarter
           country: Land
@@ -1092,11 +1103,14 @@ sv:
           doityourself: Gör-det-själv
           dry_cleaning: Kemtvätt
           electronics: Elektronikbutik
+          erotic: Sexbutik
           estate_agent: Egendomsmäklare
           farm: Gårdsbutik
           fashion: Modebutik
+          fishing: Fiskebutik
           florist: Florist
           food: Mataffär
+          frame: Ramhandlare
           funeral_directors: Begravningsentreprenör
           furniture: Möbler
           garden_centre: Trädgårdshandel
@@ -1106,7 +1120,9 @@ sv:
           grocery: Livsmedelsbutik
           hairdresser: Frisör
           hardware: Järnhandel
+          health_food: Hälsokostbutik
           hearing_aids: Hörapparater
+          herbalist: Örthandel
           hifi: Hi-Fi
           houseware: Husvaruhandel
           ice_cream: Glassbutik
@@ -1476,11 +1492,38 @@ sv:
       details: Mer detaljer om ändringssetet finns på %{url}.
       unsubscribe: För att avsluta prenumerationen av uppdateringar i denna ändringsgrupp,
         besök %{url} och klicka på "Avprenumerera".
+  confirmations:
+    confirm:
+      heading: Kontrollera din e-post!
+      introduction_1: Vi har skickat en bekräftelse via e-post.
+      introduction_2: Bekräfta ditt konto genom att klicka på länken i mailet, sen
+        kan du sätta igång att kartera.
+      press confirm button: Klicka på bekräftelseknappen nedan för att aktivera ditt
+        konto.
+      button: Bekräfta
+      success: Ditt konto är bekräftat, tack för att du registrerade dig!
+      already active: Detta konto har redan bekräftats.
+      unknown token: Denna bekräftelsekod har gått ut eller finns inte.
+      reconfirm_html: Om du vill att vi ska skicka bekräftelsemailet igen, <a href="%{reconfirm}">klicka
+        här</a>.
+    confirm_resend:
+      success_html: Vi har skickat ett nytt bekräftelsemeddelande till %{email} och
+        så snart du bekräftat ditt konto kommer du kunna börja kartera.<br /><br />Om
+        du använder ett antispamsystem som skickar bekräftelsemeddelanden se till
+        att du vitlistar %{sender} då vi inte kan svara på några sådana begäranden.
+      failure: Användaren %{name} hittades inte.
+    confirm_email:
+      heading: Bekräfta byte av e-postadress
+      press confirm button: Klicka på bekräftaknappen nedan för att bekräfta din nya
+        e-postadress.
+      button: Bekräfta
+      success: Ditt byte av e-postadress har bekräftats!
+      failure: En e-postadress har redan bekräftats med den här nyckeln.
+      unknown_token: Den bekräftelsekoden har löpt ut eller existerar inte.
   messages:
     inbox:
       title: Inkorg
       my_inbox: Min inkorg
-      outbox: utkorg
       messages: Du har %{new_messages} och %{old_messages}
       new_messages:
         one: '%{count} nytt meddelande'
@@ -1515,9 +1558,6 @@ sv:
       body: Det finns inget meddelande med det ID:et.
     outbox:
       title: Utkorg
-      my_inbox_html: Min %{inbox_link}
-      inbox: inkorg
-      outbox: utkorg
       messages:
         one: Du har %{count} skickat ett meddelande
         other: Du har %{count} skickat meddelanden
@@ -1551,6 +1591,81 @@ sv:
       as_unread: Meddelandet markerat som oläst
     destroy:
       destroyed: Meddelande raderat
+  passwords:
+    lost_password:
+      title: Förlorat lösenord
+      heading: Glömt lösenord?
+      email address: 'E-postadress:'
+      new password button: Återställ lösenord
+      help_text: Ange e-postadressen du använde för att registrera dig så skickar
+        vi en länk till den som du kan använda för att återställa ditt lösenord.
+      notice email on way: Synd att du förlorade det, men ett nytt är på väg via e-post.
+      notice email cannot find: Kunde inte hitta den e-postadressen.
+    reset_password:
+      title: Återställ lösenord
+      heading: Återställ lösenord för %{user}
+      reset: Återställ lösenord
+      flash changed: Ditt lösenord har ändrats.
+      flash token bad: Hittade inte den nyckeln, kontrollera webbadressen.
+  sessions:
+    new:
+      title: Logga in
+      heading: Logga in
+      email or username: 'E-postadress eller användarnamn:'
+      password: 'Lösenord:'
+      openid_html: '%{logo} OpenID:'
+      remember: Kom ihåg mig
+      lost password link: Glömt ditt lösenord?
+      login_button: Logga in
+      register now: Registrera dig nu
+      with username: 'Har du redan ett OpenStreetMap-konto? Logga in med ditt användarnamn
+        och lösenord:'
+      with external: 'Alternativt kan du använda en tredje part för att logga in:'
+      new to osm: Ny på OpenStreetMap?
+      to make changes: För att göra ändringar i OpenStreetMaps data måste du ha ett
+        konto.
+      create account minute: Skapa ett konto. Det tar bara en minut.
+      no account: Har du inget konto?
+      account not active: Tyvärr, ditt konto är inte aktiverat.<br />Vänligen klicka
+        på länken i e-posten med kontobekräftelsen, för att aktivera ditt konto, eller
+        <a href="%{reconfirm}">begär en ny epostsbekräftelse</a>.
+      account is suspended: |-
+        Tyvärr har ditt konto stängts av på grund av tvivelaktig aktivitet.<br />Kontakta <a href="%
+        {webmaster}">webbansvarig</a> om du vill diskutera saken.
+      auth failure: Kunde inte logga in med de uppgifterna.
+      openid_logo_alt: Logga in med ett OpenID
+      auth_providers:
+        openid:
+          title: Logga in med OpenID
+          alt: Logga in med en OpenID-URL
+        google:
+          title: Logga in med Google
+          alt: Logga in med ett Google OpenID
+        facebook:
+          title: Logga in med Facebook
+          alt: Logga in med ett Facebook-konto
+        windowslive:
+          title: Logga in med Windows Live
+          alt: Logga in med ett Windows Live-konto
+        github:
+          title: Logga in med GitHub
+          alt: Logga in med ett GitHub-Konto
+        wikipedia:
+          title: Logga in med Wikipedia
+          alt: Logga in med ett Wikipedia-konto
+        yahoo:
+          title: Logga in med Yahoo
+          alt: Logga in med ett Yahoo OpenID
+        wordpress:
+          title: Logga in med Wordpress
+          alt: Logga in med ett Wordpress OpenID
+        aol:
+          title: Logga in med AOL
+          alt: Logga in med ett AOL OpenID
+    destroy:
+      title: Logga ut
+      heading: Logga ut från OpenStreetMap
+      logout_button: Logga ut
   shared:
     markdown_help:
       title_html: Tolkat med <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
@@ -1953,23 +2068,6 @@ sv:
           bicycle_shop: Cykelaffär
           bicycle_parking: Cykelparkering
           toilets: Toaletter
-    richtext_area:
-      edit: Redigera
-      preview: Förhandsgranska
-    markdown_help:
-      title_html: Tolkat med <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
-      headings: Rubriker
-      heading: Rubrik
-      subheading: Underrubrik
-      unordered: Osorterad lista
-      ordered: Sorterad lista
-      first: Första objektet
-      second: Andra objektet
-      link: Länk
-      text: Text
-      image: Bild
-      alt: Alt-text
-      url: Webbadress
     welcome:
       title: Välkommen!
       introduction_html: Välkommen till OpenStreetMap, den fria och redigerbara kartan
@@ -2088,7 +2186,6 @@ sv:
       more: mer
       trace_details: Visa detaljer för GPS-spår
       view_map: Visa karta
-      edit: redigera
       edit_map: Redigera karta
       public: PUBLIK
       identifiable: IDENTIFIERBAR
@@ -2096,7 +2193,6 @@ sv:
       trackable: SPÅRBAR
       by: av
       in: i
-      map: karta
     index:
       public_traces: Publika GPS-spår
       my_traces: Mina GPS-spår
@@ -2211,79 +2307,6 @@ sv:
     destroy:
       flash: Annullerade registreringen av klientprogrammet
   users:
-    login:
-      title: Logga in
-      heading: Logga in
-      email or username: 'E-postadress eller användarnamn:'
-      password: 'Lösenord:'
-      openid_html: '%{logo} OpenID:'
-      remember: Kom ihåg mig
-      lost password link: Glömt ditt lösenord?
-      login_button: Logga in
-      register now: Registrera dig nu
-      with username: 'Har du redan ett OpenStreetMap-konto? Logga in med ditt användarnamn
-        och lösenord:'
-      with external: 'Alternativt kan du använda en tredje part för att logga in:'
-      new to osm: Ny på OpenStreetMap?
-      to make changes: För att göra ändringar i OpenStreetMaps data måste du ha ett
-        konto.
-      create account minute: Skapa ett konto. Det tar bara en minut.
-      no account: Har du inget konto?
-      account not active: Tyvärr, ditt konto är inte aktiverat.<br />Vänligen klicka
-        på länken i e-posten med kontobekräftelsen, för att aktivera ditt konto, eller
-        <a href="%{reconfirm}">begär en ny epostsbekräftelse</a>.
-      account is suspended: |-
-        Tyvärr har ditt konto stängts av på grund av tvivelaktig aktivitet.<br />Kontakta <a href="%
-        {webmaster}">webbansvarig</a> om du vill diskutera saken.
-      auth failure: Kunde inte logga in med de uppgifterna.
-      openid_logo_alt: Logga in med ett OpenID
-      auth_providers:
-        openid:
-          title: Logga in med OpenID
-          alt: Logga in med en OpenID-URL
-        google:
-          title: Logga in med Google
-          alt: Logga in med ett Google OpenID
-        facebook:
-          title: Logga in med Facebook
-          alt: Logga in med ett Facebook-konto
-        windowslive:
-          title: Logga in med Windows Live
-          alt: Logga in med ett Windows Live-konto
-        github:
-          title: Logga in med GitHub
-          alt: Logga in med ett GitHub-Konto
-        wikipedia:
-          title: Logga in med Wikipedia
-          alt: Logga in med ett Wikipedia-konto
-        yahoo:
-          title: Logga in med Yahoo
-          alt: Logga in med ett Yahoo OpenID
-        wordpress:
-          title: Logga in med Wordpress
-          alt: Logga in med ett Wordpress OpenID
-        aol:
-          title: Logga in med AOL
-          alt: Logga in med ett AOL OpenID
-    logout:
-      title: Logga ut
-      heading: Logga ut från OpenStreetMap
-      logout_button: Logga ut
-    lost_password:
-      title: Förlorat lösenord
-      heading: Glömt lösenord?
-      email address: 'E-postadress:'
-      new password button: Återställ lösenord
-      help_text: Ange e-postadressen du använde för att registrera dig så skickar
-        vi en länk till den som du kan använda för att återställa ditt lösenord.
-      notice email on way: Synd att du förlorade det, men ett nytt är på väg via e-post.
-      notice email cannot find: Kunde inte hitta den e-postadressen.
-    reset_password:
-      title: Återställ lösenord
-      heading: Återställ lösenord för %{user}
-      reset: Återställ lösenord
-      flash changed: Ditt lösenord har ändrats.
-      flash token bad: Hittade inte den nyckeln, kontrollera webbadressen.
     new:
       title: Registrera
       no_auto_account_create: Tyvärr kan vi för närvarande inte kan skapa ett konto
@@ -2474,33 +2497,6 @@ sv:
       flash update success confirm needed: Användarinformation uppdaterades. Kontrollera
         din e-post för att bekräfta din e-postadress.
       flash update success: Användarinformation uppdaterades.
-    confirm:
-      heading: Kontrollera din e-post!
-      introduction_1: Vi har skickat en bekräftelse via e-post.
-      introduction_2: Bekräfta ditt konto genom att klicka på länken i mailet, sen
-        kan du sätta igång att kartera.
-      press confirm button: Klicka på bekräftelseknappen nedan för att aktivera ditt
-        konto.
-      button: Bekräfta
-      success: Ditt konto är bekräftat, tack för att du registrerade dig!
-      already active: Detta konto har redan bekräftats.
-      unknown token: Denna bekräftelsekod har gått ut eller finns inte.
-      reconfirm_html: Om du vill att vi ska skicka bekräftelsemailet igen, <a href="%{reconfirm}">klicka
-        här</a>.
-    confirm_resend:
-      success_html: Vi har skickat ett nytt bekräftelsemeddelande till %{email} och
-        så snart du bekräftat ditt konto kommer du kunna börja kartera.<br /><br />Om
-        du använder ett antispamsystem som skickar bekräftelsemeddelanden se till
-        att du vitlistar %{sender} då vi inte kan svara på några sådana begäranden.
-      failure: Användaren %{name} hittades inte.
-    confirm_email:
-      heading: Bekräfta byte av e-postadress
-      press confirm button: Klicka på bekräftaknappen nedan för att bekräfta din nya
-        e-postadress.
-      button: Bekräfta
-      success: Ditt byte av e-postadress har bekräftats!
-      failure: En e-postadress har redan bekräftats med den här nyckeln.
-      unknown_token: Den bekräftelsekoden har löpt ut eller existerar inte.
     set_home:
       flash success: Hemposition sparad
     go_public:
@@ -2722,6 +2718,7 @@ sv:
           other: Du är inom %{count} fot av denna punkt
       base:
         standard: Standard
+        cyclosm: CyclOSM
         cycle_map: Cykelkarta
         transport_map: Transportkarta
         hot: Humanitärt
@@ -2736,6 +2733,9 @@ sv:
       copyright: © <a href='%{copyright_url}'>OpenStreetMaps bidragsgivare</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donera</a>
       terms: <a href="%{terms_url}">Hemsidan och API-villkor</a>
+      cyclosm: Rututseende av <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        som förvaltas av <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        France</a>
       thunderforest: Rutor av <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       opnvkarte: Rutor av <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>

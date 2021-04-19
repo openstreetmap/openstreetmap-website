@@ -164,7 +164,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
     get friend_changesets_path
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => friend_changesets_path
+    assert_redirected_to login_path(:referer => friend_changesets_path)
 
     session_for(private_user)
 
@@ -190,7 +190,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
     get nearby_changesets_path
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => nearby_changesets_path
+    assert_redirected_to login_path(:referer => nearby_changesets_path)
 
     session_for(private_user)
 

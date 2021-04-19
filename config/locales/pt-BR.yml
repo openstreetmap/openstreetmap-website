@@ -29,6 +29,7 @@
 # Author: Luckas Blade
 # Author: Luk3
 # Author: Macofe
+# Author: Mariagarbin
 # Author: Matheus Sousa L.T
 # Author: McDutchie
 # Author: NMaia
@@ -1027,12 +1028,14 @@ pt-BR:
         mountain_pass:
           "yes": Passo de Montanha
         natural:
+          atoll: Atol
           bare_rock: Rocha nua
           bay: Baía
           beach: Praia
           cape: Cabo
           cave_entrance: Entrada de Caverna
           cliff: Penhasco
+          coastline: Litoral
           crater: Cratera
           dune: Duna
           fell: Encosta
@@ -1050,6 +1053,7 @@ pt-BR:
           moor: Brejo
           mud: Lamaçal
           peak: Cume
+          peninsula: Península
           point: Ponto
           reef: Recife
           ridge: Cordilheira
@@ -1097,6 +1101,7 @@ pt-BR:
           "yes": Escritório
         place:
           allotments: Horta Urbana
+          archipelago: Arquipélago
           city: Cidade
           city_block: Quarteirão
           country: País
@@ -1621,11 +1626,40 @@ pt-BR:
         visite %{url} e clique em "Anular subscrição".
       unsubscribe_html: Para cancelar a subscrição das atualizações deste conjunto
         de alterações, visite %{url} e clique em "Anular subscrição".
+  confirmations:
+    confirm:
+      heading: Confira o seu e-mail!
+      introduction_1: Enviamos um e-mail de confirmação para você.
+      introduction_2: Confirme a sua conta clicando no link no e-mail e você poderá
+        de iniciar o mapeamento.
+      press confirm button: Pressione o botão de confirmação abaixo para ativar sua
+        conta.
+      button: Confirmar
+      success: Conta ativada, obrigado!
+      already active: Esse conta já foi confirmada.
+      unknown token: Esse código de confirmação expirou ou não existe.
+      reconfirm_html: Caso precise que enviemos de novo o e-mail de confirmação, <a
+        href="%{reconfirm}">clique aqui</a>.
+    confirm_resend:
+      success_html: Enviamos uma nova mensagem de confirmação para %{email} e, assim
+        que você confirmar o seu cadastro, poderá começar a mapear.<br /><br />Se
+        você usa um sistema antispam que exige uma mensagem de confirmação então certifique-se
+        de que o endereço %{sender} esteja na sua lista de e-mails confiáveis, já
+        que não conseguimos responder a nenhum pedido de confirmação.
+      failure: Usuário %{name} não encontrado.
+    confirm_email:
+      heading: Confirmar uma mudança do endereço de e-mail
+      press confirm button: Pressione o botão de confirmação abaixo para confirmar
+        seu novo endereço de e-mail.
+      button: Confirmar
+      success: Confirmamos a alteração do seu endereço de e-mail!
+      failure: Um endereço de e-mail já foi confirmado com esse código.
+      unknown_token: Este código de confirmação expirou ou não existe.
   messages:
     inbox:
       title: Caixa de Entrada
       my_inbox: Minha Caixa de Entrada
-      outbox: caixa de saída
+      my_outbox: Minha caixa de saída
       messages: Você tem %{new_messages} e %{old_messages}
       new_messages:
         one: '%{count} nova mensagem'
@@ -1660,9 +1694,8 @@ pt-BR:
       body: Não existe uma mensagem com este id.
     outbox:
       title: Caixa de Saída
-      my_inbox_html: Minha %{inbox_link}
-      inbox: caixa de entrada
-      outbox: caixa de saída
+      my_inbox: Minha caixa de entrada
+      my_outbox: Minha caixa de saída
       messages:
         one: Você tem %{count} mensagem enviada
         other: Você tem %{count} mensagens enviadas
@@ -1696,6 +1729,82 @@ pt-BR:
       as_unread: Mensagem marcada como não lida
     destroy:
       destroyed: Mensagem apagada
+  passwords:
+    lost_password:
+      title: Senha esquecida
+      heading: Esqueceu sua senha?
+      email address: 'Endereço de E-mail:'
+      new password button: Redefinir senha
+      help_text: Digite o endereço de e-mail que você usou para se conectar e enviaremos
+        um link que você poderá usar para redefinir a sua senha.
+      notice email on way: Um e-mail foi enviado para que você possa escolher outra
+        senha.
+      notice email cannot find: Não foi possível encontrar esse endereço de e-mail.
+    reset_password:
+      title: Redefinir senha
+      heading: Redefinir Senha de %{user}
+      reset: Redefinir Senha
+      flash changed: Sua senha foi alterada.
+      flash token bad: O código não confere, verifique a URL.
+  sessions:
+    new:
+      title: Entrar
+      heading: Entrar
+      email or username: 'E-mail ou nome de usuário:'
+      password: 'Senha:'
+      openid_html: '%{logo} OpenID:'
+      remember: Lembrar neste computador
+      lost password link: Esqueceu sua senha?
+      login_button: Entrar
+      register now: Registre agora
+      with username: 'Já tem uma conta no OpenStreetMap? Então entre com seu nome
+        de usuário e senha:'
+      with external: 'Ou identifique-se através de terceiros:'
+      new to osm: Novo no OpenStreetMap?
+      to make changes: Para fazer alterações nos dados do OpenStreetMap, você precisa
+        criar uma conta.
+      create account minute: Crie uma conta. Leva só um minuto.
+      no account: Não possui uma conta?
+      account not active: Sua conta não está ativa ainda.<br />Use o link do e-mail
+        de confirmação para ativar sua conta ou <a href="%{reconfirm}">solicite uma
+        nova confirmação por e-mail</a>.
+      account is suspended: Desculpe, mas sua conta foi suspensa por causa de atividades
+        suspeitas.<br />Por favor contate o <a href="%{webmaster}">webmaster</a> se
+        você deseja discutir isto.
+      auth failure: Impossível entrar com estas informações.
+      openid_logo_alt: Entrar com um OpenID
+      auth_providers:
+        openid:
+          title: Entrar com o OpenID
+          alt: Entrar com uma URL do OpenID
+        google:
+          title: Entrar com o Google
+          alt: Entrar com um OpenID da Google
+        facebook:
+          title: Entrar com o Facebook
+          alt: Entrar com uma conta do Facebook
+        windowslive:
+          title: Entrar com o Windows Live
+          alt: Entrar com uma conta do Windows Live
+        github:
+          title: Entrar com o GitHub
+          alt: Entrar com conta do GitHub
+        wikipedia:
+          title: Entrar com Wikipédia
+          alt: Entrar com uma conta da Wikipédia
+        yahoo:
+          title: Entrar com o Yahoo
+          alt: Entrar com um OpenID da Yahoo
+        wordpress:
+          title: Entrar com o Wordpress
+          alt: Entrar com um OpenID da Wordpress
+        aol:
+          title: Entrar com a AOL
+          alt: Entrar com um OpenID da AOL
+    destroy:
+      title: Sair
+      heading: Sair do OpenStreetMap
+      logout_button: Sair
   shared:
     markdown_help:
       title_html: 'Linguagem de formatação: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>'
@@ -2109,23 +2218,6 @@ pt-BR:
           bicycle_shop: Loja de bicicletas
           bicycle_parking: Bicicletário
           toilets: Banheiros
-    richtext_area:
-      edit: Editar
-      preview: Pré-visualizar
-    markdown_help:
-      title_html: 'Linguagem de formatação: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>'
-      headings: Títulos
-      heading: Título
-      subheading: Subtítulo
-      unordered: Lista não ordenada
-      ordered: Lista ordenada
-      first: Primeiro item
-      second: Segundo item
-      link: Link
-      text: Texto
-      image: Imagem
-      alt: Texto alternativo
-      url: URL
     welcome:
       title: Bem-vindo(a)!
       introduction_html: Bem-vindo(a) ao OpenStreetMap, o mapa livre e editável do
@@ -2245,7 +2337,6 @@ pt-BR:
       more: mais
       trace_details: Ver detalhes da trilha
       view_map: Ver Mapa
-      edit: editar
       edit_map: Editar Mapa
       public: PÚBLICO
       identifiable: IDENTIFICÁVEL
@@ -2253,7 +2344,6 @@ pt-BR:
       trackable: RASTREÁVEL
       by: por
       in: em
-      map: mapa
     index:
       public_traces: Trilhas públicas de GPS
       my_traces: Minhas trilhas GPS
@@ -2367,80 +2457,6 @@ pt-BR:
     destroy:
       flash: O registro da aplicação cliente foi apagado
   users:
-    login:
-      title: Entrar
-      heading: Entrar
-      email or username: 'E-mail ou nome de usuário:'
-      password: 'Senha:'
-      openid_html: '%{logo} OpenID:'
-      remember: Lembrar neste computador
-      lost password link: Esqueceu sua senha?
-      login_button: Entrar
-      register now: Registre agora
-      with username: 'Já tem uma conta no OpenStreetMap? Então entre com seu nome
-        de usuário e senha:'
-      with external: 'Ou identifique-se através de terceiros:'
-      new to osm: Novo no OpenStreetMap?
-      to make changes: Para fazer alterações nos dados do OpenStreetMap, você precisa
-        criar uma conta.
-      create account minute: Crie uma conta. Leva só um minuto.
-      no account: Não possui uma conta?
-      account not active: Sua conta não está ativa ainda.<br />Use o link do e-mail
-        de confirmação para ativar sua conta ou <a href="%{reconfirm}">solicite uma
-        nova confirmação por e-mail</a>.
-      account is suspended: Desculpe, mas sua conta foi suspensa por causa de atividades
-        suspeitas.<br />Por favor contate o <a href="%{webmaster}">webmaster</a> se
-        você deseja discutir isto.
-      auth failure: Impossível entrar com estas informações.
-      openid_logo_alt: Entrar com um OpenID
-      auth_providers:
-        openid:
-          title: Entrar com o OpenID
-          alt: Entrar com uma URL do OpenID
-        google:
-          title: Entrar com o Google
-          alt: Entrar com um OpenID da Google
-        facebook:
-          title: Entrar com o Facebook
-          alt: Entrar com uma conta do Facebook
-        windowslive:
-          title: Entrar com o Windows Live
-          alt: Entrar com uma conta do Windows Live
-        github:
-          title: Entrar com o GitHub
-          alt: Entrar com conta do GitHub
-        wikipedia:
-          title: Entrar com Wikipédia
-          alt: Entrar com uma conta da Wikipédia
-        yahoo:
-          title: Entrar com o Yahoo
-          alt: Entrar com um OpenID da Yahoo
-        wordpress:
-          title: Entrar com o Wordpress
-          alt: Entrar com um OpenID da Wordpress
-        aol:
-          title: Entrar com a AOL
-          alt: Entrar com um OpenID da AOL
-    logout:
-      title: Sair
-      heading: Sair do OpenStreetMap
-      logout_button: Sair
-    lost_password:
-      title: Senha esquecida
-      heading: Esqueceu sua senha?
-      email address: 'Endereço de E-mail:'
-      new password button: Redefinir senha
-      help_text: Digite o endereço de e-mail que você usou para se conectar e enviaremos
-        um link que você poderá usar para redefinir a sua senha.
-      notice email on way: Um e-mail foi enviado para que você possa escolher outra
-        senha.
-      notice email cannot find: Não foi possível encontrar esse endereço de e-mail.
-    reset_password:
-      title: Redefinir senha
-      heading: Redefinir Senha de %{user}
-      reset: Redefinir Senha
-      flash changed: Sua senha foi alterada.
-      flash token bad: O código não confere, verifique a URL.
     new:
       title: Registrar-se
       no_auto_account_create: Infelizmente no momento não podemos criar uma conta
@@ -2629,34 +2645,6 @@ pt-BR:
       flash update success confirm needed: Informação de usuário atualizada com sucesso.
         Confira o seu e-mail para confirmar seu novo endereço.
       flash update success: Sucesso ao atualizar informação de usuário.
-    confirm:
-      heading: Confira o seu e-mail!
-      introduction_1: Enviamos um e-mail de confirmação para você.
-      introduction_2: Confirme a sua conta clicando no link no e-mail e você poderá
-        de iniciar o mapeamento.
-      press confirm button: Pressione o botão de confirmação abaixo para ativar sua
-        conta.
-      button: Confirmar
-      success: Conta ativada, obrigado!
-      already active: Esse conta já foi confirmada.
-      unknown token: Esse código de confirmação expirou ou não existe.
-      reconfirm_html: Caso precise que enviemos de novo o e-mail de confirmação, <a
-        href="%{reconfirm}">clique aqui</a>.
-    confirm_resend:
-      success_html: Enviamos uma nova mensagem de confirmação para %{email} e, assim
-        que você confirmar o seu cadastro, poderá começar a mapear.<br /><br />Se
-        você usa um sistema antispam que exige uma mensagem de confirmação então certifique-se
-        de que o endereço %{sender} esteja na sua lista de e-mails confiáveis, já
-        que não conseguimos responder a nenhum pedido de confirmação.
-      failure: Usuário %{name} não encontrado.
-    confirm_email:
-      heading: Confirmar uma mudança do endereço de e-mail
-      press confirm button: Pressione o botão de confirmação abaixo para confirmar
-        seu novo endereço de e-mail.
-      button: Confirmar
-      success: Confirmamos a alteração do seu endereço de e-mail!
-      failure: Um endereço de e-mail já foi confirmado com esse código.
-      unknown_token: Este código de confirmação expirou ou não existe.
     set_home:
       flash success: Local principal salvo com sucesso
     go_public:

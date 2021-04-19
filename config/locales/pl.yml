@@ -46,6 +46,7 @@
 # Author: Ruila
 # Author: SemanticPioneer
 # Author: Soeb
+# Author: Sofalse
 # Author: Sp5uhe
 # Author: Stojex
 # Author: Strebski
@@ -915,11 +916,11 @@ pl:
           hollow_way: Zapadnięta droga
           house: Dom
           manor: Dwór
-          memorial: Pomnik/miejsce pamięci (mały)
+          memorial: Pomnik / miejsce pamięci
           milestone: Historyczny słupek pikietażowy
           mine: Kopalnia
           mine_shaft: Szyb górniczy
-          monument: Pomnik/miejsce pamięci (duży)
+          monument: Monument
           railway: Historyczny obiekt kolejowy
           roman_road: Droga rzymska
           ruins: Ruiny
@@ -943,7 +944,7 @@ pl:
           conservation: Rezerwat
           construction: Teren budowy
           farm: Farma
-          farmland: Grunty rolne
+          farmland: Grunty orne
           farmyard: Podwórze gospodarskie
           forest: Las
           garages: Garaże
@@ -962,7 +963,7 @@ pl:
           religious: Teren do celów religijnych
           reservoir: Sztuczny zbiornik wodny
           reservoir_watershed: Zbiornik wodny
-          residential: Zabudowa mieszkalna
+          residential: Zabudowa mieszkaniowa
           retail: Teren handlu detalicznego
           village_green: Nawsie
           vineyard: Winnica
@@ -1067,12 +1068,14 @@ pl:
         mountain_pass:
           "yes": Przełęcz
         natural:
+          atoll: Atol
           bare_rock: Skała macierzysta
           bay: Zatoka
           beach: Plaża
           cape: Przylądek
           cave_entrance: Wejście do jaskini
           cliff: Urwisko
+          coastline: Linia brzegowa
           crater: Krater
           dune: Wydma
           fell: Hale górskie
@@ -1090,6 +1093,7 @@ pl:
           moor: Wrzosowisko
           mud: Błoto
           peak: Szczyt
+          peninsula: Półwysep
           point: Punkt
           reef: Rafa
           ridge: Grzbiet
@@ -1137,6 +1141,7 @@ pl:
           "yes": Biuro
         place:
           allotments: Ogródki działkowe
+          archipelago: Archipelag
           city: Miasto
           city_block: Kwartał
           country: Kraj
@@ -1663,11 +1668,38 @@ pl:
         %{url} i kliknij „Nie obserwuj”.
       unsubscribe_html: Aby wypisać się z subskrypcji dotyczącej tego zestawu zmian,
         odwiedź %{url} i kliknij „Nie obserwuj”.
+  confirmations:
+    confirm:
+      heading: Sprawdź swoją skrzynkę e-mail!
+      introduction_1: Wysłaliśmy ci e-mail z potwierdzeniem.
+      introduction_2: Potwierdź swoje konto, klikając na link w wiadomości i zacznij
+        mapować.
+      press confirm button: Proszę kliknąć poniższy przycisk, aby aktywować konto.
+      button: Potwierdzam
+      success: Twoje konto zostało zatwierdzone, cieszymy się, że do nas dołączyłeś!
+      already active: To konto zostało potwierdzone.
+      unknown token: Ten kod potwierdzający wygasł lub nie istnieje.
+      reconfirm_html: Możesz ponownie przesłać wiadomość z potwierdzeniem <a href="%{reconfirm}">klikając
+        tutaj</a>.
+    confirm_resend:
+      success_html: Wysłaliśmy nową wiadomość z potwierdzeniem na %{email} i jak tylko
+        aktywujesz swoje konto, będziesz mógł zacząć edytować mapę.<br /><br />Jeśli
+        używasz systemu antyspamowego, upewnij się, że do swojej białej listy dodałeś
+        adres %{sender}. Dzięki temu będziemy mogli skontaktować się z tobą bez problemów.
+      failure: Nie odnaleziono użytkownika %{name}.
+    confirm_email:
+      heading: Porwierdzenie zmiany adresu mailowego
+      press confirm button: Proszę kliknąć poniższy przycisk, aby potwierdzić nowy
+        adres e-mail.
+      button: Potwierdzam
+      success: Twój nowy adres e-mail został potwierdzony!
+      failure: Adres e-mail o tym kodzie był już potwierdzony.
+      unknown_token: Ten kod potwierdzający wygasł lub nie istnieje.
   messages:
     inbox:
       title: Wiadomości odebrane
       my_inbox: skrzynka odbiorcza
-      outbox: skrzynka nadawcza
+      my_outbox: skrzynka nadawcza
       messages: Masz %{new_messages} i %{old_messages}
       new_messages:
         few: '%{count} nowe wiadomości'
@@ -1706,9 +1738,8 @@ pl:
       body: Niestety nie ma wiadomości o tym identyfikatorze.
     outbox:
       title: Wysłane
-      my_inbox_html: Wiadomości %{inbox_link}
-      inbox: odebrane
-      outbox: wysłane
+      my_inbox: Wiadomości odebrane
+      my_outbox: Wiadomości wysłane
       messages:
         one: '%{count} wysłana wiadomość'
         few: '%{count} wysłane wiadomości'
@@ -1743,6 +1774,81 @@ pl:
       as_unread: Wiadomość została oznaczona jako nieprzeczytana
     destroy:
       destroyed: Wiadomość usunięta
+  passwords:
+    lost_password:
+      title: zgubione hasło
+      heading: Zapomniałeś hasła?
+      email address: 'Adres e-mail:'
+      new password button: Wyczyść hasło
+      help_text: Proszę wprowadzić adres e-mail używany do logowania. Zostanie wysłany
+        na niego odnośnik służący do wyczyszczenia hasła.
+      notice email on way: Przykro nam z powodu utraty hasła. Wiadomość, która umożliwi
+        jego wyczyszczenie, jest już w drodze.
+      notice email cannot find: Niestety, nie odnaleziono tego adresu e-mail.
+    reset_password:
+      title: Wyczyść hasło
+      heading: Czyszczenie hasła użytkownika %{user}
+      reset: Wyczyść hasło
+      flash changed: Hasło zostało zmienione.
+      flash token bad: Nie znaleziono tokenu, sprawdź URL
+  sessions:
+    new:
+      title: Logowanie
+      heading: Logowanie
+      email or username: 'Adres e-mail lub nazwa użytkownika:'
+      password: 'Hasło:'
+      openid_html: '%{logo} OpenID:'
+      remember: Zapamiętaj dane uwierzytelniające
+      lost password link: Zapomniałeś hasła?
+      login_button: Zaloguj się
+      register now: Zarejestruj się
+      with username: 'Masz już konto w OpenStreetMap? Zaloguj się, podając nazwę użytkownika
+        i hasło:'
+      with external: 'Alternatywnie, zaloguj się przez:'
+      new to osm: Nowy na OpenStreetMap?
+      to make changes: Aby wprowadzać zmiany w OpenStreetMap, musisz mieć konto.
+      create account minute: Utwórz konto. To zajmuje tylko minutę.
+      no account: Nie masz konta?
+      account not active: Niestety twoje konto nie jest jeszcze aktywne.<br />Otwórz
+        link zawarty w mailu potwierdzenia założenia konta, aby je aktywować lub <a
+        href="%{reconfirm}">poproś o ponowne przesłanie maila</a>.
+      account is suspended: Twoje konto zostało zawieszone ze względu na podejrzaną
+        działalność.<br />Skontaktuj się z <a href="%{webmaster}">webmasterem</a>,
+        jeśli chcesz to przedyskutować.
+      auth failure: Niestety, podane dane nie pozwoliły na zalogowanie.
+      openid_logo_alt: Zaloguj się przez OpenID
+      auth_providers:
+        openid:
+          title: Zaloguj się przez OpenID
+          alt: Zaloguj się za pomocą adresu URL OpenID
+        google:
+          title: Zaloguj się przez Google
+          alt: Zaloguj się przez Google OpenID
+        facebook:
+          title: Zaloguj się przez Facebooka
+          alt: Zaloguj się przez konto Facebook
+        windowslive:
+          title: Zaloguj się przez Windows Live
+          alt: Zaloguj się przez konto Windows Live
+        github:
+          title: Zaloguj się przez GitHub
+          alt: Zaloguj się przez konto GitHub
+        wikipedia:
+          title: Zaloguj się przez Wikipedię
+          alt: Zaloguj się przez konto Wikipedii
+        yahoo:
+          title: Zaloguj się przez Yahoo
+          alt: Zaloguj się przez Yahoo OpenID
+        wordpress:
+          title: Zaloguj się przez Wordpress
+          alt: Zaloguj się przez OpenID Wordpress
+        aol:
+          title: Zaloguj się przez AOL
+          alt: Zaloguj się przez AOL OpenID
+    destroy:
+      title: Wyloguj się
+      heading: Wyloguj się z OpenStreetMap
+      logout_button: Wyloguj się
   shared:
     markdown_help:
       title_html: Składnia <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
@@ -2138,23 +2244,6 @@ pl:
           bicycle_shop: Sklep rowerowy
           bicycle_parking: Parking dla rowerów
           toilets: Toalety
-    richtext_area:
-      edit: Edytuj
-      preview: Podgląd
-    markdown_help:
-      title_html: Składnia <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
-      headings: Nagłówki
-      heading: Nagłówek
-      subheading: Podtytuł
-      unordered: Lista nieuporządkowana
-      ordered: Lista numerowana
-      first: Pierwszy element
-      second: Drugi element
-      link: Odnośnik
-      text: Tekst
-      image: Obraz
-      alt: Tekst alternatywny
-      url: Adres URL
     welcome:
       title: Witamy!
       introduction_html: Witamy w OpenStreetMap, wolnej mapie świata. Teraz, gdy masz
@@ -2277,7 +2366,6 @@ pl:
       more: więcej
       trace_details: Wyświetl szczegóły śladu
       view_map: Wyświetl mapę
-      edit: edycja
       edit_map: Edytuj mapę
       public: PUBLICZNY
       identifiable: IDENTYFIKOWALNY
@@ -2285,7 +2373,6 @@ pl:
       trackable: MOŻLIWY DO ŚLEDZENIA
       by: utworzony przez użytkownika
       in: w
-      map: mapa
     index:
       public_traces: Publiczne ślady GPS
       my_traces: Moje ślady GPS
@@ -2363,7 +2450,7 @@ pl:
     edit:
       title: Edycja aplikacji
     show:
-      title: Szczegóły OAuth dla %{app_name}
+      title: Szczegóły OAuth do %{app_name}
       key: 'Klucz odbiorcy:'
       secret: 'Sekret odbiorcy:'
       url: 'URL znacznika zapytania:'
@@ -2399,79 +2486,6 @@ pl:
     destroy:
       flash: Usunięto rejestrację aplikacji
   users:
-    login:
-      title: Logowanie
-      heading: Logowanie
-      email or username: 'Adres e-mail lub nazwa użytkownika:'
-      password: 'Hasło:'
-      openid_html: '%{logo} OpenID:'
-      remember: Zapamiętaj dane uwierzytelniające
-      lost password link: Zapomniałeś hasła?
-      login_button: Zaloguj się
-      register now: Zarejestruj się
-      with username: 'Masz już konto w OpenStreetMap? Zaloguj się, podając nazwę użytkownika
-        i hasło:'
-      with external: 'Alternatywnie, zaloguj się przez:'
-      new to osm: Nowy na OpenStreetMap?
-      to make changes: Aby wprowadzać zmiany w OpenStreetMap, musisz mieć konto.
-      create account minute: Utwórz konto. To zajmuje tylko minutę.
-      no account: Nie masz konta?
-      account not active: Niestety twoje konto nie jest jeszcze aktywne.<br />Otwórz
-        link zawarty w mailu potwierdzenia założenia konta, aby je aktywować lub <a
-        href="%{reconfirm}">poproś o ponowne przesłanie maila</a>.
-      account is suspended: Twoje konto zostało zawieszone ze względu na podejrzaną
-        działalność.<br />Skontaktuj się z <a href="%{webmaster}">webmasterem</a>,
-        jeśli chcesz to przedyskutować.
-      auth failure: Niestety, podane dane nie pozwoliły na zalogowanie.
-      openid_logo_alt: Zaloguj się za pomocą OpenID
-      auth_providers:
-        openid:
-          title: Zaloguj się za pomocą OpenID
-          alt: Zaloguj się za pomocą adresu URL OpenID
-        google:
-          title: Zaloguj się za pomocą Google
-          alt: Zaloguj się za pomocą Google OpenID
-        facebook:
-          title: Zaloguj się za pomocą Facebooka
-          alt: Zaloguj się za pomocą konta Facebook
-        windowslive:
-          title: Zaloguj się za pomocą Windows Live
-          alt: Zaloguj się za pomocą konta Windows Live
-        github:
-          title: Zaloguj się za pomocą GitHub
-          alt: Zaloguj się za pomocą konta GitHub
-        wikipedia:
-          title: Zaloguj się za pomocą Wikipedii
-          alt: Zaloguj się za pomocą konta Wikipedia
-        yahoo:
-          title: Zaloguj się za pomocą Yahoo
-          alt: Zaloguj się za pomocą Yahoo OpenID
-        wordpress:
-          title: Zaloguj się za pomocą Wordpress
-          alt: Zaloguj się za pomocą OpenID Wordpress
-        aol:
-          title: Zaloguj się za pomocą AOL
-          alt: Zaloguj się za pomocą AOL OpenID
-    logout:
-      title: Wyloguj się
-      heading: Wyloguj się z OpenStreetMap
-      logout_button: Wyloguj się
-    lost_password:
-      title: zgubione hasło
-      heading: Zapomniałeś hasła?
-      email address: 'Adres e-mail:'
-      new password button: Wyczyść hasło
-      help_text: Proszę wprowadzić adres e-mail używany do logowania. Zostanie wysłany
-        na niego odnośnik służący do wyczyszczenia hasła.
-      notice email on way: Przykro nam z powodu utraty hasła. Wiadomość, która umożliwi
-        jego wyczyszczenie, jest już w drodze.
-      notice email cannot find: Niestety, nie odnaleziono tego adresu e-mail.
-    reset_password:
-      title: Wyczyść hasło
-      heading: Czyszczenie hasła użytkownika %{user}
-      reset: Wyczyść hasło
-      flash changed: Hasło zostało zmienione.
-      flash token bad: Nie znaleziono tokenu, sprawdź URL
     new:
       title: Zarejestruj się
       no_auto_account_create: Niestety nie możemy aktualnie stworzyć ci konta automatycznie.
@@ -2480,16 +2494,16 @@ pl:
         będzie możliwe.
       about:
         header: Darmowa i edytowalna
-        html: <p>W przeciwieństwie do innych map, OpenStreetMap jest całkowicie tworzone
-          przez ludzi takich jak ty. Wszyscy mogą tu wprowadzać poprawki i aktualizacje
-          oraz pobierać i używać map za darmo.</p>
+        html: |-
+          <p>W przeciwieństwie do innych map OpenStreetMap jest całkowicie tworzone przez ludzi takich jak ty. Każdy może wprowadzać poprawki oraz pobierać mapy i używać ich za darmo.</p>
+          <p>Zarejestruj się, aby zacząć współtworzyć. Wyślemy ci e-mail z potwierdzeniem założenia konta.</p>
       email address: 'Adres e-mail:'
       confirm email address: 'Potwierdzenie adresu e-mail:'
       display name: 'Przyjazna nazwa:'
       display name description: Twoja publiczna nazwa użytkownika. Można ją później
         zmienić w ustawieniach.
       external auth: 'Logowanie przez:'
-      use external auth: 'Zaloguj się przez:'
+      use external auth: Alternatywnie, zaloguj się przez...
       auth no password: Jeśli korzystasz z logowania pośredniego, hasło nie jest wymagane,
         jednak niektóre dodatkowe narzędzia lub serwer mogą go potrzebować.
       continue: Zarejestruj się
@@ -2661,32 +2675,6 @@ pl:
       flash update success confirm needed: Zaktualizowano profil użytkownika.  Sprawdź,
         czy przyszedł już mail potwierdzający nowy adres mailowy.
       flash update success: Zaktualizowano profil użytkownika.
-    confirm:
-      heading: Sprawdź swoją skrzynkę e-mail!
-      introduction_1: Wysłaliśmy ci e-mail z potwierdzeniem.
-      introduction_2: Potwierdź swoje konto, klikając na link w wiadomości i zacznij
-        mapować.
-      press confirm button: Proszę kliknąć poniższy przycisk, aby aktywować konto.
-      button: Potwierdzam
-      success: Twoje konto zostało zatwierdzone, cieszymy się, że do nas dołączyłeś!
-      already active: To konto zostało potwierdzone.
-      unknown token: Ten kod potwierdzający wygasł lub nie istnieje.
-      reconfirm_html: Możesz ponownie przesłać wiadomość z potwierdzeniem <a href="%{reconfirm}">klikając
-        tutaj</a>.
-    confirm_resend:
-      success_html: Wysłaliśmy nową wiadomość z potwierdzeniem na %{email} i jak tylko
-        aktywujesz swoje konto, będziesz mógł zacząć edytować mapę.<br /><br />Jeśli
-        używasz systemu antyspamowego, upewnij się, że do swojej białej listy dodałeś
-        adres %{sender}. Dzięki temu będziemy mogli skontaktować się z tobą bez problemów.
-      failure: Nie odnaleziono użytkownika %{name}.
-    confirm_email:
-      heading: Porwierdzenie zmiany adresu mailowego
-      press confirm button: Proszę kliknąć poniższy przycisk, aby potwierdzić nowy
-        adres e-mail.
-      button: Potwierdzam
-      success: Twój nowy adres e-mail został potwierdzony!
-      failure: Adres e-mail o tym kodzie był już potwierdzony.
-      unknown_token: Ten kod potwierdzający wygasł lub nie istnieje.
     set_home:
       flash success: Zapisano nowe położenie domu
     go_public:

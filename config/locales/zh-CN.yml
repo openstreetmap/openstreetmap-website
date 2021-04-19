@@ -15,6 +15,8 @@
 # Author: Dimension
 # Author: Duolaimi
 # Author: Fanjiayi
+# Author: Gerongfenh
+# Author: Hmgrmb
 # Author: Hudafu
 # Author: Hydra
 # Author: Hzy980512
@@ -23,6 +25,7 @@
 # Author: Jienus
 # Author: Jiwei
 # Author: Josephine W.
+# Author: Ken418
 # Author: Koalberry
 # Author: Lakejason0
 # Author: LaoShuBaby
@@ -41,6 +44,7 @@
 # Author: SinonJZH
 # Author: StephDC
 # Author: TianyinLee
+# Author: Vikarna
 # Author: VulpesVulpes825
 # Author: WQL
 # Author: Wong128cn
@@ -174,27 +178,35 @@ zh-CN:
         body: 正文
         recipient: 收件人
       redaction:
+        title: 标题
         description: 描述
       report:
         category: 选择您举报的原因
         details: 请提供一些有关问题的更多详情（必填）。
       user:
+        auth_provider: 验证提供商
+        auth_uid: 验证UID
         email: 电子邮件
-        new_email: 新电子邮件地址：
+        email_confirmation: 电子邮件确认
+        new_email: 新电子邮件地址
         active: 激活
         display_name: 显示名称
-        description: 描述
-        home_lat: 纬度：
-        home_lon: 经度：
-        languages: 语言
+        description: 个人资料描述
+        home_lat: 纬度
+        home_lon: 经度
+        languages: 首选语言
+        preferred_editor: 首选编辑器
         pass_crypt: 密码
         pass_crypt_confirmation: 确认密码
     help:
       trace:
         tagstring: 用逗号分隔
       user_block:
+        reason: 用户被封禁的原因。请尽可能以冷静、合理的态度，尽量详细的说明有关情况，并请记住，该信息将被公开。请牢记，并非所有用户都了解社区的术语，所以请尝试使用较通俗的说法。
         needs_view: 在清除这个封禁之前，是否需要用户先登录？
       user:
+        email_confirmation: 你的电子邮件地址不会被公开展示，更多信息请查看请我们的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="包含有关电子邮件地址的部分的OSMF隐私政策">隐私政策</a>以获取更多信息。
         new_email: (从不公开显示)
   datetime:
     distance_in_words_ago:
@@ -568,7 +580,7 @@ zh-CN:
           t-bar: T字形电梯
           "yes": 航空
         aeroway:
-          aerodrome: 小型飞机场
+          aerodrome: 飞机场
           airstrip: 飞机跑道
           apron: 停机坪
           gate: 登机口
@@ -1009,12 +1021,14 @@ zh-CN:
         mountain_pass:
           "yes": 山口
         natural:
+          atoll: 环礁
           bare_rock: 裸岩
           bay: 湾
           beach: 滩
           cape: 海岬
           cave_entrance: 洞口
           cliff: 峭壁
+          coastline: 海岸线
           crater: 火山口
           dune: 沙丘
           fell: 费尔地貌
@@ -1032,6 +1046,7 @@ zh-CN:
           moor: 停泊区
           mud: 泥地
           peak: 山顶
+          peninsula: 半岛
           point: 点
           reef: 礁
           ridge: 山脊
@@ -1079,6 +1094,7 @@ zh-CN:
           "yes": 办公室
         place:
           allotments: 分配的土地
+          archipelago: 群岛
           city: 城市
           city_block: 城市街区
           country: 国家
@@ -1183,6 +1199,7 @@ zh-CN:
           funeral_directors: 殡仪馆
           furniture: 家具店
           garden_centre: 园艺品店
+          gas: 加油站
           general: 杂货店
           gift: 礼品店
           greengrocer: 蔬菜水果店
@@ -1463,9 +1480,13 @@ zh-CN:
       hi: 您好，%{to_user}：
       header: '%{from_user} 评论了主题为 %{subject} 的 OpenStreetMap 日记文章：'
       footer: 您也可以通过%{readurl}来读取评论，并且在%{commenturl}来撰写评论或者通过%{replyurl}向作者发送消息
+      footer_html: 您也可以通过%{readurl}查看评论，并在%{commenturl}撰写评论或通过%{replyurl}向作者发送消息
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: 您好，%{to_user}：
       header: '%{from_user} 已经通过 OpenStreetMap 给您发送了一条主题为 %{subject} 的信息：'
+      header_html: '%{from_user} 已经通过 OpenStreetMap 给您发送了一条主题为 %{subject} 的信息：'
+      footer: 您也可以在%{readurl}阅读此消息并在%{replyurl}向作者发送信息
       footer_html: 您还可以在%{readurl}阅读这条信息并在%{replyurl}向作者发送信息
     friendship_notification:
       hi: 您好，%{to_user}：
@@ -1473,15 +1494,20 @@ zh-CN:
       had_added_you: '%{user} 已经在 OpenStreetMap 添加您为朋友。'
       see_their_profile: 您可以在%{userurl}查看他们的个人资料。
       see_their_profile_html: 您可以在%{userurl}查看他们的个人资料。
-      befriend_them: 您也可以在%{befriendurl}添加他们为朋友。
+      befriend_them: 您也可以在 %{befriendurl} 添加他们为朋友。
+      befriend_them_html: 您也可以在%{befriendurl}把他们添加为朋友。
     gpx_description:
+      description_with_tags_html: 您的GPX文件 %{trace_name} ，其描述为 %{trace_description}
+        并有以下标签： %{tags}
       description_with_no_tags_html: 似乎您的GPX文件%{trace_name}，描述为%{trace_description}，没有标签
     gpx_failure:
+      hi: 您好，%{to_user}：
       failed_to_import: 导入失败。下面是错误信息：
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] GPX 导入失败'
     gpx_success:
-      loaded_successfully: 成功载入可能 %{possible_points} 点中的 %{trace_points} 点。
+      hi: 您好，%{to_user}：
+      loaded_successfully: 成功载入 %{possible_points} 可能节点中的 %{trace_points} 个。
       subject: '[OpenStreetMap] GPX 导入成功'
     signup_confirm:
       subject: '[OpenStreetMap] 欢迎加入 OpenStreetMap'
@@ -1511,15 +1537,18 @@ zh-CN:
         subject_own: '[OpenStreetMap] %{commenter} 解决了您的一个注记'
         subject_other: '[OpenStreetMap] %{commenter} 已经解决了一个您感兴趣的注记'
         your_note: '%{commenter} 解决了您在 %{place} 附近的一个注记。'
+        your_note_html: '%{commenter} 解决了您在 %{place} 附近的一个注记。'
         commented_note: '%{commenter} 解决了您感兴趣的一个地图注记。该注记位于 %{place} 附近。'
         commented_note_html: '%{commenter} 解决了您感兴趣的一个地图注记。该注记位于 %{place} 附近。'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} 重新激活了您的一个注记'
         subject_other: '[OpenStreetMap] %{commenter} 重新激活了您感兴趣的一个注记'
         your_note: '%{commenter} 重新激活了您在 %{place} 附近的一个注记。'
+        your_note_html: '%{commenter} 重新激活了您在 %{place} 附近的一个注记。'
         commented_note: '%{commenter} 重新激活了您感兴趣的一个地图注记。该注记位于 %{place} 附近。'
         commented_note_html: '%{commenter} 重新激活了您感兴趣的一个地图注记。该注记位于 %{place} 附近。'
       details: 更多关于笔记的详细信息可以在%{url}找到。
+      details_html: 更多关于笔记的详细信息可以在%{url}找到。
     changeset_comment_notification:
       hi: 您好，%{to_user}：
       greeting: 您好，
@@ -1534,11 +1563,33 @@ zh-CN:
         partial_changeset_without_comment: 没有评论
       details: 更多关于变更集的详细信息可以在 %{url} 找到。
       unsubscribe: 要从该变更集中退订，请访问%{url}，并点击“退订”。
+      unsubscribe_html: 要从该变更集中退订，请访问%{url}，并点击“退订”。
+  confirmations:
+    confirm:
+      heading: 检查您的电子邮件！
+      introduction_1: 我们给您发送了确认邮件。
+      introduction_2: 点击电子邮件中的链接确认您的账户，然后您就可以开始绘制地图了。
+      press confirm button: 按下面的确认按钮激活您的账户。
+      button: 确认
+      success: 已确认您的账号，感谢您的注册！
+      already active: 该账户已经确认。
+      unknown token: 确认码已经过期或不存在。
+      reconfirm_html: 如果您需要我们重新发送确认邮件，<a href="%{reconfirm}">请点击这里</a>。
+    confirm_resend:
+      success_html: 我们已经发送一封新的确认电子邮件到 %{email}，只要您确认您的帐户，您就可以开始制图了。<br /><br />如果您使用的反垃圾邮件系统发送确认请求，那么请确保您的白名单中有%{sender}，因为我们无法回复任何确认请求。
+      failure: 用户 %{name} 未找到。
+    confirm_email:
+      heading: 确认电子邮件地址更改
+      press confirm button: 按下面的确认按钮以确认您的新电子邮件地址。
+      button: 确认
+      success: 已确认您对电子邮件地址的更改！
+      failure: 具有此令牌的电子邮件地址已经确认过了。
+      unknown_token: 那个确认代码已过期或不存在。
   messages:
     inbox:
       title: 收件箱
       my_inbox: 我的收件箱
-      outbox: 发件箱
+      my_outbox: 我的发件箱
       messages: 您有 %{new_messages}和 %{old_messages}
       new_messages: '%{count} 条新消息'
       old_messages: '%{count} 条旧消息'
@@ -1567,9 +1618,8 @@ zh-CN:
       body: 对不起，没有具有该 id 的消息。
     outbox:
       title: 发件箱
-      my_inbox_html: 我的%{inbox_link}
-      inbox: 收件箱
-      outbox: 发件箱
+      my_inbox: 我的收件箱
+      my_outbox: 我的发件箱
       messages:
         one: 您有 %{count} 条已发送信息
         other: 您有 %{count} 条已发送信息
@@ -1598,6 +1648,74 @@ zh-CN:
       as_unread: 标记消息为未读
     destroy:
       destroyed: 消息已删除
+  passwords:
+    lost_password:
+      title: 忘记密码
+      heading: 忘记密码？
+      email address: 电子邮件地址：
+      new password button: 重置密码
+      help_text: 输入您的电子邮件地址来注册，我们会寄出链接给它，这样您就可以用它来重置密码。
+      notice email on way: 很遗憾您遗失了密码:-(不过一封电子邮件已经发往您的邮箱，您很快就可以重置密码了。
+      notice email cannot find: 对不起，无法找到邮箱。
+    reset_password:
+      title: 重置密码
+      heading: 重置%{user}的密码
+      reset: 重置密码
+      flash changed: 您的密码已经更改。
+      flash token bad: 未找到标记，建议检查 URL?
+  sessions:
+    new:
+      title: 登录
+      heading: 登录
+      email or username: 电子邮件地址或用户名：
+      password: 密码：
+      openid_html: '%{logo}OpenID：'
+      remember: 记住我
+      lost password link: 忘记密码？
+      login_button: 登录
+      register now: 立即注册
+      with username: 已经有 OpenStreetMap 账户？请使用您的用户名和密码登录：
+      with external: 或者使用第三方服务登录：
+      new to osm: 第一次来到 OpenStreetMap？
+      to make changes: 要修改 OpenStreetMap 的数据，您必须拥有一个帐户。
+      create account minute: 创建账户。只需花费一分钟。
+      no account: 没有账户？
+      account not active: 对不起，您的账户尚未激活。<br />请点击在账户确认邮件中的链接来激活您的账户，或<a href="%{reconfirm}">请求新的确认电子邮件</a>。
+      account is suspended: 对不起，您的帐户因可疑活动已被暂停。<br />如果您想讨论这个，请联系<a href="%{webmaster}">网站管理员</a>。
+      auth failure: 对不起，凭这些信息您无法登录。
+      openid_logo_alt: 使用 OpenID 登录
+      auth_providers:
+        openid:
+          title: 使用OpenID登录
+          alt: 使用OpenID URL登录
+        google:
+          title: 使用Google登录
+          alt: 使用Google OpenID登录
+        facebook:
+          title: 使用脸书登录
+          alt: 使用Facebook账户登录
+        windowslive:
+          title: 使用Windows Live登录
+          alt: 使用一个Windows Live账户登录
+        github:
+          title: 使用GitHub登录
+          alt: 通过GitHub账户登录
+        wikipedia:
+          title: 使用维基百科登录
+          alt: 使用维基百科账户登录
+        yahoo:
+          title: 使用Yahoo登录
+          alt: 使用Yahoo OpenID登录
+        wordpress:
+          title: 使用Wordpress登录
+          alt: 使用 Wordpress OpenID 登录
+        aol:
+          title: 使用AOL登录
+          alt: 使用AOL OpenID登录
+    destroy:
+      title: 退出
+      heading: 退出登录OpenStreetMap
+      logout_button: 退出
   shared:
     markdown_help:
       headings: 标题
@@ -1914,24 +2032,6 @@ zh-CN:
           bicycle_shop: 自行车店
           bicycle_parking: 自行车停车场
           toilets: 厕所
-    richtext_area:
-      edit: 编辑
-      preview: 预览
-    markdown_help:
-      title_html: 使用 <a href="https://daringfireball.net/projects/markdown/">kramdown</a>
-        解析
-      headings: 标题
-      heading: 标题
-      subheading: 副标题
-      unordered: 无序列表
-      ordered: 有序列表
-      first: 第一项
-      second: 第二项
-      link: 链接
-      text: 文本
-      image: 图像
-      alt: 替代文本
-      url: URL
     welcome:
       title: 欢迎！
       introduction_html: 欢迎访问 OpenStreeMap，自由且可编辑的世界地图。您已经登录，可以开始绘制地图。这里是含有您需要知道的最重要的信息的快速指南。
@@ -2021,7 +2121,6 @@ zh-CN:
       more: 更多
       trace_details: 查看轨迹详情
       view_map: 查看地图
-      edit: 编辑
       edit_map: 编辑地图
       public: 公开
       identifiable: 可识别
@@ -2029,7 +2128,6 @@ zh-CN:
       trackable: 可追踪
       by: 由
       in: 使用
-      map: 地图
     index:
       public_traces: 公开GPS轨迹
       my_traces: 我的GPS轨迹
@@ -2132,72 +2230,6 @@ zh-CN:
     destroy:
       flash: 已破坏此客户端应用程序注册
   users:
-    login:
-      title: 登录
-      heading: 登录
-      email or username: 电子邮件地址或用户名：
-      password: 密码：
-      openid_html: '%{logo}OpenID：'
-      remember: 记住我
-      lost password link: 忘记密码？
-      login_button: 登录
-      register now: 立即注册
-      with username: 已经有 OpenStreetMap 账户？请使用您的用户名和密码登录：
-      with external: 或者使用第三方服务登录：
-      new to osm: 第一次来到 OpenStreetMap？
-      to make changes: 要修改 OpenStreetMap 的数据，您必须拥有一个帐户。
-      create account minute: 创建账户。只需花费一分钟。
-      no account: 没有账户？
-      account not active: 对不起，您的账户尚未激活。<br />请点击在账户确认邮件中的链接来激活您的账户，或<a href="%{reconfirm}">请求新的确认电子邮件</a>。
-      account is suspended: 对不起，您的帐户因可疑活动已被暂停。<br />如果您想讨论这个，请联系<a href="%{webmaster}">网站管理员</a>。
-      auth failure: 对不起，凭这些信息您无法登录。
-      openid_logo_alt: 使用 OpenID 登录
-      auth_providers:
-        openid:
-          title: 使用OpenID登录
-          alt: 使用OpenID URL登录
-        google:
-          title: 使用Google登录
-          alt: 使用Google OpenID登录
-        facebook:
-          title: 使用脸书登录
-          alt: 使用Facebook账户登录
-        windowslive:
-          title: 使用Windows Live登录
-          alt: 使用一个Windows Live账户登录
-        github:
-          title: 使用GitHub登录
-          alt: 通过GitHub账户登录
-        wikipedia:
-          title: 使用维基百科登录
-          alt: 使用维基百科账户登录
-        yahoo:
-          title: 使用Yahoo登录
-          alt: 使用Yahoo OpenID登录
-        wordpress:
-          title: 使用Wordpress登录
-          alt: 使用 Wordpress OpenID 登录
-        aol:
-          title: 使用AOL登录
-          alt: 使用AOL OpenID登录
-    logout:
-      title: 退出
-      heading: 退出登录OpenStreetMap
-      logout_button: 退出
-    lost_password:
-      title: 忘记密码
-      heading: 忘记密码？
-      email address: 电子邮件地址：
-      new password button: 重置密码
-      help_text: 输入您的电子邮件地址来注册，我们会寄出链接给它，这样您就可以用它来重置密码。
-      notice email on way: 很遗憾您遗失了密码:-(不过一封电子邮件已经发往您的邮箱，您很快就可以重置密码了。
-      notice email cannot find: 对不起，无法找到邮箱。
-    reset_password:
-      title: 重置密码
-      heading: 重置%{user}的密码
-      reset: 重置密码
-      flash changed: 您的密码已经更改。
-      flash token bad: 未找到标记，建议检查 URL?
     new:
       title: 注册
       no_auto_account_create: 很遗憾，我们目前无法为您自动创建一个帐户。
@@ -2316,13 +2348,13 @@ zh-CN:
     account:
       title: 编辑账户
       my settings: 我的设置
-      current email address: 当前电子邮件地址：
-      external auth: 外部身份验证：
+      current email address: 当前电子邮件地址
+      external auth: 外部身份验证
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: 这是什么？
       public editing:
-        heading: 公开编辑：
+        heading: 公开编辑
         enabled: 启用。非匿名用户，可以编辑数据。
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: 这是什么？
@@ -2333,17 +2365,18 @@ zh-CN:
         html: 目前您的编辑是匿名的，人们不能发送邮件给您或看到您的位置。为了显示您的编辑，让别人通过网站与您联系，请点击下面的按钮。<b>由于 0.6
           API 的转换，只有公开的用户可以编辑地图数据</b>。(<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">了解为什么</a>)。<ul><li>您的电子邮件地址将不会被因为成为公开用户而被透露。</li><li>此操作无法撤销，所有新用户现在都默认为公开的。</li></ul>
       contributor terms:
-        heading: 贡献者条款：
+        heading: 贡献者条款
         agreed: 您已同意新的贡献者条款。
         not yet agreed: 您还没有同意新的贡献者条款。
         review link text: 请跟随此链接，方便您查看并接受新的贡献者条款。
         agreed_with_pd: 您也将您的编辑释于公有领域。
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: 这是什么？
-      image: 图像：
+      image: 图像
       gravatar:
         gravatar: 使用 Gravatar
         link: http://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: 什么是Gravatar？
         disabled: Gravatar已禁用。
         enabled: 您的Gravatar显示已启用。
       new image: 添加图像
@@ -2351,7 +2384,7 @@ zh-CN:
       delete image: 删除当前图像
       replace image: 替换当前图像
       image size hint: (正方形图像，尺寸至少为100x100)
-      home location: 住所位置：
+      home location: 住所位置
       no home location: 您还没有输入您的住所位置。
       update home location on click: 点击地图时更新所在位置？
       save changes button: 保存更改
@@ -2359,26 +2392,6 @@ zh-CN:
       return to profile: 返回基本信息
       flash update success confirm needed: 成功更新用户信息。 查看您的邮箱以确认您的新邮箱地址。
       flash update success: 成功更新用户信息。
-    confirm:
-      heading: 检查您的电子邮件！
-      introduction_1: 我们给您发送了确认邮件。
-      introduction_2: 点击电子邮件中的链接确认您的账户，然后您就可以开始绘制地图了。
-      press confirm button: 按下面的确认按钮激活您的账户。
-      button: 确认
-      success: 已确认您的账号，感谢您的注册！
-      already active: 该账户已经确认。
-      unknown token: 确认码已经过期或不存在。
-      reconfirm_html: 如果您需要我们重新发送确认邮件，<a href="%{reconfirm}">请点击这里</a>。
-    confirm_resend:
-      success_html: 我们已经发送一封新的确认电子邮件到 %{email}，只要您确认您的帐户，您就可以开始制图了。<br /><br />如果您使用的反垃圾邮件系统发送确认请求，那么请确保您的白名单中有%{sender}，因为我们无法回复任何确认请求。
-      failure: 用户 %{name} 未找到。
-    confirm_email:
-      heading: 确认电子邮件地址更改
-      press confirm button: 按下面的确认按钮以确认您的新电子邮件地址。
-      button: 确认
-      success: 已确认您对电子邮件地址的更改！
-      failure: 具有此令牌的电子邮件地址已经确认过了。
-      unknown_token: 那个确认代码已过期或不存在。
     set_home:
       flash success: 成功保存您所在位置
     go_public:

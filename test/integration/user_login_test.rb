@@ -47,7 +47,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.email.titlecase, "test"
 
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "span.username", false
   end
 
@@ -111,7 +111,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.email, "test"
 
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.flash.error", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
@@ -123,7 +123,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.email.upcase, "test"
 
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.flash.error", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
@@ -135,7 +135,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.email.titlecase, "test"
 
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.flash.error", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
@@ -204,7 +204,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.display_name.downcase, "test"
 
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "span.username", false
   end
 
@@ -268,7 +268,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.display_name, "test"
 
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.flash.error", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
@@ -280,7 +280,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.display_name.upcase, "test"
 
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.flash.error", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
@@ -292,7 +292,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.display_name.downcase, "test"
 
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.flash.error", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
@@ -355,10 +355,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :cookie_test => true, :referer => "/history"
+    assert_redirected_to login_path(:cookie_test => true, :referer => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
@@ -376,10 +376,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :cookie_test => true, :referer => "/history"
+    assert_redirected_to login_path(:cookie_test => true, :referer => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
@@ -390,7 +390,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
@@ -401,10 +401,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :cookie_test => true, :referer => "/history"
+    assert_redirected_to login_path(:cookie_test => true, :referer => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
@@ -415,7 +415,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Invalid authentication credentials"
     assert_select "span.username", false
   end
@@ -425,10 +425,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :cookie_test => true, :referer => "/history"
+    assert_redirected_to login_path(:cookie_test => true, :referer => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login?referer=%2Fhistory", :referer => "/history")
@@ -448,10 +448,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "google", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "google")
@@ -468,10 +468,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "google", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "google")
@@ -482,7 +482,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
@@ -492,10 +492,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "google", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "google")
@@ -506,7 +506,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Invalid authentication credentials"
     assert_select "span.username", false
   end
@@ -518,10 +518,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "google", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "google")
@@ -541,10 +541,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "google", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "google")
@@ -566,10 +566,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "facebook", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "facebook")
@@ -586,10 +586,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "facebook", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "facebook")
@@ -600,7 +600,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
@@ -610,10 +610,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "facebook", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "facebook")
@@ -624,7 +624,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Invalid authentication credentials"
     assert_select "span.username", false
   end
@@ -634,10 +634,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "facebook", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "facebook")
@@ -655,10 +655,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "windowslive")
@@ -675,10 +675,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "windowslive")
@@ -689,7 +689,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
@@ -699,10 +699,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "windowslive")
@@ -713,7 +713,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Invalid authentication credentials"
     assert_select "span.username", false
   end
@@ -723,10 +723,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "windowslive")
@@ -744,10 +744,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "github")
@@ -764,10 +764,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "github")
@@ -778,7 +778,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
@@ -788,10 +788,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "github")
@@ -802,7 +802,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Invalid authentication credentials"
     assert_select "span.username", false
   end
@@ -812,10 +812,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "github")
@@ -833,10 +833,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
@@ -853,10 +853,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
@@ -867,7 +867,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
@@ -877,10 +877,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
@@ -891,7 +891,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "div.flash.error", "Invalid authentication credentials"
     assert_select "span.username", false
   end
@@ -901,10 +901,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post auth_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
@@ -921,10 +921,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   def try_password_login(username, password, remember_me = nil)
     get "/login"
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :cookie_test => true
+    assert_redirected_to login_path(:cookie_test => true)
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "input#username", 1 do
       assert_select "[value]", false
     end
@@ -939,7 +939,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "login"
+    assert_template "sessions/new"
     assert_select "input#username", 1 do
       assert_select "[value=?]", username
     end

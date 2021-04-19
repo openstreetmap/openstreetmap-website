@@ -925,6 +925,7 @@ nb:
           cape: Nes
           cave_entrance: Huleinngang
           cliff: Klippe
+          coastline: Kystlinje
           crater: Krater
           dune: Sanddyne
           fell: Snaufjell
@@ -1410,11 +1411,36 @@ nb:
       details: Flere detaljer om endringen finnes på %{url}.
       unsubscribe: For å fjerne abonnementet på oppdateringer til dette endringssettet,
         besøk %{url} og klikk «Avslutt abonnement».
+  confirmations:
+    confirm:
+      heading: Sjekk e-posten din!
+      introduction_1: Vi har sendt deg en bekreftelsesepost.
+      introduction_2: Bekreft kontoen din ved å klikke på lenken i e-posten så kan
+        du begynne å kartlegge.
+      press confirm button: Klikk "Bekreft" nedenfor for å aktivere kontoen din.
+      button: Bekreft
+      success: Kontoen din er bekreftet - takk for at du registrerte deg.
+      already active: Denne kontoen har allerede blitt bekreftet.
+      unknown token: Denne bekreftelseskoden finnes ikke eller har utløpt.
+      reconfirm_html: Hvis du trenger at vi sender bekreftelseseposten på nytt, <a
+        href="%{reconfirm}">klikk her</a>
+    confirm_resend:
+      success_html: Vi har sendt en ny bekreftelsesmelding til %{email} og så snart
+        du bekrefter kontoen din kan du begynne å lage kart.<br /><br />Om du bruker
+        et antispamsystem som sender bekreftelsesforspørsler, kontroller at du har
+        hvitelistet %{sender} siden vi ikke kan svar på bekreftelsesforespørsler.
+      failure: Fant ikke brukeren %{name}.
+    confirm_email:
+      heading: Bekreft endring av e-postadresse
+      press confirm button: Klikk "Bekreft" nedenfor for å bekrefte din nye e-postadresse.
+      button: Bekreft
+      success: Bytte av e-postadresse bekreftet!
+      failure: En e-postadresse er allerede bekreftet med denne nøkkelen.
+      unknown_token: Denne bekreftelseskoden finnes ikke eller har utløpt.
   messages:
     inbox:
       title: Innboks
       my_inbox: Min innboks
-      outbox: utboks
       messages: Du har %{new_messages} og %{old_messages}
       new_messages:
         one: '%{count} ny melding'
@@ -1449,9 +1475,6 @@ nb:
       body: Det er ingen melding med den ID-en.
     outbox:
       title: Utboks
-      my_inbox_html: Min %{inbox_link}
-      inbox: innboks
-      outbox: utboks
       messages:
         one: Du har %{count} sendt melding
         other: Du har %{count} sendte meldinger
@@ -1483,6 +1506,81 @@ nb:
       as_unread: Melding markert som ulest
     destroy:
       destroyed: Melding slettet
+  passwords:
+    lost_password:
+      title: Glemt passord
+      heading: Glemt passord?
+      email address: 'E-postadresse:'
+      new password button: Nullstill passord
+      help_text: Skriv inn e-postadressen du brukte for å registrere deg, og vi vil
+        sende deg ei lenke som du kan bruke til å nullstille passordet ditt.
+      notice email on way: Synd at du mistet det, men en e-post er på vei slik at
+        du kan tilbakestille det snart.
+      notice email cannot find: Klarte ikke finne den e-postadressen. Beklager.
+    reset_password:
+      title: Nullstill passord
+      heading: Nullstill passord for %{user}
+      reset: Nullstill passord
+      flash changed: Ditt passord er endret.
+      flash token bad: Kunne ikke finne den nøkkelen. Sjekke URLen kanskje?
+  sessions:
+    new:
+      title: Logg inn
+      heading: Logg inn
+      email or username: 'E-postadresse eller brukernavn:'
+      password: 'Passord:'
+      openid_html: '%{logo} OpenID:'
+      remember: Husk meg
+      lost password link: Mistet passordet ditt?
+      login_button: Logg inn
+      register now: Registrer deg nå
+      with username: 'Har du allerede en OpenStreetMap-konto? Logg inn med brukernavnet
+        og passordet ditt:'
+      with external: 'Alternativt kan du bruke en tredjepart til å logge inn:'
+      new to osm: Ny på OpenStreetMap?
+      to make changes: For å gjøre endringer på OpenStreetMap-data, må du ha en konto.
+      create account minute: Opprett en konto. Det tar bare ett minutt.
+      no account: Har du ikke en konto?
+      account not active: Beklager, kontoen din er ikke aktivert ennå.<br />Bruk lenka
+        i kontobekreftelseseposten for å aktivere kontoen din, eller <a href="%{reconfirm}">be
+        om en ny bekreftelsesepost</a>.
+      account is suspended: Beklager, kontoen din er deaktivert på grunn av mistenkelig
+        aktivitet.<br />Vennligst kontakt <a href="%{webmaster}">webmaster</a> hvis
+        du ønsker å diskutere dette.
+      auth failure: Beklager, kunne ikke logge inn med den informasjonen
+      openid_logo_alt: Logg inn med en OpenID
+      auth_providers:
+        openid:
+          title: Logg inn med OpenID
+          alt: Logg inn med en OpenID-URL
+        google:
+          title: Logg inn med Google
+          alt: Logg inn med en Google OpenID
+        facebook:
+          title: Logg inn med Facebook
+          alt: Logg inn med en Facebook-konto
+        windowslive:
+          title: Logg inn med Windows Live
+          alt: Logg inn med en Windows Live-konto
+        github:
+          title: Logg inn med GitHub
+          alt: Logg inn med en GitHub-konto
+        wikipedia:
+          title: Logg inn med Wikipedia
+          alt: Logg inn med en Wikipedia-konto
+        yahoo:
+          title: Logg inn med Yahoo
+          alt: Logg inn med en Yahoo OpenID
+        wordpress:
+          title: Logg inn med Wordpress
+          alt: Logg inn med en Wordpress OpenID
+        aol:
+          title: Logg inn med AOL
+          alt: Logg inn med en AOL OpenID
+    destroy:
+      title: Logg ut
+      heading: Logg ut fra OpenStreetMap
+      logout_button: Logg ut
   site:
     about:
       next: Neste
@@ -1857,23 +1955,6 @@ nb:
           bicycle_shop: Sykkelbutikk
           bicycle_parking: Sykkelparkering
           toilets: Toaletter
-    richtext_area:
-      edit: Rediger
-      preview: Forhåndsvisning
-    markdown_help:
-      title_html: Fortolket med <a href="https://daringfireball.net/projects/markdown/">kramdown</a>
-      headings: Overskrifter
-      heading: Overskrift
-      subheading: Underoverskrift
-      unordered: Usortert liste
-      ordered: Sortert liste
-      first: Første punkt
-      second: Andre punkt
-      link: Lenke
-      text: Tekst
-      image: Bilde
-      alt: Alternativ tekst
-      url: URL
     welcome:
       title: Velkommen!
       introduction_html: Velkommen til OpenStreetMap, det fri brukerredigerte verdenskartet.
@@ -1991,7 +2072,6 @@ nb:
       more: mer
       trace_details: Vis detaljer for spor
       view_map: Vis kart
-      edit: rediger
       edit_map: Rediger kart
       public: OFFENTLIG
       identifiable: IDENTIFISERBAR
@@ -1999,7 +2079,6 @@ nb:
       trackable: SPORBAR
       by: av
       in: i
-      map: kart
     index:
       public_traces: Offentlig GPS-spor
       my_traces: Mine GPS-spor
@@ -2112,79 +2191,6 @@ nb:
     destroy:
       flash: Ødelagt klientapplikasjonsregistreringen
   users:
-    login:
-      title: Logg inn
-      heading: Logg inn
-      email or username: 'E-postadresse eller brukernavn:'
-      password: 'Passord:'
-      openid_html: '%{logo} OpenID:'
-      remember: Husk meg
-      lost password link: Mistet passordet ditt?
-      login_button: Logg inn
-      register now: Registrer deg nå
-      with username: 'Har du allerede en OpenStreetMap-konto? Logg inn med brukernavnet
-        og passordet ditt:'
-      with external: 'Alternativt kan du bruke en tredjepart til å logge inn:'
-      new to osm: Ny på OpenStreetMap?
-      to make changes: For å gjøre endringer på OpenStreetMap-data, må du ha en konto.
-      create account minute: Opprett en konto. Det tar bare ett minutt.
-      no account: Har du ikke en konto?
-      account not active: Beklager, kontoen din er ikke aktivert ennå.<br />Bruk lenka
-        i kontobekreftelseseposten for å aktivere kontoen din, eller <a href="%{reconfirm}">be
-        om en ny bekreftelsesepost</a>.
-      account is suspended: Beklager, kontoen din er deaktivert på grunn av mistenkelig
-        aktivitet.<br />Vennligst kontakt <a href="%{webmaster}">webmaster</a> hvis
-        du ønsker å diskutere dette.
-      auth failure: Beklager, kunne ikke logge inn med den informasjonen
-      openid_logo_alt: Logg inn med en OpenID
-      auth_providers:
-        openid:
-          title: Logg inn med OpenID
-          alt: Logg inn med en OpenID-URL
-        google:
-          title: Logg inn med Google
-          alt: Logg inn med en Google OpenID
-        facebook:
-          title: Logg inn med Facebook
-          alt: Logg inn med en Facebook-konto
-        windowslive:
-          title: Logg inn med Windows Live
-          alt: Logg inn med en Windows Live-konto
-        github:
-          title: Logg inn med GitHub
-          alt: Logg inn med en GitHub-konto
-        wikipedia:
-          title: Logg inn med Wikipedia
-          alt: Logg inn med en Wikipedia-konto
-        yahoo:
-          title: Logg inn med Yahoo
-          alt: Logg inn med en Yahoo OpenID
-        wordpress:
-          title: Logg inn med Wordpress
-          alt: Logg inn med en Wordpress OpenID
-        aol:
-          title: Logg inn med AOL
-          alt: Logg inn med en AOL OpenID
-    logout:
-      title: Logg ut
-      heading: Logg ut fra OpenStreetMap
-      logout_button: Logg ut
-    lost_password:
-      title: Glemt passord
-      heading: Glemt passord?
-      email address: 'E-postadresse:'
-      new password button: Nullstill passord
-      help_text: Skriv inn e-postadressen du brukte for å registrere deg, og vi vil
-        sende deg ei lenke som du kan bruke til å nullstille passordet ditt.
-      notice email on way: Synd at du mistet det, men en e-post er på vei slik at
-        du kan tilbakestille det snart.
-      notice email cannot find: Klarte ikke finne den e-postadressen. Beklager.
-    reset_password:
-      title: Nullstill passord
-      heading: Nullstill passord for %{user}
-      reset: Nullstill passord
-      flash changed: Ditt passord er endret.
-      flash token bad: Kunne ikke finne den nøkkelen. Sjekke URLen kanskje?
     new:
       title: Registrer deg
       no_auto_account_create: Beklageligvis kan vi for øyeblikket ikke opprette en
@@ -2370,31 +2376,6 @@ nb:
       flash update success confirm needed: Brukerinformasjon oppdatert. Sjekk eposten
         din for å bekrefte din epostadresse.
       flash update success: Brukerinformasjon oppdatert.
-    confirm:
-      heading: Sjekk e-posten din!
-      introduction_1: Vi har sendt deg en bekreftelsesepost.
-      introduction_2: Bekreft kontoen din ved å klikke på lenken i e-posten så kan
-        du begynne å kartlegge.
-      press confirm button: Klikk "Bekreft" nedenfor for å aktivere kontoen din.
-      button: Bekreft
-      success: Kontoen din er bekreftet - takk for at du registrerte deg.
-      already active: Denne kontoen har allerede blitt bekreftet.
-      unknown token: Denne bekreftelseskoden finnes ikke eller har utløpt.
-      reconfirm_html: Hvis du trenger at vi sender bekreftelseseposten på nytt, <a
-        href="%{reconfirm}">klikk her</a>
-    confirm_resend:
-      success_html: Vi har sendt en ny bekreftelsesmelding til %{email} og så snart
-        du bekrefter kontoen din kan du begynne å lage kart.<br /><br />Om du bruker
-        et antispamsystem som sender bekreftelsesforspørsler, kontroller at du har
-        hvitelistet %{sender} siden vi ikke kan svar på bekreftelsesforespørsler.
-      failure: Fant ikke brukeren %{name}.
-    confirm_email:
-      heading: Bekreft endring av e-postadresse
-      press confirm button: Klikk "Bekreft" nedenfor for å bekrefte din nye e-postadresse.
-      button: Bekreft
-      success: Bytte av e-postadresse bekreftet!
-      failure: En e-postadresse er allerede bekreftet med denne nøkkelen.
-      unknown_token: Denne bekreftelseskoden finnes ikke eller har utløpt.
     set_home:
       flash success: Hjemmeposisjon lagret
     go_public:

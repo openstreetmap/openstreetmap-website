@@ -25,14 +25,18 @@
 # Author: DraconicDark
 # Author: Drolbr
 # Author: Elliot
+# Author: FF-11
+# Author: FF11
 # Author: Farad
 # Author: Ferdinand0101
 # Author: Fujnky
+# Author: Gebu
 # Author: Geitost
 # Author: GerdP
 # Author: Gravitystorm
 # Author: Grille chompa
 # Author: Günther03
+# Author: HajFunk
 # Author: Hakuchi
 # Author: Hendrik-17
 # Author: Hikemaniac
@@ -64,6 +68,7 @@
 # Author: Pittigrilli
 # Author: Predatorix
 # Author: Purodha
+# Author: RacoonyRE
 # Author: Raymond
 # Author: Reneman
 # Author: Schmackes
@@ -201,7 +206,10 @@ de:
         category: Wähle einen Grund für deine Meldung aus
         details: Bitte mehr Einzelheiten zum Problem angeben (erforderlich).
       user:
+        auth_provider: Authentifizierungsanbieter
+        auth_uid: Authentifizierungs UID
         email: E-Mail
+        email_confirmation: E-Mail-Bestätigung
         new_email: Neue E-Mail-Adresse
         active: Aktiv
         display_name: Anzeigename
@@ -216,6 +224,11 @@ de:
       trace:
         tagstring: durch Komma getrennt
       user_block:
+        reason: Der Grund, warum der/die Benutzer/in gesperrt ist. Sei bitte so ruhig
+          und sachlich wie möglich. Beschreibe die Lage möglichst detailliert und
+          denke daran, dass deine Nachricht öffentlich sichtbar ist. Denke auch daran,
+          dass nicht alle Benutzer den Jargon des Gemeinschaftsprojekts verstehen
+          und verwende bitte Formulierungen, die für Laien verständlich sind.
         needs_view: Muss der Benutzer sich anmelden, damit die Sperre aufgehoben wird?
       user:
         email_confirmation: Deine E-Mail-Adresse wird nicht öffentlich gezeigt. Für
@@ -1043,12 +1056,14 @@ de:
         mountain_pass:
           "yes": Gebirgspass
         natural:
+          atoll: Atoll
           bare_rock: Fels
           bay: Bucht
           beach: Strand
           cape: Kap
           cave_entrance: Höhleneingang
           cliff: Klippe
+          coastline: Küstenlinie
           crater: Krater
           dune: Düne
           fell: Fjell
@@ -1066,6 +1081,7 @@ de:
           moor: Moor
           mud: Schlick
           peak: Gipfel
+          peninsula: Halbinsel
           point: Punkt
           reef: Riff
           ridge: Grat
@@ -1113,6 +1129,7 @@ de:
           "yes": Büro
         place:
           allotments: Schrebergärten
+          archipelago: Archipel
           city: Stadt
           city_block: Häuserblock
           country: Staat
@@ -1647,11 +1664,41 @@ de:
         besuche %{url} und klicke auf „Abmelden“.
       unsubscribe_html: Um Aktualisierungen an diesem Änderungssatz abzubestellen,
         besuche %{url} und klicke auf „Abmelden“.
+  confirmations:
+    confirm:
+      heading: Bitte überprüfe deine E-Mails!
+      introduction_1: Wir haben dir eine Bestätigungs-E-Mail zugesandt.
+      introduction_2: Bitte bestätige dein Benutzerkonto, indem du den Link in der
+        Bestätigungs-E-Mail anklickst. Dann kannst Du beginnen, bei OpenStreetMap
+        mitzuarbeiten.
+      press confirm button: Zur Aktivierung Deines Benutzerkontos klicke bitte unten
+        auf „Bestätigen“.
+      button: Bestätigen
+      success: Dein Benutzerkonto wurde bestätigt, danke fürs Registrieren!
+      already active: Dieses Benutzerkonto wurde bereits bestätigt.
+      unknown token: Dieser Bestätigungscode ist abgelaufen oder nicht vorhanden.
+      reconfirm_html: Um die Bestätigungs-E-Mail erneut zuzusenden, <a href="%{reconfirm}">klicke
+        hier</a>.
+    confirm_resend:
+      success_html: Wir haben eine neue Bestätigungsnachricht an %{email} gesendet.
+        Sobald du dein Benutzerkonto bestätigt hast, kannst du mit dem Kartieren beginnen.<br
+        /><br />Sofern du ein Antispamsystem nutzt, das selbst Bestätigungen anfordert,
+        musst du %{sender} auf dessen Positivliste setzen, da wir auf keine Bestätigungsanfragen
+        reagieren können.
+      failure: Benutzer %{name} konnte nicht gefunden werden.
+    confirm_email:
+      heading: Änderung der E-Mail-Adresse bestätigen
+      press confirm button: Zur Bestätigung der neuen E-Mail-Adresse klicke bitte
+        unten auf „Bestätigen“.
+      button: Bestätigen
+      success: Die Änderung deiner E-Mail-Adresse wurde bestätigt!
+      failure: Eine E-Mail-Adresse wurde bereits mit diesem Link bestätigt.
+      unknown_token: Dieser Bestätigungscode ist abgelaufen oder nicht vorhanden.
   messages:
     inbox:
       title: Posteingang
       my_inbox: Posteingang
-      outbox: Gesendet
+      my_outbox: Mein Postausgang
       messages: Du hast %{new_messages} und %{old_messages}
       new_messages:
         one: '%{count} ungelesene Nachricht'
@@ -1686,9 +1733,8 @@ de:
       body: Leider gibt es keine Nachricht mit dieser ID.
     outbox:
       title: Gesendet
-      my_inbox_html: '%{inbox_link}'
-      inbox: Posteingang
-      outbox: Gesendet
+      my_inbox: Mein Posteingang
+      my_outbox: Mein Postausgang
       messages:
         one: Du hast %{count} Nachricht gesendet
         other: Du hast %{count} Nachrichten gesendet
@@ -1722,6 +1768,85 @@ de:
       as_unread: Nachricht als ungelesen markiert
     destroy:
       destroyed: Nachricht gelöscht
+  passwords:
+    lost_password:
+      title: Passwort vergessen
+      heading: Passwort vergessen?
+      email address: 'E-Mail-Adresse:'
+      new password button: Passwort zurücksetzen
+      help_text: Bitte gib deine E-Mail-Adresse ein, mit der du dich angemeldet hast.
+        Wir werden dir dann einen Link schicken, mit dem du dein Passwort zurücksetzen
+        kannst.
+      notice email on way: Eine E-Mail mit Hinweisen zum Zurücksetzen des Passworts
+        wurde an dich versandt.
+      notice email cannot find: Wir konnten die E-Mail-Adresse nicht finden. Du hast
+        dich möglicherweise vertippt oder mit einer anderen E-Mail-Adresse angemeldet.
+    reset_password:
+      title: Passwort zurücksetzen
+      heading: Passwort für %{user} zurücksetzen
+      reset: Passwort zurücksetzen
+      flash changed: Dein Passwort wurde geändert.
+      flash token bad: Wir konnten dieses Kürzel leider nicht finden. Du hast dich
+        möglicherweise vertippt oder du bist einem ungültigem Link gefolgt.
+  sessions:
+    new:
+      title: Anmelden
+      heading: Anmelden
+      email or username: 'E-Mail-Adresse oder Benutzername:'
+      password: 'Passwort:'
+      openid_html: '%{logo} OpenID:'
+      remember: Anmeldedaten merken
+      lost password link: Passwort vergessen?
+      login_button: Anmelden
+      register now: Jetzt registrieren
+      with username: 'Hast du bereits ein Konto bei OpenStreetMap? Bitte melde dich
+        mit deinem Benutzernamen und Passwort an:'
+      with external: 'Verwende alternativ eine Drittpartei zur Anmeldung:'
+      new to osm: Neu bei OpenStreetMap?
+      to make changes: Um Datenänderungen bei OpenStreetMap vornehmen zu können, musst
+        Du ein Benutzerkonto haben.
+      create account minute: Erstelle ein Benutzerkonto. Es dauert nur eine Minute.
+      no account: Du hast noch kein Benutzerkonto?
+      account not active: Leider wurde dein Benutzerkonto bislang noch nicht aktiviert.<br
+        />Bitte aktiviere dein Benutzerkonto, indem du auf den Link in deiner Bestätigungs-E-Mail
+        klickst oder <a href="%{reconfirm}">eine neue Bestätigungs-E-Mail anforderst</a>.
+      account is suspended: Dein Benutzerkonto wurde aufgrund verdächtiger Aktivitäten
+        gesperrt.<br />Bitte kontaktiere den <a href="%{webmaster}">Webmaster</a>,
+        falls du dies klären möchtest.
+      auth failure: Mit diesen Daten leider keine Anmeldung möglich.
+      openid_logo_alt: Mit einer OpenID anmelden
+      auth_providers:
+        openid:
+          title: Mit OpenID anmelden
+          alt: Mit einer OpenID-URL anmelden
+        google:
+          title: Mit Google anmelden
+          alt: Mit einer Google-OpenID anmelden
+        facebook:
+          title: Mit Facebook anmelden
+          alt: Mit einem Facebook-Konto anmelden
+        windowslive:
+          title: Mit Windows Live anmelden
+          alt: Mit einem Windows-Live-Konto anmelden
+        github:
+          title: Mit GitHub anmelden
+          alt: Mit einem GitHub-Konto anmelden
+        wikipedia:
+          title: Mit Wikipedia anmelden
+          alt: Mit einem Wikipedia-Benutzerkonto anmelden
+        yahoo:
+          title: Mit Yahoo anmelden
+          alt: Mit einer Yahoo-OpenID anmelden
+        wordpress:
+          title: Mit Wordpress anmelden
+          alt: Mit einer Wordpress-OpenID anmelden
+        aol:
+          title: Mit AOL anmelden
+          alt: Mit einer AOL-OpenID anmelden
+    destroy:
+      title: Abmelden
+      heading: Von OpenStreetMap abmelden
+      logout_button: Abmelden
   shared:
     markdown_help:
       title_html: Geparst mit <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
@@ -2051,6 +2176,9 @@ de:
         Nutzung im Browser verfügbar.
       desktop_html: Wenn du Potlatch weiternutzen möchtest kannst du die Desktopanwendung
         für Mac und Windows <a href="https://www.systemed.net/potlatch/">hier Herunterladen</a>.
+      id_html: Alternativ können Sie Ihren Standardeditor auf iD einstellen, der in
+        Ihrem Webbrowser wie zuvor Potlatch ausgeführt wird. <a href="%{settings_url}">Änderen
+        Sie hier Ihre Benutzereinstellungen</a>.
     sidebar:
       search_results: Suchergebnisse
       close: Schließen
@@ -2060,7 +2188,7 @@ de:
       get_directions_title: Routenberechnung zwischen zwei Orten
       from: Von
       to: Nach
-      where_am_i: Wo ist das?
+      where_am_i: Wo ist dies?
       where_am_i_title: Die momentane Position mit der Suchmaschine anzeigen
       submit_text: Los
       reverse_directions_text: Richtungen umkehren
@@ -2134,23 +2262,6 @@ de:
           bicycle_shop: Fahrradladen
           bicycle_parking: Fahrradparkplatz
           toilets: Toiletten
-    richtext_area:
-      edit: Bearbeiten
-      preview: Vorschau
-    markdown_help:
-      title_html: Geparst mit <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
-      headings: Überschriften
-      heading: Überschrift
-      subheading: Zwischenüberschrift
-      unordered: Aufzählung
-      ordered: Nummerierte Liste
-      first: Erstes Element
-      second: Zweites Element
-      link: Link
-      text: Text
-      image: Bild
-      alt: Alt-Text
-      url: URL
     welcome:
       title: Willkommen!
       introduction_html: |-
@@ -2236,6 +2347,7 @@ de:
       title: Track %{name} bearbeiten
       heading: Track %{name} bearbeiten
       visibility_help: Was bedeutet das?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/DE:Visibility_of_GPS_traces
     update:
       updated: Track aktualisiert
     trace_optionals:
@@ -2273,7 +2385,6 @@ de:
       more: Details
       trace_details: Details des Tracks anzeigen
       view_map: Karte anzeigen
-      edit: bearbeiten
       edit_map: Karte bearbeiten
       public: ÖFFENTLICH
       identifiable: IDENTIFIZIERBAR
@@ -2281,7 +2392,6 @@ de:
       trackable: VERFOLGBAR
       by: von
       in: in
-      map: Karte
     index:
       public_traces: Öffentliche GPS-Tracks
       my_traces: Meine GPS-Tracks
@@ -2396,83 +2506,6 @@ de:
     destroy:
       flash: Die registrierte Client-Anwendung wurde entfernt
   users:
-    login:
-      title: Anmelden
-      heading: Anmelden
-      email or username: 'E-Mail-Adresse oder Benutzername:'
-      password: 'Passwort:'
-      openid_html: '%{logo} OpenID:'
-      remember: Anmeldedaten merken
-      lost password link: Passwort vergessen?
-      login_button: Anmelden
-      register now: Jetzt registrieren
-      with username: 'Hast du bereits ein Konto bei OpenStreetMap? Bitte melde dich
-        mit deinem Benutzernamen und Passwort an:'
-      with external: 'Verwende alternativ eine Drittpartei zur Anmeldung:'
-      new to osm: Neu bei OpenStreetMap?
-      to make changes: Um Datenänderungen bei OpenStreetMap vornehmen zu können, musst
-        Du ein Benutzerkonto haben.
-      create account minute: Erstelle ein Benutzerkonto. Es dauert nur eine Minute.
-      no account: Du hast noch kein Benutzerkonto?
-      account not active: Leider wurde dein Benutzerkonto bislang noch nicht aktiviert.<br
-        />Bitte aktiviere dein Benutzerkonto, indem du auf den Link in deiner Bestätigungs-E-Mail
-        klickst oder <a href="%{reconfirm}">eine neue Bestätigungs-E-Mail anforderst</a>.
-      account is suspended: Dein Benutzerkonto wurde aufgrund verdächtiger Aktivitäten
-        gesperrt.<br />Bitte kontaktiere den <a href="%{webmaster}">Webmaster</a>,
-        falls du dies klären möchtest.
-      auth failure: Mit diesen Daten leider keine Anmeldung möglich.
-      openid_logo_alt: Mit einer OpenID anmelden
-      auth_providers:
-        openid:
-          title: Mit OpenID anmelden
-          alt: Mit einer OpenID-URL anmelden
-        google:
-          title: Mit Google anmelden
-          alt: Mit einer Google-OpenID anmelden
-        facebook:
-          title: Mit Facebook anmelden
-          alt: Mit einem Facebook-Konto anmelden
-        windowslive:
-          title: Mit Windows Live anmelden
-          alt: Mit einem Windows-Live-Konto anmelden
-        github:
-          title: Mit GitHub anmelden
-          alt: Mit einem GitHub-Konto anmelden
-        wikipedia:
-          title: Mit Wikipedia anmelden
-          alt: Mit einem Wikipedia-Benutzerkonto anmelden
-        yahoo:
-          title: Mit Yahoo anmelden
-          alt: Mit einer Yahoo-OpenID anmelden
-        wordpress:
-          title: Mit Wordpress anmelden
-          alt: Mit einer Wordpress-OpenID anmelden
-        aol:
-          title: Mit AOL anmelden
-          alt: Mit einer AOL-OpenID anmelden
-    logout:
-      title: Abmelden
-      heading: Von OpenStreetMap abmelden
-      logout_button: Abmelden
-    lost_password:
-      title: Passwort vergessen
-      heading: Passwort vergessen?
-      email address: 'E-Mail-Adresse:'
-      new password button: Passwort zurücksetzen
-      help_text: Bitte gib deine E-Mail-Adresse ein, mit der du dich angemeldet hast.
-        Wir werden dir dann einen Link schicken, mit dem du dein Passwort zurücksetzen
-        kannst.
-      notice email on way: Eine E-Mail mit Hinweisen zum Zurücksetzen des Passworts
-        wurde an dich versandt.
-      notice email cannot find: Wir konnten die E-Mail-Adresse nicht finden. Du hast
-        dich möglicherweise vertippt oder mit einer anderen E-Mail-Adresse angemeldet.
-    reset_password:
-      title: Passwort zurücksetzen
-      heading: Passwort für %{user} zurücksetzen
-      reset: Passwort zurücksetzen
-      flash changed: Dein Passwort wurde geändert.
-      flash token bad: Wir konnten dieses Kürzel leider nicht finden. Du hast dich
-        möglicherweise vertippt oder du bist einem ungültigem Link gefolgt.
     new:
       title: Registrieren
       no_auto_account_create: Im Moment ist das automatische Erstellen eines Benutzerkontos
@@ -2669,35 +2702,6 @@ de:
       flash update success confirm needed: Deine Änderungen wurden gespeichert. Du
         erhältst nun eine E-Mail, um deine neue E-Mail-Adresse zu bestätigen.
       flash update success: Benutzerinformationen erfolgreich aktualisiert.
-    confirm:
-      heading: Bitte überprüfe deine E-Mails!
-      introduction_1: Wir haben dir eine Bestätigungs-E-Mail zugesandt.
-      introduction_2: Bitte bestätige dein Benutzerkonto, indem du den Link in der
-        Bestätigungs-E-Mail anklickst. Dann kannst Du beginnen, bei OpenStreetMap
-        mitzuarbeiten.
-      press confirm button: Zur Aktivierung Deines Benutzerkontos klicke bitte unten
-        auf „Bestätigen“.
-      button: Bestätigen
-      success: Dein Benutzerkonto wurde bestätigt, danke fürs Registrieren!
-      already active: Dieses Benutzerkonto wurde bereits bestätigt.
-      unknown token: Dieser Bestätigungscode ist abgelaufen oder nicht vorhanden.
-      reconfirm_html: Um die Bestätigungs-E-Mail erneut zuzusenden, <a href="%{reconfirm}">klicke
-        hier</a>.
-    confirm_resend:
-      success_html: Wir haben eine neue Bestätigungsnachricht an %{email} gesendet.
-        Sobald du dein Benutzerkonto bestätigt hast, kannst du mit dem Kartieren beginnen.<br
-        /><br />Sofern du ein Antispamsystem nutzt, das selbst Bestätigungen anfordert,
-        musst du %{sender} auf dessen Positivliste setzen, da wir auf keine Bestätigungsanfragen
-        reagieren können.
-      failure: Benutzer %{name} konnte nicht gefunden werden.
-    confirm_email:
-      heading: Änderung der E-Mail-Adresse bestätigen
-      press confirm button: Zur Bestätigung der neuen E-Mail-Adresse klicke bitte
-        unten auf „Bestätigen“.
-      button: Bestätigen
-      success: Die Änderung deiner E-Mail-Adresse wurde bestätigt!
-      failure: Eine E-Mail-Adresse wurde bereits mit diesem Link bestätigt.
-      unknown_token: Dieser Bestätigungscode ist abgelaufen oder nicht vorhanden.
     set_home:
       flash success: Standort erfolgreich gespeichert
     go_public:
@@ -2893,6 +2897,7 @@ de:
       custom_dimensions: Ausschnitt festlegen
       format: 'Format:'
       scale: 'Maßstab:'
+      image_dimensions: Das Bild zeigt die Standardebene bei %{width} x %{height}
       download: Herunterladen
       short_url: Kurz-URL
       include_marker: Kartenmarker setzen
@@ -2936,6 +2941,8 @@ de:
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Spenden</a>
       terms: <a href='%{terms_url}' target='_blank'>Nutzungsbedingungen der Website
         und API</a>
+      cyclosm: Kachelstil von <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        gehostet von <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap Frankreich</a>
       thunderforest: Kacheln mit freundlicher Genehmigung von <a href='%{thunderforest_url}'
         target='_blank'>Andy Allan</a>
       opnvkarte: Kacheln mit freundlicher Genehmigung von <a href='%{memomaps_url}'

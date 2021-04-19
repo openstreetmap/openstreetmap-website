@@ -51,7 +51,7 @@
         <div class="form-group">
           <textarea class="form-control" name="text" cols="40" rows="5" maxlength="2000"></textarea>
         </div>
-        <div>
+        <div class="btn-wrapper">
           <% if current_user.moderator? -%>
             <input type="submit" name="hide" value="<%= t("javascripts.notes.show.hide") %>" class="btn btn-light" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, "json") %>">
           <% end -%>
@@ -63,7 +63,7 @@
   <% else %>
     <form action="#">
       <input type="hidden" name="text" value="">
-      <div>
+      <div class="btn-wrapper">
         <% if current_user and current_user.moderator? -%>
           <input type="submit" name="hide" value="<%= t("javascripts.notes.show.hide") %>" class="btn btn-light" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, "json") %>">
         <% end -%>

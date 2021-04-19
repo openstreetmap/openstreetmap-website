@@ -1025,12 +1025,14 @@ cs:
         mountain_pass:
           "yes": Průsmyk
         natural:
+          atoll: Atol
           bare_rock: Holá skála
           bay: Záliv
           beach: Pláž
           cape: Mys
           cave_entrance: Vstup do jeskyně
           cliff: Útes
+          coastline: Pobřežní čára
           crater: Kráter
           dune: Duna
           fell: Fjell
@@ -1048,6 +1050,7 @@ cs:
           moor: Vřesoviště
           mud: Bahno
           peak: Vrchol
+          peninsula: Poloostrov
           point: Bod
           reef: Útes
           ridge: Hřeben
@@ -1095,6 +1098,7 @@ cs:
           "yes": Kancelář
         place:
           allotments: Zahrádkářská kolonie
+          archipelago: Souostroví
           city: Velkoměsto
           city_block: Městský blok
           country: Stát
@@ -1615,11 +1619,38 @@ cs:
         na „Zrušit odebírání“.
       unsubscribe_html: Pro odhlášení z aktualizací této sady změn jděte na %{url}
         a klikněte na „Zrušit odebírání“.
+  confirmations:
+    confirm:
+      heading: Zkontrolujte si e-mail!
+      introduction_1: Poslali jsme vám potvrzovací e-mail.
+      introduction_2: Potvrďte svůj účet kliknutím na odkaz v e-mailu a budete moci
+        začít mapovat.
+      press confirm button: Svůj účet aktivujte stisknutím níže zobrazeného tlačítka.
+      button: Potvrdit
+      success: Účet potvrzen, děkujeme za registraci!
+      already active: Tento uživatelský účet už byl potvrzen.
+      unknown token: Zadaný potvrzovací kód vypršel nebo neexistuje.
+      reconfirm_html: Pokud potřebujete, abychom vám poslali potvrzovací e-mail znovu,
+        <a href="%{reconfirm}">klikněte zde</a>.
+    confirm_resend:
+      success_html: Poslali jsme na %{email} novou potvrzovací zprávu, jakmile potvrdíte
+        svůj účet, budete moci začít tvořit mapy.<br /><br />Pokud používáte nějaký
+        protispamový systém, který vyžaduje potvrzení, nezapomeňte zařídit výjimku
+        pro %{sender}, neboť na žádosti o potvrzení nejsme schopni reagovat.
+      failure: Uživatel %{name} nebyl nalezen.
+    confirm_email:
+      heading: Potvrzení změny e-mailové adresy
+      press confirm button: Pro potvrzení nové e-mailové adresy klikněte na níže zobrazené
+        tlačítko.
+      button: Potvrdit
+      success: Změna vaší e-mailové adresy byla potvrzena!
+      failure: Tento kód byl už pro potvrzení e-mailové adresy použit.
+      unknown_token: Zadaný potvrzovací kód vypršel nebo neexistuje.
   messages:
     inbox:
       title: Doručená pošta
       my_inbox: Má doručená pošta
-      outbox: odeslaná pošta
+      my_outbox: Moje odchozí
       messages: Máte %{new_messages} a %{old_messages}
       new_messages:
         few: '%{count} nové zprávy'
@@ -1656,9 +1687,8 @@ cs:
       body: Je mi líto, ale žádná zpráva s tímto ID neexistuje.
     outbox:
       title: Odeslaná pošta
-      my_inbox_html: Má %{inbox_link}
-      inbox: doručená pošta
-      outbox: odeslaná pošta
+      my_inbox: Moje příchozí
+      my_outbox: Moje odchozí
       messages:
         few: Máte %{count} odeslané zprávy
         one: Máte %{count} odeslanou zprávu
@@ -1693,6 +1723,81 @@ cs:
       as_unread: Zpráva označena jako nepřečtená
     destroy:
       destroyed: Zpráva smazána
+  passwords:
+    lost_password:
+      title: Ztracené heslo
+      heading: Zapomněli jste heslo?
+      email address: 'E-mailová adresa:'
+      new password button: Resetovat heslo
+      help_text: Zadejte e-mailovou adresu, pod kterou jste se zaregistrovali, my
+        vám na ni pošleme odkaz, pomocí kterého si nastavíte nové heslo.
+      notice email on way: Škoda zapomenutého hesla :-( e-mail už je na cestě, takže
+        si budete brzy moci zvolit nové.
+      notice email cannot find: Je mi líto, ale nemohu najít tuto e-mailovou adresu.
+    reset_password:
+      title: Obnovit heslo
+      heading: Resetovat heslo pro %{user}
+      reset: Resetovat heslo
+      flash changed: Vaše heslo bylo změněno.
+      flash token bad: Odpovídající kód nebyl nalezen, možná zkontrolujte URL?
+  sessions:
+    new:
+      title: Přihlásit se
+      heading: Přihlášení
+      email or username: 'E-mailová adresa nebo uživatelské jméno:'
+      password: 'Heslo:'
+      openid_html: '%{logo} OpenID:'
+      remember: Zapamatuj si mě
+      lost password link: Ztratili jste heslo?
+      login_button: Přihlásit
+      register now: Zaregistrujte se
+      with username: 'Máte už na OpenStreetMap účet? Přihlaste se svým jménem a heslem:'
+      with external: 'Případně se přihlaste prostřednictvím třetí strany:'
+      new to osm: Jste na OpenStreetMap noví?
+      to make changes: Pokud chcete upravovat OpenStreetMap, musíte mít uživatelský
+        účet.
+      create account minute: Založte si účet. Zabere to jen chvilku.
+      no account: Nemáte účet?
+      account not active: Je mi líto, ale váš uživatelský účet dosud nebyl aktivován.<br
+        />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu,
+        případně si <a href="%{reconfirm}">nechte poslat nový potvrzovací e-mail</a>.
+      account is suspended: Je nám líto, ale váš účet byl pozastaven kvůli podezřelé
+        aktivitě.<br />Pokud to chcete řešit, kontaktujte <a href="%{webmaster}">správce
+        serveru</a>.
+      auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
+      openid_logo_alt: Přihlášení pomocí OpenID
+      auth_providers:
+        openid:
+          title: Přihlásit se pomocí OpenID
+          alt: Přihlášení pomocí OpenID URL
+        google:
+          title: Přihlásit se prostřednictvím Google
+          alt: Přihlášení pomocí Google OpenID
+        facebook:
+          title: Přihlásit se přes Facebook
+          alt: Přihlášení pomocí účtu na Facebooku
+        windowslive:
+          title: Přihlásit se přes Windows Live
+          alt: Přihlášení pomocí účtu služeb Windows Live
+        github:
+          title: Přihlásit se přes GitHub
+          alt: Přihlásit se pomocí GitHub účtu
+        wikipedia:
+          title: Přihlásit se účtem na Wikipedii
+          alt: Přihlásit se účtem na Wikipedii
+        yahoo:
+          title: Přihlásit se prostřednictvím Yahoo
+          alt: Přihlášení pomocí Yahoo OpenID
+        wordpress:
+          title: Přihlásit se prostřednictvím Wordpress
+          alt: Přihlášení pomocí Wordpress OpenID
+        aol:
+          title: Přihlásit se prostřednictvím AOL
+          alt: Přihlášení pomocí AOL OpenID
+    destroy:
+      title: Odhlásit se
+      heading: Odhlášení z OpenStreetMap
+      logout_button: Odhlásit se
   shared:
     markdown_help:
       title_html: Zpracovává se <a href="https://kramdown.gettalong.org/quickref.html">kramdownem</a>
@@ -2074,23 +2179,6 @@ cs:
           bicycle_shop: Cykloobchod
           bicycle_parking: Parkoviště pro kola
           toilets: Záchody
-    richtext_area:
-      edit: Upravit
-      preview: Náhled
-    markdown_help:
-      title_html: Zpracovává se <a href="https://kramdown.gettalong.org/quickref.html">Kramdownem</a>
-      headings: Nadpisy
-      heading: Nadpis
-      subheading: Podnadpis
-      unordered: Neseřazený seznam
-      ordered: Číslovaný seznam
-      first: První položka
-      second: Druhá položka
-      link: Odkaz
-      text: Text
-      image: Obrázek
-      alt: Alternativní text
-      url: URL
     welcome:
       title: Vítejte!
       introduction_html: Vítejte v OpenStreetMap, svobodné a editovatelné mapě světa.
@@ -2212,7 +2300,6 @@ cs:
       more: více
       trace_details: Zobrazit podrobnosti stopy
       view_map: Zobrazit mapu
-      edit: upravit
       edit_map: Upravit mapu
       public: VEŘEJNÁ
       identifiable: IDENTIFIKOVATELNÁ
@@ -2220,7 +2307,6 @@ cs:
       trackable: STOPOVATELNÁ
       by: od
       in: v
-      map: mapa
     index:
       public_traces: Veřejné GPS stopy
       my_traces: Moje GPS stopy
@@ -2332,79 +2418,6 @@ cs:
     destroy:
       flash: Registrace klientské aplikace zrušena
   users:
-    login:
-      title: Přihlásit se
-      heading: Přihlášení
-      email or username: 'E-mailová adresa nebo uživatelské jméno:'
-      password: 'Heslo:'
-      openid_html: '%{logo} OpenID:'
-      remember: Zapamatuj si mě
-      lost password link: Ztratili jste heslo?
-      login_button: Přihlásit
-      register now: Zaregistrujte se
-      with username: 'Máte už na OpenStreetMap účet? Přihlaste se svým jménem a heslem:'
-      with external: 'Případně se přihlaste prostřednictvím třetí strany:'
-      new to osm: Jste na OpenStreetMap noví?
-      to make changes: Pokud chcete upravovat OpenStreetMap, musíte mít uživatelský
-        účet.
-      create account minute: Založte si účet. Zabere to jen chvilku.
-      no account: Nemáte účet?
-      account not active: Je mi líto, ale váš uživatelský účet dosud nebyl aktivován.<br
-        />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu,
-        případně si <a href="%{reconfirm}">nechte poslat nový potvrzovací e-mail</a>.
-      account is suspended: Je nám líto, ale váš účet byl pozastaven kvůli podezřelé
-        aktivitě.<br />Pokud to chcete řešit, kontaktujte <a href="%{webmaster}">správce
-        serveru</a>.
-      auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
-      openid_logo_alt: Přihlášení pomocí OpenID
-      auth_providers:
-        openid:
-          title: Přihlásit se pomocí OpenID
-          alt: Přihlášení pomocí OpenID URL
-        google:
-          title: Přihlásit se prostřednictvím Google
-          alt: Přihlášení pomocí Google OpenID
-        facebook:
-          title: Přihlásit se přes Facebook
-          alt: Přihlášení pomocí účtu na Facebooku
-        windowslive:
-          title: Přihlásit se přes Windows Live
-          alt: Přihlášení pomocí účtu služeb Windows Live
-        github:
-          title: Přihlásit se přes GitHub
-          alt: Přihlásit se pomocí GitHub účtu
-        wikipedia:
-          title: Přihlásit se účtem na Wikipedii
-          alt: Přihlásit se účtem na Wikipedii
-        yahoo:
-          title: Přihlásit se prostřednictvím Yahoo
-          alt: Přihlášení pomocí Yahoo OpenID
-        wordpress:
-          title: Přihlásit se prostřednictvím Wordpress
-          alt: Přihlášení pomocí Wordpress OpenID
-        aol:
-          title: Přihlásit se prostřednictvím AOL
-          alt: Přihlášení pomocí AOL OpenID
-    logout:
-      title: Odhlásit se
-      heading: Odhlášení z OpenStreetMap
-      logout_button: Odhlásit se
-    lost_password:
-      title: Ztracené heslo
-      heading: Zapomněli jste heslo?
-      email address: 'E-mailová adresa:'
-      new password button: Resetovat heslo
-      help_text: Zadejte e-mailovou adresu, pod kterou jste se zaregistrovali, my
-        vám na ni pošleme odkaz, pomocí kterého si nastavíte nové heslo.
-      notice email on way: Škoda zapomenutého hesla :-( e-mail už je na cestě, takže
-        si budete brzy moci zvolit nové.
-      notice email cannot find: Je mi líto, ale nemohu najít tuto e-mailovou adresu.
-    reset_password:
-      title: Obnovit heslo
-      heading: Resetovat heslo pro %{user}
-      reset: Resetovat heslo
-      flash changed: Vaše heslo bylo změněno.
-      flash token bad: Odpovídající kód nebyl nalezen, možná zkontrolujte URL?
     new:
       title: Zaregistrovat se
       no_auto_account_create: Bohužel za vás momentálně nejsme schopni vytvořit účet
@@ -2592,32 +2605,6 @@ cs:
         Zkontrolujte si e-mail, měla by vám přijít výzva k potvrzení nové e-mailové
         adresy.
       flash update success: Uživatelské údaje byly úspěšně aktualizovány.
-    confirm:
-      heading: Zkontrolujte si e-mail!
-      introduction_1: Poslali jsme vám potvrzovací e-mail.
-      introduction_2: Potvrďte svůj účet kliknutím na odkaz v e-mailu a budete moci
-        začít mapovat.
-      press confirm button: Svůj účet aktivujte stisknutím níže zobrazeného tlačítka.
-      button: Potvrdit
-      success: Účet potvrzen, děkujeme za registraci!
-      already active: Tento uživatelský účet už byl potvrzen.
-      unknown token: Zadaný potvrzovací kód vypršel nebo neexistuje.
-      reconfirm_html: Pokud potřebujete, abychom vám poslali potvrzovací e-mail znovu,
-        <a href="%{reconfirm}">klikněte zde</a>.
-    confirm_resend:
-      success_html: Poslali jsme na %{email} novou potvrzovací zprávu, jakmile potvrdíte
-        svůj účet, budete moci začít tvořit mapy.<br /><br />Pokud používáte nějaký
-        protispamový systém, který vyžaduje potvrzení, nezapomeňte zařídit výjimku
-        pro %{sender}, neboť na žádosti o potvrzení nejsme schopni reagovat.
-      failure: Uživatel %{name} nebyl nalezen.
-    confirm_email:
-      heading: Potvrzení změny e-mailové adresy
-      press confirm button: Pro potvrzení nové e-mailové adresy klikněte na níže zobrazené
-        tlačítko.
-      button: Potvrdit
-      success: Změna vaší e-mailové adresy byla potvrzena!
-      failure: Tento kód byl už pro potvrzení e-mailové adresy použit.
-      unknown_token: Zadaný potvrzovací kód vypršel nebo neexistuje.
     set_home:
       flash success: Pozice domova byla úspěšně uložena
     go_public:

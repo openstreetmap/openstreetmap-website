@@ -51,6 +51,8 @@
 # Author: 아라
 ---
 tr:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y saat %H:%M'
@@ -1033,12 +1035,14 @@ tr:
         mountain_pass:
           "yes": Dağ Geçidi
         natural:
+          atoll: Mercan adası
           bare_rock: Çıplak Kaya
           bay: Koy / körfez
           beach: Plaj
           cape: Burun
           cave_entrance: Mağara girişi
           cliff: Uçurum
+          coastline: Sahil şeridi
           crater: Krater
           dune: Kumul
           fell: Ağaçsız tepe
@@ -1056,6 +1060,7 @@ tr:
           moor: Bataklık
           mud: Balçık
           peak: Tepe / zirve
+          peninsula: Yarımada
           point: Nokta
           reef: Resif
           ridge: Sırt
@@ -1103,6 +1108,7 @@ tr:
           "yes": Ofis
         place:
           allotments: Bostan
+          archipelago: Takımadalar
           city: Büyükşehir / İl Merkezi
           city_block: Ada
           country: Ülke
@@ -1629,11 +1635,40 @@ tr:
         için %{url} sayfasını ziyaret edin ve "Aboneliği iptal et"i tıklayın.
       unsubscribe_html: Bu değişiklik kümesiyle ilgili güncellemelerden çıkmak için
         %{url} adresini ziyaret edin ve "Abonelikten çık" seçeneğine tıklayın.
+  confirmations:
+    confirm:
+      heading: E-postalarını kontrol et!
+      introduction_1: Size bir doğrulama e-postası gönderdik.
+      introduction_2: E-postadaki bağlantıya tıklayarak hesabınızı doğrulayın ve daha
+        sonra haritalama yapmanız mümkün olacak.
+      press confirm button: Hesabınızı etkinleştirmek için aşağıdaki onaylama butonuna
+        basın.
+      button: Onayla
+      success: Hesabınızı doğruladınız, kaydolduğunuz için teşekkürler!
+      already active: Bu hesap zaten doğrulandı.
+      unknown token: Onay kodu geçerliliğini yitirmiş veya mevcut değil.
+      reconfirm_html: Doğrulama e-postasının tekrar gönderimi için bize ihtiyacınız
+        varsa, <a href="%{reconfirm}">buraya tıklayın</a>.
+    confirm_resend:
+      success_html: '%{email} hesabınıza yeni bir bilgilendirme notu gönderdik ve
+        hesabınızı onaylar onaylamaz harita yapımına başlayabileceksiniz.<br /><br
+        />Onay isteği gönderen bir anti-spam sistemi kullanırsanız onay isteklerine
+        cevap veremediğimizden lütfen kabul edilen adresler listesinde %{sender} olduğundan
+        emin olunuz.'
+      failure: '%{name} kullanıcısı bulunamadı.'
+    confirm_email:
+      heading: E-posta adresinde değişikliği onayla
+      press confirm button: Yeni e-posta adresinizi onaylamak için aşağıdaki onay
+        butonuna basınız.
+      button: Onayla
+      success: E-posta adresinizdeki değişikliğiniz onaylandı!
+      failure: Bu özellikle ile bir e-posta adresi zaten doğrulandı.
+      unknown_token: Onay kodu geçerliliğini yitirmiş veya mevcut değil.
   messages:
     inbox:
       title: Gelen kutusu
       my_inbox: Gelen kutusu
-      outbox: giden kutusu
+      my_outbox: Giden Kutum
       messages: '%{new_messages} ve %{old_messages}'
       new_messages:
         one: '%{count} yeni mesaj'
@@ -1668,9 +1703,8 @@ tr:
       body: Üzgünüz, bu id ile bir mesaj yok.
     outbox:
       title: Giden kutusu
-      my_inbox_html: Benim %{inbox_link}
-      inbox: gelen kutusu
-      outbox: giden kutusu
+      my_inbox: Gelen Kutum
+      my_outbox: Giden Kutum
       messages:
         one: '%{count} mesaj gönderdiniz'
         other: ' %{count} mesaj gönderdiniz'
@@ -1704,6 +1738,82 @@ tr:
       as_unread: Mesaj okunmadı olarak işaretlendi
     destroy:
       destroyed: Mesaj silindi
+  passwords:
+    lost_password:
+      title: Kayıp parola
+      heading: Parolanızı mı Unuttunuz?
+      email address: 'E-posta Adresi:'
+      new password button: Parolayı sıfırla
+      help_text: Kaydolmak için kullandığınız e-posta adresini girin, şifrenizi sıfırlamak
+        için kullanabileceğiniz bir bağlantı yollayacağız.
+      notice email on way: Maalesef şifrenizi kaybettiniz :-( Ancak yeni bir e-posta
+        yolda böylece şifreniziyakında sıfırlayabilirsiniz.
+      notice email cannot find: 'Üzgünüz: bu e-posta adresi bulunamadı.'
+    reset_password:
+      title: Parolayı sıfırla
+      heading: '%{user} İçin Parolayı Sıfırlayın'
+      reset: Parolayı Sıfırla
+      flash changed: Parolanız değiştirildi.
+      flash token bad: Bu simgeyi bulamadıysanız belki de bağlantıyı kontrol etmelisiniz?
+  sessions:
+    new:
+      title: Oturum aç
+      heading: Oturum aç
+      email or username: 'E-posta Adresi veya Kullanıcı Adı:'
+      password: 'Parola:'
+      openid_html: '%{logo} OpenID:'
+      remember: Beni hatırla
+      lost password link: Parolanızı mı kaybettiniz?
+      login_button: Oturum aç
+      register now: Şimdi kaydol
+      with username: 'OpenStreetMap hesabınız var mı? Lütfen kullanıcı adı ve parolanızla
+        oturum açın:'
+      with external: 'Alternatif olarak, bir üçüncü parti uygulaması kullanarak oturum
+        açın:'
+      new to osm: OpenStreetMap sitesinde yeni misiniz?
+      to make changes: OpenStreetMap verileri değiştirmek için bir hesabın olması
+        gerekir.
+      create account minute: Bir hesap oluştur. Bir dakika bile sürmez.
+      no account: Hesabın yok mu?
+      account not active: Üzgünüz, hesabınız henüz aktif değil.<br />Lütfen aldığın
+        onaylama e-postasında ki bağlantı tıkla veya <a href="%{reconfirm}">yeni bir
+        onaylama e-posta</a> iste.
+      account is suspended: Üzgünüz, hesabınız şüpheli etkinlikler nedeniyle askıya
+        alındı.<br />Bu konu için lütfen <a href="%{webmaster}">webmaster'a</a> başvurun.
+      auth failure: Üzgünüz, bu giriş ile oturum açılamadı.
+      openid_logo_alt: OpenID ile giriş
+      auth_providers:
+        openid:
+          title: OpenID ile giriş
+          alt: OpenID Bağlantısı ile giriş
+        google:
+          title: Google ile oturum aç
+          alt: Google OpenID ile giriş
+        facebook:
+          title: Facebook ile giriş
+          alt: Facebook Hesabı ile giriş
+        windowslive:
+          title: Windows Live ile giriş
+          alt: Windows Live Hesabı ile giriş
+        github:
+          title: GitHub ile giriş
+          alt: GitHub Hesabı ile giriş
+        wikipedia:
+          title: Vikipedi ile giriş
+          alt: Vikipedi Hesabı ile giriş
+        yahoo:
+          title: Yahoo ile oturum aç
+          alt: Yahoo OpenID ile giriş
+        wordpress:
+          title: Wordpress ile oturum aç
+          alt: Wordpress OpenID ile giriş
+        aol:
+          title: AOL ile giriş
+          alt: AOL OpenID ile giriş
+    destroy:
+      title: Oturumu kapat
+      heading: OpenStreetMap'den çıkış
+      logout_button: Oturumu kapat
   shared:
     markdown_help:
       title_html: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
@@ -2121,24 +2231,6 @@ tr:
           bicycle_shop: Bisikletçi
           bicycle_parking: Bisiklet parkı
           toilets: Tuvaletler
-    richtext_area:
-      edit: Düzenle
-      preview: Önizleme
-    markdown_help:
-      title_html: <a href="https://daringfireball.net/projects/markdown/">Kramdown</a>
-        kodlarını kullanabilirsiniz
-      headings: Başlıklar
-      heading: Başlık
-      subheading: Alt başlık
-      unordered: Sırasız liste
-      ordered: Sıralı liste
-      first: İlk öge
-      second: İkinci öge
-      link: Bağlantı
-      text: Metin
-      image: Resim
-      alt: Alt metin
-      url: URL
     welcome:
       title: Hoş geldiniz!
       introduction_html: Dünyanın düzenlenebilir ve ücretsiz haritası OpenStreetMap'e
@@ -2261,7 +2353,6 @@ tr:
       more: daha fazla
       trace_details: İz Ayrıntılarını Görüntüle
       view_map: Haritayı Görüntüle
-      edit: düzenle
       edit_map: Haritayı Düzenle
       public: KAMU
       identifiable: TANIMLANABİLİR
@@ -2269,7 +2360,6 @@ tr:
       trackable: İZLENEBİLİR
       by: 'yükleyen:'
       in: 'etiketler:'
-      map: harita
     index:
       public_traces: Herkese açık GPS izleri
       my_traces: GPS izlerim
@@ -2382,80 +2472,6 @@ tr:
     destroy:
       flash: İstemci uygulaması kaydını yok etti
   users:
-    login:
-      title: Oturum aç
-      heading: Oturum aç
-      email or username: 'E-posta Adresi veya Kullanıcı Adı:'
-      password: 'Parola:'
-      openid_html: '%{logo} OpenID:'
-      remember: Beni hatırla
-      lost password link: Parolanızı mı kaybettiniz?
-      login_button: Oturum aç
-      register now: Şimdi kaydol
-      with username: 'OpenStreetMap hesabınız var mı? Lütfen kullanıcı adı ve parolanızla
-        oturum açın:'
-      with external: 'Alternatif olarak, bir üçüncü parti uygulaması kullanarak oturum
-        açın:'
-      new to osm: OpenStreetMap sitesinde yeni misiniz?
-      to make changes: OpenStreetMap verileri değiştirmek için bir hesabın olması
-        gerekir.
-      create account minute: Bir hesap oluştur. Bir dakika bile sürmez.
-      no account: Hesabın yok mu?
-      account not active: Üzgünüz, hesabınız henüz aktif değil.<br />Lütfen aldığın
-        onaylama e-postasında ki bağlantı tıkla veya <a href="%{reconfirm}">yeni bir
-        onaylama e-posta</a> iste.
-      account is suspended: Üzgünüz, hesabınız şüpheli etkinlikler nedeniyle askıya
-        alındı.<br />Bu konu için lütfen <a href="%{webmaster}">webmaster'a</a> başvurun.
-      auth failure: Üzgünüz, bu giriş ile oturum açılamadı.
-      openid_logo_alt: OpenID ile giriş
-      auth_providers:
-        openid:
-          title: OpenID ile giriş
-          alt: OpenID Bağlantısı ile giriş
-        google:
-          title: Google ile oturum aç
-          alt: Google OpenID ile giriş
-        facebook:
-          title: Facebook ile giriş
-          alt: Facebook Hesabı ile giriş
-        windowslive:
-          title: Windows Live ile giriş
-          alt: Windows Live Hesabı ile giriş
-        github:
-          title: GitHub ile giriş
-          alt: GitHub Hesabı ile giriş
-        wikipedia:
-          title: Vikipedi ile giriş
-          alt: Vikipedi Hesabı ile giriş
-        yahoo:
-          title: Yahoo ile oturum aç
-          alt: Yahoo OpenID ile giriş
-        wordpress:
-          title: Wordpress ile oturum aç
-          alt: Wordpress OpenID ile giriş
-        aol:
-          title: AOL ile giriş
-          alt: AOL OpenID ile giriş
-    logout:
-      title: Oturumu kapat
-      heading: OpenStreetMap'den çıkış
-      logout_button: Oturumu kapat
-    lost_password:
-      title: Kayıp parola
-      heading: Parolanızı mı Unuttunuz?
-      email address: 'E-posta Adresi:'
-      new password button: Parolayı sıfırla
-      help_text: Kaydolmak için kullandığınız e-posta adresini girin, şifrenizi sıfırlamak
-        için kullanabileceğiniz bir bağlantı yollayacağız.
-      notice email on way: Maalesef şifrenizi kaybettiniz :-( Ancak yeni bir e-posta
-        yolda böylece şifreniziyakında sıfırlayabilirsiniz.
-      notice email cannot find: 'Üzgünüz: bu e-posta adresi bulunamadı.'
-    reset_password:
-      title: Parolayı sıfırla
-      heading: '%{user} İçin Parolayı Sıfırlayın'
-      reset: Parolayı Sıfırla
-      flash changed: Parolanız değiştirildi.
-      flash token bad: Bu simgeyi bulamadıysanız belki de bağlantıyı kontrol etmelisiniz?
     new:
       title: Hesap oluştur
       no_auto_account_create: Maalesef sizin için otomatik olarak bir hesap oluşturamıyoruz.
@@ -2644,34 +2660,6 @@ tr:
       flash update success confirm needed: Kullanıcı bilgisi başarıyla güncellendi.
         Yeni e-posta adresinizi onaylamak için e-mail'inizi lütfen kontrol ediniz.
       flash update success: Kullanıcı bilgisi başarıyla güncellendi.
-    confirm:
-      heading: E-postalarını kontrol et!
-      introduction_1: Size bir doğrulama e-postası gönderdik.
-      introduction_2: E-postadaki bağlantıya tıklayarak hesabınızı doğrulayın ve daha
-        sonra haritalama yapmanız mümkün olacak.
-      press confirm button: Hesabınızı etkinleştirmek için aşağıdaki onaylama butonuna
-        basın.
-      button: Onayla
-      success: Hesabınızı doğruladınız, kaydolduğunuz için teşekkürler!
-      already active: Bu hesap zaten doğrulandı.
-      unknown token: Onay kodu geçerliliğini yitirmiş veya mevcut değil.
-      reconfirm_html: Doğrulama e-postasının tekrar gönderimi için bize ihtiyacınız
-        varsa, <a href="%{reconfirm}">buraya tıklayın</a>.
-    confirm_resend:
-      success_html: '%{email} hesabınıza yeni bir bilgilendirme notu gönderdik ve
-        hesabınızı onaylar onaylamaz harita yapımına başlayabileceksiniz.<br /><br
-        />Onay isteği gönderen bir anti-spam sistemi kullanırsanız onay isteklerine
-        cevap veremediğimizden lütfen kabul edilen adresler listesinde %{sender} olduğundan
-        emin olunuz.'
-      failure: '%{name} kullanıcısı bulunamadı.'
-    confirm_email:
-      heading: E-posta adresinde değişikliği onayla
-      press confirm button: Yeni e-posta adresinizi onaylamak için aşağıdaki onay
-        butonuna basınız.
-      button: Onayla
-      success: E-posta adresinizdeki değişikliğiniz onaylandı!
-      failure: Bu özellikle ile bir e-posta adresi zaten doğrulandı.
-      unknown_token: Onay kodu geçerliliğini yitirmiş veya mevcut değil.
     set_home:
       flash success: Ev konumu başarıyla kaydedildi
     go_public:

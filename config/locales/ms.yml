@@ -115,13 +115,17 @@ ms:
         body: Isi
         recipient: Penerima
       redaction:
+        title: Tajuk
         description: Keterangan
+      report:
+        category: Pilih sebab untuk laporan anda
       user:
         email: E-mel
-        new_email: 'Alamat E-mel Baru:'
+        email_confirmation: Pengesahan E-mel
+        new_email: Alamat E-mel Baru
         active: Aktif
         display_name: Nama Paparan
-        description: Keterangan
+        description: Keterangan Profil
         home_lat: 'Garis Lintang:'
         home_lon: 'Garis Bujur:'
         languages: Bahasa
@@ -467,6 +471,7 @@ ms:
           bicycle_parking: Letak Basikal
           bicycle_rental: Sewa Basikal
           biergarten: Taman Bir
+          blood_bank: Tabung Darah
           boat_rental: Bot Sewa
           brothel: Rumah Pelacuran
           bureau_de_change: Pengurup Wang
@@ -557,12 +562,14 @@ ms:
         building:
           apartment: Pangsapuri
           apartments: Pangsapuri
+          bungalow: Banglo
           chapel: Gereja Kecil
           church: Bangunan Gereja
           commercial: Bangunan Perdagangan
           dormitory: Asrama
           farm: Rumah Ladang
           garage: Garaj
+          garages: Garaj
           hospital: Bangunan Hospital
           hotel: Bangunan Hotel
           house: Rumah
@@ -760,6 +767,7 @@ ms:
           cape: Tanjung
           cave_entrance: Liang Gua
           cliff: Cenuram
+          coastline: Garis Pinggir Laut
           crater: Kawah
           dune: Gumuk
           fell: Fell
@@ -1176,11 +1184,39 @@ ms:
       commented:
         partial_changeset_with_comment: dengan komen '%{changeset_comment}'
         partial_changeset_without_comment: tanpa komen
+  confirmations:
+    confirm:
+      heading: Semak e-mel anda
+      introduction_1: Kami telah mengirim e-mel pengesahan kepada anda.
+      introduction_2: Sahkan akaun anda dengan mengklik pada pautan pada e-mel itu,
+        kemudian anda boleh mula menyunting peta.
+      press confirm button: Tekan butang pengesahan di bawah untuk mengaktifkan akaun
+        anda.
+      button: Sahkan
+      success: Akaun anda telah disahkan. Terima kasih kerana mendaftar!
+      already active: Akaun ini sudah pun disahkan.
+      unknown token: Kod pengesahan itu telah tamat tempoh atau tidak wujud.
+      reconfirm_html: Jika anda perlukan kami untuk mengirim semula e-mel penghantaran,
+        <a href="%{reconfirm}">klik di sini</a>.
+    confirm_resend:
+      success_html: Kami telah menghantar pesanan pengesahan kepada %{email}. Sebaik
+        sahaja anda mengesahkan akaun anda, anda akan boleh menyunting peta.<br /><br
+        />Jika anda menggunakan sistem anti-spam yang menghantar permohonan untuk
+        pengesahan, sila pastikan anda membenarkan %{sender} kerana kami tidak dapat
+        membalas sebarang permohonan untuk pengesahan.
+      failure: Pengguna %{name} tidak dijumpai.
+    confirm_email:
+      heading: Sahkan penukaran alamat e-mel
+      press confirm button: Tekan butang sahkan di bawah untuk mengesahkan alamat
+        e-mel baru anda.
+      button: Sahkan
+      success: Sahkan penukaran alamat e-mel
+      failure: Sudah ada alamat e-mel yang disahkan dengan token ini.
+      unknown_token: Kod pengesahan itu telah tamat tempoh atau tidak wujud.
   messages:
     inbox:
       title: Peti Masuk
       my_inbox: Peti masuk saya
-      outbox: peti keluar
       messages: Anda ada %{new_messages} dan %{old_messages}
       new_messages: '%{count} pesanan baru'
       old_messages: '%{count} pesanan lama'
@@ -1211,9 +1247,6 @@ ms:
       body: Maaf, tiada pesanan dengan ID ini.
     outbox:
       title: Peti Keluar
-      my_inbox_html: '%{inbox_link} saya'
-      inbox: Peti masuk
-      outbox: peti keluar
       messages: Anda ada %{count} pesanan terhantar
       to: Kepada
       subject: Subjek
@@ -1245,6 +1278,83 @@ ms:
       as_unread: Pesanan ditandai sebagai belum dibaca
     destroy:
       destroyed: Pesanan dihapuskan
+  passwords:
+    lost_password:
+      title: Terlupa kata laluan
+      heading: Lupa Kata Laluan?
+      email address: 'Alamat E-mel:'
+      new password button: Set semula kata laluan
+      help_text: Isikan alamat e-mel yang anda gunakan untuk mendaftar. Kami akan
+        menge-melkan pautan untuk anda mengeset semula kata laluan anda.
+      notice email on way: Kesiannya anda sudah terlupa kata laluan :-( tetapi kami
+        akan menghantar satu pesanan e-mel untuk anda mengesetnya semula tidak lama
+        lagi.
+      notice email cannot find: Maaf, alamat e-mel itu tidak dapat dijumpai.
+    reset_password:
+      title: Set semula kata laluan
+      heading: Set Semula Kata Laluan untuk %{user}
+      reset: Set Semula Kata Laluan
+      flash changed: Kata laluan anda telah ditukar.
+      flash token bad: Token itu tidak dijumpai; sila semak URL-nya.
+  sessions:
+    new:
+      title: Log masuk
+      heading: Log masuk
+      email or username: 'Alamat E-mel atau Nama Pengguna:'
+      password: 'Kata laluan:'
+      openid_html: 'OpenID %{logo}:'
+      remember: Ingati saya
+      lost password link: Lupa kata laluan anda?
+      login_button: Log masuk
+      register now: Daftar sekarang
+      with username: 'Sudah ada akaun OpenStreetMap? Sila log masuk dengan nama pengguna
+        dan kata laluan anda:'
+      new to osm: Baru kenal OpenStreetMap?
+      to make changes: Untuk membuat perubahan pada data OpenStreetMap, anda mesti
+        mempunyai akaun.
+      create account minute: Bukalah satu akaun. Seminit sahaja masa untuk membuatnya.
+      no account: Belum buka akaun?
+      account not active: Maaf, akaun anda belum aktif.<br />Sila ikuti pautan dalam
+        pesanan e-mel pengesahan akaun untuk menghidupkan akaun anda, atau <a href="%{reconfirm}">pohon
+        pesanan e-mel pengesahan yang baru</a>.
+      account is suspended: Maaf, akaun anda digantung disebabkan perbuatan yang mencurigakan.<br
+        />Sila hubungi <a href="%{webmaster}">pentadbir web</a> jika anda ingin membincangkan
+        perkara ini.
+      auth failure: Maaf, log masuk tidak dapat dibenarkan dengan butiran-butiran
+        itu.
+      openid_logo_alt: Log masuk dengan OpenID
+      auth_providers:
+        openid:
+          title: Log masuk dengan OpenID
+          alt: Log masuk dengan OpenID URL
+        google:
+          title: Log masuk dengan Google
+          alt: Log masuk dengan Google OpenID
+        facebook:
+          title: Log masuk dengan Facebook
+          alt: Log masuk dengan Akuan Facebook
+        windowslive:
+          title: Log masuk dengan Window Live
+          alt: Log masuk dengan Akaun Windows Live
+        github:
+          title: Log masuk dengan GitHub
+          alt: Log masuk dengan Akaun GitHub.
+        wikipedia:
+          title: Log masuk dengan Wikipedia
+          alt: Log masuk dengan akaun Wikipedia
+        yahoo:
+          title: Log masuk dengan Yahoo
+          alt: Log masuk dengan OpenID Yahoo
+        wordpress:
+          title: Log masuk dengan Wordpress
+          alt: Log masuk dengan OpenID Wordpress
+        aol:
+          title: Log masuk dengan AOL
+          alt: Log masuk dengan OpenID Yahoo
+    destroy:
+      title: Log keluar
+      heading: Log keluar dari OpenStreetMap
+      logout_button: Log keluar
   shared:
     markdown_help:
       headings: Judul
@@ -1582,23 +1692,6 @@ ms:
           bicycle_shop: Kedai Basikal
           bicycle_parking: Tempat letak basikal
           toilets: Tandas
-    richtext_area:
-      edit: Sunting
-      preview: Pralihat
-    markdown_help:
-      title_html: Dihuraikan dengan <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
-      headings: Judul
-      heading: Judul
-      subheading: Judul kecil
-      unordered: Senarai tak tertib
-      ordered: Senarai tertib
-      first: Perkara pertama
-      second: Perkara kedua
-      link: Pautan
-      text: Teks
-      image: Gambar
-      alt: Teks alt
-      url: URL
     welcome:
       title: Selamat datang!
       introduction_html: Selamat datang ke OpenStreetMap, peta dunia yang bebas disunting
@@ -1700,7 +1793,6 @@ ms:
       more: lagi
       trace_details: Lihat Butiran Jejak
       view_map: Lihat Peta
-      edit: sunting
       edit_map: Sunting Peta
       public: UMUM
       identifiable: BOLEH DIKENAL PASTI
@@ -1708,7 +1800,6 @@ ms:
       trackable: BOLEH DIJEJAKI
       by: oleh
       in: dalam
-      map: peta
     index:
       public_traces: Jejak GPS umum
       public_traces_from: Jejak GPS umum oleh %{user}
@@ -1813,81 +1904,6 @@ ms:
     destroy:
       flash: Permohonan aplikasi klien dihapuskan
   users:
-    login:
-      title: Log masuk
-      heading: Log masuk
-      email or username: 'Alamat E-mel atau Nama Pengguna:'
-      password: 'Kata laluan:'
-      openid_html: 'OpenID %{logo}:'
-      remember: Ingati saya
-      lost password link: Lupa kata laluan anda?
-      login_button: Log masuk
-      register now: Daftar sekarang
-      with username: 'Sudah ada akaun OpenStreetMap? Sila log masuk dengan nama pengguna
-        dan kata laluan anda:'
-      new to osm: Baru kenal OpenStreetMap?
-      to make changes: Untuk membuat perubahan pada data OpenStreetMap, anda mesti
-        mempunyai akaun.
-      create account minute: Bukalah satu akaun. Seminit sahaja masa untuk membuatnya.
-      no account: Belum buka akaun?
-      account not active: Maaf, akaun anda belum aktif.<br />Sila ikuti pautan dalam
-        pesanan e-mel pengesahan akaun untuk menghidupkan akaun anda, atau <a href="%{reconfirm}">pohon
-        pesanan e-mel pengesahan yang baru</a>.
-      account is suspended: Maaf, akaun anda digantung disebabkan perbuatan yang mencurigakan.<br
-        />Sila hubungi <a href="%{webmaster}">pentadbir web</a> jika anda ingin membincangkan
-        perkara ini.
-      auth failure: Maaf, log masuk tidak dapat dibenarkan dengan butiran-butiran
-        itu.
-      openid_logo_alt: Log masuk dengan OpenID
-      auth_providers:
-        openid:
-          title: Log masuk dengan OpenID
-          alt: Log masuk dengan OpenID URL
-        google:
-          title: Log masuk dengan Google
-          alt: Log masuk dengan Google OpenID
-        facebook:
-          title: Log masuk dengan Facebook
-          alt: Log masuk dengan Akuan Facebook
-        windowslive:
-          title: Log masuk dengan Window Live
-          alt: Log masuk dengan Akaun Windows Live
-        github:
-          title: Log masuk dengan GitHub
-          alt: Log masuk dengan Akaun GitHub.
-        wikipedia:
-          title: Log masuk dengan Wikipedia
-          alt: Log masuk dengan akaun Wikipedia
-        yahoo:
-          title: Log masuk dengan Yahoo
-          alt: Log masuk dengan OpenID Yahoo
-        wordpress:
-          title: Log masuk dengan Wordpress
-          alt: Log masuk dengan OpenID Wordpress
-        aol:
-          title: Log masuk dengan AOL
-          alt: Log masuk dengan OpenID Yahoo
-    logout:
-      title: Log keluar
-      heading: Log keluar dari OpenStreetMap
-      logout_button: Log keluar
-    lost_password:
-      title: Terlupa kata laluan
-      heading: Lupa Kata Laluan?
-      email address: 'Alamat E-mel:'
-      new password button: Set semula kata laluan
-      help_text: Isikan alamat e-mel yang anda gunakan untuk mendaftar. Kami akan
-        menge-melkan pautan untuk anda mengeset semula kata laluan anda.
-      notice email on way: Kesiannya anda sudah terlupa kata laluan :-( tetapi kami
-        akan menghantar satu pesanan e-mel untuk anda mengesetnya semula tidak lama
-        lagi.
-      notice email cannot find: Maaf, alamat e-mel itu tidak dapat dijumpai.
-    reset_password:
-      title: Set semula kata laluan
-      heading: Set Semula Kata Laluan untuk %{user}
-      reset: Set Semula Kata Laluan
-      flash changed: Kata laluan anda telah ditukar.
-      flash token bad: Token itu tidak dijumpai; sila semak URL-nya.
     new:
       title: Daftar
       no_auto_account_create: Sayang sekali, kami tidak dapat membuka akaun secara
@@ -2058,34 +2074,6 @@ ms:
       flash update success confirm needed: Maklumat pengguna berjaya dikemaskinikan.
         Semak e-mel anda untuk pesanan untuk mengesahkan alamat e-mel baru anda.
       flash update success: Maklumat pengguna berjaya dikemaskinikan.
-    confirm:
-      heading: Semak e-mel anda
-      introduction_1: Kami telah mengirim e-mel pengesahan kepada anda.
-      introduction_2: Sahkan akaun anda dengan mengklik pada pautan pada e-mel itu,
-        kemudian anda boleh mula menyunting peta.
-      press confirm button: Tekan butang pengesahan di bawah untuk mengaktifkan akaun
-        anda.
-      button: Sahkan
-      success: Akaun anda telah disahkan. Terima kasih kerana mendaftar!
-      already active: Akaun ini sudah pun disahkan.
-      unknown token: Kod pengesahan itu telah tamat tempoh atau tidak wujud.
-      reconfirm_html: Jika anda perlukan kami untuk mengirim semula e-mel penghantaran,
-        <a href="%{reconfirm}">klik di sini</a>.
-    confirm_resend:
-      success_html: Kami telah menghantar pesanan pengesahan kepada %{email}. Sebaik
-        sahaja anda mengesahkan akaun anda, anda akan boleh menyunting peta.<br /><br
-        />Jika anda menggunakan sistem anti-spam yang menghantar permohonan untuk
-        pengesahan, sila pastikan anda membenarkan %{sender} kerana kami tidak dapat
-        membalas sebarang permohonan untuk pengesahan.
-      failure: Pengguna %{name} tidak dijumpai.
-    confirm_email:
-      heading: Sahkan penukaran alamat e-mel
-      press confirm button: Tekan butang sahkan di bawah untuk mengesahkan alamat
-        e-mel baru anda.
-      button: Sahkan
-      success: Sahkan penukaran alamat e-mel
-      failure: Sudah ada alamat e-mel yang disahkan dengan token ini.
-      unknown_token: Kod pengesahan itu telah tamat tempoh atau tidak wujud.
     set_home:
       flash success: Lokasi rumah berjaya disimpan
     go_public:

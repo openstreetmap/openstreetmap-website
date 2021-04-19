@@ -272,7 +272,7 @@ hr:
       comment: Komentari (%{count})
       hidden_commented_by_html: Komentar skriven od %{user} <abbr title="%{exact_time}">
         u %{when}</abbr>
-      commented_by_html: Komentirao/la %{user} <abbr title='%{exact_time}'> u %{when}</abbr>
+      commented_by_html: Komentirao/la %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XLM Set promjena
       osmchangexml: osmChange XML
       feed:
@@ -802,6 +802,7 @@ hr:
           cape: Rt
           cave_entrance: Pećina (ulaz)
           cliff: Litica
+          coastline: Obala
           crater: Krater
           dune: Dina
           fell: Brdo
@@ -1113,11 +1114,31 @@ hr:
         your_note: '%{commenter} je reaktivirao jednu od tvojih bilješki blizu %{place}.'
         commented_note: '%{commenter} je reaktivirao bilješku koju si komentirao/la.
           Ta je bilješka u blizini %{place}.'
+  confirmations:
+    confirm:
+      heading: Provjeri svoj email!
+      introduction_1: Poslali smo ti potvrdni email.
+      press confirm button: Pritisni potvrdi da bi aktivirali svoj korisnički račun.
+      button: Potvrdi
+      success: Tvoj račun je potvrđen , hvala na uključenju!
+      already active: Ovaj račun je već potvrđen.
+      unknown token: Taj potvrdni kôd je istekao ili ne postoji.
+    confirm_resend:
+      success_html: Poslali smo novu potvrdu na email %{email}, a čim potvrdiš svoj
+        račun, moći ćeš početi kartirati.<br /><br />Ako koristiš antispam sustav
+        koji šalje potvrdu zahtjeva, molim te da provjeriš je li %{sender} na tzv.
+        "whitelisti", jer nismo u mogućnosti odgovarati na potvrde zahtjeva.
+      failure: Korisnik %{name} nije pronađen.
+    confirm_email:
+      heading: Potvrdi promjenu email adrese.
+      press confirm button: Pritsni potvrdno dugme ispod i potvrdi novu email adresu.
+      button: Potvrdi
+      success: Promjena email adrese je potvrđena!
+      failure: Email adresa je već potvrđena s ovim token-om.
   messages:
     inbox:
       title: Dolazna pošta
       my_inbox: Dolazna pošta
-      outbox: odlazna pošta
       messages: Imate %{new_messages} i %{old_messages}
       new_messages:
         one: '%{count} nova poruka'
@@ -1152,9 +1173,6 @@ hr:
       body: Nažalost nema poruka s tim id.
     outbox:
       title: Odlazna pošta
-      my_inbox_html: ' %{inbox_link}'
-      inbox: dolazna pošta
-      outbox: odlazna pošta
       messages:
         one: Imate %{count} poslanu poruku
         other: Imate %{count} poslane poruke
@@ -1188,6 +1206,77 @@ hr:
       as_unread: Poruka označena nepročitanom
     destroy:
       destroyed: Poruka obrisana
+  passwords:
+    lost_password:
+      title: Izgubljena zaporka
+      heading: Zaboravljena zaporka?
+      email address: 'Email adresa:'
+      new password button: Reset lozinke
+      help_text: Unesite email adresu koju ste koristili za otvaranje računa i poslati
+        ćemo vam poveznicu kojom možete resetirati zaporku.
+      notice email on way: Žao mi je što ste je izgubili :-( ali email je na putu
+        tako da je možete resetirati uskoro.
+      notice email cannot find: Ne mogu pronaći email adresu.
+    reset_password:
+      title: Reset lozinke
+      heading: Reset lozinke za %{user}
+      reset: Reset lozinke
+      flash changed: Vaša lozinka je promjenjena.
+      flash token bad: Nije pronađen takav token, provjeri URL?
+  sessions:
+    new:
+      title: Prijava
+      heading: 'Prijava:'
+      email or username: 'Email adresa ili korisničko ime:'
+      password: 'Lozinka:'
+      openid_html: '%{logo} OpenID:'
+      remember: Zapamti me
+      lost password link: Izgubljena zaporka?
+      login_button: Prijava
+      register now: Registrirajte se sada
+      with external: 'Ili koristite drugi servis za prijavljivanje:'
+      new to osm: Novi na OpenStreetMap?
+      to make changes: Da bi napravili izmjene na OpenStreetMap podacima, morate imati
+        korisnički račun.
+      create account minute: Otvorite korisnički račun. To traje samo minutu.
+      no account: Nemate račun?
+      account not active: Žao nam je, Vaš korisnički račun još nije aktivan. <br />
+        Molimo vas da koristite link u e-pošti potvrde da biste aktivirali svoj račun,
+        ili <a href="%{reconfirm}">zatražiti novu e-poštu potvrde</a> .
+      auth failure: Žao mi je, ne mogu prijaviti s ovim detaljima.
+      openid_logo_alt: Prijavi se sa OpenID-om
+      auth_providers:
+        openid:
+          title: Prijavi se sa OpenID-om
+          alt: Prijavi se sa URL-om OpenID-a
+        google:
+          title: Prijavi se sa Google-om
+          alt: Prijavi se sa Google-ovim OpenID-om
+        facebook:
+          title: Prijavi se sa Facebook-om
+          alt: Prijavi se sa računom Facebook-a
+        windowslive:
+          title: Prijavi se sa Windows Live-om
+          alt: Prijavi se sa računom Windows Live-a
+        github:
+          title: Prijavi se sa Github-om
+          alt: Prijavi se sa računom Github-a
+        wikipedia:
+          title: Prijavi se preko Wikipedije
+          alt: Prijavi se s Wikipedijinim računom
+        yahoo:
+          title: Prijavi se sa Yahoo-om
+          alt: Prijavi se sa Yahoo-ovim OpenID-om
+        wordpress:
+          title: Prijavi se sa Wordpressom
+          alt: Prijavi se sa Wordpressovim OpenID-om
+        aol:
+          title: Prijavi se sa AOL-om
+          alt: Prijavi se sa AOL-ovim OpenID-om
+    destroy:
+      title: Odjava
+      heading: Odjava iz OpenStreetMap
+      logout_button: Odjava
   site:
     about:
       next: Dalje
@@ -1431,14 +1520,6 @@ hr:
           bicycle_shop: Biciklistička prodavaonica
           bicycle_parking: Parkiralište za bicikle
           toilets: Zahodi
-    richtext_area:
-      edit: Uredi
-    markdown_help:
-      link: Poveznica
-      text: Tekst
-      image: Slika
-      alt: Alternativni tekst
-      url: URL
     welcome:
       title: Dobrodošli!
       whats_on_the_map:
@@ -1516,7 +1597,6 @@ hr:
       more: više
       trace_details: Vidi detalje traga
       view_map: Prikaži kartu
-      edit: uredi
       edit_map: Uredi kartu
       public: JAVNI
       identifiable: IDENTIFICIRAJUĆI
@@ -1524,7 +1604,6 @@ hr:
       trackable: TRACKABLE
       by: od
       in: u
-      map: karta
     index:
       public_traces: Javni GNSS tragovi
       my_traces: Moji GNSS tragovi
@@ -1611,75 +1690,6 @@ hr:
     destroy:
       flash: Uništena registracija klijent aplikacije
   users:
-    login:
-      title: Prijava
-      heading: 'Prijava:'
-      email or username: 'Email adresa ili korisničko ime:'
-      password: 'Lozinka:'
-      openid_html: '%{logo} OpenID:'
-      remember: 'Zapamti me:'
-      lost password link: Izgubljena zaporka?
-      login_button: Prijava
-      register now: Registrirajte se sada
-      with external: 'Ili koristite drugi servis za prijavljivanje:'
-      new to osm: Novi na OpenStreetMap?
-      to make changes: Da bi napravili izmjene na OpenStreetMap podacima, morate imati
-        korisnički račun.
-      create account minute: Otvorite korisnički račun. To traje samo minutu.
-      no account: Nemate račun?
-      account not active: Žao nam je, Vaš korisnički račun još nije aktivan. <br />
-        Molimo vas da koristite link u e-pošti potvrde da biste aktivirali svoj račun,
-        ili <a href="%{reconfirm}">zatražiti novu e-poštu potvrde</a> .
-      auth failure: Žao mi je, ne mogu prijaviti s ovim detaljima.
-      openid_logo_alt: Prijavi se sa OpenID-om
-      auth_providers:
-        openid:
-          title: Prijavi se sa OpenID-om
-          alt: Prijavi se sa URL-om OpenID-a
-        google:
-          title: Prijavi se sa Google-om
-          alt: Prijavi se sa Google-ovim OpenID-om
-        facebook:
-          title: Prijavi se sa Facebook-om
-          alt: Prijavi se sa računom Facebook-a
-        windowslive:
-          title: Prijavi se sa Windows Live-om
-          alt: Prijavi se sa računom Windows Live-a
-        github:
-          title: Prijavi se sa Github-om
-          alt: Prijavi se sa računom Github-a
-        wikipedia:
-          title: Prijavi se preko Wikipedije
-          alt: Prijavi se s Wikipedijinim računom
-        yahoo:
-          title: Prijavi se sa Yahoo-om
-          alt: Prijavi se sa Yahoo-ovim OpenID-om
-        wordpress:
-          title: Prijavi se sa Wordpressom
-          alt: Prijavi se sa Wordpressovim OpenID-om
-        aol:
-          title: Prijavi se sa AOL-om
-          alt: Prijavi se sa AOL-ovim OpenID-om
-    logout:
-      title: Odjava
-      heading: Odjava iz OpenStreetMap
-      logout_button: Odjava
-    lost_password:
-      title: Izgubljena zaporka
-      heading: Zaboravljena zaporka?
-      email address: 'Email adresa:'
-      new password button: Reset lozinke
-      help_text: Unesite email adresu koju ste koristili za otvaranje računa i poslati
-        ćemo vam poveznicu kojom možete resetirati zaporku.
-      notice email on way: Žao mi je što ste je izgubili :-( ali email je na putu
-        tako da je možete resetirati uskoro.
-      notice email cannot find: Ne mogu pronaći email adresu.
-    reset_password:
-      title: Reset lozinke
-      heading: Reset lozinke za %{user}
-      reset: Reset lozinke
-      flash changed: Vaša lozinka je promjenjena.
-      flash token bad: Nije pronađen takav token, provjeri URL?
     new:
       title: Otvori račun
       no_auto_account_create: Nažalost nismo u mogućnosti automatski otvarati korisničke
@@ -1841,26 +1851,6 @@ hr:
       flash update success confirm needed: Korisničke informacije su uspješno ažurirane.
         Provjeri email za poruku potvrde nove email adrese.
       flash update success: Korisničke informacije su uspješno ažurirane.
-    confirm:
-      heading: Provjeri svoj email!
-      introduction_1: Poslali smo ti potvrdni email.
-      press confirm button: Pritisni potvrdi da bi aktivirali svoj korisnički račun.
-      button: Potvrdi
-      success: Tvoj račun je potvrđen , hvala na uključenju!
-      already active: Ovaj račun je već potvrđen.
-      unknown token: Taj potvrdni kôd je istekao ili ne postoji.
-    confirm_resend:
-      success_html: Poslali smo novu potvrdu na email %{email}, a čim potvrdiš svoj
-        račun, moći ćeš početi kartirati.<br /><br />Ako koristiš antispam sustav
-        koji šalje potvrdu zahtjeva, molim te da provjeriš je li %{sender} na tzv.
-        "whitelisti", jer nismo u mogućnosti odgovarati na potvrde zahtjeva.
-      failure: Korisnik %{name} nije pronađen.
-    confirm_email:
-      heading: Potvrdi promjenu email adrese.
-      press confirm button: Pritsni potvrdno dugme ispod i potvrdi novu email adresu.
-      button: Potvrdi
-      success: Promjena email adrese je potvrđena!
-      failure: Email adresa je već potvrđena s ovim token-om.
     set_home:
       flash success: Lokacija doma uspješno snimljena.
     go_public:
