@@ -9,16 +9,16 @@ class DiaryEntryTest < ActiveSupport::TestCase
   def test_diary_entry_validations
     diary_entry_valid({})
     diary_entry_valid({ :title => "" }, :valid => false)
-    diary_entry_valid(:title => "a" * 255)
+    diary_entry_valid({ :title => "a" * 255 })
     diary_entry_valid({ :title => "a" * 256 }, :valid => false)
     diary_entry_valid({ :body => "" }, :valid => false)
-    diary_entry_valid(:latitude => 90)
+    diary_entry_valid({ :latitude => 90 })
     diary_entry_valid({ :latitude => 90.00001 }, :valid => false)
-    diary_entry_valid(:latitude => -90)
+    diary_entry_valid({ :latitude => -90 })
     diary_entry_valid({ :latitude => -90.00001 }, :valid => false)
-    diary_entry_valid(:longitude => 180)
+    diary_entry_valid({ :longitude => 180 })
     diary_entry_valid({ :longitude => 180.00001 }, :valid => false)
-    diary_entry_valid(:longitude => -180)
+    diary_entry_valid({ :longitude => -180 })
     diary_entry_valid({ :longitude => -180.00001 }, :valid => false)
   end
 
