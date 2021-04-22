@@ -4,6 +4,14 @@ require "oauth/rack/oauth_filter"
 Rails.configuration.middleware.use OAuth::Rack::OAuthFilter
 
 module OAuth
+  module Helper
+    def escape(value)
+      value.to_s.gsub(OAuth::RESERVED_CHARACTERS) do |c|
+        format("%%%02X", c.ord)
+      end
+    end
+  end
+
   module RequestProxy
     class RackRequest
       def method
