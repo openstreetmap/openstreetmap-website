@@ -57,12 +57,12 @@ sr:
   activerecord:
     errors:
       messages:
-        invalid_email_address: не изгледа као важећа е-адреса
+        invalid_email_address: не изгледа као важећа имејл адреса
     models:
       acl: Листа контроле приступа
       changeset: Скуп промена
       changeset_tag: Ознака скупа промена
-      country: Земља
+      country: Држава
       diary_comment: Коментар у дневнику
       diary_entry: Унос у дневнику
       friend: Пријатељ
@@ -83,6 +83,7 @@ sr:
       relation: Однос
       relation_member: Члан односа
       relation_tag: Ознака односа
+      report: Пријави
       session: Сесија
       trace: Рута
       tracepoint: Тачка руте
@@ -98,6 +99,13 @@ sr:
         name: Име (обавезно)
         callback_url: Повратна адреса
         support_url: Адреса подршке
+        allow_read_prefs: чита њихове корисничке поставке
+        allow_write_prefs: мења њихове корисничке поставке
+        allow_write_diary: прави дневничке записе, коментарише и додаје пријатеље
+        allow_write_api: мења мапу
+        allow_read_gpx: чита њихове приватне GPS трагове
+        allow_write_gpx: отпрема GPS трагове
+        allow_write_notes: мења белешке
       diary_comment:
         body: Текст
       diary_entry:
@@ -127,17 +135,26 @@ sr:
         body: Текст
         recipient: Прималац
       redaction:
+        title: Наслов
         description: Опис
+      report:
+        category: Одаберите разлог пријаве
+        details: Молимо пружите још мало детања о проблему (захтевано).
       user:
+        auth_provider: Провајдер провере идентитета
+        auth_uid: UID идентитета
         email: Имејл
-        new_email: 'Нова имејл адреса:'
+        email_confirmation: Имејл потврда
+        new_email: Нова имејл адреса
         active: Активан
         display_name: Име за приказ
-        description: Опис
-        home_lat: 'Географска ширина:'
-        home_lon: 'Географска дужина:'
-        languages: Језици
+        description: Опис профила
+        home_lat: Географска ширина
+        home_lon: Географска дужина
+        languages: Жељени језици
+        preferred_editor: Жељени уређивач
         pass_crypt: Лозинка
+        pass_crypt_confirmation: Потврдите лозинку
     help:
       trace:
         tagstring: раздвојено запетама
@@ -157,11 +174,14 @@ sr:
       description: iD (уређивач у прегледачу)
     remote:
       name: Даљинско управљање
-      description: Даљинско управљање (JOSM или Merkaartor)
+      description: Даљинско управљање (JOSM, Potlatch, Merkaator)
   auth:
     providers:
+      none: Ниједан
+      openid: OpenID
       google: Google
       facebook: Facebook
+      windowslive: Windows Live
       github: GitHub
       wikipedia: Википедија
   api:
@@ -195,7 +215,7 @@ sr:
     created_by_html: '%{user} је направио/-ла у <abbr title=''%{title}''>%{time}</abbr>'
     deleted_by_html: '%{user} је избрисао/-ла у <abbr title=''%{title}''>%{time}</abbr>'
     edited_by_html: '%{user} је уредио/-ла у <abbr title=''%{title}''>%{time}</abbr>'
-    closed_by_html: Затворио корисник %{user} пре <abbr title='%{title}'>%{time}</abbr>
+    closed_by_html: Корисник %{user} затворио <abbr title='%{title}'>%{time}</abbr>
     version: Верзија
     in_changeset: Скуп промена
     anonymous: анониман
@@ -251,6 +271,7 @@ sr:
       entry_html: Однос %{relation_name}
       entry_role_html: Однос %{relation_name} (као %{relation_role})
     not_found:
+      title: Није нађено
       sorry: 'Нажалост, %{type} #%{id} није пронађен.'
       type:
         node: тачка
@@ -341,7 +362,7 @@ sr:
   changeset_comments:
     comment:
       comment: 'Нови коментар на скуп промена #%{changeset_id} корисника %{author}'
-      commented_at_by_html: Ажурирао %{user} пре %{when}
+      commented_at_by_html: Ажурирао %{user} у %{when}
     comments:
       comment: 'Нови коментар о скупу промена #%{changeset_id} аутора %{author}'
     index:
@@ -354,8 +375,8 @@ sr:
     new:
       title: Нови унос у дневнику
     form:
-      location: 'Локација:'
-      use_map_link: користи мапу
+      location: Локација
+      use_map_link: Користи мапу
     index:
       title: Кориснички дневници
       title_friends: Дневници пријатеља
@@ -364,6 +385,7 @@ sr:
       in_language_title: Уноси у дневнику на %{language}
       new: Нови унос у дневнику
       new_title: Састави нови унос у мом дневнику
+      my_diary: Мој дневник
       no_entries: Нема уноса у дневнику
       recent_entries: Недавни уноси у дневнику
       older_entries: Старији уноси
@@ -383,20 +405,22 @@ sr:
       body: Нема уноса у дневнику нити коментара са ID-јем %{id}. Проверите правопис.
         Можда је веза на коју сте кликнули погрешна.
     diary_entry:
-      posted_by_html: Поставио корисник %{link_user} у %{created} на %{language_link}
+      posted_by_html: Поставио корисник %{link_user} у %{created} на %{language_link}.
       comment_link: Коментариши овај унос
-      reply_link: Одговори на овај унос
+      reply_link: Пошаљи поруку аутору
       comment_count:
         zero: Нема коментара
         one: '%{count} коментар'
         other: '%{count} коментара'
       edit_link: Уреди овај унос
       hide_link: Сакриј овај унос
+      unhide_link: Откриј овај унос
       confirm: Потврди
       report: Пријавите овај унос
     diary_comment:
       comment_from_html: Коментар корисника %{link_user} у %{comment_created_at}
       hide_link: Сакриј овај коментар
+      unhide_link: Откриј овај коментар
       confirm: Потврди
       report: Пријави овај коментар
     location:
@@ -454,6 +478,7 @@ sr:
           gondola: Кабинска жичара
           pylon: Пилон
           station: Станица жичаре
+          "yes": Ваздушни путеви
         aeroway:
           aerodrome: Аеродром
           airstrip: Писта
@@ -463,6 +488,7 @@ sr:
           helipad: Хелиодром
           parking_position: Место за паркинг
           runway: Писта
+          taxilane: Жута трака
           taxiway: Рулна стаза
           terminal: Терминал
         amenity:
@@ -475,7 +501,9 @@ sr:
           bench: Клупа
           bicycle_parking: Паркинг за бицикле
           bicycle_rental: Изнајмљивање бицикала
+          bicycle_repair_station: Станица за поправку бицикла
           biergarten: Пивница на отвореном
+          blood_bank: Банка крви
           boat_rental: Услуге изнајмљивања чамаца
           brothel: Бордел
           bureau_de_change: Мењачница
@@ -492,6 +520,7 @@ sr:
           clock: Часовник
           college: Колеџ
           community_centre: Месна заједница
+          conference_centre: Конференцијски центар
           courthouse: Суд
           crematorium: Крематоријум
           dentist: Стоматолог
@@ -510,16 +539,22 @@ sr:
           hospital: Болница
           hunting_stand: Ловачка кула
           ice_cream: Продавница сладоледа
+          internet_cafe: Интернет кафе
           kindergarten: Обданиште
+          language_school: Школа за језике
           library: Библиотека
+          love_hotel: Бордел
           marketplace: Зелена пијаца
           monastery: Манастир
+          money_transfer: Пренос новца
           motorcycle_parking: Паркинг за мотоцикле
+          music_school: Музичка школа
           nightclub: Ноћни клуб
           nursing_home: Старачки дом
           parking: Паркинг
           parking_entrance: Улаз на паркинг
           parking_space: Паркинг место
+          payment_terminal: Терминал за плаћање
           pharmacy: Апотека
           place_of_worship: Верски објекат
           police: Полиција
@@ -527,6 +562,7 @@ sr:
           post_office: Пошта
           prison: Затвор
           pub: Паб
+          public_bath: Јавно купатило
           public_building: Јавна зграда
           recycling: Место за рециклажу
           restaurant: Ресторан
@@ -553,6 +589,7 @@ sr:
           census: Пописна граница
           national_park: Национални парк
           protected_area: Заштићено подручје
+          "yes": Граница
         bridge:
           aqueduct: Аквадукт
           boardwalk: Рива
@@ -562,37 +599,70 @@ sr:
           "yes": Мост
         building:
           apartments: Станови
+          barn: Штала
+          bungalow: Бунгалов
+          cabin: Кабина
           chapel: Капела
           church: Црква
+          college: Факултетска зграда
           commercial: Пословна зграда
+          construction: Зграда у изградњи
+          detached: Издвојена кућа
           dormitory: Студентски дом
+          duplex: Дуплекс кућа
           farm: Фарма
+          farm_auxiliary: Помоћна штала
           garage: Гаража
+          garages: Гараже
+          hangar: Хангар
           hospital: Болница
           hotel: Хотел
           house: Кућа
+          houseboat: Кућа на води
           industrial: Индустријска зграда
+          kindergarten: Зграда вртића
+          manufacture: Зграда фабрике
           office: Пословница
           public: Јавна зграда
           residential: Стамбена зграда
           retail: Малопродајна радња
+          roof: Кров
+          ruins: Рушевина
           school: Школа
+          semidetached_house: Полуиздвојена кућа
+          service: Сервисна зграда
+          shed: Шупа
+          stable: Штала
+          static_caravan: Караван
+          temple: Зграда храма
           terrace: Тераса
           train_station: Железничка станица
           university: Универзитетска зграда
+          warehouse: Складиште
           "yes": Зграда
+        club:
+          sport: Спортски клуб
+          "yes": Клуб
         craft:
+          beekeper: Пчелар
+          blacksmith: Ковач
           brewery: Пивара
           carpenter: Столар
+          confectionery: Кондитор
           electrician: Електричар
+          electronics_repair: Поправка електронике
           gardener: Баштован
           painter: Молер
           photographer: Фотограф
           plumber: Водоинсталатер
+          roofer: Кровник
+          sawmill: Пилана
           shoemaker: Обућар
           tailor: Кројач
+          winery: Винарија
           "yes": Занатска радња
         emergency:
+          access_point: Приступна тачка
           ambulance_station: Хитна помоћ
           assembly_point: Тачка окупљања
           defibrillator: Дефибрилатор
@@ -636,17 +706,21 @@ sr:
           tertiary: Локални пут
           tertiary_link: Локални пут
           track: Макадам
+          traffic_mirror: Саобраћајно огледало
           traffic_signals: Саобраћајна сигнализација
           trunk: Магистрала
           trunk_link: Магистрала
           unclassified: Некласификовани пут
           "yes": Пут
         historic:
+          aircraft: Историјска летелица
           archaeological_site: Археолошко налазиште
+          bomb_crater: Историјски кратер од бомбе
           battlefield: Бојно поље
           boundary_stone: Гранични камен
           building: Историјска зграда
           bunker: Бункер
+          cannon: Историјски топ
           castle: Дворац
           church: Црква
           city_gate: Градска капија
@@ -659,6 +733,7 @@ sr:
           mine: Рудник
           mine_shaft: Рударско окно
           monument: Споменик
+          railway: Историјска пруга
           roman_road: Римски пут
           ruins: Рушевине
           stone: Камен
@@ -731,6 +806,8 @@ sr:
           water_park: Аквапарк
           "yes": Разонода
         man_made:
+          advertising: Реклама
+          antenna: Антена
           beacon: Светионик
           beehive: Кошница са пчелама
           bridge: Мост
@@ -751,6 +828,7 @@ sr:
           petroleum_well: Нафтни бунар
           pier: Пристаниште
           pipeline: Цевовод
+          pumping_station: Црпна станица
           silo: Силос
           surveillance: Присмотра
           tower: Кула
@@ -768,6 +846,8 @@ sr:
         mountain_pass:
           "yes": Планински прелаз
         natural:
+          atoll: Атол
+          bare_rock: Голи камен
           bay: Залив
           beach: Плажа
           cape: Рт
@@ -790,6 +870,7 @@ sr:
           moor: Вресиште
           mud: Блато
           peak: Врх
+          peninsula: Полуострво
           point: Тачка
           reef: Риф
           ridge: Гребен
@@ -810,8 +891,10 @@ sr:
         office:
           accountant: Рачуновођа
           administrative: Администрација
+          advertising_agency: Маркетиншка агенција
           architect: Архитекта
           company: Предузеће
+          diplomatic: Дипломатска канцеларија
           educational_institution: Образовна установа
           employment_agency: Агенција за запошљавање
           estate_agent: Агенција за некретнине
@@ -820,11 +903,14 @@ sr:
           it: ИТ канцеларија
           lawyer: Адвокат
           ngo: Невладина организација
+          notary: Нотар
+          research: Истраживачка канцеларија
           telecommunication: Телекомуникациона компанија
           travel_agent: Туристичка агенција
           "yes": Канцеларија
         place:
           allotments: Парцеле
+          archipelago: Архипелаг
           city: Град
           city_block: Градски блок
           country: Земља
@@ -874,9 +960,12 @@ sr:
           tram_stop: Трамвајско стајалиште
           yard: Ранжирна станица
         shop:
+          agrarian: Аграрна продавница
           alcohol: Продавница алкохолних пића
           antiques: Антикварница
+          appliance: Продавница уређаја
           art: Продавница опреме за уметнике
+          bag: Продавница кеса
           bakery: Пекара
           beauty: Козметички салон
           beverages: Продавница пића
@@ -889,20 +978,27 @@ sr:
           car_repair: Ауто-сервис
           carpet: Продавница тепиха
           charity: Добротворна продавница
+          cheese: Продавница сира
           chemist: Продавница кућне хемије
+          chocolate: Чоколада
           clothes: Продавница одеће
+          coffee: Кафић
           computer: Продавница рачунара
           confectionery: Посластичарница
           convenience: Продавница мешовите робе
           copyshop: Фотокопирница
           cosmetics: Козметичка радња
+          curtain: Продавница драперија
           deli: Сендвичара
           department_store: Робна кућа
           discount: Дисконт
           doityourself: Уради сам
           dry_cleaning: Хемијско чишћење
+          e-cigarette: Продавница е-цигарета
           electronics: Продавница електронике
+          erotic: Еротска радња
           estate_agent: Агент за некретнине
+          fabric: Продавница тканине
           farm: Пољопривредна апотека
           fashion: Продавница модне одеће
           florist: Цвећара
@@ -916,6 +1012,7 @@ sr:
           grocery: Бакалница
           hairdresser: Фризерски салон
           hardware: Продавница алата
+          health_food: Продавница здраве хране
           hifi: Продавница аудио-опреме
           interior_decoration: Декорација ентеријера
           jewelry: Јувелирница
@@ -942,6 +1039,7 @@ sr:
           stationery: Продавница канцеларијског прибора
           supermarket: Супермаркет
           tailor: Кројач
+          tattoo: Тетоваже
           ticket: Продавница карата
           tobacco: Продавница цигарета
           toys: Продавница играчака
@@ -1035,6 +1133,7 @@ sr:
       reopen: Поново отвори
       read_reports: Прочитај извештаје
       new_reports: Нови извештаји
+      comments_on_this_issue: Коментари на овај проблем
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, коментар %{comment_id}'
@@ -1413,7 +1512,7 @@ sr:
         заједнице. Употреба свих алатки којима управља OSMF је предмет \nнаших <a
         href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">\nуслова коришћења</a>
         и наше <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">политике
-        приватности</a>\n<br> \nМолимо да <a href='https://osmfoundation.org/Contact'>контактирате
+        приватности</a>.\n<br> \nМолимо да <a href='https://osmfoundation.org/Contact'>контактирате
         OSMF</a> \nако имате правна питања око лиценцирања, ауторских права и сл.\n<br>\nOpenStreetMap,
         лого лупе и State of the Map су <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">регистровани
         жигови OSMF фондације</a>."
@@ -1635,7 +1734,7 @@ sr:
         теме.
       welcome:
         url: /welcome
-        title: Добро дошли на ОСМ
+        title: Добро дошли на OpenStreetMap
         description: Почни са овим брзим водичем који покрива основе ОпенСтритМапа
       beginners_guide:
         url: http://wiki.openstreetmap.org/wiki/Sr:Beginners%27_guide
@@ -1643,8 +1742,9 @@ sr:
         description: Водич за почетнике
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: Постави питање или нађи одговор на ОСМ страници за питања и одговоре.
+        title: Форум за помоћ
+        description: Постави питање или нађи одговор на OpenStreetMap страници за
+          питања и одговоре.
       mailing_lists:
         title: Дописне листе
         description: Поставите питање или дискутујте о питањима од значаја која се
@@ -1666,8 +1766,8 @@ sr:
         title: За организације
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Sr:Main_Page
-        title: wiki.openstreetmap.org/wiki/Sr:Main_Page
-        description: Претражи вики за детаљнију ОСМ документаацију.
+        title: OpenStreetMap вики
+        description: Претражи вики за детаљнију OpenStreetMap документаацију.
     sidebar:
       search_results: Резултати претраге
       close: Затвори
@@ -2049,7 +2149,7 @@ sr:
       ct status: 'Услови за учешће:'
       ct undecided: Неодлучено
       ct declined: Одбијено
-      latest edit: 'Последња измена пре %{ago}:'
+      latest edit: 'Последња измена (%{ago}):'
       email address: 'Имејл адреса:'
       created from: 'Направљено из:'
       status: 'Стање:'
@@ -2097,13 +2197,13 @@ sr:
     account:
       title: Уреди налог
       my settings: Поставке
-      current email address: 'Тренутна имејл адреса:'
-      external auth: 'Спољна аутентификација:'
+      current email address: Тренутна имејл адреса
+      external auth: Спољна аутентификација
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: шта је ово?
       public editing:
-        heading: 'Јавно уређивање:'
+        heading: Јавно уређивање
         enabled: Омогућено. Није анонимно и могу се уређивати подаци.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: шта је ово?
@@ -2120,7 +2220,7 @@ sr:
           радња не може бити опозвана и сви нови корисници су од сада постављени као
           јавни.</li></ul>
       contributor terms:
-        heading: 'Услови уређивања:'
+        heading: Услови уређивања
         agreed: Прихватили сте нове услове уређивања.
         not yet agreed: Нисте прихватили нове услове уређивања.
         review link text: Пратите ову везу да бисте прегледали и прихватили нове услове
@@ -2128,7 +2228,7 @@ sr:
         agreed_with_pd: Такође се слажете да ваше измене буду у јавном власништву.
         link: http://www.osmfoundation.org/wiki/License/Contributor_Terms?uselang=sr-ec
         link text: шта је ово?
-      image: 'Слика:'
+      image: Слика
       gravatar:
         gravatar: Користи Граватар
         link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=sr
@@ -2139,7 +2239,7 @@ sr:
       delete image: Уклони тренутну слику
       replace image: Замени тренутну слику
       image size hint: (квадратне слике од барем 100×100 пиксела раде најбоље)
-      home location: 'Место становања:'
+      home location: Место становања
       no home location: Нисте унели место становања.
       update home location on click: Ажурирати место становања када кликнем на мапу?
       save changes button: Сачувај промене
@@ -2251,7 +2351,7 @@ sr:
       title: Опозивање блокаде на %{block_on}
       heading_html: Опозивање блокаде на %{block_on} од %{block_by}
       time_future: Ова блокада ће се завршити за %{time}.
-      past: Ова блокада је завршена пре %{time} и не може се сада опозвати.
+      past: Ова блокада је завршена у %{time} и не може се сада опозвати.
       confirm: Желите ли да опозовете ову блокаду?
       revoke: Опозови
       flash: Ова блокада је опозвана.
