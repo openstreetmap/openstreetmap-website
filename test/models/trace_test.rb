@@ -77,15 +77,15 @@ class TraceTest < ActiveSupport::TestCase
   def test_validations
     trace_valid({})
     trace_valid({ :user_id => nil }, :valid => false)
-    trace_valid(:name => "a" * 255)
+    trace_valid({ :name => "a" * 255 })
     trace_valid({ :name => "a" * 256 }, :valid => false)
     trace_valid({ :description => nil }, :valid => false)
-    trace_valid(:description => "a" * 255)
+    trace_valid({ :description => "a" * 255 })
     trace_valid({ :description => "a" * 256 }, :valid => false)
-    trace_valid(:visibility => "private")
-    trace_valid(:visibility => "public")
-    trace_valid(:visibility => "trackable")
-    trace_valid(:visibility => "identifiable")
+    trace_valid({ :visibility => "private" })
+    trace_valid({ :visibility => "public" })
+    trace_valid({ :visibility => "trackable" })
+    trace_valid({ :visibility => "identifiable" })
     trace_valid({ :visibility => "foo" }, :valid => false)
   end
 

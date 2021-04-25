@@ -160,7 +160,7 @@ module ActiveSupport
 
       request.sign!(oauth)
 
-      method(method).call(request.signed_uri, options)
+      method(method).call(request.signed_uri, **options)
     end
 
     ##
