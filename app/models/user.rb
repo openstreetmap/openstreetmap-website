@@ -79,6 +79,9 @@ class User < ApplicationRecord
 
   has_many :reports
 
+  has_many :microcosm_members
+  has_many :microcosms, :through => :microcosm_members
+
   scope :visible, -> { where(:status => %w[pending active confirmed]) }
   scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }
