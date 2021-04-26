@@ -1,4 +1,5 @@
 require "oauth/controllers/provider_controller"
+require "oauth/helper"
 require "oauth/rack/oauth_filter"
 
 Rails.configuration.middleware.use OAuth::Rack::OAuthFilter
@@ -7,8 +8,10 @@ module OAuth
   module Helper
     def escape(value)
       value.to_s.gsub(OAuth::RESERVED_CHARACTERS) do |c|
-        format("%%%02X", c.ord)
-      end
+        c.bytes.map do |b|
+          format("%%%02X", b)
+        end.join
+      end.force_encoding(Encoding::US_ASCII)
     end
   end
 
