@@ -296,6 +296,7 @@ th:
       entry_html: ความสัมพันธ์ %{relation_name}
       entry_role_html: ความสัมพันธ์ %{relation_name} (ในฐานะ %{relation_role})
     not_found:
+      title: ไม่พบข้อมูล
       sorry: 'ขออภัย ไม่พบ %{type} #%{id}'
       type:
         node: หมุด
@@ -304,6 +305,7 @@ th:
         changeset: ชุดการเปลี่ยนแปลง
         note: หมายเหตุ
     timeout:
+      title: หมดเวลาค้น
       sorry: ขออภัย ข้อมูลสำหรับชนิด %{type} ที่กำกับด้วยรหัส %{id} ใช้เวลานานเกินสมควรในการเรียกดู
       type:
         node: หมุด
@@ -400,7 +402,7 @@ th:
     new:
       title: สร้างรายการบันทึกใหม่
     form:
-      location: 'ที่ตั้ง:'
+      location: ที่ตั้ง
       use_map_link: ใช้แผนที่
     index:
       title: บันทึกของผู้ใช้
@@ -430,7 +432,8 @@ th:
       body: ขออภัย ไม่พบรายการบันทึกหรือข้อคิดเห็นที่กำกับด้วย id %{id} โปรดตรวจการสะกดของท่าน
         หรือถ้าไม่เป็นผลแสดงว่าลิงก์ที่ท่านคลิกมาผิดพลาด
     diary_entry:
-      posted_by_html: ประกาศโดย %{link_user} เมื่อ %{created} ในภาษา %{language_link}
+      posted_by_html: โพสต์โดย %{link_user} เมื่อ %{created} ในภาษา %{language_link}
+      updated_at_html: อัปเดตล่าสุดเมื่อ %{updated}
       comment_link: แสดงความคิดเห็นต่อรายการนี้
       reply_link: ตอบกลับข้อความถึงผู้เขียนนี้
       comment_count:
@@ -1227,8 +1230,11 @@ th:
       footer: ท่านสามารถอ่านความคิดเห็นได้ที่ลิงก์ %{readurl} และแสดงความคิดเห็นตอบได้ที่
         %{commenturl} หรือตอบกลับได้ที่ %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: เรียนคุณ %{to_user},
       header: 'ผู้ใช้ %{from_user} ส่งข้อความหาท่านผ่านทาง OpenStreetMap โดยมีหัวเรื่อง
+        %{subject}:'
+      header_html: 'ผู้ใช้ %{from_user} ส่งข้อความหาท่านผ่านทาง OpenStreetMap โดยมีหัวเรื่อง
         %{subject}:'
       footer_html: ท่านสามารถอ่านข้อความที่ลิงก์ %{readurl} และถ้าต้องการสามารถตอบกลับที่ลิงก์
         %{replyurl}
@@ -1239,6 +1245,7 @@ th:
       see_their_profile: ท่านสามารถดูหน้าประวัติส่วนตัวของเขาได้ที่ %{userurl}.
       befriend_them: นอกจากนี้ท่านสามารถเพิ่มเขาในรายการเพื่อนได้ที่ %{befriendurl}.
     gpx_failure:
+      hi: สวัสดี %{to_user}
       failed_to_import: 'การนำเข้าล้มเหลว เนื่องจาก:'
       subject: '[OpenStreetMap] การนำเข้า GPX ล้มเหลว'
     gpx_success:
@@ -2008,9 +2015,13 @@ th:
       title: ข้อกำหนด
       heading: ข้อกำหนด
       heading_ct: ข้อกำหนดผู้มีส่วนร่วม
-      consider_pd: นอกเหนือจากข้อตกลงข้างต้น ข้าพเจ้ายินดีสละการสร้างสรรค์ของข้าพเจ้าให้เป็นงานอันไม่มีลิขสิทธิ์
+      read_tou: ข้าพเจ้าได้อ่านและเห็นด้วยในข้อกำหนดการใช้งาน
+      consider_pd: นอกเหนือจากข้อความข้างต้น ข้าพเจ้ายินดีสละการสร้างสรรค์ของข้าพเจ้าให้เป็นงานอันไม่มีลิขสิทธิ์
       consider_pd_why: นี้คืออะไร?
+      continue: ถัดไป
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: ไม่ยอมรับ
+      you need to accept or decline: กรุณาตรวจทานและเลือกยอมรับหรือไม่ยอมรับข้อกำหนดของผู้มีส่วนร่วมเพื่อไปต่อ
       legale_select: 'ประเทศที่พำนัก:'
       legale_names:
         france: ฝรั่งเศส
@@ -2019,6 +2030,7 @@ th:
     no_such_user:
       title: ไม่มีผู้ใช้ที่ระบุ
       heading: ไม่พบผู้ใช้ชื่อ %{user}
+      body: ขออภัย ไม่พบผู้ใช้ที่ใช้ชื่อ %{user} โปรดตรวจสอบการสะกดหรือลิงก์ที่คุณคลิกมาอาจผิดพลาดหรือไม่ถูกต้อง
       deleted: ลบแล้ว
     show:
       my diary: บันทึกของฉัน
@@ -2062,6 +2074,12 @@ th:
       role:
         administrator: คนนี้เป็นผู้ดูแลระบบ
         moderator: ผู้ใช้นี้เป็นผู้ดูแล
+        grant:
+          administrator: ให้สิทธิ์ผู้ดูแลระบบ
+          moderator: ให้สิทธิ์ผู้ควบคุม
+        revoke:
+          administrator: เพิกถอนสิทธิ์ผู้ดูแลระบบ
+          moderator: เพิกถอนสิทธิ์ผู้ควบคุม
       block_history: การถูกระงับใช้งานในปัจจุบัน
       comments: ความเห็นที่เขียน
       create_block: ระงับผู้ใช้นี้
@@ -2078,8 +2096,8 @@ th:
     account:
       title: แก้ไขบัญชี
       my settings: การตั้งค่าของฉัน
-      current email address: 'ที่อยู่อีเมลปัจจุบัน:'
-      external auth: 'เชื่อมโยงตัวตนจากบริการอื่น:'
+      current email address: ที่อยู่อีเมลปัจจุบัน
+      external auth: การยืนยันตัวตนด้วยบริการภายนอก
       openid:
         link text: นี้คืออะไร?
       public editing:

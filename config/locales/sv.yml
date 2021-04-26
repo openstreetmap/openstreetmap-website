@@ -123,6 +123,7 @@ sv:
     attributes:
       client_application:
         name: Namn (krävs)
+        url: Huvudapplikations-URL (obligatorisk)
         callback_url: Återkopplingsadress
         support_url: Support-adress
         allow_read_prefs: läs deras användarinställningar
@@ -167,6 +168,8 @@ sv:
         category: Välj en anledning för din rapport
         details: Ange fler detaljer om problemet (nödvändigt).
       user:
+        auth_provider: Autentiseringsleverantör
+        auth_uid: Autentiserings-UID
         email: E-post
         email_confirmation: E-postbekräftelse
         new_email: Ny e-postadress
@@ -183,8 +186,15 @@ sv:
       trace:
         tagstring: kommaseparerad
       user_block:
+        reason: Anledning till varför användaren blockerats. Var så lugn och resonabel
+          som möjligt och ge så så många detaljer som du kan om situationen. Men ha
+          i bakhuvudet att meddelandet kommer vara offentligt. Tänk på att inte alla
+          användare förstår gemenskapsjargongen, så försök att använda lekmannatermer.
         needs_view: Behöver användaren logga in innan blockeringen upphör?
       user:
+        email_confirmation: Din adress visas inte offentligt, se vår <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF-integritetspolicy som inkluderar avsnitt om e-postadresser">integritetspolicy</a>
+          för mer information.
         new_email: (visas aldrig offentligt)
   datetime:
     distance_in_words_ago:
@@ -657,6 +667,7 @@ sv:
           pub: Pub
           public_bath: Badhus
           public_building: Offentlig byggnad
+          ranger_station: Skogvaktarpost
           recycling: Återvinningsstation
           restaurant: Restaurang
           school: Skola
@@ -687,6 +698,7 @@ sv:
           census: Folkräkningsgräns
           national_park: Nationalpark
           protected_area: Skyddat område
+          "yes": Gräns
         bridge:
           aqueduct: Akvedukt
           boardwalk: Strandpromenad
@@ -1142,6 +1154,7 @@ sv:
           music: Musikaffär
           musical_instrument: Musikinstrument
           newsagent: Tidningskiosk
+          nutrition_supplements: Kosttillskottsbutik
           optician: Optiker
           organic: Ekologiska livsmedelsaffär
           outdoor: Friluftsbutik
@@ -1150,6 +1163,7 @@ sv:
           pawnbroker: Pantlånare
           perfumery: Parfymaffär
           pet: Djuraffär
+          pet_grooming: Husdjursfrisör
           photo: Fotoaffär
           seafood: Skaldjur
           second_hand: Second hand-butik
@@ -1222,12 +1236,15 @@ sv:
           "yes": Vattenväg
       admin_levels:
         level2: Landsgräns
+        level3: Regiongräns
         level4: Statsgräns
         level5: Regionsgräns
         level6: Länsgräns
+        level7: Kommungräns
         level8: Stadsgräns
         level9: Bygräns
         level10: Förortsgräns
+        level11: Kvartersgräns
       types:
         cities: Städer
         towns: Samhällen
@@ -1394,13 +1411,21 @@ sv:
       hi: Hej %{to_user},
       header: '%{from_user} har kommenterat dagboksinlägget på OpenStreetMap med rubriken
         %{subject}:'
+      header_html: '%{from_user} har kommenterat dagboksinlägget på OpenStreetMap
+        med rubriken %{subject}:'
       footer: Du kan också läsa kommentaren på %{readurl} och du kan kommentera på
         %{commenturl} eller skicka ett meddelande till författaren på %{replyurl}
+      footer_html: Du kan också läsa kommentaren på %{readurl} och du kan kommentera
+        på %{commenturl} eller skicka ett meddelande till författaren på %{replyurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Hej %{to_user},
       header: '%{from_user} har skickat ett meddelande via OpenStreetMap med ämnet
         %{subject}:'
+      header_html: '%{from_user} har skickat ett meddelande via OpenStreetMap med
+        ämnet %{subject}:'
+      footer: Du kan också läsa meddelandet på %{readurl} och du kan skicka ett meddelande
+        till författaren på %{replyurl}
       footer_html: Du kan också läsa meddelandet på %{readurl} och du kan skicka ett
         meddelande till författaren på %{replyurl}
     friendship_notification:
@@ -1408,12 +1433,23 @@ sv:
       subject: '[OpenStreetMap] %{user} lade till dig som en vän'
       had_added_you: '%{user} har lagt till dig som vän på OpenStreetMap.'
       see_their_profile: Du kan se deras profil på %{userurl}.
+      see_their_profile_html: Du kan se deras profil på %{userurl}.
       befriend_them: Du kan också lägga till dem som en vän på %{befriendurl}.
+      befriend_them_html: Du kan också lägga till dem som en vän på %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Det ser ut som att din GPX-fil %{trace_name} med
+        beskrivningen %{trace_description} och följande taggar: %{tags}'
+      description_with_no_tags_html: Det ser ut som att din GPX-fil %{trace_name}
+        med beskrivningen %{trace_description} och inga taggar
     gpx_failure:
+      hi: Hej %{to_user},
       failed_to_import: 'misslyckats med att importera. Här är felet:'
+      more_info_html: Mer information om misslyckade GPX-importer och hur man undviker
+        dem återfinns på %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Misslyckades importera GPX'
     gpx_success:
+      hi: Hej %{to_user},
       loaded_successfully:
         one: |-
           inläst med %{trace_points} av 1 möjlig punkt.
@@ -1455,15 +1491,23 @@ sv:
           du är intresserad av'
         your_note: '%{commenter} har lämnat en kommentar till en av dina kartanteckningar
           i närheten av %{place}.'
+        your_note_html: '%{commenter} har lämnat en kommentar till en av dina kartanteckningar
+          i närheten av %{place}.'
         commented_note: '%{commenter} har kommenterat en kartanteckning som du tidigare
           kommenterat. Anteckningen är i närheten av %{place}.'
+        commented_note_html: '%{commenter} har kommenterat en kartanteckning som du
+          tidigare kommenterat. Anteckningen är i närheten av %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} har löst en av dina anteckningar'
         subject_other: '[OpenStreetMap] %{commenter} har löst en anteckning som du
           är intresserad av'
         your_note: '%{commenter} har kommenterat en av dina kartanteckningar i närheten
           av %{place}.'
+        your_note_html: '%{commenter} har löst en av dina kartanteckningar i närheten
+          av %{place}.'
         commented_note: '%{commenter} har löst en kartanteckning du har kommenterat.
+          Anteckningen är nära %{place}.'
+        commented_note_html: '%{commenter} har löst en kartanteckning du har kommenterat.
           Anteckningen är nära %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} har återaktiverat en av dina anteckningar'
@@ -1471,9 +1515,14 @@ sv:
           som du är intresserad av'
         your_note: '%{commenter} har återaktiverat en av dina kartanteckningar nära
           %{place}.'
+        your_note_html: '%{commenter} har återaktiverat en av dina kartanteckningar
+          nära %{place}.'
         commented_note: '%{commenter} har återaktiverat en kartnotering du har kommenterat
           på. Noteringen är nära %{place}.'
+        commented_note_html: '%{commenter} har återaktiverat en kartnotering du har
+          kommenterat på. Noteringen är nära %{place}.'
       details: Mer detaljer om anteckningen finns på %{url}.
+      details_html: Fler detaljer om anteckningen finns på %{url}.
     changeset_comment_notification:
       hi: Hej %{to_user},
       greeting: Hej,
@@ -1487,10 +1536,16 @@ sv:
           av dina ändringsuppsättningar'
         commented_changeset: '%{commenter} har lämnat en kommentar på ändringarna
           på en karta du bevakar, skapad av %{changeset_author} %{time}'
+        commented_changeset_html: '%{commenter} har lämnat en kommentar på ändringarna
+          på en karta du bevakar, skapad av %{changeset_author} %{time}'
         partial_changeset_with_comment: med kommentar '%{changeset_comment}'
+        partial_changeset_with_comment_html: med kommentar '%{changeset_comment}'
         partial_changeset_without_comment: utan kommentar
       details: Mer detaljer om ändringssetet finns på %{url}.
+      details_html: Mer detaljer om ändringssetet finns på %{url}.
       unsubscribe: För att avsluta prenumerationen av uppdateringar i denna ändringsgrupp,
+        besök %{url} och klicka på "Avprenumerera".
+      unsubscribe_html: För att avsluta prenumerationen av uppdateringar i denna ändringsgrupp,
         besök %{url} och klicka på "Avprenumerera".
   confirmations:
     confirm:
@@ -1524,6 +1579,7 @@ sv:
     inbox:
       title: Inkorg
       my_inbox: Min inkorg
+      my_outbox: Min utkorg
       messages: Du har %{new_messages} och %{old_messages}
       new_messages:
         one: '%{count} nytt meddelande'
@@ -1558,6 +1614,8 @@ sv:
       body: Det finns inget meddelande med det ID:et.
     outbox:
       title: Utkorg
+      my_inbox: Min inkorg
+      my_outbox: Min utkorg
       messages:
         one: Du har %{count} skickat ett meddelande
         other: Du har %{count} skickat meddelanden
@@ -1985,6 +2043,15 @@ sv:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMaps wiki
         description: Sök i wikin för ingående dokumentation av OpenStreetMap.
+    potlatch:
+      removed: Din standardredigerare på OpenStreetMat är Potlatch. På grund av att
+        Adobe Flash Player har dragits tillbaka, kan inte Potlatch längre användas
+        i webbläsaren.
+      desktop_html: Du kan fortfarande använda Potlatch genom att <a href="https://www.systemed.net/potlatch/">ladda
+        ner datorprogrammet för Mac och Windows</a>.
+      id_html: Eller så kan du ange din standardredigerare som iD, vilket kör din
+        webbläsare som Potlatch tidigare gjort. <a href="%{settings_url}">Ändra dina
+        inställningar här</a>.
     sidebar:
       search_results: Sökresultat
       close: Stäng
@@ -2691,6 +2758,7 @@ sv:
       custom_dimensions: Ange anpassade dimensioner
       format: 'Format:'
       scale: 'Skala:'
+      image_dimensions: Bilden kommer visa standardlager på %{width} x %{height}
       download: Ladda ned
       short_url: Kortlänk
       include_marker: Lägg till markör
