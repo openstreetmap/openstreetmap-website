@@ -21,18 +21,18 @@
 </ul>
 <% end %>
 
-<% if @user_block.revoker %>
-<p>
-  <b><%= t ".revoker" %></b>
-  <%= link_to @user_block.revoker.display_name, user_path(@user_block.revoker) %>
-</p>
-<% end %>
+<dl class="row">
+  <% if @user_block.revoker %>
+    <dt class="col-sm-3"><%= t ".revoker" %></dt>
+    <dd class="col-sm-9"><%= link_to @user_block.revoker.display_name, user_path(@user_block.revoker) %></dd>
+  <% end %>
 
-<p><b><%= t ".created" %></b>: <%= friendly_date_ago(@user_block.created_at) %></p>
-
-<p><b><%= t ".duration" %></b>: <%= block_duration_in_words(@user_block.ends_at - @user_block.created_at) %></p>
-
-<p><b><%= t ".status" %></b>: <%= block_status(@user_block) %></p>
-
-<p><b><%= t ".reason" %></b></p>
-<div class="richtext text-break"><%= @user_block.reason.to_html %></div>
+  <dt class="col-sm-3"><%= t ".created" %></dt>
+  <dd class="col-sm-9"><%= friendly_date_ago(@user_block.created_at) %></dd>
+  <dt class="col-sm-3"><%= t ".duration" %></dt>
+  <dd class="col-sm-9"><%= block_duration_in_words(@user_block.ends_at - @user_block.created_at) %></dd>
+  <dt class="col-sm-3"><%= t ".status" %></dt>
+  <dd class="col-sm-9"><%= block_status(@user_block) %></dd>
+  <dt class="col-sm-3"><%= t ".reason" %></dt>
+  <dd class="col-sm-9"><div class="richtext text-break"><%= @user_block.reason.to_html %></div></dd>
+</dl>
