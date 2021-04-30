@@ -90,11 +90,16 @@ kn:
         title: ವಿಷಯ
         body: ದೇಹ
         recipient: ಪಡೆಯುವವರು
+      redaction:
+        title: ಶೀರ್ಷಿಕೆ
       user:
         email: ಇ-ಅಂಚೆ
+        new_email: ಹೊಸ ಇ-ಅಂಚೆ ವಿಳಾಸ
         active: ಸಕ್ರಿಯ
         display_name: ಹೆಸರನ್ನು ಪ್ರದರ್ಶಿಸು
         description: ಪ್ರೊಫೈಲ್ ವಿವರ
+        home_lat: ಅಕ್ಷಾಂಶ
+        home_lon: ರೇಖಾಂಶ
         languages: ಅದ್ಯತೆಯ ಭಾಷೆಗಳು
         pass_crypt: ಪ್ರವೇಶಪದ
   datetime:
@@ -140,7 +145,14 @@ kn:
       description: ಐಡಿ(ನಕ್ಷೆ ಸಂಪಾದಿಸುವ ತಂತ್ರಾಂಶ)
     remote:
       name: ದೂರ ನಿಯಂತ್ರಣ
-      description: ದೂರ ನಿಯಂತ್ರಣ (JOSM or Merkaartor)
+      description: ದೂರ ನಿಯಂತ್ರಣ (JOSM, Potlatch, Merkaartor)
+  auth:
+    providers:
+      google: ಗೂಗಲ್
+      facebook: ಫೇಸ್‍ಬುಕ್
+      windowslive: ವಿಂಡೋಸ್ ಲೈವ್
+      github: ಗಿಟ್‌ಹಬ್
+      wikipedia: ವಿಕಿಪೀಡಿಯ
   api:
     notes:
       comment:
@@ -403,8 +415,11 @@ kn:
         bridge:
           "yes": ಸೇತುವೆ
         building:
+          public: ಸಾರ್ವಜನಿಕ ಕಟ್ಟಡ
+          school: ಶಾಲಾ ಕಟ್ಟಡ
           "yes": ಕಟ್ಟಡ
         craft:
+          carpenter: ಬಡಗಿ
           photographer: ಛಾಯಾಗ್ರಾಹಕ
           tailor: ‍‍‍ದರ್ಜಿ
           "yes": ‍‍‍‍ಕರಕುಶಲ ಅಂಗಡಿಯು
@@ -415,19 +430,28 @@ kn:
         highway:
           abandoned: ‍ಪರಿತ್ಯಕ್ತ ಹೆದ್ದಾರಿ
           bus_stop: ಬಸ್ ತಂಗುದಾಣ
+          milestone: ಮೈಲಿಗಲ್ಲು
           path: ಕಾಲುದಾರಿ
           road: ರಸ್ತೆ
           steps: ಮೆಟ್ಟಿಲು
           street_lamp: ದಾರಿದೀಪ
           "yes": ರಸ್ತೆ
         historic:
+          aircraft: ಐತಿಹಾಸಿಕ ವಿಮಾನ
           archaeological_site: ಐತಿಹಾಸಿಕ ಸ್ಥಳ
+          battlefield: ಯುದ್ಧಭೂಮಿ
           building: ಐತಿಹಾಸಿಕ ಕಟ್ಟಡ
           fort: ಕೋಟೆ
           house: ಮನೆ
+          milestone: ಐತಿಹಾಸಿಕ ಮೈಲಿಗಲ್ಲು
+          mine: ಗಣಿ
+          railway: ಐತಿಹಾಸಿಕ ರೈಲ್ವೆ
+          roman_road: ರೋಮನ್ ರಸ್ತೆ
+          stone: ಕಲ್ಲು
         landuse:
           forest: ಅರಣ್ಯ
           grass: ‍ಹುಲ್ಲು
+          orchard: ತೋಟ
         leisure:
           dog_park: ಶ್ವಾನ ಉದ್ಯಾನ
           garden: ತೋಟ
@@ -439,14 +463,26 @@ kn:
           swimming_pool: ಈಜು ಕೊಳ
           water_park: ಜಲ ಉದ್ಯಾನ
         man_made:
+          beehive: ಜೇನುಗೂಡು
+          bridge: ಸೇತುವೆ
+          flagpole: ಧ್ವಜಸ್ತಂಭ
+          mine: ಗಣಿ
+          telescope: ದೂರದರ್ಶಕ
+          water_well: ಬಾವಿ
           works: ಕಾರ್ಖಾನೆ
           "yes": ಮಾನವ-ನಿರ್ಮಿತ
+        military:
+          trench: ಕಂದಕ
         natural:
           beach: ಕಡಲತೀರ
+          forest: ಅರಣ್ಯ
+          glacier: ಹಿಮನದಿ
+          grassland: ಹುಲ್ಲುಗಾವಲು
           hill: ಗುಡ್ಡ
           island: ದ್ವೀಪ
           mud: ಮಣ್ಣು
           peak: ತುದಿ
+          rock: ಬಂಡೆ
           sand: ಮರಳು
           stone: ಕಲ್ಲು
           tree: ವೃಕ್ಷ
@@ -503,6 +539,8 @@ kn:
           information: ‍‍ಮಾಹಿತಿ
           museum: ‍‍ವಸ್ತು ಸಂಗ್ರಹಾಲಯ
           zoo: ಮೃಗಾಲಯ
+        tunnel:
+          "yes": ಸುರಂಗ
         waterway:
           canal: ‍‍ಕಾಲುವೆ
           dam: ಅಣೆಕಟ್ಟು
@@ -522,10 +560,29 @@ kn:
         places: ಸ್ಥಳಗಳು
     results:
       no_results: ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ
+  issues:
+    index:
+      search: ಹುಡುಕು
+      user_not_found: ಬಳಕೆದಾರ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ
+      reports: ವರದಿಗಳು
+    show:
+      new_reports: ಹೊಸ ವರದಿಗಳು
+  reports:
+    new:
+      categories:
+        diary_entry:
+          other_label: ಇತರ
+        diary_comment:
+          other_label: ಇತರ
+        user:
+          other_label: ಇತರ
+        note:
+          other_label: ಇತರ
   layouts:
     logout: ನಿರ್ಗಮಿಸು
     log_in: ಲಾಗ್ ಇನ್
     log_in_tooltip: ಇರುವ ಖಾತೆಯಿಂದ ಲಾಗಿನ್ ಆಗಿ
+    sign_up: ಸೈನ್ ಅಪ್
     start_mapping: ನಕ್ಷೆಯನ್ನು ಸಂಪಾದಿಸಿ
     sign_up_tooltip: ಸಂಪಾದಿಸಲು ಖಾತೆಯನ್ನು ಸೃಷ್ಟಿಸಿ
     edit: ಸಂಪಾದಿಸಿ
@@ -535,6 +592,7 @@ kn:
     export_data: ದತ್ತಾಂಶ ರಫ್ತುಮಾಡು
     intro_header: ಒಪನ್ ಸ್ಟ್ರೀಟ್ ಮ್ಯಾಪ್ ಗೆ  ಸುಸ್ವಾಗತ!
     intro_2_create_account: ಹೊಸ ಬಳಕೆದಾರ ಖಾತೆಯನ್ನು ರಚಿಸಿ
+    tou: ಬಳಕೆಯ ನಿಬಂಧನೆಗಳು
     help: ಸಹಾಯ
     about: ನಮ್ಮ ಬಗ್ಗೆ
     copyright: ಕಾಯ್ದಿರಿಸಿದ ಹಕ್ಕುಗಳು
