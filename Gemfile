@@ -125,8 +125,14 @@ group :development do
   gem "better_errors"
   gem "binding_of_caller"
   gem "debug_inspector"
+  gem "faker"
   gem "listen"
+  gem "timecop"
   gem "vendorer"
+end
+
+group :development, :test do
+  gem "factory_bot_rails"
 end
 
 # Gems needed for running tests
@@ -134,7 +140,6 @@ group :test do
   gem "brakeman"
   gem "capybara", ">= 2.15"
   gem "erb_lint", :require => false
-  gem "factory_bot_rails"
   gem "minitest", "~> 5.1"
   gem "puma", "~> 5.0"
   gem "rails-controller-testing"
