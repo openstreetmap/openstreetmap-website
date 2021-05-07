@@ -51,16 +51,16 @@ class EventTest < ActiveSupport::TestCase
   def test_attendees
     # Zero
     event = create(:event)
-    assert_equal(0, event.attendees.length)
+    assert_equal(0, event.yes_attendees.length)
 
     # 1 Yes
     ea = create(:event_attendance)
-    assert_equal(1, ea.event.attendees.length)
-    assert_equal(ea.user.display_name, ea.event.attendees[0].user.display_name)
+    assert_equal(1, ea.event.yes_attendees.length)
+    assert_equal(ea.user.display_name, ea.event.yes_attendees[0].user.display_name)
 
     # 1 No
     ea = create(:event_attendance, :no)
-    assert_equal(0, ea.event.attendees.length)
+    assert_equal(0, ea.event.yes_attendees.length)
 
     # 2 Yes
     event = create(:event)
@@ -70,9 +70,9 @@ class EventTest < ActiveSupport::TestCase
     u2 = create(:user)
     ea2 = EventAttendance.new(:event => event, :user => u2, :intention => EventAttendance::Intentions::YES)
     ea2.save
-    assert_equal(2, event.attendees.length)
-    assert_equal(u1.display_name, event.attendees[0].user.display_name)
-    assert_equal(u2.display_name, event.attendees[1].user.display_name)
+    assert_equal(2, event.yes_attendees.length)
+    assert_equal(u1.display_name, event.yes_attendees[0].user.display_name)
+    assert_equal(u2.display_name, event.yes_attendees[1].user.display_name)
 
     # 1 Yes and 1 No
     event = create(:event)
@@ -82,8 +82,8 @@ class EventTest < ActiveSupport::TestCase
     u2 = create(:user)
     ea2 = EventAttendance.new(:event => event, :user => u2, :intention => EventAttendance::Intentions::YES)
     ea2.save
-    assert_equal(1, event.attendees.length)
-    assert_equal(u2.display_name, event.attendees[0].user.display_name)
+    assert_equal(1, event.yes_attendees.length)
+    assert_equal(u2.display_name, event.yes_attendees[0].user.display_name)
   end
 
   def test_organizers

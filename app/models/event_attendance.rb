@@ -5,7 +5,7 @@
 #  id         :bigint(8)        not null, primary key
 #  user_id    :integer          not null
 #  event_id   :integer          not null
-#  intention  :string           not null
+#  intention  :enum             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -19,8 +19,8 @@ class EventAttendance < ApplicationRecord
   module Intentions
     YES = "yes".freeze
     NO = "no".freeze
-    # MAYBE = "maybe".freeze  # This would be nice.
-    ALL_INTENTIONS = [YES, NO].freeze
+    MAYBE = "maybe".freeze
+    ALL_INTENTIONS = [YES, NO, MAYBE].freeze
   end
   validates :intention, :inclusion => { :in => Intentions::ALL_INTENTIONS }
 

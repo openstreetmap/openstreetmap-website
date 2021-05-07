@@ -42,8 +42,20 @@ class Event < ApplicationRecord
     !location_url.nil?
   end
 
-  def attendees
-    EventAttendance.where(:event_id => id, :intention => EventAttendance::Intentions::YES)
+  def attendees(intention)
+    EventAttendance.where(:event_id => id, :intention => intention)
+  end
+
+  def yes_attendees
+    attendees(EventAttendance::Intentions::YES)
+  end
+
+  def no_attendees
+    attendees(EventAttendance::Intentions::NO)
+  end
+
+  def maybe_attendees
+    attendees(EventAttendance::Intentions::MAYBE)
   end
 
   def organizers

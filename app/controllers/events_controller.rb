@@ -54,8 +54,10 @@ class EventsController < ApplicationController
     @my_attendance = EventAttendance.find_or_initialize_by(:event_id => @event.id, :user_id => current_user&.id)
     @yes_check = @my_attendance.intention == EventAttendance::Intentions::YES ? "✓" : ""
     @no_check = @my_attendance.intention == EventAttendance::Intentions::NO ? "✓" : ""
+    @maybe_check = @my_attendance.intention == EventAttendance::Intentions::MAYBE ? "✓" : ""
     @yes_disabled = @my_attendance.intention == EventAttendance::Intentions::YES
     @no_disabled = @my_attendance.intention == EventAttendance::Intentions::NO
+    @maybe_disabled = @my_attendance.intention == EventAttendance::Intentions::MAYBE
   end
 
   private
