@@ -126,19 +126,22 @@ is:
         body: Texti
         recipient: Móttakandi
       redaction:
+        title: Titill
         description: Lýsing
       report:
         category: Veldu ástæðu fyrir að þú gerir skýrslu
         details: Tilgreindu öll nauðsynleg atriði um vandamálið (nauðsynlegt).
       user:
         email: Netfang
-        new_email: 'Nýtt netfang:'
+        email_confirmation: Staðfesting póstfangs
+        new_email: Nýtt póstfang
         active: Virkur
         display_name: Sýnilegt nafn
-        description: Lýsing
-        home_lat: 'Lengdargráða:'
-        home_lon: 'Breiddargráða:'
-        languages: Tungumál
+        description: Lýsing á þér
+        home_lat: Breiddargráða
+        home_lon: Lengdargráða
+        languages: Ákjósanleg tungumál
+        preferred_editor: Eftirlætisritill
         pass_crypt: Lykilorð
         pass_crypt_confirmation: Staðfestu lykilorð
     help:
@@ -197,7 +200,7 @@ is:
       description: iD (ritill í vafra)
     remote:
       name: RC-fjarstýring
-      description: RC-fjarstýring (JOSM eða Merkaartor)
+      description: Fjarstýring (JOSM eða Merkaartor)
   auth:
     providers:
       none: Ekkert
@@ -309,6 +312,7 @@ is:
       entry_html: Venslin %{relation_name}
       entry_role_html: Venslin %{relation_name} (sem „%{relation_role}“)
     not_found:
+      title: Fannst ekki
       sorry: Því miður, %{type} með auðkennið %{id} fannst ekki.
       type:
         node: hnútur
@@ -422,7 +426,7 @@ is:
       title: Ný bloggfærsla
     form:
       location: 'Staðsetning:'
-      use_map_link: finna á korti
+      use_map_link: Nota kort
     index:
       title: Blogg notenda
       title_friends: Blogg vina
@@ -451,7 +455,8 @@ is:
       body: Bloggfærsla númer er ekki til %{id}. Kannski settirðu inn ranga slóð eða
         fylgdir ógildum tengli.
     diary_entry:
-      posted_by_html: Sett inn af %{link_user} %{created} á %{language_link}
+      posted_by_html: Sett inn af %{link_user} %{created} á %{language_link}.
+      updated_at_html: Síðast uppfært %{updated}.
       comment_link: Bæta athugasemd við þessa færslu
       reply_link: Senda skilaboð til höfundar
       comment_count:
@@ -977,13 +982,14 @@ is:
         mountain_pass:
           "yes": Fjallaskarð
         natural:
+          atoll: Kóralrif
           bare_rock: Berar klappir
           bay: Flói
           beach: Strönd
           cape: Höfði
           cave_entrance: Hellisop
           cliff: Klettar
-          coastline: Strandlengjan
+          coastline: Strandlengja
           crater: Gígur
           dune: Alda
           fell: Fell
@@ -1001,6 +1007,7 @@ is:
           moor: Mýri
           mud: Leir
           peak: Tindur
+          peninsula: Skagi
           point: Nes
           reef: Sker
           ridge: Hryggur
@@ -1265,12 +1272,15 @@ is:
           "yes": Siglingaleið
       admin_levels:
         level2: Landamæri
+        level3: Héraðsmörk
         level4: Fylkismörk
         level5: Héraðsmörk
         level6: Sýslumörk
+        level7: Mörk sveitarfélags
         level8: Borgarmörk
         level9: Þorpsmörk
         level10: Úthverfamörk
+        level11: Mörk hverfis
       types:
         cities: Borgir
         towns: Bæir
@@ -1706,6 +1716,23 @@ is:
       title: Útskráning
       heading: Skrá út úr OpenStreetMap
       logout_button: Útskráning
+  shared:
+    markdown_help:
+      headings: Fyrirsagnir
+      heading: Fyrirsögn
+      subheading: Undirfyrirsögn
+      unordered: Óraðaður listi
+      ordered: Raðaður listi
+      first: Fyrsta atriði
+      second: Annað atriði
+      link: Tengill
+      text: Texti
+      image: Mynd
+      alt: Alt-texti
+      url: Vefslóð
+    richtext_field:
+      edit: Breyta
+      preview: Forskoða
   site:
     about:
       next: Næsta
@@ -2488,13 +2515,13 @@ is:
     account:
       title: Stillingar
       my settings: Mínar stillingar
-      current email address: 'Núverandi netfang:'
-      external auth: 'Ytri auðkenning:'
+      current email address: Núverandi póstfang
+      external auth: Ytri auðkenning
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: hvað er openID?
       public editing:
-        heading: 'Ónafngreindur notandi?:'
+        heading: Opinberar breytingar
         enabled: Nei, nafngreindur og getur breytt gögnum.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Hvað er þetta?
@@ -2513,7 +2540,7 @@ is:
           ekki birt opinberlega.</li><li>Þessa aðgerð er ekki hægt að afturkalla og
           allir nýir notendur eru sjálfgefið opinberir.</li></ul>
       contributor terms:
-        heading: 'Skilmálar vegna framlags:'
+        heading: Skilmálar vegna framlags
         agreed: Þú hefur samþykkt nýju skilmálana vegna framlags þíns.
         not yet agreed: Þú hefur ekki ennþá samþykkt nýju skilmálana vegna framlags
           þíns.
@@ -2523,10 +2550,11 @@ is:
           almenningseigu (Public Domain).
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Hvað er þetta?
-      image: 'Mynd:'
+      image: Mynd
       gravatar:
         gravatar: Nota Gravatar-auðkennismynd
         link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Hvað er Gravatar?
         disabled: Gravatar-auðkennismynd hefur verið gerð óvirk.
         enabled: Birting Gravatar-auðkennismyndar hefur verið gerð virk.
       new image: Bæta við mynd
@@ -2534,7 +2562,7 @@ is:
       delete image: Eyða þessari mynd
       replace image: Skipta út núverandi mynd
       image size hint: (ferningslaga myndir minnst 100x100 dílar virka best)
-      home location: 'Staðsetning:'
+      home location: Upphafsstaðsetning
       no home location: Þú hefur ekki stillt staðsetningu þína.
       update home location on click: Uppfæra staðsetninguna þegar ég smelli á kortið
       save changes button: Vista breytingar
@@ -2680,8 +2708,9 @@ is:
     show:
       title: Bann á %{block_on} eftir %{block_by}
       heading_html: Notandinn „%{block_on}“ var bannaður af „%{block_by}“
-      created: Búið til
-      status: Staða
+      created: 'Búið til:'
+      duration: 'Tímalengd:'
+      status: 'Staða:'
       show: Sýna
       edit: Breyta
       revoke: Eyða banninu
@@ -2711,6 +2740,7 @@ is:
       heading: Minnispunktar frá %{user}
       subheading_html: Minnispunktar sem hafa verið sendir inn eða gerðar athugasemdir
         við af %{user}
+      no_notes: Engir minnispunktar
       id: Auðkenni (ID)
       creator: Búið til af
       description: Lýsing
@@ -2757,6 +2787,7 @@ is:
           other: Þú ert minna en %{count} fet frá þessum punkti
       base:
         standard: Staðlað
+        cyclosm: CyclOSM
         cycle_map: Hjólakort
         transport_map: Umferðarkort
         hot: Hjálparstarf
