@@ -73,4 +73,11 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "table.note_list tr", :count => 11
   end
+
+  def test_empty_page
+    user = create(:user)
+    get user_notes_path(:display_name => user.display_name)
+    assert_response :success
+    assert_select "h4", :html => "No notes"
+  end
 end

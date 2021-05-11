@@ -1,14 +1,6 @@
 if defined?(ActiveRecord::ConnectionAdapters::AbstractAdapter)
   module OpenStreetMap
     module ActiveRecord
-      module AbstractAdapter
-        def add_index_options(table_name, column_name, options = {})
-          columns = options.delete(:columns)
-          index_name, index_type, index_columns, index_options, algorithm, using = super(table_name, column_name, options)
-          [index_name, index_type, columns || index_columns, index_options, algorithm, using]
-        end
-      end
-
       module PostgreSQLAdapter
         def quote_column_name(name)
           Array(name).map { |n| super(n) }.join(", ")
@@ -54,6 +46,5 @@ if defined?(ActiveRecord::ConnectionAdapters::AbstractAdapter)
     end
   end
 
-  ActiveRecord::ConnectionAdapters::AbstractAdapter.prepend(OpenStreetMap::ActiveRecord::AbstractAdapter)
   ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.prepend(OpenStreetMap::ActiveRecord::PostgreSQLAdapter)
 end
