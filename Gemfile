@@ -117,7 +117,7 @@ gem "browser"
 gem "aws-sdk-s3"
 
 # Used to resize user images
-gem "mini_magick"
+gem "image_processing"
 
 # Gems useful for development
 group :development do
