@@ -24,7 +24,7 @@ const ohmStyle = {
       "tiles": ohmTileServicesList,
     }
   },
-  "sprite": "https://go-spatial.github.io/carto-assets/spritesets/osm_tegola_spritesheet",
+  "sprite": "https://openhistoricalmap.github.io/map-styles/ohm_timeslider_tegola/osm_tegola_spritesheet",
   "glyphs": "https://go-spatial.github.io/carto-assets/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
@@ -62,15 +62,16 @@ const ohmStyle = {
       "source-layer": "landuse_areas",
       "minzoom": 10,
       "maxzoom": 24,
-      "layout": {"visibility": "visible"},
+      "filter": ["all", ["==", "type", "park"]],
+      "layout": {"visibility": "none"},
       "paint": {"fill-color": "rgba(208, 220, 174, 1)"}
     },
     {
-      "id": "landuse_areas_z13_generalized_land_use",
+      "id": "landuse_areas_z12_generalized_land_use",
       "type": "fill",
       "source": "osm",
       "source-layer": "landuse_areas",
-      "minzoom": 13,
+      "minzoom": 12,
       "maxzoom": 24,
       "layout": {"visibility": "visible"},
       "paint": {
@@ -87,11 +88,11 @@ const ohmStyle = {
       }
     },
     {
-      "id": "landuse_areas_z13_underlying_land_designation",
+      "id": "landuse_areas_z12_underlying_land_designation",
       "type": "fill",
       "source": "osm",
       "source-layer": "landuse_areas",
-      "minzoom": 13,
+      "minzoom": 12,
       "maxzoom": 24,
       "layout": {"visibility": "visible"},
       "paint": {
@@ -111,11 +112,11 @@ const ohmStyle = {
       }
     },
     {
-      "id": "landuse_areas_z13_localized_land_use",
+      "id": "landuse_areas_z12_localized_land_use",
       "type": "fill",
       "source": "osm",
       "source-layer": "landuse_areas",
-      "minzoom": 13,
+      "minzoom": 12,
       "maxzoom": 24,
       "layout": {"visibility": "visible"},
       "paint": {
@@ -139,11 +140,11 @@ const ohmStyle = {
       }
     },
     {
-      "id": "landuse_areas_z13_landcover_short",
+      "id": "landuse_areas_z12_landcover_short",
       "type": "fill",
       "source": "osm",
       "source-layer": "landuse_areas",
-      "minzoom": 13,
+      "minzoom": 12,
       "maxzoom": 24,
       "layout": {"visibility": "visible"},
       "paint": {
@@ -166,11 +167,11 @@ const ohmStyle = {
       }
     },
     {
-      "id": "landuse_areas_z13_landcover_tall",
+      "id": "landuse_areas_z12_landcover_tall",
       "type": "fill",
       "source": "osm",
       "source-layer": "landuse_areas",
-      "minzoom": 13,
+      "minzoom": 12,
       "maxzoom": 24,
       "filter": ["all"],
       "layout": {"visibility": "visible"},
@@ -188,11 +189,11 @@ const ohmStyle = {
       }
     },
     {
-      "id": "landuse_areas_z13_watercover",
+      "id": "landuse_areas_z12_watercover",
       "type": "fill",
       "source": "osm",
       "source-layer": "landuse_areas",
-      "minzoom": 13,
+      "minzoom": 12,
       "maxzoom": 24,
       "layout": {"visibility": "visible"},
       "paint": {
@@ -210,11 +211,11 @@ const ohmStyle = {
       }
     },
     {
-      "id": "landuse_areas_z13_food_and_farming",
+      "id": "landuse_areas_z12_food_and_farming",
       "type": "fill",
       "source": "osm",
       "source-layer": "landuse_areas",
-      "minzoom": 13,
+      "minzoom": 12,
       "maxzoom": 24,
       "layout": {"visibility": "visible"},
       "paint": {
@@ -235,11 +236,11 @@ const ohmStyle = {
       }
     },
     {
-      "id": "landuse_areas_z13_developed_open_space",
+      "id": "landuse_areas_z12_developed_open_space",
       "type": "fill",
       "source": "osm",
       "source-layer": "landuse_areas",
-      "minzoom": 13,
+      "minzoom": 12,
       "maxzoom": 24,
       "layout": {"visibility": "visible"},
       "paint": {
@@ -280,13 +281,12 @@ const ohmStyle = {
       "source": "osm",
       "source-layer": "landuse_areas",
       "minzoom": 10,
-      "maxzoom": 13,
+      "maxzoom": 12,
       "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": {
           "property": "type",
           "type": "categorical",
-          "default": "transparent",
           "stops": [
             [{"zoom": 0, "value": "park"}, "rgba(208, 220, 174, 1)"],
             [{"zoom": 0, "value": "forest"}, "rgba(178, 194, 157, 1)"],
@@ -296,7 +296,8 @@ const ohmStyle = {
               "rgba(178, 194, 157, 0.3)"
             ],
             [{"zoom": 0, "value": "landfill"}, "rgba(194, 170, 175, 1)"]
-          ]
+          ],
+          "default": "transparent"
         }
       }
     },
@@ -366,10 +367,27 @@ const ohmStyle = {
       }
     },
     {
+      "id": "place_areas_square",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "place_areas",
+      "filter": ["all", ["==", "type", "square"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": "rgba(238, 236, 230, 1)",
+        "fill-outline-color": "rgba(226, 223, 215, 1)"
+      }
+    },
+    {
       "id": "pedestrian_area",
       "type": "fill",
       "source": "osm",
       "source-layer": "transport_areas",
+      "filter": [
+        "all",
+        ["in", "type", "pedestrian", "footway"],
+        ["==", "area", "yes"]
+      ],
       "paint": {"fill-color": "rgba(230, 230, 230, 1)"}
     },
     {
@@ -473,19 +491,8 @@ const ohmStyle = {
       "type": "fill",
       "source": "osm",
       "source-layer": "water_areas",
-      "minzoom": 5,
-      "maxzoom": 24,
-      "layout": {"visibility": "visible"},
-      "paint": {"fill-color": "rgba(144, 204, 203, 1)"}
-    },
-    {
-      "id": "water_areas_z3",
-      "type": "fill",
-      "source": "osm",
-      "source-layer": "water_areas",
       "minzoom": 3,
-      "maxzoom": 5,
-      "filter": ["all", [">", "area", 1000000000]],
+      "maxzoom": 24,
       "layout": {"visibility": "visible"},
       "paint": {"fill-color": "rgba(144, 204, 203, 1)"}
     },
@@ -568,13 +575,13 @@ const ohmStyle = {
       }
     },
     {
-      "id": "city_county_lines",
+      "id": "city_county_lines_admin7_8",
       "type": "line",
       "source": "osm",
       "source-layer": "land_ohm",
       "minzoom": 10,
       "maxzoom": 20,
-      "filter": ["all", [">=", "admin_level", 6], ["<=", "admin_level", 8]],
+      "filter": ["all", ["in", "admin_level", 7, 8]],
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(210, 210, 210, 1)",
@@ -583,13 +590,13 @@ const ohmStyle = {
       }
     },
     {
-      "id": "admin5",
+      "id": "admin_admin5_6",
       "type": "line",
       "source": "osm",
       "source-layer": "land_ohm",
       "minzoom": 6,
       "maxzoom": 20,
-      "filter": ["all", ["==", "admin_level", 5]],
+      "filter": ["all", ["in", "admin_level", 5, 6]],
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
@@ -598,11 +605,11 @@ const ohmStyle = {
       }
     },
     {
-      "id": "state_lines_z10",
+      "id": "state_lines_admin4",
       "type": "line",
       "source": "osm",
       "source-layer": "land_ohm",
-      "minzoom": 2,
+      "minzoom": 3,
       "maxzoom": 20,
       "filter": [
         "all",
@@ -611,23 +618,9 @@ const ohmStyle = {
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(210, 210, 210, 1)",
-        "line-dasharray": [3, 1],
+        "line-color": "rgba(202, 196, 196, 1)",
+        "line-dasharray": [3, 2],
         "line-width": {"stops": [[0, 0.25], [14, 2]]}
-      }
-    },
-    {
-      "id": "state_lines_z2",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "state_lines",
-      "minzoom": 2,
-      "maxzoom": 10,
-      "layout": {"visibility": "none"},
-      "paint": {
-        "line-color": "rgba(178, 171, 171, 1)",
-        "line-dasharray": [6, 3],
-        "line-width": 1.5
       }
     },
     {
@@ -793,21 +786,95 @@ const ohmStyle = {
       }
     },
     {
-      "id": "roads_rail_construction",
+      "id": "roads_rail_tram",
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 9,
+      "minzoom": 7,
       "maxzoom": 24,
       "filter": [
         "all",
-        ["==", "type", "construction"],
-        ["==", "class", "railway"]
+        ["in", "type", "tram", "funicular", "monorail"],
+        ["!in", "service", "yard", "siding"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(215, 215, 215, 1)",
+        "line-color": "rgba(197, 197, 197, 1)",
         "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
+      }
+    },
+    {
+      "id": "roads_rail_mini",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "miniature", "narrow_gauge"],
+        ["!in", "service", "yard", "siding"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(179, 179, 179, 1)",
+        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
+      }
+    },
+    {
+      "id": "roads_rail_mini_cross",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "miniature", "narrow_gauge"],
+        ["!in", "service", "yard", "siding"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(179, 179, 179, 1)",
+        "line-width": 4,
+        "line-dasharray": [0.2, 2]
+      }
+    },
+    {
+      "id": "roads_rail_old",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "dismantled", "abandoned", "disused", "razed"],
+        ["!in", "service", "yard", "siding"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(210, 190, 190, 1)",
+        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
+      }
+    },
+    {
+      "id": "roads_rail_old_cross",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "dismantled", "abandoned", "disused", "razed"],
+        ["!in", "service", "yard", "siding"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(210, 190, 190, 1)",
+        "line-width": 6,
+        "line-dasharray": [0.2, 2]
       }
     },
     {
@@ -819,12 +886,49 @@ const ohmStyle = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["==", "type", "rail"],
+        ["in", "type", "rail", "light_rail", "preserved"],
         ["!in", "service", "yard", "siding"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(153, 153, 153, 1)",
+        "line-color": "rgba(179, 179, 179, 1)",
+        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
+      }
+    },
+    {
+      "id": "roads_rail_cross",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "rail", "light_rail", "preserved"],
+        ["!in", "service", "yard", "siding"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(179, 179, 179, 1)",
+        "line-width": {"stops": [[6, 2], [7, 3], [8, 4], [9, 5], [10, 6]]},
+        "line-dasharray": [0.2, 2]
+      }
+    },
+    {
+      "id": "roads_rail_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 9,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "construction", "proposed"],
+        ["in", "class", "railway"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(215, 215, 215, 1)",
         "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
       }
     },
@@ -837,31 +941,12 @@ const ohmStyle = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["==", "type", "construction"],
-        ["==", "class", "railway"]
+        ["in", "type", "construction", "proposed"],
+        ["in", "class", "railway"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(215, 215, 215, 1)",
-        "line-width": 6,
-        "line-dasharray": [0.2, 2]
-      }
-    },
-    {
-      "id": "roads_rail_cross",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "transport_lines",
-      "minzoom": 7,
-      "maxzoom": 24,
-      "filter": [
-        "all",
-        ["==", "type", "rail"],
-        ["!in", "service", "yard", "siding"]
-      ],
-      "layout": {"visibility": "visible"},
-      "paint": {
-        "line-color": "rgba(153, 153, 153, 1)",
         "line-width": 6,
         "line-dasharray": [0.2, 2]
       }
@@ -1059,7 +1144,12 @@ const ohmStyle = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 9,
-      "filter": ["all", ["in", "type", "primary"], ["!=", "tunnel", 1]],
+      "filter": [
+        "all",
+        ["in", "type", "primary"],
+        ["!=", "tunnel", 1],
+        ["!=", "ford", "yes"]
+      ],
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(207, 123, 84, 1)",
@@ -1078,6 +1168,31 @@ const ohmStyle = {
       }
     },
     {
+      "id": "roads_ford",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 9,
+      "filter": ["all", ["==", "ford", "yes"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(207, 123, 84, 1)",
+        "line-width": {
+          "stops": [
+            [9, 1],
+            [11, 3],
+            [13, 3.5],
+            [14, 4.5],
+            [15, 6],
+            [16, 10],
+            [17, 11],
+            [18, 13]
+          ]
+        },
+        "line-dasharray": [2, 1]
+      }
+    },
+    {
       "id": "roads_subways",
       "type": "line",
       "source": "osm",
@@ -1087,7 +1202,8 @@ const ohmStyle = {
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(153, 153, 153, 1)",
-        "line-width": {"stops": [[14, 0.7], [18, 2]]}
+        "line-width": {"stops": [[14, 0.7], [18, 2]]},
+        "line-dasharray": [4, 1]
       }
     },
     {
@@ -1479,11 +1595,11 @@ const ohmStyle = {
       "paint": {"line-color": "rgba(233, 203, 176, 1)", "line-width": 3}
     },
     {
-      "id": "admin_admin3_z10",
+      "id": "admin_admin3",
       "type": "line",
       "source": "osm",
       "source-layer": "land_ohm",
-      "minzoom": 2,
+      "minzoom": 3,
       "maxzoom": 20,
       "filter": ["all", ["==", "admin_level", 3]],
       "layout": {"visibility": "visible"},
@@ -1499,24 +1615,11 @@ const ohmStyle = {
       "source-layer": "land_ohm",
       "minzoom": 0,
       "maxzoom": 20,
-      "filter": ["all", ["==", "admin_level", 2]],
+      "filter": ["all", ["in", "admin_level", 1, 2]],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(199, 199, 199, 1)",
+        "line-color": "rgba(157, 169, 174, 1)",
         "line-width": {"stops": [[0, 0.25], [14, 3]]}
-      }
-    },
-    {
-      "id": "admin_countrylines_z0",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "country_lines",
-      "minzoom": 0,
-      "maxzoom": 10,
-      "layout": {"visibility": "none"},
-      "paint": {
-        "line-color": "rgba(129, 150, 154, 1)",
-        "line-width": {"stops": [[0, 0.5], [7, 3]]}
       }
     },
     {
@@ -1525,7 +1628,7 @@ const ohmStyle = {
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 14,
-      "filter": ["!=", "type", "subway"],
+      "filter": ["all"],
       "layout": {
         "text-field": "{name}",
         "symbol-placement": "line",
@@ -1731,7 +1834,7 @@ const ohmStyle = {
       }
     },
     {
-      "id": "city_labels_z12",
+      "id": "city_labels_other_z12",
       "type": "symbol",
       "source": "osm",
       "source-layer": "place_points",
@@ -1739,17 +1842,29 @@ const ohmStyle = {
       "maxzoom": 20,
       "filter": [
         "all",
-        [
-          "in",
-          "type",
-          "city",
-          "village",
-          "town",
-          "suburb",
-          "locality",
-          "hamlet"
-        ]
+        ["in", "type", "village", "town", "suburb", "locality", "hamlet"]
       ],
+      "layout": {
+        "text-field": "{name}",
+        "text-font": ["Open Sans Regular"],
+        "text-size": {"stops": [[6, 6], [10, 12], [16, 14]]},
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "rgba(34, 34, 34, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-blur": 2,
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "city_labels_z12",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "place_points",
+      "minzoom": 12,
+      "maxzoom": 20,
+      "filter": ["all", ["in", "type", "city"]],
       "layout": {
         "text-field": "{name}",
         "text-font": ["Open Sans Regular"],
@@ -1810,7 +1925,7 @@ const ohmStyle = {
       "type": "symbol",
       "source": "osm",
       "source-layer": "place_points",
-      "minzoom": 4,
+      "minzoom": 3,
       "maxzoom": 20,
       "filter": ["all", ["in", "type", "state", "territory"]],
       "layout": {
@@ -2161,30 +2276,13 @@ const ohmStyle = {
       }
     },
     {
-      "id": "points_of_interest14",
+      "id": "points_of_interest_amenity_14",
       "type": "symbol",
       "source": "osm",
       "source-layer": "amenity_points",
       "minzoom": 14,
       "maxzoom": 16,
-      "filter": [
-        "all",
-        [
-          "in",
-          "type",
-          "fire_station",
-          "bank",
-          "border_control",
-          "embassy",
-          "government",
-          "hospital",
-          "police",
-          "school",
-          "taxi",
-          "townhall",
-          "university"
-        ]
-      ],
+      "filter": ["all"],
       "layout": {
         "icon-image": "{type}-12",
         "visibility": "visible",
@@ -2201,11 +2299,11 @@ const ohmStyle = {
       }
     },
     {
-      "id": "other_points",
+      "id": "points_of_interest_other",
       "type": "symbol",
       "source": "osm",
       "source-layer": "other_points",
-      "minzoom": 16,
+      "minzoom": 14,
       "maxzoom": 24,
       "filter": ["all"],
       "layout": {
@@ -2224,7 +2322,7 @@ const ohmStyle = {
       }
     },
     {
-      "id": "points_of_interest",
+      "id": "points_of_interest_amenity",
       "type": "symbol",
       "source": "osm",
       "source-layer": "amenity_points",
@@ -2254,7 +2352,7 @@ const ohmStyle = {
       "minzoom": 15,
       "maxzoom": 24,
       "filter": ["all", ["==", "type", "tower"]],
-      "layout": {"icon-image": "power_tower-12"}
+      "layout": {"icon-image": "power_tower-12", "visibility": "visible"}
     },
     {
       "id": "points_airport",
@@ -2367,4 +2465,4 @@ const ohmStyle = {
     }
   ],
   "id": "io6r61fxt"
-};
+}
