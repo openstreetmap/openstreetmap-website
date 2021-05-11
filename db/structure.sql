@@ -37,6 +37,17 @@ COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiS
 
 
 --
+-- Name: event_attendance_intention_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.event_attendance_intention_enum AS ENUM (
+    'maybe',
+    'no',
+    'yes'
+);
+
+
+--
 -- Name: format_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -721,9 +732,9 @@ CREATE TABLE public.event_attendances (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
     event_id bigint NOT NULL,
-    intention character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    intention public.event_attendance_intention_enum
 );
 
 
@@ -3646,6 +3657,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201006213836'),
 ('20201006220807'),
 ('20201214144017'),
+('20210425164111'),
 ('21'),
 ('22'),
 ('23'),
