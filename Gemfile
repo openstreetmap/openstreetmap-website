@@ -52,6 +52,7 @@ gem "rails-i18n", "~> 6.0.0"
 gem "rinku", ">= 2.0.6", :require => "rails_rinku"
 gem "strong_migrations"
 gem "validates_email_format_of", ">= 1.5.1"
+gem "validate_url"
 
 # Native OSM extensions
 gem "quad_tile", "~> 1.0.1"
@@ -119,6 +120,9 @@ gem "aws-sdk-s3"
 # Used to resize user images
 gem "mini_magick"
 
+# Used to provide clean urls like /microcosm/mappingdc
+gem "friendly_id"
+
 # Gems useful for development
 group :development do
   gem "annotate"
@@ -133,6 +137,8 @@ end
 group :test do
   gem "brakeman"
   gem "capybara", ">= 2.15"
+  gem "cucumber-rails", :require => false
+  gem "database_cleaner"
   gem "erb_lint", :require => false
   gem "factory_bot_rails"
   gem "minitest", "~> 5.1"

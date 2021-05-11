@@ -50,6 +50,19 @@ module UserHelper
     end
   end
 
+  def user_card(user)
+    user_link = link_to user.display_name, user_path(user)
+    tag.div :class => "user_card" do
+      img = user_image(user)
+      div = tag.div do
+        tag.h5 do
+          user_link
+        end
+      end
+      img + div
+    end
+  end
+
   # External authentication support
 
   def openid_logo

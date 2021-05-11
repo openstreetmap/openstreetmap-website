@@ -31,6 +31,8 @@ class Ability
       can [:history, :version], OldNode
       can [:history, :version], OldWay
       can [:history, :version], OldRelation
+      can [:index, :show, :show_events, :show_members], Microcosm
+      can [:show, :index], Event
     end
 
     if user
@@ -46,6 +48,34 @@ class Ability
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public], User
+
+        # This is a cancancan rule condition, effectively the same thing as
+        # microcosm.organizer?(user), as used in a block, but in declarative form.
+        user_is_microcosm_organizer = {
+          :microcosm_members => {
+            :user_id => user.id,
+            :role => MicrocosmMember::Roles::ORGANIZER
+          }
+        }
+        user_is_microcosm_member = {
+          :microcosm_members => {
+            :user_id => user.id,
+            :role => MicrocosmMember::Roles::MEMBER
+          }
+        }
+
+        can [:create], EventAttendance, :event => {
+          :microcosm => user_is_microcosm_member
+        }
+        # TODO: There's attribute level rules now.  We can use this for setting the intention.
+        can [:update], EventAttendance, :user_id => user.id
+        can [:new, :create, :step_up], Microcosm
+        can [:edit, :update], Microcosm, user_is_microcosm_organizer
+        can [:create], MicrocosmMember
+        # TODO: There's attribute level rules now.  We can use this for setting the role.
+        can [:destroy], MicrocosmMember, :user_id => user.id
+        can [:destroy, :edit, :update], MicrocosmMember, :microcosm => user_is_microcosm_organizer
+        can [:create, :update], Event, :microcosm => user_is_microcosm_organizer
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry

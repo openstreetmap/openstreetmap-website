@@ -1,5 +1,6 @@
 //= link browserconfig.xml
 //= link manifest.json
+//= link html5shiv.js
 
 //= link_tree ../favicons
 //= link_tree ../images

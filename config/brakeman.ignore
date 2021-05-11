@@ -1,0 +1,46 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "ca63b4996adb0cb57343feabf1f3b0ac6d666c398ea1e2af1ebc61f5caeedd68",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/microcosm_members_controller.rb",
+      "line": 44,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:microcosm_member).permit(:microcosm_id, :user_id, :role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MicrocosmMembersController",
+        "method": "create_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "note": "Lukcily '@role = params[:role]' in user_roles_controller skirts past this checker."
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "e6bb64ce115e9326e57fa5be5a03191adf562246e635884cfa6b97d9b6f4a502",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/microcosm_members_controller.rb",
+      "line": 48,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:microcosm_member).permit(:role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MicrocosmMembersController",
+        "method": "update_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "note": ""
+    }
+  ],
+  "updated": "2020-07-25 13:27:31 -0400",
+  "brakeman_version": "4.8.2"
+}

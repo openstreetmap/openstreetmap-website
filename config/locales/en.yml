@@ -8,16 +8,50 @@ en:
   helpers:
     file:
       prompt: Choose file
+    label:
+      event:
+        description: "Description"
+        location: "Location"
+        location_url: "Location URL"
+        microcosm_id: "Microcosm"
+        moment: "When"
+        title: "Title"
+      microcosm:
+        description: "Description"
+        latitude: "Latitude"
+        location: "Location"
+        longitude: "Longitude"
+        max_lat: "Maximum Latitude"
+        max_lon: "Maximum Longitude"
+        min_lat: "Minimum Latitude"
+        min_lon: "Minimum Longitude"
+        name: "Name"
+      microcosm_member:
+        microcosm_id: "Microcosm"
+        user_id: "User"
+        role: "Role"
     submit:
+      client_application:
+        create: Register
+        update: Edit
       diary_comment:
         create: Save
       diary_entry:
         create: "Publish"
         update: "Update"
+      event:
+        create: "Create Event"
+        update: "Update Event"
       issue_comment:
         create: Add Comment
       message:
         create: Send
+      microcosm:
+        create: "Create Microcosm"
+        update: "Update Microcosm"
+      microcosm_member:
+        create: "Add Membership"
+        update: "Update Membership"
       client_application:
         create: Register
         update: Update
@@ -35,6 +69,10 @@ en:
       messages:
         invalid_email_address: does not appear to be a valid e-mail address
         email_address_not_routable: is not routable
+      models:
+        microcosm_member:
+          is_organizer: "you are an organizer of this microcosm"
+          is_attending_future_events: "you are attending future events"
     # Translates all the model names, which is used in error handling on the web site
     models:
       acl: "Access Control List"
@@ -47,6 +85,7 @@ en:
       issue: "Issue"
       language: "Language"
       message: "Message"
+      microcosm: "Microcosm"
       node: "Node"
       node_tag: "Node Tag"
       notifier: "Notifier"
@@ -480,6 +519,57 @@ en:
       comment: Comment
       newer_comments: "Newer Comments"
       older_comments: "Older Comments"
+  events:
+    create:
+      success: "Event was successfully created."
+      failure: "Event was not created."
+    destroy:
+      failure: "Event was not created."
+    edit:
+      edit_event: "Edit Event"
+    index:
+      description: "Description"
+      heading: "Upcoming Events"
+      location: "Location"
+      microcosm: "Microcosm"
+      moment: "When"
+      title: "Title"
+    new:
+      title: "New Event"
+    show:
+      are_you_going: "Are you going?"
+      description: "Description"
+      directions_to: "Directions to this location."
+      edit: "Edit"
+      going_maybe: "maybe"
+      going_no: "no"
+      going_yes: "yes"
+      header_title: "Event"
+      hosted_by: "Hosted by"
+      location: "Location"
+      login_to_rsvp: "Please login to RSVP."
+      organized_by: "Organized by"
+      past: "Event is in the past."
+      people_are_going:
+        zero: ""
+        one: "One person is going."
+        other: "%{count} people are going"
+      when: "When"
+      who_yes: "Going"
+      who_no: "Not Going"
+      who_maybe: "Might Go"
+    update:
+      success: "The event was successfully updated."
+      failure: "The event was not updated."
+  event_attendances:
+    create:
+      failure: "Attendance was not saved."
+      success: "Attendance was successfully saved."
+    filter:
+      not_an_intention: "The string `%{intention}' is not a valid intention."
+    update:
+      failure: "Attendance was not updated."
+      success: "Attendance was successfully updated."
   friendships:
     make_friend:
       heading: "Add %{user} as a friend?"
@@ -1358,6 +1448,10 @@ en:
           offensive_label: This diary comment is obscene/offensive
           threat_label: This diary comment contains a threat
           other_label: Other
+        microcosm:
+          spam_label: The microcosm is/contains spam
+          offensive_label: This microcosm entry is obscene/offensive
+          other_label: Other
         user:
           spam_label: This user profile is/contains spam
           offensive_label: This user profile is obscene/offensive
@@ -1384,6 +1478,8 @@ en:
     logout: Log Out
     log_in: Log In
     log_in_tooltip: Log in with an existing account
+    microcosms: Microcosms
+    events: Events
     sign_up: Sign Up
     start_mapping: Start Mapping
     sign_up_tooltip: Create an account for editing
@@ -1423,6 +1519,78 @@ en:
       text: Make a Donation
     learn_more: "Learn More"
     more: More
+  microcosms:
+    create:
+      failure: "Microcosm was not saved."
+      success: "Microcosm was successfully created."
+    edit:
+      edit_microcosm: "Edit Microcosm"
+    index:
+      critical_mass: "Only microcosms wth %{n} members are displayed."
+      description: "Description"
+      location: "Location"
+      latitude: "Latitude"
+      longitude: "Longitude"
+      name: "Name"
+      new: "New"
+      new_title: "Create a new microcosm"
+      sorted_by: "Sorted by longitude and time of day."
+      title: "Microcosms"
+    index_list:
+      all: "All Microcosms"
+      my_microcosms: "My Microcosms"
+    new:
+      title: "New Microcosm"
+    show:
+      diary_entries: "Diary Entries of Members"
+      edit: "Edit"
+      events: "Upcoming Events"
+      header_title: "Microcosm"
+      leave:
+        action: "Leave"
+        confirm: "Are you sure you want to leave %{name}?"
+      login_to_join: "Please login to join the microcosm."
+      members: "Members"
+      organizers: "Organizers"
+      report: "Report"
+      review_requested: "review requested"
+      share: "Share"
+      join:
+        action: "Join"
+        confirm: "Join %{name}?"
+      recent_changes: "Recent Changes"
+    show_events:
+      edit: "Edit"
+      events: "Events"
+      location: "Location"
+      new_title: "new event"
+      title: "Title"
+      when: "When"
+    show_members:
+      edit: "edit"
+      members: "Members"
+      organizers: "Organizers"
+      remove: "remove"
+    step_up:
+      already_has_organizer: "This microcosm already has an organizer."
+      only_members_can_step_up: "Only members can step up."
+      you_have_stepped_up: "You have stepped up."
+    update:
+      success: "The microcosm was successfully updated."
+      failure: "The microcosm did not update successfully."
+  microcosm_members:
+    create:
+      failure: "Membership was not saved."
+      success: "Membership was successfully created."
+    destroy:
+      failure: "Member was not removed."
+      success: "Member was removed."
+    edit:
+      edit_member: "Edit Membership"
+    update:
+      failure: "Microcosm Member was not updated."
+      success: "Microcosm Member was successfully updated."
+  notifier:
   user_mailer:
     diary_comment_notification:
       subject: "[OpenStreetMap] %{user} commented on a diary entry"
@@ -2863,4 +3031,6 @@ en:
     leading_whitespace: "has leading whitespace"
     trailing_whitespace: "has trailing whitespace"
     invalid_characters: "contains invalid characters"
+    invalid_datetime_format: "contains invalid datetime format, use yyyy-mm-ddThh:mm"
+    invalid_datetime_range: "contains invalid datetime range"
     url_characters: "contains special URL characters (%{characters})"

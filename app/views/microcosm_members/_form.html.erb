@@ -1,0 +1,19 @@
+<%= form_for @microcosm_member do |form| %>
+  <div class="standard-form">
+    <div class="standard-form-row">
+      <%= form.label :microcosm_id, :class => "standard-label" %>
+      <%= @microcosm_member.microcosm.name %>
+    </div>
+    <div class="standard-form-row">
+      <%= form.label :user_id, :class => "standard-label" %>
+      <%= @microcosm_member.user.display_name %>
+    </div>
+    <div class="standard-form-row">
+      <%= form.label :role, :class => "standard-label" %>
+      <%= form.select(:role, MicrocosmMember::Roles::ALL_ROLES.map { |role| [role.titleize, role] }) %>
+    </div>
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  </div>
+<% end %>
