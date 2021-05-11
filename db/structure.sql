@@ -720,7 +720,8 @@ CREATE TABLE public.diary_entry_subscriptions (
 CREATE TABLE public.friends (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
-    friend_user_id bigint NOT NULL
+    friend_user_id bigint NOT NULL,
+    created_at timestamp without time zone
 );
 
 
@@ -2147,13 +2148,6 @@ CREATE INDEX diary_entry_user_id_created_at_index ON public.diary_entries USING 
 
 
 --
--- Name: friends_user_id_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX friends_user_id_idx ON public.friends USING btree (user_id);
-
-
---
 -- Name: gpx_file_tags_gpxid_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2277,6 +2271,13 @@ CREATE INDEX index_client_applications_on_user_id ON public.client_applications 
 --
 
 CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON public.diary_entry_subscriptions USING btree (diary_entry_id);
+
+
+--
+-- Name: index_friends_on_user_id_and_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_friends_on_user_id_and_created_at ON public.friends USING btree (user_id, created_at);
 
 
 --
@@ -3123,6 +3124,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201006213836'),
 ('20201006220807'),
 ('20201214144017'),
+('20210511104518'),
 ('21'),
 ('22'),
 ('23'),
