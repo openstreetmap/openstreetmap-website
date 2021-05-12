@@ -12,6 +12,7 @@ require:
   - rubocop-minitest
   - rubocop-performance
   - rubocop-rails
+  - rubocop-rake
 
 # Offense count: 544
 # Cop supports --auto-correct.
@@ -167,6 +168,20 @@ Rails/OutputSafety:
 # SupportedStyles: strict, flexible
 Rails/TimeZone:
   Enabled: false
+
+# Offense count: 8
+Rake/Desc:
+  Exclude:
+    - 'lib/tasks/auto_annotate_models.rake'
+    - 'lib/tasks/eslint.rake'
+    - 'lib/tasks/subscribe_diary_authors.rake'
+    - 'lib/tasks/subscribe_old_changesets.rake'
+    - 'lib/tasks/testing.rake'
+
+# Offense count: 3
+Rake/MethodDefinitionInTask:
+  Exclude:
+    - 'lib/tasks/eslint.rake'
 
 # Offense count: 558
 # Cop supports --auto-correct.
