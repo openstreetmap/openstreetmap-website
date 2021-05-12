@@ -10,31 +10,29 @@
   <% end -%>
 </ul>
 
-<div class="container">
-  <div class="row justify-content-start">
-    <div class="col-auto pl-0">
-      <%= bootstrap_form_tag :action => :create do |f| %>
-        <%= f.hidden_field :client_id, :value => @pre_auth.client.uid %>
-        <%= f.hidden_field :redirect_uri, :value => @pre_auth.redirect_uri %>
-        <%= f.hidden_field :state, :value => @pre_auth.state %>
-        <%= f.hidden_field :response_type, :value => @pre_auth.response_type %>
-        <%= f.hidden_field :scope, :value => @pre_auth.scope %>
-        <%= f.hidden_field :code_challenge, :value => @pre_auth.code_challenge %>
-        <%= f.hidden_field :code_challenge_method, :value => @pre_auth.code_challenge_method %>
-        <%= f.primary t(".authorize") %>
-      <% end %>
-    </div>
-    <div class="col-auto pl-0">
-      <%= bootstrap_form_tag :action => :destroy, :html => { :method => :delete } do |f| %>
-        <%= f.hidden_field :client_id, :value => @pre_auth.client.uid %>
-        <%= f.hidden_field :redirect_uri, :value => @pre_auth.redirect_uri %>
-        <%= f.hidden_field :state, :value => @pre_auth.state %>
-        <%= f.hidden_field :response_type, :value => @pre_auth.response_type %>
-        <%= f.hidden_field :scope, :value => @pre_auth.scope %>
-        <%= f.hidden_field :code_challenge, :value => @pre_auth.code_challenge %>
-        <%= f.hidden_field :code_challenge_method, :value => @pre_auth.code_challenge_method %>
-        <%= f.submit t(".deny") %>
-      <% end %>
-    </div>
+<div class="row justify-content-start no-gutters mx-n1">
+  <div class="col-auto mx-1">
+    <%= bootstrap_form_tag :action => :create do |f| %>
+      <%= f.hidden_field :client_id, :value => @pre_auth.client.uid %>
+      <%= f.hidden_field :redirect_uri, :value => @pre_auth.redirect_uri %>
+      <%= f.hidden_field :state, :value => @pre_auth.state %>
+      <%= f.hidden_field :response_type, :value => @pre_auth.response_type %>
+      <%= f.hidden_field :scope, :value => @pre_auth.scope %>
+      <%= f.hidden_field :code_challenge, :value => @pre_auth.code_challenge %>
+      <%= f.hidden_field :code_challenge_method, :value => @pre_auth.code_challenge_method %>
+      <%= f.primary t(".authorize") %>
+    <% end %>
+  </div>
+  <div class="col-auto mx-1">
+    <%= bootstrap_form_tag :action => :destroy, :html => { :method => :delete } do |f| %>
+      <%= f.hidden_field :client_id, :value => @pre_auth.client.uid %>
+      <%= f.hidden_field :redirect_uri, :value => @pre_auth.redirect_uri %>
+      <%= f.hidden_field :state, :value => @pre_auth.state %>
+      <%= f.hidden_field :response_type, :value => @pre_auth.response_type %>
+      <%= f.hidden_field :scope, :value => @pre_auth.scope %>
+      <%= f.hidden_field :code_challenge, :value => @pre_auth.code_challenge %>
+      <%= f.hidden_field :code_challenge_method, :value => @pre_auth.code_challenge_method %>
+      <%= f.submit t(".deny") %>
+    <% end %>
   </div>
 </div>
