@@ -142,6 +142,7 @@ group :test do
   gem "rubocop-minitest"
   gem "rubocop-performance"
   gem "rubocop-rails"
+  gem "rubocop-rake"
   gem "selenium-webdriver"
   gem "simplecov", :require => false
   gem "simplecov-lcov", :require => false
