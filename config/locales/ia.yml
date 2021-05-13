@@ -500,6 +500,8 @@ ia:
       success: '%{name} es ora tu amico!'
       failed: Pardono, non poteva adder %{name} como amico.
       already_a_friend: Tu es ja amico de %{name}.
+      limit_exceeded: Tu ha addite multe personas al lista de amicos recentemente.
+        Per favor attende un momento ante de tentar adder alteres.
     remove_friend:
       heading: Remover %{user} como amico?
       button: Remover amico
@@ -1477,8 +1479,12 @@ ia:
     gpx_failure:
       hi: Salute %{to_user},
       failed_to_import: 'ha fallite de importar. Ecce le error:'
+      more_info_html: Plus information sur le fallimento de importation GPX e como
+        evitar lo se trova sur %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=ia
       subject: '[OpenStreetMap] Importation GPX fallite'
     gpx_success:
+      hi: Salute %{to_user},
       loaded_successfully:
         one: ha essite cargate con successo con %{trace_points} ex un maximo de 1
           puncto.
@@ -1517,23 +1523,36 @@ ia:
           interessa'
         your_note: '%{commenter} ha lassate un commento sur un de tu notas de carta
           in le vicinitate de %{place}.'
+        your_note_html: '%{commenter} ha lassate un commento sur un de tu notas de
+          carta in le vicinitate de %{place}.'
         commented_note: '%{commenter} ha lassate un commento sur un nota de carta
+          que tu ha commentate. Le nota es in le vicinitate de %{place}.'
+        commented_note_html: '%{commenter} ha lassate un commento sur un nota de carta
           que tu ha commentate. Le nota es in le vicinitate de %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} ha resolvite un de tu notas'
         subject_other: '[OpenStreetMap] %{commenter} ha resolvite un nota que te interessa'
         your_note: '%{commenter} ha resolvite un de tu notas de carta in le vicinitate
           de %{place}.'
+        your_note_html: '%{commenter} ha resolvite un de tu notas de carta in le vicinitate
+          de %{place}.'
         commented_note: '%{commenter} ha resolvite un nota de carta que tu ha commentate.
           Le nota es in le vicinitate de %{place}.'
+        commented_note_html: '%{commenter} ha resolvite un nota de carta que tu ha
+          commentate. Le nota es in le vicinitate de %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} ha reactivate un de tu notas'
         subject_other: '[OpenStreetMap] %{commenter} ha reactivate un nota de tu interesse'
         your_note: '%{commenter} ha reactivate un de tu notas de carta in le vicinitate
           de %{place}.'
+        your_note_html: '%{commenter} ha reactivate un de tu notas de carta in le
+          vicinitate de %{place}.'
         commented_note: '%{commenter} ha reactivate un nota de carta que tu ha commentate.
           Le nota es in le vicinitate de %{place}.'
+        commented_note_html: '%{commenter} ha reactivate un nota de carta que tu ha
+          commentate. Le nota es in le vicinitate de %{place}.'
       details: Plus detalios sur le nota pote esser trovate a %{url}.
+      details_html: Plus detalios sur le nota pote esser trovate a %{url}.
     changeset_comment_notification:
       hi: Salute %{to_user},
       greeting: Salute,
@@ -1544,13 +1563,22 @@ ia:
           que te interessa'
         your_changeset: '%{commenter} ha commentate a %{time} un de tu gruppos de
           modificationes'
+        your_changeset_html: '%{commenter} ha commentate a %{time} un de tu gruppos
+          de modificationes'
         commented_changeset: '%{commenter} ha commentate a %{time} un gruppo de modificationes
           que tu observa, create per %{changeset_author}'
+        commented_changeset_html: '%{commenter} ha commentate a %{time} un gruppo
+          de modificationes que tu observa, create per %{changeset_author}'
         partial_changeset_with_comment: con commento '%{changeset_comment}'
+        partial_changeset_with_comment_html: con commento '%{changeset_comment}'
         partial_changeset_without_comment: sin commento
       details: Plus detalios sur le gruppo de modificationes pote esser trovate a
         %{url}.
+      details_html: Plus detalios sur le gruppo de modificationes pote esser trovate
+        a %{url}.
       unsubscribe: Pro disabonar te del actualisationes de iste gruppo de modificationes,
+        visita %{url} e clicca sur "Disabonar".
+      unsubscribe_html: Pro disabonar te del actualisationes de iste gruppo de modificationes,
         visita %{url} e clicca sur "Disabonar".
   confirmations:
     confirm:
@@ -1585,6 +1613,7 @@ ia:
     inbox:
       title: Cassa de entrata
       my_inbox: Mi cassa de entrata
+      my_outbox: Mi cassa de exito
       messages: Tu ha %{new_messages} e %{old_messages}
       new_messages:
         one: '%{count} nove message'
@@ -1619,6 +1648,8 @@ ia:
       body: Non existe un message con iste ID.
     outbox:
       title: Cassa de exito
+      my_inbox: Mi cassa de entrata
+      my_outbox: Mi cassa de exito
       messages:
         one: Tu ha %{count} message inviate
         other: Tu ha %{count} messages inviate
@@ -1728,6 +1759,24 @@ ia:
       title: Clauder session
       heading: Clauder le session de OpenStreetMap
       logout_button: Clauder session
+  shared:
+    markdown_help:
+      title_html: Processate con <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      headings: Titulos
+      heading: Titulo
+      subheading: Subtitulo
+      unordered: Lista non ordinate
+      ordered: Lista ordinate
+      first: Prime elemento
+      second: Secunde elemento
+      link: Ligamine
+      text: Texto
+      image: Imagine
+      alt: Texto alternative
+      url: URL
+    richtext_field:
+      edit: Modificar
+      preview: Previsualisar
   site:
     about:
       next: Sequente
@@ -1801,6 +1850,9 @@ ia:
         credit_2_1_html: |-
           Vos debe etiam indicar clarmente que le datos es disponibile sub Open Database License. Vos pote facer isto con un ligamine a <a href="https://www.openstreetmap.org/copyright">iste pagina de copyright</a>.
           Alternativemente, e obligatorimente si vos distribue OSM in forma de datos, vos pote mentionar le licentia(s) e ligar directemente a illo(s). Si vos usa un medio de communication in le qual le ligamines non es possibile (p.ex. un obra imprimite), nos suggere que vos dirige vostre lectores a openstreetmap.org (forsan per inserer iste adresse complete in loco del parola &lsquo;OpenStreetMap&rsquo;) e a opendatacommons.org.
+        credit_3_1_html: |-
+          Le tegulas de carta in le &ldquo;stilo standard&rdquo sur www.openstreetmap.org es un obra producite per le Fundation OpenStreetMap usante datos de OpenStreetMap sub le licentia Open Database. Si tu usa iste tegulas, per favor usa le attribution sequente:
+          &ldquo;Fundo de carta e datos de OpenStreetMap e del Fundation OpenStreetMap&rdquo;.
         credit_4_html: 'Pro un carta electronic navigabile, le recognoscentia debe
           apparer in le angulo del carta. Per exemplo:'
         attribution_example:
@@ -2017,6 +2069,15 @@ ia:
         url: http://wiki.openstreetmap.org/
         title: Wiki OpenStreetMap
         description: Percurre le wiki pro le documentation in detalio de OpenStreetMap.
+    potlatch:
+      removed: Tu ha le editor predefinite de OpenStreetMap fixate como Potlatch.
+        Post que Adobe Flash ha essite retirate, Potlatch non plus pote esser usate
+        in un navigator web.
+      desktop_html: Tu pote totevia usar Potlatch si tu <a href="https://www.systemed.net/potlatch/">discarga
+        le application scriptorio pro Mac o Windows</a>.
+      id_html: Alternativemente, tu pote fixar le editor predefinite a iD, le qual
+        functiona in tu navigator web como Potlatch faceva antea. <a href="%{settings_url}">Cambia
+        hic tu parametros de usator</a>.
     sidebar:
       search_results: Resultatos del recerca
       close: Clauder
@@ -2176,6 +2237,7 @@ ia:
           attender le completion de istes ante de incargar alteres, pro non blocar
           le cauda pro altere usatores.
     edit:
+      cancel: Cancellar
       title: Modification del tracia %{name}
       heading: Modificar le tracia %{name}
       visibility_help: que significa isto?
@@ -2502,6 +2564,7 @@ ia:
       image: Imagine
       gravatar:
         gravatar: Usar Gravatar
+        what_is_gravatar: Que es Gravatar?
         disabled: Gravatar ha essite disactivate.
         enabled: Tu Gravatar ha essite activate e essera monstrate desde ora.
       new image: Adder un imagine
@@ -2662,6 +2725,7 @@ ia:
       title: '%{block_on} blocate per %{block_by}'
       heading_html: '%{block_on} blocate per %{block_by}'
       created: 'Create:'
+      duration: 'Durata:'
       status: 'Stato:'
       show: Monstrar
       edit: Modificar
@@ -2690,6 +2754,7 @@ ia:
       title: Notas submittite o commentate per %{user}
       heading: Notas de %{user}
       subheading_html: Notas submittite o commentate per %{user}
+      no_notes: Sin notas
       id: ID
       creator: Creator
       description: Description
@@ -2709,6 +2774,7 @@ ia:
       custom_dimensions: Personalisar dimensiones
       format: 'Formato:'
       scale: 'Scala:'
+      image_dimensions: Le imagine monstrara le strato standard in %{width} x %{height}
       download: Discargar
       short_url: URL curte
       include_marker: Includer marcator
@@ -2750,8 +2816,11 @@ ia:
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Facer un donation</a>
       terms: <a href='%{terms_url}' target='_blank'>Conditiones del sito web e del
         API</a>
+      cyclosm: Stilo de tegulas concipite per <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        e albergate per <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>
       thunderforest: Tegulas fornite per <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
+      opnvkarte: Tegulas fornite per <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
       hotosm: Stilo de tegulas concipite per <a href='%{hotosm_url}' target='_blank'>le
         equipa humanitari de OpenStreetMap</a> e albergate per <a href='%{osmfrance_url}'
         target='_blank'>OpenStreetMap France</a>

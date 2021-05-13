@@ -8,6 +8,7 @@
 # Author: Bouman4
 # Author: CGID
 # Author: Carsrac
+# Author: Danieldegroot2
 # Author: Donarreiskoffer
 # Author: Duckson32
 # Author: Dutchy45
@@ -38,6 +39,7 @@
 # Author: MedShot
 # Author: MrLeopold
 # Author: Mvexel
+# Author: Nickthijssen1994
 # Author: Optilete
 # Author: Peb-kac
 # Author: Pje335
@@ -173,7 +175,7 @@ nl:
         title: Titel
         description: Beschrijving
       report:
-        category: Selecteer een reden voor je melding
+        category: Selecteer een reden voor uw melding
         details: Verschaf a.u.b. nog wat meer details over het probleem (vereist).
       user:
         auth_provider: Authenticatiedienst
@@ -208,7 +210,7 @@ nl:
         other: ongeveer %{count} uur geleden
       about_x_months:
         one: ongeveer 1 maand geleden
-        other: ongeveer %{count} maand geleden
+        other: ongeveer %{count} maanden geleden
       about_x_years:
         one: ongeveer 1 jaar geleden
         other: ongeveer %{count} jaar geleden
@@ -220,7 +222,7 @@ nl:
         one: minder dan 1 seconde geleden
         other: minder dan %{count} seconden geleden
       less_than_x_minutes:
-        one: minder dan een minuut geleden
+        one: minder dan 1 minuut geleden
         other: minder dan %{count} minuten geleden
       over_x_years:
         one: meer dan 1 jaar geleden
@@ -236,7 +238,7 @@ nl:
         other: '%{count} dagen geleden'
       x_months:
         one: 1 maand geleden
-        other: '%{count} maand geleden'
+        other: '%{count} maanden geleden'
       x_years:
         one: 1 jaar geleden
         other: '%{count} jaar geleden'
@@ -275,7 +277,7 @@ nl:
         description_item: Een RSS-feed voor opmerking %{id}
         opened: nieuwe opmerking (bij %{place})
         commented: nieuwe reactie (bij %{place})
-        closed: gesloten opmerking (nabij %{place})
+        closed: gesloten opmerking (bij %{place})
         reopened: opnieuw geactiveerde opmerking (bij %{place})
       entry:
         comment: Opmerking
@@ -537,6 +539,7 @@ nl:
         description: Recente dagboekberichten van OpenStreetMap-gebruikers
     comments:
       has_commented_on: '%{display_name} heeft gereageerd op het volgende dagboekbericht'
+      no_comments: Geen dagboekopmerkingen
       post: Dagboekbericht
       when: Wanneer
       comment: Reactie
@@ -549,6 +552,8 @@ nl:
       success: '%{name} is nu uw vriend.'
       failed: Het toevoegen van %{name} als vriend is helaas mislukt.
       already_a_friend: U bent al bevriend met %{name}.
+      limit_exceeded: U hebt recentelijk veel vriendschapsverzoeken verstuurd. Wacht
+        even voordat u nieuwe verzoeken kunt versturen.
     remove_friend:
       heading: '%{user} als vriend verwijderen?'
       button: Als vriend verwijderen
@@ -966,6 +971,7 @@ nl:
           antenna: Antenne
           avalanche_protection: Lawinebescherming
           beacon: Baken
+          beam: Balk
           beehive: Bijenkorf
           breakwater: Havendam
           bridge: Brug
@@ -1095,6 +1101,7 @@ nl:
           "yes": Kantoor
         place:
           allotments: Volkstuinen
+          archipelago: Archipel
           city: Plaats
           city_block: Woonblok
           country: Land
@@ -1384,7 +1391,7 @@ nl:
         note: 'Opmerking #%{note_id}'
   issue_comments:
     create:
-      comment_created: Je reactie is succesvol gemaakt
+      comment_created: Uw reactie is succesvol aangemaakt
   reports:
     new:
       title_html: Rapporteer %{link}
@@ -1392,11 +1399,11 @@ nl:
       disclaimer:
         intro: 'Voordat u uw rapport naar de moderators van de site stuurt, moet u
           ervoor zorgen dat:'
-        not_just_mistake: Je weet zeker dat het probleem niet slechts een vergissing
+        not_just_mistake: U weet zeker dat het probleem niet slechts een vergissing
           is.
-        unable_to_fix: Je bent niet in staat het probleem zelf op te lossen of met
-          de hulp van leden uit jouw eigen omgeving.
-        resolve_with_user: Je hebt al geprobeerd het probleem met de betreffende gebruiker
+        unable_to_fix: U bent niet in staat het probleem zelf op te lossen of met
+          de hulp van leden uit uw eigen omgeving.
+        resolve_with_user: U hebt al geprobeerd het probleem met de betreffende gebruiker
           op te lossen
       categories:
         diary_entry:
@@ -1519,9 +1526,9 @@ nl:
     gpx_success:
       hi: Hallo %{to_user},
       loaded_successfully:
-        one: met succes geladen is met %{trace_points} punt.
-        other: met succes geladen is met %{trace_points} van de %{possible_points}
-          mogelijke punten.
+        one: succesvol geladen met %{trace_points} van 1 mogelijke punt.
+        other: succesvol geladen met %{trace_points} van %{possible_points} mogelijke
+          punten.
       subject: '[OpenStreetMap] GPX-import afgerond'
     signup_confirm:
       subject: '[OpenStreetMap] Welkom bij OpenStreetMap'
@@ -1550,12 +1557,12 @@ nl:
       anonymous: Een anonieme gebruiker
       greeting: Hallo,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} heeft gereageerd op een van uw
+        subject_own: '[OpenStreetMap] %{commenter} heeft gereageerd op één van uw
           opmerkingen'
         subject_other: '[OpenStreetMap] %{commenter} heeft gereageerd op een opmerking
           waar u interesse in hebt'
-        your_note: '%{commenter} heeft gereageerd op een opmerking van u bij een kaart
-          nabij %{place}.'
+        your_note: '%{commenter} heeft gereageerd op één van uw kaartopmerkingen bij
+          %{place}.'
         your_note_html: '%{commenter} heeft gereageerd op een opmerking van u nabij
           %{place}.'
         commented_note: '%{commenter} heeft gereageerd op een opmerking bij een kaart
@@ -1563,24 +1570,23 @@ nl:
         commented_note_html: '%{commenter} heeft gereageerd op een opmerking waar
           u op gereageerd hebt. De opmerking is gemaakt nabij %{place}.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} heeft een van uw opmerkingen opgelost'
+        subject_own: '[OpenStreetMap] %{commenter} heeft één van uw opmerkingen opgelost'
         subject_other: '[OpenStreetMap] %{commenter} heeft een opmerking opgelost
           waar u interesse in hebt'
-        your_note: '%{commenter} heeft een opmerking van u opgelost bij een kaart
-          nabij %{place}.'
+        your_note: '%{commenter} heeft één van uw kaartopmerkingen bij %{place} opgelost.'
         your_note_html: '%{commenter} heeft een opmerking van u opgelost nabij %{place}.'
         commented_note: '%{commenter} heeft een opmerking opgelost bij een kaart waar
           u op hebt gereageerd. De opmerking is gemaakt nabij %{place}.'
         commented_note_html: '%{commenter} heeft een opmerking opgelost waar u op
           hebt gereageerd. De opmerking is gemaakt nabij %{place}.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} heeft een van uw opmerkingen opnieuw
+        subject_own: '[OpenStreetMap] %{commenter} heeft één van uw opmerkingen opnieuw
           geactiveerd'
         subject_other: '[OpenStreetMap] %{commenter} heeft een opmerking waar u interesse
           in hebt opnieuw geactiveerd'
-        your_note: '%{commenter} heeft een van uw kaartnotities bij %{place} opnieuw
+        your_note: '%{commenter} heeft één van uw kaartopmerkingen bij %{place} opnieuw
           geactiveerd.'
-        your_note_html: '%{commenter} heeft een van uw opmerkingen bij %{place} opnieuw
+        your_note_html: '%{commenter} heeft één van uw opmerkingen bij %{place} opnieuw
           geactiveerd.'
         commented_note: '%{commenter} heeft een kaartopmerking waarop u hebt gereageerd
           opnieuw geactiveerd. De opmerking is gemaakt bij %{place}.'
@@ -1592,13 +1598,13 @@ nl:
       hi: Hoi %{to_user},
       greeting: Hallo,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} heeft gereageerd op een van uw
+        subject_own: '[OpenStreetMap] %{commenter} heeft gereageerd op één van uw
           wijzigingensets'
         subject_other: '[OpenStreetMap] %{commenter} heeft gereageerd op een wijzigingenset
           waar u interesse in hebt'
-        your_changeset: '%{commenter} heeft om %{time} op een van uw wijzigingensets
+        your_changeset: '%{commenter} heeft om %{time} op één van uw wijzigingensets
           gereageerd'
-        your_changeset_html: '%{commenter} heeft om %{time} op een van uw wijzigingensets
+        your_changeset_html: '%{commenter} heeft om %{time} op één van uw wijzigingensets
           gereageerd'
         commented_changeset: '%{commenter} heeft gereageerd om %{time} op een wijzigingenset
           die u volgt van %{changeset_author}'
@@ -1609,7 +1615,7 @@ nl:
         partial_changeset_without_comment: zonder reactie
       details: Meer details over de wijzigingenset kunt u vinden op %{url}.
       details_html: Meer details over de wijzigingenset kunt u vinden op %{url}.
-      unsubscribe: Om je af te melden van de updates van deze wijziging, ga naar %{url}
+      unsubscribe: Om u af te melden van de updates van deze wijziging, ga naar %{url}
         en klik op "Afmelden".
       unsubscribe_html: Om geen meldingen meer te krijgen over deze wijzigingset,
         gaat u naar %{url} en klikt u op "Afmelden".
@@ -1645,6 +1651,7 @@ nl:
     inbox:
       title: Postvak IN
       my_inbox: Mijn Postvak IN
+      my_outbox: Mijn Postvak UIT
       messages: U hebt %{new_messages} en %{old_messages}
       new_messages:
         one: '%{count} nieuw bericht'
@@ -1679,6 +1686,8 @@ nl:
       body: Er is geen bericht met dat ID.
     outbox:
       title: Postvak UIT
+      my_inbox: Mijn Postvak IN
+      my_outbox: Mijn Postvak UIT
       messages:
         one: U hebt één verzonden bericht
         other: U hebt %{count} verzonden berichten
@@ -2017,10 +2026,11 @@ nl:
         <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons
         Open Database</a> (ODbL).
       too_large:
-        advice: 'Als het exporteren mislukt, overweeg dan een van de onderstaande
+        advice: 'Als de bovenstaande export mislukt, overweeg dan één van de onderstaande
           bronnen te gebruiken:'
         body: Dit gebied is te groot om als OpenStreetMap XML-gegevens te exporteren.
-          Zoom in of selecteer een kleiner gebied.
+          Zoom in, selecteer een kleiner gebied of gebruik één van de bronnen die
+          hieronder staan voor bulk downloads.
         planet:
           title: Planet OSM
           description: Regelmatig bijgewerkte kopieën van de volledige OpenStreetMap
@@ -2054,22 +2064,22 @@ nl:
     fixthemap:
       title: Een probleem melden / de kaart corrigeren
       how_to_help:
-        title: Hoe je kan helpen
+        title: Hoe u kan helpen
         join_the_community:
           title: Word lid van onze gemeenschap
-          explanation_html: Als je een probleem met onze kaartgegevens hebt gevonden
-            (er ontbreekt bijvoorbeeld een weg of je adres staat er niet in) dan kan
-            je je het best bij OpenStreetMap inschrijven en de gegevens zelf toevoegen
+          explanation_html: Als u een probleem met onze kaartgegevens hebt gevonden
+            (er ontbreekt bijvoorbeeld een weg of uw adres staat er niet in) dan kunt
+            u zich het best bij OpenStreetMap inschrijven en de gegevens zelf toevoegen
             of corrigeren.
         add_a_note:
           instructions_html: |-
-            Klik op <a class='icon note'></a> of het hetzelfde pictogram op de kaartweergave.
-            Er wordt dan een markering toegevoegd aan de kaart, die je kan verslepen.
-            Voeg je bericht toe, klik op opslaan, en andere kaartenmakers kijken dan naar jouw melding.
+            Klik op <a class='icon note'></a> of hetzelfde pictogram op de kaartweergave.
+            Er wordt dan een markering toegevoegd aan de kaart die u kunt verplaatsen
+            door het te verslepen. Voeg uw bericht toe, klik dan op "opslaan" en vervolgens kijken andere kaartenmakers naar uw melding.
       other_concerns:
         title: Andere aangelegenheden
         explanation_html: |-
-          Als je vragen hebt over hoe onze gegevens worden gebruikt of over de inhoud, raadpleeg dan onze
+          Als u vragen hebt over hoe onze gegevens worden gebruikt of over de inhoud, raadpleeg dan onze
           <a href='/copyright'>auteursrechtenpagina</a> voor meer juridische informatie, of neem contact op met de betreffende
           <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-werkgroep</a>.
     help:
@@ -2245,7 +2255,7 @@ nl:
         title: Nog vragen?
         paragraph_1_html: |-
           Er zijn verschillende bronnen om te leren over OpenStreetMap, voor het stellen en beantwoorden van vragen, en het gezamenlijk overleggen en documenteren van onderwerpen die gaan over kaarten maken.
-          <a href='%{help_url}'>Hier vind je meer informatie</a>. Werk je bij een organisatie met plannen voor OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Bekijk de Welkomstpagina</a>
+          <a href='%{help_url}'>Hier vindt u meer informatie</a>. Werkt u bij een organisatie met plannen voor OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Bekijk de Welkomstpagina</a>
       start_mapping: Beginnen met kaarten maken
       add_a_note:
         title: Geen tijd om te bewerken? Voeg een opmerking toe!
@@ -2524,7 +2534,7 @@ nl:
       diary: Dagboek
       edits: Bewerkingen
       traces: Trajecten
-      notes: Opmerkingen bij kaart
+      notes: Kaartopmerkingen
       remove as friend: Vriend verwijderen
       add as friend: Vriend toevoegen
       mapper since: 'Mapper sinds:'
@@ -2580,13 +2590,13 @@ nl:
     account:
       title: Account bewerken
       my settings: Mijn instellingen
-      current email address: 'Huidige e-mailadres:'
-      external auth: 'Externe verificatie:'
+      current email address: Huidig e-mailadres
+      external auth: Externe verificatie
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: wat is dit?
       public editing:
-        heading: 'Bewerkingen openbaar:'
+        heading: Openbaar bewerken
         enabled: Ingeschakeld. U bent niet anoniem en u kunt bewerken.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: wat is dit?
@@ -2605,7 +2615,7 @@ nl:
           handeling kan niet ongedaan gemaakt worden en alle nieuwe gebrukers zijn
           nu standaard publiek.</li></ul>
       contributor terms:
-        heading: 'Bijdragersovereenkomst:'
+        heading: Bijdragersovereenkomst
         agreed: U bent akkoord gegaan met de nieuwe Bijdragersovereenkomst.
         not yet agreed: U hebt nog niet ingestemd met de nieuwe Bijdragersovereenkomst.
         review link text: Volg deze koppeling als u wilt om de nieuwe Bijdragersovereenkomst
@@ -2614,7 +2624,7 @@ nl:
           Publieke domein.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: wat is dit?
-      image: 'Afbeelding:'
+      image: Afbeelding
       gravatar:
         gravatar: Gravatar gebruiken
         link: https://wiki.openstreetmap.org/wiki/NL:Gravatar
@@ -2626,7 +2636,7 @@ nl:
       replace image: Huidige afbeelding vervangen
       image size hint: (vierkante afbeeldingen van minstens 100x100 pixels werken
         het beste)
-      home location: 'Thuislocatie:'
+      home location: Thuislocatie
       no home location: Er is geen thuislocatie ingevoerd.
       update home location on click: Thuislocatie aanpassen bij klikken op de kaart
       save changes button: Wijzigingen opslaan
@@ -2718,7 +2728,7 @@ nl:
       back: Alle blokkades bekijken
     filter:
       block_expired: De blokkade is al vervallen en kan niet bijgewerkt worden.
-      block_period: De duur van de blokkade moet een van de waarden in het menu zijn.
+      block_period: De duur van de blokkade moet één van de waarden in het menu zijn.
     create:
       try_contacting: Neem contact op met de gebruiker voordat u de blokkade instelt
         en geef deze de tijd om te reageren.
@@ -2762,7 +2772,7 @@ nl:
           other: '%{count} maanden'
         years:
           one: 1 jaar
-          other: '%{count} jaren'
+          other: '%{count} jaar'
     blocks_on:
       title: Blokkades voor %{name}
       heading_html: Lijst met blokkades voor %{name}
@@ -2774,7 +2784,8 @@ nl:
     show:
       title: '%{block_on} geblokkeerd door %{block_by}'
       heading_html: '%{block_on} geblokkeerd door %{block_by}'
-      created: Aangemaakt
+      created: 'Aangemaakt:'
+      duration: 'Tijdsduur:'
       status: 'Status:'
       show: Weergeven
       edit: Bewerken
@@ -2803,6 +2814,7 @@ nl:
       title: Opmerkingen gemaakt door %{user}
       heading: Opmerkingen van %{user}
       subheading_html: Opmerkingen gemaakt door %{user}
+      no_notes: Geen opmerkingen
       id: Id
       creator: Auteur
       description: Beschrijving
@@ -2856,7 +2868,7 @@ nl:
         opnvkarte: ÖPNVKarte
       layers:
         header: Kaartlagen
-        notes: Opmerkingen bij kaart
+        notes: Kaartopmerkingen
         data: Kaartgegevens
         gps: Openbare gps-trajecten
         overlays: Overlays inschakelen om fouten in de kaart te helpen identificeren
@@ -2878,7 +2890,7 @@ nl:
       edit_disabled_tooltip: Zoom in om de kaart te bewerken
       createnote_tooltip: Opmerking bij kaart maken
       createnote_disabled_tooltip: Zoom in om een opmerking bij de kaart te maken
-      map_notes_zoom_in_tooltip: Inzoomen om de kaartnotities te bekijken
+      map_notes_zoom_in_tooltip: Zoom in om kaartopmerkingen te bekijken
       map_data_zoom_in_tooltip: Inzommen om de kaartgegeven te bekijken
       queryfeature_tooltip: Nabije objecten opvragen
       queryfeature_disabled_tooltip: Zoom in om objectinformatie op te vragen
