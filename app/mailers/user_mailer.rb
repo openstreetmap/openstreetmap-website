@@ -194,7 +194,7 @@ class UserMailer < ApplicationMailer
     avatar = user&.avatar
     if avatar&.attached?
       if avatar.variable?
-        image = avatar.variant(:resize => "50x50>").processed
+        image = avatar.variant(:resize_to_limit => [50, 50]).processed
         image.service.download(image.key)
       else
         avatar.blob.download

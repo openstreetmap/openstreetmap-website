@@ -60,7 +60,7 @@ class UserHelperTest < ActionView::TestCase
     gravatar_user = create(:user, :image_use_gravatar => true)
 
     url = user_image_url(user)
-    assert_match %r{^http://test.host/rails/active_storage/representations/[^/]+/[^/]+/a.gif$}, url
+    assert_match %r{^http://test.host/rails/active_storage/representations/redirect/[^/]+/[^/]+/a.gif$}, url
 
     url = user_image_url(gravatar_user)
     assert_match %r{^http://www.gravatar.com/avatar/}, url
