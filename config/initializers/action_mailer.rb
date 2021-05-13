@@ -1,3 +1,6 @@
+# Configure queue to use for ActionMailer deliveries
+ActionMailer::Base.deliver_later_queue_name = :mailers
+
 # Configure ActionMailer SMTP settings
 ActionMailer::Base.smtp_settings = {
   :address => Settings.smtp_address,
