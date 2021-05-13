@@ -64,4 +64,4 @@ Rails.application.config.active_record.legacy_connection_handling = false
 
 # Generate a `Link` header that gives a hint to modern browsers about
 # preloading assets when using `javascript_include_tag` and `stylesheet_link_tag`.
-# Rails.application.config.action_view.preload_links_header = true
+Rails.application.config.action_view.preload_links_header = true
