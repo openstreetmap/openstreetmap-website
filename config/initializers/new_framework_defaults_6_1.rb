@@ -10,7 +10,7 @@
 Rails.application.config.active_record.has_many_inversing = true
 
 # Track Active Storage variants in the database.
-# Rails.application.config.active_storage.track_variants = true
+Rails.application.config.active_storage.track_variants = true
 
 # Apply random variation to the delay when retrying failed jobs.
 Rails.application.config.active_job.retry_jitter = 0.15
