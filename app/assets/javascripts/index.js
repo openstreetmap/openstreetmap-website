@@ -188,17 +188,17 @@ $(document).ready(function () {
       map.getLayersCode(),
       map._object);
 
-    $.removeCookie("_osm_location");
-    $.cookie("_osm_location", OSM.locationCookie(map), { secure: true, expires: expiry, path: "/" });
+    Cookies.remove("_osm_location");
+    Cookies.set("_osm_location", OSM.locationCookie(map), { secure: true, expires: expiry, path: "/" });
   });
 
-  if ($.cookie("_osm_welcome") !== "hide") {
+  if (Cookies.get("_osm_welcome") !== "hide") {
     $(".welcome").addClass("visible");
   }
 
   $(".welcome .close").on("click", function () {
     $(".welcome").removeClass("visible");
-    $.cookie("_osm_welcome", "hide", { secure: true, expires: expiry, path: "/" });
+    Cookies.set("_osm_welcome", "hide", { secure: true, expires: expiry, path: "/" });
   });
 
   var bannerExpiry = new Date();
@@ -209,7 +209,7 @@ $(document).ready(function () {
     $("#banner").hide();
     e.preventDefault();
     if (cookieId) {
-      $.cookie(cookieId, "hide", { secure: true, expires: bannerExpiry, path: "/" });
+      Cookies.set(cookieId, "hide", { secure: true, expires: bannerExpiry, path: "/" });
     }
   });
 

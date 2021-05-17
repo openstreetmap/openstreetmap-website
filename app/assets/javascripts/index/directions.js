@@ -327,14 +327,14 @@ OSM.Directions = function (map) {
   }
 
   var chosenEngineIndex = findEngine("fossgis_osrm_car");
-  if ($.cookie("_osm_directions_engine")) {
-    chosenEngineIndex = findEngine($.cookie("_osm_directions_engine"));
+  if (Cookies.get("_osm_directions_engine")) {
+    chosenEngineIndex = findEngine(Cookies.get("_osm_directions_engine"));
   }
   setEngine(chosenEngineIndex);
 
   select.on("change", function (e) {
     chosenEngine = engines[e.target.selectedIndex];
-    $.cookie("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/" });
+    Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/" });
     getRoute(true, true);
   });
 
