@@ -334,7 +334,7 @@ OSM.Directions = function (map) {
 
   select.on("change", function (e) {
     chosenEngine = engines[e.target.selectedIndex];
-    Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/" });
+    Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/", samesite: "lax" });
     getRoute(true, true);
   });
 
