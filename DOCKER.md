@@ -56,7 +56,7 @@ Run the Rails database migrations:
 
 Run the test suite by running:
 
-    docker-compose run --rm web bundle exec rake test:db
+    docker-compose run --rm web bundle exec rails test:all
 
 ### Loading an OSM extract
 

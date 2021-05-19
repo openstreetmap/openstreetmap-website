@@ -33,7 +33,7 @@ functionality.
 You can run the existing test suite with:
 
 ```
-bundle exec rake test
+bundle exec rails test:all
 ```
 
 You can view test coverage statistics by browsing the `coverage` directory.
