@@ -62,7 +62,9 @@ module SessionMethods
   ##
   #
   def unconfirmed_login(user)
-    session[:token] = user.tokens.create.token
+    ActiveRecord::Base.connected_to(:role => :writing) do
+      session[:token] = user.tokens.create.token
+    end
 
     redirect_to :controller => "confirmations", :action => "confirm", :display_name => user.display_name
 

@@ -10,7 +10,10 @@
 <body>
 <% data = {}
    if Settings.key?(:id_application)
-     token = current_user.oauth_token(Settings.id_application)
+     token = nil
+     ActiveRecord::Base.connected_to(:role => :writing) do
+       token = current_user.oauth_token(Settings.id_application)
+     end
      data[:token] = token.token
    end
    data[:locale] = ID::LOCALES.preferred(preferred_languages).to_s

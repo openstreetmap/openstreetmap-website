@@ -17,8 +17,10 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
 
     if @message.recipient == current_user || @message.sender == current_user
-      @message.message_read = true if @message.recipient == current_user
-      @message.save
+      ActiveRecord::Base.connected_to(:role => :writing) do
+        @message.message_read = true if @message.recipient == current_user
+        @message.save
+      end
     else
       flash[:notice] = t ".wrong_user", :user => current_user.display_name
       redirect_to login_path(:referer => request.fullpath)
@@ -75,7 +77,9 @@ class MessagesController < ApplicationController
     message = Message.find(params[:message_id])
 
     if message.recipient == current_user
-      message.update(:message_read => true)
+      ActiveRecord::Base.connected_to(:role => :writing) do
+        message.update(:message_read => true)
+      end
 
       @message = Message.new(
         :recipient => message.sender,

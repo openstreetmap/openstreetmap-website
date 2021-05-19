@@ -23,7 +23,10 @@ class OauthNonce < ApplicationRecord
   def self.remember(nonce, timestamp)
     return false if Time.now.to_i - timestamp.to_i > 86400
 
-    oauth_nonce = OauthNonce.create(:nonce => nonce, :timestamp => timestamp.to_i)
+    oauth_nonce = nil
+    ActiveRecord::Base.connected_to(:role => :writing) do
+      oauth_nonce = OauthNonce.create(:nonce => nonce, :timestamp => timestamp.to_i)
+    end
     return false if oauth_nonce.new_record?
 
     oauth_nonce

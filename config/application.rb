@@ -57,5 +57,9 @@ module OpenStreetMap
       config.logstasher.logger_path = Settings.logstash_path
       config.logstasher.log_controller_parameters = true
     end
+
+    config.active_record.database_selector = { :delay => 2.seconds }
+    config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
+    config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
   end
 end
