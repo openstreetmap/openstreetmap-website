@@ -188,8 +188,10 @@ class ApplicationController < ActionController::Base
 
   def set_locale(reset: false)
     if current_user&.languages&.empty? && !http_accept_language.user_preferred_languages.empty?
-      current_user.languages = http_accept_language.user_preferred_languages
-      current_user.save
+      ActiveRecord::Base.connected_to(:role => :writing) do
+        current_user.languages = http_accept_language.user_preferred_languages
+        current_user.save
+      end
     end
 
     I18n.locale = Locale.available.preferred(preferred_languages(:reset => reset))

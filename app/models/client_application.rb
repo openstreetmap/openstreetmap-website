@@ -78,7 +78,9 @@ class ClientApplication < ApplicationRecord
     permissions.each do |p|
       params[p] = true
     end
-    RequestToken.create(params)
+    ActiveRecord::Base.connected_to(:role => :writing) do
+      RequestToken.create(params)
+    end
   end
 
   def access_token_for_user(user)

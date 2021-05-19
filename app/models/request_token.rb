@@ -51,16 +51,18 @@ class RequestToken < OauthToken
     return false unless authorized?
     return false unless oauth10? || verifier == provided_oauth_verifier
 
-    RequestToken.transaction do
-      params = { :user => user, :client_application => client_application }
-      # copy the permissions from the authorised request token to the access token
-      client_application.permissions.each do |p|
-        params[p] = self[p]
-      end
+    ActiveRecord::Base.connected_to(:role => :writing) do
+      RequestToken.transaction do
+        params = { :user => user, :client_application => client_application }
+        # copy the permissions from the authorised request token to the access token
+        client_application.permissions.each do |p|
+          params[p] = self[p]
+        end
 
-      access_token = AccessToken.create(params)
-      invalidate!
-      access_token
+        access_token = AccessToken.create(params)
+        invalidate!
+        access_token
+      end
     end
   end
 
