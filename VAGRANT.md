@@ -32,7 +32,7 @@ Within this login shell, you can do development, run the server or the tests. Fo
 
 ```
 cd /srv/openstreetmap-website/
-rake test
+bundle exec rails test:all
 ```
 
 To access the web pages you run the following commands then access the site in your [local browser](http://localhost:3000):
@@ -40,7 +40,7 @@ To access the web pages you run the following commands then access the site in y
 ```
 vagrant ssh
 cd /srv/openstreetmap-website/
-rails server --binding=0.0.0.0
+bundle exec rails server --binding=0.0.0.0
 ```
 
 You edit the code on your computer using the code editor you are used to using, then through shared folders the code is updated on the VM instantly.

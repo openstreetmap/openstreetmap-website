@@ -33,4 +33,5 @@ jobs:
         curl -siL http://127.0.0.1:3000/api/0.6/node/1 | grep 'Null Island'
     - name: Test Complete Suite
       run: |
-        docker-compose run --rm web bundle exec rails test:db
+        docker-compose run --rm web bundle exec rails db:test:prepare
+        docker-compose run --rm web bundle exec rails test:all
