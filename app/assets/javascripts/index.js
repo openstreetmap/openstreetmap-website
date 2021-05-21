@@ -335,8 +335,8 @@ $(document).ready(function () {
 
     function addObject(type, id, center) {
       map.addObject({type: type, id: parseInt(id)}, function(bounds) {
-        if (!window.location.hash && bounds.isValid() &&
-            (center || !map.getBounds().contains(bounds))) {
+        const zoomtoit = bounds.isValid() && !map.getBounds().contains(bounds) && (center || window.location.hash.indexOf('map=') == -1);
+        if (zoomtoit) {
           OSM.router.withoutMoveListener(function () {
             map.fitBounds(bounds);
           });
