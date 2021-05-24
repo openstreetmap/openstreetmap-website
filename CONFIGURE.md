@@ -66,8 +66,8 @@ For example, to use the iD editor you need to register it as an OAuth applicatio
 Do the following:
 * Log into your Rails Port instance - e.g. http://localhost:3000
 * Click on your user name to go to your user page
-* Click on "my settings" on the user page
-* Click on "oauth settings" on the My settings page
+* Click on "My settings" on the user page
+* Click on "OAuth details" on the My settings page
 * Click on 'Register your application'.
 * Unless you have set up alternatives, use Name: "Local iD" and URL: "http://localhost:3000"
 * Check the 'modify the map' box.

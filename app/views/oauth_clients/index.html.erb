@@ -15,7 +15,7 @@
   </thead>
   <% @tokens.each do |token| %>
     <tr>
-      <td><%= link_to token.client_application.name, token.client_application.url %></td>
+      <td><%= link_to token.client_application.name, token.client_application.url, :target => "_blank", :rel => "noopener" %></td>
       <td><%= token.authorized_at %></td>
       <td>
         <%= form_tag({ :controller => "oauth", :action => "revoke" }) do %>
@@ -26,6 +26,7 @@
     </tr>
   <% end %>
 </table>
+<p><%= t ".valid_until_revoked" %></p>
 <% end %>
 <h3><%= t ".my_apps" %></h3>
 <% if @client_applications.empty? %>
