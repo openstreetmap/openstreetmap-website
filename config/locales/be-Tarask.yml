@@ -125,7 +125,9 @@ be-Tarask:
       report:
         category: Абярыце прычыну вашага паведамленьня
       user:
+        auth_uid: UID аўтэнтыфікацыі
         email: Электронная пошта
+        email_confirmation: Пацьверджаньне э-пошты
         new_email: Новы адрас электроннай пошты
         active: Актыўны
         display_name: Бачнае імя
@@ -133,7 +135,9 @@ be-Tarask:
         home_lat: Шырата
         home_lon: Даўгата
         languages: Пажаданыя мовы
+        preferred_editor: Пажаданы рэдактар
         pass_crypt: Пароль
+        pass_crypt_confirmation: Пацьверджаньне паролю
     help:
       trace:
         tagstring: падзеленае коскамі
@@ -146,6 +150,10 @@ be-Tarask:
         needs_view: Ці трэба ўдзельніку ўвайсьці ў сыстэму, перад тым як блякаваньне
           будзе зьнятае?
       user:
+        email_confirmation: Ваш адрас ня будзе паказвацца публічна, глядзіце нашыя
+          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="правілы
+          OSMF адносна прыватнасьці, у тым ліку разьдзел пра адрасы электроннай пошты">правілы
+          адносна прыватнасьці</a> дзеля дадатковай інфармацыі
         new_email: (ніколі ня будзе паказаны публічна)
   datetime:
     distance_in_words_ago:
@@ -229,6 +237,30 @@ be-Tarask:
   browse:
     created: Створана
     closed: Закрытае
+    created_html: Створана <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Закрыта <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Створана <abbr title='%{title}'>%{time}</abbr> удзельнікам %{user}
+    deleted_by_html: Выдалена <abbr title='%{title}'>%{time}</abbr> удзельнікам %{user}
+    edited_by_html: Зьменена <abbr title='%{title}'>%{time}</abbr> удзельнікам %{user}
+    closed_by_html: Закрыта <abbr title='%{title}'>%{time}</abbr> by %{user}
+    version: Вэрсія
+    in_changeset: Набор зьменаў
+    anonymous: ананім
+    no_comment: (без камэнтароў)
+    part_of: Частка
+    part_of_relations:
+      one: 1 сувязь
+      few: '%{count} сувязі'
+      many: '%{count} сувязяў'
+      other: '%{count} сувязяў'
+    part_of_ways:
+      one: 1 лінія
+      few: '%{count} лініі'
+      many: '%{count} лініяў'
+      other: '%{count} лініяў'
+    download_xml: Спампаваць XML
+    view_history: Паглядзець гісторыю
+    view_details: Паглядзець зьвесткі
     location: 'Месцазнаходжаньне:'
     changeset:
       title: 'Набор зьменаў: %{id}'
@@ -247,6 +279,13 @@ be-Tarask:
         title_comment: Набор зьменаў %{id} - %{comment}
     way:
       nodes: Вузлы
+    relation:
+      members: Удзельнікі
+      members_count:
+        one: 1 удзельнік
+        few: '%{count} удзельнікі'
+        many: '%{count} удзельнікаў'
+        other: '%{count} удзельнікаў'
     relation_member:
       entry_role_html: '%{type} %{name} як %{role}'
       type:
@@ -257,6 +296,7 @@ be-Tarask:
       entry_html: Адносіны %{relation_name}
       entry_role_html: Адносіны %{relation_name} (як %{relation_role})
     not_found:
+      title: Ня знойдзена
       sorry: Прабачце, %{type} № %{id} ня знойдзены.
       type:
         node: вузел
@@ -1606,7 +1646,7 @@ be-Tarask:
     show:
       title: '%{block_on} заблякаваны %{block_by}'
       heading_html: '%{block_on} заблякаваны %{block_by}'
-      status: Статус
+      status: 'Статус:'
       show: Паказаць
       edit: Рэдагаваць
       revoke: Адклікаць!
