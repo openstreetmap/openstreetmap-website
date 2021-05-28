@@ -307,6 +307,8 @@ $(document).ready(function () {
     };
 
     page.load = function() {
+      addOpenHistoricalMapTimeSlider();
+
       var params = querystring.parse(location.search.substring(1));
       if (params.query) {
         $("#sidebar .search_form input[name=query]").value(params.query);
@@ -360,81 +362,81 @@ $(document).ready(function () {
       map.removeObject();
     };
 
-    // add the enhanced inspector
-    function addOpenHistoricalMapInspector () {
-      var inspector = new openhistoricalmap.OpenHistoricaMapInspector({
-          debug: true,
-          onFeatureFail: function (type, id) {
-              console.log([ 'failed to load feature', type, id ]);
-          },
-          onFeatureLoaded: function (type, id, xmldoc) {
-              console.log([ 'loaded feature', type, id, xmldoc ]);
-          },
-          apiBaseUrl: "/api/"
-      });
-      inspector.selectFeatureFromUrl();
-    }
-
-    // add the timeslider, fixed to the OHM layer, which is a Leaflet MBGL "layer" named historicalLayerKey
-    // see also the page.load handler which waits for the timeslider to be operational, or else unused
-    var historicalLayerKey = 'historical';
-    var timeSliderHardMaxYear = (new Date()).getFullYear();  // current calendar year
-    var timeSliderHardMinYear = -4000;
-    var timeSliderDateRange = params.daterange.split(',').map(function (i) { return parseInt(i); });
-
-    function addOpenHistoricalMapTimeSlider () {
-      var sliderOptions = {
-        position: 'bottomright',
-        mbgllayer: undefined,  // see addTimeSliderToMap() whichy searches for this
-        timeSliderOptions: {
-          sourcename: "osm",
-          date: parseInt(params.date),
-          range: timeSliderDateRange,
-          datelimit: [timeSliderHardMinYear, timeSliderHardMaxYear],
-          onDateSelect: function () {
-            OSM.router.updateHash();
-          },
-          onRangeChange: function () {
-            OSM.router.updateHash();
-          },
-          onReady: function () {
-            OSM.router.updateHash('force');
-          },
-        }
-      };
-
-      if (getHistoryLayerIfShowing()) {  // add the slider IF the the OSM vector map is the layer showing
-        addTimeSliderToMap(sliderOptions);
-      }
-
-      map.on('baselayerchange', function () {  // change basemap = MBGL gone and so is the real timeslider, so reinstate a new one
-        const usetheslider = getHistoryLayerIfShowing();
-        if (! usetheslider) return;
-
-        const newSliderOptions = Object.assign({}, sliderOptions);
-        if (this.timeslider) {
-          newSliderOptions.timeSliderOptions.date = this.timeslider.getDate();
-          newSliderOptions.timeSliderOptions.range = this.timeslider.getRange();
-        }
-        addTimeSliderToMap(newSliderOptions);
-      });
-    }
-
-    function getHistoryLayerIfShowing () {
-      let ohmlayer;
-      map.eachLayer(function (layer) {
-        if (layer.options.keyid === historicalLayerKey) ohmlayer = layer;
-      });
-      return ohmlayer;
-    }
-    function addTimeSliderToMap (slideroptions) {
-      const ohmlayer = getHistoryLayerIfShowing();
-      slideroptions.mbgllayer = ohmlayer;
-      map.timeslider = new L.Control.MBGLTimeSlider(slideroptions).addTo(map);
-    }
-
     return page;
   };
+
+  // add the enhanced inspector
+  function addOpenHistoricalMapInspector () {
+    var inspector = new openhistoricalmap.OpenHistoricaMapInspector({
+        debug: true,
+        onFeatureFail: function (type, id) {
+            console.log([ 'failed to load feature', type, id ]);
+        },
+        onFeatureLoaded: function (type, id, xmldoc) {
+            console.log([ 'loaded feature', type, id, xmldoc ]);
+        },
+        apiBaseUrl: "/api/"
+    });
+    inspector.selectFeatureFromUrl();
+  }
+
+  // add the timeslider, fixed to the OHM layer, which is a Leaflet MBGL "layer" named historicalLayerKey
+  // see also the page.load handler which waits for the timeslider to be operational, or else unused
+  var historicalLayerKey = 'historical';
+  var timeSliderHardMaxYear = (new Date()).getFullYear();  // current calendar year
+  var timeSliderHardMinYear = -4000;
+  var timeSliderDateRange = params.daterange.split(',').map(function (i) { return parseInt(i); });
+
+  function addOpenHistoricalMapTimeSlider () {
+    var sliderOptions = {
+      position: 'bottomright',
+      mbgllayer: undefined,  // see addTimeSliderToMap() whichy searches for this
+      timeSliderOptions: {
+        sourcename: "osm",
+        date: parseInt(params.date),
+        range: timeSliderDateRange,
+        datelimit: [timeSliderHardMinYear, timeSliderHardMaxYear],
+        onDateSelect: function () {
+          OSM.router.updateHash();
+        },
+        onRangeChange: function () {
+          OSM.router.updateHash();
+        },
+        onReady: function () {
+          OSM.router.updateHash('force');
+        },
+      }
+    };
+
+    if (getHistoryLayerIfShowing()) {  // add the slider IF the the OSM vector map is the layer showing
+      addTimeSliderToMap(sliderOptions);
+    }
+
+    map.on('baselayerchange', function () {  // change basemap = MBGL gone and so is the real timeslider, so reinstate a new one
+      const usetheslider = getHistoryLayerIfShowing();
+      if (! usetheslider) return;
+
+      const newSliderOptions = Object.assign({}, sliderOptions);
+      if (this.timeslider) {
+        newSliderOptions.timeSliderOptions.date = this.timeslider.getDate();
+        newSliderOptions.timeSliderOptions.range = this.timeslider.getRange();
+      }
+      addTimeSliderToMap(newSliderOptions);
+    });
+  }
+
+  function getHistoryLayerIfShowing () {
+    let ohmlayer;
+    map.eachLayer(function (layer) {
+      if (layer.options.keyid === historicalLayerKey) ohmlayer = layer;
+    });
+    return ohmlayer;
+  }
+  function addTimeSliderToMap (slideroptions) {
+    const ohmlayer = getHistoryLayerIfShowing();
+    slideroptions.mbgllayer = ohmlayer;
+    map.timeslider = new L.Control.MBGLTimeSlider(slideroptions).addTo(map);
+  }
 
   var history = OSM.History(map);
 
