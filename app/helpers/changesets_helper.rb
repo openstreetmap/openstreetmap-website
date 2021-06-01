@@ -12,11 +12,11 @@ module ChangesetsHelper
   def changeset_details(changeset)
     if changeset.closed_at > Time.now
       action = :created
-      time = time_ago_in_words(changeset.created_at, :scope => :'datetime.distance_in_words_ago')
+      time = time_ago_in_words(changeset.created_at, :scope => :"datetime.distance_in_words_ago")
       title = l(changeset.created_at)
     else
       action = :closed
-      time = time_ago_in_words(changeset.closed_at, :scope => :'datetime.distance_in_words_ago')
+      time = time_ago_in_words(changeset.closed_at, :scope => :"datetime.distance_in_words_ago")
       title = safe_join([t("browse.created"), ": ", l(changeset.created_at), "&#10;".html_safe, t("browse.closed"), ": ", l(changeset.closed_at)])
     end
 

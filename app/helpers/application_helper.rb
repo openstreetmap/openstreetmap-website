@@ -30,7 +30,7 @@ module ApplicationHelper
   end
 
   def friendly_date_ago(date)
-    tag.span(time_ago_in_words(date, :scope => :'datetime.distance_in_words_ago'), :title => l(date, :format => :friendly))
+    tag.span(time_ago_in_words(date, :scope => :"datetime.distance_in_words_ago"), :title => l(date, :format => :friendly))
   end
 
   def body_class
