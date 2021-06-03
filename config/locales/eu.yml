@@ -61,6 +61,7 @@ eu:
       diary_comment: Eguneroko iruzkina
       diary_entry: Eguneroko sarrera
       friend: Laguna
+      issue: Arazoa
       language: Hizkuntza
       message: Mezua
       node: Nodo
@@ -92,6 +93,8 @@ eu:
       client_application:
         callback_url: Berriz deitzeko URLa
         support_url: Laguntza URLa
+        allow_write_api: mapa aldatu
+        allow_write_notes: oharrak aldatu
       diary_comment:
         body: Gorputza
       diary_entry:
@@ -154,6 +157,9 @@ eu:
           pribatutasun politika, helbide elektronikoei buruzko atala ere bai">pribatutasun
           politika</a>) informazio gehiagorako.
         new_email: (inoiz ez da publikoki bistaratuko)
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: duela minutu erdi
   editor:
     default: Lehenetsia (orain %{name})
     id:
@@ -161,7 +167,16 @@ eu:
       description: iD (nabigatzaile barneko editorea)
     remote:
       name: Urrutiko agintea
-      description: Urrutiko kontrola (JOSM edo Merkaartor)
+      description: Urrutiko agintea (JOSM, Potlatch, Merkaartor)
+  auth:
+    providers:
+      none: Ezer
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -253,6 +268,7 @@ eu:
       entry_html: '%{relation_name} erlazioa'
       entry_role_html: '%{relation_name} erlazioa (%{relation_role} rolean)'
     not_found:
+      title: Ez da aurkitu
       sorry: 'Barkatu, %{type} #%{id} ezin izan da aurkitu.'
       type:
         node: nodo
@@ -366,8 +382,8 @@ eu:
     new:
       title: Eguneroko Sarrera Berria
     form:
-      location: 'Kokapena:'
-      use_map_link: erabili mapa
+      location: Kokapena
+      use_map_link: Erabili mapa
     index:
       title: Erabiltzaileen egunerokoak
       title_friends: Lagunen egunerokoak
@@ -376,6 +392,7 @@ eu:
       in_language_title: Eguneroko Sarrerak %{language} hizkuntzan
       new: Eguneroko sarrera berria
       new_title: Nire erabiltzaile egunerokoan sarrera berri bat sortu
+      my_diary: Nire egunerokoa
       no_entries: Eguneroko sarrerarik ez
       recent_entries: Azkenengoko eguneroko sarrerak
       older_entries: Sarrera zaharragoak
@@ -397,7 +414,7 @@ eu:
     diary_entry:
       posted_by_html: '%{link_user}k %{created}n argitaratua %{language_link} hizkuntzan'
       comment_link: Sarrera honetan iruzkina utzi
-      reply_link: Sarrera honi erantzun
+      reply_link: Egileari mezua bidali
       comment_count:
         one: iruzkin %{count}
         zero: Iruzkinik ez
@@ -477,6 +494,7 @@ eu:
           holding_position: Pozisioari eusten
           parking_position: Aparkatze Posizioa
           runway: Lurreratze pista
+          taxilane: Taxi bidea
           taxiway: Taxi bidea
           terminal: Terminala
         amenity:
@@ -489,7 +507,9 @@ eu:
           bench: Bankua
           bicycle_parking: Txirrinduentzako aparkalekua
           bicycle_rental: Txirrindu Alokairua
+          bicycle_repair_station: Bizikletak konpontzeko lekua
           biergarten: Terraza
+          blood_bank: Odol-bankua
           boat_rental: Txalupen alokairua
           brothel: Putetxea
           bureau_de_change: Diru-truke Bulegoa
@@ -506,6 +526,7 @@ eu:
           clock: Erlojua
           college: Unibertsitatea
           community_centre: Komunitate Zentroa
+          conference_centre: Hitzaldi zentroa
           courthouse: Epaitegia
           crematorium: Erraustegia
           dentist: Dentista
@@ -526,10 +547,12 @@ eu:
           hunting_stand: Ehiza postua
           ice_cream: Izozkiak
           kindergarten: Haurtzaindegia
+          language_school: Hizkuntza eskola
           library: Liburutegia
           marketplace: Merkatua
           monastery: Monastegia
           motorcycle_parking: Motorrentzako aparkalekua
+          music_school: Musika eskola
           nightclub: Gau-kluba
           nursing_home: Zaharren egoitza
           parking: Aparkalekua
@@ -542,7 +565,9 @@ eu:
           post_office: Postetxea
           prison: Espetxea
           pub: Pub-a
+          public_bath: Komun publiko
           public_building: Eraikin publiko
+          ranger_station: Basozain estazioa
           recycling: Birziklatze gune
           restaurant: Jatetxea
           school: Eskola
@@ -557,18 +582,22 @@ eu:
           theatre: Antzokia
           toilets: Komunak
           townhall: Udaletxea
+          training: Formakuntza zentroa
           university: Unibertsitatea
+          vehicle_inspection: Ibilgailu azterketa
           vending_machine: Salmenta automatikodun makina
           veterinary: Albaitaritza klinika
           village_hall: Herriko aretoa
           waste_basket: Hondakin Saskia
           waste_disposal: Hondakin Ezabatze Puntua
+          waste_dump_site: Zabortegia
           water_point: Ur-puntua
         boundary:
           administrative: Muga Administratiboa
           census: Erroldaren muga
           national_park: Parke Nazionala
           protected_area: Babestutako Eremua
+          "yes": Muga
         bridge:
           aqueduct: Akueduktua
           boardwalk: Pasalekua
@@ -577,21 +606,36 @@ eu:
           viaduct: Bidezubia
           "yes": Zubia
         building:
+          apartment: Apartamentu
+          apartments: Apartamentuak
+          bungalow: Bungalow
+          cabin: Kabina
           chapel: Kapera
-          church: Eliza
+          church: Elizako eraikina
+          commercial: Merkataritza eraikin
+          construction: Eraikitze-lanetan dagoen eraikin
+          dormitory: Ikasleen egoitza
           garage: Garajea
+          greenhouse: Negutegi
+          hangar: Hangar
           hospital: Ospitale erakina
           hotel: Hotela
           house: Etxe
           industrial: Eraikin industriala
+          kindergarten: Haurtzaindegia
           public: Eraikin publiko
+          roof: Teilatu
           school: Eskola eraikina
           train_station: Tren Geltokia
           university: Unibertsitate eraikina
           "yes": Eraikina
+        club:
+          "yes": Kluba
         craft:
+          blacksmith: Errementaria
           brewery: Garagardotegia
           carpenter: Zurgina
+          caterer: Katering
           electrician: Argiketaria
           gardener: Lorezaina
           painter: Margolaria
@@ -599,13 +643,16 @@ eu:
           plumber: Iturgina
           shoemaker: Zapatagina
           tailor: Jostuna
+          winery: Ardotegi
           "yes": Artisau denda
         emergency:
           ambulance_station: Anbulantzia geralekua
           assembly_point: Bilera Puntua
           defibrillator: Desfibriladorea
+          fire_xtinguisher: Su itzailgailu
           landing_site: Larrialdi lurreratze-gunea
           phone: Larrialdi telefonoa
+          siren: Larrialdietako sirena
           water_tank: Larrialdietako ur tanga
           "yes": Larrialdia
         highway:
@@ -745,6 +792,7 @@ eu:
           "yes": Aisialdia
         man_made:
           adit: Galeriara sarrera
+          antenna: Antena
           beacon: Itsas argia
           beehive: Erlauntza
           breakwater: Dikea
@@ -770,6 +818,7 @@ eu:
           silo: Siloa
           storage_tank: Biltegiratze tanga
           surveillance: Zaintza
+          telescope: Teleskopioa
           tower: Dorrea
           wastewater_plant: Ur araztegia
           watermill: Errota hidraulikoa
@@ -787,6 +836,7 @@ eu:
         mountain_pass:
           "yes": Mendatea
         natural:
+          atoll: Atoloi
           bay: Badia
           beach: Hondartza
           cape: Lurmuturra
@@ -809,6 +859,7 @@ eu:
           moor: Mortua
           mud: Lohia
           peak: Gailurra
+          peninsula: Peninsula
           point: Puntua
           reef: Arrezifea
           ridge: Gailurra
@@ -832,6 +883,7 @@ eu:
           architect: Arkitektoa
           association: Elkartea
           company: Enpresa
+          diplomatic: Bulego diplomatiko
           educational_institution: Hezkuntza erakundea
           employment_agency: Enplegu Agentzia
           estate_agent: Higiezinen Agentea
@@ -845,6 +897,7 @@ eu:
           "yes": Bulegoa
         place:
           allotments: Alokatutako baratzeak
+          archipelago: Artxipelagoa
           city: Hiria
           city_block: Hiri Blokea
           country: Herrialdea
@@ -939,6 +992,7 @@ eu:
           hardware: Hardware-denda
           hifi: Hi-Fi
           houseware: Etxeko artikuluetako Denda
+          ice_cream: Izozki denda
           interior_decoration: Barne-dekorazioa
           jewelry: Bitxi-denda
           kiosk: Kioskoa
@@ -965,6 +1019,7 @@ eu:
           stationery: Paper-denda
           supermarket: Supermerkatua
           tailor: Jostuna
+          tea: Te denda
           ticket: Tiket denda
           tobacco: Tabako Denda
           toys: Jostailu denda
@@ -973,6 +1028,7 @@ eu:
           vacant: Denda Librea
           variety_store: Askotariko denda
           video: Bideo-denda
+          video_games: Bideojoko denda
           wine: Ardodenda
           "yes": Denda
         tourism:
@@ -1166,6 +1222,7 @@ eu:
     partners_ucl: UCLa
     partners_bytemark: Bytemark Ostatua
     partners_partners: bazkideak
+    tou: Erabilera-baldintzak
     osm_offline: OpenStreetMap datu-basea orain konexiorik gabe dago funtsezko datu-basearen
       mantentze lanak burutzen diren bitartean.
     osm_read_only: OpenStreetMap datu-basea irakurtzeko soilik moduan dago, oinarrizko
@@ -1344,6 +1401,7 @@ eu:
       body: Barkatu baina id horrekin ez dago mezurik.
     outbox:
       title: Irteerako ontzia
+      my_inbox: Nire sarrera-ontzia
       messages:
         one: '%{count} Mezua bidali duzu'
         other: ' %{count} Mezuak bidali dituzu'
@@ -1454,6 +1512,16 @@ eu:
       title: Saio-itxiera
       heading: OpenStreetMap-etik saioa itxi
       logout_button: Saioa itxi
+  shared:
+    markdown_help:
+      heading: Goiburua
+      subheading: Azpi-goiburua
+      unordered: Ordenik gabeko zerrenda
+      ordered: Ordenatutako zerrenda
+      url: URL
+    richtext_field:
+      edit: Aldatu
+      preview: Aurreikuspena
   site:
     about:
       next: Hurrengoa
@@ -1711,7 +1779,7 @@ eu:
         description: Hasiberrientzako mantentze-gida komunitarioa.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Laguntza foroa
         description: Egin galdera bat edo begiratu OSMn galdera-eta-erantzun gunean.
       mailing_lists:
         title: Posta Bidaltze Zerrendak
@@ -1735,7 +1803,7 @@ eu:
           Aurkitu jakin beharrekoa Ongietorri Lanpasean.
       wiki:
         url: http://wiki.openstreetmap.org/wiki/Eu:Main_Page
-        title: wiki.openstreetmap.org
+        title: OpenStreetMap Wiki
         description: Arakatu wikia informazio zehatzeko OSM dokumentaziorako.
     sidebar:
       search_results: Bilaketaren emaitzak
@@ -1925,7 +1993,9 @@ eu:
       newer: Aztarna berriagoak
     trace:
       pending: PRIBATUA
-      count_points: '%{count} puntu'
+      count_points:
+        one: puntu 1
+        other: '%{count} puntu'
       more: gehiago
       trace_details: Ikusi Aztarna Xehetasunak
       view_map: Mapa ikusi
@@ -2034,6 +2104,7 @@ eu:
       no_apps_html: Gurekin erabiltzeko erregistratu nahi duzun aplikazio bat duzu
         %{oauth} estandarraren bidez? Zure web aplikazioa erregistratu behar duzu
         OAuth zerbitzurako eskaera egin aurretik.
+      oauth: OAuth
       registered_apps: 'Ondorengo bezero aplikazio erregistratuak dituzu:'
       register_new: Zure aplikazio erregistratu
     form:
@@ -2077,13 +2148,15 @@ eu:
     terms:
       title: Baldintzak
       heading: Baldintzak
-      consider_pd: Goiko hitzarmenaz gain, nire ekarpenak Domeinu Publikoan egon behar
-        direla uste dut
+      heading_ct: Kolaboratzaile terminoak
+      consider_pd: Goikoaz gain, nire ekarpenak Domeinu Publikoan egon behar direla
+        uste dut
       consider_pd_why: zer da hau?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Termino hauek ulertzeko informazioa: <a href="%{summary}"> giza
         laburpen irakurgarria </a> eta batzuk <a href="%{translations}"> itzulpen
         informalak </a>'
+      continue: Jarraitu
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Ez onartu
       you need to accept or decline: Irakurri eta gero, onartu edo ezetsi Kolaboratzaileen
@@ -2171,13 +2244,13 @@ eu:
     account:
       title: Kontua aldatu
       my settings: Nire aukerak
-      current email address: 'Egungo eposta helbidea:'
-      external auth: 'Kanpoko Autentifikazioa:'
+      current email address: Egungo posta helbidea
+      external auth: Kanpoko Autentifikazioa
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: zer da hau?
       public editing:
-        heading: 'Aldaketa publikoak:'
+        heading: Aldaketa publikoak
         enabled: Gaituta. Ez da anonimoa eta datuak editatu ditzake.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: zer da hau?
@@ -2195,7 +2268,7 @@ eu:
           publikoa bihurtzearekin. </li > <li> Ekintza hau ezin da alderantzikatu
           eta erabiltzaile berri guztiek lehenespenez publikoak direlako. </ li> </ul>
       contributor terms:
-        heading: 'Kolaboratzaile Terminoak:'
+        heading: Kolaboratzaile Terminoak
         agreed: Kolaboratzaile-termino berriak onartu dituzu.
         not yet agreed: Oraindik ez duzu Laguntzaileen Baldintza berririk onartu.
         review link text: Mesedez, jarraitu esteka hau zure Kolaboratzaile Terminoaen
@@ -2203,10 +2276,11 @@ eu:
         agreed_with_pd: Zure aldaketak domeinu publikoan egongo direla adierazi duzu.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: zer da hau?
-      image: 'Irudia:'
+      image: Irudia
       gravatar:
         gravatar: Gravatar erabili
         link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Zer da Gravatar?
         disabled: Gravatar desgaitu da.
         enabled: Zure Gravatar bistaratzea gaitu da.
       new image: Irudi bat gehitu
@@ -2214,7 +2288,7 @@ eu:
       delete image: Oraingo irudia kendu
       replace image: Oraingo irudia ordezkatu
       image size hint: (gutxienez 100x100ko irudi koadroak hobeto funtzionatzen dute)
-      home location: 'Etxeko Kokalekua:'
+      home location: Etxeko Kokalekua
       no home location: Zure etxe-helbidea ez duzu txertatu.
       update home location on click: Eguneratu etxeko kokalekua mapan klik egiten
         dudanean?
@@ -2355,8 +2429,9 @@ eu:
     show:
       title: '%{block_on} %{block_by}k blokeatu du'
       heading_html: '%{block_on} %{block_by}k blokeatu du'
-      created: Sortua
-      status: Egoera
+      created: 'Sortua:'
+      duration: 'Iraupena:'
+      status: 'Egoera:'
       show: Erakutsi
       edit: Aldatu
       revoke: Ezeztatu!
@@ -2424,9 +2499,11 @@ eu:
         title: Erakutsi nire kokapena
       base:
         standard: Arrunta
+        cyclosm: CyclOSM
         cycle_map: Bizikletentzako mapa
         transport_map: Garraioen mapa
         hot: Humanitarioa
+        opnvkarte: ÖPNVKarte
       layers:
         header: Maparen geruzak
         notes: Maparen oharrak
