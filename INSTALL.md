@@ -50,7 +50,7 @@ For Fedora, you can install the minimum requirements with:
 sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
                  libxml2-devel nodejs \
                  gcc gcc-c++ git \
-                 postgresql postgresql-server postgresql-contrib \
+                 postgresql postgresql-server postgresql-contrib libpq-devel \
                  perl-podlators ImageMagick libffi-devel gd-devel libarchive-devel \
                  bzip2-devel nodejs-yarn
 ```
