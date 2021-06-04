@@ -28,6 +28,7 @@ csp_policy[:report_uri] << Settings.csp_report_url if Settings.key?(:csp_report_
 
 SecureHeaders::Configuration.default do |config|
   config.hsts = SecureHeaders::OPT_OUT
+  config.referrer_policy = "strict-origin-when-cross-origin"
 
   if Settings.csp_enforce
     config.csp = csp_policy
