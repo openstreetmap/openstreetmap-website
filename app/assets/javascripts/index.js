@@ -346,12 +346,32 @@ $(document).ready(function () {
     };
 
     function addObject(type, id, center) {
+      // cache these now, before the URL param updating starts and messes it up
+      var hasurlparam_center = window.location.hash.indexOf('map=') !== -1;
+      var hasurlparam_daterange = window.location.hash.indexOf('daterange=') !== -1;
+
       map.addObject({type: type, id: parseInt(id)}, function(bounds) {
-        const zoomtoit = bounds.isValid() && !map.getBounds().contains(bounds) && (center || window.location.hash.indexOf('map=') == -1);
+        const zoomtoit = bounds.isValid() && (center || ! hasurlparam_center);
         if (zoomtoit) {
           OSM.router.withoutMoveListener(function () {
             map.fitBounds(bounds);
           });
+        }
+
+        var drawing = map._objectLayer.getLayers()[0];
+        if (drawing && ! hasurlparam_daterange) {
+          var startdate = drawing.feature.tags.start_date && ! isNaN(parseInt(drawing.feature.tags.start_date)) ? drawing.feature.tags.start_date : undefined;
+          var enddate = drawing.feature.tags.end_date && ! isNaN(parseInt(drawing.feature.tags.end_date)) ? drawing.feature.tags.end_date : undefined;
+
+          if (startdate && enddate) {
+            map.timeslider.setDate(startdate).setRange([startdate, enddate]);
+          }
+          else if (startdate) {
+            map.timeslider.setDate(startdate).setRangeLower(startdate);
+          }
+          else if (enddate) {
+            map.timeslider.setDate(enddate).setRangeUpper(enddate);
+          }
         }
       });
 
