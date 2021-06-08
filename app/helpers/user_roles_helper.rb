@@ -1,6 +1,6 @@
 module UserRolesHelper
   def role_icons(user)
-    safe_join(UserRole::ALL_ROLES.collect { |role| role_icon(user, role) }.compact, " ")
+    safe_join(UserRole::ALL_ROLES.filter_map { |role| role_icon(user, role) }, " ")
   end
 
   def role_icon(user, role)

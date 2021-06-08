@@ -16,7 +16,7 @@ module OAuth
 
     def unescape(value)
       value.to_s.gsub(/%\h{2}/) do |c|
-        c[1..-1].to_i(16).chr
+        c[1..].to_i(16).chr
       end.force_encoding(Encoding::UTF_8)
     end
   end
@@ -52,12 +52,12 @@ module OpenStreetMap
     module ClassMethods
       def included(controller)
         controller.class_eval do
-          def self.before_filter(*names, &blk)
-            before_action(*names, &blk)
+          def self.before_filter(...)
+            before_action(...)
           end
 
-          def self.skip_before_filter(*names, &blk)
-            skip_before_action(*names, &blk)
+          def self.skip_before_filter(...)
+            skip_before_action(...)
           end
         end
 
