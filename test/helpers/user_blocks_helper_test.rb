@@ -27,5 +27,10 @@ class UserBlocksHelperTest < ActionView::TestCase
 
     words = block_duration_in_words(0)
     assert_equal "0 hours", words
+
+    # Ensure that (slightly) negative durations don't mess everything up
+    # This can happen on zero hour blocks when ends_at is a millisecond before created_at
+    words = block_duration_in_words(-0.001)
+    assert_equal "0 hours", words
   end
 end

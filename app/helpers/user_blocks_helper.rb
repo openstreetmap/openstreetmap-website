@@ -26,6 +26,8 @@ module UserBlocksHelper
   end
 
   def block_duration_in_words(duration)
+    # Ensure the requested duration isn't negative, even by a millisecond
+    duration = 0 if duration.negative?
     parts = ActiveSupport::Duration.build(duration).parts
     if duration < 1.day
       t("user_blocks.helper.block_duration.hours", :count => parts.fetch(:hours, 0))
