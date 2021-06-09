@@ -82,7 +82,7 @@ $(document).ready(function () {
     zoomControl: false,
     layerControl: false,
     contextmenu: true,
-    minZoom: 3,  /* match to "L.MapboxGL" options in leaflet.map.js */
+    minZoom: 2,  /* match to "L.MapboxGL" options in leaflet.map.js */
     maxZoom: 20,  /* match to "L.MapboxGL" options in leaflet.map.js */
   });
 console.debug([ 'GDA map=', map ]);
