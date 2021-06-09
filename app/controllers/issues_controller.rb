@@ -50,6 +50,7 @@ class IssuesController < ApplicationController
   # Status Transistions
   def resolve
     if @issue.resolve
+      @issue.updated_by = current_user.id
       @issue.save!
       redirect_to @issue, :notice => t(".resolved")
     else
