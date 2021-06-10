@@ -21,6 +21,8 @@ tl:
     formats:
       friendly: '%e %B %Y sa ganap na %H:%M'
   helpers:
+    file:
+      prompt: Pumili ng talaksan
     submit:
       diary_comment:
         create: Sagipin
@@ -77,8 +79,13 @@ tl:
       way_tag: Tatak ng Daan
     attributes:
       client_application:
+        name: Pangalan (Kailangan)
+        url: URL ng Pangunahing Aplikasyon (Kailangan)
         callback_url: URL ng Pagtawag-Pabalik
         support_url: URL ng Pagtangkilik
+        allow_write_api: baguhin ang mapa
+        allow_read_gpx: basahin ang kanilang pribadong mga bakas ng GPS
+        allow_write_notes: baguhin ang mga tala
       diary_comment:
         body: Katawan
       diary_entry:
@@ -93,15 +100,15 @@ tl:
       trace:
         user: Tagagamit
         visible: Nakikita
-        name: Pangalan
+        name: Pangalan ng talaksan
         size: Sukat
         latitude: Latitud
         longitude: Longhitud
         public: Pangmadla
         description: Paglalarawan
-        gpx_file: 'Ikargang paitaas ang Talaksang GPX:'
-        visibility: 'Pagkanatatanaw:'
-        tagstring: 'Mga tatak:'
+        gpx_file: Ikargang paitaas ang Talaksang GPX
+        visibility: Pagkanatatanaw
+        tagstring: Mga tatak
       message:
         sender: Nagpadala
         title: Paksa
@@ -111,13 +118,13 @@ tl:
         description: Paglalarawan
       user:
         email: Sulatroniko
-        new_email: 'Bagong Tirahan ng E-liham:'
+        new_email: Bagong Tirahan ng E-liham
         active: Masigla
         display_name: Ipakita ang Pangalan
-        description: Paglalarawan
+        description: Paglalarawan ng Balangkas
         home_lat: Latitud
         home_lon: Longhitud
-        languages: Mga wika
+        languages: Nais na mga Wika
         pass_crypt: Password
     help:
       trace:
@@ -127,6 +134,9 @@ tl:
           na ito?
       user:
         new_email: (hindi kailanman ipinapakita sa madla)
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: kalahating minuto ang nakalipas
   printable_name:
     with_version: '%{id}, v%{version}'
   editor:
@@ -136,28 +146,34 @@ tl:
       description: iD (patnugot na nasa loob ng pantingin-tingin)
     remote:
       name: Pangmalayong Pantaban
-      description: Pangmalayong Pantaban (JOSM o Merkaartor)
+      description: Pangmalayong Pantaban (JOSM, Potlatch, Merkaartor)
+  auth:
+    providers:
+      none: Wala
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
-        opened_at_html: Nilikha %{when} ang nakaraan
-        opened_at_by_html: Nilikha %{when} ang nakaraan ni %{user}
-        closed_at_html: Nalutas %{when} ang nakaraan
-        closed_at_by_html: Nalutas %{when} ang nakaraan ni %{user}
+        opened_at_html: Nilikha %{when}
+        opened_at_by_html: Nilikha %{when} ni %{user}
+        closed_at_html: Nalutas %{when}
+        closed_at_by_html: Nalutas %{when} ni %{user}
       rss:
         commented: bagong puna (malapit sa %{place})
   browse:
     created: Nilikha
     closed: Isinara
-    created_html: Nilikha <abbr title='%{title}'>%{time} ang nakaraan</abbr>
-    closed_html: Isinara <abbr title='%{title}'>%{time} ang nakaraan</abbr>
-    created_by_html: Nilikha <abbr title='%{title}'>%{time} ang nakaraan</abbr> ni
-      %{user}
-    deleted_by_html: Binura <abbr title='%{title}'>%{time} ang nakaraan</abbr> ni
-      %{user}
-    edited_by_html: Binago <abbr title='%{title}'>%{time} ang nakaraan</abbr> ni %{user}
-    closed_by_html: Isinara <abbr title='%{title}'>%{time} ang nakaraan</abbr> ni
-      %{user}
+    created_html: Nilikha <abbr title='%{title}'>%{time} </abbr>
+    closed_html: Isinara <abbr title='%{title}'>%{time} </abbr>
+    created_by_html: Nilikha <abbr title='%{title}'>%{time} </abbr> ni %{user}
+    deleted_by_html: Binura <abbr title='%{title}'>%{time} </abbr> ni %{user}
+    edited_by_html: Binago <abbr title='%{title}'>%{time} </abbr> ni %{user}
+    closed_by_html: Isinara <abbr title='%{title}'>%{time} </abbr> ni %{user}
     version: Bersyon
     in_changeset: Pangkat ng pagbabago
     anonymous: Hindi nagpapakilala (anonimo)
@@ -278,7 +294,7 @@ tl:
       title: Bagong Pagpapasok sa Talaarawan
     form:
       location: 'Pook (lokasyon):'
-      use_map_link: gamitin ang mapa
+      use_map_link: Gamitin ang Mapa
     index:
       title: Mga talaarawan ng mga tagagamit
       title_friends: Mga talaarawan ng mga kaibigan
@@ -287,6 +303,7 @@ tl:
       in_language_title: Mga Pagpapasok sa Talaarawan na nasa %{language}
       new: Bagong Pagpapasok sa Talaarawan
       new_title: Bumuo ng isang bagong pagpapasok sa loob ng talaarawan mo ng tagagamit
+      my_diary: Aking Talaarawan
       no_entries: Walang mga pagpapasok sa talaarawan
       recent_entries: Kamakailang mga pagpapasok sa talaarawan
       older_entries: Mas lumang mga Pagpapasok
@@ -485,6 +502,8 @@ tl:
           public: Pangmadlang Gusali
           residential: Gusaling Tirahan
           retail: Gusaling Tingian
+          roof: Bubong
+          ruins: Nawasak na Gusali
           school: Gusali ng Paaralan
           terrace: Balkonahe
           train_station: Himpilan ng Tren
@@ -493,6 +512,7 @@ tl:
         craft:
           brewery: Serbeserya
           carpenter: Anluwage
+          dressmaker: Modista
           gardener: Hardinero
           painter: Pintor
           photographer: Litratista
@@ -618,6 +638,7 @@ tl:
           water_park: Liwasang Tubigan
           "yes": Pampalipas oras
         man_made:
+          chimney: Pausukan
           lighthouse: Parola
           pipeline: Linya ng tubo
           tower: Tore
@@ -676,6 +697,7 @@ tl:
           government: Tanggapang Pampamahalaan
           insurance: Tanggapan ng Seguro
           lawyer: Manananggol
+          newspaper: Tanggapan ng Pahayagan
           ngo: Tanggapan ng NGO
           telecommunication: Tanggapang Pangtelekomunikasyon
           travel_agent: Ahensiya ng Paglalakbay
@@ -753,6 +775,7 @@ tl:
           dry_cleaning: Paglilinis na Tuyo
           electronics: Tindahan ng Elektroniks
           estate_agent: Ahente ng Lupain
+          fabric: Tindahan ng Tela
           farm: Tindahang Pambukid
           fashion: Tindahan ng Moda
           florist: Nagtitinda ng Bulaklak
@@ -778,6 +801,7 @@ tl:
           optician: Optiko
           organic: Tindahan ng Pagkaing Organiko
           outdoor: Tindahang Panlabas
+          pawnbroker: Sanglaan
           pet: Tindahan ng Alagang Hayop
           photo: Tindahan ng Litrato
           shoes: Tindahan ng Sapatos
@@ -785,10 +809,11 @@ tl:
           stationery: Tindahan ng Papel
           supermarket: Malaking Pamilihan
           tailor: Mananahi
+          tobacco: Tindahan ng Tabako
           toys: Tindahan ng Laruan
           travel_agency: Ahensiya ng Paglalakbay
           video: Tindahan ng Bidyo
-          wine: Wala sa Lisensiya
+          wine: Tindahan ng Bino
           "yes": Tindahan
         tourism:
           alpine_hut: Kubong Pambundok
@@ -838,6 +863,31 @@ tl:
     results:
       no_results: Walang natagpuang mga kinalabasan
       more_results: Marami pang mga kinalabasan
+  issues:
+    index:
+      search: Maghanap
+      search_guidance: 'Maghanap ng mga Isyu:'
+      last_updated: Huling binago
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> ni %{user}
+      link_to_reports: Tingnan ang mga Ulat
+      reports_count:
+        one: 1 Ulat
+        other: '%{count} mga Ulat'
+    show:
+      resolve: Lutasin
+      ignore: Huwag pansinin
+  reports:
+    new:
+      categories:
+        diary_entry:
+          other_label: Iba pa
+        diary_comment:
+          other_label: Iba pa
+        user:
+          other_label: Iba pa
+        note:
+          other_label: Iba pa
   layouts:
     project_name:
       title: OpenStreetMap
@@ -854,6 +904,8 @@ tl:
     edit: Baguhin
     history: Kasaysayan
     export: Iluwas
+    issues: Mga isyu
+    data: Datos
     export_data: Iluwas ang Datos
     gps_traces: Mga Bakas ng GPS
     gps_traces_tooltip: Pamahalaan ang mga Bakas ng GPS
@@ -865,9 +917,12 @@ tl:
     intro_text: Ang OpenStreetMap ay isang mapa ng mundo na nilikha ng mga taong katulad
       mo at malayang gamitin sa ilalim ng isang bukas na lisensya.
     intro_2_create_account: Lumikha ng isang akawnt ng tagagamit
+    hosting_partners_html: Ang pagpapasinaya ay sinusuportahan ng %{ucl}, %{bytemark},
+      at iba pang %{partners}.
     partners_ucl: UCL
-    partners_bytemark: Pagpapasinaya ng Bytemark
+    partners_bytemark: Bytemark Hosting
     partners_partners: mga kawaksi
+    tou: Pagtatakda sa Paggamit
     osm_offline: Ang kalipunan ng dato ng OpenStreetMap ay pangkasalukuyang nakapatay
       habang isinasagawa ang mahalagang gawain ng pagpapanatili ng kalipunan ng dato.
     osm_read_only: Ang kalipunan ng dato ng OpenStreetMap ay pangkasalukuyang nasa
@@ -897,9 +952,12 @@ tl:
       footer: Mababasa mo rin ang puna roon sa %{readurl} at maaari kang pumuna roon
         sa %{commenturl} o tumugon doon sa %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Kumusta %{to_user},
-      header: 'Nagpadala sa iyo si %{from_user} ng isang mensahe sa pamamagitan ng
-        OpenStreetMap na may paksang %{subject}:'
+      header: 'Si %{from_user} ay nagpadala sa iyo ng isang mensahe sa pamamagitan
+        ng OpenStreetMap na may paksang %{subject}:'
+      header_html: 'Si %{from_user} ay nagpadala sa iyo ng isang mensahe sa pamamagitan
+        ng OpenStreetMap na may paksang %{subject}:'
     friendship_notification:
       hi: Kumusta %{to_user},
       subject: Idinagdag ka ni %{user} ng [OpenStreetMap] bilang isang kaibigan
@@ -908,10 +966,12 @@ tl:
       befriend_them: Maaari mong rin silang idagdag bilang isang kaibigan doon sa
         %{befriendurl}.
     gpx_failure:
+      hi: Kumusta %{to_user},
       failed_to_import: 'nabigo sa pag-angkat. Narito ang kamalian:'
       import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: Nabigo ang Pag-angkat ng GPX ng [OpenStreetMap]
     gpx_success:
+      hi: Kumusta %{to_user},
       loaded_successfully: matagumpay na naikarga na may %{trace_points} mula sa isang
         maaaring %{possible_points} mga tuldok.
       subject: Tagumpay ng Pag-angkat ng GPX ng [OpenStreetMap]
@@ -942,6 +1002,8 @@ tl:
       greeting: Kumusta,
       commented:
         subject_own: '[OpenStreetMap] Pinuna ni %{commenter} ang isa sa iyong mga
+          pangkat ng pagbabago'
+        subject_other: '[OpenStreetMap] Pinuna ni %{commenter} ang isa sa iyong mga
           pangkat ng pagbabago'
         partial_changeset_with_comment: na may puna na '%{changeset_comment}'
         partial_changeset_without_comment: walang puna
@@ -1087,16 +1149,27 @@ tl:
         kung nais mong talakayin ito.
       auth failure: Paumanhin, hindi makalagda sa pamamagitan ng mga detalyeng iyan.
       openid_logo_alt: Lumagda sa pamamagitan ng isang OpenID
+      auth_providers:
+        openid:
+          title: Lumagda sa pamamagitan ng OpenID
+        google:
+          title: Lumagda sa pamamagitan ng Google
+          alt: Lumagda sa pamamagitan ng isang Google OpenID
+        facebook:
+          title: Lumagda sa pamamagitan ng Facebook
     destroy:
       title: Umalis sa pagkakalagda
       heading: Umalis sa pagkakalagda mula sa OpenStreetMap
       logout_button: Umalis sa pagkakalagda
+  shared:
+    markdown_help:
+      image: Larawan
   site:
     about:
       next: Kasunod
       copyright_html: <span>&copy;</span>Mga tagapag-ambag<br>ng OpenStreetMap
-      used_by_html: Ang %{name} ay nagpapatakbo ng dato ng mapa sa libu-libong mga
-        website, mga mobile na app, at aparatong hardware
+      used_by_html: Ang %{name} ay nagbibigay ng dato ng mapa para sa libu-libong
+        mga website, mga mobile na app, at aparatong hardware
       lede_text: Ang OpenStreetMap ay nilikha ng isang komunidad ng mga nagmamapa
         na nag-aambag at nagpapanatili ng dato tungkol sa mga kalsada, mga daanan,
         mga kapihan, mga istasyon ng tren, at iba pa, sa buong mundo.
@@ -1142,9 +1215,9 @@ tl:
           lisensiya. Ipinapaliwanag \nng buong <a\nhref=\"http://opendatacommons.org/licenses/odbl/1.0/\">kodigong
           pambatas</a> \nang mga karapatan at mga pananagutan mo."
         intro_3_1_html: |-
-          Ang kartograpya sa aming mga tile na mapa at ang aming dokumentasyon ay lisensyado sa ilalim ng <a
-          href="http://creativecommons.org/licenses/by-sa/2.0/">lisensiyang Creative
-          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA).
+          Ang aming dokumentasyon ay lisensyado sa ilalim ng <a
+          href="https://creativecommons.org/licenses/by-sa/2.0/">lisensiyang Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0).
         credit_title_html: Paano babanggitin ang OpenStreetMap
         credit_1_html: "Kinakailangan namin na gamitin ang kredito na &ldquo;&copy;
           mga tagapag-ambag ng \nOpenStreetMap&rdquo;."
@@ -1282,6 +1355,8 @@ tl:
       title: Mag-ulat ng problema/ Ayusin ang mapa
       how_to_help:
         title: Papaano tumulong
+      other_concerns:
+        title: Iba pang mga alalahanin
     help:
       welcome:
         url: /welcome
@@ -1292,17 +1367,23 @@ tl:
         title: IRC
       switch2osm:
         title: switch2osm
+      wiki:
+        url: https://wiki.openstreetmap.org/
+        title: OpenStreetMap Wiki
     sidebar:
       search_results: Mga Resulta ng Paghahanap
       close: Isara
     search:
       search: Maghanap
+      get_directions: Kunin ang mga direksyon
+      get_directions_title: Kumuha ng direksyon sa pagitan ng dalawang lugar
       from: Mula sa
       to: Papunta sa
       where_am_i: Nasaan ba ito?
       where_am_i_title: Ilarawan ang pangkasalukuyang kinalalagyan na ginagamit ang
         makinang panghanap
       submit_text: Gawin
+      reverse_directions_text: Baliktarin ang mga Direksyon
     key:
       table:
         entry:
@@ -1314,7 +1395,10 @@ tl:
           unclassified: Kalsadang walang kaurian
           track: Bakas
           bridleway: Daanan ng Kabayo
-          cycleway: Daanan ng motorsiklo o bisikleta
+          cycleway: Daanan ng bisikleta
+          cycleway_national: Pambansang daanan ng bisikleta
+          cycleway_regional: Panrehiyong daanan ng bisikleta
+          cycleway_local: Pampook na daanan ng bisikleta
           footway: Lakaran ng tao
           rail: Daambakal
           subway: Daanang pang-ilalim
@@ -1429,13 +1513,16 @@ tl:
       delete_trace: Burahin ang bakas na ito
       trace_not_found: Hindi natagpuan ang bakas!
       visibility: 'Pagkanakikita:'
+      confirm_delete: Burahin ang bakas na ito?
     trace_paging_nav:
       showing_page: Ika-%{page} na pahina
       older: Mas Lumang mga Bakas
       newer: Mas Bagong mga Bakas
     trace:
       pending: NAGHIHINTAY
-      count_points: '%{count} mga puntos'
+      count_points:
+        one: 1 punto
+        other: '%{count} mga puntos'
       more: marami pa
       trace_details: Tingnan ang mga Detalye ng Bakas
       view_map: Tingnan ang Mapa
@@ -1557,8 +1644,9 @@ tl:
         ang <a href="%{url}">pahinang ito ng wiki</a>.
       terms declined url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: 'Mga tuntunin sa tagapag-ambag:'
+      title: 'Mga tuntunin:'
       heading: Tuntunin sa taga-ambag
+      heading_ct: Mga tuntunin sa taga-ambag
       consider_pd: Bilang karagdagan sa kasunduang nasa itaas, itinuturing ko ang
         mga ambag ko bilang nasa Nasasaklawan ng Madla.
       consider_pd_why: ano ba ito?
@@ -1601,7 +1689,7 @@ tl:
       ct status: 'Mga tuntunin sa taga-ambag:'
       ct undecided: Walang kapasyahan
       ct declined: Tumanggi
-      latest edit: 'Pinakahuling pagbabago %{ago}:'
+      latest edit: 'Pinakahuling pagbabago (%{ago}):'
       email address: 'Tirahan ng e-liham:'
       created from: 'Nilikha magmula sa:'
       status: 'Katayuan:'
@@ -1611,6 +1699,7 @@ tl:
       if_set_location_html: Itakda ang iyong lokasyon ng bahay sa pahinang  %{settings_link}
         upang makita ang mga kalapit na tagagamit.
       settings_link_text: mga pagtatakda
+      my friends: Aking mga kaibigan
       no friends: Hindi ka pa nagdaragdag ng sinumang mga kaibigan.
       km away: '%{count}km ang layo'
       m away: '%{count}m ang layo'
@@ -1653,7 +1742,7 @@ tl:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: ano ba ito?
       public editing:
-        heading: 'Pangmadlang pamamatnugot:'
+        heading: Pangmadlang pamamatnugot
         enabled: Pinagana. Nagpakilala at maaaring magbago ng dato.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ano ba ito?
@@ -1667,12 +1756,12 @@ tl:
           Upang maipakita kung ano ang binago mo at mapahintulutan ang mga tao na
           makipag-ugnayan sa iyo sa pamamagitan ng websayt, pindutin ang pindutang
           nasa ibaba. <b>Magmula noong pagpapalit ng 0.6 API, tanging pangmadlang
-          mga tagagamit lamang ang makakapamatnugot sa dato ng mapa</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">alamin
+          mga tagagamit lamang ang makakapamatnugot sa dato ng mapa</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">alamin
           kung bakit</a>).<ul><li>Ang galaw na ito ay hindi maipanunumbalik papunta
           sa dati at lahat ng bagong mga tagagamit ay pangmadla na ngayon ayon sa
           likas na katakdaan.</li></ul>
       contributor terms:
-        heading: 'Mga Tuntunin sa Tagapag-ambag:'
+        heading: Mga Tuntunin sa Tagapag-ambag
         agreed: Sumang-ayon ka sa bagong mga Tuntunin na Pangtagapag-ambag.
         not yet agreed: Hindi ka sumang-ayon sa bagong mga Tuntunin na Pangtagapag-ambag.
         review link text: Mangyaring sundan ang kawing na ito ayon sa kaluwagan ng
@@ -1682,9 +1771,11 @@ tl:
           bilang nasa loob ng Nasasakupan ng Madla.
         link: http://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: ano ba ito?
-      image: 'Larawan:'
+      image: Larawan
       gravatar:
         gravatar: Gamitin ang Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Ano ang Gravatar?
         disabled: Hindi na pinagana ang Gravatar.
         enabled: Pinagana ang pagpapakita ng iyong Gravatar.
       new image: Magdagdag ng isang larawan
@@ -1693,7 +1784,7 @@ tl:
       replace image: Palitan ang pangkasalukuyang larawan
       image size hint: (pinakamahusay ang parisukat na mga larawan na hindi bababa
         sa 100x100)
-      home location: 'Kinalalagyan ng Tahanan:'
+      home location: Kinalalagyan ng Tahanan
       no home location: Hindi mo naipasok ang kinalalagyan ng tahanan mo.
       update home location on click: Isapanahon ang kinalalagyan ng tahanan kapag
         pinindot ko ang ibabaw ng mapa?
@@ -1800,19 +1891,32 @@ tl:
       title: Binabawi ang paghadlang sa %{block_on}
       heading_html: Binabawi ang paghadlang sa %{block_on} ni %{block_by}
       time_future: Ang hadlang na ito ay magwawakas sa ganap na %{time}.
-      past: Ang hadlang na ito ay nagwakas noong %{time} na ang nakalilipas at hindi
-        na ngayon mababawi.
+      past: Ang hadlang na ito ay nagwakas noong %{time} at hindi na ngayon mababawi.
       confirm: Nakatitiyak ka bang nais mong bawiin ang hadlang na ito?
       revoke: Bawiin!
       flash: Nabawi na ang hadlang na ito.
     helper:
       time_future_html: Magwawakas sa %{time}.
       until_login: Masigla hanggang sa paglagda ng tagagamit.
+      time_future_and_until_login_html: Magwawakas sa %{time} at hanggang sa paglagda
+        ng tagagamit.
       time_past_html: Nagwakas na noong %{time} na ang nakalilipas.
       block_duration:
         hours:
           one: 1 oras
           other: '%{count} mga oras'
+        days:
+          one: 1 araw
+          other: '%{count} mga araw'
+        weeks:
+          one: 1 linggo
+          other: '%{count} mga linggo'
+        months:
+          one: 1 buwan
+          other: '%{count} mga buwan'
+        years:
+          one: 1 taon
+          other: '%{count} mga taon'
     blocks_on:
       title: Mga paghadlang sa %{name}
       heading_html: Tala ng mga paghadlang sa %{name}
@@ -1824,7 +1928,8 @@ tl:
     show:
       title: '%{block_on} hinadlangan ni %{block_by}'
       heading_html: '%{block_on} hinadlangan ni %{block_by}'
-      created: Nilikha
+      created: 'Nilikha:'
+      duration: 'Tagal ng panahon:'
       status: 'Kalagayan:'
       show: Ipakita
       edit: Baguhin
@@ -1852,7 +1957,9 @@ tl:
   notes:
     index:
       heading: mga tala ni %{user}
+      no_notes: Walang mga tala
       id: Id
+      creator: Tagapaglikha
       description: Paglalarawan
       created_at: Nilikha Noong
       last_changed: Huling binago
@@ -1861,6 +1968,7 @@ tl:
     share:
       title: Ibahagi
       cancel: Huwag ituloy
+      image: Larawan
       short_url: Maiksing URL
       paste_html: Idikit ang HTML na ibabaon sa websayt
     map:
@@ -1875,6 +1983,8 @@ tl:
       layers:
         data: Dato ng Mapa
       copyright: © <a href='%{copyright_url}'>Mga tagapag-ambag ng OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Gumawa ng Donasyon</a>
+      terms: <a href='%{terms_url}' target='_blank'>Mga tuntunin sa website at API</a>
     site:
       edit_tooltip: Baguhin ang mapa
       edit_disabled_tooltip: Lumapit upang baguhin ang mapa
@@ -1897,6 +2007,7 @@ tl:
         fossgis_osrm_car: Kotse (OSRM)
         graphhopper_bicycle: Bisikleta (GraphHopper)
         graphhopper_car: Kotse (GraphHopper)
+      descend: Pagbaba
       directions: Mga Direksyon
       distance: Layo
       instructions:
@@ -1915,7 +2026,7 @@ tl:
         offramp_left_with_exit_name_directions: Kunin ang nakasaad na EXIT %{exit}
           sa kaliwang bahagi papuntang %{name}, biyaheng %{directions}
         follow_without_exit: Sundan %{name}
-        start_without_exit: Magsimula sa dulo ng %{name}
+        start_without_exit: Magsimula sa %{name}
         destination_without_exit: Abutin ang patutunguhan
         roundabout_with_exit_ordinal: Sa Rotondang daan gamitin ang %{exit} exit patungong
           %{name}
@@ -1923,9 +2034,12 @@ tl:
         exit_counts:
           second: Ika-2
           third: Ika-3
+          fourth: Ika-4
           fifth: Ika-5
+          sixth: Ika-6
           seventh: Ika-7
           eighth: Ika-8
+          ninth: Ika-9
           tenth: Ika-10
       time: Oras
     query:
