@@ -85,7 +85,6 @@ $(document).ready(function () {
     minZoom: 2,  /* match to "L.MapboxGL" options in leaflet.map.js */
     maxZoom: 20,  /* match to "L.MapboxGL" options in leaflet.map.js */
   });
-console.debug([ 'GDA map=', map ]);
 
   map.attributionControl.setPrefix('');
 
