@@ -81,8 +81,11 @@ $(document).ready(function () {
   var map = new L.OSM.Map("map", {
     zoomControl: false,
     layerControl: false,
-    contextmenu: true
+    contextmenu: true,
+    minZoom: 2,  /* match to "L.MapboxGL" options in leaflet.map.js */
+    maxZoom: 20,  /* match to "L.MapboxGL" options in leaflet.map.js */
   });
+console.debug([ 'GDA map=', map ]);
 
   map.attributionControl.setPrefix('');
 

@@ -25,7 +25,8 @@ L.OSM.Map = L.Map.extend({
       name: I18n.t("javascripts.map.base.historical"),
       style: ohmStyle,
       accessToken: "no-token",
-      maxZoom: 20,
+      minZoom: 2,  /* match to "L.OSM.Map" options in index.js */
+      maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
     });
     this.baseLayers.push(ohmLayer);
 
