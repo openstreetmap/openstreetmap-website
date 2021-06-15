@@ -65,7 +65,9 @@ class ConfirmationsController < ApplicationController
     if user.nil? || token.nil? || token.user != user
       flash[:error] = t "confirmations.confirm_resend.failure", :name => params[:display_name]
     else
-      UserMailer.signup_confirm(user, user.tokens.create).deliver_later
+      ActiveRecord::Base.connected_to(:role => :writing) do
+        UserMailer.signup_confirm(user, user.tokens.create).deliver_later
+      end
       flash[:notice] = t "confirmations.confirm_resend.success_html", :email => user.email, :sender => Settings.support_email
     end
 
