@@ -3,7 +3,7 @@ require "test_helper"
 class OldRelationTagTest < ActiveSupport::TestCase
   def test_length_key_valid
     tag = create(:old_relation_tag)
-    (0..255).each do |i|
+    [0, 255].each do |i|
       tag.k = "k" * i
       assert tag.valid?
     end
@@ -11,7 +11,7 @@ class OldRelationTagTest < ActiveSupport::TestCase
 
   def test_length_value_valid
     tag = create(:old_relation_tag)
-    (0..255).each do |i|
+    [0, 255].each do |i|
       tag.v = "v" * i
       assert tag.valid?
     end

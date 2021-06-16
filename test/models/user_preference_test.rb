@@ -15,7 +15,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
   def test_check_valid_length
     key = "k"
     val = "v"
-    (1..255).each do |i|
+    [1, 255].each do |i|
       up = UserPreference.new
       up.user = create(:user)
       up.k = key * i
