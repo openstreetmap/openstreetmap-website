@@ -5,7 +5,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
     changeset = create(:changeset)
 
     key = "k"
-    (0..255).each do |i|
+    [0, 255].each do |i|
       tag = ChangesetTag.new
       tag.changeset_id = changeset.id
       tag.k = key * i
@@ -18,7 +18,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
     changeset = create(:changeset)
 
     val = "v"
-    (0..255).each do |i|
+    [0, 255].each do |i|
       tag = ChangesetTag.new
       tag.changeset_id = changeset.id
       tag.k = "k"

@@ -32,7 +32,7 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_utf8_roundtrip
-    (1..255).each do |i|
+    [1, 255].each do |i|
       assert_message_ok("c", i)
       assert_message_ok(EURO, i)
     end
