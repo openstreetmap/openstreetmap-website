@@ -362,6 +362,10 @@ body.compact-nav {
       display: none;
     }
 
+    #sidebar_content {
+      padding: $spacer;
+    }
+
     > div {
       position: relative;
       float: left;
@@ -370,7 +374,6 @@ body.compact-nav {
     }
 
     h2 {
-      padding: $lineheight $lineheight $lineheight/2;
       font-size: 1.5rem;
     }
 
@@ -676,6 +679,10 @@ body.compact-nav {
     margin-left: auto;
     margin-right: auto;
   }
+
+  > div {
+   padding: $spacer;
+  }
 }
 
 #sidebar {
@@ -739,13 +746,6 @@ header .search_forms,
 
 /* Rules for routing */
 
-#sidebar_content>table {
-    padding: 5px 20px 10px 15px;
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
 div.direction {
   background-image: image-url('routing-sprite.png');
   width: 20px;
@@ -754,10 +754,6 @@ div.direction {
 }
 @for $i from 0 through 25 {
 div.direction.i#{$i} { background-position: #{($i)*-20}px 0px; }
-}
-
-p#routing_summary {
-    padding: 0 $lineheight $lineheight/4;
 }
 
 td.instruction, td.distance {
@@ -821,7 +817,8 @@ tr.turn:hover {
 
 #sidebar_content {
   .browse-section {
-    padding: $lineheight/2 $lineheight;
+    padding-bottom: $spacer;
+    margin-bottom: $spacer;
     border-bottom: 1px solid $grey;
 
     h4:first-child {
@@ -942,17 +939,8 @@ tr.turn:hover {
     margin: 0 0 10px 10px;
   }
 
-  .query-intro p {
-    padding: $lineheight $lineheight $lineheight/2;
-  }
-
   .query-results {
     display: none;
-    padding-bottom: $lineheight/2;
-
-    h3 {
-      padding: 0 $lineheight;
-    }
 
     ul {
       li {
@@ -981,8 +969,6 @@ tr.turn:hover {
 /* Rules for export sidebar */
 
 .export_form {
-  padding: $lineheight;
-
   .export_area_inputs,
   .export_button {
     text-align: center;

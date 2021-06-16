@@ -11,7 +11,7 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
     assert_select "div#content" do
       assert_select "div#sidebar" do
         assert_select "div#sidebar_content" do
-          assert_select "div.browse-section" do
+          assert_select "div" do
             assert_select "div.notice" do
               assert_select "a[href='/login?referer=%2Fchangeset%2F#{changeset.id}']", :text => I18n.t("browse.changeset.join_discussion"), :count => 1
             end
@@ -43,7 +43,7 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
     assert_select "div#content" do
       assert_select "div#sidebar" do
         assert_select "div#sidebar_content" do
-          assert_select "div.browse-section" do
+          assert_select "div" do
             assert_select "form[action='#']" do
               assert_select "textarea[name=text]"
             end

@@ -3,8 +3,8 @@
 <%= render "sidebar_header", :title => t("site.sidebar.search_results") %>
 
 <% @sources.each do |source| %>
-  <h4 class="inner12"><%= t(".title.#{source}_html") %></h4>
-  <div class="search_results_entry" data-href="<%= url_for @params.merge(:action => "search_#{source}") %>">
+  <h4><%= t(".title.#{source}_html") %></h4>
+  <div class="search_results_entry mx-n3" data-href="<%= url_for @params.merge(:action => "search_#{source}") %>">
     <%= image_tag "searching.gif", :class => "loader" %>
   </div>
 <% end %>

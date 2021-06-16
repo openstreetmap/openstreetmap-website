@@ -256,7 +256,7 @@ OSM.Directions = function (map) {
 
       var html = "<h2><a class=\"geolink\" href=\"#\">" +
         "<span class=\"icon close\"></span></a>" + I18n.t("javascripts.directions.directions") +
-        "</h2><p id=\"routing_summary\">" +
+        "</h2><p>" +
         I18n.t("javascripts.directions.distance") + ": " + formatDistance(route.distance) + ". " +
         I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".";
       if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
@@ -264,7 +264,7 @@ OSM.Directions = function (map) {
           I18n.t("javascripts.directions.ascend") + ": " + Math.round(route.ascend) + "m. " +
           I18n.t("javascripts.directions.descend") + ": " + Math.round(route.descend) + "m.";
       }
-      html += "</p><table id=\"turnbyturn\" />";
+      html += "</p><table id=\"turnbyturn\" class=\"mb-3\"/>";
 
       $("#sidebar_content")
         .html(html);

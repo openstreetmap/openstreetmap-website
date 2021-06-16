@@ -55,12 +55,12 @@ OSM.initializeBrowse = function (map) {
             .text(I18n.t("browse.start_rjs.load_data"))
             .prepend($("<span class='icon close'></span>").click(cancel)))
         .append(
-          $("<div class='inner12'>")
+          $("<div>")
             .append(
               $("<p class='alert alert-warning clearfix'></p>")
                 .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit })))
             .append(
-              $("<input type='submit'>")
+              $("<input type='submit' class='btn btn-primary'>")
                 .val(I18n.t("browse.start_rjs.load_data"))
                 .click(add))));
   }
