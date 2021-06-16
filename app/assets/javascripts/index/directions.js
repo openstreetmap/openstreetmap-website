@@ -312,7 +312,7 @@ OSM.Directions = function (map) {
         $("#turnbyturn").append(row);
       });
 
-      $("#sidebar_content").append("<p id=\"routing_credit\">" +
+      $("#sidebar_content").append("<p class=\"text-center\">" +
         I18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
         "</p>");
 
