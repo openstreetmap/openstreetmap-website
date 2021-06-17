@@ -75,8 +75,8 @@ class UserHelperTest < ActionView::TestCase
     button = auth_button("google", "google")
     assert_equal("<a class=\"auth_button\" title=\"Login with Google\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/google\"><img alt=\"Login with a Google OpenID\" class=\"rounded-lg\" src=\"/images/google.svg\" /></a>", button)
 
-    button = auth_button("yahoo", "openid", :openid_url => "yahoo.com")
-    assert_equal("<a class=\"auth_button\" title=\"Login with Yahoo\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/openid?openid_url=yahoo\.com\"><img alt=\"Login with a Yahoo OpenID\" class=\"rounded-lg\" src=\"/images/yahoo.svg\" /></a>", button)
+    button = auth_button("wordpress", "openid", :openid_url => "wordpress.com")
+    assert_equal("<a class=\"auth_button\" title=\"Login with Wordpress\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/openid?openid_url=wordpress\.com\"><img alt=\"Login with a Wordpress OpenID\" class=\"rounded-lg\" src=\"/images/wordpress.svg\" /></a>", button)
   end
 
   private
