@@ -151,6 +151,8 @@ da:
         category: Vælg årsagen til din rapportering
         details: Forklar venligst problemet i flere detaljer (påkrævet).
       user:
+        auth_provider: Autentificeringsleverandør
+        auth_uid: Autentificerings-UID
         email: E-mail
         email_confirmation: E-mail-bekræftelse
         new_email: Ny e-mailadresse
@@ -507,6 +509,7 @@ da:
         description: Seneste blogindlæg fra brugere af OpenStreetMap
     comments:
       has_commented_on: '%{display_name} har kommenteret på følgende blogindlæg'
+      no_comments: Ingen blogkommentarer
       post: Indsend
       when: Hvornår
       comment: Kommentar
@@ -519,6 +522,8 @@ da:
       success: '%{name} er nu din ven!'
       failed: Desværre, kunne ikke tilføje %{name} som din ven.
       already_a_friend: Du er allerede ven med %{name}.
+      limit_exceeded: Du er blevet venner med en del brugere for nylig. Vent venligst
+        lidt før du forsøger at blive ven med flere.
     remove_friend:
       heading: Fjern %{user} som ven?
       button: Fjern som ven
@@ -1486,6 +1491,11 @@ da:
       see_their_profile_html: Du kan se deres profil på %{userurl}.
       befriend_them: Du kan også tilføje dem som ven på %{befriendurl}.
       befriend_them_html: Du kan også tilføje dem som ven på %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Det ser ud som om din GPX-fil %{trace_name} med
+        beskrivelsen %{trace_description} og de følgende tags: %{tags}'
+      description_with_no_tags_html: Det ser ud som om din GPX-fil %{trace_name} med
+        beskrivelsen %{trace_description} og uden tags
     gpx_failure:
       hi: Hej %{to_user},
       failed_to_import: 'kunne ikke importeres. Her er fejlen:'
@@ -1749,9 +1759,6 @@ da:
         wikipedia:
           title: Log ind med Wikipedia
           alt: Log ind med en Wikipedia-konto
-        yahoo:
-          title: Log på med Yahoo
-          alt: Log på med et Yahoo OpenID
         wordpress:
           title: Log på med Wordpress
           alt: Log på med et Wordpress OpenID
@@ -2297,15 +2304,16 @@ da:
       in: i
     index:
       public_traces: Offentlige GPS-spor
-      my_traces: Mine GPS-spor
+      my_traces: Mine spor
       public_traces_from: Offentlige GPS-spor fra %{user}
       description: Gennemse de seneste overførsler af GPS-spor
       tagged_with: ' med egenskaberne %{tags}'
       empty_html: Der er ingenting her endnu. <a href='%{upload_link}'>Overfør et
         nyt spor</a> eller lær mere om optagelse af GPS-spor på <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikisiden</a>.
       upload_trace: Overfør et spor
-      see_all_traces: Vis alle spor
-      see_my_traces: Se mine spor
+      all_traces: Alle GPS-spor
+      traces_from: Offentlige GPS-spor fra %{user}
+      remove_tag_filter: Fjern tag-filter
     destroy:
       scheduled_for_deletion: Spor planlagt til at blive slettet
     make_public:
@@ -2739,6 +2747,7 @@ da:
       title: '%{block_on} blokeret af %{block_by}'
       heading_html: '%{block_on} blokeret af %{block_by}'
       created: 'Oprettet:'
+      duration: 'Varighed:'
       status: 'Status:'
       show: Vis
       edit: Redigér
@@ -2767,6 +2776,7 @@ da:
       title: Bemærkninger indsendt eller kommenteret af %{user}
       heading: '%{user}s bemærkninger'
       subheading_html: Bemærkninger indsendt eller kommenteret af %{user}
+      no_notes: Ingen bemærkninger
       id: Id
       creator: Oprettet af
       description: Beskrivelse
