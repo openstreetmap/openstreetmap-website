@@ -18,138 +18,148 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_create_user_form
-    I18n.available_locales.each do |locale|
-      reset!
-      get "/user/new", :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
-      follow_redirect!
-      assert_response :success
-      assert_template "users/new"
+    I18n.with_locale "en" do
+      I18n.available_locales.each do |locale|
+        reset!
+        get "/user/new", :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
+        follow_redirect!
+        assert_response :success
+        assert_template "users/new"
+      end
     end
   end
 
   def test_user_create_submit_duplicate_email
-    Locale.available.each do |locale|
-      dup_email = create(:user).email
-      display_name = "#{locale}_new_tester"
-      assert_difference("User.count", 0) do
-        assert_difference("ActionMailer::Base.deliveries.size", 0) do
-          perform_enqueued_jobs do
-            post "/user/new",
-                 :params => { :user => { :email => dup_email,
-                                         :email_confirmation => dup_email,
-                                         :display_name => display_name,
-                                         :pass_crypt => "testtest",
-                                         :pass_crypt_confirmation => "testtest" } },
-                 :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
+    I18n.with_locale "en" do
+      Locale.available.each do |locale|
+        dup_email = create(:user).email
+        display_name = "#{locale}_new_tester"
+        assert_difference("User.count", 0) do
+          assert_difference("ActionMailer::Base.deliveries.size", 0) do
+            perform_enqueued_jobs do
+              post "/user/new",
+                   :params => { :user => { :email => dup_email,
+                                           :email_confirmation => dup_email,
+                                           :display_name => display_name,
+                                           :pass_crypt => "testtest",
+                                           :pass_crypt_confirmation => "testtest" } },
+                   :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
+            end
           end
         end
+        assert_response :success
+        assert_template "users/new"
+        assert_equal locale.to_s, response.headers["Content-Language"]
+        assert_select "form"
+        assert_select "form > div.form-group > input.is-invalid#user_email"
+        assert_no_missing_translations
       end
-      assert_response :success
-      assert_template "users/new"
-      assert_equal locale.to_s, response.headers["Content-Language"]
-      assert_select "form"
-      assert_select "form > div.form-group > input.is-invalid#user_email"
-      assert_no_missing_translations
     end
   end
 
   def test_user_create_submit_duplicate_username
-    I18n.available_locales.each do |locale|
-      dup_display_name = create(:user).display_name
-      email = "#{locale}_new_tester"
-      assert_difference("User.count", 0) do
-        assert_difference("ActionMailer::Base.deliveries.size", 0) do
-          perform_enqueued_jobs do
-            post "/user/new",
-                 :params => { :user => { :email => email,
-                                         :email_confirmation => email,
-                                         :display_name => dup_display_name,
-                                         :pass_crypt => "testtest",
-                                         :pass_crypt_confirmation => "testtest" } },
-                 :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
+    I18n.with_locale "en" do
+      I18n.available_locales.each do |locale|
+        dup_display_name = create(:user).display_name
+        email = "#{locale}_new_tester"
+        assert_difference("User.count", 0) do
+          assert_difference("ActionMailer::Base.deliveries.size", 0) do
+            perform_enqueued_jobs do
+              post "/user/new",
+                   :params => { :user => { :email => email,
+                                           :email_confirmation => email,
+                                           :display_name => dup_display_name,
+                                           :pass_crypt => "testtest",
+                                           :pass_crypt_confirmation => "testtest" } },
+                   :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
+            end
           end
         end
+        assert_response :success
+        assert_template "users/new"
+        assert_select "form > div.form-group > input.is-invalid#user_display_name"
+        assert_no_missing_translations
       end
-      assert_response :success
-      assert_template "users/new"
-      assert_select "form > div.form-group > input.is-invalid#user_display_name"
-      assert_no_missing_translations
     end
   end
 
   def test_user_create_success
-    I18n.available_locales.each do |locale|
-      new_email = "#{locale}newtester@osm.org"
-      display_name = "#{locale}_new_tester"
+    I18n.with_locale "en" do
+      I18n.available_locales.each do |locale|
+        new_email = "#{locale}newtester@osm.org"
+        display_name = "#{locale}_new_tester"
 
-      assert_difference("User.count", 0) do
-        assert_difference("ActionMailer::Base.deliveries.size", 0) do
-          perform_enqueued_jobs do
-            post "/user/new",
-                 :params => { :user => { :email => new_email,
-                                         :email_confirmation => new_email,
-                                         :display_name => display_name,
-                                         :pass_crypt => "testtest",
-                                         :pass_crypt_confirmation => "testtest" } }
+        assert_difference("User.count", 0) do
+          assert_difference("ActionMailer::Base.deliveries.size", 0) do
+            perform_enqueued_jobs do
+              post "/user/new",
+                   :params => { :user => { :email => new_email,
+                                           :email_confirmation => new_email,
+                                           :display_name => display_name,
+                                           :pass_crypt => "testtest",
+                                           :pass_crypt_confirmation => "testtest" } }
+            end
           end
         end
-      end
 
-      assert_redirected_to "/user/terms"
+        assert_redirected_to "/user/terms"
 
-      assert_difference("User.count") do
-        assert_difference("ActionMailer::Base.deliveries.size", 1) do
-          perform_enqueued_jobs do
-            post "/user/save",
-                 :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s },
-                 :params => { :read_ct => 1, :read_tou => 1 }
-            follow_redirect!
+        assert_difference("User.count") do
+          assert_difference("ActionMailer::Base.deliveries.size", 1) do
+            perform_enqueued_jobs do
+              post "/user/save",
+                   :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s },
+                   :params => { :read_ct => 1, :read_tou => 1 }
+              follow_redirect!
+            end
           end
         end
+
+        # Check the e-mail
+        register_email = ActionMailer::Base.deliveries.first
+
+        assert_equal register_email.to.first, new_email
+        # Check that the confirm account url is correct
+        assert_match(/#{@url}/, register_email.body.to_s)
+
+        # Check the page
+        assert_response :success
+        assert_template "confirmations/confirm"
+
+        ActionMailer::Base.deliveries.clear
       end
-
-      # Check the e-mail
-      register_email = ActionMailer::Base.deliveries.first
-
-      assert_equal register_email.to.first, new_email
-      # Check that the confirm account url is correct
-      assert_match(/#{@url}/, register_email.body.to_s)
-
-      # Check the page
-      assert_response :success
-      assert_template "confirmations/confirm"
-
-      ActionMailer::Base.deliveries.clear
     end
   end
 
   def test_user_create_no_tou_failure
-    I18n.available_locales.each do |locale|
-      new_email = "#{locale}newtester@osm.org"
-      display_name = "#{locale}_new_tester"
+    I18n.with_locale "en" do
+      I18n.available_locales.each do |locale|
+        new_email = "#{locale}newtester@osm.org"
+        display_name = "#{locale}_new_tester"
 
-      assert_difference("User.count", 0) do
-        assert_difference("ActionMailer::Base.deliveries.size", 0) do
-          perform_enqueued_jobs do
-            post "/user/new",
-                 :params => { :user => { :email => new_email,
-                                         :email_confirmation => new_email,
-                                         :display_name => display_name,
-                                         :pass_crypt => "testtest",
-                                         :pass_crypt_confirmation => "testtest" } }
+        assert_difference("User.count", 0) do
+          assert_difference("ActionMailer::Base.deliveries.size", 0) do
+            perform_enqueued_jobs do
+              post "/user/new",
+                   :params => { :user => { :email => new_email,
+                                           :email_confirmation => new_email,
+                                           :display_name => display_name,
+                                           :pass_crypt => "testtest",
+                                           :pass_crypt_confirmation => "testtest" } }
+            end
           end
         end
-      end
 
-      assert_redirected_to "/user/terms"
-
-      perform_enqueued_jobs do
-        post "/user/save",
-             :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
         assert_redirected_to "/user/terms"
-      end
 
-      ActionMailer::Base.deliveries.clear
+        perform_enqueued_jobs do
+          post "/user/save",
+               :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
+          assert_redirected_to "/user/terms"
+        end
+
+        ActionMailer::Base.deliveries.clear
+      end
     end
   end
 
