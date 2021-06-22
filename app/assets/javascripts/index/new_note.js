@@ -100,58 +100,60 @@ OSM.NewNote = function(map) {
   }
 
   page.load = function (path) {
-    if (addNoteButton.hasClass("disabled")) return;
-    if (addNoteButton.hasClass("active")) return;
-
-    addNoteButton.addClass("active");
-
-    map.addLayer(noteLayer);
-
     var params = querystring.parse(path.substring(path.indexOf('?') + 1));
-    var markerLatlng;
+    addOpenHistoricalMapTimeSlider(map, params, function () {
+      if (addNoteButton.hasClass("disabled")) return;
+      if (addNoteButton.hasClass("active")) return;
 
-    if (params.lat && params.lon) {
-      markerLatlng = L.latLng(params.lat, params.lon);
-    } else {
-      markerLatlng = map.getCenter();
-    }
+      addNoteButton.addClass("active");
 
-    map.panInside(markerLatlng, {
-      padding: [50, 50]
-    });
+      map.addLayer(noteLayer);
 
-    newNote = L.marker(markerLatlng, {
-      icon: noteIcons["new"],
-      opacity: 0.9,
-      draggable: true
-    });
+      var markerLatlng;
 
-    newNote.on("dragstart dragend", function(a) {
-      newHalo(newNote.getLatLng(), a.type);
-    });
+      if (params.lat && params.lon) {
+        markerLatlng = L.latLng(params.lat, params.lon);
+      } else {
+        markerLatlng = map.getCenter();
+      }
 
-    newNote.addTo(noteLayer);
-    newHalo(newNote.getLatLng());
+      map.panInside(markerLatlng, {
+        padding: [50, 50]
+      });
 
-    newNote.on("remove", function () {
-      addNoteButton.removeClass("active");
-    }).on("dragstart",function () {
-      $(newNote).stopTime("removenote");
-    }).on("dragend", function () {
-      content.find("textarea").focus();
-    });
+      newNote = L.marker(markerLatlng, {
+        icon: noteIcons["new"],
+        opacity: 0.9,
+        draggable: true
+      });
 
-    content.find("textarea")
-      .on("input", disableWhenBlank)
-      .focus();
+      newNote.on("dragstart dragend", function(a) {
+        newHalo(newNote.getLatLng(), a.type);
+      });
 
-    function disableWhenBlank(e) {
-      $(e.target.form.add).prop("disabled", $(e.target).val() === "");
-    }
+      newNote.addTo(noteLayer);
+      newHalo(newNote.getLatLng());
 
-    content.find('input[type=submit]').on('click', function (e) {
-      e.preventDefault();
-      createNote(newNote, e.target.form, '/api/0.6/notes.json');
+      newNote.on("remove", function () {
+        addNoteButton.removeClass("active");
+      }).on("dragstart",function () {
+        $(newNote).stopTime("removenote");
+      }).on("dragend", function () {
+        content.find("textarea").focus();
+      });
+
+      content.find("textarea")
+        .on("input", disableWhenBlank)
+        .focus();
+
+      function disableWhenBlank(e) {
+        $(e.target.form.add).prop("disabled", $(e.target).val() === "");
+      }
+
+      content.find('input[type=submit]').on('click', function (e) {
+        e.preventDefault();
+        createNote(newNote, e.target.form, '/api/0.6/notes.json');
+      });
     });
 
     return map.getState();

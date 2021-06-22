@@ -392,7 +392,10 @@ OSM.Directions = function (map) {
   };
 
   page.load = function() {
-    page.pushstate();
+    var params = querystring.parse(location.search.substring(1));
+    addOpenHistoricalMapTimeSlider(map, params, function () {
+      page.pushstate();
+    });
   };
 
   page.unload = function() {
