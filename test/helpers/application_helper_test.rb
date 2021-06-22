@@ -3,14 +3,6 @@ require "test_helper"
 class ApplicationHelperTest < ActionView::TestCase
   attr_accessor :current_user
 
-  def setup
-    I18n.locale = "en"
-  end
-
-  def teardown
-    I18n.locale = "en"
-  end
-
   def test_linkify
     %w[http://example.com/test ftp://example.com/test https://example.com/test].each do |link|
       text = "Test #{link} is <b>made</b> into a link"
@@ -54,13 +46,13 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "rtl", dir
     params.delete(:dir)
 
-    I18n.locale = "he"
+    I18n.with_locale "he" do
+      assert_equal "rtl", dir
 
-    assert_equal "rtl", dir
-
-    params[:dir] = "ltr"
-    assert_equal "ltr", dir
-    params.delete(:dir)
+      params[:dir] = "ltr"
+      assert_equal "ltr", dir
+      params.delete(:dir)
+    end
   end
 
   def test_friendly_date

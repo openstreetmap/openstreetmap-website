@@ -1,14 +1,6 @@
 require "test_helper"
 
 class PageLocaleTest < ActionDispatch::IntegrationTest
-  def setup
-    I18n.locale = "en"
-  end
-
-  def teardown
-    I18n.locale = "en"
-  end
-
   def test_defaulting
     user = create(:user, :languages => [])
 

@@ -2,16 +2,12 @@ require "test_helper"
 
 class UserCreationTest < ActionDispatch::IntegrationTest
   def setup
-    I18n.locale = "en"
-
     OmniAuth.config.test_mode = true
 
     stub_request(:get, /.*gravatar.com.*d=404/).to_return(:status => 404)
   end
 
   def teardown
-    I18n.locale = "en"
-
     OmniAuth.config.mock_auth[:openid] = nil
     OmniAuth.config.mock_auth[:google] = nil
     OmniAuth.config.mock_auth[:facebook] = nil

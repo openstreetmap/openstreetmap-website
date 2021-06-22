@@ -4,14 +4,6 @@ class BrowseTagsHelperTest < ActionView::TestCase
   include ERB::Util
   include ApplicationHelper
 
-  def setup
-    I18n.locale = "en"
-  end
-
-  def teardown
-    I18n.locale = "en"
-  end
-
   def test_format_key
     html = format_key("highway")
     assert_dom_equal "<a href=\"https://wiki.openstreetmap.org/wiki/Key:highway?uselang=en\" title=\"The wiki description page for the highway tag\">highway</a>", html
@@ -63,21 +55,21 @@ class BrowseTagsHelperTest < ActionView::TestCase
     link = wiki_link("tag", "highway=primary")
     assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=en", link
 
-    I18n.locale = "de"
+    I18n.with_locale "de" do
+      link = wiki_link("key", "highway")
+      assert_equal "https://wiki.openstreetmap.org/wiki/DE:Key:highway?uselang=de", link
 
-    link = wiki_link("key", "highway")
-    assert_equal "https://wiki.openstreetmap.org/wiki/DE:Key:highway?uselang=de", link
+      link = wiki_link("tag", "highway=primary")
+      assert_equal "https://wiki.openstreetmap.org/wiki/DE:Tag:highway=primary?uselang=de", link
+    end
 
-    link = wiki_link("tag", "highway=primary")
-    assert_equal "https://wiki.openstreetmap.org/wiki/DE:Tag:highway=primary?uselang=de", link
+    I18n.with_locale "tr" do
+      link = wiki_link("key", "highway")
+      assert_equal "https://wiki.openstreetmap.org/wiki/Tr:Key:highway?uselang=tr", link
 
-    I18n.locale = "tr"
-
-    link = wiki_link("key", "highway")
-    assert_equal "https://wiki.openstreetmap.org/wiki/Tr:Key:highway?uselang=tr", link
-
-    link = wiki_link("tag", "highway=primary")
-    assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=tr", link
+      link = wiki_link("tag", "highway=primary")
+      assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=tr", link
+    end
   end
 
   def test_wikidata_links
@@ -110,12 +102,12 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "Q42", links[0][:title]
 
     # the language of the wikidata-page should match the current locale
-    I18n.locale = "zh-CN"
-    links = wikidata_links("wikidata", "Q1234")
-    assert_equal 1, links.length
-    assert_equal "//www.wikidata.org/entity/Q1234?uselang=zh-CN", links[0][:url]
-    assert_equal "Q1234", links[0][:title]
-    I18n.locale = "en"
+    I18n.with_locale "zh-CN" do
+      links = wikidata_links("wikidata", "Q1234")
+      assert_equal 1, links.length
+      assert_equal "//www.wikidata.org/entity/Q1234?uselang=zh-CN", links[0][:url]
+      assert_equal "Q1234", links[0][:title]
+    end
 
     ### Prefixed wikidata-tags
 
@@ -129,16 +121,16 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "Q24", links[0][:title]
 
     # Another allowed key, this time with multiple values and I18n
-    I18n.locale = "dsb"
-    links = wikidata_links("brand:wikidata", "Q936;Q2013;Q1568346")
-    assert_equal 3, links.length
-    assert_equal "//www.wikidata.org/entity/Q936?uselang=dsb", links[0][:url]
-    assert_equal "Q936", links[0][:title]
-    assert_equal "//www.wikidata.org/entity/Q2013?uselang=dsb", links[1][:url]
-    assert_equal "Q2013", links[1][:title]
-    assert_equal "//www.wikidata.org/entity/Q1568346?uselang=dsb", links[2][:url]
-    assert_equal "Q1568346", links[2][:title]
-    I18n.locale = "en"
+    I18n.with_locale "dsb" do
+      links = wikidata_links("brand:wikidata", "Q936;Q2013;Q1568346")
+      assert_equal 3, links.length
+      assert_equal "//www.wikidata.org/entity/Q936?uselang=dsb", links[0][:url]
+      assert_equal "Q936", links[0][:title]
+      assert_equal "//www.wikidata.org/entity/Q2013?uselang=dsb", links[1][:url]
+      assert_equal "Q2013", links[1][:title]
+      assert_equal "//www.wikidata.org/entity/Q1568346?uselang=dsb", links[2][:url]
+      assert_equal "Q1568346", links[2][:title]
+    end
 
     # and now with whitespaces...
     links = wikidata_links("subject:wikidata", "Q6542248 ;\tQ180\n ;\rQ364\t\n\r ;\nQ4006")
@@ -184,11 +176,11 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "https://de.wikipedia.org/wiki/de:Liste der Baudenkmäler in Eichstätt?uselang=en#Br.C3.BCckenstra.C3.9Fe_1.2C_Ehemaliges_Bauernhaus", link[:url]
     assert_equal "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus", link[:title]
 
-    I18n.locale = "pt-BR"
-
-    link = wikipedia_link("wikipedia", "zh-classical:Test#Section")
-    assert_equal "https://zh-classical.wikipedia.org/wiki/zh-classical:Test?uselang=pt-BR#Section", link[:url]
-    assert_equal "zh-classical:Test#Section", link[:title]
+    I18n.with_locale "pt-BR" do
+      link = wikipedia_link("wikipedia", "zh-classical:Test#Section")
+      assert_equal "https://zh-classical.wikipedia.org/wiki/zh-classical:Test?uselang=pt-BR#Section", link[:url]
+      assert_equal "zh-classical:Test#Section", link[:title]
+    end
 
     link = wikipedia_link("foo", "Test")
     assert_nil link
@@ -212,11 +204,11 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "//commons.wikimedia.org/wiki/Category:Test_Category?uselang=en", link[:url]
     assert_equal "Category:Test_Category", link[:title]
 
-    I18n.locale = "pt-BR"
-
-    link = wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")
-    assert_equal "//commons.wikimedia.org/wiki/File:Test.jpg?uselang=pt-BR", link[:url]
-    assert_equal "File:Test.jpg", link[:title]
+    I18n.with_locale "pt-BR" do
+      link = wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")
+      assert_equal "//commons.wikimedia.org/wiki/File:Test.jpg?uselang=pt-BR", link[:url]
+      assert_equal "File:Test.jpg", link[:title]
+    end
 
     link = wikimedia_commons_link("foo", "Test")
     assert_nil link
