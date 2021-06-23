@@ -21,6 +21,6 @@ class ConfirmationResendSystemTest < ApplicationSystemTestCase
     visit user_confirm_resend_path(@user)
 
     assert page.has_content?("sent a new confirmation")
-    assert_not page.has_content?("<br />")
+    assert_not page.has_content?("<p>")
   end
 end
