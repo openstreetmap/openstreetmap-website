@@ -42,7 +42,7 @@ class UsersController < ApplicationController
       if current_user
         current_user.terms_seen = true
 
-        flash[:notice] = t("users.new.terms declined", :url => t("users.new.terms declined url")).html_safe if current_user.save
+        flash[:notice] = { :partial => "users/terms_declined_flash" } if current_user.save
 
         if params[:referer]
           redirect_to safe_referer(params[:referer])

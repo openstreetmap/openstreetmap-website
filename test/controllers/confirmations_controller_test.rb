@@ -211,7 +211,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :redirect
     assert_redirected_to login_path
-    assert_match(/sent a new confirmation/, flash[:notice])
+    assert_equal("confirmations/resend_success_flash", flash[:notice][:partial])
+    assert_equal({ :email => user.email, :sender => Settings.email_from }, flash[:notice][:locals])
 
     email = ActionMailer::Base.deliveries.last
 

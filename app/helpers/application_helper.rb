@@ -68,4 +68,14 @@ module ApplicationHelper
 
     data
   end
+
+  # If the flash is a hash, then it will be a partial with a hash of locals, so we can call `render` on that
+  # This allows us to render html into a flash message in a safe manner.
+  def render_flash(flash)
+    if flash.is_a?(Hash)
+      render flash.with_indifferent_access
+    else
+      flash
+    end
+  end
 end
