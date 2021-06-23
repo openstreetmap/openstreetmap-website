@@ -26,6 +26,10 @@ csp_policy[:img_src] << Settings.storage_url if Settings.key?(:storage_url)
 
 csp_policy[:report_uri] << Settings.csp_report_url if Settings.key?(:csp_report_url)
 
+cookie_policy = {
+  :httponly => { :only => ["_osm_session"] }
+}
+
 SecureHeaders::Configuration.default do |config|
   config.hsts = SecureHeaders::OPT_OUT
   config.referrer_policy = "strict-origin-when-cross-origin"
@@ -40,4 +44,6 @@ SecureHeaders::Configuration.default do |config|
     config.csp = SecureHeaders::OPT_OUT
     config.csp_report_only = SecureHeaders::OPT_OUT
   end
+
+  config.cookies = cookie_policy
 end
