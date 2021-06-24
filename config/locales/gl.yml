@@ -38,6 +38,8 @@ gl:
       client_application:
         create: Rexistrarse
         update: Actualizar
+      doorkeeper_application:
+        update: Actualizar
       redaction:
         create: Crear a redacción
         update: Gardar a redacción
@@ -109,6 +111,11 @@ gl:
         latitude: Latitude
         longitude: Lonxitude
         language: Lingua
+      doorkeeper/application:
+        name: Nome
+        redirect_uri: Redirixir URIs
+        confidential: Aplicación confidencial?
+        scopes: Permisos
       friend:
         user: Usuario
         friend: Amizade
@@ -151,6 +158,8 @@ gl:
         pass_crypt: Contrasinal
         pass_crypt_confirmation: Confirmar contrasinal
     help:
+      doorkeeper/application:
+        redirect_uri: Usar unha liña por URI
       trace:
         tagstring: separadas por comas
       user_block:
@@ -506,11 +515,17 @@ gl:
     comments:
       has_commented_on: '%{display_name} deixou un comentario nas seguintes entradas
         de diario'
+      no_comments: Sen comentarios no diario
       post: Artigo
       when: Cando
       comment: Comentario
       newer_comments: Comentarios máis recentes
       older_comments: Comentarios máis vellos
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Aplicación rexistrada.
   friendships:
     make_friend:
       heading: Quere engadir a %{user} coma amizade?
@@ -997,13 +1012,14 @@ gl:
         mountain_pass:
           "yes": Porto de montaña
         natural:
+          atoll: Atol
           bare_rock: Rocha núa
           bay: Badía
           beach: Praia
           cape: Cabo
           cave_entrance: Entrada de cova
           cliff: Cantil
-          coastline: Litoral
+          coastline: Beiramar
           crater: Cráter
           dune: Duna
           fell: Brañal
@@ -1021,6 +1037,7 @@ gl:
           moor: Páramo
           mud: Lama
           peak: Cumio
+          peninsula: Península
           point: Punto
           reef: Arrecife
           ridge: Crista
@@ -1068,6 +1085,7 @@ gl:
           "yes": Oficina
         place:
           allotments: Hortas
+          archipelago: Arquipélago
           city: Cidade
           city_block: Quinteiro
           country: País
@@ -1606,10 +1624,6 @@ gl:
       reconfirm_html: Se quere que reenviemos o correo electrónico de confirmación,
         <a href="%{reconfirm}">prema aquí</a>.
     confirm_resend:
-      success_html: Procura unha nota de confirmación que che enviamos a %{email}
-        e comezarás a crear mapas decontado.<br /><br />Se empregas un sistema de
-        bloqueo de spam, asegúrate de incluír %{sender} na túa listaxe branca para
-        poder completar o proceso sen problemas.
       failure: Non se atopou o usuario "%{name}".
     confirm_email:
       heading: Confirmar a modificación do enderezo de correo electrónico
@@ -1623,6 +1637,7 @@ gl:
     inbox:
       title: Caixa de entrada
       my_inbox: A miña caixa de entrada
+      my_outbox: Caixa de saída
       messages: Ten %{new_messages} e %{old_messages}
       new_messages:
         one: '%{count} mensaxe nova'
@@ -1657,6 +1672,8 @@ gl:
       body: Non hai ningunha mensaxe con esa ID.
     outbox:
       title: Caixa de saída
+      my_inbox: Caixa de entrada
+      my_outbox: Caixa de saída
       messages:
         one: Enviaches %{count} mensaxe
         other: Enviaches %{count} mensaxes
@@ -2315,7 +2332,7 @@ gl:
       in: en
     index:
       public_traces: Pistas GPS públicas
-      my_traces: As miñas pistas GPS
+      my_traces: As miñas pistas
       public_traces_from: Pistas GPS públicas de %{user}
       description: Procurar as pistas GPS subidas recentemente
       tagged_with: ' etiquetadas con %{tags}'
@@ -2323,6 +2340,9 @@ gl:
         nova pista</a> ou obteña máis información sobre as pistas GPS na <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>páxina
         da wiki</a>.
       upload_trace: Subir unha pista
+      all_traces: Todas as pistas
+      traces_from: Pistas públicas de %{user}
+      remove_tag_filter: Eliminar etiqueta do filtro
     destroy:
       scheduled_for_deletion: Pista agardando a súa eliminación
     make_public:
@@ -2381,6 +2401,14 @@ gl:
       flash: Revogou o pase de %{application}
     permissions:
       missing: Non permitiu á aplicación acceder a esta instalación
+    scopes:
+      read_prefs: Ler preferencias de usuario
+      write_prefs: Modificar preferencias de usuario
+      write_diary: Crear entradas de diario, comentarios e amizades
+      write_api: Modificar o mapa
+      read_gpx: Ler pistas GPS privadas
+      write_gpx: Subir pistas GPS
+      write_notes: Modificar notas
   oauth_clients:
     new:
       title: Rexistrar unha nova aplicación
@@ -2422,6 +2450,42 @@ gl:
       flash: Actualizou de xeito correcto a información do cliente
     destroy:
       flash: Destruíu o rexistro da aplicación de cliente
+  oauth2_applications:
+    index:
+      title: As miñas aplicacións de cliente
+      oauth_2: OAuth 2
+      new: Rexistrar unha nova aplicación
+      name: Nome
+      permissions: Permisos
+    application:
+      edit: Editar
+      delete: Eliminar
+      confirm_delete: Eliminar esta aplicación?
+    new:
+      title: Rexistrar unha nova aplicación
+    edit:
+      title: Editar a túa aplicación
+    show:
+      edit: Editar
+      delete: Eliminar
+      confirm_delete: Eliminar esta aplicación?
+      client_id: ID de cliente
+      client_secret: Cliente secreto
+      permissions: Permisos
+      redirect_uris: Redirixir URIs
+    not_found:
+      sorry: Desculpa, non foi atopada a aplicación.
+  oauth2_authorizations:
+    new:
+      title: Autorización requirida
+      authorize: Autorizar
+      deny: Rexeitar
+    error:
+      title: Ocorreu un erro
+  oauth2_authorized_applications:
+    index:
+      application: Aplicación
+      permissions: Permisos
   users:
     new:
       title: Rexistrarse
@@ -2446,9 +2510,6 @@ gl:
         aínda que hai algunhas ferramentas e servidores que aínda a solicitan.
       continue: Rexistrarse
       terms accepted: Grazas por aceptar os novos termos do contribuínte!
-      terms declined: Sentimos que decidise non aceptar os novos Termos do contribuínte.
-        Para obter máis información, vexa <a href="%{url}">esta páxina da wiki</a>.
-      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Termos
       heading: Termos
@@ -2477,6 +2538,11 @@ gl:
         france: Francia
         italy: Italia
         rest_of_world: Resto do mundo
+    terms_declined_flash:
+      terms_declined_html: Sentimos que decidise non aceptar os novos Termos do contribuínte.
+        Para obter máis información, vexa <a href="%{url}">esta páxina da wiki</a>.
+      terms_declined_link: esta páxina da wiki
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Non existe tal usuario
       heading: O usuario "%{user}" non existe
@@ -2493,7 +2559,6 @@ gl:
       my profile: O meu perfil
       my settings: Os meus axustes
       my comments: Os meus comentarios
-      oauth settings: axustes OAuth
       blocks on me: Os meus bloqueos
       blocks by me: Bloqueos efectuados
       send message: Enviar unha mensaxe
@@ -2755,8 +2820,9 @@ gl:
     show:
       title: '%{block_on} bloqueado por %{block_by}'
       heading_html: '%{block_on} bloqueado por %{block_by}'
-      created: Creado
-      status: Estado
+      created: 'Creado:'
+      duration: 'Duración:'
+      status: 'Estado:'
       show: Amosar
       edit: Editar
       revoke: Revogar!
@@ -2785,6 +2851,7 @@ gl:
       title: Notas enviadas ou comentadas por %{user}
       heading: Notas de %{user}
       subheading_html: Notas enviadas ou comentadas por %{user}
+      no_notes: Sen notas
       id: ID
       creator: Creador
       description: Descrición
