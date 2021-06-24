@@ -122,8 +122,8 @@ Doorkeeper.configure do
   # Rationale: https://github.com/doorkeeper-gem/doorkeeper/issues/383
   #
   # You can not enable this option together with +hash_token_secrets+.
-  #
-  # reuse_access_token
+
+  reuse_access_token
 
   # In case you enabled `reuse_access_token` option Doorkeeper will try to find matching
   # token using `matching_token_for` Access Token API that searches for valid records
@@ -159,17 +159,17 @@ Doorkeeper.configure do
   #
   # Note: If you are already a user of doorkeeper and have existing tokens
   # in your installation, they will be invalid without adding 'fallback: :plain'.
-
-  hash_token_secrets
-
+  #
+  # hash_token_secrets
   # By default, token secrets will be hashed using the
   # +Doorkeeper::Hashing::SHA256+ strategy.
   #
   # If you wish to use another hashing implementation, you can override
   # this strategy as follows:
-  #
-  # hash_token_secrets using: '::Doorkeeper::Hashing::MyCustomHashImpl'
-  #
+
+  hash_token_secrets :using => "::Doorkeeper::SecretStoring::Plain",
+                     :fallback => "::Doorkeeper::SecretStoring::Sha256Hash"
+
   # Keep in mind that changing the hashing function will invalidate all existing
   # secrets, if there are any.
 
