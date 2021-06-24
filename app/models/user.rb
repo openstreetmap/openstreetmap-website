@@ -68,6 +68,10 @@ class User < ApplicationRecord
   has_many :client_applications
   has_many :oauth_tokens, -> { order(:authorized_at => :desc).preload(:client_application) }, :class_name => "OauthToken"
 
+  has_many :oauth2_applications, :class_name => Doorkeeper.config.application_model.name, :foreign_key => :owner_id
+  has_many :access_grants, :class_name => Doorkeeper.config.access_grant_model.name, :foreign_key => :resource_owner_id
+  has_many :access_tokens, :class_name => Doorkeeper.config.access_token_model.name, :foreign_key => :resource_owner_id
+
   has_many :blocks, :class_name => "UserBlock"
   has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id
   has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id

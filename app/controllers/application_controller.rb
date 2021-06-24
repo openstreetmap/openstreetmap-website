@@ -345,7 +345,7 @@ class ApplicationController < ActionController::Base
   end
 
   def deny_access(_exception)
-    if current_token
+    if doorkeeper_token || current_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user

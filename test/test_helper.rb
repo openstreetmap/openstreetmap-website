@@ -139,6 +139,12 @@ module ActiveSupport
     end
 
     ##
+    # return request header for HTTP Bearer Authorization
+    def bearer_authorization_header(token)
+      { "Authorization" => "Bearer #{token}" }
+    end
+
+    ##
     # make an OAuth signed request
     def signed_request(method, uri, options = {})
       uri = URI.parse(uri)

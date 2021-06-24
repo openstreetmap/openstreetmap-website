@@ -45,6 +45,10 @@ class AccessToken < OauthToken
 
   before_create :set_authorized_at
 
+  def includes_scope?(scope)
+    self[:"allow_#{scope}"]
+  end
+
   protected
 
   def set_authorized_at
