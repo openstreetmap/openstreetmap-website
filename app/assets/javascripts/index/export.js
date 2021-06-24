@@ -65,15 +65,15 @@ OSM.Export = function(map) {
   page.load = function() {
     var params = querystring.parse(location.search.substring(1));
     addOpenHistoricalMapTimeSlider(map, params, function () {
-      map
-        .addLayer(locationFilter)
-        .on("moveend", update);
+    map
+      .addLayer(locationFilter)
+      .on("moveend", update);
 
-      $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
-      $("#drag_box").click(enableFilter);
-      $(".export_form").on("submit", checkSubmit);
+    $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
+    $("#drag_box").click(enableFilter);
+    $(".export_form").on("submit", checkSubmit);
 
-      update();
+    update();
     });
 
     return map.getState();

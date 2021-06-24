@@ -394,7 +394,7 @@ OSM.Directions = function (map) {
   page.load = function() {
     var params = querystring.parse(location.search.substring(1));
     addOpenHistoricalMapTimeSlider(map, params, function () {
-      page.pushstate();
+    page.pushstate();
     });
   };
 

@@ -129,30 +129,30 @@ OSM.Search = function(map) {
   page.load = function() {
     var params = querystring.parse(location.search.substring(1));
     addOpenHistoricalMapTimeSlider(map, params, function () {
-      $(".search_results_entry").each(function(index) {
-        var entry = $(this);
-        $.ajax({
-          url: entry.data("href"),
-          method: 'GET',
-          data: {
-            zoom: map.getZoom(),
-            minlon: map.getBounds().getWest(),
-            minlat: map.getBounds().getSouth(),
-            maxlon: map.getBounds().getEast(),
-            maxlat: map.getBounds().getNorth()
-          },
-          success: function(html) {
-            entry.html(html);
-            // go to first result of first geocoder
-            if (index === 0) {
-              var firstResult = entry.find('*[data-lat][data-lon]:first').first();
-              if (firstResult.length) {
-                panToSearchResult(firstResult.data());
-              }
+    $(".search_results_entry").each(function(index) {
+      var entry = $(this);
+      $.ajax({
+        url: entry.data("href"),
+        method: 'GET',
+        data: {
+          zoom: map.getZoom(),
+          minlon: map.getBounds().getWest(),
+          minlat: map.getBounds().getSouth(),
+          maxlon: map.getBounds().getEast(),
+          maxlat: map.getBounds().getNorth()
+        },
+        success: function(html) {
+          entry.html(html);
+          // go to first result of first geocoder
+          if (index === 0) {
+            var firstResult = entry.find('*[data-lat][data-lon]:first').first();
+            if (firstResult.length) {
+              panToSearchResult(firstResult.data());
             }
           }
-        });
+        }
       });
+    });
     });
 
     return map.getState();

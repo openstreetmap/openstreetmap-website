@@ -102,58 +102,58 @@ OSM.NewNote = function(map) {
   page.load = function (path) {
     var params = querystring.parse(path.substring(path.indexOf('?') + 1));
     addOpenHistoricalMapTimeSlider(map, params, function () {
-      if (addNoteButton.hasClass("disabled")) return;
-      if (addNoteButton.hasClass("active")) return;
+    if (addNoteButton.hasClass("disabled")) return;
+    if (addNoteButton.hasClass("active")) return;
 
-      addNoteButton.addClass("active");
+    addNoteButton.addClass("active");
 
-      map.addLayer(noteLayer);
+    map.addLayer(noteLayer);
 
-      var markerLatlng;
+    var markerLatlng;
 
-      if (params.lat && params.lon) {
-        markerLatlng = L.latLng(params.lat, params.lon);
-      } else {
-        markerLatlng = map.getCenter();
-      }
+    if (params.lat && params.lon) {
+      markerLatlng = L.latLng(params.lat, params.lon);
+    } else {
+      markerLatlng = map.getCenter();
+    }
 
-      map.panInside(markerLatlng, {
-        padding: [50, 50]
-      });
+    map.panInside(markerLatlng, {
+      padding: [50, 50]
+    });
 
-      newNote = L.marker(markerLatlng, {
-        icon: noteIcons["new"],
-        opacity: 0.9,
-        draggable: true
-      });
+    newNote = L.marker(markerLatlng, {
+      icon: noteIcons["new"],
+      opacity: 0.9,
+      draggable: true
+    });
 
-      newNote.on("dragstart dragend", function(a) {
-        newHalo(newNote.getLatLng(), a.type);
-      });
+    newNote.on("dragstart dragend", function(a) {
+      newHalo(newNote.getLatLng(), a.type);
+    });
 
-      newNote.addTo(noteLayer);
-      newHalo(newNote.getLatLng());
+    newNote.addTo(noteLayer);
+    newHalo(newNote.getLatLng());
 
-      newNote.on("remove", function () {
-        addNoteButton.removeClass("active");
-      }).on("dragstart",function () {
-        $(newNote).stopTime("removenote");
-      }).on("dragend", function () {
-        content.find("textarea").focus();
-      });
+    newNote.on("remove", function () {
+      addNoteButton.removeClass("active");
+    }).on("dragstart",function () {
+      $(newNote).stopTime("removenote");
+    }).on("dragend", function () {
+      content.find("textarea").focus();
+    });
 
-      content.find("textarea")
-        .on("input", disableWhenBlank)
-        .focus();
+    content.find("textarea")
+      .on("input", disableWhenBlank)
+      .focus();
 
-      function disableWhenBlank(e) {
-        $(e.target.form.add).prop("disabled", $(e.target).val() === "");
-      }
+    function disableWhenBlank(e) {
+      $(e.target.form.add).prop("disabled", $(e.target).val() === "");
+    }
 
-      content.find('input[type=submit]').on('click', function (e) {
-        e.preventDefault();
-        createNote(newNote, e.target.form, '/api/0.6/notes.json');
-      });
+    content.find('input[type=submit]').on('click', function (e) {
+      e.preventDefault();
+      createNote(newNote, e.target.form, '/api/0.6/notes.json');
+    });
     });
 
     return map.getState();

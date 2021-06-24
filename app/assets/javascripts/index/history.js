@@ -151,15 +151,15 @@ OSM.History = function(map) {
   page.load = function() {
     var params = querystring.parse(location.search.substring(1));
     addOpenHistoricalMapTimeSlider(map, params, function () {
-      map.addLayer(group);
+    map.addLayer(group);
 
-      if (window.location.pathname === '/history') {
-        map.on("moveend", update);
-      }
+    if (window.location.pathname === '/history') {
+      map.on("moveend", update);
+    }
 
-      map.on("zoomend", updateBounds);
+    map.on("zoomend", updateBounds);
 
-      update();
+    update();
     });
   };
 

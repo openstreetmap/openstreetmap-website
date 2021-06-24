@@ -346,13 +346,13 @@ OSM.Query = function(map) {
       latlng = L.latLng(params.lat, params.lon);
 
       addOpenHistoricalMapTimeSlider(map, params, function () {
-        if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {
-          OSM.router.withoutMoveListener(function () {
-            map.setView(latlng, 15);
-          });
-        }
+      if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {
+        OSM.router.withoutMoveListener(function () {
+          map.setView(latlng, 15);
+        });
+      }
 
-        queryOverpass(params.lat, params.lon);
+      queryOverpass(params.lat, params.lon);
       });
   };
 
