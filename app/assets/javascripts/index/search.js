@@ -127,6 +127,8 @@ OSM.Search = function(map) {
   };
 
   page.load = function() {
+    var params = querystring.parse(location.search.substring(1));
+    addOpenHistoricalMapTimeSlider(map, params, function () {
     $(".search_results_entry").each(function(index) {
       var entry = $(this);
       $.ajax({
@@ -150,6 +152,7 @@ OSM.Search = function(map) {
           }
         }
       });
+    });
     });
 
     return map.getState();

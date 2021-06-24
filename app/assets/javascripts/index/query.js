@@ -345,6 +345,7 @@ OSM.Query = function(map) {
     var params = querystring.parse(path.substring(path.indexOf('?') + 1)),
       latlng = L.latLng(params.lat, params.lon);
 
+    addOpenHistoricalMapTimeSlider(map, params, function () {
     if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {
       OSM.router.withoutMoveListener(function () {
         map.setView(latlng, 15);
@@ -352,6 +353,7 @@ OSM.Query = function(map) {
     }
 
     queryOverpass(params.lat, params.lon);
+    });
   };
 
   page.unload = function(sameController) {

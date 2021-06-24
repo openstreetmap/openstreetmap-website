@@ -149,6 +149,8 @@ OSM.History = function(map) {
   };
 
   page.load = function() {
+    var params = querystring.parse(location.search.substring(1));
+    addOpenHistoricalMapTimeSlider(map, params, function () {
     map.addLayer(group);
 
     if (window.location.pathname === '/history') {
@@ -158,6 +160,7 @@ OSM.History = function(map) {
     map.on("zoomend", updateBounds);
 
     update();
+    });
   };
 
   page.unload = function() {

@@ -100,6 +100,8 @@ OSM.NewNote = function(map) {
   }
 
   page.load = function (path) {
+    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
+    addOpenHistoricalMapTimeSlider(map, params, function () {
     if (addNoteButton.hasClass("disabled")) return;
     if (addNoteButton.hasClass("active")) return;
 
@@ -107,7 +109,6 @@ OSM.NewNote = function(map) {
 
     map.addLayer(noteLayer);
 
-    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
     var markerLatlng;
 
     if (params.lat && params.lon) {
@@ -152,6 +153,7 @@ OSM.NewNote = function(map) {
     content.find('input[type=submit]').on('click', function (e) {
       e.preventDefault();
       createNote(newNote, e.target.form, '/api/0.6/notes.json');
+    });
     });
 
     return map.getState();

@@ -13,7 +13,11 @@ OSM.Changeset = function (map) {
     if(id)
       currentChangesetId = id;
     initialize();
-    addChangeset(currentChangesetId, true);
+
+    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
+    addOpenHistoricalMapTimeSlider(map, params, function () {
+      addChangeset(currentChangesetId, true);
+    });
   };
 
   function addChangeset(id, center) {

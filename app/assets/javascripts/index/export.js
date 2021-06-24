@@ -63,6 +63,8 @@ OSM.Export = function(map) {
   };
 
   page.load = function() {
+    var params = querystring.parse(location.search.substring(1));
+    addOpenHistoricalMapTimeSlider(map, params, function () {
     map
       .addLayer(locationFilter)
       .on("moveend", update);
@@ -72,6 +74,8 @@ OSM.Export = function(map) {
     $(".export_form").on("submit", checkSubmit);
 
     update();
+    });
+
     return map.getState();
   };
 
