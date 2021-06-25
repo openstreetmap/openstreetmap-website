@@ -1326,7 +1326,7 @@ module Api
           <node id='-7' visible='true' changeset='#{changeset_id}' lat='51.49560784152179' lon='-0.18694719410005425' />
           <node id='-8' visible='true' changeset='#{changeset_id}' lat='51.49567389979617' lon='-0.1860289771788006' />
           <node id='-9' visible='true' changeset='#{changeset_id}' lat='51.49543761398892' lon='-0.186820684213126' />
-          <way id='-10' action='modiy' visible='true' changeset='#{changeset_id}'>
+          <way id='-10' action='modify' visible='true' changeset='#{changeset_id}'>
             <nd ref='-1' />
             <nd ref='-2' />
             <nd ref='-3' />
