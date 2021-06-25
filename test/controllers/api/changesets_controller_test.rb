@@ -700,7 +700,7 @@ module Api
       # upload it
       post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
-                      "shoudln't be able to upload too long a tag to changeset: #{@response.body}"
+                      "shouldn't be able to upload too long a tag to changeset: #{@response.body}"
     end
 
     ##
