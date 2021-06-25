@@ -129,7 +129,7 @@ module Api
         print @request.to_yaml
         print @response.body
       end
-      assert_response :success, "Expected scucess with the map call"
+      assert_response :success, "Expected success with the map call"
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='#{format('%<lon>.7f', :lon => minlon)}']" \
                       "[minlat='#{format('%<lat>.7f', :lat => minlat)}']" \

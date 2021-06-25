@@ -63,7 +63,7 @@ module Api
             "</changeset></osm>"
       put changeset_create_path, :params => xml, :headers => auth_header
 
-      assert_response :success, "Creation of changeset did not return sucess status"
+      assert_response :success, "Creation of changeset did not return success status"
       newid = @response.body.to_i
 
       # check end time, should be an hour ahead of creation time
