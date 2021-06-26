@@ -12,7 +12,9 @@ module Api
     # * if authenticated via basic auth all permissions are granted, so the list will contain all permissions.
     # * unauthenticated users have no permissions, so the list will be empty.
     def show
-      @permissions = if current_token.present?
+      @permissions = if doorkeeper_token.present?
+                       doorkeeper_token.scopes.map { |s| :"allow_#{s}" }
+                     elsif current_token.present?
                        ClientApplication.all_permissions.select { |p| current_token.read_attribute(p) }
                      elsif current_user
                        ClientApplication.all_permissions

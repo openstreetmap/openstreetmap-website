@@ -31,12 +31,27 @@ module Api
       end
     end
 
-    def test_permissions_oauth
+    def test_permissions_oauth1
       token = create(:access_token,
                      :allow_read_prefs => true,
                      :allow_write_api => true,
                      :allow_read_gpx => false)
       signed_get permissions_path, :oauth => { :token => token }
+      assert_response :success
+      assert_select "osm > permissions", :count => 1 do
+        assert_select "permission", :count => 2
+        assert_select "permission[name='allow_read_prefs']", :count => 1
+        assert_select "permission[name='allow_write_api']", :count => 1
+        assert_select "permission[name='allow_read_gpx']", :count => 0
+      end
+    end
+
+    def test_permissions_oauth2
+      user = create(:user)
+      token = create(:oauth_access_token,
+                     :resource_owner_id => user.id,
+                     :scopes => %w[read_prefs write_api])
+      get permissions_path, :headers => bearer_authorization_header(token.token)
       assert_response :success
       assert_select "osm > permissions", :count => 1 do
         assert_select "permission", :count => 2
