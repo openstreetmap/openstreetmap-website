@@ -146,6 +146,8 @@ it:
         latitude: Latitudine
         longitude: Longitudine
         language: Lingua
+      doorkeeper/application:
+        name: Nome
       friend:
         user: Utente
         friend: Amico
@@ -1635,11 +1637,6 @@ it:
       reconfirm_html: Per richiedere nuovamente una email di conferma, <a href="%{reconfirm}">Clicca
         qui</a>.
     confirm_resend:
-      success_html: È stato spedito un nuovo messaggio di conferma all'indirizzo %{email}
-        e non appena verrà confermato il proprio profilo si sarà in grado di mappare.<br
-        /><br />Se si utilizzano dei filtri antispam che spediscono richieste di conferma
-        assicurarsi di inserire l'indirizzo %{sender} nella whitelist, altrimenti
-        non siamo in grado di rispondere ad alcuna richiesta di conferma.
       failure: Utente %{name} non trovato.
     confirm_email:
       heading: Conferma una variazione di indirizzo email
@@ -2408,6 +2405,10 @@ it:
       flash: Hai revocato il token per %{application}
     permissions:
       missing: Non hai autorizzato l'applicazione ad accedere a questa funzione
+    scopes:
+      write_prefs: Modifica le preferenze utente
+      read_gpx: Leggi tracciati GPS privati
+      write_gpx: Carica tracciati GPS
   oauth_clients:
     new:
       title: Registra una nuova applicazione
@@ -2449,6 +2450,33 @@ it:
       flash: Aggiornate con successo le informazioni sul client
     destroy:
       flash: Distrutta la registrazione dell'applicazione client
+  oauth2_applications:
+    index:
+      name: Nome
+      permissions: Permessi
+    application:
+      edit: Modifica
+      delete: Cancella
+      confirm_delete: Cancellare questa applicazione?
+    new:
+      title: Registra una nuova applicazione
+    show:
+      edit: Modifica
+      delete: Cancella
+      confirm_delete: Cancellare questa applicazione?
+      client_id: ID cliente
+  oauth2_authorizations:
+    new:
+      title: Autorizzazione richiesta
+      deny: Nega
+    show:
+      title: Codice autorizzazione
+  oauth2_authorized_applications:
+    index:
+      title: Le mie applicazioni autorizzate
+      application: Applicazione
+    application:
+      revoke: Revoca accesso
   users:
     new:
       title: Registrati
@@ -2475,10 +2503,6 @@ it:
         bisogno.
       continue: Registrati
       terms accepted: Grazie di aver accettato le nuove regole per contribuire!
-      terms declined: Siamo spiacenti che tu abbia deciso di non accettare i nuovi
-        termini di contribuzione. Per ulteriori informazioni consultare <a href="%{url}">questa
-        pagina del wiki</a>.
-      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Termini
       heading: Termini
@@ -2509,6 +2533,11 @@ it:
         france: Francia
         italy: Italia
         rest_of_world: Resto del mondo
+    terms_declined_flash:
+      terms_declined_html: Siamo spiacenti che tu abbia deciso di non accettare i
+        nuovi termini di contribuzione. Per ulteriori informazioni consultare %{terms_declined_link}.
+      terms_declined_link: questa pagina wiki
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Nessun utente
       heading: L'utente %{user} non esiste
@@ -2525,7 +2554,6 @@ it:
       my profile: Il mio profilo
       my settings: Impostazioni
       my comments: Miei commenti
-      oauth settings: Impostazioni oauth
       blocks on me: Blocchi su di me
       blocks by me: Blocchi applicati da me
       send message: Invia messaggio
@@ -2639,6 +2667,8 @@ it:
       save changes button: Salva modifiche
       make edits public button: Rendi pubbliche tutte le mie modifiche
       return to profile: Ritorna al profilo
+      oauth1 settings: Impostazioni OAuth
+      oauth2 authorizations: Autorizzazioni OAuth 2
       flash update success confirm needed: Informazioni sull'utente aggiornate con
         successo. Controllare la propria email per la conferma del nuovo indirizzo
         di posta elettronica.

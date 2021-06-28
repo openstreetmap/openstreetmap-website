@@ -30,6 +30,9 @@ mk:
       client_application:
         create: Пријави
         update: Поднови
+      doorkeeper_application:
+        create: Пријави
+        update: Поднови
       redaction:
         create: Создај исправка
         update: Зачувај исправка
@@ -101,6 +104,11 @@ mk:
         latitude: Гео. ширина
         longitude: Гео. должина
         language: Јазик
+      doorkeeper/application:
+        name: Име
+        redirect_uri: URI-ја за пренасочување
+        confidential: Доверлив прилог?
+        scopes: Дозволи
       friend:
         user: Корисник
         friend: Пријател
@@ -143,6 +151,11 @@ mk:
         pass_crypt: Лозинка
         pass_crypt_confirmation: Потврдете ја лозинката
     help:
+      doorkeeper/application:
+        confidential: Прилогот ќе се користи кога клиентската тајна ќе може да се
+          чува доверливо (матичните мобилни прилози и едностраничните прилози не се
+          доверливи)
+        redirect_uri: Ставајте го секое URI во нов ред
       trace:
         tagstring: одделено со запирка
       user_block:
@@ -499,6 +512,11 @@ mk:
       comment: Коментар
       newer_comments: Понови коментари
       older_comments: Постари коментари
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Прилогот е пријавен.
   friendships:
     make_friend:
       heading: Да го додадам корисникот %{user} како пријател?
@@ -1591,10 +1609,6 @@ mk:
       reconfirm_html: Ако сакате повторно да ви ја испратиме потврдната порака, <a
         href="%{reconfirm}">стиснете тука</a>.
     confirm_resend:
-      success_html: Испративме поврдна порака на %{email}, и штом ќе ја потврдите
-        сметката, ќе можете да почнете со картографска работа.<br /><br />Ако користите
-        систем против спам кој испраќа барања за потврда, тогаш ќе морате да ја дозволите
-        адресата %{sender} бидејќи ние немаме начин да одговараме на такви потврди.
       failure: Корисникот %{name} не е пронајден.
     confirm_email:
       heading: Потврди промена на е-пошта
@@ -1604,6 +1618,12 @@ mk:
       success: Измената на вашата е-пошта е потврдена!
       failure: Со оваа шифра е потврдена веќе една е-поштенска адреса
       unknown_token: Потврдниот код е истечен или не постои.
+    resend_success_flash:
+      confirmation_sent: Испративме нова напомена за потврдување на %{email}, и ќе
+        можете да почнете со работа на картите штом ќе потврдите.
+      whitelist: Ако користите систем против спан кој испраќа барања за потврда, осигурајте
+        се дека %{sender} е ставен на белиот список бидејќи не сме во можност да одговараме
+        на барања за потврда.
   messages:
     inbox:
       title: Примени
@@ -2362,6 +2382,14 @@ mk:
       flash: Ja поништивте шифрата за %{application}
     permissions:
       missing: Му немате дозволено пристап на прилогот до оваа можност
+    scopes:
+      read_prefs: Кориснички нагодувања за читање
+      write_prefs: Менување на корисничките нагодувања
+      write_diary: Создавање на дневнички ставки, коментирање и спријателување
+      write_api: Менување на картата
+      read_gpx: Читање на приватни ГПС-траги
+      write_gpx: Подигање на ГПС-траги
+      write_notes: Менување на белешки
   oauth_clients:
     new:
       title: Пријавете нов прилог
@@ -2403,6 +2431,55 @@ mk:
       flash: Клиентските информации се успешно подновени
     destroy:
       flash: Уништено е пријавното пријавување за клиентскиот програм.
+  oauth2_applications:
+    index:
+      title: Мои клиентски прилози
+      no_applications_html: Дали имате прилг што би сакале да го пријавите за користење
+        кај нас, со стандардот {oauth2}? Прилогот мора да е пријавен пред да може
+        да поставува OAuth-барања до оваа служба.
+      oauth_2: OAuth 2
+      new: Пријавете нов пирлог
+      name: Име
+      permissions: Дозволи
+    application:
+      edit: Уреди
+      delete: Избриши
+      confirm_delete: Да го избришам прилогов?
+    new:
+      title: Пријавете нов пирлог
+    edit:
+      title: Уредете го прилогот
+    show:
+      edit: Уреди
+      delete: Избриши
+      confirm_delete: Да го избришам прилогов?
+      client_id: Клиентска назнака
+      client_secret: Клиентска тајна
+      client_secret_warning: Зачувајте ја тајнава — повеќе нема да биде пристапна
+      permissions: Дозволи
+      redirect_uris: URI-ја за пренасочување
+    not_found:
+      sorry: За жал, не можев да го најдам прилогот.
+  oauth2_authorizations:
+    new:
+      title: Се бара овластување
+      introduction: Да го овластам %{application} да пристапува до вашата сметка со
+        следниве дозволи?
+      authorize: Овласти
+      deny: Одбиј
+    error:
+      title: Се појави грешка
+    show:
+      title: Код за овластување
+  oauth2_authorized_applications:
+    index:
+      title: Мои овластени прилози
+      application: Прилог
+      permissions: Дозволи
+      no_applications_html: Сè уште немате овластено ниеден %{oauth2}-прилог.
+    application:
+      revoke: Одземи пристап
+      confirm_revoke: Да го одземам пристапот за овој прилог?
   users:
     new:
       title: Зачленување
@@ -2427,9 +2504,6 @@ mk:
         но може да ја побараат некои дополнителни алатки или опслужувачот.
       continue: Зачленување
       terms accepted: Ви благодариме што ги прифативте новите услови за учество!
-      terms declined: Жалиме што не се согласувате со новите Услови за учество. Повеќе
-        информации ќе најдете на <a href="%{url}">оваа страница</a>.
-      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=mk
     terms:
       title: Услови
       heading: Услови
@@ -2459,6 +2533,11 @@ mk:
         france: Франција
         italy: Италија
         rest_of_world: Остатокот од светот
+    terms_declined_flash:
+      terms_declined_html: Жалиме што не се согласувате со новите Услови за учество.
+        Повеќе информации ќе најдете на %{terms_declined_link}.
+      terms_declined_link: оваа викистраница
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=mk
     no_such_user:
       title: Нема таков корисник
       heading: Корисникот %{user} не постои.
@@ -2475,7 +2554,6 @@ mk:
       my profile: Мојот профил
       my settings: Мои нагодувања
       my comments: Мои коментари
-      oauth settings: oauth поставки
       blocks on me: Добиени блокови
       blocks by me: Извршени болокови
       send message: Испрати порака
@@ -2590,6 +2668,9 @@ mk:
       save changes button: Зачувај ги промените
       make edits public button: Објавувај ми ги сите уредувања
       return to profile: Назад кон профилот
+      oauth1 settings: Поставки за OAuth 1
+      oauth2 applications: Поставки за OAuth 2
+      oauth2 authorizations: Овластувања за OAuth 2
       flash update success confirm needed: Корисничките информации се успешно подновени.
         Проверете ја вашата е-пошта за да ја потврдите на адресата.
       flash update success: Корисничките информации се успешно подновени.

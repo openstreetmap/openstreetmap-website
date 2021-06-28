@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: 0x010C
+# Author: Ajeje Brazorf
 # Author: Alno
 # Author: Boniface
 # Author: Cquoi
@@ -70,6 +71,7 @@
 # Author: Trial
 # Author: Tuxxic
 # Author: Urhixidur
+# Author: VIGNERON
 # Author: Vcalame
 # Author: Vega
 # Author: Verdy p
@@ -101,6 +103,9 @@ fr:
         create: Envoyer
       client_application:
         create: Enregistrer
+        update: Mettre à jour
+      doorkeeper_application:
+        create: S’inscrire
         update: Mettre à jour
       redaction:
         create: Créer le masquage
@@ -174,6 +179,11 @@ fr:
         latitude: Latitude
         longitude: Longitude
         language: Langue
+      doorkeeper/application:
+        name: Nom
+        redirect_uri: Rediriger les URIs
+        confidential: Application confidentielle ?
+        scopes: Autorisations
       friend:
         user: Utilisateur
         friend: Ami
@@ -216,6 +226,11 @@ fr:
         pass_crypt: Mot de passe
         pass_crypt_confirmation: Confirmer le mot de passe
     help:
+      doorkeeper/application:
+        confidential: L’application sera utilisée là où le secret du client peut être
+          gardé confidentiel (les applications mobiles natives et les applications
+          à page unique ne le sont pas)
+        redirect_uri: Utiliser une ligne par URI
       trace:
         tagstring: données séparées par des virgules
       user_block:
@@ -579,6 +594,11 @@ fr:
       comment: Commentaire
       newer_comments: Commentaires plus récents
       older_comments: Commentaires plus anciens
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Application inscrite.
   friendships:
     make_friend:
       heading: Ajouter %{user} en tant qu’ami(e) ?
@@ -1684,12 +1704,6 @@ fr:
       reconfirm_html: Si vous avez besoin que nous vous renvoyions un courriel de
         confirmation, <a href="%{reconfirm}">cliquez ici</a>.
     confirm_resend:
-      success_html: Nous avons envoyé une nouvelle confirmation à %{email} et dès
-        que vous aurez confirmé votre compte, vous pourrez commencer à cartographier.<br
-        /><br /> Si vous utilisez un filtre contre les courriels indésirables qui
-        renvoie à l’expéditeur des demandes de confirmation, veuillez ajouter %{sender}
-        à votre liste blanche, car nous ne sommes en mesure de répondre à aucune des
-        demandes de confirmation.
       failure: L’utilisateur %{name} est introuvable.
     confirm_email:
       heading: Confirmer le changement de votre adresse de courriel
@@ -1699,6 +1713,12 @@ fr:
       success: Modification de votre adresse de courriel confirmée !
       failure: Une adresse de courriel a déjà été confirmée avec ce jeton d’authentification.
       unknown_token: Ce code de confirmation a expiré ou n’existe pas.
+    resend_success_flash:
+      confirmation_sent: Nous avons envoyé une nouvelle note de confirmation à %{email}
+        et, dès que vous aurez confirmé votre compte, vous pourrez obtenir la correspondance.
+      whitelist: Si vous utilisez un système anti-pourriel qui envoie des demandes
+        de confirmation, alors assurez-vous que %{sender} est en liste blanche, car
+        nous ne pouvons pas répondre aux requêtes de confirmation.
   messages:
     inbox:
       title: Boîte de réception
@@ -2469,6 +2489,14 @@ fr:
       flash: Vous avez révoqué le jeton pour %{application}
     permissions:
       missing: Vous n’avez pas autorisé l’application à accéder à cette fonctionnalité
+    scopes:
+      read_prefs: Lire les préférences utilisateur
+      write_prefs: Modifier les préférences utilisateur
+      write_diary: Créer les entrées d’agenda, les commentaires, et faire des amis
+      write_api: Modifier la carte
+      read_gpx: Lire les traces GPC privées
+      write_gpx: Mettre à jour les traces GPC
+      write_notes: Modifier les notes
   oauth_clients:
     new:
       title: Enregistrer une nouvelle application
@@ -2513,6 +2541,56 @@ fr:
       flash: Informations du client enregistrées avec succès
     destroy:
       flash: Enregistrement de l’application cliente supprimé
+  oauth2_applications:
+    index:
+      title: Mes applications clientes
+      no_applications_html: Avez-vous une application que vous aimeriez enregistrer
+        pour utiliser avec nous via le standard %{oauth2} ? Vous devez enregistrer
+        votre application avant qu’elle puisse faire des requêtes OAuth à ce service.
+      oauth_2: OAuth 2
+      new: Enregistrer une nouvelle application
+      name: Nom
+      permissions: Autorisations
+    application:
+      edit: Modifier
+      delete: Supprimer
+      confirm_delete: Supprimer cette application ?
+    new:
+      title: Enregistrer une nouvelle application
+    edit:
+      title: Modifier votre application
+    show:
+      edit: Modifier
+      delete: Supprimer
+      confirm_delete: Supprimer cette application ?
+      client_id: ID client
+      client_secret: Secret du client
+      client_secret_warning: Assurez-vous de sauvegarder ce secret — il ne sera plus
+        accessible
+      permissions: Autorisations
+      redirect_uris: Rediriger les URIs
+    not_found:
+      sorry: Désolé, cette application n’a pas pu être trouvée.
+  oauth2_authorizations:
+    new:
+      title: Autorisation nécessaire
+      introduction: Autoriser %{application} à accéder à votre compte avec les droits
+        suivants ?
+      authorize: Autoriser
+      deny: Refuser
+    error:
+      title: Une erreur s’est produite
+    show:
+      title: Code d’autorisation
+  oauth2_authorized_applications:
+    index:
+      title: Mes applications autorisées
+      application: Application
+      permissions: Droits
+      no_applications_html: Vous n’avez pas encore autorisé d’application %{oauth2}.
+    application:
+      revoke: Révoquer l’accès
+      confirm_revoke: Révoquer l’accès pour cette application ?
   users:
     new:
       title: S’inscrire
@@ -2539,10 +2617,6 @@ fr:
         en nécessiter un.
       continue: S’inscrire
       terms accepted: Merci d’avoir accepté les nouveaux termes du contributeur !
-      terms declined: Nous sommes désolés que vous ayez décidé de ne pas accepter
-        les nouvelles Conditions de contribution. Pour plus d’informations, veuillez
-        consulter <a href="%{url}">cette page wiki</a>.
-      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Conditions
       heading: Conditions
@@ -2573,6 +2647,12 @@ fr:
         france: France
         italy: Italie
         rest_of_world: Reste du monde
+    terms_declined_flash:
+      terms_declined_html: Nous sommes désolés que vous ayez décidé de ne pas accepter
+        les nouvelles Conditions de contribution. Pour plus d’informations, veuillez
+        consulter %{terms_declined_link}.
+      terms_declined_link: cette page du wiki
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Utilisateur inexistant
       heading: L’utilisateur %{user} n’existe pas
@@ -2589,7 +2669,6 @@ fr:
       my profile: Mon profil
       my settings: Mes options
       my comments: Mes commentaires
-      oauth settings: paramètres OAuth
       blocks on me: Blocages me concernant
       blocks by me: Blocages de ma part
       send message: Envoyer un message
@@ -2708,6 +2787,9 @@ fr:
       save changes button: Enregistrer les modifications
       make edits public button: Rendre toutes mes modifications publiques
       return to profile: Retour au profil
+      oauth1 settings: Paramètres OAuth 1
+      oauth2 applications: Applications OAuth 2
+      oauth2 authorizations: Droits OAuth 2
       flash update success confirm needed: Informations sur l’utilisateur mises à
         jour avec succès. Consultez la boîte de réception de votre messagerie pour
         confirmer votre nouvelle adresse de courriel.

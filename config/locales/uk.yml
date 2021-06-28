@@ -64,11 +64,14 @@ uk:
       client_application:
         create: Зареєструвати
         update: Оновити
+      doorkeeper_application:
+        create: Реєстрація
+        update: Оновити
       redaction:
         create: Створити редакцію
         update: Зберегти редакцію
       trace:
-        create: Завантажити
+        create: Надіслати
         update: Зберегти зміни
       user_block:
         create: Заблокувати
@@ -135,6 +138,11 @@ uk:
         latitude: Широта
         longitude: Довгота
         language: Мова
+      doorkeeper/application:
+        name: Назва
+        redirect_uri: Переспрямування URI
+        confidential: Застосунок є конфіденційним?
+        scopes: Дозволи
       friend:
         user: Користувач
         friend: Друг
@@ -177,6 +185,11 @@ uk:
         pass_crypt: Пароль
         pass_crypt_confirmation: Підтвердьте пароль
     help:
+      doorkeeper/application:
+        confidential: Застосунок буде використовуватись там де секретний ключ  може
+          бути захищений системами підтримання конфіденційності (мобільні застосунки
+          та односторінкові вебзастосунки не є конфіденційними)
+        redirect_uri: Один рядок для одного URI
       trace:
         tagstring: через кому
       user_block:
@@ -564,11 +577,17 @@ uk:
         description: Останні записи в щоденниках від учасників OpenStreetMap
     comments:
       has_commented_on: '%{display_name} прокоментував наступні записи щоденника'
+      no_comments: Немає коментарів до допису
       post: Повідомлення
       when: Коли
       comment: Коментар
       newer_comments: Нові коментарі
       older_comments: Старіші коментарі
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Запит зареєстровано.
   friendships:
     make_friend:
       heading: Додати %{user} як друга?
@@ -576,6 +595,8 @@ uk:
       success: Тепер %{name} є вашим другом!
       failed: На жаль, %{name} не вдалось додати до списку друзів.
       already_a_friend: Ви вже товаришуєте з %{name}.
+      limit_exceeded: Ви надіслали багато запитів на додавання друзів. Почекайте трохи
+        перед тим, надсилати нові.
     remove_friend:
       heading: Вилучити %{user} з друзів?
       button: Вилучити із списку друзів
@@ -615,12 +636,12 @@ uk:
           navigationaid: Авіаційна навігаційна допомога
           parking_position: Місце паркування
           runway: Злітна смуга
-          taxilane: Ряд для таксі
+          taxilane: Руліжна доріжка на пероні
           taxiway: Руліжна доріжка
           terminal: Термінал
-          windsock: Вказівник напрямку вітру
+          windsock: Вітровказ
         amenity:
-          animal_boarding: Інтернат для тварин
+          animal_boarding: Готель для тварин
           animal_shelter: Притулок для тварин
           arts_centre: Мистецький центр
           atm: Банкомат
@@ -630,7 +651,7 @@ uk:
           bench: Лавка
           bicycle_parking: Велопарковка
           bicycle_rental: Велопрокат
-          bicycle_repair_station: Майстерня з ремонту велосипедів
+          bicycle_repair_station: Станція з ремонту велосипедів
           biergarten: Пивний сад
           blood_bank: Банк крові
           boat_rental: Прокат човнів
@@ -678,7 +699,7 @@ uk:
           love_hotel: Любовний Готель
           marketplace: Ринок
           monastery: Монастир
-          money_transfer: Грошовий переказ
+          money_transfer: Грошові перекази
           motorcycle_parking: Стоянка мотоциклів
           music_school: Музична Школа
           nightclub: Нічний клуб
@@ -713,17 +734,17 @@ uk:
           townhall: Управління населеного пункту
           training: Навчальний заклад
           university: Університет
-          vehicle_inspection: Технічний огляд
+          vehicle_inspection: Станція технічного огляду
           vending_machine: Торговий автомат
           veterinary: Ветлікарня
           village_hall: Сільська управа
           waste_basket: Контейнер для сміття
           waste_disposal: Утилізація відходів
           waste_dump_site: Місце звалища відходів
-          watering_place: Місце поливу
+          watering_place: Водопій для тварин
           water_point: Питна вода
           weighbridge: Ваговий міст
-          "yes": Зручності
+          "yes": Благоустрій та інфраструктура
         boundary:
           aboriginal_lands: Землі аборигенів
           administrative: Адміністративна межа
@@ -747,15 +768,15 @@ uk:
           cabin: Хатинка
           chapel: Каплиця
           church: Будівля храму
-          civic: Громадянський будинок
+          civic: Громадський заклад
           college: Будівля коледжу
           commercial: Комерційна нерухомість
           construction: Будівля що будується
           detached: Будинок на одну родину
           dormitory: Гуртожиток
-          duplex: Дворівневий будинок
+          duplex: Будинок поділений на два домогосподарства
           farm: Дім на фермі
-          farm_auxiliary: Допоміжний фермерський будинок
+          farm_auxiliary: Допоміжні будівлі на фермі
           garage: Гараж
           garages: Гаражі
           greenhouse: Парник
@@ -764,7 +785,7 @@ uk:
           hotel: Будівля готелю
           house: Будинок
           houseboat: Плавучий будинок
-          hut: Хатина
+          hut: Хатка
           industrial: Промислова споруда
           kindergarten: Будинок дитячого садка
           manufacture: Виробничий корпус
@@ -795,14 +816,14 @@ uk:
           blacksmith: Коваль
           brewery: Пивоварня
           carpenter: Столяр
-          caterer: Постачальник продуктів харчування
+          caterer: Постачальник провізії
           confectionery: Кондитерська
-          dressmaker: Кравець
+          dressmaker: Ательє
           electrician: Електрик
           electronics_repair: Ремонт електроніки
           gardener: Садівник
-          glaziery: Льодовик
-          handicraft: Сувенірка
+          glaziery: Скляр
+          handicraft: Ремісник
           hvac: Опалення, вентиляція, кондиціонування
           metal_construction: Майстер металевих конструкцій
           painter: Художник
@@ -894,7 +915,7 @@ uk:
           house: Дім
           manor: Маєток
           memorial: Меморіал
-          milestone: Історичний межевий стовп
+          milestone: Історичний межовий стовп
           mine: Копальня
           mine_shaft: Шахтний вал
           monument: Пам’ятник
@@ -950,7 +971,7 @@ uk:
           bandstand: Естрада
           beach_resort: Пляжний курорт
           bird_hide: Засідка (пункт спостереження за птахами)
-          bleachers: Відбілювачі
+          bleachers: Трибуни
           common: Громадська земля
           dance: Танцювальний зал
           dog_park: Майданчик для собак
@@ -965,7 +986,7 @@ uk:
           marina: Гавань для екскурсійних суден
           miniature_golf: Міні-гольф
           nature_reserve: Заповідник
-          outdoor_seating: Зовнішні місця
+          outdoor_seating: Місця на дворі
           park: Парк
           picnic_table: Стіл для пікніка
           pitch: Спортмайданчик
@@ -992,7 +1013,7 @@ uk:
           bunker_silo: Бункер
           chimney: Труба
           clearcut: Вирубка
-          communications_tower: Вежа зв'язку
+          communications_tower: Телекомунікаційна вежа
           crane: Кран
           cross: Хрест
           dolphin: Причальна тумба
@@ -1013,7 +1034,7 @@ uk:
           pipeline: Трубопровід
           pumping_station: Насосна станція
           reservoir_covered: Крите водосховище
-          silo: Силосна яма
+          silo: Елеватор
           snow_cannon: Снігова гармата
           snow_fence: Сніговий щит
           storage_tank: Резервуар для зберігання
@@ -1033,7 +1054,7 @@ uk:
           airfield: Військовий аеродром
           barracks: Казарма
           bunker: Бункер
-          checkpoint: Контрольна точка
+          checkpoint: Контрольно-пропускний пункт
           trench: Траншея
           "yes": Військовий
         mountain_pass:
@@ -1054,7 +1075,7 @@ uk:
           forest: Ліс
           geyser: Гейзер
           glacier: Льодовик
-          grassland: Пасовище
+          grassland: Степ, трав’янисті землі
           heath: Степ
           hill: Пагорб
           hot_spring: Гаряче джерело
@@ -1082,7 +1103,7 @@ uk:
           water: Вода
           wetland: Заболочені землі
           wood: Дерева
-          "yes": Природна особливість
+          "yes": Природні об’єкти
         office:
           accountant: Бухгалтер
           administrative: Адміністрація
@@ -1262,6 +1283,7 @@ uk:
           stationery: Канцтовари
           supermarket: Супермаркет
           tailor: Кравець
+          tattoo: Тату салон
           tea: Магазин чаю
           ticket: Квитки
           tobacco: Тютюн
@@ -1319,12 +1341,17 @@ uk:
           "yes": Водний маршрут
       admin_levels:
         level2: Державний кордон
-        level4: Межа краю, штату, республіки
-        level5: Межа області
-        level6: Межа району, графства
-        level8: Межа міста
-        level9: Межа села
-        level10: Межа передмістя
+        level3: Адміністративна межа (3-й рівень)
+        level4: Адміністративна межа області (штату)
+        level5: Адміністративна межа (5-й рівень)
+        level6: Адміністративна межа району області
+        level7: Адміністративна межа (7-й рівень)
+        level8: Адміністративна межа громади
+        level9: |2-
+
+          Адміністративна межа (9-й рівень)
+        level10: Адміністративна межа району міста
+        level11: Адміністративна межа (11-й рівень)
       types:
         cities: Міста
         towns: Містечка
@@ -1512,7 +1539,7 @@ uk:
     friendship_notification:
       hi: Привіт, %{to_user},
       subject: '[OpenStreetMap] %{user} додав Вас як друга'
-      had_added_you: '%{user} додав Вас як друга у OpenStreetMap.'
+      had_added_you: '%{user} додав Вас як друга в OpenStreetMap.'
       see_their_profile: Ви можете побачити їх профіль на %{userurl}.
       see_their_profile_html: Ви можете ознайомитись з його/її профілем - %{userurl}.
       befriend_them: Ви також можете додати їх у якості друзів %{befriendurl}.
@@ -1531,9 +1558,9 @@ uk:
     gpx_success:
       hi: Привіт, %{to_user},
       loaded_successfully:
-        one: успішно завантажено 1 точку з 1 можливої.
-        few: успішно завантажено %{trace_points} точки з %{possible_points} можливих.
-        many: успішно завантажено %{trace_points} точок з %{possible_points} можливих.
+        one: успішно завантажено %{trace_points} точку з %{possible_points}.
+        few: успішно завантажено %{trace_points} точки з %{possible_points}.
+        many: успішно завантажено %{trace_points} точок з %{possible_points}.
         other: успішно завантажено %{trace_points} точок з %{possible_points} можливих.
       subject: '[OpenStreetMap] Імпорт GPX пройшов успішно'
     signup_confirm:
@@ -1544,7 +1571,7 @@ uk:
         від Вас; тож якщо це були Ви, будь ласка, натисніть на посилання нижче, щоб
         підтвердити Ваш обліковий запис:'
       welcome: Після того, як ви підтвердите свій обліковий запис, ми надамо вам додаткову
-        інформацію, щоб ви розпочали роботу.
+        інформацію, щоб ви могли розпочати.
     email_confirm:
       subject: '[OpenStreetMap] Підтвердження адреси електронної пошти'
       greeting: Привіт,
@@ -1575,7 +1602,7 @@ uk:
           вами нотаток, що знаходиться біля %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} опрацював одну з ваших нотаток'
-        subject_other: '[OpenStreetMap] %{commenter} розв’язав нотатку до якови ви
+        subject_other: '[OpenStreetMap] %{commenter} розв’язав нотатку до якої ви
           виявили зацікавленість'
         your_note: '%{commenter} опрацював одну з ваших нотаток на мапі біля %{place}.'
         your_note_html: '%{commenter} опрацював одну з ваших нотаток на мапі біля
@@ -1586,8 +1613,8 @@ uk:
           що знаходиться біля %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} поновив одну з ваших нотаток'
-        subject_other: '[OpenStreetMap] %{commenter} поновив  нотатку до якови ви
-          виявили зацікавленість'
+        subject_other: '[OpenStreetMap] %{commenter} поновив  нотатку до якої ви виявили
+          зацікавленість'
         your_note: '%{commenter} поновив одну з ваших нотаток на мапі біля %{place}.'
         your_note_html: '%{commenter} поновив одну з ваших нотаток на мапі біля %{place}.'
         commented_note: '%{commenter} поновив нотатку, прокоментовану вами, що знаходиться
@@ -1604,20 +1631,18 @@ uk:
           змін'
         subject_other: '[OpenStreetMap] %{commenter} прокоментував набір змін, до
           якого ви залишали свій коментар'
-        your_changeset: '%{commenter} залишив коментар у %{time} до одного з ваших
+        your_changeset: '%{commenter} залишив коментар о %{time} до одного з ваших
           наборів змін'
         your_changeset_html: '%{commenter} залишив коментар %{time} до одного з ваших
           наборів змін'
         commented_changeset: '%{commenter} залишив коментар у %{time} до набору змін,
-          що ви переглядаєте, створений %{changeset_author}'
+          за яким ви слідкуєте, створений %{changeset_author}'
         commented_changeset_html: '%{commenter} залишив коментар %{time} до набору
           змін, за яким ви стежите, створений %{changeset_author}'
         partial_changeset_with_comment: з коментарем '%{changeset_comment}'
         partial_changeset_with_comment_html: з коментарем '%{changeset_comment}'
         partial_changeset_without_comment: без коментарів
-      details: |2-
-
-        Більше деталей про зміни, які можуть бути знайдені в %{url}.
+      details: Більше деталей про зміни, які можуть бути знайдені в %{url}.
       details_html: Більше деталей про набір змін можна знайти за посиланням - %{url}.
       unsubscribe: Щоб відмовитись від отримання повідомлень для цього набору змін,
         перейдіть за посиланням %{url} й натисніть кнопку „Відписатись“.
@@ -1627,40 +1652,41 @@ uk:
     confirm:
       heading: Перевірте вашу електронну пошту!
       introduction_1: Ми надіслали вам підтвердження електронною поштою.
-      introduction_2: Підтвердіть ваш обліковий запис, натиснувши на посилання в листі,
-        і ви зможете почати картографувати.
+      introduction_2: Підтвердьте ваш обліковий запис, натиснувши на посилання в листі,
+        і ви зможете розпочати мапити.
       press confirm button: Натисніть на кнопку підтвердження нижче, щоб активувати
-        ваш профіль.
+        ваш обліковий запис.
       button: Підтвердити
       success: Ваш обліковий запис підтверджено, дякуємо за реєстрацію!
       already active: Цей обліковий запис вже підтверджений.
-      unknown token: Термін дії коду підтвердження вже минув або він не існує.
+      unknown token: Термін дії коду підтвердження вже минув або його не існує.
       reconfirm_html: Якщо ви бажаєте, аби ми повторно надіслали ще одне підтвердження
-        електронною поштою, то <a href="%{reconfirm}">натисніть тут</a>.
+        електронною поштою, <a href="%{reconfirm}">натисніть тут</a>.
     confirm_resend:
-      success_html: Ми надіслали на вашу електрону пошту (%{email}) листа для підтвердження
-        реєстрації, після того як ви натиснете на посиланні в ньому, ви отримаєте
-        можливість вносити зміни до мапи.<br /><br />Якщо ви користуєтесь системою
-        анти-спаму, що надсилає запити на підтвердження, внесіть до «білого» списку
-        адресу %{sender}, так як ми не в змозі відповідати на такі запити.
       failure: Користувача %{name} не знайдено.
     confirm_email:
       heading: Підтвердить зміну адреси електронної пошти
       press confirm button: Натисніть кнопку підтвердження нижче, щоб підтвердити
         вашу нову адресу електронної пошти.
       button: Підтвердити
-      success: Зміну вами адреси електронної пошти підтверджено!
+      success: Зміну адреси вашої електронної пошти підтверджено!
       failure: Електронна адреса вже була підтверджена цим посиланням.
-      unknown_token: Цей код підтвердження недійсний або просторочений.
+      unknown_token: Цей код підтвердження недійсний або прострочений.
+    resend_success_flash:
+      confirmation_sent: Ми надіслали нове підтвердження на %{email} і як тільки ви
+        його підтвердите ваш обліковий запис буде доступний для внесення змін в дані;
+      whitelist: У разі використання систем протидії спам-повідомленням, що надсилають
+        зворотні запити, переконайтесь що ви додали %{sender} до переліку уповноважених
+        дописувачів, бо ми не в змозі відповідати на такі запити.
   messages:
     inbox:
       title: Вхідні
-      my_inbox: Мої вхідні
+      my_inbox: Вхідні
       my_outbox: Вихідні
       messages: У вас %{new_messages} і %{old_messages}
       new_messages:
         one: '%{count} нове повідомлення'
-        few: '%{count} нові повідомлення'
+        few: '%{count} нових повідомлення'
         many: '%{count} нових повідомлень'
         other: ""
       old_messages:
@@ -1680,8 +1706,8 @@ uk:
       reply_button: Відповісти
       destroy_button: Вилучити
     new:
-      title: Відправити повідомлення
-      send_message_to_html: Відправити нове повідомлення для %{name}
+      title: Надіслати повідомлення
+      send_message_to_html: Надіслати нове повідомлення до %{name}
       subject: 'Тема:'
       body: 'Текст:'
       back_to_inbox: Назад до вхідних
@@ -1710,21 +1736,21 @@ uk:
       people_mapping_nearby: користувачів поблизу вас
     reply:
       wrong_user: Ви увійшли як „%{user}“, але повідомлення, на яке ви хочете відповісти,
-        було надіслане не вам. Будь ласка, увійдіть з відповідним ім’ям користувача
+        було надіслане не вам. Будь ласка, увійдіть до відповідного облікового запису,
         щоб відповісти.
     show:
-      title: Перегляд повідомлення
+      title: Прочитати
       from: Від
       subject: Тема
       date: Дата
       reply_button: Відповісти
       unread_button: Позначити як непрочитане
-      destroy_button: Видалити
+      destroy_button: Вилучити
       back: Назад
       to: 'Кому:'
       wrong_user: Ви увійшли як „%{user}“, але повідомлення, яке ви хочете прочитати,
-        не було надіслане вами, чи призначено для вас. Будь ласка, увійдіть під відповідним
-        ім’ям користувача, щоб прочитати його.
+        не було надіслане вами, чи призначено для вас. Будь ласка, увійдіть до відповідного
+        облікового запису, щоб прочитати його.
     sent_message_summary:
       destroy_button: Вилучити
     mark:
@@ -1738,15 +1764,15 @@ uk:
       heading: Забули пароль?
       email address: 'Адреса ел. пошти:'
       new password button: Вишліть мені новий пароль
-      help_text: Введіть адресу вашої електронної пошти, який ви використовували для
+      help_text: Введіть адресу вашої електронної пошти, яку ви використовували для
         реєстрації, і ми надішлемо інструкції, як можна відновити ваш пароль.
       notice email on way: Шкода, що ви втратили пароль :-( але нічого, скоро прийде
         лист і ви зможете перевстановити свій пароль.
       notice email cannot find: На жаль, така адреса не зареєстрована.
     reset_password:
-      title: Перевстановлення пароля
-      heading: Перевстановлення паролю для %{user}
-      reset: Перевстановити пароль
+      title: Скидання пароля
+      heading: Скидання пароля для %{user}
+      reset: Скидання пароля
       flash changed: Ваш пароль було змінено.
       flash token bad: Неможливо знайти такий код підтвердження, перевірте посилання.
   sessions:
@@ -1760,8 +1786,8 @@ uk:
       lost password link: Забули пароль?
       login_button: Увійти
       register now: Зареєструйтеся зараз
-      with username: 'Вже є обліковий запис OpenStreetMap? Будь ласка, введіть ваше
-        ім''я користувача та пароль:'
+      with username: 'Вже є обліковий запис OpenStreetMap? Будь ласка, введіть ваш
+        логін та пароль:'
       with external: 'Або використовуйте, облікові записи з інших ресурсів:'
       new to osm: Вперше на OpenStreetMap?
       to make changes: Щоб вносити зміни до даних OpenStreetMap, ви повинні мати обліковий
@@ -1771,11 +1797,11 @@ uk:
       account not active: Вибачте, ваш обліковий запис ще не активовано. <br /> Щоб
         його активувати, будь ласка, перевірте вашу поштову скриньку та натисніть
         на посилання в листі з проханням про підтвердження, або <a href="%{reconfirm}">
-        запросіть нове підтвердження по електронній пошті</a>.
+        запросіть нове підтвердження на електронну пошту</a>.
       account is suspended: На жаль, ваш обліковий запис був заблокований через підозрілу
-        діяльність.<br />Будь ласка, зв'яжіться з <a href="%{webmaster}">адміністратором</a>,
+        діяльність.<br />Будь ласка, зв’яжіться з <a href="%{webmaster}">адміністратором</a>,
         якщо ви маєте заперечення.
-      auth failure: Вибачте, вхід з цими ім'ям або паролем неможливий.
+      auth failure: Вибачте, вхід з цими ім’ям або паролем неможливий.
       openid_logo_alt: Увійти з допомогою OpenID
       auth_providers:
         openid:
@@ -1871,7 +1897,7 @@ uk:
           повернутись до %{native_link} цієї сторінки або можете не читати про авторські
           права та %{mapping_link}.
         native_link: української версії
-        mapping_link: почати створення мапи
+        mapping_link: почати мапити
       legal_babble:
         title_html: Авторські права та ліцензування
         intro_1_html: |-
@@ -1885,7 +1911,7 @@ uk:
           текст</a> Ліцензії пояснює ваші права та обов’язки.
         intro_3_1_html: "Наша документація поширюється на умовах <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Ліцензії
           Creative \nCommons Attribution-ShareAlike 2.0</a> (CC-BY-SA)."
-        credit_title_html: Як вказати посилання на OpenStreetMap
+        credit_title_html: Як посилатись на OpenStreetMap
         credit_1_html: Ми вимагаємо, щоб ви зазначали &ldquo;&copy; OpenStreetMap
           contributors&rdquo;.
         credit_2_1_html: Ви повинні також чітко вказувати, що дані доступні на умовах
@@ -1912,17 +1938,17 @@ uk:
         more_title_html: Дізнатися більше
         more_1_html: Дізнайтеся більше про використання наших даних та про те, як
           посилатися на нас як на джерело, на <a href="http://osmfoundation.org/Licence">сторінці
-          ліцензії OSMF</a> та у <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">відповідях
+          ліцензії OSMF</a> та у <a href="http://wiki.openstreetmap.org/wiki/Uk:Legal_FAQ">відповідях
           спільноти щодо правових питань</a>.
         more_2_html: Хоча дані OpenStreetMap  є відкритими, ми не в змозі надавати
-          безкоштовний API для сторонніх розробників. Ознайомтесь із нашими <a href="https://operations.osmfoundation.org/policies/api/">Правилами
+          безкоштовний API для сторонніх користувачів. Ознайомтесь із нашими <a href="https://operations.osmfoundation.org/policies/api/">Правилами
           використання API</a>, <a href="https://operations.osmfoundation.org/policies/tiles/">Правилами
           використання тайлів мап</a> та <a href="https://operations.osmfoundation.org/policies/nominatim/">Правилами
           використання сервісу Nominatim</a>.
         contributors_title_html: Наші учасники
-        contributors_intro_html: 'Нашими учасниками є тисячі людей. Ми також включаємо
-          дані від національних картографічних агенцій, які розповсюджуються на умовах
-          відкритих ліцензій, серед них:'
+        contributors_intro_html: 'Нашими учасниками є тисячі людей. Наші дані також
+          містять дані від національних картографічних агенцій, які розповсюджуються
+          на умовах відкритих ліцензій, серед них:'
         contributors_at_html: |-
           <strong>Австрія</strong>: дані від
              <a href="http://data.wien.gv.at/">Stadt Wien</a> (на умовах ліцензії
@@ -1961,10 +1987,9 @@ uk:
           та інші джерела, що були використані для покращення мапи OpenStreetMap,
           будь ласка, перегляньте сторінку <a href="http://wiki.openstreetmap.org/wiki/Contributors">Учасники</a>
           OpenStreetMap Вікі.
-        contributors_footer_2_html: |2-
-            Включення даних до OpenStreetMap не означає, що постачальник
-            цих даних якимось чином підтримує OpenStreetMap, надає
-            які-небудь гарантії чи бере на себе якусь  відповідальність.
+        contributors_footer_2_html: Включення даних до OpenStreetMap не означає, що
+          постачальник цих даних якимось чином підтримує OpenStreetMap, надає які-небудь
+          гарантії чи бере на себе якусь  відповідальність.
         infringement_title_html: Порушення авторських прав
         infringement_1_html: Члени спільноти OSM повинні завжди пам’ятати про те,
           що забороняється додавати дані з будь-яких захищених авторським правом джерел
@@ -2066,9 +2091,9 @@ uk:
           <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>робочою групою OSMF</a>.
     help:
       title: Отримання довідки
-      introduction: OpenStreetMap має різні ресурси для отримання інформації про проект,
+      introduction: OpenStreetMap має різні ресурси для отримання інформації про проєкт,
         щоб поставити питання та отримати відповідь, для спільного обговорення і створення
-        документації з картографування.
+        документації з мапінгу.
       welcome:
         url: /welcome
         title: Ласкаво просимо до OSM
@@ -2095,7 +2120,7 @@ uk:
         description: Інтерактивний чат багатьма мовами на багато тем.
       switch2osm:
         title: switch2osm
-        description: Допомога компаніям та організаціям, які переходять на карти та
+        description: Допомога компаніям та організаціям, які переходять на мапи та
           інші послуги OpenStreetMap.
       welcomemat:
         url: https://welcome.openstreetmap.org/
@@ -2339,6 +2364,8 @@ uk:
         або дізнайтесь більше про створення GPS-треків на <a href='http://wiki.openstreetmap.org/wiki/Uk:Beginners_Guide_1.2'>сторінці
         вікі</a>.
       upload_trace: Надіслати GPS-трек на сервер
+      all_traces: Всі GPS-треки
+      traces_from: Загальнодоступні GPS треки %{user}
     destroy:
       scheduled_for_deletion: Заплановано для вилучення
     make_public:
@@ -2400,6 +2427,15 @@ uk:
       flash: Ви відкликали маркер для застосунка %{application}
     permissions:
       missing: Ви не дозволили програмі отримати доступ до цієї функції
+    scopes:
+      read_prefs: Отримувати налаштування користувача
+      write_prefs: Змінювати налаштування користувача
+      write_diary: Створювати записи у щоденнику, коментарі та надсилати запити на
+        додавання друзів
+      write_api: Змінювати мапу
+      read_gpx: Отримувати приватні GPS-треки
+      write_gpx: Завантажувати GPS-треки
+      write_notes: Змінювати нотатки
   oauth_clients:
     new:
       title: Зареєструвати новий застосунок
@@ -2441,6 +2477,56 @@ uk:
       flash: Інформацію клієнта успішно оновлено
     destroy:
       flash: Знищено реєстрацію клієнтського застосунку
+  oauth2_applications:
+    index:
+      title: Мої застосунки-клієнти
+      no_applications_html: Чи є у вас програми, які б ви хотіли зареєструвати для
+        взаємодії з нами через %{oauth2}? Ви повинні зареєструвати ваш вебзастосунок
+        перед тим, як він зможе зробити OAuth-запит до цієї служби.
+      oauth_2: OAuth 2
+      new: Зареєструвати новий застосунок
+      name: Назва
+      permissions: Дозволи
+    application:
+      edit: Редагувати
+      delete: Вилучити
+      confirm_delete: Вилучити застосунок?
+    new:
+      title: Зареєструвати новий застосунок
+    edit:
+      title: Змінити дані вашого застосунку
+    show:
+      edit: Редагувати
+      delete: Вилучити
+      confirm_delete: Вилучити застосунок?
+      client_id: ID клієнта
+      client_secret: Секретний ключ клієнта
+      client_secret_warning: Переконайтесь, що ви зберегли секретний ключ – його не
+        можна відновити.
+      permissions: Дозволи
+      redirect_uris: Переспрямування URI
+    not_found:
+      sorry: Застосунок не знайдено.
+  oauth2_authorizations:
+    new:
+      title: Потрібна авторизація
+      introduction: Надати доступ %{application} до вашого облікового запису з наступними
+        правами?
+      authorize: Надати
+      deny: Відхилити
+    error:
+      title: Сталася помилка
+    show:
+      title: Код авторизації
+  oauth2_authorized_applications:
+    index:
+      title: Мої авторизовані застосунки
+      application: Застосунок
+      permissions: Дозволи
+      no_applications_html: У вас ще немає застосунків авторизованих через %{oauth2}.
+    application:
+      revoke: Відкликати доступ
+      confirm_revoke: Відкликати доступ у застосунку?
   users:
     new:
       title: Реєстрація
@@ -2468,10 +2554,6 @@ uk:
         знадобиться.
       continue: Зареєструватись
       terms accepted: Дякуємо за прийняття нових умов співпраці!
-      terms declined: Нам шкода, що ви вирішили не приймати нові Умови Співпраці.
-        Для отримання додаткової інформації, будь ласка, перегляньте <a href="%{url}">цю
-        сторінку</a> .
-      terms declined url: https://wiki.openstreetmap.org/wiki/Uk:Contributor_Terms_Declined
     terms:
       title: Умови
       heading: Умови
@@ -2500,6 +2582,11 @@ uk:
         france: Франція
         italy: Італія
         rest_of_world: Решта світу
+    terms_declined_flash:
+      terms_declined_html: Нам шкода, що ви не погодились з новими Умовами Співпраці.
+        Докладніше дивіться %{terms_declined_link}.
+      terms_declined_link: цю вікі-сторінку.
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Uk:Contributor_Terms_Declined
     no_such_user:
       title: Немає такого користувача
       heading: Користувача %{user} не існує.
@@ -2516,7 +2603,6 @@ uk:
       my profile: Профіль
       my settings: Налаштування
       my comments: Мої коментарі
-      oauth settings: налаштування OAuth
       blocks on me: Мої блокування
       blocks by me: Заблоковано мною
       send message: Надіслати повідомлення
@@ -2630,6 +2716,9 @@ uk:
       save changes button: Зберегти зміни
       make edits public button: Зробити всі мої редагування загальнодоступними
       return to profile: Повернення до профілю
+      oauth1 settings: налаштування OAuth 1
+      oauth2 applications: застосунки OAuth 2
+      oauth2 authorizations: авторизації OAuth 2
       flash update success confirm needed: Інформацію про користувача успішно оновлено.
         Перевірте свою електронну пошту, щоб підтвердити вашу нову адресу.
       flash update success: Інформацію про користувача успішно оновлено.
@@ -2783,8 +2872,9 @@ uk:
     show:
       title: '%{block_on}, заблокував: %{block_by}'
       heading_html: '%{block_on}, заблокував: %{block_by}'
-      created: Створено
-      status: Стан
+      created: 'Створено:'
+      duration: 'Тривалість:'
+      status: 'Стан:'
       show: Показувати
       edit: Редагувати
       revoke: Розблокувати!
@@ -2813,6 +2903,7 @@ uk:
       title: Нотатки створені чи прокоментовані користувачем %{user}
       heading: Нотатки користувача %{user}
       subheading_html: Нотатки, створені чи прокоментовані користувачем %{user}
+      no_notes: Нотаток немає
       id: Номер
       creator: Автор
       description: Опис
@@ -2832,6 +2923,7 @@ uk:
       custom_dimensions: Встановити власні розміри
       format: 'Формат:'
       scale: 'Масштаб:'
+      image_dimensions: На зображені буде Стандартний шар (%{width} * %{height})
       download: Завантажити
       short_url: Скорочене URL-посилання
       include_marker: Додати маркер
@@ -2864,6 +2956,7 @@ uk:
           other: ""
       base:
         standard: Стандартний
+        cyclosm: ЦиклОСМ
         cycle_map: ВелоМапа
         transport_map: Мапа Транспорту
         hot: Humanitarian‎
@@ -2879,6 +2972,8 @@ uk:
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Зробити внесок</a>
       terms: <a href='%{terms_url}' target='_blank'>Умови використання Вебсайту та
         API</a>
+      cyclosm: Тайли <a href='%{cyclosm_url}' target='_blank'>ЦиклОСМ</a> за підтримки
+        <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>
       thunderforest: Тайли надав <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       opnvkarte: Тайли надані <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>

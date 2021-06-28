@@ -16,6 +16,7 @@
 # Author: Inkbug
 # Author: Itay naor
 # Author: LaG roiL
+# Author: Leononon
 # Author: Metraduk
 # Author: Nemo bis
 # Author: Nimrod Rak
@@ -54,6 +55,9 @@ he:
         create: שליחה
       client_application:
         create: רישום
+        update: עדכון
+      doorkeeper_application:
+        create: הרשמה
         update: עדכון
       redaction:
         create: יצירת הסרה
@@ -126,6 +130,10 @@ he:
         latitude: קו רוחב
         longitude: קו אורך
         language: שפה
+      doorkeeper/application:
+        name: שם
+        redirect_uri: כתובת URL של הפניה
+        scopes: הרשאות
       friend:
         user: משתמש
         friend: חבר
@@ -1626,10 +1634,6 @@ he:
       reconfirm_html: אם ברצונך לקבל שוב מכתב אימות, <a href="%{reconfirm}">נא ללחוץ
         כאן</a>.
     confirm_resend:
-      success_html: שלחנו הודעת אישור חדש לכתובת %{email} ומרגע אישור חשבונך, אפשר
-        יהיה להתחיל למפות.<br /><br />אם בדואר האלקטרוני שלך מופעלת מערכת נגד דואר
-        זהל אשר שולחת בקשות אישור, נא להוסיף את %{sender} לרשימה הלבנה, מאחר ואיננו
-        יכולים להשיב לבקשות אישור כלשהן.
       failure: משתמש %{name} לא נמצא.
     confirm_email:
       heading: אישור שינוי כתובת הדוא״ל
@@ -2363,6 +2367,9 @@ he:
       flash: שללת את האסימון מהיישום %{application}.
     permissions:
       missing: לא נתת להרשאה גישה למתקן הזה
+    scopes:
+      read_prefs: העדפות קריאה
+      write_prefs: שינוי העדפות משתמש
   oauth_clients:
     new:
       title: רישון יישום חדש
@@ -2403,6 +2410,40 @@ he:
       flash: מידע הלקוח עודכן בהצלחה
     destroy:
       flash: רישום יישום הלקוח נהרס
+  oauth2_applications:
+    index:
+      new: הוספת אפליקציה חדשה
+      permissions: הרשאות
+    application:
+      edit: עריכה
+      delete: מחיקה
+      confirm_delete: למחוק את האפליקציה?
+    new:
+      title: הוספת אפליקציה חדשה
+    edit:
+      title: עריכת היישום שלך
+    show:
+      edit: עריכה
+      delete: מחיקה
+      confirm_delete: למחוק את האפליקציה?
+      client_id: מזהה לקוח
+      client_secret: 'סוד הלקוח:'
+      client_secret_warning: אנא שמרו זאת בסוד, לא תוכלו לגשת לזה שוב
+  oauth2_authorizations:
+    new:
+      title: דרוש אימות
+      deny: לדחות
+    error:
+      title: אירעה שגיאה
+    show:
+      title: קוד אישור
+  oauth2_authorized_applications:
+    index:
+      title: האפליקציות המורשות שלי
+      application: אפליקציה
+      permissions: הרשאות
+    application:
+      revoke: שלילת גישה
   users:
     new:
       title: הרשמה
@@ -2426,9 +2467,6 @@ he:
         יכולים להזדקק לכזה.
       continue: הרשמה
       terms accepted: תודה על קבלת תנאי התרומה החדשים!
-      terms declined: אנחנו מצטערים שהחלטת לא לקבל את תנאי התרומה החדשים. למידע נוסף
-        ר׳ <a href="%{url}">דף הוויקי הזה</a>.
-      terms declined url: https://wiki.openstreetmap.org/wiki/He:Contributor_Terms_Declined
     terms:
       title: תנאים
       heading: תנאים
@@ -2455,6 +2493,9 @@ he:
         france: צרפת
         italy: איטליה
         rest_of_world: שאר העולם
+    terms_declined_flash:
+      terms_declined_link: דף ויקי זה
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/He:Contributor_Terms_Declined
     no_such_user:
       title: אין משתמש כזה
       heading: המשתמש %{user} אינו קיים
@@ -2470,7 +2511,6 @@ he:
       my profile: הפרופיל שלי
       my settings: ההגדרות שלי
       my comments: ההערות שלי
-      oauth settings: הגדרות oauth
       blocks on me: מתי חסמו אותי
       blocks by me: מתי חסמתי
       send message: שליחת הודעה

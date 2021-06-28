@@ -28,6 +28,9 @@ ia:
       client_application:
         create: Registrar
         update: Actualisar
+      doorkeeper_application:
+        create: Registrar
+        update: Actualisar
       redaction:
         create: Crear suppression
         update: Salveguardar suppression
@@ -99,6 +102,11 @@ ia:
         latitude: Latitude
         longitude: Longitude
         language: Lingua
+      doorkeeper/application:
+        name: Nomine
+        redirect_uri: URIs de redirection
+        confidential: Application confidential?
+        scopes: Permissiones
       friend:
         user: Usator
         friend: Amico
@@ -141,6 +149,11 @@ ia:
         pass_crypt: Contrasigno
         pass_crypt_confirmation: Confirmar contrasigno
     help:
+      doorkeeper/application:
+        confidential: Le application essera usate ubi le secreto del cliente pote
+          esser mantenite confidential (applicationes mobile native e applicationes
+          a pagina unic non es confidential)
+        redirect_uri: Usa un linea per URI
       trace:
         tagstring: separate per commas
       user_block:
@@ -493,6 +506,11 @@ ia:
       comment: Commento
       newer_comments: Commentos plus recente
       older_comments: Commentos plus ancian
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Application registrate.
   friendships:
     make_friend:
       heading: Adder %{user} como amico?
@@ -1595,11 +1613,6 @@ ia:
       reconfirm_html: Pro reciper un altere message de confirmation, <a href="%{reconfirm}">clicca
         hic</a>.
     confirm_resend:
-      success_html: Nos ha inviate un nove message de confirmation a %{email} e si
-        tosto que tu confirma le conto, tu potera comenciar a cartographar.<br /><br
-        />Si tu usa un systema anti-spam que invia requestas de confirmation, alora
-        per favor assecura te de adder %{sender} al lista blanc, alteremente nos non
-        pote responder a requestas de confirmation.
       failure: Usator %{name} non trovate.
     confirm_email:
       heading: Confirmar un cambio de adresse de e-mail
@@ -1609,6 +1622,12 @@ ia:
       success: Le cambio del adresse de e-mail ha essite confirmate.
       failure: Un adresse de e-mail ha ja essite confirmate con iste token.
       unknown_token: Iste codice de confirmation ha expirate o non existe.
+    resend_success_flash:
+      confirmation_sent: Nos ha inviate un nove nota de confirmation a %{email}. Un
+        vice que tu confirma tu conto, tu potera comenciar a cartographar.
+      whitelist: Si tu usa un systema anti-spam que invia requestas de confirmation,
+        alora assecura te de exceptar %{sender} perque nos non pote responder a requestas
+        de confirmation.
   messages:
     inbox:
       title: Cassa de entrata
@@ -2352,6 +2371,14 @@ ia:
       flash: Tu ha revocate le token pro %{application}
     permissions:
       missing: Tu non ha permittite al application le accesso a iste facilitate
+    scopes:
+      read_prefs: Leger preferentias de usator
+      write_prefs: Modificar preferentias de usator
+      write_diary: Crear entratas de diario, commentos e adder amicos
+      write_api: Modificar le carta
+      read_gpx: Leger tracias GPS private
+      write_gpx: Incargar tracias GPS
+      write_notes: Modificar notas
   oauth_clients:
     new:
       title: Registrar un nove application
@@ -2393,6 +2420,56 @@ ia:
       flash: Le information del cliente ha essite actualisate con successo
     destroy:
       flash: Le registration del application cliente ha essite destruite
+  oauth2_applications:
+    index:
+      title: Mi applicationes cliente
+      no_applications_html: Ha tu un application que tu vole registrar pro uso con
+        nos per medio del standard %{oauth2}? Tu debe registrar tu application ante
+        que illo pote facer requestas OAuth a iste servicio.
+      oauth_2: OAuth 2
+      new: Registrar nove application
+      name: Nomine
+      permissions: Permissiones
+    application:
+      edit: Modificar
+      delete: Deler
+      confirm_delete: Deler iste application?
+    new:
+      title: Registrar un nove application
+    edit:
+      title: Modificar tu application
+    show:
+      edit: Modificar
+      delete: Deler
+      confirm_delete: Deler iste application?
+      client_id: ID del cliente
+      client_secret: Secreto del cliente
+      client_secret_warning: Assecura te de salveguardar iste secreto; illo non essera
+        accessibile de novo
+      permissions: Permissiones
+      redirect_uris: URIs de redirection
+    not_found:
+      sorry: Guai, ille application non poteva esser trovate.
+  oauth2_authorizations:
+    new:
+      title: Autorisation necessari
+      introduction: Autorisar %{application} a acceder a tu conto con le sequente
+        permissiones?
+      authorize: Autorisar
+      deny: Refusar
+    error:
+      title: Un error ha occurrite
+    show:
+      title: Codice de autorisation
+  oauth2_authorized_applications:
+    index:
+      title: Mi applicationes autorisate
+      application: Application
+      permissions: Permissiones
+      no_applications_html: Tu non ha ancora autorisate applicationes %{oauth2}.
+    application:
+      revoke: Revocar accesso
+      confirm_revoke: Revocar le accesso de iste application?
   users:
     new:
       title: Crear conto
@@ -2418,9 +2495,6 @@ ia:
         ma alcun instrumentos o servitores supplementari pote totevia necessitar un.
       continue: Crear conto
       terms accepted: Gratias pro acceptar le nove conditiones de contributor!
-      terms declined: Nos regretta que tu ha decidite de non acceptar le nove Conditiones
-        de contributor. Pro plus informationes, per favor vide <a href="%{url}">iste
-        pagina wiki</a>.
     terms:
       title: Conditiones
       heading: Conditiones
@@ -2449,6 +2523,10 @@ ia:
         france: Francia
         italy: Italia
         rest_of_world: Resto del mundo
+    terms_declined_flash:
+      terms_declined_html: Nos regretta que tu ha decidite de non acceptar le nove
+        Conditiones de contributor. Pro plus informationes, per favor vide %{terms_declined_link}.
+      terms_declined_link: iste pagina wiki
     no_such_user:
       title: Iste usator non existe
       heading: Le usator %{user} non existe
@@ -2465,7 +2543,6 @@ ia:
       my profile: Mi profilo
       my settings: Mi preferentias
       my comments: Mi commentos
-      oauth settings: configuration oauth
       blocks on me: Blocadas concernente me
       blocks by me: Blocadas facite per me
       send message: Inviar message
@@ -2577,6 +2654,9 @@ ia:
       save changes button: Salveguardar modificationes
       make edits public button: Render tote mi modificationes public
       return to profile: Retornar al profilo
+      oauth1 settings: Configuration OAuth 1
+      oauth2 applications: Applicationes OAuth 2
+      oauth2 authorizations: Autorisationes OAuth 2
       flash update success confirm needed: Informationes del usator actualisate con
         successo. Tu recipera in e-mail un nota pro confirmar tu nove adresse de e-mail.
       flash update success: Informationes del usator actualisate con successo.

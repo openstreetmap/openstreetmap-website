@@ -4,6 +4,7 @@
 # Author: A Retired User
 # Author: Alattalatta
 # Author: Alex00728
+# Author: Apzp79
 # Author: Asdfqwer51
 # Author: B891202
 # Author: CYAN
@@ -61,6 +62,9 @@ ko:
       client_application:
         create: 등록
         update: 업데이트
+      doorkeeper_application:
+        create: 등록
+        update: 업데이트
       redaction:
         create: 교정 만들기
         update: 교정 저장
@@ -77,8 +81,8 @@ ko:
         email_address_not_routable: 경로를 잡을 수 없음
     models:
       acl: 접근 제어 목록
-      changeset: 바뀜집합
-      changeset_tag: 바뀜집합 태그
+      changeset: 변경 집합
+      changeset_tag: 변경 집합 태그
       country: 나라
       diary_comment: 일기 의견
       diary_entry: 일기 항목
@@ -132,6 +136,10 @@ ko:
         latitude: 위도
         longitude: 경도
         language: 언어
+      doorkeeper/application:
+        name: 이름
+        redirect_uri: URI 리다이렉트
+        scopes: 허가
       friend:
         user: 사용자
         friend: 친구
@@ -169,8 +177,8 @@ ko:
         description: 프로필 설명
         home_lat: 위도
         home_lon: 경도
-        languages: 주로 사용하는 언어
-        preferred_editor: 주로 사용하는 편집기
+        languages: 선호하는 언어
+        preferred_editor: 선호하는 편집기
         pass_crypt: 비밀번호
         pass_crypt_confirmation: 비밀번호 확인
     help:
@@ -220,11 +228,11 @@ ko:
       comment:
         opened_at_html: '%{when}에 만듦'
         opened_at_by_html: '%{user}님이 %{when}에 만듦'
-        commented_at_html: '%{when}에 바꿈'
+        commented_at_html: '%{when}에 바뀜'
         commented_at_by_html: '%{user}님이 %{when}에 업데이트함'
         closed_at_html: '%{when}에 해결함'
         closed_at_by_html: '%{user}님이 %{when}에 해결함'
-        reopened_at_html: '%{when}에 다시 활성화함'
+        reopened_at_html: '%{when}에 다시 활성화됨'
         reopened_at_by_html: '%{user}님이 %{when}에 다시 활성화함'
       rss:
         title: OpenStreetMap 참고
@@ -248,7 +256,7 @@ ko:
     edited_by_html: <abbr title='%{title}'>%{time}</abbr>에 %{user}님이 편집함
     closed_by_html: <abbr title='%{title}'>%{time}</abbr>에 %{user}님이 닫음
     version: 버전
-    in_changeset: 바뀜집합
+    in_changeset: 변경 집합
     anonymous: 익명
     no_comment: (댓글 없음)
     part_of: '다음의 일부:'
@@ -260,7 +268,7 @@ ko:
     view_details: 자세한 내용 보기
     location: '위치:'
     changeset:
-      title: '바뀜집합: %{id}'
+      title: '변경 집합: %{id}'
       belongs_to: 저자
       node: 교점(%{count})
       node_paginated: 교점(%{count}개 중 %{x}-%{y})
@@ -272,11 +280,11 @@ ko:
       hidden_commented_by_html: '%{user}님의 <abbr title=''%{exact_time}''>%{when}</abbr>
         숨겨진 의견'
       commented_by_html: '%{user}님의 <abbr title=''%{exact_time}''>%{when}</abbr> 의견'
-      changesetxml: 바뀜집합 XML
+      changesetxml: 변경 집합 XML
       osmchangexml: osmChange XML
       feed:
-        title: 바뀜집합 %{id}
-        title_comment: 바뀜집합 %{id} - %{comment}
+        title: 변경 집합 %{id}
+        title_comment: 변경 집합 %{id} - %{comment}
       join_discussion: 토론에 참여하려면 로그인하세요
       discussion: 토론
       still_open: 바뀜집합이 아직 열려 있습니다 - 토론은 바뀜집합이 닫히면 시작됩니다.
@@ -288,7 +296,7 @@ ko:
       history_title_html: '길 역사: %{name}'
       nodes: 교점
       nodes_count:
-        other: 노드 %{count}개
+        other: 교점 %{count}개
       also_part_of_html:
         one: '%{related_ways} 길의 일부'
         other: '%{related_ways} 길의 일부'
@@ -315,7 +323,7 @@ ko:
         node: 교점
         way: 길
         relation: 관계
-        changeset: 바뀜집합
+        changeset: 변경 집합
         note: 참고
     timeout:
       title: 시간 초과 오류
@@ -346,7 +354,7 @@ ko:
         tag: '%{key}=%{value} 태그에 대한 위키 설명 문서'
       wikidata_link: 위키데이터 %{page} 항목
       wikipedia_link: 위키백과 %{page} 문서
-      wikimedia_commons_link: 위키미디어 공용에서의 %{page} 항목
+      wikimedia_commons_link: 위키미디어 공용의 %{page} 항목
       telephone_link: '%{phone_number}(으)로 전화 걸기'
       colour_preview: '%{colour_value}색 미리 보기'
     note:
@@ -382,7 +390,7 @@ ko:
     changeset:
       anonymous: 익명
       no_edits: (편집 없음)
-      view_changeset_details: 바뀜집합 자세한 사항 보기
+      view_changeset_details: 변경 집합의 자세한 사항 보기
     changesets:
       id: ID
       saved_at: 저장된 시간
@@ -391,29 +399,29 @@ ko:
       area: 구역
     index:
       title: 바뀜집합
-      title_user: '%{user}님의 바뀜집합'
-      title_friend: 내 친구의 바뀜집합
-      title_nearby: 근처 사용자의 바뀜집합
-      empty: 찾은 바뀜집합이 없습니다.
-      empty_area: 이 지역에 바뀜집합이 없습니다.
-      empty_user: 이 사용자의 바뀜집합이 없습니다.
-      no_more: 찾은 바뀜집합이 더 없습니다.
-      no_more_area: 이 지역에서 바뀜집합이 더 없습니다.
-      no_more_user: 이 사용자의 바뀜집합이 더 없습니다.
+      title_user: '%{user}님의 변경 집합'
+      title_friend: 내 친구의 변경 집합
+      title_nearby: 근처 사용자의 변경 집합
+      empty: 찾는 변경 집합이 없습니다.
+      empty_area: 이 지역에 변경 집합이 없습니다.
+      empty_user: 이 사용자의 변경 집합이 없습니다.
+      no_more: 찾은 변경 집합이 더 없습니다.
+      no_more_area: 이 지역에서 변경 집합이 더 없습니다.
+      no_more_user: 이 사용자의 변경 집합이 더 없습니다.
       load_more: 더 불러오기
     timeout:
-      sorry: 죄송합니다, 요청하는 바뀜집합 목록을 얻는데 너무 오래 걸렸습니다.
+      sorry: 죄송합니다, 요청하는 변경 집합 목록을 얻는데 너무 오래 걸렸습니다.
   changeset_comments:
     comment:
-      comment: '바뀜집합 #%{changeset_id}에 %{author}님이 새 덧글을 남김'
+      comment: '변경 집합 #%{changeset_id}에 %{author}님이 새 댓글을 남김'
       commented_at_by_html: '%{user}님이 %{when}에 업데이트함'
     comments:
-      comment: '바뀜집합 #%{changeset_id}에 %{author}님이 새 댓글을 남김'
+      comment: '변경 집합 #%{changeset_id}에 %{author}님이 새 댓글을 남김'
     index:
-      title_all: OpenStreetMap 바뀜집합 토론
-      title_particular: 'OpenStreetMap 바뀜집합 #%{changeset_id} 토론'
+      title_all: OpenStreetMap 변경 집합 토론
+      title_particular: 'OpenStreetMap 변경 집합 #%{changeset_id} 토론'
     timeout:
-      sorry: 죄송합니다, 요청하는 바뀜집합 댓글을 얻는데 너무 오래 걸렸습니다.
+      sorry: 죄송합니다, 요청하는 변경 집합 댓글을 불러오는데 너무 오래 걸렸습니다.
   diary_entries:
     new:
       title: 새 일기 항목
@@ -544,7 +552,7 @@ ko:
           bbq: 바베큐
           bench: 벤치
           bicycle_parking: 자전거 주차장
-          bicycle_rental: 자전거 대여
+          bicycle_rental: 자전거 대여점
           bicycle_repair_station: 자전거 수리소
           biergarten: 옥외 탁자
           blood_bank: 혈액 보관소
@@ -558,11 +566,11 @@ ko:
           car_wash: 세차장
           casino: 카지노
           charging_station: 전기 자동차 충전소
-          childcare: 육아
+          childcare: 탁아소
           cinema: 영화관
           clinic: 의원
           clock: 시계
-          college: 전문대학
+          college: 대학
           community_centre: 커뮤니티 센터
           conference_centre: 컨퍼런스 센터
           courthouse: 법원
@@ -583,7 +591,7 @@ ko:
           grit_bin: 모래상자
           hospital: 병원
           hunting_stand: 사냥장
-          ice_cream: 아이스크림
+          ice_cream: 아이스크림 가게
           internet_cafe: 인터넷 카페
           kindergarten: 유치원
           language_school: 언어 학교
@@ -595,11 +603,11 @@ ko:
           motorcycle_parking: 오토바이 주차장
           music_school: 음악 학교
           nightclub: 나이트 클럽
-          nursing_home: 복지관
+          nursing_home: 양로원
           parking: 주차장
           parking_entrance: 주차장 입구
           parking_space: 주차 공간
-          payment_terminal: 결제 터미널
+          payment_terminal: 결제 단말기
           pharmacy: 약국
           place_of_worship: 예배당
           police: 경찰서
@@ -607,15 +615,15 @@ ko:
           post_office: 우체국
           prison: 교도소
           pub: 술집
-          public_bath: 공공 욕실
+          public_bath: 공중 목욕탕
           public_bookcase: 공공 책장
           public_building: 공공 건물
-          ranger_station: 레인저 스테이션
+          ranger_station: 관리소
           recycling: 재활용장
           restaurant: 음식점
           school: 학교
           shelter: 대피소
-          shower: 샤워
+          shower: 샤워장
           social_centre: 사회 센터
           social_facility: 공공 시설
           studio: 스튜디오
@@ -632,7 +640,7 @@ ko:
           waste_basket: 쓰레기통
           waste_disposal: 폐기물 처리장
           watering_place: 급수지
-          water_point: 워터 포인트
+          water_point: 급수장
         boundary:
           administrative: 행정 구역 경계
           census: 인구조사 구역 경계
@@ -642,10 +650,10 @@ ko:
           "yes": 경계
         bridge:
           aqueduct: 수도교
-          boardwalk: 보드워크
+          boardwalk: 판자길
           suspension: 현수교
-          swing: 선회교
-          viaduct: 고가 다리
+          swing: 선개교
+          viaduct: 고가교
           "yes": 다리
         building:
           apartment: 아파트
@@ -669,7 +677,7 @@ ko:
           hospital: 병원
           hotel: 호텔 건물
           house: 주택
-          houseboat: 거주형 선박
+          houseboat: 선상 가옥
           hut: 소형 오두막
           industrial: 산업용 건물
           kindergarten: 유치원 건물
@@ -684,7 +692,7 @@ ko:
           service: 서비스 건물
           terrace: 테라스 건물
           train_station: 철도역 건물
-          university: 대학 건물
+          university: 대학교 건물
           warehouse: 저장고
           "yes": 건물
         club:
@@ -693,7 +701,7 @@ ko:
         craft:
           beekeper: 양봉장
           blacksmith: 대장간
-          brewery: 맥주 공장
+          brewery: 양조장
           carpenter: 목공
           caterer: 조리소
           dressmaker: 양장점
@@ -738,7 +746,7 @@ ko:
           motorway_link: 고속도로
           passing_place: 대피소
           path: 보행로
-          pedestrian: 보행자 길
+          pedestrian: 보행자용 통로
           platform: 승강장
           primary: 1차 도로
           primary_link: 1차 도로
@@ -747,17 +755,17 @@ ko:
           residential: 주거 도로
           rest_area: 휴게소
           road: 도로
-          secondary: 2차 도로
-          secondary_link: 2차 도로
-          service: 접근 도로
+          secondary: 2급 도로
+          secondary_link: 2급 도로
+          service: 지선 도로
           services: 고속도로 휴게소
           speed_camera: 속도 카메라
           steps: 계단
           stop: 정지 표지
           street_lamp: 가로등
-          tertiary: 3차 도로
-          tertiary_link: 3차 도로
-          track: 농·임도
+          tertiary: 3급 도로
+          tertiary_link: 3급 도로
+          track: 오솔길
           traffic_signals: 교통 신호
           trunk: 간선 도로
           trunk_link: 간선 도로
@@ -827,7 +835,7 @@ ko:
           residential: 주거 지역
           retail: 상업 지역
           village_green: 녹지 광장
-          vineyard: 포도밭
+          vineyard: 포도원
           "yes": 토지 이용
         leisure:
           adult_gaming_centre: 성인 오락실
@@ -843,7 +851,7 @@ ko:
           fitness_station: 피트니스 스테이션
           garden: 정원
           golf_course: 골프장
-          horse_riding: 승마
+          horse_riding: 승마장
           ice_rink: 아이스 링크
           marina: 정박지
           miniature_golf: 미니어처 골프
@@ -853,7 +861,7 @@ ko:
           picnic_table: 피크닉 테이블
           pitch: 운동장
           playground: 놀이터
-          recreation_ground: 놀이 공원
+          recreation_ground: 공설 운동장
           resort: 리조트
           sauna: 사우나
           slipway: 슬립 웨이
@@ -885,7 +893,7 @@ ko:
           manhole: 맨홀
           mast: 돛대
           mine: 광산
-          mineshaft: 갱도
+          mineshaft: 수직 갱도
           monitoring_station: 감시소
           petroleum_well: 유정
           pier: 부두
@@ -962,7 +970,7 @@ ko:
           wood: 산림
           "yes": 자연
         office:
-          accountant: 공인회계사 사무소
+          accountant: 회계사무소
           administrative: 관리
           architect: 건축가
           association: 협회
@@ -1451,9 +1459,6 @@ ko:
       unknown token: 확인 코드가 만료되었거나 존재하지 않습니다.
       reconfirm_html: 확인 이메일을 다시 보낼 필요가 있다면, <a href="%{reconfirm}">여기를 클릭하세요</a>.
     confirm_resend:
-      success_html: '%{email}(으)로 새 확인 쪽지를 보냈는데 즉시 계정을 확인하는 대로 매핑을 할 수 있습니다.<br /><br
-        />확인 요청을 보낼 때 스팸 방지 시스템을 사용한다면 어떤 확인 요청에 답변할 수 없으므로 화이트리스트에 %{sender}이(가)
-        있는지 확인하세요.'
       failure: '%{name} 사용자를 찾을 수 없습니다.'
     confirm_email:
       heading: 이메일 주소 바꾸기 확인
@@ -2088,7 +2093,7 @@ ko:
       in: 위치
     index:
       public_traces: 공개 GPS 궤적
-      my_traces: 내 GPS 궤적
+      my_traces: 내 발자취
       public_traces_from: '%{user}님의 공개 GPS 궤적'
       description: 최근의 GPS 궤적 업로드 항목 둘러보기
       tagged_with: '%{tags}(으)로 태그함'
@@ -2211,9 +2216,6 @@ ko:
       auth no password: 제3자 인증은 비밀번호가 필요하지 않지만, 일부 추가 도구나 서버는 여전히 필요할 수 있습니다.
       continue: 가입하기
       terms accepted: 새 기여자 약관에 동의해 주셔서 감사합니다!
-      terms declined: 새 기여자 약관에 동의하지 않은 것으로 결정했기에 죄송합니다. 자세한 정보에 대해서는 <a href="%{url}">이
-        위키 문서</a>를 참조하세요.
-      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: 약관
       heading: 약관
@@ -2236,6 +2238,8 @@ ko:
         france: 프랑스
         italy: 이탈리아
         rest_of_world: 나머지 국가
+    terms_declined_flash:
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: 이러한 사용자는 없습니다
       heading: '%{user} 사용자는 존재하지 않습니다'
@@ -2251,7 +2255,6 @@ ko:
       my profile: 내 프로필
       my settings: 프로필 설정
       my comments: 내 의견
-      oauth settings: oauth 설정
       blocks on me: 나를 차단
       blocks by me: 나한테 차단
       send message: 메시지 보내기

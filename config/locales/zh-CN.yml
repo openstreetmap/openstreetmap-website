@@ -90,6 +90,9 @@ zh-CN:
       client_application:
         create: 注册
         update: 更新
+      doorkeeper_application:
+        create: 注册
+        update: 更新
       redaction:
         create: 创建修订
         update: 保存修订
@@ -161,6 +164,11 @@ zh-CN:
         latitude: 纬度
         longitude: 经度
         language: 语言
+      doorkeeper/application:
+        name: 名称
+        redirect_uri: 重定向URI
+        confidential: 保密的应用程序？
+        scopes: 权限
       friend:
         user: 用户
         friend: 朋友
@@ -203,6 +211,9 @@ zh-CN:
         pass_crypt: 密码
         pass_crypt_confirmation: 确认密码
     help:
+      doorkeeper/application:
+        confidential: 应用程序将在客户密钥可以保密时使用（本地移动应用程序和单页应用程序不保密）
+        redirect_uri: 每个URI使用一行
       trace:
         tagstring: 用逗号分隔
       user_block:
@@ -546,6 +557,11 @@ zh-CN:
       comment: 评论
       newer_comments: 较新评论
       older_comments: 较旧评论
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: 应用程序已注册。
   friendships:
     make_friend:
       heading: 添加 %{user} 为朋友？
@@ -1592,7 +1608,6 @@ zh-CN:
       unknown token: 确认码已经过期或不存在。
       reconfirm_html: 如果您需要我们重新发送确认邮件，<a href="%{reconfirm}">请点击这里</a>。
     confirm_resend:
-      success_html: 我们已经发送一封新的确认电子邮件到 %{email}，只要您确认您的帐户，您就可以开始制图了。<br /><br />如果您使用的反垃圾邮件系统发送确认请求，那么请确保您的白名单中有%{sender}，因为我们无法回复任何确认请求。
       failure: 用户 %{name} 未找到。
     confirm_email:
       heading: 确认电子邮件地址更改
@@ -1601,6 +1616,9 @@ zh-CN:
       success: 已确认您对电子邮件地址的更改！
       failure: 具有此令牌的电子邮件地址已经确认过了。
       unknown_token: 那个确认代码已过期或不存在。
+    resend_success_flash:
+      confirmation_sent: 我们已经向%{email}发出一条新的确认通知，一旦您确认您的账户，就能获得映射。
+      whitelist: 如果您用于发送确认请求的邮箱具有反垃圾邮件系统，请确保将%{sender}加入白名单，因为我们无法恢复任何确认请求。
   messages:
     inbox:
       title: 收件箱
@@ -2207,6 +2225,14 @@ zh-CN:
       flash: 您已经注销 %{application} 的令牌。
     permissions:
       missing: 您未给予应用访问此装置的权限
+    scopes:
+      read_prefs: 阅读用户首选项
+      write_prefs: 修改用户首选项
+      write_diary: 创建日记条目、评论和交朋友
+      write_api: 修改地图
+      read_gpx: 读取私人GPS轨迹
+      write_gpx: 上传GPS轨迹
+      write_notes: 修改备注
   oauth_clients:
     new:
       title: 注册新应用程序
@@ -2246,6 +2272,52 @@ zh-CN:
       flash: 更新客户端信息成功
     destroy:
       flash: 已破坏此客户端应用程序注册
+  oauth2_applications:
+    index:
+      title: 我的客户应用程序
+      no_applications_html: 您是否有想要使用%{oauth2}标准注册的应用程序？您必须先注册您的应用程序才能对此服务发出OAuth请求。
+      oauth_2: OAuth 2
+      new: 注册新应用程序
+      name: 名称
+      permissions: 权限
+    application:
+      edit: 编辑
+      delete: 删除
+      confirm_delete: 删除这个应用程序？
+    new:
+      title: 注册新应用程序
+    edit:
+      title: 编辑您的应用程序
+    show:
+      edit: 编辑
+      delete: 删除
+      confirm_delete: 删除此应用程序？
+      client_id: 客户端ID
+      client_secret: 客户密钥
+      client_secret_warning: 确保保存此密钥 - 它将无法被再次访问
+      permissions: 权限
+      redirect_uris: 重定向URI
+    not_found:
+      sorry: 抱歉，找不到该应用程序。
+  oauth2_authorizations:
+    new:
+      title: 需要授权
+      introduction: 要授权%{application}使用以下权限访问您的账户吗？
+      authorize: 授权
+      deny: 拒绝
+    error:
+      title: 发生错误
+    show:
+      title: 授权码
+  oauth2_authorized_applications:
+    index:
+      title: 我的已授权应用程序
+      application: 应用程序
+      permissions: 权限
+      no_applications_html: 您还没有授权任何%{oauth2}应用程序。
+    application:
+      revoke: 撤销访问权限
+      confirm_revoke: 撤消此应用程序的访问权限？
   users:
     new:
       title: 注册
@@ -2265,8 +2337,6 @@ zh-CN:
       auth no password: 通过第三方身份验证，您不再需要密码，但一些额外工具或服务器可能仍然需要。
       continue: 注册
       terms accepted: 感谢您接受新的贡献条款！
-      terms declined: 我们很遗憾您已决定不接受新的贡献者条款。有关详细信息，请参阅<a href="%{url}">此 wiki 页面</a>.
-      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: 条款
       heading: 条款
@@ -2289,6 +2359,10 @@ zh-CN:
         france: 法国
         italy: 意大利
         rest_of_world: 世界其他地区
+    terms_declined_flash:
+      terms_declined_html: 我们很遗憾您已决定不接受新的贡献者条款。有关详细信息，请参阅%{terms_declined_link}。
+      terms_declined_link: 此wiki页面
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: 无此用户
       heading: 用户 %{user} 不存在
@@ -2304,7 +2378,6 @@ zh-CN:
       my profile: 我的资料
       my settings: 我的设置
       my comments: 我的评论
-      oauth settings: OAuth设置
       blocks on me: 我的封禁
       blocks by me: 被我封禁
       send message: 发送信息
@@ -2407,6 +2480,9 @@ zh-CN:
       save changes button: 保存更改
       make edits public button: 公开我所有的编辑
       return to profile: 返回基本信息
+      oauth1 settings: OAuth 1设置
+      oauth2 applications: OAuth 2应用程序
+      oauth2 authorizations: OAuth 2授权
       flash update success confirm needed: 成功更新用户信息。 查看您的邮箱以确认您的新邮箱地址。
       flash update success: 成功更新用户信息。
     set_home:

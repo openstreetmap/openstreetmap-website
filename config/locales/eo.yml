@@ -44,6 +44,9 @@ eo:
       client_application:
         create: Registri
         update: Aktualigi
+      doorkeeper_application:
+        create: Registri
+        update: Ĝisdatigi
       redaction:
         create: Krei korekton
         update: Konservi korekton
@@ -115,6 +118,11 @@ eo:
         latitude: Latitudo
         longitude: Longitudo
         language: Lingvo
+      doorkeeper/application:
+        name: Nomo
+        redirect_uri: Alidirektaj retejaj adresoj
+        confidential: Konfidenca aplikaĵo?
+        scopes: Permesoj
       friend:
         user: Uzanto
         friend: Amiko
@@ -157,6 +165,10 @@ eo:
         pass_crypt: Pasvorto
         pass_crypt_confirmation: Konfirmi pasvorton
     help:
+      doorkeeper/application:
+        confidential: Aplikaĵo estos uzata tiel, ke la klient-sekreto estos konfidenca
+          (indiĝenaj poŝtelefonaj aplikaĵoj kaj unu-paĝaj retaplikaĵoj ne estas konfidencaj)
+        redirect_uri: Ĉiu ligilo estu en aparta linio
       trace:
         tagstring: disigitaj per komoj
       user_block:
@@ -508,6 +520,11 @@ eo:
       comment: Komenti
       newer_comments: Pli novaj komentoj
       older_comments: Pli malnovaj komentoj
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Registris aplikaĵon.
   friendships:
     make_friend:
       heading: Ĉu aldoni %{user} al amikoj?
@@ -1590,10 +1607,6 @@ eo:
       reconfirm_html: Por resendi la konfirman kodon, <a href="%{reconfirm}">alklaku
         ĉi tie</a>.
     confirm_resend:
-      success_html: Ni sendis novan konfirman kodon al %{email}, kaj tiel frue vi
-        konfirmos vian konton, vi povos mapigi.<br /><br />Se vi uzas kontraŭ-trud-mesaĝan
-        sistemon, certigu ke vi aldonis %{sender} al via blanka listo, do tiel ni
-        eblos kontakti vin senprobleme.
       failure: Uzanto %{name} ne trovita.
     confirm_email:
       heading: Konfirmi ŝanĝon de retadreso.
@@ -1602,6 +1615,12 @@ eo:
       success: Ŝanĝo de via retpoŝta adreso konfirmita!
       failure: Retadreso jam estis konfirmita per tiu ĵetono.
       unknown_token: Ĉi tiu konfirma kodo malvalidiĝis aŭ ne ekzistas.
+    resend_success_flash:
+      confirmation_sent: Ni sendis novan konfirman kodon al %{email}. Tuj kiam vi
+        konfirmos vian konton, vi povos ekigi mapigadon.
+      whitelist: Se vi uzas kontraŭtrudmesaĝan sistemon, kiu sendas konfirmpetojn;
+        certiĝu ke la sendinto %{sender} estu sur la permesata listo, ĉar ni ne povas
+        respondi al konfirmpetoj.
   messages:
     inbox:
       title: Ricevujo
@@ -2322,17 +2341,25 @@ eo:
       allow_write_notes: modifi rimarkojn.
       grant_access: Permesi aliron
     authorize_success:
-      title: Peto pri permeso permesita
+      title: Rajtiga peto akceptita
       allowed_html: Vi permesis al aplikaĵo %{app_name} aliron al via konto.
       verification: La kontrol-kodon estas %{code}.
     authorize_failure:
-      title: Peto pri permeso malsukcesis
+      title: Rajtiga peto malakceptita
       denied: Vi malpermesis al aplikaĵo %{app_name} aliron al via konto
-      invalid: La atingoĵetono ne plu validas.
+      invalid: La rajtiga ĵeto ne plu validas.
     revoke:
       flash: Vi malvalidigis la ĵetonon por %{application}
     permissions:
       missing: Vi ne permesis al aplikaĵo aliri al ĉi tiu eblo
+    scopes:
+      read_prefs: legi preferojn de uzanto
+      write_prefs: modifi preferojn de uzanto
+      write_diary: afiŝi en taglibro, komenti kaj aldoni amikojn
+      write_api: redakti la mapon
+      read_gpx: legi privatajn GPS-spurojn
+      write_gpx: alŝuti GPS-spurojn
+      write_notes: modifi rimarkojn
   oauth_clients:
     new:
       title: Registri novan aplikaĵon
@@ -2357,10 +2384,10 @@ eo:
       application: Aplikaĵa nomo
       issued_at: Eldonita je
       revoke: Malvalidigi!
-      my_apps: Miaj porklientaj aplikaĵoj
-      no_apps_html: Ĉu vi havas iun aplikaĵon, kiun vi volas registri per %{oauth}
-        normo? Vi devas registri vian retaplikaĵon, antaŭ ĝi eblos fari OAuth-petojn
-        al ĉi tiu servo.
+      my_apps: Miaj klientaj aplikaĵoj
+      no_apps_html: Ĉu vi havas iun aplikaĵon, kiun vi volas registri uzante la normon
+        %{oauth}? Vi devas registri vian retaplikaĵon, antaŭ ĝi eblos fari OAuth-petojn
+        al tiu ĉi servo.
       oauth: OAuth
       registered_apps: 'Vi havas la jenajn porklientajn aplikaĵojn registritajn:'
       register_new: Registri vian aplikaĵon
@@ -2374,6 +2401,56 @@ eo:
       flash: Informoj pri kliento estas ĝisdatigitaj sukcese
     destroy:
       flash: La porklienta aplikaĵo forigita
+  oauth2_applications:
+    index:
+      title: Miaj klientaj aplikaĵoj
+      no_applications_html: Ĉu vi havas iun aplikaĵon, kiun vi volas registri uzante
+        la normon %{oauth2}? Vi devas registri vian aplikaĵon, antaŭ ĝi eblos fari
+        OAuth-petojn al tiu ĉi servo.
+      oauth_2: OAuth 2
+      new: Registri novan aplikaĵon
+      name: Nomo
+      permissions: Permesoj
+    application:
+      edit: Modifi
+      delete: Forigi
+      confirm_delete: Ĉu forigi tiun ĉi aplikaĵon?
+    new:
+      title: Registri novan aplikaĵon
+    edit:
+      title: Modifi vian aplikaĵon
+    show:
+      edit: Modifi
+      delete: Forigi
+      confirm_delete: Ĉu forigi tiun ĉi aplikaĵon?
+      client_id: Klient-identigilo
+      client_secret: Klient-sekreto
+      client_secret_warning: Certiĝu pri konservi tiun ĉi sekreton – ĝi ne montriĝos
+        ree
+      permissions: Permesoj
+      redirect_uris: Alidirektaj retejaj adresoj
+    not_found:
+      sorry: Bedaŭrinde ne povis trovi tiun ĉi aplikaĵon.
+  oauth2_authorizations:
+    new:
+      title: Rajtigo postulata
+      introduction: Ĉu rajtigi la aplikaĵon %{application} por aliri vian konton kun
+        la jenaj permesoj?
+      authorize: Rajtigi
+      deny: Rifuzi
+    error:
+      title: Eraro okazis
+    show:
+      title: Rajtiga kodo
+  oauth2_authorized_applications:
+    index:
+      title: Miaj rajtigitaj aplikaĵoj
+      application: Aplikaĵo
+      permissions: Permesoj
+      no_applications_html: Vi ankoraŭ rajtigis neniun aplikaĵon %{oauth2}.
+    application:
+      revoke: Senrajtigi aliron
+      confirm_revoke: Ĉu senrajtigi tiun ĉi aplikaĵon?
   users:
     new:
       title: Registriĝi
@@ -2397,9 +2474,6 @@ eo:
         iloj aŭ servilo krom tio povas bezoni ĝin.
       continue: Registriĝi
       terms accepted: Dankon por akcepto de nova interkonsento pri kontribuado!
-      terms declined: Ni bedaŭras, ke vi ne akceptis la novan interkonsenton pri kontribuado.
-        Por pli da informoj, bonvolu vidi <a href="%{url}">ĉi tiu viki-paĝo</a>.
-      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Kondiĉoj
       heading: Kondiĉoj
@@ -2430,6 +2504,11 @@ eo:
         france: Francujo
         italy: Italujo
         rest_of_world: Resto de la mondo
+    terms_declined_flash:
+      terms_declined_html: Bedaŭrinde vi ne akceptis la novan interkonsenton pri kontribuado.
+        Por pli da informoj, ekkonu kun %{terms_declined_link}.
+      terms_declined_link: tiu ĉi viki‑paĝo
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Neekzistanta uzanto
       heading: La uzanto %{user} ne ekzistas
@@ -2446,7 +2525,6 @@ eo:
       my profile: Profilo
       my settings: Agordoj
       my comments: Miaj komentoj
-      oauth settings: oauth-agordoj
       blocks on me: Blokas min
       blocks by me: Blokitaj de mi
       send message: Sendi mesaĝon
@@ -2558,6 +2636,9 @@ eo:
       save changes button: Konservi ŝanĝojn
       make edits public button: Publikigu ĉiujn miajn redaktojn.
       return to profile: Reen al profilo
+      oauth1 settings: Agordoj OAuth 1
+      oauth2 applications: Aplikaĵoj OAuth 2
+      oauth2 authorizations: Rajtigoj OAuth 2
       flash update success confirm needed: Uzantinformoj sukcese freŝigitaj. Kontrolu
         vian retpoŝtilon por iu mesaĝo kiu konfirmos vian novan retadreso.
       flash update success: Uzantinformoj sukcese freŝigitaj.
@@ -2590,7 +2671,7 @@ eo:
     auth_failure:
       connection_failed: Konektado al aŭtentiga servo malsukcesis
       invalid_credentials: Malkorektaj ensalutiloj
-      no_authorization_code: Rajtigada kodo mankas
+      no_authorization_code: Rajtiga kodo mankas
       unknown_signature_algorithm: Nekonata algoritmo de subskribo
       invalid_scope: Malkorekta amplekso
     auth_association:

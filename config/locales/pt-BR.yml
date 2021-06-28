@@ -73,6 +73,9 @@ pt-BR:
       client_application:
         create: Registrar
         update: Atualizar
+      doorkeeper_application:
+        create: Registrar
+        update: Atualizar
       redaction:
         create: Criar redação
         update: Salvar redação
@@ -144,6 +147,11 @@ pt-BR:
         latitude: Latitude
         longitude: Longitude
         language: Idioma
+      doorkeeper/application:
+        name: Nome
+        redirect_uri: URIs de redirecionamento
+        confidential: Aplicação confidencial?
+        scopes: Permissões
       friend:
         user: Usuário
         friend: Amigo
@@ -186,6 +194,10 @@ pt-BR:
         pass_crypt: Senha
         pass_crypt_confirmation: Confirmar Senha
     help:
+      doorkeeper/application:
+        confidential: A aplicação será usada onde o segredo do cliente possa ser mantido
+          confidencial (as apps móveis nativas e apps de página única não são confidenciais)
+        redirect_uri: Usar uma linha por URI
       trace:
         tagstring: separados por vírgulas
       user_block:
@@ -543,6 +555,11 @@ pt-BR:
       comment: Comentário
       newer_comments: Comentários mais recentes
       older_comments: Comentários mais antigos
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Aplicação registada.
   friendships:
     make_friend:
       heading: Adicionar %{user} como amigo?
@@ -1645,11 +1662,6 @@ pt-BR:
       reconfirm_html: Caso precise que enviemos de novo o e-mail de confirmação, <a
         href="%{reconfirm}">clique aqui</a>.
     confirm_resend:
-      success_html: Enviamos uma nova mensagem de confirmação para %{email} e, assim
-        que você confirmar o seu cadastro, poderá começar a mapear.<br /><br />Se
-        você usa um sistema antispam que exige uma mensagem de confirmação então certifique-se
-        de que o endereço %{sender} esteja na sua lista de e-mails confiáveis, já
-        que não conseguimos responder a nenhum pedido de confirmação.
       failure: Usuário %{name} não encontrado.
     confirm_email:
       heading: Confirmar uma mudança do endereço de e-mail
@@ -1659,6 +1671,12 @@ pt-BR:
       success: Confirmamos a alteração do seu endereço de e-mail!
       failure: Um endereço de e-mail já foi confirmado com esse código.
       unknown_token: Este código de confirmação expirou ou não existe.
+    resend_success_flash:
+      confirmation_sent: Enviámos uma nova nota de confirmação para %{email}. Assim
+        que confirmares a sua conta, poderás começar a mapear.
+      whitelist: Se usar um sistema antispam que envia pedidos de confirmação, certifica-te
+        de que colocas o %{sender} na whitelist (lista branca), já que não temos possibilidade
+        de responder a pedidos de confirmação.
   messages:
     inbox:
       title: Caixa de Entrada
@@ -2416,6 +2434,14 @@ pt-BR:
       flash: Você cancelou o token para %{application}
     permissions:
       missing: Você não permitiu o acesso da aplicação a esta facilidade
+    scopes:
+      read_prefs: Ler preferências de usuário
+      write_prefs: Modificar preferências de usuário
+      write_diary: Criar entradas de diário, comentar e fazer amigos
+      write_api: Modificar o mapa
+      read_gpx: Ler rotas GPS privadas
+      write_gpx: Enviar rotas GPS
+      write_notes: Modificar notas
   oauth_clients:
     new:
       title: Registrar uma nova aplicação
@@ -2458,6 +2484,56 @@ pt-BR:
       flash: Sucesso ao atualizar as informações do cliente
     destroy:
       flash: O registro da aplicação cliente foi apagado
+  oauth2_applications:
+    index:
+      title: Minhas aplicações de cliente
+      no_applications_html: Você tem uma aplicação que quer registar para ser utilizada
+        usando o padrão %{oauth2}? Você deve de registar a aplicação antes de poder
+        fazer solicitações OAuth a este serviço.
+      oauth_2: OAuth 2
+      new: Registar nova aplicação
+      name: Nome
+      permissions: Permissões
+    application:
+      edit: Editar
+      delete: Excluir
+      confirm_delete: Eliminar esta aplicação?
+    new:
+      title: Registrar uma nova aplicação
+    edit:
+      title: Editar sua aplicação
+    show:
+      edit: Editar
+      delete: Excluir
+      confirm_delete: Eliminar esta aplicação?
+      client_id: ID do cliente
+      client_secret: Segredo do cliente
+      client_secret_warning: Certifica-te de que salvar este segredo - não voltará
+        a estar acessível
+      permissions: Permissões
+      redirect_uris: URIs de redirecionamento
+    not_found:
+      sorry: Lamentamos, esta aplicação não foi encontrada.
+  oauth2_authorizations:
+    new:
+      title: Autorização necessária
+      introduction: Autorizar o acesso de %{application} à tua conta com as seguintes
+        permissões?
+      authorize: Autorizar
+      deny: Negar
+    error:
+      title: Ocorreu um erro
+    show:
+      title: Código de autorização
+  oauth2_authorized_applications:
+    index:
+      title: Meus aplicativos autorizados
+      application: Aplicação
+      permissions: Permissões
+      no_applications_html: Não autorizei nenhuma aplicação %{oauth2}.
+    application:
+      revoke: Revogar acesso
+      confirm_revoke: Revogar o acesso a esta aplicação?
   users:
     new:
       title: Registrar-se
@@ -2483,10 +2559,6 @@ pt-BR:
         mas certas ferramentas ou o servidor talvez ainda precisem.
       continue: Registrar-se
       terms accepted: Obrigado por aceitar os novos termos de contribuição!
-      terms declined: Lamentamos que você tenha decidido não aceitar os novos termos
-        do contribuidor. Para mais informações, consulte <a href="%{url}">esta página
-        do wiki</a> .
-      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=pt-br
     terms:
       title: Termos
       heading: Termos
@@ -2515,6 +2587,9 @@ pt-BR:
         france: França
         italy: Itália
         rest_of_world: Outros países
+    terms_declined_flash:
+      terms_declined_link: esta página wiki
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=pt-br
     no_such_user:
       title: Usuário não existe
       heading: O usuário %{user} não existe
@@ -2531,7 +2606,6 @@ pt-BR:
       my profile: Meu perfil
       my settings: Minhas configurações
       my comments: Meus comentários
-      oauth settings: configurações do oauth
       blocks on me: Bloqueios sobre mim
       blocks by me: Bloqueios por mim
       send message: Enviar mensagem
@@ -2644,6 +2718,9 @@ pt-BR:
       save changes button: Salvar alterações
       make edits public button: Tornar públicas todas as minhas edições
       return to profile: Retornar ao perfil
+      oauth1 settings: Configurações do OAuth 1
+      oauth2 applications: Aplicações OAuth 2
+      oauth2 authorizations: Autorizações do OAuth 2
       flash update success confirm needed: Informação de usuário atualizada com sucesso.
         Confira o seu e-mail para confirmar seu novo endereço.
       flash update success: Sucesso ao atualizar informação de usuário.

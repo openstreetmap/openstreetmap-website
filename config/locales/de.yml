@@ -108,6 +108,9 @@ de:
       client_application:
         create: Registrieren
         update: Aktualisieren
+      doorkeeper_application:
+        create: Registrieren
+        update: Aktualisieren
       redaction:
         create: Schwärzen
         update: Schwärzung speichern
@@ -179,6 +182,11 @@ de:
         latitude: Breitengrad
         longitude: Längengrad
         language: Sprache
+      doorkeeper/application:
+        name: Name
+        redirect_uri: 'Weiterleitungs-URIs:'
+        confidential: Vertrauliche Anwendung?
+        scopes: Rechte
       friend:
         user: Benutzer
         friend: Freund
@@ -221,6 +229,11 @@ de:
         pass_crypt: Passwort
         pass_crypt_confirmation: Passwort bestätigen
     help:
+      doorkeeper/application:
+        confidential: Es wird eine Anwendung verwendet, bei der das Kundengeheimnis
+          vertraulich behandelt werden kann (native mobile Apps und einseitige Apps
+          sind nicht vertraulich)
+        redirect_uri: Pro URI eine Zeile verwenden
       trace:
         tagstring: durch Komma getrennt
       user_block:
@@ -572,6 +585,11 @@ de:
       comment: Kommentar
       newer_comments: Neuere Kommentare
       older_comments: Ältere Kommentare
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Anwendung registriert.
   friendships:
     make_friend:
       heading: '%{user} als Freund hinzufügen?'
@@ -1683,11 +1701,6 @@ de:
       reconfirm_html: Um die Bestätigungs-E-Mail erneut zuzusenden, <a href="%{reconfirm}">klicke
         hier</a>.
     confirm_resend:
-      success_html: Wir haben eine neue Bestätigungsnachricht an %{email} gesendet.
-        Sobald du dein Benutzerkonto bestätigt hast, kannst du mit dem Kartieren beginnen.<br
-        /><br />Sofern du ein Antispamsystem nutzt, das selbst Bestätigungen anfordert,
-        musst du %{sender} auf dessen Positivliste setzen, da wir auf keine Bestätigungsanfragen
-        reagieren können.
       failure: Benutzer %{name} konnte nicht gefunden werden.
     confirm_email:
       heading: Änderung der E-Mail-Adresse bestätigen
@@ -1697,6 +1710,12 @@ de:
       success: Die Änderung deiner E-Mail-Adresse wurde bestätigt!
       failure: Eine E-Mail-Adresse wurde bereits mit diesem Link bestätigt.
       unknown_token: Dieser Bestätigungscode ist abgelaufen oder nicht vorhanden.
+    resend_success_flash:
+      confirmation_sent: Wir haben eine neue Bestätigungsnotiz an %{email} gesendet,
+        und sobald du dein Konto bestätigt hast, kannst du die Zuordnung vornehmen.
+      whitelist: Wenn du ein Antispam-System verwendest, das Bestätigungsanfragen
+        sendet, stelle bitte sicher, dass du %{sender} auf eine Erlaubnisliste setzt,
+        da wir keine Bestätigungsanfragen beantworten können.
   messages:
     inbox:
       title: Posteingang
@@ -2466,6 +2485,14 @@ de:
       flash: Du hast die Berechtigung für %{application} zurückgezogen
     permissions:
       missing: Du hast den Anwendungszugriff auf diese Einrichtung nicht zugelassen.
+    scopes:
+      read_prefs: Benutzereinstellungen lesen
+      write_prefs: Benutzereinstellungen verändern
+      write_diary: Tagebucheinträge und Kommentare erstellen und Freunde finden
+      write_api: Karte bearbeiten
+      read_gpx: Private GPS-Tracks lesen
+      write_gpx: GPS-Tracks hochladen
+      write_notes: Notizen bearbeiten
   oauth_clients:
     new:
       title: Eine neue Anwendung registrieren
@@ -2506,6 +2533,56 @@ de:
       flash: Client-Informationen erfolgreich aktualisiert
     destroy:
       flash: Die registrierte Client-Anwendung wurde entfernt
+  oauth2_applications:
+    index:
+      title: Meine Client-Anwendungen
+      no_applications_html: Hast du eine Anwendung, die du für die Verwendung mit
+        uns unter Verwendung des %{oauth2}-Standards registrieren möchtest? Du musst
+        deine Anwendung registrieren, bevor sie OAuth-Anfragen an diesen Dienst stellen
+        kann.
+      new: Neue Anwendung registrieren
+      name: Name
+      permissions: Berechtigungen
+    application:
+      edit: Bearbeiten
+      delete: Löschen
+      confirm_delete: Diese Anwendung löschen?
+    new:
+      title: Eine neue Anwendung registrieren
+    edit:
+      title: Anwendung bearbeiten
+    show:
+      edit: Bearbeiten
+      delete: Löschen
+      confirm_delete: Diese Anwendung löschen?
+      client_id: Client-ID
+      client_secret: Client-Geheimnis
+      client_secret_warning: Speicher dieses Geheimnis unbedingt ab - es wird nicht
+        mehr zugänglich sein
+      permissions: Berechtigungen
+      redirect_uris: Weiterleitungs-URIs
+    not_found:
+      sorry: Diese Anwendung konnte leider nicht gefunden werden.
+  oauth2_authorizations:
+    new:
+      title: Autorisierung erforderlich
+      introduction: Erlaube %{application} den Zugriff auf dein Konto mit den folgenden
+        Berechtigungen?
+      authorize: Autorisieren
+      deny: Ablehnen
+    error:
+      title: Es ist ein Fehler aufgetreten
+    show:
+      title: Autorisierungscode
+  oauth2_authorized_applications:
+    index:
+      title: Meine autorisierten Anwendungen
+      application: Anwendung
+      permissions: Berechtigungen
+      no_applications_html: Du hast noch keine %{oauth2}-Anwendungen autorisiert.
+    application:
+      revoke: Zugriff entziehen
+      confirm_revoke: Zugriff für diese Anwendung widerrufen?
   users:
     new:
       title: Registrieren
@@ -2532,10 +2609,6 @@ de:
       continue: Registrieren
       terms accepted: Vielen Dank, dass du den neuen Bedingungen für Mitwirkende zugestimmt
         hast!
-      terms declined: Wir bedauern es, dass du dich dazu entschieden hast, den neuen
-        Bedingungen für Mitwirkende nicht zuzustimmen. Weitere Informationen findest
-        du auf <a href="%{url}">dieser Wikiseite</a>.
-      terms declined url: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
     terms:
       title: Bedingungen
       heading: Bedingungen
@@ -2568,6 +2641,12 @@ de:
         france: Frankreich
         italy: Italien
         rest_of_world: Rest der Welt
+    terms_declined_flash:
+      terms_declined_html: Wir bedauern es, dass du dich dazu entschieden hast, den
+        neuen Bedingungen für Mitwirkende nicht zuzustimmen. Weitere Informationen
+        findest du auf %{terms_declined_link}.
+      terms_declined_link: diese Wiki-Seite
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
     no_such_user:
       title: Benutzer nicht gefunden
       heading: Der Benutzer %{user} existiert nicht
@@ -2584,7 +2663,6 @@ de:
       my profile: Profil
       my settings: Einstellungen
       my comments: Meine Kommentare
-      oauth settings: OAuth-Einstellungen
       blocks on me: Erhaltene Sperren
       blocks by me: Vergebene Sperren
       send message: Nachricht senden
@@ -2700,6 +2778,9 @@ de:
       save changes button: Änderungen speichern
       make edits public button: Alle meine Bearbeitungen öffentlich machen
       return to profile: Zurück zum Profil
+      oauth1 settings: OAuth 1-Einstellungen
+      oauth2 applications: OAuth 2-Anwendungen
+      oauth2 authorizations: OAuth 2-Berechtigungen
       flash update success confirm needed: Deine Änderungen wurden gespeichert. Du
         erhältst nun eine E-Mail, um deine neue E-Mail-Adresse zu bestätigen.
       flash update success: Benutzerinformationen erfolgreich aktualisiert.

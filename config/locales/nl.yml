@@ -40,6 +40,7 @@
 # Author: MrLeopold
 # Author: Mvexel
 # Author: Nickthijssen1994
+# Author: NthnH
 # Author: Optilete
 # Author: Peb-kac
 # Author: Pje335
@@ -80,6 +81,9 @@ nl:
       client_application:
         create: Registreren
         update: Bijwerken
+      doorkeeper_application:
+        create: Registreren
+        update: Bijwerken
       redaction:
         create: Redigering maken
         update: Redigering opslaan
@@ -95,7 +99,7 @@ nl:
         invalid_email_address: lijkt geen geldig e-mailadres te zijn
         email_address_not_routable: is niet routeerbaar
     models:
-      acl: Rechtenoverzicht
+      acl: Toegangscontrolelijst
       changeset: Wijzigingenset
       changeset_tag: Label van wijzigingenset
       country: Land
@@ -105,20 +109,20 @@ nl:
       issue: Probleem
       language: Taal
       message: Bericht
-      node: Node
-      node_tag: Node Tag
+      node: Knooppunt
+      node_tag: Knooppunt-label
       notifier: Notifier
-      old_node: Oude Node
-      old_node_tag: Oude Node Tag
+      old_node: Oud knooppunt
+      old_node_tag: Oud knooppunt-label
       old_relation: Oude relatie
       old_relation_member: Oud relatielid
-      old_relation_tag: Oude relatietag
+      old_relation_tag: Oud relatie-label
       old_way: Oude weg
-      old_way_node: Oude node op een weg
-      old_way_tag: Oude weg-tag
+      old_way_node: Oud weg-knooppunt
+      old_way_tag: Oud weg-label
       relation: Relatie
       relation_member: Relatielid
-      relation_tag: Relatietag
+      relation_tag: Relatie-label
       report: Rapport
       session: Sessie
       trace: Traject
@@ -128,12 +132,12 @@ nl:
       user_preference: Gebruikersvoorkeur
       user_token: Gebruikersnummer
       way: Weg
-      way_node: Wegnode
-      way_tag: Weg-tag
+      way_node: Weg-knooppunt
+      way_tag: Weg-label
     attributes:
       client_application:
         name: Naam (verplicht)
-        url: Hoofd-URL van applicatie (verplicht)
+        url: Hoofd-URL van toepassing (verplicht)
         callback_url: Callback-URL
         support_url: Ondersteunings-URL
         allow_read_prefs: gebruikersvoorkeuren lezen
@@ -151,6 +155,10 @@ nl:
         latitude: Breedtegraad
         longitude: Lengtegraad
         language: Taal
+      doorkeeper/application:
+        name: Naam
+        confidential: Vertrouwelijke toepassing?
+        scopes: Rechten
       friend:
         user: Gebruiker
         friend: Vriend
@@ -176,7 +184,7 @@ nl:
         description: Beschrijving
       report:
         category: Selecteer een reden voor uw melding
-        details: Verschaf a.u.b. nog wat meer details over het probleem (vereist).
+        details: Geef wat meer details over het probleem (verplicht).
       user:
         auth_provider: Authenticatiedienst
         auth_uid: Authenticatie UID
@@ -307,7 +315,7 @@ nl:
       other: '%{count} wegen'
     download_xml: XML downloaden
     view_history: Geschiedenis weergeven
-    view_details: Gegevens bekijken
+    view_details: Details weergeven
     location: 'Locatie:'
     changeset:
       title: 'Wijzigingenset: %{id}'
@@ -331,15 +339,15 @@ nl:
       still_open: Wijzigingenset is nog open – overleg gaat open zodra de wijzigingenset
         wordt afgesloten.
     node:
-      title_html: 'Node: %{name}'
-      history_title_html: 'Nodegeschiedenis: %{name}'
+      title_html: 'Knooppunt: %{name}'
+      history_title_html: 'Knooppuntgeschiedenis: %{name}'
     way:
       title_html: 'Weg: %{name}'
       history_title_html: 'Weggeschiedenis: %{name}'
-      nodes: Nodes
+      nodes: Knooppunten
       nodes_count:
-        one: 1 node
-        other: '%{count} nodes'
+        one: 1 knooppunt
+        other: '%{count} knooppunten'
       also_part_of_html:
         one: onderdeel van weg %{related_ways}
         other: onderdeel van wegen %{related_ways}
@@ -353,7 +361,7 @@ nl:
     relation_member:
       entry_role_html: '%{type} %{name} als %{role}'
       type:
-        node: Node
+        node: Knooppunt
         way: Weg
         relation: Relatie
     containing_relation:
@@ -363,7 +371,7 @@ nl:
       title: Kon niet gevonden worden
       sorry: 'De %{type} #%{id} kan helaas niet worden gevonden.'
       type:
-        node: node
+        node: knooppunt
         way: weg
         relation: relatie
         changeset: wijzigingenset
@@ -373,7 +381,7 @@ nl:
       sorry: Het ophalen van de gegevens voor de %{type} met het ID %{id} duurde te
         lang.
       type:
-        node: node
+        node: knooppunt
         way: weg
         relation: relatie
         changeset: wijzigingenset
@@ -384,7 +392,7 @@ nl:
         weergegeven worden omdat deze na redigering geblokkeerd is. Zie %{redaction_link}
         voor details.
       type:
-        node: node
+        node: knooppunt
         way: weg
         relation: relatie
     start_rjs:
@@ -394,10 +402,10 @@ nl:
       load_data: Gegevens laden
       loading: Bezig met laden…
     tag_details:
-      tags: Tags
+      tags: Labels
       wiki_link:
-        key: De wikipagina die de tag %{key} beschrijft
-        tag: De wikipagina die de tag %{key}=%{value} beschrijft
+        key: De wikipagina die het label %{key} beschrijft
+        tag: De wikipagina die het label %{key}=%{value} beschrijft
       wikidata_link: Het item %{page} op Wikidata
       wikipedia_link: De pagina %{page} op Wikipedia
       wikimedia_commons_link: Het element %{page} op Wikimedia Commons
@@ -527,7 +535,7 @@ nl:
       report: Rapporteer deze opmerking
     location:
       location: 'Locatie:'
-      view: Bekijken
+      view: Weergeven
       edit: Bewerken
     feed:
       user:
@@ -548,6 +556,11 @@ nl:
       comment: Reactie
       newer_comments: Nieuwe opmerkingen
       older_comments: Eerdere opmerkingen
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Toepassing geregistreerd.
   friendships:
     make_friend:
       heading: '%{user} als vriend toevoegen?'
@@ -1371,7 +1384,7 @@ nl:
     update:
       new_report: Uw rapport is succesvol geregistreerd
       successful_update: Uw rapport is succesvol bijgewerkt
-      provide_details: Verstrek a.u.b. de vereiste gegevens
+      provide_details: Verschaf de vereiste details
     show:
       title: '%{status} Probleem #%{issue_id}'
       reports: '{{PLURAL | zero = Geen rapporten | één = 1 rapport |%{count} rapporten}}'
@@ -1462,7 +1475,7 @@ nl:
     gps_traces: Gps-trajecten
     gps_traces_tooltip: Gps-trajecten beheren
     user_diaries: Gebruikersdagboeken
-    user_diaries_tooltip: Gebruikersdagboeken bekijken
+    user_diaries_tooltip: Gebruikersdagboeken weergeven
     edit_with: Bewerken met %{editor}
     tag_line: De vrije wikiwereldkaart
     intro_header: Welkom bij OpenStreetMap!
@@ -1520,8 +1533,8 @@ nl:
       hi: Hoi %{to_user},
       subject: '[OpenStreetMap] %{user} heeft u als vriend toegevoegd'
       had_added_you: '%{user} heeft u toegevoegd als vriend op OpenStreetMap.'
-      see_their_profile: U kunt zijn/haar profiel bekijken op %{userurl}.
-      see_their_profile_html: U kunt zijn/haar profiel bekijken op %{userurl}.
+      see_their_profile: U kunt zijn/haar profiel weergeven op %{userurl}.
+      see_their_profile_html: U kunt zijn/haar profiel weergeven op %{userurl}.
       befriend_them: U kunt deze gebruiker ook als vriend toevoegen op %{befriendurl}.
       befriend_them_html: U kunt deze gebruiker ook als vriend toevoegen op %{befriendurl}.
     gpx_description:
@@ -1648,10 +1661,6 @@ nl:
       reconfirm_html: Als nodig, kunt u <a href="%{reconfirm}">de bevestigingscode
         opnieuw laten verzenden</a>.
     confirm_resend:
-      success_html: Er is ter bevestiging een e-mail verstuurd naar %{email} en als
-        u uw account hebt bevestigd, kunt u gaan mappen.<br /><br />Als u een spamfilter
-        gebruikt die per e-mail een bevestiging stuurt, zorg er dan voor dat u %{sender}
-        toestaat. Dit systeem stuurt geen antwoord op bevestigingsverzoeken.
       failure: De gebruiker %{name} is niet gevonden.
     confirm_email:
       heading: Gewijzigd e-mailadres bevestigen
@@ -2065,7 +2074,7 @@ nl:
       scale: Schaal
       max: max
       image_size: 'Afbeeldingsgrootte:'
-      zoom: Zoom
+      zoom: Zoomen
       add_marker: Marker op de kaart zetten
       latitude: 'Breedte:'
       longitude: 'Lengte:'
@@ -2248,12 +2257,13 @@ nl:
           woorden die van pas gaan komen.
         editor_html: Een <strong>editor</strong> is een programma of website die u
           kunt gebruiken om de kaart te bewerken.
-        node_html: Een <strong>node</strong> is een punt op de kaart, zoals een enkel
-          restaurant of een boom.
+        node_html: Een <strong>knooppunt</strong> is een punt op de kaart, zoals een
+          enkel restaurant of een boom.
         way_html: Een <strong>weg</strong> (way) is een lijn of gebied, zoals een
           weg, een rivier, een meer of een gebouw.
-        tag_html: Een <strong>tag</strong> is een eigenschap over een node of een
-          weg, zoals de naam van een restaurant of de maximumsnelheid op een weg.
+        tag_html: Een <strong>label</strong> is een eigenschap over een knooppunt
+          of een weg, zoals de naam van een restaurant of de maximumsnelheid op een
+          weg.
       rules:
         title: Regels!
         paragraph_1_html: "OpenStreetMap heeft weinig formele regels, maar we verwachten
@@ -2314,7 +2324,7 @@ nl:
       tags: Labels
     show:
       title: Traject %{name} weergeven
-      heading: Trace %{name} aan het bekijken
+      heading: Traject %{name} aan het weergeven
       pending: BEZIG
       filename: 'Bestandsnaam:'
       download: downloaden
@@ -2344,7 +2354,7 @@ nl:
         other: '%{count} punten'
       more: meer
       trace_details: Trajectdetails weergeven
-      view_map: Kaart bekijken
+      view_map: Kaart weergeven
       edit_map: Kaart bewerken
       public: OPENBAAR
       identifiable: IDENTIFICEERBAAR
@@ -2361,6 +2371,8 @@ nl:
       empty_html: Hier is nog niets te zien. <a href='%{upload_link}'>Upload een nieuw
         traject</a> of kom meer te weten over gps-tracing op de <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikipagina</a>.
       upload_trace: Traject uploaden
+      all_traces: Alle trajecten
+      traces_from: Openbare trajecten van %{user}
     destroy:
       scheduled_for_deletion: Traject staat op de lijst voor verwijdering
     make_public:
@@ -2420,7 +2432,12 @@ nl:
     revoke:
       flash: U hebt het token voor %{application} ingetrokken
     permissions:
-      missing: U heeft niet toegestaan dat de applicatie toegang heeft tot dit kenmerk.
+      missing: U heeft niet toegestaan dat de toepassing toegang heeft tot dit kenmerk.
+    scopes:
+      read_prefs: Gebruikersvoorkeuren lezen
+      write_prefs: Gebruikersvoorkeuren wijzigen
+      read_gpx: Persoonlijke gps-trajecten lezen
+      write_gpx: Gps-trajecten uploaden
   oauth_clients:
     new:
       title: Nieuwe toepassing registreren
@@ -2440,17 +2457,17 @@ nl:
       requests: 'Van de gebruiker worden de volgende rechten gevraagd:'
     index:
       title: Mijn OAuth-gegevens
-      my_tokens: Mijn geautoriseerde applicaties
-      list_tokens: 'De volgende tokens zijn op uw naam voor applicaties uitgegeven:'
-      application: Applicatienaam
+      my_tokens: Mijn geautoriseerde toepassingen
+      list_tokens: 'De volgende tokens zijn op uw naam voor toepassingen uitgegeven:'
+      application: Naam toepassing
       issued_at: Uitgegeven op
       revoke: Intrekken!
-      my_apps: Mijn clientapplicaties
+      my_apps: Mijn client-toepassingen
       no_apps_html: Heeft u een toepassing die u wilt registreren met de %{oauth}-standaard?
         Dan moet u uw webtoepassing registreren voordat u OAuth-verzoeken naar deze
         dienst kunt maken.
       oauth: OAuth
-      registered_apps: 'U hebt de onderstaande clientapplicaties geregistreerd:'
+      registered_apps: 'U hebt de onderstaande client-toepassingen geregistreerd:'
       register_new: Uw toepassing registreren
     form:
       requests: 'De volgende toegang van gebruikers vragen:'
@@ -2461,7 +2478,42 @@ nl:
     update:
       flash: De informatie voor de client is bijgewerkt
     destroy:
-      flash: De clientapplicatieregistratie is verwijderd
+      flash: Registratie van de client-toepassing verwijderd
+  oauth2_applications:
+    index:
+      name: Naam
+      permissions: Rechten
+    application:
+      edit: Bewerken
+      delete: Verwijderen
+      confirm_delete: Deze toepassing verwijderen?
+    new:
+      title: Nieuwe toepassing registreren
+    edit:
+      title: Uw toepassing bewerken
+    show:
+      edit: Bewerken
+      delete: Verwijderen
+      confirm_delete: Deze toepassing verwijderen?
+      client_id: Client-ID
+      permissions: Rechten
+  oauth2_authorizations:
+    new:
+      title: Autorisatie vereist
+      authorize: Autoriseren
+      deny: Weigeren
+    error:
+      title: Er is een fout opgetreden
+    show:
+      title: Autorisatiecode
+  oauth2_authorized_applications:
+    index:
+      title: Mijn geautoriseerde toepassingen
+      application: Toepassing
+      permissions: Rechten
+    application:
+      revoke: Toegang intrekken
+      confirm_revoke: Toegang voor deze toepassing intrekken?
   users:
     new:
       title: Registreren
@@ -2486,9 +2538,6 @@ nl:
         maar sommige extra hulpmiddelen of servers kunnen het nog steeds nodig hebben.
       continue: Registreren
       terms accepted: Dank u wel voor het aanvaarden van de nieuwe bijdragersovereenkomst!
-      terms declined: We vinden het jammer dat u hebt besloten de nieuwe Bijdragersvoorwaarden
-        niet te accepteren. Zie <a href="%{url}">deze wikipagina</a> voor meer informatie.
-      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Voorwaarden
       heading: Voorwaarden
@@ -2520,6 +2569,11 @@ nl:
         france: Frankrijk
         italy: Italië
         rest_of_world: Rest van de wereld
+    terms_declined_flash:
+      terms_declined_html: We vinden het jammer dat u hebt besloten de nieuwe Bijdragersvoorwaarden
+        niet te accepteren. Zie %{terms_declined_link} voor meer informatie.
+      terms_declined_link: deze wiki-pagina
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Deze gebruiker bestaat niet
       heading: De gebruiker %{user} bestaat niet
@@ -2536,7 +2590,6 @@ nl:
       my profile: Profiel
       my settings: Instellingen
       my comments: Mijn reacties
-      oauth settings: Oauth-instellingen
       blocks on me: Blokkades voor u
       blocks by me: Blokkades door u
       send message: Bericht verzenden
@@ -2652,6 +2705,9 @@ nl:
       save changes button: Wijzigingen opslaan
       make edits public button: Al mijn wijzigingen  openbaar maken
       return to profile: Terug naar profiel
+      oauth1 settings: OAuth 1 instellingen
+      oauth2 applications: OAuth 2 toepassingen
+      oauth2 authorizations: OAuth 2 autorisaties
       flash update success confirm needed: Gebruikersinformatie succesvol bijgewerkt.
         Controleer uw e-mail om uw nieuwe e-mailadres te bevestigen.
       flash update success: De gebruikersinformatie is bijgewerkt.
@@ -2728,14 +2784,14 @@ nl:
       tried_contacting: Ik heb contact opgenomen met de gebruiker en gevraagd te stoppen.
       tried_waiting: Ik heb de gebruiker voldoende tijd gegeven om te reageren op
         deze correspondentie.
-      back: Alle blokkades bekijken
+      back: Alle blokkades weergeven
     edit:
       title: Blokkade voor %{name} bijwerken
       heading_html: Blokkade voor %{name} bijwerken
       period: Hoe lang, per nu, moet de gebruiker worden uitgesloten van het gebruik
         van de API?
-      show: Blokkade bekijken
-      back: Alle blokkades bekijken
+      show: Blokkade weergeven
+      back: Alle blokkades weergeven
     filter:
       block_expired: De blokkade is al vervallen en kan niet bijgewerkt worden.
       block_period: De duur van de blokkade moet één van de waarden in het menu zijn.
@@ -2802,7 +2858,7 @@ nl:
       revoke: Intrekken
       confirm: Weet u het zeker?
       reason: 'Reden voor blokkade:'
-      back: Alle blokkades bekijken
+      back: Alle blokkades weergeven
       revoker: 'Ingetrokken door:'
       needs_view: De gebruiker moet aanmelden voordat deze blokkade wordt verwijderd.
     block:
@@ -2850,7 +2906,7 @@ nl:
       include_marker: Marker opnemen
       center_marker: Kaart centreren op de marker
       paste_html: Plak de HTML om op te nemen in website
-      view_larger_map: Grotere kaart bekijken
+      view_larger_map: Grotere kaart weergeven
       only_standard_layer: Alleen de standaard laag kan worden geëxporteerd als afbeelding
     embed:
       report_problem: Probleem melden
@@ -2898,13 +2954,13 @@ nl:
         Frankrijk</a>
     site:
       edit_tooltip: Kaart bewerken
-      edit_disabled_tooltip: Zoom in om de kaart te bewerken
+      edit_disabled_tooltip: Inzoomen om de kaart te bewerken
       createnote_tooltip: Opmerking bij kaart maken
-      createnote_disabled_tooltip: Zoom in om een opmerking bij de kaart te maken
-      map_notes_zoom_in_tooltip: Zoom in om kaartopmerkingen te bekijken
-      map_data_zoom_in_tooltip: Inzommen om de kaartgegeven te bekijken
+      createnote_disabled_tooltip: Inzoomen om een opmerking op de kaart toe te voegen
+      map_notes_zoom_in_tooltip: Inzoomen om kaartnotities te bekijken
+      map_data_zoom_in_tooltip: Inzoomen om kaartgegevens te bekijken
       queryfeature_tooltip: Nabije objecten opvragen
-      queryfeature_disabled_tooltip: Zoom in om objectinformatie op te vragen
+      queryfeature_disabled_tooltip: Inzoomen om kenmerken op te vragen
     changesets:
       show:
         comment: Reactie
@@ -2929,8 +2985,8 @@ nl:
         reactivate: Opnieuw activeren
         comment_and_resolve: Reageren en oplossen
         comment: Reageren
-    edit_help: Verplaats de kaar en zoom in op een plaats die u wilt bewerken. Klik
-      er daarna op.
+    edit_help: Verplaats de kaart en zoom in op een plaats die u wilt bewerken. Klik
+      daarna hier.
     directions:
       ascend: Bergop
       engines:
@@ -3021,7 +3077,7 @@ nl:
           tenth: 10e
       time: Tijd
     query:
-      node: Node
+      node: Knooppunt
       way: Weg
       relation: Relatie
       nothing_found: Geen eigenschappen gevonden

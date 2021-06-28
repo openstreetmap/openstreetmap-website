@@ -42,6 +42,9 @@ vi:
       client_application:
         create: Đăng ký
         update: Cập nhật
+      doorkeeper_application:
+        create: Đăng ký
+        update: Cập nhật
       redaction:
         create: Ẩn dãy phiên bản
         update: Lưu dãy ẩn
@@ -113,6 +116,11 @@ vi:
         latitude: Vĩ độ
         longitude: Kinh độ
         language: Ngôn ngữ
+      doorkeeper/application:
+        name: Tên
+        redirect_uri: URI đổi hướng
+        confidential: Ứng dụng bí mật?
+        scopes: Quyền
       friend:
         user: Người dùng
         friend: Người bạn
@@ -155,6 +163,11 @@ vi:
         pass_crypt: Mật khẩu
         pass_crypt_confirmation: Xác nhận mật khẩu
     help:
+      doorkeeper/application:
+        confidential: Ứng dụng sẽ được sử dụng trong môi trường nào có thể giữ bí
+          mật của trình khác (tức không phải các ứng dụng di động gốc và ứng dụng
+          trang duy nhất)
+        redirect_uri: Mỗi dòng một URI
       trace:
         tagstring: dấu phẩy phân cách
       user_block:
@@ -503,6 +516,11 @@ vi:
       comment: Nhận xét
       newer_comments: Các Nhận xét Mới hơn
       older_comments: Các Nhận xét Cũ hơn
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Ứng dụng được đăng ký.
   friendships:
     make_friend:
       heading: Kết bạn với %{user}?
@@ -929,6 +947,7 @@ vi:
         mountain_pass:
           "yes": Đèo
         natural:
+          atoll: Rạn san hô vòng
           bay: Vịnh
           beach: Bãi biển
           cape: Mũi đất
@@ -951,6 +970,7 @@ vi:
           moor: Truông
           mud: Bùn
           peak: Đỉnh
+          peninsula: Bán đảo
           point: Mũi đất
           reef: Rạn san hô
           ridge: Luống đất
@@ -1504,10 +1524,6 @@ vi:
       reconfirm_html: <a href="%{reconfirm}">Nhấn vào đây</a> để gửi thư điện tử xác
         nhận lần nữa.
     confirm_resend:
-      success_html: Chúng tôi đã gửi thư xác nhận đến %{email}; ngay khi xác nhận
-        tài khoản, bạn sẽ có thể vẽ bản đồ.<br /><br />Nếu hộp thư của bạn gửi thư
-        yêu cầu xác nhận để chống thư rác, xin chắc chắn thêm %{sender} vào danh sách
-        trắng, vì chúng tôi không thể trả lời những yêu cầu xác nhận này.
       failure: Không tìm thấy người dùng %{name}.
     confirm_email:
       heading: Xác nhận thay đổi địa chỉ thư điện tử
@@ -1517,6 +1533,12 @@ vi:
       success: Đã xác nhận địa chỉ thư điện tử mới!
       failure: Một địa chỉ thư điện tử đã được xác nhận dùng dấu hiệu này.
       unknown_token: Dấu hiệu xác nhận này đã hết hạn hoặc không tồn tại.
+    resend_success_flash:
+      confirmation_sent: Chúng tôi vừa gửi bức thư xác nhận mới cho %{email}. Bạn
+        chỉ việc xác nhận tài khoản để bắt đầu đóng góp vào bản đồ.
+      whitelist: Nếu bạn sử dụng một hệ thống chống thư rác (spam) bằng cách gửi yêu
+        cầu xác nhận, hãy chắc chắn thêm %{sender} vào danh sách trắng, vì chúng tôi
+        không thể trả lời các yêu cầu xác nhận.
   messages:
     inbox:
       title: Hộp thư
@@ -2175,7 +2197,7 @@ vi:
       in: trong
     index:
       public_traces: Tuyến đường GPS công khai
-      my_traces: Tuyên đường GPS của tôi
+      my_traces: Tuyến đường của Tôi
       public_traces_from: Tuyến đường GPS công khai của %{user}
       description: Xem những tuyến đường GPS được tải lên gần đây
       tagged_with: ' có thẻ %{tags}'
@@ -2183,6 +2205,9 @@ vi:
         hoặc tìm hiểu thêm về tuyến đường GPS tại <a href="https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2">trang
         wiki</a>.
       upload_trace: Tải lên tuyến đường
+      all_traces: Tất cả các Tuyến đường
+      traces_from: Tuyến đường Công khai của %{user}
+      remove_tag_filter: Loại bỏ Bộ lọc Thẻ
     destroy:
       scheduled_for_deletion: Tuyến đường chờ được xóa
     make_public:
@@ -2241,6 +2266,14 @@ vi:
       flash: Bạn đã thu hồi dấu của %{application}
     permissions:
       missing: Bạn chưa cấp phép cho ứng dụng sử dụng chức năng này
+    scopes:
+      read_prefs: Đọc tùy chọn người dùng
+      write_prefs: Thay đổi tùy chọn người dùng
+      write_diary: Tạo mục nhật ký, bình luận, và kết bạn
+      write_api: Sửa đổi bản đồ
+      read_gpx: Đọc tuyến đường GPS riêng tư
+      write_gpx: Tải lên tuyến đường GPS
+      write_notes: Thay đổi ghi chú
   oauth_clients:
     new:
       title: Đăng ký chương trình mới
@@ -2282,6 +2315,53 @@ vi:
       flash: Đã cập nhật thông tin trình khách thành công
     destroy:
       flash: Đã xóa đăng ký trình khách
+  oauth2_applications:
+    index:
+      title: Ứng dụng khách của tôi
+      oauth_2: OAuth 2
+      new: Đăng ký ứng dụng mới
+      name: Tên
+      permissions: Quyền
+    application:
+      edit: Sửa đổi
+      delete: Xóa
+      confirm_delete: Xóa ứng dụng này?
+    new:
+      title: Đăng ký ứng dụng mới
+    edit:
+      title: Sửa đổi ứng dụng của bạn
+    show:
+      edit: Sửa đổi
+      delete: Xóa
+      confirm_delete: Xóa ứng dụng này?
+      client_id: Mã trình khách
+      client_secret: Bí mật trình khách
+      client_secret_warning: Hãy chắc chắn lưu lại bí mật này – bạn sẽ không thể truy
+        cập nó lần sau
+      permissions: Quyền
+      redirect_uris: URI đổi hướng
+    not_found:
+      sorry: Rất tiếc, không tìm thấy ứng dụng đó.
+  oauth2_authorizations:
+    new:
+      title: Yêu cầu cấp phép
+      introduction: Bạn có cho phép %{application} truy cập tài khoản của bạn với
+        các quyền sau?
+      authorize: Cho phép
+      deny: Từ chối
+    error:
+      title: Đã xuất hiện lỗi
+    show:
+      title: Mã ủy quyền
+  oauth2_authorized_applications:
+    index:
+      title: Ứng dụng tôi cho phép
+      application: Ứng dụng
+      permissions: Quyền
+      no_applications_html: Bạn chưa cấp phép cho ứng dụng %{oauth2} nào.
+    application:
+      revoke: Rút quyền Truy cập
+      confirm_revoke: Bạn có muốn rút quyền truy cập của ứng dụng này?
   users:
     new:
       title: Mở tài khoản
@@ -2305,10 +2385,6 @@ vi:
         khẩu, nhưng một số công cụ hoặc máy chủ khác có thể vẫn yêu cầu mật khẩu.
       continue: Mở tài khoản
       terms accepted: Cám ơn bạn đã chấp nhận các điều khoản đóng góp mới!
-      terms declined: Chúng tôi rất tiếc rằng bạn đã quyết định không chấp nhận các
-        Điều khoản Đóng góp mới. Vui lòng xem chi tiết tại <a href="%{url}">trang
-        wiki này</a>.
-      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=vi
     terms:
       title: Điều khoản
       heading: Điều khoản
@@ -2339,6 +2415,11 @@ vi:
         france: Pháp
         italy: Ý
         rest_of_world: Các nước khác
+    terms_declined_flash:
+      terms_declined_html: Chúng tôi rất tiếc rằng bạn đã quyết định không chấp nhận
+        các Điều khoản Đóng góp mới. Vui lòng xem chi tiết tại %{terms_declined_link}.
+      terms_declined_link: trang wiki này
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=vi
     no_such_user:
       title: Người dùng không tồn tại
       heading: Người dùng %{user} không tồn tại
@@ -2355,7 +2436,6 @@ vi:
       my profile: Trang của Tôi
       my settings: Tùy chọn
       my comments: Bình luận của Tôi
-      oauth settings: thiết lập OAuth
       blocks on me: Tác vụ Cấm Tôi
       blocks by me: Tác vụ Cấm bởi Tôi
       send message: Gửi Thư
@@ -2467,6 +2547,9 @@ vi:
       save changes button: Lưu các Thay đổi
       make edits public button: Phát hành công khai các sửa đổi của tôi
       return to profile: Trở về trang cá nhân
+      oauth1 settings: Thiết lập OAuth 1
+      oauth2 applications: Ứng dụng OAuth 2
+      oauth2 authorizations: Ủy quyền OAuth 2
       flash update success confirm needed: Đã cập nhật thông tin cá nhân thành công.
         Kiểm tra thư điện tử xác nhận địa chỉ thư điện tử mới.
       flash update success: Đã cập nhật thông tin cá nhân thành công.
@@ -2613,6 +2696,7 @@ vi:
       title: '%{block_on} bị cấm bởi %{block_by}'
       heading_html: '%{block_on} bị cấm bởi %{block_by}'
       created: 'Tạo:'
+      duration: 'Thời hạn:'
       status: 'Trạng thái:'
       show: Hiện
       edit: Sửa đổi
@@ -2641,6 +2725,7 @@ vi:
       title: Các ghi chú do %{user} lưu hoặc bình luận
       heading: Ghi chú của %{user}
       subheading_html: Các ghi chú do %{user} lưu hoặc bình luận
+      no_notes: Không có ghi chú
       id: Mã số
       creator: Người tạo
       description: Miêu tả
