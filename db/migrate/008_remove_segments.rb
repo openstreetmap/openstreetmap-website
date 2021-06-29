@@ -9,7 +9,7 @@ class RemoveSegments < ActiveRecord::Migration[4.2]
       src = "#{cmd}.cc"
       if !File.exist?(cmd) || File.mtime(cmd) < File.mtime(src)
         system("c++ -O3 -Wall `mysql_config --cflags --libs` " \
-          "#{src} -o #{cmd}") || raise
+               "#{src} -o #{cmd}") || raise
       end
 
       conn_opts = ApplicationRecord.connection

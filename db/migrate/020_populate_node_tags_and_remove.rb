@@ -9,7 +9,7 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration[4.2]
       src = "#{cmd}.c"
       if !File.exist?(cmd) || File.mtime(cmd) < File.mtime(src)
         system("cc -O3 -Wall `mysql_config --cflags --libs` " \
-          "#{src} -o #{cmd}") || raise
+               "#{src} -o #{cmd}") || raise
       end
 
       conn_opts = ApplicationRecord.connection.instance_eval { @connection_options }

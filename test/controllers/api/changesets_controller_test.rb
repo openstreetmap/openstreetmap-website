@@ -1210,7 +1210,7 @@ module Api
         # upload it
         post changeset_upload_path(changeset), :params => diff, :headers => auth_header
         assert_response(:success, "should be able to upload " \
-                        "empty changeset: " + diff)
+                                  "empty changeset: " + diff)
       end
     end
 
