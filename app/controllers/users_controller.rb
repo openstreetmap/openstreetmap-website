@@ -321,9 +321,9 @@ class UsersController < ApplicationController
         when "active", "confirmed"
           successful_login(user, request.env["omniauth.params"]["referer"])
         when "suspended"
-          failed_login t("users.login.account is suspended", :webmaster => "mailto:#{Settings.support_email}").html_safe
+          failed_login t("sessions.new.account is suspended", :webmaster => "mailto:#{Settings.support_email}").html_safe
         else
-          failed_login t("users.login.auth failure")
+          failed_login t("sessions.new.auth failure")
         end
       else
         redirect_to :action => "new", :nickname => name, :email => email,
