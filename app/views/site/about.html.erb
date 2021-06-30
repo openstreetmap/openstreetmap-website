@@ -1,15 +1,19 @@
 <%= tag.div :lang => @locale, :dir => t("html.dir", :locale => @locale) do %>
-  <div class='attr'>
-    <div class='byosm'>
-      <%= t ".copyright_html", :locale => @locale %>
+  <div class="container-lg attr">
+    <div class='row'>
+      <div class='col-sm-7 user-image'></div>
+      <div class='col-sm-5 px-5 py-3 byosm'>
+        <h5 class='text-white text-nowrap'><%= t ".copyright_html", :locale => @locale %></h4>
+      </div>
     </div>
-
-    <div class='user-image'></div>
-
-    <h1><%= t ".used_by_html", :name => tag.span("OpenStreetMap", :class => "user-name"), :locale => @locale %></h1>
+    <div class='row'>
+      <div class="w-100 px-5 py-4 bg-dark">
+        <h1 class="text-white font-weight-light"><%= t ".used_by_html", :name => tag.span("OpenStreetMap", :class => "user-name"), :locale => @locale %></h1>
+      </div>
+    </div>
   </div>
 
-  <div class='text'>
+  <div class='bg-white px-5 py-4'>
     <div class='section'>
       <p><strong><%= t ".lede_text", :locale => @locale %></strong></p>
       <h2><div class='icon local'></div><%= t ".local_knowledge_title", :locale => @locale %></h2>
