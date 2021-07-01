@@ -68,7 +68,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
     post "/oauth/authorize",
          :params => { :oauth_token => token.token,
-                      :allow_read_prefs => true, :allow_write_prefs => true }
+                      :allow_read_prefs => "1", :allow_write_prefs => "1" }
     if client.callback_url
       assert_response :redirect
       assert_redirected_to "#{client.callback_url}?oauth_token=#{token.token}"
@@ -151,7 +151,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
     post "/oauth/authorize",
          :params => { :oauth_token => token.token, :oauth_callback => callback_url,
-                      :allow_write_api => true, :allow_read_gpx => true }
+                      :allow_write_api => "1", :allow_read_gpx => "1" }
     assert_response :redirect
     assert_redirected_to "#{callback_url}?oauth_token=#{token.token}"
     token.reload
@@ -198,7 +198,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
     post "/oauth/authorize",
          :params => { :oauth_token => token.token,
-                      :allow_read_prefs => true, :allow_write_prefs => true }
+                      :allow_read_prefs => "1", :allow_write_prefs => "1" }
     if client.callback_url
       assert_response :redirect
       verifier = parse_verifier(response)
@@ -257,7 +257,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
     post "/oauth/authorize",
          :params => { :oauth_token => token.token,
-                      :allow_write_api => true, :allow_read_gpx => true }
+                      :allow_write_api => "1", :allow_read_gpx => "1" }
     assert_response :redirect
     verifier = parse_verifier(response)
     assert_redirected_to "#{callback_url}?oauth_token=#{token.token}&oauth_verifier=#{verifier}"

@@ -27,7 +27,7 @@ class OauthController < ApplicationController
     any_auth = false
 
     @token.client_application.permissions.each do |pref|
-      if params[pref]
+      if params[pref].to_i.nonzero?
         @token.write_attribute(pref, true)
         any_auth ||= true
       else
