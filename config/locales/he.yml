@@ -133,6 +133,7 @@ he:
       doorkeeper/application:
         name: שם
         redirect_uri: כתובת URL של הפניה
+        confidential: יישום סודי?
         scopes: הרשאות
       friend:
         user: משתמש
@@ -176,6 +177,10 @@ he:
         pass_crypt: סיסמה
         pass_crypt_confirmation: אימות סיסמה
     help:
+      doorkeeper/application:
+        confidential: היישום ישמש במקומות שהם סוד הלקוח יכול להישמר בסודיות (יישומים
+          ניידים ילידיים ויישומי דף אחד אינם סודיים)
+        redirect_uri: להשתמש בשורה אחת לכתובת URI
       trace:
         tagstring: מופרד בפסיקים
       user_block:
@@ -554,6 +559,11 @@ he:
       comment: הערה
       newer_comments: הערות חדשות
       older_comments: הערות ישנות
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: היישום נרשם.
   friendships:
     make_friend:
       heading: להוסיף את %{user} בתור חבר?
@@ -1643,6 +1653,11 @@ he:
       success: שינוי כתובת הדוא״ל שלך אושר!
       failure: כתובת הדוא״ל שלך כבר אושרה באסימון הזה.
       unknown_token: קוד האישור פג או אינו קיים.
+    resend_success_flash:
+      confirmation_sent: שלחנו הודעת אישור חדשה לכתובת %{email} וכשתקבל את החשבון
+        שלך, תוכל לקבל מיפוי.
+      whitelist: אם אתה משתמש במערכת נגד זבל ששולחת בקשות אישור, נא לוודא שהוספת את
+        %{sender} לרשימת המותרים כי לא הצלחנו להשיב לבקשות אישור.
   messages:
     inbox:
       title: תיבת דואר נכנס
@@ -1749,8 +1764,8 @@ he:
       account not active: סליחה, החשבון הזה עדיין אינו פעיל.<br />נא להשתמש בקישור
         במכתב אישור החשבון כדי להפעיל את חשבונך או or <a href="%{reconfirm}">לבקש
         מכתב אישור חדש</a>.
-      account is suspended: סליחה, החשבון הזה הושעה בעקבות פעילות חשודה.<br />נא ליצור
-        קשר עם <a href="%{webmaster}">מנהל האתר</a> אם ברצונך לדון בזה.
+      account is suspended: החשבון שלך הושעה בעקבות פעילות חשודה.<br />נא ליצור קשר
+        עם <a href="%{webmaster}">התמיכה</a> כדי לדון בזה, עמך הסליחה.
       auth failure: סליחה, לא ניתן להיכנס עם הפרטים האלה.
       openid_logo_alt: כניסה עם OpenID
       auth_providers:
@@ -2370,6 +2385,11 @@ he:
     scopes:
       read_prefs: העדפות קריאה
       write_prefs: שינוי העדפות משתמש
+      write_diary: ליצור רשומות ביומן, הערות וליצור חברויות
+      write_api: לשנות את המפה
+      read_gpx: לקרוא את מסלולי ה־GPS הפרטיים שלך
+      write_gpx: להעלות מסלולי GPS
+      write_notes: לשנות הערות
   oauth_clients:
     new:
       title: רישון יישום חדש
@@ -2412,7 +2432,12 @@ he:
       flash: רישום יישום הלקוח נהרס
   oauth2_applications:
     index:
+      title: יישומי הלקוח שלי
+      no_applications_html: יש לך יישום שברצונך לרשום לשימוש כשאנחנו משתמשים בתקן
+        %{oauth2}? עליך לרשום את היישום שלך לפני שאפשר לשלוח בקשות OAuth לשירות הזה.
+      oauth_2: OAuth 2
       new: הוספת אפליקציה חדשה
+      name: שם
       permissions: הרשאות
     application:
       edit: עריכה
@@ -2429,9 +2454,15 @@ he:
       client_id: מזהה לקוח
       client_secret: 'סוד הלקוח:'
       client_secret_warning: אנא שמרו זאת בסוד, לא תוכלו לגשת לזה שוב
+      permissions: הרשאות
+      redirect_uris: הפניית כתובות
+    not_found:
+      sorry: לא ניתן למצוא את היישום, עמך הסליחה.
   oauth2_authorizations:
     new:
       title: דרוש אימות
+      introduction: לאשר ליישום %{application} לגשת לחשבון שלך עם ההרשאות הבאות?
+      authorize: לאשר
       deny: לדחות
     error:
       title: אירעה שגיאה
@@ -2442,14 +2473,16 @@ he:
       title: האפליקציות המורשות שלי
       application: אפליקציה
       permissions: הרשאות
+      no_applications_html: לא אישרת עדיין יישומי %{oauth2}.
     application:
       revoke: שלילת גישה
+      confirm_revoke: לשלול את הגישה ליישום הזה?
   users:
     new:
       title: הרשמה
       no_auto_account_create: למרבה הצער, כעת איננו יכולים ליצור לך חשבון באופן אוטומטי.
-      contact_webmaster_html: נא ליצור קשר עם <a href="%{webmaster}">מנהל האתר</a>
-        על מנת לארגן יצירת חשבון - אנחנו נשתדל לטפל בבקשה כמה שיותר מהר.
+      contact_support_html: נא ליצור קשר עם <a href="%{support}">התמיכה</a> כדי לארגן
+        חשבון - נשתדל לטפל בבקשה במהירות האפשרית.
       about:
         header: חופשית וניתנת לעריכה
         html: |-
@@ -2494,6 +2527,8 @@ he:
         italy: איטליה
         rest_of_world: שאר העולם
     terms_declined_flash:
+      terms_declined_html: מתנצלים שהחלטת לא לאשר את תנאי השימוש החדשים. למידע נוסף,
+        נא לפנות אל %{terms_declined_link}
       terms_declined_link: דף ויקי זה
       terms_declined_url: https://wiki.openstreetmap.org/wiki/He:Contributor_Terms_Declined
     no_such_user:
@@ -2620,6 +2655,9 @@ he:
       save changes button: שמירת השינויים
       make edits public button: להפוך את כל עריכותיי לציבוריות
       return to profile: חזרה לפרופיל
+      oauth1 settings: הגדרות OAuth 1
+      oauth2 applications: יישומי OAuth 2
+      oauth2 authorizations: אישורי OAuth 2
       flash update success confirm needed: מידע על המשתמש עודכן בהצלחה. נא לבדוק את
         תיבת הדוא"ל כדי לאמת את הדוא"ל החדש.
       flash update success: פרטי המשתמש עודכנו בהצלחה.
@@ -2641,15 +2679,15 @@ he:
     suspended:
       title: החשבון הושעה
       heading: החשבון הושעה
-      webmaster: מנהל האתר
+      support: תמיכה
       body_html: |-
         <p>
-          סליחה, חשבוןך הושעה באופן אוטומטי עקב
+          חשבונך הושעה באופן אוטומטי עקב
           פעילות חשודה.
         </p>
         <p>
           החלטה זו תיבחן על־ידי מנהל מערכת בתוך זמן קצר, או
-          באפשרותך לפנות אל %{webmaster} אם ברצונך לדון בזה.
+          שניתן לפנות אל %{webmaster} כדי לדון בזה.
         </p>
     auth_failure:
       connection_failed: התחברות לספק אימות נכשלה

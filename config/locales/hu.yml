@@ -52,6 +52,9 @@ hu:
       client_application:
         create: Regisztrálás
         update: Frissítés
+      doorkeeper_application:
+        create: Regisztráció
+        update: Frissítés
       redaction:
         create: Adattörlési művelet létrehozása
         update: Adattörlési művelet mentése
@@ -124,6 +127,11 @@ hu:
         latitude: Földrajzi szélesség
         longitude: Földrajzi hosszúság
         language: Nyelv
+      doorkeeper/application:
+        name: Név
+        redirect_uri: URI-k átirányítása
+        confidential: Bizalmas alkalmazás?
+        scopes: Engedélyek
       friend:
         user: Felhasználó
         friend: Ismerős
@@ -166,6 +174,11 @@ hu:
         pass_crypt: Jelszó
         pass_crypt_confirmation: Jelszó megerősítése
     help:
+      doorkeeper/application:
+        confidential: Az alkalmazást akkor fogjuk használni, ha az ügyféltitkot bizalmasan
+          lehet vele kezelni (a natív mobilalkalmazások és az egyoldalas alkalmazások
+          nem bizalmasak).
+        redirect_uri: URI-nként egy sor használata
       trace:
         tagstring: vesszővel elválasztva
       user_block:
@@ -517,6 +530,11 @@ hu:
       comment: Hozzászólás
       newer_comments: Újabb hozzászólások
       older_comments: Régebbi hozzászólások
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Alkalmazás regisztrálva.
   friendships:
     make_friend:
       heading: '%{user} hozzáadása ismerősként?'
@@ -1616,6 +1634,12 @@ hu:
       success: Az e-mail címed módosítása megerősítve!
       failure: Ezzel a tokennel már meg lett erősítve egy e-mail cím.
       unknown_token: Ez a megerősítő kód lejárt, vagy nem létezik.
+    resend_success_flash:
+      confirmation_sent: Küldtünk egy új megerősítő megjegyzést a(z) %{email} címre.
+        Amint megerősíted fiókodat, kezdhetsz is térképezni.
+      whitelist: Ha olyan antispam rendszert használsz, amely visszaigazolási kéréseket
+        küld, akkor kérjük, ellenőrizd, hogy a(z) %{sender} az engedélyezett listán
+        van-e, mivel nem tudunk válaszolni a visszaigazolási kérésekre.
   messages:
     inbox:
       title: Beérkezett üzenetek
@@ -1731,7 +1755,7 @@ hu:
         kérjük, használd a fiókodat megerősítő emailben található hivatkozást, vagy
         <a href="%{reconfirm}">kérj egy új megerősítő e-mailt</a>.
       account is suspended: Sajnáljuk, a fiókodat gyanús tevékenység miatt felfüggesztettük.<br
-        />A kérdés tisztázásához írj <a href="%{webmaster}">a webmesternek</a>.
+        />A kérdés tisztázásához írj <a href="%{webmaster}">az ügyfélszolgálatnak</a>.
       auth failure: Sajnáljuk, ilyen adatokkal nem tudsz bejelentkezni.
       openid_logo_alt: Bejelentkezés egy OpenID-vel
       auth_providers:
@@ -1971,7 +1995,7 @@ hu:
       manually_select: Más terület kézi kijelölése
       format_to_export: Exportálás formátuma
       osm_xml_data: OpenStreetMap XML adat
-      map_image: Térkép képe (az alapértelmezett réteget jeleníti meg)
+      map_image: Térkép képe (az alapréteget jeleníti meg)
       embeddable_html: Beágyazható HTML
       licence: Licenc
       export_details_html: Az OpenStreetMap adatokra az <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
@@ -2288,7 +2312,7 @@ hu:
       in: 'címkék:'
     index:
       public_traces: Nyilvános GPS-nyomvonalak
-      my_traces: Saját GPS-nyomvonalak
+      my_traces: Saját nyomvonalak
       public_traces_from: '%{user} nyilvános GPS-nyomvonalai'
       description: Böngészés a legutóbb feltöltött GPS-nyomvonalak között
       tagged_with: ' %{tags} címkével'
@@ -2296,6 +2320,9 @@ hu:
         új nyomvonalat</a>, vagy olvass bővebben a GPS nyomvonalrögzítésről a <a href='https://wiki.openstreetmap.org/wiki/HU:Beginners_Guide_1.2'>wiki
         lapon</a>.
       upload_trace: Nyomvonal feltöltése
+      all_traces: Minden nyomvonal
+      traces_from: '%{user} nyilvános nyomvonalai'
+      remove_tag_filter: Címkeszűrő eltávolítása
     destroy:
       scheduled_for_deletion: A nyomvonal törlésre kijelölve
     make_public:
@@ -2354,6 +2381,14 @@ hu:
       flash: Visszavontad a(z) %{application} tokenjét
     permissions:
       missing: Nem engedted meg az alkalmazás számára, hogy hozzáférjen ehhez a létesítményhez
+    scopes:
+      read_prefs: Felhasználói beállítások olvasása
+      write_prefs: Felhasználói beállítások módosítása
+      write_diary: Naplóbejegyzések és hozzászólások készítése, és ismerősök hozzáadása
+      write_api: A térkép módosítása
+      read_gpx: Magán nyomvonalak olvasása
+      write_gpx: GPS-nyomvonalak feltöltése
+      write_notes: Jegyzetek módosítása
   oauth_clients:
     new:
       title: Új alkalmazás regisztrálása
@@ -2395,12 +2430,62 @@ hu:
       flash: A kliens információi sikeresen frissítve
     destroy:
       flash: A kliensalkalmazás regisztrációja törölve
+  oauth2_applications:
+    index:
+      title: Kliensalkalmazásaim
+      no_applications_html: Van olyan alkalmazásod, amelyet regisztrálni szeretnél
+        nálunk az %{oauth2} szabvány használatával? Regisztrálnod kell az alkalmazását,
+        mielőtt az OAuth-kérelmeket tudna benyújtani ehhez a szolgáltatáshoz.
+      oauth_2: OAuth 2
+      new: Új alkalmazás regisztrálása
+      name: Név
+      permissions: Engedélyek
+    application:
+      edit: Szerkesztés
+      delete: Törlés
+      confirm_delete: Törli ezt az alkalmazást?
+    new:
+      title: Új alkalmazás regisztrálása
+    edit:
+      title: Alkalmazásod szerkesztése
+    show:
+      edit: Szerkesztés
+      delete: Törlés
+      confirm_delete: Törli ezt az alkalmazást?
+      client_id: Kliensazonosító (Client ID)
+      client_secret: Klienstitok
+      client_secret_warning: Ne felejtsd el elmenteni ezt a titkot – többé nem lesz
+        hozzáférhető
+      permissions: Engedélyek
+      redirect_uris: URI-k átirányítása
+    not_found:
+      sorry: Sajnos az alkalmazás nem található.
+  oauth2_authorizations:
+    new:
+      title: Engedély szükséges
+      introduction: Engedélyezi a(z) %{application} számára, hogy hozzáférjen a fiókjához
+        a következő engedélyekkel?
+      authorize: Engedélyezés
+      deny: Megtagadás
+    error:
+      title: Hiba történt.
+    show:
+      title: Engedélyezési kód
+  oauth2_authorized_applications:
+    index:
+      title: Engedélyezett alkalmazásaim
+      application: Alkalmazás
+      permissions: Engedélyek
+      no_applications_html: Még nem engedélyeztél %{oauth2} alkalmazást.
+    application:
+      revoke: Hozzáférés visszavonása
+      confirm_revoke: Visszavonod az alkalmazás hozzáférését?
   users:
     new:
       title: Felhasználói fiók létrehozása
       no_auto_account_create: Sajnos jelenleg nem tudunk neked létrehozni automatikusan
         egy felhasználói fiókot.
-      contact_webmaster_html: Kérjük, fordulj a <a href="%{webmaster}">webmesterhez</a>
+      contact_support_html: Kérjük, fordulj az <a href="%{support}">ügyfélszolgálathoz</a>
         (angolul), hogy lehetővé tegye felhasználói fiók létrehozását. Igyekszünk
         olyan gyorsan foglalkozni a kéréssel, amilyen gyorsan csak lehet.
       about:
@@ -2450,6 +2535,9 @@ hu:
         italy: Olaszország
         rest_of_world: A világ többi része
     terms_declined_flash:
+      terms_declined_html: Sajnáljuk, hogy úgy döntöttél, nem fogadod el az új közreműködési
+        feltételeket. További információkért lásd %{terms_declined_link}.
+      terms_declined_link: ezt a wikioldalt
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Nincs ilyen felhasználó
@@ -2581,6 +2669,9 @@ hu:
       save changes button: Módosítások mentése
       make edits public button: Szerkesztéseim nyilvánossá tétele
       return to profile: Vissza a profilhoz
+      oauth1 settings: OAuth 1 beállítások
+      oauth2 applications: OAuth 2 alkalmazások
+      oauth2 authorizations: OAuth 2 engedélyek
       flash update success confirm needed: Felhasználói információk sikeresen frissítve.
         Nézd meg az e-mailjeidet az új e-mail címedet megerősítő levélhez.
       flash update success: Felhasználói információk sikeresen frissítve.
@@ -2603,7 +2694,7 @@ hu:
     suspended:
       title: Felhasználói fiók felfüggesztve
       heading: Felhasználói fiók felfüggesztve
-      webmaster: webmester
+      support: támogatás
       body_html: |-
         <p>
           Sajnáljuk, a felhasználói fiókodat automatikusan felfüggesztették
@@ -2777,15 +2868,15 @@ hu:
       custom_dimensions: Kiterjedés megadása
       format: 'Formátum:'
       scale: 'Méretarány:'
-      image_dimensions: A kép az alapértelmezett réteget fogja megjeleníteni a következőnél
-        %{width} × %{height}.
+      image_dimensions: A kép a normál réteget fogja megjeleníteni %{width}×%{height}
+        képpont méretben.
       download: Letöltés
       short_url: Rövid URL
       include_marker: Helyjelölővel
-      center_marker: Térkép középpontja a helyjelölő
+      center_marker: Legyen a helyjelölő a térkép középpontja
       paste_html: Weboldalba beágyazáshoz illeszd be ezt a HTML-t
       view_larger_map: Nagyobb térkép
-      only_standard_layer: Csak az alap réteget lehet képként exportálni
+      only_standard_layer: Csak az alapréteget lehet képként exportálni
     embed:
       report_problem: Probléma bejelentése
     key:

@@ -64,6 +64,9 @@ zh-TW:
       client_application:
         create: 註冊
         update: 更新
+      doorkeeper_application:
+        create: 註冊
+        update: 更新
       redaction:
         create: 建立修訂
         update: 儲存修訂
@@ -135,6 +138,11 @@ zh-TW:
         latitude: 緯度
         longitude: 經度
         language: 語言
+      doorkeeper/application:
+        name: 名稱
+        redirect_uri: 重新導向 URI
+        confidential: 保密的應用程式？
+        scopes: 權限
       friend:
         user: 使用者
         friend: 好友
@@ -177,6 +185,9 @@ zh-TW:
         pass_crypt: 密碼
         pass_crypt_confirmation: 確認密碼
     help:
+      doorkeeper/application:
+        confidential: 應用程式會在客戶端密鑰可以維持機密時使用（本地端移動應用程式和單一頁面應用程式不保密）
+        redirect_uri: 每行使用一個 URI
       trace:
         tagstring: 以逗點分隔
       user_block:
@@ -519,6 +530,11 @@ zh-TW:
       comment: 評論
       newer_comments: 較新的評論
       older_comments: 較舊的評論
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: 應用程式已註冊。
   friendships:
     make_friend:
       heading: 將 %{user} 加入為好友？
@@ -1583,6 +1599,9 @@ zh-TW:
       success: 已確認您變更的電子郵件地址！
       failure: 電子郵件地址已使用此密鑰確認過。
       unknown_token: 確認碼已經過期或不存在。
+    resend_success_flash:
+      confirmation_sent: 我們已發送新的確認通知到 %{email}，一旦您確認您的帳號後，就能取得製圖。
+      whitelist: 如果您用來發送確認請求的信箱有反垃圾郵件系統，請確認有將 %{sender} 將入白名單，因為我們無法回覆任何確認請求。
   messages:
     inbox:
       title: 收件匣
@@ -1683,7 +1702,7 @@ zh-TW:
       create account minute: 建立一個帳號。只需要一分鐘。
       no account: 還沒有帳號嗎？
       account not active: 抱歉，您的帳號尚未開啟。<br />請點選帳號確認電子郵件中的連結來開啟您的帳號，或<a href="%{reconfirm}">要求發出新的確認電子郵件</a>。
-      account is suspended: 很抱歉，您的帳號已經因可疑活動被暫停。<br>請如果您想要討論這個問題，請與<a href="%{webmaster}">網站管理員</a>聯繫。
+      account is suspended: 很抱歉，您的帳號已經因可疑活動被暫停。<br>請如果您想要討論這個問題，請與<a href="%{webmaster}">支援人員</a>聯繫。
       auth failure: 很抱歉，無法以這些資料登入。
       openid_logo_alt: 使用 OpenID 登入
       auth_providers:
@@ -2164,13 +2183,16 @@ zh-TW:
       in: 於
     index:
       public_traces: 公開 GPS 軌跡
-      my_traces: 我的 GPS 軌跡
+      my_traces: 我的軌跡
       public_traces_from: '%{user} 的公開 GPS 軌跡'
       description: 瀏覽最近的 GPS 軌跡上傳
       tagged_with: 有如下標籤：%{tags}
       empty_html: 還沒有軌跡。<a href='%{upload_link}'>上傳新的軌跡</a>或在 <a href='https://wiki.openstreetmap.org/wiki/Zh-hant:Beginners_Guide_1.2'>wiki
         頁面</a>上瞭解更多有關 GPS 軌跡的資訊。
       upload_trace: 上傳軌跡
+      all_traces: 所有軌跡
+      traces_from: 來自 %{user} 的公開軌跡
+      remove_tag_filter: 移除標籤篩選
     destroy:
       scheduled_for_deletion: 軌跡已被排程刪除
     make_public:
@@ -2222,6 +2244,14 @@ zh-TW:
       flash: 您已經撤銷 %{application} 的授權密鑰。
     permissions:
       missing: 您尚未允許應用程式來訪問此設施
+    scopes:
+      read_prefs: 讀取使用者偏好設定
+      write_prefs: 修改使用者偏好設定
+      write_diary: 建立日記、評論和加入好友
+      write_api: 修改地圖
+      read_gpx: 讀取私人 GPS 軌跡
+      write_gpx: 上傳 GPS 軌跡
+      write_notes: 修改註記
   oauth_clients:
     new:
       title: 註冊新的應用程式
@@ -2261,11 +2291,58 @@ zh-TW:
       flash: 更新客戶端資訊成功
     destroy:
       flash: 已銷毀此用戶端應用程式註冊
+  oauth2_applications:
+    index:
+      title: 我的客戶端應用程式
+      no_applications_html: 您是否有想要註冊以使用於 %{oauth2} 標準的應用程式？您必須先註冊您的網頁應用程式，才能對這個服務進行
+        OAuth 要求。
+      oauth_2: OAuth 2
+      new: 註冊新的應用程式
+      name: 名稱
+      permissions: 權限
+    application:
+      edit: 編輯
+      delete: 刪除
+      confirm_delete: 刪除此應用程式？
+    new:
+      title: 註冊新的應用程式
+    edit:
+      title: 編輯您的應用程式
+    show:
+      edit: 編輯
+      delete: 刪除
+      confirm_delete: 刪除此應用程式？
+      client_id: 客戶端 ID
+      client_secret: 客戶端密鑰
+      client_secret_warning: 請確認保存此密鑰 - 這會無法再次存取
+      permissions: 權限
+      redirect_uris: 重新導向 URI
+    not_found:
+      sorry: 很抱歉，找不到此應用程式。
+  oauth2_authorizations:
+    new:
+      title: 需要授權
+      introduction: 要授權 %{application} 能使用以下權限來存取您的帳號嗎？
+      authorize: 授權
+      deny: 拒絕
+    error:
+      title: 發生錯誤
+    show:
+      title: 授權碼
+  oauth2_authorized_applications:
+    index:
+      title: 我的已授權應用程式
+      application: 應用程式
+      permissions: 權限
+      no_applications_html: 您未授權任何 %{oauth2} 應用程式。
+    application:
+      revoke: 撤銷存取權限
+      confirm_revoke: 撤銷此應用程式的撤銷存取權限？
   users:
     new:
       title: 註冊
       no_auto_account_create: 很不幸的我們現在無法自動為您建立帳號。
-      contact_webmaster_html: 請聯絡<a href="%{webmaster}">網站管理者</a>來建立的帳號，我們會儘快嘗試並處理這項要求。
+      contact_support_html: 請聯絡<a href="%{support}">支援人員</a>來排定帳號建立，我們會儘快嘗試並處理這項要求。
       about:
         header: 自由及可編輯
         html: |-
@@ -2303,6 +2380,8 @@ zh-TW:
         italy: 意大利
         rest_of_world: 世界其他地區
     terms_declined_flash:
+      terms_declined_html: 我們很遺憾你已決定不接受新的貢獻者條款。有關詳細資訊，請參閱 %{terms_declined_link}。
+      terms_declined_link: 此 Wiki 頁面
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: 沒有這個使用者
@@ -2422,6 +2501,9 @@ zh-TW:
       save changes button: 儲存變更
       make edits public button: 將我所有的編輯設為公開
       return to profile: 返回基本資料
+      oauth1 settings: OAuth 1 設定
+      oauth2 applications: OAuth 2 應用程式
+      oauth2 authorizations: OAuth 2 授權
       flash update success confirm needed: 使用者資訊成功的更新。請檢查您的電子郵件，以確認收到新電子郵件地址的通知。
       flash update success: 使用者資訊已成功更新。
     set_home:
@@ -2442,7 +2524,7 @@ zh-TW:
     suspended:
       title: 帳號已暫停
       heading: 帳號已暫停
-      webmaster: 網站管理員
+      support: 支援
       body_html: "<p>\n對不起，您的帳號已因可疑\n活動被自動暫停。 \n</p>\n<p>\n這項決定將在短期內由行政員審核，或是如果你想討論這一點\n，可以聯絡
         %{webmaster}。 \n</p>"
     auth_failure:

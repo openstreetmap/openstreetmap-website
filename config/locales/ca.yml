@@ -39,6 +39,7 @@
 # Author: Somenxavier
 # Author: Ssola
 # Author: Toniher
+# Author: Vfc
 # Author: XVEC
 # Author: 아라
 ---
@@ -135,6 +136,10 @@ ca:
         latitude: Latitud
         longitude: Longitud
         language: Llengua
+      doorkeeper/application:
+        name: Nom
+        redirect_uri: Redirigeix URIs
+        scopes: Permisos
       friend:
         user: Usuari/a
         friend: Amic
@@ -2355,6 +2360,9 @@ ca:
       flash: Heu anul·lat el testimoni per %{application}
     permissions:
       missing: No heu permès l'accés de l'aplicació a aquesta característica
+    scopes:
+      write_api: Modifica el mapa
+      write_notes: Modifica les notes
   oauth_clients:
     new:
       title: Registreu una nova aplicació
@@ -2398,13 +2406,31 @@ ca:
       flash: La informació del client s'ha actualitzat correctament
     destroy:
       flash: S'ha destruït el registre de l'aplicació client
+  oauth2_applications:
+    index:
+      name: Nom
+      permissions: Permisos
+    application:
+      edit: Edita
+      delete: Esborra
+      confirm_delete: Vols eliminar aquesta aplicació?
+    show:
+      edit: Edita
+      delete: Esborra
+  oauth2_authorizations:
+    new:
+      authorize: Autoritza
+      deny: Refusa
+  oauth2_authorized_applications:
+    index:
+      permissions: Permisos
   users:
     new:
       title: Registreu-vos-hi
       no_auto_account_create: No us podem crear un compte automàticament.
-      contact_webmaster_html: Contacteu amb el <a href="%{webmaster}">webmestre</a>
-        per gestionar la creació d'un compte - intentarem tractar la sol·licitud tan
-        aviat com sigui possible.
+      contact_support_html: Contacteu amb el <a href="%{support}">webmestre</a> per
+        gestionar la creació d'un compte - intentarem tractar la sol·licitud tan aviat
+        com sigui possible.
       about:
         header: Lliure i editable
         html: |-
@@ -2603,7 +2629,6 @@ ca:
     suspended:
       title: Compte suspès
       heading: Compte suspès
-      webmaster: per a administradors web
       body_html: |-
         <p>
           El vostre compte ha estat automàticament suspès a causa de

@@ -95,6 +95,11 @@ et:
         latitude: Laius
         longitude: Pikkus
         language: Keel
+      doorkeeper/application:
+        name: Nimi
+        redirect_uri: Ümber suunatud URI-d
+        confidential: Konfidentsiaalne rakendus?
+        scopes: Õigused
       friend:
         user: Kasutaja
         friend: Sõber
@@ -134,6 +139,11 @@ et:
         pass_crypt: Parool
         pass_crypt_confirmation: Kinnita parool
     help:
+      doorkeeper/application:
+        confidential: Rakendust kasutatakse seal, kus kliendi saladust saab hoida
+          konfidentsiaalsena (mobiili omarakendused ja üheleheküljelised rakendused
+          ei ole konfidentsiaalsed).
+        redirect_uri: Lisa rea kohta üks URI.
       trace:
         tagstring: komaga eraldatud
       user_block:
@@ -759,7 +769,7 @@ et:
           travel_agent: Reisibüroo
         place:
           allotments: Suvilad
-          archipelago: Arhipelaag
+          archipelago: Saarestik
           city: Linn
           country: Riik
           county: Maakond
@@ -1224,8 +1234,8 @@ et:
         klõpsa palun lingil, mis saadeti sulle meiliga, või <a href="%{reconfirm}">taotle
         uut kontot kinnitavat meili</a>.
       account is suspended: Vabandust, sinu konto tegevus on peatatud kahtlase tegevuse
-        tõttu.<br />Palun võta ühendust <a href="%{webmaster}">veebimeistriga</a>,
-        kui soovid selle teema üle arutada.
+        tõttu.<br />Palun võta ühendust <a href="%{webmaster}">toega</a>, kui soovid
+        selle teema üle arutada.
       auth failure: Kahjuks ei õnnestu nende andmetega sisse logida.
       openid_logo_alt: Logi sisse OpenID-ga
       auth_providers:
@@ -1764,13 +1774,14 @@ et:
       in: kohas
     index:
       public_traces: Avalikud GPS-rajad
-      my_traces: Minu GPS-rajad
+      my_traces: Minu rajad
       public_traces_from: Kasutaja %{user} avalikud GPS-rajad
       description: Viimati üles laaditud GPS-radade sirvimine
       tagged_with: ', millel on silt %{tags}'
       empty_html: Siin pole veel midagi. <a href='%{upload_link}'>Laadi üles uus rada</a>
         või uuri GPS-radade kohta <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>vikileheküljelt</a>.
       upload_trace: Lisa GPS-rada
+      all_traces: Kõik rajad
     destroy:
       scheduled_for_deletion: Raja kustutamine kantud tööplaani.
     offline_warning:
@@ -1783,7 +1794,7 @@ et:
       blocked: Sinu juurdepääs API-le on blokeeritud. Palun logi sisse veebiliidese
         kaudu, et saada rohkem infot.
       need_to_see_terms: Sinu juurdepääs API-le on ajutiselt peatatud. Palun logi
-        sisse veebiliidese kaudu, et näha Kaastöötingimusi. Sa ei pea nendega nõustuma,
+        sisse veebiliidese kaudu, et näha kaastöötingimusi. Sa ei pea nendega nõustuma,
         kuid sa pead neid vaatama.
   oauth:
     authorize:
@@ -1810,6 +1821,14 @@ et:
       invalid: Volitamisluba ei ole kehtiv.
     revoke:
       flash: Oled tühistanud rakenduse %{application} loa.
+    scopes:
+      read_prefs: Lugeda kasutajaeelistusi
+      write_prefs: Muuta kasutajaeelistusi
+      write_diary: Luua päeviku sissekandeid, kommenteerida ja lisada sõpru
+      write_api: Muuta kaarti
+      read_gpx: Lugeda isiklikke GPS-radu
+      write_gpx: Laadida üles GPS-radu
+      write_notes: Muuta märkusi
   oauth_clients:
     new:
       title: Uue rakenduse registreerimine
@@ -1850,14 +1869,46 @@ et:
       flash: Kliendi informatsioon uuendati edukalt.
     destroy:
       flash: Klientrakenduse registreering hävitati.
+  oauth2_applications:
+    index:
+      title: Minu klientrakendused
+      no_applications_html: Kas sul on rakendus, mida soovid siin kasutamiseks registreerida,
+        kasutades standardit %{oauth2}? Enne kui see saab antud teenusele OAuthi päringuid
+        saata, pead oma veebirakenduse registreerima.
+      new: Registreeri uus rakendus
+      name: Nimi
+      permissions: Õigused
+    application:
+      edit: Muuda
+      delete: Kustuta
+      confirm_delete: Kas kustutad selle rakenduse?
+    new:
+      title: Uue rakenduse registreerimine
+    edit:
+      title: Rakenduse muutmine
+    show:
+      edit: Muuda
+      delete: Kustuta
+      confirm_delete: Kas kustutad selle rakenduse?
+      permissions: Õigused
+      redirect_uris: Ümber suunatud URI-d
+  oauth2_authorized_applications:
+    index:
+      title: Minu volitatud rakendused
+      application: Rakendus
+      permissions: Õigused
+      no_applications_html: Sa pole volitanud veel ühtegi %{oauth2} rakendust.
+    application:
+      revoke: Eemalda juurdepääs
+      confirm_revoke: Kas eemaldad selle rakenduse juurdepääsu?
   users:
     new:
       title: Registreerumine
       no_auto_account_create: Kahjuks ei ole meil võimalik luua hetkel sinu jaoks
         automaatselt kontot.
-      contact_webmaster_html: Palun võta ühendust <a href="%{webmaster}">veebimeistriga</a>,
-        et kasutajakonto luua - me üritame tegeleda selle taotlusega nii kiiresti
-        kui võimalik.
+      contact_support_html: Palun võta ühendust <a href="%{support}">toega</a>, et
+        kasutajakonto luua – me üritame tegeleda selle taotlusega nii kiiresti kui
+        võimalik.
       about:
         header: Vaba ja muudetav
         html: |-
@@ -1873,7 +1924,7 @@ et:
       auth no password: Kolmanda osapoole autentimisega parooli ei nõuta, aga mõne
         lisatööriista või serveri jaoks võib seda siiski tarvis minna.
       continue: Registreeru
-      terms accepted: Täname, et nõustusid uute kaastöö tingimustega!
+      terms accepted: Täname, et nõustusid uute kaastöötingimustega!
     terms:
       title: Tingimused
       heading: Tingimused
@@ -1890,6 +1941,10 @@ et:
         france: Prantsusmaa
         italy: Itaalia
         rest_of_world: Muu maailm
+    terms_declined_flash:
+      terms_declined_html: Meil on kahju, et otsustasid kaastöötingimustega mitte
+        nõustutada. Lisateavet leiad %{terms_declined_link}.
+      terms_declined_link: sellelt vikileheküljelt
     no_such_user:
       title: Sellist kasutajat ei ole
       heading: Kasutajat %{user}  pole olemas
@@ -1990,11 +2045,11 @@ et:
           muutumisel.</li><li>Seda toimingut ei saa tühistada ja kõik uued kasutajad
           on nüüdsest vaikimisi avalikud.</li></ul>
       contributor terms:
-        heading: Kaastöö tingimused
+        heading: Kaastöötingimused
         agreed: Oled nõustunud uute kaastöötingimustega.
-        not yet agreed: Sa ei ole veel nõustunud uute Kaastöö tingimustega.
-        review link text: Loe ja nõustu uute Kaastöö tingimustega klõpsates endale
-          sobival ajal antud lingil.
+        not yet agreed: Sa ei ole veel nõustunud uute kaastöötingimustega.
+        review link text: Palun mine sulle sobival ajal lingitud leheküljele, et lugeda
+          uusi kaastöötingimusi ja et nendega nõustuda.
         agreed_with_pd: Samuti oled deklareerinud oma kaastöö autoriõigustest vabaks
           (Public Domain).
         link text: mis see on?
@@ -2013,6 +2068,9 @@ et:
       save changes button: Salvesta muudatused
       make edits public button: Tee kõik minu muudatused avalikuks
       return to profile: Tagasi profiili juurde
+      oauth1 settings: OAuth 1 sätted
+      oauth2 applications: OAuth 2 rakendused
+      oauth2 authorizations: OAuth 2 volitused
       flash update success confirm needed: Kasutajateabe värskendamine õnnestus. Kontrolli
         e-kirju, et kinnitada uus e-posti aadress.
       flash update success: Kasutaja informatsioon uuendatud edukalt.
@@ -2035,7 +2093,6 @@ et:
     suspended:
       title: Konto peatatud
       heading: Konto peatatud
-      webmaster: veebimeistriga
       body_html: |-
         <p>
           Vabandust, sinu konto õigused on automaatselt peatatud
@@ -2043,7 +2100,7 @@ et:
         </p>
         <p>
           Administraator vaatab selle otsuse peagi üle. Kui soovid
-          seda arutada, siis võid võtta ühendust %{webmaster}.
+          seda arutada, siis võid võtta ühendust aadressil %{webmaster}.
         </p>
     auth_failure:
       connection_failed: Ei õnnestunud ühenduda autentimisteenusega.
