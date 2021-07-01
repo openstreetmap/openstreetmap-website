@@ -20,6 +20,8 @@ $(document).ready(function () {
       params.map = (mapParams.zoom || 17) + '/' + mapParams.lat + '/' + mapParams.lon;
     }
 
+    console.table(hashParams);
+
     if (hashParams.background) params.background = hashParams.background;
     if (hashParams.comment) params.comment = hashParams.comment;
     if (hashParams.disable_features) params.disable_features = hashParams.disable_features;
@@ -40,6 +42,8 @@ $(document).ready(function () {
     } else if (hashParams.gpx) {
       params.gpx = hashParams.gpx;
     }
+
+    console.table(params);
 
     id.attr("src", id.data("url") + "#" + Qs.stringify(params));
   } else {
