@@ -5,10 +5,12 @@ Vagrant.configure("2") do |config|
   # use official ubuntu image for virtualbox
   config.vm.provider "virtualbox" do |vb, override|
     override.vm.box = "ubuntu/focal64"
-    override.vm.synced_folder ".", "/srv/openstreetmap-website"
+    override.vm.synced_folder ".", "/srv/aquagis-api"
     vb.customize ["modifyvm", :id, "--memory", "4096"]
     vb.customize ["modifyvm", :id, "--cpus", "2"]
-    vb.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
+    vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
+    vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
   end
 
   # Use sshfs sharing if available, otherwise NFS sharing
@@ -17,13 +19,13 @@ Vagrant.configure("2") do |config|
   # use third party image and sshfs or NFS sharing for lxc
   config.vm.provider "lxc" do |_, override|
     override.vm.box = "generic/ubuntu2004"
-    override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => sharing_type
+    override.vm.synced_folder ".", "/srv/aquagis-api", :type => sharing_type
   end
 
   # use third party image and sshfs or NFS sharing for libvirt
   config.vm.provider "libvirt" do |_, override|
     override.vm.box = "generic/ubuntu2004"
-    override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => sharing_type
+    override.vm.synced_folder ".", "/srv/aquagis-api", :type => sharing_type
   end
 
   # configure shared package cache if possible
@@ -33,7 +35,8 @@ Vagrant.configure("2") do |config|
   end
 
   # port forward for webrick on 3000
-  config.vm.network :forwarded_port, :guest => 3000, :host => 3000
+  config.vm.network :forwarded_port, :guest => 3000, :host => 3700
+  config.vm.network :forwarded_port, :guest => 5432, :host => 5499
 
   # provision using a simple shell script
   config.vm.provision :shell, :path => "script/vagrant/setup/provision.sh"
