@@ -190,14 +190,6 @@ To create the three databases - for development, testing and production - run:
 bundle exec rake db:create
 ```
 
-### PostgreSQL Btree-gist Extension
-
-We need to load the `btree-gist` extension, which is needed for showing changesets on the history tab.
-
-```
-psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
-```
-
 ### PostgreSQL Functions
 
 We need to install some special functions into the PostgreSQL database:
