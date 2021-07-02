@@ -46,6 +46,9 @@ class BrowseTagsHelperTest < ActionView::TestCase
 
     html = format_value("colour", "#f00")
     assert_dom_equal %(<span class="colour-preview-box" data-colour="#f00" title="Colour #f00 preview"></span>#f00), html
+
+    html = format_value(TAG2LINK.first.first, "value")
+    assert_dom_equal "<a href=\"#{TAG2LINK.first.last.gsub('$1', 'value')}\" rel=\"nofollow\">value</a>", html
   end
 
   def test_wiki_link
@@ -337,6 +340,19 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "tel:+1(234)567-890", links[0][:url]
     assert_equal "+22(33)4455.66.7788", links[1][:phone_number]
     assert_equal "tel:+22(33)4455.66.7788", links[1][:url]
+  end
+
+  def test_tag2link
+    link = tag2link(TAG2LINK.first.first, "value")
+    assert_equal link[:url], TAG2LINK.first.last.gsub("$1", "value")
+    assert_equal link[:text], "value"
+
+    link = tag2link(TAG2LINK.first.first, "http://example.com")
+    assert_equal link[:url], "http://example.com"
+    assert_equal link[:text], "http://example.com"
+
+    link = tag2link("this_key_should_not_exist", "value")
+    assert_nil link
   end
 
   def test_colour_preview
