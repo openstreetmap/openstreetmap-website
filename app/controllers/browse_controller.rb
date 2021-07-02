@@ -84,6 +84,8 @@ class BrowseController < ApplicationController
     else
       @note = Note.visible.find(params[:id])
       @note_comments = @note.comments
+
+      raise ActiveRecord::RecordNotFound if @note.comments.empty?
     end
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
