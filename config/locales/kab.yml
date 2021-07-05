@@ -33,6 +33,9 @@ kab:
       client_application:
         create: Sekles
         update: Setrer
+      doorkeeper_application:
+        create: Jerred
+        update: Leqqem
       redaction:
         create: Snulfu tirra
         update: Kles tirra
@@ -46,6 +49,7 @@ kab:
     errors:
       messages:
         invalid_email_address: Ur yettbin ara d tansa n imayl taɣbalt
+        email_address_not_routable: Ur izmir ara ad ibeddel abrid
     models:
       acl: Tabdart n usenqed n unekcum
       changeset: Agraw n ibeddilen
@@ -88,7 +92,13 @@ kab:
         url: URL n usnas agejdan (D usfik)
         callback_url: Tansa URL n usmekti
         support_url: Tansa URL n tallelt
+        allow_read_prefs: ɣeṛ ismenyifen n useqdac
+        allow_write_prefs: beddel ismenyifen n useqdac
+        allow_write_diary: rnu inekcam n uwitay, iwenniten akken ad tgeḍ imeddukal
         allow_write_api: Ẓreg tagertilt
+        allow_read_gpx: ɣer lǧerrat GPS usligen
+        allow_write_gpx: azen lǧerrat GPS
+        allow_write_notes: beddel tizmilin
       diary_comment:
         body: Tafekka
       diary_entry:
@@ -97,38 +107,57 @@ kab:
         latitude: Tarrut
         longitude: Tazegrart
         language: Tutlayt
+      doorkeeper/application:
+        name: Isem
+        redirect_uri: Beddel abrid i tansiwin URI
+        confidential: D asnas udrg?
+        scopes: Tasirag
       friend:
         user: Aseqdac
         friend: Amdakkel
       trace:
         user: Aseqdac
         visible: Uman
-        name: Isem
+        name: Isem n ufaylu
         size: Teɣzi
         latitude: Tarrut
         longitude: Tazegrart
         public: Azayez
         description: Aglam
-        tagstring: 'Ticraḍ:'
+        gpx_file: Sali afaylu GPX
+        visibility: Tawalit
+        tagstring: Ticraḍ
       message:
         sender: Amazan
         title: Asentel
         body: Tafekka
         recipient: Aɣerwaḍ
       redaction:
+        title: Azwel
         description: Aglam
+      report:
+        category: Fren sebba n tummla-ik
+        details: Ttxil-k mudd-d ugar n telqayt ɣef wugur (ilaq).
       user:
+        auth_provider: Asaǧǧaw n usesteb
+        auth_uid: UID n usesteb
         email: Imayl
-        new_email: Tansa imayl tamaynut
+        email_confirmation: Asentem n yimayl
+        new_email: Tansa n yimayl tamaynut
         active: Urmid
         display_name: Mefffer isem
-        description: Aglam
-        home_lat: 'Tarrut:'
-        home_lon: 'Tazegrart:'
-        languages: Tutlayin
+        description: Aglam n umaɣnu
+        home_lat: Tarrut
+        home_lon: Tazegrart
+        languages: Tutlayin tebɣiḍ
+        preferred_editor: Amaẓrag tebɣiḍ
         pass_crypt: Awal uffir
         pass_crypt_confirmation: Sentem awal uffir
     help:
+      doorkeeper/application:
+        confidential: Asnas ad yettwaseqdec anida izmer ad neḥrez lbaḍna n useqdac
+          (isnasen izirazen akked yisnasen n yiwen nusebter ur ddan ara)
+        redirect_uri: Seqdec yiwen n yizirig deg URI
       trace:
         tagstring: Ticcert yettulessesen
       user:
@@ -143,7 +172,7 @@ kab:
       description: iD (yeddan deg iminig)
     remote:
       name: Amaẓrag azɣaray
-      description: Amaẓrag azɣaray (JOSM neɣ Merkaartor)
+      description: Amaẓrag azɣaray (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Ulac
@@ -160,9 +189,9 @@ kab:
         commented_at_html: Yettwalqem %{when}
         commented_at_by_html: Yettwalqem %{when} aya sɣur %{user}
         closed_at_html: Yefra %{when} aya
-        closed_at_by_html: Yefra %{when} aya sɣur %{user}
-        reopened_at_html: Yettwarmed %{when} aya
-        reopened_at_by_html: Yettwarmed %{when} aya sɣur %{user}
+        closed_at_by_html: Yefra %{when} sɣur %{user}
+        reopened_at_html: Yettwarmed %{when}
+        reopened_at_by_html: Yettwarmed %{when} sɣur %{user}
       rss:
         title: Tizmilin n OpenStreetMap
         description_area: Tabdert n tezmilin yettwamlen, yettwawennten neɣ imedlen
@@ -177,16 +206,12 @@ kab:
   browse:
     created: Yettwarna
     closed: Yemdel
-    created_html: Yettwarna deg <abbr title='%{title}'>%{time} aya</abbr>
-    closed_html: Yettwamdek deg <abbr title='%{title}'>%{time} aya</abbr>
-    created_by_html: Yettwarna deg <abbr title='%{title}'>%{time} aya </abbr> sɣur
-      %{user}
-    deleted_by_html: Yettwarna deg <abbr title='%{title}'>%{time} aya</abbr> sɣur
-      %{user}
-    edited_by_html: Yettwabdel deg <abbr title='%{title}'>%{time} aya</abbr> sɣuṛ
-      %{user}
-    closed_by_html: Yettwamdel deg <abbr title='%{title}'>%{time} aya </abbr> sɣur
-      %{user}
+    created_html: Yettwarna deg <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Yettwamdek deg <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Yettwarna deg <abbr title='%{title}'>%{time} </abbr> sɣur %{user}
+    deleted_by_html: Yettwakkes deg <abbr title='%{title}'>%{time}</abbr> sɣur %{user}
+    edited_by_html: Yettwabdel deg <abbr title='%{title}'>%{time}</abbr> sɣuṛ %{user}
+    closed_by_html: Yettwamdel deg <abbr title='%{title}'>%{time}</abbr> sɣur %{user}
     version: Lqem
     in_changeset: Agraw n usnifel
     anonymous: udrig
@@ -316,7 +341,7 @@ kab:
     changeset:
       anonymous: Udrig
       no_edits: (ulac abeddel)
-      view_changeset_details: Sken talqayt n ugraw n usnifel
+      view_changeset_details: Sken talqayt n ugraw n yibeddilen
     changesets:
       id: Asulay
       saved_at: Yettwasekles deg
@@ -329,8 +354,8 @@ kab:
       title_friend: Igrawen n usnifel n imdukal-ik
       title_nearby: Igrawen n usnifel n iseqdacen iqeṛben
       empty: Ulac agraw n usnifel yettwafen.
-      empty_area: Ulac agraw n usnifel yettwafen  di temnaḍt-agi.
-      empty_user: Ulac agraw n usnifel n useqdac-agi.
+      empty_area: Ulac agraw n ubeddel di temnaḍt-agi.
+      empty_user: Ulac agraw n ubeddel n useqdac-agi.
       no_more: Ulac agraw-nniḍen n usnifel yettwafen.
       no_more_area: Ulac agraw-nniḍen n usnifel yettwafen di temnaḍt-agi.
       no_more_user: Ulac agraw-nniḍen n usnifel n useqdac-agi.

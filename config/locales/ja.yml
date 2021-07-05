@@ -41,6 +41,7 @@
 # Author: Vigorous action
 # Author: Wrightbus
 # Author: Yusuke1109
+# Author: しぃ
 # Author: はまのまさと
 # Author: ネイ
 # Author: 沈澄心
@@ -69,6 +70,9 @@ ja:
       message:
         create: 送信
       client_application:
+        create: 登録
+        update: 更新
+      doorkeeper_application:
         create: 登録
         update: 更新
       redaction:
@@ -144,6 +148,9 @@ ja:
         language: 言語
       doorkeeper/application:
         name: 名前
+        redirect_uri: URIのリダイレクト
+        confidential: 機密アプリケーション？
+        scopes: 権限
       friend:
         user: 利用者
         friend: 友達
@@ -186,6 +193,9 @@ ja:
         pass_crypt: パスワード
         pass_crypt_confirmation: パスワードを確認
     help:
+      doorkeeper/application:
+        confidential: アプリケーションは、クライアントの秘密が守られる場所で使用されます（ネイティブ・モバイル・アプリやシングル・ページ・アプリは秘密ではありません）。
+        redirect_uri: 1つのURIにつき1行使用します
       trace:
         tagstring: カンマ区切り
       user_block:
@@ -518,11 +528,17 @@ ja:
         description: OpenStreetMap 利用者による最近の日記エントリ
     comments:
       has_commented_on: '%{display_name} は以下の日記エントリにコメントしました'
+      no_comments: 日記のコメントはありません
       post: 投稿
       when: 日時
       comment: コメント
       newer_comments: 新しいコメント
       older_comments: 古いコメント
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: アプリケーションが登録されています。
   friendships:
     make_friend:
       heading: '%{user} を友達に追加しますか?'
@@ -530,6 +546,7 @@ ja:
       success: '%{name} と友達になりました!'
       failed: '%{name} を友達と登録できませんでした。'
       already_a_friend: あなたは %{name} と既に友達です。
+      limit_exceeded: 短い間隔で大量の友達申請を送っていますね。しばらくしてから友達申請してください。
     remove_friend:
       heading: '%{user} を友達から削除しますか?'
       button: 友達を解除
@@ -1579,6 +1596,9 @@ ja:
       success: メール アドレスが変更されたことを確認しました。
       failure: このトークンは、メール アドレスの確認に使用済みです。
       unknown_token: その確認コードは期限切れ、または存在しません。
+    resend_success_flash:
+      confirmation_sent: 新しい確認書を%{email}に送りましたので、アカウントを確認したらすぐにマッピングができるようになります。
+      whitelist: 確認リクエストを送信するアンチスパムシステムを使用している場合は、確認リクエストに返信することができませんので、%{sender}をホワイトリストに登録してください。
   messages:
     inbox:
       title: 受信箱
@@ -1678,7 +1698,7 @@ ja:
       account not active: 申し訳ありませんが、あなたのアカウントはまだ有効ではありません。<br />アカウント確認メール内のリンクをクリックするか、<a
         href="%{reconfirm}">新しい確認メールを要求</a>をしてください。
       account is suspended: 申し訳ありませんが、不審な活動のため、あなたのアカウントは一時停止されております。<br />本件についてご相談がある場合は
-        <a href="%{webmaster}">ウェブマスター</a>にご連絡ください。
+        <a href="%{webmaster}">サポート</a>にご連絡ください。
       auth failure: 申し訳ありませんが、入力した情報でログインできませんでした。
       openid_logo_alt: OpenID でログイン
       auth_providers:
@@ -2141,13 +2161,16 @@ ja:
       in: 'タグ:'
     index:
       public_traces: 公開GPSトレース
-      my_traces: 保存したGPS位置情報
+      my_traces: 私の痕跡
       public_traces_from: '%{user}さんによる公開GPSトレース'
       description: 最近のGPSトレースのアップロードを参照
       tagged_with: (タグ %{tags} が付いているもの)
       empty_html: ここにはまだ何もありません。<a href='%{upload_link}'>新しくトレースをアップロード</a>するか、<a
         href='https://wiki.openstreetmap.org/wiki/JA:Beginners_Guide_1.2?uselang=ja'>ウィキページ</a>でGPSトレースの詳細情報をお読みください。
       upload_trace: トレースをアップロード
+      all_traces: 全ての痕跡
+      traces_from: '%{user}さんによる公開GPSトレース'
+      remove_tag_filter: タグフィルターの削除
     destroy:
       scheduled_for_deletion: トレースの削除準備を行いました
     make_public:
@@ -2198,6 +2221,14 @@ ja:
       flash: '%{application} へのトークンを失効しました。'
     permissions:
       missing: この機能についてアプリケーションにアクセスを許可していません。
+    scopes:
+      read_prefs: ユーザー設定の読み込み
+      write_prefs: ユーザー設定の変更
+      write_diary: 日記エントリを作成する、コメントする、友達を作る。
+      write_api: マップの修正
+      read_gpx: 非公開GPSトレースを読む
+      write_gpx: GPSトレースをアップロードする。
+      write_notes: メモを変更する。
   oauth_clients:
     new:
       title: アプリケーションの新規登録
@@ -2238,14 +2269,57 @@ ja:
     destroy:
       flash: 破棄されたクライアント アプリケーションの登録
   oauth2_applications:
+    index:
+      title: クライアント アプリケーション
+      no_applications_html: '%{oauth2}規格を使用して当社で使用するために登録したいアプリケーションをお持ちですか？アプリケーションがこのサービスに
+        OAuth 要求を行うには、アプリケーションを登録する必要があります。'
+      new: 新規アプリケーションの登録
+      name: 名前
+      permissions: 権限
     application:
+      edit: 編集
       delete: 削除
+      confirm_delete: このアプリケーションを削除しますか？
+    new:
+      title: アプリケーションの新規登録
+    edit:
+      title: アプリケーションの編集
+    show:
+      edit: 編集
+      delete: 削除
+      confirm_delete: このアプリケーションを削除しますか？
+      client_id: クライアント ID
+      client_secret: クライアントシークレット
+      client_secret_warning: この秘密は必ず保存してください。 - 二度とアクセスできなくなります。
+      permissions: 権限
+      redirect_uris: URIのリダイレクト
+    not_found:
+      sorry: 申し訳ありませんが、そのアプリケーションは見つかりませんでした。
+  oauth2_authorizations:
+    new:
+      title: 認証が必要
+      introduction: '%{application}が以下の権限でアカウントにアクセスすることを許可しますか？'
+      authorize: 許可
+      deny: 拒否
+    error:
+      title: エラーが発生しました
+    show:
+      title: 認証ID
+  oauth2_authorized_applications:
+    index:
+      title: 認証を許可したアプリケーション
+      application: アプリケーション
+      permissions: 権限
+      no_applications_html: ％{oauth2}アプリケーションをまだ承認していません。
+    application:
+      revoke: アクセスを取り消す
+      confirm_revoke: このアプリケーションへのアクセスを取り消しますか？
   users:
     new:
       title: ユーザー登録
       no_auto_account_create: 残念ながら、現在、自動ではアカウントを作成できません。
-      contact_support_html: アカウントを作成できるよう、<a href="%{support}">webmaster</a>に連絡してください。
-        できるだけ早期に、あなたの希望に対応するように努めます。
+      contact_support_html: アカウントの作成をご希望の場合は、<a href="%{support}">サポート</a>までご連絡ください。
+        - 可能な限り迅速に対応させていただきます。
       about:
         header: フリー、編集可能
         html: |-
@@ -2284,6 +2358,8 @@ ja:
         italy: イタリア
         rest_of_world: それ以外の国
     terms_declined_flash:
+      terms_declined_html: このたびは、新しい投稿者規約を受け入れないことを決定しました。詳細については、%{terms_declined_link}をご覧ください。
+      terms_declined_link: このwikiページ
       terms_declined_url: https://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
     no_such_user:
       title: 存在しない利用者です
@@ -2403,6 +2479,9 @@ ja:
       save changes button: 変更を保存
       make edits public button: 自分の編集をすべて公開する
       return to profile: プロフィールに戻る
+      oauth1 settings: OAuth 1 設定
+      oauth2 applications: OAuth 2 アプリケーション
+      oauth2 authorizations: OAuth 2 認証
       flash update success confirm needed: 利用者情報を更新しました。新着メールを確認して新しいメール アドレスを検証してください。
       flash update success: ユーザー情報を更新しました。
     set_home:
@@ -2423,12 +2502,15 @@ ja:
     suspended:
       title: アカウント停止
       heading: アカウント停止
+      support: サポート
       body_html: |-
         <p>
-          申し訳ありませんが、不審な活動のため、あなたのアカウントは自動的に一時停止されております。
+         申し訳ありませんが、お客様のアカウントは、
+         不審な活動を確認したため自動的に停止されました。
         </p>
         <p>
-         この処置については近々管理者が確認をいたしますが、ご相談がある場合は%{webmaster} にご連絡いただいてもかまいません。
+         この決定はまもなく管理者によって見直されますが、これについて
+         話し合いたい場合は、%{webmaster}に連絡してください。
         </p>
     auth_failure:
       connection_failed: 認証プロバイダへの接続に失敗しました
@@ -2530,8 +2612,9 @@ ja:
     show:
       title: '%{block_by} が %{block_on} をブロックしました'
       heading_html: '%{block_by} が %{block_on} をブロックしました'
-      created: 作成済み
-      status: 状態
+      created: 作成：
+      duration: 期間：
+      status: 状態：
       show: 表示
       edit: 編集
       revoke: 取り消す!
@@ -2559,6 +2642,7 @@ ja:
       title: '%{user} さんが投稿またはコメントしたメモ'
       heading: '%{user}さんのメモ'
       subheading_html: '%{user}さんが投稿またはコメントしたメモ'
+      no_notes: メモなし
       id: ID
       creator: 作成者
       description: 説明

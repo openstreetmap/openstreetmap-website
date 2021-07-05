@@ -76,6 +76,7 @@ it:
         create: Registrati
         update: Aggiorna
       doorkeeper_application:
+        create: Registra
         update: Aggiorna
       redaction:
         create: Crea revisione
@@ -151,6 +152,7 @@ it:
         language: Lingua
       doorkeeper/application:
         name: Nome
+        confidential: Applicazione confidenziale?
         scopes: Permessi
       friend:
         user: Utente
@@ -194,6 +196,8 @@ it:
         pass_crypt: Password
         pass_crypt_confirmation: Conferma password
     help:
+      doorkeeper/application:
+        redirect_uri: Usa una linea diversa per ogni URI
       trace:
         tagstring: delimitato da virgola
       user_block:
@@ -550,6 +554,11 @@ it:
       comment: Commento
       newer_comments: Commenti più recenti
       older_comments: Commenti più vecchi
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Applicazione registrata.
   friendships:
     make_friend:
       heading: Aggiungere %{user} agli amici?
@@ -557,6 +566,8 @@ it:
       success: '%{name} è ora tuo amico!'
       failed: Spiacenti, non è stato possibile aggiungere %{name} come un amico.
       already_a_friend: Sei già amico di %{name}.
+      limit_exceeded: Recentemente hai aggiunto un sacco di utenti come amici. Aspetta
+        un po’ di tempo prima di aggiungerne altri.
     remove_friend:
       heading: Rimuovere ${user} dagli amici?
       button: Rimuovi dagli amici
@@ -822,6 +833,7 @@ it:
           cycleway: Percorso ciclabile
           elevator: Ascensore
           emergency_access_point: Punto di accesso di emergenza
+          emergency_bay: Piazzola di sosta
           footway: Percorso pedonale
           ford: Guado
           give_way: Segnale di dare precedenza
@@ -1030,6 +1042,7 @@ it:
         mountain_pass:
           "yes": Passo di montagna
         natural:
+          atoll: Atollo
           bare_rock: Roccia nuda
           bay: Baia
           beach: Spiaggia
@@ -1255,6 +1268,7 @@ it:
           shoes: Negozio di calzature
           sports: Articoli sportivi
           stationery: Cartoleria
+          storage_rental: Noleggio depositi
           supermarket: Supermercato
           tailor: Sarto
           tattoo: Centro tatuaggi
@@ -1650,6 +1664,12 @@ it:
       success: Confermata la modifica di indirizzo email!
       failure: Un indirizzo email con questo codice è già stato confermato.
       unknown_token: Questo codice di conferma è scaduto oppure non esiste.
+    resend_success_flash:
+      confirmation_sent: Abbiamo inviato una nuova nota di conferma a %{email} e non
+        appena avrai confermato il tuo account sarai pronto per iniziare a mappare.
+      whitelist: Se usi un sistema anti-SPAM che invia delle richiesta di conferma,
+        assicurati di aver inserito %{sender} nella lista dei consentiti poiché non
+        siamo in grado di rispondere alle richieste di conferma.
   messages:
     inbox:
       title: Posta in arrivo
@@ -2350,6 +2370,8 @@ it:
         wiki</a>.
       upload_trace: Carica un tracciato
       all_traces: Tutti i tracciati
+      traces_from: Tracciati pubblici di %{user}
+      remove_tag_filter: Rimuovi filtro delle etichette
     destroy:
       scheduled_for_deletion: Tracciato in attesa di essere eliminato
     make_public:
@@ -2410,7 +2432,9 @@ it:
     permissions:
       missing: Non hai autorizzato l'applicazione ad accedere a questa funzione
     scopes:
+      read_prefs: Leggi preferenze utente
       write_prefs: Modifica le preferenze utente
+      write_diary: Crea voci del diario, commenti e fai amicizia
       write_api: Modifica la mappa
       read_gpx: Leggi tracciati GPS privati
       write_gpx: Carica tracciati GPS
@@ -2458,6 +2482,11 @@ it:
       flash: Distrutta la registrazione dell'applicazione client
   oauth2_applications:
     index:
+      title: Mie applicazioni client
+      no_applications_html: Possiedi un’applicazione che vorresti registrare per poterla
+        usare con noi mediante lo standard %{oauth2}? Devi registrare la tua applicazione
+        prima che essa possa effettuare richieste OAuth a questo servizio.
+      new: Registra nuova applicazione
       name: Nome
       permissions: Permessi
     application:
@@ -2466,15 +2495,24 @@ it:
       confirm_delete: Cancellare questa applicazione?
     new:
       title: Registra una nuova applicazione
+    edit:
+      title: Modifica la tua applicazione
     show:
       edit: Modifica
       delete: Cancella
       confirm_delete: Cancellare questa applicazione?
       client_id: ID cliente
+      client_secret: Segreto del client
+      client_secret_warning: Assicurati di salvare questo segreto (non sarà più accessibile)
+      permissions: Permessi
       redirect_uris: URI di reindirizzamento
+    not_found:
+      sorry: Impossibile trovare l’applicazione.
   oauth2_authorizations:
     new:
       title: Autorizzazione richiesta
+      introduction: Autorizzare %{application} ad accedere al tuo account con i seguenti
+        permessi?
       authorize: Autorizza
       deny: Nega
     error:
@@ -2486,8 +2524,10 @@ it:
       title: Le mie applicazioni autorizzate
       application: Applicazione
       permissions: Permessi
+      no_applications_html: Non hai ancora alcuna applicazione %{oauth2}.
     application:
       revoke: Revoca accesso
+      confirm_revoke: Revocare l’accesso per questa applicazione?
   users:
     new:
       title: Registrati
@@ -2679,6 +2719,7 @@ it:
       make edits public button: Rendi pubbliche tutte le mie modifiche
       return to profile: Ritorna al profilo
       oauth1 settings: Impostazioni OAuth
+      oauth2 applications: Applicazioni OAuth 2
       oauth2 authorizations: Autorizzazioni OAuth 2
       flash update success confirm needed: Informazioni sull'utente aggiornate con
         successo. Controllare la propria email per la conferma del nuovo indirizzo

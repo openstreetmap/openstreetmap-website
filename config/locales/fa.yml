@@ -62,6 +62,9 @@ fa:
       client_application:
         create: ثبت نام
         update: بروزرسانی
+      doorkeeper_application:
+        create: ثبت‌نام
+        update: روزآمدسازی
       redaction:
         create: ایجاد پاک‌سازی
         update: ذخیرهٔ پاک‌سازی
@@ -133,6 +136,11 @@ fa:
         latitude: عرض جغرافیایی
         longitude: طول جغرافیایی
         language: زبان
+      doorkeeper/application:
+        name: نام
+        redirect_uri: URIهای تغییرمسیر
+        confidential: اپلیکیشن محرمانه؟
+        scopes: اجازه‌ها
       friend:
         user: کاربر
         friend: دوست
@@ -175,6 +183,10 @@ fa:
         pass_crypt: گذرواژه
         pass_crypt_confirmation: تأیید گذرواژه
     help:
+      doorkeeper/application:
+        confidential: بهره‌برداری از اپلیکیشن به‌گونه‌ای است که client secret را محرمانه
+          نگه می‌دارد (اپ‌های موبایلی native و اپ‌های تک‌صفحه محرمانه نیستند)
+        redirect_uri: در هر سطر یک URI بنویسید
       trace:
         tagstring: جداشده با کاما (,)
       user_block:
@@ -349,7 +361,7 @@ fa:
         changeset: بستهٔ تغییر
         note: یادداشت
     timeout:
-      title: خطای انقضای مدت
+      title: خطای پایان مهلت
       sorry: شوربختانه بازیابی دادهٔ مربوط به %{type} با شناسهٔ %{id}، خیلی زمان‌بر
         شد.
       type:
@@ -526,6 +538,11 @@ fa:
       comment: نظر
       newer_comments: نظرات جدیدتر
       older_comments: نظرات قدیمی‌تر
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: اپلیکیشن ثبت شد.
   friendships:
     make_friend:
       heading: افزودن %{user} به‌عنوان دوست؟
@@ -533,6 +550,8 @@ fa:
       success: '%{name} اکنون دوست شماست!'
       failed: پوزش، %{name} به دوستان شما افزوده نشد.
       already_a_friend: شما و %{name}از قبل دوست هستید.
+      limit_exceeded: تازگی افراد خیلی زیادی را به‌عنوان دوست اضافه کرده‌اید. لطفاً
+        تا مدتی دست نگه دارید.
     remove_friend:
       heading: لغو دوستی %{user}؟
       button: لغو دوستی
@@ -1698,9 +1717,9 @@ fa:
       account not active: پوزش می‌خواهیم، حسابتان هنوز فعال نشده‌است.<br />لطفاً از
         پیوندی که در ایمیل تأیید وجود دارد برای فعال‌سازی حساب خود استفاده کنید، یا
         <a href="%{reconfirm}"> یک ایمیل تأیید دیگر درخواست دهید</a>.
-      account is suspended: پوزش می‌خواهیم، حساب شما به دلیل فعالیت‌های مشکوک مسدود
-        شده‌است. <br />برای گفت‌وگو دربارهٔ این مسئله لطفاً با <a href="%{webmaster}">مدیر
-        سایت</a> تماس بگیرید.
+      account is suspended: با عرض پوزش، حساب شما به دلیل فعالیت‌های مشکوک مسدود شده‌است.
+        <br />برای گفت‌وگو دربارهٔ این مسئله لطفاً با <a href="%{webmaster}">پشتیبانی</a>
+        تماس بگیرید.
       auth failure: متأسفانه با این اطلاعات نمی‌توان وارد شد.
       openid_logo_alt: ورود با OpenID
       auth_providers:
@@ -2253,7 +2272,7 @@ fa:
       in: در
     index:
       public_traces: ردهای GPS عمومی
-      my_traces: ردهای جی‌پی‌اس من
+      my_traces: ردهای من
       public_traces_from: ردهای GPS عمومی از %{user}
       description: مرور آخرین ردهای GPS بارگذاری‌شده
       tagged_with: ' با برچسب %{tags}'
@@ -2261,6 +2280,9 @@ fa:
         کنید</a> یا در <a href='https://wiki.openstreetmap.org/wiki/Fa:Upload_GPS_tracks'>صفحهٔ
         ویکی</a> دربارهٔ ضبط ردهای GPS بیشتر بخوانید.
       upload_trace: بارگذاری یک رد
+      all_traces: همهٔ ردها
+      traces_from: ردهای عمومی %{user}
+      remove_tag_filter: حذف پالایهٔ برچسب
     destroy:
       scheduled_for_deletion: این رد در زمان‌بندی حذف قرار گرفت
     make_public:
@@ -2319,6 +2341,14 @@ fa:
       flash: توکن مربوط به %{application} را باطل کرده‌اید
     permissions:
       missing: اجازهٔ دسترسی به این امکان را به اپلیکیشن نداده‌اید
+    scopes:
+      read_prefs: خواندن ترجیحات کاربر
+      write_prefs: تغییر ترجیحات کاربر
+      write_diary: ایجاد روزنوشت، نظردهی و افزودن دوست
+      write_api: تغییر نقشه
+      read_gpx: خواندن ردهای جی‌پی‌اس خصوصی
+      write_gpx: آپلود ردهای جی‌پی‌اس
+      write_notes: تغییر یادداشت‌ها
   oauth_clients:
     new:
       title: ثبت اپلیکیشن تازه
@@ -2360,14 +2390,49 @@ fa:
       flash: اطلاعات کارخواه با موفقیت روزآمد شد
     destroy:
       flash: ثبت‌نام اپلیکیشن کارخواه از بین رفت
+  oauth2_applications:
+    index:
+      title: اپلیکیشن‌های کارخواه من
+      no_applications_html: آیا اپلیکیشنی دارید که می‌خواهید به‌وسیلهٔ استاندارد %{oauth2}
+        ثبتش کنید تا با ما از آن استفاده کنید؟ قبل از اینکه برنامه‌تان بتواند درخواست‌های
+        OAuth را انجام دهد باید آن را ثبت کنید.
+      oauth_2: OAuth 2
+      new: ثبت اپلیکیشن تازه
+      name: نام
+      permissions: اجازه‌ها
+    application:
+      edit: ویرایش
+      delete: حذف
+      confirm_delete: این اپلیکیشن حذف شود؟
+    new:
+      title: ثبت یک اپلیکیشن تازه
+    edit:
+      title: ویرایش اپلیکیشن
+    show:
+      edit: ویرایش
+      delete: حذف
+      confirm_delete: این اپلیکیشن حذف شود؟
+      client_id: Client ID
+      client_secret: Client Secret
+      client_secret_warning: secret را ذخیره کنید - دیگر آن را نخواهید دید
+      permissions: اجازه‌ها
+      redirect_uris: URIهای تغییرمسیر
+    not_found:
+      sorry: متأسفیم، آن اپلیکیشن پیدا نمی‌شود.
+  oauth2_authorized_applications:
+    index:
+      permissions: اجازه‌ها
+    application:
+      revoke: ابطال دسترسی
+      confirm_revoke: دسترسی این برنامه باطل شود؟
   users:
     new:
       title: ثبت نام
       no_auto_account_create: متأسفانه در حال حاضر نمی‌توانیم به‌صورت خودکار برای
         شما حساب کاربری بسازیم.
-      contact_support_html: لطفاً با <a href="%{support}">مدیر سایت</a> تماس بگیرید
-        تا برای ساخت حساب کاربری برنامه‌ریزی کند - سعی می‌کنیم درخواست‌ها را هرچه‌سریع‌تر
-        پاسخ دهیم.
+      contact_support_html: لطفاً با <a href="%{support}">پشتیبانی</a> تماس بگیرید
+        تا برای ساخت حساب کاربری برنامه‌ریزی کند - سعی می‌کنیم درخواست‌ها را هرچه
+        سریع‌تر پاسخ دهیم.
       about:
         header: آزاد و قابل‌ویرایش
         html: |-
@@ -2413,6 +2478,9 @@ fa:
         italy: ایتالیا
         rest_of_world: دیگر نقاط جهان
     terms_declined_flash:
+      terms_declined_html: از اینکه تصمیم گرفته‌اید شرایط جدید مشارکت‌کننده را نپذیرید،
+        متأسف هستیم. برای اطلاعات بیشتر، لطفاً %{terms_declined_link} را ببینید.
+      terms_declined_link: این صفحهٔ ویکی
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: چنین کاربری وجود ندارد
@@ -2542,6 +2610,9 @@ fa:
       save changes button: ذخیرهٔ تغییرات
       make edits public button: همهٔ ویرایش‌های من را عمومی کن
       return to profile: بازگشت به نمایه
+      oauth1 settings: تنظیمات OAuth 1
+      oauth2 applications: اپلیکیشن‌های OAuth 2
+      oauth2 authorizations: مجوزهای OAuth 2
       flash update success confirm needed: اطلاعات کاربر با موفقیت روزآمد شد. برای
         تأیید نشانی ایمیل جدید، یادداشت ارسال‌شده به ایمیل‌تان را بررسی کنید.
       flash update success: اطلاعات کاربر با موفقیت روزآمد شد.
@@ -2564,9 +2635,10 @@ fa:
     suspended:
       title: حساب کاربری معلق شده است
       heading: تعلیق حساب کاربری
+      support: پشتیبانی
       body_html: |-
         <p>
-        شوربختانه به‌خاطر فعالیت مشکوک، حساب کاربری شما به‌طور خودکار معلق شده است.
+        با عرض پوزش، حساب کاربری شما به‌خاطر فعالیت مشکوک به‌طور خودکار معلق شده است.
         </p>
         <p>
         به‌زودی یک مدیر این تصمیم را بازبینی می‌کند. در صورت تمایل  می‌توانید با %{webmaster} تماس بگیرید تا در این باره صحبت کنید.
