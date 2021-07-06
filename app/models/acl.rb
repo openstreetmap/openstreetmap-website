@@ -23,7 +23,15 @@ class Acl < ApplicationRecord
   def self.match(address, options = {})
     acls = Acl.where("address >>= ?", address)
 
-    acls = acls.or(Acl.where(:domain => options[:domain])) if options[:domain]
+    if options[:domain]
+      labels = options[:domain].split(".")
+
+      until labels.empty?
+        acls = acls.or(Acl.where(:domain => labels.join(".")))
+        labels.shift
+      end
+    end
+
     acls = acls.or(Acl.where(:mx => options[:mx])) if options[:mx]
 
     acls

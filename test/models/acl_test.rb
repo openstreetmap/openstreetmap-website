@@ -16,8 +16,10 @@ class AclTest < ActiveSupport::TestCase
 
   def test_no_account_creation_by_domain
     assert_not Acl.no_account_creation("192.168.1.1", :domain => "example.com")
+    assert_not Acl.no_account_creation("192.168.1.1", :domain => "test.example.com")
     create(:acl, :domain => "example.com", :k => "no_account_creation")
     assert Acl.no_account_creation("192.168.1.1", :domain => "example.com")
+    assert Acl.no_account_creation("192.168.1.1", :domain => "test.example.com")
   end
 
   def test_no_account_creation_by_mx
