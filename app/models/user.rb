@@ -288,9 +288,21 @@ class User < ApplicationRecord
   end
 
   ##
-  # return an oauth access token for a specified application
+  # return an oauth 1 access token for a specified application
   def access_token(application_key)
     ClientApplication.find_by(:key => application_key).access_token_for_user(self)
+  end
+
+  ##
+  # return an oauth 2 access token for a specified application
+  def oauth_token(application_id)
+    application = Doorkeeper.config.application_model.find_by(:uid => application_id)
+
+    Doorkeeper.config.access_token_model.find_or_create_for(
+      :application => application,
+      :resource_owner => self,
+      :scopes => application.scopes
+    )
   end
 
   def fingerprint
