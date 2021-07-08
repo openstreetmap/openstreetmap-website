@@ -687,6 +687,7 @@ nqo:
           wine: ߖߊ߬ߓߌ߬ߙߋ߲߬ ߘߟߐ ߝߎ߲ߞߎ߲
           "yes": ߝߎ߲ߞߎ߲
         tourism:
+          camp_site: ߞߎ߲ߝߊ߲ߓߐ߫ ߞߣߍ
           hostel: ߖߌ߬ߦߊ߬ߓߏ߲
           hotel: ߖߌ߬ߦߊ߬ߓߏ߲
           information: ߞߌ߬ߓߊ߬ߙߏ߬ߦߊ
@@ -1146,10 +1147,15 @@ nqo:
         ߡߴߊ߬ ߞߍ߫ ߕߋ߲߬. ߌ ߘߌ߫ ߛߴߌ ߟߊ߫ ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲ ߠߎ߬ ߘߊߘߐߓߍ߲߬ ߠߊ߫ ߝߘߏ߬ߓߊ߬ߡߊ ߘߴߌ
         ߟߊ߫ %{user_page} ߞߣߐ߫.
       user_page_link: ߞߐߜߍ߫ ߟߊߓߊ߯ߙߕߊ
+      anon_edits_link_text: ߊ߬ ߢߊߢߌߣߌ߲߫ ߓߊ߫ ߡߎ߲߬ ߘߐ߫ ߣߌ߲߬ ߞߍߣߍ߲߫.
+      id_not_configured: ID ߡߊ߫ ߘߊߘߐߓߍ߲߬ ߡߎߣߎ߲߬
     export:
       title: ߟߊ߬ߝߏ߬ߦߌ߬ߟߌ
       area_to_export: ߟߊ߬ߝߏ߬ߦߌ߬ߟߌ ߞߍ߫ ߦߙߐ
       manually_select: ߦߙߐ߫ ߓߐߣߍ߲ߢߐ߲߰ߡߊ ߟߎ߬ ߓߊߕߐ߬ߡߐ߲߬ ߓߟߏߟߕߊߦߊ ߘߐ߫
+      format_to_export: ߖߙߎߡߎ߲߫ ߛߏ߲߯ߓߕߊ
+      osm_xml_data: ߏߔߌ߲ߛߑߕߙߌߕߑߡߊߔ XML ߟߐ߲ߕߊ
+      map_image: ߡߊߔ ߖߌ߬ߦߊ߬ߓߍ (ߓߊߖߎ ߟߊߟߊߟߌ ߦߌ߬ߘߊ߬ߟߌ)
       too_large:
         planet:
           title: ߖߊ߯ߓߊߟߌ OSM
@@ -1354,19 +1360,46 @@ nqo:
       allow_write_gpx: GPS ߝߏ߲߬ߝߏ߲ ߠߊߞߎߘߦߊ߫.
       allow_write_notes: ߦߟߌߡߊߛߙߋ ߟߎ߬ ߡߊߦߟߍ߬ߡߊ߲߫
       grant_access: ߟߊ߬ߛߐ߬ߘߐ߲߬ߠߌ߲ ߠߊߡߌ߬ߘߊ߬
+    authorize_success:
+      title: ߟߊ߬ߘߌ߬ߢߍ߬ߟߌ ߡߊ߬ߢߌ߬ߣߌ߲߬ߠߌ߲ ߓߘߊ߫ ߟߊߘߤߊ߬
+      verification: ߝߛߍ߬ߝߛߍ߬ߟߌ ߘߏߞߊ߲ ߦߋ߫ %{code} ߟߋ߬ ߘߌ߫
+    authorize_failure:
+      title: ߟߊ߬ߘߌ߬ߢߍ߬ߟߌ ߡߊ߬ߢߌ߬ߣߌ߲߬ߠߌ߲ ߓߘߊ߫ ߗߌߙߏ߲߫
+      invalid: ߟߊ߬ߘߌ߬ߢߍ߬ߟߌ ߖߐߟߐ߲ߞߐ ߓߍ߲߬ߣߍ߲߫ ߕߍ߫
+    scopes:
+      read_prefs: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ ߟߊ߫ ߦߟߌߡߊߛߙߋ ߟߎ߬ ߘߐߞߊ߬ߙߊ߲߬
+      write_prefs: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ ߟߊ߫ ߦߟߌߡߊߛߙߋ ߟߎ߬ ߡߊߦߟߍ߬ߡߊ߲߫
+      write_api: ߔߊ߬ߔߘߊ ߡߊߦߟߍ߬ߡߊ߲߫
+      write_gpx: GPS ߝߏ߲߬ߝߏ߲ ߠߊߦߟߍ߬
+      write_notes: ߦߟߌߣߐ ߟߎ߬ ߡߊߦߟߍ߬ߡߊ߲߫
   oauth_clients:
+    new:
+      title: ߟߥߊ߬ߟߌ߬ߟߌ߬ ߞߎߘߊ߫ ߟߊߞߎ߲߬ߘߎ߫
+    edit:
+      title: ߌ ߟߊ߫ ߟߥߊ߬ߟߌ߬ߟߊ߲ ߡߊߦߟߍ߬ߡߊ߲߫
     show:
+      title: OAuthn %{app_name} ߝߊߙߊ߲ߝߊ߯ߛߟߌ
+      url: 'ߖߐߟߐ߲ߞߐ ߡߊ߬ߢߌ߬ߣߌ߲߬ߠߌ߲ URL:'
+      access_url: 'ߟߊ߬ߛߐ߬ߘߐ߲߬ߠߌ߲ ߖߐߟߐ߲ߞߐ URL:'
       edit: ߝߊߙߊ߲ߝߊ߯ߛߟߌ ߟߎ߬ ߡߊߦߟߍ߬ߡߊ߲߫
       delete: ߛߊ߲߬ߠߌ߲߬ߢߐ߲߮ ߖߏ߬ߛߌ߫
       confirm: ߌ ߟߊߣߴߏ߬ ߟߊ߫؟
   oauth2_applications:
     index:
+      new: ߟߥߊ߬ߟߌ߬ߟߌ߬ ߞߎߘߊ߫ ߟߊߞߎ߲߬ߘߎ߫
       name: ߕߐ߮
       permissions: ߘߌ߬ߢߍ߬ߟߊ߬ߢߌ߬ߣߌ߲߬
     application:
       edit: ߊ߬ ߡߊߦߟߍ߬ߡߊ߲߫
       delete: ߊ߬ ߖߏ߰ߛߌ߬
       confirm_delete: ߞߊ߬ ߟߊ߬ߓߊ߰ߙߊ߬ߟߌ ߣߌ߲߬ ߖߏ߰ߛߌ߫؟
+    new:
+      title: ߟߥߊ߬ߟߌ߬ߟߌ߬ ߞߎߘߊ߫ ߟߊߞߎ߲߬ߘߎ߫
+    edit:
+      title: ߌ ߟߊ߫ ߟߥߊ߬ߟߌ߬ߟߊ߲ ߡߊߦߟߍ߬ߡߊ߲߫
+    show:
+      edit: ߊ߬ ߡߊߦߟߍ߬ߡߊ߲߫
+      delete: ߊ߬ ߖߏ߬ߛߌ߬
   users:
     new:
       email address: 'ߢ:ߞߏ߲ߘߏ ߛߊ߲߬ߓߊ߬ߕߐ߮:'
@@ -1380,4 +1413,7 @@ nqo:
       title: ߛߙߊߕߌ ߟߎ߬
       heading: ߛߙߊߕߌ ߟߎ߬
       heading_ct: ߓߟߏߓߌߟߊߢߐ߲߯ߞߊ߲ ߛߙߊߕߌ ߟߎ߬
+      read_ct: ߒ ߓߘߊ߫ ߛߊ߲ߝߍ߫ ߓߟߏߓߌߟߊߢߐ߲߯ߞߊ߲ ߛߙߊߕߌ ߟߎ߬ ߘߐߞߊ߬ߙߊ߲߬ ߊ߬ ߣߌ߫ ߞߊ߬ ߘߌ߬ߢߍ߬
+        ߊ߬ ߡߊ߬ ߝߣߊ߫.
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
 ...

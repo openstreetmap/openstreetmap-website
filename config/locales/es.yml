@@ -28,6 +28,7 @@
 # Author: Ignaciolep
 # Author: Indiralena
 # Author: Invadinado
+# Author: Jackiezelaya
 # Author: James
 # Author: JanKlaaseen
 # Author: Javiersanp
@@ -93,6 +94,9 @@ es:
         create: Enviar
       client_application:
         create: Registrar
+        update: Actualizar
+      doorkeeper_application:
+        create: Registrarse
         update: Actualizar
       redaction:
         create: Crear redacción
@@ -165,6 +169,11 @@ es:
         latitude: Latitud
         longitude: Longitud
         language: Idioma
+      doorkeeper/application:
+        name: Nombre
+        redirect_uri: Redirigir URI
+        confidential: ¿Solicitud confidencial?
+        scopes: Permisos
       friend:
         user: Usuario
         friend: Amigo
@@ -207,6 +216,11 @@ es:
         pass_crypt: Contraseña
         pass_crypt_confirmation: Confirmar contraseña
     help:
+      doorkeeper/application:
+        confidential: La aplicación se utilizará cuando el secreto del cliente se
+          pueda mantener confidencial (las aplicaciones móviles nativas y las aplicaciones
+          de una sola página no son confidenciales)
+        redirect_uri: Utilice una línea por URI
       trace:
         tagstring: delimitado por comas
       user_block:
@@ -564,6 +578,11 @@ es:
       comment: Comentario
       newer_comments: Comentarios más recientes
       older_comments: Comentarios más antiguos
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Solicitud registrada.
   friendships:
     make_friend:
       heading: ¿Añadir a %{user} como un amigo?
@@ -1671,6 +1690,12 @@ es:
       failure: Ya se ha confirmado una dirección de correo electrónico con esta credencial
         de autenticación.
       unknown_token: Ese código de confirmación ha caducado o no existe.
+    resend_success_flash:
+      confirmation_sent: Hemos enviado una nueva nota de confirmación a %{email} y
+        tan pronto como confirmes tu cuenta podrás obtener el mapeo.
+      whitelist: Si  utilizas un antispam sistema qué envía peticiones de confirmación
+        entonces complacen marca seguro tú whitelist %{sender} cuando  somos incapaces
+        de responder a cualesquier peticiones de confirmación.
   messages:
     inbox:
       title: Buzón de entrada
@@ -2356,7 +2381,7 @@ es:
       in: en
     index:
       public_traces: Trazas GPS públicas
-      my_traces: Mis trazas de GPS
+      my_traces: Mis rastros
       public_traces_from: Trazas GPS públicas de %{user}
       description: Explorar los itinerarios GPS recién subidos
       tagged_with: etiquetado con %{tags}
@@ -2364,6 +2389,9 @@ es:
         traza</a> o aprende más sobre trazas GPS en la <a href='https://wiki.openstreetmap.org/wiki/ES:Gu%C3%ADa_del_principiante_1.2'>página
         wiki</a>.
       upload_trace: Subir una traza
+      all_traces: Todas las trazas
+      traces_from: Seguimientos públicos de %{user}
+      remove_tag_filter: Saca Filtro de Etiqueta
     destroy:
       scheduled_for_deletion: Traza programada para eliminación
     make_public:
@@ -2424,6 +2452,14 @@ es:
       flash: Revocó el token para %{application}
     permissions:
       missing: No ha permitido que la aplicación acceda a esta instalación.
+    scopes:
+      read_prefs: Leer las preferencias del usuario
+      write_prefs: modificar sus preferencias de usuario.
+      write_diary: crear entradas en el diario, comentarios y hacer amigos.
+      write_api: modificar el mapa.
+      read_gpx: leer sus trazas de GPS privadas
+      write_gpx: subir trazas de GPS
+      write_notes: Modificar notas
   oauth_clients:
     new:
       title: Registrar una nueva aplicación
@@ -2465,13 +2501,62 @@ es:
       flash: Actualizada la información del cliente exitosamente
     destroy:
       flash: Destruido el registro de aplicación del cliente
+  oauth2_applications:
+    index:
+      title: Mis aplicaciones cliente
+      no_applications_html: ¿Tiene una aplicación que le gustaría registrar para usar
+        con nosotros usando el estándar% {oauth2}? Debe registrar su aplicación antes
+        de que pueda realizar solicitudes OAuth a este servicio.
+      new: Registre su aplicación
+      name: Nombre
+      permissions: Permisos
+    application:
+      edit: Ediciones
+      delete: Borrar
+      confirm_delete: Ver esta aplicación
+    new:
+      title: Registre su aplicación
+    edit:
+      title: Registre su aplicación
+    show:
+      edit: Editar
+      delete: Eliminar
+      confirm_delete: ¿Eliminar esta aplicación?
+      client_id: Identificador de cliente
+      client_secret: Secreto del cliente
+      client_secret_warning: Asegúrese de guardar este secreto - no será accesible
+        de nuevo
+      permissions: 'Permisos:'
+      redirect_uris: Redirigir URI
+    not_found:
+      sorry: Lo sentimos, no se pudo encontrar esa aplicación.
+  oauth2_authorizations:
+    new:
+      title: Falló la solicitud de autorización
+      introduction: ¿Autorizar a %{application} a acceder a su cuenta con los siguientes
+        permisos?
+      authorize: Autorizar →
+      deny: Negar
+    error:
+      title: Se produjo un error.
+    show:
+      title: Sin código de autorización
+  oauth2_authorized_applications:
+    index:
+      title: Mi autorizó aplicaciones
+      application: Solicitudes
+      permissions: 'Permisos:'
+      no_applications_html: Aún no ha autorizado ninguna aplicación %{oauth2}.
+    application:
+      revoke: revocar el acceso
+      confirm_revoke: ¿Revocar el acceso a esta aplicación?
   users:
     new:
       title: Registrarse
       no_auto_account_create: Lamentablemente, ahora no podemos crear su cuenta automáticamente.
-      contact_support_html: Contacta con el <a href="%{support}">webmaster</a> para
-        gestionar la creación de una cuenta. Intentaremos gestionar la solicitud lo
-        más pronto posible.
+      contact_support_html: 'Póngase en contacto con el <a href="%{support}">soporte</a>
+        técnico para organizar la creación de una cuenta: intentaremos atender la
+        solicitud lo antes posible.'
       about:
         header: Libre y editable
         html: |-
@@ -2519,6 +2604,9 @@ es:
         italy: Italia
         rest_of_world: Resto del mundo
     terms_declined_flash:
+      terms_declined_html: Lamentamos que haya decidido no aceptar los nuevos Términos
+        de colaborador. Para obtener más información, consulte %{terms_declined_link}.
+      terms_declined_link: esta página wiki
       terms_declined_url: https://wiki.openstreetmap.org/wiki/ES:Contributor_Terms_Declined
     no_such_user:
       title: Este usuario no existe
@@ -2649,6 +2737,9 @@ es:
       save changes button: Guardar cambios
       make edits public button: Hacer que todas mis ediciones sean públicas
       return to profile: Regresar al perfil
+      oauth1 settings: Otras configuraciones
+      oauth2 applications: Aplicaciones de OAuth 2
+      oauth2 authorizations: Autorizaciones de OAuth 2
       flash update success confirm needed: La información del usuario se ha actualizado
         correctamente. Compruebe su correo electrónico para ver una nota sobre cómo
         confirmar su nueva dirección de correo electrónico.
@@ -2672,14 +2763,13 @@ es:
     suspended:
       title: Cuenta suspendida
       heading: Cuenta suspendida
+      support: A favor
       body_html: |-
         <p>
-          Lo sentimos, su cuenta ha sido suspendida automáticamente debido a
-          actividades sospechosas.
+          Disculpa, tu cuenta ha sido automáticamente suspendida debido a actividad sospechosa.
         </p>
         <p>
-          Esta decisión será revisada por un administrador en breve, o
-          puede comunicarse con el %{webmaster} si desea discutir esto.
+         Esta decisión será revisada por un administrador en breve, o puedes contactar con el %{webmaster} si deseas discutir esto.
         </p>
     auth_failure:
       connection_failed: Falló la conexión con el proveedor de autenticación
