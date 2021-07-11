@@ -7,6 +7,10 @@
         <!-- Displaying user's own profile page to themself -->
         <ul class='secondary-actions clearfix'>
           <li>
+            <%= link_to t(".my messages"), inbox_messages_path %>
+            <span class='count-number'><%= number_with_delimiter(current_user.new_messages.size) %></span>
+          </li>
+          <li>
             <%= link_to t(".my edits"), :controller => "changesets", :action => "index", :display_name => current_user.display_name %>
             <span class='count-number'><%= number_with_delimiter(current_user.changesets.size) %></span>
           </li>
