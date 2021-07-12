@@ -323,7 +323,7 @@ class ApplicationController < ActionController::Base
     if Settings.key?(:totp_key)
       cookies["_osm_totp_token"] = {
         :value => ROTP::TOTP.new(Settings.totp_key, :interval => 3600).now,
-        :domain => "openstreetmap.org",
+        :domain => "aquagis.bg",
         :expires => 1.hour.from_now
       }
     end

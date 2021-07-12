@@ -39,7 +39,7 @@ module Api
       doc.encoding = XML::Encoding::UTF_8
       root = XML::Node.new "gpx"
       root["version"] = "1.0"
-      root["creator"] = "OpenStreetMap.org"
+      root["creator"] = "AquaGIS.bg"
       root["xmlns"] = "http://www.topografix.com/GPX/1/0"
 
       doc.root = root
