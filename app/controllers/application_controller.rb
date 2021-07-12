@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
   helper_method :oauth_token
-  helper_method :preferred_langauges
+  helper_method :preferred_languages
 
   private
 

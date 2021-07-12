@@ -37,7 +37,7 @@ class RelationTagTest < ActiveSupport::TestCase
     assert tag.errors[:relation].any?
   end
 
-  def test_uniquness
+  def test_uniqueness
     existing = create(:relation_tag)
     tag = RelationTag.new
     tag.relation_id = existing.relation_id

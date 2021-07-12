@@ -13,7 +13,7 @@ module Api
       @goodbbox = %w[-0.1,-0.1,0.1,0.1 51.1,-0.1,51.2,0
                      -0.1,%20-0.1,%200.1,%200.1 -0.1edcd,-0.1d,0.1,0.1 -0.1E,-0.1E,0.1S,0.1N S0.1,W0.1,N0.1,E0.1]
       # That last item in the goodbbox really shouldn't be there, as the API should
-      # reall reject it, however this is to test to see if the api changes.
+      # really reject it, however this is to test to see if the api changes.
     end
 
     ##
@@ -129,7 +129,7 @@ module Api
         print @request.to_yaml
         print @response.body
       end
-      assert_response :success, "Expected scucess with the map call"
+      assert_response :success, "Expected success with the map call"
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='#{format('%<lon>.7f', :lon => minlon)}']" \
                       "[minlat='#{format('%<lat>.7f', :lat => minlat)}']" \

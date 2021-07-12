@@ -110,7 +110,7 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
   end
 
-  def test_make_friend_unkown_user
+  def test_make_friend_unknown_user
     # Should error when a bogus user is specified
     session_for(create(:user))
     get make_friend_path(:display_name => "No Such User")
@@ -188,7 +188,7 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
     assert_nil Friendship.where(:befriender => user, :befriendee => friend).first
   end
 
-  def test_remove_friend_unkown_user
+  def test_remove_friend_unknown_user
     # Should error when a bogus user is specified
     session_for(create(:user))
     get remove_friend_path(:display_name => "No Such User")

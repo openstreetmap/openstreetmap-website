@@ -63,7 +63,7 @@ module Api
             "</changeset></osm>"
       put changeset_create_path, :params => xml, :headers => auth_header
 
-      assert_response :success, "Creation of changeset did not return sucess status"
+      assert_response :success, "Creation of changeset did not return success status"
       newid = @response.body.to_i
 
       # check end time, should be an hour ahead of creation time
@@ -700,7 +700,7 @@ module Api
       # upload it
       post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
-                      "shoudln't be able to upload too long a tag to changeset: #{@response.body}"
+                      "shouldn't be able to upload too long a tag to changeset: #{@response.body}"
     end
 
     ##
@@ -1326,7 +1326,7 @@ module Api
           <node id='-7' visible='true' changeset='#{changeset_id}' lat='51.49560784152179' lon='-0.18694719410005425' />
           <node id='-8' visible='true' changeset='#{changeset_id}' lat='51.49567389979617' lon='-0.1860289771788006' />
           <node id='-9' visible='true' changeset='#{changeset_id}' lat='51.49543761398892' lon='-0.186820684213126' />
-          <way id='-10' action='modiy' visible='true' changeset='#{changeset_id}'>
+          <way id='-10' action='modify' visible='true' changeset='#{changeset_id}'>
             <nd ref='-1' />
             <nd ref='-2' />
             <nd ref='-3' />

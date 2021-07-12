@@ -58,7 +58,7 @@ class IssuesTest < ApplicationSystemTestCase
 
     # User doesn't exist
     visit issues_path
-    fill_in "search_by_user", :with => "Nonexistant User"
+    fill_in "search_by_user", :with => "Nonexistent User"
     click_on "Search"
     assert page.has_content?(I18n.t("issues.index.user_not_found"))
     assert page.has_content?(I18n.t("issues.index.issues_not_found"))

@@ -12,6 +12,6 @@ class UTF8Test < ActiveSupport::TestCase
     assert_not UTF8.valid?("\xC2\xC2")     # 2-byte multibyte identifier, followed by another one
     assert_not UTF8.valid?("\x4a\x82")     # plain ASCII, followed by multibyte continuation
     assert_not UTF8.valid?("\x82\x82")     # multibyte continuations without multibyte identifier
-    assert_not UTF8.valid?("\xe1\x82\x4a") # three-byte identifier, contination and (incorrectly) plain ASCII
+    assert_not UTF8.valid?("\xe1\x82\x4a") # three-byte identifier, continuation and (incorrectly) plain ASCII
   end
 end

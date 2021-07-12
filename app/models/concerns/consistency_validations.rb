@@ -3,7 +3,7 @@ module ConsistencyValidations
 
   # Generic checks that are run for the updates and deletes of
   # node, ways and relations. This code is here to avoid duplication,
-  # and allow the extention of the checks without having to modify the
+  # and allow the extension of the checks without having to modify the
   # code in 6 places for all the updates and deletes. Some of these tests are
   # needed for creates, but are currently not run :-(
   # This will throw an exception if there is an inconsistency

@@ -133,7 +133,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   # Check that the index of traces is displayed
   def test_index
     user = create(:user)
-    # The fourth test below is surpisingly sensitive to timestamp ordering when the timestamps are equal.
+    # The fourth test below is surprisingly sensitive to timestamp ordering when the timestamps are equal.
     trace_a = create(:trace, :visibility => "public", :timestamp => 4.seconds.ago) do |trace|
       create(:tracetag, :trace => trace, :tag => "London")
     end
@@ -255,7 +255,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   # Check the RSS feed
   def test_rss
     user = create(:user)
-    # The fourth test below is surpisingly sensitive to timestamp ordering when the timestamps are equal.
+    # The fourth test below is surprisingly sensitive to timestamp ordering when the timestamps are equal.
     trace_a = create(:trace, :visibility => "public", :timestamp => 4.seconds.ago) do |trace|
       create(:tracetag, :trace => trace, :tag => "London")
     end

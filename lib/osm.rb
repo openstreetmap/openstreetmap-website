@@ -474,7 +474,7 @@ module OSM
 
   # Construct a random token of a given length
   def self.make_token(length = 30)
-    chars = "abcdefghijklmnopqrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     token = ""
 
     length.times do

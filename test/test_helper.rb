@@ -195,7 +195,7 @@ module ActiveSupport
 
     ##
     # Used to check that the error header and the forbidden responses are given
-    # when the owner of the changset has their data not marked as public
+    # when the owner of the changeset has their data not marked as public
     def assert_require_public_data(msg = "Shouldn't be able to use API when the user's data is not public")
       assert_response :forbidden, msg
       assert_equal("You must make your edits public to upload new data", @response.headers["Error"], "Wrong error message")

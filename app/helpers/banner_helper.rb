@@ -28,7 +28,7 @@ module BannerHelper
       index = cval.to_i
       cookies[ckey] = index - 1 if index.positive?
 
-      # pick banner with mininum queue position
+      # pick banner with minimum queue position
       next if index > min_index
 
       # or if equal queue position, pick banner with soonest end date (i.e. next expiring)
