@@ -73,6 +73,9 @@ tr:
       client_application:
         create: Kaydol
         update: Güncelle
+      doorkeeper_application:
+        create: Kaydol
+        update: Güncelle
       redaction:
         create: Redaksiyon oluştur
         update: Redaksiyonu kaydet
@@ -144,6 +147,11 @@ tr:
         latitude: Enlem
         longitude: Boylam
         language: Dil
+      doorkeeper/application:
+        name: Ad
+        redirect_uri: Yönlendirme URI'leri
+        confidential: Güvenilir uygulama mı?
+        scopes: İzinler
       friend:
         user: Kullanıcı
         friend: Arkadaş
@@ -186,6 +194,10 @@ tr:
         pass_crypt: Parola
         pass_crypt_confirmation: Parolayı Onayla
     help:
+      doorkeeper/application:
+        confidential: Uygulama, kullanıcı gizliliğini güvenilir yerlerde kullanacaktır
+          (yerel mobil uygulamalar ve tek sayfalı uygulamalar, güvenilir değildir)
+        redirect_uri: URI başına bir satır kullanın
       trace:
         tagstring: virgülle ayrılmış
       user_block:
@@ -505,10 +517,10 @@ tr:
       title: Böyle bir günlük girdisi bulunmuyor
       heading: 'Bu numaraya sahip girdi yok: %{id}'
       body: Üzgünüz, %{id} numaralı bir günlük girdisi ya da yorumu yok. Lütfen harfleri
-        kontrol edin ya da tıkladığınız link yanlış olabilir.
+        kontrol edin ya da tıkladığınız bağlantı hatalı olabilir.
     diary_entry:
       posted_by_html: '%{link_user} tarafından %{created} tarihinde %{language_link}
-        dilinde gönderildi.'
+        olarak gönderildi.'
       updated_at_html: En son %{updated} tarihinde güncellendi.
       comment_link: Bu girdiyi yorumla
       reply_link: Yazara mesaj gönder
@@ -552,6 +564,11 @@ tr:
       comment: Yorum
       newer_comments: Daha Yeni Yorumlar
       older_comments: Daha Eski Yorumlar
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Uygulama Kayıtlı.
   friendships:
     make_friend:
       heading: '%{user} adlı kullanıcı arkadaş olarak eklensin mi?'
@@ -1426,14 +1443,14 @@ tr:
         resolve_with_user: Sorunu ilgili kullanıcıyla çözmeyi denediyseniz
       categories:
         diary_entry:
-          spam_label: Bu günlük girdisi spamsa ya da spam içeriyorsa
-          offensive_label: Bu günlük girdisi müstehcense veya saldırgansa
-          threat_label: Bu günlük girdisi bir tehdit içeriyorsa
+          spam_label: Bu günlük girdisi, spam içermekte
+          offensive_label: Bu günlük girdisi, müstehcenlik/saldırganlık içermekte
+          threat_label: Bu günlük girdisi, bir tehdit içermekte
           other_label: Diğer
         diary_comment:
-          spam_label: Bu günlük yorum, spamsa veya spam içeriyorsa
-          offensive_label: Bu günlük yorum, müstehcense veya saldırgansa
-          threat_label: Bu günlük yorum, bir tehdit içeriyorsa
+          spam_label: Bu günlük yorumu, spam içermekte
+          offensive_label: Bu günlük yorumu, müstehcenlik/saldırganlık içermekte
+          threat_label: Bu günlük yorumu, bir tehdit içermekte
           other_label: Diğer
         user:
           spam_label: Bu kullanıcı profili spam içeriyor
@@ -1467,7 +1484,7 @@ tr:
     export_data: Verinin Dışalımı
     gps_traces: GPS İzleri
     gps_traces_tooltip: GPS izleri yönet
-    user_diaries: Günlük
+    user_diaries: Kullanıcı Günlükleri
     user_diaries_tooltip: Kullanıcı günlükleri görüntüle
     edit_with: '%{editor} kullanarak düzenle'
     tag_line: Özgür Viki Dünya Haritası
@@ -1501,7 +1518,7 @@ tr:
     more: Daha fazla
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user}, günlük bir girdi hakkında yorum yaptı.'
+      subject: '[OpenStreetMap] %{user}, bir günlük girdisi hakkında yorum yaptı.'
       hi: Merhaba %{to_user},
       header: '%{from_user}, %{subject} konulu OpenStreetMap günlük girdisi hakkında
         yorum yaptı.'
@@ -1663,6 +1680,12 @@ tr:
       success: E-posta adresinizdeki değişikliğiniz onaylandı!
       failure: Bu özellikle ile bir e-posta adresi zaten doğrulandı.
       unknown_token: Onay kodu geçerliliğini yitirmiş veya mevcut değil.
+    resend_success_flash:
+      confirmation_sent: '%{email} adresine yeni bir onay notu gönderdik ve hesabını
+        onaylar onaylamaz haritalama yapabileceksin.'
+      whitelist: Onay istekleri gönderen bir istenmeyen posta önleme sistemi kullanıyorsan
+        herhangi bir onay isteğine yanıt veremediğimiz için lütfen %{sender} beyaz
+        listeye eklediğinden emin ol.
   messages:
     inbox:
       title: Gelen kutusu
@@ -1918,7 +1941,7 @@ tr:
         credit_3_1_html: "Harita &ldquo;standart stili&rdquo; www.openstreetmap.org
           \nadresindeki OpenStreetMap Vakfı tarafından\nOpen Database Lisansı altında
           OpenStreetMap verileri kullanılarak Üretilmiş Bir Çalışmadır. Bu döşemeleri
-          kullanıyorsanız, lütfen\naşağıdaki ilişkilendirmeyi kullanın:\n&ldquo;OpenStreetMap
+          kullanıyorsanız lütfen\naşağıdaki ilişkilendirmeyi kullanın:\n&ldquo;OpenStreetMap
           ve OpenStreetMap Vakfı'dan temel harita ve veriler&rdquo;."
         credit_4_html: |-
           Bir gezinebilir elektronik haritanın sağ alt köşesinde atfın görünmesi lazım.
@@ -2338,7 +2361,7 @@ tr:
       visibility: 'Görünürlük:'
       confirm_delete: Bu izi sil?
     trace_paging_nav:
-      showing_page: Sayfa %{page}
+      showing_page: '%{page}. sayfa'
       older: Daha Eski İzler
       newer: En Yeni İzler
     trace:
@@ -2427,6 +2450,14 @@ tr:
       flash: Özelliği %{application} için iptal ettiniz
     permissions:
       missing: Uygulamanın bu özelliğe erişimine izin vermediniz
+    scopes:
+      read_prefs: Kullanıcı tercihlerini oku
+      write_prefs: Kullanıcı tercihlerini değiştir
+      write_diary: Günlük girdiler, yorumlar oluştur ve arkadaşlar edin
+      write_api: Haritayı değiştir
+      read_gpx: Özel GPS izlerini oku
+      write_gpx: GPS izlerini yükle
+      write_notes: Notları değiştir
   oauth_clients:
     new:
       title: Yeni bir uygulama kaydedin
@@ -2468,6 +2499,55 @@ tr:
       flash: Müşteri bilgilerini başarıyla güncelleştirildi
     destroy:
       flash: İstemci uygulaması kaydını yok etti
+  oauth2_applications:
+    index:
+      title: İstemci uygulamalarım
+      no_applications_html: '%{oauth2} standardını bizimle kullanmak için kaydettirmek
+        istediğiniz bir uygulamanız var mı? Bu hizmete OAuth isteklerinde bulunabilmesi
+        için uygulamanızı kaydetmeniz gerekir.'
+      new: Yeni uygulama kaydet
+      name: Ad
+      permissions: İzinler
+    application:
+      edit: Düzenle
+      delete: Sil
+      confirm_delete: Bu uygulama silinsin mi?
+    new:
+      title: Yeni bir uygulama kaydet
+    edit:
+      title: Uygulamanı düzenle
+    show:
+      edit: Düzenle
+      delete: Sil
+      confirm_delete: Bu uygulama silinsin mi?
+      client_id: İstemci kimliği
+      client_secret: İstemci Gizli Kelimesi
+      client_secret_warning: Bu kelimeyi kaydettiğinizden emin olun - bir daha erişilebilir
+        olmayacak
+      permissions: İzinler
+      redirect_uris: Yönlendirme URI'leri
+    not_found:
+      sorry: Maalesef bu uygulama bulunamadı.
+  oauth2_authorizations:
+    new:
+      title: İzin gerekmekte
+      introduction: '%{application}, aşağıdaki izinlerle hesabınıza erişmesi için
+        yetkilendirilsin mi?'
+      authorize: Yetkilendir
+      deny: Reddet
+    error:
+      title: Bir hata meydana geldi
+    show:
+      title: Yetki kodu
+  oauth2_authorized_applications:
+    index:
+      title: Yetkili uygulamalarım
+      application: Uygulama
+      permissions: İzinler
+      no_applications_html: Henüz hiçbir %{oauth2} uygulamasını yetkilendirmediniz.
+    application:
+      revoke: Erişimi İptal Et
+      confirm_revoke: Bu uygulamaya erişim iptal edilsin mi?
   users:
     new:
       title: Hesap oluştur
@@ -2525,6 +2605,7 @@ tr:
     terms_declined_flash:
       terms_declined_html: Yeni Katılımcı Şartlarına kabul etmediğiniz için üzgünüz.
         Daha fazla bilgi için lütfen %{terms_declined_link} sayfasına bakınız.
+      terms_declined_link: bu wiki sayfası
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Tr:Contributor_Terms_Declined
     no_such_user:
       title: Böyle bir kullanıcı yok
@@ -2594,7 +2675,7 @@ tr:
       friends_changesets: arkadaşların değişiklik kayıtları
       friends_diaries: arkadaşların günlük girdileri
       nearby_changesets: yakınlarındaki kullanıcıların bütün değişiklik kayıtları
-      nearby_diaries: yakınlarındaki kullanıcıların bütün günlük girdileri
+      nearby_diaries: yakınlarındaki kullanıcıların günlük girdileri
       report: Bu kullanıcıyı rapor et
     popup:
       your location: Konumum
@@ -2654,6 +2735,9 @@ tr:
       save changes button: Değişiklikleri Kaydet
       make edits public button: Bütün girdiklerim herkese açık olsun
       return to profile: Profile dön
+      oauth1 settings: OAuth 1 ayarları
+      oauth2 applications: OAuth 2 uygulamaları
+      oauth2 authorizations: OAuth 2 yetkilendirmeleri
       flash update success confirm needed: Kullanıcı bilgisi başarıyla güncellendi.
         Yeni e-posta adresinizi onaylamak için e-mail'inizi lütfen kontrol ediniz.
       flash update success: Kullanıcı bilgisi başarıyla güncellendi.
@@ -2676,9 +2760,10 @@ tr:
     suspended:
       title: Hesap Askıda
       heading: Hesap Askıda
+      support: destek
       body_html: "<p>\n  Maalesef, hesabınız şüpheli etkinlikler nedeniyle otomatik
         olarak \n  askıya alındı.\n</p>\n<p>\n  Bu karar kısa bir süre içinde bir
-        yönetici tarafından \n  incelenecek veya\n  bu konuyu görüşmek isterseniz,
+        yönetici tarafından \n  incelenecek veya\n  bu konuyu görüşmek isterseniz
         %{webmaster} ile iletişime geçebilirsiniz.\n</p>"
     auth_failure:
       connection_failed: Kimlik doğrulama sağlayıcısına bağlantı başarısız oldu
@@ -2818,7 +2903,7 @@ tr:
       reason: Engelleme sebebi
       status: Durum
       revoker_name: İptal eden
-      showing_page: Sayfa %{page}
+      showing_page: '%{page}. sayfa'
       next: Sonraki »
       previous: « Önceki
   notes:
