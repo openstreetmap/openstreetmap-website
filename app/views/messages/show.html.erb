@@ -16,7 +16,7 @@
   <div>
     <%= link_to t(".reply_button"), message_reply_path(@message), :class => "btn btn-primary" %>
     <%= link_to t(".unread_button"), message_mark_path(@message, :mark => "unread"), :method => "post", :class => "btn btn-primary" %>
-    <%= link_to t(".destroy_button"), message_path(@message), :method => "delete", :class => "btn btn-primary" %>
+    <%= link_to t(".destroy_button"), message_path(@message), :method => "delete", :class => "btn btn-danger" %>
     <%= link_to t(".back"), inbox_messages_path, :class => "btn btn-link" %>
   </div>
 <% else %>
@@ -31,6 +31,7 @@
   <div class="richtext text-break"><%= @message.body.to_html %></div>
 
   <div>
+    <%= link_to t(".destroy_button"), message_path(@message), :method => "delete", :class => "btn btn-danger" %>
     <%= link_to t(".back"), outbox_messages_path, :class => "btn btn-link" %>
   </div>
 <% end %>
