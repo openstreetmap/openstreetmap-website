@@ -165,6 +165,12 @@
 
     <div class="user-description richtext text-break"><%= @user.description.to_html %></div>
 
+    <% if current_user and @user.id == current_user.id %>
+      <div class="my-3">
+        <%= link_to t(".edit_profile"), edit_profile_path, :class => "btn btn-outline-primary" %>
+      </div>
+    <% end %>
+
   </div>
 
   <% if current_user and current_user.administrator? -%>

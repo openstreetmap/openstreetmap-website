@@ -363,26 +363,6 @@ class UsersController < ApplicationController
       user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
     end
 
-    if params[:user][:description] != user.description
-      user.description = params[:user][:description]
-      user.description_format = "markdown"
-    end
-
-    case params[:avatar_action]
-    when "new"
-      user.avatar.attach(params[:user][:avatar])
-      user.image_use_gravatar = false
-    when "delete"
-      user.avatar.purge_later
-      user.image_use_gravatar = false
-    when "gravatar"
-      user.avatar.purge_later
-      user.image_use_gravatar = true
-    end
-
-    user.home_lat = params[:user][:home_lat]
-    user.home_lon = params[:user][:home_lon]
-
     if params[:user][:auth_provider].nil? || params[:user][:auth_provider].blank?
       user.auth_provider = nil
       user.auth_uid = nil

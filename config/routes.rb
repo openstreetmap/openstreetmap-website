@@ -241,6 +241,7 @@ OpenStreetMap::Application.routes.draw do
   post "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
 
   resource :preferences, :only => [:show, :edit, :update]
+  resource :profile, :only => [:edit, :update]
 
   # friendships
   match "/user/:display_name/make_friend" => "friendships#make_friend", :via => [:get, :post], :as => "make_friend"

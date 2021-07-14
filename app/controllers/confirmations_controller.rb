@@ -129,9 +129,9 @@ class ConfirmationsController < ApplicationController
   # display a message about th current status of the gravatar setting
   def gravatar_status_message(user)
     if user.image_use_gravatar
-      t "users.account.gravatar.enabled"
+      t "profiles.edit.gravatar.enabled"
     else
-      t "users.account.gravatar.disabled"
+      t "profiles.edit.gravatar.disabled"
     end
   end
 end
