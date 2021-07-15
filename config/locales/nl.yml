@@ -157,6 +157,7 @@ nl:
         language: Taal
       doorkeeper/application:
         name: Naam
+        redirect_uri: Omleidings-URI's
         confidential: Vertrouwelijke toepassing?
         scopes: Rechten
       friend:
@@ -201,6 +202,11 @@ nl:
         pass_crypt: Wachtwoord
         pass_crypt_confirmation: Wachtwoord bevestigen
     help:
+      doorkeeper/application:
+        confidential: Applicatie wordt gebruikt waar het clientgeheim vertrouwelijk
+          kan worden gehouden (native mobiele apps en apps met één pagina zijn niet
+          vertrouwelijk)
+        redirect_uri: Gebruik één regel per URI
       trace:
         tagstring: kommagescheiden
       user_block:
@@ -1670,6 +1676,12 @@ nl:
       success: Uw e-mailadreswijziging is bevestigd.
       failure: Er is al een e-mailadres bevestigd met dit token.
       unknown_token: De opgegeven bevestigingscode is verlopen of bestaat niet.
+    resend_success_flash:
+      confirmation_sent: We hebben een nieuwe bevestigingsnotitie naar %{email} gestuurd
+        en zodra u uw account bevestigt, kunt u een toewijzing krijgen.
+      whitelist: Als u een antispamsysteem gebruikt dat bevestigingsverzoeken verzendt,
+        zorg er dan voor dat u %{sender} op de witte lijst plaatst, aangezien we niet
+        kunnen reageren op bevestigingsverzoeken.
   messages:
     inbox:
       title: Postvak IN
@@ -1784,9 +1796,8 @@ nl:
       account not active: Uw gebruiker is helaas nog niet actief.<br />Klik op de
         koppeling in de bevestiging om deze te activeren of <a href="%{reconfirm}">vraag
         een nieuwe bevestiging per e-mail aan</a>.
-      account is suspended: Uw gebruiker is automatisch opgeschort vanwege verdachte
-        activiteit.<br />Neem contact op met de <a href="%{webmaster}">webmaster</a>
-        als u deze handeling wilt bespreken.
+      account is suspended: Sorry, uw account is opgeschort vanwege verdachte activiteit.<br
+        /> Neem contact op met <a href="%{webmaster}">support</a> als u dit wilt bespreken.
       auth failure: Met deze gegevens kunt u helaas niet aanmelden.
       openid_logo_alt: Aanmelden met een OpenID
       auth_providers:
@@ -2364,7 +2375,7 @@ nl:
       in: in
     index:
       public_traces: Openbare gps-trajecten
-      my_traces: Mijn gps-trajecten
+      my_traces: Mijn trajecten
       public_traces_from: Openbare gps-trajecten van %{user}
       description: Door recente gps-traject-uploads bladeren
       tagged_with: ' gelabeld met %{tags}'
@@ -2373,6 +2384,7 @@ nl:
       upload_trace: Traject uploaden
       all_traces: Alle trajecten
       traces_from: Openbare trajecten van %{user}
+      remove_tag_filter: Tagfilter verwijderen
     destroy:
       scheduled_for_deletion: Traject staat op de lijst voor verwijdering
     make_public:
@@ -2436,8 +2448,11 @@ nl:
     scopes:
       read_prefs: Gebruikersvoorkeuren lezen
       write_prefs: Gebruikersvoorkeuren wijzigen
+      write_diary: Dagboekberichten schrijven, reacties geven en vrienden maken
+      write_api: Wijzig de kaart
       read_gpx: Persoonlijke gps-trajecten lezen
       write_gpx: Gps-trajecten uploaden
+      write_notes: Notities wijzigen
   oauth_clients:
     new:
       title: Nieuwe toepassing registreren
@@ -2481,6 +2496,11 @@ nl:
       flash: Registratie van de client-toepassing verwijderd
   oauth2_applications:
     index:
+      title: Mijn client-toepassingen
+      no_applications_html: Heeft u een toepassing die u wilt registreren met de %{oauth2}-standaard?
+        Dan moet u uw webtoepassing registreren voordat u OAuth-verzoeken naar deze
+        dienst kunt maken.
+      new: Nieuwe toepassing registreren
       name: Naam
       permissions: Rechten
     application:
@@ -2496,10 +2516,18 @@ nl:
       delete: Verwijderen
       confirm_delete: Deze toepassing verwijderen?
       client_id: Client-ID
+      client_secret: Clientgeheim
+      client_secret_warning: Zorg ervoor dat u dit geheim opslaat - het zal niet meer
+        toegankelijk zijn
       permissions: Rechten
+      redirect_uris: Omleidings-URI's
+    not_found:
+      sorry: Sorry, die applicatie kan niet worden gevonden.
   oauth2_authorizations:
     new:
       title: Autorisatie vereist
+      introduction: '%{application} autoriseren om toegang te krijgen tot uw account
+        met de volgende machtigingen?'
       authorize: Autoriseren
       deny: Weigeren
     error:
@@ -2511,6 +2539,7 @@ nl:
       title: Mijn geautoriseerde toepassingen
       application: Toepassing
       permissions: Rechten
+      no_applications_html: U heeft nog geen %{oauth2}-applicaties geautoriseerd.
     application:
       revoke: Toegang intrekken
       confirm_revoke: Toegang voor deze toepassing intrekken?
@@ -2520,7 +2549,7 @@ nl:
       no_auto_account_create: Helaas is het niet mogelijk om automatisch een gebruiker
         voor u aan te maken.
       contact_support_html: Neem contact op met de <a href="%{support}">webmaster</a>
-        om een account te laten maken. We proberen uw aanvraag dan zo snel mogelijk
+        om een account aan te maken - we zullen proberen het verzoek zo snel mogelijk
         af te handelen.
       about:
         header: Open en te bewerken
@@ -2729,8 +2758,9 @@ nl:
     suspended:
       title: Gebruiker opgeschort
       heading: Account opgeschort
+      support: ondersteuning
       body_html: |-
-        <p>Uw gebruiker is automatisch opgeschort vanwege verdachte activiteit.</p>
+        <p>Uw account is automatisch opgeschort vanwege verdachte activiteit.</p>
         <p>Deze beslissing wordt snel beoordeeld door een beheerder, maar u kunt ook contact opnemen met de %{webmaster} als u deze handeling wilt bespreken.</p>
     auth_failure:
       connection_failed: Verbinding met authenticatieprovider mislukt
