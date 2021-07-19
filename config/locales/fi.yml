@@ -68,6 +68,9 @@ fi:
       client_application:
         create: Rekisteröi
         update: Päivitä
+      doorkeeper_application:
+        create: Rekisteröidy
+        update: Päivitä
       redaction:
         create: Luo redaktio
         update: Tallenna redaktio
@@ -139,6 +142,9 @@ fi:
         latitude: Leveyspiiri
         longitude: Pituuspiiri
         language: Kieli
+      doorkeeper/application:
+        name: Nimi
+        scopes: Käyttöoikeudet
       friend:
         user: Käyttäjä
         friend: Kaveri
@@ -524,6 +530,11 @@ fi:
       comment: Kommentti
       newer_comments: Uudemmat kommentit
       older_comments: Vanhemmat kommentit
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Sovellus rekisteröity.
   friendships:
     make_friend:
       heading: Lisätäänkö %{user} kaveriksi?
@@ -719,6 +730,7 @@ fi:
           semidetached_house: Paritalo
           service: Palvelurakennus
           stable: Talli
+          static_caravan: Karavaani
           temple: Temppelirakennus
           terrace: Rivitalo
           train_station: Rautatieasema
@@ -726,18 +738,25 @@ fi:
           warehouse: Varasto
           "yes": Rakennus
         club:
+          sport: Urheiluseura
           "yes": Klubi
         craft:
+          beekeper: Mehiläishoitaja
           brewery: Panimo
           carpenter: Puuseppä
+          caterer: Pitopalvelu
+          confectionery: Makeiset
+          dressmaker: Ompelija
           electrician: Sähköasentaja
           gardener: Puutarhuri
+          handicraft: Käsityöt
           painter: Taidemaalari
           photographer: Valokuvaaja
           plumber: Putkimies
           sawmill: Sahalaitos
           shoemaker: Suutari
           tailor: Räätäli
+          winery: Viinitila
           "yes": Käsityömyymälä
         emergency:
           ambulance_station: Ensihoitoasema
@@ -830,6 +849,7 @@ fi:
           "yes": Risteys
         landuse:
           allotments: Siirtolapuutarha
+          aquaculture: Vesiviljely
           basin: Syvänne
           brownfield: Purettujen rakennusten alue
           cemetery: Hautausmaa
@@ -893,6 +913,7 @@ fi:
           "yes": Vapaa-aika
         man_made:
           adit: Suuaukko
+          advertising: Mainonta
           antenna: Antenni
           beacon: Majakka
           beehive: ampiaispesä
@@ -2237,6 +2258,8 @@ fi:
       flash: Olet poistanut sovelluksen %{application} käyttöoikeudet
     permissions:
       missing: Et ole sallinut sovelluksen käyttöoikeutta tähän palveluun
+    scopes:
+      write_api: Muokkaa karttaa
   oauth_clients:
     new:
       title: Rekisteröi uusi sovellus
@@ -2278,6 +2301,28 @@ fi:
       flash: Sovelluksen tiedot on päivitetty.
     destroy:
       flash: Sovelluksen käyttöoikeus on poistettu.
+  oauth2_applications:
+    index:
+      new: Rekisteröi uusi sovellus
+      name: Nimi
+      permissions: Käyttöoikeudet
+    application:
+      edit: Muokkaa
+      delete: Poista
+      confirm_delete: Poista tämä sovellus?
+    new:
+      title: Rekisteröi uusi sovellus
+    edit:
+      title: Muokkaa sovellustasi
+    show:
+      edit: Muokkaa
+      delete: Poista
+      confirm_delete: Poista tämä sovellus?
+      permissions: Oikeudet
+  oauth2_authorized_applications:
+    index:
+      application: Sovellus
+      permissions: Oikeudet
   users:
     new:
       title: Rekisteröidy
@@ -2332,6 +2377,7 @@ fi:
         italy: Italia
         rest_of_world: Muu maailma
     terms_declined_flash:
+      terms_declined_link: tämä wikisivu
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Fi:Contributor_Terms_Declined
     no_such_user:
       title: Haettua käyttäjää ei ole olemassa
@@ -2481,6 +2527,7 @@ fi:
     suspended:
       title: Käyttäjätili jäädytetty
       heading: Käyttäjätili jäädytetty
+      support: tuki
       body_html: |-
         <p>
          Pahoittelut, tilisi on automaattisesti suljettu
