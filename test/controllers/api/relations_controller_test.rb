@@ -1009,7 +1009,7 @@ module Api
     ##
     # updates the relation (XML) +rel+ and
     # yields the new version of that relation into the block.
-    # the parsed XML doc is retured.
+    # the parsed XML doc is returned.
     def with_update(rel, headers)
       rel_id = rel.find("//osm/relation").first["id"].to_i
       put api_relation_path(:id => rel_id), :params => rel.to_s, :headers => headers
@@ -1029,7 +1029,7 @@ module Api
     ##
     # updates the relation (XML) +rel+ via the diff-upload API and
     # yields the new version of that relation into the block.
-    # the parsed XML doc is retured.
+    # the parsed XML doc is returned.
     def with_update_diff(rel, headers)
       rel_id = rel.find("//osm/relation").first["id"].to_i
       cs_id = rel.find("//osm/relation").first["changeset"].to_i

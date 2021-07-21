@@ -1,4 +1,4 @@
-# Update and read user preferences, which are arbitrayr key/val pairs
+# Update and read user preferences, which are arbitrary key/val pairs
 module Api
   class UserPreferencesController < ApiController
     before_action :authorize
