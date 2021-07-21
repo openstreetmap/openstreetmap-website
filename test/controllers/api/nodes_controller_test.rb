@@ -86,7 +86,7 @@ module Api
     end
 
     def test_create_invalid_xml
-      ## Only test public user here, as test_create should cover what's the forbiddens
+      ## Only test public user here, as test_create should cover what's the forbidden
       ## that would occur here
 
       user = create(:user)
