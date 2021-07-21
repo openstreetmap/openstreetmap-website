@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_oauth
-    @oauth_token = current_user.access_token(Settings.oauth_key) if current_user && Settings.key?(:oauth_key)
+    @oauth_token = current_user.oauth_token(Settings.oauth_application) if current_user && Settings.key?(:oauth_application)
   end
 
   ##
