@@ -22,7 +22,8 @@ class PreferencesController < ApplicationController
                                       params[:user][:preferred_editor]
                                     end
     if current_user.save
-      flash[:notice] = t ".success"
+      # Use a partial so that it is rendered during the next page load in the correct language.
+      flash[:notice] = { :partial => "preferences/update_success_flash" }
       redirect_to preferences_path
     else
       flash[:error] = t ".failure"
