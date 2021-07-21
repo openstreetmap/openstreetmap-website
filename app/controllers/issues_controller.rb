@@ -47,7 +47,7 @@ class IssuesController < ApplicationController
     @new_comment = IssueComment.new(:issue => @issue)
   end
 
-  # Status Transistions
+  # Status Transitions
   def resolve
     if @issue.resolve
       @issue.updated_by = current_user.id

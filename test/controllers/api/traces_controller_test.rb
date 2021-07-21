@@ -70,7 +70,7 @@ module Api
       assert_response :success
     end
 
-    # Check an anoymous trace can't be specifically fetched by another user
+    # Check an anonymous trace can't be specifically fetched by another user
     def test_show_anon
       anon_trace_file = create(:trace, :visibility => "private")
 

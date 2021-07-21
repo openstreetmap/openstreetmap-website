@@ -76,7 +76,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_display_name_valid
     # Due to sanitisation in the view some of these that you might not
-    # expact are allowed
+    # expect are allowed
     # However, would they affect the xml planet dumps?
     ok = ["Name", "'me", "he\"", "<hr>", "*ho", "\"help\"@",
           "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲", "space space"]
