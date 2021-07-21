@@ -46,6 +46,8 @@ class Ability
         can [:make_friend, :remove_friend], Friendship
         can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
         can [:close, :reopen], Note
+        can [:show, :edit, :update], :preference
+        can [:edit, :update], :profile
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public], User

@@ -1,0 +1,28 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<dl class="row">
+  <dt class="col-sm-4"><%= t ".preferred_editor" %></dt>
+
+  <% if current_user.preferred_editor? %>
+    <dd class="col-sm-8"><%= t("editor.#{current_user.preferred_editor}.description") %></dd>
+  <% else %>
+    <dd class="col-sm-8"><%= t("editor.default", :name => t("editor.#{Settings.default_editor}.name")) %></dd>
+  <% end %>
+
+  <dt class="col-sm-4"><%= t ".preferred_languages" %></dt>
+
+  <dd class="col-sm-8">
+    <ul class="list-unstyled">
+      <% current_user.preferred_languages.each do |locale| %>
+        <li><%= locale %></li>
+      <% end %>
+    </ul>
+
+  </dd>
+</dl>
+
+<div>
+  <%= link_to t(".edit_preferences"), edit_preferences_path, :class => "btn btn-outline-primary" %>
+</div>
