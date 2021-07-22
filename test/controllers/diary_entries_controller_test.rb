@@ -314,9 +314,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     get diary_entry_path(:display_name => entry.user.display_name, :id => entry)
     assert_response :success
     assert_template "show"
-    assert_select "title", :text => /Users' diaries | /, :count => 1
+    assert_select "title", :text => /Users' Diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => /#{entry.user.display_name}'s diary/, :count => 1
+      assert_select "h2", :text => /#{entry.user.display_name}'s Diary/, :count => 1
     end
     assert_select "div#content", :count => 1 do
       assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
@@ -334,9 +334,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     get diary_entry_path(:display_name => entry.user.display_name, :id => entry)
     assert_response :success
     assert_template "show"
-    assert_select "title", :text => /Users' diaries | /, :count => 1
+    assert_select "title", :text => /Users' Diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => /#{entry.user.display_name}'s diary/, :count => 1
+      assert_select "h2", :text => /#{entry.user.display_name}'s Diary/, :count => 1
     end
     assert_select "div#content", :count => 1 do
       assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
