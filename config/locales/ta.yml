@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Aswn
 # Author: ElangoRamanujam
+# Author: Gurulenin
 # Author: Karthi.dr
 # Author: Krishnaprasaths
 # Author: Mahir78
@@ -18,20 +19,37 @@ ta:
     formats:
       friendly: '%e %B %Y, %H:%M'
   helpers:
+    file:
+      prompt: கோப்பை தேர்ந்தெடுக்கவும்
     submit:
       diary_comment:
         create: சேமி
       diary_entry:
         create: வெளியிடு
+        update: புதுப்பி
+      issue_comment:
+        create: கருத்தை சேர்
       message:
         create: அனுப்பு
       client_application:
         create: பதிவுசெய்
-        update: தொகு
+        update: புதுப்பி
+      doorkeeper_application:
+        create: பதிவுசெய்
+        update: புதுப்பி
+      redaction:
+        create: படித்திருத்தத்தை உருவாக்கவும்
+        update: படிதிருத்தத்தைச் சேமிக்கவும்
       trace:
         create: பதிவேற்று
         update: மாற்றங்களை சேமி
+      user_block:
+        create: தொகுதியை உருவாக்கு
+        update: தொகுதியைப் புதுப்பி
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: செல்லுபடியாகும் மின்னஞ்சல் முகவரியாகத் தெரியவில்லை
     models:
       acl: அனுமதிக் கட்டுப்பாட்டுப் பட்டியல்
       changeset: மாற்றங்கள்
@@ -571,6 +589,12 @@ ta:
       heading: ' %{user}க்கு கடவுச்சொல் மீட்டமை'
       reset: கடவுச்சொல்லை மீட்டமை
       flash changed: உங்கள் கடவுச்சொல் மாற்றப்பட்டது.
+  profiles:
+    edit:
+      image: 'படம்:'
+      new image: ஒரு படத்தை சேர்
+      keep image: நடப்பு படத்தை வைத்திரு
+      delete image: நடப்பு படத்தை நீக்கு
   sessions:
     new:
       title: புகுபதிகை
@@ -758,10 +782,6 @@ ta:
         link text: இது என்ன?
       contributor terms:
         link text: இது என்ன?
-      image: 'படம்:'
-      new image: ஒரு படத்தை சேர்
-      keep image: நடப்பு படத்தை வைத்திரு
-      delete image: நடப்பு படத்தை நீக்கு
       save changes button: மாற்றங்களைச் சேமி
     index:
       title: பயனர்கள்

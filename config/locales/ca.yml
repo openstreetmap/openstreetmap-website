@@ -65,6 +65,9 @@ ca:
       client_application:
         create: Registreu-vos
         update: Actualitza
+      doorkeeper_application:
+        create: Registreu-vos
+        update: Actualitza
       redaction:
         create: Crea una eliminació
         update: Desa una eliminació
@@ -139,6 +142,7 @@ ca:
       doorkeeper/application:
         name: Nom
         redirect_uri: Redirigeix URIs
+        confidential: Aplicació confidencial?
         scopes: Permisos
       friend:
         user: Usuari/a
@@ -759,7 +763,7 @@ ca:
           sport: Club esportiu
           "yes": Club
         craft:
-          beekeper: Apicultor
+          beekeeper: Apicultor
           blacksmith: Ferrer
           brewery: Fàbrica de cervesa
           carpenter: Fuster
@@ -785,7 +789,7 @@ ca:
           ambulance_station: Base d'ambulàncies
           assembly_point: Punt de reunió
           defibrillator: Desfibril·lador
-          fire_xtinguisher: Extintor de foc
+          fire_extinguisher: Extintor de foc
           fire_water_pond: Bassa d'Aigua Contra Incendis
           landing_site: Lloc d'aterratge d'emergència
           phone: Telèfon per a emergències
@@ -1087,6 +1091,7 @@ ca:
           locality: Localitat
           municipality: Municipi
           neighbourhood: Barri
+          plot: Parcel·la
           postcode: Codi postal
           quarter: Districte
           region: Regió
@@ -1708,6 +1713,44 @@ ca:
       reset: Restableix la contrasenya
       flash changed: S'ha canviat la contrasenya.
       flash token bad: No s'ha trobat el testimoni. Comproveu la URL.
+  preferences:
+    show:
+      title: Les meves preferències
+      preferred_editor: Editor preferit
+      preferred_languages: Idiomes preferits
+      edit_preferences: Edita les preferències
+    edit:
+      title: Edita les preferències
+      save: Actualitza les preferències
+      cancel: Cancel·la
+    update:
+      failure: No s'han pogut actualitzar les preferències.
+    update_success_flash:
+      message: S'han actualitzat les preferències.
+  profiles:
+    edit:
+      title: Edita el perfil
+      save: Actualitza el perfil
+      cancel: Cancel·la
+      image: Imatge
+      gravatar:
+        gravatar: Usa Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Què és Gravatar?
+        disabled: S'ha inhabilitat Gravatar.
+        enabled: S'ha habilitat que es mostri el vostre Gravatar.
+      new image: Afegeix una imatge
+      keep image: Conserva la imatge actual
+      delete image: Suprimeix la imatge actual
+      replace image: Reemplaça la imatge actual
+      image size hint: (val més usar imatges quadrades d'almenys 100x100)
+      home location: Ubicació inicial
+      no home location: No heu especificat la ubicació d'origen.
+      update home location on click: Voleu actualitzar la ubicació d'inici en fer
+        clic al mapa?
+    update:
+      success: S'ha actualitzat el perfil.
+      failure: No s'ha pogut actualitzar el perfil.
   sessions:
     new:
       title: Inicia la sessió
@@ -1730,9 +1773,8 @@ ca:
       account not active: El vostre compte encara no és actiu.<br />Utilitzeu l'enllaç
         al correu de confirmació per activar el vostre compte o <a href="%{reconfirm}">demaneu
         un nou correu electrònic de confirmació</a>.
-      account is suspended: S'ha suspès el vostre compte a causa d'activitat sospitosa.<br
-        />Contacteu amb el <a href="%{webmaster}">l'administrador del web</a> per
-        parlar-ne.
+      account is suspended: S'ha suspès el vostre compte a causa d'activitat sospitosa.<br/>Contacteu
+        amb <a href="%{webmaster}">assistència</a> per parlar-ne.
       auth failure: No podeu iniciar la sessió amb aquesta informació.
       openid_logo_alt: Inicia sessió amb un compte OpenID
       auth_providers:
@@ -2293,7 +2335,7 @@ ca:
       in: en
     index:
       public_traces: Traces GPS públiques
-      my_traces: Les meves traces de GPS
+      my_traces: Les meves traces
       public_traces_from: Traces GPS públiques de %{user}
       description: Navega per les traces pujades recentment
       tagged_with: etiquetat amb %{tags}
@@ -2301,6 +2343,9 @@ ca:
         traça</a> o apreneu més sobre les traces GPS a la <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>pàgina
         wiki</a>.
       upload_trace: Puja una traça
+      all_traces: Totes les traces
+      traces_from: Traces públiques de %{user}
+      remove_tag_filter: Elimina el filtre d'etiquetes
     destroy:
       scheduled_for_deletion: Traça programada per a ser suprimida
     make_public:
@@ -2361,7 +2406,12 @@ ca:
     permissions:
       missing: No heu permès l'accés de l'aplicació a aquesta característica
     scopes:
+      read_prefs: Llegeix les preferències d'usuari
+      write_prefs: Modifica les preferències d'usuari
+      write_diary: Creeu entrades del diari, comentaris i feu amics
       write_api: Modifica el mapa
+      read_gpx: Llegiu traces de GPS privades
+      write_gpx: Carrega traces de GPS
       write_notes: Modifica les notes
   oauth_clients:
     new:
@@ -2428,7 +2478,7 @@ ca:
     new:
       title: Registreu-vos-hi
       no_auto_account_create: No us podem crear un compte automàticament.
-      contact_support_html: Contacteu amb el <a href="%{support}">webmestre</a> per
+      contact_support_html: Contacteu amb <a href="%{support}">assistència</a> per
         gestionar la creació d'un compte - intentarem tractar la sol·licitud tan aviat
         com sigui possible.
       about:
@@ -2587,22 +2637,6 @@ ca:
           són de domini públic.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: què és això?
-      image: Imatge
-      gravatar:
-        gravatar: Usa Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Què és Gravatar?
-        disabled: S'ha inhabilitat Gravatar.
-        enabled: S'ha habilitat que es mostri el vostre Gravatar.
-      new image: Afegeix una imatge
-      keep image: Conserva la imatge actual
-      delete image: Suprimeix la imatge actual
-      replace image: Reemplaça la imatge actual
-      image size hint: (val més usar imatges quadrades d'almenys 100x100)
-      home location: Ubicació inicial
-      no home location: No heu especificat la ubicació d'origen.
-      update home location on click: Voleu actualitzar la ubicació d'inici en fer
-        clic al mapa?
       save changes button: Desa els canvis
       make edits public button: Fes totes les meves modificacions públiques
       return to profile: Torna al perfil
@@ -2631,12 +2665,12 @@ ca:
       heading: Compte suspès
       body_html: |-
         <p>
-          El vostre compte ha estat automàticament suspès a causa de
-          l'activitat sospitosa.
+          El vostre compte ha estat suspès automàticament a causa
+          d'activitat sospitosa.
         </p>
         <p>
-          Aquesta decisió serà revisat per un administrador en breu, o
-          es pot contactar amb el %{webmaster} si desitgeu discutir això.
+          Aquesta decisió serà revisada per un administrador aviat, o
+          podeu contactar amb %{webmaster} si desitgeu discutir-ho.
         </p>
     auth_failure:
       connection_failed: La connexió al proveïdor d'autenticació ha fallat
