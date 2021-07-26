@@ -2716,17 +2716,31 @@
     top: -25px;
 }
 
-.ideditor .mly-wrapper .AttributionContainer .AttributionIconContainer .AttributionMapillaryLogo {
-    margin-top: 3px;
+.ideditor .mly-wrapper .mapillary-attribution-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
-.ideditor .mly-wrapper .AttributionContainer .AttributionImageContainer {
-    color: #fff;
-    font-size: 10px;
-    font-weight: 300;
-    overflow: hidden;
+.ideditor .mly-wrapper .mapillary-attribution-container .mapillary-attribution-icon-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
+.ideditor .mly-wrapper .mapillary-attribution-container .mapillary-attribution-username {
+    display: none;
+}
+
+.ideditor .mly-wrapper .mapillary-attribution-container .mapillary-attribution-date {
+    margin-right: 6px;
+}
 
 /* OpenStreetCam viewer */
 .ideditor .osc-wrapper {
@@ -4318,13 +4332,22 @@
     visibility: visible;
 }
 .ideditor .preset-icon-container.showing-img *:not(.image-icon) {
-    visibility: hidden;
+    display: none;
 }
 
 .ideditor .preset-icon-point-border path {
     stroke: #333;
     stroke-width: 1.2;
     fill: transparent;
+}
+
+.ideditor .preset-icon-category-border path {
+    stroke: #999;
+    stroke-width: 1px;
+    fill: transparent;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+    vector-effect: non-scaling-stroke;
 }
 
 .ideditor .preset-icon-line {
@@ -4411,7 +4434,7 @@
         -ms-transform: scale(0.4);
             transform: scale(0.4);
 }
-.ideditor .preset-icon.framed.line-geom .icon,
+.ideditor .preset-icon.framed.line-geom:not(.category) .icon,
 .ideditor .preset-icon.framed.route-geom .icon {
     top: 20%;
     -webkit-transform: translateY(-30%) scale(0.4);
@@ -4428,7 +4451,7 @@
         -ms-transform: scale(0.74);
             transform: scale(0.74);
 }
-.ideditor .preset-icon-iD.framed.line-geom .icon,
+.ideditor .preset-icon-iD.framed.line-geom:not(.category) .icon,
 .ideditor .preset-icon-iD.framed.route-geom .icon {
     -webkit-transform: translateY(-30%) scale(0.74);
         -ms-transform: translateY(-30%) scale(0.74);
@@ -4913,6 +4936,13 @@
     display: none;
 }
 
+.ideditor .form-field-input-combo input.raw-value {
+    font-family: monospace;
+}
+.ideditor .form-field-input-combo input.known-value {
+    color: #7092ff;
+}
+
 .ideditor .form-field-input-multicombo ul.chiplist {
     padding: 5px 8px 5px 8px;
     background: #fff;
@@ -4947,6 +4977,7 @@
     background-color: #eff2f7;
     border: 1px solid #ccd5e3;
     max-width: 100%;
+    color: #7092ff;
 }
 .ideditor[dir='ltr'] .form-field-input-multicombo li.chip {
     padding: 2px 0px 2px 5px;
@@ -4963,6 +4994,10 @@
     z-index: 3000;
     cursor: -webkit-grabbing;
     cursor: grabbing;
+}
+.ideditor .form-field-input-multicombo li.chip.raw-value {
+    font-family: monospace;
+    color: #333;
 }
 .ideditor .form-field-input-multicombo li.mixed {
     border-color: #eff2f7;
@@ -5226,29 +5261,29 @@
 }
 
 
-/* Field - Maxspeed
+/* Field - roadspeed
 ------------------------------------------------------- */
-.ideditor .form-field-input-maxspeed input.maxspeed-number {
+.ideditor .form-field-input-roadspeed input.roadspeed-number {
     -ms-flex-preferred-size: 0;
         flex-basis: 0;
 }
-.ideditor .form-field-input-maxspeed input.maxspeed-unit {
+.ideditor .form-field-input-roadspeed input.roadspeed-unit {
     -webkit-box-flex: 0;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
     width: 80px;
 }
-.ideditor[dir='ltr'] .form-field-input-maxspeed > input:first-of-type {
+.ideditor[dir='ltr'] .form-field-input-roadspeed > input:first-of-type {
     border-radius: 0 0 0 4px;
 }
-.ideditor[dir='rtl'] .form-field-input-maxspeed > input:first-of-type {
+.ideditor[dir='rtl'] .form-field-input-roadspeed > input:first-of-type {
     border-radius: 0 0 4px 0;
 }
-.ideditor[dir='ltr'] .form-field-input-maxspeed > input:last-of-type {
+.ideditor[dir='ltr'] .form-field-input-roadspeed > input:last-of-type {
     border-left: 0;
     border-radius: 0 0 4px 0;
 }
-.ideditor[dir='rtl'] .form-field-input-maxspeed > input:last-of-type {
+.ideditor[dir='rtl'] .form-field-input-roadspeed > input:last-of-type {
     border-right: 0;
     border-radius: 0 0 0 4px;
 }
@@ -5622,6 +5657,11 @@
     border-top: 5px solid #ccc;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
+}
+
+.ideditor .combobox .combobox-option.raw-option {
+    font-family: monospace;
+    color: #333;
 }
 
 
@@ -6738,13 +6778,13 @@
     -webkit-box-flex: 0;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
-    padding: 5px 7px;
+    padding: 2px 3px;
 }
 .ideditor .issue-text .issue-message {
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
-    padding: 5px 0;
+    padding: 4px 5px;
 }
 .ideditor .issue-label .issue-autofix {
     -webkit-box-flex: 0;
@@ -7081,6 +7121,9 @@
 }
 
 .ideditor .issue-container:not(.active) ul.issue-fix-list {
+    display: none;
+}
+.ideditor .issue-container:not(.active) .issue-info {
     display: none;
 }
 
@@ -8053,9 +8096,12 @@
         -ms-flex-align: end;
             align-items: flex-end;
     z-index: 0;
+    pointer-events: none;
 }
 
-.ideditor .attribution-wrap * { pointer-events: all; }
+.ideditor .attribution-wrap > * {
+    pointer-events: auto;
+}
 
 .ideditor .attribution-wrap .base-layer-attribution,
 .ideditor .attribution-wrap .overlay-layer-attribution {
