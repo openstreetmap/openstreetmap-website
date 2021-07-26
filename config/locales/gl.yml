@@ -39,6 +39,7 @@ gl:
         create: Rexistrarse
         update: Actualizar
       doorkeeper_application:
+        create: Rexistrarse
         update: Actualizar
       redaction:
         create: Crear a redacción
@@ -1725,8 +1726,25 @@ gl:
       flash changed: Mudouse o teu contrasinal.
       flash token bad: Non se atopou o pase. Quizabes tería que comprobar o enderezo
         URL.
+  preferences:
+    show:
+      title: As miñas preferencias
+      preferred_editor: Editor preferido
+      preferred_languages: Linguas preferidas
+      edit_preferences: Editar preferencias
+    edit:
+      title: Editar preferencias
+      save: Actualizar preferencias
+      cancel: Cancelar
+    update:
+      failure: Non foi posíbel actualizar as preferencias.
+    update_success_flash:
+      message: Preferencias actualizadas.
   profiles:
     edit:
+      title: Editar perfil
+      save: Actualizar perfil
+      cancel: Cancelar
       image: Imaxe
       gravatar:
         gravatar: Empregar o Gravatar
@@ -1743,6 +1761,9 @@ gl:
       no home location: Non inseriches o teu lugar de orixe.
       update home location on click: Desexas actualizar a túa localización ó premer
         sobre o mapa?
+    update:
+      success: Perfil actualizado.
+      failure: Non foi posíbel actualizar o perfil.
   sessions:
     new:
       title: Rexistrarse
@@ -1766,7 +1787,7 @@ gl:
         na ligazón que hai no correo de confirmación da conta ou <a href="%{reconfirm}">solicite
         un novo correo de confirmación</a>.
       account is suspended: Sentímolo, a túa conta foi suspendida debido a actividades
-        sospeitosas.<br />Ponte en contacto co <a href="%{webmaster}">webmaster</a>
+        sospeitosas.<br />Ponte en contacto co <a href="%{webmaster}">soporte</a>
         se desexas debatelo.
       auth failure: Sentímolo, non puido acceder ó sistema con eses datos.
       openid_logo_alt: Acceder ó sistema cun OpenID
@@ -2471,6 +2492,9 @@ gl:
   oauth2_applications:
     index:
       title: As miñas aplicacións de cliente
+      no_applications_html: Tes unha aplicación que queiras rexistar para ser empregada
+        usando o estándar %{oauth2}? Tes que rexistar a aplicación antes de poderes
+        facer peticións OAuth a este servizo.
       oauth_2: OAuth 2
       new: Rexistrar unha nova aplicación
       name: Nome
@@ -2489,6 +2513,8 @@ gl:
       confirm_delete: Eliminar esta aplicación?
       client_id: ID de cliente
       client_secret: Cliente secreto
+      client_secret_warning: Asegúrate de gardar este segredo - non se poderá acceder
+        de novo
       permissions: Permisos
       redirect_uris: Redirixir URIs
     not_found:
@@ -2496,21 +2522,29 @@ gl:
   oauth2_authorizations:
     new:
       title: Autorización requirida
+      introduction: Autorizar o acesso de %{application} á túa conta cos seguintes
+        permisos?
       authorize: Autorizar
       deny: Rexeitar
     error:
       title: Ocorreu un erro
+    show:
+      title: Código de autorización
   oauth2_authorized_applications:
     index:
       title: As miñas aplicacións autorizadas
       application: Aplicación
       permissions: Permisos
+      no_applications_html: Non autorizaches ningunha aplicación %{oauth2}.
+    application:
+      revoke: Revogar acceso
+      confirm_revoke: Revogar o acceso a esta aplicación?
   users:
     new:
       title: Rexistrarse
       no_auto_account_create: Por desgraza, arestora non podemos crear unha conta
         de xeito automático para ti.
-      contact_support_html: Ponte en contacto co <a href="%{support}">webmaster</a>
+      contact_support_html: Ponte en contacto co <a href="%{support}">soporte</a>
         para que cree unha conta por ti; tentaremos xestionar a solicitude o máis
         axiña que poidamos.
       about:
@@ -2576,8 +2610,10 @@ gl:
       my profile: O meu perfil
       my settings: Os meus axustes
       my comments: Os meus comentarios
+      my_preferences: As miñas preferencias
       blocks on me: Os meus bloqueos
       blocks by me: Bloqueos efectuados
+      edit_profile: Editar perfil
       send message: Enviar unha mensaxe
       diary: Diario
       edits: Edicións
@@ -2674,6 +2710,9 @@ gl:
       save changes button: Gardar as modificacións
       make edits public button: Facer públicas tódalas miñas edicións
       return to profile: Voltar ó perfil
+      oauth1 settings: Axustes OAuth 1
+      oauth2 applications: Aplicacións OAuth 2
+      oauth2 authorizations: Autorizacións OAuth 2
       flash update success confirm needed: Información de usuario actualizada de xeito
         correcto. Procura no teu correo electrónico unha mensaxe para confirmar o
         teu novo enderezo.
@@ -2697,14 +2736,15 @@ gl:
     suspended:
       title: Conta suspendida
       heading: Conta suspendida
+      support: soporte
       body_html: |-
         <p>
-          Por desgraza, a túa conta rexeitouse de xeito automático por mor dunha
+          Por desgraza, a túa conta foi suspendida de xeito automático por mor dunha
           actividade sospeitosa.
         </p>
         <p>
           Axiña un administrador revisará esta decisión.
-          Se cadra queiras contactar co %{webmaster} para parolar sobre isto.
+          Se cadra queiras contactar co %{webmaster} para debater sobre isto.
         </p>
     auth_failure:
       connection_failed: Fallou a conexión ó proveedor de autenticación

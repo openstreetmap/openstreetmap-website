@@ -164,7 +164,11 @@ tl:
         closed_at_html: Nalutas %{when}
         closed_at_by_html: Nalutas %{when} ni %{user}
       rss:
+        description_area: Talaan ng mga tala, iniulat, pinuna or sinarado sa iyong
+          lugar [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         commented: bagong puna (malapit sa %{place})
+      entry:
+        full: Buong tala
   browse:
     created: Nilikha
     closed: Isinara
@@ -239,7 +243,9 @@ tl:
       wiki_link:
         key: Ang pahina ng paglalarawan ng wiki para sa tatak na %{key}
         tag: Ang pahina ng paglalarawan ng wiki para sa tatak na %{key}=%{value}
+      wikidata_link: Ang %{page} ng bagay sa Wikidata
       wikipedia_link: Ang %{page} ng artikulo sa Wikipedia
+      wikimedia_commons_link: Ang %{page} ng bagay sa Wikimedia Commons
       telephone_link: Tawagan ang %{phone_number}
     note:
       title: 'Tala: %{id}'
@@ -270,7 +276,7 @@ tl:
       saved_at: Sinagip sa
       user: Tagagamit
       comment: Puna/Kumento
-      area: Pook
+      area: Lugar
     index:
       title: Mga pangkat ng pagbabago
       title_user: Mga pangkat ng pagbabago ayon sa %{user}
@@ -325,6 +331,7 @@ tl:
         mo.
     diary_entry:
       posted_by_html: Ipinaskil ni %{link_user} noong %{created} na nasa %{language_link}
+      updated_at_html: Huling binago noong %{updated}.
       comment_link: Punahin ang pagpapasok na ito
       reply_link: Tumugon sa pagpapasok na ito
       comment_count:
@@ -339,7 +346,7 @@ tl:
       hide_link: Itago ang punang ito
       confirm: Tiyakin
     location:
-      location: 'Pook (lokasyon):'
+      location: 'Lokasyon:'
       view: Tingnan
       edit: Baguhin
     feed:
@@ -492,7 +499,7 @@ tl:
           church: Simbahan
           commercial: Gusaling Pangkalakal
           dormitory: Dormitoryo
-          farm: Gusaling Pambukid
+          farm: Bahay na Pambukid
           garage: Garahe
           hospital: Gusali ng Hospital
           hotel: Otel
@@ -999,6 +1006,11 @@ tl:
           tala'
         your_note: Nag-iwan si %{commenter} ng komento sa isa sa iyong mga tala malapit
           sa %{place}.
+      reopened:
+        subject_own: '[OpenStreetMap] binuhay muli ni %{commenter} ang isa sa iyong
+          mga tala'
+        your_note: Binuhay muli ni %{commenter} ang isa sa iyong mga tala malapit
+          sa %{place}.
       details: Higit pang mga detalye tungkol sa tala ay matatagpuan sa %{url}.
     changeset_comment_notification:
       hi: Kumusta %{to_user},
@@ -1179,6 +1191,7 @@ tl:
       logout_button: Umalis sa pagkakalagda
   shared:
     markdown_help:
+      unordered: Talaang walang pagkakasunud-sunod
       image: Larawan
   site:
     about:
@@ -1200,7 +1213,7 @@ tl:
         lisensya. Tingnan ang <a href=''%{copyright_path}''>pahina ng Karapatang-ari
         at Lisensya </a> para sa mga detalye.'
       legal_1_html: |-
-        Ang site na ito at maraming iba pang mga kaugnay na serbisyo ay opisyal na pinatatakbo ng <a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) sa ngalan ng komunidad. Ang paggamit ng lahat ng mga serbisyo na pinatatakbo ng OSMF ay napapailalim sa aming <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy">Patakaran sa Tanggapang Paggamit</a> at Patakaran sa Pagkapribado
+        Ang site na ito at maraming iba pang mga kaugnay na serbisyo ay opisyal na pinatatakbo ng <a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) sa ngalan ng komunidad. Ang paggamit ng lahat ng mga serbisyo na pinatatakbo ng OSMF ay napapailalim sa aming <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Pagtatakda sa Paggamit</a>, <a href="https://wiki.osmfoundation.org/wiki/Acceptable_Use_Policy">Mga Patakaran sa Katanggap-tanggap na Paggamit</a> at <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Patakaran sa Pagkapribado</a>.
         <br>
         Mangyaring <a href='http://osmfoundation.org/Contact'>makipag-ugnay sa OSMF</a> kung mayroon kang mga katanungan tungkol sa paglilisensya, karapatang-ari, o iba pang mga legal na isyu at katanungan.
       partners_title: Mga Kawaksi
@@ -1253,68 +1266,84 @@ tl:
           href="http://osmfoundation.org/Licence">pahina ng Lisensya ng OSMF</a> at sa <a
           href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Mga Palaging Itinatanong na Makabatas</a>.
         more_2_html: |-
-          Ipinapaalala sa mga tagapag-ambag ng OpenStreetMap (OSM) na huwag kailanman magdaragdag ng dato magmula sa anumang
-          mga pinagmulan na mayroong karapatan sa paglalathala (halimbawa na ang Google Maps o nakalimbag na mga mapa) na wala
-          ang malinaw na kapahintulutan magmula sa mga tagapaghawak ng karapatan sa paglalathala.
+          Kahit ang OpenStreetMap ay bukas na datos, hindi kami naglalaan ng isang walang bayad na API ng mapa para sa mga ikatlong partido.
+          Tignan ang ating <a href="https://operations.osmfoundation.org/policies/api/">Patakaran sa Paggamit ng API</a>,
+          <a href="https://operations.osmfoundation.org/policies/tiles/">Patakaran sa Paggamit ng mga Tile</a>
+          at <a href="https://operations.osmfoundation.org/policies/nominatim/">Patakaran sa Paggamit ng Nominatim</a>.
         contributors_title_html: Mga tagapag-ambag namin
-        contributors_intro_html: "Nangangailangan ang aming lisensiyang CC BY-SA na
-          ikaw ay &ldquo;magbigay ng pagbanggit sa Orihinal\nna May-akda na makatwiran
-          sa midyum o kaparaanan na ginagamit Mo&rdquo;. Ang indibidwal na mga \ntagapagmapa
-          ng OSM ay hindi humihiling ng isang pagbanggit sa ibabaw at sa itaas niyan
-          sa &ldquo;mga \ntagapag-ambag ng OpenStreetMap&rdquo;, subalit kung saan
-          ang dato magmula sa isang pambansang\nahensiya ng pagmamapa o ibang pangunahing
-          pinagmulan ay naisama sa loob ng OpenStreetMap,\nmaaaring maging makatwiran
-          na banggitin sila sa pamamagitan ng tuwirang paglikha muli ng kanilang\npagkakabanggit
-          o sa pamamagitan ng pagkakawing dito sa ibabaw ng pahinang ito."
+        contributors_intro_html: 'Ang aming mga tagapag-ambag ay libu-libong mga tao.
+          Isinasama rin namin ang mga datos na may bukas na lisensya mula sa mga pambansang
+          ahensya ng pagmamapa at iba pang mga mapagkukunan, kabilang sa mga ito ay:'
         contributors_at_html: "<strong>Austria</strong>: Naglalaman ng dato magmula
-          sa \n<a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (na nasa ilalim
-          ng \n<a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC
-          BY</a>),\n<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land
-          Vorarlberg</a> at ng\nLand Tirol (na nasa ilalim ng <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC
+          sa \n<a href=\"https://data.wien.gv.at/\">Stadt Wien</a> (na nasa ilalim
+          ng \n<a href=\"https://creativecommons.org/licenses/by/3.0/at/deed.de\">CC
+          BY</a>),\n<a href=\"https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land
+          Vorarlberg</a> at ng\nLand Tirol (na nasa ilalim ng <a href=\"https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC
           BY AT na mayroong mga susog</a>)."
-        contributors_au_html: |-
-          <strong>Australiya</strong>: Naglalaman ng datong sub-urbano na nakabatay
-          sa dato ng Tanggapan ng Estadistika ng Australiya.
+        contributors_au_html: '<strong>Australiya</strong>: Naglalaman ng datos na
+          nagmula sa <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA
+          Australia Limited</a> na lisensyado ng Sampamahalaan ng Australia sa ilalim
+          ng <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.'
         contributors_ca_html: "<strong>Canada</strong>: Naglalaman ng dato mula sa\nGeoBase&reg;,
           GeoGratis (&copy; Kagawaran ng Likas na Yaman ng \nCanada), CanVec (&copy;
           Kagawaran ng Likas na Yaman ng Canada), at StatCan \n(Dibisyon ng Heograpiya,
           Estadistika ng Canada)."
+        contributors_fi_html: |-
+          <strong>Pinlandiya</strong>: Naglalaman ng datos na nagmula sa Topograpikong Kalipunan ng mga Dato ng Pambansang Panukat ng Lupa ng Pinlandiya at iba pang mga hanay ng datos, sa ilaim ng
+          <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">Lisensyang NLSFI</a>.
         contributors_fr_html: "<strong>Pransiya</strong>: Naglalaman ng dato na nanggaling
           magmula sa \nDirection Générale des Impôts."
         contributors_nl_html: |-
           <strong>Nederlandiya</strong>: Naglalaman ng &copy; dato ng AND, 2007
           (<a href="http://www.and.com">www.and.com</a>)
-        contributors_nz_html: |-
-          <strong>Bagong Selanda</strong>: naglalaman ng dato na nanggaling magmula sa
-          Kabatirang Panlupain ng Bagong Selanda. Nakareserba ang Karapatan sa Paglalatahala
-          na Pangkorona.
+        contributors_nz_html: '<strong>Bagong Selanda</strong>: Naglalaman ng dato
+          na nagmula sa <a href="https://data.linz.govt.nz/">Serbisyo ng Datos ng
+          LINZ</a> at lisensyado para sa muling paggamit sa ilalim ng <a href="https://creativecommons.org/licenses/by/4.0/">CC
+          BY 4.0</a>'
+        contributors_si_html: |-
+          <strong>Slovenia</strong>: Naglalaman ng dato na nagmula sa
+          <a href="http://www.gu.gov.si/en/">Awtoridad ng Agrimensura at Pagmamapa</a> at
+          <a href="http://www.mkgp.gov.si/en/">Ministeryo ng Agrikultura, Panggugubat at Pagkain </a>
+          (pampublikong impormasyon ng Slovenia).
+        contributors_es_html: |-
+          <strong>Espanya</strong>: Naglalaman ng dato na nagmula sa Pambansang Suriang Heograpiko ng Espanya (<a href="http://www.ign.es/">IGN</a>) at
+          Pambansang Sistemang Kartograpiko (<a href="http://www.scne.es/">SCNE</a>) na lisensyado para sa muling paggamit sa ilalim ng <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_za_html: "<strong>Timog Aprika</strong>: Naglalaman ng datong
           nanggaling magmula sa \n<a href=\"http://www.ngi.gov.za/\">Punong Pangasiwaan:
           \nPambansang Kabatiran na Pangheograpiya at Pangkalawakan</a>, nakareserba
-          ang \nkarapatan ng paglalathala ng Estado."
-        contributors_gb_html: "<strong>Nagkakasiang mga Kaharian</strong>: Naglalaman
-          ng Ordinansiya \nsa dato ng Pagsisiyasat &copy; Karapatan sa Paglalathala
-          ng Korona at karapatan \nsa kalipunan ng dato 2010-12."
+          ang karapatan ng paglalathala ng Estado."
+        contributors_gb_html: '<strong>Nagkakasiang mga Kaharian</strong>: Naglalaman
+          ng dato ng Ordnance Survey &copy; Karapatan sa Paglalathala ng Korona at
+          karapatan sa kalipunan ng dato 2010-19.'
         contributors_footer_1_html: "Para sa karagdagang mga detalye ng mga ito, at
-          iba pang pinanggalingan na ginamit \nupang mapainam ang OpenStreetMap, paki
-          tingnan ang <a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">Pahina
-          ng \ntagapag-ambag</a> na nasa ibabaw ng Wiki ng OpenStreetMap."
-        contributors_footer_2_html: "Ang pagsasama ng dato sa loob ng OpenStreetMap
-          ay hindi nagpapahiwatig na ang orihinal \nna tagapagbigay ng dato ay tumatangkilik
-          sa OpenStreetMap, nagbibigay ng anumang garantiya, o \ntumatanggap ng anumang
-          pananagutan."
+          iba pang pinanggalingan na ginamit upang mapainam ang OpenStreetMap, paki
+          tingnan ang <a\nhref=\"https://wiki.openstreetmap.org/wiki/Contributors\">Pahina
+          ng \ntagapag-ambag</a> na nasa OpenStreetMap Wiki ."
+        contributors_footer_2_html: Ang pagsasama ng dato sa loob ng OpenStreetMap
+          ay hindi nagpapahiwatig na ang orihinal na tagapagbigay ng dato ay tumatangkilik
+          sa OpenStreetMap, nagbibigay ng anumang garantiya, o tumatanggap ng anumang
+          pananagutan.
         infringement_title_html: Paglabag sa karapatang-ari
         infringement_1_html: Ang mga tagapag-ambag ng OSM ay pinaalalahanan na huwag
           magdagdag ng datos mula sa anumang mapagkukunan na may karapatang-ari na
           nakalaan (halimbawa, Google Maps o naka-print na mga mapa) nang walang pahintulot
           mula sa mga may hawak ng karapatang-ari.
-        trademarks_title_html: Mga Trademark
+        infringement_2_html: |-
+          Kung naniniwala ka na may mga bagay na may karapatang-sipi ay idinagdag sa hindi angkop na pamamaraan sa kalipunan ng dato ng OpenStreetMap o sa site na ito, tignan ang <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">pamamaraan sa takedown</a> o direktang magpadala sa aming
+          <a href="https://dmca.openstreetmap.org/">on-line filing page</a>.
+        trademarks_title_html: Mga Markang Pagkakakilanlan
+        trademarks_1_html: Ang OpenStreetMap, ang logo na may salaming pampalaki at
+          State of the Map ay mga rehistradong markang pagkakakilanlan ng OpenStreetMap
+          Foundation. Kung may tanong tungkol sa paggamit ng mga marka, tignan ang
+          ating <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Patakaran
+          sa Markang Pagkakakilanlan</a>.
     index:
       js_1: Maaaring gumagamit ka ng isang pantingin-tingin na hindi tumatangkilik
         ng JavaScript, o hindi mo pinagagana ang JavaScript.
       js_2: Ang OpenStreetMap ay gumagamit ng JavaScript para sa madulas nitong mapa.
       permalink: Permalink
       shortlink: Maikling kawing
+      createnote: Magdagdag ng tala
       license:
         copyright: Karapatang-sipi ng OpenStreetMap at mga tagapag-ambag nito, sa
           ilalim ng isang bukas na lisensya
@@ -2062,8 +2091,8 @@ tl:
       title: Baguhin ang redaksiyon
     index:
       empty: Walang maipapakitang mga redaksiyon.
-      heading: Listahan ng mga redaksiyon
-      title: Listahan ng mga redaksiyon
+      heading: Talaan ng mga redaksiyon
+      title: Talaan ng mga redaksiyon
     new:
       heading: Ipasok ang kabatiran para sa bagong paghahanda ng isinulat upang mailathala
       title: Lumilikha ng bagong redaksiyon

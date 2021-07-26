@@ -82,6 +82,9 @@ pl:
       client_application:
         create: Zarejestruj
         update: Edytuj
+      doorkeeper_application:
+        create: Zarejestruj
+        update: Aktualizuj
       redaction:
         create: Utwórz poprawkę
         update: Zapisz poprawkę
@@ -154,6 +157,11 @@ pl:
         latitude: Szerokość geograficzna
         longitude: Długość geograficzna
         language: Język
+      doorkeeper/application:
+        name: Nazwa
+        redirect_uri: URI przekierowań
+        confidential: Poufna aplikacja?
+        scopes: 'Żądanie następujących uprawnień od użytkowników:'
       friend:
         user: Użytkownik
         friend: Znajomy
@@ -196,6 +204,11 @@ pl:
         pass_crypt: Hasło
         pass_crypt_confirmation: Potwierdź hasło
     help:
+      doorkeeper/application:
+        confidential: Aplikacja będzie używana tam, gdzie tajny klucz klienta może
+          być zachowany jako poufny (natywne aplikacje mobilne i aplikacje jednostronicowe
+          nie są poufne)
+        redirect_uri: Każdy URI w osobnej linii
       trace:
         tagstring: rozdzielone przecinkami
       user_block:
@@ -583,6 +596,11 @@ pl:
       comment: Komentarz
       newer_comments: Nowsze komentarze
       older_comments: Starsze komentarze
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Zarejestrowano aplikację.
   friendships:
     make_friend:
       heading: Dodać %{user} do grona znajomych?
@@ -927,6 +945,7 @@ pl:
           railway: Historyczny obiekt kolejowy
           roman_road: Droga rzymska
           ruins: Ruiny
+          rune_stone: Kamień runiczny
           stone: Kamień
           tomb: Grób
           tower: Wieża
@@ -1694,6 +1713,12 @@ pl:
       success: Twój nowy adres e-mail został potwierdzony!
       failure: Adres e-mail o tym kodzie był już potwierdzony.
       unknown_token: Ten kod potwierdzający wygasł lub nie istnieje.
+    resend_success_flash:
+      confirmation_sent: Wysłaliśmy nową wiadomość z potwierdzeniem na %{email} i
+        jak tylko aktywujesz swoje konto, będziesz mógł zacząć edytować mapę.
+      whitelist: Jeśli używasz systemu antyspamowego, upewnij się, że do swojej białej
+        listy dodałeś adres %{sender}. Dzięki temu będziemy mogli skontaktować się
+        z tobą bez problemów.
   messages:
     inbox:
       title: Wiadomości odebrane
@@ -1790,8 +1815,25 @@ pl:
       reset: Wyczyść hasło
       flash changed: Hasło zostało zmienione.
       flash token bad: Nie znaleziono tokenu, sprawdź URL
+  preferences:
+    show:
+      title: Preferencje
+      preferred_editor: 'Preferowane edytowanie w:'
+      preferred_languages: 'Preferowane języki:'
+      edit_preferences: Edytuj preferencje
+    edit:
+      title: Edycja preferencji
+      save: Zapisz preferencje
+      cancel: Anuluj
+    update:
+      failure: Nie udało się zapisać preferencji.
+    update_success_flash:
+      message: Zapisano preferencje.
   profiles:
     edit:
+      title: Edycja profilu
+      save: Zapisz zmiany
+      cancel: Anuluj
       image: 'Obraz:'
       gravatar:
         gravatar: Użyj Gravatara
@@ -1808,6 +1850,9 @@ pl:
       home location: 'Położenie domu:'
       no home location: Nie wpisałeś swojej lokalizacji domowej.
       update home location on click: Uaktualnianie położenia kliknięciem na mapie
+    update:
+      success: Zaktualizowano profil użytkownika.
+      failure: Nie udało się zaktualizować profilu.
   sessions:
     new:
       title: Logowanie
@@ -2459,6 +2504,15 @@ pl:
       flash: Odwołano uprawnienia aplikacji %{application}
     permissions:
       missing: Nie zezwoliłeś aplikacji na dostęp do tej funkcji
+    scopes:
+      read_prefs: Odczytywanie ich ustawień
+      write_prefs: Modyfikowanie ich ustawień
+      write_diary: Tworzenie wpisów w dzienniku, dodawanie komentarzy i nawiązywanie
+        kontaktów
+      write_api: Modyfikowanie mapy
+      read_gpx: Odczytywanie ich prywatnych śladów GPS
+      write_gpx: Przesyłanie śladów GPS
+      write_notes: Modyfikowanie uwag
   oauth_clients:
     new:
       title: Rejestrowanie nowej aplikacji
@@ -2500,6 +2554,55 @@ pl:
       flash: Informacje o kliencie zostały pomyślnie zaktualizowane
     destroy:
       flash: Usunięto rejestrację aplikacji
+  oauth2_applications:
+    index:
+      title: Moje aplikacje klienckie
+      no_applications_html: Poniżej można zarejestrować programy korzystające ze standardu
+        %{oauth2}. Programy należy wcześniej zarejestrować, nim będzie można skorzystać
+        z zapytań OAuth do tej usługi.
+      new: Zarejestruj swoją aplikację
+      name: Nazwa
+      permissions: 'Żądanie następujących uprawnień od użytkowników:'
+    application:
+      edit: Edytuj
+      delete: Usuń
+      confirm_delete: Usunąć tę aplikację?
+    new:
+      title: Rejestrowanie aplikacji
+    edit:
+      title: Edytuj swoją aplikację
+    show:
+      edit: Edytuj
+      delete: Usuń
+      confirm_delete: Usunąć tę aplikację?
+      client_id: ID klienta
+      client_secret: Tajny klucz klienta
+      client_secret_warning: Upewnij się, że zapisałeś ten tajny klucz – nie będzie
+        on dostępny ponownie
+      permissions: Uprawnienia
+      redirect_uris: URI przekierowań
+    not_found:
+      sorry: Nie znaleziono takiej aplikacji.
+  oauth2_authorizations:
+    new:
+      title: Wymagana autoryzacja
+      introduction: Upoważnić %{application} do dostępu do twojego konta z następującymi
+        uprawnieniami?
+      authorize: Autoryzuj
+      deny: Odmów
+    error:
+      title: Wystąpił błąd
+    show:
+      title: Kod autoryzacji
+  oauth2_authorized_applications:
+    index:
+      title: Moje upoważnione aplikacje
+      application: aplikację
+      permissions: Uprawnienia
+      no_applications_html: Nie upoważniłeś jeszcze żadnych aplikacji %{oauth2}.
+    application:
+      revoke: Odwołaj!
+      confirm_revoke: Odwołać dostęp tej aplikacji?
   users:
     new:
       title: Zarejestruj się
@@ -2554,6 +2657,9 @@ pl:
         italy: Włochy
         rest_of_world: Reszta świata
     terms_declined_flash:
+      terms_declined_html: Jest nam przykro, że zdecydowałeś się nie przyjmować nowych
+        Warunków uczestnictwa. Więcej informacji możesz znaleźć %{terms_declined_link}.
+      terms_declined_link: na tej stronie
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Nie znaleziono użytkownika
@@ -2571,8 +2677,10 @@ pl:
       my profile: Profil
       my settings: Ustawienia
       my comments: Komentarze
+      my_preferences: Preferencje
       blocks on me: Otrzymane blokady
       blocks by me: Nałożone blokady
+      edit_profile: Edytuj profil
       send message: wyślij wiadomość
       diary: dziennik
       edits: edycje
@@ -2668,6 +2776,9 @@ pl:
       save changes button: Zapisz zmiany
       make edits public button: Niech wszystkie edycje będą publiczne.
       return to profile: Wróć do profilu
+      oauth1 settings: Ustawienia OAuth 1
+      oauth2 applications: Aplikacje OAuth 2
+      oauth2 authorizations: Autoryzacje OAuth 2
       flash update success confirm needed: Zaktualizowano profil użytkownika.  Sprawdź,
         czy przyszedł już mail potwierdzający nowy adres mailowy.
       flash update success: Zaktualizowano profil użytkownika.
@@ -2690,6 +2801,7 @@ pl:
     suspended:
       title: Konto zawieszone
       heading: Konto zawieszone
+      support: support
       body_html: |-
         <p>
           Niestety, twoje konto zostało zawieszone ze względu na podejrzane działania.
