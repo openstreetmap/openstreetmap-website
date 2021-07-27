@@ -2,7 +2,7 @@
 //= require jquery_ujs
 //= require jquery.timers
 //= require jquery.throttle-debounce
-//= require js-cookie/src/js.cookie
+//= require js-cookie/dist/js.cookie
 //= require popper
 //= require bootstrap-sprockets
 //= require osm
