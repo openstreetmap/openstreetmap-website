@@ -310,9 +310,10 @@ $(document).ready(function () {
     };
 
     page.load = function() {
+      // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
+      // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
+      function originalLoadFunction () {
       var params = querystring.parse(location.search.substring(1));
-      addOpenHistoricalMapTimeSlider(map, params);
-
       if (params.query) {
         $("#sidebar .search_form input[name=query]").value(params.query);
       }
@@ -320,6 +321,16 @@ $(document).ready(function () {
         $("#sidebar .search_form input[name=query]").focus();
       }
       return map.getState();
+      }  // end originalLoadFunction
+
+      // "if map.timeslider" only try to add the timeslider if we don't already have it
+      if (map.timeslider) {
+        originalLoadFunction();
+      }
+      else {
+        var params = querystring.parse(location.search.substring(1));
+        addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
+      }
     };
 
     return page;
@@ -337,9 +348,20 @@ $(document).ready(function () {
     // page.load was originally simply the addObject() call
     // but with MBGLTimeSlider we need to wait for it to become ready
     page.load = function(path, id) {
-      addOpenHistoricalMapTimeSlider(map, {}, function () {
-        addObject(type, id, true);
-      });
+      // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
+      // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
+      function originalLoadFunction () {
+      addObject(type, id, true);
+      }  // end originalLoadFunction
+
+      // "if map.timeslider" only try to add the timeslider if we don't already have it
+      if (map.timeslider) {
+        originalLoadFunction();
+      }
+      else {
+        var params = querystring.parse(location.search.substring(1));
+        addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
+      }
     };
 
     function addObject(type, id, center) {
