@@ -149,6 +149,7 @@ OSM.History = function(map) {
   };
 
   page.load = function() {
+    // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
     function originalLoadFunction () {
     map.addLayer(group);
 
@@ -159,17 +160,16 @@ OSM.History = function(map) {
     map.on("zoomend", updateBounds);
 
     update();
-    }
+    }  // end originalLoadFunction
 
-    // the original paghe.load content is the function above, and is used when one visits this page, first load OR the History button
-    // but don't try to add the timeslider if it's already there, that's a silent-but-deadly error
+    // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
     if (map.timeslider) {
       originalLoadFunction();
     }
     else {
       var params = querystring.parse(location.search.substring(1));
       addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
-    }    
+    }
   };
 
   page.unload = function() {
