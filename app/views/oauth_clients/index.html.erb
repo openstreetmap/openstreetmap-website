@@ -19,7 +19,7 @@
       <td><%= token.authorized_at %></td>
       <td>
         <%= form_tag({ :controller => "oauth", :action => "revoke" }) do %>
-          <%= hidden_field_tag "token", token.token %>
+          <%= hidden_field_tag "token", token.token, :autocomplete => "off" %>
           <%= submit_tag t(".revoke"), :class => "btn btn-sm btn-primary" %>
         <% end %>
       </td>

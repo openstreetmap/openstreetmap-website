@@ -3,7 +3,7 @@
 <% end %>
 
 <%= bootstrap_form_for @message do |f| %>
-  <%= hidden_field_tag :display_name, @message.recipient.display_name %>
+  <%= hidden_field_tag :display_name, @message.recipient.display_name, :autocomplete => "off" %>
   <%= f.text_field :title %>
   <%= f.richtext_field :body, :cols => 80, :rows => 20 %>
 

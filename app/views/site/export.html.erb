@@ -3,16 +3,16 @@
 <%= render "sidebar_header", :title => t(".title") %>
 
 <%= form_tag({ :controller => "export", :action => "finish" }, { :class => "export_form" }) do %>
-  <%= hidden_field_tag "format", "osm" %>
+  <%= hidden_field_tag "format", "osm", :autocomplete => "off" %>
 
   <div class='export_area_inputs'>
     <div class='export_boxy'>
-      <%= text_field_tag("maxlat", nil, :size => 10, :class => "export_bound form-control mx-auto") %>
+      <%= text_field_tag("maxlat", nil, :size => 10, :autocomplete => "off", :class => "export_bound form-control mx-auto") %>
       <div class="clearfix">
-        <%= text_field_tag("minlon", nil, :size => 10, :class => "export_bound form-control") %>
-        <%= text_field_tag("maxlon", nil, :size => 10, :class => "export_bound form-control") %>
+        <%= text_field_tag("minlon", nil, :size => 10, :autocomplete => "off", :class => "export_bound form-control") %>
+        <%= text_field_tag("maxlon", nil, :size => 10, :autocomplete => "off", :class => "export_bound form-control") %>
       </div>
-      <%= text_field_tag("minlat", nil, :size => 10, :class => "export_bound form-control mx-auto") %>
+      <%= text_field_tag("minlat", nil, :size => 10, :autocomplete => "off", :class => "export_bound form-control mx-auto") %>
       </div>
     <a id='drag_box' href="#"><%= t ".manually_select" %></a>
   </div>
