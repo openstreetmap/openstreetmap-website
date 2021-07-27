@@ -12,8 +12,8 @@ gem "pg"
 # Use SCSS for stylesheets
 gem "sassc-rails"
 
-# Use Uglifier as compressor for JavaScript assets
-gem "uglifier", ">= 1.3.0"
+# Use Terser as compressor for JavaScript assets
+gem "terser"
 
 # Use jquery as the JavaScript library
 gem "jquery-rails"
