@@ -128,6 +128,7 @@ OSM.Search = function(map) {
 
   page.load = function() {
     // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
+    // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
     function originalLoadFunction () {
     $(".search_results_entry").each(function(index) {
       var entry = $(this);
@@ -157,7 +158,7 @@ OSM.Search = function(map) {
     return map.getState();
     }  // end originalLoadFunction
 
-    // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
+    // "if map.timeslider" only try to add the timeslider if we don't already have it
     if (map.timeslider) {
       originalLoadFunction();
     }
