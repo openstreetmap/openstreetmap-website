@@ -20,7 +20,7 @@ class UserLogoutTest < ApplicationSystemTestCase
     click_on user.display_name
     click_on "Log Out"
     assert page.has_content? "Log In"
-    assert page.has_content? "Public GPS traces"
+    assert page.has_content? "Public GPS Traces"
   end
 
   test "Sign out via fallback page" do
@@ -43,6 +43,6 @@ class UserLogoutTest < ApplicationSystemTestCase
 
     click_button "Logout"
     assert page.has_content? "Log In"
-    assert page.has_content? "Public GPS traces"
+    assert page.has_content? "Public GPS Traces"
   end
 end
