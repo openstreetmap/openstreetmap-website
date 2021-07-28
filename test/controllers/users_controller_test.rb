@@ -556,10 +556,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
 
     # Test a normal user
-    user = create(:user, :home_lon => 1.1, :home_lat => 1.1)
-    friend_user = create(:user, :home_lon => 1.2, :home_lat => 1.2)
-    create(:friendship, :befriender => user, :befriendee => friend_user)
-    create(:changeset, :user => friend_user)
+    user = create(:user)
 
     get user_path(user)
     assert_response :success
@@ -624,11 +621,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
       assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
-    end
-
-    # Friends should be visible as we're now logged in
-    assert_select "div#friends-container" do
-      assert_select "div.contact-activity", :count => 1
     end
 
     # Login as a moderator
