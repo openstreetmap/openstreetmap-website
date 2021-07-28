@@ -414,6 +414,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :action => :terms, :referer => "/user/#{ERB::Util.u(user.display_name)}/account"
   end
 
+  def test_terms_not_logged_in
+    get user_terms_path
+
+    assert_redirected_to login_path(:referer => "/user/terms")
+  end
+
   def test_go_public
     user = create(:user, :data_public => false)
     session_for(user)
