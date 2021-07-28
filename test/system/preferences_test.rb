@@ -17,7 +17,6 @@ class PreferencesTest < ApplicationSystemTestCase
     fill_in "Preferred Languages", :with => "fr"
     click_on "Update Preferences"
 
-    # TODO: enable with french translation when that's available
-    # assert page.has_content?("Préférences mises à jour") # rubocop:disable Style/AsciiComments
+    assert page.has_content?("Préférences mises à jour")
   end
 end
