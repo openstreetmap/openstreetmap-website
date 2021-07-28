@@ -85,7 +85,7 @@ module BrowseTagsHelper
       # Must break it up to correctly build the url
       value = Regexp.last_match(1)
       section = "##{Regexp.last_match(2)}"
-      encoded_section = "##{CGI.escape(Regexp.last_match(2).gsub(/ +/, '_')).tr('%', '.')}"
+      encoded_section = "##{CGI.escape(Regexp.last_match(2).gsub(/ +/, '_'))}"
     else
       section = ""
       encoded_section = ""
