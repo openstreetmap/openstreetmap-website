@@ -36,6 +36,8 @@ sl:
       client_application:
         create: Registriraj
         update: Posodobi
+      doorkeeper_application:
+        update: Posodobi
       redaction:
         create: Ustvarite redakcijo
         update: Shrani redakcijo
@@ -96,6 +98,8 @@ sl:
         latitude: Zemljepisna širina
         longitude: Zemljepisna dolžina
         language: Jezik
+      doorkeeper/application:
+        name: Ime
       friend:
         user: Uporabnik
         friend: Prijatelj
@@ -123,13 +127,15 @@ sl:
         details: Prosimo, opišite še več podrobnosti o težavi (polje je obvezno).
       user:
         email: Elektronski naslov
+        email_confirmation: Potrditev e-pošte
         new_email: Nov e-poštni naslov
         active: Aktiven
         display_name: Prikazno ime
         description: Opis profila
         home_lat: Zemljepisna širina
         home_lon: Zemljepisna dolžina
-        languages: Jeziki
+        languages: Prednostni jeziki
+        preferred_editor: Prednostni urejevalnik
         pass_crypt: Geslo
         pass_crypt_confirmation: Potrditev gesla
     help:
@@ -167,6 +173,11 @@ sl:
         two: pred manj kot %{count} minutama
         few: pred manj kot %{count} minutami
         other: pred manj kot %{count} minutami
+      over_x_years:
+        one: pred več kot 1 letom
+        two: pred več kot %{count} letoma
+        few: pred več kot %{count} leti
+        other: pred več kot %{count} leti
       x_seconds:
         one: pred 1 sekundo
         two: pred %{count} sekundama
@@ -177,6 +188,11 @@ sl:
         two: pred %{count} minutama
         few: pred %{count} minutami
         other: pred %{count} minutami
+      x_days:
+        one: pred 1 dnem
+        two: pred %{count} dnevoma
+        few: pred %{count} dnevi
+        other: pred %{count} dnevi
       x_months:
         one: pred 1 mesecem
         two: pred %{count} mesecema
@@ -196,7 +212,7 @@ sl:
       description: iD (urejevalnik v brskalniku)
     remote:
       name: Zunanji urejevalnik
-      description: Zunanji urejevalnik (JOSM ali Merkaartor)
+      description: Daljinsko upravljanje (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Brez
@@ -259,8 +275,7 @@ sl:
       comment: Komentarji (%{count})
       hidden_commented_by_html: Skrit komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when}
         nazaj</abbr>
-      commented_by_html: Komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when}
-        nazaj</abbr>
+      commented_by_html: Komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Paket sprememb XML
       osmchangexml: osmChange XML
       feed:
@@ -284,6 +299,11 @@ sl:
       title_html: 'Zveza: %{name}'
       history_title_html: 'Zgodovina povezave: %{name}'
       members: Člani
+      members_count:
+        one: 1 član
+        two: '%{count} člana'
+        few: '%{count} člani'
+        other: '%{count} članov'
     relation_member:
       entry_role_html: '%{type} %{name} kot %{role}'
       type:
@@ -294,6 +314,7 @@ sl:
       entry_html: Povezava %{relation_name}
       entry_role_html: Povezava %{relation_name} (kot %{relation_role})
     not_found:
+      title: Ni najdeno
       sorry: 'Žal %{type} #%{id} ni mogoče najti.'
       type:
         node: vozlišče
@@ -338,9 +359,8 @@ sl:
       open_title: 'Nerazrešena opomba #%{note_name}'
       closed_title: 'Razrešena opomba #%{note_name}'
       hidden_title: 'Skrita opomba #%{note_name}'
-      opened_by_html: Ustvaril %{user} <abbr title='%{exact_time}'>%{when} nazaj</abbr>
-      opened_by_anonymous_html: Ustvaril anonimni <abbr title='%{exact_time}'>%{when}
-        nazaj</abbr>
+      opened_by_html: Ustvaril %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Ustvaril anonimni uporabnik <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by_html: Komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when}
         nazaj</abbr>
       commented_by_anonymous_html: Komentar anonimnega uporabnika <abbr title='%{exact_time}'>%{when}
@@ -396,9 +416,9 @@ sl:
       title_particular: 'Razprava o paketu sprememb OpenStreetMap #%{changeset_id}'
   diary_entries:
     new:
-      title: Nov zapis v dnevnik uporabnikov
+      title: Nov zapis v dnevnik
     form:
-      location: 'Lokacija:'
+      location: Lokacija
       use_map_link: Uporabi zemljevid
     index:
       title: Dnevniki uporabnikov
@@ -406,7 +426,7 @@ sl:
       title_nearby: Dnevniki bližnjih uporabnikov
       user_title: Dnevnik uporabnika %{user}
       in_language_title: Dnevniki v jeziku %{language}
-      new: Nov zapis v dnevnik uporabnikov
+      new: Nov zapis v dnevnik
       new_title: Nov zapis v moj uporabniški dnevnik
       my_diary: Moj dnevnik
       no_entries: Ni zapisov v dnevnik
@@ -429,6 +449,7 @@ sl:
         in povezavo, ki ste jo kliknili.
     diary_entry:
       posted_by_html: Objavil %{link_user} v %{created} v jeziku %{language_link}
+      updated_at_html: Nazadnje posodobljeno %{updated}.
       comment_link: Komentiraj ta vnos
       reply_link: Pošlji sporočilo avtorju
       comment_count:
@@ -614,21 +635,24 @@ sl:
           barn: Skedenj
           bungalow: Bungalov
           chapel: Kapelica
-          church: Cerkev
+          church: Cerkveno poslopje
           commercial: Poslovna zgradba
+          construction: Stavba v gradnji
           dormitory: Študentski dom
           duplex: Dvostanovanjska hiša
           farm: Kmetija
           garage: Garaža
           garages: Garaže
           greenhouse: Rastlinjak
-          hospital: Bolnišnica
-          hotel: Hotel
+          hangar: Hangar
+          hospital: Poslopje bolnišnice
+          hotel: Poslopje hotela
           house: Hiša
           hut: Koča
           industrial: Industrijski objekt
+          kindergarten: Poslopje vrtca
           office: Poslovna stavba
-          public: Javne zgradba
+          public: Javna zgradba
           residential: Stanovanjska stavba
           retail: Trgovina na drobno
           roof: Streha
@@ -638,21 +662,26 @@ sl:
           shed: Lopa
           stable: Hlev
           terrace: Terasa
-          train_station: Železniška postaja
+          train_station: Poslopje železniške postaje
           university: Univerza
           warehouse: Skladišče
           "yes": Zgradba
         club:
+          sport: Športni klub
           "yes": Klub
         craft:
           beekeeper: Čebelar
+          blacksmith: Kovač
           brewery: Pivovarna
           carpenter: Mizarstvo
+          dressmaker: Šiviljstvo
           electrician: Elektrikar
           gardener: Vrtnar
           painter: Soboslikar
           photographer: Fotograf
           plumber: Vodovodar
+          roofer: Krovec
+          sawmill: Žaga
           shoemaker: Čevljar
           tailor: Krojač
           "yes": Obrtnik
@@ -660,6 +689,7 @@ sl:
           ambulance_station: Reševalna postaja
           assembly_point: Zbirno mesto
           defibrillator: Defibrilator
+          fire_extinguisher: Gasilni aparat
           landing_site: Mesto za pristanek v sili
           phone: Klic v sili
         highway:
@@ -727,9 +757,11 @@ sl:
           monument: Spomenik
           roman_road: Rimska cesta
           ruins: Ruševine
+          rune_stone: Runski kamen
           stone: Skala
           tomb: Grobnica
           tower: Stolp
+          wayside_chapel: Obcestna kapelica
           wayside_cross: Križ
           wayside_shrine: Kapelica
           wreck: Razbitina
@@ -803,6 +835,7 @@ sl:
           bunker_silo: Bunker
           chimney: Dimnik
           crane: Žerjav
+          cross: Križ
           dyke: Nasip
           embankment: Nasip
           flagpole: Zastavni drog
@@ -814,6 +847,7 @@ sl:
           pier: Pomol
           pipeline: Cevovod
           silo: Silos
+          snow_cannon: Snežni top
           tower: Stolp
           watermill: Vodno kolo
           water_tower: Vodni stolp
@@ -849,6 +883,7 @@ sl:
           moor: Barje
           mud: Blato
           peak: Vrh
+          peninsula: Polotok
           point: Točka
           reef: Greben
           ridge: Greben
@@ -869,6 +904,7 @@ sl:
         office:
           accountant: Računovodstvo
           administrative: Administracija
+          advertising_agency: Oglaševalska agencija
           architect: Arhitekt
           association: Združenje
           company: Podjetje
@@ -879,11 +915,13 @@ sl:
           insurance: Zavarovalnica
           lawyer: Odvetnik
           ngo: NVO urad
+          tax_advisor: Davčni svetovalec
           telecommunication: Telekomunikacijski urad
           travel_agent: Potovalna agencija
           "yes": Pisarne
         place:
           allotments: Vrtički
+          archipelago: Otočje
           city: Mesto
           country: Država
           county: Okrožje
@@ -898,8 +936,10 @@ sl:
           municipality: Občina
           neighbourhood: Mestna četrt
           postcode: Poštna številka
+          quarter: Četrt
           region: Regija
           sea: Morje
+          square: Trg
           state: 'Zvezna država (ZDA):'
           subdivision: Pododdelek
           suburb: Predmestje
@@ -959,7 +999,9 @@ sl:
           discount: Outlet
           doityourself: Orodjarna
           dry_cleaning: Čistilnica
+          e-cigarette: Trgovina z e-cigaretami
           electronics: Trgovina z elektroniko
+          erotic: Erotična trgovina
           estate_agent: Nepremičninska agencija
           farm: Kmečka trgovina
           fashion: Modna trgovina
@@ -1069,6 +1111,10 @@ sl:
     index:
       user_not_found: Uporabnik ne obstaja
       status: Stanje
+      last_updated: Zadnja posodobitev
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+    update:
+      provide_details: Navedite zahtevane podrobnosti
     show:
       resolve: Razreši
       ignore: Prezri
@@ -1355,22 +1401,36 @@ sl:
       flash changed: Vaše geslo je bilo spremenjeno.
       flash token bad: Tega žetona ni bilo mogoče najti.  Predlagamo, da preverite
         naslov URL.
+  preferences:
+    edit:
+      cancel: Prekliči
+    update:
+      failure: Nastavitev ni bilo mogoče posodobiti.
+    update_success_flash:
+      message: Nastavitve posodobljene.
   profiles:
     edit:
+      title: Uredi profil
+      save: Posodobi profil
+      cancel: Prekliči
       image: Slika
       gravatar:
         gravatar: Uporabi Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Kaj je Gravatar?
         disabled: Gravatar je onemogočen.
+        enabled: Prikaz vašega Gravatarja je omogočen.
       new image: Dodaj sliko
       keep image: Obdrži trenutno sliko
       delete image: Odstrani trenutno sliko
       replace image: Zamenjaj trenutno sliko
       image size hint: (najbolje delujejo kvadratne slike vsaj 100x100 točk)
-      home location: 'Domača lokacija:'
+      home location: Domača lokacija
       no home location: Niste nastavili vaše domače lokacije.
       update home location on click: Posodobi domačo lokacijo ob kliku na zemljevid?
+    update:
+      success: Profil posodobljen.
+      failure: Profila ni bilo mogoče posodobiti.
   sessions:
     new:
       title: Prijava
@@ -1428,12 +1488,29 @@ sl:
       heading: Odjava iz OpenStreetMap
       logout_button: Odjava
   shared:
+    markdown_help:
+      headings: Naslovi
+      heading: Naslov
+      subheading: Podnaslov
+      unordered: Neoštevilčen seznam
+      ordered: Oštevilčen seznam
+      first: Prvi predmet
+      second: Drugi predmet
+      link: Povezava
+      text: besedilo
+      image: Slika
+      alt: nadomestno besedilo
+      url: spletni naslov
     richtext_field:
+      edit: Uredi
       preview: Predogled
   site:
     about:
       next: Naslednji
       copyright_html: <span>&copy;</span>OpenStreetMap<br> sodelavci
+      lede_text: |-
+        OpenStreetMap ustvarja skupnost kartografov z vsega sveta, ki prispevajo in vzdržujejo
+        podatke o cestah, poteh, kavarnah, postajah in ostalem.
       local_knowledge_title: Krajevno znanje
       community_driven_title: Urejeno od skupnosti
       legal_title: Legalno
@@ -1763,7 +1840,11 @@ sl:
       newer: Novejše sledi
     trace:
       pending: V ČAKALNI VRSTI
-      count_points: '%{count} točk'
+      count_points:
+        one: 1 točka
+        two: '%{count} točki'
+        few: '%{count} točke'
+        other: '%{count} točk'
       more: več
       trace_details: Ogled podrobnnosti zemljevida
       view_map: Ogled zemljevida
@@ -1883,6 +1964,10 @@ sl:
   oauth2_applications:
     index:
       name: Ime
+      permissions: Dovoljenja
+    application:
+      edit: Uredi
+      delete: Izbriši
   users:
     new:
       title: Prijavite se
@@ -2134,7 +2219,7 @@ sl:
       title: Preklic blokade za %{block_on}
       heading_html: Preklic blokade za %{block_on} od %{block_by}
       time_future: Ta blokada se bo končala  v %{time}.
-      past: Ta blokada se je končala pred %{time} in se ne more biti več preklicati.
+      past: Ta blokada se je končala %{time} in se zdaj ne more preklicati.
       confirm: Ali ste prepričani, da želite preklicati blokado?
       revoke: Prekliči!
       flash: Ta blokada je bila preklicana.
@@ -2149,6 +2234,11 @@ sl:
           one: 1 ura
           two: '%{count} uri'
           other: '%{count} ur'
+        days:
+          one: 1 dan
+          two: '%{count} dneva'
+          few: '%{count} dni'
+          other: '%{count} dni'
     blocks_on:
       title: Blokade uporabnika %{name}
       heading_html: Seznam blokad uporabnika %{name}
@@ -2160,8 +2250,8 @@ sl:
     show:
       title: '%{block_on} je blokiral %{block_by}'
       heading_html: '%{block_on} je blokiral %{block_by}'
-      created: Ustvarjeno
-      status: Stanje
+      created: 'Ustvarjeno:'
+      status: 'Stanje:'
       show: Prikaži
       edit: Uredi
       revoke: Prekliči!
@@ -2273,7 +2363,7 @@ sl:
         resolve: Razreši
         reactivate: Znova aktiviraj
         comment_and_resolve: Komentiraj in razreši
-        comment: Komentar
+        comment: Komentiraj
     edit_help: Premaknite zemljevid in približajte lokacijo, ki jo želite urediti,
       nato pa kliknite tukaj.
     directions:
