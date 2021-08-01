@@ -115,6 +115,32 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to oauth_application_path(:id => Doorkeeper::Application.find_by(:name => "Test Application").id)
   end
 
+  def test_create_privileged
+    session_for(create(:user))
+
+    assert_difference "Doorkeeper::Application.count", 0 do
+      post oauth_applications_path(:oauth2_application => {
+                                     :name => "Test Application",
+                                     :redirect_uri => "https://test.example.com/",
+                                     :scopes => ["read_email"]
+                                   })
+    end
+    assert_response :success
+    assert_template "oauth2_applications/new"
+
+    session_for(create(:administrator_user))
+
+    assert_difference "Doorkeeper::Application.count", 1 do
+      post oauth_applications_path(:oauth2_application => {
+                                     :name => "Test Application",
+                                     :redirect_uri => "https://test.example.com/",
+                                     :scopes => ["read_email"]
+                                   })
+    end
+    assert_response :redirect
+    assert_redirected_to oauth_application_path(:id => Doorkeeper::Application.find_by(:name => "Test Application").id)
+  end
+
   def test_show
     user = create(:user)
     client = create(:oauth_application, :owner => user)
