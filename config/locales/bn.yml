@@ -45,6 +45,9 @@ bn:
       client_application:
         create: নিবন্ধন
         update: হালনাগাদ
+      doorkeeper_application:
+        create: নিবন্ধন করুন
+        update: হালনাগাদ
       redaction:
         create: সম্পাদন তৈরি করুন
         update: সম্পাদন সংরক্ষণ করুন
@@ -105,6 +108,7 @@ bn:
         allow_write_prefs: তাদের ব্যবহারকারী পছন্দসমূহ যাচাই করুন
         allow_write_diary: ডায়েরি ভুক্তি তৈরি, মন্তব্য এবং বন্ধু বানান
         allow_write_api: মানচিত্রটি সম্পাদন করুন
+        allow_write_gpx: জিপিএস ট্রেস আপলোড করুন
       diary_comment:
         body: মূলাংশ
       diary_entry:
@@ -113,6 +117,9 @@ bn:
         latitude: অক্ষাংশ
         longitude: দ্রাঘিমাংশ
         language: ভাষা
+      doorkeeper/application:
+        name: নাম
+        scopes: অনুমতি
       friend:
         user: ব্যবহারকারী
         friend: বন্ধু
@@ -138,7 +145,10 @@ bn:
         description: বিবরণ
       report:
         category: আপনার রিপোর্টের জন্য একটি কারণ নির্বাচন করুন
+        details: সমস্যা সম্পর্কে আরও কিছু বিবরণ প্রদান করুন (প্রয়োজনীয়)।
       user:
+        auth_provider: প্রমাণীকরণ সরবরাহকারী
+        auth_uid: প্রমাণীকরণ ইউআইডি
         email: ইমেইল
         email_confirmation: ইমেইল নিশ্চিতকরণ
         new_email: নতুন ই-মেইল ঠিকানা
@@ -151,6 +161,9 @@ bn:
         preferred_editor: পছন্দের সম্পাদক
         pass_crypt: পাসওয়ার্ড
         pass_crypt_confirmation: পাসওয়ার্ড নিশ্চিত করুন
+    help:
+      trace:
+        tagstring: কমা দ্বারা বিভাজিত
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -237,6 +250,9 @@ bn:
     part_of_relations:
       one: ১টি সম্পর্ক
       other: '%{count}টি সম্পর্ক'
+    part_of_ways:
+      one: ১টি রাস্তা
+      other: '%{count}টি রাস্তা'
     download_xml: XML ডাউনলোড করুন
     view_history: ইতিহাস দেখুন
     view_details: বিস্তারিত দেখুন
@@ -271,6 +287,9 @@ bn:
       title_html: 'রাস্তা: %{name}'
       history_title_html: 'রাস্তা ইতিহাস: %{name}'
       nodes: সংযোগস্থলসমূহ
+      nodes_count:
+        one: ১টি নোড
+        other: '%{count}টি নোড'
     relation:
       title_html: 'সম্পর্ক: %{name}'
       history_title_html: 'সম্পর্ক ইতিহাস: %{name}'
@@ -612,6 +631,7 @@ bn:
           census: আদমশুমারি এলাকা
           national_park: জাতীয় উদ্যান
           protected_area: সুরক্ষিত এলাকা
+          "yes": সীমানা
         bridge:
           aqueduct: জলপ্রণালী
           suspension: ঝুলন্ত সেতু
@@ -620,7 +640,17 @@ bn:
           "yes": সেতু
         building:
           apartment: অ্যাপার্টমেন্ট
+          apartments: অ্যাপার্টমেন্ট
+          bungalow: বাংলো
+          cabin: কেবিন
           commercial: বাণিজ্যিক ভবন
+          garage: গ্যারেজ
+          garages: গ্যারেজ
+          hangar: হ্যাঙ্গার
+          hospital: হাসপাতালের ভবন
+          hotel: হোটেলের ভবন
+          house: বাড়ি
+          industrial: শিল্প ভবন
           roof: ছাদ
           school: বিদ্যালয় ভবন
           stable: স্থিতিশীল
@@ -631,6 +661,7 @@ bn:
         club:
           "yes": ক্লাব
         craft:
+          blacksmith: কামার
           brewery: ভাটিখানা
           carpenter: ছুতোর
           confectionery: মিষ্টির দোকান
@@ -1172,7 +1203,7 @@ bn:
       send_message_to_html: '%{name}কে একটি নতুন বার্তা পাঠান'
       subject: বিষয়
       body: মূলাংশ
-      back_to_inbox: অন্তঃবক্সে ফেরৎ যান
+      back_to_inbox: ইনবক্সে ফিরে যান
     create:
       message_sent: বার্তা পাঠানো হয়েছে
       limit_exceeded: সাম্প্রতিক আপনি একগুচ্ছ বার্তা পাঠিয়েছেন। আর কোন বার্তা পাঠানোর
@@ -1219,6 +1250,15 @@ bn:
       title: পাসওয়ার্ড পুনঃনির্ধারণ
       reset: পাসওয়ার্ড পুনঃনির্ধারণ
       flash changed: আপনার পাসওয়ার্ড পরিবর্তন করা হয়েছে।
+  preferences:
+    show:
+      title: আমার পছন্দ
+      preferred_languages: পছন্দের ভাষা
+      edit_preferences: পছন্দ সম্পাদনা করুন
+    edit:
+      save: পছন্দ হালনাগাদ করুন
+    update:
+      failure: পছন্দ হালনাগাদ করা যায়নি।
   profiles:
     edit:
       image: চিত্র
@@ -1575,6 +1615,7 @@ bn:
       my profile: আমার প্রোফাইল
       my settings: আমার সেটিংস
       my comments: আমার মন্তব্যসমূহ
+      my_preferences: আমার পছন্দ
       send message: বার্তা পাঠান
       diary: দিনলিপি
       edits: সম্পাদনাসমূহ
