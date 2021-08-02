@@ -24,7 +24,6 @@ class Ability
       can [:new, :create, :destroy], :session
       can [:index, :show, :data, :georss, :picture, :icon], Trace
       can [:terms, :new, :create, :save,  :show, :auth_success, :auth_failure], User
-      can [:index, :show, :blocks_on, :blocks_by], UserBlock
       can [:index, :show], Node
       can [:index, :show, :full, :ways_for_node], Way
       can [:index, :show, :full, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
@@ -51,6 +50,7 @@ class Ability
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public], User
+        can [:index, :show, :blocks_on, :blocks_by], UserBlock
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry

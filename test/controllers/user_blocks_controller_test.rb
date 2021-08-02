@@ -63,7 +63,15 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     expired_block = create(:user_block, :expired)
     revoked_block = create(:user_block, :revoked)
 
+    # Check that the user block page requires us to login
     get user_blocks_path
+    assert_redirected_to login_path(:referer => user_blocks_path)
+
+    # Login as a normal user
+    session_for(create(:user))
+
+    get user_blocks_path
+
     assert_response :success
     assert_select "table#block_list", :count => 1 do
       assert_select "tr", 4
@@ -78,7 +86,15 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   def test_index_paged
     create_list(:user_block, 50)
 
+    # Check that the user block page requires us to login
     get user_blocks_path
+    assert_redirected_to login_path(:referer => user_blocks_path)
+
+    # Login as a normal user
+    session_for(create(:user))
+
+    get user_blocks_path
+
     assert_response :success
     assert_select "table#block_list", :count => 1 do
       assert_select "tr", :count => 21
@@ -97,6 +113,13 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     active_block = create(:user_block, :needs_view)
     expired_block = create(:user_block, :expired)
     revoked_block = create(:user_block, :revoked)
+
+    # Check that viewing a block requires us to login
+    get user_block_path(:id => 99999)
+    assert_redirected_to login_path(:referer => user_block_path(:id => 99999))
+
+    # Login as a normal user
+    session_for(create(:user))
 
     # Viewing a block should fail when a bogus ID is given
     get user_block_path(:id => 99999)
@@ -381,6 +404,13 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     revoked_block = create(:user_block, :revoked, :user => blocked_user)
     expired_block = create(:user_block, :expired, :user => unblocked_user)
 
+    # Check that the user blocks on path requires us to login
+    get user_blocks_on_path(:display_name => "non_existent_user")
+    assert_redirected_to login_path(:referer => user_blocks_on_path(:display_name => "non_existent_user"))
+
+    # Login as a normal user
+    session_for(create(:user))
+
     # Asking for a list of blocks with a bogus user name should fail
     get user_blocks_on_path(:display_name => "non_existent_user")
     assert_response :not_found
@@ -417,6 +447,13 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create_list(:user_block, 50, :user => user)
 
+    # Check that the user blocks on path requires us to login
+    get user_blocks_on_path(:display_name => user.display_name)
+    assert_redirected_to login_path(:referer => user_blocks_on_path(:display_name => user.display_name))
+
+    # Login as a normal user
+    session_for(create(:user))
+
     get user_blocks_on_path(:display_name => user.display_name)
     assert_response :success
     assert_select "table#block_list", :count => 1 do
@@ -439,6 +476,13 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     active_block = create(:user_block, :creator => moderator_user)
     expired_block = create(:user_block, :expired, :creator => second_moderator_user)
     revoked_block = create(:user_block, :revoked, :creator => second_moderator_user)
+
+    # Check that the user blocks on page requires us to login
+    get user_blocks_by_path(:display_name => "non_existent_user")
+    assert_redirected_to login_path(:referer => user_blocks_by_path(:display_name => "non_existent_user"))
+
+    # Login as a normal user
+    session_for(create(:user))
 
     # Asking for a list of blocks with a bogus user name should fail
     get user_blocks_by_path(:display_name => "non_existent_user")
@@ -475,6 +519,13 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   def test_blocks_by_paged
     user = create(:moderator_user)
     create_list(:user_block, 50, :creator => user)
+
+    # Check that the user blocks on page requires us to login
+    get user_blocks_by_path(:display_name => user.display_name)
+    assert_redirected_to login_path(:referer => user_blocks_by_path(:display_name => user.display_name))
+
+    # Login as a normal user
+    session_for(create(:user))
 
     get user_blocks_by_path(:display_name => user.display_name)
     assert_response :success
