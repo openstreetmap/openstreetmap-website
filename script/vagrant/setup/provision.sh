@@ -53,7 +53,6 @@ sudo -u vagrant psql -d openstreetmap -f db/functions/functions.sql
 #pushd db/functions
 #sudo -u vagrant make
 #sudo -u vagrant psql openstreetmap -c "CREATE OR REPLACE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/srv/openstreetmap-website/db/functions/libpgosm.so', 'tile_for_point' LANGUAGE C STRICT"
-#sudo -u vagrant psql openstreetmap -c "CREATE OR REPLACE FUNCTION xid_to_int4(xid) RETURNS int4 AS '/srv/openstreetmap-website/db/functions/libpgosm.so', 'xid_to_int4' LANGUAGE C STRICT"
 #popd
 
 

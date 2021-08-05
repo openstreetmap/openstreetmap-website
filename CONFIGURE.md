@@ -129,5 +129,4 @@ If you want to deploy The Rails Port for production use, you'll need to make a f
 * The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
 * Make sure you generate the i18n files and precompile the production assets: `RAILS_ENV=production rake i18n:js:export assets:precompile`
 * Make sure the web server user as well as the rails user can read, write and create directories in `tmp/`.
-* If you want to use diff replication then you might want to consider installing the shared library special SQL functions for the `xid_to_int4` function. A pure SQL version is available, but may become a performance issue on large databases with a high rate of changes. Note that you will need a version of PostgreSQL < 9.6 (yes, _less than_) to use `xid` indexing, whether pure SQL or shared library.
 * If you expect to serve a lot of `/changes` API calls, then you might also want to install the shared library versions of the SQL functions.

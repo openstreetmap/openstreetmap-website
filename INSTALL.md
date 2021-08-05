@@ -278,7 +278,6 @@ Then we create the functions within each database. We're using `pwd` to substitu
 
 ```
 psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '`pwd`/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT"
-psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT"
 ```
 
 # Ruby development install and versions<a name="rbenv"></a> (optional)
