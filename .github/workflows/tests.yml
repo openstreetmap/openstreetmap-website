@@ -1,18 +1,14 @@
----
 name: Tests
-
 on:
   - push
   - pull_request
-
 jobs:
   test:
-    name: Ubuntu ${{ matrix.ubuntu }}, Ruby ${{ matrix.ruby }} (${{ matrix.db_funcs }})
+    name: Ubuntu ${{ matrix.ubuntu }}, Ruby ${{ matrix.ruby }}
     strategy:
       matrix:
         ubuntu: [18.04, 20.04]
         ruby: [2.7, 3.0]
-        db_funcs: ['libpgosm.so', 'Pure SQL']
     runs-on: ubuntu-${{ matrix.ubuntu }}
     env:
       RAILS_ENV: test
@@ -47,57 +43,22 @@ jobs:
         gem install bundler
         bundle config set deployment true
         bundle install --jobs 4 --retry 3
-    - name: Install libpgosm.so build dependencies
-      if: ${{ matrix.db_funcs == 'libpgosm.so' }}
-      env:
-        DEBIAN_FRONTEND: noninteractive
-        KEY_URL: https://www.postgresql.org/media/keys/ACCC4CF8.asc
-        REPO_URL: https://apt.postgresql.org/pub/repos/apt/
-      run: |
-        wget -qnv ${KEY_URL} -O /tmp/PGDG.key
-        sudo apt-key add /tmp/PGDG.key
-        echo "deb ${REPO_URL} `lsb_release -cs`-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
-        sudo apt-get -yqq update
-        sudo apt-get -yqq install postgresql-server-dev-all
-        sudo rm /etc/apt/sources.list.d/pgdg.list
-    - name: Build libpgosm.so
-      if: ${{ matrix.db_funcs == 'libpgosm.so' }}
-      working-directory: db/functions
-      run: |
-        make libpgosm.so
     - name: Create database
       run: |
         sudo systemctl start postgresql
         sudo -u postgres createuser -s $(id -un)
         createdb openstreetmap
-    - name: Create database extension
-      run: |
         psql -c "CREATE EXTENSION btree_gist" openstreetmap
-
-    - name: Create database functions (Pure SQL)
-      if: ${{ matrix.db_funcs == 'Pure SQL' }}
-      run: |
         psql -f db/functions/functions.sql openstreetmap
-
-    - name: Create database functions (libpgosm.so)
-      if: ${{ matrix.db_funcs == 'libpgosm.so' }}
-      run: |
-        psql -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '`pwd`/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT" openstreetmap
     - name: Configure rails
       run: |
         cp config/github.database.yml config/database.yml
         cp config/example.storage.yml config/storage.yml
         touch config/settings.local.yml
-    - name: Create `db/structure.expected` (Pure SQL)
-      if: ${{ matrix.db_funcs == 'Pure SQL' }}
-      run: |
-        sed -f script/normalise-structure db/structure.sql > db/structure.expected
     - name: Populate database
       run: |
+        sed -f script/normalise-structure db/structure.sql > db/structure.expected
         bundle exec rake db:migrate
-    - name: Verify `db/structure.expected` (Pure SQL)
-      if: ${{ matrix.db_funcs == 'Pure SQL' }}
-      run: |
         sed -f script/normalise-structure db/structure.sql > db/structure.actual
         diff -uw db/structure.expected db/structure.actual
     - name: Export javascript strings
