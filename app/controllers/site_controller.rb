@@ -106,6 +106,10 @@ class SiteController < ApplicationController
     @locale = params[:about_locale] || I18n.locale
   end
 
+  def communities
+    @locale = I18n.locale
+  end
+
   def export; end
 
   def offline; end
