@@ -108,6 +108,7 @@ class SiteController < ApplicationController
 
   def communities
     @locale = I18n.locale
+    @local_chapters = Communities.local_chapters
   end
 
   def export; end
