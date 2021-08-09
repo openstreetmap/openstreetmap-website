@@ -191,7 +191,7 @@
     <div class="col-md order-md-last">
       <% if @user.home_lat.nil? or @user.home_lon.nil? %>
         <div id="map" class="content_map">
-          <p id="no_home_location"><%= t(".if_set_location_html", :settings_link => (link_to t(".settings_link_text"), :controller => "users", :action => "account", :display_name => current_user.display_name)) %></p>
+          <p id="no_home_location"><%= t(".set_location_html", :edit_profile_url => edit_profile_path) %></p>
         </div>
       <% else %>
         <% content_for :head do %>
