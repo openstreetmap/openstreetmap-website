@@ -107,7 +107,7 @@ class SiteController < ApplicationController
   end
 
   def communities
-    @locale = I18n.locale
+    @locale = params[:communities_locale] || I18n.locale
     @local_chapters = Communities.local_chapters
   end
 
