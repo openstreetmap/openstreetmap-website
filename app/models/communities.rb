@@ -23,8 +23,8 @@ class Communities
     community_index['features'].each do |feature|
       feature['properties']['resources'].each do |id, data|
         data.each do |key, value|
-          if key == "type" and value == "osm-lc"
-            array_of_entries.push(id);
+          if key == "type" and value == "osm-lc" and data['strings']['community']
+            array_of_entries.push({ id: id, name: data['strings']['community'], url: data['strings']['url'] });
           end
         end
       end
