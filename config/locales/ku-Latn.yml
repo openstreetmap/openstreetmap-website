@@ -33,6 +33,9 @@ ku-Latn:
       client_application:
         create: Hesab çêke
         update: Rojane bike
+      doorkeeper_application:
+        create: Qeyd bibe
+        update: Rojane bike
       redaction:
         create: Redaksiyonê çêke
         update: Redaksiyonê qeyd bike
@@ -104,6 +107,8 @@ ku-Latn:
         latitude: Hêlîpan
         longitude: Hêlîlar
         language: Ziman
+      doorkeeper/application:
+        name: Nav
       friend:
         user: Bikarhêner
         friend: Heval
@@ -1722,8 +1727,18 @@ ku-Latn:
       flash changed: Şîfreya te hate guhertin.
       flash token bad: Eger te vê sembolê nedîtibe, belkî jî divê tu URLyê kontrol
         bikî?
+  preferences:
+    edit:
+      cancel: Betal bike
+    update:
+      failure: Tercîhan nikare rojane bike.
+    update_success_flash:
+      message: Tercîh hatin rojanekirin.
   profiles:
     edit:
+      title: Profîlê Biguherîne
+      save: Profîlê Rojane Bike
+      cancel: Betal bike
       image: Wêne
       gravatar:
         gravatar: Gravatarê bi kar bîne
@@ -1741,6 +1756,9 @@ ku-Latn:
       no home location: Te cihê malê xwe diyar nekir.
       update home location on click: Gava ku tu bitikînî ser nexşeyê bila cihê malê
         te were rojanekirin?
+    update:
+      success: Profîl hate rojanekirin.
+      failure: Profîlê nikare rojane bike.
   sessions:
     new:
       title: Têkeve
@@ -1764,7 +1782,7 @@ ku-Latn:
         hesabê bitikîne ser lînka ku di e-peyama pejirandina hesabê de ji te re hatibû,
         an jî <a href="%{reconfirm}">e-peyamek pejirandinê yê nû bixwaze</a>.
       account is suspended: Bibore, hesabê te ji ber çalakiyên gumanbar hatiye rawestandin.<br
-        />Eger bixwazibî vê mijare mijûl bibî, xêra xwe bi <a href="%{webmaster}">webmasterê</a>
+        />Eger bixwazibî vê mijare mijûl bibî, xêra xwe bi <a href="%{webmaster}">piştgiriyê</a>
         re têkiliyê deyne.
       auth failure: Bibore, bi van dêtayan re tu têneketî.
       openid_logo_alt: Têketina bi OpenID'yê
@@ -2340,7 +2358,7 @@ ku-Latn:
       in: di
     index:
       public_traces: Şopên GPSê yên giştî (ji her kesê re vekirî)
-      my_traces: Şopên min ên GPSê
+      my_traces: Şopên min
       public_traces_from: Şopên GPSê yên giştî yên ji %{user}
       description: Çavê xwe li nûkirinên şopên GPSê yên dawîn bigerîne
       tagged_with: ' bi %{tags} hate etîketkirin'
@@ -2348,6 +2366,9 @@ ku-Latn:
         an jî ji ser <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>rûpela
         wîkiyê</a> derbarê şopên GPSê de zêdetir tiştan hîn bibe.
       upload_trace: Şopek GPSê bar bike
+      all_traces: Temamê Şopan
+      traces_from: Şopên Giştî ji %{user}
+      remove_tag_filter: Parzûna etîketê rake
     destroy:
       scheduled_for_deletion: Şop ji bo jêbirinê hate plankirin
     make_public:
@@ -2406,6 +2427,9 @@ ku-Latn:
       flash: Te destûra ji bo %{application} betal kir
     permissions:
       missing: Te destûrê neda ji bo ku ev sepan bigihije vê îmkanê.
+    scopes:
+      read_prefs: Tercîhên bikarhênerê bixwîne
+      write_prefs: Tercîhên bikarhênerê biguherîne
   oauth_clients:
     new:
       title: Sepanekî nû qeyd bike
@@ -2447,12 +2471,34 @@ ku-Latn:
       flash: Agahiyên mişteriyê bi serkeftinî hate nûkirin.
     destroy:
       flash: Sepana telebkar qeyda xwe ji holê rakir
+  oauth2_applications:
+    index:
+      name: Nav
+      permissions: Destûr
+    application:
+      edit: Biguherîne
+      delete: Jê bibe
+      confirm_delete: Bila ev sepan were jêbirin?
+    new:
+      title: Sepanekî nû qeyd bike
+    edit:
+      title: Sepanê xwe biguherîne
+    show:
+      edit: Biguherîne
+      delete: Jê bibe
+      confirm_delete: Bila ev sepan were jêbirin?
+  oauth2_authorized_applications:
+    index:
+      application: Sepan
+    application:
+      revoke: Gihînê Rake
+      confirm_revoke: Bila gihîna ji vê sepanê were rakirin?
   users:
     new:
       title: Xwe Qeyd Bike
       no_auto_account_create: Mixabin, em vêga nikarin bi otomatîkî ji bo we hesabekî
         çêbikin.
-      contact_support_html: Ji bo hesabê ku tu dixwazî çêbikî xêra xwe bi <a href="%{support}">webmasterê</a>
+      contact_support_html: Ji bo hesabê ku tu dixwazî çêbikî xêra xwe bi <a href="%{support}">piştgiriyê</a>
         re têkiliyê deyne - em ê hewl bidin ku daxwaza te di demekî kurt de çareser
         bikin.
       about:
@@ -2542,9 +2588,6 @@ ku-Latn:
       spam score: Skora spamêː
       description: Danasîn
       user location: Cihê bikarhênerê
-      if_set_location_html: Ji bo ku bikarhênerên nêzî xwe bibînî ji ser rûpela %{settings_link}
-        cihê malê xwe bide diyarkirin.
-      settings_link_text: eyaran
       my friends: Hevalên min
       no friends: Te hêj ji xwe re hevalek çênekiriye.
       km away: '%{count} km dûr e'
@@ -2644,6 +2687,7 @@ ku-Latn:
     suspended:
       title: Hesab hatiye rawestandin
       heading: Hesab hatiye rawestandin
+      support: piştgirî
       body_html: "<p>\n  Li me bibore, hesabê te ji ber aktîvîteyên gumanbar bi otomatîkî
         \n  hatiye rawestandin.\n</p>\n<p>\n  Wê ev qerar di demeke kurt de ji aliyê
         rêvebirek malperê ve  \n  kontrolkirin an jî\n  eger bixwazibî vê gotûbêj
@@ -2765,8 +2809,9 @@ ku-Latn:
     show:
       title: '%{block_on} ji alî %{block_by} ve hate astengkirin'
       heading_html: '%{block_on} ji alî %{block_by} ve hate astengkirin'
-      created: Hate çêkirin
-      status: Rewş
+      created: 'Hate çêkirin:'
+      duration: 'Mawe:'
+      status: 'Rewş:'
       show: nîşan bide
       edit: Biguherîne
       revoke: Betal bike!
@@ -2794,6 +2839,7 @@ ku-Latn:
       title: Notên ku ji aliyê %{user} ve hatine şandin an jî şirovekirin
       heading: Notên %{user}
       subheading_html: Notên ku ji aliyê %{user} ve hatine şandin an jî şirovekirin
+      no_notes: Not tine
       id: Id
       creator: Çêker
       description: Danasîn

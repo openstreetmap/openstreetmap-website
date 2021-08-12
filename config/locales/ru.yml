@@ -12,6 +12,7 @@
 # Author: Alexey zakharenkov
 # Author: Amire80
 # Author: Andrewsh
+# Author: Ashed
 # Author: Banonotit
 # Author: BushmanK
 # Author: CM3X
@@ -240,6 +241,11 @@ ru:
         pass_crypt: Пароль
         pass_crypt_confirmation: Подтвердите пароль
     help:
+      doorkeeper/application:
+        confidential: Приложение будет использоваться там, где секрет клиента может
+          храниться в секрете (собственные мобильные приложения и одностраничные приложения
+          не являются конфиденциальными)
+        redirect_uri: Используйте одну строку на URI
       trace:
         tagstring: через запятую
       user_block:
@@ -609,6 +615,11 @@ ru:
       comment: Комментарий
       newer_comments: Более новые комментарии
       older_comments: Более старые комментарии
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Приложение зарегистрировано.
   friendships:
     make_friend:
       heading: Добавить %{user} в друзья?
@@ -616,6 +627,8 @@ ru:
       success: '%{name} теперь ваш друг!'
       failed: Не удалось добавить %{name} в друзья.
       already_a_friend: Вы всё ещё друзья с %{name}.
+      limit_exceeded: В последнее время вы подружились со многими пользователями.
+        Пожалуйста, подождите некоторое время, прежде чем пытаться снова дружить.
     remove_friend:
       heading: Удалить %{user} из друзей?
       button: Удалить из друзей
@@ -1489,6 +1502,8 @@ ru:
       header_html: '%{from_user} прокомментировал на OpenStreetMap с темой %{subject}:'
       footer: Вы можете также прочитать комментарий — %{readurl}, оставить свой —
         %{commenturl} или ответить — %{replyurl}
+      footer_html: Вы можете также прочитать комментарий — %{readurl}, оставить свой
+        — %{commenturl} или ответить автору — %{replyurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Здравствуйте, %{to_user},
@@ -1508,9 +1523,16 @@ ru:
       see_their_profile_html: 'Вы можете просмотреть информацию о них по ссылке: %{userurl}.'
       befriend_them: Вы также можете добавить их в качестве друзей в %{befriendurl}.
       befriend_them_html: Вы также можете добавить их в качестве друзей в %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Похоже, ваш файл GPX %{trace_name} с описанием
+        %{trace_description} и следующими тегами: %{tags}'
+      description_with_no_tags_html: Похоже, ваш файл GPX %{trace_name} с описанием
+        %{trace_description} и без тегов
     gpx_failure:
       hi: Здравствуйте, %{to_user},
       failed_to_import: 'сбой импорта. Произошла ошибка:'
+      more_info_html: Более подробную информацию об ошибках импорта GPX и о том, как
+        их избежать, можно найти на %{url}.
       import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Сбой импорта GPX'
     gpx_success:
@@ -1563,6 +1585,8 @@ ru:
         subject_own: '[OpenStreetMap] %{commenter} обработал вашу заметку'
         subject_other: '[OpenStreetMap] %{commenter} обработал интересную вам заметку'
         your_note: '%{commenter} обработал одну из ваших заметок на карте недалеко
+          от %{place}.'
+        your_note_html: '%{commenter} обработал одну из ваших заметок на карте недалеко
           от %{place}.'
         commented_note: '%{commenter} обработал одну из вами прокомментированных заметок
           недалеко от %{place}.'
@@ -1630,6 +1654,12 @@ ru:
       success: Ваш адрес электронной почты был успешно изменён!
       failure: Адрес электронной почты уже был подтверждён этим токеном.
       unknown_token: Такой код подтверждения истёк или не существует.
+    resend_success_flash:
+      confirmation_sent: Мы вышлем письмо с подтверждением на адрес %{email} и как
+        только вы подтвердите вашу учётную запись, вы можете начать работать с картами.
+      whitelist: Если вы используете антиспам, посылающий запросы на подтверждение,
+        внесите адрес %{sender} в ваш белый список, так как мы не можем отвечать на
+        такие запросы.
   messages:
     inbox:
       title: Входящие
@@ -1923,6 +1953,12 @@ ru:
           мы рассчитываем, что вы направите читателей на openstreetmap.org (обозначив
           именно адрес сайта вместо только лишь названия проекта, 'OpenStreetMap'),
           на opendatacommons.org, и, при необходимости, на creativecommons.org.
+        credit_3_1_html: |-
+          Фрагменты карты в &ldquo;standard style&rdquo; на сайте www.openstreetmap.org представляют собой
+          Выполненную работу OpenStreetMap Foundation с использованием данных OpenStreetMap
+          под лицензией Open Database License. Если вы используете эти фрагменты, используйте
+          следующую атрибуцию:
+          &ldquo;Base map and data from OpenStreetMap and OpenStreetMap Foundation&rdquo;.
         credit_4_html: |-
           В случае электронной карты с прокруткой, ссылка должна всегда находиться в углу окна просмотра карты.
           Например:
@@ -2131,6 +2167,10 @@ ru:
         в веб-браузере.
       desktop_html: Вы всё еще можете использовать Potlatch, <a href="https://www.systemed.net/potlatch/">загрузив
         приложение для Mac и Windows</a>.
+      id_html: В качестве альтернативы вы можете установить в качестве редактора по
+        умолчанию iD, который запускается в вашем веб-браузере, как раньше это делал
+        Potlatch. <a href="%{settings_url}">Измените свои пользовательские настройки
+        здесь</a>.
     sidebar:
       search_results: Результаты поиска
       close: Закрыть
@@ -2352,6 +2392,9 @@ ru:
       empty_html: Пока здесь ничего нет. <a href='%{upload_link}'>Загрузите новый
         трек</a> или почитайте про GPS-треки на <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вики-странице</a>.
       upload_trace: Загрузить треки
+      all_traces: Все трассировки
+      traces_from: Общедоступные трассировки от %{user}
+      remove_tag_filter: Удалить фильтр тегов
     destroy:
       scheduled_for_deletion: Запланировано к удалению
     make_public:
@@ -2412,7 +2455,9 @@ ru:
     permissions:
       missing: Вы не дали разрешение приложению на доступ к данной возможности
     scopes:
+      read_prefs: Прочитать настройки пользователя
       write_prefs: Изменить настройки пользователя
+      write_diary: Создавать записи в дневнике, комментировать и заводить друзей
       write_api: Изменить карту
       read_gpx: Читать частные GPS-треки
       write_gpx: Загрузить GPS-треки
@@ -2461,6 +2506,12 @@ ru:
       flash: Уничтожена регистрация клиентского приложения
   oauth2_applications:
     index:
+      title: Мои клиентские приложения
+      no_applications_html: Есть ли у вас приложения, которые бы вы хотели зарегистрировать
+        для взаимодействия с нами через стандарт %{oauth2}? Вы должны зарегистрировать
+        ваше веб-приложение перед тем, как оно сможет сделать OAuth-запрос к этой
+        службе.
+      new: Зарегистрировать новое приложение
       name: Имя
       permissions: Разрешения
     application:
@@ -2480,9 +2531,15 @@ ru:
       client_secret_warning: Обязательно сохраните этот секрет - он больше не будет
         доступен
       permissions: Разрешения
+      redirect_uris: Перенаправления URI
+    not_found:
+      sorry: К сожалению, это приложение не найдено.
   oauth2_authorizations:
     new:
       title: Требуется авторизация
+      introduction: Разрешить %{application} доступ к вашему аккаунту со следующими
+        разрешениями?
+      authorize: Авторизовать
       deny: Отклонить
     error:
       title: Произошла ошибка
@@ -2491,8 +2548,12 @@ ru:
   oauth2_authorized_applications:
     index:
       title: Мои авторизованные приложения
+      application: Приложение
       permissions: Разрешения
       no_applications_html: Вы еще не авторизовали ни одно приложение %{oauth2}.
+    application:
+      revoke: Отозвать доступ
+      confirm_revoke: Отозвать доступ для этого приложения?
   users:
     new:
       title: Регистрация
@@ -2548,6 +2609,8 @@ ru:
         italy: На итальянском
         rest_of_world: Остальной мир
     terms_declined_flash:
+      terms_declined_html: Нам жаль, что вы решили не принимать Новые Условия участия.
+        Для получения дополнительной информации смотрите %{terms_declined_link}.
       terms_declined_link: эта страница вики
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
     no_such_user:
@@ -2588,9 +2651,8 @@ ru:
       spam score: 'Оценка спама:'
       description: Описание
       user location: Местонахождение пользователя
-      if_set_location_html: Укажите свое местоположение на вашей странице %{settings_link}
-        чтобы увидеть своих соседей.
-      settings_link_text: настройки
+      set_location_html: <a href="%{edit_profile_url}">Измените свой профиль</a> и
+        укажите свое домашнее местоположение, чтобы видеть ближайших пользователей.
       my friends: Друзья
       no friends: Вы не добавили ещё ни одного друга.
       km away: '%{count} км от вас'
@@ -2667,6 +2729,8 @@ ru:
       make edits public button: Сделать все мои правки доступными
       return to profile: Вернуться к профилю
       oauth1 settings: Настройки OAuth 1
+      oauth2 applications: OAuth 2 приложения
+      oauth2 authorizations: OAuth 2 авторизации
       flash update success confirm needed: Информация о пользователе успешно обновлена.
         Проверьте свою электронную почту для подтверждения вашего нового адреса.
       flash update success: Информация о пользователе успешно обновлена.

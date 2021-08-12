@@ -28,7 +28,7 @@ class UsersController < ApplicationController
 
       if current_user&.terms_agreed?
         # Already agreed to terms, so just show settings
-        redirect_to :action => :account, :display_name => current_user.display_name
+        redirect_to user_account_path(current_user)
       elsif current_user.nil? && session[:new_user].nil?
         redirect_to login_path(:referer => request.fullpath)
       end
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
         if params[:referer]
           redirect_to safe_referer(params[:referer])
         else
-          redirect_to :action => :account, :display_name => current_user.display_name
+          redirect_to user_account_path(current_user)
         end
       elsif params[:decline]
         redirect_to t("users.terms.declined")
@@ -67,7 +67,7 @@ class UsersController < ApplicationController
       if params[:referer]
         redirect_to safe_referer(params[:referer])
       else
-        redirect_to :action => :account, :display_name => current_user.display_name
+        redirect_to user_account_path(current_user)
       end
     else
       self.current_user = session.delete(:new_user)
@@ -147,7 +147,7 @@ class UsersController < ApplicationController
     current_user.data_public = true
     current_user.save
     flash[:notice] = t "users.go_public.flash success"
-    redirect_to :action => "account", :display_name => current_user.display_name
+    redirect_to user_account_path(current_user)
   end
 
   def new
@@ -297,7 +297,7 @@ class UsersController < ApplicationController
 
       session[:user_errors] = current_user.errors.as_json
 
-      redirect_to :action => "account", :display_name => current_user.display_name
+      redirect_to user_account_path(current_user)
     elsif session[:new_user]
       session[:new_user].auth_provider = provider
       session[:new_user].auth_uid = uid

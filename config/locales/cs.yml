@@ -65,6 +65,9 @@ cs:
       client_application:
         create: Zaregistrovat
         update: Aktualizovat
+      doorkeeper_application:
+        create: Zaregistrovat
+        update: Uložit
       redaction:
         create: Vytvořit redakci
         update: Uložit redakci
@@ -136,6 +139,11 @@ cs:
         latitude: Šířka
         longitude: Délka
         language: Jazyk
+      doorkeeper/application:
+        name: Název
+        redirect_uri: URI pro přesměrování
+        confidential: Důvěryhodná aplikace?
+        scopes: Oprávnění
       friend:
         user: Uživatel
         friend: Přítel
@@ -178,6 +186,11 @@ cs:
         pass_crypt: Heslo
         pass_crypt_confirmation: Potvrdit heslo
     help:
+      doorkeeper/application:
+        confidential: Aplikace bude používána takovým způsobem, že bude možno uchovat
+          důvěrnost tajemství klienta (nativní mobilní aplikace a single-page aplikace
+          takto důvěryhodné nejsou)
+        redirect_uri: Každé URI uveďte na samostatném řádku
       trace:
         tagstring: oddělené čárkou
       user_block:
@@ -542,6 +555,11 @@ cs:
       comment: Komentář
       newer_comments: Novější komentáře
       older_comments: Starší komentáře
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Aplikace zaregistrována.
   friendships:
     make_friend:
       heading: Přidat uživatele %{user} jako přítele?
@@ -885,6 +903,7 @@ cs:
           railway: Historická železnice
           roman_road: Římská cesta
           ruins: Zřícenina
+          rune_stone: Runový kámen
           stone: Kámen
           tomb: Náhrobek
           tower: Věž
@@ -1646,6 +1665,12 @@ cs:
       success: Změna vaší e-mailové adresy byla potvrzena!
       failure: Tento kód byl už pro potvrzení e-mailové adresy použit.
       unknown_token: Zadaný potvrzovací kód vypršel nebo neexistuje.
+    resend_success_flash:
+      confirmation_sent: Na %{email} jsme poslali novou potvrzovací zprávu, jakmile
+        potvrdíte svůj účet, budete moci začít tvořit mapy.
+      whitelist: Pokud používáte nějaký protispamový systém, který vyžaduje potvrzení,
+        nezapomeňte zařídit výjimku pro %{sender}, neboť na žádosti o potvrzení nejsme
+        schopni reagovat.
   messages:
     inbox:
       title: Doručená pošta
@@ -1740,8 +1765,25 @@ cs:
       reset: Resetovat heslo
       flash changed: Vaše heslo bylo změněno.
       flash token bad: Odpovídající kód nebyl nalezen, možná zkontrolujte URL?
+  preferences:
+    show:
+      title: Moje preference
+      preferred_editor: Preferovaný editor
+      preferred_languages: Preferované jazyky
+      edit_preferences: Změnit preference
+    edit:
+      title: Změnit preference
+      save: Nastavit preference
+      cancel: Storno
+    update:
+      failure: Nepodařilo se nastavit preference.
+    update_success_flash:
+      message: Preference nastaveny.
   profiles:
     edit:
+      title: Upravit profil
+      save: Nastavit profil
+      cancel: Storno
       image: Obrázek
       gravatar:
         gravatar: Používat Gravatar
@@ -1757,6 +1799,9 @@ cs:
       home location: Poloha domova
       no home location: Nezadali jste polohu svého bydliště.
       update home location on click: Upravit pozici domova při kliknutí na mapu?
+    update:
+      success: Profil nastaven.
+      failure: Nepodařilo se nastavit profil.
   sessions:
     new:
       title: Přihlásit se
@@ -1779,8 +1824,7 @@ cs:
         />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu,
         případně si <a href="%{reconfirm}">nechte poslat nový potvrzovací e-mail</a>.
       account is suspended: Je nám líto, ale váš účet byl pozastaven kvůli podezřelé
-        aktivitě.<br />Pokud to chcete řešit, kontaktujte <a href="%{webmaster}">správce
-        serveru</a>.
+        aktivitě.<br />Pokud to chcete řešit, kontaktujte <a href="%{webmaster}">podporu</a>.
       auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
       openid_logo_alt: Přihlášení pomocí OpenID
       auth_providers:
@@ -2388,6 +2432,14 @@ cs:
       flash: Přístup pro aplikaci %{application} byl odvolán.
     permissions:
       missing: Aplikaci jste nedovolili přístup k této funkci
+    scopes:
+      read_prefs: Číst preference uživatele
+      write_prefs: Měnit preference uživatele
+      write_diary: Vytvářet deníkové záznamy, komentovat a navazovat přátelství
+      write_api: Upravovat mapu
+      read_gpx: Číst soukromé GPS stopy
+      write_gpx: Nahrávat GPS stopy
+      write_notes: Měnit poznámky
   oauth_clients:
     new:
       title: Registrace nové aplikace
@@ -2429,12 +2481,61 @@ cs:
       flash: Klientské informace úspěšně aktualizovány
     destroy:
       flash: Registrace klientské aplikace zrušena
+  oauth2_applications:
+    index:
+      title: Mé klientské aplikace
+      no_applications_html: Máte nějakou aplikaci používající standard %{oauth2},
+        která by s námi měla spolupracovat? Aplikaci je potřeba nejdříve zaregistrovat,
+        až poté k nám bude moci posílat OAuth požadavky.
+      new: Zaregistrovat novou aplikaci
+      name: Název
+      permissions: Oprávnění
+    application:
+      edit: Upravit
+      delete: Smazat
+      confirm_delete: Smazat tuto aplikaci?
+    new:
+      title: Registrace nové aplikace
+    edit:
+      title: Úprava vaší aplikace
+    show:
+      edit: Upravit
+      delete: Smazat
+      confirm_delete: Smazat tuto aplikaci?
+      client_id: ID klienta
+      client_secret: Tajemství klienta
+      client_secret_warning: Ujistěte se, že toto tajemství máte uloženo – znovu už
+        nebude dostupné
+      permissions: Oprávnění
+      redirect_uris: URI pro přesměrování
+    not_found:
+      sorry: Takovou aplikaci se bohužel nepodařilo najít.
+  oauth2_authorizations:
+    new:
+      title: Vyžadována autorizace
+      introduction: Autorizovat aplikaci %{application}, aby s následujícími oprávněními
+        přistupovala k vašemu účtu?
+      authorize: Autorizovat
+      deny: Odmítnout
+    error:
+      title: Došlo k chybě
+    show:
+      title: Autorizační kód
+  oauth2_authorized_applications:
+    index:
+      title: Mé autorizované aplikace
+      application: Aplikace
+      permissions: Oprávnění
+      no_applications_html: Zatím jste neautorizovali žádné %{oauth2} aplikace.
+    application:
+      revoke: Odebrat přístup
+      confirm_revoke: Odebrat přístup této aplikaci?
   users:
     new:
       title: Zaregistrovat se
       no_auto_account_create: Bohužel za vás momentálně nejsme schopni vytvořit účet
         automaticky.
-      contact_support_html: Pokud chcete zařídit založení účtu, kontaktujte <a href="%{support}">webmastera</a>
+      contact_support_html: Pokud chcete zařídit založení účtu, kontaktujte <a href="%{support}">podporu</a>
         – pokusíme se vaši žádost vyřídit co možná nejrychleji.
       about:
         header: Svobodná a editovatelná
@@ -2482,6 +2583,9 @@ cs:
         italy: Itálie
         rest_of_world: Zbytek světa
     terms_declined_flash:
+      terms_declined_html: Je nám líto, že jste se rozhodli nepřijmout nové Podmínky
+        pro přispěvatele. Podrobnější informace najdete na %{terms_declined_link}.
+      terms_declined_link: této wikistránce
       terms_declined_url: http://wiki.openstreetmap.org/wiki/CS:Contributor_Terms_Declined?uselang=cs
     no_such_user:
       title: Uživatel nenalezen
@@ -2499,8 +2603,10 @@ cs:
       my profile: Můj profil
       my settings: Moje nastavení
       my comments: Moje komentáře
+      my_preferences: Moje preference
       blocks on me: Moje zablokování
       blocks by me: Zablokování mnou
+      edit_profile: Upravit profil
       send message: Poslat zprávu
       diary: Deník
       edits: Úpravy
@@ -2519,9 +2625,8 @@ cs:
       spam score: 'Spam skóre:'
       description: Popis
       user location: Poloha uživatele
-      if_set_location_html: Pokud chcete vidět blízké uživatele, nastavte si na stránce
-        %{settings_link} domácí souřadnice.
-      settings_link_text: nastavení
+      set_location_html: <a href="%{edit_profile_url}">Upravte svůj profil</a> a nastavte
+        si polohu domova, abyste viděli uživatele poblíž.
       my friends: Moji přátelé
       no friends: Zatím jste nepřidali žádné přátele.
       km away: '%{count} km'
@@ -2596,6 +2701,9 @@ cs:
       save changes button: Uložit změny
       make edits public button: Zvěřejnit všechny moje úpravy
       return to profile: Zpět na profil
+      oauth1 settings: Nastavení OAuth 1
+      oauth2 applications: Aplikace OAuth 2
+      oauth2 authorizations: Autorizace OAuth 2
       flash update success confirm needed: Uživatelské údaje byly úspěšně aktualizovány.
         Zkontrolujte si e-mail, měla by vám přijít výzva k potvrzení nové e-mailové
         adresy.
@@ -2618,6 +2726,7 @@ cs:
     suspended:
       title: Účet pozastaven
       heading: Účet pozastaven
+      support: podporu
       body_html: |-
         <p>
          Je nám líto, ale váš účet byl pozastaven kvůli podezřelé aktivitě.
