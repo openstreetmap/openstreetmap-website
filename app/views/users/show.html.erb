@@ -25,7 +25,7 @@
             <%= link_to t(".my comments"), :controller => "diary_entries", :action => "comments", :display_name => current_user.display_name %>
           </li>
           <li>
-            <%= link_to t(".my settings"), :controller => "users", :action => "account", :display_name => current_user.display_name %>
+            <%= link_to t(".my settings"), user_account_path(current_user) %>
           </li>
 
           <% if current_user.blocks.exists? %>
