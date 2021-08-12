@@ -30,14 +30,14 @@
 
           <% if current_user.blocks.exists? %>
             <li>
-              <%= link_to t(".blocks on me"), :controller => "user_blocks", :action => "blocks_on", :display_name => current_user.display_name %>
+              <%= link_to t(".blocks on me"), user_blocks_on_path(current_user) %>
               <span class='count-number'><%= number_with_delimiter(current_user.blocks.active.size) %></span>
             </li>
           <% end %>
 
           <% if can?(:create, UserBlock) and current_user.blocks_created.exists? %>
             <li>
-              <%= link_to t(".blocks by me"), :controller => "user_blocks", :action => "blocks_by", :display_name => current_user.display_name %>
+              <%= link_to t(".blocks by me"), user_blocks_by_path(current_user) %>
               <span class='count-number'><%= number_with_delimiter(current_user.blocks_created.active.size) %></span>
             </li>
           <% end %>
@@ -84,21 +84,21 @@
 
           <% if @user.blocks.exists? %>
             <li>
-              <%= link_to t(".block_history"), :controller => "user_blocks", :action => "blocks_on", :display_name => @user.display_name %>
+              <%= link_to t(".block_history"), user_blocks_on_path(@user) %>
               <span class='count-number'><%= number_with_delimiter(@user.blocks.active.size) %></span>
             </li>
           <% end %>
 
           <% if @user.moderator? and @user.blocks_created.exists? %>
             <li>
-              <%= link_to t(".moderator_history"), :controller => "user_blocks", :action => "blocks_by", :display_name => @user.display_name %>
+              <%= link_to t(".moderator_history"), user_blocks_by_path(@user) %>
               <span class='count-number'><%= number_with_delimiter(@user.blocks_created.active.size) %></span>
             </li>
           <% end %>
 
           <% if can?(:create, UserBlock) %>
             <li>
-            <%= link_to t(".create_block"), :controller => "user_blocks", :action => "new", :display_name => @user.display_name %>
+            <%= link_to t(".create_block"), new_user_block_path(@user) %>
             </li>
           <% end %>
 
