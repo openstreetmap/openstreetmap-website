@@ -4,46 +4,47 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install system packages then clean up to minimize image size
 RUN apt-get update \
- && apt-get install --no-install-recommends -y \
-      build-essential \
-      curl \
-      default-jre-headless \
-      file \
-      firefox-geckodriver \
-      imagemagick \
-      libarchive-dev \
-      libffi-dev \
-      libgd-dev \
-      libmagickwand-dev \
-      libpq-dev \
-      libsasl2-dev \
-      libxml2-dev \
-      libxslt1-dev \
-      locales \
-      nodejs \
-      postgresql-client \
-      ruby2.7 \
-      ruby2.7-dev \
-      tzdata \
-      unzip \
-      yarnpkg \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+     && apt-get install --no-install-recommends -y \
+     build-essential \
+     curl \
+     default-jre-headless \
+     file \
+     firefox-geckodriver \
+     imagemagick \
+     libarchive-dev \
+     libffi-dev \
+     libgd-dev \
+     libmagickwand-dev \
+     libpq-dev \
+     libsasl2-dev \
+     libxml2-dev \
+     libxslt1-dev \
+     locales \
+     nodejs \
+     postgresql-client \
+     ruby2.7 \
+     ruby2.7-dev \
+     tzdata \
+     unzip \
+     yarnpkg \
+     && apt-get clean \
+     && rm -rf /var/lib/apt/lists/*
 
 # Install compatible Osmosis to help users import sample data in a new instance
 RUN curl -OL https://github.com/openstreetmap/osmosis/releases/download/0.47.2/osmosis-0.47.2.tgz \
- && tar -C /usr/local -xzf osmosis-0.47.2.tgz
+     && tar -C /usr/local -xzf osmosis-0.47.2.tgz
 
 ENV DEBIAN_FRONTEND=dialog
 
 # Setup app location
-RUN mkdir -p /app
+RUN mkdir -p /app/tmp /app/node_modules /app/log
 WORKDIR /app
+COPY . .
 
 # Install Ruby packages
 ADD Gemfile Gemfile.lock /app/
 RUN gem install bundler \
- && bundle install
+     && bundle install
 
 # Install NodeJS packages using yarnpkg
 # `bundle exec rake yarn:install` will not work
