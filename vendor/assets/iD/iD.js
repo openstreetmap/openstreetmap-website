@@ -69,7 +69,7 @@
 	  return toString$1.call(it).slice(8, -1);
 	};
 
-	var split$2 = ''.split;
+	var split$1 = ''.split;
 
 	// fallback for non-array-like ES3 and non-enumerable old V8 strings
 	var indexedObject = fails(function () {
@@ -77,7 +77,7 @@
 	  // eslint-disable-next-line no-prototype-builtins -- safe
 	  return !Object('z').propertyIsEnumerable(0);
 	}) ? function (it) {
-	  return classofRaw(it) == 'String' ? split$2.call(it, '') : Object(it);
+	  return classofRaw(it) == 'String' ? split$1.call(it, '') : Object(it);
 	} : Object;
 
 	// `RequireObjectCoercible` abstract operation
@@ -226,7 +226,7 @@
 	(module.exports = function (key, value) {
 	  return sharedStore[key] || (sharedStore[key] = value !== undefined ? value : {});
 	})('versions', []).push({
-	  version: '3.15.2',
+	  version: '3.15.0',
 	  mode: 'global',
 	  copyright: '© 2021 Denis Pushkarev (zloirock.ru)'
 	});
@@ -2880,8 +2880,7 @@
 	var Internal, OwnPromiseCapability, PromiseWrapper, nativeThen;
 
 	var FORCED$f = isForced_1(PROMISE, function () {
-	  var PROMISE_CONSTRUCTOR_SOURCE = inspectSource(PromiseConstructor);
-	  var GLOBAL_CORE_JS_PROMISE = PROMISE_CONSTRUCTOR_SOURCE !== String(PromiseConstructor);
+	  var GLOBAL_CORE_JS_PROMISE = inspectSource(PromiseConstructor) !== String(PromiseConstructor);
 	  // V8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
 	  // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
 	  // We can't detect it synchronously, so just check versions
@@ -2889,7 +2888,7 @@
 	  // We can't use @@species feature detection in V8 since it causes
 	  // deoptimization and performance degradation
 	  // https://github.com/zloirock/core-js/issues/679
-	  if (engineV8Version >= 51 && /native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) return false;
+	  if (engineV8Version >= 51 && /native code/.test(PromiseConstructor)) return false;
 	  // Detect correctness of subclassing with @@species support
 	  var promise = new PromiseConstructor(function (resolve) { resolve(1); });
 	  var FakePromise = function (exec) {
@@ -6962,20 +6961,20 @@
 	  });
 	};
 
-	var DOMException$2 = global$1.DOMException;
+	var DOMException$1 = global$1.DOMException;
 
 	try {
-	  new DOMException$2();
+	  new DOMException$1();
 	} catch (err) {
-	  DOMException$2 = function DOMException(message, name) {
+	  DOMException$1 = function DOMException(message, name) {
 	    this.message = message;
 	    this.name = name;
 	    var error = Error(message);
 	    this.stack = error.stack;
 	  };
 
-	  DOMException$2.prototype = Object.create(Error.prototype);
-	  DOMException$2.prototype.constructor = DOMException$2;
+	  DOMException$1.prototype = Object.create(Error.prototype);
+	  DOMException$1.prototype.constructor = DOMException$1;
 	}
 
 	function fetch$1(input, init) {
@@ -6983,7 +6982,7 @@
 	    var request = new Request(input, init);
 
 	    if (request.signal && request.signal.aborted) {
-	      return reject(new DOMException$2('Aborted', 'AbortError'));
+	      return reject(new DOMException$1('Aborted', 'AbortError'));
 	    }
 
 	    var xhr = new XMLHttpRequest();
@@ -7019,7 +7018,7 @@
 
 	    xhr.onabort = function () {
 	      setTimeout(function () {
-	        reject(new DOMException$2('Aborted', 'AbortError'));
+	        reject(new DOMException$1('Aborted', 'AbortError'));
 	      }, 0);
 	    };
 
@@ -8348,7 +8347,7 @@
 
 	var setMetadata = function (it) {
 	  defineProperty(it, METADATA, { value: {
-	    objectID: 'O' + id++, // object ID
+	    objectID: 'O' + ++id, // object ID
 	    weakData: {}          // weak collections IDs
 	  } });
 	};
@@ -9475,7 +9474,7 @@
 	  }
 	});
 
-	var _marked$2 = /*#__PURE__*/regeneratorRuntime.mark(numbers);
+	var _marked$3 = /*#__PURE__*/regeneratorRuntime.mark(numbers);
 
 	function number$1 (x) {
 	  return x === null ? NaN : +x;
@@ -9587,7 +9586,7 @@
 	          return _context.stop();
 	      }
 	    }
-	  }, _marked$2, null, [[2, 13, 16, 19], [23, 34, 37, 40]]);
+	  }, _marked$3, null, [[2, 13, 16, 19], [23, 34, 37, 40]]);
 	}
 
 	var ascendingBisect = d3_bisector(d3_ascending);
@@ -10021,7 +10020,7 @@
 	  return quantile(values, 0.5, valueof);
 	}
 
-	var _marked$1 = /*#__PURE__*/regeneratorRuntime.mark(flatten);
+	var _marked$2 = /*#__PURE__*/regeneratorRuntime.mark(flatten);
 
 	function flatten(arrays) {
 	  var _iterator, _step, array;
@@ -10070,7 +10069,7 @@
 	          return _context.stop();
 	      }
 	    }
-	  }, _marked$1, null, [[1, 10, 13, 16]]);
+	  }, _marked$2, null, [[1, 10, 13, 16]]);
 	}
 
 	function merge$4(arrays) {
@@ -14163,7 +14162,7 @@
 	  return this.each((typeof params === "function" ? dispatchFunction : dispatchConstant)(type, params));
 	}
 
-	var _marked = /*#__PURE__*/regeneratorRuntime.mark(_callee);
+	var _marked$1 = /*#__PURE__*/regeneratorRuntime.mark(_callee);
 
 	function _callee() {
 	  var groups, j, m, group, i, n, node;
@@ -14210,7 +14209,7 @@
 	          return _context.stop();
 	      }
 	    }
-	  }, _marked, this);
+	  }, _marked$1, this);
 	}
 
 	var root$1 = [null];
@@ -14731,16 +14730,17 @@
 	    var patternIsRegExp = isRegexp(pattern);
 	    var flagsAreUndefined = flags === undefined;
 	    var groups = [];
-	    var rawPattern = pattern;
-	    var rawFlags, dotAll, sticky, handled, result, state;
+	    var rawPattern, rawFlags, dotAll, sticky, handled, result, state;
 
-	    if (!thisIsRegExp && patternIsRegExp && flagsAreUndefined && pattern.constructor === RegExpWrapper) {
+	    if (!thisIsRegExp && patternIsRegExp && pattern.constructor === RegExpWrapper && flagsAreUndefined) {
 	      return pattern;
 	    }
 
-	    if (patternIsRegExp || pattern instanceof RegExpWrapper) {
+	    if (CORRECT_NEW) {
+	      if (patternIsRegExp && !flagsAreUndefined) pattern = pattern.source;
+	    } else if (pattern instanceof RegExpWrapper) {
+	      if (flagsAreUndefined) flags = regexpFlags.call(pattern);
 	      pattern = pattern.source;
-	      if (flagsAreUndefined) flags = 'flags' in rawPattern ? rawPattern.flags : regexpFlags.call(rawPattern);
 	    }
 
 	    pattern = pattern === undefined ? '' : String(pattern);
@@ -14765,7 +14765,11 @@
 	      groups = handled[1];
 	    }
 
-	    result = inheritIfRequired(NativeRegExp(pattern, flags), thisIsRegExp ? this : RegExpPrototype, RegExpWrapper);
+	    result = inheritIfRequired(
+	      CORRECT_NEW ? new NativeRegExp(pattern, flags) : NativeRegExp(pattern, flags),
+	      thisIsRegExp ? this : RegExpPrototype,
+	      RegExpWrapper
+	    );
 
 	    if (dotAll || sticky || groups.length) {
 	      state = enforceInternalState(result);
@@ -20098,7 +20102,7 @@
 	});
 
 	var name = "iD";
-	var version = "2.20.0";
+	var version = "2.20.1";
 	var description = "A friendly editor for OpenStreetMap";
 	var main = "dist/iD.min.js";
 	var repository = "github:openstreetmap/iD";
@@ -20107,8 +20111,8 @@
 	var keywords = ["editor","openstreetmap"];
 	var license = "ISC";
 	var scripts = {all:"npm-run-all -s clean build build:legacy dist",build:"npm-run-all -s build:css build:data build:dev","build:css":"node scripts/build_css.js","build:data":"shx mkdir -p dist/data && node scripts/build_data.js","build:dev":"rollup --config config/rollup.config.dev.js","build:legacy":"rollup --config config/rollup.config.legacy.js","build:stats":"rollup --config config/rollup.config.stats.js",clean:"shx rm -f dist/*.js dist/*.map dist/*.css dist/img/*.svg",dist:"npm-run-all -p dist:**","dist:mapillary":"shx mkdir -p dist/mapillary-js && shx cp -R node_modules/mapillary-js/dist/* dist/mapillary-js/","dist:pannellum":"shx mkdir -p dist/pannellum-streetside && shx cp -R node_modules/pannellum/build/* dist/pannellum-streetside/","dist:min:iD":"uglifyjs dist/iD.legacy.js --compress --mangle --output dist/iD.min.js","dist:svg:iD":"svg-sprite --symbol --symbol-dest . --shape-id-generator \"iD-%s\" --symbol-sprite dist/img/iD-sprite.svg \"svg/iD-sprite/**/*.svg\"","dist:svg:community":"svg-sprite --symbol --symbol-dest . --shape-id-generator \"community-%s\" --symbol-sprite dist/img/community-sprite.svg node_modules/osm-community-index/dist/img/*.svg","dist:svg:fa":"svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/fa-sprite.svg svg/fontawesome/*.svg","dist:svg:maki":"svg-sprite --symbol --symbol-dest . --shape-id-generator \"maki-%s\" --symbol-sprite dist/img/maki-sprite.svg node_modules/@mapbox/maki/icons/*.svg","dist:svg:mapillary:signs":"svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/mapillary-sprite.svg node_modules/mapillary_sprite_source/package_signs/*.svg","dist:svg:mapillary:objects":"svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/mapillary-object-sprite.svg node_modules/mapillary_sprite_source/package_objects/*.svg","dist:svg:temaki":"svg-sprite --symbol --symbol-dest . --shape-id-generator \"temaki-%s\" --symbol-sprite dist/img/temaki-sprite.svg node_modules/@ideditor/temaki/icons/*.svg",imagery:"node scripts/update_imagery.js",lint:"eslint scripts test/spec modules","lint:fix":"eslint scripts test/spec modules --fix",start:"npm-run-all -s build start:server",quickstart:"npm-run-all -s build:dev start:server","start:server":"node scripts/server.js",test:"npm-run-all -s lint build:css build:data build:legacy test:spec","test:spec":"phantomjs --web-security=no node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js test/index.html spec",translations:"node scripts/update_locales.js"};
-	var dependencies = {"@ideditor/country-coder":"~5.0.3","@ideditor/location-conflation":"~1.0.2","@mapbox/geojson-area":"^0.2.2","@mapbox/sexagesimal":"1.2.0","@mapbox/togeojson":"0.16.0","@mapbox/vector-tile":"^1.3.1","@turf/bbox-clip":"^6.0.0","abortcontroller-polyfill":"^1.4.0","aes-js":"^3.1.2","alif-toolkit":"^1.2.9","core-js":"^3.6.5",diacritics:"1.3.0","fast-deep-equal":"~3.1.1","fast-json-stable-stringify":"2.1.0","lodash-es":"~4.17.15",marked:"~2.0.0","node-diff3":"2.1.0","osm-auth":"1.1.0",pannellum:"2.5.6","polygon-clipping":"~0.15.1",rbush:"3.0.1","whatwg-fetch":"^3.4.1","which-polygon":"2.2.0"};
-	var devDependencies = {"@babel/core":"^7.11.6","@babel/preset-env":"^7.11.5","@fortawesome/fontawesome-svg-core":"^1.2.32","@fortawesome/free-brands-svg-icons":"~5.15.1","@fortawesome/free-regular-svg-icons":"~5.15.1","@fortawesome/free-solid-svg-icons":"~5.15.1","@ideditor/temaki":"~4.4.0","@mapbox/maki":"^6.0.0","@rollup/plugin-babel":"^5.2.1","@rollup/plugin-commonjs":"^17.0.0","@rollup/plugin-json":"^4.0.1","@rollup/plugin-node-resolve":"~11.2.0",autoprefixer:"^10.0.1",btoa:"^1.2.1",chai:"^4.1.0","cldr-core":"37.0.0","cldr-localenames-full":"37.0.0",colors:"^1.1.2","concat-files":"^0.1.1",d3:"~6.6.0","editor-layer-index":"github:osmlab/editor-layer-index#gh-pages",eslint:"^7.1.0",gaze:"^1.1.3",glob:"^7.1.0",happen:"^0.3.1","js-yaml":"^4.0.0","json-stringify-pretty-compact":"^3.0.0",mapillary_sprite_source:"^1.8.0","mapillary-js":"4.0.0",minimist:"^1.2.3",mocha:"^7.0.1","mocha-phantomjs-core":"^2.1.0","name-suggestion-index":"~6.0","node-fetch":"^2.6.1","npm-run-all":"^4.0.0","object-inspect":"1.10.3","osm-community-index":"~5.1.0","phantomjs-prebuilt":"~2.1.16",postcss:"^8.1.1","postcss-selector-prepend":"^0.5.0",rollup:"~2.52.8","rollup-plugin-includepaths":"~0.2.3","rollup-plugin-progress":"^1.1.1","rollup-plugin-visualizer":"~4.2.0",shelljs:"^0.8.0",shx:"^0.3.0",sinon:"7.5.0","sinon-chai":"^3.3.0",smash:"0.0","static-server":"^2.2.1","svg-sprite":"1.5.0","uglify-js":"~3.13.0",vparse:"~1.1.0"};
+	var dependencies = {"@ideditor/country-coder":"~5.0.3","@ideditor/location-conflation":"~1.0.2","@mapbox/geojson-area":"^0.2.2","@mapbox/sexagesimal":"1.2.0","@mapbox/vector-tile":"^1.3.1","@tmcw/togeojson":"^4.5.0","@turf/bbox-clip":"^6.0.0","abortcontroller-polyfill":"^1.4.0","aes-js":"^3.1.2","alif-toolkit":"^1.2.9","core-js":"^3.6.5",diacritics:"1.3.0","fast-deep-equal":"~3.1.1","fast-json-stable-stringify":"2.1.0","lodash-es":"~4.17.15",marked:"~2.0.0","node-diff3":"2.1.0","osm-auth":"1.1.0",pannellum:"2.5.6",pbf:"^3.2.1","polygon-clipping":"~0.15.1",rbush:"3.0.1","whatwg-fetch":"^3.4.1","which-polygon":"2.2.0"};
+	var devDependencies = {"@babel/core":"^7.11.6","@babel/preset-env":"^7.11.5","@fortawesome/fontawesome-svg-core":"^1.2.32","@fortawesome/free-brands-svg-icons":"~5.15.1","@fortawesome/free-regular-svg-icons":"~5.15.1","@fortawesome/free-solid-svg-icons":"~5.15.1","@ideditor/temaki":"~4.4.0","@mapbox/maki":"^6.0.0","@rollup/plugin-babel":"^5.2.1","@rollup/plugin-commonjs":"^17.0.0","@rollup/plugin-json":"^4.0.1","@rollup/plugin-node-resolve":"~11.2.0",autoprefixer:"^10.0.1",btoa:"^1.2.1",chai:"^4.1.0","cldr-core":"37.0.0","cldr-localenames-full":"37.0.0",colors:"^1.1.2","concat-files":"^0.1.1",d3:"~6.6.0","editor-layer-index":"github:osmlab/editor-layer-index#gh-pages",eslint:"^7.1.0",gaze:"^1.1.3",glob:"^7.1.0",happen:"^0.3.1","js-yaml":"^4.0.0","json-stringify-pretty-compact":"^3.0.0",mapillary_sprite_source:"^1.8.0","mapillary-js":"4.0.0",minimist:"^1.2.3",mocha:"^7.0.1","mocha-phantomjs-core":"^2.1.0","name-suggestion-index":"~6.0","node-fetch":"^2.6.1","npm-run-all":"^4.0.0","object-inspect":"1.10.3","osm-community-index":"~5.1.0","phantomjs-prebuilt":"~2.1.16",postcss:"^8.1.1","postcss-selector-prepend":"^0.5.0",rollup:"~2.52.8","rollup-plugin-includepaths":"~0.2.3","rollup-plugin-progress":"^1.1.1","rollup-plugin-visualizer":"~4.2.0",shelljs:"^0.8.0",shx:"^0.3.0",sinon:"7.5.0","sinon-chai":"^3.3.0",smash:"0.0","static-server":"^2.2.1","svg-sprite":"1.5.1","uglify-js":"~3.13.0",vparse:"~1.1.0"};
 	var engines = {node:">=10"};
 	var browserslist = ["> 0.2%, last 6 major versions, Firefox ESR, IE 11, maintained node versions"];
 	var packageJSON = {
@@ -27770,7 +27774,7 @@
 	 * @license MIT
 	 * @preserve
 	 */
-	var Node$1 =
+	var Node =
 	/** @class */
 	function () {
 	  function Node(key, data) {
@@ -27797,7 +27801,7 @@
 
 
 	function splay(i, t, comparator) {
-	  var N = new Node$1(null, null);
+	  var N = new Node(null, null);
 	  var l = N;
 	  var r = N;
 
@@ -27853,7 +27857,7 @@
 	}
 
 	function insert(i, data, t, comparator) {
-	  var node = new Node$1(i, data);
+	  var node = new Node(i, data);
 
 	  if (t === null) {
 	    node.left = node.right = null;
@@ -27876,7 +27880,7 @@
 	  return node;
 	}
 
-	function split$1(key, v, comparator) {
+	function split(key, v, comparator) {
 	  var left = null;
 	  var right = null;
 
@@ -27952,7 +27956,7 @@
 
 
 	  Tree.prototype.add = function (key, data) {
-	    var node = new Node$1(key, data);
+	    var node = new Node(key, data);
 
 	    if (this._root === null) {
 	      node.left = node.right = null;
@@ -28349,7 +28353,7 @@
 	  Tree.prototype.update = function (key, newKey, newData) {
 	    var comparator = this._comparator;
 
-	    var _a = split$1(key, this._root, comparator),
+	    var _a = split(key, this._root, comparator),
 	        left = _a.left,
 	        right = _a.right;
 
@@ -28363,7 +28367,7 @@
 	  };
 
 	  Tree.prototype.split = function (key) {
-	    return split$1(key, this._root, this._comparator);
+	    return split(key, this._root, this._comparator);
 	  };
 
 	  return Tree;
@@ -28376,7 +28380,7 @@
 	    var middle = start + Math.floor(size / 2);
 	    var key = keys[middle];
 	    var data = values[middle];
-	    var node = new Node$1(key, data);
+	    var node = new Node(key, data);
 	    node.left = loadRecursive(keys, values, start, middle);
 	    node.right = loadRecursive(keys, values, middle + 1, end);
 	    return node;
@@ -28386,11 +28390,11 @@
 	}
 
 	function createList(keys, values) {
-	  var head = new Node$1(null, null);
+	  var head = new Node(null, null);
 	  var p = head;
 
 	  for (var i = 0; i < keys.length; i++) {
-	    p = p.next = new Node$1(keys[i], values[i]);
+	    p = p.next = new Node(keys[i], values[i]);
 	  }
 
 	  p.next = null;
@@ -28401,7 +28405,7 @@
 	  var current = root;
 	  var Q = [];
 	  var done = false;
-	  var head = new Node$1(null, null);
+	  var head = new Node(null, null);
 	  var p = head;
 
 	  while (!done) {
@@ -28438,7 +28442,7 @@
 	}
 
 	function mergeLists(l1, l2, compare) {
-	  var head = new Node$1(null, null); // dummy
+	  var head = new Node(null, null); // dummy
 
 	  var p = head;
 	  var p1 = l1;
@@ -36943,6 +36947,9 @@
 	    }, this);
 	    return utilArrayUniq(results);
 	  },
+	  isCrossing: function isCrossing() {
+	    return this.tags.highway === 'crossing' || this.tags.railway && this.tags.railway.indexOf('crossing') !== -1;
+	  },
 	  isEndpoint: function isEndpoint(resolver) {
 	    return resolver["transient"](this, 'isEndpoint', function () {
 	      var id = this.id;
@@ -42672,7 +42679,7 @@
 	  };
 	}
 
-	function copy$1(source, target) {
+	function copy(source, target) {
 	  return target.domain(source.domain()).range(source.range()).interpolate(source.interpolate()).clamp(source.clamp()).unknown(source.unknown());
 	}
 	function transformer() {
@@ -43176,7 +43183,7 @@
 	  var scale = continuous();
 
 	  scale.copy = function () {
-	    return copy$1(scale, linear());
+	    return copy(scale, linear());
 	  };
 
 	  initRange.apply(scale, arguments);
@@ -55604,8 +55611,10 @@
 
 	    if (connectionTags && (isCrossingIndoors || isCrossingTunnels || isCrossingBridges)) {
 	      crossingTypeID += '_connectable';
-	    }
+	    } // Differentiate based on the loc rounded to 4 digits, since two ways can cross multiple times.
 
+
+	    var uniqueID = '' + crossing.crossPoint[0].toFixed(4) + ',' + crossing.crossPoint[1].toFixed(4);
 	    return new validationIssue({
 	      type: type,
 	      subtype: subtype,
@@ -55628,13 +55637,7 @@
 	        featureTypes: featureTypes,
 	        connectionTags: connectionTags
 	      },
-	      // differentiate based on the loc since two ways can cross multiple times
-	      hash: crossing.crossPoint.toString() + // if the edges change then so does the fix
-	      edges.slice().sort(function (edge1, edge2) {
-	        // order to assure hash is deterministic
-	        return edge1[0] < edge2[0] ? -1 : 1;
-	      }).toString() + // ensure the correct connection tags are added in the fix
-	      JSON.stringify(connectionTags),
+	      hash: uniqueID,
 	      loc: crossing.crossPoint,
 	      dynamicFixes: function dynamicFixes(context) {
 	        var mode = context.mode();
@@ -55896,8 +55899,9 @@
 	          edges.forEach(function (edge) {
 	            var edgeNodes = [graph.entity(edge[0]), graph.entity(edge[1])];
 	            var nearby = geoSphericalClosestNode(edgeNodes, loc); // if there is already a suitable node nearby, use that
+	            // use the node if node has no interesting tags or if it is a crossing node #8326
 
-	            if (!nearby.node.hasInterestingTags() && nearby.distance < mergeThresholdInMeters) {
+	            if ((!nearby.node.hasInterestingTags() || nearby.node.isCrossing()) && nearby.distance < mergeThresholdInMeters) {
 	              nodesToMerge.push(nearby.node.id); // else add the new node to the way
 	            } else {
 	              graph = actionAddMidpoint({
@@ -58121,13 +58125,14 @@
 
 	  var _resolvedIssueIDs = new Set();
 
-	  var _baseCache = validationCache(); // issues before any user edits
+	  var _baseCache = validationCache('base'); // issues before any user edits
 
 
-	  var _headCache = validationCache(); // issues after all user edits
+	  var _headCache = validationCache('head'); // issues after all user edits
 
 
-	  var _headGraph = null;
+	  var _completeDiff = {}; // complete diff base -> head of what the user changed
+
 	  var _headIsCurrent = false;
 
 	  var _deferredRIC = new Set(); // Set( RequestIdleCallback handles )
@@ -58141,6 +58146,8 @@
 
 	  var RETRY = 5000; // wait 5sec before revalidating provisional entities
 	  // Allow validation severity to be overridden by url queryparams...
+	  // See: https://github.com/openstreetmap/iD/pull/8243
+	  //
 	  // Each param should contain a urlencoded comma separated list of
 	  // `type/subtype` rules.  `*` may be used as a wildcard..
 	  // Examples:
@@ -58153,7 +58160,14 @@
 
 	  var _warningOverrides = parseHashParam(context.initialHashParams.validationWarning);
 
-	  var _disableOverrides = parseHashParam(context.initialHashParams.validationDisable);
+	  var _disableOverrides = parseHashParam(context.initialHashParams.validationDisable); // `parseHashParam()`   (private)
+	  // Checks hash parameters for severity overrides
+	  // Arguments
+	  //   `param` - a url hash parameter (`validationError`, `validationWarning`, or `validationDisable`)
+	  // Returns
+	  //   Array of Objects like { type: RegExp, subtype: RegExp }
+	  //
+
 
 	  function parseHashParam(param) {
 	    var result = [];
@@ -58171,13 +58185,13 @@
 	      });
 	    });
 	    return result;
-	  }
 
-	  function makeRegExp(str) {
-	    var escaped = str.replace(/[-\/\\^$+?.()|[\]{}]/g, '\\$&') // escape all reserved chars except for the '*'
-	    .replace(/\*/g, '.*'); // treat a '*' like '.*'
+	    function makeRegExp(str) {
+	      var escaped = str.replace(/[-\/\\^$+?.()|[\]{}]/g, '\\$&') // escape all reserved chars except for the '*'
+	      .replace(/\*/g, '.*'); // treat a '*' like '.*'
 
-	    return new RegExp('^' + escaped + '$');
+	      return new RegExp('^' + escaped + '$');
+	    }
 	  } // `init()`
 	  // Initialize the validator, called once on iD startup
 	  //
@@ -58225,9 +58239,9 @@
 
 	    _resolvedIssueIDs.clear();
 
-	    _baseCache = validationCache();
-	    _headCache = validationCache();
-	    _headGraph = null;
+	    _baseCache = validationCache('base');
+	    _headCache = validationCache('head');
+	    _completeDiff = {};
 	    _headIsCurrent = false;
 	  } // `reset()`
 	  // clear caches, called whenever iD resets after a save or switches sources
@@ -58253,23 +58267,23 @@
 
 
 	  validator.revalidateUnsquare = function () {
-	    revalidateUnsquare(_headCache, _headGraph);
-	    revalidateUnsquare(_baseCache, context.history().base());
+	    revalidateUnsquare(_headCache);
+	    revalidateUnsquare(_baseCache);
 	    dispatch.call('validated');
 	  };
 
-	  function revalidateUnsquare(cache, graph) {
+	  function revalidateUnsquare(cache) {
 	    var checkUnsquareWay = _rules.unsquare_way;
-	    if (!graph || typeof checkUnsquareWay !== 'function') return; // uncache existing
+	    if (!cache.graph || typeof checkUnsquareWay !== 'function') return; // uncache existing
 
 	    cache.uncacheIssuesOfType('unsquare_way');
-	    var buildings = context.history().tree().intersects(geoExtent([-180, -90], [180, 90]), graph) // everywhere
+	    var buildings = context.history().tree().intersects(geoExtent([-180, -90], [180, 90]), cache.graph) // everywhere
 	    .filter(function (entity) {
 	      return entity.type === 'way' && entity.tags.building && entity.tags.building !== 'no';
 	    }); // rerun for all buildings
 
 	    buildings.forEach(function (entity) {
-	      var detected = checkUnsquareWay(entity, graph);
+	      var detected = checkUnsquareWay(entity, cache.graph);
 	      if (!detected.length) return;
 	      cache.cacheIssues(detected);
 	    });
@@ -58299,54 +58313,46 @@
 	      includeDisabledRules: false
 	    }, options);
 	    var view = context.map().extent();
-	    var issues = [];
-	    var seen = new Set(); // collect head issues - caused by user edits
+	    var seen = new Set();
+	    var results = []; // collect head issues - caused by user edits
 
-	    var cache = _headCache;
-
-	    if (_headGraph) {
-	      Object.values(cache.issuesByIssueID).forEach(function (issue) {
-	        if (!filter(issue, _headGraph, cache)) return;
+	    if (_headCache.graph && _headCache.graph !== _baseCache.graph) {
+	      Object.values(_headCache.issuesByIssueID).forEach(function (issue) {
+	        if (!filter(issue)) return;
 	        seen.add(issue.id);
-	        issues.push(issue);
+	        results.push(issue);
 	      });
 	    } // collect base issues - not caused by user edits
 
 
 	    if (opts.what === 'all') {
-	      cache = _baseCache;
-	      Object.values(cache.issuesByIssueID).forEach(function (issue) {
-	        if (!filter(issue, context.history().base(), cache)) return;
+	      Object.values(_baseCache.issuesByIssueID).forEach(function (issue) {
+	        if (!filter(issue)) return;
 	        seen.add(issue.id);
-	        issues.push(issue);
+	        results.push(issue);
 	      });
 	    }
 
-	    return issues;
+	    return results; // Filter the issue set to include only what the calling code wants to see.
+	    // Note that we use `context.graph()`/`context.hasEntity()` here, not `cache.graph`,
+	    // because that is the graph that the calling code will be using.
 
-	    function filter(issue, resolver, cache) {
+	    function filter(issue) {
 	      if (!issue) return false;
 	      if (seen.has(issue.id)) return false;
 	      if (_resolvedIssueIDs.has(issue.id)) return false;
 	      if (opts.includeDisabledRules === 'only' && !_disabledRules[issue.type]) return false;
 	      if (!opts.includeDisabledRules && _disabledRules[issue.type]) return false;
 	      if (opts.includeIgnored === 'only' && !_ignoredIssueIDs.has(issue.id)) return false;
-	      if (!opts.includeIgnored && _ignoredIssueIDs.has(issue.id)) return false; // Sanity check:  This issue may be for an entity that not longer exists.
-	      // If we detect this, uncache and return false so it is not included..
+	      if (!opts.includeIgnored && _ignoredIssueIDs.has(issue.id)) return false; // This issue may involve an entity that doesn't exist in context.graph()
+	      // This can happen because validation is async and rendering the issue lists is async.
 
-	      var entityIDs = issue.entityIds || [];
-
-	      for (var i = 0; i < entityIDs.length; i++) {
-	        var entityID = entityIDs[i];
-
-	        if (!resolver.hasEntity(entityID)) {
-	          cache.uncacheEntityID(entityID);
-	          return false;
-	        }
-	      }
+	      if ((issue.entityIds || []).some(function (id) {
+	        return !context.hasEntity(id);
+	      })) return false;
 
 	      if (opts.where === 'visible') {
-	        var extent = issue.extent(resolver);
+	        var extent = issue.extent(context.graph());
 	        if (!view.intersects(extent)) return false;
 	      }
 
@@ -58354,7 +58360,9 @@
 	    }
 	  }; // `getResolvedIssues()`
 	  // Gets the issues that have been fixed by the user.
-	  // Resolved issues are tracked in the `_resolvedIssueIDs` Set
+	  //
+	  // Resolved issues are tracked in the `_resolvedIssueIDs` Set,
+	  // and they should all be issues that exist in the _baseCache.
 	  //
 	  // Returns
 	  //   An Array containing the issues
@@ -58362,14 +58370,9 @@
 
 
 	  validator.getResolvedIssues = function () {
-	    var collected = new Set();
-	    Object.values(_baseCache.issuesByIssueID).forEach(function (issue) {
-	      if (_resolvedIssueIDs.has(issue.id)) collected.add(issue);
-	    });
-	    Object.values(_headCache.issuesByIssueID).forEach(function (issue) {
-	      if (_resolvedIssueIDs.has(issue.id)) collected.add(issue);
-	    });
-	    return Array.from(collected);
+	    return Array.from(_resolvedIssueIDs).map(function (issueID) {
+	      return _baseCache.issuesByIssueID[issueID];
+	    }).filter(Boolean);
 	  }; // `focusIssue()`
 	  // Adjusts the map to focus on the given issue.
 	  // (requires the issue to have a reasonable extent defined)
@@ -58380,15 +58383,57 @@
 
 
 	  validator.focusIssue = function (issue) {
-	    var extent = issue.extent(context.graph());
-	    if (!extent) return;
-	    var setZoom = Math.max(context.map().zoom(), 19);
-	    context.map().unobscuredCenterZoomEase(extent.center(), setZoom); // select the first entity
+	    // Note that we use `context.graph()`/`context.hasEntity()` here, not `cache.graph`,
+	    // because that is the graph that the calling code will be using.
+	    var graph = context.graph();
+	    var selectID;
+	    var focusCenter; // Try to focus the map at the center of the issue..
+
+	    var issueExtent = issue.extent(graph);
+
+	    if (issueExtent) {
+	      focusCenter = issueExtent.center();
+	    } // Try to select the first entity in the issue..
+
 
 	    if (issue.entityIds && issue.entityIds.length) {
+	      selectID = issue.entityIds[0]; // If a relation, focus on one of its members instead.
+	      // Otherwise we might be focusing on a part of map where the relation is not visible.
+
+	      if (selectID && selectID.charAt(0) === 'r') {
+	        // relation
+	        var ids = utilEntityAndDeepMemberIDs([selectID], graph);
+	        var nodeID = ids.find(function (id) {
+	          return id.charAt(0) === 'n' && graph.hasEntity(id);
+	        });
+
+	        if (!nodeID) {
+	          // relation has no downloaded nodes to focus on
+	          var wayID = ids.find(function (id) {
+	            return id.charAt(0) === 'w' && graph.hasEntity(id);
+	          });
+
+	          if (wayID) {
+	            nodeID = graph.entity(wayID).first(); // focus on the first node of this way
+	          }
+	        }
+
+	        if (nodeID) {
+	          focusCenter = graph.entity(nodeID).loc;
+	        }
+	      }
+	    }
+
+	    if (focusCenter) {
+	      // Adjust the view
+	      var setZoom = Math.max(context.map().zoom(), 19);
+	      context.map().unobscuredCenterZoomEase(focusCenter, setZoom);
+	    }
+
+	    if (selectID) {
+	      // Enter select mode
 	      window.setTimeout(function () {
-	        var ids = issue.entityIds;
-	        context.enter(modeSelect(context, [ids[0]]));
+	        context.enter(modeSelect(context, [selectID]));
 	        dispatch.call('focusedIssue', _this, issue);
 	      }, 250); // after ease
 	    }
@@ -58426,12 +58471,12 @@
 
 
 	  validator.getSharedEntityIssues = function (entityIDs, options) {
-	    // show some issue types in a particular order
-	    var orderedIssueTypes = [// flag missing data first
-	    'missing_tag', 'missing_role', // then flag identity issues
-	    'outdated_tags', 'mismatched_geometry', // flag geometry issues where fixing them might solve connectivity issues
-	    'crossing_ways', 'almost_junction', // then flag connectivity issues
-	    'disconnected_way', 'impossible_oneway'];
+	    var orderedIssueTypes = [// Show some issue types in a particular order:
+	    'missing_tag', 'missing_role', // - missing data first
+	    'outdated_tags', 'mismatched_geometry', // - identity issues
+	    'crossing_ways', 'almost_junction', // - geometry issues where fixing them might solve connectivity issues
+	    'disconnected_way', 'impossible_oneway' // - finally connectivity issues
+	    ];
 	    var allIssues = validator.getIssues(options);
 	    var forEntityIDs = new Set(entityIDs);
 	    return allIssues.filter(function (issue) {
@@ -58547,12 +58592,16 @@
 
 
 	  validator.validate = function () {
+	    // Make sure the caches have graphs assigned to them.
+	    // (we don't do this in `reset` because context is still resetting things and `history.base()` is unstable then)
+	    var baseGraph = context.history().base();
+	    if (!_headCache.graph) _headCache.graph = baseGraph;
+	    if (!_baseCache.graph) _baseCache.graph = baseGraph;
+	    var prevGraph = _headCache.graph;
 	    var currGraph = context.graph();
 
-	    var prevGraph = _headGraph || context.history().base();
-
 	    if (currGraph === prevGraph) {
-	      // _headGraph is current - we are caught up
+	      // _headCache.graph is current - we are caught up
 	      _headIsCurrent = true;
 	      dispatch.call('validated');
 	      return Promise.resolve();
@@ -58563,30 +58612,21 @@
 	      _headIsCurrent = false; // We will need to catch up after the validation promise fulfills
 
 	      return _headPromise;
-	    }
+	    } // If we get here, its time to start validating stuff.
 
-	    _headGraph = currGraph; // take snapshot
 
-	    var difference = coreDifference(prevGraph, _headGraph); // Gather all entities related to this difference..
-	    // For created/modified, use the head graph
+	    _headCache.graph = currGraph; // take snapshot
 
-	    var entityIDs = difference.extantIDs(true); // created/modified (true = w/relation members)
+	    _completeDiff = context.history().difference().complete();
+	    var incrementalDiff = coreDifference(prevGraph, currGraph);
+	    var entityIDs = Object.keys(incrementalDiff.complete()); // if (!entityIDs.size) {
 
-	    entityIDs = entityIDsToValidate(entityIDs, _headGraph); // For modified/deleted, use the previous graph
-	    // (e.g. deleting the only highway connected to a road should create a disconnected highway issue)
-
-	    var previousEntityIDs = difference.deleted().concat(difference.modified()).map(function (entity) {
-	      return entity.id;
-	    });
-	    previousEntityIDs = entityIDsToValidate(previousEntityIDs, prevGraph);
-	    previousEntityIDs.forEach(entityIDs.add, entityIDs); // concat the sets
-
-	    if (!entityIDs.size) {
+	    if (!entityIDs.length) {
 	      dispatch.call('validated');
 	      return Promise.resolve();
 	    }
 
-	    _headPromise = validateEntitiesAsync(entityIDs, _headGraph, _headCache).then(function () {
+	    _headPromise = validateEntitiesAsync(entityIDs, _headCache).then(function () {
 	      return updateResolvedIssues(entityIDs);
 	    }).then(function () {
 	      return dispatch.call('validated');
@@ -58619,13 +58659,17 @@
 	  context.on('exit.validator', validator.validate); // When merging fetched data, validate base graph:
 
 	  context.history().on('merge.validator', function (entities) {
-	    if (!entities) return;
+	    if (!entities) return; // Make sure the caches have graphs assigned to them.
+	    // (we don't do this in `reset` because context is still resetting things and `history.base()` is unstable then)
+
 	    var baseGraph = context.history().base();
+	    if (!_headCache.graph) _headCache.graph = baseGraph;
+	    if (!_baseCache.graph) _baseCache.graph = baseGraph;
 	    var entityIDs = entities.map(function (entity) {
 	      return entity.id;
-	    });
-	    entityIDs = entityIDsToValidate(entityIDs, baseGraph);
-	    validateEntitiesAsync(entityIDs, baseGraph, _baseCache);
+	    }); // entityIDs = entityIDsToValidate(entityIDs, baseGraph);  // expand set
+
+	    validateEntitiesAsync(entityIDs, _baseCache);
 	  }); // `validateEntity()`   (private)
 	  // Runs all validation rules on a single entity.
 	  // Some things to note:
@@ -58651,7 +58695,10 @@
 	    var result = {
 	      issues: [],
 	      provisional: false
-	    }; // runs validation and appends resulting issues
+	    };
+	    Object.keys(_rules).forEach(runValidation); // run all rules
+
+	    return result; // runs validation and appends resulting issues
 
 	    function runValidation(key) {
 	      var fn = _rules[key];
@@ -58662,128 +58709,78 @@
 	        return;
 	      }
 
-	      var detected = fn(entity, graph).filter(applySeverityOverrides);
+	      var detected = fn(entity, graph);
 
 	      if (detected.provisional) {
 	        // this validation should be run again later
 	        result.provisional = true;
 	      }
 
-	      result.issues = result.issues.concat(detected);
-	    } // run all rules
+	      detected = detected.filter(applySeverityOverrides);
+	      result.issues = result.issues.concat(detected); // If there are any override rules that match the issue type/subtype,
+	      // adjust severity (or disable it) and keep/discard as quickly as possible.
 
+	      function applySeverityOverrides(issue) {
+	        var type = issue.type;
+	        var subtype = issue.subtype || '';
+	        var i;
 
-	    Object.keys(_rules).forEach(runValidation);
-	    return result;
-	  } // If there are any override rules that match the issue type/subtype,
-	  // adjust severity (or disable it) and keep/discard as quickly as possible.
-
-
-	  function applySeverityOverrides(issue) {
-	    var type = issue.type;
-	    var subtype = issue.subtype || '';
-	    var i;
-
-	    for (i = 0; i < _errorOverrides.length; i++) {
-	      if (_errorOverrides[i].type.test(type) && _errorOverrides[i].subtype.test(subtype)) {
-	        issue.severity = 'error';
-	        return true;
-	      }
-	    }
-
-	    for (i = 0; i < _warningOverrides.length; i++) {
-	      if (_warningOverrides[i].type.test(type) && _warningOverrides[i].subtype.test(subtype)) {
-	        issue.severity = 'warning';
-	        return true;
-	      }
-	    }
-
-	    for (i = 0; i < _disableOverrides.length; i++) {
-	      if (_disableOverrides[i].type.test(type) && _disableOverrides[i].subtype.test(subtype)) {
-	        return false;
-	      }
-	    }
-
-	    return true;
-	  } // `entityIDsToValidate()`   (private)
-	  // Collects the complete list of entityIDs related to the input entityIDs.
-	  //
-	  // Arguments
-	  //   `entityIDs` - Set or Array containing entityIDs.
-	  //   `graph` - graph containing the entities
-	  //
-	  // Returns
-	  //   Set containing entityIDs
-	  //
-
-
-	  function entityIDsToValidate(entityIDs, graph) {
-	    var seen = new Set();
-	    var collected = new Set();
-	    entityIDs.forEach(function (entityID) {
-	      // keep `seen` separate from `collected` because an `entityID`
-	      // could have been added to `collected` as a related entity through an earlier pass
-	      if (seen.has(entityID)) return;
-	      seen.add(entityID);
-	      var entity = graph.hasEntity(entityID);
-	      if (!entity) return;
-	      collected.add(entityID); // collect self
-
-	      var checkParentRels = [entity];
-
-	      if (entity.type === 'node') {
-	        graph.parentWays(entity).forEach(function (parentWay) {
-	          collected.add(parentWay.id); // collect parent ways
-
-	          checkParentRels.push(parentWay);
-	        });
-	      } else if (entity.type === 'relation') {
-	        entity.members.forEach(function (member) {
-	          return collected.add(member.id);
-	        }); // collect members
-	      } else if (entity.type === 'way') {
-	        entity.nodes.forEach(function (nodeID) {
-	          collected.add(nodeID); // collect child nodes
-
-	          graph._parentWays[nodeID].forEach(function (wayID) {
-	            return collected.add(wayID);
-	          }); // collect connected ways
-
-	        });
-	      }
-
-	      checkParentRels.forEach(function (entity) {
-	        // collect parent relations
-	        if (entity.type !== 'relation') {
-	          // but not super-relations
-	          graph.parentRelations(entity).forEach(function (parentRelation) {
-	            return collected.add(parentRelation.id);
-	          });
+	        for (i = 0; i < _errorOverrides.length; i++) {
+	          if (_errorOverrides[i].type.test(type) && _errorOverrides[i].subtype.test(subtype)) {
+	            issue.severity = 'error';
+	            return true;
+	          }
 	        }
-	      });
-	    });
-	    return collected;
+
+	        for (i = 0; i < _warningOverrides.length; i++) {
+	          if (_warningOverrides[i].type.test(type) && _warningOverrides[i].subtype.test(subtype)) {
+	            issue.severity = 'warning';
+	            return true;
+	          }
+	        }
+
+	        for (i = 0; i < _disableOverrides.length; i++) {
+	          if (_disableOverrides[i].type.test(type) && _disableOverrides[i].subtype.test(subtype)) {
+	            return false;
+	          }
+	        }
+
+	        return true;
+	      }
+	    }
 	  } // `updateResolvedIssues()`   (private)
 	  // Determine if any issues were resolved for the given entities.
 	  // This is called by `validate()` after validation of the head graph
 	  //
+	  // Give the user credit for fixing an issue if:
+	  // - the issue is in the base cache
+	  // - the issue is not in the head cache
+	  // - the user did something to one of the entities involved in the issue
+	  //
 	  // Arguments
-	  //   `entityIDs` - Set containing entity IDs.
+	  //   `entityIDs` - Array containing entity IDs.
 	  //
 
 
 	  function updateResolvedIssues(entityIDs) {
 	    entityIDs.forEach(function (entityID) {
-	      var headIssues = _headCache.issuesByEntityID[entityID];
 	      var baseIssues = _baseCache.issuesByEntityID[entityID];
 	      if (!baseIssues) return;
 	      baseIssues.forEach(function (issueID) {
-	        if (headIssues && headIssues.has(issueID)) {
+	        // Check if the user did something to one of the entities involved in this issue.
+	        // (This issue could involve multiple entities, e.g. disconnected routable features)
+	        var issue = _baseCache.issuesByIssueID[issueID];
+	        var userModified = (issue.entityIds || []).some(function (id) {
+	          return _completeDiff.hasOwnProperty(id);
+	        });
+
+	        if (userModified && !_headCache.issuesByIssueID[issueID]) {
+	          // issue seems fixed
+	          _resolvedIssueIDs.add(issueID);
+	        } else {
 	          // issue still not resolved
 	          _resolvedIssueIDs["delete"](issueID); // (did undo, or possibly fixed and then re-caused the issue)
 
-	        } else {
-	          _resolvedIssueIDs.add(issueID);
 	        }
 	      });
 	    });
@@ -58791,7 +58788,7 @@
 	  // Schedule validation for many entities.
 	  //
 	  // Arguments
-	  //   `entityIDs` - Set containing entity IDs.
+	  //   `entityIDs` - Array containing entity IDs.
 	  //   `graph` - the graph to validate that contains those entities
 	  //   `cache` - the cache to store results in (_headCache or _baseCache)
 	  //
@@ -58801,29 +58798,35 @@
 	  //
 
 
-	  function validateEntitiesAsync(entityIDs, graph, cache) {
+	  function validateEntitiesAsync(entityIDs, cache) {
 	    // Enqueue the work
-	    var jobs = Array.from(entityIDs).map(function (entityID) {
+	    var jobs = entityIDs.map(function (entityID) {
 	      if (cache.queuedEntityIDs.has(entityID)) return null; // queued already
 
 	      cache.queuedEntityIDs.add(entityID);
 	      return function () {
-	        // clear caches for existing issues related to this entity
+	        // Clear caches for existing issues related to this entity
 	        cache.uncacheEntityID(entityID);
-	        cache.queuedEntityIDs["delete"](entityID); // detect new issues and update caches
+	        cache.queuedEntityIDs["delete"](entityID);
+	        var graph = cache.graph;
+	        if (!graph) return; // was reset?
 
 	        var entity = graph.hasEntity(entityID); // Sanity check: don't validate deleted entities
 
-	        if (entity) {
-	          var result = validateEntity(entity, graph);
+	        if (!entity) return; // In the head cache, only validate features that the user is responsible for - #8632
+	        // For example, a user can undo some work and an issue will still present in the
+	        // head graph, but we don't want to credit the user for causing that issue.
 
-	          if (result.provisional) {
-	            // provisional result
-	            cache.provisionalEntityIDs.add(entityID); // we'll need to revalidate this entity again later
-	          }
+	        if (cache.which === 'head' && !_completeDiff.hasOwnProperty(entityID)) return; // detect new issues and update caches
 
-	          cache.cacheIssues(result.issues); // update cache
+	        var result = validateEntity(entity, graph);
+
+	        if (result.provisional) {
+	          // provisional result
+	          cache.provisionalEntityIDs.add(entityID); // we'll need to revalidate this entity again later
 	        }
+
+	        cache.cacheIssues(result.issues); // update cache
 	      };
 	    }).filter(Boolean); // Perform the work in chunks.
 	    // Because this will happen during idle callbacks, we want to choose a chunk size
@@ -58858,8 +58861,7 @@
 
 	      if (!cache.provisionalEntityIDs.size) return; // nothing to do
 
-	      var graph = cache === _headCache ? _headGraph : context.history().base();
-	      validateEntitiesAsync(cache.provisionalEntityIDs, graph, cache);
+	      validateEntitiesAsync(Array.from(cache.provisionalEntityIDs), cache);
 	    }, RETRY);
 
 	    _deferredST.add(handle);
@@ -58876,8 +58878,7 @@
 
 
 	  function processQueue(cache) {
-	    // const which = (cache === _headCache) ? 'head' : 'base';
-	    // console.log(`${which} queue length ${cache.queue.length}`);
+	    // console.log(`${cache.which} queue length ${cache.queue.length}`);
 	    if (!cache.queue.length) return Promise.resolve(); // we're done
 
 	    var chunk = cache.queue.pop();
@@ -58910,16 +58911,21 @@
 	//   `_baseCache` for validation on the base graph (unedited)
 	//   `_headCache` for validation on the head graph (user edits applied)
 	//
+	// Arguments
+	//   `which` - just a String 'base' or 'head' to keep track of it
+	//
 
-	function validationCache() {
+	function validationCache(which) {
 	  var cache = {
+	    which: which,
+	    graph: null,
 	    queue: [],
 	    queuePromise: null,
 	    queuedEntityIDs: new Set(),
 	    provisionalEntityIDs: new Set(),
 	    issuesByIssueID: {},
 	    // issue.id -> issue
-	    issuesByEntityID: {} // entity.id -> set(issue.id)
+	    issuesByEntityID: {} // entity.id -> Set(issue.id)
 
 	  };
 
@@ -59622,7 +59628,7 @@
 	  // https://docs.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata
 	  // https://docs.microsoft.com/en-us/bingmaps/rest-services/directly-accessing-the-bing-maps-tiles
 	  //fallback url template
-	  data.template = 'https://ecn.t{switch:0,1,2,3}.tiles.virtualearth.net/tiles/a{u}.jpeg?g=10555&n=z';
+	  data.template = 'https://ecn.t{switch:0,1,2,3}.tiles.virtualearth.net/tiles/a{u}.jpeg?g=587&n=z';
 	  var bing = rendererBackgroundSource(data); //var key = 'Arzdiw4nlOJzRwOz__qailc8NiR31Tt51dN2D7cm57NrnceZnCpgOkmJhNpGoppU'; // P2, JOSM, etc
 
 	  var key = 'Ak5oTE46TUbjRp08OFVcGpkARErDobfpuyNKa-W2mQ8wbt1K1KL8p1bIRwWwcF-Q'; // iD
@@ -62145,3055 +62151,727 @@
 	  }(data);
 	};
 
-	//[4]   	NameStartChar	   ::=   	":" | [A-Z] | "_" | [a-z] | [#xC0-#xD6] | [#xD8-#xF6] | [#xF8-#x2FF] | [#x370-#x37D] | [#x37F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#xEFFFF]
-	//[4a]   	NameChar	   ::=   	NameStartChar | "-" | "." | [0-9] | #xB7 | [#x0300-#x036F] | [#x203F-#x2040]
-	//[5]   	Name	   ::=   	NameStartChar (NameChar)*
-	var nameStartChar = /[A-Z_a-z\xC0-\xD6\xD8-\xF6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/; //\u10000-\uEFFFF
+	var $entries = objectToArray.entries;
 
-	var nameChar = new RegExp("[\\-\\.0-9" + nameStartChar.source.slice(1, -1) + "\\u00B7\\u0300-\\u036F\\u203F-\\u2040]");
-	var tagNamePattern = new RegExp('^' + nameStartChar.source + nameChar.source + '*(?:\:' + nameStartChar.source + nameChar.source + '*)?$'); //var tagNamePattern = /^[a-zA-Z_][\w\-\.]*(?:\:[a-zA-Z_][\w\-\.]*)?$/
-	//var handlers = 'resolveEntity,getExternalSubset,characters,endDocument,endElement,endPrefixMapping,ignorableWhitespace,processingInstruction,setDocumentLocator,skippedEntity,startDocument,startElement,startPrefixMapping,notationDecl,unparsedEntityDecl,error,fatalError,warning,attributeDecl,elementDecl,externalEntityDecl,internalEntityDecl,comment,endCDATA,endDTD,endEntity,startCDATA,startDTD,startEntity'.split(',')
-	//S_TAG,	S_ATTR,	S_EQ,	S_ATTR_NOQUOT_VALUE
-	//S_ATTR_SPACE,	S_ATTR_END,	S_TAG_SPACE, S_TAG_CLOSE
-
-	var S_TAG = 0; //tag name offerring
-
-	var S_ATTR = 1; //attr name offerring 
-
-	var S_ATTR_SPACE = 2; //attr name end and space offer
-
-	var S_EQ = 3; //=space?
-
-	var S_ATTR_NOQUOT_VALUE = 4; //attr value(no quot value only)
-
-	var S_ATTR_END = 5; //attr value end and no space(quot end)
-
-	var S_TAG_SPACE = 6; //(attr value end || tag end ) && (space offer)
-
-	var S_TAG_CLOSE = 7; //closed el<el />
-
-	function XMLReader() {}
-
-	XMLReader.prototype = {
-	  parse: function parse(source, defaultNSMap, entityMap) {
-	    var domBuilder = this.domBuilder;
-	    domBuilder.startDocument();
-
-	    _copy(defaultNSMap, defaultNSMap = {});
-
-	    _parse(source, defaultNSMap, entityMap, domBuilder, this.errorHandler);
-
-	    domBuilder.endDocument();
+	// `Object.entries` method
+	// https://tc39.es/ecma262/#sec-object.entries
+	_export({ target: 'Object', stat: true }, {
+	  entries: function entries(O) {
+	    return $entries(O);
 	  }
-	};
+	});
 
-	function _parse(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
-	  function fixedFromCharCode(code) {
-	    // String.prototype.fromCharCode does not supports
-	    // > 2 bytes unicode chars directly
-	    if (code > 0xffff) {
-	      code -= 0x10000;
-	      var surrogate1 = 0xd800 + (code >> 10),
-	          surrogate2 = 0xdc00 + (code & 0x3ff);
-	      return String.fromCharCode(surrogate1, surrogate2);
-	    } else {
-	      return String.fromCharCode(code);
-	    }
+	var _marked = /*#__PURE__*/regeneratorRuntime.mark(gpxGen),
+	    _marked3 = /*#__PURE__*/regeneratorRuntime.mark(kmlGen);
+
+	// cast array x into numbers
+	// get the content of a text node, if any
+	function nodeVal(x) {
+	  if (x && x.normalize) {
+	    x.normalize();
 	  }
 
-	  function entityReplacer(a) {
-	    var k = a.slice(1, -1);
-
-	    if (k in entityMap) {
-	      return entityMap[k];
-	    } else if (k.charAt(0) === '#') {
-	      return fixedFromCharCode(parseInt(k.substr(1).replace('x', '0x')));
-	    } else {
-	      errorHandler.error('entity not found:' + a);
-	      return a;
-	    }
-	  }
-
-	  function appendText(end) {
-	    //has some bugs
-	    if (end > start) {
-	      var xt = source.substring(start, end).replace(/&#?\w+;/g, entityReplacer);
-	      locator && position(start);
-	      domBuilder.characters(xt, 0, end - start);
-	      start = end;
-	    }
-	  }
-
-	  function position(p, m) {
-	    while (p >= lineEnd && (m = linePattern.exec(source))) {
-	      lineStart = m.index;
-	      lineEnd = lineStart + m[0].length;
-	      locator.lineNumber++; //console.log('line++:',locator,startPos,endPos)
-	    }
-
-	    locator.columnNumber = p - lineStart + 1;
-	  }
-
-	  var lineStart = 0;
-	  var lineEnd = 0;
-	  var linePattern = /.*(?:\r\n?|\n)|.*$/g;
-	  var locator = domBuilder.locator;
-	  var parseStack = [{
-	    currentNSMap: defaultNSMapCopy
-	  }];
-	  var closeMap = {};
-	  var start = 0;
-
-	  while (true) {
-	    try {
-	      var tagStart = source.indexOf('<', start);
-
-	      if (tagStart < 0) {
-	        if (!source.substr(start).match(/^\s*$/)) {
-	          var doc = domBuilder.doc;
-	          var text = doc.createTextNode(source.substr(start));
-	          doc.appendChild(text);
-	          domBuilder.currentElement = text;
-	        }
-
-	        return;
-	      }
-
-	      if (tagStart > start) {
-	        appendText(tagStart);
-	      }
-
-	      switch (source.charAt(tagStart + 1)) {
-	        case '/':
-	          var end = source.indexOf('>', tagStart + 3);
-	          var tagName = source.substring(tagStart + 2, end);
-	          var config = parseStack.pop();
-
-	          if (end < 0) {
-	            tagName = source.substring(tagStart + 2).replace(/[\s<].*/, ''); //console.error('#@@@@@@'+tagName)
-
-	            errorHandler.error("end tag name: " + tagName + ' is not complete:' + config.tagName);
-	            end = tagStart + 1 + tagName.length;
-	          } else if (tagName.match(/\s</)) {
-	            tagName = tagName.replace(/[\s<].*/, '');
-	            errorHandler.error("end tag name: " + tagName + ' maybe not complete');
-	            end = tagStart + 1 + tagName.length;
-	          } //console.error(parseStack.length,parseStack)
-	          //console.error(config);
+	  return x && x.textContent || "";
+	} // one Y child of X, if any, otherwise null
 
 
-	          var localNSMap = config.localNSMap;
-	          var endMatch = config.tagName == tagName;
-	          var endIgnoreCaseMach = endMatch || config.tagName && config.tagName.toLowerCase() == tagName.toLowerCase();
-
-	          if (endIgnoreCaseMach) {
-	            domBuilder.endElement(config.uri, config.localName, tagName);
-
-	            if (localNSMap) {
-	              for (var prefix in localNSMap) {
-	                domBuilder.endPrefixMapping(prefix);
-	              }
-	            }
-
-	            if (!endMatch) {
-	              errorHandler.fatalError("end tag name: " + tagName + ' is not match the current start tagName:' + config.tagName);
-	            }
-	          } else {
-	            parseStack.push(config);
-	          }
-
-	          end++;
-	          break;
-	        // end elment
-
-	        case '?':
-	          // <?...?>
-	          locator && position(tagStart);
-	          end = parseInstruction(source, tagStart, domBuilder);
-	          break;
-
-	        case '!':
-	          // <!doctype,<![CDATA,<!--
-	          locator && position(tagStart);
-	          end = parseDCC(source, tagStart, domBuilder, errorHandler);
-	          break;
-
-	        default:
-	          locator && position(tagStart);
-	          var el = new ElementAttributes();
-	          var currentNSMap = parseStack[parseStack.length - 1].currentNSMap; //elStartEnd
-
-	          var end = parseElementStartPart(source, tagStart, el, currentNSMap, entityReplacer, errorHandler);
-	          var len = el.length;
-
-	          if (!el.closed && fixSelfClosed(source, end, el.tagName, closeMap)) {
-	            el.closed = true;
-
-	            if (!entityMap.nbsp) {
-	              errorHandler.warning('unclosed xml attribute');
-	            }
-	          }
-
-	          if (locator && len) {
-	            var locator2 = copyLocator(locator, {}); //try{//attribute position fixed
-
-	            for (var i = 0; i < len; i++) {
-	              var a = el[i];
-	              position(a.offset);
-	              a.locator = copyLocator(locator, {});
-	            } //}catch(e){console.error('@@@@@'+e)}
-
-
-	            domBuilder.locator = locator2;
-
-	            if (appendElement(el, domBuilder, currentNSMap)) {
-	              parseStack.push(el);
-	            }
-
-	            domBuilder.locator = locator;
-	          } else {
-	            if (appendElement(el, domBuilder, currentNSMap)) {
-	              parseStack.push(el);
-	            }
-	          }
-
-	          if (el.uri === 'http://www.w3.org/1999/xhtml' && !el.closed) {
-	            end = parseHtmlSpecialContent(source, end, el.tagName, entityReplacer, domBuilder);
-	          } else {
-	            end++;
-	          }
-
-	      }
-	    } catch (e) {
-	      errorHandler.error('element parse error: ' + e); //errorHandler.error('element parse error: '+e);
-
-	      end = -1; //throw e;
-	    }
-
-	    if (end > start) {
-	      start = end;
-	    } else {
-	      //TODO: 这里有可能sax回退，有位置错误风险
-	      appendText(Math.max(tagStart, start) + 1);
-	    }
-	  }
+	function get1(x, y) {
+	  var n = x.getElementsByTagName(y);
+	  return n.length ? n[0] : null;
 	}
 
-	function copyLocator(f, t) {
-	  t.lineNumber = f.lineNumber;
-	  t.columnNumber = f.columnNumber;
-	  return t;
-	}
-	/**
-	 * @see #appendElement(source,elStartEnd,el,selfClosed,entityReplacer,domBuilder,parseStack);
-	 * @return end of the elementStartPart(end of elementEndPart for selfClosed el)
-	 */
+	function getLineStyle(extensions) {
+	  var style = {};
 
+	  if (extensions) {
+	    var lineStyle = get1(extensions, "line");
 
-	function parseElementStartPart(source, start, el, currentNSMap, entityReplacer, errorHandler) {
-	  var attrName;
-	  var value;
-	  var p = ++start;
-	  var s = S_TAG; //status
+	    if (lineStyle) {
+	      var color = nodeVal(get1(lineStyle, "color")),
+	          opacity = parseFloat(nodeVal(get1(lineStyle, "opacity"))),
+	          width = parseFloat(nodeVal(get1(lineStyle, "width")));
+	      if (color) style.stroke = color;
+	      if (!isNaN(opacity)) style["stroke-opacity"] = opacity; // GPX width is in mm, convert to px with 96 px per inch
 
-	  while (true) {
-	    var c = source.charAt(p);
-
-	    switch (c) {
-	      case '=':
-	        if (s === S_ATTR) {
-	          //attrName
-	          attrName = source.slice(start, p);
-	          s = S_EQ;
-	        } else if (s === S_ATTR_SPACE) {
-	          s = S_EQ;
-	        } else {
-	          //fatalError: equal must after attrName or space after attrName
-	          throw new Error('attribute equal must after attrName');
-	        }
-
-	        break;
-
-	      case '\'':
-	      case '"':
-	        if (s === S_EQ || s === S_ATTR //|| s == S_ATTR_SPACE
-	        ) {
-	            //equal
-	            if (s === S_ATTR) {
-	              errorHandler.warning('attribute value must after "="');
-	              attrName = source.slice(start, p);
-	            }
-
-	            start = p + 1;
-	            p = source.indexOf(c, start);
-
-	            if (p > 0) {
-	              value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer);
-	              el.add(attrName, value, start - 1);
-	              s = S_ATTR_END;
-	            } else {
-	              //fatalError: no end quot match
-	              throw new Error('attribute value no end \'' + c + '\' match');
-	            }
-	          } else if (s == S_ATTR_NOQUOT_VALUE) {
-	          value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer); //console.log(attrName,value,start,p)
-
-	          el.add(attrName, value, start); //console.dir(el)
-
-	          errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ')!!');
-	          start = p + 1;
-	          s = S_ATTR_END;
-	        } else {
-	          //fatalError: no equal before
-	          throw new Error('attribute value must after "="');
-	        }
-
-	        break;
-
-	      case '/':
-	        switch (s) {
-	          case S_TAG:
-	            el.setTagName(source.slice(start, p));
-
-	          case S_ATTR_END:
-	          case S_TAG_SPACE:
-	          case S_TAG_CLOSE:
-	            s = S_TAG_CLOSE;
-	            el.closed = true;
-
-	          case S_ATTR_NOQUOT_VALUE:
-	          case S_ATTR:
-	          case S_ATTR_SPACE:
-	            break;
-	          //case S_EQ:
-
-	          default:
-	            throw new Error("attribute invalid close char('/')");
-	        }
-
-	        break;
-
-	      case '':
-	        //end document
-	        //throw new Error('unexpected end of input')
-	        errorHandler.error('unexpected end of input');
-
-	        if (s == S_TAG) {
-	          el.setTagName(source.slice(start, p));
-	        }
-
-	        return p;
-
-	      case '>':
-	        switch (s) {
-	          case S_TAG:
-	            el.setTagName(source.slice(start, p));
-
-	          case S_ATTR_END:
-	          case S_TAG_SPACE:
-	          case S_TAG_CLOSE:
-	            break;
-	          //normal
-
-	          case S_ATTR_NOQUOT_VALUE: //Compatible state
-
-	          case S_ATTR:
-	            value = source.slice(start, p);
-
-	            if (value.slice(-1) === '/') {
-	              el.closed = true;
-	              value = value.slice(0, -1);
-	            }
-
-	          case S_ATTR_SPACE:
-	            if (s === S_ATTR_SPACE) {
-	              value = attrName;
-	            }
-
-	            if (s == S_ATTR_NOQUOT_VALUE) {
-	              errorHandler.warning('attribute "' + value + '" missed quot(")!!');
-	              el.add(attrName, value.replace(/&#?\w+;/g, entityReplacer), start);
-	            } else {
-	              if (currentNSMap[''] !== 'http://www.w3.org/1999/xhtml' || !value.match(/^(?:disabled|checked|selected)$/i)) {
-	                errorHandler.warning('attribute "' + value + '" missed value!! "' + value + '" instead!!');
-	              }
-
-	              el.add(value, value, start);
-	            }
-
-	            break;
-
-	          case S_EQ:
-	            throw new Error('attribute value missed!!');
-	        } //			console.log(tagName,tagNamePattern,tagNamePattern.test(tagName))
-
-
-	        return p;
-
-	      /*xml space '\x20' | #x9 | #xD | #xA; */
-
-	      case "\x80":
-	        c = ' ';
-
-	      default:
-	        if (c <= ' ') {
-	          //space
-	          switch (s) {
-	            case S_TAG:
-	              el.setTagName(source.slice(start, p)); //tagName
-
-	              s = S_TAG_SPACE;
-	              break;
-
-	            case S_ATTR:
-	              attrName = source.slice(start, p);
-	              s = S_ATTR_SPACE;
-	              break;
-
-	            case S_ATTR_NOQUOT_VALUE:
-	              var value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer);
-	              errorHandler.warning('attribute "' + value + '" missed quot(")!!');
-	              el.add(attrName, value, start);
-
-	            case S_ATTR_END:
-	              s = S_TAG_SPACE;
-	              break;
-	            //case S_TAG_SPACE:
-	            //case S_EQ:
-	            //case S_ATTR_SPACE:
-	            //	void();break;
-	            //case S_TAG_CLOSE:
-	            //ignore warning
-	          }
-	        } else {
-	          //not space
-	          //S_TAG,	S_ATTR,	S_EQ,	S_ATTR_NOQUOT_VALUE
-	          //S_ATTR_SPACE,	S_ATTR_END,	S_TAG_SPACE, S_TAG_CLOSE
-	          switch (s) {
-	            //case S_TAG:void();break;
-	            //case S_ATTR:void();break;
-	            //case S_ATTR_NOQUOT_VALUE:void();break;
-	            case S_ATTR_SPACE:
-	              el.tagName;
-
-	              if (currentNSMap[''] !== 'http://www.w3.org/1999/xhtml' || !attrName.match(/^(?:disabled|checked|selected)$/i)) {
-	                errorHandler.warning('attribute "' + attrName + '" missed value!! "' + attrName + '" instead2!!');
-	              }
-
-	              el.add(attrName, attrName, start);
-	              start = p;
-	              s = S_ATTR;
-	              break;
-
-	            case S_ATTR_END:
-	              errorHandler.warning('attribute space is required"' + attrName + '"!!');
-
-	            case S_TAG_SPACE:
-	              s = S_ATTR;
-	              start = p;
-	              break;
-
-	            case S_EQ:
-	              s = S_ATTR_NOQUOT_VALUE;
-	              start = p;
-	              break;
-
-	            case S_TAG_CLOSE:
-	              throw new Error("elements closed character '/' and '>' must be connected to");
-	          }
-	        }
-
-	    } //end outer switch
-	    //console.log('p++',p)
-
-
-	    p++;
-	  }
-	}
-	/**
-	 * @return true if has new namespace define
-	 */
-
-
-	function appendElement(el, domBuilder, currentNSMap) {
-	  var tagName = el.tagName;
-	  var localNSMap = null; //var currentNSMap = parseStack[parseStack.length-1].currentNSMap;
-
-	  var i = el.length;
-
-	  while (i--) {
-	    var a = el[i];
-	    var qName = a.qName;
-	    var value = a.value;
-	    var nsp = qName.indexOf(':');
-
-	    if (nsp > 0) {
-	      var prefix = a.prefix = qName.slice(0, nsp);
-	      var localName = qName.slice(nsp + 1);
-	      var nsPrefix = prefix === 'xmlns' && localName;
-	    } else {
-	      localName = qName;
-	      prefix = null;
-	      nsPrefix = qName === 'xmlns' && '';
-	    } //can not set prefix,because prefix !== ''
-
-
-	    a.localName = localName; //prefix == null for no ns prefix attribute 
-
-	    if (nsPrefix !== false) {
-	      //hack!!
-	      if (localNSMap == null) {
-	        localNSMap = {}; //console.log(currentNSMap,0)
-
-	        _copy(currentNSMap, currentNSMap = {}); //console.log(currentNSMap,1)
-
-	      }
-
-	      currentNSMap[nsPrefix] = localNSMap[nsPrefix] = value;
-	      a.uri = 'http://www.w3.org/2000/xmlns/';
-	      domBuilder.startPrefixMapping(nsPrefix, value);
+	      if (!isNaN(width)) style["stroke-width"] = width * 96 / 25.4;
 	    }
 	  }
 
-	  var i = el.length;
+	  return style;
+	} // get the contents of multiple text nodes, if present
 
-	  while (i--) {
-	    a = el[i];
-	    var prefix = a.prefix;
 
-	    if (prefix) {
-	      //no prefix attribute has no namespace
-	      if (prefix === 'xml') {
-	        a.uri = 'http://www.w3.org/XML/1998/namespace';
-	      }
+	function getMulti(x, ys) {
+	  var o = {};
+	  var n;
+	  var k;
 
-	      if (prefix !== 'xmlns') {
-	        a.uri = currentNSMap[prefix || '']; //{console.log('###'+a.qName,domBuilder.locator.systemId+'',currentNSMap,a.uri)}
+	  for (k = 0; k < ys.length; k++) {
+	    n = get1(x, ys[k]);
+	    if (n) o[ys[k]] = nodeVal(n);
+	  }
+
+	  return o;
+	}
+
+	function getProperties$1(node) {
+	  var prop = getMulti(node, ["name", "cmt", "desc", "type", "time", "keywords"]); // Parse additional data from our Garmin extension(s)
+
+	  var extensions = node.getElementsByTagNameNS("http://www.garmin.com/xmlschemas/GpxExtensions/v3", "*");
+
+	  for (var i = 0; i < extensions.length; i++) {
+	    var extension = extensions[i]; // Ignore nested extensions, like those on routepoints or trackpoints
+
+	    if (extension.parentNode.parentNode === node) {
+	      prop[extension.tagName.replace(":", "_")] = nodeVal(extension);
+	    }
+	  }
+
+	  var links = node.getElementsByTagName("link");
+	  if (links.length) prop.links = [];
+
+	  for (var _i = 0; _i < links.length; _i++) {
+	    prop.links.push(Object.assign({
+	      href: links[_i].getAttribute("href")
+	    }, getMulti(links[_i], ["text", "type"])));
+	  }
+
+	  return prop;
+	}
+
+	function coordPair$1(x) {
+	  var ll = [parseFloat(x.getAttribute("lon")), parseFloat(x.getAttribute("lat"))];
+	  var ele = get1(x, "ele"); // handle namespaced attribute in browser
+
+	  var heart = get1(x, "gpxtpx:hr") || get1(x, "hr");
+	  var time = get1(x, "time");
+	  var e;
+
+	  if (ele) {
+	    e = parseFloat(nodeVal(ele));
+
+	    if (!isNaN(e)) {
+	      ll.push(e);
+	    }
+	  }
+
+	  var result = {
+	    coordinates: ll,
+	    time: time ? nodeVal(time) : null,
+	    extendedValues: []
+	  };
+
+	  if (heart) {
+	    result.extendedValues.push(["heart", parseFloat(nodeVal(heart))]);
+	  }
+
+	  var extensions = get1(x, "extensions");
+
+	  if (extensions !== null) {
+	    for (var _i2 = 0, _arr = ["speed", "course", "hAcc", "vAcc"]; _i2 < _arr.length; _i2++) {
+	      var name = _arr[_i2];
+	      var v = parseFloat(nodeVal(get1(extensions, name)));
+
+	      if (!isNaN(v)) {
+	        result.extendedValues.push([name, v]);
 	      }
 	    }
 	  }
 
-	  var nsp = tagName.indexOf(':');
-
-	  if (nsp > 0) {
-	    prefix = el.prefix = tagName.slice(0, nsp);
-	    localName = el.localName = tagName.slice(nsp + 1);
-	  } else {
-	    prefix = null; //important!!
-
-	    localName = el.localName = tagName;
-	  } //no prefix element has default namespace
-
-
-	  var ns = el.uri = currentNSMap[prefix || ''];
-	  domBuilder.startElement(ns, localName, tagName, el); //endPrefixMapping and startPrefixMapping have not any help for dom builder
-	  //localNSMap = null
-
-	  if (el.closed) {
-	    domBuilder.endElement(ns, localName, tagName);
-
-	    if (localNSMap) {
-	      for (prefix in localNSMap) {
-	        domBuilder.endPrefixMapping(prefix);
-	      }
-	    }
-	  } else {
-	    el.currentNSMap = currentNSMap;
-	    el.localNSMap = localNSMap; //parseStack.push(el);
-
-	    return true;
-	  }
+	  return result;
 	}
 
-	function parseHtmlSpecialContent(source, elStartEnd, tagName, entityReplacer, domBuilder) {
-	  if (/^(?:script|textarea)$/i.test(tagName)) {
-	    var elEndStart = source.indexOf('</' + tagName + '>', elStartEnd);
-	    var text = source.substring(elStartEnd + 1, elEndStart);
-
-	    if (/[&<]/.test(text)) {
-	      if (/^script$/i.test(tagName)) {
-	        //if(!/\]\]>/.test(text)){
-	        //lexHandler.startCDATA();
-	        domBuilder.characters(text, 0, text.length); //lexHandler.endCDATA();
-
-	        return elEndStart; //}
-	      } //}else{//text area
-
-
-	      text = text.replace(/&#?\w+;/g, entityReplacer);
-	      domBuilder.characters(text, 0, text.length);
-	      return elEndStart; //}
+	function getRoute(node) {
+	  var line = getPoints$1(node, "rtept");
+	  if (!line) return;
+	  return {
+	    type: "Feature",
+	    properties: Object.assign(getProperties$1(node), getLineStyle(get1(node, "extensions")), {
+	      _gpxType: "rte"
+	    }),
+	    geometry: {
+	      type: "LineString",
+	      coordinates: line.line
 	    }
-	  }
-
-	  return elStartEnd + 1;
-	}
-
-	function fixSelfClosed(source, elStartEnd, tagName, closeMap) {
-	  //if(tagName in closeMap){
-	  var pos = closeMap[tagName];
-
-	  if (pos == null) {
-	    //console.log(tagName)
-	    pos = source.lastIndexOf('</' + tagName + '>');
-
-	    if (pos < elStartEnd) {
-	      //忘记闭合
-	      pos = source.lastIndexOf('</' + tagName);
-	    }
-
-	    closeMap[tagName] = pos;
-	  }
-
-	  return pos < elStartEnd; //} 
-	}
-
-	function _copy(source, target) {
-	  for (var n in source) {
-	    target[n] = source[n];
-	  }
-	}
-
-	function parseDCC(source, start, domBuilder, errorHandler) {
-	  //sure start with '<!'
-	  var next = source.charAt(start + 2);
-
-	  switch (next) {
-	    case '-':
-	      if (source.charAt(start + 3) === '-') {
-	        var end = source.indexOf('-->', start + 4); //append comment source.substring(4,end)//<!--
-
-	        if (end > start) {
-	          domBuilder.comment(source, start + 4, end - start - 4);
-	          return end + 3;
-	        } else {
-	          errorHandler.error("Unclosed comment");
-	          return -1;
-	        }
-	      } else {
-	        //error
-	        return -1;
-	      }
-
-	    default:
-	      if (source.substr(start + 3, 6) == 'CDATA[') {
-	        var end = source.indexOf(']]>', start + 9);
-	        domBuilder.startCDATA();
-	        domBuilder.characters(source, start + 9, end - start - 9);
-	        domBuilder.endCDATA();
-	        return end + 3;
-	      } //<!DOCTYPE
-	      //startDTD(java.lang.String name, java.lang.String publicId, java.lang.String systemId) 
-
-
-	      var matchs = split(source, start);
-	      var len = matchs.length;
-
-	      if (len > 1 && /!doctype/i.test(matchs[0][0])) {
-	        var name = matchs[1][0];
-	        var pubid = len > 3 && /^public$/i.test(matchs[2][0]) && matchs[3][0];
-	        var sysid = len > 4 && matchs[4][0];
-	        var lastMatch = matchs[len - 1];
-	        domBuilder.startDTD(name, pubid && pubid.replace(/^(['"])(.*?)\1$/, '$2'), sysid && sysid.replace(/^(['"])(.*?)\1$/, '$2'));
-	        domBuilder.endDTD();
-	        return lastMatch.index + lastMatch[0].length;
-	      }
-
-	  }
-
-	  return -1;
-	}
-
-	function parseInstruction(source, start, domBuilder) {
-	  var end = source.indexOf('?>', start);
-
-	  if (end) {
-	    var match = source.substring(start, end).match(/^<\?(\S*)\s*([\s\S]*?)\s*$/);
-
-	    if (match) {
-	      match[0].length;
-	      domBuilder.processingInstruction(match[1], match[2]);
-	      return end + 2;
-	    } else {
-	      //error
-	      return -1;
-	    }
-	  }
-
-	  return -1;
-	}
-	/**
-	 * @param source
-	 */
-
-
-	function ElementAttributes(source) {}
-
-	ElementAttributes.prototype = {
-	  setTagName: function setTagName(tagName) {
-	    if (!tagNamePattern.test(tagName)) {
-	      throw new Error('invalid tagName:' + tagName);
-	    }
-
-	    this.tagName = tagName;
-	  },
-	  add: function add(qName, value, offset) {
-	    if (!tagNamePattern.test(qName)) {
-	      throw new Error('invalid attribute:' + qName);
-	    }
-
-	    this[this.length++] = {
-	      qName: qName,
-	      value: value,
-	      offset: offset
-	    };
-	  },
-	  length: 0,
-	  getLocalName: function getLocalName(i) {
-	    return this[i].localName;
-	  },
-	  getLocator: function getLocator(i) {
-	    return this[i].locator;
-	  },
-	  getQName: function getQName(i) {
-	    return this[i].qName;
-	  },
-	  getURI: function getURI(i) {
-	    return this[i].uri;
-	  },
-	  getValue: function getValue(i) {
-	    return this[i].value;
-	  } //	,getIndex:function(uri, localName)){
-	  //		if(localName){
-	  //			
-	  //		}else{
-	  //			var qName = uri
-	  //		}
-	  //	},
-	  //	getValue:function(){return this.getValue(this.getIndex.apply(this,arguments))},
-	  //	getType:function(uri,localName){}
-	  //	getType:function(i){},
-
-	};
-
-	function _set_proto_(thiz, parent) {
-	  thiz.__proto__ = parent;
-	  return thiz;
-	}
-
-	if (!(_set_proto_({}, _set_proto_.prototype) instanceof _set_proto_)) {
-	  _set_proto_ = function _set_proto_(thiz, parent) {
-	    function p() {}
-	    p.prototype = parent;
-	    p = new p();
-
-	    for (parent in thiz) {
-	      p[parent] = thiz[parent];
-	    }
-
-	    return p;
 	  };
 	}
 
-	function split(source, start) {
-	  var match;
-	  var buf = [];
-	  var reg = /'[^']+'|"[^"]+"|[^\s<>\/=]+=?|(\/?\s*>|<)/g;
-	  reg.lastIndex = start;
-	  reg.exec(source); //skip <
-
-	  while (match = reg.exec(source)) {
-	    buf.push(match);
-	    if (match[1]) return buf;
-	  }
-	}
-
-	var XMLReader_1 = XMLReader;
-	var sax = {
-	  XMLReader: XMLReader_1
-	};
-
-	/*
-	 * DOM Level 2
-	 * Object DOMException
-	 * @see http://www.w3.org/TR/REC-DOM-Level-1/ecma-script-language-binding.html
-	 * @see http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/ecma-script-binding.html
-	 */
-	function copy(src, dest) {
-	  for (var p in src) {
-	    dest[p] = src[p];
-	  }
-	}
-	/**
-	^\w+\.prototype\.([_\w]+)\s*=\s*((?:.*\{\s*?[\r\n][\s\S]*?^})|\S.*?(?=[;\r\n]));?
-	^\w+\.prototype\.([_\w]+)\s*=\s*(\S.*?(?=[;\r\n]));?
-	 */
-
-
-	function _extends(Class, Super) {
-	  var pt = Class.prototype;
-
-	  if (Object.create) {
-	    var ppt = Object.create(Super.prototype);
-	    pt.__proto__ = ppt;
-	  }
-
-	  if (!(pt instanceof Super)) {
-	    var t = function t() {};
-	    t.prototype = Super.prototype;
-	    t = new t();
-	    copy(pt, t);
-	    Class.prototype = pt = t;
-	  }
-
-	  if (pt.constructor != Class) {
-	    if (typeof Class != 'function') {
-	      console.error("unknow Class:" + Class);
-	    }
-
-	    pt.constructor = Class;
-	  }
-	}
-
-	var htmlns = 'http://www.w3.org/1999/xhtml'; // Node Types
-
-	var NodeType = {};
-	var ELEMENT_NODE = NodeType.ELEMENT_NODE = 1;
-	var ATTRIBUTE_NODE = NodeType.ATTRIBUTE_NODE = 2;
-	var TEXT_NODE = NodeType.TEXT_NODE = 3;
-	var CDATA_SECTION_NODE = NodeType.CDATA_SECTION_NODE = 4;
-	var ENTITY_REFERENCE_NODE = NodeType.ENTITY_REFERENCE_NODE = 5;
-	var ENTITY_NODE = NodeType.ENTITY_NODE = 6;
-	var PROCESSING_INSTRUCTION_NODE = NodeType.PROCESSING_INSTRUCTION_NODE = 7;
-	var COMMENT_NODE = NodeType.COMMENT_NODE = 8;
-	var DOCUMENT_NODE = NodeType.DOCUMENT_NODE = 9;
-	var DOCUMENT_TYPE_NODE = NodeType.DOCUMENT_TYPE_NODE = 10;
-	var DOCUMENT_FRAGMENT_NODE = NodeType.DOCUMENT_FRAGMENT_NODE = 11;
-	var NOTATION_NODE = NodeType.NOTATION_NODE = 12; // ExceptionCode
-
-	var ExceptionCode = {};
-	var ExceptionMessage = {};
-	ExceptionCode.INDEX_SIZE_ERR = (ExceptionMessage[1] = "Index size error", 1);
-	ExceptionCode.DOMSTRING_SIZE_ERR = (ExceptionMessage[2] = "DOMString size error", 2);
-	var HIERARCHY_REQUEST_ERR = ExceptionCode.HIERARCHY_REQUEST_ERR = (ExceptionMessage[3] = "Hierarchy request error", 3);
-	ExceptionCode.WRONG_DOCUMENT_ERR = (ExceptionMessage[4] = "Wrong document", 4);
-	ExceptionCode.INVALID_CHARACTER_ERR = (ExceptionMessage[5] = "Invalid character", 5);
-	ExceptionCode.NO_DATA_ALLOWED_ERR = (ExceptionMessage[6] = "No data allowed", 6);
-	ExceptionCode.NO_MODIFICATION_ALLOWED_ERR = (ExceptionMessage[7] = "No modification allowed", 7);
-	var NOT_FOUND_ERR = ExceptionCode.NOT_FOUND_ERR = (ExceptionMessage[8] = "Not found", 8);
-	ExceptionCode.NOT_SUPPORTED_ERR = (ExceptionMessage[9] = "Not supported", 9);
-	var INUSE_ATTRIBUTE_ERR = ExceptionCode.INUSE_ATTRIBUTE_ERR = (ExceptionMessage[10] = "Attribute in use", 10); //level2
-
-	ExceptionCode.INVALID_STATE_ERR = (ExceptionMessage[11] = "Invalid state", 11);
-	ExceptionCode.SYNTAX_ERR = (ExceptionMessage[12] = "Syntax error", 12);
-	ExceptionCode.INVALID_MODIFICATION_ERR = (ExceptionMessage[13] = "Invalid modification", 13);
-	ExceptionCode.NAMESPACE_ERR = (ExceptionMessage[14] = "Invalid namespace", 14);
-	ExceptionCode.INVALID_ACCESS_ERR = (ExceptionMessage[15] = "Invalid access", 15);
-
-	function DOMException$1(code, message) {
-	  if (message instanceof Error) {
-	    var error = message;
-	  } else {
-	    error = this;
-	    Error.call(this, ExceptionMessage[code]);
-	    this.message = ExceptionMessage[code];
-	    if (Error.captureStackTrace) Error.captureStackTrace(this, DOMException$1);
-	  }
-
-	  error.code = code;
-	  if (message) this.message = this.message + ": " + message;
-	  return error;
-	}
-	DOMException$1.prototype = Error.prototype;
-	copy(ExceptionCode, DOMException$1);
-	/**
-	 * @see http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/core.html#ID-536297177
-	 * The NodeList interface provides the abstraction of an ordered collection of nodes, without defining or constraining how this collection is implemented. NodeList objects in the DOM are live.
-	 * The items in the NodeList are accessible via an integral index, starting from 0.
-	 */
-
-	function NodeList() {}
-	NodeList.prototype = {
-	  /**
-	   * The number of nodes in the list. The range of valid child node indices is 0 to length-1 inclusive.
-	   * @standard level1
-	   */
-	  length: 0,
-
-	  /**
-	   * Returns the indexth item in the collection. If index is greater than or equal to the number of nodes in the list, this returns null.
-	   * @standard level1
-	   * @param index  unsigned long 
-	   *   Index into the collection.
-	   * @return Node
-	   * 	The node at the indexth position in the NodeList, or null if that is not a valid index. 
-	   */
-	  item: function item(index) {
-	    return this[index] || null;
-	  },
-	  toString: function toString(isHTML, nodeFilter) {
-	    for (var buf = [], i = 0; i < this.length; i++) {
-	      serializeToString(this[i], buf, isHTML, nodeFilter);
-	    }
-
-	    return buf.join('');
-	  }
-	};
-
-	function LiveNodeList(node, refresh) {
-	  this._node = node;
-	  this._refresh = refresh;
-
-	  _updateLiveList(this);
-	}
-
-	function _updateLiveList(list) {
-	  var inc = list._node._inc || list._node.ownerDocument._inc;
-
-	  if (list._inc != inc) {
-	    var ls = list._refresh(list._node); //console.log(ls.length)
-
-
-	    __set__(list, 'length', ls.length);
-
-	    copy(ls, list);
-	    list._inc = inc;
-	  }
-	}
-
-	LiveNodeList.prototype.item = function (i) {
-	  _updateLiveList(this);
-
-	  return this[i];
-	};
-
-	_extends(LiveNodeList, NodeList);
-	/**
-	 * 
-	 * Objects implementing the NamedNodeMap interface are used to represent collections of nodes that can be accessed by name. Note that NamedNodeMap does not inherit from NodeList; NamedNodeMaps are not maintained in any particular order. Objects contained in an object implementing NamedNodeMap may also be accessed by an ordinal index, but this is simply to allow convenient enumeration of the contents of a NamedNodeMap, and does not imply that the DOM specifies an order to these Nodes.
-	 * NamedNodeMap objects in the DOM are live.
-	 * used for attributes or DocumentType entities 
-	 */
-
-
-	function NamedNodeMap() {}
-
-	function _findNodeIndex(list, node) {
-	  var i = list.length;
-
-	  while (i--) {
-	    if (list[i] === node) {
-	      return i;
-	    }
-	  }
-	}
-
-	function _addNamedNode(el, list, newAttr, oldAttr) {
-	  if (oldAttr) {
-	    list[_findNodeIndex(list, oldAttr)] = newAttr;
-	  } else {
-	    list[list.length++] = newAttr;
-	  }
-
-	  if (el) {
-	    newAttr.ownerElement = el;
-	    var doc = el.ownerDocument;
-
-	    if (doc) {
-	      oldAttr && _onRemoveAttribute(doc, el, oldAttr);
-
-	      _onAddAttribute(doc, el, newAttr);
-	    }
-	  }
-	}
-
-	function _removeNamedNode(el, list, attr) {
-	  //console.log('remove attr:'+attr)
-	  var i = _findNodeIndex(list, attr);
-
-	  if (i >= 0) {
-	    var lastIndex = list.length - 1;
-
-	    while (i < lastIndex) {
-	      list[i] = list[++i];
-	    }
-
-	    list.length = lastIndex;
-
-	    if (el) {
-	      var doc = el.ownerDocument;
-
-	      if (doc) {
-	        _onRemoveAttribute(doc, el, attr);
-
-	        attr.ownerElement = null;
-	      }
-	    }
-	  } else {
-	    throw DOMException$1(NOT_FOUND_ERR, new Error(el.tagName + '@' + attr));
-	  }
-	}
-
-	NamedNodeMap.prototype = {
-	  length: 0,
-	  item: NodeList.prototype.item,
-	  getNamedItem: function getNamedItem(key) {
-	    //		if(key.indexOf(':')>0 || key == 'xmlns'){
-	    //			return null;
-	    //		}
-	    //console.log()
-	    var i = this.length;
-
-	    while (i--) {
-	      var attr = this[i]; //console.log(attr.nodeName,key)
-
-	      if (attr.nodeName == key) {
-	        return attr;
-	      }
-	    }
-	  },
-	  setNamedItem: function setNamedItem(attr) {
-	    var el = attr.ownerElement;
-
-	    if (el && el != this._ownerElement) {
-	      throw new DOMException$1(INUSE_ATTRIBUTE_ERR);
-	    }
-
-	    var oldAttr = this.getNamedItem(attr.nodeName);
-
-	    _addNamedNode(this._ownerElement, this, attr, oldAttr);
-
-	    return oldAttr;
-	  },
-
-	  /* returns Node */
-	  setNamedItemNS: function setNamedItemNS(attr) {
-	    // raises: WRONG_DOCUMENT_ERR,NO_MODIFICATION_ALLOWED_ERR,INUSE_ATTRIBUTE_ERR
-	    var el = attr.ownerElement,
-	        oldAttr;
-
-	    if (el && el != this._ownerElement) {
-	      throw new DOMException$1(INUSE_ATTRIBUTE_ERR);
-	    }
-
-	    oldAttr = this.getNamedItemNS(attr.namespaceURI, attr.localName);
-
-	    _addNamedNode(this._ownerElement, this, attr, oldAttr);
-
-	    return oldAttr;
-	  },
-
-	  /* returns Node */
-	  removeNamedItem: function removeNamedItem(key) {
-	    var attr = this.getNamedItem(key);
-
-	    _removeNamedNode(this._ownerElement, this, attr);
-
-	    return attr;
-	  },
-	  // raises: NOT_FOUND_ERR,NO_MODIFICATION_ALLOWED_ERR
-	  //for level2
-	  removeNamedItemNS: function removeNamedItemNS(namespaceURI, localName) {
-	    var attr = this.getNamedItemNS(namespaceURI, localName);
-
-	    _removeNamedNode(this._ownerElement, this, attr);
-
-	    return attr;
-	  },
-	  getNamedItemNS: function getNamedItemNS(namespaceURI, localName) {
-	    var i = this.length;
-
-	    while (i--) {
-	      var node = this[i];
-
-	      if (node.localName == localName && node.namespaceURI == namespaceURI) {
-	        return node;
-	      }
-	    }
-
-	    return null;
-	  }
-	};
-	/**
-	 * @see http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-102161490
-	 */
-
-	function DOMImplementation(
-	/* Object */
-	features) {
-	  this._features = {};
-
-	  if (features) {
-	    for (var feature in features) {
-	      this._features = features[feature];
-	    }
-	  }
-	}
-	DOMImplementation.prototype = {
-	  hasFeature: function hasFeature(
-	  /* string */
-	  feature,
-	  /* string */
-	  version) {
-	    var versions = this._features[feature.toLowerCase()];
-
-	    if (versions && (!version || version in versions)) {
-	      return true;
-	    } else {
-	      return false;
-	    }
-	  },
-	  // Introduced in DOM Level 2:
-	  createDocument: function createDocument(namespaceURI, qualifiedName, doctype) {
-	    // raises:INVALID_CHARACTER_ERR,NAMESPACE_ERR,WRONG_DOCUMENT_ERR
-	    var doc = new Document();
-	    doc.implementation = this;
-	    doc.childNodes = new NodeList();
-	    doc.doctype = doctype;
-
-	    if (doctype) {
-	      doc.appendChild(doctype);
-	    }
-
-	    if (qualifiedName) {
-	      var root = doc.createElementNS(namespaceURI, qualifiedName);
-	      doc.appendChild(root);
-	    }
-
-	    return doc;
-	  },
-	  // Introduced in DOM Level 2:
-	  createDocumentType: function createDocumentType(qualifiedName, publicId, systemId) {
-	    // raises:INVALID_CHARACTER_ERR,NAMESPACE_ERR
-	    var node = new DocumentType();
-	    node.name = qualifiedName;
-	    node.nodeName = qualifiedName;
-	    node.publicId = publicId;
-	    node.systemId = systemId; // Introduced in DOM Level 2:
-	    //readonly attribute DOMString        internalSubset;
-	    //TODO:..
-	    //  readonly attribute NamedNodeMap     entities;
-	    //  readonly attribute NamedNodeMap     notations;
-
-	    return node;
-	  }
-	};
-	/**
-	 * @see http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/core.html#ID-1950641247
-	 */
-
-	function Node() {}
-	Node.prototype = {
-	  firstChild: null,
-	  lastChild: null,
-	  previousSibling: null,
-	  nextSibling: null,
-	  attributes: null,
-	  parentNode: null,
-	  childNodes: null,
-	  ownerDocument: null,
-	  nodeValue: null,
-	  namespaceURI: null,
-	  prefix: null,
-	  localName: null,
-	  // Modified in DOM Level 2:
-	  insertBefore: function insertBefore(newChild, refChild) {
-	    //raises 
-	    return _insertBefore(this, newChild, refChild);
-	  },
-	  replaceChild: function replaceChild(newChild, oldChild) {
-	    //raises 
-	    this.insertBefore(newChild, oldChild);
-
-	    if (oldChild) {
-	      this.removeChild(oldChild);
-	    }
-	  },
-	  removeChild: function removeChild(oldChild) {
-	    return _removeChild(this, oldChild);
-	  },
-	  appendChild: function appendChild(newChild) {
-	    return this.insertBefore(newChild, null);
-	  },
-	  hasChildNodes: function hasChildNodes() {
-	    return this.firstChild != null;
-	  },
-	  cloneNode: function cloneNode(deep) {
-	    return _cloneNode(this.ownerDocument || this, this, deep);
-	  },
-	  // Modified in DOM Level 2:
-	  normalize: function normalize() {
-	    var child = this.firstChild;
-
-	    while (child) {
-	      var next = child.nextSibling;
-
-	      if (next && next.nodeType == TEXT_NODE && child.nodeType == TEXT_NODE) {
-	        this.removeChild(next);
-	        child.appendData(next.data);
-	      } else {
-	        child.normalize();
-	        child = next;
-	      }
-	    }
-	  },
-	  // Introduced in DOM Level 2:
-	  isSupported: function isSupported(feature, version) {
-	    return this.ownerDocument.implementation.hasFeature(feature, version);
-	  },
-	  // Introduced in DOM Level 2:
-	  hasAttributes: function hasAttributes() {
-	    return this.attributes.length > 0;
-	  },
-	  lookupPrefix: function lookupPrefix(namespaceURI) {
-	    var el = this;
-
-	    while (el) {
-	      var map = el._nsMap; //console.dir(map)
-
-	      if (map) {
-	        for (var n in map) {
-	          if (map[n] == namespaceURI) {
-	            return n;
-	          }
-	        }
+	function getPoints$1(node, pointname) {
+	  var pts = node.getElementsByTagName(pointname);
+	  if (pts.length < 2) return; // Invalid line in GeoJSON
+
+	  var line = [];
+	  var times = [];
+	  var extendedValues = {};
+
+	  for (var i = 0; i < pts.length; i++) {
+	    var c = coordPair$1(pts[i]);
+	    line.push(c.coordinates);
+	    if (c.time) times.push(c.time);
+
+	    for (var j = 0; j < c.extendedValues.length; j++) {
+	      var _c$extendedValues$j = _slicedToArray(c.extendedValues[j], 2),
+	          name = _c$extendedValues$j[0],
+	          val = _c$extendedValues$j[1];
+
+	      var plural = name === "heart" ? name : name + "s";
+
+	      if (!extendedValues[plural]) {
+	        extendedValues[plural] = Array(pts.length).fill(null);
 	      }
 
-	      el = el.nodeType == ATTRIBUTE_NODE ? el.ownerDocument : el.parentNode;
+	      extendedValues[plural][i] = val;
 	    }
-
-	    return null;
-	  },
-	  // Introduced in DOM Level 3:
-	  lookupNamespaceURI: function lookupNamespaceURI(prefix) {
-	    var el = this;
-
-	    while (el) {
-	      var map = el._nsMap; //console.dir(map)
-
-	      if (map) {
-	        if (prefix in map) {
-	          return map[prefix];
-	        }
-	      }
-
-	      el = el.nodeType == ATTRIBUTE_NODE ? el.ownerDocument : el.parentNode;
-	    }
-
-	    return null;
-	  },
-	  // Introduced in DOM Level 3:
-	  isDefaultNamespace: function isDefaultNamespace(namespaceURI) {
-	    var prefix = this.lookupPrefix(namespaceURI);
-	    return prefix == null;
 	  }
-	};
 
-	function _xmlEncoder(c) {
-	  return c == '<' && '&lt;' || c == '>' && '&gt;' || c == '&' && '&amp;' || c == '"' && '&quot;' || '&#' + c.charCodeAt() + ';';
+	  return {
+	    line: line,
+	    times: times,
+	    extendedValues: extendedValues
+	  };
 	}
 
-	copy(NodeType, Node);
-	copy(NodeType, Node.prototype);
-	/**
-	 * @param callback return true for continue,false for break
-	 * @return boolean true: break visit;
-	 */
-
-	function _visitNode(node, callback) {
-	  if (callback(node)) {
-	    return true;
-	  }
-
-	  if (node = node.firstChild) {
-	    do {
-	      if (_visitNode(node, callback)) {
-	        return true;
-	      }
-	    } while (node = node.nextSibling);
-	  }
-	}
-
-	function Document() {}
-
-	function _onAddAttribute(doc, el, newAttr) {
-	  doc && doc._inc++;
-	  var ns = newAttr.namespaceURI;
-
-	  if (ns == 'http://www.w3.org/2000/xmlns/') {
-	    //update namespace
-	    el._nsMap[newAttr.prefix ? newAttr.localName : ''] = newAttr.value;
-	  }
-	}
-
-	function _onRemoveAttribute(doc, el, newAttr, remove) {
-	  doc && doc._inc++;
-	  var ns = newAttr.namespaceURI;
-
-	  if (ns == 'http://www.w3.org/2000/xmlns/') {
-	    //update namespace
-	    delete el._nsMap[newAttr.prefix ? newAttr.localName : ''];
-	  }
-	}
-
-	function _onUpdateChild(doc, el, newChild) {
-	  if (doc && doc._inc) {
-	    doc._inc++; //update childNodes
-
-	    var cs = el.childNodes;
-
-	    if (newChild) {
-	      cs[cs.length++] = newChild;
-	    } else {
-	      //console.log(1)
-	      var child = el.firstChild;
-	      var i = 0;
-
-	      while (child) {
-	        cs[i++] = child;
-	        child = child.nextSibling;
-	      }
-
-	      cs.length = i;
-	    }
-	  }
-	}
-	/**
-	 * attributes;
-	 * children;
-	 * 
-	 * writeable properties:
-	 * nodeValue,Attr:value,CharacterData:data
-	 * prefix
-	 */
-
-
-	function _removeChild(parentNode, child) {
-	  var previous = child.previousSibling;
-	  var next = child.nextSibling;
-
-	  if (previous) {
-	    previous.nextSibling = next;
-	  } else {
-	    parentNode.firstChild = next;
-	  }
-
-	  if (next) {
-	    next.previousSibling = previous;
-	  } else {
-	    parentNode.lastChild = previous;
-	  }
-
-	  _onUpdateChild(parentNode.ownerDocument, parentNode);
-
-	  return child;
-	}
-	/**
-	 * preformance key(refChild == null)
-	 */
-
-
-	function _insertBefore(parentNode, newChild, nextChild) {
-	  var cp = newChild.parentNode;
-
-	  if (cp) {
-	    cp.removeChild(newChild); //remove and update
-	  }
-
-	  if (newChild.nodeType === DOCUMENT_FRAGMENT_NODE) {
-	    var newFirst = newChild.firstChild;
-
-	    if (newFirst == null) {
-	      return newChild;
-	    }
-
-	    var newLast = newChild.lastChild;
-	  } else {
-	    newFirst = newLast = newChild;
-	  }
-
-	  var pre = nextChild ? nextChild.previousSibling : parentNode.lastChild;
-	  newFirst.previousSibling = pre;
-	  newLast.nextSibling = nextChild;
-
-	  if (pre) {
-	    pre.nextSibling = newFirst;
-	  } else {
-	    parentNode.firstChild = newFirst;
-	  }
-
-	  if (nextChild == null) {
-	    parentNode.lastChild = newLast;
-	  } else {
-	    nextChild.previousSibling = newLast;
-	  }
-
-	  do {
-	    newFirst.parentNode = parentNode;
-	  } while (newFirst !== newLast && (newFirst = newFirst.nextSibling));
-
-	  _onUpdateChild(parentNode.ownerDocument || parentNode, parentNode); //console.log(parentNode.lastChild.nextSibling == null)
-
-
-	  if (newChild.nodeType == DOCUMENT_FRAGMENT_NODE) {
-	    newChild.firstChild = newChild.lastChild = null;
-	  }
-
-	  return newChild;
-	}
-
-	function _appendSingleChild(parentNode, newChild) {
-	  var cp = newChild.parentNode;
-
-	  if (cp) {
-	    var pre = parentNode.lastChild;
-	    cp.removeChild(newChild); //remove and update
-
-	    var pre = parentNode.lastChild;
-	  }
-
-	  var pre = parentNode.lastChild;
-	  newChild.parentNode = parentNode;
-	  newChild.previousSibling = pre;
-	  newChild.nextSibling = null;
-
-	  if (pre) {
-	    pre.nextSibling = newChild;
-	  } else {
-	    parentNode.firstChild = newChild;
-	  }
-
-	  parentNode.lastChild = newChild;
-
-	  _onUpdateChild(parentNode.ownerDocument, parentNode, newChild);
-
-	  return newChild; //console.log("__aa",parentNode.lastChild.nextSibling == null)
-	}
-
-	Document.prototype = {
-	  //implementation : null,
-	  nodeName: '#document',
-	  nodeType: DOCUMENT_NODE,
-	  doctype: null,
-	  documentElement: null,
-	  _inc: 1,
-	  insertBefore: function insertBefore(newChild, refChild) {
-	    //raises 
-	    if (newChild.nodeType == DOCUMENT_FRAGMENT_NODE) {
-	      var child = newChild.firstChild;
-
-	      while (child) {
-	        var next = child.nextSibling;
-	        this.insertBefore(child, refChild);
-	        child = next;
-	      }
-
-	      return newChild;
-	    }
-
-	    if (this.documentElement == null && newChild.nodeType == ELEMENT_NODE) {
-	      this.documentElement = newChild;
-	    }
-
-	    return _insertBefore(this, newChild, refChild), newChild.ownerDocument = this, newChild;
-	  },
-	  removeChild: function removeChild(oldChild) {
-	    if (this.documentElement == oldChild) {
-	      this.documentElement = null;
-	    }
-
-	    return _removeChild(this, oldChild);
-	  },
-	  // Introduced in DOM Level 2:
-	  importNode: function importNode(importedNode, deep) {
-	    return _importNode(this, importedNode, deep);
-	  },
-	  // Introduced in DOM Level 2:
-	  getElementById: function getElementById(id) {
-	    var rtv = null;
-
-	    _visitNode(this.documentElement, function (node) {
-	      if (node.nodeType == ELEMENT_NODE) {
-	        if (node.getAttribute('id') == id) {
-	          rtv = node;
-	          return true;
-	        }
-	      }
-	    });
-
-	    return rtv;
-	  },
-	  //document factory method:
-	  createElement: function createElement(tagName) {
-	    var node = new Element();
-	    node.ownerDocument = this;
-	    node.nodeName = tagName;
-	    node.tagName = tagName;
-	    node.childNodes = new NodeList();
-	    var attrs = node.attributes = new NamedNodeMap();
-	    attrs._ownerElement = node;
-	    return node;
-	  },
-	  createDocumentFragment: function createDocumentFragment() {
-	    var node = new DocumentFragment();
-	    node.ownerDocument = this;
-	    node.childNodes = new NodeList();
-	    return node;
-	  },
-	  createTextNode: function createTextNode(data) {
-	    var node = new Text();
-	    node.ownerDocument = this;
-	    node.appendData(data);
-	    return node;
-	  },
-	  createComment: function createComment(data) {
-	    var node = new Comment();
-	    node.ownerDocument = this;
-	    node.appendData(data);
-	    return node;
-	  },
-	  createCDATASection: function createCDATASection(data) {
-	    var node = new CDATASection();
-	    node.ownerDocument = this;
-	    node.appendData(data);
-	    return node;
-	  },
-	  createProcessingInstruction: function createProcessingInstruction(target, data) {
-	    var node = new ProcessingInstruction();
-	    node.ownerDocument = this;
-	    node.tagName = node.target = target;
-	    node.nodeValue = node.data = data;
-	    return node;
-	  },
-	  createAttribute: function createAttribute(name) {
-	    var node = new Attr();
-	    node.ownerDocument = this;
-	    node.name = name;
-	    node.nodeName = name;
-	    node.localName = name;
-	    node.specified = true;
-	    return node;
-	  },
-	  createEntityReference: function createEntityReference(name) {
-	    var node = new EntityReference();
-	    node.ownerDocument = this;
-	    node.nodeName = name;
-	    return node;
-	  },
-	  // Introduced in DOM Level 2:
-	  createElementNS: function createElementNS(namespaceURI, qualifiedName) {
-	    var node = new Element();
-	    var pl = qualifiedName.split(':');
-	    var attrs = node.attributes = new NamedNodeMap();
-	    node.childNodes = new NodeList();
-	    node.ownerDocument = this;
-	    node.nodeName = qualifiedName;
-	    node.tagName = qualifiedName;
-	    node.namespaceURI = namespaceURI;
-
-	    if (pl.length == 2) {
-	      node.prefix = pl[0];
-	      node.localName = pl[1];
-	    } else {
-	      //el.prefix = null;
-	      node.localName = qualifiedName;
-	    }
-
-	    attrs._ownerElement = node;
-	    return node;
-	  },
-	  // Introduced in DOM Level 2:
-	  createAttributeNS: function createAttributeNS(namespaceURI, qualifiedName) {
-	    var node = new Attr();
-	    var pl = qualifiedName.split(':');
-	    node.ownerDocument = this;
-	    node.nodeName = qualifiedName;
-	    node.name = qualifiedName;
-	    node.namespaceURI = namespaceURI;
-	    node.specified = true;
-
-	    if (pl.length == 2) {
-	      node.prefix = pl[0];
-	      node.localName = pl[1];
-	    } else {
-	      //el.prefix = null;
-	      node.localName = qualifiedName;
-	    }
-
-	    return node;
-	  }
-	};
-
-	_extends(Document, Node);
-
-	function Element() {
-	  this._nsMap = {};
-	}
-	Element.prototype = {
-	  nodeType: ELEMENT_NODE,
-	  hasAttribute: function hasAttribute(name) {
-	    return this.getAttributeNode(name) != null;
-	  },
-	  getAttribute: function getAttribute(name) {
-	    var attr = this.getAttributeNode(name);
-	    return attr && attr.value || '';
-	  },
-	  getAttributeNode: function getAttributeNode(name) {
-	    return this.attributes.getNamedItem(name);
-	  },
-	  setAttribute: function setAttribute(name, value) {
-	    var attr = this.ownerDocument.createAttribute(name);
-	    attr.value = attr.nodeValue = "" + value;
-	    this.setAttributeNode(attr);
-	  },
-	  removeAttribute: function removeAttribute(name) {
-	    var attr = this.getAttributeNode(name);
-	    attr && this.removeAttributeNode(attr);
-	  },
-	  //four real opeartion method
-	  appendChild: function appendChild(newChild) {
-	    if (newChild.nodeType === DOCUMENT_FRAGMENT_NODE) {
-	      return this.insertBefore(newChild, null);
-	    } else {
-	      return _appendSingleChild(this, newChild);
-	    }
-	  },
-	  setAttributeNode: function setAttributeNode(newAttr) {
-	    return this.attributes.setNamedItem(newAttr);
-	  },
-	  setAttributeNodeNS: function setAttributeNodeNS(newAttr) {
-	    return this.attributes.setNamedItemNS(newAttr);
-	  },
-	  removeAttributeNode: function removeAttributeNode(oldAttr) {
-	    //console.log(this == oldAttr.ownerElement)
-	    return this.attributes.removeNamedItem(oldAttr.nodeName);
-	  },
-	  //get real attribute name,and remove it by removeAttributeNode
-	  removeAttributeNS: function removeAttributeNS(namespaceURI, localName) {
-	    var old = this.getAttributeNodeNS(namespaceURI, localName);
-	    old && this.removeAttributeNode(old);
-	  },
-	  hasAttributeNS: function hasAttributeNS(namespaceURI, localName) {
-	    return this.getAttributeNodeNS(namespaceURI, localName) != null;
-	  },
-	  getAttributeNS: function getAttributeNS(namespaceURI, localName) {
-	    var attr = this.getAttributeNodeNS(namespaceURI, localName);
-	    return attr && attr.value || '';
-	  },
-	  setAttributeNS: function setAttributeNS(namespaceURI, qualifiedName, value) {
-	    var attr = this.ownerDocument.createAttributeNS(namespaceURI, qualifiedName);
-	    attr.value = attr.nodeValue = "" + value;
-	    this.setAttributeNode(attr);
-	  },
-	  getAttributeNodeNS: function getAttributeNodeNS(namespaceURI, localName) {
-	    return this.attributes.getNamedItemNS(namespaceURI, localName);
-	  },
-	  getElementsByTagName: function getElementsByTagName(tagName) {
-	    return new LiveNodeList(this, function (base) {
-	      var ls = [];
-
-	      _visitNode(base, function (node) {
-	        if (node !== base && node.nodeType == ELEMENT_NODE && (tagName === '*' || node.tagName == tagName)) {
-	          ls.push(node);
-	        }
-	      });
-
-	      return ls;
-	    });
-	  },
-	  getElementsByTagNameNS: function getElementsByTagNameNS(namespaceURI, localName) {
-	    return new LiveNodeList(this, function (base) {
-	      var ls = [];
-
-	      _visitNode(base, function (node) {
-	        if (node !== base && node.nodeType === ELEMENT_NODE && (namespaceURI === '*' || node.namespaceURI === namespaceURI) && (localName === '*' || node.localName == localName)) {
-	          ls.push(node);
-	        }
-	      });
-
-	      return ls;
-	    });
-	  }
-	};
-	Document.prototype.getElementsByTagName = Element.prototype.getElementsByTagName;
-	Document.prototype.getElementsByTagNameNS = Element.prototype.getElementsByTagNameNS;
-
-	_extends(Element, Node);
-
-	function Attr() {}
-	Attr.prototype.nodeType = ATTRIBUTE_NODE;
-
-	_extends(Attr, Node);
-
-	function CharacterData() {}
-	CharacterData.prototype = {
-	  data: '',
-	  substringData: function substringData(offset, count) {
-	    return this.data.substring(offset, offset + count);
-	  },
-	  appendData: function appendData(text) {
-	    text = this.data + text;
-	    this.nodeValue = this.data = text;
-	    this.length = text.length;
-	  },
-	  insertData: function insertData(offset, text) {
-	    this.replaceData(offset, 0, text);
-	  },
-	  appendChild: function appendChild(newChild) {
-	    throw new Error(ExceptionMessage[HIERARCHY_REQUEST_ERR]);
-	  },
-	  deleteData: function deleteData(offset, count) {
-	    this.replaceData(offset, count, "");
-	  },
-	  replaceData: function replaceData(offset, count, text) {
-	    var start = this.data.substring(0, offset);
-	    var end = this.data.substring(offset + count);
-	    text = start + text + end;
-	    this.nodeValue = this.data = text;
-	    this.length = text.length;
-	  }
-	};
-
-	_extends(CharacterData, Node);
-
-	function Text() {}
-	Text.prototype = {
-	  nodeName: "#text",
-	  nodeType: TEXT_NODE,
-	  splitText: function splitText(offset) {
-	    var text = this.data;
-	    var newText = text.substring(offset);
-	    text = text.substring(0, offset);
-	    this.data = this.nodeValue = text;
-	    this.length = text.length;
-	    var newNode = this.ownerDocument.createTextNode(newText);
-
-	    if (this.parentNode) {
-	      this.parentNode.insertBefore(newNode, this.nextSibling);
-	    }
-
-	    return newNode;
-	  }
-	};
-
-	_extends(Text, CharacterData);
-
-	function Comment() {}
-	Comment.prototype = {
-	  nodeName: "#comment",
-	  nodeType: COMMENT_NODE
-	};
-
-	_extends(Comment, CharacterData);
-
-	function CDATASection() {}
-	CDATASection.prototype = {
-	  nodeName: "#cdata-section",
-	  nodeType: CDATA_SECTION_NODE
-	};
-
-	_extends(CDATASection, CharacterData);
-
-	function DocumentType() {}
-	DocumentType.prototype.nodeType = DOCUMENT_TYPE_NODE;
-
-	_extends(DocumentType, Node);
-
-	function Notation() {}
-	Notation.prototype.nodeType = NOTATION_NODE;
-
-	_extends(Notation, Node);
-
-	function Entity() {}
-	Entity.prototype.nodeType = ENTITY_NODE;
-
-	_extends(Entity, Node);
-
-	function EntityReference() {}
-	EntityReference.prototype.nodeType = ENTITY_REFERENCE_NODE;
-
-	_extends(EntityReference, Node);
-
-	function DocumentFragment() {}
-	DocumentFragment.prototype.nodeName = "#document-fragment";
-	DocumentFragment.prototype.nodeType = DOCUMENT_FRAGMENT_NODE;
-
-	_extends(DocumentFragment, Node);
-
-	function ProcessingInstruction() {}
-
-	ProcessingInstruction.prototype.nodeType = PROCESSING_INSTRUCTION_NODE;
-
-	_extends(ProcessingInstruction, Node);
-
-	function XMLSerializer$1() {}
-
-	XMLSerializer$1.prototype.serializeToString = function (node, isHtml, nodeFilter) {
-	  return nodeSerializeToString.call(node, isHtml, nodeFilter);
-	};
-
-	Node.prototype.toString = nodeSerializeToString;
-
-	function nodeSerializeToString(isHtml, nodeFilter) {
-	  var buf = [];
-	  var refNode = this.nodeType == 9 ? this.documentElement : this;
-	  var prefix = refNode.prefix;
-	  var uri = refNode.namespaceURI;
-
-	  if (uri && prefix == null) {
-	    //console.log(prefix)
-	    var prefix = refNode.lookupPrefix(uri);
-
-	    if (prefix == null) {
-	      //isHTML = true;
-	      var visibleNamespaces = [{
-	        namespace: uri,
-	        prefix: null
-	      } //{namespace:uri,prefix:''}
-	      ];
+	function getTrack(node) {
+	  var segments = node.getElementsByTagName("trkseg");
+	  var track = [];
+	  var times = [];
+	  var extractedLines = [];
+
+	  for (var i = 0; i < segments.length; i++) {
+	    var line = getPoints$1(segments[i], "trkpt");
+
+	    if (line) {
+	      extractedLines.push(line);
+	      if (line.times && line.times.length) times.push(line.times);
 	    }
 	  }
 
-	  serializeToString(this, buf, isHtml, nodeFilter, visibleNamespaces); //console.log('###',this.nodeType,uri,prefix,buf.join(''))
-
-	  return buf.join('');
-	}
-
-	function needNamespaceDefine(node, isHTML, visibleNamespaces) {
-	  var prefix = node.prefix || '';
-	  var uri = node.namespaceURI;
-
-	  if (!prefix && !uri) {
-	    return false;
-	  }
-
-	  if (prefix === "xml" && uri === "http://www.w3.org/XML/1998/namespace" || uri == 'http://www.w3.org/2000/xmlns/') {
-	    return false;
-	  }
-
-	  var i = visibleNamespaces.length; //console.log('@@@@',node.tagName,prefix,uri,visibleNamespaces)
-
-	  while (i--) {
-	    var ns = visibleNamespaces[i]; // get namespace prefix
-	    //console.log(node.nodeType,node.tagName,ns.prefix,prefix)
-
-	    if (ns.prefix == prefix) {
-	      return ns.namespace != uri;
+	  if (extractedLines.length === 0) return;
+	  var multi = extractedLines.length > 1;
+	  var properties = Object.assign(getProperties$1(node), getLineStyle(get1(node, "extensions")), {
+	    _gpxType: "trk"
+	  }, times.length ? {
+	    coordinateProperties: {
+	      times: multi ? times : times[0]
 	    }
-	  } //console.log(isHTML,uri,prefix=='')
-	  //if(isHTML && prefix ==null && uri == 'http://www.w3.org/1999/xhtml'){
-	  //	return false;
-	  //}
-	  //node.flag = '11111'
-	  //console.error(3,true,node.flag,node.prefix,node.namespaceURI)
+	  } : {});
 
+	  for (var _i3 = 0; _i3 < extractedLines.length; _i3++) {
+	    var _line = extractedLines[_i3];
+	    track.push(_line.line);
 
-	  return true;
-	}
+	    for (var _i4 = 0, _Object$entries = Object.entries(_line.extendedValues); _i4 < _Object$entries.length; _i4++) {
+	      var _Object$entries$_i = _slicedToArray(_Object$entries[_i4], 2),
+	          name = _Object$entries$_i[0],
+	          val = _Object$entries$_i[1];
 
-	function serializeToString(node, buf, isHTML, nodeFilter, visibleNamespaces) {
-	  if (nodeFilter) {
-	    node = nodeFilter(node);
+	      var props = properties;
 
-	    if (node) {
-	      if (typeof node == 'string') {
-	        buf.push(node);
-	        return;
-	      }
-	    } else {
-	      return;
-	    } //buf.sort.apply(attrs, attributeSorter);
-
-	  }
-
-	  switch (node.nodeType) {
-	    case ELEMENT_NODE:
-	      if (!visibleNamespaces) visibleNamespaces = [];
-	      visibleNamespaces.length;
-	      var attrs = node.attributes;
-	      var len = attrs.length;
-	      var child = node.firstChild;
-	      var nodeName = node.tagName;
-	      isHTML = htmlns === node.namespaceURI || isHTML;
-	      buf.push('<', nodeName);
-
-	      for (var i = 0; i < len; i++) {
-	        // add namespaces for attributes
-	        var attr = attrs.item(i);
-
-	        if (attr.prefix == 'xmlns') {
-	          visibleNamespaces.push({
-	            prefix: attr.localName,
-	            namespace: attr.value
-	          });
-	        } else if (attr.nodeName == 'xmlns') {
-	          visibleNamespaces.push({
-	            prefix: '',
-	            namespace: attr.value
-	          });
-	        }
-	      }
-
-	      for (var i = 0; i < len; i++) {
-	        var attr = attrs.item(i);
-
-	        if (needNamespaceDefine(attr, isHTML, visibleNamespaces)) {
-	          var prefix = attr.prefix || '';
-	          var uri = attr.namespaceURI;
-	          var ns = prefix ? ' xmlns:' + prefix : " xmlns";
-	          buf.push(ns, '="', uri, '"');
-	          visibleNamespaces.push({
-	            prefix: prefix,
-	            namespace: uri
-	          });
+	      if (name === "heart") {
+	        if (!properties.coordinateProperties) {
+	          properties.coordinateProperties = {};
 	        }
 
-	        serializeToString(attr, buf, isHTML, nodeFilter, visibleNamespaces);
-	      } // add namespace for current node		
+	        props = properties.coordinateProperties;
+	      }
 
-
-	      if (needNamespaceDefine(node, isHTML, visibleNamespaces)) {
-	        var prefix = node.prefix || '';
-	        var uri = node.namespaceURI;
-	        var ns = prefix ? ' xmlns:' + prefix : " xmlns";
-	        buf.push(ns, '="', uri, '"');
-	        visibleNamespaces.push({
-	          prefix: prefix,
-	          namespace: uri
+	      if (multi) {
+	        if (!props[name]) props[name] = extractedLines.map(function (line) {
+	          return new Array(line.line.length).fill(null);
 	        });
-	      }
-
-	      if (child || isHTML && !/^(?:meta|link|img|br|hr|input)$/i.test(nodeName)) {
-	        buf.push('>'); //if is cdata child node
-
-	        if (isHTML && /^script$/i.test(nodeName)) {
-	          while (child) {
-	            if (child.data) {
-	              buf.push(child.data);
-	            } else {
-	              serializeToString(child, buf, isHTML, nodeFilter, visibleNamespaces);
-	            }
-
-	            child = child.nextSibling;
-	          }
-	        } else {
-	          while (child) {
-	            serializeToString(child, buf, isHTML, nodeFilter, visibleNamespaces);
-	            child = child.nextSibling;
-	          }
-	        }
-
-	        buf.push('</', nodeName, '>');
+	        props[name][_i3] = val;
 	      } else {
-	        buf.push('/>');
-	      } // remove added visible namespaces
-	      //visibleNamespaces.length = startVisibleNamespaces;
-
-
-	      return;
-
-	    case DOCUMENT_NODE:
-	    case DOCUMENT_FRAGMENT_NODE:
-	      var child = node.firstChild;
-
-	      while (child) {
-	        serializeToString(child, buf, isHTML, nodeFilter, visibleNamespaces);
-	        child = child.nextSibling;
+	        props[name] = val;
 	      }
-
-	      return;
-
-	    case ATTRIBUTE_NODE:
-	      return buf.push(' ', node.name, '="', node.value.replace(/[<&"]/g, _xmlEncoder), '"');
-
-	    case TEXT_NODE:
-	      return buf.push(node.data.replace(/[<&]/g, _xmlEncoder));
-
-	    case CDATA_SECTION_NODE:
-	      return buf.push('<![CDATA[', node.data, ']]>');
-
-	    case COMMENT_NODE:
-	      return buf.push("<!--", node.data, "-->");
-
-	    case DOCUMENT_TYPE_NODE:
-	      var pubid = node.publicId;
-	      var sysid = node.systemId;
-	      buf.push('<!DOCTYPE ', node.name);
-
-	      if (pubid) {
-	        buf.push(' PUBLIC "', pubid);
-
-	        if (sysid && sysid != '.') {
-	          buf.push('" "', sysid);
-	        }
-
-	        buf.push('">');
-	      } else if (sysid && sysid != '.') {
-	        buf.push(' SYSTEM "', sysid, '">');
-	      } else {
-	        var sub = node.internalSubset;
-
-	        if (sub) {
-	          buf.push(" [", sub, "]");
-	        }
-
-	        buf.push(">");
-	      }
-
-	      return;
-
-	    case PROCESSING_INSTRUCTION_NODE:
-	      return buf.push("<?", node.target, " ", node.data, "?>");
-
-	    case ENTITY_REFERENCE_NODE:
-	      return buf.push('&', node.nodeName, ';');
-	    //case ENTITY_NODE:
-	    //case NOTATION_NODE:
-
-	    default:
-	      buf.push('??', node.nodeName);
+	    }
 	  }
+
+	  return {
+	    type: "Feature",
+	    properties: properties,
+	    geometry: multi ? {
+	      type: "MultiLineString",
+	      coordinates: track
+	    } : {
+	      type: "LineString",
+	      coordinates: track[0]
+	    }
+	  };
 	}
 
-	function _importNode(doc, node, deep) {
-	  var node2;
-
-	  switch (node.nodeType) {
-	    case ELEMENT_NODE:
-	      node2 = node.cloneNode(false);
-	      node2.ownerDocument = doc;
-	    //var attrs = node2.attributes;
-	    //var len = attrs.length;
-	    //for(var i=0;i<len;i++){
-	    //node2.setAttributeNodeNS(importNode(doc,attrs.item(i),deep));
-	    //}
-
-	    case DOCUMENT_FRAGMENT_NODE:
-	      break;
-
-	    case ATTRIBUTE_NODE:
-	      deep = true;
-	      break;
-	    //case ENTITY_REFERENCE_NODE:
-	    //case PROCESSING_INSTRUCTION_NODE:
-	    ////case TEXT_NODE:
-	    //case CDATA_SECTION_NODE:
-	    //case COMMENT_NODE:
-	    //	deep = false;
-	    //	break;
-	    //case DOCUMENT_NODE:
-	    //case DOCUMENT_TYPE_NODE:
-	    //cannot be imported.
-	    //case ENTITY_NODE:
-	    //case NOTATION_NODE：
-	    //can not hit in level3
-	    //default:throw e;
-	  }
-
-	  if (!node2) {
-	    node2 = node.cloneNode(false); //false
-	  }
-
-	  node2.ownerDocument = doc;
-	  node2.parentNode = null;
-
-	  if (deep) {
-	    var child = node.firstChild;
-
-	    while (child) {
-	      node2.appendChild(_importNode(doc, child, deep));
-	      child = child.nextSibling;
+	function getPoint(node) {
+	  return {
+	    type: "Feature",
+	    properties: Object.assign(getProperties$1(node), getMulti(node, ["sym"])),
+	    geometry: {
+	      type: "Point",
+	      coordinates: coordPair$1(node).coordinates
 	    }
-	  }
-
-	  return node2;
-	} //
-	//var _relationMap = {firstChild:1,lastChild:1,previousSibling:1,nextSibling:1,
-	//					attributes:1,childNodes:1,parentNode:1,documentElement:1,doctype,};
-
-
-	function _cloneNode(doc, node, deep) {
-	  var node2 = new node.constructor();
-
-	  for (var n in node) {
-	    var v = node[n];
-
-	    if (_typeof(v) != 'object') {
-	      if (v != node2[n]) {
-	        node2[n] = v;
-	      }
-	    }
-	  }
-
-	  if (node.childNodes) {
-	    node2.childNodes = new NodeList();
-	  }
-
-	  node2.ownerDocument = doc;
-
-	  switch (node2.nodeType) {
-	    case ELEMENT_NODE:
-	      var attrs = node.attributes;
-	      var attrs2 = node2.attributes = new NamedNodeMap();
-	      var len = attrs.length;
-	      attrs2._ownerElement = node2;
-
-	      for (var i = 0; i < len; i++) {
-	        node2.setAttributeNode(_cloneNode(doc, attrs.item(i), true));
-	      }
-
-	      break;
-
-	    case ATTRIBUTE_NODE:
-	      deep = true;
-	  }
-
-	  if (deep) {
-	    var child = node.firstChild;
-
-	    while (child) {
-	      node2.appendChild(_cloneNode(doc, child, deep));
-	      child = child.nextSibling;
-	    }
-	  }
-
-	  return node2;
+	  };
 	}
 
-	function __set__(object, key, value) {
-	  object[key] = value;
-	} //do dynamic
+	function gpxGen(doc) {
+	  var tracks, routes, waypoints, i, feature, _i5, _feature, _i6;
 
+	  return regeneratorRuntime.wrap(function gpxGen$(_context) {
+	    while (1) {
+	      switch (_context.prev = _context.next) {
+	        case 0:
+	          tracks = doc.getElementsByTagName("trk");
+	          routes = doc.getElementsByTagName("rte");
+	          waypoints = doc.getElementsByTagName("wpt");
+	          i = 0;
 
-	try {
-	  if (Object.defineProperty) {
-	    var getTextContent = function getTextContent(node) {
-	      switch (node.nodeType) {
-	        case ELEMENT_NODE:
-	        case DOCUMENT_FRAGMENT_NODE:
-	          var buf = [];
-	          node = node.firstChild;
-
-	          while (node) {
-	            if (node.nodeType !== 7 && node.nodeType !== 8) {
-	              buf.push(getTextContent(node));
-	            }
-
-	            node = node.nextSibling;
-	          }
-
-	          return buf.join('');
-
-	        default:
-	          return node.nodeValue;
-	      }
-	    };
-
-	    Object.defineProperty(LiveNodeList.prototype, 'length', {
-	      get: function get() {
-	        _updateLiveList(this);
-
-	        return this.$$length;
-	      }
-	    });
-	    Object.defineProperty(Node.prototype, 'textContent', {
-	      get: function get() {
-	        return getTextContent(this);
-	      },
-	      set: function set(data) {
-	        switch (this.nodeType) {
-	          case ELEMENT_NODE:
-	          case DOCUMENT_FRAGMENT_NODE:
-	            while (this.firstChild) {
-	              this.removeChild(this.firstChild);
-	            }
-
-	            if (data || String(data)) {
-	              this.appendChild(this.ownerDocument.createTextNode(data));
-	            }
-
+	        case 4:
+	          if (!(i < tracks.length)) {
+	            _context.next = 12;
 	            break;
-
-	          default:
-	            //TODO:
-	            this.data = data;
-	            this.value = data;
-	            this.nodeValue = data;
-	        }
-	      }
-	    });
-
-	    __set__ = function __set__(object, key, value) {
-	      //console.log(value)
-	      object['$$' + key] = value;
-	    };
-	  }
-	} catch (e) {//ie8
-	} //if(typeof require == 'function'){
-
-
-	var DOMImplementation_1 = DOMImplementation;
-	var XMLSerializer_1 = XMLSerializer$1; //}
-
-	var dom = {
-	  DOMImplementation: DOMImplementation_1,
-	  XMLSerializer: XMLSerializer_1
-	};
-
-	var domParser = createCommonjsModule(function (module, exports) {
-	  function DOMParser(options) {
-	    this.options = options || {
-	      locator: {}
-	    };
-	  }
-
-	  DOMParser.prototype.parseFromString = function (source, mimeType) {
-	    var options = this.options;
-	    var sax = new XMLReader();
-	    var domBuilder = options.domBuilder || new DOMHandler(); //contentHandler and LexicalHandler
-
-	    var errorHandler = options.errorHandler;
-	    var locator = options.locator;
-	    var defaultNSMap = options.xmlns || {};
-	    var entityMap = {
-	      'lt': '<',
-	      'gt': '>',
-	      'amp': '&',
-	      'quot': '"',
-	      'apos': "'"
-	    };
-
-	    if (locator) {
-	      domBuilder.setDocumentLocator(locator);
-	    }
-
-	    sax.errorHandler = buildErrorHandler(errorHandler, domBuilder, locator);
-	    sax.domBuilder = options.domBuilder || domBuilder;
-
-	    if (/\/x?html?$/.test(mimeType)) {
-	      entityMap.nbsp = '\xa0';
-	      entityMap.copy = '\xa9';
-	      defaultNSMap[''] = 'http://www.w3.org/1999/xhtml';
-	    }
-
-	    defaultNSMap.xml = defaultNSMap.xml || 'http://www.w3.org/XML/1998/namespace';
-
-	    if (source) {
-	      sax.parse(source, defaultNSMap, entityMap);
-	    } else {
-	      sax.errorHandler.error("invalid doc source");
-	    }
-
-	    return domBuilder.doc;
-	  };
-
-	  function buildErrorHandler(errorImpl, domBuilder, locator) {
-	    if (!errorImpl) {
-	      if (domBuilder instanceof DOMHandler) {
-	        return domBuilder;
-	      }
-
-	      errorImpl = domBuilder;
-	    }
-
-	    var errorHandler = {};
-	    var isCallback = errorImpl instanceof Function;
-	    locator = locator || {};
-
-	    function build(key) {
-	      var fn = errorImpl[key];
-
-	      if (!fn && isCallback) {
-	        fn = errorImpl.length == 2 ? function (msg) {
-	          errorImpl(key, msg);
-	        } : errorImpl;
-	      }
-
-	      errorHandler[key] = fn && function (msg) {
-	        fn('[xmldom ' + key + ']\t' + msg + _locator(locator));
-	      } || function () {};
-	    }
-
-	    build('warning');
-	    build('error');
-	    build('fatalError');
-	    return errorHandler;
-	  } //console.log('#\n\n\n\n\n\n\n####')
-
-	  /**
-	   * +ContentHandler+ErrorHandler
-	   * +LexicalHandler+EntityResolver2
-	   * -DeclHandler-DTDHandler 
-	   * 
-	   * DefaultHandler:EntityResolver, DTDHandler, ContentHandler, ErrorHandler
-	   * DefaultHandler2:DefaultHandler,LexicalHandler, DeclHandler, EntityResolver2
-	   * @link http://www.saxproject.org/apidoc/org/xml/sax/helpers/DefaultHandler.html
-	   */
-
-
-	  function DOMHandler() {
-	    this.cdata = false;
-	  }
-
-	  function position(locator, node) {
-	    node.lineNumber = locator.lineNumber;
-	    node.columnNumber = locator.columnNumber;
-	  }
-	  /**
-	   * @see org.xml.sax.ContentHandler#startDocument
-	   * @link http://www.saxproject.org/apidoc/org/xml/sax/ContentHandler.html
-	   */
-
-
-	  DOMHandler.prototype = {
-	    startDocument: function startDocument() {
-	      this.doc = new DOMImplementation().createDocument(null, null, null);
-
-	      if (this.locator) {
-	        this.doc.documentURI = this.locator.systemId;
-	      }
-	    },
-	    startElement: function startElement(namespaceURI, localName, qName, attrs) {
-	      var doc = this.doc;
-	      var el = doc.createElementNS(namespaceURI, qName || localName);
-	      var len = attrs.length;
-	      appendElement(this, el);
-	      this.currentElement = el;
-	      this.locator && position(this.locator, el);
-
-	      for (var i = 0; i < len; i++) {
-	        var namespaceURI = attrs.getURI(i);
-	        var value = attrs.getValue(i);
-	        var qName = attrs.getQName(i);
-	        var attr = doc.createAttributeNS(namespaceURI, qName);
-	        this.locator && position(attrs.getLocator(i), attr);
-	        attr.value = attr.nodeValue = value;
-	        el.setAttributeNode(attr);
-	      }
-	    },
-	    endElement: function endElement(namespaceURI, localName, qName) {
-	      var current = this.currentElement;
-	      current.tagName;
-	      this.currentElement = current.parentNode;
-	    },
-	    startPrefixMapping: function startPrefixMapping(prefix, uri) {},
-	    endPrefixMapping: function endPrefixMapping(prefix) {},
-	    processingInstruction: function processingInstruction(target, data) {
-	      var ins = this.doc.createProcessingInstruction(target, data);
-	      this.locator && position(this.locator, ins);
-	      appendElement(this, ins);
-	    },
-	    ignorableWhitespace: function ignorableWhitespace(ch, start, length) {},
-	    characters: function characters(chars, start, length) {
-	      chars = _toString.apply(this, arguments); //console.log(chars)
-
-	      if (chars) {
-	        if (this.cdata) {
-	          var charNode = this.doc.createCDATASection(chars);
-	        } else {
-	          var charNode = this.doc.createTextNode(chars);
-	        }
-
-	        if (this.currentElement) {
-	          this.currentElement.appendChild(charNode);
-	        } else if (/^\s*$/.test(chars)) {
-	          this.doc.appendChild(charNode); //process xml
-	        }
-
-	        this.locator && position(this.locator, charNode);
-	      }
-	    },
-	    skippedEntity: function skippedEntity(name) {},
-	    endDocument: function endDocument() {
-	      this.doc.normalize();
-	    },
-	    setDocumentLocator: function setDocumentLocator(locator) {
-	      if (this.locator = locator) {
-	        // && !('lineNumber' in locator)){
-	        locator.lineNumber = 0;
-	      }
-	    },
-	    //LexicalHandler
-	    comment: function comment(chars, start, length) {
-	      chars = _toString.apply(this, arguments);
-	      var comm = this.doc.createComment(chars);
-	      this.locator && position(this.locator, comm);
-	      appendElement(this, comm);
-	    },
-	    startCDATA: function startCDATA() {
-	      //used in characters() methods
-	      this.cdata = true;
-	    },
-	    endCDATA: function endCDATA() {
-	      this.cdata = false;
-	    },
-	    startDTD: function startDTD(name, publicId, systemId) {
-	      var impl = this.doc.implementation;
-
-	      if (impl && impl.createDocumentType) {
-	        var dt = impl.createDocumentType(name, publicId, systemId);
-	        this.locator && position(this.locator, dt);
-	        appendElement(this, dt);
-	      }
-	    },
-
-	    /**
-	     * @see org.xml.sax.ErrorHandler
-	     * @link http://www.saxproject.org/apidoc/org/xml/sax/ErrorHandler.html
-	     */
-	    warning: function warning(error) {
-	      console.warn('[xmldom warning]\t' + error, _locator(this.locator));
-	    },
-	    error: function error(_error) {
-	      console.error('[xmldom error]\t' + _error, _locator(this.locator));
-	    },
-	    fatalError: function fatalError(error) {
-	      console.error('[xmldom fatalError]\t' + error, _locator(this.locator));
-	      throw error;
-	    }
-	  };
-
-	  function _locator(l) {
-	    if (l) {
-	      return '\n@' + (l.systemId || '') + '#[line:' + l.lineNumber + ',col:' + l.columnNumber + ']';
-	    }
-	  }
-
-	  function _toString(chars, start, length) {
-	    if (typeof chars == 'string') {
-	      return chars.substr(start, length);
-	    } else {
-	      //java sax connect width xmldom on rhino(what about: "? && !(chars instanceof String)")
-	      if (chars.length >= start + length || start) {
-	        return new java.lang.String(chars, start, length) + '';
-	      }
-
-	      return chars;
-	    }
-	  }
-	  /*
-	   * @link http://www.saxproject.org/apidoc/org/xml/sax/ext/LexicalHandler.html
-	   * used method of org.xml.sax.ext.LexicalHandler:
-	   *  #comment(chars, start, length)
-	   *  #startCDATA()
-	   *  #endCDATA()
-	   *  #startDTD(name, publicId, systemId)
-	   *
-	   *
-	   * IGNORED method of org.xml.sax.ext.LexicalHandler:
-	   *  #endDTD()
-	   *  #startEntity(name)
-	   *  #endEntity(name)
-	   *
-	   *
-	   * @link http://www.saxproject.org/apidoc/org/xml/sax/ext/DeclHandler.html
-	   * IGNORED method of org.xml.sax.ext.DeclHandler
-	   * 	#attributeDecl(eName, aName, type, mode, value)
-	   *  #elementDecl(name, model)
-	   *  #externalEntityDecl(name, publicId, systemId)
-	   *  #internalEntityDecl(name, value)
-	   * @link http://www.saxproject.org/apidoc/org/xml/sax/ext/EntityResolver2.html
-	   * IGNORED method of org.xml.sax.EntityResolver2
-	   *  #resolveEntity(String name,String publicId,String baseURI,String systemId)
-	   *  #resolveEntity(publicId, systemId)
-	   *  #getExternalSubset(name, baseURI)
-	   * @link http://www.saxproject.org/apidoc/org/xml/sax/DTDHandler.html
-	   * IGNORED method of org.xml.sax.DTDHandler
-	   *  #notationDecl(name, publicId, systemId) {};
-	   *  #unparsedEntityDecl(name, publicId, systemId, notationName) {};
-	   */
-
-
-	  "endDTD,startEntity,endEntity,attributeDecl,elementDecl,externalEntityDecl,internalEntityDecl,resolveEntity,getExternalSubset,notationDecl,unparsedEntityDecl".replace(/\w+/g, function (key) {
-	    DOMHandler.prototype[key] = function () {
-	      return null;
-	    };
-	  });
-	  /* Private static helpers treated below as private instance methods, so don't need to add these to the public API; we might use a Relator to also get rid of non-standard public properties */
-
-	  function appendElement(hander, node) {
-	    if (!hander.currentElement) {
-	      hander.doc.appendChild(node);
-	    } else {
-	      hander.currentElement.appendChild(node);
-	    }
-	  } //appendChild and setAttributeNS are preformance key
-	  //if(typeof require == 'function'){
-
-
-	  var XMLReader = sax.XMLReader;
-	  var DOMImplementation = exports.DOMImplementation = dom.DOMImplementation;
-	  exports.XMLSerializer = dom.XMLSerializer;
-	  exports.DOMParser = DOMParser; //}
-	});
-
-	var togeojson = createCommonjsModule(function (module, exports) {
-	  var toGeoJSON = function () {
-
-	    var removeSpace = /\s*/g,
-	        trimSpace = /^\s*|\s*$/g,
-	        splitSpace = /\s+/; // generate a short, numeric hash of a string
-
-	    function okhash(x) {
-	      if (!x || !x.length) return 0;
-
-	      for (var i = 0, h = 0; i < x.length; i++) {
-	        h = (h << 5) - h + x.charCodeAt(i) | 0;
-	      }
-
-	      return h;
-	    } // all Y children of X
-
-
-	    function get(x, y) {
-	      return x.getElementsByTagName(y);
-	    }
-
-	    function attr(x, y) {
-	      return x.getAttribute(y);
-	    }
-
-	    function attrf(x, y) {
-	      return parseFloat(attr(x, y));
-	    } // one Y child of X, if any, otherwise null
-
-
-	    function get1(x, y) {
-	      var n = get(x, y);
-	      return n.length ? n[0] : null;
-	    } // https://developer.mozilla.org/en-US/docs/Web/API/Node.normalize
-
-
-	    function norm(el) {
-	      if (el.normalize) {
-	        el.normalize();
-	      }
-
-	      return el;
-	    } // cast array x into numbers
-
-
-	    function numarray(x) {
-	      for (var j = 0, o = []; j < x.length; j++) {
-	        o[j] = parseFloat(x[j]);
-	      }
-
-	      return o;
-	    } // get the content of a text node, if any
-
-
-	    function nodeVal(x) {
-	      if (x) {
-	        norm(x);
-	      }
-
-	      return x && x.textContent || '';
-	    } // get the contents of multiple text nodes, if present
-
-
-	    function getMulti(x, ys) {
-	      var o = {},
-	          n,
-	          k;
-
-	      for (k = 0; k < ys.length; k++) {
-	        n = get1(x, ys[k]);
-	        if (n) o[ys[k]] = nodeVal(n);
-	      }
-
-	      return o;
-	    } // add properties of Y to X, overwriting if present in both
-
-
-	    function extend(x, y) {
-	      for (var k in y) {
-	        x[k] = y[k];
-	      }
-	    } // get one coordinate from a coordinate array, if any
-
-
-	    function coord1(v) {
-	      return numarray(v.replace(removeSpace, '').split(','));
-	    } // get all coordinates from a coordinate array as [[],[]]
-
-
-	    function coord(v) {
-	      var coords = v.replace(trimSpace, '').split(splitSpace),
-	          o = [];
-
-	      for (var i = 0; i < coords.length; i++) {
-	        o.push(coord1(coords[i]));
-	      }
-
-	      return o;
-	    }
-
-	    function coordPair(x) {
-	      var ll = [attrf(x, 'lon'), attrf(x, 'lat')],
-	          ele = get1(x, 'ele'),
-	          // handle namespaced attribute in browser
-	      heartRate = get1(x, 'gpxtpx:hr') || get1(x, 'hr'),
-	          time = get1(x, 'time'),
-	          e;
-
-	      if (ele) {
-	        e = parseFloat(nodeVal(ele));
-
-	        if (!isNaN(e)) {
-	          ll.push(e);
-	        }
-	      }
-
-	      return {
-	        coordinates: ll,
-	        time: time ? nodeVal(time) : null,
-	        heartRate: heartRate ? parseFloat(nodeVal(heartRate)) : null
-	      };
-	    } // create a new feature collection parent object
-
-
-	    function fc() {
-	      return {
-	        type: 'FeatureCollection',
-	        features: []
-	      };
-	    }
-
-	    var serializer;
-
-	    if (typeof XMLSerializer !== 'undefined') {
-	      /* istanbul ignore next */
-	      serializer = new XMLSerializer(); // only require xmldom in a node environment
-	    } else if ((typeof process === "undefined" ? "undefined" : _typeof(process)) === 'object' && !process.browser) {
-	      serializer = new domParser.XMLSerializer();
-	    }
-
-	    function xml2str(str) {
-	      // IE9 will create a new XMLSerializer but it'll crash immediately.
-	      // This line is ignored because we don't run coverage tests in IE9
-
-	      /* istanbul ignore next */
-	      if (str.xml !== undefined) return str.xml;
-	      return serializer.serializeToString(str);
-	    }
-
-	    var t = {
-	      kml: function kml(doc) {
-	        var gj = fc(),
-	            // styleindex keeps track of hashed styles in order to match features
-	        styleIndex = {},
-	            styleByHash = {},
-	            // stylemapindex keeps track of style maps to expose in properties
-	        styleMapIndex = {},
-	            // atomic geospatial types supported by KML - MultiGeometry is
-	        // handled separately
-	        geotypes = ['Polygon', 'LineString', 'Point', 'Track', 'gx:Track'],
-	            // all root placemarks in the file
-	        placemarks = get(doc, 'Placemark'),
-	            styles = get(doc, 'Style'),
-	            styleMaps = get(doc, 'StyleMap');
-
-	        for (var k = 0; k < styles.length; k++) {
-	          var hash = okhash(xml2str(styles[k])).toString(16);
-	          styleIndex['#' + attr(styles[k], 'id')] = hash;
-	          styleByHash[hash] = styles[k];
-	        }
-
-	        for (var l = 0; l < styleMaps.length; l++) {
-	          styleIndex['#' + attr(styleMaps[l], 'id')] = okhash(xml2str(styleMaps[l])).toString(16);
-	          var pairs = get(styleMaps[l], 'Pair');
-	          var pairsMap = {};
-
-	          for (var m = 0; m < pairs.length; m++) {
-	            pairsMap[nodeVal(get1(pairs[m], 'key'))] = nodeVal(get1(pairs[m], 'styleUrl'));
 	          }
 
-	          styleMapIndex['#' + attr(styleMaps[l], 'id')] = pairsMap;
-	        }
-
-	        for (var j = 0; j < placemarks.length; j++) {
-	          gj.features = gj.features.concat(getPlacemark(placemarks[j]));
-	        }
-
-	        function kmlColor(v) {
-	          var color, opacity;
-	          v = v || '';
-
-	          if (v.substr(0, 1) === '#') {
-	            v = v.substr(1);
-	          }
-
-	          if (v.length === 6 || v.length === 3) {
-	            color = v;
-	          }
-
-	          if (v.length === 8) {
-	            opacity = parseInt(v.substr(0, 2), 16) / 255;
-	            color = '#' + v.substr(6, 2) + v.substr(4, 2) + v.substr(2, 2);
-	          }
-
-	          return [color, isNaN(opacity) ? undefined : opacity];
-	        }
-
-	        function gxCoord(v) {
-	          return numarray(v.split(' '));
-	        }
-
-	        function gxCoords(root) {
-	          var elems = get(root, 'coord'),
-	              coords = [],
-	              times = [];
-	          if (elems.length === 0) elems = get(root, 'gx:coord');
-
-	          for (var i = 0; i < elems.length; i++) {
-	            coords.push(gxCoord(nodeVal(elems[i])));
-	          }
-
-	          var timeElems = get(root, 'when');
-
-	          for (var j = 0; j < timeElems.length; j++) {
-	            times.push(nodeVal(timeElems[j]));
-	          }
-
-	          return {
-	            coords: coords,
-	            times: times
-	          };
-	        }
-
-	        function getGeometry(root) {
-	          var geomNode,
-	              geomNodes,
-	              i,
-	              j,
-	              k,
-	              geoms = [],
-	              coordTimes = [];
-
-	          if (get1(root, 'MultiGeometry')) {
-	            return getGeometry(get1(root, 'MultiGeometry'));
-	          }
-
-	          if (get1(root, 'MultiTrack')) {
-	            return getGeometry(get1(root, 'MultiTrack'));
-	          }
-
-	          if (get1(root, 'gx:MultiTrack')) {
-	            return getGeometry(get1(root, 'gx:MultiTrack'));
-	          }
-
-	          for (i = 0; i < geotypes.length; i++) {
-	            geomNodes = get(root, geotypes[i]);
-
-	            if (geomNodes) {
-	              for (j = 0; j < geomNodes.length; j++) {
-	                geomNode = geomNodes[j];
-
-	                if (geotypes[i] === 'Point') {
-	                  geoms.push({
-	                    type: 'Point',
-	                    coordinates: coord1(nodeVal(get1(geomNode, 'coordinates')))
-	                  });
-	                } else if (geotypes[i] === 'LineString') {
-	                  geoms.push({
-	                    type: 'LineString',
-	                    coordinates: coord(nodeVal(get1(geomNode, 'coordinates')))
-	                  });
-	                } else if (geotypes[i] === 'Polygon') {
-	                  var rings = get(geomNode, 'LinearRing'),
-	                      coords = [];
-
-	                  for (k = 0; k < rings.length; k++) {
-	                    coords.push(coord(nodeVal(get1(rings[k], 'coordinates'))));
-	                  }
-
-	                  geoms.push({
-	                    type: 'Polygon',
-	                    coordinates: coords
-	                  });
-	                } else if (geotypes[i] === 'Track' || geotypes[i] === 'gx:Track') {
-	                  var track = gxCoords(geomNode);
-	                  geoms.push({
-	                    type: 'LineString',
-	                    coordinates: track.coords
-	                  });
-	                  if (track.times.length) coordTimes.push(track.times);
-	                }
-	              }
-	            }
-	          }
-
-	          return {
-	            geoms: geoms,
-	            coordTimes: coordTimes
-	          };
-	        }
-
-	        function getPlacemark(root) {
-	          var geomsAndTimes = getGeometry(root),
-	              i,
-	              properties = {},
-	              name = nodeVal(get1(root, 'name')),
-	              address = nodeVal(get1(root, 'address')),
-	              styleUrl = nodeVal(get1(root, 'styleUrl')),
-	              description = nodeVal(get1(root, 'description')),
-	              timeSpan = get1(root, 'TimeSpan'),
-	              timeStamp = get1(root, 'TimeStamp'),
-	              extendedData = get1(root, 'ExtendedData'),
-	              lineStyle = get1(root, 'LineStyle'),
-	              polyStyle = get1(root, 'PolyStyle'),
-	              visibility = get1(root, 'visibility');
-	          if (!geomsAndTimes.geoms.length) return [];
-	          if (name) properties.name = name;
-	          if (address) properties.address = address;
-
-	          if (styleUrl) {
-	            if (styleUrl[0] !== '#') {
-	              styleUrl = '#' + styleUrl;
-	            }
-
-	            properties.styleUrl = styleUrl;
-
-	            if (styleIndex[styleUrl]) {
-	              properties.styleHash = styleIndex[styleUrl];
-	            }
-
-	            if (styleMapIndex[styleUrl]) {
-	              properties.styleMapHash = styleMapIndex[styleUrl];
-	              properties.styleHash = styleIndex[styleMapIndex[styleUrl].normal];
-	            } // Try to populate the lineStyle or polyStyle since we got the style hash
-
-
-	            var style = styleByHash[properties.styleHash];
-
-	            if (style) {
-	              if (!lineStyle) lineStyle = get1(style, 'LineStyle');
-	              if (!polyStyle) polyStyle = get1(style, 'PolyStyle');
-	            }
-	          }
-
-	          if (description) properties.description = description;
-
-	          if (timeSpan) {
-	            var begin = nodeVal(get1(timeSpan, 'begin'));
-	            var end = nodeVal(get1(timeSpan, 'end'));
-	            properties.timespan = {
-	              begin: begin,
-	              end: end
-	            };
-	          }
-
-	          if (timeStamp) {
-	            properties.timestamp = nodeVal(get1(timeStamp, 'when'));
-	          }
-
-	          if (lineStyle) {
-	            var linestyles = kmlColor(nodeVal(get1(lineStyle, 'color'))),
-	                color = linestyles[0],
-	                opacity = linestyles[1],
-	                width = parseFloat(nodeVal(get1(lineStyle, 'width')));
-	            if (color) properties.stroke = color;
-	            if (!isNaN(opacity)) properties['stroke-opacity'] = opacity;
-	            if (!isNaN(width)) properties['stroke-width'] = width;
-	          }
-
-	          if (polyStyle) {
-	            var polystyles = kmlColor(nodeVal(get1(polyStyle, 'color'))),
-	                pcolor = polystyles[0],
-	                popacity = polystyles[1],
-	                fill = nodeVal(get1(polyStyle, 'fill')),
-	                outline = nodeVal(get1(polyStyle, 'outline'));
-	            if (pcolor) properties.fill = pcolor;
-	            if (!isNaN(popacity)) properties['fill-opacity'] = popacity;
-	            if (fill) properties['fill-opacity'] = fill === '1' ? properties['fill-opacity'] || 1 : 0;
-	            if (outline) properties['stroke-opacity'] = outline === '1' ? properties['stroke-opacity'] || 1 : 0;
-	          }
-
-	          if (extendedData) {
-	            var datas = get(extendedData, 'Data'),
-	                simpleDatas = get(extendedData, 'SimpleData');
-
-	            for (i = 0; i < datas.length; i++) {
-	              properties[datas[i].getAttribute('name')] = nodeVal(get1(datas[i], 'value'));
-	            }
-
-	            for (i = 0; i < simpleDatas.length; i++) {
-	              properties[simpleDatas[i].getAttribute('name')] = nodeVal(simpleDatas[i]);
-	            }
-	          }
-
-	          if (visibility) {
-	            properties.visibility = nodeVal(visibility);
-	          }
-
-	          if (geomsAndTimes.coordTimes.length) {
-	            properties.coordTimes = geomsAndTimes.coordTimes.length === 1 ? geomsAndTimes.coordTimes[0] : geomsAndTimes.coordTimes;
-	          }
-
-	          var feature = {
-	            type: 'Feature',
-	            geometry: geomsAndTimes.geoms.length === 1 ? geomsAndTimes.geoms[0] : {
-	              type: 'GeometryCollection',
-	              geometries: geomsAndTimes.geoms
-	            },
-	            properties: properties
-	          };
-	          if (attr(root, 'id')) feature.id = attr(root, 'id');
-	          return [feature];
-	        }
-
-	        return gj;
-	      },
-	      gpx: function gpx(doc) {
-	        var i,
-	            tracks = get(doc, 'trk'),
-	            routes = get(doc, 'rte'),
-	            waypoints = get(doc, 'wpt'),
-	            // a feature collection
-	        gj = fc(),
-	            feature;
-
-	        for (i = 0; i < tracks.length; i++) {
 	          feature = getTrack(tracks[i]);
-	          if (feature) gj.features.push(feature);
-	        }
 
-	        for (i = 0; i < routes.length; i++) {
-	          feature = getRoute(routes[i]);
-	          if (feature) gj.features.push(feature);
-	        }
-
-	        for (i = 0; i < waypoints.length; i++) {
-	          gj.features.push(getPoint(waypoints[i]));
-	        }
-
-	        function getPoints(node, pointname) {
-	          var pts = get(node, pointname),
-	              line = [],
-	              times = [],
-	              heartRates = [],
-	              l = pts.length;
-	          if (l < 2) return {}; // Invalid line in GeoJSON
-
-	          for (var i = 0; i < l; i++) {
-	            var c = coordPair(pts[i]);
-	            line.push(c.coordinates);
-	            if (c.time) times.push(c.time);
-	            if (c.heartRate) heartRates.push(c.heartRate);
+	          if (!feature) {
+	            _context.next = 9;
+	            break;
 	          }
 
-	          return {
-	            line: line,
-	            times: times,
-	            heartRates: heartRates
-	          };
-	        }
+	          _context.next = 9;
+	          return feature;
 
-	        function getTrack(node) {
-	          var segments = get(node, 'trkseg'),
-	              track = [],
-	              times = [],
-	              heartRates = [],
-	              line;
+	        case 9:
+	          i++;
+	          _context.next = 4;
+	          break;
 
-	          for (var i = 0; i < segments.length; i++) {
-	            line = getPoints(segments[i], 'trkpt');
+	        case 12:
+	          _i5 = 0;
 
-	            if (line) {
-	              if (line.line) track.push(line.line);
-	              if (line.times && line.times.length) times.push(line.times);
-	              if (line.heartRates && line.heartRates.length) heartRates.push(line.heartRates);
-	            }
+	        case 13:
+	          if (!(_i5 < routes.length)) {
+	            _context.next = 21;
+	            break;
 	          }
 
-	          if (track.length === 0) return;
-	          var properties = getProperties(node);
-	          extend(properties, getLineStyle(get1(node, 'extensions')));
-	          if (times.length) properties.coordTimes = track.length === 1 ? times[0] : times;
-	          if (heartRates.length) properties.heartRates = track.length === 1 ? heartRates[0] : heartRates;
-	          return {
-	            type: 'Feature',
-	            properties: properties,
-	            geometry: {
-	              type: track.length === 1 ? 'LineString' : 'MultiLineString',
-	              coordinates: track.length === 1 ? track[0] : track
-	            }
-	          };
-	        }
+	          _feature = getRoute(routes[_i5]);
 
-	        function getRoute(node) {
-	          var line = getPoints(node, 'rtept');
-	          if (!line.line) return;
-	          var prop = getProperties(node);
-	          extend(prop, getLineStyle(get1(node, 'extensions')));
-	          var routeObj = {
-	            type: 'Feature',
-	            properties: prop,
-	            geometry: {
-	              type: 'LineString',
-	              coordinates: line.line
-	            }
-	          };
-	          return routeObj;
-	        }
-
-	        function getPoint(node) {
-	          var prop = getProperties(node);
-	          extend(prop, getMulti(node, ['sym']));
-	          return {
-	            type: 'Feature',
-	            properties: prop,
-	            geometry: {
-	              type: 'Point',
-	              coordinates: coordPair(node).coordinates
-	            }
-	          };
-	        }
-
-	        function getLineStyle(extensions) {
-	          var style = {};
-
-	          if (extensions) {
-	            var lineStyle = get1(extensions, 'line');
-
-	            if (lineStyle) {
-	              var color = nodeVal(get1(lineStyle, 'color')),
-	                  opacity = parseFloat(nodeVal(get1(lineStyle, 'opacity'))),
-	                  width = parseFloat(nodeVal(get1(lineStyle, 'width')));
-	              if (color) style.stroke = color;
-	              if (!isNaN(opacity)) style['stroke-opacity'] = opacity; // GPX width is in mm, convert to px with 96 px per inch
-
-	              if (!isNaN(width)) style['stroke-width'] = width * 96 / 25.4;
-	            }
+	          if (!_feature) {
+	            _context.next = 18;
+	            break;
 	          }
 
-	          return style;
-	        }
+	          _context.next = 18;
+	          return _feature;
 
-	        function getProperties(node) {
-	          var prop = getMulti(node, ['name', 'cmt', 'desc', 'type', 'time', 'keywords']),
-	              links = get(node, 'link');
-	          if (links.length) prop.links = [];
+	        case 18:
+	          _i5++;
+	          _context.next = 13;
+	          break;
 
-	          for (var i = 0, link; i < links.length; i++) {
-	            link = {
-	              href: attr(links[i], 'href')
-	            };
-	            extend(link, getMulti(links[i], ['text', 'type']));
-	            prop.links.push(link);
+	        case 21:
+	          _i6 = 0;
+
+	        case 22:
+	          if (!(_i6 < waypoints.length)) {
+	            _context.next = 28;
+	            break;
 	          }
 
-	          return prop;
-	        }
+	          _context.next = 25;
+	          return getPoint(waypoints[_i6]);
 
-	        return gj;
+	        case 25:
+	          _i6++;
+	          _context.next = 22;
+	          break;
+
+	        case 28:
+	        case "end":
+	          return _context.stop();
 	      }
-	    };
-	    return t;
-	  }();
+	    }
+	  }, _marked);
+	}
 
-	  module.exports = toGeoJSON;
-	});
+	function gpx(doc) {
+	  return {
+	    type: "FeatureCollection",
+	    features: Array.from(gpxGen(doc))
+	  };
+	}
+
+	var removeSpace = /\s*/g;
+	var trimSpace = /^\s*|\s*$/g;
+	var splitSpace = /\s+/; // generate a short, numeric hash of a string
+
+	function okhash(x) {
+	  if (!x || !x.length) return 0;
+	  var h = 0;
+
+	  for (var i = 0; i < x.length; i++) {
+	    h = (h << 5) - h + x.charCodeAt(i) | 0;
+	  }
+
+	  return h;
+	} // get one coordinate from a coordinate array, if any
+
+
+	function coord1(v) {
+	  return v.replace(removeSpace, "").split(",").map(parseFloat);
+	} // get all coordinates from a coordinate array as [[],[]]
+
+
+	function coord(v) {
+	  return v.replace(trimSpace, "").split(splitSpace).map(coord1);
+	}
+
+	function xml2str(node) {
+	  if (node.xml !== undefined) return node.xml;
+
+	  if (node.tagName) {
+	    var output = node.tagName;
+
+	    for (var i = 0; i < node.attributes.length; i++) {
+	      output += node.attributes[i].name + node.attributes[i].value;
+	    }
+
+	    for (var _i9 = 0; _i9 < node.childNodes.length; _i9++) {
+	      output += xml2str(node.childNodes[_i9]);
+	    }
+
+	    return output;
+	  }
+
+	  if (node.nodeName === "#text") {
+	    return (node.nodeValue || node.value || "").trim();
+	  }
+
+	  if (node.nodeName === "#cdata-section") {
+	    return node.nodeValue;
+	  }
+
+	  return "";
+	}
+
+	var geotypes = ["Polygon", "LineString", "Point", "Track", "gx:Track"];
+
+	function kmlColor(properties, elem, prefix) {
+	  var v = nodeVal(get1(elem, "color")) || "";
+	  var colorProp = prefix == "stroke" || prefix === "fill" ? prefix : prefix + "-color";
+
+	  if (v.substr(0, 1) === "#") {
+	    v = v.substr(1);
+	  }
+
+	  if (v.length === 6 || v.length === 3) {
+	    properties[colorProp] = v;
+	  } else if (v.length === 8) {
+	    properties[prefix + "-opacity"] = parseInt(v.substr(0, 2), 16) / 255;
+	    properties[colorProp] = "#" + v.substr(6, 2) + v.substr(4, 2) + v.substr(2, 2);
+	  }
+	}
+
+	function numericProperty(properties, elem, source, target) {
+	  var val = parseFloat(nodeVal(get1(elem, source)));
+	  if (!isNaN(val)) properties[target] = val;
+	}
+
+	function gxCoords(root) {
+	  var elems = root.getElementsByTagName("coord");
+	  var coords = [];
+	  var times = [];
+	  if (elems.length === 0) elems = root.getElementsByTagName("gx:coord");
+
+	  for (var i = 0; i < elems.length; i++) {
+	    coords.push(nodeVal(elems[i]).split(" ").map(parseFloat));
+	  }
+
+	  var timeElems = root.getElementsByTagName("when");
+
+	  for (var j = 0; j < timeElems.length; j++) {
+	    times.push(nodeVal(timeElems[j]));
+	  }
+
+	  return {
+	    coords: coords,
+	    times: times
+	  };
+	}
+
+	function getGeometry(root) {
+	  var geomNode;
+	  var geomNodes;
+	  var i;
+	  var j;
+	  var k;
+	  var geoms = [];
+	  var coordTimes = [];
+
+	  if (get1(root, "MultiGeometry")) {
+	    return getGeometry(get1(root, "MultiGeometry"));
+	  }
+
+	  if (get1(root, "MultiTrack")) {
+	    return getGeometry(get1(root, "MultiTrack"));
+	  }
+
+	  if (get1(root, "gx:MultiTrack")) {
+	    return getGeometry(get1(root, "gx:MultiTrack"));
+	  }
+
+	  for (i = 0; i < geotypes.length; i++) {
+	    geomNodes = root.getElementsByTagName(geotypes[i]);
+
+	    if (geomNodes) {
+	      for (j = 0; j < geomNodes.length; j++) {
+	        geomNode = geomNodes[j];
+
+	        if (geotypes[i] === "Point") {
+	          geoms.push({
+	            type: "Point",
+	            coordinates: coord1(nodeVal(get1(geomNode, "coordinates")))
+	          });
+	        } else if (geotypes[i] === "LineString") {
+	          geoms.push({
+	            type: "LineString",
+	            coordinates: coord(nodeVal(get1(geomNode, "coordinates")))
+	          });
+	        } else if (geotypes[i] === "Polygon") {
+	          var rings = geomNode.getElementsByTagName("LinearRing"),
+	              coords = [];
+
+	          for (k = 0; k < rings.length; k++) {
+	            coords.push(coord(nodeVal(get1(rings[k], "coordinates"))));
+	          }
+
+	          geoms.push({
+	            type: "Polygon",
+	            coordinates: coords
+	          });
+	        } else if (geotypes[i] === "Track" || geotypes[i] === "gx:Track") {
+	          var track = gxCoords(geomNode);
+	          geoms.push({
+	            type: "LineString",
+	            coordinates: track.coords
+	          });
+	          if (track.times.length) coordTimes.push(track.times);
+	        }
+	      }
+	    }
+	  }
+
+	  return {
+	    geoms: geoms,
+	    coordTimes: coordTimes
+	  };
+	}
+
+	function getPlacemark(root, styleIndex, styleMapIndex, styleByHash) {
+	  var geomsAndTimes = getGeometry(root);
+	  var i;
+	  var properties = {};
+	  var name = nodeVal(get1(root, "name"));
+	  var address = nodeVal(get1(root, "address"));
+	  var styleUrl = nodeVal(get1(root, "styleUrl"));
+	  var description = nodeVal(get1(root, "description"));
+	  var timeSpan = get1(root, "TimeSpan");
+	  var timeStamp = get1(root, "TimeStamp");
+	  var extendedData = get1(root, "ExtendedData");
+	  var iconStyle = get1(root, "IconStyle");
+	  var labelStyle = get1(root, "LabelStyle");
+	  var lineStyle = get1(root, "LineStyle");
+	  var polyStyle = get1(root, "PolyStyle");
+	  var visibility = get1(root, "visibility");
+	  if (name) properties.name = name;
+	  if (address) properties.address = address;
+
+	  if (styleUrl) {
+	    if (styleUrl[0] !== "#") {
+	      styleUrl = "#" + styleUrl;
+	    }
+
+	    properties.styleUrl = styleUrl;
+
+	    if (styleIndex[styleUrl]) {
+	      properties.styleHash = styleIndex[styleUrl];
+	    }
+
+	    if (styleMapIndex[styleUrl]) {
+	      properties.styleMapHash = styleMapIndex[styleUrl];
+	      properties.styleHash = styleIndex[styleMapIndex[styleUrl].normal];
+	    } // Try to populate the lineStyle or polyStyle since we got the style hash
+
+
+	    var style = styleByHash[properties.styleHash];
+
+	    if (style) {
+	      if (!iconStyle) iconStyle = get1(style, "IconStyle");
+	      if (!labelStyle) labelStyle = get1(style, "LabelStyle");
+	      if (!lineStyle) lineStyle = get1(style, "LineStyle");
+	      if (!polyStyle) polyStyle = get1(style, "PolyStyle");
+	    }
+	  }
+
+	  if (description) properties.description = description;
+
+	  if (timeSpan) {
+	    var begin = nodeVal(get1(timeSpan, "begin"));
+	    var end = nodeVal(get1(timeSpan, "end"));
+	    properties.timespan = {
+	      begin: begin,
+	      end: end
+	    };
+	  }
+
+	  if (timeStamp) {
+	    properties.timestamp = nodeVal(get1(timeStamp, "when"));
+	  }
+
+	  if (iconStyle) {
+	    kmlColor(properties, iconStyle, "icon");
+	    numericProperty(properties, iconStyle, "scale", "icon-scale");
+	    numericProperty(properties, iconStyle, "heading", "icon-heading");
+	    var hotspot = get1(iconStyle, "hotSpot");
+
+	    if (hotspot) {
+	      var left = parseFloat(hotspot.getAttribute("x"));
+	      var top = parseFloat(hotspot.getAttribute("y"));
+	      if (!isNaN(left) && !isNaN(top)) properties["icon-offset"] = [left, top];
+	    }
+
+	    var icon = get1(iconStyle, "Icon");
+
+	    if (icon) {
+	      var href = nodeVal(get1(icon, "href"));
+	      if (href) properties.icon = href;
+	    }
+	  }
+
+	  if (labelStyle) {
+	    kmlColor(properties, labelStyle, "label");
+	    numericProperty(properties, labelStyle, "scale", "label-scale");
+	  }
+
+	  if (lineStyle) {
+	    kmlColor(properties, lineStyle, "stroke");
+	    numericProperty(properties, lineStyle, "width", "stroke-width");
+	  }
+
+	  if (polyStyle) {
+	    kmlColor(properties, polyStyle, "fill");
+	    var fill = nodeVal(get1(polyStyle, "fill"));
+	    var outline = nodeVal(get1(polyStyle, "outline"));
+	    if (fill) properties["fill-opacity"] = fill === "1" ? properties["fill-opacity"] || 1 : 0;
+	    if (outline) properties["stroke-opacity"] = outline === "1" ? properties["stroke-opacity"] || 1 : 0;
+	  }
+
+	  if (extendedData) {
+	    var datas = extendedData.getElementsByTagName("Data"),
+	        simpleDatas = extendedData.getElementsByTagName("SimpleData");
+
+	    for (i = 0; i < datas.length; i++) {
+	      properties[datas[i].getAttribute("name")] = nodeVal(get1(datas[i], "value"));
+	    }
+
+	    for (i = 0; i < simpleDatas.length; i++) {
+	      properties[simpleDatas[i].getAttribute("name")] = nodeVal(simpleDatas[i]);
+	    }
+	  }
+
+	  if (visibility) {
+	    properties.visibility = nodeVal(visibility);
+	  }
+
+	  if (geomsAndTimes.coordTimes.length) {
+	    properties.coordinateProperties = {
+	      times: geomsAndTimes.coordTimes.length === 1 ? geomsAndTimes.coordTimes[0] : geomsAndTimes.coordTimes
+	    };
+	  }
+
+	  var feature = {
+	    type: "Feature",
+	    geometry: geomsAndTimes.geoms.length === 0 ? null : geomsAndTimes.geoms.length === 1 ? geomsAndTimes.geoms[0] : {
+	      type: "GeometryCollection",
+	      geometries: geomsAndTimes.geoms
+	    },
+	    properties: properties
+	  };
+	  if (root.getAttribute("id")) feature.id = root.getAttribute("id");
+	  return feature;
+	}
+
+	function kmlGen(doc) {
+	  var styleIndex, styleByHash, styleMapIndex, placemarks, styles, styleMaps, k, hash, l, pairs, pairsMap, m, j, feature;
+	  return regeneratorRuntime.wrap(function kmlGen$(_context3) {
+	    while (1) {
+	      switch (_context3.prev = _context3.next) {
+	        case 0:
+	          // styleindex keeps track of hashed styles in order to match feature
+	          styleIndex = {};
+	          styleByHash = {}; // stylemapindex keeps track of style maps to expose in properties
+
+	          styleMapIndex = {}; // atomic geospatial types supported by KML - MultiGeometry is
+	          // handled separately
+	          // all root placemarks in the file
+
+	          placemarks = doc.getElementsByTagName("Placemark");
+	          styles = doc.getElementsByTagName("Style");
+	          styleMaps = doc.getElementsByTagName("StyleMap");
+
+	          for (k = 0; k < styles.length; k++) {
+	            hash = okhash(xml2str(styles[k])).toString(16);
+	            styleIndex["#" + styles[k].getAttribute("id")] = hash;
+	            styleByHash[hash] = styles[k];
+	          }
+
+	          for (l = 0; l < styleMaps.length; l++) {
+	            styleIndex["#" + styleMaps[l].getAttribute("id")] = okhash(xml2str(styleMaps[l])).toString(16);
+	            pairs = styleMaps[l].getElementsByTagName("Pair");
+	            pairsMap = {};
+
+	            for (m = 0; m < pairs.length; m++) {
+	              pairsMap[nodeVal(get1(pairs[m], "key"))] = nodeVal(get1(pairs[m], "styleUrl"));
+	            }
+
+	            styleMapIndex["#" + styleMaps[l].getAttribute("id")] = pairsMap;
+	          }
+
+	          j = 0;
+
+	        case 9:
+	          if (!(j < placemarks.length)) {
+	            _context3.next = 17;
+	            break;
+	          }
+
+	          feature = getPlacemark(placemarks[j], styleIndex, styleMapIndex, styleByHash);
+
+	          if (!feature) {
+	            _context3.next = 14;
+	            break;
+	          }
+
+	          _context3.next = 14;
+	          return feature;
+
+	        case 14:
+	          j++;
+	          _context3.next = 9;
+	          break;
+
+	        case 17:
+	        case "end":
+	          return _context3.stop();
+	      }
+	    }
+	  }, _marked3);
+	}
+
+	function kml(doc) {
+	  return {
+	    type: "FeatureCollection",
+	    features: Array.from(kmlGen(doc))
+	  };
+	}
 
 	var _initialized = false;
 	var _enabled = false;
@@ -65424,11 +63102,11 @@
 
 	    switch (extension) {
 	      case '.gpx':
-	        gj = togeojson.gpx(xmlToDom(data));
+	        gj = gpx(xmlToDom(data));
 	        break;
 
 	      case '.kml':
-	        gj = togeojson.kml(xmlToDom(data));
+	        gj = kml(xmlToDom(data));
 	        break;
 
 	      case '.geojson':
@@ -70224,7 +67902,8 @@
 	    context.on('enter.map', function () {
 	      if (!map.editableDataEnabled(true
 	      /* skip zoom check */
-	      )) return; // redraw immediately any objects affected by a change in selectedIDs.
+	      )) return;
+	      if (_isTransformed) return; // redraw immediately any objects affected by a change in selectedIDs.
 
 	      var graph = context.graph();
 	      var selectedAndParents = {};
@@ -70513,11 +68192,11 @@
 	        k2 = t0.k * Math.pow(2, -dY / 500);
 	        k2 = clamp$1(k2, kMin, kMax);
 	        x2 = p0[0] - p1[0] * k2;
-	        y2 = p0[1] - p1[1] * k2; // 2 finger map panning (Mac only, all browsers) - #5492, #5512
+	        y2 = p0[1] - p1[1] * k2; // 2 finger map panning (Mac only, all browsers except Firefox #8595) - #5492, #5512
 	        // Panning via the `wheel` event will always have:
 	        // - `ctrlKey = false`
 	        // - `deltaX`,`deltaY` are round integer pixels
-	      } else if (detected.os === 'mac' && !source.ctrlKey && isInteger(dX) && isInteger(dY)) {
+	      } else if (detected.os === 'mac' && detected.browser !== 'Firefox' && !source.ctrlKey && isInteger(dX) && isInteger(dY)) {
 	        p1 = projection.translate();
 	        x2 = p1[0] - dX;
 	        y2 = p1[1] - dY;
@@ -87518,8 +85197,8 @@
 	    var modalSection = introModal.append('div').attr('class', 'modal-section');
 	    modalSection.append('p').html(_t.html('splash.text', {
 	      version: context.version,
-	      website: '<a target="_blank" href="http://ideditor.blog/">ideditor.blog</a>',
-	      github: '<a target="_blank" href="https://github.com/openstreetmap/iD">github.com</a>'
+	      website: '<a target="_blank" href="https://github.com/openstreetmap/iD/blob/develop/CHANGELOG.md#whats-new">changelog</a>',
+	      github: '<a target="_blank" href="https://github.com/openstreetmap/iD/issues">github.com</a>'
 	    }));
 	    modalSection.append('p').html(_t.html('splash.privacy', {
 	      updateMessage: updateMessage,
@@ -88576,6 +86255,14 @@
 
 	    for (var severity in issuesBySeverity) {
 	      var issues = issuesBySeverity[severity];
+
+	      if (severity !== 'error') {
+	        // exclude 'fixme' and similar - #8603
+	        issues = issues.filter(function (issue) {
+	          return issue.type !== 'help_request';
+	        });
+	      }
+
 	      var section = severity + '-section';
 	      var issueItem = severity + '-item';
 	      var container = selection.selectAll('.' + section).data(issues.length ? [0] : []);
@@ -88786,7 +86473,10 @@
 	      where: 'all',
 	      includeIgnored: true,
 	      includeDisabledRules: true
-	    }).warning;
+	    }).warning.filter(function (issue) {
+	      return issue.type !== 'help_request';
+	    }); // exclude 'fixme' and similar - #8603
+
 	    addIssueCounts(warnings, 'warnings'); // add counts of issues resolved by the user's edits
 
 	    var resolvedIssues = context.validator().getResolvedIssues();
@@ -92679,7 +90369,7 @@
 
 	  var _deferred = new Set();
 
-	  context.version = '2.20.0';
+	  context.version = '2.20.1';
 	  context.privacyVersion = '20201202'; // iD will alter the hash so cache the parameters intended to setup the session
 
 	  context.initialHashParams = window.location.hash ? utilStringQs(window.location.hash) : {};
@@ -93519,7 +91209,7 @@
 	// and fallbacks like
 	//   "amenity/yes"
 	// excluding things like
-	//   "highway", "surface", "ref", etc.
+	//   "tiger:reviewed", "surface", "ref", etc.
 	//
 	// Arguments
 	//   `tags`: `Object` containing the feature's OSM tags
@@ -93537,16 +91227,19 @@
 	  var alternate = new Set();
 	  Object.keys(tags).forEach(function (osmkey) {
 	    var osmvalue = tags[osmkey];
-	    if (!osmvalue) return;
+	    if (!osmvalue) return; // Match a 'route_master' as if it were a 'route' - name-suggestion-index#5184
+
+	    if (osmkey === 'route_master') osmkey = 'route';
 
 	    var vmap = _nsi.kvt.get(osmkey);
 
-	    if (!vmap) return;
+	    if (!vmap) return; // not an interesting key
 
-	    if (osmvalue !== 'yes') {
-	      primary.add("".concat(osmkey, "/").concat(osmvalue));
-	    } else {
-	      alternate.add("".concat(osmkey, "/").concat(osmvalue));
+	    if (vmap.get(osmvalue)) {
+	      // Matched a category in NSI
+	      primary.add("".concat(osmkey, "/").concat(osmvalue)); // interesting key/value
+	    } else if (osmvalue === 'yes') {
+	      alternate.add("".concat(osmkey, "/").concat(osmvalue)); // fallback key/yes
 	    }
 	  }); // Can we try a generic building fallback match? - See #6122, #7197
 	  // Only try this if we do a preset match and find nothing else remarkable about that building.
@@ -93585,7 +91278,9 @@
 	    if (t) return; // found already
 
 	    var osmvalue = tags[osmkey];
-	    if (!osmvalue) return;
+	    if (!osmvalue) return; // Match a 'route_master' as if it were a 'route' - name-suggestion-index#5184
+
+	    if (osmkey === 'route_master') osmkey = 'route';
 
 	    var vmap = _nsi.kvt.get(osmkey);
 
@@ -93716,6 +91411,7 @@
 	  }
 
 	  function isNamelike(osmkey, which) {
+	    if (osmkey === 'old_name') return false;
 	    return patterns[which].test(osmkey) && !notNames.test(osmkey);
 	  }
 	} // `gatherTuples()`
@@ -93802,7 +91498,9 @@
 	        }
 	      }
 	    }
-	  }); // Gather key/value tag pairs to try to match
+	  }); // Match a 'route_master' as if it were a 'route' - name-suggestion-index#5184
+
+	  var isRouteMaster = tags.type === 'route_master'; // Gather key/value tag pairs to try to match
 
 	  var tryKVs = gatherKVs(tags);
 	  if (!tryKVs.primary.size && !tryKVs.alternate.size) return changed ? newTags : null; // Gather namelike tag values to try to match
@@ -93868,11 +91566,15 @@
 	    var category = _nsi.data[tkv];
 	    var properties = category.properties || {}; // Preserve some tags that we specifically don't want NSI to overwrite. ('^name', sometimes)
 
-	    var preserveTags = item.preserveTags || properties.preserveTags || [];
+	    var preserveTags = item.preserveTags || properties.preserveTags || []; // These tags can be toplevel tags -or- attributes - so we generally want to preserve existing values - #8615
+	    // We'll only _replace_ the tag value if this tag is the toplevel/defining tag for the matched item (`k`)
+
+	    ['building', 'emergency', 'internet_access', 'takeaway'].forEach(function (osmkey) {
+	      if (k !== osmkey) preserveTags.push("^".concat(osmkey, "$"));
+	    });
 	    var regexes = preserveTags.map(function (s) {
 	      return new RegExp(s, 'i');
 	    });
-	    regexes.push(/^building$/i, /^takeaway$/i);
 	    var keepTags = {};
 	    Object.keys(newTags).forEach(function (osmkey) {
 	      if (regexes.some(function (regex) {
@@ -93880,8 +91582,8 @@
 	      })) {
 	        keepTags[osmkey] = newTags[osmkey];
 	      }
-	    }); // Remove any primary tags ("amenity", "craft", "shop", "man_made", "route", etc)
-	    // with a value like `amenity=yes` or `shop=yes`
+	    }); // Remove any primary tags ("amenity", "craft", "shop", "man_made", "route", etc) that have a
+	    // value like `amenity=yes` or `shop=yes` (exceptions have already been added to `keepTags` above)
 
 	    _nsi.kvt.forEach(function (vmap, k) {
 	      if (newTags[k] === 'yes') delete newTags[k];
@@ -93894,12 +91596,18 @@
 	    } // Do the tag upgrade
 
 
-	    Object.assign(newTags, item.tags, keepTags); // Special `branch` splitting rules - IF..
+	    Object.assign(newTags, item.tags, keepTags); // Swap `route` back to `route_master` - name-suggestion-index#5184
+
+	    if (isRouteMaster) {
+	      newTags.route_master = newTags.route;
+	      delete newTags.route;
+	    } // Special `branch` splitting rules - IF..
 	    // - NSI is suggesting to replace `name`, AND
 	    // - `branch` doesn't already contain something, AND
 	    // - original name has not moved to an alternate name (e.g. "Dunkin' Donuts" -> "Dunkin'"), AND
 	    // - original name is "some name" + "some stuff", THEN
 	    // consider splitting `name` into `name`/`branch`..
+
 
 	    var origName = tags.name;
 	    var newName = newTags.name;
@@ -104762,9 +102470,10 @@
 		utilDisplayLabel: utilDisplayLabel,
 		utilEntityRoot: utilEntityRoot,
 		utilEditDistance: utilEditDistance,
-		utilEntitySelector: utilEntitySelector,
+		utilEntityAndDeepMemberIDs: utilEntityAndDeepMemberIDs,
 		utilEntityOrMemberSelector: utilEntityOrMemberSelector,
 		utilEntityOrDeepMemberSelector: utilEntityOrDeepMemberSelector,
+		utilEntitySelector: utilEntitySelector,
 		utilFastMouse: utilFastMouse,
 		utilFetchJson: utilFetchJson,
 		utilFunctor: utilFunctor,
