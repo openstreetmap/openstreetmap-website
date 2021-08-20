@@ -23,7 +23,7 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
 
     # check that the form to allow new client application creations exists
     assert_in_heading do
-      assert_select "ul.secondary-actions li a[href='/user/#{ERB::Util.u(user.display_name)}/oauth_clients']"
+      assert_select "ul.nav.nav-tabs li.nav-item a[href='/user/#{ERB::Util.u(user.display_name)}/oauth_clients']"
     end
 
     # now we follow the link to the oauth client list
