@@ -39,7 +39,6 @@ ENV DEBIAN_FRONTEND=dialog
 # Setup app location
 RUN mkdir -p /app/tmp /app/node_modules /app/log
 WORKDIR /app
-COPY . .
 
 # Install Ruby packages
 ADD Gemfile Gemfile.lock /app/
