@@ -32,10 +32,12 @@
       <% if friends.empty? %>
         <%= t ".no friends" %>
       <% else %>
-        <ul class='secondary-actions clearfix'>
-          <li><%= link_to t(".friends_changesets"), friend_changesets_path %></li>
-          <li><%= link_to t(".friends_diaries"), friends_diary_entries_path %></li>
-        </ul>
+        <nav class='secondary-actions'>
+          <ul class='clearfix'>
+            <li><%= link_to t(".friends_changesets"), friend_changesets_path %></li>
+            <li><%= link_to t(".friends_diaries"), friends_diary_entries_path %></li>
+          </ul>
+        </nav>
         <div id="friends-container">
           <%= render :partial => "contact", :collection => friends, :locals => { :type => "friend" } %>
         </div>
@@ -48,10 +50,12 @@
       <% if nearby.empty? %>
         <%= t ".no nearby users" %>
       <% else %>
-        <ul class='secondary-actions clearfix'>
-          <li><%= link_to t(".nearby_changesets"), nearby_changesets_path %></li>
-          <li><%= link_to t(".nearby_diaries"), nearby_diary_entries_path %></li>
-        </ul>
+        <nav class='secondary-actions'>
+          <ul class='clearfix'>
+            <li><%= link_to t(".nearby_changesets"), nearby_changesets_path %></li>
+            <li><%= link_to t(".nearby_diaries"), nearby_diary_entries_path %></li>
+          </ul>
+        </nav>
         <div id="nearbyusers">
           <%= render :partial => "contact", :collection => nearby, :locals => { :type => "nearby mapper" } %>
         </div>
