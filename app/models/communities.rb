@@ -29,7 +29,7 @@ class Communities
         next unless key == "type" && value == "osm-lc" && id != "OSMF"
 
         strings = resource["strings"]
-        chapter_name = strings["community"] || strings["name"]
+        chapter_name = strings["name"] || "!! " + strings["community"]
         url = strings["url"]
         local_chapters.push({ :id => id, :name => chapter_name, :url => url })
       end
