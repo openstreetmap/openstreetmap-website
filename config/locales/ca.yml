@@ -186,6 +186,11 @@ ca:
         pass_crypt: Contrasenya
         pass_crypt_confirmation: Confirmeu la contrasenya
     help:
+      doorkeeper/application:
+        confidential: L'aplicació serà utilitzada on el secret del client pugui ser
+          mantingut confidencial (les aplicacions natives de mòbil i les aplicacions
+          d'una sola pàgina no són confidencials)
+        redirect_uri: Useu una línia per URI
       trace:
         tagstring: separat per comes
       user_block:
@@ -537,6 +542,11 @@ ca:
       comment: Comentari
       newer_comments: Comentaris més nous
       older_comments: Comentaris més antics
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: S'ha registrat l'aplicació.
   friendships:
     make_friend:
       heading: Voleu afegir %{user} com un amic?
@@ -1623,6 +1633,12 @@ ca:
       success: S'ha confirmat el canvi de la teva adreça electrònica!
       failure: Una adreça de correu electrònic ja ha estat confirmat amb aquesta fitxa.
       unknown_token: Aquest codi de confirmació ha expirat o no existeix.
+    resend_success_flash:
+      confirmation_sent: Hem enviat una nota de confirmació a %{email} i tan aviat
+        com confirmeu el vostre compte podreu començar a cartografiar.
+      whitelist: Si utilitzeu un sistema antispam que descarta les peticions de confirmació,
+        aleshores assegureu-vos d'afegur %{sender} a la vostra llista blanca, ja que
+        no podrem respondre a cap petició de confirmació.
   messages:
     inbox:
       title: Safata d'entrada
@@ -2118,9 +2134,11 @@ ca:
       removed: El vostre editor d'OpenStreetMap per defecte és el Potlatch. Atès que
         s'ha discontinuat l'Adobe Flash Player, el Potlach deixarà d'estar disponible
         des del navegador web.
-      id_html: Alternativament, pots posar a iD com el vostre editor per defecte,
-        el qual s'executa en el vostre navegador de web com Potlatch anteriorment
-        va fer. <a href="%{settings_url}">Canvieu aquí les vostres preferències d'usuari</a>.
+      desktop_html: Encara podeu usar Potlatch <a href="https://www.systemed.net/potlatch/">descarregant
+        l'aplicació d'escriptori per Mac o Windows</a>.
+      id_html: Alternativament, podeu establir iD com al vostre editor per defecte,
+        el qual s'executa en el vostre navegador de web com Potlatch feia anteriorment.
+        <a href="%{settings_url}">Canvieu aquí les vostres preferències</a>.
     sidebar:
       search_results: Resultats de la cerca
       close: Tanca
@@ -2378,6 +2396,11 @@ ca:
       need_to_see_terms: El vostre accés a l'API està suspès temporalment. Inicieu
         sessió a la interfície web per veure les condicions de col·laboració. No cal
         cal que les accepteu, però sí que les llegiu.
+    settings_menu:
+      account_settings: Paràmetres del compte
+      oauth1_settings: Paràmetres OAuth 1
+      oauth2_applications: Aplicacions OAuth 2
+      oauth2_authorizations: Autoritzacions OAuth 2
   oauth:
     authorize:
       title: Autoritzeu l'accés al vostre compte
@@ -2458,22 +2481,53 @@ ca:
       flash: S'ha destruït el registre de l'aplicació client
   oauth2_applications:
     index:
+      title: Les meves aplicacions client
+      no_applications_html: Teniu cap aplicació que voldríeu registrar per usar amb
+        nosaltres utilitzant l'estàndard %{oauth2}? Heu de registrar la vostra aplicació
+        abans que pugui fer peticions OAuth a aquest servei.
+      new: Registra una nova aplicació
       name: Nom
       permissions: Permisos
     application:
       edit: Edita
       delete: Esborra
       confirm_delete: Vols eliminar aquesta aplicació?
+    new:
+      title: Registra una aplicació nova
+    edit:
+      title: Editeu la vostre aplicació
     show:
       edit: Edita
       delete: Esborra
+      confirm_delete: Voleu eliminar aquesta aplicació?
+      client_id: ID del client
+      client_secret: Secret del client
+      client_secret_warning: Assegureu-vos de desar aquest secret - no s'hi podrà
+        tornar a accedir
+      permissions: Permisos
+      redirect_uris: Redirigeix URIs
+    not_found:
+      sorry: No es pot trobar l'aplicació.
   oauth2_authorizations:
     new:
+      title: Cal autorització
+      introduction: Voleu autoritzar %{application} a accedir al vostre compte amb
+        els permisos següents?
       authorize: Autoritza
       deny: Refusa
+    error:
+      title: S’ha produït un error.
+    show:
+      title: Codi d'autorització
   oauth2_authorized_applications:
     index:
+      title: Les meves aplicacions autoritzades
+      application: Aplicació
       permissions: Permisos
+      no_applications_html: Encara no heu autoritzat cap aplicació %{oauth2}.
+    application:
+      revoke: Revoca l'accés
+      confirm_revoke: Voleu revocar l'accés per aquesta aplicació?
   users:
     new:
       title: Registreu-vos-hi
@@ -2526,6 +2580,9 @@ ca:
         italy: Itàlia
         rest_of_world: Resta del món
     terms_declined_flash:
+      terms_declined_html: Ens sap greu que hàgiu decidit no acceptar els nous termes
+        de les contribucions. Per més informació, vegeu %{terms_declined_link}.
+      terms_declined_link: aquesta pàgina wiki
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Aquest usuari no existeix
@@ -2543,8 +2600,10 @@ ca:
       my profile: El meu perfil
       my settings: Les meves preferències
       my comments: Els meus comentaris
+      my_preferences: Les meves preferències
       blocks on me: Blocs sobre mi
       blocks by me: Blocs fets per mi
+      edit_profile: Edita el perfil
       send message: Envia un missatge
       diary: Diari
       edits: Edicions
@@ -2563,6 +2622,9 @@ ca:
       spam score: 'Puntuació Spam:'
       description: Descripció
       user location: Ubicació de l'usuari
+      no_home_location_html: '%{edit_profile_link} i establiu la ubicació de casa
+        vostra per veure usuaris propers.'
+      edit_your_profile: Editeu el vostre perfil
       my friends: Les meves amistats
       no friends: Encara no has afegit cap amic.
       km away: '%{count}km de distància'
@@ -2659,6 +2721,7 @@ ca:
     suspended:
       title: Compte suspès
       heading: Compte suspès
+      support: assistència
       body_html: |-
         <p>
           El vostre compte ha estat suspès automàticament a causa
@@ -2833,6 +2896,7 @@ ca:
       custom_dimensions: Estableix dimensions personalitzades
       format: 'Format:'
       scale: 'Escala:'
+      image_dimensions: La imatge mostrarà la capa estàndard a %{width} x %{height}
       download: Descàrrega
       short_url: URL curta
       include_marker: Inclou el marcador
@@ -2875,6 +2939,8 @@ ca:
       copyright: © <a href='%{copyright_url}'>Col·laboradors d'OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Feu un donatiu</a>
       terms: <a href='%{terms_url}' target='_blank'>Termes del lloc web i l'API</a>
+      cyclosm: Estil de les tessel·les fet per <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        hostatjat per <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap França</a>
       thunderforest: Tessel·les cortesia d' <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       opnvkarte: Tessel·les cortesia de <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
