@@ -4,14 +4,14 @@ class Communities
   @local_chapters = {}
 
   def self.local_chapters(locale)
-    @local_chapters[locale] = local_chapter_for(locale)
+    @local_chapters[locale] ||= local_chapter_for(locale)
   end
 
   class << self
     protected
 
     def local_chapter_for(locale)
-      @local_chapters_index = load_local_chapters
+      @local_chapters_index ||= load_local_chapters
       locale_dict = locale_dict_for(locale)
       localised_chapters = []
       @local_chapters_index.each do |chapter|
