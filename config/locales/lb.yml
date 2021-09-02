@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Davio
+# Author: Helicoducair
 # Author: Les Meloures
 # Author: Robby
 # Author: Soued031
@@ -9,7 +10,7 @@
 lb:
   time:
     formats:
-      friendly: '%e %B %Y um %H:%M'
+      friendly: '%e. %B %Y um %H:%M Auer'
   helpers:
     file:
       prompt: Fichier eraussichen
@@ -29,6 +30,9 @@ lb:
       doorkeeper_application:
         create: Aschreiwen
         update: Aktualiséieren
+      redaction:
+        create: Schwäerzen
+        update: Schäerzung späicheren
       trace:
         create: Eroplueden
         update: Ännerunge späicheren
@@ -36,27 +40,59 @@ lb:
         create: Spär uleeën
         update: Spär aktualiséieren
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: schéngt keng valabel E-Mail-Adress ze sinn
+        email_address_not_routable: ass net routingfäheg
     models:
+      acl: Zougrëffssteierlëscht
       changeset: Set vun Ännerungen
+      changeset_tag: Ännerungssaz-Tag
       country: Land
+      diary_comment: Blog-Commentaire
+      diary_entry: Blog-Antrag
       friend: Frënd
       issue: Probleem
       language: Sprooch
       message: Message
       node: Knuet
+      node_tag: Knuet-Tag
+      notifier: Meller
       old_node: Ale Knuet
+      old_node_tag: Ale Knuet-Tag
       old_relation: Al Relatioun
+      old_relation_member: Ale Relatiouns-Member
+      old_relation_tag: Ale Relatiouns-Tag
       old_way: Ale Wee
+      old_way_node: Ale Wee-Knuet
+      old_way_tag: Ale Wee-Tag
       relation: Relatioun
+      relation_member: Relatiouns-Member
+      relation_tag: Relatiouns-Tag
       report: Rapport
       session: Sessioun
+      trace: Spuer
       user: Benotzer
       user_preference: Benotzerastellung
+      user_token: Benotzer-Token
       way: Wee
+      way_node: Wee-Knuet
+      way_tag: Wee-Tag
     attributes:
       client_application:
         name: Numm (Obligatoresch)
+        url: Haaptapplikatiouns-URL
+        callback_url: Callback-URL
+        support_url: Support-URL
+        allow_read_prefs: Hir Benotzerastellunge liesen
+        allow_write_prefs: Hir Benotzerastellungen änneren
+        allow_write_diary: Bloganträg a Commentairë schreiwen a Frënn fannen
         allow_write_api: d'Kaart änneren
+        allow_read_gpx: Zougrëff op hir privat GPS-Spueren
+        allow_write_gpx: GPS-Spueren eroplueden
+        allow_write_notes: Notizë beaarbechten
+      diary_comment:
+        body: Text
       diary_entry:
         user: Benotzer
         title: Sujet
@@ -65,6 +101,7 @@ lb:
         language: Sprooch
       doorkeeper/application:
         name: Numm
+        redirect_uri: Weiderleedungs-URIën
         confidential: Confidentiel Applikatioun?
         scopes: Autorisatiounen
       friend:
@@ -89,8 +126,14 @@ lb:
       redaction:
         title: Titel
         description: Beschreiwung
+      report:
+        category: Wiel e Grond fir deng Meldung aus
+        details: Wannechgelift méi Eenzelheeten iwwer de Problem uginn (erfuerderlech).
       user:
+        auth_provider: Authentifizéierungsubidder
+        auth_uid: Authentifizéierungs UID
         email: E-Mail
+        email_confirmation: E-Mail Bestätegung
         new_email: Nei E-Mail-Adress
         active: Aktiv
         display_name: Numm dee gewise gëtt
@@ -98,12 +141,27 @@ lb:
         home_lat: Breedegrad
         home_lon: Längegrad
         languages: Léifst Sproochen
+        preferred_editor: Liblingseditor
         pass_crypt: Passwuert
         pass_crypt_confirmation: Passwuert confirméieren
     help:
+      doorkeeper/application:
+        confidential: Et gëtt eng Applikatioun verwent, bei där d'Clientsgeheimnis
+          vertraulech behandelt ka ginn (nativ- an eesäiteg Appë sinn net vertraulech)
+        redirect_uri: Pro URI eng Zeil benotzen
       trace:
         tagstring: Mat Komma getrennt
+      user_block:
+        reason: De Grond, firwat de Benotzer / d'Benotzerin gespaart ass. Sief wannechgelift
+          esou roueg a sachlech wéi méiglech. Beschreif d'Lag méiglechst detailléiert
+          an denk dorun, datt déng Noriicht ëffentlech siichtbar ass. Denk och dorun,
+          datt net all d'Benotzer de Jargon vum Gemeinschaftsprojet verstinn a benotz
+          wannechgelift Formuléierungen, déi fir Laie verständlech sinn.
+        needs_view: Muss sech de Benotzer umellen, ier dës Spär opgehuewe gëtt?
       user:
+        email_confirmation: Är Adress gëtt net ëffentlech ugewisen. Liest eis <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">Dateschutzerklärung</a>
+          fir méi Informatiounen.
         new_email: (ni ëffentlech gewisen)
   datetime:
     distance_in_words_ago:
@@ -148,6 +206,10 @@ lb:
     default: Standard (elo %{name})
     id:
       name: iD
+      description: iD (am Browser agebetten Editeur)
+    remote:
+      name: Fernsteierung
+      description: Extern Editeuren (JOSM, Potlach, Merkaartor)
   auth:
     providers:
       none: Keng
@@ -160,14 +222,26 @@ lb:
   api:
     notes:
       comment:
+        opened_at_html: '%{when} erstallt'
+        opened_at_by_html: '%{when} vum %{user} erstallt'
+        commented_at_html: '%{when} aktualiséiert'
+        commented_at_by_html: '%{when} vum %{user} aktualiséiert'
         closed_at_html: Geléist %{when}
         closed_at_by_html: Geléist %{when} vum %{user}
         reopened_at_html: Reaktivéiert %{when}
         reopened_at_by_html: Reaktivéiert %{when} vum %{user}
       rss:
         title: OpenStreetMap Notizen
+        description_area: Iwwersiicht vun de gemellten, kommentéierten oder ofgeschlossenen
+          Hiweiser am Beräich [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})].
+        description_item: En RSS-Feed fir den Hiweis %{id}
+        opened: Neien Hiweis (an der Géigend vun %{place})
+        commented: Neie Commentaire (an der Géigend vun %{place})
+        closed: Ofgeschlossenen Hiweis (an der Géigend vun %{place})
+        reopened: Reaktivéierten Hiweis (an der Géigend vun %{place})
       entry:
         comment: Bemierkung
+        full: Vollstännegen Hiweis
   browse:
     created: Ugeluecht
     closed: Zou
@@ -182,6 +256,12 @@ lb:
     anonymous: anonym
     no_comment: (keng Bemierkung)
     part_of: Deel vu(n)
+    part_of_relations:
+      one: 1 Relatioun
+      other: '%{count} Relatiounen'
+    part_of_ways:
+      one: 1 Wee
+      other: '%{count} Weeër'
     download_xml: XML eroflueden
     view_history: Versioune weisen
     view_details: Detailer weisen
@@ -205,15 +285,28 @@ lb:
         title_comment: Set vun Ännerungen %{id} - %{comment}
       join_discussion: Loggt Iech an, fir bei der Diskussioun matzemaachen
       discussion: Diskussioun
+      still_open: Den Ännerungssaz ass nach op. 'Diskussioun gëtt opgemaach, esoubal
+        wéi den Ännerungssaz zou ass.
     node:
       title_html: 'Knuet: %{name}'
+      history_title_html: 'Versioune vum Knuet: %{name}'
     way:
       title_html: 'Wee: %{name}'
       history_title_html: 'Versioune vum Wee: %{name}'
       nodes: Kniet
+      nodes_count:
+        one: 1 Knuet
+        other: '%{count} Kniet'
+      also_part_of_html:
+        one: Deel vum Wee %{related_ways}
+        other: Deeler vun de Weeër %{related_ways}
     relation:
       title_html: 'Relatioun: %{name}'
+      history_title_html: 'Versioune vun der Relatioun: %{name}'
       members: Memberen
+      members_count:
+        one: 1 Member
+        other: '%{count} Memberen'
     relation_member:
       entry_role_html: '%{type} %{name} als %{role}'
       type:
@@ -233,6 +326,9 @@ lb:
         changeset: Set vun Ännerungen
         note: Notiz
     timeout:
+      title: Zäitdepassementsfeeler
+      sorry: Et huet leider ze laang gedauert, 'Donnéeën fir %{type} mat der ID %{id}
+        ofzeruffen.
       type:
         node: Knuet
         way: Wee
@@ -240,11 +336,16 @@ lb:
         changeset: Set vun Ännerungen
         note: Notiz
     redacted:
+      redaction: Schwäerzung %{id}
+      message_html: 'D''Versioun %{version} vun dësem %{type} kann net ugewise ginn,
+        well hei eppes geschwäerzt gouf. Méi erfueren: %{redaction_link}.'
       type:
         node: Knuet
         way: Wee
         relation: Relatioun
     start_rjs:
+      feature_warning: D'Luede vun %{num_features} Funktioune kann dëse Browser méi
+        lues maachen oder afréieren. Sollen dës Donnéeë wierklech ugewise ginn?
       load_data: Donnéeë lueden
       loading: Lueden...
     tag_details:
@@ -254,11 +355,15 @@ lb:
         tag: D'Wiki-Beschreiwungssäit fir den %{key}=%{value}-Tag
       wikidata_link: D'Element %{page} op Wikidata
       wikipedia_link: Den Artikel %{page} op der Wikipedia
+      wikimedia_commons_link: D'%{page} Element op Wikimedia Commons
       telephone_link: '%{phone_number} uruffen'
+      colour_preview: Faarw %{colour_value} Ausbléck
     note:
       title: 'Notiz: %{id}'
       new_note: Nei Notiz
       description: Beschreiwung
+      open_title: 'Ungeléisten Hiweis #%{note_name}'
+      closed_title: 'Geléisten Hiweis #%{note_name}'
       hidden_title: Verstoppt Notiz N° %{note_name}
       opened_by_html: Ugeluecht vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
       opened_by_anonymous_html: Ugeluecht vun engem Anonymen <abbr title='%{exact_time}'>
@@ -270,6 +375,12 @@ lb:
       reopened_by_html: Reaktivéiert vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Reaktivéiert vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Verstoppt vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Dësen Hiweis mellen
+    query:
+      title: Objetsoffro
+      introduction: Klick op d'Kaart, fir Objeten an der Noperschaft ze fannen.
+      nearby: Objeten an der Noperschaft
+      enclosing: Ëmschléißend Objeten
   changesets:
     changeset_paging_nav:
       showing_page: Säit %{page}
@@ -278,6 +389,7 @@ lb:
     changeset:
       anonymous: Anonym
       no_edits: (keng Ännerungen)
+      view_changeset_details: Detailer vum Ännerungssaz uweisen
     changesets:
       id: Nummer (ID)
       saved_at: Gespäichert de(n)
@@ -296,42 +408,99 @@ lb:
       no_more_area: Keng weider Grupp vun Ännerungen an dëser Géigend.
       no_more_user: Keng weider Gruppe vun Ännerunge vun dësem Benotzer.
       load_more: Méi lueden
+    timeout:
+      sorry: Et leider ze laang gedauert, déi ugefuerdert Ännerungssätz ofzeruffen.
   changeset_comments:
     comment:
+      comment: 'Neien Diskussiounsbäitrag zum Ännerungssaz #%{changeset_id} vun %{author}'
       commented_at_by_html: '%{when} vum %{user} aktualiséiert'
+    comments:
+      comment: 'Neie Commentaire zum Ännerungssaz #%{changeset_id} vun %{author}'
+    index:
+      title_all: Diskussioun iwwer den OpenStreetMap-Ännerungssaz
+      title_particular: 'Diskussioun iwwer den OpenStreetMap-Ännerungssaz #%{changeset_id}'
+    timeout:
+      sorry: Leider ass d'Lëscht mat de Commentairë vun den Ännerungssätz, déis du
+        ugefuerdert hues, fir den Ofruff ze laang.
   diary_entries:
+    new:
+      title: Neie Blogantrag
     form:
       location: Plaz
       use_map_link: Kaart benotzen
     index:
       title: Blogge vun de Benotzer
+      title_friends: Blogge vun dénge Frënn
+      title_nearby: Blogge vu Benotzer an dénger Noperschaft
       user_title: Blog vum %{user}
+      in_language_title: Blog-Anträg op %{language}
+      new: Neie Blogantrag
+      new_title: Blogantrag erstellen
+      my_diary: Mäi Blog
+      no_entries: Keng Bloganträg
+      recent_entries: Neiest Anträg
+      older_entries: Eeler Anträg
+      newer_entries: Méi nei Anträg
+    edit:
+      title: Blogantrag beaarbechten
+      marker_text: Plaz vum Blogantrag
     show:
+      title: Blog vun %{user} | %{title}
+      user_title: Blog vun %{user}
       leave_a_comment: Eng Bemierkung maachen
       login_to_leave_a_comment_html: '%{login_link} fir eng Bemierkung ze schreiwen'
       login: Aloggen
+    no_such_entry:
+      title: Blogantrag net fonnt
+      heading: Kee Blogantrag mat der Nummer %{id}
+      body: Mir konnte leider kee Blogantrag oder Commentaire mat der Nummer %{id}
+        fannen. Du hues dech méiglecherweis vertippt oder hues en ongëltege Link opgemaach.
     diary_entry:
       posted_by_html: Vum %{link_user} matgedeelt de(n) %{created} op %{language_link}.
       updated_at_html: Lescht Aktualiséierung de(n) %{updated}
+      comment_link: Commentaire zu dësem Antrag
       reply_link: Dem Auteur e Message schécken
       comment_count:
         one: '%{count} Bemierkung'
-        zero: Keng Bemierkungen
         other: '%{count} Bemierkungen'
+      edit_link: Dësen Antrag beaarbechten
+      hide_link: Dësen Antrag verstoppen
+      unhide_link: Dësen Antrag net méi verstoppen
       confirm: Confirméieren
+      report: Dësen Antrag mellen
     diary_comment:
       comment_from_html: Bemierkung vum %{link_user} de(n) %{comment_created_at}
       hide_link: Dës Bemierkung verstoppen
+      unhide_link: Dëse Commentaire net méi verstoppen
       confirm: Confirméieren
+      report: Dëse Commentaire mellen
     location:
       location: 'Plaz:'
       view: Weisen
       edit: Änneren
+    feed:
+      user:
+        title: OpenStreetMap Bloganträg vun %{user}
+        description: Lescht OpenStreetMap Bloganträg vun %{user}
+      language:
+        title: OpenStreetMap Bloganträg op %{language_name}
+        description: Lescht Bloganträg vu Benotzer op OpenStreetMap op %{language_name}
+      all:
+        title: OpenStreetMap Blogbäiträg
+        description: Neiest Bloganträg vun OpenStreetMap-Benotzer
     comments:
+      has_commented_on: '%{display_name} huet folgend Bloganträg commentéiert'
+      no_comments: Keng Blog-Commentairen
+      post: Blogantrag
       when: Wéini
       comment: Bemierkung
       newer_comments: Méi nei Bemierkungen
       older_comments: Méi al Bemierkungen
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Applikatioun registréiert.
   friendships:
     make_friend:
       heading: '%{user} als Frënd derbäisetzen?'
@@ -339,7 +508,11 @@ lb:
       success: '%{name} ass elo Äre Frënd!'
       failed: Pardon, %{name} konnt net als Frënd derbäigesat ginn.
       already_a_friend: Dir sidd schonn de Frënd vum %{name}.
+      limit_exceeded: Du hues dech a leschter Zäit mat ville Benotzer ugefrënnt. Wannechgelift
+        waart eng Zäit, iers de versichs, weider Frënn ze fannen.
     remove_friend:
+      heading: Frënd %{user} ewechmaachen?
+      button: Frënd ewechmaachen
       success: '%{name} gouf als Äre Frënd ewechgeholl.'
       not_a_friend: '%{name} ass kee vun Äre Frënn.'
   geocoder:
@@ -347,25 +520,43 @@ lb:
       title:
         latlon_html: Resultater vun <a href="https://openstreetmap.org/">Internal</a>
         ca_postcode_html: Resultater vu <a href="https://geocoder.ca/">Geocoder.ca</a>
+        osm_nominatim_html: Resultater vun <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
         geonames_html: Resultater vu <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Resultater vun <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
         geonames_reverse_html: Resultater vun <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
           cable_car: Kabelwon
+          chair_lift: Sessellift
+          drag_lift: Schleeflift
+          gondola: Gondel
+          magic_carpet: Teppechlift
+          platter: Skilift
           pylon: Mast
+          station: Gondelstatioun
           t-bar: Schlepplift
           "yes": Seelbunn
         aeroway:
           aerodrome: Fluchhafen
+          airstrip: Startbunn
+          apron: Fluchvirfeld
           gate: Paart
           hangar: Hangar
           helipad: Helikopterlandeplaz
+          holding_position: Haltestell
+          navigationaid: Aviatiouns-Navigatiounshëllef
+          parking_position: Parkplaz
           runway: Start- a Landepist
           taxilane: Taxispur
+          taxiway: Rullbunn
           terminal: Terminal
+          windsock: Wandsak
         amenity:
           animal_boarding: Déierepensioun
+          animal_shelter: Déierenheem
           arts_centre: Konschtzentrum
           atm: Bancomat
           bank: Bank
@@ -376,16 +567,23 @@ lb:
           bicycle_rental: Locatioun vu Vëloen
           bicycle_repair_station: Vëlosatelier
           biergarten: Béiergaard
+          blood_bank: Bluttbänk
+          boat_rental: Bootslocatioun
           brothel: Bordell
           bureau_de_change: Wiesselbüro
           bus_station: Busarrêt
           cafe: Café
+          car_rental: Autoslocatioun
+          car_sharing: Carsharing
           car_wash: Autoswäschanlag
           casino: Casino
           charging_station: Statioun fir ze lueden
+          childcare: Kannerbetreiung
           cinema: Kino
           clinic: Klinik
           clock: Auer
+          college: Héichschoul
+          community_centre: Communautéitszentrum
           conference_centre: Konferenzzentrum
           courthouse: Geriicht
           crematorium: Crematoire
@@ -394,32 +592,55 @@ lb:
           drinking_water: Drénkwaasser
           driving_school: Fahrschoul
           embassy: Ambassade
+          events_venue: Veranstaltungszentrum
+          fast_food: Fast Food
+          ferry_terminal: Fähren-Ulafstell
           fire_station: Pompjeeën
+          food_court: Iesshaff
           fountain: Sprangbur
           fuel: Benzin
+          gambling: Glécksspill
           grave_yard: Kiirfecht
+          grit_bin: Streeguttbehälter
           hospital: Klinik
+          hunting_stand: Héichstand
           ice_cream: Glace
+          internet_cafe: Internet Café
           kindergarten: Spillschoul
+          language_school: Sproocheschoul
           library: Bibliothéik
+          loading_dock: Luedramp
+          love_hotel: Léifthotel
           marketplace: Maartplaz
+          mobile_money_agent: Mobille Geldagent
           monastery: Klouschter
+          money_transfer: Geldtransfer
+          motorcycle_parking: Motorradsparkplaz
           music_school: Museksschoul
           nightclub: Bar (Nightclub)
           nursing_home: Altersheim
           parking: Parking
+          parking_entrance: Parkafaart
           parking_space: Parkplaz(en)
+          payment_terminal: Bezuelterminal
           pharmacy: Apdikt
+          place_of_worship: Unduechtsstätt
           police: Police
           post_box: Bréifboîte
           post_office: Postbüro
           prison: Prisong
           pub: Bistro
+          public_bath: Ëffentlech Schwemm
+          public_bookcase: Ëffentleche Bicherschaf
           public_building: Ëffentlecht Gebai
+          ranger_station: Rangerstatioun
           recycling: Recycling-Center
           restaurant: Restaurant
+          sanitary_dump_station: Sanitär Entsuergungsariichtung
           school: Schoul
+          shelter: Ënnerstand
           shower: Douche
+          social_centre: Sozialzentrum
           social_facility: Sozial Ariichtung
           studio: Studio
           swimming_pool: Schwämm
@@ -428,16 +649,30 @@ lb:
           theatre: Theater
           toilets: Toiletten
           townhall: Stadhaus
+          training: Trainingsariichtung
           university: Universitéit
+          vehicle_inspection: Gefierinspektioun
           vending_machine: Verkaafsautomat
           veterinary: Déiereklinik
+          village_hall: Gemengenzentrum
           waste_basket: Drecksback
+          waste_disposal: Offallentsuergung
           waste_dump_site: Dreckstipp
+          watering_place: Tränk
+          water_point: Waasseruschloss
+          weighbridge: Gefierwo
+          "yes": Ariichtung
         boundary:
           aboriginal_lands: Reservat
+          administrative: Verwaltungsgrenz
+          census: Grenz vum Vollekszielgebitt
           national_park: Nationalpark
+          political: Walbezierk
+          protected_area: Schutzgebitt
+          "yes": Grenz
         bridge:
           aqueduct: Aquädukt
+          boardwalk: Strandpromenad
           suspension: Hänkbréck
           swing: Dréibréck
           viaduct: Viadukt
@@ -445,98 +680,185 @@ lb:
         building:
           apartment: Appartement
           apartments: Appartementer
+          barn: Scheier
           bungalow: Bungalow
+          cabin: Blockhütt
           chapel: Kapell
           church: Kierchegebai
+          civic: Ëffentlecht Gebai
+          college: Héichschoulgebai
+          commercial: Commercëgebai
+          construction: Gebai am Bau
           detached: Eenzelt Haus
+          dormitory: Studentewunnheem
+          duplex: Duebelhaus
           farm: Bauerenhaff
+          farm_auxiliary: Wirtschaftsgebai
+          garage: Garage
           garages: Garagen
           greenhouse: Zär
           hangar: Hangar
+          hospital: Klinicksgebai
           hotel: Hotelgebai
           house: Haus
           houseboat: Hausboot
           hut: Hütt
+          industrial: Industriegebai
+          kindergarten: Spillschoulsgebai
+          manufacture: Fabricksgebai
           office: Bürosgebai
+          public: Ëffentlecht Gebai
+          residential: Wunngebai
+          retail: Eenzelhandelsgebai
+          roof: Daach
+          ruins: Verfaalt Gebai
           school: Schoulgebai
+          semidetached_house: Duebelhaushalschent
+          service: Betribsgebai
           shed: Schapp
           stable: Stall
-          terrace: Terrasse
+          static_caravan: Rulott
+          temple: Tempelgebai
+          terrace: Terrass
           train_station: Gebai vun der Gare (Eisebunn)
+          university: Universitéitsgebai
           warehouse: Lager
           "yes": Gebai
         club:
+          scout: Scoutslager
           sport: Sportsclub
+          "yes": Veräin
         craft:
           beekeeper: Beiemann
+          blacksmith: Schmadd
           brewery: Brauerei
           carpenter: Zammermann
+          caterer: Traiteur
+          confectionery: Séißwueregeschäft
+          dressmaker: Dammeschneider
           electrician: Elektriker
+          electronics_repair: Elektronik-Reparaturdéngscht
           gardener: Gäertner
+          glaziery: Gletscher
           handicraft: Handwierk
+          hvac: Klimaanlag
+          metal_construction: Metallbau
           painter: Usträicher
           photographer: Fotograf
+          plumber: Installateur
+          roofer: Zammermann
+          sawmill: Seemillen
           shoemaker: Schouster
+          stonemason: Steemetzer
           tailor: Schneider
+          window_construction: Fënsterbauer
+          winery: Wäigutt
+          "yes": Handwierksgeschäft
         emergency:
           access_point: Zougangspunkt
+          ambulance_station: Rettungswaach
+          assembly_point: Sammelplaz
           defibrillator: Defibrillator
           fire_extinguisher: Feierläscher
+          fire_water_pond: Läschwaasserweier
+          landing_site: Noutlandplaz
+          life_ring: Rettungsréng
           phone: Noutruff-Telefon
+          siren: Siren
+          suction_point: Läschwaassersaugplaz
+          water_tank: Noutwaasserbehälter
           "yes": Urgence
         highway:
+          abandoned: Abandonnéiert Strooss
           bridleway: Wee fir Päerd
           bus_guideway: Busspur
           bus_stop: Busarrêt
           construction: Autobunn (am Bau)
           corridor: Couloir
+          cycleway: Véloswee
           elevator: Lift
+          emergency_access_point: Noutruffpunkt
+          emergency_bay: Nouthaltbucht
           footway: Fousswee
           ford: Fuert
+          give_way: Virfaart-beuechte-Schëld
+          living_street: Spill-/Wunnstrooss
           milestone: Kilometersteen
           motorway: Autobunn
+          motorway_junction: Autobunnsechangeur
           motorway_link: Autobunnsopfaart
+          passing_place: Auswäichplaz
           path: Pad
           pedestrian: Fousswee
           platform: Quai
           primary: Haaptstrooss
           primary_link: Haaptstrooss
           proposed: Virgeschlo Strooss
+          raceway: Rennstreck
+          residential: Wunnstrooss
+          rest_area: Rastplaz
           road: Strooss
           secondary: Niewestrooss
           secondary_link: Niewestrooss
+          service: Zoufaartsstrooss
+          services: Autobunnsraststätt
           speed_camera: Radar fir d'Vitesse ze moossen
           steps: Trap
           stop: Stoppschëld
           street_lamp: Stroosseluucht
           tertiary: Kleng Strooss
+          tertiary_link: Kleng Strooss
+          track: Spuer
+          traffic_mirror: Verkéiersspigel
+          traffic_signals: Verkéiersluuchten
+          trailhead: Ausgangspunkt vun engem Wanderwee
+          trunk: Schnellstrooss
+          trunk_link: Schnellstroossenopfaart
+          turning_loop: Dréischläif
+          unclassified: Net klasséiert Strooss
           "yes": Strooss
         historic:
           aircraft: Historesche Fliger
           archaeological_site: Archeologesche Site
+          bomb_crater: Bombentriichter
           battlefield: Schluechtfeld
+          boundary_stone: Grenzsteen
           building: Historescht Gebai
           bunker: Bunker
+          cannon: Historesch Kanoun
           castle: Schlass
           church: Kierch
           city_gate: Stadpaart
           citywalls: Stadmaueren
+          heritage: Denkmal
+          hollow_way: Huelwee
           house: Haus
           memorial: Monument
+          milestone: Historesche Meilesteen
           mine: Minn
+          mine_shaft: Grueweschacht
           monument: Monument
+          railway: Historesch Eisebunnsstreck
           roman_road: Réimerwee
           ruins: Ruinen
+          rune_stone: Runesteen
           stone: Steen
           tomb: Graf
           tower: Tuerm
+          wayside_chapel: Weekapell
+          wayside_cross: Weekräiz
           wreck: Wrack
           "yes": Historesch Plaz
         junction:
           "yes": Kräizung
         landuse:
+          allotments: Klenggäert
           aquaculture: Aquakultur
+          basin: Baseng
+          brownfield: Braachland
           cemetery: Kierfecht
+          commercial: Commercëgebitt
+          conservation: Naturschutzgebitt
           construction: Chantier
           farm: Bauerenhaff
           farmland: Akerland
@@ -546,6 +868,8 @@ lb:
           grass: Wiss
           greenfield: Gréngzone
           industrial: Industriezone
+          landfill: Deponie
+          meadow: Wiss
           military: Militairegebitt
           mine: Minn
           orchard: Bongert
@@ -568,92 +892,156 @@ lb:
           sauna: Sauna
           stadium: Stadion
           swimming_pool: Schwämm
+          water_park: Waasserpark
           "yes": Fräizäit
         man_made:
           antenna: Antenn
           avalanche_protection: Lawineschutz
+          beacon: Liichttuerm
+          beehive: Beiestack
           bridge: Bréck
           bunker_silo: Bunker
+          cairn: Steemännchen
           chimney: Kamäin
+          clearcut: Ofholzung
+          communications_tower: Funktuerm
           crane: Kran
+          cross: Kräiz
+          dyke: Däich
+          flagpole: Fändelsmast
           gasometer: Gasometer
+          kiln: Brennuewen
           lighthouse: Liichttuerm
           mast: Mast
           mine: Minn
+          mineshaft: Grueweschacht
+          monitoring_station: Observatiounsstatioun
+          petroleum_well: Äerduelegquell
+          pier: Pfeiler
           pipeline: Pipeline
           pumping_station: Pompel-Statioun
+          reservoir_covered: Waasserhéichbehälter
+          silo: Späicher
+          snow_cannon: Schnéikanoun
+          snow_fence: Schnéizonk
+          storage_tank: Lagertank
+          street_cabinet: Stroosseverdeeler
           surveillance: Iwwerwaachung
           telescope: Teleskop
           tower: Tuerm
+          utility_pole: Leitungsmast
+          wastewater_plant: Kläranlag
           watermill: Waassermillen
+          water_tap: Waasserkrunn
           water_tower: Waassertuerm
           water_well: Buer
+          water_works: Waasserwierk
           windmill: Wandmillen
           works: Fabrik
+          "yes": mënschgemaach
         military:
           airfield: Militärfluchhafen
           barracks: Kasär
           bunker: Bunker
+          checkpoint: Kontrollpunkt
+          trench: Schützegruewen
           "yes": Militär
         mountain_pass:
           "yes": Pass an de Bierger
         natural:
           atoll: Atoll
+          bare_rock: Fiels
           bay: Bucht
           beach: Plage
           cape: Kap
+          cave_entrance: Hielenagang
+          cliff: Klipp
           crater: Krater
+          dune: Dün
+          fell: Fjell
           fjord: Fjord
           forest: Bësch
           geyser: Geysir
           glacier: Gletscher
           grassland: Wiss
+          heath: Heed
           hill: Hiwwel
           island: Insel
           land: Land
           marsh: Mouer
           moor: Mouer
+          peak: Sommet
           peninsula: Hallefinsel
           point: Punkt
+          reef: Rëff
+          ridge: Grat
           rock: Steng
+          saddle: Pass
           sand: Sand
+          scree: Gestengs
           spring: Quell
           stone: Steen
+          strait: Mierengt
           tree: Bam
           valley: Dall
           volcano: Vulkan
           water: Waasser
           wetland: Fiichtgebitt
           wood: Bësch
+          "yes": Landschaftsform
         office:
+          accountant: Comptabilitéitsbüro
           administrative: Verwaltung
+          advertising_agency: Publicitéitsagentur
           architect: Architekt
+          association: Verband
           company: Firma
+          diplomatic: Diplomatesch Vertriedung
+          educational_institution: Bildungsariichtung
           employment_agency: Aarbechtsamt
+          energy_supplier: Büro vun engem Energieversuerger
           estate_agent: Immobilière
+          financial: Finanzamt
+          government: Amt
+          insurance: Versécherungsbüro
+          it: IT-Büro
           lawyer: Affekot
+          logistics: Logistikbüro
+          newspaper: Büro vun engem Zeitungsverlag
+          ngo: NGO
           notary: Notaire
+          religion: Religiéist Amt
+          research: Fuerschungs- an Entwécklungsbüro
           tax_advisor: Steierberoder
+          telecommunication: Telekommunikatiounsbüro
           travel_agent: Reesbüro
           "yes": Büro
         place:
+          allotments: Klenggäert
+          archipelago: Archipel
           city: Stad
+          city_block: Haiserblock
           country: Land
           county: Bezierk
           farm: Bauerenhaff
+          hamlet: Weiler
           house: Haus
           houses: Haiser
           island: Insel
           islet: Insel
+          isolated_dwelling: Eenzelgehöft
           locality: Plaz
           municipality: Gemeng
           neighbourhood: Noperschaft
+          plot: Grondstéck
           postcode: Postcode
           quarter: Quartier
           region: Regioun
           sea: Mier
           square: Plaz
+          state: Staat
           subdivision: Ënnerdeelung
+          suburb: Staddeel
           town: Stad
           village: Duerf
           "yes": Plaz
@@ -661,69 +1049,156 @@ lb:
           abandoned: Fréier Eisebunn
           construction: Eisebunn (am Bau)
           disused: Fréier Eisebunn
+          funicular: Standseelbunn
+          halt: Zuchhaltestell
           junction: Eisebunnskräizung
+          level_crossing: Eisebunnskräizung
+          light_rail: Stadbunn
           miniature: Miniatur-Eisebunn
           monorail: Monorail
+          narrow_gauge: Schmuelspuerbunn
           platform: Zuchquai
+          preserved: Muséesbunn
           proposed: Proposéiert Eisebunnslinn
+          spur: Uschlossgleis
           station: Gare (Eisebunn)
+          stop: Zuchhaltepunkt
           subway: Metro
+          subway_entrance: Ënnergrondbunnsagang
+          switch: Weich
           tram: Tram
+          tram_stop: Tramhaltestell
+          yard: Rangéiergare
         shop:
+          agrarian: Agrargeschäft
           antiques: Antiquitéitegeschäft
+          appliance: Haushaltsgerätebuttek
+          art: Konschtbuttek
+          baby_goods: Babywueren
+          bag: Täschegeschäft
           bakery: Bäckerei
+          bathroom_furnishing: Buedstudio
+          beauty: Schéinheetssalon
+          bed: Bettestudio
+          beverages: Getränkemaart
           bicycle: Vëlosgeschäft
           bookmaker: Wettbüro
           books: Bichergeschäft
           boutique: Boutique
           butcher: Metzlerei
+          car: Autohaus
+          car_parts: Autodeelhändler
           car_repair: Garage
           carpet: Teppechgeschäft
+          charity: Wueltätegkeetsbuttek
+          cheese: Kéisbuttek
           chemist: Apdikt
           chocolate: Schockela
           clothes: Kleedergeschäft
+          coffee: Kaffisbuttek
           computer: Computergeschäft
+          confectionery: Séißwuerebuttek
+          convenience: Noperschaftsbuttek
+          copyshop: Copyshop
           cosmetics: Parfümerie
+          craft: Kënschtler- a Bastelbedarf
+          curtain: Riddosgeschäft
+          dairy: Mëllechbuttek
+          deli: Feikaschtbuttek
+          department_store: Kafhaus
+          discount: Diskontbuttek
+          doityourself: Baumaart
           dry_cleaning: Botzerei
+          e-cigarette: Geschäft fir E-Zigaretten
+          electronics: Elektronikgeschäft
           erotic: Sex-Shop
+          estate_agent: Immobilière
           fabric: Stoffgeschäft
+          farm: Haffbuttek
           fashion: Moudegeschäft
+          fishing: Aangelgeschäft
           florist: Fleurist
           food: Epicerie
+          frame: Bilderrummegeschäft
           funeral_directors: Doudegriewer
           furniture: Miwwelgeschäft
+          garden_centre: Gaardenzentrum
+          gas: Gasfläschebuttek
+          general: Gemëschtwuerebuttek
+          gift: Geschenkbuttek
+          greengrocer: Uebst- a Geméishändler
+          grocery: Liewensmëttelbuttek
           hairdresser: Coiffeur
           hardware: Quincaillerie
+          health_food: Naturkaschtbuttek
           hearing_aids: Hörapparat
+          herbalist: Kraiderhandel
+          hifi: Elektroshop
+          houseware: Houswuerebuttek
           ice_cream: Glacëbuttek
+          interior_decoration: Bannenausstattung
           jewelry: Bijouterie
+          kiosk: Kiosk
+          kitchen: Kichegeschäft
           laundry: Botzerei
+          locksmith: Schlësseldéngscht
           lottery: Lotterie
+          mall: Akaafszentrum
           massage: Massage
+          medical_supply: Sanitätsbedarf
+          mobile_phone: Handysgeschäft
+          money_lender: Handyléin
+          motorcycle: Motorradsgeschäft
+          motorcycle_repair: Motorradsgarage
           music: Museksgeschäft
+          musical_instrument: Musekinstrumenter
+          newsagent: Zeitungsbuttek
+          nutrition_supplements: Nährungsergänzungsmëttel
           optician: Optiker
+          organic: Bio-Buttek
+          outdoor: Outdoor-Ausrëschter
+          paint: Lackéierei
+          pastry: Pâtisserie
           perfumery: Parfümerie
           pet: Déierebuttek
           pet_grooming: Honds-Salon
           photo: Fotosgeschäft
           seafood: Mieresfriichten
           second_hand: Secondhand-Geschäft
+          sewing: Bitzgeschäft
           shoes: Schonggeschäft
           sports: Sportsgeschäft
+          stationery: Schreifwuerebuttek
+          storage_rental: Léilager
           supermarket: Supermarché
           tailor: Schneider
+          tattoo: Tätowéierer
+          tea: Téibuttek
+          ticket: Ticketsbuttek
+          tobacco: Tubaksbuttek
+          toys: Spillwueregeschäft
           travel_agency: Reesbüro
           tyres: Peuenhändler
+          vacant: Eidelstoend Geschäft
+          variety_store: Bëllegbuttek
+          video: Videothéik
+          video_games: Videospillbuttek
+          wholesale: Grousshandel
           wine: Vinothéik
           "yes": Geschäft
         tourism:
+          alpine_hut: Bierghütt
           apartment: Vakanzen-Appartement
           artwork: Konschtwierk
           attraction: Attraktioun
+          bed_and_breakfast: Bed and Breakfast
           cabin: Hütt
+          camp_pitch: Campingplaz
           camp_site: Camping
+          caravan_site: Wunnmobil-Stellplaz
           chalet: Chalet
           gallery: Galerie
+          hostel: Jugendherberg
           hotel: Hotel
           information: Informatioun
           motel: Motel
@@ -731,15 +1206,41 @@ lb:
           picnic_site: Piknikplaz
           theme_park: Fräizäitpark
           viewpoint: Aussiichtspunkt
+          wilderness_hut: Schutzhütt
           zoo: Zoo
         tunnel:
+          culvert: Duerchlooss
           "yes": Tunnel
         waterway:
+          artificial: Kënschtlech Waasserstrooss
+          boatyard: Werft
           canal: Kanal
           dam: Staudamm
+          derelict_canal: Opgeloossene Kanal
+          ditch: Waassergruef
+          dock: Dock
+          drain: Ofwaassergruef
+          lock: Schleis
+          lock_gate: Schleisepaart
+          mooring: Uleeplaz
+          rapids: Stroumschnellen
           river: Floss
+          stream: Baach
           wadi: Wadi
           waterfall: Waasserfall
+          weir: Wier
+          "yes": Waasserstrooss
+      admin_levels:
+        level2: Staatsgrenz
+        level3: Regiounsgrenz
+        level4: Landesgrenz
+        level5: Regiounsgrenz
+        level6: Krees-/Bezierksgrenz
+        level7: Gemengegrenz
+        level8: Gemenge-/Stadsgrenz
+        level9: Staddeelgrenz
+        level10: Noperschaftsgrenz
+        level11: Noperschaftsgrenz
       types:
         cities: Stied
         towns: Dierfer
@@ -750,13 +1251,20 @@ lb:
   issues:
     index:
       title: Problemer
+      select_status: Status auswielen
       select_type: Typ eraussichen
+      select_last_updated_by: Auswiel zulescht aktualiséiert vun
+      reported_user: Gemellte Benotzer
       not_updated: Net aktualiséiert
       search: Sichen
+      search_guidance: 'Problemer duerchsichen:'
       user_not_found: Benotzer gëtt et net
+      issues_not_found: Keng entspriechend Problemer fonnt
       status: Status
       reports: Rapporten
       last_updated: Lescht Aktualiséierung
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      link_to_reports: Rapporte weisen
       states:
         ignored: Ignoréiert
         open: Opmaachen
@@ -791,26 +1299,41 @@ lb:
     logout: Ausloggen
     log_in: Aloggen
     sign_up: Mellt Iech un
+    start_mapping: Mat dem Kaartéieren ufänken
+    sign_up_tooltip: E Kont erstellen, fir 'Donnéeë beaarbechten ze kënnen
     edit: Änneren
     history: Versiounen
     export: Exportéieren
     issues: Problemer
     data: Donnéeën
     export_data: Donnéeën exportéieren
+    gps_traces: GPS-Spueren
+    gps_traces_tooltip: GPS-Spuere verwalten
     user_diaries: Benotzer Bloggen
+    user_diaries_tooltip: Benotzer-Blogge liesen
     edit_with: Ännere mat %{editor}
+    tag_line: D'fräi Wiki-Weltkaart
     intro_header: Wëllkomm bei OpenStreetMap!
     intro_text: OpenStreetMap ass eng Kaart vun der Welt, déi vu Leit wéi Iech gemaach
       gouf an déi fräi ënner enger oppener Lizenz benotzt ka ginn.
     intro_2_create_account: E Benotzerkont uleeën
+    hosting_partners_html: Den Hosting gëtt vun %{ucl}, %{bytemark} an aneren %{partners}
+      ënnerstëtzt.
     partners_ucl: '''''University College'''' zu London'
+    partners_bytemark: Bytemark Hosting
     partners_partners: Partner
+    tou: Benotzungs-Bedéngungen
     osm_offline: D'OpenStreetMap Datebank ass elo net disponibel well dru geschafft
       muss ginn.
+    osm_read_only: D'OpenStreetMap Datebank kann den Ament nëmmen ausgelies an net
+      beaarbecht ginn, well se gewaart gëtt.
+    donate: Ënnerstëtz d'OpenStreetMap-Hardwarenspendenaktioun duerch eng eegen %{link}
     help: Hëllef
     about: Iwwer
     copyright: Copyright
     community: Communautéit
+    community_blogs: Bloggen
+    community_blogs_title: Blogge vu Matwierkenden bei OpenStreetMap
     foundation: Fondatioun
     foundation_title: D'OpenStreetMao Fondatioun
     make_a_donation:
@@ -820,20 +1343,47 @@ lb:
     more: Méi
   user_mailer:
     diary_comment_notification:
+      subject: '[OpenStreetMap] %{user} huet e Blogantrag kommentéiert'
       hi: Salut %{to_user},
+      header: '%{from_user} huet den OpenStreetMap-Blogantrag mat dem Thema %{subject}
+        kommentéiert:'
+      header_html: '%{from_user} huet den OpenStreetMap-Blogantrag mat dem Thema %{subject}
+        kommentéiert:'
+      footer: Hei geet et zum Commentaire %{readurl}, du kanns e kommentéieren %{commenturl}
+        oder dem Auteur ënner %{replyurl} äntferen.
+      footer_html: Du kanns och de Commentaire ënner %{readurl} an en ënnert %{commenturl}
+        kommentéieren oder dem Auteur ënner %{replyurl} e Message schécken.
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Salut %{to_user},
+      header: '%{from_user} huet dir e Message iwwer OpenStreetMap mam Betreff %{subject}
+        geschéckt:'
+      header_html: '%{from_user} huet dir e Message iwwer OpenStreetMap mat dem Betreff
+        %{subject} geschéckt:'
+      footer: Du kanns de Message och ënner %{readurl} liesen an dem Auteur ënner
+        %{replyurl} äntferen
       footer_html: Dir kënnt de Message och op %{readurl} liesen an Dir kënnt op %{replyurl}
         äntwerten
     friendship_notification:
       hi: Salut %{to_user},
+      subject: '[OpenStreetMap] %{user} huet dech als Frënd bäigefügt'
       had_added_you: '%{user} hat Iech als Frënd op OpenStreet Map derbäigesat.'
       see_their_profile: Dir kënnt säin/hire Profil op %{userurl} kucken.
+      see_their_profile_html: Dir kënnt säin/hire Profil ënner %{userurl} kucken.
       befriend_them: Dir kënnt hien/si och als Frënd op %{befriendurl} derbäisetzen.
+      befriend_them_html: Dir kënnt hien/si och als Frënd ënner %{befriendurl} derbäisetzen.
+    gpx_description:
+      description_with_tags_html: 'Et schéngt, datt déng GPX-Datei %{trace_name} mat
+        der Beschreiwung %{trace_description} an de folgenden Taggen: %{tags}'
+      description_with_no_tags_html: Et schéngt, datt deng GPX-Datei %{trace_name}
+        mat der Beschreiwung %{trace_description} an ouni Taggen
     gpx_failure:
       hi: Salut %{to_user},
       failed_to_import: 'konnt net importéiert ginn. Hei ass de Feeler:'
+      more_info_html: Weider Informatiounen iwwer Feeler bei GPX-Importer a wéi se
+        vermidde kënne gi fanne sech ënner %{url}
+      import_failures_url: https://wiki.openstreetmap.org/wiki/LB:GPX
+      subject: '[OpenStreetMap] GPX-Import Feeler'
     gpx_success:
       hi: Salut %{to_user},
     signup_confirm:
