@@ -1264,22 +1264,64 @@ lb:
       reports: Rapporten
       last_updated: Lescht Aktualiséierung
       last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> duerch den
+        %{user}
       link_to_reports: Rapporte weisen
+      reports_count:
+        one: 1 Bericht
+        other: '%{count} Berichter'
+      reported_item: Gemellten Objet
       states:
         ignored: Ignoréiert
         open: Opmaachen
         resolved: Geléist
     update:
+      new_report: Äre Rapport gouf enregistréiert
+      successful_update: Äre Rapport gouf erfollegräich aktualiséiert
       provide_details: Gitt wgl. déi gefroten Detailer un
     show:
+      title: '%{status} Problem Nr. %{issue_id}'
+      reports:
+        one: Eng Meldung
+        other: '%{count} Meldungen'
+      report_created_at: Fir d'éischt gemellt den %{datetime}
+      last_resolved_at: Fir d'lescht erleedegt den %{datetime}
+      last_updated_at: Fir d'lescht aktualiséiert den %{datetime} vun %{displayname}
       resolve: Léisen
       ignore: Ignoréieren
+      reopen: Nees opmaachen
       reports_of_this_issue: Meldunge vun dësem Probleem
       read_reports: Rapporte liesem
       new_reports: Nei Rapporten
+      other_issues_against_this_user: Weider Problemer géint dëse Benotzer
+      no_other_issues: Keng weider Problemer géint dëse Benotzer
+      comments_on_this_issue: Commentairen zu dësem Problem
+    resolve:
+      resolved: De Problemstatus gouf op „Erleedegt“ geännert
+    ignore:
+      ignored: De Problemstatus gouf op „Ignoréiert“ geännert
+    reopen:
+      reopened: De Problemstatus gouf op „Oppe“ geännert
+    comments:
+      comment_from_html: Commentaire vun %{user_link} erstallt den %{comment_created_at}
+    reports:
+      reported_by_html: Gemellt als %{category} vun %{user} den %{updated_at}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, Commentaire #%{comment_id}'
+        note: 'Hiweis #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Däi Commentaire gouf erfollegräich erstallt
   reports:
     new:
       title_html: '%{link} mellen'
+      missing_params: Es konnt keng nei Meldung erstallt ginn
+      disclaimer:
+        intro: 'Iers de deng Meldung un d''Websäitmoderatore schécks, stell wannechgelift
+          sécher, datt:'
+        not_just_mistake: Du bass dir sécher, datt däi Problem net nëmmen e Feeler
+          ass.
       categories:
         diary_entry:
           other_label: Anerer
@@ -1386,26 +1428,75 @@ lb:
       subject: '[OpenStreetMap] GPX-Import Feeler'
     gpx_success:
       hi: Salut %{to_user},
+      loaded_successfully:
+        one: mat %{trace_points} von 1 méigleche Punkt erfollegräich gelueden.
+        other: mat %{trace_points} vun %{possible_points} méigleche Punkten erfollegräich
+          gelueden.
+      subject: '[OpenStreetMap] GPX-Import erfollegräich'
     signup_confirm:
+      subject: '[OpenStreetMap] Wëllkomm bei OpenStreetMap'
       greeting: Bonjour !
+      created: Iergendeen (hoffentlech du) huet grad bei %{site_url} e Benotzerkont
+        erstallt
     email_confirm:
       subject: '[OpenStreetMap] Confirméiert Är E-Mailadress'
       greeting: Salut,
+      hopefully_you: Iergendeen (hoffentlech du) wëll seng E-Mail-Adress op %{server_url}
+        zu %{new_address} änneren.
       click_the_link: Wann Dir dat sidd, da klickt op de Link hei drënner fir d'Ännerung
         ze confirméieren.
     lost_password:
       subject: '[OpenStreetMap] Ufro fir d''Passwuert zréckzesetzen'
       greeting: Salut,
+      hopefully_you: Iergendeen (hoffentlech du) huet eng Zerécksetzung vum Passwuert
+        fir den OpenStreetMap.org-Kont vun dëser E-Mail-Adress ugefuerdert.
       click_the_link: Wann Dir dat sidd da klickt wgl. op de Link hei drënner fir
         Äert Passwuert zréckzesetzen.
     note_comment_notification:
       anonymous: En anonyme Benotzer
       greeting: Salut,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} huet ee vun déngen Hiweiser kommentéiert'
+        subject_other: '[OpenStreetMap] %{commenter} huet en Hiweis kommentéiert,
+          un deems du interesséiert bass'
+        your_note: '%{commenter} huet ee vun dir gemellten Hiweis an der Noperschaft
+          vu(n) %{place} kommentéiert.'
+        your_note_html: '%{commenter} huet ee vun dir gemellten Hiweis an der Noperschaft
+          vu(n) %{place} kommentéiert.'
+        commented_note: '%{commenter} huet zu engem Hiweis, deens du kommentéiert
+          has, e weidere Commentaire hannerluecht. Den Hiweis ass an der Noperschaft
+          vu(n) %{place}.'
+        commented_note_html: '%{commenter} huet zu engem Hiweis, denns du kommentéiert
+          has, e weidere Commentaire hannerluecht. Dësen Hiweis ass an der Noperschaft
+          vu(n) %{place}.'
+      closed:
+        subject_own: '[OpenStreetMap] %{commenter} huet ee vun dengen Hiweiser kommentéiert'
+        subject_other: '[OpenStreetMap] %{commenter} huet e gemellte Problem geléist,
+          un deems du interesséiert bass.'
+        your_note: '%{commenter} huet ee vun dir gemellte Problem an der Noperschaft
+          vu(n) %{place} geléist.'
+        your_note_html: '%{commenter} huet ee vun dir gemellte Problem an der Noperschaft
+          vu(n) %{place} geléist.'
+        commented_note: '%{commenter} huet e Problem geléist, deens du kommentéiert
+          has. Den Hiweis war an der Noperschaft vu(n) %{place}.'
+        commented_note_html: '%{commenter} huet e Problem/Thema geléist, zu deems
+          du kommentéiert has. Den Hiweis war an der Noperschaft vu(n) %{place}.'
+      reopened:
+        subject_own: '[OpenStreetMap] %{commenter} huet ee vun dengen Hiweiser kommentéiert'
+        subject_other: '[OpenStreetMap] %{commenter} huet en Hiweis, un deems du interesséiert
+          bass, reaktivéiert.'
+        your_note: '%{commenter} huet ee vun dir gemellte Problem an der Noperschaft
+          vu(n) %{place} geléist.'
+        your_note_html: '%{commenter} huet ee vun dir gemellte Problem an der Noperschaft
+          vu(n) %{place} geléist.'
       details: Méi Detailer iwwer d'Notiz fannt Dir op %{url}.
+      details_html: Méi Detailer iwwer d'Notiz fannt Dir op %{url}.
     changeset_comment_notification:
       hi: Salut %{to_user},
       greeting: Salut,
       commented:
+        subject_own: '[OpenStreetMap] %{commenter} huet ee vun dengen Ännerungssätz
+          kommentéiert.'
         partial_changeset_without_comment: ouni Kommentar
   confirmations:
     confirm:
