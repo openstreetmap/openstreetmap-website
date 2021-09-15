@@ -1428,7 +1428,6 @@ module Api
       get changeset_download_path(changeset)
 
       assert_response :success
-      assert_template nil
       # print @response.body
       # FIXME: needs more assert_select tests
       assert_select "osmChange[version='#{Settings.api_version}'][generator='#{Settings.generator}']" do
