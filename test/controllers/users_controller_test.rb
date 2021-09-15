@@ -650,22 +650,22 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_path(agreed_user)
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "p", :count => 0, :text => /Contributor terms/
+      assert_select "dt", :count => 0, :text => /Contributor terms/
     end
 
     get user_path(seen_user)
     assert_response :success
     # put @response.body
     assert_select "div#userinformation" do
-      assert_select "p", :count => 1, :text => /Contributor terms/
-      assert_select "p", /Declined/
+      assert_select "dt", :count => 1, :text => /Contributor terms/
+      assert_select "dd", /Declined/
     end
 
     get user_path(not_seen_user)
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "p", :count => 1, :text => /Contributor terms/
-      assert_select "p", /Undecided/
+      assert_select "dt", :count => 1, :text => /Contributor terms/
+      assert_select "dd", /Undecided/
     end
   end
 
