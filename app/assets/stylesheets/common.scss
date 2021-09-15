@@ -1096,45 +1096,9 @@ tr.turn:hover {
 
 /* Rules for the user profile page */
 
-#userinformation {
-  min-height: 100px;
-  .userinformation-inner {
-    float: left;
-  }
-  .user-description {
-    width: 100%;
-    clear: both;
-  }
-}
-
-.admin-user-info small {
-  margin-bottom: $lineheight/2;
-  display: inline;
-  margin-right: $lineheight;
-}
-
 .contact-activity {
   margin-top: $lineheight;
   width: 100%;
-}
-
-.activity-details p {
-  margin-left: 70px;
-  margin-bottom: 0;
-}
-
-.users-show {
-  // Silly exception; remove when user page is redesigned.
-  .content-inner {
-    max-width: none;
-  }
-  p#no_home_location {
-    margin: $lineheight;
-  }
-  .user_thumbnail {
-    margin-top: $lineheight/4;
-    float: left;
-  }
 }
 
 /* Rules for the user map */
@@ -1466,11 +1430,23 @@ img.user_image {
   margin-right: $lineheight;
 }
 
+img.user_image_no_margins {
+  max-width: 100px;
+  max-height: 100px;
+  border: 1px solid $grey;
+}
+
 img.user_thumbnail {
   max-width: 50px;
   max-height: 50px;
   border: 1px solid $grey;
   margin-right: $lineheight;
+}
+
+img.user_thumbnail_no_margins {
+  max-width: 50px;
+  max-height: 50px;
+  border: 1px solid $grey;
 }
 
 img.user_thumbnail_tiny {
@@ -1489,28 +1465,28 @@ abbr.geo {
 
 /* General styles for action lists / subnavs / pager navs */
 
-ul.secondary-actions {
-  font-style: normal;
-  margin-bottom: 0;
-  margin-left: 0;
-  padding: 0;
-  &.pager {
-    display: inline-block;
-    margin-right: 60px;
-  }
-  > li {
-    display: block;
-    float: left;
-    list-style: none;
-    border-left: 1px solid $grey;
-    padding-left: $lineheight/2;
-    margin-right: $lineheight/2;
-    &:first-child {
-      border-left: 0;
-      padding-left: 0;
+
+nav.secondary-actions {
+  margin-left: -11px;
+  overflow: hidden;
+  > ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+    &.pager {
+      display: inline-block;
+      margin-right: 60px;
     }
-    &:last-child {
-      margin-right: 0px;
+    > li {
+      flex-basis: auto;
+      list-style: none;
+      border-left: 1px solid $grey;
+      padding-left: $lineheight/2;
+      margin-right: $lineheight/2;
+      margin-bottom: $lineheight/8;
     }
   }
 }
@@ -1571,6 +1547,17 @@ div.secondary-actions {
   *[value="Hide"] + .button_to:nth-child(2):not(:last-child) {
     border-radius:2px 0 0 2px;
     border-right-width: 1px;
+  }
+}
+
+/* Create a single-line dl */
+
+dl.dl-inline {
+  dt, dd {
+    display: inline-block;
+  }
+  dd {
+    margin-right: 1em;
   }
 }
 
