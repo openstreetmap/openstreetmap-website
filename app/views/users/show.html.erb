@@ -130,55 +130,55 @@
           <% end -%>
         </small>
       </p>
+
+      <% if can?(:set_status, User) || can?(:destroy, User) %>
+        <nav class='secondary-actions'>
+          <ul class='clearfix'>
+            <% if can? :set_status, User %>
+              <% if ["active", "confirmed"].include? @user.status %>
+                <li>
+                  <%= link_to t(".deactivate_user"), set_status_user_path(:status => "pending", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
+                </li>
+              <% elsif ["pending"].include? @user.status %>
+                <li>
+                  <%= link_to t(".activate_user"), set_status_user_path(:status => "active", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
+                </li>
+              <% end %>
+
+              <% if ["active", "suspended"].include? @user.status %>
+                <li>
+                  <%= link_to t(".confirm_user"), set_status_user_path(:status => "confirmed", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
+                </li>
+              <% end %>
+              <li>
+                <% if ["pending", "active", "confirmed", "suspended"].include? @user.status %>
+                  <%= link_to t(".hide_user"), set_status_user_path(:status => "deleted", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
+                <% else %>
+                  <%= link_to t(".unhide_user"), set_status_user_path(:status => "active", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
+                <% end %>
+              </li>
+            <% end %>
+            <% if can? :destroy, User %>
+              <li>
+                <%= link_to t(".delete_user"), user_path(:display_name => @user.display_name), :method => :delete, :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
+          </ul>
+        </nav>
+      <% end %>
+
+      <% if current_user and current_user.administrator? -%>
+        <div class='admin-user-info text-muted'>
+          <small><b><%= t ".email address" %></b> <%= @user.email %></small>
+          <% unless @user.creation_ip.nil? -%>
+            <small><b><%= t ".created from" %></b> <%= @user.creation_ip %></small>
+          <% end -%>
+          <small><b><%= t ".status" %></b> <%= @user.status.capitalize %></small>
+          <small><b><%= t ".spam score" %></b> <%= @user.spam_score %></small>
+        </div>
+      <% end -%>
     </div>
   </div>
-
-  <% if can?(:set_status, User) || can?(:destroy, User) %>
-    <nav class='secondary-actions'>
-      <ul class='clearfix'>
-        <% if can? :set_status, User %>
-          <% if ["active", "confirmed"].include? @user.status %>
-            <li>
-              <%= link_to t(".deactivate_user"), set_status_user_path(:status => "pending", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
-            </li>
-          <% elsif ["pending"].include? @user.status %>
-            <li>
-              <%= link_to t(".activate_user"), set_status_user_path(:status => "active", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
-            </li>
-          <% end %>
-
-          <% if ["active", "suspended"].include? @user.status %>
-            <li>
-              <%= link_to t(".confirm_user"), set_status_user_path(:status => "confirmed", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
-            </li>
-          <% end %>
-          <li>
-            <% if ["pending", "active", "confirmed", "suspended"].include? @user.status %>
-              <%= link_to t(".hide_user"), set_status_user_path(:status => "deleted", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
-            <% else %>
-              <%= link_to t(".unhide_user"), set_status_user_path(:status => "active", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
-            <% end %>
-          </li>
-        <% end %>
-        <% if can? :destroy, User %>
-          <li>
-            <%= link_to t(".delete_user"), user_path(:display_name => @user.display_name), :method => :delete, :data => { :confirm => t(".confirm") } %>
-          </li>
-        <% end %>
-      </ul>
-    </nav>
-  <% end %>
-
-  <% if current_user and current_user.administrator? -%>
-    <div class='admin-user-info text-muted'>
-      <small><b><%= t ".email address" %></b> <%= @user.email %></small>
-      <% unless @user.creation_ip.nil? -%>
-        <small><b><%= t ".created from" %></b> <%= @user.creation_ip %></small>
-      <% end -%>
-      <small><b><%= t ".status" %></b> <%= @user.status.capitalize %></small>
-      <small><b><%= t ".spam score" %></b> <%= @user.spam_score %></small>
-    </div>
-  <% end -%>
 <% end %>
 
 <div class="richtext text-break clearfix"><%= @user.description.to_html %></div>
