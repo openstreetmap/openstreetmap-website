@@ -182,6 +182,8 @@ ko:
         pass_crypt: 비밀번호
         pass_crypt_confirmation: 비밀번호 확인
     help:
+      doorkeeper/application:
+        redirect_uri: URI마다 1줄 사용
       trace:
         tagstring: 쉼표로 구분
       user_block:
@@ -495,6 +497,11 @@ ko:
       comment: 의견
       newer_comments: 새 의견
       older_comments: 이전 의견
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: 애플리케이션을 등록했습니다.
   friendships:
     make_friend:
       heading: '%{user} 님을 친구로 추가할까요?'
@@ -2098,6 +2105,7 @@ ko:
       uploaded: '올린 날짜:'
       points: '점:'
       start_coordinates: '시작 좌표:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: 지도
       edit: 편집
       owner: '소유자:'
@@ -2138,6 +2146,7 @@ ko:
         <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>위키 문서</a>에서
         GPS 궤적에 대해 더 알아보세요.
       upload_trace: 궤적 올리기
+      remove_tag_filter: 태그 필터 제거
     destroy:
       scheduled_for_deletion: 삭제 계획중인 궤적
     make_public:
@@ -2167,6 +2176,7 @@ ko:
       need_to_see_terms: API에 대한 접근을 일시적으로 중지했습니다. 기여자 약관을 보려면 웹 인터페이스에 로그인하세요. 기여자
         약관에 동의할 필요는 없습니다만 기여자 약관을 보아야 합니다.
     settings_menu:
+      account_settings: 계정 설정
       oauth1_settings: OAuth 1 설정
       oauth2_applications: OAuth 2 애플리케이션
       oauth2_authorizations: OAuth 2 인가
@@ -2198,6 +2208,9 @@ ko:
       missing: 이 애플리케이션이 이 기능을 사용할 수 있도록 승인하지 않았습니다
     scopes:
       write_prefs: 사용자 환경 설정 수정
+      write_api: 지도 수정
+      read_gpx: 비공개 GPS 궤적 읽기
+      write_gpx: GPS 궤적 업로드
   oauth_clients:
     new:
       title: 새 애플리케이션 등록
@@ -2241,10 +2254,13 @@ ko:
   oauth2_applications:
     index:
       title: 내 클라이언트 애플리케이션
+      new: 새 애플리케이션 등록
       name: 이름
       permissions: 권한
     application:
       edit: 편집
+      delete: 삭제
+      confirm_delete: 이 애플리케이션을 삭제하시겠습니까?
     new:
       title: 새 애플리케이션 등록
     edit:
@@ -2256,10 +2272,16 @@ ko:
       client_id: 클라이언트 ID
       permissions: 권한
   oauth2_authorizations:
+    new:
+      authorize: 인가
+      deny: 거부
     error:
       title: 오류가 발생했습니다
+    show:
+      title: 인증 코드
   oauth2_authorized_applications:
     index:
+      title: 내 인증한 애플리케이션
       application: 애플리케이션
       permissions: 권한
   users:
@@ -2306,6 +2328,7 @@ ko:
         italy: 이탈리아
         rest_of_world: 나머지 국가
     terms_declined_flash:
+      terms_declined_link: 이 위키 문서
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: 이러한 사용자는 없습니다
@@ -2344,6 +2367,7 @@ ko:
       spam score: '스팸 점수:'
       description: 설명
       user location: 사용자 위치
+      edit_your_profile: 내 프로파일 편집
       my friends: 내 친구
       no friends: 아직 어떠한 친구도 추가하지 않았습니다.
       km away: '%{count}km 거리'

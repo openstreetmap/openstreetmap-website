@@ -11,7 +11,7 @@ module OpenGraphHelper
     }
 
     safe_join(tags.map do |property, content|
-      tag(:meta, :property => property, :content => content)
+      tag.meta(:property => property, :content => content)
     end, "\n")
   end
 end
