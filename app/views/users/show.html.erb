@@ -116,20 +116,24 @@
         </nav>
       <% end %>
 
-      <p class='text-muted'>
+      <div class='text-muted'>
         <small>
-          <%= t ".mapper since" %> <%= l @user.creation_time.to_date, :format => :long %>
-          <% unless @user.terms_agreed %>
-            |
-            <%= t ".ct status" %>
-            <% if @user.terms_seen? -%>
-              <%= t ".ct declined" %>
-            <% else -%>
-              <%= t ".ct undecided" %>
+          <dl class="dl-inline">
+            <dt><%= t ".mapper since" %></dt>
+            <dd><%= l @user.creation_time.to_date, :format => :long %></dd>
+            <% unless @user.terms_agreed %>
+              <dt><%= t ".ct status" %></dt>
+              <dd>
+                <% if @user.terms_seen? -%>
+                  <%= t ".ct declined" %>
+                <% else -%>
+                  <%= t ".ct undecided" %>
+                <% end -%>
+              </dd>
             <% end -%>
-          <% end -%>
+          </dl>
         </small>
-      </p>
+      </div>
 
       <% if can?(:set_status, User) || can?(:destroy, User) %>
         <nav class='secondary-actions'>
@@ -168,13 +172,21 @@
       <% end %>
 
       <% if current_user and current_user.administrator? -%>
-        <div class='admin-user-info text-muted'>
-          <small><b><%= t ".email address" %></b> <%= @user.email %></small>
-          <% unless @user.creation_ip.nil? -%>
-            <small><b><%= t ".created from" %></b> <%= @user.creation_ip %></small>
-          <% end -%>
-          <small><b><%= t ".status" %></b> <%= @user.status.capitalize %></small>
-          <small><b><%= t ".spam score" %></b> <%= @user.spam_score %></small>
+        <div class='text-muted'>
+          <small>
+            <dl class='dl-inline'>
+              <dt><%= t ".email address" %></dt>
+              <dd><%= @user.email %></dd>
+              <% unless @user.creation_ip.nil? -%>
+                <dt><%= t ".created from" %></dt>
+                <dd><%= @user.creation_ip %></dd>
+              <% end -%>
+              <dt><%= t ".status" %></dt>
+              <dd><%= @user.status.capitalize %></dd>
+              <dt><%= t ".spam score" %></dt>
+              <dd><%= @user.spam_score %></dd>
+            </dl>
+          </small>
         </div>
       <% end -%>
     </div>
