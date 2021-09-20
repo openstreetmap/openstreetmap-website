@@ -508,6 +508,28 @@ uk:
     timeout:
       sorry: На жаль, перелік наборів змін, який ви запросили, потребує забагато часу
         для завантаження.
+  dashboards:
+    contact:
+      km away: '%{count} км від вас'
+      m away: '%{count} м від вас'
+    popup:
+      your location: Ваше місце розташування
+      nearby mapper: Користувач поруч з вами
+      friend: Друг
+    show:
+      title: Моя панель
+      no_home_location_html: '%{edit_profile_link} і встановіть своє місце розташування,
+        щоб бачити користувачів поблизу.'
+      edit_your_profile: Редагувати ваш профіль
+      my friends: Друзі
+      no friends: Ви не додали ще жодного друга.
+      nearby users: Інші користувачі поруч
+      no nearby users: Поблизу поки немає користувачів, які займаються складанням
+        мапи.
+      friends_changesets: набори змін друзів
+      friends_diaries: записи в щоденниках друзів
+      nearby_changesets: набори змін користувачів, що знаходяться поруч з вами
+      nearby_diaries: записи в щоденниках користувачів, що знаходяться поруч з вами
   diary_entries:
     new:
       title: Створити новий запис у щоденнику
@@ -842,6 +864,7 @@ uk:
           window_construction: Майстер віконних конструкцій
           winery: Виноробня
           "yes": Товари для рукоділля
+        crossing: Переправа
         emergency:
           access_point: Точка доступу
           ambulance_station: Станція швидкої медичної допомоги
@@ -1097,6 +1120,7 @@ uk:
           hill: Пагорб
           hot_spring: Гаряче джерело
           island: Острів
+          isthmus: Перешийок
           land: Суша
           marsh: Болото
           moor: Якірна стоянка
@@ -1111,10 +1135,13 @@ uk:
           sand: Пісок
           scree: Щебінь
           scrub: Чагарник
+          shingle: Черепиця
           spring: Джерело
           stone: Камінь
           strait: Протока
           tree: Дерево
+          tree_row: Дерево ряду
+          tundra: Тундра
           valley: Долина
           volcano: Вулкан
           water: Вода
@@ -1518,8 +1545,10 @@ uk:
     intro_text: OpenStreetMap — мапа світу, створена такими ж людьми, як і ви, для
       вільного використання під відкритою ліцензією.
     intro_2_create_account: Створіть обліковий запис
-    hosting_partners_html: Хостинг підтримується %{ucl}, %{bytemark} та іншими %{partners}.
+    hosting_partners_html: Хостинг підтримується %{ucl}, %{fastly}, %{bytemark} та
+      іншими %{partners}.
     partners_ucl: UCL
+    partners_fastly: Швидко
     partners_bytemark: Bytemark Hosting
     partners_partners: партнерами
     tou: Умови використання
@@ -2020,10 +2049,9 @@ uk:
              <a href="https://data.wien.gv.at/">Stadt Wien</a> (на умовах ліцензії
              <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>), <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> та Земля Тіроль (на умовах <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT з виправленнями</a>).
         contributors_au_html: |-
-          <strong>Австралія</strong>: Містить дані, отримані з
-          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia Limited</a>
-          за ліцензією Австралійської Співдружності за
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+          <strong>Австралія</strong>: Включено або розроблено за допомогою адміністративних кордонів &copy;
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Australia</a>, ліцензованих Австралійською Співдружністю за міжнародною
+          <a href="https://creativecommons.org/licenses/by/4.0/">ліцензією Creative Commons Attribution 4.0 (CC BY 4.0)</a>.
         contributors_ca_html: '<strong>Канада</strong>: дані від GeoBase&reg;, GeoGratis
           (&copy; Департамент природних ресурсів Канади), CanVec (&copy; Департамент
           природних ресурсів Канади), та StatCan (Відділ Географії, Статистичне відомство
@@ -2682,6 +2710,7 @@ uk:
       my settings: Налаштування
       my comments: Мої коментарі
       my_preferences: Налаштування
+      my_dashboard: Моя панель
       blocks on me: Мої блокування
       blocks by me: Заблоковано мною
       edit_profile: Редагування профілю
@@ -2703,16 +2732,6 @@ uk:
       spam score: 'Оцінка Спаму:'
       description: Опис
       user location: Місце знаходження користувача
-      no_home_location_html: '%{edit_profile_link} і встановіть своє місце розташування,
-        щоб бачити користувачів поблизу.'
-      edit_your_profile: Редагувати ваш профіль
-      my friends: Друзі
-      no friends: Ви не додали ще жодного друга.
-      km away: '%{count} км від вас'
-      m away: '%{count} м від вас'
-      nearby users: Інші користувачі поруч
-      no nearby users: Поблизу поки немає користувачів, які займаються складанням
-        мапи.
       role:
         administrator: Цей користувач є адміністратором
         moderator: Цей користувач є модератором
@@ -2733,15 +2752,7 @@ uk:
       unhide_user: Показати цього користувача
       delete_user: Вилучити цього користувача
       confirm: Підтвердити
-      friends_changesets: набори змін друзів
-      friends_diaries: записи в щоденниках друзів
-      nearby_changesets: набори змін користувачів, що знаходяться поруч з вами
-      nearby_diaries: записи в щоденниках користувачів, що знаходяться поруч з вами
       report: Поскаржитись на цього користувача
-    popup:
-      your location: Ваше місце розташування
-      nearby mapper: Користувач поруч з вами
-      friend: Друг
     account:
       title: Редагувати обліковий запис
       my settings: Налаштування

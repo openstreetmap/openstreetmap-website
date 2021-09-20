@@ -435,6 +435,28 @@ mk:
     timeout:
       sorry: За жал, на списокот на измени што го побаравте му требаше предолго за
         да се преземе.
+  dashboards:
+    contact:
+      km away: '%{count} км од вас'
+      m away: '%{count} м од вас'
+    popup:
+      your location: Ваша местоположба
+      nearby mapper: Соседен картограф
+      friend: Пријател
+    show:
+      title: Моја управувачница
+      no_home_location_html: '%{edit_profile_link} и задајте ја вашата матична местоположба
+        за да гледате корисници во близина.'
+      edit_your_profile: Уредете си го профилот
+      my friends: Мои пријатели
+      no friends: Сè уште немате додадено пријатели.
+      nearby users: Други соседни корисници
+      no nearby users: Сè уште нема други корисници во вашата околина што признаваат
+        дека работат на карти.
+      friends_changesets: измени на пријателите
+      friends_diaries: дневнички ставки на пријателите
+      nearby_changesets: измени на соседните корисници
+      nearby_diaries: дневнички ставки на сосед. корисн.
   diary_entries:
     new:
       title: Нова дневничка ставка
@@ -770,6 +792,7 @@ mk:
           window_construction: Изработка на прозорци
           winery: Винарија
           "yes": Занаетчиски дуќан
+        crossing: Премин
         emergency:
           access_point: Пристапна точка
           ambulance_station: Итна помош
@@ -1025,6 +1048,7 @@ mk:
           hill: Рид
           hot_spring: Топол извор
           island: Остров
+          isthmus: Превлака
           land: Земја
           marsh: Бара
           moor: Пустара
@@ -1039,10 +1063,13 @@ mk:
           sand: Песок
           scree: Сип
           scrub: Честак
+          shingle: Чакал
           spring: Извор
           stone: Камен
           strait: Проток
           tree: Дрво
+          tree_row: Дрворед
+          tundra: Тундра
           valley: Долина
           volcano: Вулкан
           water: Вода
@@ -1439,9 +1466,10 @@ mk:
     intro_text: OpenStreetMap е карта на светот создадена од луѓе како вас и се нуди
       за слободна употреба под отворена лиценца.
     intro_2_create_account: Создајте корисничка сметка
-    hosting_partners_html: Вдомувањето е поддржано од %{ucl}, %{bytemark} и други
-      %{partners}.
+    hosting_partners_html: Вдомувањето е поддржано од %{ucl}, %{fastly}, %{bytemark}
+      и други %{partners}.
     partners_ucl: UCL
+    partners_fastly: Fastly
     partners_bytemark: вдомителот „Bytemark“
     partners_partners: партнери
     tou: Услови на употреба
@@ -1944,10 +1972,9 @@ mk:
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Покраина Предарлска</a> и
           Покраина Тирол (под <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT со исправки</a>).
         contributors_au_html: |-
-          <strong>Австралија</strong>: Содржи податоци преземени од
-          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">Општествените картографски заводи на Австралија (PSMA)</a>
-          ставени на располагање од австралиската држава под лиценцата
-          <a href="https://creativecommons.org/licenses/by/4.0/deed.mk">CC BY 4.0</a>.
+          <strong>Австралија</strong>: Содржи податоци преземени од или разработени врз основа на
+          &copy; <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Австралија</a>
+          ставени на располагање од австралиската држава под лиценцата <a href="https://creativecommons.org/licenses/by/4.0/deed.mk">Криејтив Комонс Наведи извор 4.0 Меѓународна (CC BY 4.0)</a>.
         contributors_ca_html: |-
           <strong>Canada</strong>: Содржи податоци од
           GeoBase&reg;, GeoGratis (&copy; Министерство за природни ресурси на Канада), CanVec (&copy; Министерство за природни ресурси на Канада), and StatCan (Географско одделение,
@@ -2599,6 +2626,7 @@ mk:
       my settings: Мои нагодувања
       my comments: Мои коментари
       my_preferences: Мои нагодувања
+      my_dashboard: Моја управувачница
       blocks on me: Добиени блокови
       blocks by me: Извршени болокови
       edit_profile: Уреди профил
@@ -2620,16 +2648,6 @@ mk:
       spam score: 'Оцена за спам:'
       description: Опис
       user location: Местоположба на корисникот
-      no_home_location_html: '%{edit_profile_link} и задајте ја вашата матична местоположба
-        за да гледате корисници во близина.'
-      edit_your_profile: Уредете си го профилот
-      my friends: Мои пријатели
-      no friends: Сè уште немате додадено пријатели.
-      km away: '%{count} км од вас'
-      m away: '%{count} м од вас'
-      nearby users: Други соседни корисници
-      no nearby users: Сè уште нема други корисници во вашата околина што признаваат
-        дека работат на карти.
       role:
         administrator: Овој корисник е администратор
         moderator: Овој корисник е модератор
@@ -2650,15 +2668,7 @@ mk:
       unhide_user: Покажи го корисников
       delete_user: Избриши го корисников
       confirm: Потврди
-      friends_changesets: измени на пријателите
-      friends_diaries: дневнички ставки на пријателите
-      nearby_changesets: измени на соседните корисници
-      nearby_diaries: дневнички ставки на сосед. корисн.
       report: Пријави го корисников
-    popup:
-      your location: Ваша местоположба
-      nearby mapper: Соседен картограф
-      friend: Пријател
     account:
       title: Уреди сметка
       my settings: Мои прилагодувања

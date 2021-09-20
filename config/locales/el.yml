@@ -55,6 +55,9 @@ el:
       client_application:
         create: Εγγραφή
         update: Ενημέρωση
+      doorkeeper_application:
+        create: Εγγραφή
+        update: Ενημέρωση
       redaction:
         create: Δημιουργία παράλειψης
         update: Αποθήκευση παράλειψης
@@ -68,7 +71,7 @@ el:
     errors:
       messages:
         invalid_email_address: δεν φαίνεται να είναι έγκυρη διεύθυνση ηλ. ταχυδρομείου
-        email_address_not_routable: Δεν είναι δρομολογητέο
+        email_address_not_routable: δεν είναι δρομολογητέο
     models:
       acl: Λίστα ελέγχου πρόσβασης
       changeset: Ομάδα αλλαγών
@@ -107,9 +110,18 @@ el:
       way_tag: Ετικέτα διαδρομής
     attributes:
       client_application:
-        name: Όνομα (Υποχρεωτικό)
+        name: Όνομα (απαιτείται)
+        url: URL κύριας εφαρμογής (απαιτείται)
         callback_url: URL Επανάκλησης
         support_url: URL Υποστήριξης
+        allow_read_prefs: ανάγνωση των προτιμήσεων χρήστη
+        allow_write_prefs: τροποποίηση των προτιμήσεων χρήστη
+        allow_write_diary: δημιουργία καταχωρήσεων ημερολογίου, σχόλια και δημιουργία
+          φίλων
+        allow_write_api: τροποποίηση του χάρτη
+        allow_read_gpx: ανάγνωση των προσωπικών ιχνών GPS
+        allow_write_gpx: μεταφόρτωση ιχνών GPS
+        allow_write_notes: τροποποίηση σημειώσεων
       diary_comment:
         body: Κύριο μέρος
       diary_entry:
@@ -118,6 +130,11 @@ el:
         latitude: Γεωγραφικό πλάτος
         longitude: Γεωγραφικό μήκος
         language: Γλώσσα
+      doorkeeper/application:
+        name: Όνομα
+        redirect_uri: Ανακατεύθυνση URIs
+        confidential: Έμπιστη εφαρμογή;
+        scopes: Άδειες
       friend:
         user: Χρήστης
         friend: Φίλος
@@ -136,27 +153,36 @@ el:
       message:
         sender: Αποστολέας
         title: Θέμα
-        body: Κύριο μέρος
+        body: Κύριο σώμα
         recipient: Παραλήπτης
       redaction:
+        title: Τίτλος
         description: Περιγραφή
       report:
+        category: Επιλέξτε μια αιτία για την αναφορά σας
         details: Παρακαλούμε παράσχετε περισσότερες λεπτομέρειες σχετικά με το πρόβλημα
           (απαιτείται).
       user:
+        auth_provider: Πάροχος αυθεντικοποίησης
+        auth_uid: UID αυθεντικοποίησης
         email: Ηλεκτρονικό ταχυδρομείο
-        email_confirmation: Επιβεβαίωση διεύθυνσης ηλεκτρονικού ταχυδρομείου
-        new_email: Νέα διεύθυνση ηλεκτρονικού ταχυδρομείου
+        email_confirmation: Επιβεβαίωση διεύθυνσης email
+        new_email: Νέα διεύθυνση email
         active: Ενεργό
         display_name: Εμφάνιση ονόματος
         description: Περιγραφή προφίλ
         home_lat: Γεωγραφικό πλάτος
         home_lon: Γεωγραφικό μήκος
         languages: Προτιμώμενες γλώσσες
-        preferred_editor: Προτιμώμενο πρόγραμμα επεξεργασίας
+        preferred_editor: Προτιμώμενος επεξεργαστής
         pass_crypt: Κωδικός
         pass_crypt_confirmation: Επιβεβαίωση κωδικού
     help:
+      doorkeeper/application:
+        confidential: Η εφαρμογή θα χρησιμοποιηθεί όπου το μυστικό πελάτη μπορεί να
+          κρατηθεί έμπιστο (οι εγγενείς εφαρμογές κινητών και οι εφαρμογές μονής σελίδας
+          δεν είναι έμπιστες)
+        redirect_uri: Χρήση μίας σειράς ανά URI
       trace:
         tagstring: διαχωρισμένο με κόμμα
       user_block:
@@ -167,6 +193,10 @@ el:
           γι' αυτό προσπαθήστε να χρησιμοποιήσετε απλούς και κατανοητούς όρους.
         needs_view: Πρέπει ο χρήστης να συνδεθεί προτού εκκαθαριστεί αυτή η φραγή;
       user:
+        email_confirmation: Η διεύθυνση σας δεν προβάλλεται δημόσια,  για περισσότερες
+          πληροφορίες δείτε την <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">πολιτική
+          ιδιωτικότητας</a> μας.
         new_email: (να μην εμφανίζεται ποτέ δημόσια)
   datetime:
     distance_in_words_ago:
@@ -182,7 +212,7 @@ el:
       almost_x_years:
         one: σχεδόν ένα χρόνο πριν
         other: σχεδόν %{count} χρόνια πριν
-      half_a_minute: μισό λεπτό πριν
+      half_a_minute: πριν μισό λεπτό
       less_than_x_seconds:
         one: λιγότερο από ένα δευτερόλεπτο πριν
         other: λιγότερο από %{count} δευτερόλεπτα πριν
@@ -213,7 +243,7 @@ el:
     default: Προεπιλογή (τώρα είναι %{name})
     id:
       name: iD
-      description: iD (επεξεργαστής εντός του περιηγητή)
+      description: iD (επεξεργαστής εντός περιηγητή)
     remote:
       name: Απομακρυσμένος έλεγχος
       description: Απομακρυσμένος έλεγχος (JOSM, Potlatch, Merkaartor)
@@ -301,6 +331,9 @@ el:
       title_html: 'Διαδρομή: %{name}'
       history_title_html: 'Ιστορικό διαδρομής: %{name}'
       nodes: Κόμβοι
+      nodes_count:
+        one: '%{count} κόμβος'
+        other: '%{count} κόμβοι'
       also_part_of_html:
         one: τμήμα της διαδρομής %{related_ways}
         other: τμήμα των διαδρομών %{related_ways}
@@ -331,6 +364,7 @@ el:
         changeset: ομάδα αλλαγών
         note: σημείωση
     timeout:
+      title: Σφάλμα λήξης χρόνου
       sorry: Λυπάμαι, τα δεδομένα για το %{type} με αναγνωριστικό %{id}, χρειάστηκαν
         πολύ χρόνο για να ανακτηθούν.
       type:
@@ -395,7 +429,7 @@ el:
       no_edits: (χωρίς επεξεργασίες)
       view_changeset_details: Προβολή λεπτομερειών αλλαγών
     changesets:
-      id: Αναγνωριστικό
+      id: ID
       saved_at: Αποθηκεύτηκε στις
       user: Χρήστης
       comment: Σχόλιο
@@ -406,8 +440,8 @@ el:
       title_friend: Αλλαγές από τους φίλους μου
       title_nearby: Αλλαγές από κοντινούς χρήστες
       empty: Δε βρέθηκαν αλλαγές.
-      empty_area: Δε βρέθηκαν αλλαγές σε αυτήν την περιοχή.
-      empty_user: Δεν υπάρχουν αλλαγές από αυτόν τον χρήστη.
+      empty_area: Χωρίς αλλαγές σε αυτήν την περιοχή.
+      empty_user: Χωρίς αλλαγές από αυτόν τον χρήστη.
       no_more: Δεν βρέθηκαν άλλες αλλαγές.
       no_more_area: Δεν υπάρχουν άλλες αλλαγές για αυτήν την περιοχή.
       no_more_user: Δεν υπάρχουν άλλες αλλαγές από αυτόν τον χρήστη.
@@ -427,6 +461,28 @@ el:
     timeout:
       sorry: Μας συγχωρείτε, η λίστα των σχολίων της ομάδας αλλαγών που ζητήσατε,
         χρειάστηκε πολύ χρόνο για να ανακτηθεί.
+  dashboards:
+    contact:
+      km away: '%{count}km μακριά'
+      m away: '%{count}m μακριά'
+    popup:
+      your location: Η τοποθεσία σας
+      nearby mapper: Κοντινός χαρτογράφος
+      friend: Φίλος
+    show:
+      title: Το ταμπλό μου
+      no_home_location_html: '%{edit_profile_link} και βάλτε την τοποθεσία σας για
+        να δείτε κοντινούς χρήστες.'
+      edit_your_profile: Επεξεργαστείτε το προφίλ σας
+      my friends: Οι φίλοι μου
+      no friends: Δεν έχετε προσθέσει φίλους ακόμα.
+      nearby users: Άλλοι κοντινοί χρήστες
+      no nearby users: Δεν υπάρχουν άλλοι χρήστες που δήλωσαν ότι χαρτογραφούν κοντά
+        σας προς το παρόν.
+      friends_changesets: ομάδες αλλαγών φίλων
+      friends_diaries: καταχωρήσεις ημερολογίου φίλων
+      nearby_changesets: ομάδες αλλαγών από κοντινούς χρήστες
+      nearby_diaries: καταχωρήσεις ημερολογίου από κοντινούς χρήστες
   diary_entries:
     new:
       title: Νέα καταχώρηση ημερολογίου
@@ -442,7 +498,7 @@ el:
       new: Νέα καταχώρηση ημερολογίου
       new_title: Σύνταξη νέας καταχώρησης στο ημερολόγιό μου
       my_diary: Το ημερολόγιό μου
-      no_entries: Δε βρέθηκαν καταχωρήσεις στο ημερολόγιο
+      no_entries: Χωρίς καταχωρήσεις ημερολογίου
       recent_entries: Πρόσφατες καταχωρήσεις ημερολογίου
       older_entries: Παλιότερες καταχωρήσεις
       newer_entries: Νεότερες καταχωρήσεις
@@ -499,11 +555,17 @@ el:
     comments:
       has_commented_on: Ο %{display_name} έχει σχολιάσει στις ακόλουθες καταχωρήσεις
         ημερολογίου
+      no_comments: Χωρίς σχόλια ημερολογίου
       post: Καταχώρηση
       when: Πότε
       comment: Σχόλιο
       newer_comments: Νεότερα σχόλια
       older_comments: Παλαιότερα σχόλια
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Η εφαρμογή καταχωρήθηκε.
   friendships:
     make_friend:
       heading: Προσθήκη του %{user} ως φίλου;
@@ -511,6 +573,8 @@ el:
       success: Ο %{name} είναι τώρα φίλος σου!
       failed: Λυπούμαστε, απέτυχε η προσθήκη του χρήστη %{name} ως φίλου.
       already_a_friend: Είστε ήδη φίλοι με τον χρήστη %{name}.
+      limit_exceeded: Έκανες πολλούς φίλους τελευταία. Παρακαλώ περίμενε λίγο πριν
+        προσπαθήσεις να κάνεις περισσότερους φίλους.
     remove_friend:
       heading: Αφαίρεση φίλου %{user};
       button: Αφαίρεση φίλου
@@ -563,6 +627,7 @@ el:
           bench: Πάγκος
           bicycle_parking: Στάθμευση ποδηλάτων
           bicycle_rental: Ενοικίαση ποδηλάτων
+          bicycle_repair_station: Σταθμός επισκευής ποδηλάτου
           biergarten: Υπαίθρια μπυραρία
           blood_bank: Τράπεζα αίματος
           boat_rental: Ενοικίαση σκαφών
@@ -581,6 +646,7 @@ el:
           clock: Ρολόι
           college: Κολέγιο
           community_centre: Κοινοτικό κέντρο
+          conference_centre: Συνεδριακό κέντρο
           courthouse: Δικαστήριο
           crematorium: Κρεματόριο
           dentist: Οδοντίατρος
@@ -600,11 +666,13 @@ el:
           hospital: Νοσοκομείο
           hunting_stand: Κυνηγητικό κιόσκι
           ice_cream: Παγωτό
+          internet_cafe: Ίντερνετ καφέ
           kindergarten: Νηπιαγωγείο
           language_school: Φροντιστήριο ξένων γλωσσών
           library: Βιβλιοθήκη
           marketplace: Αγορά
           monastery: Μοναστήρι
+          money_transfer: Μεταφορά χρημάτων
           motorcycle_parking: Χώρος στάθμευσης μοτοσικλετών
           music_school: Ωδείο
           nightclub: Νυχτερινό κέντρο
@@ -612,6 +680,7 @@ el:
           parking: Χώρος στάθμευσης
           parking_entrance: Είσοδος χώρου στάθμευσης
           parking_space: Χώρος στάθμευσης
+          payment_terminal: Τερματικό πληρωμών
           pharmacy: Φαρμακείο
           place_of_worship: Τόπος λατρείας
           police: Αστυνομία
@@ -620,6 +689,7 @@ el:
           prison: Φυλακή
           pub: Παμπ
           public_bath: Δημόσιο λουτρό
+          public_bookcase: Δημόσια βιβλιοθήκη
           public_building: Δημόσιο κτίριο
           recycling: Σημείο ανακύκλωσης
           restaurant: Εστιατόριο
@@ -636,11 +706,13 @@ el:
           toilets: Τουαλέτες
           townhall: Δημαρχείο
           university: Πανεπιστήμιο
+          vehicle_inspection: Επιθεώρηση οχήματος
           vending_machine: Μηχάνημα αυτόματης πώλησης
           veterinary: Κτηνιατρική Χειρουργική
           village_hall: Αίθουσα χωριού
           waste_basket: Καλάθι απορριμμάτων
           waste_disposal: Διάθεση αποβλήτων
+          waste_dump_site: Χώρος απόρριψης απορριμάτων
           water_point: Σημείο ανεφοδιασμού νερού
         boundary:
           administrative: Διοικητικό όριο
@@ -655,35 +727,50 @@ el:
           viaduct: Κοιλαδογέφυρα
           "yes": Γέφυρα
         building:
+          apartment: Διαμέρισμα
           apartments: Διαμερίσματα
+          barn: Σταύλος
+          bungalow: Μπάνγκαλοου
+          cabin: Καμπίνα
           chapel: Παρεκκλήσι
           church: Εκκλησία
+          civic: Πολιτικό κτήριο
+          college: Πανεπιστημιακό κτήριο
           commercial: Εμπορικό κτίριο
           construction: Κτίριο υπό κατασκευή
           dormitory: Κοιτώνας
           farm: Αγροικία
           farm_auxiliary: Βοηθητική αγροικία
           garage: Γκαράζ
+          garages: Γκαράζ
           greenhouse: Θερμοκήπιο
+          hangar: Υπόστεγο αεροσκαφών
           hospital: Κτήριο Νοσοκομείου
           hotel: Ξενοδοχείο
           house: Σπίτι
+          hut: Καλύβα
           industrial: Βιομηχανικό Κτήριο
           kindergarten: Κτίριο νηπιαγωγείου
           office: Κτήριο Γραφείων
           public: Δημόσιο κτήριο
           residential: Πολυκατοικία
+          retail: Κτήριο λιανικής
           school: Σχολικό Κτήριο
+          static_caravan: Τροχόσπιτο
+          temple: Κτήριο ναού
           train_station: Κτίριο Σιδηροδρομικού Σταθμού
           university: Κτήριο Πανεπιστημίου
           warehouse: Αποθήκη
           "yes": Κτίριο
+        club:
+          sport: Αθλητικός σύλλογος
         craft:
           beekeeper: Μελισσοκόμος
           blacksmith: Σιδηρουργός
           brewery: Ζυθοποιείο
           carpenter: Ξυλουργός
           electrician: Ηλεκτρολόγος
+          electronics_repair: Επισκευή ηλεκτρονικών
           gardener: Κηπουρός
           handicraft: Χειροκατασκευές
           painter: Ζωγράφος
@@ -691,8 +778,10 @@ el:
           plumber: Υδραυλικός
           shoemaker: Τσαγκάρης
           tailor: Ράφτης
+          winery: Οινοποιείο
           "yes": Κατάστημα τεχνών
         emergency:
+          access_point: Σημείο Πρόσβασης
           ambulance_station: Σταθμός ασθενοφόρων
           assembly_point: Σημείο συγκέντρωσης
           defibrillator: Απινιδωτής
@@ -741,6 +830,7 @@ el:
           tertiary: Τριτεύων δρόμος
           tertiary_link: Τριτεύων δρόμος
           track: Χωματόδρομος
+          traffic_mirror: Καθρέφτης κυκλοφορίας
           traffic_signals: Σήματα κυκλοφορίας
           trunk: Εθνική οδός
           trunk_link: Εθνική οδός
@@ -748,11 +838,14 @@ el:
           unclassified: Αταξινόμητη οδός
           "yes": Δρόμος
         historic:
+          aircraft: Ιστορικό αεροσκάφος
           archaeological_site: Αρχαιολογικός χώρος
+          bomb_crater: Ιστορικός κρατήρας βόμβας
           battlefield: Πεδίο μάχης
           boundary_stone: Συνοριακή στήλη
           building: Ιστορικό κτίριο
           bunker: Οχυρό
+          cannon: Ιστορικό κανόνι
           castle: Κάστρο
           church: Εκκλησία
           city_gate: Είσοδος της πόλης
@@ -800,6 +893,7 @@ el:
           quarry: Λατομείο
           railway: Σιδηρόδρομος
           recreation_ground: Χώρος αναψυχής
+          religious: Θρησκευτικό έδαφος
           reservoir: Ταμιευτήρας
           reservoir_watershed: Δεξαμενή απορροής υδάτων
           residential: Κατοικημένη περιοχή
@@ -811,6 +905,7 @@ el:
           beach_resort: Παραθαλάσσιο θέρετρο
           bird_hide: Καταφύγιο πουλιών
           common: Κοινόχρηστη γη
+          dance: Αίθουσα χωρού
           dog_park: Πάρκο σκύλων
           firepit: Λάκκος Φωτιάς
           fishing: Αλιευτική περιοχή
@@ -824,6 +919,7 @@ el:
           miniature_golf: Μίνι γκολφ
           nature_reserve: Καταφύγιο της φύσης
           park: Πάρκο
+          picnic_table: Τραπέζι πικνικ
           pitch: Γήπεδο αθλητισμού
           playground: Παιδική χαρά
           recreation_ground: Χώρος αναψυχής
@@ -838,7 +934,9 @@ el:
           "yes": Ψυχαγωγία
         man_made:
           adit: Οριζόντια είσοδος σε ορυχείο
+          advertising: Διαφήμιση
           antenna: Κεραία
+          avalanche_protection: Προστασία χιονοστιβάδας
           beacon: φάρος
           beehive: Κυψέλη
           breakwater: Κυματοθραύστης
@@ -854,6 +952,7 @@ el:
           groyne: Φράγμα
           kiln: Καμίνι
           lighthouse: Φάρος
+          manhole: Ανθρωποθυρίδα
           mast: Κατάρτι
           mine: Ορυχείο
           mineshaft: Φρεάτιο ορυχείου
@@ -861,13 +960,17 @@ el:
           petroleum_well: Γεώτρηση Πετρελαίου
           pier: Αποβάθρα
           pipeline: Αγωγός
+          pumping_station: Αντλιοστάσιο
           silo: Σιλό
+          snow_cannon: Κανόνι χιονιού
+          snow_fence: Χιονοφράχτης
           storage_tank: Δεξαμενή αποθήκευσης
           surveillance: Επιτήρηση
           telescope: Τηλεσκόπιο
           tower: Πύργος
           wastewater_plant: Μονάδα επεξεργασίας λυμάτων
           watermill: Νερόμυλος
+          water_tap: Βρύση
           water_tower: Πύργος νερού
           water_well: Πηγάδι
           water_works: Έργα Υδάτων
@@ -900,6 +1003,7 @@ el:
           heath: Ακαλλιέργητη γη
           hill: Λόφος
           island: Νησί
+          isthmus: Ισθμός
           land: Ξηρά
           marsh: Βάλτος
           moor: Δέστρα
@@ -918,6 +1022,8 @@ el:
           stone: Πέτρα
           strait: Πορθμός
           tree: Δέντρο
+          tree_row: Σειρά δέντρων
+          tundra: Τούνδρα
           valley: Κοιλάδα
           volcano: Ηφαίστειο
           water: Νερό
@@ -941,6 +1047,10 @@ el:
           lawyer: Δικηγόρος
           logistics: Λογιστικό γραφείο
           ngo: Γραφείο ΜΚΟ
+          notary: Συμβολαιογράφος
+          religion: Θρησκευτικό γραφείο
+          research: Ερευνητικό γραφείο
+          tax_advisor: Φορολογικός σύμβουλος
           telecommunication: Γραφείο τηλεπικοινωνιών
           travel_agent: Ταξιδιωτικό πρακτορείο
           "yes": Γραφείο
@@ -1024,6 +1134,8 @@ el:
           convenience: Παντοπωλείο
           copyshop: Κατάστημα φωτοαντιγράφων
           cosmetics: Κατάστημα καλλυντικών
+          curtain: Κατάστημα κουρτίνων
+          dairy: Κατάστημα γαλακτοκομικών
           deli: Ντελικατέσεν
           department_store: Πολυκατάστημα
           discount: Εκπτωτικό κατάστημα
@@ -1031,7 +1143,9 @@ el:
           dry_cleaning: Στεγνό καθάρισμα
           e-cigarette: Κατάστημα ηλεκτρονικών τσιγάρων
           electronics: Κατάστημα ηλεκτρονικών
+          erotic: Κατάστημα ερωτικών ειδών
           estate_agent: Κτηματομεσίτης
+          fabric: Κατάστημα υφασμάτων
           farm: Γεωργικά εφόδια
           fashion: Κατάστημα μόδας
           fishing: Κατάστημα ειδών αλιείας
@@ -1059,14 +1173,19 @@ el:
           lottery: Λοταρία
           mall: Εμπορικό κέντρο
           massage: Μασάζ
+          medical_supply: Κατάστημα ιατρικών προμηθειών
           mobile_phone: Κατάστημα κινητής τηλεφωνίας
           motorcycle: Κατάστημα μοτοσικλετών
+          motorcycle_repair: Κατάστημα επισκευής μοτοσυκλετών
           music: Κατάστημα μουσικής
+          musical_instrument: Μουσικά όργανα
           newsagent: Πρακτορείο εφημερίδων
+          nutrition_supplements: Συμπληρώματα διατροφής
           optician: Οπτικός
           organic: Κατάστημα οργανικών τροφίμων
           outdoor: Υπαίθριο κατάστημα
           paint: Χρωματοπωλείο
+          pastry: Ζαχαροπλαστείο
           pawnbroker: Ενεχυροδανειστής
           perfumery: Αρωματοπωλείο
           pet: Κατάστημα κατοικίδιων
@@ -1086,6 +1205,7 @@ el:
           vacant: Κενό κατάστημα
           variety_store: Κατάστημα ποικιλιών
           video: Κατάστημα βίντεο
+          wholesale: Κατάστημα χονδρικής
           wine: Κατάστημα κρασιών
           "yes": Κατάστημα
         tourism:
@@ -1134,12 +1254,15 @@ el:
           "yes": Κανάλι
       admin_levels:
         level2: Σύνορα χώρας
+        level3: Σύνορο περιοχής
         level4: Σύνορο πολιτείας
         level5: Σύνορο περιοχής
         level6: Σύνορο κομητείας
+        level7: Σύνορο δήμου
         level8: Σύνορο πόλης
         level9: Σύνορο χωριού
         level10: Σύνορο προαστίου
+        level11: Σύνορο γειτονιάς
       types:
         cities: Πόλεις
         towns: Κωμοπόλεις
@@ -1279,9 +1402,10 @@ el:
     intro_text: Το OpenStreetMap είναι χάρτης του κόσμου, που δημιουργήθηκε από ανθρώπους
       σαν κι εσάς και είναι δωρεάν, υπό άδεια ελεύθερης χρήσης.
     intro_2_create_account: Δημιουργήστε ένα λογαριασμό χρήστη
-    hosting_partners_html: Η λειτουργία υποστηρίζεται από %{ucl}, %{bytemark}, και
-      άλλους %{partners}.
+    hosting_partners_html: Η φιλοξενία υποστηρίζεται από %{ucl}, %{fastly}, %{bytemark},
+      και άλλους %{partners}.
     partners_ucl: UCL
+    partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
     partners_partners: συνεργάτες
     tou: Όροι χρήσης
@@ -1309,12 +1433,21 @@ el:
       hi: Γεια σας %{to_user},
       header: 'Ο %{from_user} έχει σχολιάσει την καταχώριση ημερολογίου στο OpenStreetMap
         με θέμα %{subject}:'
+      header_html: 'Ο %{from_user} έχει σχολιάσει την καταχώριση ημερολογίου στο OpenStreetMap
+        με θέμα %{subject}:'
       footer: Μπορείτε επίσης να διαβάσετε το σχόλιο στο %{readurl} και μπορείτε να
         σχολιάσετε στο %{commenturl} ή να στείλετε μήνυμα στον συγγραφέα στο %{replyurl}
+      footer_html: Μπορείτε επίσης να διαβάσετε το σχόλιο στο %{readurl} και μπορείτε
+        να σχολιάσετε στο %{commenturl} ή να στείλετε μήνυμα στον συγγραφέα στο %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Γεια σας %{to_user},
       header: 'Ο χρήστης %{from_user} σάς έχει στείλει ένα μήνυμα μέσω του OpenStreetMap
         με θέμα %{subject}:'
+      header_html: 'Ο χρήστης %{from_user} σάς έχει στείλει ένα μήνυμα μέσω του OpenStreetMap
+        με θέμα %{subject}:'
+      footer: Μπορείτε επίσης να διαβάσετε το μήνυμα στο %{readurl} και να στείλετε
+        μήνυμα στον συγγραφέα στο %{replyurl}
       footer_html: Μπορείτε επίσης να διαβάσετε το μήνυμα στο %{readurl} και να στείλετε
         μήνυμα στον συγγραφέα στο %{replyurl}
     friendship_notification:
@@ -1322,7 +1455,9 @@ el:
       subject: '[OpenStreetMap] Ο χρήστης %{user} σας πρόσθεσε ως φίλο'
       had_added_you: Ο χρήστης %{user} σας πρόσθεσε ως φίλο στο OpenStreetMap.
       see_their_profile: Μπορείτε να δείτε το προφίλ του στο %{userurl}.
+      see_their_profile_html: Μπορείτε να δείτε το προφίλ του στο %{userurl}.
       befriend_them: Μπορείτε επίσης να τους προσθέσετε ως φίλους στο %{befriendurl}.
+      befriend_them_html: Μπορείτε επίσης να τους προσθέσετε ως φίλους στο %{befriendurl}.
     gpx_failure:
       hi: Γεια σας %{to_user},
       failed_to_import: 'Απέτυχε η εισαγωγή. Το σφάλμα είναι:'
@@ -1435,6 +1570,7 @@ el:
     inbox:
       title: Εισερχόμενα
       my_inbox: Τα εισερχόμενα μου
+      my_outbox: Τα εξερχόμενα μου
       messages: Έχετε %{new_messages} και %{old_messages}
       new_messages:
         one: '%{count} νέο μήνυμα'
@@ -1469,6 +1605,8 @@ el:
       body: Λυπάμαι δεν υπάρχει μήνυμα με αυτό το αναγνωριστικό.
     outbox:
       title: Εξερχόμενα
+      my_inbox: Τα εισερχόμενα μου
+      my_outbox: Τα εξερχόμενα μου
       messages:
         one: Έχετε %{count} απεσταλμένο μήνυμα
         other: Έχετε %{count} απεσταλμένα μηνύματα
@@ -1521,12 +1659,30 @@ el:
       reset: Επαναφορά συνθηματικού
       flash changed: Το συνθηματικό σας άλλαξε!
       flash token bad: Δεν βρήκατε αυτό το κομμάτι, μήπως πρέπει να ελέγξετε το URL;
+  preferences:
+    show:
+      title: Οι προτιμήσεις μου
+      preferred_editor: Προτιμώμενος επεξεργαστής
+      preferred_languages: Προτιμώμενες γλώσσες
+      edit_preferences: Επεξεργασία προτιμήσεων
+    edit:
+      title: Επεξεργασία προτιμίσεων
+      save: Ενημέρωση προτιμήσεων
+      cancel: Ακύρωση
+    update:
+      failure: Δεν μπόρεσαν να ενημερωθούν οι προτιμήσεις.
+    update_success_flash:
+      message: Οι προτιμήσεις ενημερώθηκαν.
   profiles:
     edit:
+      title: Επεξεργασία προφίλ
+      save: Ενημέρωση προφίλ
+      cancel: Ακύρωση
       image: Εικόνα
       gravatar:
         gravatar: Χρήση Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Τί είναι το Gravatar;
         disabled: 'Το Gravatar έχει απενεργοποιηθεί:'
         enabled: Έχει ενεργοποιηθεί η εμφάνιση του Gravatar σας.
       new image: Προσθήκη εικόνας
@@ -1538,6 +1694,9 @@ el:
       no home location: Δεν έχετε εισάγει την τοποθεσία του σπιτιού σας.
       update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ στον
         χάρτη;
+    update:
+      success: Το προφίλ ενημερώθηκε.
+      failure: Δεν μπόρεσε να ενημερωθεί το προφίλ.
   sessions:
     new:
       title: Είσοδος
@@ -1594,6 +1753,20 @@ el:
       title: Αποσύνδεση
       heading: Αποσύνδεση από το OpenStreetMap
       logout_button: Αποσύνδεση
+  shared:
+    markdown_help:
+      unordered: Αταξινόμητη λίστα
+      ordered: Ταξινομημένη λίστα
+      first: Πρώτο στοιχείο
+      second: Δεύτερο στοιχείο
+      link: Σύνδεσμος
+      text: Κείμενο
+      image: Εικόνα
+      alt: Εναλ. κείμενο
+      url: URL
+    richtext_field:
+      edit: Επεξεργασία
+      preview: Προεπισκόπηση
   site:
     about:
       next: Επόμενη
@@ -2116,6 +2289,7 @@ el:
         ή μάθετε περισσότερα για την καταγραφή ιχνών με GPS στη <a href='https://wiki.openstreetmap.org/wiki/El:Beginners_Guide_1.2'>σελίδα
         wiki</a>.
       upload_trace: Αποστολή ίχνους
+      all_traces: Όλα τα ίχνη
     destroy:
       scheduled_for_deletion: Το ίχνος προγραμματίστηκε για διαγραφή
     make_public:
@@ -2180,6 +2354,11 @@ el:
       flash: Ανακαλέσατε την αδειοδότηση για το %{application}.
     permissions:
       missing: Δεν έχετε επιτρέψει την πρόσβαση εφαρμογής σε αυτήν την λειτουργία
+    scopes:
+      write_api: Τροποποίηση του χάρτη
+      read_gpx: Ανάγνωση προσωπικών ιχνών GPS
+      write_gpx: Μεταφόρτωση ιχνών GPS
+      write_notes: Τροποποίηση σημειώσεων
   oauth_clients:
     new:
       title: Καταχώρηση νέας εφαρμογής
@@ -2221,6 +2400,28 @@ el:
       flash: Οι πληροφορίες του πελάτη ενημερώθηκαν με επιτυχία
     destroy:
       flash: Η εγγραφή της εφαρμογής πελάτη καταστράφηκε
+  oauth2_applications:
+    index:
+      new: Καταχώρηση νέας εφαρμογής
+      name: Όνομα
+      permissions: Άδειες
+    application:
+      edit: Επεξεργασία
+      delete: Διαγραφή
+      confirm_delete: Διαγραφή αυτής της εφαρμογής;
+    new:
+      title: Καταχώρηση νέας εφαρμογής
+    edit:
+      title: Επεξεργασία της εφαρμογής σας
+    show:
+      edit: Επεξεργασία
+      delete: Διαγραφή
+      confirm_delete: Διαγραφή αυτής της εφαρμογής;
+      client_id: ID πελάτη
+      client_secret: Μυστικό πελάτη
+      client_secret_warning: Σιγουρευτείτε ότι θα αποθηκεύσετε αυτό το μυστικό - δεν
+        θα είναι προσβάσιμο ξανά
+      permissions: Άδειες
   users:
     new:
       title: Εγγραφή
@@ -2296,8 +2497,11 @@ el:
       my profile: Το Προφίλ Μου
       my settings: Οι Ρυθμίσεις Μου
       my comments: Τα Σχόλιά Μου
+      my_preferences: Οι προτιμήσεις μου
+      my_dashboard: Το ταμπλό μου
       blocks on me: Φραγές σε Εμένα
       blocks by me: Φραγές από Εμένα
+      edit_profile: Επεξεργασία προφίλ
       send message: Αποστολή Μηνύματος
       diary: Ημερολόγιο
       edits: Επεξεργασίες
@@ -2316,13 +2520,6 @@ el:
       spam score: 'Σκορ Spam:'
       description: Περιγραφή
       user location: Τοποθεσία χρήστη
-      my friends: Οι φίλοι μου
-      no friends: Δεν έχετε προσθέσει φίλους ακόμα.
-      km away: '%{count}χλμ μακριά'
-      m away: '%{count}μ μακριά'
-      nearby users: Άλλοι κοντινοί χρήστες
-      no nearby users: Δεν υπάρχουν άλλοι χρήστες που δήλωσαν ότι χαρτογραφούν κοντά
-        σας προς το παρόν.
       role:
         administrator: Αυτός ο χρήστης είναι διαχειριστής
         moderator: Αυτός ο χρήστης είναι συντονιστής
@@ -2343,15 +2540,7 @@ el:
       unhide_user: Επανεμφάνιση αυτού του λογαριασμού Χρήστη
       delete_user: Διαγραφή αυτού του Χρήστη
       confirm: Επιβεβαίωση
-      friends_changesets: ομάδες αλλαγών φίλων
-      friends_diaries: καταχωρήσεις ημερολογίου φίλων
-      nearby_changesets: ομάδες αλλαγών από κοντινούς χρήστες
-      nearby_diaries: καταχωρήσεις ημερολογίου από κοντινούς χρήστες
       report: Αναφορά αυτού του χρήστη
-    popup:
-      your location: Η τοποθεσία σας
-      nearby mapper: Κοντινός χαρτογράφος
-      friend: Φίλος
     account:
       title: Επεξεργασία λογαριασμού
       my settings: Οι ρυθμίσεις μου
@@ -2416,6 +2605,7 @@ el:
     suspended:
       title: Ο Λογαριασμός έχει Ανασταλεί
       heading: Ο Λογαριασμός έχει Ανασταλεί
+      support: υποστήριξη
       body_html: |-
         <p>
         Λυπάμαι, ο λογαριασμός σας έχει αυτόματα ανασταλεί λόγω
@@ -2572,6 +2762,7 @@ el:
       title: Σημειώσεις που υποβλήθηκαν ή σχολιάστηκαν από τον %{user}
       heading: σημειώσεις του %{user}
       subheading_html: Σημειώσεις που υποβλήθηκαν ή σχολιάστηκαν από τον %{user}
+      no_notes: Χωρίς σημειώσεις
       id: Αναγνωριστικό
       creator: Δημιουργός
       description: Περιγραφή
@@ -2678,12 +2869,12 @@ el:
     directions:
       ascend: Ανάβαση
       engines:
-        fossgis_osrm_bike: Με ποδήλατο (OSRM)
+        fossgis_osrm_bike: Ποδήλατο (OSRM)
         fossgis_osrm_car: Αυτοκίνητο (OSRM)
-        fossgis_osrm_foot: Με τα πόδια (OSRM)
+        fossgis_osrm_foot: Πόδια (OSRM)
         graphhopper_bicycle: Ποδήλατο (GraphHopper)
-        graphhopper_car: Με τα πόδια (GraphHopper)
-        graphhopper_foot: Με τα πόδια (GraphHopper)
+        graphhopper_car: Αυτοκίνητο (GraphHopper)
+        graphhopper_foot: Πόδια (GraphHopper)
       descend: Κατάβαση
       directions: Οδηγίες
       distance: Απόσταση
