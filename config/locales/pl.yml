@@ -519,6 +519,27 @@ pl:
       title_particular: 'Dyskusja na temat zestawu zmian #%{changeset_id}'
     timeout:
       sorry: Niestety, pobieranie listy żądanych zestawów zmian trwało zbyt długo.
+  dashboards:
+    contact:
+      km away: '%{count} km stąd'
+      m away: '%{count} m stąd'
+    popup:
+      your location: Twoje położenie
+      nearby mapper: Mapujący z okolicy
+      friend: Znajomy
+    show:
+      no_home_location_html: '%{edit_profile_link} i podaj swoją lokalizację, aby
+        zobaczyć użytkowników w pobliżu.'
+      edit_your_profile: Edytuj swój profil
+      my friends: Moi znajomi
+      no friends: Nie dodano jeszcze żadnych znajomych.
+      nearby users: Najbliżsi użytkownicy
+      no nearby users: Nie ma innych użytkowników, którzy przyznają się do mapowania
+        w tej okolicy.
+      friends_changesets: zestawy zmian znajomych
+      friends_diaries: wpisy w dziennikach znajomych
+      nearby_changesets: pobliskie zestawy zmian
+      nearby_diaries: pobliskie wpisy w dziennikach
   diary_entries:
     new:
       title: Nowy wpis do dziennika
@@ -855,6 +876,7 @@ pl:
           window_construction: Montaż okien
           winery: Winiarnia
           "yes": Warsztat
+        crossing: Przejście
         emergency:
           access_point: Punkt dla służb ratowniczych
           ambulance_station: Stacja pogotowia ratunkowego
@@ -1110,6 +1132,7 @@ pl:
           hill: Wzgórze
           hot_spring: Źródło termalne
           island: Wyspa
+          isthmus: Przesmyk
           land: Ląd
           marsh: Bagno
           moor: Wrzosowisko
@@ -1124,10 +1147,13 @@ pl:
           sand: Piaski
           scree: Rumowisko skalne
           scrub: Zarośla
+          shingle: Plaża kamienista
           spring: Źródło wodne
           stone: Głaz
           strait: Cieśnina
           tree: Drzewo
+          tree_row: Rząd drzew
+          tundra: Tundra
           valley: Dolina
           volcano: Wulkan
           water: Woda
@@ -1530,8 +1556,10 @@ pl:
     intro_text: OpenStreetMap to mapa świata, stworzona przez ludzi, takich jak ty,
       i z możliwością użycia pod otwartą licencją.
     intro_2_create_account: Utwórz konto
-    hosting_partners_html: Hosting obsługuje %{ucl}, %{bytemark}, a także %{partners}.
+    hosting_partners_html: Hosting obsługuje %{ucl}, %{fastly}, %{bytemark}, a także
+      %{partners}.
     partners_ucl: University College London
+    partners_fastly: Fastly
     partners_bytemark: Hosting Bytemark
     partners_partners: partnerzy
     tou: Warunki użytkowania
@@ -2025,9 +2053,10 @@ pl:
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> oraz
           Land Tyrol (na licencji <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT z późniejszymi zmianami</a>).
         contributors_au_html: '<strong>Australia</strong>: Zawiera dane oparte na
-          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA
-          Australia Limited</a>, licencjonowane przez Związek Australijski na podstawie
-          licencji <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.'
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape
+          Australia</a>, licencjonowane przez Związek Australijski na podstawie licencji
+          <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+          Attribution 4.0 International licence (CC BY 4.0)</a>.'
         contributors_ca_html: '<strong>Kanada</strong>: Zawiera dane z GeoBase&reg;,
           GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy;
           Department of Natural Resources Canada) i StatCan (Geography Division, Statistics
@@ -2218,7 +2247,7 @@ pl:
       desktop_html: Nadal można używać edytora Potlatch <a href="https://www.systemed.net/potlatch/">ściągając
         aplikację pod Windows lub macOS</a>.
       id_html: Możesz także ustawić iD jako swój domyślny edytor w przeglądarce. <a
-        href="%{settings_url}">Zmień swoje ustawienia tutaj</a>.
+        href="%{settings_url}">Zmień swoje preferencje tutaj</a>.
     sidebar:
       search_results: Wyniki wyszukiwania
       close: Zamknij
@@ -2475,6 +2504,11 @@ pl:
       need_to_see_terms: Twój dostęp do API został czasowo zawieszony. Zaloguj się
         przez stronę WWW, aby zapoznać się z Warunkami Uczestnictwa. Nie masz obowiązku
         ich akceptować, ale musisz się z nimi zapoznać.
+    settings_menu:
+      account_settings: Ustawienia konta
+      oauth1_settings: Ustawienia OAuth 1
+      oauth2_applications: Aplikacje OAuth 2
+      oauth2_authorizations: Autoryzacje OAuth 2
   oauth:
     authorize:
       title: Uwierzytelnij dostęp do konta
@@ -2698,13 +2732,6 @@ pl:
       spam score: 'Punktacja spamu:'
       description: Opis
       user location: Położenie użytkownika
-      my friends: Moi znajomi
-      no friends: Nie dodano jeszcze żadnych znajomych.
-      km away: '%{count} km stąd'
-      m away: '%{count} m stąd'
-      nearby users: Najbliżsi użytkownicy
-      no nearby users: Nie ma innych użytkowników, którzy przyznają się do mapowania
-        w tej okolicy.
       role:
         administrator: Ten użytkownik jest administratorem
         moderator: Ten użytkownik jest moderatorem
@@ -2725,15 +2752,7 @@ pl:
       unhide_user: Odkryj tego użytkownika
       delete_user: Usuń tego użytkownika
       confirm: Potwierdź
-      friends_changesets: zestawy zmian znajomych
-      friends_diaries: wpisy w dziennikach znajomych
-      nearby_changesets: pobliskie zestawy zmian
-      nearby_diaries: pobliskie wpisy w dziennikach
       report: zgłoś tego użytkownika
-    popup:
-      your location: Twoje położenie
-      nearby mapper: Mapujący z okolicy
-      friend: Znajomy
     account:
       title: Zmiana ustawień konta
       my settings: Ustawienia
@@ -2771,10 +2790,6 @@ pl:
         link text: co to jest?
       save changes button: Zapisz zmiany
       make edits public button: Niech wszystkie edycje będą publiczne.
-      return to profile: Wróć do profilu
-      oauth1 settings: Ustawienia OAuth 1
-      oauth2 applications: Aplikacje OAuth 2
-      oauth2 authorizations: Autoryzacje OAuth 2
       flash update success confirm needed: Zaktualizowano profil użytkownika.  Sprawdź,
         czy przyszedł już mail potwierdzający nowy adres mailowy.
       flash update success: Zaktualizowano profil użytkownika.

@@ -22,7 +22,6 @@ class Way < ApplicationRecord
 
   include ConsistencyValidations
   include NotRedactable
-  include ObjectMetadata
 
   self.table_name = "current_ways"
 

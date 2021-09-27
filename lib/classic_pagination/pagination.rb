@@ -81,12 +81,12 @@ module ActionController
       }.freeze
     end
 
-    def self.included(base) #:nodoc:
+    def self.included(base) # :nodoc:
       super
       base.extend(ClassMethods)
     end
 
-    def self.validate_options!(collection_id, options, in_action) #:nodoc:
+    def self.validate_options!(collection_id, options, in_action) # :nodoc:
       options.merge!(DEFAULT_OPTIONS) { |_key, old, _new| old }
 
       valid_options = DEFAULT_OPTIONS.keys
@@ -156,7 +156,7 @@ module ActionController
 
     protected
 
-    def create_paginators_and_retrieve_collections #:nodoc:
+    def create_paginators_and_retrieve_collections # :nodoc:
       Pagination::OPTIONS[self.class].each do |collection_id, options|
         next if options[:actions]&.exclude?(action_name)
 
@@ -204,7 +204,7 @@ module ActionController
 
     private
 
-    def paginator_and_collection_for(_collection_id, options) #:nodoc:
+    def paginator_and_collection_for(_collection_id, options) # :nodoc:
       klass = options[:class_name].constantize
       page  = params[options[:parameter]]
       count = count_collection_for_pagination(klass, options)
@@ -378,7 +378,7 @@ module ActionController
           [@paginator.items_per_page, offset]
         end
 
-        def to_param #:nodoc:
+        def to_param # :nodoc:
           @number.to_s
         end
       end

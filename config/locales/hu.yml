@@ -428,7 +428,7 @@ hu:
     index:
       title: Módosításcsomagok
       title_user: '%{user} módosításcsomagjai'
-      title_friend: Ismerőseim módosításcsomagjai
+      title_friend: Ismerősök módosításcsomagjai
       title_nearby: Közeli felhasználók módosításcsomagjai
       empty: Nem található módosításcsomag
       empty_area: Nincs módosításcsomag erre a területre.
@@ -453,6 +453,28 @@ hu:
     timeout:
       sorry: Sajnáljuk, túl sokáig tartott az általad kért módosításcsomag-hozzászólások
         listájának lekérése.
+  dashboards:
+    contact:
+      km away: '%{count} km távolságra'
+      m away: '%{count} m távolságra'
+    popup:
+      your location: Helyed
+      nearby mapper: Közeli térképszerkesztő
+      friend: Ismerős
+    show:
+      title: Irányítópult
+      no_home_location_html: '%{edit_profile_link}, és add meg az otthoni tartózkodási
+        helyed, hogy lásd a közeli felhasználókat.'
+      edit_your_profile: Szerkeszd a profilodat
+      my friends: Ismerősök
+      no friends: Még nem adtál meg egyetlen ismerőst sem.
+      nearby users: További közeli felhasználók
+      no nearby users: Még nincsenek más felhasználók, akik megadták, hogy a közelben
+        szerkesztenek.
+      friends_changesets: ismerősök módosításcsomagjai
+      friends_diaries: ismerősök naplóbejegyzései
+      nearby_changesets: közeli felhasználók módosításcsomagjai
+      nearby_diaries: közeli felhasználók naplóbejegyzései
   diary_entries:
     new:
       title: Új naplóbejegyzés
@@ -788,6 +810,7 @@ hu:
           window_construction: Ablakkészítő
           winery: Borászat
           "yes": Kézműves bolt
+        crossing: Gyalogosátkelő
         emergency:
           access_point: Mentési pont
           ambulance_station: Mentőállomás
@@ -1043,6 +1066,7 @@ hu:
           hill: Domb
           hot_spring: Hőforrás
           island: Sziget
+          isthmus: Földszoros
           land: Szárazföld
           marsh: Mocsár
           moor: Mocsár
@@ -1057,10 +1081,13 @@ hu:
           sand: Homok
           scree: Törmeléklejtő
           scrub: Bozót
+          shingle: Kavicsos tengerpart vagy folyómeder
           spring: Forrás
           stone: Kő
           strait: Tengerszoros
           tree: Fa
+          tree_row: Fasor
+          tundra: Tundra
           valley: Völgy
           volcano: Vulkán
           water: Víz
@@ -1457,9 +1484,10 @@ hu:
     intro_text: Az OpenStreetMap egy világtérkép, amelyet hozzád hasonló emberek készítenek
       és szabad licenc alatt elérhető.
     intro_2_create_account: Felhasználói fiók létrehozása
-    hosting_partners_html: 'Az üzemeltetés támogatói: %{ucl}, %{bytemark}, és további
-      %{partners}.'
+    hosting_partners_html: 'Az üzemeltetés támogatói: %{ucl}, %{fastly}, %{bytemark},
+      és további %{partners}.'
     partners_ucl: UCL
+    partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
     partners_partners: partnerek
     tou: Felhasználási feltételek
@@ -1646,8 +1674,8 @@ hu:
   messages:
     inbox:
       title: Beérkezett üzenetek
-      my_inbox: Beérkezett üzeneteim
-      my_outbox: Elküldött üzeneteim
+      my_inbox: Beérkezett üzenetek
+      my_outbox: Elküldött üzenetek
       messages: '%{new_messages} és %{old_messages} van'
       new_messages:
         one: 1 új üzeneted
@@ -1682,8 +1710,8 @@ hu:
       body: Sajnáljuk, nincs ilyen azonosítójú üzenet.
     outbox:
       title: Elküldött üzenetek
-      my_inbox: Beérkezett üzeneteim
-      my_outbox: Elküldött üzeneteim
+      my_inbox: Beérkezett üzenetek
+      my_outbox: Elküldött üzenetek
       messages:
         one: Egy elküldött üzeneted van
         other: '%{count} elküldött üzeneted van'
@@ -1736,7 +1764,7 @@ hu:
       flash token bad: Nem találtad meg a tokent? Esetleg ellenőrizd az URL-t.
   preferences:
     show:
-      title: Beállításaim
+      title: Megjelenési beállítások
       preferred_editor: Előnyben részesített szerkesztő
       preferred_languages: Előnyben részesített nyelvek
       edit_preferences: Beállítások szerkesztése
@@ -1953,9 +1981,11 @@ hu:
           <strong>Ausztria</strong>: adatokat tartalmaz a következő forrásból:
              <a href="https://data.wien.gv.at/">Bécs városa</a>
              <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a> licenc alatt.
-        contributors_au_html: |-
-          <strong>Ausztrália</strong>: tartalmaz külvárosi adatokat az
-             Ausztrál Statisztikai Hivatal adatain alapulva.
+        contributors_au_html: 'Ausztrália: A Commonwealth of Australia által a <a
+          href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
+          4.0 International licenc (CC BY 4.0)</a> alapján engedélyezett <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape
+          Australia</a> Administrative Boundaries &copy; (közigazgatási határok) felhasználásával
+          készült vagy azt tartalmazza.'
         contributors_ca_html: |-
           <strong>Kanada</strong>: adatokat tartalmaz a következő forrásokból:
              GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -2145,8 +2175,8 @@ hu:
       desktop_html: A Potlatchot azonban továbbra is hasznáhatod, ha <a href="https://www.systemed.net/potlatch/">letöltöd
         a Windowsos vagy Maces asztali alkalmazást</a>.
       id_html: Alternatív megoldásként beállíthatod alapértelmezett szerkesztőként
-        az iD-t, amely a webböngészőben fut, mint korábban a Potlatch. <a href="%{settings_url}">Felhasználói
-        beállításaidat itt módosíthatod</a>.
+        az iD-t, amely a webböngészőben fut, mint hajdanán a Potlatch. <a href="%{settings_url}">Beállításaidat
+        itt módosíthatod</a>.
     sidebar:
       search_results: Keresés eredményei
       close: Bezár
@@ -2394,6 +2424,11 @@ hu:
       need_to_see_terms: Az API-hoz való hozzáférésed ideiglenesen felfüggesztésre
         került. Jelentkezz be a webes felületen a közreműködési feltételek megtekintéséhez.
         Ezt nem kell elfogadnod, de meg kell tekintened.
+    settings_menu:
+      account_settings: Fiók beállításai
+      oauth1_settings: OAuth 1 beállítások
+      oauth2_applications: OAuth 2 alkalmazások
+      oauth2_authorizations: OAuth 2 engedélyek
   oauth:
     authorize:
       title: A fiókodhoz való hozzáférés engedélyezése
@@ -2587,16 +2622,17 @@ hu:
         is lehet, hogy rossz linkre kattintottál.
       deleted: törölve
     show:
-      my diary: Naplóm
+      my diary: Saját napló
       new diary entry: új naplóbejegyzés
-      my edits: Szerkesztéseim
+      my edits: Saját szerkesztések
       my traces: Nyomvonalaim
-      my notes: Jegyzeteim
-      my messages: Üzeneteim
-      my profile: Profilom
-      my settings: Beállításaim
-      my comments: Hozzászólásaim
-      my_preferences: Beállításaim
+      my notes: Saját jegyzetek
+      my messages: Üzenetek
+      my profile: Profil
+      my settings: Személyes beállítások
+      my comments: Saját hozzászólások
+      my_preferences: Megjelenési beállítások
+      my_dashboard: Irányítópult
       blocks on me: Engem sújtó blokkolások
       blocks by me: Általam kiosztott blokkolások
       edit_profile: Profil szerkesztése
@@ -2618,13 +2654,6 @@ hu:
       spam score: 'Spam pontszám:'
       description: Leírás
       user location: Felhasználó helye
-      my friends: Ismerőseim
-      no friends: Még nem adtál meg egyetlen ismerőst sem.
-      km away: '%{count} km távolságra'
-      m away: '%{count} m távolságra'
-      nearby users: További közeli felhasználók
-      no nearby users: Még nincsenek más felhasználók, akik megadták, hogy a közelben
-        szerkesztenek.
       role:
         administrator: Ez a felhasználó adminisztrátor
         moderator: Ez a felhasználó moderátor
@@ -2645,18 +2674,10 @@ hu:
       unhide_user: felhasználó elrejtésének megszüntetése
       delete_user: felhasználó törlése
       confirm: Megerősítés
-      friends_changesets: ismerősök módosításcsomagjai
-      friends_diaries: ismerősök naplóbejegyzései
-      nearby_changesets: közeli felhasználók módosításcsomagjai
-      nearby_diaries: közeli felhasználók naplóbejegyzései
       report: Felhasználó bejelentése
-    popup:
-      your location: Helyed
-      nearby mapper: Közeli térképszerkesztő
-      friend: Ismerős
     account:
       title: Fiók szerkesztése
-      my settings: Beállításaim
+      my settings: Személyes beállítások
       current email address: Jelenlegi e-mail-cím
       external auth: Külső hitelesítés
       openid:
@@ -2691,11 +2712,7 @@ hu:
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: mi ez?
       save changes button: Módosítások mentése
-      make edits public button: Szerkesztéseim nyilvánossá tétele
-      return to profile: Vissza a profilhoz
-      oauth1 settings: OAuth 1 beállítások
-      oauth2 applications: OAuth 2 alkalmazások
-      oauth2 authorizations: OAuth 2 engedélyek
+      make edits public button: Az összes szerkesztésem nyilvánossá tétele
       flash update success confirm needed: Felhasználói információk sikeresen frissítve.
         Nézd meg az e-mailjeidet az új e-mail címedet megerősítő levélhez.
       flash update success: Felhasználói információk sikeresen frissítve.

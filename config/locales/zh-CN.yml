@@ -45,8 +45,10 @@
 # Author: RyanCray88
 # Author: Shizhao
 # Author: SinonJZH
+# Author: SkyEye FAST
 # Author: StephDC
 # Author: TianyinLee
+# Author: TsuyaMarisa
 # Author: Vikarna
 # Author: VulpesVulpes825
 # Author: WQL
@@ -55,6 +57,7 @@
 # Author: Xiaomingyan
 # Author: Yfdyh000
 # Author: Zazzzz
+# Author: Zfshuo
 # Author: Zhang8569
 # Author: 乌拉跨氪
 # Author: 予弦
@@ -483,6 +486,26 @@ zh-CN:
       title_particular: 'OpenStreetMap 变更集 #%{changeset_id} 讨论'
     timeout:
       sorry: 抱歉，您所请求的变更集评论时间区间过长。
+  dashboards:
+    contact:
+      km away: '%{count}千米外'
+      m away: '%{count}米外'
+    popup:
+      your location: 您的位置
+      nearby mapper: 附近绘图者
+      friend: 朋友
+    show:
+      title: 我的综合面板
+      no_home_location_html: '%{edit_profile_link}并设定你的家庭地址来查看附近的用户。'
+      edit_your_profile: 编辑你的档案
+      my friends: 我的朋友
+      no friends: 您还没有添加任何好友。
+      nearby users: 其他附近的用户
+      no nearby users: 附近没有在进行制图的用户。
+      friends_changesets: 朋友的变更集
+      friends_diaries: 朋友的日记文章
+      nearby_changesets: 附近用户的变更集
+      nearby_diaries: 附近用户的日记文章
   diary_entries:
     new:
       title: 新日记文章
@@ -519,7 +542,7 @@ zh-CN:
       posted_by_html: '%{link_user}在%{created}用%{language_link}发布'
       updated_at_html: 最后一次更新于%{updated}。
       comment_link: 评论该文章
-      reply_link: 向作者发送信息
+      reply_link: 向作者发送消息
       comment_count:
         zero: 没有评论
         one: '%{count} 个评论'
@@ -675,6 +698,7 @@ zh-CN:
           loading_dock: 装卸码头
           love_hotel: 爱情旅馆
           marketplace: 商场
+          mobile_money_agent: 移动货币代理
           monastery: 修道院
           money_transfer: 汇款处
           motorcycle_parking: 摩托车停车场
@@ -1068,6 +1092,7 @@ zh-CN:
           hill: 希尔地貌
           hot_spring: 温泉
           island: 岛
+          isthmus: 地峡
           land: 陆地
           marsh: 沼泽
           moor: 停泊区
@@ -1086,6 +1111,8 @@ zh-CN:
           stone: 石
           strait: 海峡
           tree: 树
+          tree_row: 树列
+          tundra: 苔原
           valley: 山谷
           volcano: 火山
           water: 水
@@ -1482,8 +1509,9 @@ zh-CN:
     intro_header: 欢迎访问 OpenStreetMap！
     intro_text: OpenStreetMap 是一个世界地图，由像您一样的人们所构筑，可依据开放许可协议自由使用。
     intro_2_create_account: 创建用户账户
-    hosting_partners_html: 主机由%{ucl}、%{bytemark}，以及其他%{partners}所支持。
+    hosting_partners_html: 主机由%{ucl}、%{fastly}、%{bytemark}，以及其他%{partners}所支持。
     partners_ucl: 伦敦大学学院
+    partners_fastly: 快速的
     partners_bytemark: Bytemark主机
     partners_partners: 合作伙伴
     tou: 使用条款
@@ -1514,7 +1542,7 @@ zh-CN:
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: 您好，%{to_user}：
-      header: '%{from_user} 已经通过 OpenStreetMap 给您发送了一条主题为 %{subject} 的信息：'
+      header: '%{from_user} 已经通过 OpenStreetMap 给您发送了一条主题为 %{subject} 的私信：'
       header_html: '%{from_user} 已经通过 OpenStreetMap 给您发送了一条主题为 %{subject} 的信息：'
       footer: 您也可以在%{readurl}阅读此消息并在%{replyurl}向作者发送信息
       footer_html: 您还可以在%{readurl}阅读这条信息并在%{replyurl}向作者发送信息
@@ -1593,6 +1621,7 @@ zh-CN:
         commented_changeset: '%{commenter}在%{time}对你监视的%{changeset_author}创建的变更集留下评论'
         commented_changeset_html: '%{commenter}于%{time}在您监视的由%{changeset_author}创建的一个地图变更集中留下评论'
         partial_changeset_with_comment: 带评论“%{changeset_comment}”
+        partial_changeset_with_comment_html: 带有评论“%{changeset_comment}”
         partial_changeset_without_comment: 没有评论
       details: 更多关于变更集的详细信息可以在 %{url} 找到。
       details_html: 更多有关变更集的详细信息，请参见 %{url}。
@@ -1640,13 +1669,13 @@ zh-CN:
       reply_button: 回复
       destroy_button: 删除
     new:
-      title: 发信息
+      title: 发消息
       send_message_to_html: 发送新信息给%{name}
       subject: 主题
       body: 正文
       back_to_inbox: 返回收件箱
     create:
-      message_sent: 信息已发出
+      message_sent: 消息已发出
       limit_exceeded: 您刚发送了很多消息。在尝试发送其他消息之前，请稍等一会儿。
     no_such_message:
       title: 无此消息
@@ -1788,6 +1817,8 @@ zh-CN:
       logout_button: 退出
   shared:
     markdown_help:
+      title_html: 使用 <a href="https://daringfireball.net/projects/markdown/">kramdown</a>
+        解析
       headings: 标题
       heading: 标题
       subheading: 副标题
@@ -1879,8 +1910,8 @@ zh-CN:
           Vorarlberg</a>及 Land Tirol (修订的 <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY
           AT</a>协议)的数据。
         contributors_au_html: |-
-          <strong>澳大利亚</strong>：包含来自
-          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA 澳大利亚有限公司是</a>的资料，依据<a href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">CC BY 4.0 国际</a>澳大利亚联邦条款授权。
+          <strong>澳大利亚</strong>：使用行政边界纳入或开发&copy;
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape澳大利亚</a>依据<a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名4.0国际许可协议（CC BY 4.0）</a>由澳大利亚联邦条款授权。
         contributors_ca_html: <strong>加拿大</strong>：含有来自GeoBase&reg;，GeoGratis（&copy;
           加拿大自然资源部），CanVec（&copy; 加拿大自然资源部）和StatCan（加拿大统计局地理处）的数据。
         contributors_fi_html: <strong>芬兰</strong>：包含来自芬兰国家测绘局地形数据库和其他测绘机构的数据，依据 <a
@@ -2022,6 +2053,7 @@ zh-CN:
     potlatch:
       removed: 您的默认OpenStreetMap编辑器设置为Potlatch。由于Adobe Flash Player已停止支持，因此Potlatch不再可在Web浏览器中使用。
       desktop_html: 您仍然可以通过<a href="https://www.systemed.net/potlatch/">下载适用于Mac和Windows的桌面应用程序</a>来使用Potlatch。
+      id_html: 或者，你可以设定你的默认编辑者为iD，他会想Potlatch之前一样运营你的网络浏览器。<a href="%{settings_url}">在这更改你的偏好</a>。
     sidebar:
       search_results: 搜索结果
       close: 关闭
@@ -2239,6 +2271,11 @@ zh-CN:
       blocked_zero_hour: 您在OpenStreetMap网站有一条紧急消息。在您可以保存您的编辑之前，您需要阅读这条消息。
       blocked: 您对 API 的访问已经被阻挡了。请登录到网站以了解更多信息。
       need_to_see_terms: 您对 API 的访问已暂时中止。请登录到网站以查看贡献者条款。您不需要同意，但必须查看它们。
+    settings_menu:
+      account_settings: 账户设置
+      oauth1_settings: OAuth 1设置
+      oauth2_applications: OAuth 2应用程序
+      oauth2_authorizations: OAuth 2授权
   oauth:
     authorize:
       title: 授权访问您的账户
@@ -2413,15 +2450,16 @@ zh-CN:
       my edits: 我的编辑
       my traces: 我的轨迹
       my notes: 我的注记
-      my messages: 我的信息
+      my messages: 我的消息
       my profile: 我的资料
       my settings: 我的设置
       my comments: 我的评论
       my_preferences: 我的偏好
+      my_dashboard: 我的综合面板
       blocks on me: 我的封禁
       blocks by me: 被我封禁
       edit_profile: 编辑个人资料
-      send message: 发送信息
+      send message: 发送消息
       diary: 日记
       edits: 编辑
       traces: 轨迹
@@ -2439,12 +2477,6 @@ zh-CN:
       spam score: 垃圾邮件评分：
       description: 描述
       user location: 用户位置
-      my friends: 我的朋友
-      no friends: 您还没有添加任何好友。
-      km away: '%{count}千米外'
-      m away: '%{count}米外'
-      nearby users: 其他附近的用户
-      no nearby users: 附近没有在进行制图的用户。
       role:
         administrator: 此用户是管理员
         moderator: 此用户是版主
@@ -2465,15 +2497,7 @@ zh-CN:
       unhide_user: 取消隐藏此用户
       delete_user: 删除此用户
       confirm: 确认
-      friends_changesets: 朋友的变更集
-      friends_diaries: 朋友的日记文章
-      nearby_changesets: 附近用户的变更集
-      nearby_diaries: 附近用户的日记文章
       report: 举报此用户
-    popup:
-      your location: 您的位置
-      nearby mapper: 附近绘图者
-      friend: 朋友
     account:
       title: 编辑账户
       my settings: 我的设置
@@ -2503,10 +2527,6 @@ zh-CN:
         link text: 这是什么？
       save changes button: 保存更改
       make edits public button: 公开我所有的编辑
-      return to profile: 返回基本信息
-      oauth1 settings: OAuth 1设置
-      oauth2 applications: OAuth 2应用程序
-      oauth2 authorizations: OAuth 2授权
       flash update success confirm needed: 成功更新用户信息。 查看您的邮箱以确认您的新邮箱地址。
       flash update success: 成功更新用户信息。
     set_home:
@@ -2527,6 +2547,7 @@ zh-CN:
     suspended:
       title: 帐户已暂停
       heading: 帐户已暂停
+      support: 支持
       body_html: |-
         <p>
         对不起，您的帐户已因可疑
@@ -2685,9 +2706,10 @@ zh-CN:
       short_link: 短链接
       geo_uri: Geo URI
       embed: HTML
-      custom_dimensions: 设定自定义尺寸
+      custom_dimensions: 设定自定义区域
       format: 格式：
       scale: 比例：
+      image_dimensions: 将以%{width} x %{height}的尺寸按标准图层输出图像
       download: 下载
       short_url: 短URL
       include_marker: 包含标记

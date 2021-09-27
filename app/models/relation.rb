@@ -22,7 +22,6 @@ class Relation < ApplicationRecord
 
   include ConsistencyValidations
   include NotRedactable
-  include ObjectMetadata
 
   self.table_name = "current_relations"
 

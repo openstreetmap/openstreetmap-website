@@ -11,6 +11,8 @@ module Api
     before_action :require_public_data, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
     before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
     before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :subscribe, :unsubscribe]
+    before_action :set_request_formats, :only => [:download]
+
     around_action :api_call_handle_error
     around_action :api_call_timeout, :except => [:upload]
 
@@ -122,35 +124,29 @@ module Api
         end
       end
 
-      # create changeset and user caches
-      changeset_cache = {}
-      user_display_name_cache = {}
-
-      # create an osmChange document for the output
-      result = OSM::API.new.get_xml_doc
-      result.root.name = "osmChange"
-
       # generate an output element for each operation. note: we avoid looking
       # at the history because it is simpler - but it would be more correct to
       # check these assertions.
+      @created = []
+      @modified = []
+      @deleted = []
+
       elements.each do |elt|
-        result.root <<
-          if elt.version == 1
-            # first version, so it must be newly-created.
-            created = XML::Node.new "create"
-            created << elt.to_xml_node(changeset_cache, user_display_name_cache)
-          elsif elt.visible
-            # must be a modify
-            modified = XML::Node.new "modify"
-            modified << elt.to_xml_node(changeset_cache, user_display_name_cache)
-          else
-            # if the element isn't visible then it must have been deleted
-            deleted = XML::Node.new "delete"
-            deleted << elt.to_xml_node(changeset_cache, user_display_name_cache)
-          end
+        if elt.version == 1
+          # first version, so it must be newly-created.
+          @created << elt
+        elsif elt.visible
+          # must be a modify
+          @modified << elt
+        else
+          # if the element isn't visible then it must have been deleted
+          @deleted << elt
+        end
       end
 
-      render :xml => result.to_s
+      respond_to do |format|
+        format.xml
+      end
     end
 
     ##

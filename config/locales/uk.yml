@@ -94,30 +94,30 @@ uk:
       language: Мова
       message: Повідомлення
       node: Точка
-      node_tag: Теґ точки
+      node_tag: Тег точки
       notifier: Сповіщувач
       old_node: Стара точка
-      old_node_tag: Старий теґ точки
+      old_node_tag: Старий тег точки
       old_relation: Старий зв’язок
       old_relation_member: Старий елемент зв’язку
-      old_relation_tag: Старий теґ зв’язку
+      old_relation_tag: Старий тег зв’язку
       old_way: Стара лінія
       old_way_node: Стара точка лінії
-      old_way_tag: Старий теґ лінії
+      old_way_tag: Старий тег лінії
       relation: Зв’язок
       relation_member: Елемент зв’язку
-      relation_tag: Теґ зв’язку
+      relation_tag: Тег зв’язку
       report: Звіт
       session: Сеанс
       trace: Трек
       tracepoint: Точка треку
-      tracetag: Теґ треку
+      tracetag: Тег треку
       user: Користувач
       user_preference: Налаштування користувача
       user_token: Код підтвердження користувача
       way: Лінія
       way_node: Точка лінії
-      way_tag: Теґ лінії
+      way_tag: Тег лінії
     attributes:
       client_application:
         name: Назва (Обов’язково)
@@ -384,11 +384,11 @@ uk:
     relation:
       title_html: 'Зв’язок: %{name}'
       history_title_html: 'Історія зв’язку: %{name}'
-      members: Учасники
+      members: Член
       members_count:
-        one: '%{count} учасник'
-        few: '%{count} учасники'
-        many: '%{count} учасників'
+        one: '%{count} член'
+        few: '%{count} члени'
+        many: '%{count} членів'
         other: ""
     relation_member:
       entry_role_html: '%{type} %{name} як %{role}'
@@ -401,7 +401,7 @@ uk:
       entry_role_html: Зв’язок %{relation_name} (як %{relation_role})
     not_found:
       title: Не знайдено
-      sorry: На жаль, об’єкт „%{type}“ № %{id} не знайдено.
+      sorry: На жаль, об’єкт «%{type}» № %{id} не знайдено.
       type:
         node: точка
         way: лінія
@@ -508,6 +508,28 @@ uk:
     timeout:
       sorry: На жаль, перелік наборів змін, який ви запросили, потребує забагато часу
         для завантаження.
+  dashboards:
+    contact:
+      km away: '%{count} км від вас'
+      m away: '%{count} м від вас'
+    popup:
+      your location: Ваше місце розташування
+      nearby mapper: Користувач поруч з вами
+      friend: Друг
+    show:
+      title: Інформація
+      no_home_location_html: '%{edit_profile_link} і встановіть своє місце розташування,
+        щоб бачити користувачів поблизу.'
+      edit_your_profile: Редагувати ваш профіль
+      my friends: Друзі
+      no friends: Ви не додали ще жодного друга.
+      nearby users: Інші користувачі поруч
+      no nearby users: Поблизу поки немає користувачів, які займаються складанням
+        мапи.
+      friends_changesets: набори змін друзів
+      friends_diaries: записи в щоденниках друзів
+      nearby_changesets: набори змін користувачів, що знаходяться поруч з вами
+      nearby_diaries: записи в щоденниках користувачів, що знаходяться поруч з вами
   diary_entries:
     new:
       title: Створити новий запис у щоденнику
@@ -842,6 +864,7 @@ uk:
           window_construction: Майстер віконних конструкцій
           winery: Виноробня
           "yes": Товари для рукоділля
+        crossing: Переправа
         emergency:
           access_point: Точка доступу
           ambulance_station: Станція швидкої медичної допомоги
@@ -1097,6 +1120,7 @@ uk:
           hill: Пагорб
           hot_spring: Гаряче джерело
           island: Острів
+          isthmus: Перешийок
           land: Суша
           marsh: Болото
           moor: Якірна стоянка
@@ -1111,10 +1135,13 @@ uk:
           sand: Пісок
           scree: Щебінь
           scrub: Чагарник
+          shingle: Черепиця
           spring: Джерело
           stone: Камінь
           strait: Протока
           tree: Дерево
+          tree_row: Дерево ряду
+          tundra: Тундра
           valley: Долина
           volcano: Вулкан
           water: Вода
@@ -1518,8 +1545,10 @@ uk:
     intro_text: OpenStreetMap — мапа світу, створена такими ж людьми, як і ви, для
       вільного використання під відкритою ліцензією.
     intro_2_create_account: Створіть обліковий запис
-    hosting_partners_html: Хостинг підтримується %{ucl}, %{bytemark} та іншими %{partners}.
+    hosting_partners_html: Хостинг підтримується %{ucl}, %{fastly}, %{bytemark} та
+      іншими %{partners}.
     partners_ucl: UCL
+    partners_fastly: Швидко
     partners_bytemark: Bytemark Hosting
     partners_partners: партнерами
     tou: Умови використання
@@ -2020,10 +2049,9 @@ uk:
              <a href="https://data.wien.gv.at/">Stadt Wien</a> (на умовах ліцензії
              <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>), <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> та Земля Тіроль (на умовах <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT з виправленнями</a>).
         contributors_au_html: |-
-          <strong>Австралія</strong>: Містить дані, отримані з
-          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia Limited</a>
-          за ліцензією Австралійської Співдружності за
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+          <strong>Австралія</strong>: Включено або розроблено за допомогою адміністративних кордонів &copy;
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Australia</a>, ліцензованих Австралійською Співдружністю за міжнародною
+          <a href="https://creativecommons.org/licenses/by/4.0/">ліцензією Creative Commons Attribution 4.0 (CC BY 4.0)</a>.
         contributors_ca_html: '<strong>Канада</strong>: дані від GeoBase&reg;, GeoGratis
           (&copy; Департамент природних ресурсів Канади), CanVec (&copy; Департамент
           природних ресурсів Канади), та StatCan (Відділ Географії, Статистичне відомство
@@ -2206,7 +2234,8 @@ uk:
       desktop_html: Ви можете використовувати Potlatch <a href="https://www.systemed.net/potlatch/">завантаживши</a>
         його у вигляді застосунку для Mac чи Windows.
       id_html: Або ж ви можете встановити типовим редактором iD, який працює у вебоглядачі,
-        так само як до цього працював Potlatch. Змініть ваші <a href="%{settings_url}">налаштування</a>.
+        так само як до цього працював Potlatch. <a href="%{settings_url}">Змініть
+        свої налаштування тут</a>.
     sidebar:
       search_results: Результати пошуку
       close: Закрити
@@ -2225,7 +2254,7 @@ uk:
       table:
         entry:
           motorway: Автомагістраль
-          main_road: Головна дорога
+          main_road: Важливі дороги
           trunk: Шосе
           primary: Головна дорога
           secondary: Другорядна дорога
@@ -2471,6 +2500,11 @@ uk:
       need_to_see_terms: Ваш доступ до API тимчасово призупинено. Будь ласка, увійдіть
         в систему, через веб-інтерфейс для перегляду Умов Участі. Вам не обов’язково
         погоджуватись, але ви повинні переглянути їх.
+    settings_menu:
+      account_settings: Налаштування облікового запису
+      oauth1_settings: налаштування OAuth 1
+      oauth2_applications: застосунки OAuth 2
+      oauth2_authorizations: авторизації OAuth 2
   oauth:
     authorize:
       title: Авторизувати доступ до облікового запису
@@ -2676,6 +2710,7 @@ uk:
       my settings: Налаштування
       my comments: Мої коментарі
       my_preferences: Налаштування
+      my_dashboard: Інформація
       blocks on me: Мої блокування
       blocks by me: Заблоковано мною
       edit_profile: Редагування профілю
@@ -2697,15 +2732,6 @@ uk:
       spam score: 'Оцінка Спаму:'
       description: Опис
       user location: Місце знаходження користувача
-      set_location_html: <a href="%{edit_profile_url}">Відредагуйте свій профіль</a>
-        і встановіть своє місце розташування, щоб бачити користувачів поблизу.
-      my friends: Друзі
-      no friends: Ви не додали ще жодного друга.
-      km away: '%{count} км від вас'
-      m away: '%{count} м від вас'
-      nearby users: Інші користувачі поруч
-      no nearby users: Поблизу поки немає користувачів, які займаються складанням
-        мапи.
       role:
         administrator: Цей користувач є адміністратором
         moderator: Цей користувач є модератором
@@ -2726,15 +2752,7 @@ uk:
       unhide_user: Показати цього користувача
       delete_user: Вилучити цього користувача
       confirm: Підтвердити
-      friends_changesets: набори змін друзів
-      friends_diaries: записи в щоденниках друзів
-      nearby_changesets: набори змін користувачів, що знаходяться поруч з вами
-      nearby_diaries: записи в щоденниках користувачів, що знаходяться поруч з вами
       report: Поскаржитись на цього користувача
-    popup:
-      your location: Ваше місце розташування
-      nearby mapper: Користувач поруч з вами
-      friend: Друг
     account:
       title: Редагувати обліковий запис
       my settings: Налаштування
@@ -2772,10 +2790,6 @@ uk:
         link text: що це?
       save changes button: Зберегти зміни
       make edits public button: Зробити всі мої редагування загальнодоступними
-      return to profile: Повернення до профілю
-      oauth1 settings: налаштування OAuth 1
-      oauth2 applications: застосунки OAuth 2
-      oauth2 authorizations: авторизації OAuth 2
       flash update success confirm needed: Інформацію про користувача успішно оновлено.
         Перевірте свою електронну пошту, щоб підтвердити вашу нову адресу е-пошти.
       flash update success: Інформацію про користувача успішно оновлено.

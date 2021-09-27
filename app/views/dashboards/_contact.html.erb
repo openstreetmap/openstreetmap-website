@@ -4,21 +4,23 @@
      :icon => image_path(type == "friend" ? "marker-blue.png" : "marker-green.png"),
      :description => render(:partial => "popup", :object => contact, :locals => { :type => type })
    } %>
-<%= tag.div :class => "contact-activity clearfix", :data => { :user => user_data } do %>
-  <%= user_thumbnail contact %>
-  <div class='activity-details'>
-    <p class='text-muted'>
+<%= tag.div :class => "contact-activity clearfix row", :data => { :user => user_data } do %>
+  <div class="col-auto">
+    <%= user_thumbnail contact, :class => "user_thumbnail_no_margins" %>
+  </div>
+  <div class="col">
+    <p class='text-muted mb-0'>
       <%= link_to contact.display_name, user_path(contact) %>
       <% if @user.home_lon and @user.home_lat and contact.home_lon and contact.home_lat %>
         <% distance = @user.distance(contact) %>
         <% if distance < 1 %>
-          (<%= t "users.show.m away", :count => (distance * 1000).round %>)
+          (<%= t ".m away", :count => (distance * 1000).round %>)
         <% else %>
-          (<%= t "users.show.km away", :count => distance.round %>)
+          (<%= t ".km away", :count => distance.round %>)
         <% end %>
       <% end %>
     </p>
-    <p>
+    <p class="mb-0">
       <% changeset = contact.changesets.first %>
       <% if changeset %>
         <%= t("users.show.latest edit", :ago => time_ago_in_words(changeset.created_at, :scope => :"datetime.distance_in_words_ago")) %>
@@ -31,15 +33,17 @@
       <% end %>
     </p>
 
-    <ul class='secondary-actions clearfix text-muted'>
-      <li><%= link_to t("users.show.send message"), new_message_path(contact) %></li>
-      <li>
-        <% if current_user.is_friends_with?(contact) %>
-          <%= link_to t("users.show.remove as friend"), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
-        <% else %>
-          <%= link_to t("users.show.add as friend"), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
-      <% end %>
-      </li>
-    </ul>
+    <nav class='secondary-actions'>
+      <ul class='clearfix text-muted'>
+        <li><%= link_to t("users.show.send message"), new_message_path(contact) %></li>
+        <li>
+          <% if current_user.is_friends_with?(contact) %>
+            <%= link_to t("users.show.remove as friend"), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+          <% else %>
+            <%= link_to t("users.show.add as friend"), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+          <% end %>
+        </li>
+      </ul>
+    </nav>
   </div>
 <% end %>

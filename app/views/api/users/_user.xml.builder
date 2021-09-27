@@ -2,7 +2,7 @@ xml.tag! "user", :id => user.id,
                  :display_name => user.display_name,
                  :account_created => user.creation_time.xmlschema do
   xml.tag! "description", user.description if user.description
-  if current_user && current_user == user
+  if current_user && current_user == user && can?(:details, User)
     xml.tag! "contributor-terms", :agreed => user.terms_agreed.present?,
                                   :pd => user.consider_pd
   else
@@ -24,7 +24,7 @@ xml.tag! "user", :id => user.id,
                          :active => user.blocks_created.active.size
     end
   end
-  if current_user && current_user == user
+  if current_user && current_user == user && can?(:details, User)
     if user.home_lat && user.home_lon
       xml.tag! "home", :lat => user.home_lat,
                        :lon => user.home_lon,

@@ -509,6 +509,28 @@ de:
     timeout:
       sorry: Leider ist die Liste der Kommentare der Änderungssätze, die du angefordert
         hast, für den Abruf zu lang.
+  dashboards:
+    contact:
+      km away: '%{count} km entfernt'
+      m away: '%{count} m entfernt'
+    popup:
+      your location: Standort
+      nearby mapper: Mapper in der Nähe
+      friend: Freund
+    show:
+      title: Meine Übersichtsseite
+      no_home_location_html: '%{edit_profile_link} und leg deine Heimatort fest, um
+        Benutzer in der Nähe zu sehen.'
+      edit_your_profile: Bearbeite dein Profil
+      my friends: Meine Freunde
+      no friends: Du hast noch keine Freunde hinzugefügt.
+      nearby users: Mapper in der Nähe
+      no nearby users: Es gibt bisher keine Benutzer, die einen Standort in deiner
+        Nähe angegeben haben.
+      friends_changesets: Änderungssätze deiner Freunde
+      friends_diaries: Blogs deiner Freunde
+      nearby_changesets: Änderungssätze von Benutzern in der Nähe
+      nearby_diaries: Blogs von Benutzern in der Nähe
   diary_entries:
     new:
       title: Neuer Blogeintrag
@@ -843,6 +865,7 @@ de:
           window_construction: Fensterbauer
           winery: Weingut
           "yes": Handwerksgeschäft
+        crossing: Überquerung
         emergency:
           access_point: Zugangspunkt
           ambulance_station: Rettungswache
@@ -1098,6 +1121,7 @@ de:
           hill: Hügel
           hot_spring: Heiße Quelle
           island: Insel
+          isthmus: Isthmus
           land: Land
           marsh: Marsch
           moor: Moor
@@ -1112,10 +1136,13 @@ de:
           sand: Sand
           scree: Geröll
           scrub: Buschland
+          shingle: Geröll
           spring: Quelle
           stone: Findling
           strait: Meerenge
           tree: Baum
+          tree_row: Baumreihe
+          tundra: Tundra
           valley: Tal
           volcano: Vulkan
           water: Wasser
@@ -1518,9 +1545,10 @@ de:
     intro_text: OpenStreetMap ist eine Karte der Welt, erstellt von Menschen wie dir
       und frei verwendbar unter einer offenen Lizenz.
     intro_2_create_account: Erstelle ein Benutzerkonto
-    hosting_partners_html: Das Hosting wird von %{ucl}, %{bytemark} und anderen %{partners}
-      unterstützt.
+    hosting_partners_html: Das Hosting wird von %{ucl}, %{fastly}, %{bytemark} und
+      anderen %{partners} unterstützt.
     partners_ucl: UCL
+    partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
     partners_partners: Partnern
     tou: Nutzungsbedingungen
@@ -2043,8 +2071,11 @@ de:
           BY AT</a>), des <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Landes
           Vorarlberg</a> und des Landes Tirol (<a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">lizenziert
           gemäß CC BY AT samt Erweiterungen zur Lizenz</a>).'
-        contributors_au_html: '<strong>Australien</strong>: Enthält Daten zu Siedlungen,
-          die auf Daten des <i>Australian Bureau of Statistics</i> basieren.'
+        contributors_au_html: |-
+          <strong>Australien</strong>: Eingebunden oder entwickelt unter Verwendung von administrativen Grenzen &copy;
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Australia</a>
+          lizenziert durch den Commonwealth of Australia unter
+          <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International Lizenz (CC BY 4.0)</a>.
         contributors_ca_html: '<strong>Kanada</strong>: Enthält Daten von GeoBase&reg;,
           GeoGratis (&copy; <i>Department of Natural Resources Canada</i>), CanVec
           (&copy; <i>Department of Natural Resources Canada</i>) und StatCan (<i>Geography
@@ -2234,9 +2265,9 @@ de:
         Nutzung im Browser verfügbar.
       desktop_html: Wenn du Potlatch weiternutzen möchtest kannst du die Desktopanwendung
         für Mac und Windows <a href="https://www.systemed.net/potlatch/">hier Herunterladen</a>.
-      id_html: Alternativ können Sie Ihren Standardeditor auf iD einstellen, der in
-        Ihrem Webbrowser wie zuvor Potlatch ausgeführt wird. <a href="%{settings_url}">Änderen
-        Sie hier Ihre Benutzereinstellungen</a>.
+      id_html: Alternativ kannst du deinen Standardeditor auf iD einstellen, der in
+        deinem Webbrowser wie zuvor Potlatch ausgeführt wird. <a href="%{settings_url}">Änder
+        hier deine Benutzereinstellungen</a>.
     sidebar:
       search_results: Suchergebnisse
       close: Schließen
@@ -2495,6 +2526,11 @@ de:
       need_to_see_terms: Dein Zugriff auf die API wurde vorübergehend ausgesetzt.
         Bitte melde dich mit deinem Benutzerkonto an, um die „Bedingungen für Mitwirkende“
         einzusehen. Du musst nicht einverstanden sein, aber du musst sie gesehen haben.
+    settings_menu:
+      account_settings: Kontoeinstellungen
+      oauth1_settings: OAuth 1-Einstellungen
+      oauth2_applications: OAuth 2-Anwendungen
+      oauth2_authorizations: OAuth 2-Berechtigungen
   oauth:
     authorize:
       title: Zugriff auf dein Benutzerkonto autorisieren
@@ -2703,6 +2739,7 @@ de:
       my settings: Einstellungen
       my comments: Meine Kommentare
       my_preferences: Meine Benutzereinstellungen
+      my_dashboard: Meine Übersichtsseite
       blocks on me: Erhaltene Sperren
       blocks by me: Vergebene Sperren
       edit_profile: Profil bearbeiten
@@ -2724,15 +2761,6 @@ de:
       spam score: 'Spam-Bewertung:'
       description: Beschreibung
       user location: Standort des Benutzers
-      set_location_html: <a href="%{edit_profile_url}">Bearbeite dein Profil</a> und
-        lege deinen Heimatort fest, um Nutzer in der Nähe zu sehen.
-      my friends: Meine Freunde
-      no friends: Du hast noch keine Freunde hinzugefügt.
-      km away: '%{count} km entfernt'
-      m away: '%{count} m entfernt'
-      nearby users: Mapper in der Nähe
-      no nearby users: Es gibt bisher keine Benutzer, die einen Standort in deiner
-        Nähe angegeben haben.
       role:
         administrator: Dieser Benutzer ist ein Administrator
         moderator: Dieser Benutzer ist ein Moderator
@@ -2753,15 +2781,7 @@ de:
       unhide_user: Benutzer nicht mehr verstecken
       delete_user: Benutzer löschen
       confirm: Bestätigen
-      friends_changesets: Änderungssätze deiner Freunde
-      friends_diaries: Blogs deiner Freunde
-      nearby_changesets: Änderungssätze von Benutzern in der Nähe
-      nearby_diaries: Blogs von Benutzern in der Nähe
       report: Diesen Benutzer melden
-    popup:
-      your location: Standort
-      nearby mapper: Mapper in der Nähe
-      friend: Freund
     account:
       title: Benutzerkonto bearbeiten
       my settings: Einstellungen
@@ -2801,10 +2821,6 @@ de:
         link text: Worum handelt es sich?
       save changes button: Änderungen speichern
       make edits public button: Alle meine Bearbeitungen öffentlich machen
-      return to profile: Zurück zum Profil
-      oauth1 settings: OAuth 1-Einstellungen
-      oauth2 applications: OAuth 2-Anwendungen
-      oauth2 authorizations: OAuth 2-Berechtigungen
       flash update success confirm needed: Deine Änderungen wurden gespeichert. Du
         erhältst nun eine E-Mail, um deine neue E-Mail-Adresse zu bestätigen.
       flash update success: Benutzerinformationen erfolgreich aktualisiert.

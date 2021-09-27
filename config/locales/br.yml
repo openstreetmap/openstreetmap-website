@@ -1,6 +1,7 @@
 # Messages for Breton (brezhoneg)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Adriendelucca
 # Author: Dishual
 # Author: Fohanno
 # Author: Fulup
@@ -17,6 +18,8 @@ br:
     formats:
       friendly: '%e %B %Y da %H:%M'
   helpers:
+    file:
+      prompt: Dibab ur restr
     submit:
       diary_comment:
         create: Enrollañ
@@ -29,6 +32,9 @@ br:
         create: Kas
       client_application:
         create: Marilhañ
+        update: Hizivaat
+      doorkeeper_application:
+        create: En em enskrivañ
         update: Hizivaat
       redaction:
         create: Krouiñ ar skridaozadenn
@@ -82,8 +88,13 @@ br:
       way_tag: Tikedenn an hent
     attributes:
       client_application:
+        name: Anv (rediet)
         callback_url: URL gervel en-dro
         support_url: URL skoazell
+        allow_write_api: kemmañ ar gartenn
+        allow_read_gpx: lenn o roudoù GPS prevez
+        allow_write_gpx: kas roudoù GPS
+        allow_write_notes: kemmañ an notennoù
       diary_comment:
         body: Korf
       diary_entry:
@@ -92,40 +103,49 @@ br:
         latitude: Lec'hed
         longitude: Hedred
         language: Yezh
+      doorkeeper/application:
+        name: Anv
+        scopes: Aotreoù
       friend:
         user: Implijer
         friend: Mignon
       trace:
         user: Implijer
         visible: Gwelus
-        name: Anv
+        name: Anv ar restr
         size: Ment
         latitude: Lec'hed
         longitude: Hedred
         public: Foran
         description: Deskrivadur
-        gpx_file: 'Kas ar restr GPX :'
-        visibility: 'Gwelusted :'
-        tagstring: 'Tikedennoù :'
+        gpx_file: 'Enporzhiañ ur restr GPX :'
+        visibility: Gwelusted
+        tagstring: Tikedennoù
       message:
         sender: Kaser
         title: Titl
         body: Korf
         recipient: Degemerer
       redaction:
+        title: Titl
         description: Deskrivadur
       report:
+        category: 'Dibab un abeg evit ho tanevell :'
         details: Roit muioc'h a vunudoù diwar-benn ar gudenn (dre ret)
       user:
+        auth_uid: UID an dilesadur
         email: Postel
-        new_email: 'Chomlec''h postel nevez :'
+        email_confirmation: Kadarnaat ar postel
+        new_email: Chomlec'h postel nevez
         active: Oberiant
         display_name: Anv diskouezet
-        description: Deskrivadur
-        home_lat: 'Ledred :'
-        home_lon: 'Hedred :'
-        languages: Yezhoù
+        description: Deskrivadur ar profil
+        home_lat: Ledred
+        home_lon: Hedred
+        languages: 'Yezhoù gwellañ karet :'
+        preferred_editor: 'Aozer karetañ :'
         pass_crypt: Ger-tremen
+        pass_crypt_confirmation: Kadarnaat ar ger-tremen
     help:
       trace:
         tagstring: bevennet gant virgulennoù
@@ -137,11 +157,17 @@ br:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: war-dro un eurvezh 'zo 'zo
+        one: war-dro un eurvezh 'zo
+        two: war-dro 2 eurvezh 'zo
+        few: war-dro %{count} eurvezh 'zo
+        many: war-dro %{count} eurvezh 'zo
         other: war-dro %{count} eurvezh 'zo
       about_x_months:
-        one: war-dro miz 'zo 'zo
-        other: war-dro %{count} miz 'zo
+        one: war-dro ur miz 'zo.
+        two: war-dro 2 viz 'zo.
+        few: war-dro %{count} miz 'zo.
+        many: war-dro %{count} miz 'zo.
+        other: war-dro %{count} miz 'zo.
       about_x_years:
         one: bloaz zo bennak
         two: war-dro %{count} vloaz zo
@@ -162,7 +188,7 @@ br:
         many: nebeutoc'h eget %{count} eilenn zo
         other: nebeutoc'h eget %{count} eilenn zo
       less_than_x_minutes:
-        one: nebeutoc'h eget un nunutenn zo
+        one: nebeutoc'h eget ur vunutenn zo
         two: nebeutoc'h eget %{count} vunutenn zo
         few: nebeutoc'h eget %{count} munutenn zo
         many: nebeutoc'h eget %{count} munutenn zo
@@ -210,7 +236,7 @@ br:
       description: iD (aozer e-barzh ar merdeer)
     remote:
       name: Aozer diavaez
-      description: Aozer diavaez (JOSM pe Merkaartor)
+      description: Aozer diavaez (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Hini ebet
@@ -270,7 +296,7 @@ br:
       way_paginated: Hentoù (%{x}-%{y} diwar %{count})
       relation: Darempredoù (%{count})
       relation_paginated: Darempredoù (%{x}-%{y} diwar %{count})
-      comment: Evezhiadennoù(%{count})
+      comment: Evezhiadennoù (%{count})
       hidden_commented_by_html: Evezhiadenn kuzhet gant %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by_html: Evezhiadenn gant %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Hollad cheñchamantoù XML
@@ -296,6 +322,12 @@ br:
       title_html: 'Darempred: %{name}'
       history_title_html: 'Istor an darempred: %{name}'
       members: Izili
+      members_count:
+        one: 1 ezel
+        two: 2 izili
+        few: '%{count} izili'
+        many: '%{count} izili'
+        other: '%{count} izili'
     relation_member:
       entry_role_html: '%{type} %{name} evel %{role}'
       type:
@@ -306,6 +338,7 @@ br:
       entry_html: Darempred %{relation_name}
       entry_role_html: Darempred %{relation_name} (evel %{relation_role})
     not_found:
+      title: N'eo ket bet kavet
       sorry: 'Ho tigarez, n''heller ket kavout %{type} #%{id}.'
       type:
         node: skoulm
@@ -417,12 +450,30 @@ br:
       title_particular: 'Kaozeadenn hollad cheñchamantoù #%{changeset_id} OpenStreetMap'
     timeout:
       sorry: Ho tigarez, re hir eo adtapout ar roll evezhiadennoù ho peus goulennet.
+  dashboards:
+    contact:
+      km away: war-hed %{count} km
+      m away: war-hed %{count} m
+    popup:
+      your location: Ho lec'hiadur
+      nearby mapper: Kartennour en ardremez
+      friend: Mignon
+    show:
+      edit_your_profile: Aozañ ho profil
+      my friends: Ma mignoned
+      no friends: N'hoc'h eus ouzhpennet mignon ebet c'hoazh.
+      nearby users: 'Implijerien all tost deoc''h :'
+      no nearby users: N'eus implijer ebet all en ardremez c'hoazh.
+      friends_changesets: Strolladoù kemmoù graet gant mignoned
+      friends_diaries: Enmonedoù deizlevr ar vignoned
+      nearby_changesets: Strolladoù kemmoù an implijer tro-war-dro
+      nearby_diaries: Enmonedoù deizlevr an implijerien tro-war-dro
   diary_entries:
     new:
       title: Enmoned nevez en deizlevr
     form:
-      location: 'Lec''hiadur:'
-      use_map_link: implijout ar gartenn
+      location: Lec'hiadur
+      use_map_link: Implijout ar gartenn
     index:
       title: Deizlevrioù an implijerien
       title_friends: Deizlevrioù ar vignoned
@@ -431,6 +482,7 @@ br:
       in_language_title: Enmontoù en deizlevr e %{language}
       new: Enmont nevez en deizlevr
       new_title: Ouzhpennañ un enmont nevez d'ho teizlevr
+      my_diary: Ma deizlevr
       no_entries: Enmont ebet en ho teizlevr
       recent_entries: 'Enmontoù nevez en deizlevr:'
       older_entries: Enmont koshañ
@@ -451,9 +503,9 @@ br:
         %{id}. Gwiriit hag-eñ eo skrivet mat, pe marteze hoc'h eus kliket war ul liamm
         fall.
     diary_entry:
-      posted_by_html: Postet gant %{link_user} da %{created} e %{language_link}
+      posted_by_html: Postet gant %{link_user} da %{created} e %{language_link}.
       comment_link: Skrivañ un evezhiadenn d'an enmont-mañ
-      reply_link: Respont d'an enmont-mañ
+      reply_link: Kas ur gemennadenn d'an aozer
       comment_count:
         one: Un addispleg
         zero: Evezhiadenn ebet
@@ -487,6 +539,7 @@ br:
     comments:
       has_commented_on: ↓%{display_name} en deus skrivet evezhiadennoù diwar-benn
         ar pennadoù deizlevr-mañ
+      no_comments: Kemennadenn deizlevr ebet
       post: Embann
       when: Pegoulz
       comment: Evezhiadenn
@@ -526,6 +579,7 @@ br:
           pylon: Peul
           station: Arsav logell-fun
           t-bar: Sav barrennoù e T
+          "yes": Aerhent
         aeroway:
           aerodrome: Nijva
           airstrip: Leurenn bradañ
@@ -536,6 +590,7 @@ br:
           holding_position: Post gortoz
           parking_position: Plas parkva
           runway: Hent
+          taxilane: Forzh taksi
           taxiway: Hent-taksioù aerborzh
           terminal: Terminal
         amenity:
@@ -549,6 +604,7 @@ br:
           bicycle_parking: Parklec'h beloioù
           bicycle_rental: Lec'h feurmiñ beloioù
           biergarten: Braeerezh en aer vras
+          blood_bank: Bank gwad
           boat_rental: Lec'h feurmiñ bagoù
           brothel: Bordell
           bureau_de_change: Burev eskemm
@@ -584,16 +640,20 @@ br:
           hospital: Ospital
           hunting_stand: Stand tennañ
           ice_cream: Dienn skorn
+          internet_cafe: Sibertavarn
           kindergarten: Liorzh ar vugale
+          language_school: Skol yezh
           library: Levraoueg
           marketplace: Marc'hallac'h
           monastery: Manati
           motorcycle_parking: Parklec'h evit marc'hoù-tan
+          music_school: Skol sonerezh
           nightclub: Klub-noz
           nursing_home: Ti-medisin ar retredidi
           parking: Parklec'h
           parking_entrance: Mont tre ur parklec'h
           parking_space: Plas parkañ
+          payment_terminal: Termenell-baeañ
           pharmacy: Apotikerezh
           place_of_worship: Lec'h azeuliñ
           police: Polis
@@ -601,6 +661,8 @@ br:
           post_office: Ti-post
           prison: Toull-bac'h
           pub: Tavarn
+          public_bath: Kibelldi foran
+          public_bookcase: Levraoueg foran
           public_building: Savadur foran
           recycling: Lec'h adaozañ
           restaurant: Preti
@@ -622,12 +684,19 @@ br:
           village_hall: Sal ar gumun
           waste_basket: Pod-lastez
           waste_disposal: Skarzhañ al lastez
+          waste_dump_site: Diskarg-lastez
+          watering_place: Lec'h-dourañ
           water_point: Lec'h dour
+          weighbridge: Pont-pouezañ
+          "yes": Danframm
         boundary:
+          aboriginal_lands: Tachennoù gwirvroat
           administrative: Bevennoù melestradurel
           census: ↓Bevenn stadeg
           national_park: Park broadel
+          political: Pastell-vro dilenn
           protected_area: Takad gwarezet
+          "yes": Harzoù
         bridge:
           aqueduct: Dourbont
           boardwalk: Pourmenadenn
@@ -636,43 +705,80 @@ br:
           viaduct: Karrbont
           "yes": Pont
         building:
-          apartments: Kendi
+          apartment: Ranndi
+          apartments: Ranndioù
+          barn: Grañj
+          bungalow: Bungalow
+          cabin: Logell
           chapel: Chapel
           church: Iliz
+          civic: Savadur kêr
+          college: Savadur skolaj
           commercial: Savadur kenwerzhel
+          construction: Savadur war sevel
+          detached: Pennti
           dormitory: Kouskva
-          farm: Ti feurm
+          farm: Atant
           garage: Karrdi
+          garages: Karrdioù
+          greenhouse: Ti-gwer
+          hangar: Karrdi
           hospital: Savadur ospital
           hotel: Leti
           house: Ti
+          hut: Logenn
           industrial: Savadur greantel
+          kindergarten: Savadur skol-vamm
           office: Savadur burevioù
           public: Savadur foran
           residential: Savadur annez
           retail: Stal
+          roof: Toenn
+          ruins: Savadur dismantret
           school: Savadur skol
-          terrace: Savenn
+          shed: Lochenn
+          stable: Marchosi
+          static_caravan: Karavanenn
+          terrace: Renkad savadurioù
           train_station: Porzh-houarn
           university: Savadur Skol-Veur
+          warehouse: Sanailh
           "yes": Savadur
+        club:
+          sport: Klub sport
+          "yes": Klub
         craft:
+          beekeeper: Gwenaner
+          blacksmith: Gov
           brewery: Breserezh
           carpenter: Kalvez
+          caterer: Predva / kantin
+          confectionery: Koñfizerezh
+          dressmaker: Kemener
           electrician: Tredanour
           gardener: Liorzhour
+          glaziery: Gweraerezh
+          handicraft: Artizanerezh
           painter: Liver
           photographer: Luc'hskeudenner
           plumber: Plomer
+          roofer: Toer
+          sawmill: Heskennerezh
           shoemaker: Kere
+          stonemason: Mañsoner
           tailor: Kemener
+          winery: Domani gwinierezh
           "yes": Stal artizanelezh
         emergency:
+          access_point: Lec'h moned
           ambulance_station: Sanailh ambulañsoù
           assembly_point: Lec'h bodañ
           defibrillator: Difibrilator
+          fire_extinguisher: Mouger-tan
           landing_site: Tachenn bradañ trumm
+          life_ring: Boue saveteiñ trumm
           phone: Pellgomzer evit an urjañsoù
+          siren: C'hwitellerez difrae
           water_tank: Beol dour trumm
           "yes": Trummadoù
         highway:
@@ -685,6 +791,7 @@ br:
           cycleway: Roudenn divrodegoù
           elevator: Pignerez
           emergency_access_point: Poent moned trummadoù
+          emergency_bay: Takad sikour
           footway: Gwenodenn evit an dud war-droad
           ford: Roudour
           give_way: Panell "Lezit da dremen"
@@ -716,12 +823,14 @@ br:
           tertiary_link: Hent trede renk
           track: Roudenn
           traffic_signals: Gouleier
+          trailhead: Lec'h loc'hañ
           trunk: Hent-tizh
           trunk_link: Hent-tizh
           turning_loop: Kammdro dizehan
           unclassified: Hent dirumm
           "yes": Hent
         historic:
+          aircraft: Karr-nij istorel
           archaeological_site: Lec'hienn henoniel
           battlefield: Tachenn emgann
           boundary_stone: Bonn harzoù
@@ -752,6 +861,7 @@ br:
           "yes": Kej
         landuse:
           allotments: Liorzhoù familh
+          aquaculture: Dourc'hounezerezh
           basin: Poull
           brownfield: Tachenn rezet
           cemetery: Bered
@@ -771,6 +881,7 @@ br:
           military: Takad milourel
           mine: Mengleuz
           orchard: Gwerje
+          plant_nursery: Magouri labouradeg
           quarry: Mengleuz
           railway: Hent-houarn
           recreation_ground: Leur c'hoari
@@ -782,8 +893,10 @@ br:
           vineyard: Gwinieg
           "yes": Implij an douaroù
         leisure:
+          amusement_arcade: Sal-c'hoari-video
           beach_resort: Kêr-gouronkañ
           bird_hide: Bod evned
+          bleachers: Derezioù
           common: Tachennoù foran
           dog_park: Park chas
           firepit: Oaled
@@ -798,6 +911,7 @@ br:
           miniature_golf: Golfig
           nature_reserve: Gwarezva Natur
           park: Park
+          picnic_table: Taol-biknikañ
           pitch: Tachenn sport
           playground: Tachenn c'hoari
           recreation_ground: Tachenn c'hoari
@@ -812,13 +926,18 @@ br:
           "yes": Diduamantoù
         man_made:
           adit: Toullenn moned d'ar mengleuz
+          advertising: Bruderezh
           beacon: Tour-tan
           beehive: Ruskenn
           breakwater: Diwagenner
           bridge: Pont
           bunker_silo: Bunker
+          cairn: Krugell
           chimney: Siminal
+          clearcut: Digoadañ
+          communications_tower: Tour kehentiñ
           crane: Garv-houarn
+          cross: Kroaz
           dolphin: Post amariñ
           dyke: Chaoser
           embankment: Kleuz
@@ -827,6 +946,7 @@ br:
           groyne: Toc'hadenn
           kiln: Forn briajoù
           lighthouse: Tour-tan
+          manhole: Genoù kan-skarzh
           mast: Peul
           mine: Mengleuz
           mineshaft: Poull mengleuz
@@ -834,12 +954,16 @@ br:
           petroleum_well: Poull tireoul
           pier: Sav-mein
           pipeline: Eoulsan
+          pumping_station: Savlec'h-pompañ
           silo: Silo
+          snow_cannon: Kanol-erc'h
           storage_tank: Beol stokañ
           surveillance: Evezh
+          telescope: Teleskop
           tower: Tour
           wastewater_plant: Purlec'h tretañ an dourioù lous
           watermill: Milin-dour
+          water_tap: Kog dour
           water_tower: Kastell-dour
           water_well: Puñs
           water_works: Reizhiad dre zour
@@ -850,10 +974,13 @@ br:
           airfield: Nijva milourel
           barracks: Kazarn
           bunker: Bunker
+          checkpoint: Lec'h kontrollañ
+          trench: Fozell
           "yes": Milourel
         mountain_pass:
           "yes": Ode menez
         natural:
+          atoll: Atoll
           bay: Bae
           beach: Traezhenn
           cape: Kab
@@ -876,6 +1003,7 @@ br:
           moor: Lanneier
           mud: Fank
           peak: Pikern
+          peninsula: Ledenez
           point: Poent
           reef: Karreg
           ridge: Kribenn
@@ -896,22 +1024,27 @@ br:
         office:
           accountant: Kontour
           administrative: Melestradur
+          advertising_agency: Ajañs-vrudañ
           architect: Ti-savour
           association: Kevredigezh
           company: Embregerezh
           educational_institution: Ensavadur desavadurel
           employment_agency: Ajañs evit al labour
+          energy_supplier: Ajañs pourvezer tredan
           estate_agent: Kourater tiez
           government: Ajañs c'houarnamantel
           insurance: Ajañs asurañsoù
           it: Burev urzhiataerezh
           lawyer: Alvokad
           ngo: Burev un AMG (aozadur e-maez gouarnamant)
+          notary: Noter
+          tax_advisor: Kuzulier war an tellerezh
           telecommunication: Burev pellgehentiñ
           travel_agent: Ajañs-veaj
           "yes": Burev
         place:
           allotments: Liorzhoù tiegezhel
+          archipelago: Enezeg
           city: Meurgêr
           city_block: Bloc'h kêrel
           country: Bro
@@ -926,6 +1059,7 @@ br:
           locality: Kêr
           municipality: Kumun
           neighbourhood: Ardremez
+          plot: Tachennig
           postcode: Kod post
           quarter: Karter
           region: Rannvro
@@ -962,9 +1096,11 @@ br:
           tram_stop: Arsav tramgarr
           yard: Gar-dibab
         shop:
+          agrarian: Stal labour-douar
           alcohol: Gwezher alkool
           antiques: Hendraezoù
           art: Stal arz
+          bag: Marokinerezh
           bakery: Baraerezh
           beauty: Stal produioù kened
           beverages: Stal evajoù
@@ -979,51 +1115,68 @@ br:
           carpet: Stal pallennoù
           charity: Stal garitez
           chemist: Stal produioù yec'hederezh
+          chocolate: Chokolader
           clothes: Stal dilhad
+          coffee: Stal-Gafe
           computer: Stal urzhiataerioù
           confectionery: Koñfizerezh
           convenience: Ispiserezh
           copyshop: Stal luc'heilañ
           cosmetics: Stal produioù kened
+          curtain: Stal rideoz
+          dairy: Diennerezh
           deli: Tineller
           department_store: Gourstal
           discount: Stal discount
           doityourself: Stal bitellat
           dry_cleaning: Naetaat ent sec'h
+          e-cigarette: Stal sigaretennoù tredanek
           electronics: Stal traoù eletronek
+          erotic: Stal-erotek
           estate_agent: Kourater tiez
           farm: Stal evit al labour-douar
           fashion: Stal gizioù
+          fishing: Stal rikoù pesketa
           florist: Bokedour
           food: Stal voued
+          frame: Stal frammoù
           funeral_directors: Kañvlidoù
           furniture: Stal arrebeuri
           garden_centre: Stal liorzhañ
+          gas: Stal gaz
           general: Stal hollek
           gift: Stal profoù
           greengrocer: Gwerzher frouezh ha legumaj
           grocery: Ispiserezh
           hairdresser: Perukenner
           hardware: Stal urzhiataerezh
+          hearing_aids: Adskouarnoù
+          herbalist: Louzaouerezh
           hifi: Stal Hi-Fi
           houseware: Stal traoù a diegezh
+          ice_cream: Stal dienn-skorn
           interior_decoration: Kinkladur diabarzh
           jewelry: Bravigerezh
           kiosk: Kiosk
           kitchen: Stal-gegin
           laundry: Kanndi
+          locksmith: alc'hwezer
           lottery: Lotiri
           mall: Palier kenwerzh
           massage: Kemenadenn
           mobile_phone: Stal pellgomzerioù hezoug
           motorcycle: Stal marc'hoù-tan
           music: Stal sonerezh
+          musical_instrument: Binvioù sonerezh
           newsagent: Gwerzher kazetennoù
+          nutrition_supplements: Klokaennoù boued
           optician: Luneder
           organic: Stal boued bio
           outdoor: Stal oberiantizoù diavaez
           paint: Palier livadurioù
+          pastry: Pastezerezh
           pawnbroker: Prester ouzh gouestl
+          perfumery: Porfumerezh
           pet: Stal loened
           photo: Stal luc'hskeudenniñ
           seafood: Boued-mor
@@ -1033,6 +1186,8 @@ br:
           stationery: Paperaerezh
           supermarket: Gourmarc'had
           tailor: Kemener
+          tattoo: Tatouer
+          tea: Stal-De
           ticket: Billederezh
           tobacco: Stal-vutun
           toys: Stal c'hoarielloù
@@ -1041,6 +1196,7 @@ br:
           vacant: Stal vak
           variety_store: Stal seurtadoù
           video: Stal videoioù
+          video_games: Stal-c'hoarioù-video
           wine: Kavour
           "yes": Stal
         tourism:
@@ -1089,9 +1245,11 @@ br:
           "yes": Hent bageal
       admin_levels:
         level2: Bevenn ar vro
+        level3: Harzoù Rannvro
         level4: Bevenn ar Stad
         level5: Bevenn ar rannvro
         level6: Bevenn ar gontelezh
+        level7: Bevenn kêr
         level8: Bevenn kêr
         level9: Bevenn ar gêriadenn
         level10: Bevenn ar bannlev
@@ -1264,6 +1422,7 @@ br:
       footer: Gallout a rit ivez lenn an addispleg war %{readurl}, lezel addisplegoù
         war %{commenturl} pe respont war %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Demat %{to_user},
       header: '%{from_user} en deus kaset deoc''h ur gemennadenn dre OpenStreetMap
         gant an danvez %{subject} :'
@@ -1276,10 +1435,12 @@ br:
       see_their_profile: 'Gallout a rit gwelet o frofil amañ : %{userurl}.'
       befriend_them: 'Gallout a rit o ouzhpennañ e-touez ho mignoned amañ : %{befriendurl}.'
     gpx_failure:
+      hi: Demat %{to_user},
       failed_to_import: 'n''en deus ket gallet bezañ enporzhiet. Setu amañ ar fazi
         :'
       subject: '[OpenStreetMap] fazi e-pad an enporzhiadur GPX'
     gpx_success:
+      hi: Demat %{to_user},
       loaded_successfully:
         one: karget ervat gant %{trace_points} diwar 1 poent posupl.
         two: karget ervat gant %{trace_points}
@@ -1385,6 +1546,7 @@ br:
     inbox:
       title: Boest resev
       my_inbox: Ma boest resev
+      my_outbox: Ma boest kas
       messages: '%{new_messages} ha %{old_messages} zo evidoc''h'
       new_messages:
         one: '%{count} gemennadenn nevez'
@@ -1419,6 +1581,8 @@ br:
       body: Ho tigarez, n'eus kemennadenn ebet gant an id-se.
     outbox:
       title: Boest kas
+      my_inbox: Ma boest degemer
+      my_outbox: Ma boest kas
       messages:
         one: Kaset hoc'h eus %{count} gemennadenn
         other: Kaset hoc'h eus %{count} kemennadenn
@@ -1469,12 +1633,28 @@ br:
       reset: Adderaouekaat ar ger-tremen
       flash changed: Cheñchet eo bet ho ker-tremen.
       flash token bad: N'eo ket bet kavet ar jedouer-se, gwiriañ an URL marteze ?
+  preferences:
+    show:
+      title: Ma fenndibaboù
+      preferred_editor: Aozer karetañ
+      preferred_languages: 'Yezhoù gwellañ karet :'
+      edit_preferences: Kemmañ ar penndibaboù
+    edit:
+      title: Kemmañ ar penndibaboù
+      save: Hizivaat ar penndibaboù
+      cancel: Nullañ
+    update_success_flash:
+      message: Hizivaet eo ar penndibaboù
   profiles:
     edit:
-      image: 'Skeudenn :'
+      title: Aozañ ar profil
+      save: Hizivaat ar profil
+      cancel: Nullañ
+      image: Skeudenn
       gravatar:
         gravatar: Implijout Gravatar
         link: http://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Petra eo Gravatar?
         disabled: Diweredekaet eo bet Gravatar.
         enabled: Gweredekaet eo bet diskwel ho Kravatar.
       new image: Ouzhpennañ ur skeudenn
@@ -1483,10 +1663,12 @@ br:
       replace image: Erlec'hiañ ar skeudenn a-vremañ
       image size hint: (ar skeudennoù karrezenneg gant ar stumm 100×100 pixel a zo
         ar re wellañ)
-      home location: 'Lec''hiadur ar gêr :'
+      home location: Lec'hiadur ar gêr
       no home location: N'hoc'h eus ket ebarzhet lec'hiadur ho kêr.
       update home location on click: Hizivaat lec'hiadur ho kêr pa glikit war ar gartenn
         ?
+    update:
+      success: Profil hizivaet.
   sessions:
     new:
       title: Kevreañ
@@ -1543,6 +1725,21 @@ br:
       title: Digevreañ
       heading: Kuitaat OpenStreetMap
       logout_button: Digevreañ
+  shared:
+    markdown_help:
+      headings: Titloù
+      heading: Titl
+      subheading: Istitl
+      first: Elfenn gentañ
+      second: Eil elfenn
+      link: Liamm
+      text: Testenn
+      image: Skeudenn
+      alt: Testenn all
+      url: URL
+    richtext_field:
+      edit: Aozañ
+      preview: Rakwelet
   site:
     about:
       next: War-lerc'h
@@ -1981,6 +2178,7 @@ br:
         vefe gortoz a-raok kas re all, evit chom hep stankañ al lostennad evit an
         implijerien all.
     edit:
+      cancel: Nullañ
       title: Oc'h aozañ ar roud %{name}
       heading: Oc'h aozañ ar roud %{name}
       visibility_help: Petra a dalvez an dra-mañ ?
@@ -1997,6 +2195,7 @@ br:
       uploaded: 'Karget da :'
       points: 'Poentoù :'
       start_coordinates: 'Daveennoù orin :'
+      coordinates_html: '%{latitude} ; %{longitude}'
       map: kartenn
       edit: aozañ
       owner: 'Perc''henn :'
@@ -2014,7 +2213,12 @@ br:
       newer: ↓Roudoù nevez
     trace:
       pending: WAR C'HORTOZ
-      count_points: '%{count} poent'
+      count_points:
+        one: 1 poent
+        two: 2 boent
+        few: '%{count} poent'
+        many: '%{count} poent'
+        other: '%{count} poent'
       more: muioc'h
       trace_details: Gwelet munudoù ar roud
       view_map: Gwelet ar gartenn
@@ -2027,7 +2231,7 @@ br:
       in: e-barzh
     index:
       public_traces: Roudoù GPS foran
-      my_traces: Ma roudennoù GPS
+      my_traces: Ma roudoù
       public_traces_from: Roudoù GPS foran gant %{user}
       description: Furchal ar roud GPS pellgarget nevez zo
       tagged_with: ' balizennet gant %{tags}'
@@ -2035,6 +2239,8 @@ br:
         roudenn nevez</a> evit gouzout hiroc'h diwar-benn an tresañ GPS, sellit ouzh
         ar <abajenn wiki>href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2i</a>.
       upload_trace: Kas ur roud
+      all_traces: An holl roudoù
+      traces_from: Roudoù GPS foran gant %{user}
     destroy:
       scheduled_for_deletion: Roudenn da vezañ dilamet
     make_public:
@@ -2066,6 +2272,9 @@ br:
       need_to_see_terms: Evit ar mare n'oc'h ket aotreet da vont war an API ken. Kevreit
         d'an etrefas Web da sellet ouzh Termenoù an implijerien. Marteze ne viot ket
         a-du ganto met ret eo deoc'h bezañ lennet anezho.
+    settings_menu:
+      account_settings: Arventennoù ar gont
+      oauth1_settings: Arventennoù OAuth 1
   oauth:
     authorize:
       title: Aotren mont d'ho kont
@@ -2093,6 +2302,11 @@ br:
       flash: Torret hoc'h eus ar jedouer evit %{application}
     permissions:
       missing: N'eo ket bet aotreet an arload ganeoc'h d'ober gan an arc'hwel-mañ
+    scopes:
+      write_api: Kemmañ ar gartenn
+      read_gpx: Lenn ar roudoù GPS prevez.
+      write_gpx: Enporzhiañ ar roudoù GPS
+      write_notes: Kemmañ an notennoù
   oauth_clients:
     new:
       title: Marilhañ un arload nevez
@@ -2134,6 +2348,30 @@ br:
       flash: Hizivaet eo bet titouroù an arval
     destroy:
       flash: Distrujet eo bet marilhadur an arload arval
+  oauth2_applications:
+    index:
+      name: Anv
+      permissions: Aotreoù
+    application:
+      edit: Aozañ
+      delete: Dilemel
+    show:
+      edit: Aozañ
+      delete: Dilemel
+      permissions: Aotreoù
+  oauth2_authorizations:
+    new:
+      authorize: Aotren
+      deny: Nac'hañ
+    error:
+      title: Ur fazi zo c'hoarvezet
+    show:
+      title: Kod aotre
+  oauth2_authorized_applications:
+    index:
+      title: Ma sevenidigezhioù aotreet
+      application: Sevenidigezh
+      permissions: Aotreoù
   users:
     new:
       title: Kevreañ
@@ -2183,6 +2421,7 @@ br:
         italy: Italia
         rest_of_world: Peurrest ar bed
     terms_declined_flash:
+      terms_declined_link: ar bejenn-mañ eus ar wiki
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: N'eus implijer ebet evel hemañ
@@ -2200,8 +2439,10 @@ br:
       my profile: Ma frofil
       my settings: ma arventennoù
       my comments: ma evezhiadennoù
+      my_preferences: Ma fenndibaboù
       blocks on me: Stankadurioù evidon
       blocks by me: stankadurioù graet ganin
+      edit_profile: Aozañ ar profil
       send message: Kas ur gemennadenn
       diary: deizlevr
       edits: Kemmoù
@@ -2220,12 +2461,6 @@ br:
       spam score: 'Notenn evit ar strob :'
       description: Deskrivadur
       user location: Lec'hiadur an implijer
-      my friends: Ma mignoned
-      no friends: N'hoc'h eus ouzhpennet mignon ebet c'hoazh.
-      km away: war-hed %{count} km
-      m away: war-hed %{count} m
-      nearby users: 'Implijerien all tost deoc''h :'
-      no nearby users: N'eus implijer ebet all en ardremez c'hoazh.
       role:
         administrator: Ur merour eo an implijer-mañ
         moderator: Un habaskaer eo an implijer-mañ
@@ -2246,25 +2481,17 @@ br:
       unhide_user: Diguzhat an implijer-mañ
       delete_user: Dilemel an implijer-mañ
       confirm: Kadarnaat
-      friends_changesets: Strolladoù kemmoù graet gant mignoned
-      friends_diaries: Enmonedoù deizlevr ar vignoned
-      nearby_changesets: Strolladoù kemmoù an implijer tro-war-dro
-      nearby_diaries: Enmonedoù deizlevr an implijerien tro-war-dro
       report: Disklêriañ an implijer-mañ
-    popup:
-      your location: Ho lec'hiadur
-      nearby mapper: Kartennour en ardremez
-      friend: Mignon
     account:
       title: Aozañ ar gont
       my settings: Ma arventennoù
-      current email address: 'Chomlec''h postel a-vremañ :'
-      external auth: 'Dilesadur diavaez :'
+      current email address: Chomlec'h postel a-vremañ
+      external auth: Dilesadur diavaez
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: petra eo se ?
       public editing:
-        heading: 'Aozañ foran :'
+        heading: Aozañ foran
         enabled: Gweredekaet. N'eo ket dizanv ha gallout a ra aozañ roadennoù.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Petra eo se ?
@@ -2283,7 +2510,7 @@ br:
           bezañ nullet hag emañ an holl implijerien nevez gant an doare "kemmoù foran"
           dre ziouer.</li></ul>
       contributor terms:
-        heading: 'Diferadennoù ar c''henlabourer :'
+        heading: Diferadennoù ar c'henlabourer
         agreed: Degemeret hoc'h eus diferadennoù nevez ar c'henlabourer.
         not yet agreed: N'hoc'h eus ket degemeret c'hoazh diferadennoù nevez ar c'henlabourer.
         review link text: Heuilhit al liamm-mañ evel ma karot evit sellet ouzh diferadennoù
@@ -2293,7 +2520,6 @@ br:
         link text: Petra eo se ?
       save changes button: Enrollañ ar c'hemmoù
       make edits public button: Lakaat ma holl aozadennoù da vezañ foran
-      return to profile: Distreiñ d'ar profil
       flash update success confirm needed: Hizivaet eo bet titouroù an implijer. Gwiriit
         ho posteloù evit kadarnaat ho chomlec'h postel nevez.
       flash update success: Hizivaet eo bet titouroù an implijer.
@@ -2316,6 +2542,7 @@ br:
     suspended:
       title: Kont arsavet
       heading: Kont arsavet
+      support: Skor
       body_html: |-
         <p>
           Ho tigarez, arsavet eo bet ho kont abalamour d'un obererezh arvarus.
@@ -2453,8 +2680,9 @@ br:
     show:
       title: '%{block_on} stanket gant %{block_by}'
       heading_html: '%{block_on} stanket gant %{block_by}'
-      created: Krouet
-      status: Statud
+      created: 'Krouet:'
+      duration: 'Padelezh :'
+      status: 'Statud:'
       show: Diskouez
       edit: Aozañ
       revoke: Disteuler !
@@ -2482,6 +2710,7 @@ br:
       title: Notennoù kaset pe addispleget gant %{user}
       heading: notennoù %{user}
       subheading_html: Notennoù kaset pe addispleget gant %{user}
+      no_notes: Notenn ebet
       id: Id
       creator: Krouer
       description: Deskrivadur
@@ -2536,9 +2765,11 @@ br:
           other: Emaoc'h dindan %{count} troad diouzh ar poent-mañ
       base:
         standard: Standard
+        cyclosm: CyclOSM
         cycle_map: Kelc'hiad kartenn
         transport_map: Kartenn treuzdougen
         hot: Denegour
+        opnvkarte: ÖPNVKarte
       layers:
         header: Gwiskadoù kartenn
         notes: Notennoù kartenn

@@ -456,6 +456,26 @@ zh-TW:
       title_particular: OpenStreetMap 變更集 %{changeset_id} 討論
     timeout:
       sorry: 很抱歉，您請求的變更集評論過長無法讀取
+  dashboards:
+    contact:
+      km away: '%{count} 公里遠'
+      m away: '%{count} 公尺遠'
+    popup:
+      your location: 您的位置
+      nearby mapper: 附近的製圖者
+      friend: 好友
+    show:
+      title: 我的功能面板
+      no_home_location_html: '%{edit_profile_link}並編輯您的家位置，來查看附近的使用者。'
+      edit_your_profile: 編輯您的個人檔案
+      my friends: 我的好友
+      no friends: 您尚未加入任何好友。
+      nearby users: 其他附近的使用者
+      no nearby users: 附近沒有已加入製圖的使用者。
+      friends_changesets: 好友的變更集
+      friends_diaries: 好友的日記項目
+      nearby_changesets: 附近使用者的變更集
+      nearby_diaries: 附近使用者的日記項目
   diary_entries:
     new:
       title: 新日記項目
@@ -789,6 +809,7 @@ zh-TW:
           window_construction: 窗戶建設
           winery: 酒廠
           "yes": 工藝品店
+        crossing: 路口
         emergency:
           access_point: 進入點
           ambulance_station: 急救站
@@ -1044,6 +1065,7 @@ zh-TW:
           hill: 小山
           hot_spring: 溫泉
           island: 島嶼
+          isthmus: 地峽
           land: 陸地
           marsh: 河川濕地
           moor: 停泊處
@@ -1058,10 +1080,13 @@ zh-TW:
           sand: 沙地
           scree: 碎石堆
           scrub: 灌木
+          shingle: 礫石
           spring: 泉
           stone: 巨石
           strait: 海峡
           tree: 樹木
+          tree_row: 行列樹木
+          tundra: 苔原
           valley: 谷地
           volcano: 火山
           water: 水
@@ -1459,8 +1484,9 @@ zh-TW:
     intro_header: 歡迎來到 OpenStreetMap！
     intro_text: OpenStreetMap 是一幅世界地圖，由像您這樣的人們所建立，在開放授權下可以自由使用。
     intro_2_create_account: 建立使用者帳號
-    hosting_partners_html: 主機由%{ucl}、%{bytemark}，和其他%{partners}所支援。
+    hosting_partners_html: 由%{ucl}、%{fastly}、%{bytemark}，和其他%{partners}支援託管。
     partners_ucl: 倫敦大學學院
+    partners_fastly: Fastly
     partners_bytemark: Bytemark 主機代管
     partners_partners: 合作夥伴
     tou: 使用條款
@@ -1872,8 +1898,8 @@ zh-TW:
           Vorarlberg</a>及 Land Tirol (修訂的<a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY
           AT</a>授權) 的資料。
         contributors_au_html: |-
-          <strong>澳大利亞</strong>：包含來自
-          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA 澳大利亞有限公司</a>的資料來源，並依據<a href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">姓名標示 4.0 國際</a>澳大利亞聯邦條款授權。
+          <strong>澳大利亞</strong>：使用行政區劃納入或開發&copy;
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape 澳大利亞</a>是依據<a href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">姓名標示 4.0 國際（CC BY 4.0）</a>澳大利亞聯邦條款授權。
         contributors_ca_html: |-
           <strong>加拿大</strong>：包含來自 GeoBase&reg;，GeoGratis (&copy; Department of Natural
           Resources Canada) ，CanVec (&copy; Department of Natural
@@ -2036,7 +2062,7 @@ zh-TW:
       removed: 您預設的開放街圖編輯器是設定成 Potlatch。因為 Adobe Flash Player 已終止維護，Potlatch 已不在網路瀏覽器上可用。
       desktop_html: 您仍可以透過<a href="https://www.systemed.net/potlatch/">下載適用於 Mac 與
         Windows 的桌面應用程式</a>來使用 Potlatch。
-      id_html: 除此之外，您可以設定您的預設編輯器成 iD，這可以和先前的 Potlatch 一樣，在您的網路瀏覽器上運作。<a href="%{settings_url}">在此更改您的使用者設定</a>。
+      id_html: 除此之外，您可以設定您的預設編輯器成 iD，這可以和先前的 Potlatch 一樣，在您的網路瀏覽器上運作。<a href="%{settings_url}">在此更改您的偏好設定</a>。
     sidebar:
       search_results: 搜尋結果
       close: 關閉
@@ -2258,6 +2284,11 @@ zh-TW:
       blocked_zero_hour: 您在OpenStreetMap網站有一個緊急訊息。在您儲存您的編輯內容前請先閱讀該訊息。
       blocked: 您已經被封鎖使用 API。請登入網頁介面以瞭解更多資訊。
       need_to_see_terms: 我們已暫時中止您使用 API 的權限，請登入網頁介面查閱貢獻者條款，您不需要同意有關條款，但必須查閱它們。
+    settings_menu:
+      account_settings: 帳號設定
+      oauth1_settings: OAuth 1 設定
+      oauth2_applications: OAuth 2 應用程式
+      oauth2_authorizations: OAuth 2 授權
   oauth:
     authorize:
       title: 授權使用您的帳號
@@ -2438,6 +2469,7 @@ zh-TW:
       my settings: 我的設定值
       my comments: 我的評論
       my_preferences: 我的偏好設定
+      my_dashboard: 我的功能面板
       blocks on me: 對我的封鎖
       blocks by me: 我所設的封鎖
       edit_profile: 編輯個人資料
@@ -2459,13 +2491,6 @@ zh-TW:
       spam score: 垃圾郵件分數：
       description: 說明
       user location: 使用者位置
-      set_location_html: <a href="%{edit_profile_url}">編輯您的個人資料</a>並設定您的住家位置來查看附近的使用者。
-      my friends: 我的好友
-      no friends: 您尚未加入任何好友。
-      km away: '%{count} 公里遠'
-      m away: '%{count} 公尺遠'
-      nearby users: 其他附近的使用者
-      no nearby users: 附近沒有已加入製圖的使用者。
       role:
         administrator: 這個使用者是一個管理員
         moderator: 這個使用者是一個仲裁員
@@ -2486,15 +2511,7 @@ zh-TW:
       unhide_user: 取消隱藏這位使用者
       delete_user: 刪除這位使用者
       confirm: 確認
-      friends_changesets: 好友的變更集
-      friends_diaries: 好友的日記項目
-      nearby_changesets: 附近使用者的變更集
-      nearby_diaries: 附近使用者的日記項目
       report: 回報此使用者
-    popup:
-      your location: 您的位置
-      nearby mapper: 附近的製圖者
-      friend: 好友
     account:
       title: 編輯帳號
       my settings: 我的設定值
@@ -2525,10 +2542,6 @@ zh-TW:
         link text: 這是什麼？
       save changes button: 儲存變更
       make edits public button: 將我所有的編輯設為公開
-      return to profile: 返回基本資料
-      oauth1 settings: OAuth 1 設定
-      oauth2 applications: OAuth 2 應用程式
-      oauth2 authorizations: OAuth 2 授權
       flash update success confirm needed: 使用者資訊成功的更新。請檢查您的電子郵件，以確認收到新電子郵件地址的通知。
       flash update success: 使用者資訊已成功更新。
     set_home:

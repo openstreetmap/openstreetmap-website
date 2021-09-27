@@ -35,6 +35,7 @@
 # Author: Massimo itaca
 # Author: McDutchie
 # Author: Nemo bis
+# Author: Noretta93
 # Author: Od1n
 # Author: Ontsed
 # Author: Paolopoz
@@ -481,6 +482,28 @@ it:
     timeout:
       sorry: Spiacenti, l'elenco richiesto di commenti al changeset ha impiegato troppo
         tempo per poter essere recuperato.
+  dashboards:
+    contact:
+      km away: distante %{count} km
+      m away: '%{count}m di distanza'
+    popup:
+      your location: Propria posizione
+      nearby mapper: Mappatore vicino
+      friend: Amico
+    show:
+      title: La mia dashboard
+      no_home_location_html: '%{edit_profile_link} e imposta la posizione di casa
+        per vedere gli utenti vicini.'
+      edit_your_profile: Modifica il tuo profilo
+      my friends: I miei amici
+      no friends: Non ci sono ancora amici.
+      nearby users: Altri utenti nelle vicinanze
+      no nearby users: Non ci sono ancora altri utenti che ammettono di mappare nelle
+        vicinanze.
+      friends_changesets: gruppi di modifiche degli amici
+      friends_diaries: note dei diari degli amici
+      nearby_changesets: gruppi di modifiche da parte degli utenti nelle vicinanze
+      nearby_diaries: note dei diari degli utenti nelle vicinanze
   diary_entries:
     new:
       title: Nuova voce del diario
@@ -816,6 +839,7 @@ it:
           window_construction: Costruttore di finestre
           winery: Cantina vinicola
           "yes": Negozio di Artigianato
+        crossing: Attraversamento
         emergency:
           access_point: Punto d'accesso
           ambulance_station: Stazione delle ambulanze
@@ -1071,6 +1095,7 @@ it:
           hill: Collina
           hot_spring: Sorgente termale
           island: Isola
+          isthmus: Istmo
           land: Terra
           marsh: Palude alluvionale
           moor: Molo
@@ -1085,10 +1110,13 @@ it:
           sand: Sabbia
           scree: Ghiaione
           scrub: Boscaglia
+          shingle: Greto
           spring: Sorgente
           stone: Pietra
           strait: Stretto
           tree: Albero
+          tree_row: Filare di alberi
+          tundra: Tundra
           valley: Valle
           volcano: Vulcano
           water: Acqua
@@ -1487,9 +1515,10 @@ it:
     intro_text: OpenStreetMap è una mappa del mondo, creata da persone come te e libera
       da utilizzare secondo una licenza aperta.
     intro_2_create_account: Crea un account utente
-    hosting_partners_html: L'hosting è supportato da %{ucl}, %{bytemark}, e da altri
-      %{partners}.
+    hosting_partners_html: L'hosting è supportato da %{ucl}, %{fastly}, %{bytemark},
+      e da altri %{partners}.
     partners_ucl: UCL
+    partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
     partners_partners: partner
     tou: Condizioni d'uso
@@ -1988,9 +2017,11 @@ it:
           <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> e
           Land Tirol (sotto <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT con emendamenti</a>).
-        contributors_au_html: |-
-          <strong>Australia</strong>: contiene i dati della periferia basati
-          sui dati dell'Australian Bureau of Statistics.
+        contributors_au_html: '<strong>Australia</strong>: contiene o è sviluppato
+          sfruttando i confini amministrativi &copy; <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape
+          Australia</a> rilasciati dal Commonwealth dell''Australia con licenza <a
+          href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribuzione
+          4.0 Internazionale (CC BY 4.0)</a>.'
         contributors_ca_html: |-
           <strong>Canada</strong>: contiene i dati della
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -2191,7 +2222,7 @@ it:
         l'applicazione desktop per Mac e Windows</a>.
       id_html: In alternativa, puoi impostare l'editor predefinito su iD che funziona
         in un browser web come un tempo faceva Potlatch. <a href="%{settings_url}">Modifica
-        le tue impostazioni utente qui</a>.
+        le tue preferenze qui</a>.
     sidebar:
       search_results: Risultati della ricerca
       close: Chiudi
@@ -2407,7 +2438,7 @@ it:
       in: in
     index:
       public_traces: Tracciati GPS pubblici
-      my_traces: Miei tracciati
+      my_traces: I miei tracciati
       public_traces_from: Tracciati GPS pubblici di %{user}
       description: Naviga fra i tracciati GPS caricati recentemente
       tagged_with: ' etichettati con %{tags}'
@@ -2450,6 +2481,11 @@ it:
       need_to_see_terms: Il tuo accesso alle API è temporaneamente sospeso. Si prega
         di accedere all'interfaccia web per visualizzare i termini di contribuzione.
         Non c'è bisogno che tu aderisca, però è necessario che tu li legga.
+    settings_menu:
+      account_settings: Impostazioni account
+      oauth1_settings: Impostazioni OAuth
+      oauth2_applications: Applicazioni OAuth 2
+      oauth2_authorizations: Autorizzazioni OAuth 2
   oauth:
     authorize:
       title: Autorizzare l'accesso al tuo account
@@ -2528,7 +2564,7 @@ it:
       flash: Distrutta la registrazione dell'applicazione client
   oauth2_applications:
     index:
-      title: Mie applicazioni client
+      title: Le mie applicazioni client
       no_applications_html: Possiedi un’applicazione che vorresti registrare per poterla
         usare con noi mediante lo standard %{oauth2}? Devi registrare la tua applicazione
         prima che essa possa effettuare richieste OAuth a questo servizio.
@@ -2644,14 +2680,15 @@ it:
     show:
       my diary: Il mio diario
       new diary entry: nuova voce del diario
-      my edits: Mie modifiche
-      my traces: Miei tracciati
-      my notes: Mie note
-      my messages: Miei messaggi
+      my edits: Le mie modifiche
+      my traces: I miei tracciati
+      my notes: Le mie note
+      my messages: I miei messaggi
       my profile: Il mio profilo
       my settings: Impostazioni
-      my comments: Miei commenti
+      my comments: I miei commenti
       my_preferences: Preferenze
+      my_dashboard: La mia dashboard
       blocks on me: Blocchi su di me
       blocks by me: Blocchi applicati da me
       edit_profile: Modifica profilo
@@ -2673,13 +2710,6 @@ it:
       spam score: 'Punteggio Spam:'
       description: Descrizione
       user location: Luogo dell'utente
-      my friends: I miei amici
-      no friends: Non ci sono ancora amici.
-      km away: distante %{count} km
-      m away: '%{count}m di distanza'
-      nearby users: Altri utenti nelle vicinanze
-      no nearby users: Non ci sono ancora altri utenti che ammettono di mappare nelle
-        vicinanze.
       role:
         administrator: Questo utente è un amministratore
         moderator: Questo utente è un moderatore
@@ -2700,15 +2730,7 @@ it:
       unhide_user: Mostra questo utente
       delete_user: Cancella questo utente
       confirm: Conferma
-      friends_changesets: gruppi di modifiche degli amici
-      friends_diaries: note dei diari degli amici
-      nearby_changesets: gruppi di modifiche da parte degli utenti nelle vicinanze
-      nearby_diaries: note dei diari degli utenti nelle vicinanze
       report: Segnala questo utente
-    popup:
-      your location: Propria posizione
-      nearby mapper: Mappatore vicino
-      friend: Amico
     account:
       title: Modifica profilo
       my settings: Impostazioni
@@ -2747,10 +2769,6 @@ it:
         link text: che cos'è questo?
       save changes button: Salva modifiche
       make edits public button: Rendi pubbliche tutte le mie modifiche
-      return to profile: Ritorna al profilo
-      oauth1 settings: Impostazioni OAuth
-      oauth2 applications: Applicazioni OAuth 2
-      oauth2 authorizations: Autorizzazioni OAuth 2
       flash update success confirm needed: Informazioni sull'utente aggiornate con
         successo. Controllare la propria email per la conferma del nuovo indirizzo
         di posta elettronica.
