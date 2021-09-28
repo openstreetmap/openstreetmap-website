@@ -15,6 +15,7 @@
 # Author: Popetedenis
 # Author: Ruila
 # Author: Strainu
+# Author: WebSourceContentRO
 # Author: Wintereu
 ---
 ro:
@@ -39,6 +40,9 @@ ro:
         create: Trimite
       client_application:
         create: Înregistrează
+        update: Actualizează
+      doorkeeper_application:
+        create: Înregistrare
         update: Actualizează
       redaction:
         create: Creați redacție
@@ -113,6 +117,9 @@ ro:
         language: Limbă
       doorkeeper/application:
         name: Nume
+        redirect_uri: Redirectează URI-uri
+        confidential: Aplicație confidențială?
+        scopes: Permisiuni
       friend:
         user: Utilizator
         friend: Prieten
@@ -155,6 +162,11 @@ ro:
         pass_crypt: Parolă
         pass_crypt_confirmation: Confirmă Parola
     help:
+      doorkeeper/application:
+        confidential: Aplicația va fi utilizată acolo unde cheia secretă a clientului
+          poate fi păstrată confidențial (aplicațiile mobile native și aplicațiile
+          cu o singură pagină nu sunt confidențiale)
+        redirect_uri: Folosiți o linie pentru fiecare URI
       trace:
         tagstring: utilizează virgule
       user_block:
@@ -442,6 +454,24 @@ ro:
     timeout:
       sorry: Ne pare rău, lista de comenzi modificate pe care le-ați solicitat a durat
         prea mult timp pentru a fi preluate.
+  dashboards:
+    contact:
+      km away: '%{count} km depărtare'
+      m away: '%{count} m depărtare'
+    popup:
+      your location: Locația utilizatorului
+      nearby mapper: Cartograful din apropiere
+      friend: Prieten
+    show:
+      my friends: Prietenii mei
+      no friends: Nu ați adăugat încă niciun prieten.
+      nearby users: Alți utilizatori din apropriere
+      no nearby users: Nu există alți utilizatori care să admită cartografiere în
+        apropiere.
+      friends_changesets: changeset prieteni
+      friends_diaries: intrările prietenilor în jurnal
+      nearby_changesets: schimbări de setări ale utilizatorilor
+      nearby_diaries: intrările în jurnalul utilizatorului din apropiere
   diary_entries:
     new:
       title: O nouă înregistrare în jurnal
@@ -515,11 +545,17 @@ ro:
     comments:
       has_commented_on: '%{display_name} a comentat pe următoarele înregistrări din
         jurnal'
+      no_comments: Fără comentarii din jurnal
       post: Postează
       when: Când
       comment: Comentariu
       newer_comments: Comentarii mai noi
       older_comments: Comentarii mai vechi
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Aplicație înregistrată.
   friendships:
     make_friend:
       heading: Adăugați %{user} ca prieten?
@@ -527,6 +563,8 @@ ro:
       success: '%{name} este acum prietenul tău!'
       failed: Ne pare rău, nu a reușit să adăugați %{name} ca prieten.
       already_a_friend: Sunteți deja prieteni cu %{name}
+      limit_exceeded: V-ați împrietenit cu mulți utilizatori recent. Vă rugăm să așteptați
+        puțin înainte de a încerca să vă mai împrieteniți.
     remove_friend:
       heading: Scoate de la prieteni pe %{user}?
       button: Scoate din lista de prieteni
@@ -1434,9 +1472,10 @@ ro:
     intro_text: OpenStreetMap este o hartă a lumii, creată de oameni ca tine și liberă
       pentru utilizare sub o licență deschisă.
     intro_2_create_account: Creează un cont de utilizator
-    hosting_partners_html: Gazduirea este susținută de %{ucl}, %{bytemark} și alți
-      %{partners}.
+    hosting_partners_html: Gazduirea este susținută de %{ucl}, %{fastly}, %{bytemark}
+      și alți %{partners}.
     partners_ucl: UCL
+    partners_fastly: Fastly
     partners_bytemark: Găzduire Bytemark
     partners_partners: parteneri
     tou: Termeni de Utilizare
@@ -1468,10 +1507,15 @@ ro:
         %{subject}:'
       footer: De asemenea, puteți citi comentariul la %{readurl} și puteți să comentați
         la %{commenturl} sau să răspundeți la %{replyurl}
+      footer_html: De asemenea, puteți citi comentariul la %{readurl} și puteți comenta
+        la %{commenturl} sau să trimiteți un mesaj autorului la %{replyurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Salut, %{to_user},
       header: '%{from_user} v-a trimis un mesaj prin OpenStreetMap cu subiectul %{subject}:'
+      header_html: '%{from_user} v-a trimis un mesaj OpenStreetMap cu subiectul %{subject}:'
+      footer: De asemenea, puteți citi mesajul la %{readurl} și trimite unul autorului
+        la %{replyurl}
       footer_html: De asemenea, puteți citi mesajul la %{readurl} și puteți răspunde
         la %{replyurl}
     friendship_notification:
@@ -1481,6 +1525,7 @@ ro:
       see_their_profile: Puteți vedea profilul lor la %{userurl}.
       see_their_profile_html: Puteți vedea profilul respectiv la %{userurl}.
       befriend_them: De asemenea, îi puteți adăuga ca prieten la %{befriendurl}
+      befriend_them_html: Le puteți adăuga și ca prieten la %{befriendurl}.
     gpx_failure:
       hi: Salut %{to_user},
       failed_to_import: 'nu a reușit să importe. Iată eroarea:'
@@ -2477,13 +2522,6 @@ ro:
       spam score: 'Scorul spam:'
       description: Descriere
       user location: Locația utilizatorului
-      my friends: Prietenii mei
-      no friends: Nu ați adăugat încă niciun prieten.
-      km away: '%{count} km depărtare'
-      m away: '%{count} m depărtare'
-      nearby users: Alți utilizatori din apropriere
-      no nearby users: Nu există alți utilizatori care să admită cartografiere în
-        apropiere.
       role:
         administrator: Acest utilizator este un administrator
         moderator: Acest utilizator este un moderator
@@ -2504,15 +2542,7 @@ ro:
       unhide_user: Descoperă acest utilizator
       delete_user: Șterge acest utilizator
       confirm: Confirmă
-      friends_changesets: changeset prieteni
-      friends_diaries: intrările prietenilor în jurnal
-      nearby_changesets: schimbări de setări ale utilizatorilor
-      nearby_diaries: intrările în jurnalul utilizatorului din apropiere
       report: Reclamă acest utilizator
-    popup:
-      your location: Locația utilizatorului
-      nearby mapper: Cartograful din apropiere
-      friend: Prieten
     account:
       title: Modificare cont
       my settings: Setările mele

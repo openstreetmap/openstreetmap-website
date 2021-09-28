@@ -264,14 +264,14 @@ module ActiveSupport
       el = XML::Node.new "node"
       el["id"] = node.id.to_s
 
-      OMHelper.add_metadata_to_xml_node(el, node, {}, {})
+      add_metadata_to_xml_node(el, node, {}, {})
 
       if node.visible?
         el["lat"] = node.lat.to_s
         el["lon"] = node.lon.to_s
       end
 
-      OMHelper.add_tags_to_xml_node(el, node.node_tags)
+      add_tags_to_xml_node(el, node.node_tags)
 
       el
     end
@@ -286,7 +286,7 @@ module ActiveSupport
       el = XML::Node.new "way"
       el["id"] = way.id.to_s
 
-      OMHelper.add_metadata_to_xml_node(el, way, {}, {})
+      add_metadata_to_xml_node(el, way, {}, {})
 
       # make sure nodes are output in sequence_id order
       ordered_nodes = []
@@ -302,7 +302,7 @@ module ActiveSupport
         el << node_el
       end
 
-      OMHelper.add_tags_to_xml_node(el, way.way_tags)
+      add_tags_to_xml_node(el, way.way_tags)
 
       el
     end
@@ -317,7 +317,7 @@ module ActiveSupport
       el = XML::Node.new "relation"
       el["id"] = relation.id.to_s
 
-      OMHelper.add_metadata_to_xml_node(el, relation, {}, {})
+      add_metadata_to_xml_node(el, relation, {}, {})
 
       relation.relation_members.each do |member|
         member_el = XML::Node.new "member"
@@ -327,13 +327,49 @@ module ActiveSupport
         el << member_el
       end
 
-      OMHelper.add_tags_to_xml_node(el, relation.relation_tags)
+      add_tags_to_xml_node(el, relation.relation_tags)
 
       el
     end
 
-    class OMHelper
-      extend ObjectMetadata
+    def add_metadata_to_xml_node(el, osm, changeset_cache, user_display_name_cache)
+      el["changeset"] = osm.changeset_id.to_s
+      el["redacted"] = osm.redaction.id.to_s if osm.redacted?
+      el["timestamp"] = osm.timestamp.xmlschema
+      el["version"] = osm.version.to_s
+      el["visible"] = osm.visible.to_s
+
+      if changeset_cache.key?(osm.changeset_id)
+        # use the cache if available
+      else
+        changeset_cache[osm.changeset_id] = osm.changeset.user_id
+      end
+
+      user_id = changeset_cache[osm.changeset_id]
+
+      if user_display_name_cache.key?(user_id)
+        # use the cache if available
+      elsif osm.changeset.user.data_public?
+        user_display_name_cache[user_id] = osm.changeset.user.display_name
+      else
+        user_display_name_cache[user_id] = nil
+      end
+
+      unless user_display_name_cache[user_id].nil?
+        el["user"] = user_display_name_cache[user_id]
+        el["uid"] = user_id.to_s
+      end
+    end
+
+    def add_tags_to_xml_node(el, tags)
+      tags.each do |tag|
+        tag_el = XML::Node.new("tag")
+
+        tag_el["k"] = tag.k
+        tag_el["v"] = tag.v
+
+        el << tag_el
+      end
     end
   end
 end

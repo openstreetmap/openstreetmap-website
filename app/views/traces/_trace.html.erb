@@ -44,14 +44,16 @@
   </td>
   <td>
     <% if trace.inserted? %>
-      <ul class="secondary-actions">
-        <li>
-          <%= link_to t(".view_map"), { :controller => "site", :action => "index", :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}" } %>
-        </li>
-        <li>
-          <%= link_to t(".edit_map"), { :controller => "site", :action => "edit", :gpx => trace.id } %>
-        </li>
-      </ul>
+      <nav class="secondary-actions">
+        <ul>
+          <li>
+            <%= link_to t(".view_map"), { :controller => "site", :action => "index", :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}" } %>
+          </li>
+          <li>
+            <%= link_to t(".edit_map"), { :controller => "site", :action => "edit", :gpx => trace.id } %>
+          </li>
+        </ul>
+      </nav>
     <% end %>
   </td>
 </tr>

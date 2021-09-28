@@ -27,7 +27,6 @@
 class OldNode < ApplicationRecord
   include GeoRecord
   include ConsistencyValidations
-  include ObjectMetadata
 
   self.table_name = "nodes"
   self.primary_keys = "node_id", "version"
@@ -67,28 +66,6 @@ class OldNode < ApplicationRecord
     old_node.node_id = node.id
     old_node.version = node.version
     old_node
-  end
-
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new "node"
-    el["id"] = node_id.to_s
-
-    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
-
-    if visible?
-      el["lat"] = lat.to_s
-      el["lon"] = lon.to_s
-    end
-
-    add_tags_to_xml_node(el, old_tags)
-
-    el
   end
 
   def save_with_dependencies!

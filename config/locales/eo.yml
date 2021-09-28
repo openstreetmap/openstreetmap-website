@@ -444,6 +444,27 @@ eo:
     timeout:
       sorry: Bedaŭrinde daŭris tro longe por akiri la petitan liston de komentoj pri
         ŝanĝaro.
+  dashboards:
+    contact:
+      km away: '%{count} km for'
+      m away: '%{count} m for'
+    popup:
+      your location: Via loko
+      nearby mapper: Proksima uzanto
+      friend: Amiko
+    show:
+      title: Mia panelo
+      no_home_location_html: '%{edit_profile_link} kaj agordu vian hejmlokon por vidi
+        proksimajn uzantojn.'
+      edit_your_profile: Redaktu vian profilon
+      my friends: Miaj amikoj
+      no friends: Vi ne aldonis iun amikon ankoraŭ.
+      nearby users: Plej proksimaj uzantoj
+      no nearby users: Neniu alia uzanto, kiu deklaris mapigadon en tiu ĉi areo.
+      friends_changesets: ŝanĝaroj de amikoj
+      friends_diaries: afiŝoj en taglibroj de amikoj
+      nearby_changesets: ŝanĝaroj de proksimuloj
+      nearby_diaries: afiŝoj en taglibroj de proksimuloj
   diary_entries:
     new:
       title: Nova taglibra afiŝo
@@ -778,6 +799,7 @@ eo:
           window_construction: Laborejo de fenestr-faristo
           winery: Vinejo
           "yes": Metiejo
+        crossing: Trapasejo
         emergency:
           access_point: Vivsava rekonebla signo
           ambulance_station: Ambulanca stacio
@@ -1033,6 +1055,7 @@ eo:
           hill: Monteto
           hot_spring: Tervarma akvofonto
           island: Insulo
+          isthmus: Istmo
           land: Tero
           marsh: Aluvia grundo
           moor: Arbustetaro
@@ -1047,10 +1070,13 @@ eo:
           sand: Sabla tereno
           scree: Rokfalaĵo
           scrub: Arbustaro
+          shingle: Sablega tereno
           spring: Akvofonto
           stone: Roko
           strait: Markolo
           tree: Arbo
+          tree_row: Arb-vico
+          tundra: Tundro
           valley: Valo
           volcano: Vulkano
           water: Akvejo
@@ -1445,9 +1471,10 @@ eo:
     intro_text: OpenStreetMap estas mapo de la mondo, kreata de homoj kiel vi, kaj
       libere uzebla laŭ malferma permesilo.
     intro_2_create_account: Krei konton
-    hosting_partners_html: Retgastigo estas subtenata de %{ucl}, %{bytemark} kaj aliaj
-      %{partners}.
+    hosting_partners_html: Retgastigo estas subtenata de %{ucl}, %{fastly}, %{bytemark}
+      kaj aliaj %{partners}.
     partners_ucl: University College London
+    partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
     partners_partners: kunlaborantoj
     tou: Uzkondiĉoj
@@ -1923,10 +1950,11 @@ eo:
           <strong>Aŭstrujo</strong>: enhavas datumojn el <a href="https://data.wien.gv.at/">Stadt Wien</a> (laŭ <a href="https://creativecommons.org/licenses/by/3.0/at/deed.eo">CC BY</a>),
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> kaj
           Land Tirol (laŭ <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT kun postaj ŝanĝoj</a>).
-        contributors_au_html: '<strong>Aŭstralio</strong>: enhavas datumojn el <a
-          href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia
-          Limited</a> kunhavigataj de Komunejo de Aŭstralio laŭ la permesilo <a href="https://creativecommons.org/licenses/by/4.0/deed.eo">CC
-          BY 4.0</a>.'
+        contributors_au_html: '<strong>Aŭstralio</strong>: enhavas datumojn pri administraj
+          limoj liveritaj de <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape
+          Australia</a> rajtigitaj de la Komunejo de Aŭstralio laŭ la permesilo <a
+          href="https://creativecommons.org/licenses/by/4.0/deed.eo">Krea Komunaĵo
+          Atribuite 4.0 Tutmonda (CC BY 4.0)</a>.'
         contributors_ca_html: |-
           <strong>Kanado</strong>: enhavas datumojn el
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -2569,7 +2597,8 @@ eo:
       my profile: Profilo
       my settings: Agordoj
       my comments: Miaj komentoj
-      my_preferences: Miaj preferoj
+      my_preferences: Preferoj
+      my_dashboard: Panelo
       blocks on me: Blokas min
       blocks by me: Blokitaj de mi
       edit_profile: Redakti profilon
@@ -2591,15 +2620,6 @@ eo:
       spam score: 'Trudmesaĝa poentaro:'
       description: Priskribo
       user location: Loko de uzanto
-      no_home_location_html: '%{edit_profile_link} kaj agordu vian hejmlokon por vidi
-        proksimajn uzantojn.'
-      edit_your_profile: Redaktu vian profilon
-      my friends: Miaj amikoj
-      no friends: Vi ne aldonis iun amikon ankoraŭ.
-      km away: '%{count} km for'
-      m away: '%{count} m for'
-      nearby users: Plej proksimaj uzantoj
-      no nearby users: Neniu alia uzanto, kiu deklaris mapigadon en tiu ĉi areo.
       role:
         administrator: Ĉi tiu uzanto estas administranto
         moderator: Ĉi tiu uzanto estas kontrolanto
@@ -2620,18 +2640,10 @@ eo:
       unhide_user: Malkaŝi ĉi tiun uzanton
       delete_user: Forigi ĉi tiun uzanton
       confirm: Konfirmi
-      friends_changesets: ŝanĝaroj de amikoj
-      friends_diaries: afiŝoj en taglibroj de amikoj
-      nearby_changesets: ŝanĝaroj de proksimuloj
-      nearby_diaries: afiŝoj en taglibroj de proksimuloj
       report: Raporti tiun ĉi uzanton
-    popup:
-      your location: Via loko
-      nearby mapper: Proksima uzanto
-      friend: Amiko
     account:
       title: Redakti konton
-      my settings: Agordoj
+      my settings: Miaj agordoj
       current email address: Aktuala retpoŝta adreso
       external auth: Ekstera aŭtentigo
       openid:

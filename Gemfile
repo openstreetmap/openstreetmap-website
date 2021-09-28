@@ -145,7 +145,7 @@ group :test do
   gem "rubocop"
   gem "rubocop-minitest"
   gem "rubocop-performance"
-  gem "rubocop-rails"
+  gem "rubocop-rails", "~> 2.11.3" # Bug in 2.12.0, fixed in master after 2.12.2
   gem "rubocop-rake"
   gem "selenium-webdriver"
   gem "simplecov", :require => false
