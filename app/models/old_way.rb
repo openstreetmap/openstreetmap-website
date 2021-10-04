@@ -22,7 +22,6 @@
 
 class OldWay < ApplicationRecord
   include ConsistencyValidations
-  include ObjectMetadata
 
   self.table_name = "ways"
   self.primary_keys = "way_id", "version"
@@ -85,23 +84,6 @@ class OldWay < ApplicationRecord
   end
 
   attr_writer :nds, :tags
-
-  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new "way"
-    el["id"] = way_id.to_s
-
-    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
-
-    old_nodes.each do |nd| # FIXME: need to make sure they come back in the right order
-      node_el = XML::Node.new "nd"
-      node_el["ref"] = nd.node_id.to_s
-      el << node_el
-    end
-
-    add_tags_to_xml_node(el, old_tags)
-
-    el
-  end
 
   # Temporary method to match interface to ways
   def way_nodes

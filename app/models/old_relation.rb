@@ -22,7 +22,6 @@
 
 class OldRelation < ApplicationRecord
   include ConsistencyValidations
-  include ObjectMetadata
 
   self.table_name = "relations"
   self.primary_keys = "relation_id", "version"
@@ -87,31 +86,6 @@ class OldRelation < ApplicationRecord
   end
 
   attr_writer :members, :tags
-
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new "relation"
-    el["id"] = relation_id.to_s
-
-    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
-
-    old_members.each do |member|
-      member_el = XML::Node.new "member"
-      member_el["type"] = member.member_type.to_s.downcase
-      member_el["ref"] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
-      member_el["role"] = member.member_role.to_s
-      el << member_el
-    end
-
-    add_tags_to_xml_node(el, old_tags)
-
-    el
-  end
 
   # Temporary method to match interface to relations
   def relation_members

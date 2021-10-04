@@ -8,17 +8,19 @@
                                  user_path(@user_block.user)),
             :block_by => link_to(@user_block.creator.display_name,
                                  user_path(@user_block.creator))) %></h1>
-<ul class='secondary-actions clearfix'>
-  <% if @user_block.ends_at > Time.now.getutc %>
-    <% if current_user and current_user.id == @user_block.creator_id %>
-      <li><%= link_to t(".edit"), edit_user_block_path(@user_block) %></li>
-    <% end %>
-    <% if can?(:revoke, UserBlock) %>
-      <li><%= link_to t(".revoke"), revoke_user_block_path(@user_block) %></li>
-    <% end %>
-  <% end %>
-  <li><%= link_to t(".back"), user_blocks_path %></li>
-</ul>
+  <nav class='secondary-actions'>
+    <ul class='clearfix'>
+      <% if @user_block.ends_at > Time.now.getutc %>
+        <% if current_user and current_user.id == @user_block.creator_id %>
+          <li><%= link_to t(".edit"), edit_user_block_path(@user_block) %></li>
+        <% end %>
+        <% if can?(:revoke, UserBlock) %>
+          <li><%= link_to t(".revoke"), revoke_user_block_path(@user_block) %></li>
+        <% end %>
+      <% end %>
+      <li><%= link_to t(".back"), user_blocks_path %></li>
+    </ul>
+  </nav>
 <% end %>
 
 <dl class="row">

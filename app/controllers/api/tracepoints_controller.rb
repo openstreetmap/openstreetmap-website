@@ -33,75 +33,11 @@ module Api
       # get all the points
       ordered_points = Tracepoint.bbox(bbox).joins(:trace).where(:gpx_files => { :visibility => %w[trackable identifiable] }).order("gpx_id DESC, trackid ASC, timestamp ASC")
       unordered_points = Tracepoint.bbox(bbox).joins(:trace).where(:gpx_files => { :visibility => %w[public private] }).order("gps_points.latitude", "gps_points.longitude", "gps_points.timestamp")
-      points = ordered_points.union_all(unordered_points).offset(offset).limit(Settings.tracepoints_per_page).preload(:trace)
-
-      doc = XML::Document.new
-      doc.encoding = XML::Encoding::UTF_8
-      root = XML::Node.new "gpx"
-      root["version"] = "1.0"
-      root["creator"] = "OpenStreetMap.org"
-      root["xmlns"] = "http://www.topografix.com/GPX/1/0"
-
-      doc.root = root
-
-      # initialise these variables outside of the loop so that they
-      # stay in scope and don't get free'd up by the GC during the
-      # loop.
-      gpx_id = -1
-      trackid = -1
-      track = nil
-      trkseg = nil
-      anon_track = nil
-      anon_trkseg = nil
-      timestamps = false
-
-      points.each do |point|
-        if gpx_id != point.gpx_id
-          gpx_id = point.gpx_id
-          trackid = -1
-
-          if point.trace.trackable?
-            track = XML::Node.new "trk"
-            doc.root << track
-            timestamps = true
-
-            if point.trace.identifiable?
-              track << (XML::Node.new("name") << point.trace.name)
-              track << (XML::Node.new("desc") << point.trace.description)
-              track << (XML::Node.new("url") << url_for(:controller => "/traces", :action => "show", :display_name => point.trace.user.display_name, :id => point.trace.id))
-            end
-          else
-            # use the anonymous track segment if the user hasn't allowed
-            # their GPX points to be tracked.
-            timestamps = false
-            if anon_track.nil?
-              anon_track = XML::Node.new "trk"
-              doc.root << anon_track
-            end
-            track = anon_track
-          end
-        end
-
-        if trackid != point.trackid
-          if point.trace.trackable?
-            trkseg = XML::Node.new "trkseg"
-            track << trkseg
-            trackid = point.trackid
-          else
-            if anon_trkseg.nil?
-              anon_trkseg = XML::Node.new "trkseg"
-              anon_track << anon_trkseg
-            end
-            trkseg = anon_trkseg
-          end
-        end
-
-        trkseg << point.to_xml_node(:print_timestamp => timestamps)
-      end
+      @points = ordered_points.union_all(unordered_points).offset(offset).limit(Settings.tracepoints_per_page).preload(:trace)
 
       response.headers["Content-Disposition"] = "attachment; filename=\"tracks.gpx\""
 
-      render :xml => doc.to_s
+      render :formats => [:gpx]
     end
   end
 end

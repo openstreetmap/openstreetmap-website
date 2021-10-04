@@ -482,6 +482,28 @@ it:
     timeout:
       sorry: Spiacenti, l'elenco richiesto di commenti al changeset ha impiegato troppo
         tempo per poter essere recuperato.
+  dashboards:
+    contact:
+      km away: distante %{count} km
+      m away: '%{count}m di distanza'
+    popup:
+      your location: Propria posizione
+      nearby mapper: Mappatore vicino
+      friend: Amico
+    show:
+      title: La mia dashboard
+      no_home_location_html: '%{edit_profile_link} e imposta la posizione di casa
+        per vedere gli utenti vicini.'
+      edit_your_profile: Modifica il tuo profilo
+      my friends: I miei amici
+      no friends: Non ci sono ancora amici.
+      nearby users: Altri utenti nelle vicinanze
+      no nearby users: Non ci sono ancora altri utenti che ammettono di mappare nelle
+        vicinanze.
+      friends_changesets: gruppi di modifiche degli amici
+      friends_diaries: note dei diari degli amici
+      nearby_changesets: gruppi di modifiche da parte degli utenti nelle vicinanze
+      nearby_diaries: note dei diari degli utenti nelle vicinanze
   diary_entries:
     new:
       title: Nuova voce del diario
@@ -817,6 +839,7 @@ it:
           window_construction: Costruttore di finestre
           winery: Cantina vinicola
           "yes": Negozio di Artigianato
+        crossing: Attraversamento
         emergency:
           access_point: Punto d'accesso
           ambulance_station: Stazione delle ambulanze
@@ -1072,6 +1095,7 @@ it:
           hill: Collina
           hot_spring: Sorgente termale
           island: Isola
+          isthmus: Istmo
           land: Terra
           marsh: Palude alluvionale
           moor: Molo
@@ -1086,10 +1110,13 @@ it:
           sand: Sabbia
           scree: Ghiaione
           scrub: Boscaglia
+          shingle: Greto
           spring: Sorgente
           stone: Pietra
           strait: Stretto
           tree: Albero
+          tree_row: Filare di alberi
+          tundra: Tundra
           valley: Valle
           volcano: Vulcano
           water: Acqua
@@ -1491,6 +1518,7 @@ it:
     hosting_partners_html: L'hosting è supportato da %{ucl}, %{fastly}, %{bytemark},
       e da altri %{partners}.
     partners_ucl: UCL
+    partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
     partners_partners: partner
     tou: Condizioni d'uso
@@ -1959,11 +1987,11 @@ it:
         credit_2_1_html: |-
           Inoltre devi specificare chiaramente che i dati sono disponibili sotto la Open Database Licese e, se usi le nostre tavole, che la cartografia è pubblicata con licenza CC BY-SA. Puoi fare ciò mettendo un collegamento URL a <a href="https://www.openstreetmap.org/copyright">questa pagina di copyright</a>.
           In alternativa, e necessariamente se stai distribuendo OSM sotto forma di dati, puoi citare e creare un collegamento diretto alle licenze. In mezzi di comunicazione dove i collegamenti URL non sono possibili (per esempio un'opera stampata), ti suggeriamo di indirizzare i lettori verso openstreetmap.org (magari esplicitando 'OpenStreetMap' come nome completo), verso opendatacommons.org e, se necessario, verso creativecommons.org.
-        credit_3_1_html: 'I tasselli della mappa nello &ldquo;stile predefinito&rdquo;
+        credit_3_1_html: I tasselli della mappa nello &ldquo;stile predefinito&rdquo;
           su www.openstreetmap.org sono frutto del lavoro della fondazione OpenStreetMap
-          a partire da dati OpenStreetMap rilasciati con licenza Open Database. Se
-          utilizzi questi tasselli, inserisci la seguente attribuzione: &ldquo;Mappa
-          di base e dati da OpenStreetMap e dalla fondazione OpenStreetMap&rdquo;.'
+          a partire da dati OpenStreetMap rilasciati con licenza Open Database. Quando
+          utilizzi questo stile mappa è richiesta la stessa attribuzione come per
+          i dati mappa.
         credit_4_html: |-
           In una mappa elettronica navigabile, i crediti devono essere mostrati nell'angolo della mappa.
           Ad esempio:
@@ -1989,9 +2017,11 @@ it:
           <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> e
           Land Tirol (sotto <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT con emendamenti</a>).
-        contributors_au_html: |-
-          <strong>Australia</strong>: contiene i dati della periferia basati
-          sui dati dell'Australian Bureau of Statistics.
+        contributors_au_html: '<strong>Australia</strong>: contiene o è sviluppato
+          sfruttando i confini amministrativi &copy; <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape
+          Australia</a> rilasciati dal Commonwealth dell''Australia con licenza <a
+          href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribuzione
+          4.0 Internazionale (CC BY 4.0)</a>.'
         contributors_ca_html: |-
           <strong>Canada</strong>: contiene i dati della
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -2408,7 +2438,7 @@ it:
       in: in
     index:
       public_traces: Tracciati GPS pubblici
-      my_traces: Miei tracciati
+      my_traces: I miei tracciati
       public_traces_from: Tracciati GPS pubblici di %{user}
       description: Naviga fra i tracciati GPS caricati recentemente
       tagged_with: ' etichettati con %{tags}'
@@ -2534,7 +2564,7 @@ it:
       flash: Distrutta la registrazione dell'applicazione client
   oauth2_applications:
     index:
-      title: Mie applicazioni client
+      title: Le mie applicazioni client
       no_applications_html: Possiedi un’applicazione che vorresti registrare per poterla
         usare con noi mediante lo standard %{oauth2}? Devi registrare la tua applicazione
         prima che essa possa effettuare richieste OAuth a questo servizio.
@@ -2650,14 +2680,15 @@ it:
     show:
       my diary: Il mio diario
       new diary entry: nuova voce del diario
-      my edits: Mie modifiche
-      my traces: Miei tracciati
-      my notes: Mie note
-      my messages: Miei messaggi
+      my edits: Le mie modifiche
+      my traces: I miei tracciati
+      my notes: Le mie note
+      my messages: I miei messaggi
       my profile: Il mio profilo
       my settings: Impostazioni
-      my comments: Miei commenti
+      my comments: I miei commenti
       my_preferences: Preferenze
+      my_dashboard: La mia dashboard
       blocks on me: Blocchi su di me
       blocks by me: Blocchi applicati da me
       edit_profile: Modifica profilo
@@ -2679,16 +2710,6 @@ it:
       spam score: 'Punteggio Spam:'
       description: Descrizione
       user location: Luogo dell'utente
-      no_home_location_html: '%{edit_profile_link} e imposta la posizione di casa
-        per vedere gli utenti vicini.'
-      edit_your_profile: Modifica il tuo profilo
-      my friends: I miei amici
-      no friends: Non ci sono ancora amici.
-      km away: distante %{count} km
-      m away: '%{count}m di distanza'
-      nearby users: Altri utenti nelle vicinanze
-      no nearby users: Non ci sono ancora altri utenti che ammettono di mappare nelle
-        vicinanze.
       role:
         administrator: Questo utente è un amministratore
         moderator: Questo utente è un moderatore
@@ -2709,15 +2730,7 @@ it:
       unhide_user: Mostra questo utente
       delete_user: Cancella questo utente
       confirm: Conferma
-      friends_changesets: gruppi di modifiche degli amici
-      friends_diaries: note dei diari degli amici
-      nearby_changesets: gruppi di modifiche da parte degli utenti nelle vicinanze
-      nearby_diaries: note dei diari degli utenti nelle vicinanze
       report: Segnala questo utente
-    popup:
-      your location: Propria posizione
-      nearby mapper: Mappatore vicino
-      friend: Amico
     account:
       title: Modifica profilo
       my settings: Impostazioni

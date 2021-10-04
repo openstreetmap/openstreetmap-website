@@ -240,6 +240,7 @@ OpenStreetMap::Application.routes.draw do
   match "/user/:display_name/account" => "users#account", :via => [:get, :post], :as => "user_account"
   post "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
 
+  resource :dashboard, :only => [:show]
   resource :preferences, :only => [:show, :edit, :update]
   resource :profile, :only => [:edit, :update]
 

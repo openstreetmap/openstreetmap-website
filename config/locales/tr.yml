@@ -485,6 +485,27 @@ tr:
     timeout:
       sorry: Üzgünüz, talep ettiğiniz değişiklik kaydı yorumlarının alınması çok uzun
         sürdü.
+  dashboards:
+    contact:
+      km away: '%{count} km uzak'
+      m away: '%{count} metre yakın'
+    popup:
+      your location: Konumum
+      nearby mapper: Komşu haritacı
+      friend: Arkadaş
+    show:
+      title: Gösterge Panelim
+      no_home_location_html: '%{edit_profile_link} ve yakındaki kullanıcıları görmek
+        için ev konumunuzu ayarlayın.'
+      edit_your_profile: Profilinizi düzenleyin
+      my friends: Arkadaşlarım
+      no friends: Henüz herhangi bir arkadaş eklemediniz.
+      nearby users: Yakın çevrede bulunan kullanıcılar
+      no nearby users: Yakın çevrede herhangi başka kullanıcı henüz yok.
+      friends_changesets: arkadaşların değişiklik kayıtları
+      friends_diaries: arkadaşların günlük girdileri
+      nearby_changesets: yakınlarındaki kullanıcıların bütün değişiklik kayıtları
+      nearby_diaries: yakınlarındaki kullanıcıların günlük girdileri
   diary_entries:
     new:
       title: Yeni Günlük Girdisi
@@ -822,6 +843,7 @@ tr:
           window_construction: Pencere Üreticisi
           winery: Şaraphane
           "yes": El Sanatları Mağazası
+        crossing: Geçit
         emergency:
           access_point: Erişim Noktası
           ambulance_station: Ambulans İstasyonu
@@ -1077,6 +1099,7 @@ tr:
           hill: Tepe
           hot_spring: Kaplıca
           island: Ada
+          isthmus: Kıstak
           land: Kara
           marsh: Bataklık
           moor: Bataklık
@@ -1091,10 +1114,13 @@ tr:
           sand: Kum
           scree: Kayşat
           scrub: Çalılık
+          shingle: Çakıl tabanlı sahil plaj
           spring: İlkbahar
           stone: Taş
           strait: Boğaz
           tree: Ağaç
+          tree_row: Ağaç Sırası
+          tundra: Tundra
           valley: Dere/vadi
           volcano: Yanardağ
           water: Su
@@ -1493,9 +1519,10 @@ tr:
     intro_text: OpenStreetMap; senin gibi kişiler tarafından oluşturulan, kullanımı
       serbest ve açık lisans altında olan bir dünya haritasıdır.
     intro_2_create_account: hesap oluşturunuz
-    hosting_partners_html: Barındırma hizmeti; %{ucl}, %{bytemark} ve diğer %{partners}
-      tarafından desteklenmektedir.
+    hosting_partners_html: Barındırma hizmeti; %{ucl}, %{fastly}, %{bytemark} ve diğer
+      %{partners} tarafından desteklenmektedir.
     partners_ucl: UCL
+    partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
     partners_partners: ortaklar
     tou: Kullanım Şartları
@@ -2006,10 +2033,11 @@ tr:
           <strong>Avusturya</strong>: <a href="https://data.wien.gv.at/">Stadt Wien</a> (<a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a> lisansı altında),
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> ve
           Land Tirol'dan (<a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">değişiklikleriyle CC BY AT lisansı altında</a>) veriler içermektedir.
-        contributors_au_html: '<strong>Avustralya</strong>: <a href="https://creativecommons.org/licenses/by/4.0/">CC
-          BY 4.0</a> kapsamında Commonwealth of Australia tarafından lisanslanan <a
-          href="https://creativecommons.org/licenses/by/4.0/">PSMA Australia Limited</a>''ten
-          alınan verileri içerir.'
+        contributors_au_html: |-
+          <strong>Avustralya</strong>: İdari Sınırlar kullanılarak birleştirilir veya geliştirilir &copy;
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Avustralya</a>,
+          Avustralya Topluluğu tarafından
+          <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Atıf 4.0 Uluslararası lisansı (CC BY 4.0)</a> ile lisanslanmıştır.
         contributors_ca_html: "<strong>Kanada</strong>: GeoBase&reg;, GeoGratis \n(&copy;
           Department of Natural\nResources Canada), CanVec (&copy; Department of Natural\nResources
           Canada) ve StatCan'den (Geography Division,\nStatistics Canada) veriler
@@ -2668,6 +2696,7 @@ tr:
       my settings: Ayarlarım
       my comments: Yorumlarım
       my_preferences: Tercihlerim
+      my_dashboard: Gösterge Panelim
       blocks on me: Engellendiklerim
       blocks by me: Engellediklerim
       edit_profile: Profili Düzenle
@@ -2689,15 +2718,6 @@ tr:
       spam score: 'Spam puanı:'
       description: Açıklama
       user location: Kullanıcının konumu
-      no_home_location_html: '%{edit_profile_link} ve yakındaki kullanıcıları görmek
-        için ev konumunuzu ayarlayın.'
-      edit_your_profile: Profilinizi düzenleyin
-      my friends: Arkadaşlarım
-      no friends: Henüz herhangi bir arkadaş eklemediniz.
-      km away: '%{count} km uzak'
-      m away: '%{count} metre yakın'
-      nearby users: Yakın çevrede bulunan kullanıcılar
-      no nearby users: Yakın çevrede herhangi başka kullanıcı henüz yok.
       role:
         administrator: Bu kullanıcı, bir yöneticidir.
         moderator: Bu kullanıcı, bir moderatördür.
@@ -2718,15 +2738,7 @@ tr:
       unhide_user: Bu Kullanıcıyı Göster
       delete_user: Bu Kullanıcıyı Sil
       confirm: Onayla
-      friends_changesets: arkadaşların değişiklik kayıtları
-      friends_diaries: arkadaşların günlük girdileri
-      nearby_changesets: yakınlarındaki kullanıcıların bütün değişiklik kayıtları
-      nearby_diaries: yakınlarındaki kullanıcıların günlük girdileri
       report: Bu kullanıcıyı rapor et
-    popup:
-      your location: Konumum
-      nearby mapper: Komşu haritacı
-      friend: Arkadaş
     account:
       title: Hesabı düzenle
       my settings: Ayarlarım

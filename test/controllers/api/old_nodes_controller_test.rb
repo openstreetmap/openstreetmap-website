@@ -187,6 +187,15 @@ module Api
       check_current_version(node_with_versions)
     end
 
+    # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
+    def test_lat_lon_xml_format
+      old_node = create(:old_node, :latitude => (0.00004 * OldNode::SCALE).to_i, :longitude => (0.00008 * OldNode::SCALE).to_i)
+
+      get api_node_history_path(:id => old_node.node_id, :version => old_node.version)
+      assert_match(/lat="0.0000400"/, response.body)
+      assert_match(/lon="0.0000800"/, response.body)
+    end
+
     ##
     # test the redaction of an old version of a node, while not being
     # authorised.

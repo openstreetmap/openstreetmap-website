@@ -242,6 +242,9 @@ pt-PT:
       x_years:
         one: há 1 ano
         other: há %{count} anos
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Padrão (atualmente %{name})
     id:
@@ -471,6 +474,28 @@ pt-PT:
     timeout:
       sorry: Lamentamos, a lista de comentários sobre conjuntos de alterações que
         pediste demorou demasiado tempo a ser obtida.
+  dashboards:
+    contact:
+      km away: '%{count} km de distância'
+      m away: '%{count} m de distância'
+    popup:
+      your location: A tua localização
+      nearby mapper: Mapeador próximo de ti
+      friend: Amigo
+    show:
+      title: Painel de Controlo
+      no_home_location_html: '%{edit_profile_link} e define a localização da tua morada
+        para veres utilizadores próximos.'
+      edit_your_profile: Editar perfil
+      my friends: Os meus amigos
+      no friends: Ainda não adicionaste nenhum amigo.
+      nearby users: Outros mapeadores nas redondezas
+      no nearby users: Não há outros mapeadores que admitam estar a editar o mapa
+        nas redondezas.
+      friends_changesets: conjuntos de alterações dos amigos
+      friends_diaries: publicações nos diários dos amigos
+      nearby_changesets: conjuntos de alterações de utilizadores próximos
+      nearby_diaries: publicações no diário de utilizadores próximos
   diary_entries:
     new:
       title: Criar nova publicação no diário
@@ -807,6 +832,7 @@ pt-PT:
           window_construction: Caixilharia
           winery: Adega
           "yes": Loja de artesanato
+        crossing: Passadeira
         emergency:
           access_point: Ponto de acesso
           ambulance_station: Estação de ambulâncias
@@ -1062,6 +1088,7 @@ pt-PT:
           hill: Colina
           hot_spring: Nascente geotérmica
           island: Ilha
+          isthmus: Istmo
           land: Terra
           marsh: Pântano
           moor: Paul
@@ -1076,10 +1103,13 @@ pt-PT:
           sand: Areia
           scree: Detritos de talude
           scrub: Matagal
+          shingle: Seixos
           spring: Nascente
           stone: Pedra
           strait: Estreito
           tree: Árvore
+          tree_row: Linha de árvores
+          tundra: Tundra
           valley: Vale
           volcano: Vulcão
           water: Água
@@ -1477,9 +1507,10 @@ pt-PT:
     intro_text: O OpenStreetMap é um mapa do mundo, criado por pessoas como tu e de
       uso livre sob uma licença aberta.
     intro_2_create_account: Cria uma conta de utilizador
-    hosting_partners_html: O alojamento é suportado por %{ucl}, %{bytemark} e outros
-      %{partners}.
+    hosting_partners_html: O alojamento é suportado por %{ucl}, %{fastly}, %{bytemark}
+      e outros %{partners}.
     partners_ucl: UCL
+    partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
     partners_partners: parceiros
     tou: Condições de utilização
@@ -1981,11 +2012,11 @@ pt-PT:
           BY</a>), <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land
           Vorarlberg</a> e Land Tirol (sob a licença <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY
           AT com emendas</a>).'
-        contributors_au_html: |-
-          <strong>Austrália</strong>: contém dados provenientes da
-          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia Limited</a>
-          licenciada pela Commonwealth of Australia sob uma licença
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        contributors_au_html: "<strong>Austrália</strong>: contém ou foi desenvolvido
+          usando fronteiras administrativas &copy; \n<a href=\"https://geoscape.com.au/legal/data-copyright-and-disclaimer/\">PSMA
+          Australia Limited</a>\nlicenciada pela Commonwealth of Australia sob uma
+          licença\n<a href=\"https://creativecommons.org/licenses/by/4.0/\">Creative
+          Commons Attribuição 4.0 Licença Internacional (CC BY 4.0)</a>."
         contributors_ca_html: '<strong>Canadá</strong>: contém dados de GeoBase&reg;,
           GeoGratis (&copy; Departmento de Recursos Naturais do Canadá), CanVec (&copy;
           Departmento de Recursos Naturais do Canadá) e StatCan (Divisão de Geografia,
@@ -2174,7 +2205,7 @@ pt-PT:
         a aplicação desktop para Mac e Windows</a>.
       id_html: Alternativamente, podes definir o teu editor padrão para o iD, que
         é executado no teu navegador de Internet tal como o Potlatch fazia. <a href="%{settings_url}">Altera
-        as tuas definições de utilizador aqui</a>.
+        as tuas definições aqui</a>.
     sidebar:
       search_results: Resultados da Pesquisa
       close: Fechar
@@ -2342,6 +2373,7 @@ pt-PT:
       title: A editar a rota %{name}
       heading: A editar a rota %{name}
       visibility_help: o que significa isto?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: Rota atualizada
     trace_optionals:
@@ -2431,6 +2463,7 @@ pt-PT:
         inicia sessão na página web do OpenStreetMap para veres os Termos de Contribuidor.
         Não precisas de aceitar os termos, mas tens de os ver.
     settings_menu:
+      account_settings: Definições
       oauth1_settings: Definições OAuth 1
       oauth2_applications: Aplicações OAuth 2
       oauth2_authorizations: Autorizações OAuth 2
@@ -2640,6 +2673,7 @@ pt-PT:
       my settings: Definições
       my comments: Comentários
       my_preferences: Preferências
+      my_dashboard: Painel de Controlo
       blocks on me: Quem me bloqueou
       blocks by me: Os meus bloqueios
       edit_profile: Editar Perfil
@@ -2661,13 +2695,6 @@ pt-PT:
       spam score: 'Contagem de Spam:'
       description: Descrição
       user location: Localização do utilizador
-      my friends: Os meus amigos
-      no friends: Ainda não adicionaste nenhum amigo.
-      km away: '%{count} km de distância'
-      m away: '%{count} m de distância'
-      nearby users: Outros mapeadores nas redondezas
-      no nearby users: Não há outros mapeadores que admitam estar a editar o mapa
-        nas redondezas.
       role:
         administrator: Este utilizador é um administrador
         moderator: Este utilizador é um moderador
@@ -2688,15 +2715,7 @@ pt-PT:
       unhide_user: Mostrar este utilizador
       delete_user: Eliminar este utilizador
       confirm: Confirmar
-      friends_changesets: conjuntos de alterações dos amigos
-      friends_diaries: publicações nos diários dos amigos
-      nearby_changesets: conjuntos de alterações de utilizadores próximos
-      nearby_diaries: publicações no diário de utilizadores próximos
       report: Denunciar este utilizador
-    popup:
-      your location: A tua localização
-      nearby mapper: Mapeador próximo de ti
-      friend: Amigo
     account:
       title: Editar conta
       my settings: Definições

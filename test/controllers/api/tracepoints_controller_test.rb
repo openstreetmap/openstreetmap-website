@@ -148,5 +148,14 @@ module Api
         assert_equal "The minimum latitude must be less than the maximum latitude, but it wasn't", @response.body, "bbox: #{bbox}"
       end
     end
+
+    # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
+    def test_lat_lon_xml_format
+      create(:tracepoint, :latitude => (0.00004 * GeoRecord::SCALE).to_i, :longitude => (0.00008 * GeoRecord::SCALE).to_i)
+
+      get trackpoints_path(:bbox => "0,0,0.1,0.1")
+      assert_match(/lat="0.0000400"/, response.body)
+      assert_match(/lon="0.0000800"/, response.body)
+    end
   end
 end
