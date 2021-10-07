@@ -65,5 +65,7 @@ json.user do
         json.count user.sent_messages.size
       end
     end
+
+    json.email user.email if scope_enabled?(:read_email)
   end
 end

@@ -67,11 +67,11 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "oauth2_applications/new"
     assert_select "form", 1 do
-      assert_select "input#doorkeeper_application_name", 1
-      assert_select "textarea#doorkeeper_application_redirect_uri", 1
-      assert_select "input#doorkeeper_application_confidential", 1
+      assert_select "input#oauth2_application_name", 1
+      assert_select "textarea#oauth2_application_redirect_uri", 1
+      assert_select "input#oauth2_application_confidential", 1
       Oauth.scopes.each do |scope|
-        assert_select "input#doorkeeper_application_scopes_#{scope.name}", 1
+        assert_select "input#oauth2_application_scopes_#{scope.name}", 1
       end
     end
   end
@@ -87,7 +87,7 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     session_for(user)
 
     assert_difference "Doorkeeper::Application.count", 0 do
-      post oauth_applications_path(:doorkeeper_application => {
+      post oauth_applications_path(:oauth2_application => {
                                      :name => "Test Application"
                                    })
     end
@@ -95,7 +95,7 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     assert_template "oauth2_applications/new"
 
     assert_difference "Doorkeeper::Application.count", 0 do
-      post oauth_applications_path(:doorkeeper_application => {
+      post oauth_applications_path(:oauth2_application => {
                                      :name => "Test Application",
                                      :redirect_uri => "https://test.example.com/",
                                      :scopes => ["bad_scope"]
@@ -105,10 +105,36 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     assert_template "oauth2_applications/new"
 
     assert_difference "Doorkeeper::Application.count", 1 do
-      post oauth_applications_path(:doorkeeper_application => {
+      post oauth_applications_path(:oauth2_application => {
                                      :name => "Test Application",
                                      :redirect_uri => "https://test.example.com/",
                                      :scopes => ["read_prefs"]
+                                   })
+    end
+    assert_response :redirect
+    assert_redirected_to oauth_application_path(:id => Doorkeeper::Application.find_by(:name => "Test Application").id)
+  end
+
+  def test_create_privileged
+    session_for(create(:user))
+
+    assert_difference "Doorkeeper::Application.count", 0 do
+      post oauth_applications_path(:oauth2_application => {
+                                     :name => "Test Application",
+                                     :redirect_uri => "https://test.example.com/",
+                                     :scopes => ["read_email"]
+                                   })
+    end
+    assert_response :success
+    assert_template "oauth2_applications/new"
+
+    session_for(create(:administrator_user))
+
+    assert_difference "Doorkeeper::Application.count", 1 do
+      post oauth_applications_path(:oauth2_application => {
+                                     :name => "Test Application",
+                                     :redirect_uri => "https://test.example.com/",
+                                     :scopes => ["read_email"]
                                    })
     end
     assert_response :redirect
@@ -154,11 +180,11 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "oauth2_applications/edit"
     assert_select "form", 1 do
-      assert_select "input#doorkeeper_application_name", 1
-      assert_select "textarea#doorkeeper_application_redirect_uri", 1
-      assert_select "input#doorkeeper_application_confidential", 1
+      assert_select "input#oauth2_application_name", 1
+      assert_select "textarea#oauth2_application_redirect_uri", 1
+      assert_select "input#oauth2_application_confidential", 1
       Oauth.scopes.each do |scope|
-        assert_select "input#doorkeeper_application_scopes_#{scope.name}", 1
+        assert_select "input#oauth2_application_scopes_#{scope.name}", 1
       end
     end
   end
@@ -178,7 +204,7 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     assert_template "oauth2_applications/not_found"
 
     put oauth_application_path(:id => client,
-                               :doorkeeper_application => {
+                               :oauth2_application => {
                                  :name => "New Name",
                                  :redirect_uri => nil
                                })
@@ -186,7 +212,7 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     assert_template "oauth2_applications/edit"
 
     put oauth_application_path(:id => client,
-                               :doorkeeper_application => {
+                               :oauth2_application => {
                                  :name => "New Name",
                                  :redirect_uri => "https://new.example.com/url"
                                })

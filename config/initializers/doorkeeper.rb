@@ -48,6 +48,8 @@ Doorkeeper.configure do
   #   end
   # end
 
+  application_class "Oauth2Application"
+
   # Enables polymorphic Resource Owner association for Access Tokens and Access Grants.
   # By default this option is disabled.
   #
@@ -221,7 +223,7 @@ Doorkeeper.configure do
   # https://doorkeeper.gitbook.io/guides/ruby-on-rails/scopes
 
   # default_scopes  :public
-  optional_scopes(*Oauth::SCOPES)
+  optional_scopes(*Oauth::SCOPES, *Oauth::PRIVILEGED_SCOPES)
 
   # Allows to restrict only certain scopes for grant_type.
   # By default, all the scopes will be available for all the grant types.
@@ -417,10 +419,10 @@ Doorkeeper.configure do
   # Under some circumstances you might want to have applications auto-approved,
   # so that the user skips the authorization step.
   # For example if dealing with a trusted application.
-  #
-  # skip_authorization do |resource_owner, client|
-  #   client.superapp? or resource_owner.admin?
-  # end
+
+  skip_authorization do |_, client|
+    client.scopes.include?("skip_authorization")
+  end
 
   # Configure custom constraints for the Token Introspection request.
   # By default this configuration option allows to introspect a token by another
