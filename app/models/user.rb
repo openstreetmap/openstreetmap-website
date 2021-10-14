@@ -87,7 +87,7 @@ class User < ApplicationRecord
   scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }
 
-  has_one_attached :avatar
+  has_one_attached :avatar, :service => Settings.avatar_storage
 
   validates :display_name, :presence => true, :length => 3..255,
                            :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
