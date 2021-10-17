@@ -1,19 +1,19 @@
 <% content_for :heading do %>
-  <%= tag.h1 :lang => @locale, :dir => t("html.dir", :locale => @locale) do %>
-    <%= t ".title", :locale => @locale %>
+  <%= tag.h1 do %>
+    <%= t ".title" %>
   <% end %>
 <% end %>
 
-<%= tag.div :lang => @locale, :dir => t("html.dir", :locale => @locale) do %>
-  <p><%= t ".lede_text", :locale => @locale %></p>
-  <h2><%= t ".local_chapters.title", :locale => @locale %></h2>
-  <p><%= t ".local_chapters.about_text", :locale => @locale %></p>
-  <p><%= t ".local_chapters.list_text", :locale => @locale %></p>
+<%= tag.div do %>
+  <p><%= t ".lede_text" %></p>
+  <h2><%= t ".local_chapters.title" %></h2>
+  <p><%= t ".local_chapters.about_text" %></p>
+  <p><%= t ".local_chapters.list_text" %></p>
   <ul>
     <% @local_chapters.each do |chapter| %>
       <li><a href="<%= chapter.url %>"><%= chapter.name %></a></li>
     <% end %>
   </ul>
-  <h2><%= t ".other_groups.title", :locale => @locale %></h2>
-  <p><%= t ".other_groups.about_html", :locale => @locale %></p>
+  <h2><%= t ".other_groups.title" %></h2>
+  <p><%= t ".other_groups.about_html" %></p>
 <% end %>
