@@ -1,6 +1,5 @@
 module OsmCommunityIndex
   class LocalChapter
-
     attr_reader :id, :name, :url
 
     @localised_chapters = {}
@@ -14,8 +13,6 @@ module OsmCommunityIndex
     def self.local_chapters_with_locale(locale)
       @localised_chapters[locale] ||= load_local_chapters(locale)
     end
-
-    protected
 
     def self.load_local_chapters(locale)
       community_index = OsmCommunityIndex.community_index
@@ -33,7 +30,5 @@ module OsmCommunityIndex
       end
       local_chapters
     end
-
   end
-
 end

@@ -12,8 +12,6 @@ module OsmCommunityIndex
       @localised_strings[locale] ||= locale_hash_from_json(locale)
     end
 
-    protected
-
     def self.community_index_from_json
       json_file = Rails.root.join("node_modules/osm-community-index/dist/resources.json")
       JSON.parse(File.read(json_file))
@@ -23,17 +21,13 @@ module OsmCommunityIndex
       locale = locale_in.to_s.tr("-", "_")
       # try the passed in locale
       json = load_locale_json(locale)
-      unless json.nil?
-        return json
-      end
+      return json unless json.nil?
 
       # now try it without it's country part (eg 'en' instead of 'en_GB')
       shortened_locale = locale.split("_").first
-      unless shortened_locale === locale
+      unless shortened_locale == locale
         json = load_locale_json(shortened_locale)
-        unless json.nil?
-          return json
-        end
+        return json unless json.nil?
       end
 
       # if nothing else works, then return "en"
@@ -42,11 +36,9 @@ module OsmCommunityIndex
 
     def self.load_locale_json(locale)
       json_path = Rails.root.join("node_modules/osm-community-index/i18n/#{locale}.yaml")
-      if File.exist?(json_path)
-        return YAML.safe_load(File.read(json_path))[locale]
-      end
+      return YAML.safe_load(File.read(json_path))[locale] if File.exist?(json_path)
+
       nil
     end
-
   end
 end
