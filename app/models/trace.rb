@@ -300,6 +300,26 @@ class Trace < ApplicationRecord
     end
   end
 
+  def migrate_to_storage!
+    file.attach(:io => File.open(trace_name),
+                :filename => name,
+                :content_type => content_type(trace_name),
+                :identify => false)
+
+    if inserted
+      image.attach(:io => File.open(large_picture_name),
+                   :filename => "#{id}.gif",
+                   :content_type => "image/gif")
+      icon.attach(:io => File.open(icon_picture_name),
+                  :filename => "#{id}_icon.gif",
+                  :content_type => "image/gif")
+    end
+
+    save!
+
+    remove_files
+  end
+
   private
 
   def content_type(file)
