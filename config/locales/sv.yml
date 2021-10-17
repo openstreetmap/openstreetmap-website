@@ -11,6 +11,7 @@
 # Author: Cohan
 # Author: Cybjit
 # Author: Dan Koehl
+# Author: Danieldegroot2
 # Author: Fader
 # Author: Grillo
 # Author: Haxpett
@@ -90,7 +91,7 @@ sv:
     models:
       acl: Tillgångskontrollista (ACL)
       changeset: Ändringsset
-      changeset_tag: Etikett till ändringsset
+      changeset_tag: Ändringssettagg
       country: Land
       diary_comment: Dagbokskommentar
       diary_entry: Dagboksinlägg
@@ -99,7 +100,7 @@ sv:
       language: Språk
       message: Meddelande
       node: Nod
-      node_tag: Nodetikett
+      node_tag: Nodtagg
       notifier: Meddelande
       old_node: Gammal nod
       old_node_tag: Gammal nodtagg
@@ -108,7 +109,7 @@ sv:
       old_relation_tag: Gammal relationstagg
       old_way: Gammal sträcka
       old_way_node: Gammal sträcknod
-      old_way_tag: Gammal sträcketikett
+      old_way_tag: Gammal sträcketagg
       relation: Relation
       relation_member: Relationsmedlem
       relation_tag: Relationstagg
@@ -116,22 +117,22 @@ sv:
       session: Session
       trace: Spår
       tracepoint: Spårpunkt
-      tracetag: Spåretikett
+      tracetag: Spårtagg
       user: Användare
-      user_preference: Användarinställning
+      user_preference: Användarpreferens
       user_token: Användarnyckel
       way: Sträcka
       way_node: Sträcknod
-      way_tag: Sträcketikett
+      way_tag: Sträcketagg
     attributes:
       client_application:
         name: Namn (krävs)
         url: Huvudapplikationsadress (obligatorisk)
         callback_url: Återkopplingsadress
         support_url: Supportadress
-        allow_read_prefs: läs deras användarinställningar
+        allow_read_prefs: läs deras användarpreferenser
         allow_write_prefs: ändra deras användarinställningar
-        allow_write_diary: skapa dagboksinlägg, kommentera och hitta vänner
+        allow_write_diary: skapa dagboksinlägg, kommentarer och hitta vänner.
         allow_write_api: ändra kartan
         allow_read_gpx: läs deras privata GPS-spår
         allow_write_gpx: ladda upp GPS-spår
@@ -146,6 +147,8 @@ sv:
         language: Språk
       doorkeeper/application:
         name: Namn
+        redirect_uri: Omdirigerings-URI:er
+        confidential: Konfidentiell applikation?
         scopes: Behörigheter
       friend:
         user: Användare
@@ -479,6 +482,8 @@ sv:
       nearby mapper: Användare i närheten
       friend: Vän
     show:
+      title: Min kontrollpanel
+      edit_your_profile: Redigera din profil
       my friends: Mina vänner
       no friends: Du har inte lagt till några vänner ännu.
       nearby users: Andra användare nära dig
@@ -564,6 +569,11 @@ sv:
       comment: Kommentar
       newer_comments: Nyare kommentarer
       older_comments: Äldre kommentarer
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Applikation registrerad.
   friendships:
     make_friend:
       heading: Lägg till %{user} som en vän?
@@ -698,6 +708,7 @@ sv:
           ranger_station: Skogvaktarpost
           recycling: Återvinningsstation
           restaurant: Restaurang
+          sanitary_dump_station: Sanitär tömningsstation
           school: Skola
           shelter: Hydda
           shower: Dusch
@@ -719,12 +730,16 @@ sv:
           waste_basket: Papperskorg
           waste_disposal: Avfallshantering
           waste_dump_site: Soptipp
+          watering_place: Vattningsplats
           water_point: Vattenpunkt
           weighbridge: Fordonsvåg
+          "yes": Inrättning
         boundary:
+          aboriginal_lands: Urfolksmarker
           administrative: Administrativ gräns
           census: Folkräkningsgräns
           national_park: Nationalpark
+          political: Valgräns
           protected_area: Skyddat område
           "yes": Gräns
         bridge:
@@ -742,10 +757,15 @@ sv:
           cabin: Stuga
           chapel: Kapell
           church: Kyrkbyggnad
+          civic: Offentlig byggnad
           college: Universitetsbyggnad
           commercial: Kommersiell byggnad
+          construction: Byggnad under uppförande
+          detached: Fristående hus
           dormitory: Studenthem
+          duplex: Dubbelhus
           farm: Gård
+          farm_auxiliary: Utbyggnad på en gård
           garage: Garage
           garages: Garage
           greenhouse: Växthus
@@ -756,6 +776,8 @@ sv:
           houseboat: Husbåt
           hut: Hydda
           industrial: Industribyggnad
+          kindergarten: Dagisbyggnad
+          manufacture: Fabriksbyggnad
           office: Kontorsbyggnad
           public: Offentlig byggnad
           residential: Bostadsbyggnad
@@ -763,6 +785,8 @@ sv:
           roof: Tak
           ruins: Byggnadsruin
           school: Skolbyggnad
+          semidetached_house: Parhus
+          service: Servicebyggnad
           shed: Skjul
           stable: Stall
           static_caravan: Husvagn
@@ -773,6 +797,7 @@ sv:
           warehouse: Varuhus
           "yes": Byggnad
         club:
+          scout: Scoutklubbhus
           sport: Sportklubb
           "yes": Klubb
         craft:
@@ -781,11 +806,15 @@ sv:
           brewery: Bryggeri
           carpenter: Snickare
           caterer: Catering
+          confectionery: Godisbutik
           dressmaker: Sömmerska
           electrician: Elektriker
+          electronics_repair: Elektronikreparation
           gardener: Trädgårdsmästare
           glaziery: Glasmästeri
           handicraft: Konsthantverk
+          hvac: Värme- och ventilationsverk
+          metal_construction: Metallkonstruktör
           painter: Målare
           photographer: Fotograf
           plumber: Rörmokare
@@ -794,16 +823,22 @@ sv:
           shoemaker: Skomakare
           stonemason: Stenhuggare
           tailor: Skräddare
+          window_construction: Fönsterkonstruktion
           winery: Vingård
           "yes": Hantverksbutik
+        crossing: Övergångsställe
         emergency:
+          access_point: Åtkomstpunkt
           ambulance_station: Ambulansstation
           assembly_point: Samlingsplats
           defibrillator: Defibrillator
           fire_extinguisher: Brandsläckare
+          fire_water_pond: Branddamm
           landing_site: Nödlandningsplats
           life_ring: Livboj
           phone: Nödtelefon
+          siren: Varningssiren
+          suction_point: Beredskapssugpunkt
           water_tank: Nödvattentank
           "yes": Nödsituation
         highway:
@@ -816,6 +851,7 @@ sv:
           cycleway: Cykelspår
           elevator: Hiss
           emergency_access_point: Utryckningsplats
+          emergency_bay: Nödparkeringsplats
           footway: Gångväg
           ford: Vadställe
           give_way: Väjningspliktsskylt
@@ -848,34 +884,44 @@ sv:
           track: Traktorväg
           traffic_mirror: Traffikspegel
           traffic_signals: Trafiksignaler
+          trailhead: Vandringsstartpunkt
           trunk: Stamväg
           trunk_link: På-/avfart till stamväg/motortrafikled
           turning_loop: Vändslinga
           unclassified: Oklassificerad väg
           "yes": Väg
         historic:
+          aircraft: Historiskt flygplan
           archaeological_site: Arkeologisk plats
+          bomb_crater: Historisk bombkrater
           battlefield: Slagfält
           boundary_stone: Gränssten
           building: Historisk byggnad
           bunker: Bunker
+          cannon: Historisk kanon
           castle: Slott
+          charcoal_pile: Historisk träkolsbunke
           church: Kyrka
           city_gate: Stadsport
           citywalls: Stadsmurar
           fort: Fort
           heritage: Kulturarvsplats
+          hollow_way: Grottväg
           house: Hus
           manor: Herrgård
           memorial: Minnesmärke
+          milestone: Historisk milsten
           mine: Gruva
           mine_shaft: Gruvschakt
           monument: Monument
+          railway: Historisk järnväg
           roman_road: Romersk väg
           ruins: Ruin
+          rune_stone: Runsten
           stone: Sten
           tomb: Grav
           tower: Torn
+          wayside_chapel: Vägkyrka
           wayside_cross: Landmärke
           wayside_shrine: Vägkants-helgedom
           wreck: Vrak
@@ -884,6 +930,7 @@ sv:
           "yes": Korsning
         landuse:
           allotments: Kolonilotter
+          aquaculture: Akvakultur
           basin: Bäcken
           brownfield: Outvecklat område
           cemetery: Begravningsplats
@@ -903,9 +950,11 @@ sv:
           military: Militärområde
           mine: Gruva
           orchard: Fruktträdgård
+          plant_nursery: Plantskola
           quarry: Stenbrott
           railway: Järnväg
           recreation_ground: Rekreationsområde
+          religious: Religiös mark
           reservoir: Reservoar
           reservoir_watershed: Vattenreservoar
           residential: Bostadsområde
@@ -914,8 +963,12 @@ sv:
           vineyard: Vingård
           "yes": Markanvändning
         leisure:
+          adult_gaming_centre: Vuxenspelhall
+          amusement_arcade: Spelhall
+          bandstand: Orkesterpaviljong
           beach_resort: Badort
           bird_hide: Fågeltorn
+          bleachers: Läktarplatser
           bowling_alley: Bowlinghall
           common: Allmänning
           dance: Danslokal
@@ -931,6 +984,7 @@ sv:
           marina: Marina
           miniature_golf: Minigolf
           nature_reserve: Naturreservat
+          outdoor_seating: Utomhussittplats
           park: Park
           picnic_table: Picknickbord
           pitch: Idrottsplan
@@ -947,15 +1001,21 @@ sv:
           "yes": Fritid
         man_made:
           adit: Gruvöppning
+          advertising: Reklam
           antenna: Antenn
           avalanche_protection: Lavinskydd
           beacon: Fyr
+          beam: Bjälke
           beehive: Bikupa
           breakwater: Vågbrytare
           bridge: Bro
           bunker_silo: Bunker
+          cairn: Röse
           chimney: Skorsten
+          clearcut: Avverkning
+          communications_tower: Kommunikationstorn
           crane: Kran
+          cross: Kors
           dolphin: Dykdalb
           dyke: Dike
           embankment: Fördämning
@@ -973,15 +1033,19 @@ sv:
           pier: Pir
           pipeline: Pipeline
           pumping_station: Pumpstation
+          reservoir_covered: Täckt vattenbehållare
           silo: Silo
           snow_cannon: Snökanon
           snow_fence: Snöstaket
           storage_tank: Lagringstank
+          street_cabinet: Gatuskåp
           surveillance: Övervakning
           telescope: Teleskop
           tower: Torn
+          utility_pole: Bruksstolpe
           wastewater_plant: Avfallsfabrik
           watermill: Vattenkvarn
+          water_tap: Vattenkran
           water_tower: Vattentorn
           water_well: Brunn
           water_works: Vattenreningsverk
@@ -998,6 +1062,7 @@ sv:
         mountain_pass:
           "yes": Bergspass
         natural:
+          atoll: Atoll
           bare_rock: Klippa
           bay: Bukt
           beach: Strand
@@ -1017,6 +1082,7 @@ sv:
           hill: Kulle
           hot_spring: Varm källa
           island: Ö
+          isthmus: Näs
           land: Land
           marsh: Träsk
           moor: Hed
@@ -1031,29 +1097,43 @@ sv:
           sand: Sand
           scree: Taluskon
           scrub: Buskskog
+          shingle: Klappersten
           spring: Källa
           stone: Sten
           strait: Sund
           tree: Träd
+          tree_row: Trädrad
+          tundra: Tundra
           valley: Dal
           volcano: Vulkan
           water: Vatten
           wetland: Våtmark
           wood: Skog
+          "yes": Naturelement
         office:
           accountant: Revisor
           administrative: Administration
+          advertising_agency: Reklambyrå
           architect: Arkitekt
           association: Förening
           company: Företag
+          diplomatic: Diplomatiskt kontor
           educational_institution: Utbildningsinstitution
           employment_agency: Bemanningsföretag
+          energy_supplier: Energileverantörskontor
           estate_agent: Fastighetsmäklare
+          financial: Finanskontor
           government: Statligt kontor
           insurance: Försäkringskassa
           it: IT-kontor
           lawyer: Advokat
+          logistics: Logistik kontor
+          newspaper: Tidningskontor
           ngo: Icke-statligt kontor
+          notary: Notar
+          religion: Religiöst kontor
+          research: Forskningskontor
+          tax_advisor: Skatterådgivare
           telecommunication: Telefonbolagskontor
           travel_agent: Resebyrå
           "yes": Kontor
@@ -1111,9 +1191,13 @@ sv:
           tram_stop: Spårvagnshållplats
           yard: Bangård
         shop:
+          agrarian: Jordbruksbutik
           alcohol: Spritbutik
           antiques: Antikviteter
+          appliance: Vitvaruaffär
           art: Konstaffär
+          baby_goods: Babyvaror
+          bag: Väskbutik
           bakery: Bageri
           beauty: Skönhetssalong
           beverages: Dryckesbutik
@@ -1690,8 +1774,25 @@ sv:
       reset: Återställ lösenord
       flash changed: Ditt lösenord har ändrats.
       flash token bad: Hittade inte den nyckeln, kontrollera webbadressen.
+  preferences:
+    show:
+      title: Mina preferenser
+      preferred_editor: Föredraget redigeringsprogram
+      preferred_languages: Föredragna språk
+      edit_preferences: Redigera preferenser
+    edit:
+      title: Redigera inställningar
+      save: Uppdatera preferenser
+      cancel: Avbryt
+    update:
+      failure: Kunde inte uppdatera preferenser.
+    update_success_flash:
+      message: Inställningarna uppdaterade.
   profiles:
     edit:
+      title: Redigera profil
+      save: Uppdatera profil
+      cancel: Avbryt
       image: Bild
       gravatar:
         gravatar: Använd Gravatar
@@ -1707,6 +1808,9 @@ sv:
       home location: Hemposition
       no home location: Du har inte angivit någon hemposition.
       update home location on click: Uppdatera hemposition när jag klickar på kartan?
+    update:
+      success: Profil uppdaterad.
+      failure: Kunde inte uppdatera profilen.
   sessions:
     new:
       title: Logga in
@@ -1729,9 +1833,9 @@ sv:
       account not active: Tyvärr, ditt konto är inte aktiverat.<br />Vänligen klicka
         på länken i e-posten med kontobekräftelsen, för att aktivera ditt konto, eller
         <a href="%{reconfirm}">begär en ny epostsbekräftelse</a>.
-      account is suspended: |-
-        Tyvärr har ditt konto stängts av på grund av tvivelaktig aktivitet.<br />Kontakta <a href="%
-        {webmaster}">webbansvarig</a> om du vill diskutera saken.
+      account is suspended: Tyvärr har ditt konto stängts av på grund av tvivelaktig
+        aktivitet.<br />Kontakta <a href="%{webmaster}">supporten</a> om du vill diskutera
+        saken.
       auth failure: Kunde inte logga in med de uppgifterna.
       openid_logo_alt: Logga in med ett OpenID
       auth_providers:
@@ -2090,7 +2194,7 @@ sv:
         ner datorprogrammet för Mac och Windows</a>.
       id_html: Eller så kan du ange din standardredigerare som iD, vilket kör din
         webbläsare som Potlatch tidigare gjort. <a href="%{settings_url}">Ändra dina
-        inställningar här</a>.
+        preferenser här</a>.
     sidebar:
       search_results: Sökresultat
       close: Stäng
@@ -2301,13 +2405,16 @@ sv:
       in: i
     index:
       public_traces: Publika GPS-spår
-      my_traces: Mina GPS-spår
+      my_traces: Mina spår
       public_traces_from: Publika GPS-spår från %{user}
       description: Bläddra bland nyligen uppladdade GPS-spår
       tagged_with: ' taggad med %{tags}'
       empty_html: Ingenting här ännu. <a href='%{upload_link}'>Ladda upp ett nytt
         GPS-spår</a> eller lär dig om GPS-spår på <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikin</a>.
       upload_trace: Ladda upp GPS-spår
+      all_traces: Alla spår
+      traces_from: Offentliga GPS-spår från %{user}
+      remove_tag_filter: Ta bort taggfilter
     destroy:
       scheduled_for_deletion: GPS-spår schemalagt för radering
     make_public:
@@ -2340,6 +2447,11 @@ sv:
       need_to_see_terms: Din tillgång till API:t är tillfälligt avstängd. Logga in
         på webbgränssnittet för att se bidragsvillkor. Du behöver inte godkänna dem,
         men du måste titta på dem.
+    settings_menu:
+      account_settings: Kontoinställningar
+      oauth1_settings: OAuth 1-inställningar
+      oauth2_applications: OAuth 2-applikationer
+      oauth2_authorizations: OAuth 2-auktoriseringar
   oauth:
     authorize:
       title: Auktorisera tillgång till ditt konto
@@ -2347,7 +2459,7 @@ sv:
         %{user}. Var god kontrollera om du vill att programmet ska ha dessa möjligheter.
         Du kan välja eller ta bort hur många val du vill.
       allow_to: 'Tillåt klientapplikation att:'
-      allow_read_prefs: läs dina användarinställningar
+      allow_read_prefs: läs dina användarpreferenser.
       allow_write_prefs: ändra på dina användarinställningar.
       allow_write_diary: skapa dagboksinlägg, kommentarer och hitta vänner.
       allow_write_api: ändra på kartan.
@@ -2369,6 +2481,16 @@ sv:
       flash: Du tagit bort nyckeln för %{application}
     permissions:
       missing: Du har inte gett applikationen åtkomst till den här faciliteten
+    scopes:
+      read_prefs: Läs användarpreferenser
+      write_prefs: Ändra användarinställningar
+      write_diary: Skapa dagboksinlägg, kommentarer och hitta vänner.
+      write_api: Ändra på kartan
+      read_gpx: Läs privata GPS-spår
+      write_gpx: Ladda upp GPS-spår
+      write_notes: Ändra anteckningar
+      read_email: Läs användarens e-postadress
+      skip_authorization: Godkänn applikation automatiskt
   oauth_clients:
     new:
       title: Registrera ett nytt program
@@ -2388,12 +2510,12 @@ sv:
       requests: 'Begär följande behörigheter från användaren:'
     index:
       title: Mina OAuth-detaljer
-      my_tokens: Mina auktoriserade program
+      my_tokens: Mina auktoriserade applikationer
       list_tokens: 'Följande nycklar har utfärdats till program i ditt namn:'
       application: Applikationsnamn
       issued_at: Utfärdad den
       revoke: Återkalla!
-      my_apps: Mina klientprogram
+      my_apps: Mina klientapplikationer
       no_apps_html: Har du ett program som du vill registrera för användning hos oss
         med hjälp av %{oauth}-standarden? Du måste registrera din webbapplikation
         innan du kan göra OAuth-anropp till den här tjänsten.
@@ -2409,28 +2531,56 @@ sv:
     update:
       flash: Uppdaterade klientinformationen framgångsrikt
     destroy:
-      flash: Annullerade registreringen av klientprogrammet
+      flash: Annullerade registreringen av klientapplikationen
   oauth2_applications:
     index:
+      title: Mina klientapplikationer
+      new: Registrera ny applikation
       name: Namn
       permissions: Behörigheter
     application:
       edit: Redigera
       delete: Radera
+      confirm_delete: Radera den här applikationen?
+    new:
+      title: Registrera ett nytt applikation
+    edit:
+      title: Redigera din applikation
     show:
       edit: Redigera
       delete: Radera
+      confirm_delete: Radera den här applikationen?
+      client_id: Klient-ID
+      client_secret: Klienthemlighet
       permissions: Behörigheter
+      redirect_uris: Omdirigerings-URI:er
   oauth2_authorizations:
     new:
+      title: Auktorisering krävs
+      introduction: Auktorisera %{application} att få tillgång till ditt konto med
+        följande behörigheter?
+      authorize: Auktorisera
       deny: Neka
+    error:
+      title: Ett fel har uppstått
+    show:
+      title: Behörighetskod
+  oauth2_authorized_applications:
+    index:
+      title: Mina auktoriserade applikationer
+      application: Applikation
+      permissions: Behörigheter
+      no_applications_html: Du har ännu inte auktoriserad några %{oauth2}-applikationer.
+    application:
+      revoke: Återkalla åtkomst
+      confirm_revoke: Återkalla åtkomst till den här applikationen?
   users:
     new:
       title: Registrera
       no_auto_account_create: Tyvärr kan vi för närvarande inte kan skapa ett konto
         åt dig automatiskt.
-      contact_support_html: Kontakta <a href="%{support}">webbansvarig</a> för att
-        få ett konto skapat – vi kommer att behandla ansökan så snart som möjligt.
+      contact_support_html: Kontakta <a href="%{support}">supporten</a> för att få
+        ett konto skapat – vi kommer att behandla ansökan så snart som möjligt.
       about:
         header: Fri och redigerbar
         html: |-
@@ -2440,7 +2590,7 @@ sv:
       confirm email address: 'Bekräfta e-postadress:'
       display name: 'Visat namn:'
       display name description: Ditt offentligt visade användarnamn. Du kan ändra
-        detta senare i inställningarna.
+        detta senare i preferenserna.
       external auth: 'Tredjepartsautentisering:'
       use external auth: Alternativt kan du använda en tredje part för att logga in
       auth no password: Med autentisering av tredje part krävs inte lösenord, men
@@ -2480,6 +2630,8 @@ sv:
         italy: Italien
         rest_of_world: Övriga världen
     terms_declined_flash:
+      terms_declined_html: Vi beklagar att du bestämt dig för att inte acceptera de
+        nya användarvillkoren. För mer information, se %{terms_declined_link}.
       terms_declined_link: denna wikisida
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
@@ -2498,8 +2650,11 @@ sv:
       my profile: Min profil
       my settings: Mina inställningar
       my comments: Mina kommentarer
+      my_preferences: Mina preferenser
+      my_dashboard: Min kontrollpanel
       blocks on me: Blockeringar av mig
       blocks by me: Blockeringar lagda av mig
+      edit_profile: Redigera profil
       send message: Skicka meddelande
       diary: Dagbok
       edits: Redigeringar
@@ -2598,6 +2753,7 @@ sv:
     suspended:
       title: Kontot avstängt
       heading: Kontot avstängt
+      support: support
       body_html: |-
         <p>
           Ditt konto har tyvärr stängts av på grund av
@@ -2725,8 +2881,9 @@ sv:
     show:
       title: '%{block_on} blockerad av %{block_by}'
       heading_html: '%{block_on} blockerad av %{block_by}'
-      created: Skapad
-      status: Status
+      created: 'Skapad:'
+      duration: 'Tidsperiod:'
+      status: 'Status:'
       show: Visa
       edit: Redigera
       revoke: Återkalla!
@@ -2754,6 +2911,7 @@ sv:
       title: Anteckningar skapade eller kommenterade av %{user}
       heading: '%{user}s anteckningar'
       subheading_html: Anteckningar skapade eller kommenterade av %{user}
+      no_notes: Inga anteckningar
       id: Id
       creator: Skapare
       description: Beskrivning
@@ -2959,7 +3117,7 @@ sv:
       directions_to: Vägbeskrivning hit
       add_note: Lägg till en anteckning här
       show_address: Visa adress
-      query_features: Sökfunktioner
+      query_features: Undersök kartobjekt
       centre_map: Centrera kartan här
   redactions:
     edit:

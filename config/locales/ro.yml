@@ -463,6 +463,8 @@ ro:
       nearby mapper: Cartograful din apropiere
       friend: Prieten
     show:
+      title: Dashboardul meu
+      edit_your_profile: Editați-vă profilul
       my friends: Prietenii mei
       no friends: Nu ați adăugat încă niciun prieten.
       nearby users: Alți utilizatori din apropriere
@@ -810,6 +812,7 @@ ro:
           window_construction: Construcție ferestre
           winery: Domeniu viticol
           "yes": Magazin de artizanat
+        crossing: Trecere de pietoni
         emergency:
           access_point: Punct de acces
           ambulance_station: Stație de ambulanță
@@ -1040,6 +1043,7 @@ ro:
         mountain_pass:
           "yes": Trecătoare prin munți
         natural:
+          atoll: Atol
           bay: Golf
           beach: Plajă
           cape: Cap
@@ -1058,6 +1062,7 @@ ro:
           hill: Deal
           hot_spring: Izvor Termal
           island: Insulă
+          isthmus: Istm
           land: Teren
           marsh: Mlaștină
           moor: Baltă
@@ -1076,6 +1081,8 @@ ro:
           stone: Piatră
           strait: Strâmtoare
           tree: Copac
+          tree_row: Rând de copaci
+          tundra: Tundră
           valley: Vale
           volcano: Vulcan
           water: Apă
@@ -1126,6 +1133,7 @@ ro:
           locality: Localitate
           municipality: Comună
           neighbourhood: Cartier
+          plot: Parcelă
           postcode: Cod poștal
           quarter: Cvartet
           region: Regiune
@@ -1599,8 +1607,12 @@ ro:
         partial_changeset_without_comment: fără comentarii
       details: Mai multe detalii despre setul de modificări pot fi găsite la adresa
         %{url}.
+      details_html: Mai multe detalii despre setul de modificări pot fi găsite la
+        adresa %{url}.
       unsubscribe: Pentru a vă dezabona de la actualizările acestei setări de modificări,
         vizitați %{url} și dați clic pe "Dezabonați".
+      unsubscribe_html: Pentru a vă dezabona de la actualizările acestei setări de
+        modificări, vizitați %{url} și dați clic pe "Dezabonare".
   confirmations:
     confirm:
       heading: Verificați-vă e-mailul!
@@ -1629,6 +1641,7 @@ ro:
     inbox:
       title: Mesaje primite
       my_inbox: Mesaje primite
+      my_outbox: Mesaje trimise
       messages: Aveți mesaje %{new_messages} și %{old_messages}
       new_messages:
         one: '%{count} mesaj nou'
@@ -1663,6 +1676,8 @@ ro:
       body: Ne pare rău că nu există niciun mesaj cu acel id.
     outbox:
       title: Mesaje trimise
+      my_inbox: Mesaje primite
+      my_outbox: Mesaje trimise
       messages:
         one: Aveți %{count} mesaj trimis
         other: Aveți %{count} (de) mesaje trimise
@@ -1713,8 +1728,22 @@ ro:
       reset: Resetează parola
       flash changed: Parola dumneavoastră a fost schimbată.
       flash token bad: Nu ați găsit acel simbol, verificați adresa URL?
+  preferences:
+    show:
+      title: Preferințe
+      preferred_editor: Editor preferat
+      preferred_languages: Limbi preferate
+      edit_preferences: Editare preferințe
+    edit:
+      title: Editare preferințe
+      cancel: Revocare
+    update:
+      failure: Nu se pot salva preferințele.
+    update_success_flash:
+      message: Preferințele au fost salvate.
   profiles:
     edit:
+      cancel: Revocare
       image: Imagine
       gravatar:
         gravatar: Utilizați Gravatar
@@ -1906,11 +1935,10 @@ ro:
           <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> and
           Land Tirol (under <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT with amendments</a>).
-        contributors_au_html: |-
-          <strong>Australia</strong>: Conține date cu sursa de la
-          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia Limited</a>
-          licensed by the Commonwealth of Australia under
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        contributors_au_html: '<strong>Australia</strong>: Incorporează sau dezvoltate
+          pe baza limitelor administrative &copy; <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape
+          Australia</a> licențiat de Commonwealth of Australia sub licența<a href="https://creativecommons.org/licenses/by/4.0/">Creative
+          Commons Attribution 4.0 Internațional (CC BY 4.0)</a>'
         contributors_ca_html: |-
           <strong>Canada</strong>: Conține date de la
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -2428,12 +2456,27 @@ ro:
       flash: Actualizarea informațiilor despre client cu succes
     destroy:
       flash: A distrus înregistrarea aplicației clientului
+  oauth2_authorizations:
+    new:
+      authorize: Autorizează
+      deny: Respinge
+    error:
+      title: A apărut o eroare
+    show:
+      title: Code de autorizare
+  oauth2_authorized_applications:
+    index:
+      application: Aplicație
+      permissions: Permisiuni
+    application:
+      revoke: Revocă accesul
+      confirm_revoke: Revocați accesul acestei aplicații?
   users:
     new:
       title: Înregistrare
       no_auto_account_create: Din păcate, în prezent nu putem crea automat un cont
         pentru dvs.
-      contact_support_html: Vă rugăm să contactați <a href="%{support}">webmasterul</a>
+      contact_support_html: Vă rugăm să contactați <a href="%{support}">suportul</a>
         pentru a organiza crearea unui cont - vom încerca să soluționăm cererea cât
         mai repede posibil.
       about:
@@ -2485,6 +2528,9 @@ ro:
         italy: Italia
         rest_of_world: Restul lumii
     terms_declined_flash:
+      terms_declined_html: Ne pare rău că ați decis să nu acceptați noii Termeni de
+        Contributor. Pentru mai multe informații, consultați %{terms_declined_link}.
+      terms_declined_link: această pagină wiki
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Nici un utilizator găsit
@@ -2502,6 +2548,8 @@ ro:
       my profile: Profilul meu
       my settings: Setările mele
       my comments: Comentariile mele
+      my_preferences: Preferințele mele
+      my_dashboard: Dashboardul meu
       blocks on me: Blochează pe mine
       blocks by me: Blochează de mine
       send message: Trimite mesajul
@@ -2731,8 +2779,9 @@ ro:
     show:
       title: '%{block_on} blocat de %{block_by}'
       heading_html: '%{block_on} blocat de %{block_by}'
-      created: Creat
-      status: Stare
+      created: 'Creat:'
+      duration: 'Durată:'
+      status: 'Stare:'
       show: Arată
       edit: Modificare
       revoke: Revocă!
@@ -2761,6 +2810,7 @@ ro:
       title: Notele trimise sau comentate de %{user}
       heading: Notele %{user}
       subheading_html: Notele trimise sau comentate de %{user}
+      no_notes: Nicio notă
       id: Id
       creator: Creator
       description: Descriere

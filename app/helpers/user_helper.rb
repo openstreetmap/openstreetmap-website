@@ -8,9 +8,9 @@ module UserHelper
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
     elsif user.avatar.attached?
-      image_tag user_avatar_variant(user, :resize_to_limit => [100, 100]), options
+      user_avatar_variant_tag(user, { :resize_to_limit => [100, 100] }, options)
     else
-      image_tag "avatar_large.png", options
+      image_tag "avatar_large.png", options.merge(:width => 100, :height => 100)
     end
   end
 
@@ -19,11 +19,11 @@ module UserHelper
     options[:alt] ||= ""
 
     if user.image_use_gravatar
-      user_gravatar_tag(user, options)
+      user_gravatar_tag(user, options.merge(:size => 50))
     elsif user.avatar.attached?
-      image_tag user_avatar_variant(user, :resize_to_limit => [50, 50]), options
+      user_avatar_variant_tag(user, { :resize_to_limit => [50, 50] }, options)
     else
-      image_tag "avatar_small.png", options
+      image_tag "avatar_small.png", options.merge(:width => 50, :height => 50)
     end
   end
 
@@ -32,11 +32,11 @@ module UserHelper
     options[:alt] ||= ""
 
     if user.image_use_gravatar
-      user_gravatar_tag(user, options)
+      user_gravatar_tag(user, options.merge(:size => 50))
     elsif user.avatar.attached?
-      image_tag user_avatar_variant(user, :resize_to_limit => [50, 50]), options
+      user_avatar_variant_tag(user, { :resize_to_limit => [50, 50] }, options)
     else
-      image_tag "avatar_small.png", options
+      image_tag "avatar_small.png", options.merge(:width => 50, :height => 50)
     end
   end
 
@@ -69,6 +69,22 @@ module UserHelper
   private
 
   # Local avatar support
+  def user_avatar_variant_tag(user, variant_options, options)
+    if user.avatar.variable?
+      variant = user.avatar.variant(variant_options)
+      # https://stackoverflow.com/questions/61893089/get-metadata-of-active-storage-variant/67228171
+      if variant.processed?
+        metadata = variant.processed.send(:record).image.blob.metadata
+        if metadata["width"]
+          options[:width] = metadata["width"]
+          options[:height] = metadata["height"]
+        end
+      end
+      image_tag variant, options
+    else
+      image_tag user.avatar, options
+    end
+  end
 
   def user_avatar_variant(user, options)
     if user.avatar.variable?
@@ -90,7 +106,7 @@ module UserHelper
 
   def user_gravatar_tag(user, options = {})
     url = user_gravatar_url(user, options)
-    options.delete(:size)
+    options[:height] = options[:width] = options.delete(:size) || 100
     image_tag url, options
   end
 end
