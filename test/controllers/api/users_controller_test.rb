@@ -48,7 +48,7 @@ module Api
       assert_equal "application/xml", response.media_type
 
       # check the data that is returned
-      check_xml_details(user, false)
+      check_xml_details(user, false, false)
 
       # check that a suspended user is not returned
       get api_user_path(:id => create(:user, :suspended).id)
@@ -72,7 +72,7 @@ module Api
       assert_not_nil js
 
       # check the data that is returned
-      check_json_details(js, user, false)
+      check_json_details(js, user, false, false)
     end
 
     def test_show_oauth1
@@ -94,7 +94,7 @@ module Api
       assert_equal "application/xml", response.media_type
 
       # check the data that is returned
-      check_xml_details(user, true)
+      check_xml_details(user, true, false)
 
       # check that we can fetch a different user's details as XML with read_prefs
       signed_get api_user_path(:id => other_user.id), :oauth => { :token => good_token }
@@ -102,7 +102,7 @@ module Api
       assert_equal "application/xml", response.media_type
 
       # check the data that is returned
-      check_xml_details(other_user, false)
+      check_xml_details(other_user, false, false)
 
       # check that we can fetch our own details as XML without read_prefs
       signed_get api_user_path(:id => user.id), :oauth => { :token => bad_token }
@@ -110,7 +110,7 @@ module Api
       assert_equal "application/xml", response.media_type
 
       # check the data that is returned
-      check_xml_details(user, false)
+      check_xml_details(user, false, false)
 
       # check that we can fetch our own details as JSON with read_prefs
       signed_get api_user_path(:id => user.id, :format => "json"), :oauth => { :token => good_token }
@@ -122,7 +122,7 @@ module Api
       assert_not_nil js
 
       # check the data that is returned
-      check_json_details(js, user, true)
+      check_json_details(js, user, true, false)
 
       # check that we can fetch a different user's details as JSON with read_prefs
       signed_get api_user_path(:id => other_user.id, :format => "json"), :oauth => { :token => good_token }
@@ -134,7 +134,7 @@ module Api
       assert_not_nil js
 
       # check the data that is returned
-      check_json_details(js, other_user, false)
+      check_json_details(js, other_user, false, false)
 
       # check that we can fetch our own details as JSON without read_prefs
       signed_get api_user_path(:id => other_user.id, :format => "json"), :oauth => { :token => bad_token }
@@ -146,7 +146,7 @@ module Api
       assert_not_nil js
 
       # check the data that is returned
-      check_json_details(js, other_user, false)
+      check_json_details(js, other_user, false, false)
     end
 
     def test_show_oauth2
@@ -169,7 +169,7 @@ module Api
       assert_equal "application/xml", response.media_type
 
       # check the data that is returned
-      check_xml_details(user, true)
+      check_xml_details(user, true, false)
 
       # check that we can fetch a different user's details as XML with read_prefs
       get api_user_path(:id => other_user.id), :headers => bearer_authorization_header(good_token.token)
@@ -177,7 +177,7 @@ module Api
       assert_equal "application/xml", response.media_type
 
       # check the data that is returned
-      check_xml_details(other_user, false)
+      check_xml_details(other_user, false, false)
 
       # check that we can fetch our own details as XML without read_prefs
       get api_user_path(:id => user.id), :headers => bearer_authorization_header(bad_token.token)
@@ -185,7 +185,7 @@ module Api
       assert_equal "application/xml", response.media_type
 
       # check the data that is returned
-      check_xml_details(user, false)
+      check_xml_details(user, false, false)
 
       # check that we can fetch our own details as JSON with read_prefs
       get api_user_path(:id => user.id, :format => "json"), :headers => bearer_authorization_header(good_token.token)
@@ -197,7 +197,7 @@ module Api
       assert_not_nil js
 
       # check the data that is returned
-      check_json_details(js, user, true)
+      check_json_details(js, user, true, false)
 
       # check that we can fetch a different user's details as JSON with read_prefs
       get api_user_path(:id => other_user.id, :format => "json"), :headers => bearer_authorization_header(good_token.token)
@@ -209,7 +209,7 @@ module Api
       assert_not_nil js
 
       # check the data that is returned
-      check_json_details(js, other_user, false)
+      check_json_details(js, other_user, false, false)
 
       # check that we can fetch our own details as JSON without read_prefs
       get api_user_path(:id => user.id, :format => "json"), :headers => bearer_authorization_header(bad_token.token)
@@ -221,7 +221,7 @@ module Api
       assert_not_nil js
 
       # check the data that is returned
-      check_json_details(js, user, false)
+      check_json_details(js, user, false, false)
     end
 
     def test_details
@@ -244,7 +244,7 @@ module Api
       assert_equal "application/xml", response.media_type
 
       # check the data that is returned
-      check_xml_details(user, true)
+      check_xml_details(user, true, false)
 
       # check that data is returned properly in json
       auth_header = basic_authorization_header user.email, "test"
@@ -257,7 +257,7 @@ module Api
       assert_not_nil js
 
       # check the data that is returned
-      check_json_details(js, user, true)
+      check_json_details(js, user, true, false)
     end
 
     def test_details_oauth1
@@ -280,7 +280,7 @@ module Api
       assert_equal "application/xml", response.media_type
 
       # check the data that is returned
-      check_xml_details(user, true)
+      check_xml_details(user, true, false)
 
       # check that we can't fetch details as JSON without read_prefs
       signed_get user_details_path(:format => "json"), :oauth => { :token => bad_token }
@@ -296,7 +296,7 @@ module Api
       assert_not_nil js
 
       # check the data that is returned
-      check_json_details(js, user, true)
+      check_json_details(js, user, true, false)
     end
 
     def test_details_oauth2
@@ -308,24 +308,35 @@ module Api
                           :scopes => %w[read_prefs])
       bad_token = create(:oauth_access_token,
                          :resource_owner_id => user.id)
+      email_token = create(:oauth_access_token,
+                           :resource_owner_id => user.id,
+                           :scopes => %w[read_prefs read_email])
 
       # check that we can't fetch details as XML without read_prefs
       get user_details_path, :headers => bearer_authorization_header(bad_token.token)
       assert_response :forbidden
 
-      # check that we can fetch details as XML
+      # check that we can fetch details as XML without read_email
       get user_details_path, :headers => bearer_authorization_header(good_token.token)
       assert_response :success
       assert_equal "application/xml", response.media_type
 
       # check the data that is returned
-      check_xml_details(user, true)
+      check_xml_details(user, true, false)
+
+      # check that we can fetch details as XML with read_email
+      get user_details_path, :headers => bearer_authorization_header(email_token.token)
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+
+      # check the data that is returned
+      check_xml_details(user, true, true)
 
       # check that we can't fetch details as JSON without read_prefs
       get user_details_path(:format => "json"), :headers => bearer_authorization_header(bad_token.token)
       assert_response :forbidden
 
-      # check that we can fetch details as JSON
+      # check that we can fetch details as JSON without read_email
       get user_details_path(:format => "json"), :headers => bearer_authorization_header(good_token.token)
       assert_response :success
       assert_equal "application/json", response.media_type
@@ -335,7 +346,19 @@ module Api
       assert_not_nil js
 
       # check the data that is returned
-      check_json_details(js, user, true)
+      check_json_details(js, user, true, false)
+
+      # check that we can fetch details as JSON with read_email
+      get user_details_path(:format => "json"), :headers => bearer_authorization_header(email_token.token)
+      assert_response :success
+      assert_equal "application/json", response.media_type
+
+      # parse the response
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+
+      # check the data that is returned
+      check_json_details(js, user, true, true)
     end
 
     def test_index
@@ -347,7 +370,7 @@ module Api
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
-        check_xml_details(user1, false)
+        check_xml_details(user1, false, false)
         assert_select "user[id='#{user2.id}']", :count => 0
         assert_select "user[id='#{user3.id}']", :count => 0
       end
@@ -357,7 +380,7 @@ module Api
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
         assert_select "user[id='#{user1.id}']", :count => 0
-        check_xml_details(user2, false)
+        check_xml_details(user2, false, false)
         assert_select "user[id='#{user3.id}']", :count => 0
       end
 
@@ -365,9 +388,9 @@ module Api
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 2 do
-        check_xml_details(user1, false)
+        check_xml_details(user1, false, false)
         assert_select "user[id='#{user2.id}']", :count => 0
-        check_xml_details(user3, false)
+        check_xml_details(user3, false, false)
       end
 
       get api_users_path, :params => { :users => user1.id, :format => "json" }
@@ -376,7 +399,7 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 1, js["users"].count
-      check_json_details(js["users"][0], user1, false)
+      check_json_details(js["users"][0], user1, false, false)
 
       get api_users_path, :params => { :users => user2.id, :format => "json" }
       assert_response :success
@@ -384,7 +407,7 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 1, js["users"].count
-      check_json_details(js["users"][0], user2, false)
+      check_json_details(js["users"][0], user2, false, false)
 
       get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }
       assert_response :success
@@ -392,8 +415,8 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 2, js["users"].count
-      check_json_details(js["users"][0], user1, false)
-      check_json_details(js["users"][1], user3, false)
+      check_json_details(js["users"][0], user1, false, false)
+      check_json_details(js["users"][1], user3, false, false)
 
       get api_users_path, :params => { :users => create(:user, :suspended).id }
       assert_response :not_found
@@ -416,7 +439,7 @@ module Api
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
-        check_xml_details(user1, true)
+        check_xml_details(user1, true, false)
         assert_select "user[id='#{user2.id}']", :count => 0
         assert_select "user[id='#{user3.id}']", :count => 0
       end
@@ -426,7 +449,7 @@ module Api
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
         assert_select "user[id='#{user1.id}']", :count => 0
-        check_xml_details(user2, false)
+        check_xml_details(user2, false, false)
         assert_select "user[id='#{user3.id}']", :count => 0
       end
 
@@ -434,18 +457,18 @@ module Api
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 2 do
-        check_xml_details(user1, true)
+        check_xml_details(user1, true, false)
         assert_select "user[id='#{user2.id}']", :count => 0
-        check_xml_details(user3, false)
+        check_xml_details(user3, false, false)
       end
 
       signed_get api_users_path, :params => { :users => "#{user1.id},#{user3.id}" }, :oauth => { :token => bad_token }
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 2 do
-        check_xml_details(user1, false)
+        check_xml_details(user1, false, false)
         assert_select "user[id='#{user2.id}']", :count => 0
-        check_xml_details(user3, false)
+        check_xml_details(user3, false, false)
       end
 
       signed_get api_users_path, :params => { :users => user1.id, :format => "json" }, :oauth => { :token => good_token }
@@ -454,7 +477,7 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 1, js["users"].count
-      check_json_details(js["users"][0], user1, true)
+      check_json_details(js["users"][0], user1, true, false)
 
       signed_get api_users_path, :params => { :users => user2.id, :format => "json" }, :oauth => { :token => good_token }
       assert_response :success
@@ -462,7 +485,7 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 1, js["users"].count
-      check_json_details(js["users"][0], user2, false)
+      check_json_details(js["users"][0], user2, false, false)
 
       signed_get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }, :oauth => { :token => good_token }
       assert_response :success
@@ -470,8 +493,8 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 2, js["users"].count
-      check_json_details(js["users"][0], user1, true)
-      check_json_details(js["users"][1], user3, false)
+      check_json_details(js["users"][0], user1, true, false)
+      check_json_details(js["users"][1], user3, false, false)
 
       signed_get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }, :oauth => { :token => bad_token }
       assert_response :success
@@ -479,8 +502,8 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 2, js["users"].count
-      check_json_details(js["users"][0], user1, false)
-      check_json_details(js["users"][1], user3, false)
+      check_json_details(js["users"][0], user1, false, false)
+      check_json_details(js["users"][1], user3, false, false)
 
       signed_get api_users_path, :params => { :users => create(:user, :suspended).id }, :oauth => { :token => good_token }
       assert_response :not_found
@@ -503,7 +526,7 @@ module Api
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
-        check_xml_details(user1, true)
+        check_xml_details(user1, true, false)
         assert_select "user[id='#{user2.id}']", :count => 0
         assert_select "user[id='#{user3.id}']", :count => 0
       end
@@ -513,7 +536,7 @@ module Api
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
         assert_select "user[id='#{user1.id}']", :count => 0
-        check_xml_details(user2, false)
+        check_xml_details(user2, false, false)
         assert_select "user[id='#{user3.id}']", :count => 0
       end
 
@@ -521,18 +544,18 @@ module Api
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 2 do
-        check_xml_details(user1, true)
+        check_xml_details(user1, true, false)
         assert_select "user[id='#{user2.id}']", :count => 0
-        check_xml_details(user3, false)
+        check_xml_details(user3, false, false)
       end
 
       get api_users_path, :params => { :users => "#{user1.id},#{user3.id}" }, :headers => bearer_authorization_header(bad_token.token)
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 2 do
-        check_xml_details(user1, false)
+        check_xml_details(user1, false, false)
         assert_select "user[id='#{user2.id}']", :count => 0
-        check_xml_details(user3, false)
+        check_xml_details(user3, false, false)
       end
 
       get api_users_path, :params => { :users => user1.id, :format => "json" }, :headers => bearer_authorization_header(good_token.token)
@@ -541,7 +564,7 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 1, js["users"].count
-      check_json_details(js["users"][0], user1, true)
+      check_json_details(js["users"][0], user1, true, false)
 
       get api_users_path, :params => { :users => user2.id, :format => "json" }, :headers => bearer_authorization_header(good_token.token)
       assert_response :success
@@ -549,7 +572,7 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 1, js["users"].count
-      check_json_details(js["users"][0], user2, false)
+      check_json_details(js["users"][0], user2, false, false)
 
       get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }, :headers => bearer_authorization_header(good_token.token)
       assert_response :success
@@ -557,8 +580,8 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 2, js["users"].count
-      check_json_details(js["users"][0], user1, true)
-      check_json_details(js["users"][1], user3, false)
+      check_json_details(js["users"][0], user1, true, false)
+      check_json_details(js["users"][1], user3, false, false)
 
       get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }, :headers => bearer_authorization_header(bad_token.token)
       assert_response :success
@@ -566,8 +589,8 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 2, js["users"].count
-      check_json_details(js["users"][0], user1, false)
-      check_json_details(js["users"][1], user3, false)
+      check_json_details(js["users"][0], user1, false, false)
+      check_json_details(js["users"][1], user3, false, false)
 
       get api_users_path, :params => { :users => create(:user, :suspended).id }, :headers => bearer_authorization_header(good_token.token)
       assert_response :not_found
@@ -608,7 +631,7 @@ module Api
 
     private
 
-    def check_xml_details(user, include_private)
+    def check_xml_details(user, include_private, include_email)
       assert_select "user[id='#{user.id}']", :count => 1 do
         assert_select "description", :count => 1, :text => user.description
 
@@ -678,10 +701,16 @@ module Api
           assert_select "languages", :count => 0
           assert_select "messages", :count => 0
         end
+
+        if include_email
+          assert_select "email", :count => 1, :text => user.email
+        else
+          assert_select "email", :count => 0
+        end
       end
     end
 
-    def check_json_details(js, user, include_private)
+    def check_json_details(js, user, include_private, include_email)
       assert_equal user.id, js["user"]["id"]
       assert_equal user.description, js["user"]["description"]
       assert js["user"]["contributor_terms"]["agreed"]
@@ -720,6 +749,12 @@ module Api
         assert_equal user.sent_messages.count, js["user"]["messages"]["sent"]["count"]
       else
         assert_nil js["user"]["messages"]
+      end
+
+      if include_email
+        assert_equal user.email, js["user"]["email"]
+      else
+        assert_nil js["user"]["email"]
       end
     end
   end

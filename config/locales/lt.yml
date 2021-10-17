@@ -39,6 +39,8 @@ lt:
       client_application:
         create: Registruotis
         update: Atnaujinti
+      doorkeeper_application:
+        update: Atnaujinti
       redaction:
         create: Kurti redakciją
         update: Išsaugoti redakciją
@@ -109,6 +111,9 @@ lt:
         latitude: Platuma
         longitude: Ilguma
         language: Kalba
+      doorkeeper/application:
+        name: Vardas
+        scopes: Leidimai
       friend:
         user: Naudotojas
         friend: Draugas
@@ -130,20 +135,24 @@ lt:
         body: Tekstas
         recipient: Gavėjas
       redaction:
+        title: Pavadinimas
         description: Aprašymas
       report:
         category: Pasirinkti pranešimo priežastį
         details: Prašoma pateikti daugiau informacijos apie problemą (privaloma).
       user:
         email: El. paštas
-        new_email: 'Naujas e-pašto adresas:'
+        email_confirmation: El. pašto patvirtinimas
+        new_email: Naujas el. pašto adresas
         active: Aktyvus
         display_name: Rodomas vardas
-        description: Aprašymas
-        home_lat: 'Platuma:'
-        home_lon: 'Ilguma:'
-        languages: Kalbos
+        description: Profilio aprašymas
+        home_lat: Platuma
+        home_lon: Ilguma
+        languages: Pageidautinos kalbos
+        preferred_editor: Pageidautina rengyklė
         pass_crypt: Slaptažodis
+        pass_crypt_confirmation: Patvirtinti slaptažodį
     help:
       trace:
         tagstring: atskirta kableliais
@@ -198,7 +207,7 @@ lt:
       description: iD (rengyklė naršyklėje)
     remote:
       name: nuotoliniu valdymu
-      description: nuotolinį valdymą (JOSM arba Merkaartor)
+      description: Nuotolinis valdymas (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Nei vienas
@@ -294,6 +303,7 @@ lt:
       entry_html: Ryšys %{relation_name}
       entry_role_html: Ryšys %{relation_name} (kaip %{relation_role})
     not_found:
+      title: Nerasta
       sorry: Atsiprašome, bet toks %{type}, kurio id %{id}, nerastas.
       type:
         node: taškas
@@ -405,6 +415,8 @@ lt:
       nearby mapper: Šalia esantis žemėlapių kūrėjas
       friend: Draugas
     show:
+      title: Valdymo skydas
+      edit_your_profile: Redaguoti profilį
       my friends: Mano draugai
       no friends: Jūs dar nepridėjote nei vieno draugo.
       nearby users: Kiti greta esantys naudotojai
@@ -449,6 +461,7 @@ lt:
         %{id}. Pasitikrinkite rašybą, arba nuoroda kurią jūs pasirinkite yra klaidinga.
     diary_entry:
       posted_by_html: Parašė %{link_user}, laikas %{created}, kalba %{language_link}.
+      updated_at_html: Paskutinį kartą atnaujinta %{updated}.
       comment_link: Komentuoti šį įrašą
       reply_link: Siųsti žinutę autoriui
       comment_count:
@@ -487,6 +500,11 @@ lt:
       comment: Komentuoti
       newer_comments: Naujesni komentarai
       older_comments: Senesni komentarai
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Aplikacija užregistruota.
   friendships:
     make_friend:
       heading: Pridėti „%{user}“ kaip draugą?

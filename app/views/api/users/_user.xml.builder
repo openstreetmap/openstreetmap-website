@@ -40,5 +40,6 @@ xml.tag! "user", :id => user.id,
                            :unread => user.new_messages.size
       xml.tag! "sent", :count => user.sent_messages.size
     end
+    xml.tag! "email", user.email if scope_enabled?(:read_email)
   end
 end

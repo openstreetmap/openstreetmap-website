@@ -395,4 +395,10 @@ class ApplicationController < ActionController::Base
 
     referer.to_s
   end
+
+  def scope_enabled?(scope)
+    doorkeeper_token&.includes_scope?(scope) || current_token&.includes_scope?(scope)
+  end
+
+  helper_method :scope_enabled?
 end
