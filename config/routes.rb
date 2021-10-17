@@ -148,7 +148,6 @@ OpenStreetMap::Application.routes.draw do
   get "/about/:about_locale" => "site#about"
   get "/about" => "site#about"
   get "/communities" => "site#communities"
-  get "/communities/:communities_locale" => "site#communities"
   get "/history" => "changesets#index"
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
