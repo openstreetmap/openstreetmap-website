@@ -362,7 +362,7 @@ OSM.Query = function(map) {
       originalLoadFunction();
     }
     else {
-      var params = querystring.parse(location.search.substring(1));
+      var params = querystring.parse(location.hash.substring(1));
       addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
     }
   };
