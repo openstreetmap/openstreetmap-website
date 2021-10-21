@@ -84,7 +84,7 @@ OSM.Export = function(map) {
       originalLoadFunction();
     }
     else {
-      var params = querystring.parse(location.search.substring(1));
+      var params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
       addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
     }
   };
