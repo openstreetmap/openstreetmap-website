@@ -7,22 +7,25 @@
 fy:
   time:
     formats:
-      friendly: '%e %B %Y om %H:%M'
+      friendly: '%e %B %Y om %H.%M'
   helpers:
     submit:
       diary_comment:
         create: Bewarje
       client_application:
-        update: Bewurkje
+        update: Bywurkje
   activerecord:
     models:
-      acl: Rjochtenoersjoch
+      acl: Tagongskontrôlelist
       country: Lân
       friend: Freon
       language: Taal
       message: Berjocht
       relation: Relaasje
-      session: Sessy
+      session: Sesje
+      trace: Trajekt
+      tracepoint: Trajektpunt
+      tracetag: Trajektlebel
       user: Meidogger
       way: Wei
     attributes:
@@ -30,49 +33,58 @@ fy:
         body: Tekst
       diary_entry:
         user: Meidogger
-        title: Ûnderwerp
+        title: Underwerp
         latitude: Breedtegraad
         longitude: Lingtegraad
         language: Taal
+      doorkeeper/application:
+        name: Namme
       friend:
         user: Meidogger
         friend: Freon
       trace:
         user: Meidogger
         visible: Sichtber
-        name: Namme
+        name: Bestânsnamme
         size: Grutte
         latitude: Breedtegraad
         longitude: Lingtegraad
         public: Iepenbier
         description: Beskriuwing
-        visibility: 'Sichtberheid:'
+        gpx_file: GPX-bestân oplade
+        visibility: Sichtberens
+        tagstring: Lebels
       message:
         sender: Ofstjoerder
-        title: Ûnderwerp
+        title: Underwerp
         body: Tekst
         recipient: Untfanger
       redaction:
+        title: Titel
         description: Beskriuwing
       user:
         email: E-mail
         active: Aktyf
-        description: Beskriuwing
-        home_lat: 'Breedtegraad:'
-        home_lon: 'Lingtegraad:'
-        languages: Talen
+        description: Profylbeskriuwing
+        home_lat: Breedtegraad
+        home_lon: Lingtegraad
+        languages: Foarkarstalen
         pass_crypt: Wachtwurd
   editor:
-    default: Standert (op dit momint %{name})
+    default: Standert (op it stuit %{name})
     id:
       name: iD
+      description: iD (bewurker yn 'e webblêder)
     remote:
-      name: Remote Control
-      description: Remote Control (JOSM of Merkaartor)
+      name: Ofstânsbetsjinning
+      description: ôfstânsbetsjinning (JOSM, Potlatch, Merkaartor)
+  auth:
+    providers:
+      none: Gjint
   browse:
     version: Ferzje
     anonymous: anonym
-    part_of: Ûnderdiel fan
+    part_of: Part fan
     location: 'Lokaasje:'
     changeset:
       belongs_to: Auteur
@@ -117,13 +129,13 @@ fy:
       user: Meidogger
       area: Gebiet
     index:
-      load_more: Mear laden
+      load_more: Mear lade
   dashboards:
     popup:
       friend: Freon
   diary_entries:
     form:
-      location: 'Lokaasje:'
+      location: Lokaasje
     location:
       location: 'Lokaasje:'
       edit: Bewurkje
@@ -131,59 +143,63 @@ fy:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: Kabelbaan
+          chair_lift: Stuoltsjelift
           station: Kabelbaanstasjon
         aeroway:
-          aerodrome: Loftfeartterrein
-          apron: Platform
+          aerodrome: Fleanfjild
+          apron: Platfoarm
           gate: Gate
-          helipad: Helikopterplatform
+          helipad: Helyhaven
           runway: Start- en lâningsbaan
           taxiway: Taksybaan
           terminal: Terminal
         amenity:
-          arts_centre: Keunstkollektyf
+          arts_centre: Keunstsintrum
           atm: Jildautomaat
           bank: Bank
           bar: Bar
           bbq: BBQ
           bench: Bankje
-          bicycle_parking: Fytsenstalling
+          bicycle_parking: Fytsestalling
           bicycle_rental: Fytsferhier
-          biergarten: Biertún
+          biergarten: Kafeeterras
           brothel: Bordeel
           bureau_de_change: Wikselkantoar
           bus_station: Busstasjon
           cafe: Kafee
           car_rental: Autoferhier
           car_sharing: Autodielen
-          car_wash: Autowaskplak
+          car_wash: Autowaskstrjitte
           casino: Kasino
           cinema: Bioskoop
           clinic: Klinyk
+          clock: Klok
           college: Hegeskoalle
-          community_centre: Mienskipssintrum
+          community_centre: Mienskipshûs
           courthouse: Rjochtbank
-          crematorium: Krematoariurn
+          crematorium: Krematoarium
           dentist: Toskedokter
           doctors: Dokter
           drinking_water: Drinkwetter
           driving_school: Rydskoalle
           embassy: Ambassade
-          fast_food: Fast food
-          fire_station: Brânwar
-          food_court: Foodcourt
+          fast_food: Flugge hap
+          fire_station: Brânwacht
+          food_court: Itenshal
           fountain: Fontein
           fuel: Brânstof
           grave_yard: Begraafplak
           hospital: Sikehûs
           hunting_stand: Jachttoer
-          ice_cream: Iis
+          ice_cream: Iisko
           kindergarten: Beukerskoalle
           library: Bibleteek
           marketplace: Merkplein
-          nightclub: Nachtklub
+          music_school: Muzykskoalle
+          nightclub: Nachtklup
           nursing_home: Ferpleechhûs
-          parking: Parkeare
+          parking: Parkearplak
           pharmacy: Apoteek
           police: Plysje
           post_box: Brievebus
@@ -192,18 +208,20 @@ fy:
           pub: Kafee
           restaurant: Restaurant
           school: Skoalle
-          shelter: Beskutting
+          shelter: Skûlplak
           shower: Dûs
           swimming_pool: Swimbad
           taxi: Taksy
-          theatre: Teater
+          theatre: Teäter
           toilets: Húskes
           townhall: Gemeentehûs
           university: Universiteit
           vending_machine: Automaat
           veterinary: Bistedokter
-          village_hall: Gemeentehûs
-          waste_basket: Papierkoer
+          village_hall: Doarpshûs
+          waste_basket: Jiskefet
+        boundary:
+          administrative: Bestjoerlike grins
         bridge:
           aqueduct: Akwadukt
           viaduct: Fiadukt
@@ -215,14 +233,15 @@ fy:
           bus_stop: Bushalte
           living_street: Wenhiem
           milestone: Mylpeal
+          motorway: Gongwei
           path: Paad
           platform: Perron
           residential: Strjitte
-          road: Wei
+          road: Strjitwei
           street_lamp: Strjitlampe
         historic:
           battlefield: Slachfjild
-          building: Gebou
+          building: Histoarysk gebou
           castle: Kastiel
           church: Tsjerke
           citywalls: Stedsmuorren
@@ -232,34 +251,35 @@ fy:
           mine: Myn
           monument: Monumint
           ruins: Ruïne
-          tomb: Grêf
+          tomb: Tombe
           tower: Toer
           wreck: Wrak
         landuse:
           allotments: Folkstunen
           basin: Wetterbekken
           cemetery: Begraafplak
-          conservation: Natuerbehâld
-          farm: Buorkerij
+          conservation: Natuergebiet
+          farm: Boerepleats
           farmyard: Boerehiem
           forest: Bosk
           grass: Gers
-          landfill: Stoart
-          meadow: Weide
+          landfill: Jiskebult
+          meadow: Greide
           mine: Myn
           quarry: Stiengat
-          reservoir: Reservoir
-          retail: Winkels
+          reservoir: Opslachmar
+          residential: Wengebiet
+          retail: Lytshannel
           vineyard: Wyngerd
         leisure:
           beach_resort: Badplak
-          common: Mient
+          common: Mientlân
           fishing: Fiskgrûn
           garden: Tún
           golf_course: Golfbaan
           ice_rink: Iisbaan
           marina: Jachthaven
-          miniature_golf: Minygolf
+          miniature_golf: Midgetgolf
           nature_reserve: Natuerreservaat
           park: Park
           pitch: Sportfjild
@@ -267,6 +287,8 @@ fy:
           sauna: Sauna
           stadium: Stadion
           swimming_pool: Swimbad
+        man_made:
+          dyke: Bediking
         military:
           barracks: Kazerne
           bunker: Bunker
@@ -284,88 +306,94 @@ fy:
           hill: Heuvel
           island: Eilân
           land: Lân
-          marsh: Moeras
+          marsh: Sompe
           moor: Fean
           mud: Modder
+          peak: Pyk
+          peninsula: Skiereilân
           point: Punt
           reef: Rif
           ridge: Berchkaam
           rock: Rotsen
-          scree: Pún
-          scrub: Strewellen
+          scree: Púnhelling
+          scrub: Strewel
           spring: Boarne
           stone: Stien
           tree: Beam
           valley: Fallei
           volcano: Fulkaan
           water: Wetter
-          wetland: Moeras
-          wood: Bos
+          wetland: Somplân
+          wood: Wâld
         office:
           accountant: Boekhâlder
           architect: Arsjitekt
           company: Bedriuw
           estate_agent: Makelder
-          lawyer: Advokaat
-          ngo: NGO-kantoar
+          lawyer: Jurist
+          ngo: Kantoar NGO
           travel_agent: Reisburo
           "yes": Kantoar
         place:
-          city: Stêd
+          city: Grutte stêd
           country: Lân
           county: Distrikt
-          farm: Buorkerij
-          hamlet: Gehucht
+          farm: Boerepleats
+          hamlet: Utbuorren
           house: Hûs
           houses: Huzen
           island: Eilân
           locality: Plak
           municipality: Gemeente
-          neighbourhood: Wyk
+          neighbourhood: Buert
           postcode: Postkoade
           region: Regio
           sea: See
           state: Steat
           subdivision: Dielgebiet
-          suburb: Bûtenwyk
+          suburb: Foarstêd
           town: Stêd
           village: Doarp
+        railway:
+          light_rail: Sneltrem
+          tram: Trembaan
+          tram_stop: Tremhalte
         shop:
-          bakery: Bakkerij
+          bakery: Bakker
           boutique: Boetyk
-          butcher: Slachterij
-          chemist: Apoteek
+          butcher: Slachter
+          chemist: Drogist
           dry_cleaning: Stomerij
           florist: Blommist
           furniture: Meubelsaak
-          greengrocer: Grienteboer
+          greengrocer: Grientesaak
           hairdresser: Kapper
-          hifi: Hi-fi
+          hifi: Hifi
           jewelry: Juwelier
           laundry: Waskerij
           optician: Optisien
           pet: Bistewinkel
-          photo: Fotowinkel
-          second_hand: Kringloopwinkel
+          photo: Fotosaak
+          second_hand: Omrinwinkel
           supermarket: Supermerk
           tailor: Kleanmakker
           travel_agency: Reisburo
           video: Fideoteek
-          wine: Sliterij
+          wine: Wynwinkel
           "yes": Winkel
         tourism:
           alpine_hut: Berchhutte
           attraction: Attraksje
-          bed_and_breakfast: Pensjon
-          cabin: Hutte
+          bed_and_breakfast: Bêd en brochje
+          cabin: Blokhutte
           camp_site: Kampearterrein
-          chalet: Fekânsjehûske
-          hostel: Jeugdherberch
+          chalet: Sjalet
+          hostel: Hostel
           hotel: Hotel
-          information: Gegevens
+          information: Ynformaasje
           motel: Motel
           museum: Museum
-          picnic_site: Picknickplak
+          picnic_site: Piknikplak
           theme_park: Ferdivedaasjepark
           zoo: Dieretún
         tunnel:
@@ -375,19 +403,19 @@ fy:
           canal: Kanaal
           dam: Daam
           ditch: Sleat
-          lock_gate: Slúsdoar
+          lock_gate: Slûsdoar
           mooring: Oanlisplak
           rapids: Streamfersnelling
           river: Rivier
           stream: Stream
-          wadi: Beek
+          wadi: Wady
           waterfall: Wetterfal
           weir: Keardaam
       admin_levels:
         level2: Lânsgrins
         level4: Steatsgrins
       types:
-        cities: Stêden
+        cities: Grutte stêden
         towns: Stêden
         places: Plakken
   layouts:
@@ -395,64 +423,95 @@ fy:
       alt_text: Logo OpenStreetMap
     logout: Ofmelde
     log_in: Oanmelde
+    sign_up: Ynskriuwe
+    start_mapping: Set útein
     edit: Bewurkje
     history: Skiednis
+    export: Eksportearje
     data: Gegevens
+    export_data: Data eksportearje
+    gps_traces: GPS-trajekten
+    user_diaries: Meidoggerdeiboeken
+    edit_with: Bewurkje mei %{editor}
     intro_header: Wolkom by OpenStreetMap!
+    intro_text: OpenStreetMap is in wrâldkaart makke troch minsken krekt as jo, en
+      frij te brûken ûnder in iepen lisinsje.
+    hosting_partners_html: It webstee is ûnderdak by %{ucl}, %{fastly}, %{bytemark}
+      en oare %{partners}.
+    partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
     help: Help
     about: Oer
+    copyright: Auteursrjochten
     community: Mienskip
     foundation: Stifting
     foundation_title: De OpenStreetMap Foundation
+    make_a_donation:
+      text: Donaasje jaan
+    learn_more: Mear witte
     more: Mear
   user_mailer:
     diary_comment_notification:
-      hi: Hallo %{to_user},
+      hi: Goeie %{to_user},
     message_notification:
-      hi: Hallo %{to_user},
+      hi: Goeie %{to_user},
     email_confirm:
-      greeting: Hallo,
+      greeting: Goeie,
     lost_password:
-      greeting: Hallo,
+      greeting: Goeie,
     note_comment_notification:
-      greeting: Hallo,
+      greeting: Goeie,
   messages:
     inbox:
       from: Fan
-      subject: Ûnderwerp
+      subject: Underwerp
       date: Datum
     message_summary:
       destroy_button: Fuortsmite
     new:
-      subject: Ûnderwerp
+      subject: Underwerp
       body: Tekst
     outbox:
       to: Oan
-      subject: Ûnderwerp
+      subject: Underwerp
       date: Datum
     show:
       from: Fan
-      subject: Ûnderwerp
+      subject: Underwerp
       date: Datum
-      back: Foarige
+      back: Werom
       to: Oan
     sent_message_summary:
       destroy_button: Fuortsmite
   passwords:
     lost_password:
       email address: 'E-mailadres:'
+  preferences:
+    show:
+      edit_preferences: Foarkarren bewurkje
   profiles:
     edit:
-      image: 'Ôfbylding:'
+      title: Profyl bewurkje
+      image: Ofbylding
   sessions:
     new:
       password: 'Wachtwurd:'
       openid_html: '%{logo} OpenID:'
+    destroy:
+      title: Ofmelde
+      logout_button: Ofmelde
+  shared:
+    markdown_help:
+      headings: Koppen
+      heading: Kop
+      subheading: Subkop
+    richtext_field:
+      edit: Bewurkje
   site:
     about:
       next: Folgjende
+      copyright_html: <span>&copy;</span>OpenStreetMap-<br>meidoggers
       partners_title: Partners
     copyright:
       native:
@@ -462,46 +521,109 @@ fy:
       options: Opsjes
       format: 'Formaat:'
       scale: Skaal
-      max: maks
-      latitude: 'Breedte:'
-      longitude: 'Lingte:'
-      output: Útfier
+      max: maks.
+      latitude: 'Bgr.:'
+      longitude: 'Lgr.:'
+      output: Utfier
     help:
       welcome:
         url: /welcome
-        title: Wolkom by OSM
+        title: Wolkom by OpenStreetMap
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Help-forum
+      forums:
+        title: Foarums
       irc:
         title: IRC
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
       wiki:
-        url: http://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
+        url: https://wiki.openstreetmap.org/
+        title: OpenStreetMap-wiki
     sidebar:
+      search_results: Sykresultaten
       close: Slute
     search:
       search: Sykje
-      where_am_i: Wêr bin ik?
+      get_directions: Rûtebeskriuwing krije
+      get_directions_title: In rûtebeskriuwing fine tusken twa punten
+      from: Fan
+      to: Nei
+      where_am_i: Wêr is dit?
+      where_am_i_title: De lokaasje fan no beskriuwe mei de sykmasine
+      submit_text: Los
+      reverse_directions_text: Rûte omkeare
     key:
       table:
         entry:
+          motorway: Autogongwei
+          main_road: Haadwei
+          trunk: Autowei
+          primary: Primêre wei
+          secondary: Sekundêre wei
+          unclassified: Net-klassifisearre wei
+          track: Lânpaad
+          bridleway: Ruterpaad
+          cycleway: Fytspaad
+          cycleway_national: Nasjonaal fytspaad
+          cycleway_regional: Regionaal fytspaad
+          cycleway_local: Lokaal fytspaad
+          footway: Fuotpaad
+          rail: Spoarwei
+          subway: Metrospoar
+          tram:
+          - Sneltrem
+          - trem
+          cable:
+          - Kabelbaan
+          - stuoltsjelift
+          runway:
+          - Lofthavenstart-/lâningsbaan
+          - taksybaan
+          apron:
+          - Lofthavenplatfoarm
+          - -terminal
+          admin: Bestjoerlike grins
           forest: Bosk
-          wood: Bosk
+          wood: Wâld
           golf: Golfbaan
           park: Park
+          resident: Wengebiet
           common:
-          - Algemien
-          - weide
+          - Miente
+          - greide
+          retail: Winkelgebiet
+          industrial: Yndustrygebiet
+          commercial: Kommersjeel gebiet
+          heathland: Heidlân
           lake:
-          - mar
-          - reservoir
-          farm: Buorkerij
+          - Mar
+          - opslachmar
+          farm: Boerepleats
+          brownfield: Braaklân
           cemetery: Begraafplak
+          allotments: Folkstunen
+          pitch: Sportfjild
+          centre: Sportsintrum
           reserve: Natuerreservaat
+          military: Militêr terrein
           school:
           - Skoalle
           - universiteit
+          building: Wichtich gebou
+          station: Spoarweistasjon
+          summit:
+          - Top
+          - pyk
+          tunnel: Streekte râne = tunnel
+          bridge: Swarte râne = brêge
+          private: Tagong privee
+          destination: Bestimmingsferkear
+          construction: Wegen yn oanlis
+          bicycle_shop: Fytsesaak
+          bicycle_parking: Fytsestalling
+          toilets: Húskes
     welcome:
       title: Wolkom!
   traces:
@@ -509,48 +631,69 @@ fy:
       help: Help
     show:
       filename: 'Bestânsnamme:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: kaart
       edit: bewurkje
       owner: 'Eigner:'
       description: 'Beskriuwing:'
-      none: Gjin
-      visibility: 'Sichtberheid:'
+      tags: 'Lebels:'
+      none: Gjint
+      edit_trace: Dit trajekt bewurkje
+      visibility: 'Sichtberens:'
     trace_paging_nav:
       showing_page: Side %{page}
     trace:
-      count_points: '%{count} punten'
+      count_points:
+        one: 1 punt
+        other: '%{count} punten'
       more: mear
+      edit_map: Kaart bewurkje
       public: IEPENBIER
       private: PRIVEE
       by: troch
       in: yn
+    index:
+      my_traces: Myn trajekten
+  oauth2_applications:
+    application:
+      edit: Bewurkje
   users:
     new:
+      title: Ynskriuwe
       email address: 'E-mailadres:'
-      confirm email address: 'Befêstigjen e-mailadres:'
+      confirm email address: 'E-mailadres befêstigje:'
+      continue: Ynskriuwe
     terms:
+      continue: Fierder
       legale_names:
         france: Frankryk
         italy: Itaalje
     show:
       my diary: Myn deiboek
-      my messages: Myn berjochtsje
+      my edits: Myn bewurkings
+      my traces: Myn trajekten
+      my notes: Myn opmerkings
+      my messages: Myn berjochten
       my profile: Myn profyl
+      my settings: Myn ynstellings
+      my_preferences: Myn foarkarren
+      edit_profile: Profyl bewurkje
       diary: Deiboek
+      edits: Bewurkings
       email address: 'E-mailadres:'
       status: 'Status:'
       description: Beskriuwing
     account:
       openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link: https://wiki.openstreetmap.org/wiki/OpenID
       public editing:
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
     index:
       title: Meidoggers
       heading: Meidoggers
   user_blocks:
     show:
-      status: Status
+      status: 'Status:'
       edit: Bewurkje
     block:
       edit: Bewurkje
@@ -567,18 +710,66 @@ fy:
   javascripts:
     close: Slute
     share:
+      title: Diele
       cancel: Annulearje
-      image: Ôfbylding
+      image: Ofbylding
       embed: HTML
       scale: 'Skaal:'
+    key:
+      title: Leginda
+      tooltip: Leginda
     map:
+      zoom:
+        in: Ynzoome
+        out: Utzoome
+      locate:
+        title: Myn lokaasje oanjaan
       base:
         standard: Standert
-        hot: Humanitarian
+        hot: Humanitêr
+      layers:
+        header: Kaartlagen
+        title: Lagen
+      copyright: © <a href='%{copyright_url}'>OpenStreetMap-meidoggers</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donaasje jaan</a>
+      terms: <a href='%{terms_url}' target='_blank'>Webstee- en API-betingsten</a>
+    site:
+      edit_disabled_tooltip: Zoom yn om de kaart bewurkje te kinnen
+      createnote_disabled_tooltip: Zoom yn om in opmerking oan de kaart taheakje te
+        kinnen
+      queryfeature_disabled_tooltip: Zoom yn om eigenskippen opfreegje te kinnen
     directions:
+      ascend: Klimmen
+      engines:
+        fossgis_osrm_bike: Fyts (OSRM)
+        fossgis_osrm_car: Auto (OSRM)
+        fossgis_osrm_foot: Rinne (OSRM)
+        graphhopper_bicycle: Fyts (GraphHopper)
+        graphhopper_car: Auto (GraphHopper)
+        graphhopper_foot: Rinne (GraphHopper)
+      descend: Dalen
+      directions: Rûtebeskriuwing
+      distance: Ofstân
+      instructions:
+        continue_without_exit: Fierder op %{name}
+        turn_right_without_exit: Rjochts ôfslaan nei %{name}
+        turn_left_without_exit: Lofts ôfslaan nei %{name}
+        courtesy: Rûte mei tank oan %{link}
+        exit_counts:
+          first: 1e
+          second: 2e
+          third: 3e
+          fourth: 4e
+          fifth: 5e
+          sixth: 6e
+          seventh: 7e
+          eighth: 8e
+          ninth: 9e
+          tenth: 10e
       time: Tiid
     query:
       relation: Relaasje
+      error: 'Ferbiningsflater mei %{server}: %{error}'
   redactions:
     show:
       description: 'Beskriuwing:'

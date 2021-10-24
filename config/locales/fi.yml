@@ -35,6 +35,7 @@
 # Author: Pyscowicz
 # Author: Ramilehti
 # Author: Ruila
+# Author: Rönttönen
 # Author: SMAUG
 # Author: Samoasambia
 # Author: Silvonen
@@ -144,6 +145,7 @@ fi:
         language: Kieli
       doorkeeper/application:
         name: Nimi
+        confidential: Korkean tietoturvariskin sovellus
         scopes: Käyttöoikeudet
       friend:
         user: Käyttäjä
@@ -185,6 +187,10 @@ fi:
         pass_crypt: Salasana
         pass_crypt_confirmation: Vahvista salasana
     help:
+      doorkeeper/application:
+        confidential: Sovellusta käytettäessä ei voida taata käyttäjätietojen tietoturvaa
+          (natiivit mobiilisovellukset ja yhden sivun sovellukset eivät ole korkean
+          tietoturvariskin sovelluksia)
       trace:
         tagstring: pilkuilla eroteltu lista
       user_block:
@@ -463,7 +469,7 @@ fi:
       nearby mapper: Lähellä oleva kartoittaja
       friend: Kaveri
     show:
-      title: Minun kojelauta
+      title: Tapahtumat
       edit_your_profile: Muokkaa profiiliasi
       my friends: Kaverit
       no friends: Sinulla ei ole vielä kavereita.
@@ -1642,9 +1648,10 @@ fi:
       flash token bad: Tuntematon tunniste. Tarkista että URL on sama kuin postissasi.
   preferences:
     show:
-      title: Asetukseni
+      title: Asetukset
       preferred_editor: Ensisijainen muokkain
       preferred_languages: Ensisijaiset kielet
+      edit_preferences: Muokkaa asetuksia
     edit:
       save: Päivitä asetukset
       cancel: Peruuta
@@ -2286,6 +2293,8 @@ fi:
         suostua, mutta ne täytyy lukea.
     settings_menu:
       account_settings: Käyttäjäasetukset
+      oauth1_settings: OAuth 1 -asetukset
+      oauth2_authorizations: OAuth 2 -käyttöoikeudet
   oauth:
     authorize:
       title: Salli tilisi käyttö
@@ -2314,8 +2323,15 @@ fi:
     permissions:
       missing: Et ole sallinut sovelluksen käyttöoikeutta tähän palveluun
     scopes:
-      write_api: Muokkaa karttaa
+      read_prefs: Käyttäjäasetusten käsittely
+      write_prefs: Käyttäjäasetusten muuttaminen
+      write_diary: Päiväkirjamerkintöjen luonti, kommentointi ja kavereiden lisääminen
+      write_api: Kartan muokkaaminen
+      read_gpx: Yksityisten GPS-jälkien käsittely
+      write_gpx: GPS-jälkien tallentaminen
+      write_notes: Karttailmoitusten muokkaaminen
       read_email: Lue käyttäjän sähköpostiosoite
+      skip_authorization: Hyväksy hakemus automaattisesti
   oauth_clients:
     new:
       title: Rekisteröi uusi sovellus
@@ -2334,7 +2350,7 @@ fi:
       confirm: Oletko varma?
       requests: 'Pyydetään seuraavia oikeuksia käyttäjältä:'
     index:
-      title: Omat OAuth-tietoni
+      title: OAuth-asetukset
       my_tokens: Valtuutetut sovellukset
       list_tokens: 'Seuraavat sovellukset ovat käyttäneet tätä käyttäjätunnusta:'
       application: Sovelluksen nimi
@@ -2343,7 +2359,7 @@ fi:
       my_apps: Itse kehittämäni sovellukset
       no_apps_html: Oletko kehittänyt sovelluksen, jonka haluaisit käyttävän %{oauth}-kirjautumismenetelmää?
         Sovellus on rekisteröitävä, ennen kuin se voi lähettää kirjautumispyyntöjä
-        tähän palveluun.
+        palveluun.
       oauth: OAuth
       registered_apps: 'Seuraavat sovellukset käyttävät käyttäjätunnustasi:'
       register_new: Rekisteröi sovelluksesi
@@ -2379,6 +2395,9 @@ fi:
     index:
       application: Sovellus
       permissions: Oikeudet
+      no_applications_html: '%{oauth2} -sovelluksille ei ole vielä myönnetty käyttöoikeuksia.'
+    application:
+      revoke: Peruuta
   users:
     new:
       title: Rekisteröidy
@@ -2398,7 +2417,7 @@ fi:
       display name description: Julkisesti näkyvä käyttäjänimi. Tätä voi myöhemmin
         muuttaa asetuksista.
       external auth: 'Kolmannen osapuolen todennus:'
-      use external auth: Voit myös kirjautua jonkun muun palvelun tunnuksilla
+      use external auth: Kirjaudu toisen palvelun tunnuksilla
       auth no password: Mikäli kirjaudut sisään kolmannen osapuolen palveluiden avulla,
         sinun ei tarvitse luoda itsellesi salasanaa, mutta jotkin ylimääräiset työkalut
         tai palvelimet voivat silti vaatia sitä.
@@ -2448,10 +2467,10 @@ fi:
       my notes: Omat karttailmoitukset
       my messages: Viestit
       my profile: Käyttäjäsivu
-      my settings: Asetukset
+      my settings: Käyttäjäasetukset
       my comments: Omat kommentit
-      my_preferences: Asetukseni
-      my_dashboard: Minun kojelauta
+      my_preferences: Asetukset
+      my_dashboard: Tapahtumat
       blocks on me: Saadut estot
       blocks by me: Tekemäni estot
       edit_profile: Muokkaa profiilia

@@ -96,6 +96,7 @@ gem "maxminddb"
 gem "rotp"
 
 # Load memcache client in case we are using it
+gem "connection_pool"
 gem "dalli"
 gem "kgio"
 
@@ -147,7 +148,7 @@ group :test do
   gem "rubocop-performance"
   gem "rubocop-rails", "~> 2.11.3" # Bug in 2.12.0, fixed in master after 2.12.2
   gem "rubocop-rake"
-  gem "selenium-webdriver"
+  gem "selenium-webdriver", "~> 3.142.7"
   gem "simplecov", :require => false
   gem "simplecov-lcov", :require => false
   gem "webmock"
