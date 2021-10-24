@@ -342,17 +342,6 @@ class UsersController < ApplicationController
   private
 
   ##
-  #
-  def unconfirmed_login(user)
-    session[:token] = user.tokens.create.token
-
-    redirect_to :action => "confirm", :display_name => user.display_name
-
-    session.delete(:remember_me)
-    session.delete(:referer)
-  end
-
-  ##
   # update a user's details
   def update_user(user, params)
     user.display_name = params[:user][:display_name]
