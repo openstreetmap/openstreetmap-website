@@ -82,6 +82,7 @@ fy:
     providers:
       none: Gjint
   browse:
+    edited_by_html: Bewurke <abbr title='%{title}'>%{time}</abbr> troch %{user}
     version: Ferzje
     anonymous: anonym
     part_of: Part fan
@@ -115,6 +116,8 @@ fy:
       type:
         way: wei
         relation: relaasje
+    tag_details:
+      tags: Lebels
     note:
       description: Beskriuwing
   changesets:
@@ -140,6 +143,16 @@ fy:
       location: 'Lokaasje:'
       edit: Bewurkje
   geocoder:
+    search:
+      title:
+        latlon_html: Treffers <a href="https://openstreetmap.org/">yntern</a>
+        ca_postcode_html: Treffers fan <a href="https://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Treffers fan <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames_html: Treffers fan <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Treffers fan <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames_reverse_html: Treffers fan <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -151,10 +164,12 @@ fy:
           apron: Platfoarm
           gate: Gate
           helipad: Helyhaven
-          runway: Start- en lâningsbaan
+          runway: Start-/lâningsbaan
           taxiway: Taksybaan
           terminal: Terminal
         amenity:
+          animal_boarding: Bistepinsjon
+          animal_shelter: Biste-asyl
           arts_centre: Keunstsintrum
           atm: Jildautomaat
           bank: Bank
@@ -164,19 +179,24 @@ fy:
           bicycle_parking: Fytsestalling
           bicycle_rental: Fytsferhier
           biergarten: Kafeeterras
+          blood_bank: Bloedbank
+          boat_rental: Boatferhier
           brothel: Bordeel
           bureau_de_change: Wikselkantoar
           bus_station: Busstasjon
           cafe: Kafee
           car_rental: Autoferhier
           car_sharing: Autodielen
-          car_wash: Autowaskstrjitte
+          car_wash: Autowaskerij
           casino: Kasino
+          charging_station: Laadstasjon
+          childcare: Berne-opfang
           cinema: Bioskoop
           clinic: Klinyk
           clock: Klok
           college: Hegeskoalle
           community_centre: Mienskipshûs
+          conference_centre: Kongressintrum
           courthouse: Rjochtbank
           crematorium: Krematoarium
           dentist: Toskedokter
@@ -184,34 +204,43 @@ fy:
           drinking_water: Drinkwetter
           driving_school: Rydskoalle
           embassy: Ambassade
+          events_venue: Evenemintehal
           fast_food: Flugge hap
           fire_station: Brânwacht
           food_court: Itenshal
           fountain: Fontein
           fuel: Brânstof
           grave_yard: Begraafplak
+          grit_bin: Struibak
           hospital: Sikehûs
           hunting_stand: Jachttoer
           ice_cream: Iisko
+          internet_cafe: Ynternetkafee
           kindergarten: Beukerskoalle
+          language_school: Taalskoalle
           library: Bibleteek
           marketplace: Merkplein
+          monastery: Kleaster
           music_school: Muzykskoalle
           nightclub: Nachtklup
           nursing_home: Ferpleechhûs
           parking: Parkearplak
+          payment_terminal: Betelautomaat
           pharmacy: Apoteek
           police: Plysje
           post_box: Brievebus
           post_office: Postkantoar
           prison: Finzenis
           pub: Kafee
+          public_bath: Badhûs
+          public_building: Iepenbier gebou
           restaurant: Restaurant
           school: Skoalle
           shelter: Skûlplak
           shower: Dûs
           swimming_pool: Swimbad
           taxi: Taksy
+          telephone: Tillefoansel
           theatre: Teäter
           toilets: Húskes
           townhall: Gemeentehûs
@@ -222,18 +251,25 @@ fy:
           waste_basket: Jiskefet
         boundary:
           administrative: Bestjoerlike grins
+          national_park: Nasjonaal park
         bridge:
           aqueduct: Akwadukt
           viaduct: Fiadukt
           "yes": Brêge
         building:
+          apartment: Appartemint
+          apartments: Apparteminten
+          chapel: Kapel
+          church: Tsjerkegebou
           "yes": Gebou
         highway:
           bridleway: Ruterpaad
           bus_stop: Bushalte
           living_street: Wenhiem
           milestone: Mylpeal
-          motorway: Gongwei
+          motorway: Autogongwei
+          motorway_junction: Knooppunt autogongwei
+          motorway_link: Op-/ôfreed autogongwei
           path: Paad
           platform: Perron
           residential: Strjitte
@@ -356,6 +392,7 @@ fy:
           village: Doarp
         railway:
           light_rail: Sneltrem
+          station: Spoarweistasjon
           tram: Trembaan
           tram_stop: Tremhalte
         shop:
@@ -414,10 +451,14 @@ fy:
       admin_levels:
         level2: Lânsgrins
         level4: Steatsgrins
+        level7: Gemeentegrins
       types:
         cities: Grutte stêden
         towns: Stêden
         places: Plakken
+    results:
+      no_results: Gjin treffers fûn
+      more_results: Mear treffers
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
@@ -629,6 +670,8 @@ fy:
   traces:
     new:
       help: Help
+    trace_optionals:
+      tags: Lebels
     show:
       filename: 'Bestânsnamme:'
       coordinates_html: '%{latitude}; %{longitude}'
@@ -750,10 +793,70 @@ fy:
       descend: Dalen
       directions: Rûtebeskriuwing
       distance: Ofstân
+      errors:
+        no_route: Koe gjin rûte fine tusken dy twa plakken.
+        no_place: Spitich - koe '%{place}' net fine.
       instructions:
-        continue_without_exit: Fierder op %{name}
+        continue_without_exit: Fierder oer %{name}
+        slight_right_without_exit: Flau rjochts nei %{name}
+        offramp_right: Rjochts de ôfreed nimme
+        offramp_right_with_exit: Rjochts ôfslach %{exit} nimme
+        offramp_right_with_exit_name: Rjochts ôfslach %{exit} nimme nei %{name}
+        offramp_right_with_exit_directions: Rjochts ôfslach %{exit} nimme rjochting
+          %{directions}
+        offramp_right_with_exit_name_directions: Rjochts ôfslach %{exit} nimme nei
+          %{name}, rjochting %{directions}
+        offramp_right_with_name: Rjochts de ôfreed nimme nei %{name}
+        offramp_right_with_directions: Rjochts de ôfreed nimme rjochting %{directions}
+        offramp_right_with_name_directions: Rjochts de ôfreed nimme nei %{name}, rjochting
+          %{directions}
+        onramp_right_without_exit: Rjochts de opreed ynslaan nei %{name}
+        onramp_right_with_directions: Rjochts de opreed ynslaan rjochting %{directions}
+        onramp_right_with_name_directions: Rjochts de opreed ynslaan nei %{name},
+          rjochting %{directions}
+        onramp_right_without_directions: Rjochts de opreed ynslaan
+        onramp_right: Rjochts de opreed ynslaan
+        endofroad_right_without_exit: Oan 'e ein fan 'e wei rjochts ôfslaan nei %{name}
+        merge_right_without_exit: Rjochts ynfoegje op %{name}
+        fork_right_without_exit: Op 'e splitsing rjochts oanhâlde nei %{name}
         turn_right_without_exit: Rjochts ôfslaan nei %{name}
+        sharp_right_without_exit: Skerp rjochts nei %{name}
+        uturn_without_exit: U-bocht oer %{name}
+        sharp_left_without_exit: Skerp lofts nei %{name}
         turn_left_without_exit: Lofts ôfslaan nei %{name}
+        offramp_left: Lofts de ôfreed nimme
+        offramp_left_with_exit: Lofts ôfslach %{exit} nimme
+        offramp_left_with_exit_name: Lofts ôfslach %{exit} nimme nei %{name}
+        offramp_left_with_exit_directions: Lofts ôfslach %{exit} nimme rjochting %{directions}
+        offramp_left_with_exit_name_directions: Lofts ôfslach %{exit} nimme nei %{name},
+          rjochting %{directions}
+        offramp_left_with_name: Lofts de ôfreed nimme nei %{name}
+        offramp_left_with_directions: Lofts de ôfreed nimme rjochting %{directions}
+        offramp_left_with_name_directions: Lofts de ôfreed nimme nei %{name}, rjochting
+          %{directions}
+        onramp_left_without_exit: Lofts de opreed ynslaan nei %{name}
+        onramp_left_with_directions: Lofts de opreed ynslaan rjochting %{directions}
+        onramp_left_with_name_directions: Lofts de opreed ynslaan nei %{name}, rjochting
+          %{directions}
+        onramp_left_without_directions: Lofts de opreed ynslaan
+        onramp_left: Lofts de opreed ynslaan
+        endofroad_left_without_exit: Oan 'e ein fan 'e wei lofts ôfslaan nei %{name}
+        merge_left_without_exit: Lofts ynfoegje op %{name}
+        fork_left_without_exit: Op 'e splitsing lofts oanhâlde nei %{name}
+        slight_left_without_exit: Flau lofts nei %{name}
+        via_point_without_exit: (tuskenpunt)
+        follow_without_exit: Folgje %{name}
+        roundabout_without_exit: Op 'e rotonde ôfslaan nei %{name}
+        leave_roundabout_without_exit: Rotonde ferlitte - %{name}
+        stay_roundabout_without_exit: Op 'e rotonde bliuwe - %{name}
+        start_without_exit: Starte op %{name}
+        destination_without_exit: Bestimming berikt
+        against_oneway_without_exit: Tsjin it ienrjochtingsferkear yn op %{name}
+        end_oneway_without_exit: Ein ienrjochtingsferkear op %{name}
+        roundabout_with_exit: Op 'e rotonde ôfslach %{exit} nimme nei %{name}
+        roundabout_with_exit_ordinal: Op 'e rotonde %{exit} ôfslach nimme nei %{name}
+        exit_roundabout: Rotonde ferlitte oer %{name}
+        unnamed: nammeleaze wei
         courtesy: Rûte mei tank oan %{link}
         exit_counts:
           first: 1e
