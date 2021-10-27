@@ -33,6 +33,9 @@ gem "autoprefixer-rails"
 # Use image_optim to optimise images
 gem "image_optim_rails"
 
+# Use argon2 for password hashing
+gem "argon2"
+
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
 gem "activerecord-import"
