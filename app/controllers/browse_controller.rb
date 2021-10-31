@@ -5,6 +5,7 @@ class BrowseController < ApplicationController
   before_action :set_locale
   before_action -> { check_database_readable(:need_api => true) }
   before_action :require_oauth
+  before_action :update_totp, :only => [:query]
   around_action :web_timeout
   authorize_resource :class => false
 
@@ -88,4 +89,6 @@ class BrowseController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
+
+  def query; end
 end
