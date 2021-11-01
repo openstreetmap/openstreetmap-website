@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Arnobarnard
 # Author: Biggs ZA
+# Author: Danieldegroot2
 # Author: Firefishy
 # Author: Fwolff
 # Author: Joris Darlington Quarshie
@@ -27,6 +28,9 @@ af:
       message:
         create: Stuur
       client_application:
+        create: Registreer
+        update: Opdateer
+      doorkeeper_application:
         create: Registreer
         update: Opdateer
       redaction:
@@ -68,6 +72,7 @@ af:
       relation: Verband
       relation_member: Verbandslid
       relation_tag: Verbandsmerker
+      report: Rapporteer
       session: Sessie
       trace: Spoor
       tracepoint: Natrekpunt
@@ -99,6 +104,9 @@ af:
         latitude: Breedtegraad
         longitude: Lengtegraad
         language: Taal
+      doorkeeper/application:
+        name: Naam
+        scopes: Regte
       friend:
         user: Gebruiker
         friend: Vriend
@@ -223,17 +231,17 @@ af:
         reopened_at_html: '%{when} heraktiveer'
         reopened_at_by_html: '%{when} deur %{user} geheraktiveer'
       rss:
-        title: OpenStreetMap-aantekeninge
+        title: OpenStreetMap-nota
         description_area: '''N Lys met aantekeninge, gerapporteer, opmerkings of geslote
           in u omgewing [(%{min_lat}|%{min_lon})--(%{max_lat}|%{max_lon})]'
-        description_item: '''N RSS-voer vir noot %{id}'
+        description_item: '''N RSS-voer vir nota %{id}'
         opened: nuwe nota (naby %{place})
         commented: nuwe opmerking (naby %{place})
-        closed: geslote noot (naby %{place})
-        reopened: heraktiveerde noot (naby %{place})
+        closed: geslote nota (naby %{place})
+        reopened: heraktiveerde nota (naby %{place})
       entry:
         comment: Kommentaar
-        full: Volle aantekening
+        full: Volle nota
   browse:
     created: Geskep
     closed: Gesluit
@@ -391,9 +399,9 @@ af:
       comment: Opmerking
       area: Gebied
     index:
-      title: Wysigingstel
+      title: Wysigingstelle
       title_user: Veranderings deur %{user}
-      title_friend: Veranderings deur my vriende
+      title_friend: Wysigingstelle deur my vriende
       title_nearby: Veranderings deur mense naby
       empty: Geen wysigingstelle gevind nie.
       empty_area: Geen wysigingstelle in hierdie gebied.
@@ -408,7 +416,7 @@ af:
   changeset_comments:
     comment:
       comment: 'Nuwe opmerking oor veranderingset #%{changeset_id} deur %{author}'
-      commented_at_by_html: '%{when} gelede deur %{user} bygewerk'
+      commented_at_by_html: '%{when} gelede deur %{user} opgedateer'
     comments:
       comment: 'Nuwe opmerking oor veranderingstel #%{changeset_id} deur %{author}'
     index:
@@ -426,10 +434,14 @@ af:
       nearby mapper: Nabygeleë karteerder
       friend: Vriend
     show:
+      title: My paneelbord
+      edit_your_profile: Wysig u profiel
+      my friends: My vriende
       no friends: U het nog geen vriende bygevoeg nie.
       nearby users: Ander nabygeleë gebruikers
       no nearby users: Daar is nog geen ander gebruikers wat sê dat hulle in die nabye
         omgewing karteer nie.
+      friends_changesets: Wysigingstelle deur my vriende
   diary_entries:
     new:
       title: Nuwe dagboekinskrywing
@@ -1295,7 +1307,7 @@ af:
       title: '%{status} Probleem #%{issue_id}'
       report_created_at: Eerste vermelding op %{datetime}
       last_resolved_at: Laas geregmaak op %{datetime}
-      last_updated_at: Laaste bygewerk op %{datetime} deur %{displayname}
+      last_updated_at: Laaste opgedateer op %{datetime} deur %{displayname}
       resolve: Los op
       ignore: Ignoreer
       reopen: Heropen
@@ -1353,9 +1365,9 @@ af:
           vandal_label: Dié gebruiker is 'n vandaal
           other_label: Ander
         note:
-          spam_label: Dié opmerking is spam
+          spam_label: Dié nota is spam
           personal_label: Dié opmerking bevat persoonlike gegewens
-          abusive_label: Dié opmerking is beledigend
+          abusive_label: Dié nota is beledigend
           other_label: Ander
     create:
       successful_report: U verslag is suksesvol geregistreer
@@ -1370,7 +1382,7 @@ af:
     sign_up: Registreer
     start_mapping: Begin karteer
     sign_up_tooltip: Skep 'n rekening vir redigering
-    edit: Redigeer
+    edit: Wysig
     history: Geskiedenis
     export: Voer uit
     issues: Probleme
@@ -1386,6 +1398,8 @@ af:
     intro_text: OpenStreetMap is wêreldkaart deur gewone mense geskep. Die gebruik
       daarvan is gratis en val onder 'n oop-lisensie.
     intro_2_create_account: Skep 'n gebruikerrekening
+    partners_fastly: Fastly
+    partners_bytemark: Bytemark Hosting
     partners_partners: vennote
     tou: Gebruiksvoorwaardes
     osm_offline: Die OpenStreetMap-databasis is tans vanlyn terwyl noodsaaklike onderhoud
@@ -1413,10 +1427,15 @@ af:
       header: '%{from_user} het kommentaar op die OpenStreetMap-dagboekinskrywing
         met die tema %{subject} gelewer:'
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Hallo %{to_user},
     friendship_notification:
       hi: Hallo %{to_user},
       subject: '[OpenStreetMap] %{user} het u as ''n vriend bygevoeg'
+    gpx_failure:
+      hi: Hallo %{to_user},
+    gpx_success:
+      hi: Hallo %{to_user},
     signup_confirm:
       subject: '[OpenStreetMap] Welkom by OpenStreetMap'
       greeting: Hallo!
@@ -1438,6 +1457,9 @@ af:
     changeset_comment_notification:
       hi: Hallo %{to_user},
       greeting: Hallo,
+      commented:
+        partial_changeset_with_comment: met kommentaar '%{changeset_comment}'
+        partial_changeset_with_comment_html: met kommentaar '%{changeset_comment}'
   confirmations:
     confirm:
       heading: Gaan u e-pos na!
@@ -1521,15 +1543,27 @@ af:
       heading: Herstel wagwoord vir %{user}
       reset: Herstel wagwoord
       flash changed: U wagwoord is verander.
+  preferences:
+    show:
+      title: My voorkeure
+      edit_preferences: Wysig voorkeure
+    edit:
+      save: Opdateer voorkeure
+      cancel: Kanselleer
   profiles:
     edit:
-      image: 'Beeld:'
+      title: Wysig profiel
+      save: Opdateer profiel
+      cancel: Kanselleer
+      image: Beeld
       new image: Voeg 'n beeld by
       keep image: Hou die huidige beeld
       replace image: Vervang die huidige beeld
-      home location: 'Tuisligging:'
+      home location: Tuisligging
       no home location: U het nog geen tuisligging ingelees nie.
       update home location on click: Werk tuisligging by wanneer ek op die kaart klik?
+    update:
+      success: Profiel opgedateer.
   sessions:
     new:
       title: Meld aan
@@ -1573,6 +1607,17 @@ af:
       title: Teken af
       heading: Meld van OpenStreetMap af
       logout_button: Teken af
+  shared:
+    markdown_help:
+      headings: Opskrifte
+      heading: Opskrif
+      link: Skakel
+      text: Teks
+      image: Beeld
+      url: URL
+    richtext_field:
+      edit: Wysig
+      preview: Voorskou
   site:
     about:
       next: Volgende
@@ -1585,6 +1630,7 @@ af:
         title: Aangaande dié vertaling
       native:
         title: Aangaande dié blad
+        native_link: Afrikaanse versie
         mapping_link: begin karteer
       legal_babble:
         title_html: Kopiereg en lisensie
@@ -1599,6 +1645,7 @@ af:
     index:
       permalink: Perma-skakel
       shortlink: Kortskakel
+      createnote: Voeg 'n nota by
     edit:
       user_page_link: gebruikersbladsy
       anon_edits_link_text: Lees waarom dit so is.
@@ -1643,12 +1690,22 @@ af:
     help:
       welcome:
         url: /welcome
+        title: Welkom by OpenStreetMap
       beginners_guide:
         title: Gids vir beginners
+      help:
+        url: https://help.openstreetmap.org/
+        title: Help Forum
       mailing_lists:
         title: Poslyste
       forums:
         title: Forums
+      irc:
+        title: IRC
+      switch2osm:
+        title: switch2osm
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
       wiki:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMap-wiki
@@ -1743,17 +1800,22 @@ af:
         title: Enige vrae?
       start_mapping: Begin karteer
       add_a_note:
-        title: Geen tyd om te redigeer nie? Voeg 'n opmerking by!
+        title: Geen tyd om te redigeer nie? Voeg 'n nota by!
   traces:
     new:
+      upload_trace: Laai GPS-spore op
       visibility_help: wat beteken dit?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces‎
       help: Hulp
     create:
       upload_trace: Laai GPS-spore op
     edit:
+      cancel: Kanselleer
       title: Redigeer tans spoor %{name}
       heading: Wysig spoor %{name}
       visibility_help: wat beteken dit?
+    update:
+      updated: Spore opgedateer
     trace_optionals:
       tags: Merkers
     show:
@@ -1765,6 +1827,7 @@ af:
       uploaded: 'Opgelaai op:'
       points: 'Punte:'
       start_coordinates: 'Beginkoördinaat:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: kaart
       edit: redigeer
       owner: 'Eienaar:'
@@ -1791,6 +1854,7 @@ af:
       in: in
     index:
       public_traces: Openbare GPS-spore
+      my_traces: My Spore
       public_traces_from: Openbare GPS-spore van %{user}
       tagged_with: gemerk met %{tags}
       upload_trace: Laai 'n GPS-spoor op
@@ -1798,13 +1862,17 @@ af:
       scheduled_for_deletion: Spoor is vir verwydering geoormerk
     make_public:
       made_public: Spoor is openbaar gemaak
+  application:
+    settings_menu:
+      account_settings: Rekeninginstellings
+      oauth1_settings: OAuth 1 instellings
   oauth:
     authorize:
       allow_read_prefs: lees u gebruikersvoorkeure.
       allow_write_prefs: verander jou gebruikersvoorkeure.
       allow_write_api: wysig die kaart.
       allow_write_gpx: laai GPS-spore op.
-      allow_write_notes: wysig opmerkings.
+      allow_write_notes: wysig notas.
       grant_access: Verleen toegang
     authorize_success:
       title: Magtigingsversoek toegestaan
@@ -1818,6 +1886,10 @@ af:
       flash: U het die teken vir %{application} teruggetrek.
     permissions:
       missing: U het nie die program toegang tot hierdie fasiliteit verleen nie.
+    scopes:
+      write_api: Wysig die kaart
+      write_gpx: Laai GPS-spore op
+      write_notes: Wysig notas
   oauth_clients:
     new:
       title: Registreer 'n nuwe toepassing
@@ -1837,9 +1909,26 @@ af:
       issued_at: Uitgereik op
       revoke: Herroep!
       my_apps: My kliëntprogramme
+      oauth: OAuth
       register_new: Registreer u program
     not_found:
       sorry: Jammer, die %{type} blyk onverkrygbaar te wees.
+  oauth2_applications:
+    index:
+      name: Naam
+      permissions: Regte
+    application:
+      edit: Wysig
+      delete: Skrap
+    edit:
+      title: Redigeer u program
+    show:
+      edit: Wysig
+      delete: Skrap
+      permissions: Regte
+  oauth2_authorized_applications:
+    index:
+      permissions: Regte
   users:
     new:
       title: Meld aan
@@ -1857,8 +1946,10 @@ af:
       continue: Meld aan
       terms accepted: Dankie dat u die nuwe bydraerooreenkoms aanvaar het!
     terms:
-      title: Bydraerooreenkoms
-      heading: Voorwaardes vir bydraers
+      title: Voorwaardes
+      heading: Voorwaardes
+      heading_ct: Bydraervoorwaardes
+      continue: Gaan voort
       decline: Weier
       legale_names:
         france: Frankryk
@@ -1869,21 +1960,29 @@ af:
       heading: Die gebruiker %{user} bestaan nie
       body: Daar is geen gebruiker met die naam %{user} nie. Gaan die spelling na,
         of u het moontlik op 'n foutiewe skakel geklik.
+      deleted: Geskrap
     show:
       my diary: My Dagboek
       new diary entry: nuwe dagboekinskrywing
       my edits: My Redigerings
       my traces: My Spore
+      my notes: My notas
+      my profile: My profiel
       my settings: My Instellings
+      my_preferences: My voorkeure
+      my_dashboard: My paneelbord
       blocks on me: Versperrings vir u
       blocks by me: Versperrings deur u
+      edit_profile: Wysig profiel
       send message: Stuur boodskap
       diary: Dagboek
       edits: Redigerings
       traces: Spore
+      notes: Kaartnotas
       remove as friend: Verwyder as vriend
       add as friend: Voeg by as vriend
       mapper since: 'Karteerder sedert:'
+      ct status: 'Bydraervoorwaardes:'
       email address: 'E-posadres:'
       created from: 'Geskep vanaf:'
       status: 'Status:'
@@ -1914,11 +2013,14 @@ af:
       my settings: My instellings
       current email address: 'Huidige e-posadres:'
       public editing:
-        heading: 'Openbare redigerings:'
+        heading: Openbare redigerings
         enabled: Geaktiveer. Nie anoniem nie en kan data redigeer.
         enabled link text: wat is dié?
         disabled link text: hoekom kan ek nie redigeer nie?
+      public editing note:
+        heading: Openbare redigerings
       contributor terms:
+        heading: Bydraervoorwaardes
         link text: wat is dié?
       save changes button: Stoor Wysigings
       make edits public button: Stel al my redigerings openbaar
@@ -1933,6 +2035,8 @@ af:
       confirm: Bevestig geselekteerde gebruikers
       hide: Versteek verkose gebruikers
       empty: Geen gebruikers gevind nie
+    auth_failure:
+      no_authorization_code: Geen matigingskode
   user_role:
     grant:
       title: Bevestig toekenning van rol
@@ -2012,13 +2116,23 @@ af:
       revoker_name: Herroep deur
       next: Volgende »
       previous: « Vorige
+  notes:
+    index:
+      heading: Notas van %{user}
+      no_notes: Geen notas
+      id: Id
   javascripts:
+    close: Sluit
     share:
       title: Deel
+      cancel: Kanselleer
       image: Beeld
       link: Skakel of HTML
+      long_link: Skakel
       short_link: Kort skakel
+      embed: HTML
       format: 'Formaat:'
+      scale: 'Skaal:'
       download: Laai af
       only_standard_layer: Slegs die standaardlaag kan as ’n beeld uitgevoer word
     key:
@@ -2032,8 +2146,12 @@ af:
         title: Wys my ligging
       base:
         cycle_map: Fietskaart
+      layers:
+        notes: Kaartnotas
     site:
+      edit_tooltip: Wysig die kaart
       edit_disabled_tooltip: Zoem in om die kaart te wysig
+      createnote_tooltip: Voeg 'n nota by die kaart
       createnote_disabled_tooltip: Zoem in om 'n nota by die kaart te voeg
       map_data_zoom_in_tooltip: Zoem in om kaartdata te sien
     changesets:
@@ -2041,8 +2159,13 @@ af:
         comment: Opmerking
         subscribe: Skryf in
         unsubscribe: Kanselleer subskripsie
-        hide_comment: verskuil
+        hide_comment: versteek
         unhide_comment: bring weer aan die lig
+    notes:
+      new:
+        add: Voeg nota by
+      show:
+        hide: Versteek
     directions:
       engines:
         fossgis_osrm_car: Kar (OSRM)

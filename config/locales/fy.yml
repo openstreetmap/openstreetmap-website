@@ -21,13 +21,18 @@ fy:
       friend: Freon
       language: Taal
       message: Berjocht
+      node: Punt
+      old_node: Ald punt
+      old_way_node: Ald gebietspunt
       relation: Relaasje
       session: Sesje
       trace: Trajekt
       tracepoint: Trajektpunt
       tracetag: Trajektlebel
       user: Meidogger
-      way: Wei
+      way: Gebiet
+      way_node: Gebietspunt
+      way_tag: Gebietslebel
     attributes:
       diary_comment:
         body: Tekst
@@ -70,6 +75,45 @@ fy:
         home_lon: Lingtegraad
         languages: Foarkarstalen
         pass_crypt: Wachtwurd
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: likernôch 1 oere lyn
+        other: likernôch %{count} oeren lyn
+      about_x_months:
+        one: likernôch 1 moanne lyn
+        other: likernôch %{count} moanne lyn
+      about_x_years:
+        one: likernôch 1 jier lyn
+        other: likernôch %{count} jier lyn
+      almost_x_years:
+        one: hast 1 jier lyn
+        other: hast %{count} jier lyn
+      half_a_minute: in heale minút lyn
+      less_than_x_seconds:
+        one: minder as 1 sekonde lyn
+        other: minder as %{count} sekonden lyn
+      less_than_x_minutes:
+        one: minder as in minút lyn
+        other: minder as %{count} minuten lyn
+      over_x_years:
+        one: mear as 1 jier lyn
+        other: mear as %{count} jier lyn
+      x_seconds:
+        one: 1 sekonde lyn
+        other: '%{count} sekonden lyn'
+      x_minutes:
+        one: 1 minút lyn
+        other: '%{count} minuten lyn'
+      x_days:
+        one: 1 dei lyn
+        other: '%{count} dagen lyn'
+      x_months:
+        one: 1 moanne lyn
+        other: '%{count} moanne lyn'
+      x_years:
+        one: 1 jier lyn
+        other: '%{count} jier lyn'
   editor:
     default: Standert (op it stuit %{name})
     id:
@@ -81,6 +125,7 @@ fy:
   auth:
     providers:
       none: Gjint
+      wikipedia: Wikipedy
   browse:
     edited_by_html: Bewurke <abbr title='%{title}'>%{time}</abbr> troch %{user}
     version: Ferzje
@@ -89,16 +134,24 @@ fy:
     location: 'Lokaasje:'
     changeset:
       belongs_to: Auteur
+      node: Punten (%{count})
       relation: Relaasjes (%{count})
       relation_paginated: Relaasjes (%{x}-%{y} fan %{count})
+    node:
+      title_html: 'Punt: %{name}'
     way:
       title_html: 'Wei: %{name}'
+      nodes: Punten
+      nodes_count:
+        one: 1 punt
+        other: '%{count} punten'
     relation:
       title_html: 'Relaasje: %{name}'
       members: Lidden
     relation_member:
       entry_role_html: '%{type} %{name} as %{role}'
       type:
+        node: Punt
         way: Wei
         relation: Relaasje
     containing_relation:
@@ -106,20 +159,29 @@ fy:
       entry_role_html: Relaasje %{relation_name} (as %{relation_role})
     not_found:
       type:
+        node: punt
         way: wei
         relation: relaasje
     timeout:
       type:
+        node: punt
         way: wei
         relation: relaasje
     redacted:
       type:
+        node: punt
         way: wei
         relation: relaasje
     tag_details:
       tags: Lebels
     note:
+      new_note: Nije opmerking
       description: Beskriuwing
+    query:
+      title: Skaaimerken opfreegje
+      introduction: Klik op 'e kaart foar skaaimerken yn 'e omkriten.
+      nearby: Skaaimerken yn 'e omkriten
+      enclosing: Omfetsjende skaaimerken
   changesets:
     changeset_paging_nav:
       showing_page: Side %{page}
@@ -132,6 +194,8 @@ fy:
       user: Meidogger
       area: Gebiet
     index:
+      title: Wizigingssets
+      empty: Gjin wizigingssets fûn.
       load_more: Mear lade
   dashboards:
     popup:
@@ -139,6 +203,8 @@ fy:
   diary_entries:
     form:
       location: Lokaasje
+    index:
+      title: Deiboeken fan meidoggers
     location:
       location: 'Lokaasje:'
       edit: Bewurkje
@@ -239,11 +305,13 @@ fy:
           prison: Finzenis
           pub: Kafee
           public_bath: Badhûs
+          public_bookcase: Strjitboekekast
           public_building: Iepenbier gebou
           restaurant: Restaurant
           school: Skoalle
           shelter: Skûlplak
           shower: Dûs
+          studio: Studio
           swimming_pool: Swimbad
           taxi: Taksy
           telephone: Tillefoansel
@@ -255,6 +323,7 @@ fy:
           veterinary: Bistedokter
           village_hall: Doarpshûs
           waste_basket: Jiskefet
+          weighbridge: Weachbrêge
         boundary:
           administrative: Bestjoerlike grins
           national_park: Nasjonaal park
@@ -558,13 +627,47 @@ fy:
   site:
     about:
       next: Folgjende
-      copyright_html: <span>&copy;</span>OpenStreetMap-<br>meidoggers
+      copyright_html: <span>&copy;</span>OpenStreetMap-<br>bydragers
+      used_by_html: '%{name} leveret kaartdata foar tûzenen websteeën, mobile apps
+        en kompjûterapparaten'
       partners_title: Partners
     copyright:
       native:
         native_link: Frysktalige ferzje
+      legal_babble:
+        title_html: Auteursrjochten en lisinsje
     export:
+      title: Eksportearje
+      manually_select: Mei de hân in oar gebiet selektearje
       licence: Lisinsje
+      export_details_html: OpenStreetMap-data is beskikber ûnder de <a href="https://opendatacommons.org/licenses/odbl/1.0/">Iepen
+        Databank-lisinsje</a> (ODbL) fan Open Data Commons.
+      too_large:
+        advice: |-
+          At it eksportearjen boppe net slagget, besykje
+          dan ris ien fan 'e neikommende boarnen:
+        body: |-
+          It gebiet is te grut en eksportearje dat as
+          OpenStreetMap-XML-data. Zoom yn as
+          selektearje in lytser gebiet. Brûk oars ien
+          fan 'e boarnen dy't hjirûnder steane foar
+          it ynladen fan bulkdata.
+        planet:
+          title: Planet OSM
+          description: Geregeldwei bywurke kopyen fan 'e hiele OpenStreetMap-databank
+        overpass:
+          title: Overpass API
+          description: It seleksjeramt ynlade fan in spegel fan 'e OpenStreetMap-databank
+        geofabrik:
+          title: Geofabrik Downloads
+          description: Geregeldwei bywurke parten mei kontininten, lannen en selektearre
+            grutte stêden
+        metro:
+          title: Metro Extracts
+          description: Parten mei grutte wrâldstêden en harren omkriten
+        other:
+          title: Oare boarnen
+          description: Fierders noch boarnen dy't op 'e OpenStreetMap-wiki steane
       options: Opsjes
       format: 'Formaat:'
       scale: Skaal
@@ -572,7 +675,9 @@ fy:
       latitude: 'Bgr.:'
       longitude: 'Lgr.:'
       output: Utfier
+      export_button: Eksportearje
     help:
+      title: Help krije
       welcome:
         url: /welcome
         title: Wolkom by OpenStreetMap
@@ -626,8 +731,8 @@ fy:
           - Kabelbaan
           - stuoltsjelift
           runway:
-          - Lofthavenstart-/lâningsbaan
-          - taksybaan
+          - Lofthavenstart-/lânings-
+          - -taksybaan
           apron:
           - Lofthavenplatfoarm
           - -terminal
@@ -673,13 +778,39 @@ fy:
           toilets: Húskes
     welcome:
       title: Wolkom!
+      basic_terms:
+        editor_html: In <strong>bewurker</strong> is in programma of webstee dat jo
+          brûke kinne om 'e kaart te bewurkjen.
+        node_html: In <strong>punt</strong> is in plak op 'e kaart, lykas in inkel
+          restaurant of in beam.
+        way_html: In <strong>gebiet</strong> is in line of oerflak, lykas in strjitte,
+          rivier, mar of gebou.
+        tag_html: In <strong>lebel</strong> is in stikje data oer in punt of gebiet,
+          lykas in restaurantnamme of de maksimum faasje fan in strjitte.
+      rules:
+        title: Regels!
   traces:
+    visibility:
+      private: Privee (inkeld dield as anonime, net-oardere punten)
+      public: Iepenbier (werjûn yn 'e trajektelist en as anonime, net-oardere punten)
+      trackable: Trasearber (inkeld dield as anonime, oardere punten mei tiidstimpels)
+      identifiable: Identifisearber (werjûn yn 'e trajektelist en as identifisearbere,
+        oardere punten mei tiidstimpels)
     new:
       help: Help
+    update:
+      updated: Trajekt bywurke
     trace_optionals:
       tags: Lebels
     show:
+      title: Trajekt %{name} besjen
+      heading: Trajekt %{name} besjen
+      pending: DWAANDE
       filename: 'Bestânsnamme:'
+      download: ynlade
+      uploaded: 'Opladen:'
+      points: 'Punten:'
+      start_coordinates: 'Startkoördinaat:'
       coordinates_html: '%{latitude}; %{longitude}'
       map: kaart
       edit: bewurkje
@@ -688,21 +819,39 @@ fy:
       tags: 'Lebels:'
       none: Gjint
       edit_trace: Dit trajekt bewurkje
+      delete_trace: Dit trajekt fuortsmite
+      trace_not_found: Trajekt net fûn!
       visibility: 'Sichtberens:'
+      confirm_delete: Dit trajekt fuortsmite?
     trace_paging_nav:
       showing_page: Side %{page}
+      older: Aldere trajekten
+      newer: Nijere trajekten
     trace:
+      pending: DWAANDE
       count_points:
         one: 1 punt
         other: '%{count} punten'
       more: mear
+      trace_details: Trajektgegevens besjen
+      view_map: Kaart besjen
       edit_map: Kaart bewurkje
       public: IEPENBIER
+      identifiable: IDENTIFISEARBER
       private: PRIVEE
+      trackable: TRASEARBER
       by: troch
       in: yn
     index:
+      public_traces: Iepenbiere GPS-trajekten
       my_traces: Myn trajekten
+      public_traces_from: Iepenbiere GPS-trajekten fan %{user}
+      description: Koartlyn opladen GPS-trajekten trochsjen
+      tagged_with: ' lebele mei %{tags}'
+      upload_trace: Trajekt oplade
+      all_traces: Alle trajekten
+      traces_from: Iepenbiere trajekten fan %{user}
+      remove_tag_filter: Lebelfilter weilitte
   oauth2_applications:
     application:
       edit: Bewurkje
@@ -762,31 +911,86 @@ fy:
       title: Diele
       cancel: Annulearje
       image: Ofbylding
+      link: Keppeling as HTML
+      long_link: Kepp.
+      short_link: Lytse kepp.
+      geo_uri: Geo-URI
       embed: HTML
+      custom_dimensions: Ofmjittings oanpasse
+      format: 'Foarm:'
       scale: 'Skaal:'
+      image_dimensions: It ôfbyld kriget de standertlaach op %{width} x %{height}
+      download: Ynlade
+      short_url: Lytse URL
+      include_marker: Markearder ynfoegje
+      center_marker: Kaart op markearder sintrearje
+      paste_html: HTML op te nimmen yn in webstee
+      view_larger_map: Gruttere kaart besjen
+      only_standard_layer: Inkeld de standertlaach kin as ôfbyld eksportearre wurde
+    embed:
+      report_problem: Probleem melde
     key:
       title: Leginda
       tooltip: Leginda
+      tooltip_disabled: Gjin leginda beskikber foar dizze laach
     map:
       zoom:
         in: Ynzoome
         out: Utzoome
       locate:
         title: Myn lokaasje oanjaan
+        metersPopup:
+          one: Jo sitte binnen ien meter fan dit punt
+          other: Jo sitte binnen %{count} meter fan dit punt
+        feetPopup:
+          one: Jo sitte binnen ien foet fan dit punt
+          other: Jo sitte binnen %{count} foet fan dit punt
       base:
         standard: Standert
+        cyclosm: FytsOSM
+        cycle_map: Fytskaart
+        transport_map: Ferfierskaart
         hot: Humanitêr
+        opnvkarte: Ferfiermiddels
       layers:
         header: Kaartlagen
+        notes: Kaartopmerkings
+        data: Kaartdata
+        gps: Iepenbiere GPS-trajekten
+        overlays: Boppelagen ynskeakelje ta oplossing fan kaartproblemen
         title: Lagen
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap-meidoggers</a>
+      copyright: © <a href='%{copyright_url}'>OpenStreetMap-bydragers</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donaasje jaan</a>
       terms: <a href='%{terms_url}' target='_blank'>Webstee- en API-betingsten</a>
+      cyclosm: Foarmjouwing troch <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        ûnderdak by <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap Frankryk</a>
+      thunderforest: Foarmjouwing mei tank oan <a href='%{thunderforest_url}' target='_blank'>Andy
+        Allan</a>
+      opnvkarte: Foarmjouwing mei tank oan <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
+      hotosm: Foarmjouwing troch <a href='%{hotosm_url}' target='_blank'>Humanitarian
+        OpenStreetMap Team</a> ûnderdak by <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+        Frankryk</a>
     site:
-      edit_disabled_tooltip: Zoom yn om de kaart bewurkje te kinnen
-      createnote_disabled_tooltip: Zoom yn om in opmerking oan de kaart taheakje te
+      edit_tooltip: De kaart bewurkje
+      edit_disabled_tooltip: Zoom yn om 'e kaart bewurkje te kinnen
+      createnote_tooltip: In opmerking oan 'e kaart taheakje
+      createnote_disabled_tooltip: Zoom yn om in opmerking oan 'e kaart taheakje te
         kinnen
-      queryfeature_disabled_tooltip: Zoom yn om eigenskippen opfreegje te kinnen
+      map_notes_zoom_in_tooltip: Zoom yn om kaartopmerkings sjen te kinnen
+      map_data_zoom_in_tooltip: Zoom yn om kaartdata sjen te kinnen
+      queryfeature_tooltip: Skaaimerken opfreegje
+      queryfeature_disabled_tooltip: Zoom yn om skaaimerken opfreegje te kinnen
+    notes:
+      new:
+        intro: Flater sjoen of mist der wat? Lit it de oare kaartmakkers witte, dan
+          meitsje wy it yn oarder. Sko de markearder op it krekte plak, en typ in
+          opmerking oer it probleem.
+        advice: Jo opmerking is iepenbier en kin brûkt wurde ta ferbettering fan 'e
+          kaart; dat fier neat persoanliks yn, gjin ynformaasje fan kaarten of yndeksen
+          mei auteursrjocht.
+        add: Opmerking taheakje
+    edit_help: Sko de kaart en zoom yn op 'e lokaasje dy't jo bewurkje wolle, klik
+      dan hjir.
     directions:
       ascend: Klimmen
       engines:
@@ -877,8 +1081,19 @@ fy:
           tenth: 10e
       time: Tiid
     query:
+      node: Punt
+      way: Gebiet
       relation: Relaasje
+      nothing_found: Gjin skaaimerken fûn
       error: 'Ferbiningsflater mei %{server}: %{error}'
+      timeout: Ferbiningstiid mei %{server} ferrûn
+    context:
+      directions_from: Rûte hjir wei
+      directions_to: Rûte hjir hinne
+      add_note: Hjir in opmerking taheakje
+      show_address: Adres werjaan
+      query_features: Skaaimerken opfreegje
+      centre_map: Kaart hjir sintrearje
   redactions:
     show:
       description: 'Beskriuwing:'
