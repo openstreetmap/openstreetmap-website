@@ -1,14 +1,16 @@
 <div>
   <% comments.each do |comment| %>
-    <div class="comment">
-      <div class="float-left">
+    <div class="row">
+      <div class="col-auto">
         <%= link_to user_thumbnail(comment.user), user_path(comment.user) %>
       </div>
-      <p class="text-muted mb-0">
-        <%= t ".comment_from_html", :user_link => link_to(comment.user.display_name, user_path(comment.user)),
-                                    :comment_created_at => l(comment.created_at.to_datetime, :format => :friendly) %>
-      </p>
-      <p><%= comment.body %></p>
+      <div class="col">
+        <p class="text-muted mb-0">
+          <%= t ".comment_from_html", :user_link => link_to(comment.user.display_name, user_path(comment.user)),
+                                      :comment_created_at => l(comment.created_at.to_datetime, :format => :friendly) %>
+        </p>
+        <p><%= comment.body %></p>
+      </div>
     </div>
     <hr>
   <% end %>
