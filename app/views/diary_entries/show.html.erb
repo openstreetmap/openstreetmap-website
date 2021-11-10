@@ -1,8 +1,12 @@
 <% content_for :heading do %>
-  <div id="userinformation">
-    <%= user_image @entry.user %>
-    <h2><%= link_to t(".user_title", :user => @entry.user.display_name), :action => :index %></h2>
-    <p><%= rss_link_to :action => :rss, :display_name => @entry.user.display_name %></p>
+  <div id="userinformation" class="row">
+    <div class="col-sm-auto">
+      <%= user_image @entry.user, :class => "user_image_no_margins" %>
+    </div>
+    <div class="col">
+      <h2><%= link_to t(".user_title", :user => @entry.user.display_name), :action => :index %></h2>
+      <p><%= rss_link_to :action => :rss, :display_name => @entry.user.display_name %></p>
+    </div>
   </div>
 <% end %>
 
