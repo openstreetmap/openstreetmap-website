@@ -17,6 +17,7 @@ fy:
   activerecord:
     models:
       acl: Tagongskontrôlelist
+      changeset: Wizigingsset
       country: Lân
       friend: Freon
       language: Taal
@@ -126,27 +127,62 @@ fy:
     providers:
       none: Gjint
       wikipedia: Wikipedy
+  api:
+    notes:
+      comment:
+        commented_at_html: Bywurke %{when}
+        commented_at_by_html: Bywurke %{when} troch %{user}
   browse:
+    closed: Ofdien
+    closed_html: Ofdien <abbr title='%{title}'>%{time}</abbr>
     edited_by_html: Bewurke <abbr title='%{title}'>%{time}</abbr> troch %{user}
+    closed_by_html: Ofdien <abbr title='%{title}'>%{time}</abbr> troch %{user}
     version: Ferzje
+    in_changeset: Wizigingsset
     anonymous: anonym
     part_of: Part fan
+    part_of_relations:
+      one: 1 relaasje
+      other: '%{count} relaasjes'
+    part_of_ways:
+      one: 1 gebiet
+      other: '%{count} gebieten'
+    download_xml: XML ynlade
+    view_history: Skiednis besjen
+    view_details: Gegevens besjen
     location: 'Lokaasje:'
     changeset:
+      title: 'Wizigingsset: %{id}'
       belongs_to: Auteur
       node: Punten (%{count})
+      node_paginated: Punten (%{x}-%{y} fan %{count})
+      way: Gebieten (%{count})
+      way_paginated: Gebieten (%{x}-%{y} fan %{count})
       relation: Relaasjes (%{count})
       relation_paginated: Relaasjes (%{x}-%{y} fan %{count})
+      comment: Reäksjes (%{count})
+      changesetxml: Wizigingsset-XML
+      osmchangexml: osmWizigings-XML
+      feed:
+        title: Wizigingsset %{id}
+        title_comment: Wizigingsset %{id} - %{comment}
+      discussion: Oerlis
     node:
       title_html: 'Punt: %{name}'
+      history_title_html: 'Puntskiednis: %{name}'
     way:
       title_html: 'Gebiet: %{name}'
+      history_title_html: 'Gebietskiednis: %{name}'
       nodes: Punten
       nodes_count:
         one: 1 punt
         other: '%{count} punten'
+      also_part_of_html:
+        one: part fan gebiet %{related_ways}
+        other: part fan gebieten %{related_ways}
     relation:
       title_html: 'Relaasje: %{name}'
+      history_title_html: 'Relaasjeskiednis: %{name}'
       members: Lidden
     relation_member:
       entry_role_html: '%{type} %{name} as %{role}'
@@ -158,20 +194,25 @@ fy:
       entry_html: Relaasje %{relation_name}
       entry_role_html: Relaasje %{relation_name} (as %{relation_role})
     not_found:
+      title: Net fûn
       type:
         node: punt
         way: gebiet
         relation: relaasje
+        changeset: wizigingsset
     timeout:
       type:
         node: punt
         way: gebiet
         relation: relaasje
+        changeset: wizigingsset
     redacted:
       type:
         node: punt
         way: gebiet
         relation: relaasje
+    start_rjs:
+      loading: Laden ...
     tag_details:
       tags: Lebels
     note:
@@ -465,17 +506,39 @@ fy:
           communications_tower: Antennetoer
           dyke: Bediking
           mast: Mêst
+          petroleum_well: Oaljeboarne
           pier: Pier
+          pipeline: Piiplieding
+          pumping_station: Pompstasjon
+          silo: Silo
+          snow_cannon: Sniekanon
+          storage_tank: Opslachtenk
+          street_cabinet: Nutskast
           surveillance: Bewekking
+          telescope: Tilleskoop
           tower: Toer
+          utility_pole: Nutspeal
+          wastewater_plant: Wettersuvering
+          watermill: Wettermûne
+          water_tap: Wetterkraan
           water_tower: Wettertoer
+          water_well: Saad
+          water_works: Wetterliedingbedriuw
+          windmill: Wynmûne
+          works: Fabryk
+          "yes": Keunstmjittich
         military:
+          airfield: Militêr fleanfjild
           barracks: Kazerne
           bunker: Bunker
+          checkpoint: Kontrôlepost
+          trench: Rinfuorge
+          "yes": Militêr
         mountain_pass:
           "yes": Berchpas
         natural:
           atoll: Atol
+          bare_rock: Keale rotsen
           bay: Baai
           beach: Strân
           cape: Kaap
@@ -784,6 +847,7 @@ fy:
     export:
       title: Eksportearje
       manually_select: Mei de hân in oar gebiet selektearje
+      osm_xml_data: OpenStreetMap-XML-data
       licence: Lisinsje
       export_details_html: OpenStreetMap-data is beskikber ûnder de <a href="https://opendatacommons.org/licenses/odbl/1.0/">Iepen
         Databank-lisinsje</a> (ODbL) fan Open Data Commons.
