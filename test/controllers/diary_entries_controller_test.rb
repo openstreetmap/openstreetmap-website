@@ -273,7 +273,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     get edit_diary_entry_path(:display_name => entry.user.display_name, :id => 9999)
     assert_response :not_found
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => "No entry with the id: 9999", :count => 1
+      assert_select "h1", :text => "No entry with the id: 9999", :count => 1
     end
 
     # Now pass the id, and check that you can edit it, when using the same
@@ -316,7 +316,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_template "show"
     assert_select "title", :text => /Users' Diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => /#{entry.user.display_name}'s Diary/, :count => 1
+      assert_select "h1", :text => /#{entry.user.display_name}'s Diary/, :count => 1
     end
     assert_select "div#content", :count => 1 do
       assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
@@ -336,7 +336,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_template "show"
     assert_select "title", :text => /Users' Diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => /#{entry.user.display_name}'s Diary/, :count => 1
+      assert_select "h1", :text => /#{entry.user.display_name}'s Diary/, :count => 1
     end
     assert_select "div#content", :count => 1 do
       assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
@@ -374,7 +374,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     post comment_diary_entry_path(:display_name => entry.user.display_name, :id => 9999)
     assert_response :not_found
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => "No entry with the id: 9999", :count => 1
+      assert_select "h1", :text => "No entry with the id: 9999", :count => 1
     end
 
     # Now try an invalid comment with an empty body
