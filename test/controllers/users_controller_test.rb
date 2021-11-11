@@ -560,7 +560,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     get user_path(user)
     assert_response :success
-    assert_select "div#userinformation" do
+    assert_select "div.content-heading" do
       assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/traces']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary']", 1
@@ -579,7 +579,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     create(:user_block, :user => blocked_user)
     get user_path(blocked_user)
     assert_response :success
-    assert_select "div#userinformation" do
+    assert_select "div.content-heading" do
       assert_select "a[href^='/user/#{ERB::Util.u(blocked_user.display_name)}/history']", 1
       assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/traces']", 1
       assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/diary']", 1
@@ -595,7 +595,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     create(:user_block, :creator => moderator_user)
     get user_path(moderator_user)
     assert_response :success
-    assert_select "div#userinformation" do
+    assert_select "div.content-heading" do
       assert_select "a[href^='/user/#{ERB::Util.u(moderator_user.display_name)}/history']", 1
       assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/traces']", 1
       assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/diary']", 1
@@ -612,7 +612,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # Test the normal user
     get user_path(user)
     assert_response :success
-    assert_select "div#userinformation" do
+    assert_select "div.content-heading" do
       assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
       assert_select "a[href='/traces/mine']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary']", 1
@@ -629,7 +629,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # Test the normal user
     get user_path(user)
     assert_response :success
-    assert_select "div#userinformation" do
+    assert_select "div.content-heading" do
       assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/traces']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary']", 1
@@ -649,21 +649,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     get user_path(agreed_user)
     assert_response :success
-    assert_select "div#userinformation" do
+    assert_select "div.content-heading" do
       assert_select "dt", :count => 0, :text => /Contributor terms/
     end
 
     get user_path(seen_user)
     assert_response :success
     # put @response.body
-    assert_select "div#userinformation" do
+    assert_select "div.content-heading" do
       assert_select "dt", :count => 1, :text => /Contributor terms/
       assert_select "dd", /Declined/
     end
 
     get user_path(not_seen_user)
     assert_response :success
-    assert_select "div#userinformation" do
+    assert_select "div.content-heading" do
       assert_select "dt", :count => 1, :text => /Contributor terms/
       assert_select "dd", /Undecided/
     end
