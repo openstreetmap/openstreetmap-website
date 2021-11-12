@@ -1,10 +1,17 @@
 <div class='diary_post<%= " text-muted px-3 deleted" unless diary_entry.visible %> user_<%= diary_entry.user.id %>'>
-  <div class='post_heading clearfix'>
-    <% if !@user %>
-      <%= user_thumbnail diary_entry.user %>
+  <div class='post_heading'>
+    <% if @user %>
+      <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
+    <% else %>
+      <div class="row">
+        <div class="col-auto">
+          <%= user_thumbnail diary_entry.user %>
+        </div>
+        <div class="col">
+          <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
+        </div>
+      </div>
     <% end %>
-
-    <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
 
     <small class='text-muted'>
       <%= t(".posted_by_html", :link_user => (link_to diary_entry.user.display_name, user_path(diary_entry.user)), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to diary_entry.language.name, :controller => "diary_entries", :action => "index", :display_name => nil, :language => diary_entry.language_code)) %>

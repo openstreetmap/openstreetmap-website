@@ -6,7 +6,7 @@
   <p class="font-italic">
     <%= linkify(@changeset.tags["comment"].to_s.presence || t("browse.no_comment")) %>
   </p>
-  <div class="details"><%= changeset_details(@changeset) %></div>
+  <p class="details"><%= changeset_details(@changeset) %></p>
 
   <%= render :partial => "tag_details", :object => @changeset.tags.except("comment") %>
 
@@ -63,14 +63,14 @@
   <% end %>
 
   <% unless current_user %>
-    <div class="notice">
+    <p class="notice">
       <%= link_to(t(".join_discussion"), login_path(:referer => request.fullpath)) %>
-    </div>
+    </p>
   <% end %>
 
   <% if current_user %>
     <% unless @changeset.is_open? %>
-      <form action="#">
+      <form action="#" class="mb-3">
         <div class="form-group">
           <textarea class="form-control" name="text" cols="40" rows="5"></textarea>
         </div>
@@ -79,9 +79,9 @@
         </div>
       </form>
     <% else %>
-      <div class="notice">
-      <%= t(".still_open") %>
-      </div>
+      <p class="notice">
+        <%= t(".still_open") %>
+      </p>
     <% end %>
   <% end %>
 

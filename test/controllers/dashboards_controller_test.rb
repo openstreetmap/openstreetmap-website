@@ -28,7 +28,9 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
 
     # Friends should be visible as we're now logged in
     assert_select "div#friends-container" do
-      assert_select "div.contact-activity", :count => 1
+      assert_select "div" do
+        assert_select "a[href='/user/#{ERB::Util.u(friend_user.display_name)}']", :count => 1
+      end
     end
   end
 end
