@@ -1,26 +1,31 @@
-<% content_for :head, tag(:meta, :name => :robots, :content => :noindex) %>
+<% content_for :head, tag.meta(:name => :robots, :content => :noindex) %>
 <% content_for :heading do %>
-  <div <% if @user %> id="userinformation"<% end %>>
+  <div class="row">
     <% if @user %>
-      <%= user_image @user %>
+        <div class="col-auto">
+          <%= user_image @user %>
+        </div>
     <% end %>
-    <h1><%= @title %></h1>
 
-    <nav class="secondary-actions">
-      <ul class="clearfix">
-        <% unless params[:friends] or params[:nearby] -%>
-          <li><%= rss_link_to :action => "rss", :language => params[:language] %></li>
-          <% end -%>
+    <div class="col">
+      <h1><%= @title %></h1>
 
-          <% if @user && @user == current_user || !@user && current_user %>
-            <li><%= link_to image_tag("new.png", :class => "small_icon") + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
-          <% end %>
+      <nav class="secondary-actions">
+        <ul class="clearfix">
+          <% unless params[:friends] or params[:nearby] -%>
+            <li><%= rss_link_to :action => "rss", :language => params[:language] %></li>
+            <% end -%>
 
-          <% if !@user && current_user %>
-            <li><%= link_to t(".my_diary"), :controller => "diary_entries", :action => "index", :display_name => current_user.display_name %></li>
-          <% end %>
-      </ul>
-    </nav>
+            <% if @user && @user == current_user || !@user && current_user %>
+              <li><%= link_to image_tag("new.png", :class => "small_icon") + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
+            <% end %>
+
+            <% if !@user && current_user %>
+              <li><%= link_to t(".my_diary"), :controller => "diary_entries", :action => "index", :display_name => current_user.display_name %></li>
+            <% end %>
+        </ul>
+      </nav>
+    </div>
   </div>
 <% end %>
 
