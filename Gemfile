@@ -24,6 +24,9 @@ gem "jbuilder", "~> 2.7"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.2", :require => false
 
+# Block upgrades to sprockets-rails 3.4.0
+gem "sprockets-rails", "< 3.4.0"
+
 # Use R2 for RTL conversion
 gem "r2", "~> 0.2.7"
 
@@ -43,7 +46,7 @@ gem "active_record_union"
 gem "bootstrap", "~> 4.5.0"
 gem "bootstrap_form", "~> 4.0"
 gem "cancancan"
-gem "composite_primary_keys", "~> 13.0.0"
+gem "composite_primary_keys", "~> 13.0.0", "!= 13.0.1"
 gem "config"
 gem "delayed_job_active_record"
 gem "http_accept_language", "~> 2.1.1"
