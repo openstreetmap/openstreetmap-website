@@ -10,21 +10,25 @@
 
   <%= render :partial => "tag_details", :object => @changeset.tags.except("comment") %>
 
-  <h4 class="comments-header"><%= t(".discussion") %></h4>
-
-  <% if current_user %>
-    <div class="buttons clearfix subscribe-buttons">
-      <form action="#">
-        <% if @changeset.subscribers.exists?(current_user.id) %>
-          <input class="action-button btn btn-sm btn-primary" type="submit" name="unsubscribe" value="<%= t("javascripts.changesets.show.unsubscribe") %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
-        <% else %>
-          <input class="action-button btn btn-sm btn-primary" type="submit" name="subscribe" value="<%= t("javascripts.changesets.show.subscribe") %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
-        <% end %>
-      </form>
+  <div class="row">
+    <div class="col">
+      <h4><%= t(".discussion") %></h4>
     </div>
-  <% end %>
 
-  <div class="clearfix"></div>
+    <% if current_user %>
+      <div class="col-auto">
+        <div class="subscribe-buttons">
+          <form action="#">
+            <% if @changeset.subscribers.exists?(current_user.id) %>
+              <input class="action-button btn btn-sm btn-primary" type="submit" name="unsubscribe" value="<%= t("javascripts.changesets.show.unsubscribe") %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
+            <% else %>
+              <input class="action-button btn btn-sm btn-primary" type="submit" name="subscribe" value="<%= t("javascripts.changesets.show.subscribe") %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
+            <% end %>
+          </form>
+        </div>
+      </div>
+    <% end %>
+  </div>
 
   <% if @comments.length > 0 %>
     <div class='changeset-comments'>
@@ -74,7 +78,7 @@
         <div class="form-group">
           <textarea class="form-control" name="text" cols="40" rows="5"></textarea>
         </div>
-        <div class="buttons clearfix">
+        <div>
           <input type="submit" name="comment" value="<%= t("javascripts.changesets.show.comment") %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1" class="btn btn-sm btn-primary" />
         </div>
       </form>
