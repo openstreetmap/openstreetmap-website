@@ -1,6 +1,7 @@
 # Messages for Western Frisian (Frysk)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Danieldegroot2
 # Author: PiefPafPier
 # Author: Robin van der Vliet
 ---
@@ -14,11 +15,17 @@ fy:
     submit:
       diary_comment:
         create: Bewarje
+      diary_entry:
+        create: Publisearje
+        update: Bywurkje
       message:
         create: Ferstjoere
       client_application:
         update: Bywurkje
+      doorkeeper_application:
+        update: Bywurkje
       trace:
+        create: Oplade
         update: Feroarings bewarje
   activerecord:
     models:
@@ -26,6 +33,8 @@ fy:
       changeset: Wizigingsset
       changeset_tag: Wizigingssetlebel
       country: Lân
+      diary_comment: Deiboekreäksje
+      diary_entry: Deiboekstik
       friend: Freon
       language: Taal
       message: Berjocht
@@ -36,9 +45,9 @@ fy:
       old_relation: Alde relaasje
       old_relation_member: Ald relaasjelid
       old_relation_tag: Ald relaasjelebel
-      old_way: Ald gebiet
-      old_way_node: Ald gebietspunt
-      old_way_tag: Ald gebietslebel
+      old_way: Alde line
+      old_way_node: Ald linepunt
+      old_way_tag: Ald linelebel
       relation: Relaasje
       relation_member: Relaasjelid
       relation_tag: Relaasjelebel
@@ -48,9 +57,9 @@ fy:
       tracetag: Trajektlebel
       user: Meidogger
       user_preference: Meidoggerfoarkar
-      way: Gebiet
-      way_node: Gebietspunt
-      way_tag: Gebietslebel
+      way: Line
+      way_node: Linepunt
+      way_tag: Linelebel
     attributes:
       diary_comment:
         body: Tekst
@@ -168,6 +177,9 @@ fy:
         reopened_at_by_html: Weraktivearre %{when} troch %{user}
       rss:
         title: OpenStreetMap Notysjes
+      entry:
+        comment: Reäksje
+        full: Folsleine notysje
   browse:
     created: Makke
     closed: Ofdien
@@ -186,8 +198,8 @@ fy:
       one: 1 relaasje
       other: '%{count} relaasjes'
     part_of_ways:
-      one: 1 gebiet
-      other: '%{count} gebieten'
+      one: 1 line
+      other: '%{count} linen'
     download_xml: XML ynlade
     view_history: Skiednis besjen
     view_details: Gegevens besjen
@@ -197,8 +209,8 @@ fy:
       belongs_to: Auteur
       node: Punten (%{count})
       node_paginated: Punten (%{x}-%{y} fan %{count})
-      way: Gebieten (%{count})
-      way_paginated: Gebieten (%{x}-%{y} fan %{count})
+      way: Linen (%{count})
+      way_paginated: Linen (%{x}-%{y} fan %{count})
       relation: Relaasjes (%{count})
       relation_paginated: Relaasjes (%{x}-%{y} fan %{count})
       comment: Reäksjes (%{count})
@@ -211,19 +223,21 @@ fy:
         title_comment: Wizigingsset %{id} - %{comment}
       join_discussion: Meld jo oan en oerlis mei
       discussion: Oerlis
+      still_open: Wizigingsset net ree - it oerlis iepenet sadree't de wizigingsset
+        ôfdien is.
     node:
       title_html: 'Punt: %{name}'
       history_title_html: 'Skiednis fan punt: %{name}'
     way:
-      title_html: 'Gebiet: %{name}'
-      history_title_html: 'Skiednis fan gebiet: %{name}'
+      title_html: 'Line: %{name}'
+      history_title_html: 'Skiednis fan line: %{name}'
       nodes: Punten
       nodes_count:
         one: 1 punt
         other: '%{count} punten'
       also_part_of_html:
-        one: part fan gebiet %{related_ways}
-        other: part fan gebieten %{related_ways}
+        one: part fan line %{related_ways}
+        other: part fan linen %{related_ways}
     relation:
       title_html: 'Relaasje: %{name}'
       history_title_html: 'Skiednis fan relaasje: %{name}'
@@ -235,7 +249,7 @@ fy:
       entry_role_html: '%{type} %{name} as %{role}'
       type:
         node: Punt
-        way: Gebiet
+        way: Line
         relation: Relaasje
     containing_relation:
       entry_html: Relaasje %{relation_name}
@@ -245,21 +259,21 @@ fy:
       sorry: 'Spitich, %{type} #%{id} koe net fûn wurde.'
       type:
         node: punt
-        way: gebiet
+        way: line
         relation: relaasje
         changeset: wizigingsset
         note: notysje
     timeout:
       type:
         node: punt
-        way: gebiet
+        way: line
         relation: relaasje
         changeset: wizigingsset
         note: notysje
     redacted:
       type:
         node: punt
-        way: gebiet
+        way: line
         relation: relaasje
     start_rjs:
       loading: Laden ...
@@ -348,6 +362,7 @@ fy:
       user_title: Deiboek fan %{user}
       in_language_title: Deiboekstikken yn it %{language}
       new: Nij deiboekstik
+      new_title: In nij stik yn myn meidoggerdeiboek skriuwe
       my_diary: Myn deiboek
       no_entries: Gjin deiboekstikken
       older_entries: Aldere stikken
@@ -358,9 +373,55 @@ fy:
     show:
       title: Deiboek fan %{user} | %{title}
       user_title: Deiboek fan %{user}
+      leave_a_comment: Reäksje efterlitte
+      login_to_leave_a_comment_html: '%{login_link} en lit in reäksje efter'
+      login: Meld jo oan
+    diary_entry:
+      posted_by_html: Pleatst troch %{link_user} op %{created} yn it %{language_link}.
+      updated_at_html: Lêst bywurke op %{updated}.
+      comment_link: Op dit stik reägearje
+      reply_link: De skriuwer in berjocht stjoere
+      comment_count:
+        one: '%{count} reäksje'
+        other: '%{count} reäksjes'
+      edit_link: Dit stik bewurkje
+      hide_link: Dit stik ferbergje
+      unhide_link: Dit stik werompleatse
+      confirm: Befêstigje
+      report: Dit stik melde
+    diary_comment:
+      comment_from_html: Reäksje fan %{link_user} op %{comment_created_at}
+      hide_link: Dizze reäksje ferbergje
+      unhide_link: Dizze reäksje werompleatse
+      confirm: Befêstigje
+      report: Dizze reäksje melde
     location:
       location: 'Lokaasje:'
+      view: Besjen
       edit: Bewurkje
+    feed:
+      user:
+        title: OpenStreetMap Deiboekstikken fan %{user}
+    comments:
+      has_commented_on: '%{display_name} hat op ''e neikommende deiboekstikken reägearre'
+      no_comments: Gjin deiboekreäksjes
+      post: Stik
+      when: Wannear
+      comment: Reäksje
+      newer_comments: Nijere reäksjes
+      older_comments: Aldere reäksjes
+  friendships:
+    make_friend:
+      heading: '%{user} as freon tafoegje?'
+      button: As freon tafoegje
+      success: '%{name} is no jo freon!'
+      failed: Spitich, %{name} as freon tafoegjen mislearre.
+      already_a_friend: Jo binne al freonen mei %{name}.
+    remove_friend:
+      heading: '%{user} as freon ôffiere?'
+      button: Offiere
+      success: '%{name} is ôffierd fan jo freonen.'
+      not_a_friend: '%{name} is net ien fan jo freonen.'
   geocoder:
     search:
       title:
@@ -881,22 +942,81 @@ fy:
     copyright: Auteursrjochten
     community: Mienskip
     foundation: Stifting
-    foundation_title: De OpenStreetMap Foundation
+    foundation_title: De OpenStreetMap-stifting
     make_a_donation:
       text: Donaasje jaan
     learn_more: Mear witte
     more: Mear
   user_mailer:
     diary_comment_notification:
+      subject: '[OpenStreetMap] %{user} hat op in deiboekstik reägearre'
       hi: Goeie %{to_user},
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Goeie %{to_user},
+      header: '%{from_user} hat jo in berjocht stjoerd op OpenStreetMap mei as ûnderwerp
+        %{subject}:'
+      header_html: '%{from_user} hat jo in berjocht stjoerd op OpenStreetMap mei as
+        ûnderwerp %{subject}:'
+      footer: Jo kinne it berjocht ek lêze op %{readurl} en de ôfstjoerder berjocht
+        werom jaan op %{replyurl}
+      footer_html: Jo kinne it berjocht ek lêze op %{readurl} en de ôfstjoerder berjocht
+        werom jaan op %{replyurl}
+    friendship_notification:
+      hi: Goeie %{to_user},
+      subject: '[OpenStreetMap] %{user} hat jo as freon tafoege'
+      had_added_you: '%{user} hat jo as freon tafoege op OpenStreetMap.'
+      see_their_profile: Jo kinne syn/har profyl besjen op %{userurl}.
+      see_their_profile_html: Jo kinne syn/har profyl besjen op %{userurl}.
+      befriend_them: Jo kinne him/har ek as freon tafoegje op %{befriendurl}.
+      befriend_them_html: Jo kinne him/har ek as freon tafoegje op %{befriendurl}.
+    gpx_failure:
+      hi: Goeie %{to_user},
+      subject: '[OpenStreetMap] GPX ymportearjen mislearre'
+    gpx_success:
+      hi: Goeie %{to_user},
+      subject: '[OpenStreetMap] GPX ymportearjen slagge'
+    signup_confirm:
+      subject: '[OpenStreetMap] Wolkom by OpenStreetMap'
+      greeting: Goeie dêrsa!
     email_confirm:
+      subject: '[OpenStreetMap] Befêstigje jo e-mailadres'
       greeting: Goeie,
     lost_password:
       greeting: Goeie,
     note_comment_notification:
+      anonymous: In anonime meidogger
       greeting: Goeie,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} hat op ien fan jo notysjes reägearre'
+        subject_other: '[OpenStreetMap] %{commenter} hat op in notysje dêr''t jo belang
+          yn stelle reägearre'
+      closed:
+        subject_own: '[OpenStreetMap] %{commenter} hat ien fan jo notysjes oplost'
+        subject_other: '[OpenStreetMap] %{commenter} hat in notysje dêr''t jo belang
+          yn stelle oplost'
+      reopened:
+        subject_own: '[OpenStreetMap] %{commenter} hat ien fan jo notysjes weraktivearre'
+        subject_other: '[OpenStreetMap] %{commenter} hat in notysje dêr''t jo belang
+          yn stelle weraktivearre'
+    changeset_comment_notification:
+      hi: Goeie %{to_user},
+      greeting: Goeie,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} hat op ien fan jo wizigingssets
+          reägearre'
+        subject_other: '[OpenStreetMap] %{commenter} hat op in wizigingsset dêr''t
+          jo belang yn stelle reägearre'
+        your_changeset: '%{commenter} hat om %{time} in reäksje efterlitten op ien
+          fan jo wizigingssets'
+        your_changeset_html: '%{commenter} hat om %{time} in reäksje efterlitten op
+          ien fan jo wizigingssets'
+        commented_changeset: '%{commenter} hat om %{time} in reäksje efterlitten op
+          in wizigingsset dy''t jo folgje, makke troch %{changeset_author}'
+        commented_changeset_html: '%{commenter} hat om %{time} in reäksje efterlitten
+          op in wizigingsset dy''t jo folgje, makke troch %{changeset_author}'
+      details: Fierdere gegevens oer de wizigingsset fine jo op %{url}.
+      details_html: Fierdere gegevens oer de wizigingsset fine jo op %{url}.
   messages:
     inbox:
       title: Ynfek
@@ -1215,9 +1335,9 @@ fy:
           brûke kinne om 'e kaart te bewurkjen.
         node_html: In <strong>punt</strong> is in plak op 'e kaart, lykas in inkel
           restaurant of in beam.
-        way_html: In <strong>gebiet</strong> is in line of oerflak, lykas in strjitte,
+        way_html: In <strong>line</strong> is in belining of gebiet, lykas in strjitte,
           rivier, mar of gebou.
-        tag_html: In <strong>lebel</strong> is in stikje data oer in punt of gebiet,
+        tag_html: In <strong>lebel</strong> is in stikje data oer in punt of line,
           lykas in restaurantnamme of de maksimum faasje fan in strjitte.
       rules:
         title: Regels!
@@ -1282,6 +1402,8 @@ fy:
       public_traces_from: Iepenbiere GPS-trajekten fan %{user}
       description: Koartlyn opladen GPS-trajekten trochsjen
       tagged_with: ' lebele mei %{tags}'
+      empty_html: Noch neat hjirre. <a href='%{upload_link}'>Laad in nij trajekt op</a>
+        of lear alles oer GPS-trasearring op 'e <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikiside</a>.
       upload_trace: Trajekt oplade
       all_traces: Alle trajekten
       traces_from: Iepenbiere trajekten fan %{user}
@@ -1295,8 +1417,14 @@ fy:
       oauth2_applications: OAuth 2-applikaasjes
       oauth2_authorizations: OAuth 2-autorisaasjes
   oauth2_applications:
+    index:
+      name: Namme
     application:
       edit: Bewurkje
+      delete: Wiskje
+    show:
+      edit: Bewurkje
+      delete: Wiskje
   users:
     new:
       title: Ynskriuwe
@@ -1324,8 +1452,11 @@ fy:
       legale_names:
         france: Frankryk
         italy: Itaalje
+    no_such_user:
+      heading: De meidogger %{user} bestiet net
     show:
       my diary: Myn deiboek
+      new diary entry: nij deiboekstik
       my edits: Myn bewurkings
       my traces: Myn trajekten
       my notes: Myn notysjes
@@ -1341,7 +1472,7 @@ fy:
       edits: Bewurkings
       traces: Trajekten
       notes: Kaartnotysjes
-      remove as friend: Untfreonje
+      remove as friend: Freon ôffiere
       add as friend: Freon tafoegje
       mapper since: 'Kaartmakker sûnt:'
       email address: 'E-mailadres:'
@@ -1390,7 +1521,7 @@ fy:
       subheading_html: Troch %{user} yntsjinne as op reägearre notysjes
       no_notes: Gjin notysjes
       id: Id
-      creator: Auteur
+      creator: Makker
       description: Beskriuwing
       created_at: Makke op
       last_changed: Lêst wizige
@@ -1469,6 +1600,13 @@ fy:
       map_data_zoom_in_tooltip: Zoom yn om kaartdata sjen te kinnen
       queryfeature_tooltip: Skaaimerken opfreegje
       queryfeature_disabled_tooltip: Zoom yn om skaaimerken opfreegje te kinnen
+    changesets:
+      show:
+        comment: Reägearje
+        subscribe: Folgje
+        unsubscribe: Net folgje
+        hide_comment: ferbergje
+        unhide_comment: werompleatse
     notes:
       new:
         intro: Flater sjoen of mist der wat? Lit it de oare kaartmakkers witte, dan
@@ -1579,7 +1717,7 @@ fy:
       time: Tiid
     query:
       node: Punt
-      way: Gebiet
+      way: Line
       relation: Relaasje
       nothing_found: Gjin skaaimerken fûn
       error: 'Ferbiningsflater mei %{server}: %{error}'
