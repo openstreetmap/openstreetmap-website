@@ -24,9 +24,6 @@ gem "jbuilder", "~> 2.7"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.2", :require => false
 
-# Block upgrades to sprockets-rails 3.4.0
-gem "sprockets-rails", "< 3.4.0"
-
 # Use R2 for RTL conversion
 gem "r2", "~> 0.2.7"
 
