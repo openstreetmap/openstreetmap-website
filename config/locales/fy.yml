@@ -9,6 +9,7 @@ fy:
   time:
     formats:
       friendly: '%e %B %Y om %H.%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Bestân kieze
@@ -51,6 +52,7 @@ fy:
       relation: Relaasje
       relation_member: Relaasjelid
       relation_tag: Relaasjelebel
+      report: Melding
       session: Sesje
       trace: Trajekt
       tracepoint: Trajektpunt
@@ -94,6 +96,8 @@ fy:
       redaction:
         title: Titel
         description: Beskriuwing
+      report:
+        category: Selektearje in reden foar jo melding
       user:
         email: E-mail
         email_confirmation: Befêstiging e-mail
@@ -163,6 +167,11 @@ fy:
   auth:
     providers:
       none: gjint
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
       wikipedia: Wikipedy
   api:
     notes:
@@ -177,6 +186,13 @@ fy:
         reopened_at_by_html: Weraktivearre %{when} troch %{user}
       rss:
         title: OpenStreetMap Notysjes
+        description_area: In list fan notysjes, meld, mei reäksjes as ôfdien yn jo
+          omkriten [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: In rss-oanfier foar notysje %{id}
+        opened: nije notysje (fuortby %{place})
+        commented: nije reäksje (fuortby %{place})
+        closed: ôfdiene notysje (fuortby %{place})
+        reopened: weraktivearre notysje (fuortby %{place})
       entry:
         comment: Reäksje
         full: Folsleine notysje
@@ -192,7 +208,7 @@ fy:
     version: Ferzje
     in_changeset: Wizigingsset
     anonymous: anonym
-    no_comment: (gjin opmerking)
+    no_comment: (gjin beskriuwing)
     part_of: Part fan
     part_of_relations:
       one: 1 relaasje
@@ -264,6 +280,8 @@ fy:
         changeset: wizigingsset
         note: notysje
     timeout:
+      title: Tiid ferrûn
+      sorry: Spitich, it opfreegjen fan 'e data foar %{type}-ID %{id} duorre te lang.
       type:
         node: punt
         way: line
@@ -271,11 +289,17 @@ fy:
         changeset: wizigingsset
         note: notysje
     redacted:
+      redaction: Redigearring %{id}
+      message_html: '%{type}-ferzje %{version} kin nei redaksje net werjûn wurde.
+        Sjoch %{redaction_link} foar ynformaasje.'
       type:
-        node: punt
-        way: line
-        relation: relaasje
+        node: Punt
+        way: Line
+        relation: Relaasje
     start_rjs:
+      feature_warning: '%{num_features} skaaimerken wurde laden, wat jo webblêder
+        traach meitsje kin of dat er net mear reägearret. Wolle jo wier dy data werjaan?'
+      load_data: Data lade
       loading: Laden ...
     tag_details:
       tags: Lebels
@@ -314,7 +338,7 @@ fy:
       id: ID
       saved_at: Bewarre op
       user: Meidogger
-      comment: Opmerking
+      comment: Beskriuwing
       area: Krite
     index:
       title: Wizigingssets
@@ -376,6 +400,8 @@ fy:
       leave_a_comment: Reäksje efterlitte
       login_to_leave_a_comment_html: '%{login_link} en lit in reäksje efter'
       login: Meld jo oan
+    no_such_entry:
+      title: Deiboekstik ûnbekend
     diary_entry:
       posted_by_html: Pleatst troch %{link_user} op %{created} yn it %{language_link}.
       updated_at_html: Lêst bywurke op %{updated}.
@@ -822,6 +848,7 @@ fy:
           tram_stop: Tremhalte
           yard: Spoaremplasemint
         shop:
+          antiques: Antyk
           bakery: Bakker
           boutique: Boetyk
           butcher: Slachter
@@ -913,9 +940,13 @@ fy:
     results:
       no_results: Gjin treffers fûn
       more_results: Mear treffers
+  reports:
+    new:
+      title_html: '%{link} melde'
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
+    home: Nei jo fêste lokaasje
     logout: Ofmelde
     log_in: Oanmelde
     sign_up: Ynskriuwe
@@ -926,14 +957,18 @@ fy:
     data: Gegevens
     export_data: Data eksportearje
     gps_traces: GPS-trajekten
+    gps_traces_tooltip: GPS-trajekten beheare
     user_diaries: Meidoggerdeiboeken
+    user_diaries_tooltip: Deiboeken fan meidoggers besjen
     edit_with: Bewurkje mei %{editor}
+    tag_line: De frije wiki-wrâldkaart
     intro_header: Wolkom by OpenStreetMap!
     intro_text: OpenStreetMap is in wrâldkaart makke troch minsken krekt as jo, en
       frij te brûken ûnder in iepen lisinsje.
     hosting_partners_html: It webstee is ûnderdak by %{ucl}, %{fastly}, %{bytemark}
       en oare %{partners}.
     partners_ucl: UCL
+    partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
     tou: Gebrûksbetingsten
@@ -941,6 +976,8 @@ fy:
     about: Oer
     copyright: Auteursrjochten
     community: Mienskip
+    community_blogs: Mienskipsblochs
+    community_blogs_title: Blochs fan leden út 'e OpenStreetMap-mienskip
     foundation: Stifting
     foundation_title: De OpenStreetMap-stifting
     make_a_donation:
@@ -951,6 +988,14 @@ fy:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} hat op in deiboekstik reägearre'
       hi: Goeie %{to_user},
+      header: '%{from_user} hat reägearre op it OpenStreetMap-deiboekstik mei as ûnderwerp
+        %{subject}:'
+      header_html: '%{from_user} hat reägearre op it OpenStreetMap-deiboekstik mei
+        as ûnderwerp %{subject}:'
+      footer: Jo kinne de reäksje ek lêze op %{readurl} en reägearje op %{commenturl},
+        of de reägearder in berjocht stjoere op %{replyurl}
+      footer_html: Jo kinne de reäksje ek lêze op %{readurl} en reägearje op %{commenturl},
+        of de reägearder in berjocht stjoere op %{replyurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Goeie %{to_user},
@@ -958,10 +1003,10 @@ fy:
         %{subject}:'
       header_html: '%{from_user} hat jo in berjocht stjoerd op OpenStreetMap mei as
         ûnderwerp %{subject}:'
-      footer: Jo kinne it berjocht ek lêze op %{readurl} en de ôfstjoerder berjocht
+      footer: Jo kinne it berjocht ek lêze op %{readurl} en de ôfstjoerder in berjocht
         werom jaan op %{replyurl}
-      footer_html: Jo kinne it berjocht ek lêze op %{readurl} en de ôfstjoerder berjocht
-        werom jaan op %{replyurl}
+      footer_html: Jo kinne it berjocht ek lêze op %{readurl} en de ôfstjoerder in
+        berjocht werom jaan op %{replyurl}
     friendship_notification:
       hi: Goeie %{to_user},
       subject: '[OpenStreetMap] %{user} hat jo as freon tafoege'
@@ -970,20 +1015,46 @@ fy:
       see_their_profile_html: Jo kinne syn/har profyl besjen op %{userurl}.
       befriend_them: Jo kinne him/har ek as freon tafoegje op %{befriendurl}.
       befriend_them_html: Jo kinne him/har ek as freon tafoegje op %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: It liket derop dat jo GPX-bestân %{trace_name},
+        mei as beskriuwing %{trace_description} en lebele %{tags},
+      description_with_no_tags_html: It liket derop dat jo GPX-bestân %{trace_name},
+        mei as beskriuwing %{trace_description} en sûnder lebels,
     gpx_failure:
       hi: Goeie %{to_user},
+      failed_to_import: 'net ymportearre wurde koe. Hjir is de foutmelding:'
+      more_info_html: Mear ynformaasje oer GPX-ymportflaters, en hoe't se tefoaren
+        kommen wurde kinne, fine jo op %{url}.
       subject: '[OpenStreetMap] GPX ymportearjen mislearre'
     gpx_success:
       hi: Goeie %{to_user},
+      loaded_successfully:
+        one: goed opladen is mei %{trace_points} punt fan maksimaal 1.
+        other: goed opladen is mei %{trace_points} punten fan maksimaal %{possible_points}.
       subject: '[OpenStreetMap] GPX ymportearjen slagge'
     signup_confirm:
       subject: '[OpenStreetMap] Wolkom by OpenStreetMap'
       greeting: Goeie dêrsa!
+      created: Immen (hooplik jo) hat sakrekt in akkount oanmakke op %{site_url}.
+      confirm: 'Foar''t wy wat dogge, moatte we befêstige hawwe dat it fersyk fan
+        jo kaam. Dus at dat sa is, klik dan op ''e keppeling hjirûnder en befêstigje
+        jo akkount:'
+      welcome: Nei de befêstiging fan jo akkount, sille wy jo mear ynformaasje jaan
+        en help jo op 'e gleed.
     email_confirm:
       subject: '[OpenStreetMap] Befêstigje jo e-mailadres'
       greeting: Goeie,
+      hopefully_you: Immen (hooplik jo) wol syn/har e-mailadres op %{server_url} feroarje
+        yn %{new_address}.
+      click_the_link: At jo it wiene, klik dan op 'e keppeling hjirûnder en befêstigje
+        de feroaring.
     lost_password:
+      subject: '[OpenStreetMap] Wachtwurd feroarjen oanfrege'
       greeting: Goeie,
+      hopefully_you: Immen (faaks jo) hat frege om it wachtwurd op 'e nij yn te stellen
+        foar it akkount op openstreetmap.org dat by dit e-mailadres heart.
+      click_the_link: At jo it wiene, klik dan op 'e keppeling hjirûnder en stel jo
+        wachtwurd op 'e nij yn.
     note_comment_notification:
       anonymous: In anonime meidogger
       greeting: Goeie,
@@ -991,14 +1062,38 @@ fy:
         subject_own: '[OpenStreetMap] %{commenter} hat op ien fan jo notysjes reägearre'
         subject_other: '[OpenStreetMap] %{commenter} hat op in notysje dêr''t jo belang
           yn stelle reägearre'
+        your_note: '%{commenter} hat in reäksje efterlitten by ien fan jo kaartnotysjes
+          fuortby %{place}.'
+        your_note_html: '%{commenter} hat in reäksje efterlitten by ien fan jo kaartnotysjes
+          fuortby %{place}.'
+        commented_note: '%{commenter} hat in reäksje efterlitten by in kaartnotysje
+          dêr''t jo op reägearre hawwe. De notysje is fuortby %{place}.'
+        commented_note_html: '%{commenter} hat in reäksje efterlitten by in kaartnotysje
+          dêr''t jo op reägearre hawwe. De notysje is fuortby %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} hat ien fan jo notysjes oplost'
         subject_other: '[OpenStreetMap] %{commenter} hat in notysje dêr''t jo belang
           yn stelle oplost'
+        your_note: '%{commenter} hat ien fan jo kaartnotysjes fuortby %{place} oplost.'
+        your_note_html: '%{commenter} hat ien fan jo kaartnotysjes fuortby %{place}
+          oplost.'
+        commented_note: '%{commenter} hat in kaartnotysje dêr''t jo op reägearre hawwe
+          oplost. De notysje is fuortby %{place}.'
+        commented_note_html: '%{commenter} hat in kaartnotysje dêr''t jo op reägearre
+          hawwe oplost. De notysje is fuortby %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} hat ien fan jo notysjes weraktivearre'
         subject_other: '[OpenStreetMap] %{commenter} hat in notysje dêr''t jo belang
           yn stelle weraktivearre'
+        your_note: '%{commenter} hat ien fan jo kaartnotysjes fuortby %{place} weraktivearre.'
+        your_note_html: '%{commenter} hat ien fan jo kaartnotysjes fuortby %{place}
+          weraktivearre.'
+        commented_note: '%{commenter} hat in kaartnotysje dêr''t jo op reägearre hawwe
+          weraktivearre. De notysje is fuortby %{place}.'
+        commented_note_html: '%{commenter} hat in kaartnotysje dêr''t jo op reägearre
+          hawwe weraktivearre. De notysje is fuortby %{place}.'
+      details: Fierdere gegevens oer de notysje fine jo op %{url}.
+      details_html: Fierdere gegevens oer de notysje fine jo op %{url}.
     changeset_comment_notification:
       hi: Goeie %{to_user},
       greeting: Goeie,
@@ -1007,16 +1102,27 @@ fy:
           reägearre'
         subject_other: '[OpenStreetMap] %{commenter} hat op in wizigingsset dêr''t
           jo belang yn stelle reägearre'
-        your_changeset: '%{commenter} hat om %{time} in reäksje efterlitten op ien
+        your_changeset: '%{commenter} hat op %{time} in reäksje efterlitten by ien
           fan jo wizigingssets'
-        your_changeset_html: '%{commenter} hat om %{time} in reäksje efterlitten op
+        your_changeset_html: '%{commenter} hat op %{time} in reäksje efterlitten by
           ien fan jo wizigingssets'
-        commented_changeset: '%{commenter} hat om %{time} in reäksje efterlitten op
+        commented_changeset: '%{commenter} hat op %{time} in reäksje efterlitten by
           in wizigingsset dy''t jo folgje, makke troch %{changeset_author}'
-        commented_changeset_html: '%{commenter} hat om %{time} in reäksje efterlitten
-          op in wizigingsset dy''t jo folgje, makke troch %{changeset_author}'
+        commented_changeset_html: '%{commenter} hat op %{time} in reäksje efterlitten
+          by in wizigingsset dy''t jo folgje, makke troch %{changeset_author}'
+        partial_changeset_with_comment: 'mei as beskriuwing: ''%{changeset_comment}'''
+        partial_changeset_with_comment_html: 'mei as beskriuwing: ''%{changeset_comment}'''
+        partial_changeset_without_comment: sûnder beskriuwing.
       details: Fierdere gegevens oer de wizigingsset fine jo op %{url}.
       details_html: Fierdere gegevens oer de wizigingsset fine jo op %{url}.
+      unsubscribe: Ofmelden foar ynfo oer dizze wizigingsset kin op %{url}, en klik
+        dêr op "Net folgje".
+      unsubscribe_html: Ofmelden foar ynfo oer dizze wizigingsset kin op %{url}, en
+        klik dêr op "Net folgje".
+  confirmations:
+    confirm:
+      heading: Besjoch jo e-mail!
+      introduction_1: Wy hawwe jo in befêstigingsmail stjoerd.
   messages:
     inbox:
       title: Ynfek
@@ -1048,6 +1154,9 @@ fy:
       back_to_inbox: Werom nei ynfek
     create:
       message_sent: Berjocht ferstjoerd
+    no_such_message:
+      title: Berjocht ûnbekend
+      heading: Berjocht ûnbekend
     outbox:
       title: Utfek
       my_inbox: Myn ynfek
@@ -1449,11 +1558,20 @@ fy:
       heading: Betingsten
       heading_ct: Bydragersbetingsten
       continue: Fierder
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
+      decline: Ofwize
+      legale_select: 'Lân fan ferbliuw:'
       legale_names:
         france: Frankryk
         italy: Itaalje
+        rest_of_world: Rest fan 'e wrâld
+    terms_declined_flash:
+      terms_declined_link: dizze wikiside
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
+      title: Meidogger ûnbekend
       heading: De meidogger %{user} bestiet net
+      deleted: wiske
     show:
       my diary: Myn deiboek
       new diary entry: nij deiboekstik
@@ -1475,12 +1593,20 @@ fy:
       remove as friend: Freon ôffiere
       add as friend: Freon tafoegje
       mapper since: 'Kaartmakker sûnt:'
+      ct status: 'Bydragersbetingsten:'
+      ct undecided: neat besletten
+      ct declined: ôfwiisd
+      latest edit: 'Lêste bewurking (%{ago}):'
       email address: 'E-mailadres:'
       status: 'Status:'
       description: Beskriuwing
+      user location: Lokaasje meidogger
       comments: Reäksjes
+      delete_user: Dizze meidogger wiskje
+      confirm: Befêstigje
       report: Dizze meidogger melde
     account:
+      title: Akkount bewurkje
       my settings: Myn ynstellings
       current email address: Hjoeddeisk e-mailadres
       external auth: Autentifikaasje om utens
@@ -1492,6 +1618,9 @@ fy:
         enabled: Ynskeakele. Net anonym en kin data bewurkje.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: wat is dit?
+        disabled: Utskeakele en kin gjin data bewurkje, alle eardere bewurkings binne
+          anonym.
+        disabled link text: wêrom kin ik net bewurkje?
       public editing note:
         heading: Iepenbier bewurkjen
       contributor terms:
@@ -1503,6 +1632,8 @@ fy:
     index:
       title: Meidoggers
       heading: Meidoggers
+    auth_failure:
+      connection_failed: Ferbining mei de autentifikaasje-oanbieder mislearre
   user_blocks:
     show:
       status: 'Status:'
@@ -1520,7 +1651,7 @@ fy:
       heading: Notysjes fan %{user}
       subheading_html: Troch %{user} yntsjinne as op reägearre notysjes
       no_notes: Gjin notysjes
-      id: Id
+      id: ID
       creator: Makker
       description: Beskriuwing
       created_at: Makke op
