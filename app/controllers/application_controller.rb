@@ -381,17 +381,21 @@ class ApplicationController < ActionController::Base
 
   # clean any referer parameter
   def safe_referer(referer)
-    referer = URI.parse(referer)
+    begin
+      referer = URI.parse(referer)
 
-    if referer.scheme == "http" || referer.scheme == "https"
-      referer.scheme = nil
-      referer.host = nil
-      referer.port = nil
-    elsif referer.scheme || referer.host || referer.port
+      if referer.scheme == "http" || referer.scheme == "https"
+        referer.scheme = nil
+        referer.host = nil
+        referer.port = nil
+      elsif referer.scheme || referer.host || referer.port
+        referer = nil
+      end
+
+      referer = nil if referer&.path&.first != "/"
+    rescue URI::InvalidURIError
       referer = nil
     end
-
-    referer = nil if referer&.path&.first != "/"
 
     referer.to_s
   end
