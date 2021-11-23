@@ -397,7 +397,7 @@ class ApplicationController < ActionController::Base
       referer = nil
     end
 
-    referer.to_s
+    referer&.to_s
   end
 
   def scope_enabled?(scope)

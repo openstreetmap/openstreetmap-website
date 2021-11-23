@@ -34,10 +34,14 @@ class SessionsController < ApplicationController
         token&.destroy
         session.delete(:token)
       end
+
       session.delete(:user)
       session_expires_automatically
-      if params[:referer]
-        redirect_to safe_referer(params[:referer])
+
+      referer = safe_referer(params[:referer]) if params[:referer]
+
+      if referer
+        redirect_to referer
       else
         redirect_to :controller => "site", :action => "index"
       end
