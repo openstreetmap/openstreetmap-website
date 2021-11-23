@@ -896,4 +896,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "deleted", normal_user.reload.status
     assert_equal "deleted", confirmed_user.reload.status
   end
+
+  def test_auth_failure_callback
+    get auth_failure_path
+    assert_response :redirect
+    assert_redirected_to login_path
+
+    get auth_failure_path, :params => { :origin => "/" }
+    assert_response :redirect
+    assert_redirected_to root_path
+
+    get auth_failure_path, :params => { :origin => "http://www.google.com" }
+    assert_response :redirect
+    assert_redirected_to login_path
+  end
 end

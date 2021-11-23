@@ -332,7 +332,10 @@ class UsersController < ApplicationController
   # omniauth failure callback
   def auth_failure
     flash[:error] = t(params[:message], :scope => "users.auth_failure", :default => t("users.auth_failure.unknown_error"))
-    redirect_to params[:origin] || login_url
+
+    origin = safe_referer(params[:origin]) if params[:origin]
+
+    redirect_to origin || login_url
   end
 
   private
