@@ -107,8 +107,8 @@ class SiteController < ApplicationController
   end
 
   def communities
-    @locale = I18n.locale
-    @local_chapters = OsmCommunityIndex::LocalChapter.local_chapters_with_locale(@locale)
+    OsmCommunityIndex::LocalChapter.add_to_i18n # this should be called on app init
+    @local_chapters = OsmCommunityIndex::LocalChapter.local_chapters
   end
 
   def export; end
