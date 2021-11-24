@@ -235,6 +235,8 @@ class DiaryEntriesController < ApplicationController
   end
 
   def comments
+    @title = t ".title", :user => @user.display_name
+
     conditions = { :user_id => @user }
 
     conditions[:visible] = true unless can? :unhidecomment, DiaryEntry
