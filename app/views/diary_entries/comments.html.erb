@@ -1,5 +1,6 @@
 <% content_for :heading do %>
-  <h1><%= t(".has_commented_on", :display_name => @user.display_name) %></h1>
+  <h1><%= t ".heading", :user => @user.display_name %></h1>
+  <p><%= t ".subheading_html", :user => link_to(@user.display_name, user_path(@user)) %></p>
 <% end %>
 
 <% if @comments.empty? %>
