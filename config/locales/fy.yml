@@ -19,12 +19,17 @@ fy:
       diary_entry:
         create: Publisearje
         update: Bywurkje
+      issue_comment:
+        create: Reäksje taheakje
       message:
         create: Ferstjoere
       client_application:
         update: Bywurkje
       doorkeeper_application:
         update: Bywurkje
+      redaction:
+        create: Redigearring oanmeitsje
+        update: Redigearring bewarje
       trace:
         create: Oplade
         update: Feroarings bewarje
@@ -64,7 +69,7 @@ fy:
       way_tag: Linelebel
     attributes:
       diary_comment:
-        body: Tekst
+        body: Ynhâld
       diary_entry:
         user: Meidogger
         title: Underwerp
@@ -99,6 +104,8 @@ fy:
       report:
         category: Selektearje in reden foar jo melding
       user:
+        auth_provider: Autentifikaasje-oanbieder
+        auth_uid: Autentifikaasje-UID
         email: E-mail
         email_confirmation: Befêstiging e-mail
         new_email: Nij e-mailadres
@@ -112,6 +119,8 @@ fy:
         pass_crypt: Wachtwurd
         pass_crypt_confirmation: Wachtwurd befêstigje
     help:
+      trace:
+        tagstring: skaat mei komma's
       user:
         email_confirmation: Jo adres wurdt net publikelik toand; sjoch ús <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
           title="Privacybelied fan OSMF mei in stik oer e-mailadressen">Privacybelied</a>
@@ -281,7 +290,7 @@ fy:
         note: notysje
     timeout:
       title: Tiid ferrûn
-      sorry: Spitich, it opfreegjen fan 'e data foar %{type}-ID %{id} duorre te lang.
+      sorry: Spitich, it opheljen fan 'e data foar %{type}-ID %{id} duorre te lang.
       type:
         node: punt
         way: line
@@ -290,12 +299,12 @@ fy:
         note: notysje
     redacted:
       redaction: Redigearring %{id}
-      message_html: '%{type}-ferzje %{version} kin nei redaksje net werjûn wurde.
-        Sjoch %{redaction_link} foar ynformaasje.'
+      message_html: Ferzje %{version} fan %{type} kin nei redaksje net werjûn wurde.
+        Sjoch %{redaction_link} foar ynformaasje.
       type:
-        node: Punt
-        way: Line
-        relation: Relaasje
+        node: punt
+        way: line
+        relation: relaasje
     start_rjs:
       feature_warning: '%{num_features} skaaimerken wurde laden, wat jo webblêder
         traach meitsje kin of dat er net mear reägearret. Wolle jo wier dy data werjaan?'
@@ -303,6 +312,14 @@ fy:
       loading: Laden ...
     tag_details:
       tags: Lebels
+      wiki_link:
+        key: De wiki-beskriuwingsside foar it lebel %{key}
+        tag: De wiki-beskriuwingsside foar it lebel %{key}=%{value}
+      wikidata_link: It item %{page} op Wikidata
+      wikipedia_link: It artikel %{page} op 'e Wikipedy
+      wikimedia_commons_link: It bestân %{page} op Wikimedia Commons
+      telephone_link: '%{phone_number} skilje'
+      colour_preview: Proefbyld kleur %{colour_value}
     note:
       title: 'Notysje: %{id}'
       new_note: Nije notysje
@@ -352,6 +369,21 @@ fy:
       no_more_area: Gjin wizigingssets mear yn dizze krite.
       no_more_user: Gjin wizigingssets mear fan dizze meidogger.
       load_more: Mear lade
+    timeout:
+      sorry: Spitich, it opheljen fan 'e list wizigingssets dy't jo fregen duorre
+        te lang.
+  changeset_comments:
+    comment:
+      comment: 'Nije reäksje op wizigingsset #%{changeset_id} fan %{author}'
+      commented_at_by_html: Bywurke %{when} troch %{user}
+    comments:
+      comment: 'Nije reäksje op wizigingsset #%{changeset_id} fan %{author}'
+    index:
+      title_all: Oerlis oer OpenStreetMap-wizigingsset
+      title_particular: 'Oerlis oer OpenStreetMap-wizigingsset #%{changeset_id}'
+    timeout:
+      sorry: Spitich, it opheljen fan 'e list wizigingssetreäksjes dy't jo fregen
+        duorre te lang.
   dashboards:
     contact:
       km away: '%{count}km fuort'
@@ -389,6 +421,7 @@ fy:
       new_title: In nij stik yn myn meidoggerdeiboek skriuwe
       my_diary: Myn deiboek
       no_entries: Gjin deiboekstikken
+      recent_entries: Deiboekstikken fan koartby
       older_entries: Aldere stikken
       newer_entries: Nijere stikken
     edit:
@@ -402,6 +435,7 @@ fy:
       login: Meld jo oan
     no_such_entry:
       title: Deiboekstik ûnbekend
+      heading: 'Gjin stik mei ID: %{id}'
     diary_entry:
       posted_by_html: Pleatst troch %{link_user} op %{created} yn it %{language_link}.
       updated_at_html: Lêst bywurke op %{updated}.
@@ -440,7 +474,7 @@ fy:
     make_friend:
       heading: '%{user} as freon tafoegje?'
       button: As freon tafoegje
-      success: '%{name} is no jo freon!'
+      success: '%{name} is no jo freon(dinne)!'
       failed: Spitich, %{name} as freon tafoegjen mislearre.
       already_a_friend: Jo binne al freonen mei %{name}.
     remove_friend:
@@ -467,12 +501,19 @@ fy:
           station: Kabelbaanstasjon
         aeroway:
           aerodrome: Fleanfjild
+          airstrip: Lâningsstripe
           apron: Platfoarm
           gate: Gate
+          hangar: Hangaar
           helipad: Helyhaven
+          holding_position: Wachtposysje
+          navigationaid: Grûnljochten loftfeart
+          parking_position: Parkearposysje
           runway: Start-/lâningsbaan
+          taxilane: Taksystripe
           taxiway: Taksybaan
-          terminal: Terminal
+          terminal: Passazjiershal
+          windsock: Wynsek
         amenity:
           animal_boarding: Bistepinsjon
           animal_shelter: Biste-asyl
@@ -662,10 +703,16 @@ fy:
           railway: Histoaryske spoarwei
           roman_road: Romeinske wei
           ruins: Ruïne
+          rune_stone: Runestien
           stone: Stien
           tomb: Tombe
           tower: Toer
+          wayside_chapel: Weikapel
+          wayside_cross: Weikrús
+          wayside_shrine: Weiskryn
           wreck: Wrak
+        junction:
+          "yes": Krusing
         landuse:
           allotments: Folkstunen
           basin: Wetterbekken
@@ -792,6 +839,7 @@ fy:
           estate_agent: Makelder
           lawyer: Jurist
           ngo: Kantoar NGO
+          telecommunication: Tillekommunikaasjekantoar
           travel_agent: Reisburo
           "yes": Kantoar
         place:
@@ -819,7 +867,7 @@ fy:
           square: Plein
           state: Steat
           subdivision: Dielgebiet
-          suburb: Foarstêd
+          suburb: Stedsdiel
           town: Stêd
           village: Doarp
           "yes": Plak
@@ -932,6 +980,7 @@ fy:
         level7: Gemeentegrins
         level8: Stedsgrins
         level9: Doarpsgrins
+        level10: Stedsdielgrins
         level11: Buertgrins
       types:
         cities: Grutte stêden
@@ -949,8 +998,10 @@ fy:
     home: Nei jo fêste lokaasje
     logout: Ofmelde
     log_in: Oanmelde
+    log_in_tooltip: Oanmelde mei in besteand akkount
     sign_up: Ynskriuwe
     start_mapping: Set útein
+    sign_up_tooltip: In akkount foar bewurkjen oanmeitsje
     edit: Bewurkje
     history: Skiednis
     export: Eksportearje
@@ -1157,6 +1208,7 @@ fy:
     no_such_message:
       title: Berjocht ûnbekend
       heading: Berjocht ûnbekend
+      body: Spitich, der is gjin berjocht mei dy ID.
     outbox:
       title: Utfek
       my_inbox: Myn ynfek
@@ -1189,9 +1241,22 @@ fy:
       destroyed: Berjocht wiske
   passwords:
     lost_password:
+      title: Wachtwurd kwyt
+      heading: Wachtwurd fergetten?
       email address: 'E-mailadres:'
+      new password button: Nij wachtwurd
+      help_text: Folje it e-mailadres yn dat jo by it ynskriuwen brûkt hawwe. Wy stjoere
+        der dan in keppeling hinne dy't jo brûke kinne en stel jo wachtwurd op 'e
+        nij yn.
+      notice email on way: Spitich dat jo 'm kwyt binne :-( mar in e-mail is ûnderweis,
+        dat jo kinne gau in nijenien ynstelle.
+      notice email cannot find: Koe dat e-mailadres net fine, spitich.
     reset_password:
+      title: Nij wachtwurd
+      heading: Wachtwurd op 'e nij ynstelle foar %{user}
+      reset: Nij wachtwurd
       flash changed: Jo wachtwurd is feroare.
+      flash token bad: Haw dat bewiisteken net fûn, de URL efkes neisjen?
   preferences:
     show:
       title: Myn foarkarren
@@ -1396,7 +1461,7 @@ fy:
           - -taksybaan
           apron:
           - Lofthavenplatfoarm
-          - -terminal
+          - -passazjiershal
           admin: Bestjoerlike grins
           forest: Bosk
           wood: Wâld
@@ -1458,9 +1523,17 @@ fy:
       identifiable: Identifisearber (werjûn yn 'e trajektelist en as identifisearbere,
         oardere punten mei tiidstimpels)
     new:
+      upload_trace: GPS-trajekt oplade
+      visibility_help: wat betsjut dat?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Help
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
+    create:
+      upload_trace: GPS-trajekt oplade
     edit:
       cancel: Annulearje
+      visibility_help: wat betsjut dat?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: Trajekt bywurke
     trace_optionals:
@@ -1590,7 +1663,7 @@ fy:
       edits: Bewurkings
       traces: Trajekten
       notes: Kaartnotysjes
-      remove as friend: Freon ôffiere
+      remove as friend: Freon ôf
       add as friend: Freon tafoegje
       mapper since: 'Kaartmakker sûnt:'
       ct status: 'Bydragersbetingsten:'
@@ -1627,6 +1700,7 @@ fy:
         heading: Bydragersbetingsten
         agreed: Jo binne akkoart gien mei de nije Bydragersbetingsten.
         not yet agreed: Jo binne noch net akkoart gien mei de nije Bydragersbetingsten.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: wat is dit?
       save changes button: Feroarings bewarje
     index:
@@ -1864,4 +1938,9 @@ fy:
     show:
       description: 'Beskriuwing:'
       user: 'Auteur:'
+  validations:
+    leading_whitespace: begjint mei wytromte
+    trailing_whitespace: einiget mei wytromte
+    invalid_characters: befettet ûnjildige tekens
+    url_characters: befettet spesjale URL-tekens (%{characters})
 ...
