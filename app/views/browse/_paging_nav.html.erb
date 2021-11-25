@@ -1,5 +1,14 @@
-<% if pages.page_count > 1 %>
-  <span class="paginate">
-    <%= raw pagination_links_each(pages, {}) { |n| link_to(n, page_param => n) } %>
-  </span>
-<% end %>
+<div class="row">
+  <div class="col">
+    <h4><%= heading %></h4>
+  </div>
+  <% if pages.page_count > 1 %>
+    <div class="col-auto">
+      <h4>
+        <span class="border border-lightgrey rounded p-1">
+          <%= raw pagination_links_each(pages, {}) { |n| link_to(n, page_param => n) } %>
+        </span>
+      </h4>
+    </div>
+  <% end %>
+</div>

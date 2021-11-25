@@ -2,7 +2,7 @@ module UserHelper
   # User images
 
   def user_image(user, options = {})
-    options[:class] ||= "user_image"
+    options[:class] ||= "user_image border border-grey"
     options[:alt] ||= ""
 
     if user.image_use_gravatar
@@ -15,7 +15,7 @@ module UserHelper
   end
 
   def user_thumbnail(user, options = {})
-    options[:class] ||= "user_thumbnail"
+    options[:class] ||= "user_thumbnail border border-grey"
     options[:alt] ||= ""
 
     if user.image_use_gravatar
@@ -28,7 +28,7 @@ module UserHelper
   end
 
   def user_thumbnail_tiny(user, options = {})
-    options[:class] ||= "user_thumbnail_tiny"
+    options[:class] ||= "user_thumbnail_tiny border border-grey"
     options[:alt] ||= ""
 
     if user.image_use_gravatar
