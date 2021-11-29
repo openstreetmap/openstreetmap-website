@@ -34,6 +34,10 @@ fy:
         create: Oplade
         update: Feroarings bewarje
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: liket gjin jildich e-mailadres te wêzen
+        email_address_not_routable: is net rûtearber
     models:
       acl: Tagongskontrôlelist
       changeset: Wizigingsset
@@ -436,6 +440,8 @@ fy:
     no_such_entry:
       title: Deiboekstik ûnbekend
       heading: 'Gjin stik mei ID: %{id}'
+      body: Spitich, der is gjin deiboekstik as -reäksje mei ID %{id}. Besjoch de
+        sifers, of faaks hawwe jo op in misse keppeling klikt.
     diary_entry:
       posted_by_html: Pleatst troch %{link_user} op %{created} yn it %{language_link}.
       updated_at_html: Lêst bywurke op %{updated}.
@@ -463,7 +469,9 @@ fy:
       user:
         title: OpenStreetMap Deiboekstikken fan %{user}
     comments:
-      has_commented_on: '%{display_name} hat op ''e neikommende deiboekstikken reägearre'
+      title: Troch %{user} taheakke deiboekreäksjes
+      heading: Deiboekreäksjes fan %{user}
+      subheading_html: Troch %{user} taheakke deiboekreäksjes
       no_comments: Gjin deiboekreäksjes
       post: Stik
       when: Wannear
@@ -557,6 +565,7 @@ fy:
           food_court: Itenshal
           fountain: Fontein
           fuel: Brânstof
+          gambling: Kânsspul
           grave_yard: Begraafplak
           grit_bin: Struibak
           hospital: Sikehûs
@@ -588,6 +597,7 @@ fy:
           public_bath: Badhûs
           public_bookcase: Strjitboekekast
           public_building: Iepenbier gebou
+          ranger_station: Parkwachtersgebou
           restaurant: Restaurant
           school: Skoalle
           shelter: Skûlplak
@@ -608,10 +618,12 @@ fy:
           waste_basket: Jiskefet
           weighbridge: Weachbrêge
         boundary:
+          aboriginal_lands: Etnysk reservaat
           administrative: Bestjoerlike grins
           census: Folkstellingsgrins
           national_park: Nasjonaal park
           political: Kiesgrins
+          protected_area: Beskerme gebiet
           "yes": Grins
         bridge:
           aqueduct: Akwadukt
@@ -625,6 +637,7 @@ fy:
           apartments: Apparteminten
           chapel: Kapel
           church: Tsjerkegebou
+          hangar: Hangaar
           hospital: Sikehûs
           hotel: Hotelgebou
           house: Hûs
@@ -654,7 +667,7 @@ fy:
           living_street: Wenhiem
           milestone: Mylpeal
           motorway: Autogongwei
-          motorway_junction: Knooppunt autogongwei
+          motorway_junction: Ferkearsknooppunt
           motorway_link: Op-/ôfreed autogongwei
           passing_place: Utwykplak
           path: Paad
@@ -685,6 +698,7 @@ fy:
           archaeological_site: Archeologysk plak
           bomb_crater: Histoaryske bomkrater
           battlefield: Slachfjild
+          boundary_stone: Grinspeal
           building: Histoarysk gebou
           bunker: Bunker
           cannon: Histoarysk kanon
@@ -734,6 +748,7 @@ fy:
           vineyard: Wyngerd
         leisure:
           beach_resort: Badplak
+          bird_hide: Fûgelsjochhutte
           common: Mientlân
           dog_park: Hûnepark
           fishing: Fiskgrûn
@@ -845,10 +860,10 @@ fy:
         place:
           allotments: Folkstunen
           archipelago: Arsjipel
-          city: Grutte stêd
-          city_block: Wenblok
-          country: Lân
-          county: Distrikt
+          city: Gemeente/grutte stêd
+          city_block: Boublok
+          country: Steat/lân
+          county: Distrikt/greefskip
           farm: Boerepleats
           hamlet: Utbuorren
           house: Hûs
@@ -856,7 +871,7 @@ fy:
           island: Eilân
           islet: Eilantsje
           isolated_dwelling: Ofhandige wente
-          locality: Plak
+          locality: Lokaasje
           municipality: Gemeente
           neighbourhood: Buert
           plot: Perseel
@@ -865,7 +880,7 @@ fy:
           region: Regio
           sea: See
           square: Plein
-          state: Steat
+          state: Dielsteat/provinsje
           subdivision: Dielgebiet
           suburb: Stedsdiel
           town: Stêd
@@ -906,9 +921,11 @@ fy:
           dry_cleaning: Stomerij
           electronics: Elektroanikasaak
           erotic: Sekswinkel
+          estate_agent: Makelder
           fashion: Moadesaak
           florist: Blommist
           furniture: Meubelsaak
+          garden_centre: Túnsintrum
           greengrocer: Grientesaak
           hairdresser: Kapper
           hifi: Hifi
@@ -973,15 +990,16 @@ fy:
           weir: Keardaam
           "yes": Wetterwei
       admin_levels:
-        level2: Lânsgrins
-        level3: Regiogrins
-        level4: Steatsgrins
+        level2: Ryks-/steatsgrins
+        level3: Lâns-/regiogrins
+        level4: Dielsteats-/provinsjegrins
         level5: Regiogrins
+        level6: Distrikts-/greefskipsgrins
         level7: Gemeentegrins
-        level8: Stedsgrins
+        level8: Gemeente-/stedsgrins
         level9: Doarpsgrins
-        level10: Stedsdielgrins
-        level11: Buertgrins
+        level10: Wenplak-/dielgebietsgrins
+        level11: Wyk-/buertgrins
       types:
         cities: Grutte stêden
         towns: Stêden
@@ -1222,6 +1240,10 @@ fy:
       no_sent_messages_html: Jo hawwe noch gjin berjochten ferstjoerd. Kom ris yn
         'e kunde mei in pear %{people_mapping_nearby_link}.
       people_mapping_nearby: kaartmakkers yn 'e omkriten
+    reply:
+      wrong_user: Jo binne oanmeld as '%{user}', mar it berjocht dat jo beäntwurdzje
+        wolle is net nei dy meidogger stjoerd. Meld jo oan as de krekte meidogger
+        om beäntwurdzje te kinnen.
     show:
       title: Berjocht lêze
       from: Fan
@@ -1232,6 +1254,9 @@ fy:
       destroy_button: Wiskje
       back: Werom
       to: Oan
+      wrong_user: Jo binne oanmeld as '%{user}', mar it berjocht dat jo lêze wolle
+        is net troch/nei dy meidogger stjoerd. Meld jo oan as de krekte meidogger
+        om it lêze te kinnen.
     sent_message_summary:
       destroy_button: Wiskje
     mark:
@@ -1407,6 +1432,8 @@ fy:
       welcome:
         url: /welcome
         title: Wolkom by OpenStreetMap
+      beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
       help:
         url: https://help.openstreetmap.org/
         title: Help-forum
@@ -1504,7 +1531,10 @@ fy:
           toilets: Húskes
     welcome:
       title: Wolkom!
+      whats_on_the_map:
+        title: Wat stiet der op 'e kaart
       basic_terms:
+        title: Basisbegripen foar it kaartmeitsjen
         editor_html: In <strong>bewurker</strong> is in programma of webstee dat jo
           brûke kinne om 'e kaart te bewurkjen.
         node_html: In <strong>punt</strong> is in plak op 'e kaart, lykas in inkel
@@ -1515,6 +1545,11 @@ fy:
           lykas in restaurantnamme of de maksimum faasje fan in strjitte.
       rules:
         title: Regels!
+      questions:
+        title: Noch fragen?
+      start_mapping: Set útein mei kaartmeitsjen
+      add_a_note:
+        title: Gjin tiid te bewurkjen? Meitsje in notysje!
   traces:
     visibility:
       private: Privee (inkeld dield as anonime, net-oardere punten)
@@ -1639,11 +1674,15 @@ fy:
         italy: Itaalje
         rest_of_world: Rest fan 'e wrâld
     terms_declined_flash:
+      terms_declined_html: It muoit ús dat jo de nije Bydragersbetingsten net akseptearje
+        wolle. Sjoch %{terms_declined_link} foar mear ynformaasje.
       terms_declined_link: dizze wikiside
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Meidogger ûnbekend
       heading: De meidogger %{user} bestiet net
+      body: Spitich, der is gjin meidogger mei de namme %{user}. Besjoch de stavering,
+        of faaks hawwe jo op in misse keppeling klikt.
       deleted: wiske
     show:
       my diary: Myn deiboek
@@ -1700,9 +1739,21 @@ fy:
         heading: Bydragersbetingsten
         agreed: Jo binne akkoart gien mei de nije Bydragersbetingsten.
         not yet agreed: Jo binne noch net akkoart gien mei de nije Bydragersbetingsten.
+        review link text: Folgje dizze keppeling wannear't it jo útkomt, om de nije
+          Bydragersbetingsten te besjen en te akseptearjen.
+        agreed_with_pd: Jo hawwe ek oanjûn dat jo jo bewurkings as part fan it Publyk
+          Domein beskôgje.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: wat is dit?
       save changes button: Feroarings bewarje
+      make edits public button: Al myn bewurkings iepenbier meitsje
+      flash update success confirm needed: Meidoggergegevens bywurkjen slagge. Besjoch
+        jo e-mail foar in berjocht om jo nije e-mailadres te befêstigjen.
+      flash update success: Meidoggergegevens bywurkjen slagge.
+    set_home:
+      flash success: Fêste lokaasje bewarjen slagge
+    go_public:
+      flash success: Al jo bewurkings binne no iepenbier, en jo meie fan no ôf bewurkje.
     index:
       title: Meidoggers
       heading: Meidoggers
