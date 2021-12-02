@@ -17,9 +17,9 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "users/show"
-    get "/user/#{ERB::Util.u(user.display_name)}/account"
+    get "/account/edit"
     assert_response :success
-    assert_template "users/account"
+    assert_template "accounts/edit"
 
     # check that the form to allow new client application creations exists
     assert_in_heading do

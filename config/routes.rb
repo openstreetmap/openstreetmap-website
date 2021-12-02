@@ -237,9 +237,10 @@ OpenStreetMap::Application.routes.draw do
 
   # user pages
   resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy]
-  match "/user/:display_name/account" => "users#account", :via => [:get, :post], :as => "user_account"
+  get "/user/:display_name/account", :to => redirect(:path => "/account/edit")
   post "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
 
+  resource :account, :only => [:edit, :update]
   resource :dashboard, :only => [:show]
   resource :preferences, :only => [:show, :edit, :update]
   resource :profile, :only => [:edit, :update]
