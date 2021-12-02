@@ -107,11 +107,12 @@ fy:
         description: Beskriuwing
       report:
         category: Selektearje in reden foar jo melding
+        details: Graach yn detail oanjaan wat it probleem is (ferplichte).
       user:
         auth_provider: Autentifikaasje-oanbieder
         auth_uid: Autentifikaasje-UID
         email: E-mail
-        email_confirmation: Befêstiging e-mail
+        email_confirmation: Befêstigjen e-mail
         new_email: Nij e-mailadres
         active: Aktyf
         display_name: Werjûne namme
@@ -860,10 +861,10 @@ fy:
         place:
           allotments: Folkstunen
           archipelago: Arsjipel
-          city: Gemeente/grutte stêd
+          city: Grutte stêd
           city_block: Boublok
           country: Steat/lân
-          county: Distrikt/greefskip
+          county: Greefskip
           farm: Boerepleats
           hamlet: Utbuorren
           house: Hûs
@@ -922,6 +923,8 @@ fy:
           electronics: Elektroanikasaak
           erotic: Sekswinkel
           estate_agent: Makelder
+          fabric: Lapewinkel
+          farm: Boereferkeap
           fashion: Moadesaak
           florist: Blommist
           furniture: Meubelsaak
@@ -1007,9 +1010,43 @@ fy:
     results:
       no_results: Gjin treffers fûn
       more_results: Mear treffers
+  issues:
+    update:
+      new_report: It fêstlizzen fan jo melding is slagge
+      successful_update: It bywurkjen fan jo melding is slagge
+      provide_details: Graach de ferplichte details oanjaan
+    helper:
+      reportable_title:
+        note: 'Notysje #%{note_id}'
   reports:
     new:
       title_html: '%{link} melde'
+      missing_params: Kin gjin nije melding oanmeitsje
+      categories:
+        diary_entry:
+          spam_label: Dit deiboekstik is/befettet spam
+          offensive_label: Dit deiboekstik is ûnseedlik/oanstjitjaand
+          threat_label: Dit deiboekstik befettet in bedriging
+          other_label: Oar
+        diary_comment:
+          spam_label: Dizze deiboekreäksje is/befettet spam
+          offensive_label: Dizze deiboekreäksje is ûnseedlik/oanstjitjaand
+          threat_label: Dizze deiboekreäksje befettet in bedriging
+          other_label: Oar
+        user:
+          spam_label: Dit meidoggerprofyl is/befettet spam
+          offensive_label: Dit meidoggerprofyl is ûnseedlik/oanstjitjaand
+          threat_label: Dit meidoggerprofyl befettet in bedriging
+          vandal_label: Dizze meidogger is in fandaal
+          other_label: Oar
+        note:
+          spam_label: Dizze notysje is spam
+          personal_label: Dizze notysje befettet persoanlike gegevens
+          abusive_label: Dizze notysje is misledigjend
+          other_label: Oar
+    create:
+      successful_report: It fêstlizzen fan jo melding is slagge
+      provide_details: Graach de ferplichte details oanjaan
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
@@ -1192,6 +1229,31 @@ fy:
     confirm:
       heading: Besjoch jo e-mail!
       introduction_1: Wy hawwe jo in befêstigingsmail stjoerd.
+      introduction_2: Befêstigje jo akkount troch op 'e keppeling yn 'e e-mail te
+        klikken, en jo kinne mei kaartmeitsjen úteinsette.
+      press confirm button: Druk hjirûnder op 'e befêstigingsknop en aktivearje jo
+        akkount.
+      button: Befêstigje
+      success: Jo akkount is befêstige, tankjewol foar it ynskriuwen!
+      already active: Dat akkount is al befêstige.
+      unknown token: Dy befêstigingskoade is ferrûn of bestiet net.
+      reconfirm_html: At jo wolle dat wy de befêstigingsmail op 'e nij tastjoere,
+        <a href="%{reconfirm}">klik dan hjir</a>.
+    confirm_resend:
+      failure: Meidogger %{name} net fûn.
+    confirm_email:
+      heading: Wiziging fan it e-mailadres befêstigje
+      press confirm button: Druk hjirûnder op 'e befêstigingsknop en befêstigje jo
+        nije e-mailadres.
+      button: Befêstigje
+      success: Jo wiziging fan it e-mailadres is befêstige!
+      unknown_token: Dy befêstigingskoade is ferrûn of bestiet net.
+    resend_success_flash:
+      confirmation_sent: Wy hawwe in nij befêstigingsberjocht stjoerd nei %{email},
+        en sa gau't jo jo akkount befêstigje, kinne jo mei kaartmeitsjen oan 'e slach.
+      whitelist: At jo in antyspam-systeem brûke dat befêstigingsfersiken ferstjoert,
+        soargje dan dat %{sender} op 'e wite list stiet, omdat wy befêstigingsfersiken
+        net beäntwurdzje kinne.
   messages:
     inbox:
       title: Ynfek
@@ -1567,6 +1629,8 @@ fy:
       upload_trace: GPS-trajekt oplade
     edit:
       cancel: Annulearje
+      title: Trajekt %{name} bewurkje
+      heading: Trajekt %{name} bewurkje
       visibility_help: wat betsjut dat?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
@@ -1627,6 +1691,11 @@ fy:
       remove_tag_filter: Lebelfilter weilitte
     georss:
       title: OpenStreetMap GPS-trajekten
+    description:
+      description_with_count:
+        one: GPX-bestân mei %{count} punt fan %{user}
+        other: GPX-bestân mei %{count} punten fan %{user}
+      description_without_count: GPX-bestân fan %{user}
   application:
     settings_menu:
       account_settings: Akkountynstellings
@@ -1645,6 +1714,11 @@ fy:
   users:
     new:
       title: Ynskriuwe
+      no_auto_account_create: Spitigernôch kinne wy op dit stuit net automatysk in
+        akkount foar jo oanmeitsje.
+      contact_support_html: Nim graach kontakt op mei <a href="%{support}">Stipe</a>
+        om in akkount oanmeitsje te litten - wy dogge ús bêst en hannelje it fersyk
+        sa gau mooglik ôf.
       about:
         header: Frij en bewurkber
         html: |-
@@ -1661,13 +1735,32 @@ fy:
       auth no password: Mei autentifikaasje troch in tredde is in wachtwurd oerstallich,
         mar guon ark as tsjinners soene ien freegje kinne.
       continue: Ynskriuwe
+      terms accepted: Tankjewol foar it akseptearjen fan 'e nije bydragersbetingsten!
     terms:
       title: Betingsten
       heading: Betingsten
       heading_ct: Bydragersbetingsten
+      read and accept with tou: Lês de bydragersoerienkomst en gebrûksbetingsten,
+        selektearje dêrnei beide fekjes, en druk dan op 'e knop Fierder.
+      contributor_terms_explain: Dizze oerienkomst regelet de betingsten foar jo besteande
+        en takomstige bydragen.
+      read_ct: Ik haw de boppesteande bydragersbetingsten lêzen en gean der akkoart
+        mei
+      tou_explain_html: Dizze %{tou_link} regelje it brûken fan it webstee en oare
+        ynfrastruktuer beskikber steld troch de OSMF. Klik op 'e keppeling, lês de
+        tekst en gean akkoart.
+      read_tou: Ik haw de Gebrûksbetingsten lêzen en gean der akkoart mei
+      consider_pd: Njonken it boppesteande, beskôgje ik myn bydragen as part fan it
+        Publyk Domein
+      consider_pd_why: wat is dat?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      guidance_html: 'Ynformaasje om dy betingsten better te begripen: in <a href="%{summary}">lêsbere
+        gearfetting</a> en in pear <a href="%{translations}">ynformele oersettings</a>'
       continue: Fierder
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Ofwize
+      you need to accept or decline: Lês de nije Bydragersbetingsten; jo kinne fierder
+        nei it akseptearjen of ôfwizen derfan.
       legale_select: 'Lân fan ferbliuw:'
       legale_names:
         france: Frankryk
@@ -1724,17 +1817,25 @@ fy:
       external auth: Autentifikaasje om utens
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: wat is dit?
+        link text: wat is dat?
       public editing:
         heading: Iepenbier bewurkjen
         enabled: Ynskeakele. Net anonym en kin data bewurkje.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: wat is dit?
+        enabled link text: wat is dat?
         disabled: Utskeakele en kin gjin data bewurkje, alle eardere bewurkings binne
           anonym.
         disabled link text: wêrom kin ik net bewurkje?
       public editing note:
         heading: Iepenbier bewurkjen
+        html: Op it stuit binne jo bewurkings anonym, en kinne minsken jo gjin berjochten
+          stjoere of jo lokaasje sjen. Klik de knop hjirûnder om sjen te litten wat
+          jo bewurke hawwe, en om minsken ta te stean op it webstee kontakt mei jo
+          op te nimmen. <b>Sûnt de oergong nei API 0.6, kinne inkeld iepenbiere meidoggers
+          kaartdata bewurkje</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">fyn
+          út wêrom</a>).<ul><li>Jo e-mailadres wurdt net bekend makke by it iepenbier
+          wurden.</li><li>Dizze hanneling kin net weromdraaid wurde, en alle nije
+          meidoggers binne no standert iepenbier.</li></ul>
       contributor terms:
         heading: Bydragersbetingsten
         agreed: Jo binne akkoart gien mei de nije Bydragersbetingsten.
@@ -1744,7 +1845,7 @@ fy:
         agreed_with_pd: Jo hawwe ek oanjûn dat jo jo bewurkings as part fan it Publyk
           Domein beskôgje.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: wat is dit?
+        link text: wat is dat?
       save changes button: Feroarings bewarje
       make edits public button: Al myn bewurkings iepenbier meitsje
       flash update success confirm needed: Meidoggergegevens bywurkjen slagge. Besjoch
