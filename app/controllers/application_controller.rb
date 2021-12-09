@@ -349,7 +349,7 @@ class ApplicationController < ActionController::Base
     elsif current_user
       set_locale
       respond_to do |format|
-        format.html { redirect_to :controller => "errors", :action => "forbidden" }
+        format.html { redirect_to :controller => "/errors", :action => "forbidden" }
         format.any { report_error t("application.permission_denied"), :forbidden }
       end
     elsif request.get?

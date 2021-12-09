@@ -51,4 +51,14 @@ class AccountsController < ApplicationController
       redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid]), :status => :temporary_redirect
     end
   end
+
+  def destroy
+    current_user.soft_destroy!
+
+    session.delete(:user)
+    session_expires_automatically
+
+    flash[:notice] = t ".success"
+    redirect_to root_path
+  end
 end
