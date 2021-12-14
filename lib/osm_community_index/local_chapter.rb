@@ -8,49 +8,56 @@ module OsmCommunityIndex
     end
 
     def self.local_chapters
-      @chapters = load_local_chapters
+      @chapters = init_local_chapters
     end
 
-    def self.load_local_chapters
-      community_index = OsmCommunityIndex.community_index
+    def self.init_local_chapters
+      raw_local_chapters = load_raw_local_chapters
       local_chapters = []
-      community_index["resources"].each do |id, resource|
-        resource.each do |key, value|
-          next unless key == "type" && value == "osm-lc" && id != "OSMF"
-
-          # name comes via I18n
-          url = resource["strings"]["url"]
-          local_chapters.push(LocalChapter.new(id, url))
-        end
+      raw_local_chapters.each do |chapter|
+        id = chapter[:id]
+        url = chapter[:resource]["strings"]["url"]
+        local_chapters.push(LocalChapter.new(id, url))
       end
       local_chapters
     end
 
-    def self.add_to_i18n
+    def self.load_raw_local_chapters
       community_index = OsmCommunityIndex.community_index
-      files = Dir.children(Rails.root.join("node_modules/osm-community-index/i18n/*"))
+      raw_local_chapters = []
+      community_index["resources"].each do |id, resource|
+        resource.each do |key, value|
+          next unless key == "type" && value == "osm-lc" && id != "OSMF"
+          raw_local_chapters.push({ :id => id, :resource => resource })
+        end
+      end
+      raw_local_chapters
+    end
+
+    def self.add_to_i18n
+      raw_local_chapters = load_raw_local_chapters
+      files = Dir.glob(Rails.root.join("node_modules/osm-community-index/i18n/*"))
       files.each do |file|
         locale = File.basename(file,".yaml")
         community_index_yaml = YAML.safe_load(File.read(file))[locale]
         # rails wants en-GB but osm-community-index has en_GB
         locale_rails = locale.split("_").join("-")
 
-        community_index["resources"].each do |id, resource|
-          resource.each do |key, value|
-            next unless key == "type" && value == "osm-lc" && id != "OSMF"
+        raw_local_chapters.each do |chapter|
+          id = chapter[:id]
+          resource = chapter[:resource]
 
-            strings = community_index_yaml[id] || {}
-            # if the name isn't defined then fall back on community,
-            # as per discussion here: https://github.com/osmlab/osm-community-index/issues/483
-            strings['name'] = strings['name'] || resource["strings"]["name"] || resource["strings"]["community"]
+          strings = community_index_yaml[id] || {}
+          # if the name isn't defined then fall back on community,
+          # as per discussion here: https://github.com/osmlab/osm-community-index/issues/483
+          strings['name'] = strings['name'] || resource["strings"]["name"] || resource["strings"]["community"]
 
-            data = {}
-            data["osm_community_index"] = {}
-            data["osm_community_index"]["local_chapter"] = {}
-            data["osm_community_index"]["local_chapter"][id] = strings
-            I18n.backend.store_translations locale_rails, data
+          data = {}
+          data["osm_community_index"] = {}
+          data["osm_community_index"]["local_chapter"] = {}
+          data["osm_community_index"]["local_chapter"][id] = strings
+          I18n.backend.store_translations locale_rails, data
 
-          end
         end
       end
     end
