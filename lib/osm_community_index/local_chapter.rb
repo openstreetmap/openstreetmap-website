@@ -28,11 +28,10 @@ module OsmCommunityIndex
 
     def self.add_to_i18n
       community_index = OsmCommunityIndex.community_index
-      files = Dir.children(Rails.root.join("node_modules/osm-community-index/i18n/"))
+      files = Dir.children(Rails.root.join("node_modules/osm-community-index/i18n/*"))
       files.each do |file|
-        path = Rails.root.join("node_modules/osm-community-index/i18n/#{file}")
         locale = File.basename(file,".yaml")
-        community_index_yaml = YAML.safe_load(File.read(path))[locale]
+        community_index_yaml = YAML.safe_load(File.read(file))[locale]
         # rails wants en-GB but osm-community-index has en_GB
         locale_rails = locale.split("_").join("-")
 
