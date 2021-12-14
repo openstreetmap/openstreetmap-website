@@ -42,6 +42,7 @@ module OsmCommunityIndex
         community_index_yaml = YAML.safe_load(File.read(file))[locale]
         # rails wants en-GB but osm-community-index has en_GB
         locale_rails = locale.split("_").join("-")
+        data = {}
 
         raw_local_chapters.each do |chapter|
           id = chapter[:id]
@@ -52,12 +53,7 @@ module OsmCommunityIndex
           # as per discussion here: https://github.com/osmlab/osm-community-index/issues/483
           strings['name'] = strings['name'] || resource["strings"]["name"] || resource["strings"]["community"]
 
-          data = {}
-          data["osm_community_index"] = {}
-          data["osm_community_index"]["local_chapter"] = {}
-          data["osm_community_index"]["local_chapter"][id] = strings
-          I18n.backend.store_translations locale_rails, data
-
+          data.deep_merge!({"osm_community_index" => {"local_chapter" => {id => strings}}})
         end
       end
     end
