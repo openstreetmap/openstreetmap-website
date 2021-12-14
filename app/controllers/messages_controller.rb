@@ -119,8 +119,10 @@ class MessagesController < ApplicationController
     if @message.save && !request.xhr?
       flash[:notice] = t ".destroyed"
 
-      if params[:referer]
-        redirect_to safe_referer(params[:referer])
+      referer = safe_referer(params[:referer]) if params[:referer]
+
+      if referer
+        redirect_to referer
       else
         redirect_to :action => :inbox
       end

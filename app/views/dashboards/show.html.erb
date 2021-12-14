@@ -6,7 +6,7 @@
   <% if current_user and @user.id == current_user.id %>
     <div class="col-md order-md-last">
       <% if @user.home_lat.nil? or @user.home_lon.nil? %>
-        <div id="map" class="content_map">
+        <div id="map" class="content_map border border-grey">
           <p class="m-3"><%= t(".no_home_location_html", :edit_profile_link => link_to(t(".edit_your_profile"), edit_profile_path)) %></p>
         </div>
       <% else %>
@@ -19,7 +19,7 @@
              :icon => image_path("marker-red.png"),
              :description => render(:partial => "popup", :object => current_user, :locals => { :type => "your location" })
            } %>
-        <%= tag.div "", :id => "map", :class => "content_map", :data => { :user => user_data } %>
+        <%= tag.div "", :id => "map", :class => "content_map border border-grey rounded", :data => { :user => user_data } %>
       <% end %>
 
       <% friends = @user.friends %>
@@ -32,7 +32,7 @@
       <% if friends.empty? %>
         <%= t ".no friends" %>
       <% else %>
-        <nav class='secondary-actions'>
+        <nav class='secondary-actions mb-3'>
           <ul class='clearfix'>
             <li><%= link_to t(".friends_changesets"), friend_changesets_path %></li>
             <li><%= link_to t(".friends_diaries"), friends_diary_entries_path %></li>
@@ -50,7 +50,7 @@
       <% if nearby.empty? %>
         <%= t ".no nearby users" %>
       <% else %>
-        <nav class='secondary-actions'>
+        <nav class='secondary-actions mb-3'>
           <ul class='clearfix'>
             <li><%= link_to t(".nearby_changesets"), nearby_changesets_path %></li>
             <li><%= link_to t(".nearby_diaries"), nearby_diary_entries_path %></li>

@@ -5149,8 +5149,11 @@
 .ideditor .form-field-input-text > input:only-of-type,
 .ideditor .form-field-input-tel > input:only-of-type,
 .ideditor .form-field-input-email > input:only-of-type,
-.ideditor .form-field-input-url > input:only-of-type {
+.ideditor .form-field-input-url > input:only-child {
     border-radius: 0 0 4px 4px;
+}
+.ideditor .form-field-input-url > input:not(:only-child) {
+    border-radius: 0 0 0 4px;
 }
 .ideditor .form-field-input-number > input:only-of-type {
     border-radius: 0 0 0 4px;
@@ -5370,12 +5373,22 @@
 }
 
 
-/* Field - roadspeed
+/* Field - roadheight and roadspeed
 ------------------------------------------------------- */
+.ideditor .form-field-input-roadheight input.roadheight-number,
+.ideditor .form-field-input-roadheight input.roadheight-secondary-number,
 .ideditor .form-field-input-roadspeed input.roadspeed-number {
     -webkit-flex-basis: 0;
         -ms-flex-preferred-size: 0;
             flex-basis: 0;
+}
+.ideditor .form-field-input-roadheight input.roadheight-unit,
+.ideditor .form-field-input-roadheight input.roadheight-secondary-unit {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+            flex: 0 1 auto;
+    width: 60px;
 }
 .ideditor .form-field-input-roadspeed input.roadspeed-unit {
     -webkit-box-flex: 0;
@@ -5384,16 +5397,20 @@
             flex: 0 1 auto;
     width: 80px;
 }
+.ideditor[dir='ltr'] .form-field-input-roadheight > input:first-of-type,
 .ideditor[dir='ltr'] .form-field-input-roadspeed > input:first-of-type {
     border-radius: 0 0 0 4px;
 }
+.ideditor[dir='rtl'] .form-field-input-roadheight > input:first-of-type,
 .ideditor[dir='rtl'] .form-field-input-roadspeed > input:first-of-type {
     border-radius: 0 0 4px 0;
 }
+.ideditor[dir='ltr'] .form-field-input-roadheight > input:last-of-type,
 .ideditor[dir='ltr'] .form-field-input-roadspeed > input:last-of-type {
     border-left: 0;
     border-radius: 0 0 4px 0;
 }
+.ideditor[dir='rtl'] .form-field-input-roadheight > input:last-of-type,
 .ideditor[dir='rtl'] .form-field-input-roadspeed > input:last-of-type {
     border-right: 0;
     border-radius: 0 0 0 4px;
@@ -6643,6 +6660,11 @@
             flex-direction: column;
     padding: 5px 0;
     pointer-events: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.ideditor .map-controls::-webkit-scrollbar {
+    display: none;
 }
 .ideditor .map-controls:before {
     content: '';

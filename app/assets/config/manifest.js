@@ -19,8 +19,6 @@
 
 //= link_directory ../../../vendor/assets/polyfill .js
 
-//= link html5shiv/dist/html5shiv.js
-
 //= link leaflet/dist/images/marker-icon.png
 //= link leaflet/dist/images/marker-icon-2x.png
 //= link leaflet/dist/images/marker-shadow.png

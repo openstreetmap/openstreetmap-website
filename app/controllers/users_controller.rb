@@ -44,11 +44,9 @@ class UsersController < ApplicationController
 
         flash[:notice] = { :partial => "users/terms_declined_flash" } if current_user.save
 
-        if params[:referer]
-          redirect_to safe_referer(params[:referer])
-        else
-          redirect_to user_account_path(current_user)
-        end
+        referer = safe_referer(params[:referer]) if params[:referer]
+
+        redirect_to referer || user_account_path(current_user)
       elsif params[:decline]
         redirect_to t("users.terms.declined")
       else
@@ -64,11 +62,9 @@ class UsersController < ApplicationController
         flash[:notice] = t "users.new.terms accepted" if current_user.save
       end
 
-      if params[:referer]
-        redirect_to safe_referer(params[:referer])
-      else
-        redirect_to user_account_path(current_user)
-      end
+      referer = safe_referer(params[:referer]) if params[:referer]
+
+      redirect_to referer || user_account_path(current_user)
     else
       self.current_user = session.delete(:new_user)
 
@@ -335,22 +331,14 @@ class UsersController < ApplicationController
   ##
   # omniauth failure callback
   def auth_failure
-    flash[:error] = t("users.auth_failure.#{params[:message]}")
-    redirect_to params[:origin] || login_url
+    flash[:error] = t(params[:message], :scope => "users.auth_failure", :default => t("users.auth_failure.unknown_error"))
+
+    origin = safe_referer(params[:origin]) if params[:origin]
+
+    redirect_to origin || login_url
   end
 
   private
-
-  ##
-  #
-  def unconfirmed_login(user)
-    session[:token] = user.tokens.create.token
-
-    redirect_to :action => "confirm", :display_name => user.display_name
-
-    session.delete(:remember_me)
-    session.delete(:referer)
-  end
 
   ##
   # update a user's details

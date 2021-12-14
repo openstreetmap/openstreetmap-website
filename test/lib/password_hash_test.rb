@@ -25,19 +25,40 @@ class PasswordHashTest < ActiveSupport::TestCase
     assert PasswordHash.check("3wYbPiOxk/tU0eeIDjUhdvi8aDP3AbFtwYKKxF1IhGg=", "sha512!10000!OUQLgtM7eD8huvanFT5/WtWaCwdOdrir8QOtFwxhO0A=", "password")
     assert_not PasswordHash.check("3wYbPiOxk/tU0eeIDjUhdvi8aDP3AbFtwYKKxF1IhGg=", "sha512!10000!OUQLgtM7eD8huvanFT5/WtWaCwdOdrir8QOtFwxhO0A=", "wrong")
     assert_not PasswordHash.check("3wYbPiOxk/tU0eeIDjUhdvi8aDP3AbFtwYKKxF1IhGg=", "sha512!10000!OUQLgtMwronguvanFT5/WtWaCwdOdrir8QOtFwxhO0A=", "password")
-    assert_not PasswordHash.upgrade?("3wYbPiOxk/tU0eeIDjUhdvi8aDP3AbFtwYKKxF1IhGg=", "sha512!10000!OUQLgtM7eD8huvanFT5/WtWaCwdOdrir8QOtFwxhO0A=")
+    assert PasswordHash.upgrade?("3wYbPiOxk/tU0eeIDjUhdvi8aDP3AbFtwYKKxF1IhGg=", "sha512!10000!OUQLgtM7eD8huvanFT5/WtWaCwdOdrir8QOtFwxhO0A=")
+  end
+
+  def test_argon2_upgradeable
+    assert PasswordHash.check("$argon2id$v=19$m=65536,t=1,p=1$KXGHWfWMf5H5kY4uU3ua8A$YroVvX6cpJpljTio62k19C6UpuIPtW7me2sxyU2dyYg", nil, "password")
+    assert_not PasswordHash.check("$argon2id$v=19$m=65536,t=1,p=1$KXGHWfWMf5H5kY4uU3ua8A$YroVvX6cpJpljTio62k19C6UpuIPtW7me2sxyU2dyYg", nil, "wrong")
+    assert PasswordHash.upgrade?("$argon2id$v=19$m=65536,t=1,p=1$KXGHWfWMf5H5kY4uU3ua8A$YroVvX6cpJpljTio62k19C6UpuIPtW7me2sxyU2dyYg", nil)
+  end
+
+  def test_argon2
+    assert PasswordHash.check("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvjT6TC5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil, "password")
+    assert_not PasswordHash.check("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvjT6TC5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil, "wrong")
+    assert_not PasswordHash.upgrade?("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvjT6TC5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil)
   end
 
   def test_default
     hash1, salt1 = PasswordHash.create("password")
     hash2, salt2 = PasswordHash.create("password")
     assert_not_equal hash1, hash2
-    assert_not_equal salt1, salt2
+    assert_nil salt1
+    assert_nil salt2
     assert PasswordHash.check(hash1, salt1, "password")
     assert_not PasswordHash.check(hash1, salt1, "wrong")
     assert PasswordHash.check(hash2, salt2, "password")
     assert_not PasswordHash.check(hash2, salt2, "wrong")
     assert_not PasswordHash.upgrade?(hash1, salt1)
     assert_not PasswordHash.upgrade?(hash2, salt2)
+  end
+
+  def test_format
+    hash, _salt = PasswordHash.create("password")
+    format = Argon2::HashFormat.new(hash)
+
+    assert_equal "argon2id", format.variant
+    assert format.version <= 19
   end
 end

@@ -7,6 +7,7 @@
 # Author: Azouz.anis
 # Author: Bassem JARKAS
 # Author: ButterflyOfFire
+# Author: Danieldegroot2
 # Author: Dr. Mohammed
 # Author: Fahad
 # Author: Faris knight
@@ -17,6 +18,7 @@
 # Author: Kassem7899
 # Author: Kuwaity26
 # Author: Majid Al-Dharrab
+# Author: McDutchie
 # Author: Meno25
 # Author: Mido
 # Author: Mohammed Qubati
@@ -60,6 +62,9 @@ ar:
         create: أرسل
       client_application:
         create: سجِّل
+        update: تحديث
+      doorkeeper_application:
+        create: سجِّل
         update: تحديث
       redaction:
         create: إنشاء تنقيح
@@ -132,6 +137,9 @@ ar:
         latitude: خط العرض
         longitude: خط الطول
         language: اللغة
+      doorkeeper/application:
+        name: الاسم
+        scopes: الصلاحيات
       friend:
         user: المستخدم
         friend: صديق
@@ -260,7 +268,7 @@ ar:
         closed: مذكرة مغلقة (بالقرب من %{place})
         reopened: مذكرة منشطة (بالقرب من %{place})
       entry:
-        comment: تعليق
+        comment: التعليق
         full: ملاحظة كاملة
   browse:
     created: تم الإنشاء
@@ -276,6 +284,13 @@ ar:
     anonymous: مجهول
     no_comment: (لا تعليق)
     part_of: جزء من
+    part_of_ways:
+      zero: ""
+      one: طريق واحد
+      two: طريقين
+      few: '%{count} طرق'
+      many: '%{count} طريقًا'
+      other: '%{count} طريقٍ'
     download_xml: تنزيل XML
     view_history: عرض السجل
     view_details: شاهد التفاصيل
@@ -518,7 +533,6 @@ ar:
         title: مدخلات اليومية في خريطة الشارع المفتوحة
         description: المدخلات الحديثة في يومية مستخدمي خريطة الشارع المفتوحة
     comments:
-      has_commented_on: '%{display_name} علق على مدخلات اليومية التالية'
       post: إرسال
       when: متى
       comment: التعليق
@@ -725,7 +739,6 @@ ar:
           landing_site: موقع هبوط طوارئ
           phone: هاتف طوارئ
           water_tank: خزان مياه الطوارئ
-          "yes": طوارئ
         highway:
           abandoned: طريق سريع مهجور
           bridleway: مسلك خيول
@@ -1286,8 +1299,8 @@ ar:
     intro_text: خريطة الشارع المفتوحة هي خريطة العالم، أُنشِئت بواسطة أشخاص مثلك وحرة
       الاستخدام برخصة مفتوحة.
     intro_2_create_account: أنشئ حساب مستخدم
-    hosting_partners_html: يتم دعم الاستضافة بواسطة %{ucl} و%{bytemark} و%{partners}
-      آخرين.
+    hosting_partners_html: يتم دعم الاستضافة بواسطة %{ucl} و%{fastly} و%{bytemark}
+      و%{partners} آخرين.
     partners_ucl: UCL
     partners_bytemark: استضافة Bytemark
     partners_partners: الشركاء
@@ -1318,6 +1331,7 @@ ar:
       footer: يمكنك أيضًا قراءة التعليق على %{readurl} ويمكنك التعليق على %{commenturl}
         أو الرد على %{replyurl}
     message_notification:
+      subject: '[خريطة الشارع المفتوحة] %{message_title}'
       hi: مرحبًا %{to_user}،
       header: '%{from_user} قام بإرسال رسالة لك عبر خريطة الشارع المفتوحة بالعنوان
         %{subject}:'
@@ -1329,10 +1343,12 @@ ar:
       see_their_profile: يمكنك أن تشاهد ملفهم الشخصي على %{userurl}.
       befriend_them: "\uFEFFيمكنك أيضًا إضافتهم كصديق على %{befriendurl}."
     gpx_failure:
+      hi: مرحبًا %{to_user}،
       failed_to_import: 'فشل الاستيراد، الخطأ هو:'
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[خريطة الشارع المفتوحة] فشل استيراد جي بي إكس'
     gpx_success:
+      hi: مرحبًا %{to_user}،
       loaded_successfully: تم تحميل بنجاح %{trace_points} نقطة من أصل %{possible_points}
         نقطة ممكنة.
       subject: '[خريطة الشارع المفتوحة] نجاح استيراد جي بي إكس'
@@ -1360,21 +1376,22 @@ ar:
       anonymous: مستخدم مجهول
       greeting: مرحبا،
       commented:
-        subject_own: '[OpenStreetMap] قدعلق %{commenter} على إحدى ملاحظاتك'
-        subject_other: '[OpenStreetMap] علق %{commenter} على ملاحظة تههتم بها'
+        subject_own: '[خريطة الشارع المفتوحة] قدعلق %{commenter} على إحدى ملاحظاتك'
+        subject_other: '[خريطة الشارع المفتوحة] علق %{commenter} على ملاحظة تههتم
+          بها'
         your_note: علق %{commenter} على إحدى ملاحظات خريطتك بالقرب من %{place}.
         commented_note: علق %{commenter} على ملاحظة الخريطة التي علقت عليها، كانت
           الملاحظة بالقرب من %{place}.
       closed:
-        subject_own: '[OpenStreetMap] حل %{commenter} إحدى ملاحظاتك'
-        subject_other: '[OpenStreetMap] حل %{commenter} ملاحظة تهتم بها'
+        subject_own: '[خريطة الشارع المفتوحة] حل %{commenter} إحدى ملاحظاتك'
+        subject_other: '[خريطة الشارع المفتوحة] حل %{commenter} ملاحظة تهتم بها'
         your_note: حل %{commenter} إحدى ملاحظات خريطتك بالقرب من %{place}.
         commented_note: حل %{commenter} ملاحظة الخريطة التي علقت عليها، الملاحظة بالقرب
           من %{place}.
       reopened:
-        subject_own: لقد أعاد [OpenStreetMap] %{commenter} تنشيط إحدى ملاحظاتك
-        subject_other: لقد أعاد [OpenStreetMap] %{commenter} تنشيط ملاحظة كنت مهتما
-          بها
+        subject_own: لقد أعاد [خريطة الشارع المفتوحة] %{commenter} تنشيط إحدى ملاحظاتك
+        subject_other: لقد أعاد [خريطة الشارع المفتوحة] %{commenter} تنشيط ملاحظة
+          كنت مهتما بها
         your_note: لقد أعاد %{commenter} تنشيط إحدى ملاحظات الخريطة بالقرب من %{place}.
         commented_note: لقد أعاد %{commenter} تنشيط ملاحظة الخريطة التي علقت عليها،
           الملاحظة بالقرب من %{place}.
@@ -1383,8 +1400,10 @@ ar:
       hi: أهلا %{to_user}،
       greeting: مرحبا،
       commented:
-        subject_own: '[OpenStreetMap] علق %{commenter} على على إحدى مجموعات تغييراتك'
-        subject_other: '[OpenStreetMap] علق %{commenter} على مجموعة تغييرات تهتم بها'
+        subject_own: '[خريطة الشارع المفتوحة] علق %{commenter} على على إحدى مجموعات
+          تغييراتك'
+        subject_other: '[خريطة الشارع المفتوحة] علق %{commenter} على مجموعة تغييرات
+          تهتم بها'
         your_changeset: '%{commenter} علق على إحدى مجموعات تغييراتك في %{time}'
         commented_changeset: ترك %{commenter} تعليقا في %{time} على مجموعة تغييرات
           تراقبها أنشأها %{changeset_author}
@@ -1506,9 +1525,12 @@ ar:
       preferred_languages: اللغات المفضلة
     edit:
       title: تفضيلات التحرير
+      cancel: إلغاء
   profiles:
     edit:
-      image: "\uFEFFالصورة:"
+      title: عدل الملف
+      cancel: إلغاء
+      image: "\uFEFFالصورة"
       gravatar:
         gravatar: استخدام Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
@@ -1519,7 +1541,7 @@ ar:
       delete image: أزل الصورة الحالية
       replace image: "\uFEFFاستبدل الصورة الحالية"
       image size hint: "\uFEFF(صورة مربعة على الأقل 100 × 100 تعمل بشكل أفضل)"
-      home location: 'موقع المنزل:'
+      home location: موقع المنزل
       no home location: لم تدخل موقع منزلك.
       update home location on click: تحديث موقع المنزل عندما أنقر على الخريطة؟
   sessions:
@@ -1529,7 +1551,7 @@ ar:
       email or username: 'عنوان البريد الإلكتروني أو اسم المستخدم:'
       password: 'كلمة السر:'
       openid_html: '%{logo} الهوية المفتوحة:'
-      remember: 'تذكرني:'
+      remember: تذكرني
       lost password link: أنسيت كلمة المرور؟
       login_button: تسجيل الدخول
       register now: سجل حسابًا الآن
@@ -1582,8 +1604,11 @@ ar:
       unordered: قائمة غير مرتبة
       ordered: قائمة مرتبة
       link: وصلة
+      image: الصورة
       alt: كل النص
+      url: المسار
     richtext_field:
+      edit: تعديل
       preview: معاينة
   site:
     about:
@@ -2039,6 +2064,7 @@ ar:
       traces_waiting: لديك %{count} أثر في انتظار التحميل. يرجى مراعاة الانتظار قبل
         تحميل أكثر من ذلك، بحيث تتجنب إعاقة طابور التحميل لباقي المستخدمين.
     edit:
+      cancel: إلغاء
       title: تعديل الأثر %{name}
       heading: تعديل الأثر %{name}
       visibility_help: ماذا يعني هذا؟
@@ -2194,8 +2220,22 @@ ar:
     destroy:
       flash: دُمِّر تسجيل تطبيق العميل
   oauth2_applications:
+    index:
+      name: الاسم
+      permissions: الصلاحيات
+    application:
+      edit: تعديل
+      delete: حذف
     show:
       edit: عدل
+      delete: حذف
+      permissions: الصلاحيات
+  oauth2_authorizations:
+    new:
+      deny: رفض
+  oauth2_authorized_applications:
+    index:
+      permissions: الصلاحيات
   users:
     new:
       title: أنشئ حسابا
@@ -2268,6 +2308,7 @@ ar:
       my comments: تعليقاتي
       blocks on me: عمليات منعي
       blocks by me: عمليات المنع بواسطتي
+      edit_profile: عدل الملف
       send message: إرسل رسالة
       diary: يومية
       edits: مساهمات
@@ -2310,13 +2351,13 @@ ar:
     account:
       title: عدل الحساب
       my settings: إعداداتي
-      current email address: 'عنوان البريد الإلكرتروني الحالي:'
-      external auth: 'مصادقة خارجية:'
+      current email address: عنوان البريد الإلكرتروني الحالي
+      external auth: مصادقة خارجية
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: ما هذا؟
       public editing:
-        heading: 'تعديل عام:'
+        heading: تعديل عام
         enabled: مفعَّل، غير مجهول ويمكنك تعديل البيانات.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ما هذا؟
@@ -2331,7 +2372,7 @@ ar:
           السبب</a>).<ul><li>لن يتم الكشف عن عنوان بريدك الإلكتروني من خلال جعله عاما.</li><li>لا
           يمكن عكس هذا الإجراء وأصبح جميع المستخدمين الجدد عامين افتراضيا.</li></ul>
       contributor terms:
-        heading: 'شروط المساهم:'
+        heading: شروط المساهم
         agreed: لقد وافقت على شروط المساهم الجديدة.
         not yet agreed: لم توافق بعد على شروط المساهم الجديدة.
         review link text: يُرجَى اتباع هذا الرابط في الوقت الذي يناسبك لمراجعة وقبول
@@ -2478,8 +2519,9 @@ ar:
     show:
       title: '%{block_on} عُرقل بواسطة %{block_by}'
       heading_html: '%{block_on} عُرقل بواسطة %{block_by}'
-      created: تم الإنشاء
-      status: الحالة
+      created: 'تم الإنشاء:'
+      duration: 'المدة:'
+      status: 'الحالة:'
       show: اعرض
       edit: تعديل
       revoke: ابطل!
@@ -2561,6 +2603,7 @@ ar:
           other: أنت على بعد %{count} قدم من هذه النقطة
       base:
         standard: قياسي
+        cyclosm: CyclOSM
         cycle_map: خريطة الدراجات
         transport_map: خريطة النقل و المواصلات
         hot: الخريطة الإنسانية
@@ -2574,6 +2617,8 @@ ar:
       copyright: © <a href='%{copyright_url}'>مساهمو خريطة الشارع المفتوحة</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>تقديم تبرع</a>
       terms: <a href='%{terms_url}' target='_blank'> مصطلحات الموقع و API</a>
+      cyclosm: نمط البلاط بواسطة <a href='%{cyclosm_url}' target='_blank'></a> المستضاف
+        بواسطة <a href='%{osmfrance_url}' target='_blank'></a>
       thunderforest: البلاط من <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       hotosm: نمط البلاط بواسطة <a href='%{hotosm_url}' target='_blank'>Humanitarian

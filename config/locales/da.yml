@@ -4,6 +4,7 @@
 # Author: Antonla
 # Author: Brufnus
 # Author: Christian List
+# Author: Danieldegroot2
 # Author: Dargelf
 # Author: Ebbe
 # Author: Fenrisdk
@@ -102,7 +103,7 @@ da:
       tracepoint: Sporpunkt
       tracetag: Sporegenskab
       user: Bruger
-      user_preference: Brugerindstillinger
+      user_preference: Brugeralternativ
       user_token: Brugernøgle
       way: Vej
       way_node: Vejpunkt
@@ -113,13 +114,13 @@ da:
         url: Hovedapplikations-URL (påkrævet)
         callback_url: Callback URL
         support_url: Support URL
-        allow_read_prefs: læse deres brugerindstillinger
-        allow_write_prefs: ændre deres brugerindstillinger
+        allow_read_prefs: læse deres brugeralternativer
+        allow_write_prefs: ændre deres brugeralternativer
         allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber
-        allow_write_api: redigere kortet
+        allow_write_api: ændre kortet
         allow_read_gpx: læse deres private GPS-spor
         allow_write_gpx: overføre GPS-spor
-        allow_write_notes: redigere bemærkninger
+        allow_write_notes: ændre bemærkninger
       diary_comment:
         body: Brødtekst
       diary_entry:
@@ -130,6 +131,8 @@ da:
         language: Sprog
       doorkeeper/application:
         name: Navn
+        redirect_uri: Omdirigerings-URI:jer
+        confidential: Konfidentiell applikation?
         scopes: Tilladelser
       friend:
         user: Bruger
@@ -173,6 +176,11 @@ da:
         pass_crypt: Adgangskode
         pass_crypt_confirmation: Bekræft adgangskode
     help:
+      doorkeeper/application:
+        confidential: Applikation vil blive anvendt hvor klient-hemmeligheden kan
+          holdes skjult (native mobilapplikationer og single page-applikationer kan
+          ikke dette)
+        redirect_uri: Brug en linje pr. URI
       trace:
         tagstring: kommasepareret
       user_block:
@@ -456,6 +464,10 @@ da:
       nearby mapper: Bruger i nærheden
       friend: Ven
     show:
+      title: Min kontrolpanel
+      no_home_location_html: '%{edit_profile_link} og definer hvor du bor for at se
+        brugere i nærheden.'
+      edit_your_profile: Rediger din profil
       my friends: Mine venner
       no friends: Du har ikke tilføjet nogle venner endnu.
       nearby users: 'Andre brugere i nærheden:'
@@ -533,13 +545,17 @@ da:
         title: OpenStreetMap-blogindlæg
         description: Seneste blogindlæg fra brugere af OpenStreetMap
     comments:
-      has_commented_on: '%{display_name} har kommenteret på følgende blogindlæg'
       no_comments: Ingen blogkommentarer
       post: Indsend
       when: Hvornår
       comment: Kommentar
       newer_comments: Nyere kommentarer
       older_comments: Ældre kommentarer
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Applikation registrerad.
   friendships:
     make_friend:
       heading: Tilføj %{user} som en ven?
@@ -749,7 +765,7 @@ da:
           public: Offentlig bygning
           residential: Beboelsesbygning
           retail: Detailhandelbygning
-          roof: Tag
+          roof: Halvtag
           ruins: Bygningsruin
           school: Skolebygning
           semidetached_house: Rækkehus
@@ -807,7 +823,6 @@ da:
           siren: Varslingssirene
           suction_point: Beredskabssugepunkt
           water_tank: Nødvandtank
-          "yes": Nødsituation
         highway:
           abandoned: Forladt motorvej
           bridleway: Ridesti
@@ -940,8 +955,8 @@ da:
           common: Fælles arealer
           dance: Dansested
           dog_park: Hundepark
-          firepit: Kogegrube
-          fishing: Fiskeområde
+          firepit: Bålplads
+          fishing: Fiskeriområde
           fitness_centre: Motionscenter
           fitness_station: Udendørs fitness udstyr
           garden: Have
@@ -1383,7 +1398,7 @@ da:
       ignore: Ignorér
       reopen: Genåbn
       reports_of_this_issue: Rapporteringer af denne sag
-      read_reports: Læs rapporter
+      read_reports: Læse rapporter
       new_reports: Nye rapporter
       other_issues_against_this_user: Andre sager omhandlende denne bruger
       no_other_issues: Ingen andre sager omhandlende denne bruger.
@@ -1652,6 +1667,12 @@ da:
       success: Bekræftet din ændring af e-mailadresse!
       failure: En e-mailadresse er allerede blevet bekræftet med denne nøgle.
       unknown_token: Den bekræftelseskode er udløbet eller eksisterer ikke.
+    resend_success_flash:
+      confirmation_sent: Vi har sendt en bekræftelsesmeddelelse til %{email} og så
+        snart du bekræfter din konto vil du være i stand til at begynde kortlægningen.
+      whitelist: Hvis du bruger et antispam-system som sender bekræftelsesforespørgsler
+        så vær sikker på at du tilføjer %{sender} til whitelist, da vi ikke kan svare
+        på nogen bekræftelsesforespørgsler.
   messages:
     inbox:
       title: Indbakke
@@ -1707,7 +1728,7 @@ da:
         svare på blev ikke sendt til den bruger. Log venligst på som den korrekte
         bruger for at svare.
     show:
-      title: Læs besked
+      title: Læse besked
       from: Fra
       subject: Emne
       date: Dato
@@ -1743,8 +1764,25 @@ da:
       reset: Nulstil adgangskode
       flash changed: Din adgangskode er ændret.
       flash token bad: Kunne ikke finde denne nøgle, prøv at kontrollere URL'en?
+  preferences:
+    show:
+      title: Mine alternativer
+      preferred_editor: Foretrukken editor
+      preferred_languages: Foretrukne sprog
+      edit_preferences: Rediger alternativer
+    edit:
+      title: Rediger alternativer
+      save: Opdater alternativer
+      cancel: Annuller
+    update:
+      failure: Kunne ikke opdatere alternativer.
+    update_success_flash:
+      message: Alternativer opdateret.
   profiles:
     edit:
+      title: Rediger profil
+      save: Opdater profil
+      cancel: Annuller
       image: Billede
       gravatar:
         gravatar: Brug Gravatar
@@ -1760,6 +1798,9 @@ da:
       home location: Hjemmeposition
       no home location: Du har ikke angivet din hjemmeposition.
       update home location on click: Opdater hjemmeposition når jeg klikker på kortet?
+    update:
+      success: Profil opdateret.
+      failure: Kunne ikke opdatere profil.
   sessions:
     new:
       title: Log på
@@ -1770,7 +1811,7 @@ da:
       remember: Husk mig
       lost password link: Glemt din adgangskode?
       login_button: Log på
-      register now: Opret nu
+      register now: Registrér nu
       with username: 'Har du allerede en OpenStreetMap konto? Log på med dit brugernavn
         og din adgangskode:'
       with external: 'Alternativt kan du bruge en tredjepart for at logge på:'
@@ -1782,7 +1823,7 @@ da:
         bekræftelsesemailen for at aktivere din konto eller <a href="%{reconfirm}">få
         sendt en ny bekræftelsesemail</a>.
       account is suspended: Beklager, din konto er suspenderet på grund af mistænkelig
-        aktivitet.<br />Kontakt <a href="%{webmaster}">webmasteren</a> , hvis du ønsker
+        aktivitet.<br />Kontakt <a href="%{webmaster}">support</a> , hvis du ønsker
         at drøfte dette.
       auth failure: Kunne ikke logge på med disse oplysninger.
       openid_logo_alt: Log på med et OpenID
@@ -1907,11 +1948,10 @@ da:
           I medier\n hvor hyperlinks ikke er mulige (f.eks. trykte værker), foreslår
           vi, at du\n henviser dine læsere til openstreetmap.org (måske ved at udvide\n'OpenStreetMap'
           i kildeangivelsen til denne fuld adresse) og opendatacommons.org."
-        credit_3_1_html: "Kort-fliserne i &ldquo;standard kortlaget&rdquo; på www.openstreetmap.org
-          er et produceret værk (\"Produced Work\") af OpenStreetMap Foundation ved
-          brug af OpenStreetMap-data licenseret  \nunder Open Database License. Hvis
-          du anvender disse fliser så brug venligst den følgende kreditering: \n&ldquo;Grundkort
-          og data fra OpenStreetMap og OpenStreetMap Foundation&rdquo;."
+        credit_3_1_html: Kort-fliserne i &ldquo;standard kortlaget&rdquo; på www.openstreetmap.org
+          er et produceret værk ("Produced Work") af OpenStreetMap Foundation ved
+          brug af OpenStreetMap-data licenseret under Open Database License. Hvis
+          du anvender disse fliser kræves den samme kreditering som for kortdata.
         credit_4_html: |-
           For et navigerbart elektronisk kort, skal kildeangivelsen være i hjørnet af kortet.
           For eksempel:
@@ -1941,8 +1981,10 @@ da:
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Delstaten Vorarlberg</a> og
           Delstaten Tyrol (under <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT med tilføjelser</a>).
         contributors_au_html: |-
-          <strong>Australien</strong>: Indeholder forstadsdata baseret
-          på data fra Australian Bureau of Statistics.
+          <strong>Australien</strong>: Indeholder eller er udviklet med administrative grænser ("Administrative Boundaries") &copy;
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Australia</a>
+          licenseret af Commonwealth of Australia under
+          <a href="https://creativecommons.org/licenses/by/4.0/deed.da">Creative Commons Kreditering 4.0 International licence (CC BY 4.0)</a>.
         contributors_ca_html: |-
           <strong>Canada</strong>: Indeholder data fra
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -2135,9 +2177,9 @@ da:
         Player er blevet trukket tilbage, er Potlatch ikke længere tilgængelig i browseren.
       desktop_html: Du kan stadig bruge Potlatch ved at <a href="https://www.systemed.net/potlatch/">hente
         applikationen til Mac og Windows</a>.
-      id_html: Alternativt kan du sætte iD som din foretrukne editor. iD kører i din
-        browser, ligesom Potlatch gjorde. <a href="%{settings_url}">Du kan ændre din
-        foretrukne editor her</a>.
+      id_html: Alternativt kan du sætte iD som din foretrukne editor, denne afvikles
+        i din browser, ligesom Potlatch gjorde. <a href="%{settings_url}">Ændr dine
+        alternativer her</a>.
     sidebar:
       search_results: Søgeresultater
       close: Luk
@@ -2252,12 +2294,12 @@ da:
           på en vej.
       rules:
         title: Regler!
-        paragraph_1_html: "OpenStreetMap har få formelle regler, men vi forventer,
-          at alle deltagere vil samarbejde\nmed, og kommunikere med fællesskabet.
-          Hvis du overvejer\nandre aktiviteter end manuel redigering af en side, skal
-          du læse og følge retningslinjerne på \n<a href=\"https://wiki.openstreetmap.org/wiki/Import/Guidelines\">Import</a>
-          og \n<a href=\"https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct\">Automatiserede
-          Redigeringer</a>."
+        paragraph_1_html: |-
+          OpenStreetMap har få formelle regler, men vi forventer, at alle deltagere vil samarbejde
+          med, og kommunikere med fællesskabet. Hvis du overvejer
+          andre aktiviteter end manuel redigering af en side, skal du læse og følge retningslinjerne på
+          <a href="https://wiki.openstreetmap.org/wiki/Import/Guidelines">Import</a> og
+          <a href="https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct">Automatiserede Redigeringer</a>.
       questions:
         title: Spørgsmål?
         paragraph_1_html: |-
@@ -2393,6 +2435,11 @@ da:
       need_to_see_terms: Din adgang til API-et er midlertidig stoppet. Log ind på
         netsiden for at læse bidragsydervilkårene. Du behøver ikke at godkende vilkårene,
         men du skal læse dem.
+    settings_menu:
+      account_settings: Kontoindstillinger
+      oauth1_settings: OAuth 1-indstillinger
+      oauth2_applications: OAuth 2-applikationer
+      oauth2_authorizations: OAuth 2-autorisationer
   oauth:
     authorize:
       title: Tillad adgang til din konto
@@ -2400,10 +2447,10 @@ da:
         %{user}. Kontroller, om du vil tillade adgang til følgende funktioner. Du
         kan vælge lige så mange eller så få, som du ønsker.
       allow_to: 'Tillad klient-applikationen at:'
-      allow_read_prefs: læse dine brugerindstillinger.
-      allow_write_prefs: ændre dine brugerindstillinger.
+      allow_read_prefs: læse dine brugeralternativer.
+      allow_write_prefs: ændre dine brugeralternativer.
       allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber.
-      allow_write_api: tilpas kortet.
+      allow_write_api: ændre kortet.
       allow_read_gpx: læse dine private GPS-spor.
       allow_write_gpx: overfør GPS-spor.
       allow_write_notes: ændre bemærkninger.
@@ -2421,7 +2468,14 @@ da:
     permissions:
       missing: Du har ikke givet applikationen adgang til denne facilitet
     scopes:
-      read_email: Læs brugerens e-mailadresse
+      read_prefs: Læse brugeralternativer
+      write_prefs: Ændre brugeralternativer
+      write_diary: Udgiv brugerblogs, kommenter og få venner
+      write_api: Ændre kortet
+      read_gpx: Læse private GPS-spor
+      write_gpx: Overføre GPS-spor
+      write_notes: Ændre bemærkninger
+      read_email: Læse brugerens e-mailadresse
       skip_authorization: Godkend applikation automatisk
   oauth_clients:
     new:
@@ -2466,22 +2520,59 @@ da:
       flash: Annulerede klient programmets registrering
   oauth2_applications:
     index:
+      title: Mine klient-applikationer
+      no_applications_html: Har du en applikation, du gerne vil registrere til brug
+        med os ved hjælp af %{oauth2} standarden? Du skal registrere din applikation,
+        før det kan foretage OAuth-anmodninger til denne tjeneste.
+      new: Registrer ny applikation
       name: Navn
       permissions: Tilladelser
     application:
+      edit: Rediger
       delete: Slet
+      confirm_delete: Slete denne applikation?
+    new:
+      title: Registrere en ny applikation
+    edit:
+      title: Rediger din applikation
     show:
+      edit: Rediger
       delete: Slet
+      confirm_delete: Slet denne applikation?
+      client_id: Klient-ID
+      client_secret: Klient-hemmelighed
+      client_secret_warning: Sørg for at gemme denne hemmelighed - den vil ikke være
+        tilgængelig senere
       permissions: Tilladelser
+      redirect_uris: Omdirigerings-URI:jer
+    not_found:
+      sorry: Beklager, applikationen kunne ikke findes.
+  oauth2_authorizations:
+    new:
+      title: Autorisation påkrævet
+      introduction: Autoriser %{application} til at tilgå din konto med de følgende
+        tilladelser?
+      authorize: Autoriser
+      deny: Nægt
+    error:
+      title: Der opstod en fejl
+    show:
+      title: Autoriseringskode
   oauth2_authorized_applications:
     index:
+      title: Mine autoriserede applikationer
+      application: Applikation
       permissions: Tilladelser
+      no_applications_html: Du har endnu ikke autoriseret nogle %{oauth2}-applikationer.
+    application:
+      revoke: Fjern adgang
+      confirm_revoke: Fjern adgang for denne applikation?
   users:
     new:
       title: Opret konto
       no_auto_account_create: Vi kan desværre ikke oprette en konto automatisk for
         dig pt.
-      contact_support_html: Kontakt venligst <a href="%{support}">webmaster</a> for
+      contact_support_html: Kontakt venligst <a href="%{support}">support</a> for
         at få oprettet en konto - vi vil forsøge at håndtere forespørgslen så hurtigt
         som muligt.
       about:
@@ -2531,6 +2622,9 @@ da:
         italy: Italien
         rest_of_world: Resten af verden
     terms_declined_flash:
+      terms_declined_html: Vi er kede af at du har besluttet at du ikke kan acceptere
+        de nye vilkår for bidragsydere. For yderligere oplysninger, se venligst %{terms_declined_link}.
+      terms_declined_link: denne wiki-side
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Ingen sådan bruger
@@ -2548,8 +2642,11 @@ da:
       my profile: Min profil
       my settings: Mine indstillinger
       my comments: Mine kommentarer
+      my_preferences: Mine alternativer
+      my_dashboard: Min kontrolpanel
       blocks on me: Mine blokeringer
       blocks by me: Blokeringer udført af mig
+      edit_profile: Rediger profil
       send message: Send besked
       diary: Blog
       edits: Redigeringer
@@ -2648,6 +2745,7 @@ da:
     suspended:
       title: Konto suspenderet
       heading: Konto suspenderet
+      support: support
       body_html: "<p>\n Beklager, din konto er automatisk blevet suspenderet på grund
         af mistænkelig aktivitet. \n</p>\n<p>\n Denne beslutning vil blive gennemgået
         af en administrator snarest, eller du kan kontakte %{webmaster} hvis du ønsker
@@ -2881,7 +2979,7 @@ da:
       queryfeature_disabled_tooltip: Zoom ind for at finde kortobjekter
     changesets:
       show:
-        comment: Kommentar
+        comment: Kommenter
         subscribe: Abonnér
         unsubscribe: Afmeld
         hide_comment: skjul

@@ -28,11 +28,9 @@ class FriendshipsController < ApplicationController
           friendship.add_error(t("friendships.make_friend.failed", :name => @new_friend.display_name))
         end
 
-        if params[:referer]
-          redirect_to safe_referer(params[:referer])
-        else
-          redirect_to user_path
-        end
+        referer = safe_referer(params[:referer]) if params[:referer]
+
+        redirect_to referer || user_path
       end
     else
       render_unknown_user params[:display_name]
@@ -51,11 +49,9 @@ class FriendshipsController < ApplicationController
           flash[:error] = t "friendships.remove_friend.not_a_friend", :name => @friend.display_name
         end
 
-        if params[:referer]
-          redirect_to safe_referer(params[:referer])
-        else
-          redirect_to user_path
-        end
+        referer = safe_referer(params[:referer]) if params[:referer]
+
+        redirect_to referer || user_path
       end
     else
       render_unknown_user params[:display_name]

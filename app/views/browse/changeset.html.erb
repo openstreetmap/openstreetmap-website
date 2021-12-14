@@ -6,25 +6,29 @@
   <p class="font-italic">
     <%= linkify(@changeset.tags["comment"].to_s.presence || t("browse.no_comment")) %>
   </p>
-  <div class="details"><%= changeset_details(@changeset) %></div>
+  <p class="details"><%= changeset_details(@changeset) %></p>
 
   <%= render :partial => "tag_details", :object => @changeset.tags.except("comment") %>
 
-  <h4 class="comments-header"><%= t(".discussion") %></h4>
-
-  <% if current_user %>
-    <div class="buttons clearfix subscribe-buttons">
-      <form action="#">
-        <% if @changeset.subscribers.exists?(current_user.id) %>
-          <input class="action-button btn btn-sm btn-primary" type="submit" name="unsubscribe" value="<%= t("javascripts.changesets.show.unsubscribe") %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
-        <% else %>
-          <input class="action-button btn btn-sm btn-primary" type="submit" name="subscribe" value="<%= t("javascripts.changesets.show.subscribe") %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
-        <% end %>
-      </form>
+  <div class="row">
+    <div class="col">
+      <h4><%= t(".discussion") %></h4>
     </div>
-  <% end %>
 
-  <div class="clearfix"></div>
+    <% if current_user %>
+      <div class="col-auto">
+        <div class="subscribe-buttons">
+          <form action="#">
+            <% if @changeset.subscribers.exists?(current_user.id) %>
+              <input class="action-button btn btn-sm btn-primary" type="submit" name="unsubscribe" value="<%= t("javascripts.changesets.show.unsubscribe") %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
+            <% else %>
+              <input class="action-button btn btn-sm btn-primary" type="submit" name="subscribe" value="<%= t("javascripts.changesets.show.subscribe") %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
+            <% end %>
+          </form>
+        </div>
+      </div>
+    <% end %>
+  </div>
 
   <% if @comments.length > 0 %>
     <div class='changeset-comments'>
@@ -63,33 +67,30 @@
   <% end %>
 
   <% unless current_user %>
-    <div class="notice">
+    <p class="notice">
       <%= link_to(t(".join_discussion"), login_path(:referer => request.fullpath)) %>
-    </div>
+    </p>
   <% end %>
 
   <% if current_user %>
     <% unless @changeset.is_open? %>
-      <form action="#">
+      <form action="#" class="mb-3">
         <div class="form-group">
           <textarea class="form-control" name="text" cols="40" rows="5"></textarea>
         </div>
-        <div class="buttons clearfix">
+        <div>
           <input type="submit" name="comment" value="<%= t("javascripts.changesets.show.comment") %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1" class="btn btn-sm btn-primary" />
         </div>
       </form>
     <% else %>
-      <div class="notice">
-      <%= t(".still_open") %>
-      </div>
+      <p class="notice">
+        <%= t(".still_open") %>
+      </p>
     <% end %>
   <% end %>
 
   <% unless @ways.empty? %>
-    <h4>
-      <%= type_and_paginated_count("way", @way_pages) %>
-      <%= render :partial => "paging_nav", :locals => { :pages => @way_pages, :page_param => "way_page" } %>
-    </h4>
+    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("way", @way_pages), :pages => @way_pages, :page_param => "way_page" } %>
     <ul class="list-unstyled">
       <% @ways.each do |way| %>
         <li><%= link_to printable_name(way, :version => true), { :action => "way", :id => way.way_id.to_s }, { :class => link_class("way", way), :title => link_title(way) } %></li>
@@ -98,10 +99,7 @@
   <% end %>
 
   <% unless @relations.empty? %>
-    <h4>
-      <%= type_and_paginated_count("relation", @relation_pages) %>
-      <%= render :partial => "paging_nav", :locals => { :pages => @relation_pages, :page_param => "relation_page" } %>
-    </h4>
+    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("relation", @relation_pages), :pages => @relation_pages, :page_param => "relation_page" } %>
     <ul class="list-unstyled">
       <% @relations.each do |relation| %>
         <li><%= link_to printable_name(relation, :version => true), { :action => "relation", :id => relation.relation_id.to_s }, { :class => link_class("relation", relation), :title => link_title(relation) } %></li>
@@ -110,10 +108,7 @@
   <% end %>
 
   <% unless @nodes.empty? %>
-    <h4>
-      <%= type_and_paginated_count("node", @node_pages) %>
-      <%= render :partial => "paging_nav", :locals => { :pages => @node_pages, :page_param => "node_page" } %>
-    </h4>
+    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("node", @node_pages), :pages => @node_pages, :page_param => "node_page" } %>
     <ul class="list-unstyled">
       <% @nodes.each do |node| %>
         <li><%= link_to printable_name(node, :version => true), { :action => "node", :id => node.node_id.to_s }, { :class => link_class("node", node), :title => link_title(node), :rel => link_follow(node) } %></li>

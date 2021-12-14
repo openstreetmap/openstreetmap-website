@@ -71,5 +71,7 @@ module ApplicationHelper
     else
       flash
     end
+  rescue StandardError
+    flash.inspect if Rails.env.development?
   end
 end

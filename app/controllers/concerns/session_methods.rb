@@ -69,7 +69,7 @@ module SessionMethods
   def failed_login(message, username = nil)
     flash[:error] = message
 
-    redirect_to :action => "new", :referer => session[:referer],
+    redirect_to :controller => "sessions", :action => "new", :referer => session[:referer],
                 :username => username, :remember_me => session[:remember_me]
 
     session.delete(:remember_me)

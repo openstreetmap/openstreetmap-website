@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Abbe98
 # Author: Citadell
+# Author: Danieldegroot2
 # Author: Danmichaelo
 # Author: Dittaeva
 # Author: EvenT
@@ -94,7 +95,7 @@ nb:
       tracepoint: Punkt i spor
       tracetag: Spormerkelapp
       user: Bruker
-      user_preference: Brukerinnstillinger
+      user_preference: Brukeralternativ
       user_token: Brukernøkkel
       way: Linje
       way_node: Veinode
@@ -105,8 +106,8 @@ nb:
         url: Hovedapplikasjons-URL (påkrevd)
         callback_url: 'URL for tilbakekall:'
         support_url: Støtte-URL
-        allow_read_prefs: lese brukerinnstillingene deres
-        allow_write_prefs: endre brukerinnstillingene deres
+        allow_read_prefs: lese brukeralternativ deres
+        allow_write_prefs: endre brukeralternativ deres
         allow_write_diary: opprette dagbokoppføringer, kommentarer og finne venner
         allow_write_api: endre kartet
         allow_read_gpx: lese deres private GPS-spor
@@ -137,7 +138,7 @@ nb:
         description: Beskrivelse
         gpx_file: Last opp GPX-fil
         visibility: Synlighet
-        tagstring: Tagger
+        tagstring: Egenskaper
       message:
         sender: Avsender
         title: Emne
@@ -521,7 +522,6 @@ nb:
         title: Innlegg i OpenStreetMap-dagboka
         description: Nye innlegg i dagbøkene til OpenStreetMap-brukere
     comments:
-      has_commented_on: '%{display_name} har kommentert følgende dagbokinnlegg'
       post: Artikkel
       when: Når
       comment: Kommentar
@@ -756,7 +756,6 @@ nb:
           landing_site: Nødlandingsplass
           phone: Nødtelefon
           water_tank: Nødvanntank
-          "yes": Nødsituasjon
         highway:
           abandoned: Forlatt motorvei
           bridleway: Ridevei
@@ -1253,7 +1252,7 @@ nb:
       ignore: Se bort fra
       reopen: Gjenåpne
       reports_of_this_issue: Rapporter som finnes om denne saken
-      read_reports: Les rapporter
+      read_reports: Lese rapporter
       new_reports: Nye rapporter
       other_issues_against_this_user: Andre saker mot denne brukeren
       no_other_issues: Ingen andre saker mot denne brukeren.
@@ -1527,7 +1526,7 @@ nb:
       wrong_user: Du er logget inn som «%{user}», men meldingen du ønsker å svare
         på ble ikke sendt til den brukeren. Logg inn som korrekt bruker for å svare.
     show:
-      title: Les melding
+      title: Lese melding
       from: Fra
       subject: Emne
       date: Dato
@@ -1562,8 +1561,12 @@ nb:
       reset: Nullstill passord
       flash changed: Ditt passord er endret.
       flash token bad: Kunne ikke finne den nøkkelen. Sjekke URLen kanskje?
+  preferences:
+    edit:
+      cancel: Avbryt
   profiles:
     edit:
+      cancel: Avbryt
       image: Bilde
       gravatar:
         gravatar: Bruk Gravatar
@@ -1634,6 +1637,9 @@ nb:
       title: Logg ut
       heading: Logg ut fra OpenStreetMap
       logout_button: Logg ut
+  shared:
+    richtext_field:
+      edit: Rediger
   site:
     about:
       next: Neste
@@ -2038,12 +2044,10 @@ nb:
           strekning, f.eks. navnet på en restaurant eller fartsgrensen på en vei.
       rules:
         title: Regler!
-        paragraph_1_html: OpenStreetMap har få formelle regler, men vi forventer at
-          alle deltagere samarbeider og kommuniserer med fellesskapet. Hvis du er
-          interessert i andre aktiviteter enn manuell redigering, vennligst les og
-          følg retningslinjene for <a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'>import</a>
-          og <a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>automatiske
-          redigeringer</a>.
+        paragraph_1_html: |-
+          OpenStreetMap har få formelle regler, men vi forventer at alle deltagere samarbeider og kommuniserer med fellesskapet. Hvis du er interessert i andre aktiviteter enn manuell redigering, vennligst les og følg retningslinjene for
+          <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>import</a> og
+          <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>automatiske redigeringer</a>.
       questions:
         title: Noen spørsmål?
         paragraph_1_html: |-
@@ -2180,8 +2184,8 @@ nb:
         %{user}. Sjekk om du vil at applikasjonen skal ha følgende muligheter. Du
         kan velge så mange eller få du vil.
       allow_to: 'Gi programmet lov til å:'
-      allow_read_prefs: lese brukerinnstillingene dine.
-      allow_write_prefs: endre innstillingene dine.
+      allow_read_prefs: lese brukeralternativ dine.
+      allow_write_prefs: endre brukeralternativ dine.
       allow_write_diary: opprette dagbokoppføringer, kommentarer og finne venner.
       allow_write_api: endre kartet.
       allow_read_gpx: lese dine private GPS-spor.
@@ -2201,10 +2205,13 @@ nb:
     permissions:
       missing: Du har ikke latt applikasjonen få tilgang til denne fasiliteten
     scopes:
-      write_api: endre kartet
-      read_gpx: Les private GPS-spor
+      read_prefs: Lese brukeralternativ
+      write_prefs: Endre brukeralternativ
+      write_api: Endre kartet
+      read_gpx: Lese private GPS-spor
       write_gpx: Last opp GPS-spor
       write_notes: Endre merknader
+      read_email: Lese brukerens e-postadresse
   oauth_clients:
     new:
       title: Registrer en ny applikasjon
@@ -2252,6 +2259,13 @@ nb:
       no_applications_html: Har du et program som du vil registrere for bruk med oss
         gjennom %{oauth2}-standarden? Du må registrere ditt program før det kan gjøre
         OAuth-forespørsler til denne tjenesten.
+    application:
+      edit: Rediger
+      delete: Slett
+    new:
+      title: Registrer en ny applikasjon
+    show:
+      delete: Slett
   users:
     new:
       title: Registrer deg
@@ -2269,7 +2283,7 @@ nb:
       confirm email address: 'Bekreft e-postadresse:'
       display name: 'Visningsnavn:'
       display name description: Ditt offentlig fremviste brukernavn. Du kan endre
-        dette senere i innstillingene.
+        dette senere i alternativ.
       external auth: 'Tredjepartsgodkjenning:'
       use external auth: Alternativt kan du bruke en tredjepart til å logge inn
       auth no password: Med tredjepartsbekreftelse er passord ikke påkrevd, men en
@@ -2646,7 +2660,7 @@ nb:
       queryfeature_disabled_tooltip: Forstørr utvalg for å se over elementer
     changesets:
       show:
-        comment: Kommentar
+        comment: Kommenter
         subscribe: Abonner
         unsubscribe: Avslutt abonnement
         hide_comment: skjul

@@ -33,6 +33,9 @@ gem "autoprefixer-rails"
 # Use image_optim to optimise images
 gem "image_optim_rails"
 
+# Use argon2 for password hashing
+gem "argon2"
+
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
 gem "activerecord-import"
@@ -40,7 +43,7 @@ gem "active_record_union"
 gem "bootstrap", "~> 4.5.0"
 gem "bootstrap_form", "~> 4.0"
 gem "cancancan"
-gem "composite_primary_keys", "~> 13.0.0"
+gem "composite_primary_keys", "~> 13.0.0", "!= 13.0.1"
 gem "config"
 gem "delayed_job_active_record"
 gem "http_accept_language", "~> 2.1.1"
@@ -96,6 +99,7 @@ gem "maxminddb"
 gem "rotp"
 
 # Load memcache client in case we are using it
+gem "connection_pool"
 gem "dalli"
 gem "kgio"
 
@@ -145,9 +149,9 @@ group :test do
   gem "rubocop"
   gem "rubocop-minitest"
   gem "rubocop-performance"
-  gem "rubocop-rails", "~> 2.11.3" # Bug in 2.12.0, fixed in master after 2.12.2
+  gem "rubocop-rails"
   gem "rubocop-rake"
-  gem "selenium-webdriver"
+  gem "selenium-webdriver", "~> 3.142.7"
   gem "simplecov", :require => false
   gem "simplecov-lcov", :require => false
   gem "webmock"

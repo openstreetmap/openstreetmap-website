@@ -79,6 +79,16 @@ a {
   color: $blue;
 }
 
+/* Rules for borders */
+/* These add additional colours to those provided by bootstrap */
+.border-grey {
+  border-color: $grey !important;
+}
+
+.border-lightgrey {
+  border-color: $lightgrey !important;
+}
+
 /* Rules for the header */
 
 #menu-icon {
@@ -214,11 +224,6 @@ nav.secondary {
         box-shadow: none;
       }
     }
-  }
-
-  img.user_thumbnail_tiny {
-    border: 0;
-    border-radius: 3px;
   }
 
   #inboxanchor {
@@ -370,8 +375,6 @@ body.compact-nav {
     }
 
     h3, h4 {
-      margin-top: $lineheight;
-      margin-bottom: $lineheight/2;
       font-size: 1.25rem;
     }
 
@@ -388,23 +391,6 @@ body.compact-nav {
         position: absolute;
         right: 20px;
         top: 20px;
-      }
-    }
-
-    .icon.close {
-      float: right;
-      cursor: pointer;
-    }
-
-    .flash {
-      padding: 15px;
-
-      picture {
-        margin-right: -25px;
-      }
-
-      div.message {
-        margin-left: 30px;
       }
     }
   }
@@ -813,7 +799,6 @@ tr.turn:hover {
     border-bottom: 1px solid $grey;
 
     h4:first-child {
-      margin-top: 0;
       word-wrap: break-word;
     }
   }
@@ -822,42 +807,13 @@ tr.turn:hover {
     border-bottom: none;
   }
 
-  .paginate {
-    float: right;
-    padding: 1px 6px;
-    border: 1px solid $lightgrey;
-    border-radius: 3px;
-  }
-
-  .browse-field {
-    margin-bottom: 10px;
-
-    h4 {
-      padding: 5px 0 5px 10px;
-      font-size: 12px;
-      border: 1px solid $grey;
-      border-radius: 4px 4px 0 0;
-      background-color: $offwhite;
-    }
-
-    p {
-      padding: 7px 10px;
-      font-size: 12px;
-      background-color: #FFF;
-      border: 1px solid $grey;
-      border-top: 0;
-      border-radius: 0 0 4px 4px;
-    }
-  }
-
   .browse-tag-list {
     background-color: $offwhite;
-    border: 1px solid $grey;
-    border-radius: 3px;
     table-layout: fixed;
     border-collapse: separate;
     border-spacing: 0;
     width: 100%;
+    margin-bottom: $spacer;
 
     th, td {
       border-bottom: 1px solid $grey;
@@ -902,16 +858,6 @@ tr.turn:hover {
       margin: 10px 6px 0 6px;
       line-height: 1.5;
     }
-  }
-
-  .comments-header {
-    float: left;
-  }
-
-  .subscribe-buttons {
-    float: left;
-    margin: 18px 10px 10px;
-    min-width: 80px;
   }
 
   .subscribe-buttons input {
@@ -966,7 +912,7 @@ tr.turn:hover {
   }
 
   .export_area_inputs {
-    margin-bottom: $lineheight/2;
+    margin-bottom: $spacer;
     input[type="text"] {
       width: 100px;
       text-align: center;
@@ -975,8 +921,6 @@ tr.turn:hover {
 
   .export_boxy {
     background: $lightgrey;
-    border: 1px solid $grey;
-    border-radius: 3px;
 
     #maxlat { margin-top: -1px; }
     #minlon {
@@ -1063,6 +1007,7 @@ tr.turn:hover {
     background-image: image-url("sign-up-illustration-arm.png");
     position: absolute;
     z-index: 100;
+    pointer-events: none;
   }
 }
 
@@ -1083,7 +1028,6 @@ tr.turn:hover {
 
 .content_map {
   height: 200px;
-  border: 1px solid $grey;
   margin-bottom: $lineheight;
 }
 
@@ -1091,13 +1035,6 @@ tr.turn:hover {
   .content_map {
     height: 400px;
   }
-}
-
-/* Rules for the user profile page */
-
-.contact-activity {
-  margin-top: $lineheight;
-  width: 100%;
 }
 
 /* Rules for the user map */
@@ -1116,30 +1053,12 @@ tr.turn:hover {
     margin-top: 0 0 0 60px;
     font-size: 12px;
   }
-  img.user_thumbnail {
-    float: left;
-    margin: 0 $lineheight/2 0 0;
-  }
 }
 
 /* Rules for the user list */
 
 #user_list {
   width: 100%;
-
-  tr {
-    vertical-align: middle;
-  }
-
-  p {
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-}
-
-#user_list_actions {
-  float: right;
-  margin-top: $lineheight/2;
 }
 
 /* Rules for the diary list page */
@@ -1150,25 +1069,8 @@ tr.turn:hover {
   padding-bottom: $lineheight/2;
   border-top: 1px solid $grey;
 
-  &:first-of-type {
-    margin-top: $lineheight/2;
-  }
-
   &.deleted {
     background-color: #fee;
-  }
-
-  .post_heading {
-    margin-bottom: $lineheight;
-
-    h2 {
-      margin-top: 0;
-      margin-bottom: $lineheight/2;
-    }
-  }
-
-  img.user_thumbnail {
-    float: left;
   }
 }
 
@@ -1177,7 +1079,6 @@ tr.turn:hover {
 .diary_entries {
   #map {
     height: 400px;
-    border: 1px solid $grey;
     display: none;
     margin-bottom: $lineheight;
   }
@@ -1206,10 +1107,6 @@ tr.turn:hover {
   }
 }
 
-.diary_entries-show img.user_thumbnail {
-  float: left;
-}
-
 /* Rules for the log in page */
 
 #login_auth_buttons {
@@ -1225,7 +1122,6 @@ tr.turn:hover {
 
 .users-terms {
   .legale {
-    border: 1px solid $grey;
     padding: $lineheight;
     margin-bottom: $lineheight;
     overflow: auto;
@@ -1338,8 +1234,6 @@ tr.turn:hover {
 /* Rules for "flash" notice boxes shown at the top of the content area */
 
 .flash {
-  padding: $lineheight;
-
   &.error {
     background-color: #ff7070;
   }
@@ -1423,29 +1317,11 @@ tr.turn:hover {
 img.user_image {
   max-width: 100px;
   max-height: 100px;
-  border: 1px solid $grey;
-  margin-bottom: $lineheight;
-  float: left;
-  margin-right: $lineheight;
-}
-
-img.user_image_no_margins {
-  max-width: 100px;
-  max-height: 100px;
-  border: 1px solid $grey;
 }
 
 img.user_thumbnail {
   max-width: 50px;
   max-height: 50px;
-  border: 1px solid $grey;
-  margin-right: $lineheight;
-}
-
-img.user_thumbnail_no_margins {
-  max-width: 50px;
-  max-height: 50px;
-  border: 1px solid $grey;
 }
 
 img.user_thumbnail_tiny {
@@ -1453,7 +1329,6 @@ img.user_thumbnail_tiny {
   height: auto;
   max-width: 25px;
   max-height: 25px;
-  border: 1px solid $grey;
 }
 
 /* Rules for geo microformats */
@@ -1611,10 +1486,6 @@ dl.dl-inline {
   }
 }
 
-.comments .richtext {
-  margin-left: 70px;
-}
-
 /* Rules for the user notes list */
 
 .note_list {
@@ -1744,8 +1615,8 @@ dl.dl-inline {
 
     .byosm span {
       display: inline-block;
-      width: 20px;
-      margin-left: -20px;
+      width: 1em;
+      margin-left: -1em;
     }
   }
 

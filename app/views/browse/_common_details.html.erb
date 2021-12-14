@@ -11,7 +11,7 @@
   <% end %>
 </p>
 
-<div class="details">
+<p class="details">
   <%= t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
         :time => time_ago_in_words(common_details.timestamp, :scope => :"datetime.distance_in_words_ago"),
         :user => changeset_user_link(common_details.changeset),
@@ -19,7 +19,7 @@
   &middot;
   <%= t "browse.in_changeset" %>
   #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
-</div>
+</p>
 
 <% if @type == "node" and common_details.visible? %>
 <div class="details geo">

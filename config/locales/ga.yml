@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Cliste
+# Author: Danieldegroot2
 # Author: Tem
 ---
 ga:
@@ -16,12 +17,15 @@ ga:
         create: Sábháil
       diary_entry:
         create: Foilsigh
+        update: Nuashonraigh
       issue_comment:
         create: Cuir nóta tráchta leis
       message:
         create: Seol
       client_application:
         create: Cláraigh
+        update: Nuashonraigh
+      doorkeeper_application:
         update: Nuashonraigh
       redaction:
         create: Cruthaigh ceilt
@@ -176,6 +180,9 @@ ga:
       wikipedia: Vicipéid
   api:
     notes:
+      comment:
+        commented_at_html: Nuashonraithe %{when}
+        commented_at_by_html: Nuashonraithe %{when} ó shin ag %{user}
       rss:
         title: Nótaí OpenStreetMap
         description_item: Fotha RSS don nóta %{id}
@@ -438,8 +445,6 @@ ga:
         title: Iontrálacha dialainne OpenStreetMap
         description: Iontrálacha dialainne le déanaí ó úsáideoirí OpenStreetMap
     comments:
-      has_commented_on: Rinne %{display_name} nótaí tráchta ar na hiontrálacha dialainne
-        seo a leanas
       no_comments: Níl aon nóta tráchta dialainne ann
       post: Postáil
       when: Cá huair
@@ -601,7 +606,6 @@ ga:
           landing_site: Láthair tuirlingthe éigeandála
           phone: Fón Éigeandála
           water_tank: Umar uisce éigeandála
-          "yes": Éigeandáil
         highway:
           abandoned: Bóthar Mór Tréigthe
           bridleway: Cosán marcaíochta
@@ -1023,6 +1027,7 @@ ga:
     index:
       title: Fadhbanna
       select_status: Roghnaigh stádas
+      last_updated: Nuashonrú deireanach
     show:
       title: '%{status} Fadhb #%{issue_id}'
       reports:
@@ -1231,9 +1236,13 @@ ga:
           %{time}
         partial_changeset_with_comment: a bhfuil an nóta tráchta '%{changeset_comment}'
           ag gabháil leis
+        partial_changeset_with_comment_html: a bhfuil an nóta tráchta '%{changeset_comment}'
+          ag gabháil leis
         partial_changeset_without_comment: nach bhfuil nóta tráchta ag gabháil leis
       details: Tá tuilleadh sonraí faoin tacar athruithe ar fáil ag %{url}.
       unsubscribe: Le díliostáil ó nuashonruithe a dhéanfar ar an tacar athruithe
+        seo, tabhair cuairt ar %{url} agus cliceáil ar "Díoliostáil".
+      unsubscribe_html: Le díliostáil ó nuashonruithe a dhéanfar ar an tacar athruithe
         seo, tabhair cuairt ar %{url} agus cliceáil ar "Díoliostáil".
   confirmations:
     confirm:
@@ -1879,6 +1888,9 @@ ga:
       flash: Tharraing tú siar an ceadchomhartha le haghaidh %{application}
     permissions:
       missing: Níor thug tú cead don fheidhmchlár rochtain a fháil ar an áis seo
+    scopes:
+      write_diary: Iontrálacha dialainne agus nótaí tráchta a chruthú agus cairde
+        a dhéanamh.
   oauth_clients:
     new:
       title: Iarratas nua a chlárú
@@ -2095,7 +2107,7 @@ ga:
       queryfeature_disabled_tooltip: Zúmáil isteach chun gnéithe a fhiosrú
     changesets:
       show:
-        comment: Fág nóta tráchta
+        comment: Freagair
         subscribe: Liostáil
         unsubscribe: Díliostáil
         hide_comment: folaigh
@@ -2105,7 +2117,7 @@ ga:
         add: Cuir Nóta Leis
       show:
         comment_and_resolve: Fág nóta tráchta agus réitigh é
-        comment: Déan nóta tráchta
+        comment: Freagair
     edit_help: Bog an léarscáil agus zúmáil isteach ar áit is mian leat a chur in
       eagar, ansin cliceáil anseo.
     directions:
