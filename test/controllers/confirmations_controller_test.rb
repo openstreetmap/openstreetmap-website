@@ -283,7 +283,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :account, :display_name => user.display_name
+    assert_redirected_to edit_account_path
     assert_match(/Confirmed your change of email address/, flash[:notice])
   end
 
@@ -293,7 +293,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :account, :display_name => user.display_name
+    assert_redirected_to edit_account_path
     assert_match(/already been confirmed/, flash[:error])
   end
 
@@ -317,7 +317,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_not user.image_use_gravatar
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :account, :display_name => user.display_name
+    assert_redirected_to edit_account_path
     assert_match(/Confirmed your change of email address/, flash[:notice])
     # gravatar use should now be enabled
     assert User.find(user.id).image_use_gravatar
@@ -332,7 +332,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert user.image_use_gravatar
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :account, :display_name => user.display_name
+    assert_redirected_to edit_account_path
     assert_match(/Confirmed your change of email address/, flash[:notice])
     # gravatar use should now be disabled
     assert_not User.find(user.id).image_use_gravatar

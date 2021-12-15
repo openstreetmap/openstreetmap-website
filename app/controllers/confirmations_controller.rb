@@ -93,10 +93,10 @@ class ConfirmationsController < ApplicationController
         current_user.tokens.delete_all
         session[:user] = current_user.id
         session[:fingerprint] = current_user.fingerprint
-        redirect_to user_account_path(current_user)
+        redirect_to edit_account_path
       elsif token
         flash[:error] = t "confirmations.confirm_email.failure"
-        redirect_to user_account_path(token.user)
+        redirect_to edit_account_path
       else
         flash[:error] = t "confirmations.confirm_email.unknown_token"
       end
