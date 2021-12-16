@@ -27,6 +27,9 @@ fur:
       client_application:
         create: Regjistre
         update: Inzorne
+      doorkeeper_application:
+        create: Regjistre
+        update: Inzorne
       trace:
         create: Cjame
         update: Salve cambiaments
@@ -75,6 +78,14 @@ fur:
       way_node: Grop de vie
       way_tag: Etichete de vie
     attributes:
+      client_application:
+        allow_read_prefs: lei lis sôs preferencis dal utent
+        allow_write_prefs: modificâ lis sôs preferencis dal utent
+        allow_write_diary: creâ vôs dal diari, comentâ e zontâ amîs
+        allow_write_api: modificâ la mape
+        allow_read_gpx: lei i siei percors GPS privâts
+        allow_write_gpx: cjamâ percors GPS
+        allow_write_notes: cambiâ lis notis
       diary_comment:
         body: Cuarp
       diary_entry:
@@ -83,6 +94,9 @@ fur:
         latitude: Latitudin
         longitude: Longjitudin
         language: Lenghe
+      doorkeeper/application:
+        name: Non
+        scopes: Permès
       friend:
         user: Utent
         friend: Amì
@@ -207,6 +221,40 @@ fur:
       entry:
         comment: Coment
         full: Note complete
+  accounts:
+    edit:
+      title: Modifiche profîl
+      my settings: Mês impostazions
+      current email address: Direzion di pueste eletroniche atuâl
+      external auth: Autenticazion esterne
+      openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link text: ce isal chest?
+      public editing:
+        heading: Modifiche publiche
+        enabled: Ativâts. No anonims e si pues cambiâ i dâts.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: ce isal chest?
+        disabled: Disativâts e no si pues cambiâ i dâts, ducj i cambiaments precedents
+          a son anonims.
+        disabled link text: parcè no puedio cambiâ?
+      public editing note:
+        heading: Cambiaments publics
+      contributor terms:
+        heading: Tiermins par contribuî
+        agreed: Tu âs acetât i gnûfs tiermins di contribuzion.
+        not yet agreed: No tu âs ancjemò acetât i gnûfs tiermins di contribuzion.
+        review link text: Frache par plasê su chest leam par viodi e acetâ i gnûf
+          tiermins par contribuî.
+        agreed_with_pd: Tu âs ancje declarât di considerâ i tiei cambiaments intal
+          Public Domini.
+        link text: ce isal chest?
+      save changes button: Salve cambiaments
+      make edits public button: Rint publics ducj i miei cambiaments
+    update:
+      success_confirm_needed: Informazions dal utent inzornadis cun sucès. Controle
+        la tô pueste par confermâ la tô gnove direzion di pueste eletroniche.
+      success: Informazions dal utent inzornadis cun sucès.
   browse:
     created: Creât
     closed: Sierât
@@ -375,6 +423,8 @@ fur:
     comment:
       comment: 'Gnûf coment sul grup di cambiaments #%{changeset_id} di %{author}'
       commented_at_by_html: Inzornât %{when} di %{user}
+    comments:
+      comment: 'Gnûf coment sul grup di cambiaments #%{changeset_id} di %{author}'
     index:
       title_all: Discussion sul grup di cambiaments di OpenStreetMap
       title_particular: 'Discussion sul grup di cambiaments #%{changeset_id} di OpenStreetMap'
@@ -387,6 +437,8 @@ fur:
       nearby mapper: Mapadôr dongje
       friend: Amì
     show:
+      title: La mê pagjine iniziâl
+      edit_your_profile: Cambie il to profîl
       my friends: I miei amîs
       no friends: No tu âs ancjemò nissun amì.
       nearby users: Altris utents dongje
@@ -460,6 +512,10 @@ fur:
         title: Vôs dai diaris di OpenStreetMap
         description: Lis ultimis vôs dai diaris dai utents di OpenStreetMap
     comments:
+      title: Coments ai diaris zontâts par %{user}
+      heading: Coments ai diaris di %{user}
+      subheading_html: Coments ai diaris zontâts di %{user}
+      no_comments: Nissun coment ai diaris
       post: Messaç
       when: Cuant
       comment: Coment
@@ -523,7 +579,9 @@ fur:
           hospital: Ospedâl
           ice_cream: Gjelato
           kindergarten: Scuelute
+          language_school: Scuele di lenghis
           library: Biblioteche
+          music_school: Scuele di musiche
           nightclub: Club noturni
           parking: Parcament
           pharmacy: Farmacie
@@ -599,6 +657,11 @@ fur:
           tertiary: Strade terziarie
           tertiary_link: Strade terziarie
           track: Piste
+          traffic_mirror: Spieli pal traffic
+          trunk: Strade rapide
+          trunk_link: Strade rapide
+          unclassified: Strade no classificade
+          "yes": Strade
         historic:
           archaeological_site: Sît archeologic
           battlefield: Cjamp di bataie
@@ -611,9 +674,17 @@ fur:
           memorial: Memoriâl
           mine: Miniere
           monument: Monument
+          roman_road: Strade romane
           ruins: Ruvinàs
+          stone: Piere
           tomb: Tombe
           tower: Tor
+          wayside_chapel: Capele
+          wayside_cross: Crôs
+          wayside_shrine: Anconute
+          "yes": Lûc storic
+        junction:
+          "yes": Crosade
         landuse:
           cemetery: Simiteri
           commercial: Aree comerciâl
@@ -644,9 +715,15 @@ fur:
           swimming_pool: Pissine
           track: Piste pe corse
           water_park: Parc acuatic
+        man_made:
+          bridge: Puint
+          bunker_silo: Bunker
+          tower: Tor
+          water_well: Poç
         military:
           airfield: Cjamp di aviazion militâr
           barracks: Caserme
+          bunker: Bunker
         mountain_pass:
           "yes": Pas di montagne
         natural:
@@ -693,11 +770,13 @@ fur:
           postcode: Codis postâl
           region: Regjon
           sea: Mâr
+          square: Place
           state: Stât
           subdivision: Sotdivision
           suburb: Cuartîr
           town: Citadine
           village: Vilaç
+          "yes": Lûc
         railway:
           abandoned: Ferade bandonade
           construction: Ferade in costruzion
@@ -753,9 +832,11 @@ fur:
           river: Flum
       admin_levels:
         level2: Confin di paîs
+        level3: Confin di regjon
         level4: Confin di stât
         level5: Confin di regjon
         level6: Confin di contee
+        level7: Confine municipâl
         level8: Confin di citât
         level9: Confin di vilaç
       types:
@@ -768,6 +849,8 @@ fur:
   issues:
     index:
       reported_user: Utent segnalât
+      search: Cîr
+      status: Stât
       reports: Segnalazions
       last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
       last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> di %{user}
@@ -775,12 +858,21 @@ fur:
       reports_count:
         one: 1 segnalazion
         other: '%{count} segnalazions'
+      states:
+        ignored: Ignorât
+        open: Viert
+        resolved: Risolt
     update:
       new_report: La tô segnalazion e je stade registrade corretamentri
     show:
       reports:
         one: 1 segnalazion
         other: '%{count} segnalazions'
+      resolve: Risolf
+      ignore: Ignore
+    helper:
+      reportable_title:
+        note: 'Note #%{note_id}'
   reports:
     new:
       title_html: Segnale %{link}
@@ -811,11 +903,13 @@ fur:
     intro_text: OpenStreetMap e je une mape dal mont, creade di int come te e di ûs
       libar sot di une licence vierte.
     intro_2_create_account: Cree il to profîl utent
-    hosting_partners_html: L'hosting al è sostignût di %{ucl}, %{bytemark} e altris
-      %{partners}.
+    hosting_partners_html: L'hosting al è sostignût di %{ucl}, %{fastly}, %{bytemark}
+      e altris %{partners}.
     partners_ucl: UCL
+    partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
     partners_partners: associâts
+    tou: Cundizions pal ûs
     osm_offline: La base di dâts di OpenStreetMap e je par cumò fûr linie parcè che
       o sin daûr a fâ lavôrs essenziâi di manutenzion de base di dâts.
     osm_read_only: La base di dâts di OpenStreetMap e je par cumò dome in leture dilunc
@@ -865,6 +959,11 @@ fur:
         il cambiament.
     note_comment_notification:
       anonymous: Un utent anonim
+    changeset_comment_notification:
+      commented:
+        partial_changeset_with_comment: cun coment '%{changeset_comment}'
+        partial_changeset_with_comment_html: cun coment '%{changeset_comment}'
+        partial_changeset_without_comment: cence coment
   confirmations:
     confirm:
       heading: Controle la tô pueste!
@@ -961,11 +1060,28 @@ fur:
       heading: Azere la password par %{user}
       reset: Azere la password
       flash changed: La tô password e je stade cambiade.
+  preferences:
+    show:
+      title: Preferencis
+      preferred_editor: Editôr preferît
+      preferred_languages: Lenghis preferidis
+      edit_preferences: Cambie lis preferencis
+    edit:
+      title: Cambie lis preferencis
+      save: Inzorna lis preferencis
+      cancel: Scancele
+    update_success_flash:
+      message: Preferencis inzornadis.
   profiles:
     edit:
+      title: Cambie il profîl
+      save: Inzorne il profîl
+      cancel: Scancele
       image: Figure
       gravatar:
         gravatar: Dopre Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Ce isal Gravatar?
       new image: Zonte une figure
       keep image: Ten la figure di cumò
       delete image: Gjave la figure di cumò
@@ -975,6 +1091,8 @@ fur:
       no home location: No tu âs configurât il lûc iniziâl.
       update home location on click: Aio di inzornâ il lûc iniziâl cuant che o frachi
         parsore la mape?
+    update:
+      success: Profîl inzornât
   sessions:
     new:
       title: Jentre
@@ -1025,7 +1143,14 @@ fur:
       heading: Va fûr di OpenStreetMap
       logout_button: Jes
   shared:
+    markdown_help:
+      link: Leam
+      text: Test
+      image: Figure
+      alt: Test alternatîf
+      url: URL
     richtext_field:
+      edit: Cambie
       preview: Anteprime
   site:
     about:
@@ -1119,6 +1244,7 @@ fur:
       irc:
         title: IRC
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: Pe organizazions
       wiki:
         url: http://wiki.openstreetmap.org/
@@ -1128,6 +1254,8 @@ fur:
       close: Siere
     search:
       search: Cîr
+      get_directions: Cjate indicazions
+      get_directions_title: Cjate lis indicazions tra doi ponts
       from: Di
       to: A
       where_am_i: Dulà soio?
@@ -1138,8 +1266,11 @@ fur:
       table:
         entry:
           motorway: Autostrade
+          main_road: Strade principâl
+          trunk: Strade rapide
           primary: Strade primarie
           secondary: Strade secondarie
+          unclassified: Strade no classificade
           rail: Ferade
           subway: Metropolitane
           tram:
@@ -1193,9 +1324,12 @@ fur:
         jessi zontât ae base di dâts. Chest al sucêt in gjenar jentri di une ore;
         ti mandarìn un messaç cuant che il lavôr al sarà stât completât.
     edit:
+      cancel: Scancele
       title: Daûr a cambiâ il percors %{name}
       heading: Daûr a cambiâ il percors %{name}
       visibility_help: ce vuelial dî?
+    update:
+      updated: Percors inzornât
     trace_optionals:
       tags: Etichetis
     show:
@@ -1238,11 +1372,13 @@ fur:
       in: in
     index:
       public_traces: Percors GPS publics
-      my_traces: I miei percors GPS
+      my_traces: I miei percors
       public_traces_from: Percors GPS publics di %{user}
       description: Viôt i percors GPS cjamâts sù tai ultins timps
       tagged_with: ' etichetât cun %{tags}'
       upload_trace: Cjame un percors
+      all_traces: Ducj i percors
+      traces_from: Percors publics di %{user}
     georss:
       title: Percors GPS di OpenStreetMap
     description:
@@ -1287,13 +1423,39 @@ fur:
       no_apps_html: Âstu une aplicazion web che tu volaressis regjistrâ par doprâ
         ca di no cul standard %{oauth}? Tu scugnis regjistrâle prime che podedi fâ
         richiestis OAuth a chest servizi.
+      oauth: OAuth
       registered_apps: 'Tu âs chestis aplicazions client regjistradis:'
       register_new: Regjistre la tô aplicazion
     form:
       requests: 'Domande i permès ca sot al utent:'
   oauth2_applications:
+    index:
+      new: Regjistre une gnove aplicazion
+      name: Non
+      permissions: Permès
+    application:
+      edit: Cambie
+      delete: Elimine
+      confirm_delete: Vuelistu eliminâ cheste aplicazion?
     new:
       title: Regjistre une gnove aplicazion
+    edit:
+      title: Cambie la tô aplicazion
+    show:
+      edit: Cambie
+      delete: Elimine
+      permissions: Permès
+  oauth2_authorizations:
+    new:
+      authorize: Autorize
+      deny: Dinee
+    show:
+      title: Codiç di autorizazion
+  oauth2_authorized_applications:
+    index:
+      title: Lis aplicazions che o ai autorizât
+      application: Aplicazion
+      permissions: Permès
   users:
     new:
       title: Regjistriti
@@ -1341,8 +1503,11 @@ fur:
       my profile: Il gno profîl
       my settings: Impostazions
       my comments: I mei coments
+      my_preferences: Preferencis
+      my_dashboard: La mê pagjine iniziâl
       blocks on me: Blocs su di me
       blocks by me: Blocs aplicâts di me
+      edit_profile: Cambie il profîl
       send message: Mande messaç
       diary: Diari
       edits: Cambiaments
@@ -1376,38 +1541,6 @@ fur:
       delete_user: elimine chest utent
       confirm: Conferme
       report: Segnale chest utent
-    account:
-      title: Modifiche profîl
-      my settings: Mês impostazions
-      current email address: Direzion di pueste eletroniche atuâl
-      external auth: Autenticazion esterne
-      openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
-        link text: ce isal chest?
-      public editing:
-        heading: Cambiaments publics
-        enabled: Ativâts. No anonims e si pues cambiâ i dâts.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: ce isal chest?
-        disabled: Disativâts e no si pues cambiâ i dâts, ducj i cambiaments precedents
-          a son anonims.
-        disabled link text: parcè no puedio cambiâ?
-      public editing note:
-        heading: Modifiche publiche
-      contributor terms:
-        heading: Tiermins par contribuî
-        agreed: Tu âs acetât i gnûfs tiermins di contribuzion.
-        not yet agreed: No tu âs ancjemò acetât i gnûfs tiermins di contribuzion.
-        review link text: Frache par plasê su chest leam par viodi e acetâ i gnûf
-          tiermins par contribuî.
-        agreed_with_pd: Tu âs ancje declarât di considerâ i tiei cambiaments intal
-          Public Domini.
-        link text: ce isal chest?
-      save changes button: Salve cambiaments
-      make edits public button: Rint publics ducj i miei cambiaments
-      flash update success confirm needed: Informazions dal utent inzornadis cun sucès.
-        Controle la tô pueste par confermâ la tô gnove direzion di pueste eletroniche.
-      flash update success: Informazions dal utent inzornadis cun sucès.
     set_home:
       flash success: Lûc iniziâl salvât cun sucès
     go_public:
@@ -1423,6 +1556,8 @@ fur:
       summary_no_ip_html: '%{name} creât ai %{date}'
       confirm: Conferme i utents selezionâts
       hide: Plate i utents selezionâts
+    suspended:
+      support: assistence
   user_role:
     grant:
       confirm: Conferme
@@ -1465,6 +1600,8 @@ fur:
     show:
       title: '%{block_on} blocât di %{block_by}'
       heading_html: '%{block_on} blocât di %{block_by}'
+      created: 'Creât:'
+      duration: 'Durade:'
       status: 'Stât:'
       show: Mostre
       edit: Cambie
@@ -1517,6 +1654,8 @@ fur:
       center_marker: Centre la mape sul marcadôr
       paste_html: Tache l'HTML par inserîlu tal to sît web
       view_larger_map: Viôt une mape plui grande
+    embed:
+      report_problem: Segnale un probleme
     key:
       title: Leiende
       tooltip: Leiende
@@ -1541,6 +1680,7 @@ fur:
         title: Nivei
       copyright: © <a href='%{copyright_url}'>Colaboradôrs di OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Fâs une donazion</a>
+      terms: <a href='%{terms_url}' target='_blank'>Sît web e tiermins di ûs des APIs</a>
     site:
       edit_tooltip: Cambie la mape
       edit_disabled_tooltip: Cres il zoom par cambiâ la mape
@@ -1590,10 +1730,78 @@ fur:
         no_place: No si à rivât a cjatâ "%{place}".
       instructions:
         continue_without_exit: Continue su %{name}
+        slight_right_without_exit: Volte un ninin a diestre su %{name}
+        offramp_right: Cjape la rampe a diestre
+        offramp_right_with_exit: Cjape la jessude %{exit} a diestre
+        offramp_right_with_exit_name: Cjape la jessude %{exit} a diestre su %{name}
+        offramp_right_with_exit_directions: Cjape la jessude %{exit} a diestre bande
+          %{directions}
+        offramp_right_with_exit_name_directions: Cjape la jessude %{exit} a diestre
+          su %{name}, bande %{directions}
+        offramp_right_with_name: Cjape la rampe a diestre su %{name}
+        offramp_right_with_directions: Cjape la rampe a diestre bande %{directions}
+        offramp_right_with_name_directions: Cjape la rampe a diestre su %{name}, bande
+          %{directions}
+        onramp_right_without_exit: Volte a diestre su la rampe su %{name}
+        onramp_right_with_directions: Volte a diestre su la rampe bande %{directions}
+        onramp_right_with_name_directions: Volte a diestre su la rampe su %{name},
+          bande %{directions}
+        onramp_right_without_directions: Volte a diestre su la rampe
+        onramp_right: Volte a diestre su la rampe
+        endofroad_right_without_exit: Ae fin de strade volte a diestre su %{name}
+        merge_right_without_exit: Jentre a diestre su %{name}
+        fork_right_without_exit: Ae crosade volte a diestre su %{name}
+        turn_right_without_exit: Volte a diestre su %{name}
+        sharp_right_without_exit: Volte dut a diestre su %{name}
+        uturn_without_exit: Inversion a U dilunc %{name}
+        sharp_left_without_exit: Volte dut a çampe su %{name}
+        turn_left_without_exit: Volte a çampe su %{name}
+        offramp_left: Cjape la rampe a çampe
+        offramp_left_with_exit: Cjape la jessude %{exit} a çampe
+        offramp_left_with_exit_name: Cjape la jessude %{exit} a çampe su %{name}
+        offramp_left_with_exit_directions: Cjape la jessude %{exit} a çampe bande
+          %{directions}
+        offramp_left_with_exit_name_directions: Cjape la jessude %{exit} a çampe su
+          %{name}, bande %{directions}
+        offramp_left_with_name: Cjape la rampe a çampe su %{name}
+        offramp_left_with_directions: Cjape la rampe a çampe bande %{directions}
+        offramp_left_with_name_directions: Cjape la rampe a çampe su %{name}, bande
+          %{directions}
+        onramp_left_without_exit: Volte a çampe su la rampe su %{name}
+        onramp_left_with_directions: Volte a çampe su la rampe bande %{directions}
+        onramp_left_with_name_directions: Volte a çampe su la rampe su %{name}, bande
+          %{directions}
+        onramp_left_without_directions: Volte a çampe su la rampe
+        onramp_left: Volte a çampe su la rampe
+        endofroad_left_without_exit: Ae fin de strade volte a çampe su %{name}
+        merge_left_without_exit: Jentre a çampe su %{name}
+        fork_left_without_exit: Ae crosade volte a çampe su %{name}
+        slight_left_without_exit: Volte un ninin a çampe su %{name}
+        via_point_without_exit: (pal pont)
         follow_without_exit: Seguìs %{name}
+        roundabout_without_exit: Ae taronde cjape la jessude su %{name}
+        leave_roundabout_without_exit: Lasse la taronde - %{name}
+        stay_roundabout_without_exit: Sta te taronde - %{name}
+        start_without_exit: Scomence su %{name}
         destination_without_exit: Rive ae destinazion
+        against_oneway_without_exit: Va cuintri sens su %{name}
+        end_oneway_without_exit: Fin dal sens unic su %{name}
+        roundabout_with_exit: Ae taronde cjape la jessude %{exit} su %{name}
+        roundabout_with_exit_ordinal: Ae taronde cjape la %{exit} jessude su %{name}
+        exit_roundabout: Jes de taronde su %{name}
         unnamed: cence non
         courtesy: Indicazions furnidis di %{link}
+        exit_counts:
+          first: 1e
+          second: 2e
+          third: 3e
+          fourth: 4e
+          fifth: 5e
+          sixth: 6e
+          seventh: 7e
+          eighth: 8e
+          ninth: 9e
+          tenth: 10e
       time: Timp
     query:
       node: Grop

@@ -46,6 +46,9 @@ sr:
       client_application:
         create: Отвори налог
         update: Ажурирај
+      doorkeeper_application:
+        create: Регистрација
+        update: Ажурирај
       redaction:
         create: Направи редакцију
         update: Сачувај редакцију
@@ -59,6 +62,7 @@ sr:
     errors:
       messages:
         invalid_email_address: не изгледа као важећа имејл адреса
+        email_address_not_routable: није повезљив(а)
     models:
       acl: Листа контроле приступа
       changeset: Скуп промена
@@ -98,6 +102,7 @@ sr:
     attributes:
       client_application:
         name: Име (обавезно)
+        url: Главна адреса апликације (обавезно)
         callback_url: Повратна адреса
         support_url: Адреса подршке
         allow_read_prefs: чита њихове корисничке поставке
@@ -115,6 +120,11 @@ sr:
         latitude: Географска ширина
         longitude: Географска дужина
         language: Језик
+      doorkeeper/application:
+        name: Назив
+        redirect_uri: Адреса за преусмеравање
+        confidential: Поверљива апликација?
+        scopes: Дозволе
       friend:
         user: Корисник
         friend: Пријатељ
@@ -157,6 +167,8 @@ sr:
         pass_crypt: Лозинка
         pass_crypt_confirmation: Потврдите лозинку
     help:
+      doorkeeper/application:
+        redirect_uri: Користите једну линију по адреси
       trace:
         tagstring: раздвојено запетама
       user_block:
@@ -208,6 +220,47 @@ sr:
       entry:
         comment: Коментар
         full: Потпуна белешка
+  accounts:
+    edit:
+      title: Уреди налог
+      my settings: Поставке
+      current email address: Тренутна имејл адреса
+      external auth: Спољна аутентификација
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: шта је ово?
+      public editing:
+        heading: Јавно уређивање
+        enabled: Омогућено. Није анонимно и могу се уређивати подаци.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: шта је ово?
+        disabled: Онемогућено и не могу се уређивати подаци. Све претходне измене
+          су анонимне.
+        disabled link text: зашто не могу да уређујем?
+      public editing note:
+        heading: Јавно уређивање
+        html: Тренутно су ваше измене анонимне и људи вам не могу слати поруке или
+          видети вашу локацију. Да бисте показали ваше измене и дозволили људима да
+          вас контактирају, кликните на дугме испод. <b>Од промена АПИ-ја 0.6, само
+          јавни корисници могу уређивати мапе</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">сазнајте
+          зашто</a>).<ul><li>Ваша е-адреса неће бити откривена на овај начин.</li><li>Ова
+          радња не може бити опозвана и сви нови корисници су од сада постављени као
+          јавни.</li></ul>
+      contributor terms:
+        heading: Услови уређивања
+        agreed: Прихватили сте нове услове уређивања.
+        not yet agreed: Нисте прихватили нове услове уређивања.
+        review link text: Пратите ову везу да бисте прегледали и прихватили нове услове
+          уређивања.
+        agreed_with_pd: Такође се слажете да ваше измене буду у јавном власништву.
+        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms?uselang=sr-ec
+        link text: шта је ово?
+      save changes button: Сачувај промене
+      make edits public button: Нека све моје измене буду јавне
+    update:
+      success_confirm_needed: Подаци о кориснику су успешно ажурирани. Проверите имејл
+        да бисте потврдили Вашу нову имејл адресу.
+      success: Подаци о кориснику су успешно ажурирани.
   browse:
     created: Направљено
     closed: Затворено
@@ -1471,7 +1524,7 @@ sr:
         везу у поруци за потврду е-поште да бисте га активирали или <a href="%{reconfirm}">затражите
         нову поруку</a>.
       account is suspended: Нажалост, ваш налог је укинут због сумњиве активности.<br
-        />Обратите се <a href="%{webmaster}">администратору</a> ако желите да поразговарате
+        />Обратите се <a href="%{webmaster}">подршци</a> ако желите да поразговарате
         о проблему.
       auth failure: Није могуће пријавити се са тим детаљима.
       openid_logo_alt: Пријавите се с OpenID-јем
@@ -1611,8 +1664,10 @@ sr:
              <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Ланд Форарлберг</a> и
           Ланд Тирол (под лиценцом <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT са изменама и допунама</a>).
         contributors_au_html: |-
-          <strong>Аустралија</strong>: садржи податке о општинама
-              на основу података Аустралијског бироа за статистику.
+          <strong>Аустралија</strong>: садржи податке о општинама &copy;
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Аустралија</a>
+          лиценцирано од стране Комонвелта Аустралије под
+          <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International licence (CC BY 4.0)</a>.
         contributors_ca_html: |-
           <strong>Канада</strong>: садржи податке из
               Беобазе&reg;, Геогратиса (&copy; Одељење за природне
@@ -1995,7 +2050,7 @@ sr:
       in: у
     index:
       public_traces: Јавни ГПС трагови
-      my_traces: Моји GPS трагови
+      my_traces: Моји трагови
       public_traces_from: Јавни GPS трагови корисника %{user}
       description: Претражите недавне аплоуде GPS путева
       tagged_with: ' означени са %{tags}'
@@ -2105,8 +2160,8 @@ sr:
       title: Регистрација
       no_auto_account_create: Нажалост, тренутно нисмо у могућности да отворимо нови
         налог.
-      contact_support_html: Контактирајте <a href="%{support}">администратора</a>
-        за отварање новог налога. Обрадићемо захтев што је пре могуће.
+      contact_support_html: Контактирајте <a href="%{support}">подршку</a> за отварање
+        новог налога - обрадићемо захтев што је пре могуће.
       about:
         header: Слободно и изменљиво
         html: |-
@@ -2201,45 +2256,6 @@ sr:
       delete_user: Избриши корисника
       confirm: Потврди
       report: Пријави овог корисника
-    account:
-      title: Уреди налог
-      my settings: Поставке
-      current email address: Тренутна имејл адреса
-      external auth: Спољна аутентификација
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: шта је ово?
-      public editing:
-        heading: Јавно уређивање
-        enabled: Омогућено. Није анонимно и могу се уређивати подаци.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: шта је ово?
-        disabled: Онемогућено и не могу се уређивати подаци. Све претходне измене
-          су анонимне.
-        disabled link text: зашто не могу да уређујем?
-      public editing note:
-        heading: Јавно уређивање
-        html: Тренутно су ваше измене анонимне и људи вам не могу слати поруке или
-          видети вашу локацију. Да бисте показали ваше измене и дозволили људима да
-          вас контактирају, кликните на дугме испод. <b>Од промена АПИ-ја 0.6, само
-          јавни корисници могу уређивати мапе</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">сазнајте
-          зашто</a>).<ul><li>Ваша е-адреса неће бити откривена на овај начин.</li><li>Ова
-          радња не може бити опозвана и сви нови корисници су од сада постављени као
-          јавни.</li></ul>
-      contributor terms:
-        heading: Услови уређивања
-        agreed: Прихватили сте нове услове уређивања.
-        not yet agreed: Нисте прихватили нове услове уређивања.
-        review link text: Пратите ову везу да бисте прегледали и прихватили нове услове
-          уређивања.
-        agreed_with_pd: Такође се слажете да ваше измене буду у јавном власништву.
-        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms?uselang=sr-ec
-        link text: шта је ово?
-      save changes button: Сачувај промене
-      make edits public button: Нека све моје измене буду јавне
-      flash update success confirm needed: Подаци о кориснику су успешно ажурирани.
-        Проверите имејл да бисте потврдили Вашу нову имејл адресу.
-      flash update success: Подаци о кориснику су успешно ажурирани.
     set_home:
       flash success: Место становања је успешно сачувано
     go_public:
@@ -2265,7 +2281,7 @@ sr:
         </p>
         <p>
           Ову одлуку ће убрзо размотрити администратор. Такође,
-          можете контактирати %{webmaster}а ако желите да се жалите.
+          можете контактирати %{webmaster} ако желите да ово прокоментаришете.
         </p>
     auth_failure:
       connection_failed: Повезивање до аутентификационог провајдера неуспешно
