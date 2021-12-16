@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "6.1.4.6"
+gem "rails", "7.0.2.2"
 
 # Require json for multi_json
 gem "json"
@@ -43,7 +43,7 @@ gem "active_record_union"
 gem "bootstrap", "~> 4.5.0"
 gem "bootstrap_form", "~> 4.0"
 gem "cancancan"
-gem "composite_primary_keys", "~> 13.0.0"
+gem "composite_primary_keys", "~> 14.0.0"
 gem "config"
 gem "delayed_job_active_record"
 gem "http_accept_language", "~> 2.1.1"
@@ -51,7 +51,7 @@ gem "i18n-js", ">= 3.0.0"
 gem "oauth-plugin", ">= 0.5.1"
 gem "openstreetmap-deadlock_retry", ">= 1.3.1", :require => "deadlock_retry"
 gem "rack-cors"
-gem "rails-i18n", "~> 6.0.0"
+gem "rails-i18n", "~> 7.0.0"
 gem "rinku", ">= 2.0.6", :require => "rails_rinku"
 gem "strong_migrations"
 gem "validates_email_format_of", ">= 1.5.1"
@@ -151,7 +151,7 @@ group :test do
   gem "rubocop-performance"
   gem "rubocop-rails"
   gem "rubocop-rake"
-  gem "selenium-webdriver", "~> 3.142.7"
+  gem "selenium-webdriver"
   gem "simplecov", :require => false
   gem "simplecov-lcov", :require => false
   gem "webmock"
