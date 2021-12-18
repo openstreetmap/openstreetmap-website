@@ -19,8 +19,8 @@
   </form>
 
   <form method="GET" action="<%= directions_path %>" class="directions_form pb-3">
-    <div class="clearfix px-3 py-3"><span class="icon close"></span></div>
 
+    <div class="clearfix px-3 py-3"><span class="icon close"></span></div>
     <div class="form-row m-1">
       <div class="col-1">
         <%= image_tag "marker-green.png", :class => "routing_marker mx-auto d-block", :data => { :type => "from" }, :draggable => "true" %>
@@ -29,6 +29,7 @@
         <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control form-control-sm" %>
       </div>
     </div>
+
     <div class="form-row m-1">
       <div class="col-1">
         <%= image_tag "marker-red.png", :class => "routing_marker mx-auto d-block", :data => { :type => "to" }, :draggable => "true" %>
@@ -37,20 +38,45 @@
         <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control form-control-sm" %>
       </div>
     </div>
-    <div class="form-row m-1">
-      <div class="col offset-1">
-        <select class="routing_engines form-control form-control-sm" name="routing_engines"></select>
-      </div>
-      <div class="col-auto">
-        <%= submit_tag t("site.search.submit_text"), :class => "routing_go btn btn-sm btn-primary", :data => { :disable_with => false } %>
-      </div>
-    </div>
+
+<!--
     <div class="form-row m-1">
       <div class="col offset-1">
         <a class="reverse_directions"><%= t("site.search.reverse_directions_text") %></a>
       </div>
     </div>
+-->
+    <div class="form-row m-2"></div>
 
+    <div class="form-row ml-1 mr-1">
+      <div class="btn-toolbar col flex-nowrap" role="toolbar" aria-label="Toolbar with button groups">
+        <button type="button flex-grow-1" class="btn btn-secondary btn-sm">
+          <%= link_to image_tag("plus-symbolic.svg", :width => "16", :height => "16") %>
+        </button>
+      </div>
+      <div class="btn-toolbar col-auto" role="toolbar" aria-label="Routing options">
+        <select class="form-select mr-2" aria-label="Routing engine">
+          <option value="1" selected>GraphHopper</option>
+          <option value="2">OSRM</option>
+        </select>
+        <div class="btn-group mr-1" role="group" aria-label="Driving">
+          <button type="button" class="btn btn-primary">
+            <%= link_to image_tag("driving-symbolic.svg", :width => "16", :height => "16") %>
+          </button>
+        </div>
+        <div class="btn-group mr-1" role="group" aria-label="Cycling">
+          <button type="button" class="btn btn-primary">
+            <%= link_to image_tag("cycling-symbolic.svg", :width => "16", :height => "16") %>
+          </button>
+        </div>
+        <div class="btn-group" role="group" aria-label="Walking">
+          <button type="button" class="btn btn-primary">
+            <%= link_to image_tag("walking-symbolic.svg", :width => "16", :height => "16") %>
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="loader_copy"><div class="loader"><%= image_tag "searching.gif" %></div></div>
   </form>
+
 </div>
