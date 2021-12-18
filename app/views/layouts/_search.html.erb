@@ -20,32 +20,32 @@
 
   <form method="GET" action="<%= directions_path %>" class="directions_form pb-3">
 
-    <div class="clearfix px-3 py-3"><span class="icon close"></span></div>
+    <div class="form-row"><div class="col mt-1"></div></div>
+
     <div class="form-row m-1">
-      <div class="col-1">
-        <%= image_tag "marker-green.png", :class => "routing_marker mx-auto d-block", :data => { :type => "from" }, :draggable => "true" %>
+      <div class="col input-group flex-nowrap">
+        <div class="flex-grow-1">
+          <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control form-control-sm" %>
+        </div>
       </div>
-      <div class="col">
-        <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control form-control-sm" %>
+      <div class="col-auto">
+        <div class="clearfix btn-sm"><span class="icon close"></span></div>
       </div>
     </div>
 
     <div class="form-row m-1">
-      <div class="col-1">
-        <%= image_tag "marker-red.png", :class => "routing_marker mx-auto d-block", :data => { :type => "to" }, :draggable => "true" %>
+      <div class="col input-group flex-nowrap">
+        <div class="flex-grow-1">
+          <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control form-control-sm" %>
+        </div>
       </div>
-      <div class="col">
-        <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control form-control-sm" %>
+      <div class="btn-toolbar col-auto" role="toolbar" aria-label="Reverse directions">
+        <button type="button" class="btn btn-secondary btn-sm">
+          <%= link_to image_tag("arrow-down-up.svg", :width => "16", :height => "16"), t("site.search.reverse_directions_text") %>
+        </button>
       </div>
     </div>
 
-<!--
-    <div class="form-row m-1">
-      <div class="col offset-1">
-        <a class="reverse_directions"><%= t("site.search.reverse_directions_text") %></a>
-      </div>
-    </div>
--->
     <div class="form-row m-2"></div>
 
     <div class="form-row ml-1 mr-1">
