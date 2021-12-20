@@ -191,7 +191,7 @@ fur:
       description: Remote Control (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
-      none: Nissun
+      none: Nissune
       openid: OpenID
       google: Google
       facebook: Facebook
@@ -403,7 +403,7 @@ fur:
       saved_at: Salvât ai
       user: Utent
       comment: Coment
-      area: Aree
+      area: Zone
     index:
       title: Grups di cambiaments
       title_user: Grups di cambiaments di %{user}
@@ -566,12 +566,14 @@ fur:
           cinema: Cine
           clinic: Cliniche
           community_centre: Centri civic
+          conference_centre: Centri pe conferencis
           crematorium: Crematori
           dentist: Dentist
           doctors: Dotôrs
           drinking_water: Aghe potabil
           driving_school: Scuele guide
           embassy: Ambassade
+          events_venue: Lûc par events
           ferry_terminal: Terminâl traghets
           fire_station: Stazion dai pompîrs
           fountain: Fontane
@@ -607,7 +609,8 @@ fur:
         boundary:
           administrative: Confin aministratîf
           national_park: Parc nazionâl
-          protected_area: Aree protezude
+          protected_area: Zone protezude
+          "yes": Confin
         bridge:
           aqueduct: Acuedot
           viaduct: Viadot
@@ -615,6 +618,7 @@ fur:
         building:
           chapel: Capele
           church: Edifici de glesie
+          civic: Centri civic
           commercial: Edifici comerciâl
           dormitory: Dormitori
           garage: Garage
@@ -624,6 +628,7 @@ fur:
           industrial: Edifici industriâl
           public: Edifici public
           residential: Edifici residenziâl
+          retail: Edifici pe vendite al detai
           school: Edifici scolastic
           train_station: Edifici di une stazion de ferade
           university: Edifici universitari
@@ -665,6 +670,7 @@ fur:
         historic:
           archaeological_site: Sît archeologic
           battlefield: Cjamp di bataie
+          boundary_stone: Piere di confin
           building: Edifici storic
           castle: Cjiscjel
           church: Glesie
@@ -687,17 +693,18 @@ fur:
           "yes": Crosade
         landuse:
           cemetery: Simiteri
-          commercial: Aree comerciâl
+          commercial: Zone comerciâl
           construction: In costruzion
           forest: Bosc
           grass: Prât
-          industrial: Aree industriâl
+          industrial: Zone industriâl
           meadow: Prâts
-          military: Aree militâr
+          military: Zone militâr
           mine: Miniere
           quarry: Gjave
           railway: Ferade
-          residential: Aree residenziâl
+          residential: Zone residenziâl
+          retail: Buteghis
           vineyard: Vigne
         leisure:
           common: Comugnâi (UK)
@@ -989,6 +996,7 @@ fur:
     inbox:
       title: In jentrade
       my_inbox: I miei messaçs in jentrade
+      my_outbox: I miei messaçs in jessude
       messages: Tu âs %{new_messages} e %{old_messages}
       new_messages:
         one: '%{count} messaç gnûf'
@@ -1020,6 +1028,8 @@ fur:
       heading: Messaç no cjatât
     outbox:
       title: In jessude
+      my_inbox: I miei messaçs in jentrade
+      my_outbox: I miei messaçs in jessude
       messages:
         one: Tu âs %{count} messaç in jessude
         other: Tu âs %{count} messaçs in jessude
@@ -1284,11 +1294,12 @@ fur:
           forest: Bosc
           golf: Troi di golf
           park: Parc
-          resident: Aree residenziâl
+          resident: Zone residenziâl
           common:
           - Comugnâi
           - prâts
-          industrial: Aree industriâl
+          retail: Zone di buteghis
+          industrial: Zone industriâl
           commercial: Aree comerciâl
           lake:
           - Lâc
@@ -1296,7 +1307,7 @@ fur:
           pitch: Cjamp sportîf
           centre: Centri sportîf
           reserve: Riserve naturâl
-          military: Aree militâr
+          military: Zone militâr
           school:
           - Scuele
           - universitât
@@ -1383,6 +1394,11 @@ fur:
       title: Percors GPS di OpenStreetMap
     description:
       description_without_count: File GPS di %{user}
+  application:
+    settings_menu:
+      account_settings: Impostazions dal profîl
+      oauth1_settings: Impostazions OAuth1
+      oauth2_authorizations: Autorizazions OAuth 2
   oauth:
     authorize:
       title: Permèt l'accès al to cont
@@ -1400,6 +1416,12 @@ fur:
       grant_access: Permèt l'accès
     authorize_success:
       verification: Il codiç di verifiche al è %{code}.
+    revoke:
+      flash: Tu âs revocât il token par %{application}
+    scopes:
+      write_prefs: Modificâ lis preferencis dal utent
+      write_api: Modificâ la mape
+      write_notes: Cambiâ lis notis
   oauth_clients:
     new:
       title: Regjistre une gnove aplicazion
@@ -1407,6 +1429,7 @@ fur:
       title: Cambie la tô aplicazion
     show:
       title: Detais OAuth par {app_name}
+      authorize_url: 'Autorize URL:'
       edit: Cambie i detais
       delete: Elimine client
       confirm: Sêstu sigûr?
@@ -1430,6 +1453,9 @@ fur:
       requests: 'Domande i permès ca sot al utent:'
   oauth2_applications:
     index:
+      no_applications_html: Âstu une aplicazion che tu volaressis regjistrâ par doprâ
+        ca di no cul standard %{oauth2}? Tu scugnis regjistrâle prime che podedi fâ
+        richiestis OAuth a chest servizi.
       new: Regjistre une gnove aplicazion
       name: Non
       permissions: Permès
@@ -1447,6 +1473,7 @@ fur:
       permissions: Permès
   oauth2_authorizations:
     new:
+      title: Covente une autorizazion
       authorize: Autorize
       deny: Dinee
     show:
@@ -1456,6 +1483,9 @@ fur:
       title: Lis aplicazions che o ai autorizât
       application: Aplicazion
       permissions: Permès
+      no_applications_html: No tu âs autorizât ancjemò nissun aplicazion %{oauth2}.
+    application:
+      revoke: Revoche l'acès
   users:
     new:
       title: Regjistriti
@@ -1529,6 +1559,8 @@ fur:
       role:
         administrator: Chest utent al è un aministradôr
         moderator: Chest utent al è un moderatôr
+        revoke:
+          administrator: Revoche l'acès come aministradôr
       block_history: blocs ricevûts
       moderator_history: blocs aplicâts
       comments: Coments
@@ -1558,6 +1590,8 @@ fur:
       hide: Plate i utents selezionâts
     suspended:
       support: assistence
+    auth_failure:
+      unknown_error: Autenticazion falide
   user_role:
     grant:
       confirm: Conferme
@@ -1702,6 +1736,9 @@ fur:
         intro: Âstu cjatât un erôr o alc ch'al mancje? Informe i altris mapadôrs cussì
           che al podedi jessi corezût. Sposte il segnalut te posizion juste e inserìs
           une note par spiegâ il probleme.
+        advice: La tô note e je publiche e e pues jessi doprade par inzornâ la mape,
+          par cui no sta zontâ informazions personâls o di mapis cuviertis dal copyright
+          o listis.
         add: Zonte une note
       show:
         anonymous_warning: Cheste note e inclût coments di utents anonims che a varessin
