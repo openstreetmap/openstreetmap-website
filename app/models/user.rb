@@ -114,7 +114,8 @@ class User < ApplicationRecord
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => proc { |u| u.new_email_changed? }
 
-  after_initialize :set_defaults
+  alias_attribute :created_at, :creation_time
+
   before_save :encrypt_password
   before_save :update_tile
   after_save :spam_check
@@ -308,7 +309,7 @@ class User < ApplicationRecord
   end
 
   def max_messages_per_hour
-    account_age_in_seconds = Time.now.utc - creation_time
+    account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
     recent_messages = messages.where("sent_on >= ?", Time.now.utc - 3600).count
     active_reports = issues.with_status(:open).sum(:reports_count)
@@ -317,7 +318,7 @@ class User < ApplicationRecord
   end
 
   def max_friends_per_hour
-    account_age_in_seconds = Time.now.utc - creation_time
+    account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
     recent_friends = Friendship.where(:befriendee => self).where("created_at >= ?", Time.now.utc - 3600).count
     active_reports = issues.with_status(:open).sum(:reports_count)
@@ -326,10 +327,6 @@ class User < ApplicationRecord
   end
 
   private
-
-  def set_defaults
-    self.creation_time = Time.now.getutc unless attribute_present?(:creation_time)
-  end
 
   def encrypt_password
     if pass_crypt_confirmation

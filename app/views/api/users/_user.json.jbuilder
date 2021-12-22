@@ -1,7 +1,7 @@
 json.user do
   json.id user.id
   json.display_name user.display_name
-  json.account_created user.creation_time.xmlschema
+  json.account_created user.created_at.xmlschema
   json.description user.description if user.description
 
   if current_user && current_user == user && can?(:details, User)

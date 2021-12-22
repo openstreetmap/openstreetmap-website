@@ -8,11 +8,11 @@
         <%= t "users.index.summary_html",
               :name => link_to(user.display_name, user_path(user)),
               :ip_address => link_to(user.creation_ip, :ip => user.creation_ip),
-              :date => l(user.creation_time, :format => :friendly) %>
+              :date => l(user.created_at, :format => :friendly) %>
       <% else %>
         <%= t "users.index.summary_no_ip_html",
               :name => link_to(user.display_name, user_path(user)),
-              :date => l(user.creation_time, :format => :friendly) %>
+              :date => l(user.created_at, :format => :friendly) %>
       <% end %>
     </p>
     <div class="richtext text-break"><%= user.description.to_html %></div>
