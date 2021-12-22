@@ -208,9 +208,9 @@ class UsersController < ApplicationController
   end
 
   ##
-  # delete a user, marking them as deleted and removing personal data
+  # destroy a user, marking them as deleted and removing personal data
   def destroy
-    @user.delete
+    @user.destroy
     redirect_to user_path(:display_name => params[:display_name])
   end
 
