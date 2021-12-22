@@ -9,28 +9,45 @@ fy:
     formats:
       friendly: '%e %B %Y om %H.%M'
   helpers:
+    file:
+      prompt: Bestân kieze
     submit:
       diary_comment:
         create: Bewarje
+      message:
+        create: Ferstjoere
       client_application:
         update: Bywurkje
+      trace:
+        update: Feroarings bewarje
   activerecord:
     models:
       acl: Tagongskontrôlelist
       changeset: Wizigingsset
+      changeset_tag: Wizigingssetlebel
       country: Lân
       friend: Freon
       language: Taal
       message: Berjocht
       node: Punt
+      node_tag: Puntlebel
       old_node: Ald punt
+      old_node_tag: Ald puntlebel
+      old_relation: Alde relaasje
+      old_relation_member: Ald relaasjelid
+      old_relation_tag: Ald relaasjelebel
+      old_way: Ald gebiet
       old_way_node: Ald gebietspunt
+      old_way_tag: Ald gebietslebel
       relation: Relaasje
+      relation_member: Relaasjelid
+      relation_tag: Relaasjelebel
       session: Sesje
       trace: Trajekt
       tracepoint: Trajektpunt
       tracetag: Trajektlebel
       user: Meidogger
+      user_preference: Meidoggerfoarkar
       way: Gebiet
       way_node: Gebietspunt
       way_tag: Gebietslebel
@@ -63,19 +80,30 @@ fy:
       message:
         sender: Ofstjoerder
         title: Underwerp
-        body: Tekst
+        body: Ynhâld
         recipient: Untfanger
       redaction:
         title: Titel
         description: Beskriuwing
       user:
         email: E-mail
+        email_confirmation: Befêstiging e-mail
+        new_email: Nij e-mailadres
         active: Aktyf
+        display_name: Werjûne namme
         description: Profylbeskriuwing
         home_lat: Breedtegraad
         home_lon: Lingtegraad
         languages: Foarkarstalen
+        preferred_editor: Bewurker fan foarkar
         pass_crypt: Wachtwurd
+        pass_crypt_confirmation: Wachtwurd befêstigje
+    help:
+      user:
+        email_confirmation: Jo adres wurdt net publikelik toand; sjoch ús <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="Privacybelied fan OSMF mei in stik oer e-mailadressen">Privacybelied</a>
+          foar mear ynformaasje.
+        new_email: (nea publikelik toand)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -116,30 +144,43 @@ fy:
         one: 1 jier lyn
         other: '%{count} jier lyn'
   editor:
-    default: Standert (op it stuit %{name})
+    default: standert (op it stuit %{name})
     id:
       name: iD
       description: iD (bewurker yn 'e webblêder)
     remote:
-      name: Ofstânsbetsjinning
+      name: ôfstânsbetsjinning
       description: ôfstânsbetsjinning (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
-      none: Gjint
+      none: gjint
       wikipedia: Wikipedy
   api:
     notes:
       comment:
+        opened_at_html: Makke %{when}
+        opened_at_by_html: Makke %{when} troch %{user}
         commented_at_html: Bywurke %{when}
         commented_at_by_html: Bywurke %{when} troch %{user}
+        closed_at_html: Oplost %{when}
+        closed_at_by_html: Oplost %{when} troch %{user}
+        reopened_at_html: Weraktivearre %{when}
+        reopened_at_by_html: Weraktivearre %{when} troch %{user}
+      rss:
+        title: OpenStreetMap Notysjes
   browse:
+    created: Makke
     closed: Ofdien
+    created_html: Makke <abbr title='%{title}'>%{time}</abbr>
     closed_html: Ofdien <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Makke <abbr title='%{title}'>%{time}</abbr> troch %{user}
+    deleted_by_html: Wiske <abbr title='%{title}'>%{time}</abbr> troch %{user}
     edited_by_html: Bewurke <abbr title='%{title}'>%{time}</abbr> troch %{user}
     closed_by_html: Ofdien <abbr title='%{title}'>%{time}</abbr> troch %{user}
     version: Ferzje
     in_changeset: Wizigingsset
     anonymous: anonym
+    no_comment: (gjin opmerking)
     part_of: Part fan
     part_of_relations:
       one: 1 relaasje
@@ -161,18 +202,21 @@ fy:
       relation: Relaasjes (%{count})
       relation_paginated: Relaasjes (%{x}-%{y} fan %{count})
       comment: Reäksjes (%{count})
+      hidden_commented_by_html: Ferburgen reäksje fan %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Reäksje fan %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Wizigingsset-XML
       osmchangexml: osmWizigings-XML
       feed:
         title: Wizigingsset %{id}
         title_comment: Wizigingsset %{id} - %{comment}
+      join_discussion: Meld jo oan en oerlis mei
       discussion: Oerlis
     node:
       title_html: 'Punt: %{name}'
-      history_title_html: 'Puntskiednis: %{name}'
+      history_title_html: 'Skiednis fan punt: %{name}'
     way:
       title_html: 'Gebiet: %{name}'
-      history_title_html: 'Gebietskiednis: %{name}'
+      history_title_html: 'Skiednis fan gebiet: %{name}'
       nodes: Punten
       nodes_count:
         one: 1 punt
@@ -182,8 +226,11 @@ fy:
         other: part fan gebieten %{related_ways}
     relation:
       title_html: 'Relaasje: %{name}'
-      history_title_html: 'Relaasjeskiednis: %{name}'
+      history_title_html: 'Skiednis fan relaasje: %{name}'
       members: Lidden
+      members_count:
+        one: 1 lid
+        other: '%{count} lidden'
     relation_member:
       entry_role_html: '%{type} %{name} as %{role}'
       type:
@@ -195,17 +242,20 @@ fy:
       entry_role_html: Relaasje %{relation_name} (as %{relation_role})
     not_found:
       title: Net fûn
+      sorry: 'Spitich, %{type} #%{id} koe net fûn wurde.'
       type:
         node: punt
         way: gebiet
         relation: relaasje
         changeset: wizigingsset
+        note: notysje
     timeout:
       type:
         node: punt
         way: gebiet
         relation: relaasje
         changeset: wizigingsset
+        note: notysje
     redacted:
       type:
         node: punt
@@ -216,8 +266,22 @@ fy:
     tag_details:
       tags: Lebels
     note:
-      new_note: Nije opmerking
+      title: 'Notysje: %{id}'
+      new_note: Nije notysje
       description: Beskriuwing
+      open_title: 'Unoploste notysje #%{note_name}'
+      closed_title: 'Oploste notysje #%{note_name}'
+      hidden_title: 'Ferburgen notysje #%{note_name}'
+      opened_by_html: Makke troch %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Makke troch anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Reäksje fan %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Reäksje fan anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Oplost troch %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Oplost troch anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Weraktivearre troch %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Weraktivearre troch anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Ferburgen troch %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Dizze notysje melde
     query:
       title: Skaaimerken opfreegje
       introduction: Klik op 'e kaart foar skaaimerken yn 'e krite.
@@ -230,22 +294,70 @@ fy:
       previous: « Foarige
     changeset:
       anonymous: Anonym
+      no_edits: (gjin bewurkings)
+      view_changeset_details: Wizigingssetgegevens besjen
     changesets:
       id: ID
+      saved_at: Bewarre op
       user: Meidogger
-      area: Gebiet
+      comment: Opmerking
+      area: Krite
     index:
       title: Wizigingssets
+      title_user: Wizigingssets fan %{user}
+      title_friend: Wizigingssets fan myn freonen
+      title_nearby: Wizigingssets fan meidoggers yn 'e omkriten
       empty: Gjin wizigingssets fûn.
+      empty_area: Gjin wizigingssets yn dizze krite.
+      empty_user: Gjin wizigingssets fan dizze meidogger.
+      no_more: Gjin wizigingssets mear fûn.
+      no_more_area: Gjin wizigingssets mear yn dizze krite.
+      no_more_user: Gjin wizigingssets mear fan dizze meidogger.
       load_more: Mear lade
   dashboards:
+    contact:
+      km away: '%{count}km fuort'
+      m away: '%{count}m fuort'
     popup:
+      your location: Jo lokaasje
+      nearby mapper: Kaartmakker fuortby
       friend: Freon
+    show:
+      title: Myn oersjochpaniel
+      no_home_location_html: '%{edit_profile_link} en stel jo fêste lokaasje yn, om
+        meidoggers yn ''e omkriten te sjen.'
+      edit_your_profile: Bewurkje jo profyl
+      my friends: Myn freonen
+      no friends: Jo hawwe noch gjin freonen tafoege.
+      nearby users: Oare meidoggers yn 'e omkriten
+      no nearby users: Noch gjin oare kaartmakker hat oanjûn fuort by jo om te sitten.
+      friends_changesets: wizigingssets fan freonen
+      friends_diaries: deiboekstikken fan freonen
+      nearby_changesets: wizigingssets fan meidoggers fuortby
+      nearby_diaries: deiboekstikken fan meidoggers fuortby
   diary_entries:
+    new:
+      title: Nij deiboekstik
     form:
       location: Lokaasje
+      use_map_link: Kaart brûke
     index:
       title: Deiboeken fan meidoggers
+      title_friends: Deiboeken fan freonen
+      title_nearby: Deiboeken fan meidoggers fuortby
+      user_title: Deiboek fan %{user}
+      in_language_title: Deiboekstikken yn it %{language}
+      new: Nij deiboekstik
+      my_diary: Myn deiboek
+      no_entries: Gjin deiboekstikken
+      older_entries: Aldere stikken
+      newer_entries: Nijere stikken
+    edit:
+      title: Deiboekstik bewurkje
+      marker_text: Lokaasje deiboekstik
+    show:
+      title: Deiboek fan %{user} | %{title}
+      user_title: Deiboek fan %{user}
     location:
       location: 'Lokaasje:'
       edit: Bewurkje
@@ -425,7 +537,7 @@ fy:
           proposed: Plende wei
           raceway: Racesirkwy
           residential: Strjitte
-          road: Strjitwei
+          road: Wei
           secondary: Sekundêre wei
           secondary_link: Sekundêre wei
           service: Parallelwei
@@ -443,6 +555,7 @@ fy:
           "yes": Wei
         historic:
           archaeological_site: Archeologysk plak
+          bomb_crater: Histoaryske bomkrater
           battlefield: Slachfjild
           building: Histoarysk gebou
           bunker: Bunker
@@ -762,6 +875,7 @@ fy:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
+    tou: Gebrûksbetingsten
     help: Help
     about: Oer
     copyright: Auteursrjochten
@@ -785,50 +899,159 @@ fy:
       greeting: Goeie,
   messages:
     inbox:
+      title: Ynfek
+      my_inbox: Myn ynfek
+      my_outbox: Myn útfek
+      messages: Jo hawwe %{new_messages} en %{old_messages}
+      new_messages:
+        one: '%{count} nij berjocht'
+        other: '%{count} nije berjochten'
+      old_messages:
+        one: '%{count} âld berjocht'
+        other: '%{count} âlde berjochten'
       from: Fan
       subject: Underwerp
       date: Datum
+      no_messages_yet_html: Jo hawwe noch gjin berjochten. Kom ris yn 'e kunde mei
+        in pear %{people_mapping_nearby_link}.
+      people_mapping_nearby: kaartmakkers yn 'e omkriten
     message_summary:
-      destroy_button: Fuortsmite
+      unread_button: As net-lêzen oanmerke
+      read_button: As lêzen oanmerke
+      reply_button: Beäntwurdzje
+      destroy_button: Wiskje
     new:
+      title: Berjocht stjoere
+      send_message_to_html: In nij berjocht stjoere oan %{name}
       subject: Underwerp
-      body: Tekst
+      body: Ynhâld
+      back_to_inbox: Werom nei ynfek
+    create:
+      message_sent: Berjocht ferstjoerd
     outbox:
+      title: Utfek
+      my_inbox: Myn ynfek
+      my_outbox: Myn útfek
+      messages:
+        one: Jo hawwe %{count} ferstjoerd berjocht
+        other: Jo hawwe %{count} ferstjoerde berjochten
       to: Oan
       subject: Underwerp
       date: Datum
+      no_sent_messages_html: Jo hawwe noch gjin berjochten ferstjoerd. Kom ris yn
+        'e kunde mei in pear %{people_mapping_nearby_link}.
+      people_mapping_nearby: kaartmakkers yn 'e omkriten
     show:
+      title: Berjocht lêze
       from: Fan
       subject: Underwerp
       date: Datum
+      reply_button: Beäntwurdzje
+      unread_button: As net-lêzen oanmerke
+      destroy_button: Wiskje
       back: Werom
       to: Oan
     sent_message_summary:
-      destroy_button: Fuortsmite
+      destroy_button: Wiskje
+    mark:
+      as_read: Berjocht as lêzen oanmurken
+      as_unread: Berjocht as net-lêzen oanmurken
+    destroy:
+      destroyed: Berjocht wiske
   passwords:
     lost_password:
       email address: 'E-mailadres:'
+    reset_password:
+      flash changed: Jo wachtwurd is feroare.
   preferences:
     show:
+      title: Myn foarkarren
+      preferred_editor: Bewurker fan foarkar
+      preferred_languages: Foarkarstalen
       edit_preferences: Foarkarren bewurkje
+    edit:
+      title: Foarkarren bewurkje
+      save: Foarkarren bywurkje
+      cancel: Annulearje
+    update:
+      failure: Koe de foarkarren net bywurkje.
+    update_success_flash:
+      message: Foarkarren bywurke.
   profiles:
     edit:
       title: Profyl bewurkje
+      save: Profyl bywurkje
+      cancel: Annulearje
       image: Ofbylding
+      gravatar:
+        gravatar: Gravatar brûke
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Wat is Gravatar?
+        disabled: Gravatar is útskeakele.
+        enabled: Werjefte fan jo Gravatar is ynskeakele.
+      new image: Ofbyld tafoegje
+      keep image: Hjoeddeisk ôfbyld hâlde
+      delete image: Hjoeddeisk ôfbyld wiskje
+      replace image: Hjoeddeisk ôfbyld ferfange
+      image size hint: (fjouwerkante plaatsjes fan teminsten 100x100 eagje kreazer)
+      home location: Fêste lokaasje
+      no home location: Jo hawwe jo fêste lokaasje net opjûn.
+      update home location on click: Fêste lokaasje bywurkje at ik op 'e kaart klik?
+    update:
+      success: Profyl bywurke.
+      failure: Koe it profyl net bywurkje.
   sessions:
     new:
+      title: Oanmelde
+      heading: Oanmelde
+      email or username: 'E-mailadres as meidochnamme:'
       password: 'Wachtwurd:'
       openid_html: '%{logo} OpenID:'
+      remember: My ûnthâlde
+      lost password link: Jo wachtwurd kwyt?
+      login_button: Oanmelde
+      register now: No ynskriuwe
+      with external: 'Brûk oars in treddepartij en meld jo oan:'
+      new to osm: Nij op OpenStreetMap?
+      no account: Hawwe jo gjin akkount?
+      auth_providers:
+        openid:
+          title: Oanmelde mei OpenID
+        google:
+          title: Oanmelde mei Google
+        facebook:
+          title: Oanmelde mei Facebook
+        windowslive:
+          title: Oanmelde mei Windows Live
+        github:
+          title: Oanmelde mei GitHub
+        wikipedia:
+          title: Oanmelde mei de Wikipedy
+        wordpress:
+          title: Oanmelde mei Wordpress
+        aol:
+          title: Oanmelde mei AOL
     destroy:
       title: Ofmelde
       logout_button: Ofmelde
   shared:
     markdown_help:
+      title_html: Ferwurke mei <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Koppen
       heading: Kop
       subheading: Subkop
+      unordered: Puntelist
+      ordered: Nûmere list
+      first: Earste rigel
+      second: Twadde rigel
+      link: Keppeling
+      text: Tekst
+      image: Ofbyld
+      alt: Alternative tekst
+      url: URL
     richtext_field:
       edit: Bewurkje
+      preview: Proefbyld
   site:
     about:
       next: Folgjende
@@ -1007,6 +1230,8 @@ fy:
         oardere punten mei tiidstimpels)
     new:
       help: Help
+    edit:
+      cancel: Annulearje
     update:
       updated: Trajekt bywurke
     trace_optionals:
@@ -1019,7 +1244,7 @@ fy:
       download: ynlade
       uploaded: 'Opladen:'
       points: 'Punten:'
-      start_coordinates: 'Startkoördinaat:'
+      start_coordinates: 'Begjinkoördinaat:'
       coordinates_html: '%{latitude}; %{longitude}'
       map: kaart
       edit: bewurkje
@@ -1062,17 +1287,39 @@ fy:
       traces_from: Iepenbiere trajekten fan %{user}
       remove_tag_filter: Lebelfilter weilitte
     georss:
-      title: OpenStreetMap-GPS-trajekten
+      title: OpenStreetMap GPS-trajekten
+  application:
+    settings_menu:
+      account_settings: Akkountynstellings
+      oauth1_settings: OAuth 1-ynstellings
+      oauth2_applications: OAuth 2-applikaasjes
+      oauth2_authorizations: OAuth 2-autorisaasjes
   oauth2_applications:
     application:
       edit: Bewurkje
   users:
     new:
       title: Ynskriuwe
+      about:
+        header: Frij en bewurkber
+        html: |-
+          <p>Yn tsjinstelling ta oare kaarten, wurdt hiel OpenStreetMap makke troch minsken krekt as jo,
+          en elkenien mei it frij ferbetterje, bywurkje, ynlade en brûke.</p>
+          <p>Skriuw jo yn en set útein mei bydragen. Wy stjoere in e-mail foar it befêstigjen fan jo akkount.</p>
       email address: 'E-mailadres:'
       confirm email address: 'E-mailadres befêstigje:'
+      display name: 'Werjûne namme:'
+      display name description: Jo meidochnamme dy't elkenien sjen kin. Jo kinne dy
+        letter yn 'e foarkarren feroarje.
+      external auth: 'Tredde-autentifikaasje:'
+      use external auth: Brûk oars in treddepartij en meld jo oan
+      auth no password: Mei autentifikaasje troch in tredde is in wachtwurd oerstallich,
+        mar guon ark as tsjinners soene ien freegje kinne.
       continue: Ynskriuwe
     terms:
+      title: Betingsten
+      heading: Betingsten
+      heading_ct: Bydragersbetingsten
       continue: Fierder
       legale_names:
         france: Frankryk
@@ -1081,29 +1328,47 @@ fy:
       my diary: Myn deiboek
       my edits: Myn bewurkings
       my traces: Myn trajekten
-      my notes: Myn opmerkings
+      my notes: Myn notysjes
       my messages: Myn berjochten
       my profile: Myn profyl
       my settings: Myn ynstellings
       my comments: Myn reäksjes
       my_preferences: Myn foarkarren
+      my_dashboard: Myn oersjochpaniel
       edit_profile: Profyl bewurkje
       send message: Berjocht stjoere
       diary: Deiboek
       edits: Bewurkings
       traces: Trajekten
-      notes: Kaartopmerkings
+      notes: Kaartnotysjes
+      remove as friend: Untfreonje
       add as friend: Freon tafoegje
       mapper since: 'Kaartmakker sûnt:'
       email address: 'E-mailadres:'
       status: 'Status:'
       description: Beskriuwing
       comments: Reäksjes
+      report: Dizze meidogger melde
     account:
+      my settings: Myn ynstellings
+      current email address: Hjoeddeisk e-mailadres
+      external auth: Autentifikaasje om utens
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: wat is dit?
       public editing:
+        heading: Iepenbier bewurkjen
+        enabled: Ynskeakele. Net anonym en kin data bewurkje.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: wat is dit?
+      public editing note:
+        heading: Iepenbier bewurkjen
+      contributor terms:
+        heading: Bydragersbetingsten
+        agreed: Jo binne akkoart gien mei de nije Bydragersbetingsten.
+        not yet agreed: Jo binne noch net akkoart gien mei de nije Bydragersbetingsten.
+        link text: wat is dit?
+      save changes button: Feroarings bewarje
     index:
       title: Meidoggers
       heading: Meidoggers
@@ -1120,9 +1385,15 @@ fy:
       previous: « Foarige
   notes:
     index:
+      title: Troch %{user} yntsjinne as op reägearre notysjes
+      heading: Notysjes fan %{user}
+      subheading_html: Troch %{user} yntsjinne as op reägearre notysjes
+      no_notes: Gjin notysjes
       id: Id
       creator: Auteur
       description: Beskriuwing
+      created_at: Makke op
+      last_changed: Lêst wizige
   javascripts:
     close: Slute
     share:
@@ -1172,7 +1443,7 @@ fy:
         opnvkarte: Ferfiermiddels
       layers:
         header: Kaartlagen
-        notes: Kaartopmerkings
+        notes: Kaartnotysjes
         data: Kaartdata
         gps: Iepenbiere GPS-trajekten
         overlays: Boppelagen ynskeakelje ta oplossing fan kaartproblemen
@@ -1191,10 +1462,10 @@ fy:
     site:
       edit_tooltip: De kaart bewurkje
       edit_disabled_tooltip: Zoom yn om 'e kaart bewurkje te kinnen
-      createnote_tooltip: In opmerking oan 'e kaart taheakje
-      createnote_disabled_tooltip: Zoom yn om in opmerking oan 'e kaart taheakje te
+      createnote_tooltip: In notysje oan 'e kaart taheakje
+      createnote_disabled_tooltip: Zoom yn om in notysje oan 'e kaart taheakje te
         kinnen
-      map_notes_zoom_in_tooltip: Zoom yn om kaartopmerkings sjen te kinnen
+      map_notes_zoom_in_tooltip: Zoom yn om kaartnotysjes sjen te kinnen
       map_data_zoom_in_tooltip: Zoom yn om kaartdata sjen te kinnen
       queryfeature_tooltip: Skaaimerken opfreegje
       queryfeature_disabled_tooltip: Zoom yn om skaaimerken opfreegje te kinnen
@@ -1202,11 +1473,19 @@ fy:
       new:
         intro: Flater sjoen of mist der wat? Lit it de oare kaartmakkers witte, dan
           meitsje wy it yn oarder. Sko de markearder op it krekte plak, en typ in
-          opmerking oer it probleem.
-        advice: Jo opmerking is iepenbier en kin brûkt wurde ta ferbettering fan 'e
+          notysje oer it probleem.
+        advice: Jo notysje is iepenbier en kin brûkt wurde ta ferbettering fan 'e
           kaart; dat fier neat persoanliks yn, gjin ynfo fan kaarten of yndeksen mei
           auteursrjocht.
-        add: Opmerking taheakje
+        add: Notysje taheakje
+      show:
+        anonymous_warning: Dizze notysje befettet reäksjes fan anonime meidoggers
+          dy't apart neigien wurde moatte.
+        hide: Ferbergje
+        resolve: Oplosse
+        reactivate: Weraktivearje
+        comment_and_resolve: Reägearje & oplosse
+        comment: Reägearje
     edit_help: Sko de kaart en zoom yn op 'e lokaasje dy't jo bewurkje wolle, klik
       dan hjir.
     directions:
@@ -1308,7 +1587,7 @@ fy:
     context:
       directions_from: Rûte hjir wei
       directions_to: Rûte hjir hinne
-      add_note: Hjir in opmerking taheakje
+      add_note: Hjir in notysje taheakje
       show_address: Adres werjaan
       query_features: Skaaimerken opfreegje
       centre_map: Kaart hjir sintrearje

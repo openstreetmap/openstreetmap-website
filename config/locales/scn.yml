@@ -13,12 +13,16 @@ scn:
     formats:
       friendly: '%e %B %Y ê %H:%M'
   helpers:
+    file:
+      prompt: Scegghi file
     submit:
       diary_comment:
         create: Sarva
       diary_entry:
         create: Pùbblica
         update: Agghiorna
+      issue_comment:
+        create: Agghiunci cummentu
       message:
         create: Manna
       client_application:
@@ -72,6 +76,7 @@ scn:
       client_application:
         callback_url: URL di callback
         support_url: URL di l'assistenza
+        allow_write_notes: cancia li noti
       diary_comment:
         body: Corpu
       diary_entry:
@@ -110,11 +115,12 @@ scn:
         new_email: Nnirizzu di posta elittrònica novu
         active: Attivu
         display_name: Nomu ammustratu
-        description: Discrizzioni
+        description: Discrizzioni dû prufilu
         home_lat: Latitùdini
         home_lon: Luncitùdini
         languages: Lingui
         pass_crypt: Palora d'òrdini
+        pass_crypt_confirmation: Cunferma password
     help:
       trace:
         tagstring: spartuti câ vìrgula
@@ -122,6 +128,20 @@ scn:
         needs_view: Havi a tràsiri l'utenti avanti chi stu bloccu veni livatu?
       user:
         new_email: (nun veni ammustratu mai pubblicamenti)
+  datetime:
+    distance_in_words_ago:
+      x_minutes:
+        one: 1 minutu fa
+        other: '%{count} minuti fa'
+      x_days:
+        one: 1 jornu fa
+        other: '%{count} jorna fa'
+      x_months:
+        one: 1 misi fa
+        other: '%{count} misi fa'
+      x_years:
+        one: 1 annu fa
+        other: '%{count} anni fa'
   editor:
     default: Pridifinutu (com'a ora %{name})
     id:
@@ -129,13 +149,14 @@ scn:
       description: iD (editor ntô browser)
     remote:
       name: Telecumannu
-      description: Telecumannu (JOSM o Merkaartor)
+      description: Telecumannu (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Nuddu
       openid: OpenID
       google: Google
       facebook: Facebook
+      windowslive: Windows Live
       github: GitHub
       wikipedia: Wikipedia
   api:
@@ -333,6 +354,7 @@ scn:
       nearby mapper: Mappaturi vicinu
       friend: Amicu
     show:
+      edit_your_profile: Cancia lu tò prufilu
       no friends: Ancora nun agghiuncisti nuddu amicu.
       nearby users: Àutri utenti vicinu
       no nearby users: Ancora nun ci sunnu àutri utenti chi si dichiàranu mappatura
@@ -928,6 +950,14 @@ scn:
     results:
       no_results: Nuddu risurtatu attruvatu
       more_results: Àutri risurtati
+  reports:
+    new:
+      categories:
+        user:
+          other_label: Àutru
+        note:
+          spam_label: Sta nota è spam
+          other_label: Àutru
   layouts:
     logo:
       alt_text: Logu d'OpenStreetMap
@@ -989,6 +1019,7 @@ scn:
       footer_html: Poi lèggiri lu missaggiu macari nta %{readurl} e ci poi arrispùnniri
         di %{replyurl}
     friendship_notification:
+      hi: Salutamu %{to_user},
       subject: '[OpenStreetMap] %{user} t''agghiuncìu comu amicu'
       had_added_you: '%{user} t''agghiuncìu comu amicu nta OpenStreetMap.'
       see_their_profile: Poi taliari lu sò prufilu nta %{userurl}.
@@ -998,6 +1029,7 @@ scn:
       failed_to_import: 'nun arriniscìu a èssiri mpurtatu. Ccà c''è l''erruri:'
       subject: '[OpenStreetMap] Mpurtazzioni GPX nun arrinisciuta'
     gpx_success:
+      hi: Salutamu %{to_user},
       loaded_successfully: fu carricatu bonu cu %{trace_points} dî %{possible_points}
         punti pussìbbili.
       subject: '[OpenStreetMap] Mpurtazzioni GPX arrinisciuta'
@@ -1055,6 +1087,7 @@ scn:
           tu cummintasti. La nota s''attrova vicinu a %{place}.'
       details: Poi attruvari àutri dittagghî di sta nota nta %{url}.
     changeset_comment_notification:
+      hi: Salutamu %{to_user},
       greeting: Salutamu,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} cummintau unu dî tò gruppa di canciamenti'
@@ -1188,6 +1221,7 @@ scn:
       image: 'Mmàggini:'
       gravatar:
         gravatar: Adòpira Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
       new image: Agghiunci na mmàggini
       keep image: Manteni la mmàggini attuali
       delete image: Leva la mmàggini attuali
@@ -1250,6 +1284,9 @@ scn:
       logout_button: Nesci
   shared:
     markdown_help:
+      heading: Ntistazzioni
+      subheading: Suttantistazzioni
+      link: Culligamentu
       text: Testu
       image: Mmàggini
       url: URL
@@ -1526,6 +1563,8 @@ scn:
         title: switch2osm
         description: Aiutu pi mprisi e assuciazzioni chi vannu a passari ê cartini
           e a l'àutri sirvizzi basati supra a OpenStreetMap.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
       wiki:
         url: http://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1878,11 +1917,15 @@ scn:
         france: Francia
         italy: Italia
         rest_of_world: Restu dû munnu
+    terms_declined_flash:
+      terms_declined_link: sta pàggina wiki
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: St'utenti nun c'è
       heading: L’utenti %{user} nun esisti
       body: Purtroppu nun c'è nuddu utenti chi si chiama %{user}. Pi favuri cuntrolla
         chi scrivisti bonu, o puru pò èssiri chi lu culligamentu chi cliccasti è sbagghiatu.
+      deleted: cancillatu
     show:
       my diary: Lu mè diariu
       new diary entry: vuci nova dû diariu
@@ -1893,8 +1936,10 @@ scn:
       my profile: Lu mè prufilu
       my settings: Li mè mpustazzioni
       my comments: Li mè cummenti
+      my_preferences: Li mè prifirenzi
       blocks on me: Cu blocca a mìa
       blocks by me: A cu bloccu iu
+      edit_profile: Cancia prufilu
       send message: Manna nu missaggiu
       diary: Diariu
       edits: Canciamenti
@@ -2158,9 +2203,11 @@ scn:
         title: Ammustra unni sugnu
       base:
         standard: Standard
+        cyclosm: CyclOSM
         cycle_map: Cartina pî bicicletti
         transport_map: Mappa dî trasporti
         hot: Umanitaria
+        opnvkarte: ÖPNVKarte
       layers:
         header: Strati dâ cartina
         notes: Noti dâ cartina
@@ -2234,6 +2281,17 @@ scn:
         roundabout_with_exit: Â rutunna pigghiari la nisciuta %{exit} pi %{name}
         unnamed: strata senza nomu
         courtesy: Nnicazzioni pi cuncissioni gintili di %{link}
+        exit_counts:
+          first: 1ª
+          second: 2ª
+          third: 3ª
+          fourth: 4ª
+          fifth: 5ª
+          sixth: 6ª
+          seventh: 7ª
+          eighth: 8ª
+          ninth: 9ª
+          tenth: 10ª
       time: Tempu
     query:
       node: Gruppu
