@@ -45,7 +45,6 @@
 
 class User < ApplicationRecord
   require "digest"
-  require "xml/libxml"
 
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }
