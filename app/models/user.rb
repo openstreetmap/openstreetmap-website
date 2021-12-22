@@ -242,8 +242,8 @@ class User < ApplicationRecord
   end
 
   ##
-  # delete a user - leave the account but purge most personal data
-  def delete
+  # destroy a user - leave the account but purge most personal data
+  def destroy
     avatar.purge_later
 
     self.display_name = "user_#{id}"

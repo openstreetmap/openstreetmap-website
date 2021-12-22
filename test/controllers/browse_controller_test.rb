@@ -161,7 +161,7 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.note-comments ul li", :count => 2
     assert_select "div.details", /Resolved by #{user.display_name}/
 
-    user.delete
+    user.destroy
 
     reset!
 
