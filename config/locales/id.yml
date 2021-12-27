@@ -57,6 +57,9 @@ id:
       client_application:
         create: Daftar
         update: Perbarui
+      doorkeeper_application:
+        create: Daftar
+        update: Perbarui
       redaction:
         create: Membuat Redaksi
         update: Simpan Redaksi
@@ -499,6 +502,10 @@ id:
       nearby mapper: Pembuat peta disekitar Anda
       friend: Teman
     show:
+      title: Dasborku
+      no_home_location_html: '%{edit_profile_link} dan atur lokasi rumah Anda untuk
+        melihat pengguna yang ada di sekitar.'
+      edit_your_profile: Sunting profil Anda
       my friends: Teman saya
       no friends: Anda belum menambahkan teman.
       nearby users: Pengguna lain terdekat
@@ -577,11 +584,20 @@ id:
         title: Entri catatan harian OpenStreetMap
         description: Entri catatan harian terbaru dari pengguna OpenStreetMap
     comments:
+      title: Komentar Buku Harian ditambahkan oleh %{user}
+      heading: Komentar Buku Harian %{user}
+      subheading_html: Komentar Buku Harian yang ditambahkan oleh %{user}
+      no_comments: Tidak ada komentar buku harian
       post: Artikel
       when: Kapan
       comment: Komentar
       newer_comments: Komentar Baru
       older_comments: Komentar Lama
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Aplikasi Didaftarkan.
   friendships:
     make_friend:
       heading: Tambahkan %{user} sebagai teman?
@@ -589,6 +605,8 @@ id:
       success: '%{name} sekarang adalah teman Anda!'
       failed: Maaf, gagal menambahkan %{name} sebagai teman.
       already_a_friend: Anda sudah berteman dengan %{name}.
+      limit_exceeded: Anda telah berteman dengan banyak sekali penggunan akhir-akhir
+        ini. Silahkan tunggu sebentar sebelum mencoba berteman lagi.
     remove_friend:
       heading: Hapus %{user} sebagai teman?
       button: Hapus sebagai teman
@@ -740,6 +758,8 @@ id:
           commercial: Bangunan Komersial
           construction: Bangunan yang Sedang Dibangun
           dormitory: Asrama
+          garage: Garasi
+          garages: Garasi
           greenhouse: Rumah Kaca
           hangar: Hanggar
           hospital: Bangunan Rumah Sakit
@@ -754,6 +774,8 @@ id:
           public: Bangunan Publik
           residential: Bangunan Perumahan
           retail: Bangunan Retail
+          roof: Atap
+          ruins: Reruntuhan Bangunan
           school: Bangunan Sekolah
           stable: Istal
           static_caravan: Karavan
@@ -764,6 +786,7 @@ id:
           "yes": Bangunan
         club:
           sport: Klub Olahraga
+          "yes": Klub
         craft:
           beekeeper: Peternak Lebah
           blacksmith: Tukang Besi
@@ -1045,6 +1068,7 @@ id:
           "yes": Kantor
         place:
           allotments: Tanah Garapan
+          archipelago: Kepulauan
           city: Kota
           city_block: Blok Kota
           country: Negara
@@ -1389,8 +1413,8 @@ id:
     intro_text: OpenStreetMap adalah peta dunia, diciptakan oleh orang-orang seperti
       Anda dan bebas untuk digunakan di bawah lisensi terbuka.
     intro_2_create_account: Buat Akun
-    hosting_partners_html: Hosting didukung oleh %{ucl}, %{bytemark}, dan %{partners}
-      lainnya.
+    hosting_partners_html: Hosting didukung oleh %{ucl}, %{fastly}, %{bytemark}, dan
+      %{partners} lainnya.
     partners_ucl: UCL
     partners_bytemark: Hosting Bytemark
     partners_partners: mitra
@@ -1582,6 +1606,7 @@ id:
     inbox:
       title: Kotak Masuk
       my_inbox: Kotak Masuk Saya
+      my_outbox: Kotak Keluar Saya
       messages: Anda memiliki %{new_messages} dan %{old_messages}
       new_messages:
         one: '%{count} pesan baru'
@@ -1616,6 +1641,8 @@ id:
       body: Maaf tidak ada pesan dengan id tersebut.
     outbox:
       title: Kotak keluar
+      my_inbox: Kotak Masuk Saya
+      my_outbox: Kotak Keluar Saya
       messages:
         one: Anda memiliki %{count} pesan terkirim
         other: Anda memiliki %{count} pesan terkirim
@@ -1667,10 +1694,23 @@ id:
       flash changed: Kata sandi Anda telah diubah.
       flash token bad: Tidak dapat menemukan token tersebut, cek URL nya mungkin?
   preferences:
+    show:
+      title: Preferensi Saya
+      preferred_editor: Editor yang Dipilih
+      preferred_languages: Bahasa yang Dipilih
+      edit_preferences: Ubah Preferensi
     edit:
+      title: Ubah Preferensi
+      save: Perbarui Preferensi
       cancel: Batal
+    update:
+      failure: Tidak dapat memperbarui preferensi.
+    update_success_flash:
+      message: Preferensi telah diperbarui.
   profiles:
     edit:
+      title: Sunting Profil
+      save: Perbarui Profil
       cancel: Batal
       image: Gambar
       gravatar:
@@ -1688,6 +1728,9 @@ id:
       no home location: Anda telah memasukkan lokasi rumah Anda.
       update home location on click: Memperbarui lokasi rumah ketika saya klik pada
         peta?
+    update:
+      success: Profil telah diperbarui.
+      failure: Tidak dapat memperbarui profil.
   sessions:
     new:
       title: Login
@@ -1711,7 +1754,7 @@ id:
         pada email konfirmasi untuk mengaktifkan akun Anda, atau <a href="%{reconfirm}">minta
         email konfirmasi yang baru</a>.
       account is suspended: Maaf, akun Anda telah dihentikan karena adanya aktivitas
-        mencurigakan.<br />Silahkan kontak/hubungi<a href="%{webmaster}">webmaster</a>
+        mencurigakan.<br />Silakan kontak/hubungi <a href="%{webmaster}">dukungan</a>
         jika Anda ingin mendiskusikannya.
       auth failure: Maaf, tidak bisa login dengan rincian tersebut.
       openid_logo_alt: Login dengan OpenID
@@ -1744,6 +1787,23 @@ id:
       title: Logout
       heading: Logout dari OpenStreetMap
       logout_button: Logout
+  shared:
+    markdown_help:
+      headings: Judul
+      heading: Judul
+      subheading: Subjudul
+      unordered: Daftar tak berurut
+      ordered: Daftar terurut
+      first: Butir pertama
+      second: Butir kedua
+      link: Tautan
+      text: Teks
+      image: Gambar
+      alt: Teks alternatif
+      url: URL
+    richtext_field:
+      edit: Sunting
+      preview: Pratayang
   site:
     about:
       next: Berikutnya
@@ -1825,9 +1885,7 @@ id:
         credit_3_1_html: |-
           Tile peta dalam &ldquo;gaya standar&rdquo; di www.openstreetmap.org adalah
           Karya Produksi oleh OpenStreetMap Foundation menggunakan data OpenStreetMap
-          di bawah Open Database License. Jika Anda menggunakan tile ini tolong gunakan
-          atribusi berikut:
-          &ldquo;Peta dasar dan data dari OpenStreetMap dan OpenStreetMap Foundation&rdquo;.
+          di bawah Open Database License. Ketika menggunakan gaya peta ini, atribusi yang sama diharuskan untuk data peta.
         credit_4_html: |-
           Untuk peta elektronik dapat ditelusuri, kredit harus muncul di sudut peta.
           Sebagai contoh:
@@ -1855,10 +1913,10 @@ id:
           <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> dan
           Land Tirol (lisensi <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT dengan perubahan</a>).
         contributors_au_html: |-
-          <strong>Australia</strong>: Berisi data bersumber dari
+          <strong>Australia</strong>: Memasukkan atau dikembangkan menggunakan Administrative Boundaries &copy;
           <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia Limited</a>
-          atas lisensi dari Commonwealth of Australia berdasarkan
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+          dilisensikan oleh Commonwealth of Australia di bawah
+          <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International licence (CC BY 4.0)</a>.
         contributors_ca_html: |-
           <strong>Kanada</strong>: Berisi data dari
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -2045,6 +2103,15 @@ id:
         url: http://wiki.openstreetmap.org/
         title: Wiki OpenStreetMap
         description: Telusuri wiki untuk dokumentasi mendalam OpenStreetMap.
+    potlatch:
+      removed: Editor OpenStreetMap baku Anda ditetapkan menjadi Potlatch. Karena
+        Adobe Flash Player telah ditarik; Potlatch tidak lagi tersedia untuk digunakan
+        di penjelajah web.
+      desktop_html: Anda masih bisa menggunakan Potlatch dengan <a href="https://www.systemed.net/potlatch/">mengunduh
+        aplikasi desktop untuk Mac dan Windows</a>.
+      id_html: Selain itu, Anda bisa mengubah editor baku Anda menjadi iD, yang bisa
+        dijalankan di penjelajah web layaknya Potlatch dahulu kala. <a href="%{settings_url}">Ubah
+        preferensi Anda di sini</a>.
     sidebar:
       search_results: Hasil Pencarian
       close: Tutup
@@ -2257,7 +2324,7 @@ id:
       in: dalam
     index:
       public_traces: Jejak GPS Umum
-      my_traces: Trek GPS saya
+      my_traces: Jejak Saya
       public_traces_from: Jejak GPS Umum dari %{user}
       description: Ramban unggahan jejak GPS terbaru.
       tagged_with: di tag dengan %{tags}
@@ -2265,6 +2332,8 @@ id:
         GPS baru</a> atau belajar lebih banyak tentang pencatatan jejak GPS pada <a
         href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>halaman wiki</a>.
       upload_trace: Unggah jejak GPS
+      all_traces: Semua Jejak
+      traces_from: Jejak Publik dari %{user}
     destroy:
       scheduled_for_deletion: Trek yang dijadwalkan untuk dihapus
     make_public:
@@ -2296,6 +2365,11 @@ id:
       need_to_see_terms: Akses Anda ke API untuk sementara ditangguhkan. Silahkan
         log-in ke antarmuka web untuk melihat persyaratan kontributor. Anda tidak
         perlu untuk setuju, tapi Anda harus melihat mereka.
+    settings_menu:
+      account_settings: Setelan Akun
+      oauth1_settings: Setelah OAuth 1
+      oauth2_applications: Aplikasi OAuth 2
+      oauth2_authorizations: Otorisasi OAuth 2
   oauth:
     authorize:
       title: Otorisasi akses ke akun Anda
@@ -2323,6 +2397,15 @@ id:
       flash: Anda telah menolak token untuk %(application}
     permissions:
       missing: Anda tidak mengizinkan akses aplikasi ke fasilitas ini
+    scopes:
+      read_prefs: Baca preferensi pengguna
+      write_prefs: Ubah preferensi pengguna
+      write_diary: Buat entri buku harian, komentar dan berteman
+      write_api: Ubah peta
+      read_gpx: Baca jejak GPS pribadi
+      write_gpx: Unggah jejak GPS
+      write_notes: Ubah catatan
+      read_email: Baca alamat surel pengguna
   oauth_clients:
     new:
       title: Daftar aplikasi baru
@@ -2364,12 +2447,29 @@ id:
       flash: Informasi klien telah sukses diperbarui.
     destroy:
       flash: Registrasi aplikasi klien telah dibatalkan.
+  oauth2_applications:
+    index:
+      new: Daftarkan aplikasi baru
+      name: Nama
+      permissions: Izin
+    application:
+      edit: Sunting
+      delete: Hapus
+      confirm_delete: Hapus aplikasi ini?
+    new:
+      title: Daftarkan aplikasi baru
+    edit:
+      title: Edit aplikasi Anda
+    show:
+      edit: Sunting
+      delete: Hapus
+      confirm_delete: Hapus aplikasi ini?
   users:
     new:
       title: Mendaftar
       no_auto_account_create: Sayangnya saat ini kami tidak dapat membuatkan akun
         secara otomatis untuk Anda.
-      contact_support_html: Silahkan kontak <a href="%{support}">webmaster</a> untuk
+      contact_support_html: Silakan kontak <a href="%{support}">dukungan</a> untuk
         mengatur sebuah akun untuk dibuat - kami akan mencoba menangani permintaan
         ini secepat mungkin.
       about:
@@ -2618,8 +2718,8 @@ id:
     show:
       title: '%{block_on} diblokir oleh %{block_by}'
       heading_html: '%{block_on} diblokir oleh %{block_by}'
-      created: Dibuat
-      status: Status
+      created: 'Dibuat:'
+      status: 'Status:'
       show: Tampilkan
       edit: Edit
       revoke: Batalkan!
