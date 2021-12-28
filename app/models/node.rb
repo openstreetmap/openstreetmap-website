@@ -206,7 +206,7 @@ class Node < ApplicationRecord
   end
 
   def tags
-    @tags ||= node_tags.collect { |t| [t.k, t.v] }.to_h
+    @tags ||= node_tags.to_h { |t| [t.k, t.v] }
   end
 
   attr_writer :tags

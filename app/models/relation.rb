@@ -130,7 +130,7 @@ class Relation < ApplicationRecord
   end
 
   def tags
-    @tags ||= relation_tags.collect { |t| [t.k, t.v] }.to_h
+    @tags ||= relation_tags.to_h { |t| [t.k, t.v] }
   end
 
   attr_writer :members, :tags

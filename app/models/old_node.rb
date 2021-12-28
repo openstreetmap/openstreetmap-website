@@ -82,7 +82,7 @@ class OldNode < ApplicationRecord
   end
 
   def tags
-    @tags ||= old_tags.collect { |t| [t.k, t.v] }.to_h
+    @tags ||= old_tags.to_h { |t| [t.k, t.v] }
   end
 
   attr_writer :tags
