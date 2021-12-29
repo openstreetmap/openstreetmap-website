@@ -48,13 +48,16 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal user.description, User.find(user.id).description
 
     # Adding external authentication should redirect to the auth provider
-    put account_path, :params => { :user => user.attributes.merge(:auth_provider => "openid", :auth_uid => "gmail.com") }
+    patch account_path, :params => { :user => user.attributes.merge(:auth_provider => "google") }
     assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "https://www.google.com/accounts/o8/id", :origin => "/account")
+    assert_redirected_to auth_path(:provider => "google", :origin => "/account")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to %r{^https://accounts.google.com/o/oauth2/auth\?.*}
 
     # Changing name to one that exists should fail
     new_attributes = user.attributes.dup.merge(:display_name => create(:user).display_name)
-    put account_path, :params => { :user => new_attributes }
+    patch account_path, :params => { :user => new_attributes }
     assert_response :success
     assert_template :edit
     assert_select ".notice", false
@@ -62,7 +65,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
     # Changing name to one that exists should fail, regardless of case
     new_attributes = user.attributes.dup.merge(:display_name => create(:user).display_name.upcase)
-    put account_path, :params => { :user => new_attributes }
+    patch account_path, :params => { :user => new_attributes }
     assert_response :success
     assert_template :edit
     assert_select ".notice", false
@@ -70,7 +73,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
     # Changing name to one that doesn't exist should work
     new_attributes = user.attributes.dup.merge(:display_name => "new tester")
-    put account_path, :params => { :user => new_attributes }
+    patch account_path, :params => { :user => new_attributes }
     assert_response :redirect
     assert_redirected_to edit_account_url
     get edit_account_path
@@ -86,7 +89,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     user.new_email = create(:user).email
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       perform_enqueued_jobs do
-        put account_path, :params => { :user => user.attributes }
+        patch account_path, :params => { :user => user.attributes }
       end
     end
     assert_response :success
@@ -98,7 +101,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     user.new_email = create(:user).email.upcase
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       perform_enqueued_jobs do
-        put account_path, :params => { :user => user.attributes }
+        patch account_path, :params => { :user => user.attributes }
       end
     end
     assert_response :success
@@ -110,7 +113,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     user.new_email = "new_tester@example.com"
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
-        put account_path, :params => { :user => user.attributes }
+        patch account_path, :params => { :user => user.attributes }
       end
     end
     assert_response :redirect
