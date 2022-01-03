@@ -15,9 +15,12 @@
 # Author: Y-M D
 ---
 br:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y da %H:%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Dibab ur restr
@@ -232,6 +235,9 @@ br:
         few: '%{count} bloaz zo'
         many: '%{count} bloaz zo'
         other: '%{count} bloaz zo'
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Dre ziouer (%{name} er mare-mañ)
     id:
@@ -367,14 +373,15 @@ br:
     relation:
       title_html: 'Darempred: %{name}'
       history_title_html: 'Istor an darempred: %{name}'
-      members: Izili
+      members: Ezel
       members_count:
         one: 1 ezel
-        two: 2 izili
-        few: '%{count} izili'
-        many: '%{count} izili'
-        other: '%{count} izili'
+        two: 2 ezel
+        few: '%{count} ezel'
+        many: '%{count} ezel'
+        other: '%{count} ezel'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} evel %{role}'
       type:
         node: Skoulm
@@ -572,6 +579,7 @@ br:
       location: 'Lec''hiadur:'
       view: Diskwel
       edit: Aozañ
+      coordinates: '%{latitude} ; %{longitude}'
     feed:
       user:
         title: Enmontoù deizlevr OpenStreetMap gant %{user}
@@ -614,6 +622,7 @@ br:
           Nominatim</a>
         geonames_reverse_html: Disoc'hoù diwar <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Karr-fun
@@ -1454,6 +1463,9 @@ br:
       successful_report: Enrollet mat eo bet ho tanevell
       provide_details: Roit ar munudoù goulennet mar plij
   layouts:
+    project_name:
+      title: OpenStreetMap
+      h1: OpenStreetMap
     logo:
       alt_text: Logo OpenStreetMap
     home: Mont da lec'h ar gêr
@@ -2000,6 +2012,7 @@ br:
         hoc'h aozadennoù da vezañ foran. Gallout a rit lakaat hoc'h aozadennoù da
         vezañ foran diwar ho %{user_page}.
       user_page_link: pajenn implijer
+      anon_edits_html: (%{link})
       anon_edits_link_text: Kavit perak.
       id_not_configured: N'eo ket bet kefluniet an ID
       no_iframe_support: N'eo ket ho merdeer evit ober gant iframmoù HTML, hag ezhomm
