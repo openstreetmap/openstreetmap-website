@@ -12,7 +12,13 @@ const ohmTileServicesLists = {
   ],
 };
 
+const spriteSheetUrls = {
+  "production": "https://openhistoricalmap.github.io/map-styles/ohm_timeslider_tegola/osm_tegola_spritesheet-production",
+  "staging": "https://openhistoricalmap.github.io/map-styles/ohm_timeslider_tegola/osm_tegola_spritesheet",
+};
+
 const ohmTileServicesList = ohmTileServicesLists[ohmTileServiceName];
+const spriteSheetUrl = spriteSheetUrls[ohmTileServiceName];
 
 const ohmStyle = {
   "version": 8,
@@ -24,7 +30,7 @@ const ohmStyle = {
       "tiles": ohmTileServicesList,
     }
   },
-  "sprite": "https://openhistoricalmap.github.io/map-styles/ohm_timeslider_tegola/osm_tegola_spritesheet",
+  "sprite": spriteSheetUrl,
   "glyphs": "https://go-spatial.github.io/carto-assets/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
