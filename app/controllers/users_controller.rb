@@ -164,8 +164,6 @@ class UsersController < ApplicationController
 
       Rails.logger.info "create: #{session[:referer]}"
 
-      current_user.status = "pending"
-
       if current_user.auth_provider.present? && current_user.pass_crypt.empty?
         # We are creating an account with external authentication and
         # no password was specified so create a random one
@@ -202,15 +200,17 @@ class UsersController < ApplicationController
   ##
   # sets a user's status
   def set_status
-    @user.status = params[:status]
-    @user.save
+    @user.activate! if params[:event] == "activate"
+    @user.confirm! if params[:event] == "confirm"
+    @user.hide! if params[:event] == "hide"
+    @user.unhide! if params[:event] == "unhide"
     redirect_to user_path(:display_name => params[:display_name])
   end
 
   ##
   # destroy a user, marking them as deleted and removing personal data
   def destroy
-    @user.destroy
+    @user.soft_destroy!
     redirect_to user_path(:display_name => params[:display_name])
   end
 

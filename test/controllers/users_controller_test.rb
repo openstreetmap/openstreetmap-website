@@ -547,21 +547,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
 
     # Try without logging in
-    post set_status_user_path(user), :params => { :status => "suspended" }
+    post set_status_user_path(user), :params => { :event => "confirm" }
     assert_response :forbidden
 
     # Now try as a normal user
     session_for(user)
-    post set_status_user_path(user), :params => { :status => "suspended" }
+    post set_status_user_path(user), :params => { :event => "confirm" }
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
-    post set_status_user_path(user), :params => { :status => "suspended" }
+    post set_status_user_path(user), :params => { :event => "confirm" }
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name
-    assert_equal "suspended", User.find(user.id).status
+    assert_equal "confirmed", User.find(user.id).status
   end
 
   def test_destroy

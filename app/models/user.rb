@@ -45,6 +45,7 @@
 
 class User < ApplicationRecord
   require "digest"
+  include AASM
 
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }
@@ -158,6 +159,51 @@ class User < ApplicationRecord
     user
   end
 
+  aasm :column => :status, :no_direct_assignment => true do
+    state :pending, :initial => true
+    state :active
+    state :confirmed
+    state :suspended
+    state :deleted
+
+    # A normal account is active
+    event :activate do
+      transitions :from => :pending, :to => :active
+    end
+
+    # Used in test suite, not something that we would normally need to do.
+    event :deactivate do
+      transitions :from => :active, :to => :pending
+    end
+
+    # To confirm an account is used to override the spam scoring
+    event :confirm do
+      transitions :from => [:pending, :active, :suspended], :to => :confirmed
+    end
+
+    event :suspend do
+      transitions :from => [:pending, :active], :to => :suspended
+    end
+
+    # Mark the account as deleted but keep all data intact
+    event :hide do
+      transitions :from => [:pending, :active, :confirmed, :suspended], :to => :deleted
+    end
+
+    event :unhide do
+      transitions :from => [:deleted], :to => :active
+    end
+
+    # Mark the account as deleted and remove personal data
+    event :soft_destroy do
+      before do
+        remove_personal_data
+      end
+
+      transitions :from => [:pending, :active, :confirmed, :suspended], :to => :deleted
+    end
+  end
+
   def description
     RichText.new(self[:description_format], self[:description])
   end
@@ -241,8 +287,8 @@ class User < ApplicationRecord
   end
 
   ##
-  # destroy a user - leave the account but purge most personal data
-  def destroy
+  # remove personal data - leave the account but purge most personal data
+  def remove_personal_data
     avatar.purge_later
 
     self.display_name = "user_#{id}"
@@ -253,7 +299,6 @@ class User < ApplicationRecord
     self.new_email = nil
     self.auth_provider = nil
     self.auth_uid = nil
-    self.status = "deleted"
 
     save
   end
@@ -279,7 +324,7 @@ class User < ApplicationRecord
   ##
   # perform a spam check on a user
   def spam_check
-    update(:status => "suspended") if status == "active" && spam_score > Settings.spam_threshold
+    suspend! if may_suspend? && spam_score > Settings.spam_threshold
   end
 
   ##
