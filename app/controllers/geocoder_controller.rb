@@ -296,17 +296,17 @@ class GeocoderController < ApplicationController
       elsif latlon = query.match(/^(\d{1,3}(\.\d*)?)\s*([NS])\W*(\d{1,3}(\.\d*)?)\s*([EW])$/).try(:captures) # decimal degrees [NSEW]
         params.merge!(nsew_to_decdeg(latlon)).delete(:query)
 
-      elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?$/).try(:captures) # [NSEW] degrees, decimal minutes
+      elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?\W*([EW])\s*(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?$/).try(:captures) # [NSEW] degrees, decimal minutes
         params.merge!(ddm_to_decdeg(latlon)).delete(:query)
-      elsif latlon = query.match(/^(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\s*([NS])\W*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\s*([EW])$/).try(:captures) # degrees, decimal minutes [NSEW]
+      elsif latlon = query.match(/^(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?\s*([NS])\W*(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?\s*([EW])$/).try(:captures) # degrees, decimal minutes [NSEW]
         params.merge!(ddm_to_decdeg(latlon)).delete(:query)
 
-      elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?$/).try(:captures) # [NSEW] degrees, minutes, decimal seconds
+      elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?$/).try(:captures) # [NSEW] degrees, minutes, decimal seconds
         params.merge!(dms_to_decdeg(latlon)).delete(:query)
-      elsif latlon = query.match(/^(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?\s*([EW])$/).try(:captures) # degrees, minutes, decimal seconds [NSEW]
+      elsif latlon = query.match(/^(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?\s*([EW])$/).try(:captures) # degrees, minutes, decimal seconds [NSEW]
         params.merge!(dms_to_decdeg(latlon)).delete(:query)
 
-      elsif latlon = query.match(/^\s*([+-]?\d+(\.\d*)?)\s*[\s,]\s*([+-]?\d+(\.\d*)?)\s*$/)
+      elsif latlon = query.match(/^([+-]?\d+(\.\d*)?)(?:\s+|\s*,\s*)([+-]?\d+(\.\d*)?)$/)
         params.merge!(:lat => latlon[1].to_f, :lon => latlon[3].to_f).delete(:query)
 
         params[:latlon_digits] = true unless params[:whereami]
