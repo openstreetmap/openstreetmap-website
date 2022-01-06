@@ -5,21 +5,21 @@ class IssuesTest < ApplicationSystemTestCase
 
   def test_view_issues_not_logged_in
     visit issues_path
-    assert page.has_content?(I18n.t("sessions.new.title"))
+    assert_content I18n.t("sessions.new.title")
   end
 
   def test_view_issues_normal_user
     sign_in_as(create(:user))
 
     visit issues_path
-    assert page.has_content?("Forbidden")
+    assert_content "Forbidden"
   end
 
   def test_view_no_issues
     sign_in_as(create(:moderator_user))
 
     visit issues_path
-    assert page.has_content?(I18n.t("issues.index.issues_not_found"))
+    assert_content I18n.t("issues.index.issues_not_found")
   end
 
   def test_view_issues
@@ -27,7 +27,7 @@ class IssuesTest < ApplicationSystemTestCase
     issues = create_list(:issue, 3, :assigned_role => "moderator")
 
     visit issues_path
-    assert page.has_content?(issues.first.reported_user.display_name)
+    assert_content issues.first.reported_user.display_name
   end
 
   def test_view_issues_with_no_reported_user
@@ -36,10 +36,10 @@ class IssuesTest < ApplicationSystemTestCase
     issue = create(:issue, :reportable => anonymous_note, :assigned_role => "moderator")
 
     visit issues_path
-    assert page.has_content?(reportable_title(anonymous_note))
+    assert_content reportable_title(anonymous_note)
 
     visit issue_path(issue)
-    assert page.has_content?(reportable_title(anonymous_note))
+    assert_content reportable_title(anonymous_note)
   end
 
   def test_search_issues_by_user
@@ -53,22 +53,22 @@ class IssuesTest < ApplicationSystemTestCase
     visit issues_path
     fill_in "search_by_user", :with => good_user.display_name
     click_on "Search"
-    assert_not page.has_content?(I18n.t("issues.index.user_not_found"))
-    assert page.has_content?(I18n.t("issues.index.issues_not_found"))
+    assert_no_content I18n.t("issues.index.user_not_found")
+    assert_content I18n.t("issues.index.issues_not_found")
 
     # User doesn't exist
     visit issues_path
     fill_in "search_by_user", :with => "Nonexistent User"
     click_on "Search"
-    assert page.has_content?(I18n.t("issues.index.user_not_found"))
-    assert page.has_content?(I18n.t("issues.index.issues_not_found"))
+    assert_content I18n.t("issues.index.user_not_found")
+    assert_content I18n.t("issues.index.issues_not_found")
 
     # Find Issue against bad_user
     visit issues_path
     fill_in "search_by_user", :with => bad_user.display_name
     click_on "Search"
-    assert_not page.has_content?(I18n.t("issues.index.user_not_found"))
-    assert_not page.has_content?(I18n.t("issues.index.issues_not_found"))
+    assert_no_content I18n.t("issues.index.user_not_found")
+    assert_no_content I18n.t("issues.index.issues_not_found")
   end
 
   def test_commenting
@@ -79,8 +79,8 @@ class IssuesTest < ApplicationSystemTestCase
 
     fill_in :issue_comment_body, :with => "test comment"
     click_on "Add Comment"
-    assert page.has_content?(I18n.t("issue_comments.create.comment_created"))
-    assert page.has_content?("test comment")
+    assert_content I18n.t("issue_comments.create.comment_created")
+    assert_content "test comment"
 
     issue.reload
     assert_equal("test comment", issue.comments.first.body)

@@ -7,7 +7,7 @@ class PreferencesTest < ApplicationSystemTestCase
     visit edit_preferences_path
     click_on "Update Preferences"
 
-    assert page.has_content?("Preferences updated")
+    assert_content "Preferences updated"
   end
 
   def test_flash_message_shows_in_new_language
@@ -17,6 +17,6 @@ class PreferencesTest < ApplicationSystemTestCase
     fill_in "Preferred Languages", :with => "fr"
     click_on "Update Preferences"
 
-    assert page.has_content?("Préférences mises à jour")
+    assert_content "Préférences mises à jour"
   end
 end
