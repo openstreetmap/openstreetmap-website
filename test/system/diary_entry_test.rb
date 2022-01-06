@@ -12,7 +12,7 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
 
     click_on "Send a message to the author"
 
-    assert page.has_content? "Send a new message"
+    assert_content "Send a new message"
     assert_equal "Re: #{@diary_entry.title}", page.find_field("Subject").value
   end
 
@@ -22,7 +22,7 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
     sign_in_as(create(:user))
     visit diary_entries_path
 
-    assert_not page.has_content? @deleted_entry.title
+    assert_no_content @deleted_entry.title
   end
 
   test "deleted diary entries should be shown to administrators for review" do
@@ -31,7 +31,7 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
     sign_in_as(create(:administrator_user))
     visit diary_entries_path
 
-    assert page.has_content? @deleted_entry.title
+    assert_content @deleted_entry.title
   end
 
   test "deleted diary entries should not be shown to admins when the user is also deleted" do
@@ -41,7 +41,7 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
     sign_in_as(create(:administrator_user))
     visit diary_entries_path
 
-    assert_not page.has_content? @deleted_entry.title
+    assert_no_content @deleted_entry.title
   end
 
   test "deleted diary comments should be hidden for regular users" do
@@ -50,7 +50,7 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
     sign_in_as(create(:user))
     visit diary_entry_path(@diary_entry.user, @diary_entry)
 
-    assert_not page.has_content? @deleted_comment.body
+    assert_no_content @deleted_comment.body
   end
 
   test "deleted diary comments should be shown to administrators" do
@@ -59,6 +59,6 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
     sign_in_as(create(:administrator_user))
     visit diary_entry_path(@diary_entry.user, @diary_entry)
 
-    assert page.has_content? @deleted_comment.body
+    assert_content @deleted_comment.body
   end
 end

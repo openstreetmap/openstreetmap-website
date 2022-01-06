@@ -20,7 +20,7 @@ class ConfirmationResendSystemTest < ApplicationSystemTestCase
   test "flash message should not contain raw html" do
     visit user_confirm_resend_path(@user)
 
-    assert page.has_content?("sent a new confirmation")
-    assert_not page.has_content?("<p>")
+    assert_content "sent a new confirmation"
+    assert_no_content "<p>"
   end
 end
