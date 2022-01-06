@@ -4,7 +4,7 @@ class MessageTest < ActiveSupport::TestCase
   EURO = "\xe2\x82\xac".freeze # euro symbol
 
   def test_check_empty_message_fails
-    message = Message.new
+    message = build(:message, :title => nil, :body => nil, :sent_on => nil)
     assert_not message.valid?
     assert message.errors[:title].any?
     assert message.errors[:body].any?
