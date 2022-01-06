@@ -4,12 +4,16 @@ class UserTest < ActiveSupport::TestCase
   include Rails::Dom::Testing::Assertions::SelectorAssertions
 
   def test_invalid_with_empty_attributes
-    user = User.new
+    user = build(:user, :email => nil,
+                        :pass_crypt => nil,
+                        :display_name => nil,
+                        :home_lat => nil,
+                        :home_lon => nil,
+                        :home_zoom => nil)
     assert_not user.valid?
     assert user.errors[:email].any?
     assert user.errors[:pass_crypt].any?
     assert user.errors[:display_name].any?
-    assert user.errors[:email].any?
     assert user.errors[:home_lat].none?
     assert user.errors[:home_lon].none?
     assert user.errors[:home_zoom].none?
@@ -17,28 +21,14 @@ class UserTest < ActiveSupport::TestCase
 
   def test_unique_email
     existing_user = create(:user)
-    new_user = User.new(
-      :email => existing_user.email,
-      :status => "active",
-      :pass_crypt => Digest::MD5.hexdigest("test"),
-      :display_name => "new user",
-      :data_public => 1,
-      :description => "desc"
-    )
+    new_user = build(:user, :email => existing_user.email)
     assert_not new_user.save
     assert_includes new_user.errors[:email], "has already been taken"
   end
 
   def test_unique_display_name
     existing_user = create(:user)
-    new_user = User.new(
-      :email => "tester@openstreetmap.org",
-      :status => "pending",
-      :pass_crypt => Digest::MD5.hexdigest("test"),
-      :display_name => existing_user.display_name,
-      :data_public => 1,
-      :description => "desc"
-    )
+    new_user = build(:user, :display_name => existing_user.display_name)
     assert_not new_user.save
     assert_includes new_user.errors[:display_name], "has already been taken"
   end
