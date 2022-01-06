@@ -113,7 +113,7 @@ class IssuesTest < ApplicationSystemTestCase
 
     visit issues_path
 
-    assert page.has_link?(I18n.t("issues.index.reports_count", :count => issue1.reports_count), :href => issue_path(issue1))
-    assert page.has_link?(I18n.t("issues.index.reports_count", :count => issue2.reports_count), :href => issue_path(issue2))
+    assert_link I18n.t("issues.index.reports_count", :count => issue1.reports_count), :href => issue_path(issue1)
+    assert_link I18n.t("issues.index.reports_count", :count => issue2.reports_count), :href => issue_path(issue2)
   end
 end
