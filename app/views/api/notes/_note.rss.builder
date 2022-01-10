@@ -15,7 +15,7 @@ xml.item do
 
   xml.dc :creator, note.author.display_name if note.author
 
-  xml.pubDate note.created_at.to_s(:rfc822)
+  xml.pubDate note.created_at.to_formatted_s(:rfc822)
   xml.geo :lat, note.lat
   xml.geo :long, note.lon
   xml.georss :point, "#{note.lat} #{note.lon}"
