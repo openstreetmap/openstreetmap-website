@@ -6,15 +6,15 @@ module UserMethods
   ##
   # update a user's details
   def update_user(user, params)
-    user.display_name = params[:user][:display_name]
-    user.new_email = params[:user][:new_email]
+    user.display_name = params[:display_name]
+    user.new_email = params[:new_email]
 
-    unless params[:user][:pass_crypt].empty? && params[:user][:pass_crypt_confirmation].empty?
-      user.pass_crypt = params[:user][:pass_crypt]
-      user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
+    unless params[:pass_crypt].empty? && params[:pass_crypt_confirmation].empty?
+      user.pass_crypt = params[:pass_crypt]
+      user.pass_crypt_confirmation = params[:pass_crypt_confirmation]
     end
 
-    if params[:user][:auth_provider].nil? || params[:user][:auth_provider].blank?
+    if params[:auth_provider].nil? || params[:auth_provider].blank?
       user.auth_provider = nil
       user.auth_uid = nil
     end
