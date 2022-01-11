@@ -60,6 +60,7 @@ OSM.History = function (map) {
 
     if (window.location.pathname === "/history") {
       data.bbox = map.getBounds().toBBoxString();
+      data.fit_bbox = $("#hide-cs")[0].checked;
     }
 
     $.ajax({
@@ -171,5 +172,14 @@ OSM.History = function (map) {
     $("#history_tab").removeClass("current");
   };
 
+   $("#hide-cs").on("change", function (event) {
+      if ($("#hide-cs")[0].checked) {
+      $(".hide-cs-sensitivity")[0].style.display  = 'block';
+      } else {
+            $(".hide-cs-sensitivity")[0].style.display = 'none';}
+      update();
+   });
+   $(".hide-cs-sensitivity")[0].style.display = 'none';
+   $("#hide-cs")[0].checked=false;
   return page;
 };
