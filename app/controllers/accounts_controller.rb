@@ -35,17 +35,19 @@ class AccountsController < ApplicationController
       :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
     )
 
+    user_params = params.require(:user).permit(:display_name, :new_email, :pass_crypt, :pass_crypt_confirmation, :auth_provider)
+
     if params[:user][:auth_provider].blank? ||
        (params[:user][:auth_provider] == current_user.auth_provider &&
         params[:user][:auth_uid] == current_user.auth_uid)
-      update_user(current_user, params)
+      update_user(current_user, user_params)
       if current_user.errors.count.zero?
         redirect_to edit_account_path
       else
         render :edit
       end
     else
-      session[:new_user_settings] = params
+      session[:new_user_settings] = user_params.to_h
       redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid]), :status => :temporary_redirect
     end
   end
