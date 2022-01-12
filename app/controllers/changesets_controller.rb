@@ -77,15 +77,15 @@ class ChangesetsController < ApplicationController
   #------------------------------------------------------------
   # utility functions below.
   #------------------------------------------------------------
- 
+
   ##
   # The API has few situations, where parameter is supposed
-  # to have boolean value (true/false), but previously their 
+  # to have boolean value (true/false), but previously their
   # values were ignored and script checked only null/not null
   # state.
   # If string value is true, return boolean true, otherwize false.
   def check_boolean(value)
-    return value.to_s.downcase == "true"
+    value.to_s.casecmp("true").zero?
   end
 
   ##

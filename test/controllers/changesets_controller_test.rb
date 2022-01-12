@@ -99,6 +99,19 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_template "index"
 
     check_index_result(changesets)
+
+    # Checks for fit_bbox parameter
+    # Expecting changesets, but not other_changesets
+    get history_path(:format => "html", :bbox => "-0.5,-0.5,50000000.5,50000000.5", :fit_bbox => "true")
+    assert_response :success
+    assert_template "index"
+    check_index_result(changesets)
+
+    # Expecting both changesets and other_changesets
+    get history_path(:format => "html", :bbox => "-0.5,-0.5,50000000.5,50000000.5", :fit_bbox => "false")
+    assert_response :success
+    assert_template "index"
+    check_index_result(changesets + other_changesets)
   end
 
   ##
