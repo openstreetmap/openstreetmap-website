@@ -5,7 +5,7 @@
         <div class="input-group flex-nowrap">
           <div class='query_wrapper position-relative flex-grow-1'>
             <%= link_to t("site.search.where_am_i"), "#", :class => "describe_location position-absolute", :title => t("site.search.where_am_i_title") %>
-            <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control form-control-sm" %>
+            <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control form-control-sm", :dir => "auto" %>
           </div>
           <div class="input-group-append">
             <%= submit_tag t("site.search.submit_text"), :class => "btn btn-sm btn-primary", :data => { :disable_with => false } %>
@@ -26,7 +26,7 @@
         <%= image_tag "marker-green.png", :class => "routing_marker mx-auto d-block", :data => { :type => "from" }, :draggable => "true" %>
       </div>
       <div class="col">
-        <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control form-control-sm" %>
+        <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control form-control-sm", :dir => "auto"  %>
       </div>
     </div>
     <div class="form-row m-1">
@@ -34,7 +34,7 @@
         <%= image_tag "marker-red.png", :class => "routing_marker mx-auto d-block", :data => { :type => "to" }, :draggable => "true" %>
       </div>
       <div class="col">
-        <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control form-control-sm" %>
+        <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control form-control-sm", :dir => "auto"  %>
       </div>
     </div>
     <div class="form-row m-1">
