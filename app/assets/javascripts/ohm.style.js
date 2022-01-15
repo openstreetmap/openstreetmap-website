@@ -38,6 +38,7 @@ const ohmStyle = {
       "type": "background",
       "minzoom": 0,
       "maxzoom": 20,
+      "filter": ["all"],
       "layout": {"visibility": "visible"},
       "paint": {"background-color": "rgba(144, 204, 203, 1)"}
     },
@@ -48,6 +49,7 @@ const ohmStyle = {
       "source-layer": "land",
       "minzoom": 0,
       "maxzoom": 24,
+      "layout": {"visibility": "visible"},
       "paint": {"fill-color": "rgba(247, 246, 241, 1)"}
     },
     {
@@ -373,6 +375,18 @@ const ohmStyle = {
       }
     },
     {
+      "id": "place_areas_plot",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "place_areas",
+      "filter": ["all", ["==", "type", "plot"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": "rgba(238, 236, 230, 0)",
+        "fill-outline-color": "rgba(226, 223, 215, 1)"
+      }
+    },
+    {
       "id": "place_areas_square",
       "type": "fill",
       "source": "osm",
@@ -441,6 +455,16 @@ const ohmStyle = {
       "paint": {"fill-color": "rgba(230, 224, 212, 1)"}
     },
     {
+      "id": "water_areas",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "water_areas",
+      "minzoom": 3,
+      "maxzoom": 24,
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(144, 204, 203, 1)"}
+    },
+    {
       "id": "water_lines_stream",
       "type": "line",
       "source": "osm",
@@ -493,14 +517,17 @@ const ohmStyle = {
       }
     },
     {
-      "id": "water_areas",
-      "type": "fill",
+      "id": "water_lines_dam",
+      "type": "line",
       "source": "osm",
-      "source-layer": "water_areas",
-      "minzoom": 3,
+      "source-layer": "water_lines",
+      "minzoom": 13,
       "maxzoom": 24,
-      "layout": {"visibility": "visible"},
-      "paint": {"fill-color": "rgba(144, 204, 203, 1)"}
+      "filter": ["all", ["==", "type", "dam"]],
+      "paint": {
+        "line-color": "rgba(133, 133, 133, 1)",
+        "line-width": {"stops": [[13, 0.5], [15, 0.8], [20, 2]]}
+      }
     },
     {
       "id": "pier",
@@ -536,6 +563,31 @@ const ohmStyle = {
       "paint": {
         "fill-color": "rgba(220, 215, 215, 1)",
         "fill-outline-color": "rgba(195, 188, 188, 1)"
+      }
+    },
+    {
+      "id": "buildings_flat_ruins",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "other_areas",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(220, 215, 215, 1)"}
+    },
+    {
+      "id": "buildings_ruins_outlines",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "other_areas",
+      "filter": ["all", ["==", "type", "ruins"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(195, 188, 188, 1)",
+        "line-opacity": 1,
+        "line-width": {"stops": [[10, 1], [16, 2]]},
+        "line-dasharray": {"stops": [[10, [1, 1]], [16, [4, 2]]]}
       }
     },
     {
@@ -592,7 +644,7 @@ const ohmStyle = {
       "paint": {
         "line-color": "rgba(210, 210, 210, 1)",
         "line-dasharray": [2, 2],
-        "line-width": 1.5
+        "line-width": {"stops": [[10, 1], [12, 1.5]]}
       }
     },
     {
@@ -600,14 +652,14 @@ const ohmStyle = {
       "type": "line",
       "source": "osm",
       "source-layer": "land_ohm",
-      "minzoom": 6,
+      "minzoom": 7,
       "maxzoom": 20,
       "filter": ["all", ["in", "admin_level", 5, 6]],
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
         "line-dasharray": [2, 2],
-        "line-width": 1.5
+        "line-width": {"stops": [[6, 0.5], [10, 1.5]]}
       }
     },
     {
@@ -626,7 +678,7 @@ const ohmStyle = {
       "paint": {
         "line-color": "rgba(202, 196, 196, 1)",
         "line-dasharray": [3, 2],
-        "line-width": {"stops": [[0, 0.25], [14, 2]]}
+        "line-width": {"stops": [[2, 0.25], [14, 2]]}
       }
     },
     {
@@ -1611,7 +1663,7 @@ const ohmStyle = {
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(181, 195, 199, 1)",
-        "line-width": {"stops": [[0, 0.25], [7, 2]]}
+        "line-width": {"stops": [[2, 0.25], [7, 2]]}
       }
     },
     {
@@ -1625,7 +1677,7 @@ const ohmStyle = {
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(157, 169, 174, 1)",
-        "line-width": {"stops": [[0, 0.25], [14, 3]]}
+        "line-width": {"stops": [[2, 0.25], [14, 3]]}
       }
     },
     {
@@ -1744,10 +1796,34 @@ const ohmStyle = {
       }
     },
     {
-      "id": "water_linesabels",
+      "id": "water_lineslabels-dam",
       "type": "symbol",
       "source": "osm",
       "source-layer": "water_lines",
+      "filter": ["all", ["==", "type", "dam"]],
+      "layout": {
+        "text-field": "{name}",
+        "text-font": ["Open Sans Italic"],
+        "symbol-placement": "line",
+        "symbol-spacing": 500,
+        "text-anchor": "bottom",
+        "text-pitch-alignment": "auto",
+        "text-rotation-alignment": "auto",
+        "text-size": {"stops": [[11, 11], [13, 13]]},
+        "text-letter-spacing": 0
+      },
+      "paint": {
+        "text-color": "rgba(77, 77, 77, 1)",
+        "text-halo-color": "rgba(207, 230, 230, 1)",
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "water_lineslabels",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "water_lines",
+      "filter": ["all", ["!=", "type", "dam"]],
       "layout": {
         "text-field": "{name}",
         "text-font": ["Open Sans Italic"],
@@ -1804,6 +1880,34 @@ const ohmStyle = {
         "text-halo-color": "rgba(228, 235, 209, 1)",
         "text-halo-width": 1,
         "icon-translate-anchor": "map"
+      }
+    },
+    {
+      "id": "landuse_areaslabels_farming",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "farmland",
+          "farm",
+          "orchard",
+          "farmyard",
+          "vineyard",
+          "allotmets",
+          "garden"
+        ]
+      ],
+      "layout": {"text-field": "{name}", "text-size": 11},
+      "paint": {
+        "text-color": "rgba(107, 101, 71, 1)",
+        "text-halo-color": "rgba(213, 211, 190, 1)",
+        "text-halo-width": 1
       }
     },
     {
@@ -1885,18 +1989,45 @@ const ohmStyle = {
       }
     },
     {
+      "id": "city_capital_labels_z6",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "place_points",
+      "minzoom": 6,
+      "maxzoom": 12,
+      "filter": ["all", ["==", "type", "city"], ["==", "capital", "yes"]],
+      "layout": {
+        "text-field": "{name}",
+        "text-font": ["Open Sans Regular"],
+        "text-size": {"stops": [[6, 8], [10, 14]]},
+        "visibility": "visible",
+        "icon-image": "capital-18",
+        "icon-offset": {"stops": [[6, [0, -9]], [10, [0, -10]]]},
+        "icon-size": 1
+      },
+      "paint": {
+        "text-color": "rgba(34, 34, 34, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-blur": 2,
+        "text-halo-width": 1
+      }
+    },
+    {
       "id": "city_labels_z6",
       "type": "symbol",
       "source": "osm",
       "source-layer": "place_points",
       "minzoom": 6,
       "maxzoom": 12,
-      "filter": ["all", ["==", "type", "city"]],
+      "filter": ["all", ["==", "type", "city"], ["!=", "capital", "yes"]],
       "layout": {
         "text-field": "{name}",
         "text-font": ["Open Sans Regular"],
         "text-size": {"stops": [[6, 8], [10, 14]]},
-        "visibility": "visible"
+        "visibility": "visible",
+        "icon-image": "city-18",
+        "icon-offset": {"stops": [[6, [0, -9]], [10, [0, -10]]]},
+        "icon-size": 1
       },
       "paint": {
         "text-color": "rgba(34, 34, 34, 1)",
@@ -2187,14 +2318,25 @@ const ohmStyle = {
       }
     },
     {
-      "id": "transport_points",
+      "id": "points_of_interest_square_plot",
       "type": "symbol",
       "source": "osm",
-      "source-layer": "transport_points",
+      "source-layer": "place_areas",
       "minzoom": 16,
-      "maxzoom": 24,
-      "layout": {"icon-image": "{type}-18"},
-      "paint": {"icon-color": "rgba(12, 9, 9, 1)"}
+      "filter": ["all"],
+      "layout": {
+        "visibility": "visible",
+        "text-field": "{name}",
+        "text-size": 9,
+        "text-anchor": "center",
+        "text-offset": [0, 0]
+      },
+      "paint": {
+        "text-color": "rgba(108, 132, 137, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-width": 0.5,
+        "text-halo-blur": 1
+      }
     },
     {
       "id": "points_of_interest_frombuildings",
@@ -2305,29 +2447,6 @@ const ohmStyle = {
       }
     },
     {
-      "id": "points_of_interest_other",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "other_points",
-      "minzoom": 14,
-      "maxzoom": 24,
-      "filter": ["all"],
-      "layout": {
-        "icon-image": "{type}-18",
-        "visibility": "visible",
-        "text-field": "{name}",
-        "text-size": 8,
-        "text-anchor": "top",
-        "text-offset": [0, 1]
-      },
-      "paint": {
-        "text-color": "#505050",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 0.5,
-        "text-halo-blur": 1
-      }
-    },
-    {
       "id": "points_of_interest_amenity",
       "type": "symbol",
       "source": "osm",
@@ -2345,6 +2464,75 @@ const ohmStyle = {
       },
       "paint": {
         "text-color": "rgba(80, 80, 80, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-width": 0.5,
+        "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "points_of_interest_other",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "other_points",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": ["all", ["!in", "type", "artwork"]],
+      "layout": {
+        "icon-image": "{type}-18",
+        "visibility": "visible",
+        "text-field": "{name}",
+        "text-size": 8,
+        "text-anchor": "top",
+        "text-offset": [0, 1]
+      },
+      "paint": {
+        "text-color": "#505050",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-width": 0.5,
+        "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "points_of_interest_other_archaeology",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "other_points",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": ["all", ["==", "type", "archaeological_site"]],
+      "layout": {
+        "icon-image": "{site_type}-18",
+        "visibility": "visible",
+        "text-field": "{name}",
+        "text-size": 8,
+        "text-anchor": "top",
+        "text-offset": [0, 1]
+      },
+      "paint": {
+        "text-color": "#505050",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-width": 0.5,
+        "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "points_of_interest_other_artwork",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "other_points",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": ["all", ["==", "type", "artwork"]],
+      "layout": {
+        "icon-image": "{artwork_type}-18",
+        "visibility": "visible",
+        "text-field": "{name}",
+        "text-size": 8,
+        "text-anchor": "top",
+        "text-offset": [0, 1]
+      },
+      "paint": {
+        "text-color": "#505050",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 0.5,
         "text-halo-blur": 1
@@ -2369,6 +2557,30 @@ const ohmStyle = {
       "maxzoom": 14,
       "filter": ["all", ["==", "type", "aerodrome"]],
       "layout": {"icon-image": "airport-18"}
+    },
+    {
+      "id": "transport_points",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "transport_points",
+      "minzoom": 16,
+      "maxzoom": 24,
+      "filter": ["all"],
+      "layout": {
+        "icon-image": "{type}-18",
+        "visibility": "visible",
+        "text-field": "{name}",
+        "text-size": 8,
+        "text-anchor": "top",
+        "text-offset": [0, 1]
+      },
+      "paint": {
+        "icon-color": "#000000",
+        "text-color": "rgba(80, 80, 80, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-width": 0.5,
+        "text-halo-blur": 1
+      }
     },
     {
       "id": "points_placeofworshipother",
