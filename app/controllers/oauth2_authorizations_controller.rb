@@ -3,7 +3,7 @@ class Oauth2AuthorizationsController < Doorkeeper::AuthorizationsController
 
   prepend_before_action :authorize_web
   before_action :set_locale
-  before_action :allow_all_form_action, :only => [:new, :create]
+  before_action :allow_all_form_action, :only => [:new]
 
   authorize_resource :class => false
 
