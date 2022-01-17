@@ -12,9 +12,7 @@ class SessionsController < ApplicationController
   authorize_resource :class => false
 
   def new
-    append_content_security_policy_directives(
-      :form_action => %w[*]
-    )
+    override_content_security_policy_directives(:form_action => []) if Settings.csp_enforce || Settings.key?(:csp_report_url)
 
     session[:referer] = safe_referer(params[:referer]) if params[:referer]
   end
