@@ -32,7 +32,7 @@ class UserBlocksSystemTest < ApplicationSystemTestCase
     sign_in_as(create(:moderator_user))
 
     visit edit_user_received_blocks_path(blocked_user)
-    assert_title "Revoking all blocks on #{blocked_user.display_name}"
+    assert_title "Revoking all blocks on <bdi>#{blocked_user.display_name}</bdi>"
     assert_text "Revoking all blocks on #{blocked_user.display_name}"
     assert_no_button "Revoke!"
   end
@@ -46,7 +46,7 @@ class UserBlocksSystemTest < ApplicationSystemTestCase
     assert_link "Revoke all blocks"
 
     click_on "Revoke all blocks"
-    assert_title "Revoking all blocks on #{blocked_user.display_name}"
+    assert_title "Revoking all blocks on <bdi>#{blocked_user.display_name}</bdi>"
     assert_text "Revoking all blocks on #{blocked_user.display_name}"
     assert_unchecked_field "Are you sure you wish to revoke 1 active block?"
     assert_button "Revoke!"
@@ -63,7 +63,7 @@ class UserBlocksSystemTest < ApplicationSystemTestCase
     assert_link "Revoke all blocks"
 
     click_on "Revoke all blocks"
-    assert_title "Revoking all blocks on #{blocked_user.display_name}"
+    assert_title "Revoking all blocks on <bdi>#{blocked_user.display_name}</bdi>"
     assert_text "Revoking all blocks on #{blocked_user.display_name}"
     assert_unchecked_field "Are you sure you wish to revoke 2 active blocks?"
     assert_button "Revoke!"

@@ -1,6 +1,6 @@
-<p><%= t ".hi", :to_user => @follow.following.display_name %></p>
+<p><%= t ".hi_html", :to_user => tag.bdi(@follow.following.display_name) %></p>
 
-<p><%= t ".followed_you", :user => @follow.follower.display_name %></p>
+<p><%= t ".followed_you_html", :user => tag.bdi(@follow.follower.display_name) %></p>
 
 <%= message_body do %>
   <p><%= t ".see_their_profile_html", :userurl => link_to(@viewurl, @viewurl) %></p>

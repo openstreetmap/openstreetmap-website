@@ -1,7 +1,7 @@
 <% content_for :heading do %>
-  <h1><%= t ".heading", :user => @user.display_name %></h1>
+  <h1><%= t ".heading_html", :user => tag.bdi(@user.display_name) %></h1>
   <p><%= t ".subheading_html",
-           :user => link_to(@user.display_name, @user),
+           :user => link_to(@user.display_name, @user, :dir => :auto),
            :submitted => tag.span(t(".subheading_submitted"), :class => "px-2 py-1 bg-primary bg-opacity-25"),
            :commented => tag.span(t(".subheading_commented"), :class => "px-2 py-1 bg-body") %></p>
 <% end %>
