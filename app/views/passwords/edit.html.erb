@@ -1,5 +1,5 @@
 <% content_for :heading do %>
-  <h1><%= t ".heading", :user => current_user.display_name %></h1>
+  <h1><%= t ".heading_html", :user => tag.bdi(current_user.display_name) %></h1>
 <% end %>
 
 <%= bootstrap_form_for current_user, :url => { :action => "update" }, :html => { :method => :post } do |f| %>
