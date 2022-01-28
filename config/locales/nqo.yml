@@ -152,6 +152,9 @@ nqo:
     help:
       doorkeeper/application:
         redirect_uri: ߛߌ߬ߕߊ߬ߙߌ߬ ߞߋߟߋ߲߫ ߠߊߓߊ߯ߙߊ߫ URL ߡߊ߬
+      user_block:
+        needs_view: ߊ߬ ߝߐ߫ ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ ߡߊ߬ߞߏ ߦߋ߫ ߜߊ߲߬ߞߎ߲߬ߠߌ߲ ߠߊ߫ ߓߊ߬ߟߌ߬ߟߌ ߣߌ߲߬ ߞߏ
+          ߟߛߊߣߌ߲ߧߊ ߕߍ߫ ߓߊ߬؟
       user:
         new_email: (ߊ߬ ߞߊ߫ ߟߊߓߊ߯ߙߊ߫ ߖߊ߬ߡߊ ߢߊߞߘߐ߫ ߡߎ߰ߡߍ߫)
   datetime:
@@ -198,12 +201,18 @@ nqo:
       title: ߖߊ߬ߕߋ߬ߘߊ ߡߊߦߟߍ߬ߡߊ߲߬
       my settings: ߒ ߠߊ߫ ߟߊ߬ߓߍ߲߬ߢߐ߲߰ߡߦߊ߬ߘߊ ߟߎ߬
       current email address: ߕߋ߲߭ߕߋ߲߭ ߢߎߡߍߙߋ߲߫ ߞߏ߲ߘߏ
+      external auth: ߞߐߞߊ߲ߠߊ ߕߎ߬ߡߊ߬ߢߐ߲߰ߦߊ߬ߟߌ
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: ߡߎ߲߬ ߦߋ߫ ߣߌ߲߬ ߘߌ߫؟
       public editing:
         heading: ߖߊ߬ߡߊ ߟߊ߫ ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲
+        enabled: ߓߘߊ߫ ߓߌ߬ߟߴߊ߬ ߟߊ߫. ߊ߬ ߕߍ߫ ߘߋ߬ ߞߏ߫ ߕߐ߯ߒߕߊ߲ ߛߋ߫ ߕߐ߫ ߓߍ߫ ߟߐ߲ߕߊ ߡߊߦߟߍ߬ߡߊ߲߫
+          ߠߊ߫.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ߣߌ߲߬ ߦߋ߫ ߡߎ߲߬ ߘߌ߫؟
+        disabled: ߊ߬ ߓߘߊ߫ ߓߴߊ߬ ߟߊ߫ ߊ߬ ߘߏ߲߬ ߕߍ߫ ߛߋ߫ ߟߐ߲ߕߊ ߡߊߦߟߍ߬ߡߊ߲߫ ߠߊ߫߸ ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲
+          ߛߎ߯-ߎ-ߛߎ߫ ߞߐ߲߬ߣߍ߲߫ ߦߋ߫ ߢߍ ߘߐ߫߸ ߏ߬ ߓߍ߯ ߦߋ߫ ߕߐ߯ߒߕߊ߲ ߠߋ߬ ߘߌ߫.
         disabled link text: ߡߎ߲߬ߠߊ߫ ߒߠߋ ߕߍ߫ ߛߋ߫ ߟߊ߫ ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲߫ ߞߍ߫ ߟߊ߫؟
       public editing note:
         heading: ߖߊ߬ߡߊ ߟߊ߫ ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲
@@ -242,7 +251,10 @@ nqo:
     changeset:
       title: 'ߟߊ߬ߘߏ߲߬ߠߌ߲ ߡߊ߬ߝߊ߬ߟߋ߲߬ߠߌ߲: %{id}'
       belongs_to: ߛߓߍߦߟߊ
+      node: ߥߎߙߋ߲ߛߋ߲ %{count}
+      node_paginated: ߥߎߙߋ߲ߛߋ߲ %{x}-%{y} ߦߋ߫ %{count}
       way: ߛߌߟߊ (%{count})
+      way_paginated: ߛߌߟߊ (%{x}-%{y} ߦߋ߫ %{count})
       relation: ߕߍߓߊ߯ߦߊ (%{count})
       relation_paginated: ߕߍߓߊ߯ߦߊ (%{x}-%{y} %{count})
       comment: ߡߙߌߣߊ߲ (%{count})
@@ -250,11 +262,18 @@ nqo:
       commented_by_html: ߦߟߌߣߐ ߡߍ߲ ߝߘߊߣߍ߲߫ ߦߋ߫ %{user} ߟߊ߫ <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML ߟߊ߬ߘߏ߲߬ߠߌ߲ ߡߊߝߊ߬ߟߋ߲߫
       osmchangexml: ߏ.ߛ.ߡ ߡߝߊ߬ߟߋ߲߬ߠߌ߲ XML
+      feed:
+        title: ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲߬ ߞߙߎ %{id}
+        title_comment: ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲߬ ߞߙߎ %{id} - %{comment}
       join_discussion: ߌ ߜߊ߲߬ߞߎ߲߫ ߞߊ߬ ߕߘߍ߬ ߡߙߌߣߊ߲߫ ߦߌߘߊ ߘߐ߫
       discussion: ߘߊߘߐߖߊߥߏ
+    node:
+      title_html: 'ߥߎߙߋ߲ߛߋ߲: %{name}'
+      history_title_html: 'ߥߎߙߋ߲ߛߋ߲ ߘߐ߬ߝߐ: %{name}'
     way:
       title_html: 'ߛߌߟߊ: %{name}'
       history_title_html: 'ߛߌߟߊ ߘߐ߬ߝߐ: %{name}'
+      nodes: ߥߎߙߋ߲ߛߋ߲ ߠߎ߬
     relation:
       title_html: 'ߕߍߓߊ߯ߦߊ: %{name}'
       history_title_html: 'ߕߍߓߊ߯ߦߊ ߟߊ߫ ߘߐ߬ߝߐ: %{name}'
@@ -289,6 +308,7 @@ nqo:
         note: ߘߐ߬ߞߌߛߍ
     redacted:
       type:
+        node: ߥߎߙߋ߲ߛߋ߲
         way: ߛߌߟߊ
         relation: ߕߍߓߊ߯ߦߊ
     start_rjs:
@@ -691,6 +711,10 @@ nqo:
           forest: ߕߎ
           hill: ߞߎ߬ߙߎ
           island: ߕߌ߲
+          land: ߘߎ߱
+          marsh: ߖߌߓߛߍ
+          mud: ߓߐ߭
+          peak: ߞߎ߲߬ߕߍ
           peninsula: ߕߌ߲ߡߎߣߎ߲
           point: ߕߏ߲ߘߋ
           sand: ߕߌ߬ߢߍ
@@ -704,7 +728,9 @@ nqo:
           diplomatic: ߕߍߓߊ߯ߦߊ ߛߓߍߘߊ
           educational_institution: ߟߊ߬ߞߙߐ߬ߛߌ߬ߟߌ ߘߋ߬ߙߌ߬ߘߊ
           employment_agency: ߓߊ߯ߙߊ ߖߋ߬ߕߌ߰ߘߊ
+          financial: ߣߊ߲߬ߝߟߏ߬ߦߊ߬ߟߌ ߛߓߍߘߊ
           government: ߞߎ߲߬ߠߊ߬ߛߌ߮ ߟߊ߫ ߛߓߍߘߊ
+          insurance: ߟߊ߬ߘߍ߲߬ߞߣߍ߬ߦߊ߬ߟߌ ߛߓߍߘߊ
           it: ߕߞ ߛߓߍߘߊ
           lawyer: ߟߊ߬ߝߛߊ߬ߟߌ߬ߟߊ
           logistics: ߕߞߌߦߊ ߛߓߍߘߊ
@@ -777,6 +803,9 @@ nqo:
           fishing: ߖߍ߯ ߡߌߘߊ߫ ߖߐ߯ߙߊ߲ ߝߎ߲ߞߎ߲
           food: ߛߎ߬ߡߊ߲߬ ߝߎ߲ߞߎ߲
           gas: ߥߊߦߌ߲߫ ߝߎ߲ߞߎ߲
+          gift: ߣߌ߬ߟߌ߫ ߝߎ߲ߞߎ߲
+          greengrocer: ߦߙߌߘߋ߲ ߣߌ߫ ߣߊߞߘߐߝߋ߲
+          grocery: ߣߟߊߞߍߝߋ߲߫ ߝߎ߲ߞߎ߲
           hairdresser: ߞߎ߲߬ ߘߐ߬ߓߍ߲߬ ߦߌߟߊ
           hardware: ߛߎ߲ߝߘߍ߫ ߝߎ߲ߞߎ߲
           health_food: ߞߍ߲ߘߍߦߊ߫ ߓߊߟߏ ߟߎ߬ ߝߎ߲ߞߎ߲
@@ -792,6 +821,7 @@ nqo:
           pet_grooming: ߛߏߞߣߐ߫ ߓߌߦߊ߲ ߠߎ߬ ߘߊ߲ߘߊ߫ ߦߌߟߊ
           photo: ߖߌ߬ߦߊ߬ߖߊߛߏ߲ ߝߎ߲ߞߎ߲
           second_hand: ߝߋ߲߫ ߡߊߞߟߏߣߍ߲߫ ߝߎ߲ߞߎ߲
+          shoes: ߛߡߊ߬ߘߊ߬ ߝߎ߲ߞߎ߲
           sports: ߝߊ߬ߘߌ߬ߡߊ߬ߞߟߏ߬ ߖߐ߯ߙߊ߲ ߝߎ߲ߞߎ߲
           supermarket: ߘߎ߲߬ߘߎ߬ߡߊ߬ ߟߐ߯ߝߍ
           tailor: ߞߙߊߟߌߟߊ
@@ -808,6 +838,7 @@ nqo:
           wine: ߖߊ߬ߓߌ߬ߙߋ߲߬ ߘߟߐ ߝߎ߲ߞߎ߲
           "yes": ߝߎ߲ߞߎ߲
         tourism:
+          cabin: ߓߎ߭
           camp_site: ߞߎ߲ߝߊ߲ߓߐ߫ ߞߣߍ
           hostel: ߖߌ߬ߦߊ߬ߓߏ߲
           hotel: ߖߌ߬ߦߊ߬ߓߏ߲
@@ -1169,7 +1200,12 @@ nqo:
       edit_preferences: ߦߟߌߡߊߛߙߋ ߡߊߦߟߍ߬ߡߊ߲߫
     edit:
       title: ߦߟߌߡߊߛߙߋ ߡߊߦߟߍ߬ߡߊ߲߫
+      save: ߦߟߌߡߊߛߙߋ ߟߎ߬ ߟߊߞߎߘߦߊ߫
       cancel: ߊ߬ ߘߐߛߊ߬
+    update:
+      failure: ߦߟߌߡߊߛߙߋ ߟߎ߬ ߕߍ߫ ߛߐ߲߬ ߟߊߞߎߘߦߊ߫ ߟߊ߫.
+    update_success_flash:
+      message: ߦߟߌߡߊߛߙߋ ߟߎ߬ ߓߘߊ߫ ߟߊߞߎߘߦߊ߫.
   profiles:
     edit:
       title: ߢߊߞߙߍ ߡߊߦߟߍ߬ߡߊ߲߫
@@ -1186,6 +1222,7 @@ nqo:
       keep image: ߖߌ߬ߦߊ߬ߓߍ ߞߘߐ߬ߡߊ߲ ߠߊߡߙߊ߬
       delete image: ߖߌ߬ߦߊ߬ߓߍ ߞߘߐ߬ߡߊ߲ ߛߋ߲߬ߓߐ߫
       replace image: ߖߌ߬ߦߊ߬ߓߍ ߡߍ߲ ߦߋ߫ ߦߋ߲߬ ߕߊ߲߬߸ ߏ߬ ߣߐ߬ߘߐߓߌ߬ߟߊ߬
+      image size hint: (ߖߌ߬ߦߊ߬ߓߍ ߕߎ߲ߞߎ߲ ߠߎ߬ ߓߊ߯ ߞߍ߫ ߁߀߀×߁߀߀ ߟߋ߬ ߦߋ߫ ߓߊ߯ߙߊ߫ ߟߊ߫ ߞߏߢߊ߬)
       home location: ߌ ߓߘߊ ߘߌ߲߬ߞߌߙߊ
       no home location: ߌ ߡߴߌ ߟߊ߫ ߟߎ ߘߌ߲߬ߞߌߙߊ ߟߊߘߏ߲߬ ߝߟߐ߫
       update home location on click: ߞߊ߬ ߟߎ ߘߌ߲߬ߞߌߙߊ ߡߊߝߊ߬ߟߋ߲߫ ߣߌ߫ ߒ ߞߊ߬ ߡߊߔ ߛߐ߲߬ߞߌ߲߫؟
@@ -1653,11 +1690,13 @@ nqo:
       my traces: ߒ ߝߏ߲߬ߝߏ߲ ߠߎ߬
       my notes: ߒ ߠߊ߫ ߦߟߌߣߐ ߟߎ߫
       my messages: ߒ ߠߊ߫ ߗߋߛߓߍ ߟߎ߬
+      my profile: ߒ ߠߊ߫ ߢߊߞߙߍ
       my settings: ߒ ߠߊ߫ ߟߊ߬ߓߍ߲߬ߢߐ߲߰ߡߦߊ߬ߘߊ ߟߎ߬
       my comments: ߒ ߠߊ߫ ߡߙߌߣߊ߲ ߠߎ߬
       my_preferences: ߒ ߠߊ߫ ߝߌ߬ߛߊ߬ߡߊ߲߬ߕߋ ߟߎ߬
       blocks on me: ߓߊ߬ߟߊ߲߬ߠߌ߲ ߡߍ߲ ߦߋ߫ ߒ ߞߊ߲߬
       blocks by me: ߡߍ߲ ߠߎ߬ ߓߊ߬ߟߊ߲߬ߣߍ߲߫ ߦߋ߫ ߒߠߋ ߓߟߏ߫
+      edit_profile: ߢߊߞߙߍ ߡߊߦߟߍ߬ߡߊ߲߫
       send message: ߗߋߛߓߍ߫ ߗߋߣߍ߲
       diary: ߕߋ߬ߟߋ߲
       edits: ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲ ߠߎ߬
@@ -1666,6 +1705,7 @@ nqo:
       remove as friend: ߕߋߙߌߦߊ ߝߘߊ߫
       add as friend: ߕߋߙߌ ߝߙߊ߬
       mapper since: 'ߔߊ߬ߔߘߊ߬ߦߊ߬ߟߊ ߘߌ߫ ߞߊ߬ߦߌ߯:'
+      ct status: 'ߓߟߏߓߌߟߊߢߐ߲߯ߞߊ߲ ߛߙߊߕߌ ߟߎ߬:'
       email address: 'ߢߎߡߍߙߋ߲߫ߞߏ߲ߘߏ ߛߊ߲߬ߓߊ߬ߕߐ߮:'
       created from: 'ߊ߬ ߛߌ߲ߘߌߣߍ߲߫ ߦߋ߫ ߞߊ߬ ߝߘߊ߫:'
       description: ߞߊ߲߬ߛߓߍߟߌ
@@ -1680,6 +1720,18 @@ nqo:
       delete_user: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ ߣߌ߲߬ ߖߏ߰ߛߌ߫
       confirm: ߊ߬ ߟߊߛߙߋߦߊ߫
       report: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ ߣߌ߲߬ ߠߊߞߏߝߐ߫
+    index:
+      title: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ ߟߎ߬
+      heading: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ ߟߎ߬
+      summary_html: '%{name} ߛߌ߲ߘߌߣߍ߲߫ ߦߋ߫ %{ip_address} ߟߋ߬ ߡߊ߬ %{date} ߟߊ߫'
+      summary_no_ip_html: '%{name} ߛߌ߲ߘߌߣߍ߲߫ ߦߋ߫ %{date} ߟߋ߬ ߟߊ߫'
+      confirm: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ߫ ߓߊߕߐ߬ߡߐ߲߬ߣߍ߲ ߠߎ߬ ߟߊߛߙߋߦߊ߫
+      hide: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ߫ ߓߊߕߐ߬ߡߐ߲߬ߣߍ߲ ߠߎ߬ ߢߡߊߘߏ߲߰
+      empty: ߕߙߏ߬ߞߏ ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ߫ ߡߊ߫ ߛߐ߬ߘߐ߲߫
+    suspended:
+      title: ߖߊ߬ߕߋ߬ߘߊ߬ ߟߊߘߎ߲ߣߍ߲
+      heading: ߖߊ߬ߕߋ߬ߘߊ߬ ߟߊߘߎ߲ߣߍ߲
+      support: ߘߍ߬ߡߍ߲߬ߠߌ߲
     auth_failure:
       unknown_error: ߕߎ߬ߡߊ߬ߢߐ߲߰ߦߊ ߓߘߊ߫ ߗߌߙߏ߲߫
   user_blocks:

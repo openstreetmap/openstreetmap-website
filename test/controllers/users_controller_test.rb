@@ -568,18 +568,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = create(:user, :home_lat => 12.1, :home_lon => 12.1, :description => "test")
 
     # Try without logging in
-    delete user_path(user), :params => { :status => "suspended" }
+    delete user_path(user)
     assert_response :forbidden
 
     # Now try as a normal user
     session_for(user)
-    delete user_path(user), :params => { :status => "suspended" }
+    delete user_path(user)
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
-    delete user_path(user), :params => { :status => "suspended" }
+    delete user_path(user)
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name
 
