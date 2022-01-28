@@ -21,14 +21,22 @@ OSM.Note = function (map) {
     })
   };
 
-  function updateNote(form, method, url) {
+  function updateNote(form, method, url, include_data) {
+    var data;
+
     $(form).find("input[type=submit]").prop("disabled", true);
+
+    if (include_data) {
+      data = { text: $(form.text).val() };
+    } else {
+      data = {};
+    }
 
     $.ajax({
       url: url,
       type: method,
       oauth: true,
-      data: { text: $(form.text).val() },
+      data: data,
       success: function () {
         OSM.loadSidebarContent(window.location.pathname, page.load);
       }
@@ -51,6 +59,12 @@ OSM.Note = function (map) {
 
   function initialize(callback) {
     content.find("input[type=submit]").on("click", function (e) {
+      e.preventDefault();
+      var data = $(e.target).data();
+      updateNote(e.target.form, data.method, data.url, true);
+    });
+
+    content.find(".action-button").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
       updateNote(e.target.form, data.method, data.url);

@@ -34,14 +34,31 @@
 
   <% if @note_comments.length > 1 %>
     <div class='note-comments'>
-      <ul class="list-unstyled">
-        <% @note_comments.drop(1).each do |comment| %>
-          <li id="c<%= comment.id %>">
-            <small class='text-muted'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
-            <%= comment.body.to_html %>
-          </li>
-        <% end %>
-      </ul>
+      <form action="#">
+        <ul class="list-unstyled">
+          <% @note_comments.drop(1).each do |comment| %>
+            <% if comment.visible %>
+              <li id="c<%= comment.id %>">
+                <small class='text-muted'><%= note_event(comment.event, comment.created_at, comment.author) %>
+                  <% if current_user and current_user.moderator? %>
+                  — <span class="action-button" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= note_comment_hide_url(comment.id) %>"><%= t("javascripts.notes.show.hide_comment") %></span>
+                  <% end %>
+                </small>
+                <%= comment.body.to_html %>
+              </li>
+            <% elsif current_user and current_user.moderator? %>
+              <li id="c<%= comment.id %>">
+                <small class='text-muted'><%= note_event(comment.event, comment.created_at, comment.author) %>
+                   <% if current_user and current_user.moderator? %>
+                   — <span class="action-button text-muted" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= note_comment_unhide_url(comment.id) %>"><%= t("javascripts.notes.show.unhide_comment") %></span>
+                   <% end %>
+                </small>
+                <%= comment.body.to_html %>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </form>
     </div>
   <% end %>
 
