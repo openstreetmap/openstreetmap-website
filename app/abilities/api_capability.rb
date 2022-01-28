@@ -29,6 +29,7 @@ class ApiCapability
 
       if user&.moderator?
         can [:destroy, :restore], ChangesetComment if scope?(token, :write_api)
+        can [:destroy, :restore], NoteComment if scope?(token, :write_api)
         can :destroy, Note if scope?(token, :write_notes)
         if user&.terms_agreed?
           can :redact, OldNode if scope?(token, :write_api)

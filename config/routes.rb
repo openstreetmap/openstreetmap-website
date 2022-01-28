@@ -102,6 +102,9 @@ OpenStreetMap::Application.routes.draw do
     post "notes/editPOIexec" => "api/notes#comment"
     get "notes/getGPX" => "api/notes#index", :format => "gpx"
     get "notes/getRSSfeed" => "api/notes#feed", :format => "rss"
+
+    post "note/comment/:id/hide" => "api/note_comments#destroy", :as => :note_comment_hide, :id => /\d+/
+    post "note/comment/:id/unhide" => "api/note_comments#restore", :as => :note_comment_unhide, :id => /\d+/
   end
 
   # Data browsing

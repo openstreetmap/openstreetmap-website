@@ -46,6 +46,7 @@ class ApiAbility
 
         if user.moderator?
           can [:destroy, :restore], ChangesetComment
+          can [:destroy, :restore], NoteComment
           can :destroy, Note
 
           if user.terms_agreed?
