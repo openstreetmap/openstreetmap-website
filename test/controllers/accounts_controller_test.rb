@@ -128,4 +128,28 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_equal user.new_email, email.to.first
     ActionMailer::Base.deliveries.clear
   end
+
+  def test_private_account
+    user = create(:user, :data_public => false)
+
+    # Make sure that you are redirected to the login page when
+    # you are not logged in
+    get edit_account_path
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => "/account/edit")
+
+    # Make sure we get the page when we are logged in as the right user
+    session_for(user)
+    get edit_account_path
+    assert_response :success
+    assert_template :edit
+    assert_select "form#accountForm" do |form|
+      assert_equal "post", form.attr("method").to_s
+      assert_select "input[name='_method']", true
+      assert_equal "/account", form.attr("action").to_s
+    end
+
+    # Make sure we have a button to "go public"
+    assert_select "form.button_to[action='/user/go_public']", true
+  end
 end
