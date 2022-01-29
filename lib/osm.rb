@@ -237,6 +237,24 @@ module OSM
     end
   end
 
+  # Raised when a relation has more than the configured number of relation members.
+  # This prevents relations from being too complex and difficult to work with
+  class APITooManyRelationMembersError < APIError
+    def initialize(id, provided, max)
+      super "You tried to add #{provided} members to relation #{id}, however only #{max} are allowed"
+
+      @id = id
+      @provided = provided
+      @max = max
+    end
+
+    attr_reader :id, :provided, :max
+
+    def status
+      :bad_request
+    end
+  end
+
   ##
   # raised when user input couldn't be parsed
   class APIBadUserInput < APIError

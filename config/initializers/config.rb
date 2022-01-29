@@ -74,6 +74,7 @@ Config.setup do |config|
     required(:max_note_request_area).filled(:number?)
     required(:tracepoints_per_page).filled(:int?)
     required(:max_number_of_way_nodes).filled(:int?)
+    required(:max_number_of_relation_members).filled(:int?)
     required(:api_timeout).filled(:int?)
     required(:imagery_blacklist).maybe(:array?)
     required(:status).filled(:str?, :included_in? => ALLOWED_STATUS)
