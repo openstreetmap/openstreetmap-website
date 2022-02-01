@@ -2516,6 +2516,13 @@ CREATE INDEX index_issues_on_updated_by ON public.issues USING btree (updated_by
 
 
 --
+-- Name: index_note_comments_on_author_id_and_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_note_comments_on_author_id_and_created_at ON public.note_comments USING btree (author_id, created_at);
+
+
+--
 -- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3425,6 +3432,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210510083027'),
 ('20210510083028'),
 ('20210511104518'),
+('20220201183346'),
 ('21'),
 ('22'),
 ('23'),
