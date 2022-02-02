@@ -172,8 +172,10 @@ class User < ApplicationRecord
     end
 
     # Used in test suite, not something that we would normally need to do.
-    event :deactivate do
-      transitions :from => :active, :to => :pending
+    if Rails.env.test?
+      event :deactivate do
+        transitions :from => :active, :to => :pending
+      end
     end
 
     # To confirm an account is used to override the spam scoring
