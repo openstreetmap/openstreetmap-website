@@ -181,8 +181,19 @@ class User < ApplicationRecord
       transitions :from => [:pending, :active, :suspended], :to => :confirmed
     end
 
+    # To unconfirm an account is to make it subject to future spam scoring again
+    event :unconfirm do
+      transitions :from => :confirmed, :to => :active
+    end
+
+    # Accounts can be automatically suspended by spam_check
     event :suspend do
       transitions :from => [:pending, :active], :to => :suspended
+    end
+
+    # Unsuspending an account moves it back to active without overriding the spam scoring
+    event :unsuspend do
+      transitions :from => :suspended, :to => :active
     end
 
     # Mark the account as deleted but keep all data intact

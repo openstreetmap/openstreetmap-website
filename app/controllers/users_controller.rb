@@ -202,8 +202,10 @@ class UsersController < ApplicationController
   def set_status
     @user.activate! if params[:event] == "activate"
     @user.confirm! if params[:event] == "confirm"
+    @user.unconfirm! if params[:event] == "unconfirm"
     @user.hide! if params[:event] == "hide"
     @user.unhide! if params[:event] == "unhide"
+    @user.unsuspend! if params[:event] == "unsuspend"
     redirect_to user_path(:display_name => params[:display_name])
   end
 
