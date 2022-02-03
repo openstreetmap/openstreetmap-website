@@ -25,7 +25,7 @@ class ConfirmationsController < ApplicationController
         render_unknown_user token.user.display_name
       else
         user = token.user
-        user.status = "active"
+        user.activate
         user.email_valid = true
         flash[:notice] = gravatar_status_message(user) if gravatar_enable(user)
         user.save!

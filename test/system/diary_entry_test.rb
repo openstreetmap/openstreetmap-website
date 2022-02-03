@@ -35,7 +35,7 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
   end
 
   test "deleted diary entries should not be shown to admins when the user is also deleted" do
-    @deleted_user = create(:user, :status => :deleted)
+    @deleted_user = create(:user, :deleted)
     @deleted_entry = create(:diary_entry, :visible => false, :user => @deleted_user)
 
     sign_in_as(create(:administrator_user))

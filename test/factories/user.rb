@@ -6,7 +6,10 @@ FactoryBot.define do
 
     # These attributes are not the defaults, but in most tests we want
     # a 'normal' user who can log in without being redirected etc.
-    status { "active" }
+    after(:build) do |user, _evaluator|
+      user.activate
+    end
+
     terms_seen { true }
     terms_agreed { Time.now.getutc }
     data_public { true }
@@ -17,23 +20,31 @@ FactoryBot.define do
     end
 
     trait :pending do
-      status { "pending" }
+      after(:build) do |user, _evaluator|
+        user.deactivate
+      end
     end
 
     trait :active do
-      status { "active" }
+      # status { "active" }
     end
 
     trait :confirmed do
-      status { "confirmed" }
+      after(:build) do |user, _evaluator|
+        user.confirm
+      end
     end
 
     trait :suspended do
-      status { "suspended" }
+      after(:build) do |user, _evaluator|
+        user.suspend
+      end
     end
 
     trait :deleted do
-      status { "deleted" }
+      after(:build) do |user, _evaluator|
+        user.soft_destroy
+      end
     end
 
     factory :moderator_user do

@@ -139,30 +139,44 @@
         <nav class='secondary-actions'>
           <ul class='clearfix'>
             <% if can? :set_status, User %>
-              <% if ["active", "confirmed"].include? @user.status %>
+              <% if @user.may_activate? %>
                 <li>
-                  <%= link_to t(".deactivate_user"), set_status_user_path(:status => "pending", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
-                </li>
-              <% elsif ["pending"].include? @user.status %>
-                <li>
-                  <%= link_to t(".activate_user"), set_status_user_path(:status => "active", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
+                  <%= link_to t(".activate_user"), set_status_user_path(:event => "activate", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
                 </li>
               <% end %>
 
-              <% if ["active", "suspended"].include? @user.status %>
+              <% if @user.may_unsuspend? %>
                 <li>
-                  <%= link_to t(".confirm_user"), set_status_user_path(:status => "confirmed", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
+                  <%= link_to t(".unsuspend_user"), set_status_user_path(:event => "unsuspend", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
                 </li>
               <% end %>
-              <li>
-                <% if ["pending", "active", "confirmed", "suspended"].include? @user.status %>
-                  <%= link_to t(".hide_user"), set_status_user_path(:status => "deleted", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
-                <% else %>
-                  <%= link_to t(".unhide_user"), set_status_user_path(:status => "active", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
-                <% end %>
-              </li>
+
+              <% if @user.may_confirm? %>
+                <li>
+                  <%= link_to t(".confirm_user"), set_status_user_path(:event => "confirm", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
+                </li>
+              <% end %>
+
+              <% if @user.may_unconfirm? %>
+                <li>
+                  <%= link_to t(".unconfirm_user"), set_status_user_path(:event => "unconfirm", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
+                </li>
+              <% end %>
+
+              <% if @user.may_hide? %>
+                <li>
+                  <%= link_to t(".hide_user"), set_status_user_path(:event => "hide", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
+                </li>
+              <% end %>
+
+              <% if @user.may_unhide? %>
+                <li>
+                  <%= link_to t(".unhide_user"), set_status_user_path(:event => "unhide", :display_name => @user.display_name), :method => :post, :data => { :confirm => t(".confirm") } %>
+                </li>
+              <% end %>
             <% end %>
-            <% if can? :destroy, User %>
+
+            <% if can?(:destroy, User) && @user.may_soft_destroy? %>
               <li>
                 <%= link_to t(".delete_user"), user_path(:display_name => @user.display_name), :method => :delete, :data => { :confirm => t(".confirm") } %>
               </li>

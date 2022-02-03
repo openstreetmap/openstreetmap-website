@@ -7,7 +7,7 @@ class UserSuspensionTest < ApplicationSystemTestCase
     visit edit_account_path
     assert_content "My Settings"
 
-    user.update(:status => "suspended")
+    user.suspend!
 
     visit edit_account_path
     assert_content "This decision will be reviewed by an administrator shortly"

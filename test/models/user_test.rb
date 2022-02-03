@@ -246,9 +246,9 @@ class UserTest < ActiveSupport::TestCase
     assert create(:moderator_user).has_role?("moderator")
   end
 
-  def test_destroy
+  def test_soft_destroy
     user = create(:user, :with_home_location, :description => "foo")
-    user.destroy
+    user.soft_destroy
     assert_equal "user_#{user.id}", user.display_name
     assert user.description.blank?
     assert_nil user.home_lat
