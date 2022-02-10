@@ -55,6 +55,8 @@ module OsmCommunityIndex
 
           data.deep_merge!({"osm_community_index" => {"local_chapter" => {id => strings}}})
         end
+
+        I18n.backend.store_translations locale_rails, data
       end
     end
   end
