@@ -38,8 +38,8 @@ bundle exec rails test:all
 
 You can view test coverage statistics by browsing the `coverage` directory.
 
-The tests are automatically run on Pull Requests and other commits with the
-results shown on [Travis CI](https://travis-ci.org/openstreetmap/openstreetmap-website).
+The tests are automatically run on Pull Requests and other commits via github
+actions. The results shown are within the PR display on github.
 
 ## Static Analysis
 
