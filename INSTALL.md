@@ -90,7 +90,7 @@ Installing other dependencies:
 
 * Install Homebrew from https://brew.sh/
 * Install the latest version of Ruby: `brew install ruby`
-* Install other dependencies: `brew install imagemagick libxml2 gd yarn pngcrush optipng pngquant jhead jpegoptim gifsicle svgo`
+* Install other dependencies: `brew install imagemagick libxml2 gd yarn pngcrush optipng pngquant jhead jpegoptim gifsicle svgo advancecomp`
 * Install Bundler: `gem install bundler` (you might need to `sudo gem install bundler` if you get an error about permissions - or see note below about [developer Ruby setup](#rbenv))
 
 You will need to tell `bundler` that `libxml2` is installed in a Homebrew location. If it uses the system-installed one then you will get errors installing the `libxml-ruby` gem later on<a name="macosx-bundle-config"></a>.
