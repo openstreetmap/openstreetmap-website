@@ -79,14 +79,6 @@ database, and update the list of available keys manually.
 Adding or removing keys to this list is therefore discouraged, but contributions
 to the descriptive texts are welcome.
 
-## Code Documentation
-
-To generate the HTML documentation of the API/rails code, run the command
-
-```
-rake doc:app
-```
-
 ## Committing
 
 When you submit patches, the project maintainer has to read them and
