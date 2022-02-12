@@ -102,8 +102,7 @@ bundle config build.libxml-ruby --with-xml2-config=/usr/local/opt/libxml2/bin/xm
 If you want to run the tests, you need `geckodriver` as well:
 
 ```
-brew tap homebrew/cask
-brew cask install geckodriver
+brew install geckodriver
 ```
 
 Note that OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.
