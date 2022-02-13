@@ -77,6 +77,9 @@ Config.setup do |config|
     required(:api_timeout).filled(:int?)
     required(:imagery_blacklist).maybe(:array?)
     required(:status).filled(:str?, :included_in? => ALLOWED_STATUS)
-    required(:storage_service).filled(:str?)
+    required(:avatar_storage).filled(:str?)
+    required(:trace_file_storage).filled(:str?)
+    required(:trace_image_storage).filled(:str?)
+    required(:trace_icon_storage).filled(:str?)
   end
 end

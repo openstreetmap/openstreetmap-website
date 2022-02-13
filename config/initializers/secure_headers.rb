@@ -22,7 +22,8 @@ csp_policy[:connect_src] << PIWIK["location"] if defined?(PIWIK)
 csp_policy[:img_src] << PIWIK["location"] if defined?(PIWIK)
 csp_policy[:script_src] << PIWIK["location"] if defined?(PIWIK)
 
-csp_policy[:img_src] << Settings.storage_url if Settings.key?(:storage_url)
+csp_policy[:img_src] << Settings.avatar_storage_url if Settings.key?(:avatar_storage_url)
+csp_policy[:img_src] << Settings.trace_image_storage_url if Settings.key?(:trace_image_storage_url)
 
 csp_policy[:report_uri] << Settings.csp_report_url if Settings.key?(:csp_report_url)
 
