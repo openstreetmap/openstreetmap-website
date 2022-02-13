@@ -369,16 +369,22 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     # First with no auth, which should work since the trace is public
     get trace_data_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    follow_redirect!
+    follow_redirect!
     check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
 
     # Now with some other user, which should work since the trace is public
     session_for(create(:user))
     get trace_data_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    follow_redirect!
+    follow_redirect!
     check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
 
     # And finally we should be able to do it with the owner of the trace
     session_for(public_trace_file.user)
     get trace_data_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    follow_redirect!
+    follow_redirect!
     check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
   end
 
@@ -388,7 +394,9 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     # First get the data as is
     get trace_data_path(:display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file)
-    check_trace_data identifiable_trace_file, "c6422a3d8750faae49ed70e7e8a51b93", "application/x-gzip", "gpx.gz"
+    follow_redirect!
+    follow_redirect!
+    check_trace_data identifiable_trace_file, "c6422a3d8750faae49ed70e7e8a51b93", "application/gzip", "gpx.gz"
 
     # Now ask explicitly for XML format
     get trace_data_path(:display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file.id, :format => "xml")
@@ -415,6 +423,8 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     # And finally we should be able to do it with the owner of the trace
     session_for(anon_trace_file.user)
     get trace_data_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
+    follow_redirect!
+    follow_redirect!
     check_trace_data anon_trace_file, "db4cb5ed2d7d2b627b3b504296c4f701"
   end
 
@@ -598,7 +608,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
     assert_equal "trackable", trace.visibility
     assert_not trace.inserted
-    assert_equal File.new(fixture).read, File.new(trace.trace_name).read
+    assert_equal File.new(fixture).read, trace.file.blob.download
     trace.destroy
     assert_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
   end
@@ -789,19 +799,22 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def check_trace_data(trace, digest, content_type = "application/gpx+xml", extension = "gpx")
-    assert_response :success
     assert_equal digest, Digest::MD5.hexdigest(response.body)
     assert_equal content_type, response.media_type
     assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"; filename*=UTF-8''#{trace.id}.#{extension}", @response.header["Content-Disposition"]
   end
 
   def check_trace_picture(trace)
+    follow_redirect!
+    follow_redirect!
     assert_response :success
     assert_equal "image/gif", response.media_type
     assert_equal trace.large_picture, response.body
   end
 
   def check_trace_icon(trace)
+    follow_redirect!
+    follow_redirect!
     assert_response :success
     assert_equal "image/gif", response.media_type
     assert_equal trace.icon_picture, response.body

@@ -121,7 +121,7 @@ module GPX
 
       output = StringIO.new
       image.export(output)
-      output.read
+      output
     end
 
     def icon(min_lat, min_lon, max_lat, max_lon)
@@ -161,7 +161,7 @@ module GPX
         end
       end
 
-      image.gif
+      StringIO.new(image.gif)
     end
   end
 

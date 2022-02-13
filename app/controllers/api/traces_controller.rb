@@ -54,6 +54,8 @@ module Api
           send_data(trace.xml_file.read, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
         elsif request.format == Mime[:gpx]
           send_data(trace.xml_file.read, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
+        elsif trace.file.attached?
+          redirect_to rails_blob_path(trace.file, :disposition => "attachment")
         else
           send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => "attachment")
         end
@@ -97,12 +99,6 @@ module Api
       # Sanitise the user's filename
       name = file.original_filename.gsub(/[^a-zA-Z0-9.]/, "_")
 
-      # Get a temporary filename...
-      filename = "/tmp/#{rand}"
-
-      # ...and save the uploaded file to that location
-      File.binwrite(filename, file.read)
-
       # Create the trace object, falsely marked as already
       # inserted to stop the import daemon trying to load it
       trace = Trace.new(
@@ -110,40 +106,14 @@ module Api
         :tagstring => tags,
         :description => description,
         :visibility => visibility,
-        :inserted => true,
+        :inserted => false,
         :user => current_user,
-        :timestamp => Time.now.getutc
+        :timestamp => Time.now.getutc,
+        :file => file
       )
 
-      if trace.valid?
-        Trace.transaction do
-          begin
-            # Save the trace object
-            trace.save!
-
-            # Rename the temporary file to the final name
-            FileUtils.mv(filename, trace.trace_name)
-          rescue StandardError
-            # Remove the file as we have failed to update the database
-            FileUtils.rm_f(filename)
-
-            # Pass the exception on
-            raise
-          end
-
-          begin
-            # Clear the inserted flag to make the import daemon load the trace
-            trace.inserted = false
-            trace.save!
-          rescue StandardError
-            # Remove the file as we have failed to update the database
-            FileUtils.rm_f(trace.trace_name)
-
-            # Pass the exception on
-            raise
-          end
-        end
-      end
+      # Save the trace object
+      trace.save!
 
       # Finally save the user's preferred privacy level
       if pref = current_user.preferences.where(:k => "gps.trace.visibility").first
