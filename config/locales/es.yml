@@ -73,6 +73,7 @@
 # Author: Ruila
 # Author: Sim6
 # Author: Sukanya121
+# Author: TehFrog
 # Author: Tiberius1701
 # Author: Toliño
 # Author: Translationista
@@ -102,6 +103,7 @@ es:
         create: Registrar
         update: Actualizar
       doorkeeper_application:
+        create: Registrar
         update: Actualizar
       redaction:
         create: Crear redacción
@@ -640,6 +642,9 @@ es:
         title: Entradas en el diario de OpenStreetMap
         description: Entradas recientes en los diarios de los usuarios de OpenStreetMap
     comments:
+      title: Comentarios diarios añadidos por %{user}
+      heading: Comentarios diarios de %{user}
+      subheading_html: Comentarios diarios añadidos por %{user}
       no_comments: Ningún comentario diario
       post: Publicación
       when: Cuando
@@ -964,6 +969,7 @@ es:
           trailhead: Inicio del sendero
           trunk: Vía rápida
           trunk_link: Enlace de vía rápida
+          turning_circle: Radio de giro
           turning_loop: Bucle de giro
           unclassified: Carretera sin clasificar
           "yes": Camino
@@ -1245,6 +1251,7 @@ es:
           "yes": Lugar
         railway:
           abandoned: Ferrocarril abandonado
+          buffer_stop: Parada de búfer
           construction: Vía ferroviaria en construcción
           disused: Ferrocarril en desuso
           funicular: Vía de funicular
@@ -1258,6 +1265,7 @@ es:
           platform: Andén
           preserved: Ferrocarril preservado
           proposed: Vía de tren proyectada
+          rail: Raíl
           spur: Ramal ferroviario
           station: Estación de trenes
           stop: Parada de tren
@@ -1266,6 +1274,7 @@ es:
           switch: Aguja de ferrocarril
           tram: Ruta de tranvía
           tram_stop: Parada de tranvía
+          turntable: Placa giratoria
           yard: Estación de clasificación
         shop:
           agrarian: Tienda agraria
@@ -1764,6 +1773,12 @@ es:
       failure: Ya se ha confirmado una dirección de correo electrónico con esta credencial
         de autenticación.
       unknown_token: Ese código de confirmación ha caducado o no existe.
+    resend_success_flash:
+      confirmation_sent: Hemos enviado una nueva nota a %{email} y tan pronto como
+        confirmes tu cuenta podrás obtener mapeo.
+      whitelist: Si usas un sistema antispam que envía solicitudes de confirmación
+        entonces por favor asegúrate de incluir en la lista blanca %{sender}, ya que
+        no podemos responder ninguna solicitud de confirmación.
   messages:
     inbox:
       title: Buzón de entrada
@@ -2493,6 +2508,9 @@ es:
         traza</a> o aprende más sobre trazas GPS en la <a href='https://wiki.openstreetmap.org/wiki/ES:Gu%C3%ADa_del_principiante_1.2'>página
         wiki</a>.
       upload_trace: Subir una traza
+      all_traces: Todos los trazos
+      traces_from: Trazos Públicos de %{user}
+      remove_tag_filter: Eliminar Filtro de Etiquetas
     destroy:
       scheduled_for_deletion: Traza programada para eliminación
     make_public:
@@ -2559,10 +2577,13 @@ es:
     permissions:
       missing: No ha permitido que la aplicación acceda a esta instalación.
     scopes:
+      read_prefs: Leer preferiencias de usuario
       write_prefs: modificar sus preferencias de usuario.
+      write_diary: Crea entradas diarias, comentarios y haz amigos
       write_api: modificar el mapa.
       read_gpx: leer sus trazas de GPS privadas
       write_gpx: subir trazas de GPS
+      write_notes: Modifica notas
       read_email: Leer dirección de correo electrónico del usuario
       skip_authorization: Auto aprobar aplicación
   oauth_clients:
@@ -2608,17 +2629,25 @@ es:
       flash: Destruido el registro de aplicación del cliente
   oauth2_applications:
     index:
+      title: Mis Aplicaciones de Cliente
+      no_applications_html: ¿Tiene una aplicación que le gustaría registrar para usar
+        con nosotros utilizando el estándar %{oauth2}? Debe registrar su aplicación
+        antes de que pueda hacer solicitudes OAuth a este servicio.
       new: Registre su aplicación
       name: Nombre
       permissions: Permisos
     application:
       edit: Ediciones
+      delete: Eliminar
       confirm_delete: Ver esta aplicación
     new:
       title: Registrar una nueva aplicación
+    edit:
+      title: Editar tu aplicación
     show:
       edit: Editar
       delete: Eliminar
+      confirm_delete: ¿Eliminar esta aplicación?
       client_id: Identificador de cliente
       client_secret: Secreto del cliente
       client_secret_warning: Asegúrese de guardar este secreto - no será accesible
@@ -2633,6 +2662,7 @@ es:
       introduction: ¿Autorizar a %{application} a acceder a su cuenta con los siguientes
         permisos?
       authorize: Autorizar →
+      deny: Denegar
     error:
       title: Se produjo un error.
     show:
@@ -2644,6 +2674,7 @@ es:
       permissions: 'Permisos:'
       no_applications_html: Aún no ha autorizado ninguna aplicación %{oauth2}.
     application:
+      revoke: Revocar el acceso
       confirm_revoke: ¿Revocar el acceso a esta aplicación?
   users:
     new:
@@ -2758,6 +2789,8 @@ es:
       activate_user: Activar este usuario
       deactivate_user: Desactivar este usuario
       confirm_user: Confirmar este usuario
+      unconfirm_user: Desconfirmar este usuario
+      unsuspend_user: Desuspender este usuario
       hide_user: Ocultar este usuario
       unhide_user: Mostrar este usuario
       delete_user: Eliminar este usuario

@@ -24,8 +24,10 @@ fy:
       message:
         create: Ferstjoere
       client_application:
+        create: Registrearje
         update: Bywurkje
       doorkeeper_application:
+        create: Registrearje
         update: Bywurkje
       redaction:
         create: Redigearring oanmeitsje
@@ -68,10 +70,13 @@ fy:
       tracetag: Trajektlebel
       user: Meidogger
       user_preference: Meidoggerfoarkar
+      user_token: Meidoggerkaai
       way: Line
       way_node: Linepunt
       way_tag: Linelebel
     attributes:
+      client_application:
+        name: Namme (ferplichte)
       diary_comment:
         body: Ynhâld
       diary_entry:
@@ -82,6 +87,7 @@ fy:
         language: Taal
       doorkeeper/application:
         name: Namme
+        scopes: Rjochten
       friend:
         user: Meidogger
         friend: Freon
@@ -522,6 +528,11 @@ fy:
       comment: Reäksje
       newer_comments: Nijere reäksjes
       older_comments: Aldere reäksjes
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Applikaasje registrearre.
   friendships:
     make_friend:
       heading: '%{user} as freon tafoegje?'
@@ -529,6 +540,8 @@ fy:
       success: '%{name} is no jo freon(dinne)!'
       failed: Spitich, %{name} as freon tafoegjen mislearre.
       already_a_friend: Jo binne al freonen mei %{name}.
+      limit_exceeded: Jo hawwe de lêste tiid in soad meidoggers freon makke. Wachtsje
+        in skoftke mei noch mear te meitsjen.
     remove_friend:
       heading: '%{user} as freon ôffiere?'
       button: Offiere
@@ -1599,6 +1612,8 @@ fy:
       back_to_inbox: Werom nei ynfek
     create:
       message_sent: Berjocht ferstjoerd
+      limit_exceeded: Jo hawwe de lêste tiid in soad berjochten ferstjoerd. Wachtsje
+        in skoftke mei noch mear te ferstjoeren.
     no_such_message:
       title: Berjocht ûnbekend
       heading: Berjocht ûnbekend
@@ -1859,6 +1874,13 @@ fy:
       longitude: 'Lgr.:'
       output: Utfier
       export_button: Eksportearje
+    fixthemap:
+      how_to_help:
+        add_a_note:
+          instructions_html: |-
+            Klik gewoan op <a class='icon note'></a> of itselde ikoan yn 'e kaartwerjefte.
+            Der komt in markearder op 'e kaart dy't jo
+            ferslepe kinne. Heakje jo berjocht ta, klik bewarje, en oare kaartmakkers sille it dan besjen.
     help:
       title: Help krije
       introduction: |-
@@ -2013,11 +2035,28 @@ fy:
           lykas in restaurantnamme of de maksimum faasje fan in strjitte.
       rules:
         title: Regels!
+        paragraph_1_html: |-
+          OpenStreetMap hat net folle formele regels, mar wy ferwachtsje fan alle dielnimmers dat hja gearwurkje
+          en kommunisearje mei de mienskip. At jo faaks
+          wat oars dwaan wolle as mei de hân bewurkjen, lês en folgje dan de rjochtlinen foar
+          <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>Ymports</a> en
+          <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Automatisearre bewurkings</a>.
       questions:
         title: Noch fragen?
+        paragraph_1_html: |-
+          OpenStreetMap hat ferskate middels om oer it projekt te learen, foar it stellen en beäntwurdzjen
+          fan fragen, en yn gearwurking bepraten en fêstlizzen fan kartearringssaken.
+          <a href='%{help_url}'>Krij hjir help</a>. Mei in organisaasje plannen meitsje foar OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Besjoch de Wolkom-matte</a>.
       start_mapping: Set útein mei kaartmeitsjen
       add_a_note:
         title: Gjin tiid te bewurkjen? Meitsje in notysje!
+        paragraph_1_html: |-
+          At jo allinnich wat lyts oanpasse wolle, en gjin tiid hawwe yn te skriuwen en bewurkjen te learen, is
+          in notysje taheakjen noflik.
+        paragraph_2_html: |-
+          Gean gewoan nei <a href='%{map_url}'>de kaart</a>, en klik op it notysje-ikoan:
+          <span class='icon note'></span>. Der komt in markearder op 'e kaart dy't jo
+          ferslepe kinne. Heakje jo berjocht ta, klik bewarje, en oare kaartmakkers sille it dan besjen.
   traces:
     visibility:
       private: Privee (inkeld dield as anonime, net-oardere punten)
@@ -2112,28 +2151,88 @@ fy:
   application:
     settings_menu:
       account_settings: Akkountynstellings
-      oauth1_settings: OAuth 1-ynstellings
-      oauth2_applications: OAuth 2-applikaasjes
-      oauth2_authorizations: OAuth 2-autorisaasjes
+      oauth1_settings: Ynstellings OAuth 1
+      oauth2_applications: Applikaasjes OAuth 2
+      oauth2_authorizations: Autorisaasjes OAuth 2
   oauth:
+    authorize_failure:
+      invalid: De autorisaasjekaai is net jildich.
+    revoke:
+      flash: Jo hawwe de kaai foar %{application} ynlutsen
     scopes:
+      read_prefs: Meidoggerfoarkarren lêzen
+      write_prefs: Meidoggerfoarkarren wizigjen
+      write_diary: Deiboekstikken, reäksjes en freonen meitsjen
       write_api: Kaart wizigjen
+      read_gpx: Privee-GPS-trajekten lêzen
+      write_gpx: GPS-trajekten opladen
       write_notes: Notysjes wizigjen
+      read_email: Meidogger-e-mailadres lêzen
+      skip_authorization: Applikaasje automatysk goedkarren
+  oauth_clients:
+    show:
+      support_notice: Wy stypje ûndertekeningen mei HMAC-SHA1 (oanret) en RSA-SHA1.
+    index:
+      title: Myn OAuth-gegevens
+      my_tokens: Myn autorisearre applikaasjes
+      list_tokens: 'De neikommende kaaien binne ôfjûn oan applikaasjes op jo namme:'
+      application: Applikaasjenamme
+      issued_at: Ofjûn op
+      revoke: Ynlûke!
+      my_apps: Myn kliïnt-applikaasjes
+      no_apps_html: Hawwe jo in applikaasje dy't jo registrearje wolle foar gebrûk
+        by ús mei de %{oauth}-standert? Dan moatte jo jo webapplikaasje registrearje
+        foardat er OAuth-fersiken foar dy tsjinst dwaan kin.
+      oauth: OAuth
+      registered_apps: 'Jo hawwe de neikommende kliïnt-applikaasjes registrearre:'
+      register_new: Jo applikaasje registrearje
   oauth2_applications:
     index:
+      title: Myn kliïnt-applikaasjes
+      no_applications_html: Hawwe jo in applikaasje dy't jo registrearje wolle foar
+        gebrûk by ús mei de %{oauth2}-standert? Dan moatte jo jo applikaasje registrearje
+        foardat er OAuth-fersiken foar dy tsjinst dwaan kin.
+      oauth_2: OAuth 2
+      new: Nije applikaasje registrearje
       name: Namme
+      permissions: Rjochten
     application:
       edit: Bewurkje
       delete: Wiskje
+      confirm_delete: Dizze applikaasje wiskje?
+    new:
+      title: In nije applikaasje registrearje
+    edit:
+      title: Jo applikaasje bewurkje
     show:
       edit: Bewurkje
       delete: Wiskje
+      confirm_delete: Dizze applikaasje wiskje?
+      client_id: Kliïnt-ID
+      client_secret: Kliïnt-geheim
+      permissions: Rjochten
+    not_found:
+      sorry: Spitich, dy applikaasje koe net fûn wurde.
+  oauth2_authorizations:
+    new:
+      title: Autorisaasje frege
+      introduction: '%{application} autorisearje foar tagong ta jo akkount mei de
+        neikommende rjochten?'
+      authorize: Autorisearje
+      deny: Wegerje
+    error:
+      title: In flater die him foar
+    show:
+      title: Autorisaasjekoade
   oauth2_authorized_applications:
     index:
+      title: Myn autorisearre applikaasjes
       application: Applikaasje
       permissions: Rjochten
+      no_applications_html: Jo hawwe noch gjin %{oauth2}-applikaasjes autorisearre.
     application:
       revoke: Tagong ynlûke
+      confirm_revoke: Tagong foar dizze applikaasje ynlûke?
   users:
     new:
       title: Ynskriuwe
@@ -2251,7 +2350,23 @@ fy:
       heading: Meidoggers
     auth_failure:
       connection_failed: Ferbining mei de autentifikaasje-oanbieder mislearre
+      invalid_credentials: Unjildige autentifikaasjegegevens
+      no_authorization_code: Gjin autorisaasjekoade
+      unknown_signature_algorithm: Unbekend ûndertekeningsalgoritme
+      invalid_scope: Unjildich rjochtenberik
+      unknown_error: Autentifikaasje mislearre
+    auth_association:
+      heading: Jo ID is noch net ferbûn oan in OpenStreetMap-akkount.
+      option_1: |-
+        At jo nij binne op OpenStreetMap, meitsje dan graach in nij akkount
+        mei it formulier hjirûnder.
+      option_2: |-
+        At jo al in akkount hawwe, kinne jo jo oanmelde op jo akkount
+        mei jo meidochnamme en wachtwurd, en dan it akkount ferbine
+        oan jo ID yn jo meidoggerynstellings.
   user_blocks:
+    revoke:
+      revoke: Ynlûke!
     helper:
       block_duration:
         hours:
@@ -2272,8 +2387,10 @@ fy:
     show:
       status: 'Status:'
       edit: Bewurkje
+      revoke: Ynlûke!
     block:
       edit: Bewurkje
+      revoke: Ynlûke!
     blocks:
       status: Status
       showing_page: Side %{page}
