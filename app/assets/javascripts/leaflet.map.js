@@ -25,6 +25,7 @@ L.OSM.Map = L.Map.extend({
       name: I18n.t("javascripts.map.base.historical"),
       style: ohmStyle,
       accessToken: "no-token",
+      localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
       minZoom: 2,  /* match to "L.OSM.Map" options in index.js */
       maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
     });
