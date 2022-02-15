@@ -155,4 +155,5 @@ group :test do
   gem "simplecov", :require => false
   gem "simplecov-lcov", :require => false
   gem "webmock"
+  gem "yalphabetize", :require => false
 end
