@@ -30,9 +30,7 @@ If you create a user by signing up to your local website, you need to confirm th
 $ bundle exec rails console
 >> user = User.find_by(:display_name => "My New User Name")
 => #[ ... ]
->> user.status = "active"
-=> "active"
->> user.save!
+>> user.activate!
 => true
 >> quit
 ```
