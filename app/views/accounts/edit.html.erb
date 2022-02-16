@@ -54,7 +54,14 @@
     </span>
   </div>
 
-  <%= f.primary t(".save changes button") %>
+  <div class="row justify-content-between">
+    <div class="col-auto btn-wrapper">
+      <%= f.primary t(".save changes button") %>
+    </div>
+    <div class="col-auto btn-wrapper">
+      <%= link_to t(".delete_account"), account_deletion_path, :class => "btn btn-outline-danger" %>
+    </div>
+  </div>
 <% end %>
 
 <% unless current_user.data_public? %>

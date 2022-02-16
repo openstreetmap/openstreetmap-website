@@ -240,7 +240,11 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/account", :to => redirect(:path => "/account/edit")
   post "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
 
-  resource :account, :only => [:edit, :update]
+  resource :account, :only => [:edit, :update, :destroy]
+
+  namespace :account do
+    resource :deletion, :only => [:show]
+  end
   resource :dashboard, :only => [:show]
   resource :preferences, :only => [:show, :edit, :update]
   resource :profile, :only => [:edit, :update]

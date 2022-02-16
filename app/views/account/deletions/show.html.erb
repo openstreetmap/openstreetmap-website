@@ -1,0 +1,38 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<%= render :partial => "settings_menu" %>
+
+<div class="alert alert-danger row mx-0 p-3 align-items-center">
+  <div class="col-auto">
+    <picture>
+      <source srcset="<%= image_path "notice.svg" %>" type="image/svg+xml"></source>
+      <%= image_tag("notice.png", :srcset => image_path("notice.svg")) %>
+    </picture>
+  </div>
+  <div class="col">
+    <p class="mb-0"><%= t ".warning" %></p>
+  </div>
+</div>
+
+<p><%= t ".delete_introduction" %></p>
+
+<ul>
+  <li><%= t ".delete_profile" %></li>
+  <li><%= t ".delete_display_name" %></li>
+</ul>
+
+<p><%= t ".retain_caveats" %></p>
+
+<ul>
+  <li><%= t ".retain_edits" %></li>
+  <li><%= t ".retain_traces" %></li>
+  <li><%= t ".retain_diary_entries" %></li>
+  <li><%= t ".retain_notes" %></li>
+  <li><%= t ".retain_changeset_discussions" %></li>
+  <li><%= t ".retain_email" %></li>
+</ul>
+
+<%= link_to t(".delete_account"), account_path, { :method => :delete, :class => "btn btn-danger", :data => { :confirm => t(".confirm_delete") } } %>
+<%= link_to t(".cancel"), edit_account_path, :class => "btn btn-link" %>
