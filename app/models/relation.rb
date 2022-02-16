@@ -206,6 +206,8 @@ class Relation < ApplicationRecord
   end
 
   def preconditions_ok?(good_members = [])
+    raise OSM::APITooManyRelationMembersError.new(id, members.length, Settings.max_number_of_relation_members) if members.length > Settings.max_number_of_relation_members
+
     # These are hastables that store an id in the index of all
     # the nodes/way/relations that have already been added.
     # If the member is valid and visible then we add it to the

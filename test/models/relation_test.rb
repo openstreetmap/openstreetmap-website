@@ -230,4 +230,27 @@ class RelationTest < ActiveSupport::TestCase
     assert_equal 39, changeset.min_lat
     assert_equal 116, changeset.max_lat
   end
+
+  # Check that the preconditions fail when you are over the defined limit of
+  # the maximum number of members in a relation.
+  def test_max_members_per_relation_limit
+    # Speed up unit test by using a small relation member limit
+    default_limit = Settings.max_number_of_relation_members
+    Settings.max_number_of_relation_members = 20
+
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    relation = create(:relation, :changeset => changeset)
+    node = create(:node, :longitude => 116, :latitude => 39)
+    # Create relation which exceeds the relation member limit by one
+    0.upto(Settings.max_number_of_relation_members) do |i|
+      create(:relation_member, :relation => relation, :member_type => "Node", :member_id => node.id, :sequence_id => i)
+    end
+
+    assert_raise OSM::APITooManyRelationMembersError do
+      relation.create_with_history user
+    end
+
+    Settings.max_number_of_relation_members = default_limit
+  end
 end
