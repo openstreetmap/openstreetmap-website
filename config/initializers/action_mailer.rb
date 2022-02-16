@@ -9,7 +9,8 @@ ActionMailer::Base.smtp_settings = {
   :enable_starttls_auto => Settings.smtp_enable_starttls_auto,
   :authentication => Settings.smtp_authentication,
   :user_name => Settings.smtp_user_name,
-  :password => Settings.smtp_password
+  :password => Settings.smtp_password,
+  :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE
 }
 
 # Set the host and protocol for all ActionMailer URLs
