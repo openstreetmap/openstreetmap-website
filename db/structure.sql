@@ -17,13 +17,6 @@ CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION btree_gist; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiST';
-
-
---
 -- Name: format_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -228,7 +221,7 @@ CREATE TABLE public.active_storage_blobs (
     content_type character varying,
     metadata text,
     byte_size bigint NOT NULL,
-    checksum character varying NOT NULL,
+    checksum character varying,
     created_at timestamp without time zone NOT NULL,
     service_name character varying NOT NULL
 );
@@ -3432,6 +3425,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210510083027'),
 ('20210510083028'),
 ('20210511104518'),
+('20211216185316'),
 ('20220201183346'),
 ('21'),
 ('22'),
