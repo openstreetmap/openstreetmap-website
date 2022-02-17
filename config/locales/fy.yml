@@ -77,6 +77,16 @@ fy:
     attributes:
       client_application:
         name: Namme (ferplichte)
+        url: Haad-URL applikaasje (ferplichte)
+        callback_url: Weromrop-URL
+        support_url: Stipe-URL
+        allow_read_prefs: meidoggerfoarkarren lêzen
+        allow_write_prefs: meidoggerfoarkarren wizigjen
+        allow_write_diary: deiboekstikken, reäksjes en freonen meitsjen
+        allow_write_api: kaart wizigjen
+        allow_read_gpx: privee-GPS-trajekten lêzen
+        allow_write_gpx: GPS-trajekten opladen
+        allow_write_notes: notysjes wizigjen
       diary_comment:
         body: Ynhâld
       diary_entry:
@@ -87,6 +97,8 @@ fy:
         language: Taal
       doorkeeper/application:
         name: Namme
+        redirect_uri: Trochferwiis-URI's
+        confidential: Fertroulike applikaasje?
         scopes: Rjochten
       friend:
         user: Meidogger
@@ -857,7 +869,7 @@ fy:
           battlefield: Slachfjild
           boundary_stone: Grinspeal
           building: Histoarysk gebou
-          bunker: Bunker
+          bunker: Bunker/kazemat
           cannon: Histoarysk kanon
           castle: Kastiel
           charcoal_pile: Histoaryske houtskoalbult
@@ -1375,7 +1387,7 @@ fy:
       provide_details: Graach de ferplichte details oanjaan
   layouts:
     logo:
-      alt_text: Logo OpenStreetMap
+      alt_text: OpenStreetMap-logo
     home: Nei jo fêste lokaasje
     logout: Ofmelde
     log_in: Oanmelde
@@ -1405,6 +1417,7 @@ fy:
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
     tou: Gebrûksbetingsten
+    donate: Stypje OpenStreetMap en %{link} oan it Fernijingsfûns foar Kompjûtersystemen.
     help: Help
     about: Oer
     copyright: Auteursrjochten
@@ -1414,6 +1427,7 @@ fy:
     foundation: Stifting
     foundation_title: De OpenStreetMap-stifting
     make_a_donation:
+      title: Stypje OpenStreetMap mei in jilddonaasje
       text: Donaasje jaan
     learn_more: Mear witte
     more: Mear
@@ -1574,6 +1588,7 @@ fy:
         nije e-mailadres.
       button: Befêstigje
       success: Jo wiziging fan it e-mailadres is befêstige!
+      failure: Der is al in e-mailadres befêstige mei dy kaai.
       unknown_token: Dy befêstigingskoade is ferrûn of bestiet net.
     resend_success_flash:
       confirmation_sent: Wy hawwe in nij befêstigingsberjocht stjoerd nei %{email},
@@ -1672,7 +1687,7 @@ fy:
       heading: Wachtwurd op 'e nij ynstelle foar %{user}
       reset: Nij wachtwurd
       flash changed: Jo wachtwurd is feroare.
-      flash token bad: Haw dat bewiisteken net fûn, de URL efkes neisjen?
+      flash token bad: Haw dy kaai net fûn, de URL efkes neisjen?
   preferences:
     show:
       title: Myn foarkarren
@@ -1833,10 +1848,34 @@ fy:
         native_link: Frysktalige ferzje
       legal_babble:
         title_html: Auteursrjochten en lisinsje
+    index:
+      js_1: Jo brûke ôf in webblêder dy't gjin JavaScript stipet, ôf jo hawwe JavaScript
+        útskeakele.
+      js_2: OpenStreetMap brûkt JavaScript foar de ferskobere kaart.
+      permalink: Fêste kepp.
+      shortlink: Lytse kepp.
+      createnote: Notysje taheakje
+      license:
+        copyright: Auteursrjochten OpenStreetMap en bydragers, ûnder in iepen lisinsje
+      remote_failed: Bewurkjen mislearre - soargje dat JOSM of Merkaartor laden is,
+        en de ôfstânsbetsjinningsopsje ynskeakele
+    edit:
+      not_public: Jo hawwe net ynsteld dat jo bewurkings iepenbier binne.
+      not_public_description_html: Jo kinne de kaart net mear bewurkje oant jo dat
+        dogge. Jo kinne jo bewurkings as iepenbier ynstelle op jo %{user_page}.
+      user_page_link: meidoggerside
+      anon_edits_link_text: Fyn út wêrom't dat sa is.
+      id_not_configured: iD is net konfigurearre
+      no_iframe_support: Jo webblêder stipet gjin HTML-iframes, dy't nedich binne
+        foar dizze funksje.
     export:
       title: Eksportearje
+      area_to_export: Eksportgebiet
       manually_select: Mei de hân in oar gebiet selektearje
+      format_to_export: Bestânsfoarm
       osm_xml_data: OpenStreetMap-XML-data
+      map_image: Kaartôfbylding (toant standertlaach)
+      embeddable_html: Ynbou-HTML
       licence: Lisinsje
       export_details_html: OpenStreetMap-data is beskikber ûnder de <a href="https://opendatacommons.org/licenses/odbl/1.0/">Iepen
         Databank-lisinsje</a> (ODbL) fan Open Data Commons.
@@ -1867,20 +1906,37 @@ fy:
           title: Oare boarnen
           description: Fierders noch boarnen dy't op 'e OpenStreetMap-wiki steane
       options: Opsjes
-      format: 'Formaat:'
+      format: 'Foarm:'
       scale: Skaal
       max: maks.
+      image_size: 'Ofbyldgrutte:'
+      zoom: Zoom
+      add_marker: Markearder oan 'e kaart tafoegje
       latitude: 'Bgr.:'
       longitude: 'Lgr.:'
       output: Utfier
+      paste_html: HTML op te nimmen yn in webstee
       export_button: Eksportearje
     fixthemap:
+      title: Probleem melde / Kaart ferbetterje
       how_to_help:
+        title: Hoe te helpen
+        join_the_community:
+          title: Kom by de mienskip
+          explanation_html: At jo in probleem yn ús kaartdata opmerke, bygelyks in
+            strjitte mist of jo adres, dan kinne jo jo it bêst oanslute by de OpenStreetMap-mienskip,
+            en de data sels tafoegje of reparearje.
         add_a_note:
           instructions_html: |-
             Klik gewoan op <a class='icon note'></a> of itselde ikoan yn 'e kaartwerjefte.
             Der komt in markearder op 'e kaart dy't jo
             ferslepe kinne. Heakje jo berjocht ta, klik bewarje, en oare kaartmakkers sille it dan besjen.
+      other_concerns:
+        title: Oare betinkings
+        explanation_html: |-
+          At jo noed hawwe oer hoe't ús data brûkt wurdt of oer de ynhâld, rieplachtsje dan ús
+          <a href='/copyright'>auteursrjochteside</a> foar mear juridyske ynformaasje, of nim kontakt op mei de krekte
+          <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-wurkgroep</a>.
     help:
       title: Help krije
       introduction: |-
@@ -2170,8 +2226,11 @@ fy:
       read_email: Meidogger-e-mailadres lêzen
       skip_authorization: Applikaasje automatysk goedkarren
   oauth_clients:
+    new:
+      title: In nije applikaasje registrearje
     show:
       support_notice: Wy stypje ûndertekeningen mei HMAC-SHA1 (oanret) en RSA-SHA1.
+      confirm: Seker witte?
     index:
       title: Myn OAuth-gegevens
       my_tokens: Myn autorisearre applikaasjes
@@ -2186,6 +2245,8 @@ fy:
       oauth: OAuth
       registered_apps: 'Jo hawwe de neikommende kliïnt-applikaasjes registrearre:'
       register_new: Jo applikaasje registrearje
+    form:
+      requests: 'Freegje de neikommende rjochten fan ''e meidogger:'
   oauth2_applications:
     index:
       title: Myn kliïnt-applikaasjes
@@ -2210,7 +2271,10 @@ fy:
       confirm_delete: Dizze applikaasje wiskje?
       client_id: Kliïnt-ID
       client_secret: Kliïnt-geheim
+      client_secret_warning: Soargje dat jo dit geheim bewarje - it wurdt net nochris
+        toand
       permissions: Rjochten
+      redirect_uris: Trochferwiis-URI's
     not_found:
       sorry: Spitich, dy applikaasje koe net fûn wurde.
   oauth2_authorizations:
@@ -2348,12 +2412,17 @@ fy:
     index:
       title: Meidoggers
       heading: Meidoggers
+      showing:
+        one: Side %{page} (%{first_item} fan %{items})
+        other: Side %{page} (%{first_item}-%{last_item} fan %{items})
+      summary_html: '%{name} oanmakke fan %{ip_address} ôf op %{date}'
+      summary_no_ip_html: '%{name} oanmakke op %{date}'
     auth_failure:
       connection_failed: Ferbining mei de autentifikaasje-oanbieder mislearre
       invalid_credentials: Unjildige autentifikaasjegegevens
       no_authorization_code: Gjin autorisaasjekoade
       unknown_signature_algorithm: Unbekend ûndertekeningsalgoritme
-      invalid_scope: Unjildich rjochtenberik
+      invalid_scope: Unjildich rjochteberik
       unknown_error: Autentifikaasje mislearre
     auth_association:
       heading: Jo ID is noch net ferbûn oan in OpenStreetMap-akkount.
@@ -2388,6 +2457,7 @@ fy:
       status: 'Status:'
       edit: Bewurkje
       revoke: Ynlûke!
+      confirm: Seker witte?
     block:
       edit: Bewurkje
       revoke: Ynlûke!
@@ -2615,6 +2685,7 @@ fy:
     show:
       description: 'Beskriuwing:'
       user: 'Auteur:'
+      confirm: Seker witte?
   validations:
     leading_whitespace: begjint mei wytromte
     trailing_whitespace: einiget mei wytromte

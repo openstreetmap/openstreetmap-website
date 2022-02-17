@@ -215,6 +215,11 @@ sk:
         few: pred %{count} minútami
         many: pred %{count} minútami
         other: pred %{count} minútami
+      x_days:
+        one: včera
+        few: pred %{count} dňami
+        many: pred %{count} dňami
+        other: pred %{count} dňami
       x_months:
         one: pred mesiacom
         few: pred %{count} mesiacmi
@@ -235,7 +240,7 @@ sk:
       description: Diaľkové ovládanie (JOSM alebo Merkaartor)
   auth:
     providers:
-      none: Žiadne
+      none: Žiadna
       openid: OpenID
       google: Google
       facebook: Facebook
@@ -296,16 +301,21 @@ sk:
     created: Vytvorené
     closed: Uzavreté
     created_html: Vytvorené <abbr title='%{title}'>pred %{time}</abbr>
-    closed_html: Uzavreté <abbr title='%{title}'>pred %{time}</abbr>
+    closed_html: Uzavreté <abbr title='%{title}'>%{time}</abbr>
     created_by_html: Vytvoril <abbr title='%{title}'>pred %{time}</abbr> %{user}
     deleted_by_html: Odstránil <abbr title='%{title}'>pred %{time}</abbr> %{user}
     edited_by_html: Upravil <abbr title='%{title}'>pred %{time}</abbr> %{user}
-    closed_by_html: Uzavrel <abbr title='%{title}'>pred %{time}</abbr> %{user}
+    closed_by_html: Uzavrel(a) <abbr title='%{title}'>pred %{time}</abbr> %{user}
     version: Verzia
     in_changeset: Sada zmien
     anonymous: anonym
     no_comment: (bez komentára)
     part_of: Súčasť
+    part_of_relations:
+      one: 1 relácia
+      few: '%{count} relácie'
+      many: '%{count} relácií'
+      other: '%{count} relácií'
     download_xml: Stiahnuť XML
     view_history: Zobraziť históriu
     view_details: Zobraziť detaily
@@ -337,6 +347,11 @@ sk:
       title_html: 'Cesta: %{name}'
       history_title_html: 'História cesty: %{name}'
       nodes: Uzly
+      nodes_count:
+        one: 1 uzol
+        few: '%{count} uzly'
+        many: '%{count} uzlov'
+        other: '%{count} uzlov'
       also_part_of_html:
         one: súčasťou cesty %{related_ways}
         other: súčasťou ciest %{related_ways}
@@ -535,6 +550,11 @@ sk:
       comment: Komentár
       newer_comments: Novšie komentáre
       older_comments: Staršie komentáre
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Aplikácia bola zaregistrovaná.
   friendships:
     make_friend:
       heading: Pridať používateľa %{user} ako priateľa?
@@ -663,6 +683,7 @@ sk:
           administrative: Administratívna hranica
           census: Hranica pre potreby sčítania
           national_park: Národný park
+          political: Hranica volebného okrsku
           protected_area: Chránená oblasť
         bridge:
           aqueduct: Akvadukt
@@ -706,9 +727,18 @@ sk:
           university: Univerzitné budovy
           warehouse: Sklad
           "yes": Budova
+        club:
+          "yes": Klub
         craft:
+          beekeeper: Včelár
+          blacksmith: Kováč
           brewery: Pivovar
+          carpenter: Tesár
+          caterer: Catering
+          confectionery: Cukrovinky
+          dressmaker: Krajčír
           electrician: Elektrikár
+          electronics_repair: Oprava elektroniky
           gardener: Záhradník
           painter: Maliar
           photographer: Fotograf
@@ -1123,12 +1153,14 @@ sk:
           "yes": Vodná cesta
       admin_levels:
         level2: Štátna hranica
+        level3: Hranica regiónu
         level4: Hranica kraja (state)
         level5: Hranica regiónu
         level6: Hranica okresu (county)
         level8: Hranica mesta
         level9: Hranica obce
         level10: Hranica časti obce
+        level11: Hranica susedstva
       types:
         cities: Veľkomestá
         towns: Mestá
@@ -1309,6 +1341,7 @@ sk:
     inbox:
       title: Doručená pošta
       my_inbox: Moja doručená pošta
+      my_outbox: Odoslané
       messages: Máte %{new_messages} a %{old_messages}
       new_messages:
         few: '%{count} nové správy'
@@ -1344,6 +1377,8 @@ sk:
       body: Ľutujeme, neexistuje správa s takým ID.
     outbox:
       title: Odoslaná pošta
+      my_inbox: Doručená pošta
+      my_outbox: Odoslané
       messages:
         few: Máte %{count} odeslané správy
         one: Máte %{count} odoslanú správu
@@ -1483,11 +1518,23 @@ sk:
   site:
     about:
       next: Ďalej
+      copyright_html: <span>&copy;</span>prispievatelia<br>OpenStreetMap
       used_by_html: '%{name} poskytuje mapové dáta pre tisícky webových stránok, mobilných
         aplikácií a hardvérových zariadení'
       lede_text: OpenStreetMap tvorí komunita používateľov, ktorí pridávajú a udržiavajú
         údaje o cestách, turistických trasách, kaviarňach, železničných staniciach
         a mnohých ďalších miestach na celom svete.
+      local_knowledge_title: Miestna znalosť
+      local_knowledge_html: OpenStreetMap kladie dôraz na miestnu znalosť. Prispievatelia
+        využívajú letecké snímky, GPS prístroje a klasické mapy, aby overili, že OSM
+        sú presné a aktuálne.
+      community_driven_title: Riadené komunitou
+      open_data_title: Otvorené dáta
+      open_data_html: 'OpenStreetMap znamenajú <i>otvorené dáta</i>: môžete ich používať
+        na ľubovoľný účel, pokiaľ uvediete ako autora OpenStreetMap a jeho prispievateľov.
+        Ak dáta meníte alebo ich určitými spôsobmi rozširujete, výsledok môžete šíriť
+        len pod rovnakou licenciou. Podrobnosti nájdete na stránke <a href=''%{copyright_path}''>Copyright</a>.'
+      legal_title: Právne informácie
       partners_title: Partneri
     copyright:
       foreign:
@@ -1561,7 +1608,7 @@ sk:
           pochádzajúce z <a href="http://www.ngi.gov.za/">Chief Directorate: National
           Geo-Spatial Information</a>, State copyright reserved.'
         contributors_gb_html: '<strong>Spojené kráľovstvo</strong>: Obsahuje dáta
-          Ordnance Survey © Crown copyright a právo k databáze 2010-12.'
+          Ordnance Survey © Crown copyright a právo k databáze 2010-19.'
         contributors_footer_1_html: |-
           Podrobnosti o týchto a ďalších zdrojoch, ktoré boli použité pre vylepšenie OpenStreetMap, nájdete na <a
           href="http://wiki.openstreetmap.org/wiki/Contributors">stránke Contributors</a> na OpenStreetMap wiki.
@@ -1889,6 +1936,7 @@ sk:
       account_settings: Nastavenia účtu
       oauth1_settings: Nastavenia OAuth 1
       oauth2_applications: Aplikácie OAuth 2
+      oauth2_authorizations: Autorizácie OAuth 2
   oauth:
     authorize:
       request_access_html: Aplikácia %{app_name} požaduje prístup k vášmu kontu (%{user}).
@@ -1949,6 +1997,10 @@ sk:
   oauth2_applications:
     index:
       permissions: Povolenia
+    application:
+      confirm_delete: Odstrániť túto aplikáciu?
+    edit:
+      title: Upraviť aplikáciu
     show:
       permissions: Povolenia
   oauth2_authorized_applications:
@@ -2299,21 +2351,36 @@ sk:
         no_place: Ospravedlňujeme sa - nepodarilo sa nájsť toto miesto.
       instructions:
         continue_without_exit: Pokračujte na %{name}
+        slight_right_without_exit: Mierne vpravo na %{name}
+        offramp_right: Použite zjazd vpravo
+        offramp_right_with_name: Použite zjazd vpravo na %{name}
+        offramp_right_with_name_directions: Použite zjazd vpravo na %{name}, smerom
+          na %{directions}
         onramp_right_without_exit: Odbočte vpravo na nájazd na %{name}
+        onramp_right_with_directions: Odbočte vpravo na nájazd smerom na %{directions}
         onramp_right_with_name_directions: Odbočte vpravo na nájazd na %{name}, smerom
           na %{directions}
         onramp_right: Odbočte vpravo na nájazd
         endofroad_right_without_exit: Na konci cesty odbočte vpravo na %{name}
+        merge_right_without_exit: Pripojte sa vpravo na %{name}
         fork_right_without_exit: Na rázcestí odbočte vpravo na %{name}
+        turn_right_without_exit: Odbočte vpravo na %{name}
         sharp_right_without_exit: Ostro doprava na %{name}
         sharp_left_without_exit: Ostro doľava na %{name}
         turn_left_without_exit: Odbočte vľavo na %{name}
+        offramp_left: Použite zjazd vľavo
+        offramp_left_with_name: Použite zjazd vľavo na %{name}
+        offramp_left_with_name_directions: Použite zjazd vľavo na %{name}, smerom
+          na %{directions}
         onramp_left_without_exit: Odbočte vľavo na nájazd na %{name}
+        onramp_left_with_directions: Odbočte vľavo na nájazd smerom na %{directions}
         onramp_left_with_name_directions: Odbočte vľavo na nájazd na %{name}, smerom
           na %{directions}
         onramp_left: Odbočte vľavo na nájazd
         endofroad_left_without_exit: Na konci cesty odbočte vľavo na %{name}
+        merge_left_without_exit: Pripojte sa vľavo na %{name}
         fork_left_without_exit: Na rázcestí odbočte vľavo na %{name}
+        slight_left_without_exit: Mierne vľavo na %{name}
         start_without_exit: Začnite na %{name}
         destination_without_exit: Ste v cieli
         unnamed: nepomenované
