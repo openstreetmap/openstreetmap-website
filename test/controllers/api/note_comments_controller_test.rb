@@ -17,12 +17,18 @@ module Api
 
     ##
     # test hide comment fail
-    def test_destroy_comment_fail
-      # unauthorized
-      note = create(:note)
-      comment = create(:note_comment, :note => note, :body => "Note comment")
-      assert comment.visible
+    def test_hide_comment_fail
+      note = create(:note_with_comments) # implicitly creates an opening comment
+      comment = create(:note_comment, :note => note, :body => "Note comment", :event => :commented)
 
+      assert comment.visible
+      assert_equal(2, note.comments.count)
+      assert note.comments.first.visible
+      assert note.comments.last.visible
+      assert_equal("opened", note.comments.first.event)
+      assert_equal("commented", note.comments.last.event)
+
+      # unauthorized
       post note_comment_hide_path(:id => comment)
       assert_response :unauthorized
       assert comment.reload.visible
@@ -40,13 +46,18 @@ module Api
       post note_comment_hide_path(:id => 9191), :headers => auth_header
       assert_response :not_found
       assert comment.reload.visible
+
+      # cannot hide opening comment
+      post note_comment_hide_path(:id => note.comments.first), :headers => auth_header
+      assert_response :bad_request
+      assert note.comments.first.reload.visible
     end
 
     ##
     # test hide comment succes
     def test_hide_comment_success
-      note = create(:note)
-      comment = create(:note_comment, :note => note, :body => "Note comment")
+      note = create(:note_with_comments)
+      comment = create(:note_comment, :note => note, :body => "Note comment", :event => :commented)
       assert comment.visible
 
       auth_header = basic_authorization_header create(:moderator_user).email, "test"
@@ -59,11 +70,11 @@ module Api
     ##
     # test unhide comment fail
     def test_restore_comment_fail
-      # unauthorized
-      note = create(:note)
-      comment = create(:note_comment, :note => note, :visible => false, :body => "Note comment")
+      note = create(:note_with_comments)
+      comment = create(:note_comment, :note => note, :visible => false, :body => "Note comment", :event => :commented)
       assert_not comment.visible
 
+      # unauthorized
       post note_comment_unhide_path(:id => comment)
       assert_response :unauthorized
       assert_not comment.reload.visible
@@ -81,13 +92,19 @@ module Api
       post note_comment_unhide_path(:id => 999111), :headers => auth_header
       assert_response :not_found
       assert_not comment.reload.visible
+
+      # cannot unhide opening comment
+      post note_comment_hide_path(:id => note.comments.first), :headers => auth_header
+      assert_response :bad_request
+      assert_equal("opened", note.comments.first.event)
+      assert note.comments.first.reload.visible
     end
 
     ##
     # test unhide comment succes
     def test_unhide_comment_success
-      note = create(:note)
-      comment = create(:note_comment, :note => note, :visible => false, :body => "Note comment")
+      note = create(:note_with_comments)
+      comment = create(:note_comment, :note => note, :visible => false, :body => "Note comment", :event => :commented)
       assert_not comment.visible
 
       auth_header = basic_authorization_header create(:moderator_user).email, "test"

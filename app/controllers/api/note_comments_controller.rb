@@ -21,6 +21,9 @@ module Api
       # Find the note comment
       comment = NoteComment.find(id)
 
+      # Opening comment cannot be hidden
+      raise OSM::APIBadUserInput, "Cannot hide id" if comment.event == "opened"
+
       # Hide the comment
       comment.update(:visible => false)
 
@@ -40,6 +43,9 @@ module Api
 
       # Find the note comment
       comment = NoteComment.find(id)
+
+      # Opening comment cannot be unhidden
+      raise OSM::APIBadUserInput, "Cannot unhide id" if comment.event == "opened"
 
       # Unhide the comment
       comment.update(:visible => true)
