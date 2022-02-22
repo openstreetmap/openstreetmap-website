@@ -110,6 +110,10 @@ OSM.initializeBrowse = function (map) {
           displayFeatureWarning(features.length, maxFeatures, addFeatures, cancelAddFeatures);
         }
 
+        if (map._objectLayer) {
+          map._objectLayer.bringToFront();
+        }
+
         dataLoader = null;
       }
     });
