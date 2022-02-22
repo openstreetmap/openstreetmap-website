@@ -103,8 +103,8 @@ OSM.Query = function (map) {
         value = tags[key];
 
         if (prefixes[key]) {
-          var first = value.substr(0, 1).toUpperCase(),
-              rest = value.substr(1).replace(/_/g, " ");
+          var first = value.slice(0, 1).toUpperCase(),
+              rest = value.slice(1).replace(/_/g, " ");
 
           return first + rest;
         }
