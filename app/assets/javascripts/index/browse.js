@@ -1,6 +1,5 @@
 OSM.initializeBrowse = function (map) {
   var browseBounds;
-  var selectedLayer;
   var dataLayer = map.dataLayer;
 
   dataLayer.setStyle({
@@ -92,7 +91,6 @@ OSM.initializeBrowse = function (map) {
       url: url,
       success: function (xml) {
         dataLayer.clearLayers();
-        selectedLayer = null;
 
         var features = dataLayer.buildFeatures(xml);
 
@@ -118,18 +116,6 @@ OSM.initializeBrowse = function (map) {
   }
 
   function onSelect(layer) {
-    // Unselect previously selected feature
-    if (selectedLayer) {
-      selectedLayer.setStyle(selectedLayer.originalStyle);
-    }
-
-    // Redraw in selected style
-    layer.originalStyle = { color: layer.options.color, weight: layer.options.weight };
-    layer.setStyle({ color: "#0000ff", weight: 8 });
-
     OSM.router.route("/" + layer.feature.type + "/" + layer.feature.id);
-
-    // Stash the currently drawn feature
-    selectedLayer = layer;
   }
 };
