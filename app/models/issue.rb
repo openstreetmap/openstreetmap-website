@@ -32,9 +32,9 @@
 
 class Issue < ApplicationRecord
   belongs_to :reportable, :polymorphic => true
-  belongs_to :reported_user, :class_name => "User"
-  belongs_to :user_resolved, :class_name => "User", :foreign_key => :resolved_by
-  belongs_to :user_updated, :class_name => "User", :foreign_key => :updated_by
+  belongs_to :reported_user, :class_name => "User", :optional => true
+  belongs_to :user_resolved, :class_name => "User", :foreign_key => :resolved_by, :optional => true
+  belongs_to :user_updated, :class_name => "User", :foreign_key => :updated_by, :optional => true
 
   has_many :reports, :dependent => :destroy
   has_many :comments, :class_name => "IssueComment", :dependent => :destroy

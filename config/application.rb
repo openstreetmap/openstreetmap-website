@@ -35,10 +35,6 @@ module OpenStreetMap
     # This has defaulted to false since rails 6.0
     config.action_view.default_enforce_utf8 = true
 
-    # This defaults to true from rails 5.0 but our code doesn't comply
-    # with it at all so we turn it off
-    config.active_record.belongs_to_required_by_default = false unless Settings.status == "database_offline"
-
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types

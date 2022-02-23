@@ -31,7 +31,7 @@ class OldRelation < ApplicationRecord
   include Redactable
 
   belongs_to :changeset
-  belongs_to :redaction
+  belongs_to :redaction, :optional => true
   belongs_to :current_relation, :class_name => "Relation", :foreign_key => "relation_id"
 
   has_many :old_members, -> { order(:sequence_id) }, :class_name => "OldRelationMember", :foreign_key => [:relation_id, :version]
