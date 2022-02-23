@@ -25,8 +25,8 @@ class ChangesetComment < ApplicationRecord
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
-  validates :changeset, :presence => true, :associated => true
-  validates :author, :presence => true, :associated => true
+  validates :changeset, :associated => true
+  validates :author, :associated => true
   validates :visible, :inclusion => [true, false]
   validates :body, :characters => true
 

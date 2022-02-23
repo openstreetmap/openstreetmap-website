@@ -37,7 +37,7 @@ class OldWay < ApplicationRecord
   has_many :old_nodes, :class_name => "OldWayNode", :foreign_key => [:way_id, :version]
   has_many :old_tags, :class_name => "OldWayTag", :foreign_key => [:way_id, :version]
 
-  validates :changeset, :presence => true, :associated => true
+  validates :changeset, :associated => true
   validates :timestamp, :presence => true
   validates :visible, :inclusion => [true, false]
 

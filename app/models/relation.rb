@@ -39,8 +39,6 @@ class Relation < ApplicationRecord
                  :numericality => { :on => :update, :only_integer => true }
   validates :version, :presence => true,
                       :numericality => { :only_integer => true }
-  validates :changeset_id, :presence => true,
-                           :numericality => { :only_integer => true }
   validates :timestamp, :presence => true
   validates :changeset, :associated => true
   validates :visible, :inclusion => [true, false]

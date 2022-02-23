@@ -43,7 +43,7 @@ class Trace < ApplicationRecord
   has_one_attached :image, :service => Settings.trace_image_storage
   has_one_attached :icon, :service => Settings.trace_icon_storage
 
-  validates :user, :presence => true, :associated => true
+  validates :user, :associated => true
   validates :name, :presence => true, :length => 1..255, :characters => true
   validates :description, :presence => { :on => :create }, :length => 1..255, :characters => true
   validates :timestamp, :presence => true

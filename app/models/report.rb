@@ -25,8 +25,6 @@ class Report < ApplicationRecord
   belongs_to :issue, :counter_cache => true
   belongs_to :user
 
-  validates :issue, :presence => true
-  validates :user, :presence => true
   validates :details, :presence => true, :characters => true
   validates :category, :presence => true
 

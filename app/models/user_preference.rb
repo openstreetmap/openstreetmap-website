@@ -16,6 +16,6 @@ class UserPreference < ApplicationRecord
 
   belongs_to :user
 
-  validates :user, :presence => true, :associated => true
+  validates :user, :associated => true
   validates :k, :v, :length => 1..255, :characters => true
 end

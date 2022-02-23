@@ -44,8 +44,6 @@ class Changeset < ApplicationRecord
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
-  validates :user_id, :presence => true,
-                      :numericality => { :only_integer => true }
   validates :num_changes, :presence => true,
                           :numericality => { :only_integer => true,
                                              :greater_than_or_equal_to => 0 }

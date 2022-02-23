@@ -29,7 +29,7 @@ class NoteComment < ApplicationRecord
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
-  validates :note, :presence => true, :associated => true
+  validates :note, :associated => true
   validates :visible, :inclusion => [true, false]
   validates :author, :associated => true
   validates :event, :inclusion => %w[opened closed reopened commented hidden]
