@@ -31,8 +31,8 @@ class Trace < ApplicationRecord
   self.table_name = "gpx_files"
 
   belongs_to :user, :counter_cache => true
-  has_many :tags, :class_name => "Tracetag", :foreign_key => "gpx_id", :dependent => :delete_all
-  has_many :points, :class_name => "Tracepoint", :foreign_key => "gpx_id", :dependent => :delete_all
+  has_many :tags, :class_name => "Tracetag", :foreign_key => "gpx_id", :dependent => :delete_all, :inverse_of => "trace"
+  has_many :points, :class_name => "Tracepoint", :foreign_key => "gpx_id", :dependent => :delete_all, :inverse_of => "trace"
 
   scope :visible, -> { where(:visible => true) }
   scope :visible_to, ->(u) { visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
