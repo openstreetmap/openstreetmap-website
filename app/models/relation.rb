@@ -27,9 +27,9 @@ class Relation < ApplicationRecord
 
   belongs_to :changeset
 
-  has_many :old_relations, -> { order(:version) }
+  has_many :old_relations, -> { order(:version) }, :inverse_of => :current_relation
 
-  has_many :relation_members, -> { order(:sequence_id) }
+  has_many :relation_members, -> { order(:sequence_id) }, :inverse_of => :relation
   has_many :relation_tags
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member

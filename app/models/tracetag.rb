@@ -19,7 +19,7 @@
 class Tracetag < ApplicationRecord
   self.table_name = "gpx_file_tags"
 
-  belongs_to :trace, :foreign_key => "gpx_id"
+  belongs_to :trace, :foreign_key => "gpx_id", :inverse_of => :tags
 
   validates :trace, :associated => true
   validates :tag, :length => 1..255, :characters => { :url_safe => true }
