@@ -753,7 +753,7 @@ CREATE TABLE public.gps_points (
 --
 
 CREATE TABLE public.gpx_file_tags (
-    gpx_id bigint DEFAULT 0 NOT NULL,
+    gpx_id bigint NOT NULL,
     tag character varying NOT NULL,
     id bigint NOT NULL
 );
@@ -1274,7 +1274,7 @@ ALTER SEQUENCE public.redactions_id_seq OWNED BY public.redactions.id;
 --
 
 CREATE TABLE public.relation_members (
-    relation_id bigint DEFAULT 0 NOT NULL,
+    relation_id bigint NOT NULL,
     member_type public.nwr_enum NOT NULL,
     member_id bigint NOT NULL,
     member_role character varying NOT NULL,
@@ -1288,7 +1288,7 @@ CREATE TABLE public.relation_members (
 --
 
 CREATE TABLE public.relation_tags (
-    relation_id bigint DEFAULT 0 NOT NULL,
+    relation_id bigint NOT NULL,
     k character varying DEFAULT ''::character varying NOT NULL,
     v character varying DEFAULT ''::character varying NOT NULL,
     version bigint NOT NULL
@@ -1300,7 +1300,7 @@ CREATE TABLE public.relation_tags (
 --
 
 CREATE TABLE public.relations (
-    relation_id bigint DEFAULT 0 NOT NULL,
+    relation_id bigint NOT NULL,
     changeset_id bigint NOT NULL,
     "timestamp" timestamp without time zone NOT NULL,
     version bigint NOT NULL,
@@ -1541,7 +1541,7 @@ CREATE TABLE public.way_nodes (
 --
 
 CREATE TABLE public.way_tags (
-    way_id bigint DEFAULT 0 NOT NULL,
+    way_id bigint NOT NULL,
     k character varying NOT NULL,
     v character varying NOT NULL,
     version bigint NOT NULL
@@ -1553,7 +1553,7 @@ CREATE TABLE public.way_tags (
 --
 
 CREATE TABLE public.ways (
-    way_id bigint DEFAULT 0 NOT NULL,
+    way_id bigint NOT NULL,
     changeset_id bigint NOT NULL,
     "timestamp" timestamp without time zone NOT NULL,
     version bigint NOT NULL,
@@ -3427,6 +3427,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210511104518'),
 ('20211216185316'),
 ('20220201183346'),
+('20220223140543'),
 ('21'),
 ('22'),
 ('23'),
