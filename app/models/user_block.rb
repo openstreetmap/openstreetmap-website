@@ -30,7 +30,7 @@ class UserBlock < ApplicationRecord
 
   belongs_to :user, :class_name => "User"
   belongs_to :creator, :class_name => "User"
-  belongs_to :revoker, :class_name => "User"
+  belongs_to :revoker, :class_name => "User", :optional => true
 
   PERIODS = Settings.user_block_periods
 

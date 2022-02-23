@@ -31,7 +31,7 @@ class OldWay < ApplicationRecord
   include Redactable
 
   belongs_to :changeset
-  belongs_to :redaction
+  belongs_to :redaction, :optional => true
   belongs_to :current_way, :class_name => "Way", :foreign_key => "way_id"
 
   has_many :old_nodes, :class_name => "OldWayNode", :foreign_key => [:way_id, :version]

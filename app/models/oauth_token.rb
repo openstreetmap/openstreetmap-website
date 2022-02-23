@@ -36,8 +36,8 @@
 #
 
 class OauthToken < ApplicationRecord
-  belongs_to :client_application
-  belongs_to :user
+  belongs_to :client_application, :optional => true
+  belongs_to :user, :optional => true
 
   scope :authorized, -> { where("authorized_at IS NOT NULL and invalidated_at IS NULL") }
 

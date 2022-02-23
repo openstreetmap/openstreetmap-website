@@ -36,8 +36,8 @@
 #
 
 class AccessToken < OauthToken
-  belongs_to :user
-  belongs_to :client_application
+  belongs_to :user, :optional => true
+  belongs_to :client_application, :optional => true
 
   scope :valid, -> { where(:invalidated_at => nil) }
 

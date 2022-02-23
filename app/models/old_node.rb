@@ -46,7 +46,7 @@ class OldNode < ApplicationRecord
   validate :validate_position
 
   belongs_to :changeset
-  belongs_to :redaction
+  belongs_to :redaction, :optional => true
   belongs_to :current_node, :class_name => "Node", :foreign_key => "node_id"
 
   has_many :old_tags, :class_name => "OldNodeTag", :foreign_key => [:node_id, :version]
