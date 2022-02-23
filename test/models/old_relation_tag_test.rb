@@ -31,9 +31,10 @@ class OldRelationTagTest < ActiveSupport::TestCase
     assert_predicate tag.errors[:v], :any?
   end
 
-  def test_empty_tag_invalid
-    tag = OldRelationTag.new
-    assert_not tag.valid?, "Empty tag should be invalid"
+  def test_orphaned_tag_invalid
+    tag = create(:old_relation_tag)
+    tag.old_relation = nil
+    assert_not tag.valid?, "Orphaned tag should be invalid"
     assert_predicate tag.errors[:old_relation], :any?
   end
 

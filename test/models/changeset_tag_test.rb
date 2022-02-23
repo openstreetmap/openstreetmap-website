@@ -49,9 +49,10 @@ class ChangesetTagTest < ActiveSupport::TestCase
     end
   end
 
-  def test_empty_tag_invalid
-    tag = ChangesetTag.new
-    assert_not tag.valid?, "Empty tag should be invalid"
+  def test_orphaned_tag_invalid
+    tag = create(:changeset_tag)
+    tag.changeset = nil
+    assert_not tag.valid?, "Orphaned tag should be invalid"
     assert_predicate tag.errors[:changeset], :any?
   end
 

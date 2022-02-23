@@ -31,9 +31,10 @@ class NodeTagTest < ActiveSupport::TestCase
     assert_predicate tag.errors[:v], :any?
   end
 
-  def test_empty_node_tag_invalid
-    tag = NodeTag.new
-    assert_not tag.valid?, "Empty tag should be invalid"
+  def test_orphaned_node_tag_invalid
+    tag = create(:node_tag)
+    tag.node = nil
+    assert_not tag.valid?, "Orphaned tag should be invalid"
     assert_predicate tag.errors[:node], :any?
   end
 

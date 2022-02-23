@@ -31,9 +31,10 @@ class WayTagTest < ActiveSupport::TestCase
     assert_predicate tag.errors[:v], :any?
   end
 
-  def test_empty_tag_invalid
-    tag = WayTag.new
-    assert_not tag.valid?, "Empty way tag should be invalid"
+  def test_orphaned_tag_invalid
+    tag = create(:way_tag)
+    tag.way = nil
+    assert_not tag.valid?, "Orphaned tag should be invalid"
     assert_predicate tag.errors[:way], :any?
   end
 
