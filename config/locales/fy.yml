@@ -51,10 +51,12 @@ fy:
       diary_comment: Deiboekreäksje
       diary_entry: Deiboekstik
       friend: Freon
+      issue: Probleem
       language: Taal
       message: Berjocht
       node: Punt
       node_tag: Puntlebel
+      notifier: Melder
       old_node: Ald punt
       old_node_tag: Ald puntlebel
       old_relation: Alde relaasje
@@ -353,7 +355,7 @@ fy:
         title_comment: Wizigingsset %{id} - %{comment}
       join_discussion: Meld jo oan en oerlis mei
       discussion: Oerlis
-      still_open: Wizigingsset net ree - it oerlis iepenet sadree't de wizigingsset
+      still_open: Wizigingsset net ree - it oerlis iepenet sa gau't de wizigingsset
         ôfdien is.
     node:
       title_html: 'Punt: %{name}'
@@ -1384,7 +1386,7 @@ fy:
         level6: Distrikts-/greefskipsgrins
         level7: Gemeentegrins
         level8: Gemeente-/stedsgrins
-        level9: Doarpsgrins
+        level9: Steds-/doarpsgrins
         level10: Wenplak-/dielgebietsgrins
         level11: Wyk-/buertgrins
       types:
@@ -1395,17 +1397,50 @@ fy:
       no_results: Gjin treffers fûn
       more_results: Mear treffers
   issues:
+    index:
+      title: Problemen
+      select_status: Status selektearje
+      reported_user: Melde meidogger
+      status: Status
+      reports: Meldings
+      last_updated: Lêst bywurke
+      link_to_reports: Meldings besjen
+      states:
+        ignored: Negearre
+        open: Iepen
+        resolved: Oplost
     update:
       new_report: It fêstlizzen fan jo melding is slagge
       successful_update: It bywurkjen fan jo melding is slagge
       provide_details: Graach de ferplichte details oanjaan
+    show:
+      report_created_at: Earst meld op %{datetime}
+      last_resolved_at: Lêst oplost op %{datetime}
+      last_updated_at: Lêst bywurke op %{datetime} troch %{displayname}
+      resolve: Oplosse
+      ignore: Negearje
+      reopen: Weriepenje
+    comments:
+      comment_from_html: Reäksje fan %{user_link} op %{comment_created_at}
+    reports:
+      reported_by_html: Meld as %{category} troch %{user} op %{updated_at}
     helper:
       reportable_title:
+        diary_comment: '%{entry_title}, reäksje #%{comment_id}'
         note: 'Notysje #%{note_id}'
   reports:
     new:
       title_html: '%{link} melde'
       missing_params: Kin gjin nije melding oanmeitsje
+      disclaimer:
+        intro: 'Foar''t jo melding dogge by it websteetafersjoch, moat it neikommende
+          fêststean:'
+        not_just_mistake: Jo binne der wis fan dat it probleem net gewoan in fersin
+          is
+        unable_to_fix: Jo binne net by steat en ferhelp it probleem sels, of mei help
+          fan jo meileden út 'e mienskip
+        resolve_with_user: Jo hawwe al besocht om mei de belutsen meidogger it probleem
+          op te lossen
       categories:
         diary_entry:
           spam_label: Dit deiboekstik is/befettet spam
@@ -1444,6 +1479,7 @@ fy:
     edit: Bewurkje
     history: Skiednis
     export: Eksportearje
+    issues: Problemen
     data: Gegevens
     export_data: Data eksportearje
     gps_traces: GPS-trajekten
@@ -1463,6 +1499,10 @@ fy:
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
     tou: Gebrûksbetingsten
+    osm_offline: De OpenStreetMap-databank is op it stuit ôfline, wylst der it nedige
+      ûnderhâldswurk útfierd wurdt.
+    osm_read_only: De OpenStreetMap-databank is op it stuit allinnich yn lêsmodus,
+      wylst der it nedige ûnderhâldswurk útfierd wurdt.
     donate: Stypje OpenStreetMap en %{link} oan it Fernijingsfûns foar Kompjûtersystemen.
     help: Help
     about: Oer
@@ -1793,7 +1833,7 @@ fy:
       account not active: Spitich, jo akkount is noch net aktyf.<br />Brûk de keppeling
         yn 'e akkountbefêstigingsmail en aktivearje jo akkount, of <a href="%{reconfirm}">freegje
         in nije befêstigingsmail</a>.
-      account is suspended: Spitich, jo akkount is stillein fanwegen fertochte aktiviteiten.<br
+      account is suspended: Spitich, jo akkount is skoattele fanwegen fertochte aktiviteiten.<br
         />Nim kontakt op mei <a href="%{webmaster}">Stipe</a> at jo dat beprate wolle.
       auth failure: Spitich, koe jo net oanmelde mei dy gegevens.
       openid_logo_alt: Meld jo oan mei in openID
@@ -2177,6 +2217,15 @@ fy:
       trace_uploaded: Jo GPX-bestân is opladen en wachtet op databankynfiering. Dat
         bart trochstrings binnen in heal oere, en der wurdt jo in e-mail tastjoerd
         at it dien is.
+      upload_failed: Spitich, it opladen fan 'e GPX gong mis. In behearder is op 'e
+        flater wiisd. Besykje it nochris
+      traces_waiting:
+        one: Jo hawwe %{count} trajekt foar opladen yn 'e wacht. Wachtsje oant dy
+          klear is foar't jo noch mear oplade, om 'e wachtrige net te ferstopjen foar
+          oare meidoggers.
+        other: Jo hawwe %{count} trajekten foar opladen yn 'e wacht. Wachtsje oant
+          dy klear binne foar't jo noch mear oplade, om 'e wachtrige net te ferstopjen
+          foar oare meidoggers.
     edit:
       cancel: Annulearje
       title: Trajekt %{name} bewurkje
@@ -2243,6 +2292,12 @@ fy:
       scheduled_for_deletion: Trajekt ynplend om te wiskjen
     make_public:
       made_public: Trajekt iepenbier makke
+    offline_warning:
+      message: It systeem foar opladen fan GPX-bestannen is op it stuit net beskikber
+    offline:
+      heading: GPX-opslach ôfline
+      message: It systeem foar opslach en opladen fan GPX-bestannen is op it stuit
+        net beskikber.
     georss:
       title: OpenStreetMap GPS-trajekten
     description:
@@ -2251,12 +2306,18 @@ fy:
         other: GPX-bestân mei %{count} punten fan %{user}
       description_without_count: GPX-bestân fan %{user}
   application:
+    permission_denied: Jo hawwe net de rjochten foar tagong ta dy hanneling
+    require_cookies:
+      cookies_needed: It liket dat jo 'koekjes' út stean hawwe - set koekjes oan yn
+        jo webblêder foar't jo trochgeane.
+    require_admin:
+      not_an_admin: Jo moatte behearder wêze om dy hanneling útfiere te kinnen.
     setup_user_auth:
       blocked_zero_hour: Jo hawwe in driuwend berjocht op it OpenStreetMap-webstee.
         Jo moatte it berjocht lêze foar't jo jo bewurkings fêstlizze kinne.
-      blocked: Jo tagong ta de API is útsletten. Meld jo oan op 'e webside om der
-        mear oer te witten.
-      need_to_see_terms: Jo tagong ta de API is tydlik stillein. Meld jo oan op 'e
+      blocked: Jo binne útsletten fan tagong ta de API. Meld jo oan op 'e webside
+        om der mear oer te witten.
+      need_to_see_terms: Jo tagong ta de API is tydlik skoattele. Meld jo oan op 'e
         webside om de Bydragersbetingsten te besjen. Jo hoege net akkoart te gean,
         mar jo moatte se besjen.
     settings_menu:
@@ -2437,7 +2498,7 @@ fy:
       edits: Bewurkings
       traces: Trajekten
       notes: Kaartnotysjes
-      remove as friend: Freon ôf
+      remove as friend: Freon ôffiere
       add as friend: Freon tafoegje
       mapper since: 'Kaartmakker sûnt:'
       ct status: 'Bydragersbetingsten:'
@@ -2445,12 +2506,14 @@ fy:
       ct declined: ôfwiisd
       latest edit: 'Lêste bewurking (%{ago}):'
       email address: 'E-mailadres:'
+      created from: 'Oanmakke fan:'
       status: 'Status:'
+      spam score: 'Spamskoare:'
       description: Beskriuwing
       user location: Lokaasje meidogger
       role:
-        administrator: Dizze meidogger is in behearder
-        moderator: Dizze meidogger is in tafersjochhâlder
+        administrator: Dizze meidogger is behearder
+        moderator: Dizze meidogger is tafersjochhâlder
         grant:
           administrator: Behearder meitsje
           moderator: Tafersjochhâlder meitsje
@@ -2461,8 +2524,13 @@ fy:
       moderator_history: Utslutings útdield
       comments: Reäksjes
       create_block: Dizze meidogger útslute
+      activate_user: Dizze meidogger aktivearje
+      deactivate_user: Dizze meidogger deäktivearje
       confirm_user: Dizze meidogger befêstigje
+      unconfirm_user: Dizze meidogger ûnbefêstigje
+      unsuspend_user: Dizze meidogger ûntskoattelje
       hide_user: Dizze meidogger ferbergje
+      unhide_user: Dizze meidogger werompleatse
       delete_user: Dizze meidogger wiskje
       confirm: Befêstigje
       report: Dizze meidogger melde
@@ -2476,18 +2544,18 @@ fy:
       showing:
         one: Side %{page} (%{first_item} fan %{items})
         other: Side %{page} (%{first_item}-%{last_item} fan %{items})
-      summary_html: '%{name} oanmakke fan %{ip_address} ôf op %{date}'
+      summary_html: '%{name} oanmakke fan %{ip_address} op %{date}'
       summary_no_ip_html: '%{name} oanmakke op %{date}'
       confirm: Selektearre meidoggers befêstigje
       hide: Selektearre meidoggers ferbergje
       empty: Gjin oerienkommende meidoggers fûn
     suspended:
-      title: Akkount stillein
-      heading: Akkount stillein
+      title: Akkount skoattele
+      heading: Akkount skoattele
       support: Stipe
       body_html: |-
         <p>
-          Spitich, jo akkount is automatysk stillein fanwegen
+          Spitich, jo akkount is automatysk skoattele fanwegen
           fertochte aktiviteiten.
         </p>
         <p>
@@ -2510,6 +2578,29 @@ fy:
         At jo al in akkount hawwe, kinne jo jo oanmelde op jo akkount
         mei jo meidochnamme en wachtwurd, en dan it akkount ferbine
         oan jo ID yn jo meidoggerynstellings.
+  user_role:
+    filter:
+      not_a_role: De tekenrige '%{role}' is net in jildige rol.
+      already_has_role: De meidogger hat al de rol fan %{role}.
+      doesnt_have_role: De meidogger hat net de rol fan %{role}.
+      not_revoke_admin_current_user: Kin de beheardersrol fan dizze meidogger net
+        ynlûke.
+    grant:
+      title: Rol takennen befêstigje
+      heading: Rol takennen befêstigje
+      are_you_sure: Witte jo seker dat jo de rol fan '%{role}' oan 'e meidogger '%{name}'
+        takenne wolle?
+      confirm: Befêstigje
+      fail: Koe de rol fan '%{role}' oan 'e meidogger '%{name}' net takenne. Gean
+        nei oft meidogger en rol beide jildich binne.
+    revoke:
+      title: Rol ynlûken befêstigje
+      heading: Rol ynlûken befêstigje
+      are_you_sure: Witte jo seker dat jo de rol fan '%{role}' fan 'e meidogger '%{name}'
+        ynlûke wolle?
+      confirm: Befêstigje
+      fail: Koe de rol fan '%{role}' fan 'e meidogger '%{name}' net ynlûke. Gean nei
+        oft meidogger en rol beide jildich binne.
   user_blocks:
     model:
       non_moderator_update: Moat tafersjochhâlder wêze om in útsluting oanmeitsje
