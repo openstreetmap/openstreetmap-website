@@ -10,6 +10,8 @@
 //= require leaflet
 //= require leaflet.osm
 //= require ohm.style
+//= require ohm.style.original
+//= require ohm.style.woodblock
 //= require leaflet.map
 //= require leaflet.zoom
 //= require leaflet.locationfilter
