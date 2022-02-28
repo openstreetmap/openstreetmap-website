@@ -154,6 +154,11 @@ fy:
       trace:
         tagstring: skaat mei komma's
       user_block:
+        reason: De reden wêrom't de meidogger útsletten wurdt. Bliuw sa kalm en ridlik
+          mooglik, en jou oer de sitewaasje safolle bysûnderheden as jo kinne, mei
+          yn 'e efterholle dat it berjocht iepenbier sichtber wêze sil. Betink dat
+          net alle meidoggers it mienskipsjargon begripe, dus besykje graach gewoaneminsketaal
+          te brûken.
         needs_view: Moat de meidogger oanmelde foar't dizze útsluting ferfalt?
       user:
         email_confirmation: Jo adres wurdt net publikelik toand; sjoch ús <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
@@ -1400,11 +1405,24 @@ fy:
     index:
       title: Problemen
       select_status: Status selektearje
+      select_type: Type selektearje
+      select_last_updated_by: Lêst bywurke troch selektearje
       reported_user: Melde meidogger
+      not_updated: Net bywurke
+      search: Sykje
+      search_guidance: 'Problemen trochsykje:'
+      user_not_found: Meidogger bestiet net
+      issues_not_found: Gjin oerienkommende problemen fûn
       status: Status
       reports: Meldings
       last_updated: Lêst bywurke
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> troch %{user}
       link_to_reports: Meldings besjen
+      reports_count:
+        one: 1 melding
+        other: '%{count} meldings'
+      reported_item: Meld elemint
       states:
         ignored: Negearre
         open: Iepen
@@ -1414,20 +1432,40 @@ fy:
       successful_update: It bywurkjen fan jo melding is slagge
       provide_details: Graach de ferplichte details oanjaan
     show:
+      title: '%{status} probleem #%{issue_id}'
+      reports:
+        one: 1 melding
+        other: '%{count} meldings'
       report_created_at: Earst meld op %{datetime}
       last_resolved_at: Lêst oplost op %{datetime}
       last_updated_at: Lêst bywurke op %{datetime} troch %{displayname}
       resolve: Oplosse
       ignore: Negearje
       reopen: Weriepenje
+      reports_of_this_issue: Meldings fan dit probleem
+      read_reports: Meldings lêze
+      new_reports: Nije meldings
+      other_issues_against_this_user: Oare problemen mei dizze meidogger
+      no_other_issues: Gjin oare problemen mei dizze meidogger.
+      comments_on_this_issue: Reäksjes by dit probleem
+    resolve:
+      resolved: De probleemstatus is op 'Oplost' set
+    ignore:
+      ignored: De probleemstatus is op 'Negearre' set
+    reopen:
+      reopened: De probleemstatus is op 'Iepen' set
     comments:
       comment_from_html: Reäksje fan %{user_link} op %{comment_created_at}
+      reassign_param: Probleem weryndiele?
     reports:
       reported_by_html: Meld as %{category} troch %{user} op %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, reäksje #%{comment_id}'
         note: 'Notysje #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: It oanmeitsjen fan jo reäksje is slagge
   reports:
     new:
       title_html: '%{link} melde'
@@ -1558,6 +1596,7 @@ fy:
       failed_to_import: 'net ymportearre wurde koe. Hjir is de foutmelding:'
       more_info_html: Mear ynformaasje oer GPX-ymportflaters, en hoe't se tefoaren
         kommen wurde kinne, fine jo op %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] GPX ymportearjen mislearre'
     gpx_success:
       hi: Goeie %{to_user},
@@ -2064,6 +2103,15 @@ fy:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMap-wiki
         description: De wiki trochsjen foar wiidweidige dokumintaasje oer OpenStreetMap.
+    potlatch:
+      removed: Jo standertbewurker foar OpenStreetMap is ynsteld op Potlatch. Om't
+        Adobe Flash Player weifallen is, is Potlatch net mear beskikber foar gebrûk
+        yn in webblêder.
+      desktop_html: Jo kinne Potlatch nog brûke troch <a href="https://www.systemed.net/potlatch/">it
+        kompjûterprogramma foar Mac as Windows yn te laden</a>.
+      id_html: As alternatyf kinne jo jo standertbewurker ynstelle op iD, dat yn jo
+        webblêder draait krekt as Potlatch foarhinne. <a href="%{settings_url}">Feroarje
+        hjir jo foarkarren</a>.
     sidebar:
       search_results: Sykresultaten
       close: Slute
@@ -2326,10 +2374,32 @@ fy:
       oauth2_applications: Applikaasjes OAuth 2
       oauth2_authorizations: Autorisaasjes OAuth 2
   oauth:
+    authorize:
+      title: Tagong ta jo akkount autorisearje
+      request_access_html: De applikaasje %{app_name} freget tagong ta jo akkount,
+        %{user}. Gean nei oft jo wolle dat de applikaasje de neikommende mooglikheden
+        kriget. Jo meie der sa folle of sa min kieze as jo wolle.
+      allow_to: 'De kliïnt-applikaasje tastean om:'
+      allow_read_prefs: jo meidoggerfoarkarren te lêzen.
+      allow_write_prefs: jo meidoggerfoarkarren te wizigjen.
+      allow_write_diary: deiboekstikken, reäksjes en freonen te meitsjen.
+      allow_write_api: de kaart te wizigjen.
+      allow_read_gpx: jo privee-GPS-trajekten te lêzen.
+      allow_write_gpx: GPS-trajekten op te laden.
+      allow_write_notes: notysjes te wizigjen.
+      grant_access: Tagong jaan
+    authorize_success:
+      title: Autorisaasjefersyk tastien
+      allowed_html: Jo hawwe de applikaasje %{app_name} tagong ta jo akkount jûn.
+      verification: De ferifikaasjekoade is %{code}.
     authorize_failure:
+      title: Autorisaasjefersyk mislearre
+      denied: Jo hawwe de applikaasje %{app_name} tagong ta jo akkount wegere.
       invalid: De autorisaasjekaai is net jildich.
     revoke:
       flash: Jo hawwe de kaai foar %{application} ynlutsen
+    permissions:
+      missing: Jo hawwe de applikaasje de tagong ta dizze foarsjenning net tastien
     scopes:
       read_prefs: Meidoggerfoarkarren lêzen
       write_prefs: Meidoggerfoarkarren wizigjen
@@ -2343,9 +2413,15 @@ fy:
   oauth_clients:
     new:
       title: In nije applikaasje registrearje
+    edit:
+      title: Jo applikaasje bewurkje
     show:
+      title: OAuth-gegevens foar %{app_name}
       support_notice: Wy stypje ûndertekeningen mei HMAC-SHA1 (oanret) en RSA-SHA1.
+      edit: Gegevens bewurkje
+      delete: Kliïnt wiskje
       confirm: Seker witte?
+      requests: 'Freget de neikommende rjochten fan ''e meidogger:'
     index:
       title: Myn OAuth-gegevens
       my_tokens: Myn autorisearre applikaasjes
@@ -2362,6 +2438,12 @@ fy:
       register_new: Jo applikaasje registrearje
     form:
       requests: 'Freegje de neikommende rjochten fan ''e meidogger:'
+    create:
+      flash: Registrearjen fan 'e ynformaasje slagge
+    update:
+      flash: Bywurkjen fan 'e kliïnt-ynformaasje slagge
+    destroy:
+      flash: Registraasje fan 'e kliïnt-applikaasje ferneatige
   oauth2_applications:
     index:
       title: Myn kliïnt-applikaasjes
