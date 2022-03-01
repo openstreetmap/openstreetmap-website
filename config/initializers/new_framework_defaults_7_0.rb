@@ -73,7 +73,7 @@ Rails.application.config.active_record.verify_foreign_keys_for_fixtures = true
 Rails.application.config.active_record.partial_inserts = false
 
 # Protect from open redirect attacks in `redirect_back_or_to` and `redirect_to`.
-# Rails.application.config.action_controller.raise_on_open_redirects = true
+Rails.application.config.action_controller.raise_on_open_redirects = true
 
 # Change the variant processor for Active Storage.
 # Changing this default means updating all places in your code that
