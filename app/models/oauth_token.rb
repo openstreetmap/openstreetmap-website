@@ -52,7 +52,7 @@ class OauthToken < ApplicationRecord
   end
 
   def invalidate!
-    update(:invalidated_at => Time.now)
+    update(:invalidated_at => Time.now.utc)
   end
 
   def authorized?

@@ -206,7 +206,7 @@ module Api
       # test that it really is closed now
       cs = Changeset.find(changeset.id)
       assert_not(cs.is_open?,
-                 "changeset should be closed now (#{cs.closed_at} > #{Time.now.getutc}.")
+                 "changeset should be closed now (#{cs.closed_at} > #{Time.now.utc}.")
     end
 
     ##

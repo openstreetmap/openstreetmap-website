@@ -45,7 +45,7 @@ class Note < ApplicationRecord
   # Close a note
   def close
     self.status = "closed"
-    self.closed_at = Time.now.getutc
+    self.closed_at = Time.now.utc
     save
   end
 

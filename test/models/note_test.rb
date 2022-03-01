@@ -28,7 +28,7 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   def test_reopen
-    note = create(:note, :status => "closed", :closed_at => Time.now)
+    note = create(:note, :status => "closed", :closed_at => Time.now.utc)
     assert_equal "closed", note.status
     assert_not_nil note.closed_at
     note.reopen
@@ -43,7 +43,7 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   def test_closed?
-    assert create(:note, :status => "closed", :closed_at => Time.now).closed?
+    assert create(:note, :status => "closed", :closed_at => Time.now.utc).closed?
     assert_not create(:note, :status => "open", :closed_at => nil).closed?
   end
 

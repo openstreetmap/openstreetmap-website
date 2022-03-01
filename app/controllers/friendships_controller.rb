@@ -19,7 +19,7 @@ class FriendshipsController < ApplicationController
         friendship.befriendee = @new_friend
         if current_user.is_friends_with?(@new_friend)
           flash[:warning] = t "friendships.make_friend.already_a_friend", :name => @new_friend.display_name
-        elsif current_user.friendships.where("created_at >= ?", Time.now.getutc - 1.hour).count >= current_user.max_friends_per_hour
+        elsif current_user.friendships.where("created_at >= ?", Time.now.utc - 1.hour).count >= current_user.max_friends_per_hour
           flash.now[:error] = t "friendships.make_friend.limit_exceeded"
         elsif friendship.save
           flash[:notice] = t "friendships.make_friend.success", :name => @new_friend.display_name

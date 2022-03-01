@@ -119,7 +119,7 @@ class TracesController < ApplicationController
                          :description => params[:trace][:description],
                          :visibility => params[:trace][:visibility],
                          :inserted => false, :user => current_user,
-                         :timestamp => Time.now.getutc)
+                         :timestamp => Time.now.utc)
       @trace.valid?
       @trace.errors.add(:gpx_file, "can't be blank")
 
@@ -266,7 +266,7 @@ class TracesController < ApplicationController
       :visibility => visibility,
       :inserted => false,
       :user => current_user,
-      :timestamp => Time.now.getutc,
+      :timestamp => Time.now.utc,
       :file => file
     )
 

@@ -5,7 +5,7 @@ FactoryBot.define do
 
     user
 
-    timestamp { Time.now }
+    timestamp { Time.now.utc }
     inserted { true }
     size { 10 }
 

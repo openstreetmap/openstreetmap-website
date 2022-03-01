@@ -307,11 +307,11 @@ module Api
         times = time.split(",")
         raise OSM::APIBadUserInput, "bad time range" if times.size != 2
 
-        from, to = times.collect { |t| Time.parse(t) }
+        from, to = times.collect { |t| Time.parse(t).utc }
         changesets.where("closed_at >= ? and created_at <= ?", from, to)
       else
         # if there is no comma, assume its a lower limit on time
-        changesets.where("closed_at >= ?", Time.parse(time))
+        changesets.where("closed_at >= ?", Time.parse(time).utc)
       end
       # stupid Time seems to throw both of these for bad parsing, so
       # we have to catch both and ensure the correct code path is taken.
@@ -329,7 +329,7 @@ module Api
         changesets
       else
         changesets.where("closed_at >= ? and num_changes <= ?",
-                         Time.now.getutc, Changeset::MAX_ELEMENTS)
+                         Time.now.utc, Changeset::MAX_ELEMENTS)
       end
     end
 
@@ -341,7 +341,7 @@ module Api
         changesets
       else
         changesets.where("closed_at < ? or num_changes > ?",
-                         Time.now.getutc, Changeset::MAX_ELEMENTS)
+                         Time.now.utc, Changeset::MAX_ELEMENTS)
       end
     end
 

@@ -32,7 +32,7 @@ class UserBlocksController < ApplicationController
   end
 
   def edit
-    params[:user_block_period] = ((@user_block.ends_at - Time.now.getutc) / 1.hour).ceil.to_s
+    params[:user_block_period] = ((@user_block.ends_at - Time.now.utc) / 1.hour).ceil.to_s
   end
 
   def create
@@ -41,7 +41,7 @@ class UserBlocksController < ApplicationController
         :user => @user,
         :creator => current_user,
         :reason => params[:user_block][:reason],
-        :ends_at => Time.now.getutc + @block_period.hours,
+        :ends_at => Time.now.utc + @block_period.hours,
         :needs_view => params[:user_block][:needs_view]
       )
 
@@ -62,7 +62,7 @@ class UserBlocksController < ApplicationController
         flash[:error] = t(".only_creator_can_edit")
         redirect_to :action => "edit"
       elsif @user_block.update(
-        :ends_at => Time.now.getutc + @block_period.hours,
+        :ends_at => Time.now.utc + @block_period.hours,
         :reason => params[:user_block][:reason],
         :needs_view => params[:user_block][:needs_view]
       )

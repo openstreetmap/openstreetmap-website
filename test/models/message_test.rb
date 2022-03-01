@@ -75,7 +75,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
       content_type "text/plain; charset=utf-8"
       body "This is a test & a message"
     end
@@ -95,7 +95,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
       content_type "text/html; charset=utf-8"
       body "<p>This is a <b>test</b> &amp; a message</p>"
     end
@@ -115,7 +115,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
 
       text_part do
         content_type "text/plain; charset=utf-8"
@@ -139,7 +139,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
 
       html_part do
         content_type "text/html; charset=utf-8"
@@ -162,7 +162,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "[OpenStreetMap] Test message"
-      date Time.now
+      date Time.now.utc
       content_type "text/plain; charset=utf-8"
       body "This is a test & a message"
     end

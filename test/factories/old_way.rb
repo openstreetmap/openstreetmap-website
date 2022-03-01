@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :old_way do
-    timestamp { Time.now }
+    timestamp { Time.now.utc }
     visible { true }
     version { 1 }
 

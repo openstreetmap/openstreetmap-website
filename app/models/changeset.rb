@@ -71,11 +71,11 @@ class Changeset < ApplicationRecord
     # note that this may not be a hard limit - due to timing changes and
     # concurrency it is possible that some changesets may be slightly
     # longer than strictly allowed or have slightly more changes in them.
-    ((closed_at > Time.now.getutc) && (num_changes <= MAX_ELEMENTS))
+    ((closed_at > Time.now.utc) && (num_changes <= MAX_ELEMENTS))
   end
 
   def set_closed_time_now
-    self.closed_at = Time.now.getutc if is_open?
+    self.closed_at = Time.now.utc if is_open?
   end
 
   def self.from_xml(xml, create: false)
@@ -95,7 +95,7 @@ class Changeset < ApplicationRecord
   def self.from_xml_node(pt, create: false)
     cs = Changeset.new
     if create
-      cs.created_at = Time.now.getutc
+      cs.created_at = Time.now.utc
       # initial close time is 1h ahead, but will be increased on each
       # modification.
       cs.closed_at = cs.created_at + IDLE_TIMEOUT
@@ -191,7 +191,7 @@ class Changeset < ApplicationRecord
       self.closed_at = if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
                          created_at + MAX_TIME_OPEN
                        else
-                         Time.now.getutc + IDLE_TIMEOUT
+                         Time.now.utc + IDLE_TIMEOUT
                        end
     end
   end

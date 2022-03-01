@@ -52,6 +52,6 @@ class AccessToken < OauthToken
   protected
 
   def set_authorized_at
-    self.authorized_at = Time.now
+    self.authorized_at = Time.now.utc
   end
 end

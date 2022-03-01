@@ -70,7 +70,7 @@ class Issue < ApplicationRecord
     event :resolve do
       transitions :from => :open, :to => :resolved
       after do
-        self.resolved_at = Time.now.getutc
+        self.resolved_at = Time.now.utc
       end
     end
 

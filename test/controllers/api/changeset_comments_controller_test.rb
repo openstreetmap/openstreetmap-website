@@ -214,7 +214,7 @@ module Api
       assert_response :forbidden
 
       # Try again, after agreement with the terms
-      user.terms_agreed = Time.now
+      user.terms_agreed = Time.now.utc
       user.save!
 
       assert_difference "ChangesetComment.count", 1 do
@@ -237,7 +237,7 @@ module Api
       assert_response :forbidden
 
       # Try again, after agreement with the terms
-      user.terms_agreed = Time.now
+      user.terms_agreed = Time.now.utc
       user.save!
 
       assert_difference "ChangesetComment.count", 1 do

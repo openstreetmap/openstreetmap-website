@@ -11,7 +11,7 @@ FactoryBot.define do
     end
 
     terms_seen { true }
-    terms_agreed { Time.now.getutc }
+    terms_agreed { Time.now.utc }
     data_public { true }
 
     trait :with_home_location do

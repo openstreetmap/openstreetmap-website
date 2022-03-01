@@ -153,7 +153,7 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
 
   def test_read_closed_note
     user = create(:user)
-    closed_note = create(:note_with_comments, :status => "closed", :closed_at => Time.now, :comments_count => 2) do |note|
+    closed_note = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc, :comments_count => 2) do |note|
       create(:note_comment, :event => "closed", :note => note, :author => user)
     end
 

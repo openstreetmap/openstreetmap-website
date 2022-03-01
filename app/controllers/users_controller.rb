@@ -55,8 +55,8 @@ class UsersController < ApplicationController
     elsif current_user
       unless current_user.terms_agreed?
         current_user.consider_pd = params[:user][:consider_pd]
-        current_user.tou_agreed = Time.now.getutc
-        current_user.terms_agreed = Time.now.getutc
+        current_user.tou_agreed = Time.now.utc
+        current_user.terms_agreed = Time.now.utc
         current_user.terms_seen = true
 
         flash[:notice] = t "users.new.terms accepted" if current_user.save
@@ -73,8 +73,8 @@ class UsersController < ApplicationController
         current_user.description = "" if current_user.description.nil?
         current_user.creation_ip = request.remote_ip
         current_user.languages = http_accept_language.user_preferred_languages
-        current_user.terms_agreed = Time.now.getutc
-        current_user.tou_agreed = Time.now.getutc
+        current_user.terms_agreed = Time.now.utc
+        current_user.tou_agreed = Time.now.utc
         current_user.terms_seen = true
 
         if current_user.auth_uid.blank?

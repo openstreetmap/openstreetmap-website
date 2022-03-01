@@ -236,7 +236,7 @@ class Node < ApplicationRecord
   private
 
   def save_with_history!
-    t = Time.now.getutc
+    t = Time.now.utc
 
     self.version += 1
     self.timestamp = t

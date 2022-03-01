@@ -108,7 +108,7 @@ module Api
         :visibility => visibility,
         :inserted => false,
         :user => current_user,
-        :timestamp => Time.now.getutc,
+        :timestamp => Time.now.utc,
         :file => file
       )
 

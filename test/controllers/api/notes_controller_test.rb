@@ -345,7 +345,7 @@ module Api
       end
       assert_response :gone
 
-      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
 
       assert_no_difference "NoteComment.count" do
         post comment_note_path(:id => closed_note_with_comment, :text => "This is an additional comment"), :headers => auth_header
@@ -406,14 +406,14 @@ module Api
       post close_note_path(:id => hidden_note_with_comment), :headers => auth_header
       assert_response :gone
 
-      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
 
       post close_note_path(:id => closed_note_with_comment), :headers => auth_header
       assert_response :conflict
     end
 
     def test_reopen_success
-      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
       user = create(:user)
 
       post reopen_note_path(:id => closed_note_with_comment, :text => "This is a reopen comment", :format => "json")
@@ -748,8 +748,8 @@ module Api
     end
 
     def test_index_closed
-      create(:note_with_comments, :status => "closed", :closed_at => Time.now - 5.days)
-      create(:note_with_comments, :status => "closed", :closed_at => Time.now - 100.days)
+      create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc - 5.days)
+      create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc - 100.days)
       create(:note_with_comments, :status => "hidden")
       create(:note_with_comments)
 
