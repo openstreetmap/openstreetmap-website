@@ -49,8 +49,6 @@ class Node < ApplicationRecord
                  :numericality => { :on => :update, :only_integer => true }
   validates :version, :presence => true,
                       :numericality => { :only_integer => true }
-  validates :changeset_id, :presence => true,
-                           :numericality => { :only_integer => true }
   validates :latitude, :presence => true,
                        :numericality => { :only_integer => true }
   validates :longitude, :presence => true,
