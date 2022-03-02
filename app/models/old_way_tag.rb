@@ -16,7 +16,7 @@ class OldWayTag < ApplicationRecord
   self.table_name = "way_tags"
   self.primary_keys = "way_id", "version", "k"
 
-  belongs_to :old_way, :foreign_key => [:way_id, :version]
+  belongs_to :old_way, :foreign_key => [:way_id, :version], :inverse_of => :old_tags
 
   validates :old_way, :associated => true
   validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }, :characters => true

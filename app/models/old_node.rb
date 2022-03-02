@@ -47,9 +47,9 @@ class OldNode < ApplicationRecord
 
   belongs_to :changeset
   belongs_to :redaction, :optional => true
-  belongs_to :current_node, :class_name => "Node", :foreign_key => "node_id"
+  belongs_to :current_node, :class_name => "Node", :foreign_key => "node_id", :inverse_of => :old_nodes
 
-  has_many :old_tags, :class_name => "OldNodeTag", :foreign_key => [:node_id, :version]
+  has_many :old_tags, :class_name => "OldNodeTag", :foreign_key => [:node_id, :version], :inverse_of => :old_node
 
   def validate_position
     errors.add(:base, "Node is not in the world") unless in_world?

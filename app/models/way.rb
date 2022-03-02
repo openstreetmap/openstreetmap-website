@@ -27,9 +27,9 @@ class Way < ApplicationRecord
 
   belongs_to :changeset
 
-  has_many :old_ways, -> { order(:version) }
+  has_many :old_ways, -> { order(:version) }, :inverse_of => :current_way
 
-  has_many :way_nodes, -> { order(:sequence_id) }
+  has_many :way_nodes, -> { order(:sequence_id) }, :inverse_of => :way
   has_many :nodes, :through => :way_nodes
 
   has_many :way_tags

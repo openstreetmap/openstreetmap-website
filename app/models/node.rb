@@ -32,7 +32,7 @@ class Node < ApplicationRecord
 
   belongs_to :changeset
 
-  has_many :old_nodes, -> { order(:version) }
+  has_many :old_nodes, -> { order(:version) }, :inverse_of => :current_node
 
   has_many :way_nodes
   has_many :ways, :through => :way_nodes

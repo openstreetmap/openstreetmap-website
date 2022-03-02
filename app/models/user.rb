@@ -48,8 +48,8 @@ class User < ApplicationRecord
   include AASM
 
   has_many :traces, -> { where(:visible => true) }
-  has_many :diary_entries, -> { order(:created_at => :desc) }
-  has_many :diary_comments, -> { order(:created_at => :desc) }
+  has_many :diary_entries, -> { order(:created_at => :desc) }, :inverse_of => :user
+  has_many :diary_comments, -> { order(:created_at => :desc) }, :inverse_of => :user
   has_many :diary_entry_subscriptions, :class_name => "DiaryEntrySubscription"
   has_many :diary_subscriptions, :through => :diary_entry_subscriptions, :source => :diary_entry
   has_many :messages, -> { where(:to_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
@@ -59,26 +59,26 @@ class User < ApplicationRecord
   has_many :friends, :through => :friendships, :source => :befriendee
   has_many :tokens, :class_name => "UserToken", :dependent => :destroy
   has_many :preferences, :class_name => "UserPreference"
-  has_many :changesets, -> { order(:created_at => :desc) }
-  has_many :changeset_comments, :foreign_key => :author_id
+  has_many :changesets, -> { order(:created_at => :desc) }, :inverse_of => :user
+  has_many :changeset_comments, :foreign_key => :author_id, :inverse_of => :author
   has_and_belongs_to_many :changeset_subscriptions, :class_name => "Changeset", :join_table => "changesets_subscribers", :foreign_key => "subscriber_id"
-  has_many :note_comments, :foreign_key => :author_id
+  has_many :note_comments, :foreign_key => :author_id, :inverse_of => :author
   has_many :notes, :through => :note_comments
 
   has_many :client_applications
-  has_many :oauth_tokens, -> { order(:authorized_at => :desc).preload(:client_application) }, :class_name => "OauthToken"
+  has_many :oauth_tokens, -> { order(:authorized_at => :desc).preload(:client_application) }, :class_name => "OauthToken", :inverse_of => :user
 
   has_many :oauth2_applications, :class_name => Doorkeeper.config.application_model.name, :as => :owner
   has_many :access_grants, :class_name => Doorkeeper.config.access_grant_model.name, :foreign_key => :resource_owner_id
   has_many :access_tokens, :class_name => Doorkeeper.config.access_token_model.name, :foreign_key => :resource_owner_id
 
   has_many :blocks, :class_name => "UserBlock"
-  has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id
-  has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id
+  has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id, :inverse_of => :creator
+  has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id, :inverse_of => :revoker
 
   has_many :roles, :class_name => "UserRole"
 
-  has_many :issues, :class_name => "Issue", :foreign_key => :reported_user_id
+  has_many :issues, :class_name => "Issue", :foreign_key => :reported_user_id, :inverse_of => :reported_user
   has_many :issue_comments
 
   has_many :reports
