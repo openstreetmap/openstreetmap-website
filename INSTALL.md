@@ -33,7 +33,7 @@ These can be installed on Ubuntu 20.04 or later with:
 ```
 sudo apt-get update
 sudo apt-get install ruby2.7 libruby2.7 ruby2.7-dev \
-                     libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
+                     libvips-dev libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core firefox-geckodriver \
                      postgresql postgresql-contrib libpq-dev libsasl2-dev \
                      imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev yarnpkg
@@ -52,7 +52,7 @@ sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
                  gcc gcc-c++ git \
                  postgresql postgresql-server postgresql-contrib libpq-devel \
                  perl-podlators ImageMagick libffi-devel gd-devel libarchive-devel \
-                 bzip2-devel nodejs-yarn
+                 bzip2-devel nodejs-yarn vips-devel
 ```
 
 If you didn't already have PostgreSQL installed then create a PostgreSQL instance and start the server:

@@ -17,6 +17,7 @@ RUN apt-get update \
       libmagickwand-dev \
       libpq-dev \
       libsasl2-dev \
+      libvips-dev \
       libxml2-dev \
       libxslt1-dev \
       locales \
