@@ -10,6 +10,5 @@ module OsmCommunityIndex
       json_file = Rails.root.join("node_modules/osm-community-index/dist/resources.json")
       JSON.parse(File.read(json_file))
     end
-
   end
 end
