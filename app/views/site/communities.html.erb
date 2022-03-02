@@ -1,19 +1,17 @@
 <% content_for :heading do %>
-  <%= tag.h1 do %>
-    <%= t ".title" %>
-  <% end %>
+  <h1><%= t ".title" %></h1>
 <% end %>
 
-<%= tag.div do %>
-  <p><%= t ".lede_text" %></p>
-  <h2><%= t ".local_chapters.title" %></h2>
-  <p><%= t ".local_chapters.about_text" %></p>
-  <p><%= t ".local_chapters.list_text" %></p>
-  <ul>
-    <% @local_chapters.each do |chapter| %>
-      <li><a href="<%= chapter.url %>"><%= t "osm_community_index.local_chapter." + chapter.id + ".name" %></a></li>
-    <% end %>
-  </ul>
-  <h2><%= t ".other_groups.title" %></h2>
-  <p><%= t ".other_groups.about_html" %></p>
-<% end %>
+<p><%= t ".lede_text" %></p>
+
+<h2><%= t ".local_chapters.title" %></h2>
+<p><%= t ".local_chapters.about_text" %></p>
+<p><%= t ".local_chapters.list_text" %></p>
+<ul>
+  <% @local_chapters.each do |chapter| %>
+    <li><a href="<%= chapter.url %>"><%= t "osm_community_index.local_chapter.#{chapter.id}.name" %></a></li>
+  <% end %>
+</ul>
+
+<h2><%= t ".other_groups.title" %></h2>
+<p><%= t ".other_groups.about_html" %></p>
