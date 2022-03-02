@@ -107,7 +107,6 @@ class SiteController < ApplicationController
   end
 
   def communities
-    OsmCommunityIndex::LocalChapter.add_to_i18n # this should be called on app init
     @local_chapters = OsmCommunityIndex::LocalChapter.local_chapters
   end
 
