@@ -23,7 +23,7 @@ module Api
 
       # Find the changeset and check it is valid
       changeset = Changeset.find(id)
-      raise OSM::APIChangesetNotYetClosedError, changeset if changeset.is_open?
+      raise OSM::APIChangesetNotYetClosedError, changeset if changeset.open?
 
       # Add a comment to the changeset
       comment = changeset.comments.create(:changeset => changeset,

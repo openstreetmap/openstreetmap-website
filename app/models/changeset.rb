@@ -65,7 +65,7 @@ class Changeset < ApplicationRecord
   # Use a method like this, so that we can easily change how we
   # determine whether a changeset is open, without breaking code in at
   # least 6 controllers
-  def is_open?
+  def open?
     # a changeset is open (that is, it will accept further changes) when
     # it has not yet run out of time and its capacity is small enough.
     # note that this may not be a hard limit - due to timing changes and
@@ -75,7 +75,7 @@ class Changeset < ApplicationRecord
   end
 
   def set_closed_time_now
-    self.closed_at = Time.now.utc if is_open?
+    self.closed_at = Time.now.utc if open?
   end
 
   def self.from_xml(xml, create: false)
@@ -120,7 +120,7 @@ class Changeset < ApplicationRecord
     @bbox ||= BoundingBox.new(min_lon, min_lat, max_lon, max_lat)
   end
 
-  def has_valid_bbox?
+  def bbox_valid?
     bbox.complete?
   end
 
@@ -187,7 +187,7 @@ class Changeset < ApplicationRecord
   # that would make it more than 24h long, in which case clip to
   # 24h, as this has been decided is a reasonable time limit.
   def update_closed_at
-    if is_open?
+    if open?
       self.closed_at = if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
                          created_at + MAX_TIME_OPEN
                        else
@@ -205,7 +205,7 @@ class Changeset < ApplicationRecord
     raise OSM::APIUserChangesetMismatchError unless user.id == user_id
 
     # can't change a closed changeset
-    raise OSM::APIChangesetAlreadyClosedError, self unless is_open?
+    raise OSM::APIChangesetAlreadyClosedError, self unless open?
 
     # copy the other's tags
     self.tags = other.tags

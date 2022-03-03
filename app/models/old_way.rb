@@ -97,7 +97,7 @@ class OldWay < ApplicationRecord
 
   # check whether this element is the latest version - that is,
   # has the same version as its "current" counterpart.
-  def is_latest_version?
+  def latest_version?
     current_way.version == version
   end
 end

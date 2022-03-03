@@ -78,7 +78,7 @@
               <%= link_to t(".comments"), diary_comments_path(@user) %>
             </li>
             <li>
-              <% if current_user and current_user.is_friends_with?(@user) %>
+              <% if current_user and current_user.friends_with?(@user) %>
                 <%= link_to t(".remove as friend"), remove_friend_path(:display_name => @user.display_name), :method => :post %>
               <% elsif current_user %>
                 <%= link_to t(".add as friend"), make_friend_path(:display_name => @user.display_name), :method => :post %>

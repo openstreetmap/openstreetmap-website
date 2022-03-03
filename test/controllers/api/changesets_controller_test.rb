@@ -205,7 +205,7 @@ module Api
 
       # test that it really is closed now
       cs = Changeset.find(changeset.id)
-      assert_not(cs.is_open?,
+      assert_not(cs.open?,
                  "changeset should be closed now (#{cs.closed_at} > #{Time.now.utc}.")
     end
 
@@ -1743,7 +1743,7 @@ module Api
       assert_equal Changeset::MAX_ELEMENTS + 1, changeset.num_changes
 
       # check that the changeset is now closed as well
-      assert_not(changeset.is_open?,
+      assert_not(changeset.open?,
                  "changeset should have been auto-closed by exceeding " \
                  "element limit.")
     end

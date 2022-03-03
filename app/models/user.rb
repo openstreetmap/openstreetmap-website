@@ -258,7 +258,7 @@ class User < ApplicationRecord
     OSM::GreatCircle.new(home_lat, home_lon).distance(nearby_user.home_lat, nearby_user.home_lon)
   end
 
-  def is_friends_with?(new_friend)
+  def friends_with?(new_friend)
     friendships.exists?(:befriendee => new_friend)
   end
 

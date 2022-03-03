@@ -72,7 +72,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
         end
       end
 
-      if changeset.has_valid_bbox?
+      if changeset.bbox_valid?
         bbox = changeset.bbox.to_unscaled
 
         # See http://georss.org/Encodings#Geometry

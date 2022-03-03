@@ -243,7 +243,7 @@ module ActionController
         raise ArgumentError, "Page/Paginator mismatch" if page.is_a?(Page) && page.paginator != self
 
         page = page.to_i
-        @current_page_number = has_page_number?(page) ? page : 1
+        @current_page_number = contains_page?(page) ? page : 1
       end
 
       # Returns a Page object representing this paginator's current page.
@@ -277,7 +277,7 @@ module ActionController
       alias length page_count
 
       # Returns true if this paginator contains the page of index +number+.
-      def has_page_number?(number)
+      def contains_page?(number)
         number >= 1 && number <= page_count
       end
 
@@ -304,7 +304,7 @@ module ActionController
         def initialize(paginator, number)
           @paginator = paginator
           @number = number.to_i
-          @number = 1 unless @paginator.has_page_number? @number
+          @number = 1 unless @paginator.contains_page? @number
         end
         attr_reader :paginator, :number
 
@@ -399,12 +399,12 @@ module ActionController
         def padding=(padding)
           @padding = padding.negative? ? 0 : padding
           # Find the beginning and end pages of the window
-          @first = if @paginator.has_page_number?(@page.number - @padding)
+          @first = if @paginator.contains_page?(@page.number - @padding)
                      @paginator[@page.number - @padding]
                    else
                      @paginator.first
                    end
-          @last = if @paginator.has_page_number?(@page.number + @padding)
+          @last = if @paginator.contains_page?(@page.number + @padding)
                     @paginator[@page.number + @padding]
                   else
                     @paginator.last

@@ -11,7 +11,7 @@ module Redactable
 
   def redact!(redaction)
     # check that this version isn't the current version
-    raise OSM::APICannotRedactError if is_latest_version?
+    raise OSM::APICannotRedactError if latest_version?
 
     # make the change
     self.redaction = redaction

@@ -97,12 +97,12 @@ class UserTest < ActiveSupport::TestCase
     charlie = create(:user, :active)
     create(:friendship, :befriender => alice, :befriendee => bob)
 
-    assert alice.is_friends_with?(bob)
-    assert_not alice.is_friends_with?(charlie)
-    assert_not bob.is_friends_with?(alice)
-    assert_not bob.is_friends_with?(charlie)
-    assert_not charlie.is_friends_with?(bob)
-    assert_not charlie.is_friends_with?(alice)
+    assert alice.friends_with?(bob)
+    assert_not alice.friends_with?(charlie)
+    assert_not bob.friends_with?(alice)
+    assert_not bob.friends_with?(charlie)
+    assert_not charlie.friends_with?(bob)
+    assert_not charlie.friends_with?(alice)
   end
 
   def test_users_nearby
