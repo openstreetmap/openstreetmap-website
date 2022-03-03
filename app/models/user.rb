@@ -345,6 +345,7 @@ class User < ApplicationRecord
     self.home_lat = nil
     self.home_lon = nil
     self.email_valid = false
+    self.email = "#{id}@example.com" unless must_retain_email?
     self.new_email = nil
     self.auth_provider = nil
     self.auth_uid = nil
@@ -443,6 +444,10 @@ class User < ApplicationRecord
 
   def deletion_allowed?
     deletion_allowed_at <= Time.now.utc
+  end
+
+  def must_retain_email?
+    changesets.exists?
   end
 
   private
