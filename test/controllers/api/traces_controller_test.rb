@@ -2,22 +2,6 @@ require "test_helper"
 
 module Api
   class TracesControllerTest < ActionDispatch::IntegrationTest
-    # Use temporary directories with unique names for each test
-    # This allows the tests to be run in parallel.
-    def setup
-      @gpx_trace_dir_orig = Settings.gpx_trace_dir
-      @gpx_image_dir_orig = Settings.gpx_image_dir
-      Settings.gpx_trace_dir = Dir.mktmpdir("trace", Rails.root.join("test/gpx"))
-      Settings.gpx_image_dir = Dir.mktmpdir("image", Rails.root.join("test/gpx"))
-    end
-
-    def teardown
-      FileUtils.remove_dir(Settings.gpx_trace_dir)
-      FileUtils.remove_dir(Settings.gpx_image_dir)
-      Settings.gpx_trace_dir = @gpx_trace_dir_orig
-      Settings.gpx_image_dir = @gpx_image_dir_orig
-    end
-
     ##
     # test all routes which lead to this controller
     def test_routes

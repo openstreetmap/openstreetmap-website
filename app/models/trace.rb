@@ -49,7 +49,6 @@ class Trace < ApplicationRecord
   validates :timestamp, :presence => true
   validates :visibility, :inclusion => %w[private public trackable identifiable]
 
-  after_destroy :remove_files
   after_save :set_filename
 
   def tagstring
@@ -98,47 +97,15 @@ class Trace < ApplicationRecord
   end
 
   def large_picture
-    if image.attached?
-      data = image.blob.download
-    else
-      f = File.new(large_picture_name, "rb")
-      data = f.sysread(File.size(f.path))
-      f.close
-    end
-
-    data
+    image.blob.download
   end
 
   def icon_picture
-    if icon.attached?
-      data = icon.blob.download
-    else
-      f = File.new(icon_picture_name, "rb")
-      data = f.sysread(File.size(f.path))
-      f.close
-    end
-
-    data
-  end
-
-  def large_picture_name
-    "#{Settings.gpx_image_dir}/#{id}.gif"
-  end
-
-  def icon_picture_name
-    "#{Settings.gpx_image_dir}/#{id}_icon.gif"
-  end
-
-  def trace_name
-    "#{Settings.gpx_trace_dir}/#{id}.gpx"
+    icon.blob.download
   end
 
   def mime_type
-    if file.attached?
-      file.content_type
-    else
-      content_type(trace_name)
-    end
+    file.content_type
   end
 
   def extension_name
@@ -198,8 +165,8 @@ class Trace < ApplicationRecord
   end
 
   def xml_file
-    with_trace_file do |trace_name|
-      filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
+    file.open do |tracefile|
+      filetype = Open3.capture2("/usr/bin/file", "-Lbz", tracefile.path).first.chomp
       gzipped = filetype.include?("gzip compressed")
       bzipped = filetype.include?("bzip2 compressed")
       zipped = filetype.include?("Zip archive")
@@ -209,22 +176,22 @@ class Trace < ApplicationRecord
         file = Tempfile.new("trace.#{id}")
 
         if tarred && gzipped
-          system("tar", "-zxOf", trace_name, :out => file.path)
+          system("tar", "-zxOf", tracefile.path, :out => file.path)
         elsif tarred && bzipped
-          system("tar", "-jxOf", trace_name, :out => file.path)
+          system("tar", "-jxOf", tracefile.path, :out => file.path)
         elsif tarred
-          system("tar", "-xOf", trace_name, :out => file.path)
+          system("tar", "-xOf", tracefile.path, :out => file.path)
         elsif gzipped
-          system("gunzip", "-c", trace_name, :out => file.path)
+          system("gunzip", "-c", tracefile.path, :out => file.path)
         elsif bzipped
-          system("bunzip2", "-c", trace_name, :out => file.path)
+          system("bunzip2", "-c", tracefile.path, :out => file.path)
         elsif zipped
-          system("unzip", "-p", trace_name, "-x", "__MACOSX/*", :out => file.path, :err => "/dev/null")
+          system("unzip", "-p", tracefile.path, "-x", "__MACOSX/*", :out => file.path, :err => "/dev/null")
         end
 
         file.unlink
       else
-        file = File.open(trace_name)
+        file = File.open(tracefile.path)
       end
 
       file
@@ -234,8 +201,8 @@ class Trace < ApplicationRecord
   def import
     logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
-    with_trace_file do |trace_name|
-      gpx = GPX::File.new(trace_name)
+    file.open do |file|
+      gpx = GPX::File.new(file.path)
 
       f_lat = 0
       f_lon = 0
@@ -300,26 +267,6 @@ class Trace < ApplicationRecord
     end
   end
 
-  def migrate_to_storage!
-    file.attach(:io => File.open(trace_name),
-                :filename => name,
-                :content_type => content_type(trace_name),
-                :identify => false)
-
-    if inserted
-      image.attach(:io => File.open(large_picture_name),
-                   :filename => "#{id}.gif",
-                   :content_type => "image/gif")
-      icon.attach(:io => File.open(icon_picture_name),
-                  :filename => "#{id}_icon.gif",
-                  :content_type => "image/gif")
-    end
-
-    save!
-
-    remove_files
-  end
-
   private
 
   def content_type(file)
@@ -334,23 +281,7 @@ class Trace < ApplicationRecord
     end
   end
 
-  def with_trace_file
-    if file.attached?
-      file.open do |file|
-        yield file.path
-      end
-    else
-      yield trace_name
-    end
-  end
-
   def set_filename
     file.blob.update(:filename => "#{id}#{extension_name}") if file.attached?
-  end
-
-  def remove_files
-    FileUtils.rm_f(trace_name)
-    FileUtils.rm_f(icon_picture_name)
-    FileUtils.rm_f(large_picture_name)
   end
 end
