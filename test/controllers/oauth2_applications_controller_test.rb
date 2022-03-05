@@ -51,7 +51,7 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     get oauth_applications_path
     assert_response :success
     assert_template "oauth2_applications/index"
-    assert_select "tr", 2
+    assert_select "tbody tr", 2
   end
 
   def test_new
