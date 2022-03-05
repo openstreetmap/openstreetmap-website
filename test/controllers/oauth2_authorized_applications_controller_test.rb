@@ -33,7 +33,7 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
     get oauth_authorized_applications_path
     assert_response :success
     assert_template "oauth2_authorized_applications/index"
-    assert_select "tr", 2
+    assert_select "tbody tr", 2
   end
 
   def test_destroy
@@ -58,6 +58,6 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
     get oauth_authorized_applications_path
     assert_response :success
     assert_template "oauth2_authorized_applications/index"
-    assert_select "tr", 1
+    assert_select "tbody tr", 1
   end
 end
