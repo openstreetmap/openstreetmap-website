@@ -1555,7 +1555,7 @@ is:
     user_diaries_tooltip: Sjá blogg notenda
     edit_with: Breyta með %{editor}
     tag_line: Frjálsa wiki heimskortið
-    intro_header: Velkomin í OpenStreetMap!
+    intro_header: Velkomin(n) í OpenStreetMap!
     intro_text: OpenStreetMap er heimskort gert af fólki eins og þér. Það er gefið
       út með opnu hugbúnaðarleyfi og það kostar ekkert að nota það.
     intro_2_create_account: Búa til notandaaðgang
@@ -1850,6 +1850,7 @@ is:
       preferred_languages: Ákjósanleg tungumál
       edit_preferences: Kjörstillingar
     edit:
+      title: Valmöguleikar
       save: Uppfæra kjörstillingar
       cancel: Hætta við
     update:
@@ -2528,6 +2529,8 @@ is:
         tímabundið. Skráðu þig inn í vefviðmótið til að skoða skilmála vegna framlags
         (Contributor Terms). Þú þarft ekki endilega að samþykkja þá, en þú verður
         að skoða þá.
+    settings_menu:
+      account_settings: Kjörstillingar
   oauth:
     authorize:
       title: Auðkenndu aðgang að notandaaðganginum þínum
@@ -2559,6 +2562,11 @@ is:
       flash: Þú afturkallaðir aðgangsteiknið fyrir %{application}
     permissions:
       missing: Þú hefur ekki gefið forritinu heimild fyrir aðgang að þessum eiginleikum
+    scopes:
+      write_api: Breyta kortagögnunum.
+      read_gpx: Lesa einka-GPS-ferlana þína.
+      write_gpx: Senda inn GPS feril.
+      write_notes: Breyta minnispunktum.
   oauth_clients:
     new:
       title: Skrá nýtt forrit
@@ -2616,13 +2624,36 @@ is:
     show:
       edit: Breyta
       delete: Eyða
+      client_secret: Notendu Leyndarmál
+      client_secret_warning: Vertu viss um að vista þessa leyndarmál - það verður
+        ekki nothæft aftur
+      permissions: Réttindi
+      redirect_uris: Tilvísa tengslar
+    not_found:
+      sorry: Því miður, forritið fannst ekki.
+  oauth2_authorizations:
+    new:
+      title: Réttindi Nauðsynleg
+      introduction: Veita %{application} aðgang að aðgangnum þínum með eftirfarandi
+        réttindi?
+      authorize: Leyfa
+      deny: Hafna
+    error:
+      title: Villa kom upp
+    show:
+      title: Auðkennisnúmer
+  oauth2_authorized_applications:
+    index:
+      title: Auðkenndu forritin mín
+      application: Forrit
+      permissions: Réttindi
   users:
     new:
       title: Nýskrá
       no_auto_account_create: Því miður getum við eki búið til reikning fyrir þig
         sjálfkrafa.
       contact_support_html: Hafðu samband við <a href="%{support}">vefstjóra</a> til
-        að fá reikning búinn til.
+        að fá aðgang búinn til.
       about:
         header: Frjálst og breytanlegt
         html: |-
@@ -2671,6 +2702,7 @@ is:
         italy: Ítalía
         rest_of_world: Restin af heiminum
     terms_declined_flash:
+      terms_declined_link: þessari wiki síðu
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Notandi ekki til
@@ -2688,8 +2720,11 @@ is:
       my profile: Notandasniðið mitt
       my settings: Stillingarnar mínar
       my comments: Athugasemdir mínar
+      my_preferences: Valmöguleikar
+      my_dashboard: Stjórnborðið Mitt
       blocks on me: Bönn gegn mér
       blocks by me: Bönn eftir mig
+      edit_profile: Breyta Notandasíðu
       send message: Senda skilaboð
       diary: Blogg
       edits: Breytingar
@@ -2724,6 +2759,8 @@ is:
       activate_user: Virkja þennan notanda
       deactivate_user: Gera þennan notanda óvirkan
       confirm_user: Staðfesta þennan notanda
+      unconfirm_user: Óstaðfesta þennan notanda
+      unsuspend_user: Óbanna þessum Notanda
       hide_user: Fela þennan notanda
       unhide_user: Af-fela þennan notanda
       delete_user: Eyða þessum notanda
@@ -2747,8 +2784,10 @@ is:
     suspended:
       title: Aðgangur frystur
       heading: Aðgangur frystur
+      support: Aðstoð
       body_html: "<p>\nÞví miður, notandaaðgangurinn þinn hefur verið frystur vegna
-        grunsamlegrar \nvirkni.\n</p>\n<p>\nHafðu samband við <a href=\"%{webmaster}\">vefstjóra</a>
+        grunsamlegrar \nvirkni.\n</p>\n<p>\nÞessi ákvörðun verður endurskoðuð af stjórnanda
+        stuttu eftir, þú mátt hafa samband við <a href=\"%{webmaster}\">vefstjóra</a>
         ef þú \nvilt ræða þetta mál.\n</p>"
     auth_failure:
       connection_failed: Tenging við auðkenningarþjónustu mistókst
@@ -2756,6 +2795,7 @@ is:
       no_authorization_code: Enginn auðkenningarkóði
       unknown_signature_algorithm: Óþekkt reiknirit undirritunar
       invalid_scope: Ógilt notkunarsvið
+      unknown_error: Auðkenning mistókst
     auth_association:
       heading: Auðkennið þitt er ekki ennþá tengt neinum OpenStreetMap-aðgangi.
       option_1: |-
@@ -2916,6 +2956,7 @@ is:
       custom_dimensions: Setja sérsniðnar stærðir
       format: 'Snið:'
       scale: 'Kvarði:'
+      image_dimensions: Myndin mun sýna venjulegt lag á %{width} x %{height}
       download: Sækja
       short_url: Stutt URL-slóð
       include_marker: Hafa með kortamerkið
@@ -2958,6 +2999,8 @@ is:
       copyright: © <a href='%{copyright_url}'>Þátttakendur í OpenStreetMap verkefninu</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Styrkja verkefnið</a>
       terms: <a href='%{terms_url}' target='_blank'>Skilmálar vefsvæðis og API-kerfisviðmóts</a>
+      cyclosm: Stíll kortatígla frá <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+        haldið af <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>
       thunderforest: Kortatíglar frá <a href='%{thunderforest_url}' target='_blank'>Andy
         Allan</a>
       opnvkarte: Kortatíglar frá <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
