@@ -47,11 +47,10 @@ module BrowseTagsHelper
     # the correct page.
     lookup_us = lookup.tr(" ", "_")
 
-    if page = WIKI_PAGES.dig(locale, type, lookup_us)
-      url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
-    elsif page = WIKI_PAGES.dig("en", type, lookup_us)
-      url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
-    end
+    page = WIKI_PAGES.dig(locale, type, lookup_us) ||
+           WIKI_PAGES.dig("en", type, lookup_us)
+
+    url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}" if page
 
     url
   end

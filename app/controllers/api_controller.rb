@@ -31,9 +31,8 @@ class ApiController < ApplicationController
         # as XML for backwards compatibility - all other formats are discarded
         # which will result in a 406 Not Acceptable response being sent
         formats = mimetypes.map do |mime|
-          if mime.symbol == :xml then :xml
+          if mime.symbol == :xml || mime == "*/*" then :xml
           elsif mime.symbol == :json then :json
-          elsif mime == "*/*" then :xml
           end
         end
       else
