@@ -9,6 +9,10 @@ module Api
         { :path => "/api/0.6/permissions", :method => :get },
         { :controller => "api/permissions", :action => "show" }
       )
+      assert_routing(
+        { :path => "/api/0.6/permissions.json", :method => :get },
+        { :controller => "api/permissions", :action => "show", :format => "json" }
+      )
     end
 
     def test_permissions_anonymous
@@ -17,6 +21,15 @@ module Api
       assert_select "osm > permissions", :count => 1 do
         assert_select "permission", :count => 0
       end
+
+      # Test json
+      get permissions_path(:format => "json")
+      assert_response :success
+      assert_equal "application/json", @response.media_type
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 0, js["permissions"].count
     end
 
     def test_permissions_basic_auth
@@ -28,6 +41,18 @@ module Api
         ClientApplication.all_permissions.each do |p|
           assert_select "permission[name='#{p}']", :count => 1
         end
+      end
+
+      # Test json
+      get permissions_path(:format => "json"), :headers => auth_header
+      assert_response :success
+      assert_equal "application/json", @response.media_type
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal ClientApplication.all_permissions.size, js["permissions"].count
+      ClientApplication.all_permissions.each do |p|
+        assert_includes js["permissions"], p.to_s
       end
     end
 
