@@ -100,7 +100,7 @@ class ApiController < ApplicationController
     elsif Authenticator.new(self, [:token]).allow?
       # self.current_user setup by OAuth
     else
-      username, passwd = get_auth_data # parse from headers
+      username, passwd = auth_data # parse from headers
       # authenticate per-scheme
       self.current_user = if username.nil?
                             nil # no authentication provided - perhaps first connect (client should retry after 401)

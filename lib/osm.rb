@@ -445,7 +445,7 @@ module OSM
   end
 
   class API
-    def get_xml_doc
+    def xml_doc
       doc = XML::Document.new
       doc.encoding = XML::Encoding::UTF_8
       root = XML::Node.new "osm"

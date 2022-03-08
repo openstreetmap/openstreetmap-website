@@ -1036,7 +1036,7 @@ module Api
       version = nil
 
       with_controller(Api::ChangesetsController.new) do
-        doc = OSM::API.new.get_xml_doc
+        doc = OSM::API.new.xml_doc
         change = XML::Node.new "osmChange"
         doc.root = change
         modify = XML::Node.new "modify"

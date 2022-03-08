@@ -161,7 +161,7 @@ class ApplicationController < ActionController::Base
     response.headers["Error"] = message
 
     if request.headers["X-Error-Format"]&.casecmp("xml")&.zero?
-      result = OSM::API.new.get_xml_doc
+      result = OSM::API.new.xml_doc
       result.root.name = "osmError"
       result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
       result.root << (XML::Node.new("message") << message)
@@ -363,7 +363,7 @@ class ApplicationController < ActionController::Base
   end
 
   # extract authorisation credentials from headers, returns user = nil if none
-  def get_auth_data
+  def auth_data
     if request.env.key? "X-HTTP_AUTHORIZATION" # where mod_rewrite might have put it
       authdata = request.env["X-HTTP_AUTHORIZATION"].to_s.split
     elsif request.env.key? "REDIRECT_X_HTTP_AUTHORIZATION" # mod_fcgi

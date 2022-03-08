@@ -255,7 +255,7 @@ module ActiveSupport
     end
 
     def xml_for_node(node)
-      doc = OSM::API.new.get_xml_doc
+      doc = OSM::API.new.xml_doc
       doc.root << xml_node_for_node(node)
       doc
     end
@@ -277,7 +277,7 @@ module ActiveSupport
     end
 
     def xml_for_way(way)
-      doc = OSM::API.new.get_xml_doc
+      doc = OSM::API.new.xml_doc
       doc.root << xml_node_for_way(way)
       doc
     end
@@ -308,7 +308,7 @@ module ActiveSupport
     end
 
     def xml_for_relation(relation)
-      doc = OSM::API.new.get_xml_doc
+      doc = OSM::API.new.xml_doc
       doc.root << xml_node_for_relation(relation)
       doc
     end
