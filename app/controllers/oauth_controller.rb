@@ -66,7 +66,7 @@ class OauthController < ApplicationController
 
           @redirect_url.query += "&oauth_verifier=#{@token.verifier}" unless @token.oauth10?
 
-          redirect_to @redirect_url.to_s
+          redirect_to @redirect_url.to_s, :allow_other_host => true
         end
       else
         @token.invalidate!
