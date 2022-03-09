@@ -10,12 +10,24 @@ module Api
         { :controller => "api/changeset_comments", :action => "create", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/changeset/1/comment.json", :method => :post },
+        { :controller => "api/changeset_comments", :action => "create", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/changeset/comment/1/hide", :method => :post },
         { :controller => "api/changeset_comments", :action => "destroy", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/changeset/comment/1/hide.json", :method => :post },
+        { :controller => "api/changeset_comments", :action => "destroy", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/changeset/comment/1/unhide", :method => :post },
         { :controller => "api/changeset_comments", :action => "restore", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/changeset/comment/1/unhide.json", :method => :post },
+        { :controller => "api/changeset_comments", :action => "restore", :id => "1", :format => "json" }
       )
     end
 

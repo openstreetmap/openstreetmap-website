@@ -7,6 +7,7 @@ module Api
     before_action :require_public_data, :only => [:create]
     before_action :check_api_writable
     before_action :check_api_readable, :except => [:create]
+    before_action :set_request_formats
     around_action :api_call_handle_error
     around_action :api_call_timeout
 
@@ -41,6 +42,11 @@ module Api
       # Return a copy of the updated changeset
       @changeset = changeset
       render "api/changesets/changeset"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     ##
@@ -61,6 +67,11 @@ module Api
       # Return a copy of the updated changeset
       @changeset = comment.changeset
       render "api/changesets/changeset"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     ##
@@ -81,6 +92,11 @@ module Api
       # Return a copy of the updated changeset
       @changeset = comment.changeset
       render "api/changesets/changeset"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
   end
 end
