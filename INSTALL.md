@@ -24,7 +24,6 @@ of packages required before you can get the various gems installed.
 
 * Ruby 2.7+
 * PostgreSQL 9.1+
-* ImageMagick
 * Bundler (see note below about [developer Ruby setup](#rbenv))
 * Javascript Runtime
 
@@ -33,10 +32,10 @@ These can be installed on Ubuntu 20.04 or later with:
 ```
 sudo apt-get update
 sudo apt-get install ruby2.7 libruby2.7 ruby2.7-dev \
-                     libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
+                     libvips-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core firefox-geckodriver \
                      postgresql postgresql-contrib libpq-dev libsasl2-dev \
-                     imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev yarnpkg
+                     libffi-dev libgd-dev libarchive-dev libbz2-dev yarnpkg
 sudo gem2.7 install bundler
 ```
 
@@ -51,8 +50,8 @@ sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
                  libxml2-devel nodejs \
                  gcc gcc-c++ git \
                  postgresql postgresql-server postgresql-contrib libpq-devel \
-                 perl-podlators ImageMagick libffi-devel gd-devel libarchive-devel \
-                 bzip2-devel nodejs-yarn
+                 perl-podlators libffi-devel gd-devel libarchive-devel \
+                 bzip2-devel nodejs-yarn vips-devel
 ```
 
 If you didn't already have PostgreSQL installed then create a PostgreSQL instance and start the server:
@@ -90,7 +89,7 @@ Installing other dependencies:
 
 * Install Homebrew from https://brew.sh/
 * Install the latest version of Ruby: `brew install ruby`
-* Install other dependencies: `brew install imagemagick libxml2 gd yarn pngcrush optipng pngquant jhead jpegoptim gifsicle svgo advancecomp`
+* Install other dependencies: `brew install libxml2 gd yarn pngcrush optipng pngquant jhead jpegoptim gifsicle svgo advancecomp vips`
 * Install Bundler: `gem install bundler` (you might need to `sudo gem install bundler` if you get an error about permissions - or see note below about [developer Ruby setup](#rbenv))
 
 You will need to tell `bundler` that `libxml2` is installed in a Homebrew location. If it uses the system-installed one then you will get errors installing the `libxml-ruby` gem later on<a name="macosx-bundle-config"></a>.
