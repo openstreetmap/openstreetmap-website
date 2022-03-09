@@ -34,10 +34,12 @@
 <p><%= t(".no_apps_html", :oauth => link_to(t(".oauth"), "https://oauth.net")) %></p>
 <% else %>
 <p><%= t ".registered_apps" %></p>
-<% @client_applications.each do |client| %>
-  <div class="client_application">
-    <%= link_to client.name, :action => :show, :id => client.id %>
-  </div>
+<ul>
+  <% @client_applications.each do |client| %>
+    <li class="client_application">
+      <%= link_to client.name, :action => :show, :id => client.id %>
+    </li>
+  <% end %>
+</ul>
 <% end %>
-<% end %>
-<h3><%= link_to t(".register_new"), :action => :new %></h3>
+<%= link_to t(".register_new"), { :action => :new }, :class => "btn btn-outline-primary" %>

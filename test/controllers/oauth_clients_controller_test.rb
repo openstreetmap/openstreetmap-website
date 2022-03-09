@@ -48,7 +48,7 @@ class OauthClientsControllerTest < ActionDispatch::IntegrationTest
     get oauth_clients_path(:display_name => user.display_name)
     assert_response :success
     assert_template "index"
-    assert_select "div.client_application", 2
+    assert_select "li.client_application", 2
   end
 
   def test_new

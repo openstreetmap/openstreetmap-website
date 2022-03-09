@@ -54,21 +54,25 @@ $ bundle exec rails console
 
 ## OAuth Consumer Keys
 
-Three of the built-in applications communicate via the API, and therefore need OAuth consumer keys configured. These are:
+There are two built-in applications which communicate via the API, and therefore need OAuth consumer keys configured. These are:
 
 * iD
 * The website itself (for the Notes functionality)
 
-For example, to use the iD editor you need to register it as an OAuth application.
+To use the iD editor you need to register it as an OAuth 1 application.
 
 Do the following:
 * Log into your Rails Port instance - e.g. http://localhost:3000
 * Click on your user name to go to your user page
 * Click on "my settings" on the user page
-* Click on "oauth settings" on the My settings page
+* Click on "OAuth 1 settings" on the My settings page
 * Click on 'Register your application'.
-* Unless you have set up alternatives, use Name: "Local iD" and URL: "http://localhost:3000"
-* Check the 'modify the map' box.
+* Unless you have set up alternatives, use Name: "Local iD" and Main Application URL: "http://localhost:3000"
+* Check boxes for the following Permissions
+  * 'read their user preferences'
+  * 'modify the map'
+  * 'read their private GPS traces'
+  * 'modify notes'
 * Everything else can be left with the default blank values.
 * Click the "Register" button
 * On the next page, copy the "consumer key"
@@ -81,11 +85,32 @@ An example excerpt from settings.local.yml:
 ```
 # Default editor
 default_editor: "id"
-# OAuth consumer key for iD
+# OAuth 1 consumer key for iD
 id_key: "8lFmZPsagHV4l3rkAHq0hWY5vV3Ctl3oEFY1aXth"
 ```
 
-Follow the same process for registering and configuring the website/Notes (`oauth_key`), or to save time, simply reuse the same consumer key for each.
+To allow [Notes](https://wiki.openstreetmap.org/wiki/Notes) and changeset discussions to work, follow a similar process, this time registering an OAuth 2 application for the web site:
+
+* Go to "[OAuth 2 applications](http://localhost:3000/oauth2/applications)" on the My settings page.
+* Click on "Register new application".
+* Use Name: "OpenStreetMap Web Site" and Redirect URIs: "http://localhost:3000"
+* Check boxes for the following Permissions
+  * 'Modify the map'
+  * 'Modify notes'
+* On the next page, copy the "Client Secret" and "Client ID"
+* Edit config/settings.local.yml in your rails tree
+* Add the "oauth_application" configuration with the "Client ID" as the value
+* Add the "oauth_key" configuration with the "Client Secret" as the value
+* Restart your rails server
+
+An example excerpt from settings.local.yml:
+
+```
+# OAuth 2 Client ID for the web site
+oauth_application: "SGm8QJ6tmoPXEaUPIZzLUmm1iujltYZVWCp9hvGsqXg"
+# OAuth 2 Client Secret for the web site
+oauth_key: "eRHPm4GtEnw9ovB1Iw7EcCLGtUb66bXbAAspv3aJxlI"
+```
 
 ## Troubleshooting
 

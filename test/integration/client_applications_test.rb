@@ -65,7 +65,7 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
     get "/user/#{ERB::Util.u(user.display_name)}/oauth_clients"
     assert_response :success
     assert_template "oauth_clients/index"
-    assert_in_body { assert_select "div>a", "My New App" }
+    assert_in_body { assert_select "li>a", "My New App" }
   end
 
   ##
