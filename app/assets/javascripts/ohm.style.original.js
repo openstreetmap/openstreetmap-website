@@ -35,7 +35,7 @@ ohmVectorStyles.Original = {
       "minzoom": 0,
       "maxzoom": 24,
       "layout": {"visibility": "visible"},
-      "paint": {"fill-color": "rgba(247, 246, 241, 1)"}
+      "paint": {"fill-color": "rgba(248, 247, 242, 1)"}
     },
     {
       "id": "airports",
@@ -403,7 +403,10 @@ ohmVectorStyles.Original = {
         ["in", "type", "pedestrian", "footway"],
         ["==", "area", "yes"]
       ],
-      "paint": {"fill-color": "rgba(230, 230, 230, 1)"}
+      "paint": {
+        "fill-color": "rgba(234,234,234, 1)",
+        "fill-outline-color": "rgba(230,230,230, 1)"
+      }
     },
     {
       "id": "amenity_areas",
@@ -1205,9 +1208,9 @@ ohmVectorStyles.Original = {
           11,
           0.2,
           18,
-          6
+          3
         ],
-        "line-dasharray": [1, 0.5]
+        "line-dasharray": [2, 1]
       }
     },
     {
