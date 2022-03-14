@@ -34,6 +34,7 @@
 # Author: Macofe
 # Author: Mannivu
 # Author: Margherita.mignanelli
+# Author: Marty5550
 # Author: Massimo itaca
 # Author: McDutchie
 # Author: Nemo bis
@@ -79,11 +80,11 @@ it:
         create: Registrati
         update: Aggiorna
       doorkeeper_application:
-        create: Registra
+        create: Registrati
         update: Aggiorna
       redaction:
-        create: Crea revisione
-        update: Salvare la revisione
+        create: Crea oscuramento
+        update: Salvare l'oscuramento
       trace:
         create: Carica
         update: Salva modifiche
@@ -93,14 +94,13 @@ it:
   activerecord:
     errors:
       messages:
-        invalid_email_address: non sembra essere un indirizzo di posta elettronica
-          valido
+        invalid_email_address: non sembra essere un indirizzo e-mail valido
         email_address_not_routable: non è instradabile
     models:
       acl: Lista di controllo degli accessi
       changeset: Gruppo di modifiche
       changeset_tag: Etichetta del gruppo di modifiche
-      country: Nazione
+      country: Paese
       diary_comment: Commento al diario
       diary_entry: Voce del diario
       friend: Amico
@@ -123,12 +123,12 @@ it:
       relation_tag: Etichetta della relazione
       report: Segnalazione
       session: Sessione
-      trace: Tracciato
-      tracepoint: Punto del tracciato
-      tracetag: Etichetta del tracciato
+      trace: Traccia
+      tracepoint: Punto della traccia
+      tracetag: Etichetta della traccia
       user: Utente
-      user_preference: Preferenze dell'utente
-      user_token: Codice dell'utente
+      user_preference: Preferenza dell'utente
+      user_token: Codice utente
       way: Percorso
       way_node: Nodo del percorso
       way_tag: Etichetta del percorso
@@ -140,10 +140,10 @@ it:
         support_url: Indirizzo URL di supporto
         allow_read_prefs: leggi le sue preferenze utente
         allow_write_prefs: modifica le sue preferenze utente
-        allow_write_diary: crea pagine di diario, commenti e fai amicizia
+        allow_write_diary: crea pagine di diario, commenta e fai amicizia
         allow_write_api: modifica la mappa
-        allow_read_gpx: leggi i suoi tracciati GPS privati
-        allow_write_gpx: carica tracciati GPS
+        allow_read_gpx: visualizza le sue tracce GPS private
+        allow_write_gpx: carica tracce GPS
         allow_write_notes: modifica le note
       diary_comment:
         body: Corpo
@@ -183,13 +183,13 @@ it:
         description: Descrizione
       report:
         category: Seleziona un motivo per la tua segnalazione
-        details: Fornire più dettagli sul problema (obbligatorio).
+        details: Fornisci più dettagli sul problema (obbligatorio).
       user:
         auth_provider: Fornitore d'autenticazione
         auth_uid: UID d'autenticazione
-        email: Email
-        email_confirmation: Conferma email
-        new_email: Nuovo indirizzo email
+        email: E-mail
+        email_confirmation: Conferma e-mail
+        new_email: Nuovo indirizzo e-mail
         active: Attivo
         display_name: Nome visualizzato
         description: Descrizione del profilo
@@ -303,6 +303,28 @@ it:
   account:
     deletions:
       show:
+        title: Elimina il mio account
+        warning: Attenzione! Il processo di cancellazione dell'account è definitivo.
+          Non potrà essere annullato.
+        delete_account: Elimina account
+        delete_introduction: 'Puoi eliminare il tuo account OpenStreetMap usando il
+          pulsante qui sotto. Ricordati dei seguenti dettagli:'
+        delete_profile: Le informazioni del tuo profilo, inclusi il tuo avatar, la
+          descrizione e la posizione di casa saranno rimossi.
+        delete_display_name: Il tuo nome utente sarà cancellato, e potrà essere utilizzato
+          da altri account.
+        retain_caveats: 'Ciò nonostante, alcuni dati saranno conservati su OpenStreetMap,
+          anche dopo la cancellazione del tuo account:'
+        retain_edits: Le modifiche apportate alla mappa, se ne hai fatte, saranno
+          mantenute.
+        retain_traces: Le tracce GPS che hai caricato saranno mantenute.
+        retain_diary_entries: Le tue voci e commenti sul diario, se presenti, saranno
+          mantenuti ma nascosti.
+        retain_notes: Le tue note e commenti sulle note, se presenti, saranno mantenuti
+          ma nascosti.
+        retain_changeset_discussions: Le discussioni su tuoi gruppi di modifiche e
+          i commenti inseriti su altri gruppi di modifiche, se presenti, saranno mantenute.
+        retain_email: Il tuo indirizzo e-mail sarà conservato.
         confirm_delete: Sei sicuro?
         cancel: Annulla
   accounts:
@@ -344,10 +366,13 @@ it:
         link text: che cos'è questo?
       save changes button: Salva modifiche
       make edits public button: Rendi pubbliche tutte le mie modifiche
+      delete_account: Elimina account...
     update:
       success_confirm_needed: Informazioni sull'utente aggiornate con successo. Controllare
         la propria email per la conferma del nuovo indirizzo di posta elettronica.
       success: Informazioni sull'utente aggiornate con successo.
+    destroy:
+      success: Account eliminato.
   browse:
     created: Creato
     closed: Chiuso
@@ -624,6 +649,9 @@ it:
         title: Voci del diario di OpenStreetMap
         description: Voci del diario recenti degli utenti di OpenStreetMap
     comments:
+      title: Commenti del diario aggiunti da %{user}
+      heading: I commenti del diario di %{user}
+      subheading_html: Commenti del diario aggiunti da %{user}
       no_comments: Nessun commento al diario
       post: Messaggio
       when: Quando
@@ -948,6 +976,7 @@ it:
           trailhead: Punto di partenza
           trunk: Superstrada
           trunk_link: Superstrada
+          turning_circle: Rotonda a fine strada
           turning_loop: Anello di inversione di marcia
           unclassified: Strada non classificata
           "yes": Strada
@@ -1229,6 +1258,7 @@ it:
           "yes": Luogo
         railway:
           abandoned: Ferrovia abbandonata
+          buffer_stop: Paraurti ferroviario
           construction: Ferrovia in costruzione
           disused: Ferrovia in disuso
           funicular: Funicolare
@@ -1242,6 +1272,7 @@ it:
           platform: Banchina ferroviaria
           preserved: Ferrovia storica
           proposed: Ferrovia proposta
+          rail: Ferrovia
           spur: Diramazione ferroviaria breve
           station: Stazione ferroviaria
           stop: Fermata ferroviaria
@@ -1250,6 +1281,7 @@ it:
           switch: Punti ferroviari
           tram: Tramvia
           tram_stop: Fermata del tram
+          turntable: Piattaforma girevole
           yard: Zona di manovra ferroviaria
         shop:
           agrarian: Negozio di agraria
@@ -2776,6 +2808,8 @@ it:
       activate_user: Attiva questo utente
       deactivate_user: Disattiva questo utente
       confirm_user: Conferma questo utente
+      unconfirm_user: Annulla la conferma di questo utente.
+      unsuspend_user: Annulla la sospensione di questo utente.
       hide_user: Nascondi questo utente
       unhide_user: Mostra questo utente
       delete_user: Cancella questo utente
