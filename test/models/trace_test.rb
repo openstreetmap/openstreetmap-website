@@ -76,14 +76,14 @@ class TraceTest < ActiveSupport::TestCase
   def test_tagstring
     trace = build(:trace)
     trace.tagstring = "foo bar baz"
-    assert trace.valid?
+    assert_predicate trace, :valid?
     assert_equal 3, trace.tags.length
     assert_equal "foo", trace.tags[0].tag
     assert_equal "bar", trace.tags[1].tag
     assert_equal "baz", trace.tags[2].tag
     assert_equal "foo, bar, baz", trace.tagstring
     trace.tagstring = "foo, bar baz ,qux"
-    assert trace.valid?
+    assert_predicate trace, :valid?
     assert_equal 3, trace.tags.length
     assert_equal "foo", trace.tags[0].tag
     assert_equal "bar baz", trace.tags[1].tag
@@ -92,18 +92,18 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_public?
-    assert build(:trace, :visibility => "public").public?
+    assert_predicate build(:trace, :visibility => "public"), :public?
     assert_not build(:trace, :visibility => "private").public?
     assert_not build(:trace, :visibility => "trackable").public?
-    assert build(:trace, :visibility => "identifiable").public?
-    assert build(:trace, :deleted, :visibility => "public").public?
+    assert_predicate build(:trace, :visibility => "identifiable"), :public?
+    assert_predicate build(:trace, :deleted, :visibility => "public"), :public?
   end
 
   def test_trackable?
     assert_not build(:trace, :visibility => "public").trackable?
     assert_not build(:trace, :visibility => "private").trackable?
-    assert build(:trace, :visibility => "trackable").trackable?
-    assert build(:trace, :visibility => "identifiable").trackable?
+    assert_predicate build(:trace, :visibility => "trackable"), :trackable?
+    assert_predicate build(:trace, :visibility => "identifiable"), :trackable?
     assert_not build(:trace, :deleted, :visibility => "public").trackable?
   end
 
@@ -111,7 +111,7 @@ class TraceTest < ActiveSupport::TestCase
     assert_not build(:trace, :visibility => "public").identifiable?
     assert_not build(:trace, :visibility => "private").identifiable?
     assert_not build(:trace, :visibility => "trackable").identifiable?
-    assert build(:trace, :visibility => "identifiable").identifiable?
+    assert_predicate build(:trace, :visibility => "identifiable"), :identifiable?
     assert_not build(:trace, :deleted, :visibility => "public").identifiable?
   end
 
@@ -197,7 +197,7 @@ class TraceTest < ActiveSupport::TestCase
 
     trace.import
 
-    assert trace.icon.attached?
+    assert_predicate trace.icon, :attached?
   end
 
   def test_import_creates_large_picture
@@ -207,7 +207,7 @@ class TraceTest < ActiveSupport::TestCase
 
     trace.import
 
-    assert trace.image.attached?
+    assert_predicate trace.image, :attached?
   end
 
   def test_import_handles_bz2

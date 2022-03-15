@@ -8,11 +8,11 @@ class ApplicationHelperTest < ActionView::TestCase
       text = "Test #{link} is <b>made</b> into a link"
 
       html = linkify(text)
-      assert html.html_safe?
+      assert_predicate html, :html_safe?
       assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\">#{link}</a> is &lt;b&gt;made&lt;/b&gt; into a link", html
 
       html = linkify(text.html_safe)
-      assert html.html_safe?
+      assert_predicate html, :html_safe?
       assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\">#{link}</a> is <b>made</b> into a link", html
     end
 
@@ -20,11 +20,11 @@ class ApplicationHelperTest < ActionView::TestCase
       text = "Test #{link} is not <b>made</b> into a link"
 
       html = linkify(text)
-      assert html.html_safe?
+      assert_predicate html, :html_safe?
       assert_dom_equal "Test #{link} is not &lt;b&gt;made&lt;/b&gt; into a link", html
 
       html = linkify(text.html_safe)
-      assert html.html_safe?
+      assert_predicate html, :html_safe?
       assert_dom_equal "Test #{link} is not <b>made</b> into a link", html
     end
   end

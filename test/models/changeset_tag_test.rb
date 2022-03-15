@@ -10,7 +10,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
       tag.changeset_id = changeset.id
       tag.k = key * i
       tag.v = "v"
-      assert tag.valid?
+      assert_predicate tag, :valid?
     end
   end
 
@@ -23,7 +23,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
       tag.changeset_id = changeset.id
       tag.k = "k"
       tag.v = val * i
-      assert tag.valid?
+      assert_predicate tag, :valid?
     end
   end
 
@@ -34,7 +34,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
       tag.k = k
       tag.v = "v"
       assert_not tag.valid?, "Key #{k} should be too long"
-      assert tag.errors[:k].any?
+      assert_predicate tag.errors[:k], :any?
     end
   end
 
@@ -45,14 +45,14 @@ class ChangesetTagTest < ActiveSupport::TestCase
       tag.k = "k"
       tag.v = v
       assert_not tag.valid?, "Value #{v} should be too long"
-      assert tag.errors[:v].any?
+      assert_predicate tag.errors[:v], :any?
     end
   end
 
   def test_empty_tag_invalid
     tag = ChangesetTag.new
     assert_not tag.valid?, "Empty tag should be invalid"
-    assert tag.errors[:changeset].any?
+    assert_predicate tag.errors[:changeset], :any?
   end
 
   def test_uniqueness
@@ -61,9 +61,9 @@ class ChangesetTagTest < ActiveSupport::TestCase
     tag.changeset_id = existing.changeset_id
     tag.k = existing.k
     tag.v = existing.v
-    assert tag.new_record?
+    assert_predicate tag, :new_record?
     assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
-    assert tag.new_record?
+    assert_predicate tag, :new_record?
   end
 end

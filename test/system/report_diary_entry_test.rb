@@ -54,7 +54,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
 
     issue.reload
     assert_not issue.resolved?
-    assert issue.open?
+    assert_predicate issue, :open?
   end
 
   def test_missing_report_params

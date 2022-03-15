@@ -20,7 +20,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
       up.user = create(:user)
       up.k = key * i
       up.v = val * i
-      assert up.valid?
+      assert_predicate up, :valid?
       assert up.save!
       resp = UserPreference.find(up.id)
       assert_equal key * i, resp.k, "User preference with #{i} #{key} chars (i.e. #{key.length * i} bytes) fails"

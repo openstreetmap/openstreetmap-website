@@ -100,7 +100,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
     post resolve_issue_path(:id => issue)
     assert_response :redirect
-    assert issue.reload.resolved?
+    assert_predicate issue.reload, :resolved?
   end
 
   def test_resolve_administrator
@@ -127,7 +127,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:administrator_user))
     post resolve_issue_path(:id => issue)
     assert_response :redirect
-    assert issue.reload.resolved?
+    assert_predicate issue.reload, :resolved?
   end
 
   def test_ignore_moderator
@@ -154,7 +154,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
     post ignore_issue_path(:id => issue)
     assert_response :redirect
-    assert issue.reload.ignored?
+    assert_predicate issue.reload, :ignored?
   end
 
   def test_ignore_administrator
@@ -181,7 +181,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:administrator_user))
     post ignore_issue_path(:id => issue)
     assert_response :redirect
-    assert issue.reload.ignored?
+    assert_predicate issue.reload, :ignored?
   end
 
   def test_reopen_moderator
@@ -210,7 +210,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
     post reopen_issue_path(:id => issue)
     assert_response :redirect
-    assert issue.reload.open?
+    assert_predicate issue.reload, :open?
   end
 
   def test_reopen_administrator
@@ -239,6 +239,6 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:administrator_user))
     post reopen_issue_path(:id => issue)
     assert_response :redirect
-    assert issue.reload.open?
+    assert_predicate issue.reload, :open?
   end
 end

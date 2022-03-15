@@ -6,17 +6,17 @@ class MessageTest < ActiveSupport::TestCase
   def test_check_empty_message_fails
     message = build(:message, :title => nil, :body => nil, :sent_on => nil)
     assert_not message.valid?
-    assert message.errors[:title].any?
-    assert message.errors[:body].any?
-    assert message.errors[:sent_on].any?
+    assert_predicate message.errors[:title], :any?
+    assert_predicate message.errors[:body], :any?
+    assert_predicate message.errors[:sent_on], :any?
     assert_not message.message_read
   end
 
   def test_validating_msgs
     message = create(:message, :unread)
-    assert message.valid?
+    assert_predicate message, :valid?
     message = create(:message, :read)
-    assert message.valid?
+    assert_predicate message, :valid?
   end
 
   def test_invalid_send_recipient

@@ -3,7 +3,7 @@ require "test_helper"
 class AclTest < ActiveSupport::TestCase
   def test_k_required
     acl = create(:acl)
-    assert acl.valid?
+    assert_predicate acl, :valid?
     acl.k = nil
     assert_not acl.valid?
   end

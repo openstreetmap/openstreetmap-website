@@ -4,7 +4,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_assigned_role
     issue = create(:issue)
 
-    assert issue.valid?
+    assert_predicate issue, :valid?
     issue.assigned_role = "bogus"
     assert_not issue.valid?
   end

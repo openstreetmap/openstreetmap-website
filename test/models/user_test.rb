@@ -11,12 +11,12 @@ class UserTest < ActiveSupport::TestCase
                         :home_lon => nil,
                         :home_zoom => nil)
     assert_not user.valid?
-    assert user.errors[:email].any?
-    assert user.errors[:pass_crypt].any?
-    assert user.errors[:display_name].any?
-    assert user.errors[:home_lat].none?
-    assert user.errors[:home_lon].none?
-    assert user.errors[:home_zoom].none?
+    assert_predicate user.errors[:email], :any?
+    assert_predicate user.errors[:pass_crypt], :any?
+    assert_predicate user.errors[:display_name], :any?
+    assert_predicate user.errors[:home_lat], :none?
+    assert_predicate user.errors[:home_lon], :none?
+    assert_predicate user.errors[:home_zoom], :none?
   end
 
   def test_unique_email
@@ -55,7 +55,7 @@ class UserTest < ActiveSupport::TestCase
   def test_display_name_length
     user = build(:user)
     user.display_name = "123"
-    assert user.valid?, "should allow 3 char name name"
+    assert_predicate user, :valid?, "should allow 3 char name name"
     user.display_name = "12"
     assert_not user.valid?, "should not allow 2 char name"
     user.display_name = ""
@@ -81,7 +81,7 @@ class UserTest < ActiveSupport::TestCase
     ok.each do |display_name|
       user = build(:user)
       user.display_name = display_name
-      assert user.valid?, "#{display_name} is invalid, when it should be"
+      assert_predicate user, :valid?, "#{display_name} is invalid, when it should be"
     end
 
     bad.each do |display_name|
@@ -214,29 +214,29 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_visible?
-    assert build(:user, :pending).visible?
-    assert build(:user, :active).visible?
-    assert build(:user, :confirmed).visible?
+    assert_predicate build(:user, :pending), :visible?
+    assert_predicate build(:user, :active), :visible?
+    assert_predicate build(:user, :confirmed), :visible?
     assert_not build(:user, :suspended).visible?
     assert_not build(:user, :deleted).visible?
   end
 
   def test_active?
     assert_not build(:user, :pending).active?
-    assert build(:user, :active).active?
-    assert build(:user, :confirmed).active?
+    assert_predicate build(:user, :active), :active?
+    assert_predicate build(:user, :confirmed), :active?
     assert_not build(:user, :suspended).active?
     assert_not build(:user, :deleted).active?
   end
 
   def test_moderator?
     assert_not create(:user).moderator?
-    assert create(:moderator_user).moderator?
+    assert_predicate create(:moderator_user), :moderator?
   end
 
   def test_administrator?
     assert_not create(:user).administrator?
-    assert create(:administrator_user).administrator?
+    assert_predicate create(:administrator_user), :administrator?
   end
 
   def test_has_role?
@@ -250,7 +250,7 @@ class UserTest < ActiveSupport::TestCase
     user = create(:user, :with_home_location, :description => "foo")
     user.soft_destroy
     assert_equal "user_#{user.id}", user.display_name
-    assert user.description.blank?
+    assert_predicate user.description, :blank?
     assert_nil user.home_lat
     assert_nil user.home_lon
     assert_not user.avatar.attached?
