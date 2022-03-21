@@ -104,7 +104,7 @@ nl:
       changeset: Wijzigingenset
       changeset_tag: Label van wijzigingenset
       country: Land
-      diary_comment: Dagboekopmerking
+      diary_comment: Dagboekreactie
       diary_entry: Dagboekbericht
       friend: Vriend
       issue: Probleem
@@ -318,10 +318,12 @@ nl:
         retain_edits: Uw wijzigingen aan de kaart database worden, indien van toepassing,
           behouden.
         retain_traces: Uw geüploade trajecten, indien van toepassing, blijven behouden.
-        retain_diary_entries: Uw dagboekberichten en reacties worden, indien van toepassing,
-          behouden maar verborgen van weergave.
+        retain_diary_entries: Uw dagboekberichten en reacties, indien van toepassing,
+          blijven behouden maar zullen niet langer zichtbaar zijn.
         retain_notes: Uw kaartopmerkingen en reacties worden, indien van toepassing,
           behouden maar verborgen van weergave.
+        retain_changeset_discussions: Uw overleg over wijzigingensets, indien van
+          toepassing, blijft behouden.
         retain_email: Uw e-mailadres blijft behouden.
         confirm_delete: Weet u het zeker?
         cancel: Annuleren
@@ -361,7 +363,7 @@ nl:
           te lezen en te accepteren.
         agreed_with_pd: U hebt ook verklaard dat uw bijdragen onderdeel zijn van het
           Publieke domein.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: wat is dit?
       save changes button: Wijzigingen opslaan
       make edits public button: Al mijn wijzigingen  openbaar maken
@@ -612,8 +614,8 @@ nl:
     no_such_entry:
       title: Het opgegeven dagboekbericht bestaat niet
       heading: Het bericht met id %{id} bestaat niet
-      body: Er is geen dagboekbericht of opmerking met het id %{id}. Controleer de
-        spelling, of misschien is de koppeling waarop u geklikt hebt onjuist.
+      body: Er is geen dagboekbericht of reactie met het id %{id}. Controleer de spelling,
+        of misschien is de koppeling waarop u geklikt hebt onjuist.
     diary_entry:
       posted_by_html: Geplaatst door %{link_user} op %{created} in het %{language_link}.
       updated_at_html: Laatst aangepast op %{updated}.
@@ -633,7 +635,7 @@ nl:
       hide_link: Reactie verbergen
       unhide_link: Reactie zichtbaar maken
       confirm: Bevestigen
-      report: Rapporteer deze opmerking
+      report: Rapporteer deze reactie
     location:
       location: 'Locatie:'
       view: Weergeven
@@ -650,12 +652,15 @@ nl:
         title: OpenStreetMap-dagboekberichten
         description: Recente dagboekberichten van OpenStreetMap-gebruikers
     comments:
-      no_comments: Geen dagboekopmerkingen
+      title: Dagboekreacties toegevoegd door %{user}
+      heading: '%{user}''s dagboekreacties'
+      subheading_html: Dagboekopmerkingen toegevoegd door %{user}
+      no_comments: Geen dagboekreacties
       post: Dagboekbericht
       when: Wanneer
       comment: Reactie
       newer_comments: Nieuwe opmerkingen
-      older_comments: Eerdere opmerkingen
+      older_comments: Oudere opmerkingen
   doorkeeper:
     flash:
       applications:
@@ -1511,7 +1516,7 @@ nl:
       new_reports: Nieuwe Meldingen
       other_issues_against_this_user: Andere problemen met deze gebruiker
       no_other_issues: Geen andere problemen tegen deze gebruiker.
-      comments_on_this_issue: Commentaar op deze kwestie
+      comments_on_this_issue: Reacties op deze kwestie
     resolve:
       resolved: De status van het probleem is ingesteld op 'Opgelost'
     ignore:
@@ -1525,7 +1530,7 @@ nl:
       reported_by_html: Als %{category} gerapporteerd door %{user} op %{updated_at}
     helper:
       reportable_title:
-        diary_comment: '%{entry_title}, commentaar #%{comment_id}'
+        diary_comment: '%{entry_title}, reactie #%{comment_id}'
         note: 'Opmerking #%{note_id}'
   issue_comments:
     create:
@@ -1550,9 +1555,9 @@ nl:
           threat_label: Dit dagboekbericht bevat een bedreiging
           other_label: Anders
         diary_comment:
-          spam_label: Dit commentaar in het dagboek is / bevat spam
-          offensive_label: Dit commentaar in het dagboek is obsceen / aanstootgevend
-          threat_label: Deze dagboekcommentaar bevat een bedreiging
+          spam_label: Deze dagboekreactie is / bevat spam
+          offensive_label: Deze dagboekreactie is obsceen / aanstootgevend
+          threat_label: Deze dagboekreactie bevat een bedreiging
           other_label: Anders
         user:
           spam_label: Dit gebruikersprofiel is / bevat spam
@@ -1623,8 +1628,8 @@ nl:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} heeft een reactie bij uw dagboek geplaatst'
       hi: Hallo %{to_user},
-      header: '%{from_user} heeft een reactie geplaatst bij uw OpenStreetMap-dagboekbericht
-        met het onderwerp %{subject}:'
+      header: '%{from_user} heeft gereageerd op uw OpenStreetMap-dagboekbericht met
+        het onderwerp %{subject}:'
       header_html: '%{from_user} heeft een reactie geplaatst bij het OpenStreetMap-dagboekbericht
         met onderwerp %{subject}:'
       footer: U kunt de reactie ook lezen op %{readurl} en u kunt zelf ook reageren
@@ -1700,12 +1705,12 @@ nl:
           opmerkingen'
         subject_other: '[OpenStreetMap] %{commenter} heeft gereageerd op een opmerking
           waar u interesse in hebt'
-        your_note: '%{commenter} heeft gereageerd op één van uw kaartopmerkingen vlakbij
-          %{place}.'
+        your_note: '%{commenter} heeft een reactie geplaatst bij één van uw kaartopmerkingen
+          vlakbij %{place}.'
         your_note_html: '%{commenter} heeft gereageerd op een opmerking van u nabij
           %{place}.'
-        commented_note: '%{commenter} heeft gereageerd op een kaartopmerking waar
-          u op gereageerd hebt. De opmerking is gemaakt vlakbij %{place}.'
+        commented_note: '%{commenter} heeft een reactie geplaatst bij een kaartopmerking
+          waar u op gereageerd hebt. De opmerking is gemaakt vlakbij %{place}.'
         commented_note_html: '%{commenter} heeft gereageerd op een opmerking waar
           u op gereageerd hebt. De opmerking is gemaakt nabij %{place}.'
       closed:
@@ -2810,6 +2815,8 @@ nl:
       activate_user: Deze gebruiker activeren
       deactivate_user: Deze gebruiker deactiveren
       confirm_user: Gebruiker bevestigen
+      unconfirm_user: Gebruiker bevestigen ongedaan maken
+      unsuspend_user: Gebruiker opschorten ongedaan maken
       hide_user: Gebruiker verbergen
       unhide_user: Gebruiker zichtbaar maken
       delete_user: Deze gebruiker verwijderen
