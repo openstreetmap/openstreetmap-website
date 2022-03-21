@@ -17,7 +17,7 @@ jobs:
       with:
         ruby-version: ${{ env.ruby }}
     - name: Cache gems
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3
       with:
         path: vendor/bundle
         key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
@@ -41,7 +41,7 @@ jobs:
       with:
         ruby-version: ${{ env.ruby }}
     - name: Cache gems
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3
       with:
         path: vendor/bundle
         key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
@@ -65,14 +65,14 @@ jobs:
       with:
         ruby-version: ${{ env.ruby }}
     - name: Cache gems
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3
       with:
         path: vendor/bundle
         key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
           bundle-${{ env.os }}-${{ env.ruby }}-
     - name: Cache node modules
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3
       with:
         path: node_modules
         key: yarn-${{ env.os }}-${{ hashFiles('yarn.lock') }}
@@ -100,7 +100,7 @@ jobs:
       with:
         ruby-version: ${{ env.ruby }}
     - name: Cache gems
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3
       with:
         path: vendor/bundle
         key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
