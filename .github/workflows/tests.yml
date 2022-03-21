@@ -21,14 +21,14 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
     - name: Cache gems
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3
       with:
         path: vendor/bundle
         key: bundle-ubuntu-${{ matrix.ubuntu }}-ruby-${{ matrix.ruby }}-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
           bundle-ubuntu-${{ matrix.ubuntu }}-ruby-${{ matrix.ruby }}-
     - name: Cache node modules
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3
       with:
         path: node_modules
         key: yarn-ubuntu-${{ matrix.ubuntu }}-${{ hashFiles('yarn.lock') }}
