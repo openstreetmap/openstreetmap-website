@@ -26,8 +26,7 @@ jobs:
     - name: Install gems
       run: |
         gem install bundler
-        bundle config set deployment true
-        bundle install --jobs 4 --retry 3
+        bundle install
     - name: Run rubocop
       run: bundle exec rubocop --format fuubar
   erblint:
@@ -50,8 +49,7 @@ jobs:
     - name: Install gems
       run: |
         gem install bundler
-        bundle config set deployment true
-        bundle install --jobs 4 --retry 3
+        bundle install
     - name: Run erblint
       run: bundle exec erblint .
   eslint:
@@ -71,18 +69,17 @@ jobs:
         key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
           bundle-${{ env.os }}-${{ env.ruby }}-
-    - name: Cache node modules
+    - name: Cache yarn
       uses: actions/cache@v3
       with:
-        path: node_modules
+        path: .yarn
         key: yarn-${{ env.os }}-${{ hashFiles('yarn.lock') }}
         restore-keys: |
           yarn-${{ env.os }}-
     - name: Install gems
       run: |
         gem install bundler
-        bundle config set deployment true
-        bundle install --jobs 4 --retry 3
+        bundle install
     - name: Install node modules
       run: bundle exec rake yarn:install
     - name: Create dummy database configuration
@@ -109,7 +106,6 @@ jobs:
     - name: Install gems
       run: |
         gem install bundler
-        bundle config set deployment true
-        bundle install --jobs 4 --retry 3
+        bundle install
     - name: Run brakeman
       run: bundle exec brakeman -q
