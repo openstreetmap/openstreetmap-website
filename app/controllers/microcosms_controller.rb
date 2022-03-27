@@ -10,7 +10,6 @@ class MicrocosmsController < ApplicationController
   authorize_resource
 
   def index
-    @critical_mass = 2
     # TODO: OMG is the math right here?
     minute_of_day = "(60 * EXTRACT(HOUR FROM current_timestamp) + EXTRACT(MINUTE FROM current_timestamp))"
     morning = "(60 * 6)" # 6 AM
@@ -21,7 +20,7 @@ class MicrocosmsController < ApplicationController
     @microcosms = Microcosm
                   .joins(:microcosm_members)
                   .group("microcosms.id")
-                  .having("COUNT(microcosms.id) >#{@critical_mass}")
+                  .having("COUNT(microcosms.id) >= #{Settings.microcosm_critical_mass}")
                   .order(Arel.sql("longitude + 180 + #{long_facing_sun} DESC"))
 
     @my_microcosms = current_user ? current_user.microcosms : []
