@@ -13,13 +13,11 @@ module OsmCommunityIndex
 
     def self.init_local_chapters
       raw_local_chapters = load_raw_local_chapters
-      local_chapters = []
-      raw_local_chapters.each do |chapter|
+      raw_local_chapters.map do |chapter|
         id = chapter[:id]
         url = chapter[:resource]["strings"]["url"]
-        local_chapters.push(LocalChapter.new(id, url))
+        LocalChapter.new(id, url)
       end
-      local_chapters
     end
 
     def self.load_raw_local_chapters
