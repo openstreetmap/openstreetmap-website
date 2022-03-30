@@ -24,6 +24,7 @@ class MicrocosmsController < ApplicationController
                   .order(Arel.sql("longitude + 180 + #{long_facing_sun} DESC"))
 
     @my_microcosms = current_user ? current_user.microcosms : []
+    @not_my_microcosms = @microcosms - @my_microcosms
   end
 
   # GET /microcosms/mycity
