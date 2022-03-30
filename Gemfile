@@ -144,7 +144,7 @@ group :test do
   gem "erb_lint", :require => false
   gem "factory_bot_rails"
   gem "minitest", "~> 5.1"
-  gem "puma", "~> 5.3"
+  gem "puma", "~> 5.6"
   gem "rails-controller-testing"
   gem "rubocop"
   gem "rubocop-minitest"
