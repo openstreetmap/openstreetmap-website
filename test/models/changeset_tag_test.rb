@@ -40,10 +40,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
 
   def test_uniqueness
     existing = create(:changeset_tag)
-    tag = ChangesetTag.new
-    tag.changeset_id = existing.changeset_id
-    tag.k = existing.k
-    tag.v = existing.v
+    tag = build(:changeset_tag, :changeset => existing.changeset, :k => existing.k, :v => existing.v)
     assert_predicate tag, :new_record?
     assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }

@@ -40,7 +40,7 @@ class OldWayTagTest < ActiveSupport::TestCase
 
   def test_uniqueness
     existing = create(:old_way_tag)
-    tag = OldWayTag.new
+    tag = build(:old_way_tag, :old_way => existing.old_way, :version => existing.version, :k => existing.k, :v => existing.v)
     tag.way_id = existing.way_id
     tag.version = existing.version
     tag.k = existing.k

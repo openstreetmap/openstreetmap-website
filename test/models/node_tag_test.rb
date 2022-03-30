@@ -40,10 +40,7 @@ class NodeTagTest < ActiveSupport::TestCase
 
   def test_uniqueness
     existing = create(:node_tag)
-    tag = NodeTag.new
-    tag.node_id = existing.node_id
-    tag.k = existing.k
-    tag.v = existing.v
+    tag = build(:node_tag, :node => existing.node, :k => existing.k, :v => existing.v)
     assert_predicate tag, :new_record?
     assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }

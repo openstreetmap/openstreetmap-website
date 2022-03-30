@@ -40,11 +40,7 @@ class OldRelationTagTest < ActiveSupport::TestCase
 
   def test_uniqueness
     existing = create(:old_relation_tag)
-    tag = OldRelationTag.new
-    tag.relation_id = existing.relation_id
-    tag.version = existing.version
-    tag.k = existing.k
-    tag.v = existing.v
+    tag = build(:old_relation_tag, :old_relation => existing.old_relation, :version => existing.version, :k => existing.k, :v => existing.v)
     assert_predicate tag, :new_record?
     assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }

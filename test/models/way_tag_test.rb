@@ -40,7 +40,7 @@ class WayTagTest < ActiveSupport::TestCase
 
   def test_uniqueness
     existing = create(:way_tag)
-    tag = WayTag.new
+    tag = build(:way_tag, :way => existing.way, :k => existing.k, :v => existing.v)
     tag.way_id = existing.way_id
     tag.k = existing.k
     tag.v = existing.v
