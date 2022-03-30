@@ -42,7 +42,7 @@ module OsmCommunityIndex
         locale = File.basename(file, ".yaml")
         community_index_yaml = YAML.safe_load(File.read(file))[locale]
         # rails wants en-GB but osm-community-index has en_GB
-        locale_rails = locale.split("_").join("-")
+        locale_rails = locale.tr("_", "-")
         data = {}
 
         raw_local_chapters.each do |chapter|
