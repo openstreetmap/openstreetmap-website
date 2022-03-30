@@ -48,7 +48,7 @@ class Microcosm < ApplicationRecord
   end
 
   def member?(user)
-    microcosm_members.members.where(:user_id => user.id).count.positive?
+    microcosm_members.where(:user_id => user.id).count.positive?
   end
 
   def organizer?(user)
