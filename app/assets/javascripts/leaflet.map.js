@@ -26,7 +26,7 @@ L.OSM.Map = L.Map.extend({
       style: ohmVectorStyles.Original,
       accessToken: "no-token",
       localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
-      minZoom: 2,  /* match to "L.OSM.Map" options in index.js */
+      minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
       maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
     }));
 
@@ -38,7 +38,7 @@ L.OSM.Map = L.Map.extend({
       style: ohmVectorStyles.Woodblock,
       accessToken: "no-token",
       localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
-      minZoom: 2,  /* match to "L.OSM.Map" options in index.js */
+      minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
       maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
     }));
 
