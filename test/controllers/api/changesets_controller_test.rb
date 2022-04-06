@@ -22,12 +22,24 @@ module Api
         { :controller => "api/changesets", :action => "show", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/changeset/1.json", :method => :get },
+        { :controller => "api/changesets", :action => "show", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/changeset/1/subscribe", :method => :post },
         { :controller => "api/changesets", :action => "subscribe", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/changeset/1/subscribe.json", :method => :post },
+        { :controller => "api/changesets", :action => "subscribe", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/changeset/1/unsubscribe", :method => :post },
         { :controller => "api/changesets", :action => "unsubscribe", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/changeset/1/unsubscribe.json", :method => :post },
+        { :controller => "api/changesets", :action => "unsubscribe", :id => "1", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/changeset/1", :method => :put },
@@ -40,6 +52,10 @@ module Api
       assert_routing(
         { :path => "/api/0.6/changesets", :method => :get },
         { :controller => "api/changesets", :action => "query" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/changesets.json", :method => :get },
+        { :controller => "api/changesets", :action => "query", :format => "json" }
       )
     end
 
@@ -166,6 +182,99 @@ module Api
       assert_select "osm>changeset>@closed_at", changeset.closed_at.xmlschema
       assert_select "osm>changeset>discussion", 1
       assert_select "osm>changeset>discussion>comment", 3
+    end
+
+    def test_show_json
+      changeset = create(:changeset)
+
+      get changeset_show_path(changeset), :params => { :format => "json" }
+      assert_response :success, "cannot get first changeset"
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+
+      assert_equal Settings.api_version, js["version"]
+      assert_equal "OpenStreetMap server", js["generator"]
+      assert_equal changeset.id, js["changeset"]["id"]
+      assert js["changeset"]["open"]
+      assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
+      assert_nil js["changeset"]["closed_at"]
+      assert_nil js["changeset"]["tags"]
+      assert_nil js["changeset"]["comments"]
+      assert_equal changeset.user.id, js["changeset"]["uid"]
+      assert_equal changeset.user.display_name, js["changeset"]["user"]
+
+      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
+      assert_response :success, "cannot get first changeset with comments"
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal Settings.api_version, js["version"]
+      assert_equal "OpenStreetMap server", js["generator"]
+      assert_equal changeset.id, js["changeset"]["id"]
+      assert js["changeset"]["open"]
+      assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
+      assert_nil js["changeset"]["closed_at"]
+      assert_nil js["changeset"]["tags"]
+      assert_nil js["changeset"]["min_lat"]
+      assert_nil js["changeset"]["min_lon"]
+      assert_nil js["changeset"]["max_lat"]
+      assert_nil js["changeset"]["max_lon"]
+      assert_equal 0, js["changeset"]["comments"].count
+    end
+
+    def test_show_tag_and_discussion_json
+      changeset = create(:changeset, :closed)
+
+      tag1 = ChangesetTag.new
+      tag1.changeset_id = changeset.id
+      tag1.k = "created_by"
+      tag1.v = "JOSM/1.5 (18364)"
+
+      tag2 = ChangesetTag.new
+      tag2.changeset_id = changeset.id
+      tag2.k = "comment"
+      tag2.v = "changeset comment"
+
+      changeset.changeset_tags = [tag1, tag2]
+
+      create_list(:changeset_comment, 3, :changeset_id => changeset.id)
+
+      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
+      assert_response :success, "cannot get closed changeset with comments"
+
+      js = ActiveSupport::JSON.decode(@response.body)
+
+      assert_not_nil js
+      assert_equal Settings.api_version, js["version"]
+      assert_equal "OpenStreetMap server", js["generator"]
+      assert_equal changeset.id, js["changeset"]["id"]
+      assert_not js["changeset"]["open"]
+      assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
+      assert_equal changeset.closed_at.xmlschema, js["changeset"]["closed_at"]
+      assert_equal 2, js["changeset"]["tags"].count
+      assert_equal 3, js["changeset"]["comments"].count
+      assert_equal 3, js["changeset"]["comments_count"]
+      assert_equal 0, js["changeset"]["changes_count"]
+      assert_not_nil js["changeset"]["comments"][0]["uid"]
+      assert_not_nil js["changeset"]["comments"][0]["user"]
+      assert_not_nil js["changeset"]["comments"][0]["text"]
+    end
+
+    def test_show_bbox_json
+      # test bbox attribute
+      changeset = create(:changeset, :min_lat => (-5 * GeoRecord::SCALE).round, :min_lon => (5 * GeoRecord::SCALE).round,
+                                     :max_lat => (15 * GeoRecord::SCALE).round, :max_lon => (12 * GeoRecord::SCALE).round)
+
+      get changeset_show_path(changeset), :params => { :format => "json" }
+      assert_response :success, "cannot get first changeset"
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal(-5, js["changeset"]["min_lat"])
+      assert_equal  5, js["changeset"]["min_lon"]
+      assert_equal 15, js["changeset"]["max_lat"]
+      assert_equal 12, js["changeset"]["max_lon"]
     end
 
     ##
@@ -1541,6 +1650,17 @@ module Api
       get changesets_path(:display_name => private_user.display_name), :headers => auth_header
       assert_response :success, "can't get changesets by user name"
       assert_changesets [private_user_changeset, private_user_closed_changeset]
+
+      # test json endpoint
+      get changesets_path(:display_name => private_user.display_name), :headers => auth_header, :params => { :format => "json" }
+      assert_response :success, "can't get changesets by user name"
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+
+      assert_equal Settings.api_version, js["version"]
+      assert_equal "OpenStreetMap server", js["generator"]
+      assert_equal 2, js["changesets"].count
 
       # check that the correct error is given when we provide both UID and name
       get changesets_path(:user => private_user.id,
