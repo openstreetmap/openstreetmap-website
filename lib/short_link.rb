@@ -47,21 +47,21 @@ module ShortLink
       y <<= (32 - z)
 
       # project the parameters back to their coordinate ranges.
-      [(x * 360.0 / 2**32) - 180.0,
-       (y * 180.0 / 2**32) - 90.0,
+      [(x * 360.0 / (2**32)) - 180.0,
+       (y * 180.0 / (2**32)) - 90.0,
        z - 8 - (z_offset % 3)]
     end
 
     ##
     # given a location and zoom, return a short string representing it.
     def encode(lon, lat, z)
-      code = interleave_bits(((lon + 180.0) * 2**32 / 360.0).to_i,
-                             ((lat + 90.0) * 2**32 / 180.0).to_i)
+      code = interleave_bits(((lon + 180.0) * (2**32) / 360.0).to_i,
+                             ((lat + 90.0) * (2**32) / 180.0).to_i)
       str = ""
       # add eight to the zoom level, which approximates an accuracy of
       # one pixel in a tile.
       ((z + 8) / 3.0).ceil.times do |i|
-        digit = (code >> (58 - 6 * i)) & 0x3f
+        digit = (code >> (58 - (6 * i))) & 0x3f
         str << ARRAY[digit]
       end
       # append characters onto the end of the string to represent

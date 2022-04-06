@@ -365,23 +365,23 @@ module OSM
       yscale = ysize / height
       scale = [xscale, yscale].max
 
-      xpad = width * scale - xsize
-      ypad = height * scale - ysize
+      xpad = (width * scale) - xsize
+      ypad = (height * scale) - ysize
 
       @width = width
       @height = height
 
-      @tx = xsheet(min_lon) - xpad / 2
-      @ty = ysheet(min_lat) - ypad / 2
+      @tx = xsheet(min_lon) - (xpad / 2)
+      @ty = ysheet(min_lat) - (ypad / 2)
 
-      @bx = xsheet(max_lon) + xpad / 2
-      @by = ysheet(max_lat) + ypad / 2
+      @bx = xsheet(max_lon) + (xpad / 2)
+      @by = ysheet(max_lat) + (ypad / 2)
     end
 
     # the following two functions will give you the x/y on the entire sheet
 
     def ysheet(lat)
-      log(tan(PI / 4 + (lat * PI / 180 / 2))) / (PI / 180)
+      log(tan((PI / 4) + (lat * PI / 180 / 2))) / (PI / 180)
     end
 
     def xsheet(lon)
@@ -417,7 +417,7 @@ module OSM
     def distance(lat, lon)
       lat = lat * PI / 180
       lon = lon * PI / 180
-      6372.795 * 2 * asin(sqrt(sin((lat - @lat) / 2)**2 + cos(@lat) * cos(lat) * sin((lon - @lon) / 2)**2))
+      6372.795 * 2 * asin(sqrt((sin((lat - @lat) / 2)**2) + (cos(@lat) * cos(lat) * (sin((lon - @lon) / 2)**2))))
     end
 
     # get the worst case bounds for a given radius from the base position
@@ -425,7 +425,7 @@ module OSM
       latradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2)**2))
 
       begin
-        lonradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2)**2 / cos(@lat)**2))
+        lonradius = 2 * asin(sqrt((sin(radius / 6372.795 / 2)**2) / (cos(@lat)**2)))
       rescue Errno::EDOM, Math::DomainError
         lonradius = PI
       end
