@@ -5,13 +5,13 @@ module Api
   class OldController < ApiController
     require "xml/libxml"
 
+    before_action :check_api_readable
+    before_action :check_api_writable, :only => [:redact]
     before_action :setup_user_auth, :only => [:history, :version]
     before_action :authorize, :only => [:redact]
 
     authorize_resource
 
-    before_action :check_api_readable
-    before_action :check_api_writable, :only => [:redact]
     around_action :api_call_handle_error, :api_call_timeout
     before_action :lookup_old_element, :except => [:history]
     before_action :lookup_old_element_versions, :only => [:history]

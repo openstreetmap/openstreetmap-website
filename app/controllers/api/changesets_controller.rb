@@ -4,13 +4,13 @@ module Api
   class ChangesetsController < ApiController
     require "xml/libxml"
 
+    before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
+    before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :subscribe, :unsubscribe]
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
 
     authorize_resource
 
     before_action :require_public_data, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
-    before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
-    before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :subscribe, :unsubscribe]
     before_action :set_request_formats, :except => [:create, :close, :upload]
 
     around_action :api_call_handle_error

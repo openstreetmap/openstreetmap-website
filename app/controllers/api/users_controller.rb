@@ -1,12 +1,12 @@
 module Api
   class UsersController < ApiController
+    before_action :check_api_readable
     before_action :disable_terms_redirect, :only => [:details]
     before_action :setup_user_auth, :only => [:show, :index]
     before_action :authorize, :only => [:details, :gpx_files]
 
     authorize_resource
 
-    before_action :check_api_readable
     around_action :api_call_handle_error
     before_action :lookup_user_by_id, :only => [:show]
 

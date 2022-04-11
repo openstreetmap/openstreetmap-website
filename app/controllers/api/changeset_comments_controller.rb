@@ -1,12 +1,12 @@
 module Api
   class ChangesetCommentsController < ApiController
+    before_action :check_api_writable
+    before_action :check_api_readable, :except => [:create]
     before_action :authorize
 
     authorize_resource
 
     before_action :require_public_data, :only => [:create]
-    before_action :check_api_writable
-    before_action :check_api_readable, :except => [:create]
     before_action :set_request_formats
     around_action :api_call_handle_error
     around_action :api_call_timeout
