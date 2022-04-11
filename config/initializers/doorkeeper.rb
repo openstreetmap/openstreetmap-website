@@ -49,7 +49,7 @@ Rails.application.reloader.to_prepare do
     #   end
     # end
 
-    application_class "Oauth2Application"
+    application_class "Oauth2Application" unless Settings.status == "database_offline"
 
     # Enables polymorphic Resource Owner association for Access Tokens and Access Grants.
     # By default this option is disabled.
