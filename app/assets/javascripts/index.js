@@ -85,6 +85,7 @@ $(document).ready(function () {
     contextmenu: true,
     minZoom: 2,  /* match to "L.MapboxGL" options in leaflet.map.js */
     maxZoom: 20,  /* match to "L.MapboxGL" options in leaflet.map.js */
+    maxBounds: [[-180, -90], [180, 90]],
   });
 
   map.attributionControl.setPrefix('');
