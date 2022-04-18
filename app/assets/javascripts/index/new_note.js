@@ -85,10 +85,12 @@ OSM.NewNote = function (map) {
   };
 
   function newHalo(loc, a) {
-    if (a === "dragstart" && map.hasLayer(halo)) {
+    var hasHalo = halo && map.hasLayer(halo)
+
+    if (a === "dragstart" && hasHalo) {
       map.removeLayer(halo);
     } else {
-      if (map.hasLayer(halo)) map.removeLayer(halo);
+      if (hasHalo) map.removeLayer(halo);
 
       halo = L.circleMarker(loc, {
         weight: 2.5,
@@ -160,8 +162,8 @@ OSM.NewNote = function (map) {
   };
 
   page.unload = function () {
-    noteLayer.removeLayer(newNote);
-    map.removeLayer(halo);
+    if (newNote) noteLayer.removeLayer(newNote);
+    if (halo) map.removeLayer(halo);
     addNoteButton.removeClass("active");
   };
 
