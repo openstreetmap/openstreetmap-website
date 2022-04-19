@@ -48,6 +48,18 @@ class Way < ApplicationRecord
   scope :visible, -> { where(:visible => true) }
   scope :invisible, -> { where(:visible => false) }
 
+  def blah()
+    all_tags = {}
+    old_ways.each do |old_way|
+      old_way.old_tags.each do |old_tag|
+        if !all_tags.include?(old_tag.k) || all_tags[old_tag.k][:value] != old_tag.v
+          all_tags[old_tag.k] = {value: old_tag.v, version: old_way.version}
+        end
+      end
+    end
+    all_tags
+  end
+
   # Read in xml as text and return it's Way object representation
   def self.from_xml(xml, create: false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
