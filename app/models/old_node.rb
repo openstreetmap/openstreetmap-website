@@ -82,7 +82,9 @@ class OldNode < ApplicationRecord
   end
 
   def tags
-    @tags ||= old_tags.to_h { |t| [t.k, t.v] }
+    version_info = if latest_version? then current_node.tag_version_info else {} end
+
+    @tags ||= old_tags.to_h { |t| [t.k, [t.v, version_info[t.k]]] }
   end
 
   attr_writer :tags

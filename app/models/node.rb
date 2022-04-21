@@ -62,6 +62,22 @@ class Node < ApplicationRecord
   scope :visible, -> { where(:visible => true) }
   scope :invisible, -> { where(:visible => false) }
 
+  def tag_version_info()
+    all_tags = {}
+    node_tags.each do |t|
+      all_tags[t.k] = {value: nil, version: -1}
+    end
+    old_nodes.each do |old|
+      old.old_tags.each do |t|
+        if all_tags.include?(t.k) && all_tags[t.k][:value] != t.v
+          all_tags[t.k] = {value: t.v, version: old.version,
+                           changeset: old.changeset}
+        end
+      end
+    end
+    all_tags
+  end
+
   # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position
     errors.add(:base, "Node is not in the world") unless in_world?
