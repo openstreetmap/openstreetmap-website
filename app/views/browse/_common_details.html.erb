@@ -31,4 +31,4 @@
 </div>
 <% end %>
 
-<%= render :partial => "tag_details", :object => common_details.tags %>
+<%= render :partial => "tag_details", :object => (local_assigns[:tag_history] or common_details.tags), locals: {is_history: local_assigns[:is_history]} %>
