@@ -8,9 +8,10 @@
   </div>
 <% else %>
   <div class="browse-section browse-way">
-      <%= render :partial => "common_details", :object => way, locals: {
-          tag_history: (if local_assigns[:is_history] && way.latest_version? then tags_with_version_info(way.current_way.way_tags, way.current_way.old_ways) else way.tags end),
-          is_history: local_assigns[:is_history] && way.latest_version?} %>
+      <%= render :partial => "common_details", :object => way, :locals => {
+            :tag_history => (local_assigns[:is_history] && way.latest_version? ? tags_with_version_info(way.current_way.way_tags, way.current_way.old_ways) : way.tags),
+            :is_history => local_assigns[:is_history] && way.latest_version?
+          } %>
 
     <% unless way.containing_relation_members.empty? %>
       <h4><%= t "browse.part_of" %></h4>
