@@ -71,7 +71,7 @@ class Node < ApplicationRecord
       old.old_tags.each do |t|
         if all_tags.include?(t.k) && all_tags[t.k][:value] != t.v
           all_tags[t.k] = {value: t.v, version: old.version,
-                           changeset: old.changeset}
+                           changeset: old.changeset, timestamp:old.timestamp}
         end
       end
     end
