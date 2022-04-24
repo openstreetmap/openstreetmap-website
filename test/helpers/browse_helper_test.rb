@@ -1,3 +1,4 @@
+# coding: utf-8
 require "test_helper"
 
 class BrowseHelperTest < ActionView::TestCase
@@ -124,7 +125,29 @@ class BrowseHelperTest < ActionView::TestCase
     assert_includes tags, %w[shop gift]
   end
 
+  def test_tags_with_version_info
+    node = create(:node, :with_history, :version => 3)
+    add_current_tag(node, 1, "building", "yes")
+    add_tag(node, 2, "name", "Nowhere")
+    add_tag(node, 2, "other", "something")
+    add_current_tag(node, 3, "name", "The Place")
+
+    version_info = tags_with_version_info(node.node_tags, node.old_nodes)
+    assert_equal 1, version_info["building"][1][:version]
+    assert_equal 3, version_info["name"][1][:version]
+    assert_nil version_info["other"]
+  end
+
   private
+
+  def add_tag(node, version, k, v)
+    create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => version), :k => k, :v => v)
+  end
+
+  def add_current_tag(node, version, k, v)
+    add_tag(node, version, k, v)
+    create(:node_tag, :node => node, :k => k, :v => v)
+  end
 
   def add_old_tags_selection(old_node)
     { "building" => "yes",
