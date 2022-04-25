@@ -77,29 +77,28 @@ module BrowseHelper
   end
 
   def tags_with_version_info(current_tags, old_objects)
-    version_history = {}
+    result = {}
 
     current_tags.each do |t|
-      version_history[t.k] = { :value => nil, :version => -1 }
+      result[t.k] = [nil, {}]
     end
     old_objects.each do |old|
       seen_tags = []
       old.old_tags.each do |t|
-        if version_history.include?(t.k)
-          seen_tags << t.k
+        next unless result.include?(t.k)
 
-          if version_history[t.k][:value] != t.v
-            version_history[t.k] = { :value => t.v, :version => old.version,
-                                     :changeset => old.changeset, :timestamp => old.timestamp }
-          end
-        end
+        seen_tags << t.k
+
+        next unless result[t.k][0] != t.v
+
+        result[t.k] = [
+          t.v, { :version => old.version, :changeset => old.changeset, :timestamp => old.timestamp }
+        ]
       end
-      version_history.each do |k, v|
-        if !seen_tags.include? k
-          version_history[k] = { :value => nil, :version => -1 }
-        end
+      result.each_key do |k|
+        result[k] = [nil, {}] unless seen_tags.include? k
       end
     end
-    current_tags.to_h { |t| [t.k, [t.v, version_history[t.k]]] }
+    result
   end
 end
