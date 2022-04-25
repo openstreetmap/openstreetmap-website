@@ -1,56 +1,61 @@
-<% set_title(t('.title', :id => @changeset.id)) %>
+<% set_title(t(".title", :id => @changeset.id)) %>
 
-<h2>
-  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= t('.title', :id => @changeset.id) %>
-</h2>
+<%= render "sidebar_header", :title => t(".title", :id => @changeset.id) %>
 
 <div class="browse-section">
-  <h4><%= linkify(h(@changeset.tags['comment'].to_s.presence || t('browse.no_comment'))) %></h4>
-  <div class="details"><%= changeset_details(@changeset) %></div>
+  <p class="font-italic">
+    <%= linkify(@changeset.tags["comment"].to_s.presence || t("browse.no_comment")) %>
+  </p>
+  <p class="details"><%= changeset_details(@changeset) %></p>
 
-  <%= render :partial => "tag_details", :object => @changeset.tags.except('comment') %>
+  <%= render :partial => "tag_details", :object => @changeset.tags.except("comment") %>
 
-  <h4 class="comments-header"><%= t('.discussion') %></h4>
-
-  <% if current_user %>
-    <div class="buttons clearfix subscribe-buttons">
-      <form action="#">
-        <% if @changeset.subscribers.exists?(current_user.id) %>
-          <input class="action-button" type="submit" name="unsubscribe" value="<%= t('javascripts.changesets.show.unsubscribe') %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
-        <% else %>
-          <input class="action-button" type="submit" name="subscribe" value="<%= t('javascripts.changesets.show.subscribe') %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
-        <% end %>
-      </form>
+  <div class="row">
+    <div class="col">
+      <h4><%= t(".discussion") %></h4>
     </div>
-  <% end %>
 
-  <div class="clearfix"></div>
+    <% if current_user %>
+      <div class="col-auto">
+        <div class="subscribe-buttons">
+          <form action="#">
+            <% if @changeset.subscribers.exists?(current_user.id) %>
+              <input class="action-button btn btn-sm btn-primary" type="submit" name="unsubscribe" value="<%= t("javascripts.changesets.show.unsubscribe") %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
+            <% else %>
+              <input class="action-button btn btn-sm btn-primary" type="submit" name="subscribe" value="<%= t("javascripts.changesets.show.subscribe") %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
+            <% end %>
+          </form>
+        </div>
+      </div>
+    <% end %>
+  </div>
 
   <% if @comments.length > 0 %>
     <div class='changeset-comments'>
       <form action="#">
-        <ul>
+        <ul class="list-unstyled">
           <% @comments.each do |comment| %>
             <% if comment.visible %>
               <li id="c<%= comment.id %>">
-                <small class='deemphasize'>
-                  <%= t(".commented_by",
-                    :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at),
-                    :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
+                <small class='text-muted'>
+                  <%= t(".commented_by_html",
+                        :when => friendly_date_ago(comment.created_at),
+                        :exact_time => l(comment.created_at),
+                        :user => link_to(comment.author.display_name, user_path(comment.author))) %>
                   <% if current_user and current_user.moderator? %>
-                    — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t('javascripts.changesets.show.hide_comment') %></span>
+                    — <span class="action-button" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t("javascripts.changesets.show.hide_comment") %></span>
                   <% end %>
                 </small>
                 <%= comment.body.to_html %>
               </li>
             <% elsif current_user and current_user.moderator? %>
               <li id="c<%= comment.id %>">
-                <small class='deemphasize'>
-                  <%= t(".hidden_commented_by",
-                    :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at),
-                    :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
-                  — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t('javascripts.changesets.show.unhide_comment') %></span>
+                <small class='text-muted'>
+                  <%= t(".hidden_commented_by_html",
+                        :when => friendly_date_ago(comment.created_at),
+                        :exact_time => l(comment.created_at),
+                        :user => link_to(comment.author.display_name, user_path(comment.author))) %>
+                  — <span class="action-button text-muted" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t("javascripts.changesets.show.unhide_comment") %></span>
                  </small>
                 <%= comment.body.to_html %>
               </li>
@@ -62,58 +67,51 @@
   <% end %>
 
   <% unless current_user %>
-    <div class="notice">
-      <%= link_to(t(".join_discussion"), :controller => 'users', :action => 'login', :referer => request.fullpath) %>
-    </div>
+    <p class="notice">
+      <%= link_to(t(".join_discussion"), login_path(:referer => request.fullpath)) %>
+    </p>
   <% end %>
 
   <% if current_user %>
-    <% unless @changeset.is_open? %>
-      <form action="#">
-        <textarea class="comment" name="text" cols="40" rows="5"></textarea>
-        <div class="buttons clearfix">
-          <input type="submit" name="comment" value="<%= t('javascripts.changesets.show.comment') %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1"/>
+    <% unless @changeset.open? %>
+      <form action="#" class="mb-3">
+        <div class="form-group">
+          <textarea class="form-control" name="text" cols="40" rows="5"></textarea>
+        </div>
+        <div>
+          <input type="submit" name="comment" value="<%= t("javascripts.changesets.show.comment") %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1" class="btn btn-sm btn-primary" />
         </div>
       </form>
     <% else %>
-      <div class="notice">
-      <%= t('.still_open') %>
-      </div>
+      <p class="notice">
+        <%= t(".still_open") %>
+      </p>
     <% end %>
   <% end %>
 
   <% unless @ways.empty? %>
-    <h4>
-      <%= type_and_paginated_count('way', @way_pages) %>
-      <%= render :partial => 'paging_nav', :locals => { :pages => @way_pages, :page_param => "way_page" } %>
-    </h4>
-    <ul>
+    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("way", @way_pages), :pages => @way_pages, :page_param => "way_page" } %>
+    <ul class="list-unstyled">
       <% @ways.each do |way| %>
-        <li><%= link_to printable_name(way, true), { :action => "way", :id => way.way_id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
+        <li><%= link_to printable_name(way, :version => true), { :action => "way", :id => way.way_id.to_s }, { :class => link_class("way", way), :title => link_title(way) } %></li>
       <% end %>
     </ul>
   <% end %>
 
   <% unless @relations.empty? %>
-    <h4>
-      <%= type_and_paginated_count('relation', @relation_pages) %>
-      <%= render :partial => 'paging_nav', :locals => { :pages => @relation_pages, :page_param => "relation_page" } %>
-    </h4>
-    <ul>
+    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("relation", @relation_pages), :pages => @relation_pages, :page_param => "relation_page" } %>
+    <ul class="list-unstyled">
       <% @relations.each do |relation| %>
-        <li><%= link_to printable_name(relation, true), { :action => "relation", :id => relation.relation_id.to_s }, :class => link_class('relation', relation), :title => link_title(relation) %></li>
+        <li><%= link_to printable_name(relation, :version => true), { :action => "relation", :id => relation.relation_id.to_s }, { :class => link_class("relation", relation), :title => link_title(relation) } %></li>
       <% end %>
     </ul>
   <% end %>
 
   <% unless @nodes.empty? %>
-    <h4>
-      <%= type_and_paginated_count('node', @node_pages) %>
-      <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page"} %>
-    </h4>
-    <ul>
+    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("node", @node_pages), :pages => @node_pages, :page_param => "node_page" } %>
+    <ul class="list-unstyled">
       <% @nodes.each do |node| %>
-        <li><%= link_to printable_name(node, true), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node), :rel => link_follow(node) %></li>
+        <li><%= link_to printable_name(node, :version => true), { :action => "node", :id => node.node_id.to_s }, { :class => link_class("node", node), :title => link_title(node), :rel => link_follow(node) } %></li>
       <% end %>
     </ul>
   <% end %>
@@ -125,10 +123,8 @@
       <%= link_to "<< #{@prev_by_user.id}", :id => @prev_by_user.id %>
       &middot;
     <% end %>
-    <%=
-        user = (@prev_by_user || @next_by_user).user.display_name
-        link_to content_tag(:bdi, user), :controller => "changesets", :action => "index", :display_name => user
-    %>
+    <%= user = (@prev_by_user || @next_by_user).user.display_name
+        link_to tag.bdi(user), :controller => "changesets", :action => "index", :display_name => user %>
     <% if @next_by_user %>
       &middot;
       <%= link_to "#{@next_by_user.id} >>", :id => @next_by_user.id %>
@@ -137,7 +133,7 @@
 <% end %>
 
 <div class='secondary-actions'>
-  <%= link_to(t('.changesetxml'), :controller => "changesets", :action => "show") %>
+  <%= link_to(t(".changesetxml"), :controller => "api/changesets", :action => "show") %>
   &middot;
-  <%= link_to(t('.osmchangexml'), :controller => "changesets", :action => "download") %>
+  <%= link_to(t(".osmchangexml"), :controller => "api/changesets", :action => "download") %>
 </div>

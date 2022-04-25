@@ -1,4 +1,4 @@
-class AddSenderVisibleToMessage < ActiveRecord::Migration[5.0]
+class AddSenderVisibleToMessage < ActiveRecord::Migration[4.2]
   def self.up
     rename_column :messages, :visible, :to_user_visible
     add_column :messages, :from_user_visible, :boolean, :default => true, :null => false

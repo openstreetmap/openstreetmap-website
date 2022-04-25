@@ -1,0 +1,9 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<%= render :partial => "settings_menu" %>
+
+<%= bootstrap_form_for @application, :url => oauth_application_path(@application), :html => { :method => :put } do |f| %>
+  <%= render :partial => "form", :locals => { :f => f } %>
+<% end %>

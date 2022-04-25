@@ -1,4 +1,4 @@
-class DropNearbyPlaceFromNotes < ActiveRecord::Migration[5.0]
+class DropNearbyPlaceFromNotes < ActiveRecord::Migration[4.2]
   def up
     remove_column :notes, :nearby_place
   end

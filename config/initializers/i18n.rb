@@ -3,10 +3,10 @@ module I18n
     module PluralizationFallback
       def pluralize(locale, entry, count)
         super
-      rescue InvalidPluralizationData => ex
-        raise ex unless ex.entry.key?(:other)
+      rescue InvalidPluralizationData => e
+        raise e unless e.entry.key?(:other)
 
-        ex.entry[:other]
+        e.entry[:other]
       end
     end
   end
@@ -41,6 +41,12 @@ I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
 I18n.fallbacks.map("no" => "nb")
 
 I18n.enforce_available_locales = false
+
+if Rails.env.test?
+  I18n.exception_handler = proc do |exception|
+    raise exception.to_exception
+  end
+end
 
 Rails.configuration.after_initialize do
   I18n.available_locales

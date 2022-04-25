@@ -1,0 +1,65 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<div class="row">
+  <% if current_user and @user.id == current_user.id %>
+    <div class="col-md order-md-last">
+      <% if @user.home_lat.nil? or @user.home_lon.nil? %>
+        <div id="map" class="content_map border border-grey">
+          <p class="m-3"><%= t(".no_home_location_html", :edit_profile_link => link_to(t(".edit_your_profile"), edit_profile_path)) %></p>
+        </div>
+      <% else %>
+        <% content_for :head do %>
+          <%= javascript_include_tag "user" %>
+        <% end %>
+        <% user_data = {
+             :lon => current_user.home_lon,
+             :lat => current_user.home_lat,
+             :icon => image_path("marker-red.png"),
+             :description => render(:partial => "popup", :object => current_user, :locals => { :type => "your location" })
+           } %>
+        <%= tag.div "", :id => "map", :class => "content_map border border-grey rounded", :data => { :user => user_data } %>
+      <% end %>
+
+      <% friends = @user.friends %>
+      <% nearby = @user.nearby - friends %>
+    </div>
+
+    <div class="col-md">
+      <h3><%= t ".my friends" %></h3>
+
+      <% if friends.empty? %>
+        <%= t ".no friends" %>
+      <% else %>
+        <nav class='secondary-actions mb-3'>
+          <ul class='clearfix'>
+            <li><%= link_to t(".friends_changesets"), friend_changesets_path %></li>
+            <li><%= link_to t(".friends_diaries"), friends_diary_entries_path %></li>
+          </ul>
+        </nav>
+        <div id="friends-container">
+          <%= render :partial => "contact", :collection => friends, :locals => { :type => "friend" } %>
+        </div>
+      <% end %>
+
+      <hr>
+
+      <h3><%= t ".nearby users" %></h3>
+
+      <% if nearby.empty? %>
+        <%= t ".no nearby users" %>
+      <% else %>
+        <nav class='secondary-actions mb-3'>
+          <ul class='clearfix'>
+            <li><%= link_to t(".nearby_changesets"), nearby_changesets_path %></li>
+            <li><%= link_to t(".nearby_diaries"), nearby_diary_entries_path %></li>
+          </ul>
+        </nav>
+        <div id="nearbyusers">
+          <%= render :partial => "contact", :collection => nearby, :locals => { :type => "nearby mapper" } %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

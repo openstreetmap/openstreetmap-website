@@ -1,0 +1,19 @@
+<%= f.text_field :title %>
+<%= f.richtext_field :body, :cols => 80, :rows => 20, :format => @diary_entry.body_format %>
+<%= f.collection_select :language_code, Language.order(:english_name), :code, :name %>
+
+<fieldset>
+  <legend><%= t ".location" -%></legend>
+
+  <%= tag.div "", :id => "map", :class => "border border-grey rounded", :data => { :lat => @lat, :lon => @lon, :zoom => @zoom } %>
+
+  <div class="form-row">
+    <%= f.text_field :latitude, :wrapper_class => "col-sm-4", :id => "latitude" %>
+    <%= f.text_field :longitude, :wrapper_class => "col-sm-4", :id => "longitude" %>
+    <div class="col-sm-4">
+      <label><a href="#" id="usemap"><%= t ".use_map_link" -%></a></label>
+    </div>
+  </div>
+</fieldset>
+
+<%= f.primary %>

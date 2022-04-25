@@ -1,10 +1,10 @@
 //= require jquery3
 //= require jquery_ujs
 //= require jquery.timers
-//= require jquery.cookie
 //= require jquery.throttle-debounce
-//= require bootstrap.tooltip
-//= require bootstrap.dropdown
+//= require js-cookie/dist/js.cookie
+//= require popper
+//= require bootstrap-sprockets
 //= require osm
 //= require mapbox-gl
 //= require leaflet
@@ -19,19 +19,19 @@
 //= require oauth
 //= require piwik
 //= require richtext
-//= require querystring
-
-var querystring = require('querystring-component');
+//= require qs/dist/qs
+//= require bs-custom-file-input
+//= require bs-custom-file-input-init
 
 /*
- * Called as the user scrolls/zooms around to maniplate hrefs of the
+ * Called as the user scrolls/zooms around to manipulate hrefs of the
  * view tab and various other links
  */
 window.updateLinks = function (loc, zoom, layers, object) {
-  $(".geolink").each(function(index, link) {
+  $(".geolink").each(function (index, link) {
     var href = link.href.split(/[?#]/)[0],
-      args = querystring.parse(link.search.substring(1)),
-      editlink = $(link).hasClass("editlink");
+        args = Qs.parse(link.search.substring(1)),
+        editlink = $(link).hasClass("editlink");
 
     delete args.node;
     delete args.way;
@@ -42,12 +42,12 @@ window.updateLinks = function (loc, zoom, layers, object) {
       args[object.type] = object.id;
     }
 
-    var query = querystring.stringify(args);
-    if (query) href += '?' + query;
+    var query = Qs.stringify(args);
+    if (query) href += "?" + query;
 
     args = {
       lat: loc.lat,
-      lon: 'lon' in loc ? loc.lon : loc.lng,
+      lon: "lon" in loc ? loc.lon : loc.lng,
       zoom: zoom
     };
 
@@ -61,13 +61,13 @@ window.updateLinks = function (loc, zoom, layers, object) {
   });
 
   var editDisabled = zoom < 13;
-  $('#edit_tab')
-    .tooltip({placement: 'bottom'})
-    .off('click.minzoom')
-    .on('click.minzoom', function() { return !editDisabled; })
-    .toggleClass('disabled', editDisabled)
-    .attr('data-original-title', editDisabled ?
-      I18n.t('javascripts.site.edit_disabled_tooltip') : '');
+  $("#edit_tab")
+    .tooltip({ placement: "bottom" })
+    .off("click.minzoom")
+    .on("click.minzoom", function () { return !editDisabled; })
+    .toggleClass("disabled", editDisabled)
+    .attr("data-original-title", editDisabled ?
+      I18n.t("javascripts.site.edit_disabled_tooltip") : "");
 };
 
 window.maximiseMap = function () {
@@ -86,11 +86,11 @@ $(document).ready(function () {
     var windowWidth = $(window).width();
 
     if (windowWidth < compactWidth) {
-      $("body").removeClass("compact").addClass("small");
+      $("body").removeClass("compact-nav").addClass("small-nav");
     } else if (windowWidth < headerWidth) {
-      $("body").addClass("compact").removeClass("small");
+      $("body").addClass("compact-nav").removeClass("small-nav");
     } else {
-      $("body").removeClass("compact").removeClass("small");
+      $("body").removeClass("compact-nav").removeClass("small-nav");
     }
   }
 
@@ -101,29 +101,29 @@ $(document).ready(function () {
    * to defer the measurement slightly as a workaround.
    */
   setTimeout(function () {
-    $("header").children(":visible").each(function (i,e) {
+    $("header").children(":visible").each(function (i, e) {
       headerWidth = headerWidth + $(e).outerWidth();
     });
 
-    $("body").addClass("compact");
+    $("body").addClass("compact-nav");
 
-    $("header").children(":visible").each(function (i,e) {
+    $("header").children(":visible").each(function (i, e) {
       compactWidth = compactWidth + $(e).outerWidth();
     });
 
-    $("body").removeClass("compact");
+    $("body").removeClass("compact-nav");
 
     updateHeader();
 
     $(window).resize(updateHeader);
   }, 0);
 
-  $("#menu-icon").on("click", function(e) {
+  $("#menu-icon").on("click", function (e) {
     e.preventDefault();
     $("header").toggleClass("closed");
   });
 
-  $("nav.primary li a").on("click", function() {
+  $("nav.primary li a").on("click", function () {
     $("header").toggleClass("closed");
   });
 

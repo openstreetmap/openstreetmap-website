@@ -6,7 +6,7 @@ FactoryBot.define do
     changeset
 
     visible { true }
-    timestamp { Time.now }
+    timestamp { Time.now.utc }
     version { 1 }
 
     trait :deleted do

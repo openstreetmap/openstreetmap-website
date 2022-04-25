@@ -1,10 +1,12 @@
-OSM.NewNote = function(map) {
+//= require qs/dist/qs
+
+OSM.NewNote = function (map) {
   var noteLayer = map.noteLayer,
-    content = $('#sidebar_content'),
-    page = {},
-    addNoteButton = $(".control-note .control-button"),
-    newNote,
-    halo;
+      content = $("#sidebar_content"),
+      page = {},
+      addNoteButton = $(".control-note .control-button"),
+      newNote,
+      halo;
 
   var noteIcons = {
     "new": L.icon({
@@ -28,9 +30,9 @@ OSM.NewNote = function(map) {
     e.preventDefault();
     e.stopPropagation();
 
-    if ($(this).hasClass('disabled')) return;
+    if ($(this).hasClass("disabled")) return;
 
-    OSM.router.route('/note/new');
+    OSM.router.route("/note/new");
   });
 
   function createNote(marker, form, url) {
@@ -61,7 +63,7 @@ OSM.NewNote = function(map) {
       newNote = null;
       noteLayer.removeLayer(marker);
       addNoteButton.removeClass("active");
-      OSM.router.route('/note/' + feature.properties.id);
+      OSM.router.route("/note/" + feature.properties.id);
     }
   }
 
@@ -83,10 +85,12 @@ OSM.NewNote = function(map) {
   };
 
   function newHalo(loc, a) {
-    if (a === 'dragstart' && map.hasLayer(halo)) {
+    var hasHalo = halo && map.hasLayer(halo);
+
+    if (a === "dragstart" && hasHalo) {
       map.removeLayer(halo);
     } else {
-      if (map.hasLayer(halo)) map.removeLayer(halo);
+      if (hasHalo) map.removeLayer(halo);
 
       halo = L.circleMarker(loc, {
         weight: 2.5,
@@ -124,12 +128,12 @@ OSM.NewNote = function(map) {
     });
 
     newNote = L.marker(markerLatlng, {
-      icon: noteIcons["new"],
+      icon: noteIcons.new,
       opacity: 0.9,
       draggable: true
     });
 
-    newNote.on("dragstart dragend", function(a) {
+    newNote.on("dragstart dragend", function (a) {
       newHalo(newNote.getLatLng(), a.type);
     });
 
@@ -138,7 +142,7 @@ OSM.NewNote = function(map) {
 
     newNote.on("remove", function () {
       addNoteButton.removeClass("active");
-    }).on("dragstart",function () {
+    }).on("dragstart", function () {
       $(newNote).stopTime("removenote");
     }).on("dragend", function () {
       content.find("textarea").focus();
@@ -152,9 +156,9 @@ OSM.NewNote = function(map) {
       $(e.target.form.add).prop("disabled", $(e.target).val() === "");
     }
 
-    content.find('input[type=submit]').on('click', function (e) {
+    content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
-      createNote(newNote, e.target.form, '/api/0.6/notes.json');
+      createNote(newNote, e.target.form, "/api/0.6/notes.json");
     });
 
     return map.getState();
@@ -171,8 +175,8 @@ OSM.NewNote = function(map) {
   };
 
   page.unload = function () {
-    noteLayer.removeLayer(newNote);
-    map.removeLayer(halo);
+    if (newNote) noteLayer.removeLayer(newNote);
+    if (halo) map.removeLayer(halo);
     addNoteButton.removeClass("active");
   };
 

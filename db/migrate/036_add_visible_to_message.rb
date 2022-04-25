@@ -1,4 +1,4 @@
-class AddVisibleToMessage < ActiveRecord::Migration[5.0]
+class AddVisibleToMessage < ActiveRecord::Migration[4.2]
   def self.up
     add_column :messages, :visible, :boolean, :default => true, :null => false
   end

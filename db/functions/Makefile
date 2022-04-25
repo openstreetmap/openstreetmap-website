@@ -1,7 +1,8 @@
+BUNDLE ?= bundle
 PG_CONFIG ?= pg_config
 DESTDIR ?= .
 
-QTDIR=$(shell bundle show quad_tile | tail -n 1)/ext/quad_tile
+QTDIR=$(shell ${BUNDLE} show quad_tile | tail -n 1)/ext/quad_tile
 
 OS=$(shell uname -s)
 ifeq (${OS},Darwin)
@@ -15,7 +16,7 @@ all: ${DESTDIR}/libpgosm.so
 clean:
 	$(RM) ${DESTDIR}/*.so ${DESTDIR}/*.o
 
-${DESTDIR}/libpgosm.so: ${DESTDIR}/quadtile.o ${DESTDIR}/maptile.o ${DESTDIR}/xid_to_int4.o
+${DESTDIR}/libpgosm.so: ${DESTDIR}/quadtile.o
 	cc ${LDFLAGS} -o $@ $^
 
 ${DESTDIR}/%.o: %.c

@@ -1,0 +1,32 @@
+<% content_for :heading_class, "pb-0" %>
+<% content_for :heading do %>
+  <div class='header-illustration confirm-main'>
+    <h1><%= t ".heading" %></h1>
+  </div>
+<% end %>
+
+<% if params[:confirm_string] %>
+  <% content_for :head do %>
+    <%= javascript_include_tag "user" %>
+  <% end %>
+
+  <% content_for(:content_class) { "user_confirm" } %>
+
+  <p><%= t ".press confirm button" %></p>
+
+  <%= bootstrap_form_tag :html => { :id => "confirm" } do |f| %>
+    <%= f.hidden_field :display_name, :value => params[:display_name] %>
+    <%= f.hidden_field :confirm_string, :value => params[:confirm_string] %>
+    <%= f.primary t(".button") %>
+  <% end %>
+<% else %>
+  <h1>
+    <%= t ".introduction_1" %>
+    <span class="text-muted">
+      <%= t ".introduction_2" %>
+    </span>
+  </h1>
+
+  <p class='text-muted'><%= t ".reconfirm_html",
+                              :reconfirm => url_for(:action => "confirm_resend") %></p>
+<% end %>

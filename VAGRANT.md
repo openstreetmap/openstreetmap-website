@@ -10,8 +10,7 @@ Other Linux distributions should have similar installation instructions using `d
 
 Installers are available for Mac OS X and Windows, please see the [Vagrant project download page](https://www.vagrantup.com/downloads.html) for more information.
 
-Note than until there are suitable _xenial64_ [vagrant boxes](https://atlas.hashicorp.com/boxes/search?utf8=%E2%9C%93&sort=&provider=&q=xenial64) for other providers,
-the only virtualization provider supported is virtualbox. You might need to install it and specify `--provider virtualbox` when setting up your environment.
+We currently support three Vagrant providers, namely `virtualbox`, `lxc` and `libvirt`. You might need to install one of these, for example virtualbox, and specify the provider, e.g. `--provider virtualbox`, when setting up your environment.
 
 # Setting up openstreetmap-website
 
@@ -33,7 +32,7 @@ Within this login shell, you can do development, run the server or the tests. Fo
 
 ```
 cd /srv/openstreetmap-website/
-rake test
+bundle exec rails test:all
 ```
 
 To access the web pages you run the following commands then access the site in your [local browser](http://localhost:3000):
@@ -41,7 +40,7 @@ To access the web pages you run the following commands then access the site in y
 ```
 vagrant ssh
 cd /srv/openstreetmap-website/
-rails server --binding=0.0.0.0
+bundle exec rails server --binding=0.0.0.0
 ```
 
 You edit the code on your computer using the code editor you are used to using, then through shared folders the code is updated on the VM instantly.

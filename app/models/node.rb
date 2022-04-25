@@ -2,14 +2,14 @@
 #
 # Table name: current_nodes
 #
-#  id           :integer          not null, primary key
+#  id           :bigint(8)        not null, primary key
 #  latitude     :integer          not null
 #  longitude    :integer          not null
-#  changeset_id :integer          not null
+#  changeset_id :bigint(8)        not null
 #  visible      :boolean          not null
 #  timestamp    :datetime         not null
-#  tile         :integer          not null
-#  version      :integer          not null
+#  tile         :bigint(8)        not null
+#  version      :bigint(8)        not null
 #
 # Indexes
 #
@@ -21,19 +21,18 @@
 #  current_nodes_changeset_id_fkey  (changeset_id => changesets.id)
 #
 
-class Node < ActiveRecord::Base
+class Node < ApplicationRecord
   require "xml/libxml"
 
   include GeoRecord
   include ConsistencyValidations
   include NotRedactable
-  include ObjectMetadata
 
   self.table_name = "current_nodes"
 
   belongs_to :changeset
 
-  has_many :old_nodes, -> { order(:version) }
+  has_many :old_nodes, -> { order(:version) }, :inverse_of => :current_node
 
   has_many :way_nodes
   has_many :ways, :through => :way_nodes
@@ -47,15 +46,13 @@ class Node < ActiveRecord::Base
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :version, :presence => true,
-                      :numericality => { :integer_only => true }
-  validates :changeset_id, :presence => true,
-                           :numericality => { :integer_only => true }
+                      :numericality => { :only_integer => true }
   validates :latitude, :presence => true,
-                       :numericality => { :integer_only => true }
+                       :numericality => { :only_integer => true }
   validates :longitude, :presence => true,
-                        :numericality => { :integer_only => true }
+                        :numericality => { :only_integer => true }
   validates :timestamp, :presence => true
   validates :changeset, :associated => true
   validates :visible, :inclusion => [true, false]
@@ -71,19 +68,21 @@ class Node < ActiveRecord::Base
   end
 
   # Read in xml as text and return it's Node object representation
-  def self.from_xml(xml, create = false)
+  def self.from_xml(xml, create: false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
+    pt = doc.find_first("//osm/node")
 
-    doc.find("//osm/node").each do |pt|
-      return Node.from_xml_node(pt, create)
+    if pt
+      Node.from_xml_node(pt, :create => create)
+    else
+      raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/node element.")
     end
-    raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/node element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("node", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("node", xml, e.message)
   end
 
-  def self.from_xml_node(pt, create = false)
+  def self.from_xml_node(pt, create: false)
     node = Node.new
 
     raise OSM::APIBadXMLError.new("node", pt, "lat missing") if pt["lat"].nil?
@@ -200,34 +199,12 @@ class Node < ActiveRecord::Base
     save_with_history!
   end
 
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new "node"
-    el["id"] = id.to_s
-
-    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
-
-    if visible?
-      el["lat"] = lat.to_s
-      el["lon"] = lon.to_s
-    end
-
-    add_tags_to_xml_node(el, node_tags)
-
-    el
-  end
-
   def tags_as_hash
     tags
   end
 
   def tags
-    @tags ||= Hash[node_tags.collect { |t| [t.k, t.v] }]
+    @tags ||= node_tags.to_h { |t| [t.k, t.v] }
   end
 
   attr_writer :tags
@@ -259,7 +236,7 @@ class Node < ActiveRecord::Base
   private
 
   def save_with_history!
-    t = Time.now.getutc
+    t = Time.now.utc
 
     self.version += 1
     self.timestamp = t

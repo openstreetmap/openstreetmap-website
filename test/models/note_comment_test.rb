@@ -8,7 +8,7 @@ class NoteCommentTest < ActiveSupport::TestCase
     ok.each do |event|
       note_comment = create(:note_comment)
       note_comment.event = event
-      assert note_comment.valid?, "#{event} is invalid, when it should be"
+      assert_predicate note_comment, :valid?, "#{event} is invalid, when it should be"
     end
 
     bad.each do |event|
@@ -27,7 +27,7 @@ class NoteCommentTest < ActiveSupport::TestCase
     ok.each do |body|
       note_comment = create(:note_comment)
       note_comment.body = body
-      assert note_comment.valid?, "#{body} is invalid, when it should be"
+      assert_predicate note_comment, :valid?, "#{body} is invalid, when it should be"
     end
 
     bad.each do |body|

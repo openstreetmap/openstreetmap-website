@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ErrorsControllerTest < ActionController::TestCase
+class ErrorsControllerTest < ActionDispatch::IntegrationTest
   def test_routes
     assert_routing(
       { :path => "/403", :method => :get },
@@ -17,17 +17,17 @@ class ErrorsControllerTest < ActionController::TestCase
   end
 
   def test_forbidden
-    get :forbidden
+    get "/403"
     assert_response :forbidden
   end
 
   def test_not_found
-    get :not_found
+    get "/404"
     assert_response :not_found
   end
 
   def test_internal_server_error
-    get :internal_server_error
+    get "/500"
     assert_response :internal_server_error
   end
 end

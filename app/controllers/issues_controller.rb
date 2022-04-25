@@ -47,9 +47,10 @@ class IssuesController < ApplicationController
     @new_comment = IssueComment.new(:issue => @issue)
   end
 
-  # Status Transistions
+  # Status Transitions
   def resolve
     if @issue.resolve
+      @issue.updated_by = current_user.id
       @issue.save!
       redirect_to @issue, :notice => t(".resolved")
     else
@@ -80,6 +81,8 @@ class IssuesController < ApplicationController
   private
 
   def find_issue
-    @issue = Issue.find(params[:id])
+    @issue = Issue.visible_to(current_user).find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to :controller => "errors", :action => "not_found"
   end
 end

@@ -1,6 +1,4 @@
-require "migrate"
-
-class RemoveSegments < ActiveRecord::Migration[5.0]
+class RemoveSegments < ActiveRecord::Migration[4.2]
   def self.up
     have_segs = select_value("SELECT count(*) FROM current_segments").to_i.nonzero?
 
@@ -11,11 +9,11 @@ class RemoveSegments < ActiveRecord::Migration[5.0]
       src = "#{cmd}.cc"
       if !File.exist?(cmd) || File.mtime(cmd) < File.mtime(src)
         system("c++ -O3 -Wall `mysql_config --cflags --libs` " \
-          "#{src} -o #{cmd}") || raise
+               "#{src} -o #{cmd}") || raise
       end
 
-      conn_opts = ActiveRecord::Base.connection
-                                    .instance_eval { @connection_options }
+      conn_opts = ApplicationRecord.connection
+                                   .instance_eval { @connection_options }
       args = conn_opts.map(&:to_s) + [prefix]
       raise "#{cmd} failed" unless system cmd, *args
 

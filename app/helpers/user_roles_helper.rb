@@ -1,8 +1,6 @@
 module UserRolesHelper
   def role_icons(user)
-    UserRole::ALL_ROLES.reduce("".html_safe) do |acc, elem|
-      acc + " " + role_icon(user, elem)
-    end
+    safe_join(UserRole::ALL_ROLES.filter_map { |role| role_icon(user, role) }, " ")
   end
 
   def role_icon(user, role)
@@ -27,9 +25,9 @@ module UserRolesHelper
     end
 
     if image
-      svg_icon = tag("source", :srcset => image_path("#{image}.svg"), :type => "image/svg+xml")
+      svg_icon = tag.source(:srcset => image_path("#{image}.svg"), :type => "image/svg+xml")
       png_icon = image_tag("#{image}.png", :srcset => image_path("#{image}.svg"), :size => "20x20", :border => 0, :alt => alt, :title => title)
-      icon = content_tag("picture", svg_icon + png_icon)
+      icon = tag.picture(svg_icon + png_icon)
       icon = link_to(icon, url, :method => :post, :confirm => confirm) if url
     end
 

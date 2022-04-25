@@ -8,6 +8,12 @@ mo:
   time:
     formats:
       friendly: '%e %B %Y ла %H:%M'
+  helpers:
+    submit:
+      diary_entry:
+        create: Публикаре
+      trace:
+        update: Апликаря модификэрилор
   activerecord:
     models:
       acl: Листа де контрол ал акчесулуй
@@ -62,11 +68,31 @@ mo:
         recipient: Дестинатар
       user:
         email: Пошта електроникэ
+        new_email: 'Адреса де поштэ електроникэ ноуэ:'
         active: Актив
         display_name: Нумеле афишат
         description: Дескриере
+        home_lat: 'Латитудине:'
+        home_lon: 'Лонӂитудине:'
         languages: Лимбь
         pass_crypt: Паролэ
+    help:
+      user:
+        new_email: (ну се афишязэ публик)
+  accounts:
+    edit:
+      my settings: Реглажеле меле
+      current email address: 'Адреса де поштэ електроникэ курентэ:'
+      external auth: 'Ынтраря ын конт екстернэ:'
+      openid:
+        link text: че май есте ши аста?
+      public editing:
+        enabled link text: че май есте ши аста?
+      public editing note:
+        heading: 'Редактаря публикэ:'
+      contributor terms:
+        link text: че май есте ши аста?
+      save changes button: Апликаря модификэрилор
   browse:
     created: Креат
     closed: Ынкис
@@ -94,30 +120,30 @@ mo:
       relation: Релаций (%{count})
       relation_paginated: Релаций (%{x}-%{y} дин %{count})
       comment: Коментарий (%{count})
-      hidden_commented_by: Коментариу аскунс скрис де %{user} <abbr title='%{exact_time}'>ку
+      hidden_commented_by_html: Коментариу аскунс скрис де %{user} <abbr title='%{exact_time}'>ку
         %{when} ын урмэ</abbr>
-      commented_by: Коментариу скрис де %{user} <abbr title='%{exact_time}'>ку %{when}
-        ын урмэ</abbr>
+      commented_by_html: Коментариу скрис де %{user} <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
       join_discussion: Вэ ругэм сэ ынтраць ын конт пентру а вэ алэтура дискуцией
       discussion: Дискуцие
     node:
-      title: 'Пункт: %{name}'
+      title_html: 'Пункт: %{name}'
     way:
-      title: 'Кале: %{name}'
+      title_html: 'Кале: %{name}'
       nodes: Пункте
     relation:
-      title: 'Релацие: %{name}'
-      history_title: 'Историкул релацией: %{name}'
+      title_html: 'Релацие: %{name}'
+      history_title_html: 'Историкул релацией: %{name}'
       members: Мембри
     relation_member:
-      entry_role: '%{type} %{name} ын ролул %{role}'
+      entry_role_html: '%{type} %{name} ын ролул %{role}'
       type:
         node: Пункт
         way: Кале
         relation: Релацие
     containing_relation:
-      entry: Релация %{relation_name}
-      entry_role: Релация %{relation_name} (ын ролул %{relation_role})
+      entry_html: Релация %{relation_name}
+      entry_role_html: Релация %{relation_name} (ын ролул %{relation_role})
     not_found:
       type:
         node: пункт
@@ -139,21 +165,24 @@ mo:
       open_title: 'Нотэ нерезолватэ #%{note_name}'
       closed_title: 'Нотэ резолватэ #%{note_name}'
       hidden_title: 'Нотэ аскунсэ #%{note_name}'
-      open_by: Креатэ де %{user} <abbr title='%{exact_time}'>ку %{when} ын урмэ</abbr>
-      open_by_anonymous: Креатэ аноним <abbr title='%{exact_time}'>ку %{when} ын урмэ</abbr>
-      commented_by: Коментариу скрис де %{user} <abbr title='%{exact_time}'>ку %{when}
-        ын урмэ</abbr>
-      commented_by_anonymous: Коментариу аноним <abbr title='%{exact_time}'>ку %{when}
-        ын урмэ</abbr>
-      closed_by: Резолватэ де %{user} <abbr title='%{exact_time}'>ку %{when} ын урмэ</abbr>
-      closed_by_anonymous: Резолватэ аноним <abbr title='%{exact_time}'>ку %{when}
-        ын урмэ</abbr>
-      reopened_by: Редескисэ де %{user} <abbr title='%{exact_time}'>ку %{when} ын
+      opened_by_html: Креатэ де %{user} <abbr title='%{exact_time}'>ку %{when} ын
         урмэ</abbr>
-      reopened_by_anonymous: Редескисэ аноним <abbr title='%{exact_time}'>ку %{when}
+      opened_by_anonymous_html: Креатэ аноним <abbr title='%{exact_time}'>ку %{when}
         ын урмэ</abbr>
-      hidden_by: Аскунсэ де кэтре %{user} <abbr title='%{exact_time}'>ку %{when} ын
-        урмэ</abbr>
+      commented_by_html: Коментариу скрис де %{user} <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
+      commented_by_anonymous_html: Коментариу аноним <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
+      closed_by_html: Резолватэ де %{user} <abbr title='%{exact_time}'>ку %{when}
+        ын урмэ</abbr>
+      closed_by_anonymous_html: Резолватэ аноним <abbr title='%{exact_time}'>ку %{when}
+        ын урмэ</abbr>
+      reopened_by_html: Редескисэ де %{user} <abbr title='%{exact_time}'>ку %{when}
+        ын урмэ</abbr>
+      reopened_by_anonymous_html: Редескисэ аноним <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
+      hidden_by_html: Аскунсэ де кэтре %{user} <abbr title='%{exact_time}'>ку %{when}
+        ын урмэ</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: Паӂина %{page}
@@ -165,16 +194,12 @@ mo:
     changesets:
       user: Утилизатор
       comment: Коментариу
+  dashboards:
+    show:
+      my friends: Приетений мей
   diary_entries:
-    new:
-      publish_button: Публикаре
-    edit:
-      subject: 'Субьект:'
-      body: 'Концинут:'
-      language: 'Лимбэ:'
+    form:
       location: 'Ситуаре:'
-      latitude: 'Латитудине:'
-      longitude: 'Лонӂитудине:'
     show:
       login: Ынтраря ын конт
     diary_entry:
@@ -187,7 +212,6 @@ mo:
       post: Месаж
       when: Кынд
       comment: Коментариу
-      ago: ку %{ago} ын урмэ
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -226,20 +250,16 @@ mo:
           library: Библиотекэ
           monastery: Мэнэстире
           motorcycle_parking: Паркаре пентру моточиклете
-          office: Офичиу
           parking: Паркаре
           pharmacy: Фармачие
           police: Полицие
           post_box: Кутие пошталэ
           post_office: Офичиу поштал
-          preschool: Институцие прешколарэ
           prison: Ынкисоаре
           public_building: Клэдире публикэ
           restaurant: Рестаурант
-          sauna: Саунэ
           school: Шкоалэ
           shelter: Адэпост
-          shop: Магазин
           shower: Душ
           studio: Студиоу
           swimming_pool: Базин де ынот
@@ -250,7 +270,6 @@ mo:
           university: Университате
           veterinary: Ветеринар
           waste_basket: Ладэ де гуной
-          youth_centre: Чентрул пентру тинерет
         boundary:
           administrative: Граница административэ
           national_park: Парк национал
@@ -298,7 +317,6 @@ mo:
           street_lamp: Фелинар де страдэ
           track: Друм де царэ
           traffic_signals: Семафор
-          trail: Потекэ
           "yes": Друм
         historic:
           archaeological_site: Лукрэрь археолоӂиче
@@ -469,10 +487,8 @@ mo:
           dry_cleaning: Курэцэторие кимикэ
           estate_agent: Аӂенция имобилиарэ
           fashion: Магазин де модэ
-          fish: Пескэрие
           florist: Флорэрие
           furniture: Магазин де мобилэ
-          gallery: Галерие
           general: Магазин
           gift: Магазин де кадоурь
           greengrocer: Магазин де легуме
@@ -482,14 +498,12 @@ mo:
           kiosk: Кьоск
           laundry: Спэлэторие
           lottery: Лотерие
-          market: Пяцэ/Тырг
           massage: Масаж
           mobile_phone: Магазин де телефоане мобиле
           motorcycle: Вынзаря моточиклетелор
           music: Магазин де музикэ
           newsagent: Кьоск де зиаре
           pawnbroker: Ломбард
-          pharmacy: Фармачие
           shoes: Магазин де ынкэлцэминте
           sports: Магазин де мэрфурь спортиве
           stationery: Папетэрие
@@ -524,7 +538,6 @@ mo:
           river: Рыу/Флувиу
           stream: Пырэу
           waterfall: Каскадэ
-    description:
       types:
         cities: Ораше
         towns: Орэшеле
@@ -573,14 +586,21 @@ mo:
       text: Фачець о донацие
     learn_more: Афлаць май мулте
     more: Май мулте
-  site:
-    export:
-      title: Експортаре
-  traces:
+  passwords:
+    lost_password:
+      title: Рестабилиря паролей
+      heading: Аць уйтат парола?
+      email address: 'Адреса де поштэ електроникэ:'
+      new password button: Рестабилиря паролей
+  profiles:
     edit:
-      save_button: Апликаря модификэрилор
-  users:
-    login:
+      image: 'Имаӂине:'
+      gravatar:
+        gravatar: Фолосиря Граватарулуй
+      new image: Адэугаря имаӂиний
+      home location: 'Локул де решединцэ:'
+  sessions:
+    new:
       title: Презентаци-вэ
       heading: Презентаци-вэ
       email or username: 'Пошта електроникэ сау нумеле де утилизатор:'
@@ -612,61 +632,26 @@ mo:
         wikipedia:
           title: Ынтраря ку ажуторул Википедией
           alt: Ынтраря ку ажуторул контулуй де Википедия
-        yahoo:
-          title: Ынтраря ку ажуторул Yahoo
-          alt: Ынтраря ку ажуторул Yahoo OpenID
         wordpress:
           title: Ынтраря ку ажуторул Wordpress
           alt: Ынтраря ку ажуторул Wordpress OpenID
         aol:
           title: Ынтраря ку ажуторул AOL
           alt: Ынтраря ку ажуторул AOL OpenID
-    logout:
+    destroy:
       title: Ынкееря сесиуний
       heading: Ешире дин OpenStreetMap
       logout_button: Ынкееря сесиуний
-    lost_password:
-      title: Рестабилиря паролей
-      heading: Аць уйтат парола?
-      email address: 'Адреса де поштэ електроникэ:'
-      new password button: Рестабилиря паролей
-    reset_password:
-      password: 'Паролэ:'
-      confirm password: 'Конфирмаць парола:'
+  site:
+    export:
+      title: Експортаре
+  users:
     new:
       display name: 'Нумеле афишат:'
-      password: 'Паролэ:'
-      confirm password: 'Конфирмаць парола:'
     show:
       my diary: Журналул меу
       my messages: Месажеле меле
       my profile: Профилул меу
       my settings: Реглажеле меле
       my comments: Коментарииле меле
-      my friends: Приетений мей
-    account:
-      my settings: Реглажеле меле
-      current email address: 'Адреса де поштэ електроникэ курентэ:'
-      new email address: 'Адреса де поштэ електроникэ ноуэ:'
-      email never displayed publicly: (ну се афишязэ публик)
-      external auth: 'Ынтраря ын конт екстернэ:'
-      openid:
-        link text: че май есте ши аста?
-      public editing:
-        heading: 'Редактаря публикэ:'
-        enabled link text: че май есте ши аста?
-      contributor terms:
-        link text: че май есте ши аста?
-      profile description: 'Дескриеря профилулуй:'
-      preferred languages: 'Лимбиле преферате:'
-      preferred editor: 'Редактор преферат:'
-      image: 'Имаӂине:'
-      gravatar:
-        gravatar: Фолосиря Граватарулуй
-        link text: че май есте ши аста?
-      new image: Адэугаря имаӂиний
-      home location: 'Локул де решединцэ:'
-      latitude: 'Латитудине:'
-      longitude: 'Лонӂитудине:'
-      save changes button: Апликаря модификэрилор
 ...

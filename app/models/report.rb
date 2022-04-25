@@ -21,19 +21,16 @@
 #  reports_user_id_fkey   (user_id => users.id)
 #
 
-class Report < ActiveRecord::Base
+class Report < ApplicationRecord
   belongs_to :issue, :counter_cache => true
   belongs_to :user
 
-  validates :issue, :presence => true
-  validates :user, :presence => true
   validates :details, :presence => true, :characters => true
   validates :category, :presence => true
 
   def self.categories_for(reportable)
     case reportable.class.name
-    when "DiaryEntry" then %w[spam offensive threat other]
-    when "DiaryComment" then %w[spam offensive threat other]
+    when "DiaryEntry", "DiaryComment" then %w[spam offensive threat other]
     when "User" then %w[spam offensive threat vandal other]
     when "Note" then %w[spam personal abusive other]
     else %w[other]

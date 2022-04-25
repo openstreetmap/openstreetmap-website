@@ -1,0 +1,15 @@
+<tr>
+  <td class="align-middle">
+    <%= link_to application.name, oauth_application_path(application) %>
+  </td>
+  <td class="align-middle">
+    <ul class="list-unstyled mb-0">
+      <% application.scopes.each do |scope| -%>
+        <li><%= t "oauth.scopes.#{scope}" %></li>
+      <% end -%>
+    </ul>
+  </td>
+  <td class="align-middle text-right">
+    <%= link_to t(".revoke"), oauth_authorized_application_path(application), { :method => :delete, :class => "btn btn-outline-danger", :data => { :confirm => t(".confirm_revoke") } } %>
+  </td>
+</tr>

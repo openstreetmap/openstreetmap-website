@@ -1,6 +1,5 @@
 OSM.initializeBrowse = function (map) {
   var browseBounds;
-  var selectedLayer;
   var dataLayer = map.dataLayer;
 
   dataLayer.setStyle({
@@ -26,17 +25,17 @@ OSM.initializeBrowse = function (map) {
     onSelect(e.layer);
   });
 
-  map.on('layeradd', function (e) {
+  map.on("layeradd", function (e) {
     if (e.layer === dataLayer) {
       map.on("moveend", updateData);
       updateData();
     }
   });
 
-  map.on('layerremove', function (e) {
+  map.on("layerremove", function (e) {
     if (e.layer === dataLayer) {
       map.off("moveend", updateData);
-      $('#browse_status').empty();
+      $("#browse_status").empty();
     }
   });
 
@@ -48,16 +47,21 @@ OSM.initializeBrowse = function (map) {
   }
 
   function displayFeatureWarning(count, limit, add, cancel) {
-    $('#browse_status').html(
-      $("<p class='warning'></p>")
-        .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit }))
-        .prepend(
-          $("<span class='icon close'></span>")
-            .click(cancel))
+    $("#browse_status").html(
+      $("<div>")
         .append(
-          $("<input type='submit'>")
-            .val(I18n.t('browse.start_rjs.load_data'))
-            .click(add)));
+          $("<h2>")
+            .text(I18n.t("browse.start_rjs.load_data"))
+            .prepend($("<span class='icon close'></span>").click(cancel)))
+        .append(
+          $("<div>")
+            .append(
+              $("<p class='alert alert-warning clearfix'></p>")
+                .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit })))
+            .append(
+              $("<input type='submit' class='btn btn-primary'>")
+                .val(I18n.t("browse.start_rjs.load_data"))
+                .click(add))));
   }
 
   var dataLoader;
@@ -87,18 +91,17 @@ OSM.initializeBrowse = function (map) {
       url: url,
       success: function (xml) {
         dataLayer.clearLayers();
-        selectedLayer = null;
 
         var features = dataLayer.buildFeatures(xml);
 
         function addFeatures() {
-          $('#browse_status').empty();
+          $("#browse_status").empty();
           dataLayer.addData(features);
           browseBounds = bounds;
         }
 
         function cancelAddFeatures() {
-          $('#browse_status').empty();
+          $("#browse_status").empty();
         }
 
         if (features.length < maxFeatures) {
@@ -107,24 +110,16 @@ OSM.initializeBrowse = function (map) {
           displayFeatureWarning(features.length, maxFeatures, addFeatures, cancelAddFeatures);
         }
 
+        if (map._objectLayer) {
+          map._objectLayer.bringToFront();
+        }
+
         dataLoader = null;
       }
     });
   }
 
   function onSelect(layer) {
-    // Unselect previously selected feature
-    if (selectedLayer) {
-      selectedLayer.setStyle(selectedLayer.originalStyle);
-    }
-
-    // Redraw in selected style
-    layer.originalStyle = layer.options;
-    layer.setStyle({color: '#0000ff', weight: 8});
-
-    OSM.router.route('/' + layer.feature.type + '/' + layer.feature.id);
-
-    // Stash the currently drawn feature
-    selectedLayer = layer;
+    OSM.router.route("/" + layer.feature.type + "/" + layer.feature.id);
   }
 };

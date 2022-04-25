@@ -3,8 +3,8 @@
 # Table name: changeset_comments
 #
 #  id           :integer          not null, primary key
-#  changeset_id :integer          not null
-#  author_id    :integer          not null
+#  changeset_id :bigint(8)        not null
+#  author_id    :bigint(8)        not null
 #  body         :text             not null
 #  created_at   :datetime         not null
 #  visible      :boolean          not null
@@ -19,14 +19,14 @@
 #  changeset_comments_changeset_id_fkey  (changeset_id => changesets.id)
 #
 
-class ChangesetComment < ActiveRecord::Base
+class ChangesetComment < ApplicationRecord
   belongs_to :changeset
   belongs_to :author, :class_name => "User"
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
-  validates :changeset, :presence => true, :associated => true
-  validates :author, :presence => true, :associated => true
+                 :numericality => { :on => :update, :only_integer => true }
+  validates :changeset, :associated => true
+  validates :author, :associated => true
   validates :visible, :inclusion => [true, false]
   validates :body, :characters => true
 

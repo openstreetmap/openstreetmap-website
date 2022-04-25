@@ -2,23 +2,29 @@
   <%= javascript_include_tag "user" %>
 <% end %>
 
+<% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
-  <h1><%= t '.heading' %></h1>
-  <div class='header-illustration new-user-terms'></div>
+  <div class='header-illustration new-user-terms'>
+    <h1><%= t ".heading" %></h1>
+  </div>
 <% end %>
 
-<%= form_tag({:action => "save"}, { :class => " inner22 standard-form fillL" }) do %>
+<%= form_tag({ :action => "save" }) do %>
   <!-- legale is <%= @legale %> -->
-  <div class='form-row horizontal-list'>
-    <label class="standard-label">
-      <%= t '.legale_select' %>
-    </label>
-
-    <% [['france', 'FR'], ['italy', 'IT'], ['rest_of_world', 'GB']].each do |name, legale| %>
-      <div class="form-row">
-        <label for="legale_<%= legale %>">
-          <%= radio_button_tag 'legale', legale, @legale == legale, :data => { :url => url_for(:legale => legale) } %>
-          <%= t('.legale_names.' + name) %>
+  <p class="text-muted"><%= t ".read and accept with tou" %></p>
+  <h4>
+    <%= t ".heading_ct" %>
+  </h4>
+  <p class="text-muted"><%= t ".contributor_terms_explain" %></p>
+  <label>
+    <%= t ".legale_select" %>
+  </label>
+  <div class="form-group">
+    <% [%w[france FR], %w[italy IT], %w[rest_of_world GB]].each do |name, legale| %>
+      <div class="form-check form-check-inline">
+        <%= radio_button_tag "legale", legale, @legale == legale, :data => { :url => url_for(:legale => legale) }, :class => "form-check-input" %>
+        <label for="legale_<%= legale %>" class="form-check-label">
+          <%= t(".legale_names.#{name}") %>
         </label>
       </div>
     <% end %>
@@ -30,20 +36,35 @@
     <br/> We suggest just agreeing below until it's written - any questions contact the OpenHistoricalMap mailing list. Thanks!
   </div>
 
-  <div class="form-row">
-    <label for="user_consider_pd">
-      <%= check_box('user', 'consider_pd') %>
-      <%= t '.consider_pd' %>
-    </label>
-    <span class="minorNote">(<%= link_to(t('.consider_pd_why'), t('.consider_pd_why_url'), :target => :new)%>)</span>
-
-    <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
-
-    <div class="buttons form-row inner20 clearfix">
-      <p class="deemphasize"><%= t '.read and accept' %></p>
-      <%= submit_tag(t('.agree'), :name => "agree", :id => "agree") %>
-      <%= submit_tag(t('.decline'), :name => "decline", :id => "decline") %>
+  <div>
+    <p id="contributorGuidance" class="text-muted">
+      <%= t ".guidance_html",
+            :summary => "https://www.osmfoundation.org/wiki/License/Contributor_Terms_Summary",
+            :translations => "https://www.osmfoundation.org/wiki/License/Contributor_Terms/Informal_Translations" %>
+    </p>
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <%= check_box_tag "read_ct", "1", false, :class => "form-check-input" %>
+      <label for="read_ct" class="form-check-label">
+        <%= t ".read_ct" %>
+      </label>
     </div>
+  </div>
+
+  <h4>
+    <%= t "layouts.tou" %>
+  </h4>
+  <p class="text-muted"><%= t ".tou_explain_html", :tou_link => link_to(t("layouts.tou"), "https://wiki.osmfoundation.org/wiki/Terms_of_Use", :target => :new) %></p>
+
+  <div class="form-group">
+    <div class="form-check">
+      <%= check_box_tag "read_tou", "1", false, :class => "form-check-input" %>
+      <label for="read_tou" class="form-check-label">
+        <%= t ".read_tou" %>
+      </label>
+    </div>
+  </div>
 
     <div class="deemphasize">
       <p id="contributorGuidance">

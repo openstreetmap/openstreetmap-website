@@ -1,0 +1,18 @@
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <ul class="nav nav-tabs flex-column flex-sm-row">
+    <li class="nav-item">
+      <%= link_to t(".account_settings"), edit_account_path, :class => "nav-link #{'active' if %w[accounts deletions].include?(controller_name)}" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to t(".oauth1_settings"), oauth_clients_path(current_user), :class => "nav-link #{'active' if controller_name == 'oauth_clients'}" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to t(".oauth2_applications"), oauth_applications_path, :class => "nav-link #{'active' if controller_name == 'oauth2_applications'}" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to t(".oauth2_authorizations"), oauth_authorized_applications_path, :class => "nav-link #{'active' if controller_name == 'oauth2_authorized_applications'}" %>
+    </li>
+  </ul>
+<% end %>

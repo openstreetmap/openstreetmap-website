@@ -1,4 +1,4 @@
-class CleanupBugTables < ActiveRecord::Migration[5.0]
+class CleanupBugTables < ActiveRecord::Migration[4.2]
   def self.up
     rename_column :map_bugs, :date_created, :created_at
     rename_column :map_bugs, :last_changed, :updated_at

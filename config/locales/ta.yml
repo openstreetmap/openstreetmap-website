@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Aswn
 # Author: ElangoRamanujam
+# Author: Gurulenin
 # Author: Karthi.dr
 # Author: Krishnaprasaths
 # Author: Mahir78
@@ -17,7 +18,38 @@ ta:
   time:
     formats:
       friendly: '%e %B %Y, %H:%M'
+  helpers:
+    file:
+      prompt: கோப்பை தேர்ந்தெடுக்கவும்
+    submit:
+      diary_comment:
+        create: சேமி
+      diary_entry:
+        create: வெளியிடு
+        update: புதுப்பி
+      issue_comment:
+        create: கருத்தை சேர்
+      message:
+        create: அனுப்பு
+      client_application:
+        create: பதிவுசெய்
+        update: புதுப்பி
+      doorkeeper_application:
+        create: பதிவுசெய்
+        update: புதுப்பி
+      redaction:
+        create: படித்திருத்தத்தை உருவாக்கவும்
+        update: படிதிருத்தத்தைச் சேமிக்கவும்
+      trace:
+        create: பதிவேற்று
+        update: மாற்றங்களை சேமி
+      user_block:
+        create: தொகுதியை உருவாக்கு
+        update: தொகுதியைப் புதுப்பி
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: செல்லுபடியாகும் மின்னஞ்சல் முகவரியாகத் தெரியவில்லை
     models:
       acl: அனுமதிக் கட்டுப்பாட்டுப் பட்டியல்
       changeset: மாற்றங்கள்
@@ -26,6 +58,7 @@ ta:
       diary_comment: கையேடு கருத்துரை
       diary_entry: Diary பதிவு
       friend: நண்பர்
+      issue: சிக்கல்
       language: மொழி
       message: செய்தி
       node: முனையம்
@@ -42,6 +75,7 @@ ta:
       relation: தொடர்பு
       relation_member: தொடர்பு உறுப்பினர்
       relation_tag: தொடர்பு இணைப்பு
+      report: அறிக்கை
       session: அமர்வு
       trace: சுவடு
       tracepoint: சுவடு புள்ளி
@@ -53,6 +87,18 @@ ta:
       way_node: வழி முனையம்
       way_tag: வழி இணைப்பு
     attributes:
+      client_application:
+        name: பெயர் (தேவை)
+        url: முதன்மை பயன்பாட்டு URL (தேவை)
+        callback_url: திரும்ப அழைக்கும் URL
+        support_url: URL ஐ ஆதரிக்கவும்
+        allow_read_prefs: அவர்களின் பயனர் விருப்பங்களைப் படிக்கவும்
+        allow_write_prefs: அவர்களின் பயனர் விருப்பங்களை மாற்றவும்
+        allow_write_diary: நாட்குறிப்பு உள்ளீடுகள், கருத்துகள் மற்றும் நண்பர்களை உருவாக்குங்கள்
+        allow_write_api: வரைபடத்தை மாற்றவும்
+        allow_read_gpx: அவர்களின் தனிப்பட்ட GPS தடங்களைப் படிக்கவும்
+        allow_write_gpx: GPS தடங்களை பதிவேற்றவும்
+        allow_write_notes: குறிப்புகளை மாற்றவும்
       diary_comment:
         body: உள்ளடக்கம்
       diary_entry:
@@ -61,41 +107,70 @@ ta:
         latitude: குறுக்குக் கோடு
         longitude: குத்துயரக் கோடு
         language: மொழி
+      doorkeeper/application:
+        name: பெயர்
+        redirect_uri: URI களை திருப்பி விடுங்கள்
+        confidential: ரகசிய செயலி?
+        scopes: அனுமதி
       friend:
         user: பயனர்
         friend: நண்பர்
       trace:
         user: பயனர்
         visible: காணக்கூடியது
-        name: பெயர்
+        name: கோப்பின் பெயர்
         size: அளவு
         latitude: குறுக்குக் கோடு
         longitude: குத்துயரம்
         public: பொது
         description: விளக்கம்
+        gpx_file: GPX கோப்பினை பதிவேற்றவும்
+        visibility: 'காணும்தூரம்:'
+        tagstring: குறிச்சொற்கள்
       message:
         sender: அனுப்புனர்
         title: பொருள்
         body: உள்ளடக்கம்
         recipient: பெறுனர்
+      redaction:
+        title: தலைப்பு
+        description: விளக்கம்
+      report:
+        category: உங்கள் அறிக்கைக்கு ஒரு காரணத்தைத் தேர்ந்தெடுக்கவும்
+        details: சிக்கலைப் பற்றி மேலும் சில விவரங்களை வழங்கவும் (தேவை).
       user:
+        auth_provider: அங்கீகார வழங்குநர்
+        auth_uid: அங்கீகார UID
         email: மின்னஞ்சல்
+        email_confirmation: மின்னஞ்சலை உறுதிசெய்தல்
+        new_email: புதிய மின்னஞ்சல் முகவரி
         active: செயல்பாட்டிலுள்ளது
         display_name: காட்டவிரும்பும் பெயர்
-        description: விளக்கம்
-        languages: மொழிகள்
+        description: சுயகுறிப்பு விளக்கம்
+        home_lat: அட்சரேகை
+        home_lon: தீர்க்கரேகை
+        languages: விருப்பமான மொழிகள்
+        preferred_editor: 'விருப்பமான திருத்துனர்:'
         pass_crypt: கடவுச்சொல்
+        pass_crypt_confirmation: கடவுச்சொல்லை உறுதிசெய்
+    help:
+      trace:
+        tagstring: காற்புள்ளி வரம்பில்லை
   editor:
     default: இயல்புநிலை (தற்போதைய %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (உலவியினுள்ளேயே அமைந்த தொகுப்பி)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (உலவியினுள்ளேயே அமைந்த தொகுப்பி)
     remote:
       name: தொலைவுக் கட்டுப்பாடு
       description: தொலைவு கட்டுப்பாடு (JOSM அல்லது Merkaartor)
+  accounts:
+    edit:
+      title: கணக்கை திருத்து
+      my settings: என் அமைப்புகள்
+      current email address: 'தற்பொழுதுள்ள மின்னஞ்சல் முகவரி:'
+      openid:
+        link text: இது என்ன?
+      contributor terms:
+        link text: இது என்ன?
+      save changes button: மாற்றங்களைச் சேமி
   browse:
     created: உருவாக்கப்பட்டது
     closed: மூடப்பட்டது
@@ -116,14 +191,14 @@ ta:
     relation:
       members: உறுப்பினர்கள்
     relation_member:
-      entry_role: '%{type} %{name} %{role} ஆக'
+      entry_role_html: '%{type} %{name} %{role} ஆக'
       type:
         node: சந்தி
         way: வழி
         relation: தொடர்பு
     containing_relation:
-      entry: தொடர்பு %{relation_name}
-      entry_role: தொடர்பு %{relation_name} (%{relation_role} ஆக)
+      entry_html: தொடர்பு %{relation_name}
+      entry_role_html: தொடர்பு %{relation_name} (%{relation_role} ஆக)
     not_found:
       sorry: மன்னிக்கவும், %{id} என்ற அடையாளம் கொண்ட %{type} கிடைக்கவில்லை.
       type:
@@ -172,10 +247,23 @@ ta:
     index:
       title: மாற்றங்கள்
       load_more: மேலும் படிக்க
+  dashboards:
+    contact:
+      km away: '%{count}கிமீ தாண்டி'
+      m away: '%{count}மீ தாண்டி'
+    popup:
+      your location: உங்களது இருப்பிடம்
+      friend: நண்பர்
+    show:
+      my friends: எனது நண்பர்கள்
+      no friends: நீங்கள் இதுவரை எந்த நண்பர்களையும் சேர்க்கவில்லை
+      nearby users: மற்ற அருகிலுள்ள பயனர்கள்
   diary_entries:
     new:
       title: புதிய டைரி உள்ளீடு
-      publish_button: வெளியிடு
+    form:
+      location: இடம்
+      use_map_link: வரைபடத்தைப் பயன்படுத்தவும்
     index:
       title: பயனரின் நாட்குறிப்பேடுகள்
       title_friends: நண்பர்களின் நாட்குறிப்பேடுகள்
@@ -190,22 +278,13 @@ ta:
       newer_entries: புதிய உள்ளீடுகள்
     edit:
       title: நாட்குறிப்பேடு  உள்ளீட்டை  திருத்து
-      subject: 'பொருள்:'
-      body: 'உரை:'
-      language: 'மொழி:'
-      location: 'இடம்:'
-      latitude: 'அட்சரேகை:'
-      longitude: 'தீர்க்கரேகை:'
-      use_map_link: வரைப்படத்தை பயன்படுத்தவும்
-      save_button: சேமி
       marker_text: டைரி உள்ளீடு பகுதி
     show:
       title: '%{user}''ன்  நாட்குறிப்பேடு| %{title}'
       user_title: '%{user}ன் நாட்குறிப்பேடு'
       leave_a_comment: ஒரு குறிப்பை இடவும்
-      login_to_leave_a_comment: '%{login_link} ஒரு குறிப்பைவிட'
+      login_to_leave_a_comment_html: '%{login_link} ஒரு குறிப்பைவிட'
       login: புகுபதிகை
-      save_button: சேமி
     no_such_entry:
       title: இத்தகைய டைரி உள்ளீடு இல்லை.
       heading: இந்த id :%{id} மூலமாக எந்த  உள்ளீடும் இல்லை
@@ -264,22 +343,18 @@ ta:
           marketplace: சந்தை கூடுமிடம்
           nightclub: இரவு கிளப்
           nursing_home: மருத்துவ இல்லம்
-          office: அலுவலகம்
           parking: வண்டிகள் நிறுத்துமிடம்
           pharmacy: மருந்தகம்
           place_of_worship: வழிபாட்டுத் தலம்
           police: காவல்
           post_box: அஞ்சல் பெட்டி
           post_office: தபால் நிலையம்
-          preschool: முன் பள்ளி
           prison: சிறைச்சாலை
           public_building: பொது கட்டிடம்
           recycling: மறுசுழற்சி புள்ளி
           restaurant: உணவு விடுதி
-          retirement_home: ஓய்வு இல்லம்
           school: பள்ளிக்கூடம்
           shelter: தங்குமிடம்
-          shop: கடை
           studio: ஸ்டுடியோ
           swimming_pool: நீச்சல் தடாகம்
           taxi: வாடகை வண்டி
@@ -291,7 +366,6 @@ ta:
           vending_machine: விற்பனை இயந்திரம்
           veterinary: கால்நடை அறுவை சிகிச்சை
           village_hall: கிராம சபை
-          youth_centre: இளைஞர் மையம்
         boundary:
           administrative: நிர்வாக எல்லை
           national_park: தேசியப் பூங்கா
@@ -299,13 +373,28 @@ ta:
         bridge:
           "yes": பாலம்
         building:
+          church: தேவாலயம்
+          commercial: வணிக கட்டிடம்
+          farm: பண்ணை கட்டிடம்
+          garage: வாகனம் நிறுத்தும் அறை
+          hospital: மருத்துவமனை கட்டிடம்
+          hotel: விடுதி
+          house: வீடு
+          industrial: தொழிற்சாலை கட்டிடம்
+          office: அலுவலக கட்டிடம்
+          public: பொது கட்டிடம்
+          residential: குடியிருப்பு கட்டிடம்
+          retail: சில்லறை வியாபார கட்டிடம்
+          school: பள்ளிக் கட்டிடம்
+          terrace: டெரஸ் கட்டடம்
+          train_station: ரயில் நிலையம்
+          university: பல்கலைக்கழக கட்டிடம்
           "yes": கட்டிடம்
         craft:
           tailor: தையற்காரர்
           "yes": கைவினைப் பொருள் அங்காடி
         emergency:
           ambulance_station: அவசர ஊர்தி நிலையம்
-          "yes": அவசரம்
         highway:
           abandoned: கைவிடப்பட்ட நெடுஞ்சாலை
           bus_guideway: வழிநடத்தப்பட்ட பேருந்து தடம்
@@ -336,7 +425,6 @@ ta:
           castle: கோட்டை
           church: தேவாலயம்
           house: வீடு
-          icon: படவுரு
           memorial: நினைவிடம்
           mine: சுரங்கம்
           monument: நினைவுச்சின்னம்
@@ -379,6 +467,7 @@ ta:
           bay: வளைகுடா
           beach: கடற்கரை
           cave_entrance: குகை நுழைவாயில்
+          coastline: கடற்கரை பகுதி
           grassland: புல்வெளி
           heath: சுகாதாரம்
           hill: குன்று
@@ -415,7 +504,6 @@ ta:
           subdivision: துணைப்பிரிவு
           suburb: புறநகர்
           town: நகரம்
-          unincorporated_area: இணைக்கப்படாத பகுதி
           village: கிராமம்
         railway:
           abandoned: கைவிடப்பட்ட தொடர்வண்டி பாதை
@@ -440,12 +528,9 @@ ta:
           computer: கணினி கடை
           farm: விவசாய கடை
           fashion: நாகரிக கடை
-          fish: மீன் கடை
           food: உணவுக் கடை
-          gallery: காட்சியகம்
           jewelry: நகைக் கடை
           laundry: சலவை
-          market: சந்தை
           mobile_phone: கைப்பேசி கடை
           motorcycle: மோட்டார் சைக்கிள் கடை
           pet: வளர்ப்பு விலங்குகள் கடை
@@ -468,7 +553,6 @@ ta:
           lock: பூட்டு
           river: ஆறு
           waterfall: நீர்வீழ்ச்சி
-    description:
       types:
         cities: மாநகரங்கள்
         towns: நகரங்கள்
@@ -501,16 +585,10 @@ ta:
       text: ஒரு நன்கொடையை அளிக்கவும்
     learn_more: மேலும் அறிய
     more: மேலும்
-  notifier:
-    gpx_notification:
+  user_mailer:
+    email_confirm:
       greeting: வணக்கம்,
-    email_confirm_plain:
-      greeting: வணக்கம்,
-    email_confirm_html:
-      greeting: வணக்கம்,
-    lost_password_plain:
-      greeting: வணக்கம்,
-    lost_password_html:
+    lost_password:
       greeting: வணக்கம்,
     changeset_comment_notification:
       greeting: வணக்கம்,
@@ -527,10 +605,9 @@ ta:
       destroy_button: நீக்கு
     new:
       title: தகவல் அனுப்பு
-      send_message_to: '%{name} க்கு புதிய தகவல் அனுப்பு'
+      send_message_to_html: '%{name} க்கு புதிய தகவல் அனுப்பு'
       subject: பொருள்
       body: உரை
-      send_button: அனுப்பு
       back_to_inbox: உள்பெட்டிக்கு திரும்பவும்
     create:
       message_sent: செய்தி அனுப்பப்பட்டுவிட்டது
@@ -539,8 +616,6 @@ ta:
       heading: அப்படியொரு தகவல் இல்லை
     outbox:
       title: அனுப்பியவை
-      inbox: உள்பெட்டி
-      outbox: வெளிப்பெட்டி
       subject: பொருள்
       date: நாள்
     show:
@@ -556,6 +631,43 @@ ta:
       destroy_button: நீக்கு
     destroy:
       destroyed: தகவல் நீக்கப்பட்டது
+  passwords:
+    lost_password:
+      title: காணப்படாத கடவுச்சொல்
+      heading: கடவுச்சொல் மறந்துவிட்டதா?
+      email address: 'மின்னஞ்சல் முகவரி:'
+      new password button: கடவுச்சொல்லை மீட்டமை
+    reset_password:
+      title: கடவுச்சொல்லை மீட்டமை
+      heading: ' %{user}க்கு கடவுச்சொல் மீட்டமை'
+      reset: கடவுச்சொல்லை மீட்டமை
+      flash changed: உங்கள் கடவுச்சொல் மாற்றப்பட்டது.
+  profiles:
+    edit:
+      image: 'படம்:'
+      new image: ஒரு படத்தை சேர்
+      keep image: நடப்பு படத்தை வைத்திரு
+      delete image: நடப்பு படத்தை நீக்கு
+  sessions:
+    new:
+      title: புகுபதிகை
+      heading: புகுபதிகை
+      email or username: 'மின்னஞ்சல் முகவரி அல்லது பயனர் பெயர்:'
+      password: 'கடவுச்சொல்:'
+      remember: என்னை நினைவில் வைத்துக்கொள்ளவும்
+      lost password link: உங்கள் கடவுச்சொல் மறந்துவிட்டதா?
+      login_button: புகுபதிகை
+      register now: இப்போது பதிவுசெய்யுங்கள்
+    destroy:
+      title: விடுபதிகை
+      logout_button: விடுபதிகை
+  shared:
+    markdown_help:
+      heading: தலைப்பு
+      text: உரை
+      image: படம்
+    richtext_field:
+      edit: தொகு
   site:
     about:
       next: அடுத்தது
@@ -618,26 +730,9 @@ ta:
         title: விதிமுறைகள்!
   traces:
     new:
-      description: 'விளக்கம்:'
-      tags: 'குறிச்சொற்கள்:'
-      tags_help: காற்புள்ளி வரம்பில்லை
-      visibility: 'காணும்தூரம்:'
       visibility_help: இது எதைக் குறிக்கிறது?
-      upload_button: பதிவேற்று
       help: உதவி
     edit:
-      filename: 'கோப்புப்பெயர்:'
-      download: தரவிறக்கு
-      uploaded_at: 'பதிவேற்றப்பட்டது:'
-      points: 'புள்ளிகள்:'
-      map: வரைபடம்
-      edit: தொகு
-      owner: 'உரிமையாளர்:'
-      description: 'விளக்கம்:'
-      tags: 'குறிச்சொற்கள்:'
-      tags_help: காற்புள்ளி வரம்பில்லை
-      save_button: மாற்றங்களை சேமி
-      visibility: 'காணும்தூரம்:'
       visibility_help: இது எதைக் குறிக்கிறது?
     trace_optionals:
       tags: குறிச்சொற்கள்
@@ -659,63 +754,26 @@ ta:
     trace:
       more: மேலும்
       view_map: வரைபடத்தை காண்
-      edit: தொகு
       edit_map: வரைபடத்தை திருத்து
       public: பொது
       identifiable: அடையாளம் காணக்கூடிய
       private: தனியார்
       by: மூலம்
       in: உள்
-      map: வரைபடம்
     index:
       upload_trace: சுவடை பதிவேற்றவும்
-      see_all_traces: அனைத்து சுவடுகளையும் காண்
   oauth_clients:
-    new:
-      submit: பதிவுசெய்
-    edit:
-      submit: தொகு
     show:
       edit: தொகுப்பு விவரங்கள்
       confirm: உறுதியாகவா?
     index:
       revoke: திரும்பபெறு
-    form:
-      name: பெயர்
-      required: தேவைப்படும்
   users:
-    login:
-      title: புகுபதிகை
-      heading: புகுபதிகை
-      email or username: 'மின்னஞ்சல் முகவரி அல்லது பயனர் பெயர்:'
-      password: 'கடவுச்சொல்:'
-      remember: என்னை நினைவில் வைத்துக்கொள்ளவும்
-      lost password link: உங்கள் கடவுச்சொல் மறந்துவிட்டதா?
-      login_button: புகுபதிகை
-      register now: இப்போது பதிவுசெய்யுங்கள்
-    logout:
-      title: விடுபதிகை
-      logout_button: விடுபதிகை
-    lost_password:
-      title: காணப்படாத கடவுச்சொல்
-      heading: கடவுச்சொல் மறந்துவிட்டதா?
-      email address: 'மின்னஞ்சல் முகவரி:'
-      new password button: கடவுச்சொல்லை மீட்டமை
-    reset_password:
-      title: கடவுச்சொல்லை மீட்டமை
-      heading: ' %{user}க்கு கடவுச்சொல் மீட்டமை'
-      password: 'கடவுச்சொல்:'
-      confirm password: 'கடவுச்சொல்லை உறுதிசெய்:'
-      reset: கடவுச்சொல்லை மீட்டமை
-      flash changed: உங்கள் கடவுச்சொல் மாற்றப்பட்டது.
     new:
       title: கணக்கை உருவாக்கு
       email address: 'மின்னஞ்சல் முகவரி:'
       confirm email address: 'மின்னஞ்சல் முகவரியை உறுதி செய்யவும்:'
-      password: 'கடவுச்சொல்:'
-      confirm password: 'கடவுச்சொல்லை உறுதிசெய்:'
     terms:
-      agree: ஏற்றுக் கொள்
       decline: நிராகரி
       legale_names:
         france: பிரான்சு
@@ -732,7 +790,6 @@ ta:
       diary: நாட்குறிப்பேடு
       edits: தொகுப்புகள்
       add as friend: நண்பராக சேர்
-      ago: (%{time_in_words_ago} முன்பு)
       ct status: 'பங்களிப்பாளர் விதிமுறைகள்:'
       ct undecided: முடிவு செய்யப்படாத
       ct declined: நிராகரிக்கப்பட்டது
@@ -741,12 +798,6 @@ ta:
       status: 'நிலை:'
       description: விளக்கம்
       user location: பயனர் அமைவிடம்
-      settings_link_text: அமைப்புகள்
-      my friends: எனது நண்பர்கள்
-      no friends: நீங்கள் இதுவரை எந்த நண்பர்களையும் சேர்க்கவில்லை
-      km away: '%{count}கிமீ தாண்டி'
-      m away: '%{count}மீ தாண்டி'
-      nearby users: மற்ற அருகிலுள்ள பயனர்கள்
       role:
         administrator: இந்த பயனர் ஒரு நிர்வாகி
         moderator: இந்த பயனர் ஒரு நடுவர்
@@ -767,26 +818,6 @@ ta:
       unhide_user: இந்த பயனரை மறைத்ததை நீக்கு
       delete_user: இப்பயனரை நீக்கவும்
       confirm: உறுதிசெய்
-    popup:
-      your location: உங்களது இருப்பிடம்
-      friend: நண்பர்
-    account:
-      title: கணக்கை திருத்து
-      my settings: என் அமைப்புகள்
-      current email address: 'தற்பொழுதுள்ள மின்னஞ்சல் முகவரி:'
-      new email address: 'புதிய மின்னஞ்சல் முகவரி:'
-      openid:
-        link text: இது என்ன?
-      contributor terms:
-        link text: இது என்ன?
-      profile description: 'சுயகுறிப்பு விளக்கம்:'
-      preferred languages: 'விருப்பமான மொழிகள்:'
-      preferred editor: 'விருப்பப்பட்ட திருத்துனர்:'
-      image: 'படம்:'
-      new image: ஒரு படத்தை சேர்
-      keep image: நடப்பு படத்தை வைத்திரு
-      delete image: நடப்பு படத்தை நீக்கு
-      save changes button: மாற்றங்களைச் சேமி
     index:
       title: பயனர்கள்
       heading: பயனர்கள்

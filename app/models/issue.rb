@@ -30,11 +30,11 @@
 #  issues_updated_by_fkey        (updated_by => users.id)
 #
 
-class Issue < ActiveRecord::Base
+class Issue < ApplicationRecord
   belongs_to :reportable, :polymorphic => true
-  belongs_to :reported_user, :class_name => "User", :foreign_key => :reported_user_id
-  belongs_to :user_resolved, :class_name => "User", :foreign_key => :resolved_by
-  belongs_to :user_updated, :class_name => "User", :foreign_key => :updated_by
+  belongs_to :reported_user, :class_name => "User", :optional => true
+  belongs_to :user_resolved, :class_name => "User", :foreign_key => :resolved_by, :optional => true
+  belongs_to :user_updated, :class_name => "User", :foreign_key => :updated_by, :optional => true
 
   has_many :reports, :dependent => :destroy
   has_many :comments, :class_name => "IssueComment", :dependent => :destroy
@@ -46,7 +46,7 @@ class Issue < ActiveRecord::Base
 
   before_validation :set_reported_user
 
-  scope :with_status, ->(issue_status) { where(:status => statuses[issue_status]) }
+  scope :with_status, ->(issue_status) { where(:status => issue_status) }
   scope :visible_to, ->(user) { where(:assigned_role => user.roles.map(&:role)) }
 
   def read_reports
@@ -70,7 +70,7 @@ class Issue < ActiveRecord::Base
     event :resolve do
       transitions :from => :open, :to => :resolved
       after do
-        self.resolved_at = Time.now.getutc
+        self.resolved_at = Time.now.utc
       end
     end
 

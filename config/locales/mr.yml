@@ -12,6 +12,18 @@ mr:
   time:
     formats:
       friendly: '%e %B %Y, %H:%M ला'
+  helpers:
+    submit:
+      diary_comment:
+        create: जतन करा
+      message:
+        create: पाठवा
+      client_application:
+        create: नोंदणी करा
+        update: संपादन
+      trace:
+        create: चढवा
+        update: जतन करा
   activerecord:
     models:
       acl: पोहोच नियंत्रण यादी
@@ -68,32 +80,49 @@ mr:
         longitude: रेखांश
         public: सार्वजनिक
         description: वर्णन
+        visibility: 'दृश्यता:'
+        tagstring: 'खूणपताका:'
       message:
         sender: प्रेषक
         title: विषय
         body: मायना
         recipient: प्राप्तकर्ता
+      redaction:
+        description: वर्णन
       user:
         email: ई-मेल
         active: सक्रिय
         display_name: दर्शवायचे नाव
         description: वर्णन
+        home_lat: 'अक्षांश:'
+        home_lon: 'रेखांश:'
         languages: भाषा
         pass_crypt: परवलीचा शब्द
+    help:
+      trace:
+        tagstring: स्वल्पविरामाने परिसीमित
   editor:
     default: सामान्यतः (सध्या %{name})
-    potlatch:
-      name: पॉटलॅच १
-      description: पॉटलॅच १ (न्याहाळकात चालणारा संपादक)
     id:
       name: iD
       description: iD (न्याहाळकात चालणारा संपादक)
-    potlatch2:
-      name: पॉटलॅच २
-      description: पॉटलॅच २ (न्याहाळकात चालणारा संपादक)
     remote:
       name: सुदूर नियंत्रण
       description: सुदूर नियंत्रण (JOSM अथवा Merkaartor)
+  accounts:
+    edit:
+      title: खाते संपादा
+      my settings: माझ्या मांडण्या
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: हे काय आहे?
+      public editing:
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: हे काय आहे?
+        disabled link text: मी संपादन कां करू शकत नाही?
+      contributor terms:
+        link text: हे काय आहे?
+      save changes button: बदल जतन करा
   browse:
     created: बनविले
     closed: बंद केले
@@ -130,28 +159,28 @@ mr:
         title: बदलसंच %{id}
         title_comment: बदलसंच %{id} - %{comment}
     node:
-      title: 'गाठ: %{name}'
-      history_title: 'गाठीचा इतिहास: %{name}'
+      title_html: 'गाठ: %{name}'
+      history_title_html: 'गाठीचा इतिहास: %{name}'
     way:
-      title: 'मार्ग: %{name}'
-      history_title: 'मार्गाचा इतिहास: %{name}'
+      title_html: 'मार्ग: %{name}'
+      history_title_html: 'मार्गाचा इतिहास: %{name}'
       nodes: गाठी
-      also_part_of:
+      also_part_of_html:
         one: '%{related_ways} मार्गाचा भाग'
         other: '%{related_ways} मार्गांचा भाग'
     relation:
-      title: 'संबंध: %{name}'
-      history_title: 'संबंधाचा इतिहास: %{name}'
+      title_html: 'संबंध: %{name}'
+      history_title_html: 'संबंधाचा इतिहास: %{name}'
       members: सदस्य
     relation_member:
-      entry_role: '%{type} %{name}, %{role} म्हणून'
+      entry_role_html: '%{type} %{name}, %{role} म्हणून'
       type:
         node: गाठ
         way: मार्ग
         relation: संबंध
     containing_relation:
-      entry: संबंध %{relation_name}
-      entry_role: संबंध %{relation_name} (%{relation_role} म्हणून)
+      entry_html: संबंध %{relation_name}
+      entry_role_html: संबंध %{relation_name} (%{relation_role} म्हणून)
     not_found:
       sorry: 'क्षमा असावी, %{type} #%{id} सापडले नाही.'
       type:
@@ -192,21 +221,24 @@ mr:
       open_title: 'निराकरण न झालेली टीप #%{note_name}'
       closed_title: 'निराकरण झालेली टीप #%{note_name}'
       hidden_title: 'लपविलेली टीप #%{note_name}'
-      open_by: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने तयार केले
-      open_by_anonymous: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr> अनामिकाने
+      opened_by_html: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने
         तयार केले
-      commented_by: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ची टिप्पणी
-      commented_by_anonymous: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr> अनामिकाची
-        टिप्पणी
-      closed_by: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने वियोजित
-        केले
-      closed_by_anonymous: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr> अनामिकाने
+      opened_by_anonymous_html: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>
+        अनामिकाने तयार केले
+      commented_by_html: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user}
+        ची टिप्पणी
+      commented_by_anonymous_html: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>
+        अनामिकाची टिप्पणी
+      closed_by_html: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने
         वियोजित केले
-      reopened_by: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने सक्रिय
-        केले
-      reopened_by_anonymous: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr> अनामिकाने
+      closed_by_anonymous_html: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>
+        अनामिकाने वियोजित केले
+      reopened_by_html: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने
         सक्रिय केले
-      hidden_by: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने लपविले
+      reopened_by_anonymous_html: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>
+        अनामिकाने सक्रिय केले
+      hidden_by_html: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने
+        लपविले
   changesets:
     changeset_paging_nav:
       showing_page: लेख %{page}
@@ -236,9 +268,26 @@ mr:
       load_more: अधिक प्रभारण करा
     timeout:
       sorry: क्षमा असावी, आपण मागितलेली बदलसंचाची यादी मिळविण्यास फार वेळ लागला.
+  dashboards:
+    contact:
+      km away: '%{count} कि.मी. दूर'
+      m away: '%{count} मी. दूर'
+    popup:
+      your location: आपले ठिकाण
+      nearby mapper: जवळपासचे नकाशाकार
+      friend: मित्र
+    show:
+      nearby users: जवळपासचे इतर सदस्य
+      friends_changesets: मित्रांचे बदलसंच
+      friends_diaries: मित्रांच्या अनुदिनीतील नोंदी
+      nearby_changesets: जवळपासच्या सदस्यांचे बदलसंच
+      nearby_diaries: जवळपासच्या सदस्यांच्या अनुदिनीतील नोंदी
   diary_entries:
     new:
       title: अनुदिनीत नवी नोंद
+    form:
+      location: 'ठिकाण:'
+      use_map_link: नकाशा वापरा
     index:
       title: सदस्यांच्या अनुदिनी
       title_friends: मित्रांच्या अनुदिनी
@@ -253,22 +302,13 @@ mr:
       newer_entries: नव्या नोंदी
     edit:
       title: रोजनिशीतील नोंद संपादा
-      subject: 'विषय:'
-      body: 'मायना:'
-      language: 'भाषा:'
-      location: 'ठिकाण:'
-      latitude: 'अक्षांश:'
-      longitude: 'रेखांश:'
-      use_map_link: नकाशा वापरा
-      save_button: जतन करा
       marker_text: रोजनिशीतील नोंदीचे ठिकाण
     show:
       title: '%{user}ची रोजनिशी | %{title}'
       user_title: '%{user}ची रोजनिशी'
       leave_a_comment: टिप्पणी टाका
-      login_to_leave_a_comment: टिप्प्णी लिहिण्यासाठी %{login_link}
+      login_to_leave_a_comment_html: टिप्प्णी लिहिण्यासाठी %{login_link}
       login: सनोंद-प्रवेश करा
-      save_button: जतन करा
     no_such_entry:
       title: रोजनिशीत अशी नोंद नाही
       heading: '%{id} क्रमांकाची नोंद अस्तित्वात नाही'
@@ -276,7 +316,7 @@ mr:
         नाही. कृपया आपले वर्णलेखन तपासा, किंवा कदाचित आपण चुकीच्या दुव्यावर टिचकी
         दिली असेल.
     diary_entry:
-      posted_by: '%{link_user}ने %{created} ला %{language_link} भाषेत लिहीले'
+      posted_by_html: '%{link_user}ने %{created} ला %{language_link} भाषेत लिहीले'
       comment_link: या नोंदीवर अभिप्राय लिहा
       reply_link: या नोंदीस उत्तर द्या
       comment_count:
@@ -287,7 +327,7 @@ mr:
       hide_link: ही नोंद लपवा
       confirm: खात्री करा
     diary_comment:
-      comment_from: '%{link_user}कडून %{comment_created_at}ला अभिप्राय'
+      comment_from_html: '%{link_user}कडून %{comment_created_at}ला अभिप्राय'
       hide_link: हा अभिप्राय लपवा
       confirm: खात्री करा
     location:
@@ -305,24 +345,22 @@ mr:
         title: ओपनस्ट्रीटमॅप अनुदिनीतील नोंदी
         description: ओपनस्ट्रीटमॅप सदस्यांकडून अलीकडील अनुदिनी-नोंदी
     comments:
-      has_commented_on: '%{display_name}ने खालील अनुदिनी नोंदींवर अभिप्राय दिले आहेत'
       post: पाठवा
       when: कधी
       comment: अभिप्राय
-      ago: '%{ago} पूर्वी'
       newer_comments: नवे अभिप्राय
       older_comments: जुने अभिप्राय
   geocoder:
     search:
       title:
-        latlon: निकाल <a href="https://openstreetmap.org/">अंतर्गत</a>
-        ca_postcode: निकाल <a href="http://geocoder.ca/">जिओकोडर.सीए</a>
-        osm_nominatim: निकाल <a href="https://nominatim.openstreetmap.org/">ओपनस्ट्रीटमॅप
+        latlon_html: निकाल <a href="https://openstreetmap.org/">अंतर्गत</a>
+        ca_postcode_html: निकाल <a href="http://geocoder.ca/">जिओकोडर.सीए</a>
+        osm_nominatim_html: निकाल <a href="https://nominatim.openstreetmap.org/">ओपनस्ट्रीटमॅप
           नॉमिनॅटिम</a>
-        geonames: निकाल <a href="http://www.geonames.org/">जिओनेम्स</a>
-        osm_nominatim_reverse: निकाल <a href="https://nominatim.openstreetmap.org/">ओपनस्ट्रीटमॅप
+        geonames_html: निकाल <a href="http://www.geonames.org/">जिओनेम्स</a>
+        osm_nominatim_reverse_html: निकाल <a href="https://nominatim.openstreetmap.org/">ओपनस्ट्रीटमॅप
           नॉमिनॅटिम</a>
-        geonames_reverse: निकाल <a href="http://www.geonames.org/">जिओनेम्स</a>
+        geonames_reverse_html: निकाल <a href="http://www.geonames.org/">जिओनेम्स</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -382,27 +420,21 @@ mr:
           marketplace: बाजार
           nightclub: रात्री क्लब
           nursing_home: शुश्रुषागृह
-          office: कार्यालय
           parking: वाहनतळ
           pharmacy: औषधालय
           place_of_worship: पूजास्थान
           police: पोलिस
           post_box: टपालपेटी
           post_office: टपाल कार्यालय
-          preschool: शिशुशाळा
           prison: कारागृह
           pub: मद्यपानगृह
           public_building: सार्वजनिक इमारत
           recycling: पुनश्चक्रण केंद्र
           restaurant: उपाहारगृह
-          retirement_home: आरामगृह
-          sauna: सॉना
           school: शाळा
           shelter: आश्रयस्थान
-          shop: दुकान
           shower: तुषारक
           social_centre: समाज केंद्र
-          social_club: समाज क्लब
           social_facility: सामाजिक सुविधा
           studio: कलागृह
           swimming_pool: जलतरण तलाव
@@ -416,7 +448,6 @@ mr:
           veterinary: पशू शल्यक्रिया
           village_hall: गाव सभागृह
           waste_basket: कचरा टोपली
-          youth_centre: युवक केंद्र
         boundary:
           administrative: प्रशासकीय सीमा
           census: जनगणना सीमा
@@ -464,7 +495,6 @@ mr:
           steps: पायऱ्या
           street_lamp: पथ दिवा
           track: वाट
-          trail: पायवाट
           trunk: महामार्ग
           trunk_link: महामार्ग
           unclassified: अवर्गीकृत रस्ता
@@ -478,7 +508,6 @@ mr:
           citywalls: शहराच्या भिंती
           fort: किल्ला
           house: घर
-          icon: संकेतचिन्ह
           manor: हवेली
           memorial: स्मारक
           mine: खाण
@@ -514,7 +543,6 @@ mr:
           reservoir_watershed: जलाशयाचे पाणलोट क्षेत्र
           residential: निवासी क्षेत्र
           retail: विक्री
-          road: रस्त्याचे क्षेत्र
           village_green: गावहिरवळ
           vineyard: द्राक्षमळा
         leisure:
@@ -613,7 +641,6 @@ mr:
           subdivision: उपविभाग
           suburb: उपनगर
           town: गाव
-          unincorporated_area: असमाविष्ट क्षेत्र
           village: खेडे
         railway:
           abandoned: त्यक्त लोहमार्ग
@@ -638,6 +665,7 @@ mr:
           switch: रेल्वे बिंदू
           tram: ट्राममार्ग
           tram_stop: ट्राम स्थानक
+          yard: रेल्वे आवार
         shop:
           alcohol: परवानाबाह्य
           antiques: पुरावस्तु
@@ -669,12 +697,10 @@ mr:
           estate_agent: स्थावर अभिकर्ता
           farm: शेत दुकान
           fashion: फॅशन दुकान
-          fish: मत्स्य दुकान
           florist: फुलविक्रेता
           food: भोजन दुकान
           funeral_directors: मयत निर्देशक
           furniture: उपस्कर
-          gallery: दिर्घिका
           garden_centre: बगिचा केंद्र
           general: फुटकळ दुकान
           gift: भेटवस्तु दुकान
@@ -686,7 +712,6 @@ mr:
           kiosk: टपरी
           laundry: धुलाई केंद्र
           mall: मॉल
-          market: बाजार
           mobile_phone: भ्रमणध्वनी दुकान
           motorcycle: मोटरसायकल दुकान
           music: संगीत दुकान
@@ -695,7 +720,6 @@ mr:
           organic: सेंद्रिय अन्नदुकान
           outdoor: खुले दुकान
           pet: पाळीवप्राणी दुकान
-          pharmacy: औषधालय
           photo: फोटो दुकान
           second_hand: वापरलेल्या वस्तूंचे दुकान
           shoes: जोडे दुकान
@@ -755,11 +779,6 @@ mr:
         level8: शहर सिमा
         level9: खेडे सिमा
         level10: उपनगर सिमा
-    description:
-      title:
-        osm_nominatim: स्थान <a href="https://nominatim.openstreetmap.org/">ओपनस्ट्रीटमॅप
-          नॉमिनॅटिम मार्फत</a>
-        geonames: स्थान <a href="http://www.geonames.org/">जिओनेम्स मार्फत</a>
       types:
         cities: शहरे
         towns: गावे
@@ -812,7 +831,7 @@ mr:
       text: देणगी द्या
     learn_more: अधिक जाणून घ्या
     more: अधिक
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user}ने एका अनुदिनीतील नोंदीवर अभिप्राय दिला'
     message_notification:
@@ -820,25 +839,15 @@ mr:
         संदेश पाठविला'
       footer_html: आपण %{readurl} येथेही संदेश वाचू शकता, आणि %{replyurl} येथे उत्तर
         देऊ शकता
-    gpx_notification:
-      with_description: च्या वर्णनासह
     signup_confirm:
       greeting: नमस्कार!
       welcome: आपण खातेनिश्चिती केल्यावर,सुरुवात करण्यास आम्ही आपणास अधिकची माहिती
         देउ
-    email_confirm_plain:
-      greeting: नमस्कार,
-      click_the_link: जर ते आपणच असाल,तर बदलांची खात्री करण्यास खालील दुवा टिचका.
-    email_confirm_html:
+    email_confirm:
       greeting: नमस्कार,
       click_the_link: जर ते आपणच असाल,तर बदलांची खात्री करण्यास खालील दुवा टिचका.
     lost_password:
       subject: '[OpenStreetMap] परवलीचा शब्द पुनर्स्थापन विनंती'
-    lost_password_plain:
-      greeting: नमस्कार,
-      click_the_link: जर ते आपणच असाल,तर परवलीचा शब्द पुनर्स्थापन करण्यास खालील दुवा
-        टिचका.
-    lost_password_html:
       greeting: नमस्कार,
       click_the_link: जर ते आपणच असाल,तर परवलीचा शब्द पुनर्स्थापन करण्यास खालील दुवा
         टिचका.
@@ -846,11 +855,23 @@ mr:
       anonymous: एक अनामिक सदस्य
       greeting: नमस्कार,
       details: '%{url} येथे टीपेबद्दल अधिक तपशील मिळू शकेल.'
+  confirmations:
+    confirm:
+      heading: आपले विपत्र तपासा!
+      introduction_1: आम्ही आपणास निश्चितीकरणास विपत्र पाठविले आहे.
+      introduction_2: विपत्रातील दुव्यावर टिचकी मारुन आपली खातेनिश्चिती करा व आपण
+        नकाशा काढणे सुरु करु शकता.
+      button: खात्री करा
+      already active: या खात्याची आधीच निश्चिती झाली आहे.
+      unknown token: तो निश्चिती संकेत कालबाह्य झाला आहे किंवा अस्तित्वात नाही.
+      reconfirm_html: जर आपणास आम्ही पुन्हा  विपत्र पाठविणे आवश्यक वाटते, तर<a href="%{reconfirm}">येथे
+        टिचकी मारा</a>.
+    confirm_resend:
+      failure: सदस्य %{name} सापडला नाही.
   messages:
     inbox:
       title: अंतर्पेटी
       my_inbox: माझी अंतर्पेटी
-      outbox: बाह्यपेटी
       messages: आपल्यासाठी %{new_messages} आणि %{old_messages} आहेत
       new_messages:
         one: '%{count} नवा संदेश'
@@ -861,7 +882,7 @@ mr:
       from: प्रेषक
       subject: विषय
       date: दिनांक
-      no_messages_yet: आपल्यासाठी अद्याप संदेश नाहीत. %{people_mapping_nearby_link}
+      no_messages_yet_html: आपल्यासाठी अद्याप संदेश नाहीत. %{people_mapping_nearby_link}
         संपर्क साधावा काय?
       people_mapping_nearby: जवळपासच्या इतर नकाशाकारांशी
     message_summary:
@@ -871,10 +892,9 @@ mr:
       destroy_button: वगळा
     new:
       title: संदेश पाठवा
-      send_message_to: '%{name}ला नवीन संदेश पाठवा'
+      send_message_to_html: '%{name}ला नवीन संदेश पाठवा'
       subject: विषय
       body: मायना
-      send_button: पाठवा
       back_to_inbox: अंतर्पेटीकडे परत
     create:
       message_sent: संदेश पाठविला
@@ -885,15 +905,13 @@ mr:
       body: त्या ओळखणीचा कोणताही संदेश नाही
     outbox:
       title: बाह्यपेटी
-      inbox: अंतर्पेटी
-      outbox: बाह्यपेटी
       messages:
         one: आपण पाठविलेला %{count} संदेश
         other: आपण पाठविलेले %{count} संदेश
       to: प्रति
       subject: विषय
       date: दिनांक
-      no_sent_messages: आपण अद्याप कुठलेही संदेश पाठविलेले नाहीत. %{people_mapping_nearby_link}
+      no_sent_messages_html: आपण अद्याप कुठलेही संदेश पाठविलेले नाहीत. %{people_mapping_nearby_link}
         संपर्क साधावा काय?
       people_mapping_nearby: जवळपासच्या इतर नकाशाकारांशी
     reply:
@@ -919,6 +937,39 @@ mr:
       as_unread: संदेश वाचला नाही अशी खूण केली
     destroy:
       destroyed: संदेश वगळला
+  passwords:
+    lost_password:
+      heading: परवलीचा शब्द विसरला?
+      email address: 'विपत्र पत्ता:'
+      new password button: परवलीचा शब्द पुनर्स्थापित करा
+    reset_password:
+      title: परवलीचा शब्द पुनर्स्थापित करा
+      heading: '%{user}साठी परवलीचा शब्द पुनर्स्थापित करा'
+      reset: परवलीचा शब्द पुनर्स्थापित करा
+      flash changed: आपला परवलीचा शब्द बदलण्यात आला आहे.
+  profiles:
+    edit:
+      image: 'चित्र:'
+      gravatar:
+        gravatar: Gravatar वापरा
+      new image: चित्र जोडा
+      keep image: वर्तमान चित्र राखा
+      delete image: वर्तमान चित्र काढून टाका
+      replace image: वर्तमान चित्र बदला
+      image size hint: (किमान १००x१०० आकाराची चौरस चित्रे उत्तम)
+  sessions:
+    new:
+      title: सनोंद प्रवेश करा
+      heading: सनोंद प्रवेश करा
+      email or username: 'विपत्रपत्ता किंवा सदस्यनाव:'
+      password: 'परवलीचा शब्द:'
+      remember: माझी आठवण ठेवा
+      lost password link: परवलीचा शब्द विसरलात?
+      login_button: सनोंद प्रवेश करा
+      register now: आत्ता नोंदणी करा
+      new to osm: ओपनस्ट्रीटमॅपवर नवीन?
+      create account minute: खाते उघडा. केवळ एका मिनिटाचे काम आहे.
+      no account: आपले खाते नाही?
   site:
     about:
       next: पुढील
@@ -930,12 +981,12 @@ mr:
     copyright:
       foreign:
         title: या भाषांतराबद्दल
-        text: या भाषांतरीत पानाच्या व %{english_original_link} यादरम्यान काही वादाचा
+        html: या भाषांतरीत पानाच्या व %{english_original_link} यादरम्यान काही वादाचा
           प्रसंग उद्भवल्यास, मूळ इंग्लिश पानास प्राथमिकता राहील.
         english_link: मूळ इंग्लिश
       native:
         title: या पानाबद्दल
-        text: आपण या प्रताधिकार पानाची इंग्लिश आवृत्ती पहात आहात. आपण या पानाच्या
+        html: आपण या प्रताधिकार पानाची इंग्लिश आवृत्ती पहात आहात. आपण या पानाच्या
           %{native_link}कडे परत जाऊ शकता, किंवा प्रताधिकाराबद्दल वाचणे थांबवून %{mapping_link}
           सुरु करू शकता.
         native_link: मराठी आवृत्ती
@@ -960,8 +1011,8 @@ mr:
         copyright: प्रताधिकार ओपनस्ट्रीटमॅप आणि योगदाते, खुल्या परवान्यांतर्गत
     edit:
       not_public: आपण आपली संपादने सार्वजनिक ठेवलेली नाहित.
-      not_public_description: नकाशा संपादण्यासाठी संपादने सार्वजनिक असणे आवश्यक आहे.
-        आपण आपल्या %{user_page}वरून ती सार्वजनिक ठेवू शकता.
+      not_public_description_html: नकाशा संपादण्यासाठी संपादने सार्वजनिक असणे आवश्यक
+        आहे. आपण आपल्या %{user_page}वरून ती सार्वजनिक ठेवू शकता.
       user_page_link: सदस्य पाना
       anon_edits_link_text: असे का आहे ते जाणून घ्या.
     export:
@@ -973,7 +1024,7 @@ mr:
       map_image: नकाशा चित्र (प्रमाणित स्तर दाखविते)
       embeddable_html: अंतःस्थापन करण्याजोगी HTML
       licence: परवाना
-      export_details: ओपनस्ट्रीटमॅप डाटा हा <a href="http://opendatacommons.org/licenses/odbl/1.0/">
+      export_details_html: ओपनस्ट्रीटमॅप डाटा हा <a href="http://opendatacommons.org/licenses/odbl/1.0/">
         परवान्यांतर्गत आहे.ओपन डाटा कॉमन्स ओपन डाटाबेस परवाना</a> (ODbL).
       too_large:
         advice: 'जर वरील निर्यात करण्यास अपयश आले, तर कृपया खालील स्रोत वापरण्याचा
@@ -1099,21 +1150,6 @@ mr:
           construction: निर्माणाधीन रस्ते
           bicycle_shop: सायकल दुकान
           toilets: स्वच्छतागृह
-    richtext_area:
-      edit: संपादन करा
-      preview: झलक
-    markdown_help:
-      headings: मथळे
-      heading: मथळा
-      subheading: उपमथळा
-      unordered: अक्रमित यादी
-      ordered: क्रमित यादी
-      first: पहिली बाब
-      second: दुसरी बाब
-      link: दुवा
-      text: मजकूर
-      image: चित्र
-      url: URL
     welcome:
       title: सुस्वागतम्‌!
       whats_on_the_map:
@@ -1139,30 +1175,13 @@ mr:
           तर एक टिप्पणी जोडणे सोपे आहे.
   traces:
     new:
-      description: 'वर्णन:'
-      tags: 'खूणपताका:'
-      tags_help: स्वल्पविरामाने परिसीमित
-      visibility: 'दृश्यता:'
       visibility_help: ह्याचा अर्थ काय?
-      upload_button: चढवा
       help: साहाय्य
     create:
       upload_trace: GPS अनुरेख चढवा
     edit:
       title: अनुरेख %{name} संपादन
       heading: अनुरेख %{name} संपादन
-      filename: 'संचिकानाम:'
-      download: उतरवा
-      uploaded_at: 'चढविले:'
-      points: 'बिंदू:'
-      map: नकाशा
-      edit: संपादन
-      owner: 'मालक:'
-      description: 'वर्णन:'
-      tags: 'खूणपताका:'
-      tags_help: स्वल्पविरामाने परिसीमित
-      save_button: जतन करा
-      visibility: 'दृश्यता:'
       visibility_help: ह्याचा अर्थ काय?
     trace_optionals:
       tags: खूणपताका
@@ -1189,11 +1208,9 @@ mr:
     trace:
       pending: प्रलंबित
       count_points: '%{count} बिंदू'
-      ago: '%{time_in_words_ago} पूर्वी'
       more: अधिक
       trace_details: अनुरेखाचा तपशील पहा
       view_map: नकाशा पहा
-      edit: संपादन
       edit_map: नकाशा संपादा
       public: सार्वजनिक
       identifiable: ओळखण्याजोगी
@@ -1201,17 +1218,13 @@ mr:
       trackable: मागोव्याजोगा
       by: तर्फे
       in: आत
-      map: नकाशा
     index:
       upload_trace: अनुरेख चढवा
-      see_all_traces: सर्व अनुरेख पहा
   oauth_clients:
     new:
       title: नवीन अनुप्रयोगाची नोंदणी करा
-      submit: नोंदणी करा
     edit:
       title: अनुप्रयोग संपादा
-      submit: संपादन
     show:
       title: '%{app_name}साठी OAuth तपशील'
       key: 'उपभोक्ता किल्ली:'
@@ -1224,34 +1237,8 @@ mr:
       title: माझे OAuth तपशील
       register_new: आपल्या अनुप्रयोगाची नोंदणी करा
     form:
-      name: नाव
-      required: आवश्यक
-      url: मुख्य अनुप्रयोग URL
       requests: 'सदस्याकडून खालील परवानग्यांची मागणी करा:'
   users:
-    login:
-      title: सनोंद प्रवेश करा
-      heading: सनोंद प्रवेश करा
-      email or username: 'विपत्रपत्ता किंवा सदस्यनाव:'
-      password: 'परवलीचा शब्द:'
-      remember: माझी आठवण ठेवा
-      lost password link: परवलीचा शब्द विसरलात?
-      login_button: सनोंद प्रवेश करा
-      register now: आत्ता नोंदणी करा
-      new to osm: ओपनस्ट्रीटमॅपवर नवीन?
-      create account minute: खाते उघडा. केवळ एका मिनिटाचे काम आहे.
-      no account: आपले खाते नाही?
-    lost_password:
-      heading: परवलीचा शब्द विसरला?
-      email address: 'विपत्र पत्ता:'
-      new password button: परवलीचा शब्द पुनर्स्थापित करा
-    reset_password:
-      title: परवलीचा शब्द पुनर्स्थापित करा
-      heading: '%{user}साठी परवलीचा शब्द पुनर्स्थापित करा'
-      password: 'परवलीचा शब्द:'
-      confirm password: 'परवलीचा शब्द पुन्हा लिहा:'
-      reset: परवलीचा शब्द पुनर्स्थापित करा
-      flash changed: आपला परवलीचा शब्द बदलण्यात आला आहे.
     new:
       title: नोंदणी करा
       about:
@@ -1259,16 +1246,11 @@ mr:
       email address: 'विपत्र पत्ता:'
       confirm email address: विपत्रपत्त्याची निश्चिती करा
       display name: 'दर्शवायचे नाव:'
-      password: 'परवलीचा शब्द:'
-      confirm password: 'परवलीच्या शब्दाची निश्चिती करा:'
       continue: नोंदणी करा
-      terms declined: आपण नवीन योगदात्यांसाठी अटी मान्य न करण्याचे निवडल्याचा आम्हाला
-        खेद आहे. अधिक माहितीसाठी कृपया <a href="%{url}">हे विकीपान पहा</a>.
     terms:
       title: योगदात्यांसाठी अटी
       heading: योगदात्यांसाठी अटी
       consider_pd_why: हे काय आहे?
-      agree: मान्य
       decline: अमान्य
       legale_select: 'राहण्याचा देश:'
       legale_names:
@@ -1289,7 +1271,6 @@ mr:
       my messages: माझे संदेश
       my settings: माझ्या मांडण्या
       my comments: माझे अभिप्राय
-      oauth settings: oauth प्रस्थापने
       blocks on me: माझ्यावरील निर्बंध
       blocks by me: माझ्याकडून निर्बंध
       send message: संदेश पाठवा
@@ -1297,64 +1278,12 @@ mr:
       edits: संपादने
       traces: अनुरेख
       notes: नकाशावरील टीपा
-      ago: (%{time_in_words_ago} पूर्वी)
       ct status: 'योगदात्यांसाठी अटी:'
       ct undecided: अनिर्णीत
       ct declined: अमान्य
-      ct accepted: '%{ago} पूर्वी मान्य'
       latest edit: 'नवीनतम संपादन %{ago}:'
       status: 'स्थिती:'
       description: वर्णन
-      settings_link_text: मांडण्या
-      km away: '%{count} कि.मी. दूर'
-      m away: '%{count} मी. दूर'
-      nearby users: जवळपासचे इतर सदस्य
-      friends_changesets: मित्रांचे बदलसंच
-      friends_diaries: मित्रांच्या अनुदिनीतील नोंदी
-      nearby_changesets: जवळपासच्या सदस्यांचे बदलसंच
-      nearby_diaries: जवळपासच्या सदस्यांच्या अनुदिनीतील नोंदी
-    popup:
-      your location: आपले ठिकाण
-      nearby mapper: जवळपासचे नकाशाकार
-      friend: मित्र
-    account:
-      title: खाते संपादा
-      my settings: माझ्या मांडण्या
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: हे काय आहे?
-      public editing:
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: हे काय आहे?
-        disabled link text: मी संपादन कां करू शकत नाही?
-      contributor terms:
-        link text: हे काय आहे?
-      preferred languages: 'पसंतीच्या भाषा:'
-      preferred editor: 'पसंतीचा संपादक:'
-      image: 'चित्र:'
-      gravatar:
-        gravatar: Gravatar वापरा
-        link text: हे काय आहे?
-      new image: चित्र जोडा
-      keep image: वर्तमान चित्र राखा
-      delete image: वर्तमान चित्र काढून टाका
-      replace image: वर्तमान चित्र बदला
-      image size hint: (किमान १००x१०० आकाराची चौरस चित्रे उत्तम)
-      latitude: 'अक्षांश:'
-      longitude: 'रेखांश:'
-      save changes button: बदल जतन करा
-    confirm:
-      heading: आपले विपत्र तपासा!
-      introduction_1: आम्ही आपणास निश्चितीकरणास विपत्र पाठविले आहे.
-      introduction_2: विपत्रातील दुव्यावर टिचकी मारुन आपली खातेनिश्चिती करा व आपण
-        नकाशा काढणे सुरु करु शकता.
-      button: खात्री करा
-      already active: या खात्याची आधीच निश्चिती झाली आहे.
-      unknown token: तो निश्चिती संकेत कालबाह्य झाला आहे किंवा अस्तित्वात नाही.
-      reconfirm_html: जर आपणास आम्ही पुन्हा  विपत्र पाठविणे आवश्यक वाटते, तर<a href="%{reconfirm}">येथे
-        टिचकी मारा</a>.
-    confirm_resend:
-      failure: सदस्य %{name} सापडला नाही.
     index:
       title: सदस्य
       heading: सदस्य
@@ -1362,16 +1291,15 @@ mr:
         one: पान %{page} (%{first_item}, %{items} पैकी)
         other: पान %{page} (%{first_item}-%{last_item}, %{items}पैकी)
   user_blocks:
-    period:
-      one: १ तास
-      other: '%{count} तास'
+    helper:
+      block_duration:
+        hours:
+          one: १ तास
+          other: '%{count} तास'
     blocks:
       showing_page: पान %{page}
       next: पुढील »
       previous: « मागील
-  notes:
-    mine:
-      ago_html: '%{when} पूर्वी'
   javascripts:
     close: बंद करा
     share:
@@ -1390,7 +1318,6 @@ mr:
     map:
       locate:
         title: माझे ठिकाण दाखवा
-        popup: आपण या बिंदूपासून {distance}{unit}च्या परिघात  आहात
       base:
         cycle_map: सायकल नकाशा
         transport_map: परिवहन नकाशा
@@ -1427,8 +1354,6 @@ mr:
         offramp_left_with_exit_name_directions: '%{directions}कडे जाताना %{name}वर
           %{exit}ने बाहेर पडा'
   redactions:
-    new:
-      description: वर्णन
     show:
       description: 'वर्णन:'
       user: 'निर्माता:'

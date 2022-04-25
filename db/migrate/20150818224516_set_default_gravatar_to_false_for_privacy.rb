@@ -1,4 +1,4 @@
-class SetDefaultGravatarToFalseForPrivacy < ActiveRecord::Migration[5.0]
+class SetDefaultGravatarToFalseForPrivacy < ActiveRecord::Migration[4.2]
   def up
     change_column :users, :image_use_gravatar, :boolean, :default => false
   end

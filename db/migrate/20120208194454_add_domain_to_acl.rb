@@ -1,4 +1,4 @@
-class AddDomainToAcl < ActiveRecord::Migration[5.0]
+class AddDomainToAcl < ActiveRecord::Migration[4.2]
   def up
     add_column :acls, :domain, :string
     change_column :acls, :address, :inet, :null => true

@@ -1,9 +1,10 @@
 require "test_helper"
 
-class DiaryEntriesControllerTest < ActionController::TestCase
+class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
   include ActionView::Helpers::NumberHelper
 
   def setup
+    super
     # Create the default language for diary entries
     create(:language, :code => "en")
     # Stub nominatim response for diary entry locations
@@ -62,8 +63,8 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       { :controller => "diary_entries", :action => "new" }
     )
     assert_routing(
-      { :path => "/diary/new", :method => :post },
-      { :controller => "diary_entries", :action => "new" }
+      { :path => "/diary", :method => :post },
+      { :controller => "diary_entries", :action => "create" }
     )
     assert_routing(
       { :path => "/user/username/diary/1", :method => :get },
@@ -74,8 +75,8 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       { :controller => "diary_entries", :action => "edit", :display_name => "username", :id => "1" }
     )
     assert_routing(
-      { :path => "/user/username/diary/1/edit", :method => :post },
-      { :controller => "diary_entries", :action => "edit", :display_name => "username", :id => "1" }
+      { :path => "/user/username/diary/1", :method => :put },
+      { :controller => "diary_entries", :action => "update", :display_name => "username", :id => "1" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/newcomment", :method => :post },
@@ -86,8 +87,16 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       { :controller => "diary_entries", :action => "hide", :display_name => "username", :id => "1" }
     )
     assert_routing(
+      { :path => "/user/username/diary/1/unhide", :method => :post },
+      { :controller => "diary_entries", :action => "unhide", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
       { :path => "/user/username/diary/1/hidecomment/2", :method => :post },
       { :controller => "diary_entries", :action => "hidecomment", :display_name => "username", :id => "1", :comment => "2" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/unhidecomment/2", :method => :post },
+      { :controller => "diary_entries", :action => "unhidecomment", :display_name => "username", :id => "1", :comment => "2" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/subscribe", :method => :post },
@@ -102,21 +111,22 @@ class DiaryEntriesControllerTest < ActionController::TestCase
   def test_new_no_login
     # Make sure that you are redirected to the login page when you
     # are not logged in
-    get :new
+    get new_diary_entry_path
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/diary/new"
+    assert_redirected_to login_path(:referer => "/diary/new")
   end
 
   def test_new_form
     # Now try again when logged in
-    get :new, :session => { :user => create(:user) }
+    session_for(create(:user))
+    get new_diary_entry_path
     assert_response :success
     assert_select "title", :text => /New Diary Entry/, :count => 1
     assert_select "div.content-heading", :count => 1 do
       assert_select "h1", :text => /New Diary Entry/, :count => 1
     end
     assert_select "div#content", :count => 1 do
-      assert_select "form[action='/diary/new'][method=post]", :count => 1 do
+      assert_select "form[action='/diary'][method=post]", :count => 1 do
         assert_select "input#diary_entry_title[name='diary_entry[title]']", :count => 1
         assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => "", :count => 1
         assert_select "select#diary_entry_language_code", :count => 1
@@ -132,42 +142,39 @@ class DiaryEntriesControllerTest < ActionController::TestCase
 
   def test_new_get_with_params
     # Now try creating a diary entry using get
+    session_for(create(:user))
     assert_difference "DiaryEntry.count", 0 do
-      get :new,
-          :params => { :commit => "save",
-                       :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
-                                         :longitude => "2.2", :language_code => "en" } },
-          :session => { :user => create(:user).id }
+      get new_diary_entry_path(:commit => "save",
+                               :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
+                                                 :longitude => "2.2", :language_code => "en" })
     end
     assert_response :success
-    assert_template :edit
+    assert_template :new
   end
 
-  def test_new_no_body
+  def test_create_no_body
     # Now try creating a invalid diary entry with an empty body
     user = create(:user)
+    session_for(user)
     assert_no_difference "DiaryEntry.count" do
-      post :new,
-           :params => { :commit => "save",
-                        :diary_entry => { :title => "New Title", :body => "", :latitude => "1.1",
-                                          :longitude => "2.2", :language_code => "en" } },
-           :session => { :user => user.id }
+      post diary_entries_path(:commit => "save",
+                              :diary_entry => { :title => "New Title", :body => "", :latitude => "1.1",
+                                                :longitude => "2.2", :language_code => "en" })
     end
     assert_response :success
-    assert_template :edit
+    assert_template :new
 
     assert_nil UserPreference.where(:user_id => user.id, :k => "diary.default_language").first
   end
 
-  def test_new_post
+  def test_create
     # Now try creating a diary entry
     user = create(:user)
+    session_for(user)
     assert_difference "DiaryEntry.count", 1 do
-      post :new,
-           :params => { :commit => "save",
-                        :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
-                                          :longitude => "2.2", :language_code => "en" } },
-           :session => { :user => user.id }
+      post diary_entries_path(:commit => "save",
+                              :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
+                                                :longitude => "2.2", :language_code => "en" })
     end
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
@@ -185,17 +192,16 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_equal "en", UserPreference.where(:user_id => user.id, :k => "diary.default_language").first.v
   end
 
-  def test_new_german
+  def test_create_german
     create(:language, :code => "de")
     user = create(:user)
+    session_for(user)
 
     # Now try creating a diary entry in a different language
     assert_difference "DiaryEntry.count", 1 do
-      post :new,
-           :params => { :commit => "save",
-                        :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
-                                          :longitude => "2.2", :language_code => "de" } },
-           :session => { :user => user.id }
+      post diary_entries_path(:commit => "save",
+                              :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
+                                                :longitude => "2.2", :language_code => "de" })
     end
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
@@ -215,16 +221,16 @@ class DiaryEntriesControllerTest < ActionController::TestCase
 
   def test_new_spammy
     user = create(:user)
+    session_for(user)
+
     # Generate some spammy content
     spammy_title = "Spam Spam Spam Spam Spam"
     spammy_body = 1.upto(50).map { |n| "http://example.com/spam#{n}" }.join(" ")
 
     # Try creating a spammy diary entry
     assert_difference "DiaryEntry.count", 1 do
-      post :new,
-           :params => { :commit => "save",
-                        :diary_entry => { :title => spammy_title, :body => spammy_body, :language_code => "en" } },
-           :session => { :user => user.id }
+      post diary_entries_path(:commit => "save",
+                              :diary_entry => { :title => spammy_title, :body => spammy_body, :language_code => "en" })
     end
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
@@ -236,9 +242,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_equal "suspended", User.find(user.id).status
 
     # Follow the redirect
-    get :index,
-        :params => { :display_name => user.display_name },
-        :session => { :user => user }
+    get diary_entries_path(:display_name => user.display_name)
     assert_response :redirect
     assert_redirected_to :controller => :users, :action => :suspended
   end
@@ -251,49 +255,46 @@ class DiaryEntriesControllerTest < ActionController::TestCase
 
     # Make sure that you are redirected to the login page when you are
     # not logged in, without and with the id of the entry you want to edit
-    get :edit,
-        :params => { :display_name => entry.user.display_name, :id => entry.id }
+    get edit_diary_entry_path(:display_name => entry.user.display_name, :id => entry)
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit"
+    assert_redirected_to login_path(:referer => "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit")
 
-    # Verify that you get a not found error, when you pass a bogus id
-    get :edit,
-        :params => { :display_name => entry.user.display_name, :id => 9999 },
-        :session => { :user => entry.user }
-    assert_response :not_found
-    assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => "No entry with the id: 9999", :count => 1
-    end
+    session_for(other_user)
 
     # Verify that you get redirected to show if you are not the user
     # that created the entry
-    get :edit,
-        :params => { :display_name => entry.user.display_name, :id => entry.id },
-        :session => { :user => other_user }
+    get edit_diary_entry_path(:display_name => entry.user.display_name, :id => entry)
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => entry.user.display_name, :id => entry.id
 
+    session_for(entry.user)
+
+    # Verify that you get a not found error, when you pass a bogus id
+    get edit_diary_entry_path(:display_name => entry.user.display_name, :id => 9999)
+    assert_response :not_found
+    assert_select "div.content-heading", :count => 1 do
+      assert_select "h1", :text => "No entry with the id: 9999", :count => 1
+    end
+
     # Now pass the id, and check that you can edit it, when using the same
     # user as the person who created the entry
-    get :edit,
-        :params => { :display_name => entry.user.display_name, :id => entry.id },
-        :session => { :user => entry.user }
+    get edit_diary_entry_path(:display_name => entry.user.display_name, :id => entry)
     assert_response :success
-    assert_select "title", :text => /Edit diary entry/, :count => 1
+    assert_select "title", :text => /Edit Diary Entry/, :count => 1
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h1", :text => /Edit diary entry/, :count => 1
+      assert_select "h1", :text => /Edit Diary Entry/, :count => 1
     end
     assert_select "div#content", :count => 1 do
-      assert_select "form[action='/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit'][method=post]", :count => 1 do
+      assert_select "form[action='/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}'][method=post]", :count => 1 do
         assert_select "input#diary_entry_title[name='diary_entry[title]'][value='#{entry.title}']", :count => 1
         assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => entry.body, :count => 1
         assert_select "select#diary_entry_language_code", :count => 1
         assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
         assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
-        assert_select "input[name=commit][type=submit][value=Save]", :count => 1
+        assert_select "input[name=commit][type=submit][value=Update]", :count => 1
         assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
         assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
-        assert_select "input", :count => 7
+        assert_select "input", :count => 8
       end
     end
 
@@ -303,26 +304,22 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     new_latitude = "1.1"
     new_longitude = "2.2"
     new_language_code = "en"
-    post :edit,
-         :params => { :display_name => entry.user.display_name, :id => entry.id, :commit => "save",
-                      :diary_entry => { :title => new_title, :body => new_body, :latitude => new_latitude,
-                                        :longitude => new_longitude, :language_code => new_language_code } },
-         :session => { :user => entry.user.id }
+    put diary_entry_path(:display_name => entry.user.display_name, :id => entry, :commit => "save",
+                         :diary_entry => { :title => new_title, :body => new_body, :latitude => new_latitude,
+                                           :longitude => new_longitude, :language_code => new_language_code })
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => entry.user.display_name, :id => entry.id
 
     # Now check that the new data is rendered, when logged in
-    get :show,
-        :params => { :display_name => entry.user.display_name, :id => entry.id },
-        :session => { :user => entry.user }
+    get diary_entry_path(:display_name => entry.user.display_name, :id => entry)
     assert_response :success
     assert_template "show"
-    assert_select "title", :text => /Users' diaries | /, :count => 1
+    assert_select "title", :text => /Users' Diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => /#{entry.user.display_name}'s diary/, :count => 1
+      assert_select "h1", :text => /#{entry.user.display_name}'s Diary/, :count => 1
     end
     assert_select "div#content", :count => 1 do
-      assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
+      assert_select "h2", :text => /#{new_title}/, :count => 1
       # This next line won't work if the text has been run through the htmlize function
       # due to formatting that could be introduced
       assert_select "p", :text => /#{new_body}/, :count => 1
@@ -333,17 +330,16 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     end
 
     # and when not logged in as the user who wrote the entry
-    get :show,
-        :params => { :display_name => entry.user.display_name, :id => entry.id },
-        :session => { :user => create(:user) }
+    session_for(create(:user))
+    get diary_entry_path(:display_name => entry.user.display_name, :id => entry)
     assert_response :success
     assert_template "show"
-    assert_select "title", :text => /Users' diaries | /, :count => 1
+    assert_select "title", :text => /Users' Diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => /#{entry.user.display_name}'s diary/, :count => 1
+      assert_select "h1", :text => /#{entry.user.display_name}'s Diary/, :count => 1
     end
     assert_select "div#content", :count => 1 do
-      assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
+      assert_select "h2", :text => /#{new_title}/, :count => 1
       # This next line won't work if the text has been run through the htmlize function
       # due to formatting that could be introduced
       assert_select "p", :text => /#{new_body}/, :count => 1
@@ -356,9 +352,8 @@ class DiaryEntriesControllerTest < ActionController::TestCase
   def test_edit_i18n
     user = create(:user)
     diary_entry = create(:diary_entry, :language_code => "en", :user => user)
-    get :edit,
-        :params => { :display_name => user.display_name, :id => diary_entry.id },
-        :session => { :user => user }
+    session_for(user)
+    get edit_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
     assert_response :success
     assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
   end
@@ -367,33 +362,27 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     user = create(:user)
     other_user = create(:user)
     entry = create(:diary_entry, :user => user)
+    create(:diary_entry_subscription, :diary_entry => entry, :user => user)
 
     # Make sure that you are denied when you are not logged in
-    post :comment,
-         :params => { :display_name => entry.user.display_name, :id => entry.id }
+    post comment_diary_entry_path(:display_name => entry.user.display_name, :id => entry)
     assert_response :forbidden
 
+    session_for(other_user)
+
     # Verify that you get a not found error, when you pass a bogus id
-    post :comment,
-         :params => { :display_name => entry.user.display_name, :id => 9999 },
-         :session => { :user => other_user }
+    post comment_diary_entry_path(:display_name => entry.user.display_name, :id => 9999)
     assert_response :not_found
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => "No entry with the id: 9999", :count => 1
+      assert_select "h1", :text => "No entry with the id: 9999", :count => 1
     end
-
-    post :subscribe,
-         :params => { :id => entry.id, :display_name => entry.user.display_name },
-         :session => { :user => user }
 
     # Now try an invalid comment with an empty body
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "DiaryComment.count" do
         assert_no_difference "entry.subscribers.count" do
           perform_enqueued_jobs do
-            post :comment,
-                 :params => { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "" } },
-                 :session => { :user => other_user }
+            post comment_diary_entry_path(:display_name => entry.user.display_name, :id => entry, :diary_comment => { :body => "" })
           end
         end
       end
@@ -406,9 +395,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       assert_difference "DiaryComment.count", 1 do
         assert_difference "entry.subscribers.count", 1 do
           perform_enqueued_jobs do
-            post :comment,
-                 :params => { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "New comment" } },
-                 :session => { :user => other_user }
+            post comment_diary_entry_path(:display_name => entry.user.display_name, :id => entry, :diary_comment => { :body => "New comment" })
           end
         end
       end
@@ -427,8 +414,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_equal "New comment", comment.body
 
     # Now show the diary entry, and check the new comment is present
-    get :show,
-        :params => { :display_name => entry.user.display_name, :id => entry.id }
+    get diary_entry_path(:display_name => entry.user.display_name, :id => entry)
     assert_response :success
     assert_select ".diary-comment", :count => 1 do
       assert_select "#comment#{comment.id}", :count => 1 do
@@ -441,12 +427,10 @@ class DiaryEntriesControllerTest < ActionController::TestCase
   def test_comment_spammy
     user = create(:user)
     other_user = create(:user)
-
-    # Find the entry to comment on
     entry = create(:diary_entry, :user => user)
-    post :subscribe,
-         :params => { :id => entry.id, :display_name => entry.user.display_name },
-         :session => { :user => user }
+    create(:diary_entry_subscription, :diary_entry => entry, :user => user)
+
+    session_for(other_user)
 
     # Generate some spammy content
     spammy_text = 1.upto(50).map { |n| "http://example.com/spam#{n}" }.join(" ")
@@ -455,9 +439,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       assert_difference "DiaryComment.count", 1 do
         perform_enqueued_jobs do
-          post :comment,
-               :params => { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => spammy_text } },
-               :session => { :user => other_user }
+          post comment_diary_entry_path(:display_name => entry.user.display_name, :id => entry, :diary_comment => { :body => spammy_text })
         end
       end
     end
@@ -476,15 +458,12 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_equal "suspended", User.find(other_user.id).status
 
     # Follow the redirect
-    get :index,
-        :params => { :display_name => user.display_name },
-        :session => { :user => other_user }
+    get diary_entries_path(:display_name => user.display_name)
     assert_response :redirect
     assert_redirected_to :controller => :users, :action => :suspended
 
     # Now show the diary entry, and check the new comment is not present
-    get :show,
-        :params => { :display_name => entry.user.display_name, :id => entry.id }
+    get diary_entry_path(:display_name => entry.user.display_name, :id => entry)
     assert_response :success
     assert_select ".diary-comment", :count => 0
   end
@@ -495,7 +474,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     public_entry = create(:diary_entry, :user => create(:user))
 
     # Try a list of all diary entries
-    get :index
+    get diary_entries_path
     check_diary_index diary_entry, geo_entry, public_entry
   end
 
@@ -508,11 +487,11 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     _other_entry = create(:diary_entry, :user => other_user)
 
     # Try a list of diary entries for a valid user
-    get :index, :params => { :display_name => user.display_name }
+    get diary_entries_path(:display_name => user.display_name)
     check_diary_index diary_entry, geo_entry
 
     # Try a list of diary entries for an invalid user
-    get :index, :params => { :display_name => "No Such User" }
+    get diary_entries_path(:display_name => "No Such User")
     assert_response :not_found
     assert_template "users/no_such_user"
   end
@@ -520,19 +499,21 @@ class DiaryEntriesControllerTest < ActionController::TestCase
   def test_index_friends
     user = create(:user)
     other_user = create(:user)
-    friend = create(:friend, :befriender => user)
-    diary_entry = create(:diary_entry, :user => friend.befriendee)
+    friendship = create(:friendship, :befriender => user)
+    diary_entry = create(:diary_entry, :user => friendship.befriendee)
     _other_entry = create(:diary_entry, :user => other_user)
 
     # Try a list of diary entries for your friends when not logged in
-    get :index, :params => { :friends => true }
+    get friends_diary_entries_path
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/diary/friends"
+    assert_redirected_to login_path(:referer => "/diary/friends")
 
     # Try a list of diary entries for your friends when logged in
-    get :index, :params => { :friends => true }, :session => { :user => user }
+    session_for(user)
+    get friends_diary_entries_path
     check_diary_index diary_entry
-    get :index, :params => { :friends => true }, :session => { :user => other_user }
+    session_for(other_user)
+    get friends_diary_entries_path
     check_diary_index
   end
 
@@ -543,14 +524,16 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     diary_entry = create(:diary_entry, :user => user)
 
     # Try a list of diary entries for nearby users when not logged in
-    get :index, :params => { :nearby => true }
+    get nearby_diary_entries_path
     assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :referer => "/diary/nearby"
+    assert_redirected_to login_path(:referer => "/diary/nearby")
 
     # Try a list of diary entries for nearby users when logged in
-    get :index, :params => { :nearby => true }, :session => { :user => nearby_user }
+    session_for(nearby_user)
+    get nearby_diary_entries_path
     check_diary_index diary_entry
-    get :index, :params => { :nearby => true }, :session => { :user => user }
+    session_for(user)
+    get nearby_diary_entries_path
     check_diary_index
   end
 
@@ -562,15 +545,15 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     diary_entry_de = create(:diary_entry, :language_code => "de")
 
     # Try a list of diary entries in english
-    get :index, :params => { :language => "en" }
+    get diary_entries_path(:language => "en")
     check_diary_index diary_entry_en, diary_entry_en2
 
     # Try a list of diary entries in german
-    get :index, :params => { :language => "de" }
+    get diary_entries_path(:language => "de")
     check_diary_index diary_entry_de
 
     # Try a list of diary entries in slovenian
-    get :index, :params => { :language => "sl" }
+    get diary_entries_path(:language => "sl")
     check_diary_index
   end
 
@@ -579,12 +562,12 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     create_list(:diary_entry, 50)
 
     # Try and get the index
-    get :index
+    get diary_entries_path
     assert_response :success
     assert_select "div.diary_post", :count => 20
 
     # Try and get the second page
-    get :index, :params => { :page => 2 }
+    get diary_entries_path(:page => 2)
     assert_response :success
     assert_select "div.diary_post", :count => 20
   end
@@ -595,7 +578,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     create(:diary_entry, :language_code => "en")
     create(:diary_entry, :language_code => "de")
 
-    get :rss, :params => { :format => :rss }
+    get diary_rss_path
     assert_response :success, "Should be able to get a diary RSS"
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
@@ -612,7 +595,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     create(:diary_entry, :language_code => "en")
     create(:diary_entry, :language_code => "de")
 
-    get :rss, :params => { :language => "en", :format => :rss }
+    get diary_rss_path(:language => "en")
     assert_response :success, "Should be able to get a specific language diary RSS"
     assert_select "rss>channel>item", :count => 2 # , "Diary entries should be filtered by language"
   end
@@ -626,7 +609,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     create(:language, :code => "sl")
     create(:diary_entry, :language_code => "en")
 
-    get :rss, :params => { :language => "sl", :format => :rss }
+    get diary_rss_path(:language => "sl")
     assert_response :success, "Should be able to get a specific language diary RSS"
     assert_select "rss>channel>item", :count => 0 # , "Diary entries should be filtered by language"
   end
@@ -638,30 +621,42 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     create(:diary_entry, :user => user)
     create(:diary_entry, :user => other_user)
 
-    get :rss, :params => { :display_name => user.display_name, :format => :rss }
+    get diary_rss_path(:display_name => user.display_name)
     assert_response :success, "Should be able to get a specific users diary RSS"
     assert_select "rss>channel>item", :count => 2 # , "Diary entries should be filtered by user"
   end
 
   def test_rss_nonexisting_user
     # Try a user that has never existed
-    get :rss, :params => { :display_name => "fakeUsername76543", :format => :rss }
+    get diary_rss_path(:display_name => "fakeUsername76543")
     assert_response :not_found, "Should not be able to get a nonexisting users diary RSS"
 
     # Try a suspended user
-    get :rss, :params => { :display_name => create(:user, :suspended).display_name, :format => :rss }
+    get diary_rss_path(:display_name => create(:user, :suspended).display_name)
     assert_response :not_found, "Should not be able to get a suspended users diary RSS"
 
     # Try a deleted user
-    get :rss, :params => { :display_name => create(:user, :deleted).display_name, :format => :rss }
+    get diary_rss_path(:display_name => create(:user, :deleted).display_name)
     assert_response :not_found, "Should not be able to get a deleted users diary RSS"
   end
 
   def test_rss_character_escaping
     create(:diary_entry, :title => "<script>")
-    get :rss, :params => { :format => :rss }
+    get diary_rss_path
 
     assert_match "<title>&lt;script&gt;</title>", response.body
+  end
+
+  def test_feed_delay
+    create(:diary_entry, :created_at => 7.hours.ago)
+    create(:diary_entry, :created_at => 5.hours.ago)
+    get diary_rss_path
+    assert_select "rss>channel>item", :count => 2
+
+    with_diary_feed_delay(6) do
+      get diary_rss_path
+      assert_select "rss>channel>item", :count => 1
+    end
   end
 
   def test_show
@@ -671,23 +666,23 @@ class DiaryEntriesControllerTest < ActionController::TestCase
 
     # Try a normal entry that should work
     diary_entry = create(:diary_entry, :user => user)
-    get :show, :params => { :display_name => user.display_name, :id => diary_entry.id }
+    get diary_entry_path(:display_name => user.display_name, :id => diary_entry)
     assert_response :success
     assert_template :show
 
     # Try a deleted entry
     diary_entry_deleted = create(:diary_entry, :user => user, :visible => false)
-    get :show, :params => { :display_name => user.display_name, :id => diary_entry_deleted.id }
+    get diary_entry_path(:display_name => user.display_name, :id => diary_entry_deleted)
     assert_response :not_found
 
     # Try an entry by a suspended user
     diary_entry_suspended = create(:diary_entry, :user => suspended_user)
-    get :show, :params => { :display_name => suspended_user.display_name, :id => diary_entry_suspended.id }
+    get diary_entry_path(:display_name => suspended_user.display_name, :id => diary_entry_suspended)
     assert_response :not_found
 
     # Try an entry by a deleted user
     diary_entry_deleted = create(:diary_entry, :user => deleted_user)
-    get :show, :params => { :display_name => deleted_user.display_name, :id => diary_entry_deleted.id }
+    get diary_entry_path(:display_name => deleted_user.display_name, :id => diary_entry_deleted)
     assert_response :not_found
   end
 
@@ -700,7 +695,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     deleted_user_comment = create(:diary_comment, :diary_entry => diary_entry, :user => create(:user, :deleted))
     hidden_comment = create(:diary_comment, :diary_entry => diary_entry, :visible => false)
 
-    get :show, :params => { :display_name => user.display_name, :id => diary_entry.id }
+    get diary_entry_path(:display_name => user.display_name, :id => diary_entry)
     assert_response :success
     assert_template :show
     assert_select "div.comments" do
@@ -713,57 +708,134 @@ class DiaryEntriesControllerTest < ActionController::TestCase
 
   def test_hide
     user = create(:user)
+    diary_entry = create(:diary_entry, :user => user)
 
     # Try without logging in
-    diary_entry = create(:diary_entry, :user => user)
-    post :hide,
-         :params => { :display_name => user.display_name, :id => diary_entry.id }
+    post hide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
     assert_response :forbidden
-    assert_equal true, DiaryEntry.find(diary_entry.id).visible
+    assert DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a normal user
-    post :hide,
-         :params => { :display_name => user.display_name, :id => diary_entry.id },
-         :session => { :user => user }
+    session_for(user)
+    post hide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
-    assert_equal true, DiaryEntry.find(diary_entry.id).visible
+    assert DiaryEntry.find(diary_entry.id).visible
 
-    # Finally try as an administrator
-    post :hide,
-         :params => { :display_name => user.display_name, :id => diary_entry.id },
-         :session => { :user => create(:administrator_user) }
+    # Now try as a moderator
+    session_for(create(:moderator_user))
+    post hide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
-    assert_equal false, DiaryEntry.find(diary_entry.id).visible
+    assert_not DiaryEntry.find(diary_entry.id).visible
+
+    # Reset
+    diary_entry.reload.update(:visible => true)
+
+    # Finally try as an administrator
+    session_for(create(:administrator_user))
+    post hide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
+    assert_response :redirect
+    assert_redirected_to :action => :index, :display_name => user.display_name
+    assert_not DiaryEntry.find(diary_entry.id).visible
+  end
+
+  def test_unhide
+    user = create(:user)
+
+    # Try without logging in
+    diary_entry = create(:diary_entry, :user => user, :visible => false)
+    post unhide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
+    assert_response :forbidden
+    assert_not DiaryEntry.find(diary_entry.id).visible
+
+    # Now try as a normal user
+    session_for(user)
+    post unhide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
+    assert_response :redirect
+    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_not DiaryEntry.find(diary_entry.id).visible
+
+    # Now try as a moderator
+    session_for(create(:moderator_user))
+    post unhide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
+    assert_response :redirect
+    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_not DiaryEntry.find(diary_entry.id).visible
+
+    # Finally try as an administrator
+    session_for(create(:administrator_user))
+    post unhide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
+    assert_response :redirect
+    assert_redirected_to :action => :index, :display_name => user.display_name
+    assert DiaryEntry.find(diary_entry.id).visible
   end
 
   def test_hidecomment
     user = create(:user)
-    administrator_user = create(:administrator_user)
     diary_entry = create(:diary_entry, :user => user)
     diary_comment = create(:diary_comment, :diary_entry => diary_entry)
+
     # Try without logging in
-    post :hidecomment,
-         :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id }
+    post hide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
     assert_response :forbidden
-    assert_equal true, DiaryComment.find(diary_comment.id).visible
+    assert DiaryComment.find(diary_comment.id).visible
 
     # Now try as a normal user
-    post :hidecomment,
-         :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id },
-         :session => { :user => user }
+    session_for(user)
+    post hide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
-    assert_equal true, DiaryComment.find(diary_comment.id).visible
+    assert DiaryComment.find(diary_comment.id).visible
 
-    # Finally try as an administrator
-    post :hidecomment,
-         :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id },
-         :session => { :user => administrator_user }
+    # Try as a moderator
+    session_for(create(:moderator_user))
+    post hide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
-    assert_equal false, DiaryComment.find(diary_comment.id).visible
+    assert_not DiaryComment.find(diary_comment.id).visible
+
+    # Reset
+    diary_comment.reload.update(:visible => true)
+
+    # Finally try as an administrator
+    session_for(create(:administrator_user))
+    post hide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
+    assert_response :redirect
+    assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
+    assert_not DiaryComment.find(diary_comment.id).visible
+  end
+
+  def test_unhidecomment
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user)
+    diary_comment = create(:diary_comment, :diary_entry => diary_entry, :visible => false)
+
+    # Try without logging in
+    post unhide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
+    assert_response :forbidden
+    assert_not DiaryComment.find(diary_comment.id).visible
+
+    # Now try as a normal user
+    session_for(user)
+    post unhide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
+    assert_response :redirect
+    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_not DiaryComment.find(diary_comment.id).visible
+
+    # Now try as a moderator
+    session_for(create(:moderator_user))
+    post unhide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
+    assert_response :redirect
+    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_not DiaryComment.find(diary_comment.id).visible
+
+    # Finally try as an administrator
+    session_for(create(:administrator_user))
+    post unhide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
+    assert_response :redirect
+    assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
+    assert DiaryComment.find(diary_comment.id).visible
   end
 
   def test_comments
@@ -771,30 +843,29 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     other_user = create(:user)
     suspended_user = create(:user, :suspended)
     deleted_user = create(:user, :deleted)
+
     # Test a user with no comments
-    get :comments, :params => { :display_name => user.display_name }
+    get diary_comments_path(:display_name => user.display_name)
     assert_response :success
     assert_template :comments
-    assert_select "table.messages" do
-      assert_select "tr", :count => 1 # header, no comments
-    end
+    assert_select "h4", :html => "No diary comments"
 
     # Test a user with a comment
     create(:diary_comment, :user => other_user)
 
-    get :comments, :params => { :display_name => other_user.display_name }
+    get diary_comments_path(:display_name => other_user.display_name)
     assert_response :success
     assert_template :comments
-    assert_select "table.messages" do
+    assert_select "table.table-striped" do
       assert_select "tr", :count => 2 # header and one comment
     end
 
     # Test a suspended user
-    get :comments, :params => { :display_name => suspended_user.display_name }
+    get diary_comments_path(:display_name => suspended_user.display_name)
     assert_response :not_found
 
     # Test a deleted user
-    get :comments, :params => { :display_name => deleted_user.display_name }
+    get diary_comments_path(:display_name => deleted_user.display_name)
     assert_response :not_found
   end
 
@@ -803,10 +874,9 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     other_user = create(:user)
     diary_entry = create(:diary_entry, :user => user)
 
+    session_for(other_user)
     assert_difference "diary_entry.subscribers.count", 1 do
-      post :subscribe,
-           :params => { :id => diary_entry.id, :display_name => diary_entry.user.display_name },
-           :session => { :user => other_user }
+      post diary_entry_subscribe_path(:id => diary_entry, :display_name => diary_entry.user.display_name)
     end
     assert_response :redirect
   end
@@ -819,25 +889,20 @@ class DiaryEntriesControllerTest < ActionController::TestCase
 
     # not signed in
     assert_no_difference "diary_entry.subscribers.count" do
-      post :subscribe,
-           :params => { :id => diary_entry.id, :display_name => diary_entry.user.display_name }
+      post diary_entry_subscribe_path(:id => diary_entry, :display_name => diary_entry.user.display_name)
     end
     assert_response :forbidden
 
+    session_for(other_user)
+
     # bad diary id
-    post :subscribe,
-         :params => { :id => 999111, :display_name => "username" },
-         :session => { :user => other_user }
+    post diary_entry_subscribe_path(:id => 999111, :display_name => "username")
     assert_response :not_found
 
     # trying to subscribe when already subscribed
-    post :subscribe,
-         :params => { :id => diary_entry.id, :display_name => diary_entry.user.display_name },
-         :session => { :user => other_user }
+    post diary_entry_subscribe_path(:id => diary_entry, :display_name => diary_entry.user.display_name)
     assert_no_difference "diary_entry.subscribers.count" do
-      post :subscribe,
-           :params => { :id => diary_entry.id, :display_name => diary_entry.user.display_name },
-           :session => { :user => other_user }
+      post diary_entry_subscribe_path(:id => diary_entry, :display_name => diary_entry.user.display_name)
     end
   end
 
@@ -846,14 +911,11 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     other_user = create(:user)
 
     diary_entry = create(:diary_entry, :user => user)
+    create(:diary_entry_subscription, :diary_entry => diary_entry, :user => other_user)
 
-    post :subscribe,
-         :params => { :id => diary_entry.id, :display_name => diary_entry.user.display_name },
-         :session => { :user => other_user }
+    session_for(other_user)
     assert_difference "diary_entry.subscribers.count", -1 do
-      post :unsubscribe,
-           :params => { :id => diary_entry.id, :display_name => diary_entry.user.display_name },
-           :session => { :user => other_user }
+      post diary_entry_unsubscribe_path(:id => diary_entry, :display_name => diary_entry.user.display_name)
     end
     assert_response :redirect
   end
@@ -866,22 +928,19 @@ class DiaryEntriesControllerTest < ActionController::TestCase
 
     # not signed in
     assert_no_difference "diary_entry.subscribers.count" do
-      post :unsubscribe,
-           :params => { :id => diary_entry.id, :display_name => diary_entry.user.display_name }
+      post diary_entry_unsubscribe_path(:id => diary_entry, :display_name => diary_entry.user.display_name)
     end
     assert_response :forbidden
 
+    session_for(other_user)
+
     # bad diary id
-    post :unsubscribe,
-         :params => { :id => 999111, :display_name => "username" },
-         :session => { :user => other_user }
+    post diary_entry_unsubscribe_path(:id => 999111, :display_name => "username")
     assert_response :not_found
 
     # trying to unsubscribe when not subscribed
     assert_no_difference "diary_entry.subscribers.count" do
-      post :unsubscribe,
-           :params => { :id => diary_entry.id, :display_name => diary_entry.user.display_name },
-           :session => { :user => other_user }
+      post diary_entry_unsubscribe_path(:id => diary_entry, :display_name => diary_entry.user.display_name)
     end
   end
 
@@ -896,5 +955,14 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     entries.each do |entry|
       assert_select "a[href=?]", "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}"
     end
+  end
+
+  def with_diary_feed_delay(value)
+    diary_feed_delay = Settings.diary_feed_delay
+    Settings.diary_feed_delay = value
+
+    yield
+
+    Settings.diary_feed_delay = diary_feed_delay
   end
 end

@@ -2,8 +2,8 @@
 #
 # Table name: diary_entry_subscriptions
 #
-#  user_id        :integer          not null, primary key
-#  diary_entry_id :integer          not null, primary key
+#  user_id        :bigint(8)        not null, primary key
+#  diary_entry_id :bigint(8)        not null, primary key
 #
 # Indexes
 #
@@ -15,7 +15,7 @@
 #  diary_entry_subscriptions_user_id_fkey         (user_id => users.id)
 #
 
-class DiaryEntrySubscription < ActiveRecord::Base
+class DiaryEntrySubscription < ApplicationRecord
   self.primary_keys = "user_id", "diary_entry_id"
 
   belongs_to :user

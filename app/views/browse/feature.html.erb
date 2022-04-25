@@ -1,14 +1,11 @@
-<% set_title(t("browse.#{@type}.title", :name => printable_name(@feature))) %>
+<% set_title(t("browse.#{@type}.title_html", :name => printable_name(@feature))) %>
 
-<h2>
-  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= raw t("browse.#{@type}.title", :name => printable_name(@feature)) %>
-</h2>
+<%= render "sidebar_header", :title => t("browse.#{@type}.title_html", :name => printable_name(@feature)) %>
 
 <%= render :partial => @type, :object => @feature %>
 
 <div class='secondary-actions'>
-  <%= link_to(t('browse.download_xml'), :controller => @type.pluralize, :action => :show) %>
+  <%= link_to(t("browse.download_xml"), :controller => "api/#{@type.pluralize}", :action => :show) %>
   &middot;
-  <%= link_to(t('browse.view_history'), :action => "#{@type}_history") %>
+  <%= link_to(t("browse.view_history"), :action => "#{@type}_history") %>
 </div>

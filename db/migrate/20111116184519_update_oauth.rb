@@ -1,4 +1,4 @@
-class UpdateOauth < ActiveRecord::Migration[5.0]
+class UpdateOauth < ActiveRecord::Migration[4.2]
   def up
     add_column :oauth_tokens, :scope, :string
     add_column :oauth_tokens, :valid_to, :timestamp

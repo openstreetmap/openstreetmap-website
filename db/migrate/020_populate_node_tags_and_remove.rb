@@ -1,6 +1,4 @@
-require "migrate"
-
-class PopulateNodeTagsAndRemove < ActiveRecord::Migration[5.0]
+class PopulateNodeTagsAndRemove < ActiveRecord::Migration[4.2]
   def self.up
     have_nodes = select_value("SELECT count(*) FROM current_nodes").to_i.nonzero?
 
@@ -11,10 +9,10 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration[5.0]
       src = "#{cmd}.c"
       if !File.exist?(cmd) || File.mtime(cmd) < File.mtime(src)
         system("cc -O3 -Wall `mysql_config --cflags --libs` " \
-          "#{src} -o #{cmd}") || raise
+               "#{src} -o #{cmd}") || raise
       end
 
-      conn_opts = ActiveRecord::Base.connection.instance_eval { @connection_options }
+      conn_opts = ApplicationRecord.connection.instance_eval { @connection_options }
       args = conn_opts.map(&:to_s) + [prefix]
       raise "#{cmd} failed" unless system cmd, *args
 

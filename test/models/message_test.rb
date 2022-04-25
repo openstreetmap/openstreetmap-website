@@ -4,19 +4,19 @@ class MessageTest < ActiveSupport::TestCase
   EURO = "\xe2\x82\xac".freeze # euro symbol
 
   def test_check_empty_message_fails
-    message = Message.new
+    message = build(:message, :title => nil, :body => nil, :sent_on => nil)
     assert_not message.valid?
-    assert message.errors[:title].any?
-    assert message.errors[:body].any?
-    assert message.errors[:sent_on].any?
+    assert_predicate message.errors[:title], :any?
+    assert_predicate message.errors[:body], :any?
+    assert_predicate message.errors[:sent_on], :any?
     assert_not message.message_read
   end
 
   def test_validating_msgs
     message = create(:message, :unread)
-    assert message.valid?
+    assert_predicate message, :valid?
     message = create(:message, :read)
-    assert message.valid?
+    assert_predicate message, :valid?
   end
 
   def test_invalid_send_recipient
@@ -32,7 +32,7 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_utf8_roundtrip
-    (1..255).each do |i|
+    [1, 255].each do |i|
       assert_message_ok("c", i)
       assert_message_ok(EURO, i)
     end
@@ -51,22 +51,20 @@ class MessageTest < ActiveSupport::TestCase
                          "\xC2\xC2",     # 2-byte multibyte identifier, followed by another one
                          "\x4a\x82",     # plain ASCII, followed by multibyte continuation
                          "\x82\x82",     # multibyte continuations without multibyte identifier
-                         "\xe1\x82\x4a"] # three-byte identifier, contination and (incorrectly) plain ASCII
+                         "\xe1\x82\x4a"] # three-byte identifier, continuation and (incorrectly) plain ASCII
     invalid_sequences.each do |char|
-      begin
-        # create a message and save to the database
-        msg = make_message(char, 1)
-        # if the save throws, thats fine and the test should pass, as we're
-        # only testing invalid sequences anyway.
-        msg.save!
+      # create a message and save to the database
+      msg = make_message(char, 1)
+      # if the save throws, thats fine and the test should pass, as we're
+      # only testing invalid sequences anyway.
+      msg.save!
 
-        # get the saved message back and check that it is identical - i.e:
-        # its OK to accept invalid UTF-8 as long as we return it unmodified.
-        db_msg = msg.class.find(msg.id)
-        assert_equal char, db_msg.title, "Database silently truncated message title"
-      rescue ArgumentError => ex
-        assert_equal ex.to_s, "invalid byte sequence in UTF-8"
-      end
+      # get the saved message back and check that it is identical - i.e:
+      # its OK to accept invalid UTF-8 as long as we return it unmodified.
+      db_msg = msg.class.find(msg.id)
+      assert_equal char, db_msg.title, "Database silently truncated message title"
+    rescue ArgumentError => e
+      assert_equal("invalid byte sequence in UTF-8", e.to_s)
     end
   end
 
@@ -77,7 +75,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
       content_type "text/plain; charset=utf-8"
       body "This is a test & a message"
     end
@@ -97,7 +95,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
       content_type "text/html; charset=utf-8"
       body "<p>This is a <b>test</b> &amp; a message</p>"
     end
@@ -117,7 +115,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
 
       text_part do
         content_type "text/plain; charset=utf-8"
@@ -141,7 +139,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
 
       html_part do
         content_type "text/html; charset=utf-8"
@@ -164,7 +162,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "[OpenStreetMap] Test message"
-      date Time.now
+      date Time.now.utc
       content_type "text/plain; charset=utf-8"
       body "This is a test & a message"
     end
@@ -188,7 +186,7 @@ class MessageTest < ActiveSupport::TestCase
   def assert_message_ok(char, count)
     message = make_message(char, count)
     assert message.save!
-    response = message.class.find(message.id) # stand by for some über-generalisation...
+    response = message.class.find(message.id) # stand by for some uber-generalisation...
     assert_equal char * count, response.title, "message with #{count} #{char} chars (i.e. #{char.length * count} bytes) fails"
   end
 end

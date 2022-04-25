@@ -1,6 +1,6 @@
 require "test_helper"
 
-class OauthControllerTest < ActionController::TestCase
+class OauthControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes

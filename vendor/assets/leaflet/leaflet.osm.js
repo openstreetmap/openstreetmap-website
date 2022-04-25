@@ -2,7 +2,7 @@ L.OSM = {};
 
 L.OSM.TileLayer = L.TileLayer.extend({
   options: {
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
   },
 
@@ -14,7 +14,7 @@ L.OSM.TileLayer = L.TileLayer.extend({
 
 L.OSM.Mapnik = L.OSM.TileLayer.extend({
   options: {
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     maxZoom: 19
   }
 });
@@ -43,6 +43,14 @@ L.OSM.TransportMap = L.OSM.TileLayer.extend({
   }
 });
 
+L.OSM.OPNVKarte = L.OSM.TileLayer.extend({
+  options: {
+    url: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
+    maxZoom: 18,
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://memomaps.de/" target="_blank">MeMoMaps</a>'
+  }
+});
+
 L.OSM.HOT = L.OSM.TileLayer.extend({
   options: {
     url: 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
@@ -54,7 +62,7 @@ L.OSM.HOT = L.OSM.TileLayer.extend({
 
 L.OSM.GPS = L.OSM.TileLayer.extend({
   options: {
-    url: 'https://gps-{s}.tile.openstreetmap.org/lines/{z}/{x}/{y}.png',
+    url: 'https://gps.tile.openstreetmap.org/lines/{z}/{x}/{y}.png',
     maxZoom: 21,
     maxNativeZoom: 20,
     subdomains: 'abc'

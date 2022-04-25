@@ -37,16 +37,16 @@ module RichText
           link_size += link.content.length
         end
 
-        link_proportion = link_size.to_f / doc.content.length.to_f
+        link_proportion = link_size.to_f / doc.content.length
       end
 
       spammy_phrases = SPAMMY_PHRASES.count do |phrase|
         doc.content.include?(phrase)
       end
 
-      [link_proportion - 0.2, 0.0].max * 200 +
-        link_count * 40 +
-        spammy_phrases * 40
+      ([link_proportion - 0.2, 0.0].max * 200) +
+        (link_count * 40) +
+        (spammy_phrases * 40)
     end
 
     protected
@@ -61,9 +61,9 @@ module RichText
 
     def linkify(text, mode = :urls)
       if text.html_safe?
-        Rinku.auto_link(text, mode, tag_builder.tag_options(:rel => "nofollow noopener noreferer")).html_safe
+        Rinku.auto_link(text, mode, tag_builder.tag_options(:rel => "nofollow noopener noreferrer")).html_safe
       else
-        Rinku.auto_link(text, mode, tag_builder.tag_options(:rel => "nofollow noopener noreferer"))
+        Rinku.auto_link(text, mode, tag_builder.tag_options(:rel => "nofollow noopener noreferrer"))
       end
     end
   end

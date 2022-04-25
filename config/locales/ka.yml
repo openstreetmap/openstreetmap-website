@@ -3,12 +3,32 @@
 # Export driver: phpyaml
 # Author: David1010
 # Author: MIKHEIL
+# Author: McDutchie
 # Author: Temuri rajavi
+# Author: Გიო ოქრო
+# Author: Იო ოქრო
 ---
 ka:
   time:
     formats:
       friendly: '%დ %თ %წ at %ს:%წ'
+  helpers:
+    submit:
+      diary_comment:
+        create: შენახვა
+      diary_entry:
+        create: გამოქვეყნება
+      message:
+        create: გაგზავნა
+      client_application:
+        create: რეგისტრაცია
+        update: რედაქტირება
+      trace:
+        create: ატვირთვა
+        update: ცვლილებების შენახვა
+      user_block:
+        create: ბლოკირების შექმნა
+        update: განაახლეთ ბლოკირება
   activerecord:
     models:
       acl: ხელმისაწვდომობის შეზღუდვის სია
@@ -65,32 +85,58 @@ ka:
         longitude: გრძედი
         public: საჯარო
         description: აღწერა
+        visibility: 'ხილვადობა:'
       message:
         sender: გამგზავნი
         title: თემა
         body: ტექსტი
         recipient: მიმღები
+      redaction:
+        description: აღწერა
       user:
         email: ელ. ფოსტა
+        new_email: 'ახალი ელ. ფოსტის მისამართი:'
         active: აქტიური
         display_name: სახელი ეკრანზე
         description: აღწერა
+        home_lat: 'განედი:'
+        home_lon: 'გრძედი:'
         languages: ენები
         pass_crypt: პაროლი
+    help:
+      trace:
+        tagstring: მძიმის შემდეგ
   editor:
     default: უპირობოდ (ამჟამად %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (ბრაუზერის რედაქტორი)
     id:
       name: iD
       description: iD (ბრაუზერის რედაქტორი)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (ბრაუზერის რედაქტორი)
     remote:
       name: დისტანციური მართვა
       description: დისტანციური მათვა (JOSM, ან Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: შეიქმნა %{when} წინ
+        opened_at_by_html: შექმნა %{when} წინ მომხმარებელმა %{user}
+        commented_at_html: განახლდა %{when} წინ
+        commented_at_by_html: განაახლა %{when} წინ მომხმარებელმა %{user}
+      entry:
+        comment: კომენტარი
+  accounts:
+    edit:
+      title: ანგარიშის რედაქტირება
+      my settings: ჩემი პარამეტრები
+      current email address: 'ელ-ფოსტის ამჟამინდელი მისამართი:'
+      openid:
+        link: http://wiki.openstreetmap.org/wiki/KA:OpenID
+        link text: რა არის ეს?
+      public editing:
+        enabled link text: რა არის ეს?
+        disabled link text: რატომ არ შემიძლია რედაქტირება?
+      contributor terms:
+        link text: რა არის ეს?
+      save changes button: ცვლილებების შენახვა
   browse:
     created: შეიქმნა
     closed: დახურულია
@@ -119,9 +165,10 @@ ka:
       relation: ურთიერთობები (%{count})
       relation_paginated: ურთიერთობები (%{x}-%{y} %{count}-დან)
       comment: კომენტარები (%{count})
-      hidden_commented_by: დამალული კომენტარები %{user}-სგან <abbr title='%{exact_time}'>%{when}
+      hidden_commented_by_html: დამალული კომენტარები %{user}-სგან <abbr title='%{exact_time}'>%{when}
         წინ</abbr>
-      commented_by: კომენატარი %{user}-სგან <abbr title='%{exact_time}'>%{when} წინ</abbr>
+      commented_by_html: კომენატარი %{user}-სგან <abbr title='%{exact_time}'>%{when}
+        წინ</abbr>
       changesetxml: ცვლილებების პაკეტის XML
       osmchangexml: osmChange XML
       feed:
@@ -129,25 +176,25 @@ ka:
         title_comment: ცვლილებების პაკეტი %{id} - %{comment}
       discussion: განხილვა
     node:
-      title: 'წერტილი: %{name}'
-      history_title: 'წერტილის ისტორია: %{name}'
+      title_html: 'წერტილი: %{name}'
+      history_title_html: 'წერტილის ისტორია: %{name}'
     way:
-      title: 'ხაზი: %{name}'
-      history_title: 'ხაზის ისტორია: %{name}'
+      title_html: 'ხაზი: %{name}'
+      history_title_html: 'ხაზის ისტორია: %{name}'
       nodes: წერტილები
     relation:
-      title: 'ურთიერთობა: %{name}'
-      history_title: 'ურთიერთობის ისტორია: %{name}'
+      title_html: 'ურთიერთობა: %{name}'
+      history_title_html: 'ურთიერთობის ისტორია: %{name}'
       members: წევრები
     relation_member:
-      entry_role: '%{type} %{name} როგორც %{role}'
+      entry_role_html: '%{type} %{name} როგორც %{role}'
       type:
         node: კვანძი
         way: გზა
         relation: ურთიერთობა
     containing_relation:
-      entry: ურთიერთობა %{relation_name}
-      entry_role: ურთიერთობა %{relation_name} (როგორც %{relation_role})
+      entry_html: ურთიერთობა %{relation_name}
+      entry_role_html: ურთიერთობა %{relation_name} (როგორც %{relation_role})
     not_found:
       sorry: 'სამწუხაროდ, %{type} #%{id} ვერ მოიძებნა.'
       type:
@@ -204,10 +251,19 @@ ka:
   changeset_comments:
     comment:
       commented_at_by_html: განაახლა %{when} წინ მომხმარებელმა %{user}
+  dashboards:
+    contact:
+      km away: '%{count}კმ თქვენგან'
+      m away: '%{count}მ თქვენგან'
+    popup:
+      your location: თქვენი ადგილმდებარეობა
+      friend: მეგობარი
   diary_entries:
     new:
       title: დღიურში ახალი ჩანაწერის გაკეთება
-      publish_button: გამოქვეყნება
+    form:
+      location: 'მდებარეობა:'
+      use_map_link: რუკაზე ჩვენება
     index:
       title: მომხმარებლების დღიურები
       title_friends: მეგობრების დღიურები
@@ -220,21 +276,12 @@ ka:
       newer_entries: უახლესი ჩანაწერები
     edit:
       title: დღიურის ჩანაწერის რედაქტირება
-      subject: 'თემა:'
-      body: 'ტექსტი:'
-      language: 'ენა:'
-      location: 'მდებარეობა:'
-      latitude: 'განედი:'
-      longitude: 'გრძედი:'
-      use_map_link: რუკაზე ჩვენება
-      save_button: შენახვა
     show:
       title: '%{user}-ის დღიური | %{title}'
       user_title: '%{user}-ის დღიური'
       leave_a_comment: დატოვეთ კომენტარი
-      login_to_leave_a_comment: '%{login_link}, რათა დატოვოთ კომენტარი'
+      login_to_leave_a_comment_html: '%{login_link}, რათა დატოვოთ კომენტარი'
       login: შესვლა
-      save_button: შენახვა
     no_such_entry:
       title: დღიურში ასეთი ჩანაწერი არ არის
       heading: 'id: %{id}-დან ჩანაწერი არ არის'
@@ -258,17 +305,24 @@ ka:
       post: პოსტი
       when: როდის
       comment: კომენტარი
-      ago: '%{ago} წინ'
       newer_comments: ახალი კომენტარები
       older_comments: ძველი კომენტარები
+  friendships:
+    make_friend:
+      heading: დავამატო %{user} მეგობრებში?
+      button: მეგობრებში დამატება
+      success: '%{name} ახლა უკვე თქვენი მეგობარია!'
+    remove_friend:
+      heading: წავშალო მეგობრებიდან %{user}?
+      button: მეგობრებიდან წაშლა
   geocoder:
     search:
       title:
-        latlon: <a href="http://openstreetmap.org/">შიდა შედეგები</a>
-        ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a>–ს შედეგები
-        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        latlon_html: <a href="http://openstreetmap.org/">შიდა შედეგები</a>
+        ca_postcode_html: <a href="http://geocoder.ca/">Geocoder.CA</a>–ს შედეგები
+        osm_nominatim_html: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>–ის შედეგები
-        geonames: <a href="http://www.geonames.org/">GeoNames</a>–ის შედეგები
+        geonames_html: <a href="http://www.geonames.org/">GeoNames</a>–ის შედეგები
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -328,7 +382,6 @@ ka:
           monastery: მონასტერი
           nightclub: ღამის კლუბი
           nursing_home: მოხუცებულთა თავშესაფარი
-          office: ოფისი
           parking: ავტოსადგომი
           parking_entrance: სადგომის შესასვლელი
           pharmacy: აფთიაქი
@@ -336,20 +389,15 @@ ka:
           police: პოლიცია
           post_box: საფოსტო ყუთი
           post_office: ფოსტა
-          preschool: სკოლამდელი დაწესებულება
           prison: ციხე
           pub: პაბი
           public_building: საჯარო შენობა
           recycling: ნაგავსაყრელი
           restaurant: რესტორანი
-          retirement_home: მოხუცებულთა თავშესაფარი
-          sauna: საუნა
           school: სკოლა
           shelter: თავშესაფარი
-          shop: მაღაზია
           shower: შხაპი
           social_centre: საზოგადოებრივი ცენტრი
-          social_club: საზოგადოებრივი თავშეყრის ადგილი
           studio: სტუდია
           swimming_pool: საცურაო აუზი
           taxi: ტაქსი
@@ -361,7 +409,6 @@ ka:
           vending_machine: სავაჭრო ავტომატი
           veterinary: ვეტერინარული კლინიკა
           waste_basket: ნაგვის ურნა
-          youth_centre: ახალგაზრდული ცენტრი
         boundary:
           administrative: ადმინისტრაციული საზღვარი
           census: აღწერის რაიონის საზღვარი
@@ -374,6 +421,25 @@ ka:
           viaduct: ვიადუკი
           "yes": ხიდი
         building:
+          apartments: მრავალბინიანი კორპუსი
+          chapel: სამლოცველო
+          church: ეკლესია
+          commercial: კომერციული შენობა
+          dormitory: საერთო საცხოვრებელი
+          farm: ფერმა
+          garage: ავტოფარეხი
+          hospital: საავადმყოფოს შენობა
+          hotel: სასტუმრო
+          house: სახლი
+          industrial: სამრეწველო ნაგებობა
+          office: საოფისე ნაგებობა
+          public: საზოგადოებრივი შენობა
+          residential: საცხოვრებელი სახლი
+          retail: გასაყიდი ნაგებობა
+          school: სკოლა
+          terrace: ტერასა
+          train_station: რკინიგზის სადგური
+          university: უნივერსიტეტი
           "yes": შენობა
         craft:
           brewery: ლუდსახარში
@@ -422,7 +488,6 @@ ka:
           tertiary_link: მესამე კლასის გზა
           track: ბილიკი
           traffic_signals: შუქნიშანი
-          trail: ბილიკი
           unclassified: ადგილობრივი გზა
           "yes": გზა
         historic:
@@ -438,7 +503,6 @@ ka:
           fort: ფორტი
           heritage: კულტურული მემკვიდრეობის ობიექტი
           house: სახლი
-          icon: ხატულა
           manor: მამული
           memorial: მემორიალი
           mine: მაღარო
@@ -518,6 +582,7 @@ ka:
           cape: კონცხი
           cave_entrance: გამოქვაბულში შესასვლელი
           cliff: ხრამი
+          coastline: სანაპირო ზოლი
           crater: კრატერი
           dune: დიუნა
           fell: ბორცვი
@@ -583,7 +648,6 @@ ka:
           subdivision: ქვედანაყოფი
           suburb: გარეუბანი
           town: დაბა
-          unincorporated_area: თავისუფალი ზონა
           village: სოფელი
         railway:
           abandoned: მიტოვებული რკინიგზა
@@ -604,6 +668,7 @@ ka:
           switch: სარკინიგზო ისარი
           tram: ტრამვაი
           tram_stop: ტრამვაის გაჩერება
+          yard: რკინიგზის დეპო
         shop:
           antiques: ანტიკვარიატი
           art: სამხატვრო სალონი
@@ -628,12 +693,10 @@ ka:
           electronics: ელექტროტექნიკის მაღაზია
           estate_agent: უძრავი ქონების აგენტი
           fashion: მოდური ტანსაცმლის მაღაზია
-          fish: თევზების მაღაზია
           florist: ყვავილების მაღაზია
           food: საკვების მაღაზია
           funeral_directors: დამკრძალავი ბიურო
           furniture: ავეჯი
-          gallery: გალერეა
           gift: საჩუქრების მაღაზია
           greengrocer: ხილ-ბოსტნეულის მაღაზია
           hairdresser: საპარიკმახერო
@@ -641,7 +704,6 @@ ka:
           kiosk: ჯიხური
           laundry: სამრეცხაო
           mall: მოლი
-          market: ბაზარი
           mobile_phone: მობილური ტელეფონების მაღაზია
           motorcycle: მოტოციკლეტების მაღაზია
           music: მუსიკალური მაღაზია
@@ -649,7 +711,6 @@ ka:
           optician: ოპტიკა
           organic: ორგანული საკვების მაღაზია
           pet: ზოომაღაზია
-          pharmacy: აფთიაქი
           photo: ფოტომაღაზია
           second_hand: მეორადების მაღაზია
           shoes: ფეხსაცმლის მაღაზია
@@ -698,11 +759,6 @@ ka:
         level8: ქალაქის საზღვარი
         level9: სოფლის საზღვარი
         level10: გარეუბნის საზღვარი
-    description:
-      title:
-        osm_nominatim: მდებარეობა <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>-დან
-        geonames: მდებარეობა <a href="http://www.geonames.org/">GeoNames</a>-დან
       types:
         cities: ქალაქები
         towns: დაბები
@@ -735,37 +791,39 @@ ka:
     foundation_title: ფონდი OpenStreetMap
     make_a_donation:
       text: პროექტის დახმარება
-  notifier:
+    more: მეტი
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap]-ის მომხმარებელმა %{user} თქვენს დღიურში დატოვა კომენტარი'
       hi: გამარჯობა %{to_user},
     message_notification:
       hi: გამარჯობა %{to_user},
-    friend_notification:
+    friendship_notification:
       subject: '[OpenStreetMap]-ის მომხმარებელმა %{user} დაგამატათ მეგობრებში'
-    gpx_notification:
-      greeting: გამარჯობა,
     signup_confirm:
       subject: '[OpenStreetMap] მოგესალმებით OpenStreetMap-ში'
       greeting: გამარჯობა!
     email_confirm:
       subject: '[OpenStreetMap] დაადასტურეთ თქვენი ელ.ფოსტის მისამართი'
-    email_confirm_plain:
       greeting: გამარჯობა,
-    email_confirm_html:
-      greeting: გამარჯობა,
-    lost_password_plain:
-      greeting: გამარჯობა,
-    lost_password_html:
+    lost_password:
       greeting: გამარჯობა,
     note_comment_notification:
       anonymous: ანონიმური მომხმარებელი
       greeting: გამარჯობა,
+  confirmations:
+    confirm:
+      heading: შეამოწმეთ თქვენი ელ.ფოსტა!
+      button: დადასტურება
+    confirm_resend:
+      failure: მომხმარებელი %{name} ვერ მოიძებნა.
+    confirm_email:
+      heading: ელ. ფოსტის მისამართის ცვლილების დადასტურება
+      button: დადასტურება
   messages:
     inbox:
       title: მიღებული
       my_inbox: ჩემი მიღებული
-      outbox: გაგზავნილი
       messages: თქვენ გაქვთ %{new_messages} და %{old_messages}
       new_messages:
         one: '%{count} ახალი შეტყობინება'
@@ -776,7 +834,7 @@ ka:
       from: გამომგზავნი
       subject: თემა
       date: თარიღი
-      no_messages_yet: თქვენ ჯერ არ გაქვთ შეტყობინებები. რატომ არ უნდა გავესაუბრო
+      no_messages_yet_html: თქვენ ჯერ არ გაქვთ შეტყობინებები. რატომ არ უნდა გავესაუბრო
         ვინმეს %{people_mapping_nearby_link}?
       people_mapping_nearby: ახლოს მყოფი ხალხი
     message_summary:
@@ -786,10 +844,9 @@ ka:
       destroy_button: წაშლა
     new:
       title: შეტყობინების გაგზავნა
-      send_message_to: გაუგზავნეთ ახალი შეტყობინება %{name}
+      send_message_to_html: გაუგზავნეთ ახალი შეტყობინება %{name}
       subject: თემა
       body: ტექსტი
-      send_button: გაგზავნა
       back_to_inbox: მიღებულებში დაბრუნება
     create:
       message_sent: შეტყობინება გაიგზავნა
@@ -801,17 +858,14 @@ ka:
       body: ბოდიშით, მაგრამ შეტყობინება ამ ID-ით არ არსებობს.
     outbox:
       title: გაგზავნილი
-      my_inbox: ჩემი %{inbox_link}
-      inbox: მიღებული
-      outbox: გაგზავნილი
       messages:
         one: თქვენ გაქვთ %{count} გაგზავნილი შეტყობინება
         other: თქვენ გაქვთ %{count} გაგზავნილი შეტყობინება
       to: ვის
       subject: თემა
       date: თარიღი
-      no_sent_messages: თქვენ ჯერ არ გაქვთ გაგზავნილი შეტყობინებები. რატომ არ უნდა
-        გავესაუბრო ვინმეს %{people_mapping_nearby_link}?
+      no_sent_messages_html: თქვენ ჯერ არ გაქვთ გაგზავნილი შეტყობინებები. რატომ არ
+        უნდა გავესაუბრო ვინმეს %{people_mapping_nearby_link}?
       people_mapping_nearby: ახლოს მყოფი ხალხი
     reply:
       wrong_user: თქვენ შეხვედით როგორც `%{user}' მაგრამ პასუხი თქვენ კითხვაზე არ
@@ -835,6 +889,37 @@ ka:
       as_unread: შეტყობინება მონიშნულია როგორც წაუკითხავი
     destroy:
       destroyed: შეტყობინება წაშლილია
+  passwords:
+    lost_password:
+      title: პაროლის აღდგენა
+      heading: დაგავიწყდათ პაროლი?
+      email address: 'ელ. ფოსტის მისამართი:'
+    reset_password:
+      flash changed: თქვენი პაროლი შეიცვალა.
+  profiles:
+    edit:
+      image: 'სურათი:'
+      new image: სურათის დამატება
+      home location: 'ჩემი ადგილსამყოფელი:'
+  sessions:
+    new:
+      title: შესვლა
+      heading: შესვლა
+      email or username: 'ელ. ფოსტის მისამართი, ან მომხმარებლის სახელი:'
+      password: 'პაროლი:'
+      openid_html: '%{logo} OpenID:'
+      remember: დამიმახსოვრე
+      lost password link: დაგავიწყდათ პაროლი?
+      login_button: შესვლა
+      register now: დარეგისტრირდით ახლავე
+      new to osm: ახალი ხართ OpenStreetMap-ზე?
+      create account minute: შექმნეით ანგარიში. ამისათვის მხოლოდ ერთი წუთია საჭირო.
+      no account: არ გაქვთ ანგარიში?
+      openid_logo_alt: შესვლა OpenID-ის საშუალებით
+    destroy:
+      title: გასვლა
+      heading: OpenStreetMap-დან გასვლა
+      logout_button: გასვლა
   site:
     copyright:
       foreign:
@@ -924,38 +1009,11 @@ ka:
           summit:
           - მწვერვალი
           - პიკი
-    richtext_area:
-      edit: რედაქტირება
-      preview: წინასწარი გადახედვა
-    markdown_help:
-      first: პირველი ელემენტი
-      second: მეორე ელემენტი
-      link: ბმული
-      text: ტექსტი
-      image: სურათი
-      alt: ალტერნატიული ტექსტი
-      url: URL
   traces:
     new:
-      description: 'აღწერა:'
-      tags_help: მძიმის შემდეგ
-      visibility: 'ხილვადობა:'
       visibility_help: ეს რას ნიშნავს?
-      upload_button: ატვირთვა
       help: დახმარება
     edit:
-      filename: 'ფაილის სახელი:'
-      download: გადმოწერა
-      uploaded_at: 'ატვირთულია:'
-      points: 'წერტილი:'
-      start_coord: 'საწყისი კოორდინატი:'
-      map: რუკა
-      edit: რედაქტირება
-      owner: 'მფლობელი:'
-      description: 'აღწერა:'
-      tags_help: მძიმის შემდეგ
-      save_button: ცვლილებების შენახვა
-      visibility: 'ხილვადობა:'
       visibility_help: ეს რას ნიშნავს?
     show:
       pending: დამუშავება
@@ -975,74 +1033,33 @@ ka:
     trace:
       pending: დამუშავება
       count_points: '%{count} წერტილი'
-      ago: '%{time_in_words_ago} წინ'
       more: მეტი
       view_map: რუკის ნახვა
-      edit: რედაქტირება
       edit_map: რუკის რედაქტირება
       public: საჯარო
       identifiable: იდენტიფიცირებადი
       private: პირადი
       trackable: კონტროლირებადი
       by: 'ავტორი:'
-      map: რუკა
   oauth:
     authorize:
       allow_write_api: რუკის შეცვლა.
   oauth_clients:
-    new:
-      submit: რეგისტრაცია
-    edit:
-      submit: რედაქტირება
     show:
       edit: დეტალების რედაქტირება
       confirm: დარწმუნებული ხართ?
-      allow_write_api: რუკის შეცვლა.
     index:
       application: აპლიკაციის სახელი
       revoke: განბლოკვა!
-    form:
-      name: სახელი
-      required: სავალდებულოა
-      allow_write_api: რუკის რედაქტირება.
   users:
-    login:
-      title: შესვლა
-      heading: შესვლა
-      email or username: 'ელ. ფოსტის მისამართი, ან მომხმარებლის სახელი:'
-      password: 'პაროლი:'
-      openid: '%{logo} OpenID:'
-      remember: 'დამიმახსოვრე:'
-      lost password link: დაგავიწყდათ პაროლი?
-      login_button: შესვლა
-      register now: დარეგისტრირდით ახლავე
-      new to osm: ახალი ხართ OpenStreetMap-ზე?
-      create account minute: შექმნეით ანგარიში. ამისათვის მხოლოდ ერთი წუთია საჭირო.
-      no account: არ გაქვთ ანგარიში?
-      openid_logo_alt: შესვლა OpenID-ის საშუალებით
-    logout:
-      title: გასვლა
-      heading: OpenStreetMap-დან გასვლა
-      logout_button: გასვლა
-    lost_password:
-      title: პაროლის აღდგენა
-      heading: დაგავიწყდათ პაროლი?
-      email address: 'ელ. ფოსტის მისამართი:'
-    reset_password:
-      password: 'პაროლი:'
-      confirm password: 'პაროლის დადასტურება:'
-      flash changed: თქვენი პაროლი შეიცვალა.
     new:
       title: რეგისტრაცია
       email address: 'ელ. ფოსტის მისამართი:'
       confirm email address: 'ელ. ფოსტის მისამართის დადასტურება:'
       display name: 'სახელი ეკრანზე:'
-      password: 'პაროლი:'
-      confirm password: 'პაროლის დადასტურება:'
       continue: რეგისტრაცია
     terms:
       consider_pd_why: რა არის ეს?
-      agree: მიღება
       decline: უარყოფა
       legale_select: 'გთხოვთ, აირჩიეთ თქვენი ქვეყანა:'
       legale_names:
@@ -1062,7 +1079,6 @@ ka:
       edits: რედაქტირებები
       remove as friend: მეგობრებიდან წაშლა
       add as friend: მეგობრებში დამატება
-      ct accepted: მიღებულია %{ago} წინ
       latest edit: 'ბოლო რედაქტირება %{ago}:'
       email address: 'ელ. ფოსტის მისამართი:'
       created from: 'შექმნილია:'
@@ -1070,9 +1086,6 @@ ka:
       spam score: 'სპამის შეფასება:'
       description: აღწერა
       user location: მომხმარებლის ადგილმდებარეობა
-      settings_link_text: პარამეტრები
-      km away: '%{count}კმ თქვენგან'
-      m away: '%{count}მ თქვენგან'
       role:
         administrator: ეს მომხმარებელი ადმინისტრატორია
       comments: კომენტარები
@@ -1084,51 +1097,9 @@ ka:
       unhide_user: ამ მომხმარებლის გამოჩენა
       delete_user: ამ მომხმარებლის წაშლა
       confirm: დადასტურება
-    popup:
-      your location: თქვენი ადგილმდებარეობა
-      friend: მეგობარი
-    account:
-      title: ანგარიშის რედაქტირება
-      my settings: ჩემი პარამეტრები
-      current email address: 'ელ-ფოსტის ამჟამინდელი მისამართი:'
-      new email address: 'ახალი ელ. ფოსტის მისამართი:'
-      openid:
-        link: http://wiki.openstreetmap.org/wiki/KA:OpenID
-        link text: რა არის ეს?
-      public editing:
-        enabled link text: რა არის ეს?
-        disabled link text: რატომ არ შემიძლია რედაქტირება?
-      contributor terms:
-        link text: რა არის ეს?
-      image: 'სურათი:'
-      gravatar:
-        link text: ეს რა არის?
-      new image: სურათის დამატება
-      home location: 'ჩემი ადგილსამყოფელი:'
-      latitude: 'განედი:'
-      longitude: 'გრძედი:'
-      save changes button: ცვლილებების შენახვა
-      return to profile: პროფილში დაბრუნება
-    confirm:
-      heading: შეამოწმეთ თქვენი ელ.ფოსტა!
-      button: დადასტურება
-    confirm_resend:
-      failure: მომხმარებელი %{name} ვერ მოიძებნა.
-    confirm_email:
-      heading: ელ. ფოსტის მისამართის ცვლილების დადასტურება
-      button: დადასტურება
-    make_friend:
-      heading: დავამატო %{user} მეგობრებში?
-      button: მეგობრებში დამატება
-      success: '%{name} ახლა უკვე თქვენი მეგობარია!'
-    remove_friend:
-      heading: წავშალო მეგობრებიდან %{user}?
-      button: მეგობრებიდან წაშლა
     index:
       title: მომხმარებლები
       heading: მომხმარებლები
-    suspended:
-      webmaster: ვებ-მასტერი
   user_role:
     grant:
       confirm: დადასტურება
@@ -1137,13 +1108,11 @@ ka:
   user_blocks:
     new:
       title: მომხმარებელ %{name} ბლოკირების შექმნა
-      heading: მომხმარებელ %{name} ბლოკირების შექმნა
-      submit: ბლოკირების შექმნა
+      heading_html: მომხმარებელ %{name} ბლოკირების შექმნა
       back: ყველა ბლოკირების ჩვენება
     edit:
       title: მომხმარებელ %{name} ბლოკირების რედაქტირება
-      heading: მომხმარებელ %{name} ბლოკირების რედაქტირება
-      submit: განაახლეთ ბლოკირება
+      heading_html: მომხმარებელ %{name} ბლოკირების რედაქტირება
       show: ამ ბლოკირების ჩვენება
       back: ყველა ბლოკირების ჩვენება
     update:
@@ -1157,26 +1126,25 @@ ka:
       confirm: დარწმუნებული ხართ, რომ ამ ბლოკირების მოხსნა გსურთ?
       revoke: განბლოკვა!
       flash: ეს ბლოკირება მოიხსნა.
-    period:
-      one: 1 საათი
-      other: '%{count} საათი'
     helper:
-      time_future: მთავრდება %{time}–ში.
+      time_future_html: მთავრდება %{time}–ში.
       until_login: აქტიურია მანამდე, სანამ მომხმარებელი არ შევა სისტემაში.
-      time_past: დასრულდა %{time} წინ.
+      time_past_html: დასრულდა %{time} წინ.
+      block_duration:
+        hours:
+          one: 1 საათი
+          other: '%{count} საათი'
     blocks_on:
       title: '%{name}-ის მიერ გაკეთებული ბლოკირებები'
-      heading: '%{name}-ის მიერ გაკეთებული ბლოკირებების სია'
+      heading_html: '%{name}-ის მიერ გაკეთებული ბლოკირებების სია'
       empty: '%{name} ჯერ არასდროს არ ყოფილა დაბლოკილი.'
     blocks_by:
       title: '%{name}-ის მიერ გაკეთებული ბლოკირებები'
-      heading: '%{name}-ის მიერ გაკეთებული ბლოკირებების სია'
+      heading_html: '%{name}-ის მიერ გაკეთებული ბლოკირებების სია'
       empty: '%{name} ჯერ არანაირი ბლოკირება არ გაუკეთებია.'
     show:
       title: '%{block_on}, დაადო ბლოკი: %{block_by}'
-      heading: '%{block_on}, დაადო ბლოკი: %{block_by}'
-      time_future: მთავრდება %{time}–ში
-      time_past: დასრულდა %{time} წინ
+      heading_html: '%{block_on}, დაადო ბლოკი: %{block_by}'
       status: სტატუსი
       show: ჩვენება
       edit: რედაქტირება
@@ -1201,17 +1169,9 @@ ka:
       next: შემდეგი »
       previous: « წინა
   notes:
-    comment:
-      opened_at_html: შეიქმნა %{when} წინ
-      opened_at_by_html: შექმნა %{when} წინ მომხმარებელმა %{user}
-      commented_at_html: განახლდა %{when} წინ
-      commented_at_by_html: განაახლა %{when} წინ მომხმარებელმა %{user}
-    entry:
-      comment: კომენტარი
-    mine:
+    index:
       creator: შემქმნელი
       description: აღწერა
-      ago_html: '%{when} წინ'
   javascripts:
     map:
       base:
@@ -1231,10 +1191,6 @@ ka:
     context:
       show_address: მისამართის ჩვენება
   redactions:
-    edit:
-      description: აღწერა
-    new:
-      description: აღწერა
     show:
       description: 'აღწერა:'
       user: 'შემქმნელი:'

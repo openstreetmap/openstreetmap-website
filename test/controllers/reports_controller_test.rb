@@ -1,9 +1,9 @@
 require "test_helper"
 
-class ReportsControllerTest < ActionController::TestCase
+class ReportsControllerTest < ActionDispatch::IntegrationTest
   def test_new_report_without_login
     target_user = create(:user)
-    get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
     assert_response :redirect
     assert_redirected_to login_path(:referer => new_report_path(:reportable_id => target_user.id, :reportable_type => "User"))
   end
@@ -11,22 +11,19 @@ class ReportsControllerTest < ActionController::TestCase
   def test_new_report_after_login
     target_user = create(:user)
 
-    session[:user] = create(:user).id
+    session_for(create(:user))
 
     # Create an Issue and a report
-    get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
     assert_response :success
     assert_difference "Issue.count", 1 do
       details = "Details of a report"
       category = "other"
-      post :create,
-           :params => {
-             :report => {
-               :details => details,
-               :category => category,
-               :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
-             }
-           }
+      post reports_path(:report => {
+                          :details => details,
+                          :category => category,
+                          :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                        })
     end
     assert_response :redirect
     assert_redirected_to user_path(target_user)
@@ -37,22 +34,19 @@ class ReportsControllerTest < ActionController::TestCase
     target_user = create(:user)
 
     # Login
-    session[:user] = create(:user).id
+    session_for(create(:user))
 
     # Create an Issue and a report
-    get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
     assert_response :success
     assert_difference "Issue.count", 1 do
       details = "Details of a report"
       category = "other"
-      post :create,
-           :params => {
-             :report => {
-               :details => details,
-               :category => category,
-               :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
-             }
-           }
+      post reports_path(:report => {
+                          :details => details,
+                          :category => category,
+                          :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                        })
     end
     assert_response :redirect
     assert_redirected_to user_path(target_user)
@@ -61,19 +55,16 @@ class ReportsControllerTest < ActionController::TestCase
 
     assert_equal 1, issue.reports.count
 
-    get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
     assert_response :success
 
     # Report without details
     assert_no_difference "Issue.count" do
       category = "other"
-      post :create,
-           :params => {
-             :report => {
-               :category => category,
-               :issue => { :reportable_id => 1, :reportable_type => "User" }
-             }
-           }
+      post reports_path(:report => {
+                          :category => category,
+                          :issue => { :reportable_id => 1, :reportable_type => "User" }
+                        })
     end
     assert_response :redirect
 
@@ -85,22 +76,19 @@ class ReportsControllerTest < ActionController::TestCase
     target_user = create(:user)
 
     # Login
-    session[:user] = create(:user).id
+    session_for(create(:user))
 
     # Create an Issue and a report
-    get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
     assert_response :success
     assert_difference "Issue.count", 1 do
       details = "Details of a report"
       category = "other"
-      post :create,
-           :params => {
-             :report => {
-               :details => details,
-               :category => category,
-               :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
-             }
-           }
+      post reports_path(:report => {
+                          :details => details,
+                          :category => category,
+                          :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                        })
     end
     assert_response :redirect
     assert_redirected_to user_path(target_user)
@@ -110,19 +98,16 @@ class ReportsControllerTest < ActionController::TestCase
     assert_equal 1, issue.reports.count
 
     # Create a report for an existing Issue
-    get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
     assert_response :success
     assert_no_difference "Issue.count" do
       details = "Details of another report under the same issue"
       category = "other"
-      post :create,
-           :params => {
-             :report => {
-               :details => details,
-               :category => category,
-               :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
-             }
-           }
+      post reports_path(:report => {
+                          :details => details,
+                          :category => category,
+                          :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                        })
     end
     assert_response :redirect
 

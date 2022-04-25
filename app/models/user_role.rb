@@ -3,11 +3,11 @@
 # Table name: user_roles
 #
 #  id         :integer          not null, primary key
-#  user_id    :integer          not null
+#  user_id    :bigint(8)        not null
 #  role       :enum             not null
 #  created_at :datetime
 #  updated_at :datetime
-#  granter_id :integer          not null
+#  granter_id :bigint(8)        not null
 #
 # Indexes
 #
@@ -19,7 +19,7 @@
 #  user_roles_user_id_fkey     (user_id => users.id)
 #
 
-class UserRole < ActiveRecord::Base
+class UserRole < ApplicationRecord
   belongs_to :user
   belongs_to :granter, :class_name => "User"
 

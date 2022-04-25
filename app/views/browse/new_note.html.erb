@@ -1,18 +1,17 @@
-<% set_title(t "browse.note.new_note") %>
+<% set_title(t("browse.note.new_note")) %>
 
-<h2>
-  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= t "browse.note.new_note" %>
-</h2>
+<%= render "sidebar_header", :title => t("browse.note.new_note") %>
 
-<div class="note browse-section">
-  <p class="warning"><%= t('javascripts.notes.new.intro') %></p>
+<div class="note">
+  <p class="alert alert-info"><%= t("javascripts.notes.new.intro") %></p>
   <form action="#">
-    <input type="hidden" name="lon">
-    <input type="hidden" name="lat">
-    <textarea class="comment" name="text" cols="40" rows="10" maxlength="2000" placeholder="<%= t('javascripts.notes.new.advice') %>"></textarea>
+    <input type="hidden" name="lon" autocomplete="off">
+    <input type="hidden" name="lat" autocomplete="off">
+    <div class="form-group">
+      <textarea class="form-control" name="text" cols="40" rows="10" maxlength="2000" placeholder="<%= t("javascripts.notes.new.advice") %>"></textarea>
+    </div>
     <div class="buttons clearfix">
-      <input type="submit" name="add" value="<%= t('javascripts.notes.new.add') %>" disabled="1">
+      <input type="submit" name="add" value="<%= t("javascripts.notes.new.add") %>" disabled="1" class="btn btn-primary">
     </div>
   </form>
 </div>

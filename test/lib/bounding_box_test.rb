@@ -21,10 +21,10 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
     @bad_positive_boundary_bbox  = %w[181,91,0,0 0,0,181,91]
     @bad_negative_boundary_bbox  = %w[-181,-91,0,0 0,0,-181,-91]
-    @bad_big_bbox       = %w[-0.1,-0.1,1.1,1.1 10,10,11,11]
+    @bad_big_bbox = %w[-0.1,-0.1,1.1,1.1 10,10,11,11]
     @bad_malformed_bbox = %w[-0.1 hello 10N2W10.1N2.1W]
-    @bad_lat_mixed_bbox  = %w[0,0.1,0.1,0 -0.1,80,0.1,70 0.24,54.34,0.25,54.33]
-    @bad_lon_mixed_bbox  = %w[80,-0.1,70,0.1 54.34,0.24,54.33,0.25]
+    @bad_lat_mixed_bbox = %w[0,0.1,0.1,0 -0.1,80,0.1,70 0.24,54.34,0.25,54.33]
+    @bad_lon_mixed_bbox = %w[80,-0.1,70,0.1 54.34,0.24,54.33,0.25]
     @bad_limit_bbox = %w[-180.1,-90,180,90 -180,-90.1,180,90 -180,-90,180.1,90 -180,-90,180,90.1]
     @good_bbox = %w[-0.1,-0.1,0.1,0.1 51.1,-0.1,51.2,0 -0.1,%20-0.1,%200.1,%200.1
                     -0.1edcd,-0.1d,0.1,0.1 -0.1E,-0.1E,0.1S,0.1N S0.1,W0.1,N0.1,E0.1]
@@ -223,7 +223,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_complete
     assert_not @bbox_from_nils.complete?, "should contain a nil"
-    assert @bbox_from_string.complete?, "should not contain a nil"
+    assert_predicate @bbox_from_string, :complete?, "should not contain a nil"
   end
 
   def test_centre_lon
@@ -265,19 +265,19 @@ class BoundingBoxTest < ActiveSupport::TestCase
   def test_add_bounds_to_no_underscore
     bounds = @bbox_from_string.add_bounds_to({})
     assert_equal 4, bounds.size
-    assert_equal format("%.7f", @min_lon), bounds["minlon"]
-    assert_equal format("%.7f", @min_lat), bounds["minlat"]
-    assert_equal format("%.7f", @max_lon), bounds["maxlon"]
-    assert_equal format("%.7f", @max_lat), bounds["maxlat"]
+    assert_equal format("%<lon>.7f", :lon => @min_lon), bounds["minlon"]
+    assert_equal format("%<lat>.7f", :lat => @min_lat), bounds["minlat"]
+    assert_equal format("%<lon>.7f", :lon => @max_lon), bounds["maxlon"]
+    assert_equal format("%<lat>.7f", :lat => @max_lat), bounds["maxlat"]
   end
 
   def test_add_bounds_to_with_underscore
     bounds = @bbox_from_string.add_bounds_to({}, "_")
     assert_equal 4, bounds.size
-    assert_equal format("%.7f", @min_lon), bounds["min_lon"]
-    assert_equal format("%.7f", @min_lat), bounds["min_lat"]
-    assert_equal format("%.7f", @max_lon), bounds["max_lon"]
-    assert_equal format("%.7f", @max_lat), bounds["max_lat"]
+    assert_equal format("%<lon>.7f", :lon => @min_lon), bounds["min_lon"]
+    assert_equal format("%<lat>.7f", :lat => @min_lat), bounds["min_lat"]
+    assert_equal format("%<lon>.7f", :lon => @max_lon), bounds["max_lon"]
+    assert_equal format("%<lat>.7f", :lat => @max_lat), bounds["max_lat"]
   end
 
   def test_to_scaled

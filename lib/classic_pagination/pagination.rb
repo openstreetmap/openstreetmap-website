@@ -81,12 +81,12 @@ module ActionController
       }.freeze
     end
 
-    def self.included(base) #:nodoc:
+    def self.included(base) # :nodoc:
       super
       base.extend(ClassMethods)
     end
 
-    def self.validate_options!(collection_id, options, in_action) #:nodoc:
+    def self.validate_options!(collection_id, options, in_action) # :nodoc:
       options.merge!(DEFAULT_OPTIONS) { |_key, old, _new| old }
 
       valid_options = DEFAULT_OPTIONS.keys
@@ -156,9 +156,9 @@ module ActionController
 
     protected
 
-    def create_paginators_and_retrieve_collections #:nodoc:
+    def create_paginators_and_retrieve_collections # :nodoc:
       Pagination::OPTIONS[self.class].each do |collection_id, options|
-        next if options[:actions] && !options[:actions].include?(action_name)
+        next if options[:actions]&.exclude?(action_name)
 
         paginator, collection =
           paginator_and_collection_for(collection_id, options)
@@ -204,7 +204,7 @@ module ActionController
 
     private
 
-    def paginator_and_collection_for(_collection_id, options) #:nodoc:
+    def paginator_and_collection_for(_collection_id, options) # :nodoc:
       klass = options[:class_name].constantize
       page  = params[options[:parameter]]
       count = count_collection_for_pagination(klass, options)
@@ -240,12 +240,10 @@ module ActionController
       # object, its +number+ attribute is used as the value; if the page does
       # not belong to this Paginator, an ArgumentError is raised.
       def current_page=(page)
-        if page.is_a? Page
-          raise ArgumentError, "Page/Paginator mismatch" unless
-            page.paginator == self
-        end
+        raise ArgumentError, "Page/Paginator mismatch" if page.is_a?(Page) && page.paginator != self
+
         page = page.to_i
-        @current_page_number = has_page_number?(page) ? page : 1
+        @current_page_number = contains_page?(page) ? page : 1
       end
 
       # Returns a Page object representing this paginator's current page.
@@ -279,7 +277,7 @@ module ActionController
       alias length page_count
 
       # Returns true if this paginator contains the page of index +number+.
-      def has_page_number?(number)
+      def contains_page?(number)
         number >= 1 && number <= page_count
       end
 
@@ -306,9 +304,10 @@ module ActionController
         def initialize(paginator, number)
           @paginator = paginator
           @number = number.to_i
-          @number = 1 unless @paginator.has_page_number? @number
+          @number = 1 unless @paginator.contains_page? @number
         end
         attr_reader :paginator, :number
+
         alias to_i number
 
         # Compares two Page objects and returns true when they represent the
@@ -379,7 +378,7 @@ module ActionController
           [@paginator.items_per_page, offset]
         end
 
-        def to_param #:nodoc:
+        def to_param # :nodoc:
           @number.to_s
         end
       end
@@ -393,25 +392,24 @@ module ActionController
           @page = page
           self.padding = padding
         end
-        attr_reader :paginator, :page
+        attr_reader :paginator, :page, :padding, :first, :last
 
         # Sets the window's padding (the number of pages on either side of the
         # window page).
         def padding=(padding)
           @padding = padding.negative? ? 0 : padding
           # Find the beginning and end pages of the window
-          @first = if @paginator.has_page_number?(@page.number - @padding)
+          @first = if @paginator.contains_page?(@page.number - @padding)
                      @paginator[@page.number - @padding]
                    else
                      @paginator.first
                    end
-          @last = if @paginator.has_page_number?(@page.number + @padding)
+          @last = if @paginator.contains_page?(@page.number + @padding)
                     @paginator[@page.number + @padding]
                   else
                     @paginator.last
                   end
         end
-        attr_reader :padding, :first, :last
 
         # Returns an array of Page objects in the current window.
         def pages

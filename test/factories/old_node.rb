@@ -7,7 +7,7 @@ FactoryBot.define do
     association :current_node, :factory => :node
 
     visible { true }
-    timestamp { Time.now }
+    timestamp { Time.now.utc }
     version { 1 }
   end
 end

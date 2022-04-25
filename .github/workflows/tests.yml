@@ -1,0 +1,88 @@
+name: Tests
+on:
+  - push
+  - pull_request
+concurrency:
+  group: ${{ github.workflow }}-{{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    name: Ubuntu ${{ matrix.ubuntu }}, Ruby ${{ matrix.ruby }}
+    strategy:
+      matrix:
+        ubuntu: [20.04]
+        ruby: [2.7, 3.0]
+    runs-on: ubuntu-${{ matrix.ubuntu }}
+    env:
+      RAILS_ENV: test
+      OPENSTREETMAP_MEMCACHE_SERVERS: 127.0.0.1
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v3
+    - name: Setup ruby
+      uses: actions/setup-ruby@v1.1.3
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - name: Cache gems
+      uses: actions/cache@v3
+      with:
+        path: vendor/bundle
+        key: bundle-ubuntu-${{ matrix.ubuntu }}-ruby-${{ matrix.ruby }}-${{ hashFiles('Gemfile.lock') }}
+        restore-keys: |
+          bundle-ubuntu-${{ matrix.ubuntu }}-ruby-${{ matrix.ruby }}-
+    - name: Cache node modules
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: yarn-ubuntu-${{ matrix.ubuntu }}-${{ hashFiles('yarn.lock') }}
+        restore-keys: |
+          yarn-ubuntu-${{ matrix.ubuntu }}-
+    - name: Install packages
+      run: |
+        sudo apt-get -yqq update
+        sudo apt-get -yqq install memcached libvips-dev
+    - name: Install gems
+      run: |
+        gem install bundler
+        bundle config set deployment true
+        bundle install --jobs 4 --retry 3
+    - name: Create database
+      run: |
+        sudo systemctl start postgresql
+        sudo -u postgres createuser -s $(id -un)
+        createdb openstreetmap
+        psql -c "CREATE EXTENSION btree_gist" openstreetmap
+        psql -f db/functions/functions.sql openstreetmap
+    - name: Configure rails
+      run: |
+        cp config/github.database.yml config/database.yml
+        cp config/example.storage.yml config/storage.yml
+        touch config/settings.local.yml
+    - name: Populate database
+      run: |
+        sed -f script/normalise-structure db/structure.sql > db/structure.expected
+        bundle exec rake db:migrate
+        sed -f script/normalise-structure db/structure.sql > db/structure.actual
+        diff -uw db/structure.expected db/structure.actual
+    - name: Export javascript strings
+      run: bundle exec rake i18n:js:export
+    - name: Install node modules
+      run: bundle exec rake yarn:install
+    - name: Run tests
+      run: bundle exec rails test:all
+    - name: Report completion to Coveralls
+      uses: coverallsapp/github-action@1.1.3
+      with:
+        github-token: ${{ secrets.github_token }}
+        flag-name: ubuntu-${{ matrix.ubuntu }}-ruby-${{ matrix.ruby }}
+        parallel: true
+  finish:
+    name: Finalise
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Report completion to Coveralls
+      uses: coverallsapp/github-action@1.1.3
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true

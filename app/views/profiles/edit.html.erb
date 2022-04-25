@@ -1,0 +1,61 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<%= bootstrap_form_for current_user, :url => { :action => :update }, :html => { :multipart => true, :autocomplete => :off } do |f| %>
+  <%= f.richtext_field :description, :cols => 80, :rows => 20 %>
+
+  <fieldset class="form-group">
+    <%= f.label t(".image") %>
+    <div class="form-row">
+      <div class="col-sm-2">
+        <%= user_image current_user %>
+      </div>
+      <div class="col-sm-10">
+        <% if current_user.avatar.attached? %>
+          <%= f.radio_button "avatar_action", "keep", :name => "avatar_action", :label => t(".keep image"), :checked => !current_user.image_use_gravatar %>
+        <% end %>
+        <% if current_user.avatar.attached? || current_user.image_use_gravatar? %>
+          <%= f.radio_button "avatar_action", "delete", :name => "avatar_action", :label => t(".delete image"), :checked => false %>
+        <% end %>
+        <% if current_user.avatar.attached? %>
+          <%= f.form_group :help => t(".image size hint"), :class => "mb-0" do %>
+            <%= f.radio_button "avatar_action", "new", :name => "avatar_action", :label => t(".replace image"), :checked => false %>
+            <%= f.file_field :avatar, :hide_label => true, :wrapper => { :class => "mb-0" } %>
+          <% end %>
+        <% else %>
+          <%= f.form_group :help => t(".image size hint"), :class => "mb-0" do %>
+            <%= f.radio_button "avatar_action", "new", :name => "avatar_action", :label => t(".new image"), :checked => false %>
+            <%= f.file_field :avatar, :hide_label => true, :wrapper => { :class => "mb-0" } %>
+          <% end %>
+        <% end %>
+        <%= f.form_group :help => link_to(t(".gravatar.what_is_gravatar"), t(".gravatar.link")) do %>
+          <%= f.radio_button "avatar_action", "gravatar", :name => "avatar_action", :label => t(".gravatar.gravatar"), :checked => current_user.image_use_gravatar %>
+        <% end %>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend><%= t ".home location" -%></legend>
+    <div id="homerow" <% unless current_user.home_lat and current_user.home_lon %> class="nohome"<% end %>>
+      <p class="message text-muted"><%= t ".no home location" %></p>
+      <div class="form-row">
+        <%= f.text_field :home_lat, :wrapper_class => "col-sm-4", :id => "home_lat" %>
+        <%= f.text_field :home_lon, :wrapper_class => "col-sm-4", :id => "home_lon" %>
+      </div>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" name="updatehome" value="1" <% unless current_user.home_lat and current_user.home_lon %> checked="checked" <% end %> id="updatehome" />
+      <label class="form-check-label" for="updatehome"><%= t ".update home location on click" %></label>
+    </div>
+    <%= tag.div "", :id => "map", :class => "content_map set_location border border-grey rounded" %>
+  </fieldset>
+
+  <%= f.primary t(".save") %>
+    <%= link_to t(".cancel"), user_path(current_user), :class => "btn btn-link" %>
+<% end %>

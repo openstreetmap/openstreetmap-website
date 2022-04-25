@@ -1,5 +1,5 @@
 module BrowseHelper
-  def printable_name(object, version = false)
+  def printable_name(object, version: false)
     id = if object.id.is_a?(Array)
            object.id[0]
          else
@@ -11,16 +11,16 @@ module BrowseHelper
     # don't look at object tags if redacted, so as to avoid giving
     # away redacted version tag information.
     unless object.redacted?
-      locale = I18n.locale.to_s
+      available_locales = Locale.list(name_locales(object))
 
-      locale = locale.sub(/-[^-]+/, "") while locale =~ /-[^-]+/ && !object.tags.include?("name:#{I18n.locale}")
+      locale = available_locales.preferred(preferred_languages, :default => nil)
 
       if object.tags.include? "name:#{locale}"
-        name = t "printable_name.with_name_html", :name => content_tag(:bdi, object.tags["name:#{locale}"].to_s), :id => content_tag(:bdi, name)
+        name = t "printable_name.with_name_html", :name => tag.bdi(object.tags["name:#{locale}"].to_s), :id => tag.bdi(name)
       elsif object.tags.include? "name"
-        name = t "printable_name.with_name_html", :name => content_tag(:bdi, object.tags["name"].to_s), :id => content_tag(:bdi, name)
+        name = t "printable_name.with_name_html", :name => tag.bdi(object.tags["name"].to_s), :id => tag.bdi(name)
       elsif object.tags.include? "ref"
-        name = t "printable_name.with_name_html", :name => content_tag(:bdi, object.tags["ref"].to_s), :id => content_tag(:bdi, name)
+        name = t "printable_name.with_name_html", :name => tag.bdi(object.tags["ref"].to_s), :id => tag.bdi(name)
       end
     end
 
@@ -44,7 +44,7 @@ module BrowseHelper
     if object.redacted?
       ""
     else
-      h(icon_tags(object).map { |k, v| k + "=" + v }.to_sentence)
+      h(icon_tags(object).map { |k, v| "#{k}=#{v}" }.to_sentence)
     end
   end
 
@@ -70,5 +70,9 @@ module BrowseHelper
 
   def icon_tags(object)
     object.tags.find_all { |k, _v| ICON_TAGS.include? k }.sort
+  end
+
+  def name_locales(object)
+    object.tags.keys.map { |k| Regexp.last_match(1) if k =~ /^name:(.*)$/ }.flatten
   end
 end

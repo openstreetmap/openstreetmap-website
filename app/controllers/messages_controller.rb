@@ -24,16 +24,17 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.recipient = @user
     @message.sender = current_user
-    @message.sent_on = Time.now.getutc
+    @message.sent_on = Time.now.utc
 
-    if current_user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
-      flash[:error] = t ".limit_exceeded"
+    if current_user.sent_messages.where("sent_on >= ?", Time.now.utc - 1.hour).count >= current_user.max_messages_per_hour
+      flash.now[:error] = t ".limit_exceeded"
       render :action => "new"
     elsif @message.save
       flash[:notice] = t ".message_sent"
-      Notifier.message_notification(@message).deliver_later
+      UserMailer.message_notification(@message).deliver_later
       redirect_to :action => :inbox
     else
+      @title = t "messages.new.title"
       render :action => "new"
     end
   end
@@ -56,7 +57,7 @@ class MessagesController < ApplicationController
       render :action => "new"
     else
       flash[:notice] = t ".wrong_user", :user => current_user.display_name
-      redirect_to :controller => "users", :action => "login", :referer => request.fullpath
+      redirect_to login_path(:referer => request.fullpath)
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
@@ -73,7 +74,7 @@ class MessagesController < ApplicationController
       @message.save
     else
       flash[:notice] = t ".wrong_user", :user => current_user.display_name
-      redirect_to :controller => "users", :action => "login", :referer => request.fullpath
+      redirect_to login_path(:referer => request.fullpath)
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
@@ -118,8 +119,10 @@ class MessagesController < ApplicationController
     if @message.save && !request.xhr?
       flash[:notice] = t ".destroyed"
 
-      if params[:referer]
-        redirect_to params[:referer]
+      referer = safe_referer(params[:referer]) if params[:referer]
+
+      if referer
+        redirect_to referer
       else
         redirect_to :action => :inbox
       end

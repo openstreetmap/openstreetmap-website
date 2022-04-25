@@ -1,7 +1,8 @@
-//= require jquery.simulate
+//= require jquery-simulate/jquery.simulate
+//= require qs/dist/qs
 
-OSM.Search = function(map) {
-  $(".search_form input[name=query]").on("input", function(e) {
+OSM.Search = function (map) {
+  $(".search_form input[name=query]").on("input", function (e) {
     if ($(e.target).val() === "") {
       $(".describe_location").fadeIn(100);
     } else {
@@ -9,7 +10,7 @@ OSM.Search = function(map) {
     }
   });
 
-  $(".search_form a.button.switch_link").on("click", function(e) {
+  $(".search_form a.button.switch_link").on("click", function (e) {
     e.preventDefault();
     var query = $(e.target).parent().parent().find("input[name=query]").val();
     if (query) {
@@ -19,7 +20,7 @@ OSM.Search = function(map) {
     }
   });
 
-  $(".search_form").on("submit", function(e) {
+  $(".search_form").on("submit", function (e) {
     e.preventDefault();
     $("header").addClass("closed");
     var query = $(this).find("input[name=query]").val();
@@ -30,10 +31,10 @@ OSM.Search = function(map) {
     }
   });
 
-  $(".describe_location").on("click", function(e) {
+  $(".describe_location").on("click", function (e) {
     e.preventDefault();
     var center = map.getCenter().wrap(),
-      precision = OSM.zoomPrecision(map.getZoom());
+        precision = OSM.zoomPrecision(map.getZoom());
     OSM.router.route("/search?whereami=1&query=" + encodeURIComponent(
       center.lat.toFixed(precision) + "," + center.lng.toFixed(precision)
     ));
@@ -42,18 +43,20 @@ OSM.Search = function(map) {
   $("#sidebar_content")
     .on("click", ".search_more a", clickSearchMore)
     .on("click", ".search_results_entry a.set_position", clickSearchResult)
-    .on("mouseover", "p.search_results_entry:has(a.set_position)", showSearchResult)
-    .on("mouseout", "p.search_results_entry:has(a.set_position)", hideSearchResult)
-    .on("mousedown", "p.search_results_entry:has(a.set_position)", function () {
+    .on("mouseover", "li.search_results_entry:has(a.set_position)", showSearchResult)
+    .on("mouseout", "li.search_results_entry:has(a.set_position)", hideSearchResult)
+    .on("mousedown", "li.search_results_entry:has(a.set_position)", function () {
       var moved = false;
       $(this).one("click", function (e) {
-        if (!moved && !$(e.target).is('a')) {
+        if (!moved && !$(e.target).is("a")) {
           $(this).find("a.set_position").simulate("click", e);
         }
       }).one("mousemove", function () {
         moved = true;
       });
     });
+
+  var markers = L.layerGroup().addTo(map);
 
   function clickSearchMore(e) {
     e.preventDefault();
@@ -64,7 +67,7 @@ OSM.Search = function(map) {
     $(this).hide();
     div.find(".loader").show();
 
-    $.get($(this).attr("href"), function(data) {
+    $.get($(this).attr("href"), function (data) {
       div.replaceWith(data);
     });
   }
@@ -75,7 +78,7 @@ OSM.Search = function(map) {
     if (!marker) {
       var data = $(this).find("a.set_position").data();
 
-      marker = L.marker([data.lat, data.lon], {icon: OSM.getUserIcon()});
+      marker = L.marker([data.lat, data.lon], { icon: OSM.getUserIcon() });
 
       $(this).data("marker", marker);
     }
@@ -115,12 +118,10 @@ OSM.Search = function(map) {
     e.stopPropagation();
   }
 
-  var markers = L.layerGroup().addTo(map);
-
   var page = {};
 
-  page.pushstate = page.popstate = function(path) {
-    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
+  page.pushstate = page.popstate = function (path) {
+    var params = Qs.parse(path.substring(path.indexOf("?") + 1));
     $(".search_form input[name=query]").val(params.query);
     $(".describe_location").hide();
     OSM.loadSidebarContent(path, page.load);
@@ -134,7 +135,7 @@ OSM.Search = function(map) {
       var entry = $(this);
       $.ajax({
         url: entry.data("href"),
-        method: 'GET',
+        method: "GET",
         data: {
           zoom: map.getZoom(),
           minlon: map.getBounds().getWest(),
@@ -142,11 +143,11 @@ OSM.Search = function(map) {
           maxlon: map.getBounds().getEast(),
           maxlat: map.getBounds().getNorth()
         },
-        success: function(html) {
+        success: function (html) {
           entry.html(html);
           // go to first result of first geocoder
           if (index === 0) {
-            var firstResult = entry.find('*[data-lat][data-lon]:first').first();
+            var firstResult = entry.find("*[data-lat][data-lon]:first").first();
             if (firstResult.length) {
               panToSearchResult(firstResult.data());
             }
@@ -168,7 +169,7 @@ OSM.Search = function(map) {
     }
   };
 
-  page.unload = function() {
+  page.unload = function () {
     markers.clearLayers();
     $(".search_form input[name=query]").val("");
     $(".describe_location").fadeIn(100);

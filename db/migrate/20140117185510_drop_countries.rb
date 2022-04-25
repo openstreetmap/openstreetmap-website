@@ -1,4 +1,4 @@
-class DropCountries < ActiveRecord::Migration[5.0]
+class DropCountries < ActiveRecord::Migration[4.2]
   def up
     drop_table :countries
   end

@@ -1,6 +1,7 @@
-require "migrate"
+class AddStatusToUser < ActiveRecord::Migration[4.2]
+  class User < ApplicationRecord
+  end
 
-class AddStatusToUser < ActiveRecord::Migration[5.0]
   def self.up
     create_enumeration :user_status_enum, %w[pending active confirmed suspended deleted]
 

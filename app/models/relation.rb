@@ -2,11 +2,11 @@
 #
 # Table name: current_relations
 #
-#  id           :integer          not null, primary key
-#  changeset_id :integer          not null
+#  id           :bigint(8)        not null, primary key
+#  changeset_id :bigint(8)        not null
 #  timestamp    :datetime         not null
 #  visible      :boolean          not null
-#  version      :integer          not null
+#  version      :bigint(8)        not null
 #
 # Indexes
 #
@@ -17,31 +17,28 @@
 #  current_relations_changeset_id_fkey  (changeset_id => changesets.id)
 #
 
-class Relation < ActiveRecord::Base
+class Relation < ApplicationRecord
   require "xml/libxml"
 
   include ConsistencyValidations
   include NotRedactable
-  include ObjectMetadata
 
   self.table_name = "current_relations"
 
   belongs_to :changeset
 
-  has_many :old_relations, -> { order(:version) }
+  has_many :old_relations, -> { order(:version) }, :inverse_of => :current_relation
 
-  has_many :relation_members, -> { order(:sequence_id) }
+  has_many :relation_members, -> { order(:sequence_id) }, :inverse_of => :relation
   has_many :relation_tags
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :version, :presence => true,
-                      :numericality => { :integer_only => true }
-  validates :changeset_id, :presence => true,
-                           :numericality => { :integer_only => true }
+                      :numericality => { :only_integer => true }
   validates :timestamp, :presence => true
   validates :changeset, :associated => true
   validates :visible, :inclusion => [true, false]
@@ -54,19 +51,21 @@ class Relation < ActiveRecord::Base
 
   TYPES = %w[node way relation].freeze
 
-  def self.from_xml(xml, create = false)
+  def self.from_xml(xml, create: false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
+    pt = doc.find_first("//osm/relation")
 
-    doc.find("//osm/relation").each do |pt|
-      return Relation.from_xml_node(pt, create)
+    if pt
+      Relation.from_xml_node(pt, :create => create)
+    else
+      raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/relation element.")
     end
-    raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/relation element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("relation", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("relation", xml, e.message)
   end
 
-  def self.from_xml_node(pt, create = false)
+  def self.from_xml_node(pt, create: false)
     relation = Relation.new
 
     raise OSM::APIBadXMLError.new("relation", pt, "Version is required when updating") unless create || !pt["version"].nil?
@@ -121,31 +120,6 @@ class Relation < ActiveRecord::Base
     relation
   end
 
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new "relation"
-    el["id"] = id.to_s
-
-    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
-
-    relation_members.each do |member|
-      member_el = XML::Node.new "member"
-      member_el["type"] = member.member_type.downcase
-      member_el["ref"] = member.member_id.to_s
-      member_el["role"] = member.member_role
-      el << member_el
-    end
-
-    add_tags_to_xml_node(el, relation_tags)
-
-    el
-  end
-
   # FIXME: is this really needed?
   def members
     @members ||= relation_members.map do |member|
@@ -154,12 +128,10 @@ class Relation < ActiveRecord::Base
   end
 
   def tags
-    @tags ||= Hash[relation_tags.collect { |t| [t.k, t.v] }]
+    @tags ||= relation_tags.to_h { |t| [t.k, t.v] }
   end
 
-  attr_writer :members
-
-  attr_writer :tags
+  attr_writer :members, :tags
 
   def add_member(type, id, role)
     @members ||= []
@@ -232,6 +204,8 @@ class Relation < ActiveRecord::Base
   end
 
   def preconditions_ok?(good_members = [])
+    raise OSM::APITooManyRelationMembersError.new(id, members.length, Settings.max_number_of_relation_members) if members.length > Settings.max_number_of_relation_members
+
     # These are hastables that store an id in the index of all
     # the nodes/way/relations that have already been added.
     # If the member is valid and visible then we add it to the
@@ -289,7 +263,7 @@ class Relation < ActiveRecord::Base
   private
 
   def save_with_history!
-    t = Time.now.getutc
+    t = Time.now.utc
 
     self.version += 1
     self.timestamp = t
