@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <%= stylesheet_link_tag "id" %>
+  <!--[if !IE || gte IE 9]><!-->
+  <%= javascript_include_tag "id" %>
+  <!-- <![endif]-->
+</head>
+<body>
+<% data = {}
+   if Settings.key?(:id_key)
+     token = current_user.access_token(Settings.id_key)
+     data[:token] = token.token
+     data[:token_secret] = token.secret
+     data[:consumer_key] = token.client_application.key
+     data[:consumer_secret] = token.client_application.secret
+   end
+   data[:locale] = ID::LOCALES.preferred(preferred_languages).to_s
+   data[:asset_map] = assets("iD").to_json %>
+<%= tag.div "", :id => "id-container", :data => data %>
+</body>
+</html>

@@ -1,8 +1,8 @@
-class AddMoreChangesetIndexes < ActiveRecord::Migration
+class AddMoreChangesetIndexes < ActiveRecord::Migration[4.2]
   def self.up
     add_index "changesets", ["created_at"], :name => "changesets_created_at_idx"
     add_index "changesets", ["closed_at"], :name => "changesets_closed_at_idx"
-    add_index "changesets", ["min_lat","max_lat","min_lon","max_lon"], :name => "changesets_bbox_idx", :method => "GIST"
+    add_index "changesets", %w[min_lat max_lat min_lon max_lon], :name => "changesets_bbox_idx", :using => "GIST"
   end
 
   def self.down

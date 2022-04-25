@@ -1,80 +1,61 @@
-require File.expand_path('../boot', __FILE__)
+require_relative "boot"
 
-require File.expand_path('../preinitializer', __FILE__)
-
-if STATUS == :database_offline
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "active_resource/railtie"
-require "sprockets/railtie"
-require "rails/test_unit/railtie"
+if ENV["OPENSTREETMAP_STATUS"] == "database_offline"
+  require "active_model/railtie"
+  require "active_job/railtie"
+  require "active_storage/engine"
+  require "action_controller/railtie"
+  require "action_mailer/railtie"
+  require "action_view/railtie"
+  require "action_cable/engine"
+  require "sprockets/railtie"
+  require "rails/test_unit/railtie"
 else
-require 'rails/all'
+  require "rails/all"
 end
 
-if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
-end
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
 
 module OpenStreetMap
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 6.1
+
     # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    # Application configuration can go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded after loading
+    # the framework and any gems in your application.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W[#{config.root}/lib]
 
-    # Only load the plugins named here, in the order given (default is alphabetical).
-    # :all can be used as a placeholder for all plugins not explicitly named.
-    # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-
-    # Activate observers that should always be running.
-    unless STATUS == :database_offline
-      config.active_record.observers = :spam_observer
-    end
-
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
-
-    # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = "utf-8"
-
-    # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password, :pass_crypt, :pass_crypt_confirmation]
+    # Force requests from old versions of IE (<= IE8) to be UTF-8 encoded.
+    # This has defaulted to false since rails 6.0
+    config.action_view.default_enforce_utf8 = true
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
-    unless STATUS == :database_offline
-      config.active_record.schema_format = :sql
-    end
-
-    # Enforce whitelist mode for mass assignment.
-    # This will create an empty whitelist of attributes available for mass-assignment for all models
-    # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
-    # parameters by using an attr_accessible or attr_protected declaration.
-    unless STATUS == :database_offline
-      config.active_record.whitelist_attributes = true
-    end
-
-    # Enable the asset pipeline
-    config.assets.enabled = true
-
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
+    config.active_record.schema_format = :sql unless Settings.status == "database_offline"
 
     # Don't eager load models when the database is offline
-    if STATUS == :database_offline
-      config.paths["app/models"].skip_eager_load!
+    config.paths["app/models"].skip_eager_load! if Settings.status == "database_offline"
+
+    # Use memcached for caching if required
+    config.cache_store = :mem_cache_store, Settings.memcache_servers, { :namespace => "rails:cache" } if Settings.key?(:memcache_servers)
+
+    # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+    # the I18n.default_locale when a translation cannot be found).
+    config.i18n.fallbacks = true
+
+    # Use logstash for logging if required
+    if Settings.key?(:logstash_path)
+      config.logstasher.enabled = true
+      config.logstasher.suppress_app_log = false
+      config.logstasher.logger_path = Settings.logstash_path
+      config.logstasher.log_controller_parameters = true
     end
   end
 end

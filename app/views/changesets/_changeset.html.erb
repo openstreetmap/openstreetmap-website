@@ -1,0 +1,30 @@
+<% changeset_data = { :id => changeset.id }
+
+   if changeset.bbox_valid?
+     bbox = changeset.bbox.to_unscaled
+     changeset_data[:bbox] = {
+       :minlon => bbox.min_lon,
+       :minlat => bbox.min_lat,
+       :maxlon => bbox.max_lon,
+       :maxlat => bbox.max_lat
+     }
+   end %>
+
+<%= tag.li :id => "changeset_#{changeset.id}", :data => { :changeset => changeset_data }, :class => "list-group-item" do %>
+  <p class="font-italic">
+    <a class="changeset_id text-dark" href="<%= changeset_path(changeset) %>">
+      <%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %>
+    </a>
+  </p>
+  <div class="row">
+    <div class="col">
+      <%= changeset_details(changeset) %>
+      &middot;
+      #<%= changeset.id %>
+    </div>
+    <div class="col-auto comments comments-<%= changeset.comments.length %>">
+      <%= changeset.comments.length %>
+      <span class="icon note grey"></span>
+    </div>
+  </div>
+<% end %>

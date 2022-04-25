@@ -1,0 +1,16 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+
+<% content_for(:content_class) { "user_confirm" } %>
+
+<% content_for :heading do %>
+  <h1><%= t ".heading" %></h1>
+<% end %>
+
+<p><%= t ".press confirm button" %></p>
+
+<%= bootstrap_form_tag :html => { :id => "confirm" } do |f| %>
+  <%= f.hidden_field :confirm_string, :value => params[:confirm_string] %>
+  <%= f.primary t(".button") %>
+<% end %>

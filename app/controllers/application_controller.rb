@@ -1,73 +1,72 @@
 class ApplicationController < ActionController::Base
+  require "timeout"
+
   include SessionPersistence
 
-  protect_from_forgery
+  protect_from_forgery :with => :exception
 
-  if STATUS == :database_readonly or STATUS == :database_offline
-    def self.cache_sweeper(*sweepers)
-    end
-  end
+  add_flash_types :warning, :error
+
+  rescue_from CanCan::AccessDenied, :with => :deny_access
+  check_authorization
+
+  before_action :fetch_body
+  around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
+
+  attr_accessor :current_user, :oauth_token
+
+  helper_method :current_user
+  helper_method :oauth_token
+
+  private
 
   def authorize_web
     if session[:user]
-      @user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
+      self.current_user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
 
-      if @user.display_name != cookies["_osm_username"]
-        logger.info "Session user '#{@user.display_name}' does not match cookie user '#{cookies['_osm_username']}'"
+      if session[:fingerprint] &&
+         session[:fingerprint] != current_user.fingerprint
         reset_session
-        @user = nil
-      elsif @user.status == "suspended"
+        self.current_user = nil
+      elsif current_user.status == "suspended"
         session.delete(:user)
         session_expires_automatically
 
-        redirect_to :controller => "user", :action => "suspended"
+        redirect_to :controller => "users", :action => "suspended"
 
-        # don't allow access to any auth-requiring part of the site unless
-        # the new CTs have been seen (and accept/decline chosen).
-      elsif !@user.terms_seen and flash[:skip_terms].nil?
-        flash[:notice] = t 'user.terms.you need to accept or decline'
+      # don't allow access to any auth-requiring part of the site unless
+      # the new CTs have been seen (and accept/decline chosen).
+      elsif !current_user.terms_seen && flash[:skip_terms].nil?
+        flash[:notice] = t "users.terms.you need to accept or decline"
         if params[:referer]
-          redirect_to :controller => "user", :action => "terms", :referer => params[:referer]
+          redirect_to :controller => "users", :action => "terms", :referer => params[:referer]
         else
-          redirect_to :controller => "user", :action => "terms", :referer => request.fullpath
+          redirect_to :controller => "users", :action => "terms", :referer => request.fullpath
         end
       end
     elsif session[:token]
-      if @user = User.authenticate(:token => session[:token])
-        session[:user] = @user.id
-      end
+      session[:user] = current_user.id if self.current_user = User.authenticate(:token => session[:token])
     end
-  rescue Exception => ex
-    logger.info("Exception authorizing user: #{ex.to_s}")
+
+    session[:fingerprint] = current_user.fingerprint if current_user && session[:fingerprint].nil?
+  rescue StandardError => e
+    logger.info("Exception authorizing user: #{e}")
     reset_session
-    @user = nil
+    self.current_user = nil
   end
 
   def require_user
-    unless @user
+    unless current_user
       if request.get?
-        redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
+        redirect_to login_path(:referer => request.fullpath)
       else
-        render :nothing => true, :status => :forbidden
+        head :forbidden
       end
     end
   end
 
-  ##
-  # requires the user to be logged in by the token or HTTP methods, or have an 
-  # OAuth token with the right capability. this method is a bit of a pain to call 
-  # directly, since it's cumbersome to call filters with arguments in rails. to
-  # make it easier to read and write the code, there are some utility methods
-  # below.
-  def require_capability(cap)
-    # when the current token is nil, it means the user logged in with a different
-    # method, otherwise an OAuth token was used, which has to be checked.
-    unless current_token.nil?
-      unless current_token.read_attribute(cap)
-        report_error "OAuth token doesn't have that capability.", :forbidden
-        return false
-      end
-    end
+  def require_oauth
+    @oauth_token = current_user.oauth_token(Settings.oauth_application) if current_user && Settings.key?(:oauth_application)
   end
 
   ##
@@ -76,267 +75,174 @@ class ApplicationController < ActionController::Base
     if request.cookies["_osm_session"].to_s == ""
       if params[:cookie_test].nil?
         session[:cookie_test] = true
-        redirect_to params.merge(:cookie_test => "true")
-        return false
+        redirect_to params.to_unsafe_h.merge(:only_path => true, :cookie_test => "true")
+        false
       else
-        flash.now[:warning] = t 'application.require_cookies.cookies_needed'
+        flash.now[:warning] = t "application.require_cookies.cookies_needed"
       end
     else
       session.delete(:cookie_test)
     end
   end
 
-  # Utility methods to make the controller filter methods easier to read and write.
-  def require_allow_read_prefs
-    require_capability(:allow_read_prefs)
-  end
-  def require_allow_write_prefs
-    require_capability(:allow_write_prefs)
-  end
-  def require_allow_write_diary
-    require_capability(:allow_write_diary)
-  end
-  def require_allow_write_api
-    require_capability(:allow_write_api)
-
-    if REQUIRE_TERMS_AGREED and @user.terms_agreed.nil?
-      report_error "You must accept the contributor terms before you can edit.", :forbidden
-      return false
-    end
-  end
-  def require_allow_read_gpx
-    require_capability(:allow_read_gpx)
-  end
-  def require_allow_write_gpx
-    require_capability(:allow_write_gpx)
-  end
-
-  ##
-  # require that the user is a moderator, or fill out a helpful error message
-  # and return them to the index for the controller this is wrapped from.
-  def require_moderator
-    unless @user.moderator?
-      if request.get?
-        flash[:error] = t('application.require_moderator.not_a_moderator')
-        redirect_to :action => 'index'
+  def check_database_readable(need_api: false)
+    if Settings.status == "database_offline" || (need_api && Settings.status == "api_offline")
+      if request.xhr?
+        report_error "Database offline for maintenance", :service_unavailable
       else
-        render :nothing => true, :status => :forbidden
+        redirect_to :controller => "site", :action => "offline"
       end
     end
   end
 
-  ##
-  # sets up the @user object for use by other methods. this is mostly called
-  # from the authorize method, but can be called elsewhere if authorisation
-  # is optional.
-  def setup_user_auth
-    # try and setup using OAuth
-    if not Authenticator.new(self, [:token]).allow?
-      username, passwd = get_auth_data # parse from headers
-      # authenticate per-scheme
-      if username.nil?
-        @user = nil # no authentication provided - perhaps first connect (client should retry after 401)
-      elsif username == 'token'
-        @user = User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
+  def check_database_writable(need_api: false)
+    if Settings.status == "database_offline" || Settings.status == "database_readonly" ||
+       (need_api && (Settings.status == "api_offline" || Settings.status == "api_readonly"))
+      if request.xhr?
+        report_error "Database offline for maintenance", :service_unavailable
       else
-        @user = User.authenticate(:username => username, :password => passwd) # basic auth
+        redirect_to :controller => "site", :action => "offline"
       end
-    end
-
-    # have we identified the user?
-    if @user
-      # check if the user has been banned
-      if not  @user.active_blocks.empty?
-        # NOTE: need slightly more helpful message than this.
-        report_error t('application.setup_user_auth.blocked'), :forbidden
-      end
-
-      # if the user hasn't seen the contributor terms then don't
-      # allow editing - they have to go to the web site and see
-      # (but can decline) the CTs to continue.
-      if REQUIRE_TERMS_SEEN and not @user.terms_seen and flash[:skip_terms].nil?
-        set_locale
-        report_error t('application.setup_user_auth.need_to_see_terms'), :forbidden
-      end
-    end
-  end
-
-  def authorize(realm='Web Password', errormessage="Couldn't authenticate you") 
-    # make the @user object from any auth sources we have
-    setup_user_auth
-
-    # handle authenticate pass/fail
-    unless @user
-      # no auth, the user does not exist or the password was wrong
-      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\"" 
-      render :text => errormessage, :status => :unauthorized
-      return false
-    end 
-  end 
-
-  ##
-  # to be used as a before_filter *after* authorize. this checks that
-  # the user is a moderator and, if not, returns a forbidden error.
-  #
-  # NOTE: this isn't a very good way of doing it - it duplicates logic
-  # from require_moderator - but what we really need to do is a fairly
-  # drastic refactoring based on :format and respond_to? but not a 
-  # good idea to do that in this branch.
-  def authorize_moderator(errormessage="Access restricted to moderators") 
-    # check user is a moderator
-    unless @user.moderator?
-      render :text => errormessage, :status => :forbidden
-      return false
-    end 
-  end 
-
-  def check_database_readable(need_api = false)
-    if STATUS == :database_offline or (need_api and STATUS == :api_offline)
-      redirect_to :controller => 'site', :action => 'offline'
-    end
-  end
-
-  def check_database_writable(need_api = false)
-    if STATUS == :database_offline or STATUS == :database_readonly or
-       (need_api and (STATUS == :api_offline or STATUS == :api_readonly))
-      redirect_to :controller => 'site', :action => 'offline'
     end
   end
 
   def check_api_readable
-    if STATUS == :database_offline or STATUS == :api_offline
+    if api_status == "offline"
       report_error "Database offline for maintenance", :service_unavailable
-      return false
+      false
     end
   end
 
   def check_api_writable
-    if STATUS == :database_offline or STATUS == :database_readonly or
-       STATUS == :api_offline or STATUS == :api_readonly
+    unless api_status == "online"
       report_error "Database offline for maintenance", :service_unavailable
-      return false
+      false
     end
   end
 
+  def database_status
+    case Settings.status
+    when "database_offline"
+      "offline"
+    when "database_readonly"
+      "readonly"
+    else
+      "online"
+    end
+  end
+
+  def api_status
+    status = database_status
+    if status == "online"
+      case Settings.status
+      when "api_offline"
+        status = "offline"
+      when "api_readonly"
+        status = "readonly"
+      end
+    end
+    status
+  end
+
   def require_public_data
-    unless @user.data_public?
+    unless current_user.data_public?
       report_error "You must make your edits public to upload new data", :forbidden
-      return false
+      false
     end
   end
 
   # Report and error to the user
   # (If anyone ever fixes Rails so it can set a http status "reason phrase",
-  #  rather than only a status code and having the web engine make up a 
+  #  rather than only a status code and having the web engine make up a
   #  phrase from that, we can also put the error message into the status
   #  message. For now, rails won't let us)
   def report_error(message, status = :bad_request)
-    # Todo: some sort of escaping of problem characters in the message
-    response.headers['Error'] = message
+    # TODO: some sort of escaping of problem characters in the message
+    response.headers["Error"] = message
 
-    if request.headers['X-Error-Format'] and
-       request.headers['X-Error-Format'].downcase == "xml"
-      result = OSM::API.new.get_xml_doc
+    if request.headers["X-Error-Format"]&.casecmp("xml")&.zero?
+      result = OSM::API.new.xml_doc
       result.root.name = "osmError"
       result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
       result.root << (XML::Node.new("message") << message)
 
-      render :text => result.to_s, :content_type => "text/xml"
+      render :xml => result.to_s
     else
-      render :text => message, :status => status
+      render :plain => message, :status => status
     end
   end
-  
+
+  def preferred_languages
+    @preferred_languages ||= if params[:locale]
+                               Locale.list(params[:locale])
+                             elsif current_user
+                               current_user.preferred_languages
+                             else
+                               Locale.list(http_accept_language.user_preferred_languages)
+                             end
+  end
+
+  helper_method :preferred_languages
+
   def set_locale
-    response.header['Vary'] = 'Accept-Language'
-
-    if @user
-      if !@user.languages.empty?
-        request.user_preferred_languages = @user.languages
-        response.header['Vary'] = '*'
-      elsif !request.user_preferred_languages.empty?
-        @user.languages = request.user_preferred_languages
-        @user.save
-      end
+    if current_user&.languages&.empty? && !http_accept_language.user_preferred_languages.empty?
+      current_user.languages = http_accept_language.user_preferred_languages
+      current_user.save
     end
 
-    if request.compatible_language_from(I18n.available_locales).nil?
-      request.user_preferred_languages = request.user_preferred_languages.collect do |pl|
-        pls = [ pl ]
+    I18n.locale = Locale.available.preferred(preferred_languages)
 
-        while pl.match(/^(.*)-[^-]+$/)
-          pls.push($1) if I18n.available_locales.include?($1.to_sym)
-          pl = $1
-        end
-
-        pls
-      end.flatten
-
-      if @user and not request.compatible_language_from(I18n.available_locales).nil?
-        @user.languages = request.user_preferred_languages
-        @user.save        
-      end
-    end
-
-    I18n.locale = request.compatible_language_from(I18n.available_locales) || I18n.default_locale
-
-    response.headers['Content-Language'] = I18n.locale.to_s
+    response.headers["Vary"] = "Accept-Language"
+    response.headers["Content-Language"] = I18n.locale.to_s
   end
 
   def api_call_handle_error
-    begin
-      yield
-    rescue ActiveRecord::RecordNotFound => ex
-      render :nothing => true, :status => :not_found
-    rescue LibXML::XML::Error, ArgumentError => ex
-      report_error ex.message, :bad_request
-    rescue ActiveRecord::RecordInvalid => ex
-      message = "#{ex.record.class} #{ex.record.id}: "
-      ex.record.errors.each { |attr,msg| message << "#{attr}: #{msg} (#{ex.record[attr].inspect})" }
-      report_error message, :bad_request
-    rescue OSM::APIError => ex
-      report_error ex.message, ex.status
-    rescue AbstractController::ActionNotFound => ex
-      raise
-    rescue Exception => ex
-      logger.info("API threw unexpected #{ex.class} exception: #{ex.message}")
-      ex.backtrace.each { |l| logger.info(l) }
-      report_error "#{ex.class}: #{ex.message}", :internal_server_error
-    end
+    yield
+  rescue ActionController::UnknownFormat
+    head :not_acceptable
+  rescue ActiveRecord::RecordNotFound => e
+    head :not_found
+  rescue LibXML::XML::Error, ArgumentError => e
+    report_error e.message, :bad_request
+  rescue ActiveRecord::RecordInvalid => e
+    message = "#{e.record.class} #{e.record.id}: "
+    e.record.errors.each { |error| message << "#{error.attribute}: #{error.message} (#{e.record[error.attribute].inspect})" }
+    report_error message, :bad_request
+  rescue OSM::APIError => e
+    report_error e.message, e.status
+  rescue AbstractController::ActionNotFound => e
+    raise
+  rescue StandardError => e
+    logger.info("API threw unexpected #{e.class} exception: #{e.message}")
+    e.backtrace.each { |l| logger.info(l) }
+    report_error "#{e.class}: #{e.message}", :internal_server_error
   end
 
   ##
   # asserts that the request method is the +method+ given as a parameter
   # or raises a suitable error. +method+ should be a symbol, e.g: :put or :get.
   def assert_method(method)
-    ok = request.send((method.to_s.downcase + "?").to_sym)
-    raise OSM::APIBadMethodError.new(method) unless ok
+    ok = request.send(:"#{method.to_s.downcase}?")
+    raise OSM::APIBadMethodError, method unless ok
   end
 
   ##
   # wrap an api call in a timeout
-  def api_call_timeout
-    OSM::Timer.timeout(API_TIMEOUT) do
-      yield
-    end
+  def api_call_timeout(&block)
+    Timeout.timeout(Settings.api_timeout, Timeout::Error, &block)
   rescue Timeout::Error
     raise OSM::APITimeoutError
   end
 
   ##
   # wrap a web page in a timeout
-  def web_timeout
-    OSM::Timer.timeout(WEB_TIMEOUT) do
-      yield
-    end
-  rescue ActionView::Template::Error => ex
-    ex = ex.original_exception
+  def web_timeout(&block)
+    Timeout.timeout(Settings.web_timeout, Timeout::Error, &block)
+  rescue ActionView::Template::Error => e
+    e = e.cause
 
-    if ex.is_a?(ActiveRecord::StatementInvalid) and ex.message =~ /^Timeout::Error/
-      ex = Timeout::Error.new
-    end
-
-    if ex.is_a?(Timeout::Error)
+    if e.is_a?(Timeout::Error) ||
+       (e.is_a?(ActiveRecord::StatementInvalid) && e.message.include?("execution expired"))
       render :action => "timeout"
     else
       raise
@@ -346,95 +252,157 @@ class ApplicationController < ActionController::Base
   end
 
   ##
-  # extend caches_action to include the parameters, locale and logged in
-  # status in all cache keys
-  def self.caches_action(*actions)
-    options = actions.extract_options!
-    cache_path = options[:cache_path] || Hash.new
-
-    options[:unless] = case options[:unless]
-                       when NilClass then Array.new
-                       when Array then options[:unless]
-                       else unlessp = [ options[:unless] ]
-                       end
-
-    options[:unless].push(Proc.new do |controller|
-      controller.params.include?(:page)
-    end)
-
-    options[:cache_path] = Proc.new do |controller|
-      cache_path.merge(controller.params).merge(:host => SERVER_URL, :locale => I18n.locale)
-    end
-
-    actions.push(options)
-
-    super *actions
-  end
-
-  ##
-  # extend expire_action to expire all variants
-  def expire_action(options = {})
-    I18n.available_locales.each do |locale|
-      super options.merge(:host => SERVER_URL, :locale => locale)
-    end
-  end
-
-  ##
-  # is the requestor logged in?
-  def logged_in?
-    !@user.nil?
-  end
-
-  ##
-  # ensure that there is a "this_user" instance variable
-  def lookup_this_user
-    unless @this_user = User.active.find_by_display_name(params[:display_name])
-      render_unknown_user params[:display_name]
-    end
+  # ensure that there is a "user" instance variable
+  def lookup_user
+    render_unknown_user params[:display_name] unless @user = User.active.find_by(:display_name => params[:display_name])
   end
 
   ##
   # render a "no such user" page
   def render_unknown_user(name)
-    @title = t "user.no_such_user.title"
+    @title = t "users.no_such_user.title"
     @not_found_user = name
 
     respond_to do |format|
-      format.html { render :template => "user/no_such_user", :status => :not_found }
-      format.all { render :nothing => true, :status => :not_found }
+      format.html { render :template => "users/no_such_user", :status => :not_found }
+      format.all { head :not_found }
     end
   end
-  
-private 
 
-  # extract authorisation credentials from headers, returns user = nil if none
-  def get_auth_data 
-    if request.env.has_key? 'X-HTTP_AUTHORIZATION'          # where mod_rewrite might have put it 
-      authdata = request.env['X-HTTP_AUTHORIZATION'].to_s.split 
-    elsif request.env.has_key? 'REDIRECT_X_HTTP_AUTHORIZATION'          # mod_fcgi 
-      authdata = request.env['REDIRECT_X_HTTP_AUTHORIZATION'].to_s.split 
-    elsif request.env.has_key? 'HTTP_AUTHORIZATION'         # regular location
-      authdata = request.env['HTTP_AUTHORIZATION'].to_s.split
-    end 
-    # only basic authentication supported
-    if authdata and authdata[0] == 'Basic' 
-      user, pass = Base64.decode64(authdata[1]).split(':',2)
-    end 
-    return [user, pass] 
-  end 
-
-  # used by oauth plugin to get the current user
-  def current_user
-    @user
+  ##
+  # Unfortunately if a PUT or POST request that has a body fails to
+  # read it then Apache will sometimes fail to return the response it
+  # is given to the client properly, instead erroring:
+  #
+  #   https://issues.apache.org/bugzilla/show_bug.cgi?id=44782
+  #
+  # To work round this we call rewind on the body here, which is added
+  # as a filter, to force it to be fetched from Apache into a file.
+  def fetch_body
+    request.body.rewind
   end
 
-  # used by oauth plugin to set the current user
-  def current_user=(user)
-    @user=user
+  def map_layout
+    append_content_security_policy_directives(
+      :child_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
+      :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
+      :connect_src => [Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url],
+      :form_action => %w[render.openstreetmap.org],
+      :style_src => %w['unsafe-inline']
+    )
+
+    case Settings.status
+    when "database_offline", "api_offline"
+      flash.now[:warning] = t("layouts.osm_offline")
+    when "database_readonly", "api_readonly"
+      flash.now[:warning] = t("layouts.osm_read_only")
+    end
+
+    request.xhr? ? "xhr" : "map"
+  end
+
+  def allow_thirdparty_images
+    append_content_security_policy_directives(:img_src => %w[*])
+  end
+
+  def preferred_editor
+    if params[:editor]
+      params[:editor]
+    elsif current_user&.preferred_editor
+      current_user.preferred_editor
+    else
+      Settings.default_editor
+    end
+  end
+
+  helper_method :preferred_editor
+
+  def update_totp
+    if Settings.key?(:totp_key)
+      cookies["_osm_totp_token"] = {
+        :value => ROTP::TOTP.new(Settings.totp_key, :interval => 3600).now,
+        :domain => "openstreetmap.org",
+        :expires => 1.hour.from_now
+      }
+    end
+  end
+
+  def better_errors_allow_inline
+    yield
+  rescue StandardError
+    append_content_security_policy_directives(
+      :script_src => %w['unsafe-inline'],
+      :style_src => %w['unsafe-inline']
+    )
+
+    raise
+  end
+
+  def current_ability
+    Ability.new(current_user)
+  end
+
+  def deny_access(_exception)
+    if doorkeeper_token || current_token
+      set_locale
+      report_error t("oauth.permissions.missing"), :forbidden
+    elsif current_user
+      set_locale
+      respond_to do |format|
+        format.html { redirect_to :controller => "/errors", :action => "forbidden" }
+        format.any { report_error t("application.permission_denied"), :forbidden }
+      end
+    elsif request.get?
+      respond_to do |format|
+        format.html { redirect_to login_path(:referer => request.fullpath) }
+        format.any { head :forbidden }
+      end
+    else
+      head :forbidden
+    end
+  end
+
+  # extract authorisation credentials from headers, returns user = nil if none
+  def auth_data
+    if request.env.key? "X-HTTP_AUTHORIZATION" # where mod_rewrite might have put it
+      authdata = request.env["X-HTTP_AUTHORIZATION"].to_s.split
+    elsif request.env.key? "REDIRECT_X_HTTP_AUTHORIZATION" # mod_fcgi
+      authdata = request.env["REDIRECT_X_HTTP_AUTHORIZATION"].to_s.split
+    elsif request.env.key? "HTTP_AUTHORIZATION" # regular location
+      authdata = request.env["HTTP_AUTHORIZATION"].to_s.split
+    end
+    # only basic authentication supported
+    user, pass = Base64.decode64(authdata[1]).split(":", 2) if authdata && authdata[0] == "Basic"
+    [user, pass]
   end
 
   # override to stop oauth plugin sending errors
-  def invalid_oauth_response
+  def invalid_oauth_response; end
+
+  # clean any referer parameter
+  def safe_referer(referer)
+    begin
+      referer = URI.parse(referer)
+
+      if referer.scheme == "http" || referer.scheme == "https"
+        referer.scheme = nil
+        referer.host = nil
+        referer.port = nil
+      elsif referer.scheme || referer.host || referer.port
+        referer = nil
+      end
+
+      referer = nil if referer&.path&.first != "/"
+    rescue URI::InvalidURIError
+      referer = nil
+    end
+
+    referer&.to_s
   end
 
+  def scope_enabled?(scope)
+    doorkeeper_token&.includes_scope?(scope) || current_token&.includes_scope?(scope)
+  end
+
+  helper_method :scope_enabled?
 end

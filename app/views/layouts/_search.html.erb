@@ -1,0 +1,56 @@
+<div class="search_forms">
+  <form method="GET" action="<%= search_path %>" class="search_form px-1 py-2">
+    <div class="form-row mx-0">
+      <div class="col">
+        <div class="input-group flex-nowrap">
+          <div class='query_wrapper position-relative flex-grow-1'>
+            <%= link_to t("site.search.where_am_i"), "#", :class => "describe_location position-absolute", :title => t("site.search.where_am_i_title") %>
+            <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control form-control-sm", :dir => "auto" %>
+          </div>
+          <div class="input-group-append">
+            <%= submit_tag t("site.search.submit_text"), :class => "btn btn-sm btn-primary", :data => { :disable_with => false } %>
+          </div>
+        </div>
+      </div>
+      <div class="col-auto">
+        <%= link_to image_tag("directions.png", :width => "20", :height => "20"), directions_path, :class => "btn btn-sm btn-primary switch_link", :title => t("site.search.get_directions_title") %>
+      </div>
+    </div>
+  </form>
+
+  <form method="GET" action="<%= directions_path %>" class="directions_form pb-3">
+    <div class="clearfix px-3 py-3"><span class="icon close"></span></div>
+
+    <div class="form-row m-1">
+      <div class="col-1">
+        <%= image_tag "marker-green.png", :class => "routing_marker mx-auto d-block", :data => { :type => "from" }, :draggable => "true" %>
+      </div>
+      <div class="col">
+        <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control form-control-sm", :dir => "auto" %>
+      </div>
+    </div>
+    <div class="form-row m-1">
+      <div class="col-1">
+        <%= image_tag "marker-red.png", :class => "routing_marker mx-auto d-block", :data => { :type => "to" }, :draggable => "true" %>
+      </div>
+      <div class="col">
+        <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control form-control-sm", :dir => "auto" %>
+      </div>
+    </div>
+    <div class="form-row m-1">
+      <div class="col offset-1">
+        <select class="routing_engines form-control form-control-sm" name="routing_engines"></select>
+      </div>
+      <div class="col-auto">
+        <%= submit_tag t("site.search.submit_text"), :class => "routing_go btn btn-sm btn-primary", :data => { :disable_with => false } %>
+      </div>
+    </div>
+    <div class="form-row m-1">
+      <div class="col offset-1">
+        <a class="reverse_directions"><%= t("site.search.reverse_directions_text") %></a>
+      </div>
+    </div>
+
+    <div class="loader_copy"><div class="loader"><%= image_tag "searching.gif" %></div></div>
+  </form>
+</div>

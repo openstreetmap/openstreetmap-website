@@ -1,0 +1,17 @@
+<% if @changesets.present? %>
+  <ol class="changesets list-group list-group-flush">
+    <%= render @changesets %>
+  </ol>
+<% if @changesets.size == 20 -%>
+  <div class="changeset_more mt-3 text-center">
+    <%= link_to t(".load_more"), url_for(@params.merge(:max_id => @changesets.last.id - 1)), :class => "btn btn-primary" %>
+    <div class="loader"><%= image_tag "searching.gif" %></div>
+  </div>
+<% end -%>
+<% elsif params[:bbox] %>
+  <p><%= t(params[:max_id] ? ".no_more_area" : ".empty_area") %></p>
+<% elsif params[:display_name] %>
+  <p><%= t(params[:max_id] ? ".no_more_user" : ".empty_user") %></p>
+<% else %>
+  <p><%= t(params[:max_id] ? ".no_more" : ".empty") %></p>
+<% end %>

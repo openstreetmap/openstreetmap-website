@@ -1,3 +1,0 @@
-class OldRelationMemberController < ApplicationController
-
-end

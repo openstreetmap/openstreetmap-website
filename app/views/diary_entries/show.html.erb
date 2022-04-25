@@ -1,0 +1,42 @@
+<% content_for :heading do %>
+  <div class="row">
+    <div class="col-sm-auto">
+      <%= user_image @entry.user %>
+    </div>
+    <div class="col">
+      <h1><%= link_to t(".user_title", :user => @entry.user.display_name), :action => :index %></h1>
+      <p><%= rss_link_to :action => :rss, :display_name => @entry.user.display_name %></p>
+    </div>
+  </div>
+<% end %>
+
+<%= render @entry %>
+
+<a id="comments"></a>
+<div class='comments'>
+<%= render :partial => "diary_comment", :collection => @comments %>
+</div>
+
+<hr>
+
+<div>
+  <% if current_user %>
+    <h3 id="newcomment"><%= t ".leave_a_comment" %></h3>
+
+    <%= bootstrap_form_for @entry.comments.new, :url => { :action => "comment" } do |f| %>
+      <%= f.richtext_field :body, :cols => 80, :rows => 20, :hide_label => true %>
+      <%= f.primary %>
+      <% if @entry.subscribers.exists?(current_user.id) %>
+        <%= link_to t("javascripts.changesets.show.unsubscribe"), diary_entry_unsubscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => "btn btn-light" %>
+      <% else %>
+        <%= link_to t("javascripts.changesets.show.subscribe"), diary_entry_subscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => "btn btn-light" %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <h3 id="newcomment"><%= t(".login_to_leave_a_comment_html", :login_link => link_to(t(".login"), login_path(:referer => request.fullpath))) %></h3>
+  <% end %>
+</div>
+
+<% content_for :auto_discovery_link_tag do -%>
+<%= auto_discovery_link_tag :rss, :action => :rss, :display_name => @entry.user.display_name %>
+<% end -%>

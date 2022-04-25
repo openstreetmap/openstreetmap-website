@@ -1,21 +1,33 @@
-require 'oauth/controllers/provider_controller'
-
 class OauthController < ApplicationController
   include OAuth::Controllers::ProviderController
 
-  layout 'slim'
+  # The ProviderController will call login_required for any action that needs
+  # a login, but we want to check authorization on every action.
+  authorize_resource :class => false
+
+  layout "site"
+
+  def revoke
+    @token = current_user.oauth_tokens.find_by :token => params[:token]
+    if @token
+      @token.invalidate!
+      flash[:notice] = t(".flash", :application => @token.client_application.name)
+    end
+    redirect_to oauth_clients_url(:display_name => @token.user.display_name)
+  end
+
+  protected
 
   def login_required
     authorize_web
     set_locale
-    require_user
   end
 
   def user_authorizes_token?
     any_auth = false
 
     @token.client_application.permissions.each do |pref|
-      if params[pref]
+      if params[pref].to_i.nonzero?
         @token.write_attribute(pref, true)
         any_auth ||= true
       else
@@ -26,52 +38,41 @@ class OauthController < ApplicationController
     any_auth
   end
 
-  def revoke
-    @token = current_user.oauth_tokens.find_by_token params[:token]
-    if @token
-      @token.invalidate!
-      flash[:notice] = t('oauth.revoke.flash', :application => @token.client_application.name)
-    end
-    redirect_to oauth_clients_url(:display_name => @token.user.display_name)
-  end
-
-protected
-
   def oauth1_authorize
-    unless @token
-      render :action=>"authorize_failure"
-      return
-    end
+    override_content_security_policy_directives(:form_action => []) if Settings.csp_enforce || Settings.key?(:csp_report_url)
 
-    unless @token.invalidated?
-      if request.post?
-        if user_authorizes_token?
-          @token.authorize!(current_user)
-          if @token.oauth10?
-            callback_url = params[:oauth_callback] || @token.client_application.callback_url
-          else
-            callback_url = @token.oob? ? @token.client_application.callback_url : @token.callback_url
-          end
-          @redirect_url = URI.parse(callback_url) unless callback_url.blank?
-
-          unless @redirect_url.to_s.blank?
-            @redirect_url.query = @redirect_url.query.blank? ?
-            "oauth_token=#{@token.token}" :
-              @redirect_url.query + "&oauth_token=#{@token.token}"
-            unless @token.oauth10?
-              @redirect_url.query += "&oauth_verifier=#{@token.verifier}"
-            end
-            redirect_to @redirect_url.to_s
-          else
-            render :action => "authorize_success"
-          end
-        else
-          @token.invalidate!
-          render :action => "authorize_failure"
-        end
-      end
-    else
+    if @token.invalidated?
+      @message = t "oauth.authorize_failure.invalid"
       render :action => "authorize_failure"
+    elsif request.post?
+      if user_authorizes_token?
+        @token.authorize!(current_user)
+        callback_url = if @token.oauth10?
+                         params[:oauth_callback] || @token.client_application.callback_url
+                       else
+                         @token.oob? ? @token.client_application.callback_url : @token.callback_url
+                       end
+        @redirect_url = URI.parse(callback_url) if callback_url.present?
+
+        if @redirect_url.to_s.blank?
+          render :action => "authorize_success"
+        else
+          @redirect_url.query = if @redirect_url.query.blank?
+                                  "oauth_token=#{@token.token}"
+                                else
+                                  @redirect_url.query +
+                                    "&oauth_token=#{@token.token}"
+                                end
+
+          @redirect_url.query += "&oauth_verifier=#{@token.verifier}" unless @token.oauth10?
+
+          redirect_to @redirect_url.to_s, :allow_other_host => true
+        end
+      else
+        @token.invalidate!
+        @message = t("oauth.authorize_failure.denied", :app_name => @token.client_application.name)
+        render :action => "authorize_failure"
+      end
     end
   end
 end

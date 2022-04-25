@@ -1,11 +1,35 @@
 <% if flash[:error] %>
-  <div id="error"><%= raw flash[:error] %></div>
+  <div class="flash error row mx-0 p-3 align-items-center">
+    <div class="col-auto">
+      <picture>
+        <source srcset="<%= image_path "notice.svg" %>" type="image/svg+xml" />
+        <%= image_tag("notice.png", :srcset => image_path("notice.svg")) %>
+      </picture>
+    </div>
+    <div class="col"><%= render_flash(flash[:error]) %></div>
+  </div>
 <% end %>
 
 <% if flash[:warning] %>
-  <div id="warning"><%= raw flash[:warning] %></div>
+  <div class="flash warning row mx-0 p-3 align-items-center">
+    <div class="col-auto">
+      <picture>
+        <source srcset="<%= image_path "notice.svg" %>" type="image/svg+xml"></source>
+        <%= image_tag("notice.png", :srcset => image_path("notice.svg")) %>
+      </picture>
+    </div>
+    <div class="col"><%= render_flash(flash[:warning]) %></div>
+  </div>
 <% end %>
 
 <% if flash[:notice] %>
-  <div id="notice"><%= raw flash[:notice] %></div>
+  <div class="flash notice row mx-0 p-3 align-items-center">
+    <div class="col-auto">
+      <picture>
+        <source srcset="<%= image_path "notice.svg" %>" type="image/svg+xml"></source>
+        <%= image_tag("notice.png", :srcset => image_path("notice.svg")) %>
+      </picture>
+    </div>
+    <div class="col"><%= render_flash(flash[:notice]) %></div>
+  </div>
 <% end %>

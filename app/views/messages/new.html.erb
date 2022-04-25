@@ -1,0 +1,12 @@
+<% content_for :heading do %>
+  <h1><%= t(".send_message_to_html", :name => link_to(@message.recipient.display_name, user_path(@message.recipient))) %></h1>
+<% end %>
+
+<%= bootstrap_form_for @message do |f| %>
+  <%= hidden_field_tag :display_name, @message.recipient.display_name, :autocomplete => "off" %>
+  <%= f.text_field :title %>
+  <%= f.richtext_field :body, :cols => 80, :rows => 20 %>
+
+  <%= f.primary %>
+  <%= link_to t(".back_to_inbox"), inbox_messages_path, :class => "btn btn-link" %>
+<% end %>

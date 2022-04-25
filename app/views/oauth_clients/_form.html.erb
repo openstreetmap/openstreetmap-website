@@ -1,23 +1,11 @@
-<div class="field">
-  <label for="client_application_name"><%= t'oauth_clients.form.name' %> (<%= t'oauth_clients.form.required' %>)</label><br/>
-  <%= f.text_field :name %>
+<%= f.text_field :name %>
+<%= f.text_field :url %>
+<%= f.text_field :callback_url %>
+<%= f.text_field :support_url %>
+<div class='form-group'>
+  <p><%= t ".requests" %></p>
+  <% ClientApplication.all_permissions.each do |perm| %>
+    <%= f.check_box perm %>
+  <% end %>
 </div>
-<div class="field">
-  <label for="client_application_url"><%= t'oauth_clients.form.url' %> (<%= t'oauth_clients.form.required' %>)</label><br/>
-  <%= f.text_field :url %>
-</div>
-<div class="field">
-  <label for="client_application_callback_url"><%= t'oauth_clients.form.callback_url' %></label><br/>
-  <%= f.text_field :callback_url %>
-</div>
-<div class="field">
-  <label for="client_application_support_url"><%= t'oauth_clients.form.support_url' %></label><br/>
-  <%= f.text_field :support_url %>
-</div>
-<p><%= t'oauth_clients.form.requests' %></p>
-<% ClientApplication.all_permissions.each do |perm| %>
-<div class="field">
-  <%= f.check_box perm %>
-  <label for="client_application_<%= perm.to_s %>"><%= t('oauth_clients.form.' + perm.to_s) %></label><br/>
-</div>
-<% end %>
+<%= f.primary %>

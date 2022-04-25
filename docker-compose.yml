@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  web:
+    build:
+      context: .
+    volumes:
+      - .:/app
+      # Prevent these directories from mounting so they're not shared between host OS and Docker
+      - /app/node_modules/
+      - /app/tmp/
+      # Mount these upload directories so they persist between runs
+      - web-traces:/home/osm/traces
+      - web-images:/home/osm/images
+    ports:
+      - "3000:3000"
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    depends_on:
+      - db
+
+  db:
+    build:
+      context: .
+      dockerfile: docker/postgres/Dockerfile
+    ports:
+      - "54321:5432"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: openstreetmap
+    volumes:
+      # Mount the Postgres data directory so it persists between runs
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  web-traces:
+  web-images:
+  db-data:

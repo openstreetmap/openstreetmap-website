@@ -1,0 +1,19 @@
+<% content_for :heading do %>
+  <h1><%= t ".heading", :name => @trace.name %></h1>
+<% end %>
+
+<img src="<%= url_for :controller => "traces", :action => "picture", :id => @trace.id, :display_name => @trace.user.display_name %>">
+
+<%= bootstrap_form_for @trace do |f| %>
+  <%= f.text_field :name, :disabled => true %>
+  <%= f.text_field :description %>
+  <%= f.text_field :tagstring %>
+  <%= f.select :visibility,
+               [[t("traces.visibility.private"), "private"],
+                [t("traces.visibility.public"), "public"],
+                [t("traces.visibility.trackable"), "trackable"],
+                [t("traces.visibility.identifiable"), "identifiable"]],
+               :help => link_to(t(".visibility_help"), t(".visibility_help_url")) %>
+  <%= f.primary %>
+  <%= link_to t(".cancel"), show_trace_path(@trace.user, @trace), :class => "btn btn-link" %>
+<% end %>

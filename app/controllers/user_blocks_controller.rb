@@ -1,17 +1,19 @@
 class UserBlocksController < ApplicationController
-  layout 'site'
+  layout "site"
 
-  before_filter :authorize_web
-  before_filter :set_locale
-  before_filter :require_user, :only => [:new, :create, :edit, :update, :revoke]
-  before_filter :require_moderator, :only => [:new, :create, :edit, :update, :revoke]
-  before_filter :lookup_this_user, :only => [:new, :create, :blocks_on, :blocks_by]
-  before_filter :lookup_user_block, :only => [:show, :edit, :update, :revoke]
-  before_filter :require_valid_params, :only => [:create, :update]
-  before_filter :check_database_readable
-  before_filter :check_database_writable, :only => [:create, :update, :revoke]
+  before_action :authorize_web
+  before_action :set_locale
+
+  authorize_resource
+
+  before_action :lookup_user, :only => [:new, :create, :blocks_on, :blocks_by]
+  before_action :lookup_user_block, :only => [:show, :edit, :update, :revoke]
+  before_action :require_valid_params, :only => [:create, :update]
+  before_action :check_database_readable
+  before_action :check_database_writable, :only => [:create, :update, :revoke]
 
   def index
+    @params = params.permit
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
                                                 :order => "user_blocks.ends_at DESC",
@@ -19,7 +21,7 @@ class UserBlocksController < ApplicationController
   end
 
   def show
-    if @user and @user.id == @user_block.user_id
+    if current_user && current_user == @user_block.user
       @user_block.needs_view = false
       @user_block.save!
     end
@@ -30,21 +32,21 @@ class UserBlocksController < ApplicationController
   end
 
   def edit
-    params[:user_block_period] = ((@user_block.ends_at - Time.now.getutc) / 1.hour).ceil.to_s
+    params[:user_block_period] = ((@user_block.ends_at - Time.now.utc) / 1.hour).ceil.to_s
   end
 
   def create
-    if @valid_params 
-      @user_block = UserBlock.new({
-        :user_id => @this_user.id,
-        :creator_id => @user.id,
+    if @valid_params
+      @user_block = UserBlock.new(
+        :user => @user,
+        :creator => current_user,
         :reason => params[:user_block][:reason],
-        :ends_at => Time.now.getutc() + @block_period.hours,
+        :ends_at => Time.now.utc + @block_period.hours,
         :needs_view => params[:user_block][:needs_view]
-      }, :without_protection => true)
-    
+      )
+
       if @user_block.save
-        flash[:notice] = t('user_block.create.flash', :name => @this_user.display_name)
+        flash[:notice] = t(".flash", :name => @user.display_name)
         redirect_to @user_block
       else
         render :action => "new"
@@ -54,17 +56,17 @@ class UserBlocksController < ApplicationController
     end
   end
 
-  def update  
-    if @valid_params 
-      if @user_block.creator_id != @user.id
-        flash[:error] = t('user_block.update.only_creator_can_edit')
+  def update
+    if @valid_params
+      if @user_block.creator != current_user
+        flash[:error] = t(".only_creator_can_edit")
         redirect_to :action => "edit"
-      elsif @user_block.update_attributes({
-              :ends_at => Time.now.getutc() + @block_period.hours,
-              :reason => params[:user_block][:reason],
-              :needs_view => params[:user_block][:needs_view]
-            }, :without_protection => true)
-        flash[:notice] = t('user_block.update.success')
+      elsif @user_block.update(
+        :ends_at => Time.now.utc + @block_period.hours,
+        :reason => params[:user_block][:reason],
+        :needs_view => params[:user_block][:needs_view]
+      )
+        flash[:notice] = t(".success")
         redirect_to(@user_block)
       else
         render :action => "edit"
@@ -77,20 +79,19 @@ class UserBlocksController < ApplicationController
   ##
   # revokes the block, setting the end_time to now
   def revoke
-    if params[:confirm]
-      if @user_block.revoke! @user
-        flash[:notice] = t'user_block.revoke.flash'
-        redirect_to(@user_block)
-      end
+    if request.post? && params[:confirm] && @user_block.revoke!(current_user)
+      flash[:notice] = t ".flash"
+      redirect_to(@user_block)
     end
   end
 
   ##
   # shows a list of all the blocks on the given user
   def blocks_on
+    @params = params.permit(:display_name)
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
-                                                :conditions => {:user_id => @this_user.id},
+                                                :conditions => { :user_id => @user.id },
                                                 :order => "user_blocks.ends_at DESC",
                                                 :per_page => 20)
   end
@@ -98,14 +99,16 @@ class UserBlocksController < ApplicationController
   ##
   # shows a list of all the blocks by the given user.
   def blocks_by
+    @params = params.permit(:display_name)
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
-                                                :conditions => {:creator_id => @this_user.id},
+                                                :conditions => { :creator_id => @user.id },
                                                 :order => "user_blocks.ends_at DESC",
                                                 :per_page => 20)
   end
 
   private
+
   ##
   # ensure that there is a "user_block" instance variable
   def lookup_user_block
@@ -123,15 +126,14 @@ class UserBlocksController < ApplicationController
     @block_period = params[:user_block_period].to_i
     @valid_params = false
 
-    if !UserBlock::PERIODS.include?(@block_period)
-      flash[:error] = t('user_block.filter.block_period')
-      
-    elsif @user_block and !@user_block.active?
-      flash[:error] = t('user_block.filter.block_expired')
-      
+    if UserBlock::PERIODS.exclude?(@block_period)
+      flash[:error] = t("user_blocks.filter.block_period")
+
+    elsif @user_block && !@user_block.active?
+      flash[:error] = t("user_blocks.filter.block_expired")
+
     else
       @valid_params = true
     end
   end
-
 end

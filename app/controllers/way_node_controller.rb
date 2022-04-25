@@ -1,5 +1,0 @@
-class WayNodeController < ApplicationController
-
-
-
-end

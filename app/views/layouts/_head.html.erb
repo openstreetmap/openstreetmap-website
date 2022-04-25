@@ -1,20 +1,16 @@
-<head>
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
-  <%= javascript_strings %>
-  <%= javascript_include_tag "site" %>
-  <%= javascript_include_tag "menu" %>
-  <!--[if lt IE 7]><%= javascript_include_tag "pngfix" %><![endif]--> <!-- thanks, microsoft! -->
-  <%= stylesheet_link_tag "small-#{t 'html.dir'}", :media => "only screen and (max-width:641px)" %>
-  <%= stylesheet_link_tag "large-#{t 'html.dir'}", :media => "screen and (min-width: 642px)" %>
-  <%= stylesheet_link_tag "print-#{t 'html.dir'}", :media => "print" %>
-  <!--[if IE]><%= stylesheet_link_tag "large-#{t 'html.dir'}", :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
-  <%= favicon_link_tag "favicon.ico" %>
-  <%= favicon_link_tag "osm_logo.png", :rel => "apple-touch-icon", :type => "image/png" %>
-  <%= tag("link", { :rel => "publisher", :href => "https://plus.google.com/111953119785824514010" }) %>
-  <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => asset_path("osm.xml") }) %>
-  <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
-  <%= style_rules %>
+<%= tag.head :data => application_data do %>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+  <%= javascript_include_tag "es6" unless browser.es6? %>
+  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "i18n/#{I18n.locale}" %>
+  <%= stylesheet_link_tag "screen-#{dir}", :media => "screen" %>
+  <%= stylesheet_link_tag "print-#{dir}", :media => "print" %>
+  <%= stylesheet_link_tag "leaflet-all", :media => "screen, print" %>
+  <%= render :partial => "layouts/meta" %>
   <%= yield :head %>
+  <%= yield :auto_discovery_link_tag %>
   <%= csrf_meta_tag %>
-  <title><%= t 'layouts.project_name.title' %><%= ' | '+ @title if @title %></title>
-</head>
+  <%= csp_meta_tag %>
+  <title><%= "#{@title} | " if @title %><%= t "layouts.project_name.title" %></title>
+<% end %>

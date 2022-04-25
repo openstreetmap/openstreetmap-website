@@ -1,0 +1,12 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<%= bootstrap_form_for current_user, :url => { :action => :update } do |f| %>
+  <%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{Settings.default_editor}.name")), "default"]] + Editors::AVAILABLE_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %>
+
+  <%= f.text_field :languages %>
+
+  <%= f.primary t(".save") %>
+  <%= link_to t(".cancel"), preferences_path, :class => "btn btn-link" %>
+<% end %>

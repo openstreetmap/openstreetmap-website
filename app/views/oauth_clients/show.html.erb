@@ -1,32 +1,33 @@
-<h1><%= t('oauth_clients.show.title', :app_name => @client_application.name) %></h1>
-<p>
-  <b><%= t'oauth_clients.show.key' %></b> <%=@client_application.key %>
-</p>
-<p>
-  <b><%= t'oauth_clients.show.secret' %></b> <%=@client_application.secret %>
-</p>
-<p>
-  <b><%= t'oauth_clients.show.url' %></b> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.request_token_path %>
-</p>
-<p>
-  <b><%= t'oauth_clients.show.access_url' %></b> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.access_token_path %>
-</p>
-<p>
-  <b><%= t'oauth_clients.show.authorize_url' %></b> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.authorize_path %>
-</p>
+<% content_for :heading do %>
+  <h1><%= t(".title", :app_name => @client_application.name) %></h1>
+<% end %>
 
-<p><%= t'oauth_clients.show.requests' %></p>
-<ul><% @client_application.permissions.each do |perm| %>
-<div class="field">
-  <li><%= t('oauth_clients.form.' + perm.to_s) %></li>
+<%= render :partial => "settings_menu" %>
+
+<dl class="row">
+  <dt class="col-sm-3"><%= t ".key" %></dt>
+  <dd class="col-sm-9"><%= @client_application.key %></dt>
+  <dt class="col-sm-3"><%= t ".secret" %></dt>
+  <dd class="col-sm-9"><%= @client_application.secret %></dd>
+  <dt class="col-sm-3"><%= t ".url" %></dt>
+  <dd class="col-sm-9">http<%= "s" if request.ssl? %>://<%= request.host_with_port %><%= @client_application.oauth_server.request_token_path %></dd>
+  <dt class="col-sm-3"><%= t ".access_url" %></dt>
+  <dd class="col-sm-9">http<%= "s" if request.ssl? %>://<%= request.host_with_port %><%= @client_application.oauth_server.access_token_path %></dd>
+  <dt class="col-sm-3"><%= t ".authorize_url" %></dt>
+  <dd class="col-sm-9">http<%= "s" if request.ssl? %>://<%= request.host_with_port %><%= @client_application.oauth_server.authorize_path %></dd>
+</dl>
+
+<div>
+  <p><%= t ".requests" %></p>
+  <ul>
+    <% @client_application.permissions.each do |perm| %>
+      <li><%= t("activerecord.attributes.client_application.#{perm}") %></li>
+    <% end %>
+  </ul>
+  <p><%= t ".support_notice" %></p>
 </div>
-<% end %></ul>
 
-<p><%= t'oauth_clients.show.support_notice' %></p>
-
-<table>
-<tr>
-<td><%= button_to t('oauth_clients.show.edit'), edit_oauth_client_path(@client_application.user.display_name, @client_application), :method => :get %></td>
-<td><%= button_to t('oauth_clients.show.delete'), oauth_client_path(@client_application.user.display_name, @client_application), :method => :delete, :data => { :confirm => t('oauth_clients.show.confirm') } %></td>
-</tr>
-</table>
+<div>
+  <%= link_to t(".edit"), edit_oauth_client_path(@client_application.user.display_name, @client_application), :method => :get, :class => "btn btn-outline-primary" %>
+  <%= link_to t(".delete"), oauth_client_path(@client_application.user.display_name, @client_application), :method => :delete, :data => { :confirm => t(".confirm") }, :class => "btn btn-outline-danger" %>
+</div>

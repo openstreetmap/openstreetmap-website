@@ -1,0 +1,50 @@
+<% set_title(t(".title")) %>
+
+<%= render "sidebar_header", :title => t(".title") %>
+
+<%= form_tag({ :controller => "export", :action => "finish" }, { :class => "export_form" }) do %>
+  <%= hidden_field_tag "format", "osm", :autocomplete => "off" %>
+
+  <div class='export_area_inputs'>
+    <div class='export_boxy border border-grey rounded'>
+      <%= text_field_tag("maxlat", nil, :size => 10, :autocomplete => "off", :class => "export_bound form-control mx-auto") %>
+      <div class="clearfix">
+        <%= text_field_tag("minlon", nil, :size => 10, :autocomplete => "off", :class => "export_bound form-control") %>
+        <%= text_field_tag("maxlon", nil, :size => 10, :autocomplete => "off", :class => "export_bound form-control") %>
+      </div>
+      <%= text_field_tag("minlat", nil, :size => 10, :autocomplete => "off", :class => "export_bound form-control mx-auto") %>
+      </div>
+    <a id='drag_box' href="#"><%= t ".manually_select" %></a>
+  </div>
+
+  <h4><%= t ".licence" %></h4>
+  <p><%= t ".export_details_html" %></p>
+
+  <div id="export_osm_too_large">
+    <p class="alert alert-warning">
+      <%= t ".too_large.body" %>
+    </p>
+  </div>
+
+  <div id="export_commit">
+    <div class="form-group d-flex">
+      <%= submit_tag t(".export_button"), :class => "btn btn-primary mx-auto" %>
+    </div>
+  </div>
+
+  <p><%= t ".too_large.advice" %></p>
+
+  <dl class="px-3">
+    <dt><a id="export_overpass" href="https://overpass-api.de/api/map?bbox="><%= t ".too_large.overpass.title" %></a></dt>
+    <dd><%= t ".too_large.overpass.description" %></dd>
+
+    <dt><a href="https://planet.openstreetmap.org/"><%= t ".too_large.planet.title" %></a></dt>
+    <dd><%= t ".too_large.planet.description" %></dd>
+
+    <dt><a href="https://download.geofabrik.de/"><%= t ".too_large.geofabrik.title" %></a></dt>
+    <dd><%= t ".too_large.geofabrik.description" %></dd>
+
+    <dt><a href="https://wiki.openstreetmap.org/wiki/Download"><%= t ".too_large.other.title" %></a></dt>
+    <dd><%= t ".too_large.other.description" %></dd>
+  </dl>
+<% end %>

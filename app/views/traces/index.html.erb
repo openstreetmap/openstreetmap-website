@@ -1,0 +1,74 @@
+<% content_for :heading_class, "pb-0" %>
+<% content_for :heading do %>
+  <h1><%= @title %></h1>
+  <p>
+    <%= t(".description") %>
+    <% if params[:tag] %>
+      <%= link_to t(".remove_tag_filter", :tag => params[:tag]), { :controller => "traces", :action => "index", :display_name => nil, :tag => nil, :page => nil }, { :class => "border-left ml-2 pl-2" } %>
+    <% end %>
+  </p>
+  <ul class="nav nav-tabs flex-column flex-sm-row">
+    <% if @target_user.blank? %>
+      <!-- public traces -->
+      <li class="nav-item">
+        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil, :page => nil }, { :class => "nav-link active" } %>
+      </li>
+      <% if current_user %>
+        <li class="nav-item">
+          <%= link_to t(".my_traces"), { :action => "mine", :page => nil }, { :class => "nav-link" } %>
+        </li>
+      <% end %>
+    <% elsif current_user && current_user == @target_user %>
+      <li class="nav-item">
+        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil, :page => nil }, { :class => "nav-link" } %>
+      </li>
+      <!-- my traces -->
+      <li class="nav-item">
+        <%= link_to t(".my_traces"), { :action => "mine", :page => nil }, { :class => "nav-link active" } %>
+      </li>
+    <% else %>
+      <!-- public_traces_from @target_user -->
+      <li class="nav-item">
+        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil, :page => nil }, { :class => "nav-link" } %>
+      </li>
+      <% if current_user && current_user != @target_user %>
+        <li class="nav-item">
+          <%= link_to t(".my_traces"), { :action => "mine", :page => nil }, { :class => "nav-link" } %>
+        </li>
+      <% end %>
+      <li class="nav-item">
+        <%= link_to t(".public_traces_from", :user => @target_user&.display_name), { :action => "mine", :page => nil }, { :class => "nav-link active" } %>
+      </li>
+    <% end %>
+
+    <li class="nav-item flex-sm-grow-1"></li>
+    <li class="nav-item">
+      <div class="px-3 py-1">
+        <%= link_to({ :action => :georss, :display_name => @target_user&.display_name, :tag => params[:tag] }, { :class => "btn btn-secondary btn-sm" }) do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" viewBox="0 0 16 16">
+            <path d="M5.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-3-8.5a1 1 0 0 1 1-1c5.523 0 10 4.477 10 10a1 1 0 1 1-2 0 8 8 0 0 0-8-8 1 1 0 0 1-1-1zm0 4a1 1 0 0 1 1-1 6 6 0 0 1 6 6 1 1 0 1 1-2 0 4 4 0 0 0-4-4 1 1 0 0 1-1-1z" />
+          </svg>
+        <% end -%>
+        <%= link_to t(".upload_trace"), new_trace_path, :class => "btn btn-secondary btn-sm" %>
+      </div>
+    </li>
+  </ul>
+<% end %>
+
+<% content_for :auto_discovery_link_tag do %>
+  <%= auto_discovery_link_tag :rss, :action => "georss", :display_name => @target_user&.display_name, :tag => params[:tag] %>
+<% end %>
+
+<% if @traces.size > 0 %>
+  <%= render "trace_paging_nav", :page => @page, :page_size => @page_size, :traces => @traces, :params => @params %>
+
+  <table id="trace_list" class="table table-borderless table-striped">
+    <tbody>
+      <%= render @traces %>
+    </tbody>
+  </table>
+
+  <%= render "trace_paging_nav", :page => @page, :page_size => @page_size, :traces => @traces, :params => @params %>
+<% else %>
+  <h4><%= t ".empty_html", :upload_link => new_trace_path %></h4>
+<% end %>

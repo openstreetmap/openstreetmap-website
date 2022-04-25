@@ -1,38 +1,34 @@
-<tr>
-  <% if common_details.visible? %>
-    <th><%= t 'browse.common_details.edited_at' %></th>
+<h4 class="details">
+  <%= t "browse.version" %>
+  #<%= common_details.version %>
+</h4>
+
+<p class="font-italic">
+  <% if common_details.changeset.tags["comment"].present? %>
+    <%= linkify(common_details.changeset.tags["comment"]) %>
   <% else %>
-    <th><%= t 'browse.common_details.deleted_at' %></th>
+    <%= t "browse.no_comment" %>
   <% end %>
-  <td><%= l common_details.timestamp %></td>
-</tr>
+</p>
 
-<% if common_details.changeset.user.data_public? %>
-  <tr>
-    <% if common_details.visible? %>
-      <th><%= t 'browse.common_details.edited_by' %></th>
-    <% else %>
-      <th><%= t 'browse.common_details.deleted_by' %></th>
-    <% end %>
-    <td><%= link_to h(common_details.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_details.changeset.user.display_name %></td>
-  </tr>
+<p class="details">
+  <%= t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
+        :time => time_ago_in_words(common_details.timestamp, :scope => :"datetime.distance_in_words_ago"),
+        :user => changeset_user_link(common_details.changeset),
+        :title => l(common_details.timestamp) %>
+  &middot;
+  <%= t "browse.in_changeset" %>
+  #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
+</p>
+
+<% if @type == "node" and common_details.visible? %>
+<div class="details geo">
+  <%= t "browse.location" %>
+  <%= link_to(t(".coordinates_html",
+                :latitude => tag.span(number_with_delimiter(common_details.lat), :class => "latitude"),
+                :longitude => tag.span(number_with_delimiter(common_details.lon), :class => "longitude")),
+              root_path(:anchor => "map=18/#{common_details.lat}/#{common_details.lon}")) %>
+</div>
 <% end %>
 
-<tr>
-  <th><%= t 'browse.common_details.version' %></th>
-  <td><%= h(common_details.version) %></td>
-</tr>
-
-<tr>
-  <th><%= t 'browse.common_details.in_changeset' %></th>
-  <td><%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %></td>
-</tr>
-
-<% if common_details.changeset.tags['comment'] %>
-  <tr>
-    <th><%= t 'browse.common_details.changeset_comment' %></th>
-    <td><%= linkify(h(common_details.changeset.tags['comment'])) %></td>
-  </tr>
-<% end %>
-
-<%= render :partial => "tag_details", :object => common_details %>
+<%= render :partial => "tag_details", :object => common_details.tags %>

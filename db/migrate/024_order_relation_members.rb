@@ -1,18 +1,16 @@
-require 'migrate'
-
-class OrderRelationMembers < ActiveRecord::Migration
+class OrderRelationMembers < ActiveRecord::Migration[4.2]
   def self.up
     # add sequence column. rails won't let us define an ordering here,
     # as defaults must be constant.
     add_column(:relation_members, :sequence_id, :integer,
                :default => 0, :null => false)
 
-    # update the sequence column with default (partial) ordering by 
+    # update the sequence column with default (partial) ordering by
     # element ID. the sequence ID is a smaller int type, so we can't
     # just copy the member_id.
     execute("update relation_members set sequence_id = mod(member_id, 16384)")
 
-    # need to update the primary key to include the sequence number, 
+    # need to update the primary key to include the sequence number,
     # otherwise the primary key will barf when we have repeated members.
     # mysql barfs on this anyway, so we need a single command. this may
     # not work in postgres... needs testing.

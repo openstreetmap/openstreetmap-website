@@ -1,0 +1,17 @@
+<% content_for :heading do %>
+  <h1><%= t ".upload_trace" %></h1>
+<% end %>
+
+<%= bootstrap_form_for @trace, :url => { :action => "create" }, :html => { :multipart => true } do |f| %>
+  <%= f.file_field :gpx_file, :placeholder => t("helpers.file.prompt") %>
+  <%= f.text_field :description %>
+  <%= f.text_field :tagstring %>
+  <%= f.select :visibility,
+               [[t("traces.visibility.private"), "private"],
+                [t("traces.visibility.public"), "public"],
+                [t("traces.visibility.trackable"), "trackable"],
+                [t("traces.visibility.identifiable"), "identifiable"]],
+               :help => link_to(t(".visibility_help"), t(".visibility_help_url")) %>
+  <%= f.primary %>
+  <%= link_to t(".help"), t(".help_url"), :class => "btn btn-link" %>
+<% end %>

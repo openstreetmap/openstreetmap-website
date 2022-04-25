@@ -1,2 +1,0 @@
-module UserPreferenceHelper
-end

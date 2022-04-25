@@ -1,0 +1,20 @@
+<%= t '.hi', :to_user => @to_user %>
+
+<% if @owner %>
+<%= t ".commented.your_changeset", :commenter => @commenter, :time => @time %>
+<% else %>
+<%= t ".commented.commented_changeset", :commenter => @commenter, :time => @time, :changeset_author => @changeset_author %>
+<% end %>
+<% if @changeset_comment %>
+<%= t ".commented.partial_changeset_with_comment", :changeset_comment => @changeset_comment %>
+<% else %>
+<%= t ".commented.partial_changeset_without_comment" %>
+<% end %>
+
+==
+<%= @comment.to_text %>
+==
+
+<%= t '.details', :url => @changeset_url %>
+
+<%= t '.unsubscribe', :url => @changeset_url %>

@@ -1,9 +1,7 @@
-<%
-  browse_timeout_type = {
-    'node' => I18n.t('browse.timeout.type.node'),
-    'way' => I18n.t('browse.timeout.type.way'),
-    'relation' => I18n.t('browse.timeout.type.relation'),
-    'changeset' => I18n.t('browse.timeout.type.changeset'),
-  };
-%>
-<p><%= t'browse.timeout.sorry', :type=> browse_timeout_type[@type] , :id => params[:id] %></p>
+<% set_title(t(".title")) %>
+
+<%= render "sidebar_header", :title => t(".title") %>
+
+<div>
+  <p><%= t ".sorry", :type => t(".type.#{@type}"), :id => params[:id] %>
+</div>

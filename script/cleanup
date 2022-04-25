@@ -1,30 +1,10 @@
 #!/usr/bin/env ruby
 
-require File.dirname(__FILE__) + '/../config/environment'
+require File.join(File.dirname(__FILE__), "..", "config", "environment")
 
-last_session_id = 0
-
-begin
-  sessions = Session.find(:all,
-                          :conditions => ["updated_at < ? and id > ?", 1.week.ago, last_session_id],
-                          :order => :id, :limit => 1000)
-
-  sessions.each do |session|
-    last_session_id = session.id
-
-    begin
-      if session[:user] and User.find(session[:user])
-        session.destroy if session.updated_at < 1.month.ago
-      else
-        session.destroy
-      end
-    rescue Exception => ex
-      puts "Invalid session #{session.session_id}: #{ex.to_s}"
-      session.destroy
-    end
-  end
-end while sessions.length > 0
-
-UserToken.delete_all("expiry < NOW()")
+UserToken.where("expiry < NOW()").delete_all
+OauthNonce.where("timestamp < EXTRACT(EPOCH FROM NOW() - INTERVAL '1 day')").delete_all
+OauthToken.where("invalidated_at < NOW() - INTERVAL '28 days'").delete_all
+RequestToken.where("authorized_at IS NULL AND created_at < NOW() - INTERVAL '28 days'").delete_all
 
 exit 0

@@ -1,84 +1,96 @@
 class SiteController < ApplicationController
-  layout 'site', :except => [:key, :permalink]
-  layout false, :only => [:key, :permalink]
+  layout "site"
+  layout :map_layout, :only => [:index, :export]
 
-  before_filter :authorize_web
-  before_filter :set_locale
-  before_filter :require_user, :only => [:edit]
+  before_action :authorize_web
+  before_action :set_locale
+  before_action :redirect_browse_params, :only => :index
+  before_action :redirect_map_params, :only => [:index, :edit, :export]
+  before_action :require_oauth, :only => [:index]
+  before_action :update_totp, :only => [:index]
 
-  def export
-    render :action => 'index'
+  authorize_resource :class => false
+
+  def index
+    session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless Settings.status == "database_readonly" || Settings.status == "database_offline"
   end
 
   def permalink
-    lon, lat, zoom = ShortLink::decode(params[:code])
-    new_params = params.clone
-    new_params.delete :code
-    if new_params.has_key? :m
+    lon, lat, zoom = ShortLink.decode(params[:code])
+    new_params = params.except(:host, :controller, :action, :code, :lon, :lat, :zoom, :layers, :node, :way, :relation, :changeset)
+
+    if new_params.key? :m
       new_params.delete :m
       new_params[:mlat] = lat
       new_params[:mlon] = lon
-    else
-      new_params[:lat] = lat
-      new_params[:lon] = lon
     end
-    new_params[:zoom] = zoom
-    new_params[:controller] = 'site'
-    new_params[:action] = 'index'
-    redirect_to new_params
+
+    new_params[:anchor] = "map=#{zoom}/#{lat}/#{lon}"
+    new_params[:anchor] += "&layers=#{params[:layers]}" if params.key? :layers
+
+    options = new_params.to_unsafe_h.to_options
+
+    path = if params.key? :node
+             node_path(params[:node], options)
+           elsif params.key? :way
+             way_path(params[:way], options)
+           elsif params.key? :relation
+             relation_path(params[:relation], options)
+           elsif params.key? :changeset
+             changeset_path(params[:changeset], options)
+           else
+             root_url(options)
+           end
+
+    redirect_to path
   end
 
   def key
     expires_in 7.days, :public => true
+    render :layout => false
   end
 
   def edit
-    editor = params[:editor] || @user.preferred_editor || DEFAULT_EDITOR
+    editor = preferred_editor
 
     if editor == "remote"
-      render :action => :index
+      require_oauth
+      render :action => :index, :layout => map_layout
+      return
     else
-      # Decide on a lat lon to initialise potlatch with. Various ways of doing this
-      if params['lon'] and params['lat']
-        @lon = params['lon'].to_f
-        @lat = params['lat'].to_f
-        @zoom = params['zoom'].to_i
+      require_user
+    end
 
-      elsif params['mlon'] and params['mlat']
-        @lon = params['mlon'].to_f
-        @lat = params['mlat'].to_f
-        @zoom = params['zoom'].to_i
+    if %w[id].include?(editor)
+      append_content_security_policy_directives(
+        :frame_src => %w[blob:]
+      )
+    end
 
-      elsif params['bbox']
-        bbox = BoundingBox.from_bbox_params(params)
-
-        @lon = bbox.centre_lon
+    begin
+      if params[:node]
+        bbox = Node.visible.find(params[:node]).bbox.to_unscaled
         @lat = bbox.centre_lat
-        @zoom = 16
-      elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
-        bbox = BoundingBox.from_lon_lat_params(params)
-
         @lon = bbox.centre_lon
+        @zoom = 18
+      elsif params[:way]
+        bbox = Way.visible.find(params[:way]).bbox.to_unscaled
         @lat = bbox.centre_lat
+        @lon = bbox.centre_lon
+        @zoom = 17
+      elsif params[:note]
+        note = Note.visible.find(params[:note])
+        @lat = note.lat
+        @lon = note.lon
+        @zoom = 17
+      elsif params[:gpx] && current_user
+        trace = Trace.visible_to(current_user).find(params[:gpx])
+        @lat = trace.latitude
+        @lon = trace.longitude
         @zoom = 16
-
-      elsif params['gpx']
-        @lon = Trace.find(params['gpx']).longitude
-        @lat = Trace.find(params['gpx']).latitude
-
-      elsif cookies.key?("_osm_location")
-        @lon, @lat, @zoom, layers = cookies["_osm_location"].split("|")
-
-      elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil?
-        @lon = @user.home_lon
-        @lat = @user.home_lat
-
-      else
-        #catch all.  Do nothing.  lat=nil, lon=nil
-        #Currently this results in potlatch starting up at 0,0 (Atlantic ocean).
       end
-
-      @zoom = '17' if @zoom.nil?
+    rescue ActiveRecord::RecordNotFound
+      # don't try and derive a location from a missing/deleted object
     end
   end
 
@@ -86,7 +98,60 @@ class SiteController < ApplicationController
     @locale = params[:copyright_locale] || I18n.locale
   end
 
+  def welcome; end
+
+  def help; end
+
+  def about
+    @locale = params[:about_locale] || I18n.locale
+  end
+
+  def export; end
+
+  def offline; end
+
   def preview
-    render :text => RichText.new(params[:format], params[:text]).to_html
+    render :html => RichText.new(params[:type], params[:text]).to_html
+  end
+
+  def id
+    append_content_security_policy_directives(
+      :connect_src => %w[*],
+      :img_src => %w[* blob:],
+      :script_src => %w[dev.virtualearth.net 'unsafe-eval'],
+      :style_src => %w['unsafe-inline']
+    )
+
+    render :layout => false
+  end
+
+  private
+
+  def redirect_browse_params
+    if params[:node]
+      redirect_to node_path(params[:node])
+    elsif params[:way]
+      redirect_to way_path(params[:way])
+    elsif params[:relation]
+      redirect_to relation_path(params[:relation])
+    elsif params[:note]
+      redirect_to browse_note_path(params[:note])
+    elsif params[:query]
+      redirect_to search_path(:query => params[:query])
+    end
+  end
+
+  def redirect_map_params
+    anchor = []
+
+    anchor << "map=#{params.delete(:zoom) || 5}/#{params.delete(:lat)}/#{params.delete(:lon)}" if params[:lat] && params[:lon]
+
+    if params[:layers]
+      anchor << "layers=#{params.delete(:layers)}"
+    elsif params.delete(:notes) == "yes"
+      anchor << "layers=N"
+    end
+
+    redirect_to params.to_unsafe_h.merge(:only_path => true, :anchor => anchor.join("&")) if anchor.present?
   end
 end

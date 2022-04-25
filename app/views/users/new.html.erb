@@ -1,0 +1,47 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+
+<% content_for :heading_class, "pb-0" %>
+<% content_for :heading do %>
+  <div class='header-illustration new-user-main'>
+    <h1><%= t ".title" %></h1>
+  </div>
+  <div class='header-illustration new-user-arm'></div>
+<% end %>
+
+<div class="row">
+  <div class='text-muted col-sm order-sm-2'>
+    <h4><%= t ".about.header" %></h4>
+    <%= t ".about.html" %>
+  </div>
+
+  <div class="col-sm">
+    <%= bootstrap_form_for current_user, :url => { :action => "create" } do |f| %>
+      <%= hidden_field_tag("referer", h(@referer)) unless @referer.nil? %>
+
+      <%= f.email_field :email, :tabindex => 1 %>
+      <%= f.email_field :email_confirmation, :tabindex => 2 %>
+
+      <%= f.text_field :display_name, :help => t(".display name description"), :tabindex => 3 %>
+
+      <fieldset class="form-group" id="auth_field">
+        <label for="user_auth_provider"><%= t(".external auth") %></label>
+        <div class="form-row">
+          <%= f.select(:auth_provider, Auth.providers, :default => "", :hide_label => true, :wrapper => { :class => "col-auto mb-0" }, :tabindex => 4) %>
+          <%= f.text_field(:auth_uid, :hide_label => true, :wrapper => { :class => "col mb-0" }, :tabindex => 5) %>
+        </div>
+        <small class="form-text text-muted"><%= t ".auth no password" %></small>
+      </fieldset>
+
+      <%= f.password_field :pass_crypt, :tabindex => 6 %>
+      <%= f.password_field :pass_crypt_confirmation, :tabindex => 7 %>
+
+      <div id="auth_prompt">
+        <p><%= link_to t(".use external auth"), "#", :id => "auth_enable" %></p>
+      </div>
+
+      <%= f.primary t(".continue"), :tabindex => 8 %>
+    <% end %>
+  </div>
+</div>

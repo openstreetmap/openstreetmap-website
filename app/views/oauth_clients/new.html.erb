@@ -1,6 +1,9 @@
-<h1><%= t'oauth_clients.new.title' %></h1>
-<%= form_for :client_application, :url => { :action => :create } do |f| %>
-   <%= render :partial => "form", :locals => { :f => f } %>
-   <br />
-   <%= submit_tag t('oauth_clients.new.submit') %>
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<%= render :partial => "settings_menu" %>
+
+<%= bootstrap_form_for @client_application, :url => { :action => :create } do |f| %>
+  <%= render :partial => "form", :locals => { :f => f } %>
 <% end %>

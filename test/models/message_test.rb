@@ -1,0 +1,192 @@
+require "test_helper"
+
+class MessageTest < ActiveSupport::TestCase
+  EURO = "\xe2\x82\xac".freeze # euro symbol
+
+  def test_check_empty_message_fails
+    message = build(:message, :title => nil, :body => nil, :sent_on => nil)
+    assert_not message.valid?
+    assert_predicate message.errors[:title], :any?
+    assert_predicate message.errors[:body], :any?
+    assert_predicate message.errors[:sent_on], :any?
+    assert_not message.message_read
+  end
+
+  def test_validating_msgs
+    message = create(:message, :unread)
+    assert_predicate message, :valid?
+    message = create(:message, :read)
+    assert_predicate message, :valid?
+  end
+
+  def test_invalid_send_recipient
+    message = create(:message, :unread)
+    message.sender = nil
+    message.recipient = nil
+    assert_not message.valid?
+
+    assert_raise(ActiveRecord::RecordNotFound) { User.find(0) }
+    message.from_user_id = 0
+    message.to_user_id = 0
+    assert_raise(ActiveRecord::RecordInvalid) { message.save! }
+  end
+
+  def test_utf8_roundtrip
+    [1, 255].each do |i|
+      assert_message_ok("c", i)
+      assert_message_ok(EURO, i)
+    end
+  end
+
+  def test_length_oversize
+    assert_raise(ActiveRecord::RecordInvalid) { make_message("c", 256).save! }
+    assert_raise(ActiveRecord::RecordInvalid) { make_message(EURO, 256).save! }
+  end
+
+  def test_invalid_utf8
+    # See e.g http://en.wikipedia.org/wiki/UTF-8 for byte sequences
+    # FIXME: Invalid Unicode characters can still be encoded into "valid" utf-8 byte sequences - maybe check this too?
+    invalid_sequences = ["\xC0",         # always invalid utf8
+                         "\xC2\x4a",     # 2-byte multibyte identifier, followed by plain ASCII
+                         "\xC2\xC2",     # 2-byte multibyte identifier, followed by another one
+                         "\x4a\x82",     # plain ASCII, followed by multibyte continuation
+                         "\x82\x82",     # multibyte continuations without multibyte identifier
+                         "\xe1\x82\x4a"] # three-byte identifier, continuation and (incorrectly) plain ASCII
+    invalid_sequences.each do |char|
+      # create a message and save to the database
+      msg = make_message(char, 1)
+      # if the save throws, thats fine and the test should pass, as we're
+      # only testing invalid sequences anyway.
+      msg.save!
+
+      # get the saved message back and check that it is identical - i.e:
+      # its OK to accept invalid UTF-8 as long as we return it unmodified.
+      db_msg = msg.class.find(msg.id)
+      assert_equal char, db_msg.title, "Database silently truncated message title"
+    rescue ArgumentError => e
+      assert_equal("invalid byte sequence in UTF-8", e.to_s)
+    end
+  end
+
+  def test_from_mail_plain
+    sender_user = create(:user)
+    recipient_user = create(:user)
+    mail = Mail.new do
+      from "from@example.com"
+      to "to@example.com"
+      subject "Test message"
+      date Time.now.utc
+      content_type "text/plain; charset=utf-8"
+      body "This is a test & a message"
+    end
+    message = Message.from_mail(mail, sender_user, recipient_user)
+    assert_equal sender_user, message.sender
+    assert_equal recipient_user, message.recipient
+    assert_equal mail.date, message.sent_on
+    assert_equal "Test message", message.title
+    assert_equal "This is a test & a message", message.body
+    assert_equal "text", message.body_format
+  end
+
+  def test_from_mail_html
+    sender_user = create(:user)
+    recipient_user = create(:user)
+    mail = Mail.new do
+      from "from@example.com"
+      to "to@example.com"
+      subject "Test message"
+      date Time.now.utc
+      content_type "text/html; charset=utf-8"
+      body "<p>This is a <b>test</b> &amp; a message</p>"
+    end
+    message = Message.from_mail(mail, sender_user, recipient_user)
+    assert_equal sender_user, message.sender
+    assert_equal recipient_user, message.recipient
+    assert_equal mail.date, message.sent_on
+    assert_equal "Test message", message.title
+    assert_match(/^ *This is a test & a message *$/, message.body)
+    assert_equal "text", message.body_format
+  end
+
+  def test_from_mail_multipart
+    sender_user = create(:user)
+    recipient_user = create(:user)
+    mail = Mail.new do
+      from "from@example.com"
+      to "to@example.com"
+      subject "Test message"
+      date Time.now.utc
+
+      text_part do
+        content_type "text/plain; charset=utf-8"
+        body "This is a test & a message in text format"
+      end
+
+      html_part do
+        content_type "text/html; charset=utf-8"
+        body "<p>This is a <b>test</b> &amp; a message in HTML format</p>"
+      end
+    end
+    message = Message.from_mail(mail, sender_user, recipient_user)
+    assert_equal sender_user, message.sender
+    assert_equal recipient_user, message.recipient
+    assert_equal mail.date, message.sent_on
+    assert_equal "Test message", message.title
+    assert_equal "This is a test & a message in text format", message.body
+    assert_equal "text", message.body_format
+
+    mail = Mail.new do
+      from "from@example.com"
+      to "to@example.com"
+      subject "Test message"
+      date Time.now.utc
+
+      html_part do
+        content_type "text/html; charset=utf-8"
+        body "<p>This is a <b>test</b> &amp; a message in HTML format</p>"
+      end
+    end
+    message = Message.from_mail(mail, sender_user, recipient_user)
+    assert_equal sender_user, message.sender
+    assert_equal recipient_user, message.recipient
+    assert_equal mail.date, message.sent_on
+    assert_equal "Test message", message.title
+    assert_match(/^ *This is a test & a message in HTML format *$/, message.body)
+    assert_equal "text", message.body_format
+  end
+
+  def test_from_mail_prefix
+    sender_user = create(:user)
+    recipient_user = create(:user)
+    mail = Mail.new do
+      from "from@example.com"
+      to "to@example.com"
+      subject "[OpenStreetMap] Test message"
+      date Time.now.utc
+      content_type "text/plain; charset=utf-8"
+      body "This is a test & a message"
+    end
+    message = Message.from_mail(mail, sender_user, recipient_user)
+    assert_equal sender_user, message.sender
+    assert_equal recipient_user, message.recipient
+    assert_equal mail.date, message.sent_on
+    assert_equal "Test message", message.title
+    assert_equal "This is a test & a message", message.body
+    assert_equal "text", message.body_format
+  end
+
+  private
+
+  def make_message(char, count)
+    message = build(:message, :unread)
+    message.title = char * count
+    message
+  end
+
+  def assert_message_ok(char, count)
+    message = make_message(char, count)
+    assert message.save!
+    response = message.class.find(message.id) # stand by for some uber-generalisation...
+    assert_equal char * count, response.title, "message with #{count} #{char} chars (i.e. #{char.length * count} bytes) fails"
+  end
+end

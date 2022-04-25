@@ -1,20 +1,10 @@
-<% @title = t 'redaction.new.title' %>
-<h1><%= t 'redaction.new.heading' %></h1>
-
-<%= form_for(@redaction) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :title, t('redaction.new.title') %><br />
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.label :description, t('redaction.new.description') %><br />
-    <%= richtext_area :redaction, :description, :cols => 80, :rows => 20, :format => @redaction.description_format %>
-  </p>
-  <p>
-    <%= f.submit t('redaction.new.submit') %>
-  </p>
+<% @title = t ".title" %>
+<% content_for :heading do %>
+  <h1><%= t ".heading" %></h1>
 <% end %>
 
-
+<%= bootstrap_form_for(@redaction) do |f| %>
+  <%= f.text_field :title %>
+  <%= f.richtext_field :description, :cols => 80, :rows => 20, :format => @redaction.description_format %>
+  <%= f.primary %>
+<% end %>

@@ -1,26 +1,15 @@
-require 'migrate'
-
-class CreateRedactions < ActiveRecord::Migration
-  def up
+class CreateRedactions < ActiveRecord::Migration[4.2]
+  def change
     create_table :redactions do |t|
       t.string :title
       t.text :description
 
-      t.timestamps
+      t.timestamps :null => true
     end
 
     [:nodes, :ways, :relations].each do |tbl|
       add_column tbl, :redaction_id, :integer, :null => true
-      add_foreign_key tbl, [:redaction_id], :redactions, [:id]
+      add_foreign_key tbl, :redactions, :name => "#{tbl}_redaction_id_fkey"
     end
-  end
-
-  def down
-    [:nodes, :ways, :relations].each do |tbl|
-      remove_foreign_key tbl, [:redaction_id], :redactions, [:id]
-      remove_column tbl, :redaction_id
-    end
-
-    drop_table :redactions
   end
 end

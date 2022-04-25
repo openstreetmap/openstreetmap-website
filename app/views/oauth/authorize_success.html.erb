@@ -1,5 +1,9 @@
-<h1>You have allowed this request</h1>
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<p><%= t(".allowed_html", :app_name => link_to(@token.client_application.name, @token.client_application.url)) %></p>
 
 <% if @token.oob? and not @token.oauth10? %>
-<p>The verification code is <%= @token.verifier %></p>
+<p><%= t ".verification", :code => @token.verifier %></p>
 <% end %>

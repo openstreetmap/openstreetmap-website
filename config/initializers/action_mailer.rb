@@ -1,27 +1,20 @@
+# Configure queue to use for ActionMailer deliveries
+ActionMailer::Base.deliver_later_queue_name = :mailers
+
 # Configure ActionMailer SMTP settings
 ActionMailer::Base.smtp_settings = {
-  :address => 'localhost',
-  :port => 25, 
-  :domain => 'localhost',
-  :enable_starttls_auto => false
+  :address => Settings.smtp_address,
+  :port => Settings.smtp_port,
+  :domain => Settings.smtp_domain,
+  :enable_starttls_auto => Settings.smtp_enable_starttls_auto,
+  :openssl_verify_mode => Settings.smtp_tls_verify_mode,
+  :authentication => Settings.smtp_authentication,
+  :user_name => Settings.smtp_user_name,
+  :password => Settings.smtp_password
 }
 
-# Monkey patch to allow sending of messages in specific locales
-module ActionMailer
-  class Base
-    def mail_with_locale(*args)
-      old_locale = I18n.locale
-
-      begin
-        I18n.locale = @locale
-        message = mail_without_locale(*args)
-      ensure
-        I18n.locale = old_locale
-      end
-
-      message
-    end
-
-    alias_method_chain :mail, :locale
-  end
-end
+# Set the host and protocol for all ActionMailer URLs
+ActionMailer::Base.default_url_options = {
+  :host => Settings.server_url,
+  :protocol => Settings.server_protocol
+}

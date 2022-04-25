@@ -1,0 +1,32 @@
+<% content_for :heading do %>
+  <h1><%= t ".heading", :user => @user.display_name %></h1>
+  <p><%= t ".subheading_html", :user => link_to(@user.display_name, user_path(@user)) %></p>
+<% end %>
+
+<% if @comments.empty? %>
+  <h4><%= t ".no_comments" %></h4>
+
+<% else %>
+  <table class="table table-striped" width="100%">
+    <thead>
+      <tr>
+        <th width="25%"><%= t ".post" %></th>
+        <th width="25%"><%= t ".when" %></th>
+        <th width="50%"><%= t ".comment" %></th>
+      </tr>
+    </thead>
+    <% @comments.each do |comment| -%>
+    <tr class="<%= "text-muted" unless comment.visible? %>">
+      <td width="25%"><%= link_to comment.diary_entry.title, diary_entry_path(comment.diary_entry.user, comment.diary_entry) %></td>
+      <td width="25%"><span title="<%= l comment.created_at, :format => :friendly %>"><%= time_ago_in_words(comment.created_at, :scope => :"datetime.distance_in_words_ago") %></span></td>
+      <td width="50%" class="richtext text-break"><%= comment.body.to_html %></td>
+    </tr>
+    <% end -%>
+  </table>
+
+  <div class='secondary-actions clearfix'>
+    <span><%= link_to t(".older_comments"), :page => @comment_pages.current.next if @comment_pages.current.next %>
+    <%= link_to t(".newer_comments"), :page => @comment_pages.current.previous if @comment_pages.current.previous %></span>
+  </div>
+
+<% end -%>

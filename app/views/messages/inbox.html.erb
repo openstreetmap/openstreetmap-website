@@ -1,0 +1,38 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "messages" %>
+<% end %>
+
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <h1><%= t("users.show.my messages") %></h1>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active"><%= t ".my_inbox" %></a>
+    </li>
+    <li class="nav-item">
+      <%= link_to t(".my_outbox"), outbox_messages_path, :class => "nav-link" %>
+    </li>
+  </ul>
+<% end %>
+
+  <h4><%= render :partial => "message_count" %></h4>
+
+<% if current_user.messages.size > 0 %>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th><%= t ".from" %></th>
+        <th><%= t ".subject" %></th>
+        <th><%= t ".date" %></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        <%= render :partial => "message_summary", :collection => current_user.messages %>
+    </tbody>
+  </table>
+<% else %>
+  <div><%= t(".no_messages_yet_html", :people_mapping_nearby_link => link_to(t(".people_mapping_nearby"), user_path(current_user))) %></div>
+<% end %>

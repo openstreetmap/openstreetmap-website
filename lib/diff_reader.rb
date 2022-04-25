@@ -7,11 +7,11 @@ class DiffReader
   include ConsistencyValidations
 
   # maps each element type to the model class which handles it
-  MODELS = { 
-    "node"     => Node, 
-    "way"      => Way, 
+  MODELS = {
+    "node" => Node,
+    "way" => Way,
     "relation" => Relation
-  }
+  }.freeze
 
   ##
   # Construct a diff reader by giving it a bunch of XML +data+ to parse
@@ -32,15 +32,13 @@ class DiffReader
   def read_or_die
     # NOTE: XML::Reader#read returns false for EOF and raises an
     # exception if an error occurs.
-    begin
-      @reader.read
-    rescue LibXML::XML::Error => ex
-      raise OSM::APIBadXMLError.new("changeset", xml, ex.message)
-    end
+    @reader.read
+  rescue LibXML::XML::Error => e
+    raise OSM::APIBadXMLError.new("changeset", xml, e.message)
   end
 
   ##
-  # An element-block mapping for using the LibXML reader interface. 
+  # An element-block mapping for using the LibXML reader interface.
   #
   # Since a lot of LibXML reader usage is boilerplate iteration through
   # elements, it would be better to DRY and do this in a block. This
@@ -52,19 +50,17 @@ class DiffReader
       # read the first element
       read_or_die
 
-      while @reader.node_type != 15 do # end element
+      while @reader.node_type != 15 # end element
         # because we read elements in DOM-style to reuse their DOM
         # parsing code, we don't always read an element on each pass
         # as the call to @reader.next in the innermost loop will take
         # care of that for us.
         if @reader.node_type == 1 # element
           name = @reader.name
-          attributes =  {}
+          attributes = {}
 
           if @reader.has_attributes?
-            while @reader.move_to_next_attribute == 1
-              attributes[@reader.name] = @reader.value
-            end
+            attributes[@reader.name] = @reader.value while @reader.move_to_next_attribute == 1
 
             @reader.move_to_element
           end
@@ -73,23 +69,25 @@ class DiffReader
         else
           read_or_die
         end
-      end 
+      end
     end
     read_or_die
   end
 
   ##
-  # An element-block mapping for using the LibXML reader interface. 
+  # An element-block mapping for using the LibXML reader interface.
   #
   # Since a lot of LibXML reader usage is boilerplate iteration through
   # elements, it would be better to DRY and do this in a block. This
   # could also help with error handling...?
   def with_model
-    with_element do |model_name,model_attributes|
+    with_element do |model_name, _model_attributes|
       model = MODELS[model_name]
-      raise OSM::APIBadUserInput.new("Unexpected element type #{model_name}, " +
-                                     "expected node, way or relation.") if model.nil?
-      # new in libxml-ruby >= 2, expand returns an element not associated 
+      if model.nil?
+        raise OSM::APIBadUserInput, "Unexpected element type #{model_name}, " \
+                                    "expected node, way or relation."
+      end
+      # new in libxml-ruby >= 2, expand returns an element not associated
       # with a document. this means that there's no encoding parameter,
       # which means basically nothing works.
       expanded = @reader.expand
@@ -112,9 +110,7 @@ class DiffReader
   # such as save_ and delete_with_history.
   def check(model, xml, new)
     raise OSM::APIBadXMLError.new(model, xml) if new.nil?
-    unless new.changeset_id == @changeset.id 
-      raise OSM::APIChangesetMismatchError.new(new.changeset_id, @changeset.id)
-    end
+    raise OSM::APIChangesetMismatchError.new(new.changeset_id, @changeset.id) unless new.changeset_id == @changeset.id
   end
 
   ##
@@ -122,39 +118,38 @@ class DiffReader
   # is *not* transactional, so code which calls it should ensure that the
   # appropriate transaction block is in place.
   #
-  # On a failure to meet preconditions (e.g: optimistic locking fails) 
+  # On a failure to meet preconditions (e.g: optimistic locking fails)
   # an exception subclassing OSM::APIError will be thrown.
   def commit
-
     # data structure used for mapping placeholder IDs to real IDs
-    node_ids, way_ids, rel_ids = {}, {}, {}
-    ids = { :node => node_ids, :way => way_ids, :relation => rel_ids}
+    ids = { :node => {}, :way => {}, :relation => {} }
 
     # take the first element and check that it is an osmChange element
     @reader.read
-    raise OSM::APIBadUserInput.new("Document element should be 'osmChange'.") if @reader.name != 'osmChange'
+    raise OSM::APIBadUserInput, "Document element should be 'osmChange'." if @reader.name != "osmChange"
 
-    result = OSM::API.new.get_xml_doc
+    result = OSM::API.new.xml_doc
     result.root.name = "diffResult"
 
     # loop at the top level, within the <osmChange> element
-    with_element do |action_name,action_attributes|
-      if action_name == 'create'
+    with_element do |action_name, action_attributes|
+      case action_name
+      when "create"
         # create a new element. this code is agnostic of the element type
         # because all the elements support the methods that we're using.
         with_model do |model, xml|
-          new = model.from_xml_node(xml, true)
+          new = model.from_xml_node(xml, :create => true)
           check(model, xml, new)
 
           # when this element is saved it will get a new ID, so we save it
           # to produce the mapping which is sent to other elements.
-          placeholder_id = xml['id'].to_i
+          placeholder_id = xml["id"].to_i
           raise OSM::APIBadXMLError.new(model, xml) if placeholder_id.nil?
 
           # check if the placeholder ID has been given before and throw
           # an exception if it has - we can't create the same element twice.
           model_sym = model.to_s.downcase.to_sym
-          raise OSM::APIBadUserInput.new("Placeholder IDs must be unique for created elements.") if ids[model_sym].include? placeholder_id
+          raise OSM::APIBadUserInput, "Placeholder IDs must be unique for created elements." if ids[model_sym].include? placeholder_id
 
           # some elements may have placeholders for other elements in the
           # diff, so we must fix these before saving the element.
@@ -162,7 +157,7 @@ class DiffReader
 
           # create element given user
           new.create_with_history(@changeset.user)
-          
+
           # save placeholder => allocated ID map
           ids[model_sym][placeholder_id] = new.id
 
@@ -173,13 +168,13 @@ class DiffReader
           xml_result["new_version"] = new.version.to_s
           result.root << xml_result
         end
-        
-      elsif action_name == 'modify'
+
+      when "modify"
         # modify an existing element. again, this code doesn't directly deal
         # with types, but uses duck typing to handle them transparently.
         with_model do |model, xml|
           # get the new element from the XML payload
-          new = model.from_xml_node(xml, false)
+          new = model.from_xml_node(xml, :create => false)
           check(model, xml, new)
 
           # if the ID is a placeholder then map it to the real ID
@@ -199,20 +194,20 @@ class DiffReader
 
           xml_result = XML::Node.new model.to_s.downcase
           xml_result["old_id"] = client_id.to_s
-          xml_result["new_id"] = id.to_s 
+          xml_result["new_id"] = id.to_s
           # version is updated in "old" through the update, so we must not
           # return new.version here but old.version!
           xml_result["new_version"] = old.version.to_s
           result.root << xml_result
         end
 
-      elsif action_name == 'delete'
+      when "delete"
         # delete action. this takes a payload in API 0.6, so we need to do
         # most of the same checks that are done for the modify.
         with_model do |model, xml|
           # delete doesn't have to contain a full payload, according to
           # the wiki docs, so we just extract the things we need.
-          new_id = xml['id'].to_i
+          new_id = xml["id"].to_i
           raise OSM::APIBadXMLError.new(model, xml, "ID attribute is required") if new_id.nil?
 
           # if the ID is a placeholder then map it to the real ID
@@ -222,8 +217,8 @@ class DiffReader
 
           # build the "new" element by modifying the existing one
           new = model.find(id)
-          new.changeset_id = xml['changeset'].to_i
-          new.version = xml['version'].to_i
+          new.changeset_id = xml["changeset"].to_i
+          new.version = xml["version"].to_i
           check(model, xml, new)
 
           # fetch the matching old element from the DB
@@ -241,7 +236,7 @@ class DiffReader
           if action_attributes["if-unused"]
             begin
               old.delete_with_history!(new, @changeset.user)
-            rescue OSM::APIPreconditionFailedError => ex
+            rescue OSM::APIAlreadyDeletedError, OSM::APIPreconditionFailedError
               xml_result["new_id"] = old.id.to_s
               xml_result["new_version"] = old.version.to_s
             end
@@ -254,12 +249,11 @@ class DiffReader
 
       else
         # no other actions to choose from, so it must be the users fault!
-        raise OSM::APIChangesetActionInvalid.new(action_name)
+        raise OSM::APIChangesetActionInvalid, action_name
       end
     end
 
     # return the XML document to be rendered back to the client
-    return result
+    result
   end
-
 end

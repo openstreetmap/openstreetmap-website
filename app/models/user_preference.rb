@@ -1,18 +1,21 @@
-class UserPreference < ActiveRecord::Base
+# == Schema Information
+#
+# Table name: user_preferences
+#
+#  user_id :bigint(8)        not null, primary key
+#  k       :string           not null, primary key
+#  v       :string           not null
+#
+# Foreign Keys
+#
+#  user_preferences_user_id_fkey  (user_id => users.id)
+#
+
+class UserPreference < ApplicationRecord
   self.primary_keys = "user_id", "k"
 
   belongs_to :user
-  
-  validates_length_of :k, :within => 1..255
-  validates_length_of :v, :within => 1..255
 
-  # Turn this Node in to an XML Node without the <osm> wrapper.
-  def to_xml_node
-    el1 = XML::Node.new 'preference'
-    el1['k'] = self.k
-    el1['v'] = self.v
-    
-    return el1
-  end
-
+  validates :user, :associated => true
+  validates :k, :v, :length => 1..255, :characters => true
 end

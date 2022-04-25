@@ -1,0 +1,63 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "login" %>
+<% end %>
+
+<% content_for :heading do %>
+  <h1><%= t ".heading" %></h1>
+<% end %>
+
+<div id="login_login">
+  <p class='text-muted'><%= t ".no account" %> <%= link_to t(".register now"), user_new_path(:referer => params[:referer]) %></p>
+
+  <%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
+    <%= hidden_field_tag("referer", h(params[:referer]), :autocomplete => "off") %>
+
+    <%= f.text_field :username, :label => t(".email or username"), :tabindex => 1, :value => params[:username] %>
+    <%= f.password_field :password, :label => t(".password"), :tabindex => 2, :value => "", :help => link_to(t(".lost password link"), :controller => "passwords", :action => "lost_password") %>
+    <%= f.form_group do %>
+      <%= f.check_box :remember_me, { :label => t(".remember"), :tabindex => 3, :checked => (params[:remember_me] == "yes") }, "yes" %>
+    <% end %>
+
+    <%= f.primary t(".login_button"), :tabindex => 4 %>
+  <% end %>
+
+  <hr>
+
+  <div id="loginForm">
+    <div class="form-group">
+      <label><%= t ".with external" %></label>
+
+      <ul class='list-unstyled' id="login_auth_buttons">
+        <li><%= link_to image_tag("openid.png", :alt => t(".auth_providers.openid.title")), "#", :id => "openid_open_url", :title => t(".auth_providers.openid.title") %></li>
+        <% if Settings.key?(:google_auth_id) -%>
+        <li><%= auth_button "google", "google" %></li>
+        <% end -%>
+        <% if Settings.key?(:facebook_auth_id) -%>
+        <li><%= auth_button "facebook", "facebook" %></li>
+        <% end -%>
+        <% if Settings.key?(:windowslive_auth_id) -%>
+        <li><%= auth_button "windowslive", "windowslive" %></li>
+        <% end -%>
+        <% if Settings.key?(:github_auth_id) -%>
+        <li><%= auth_button "github", "github" %></li>
+        <% end -%>
+        <% if Settings.key?(:wikipedia_auth_id) -%>
+        <li><%= auth_button "wikipedia", "wikipedia" %></li>
+        <% end -%>
+        <li><%= auth_button "wordpress", "openid", :openid_url => "wordpress.com" %></li>
+        <li><%= auth_button "aol", "openid", :openid_url => "aol.com" %></li>
+      </ul>
+
+      <%= form_tag(auth_path(:provider => "openid"), :id => "openid_login_form") do %>
+        <div id='login_openid_url' class="form-group">
+          <label for='openid_url'><%= t ".openid_html", :logo => openid_logo %></label>
+          <%= hidden_field_tag("referer", params[:referer], :autocomplete => "off") %>
+          <%= text_field_tag("openid_url", "", :tabindex => 3, :autocomplete => "on", :class => "openid_url form-control") %>
+          <span class="form-text text-muted">(<a href="<%= t "accounts.edit.openid.link" %>" target="_new"><%= t "accounts.edit.openid.link text" %></a>)</span>
+        </div>
+
+        <%= submit_tag t(".login_button"), :tabindex => 6, :id => "login_openid_submit", :class => "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>

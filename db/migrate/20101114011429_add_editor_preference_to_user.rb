@@ -1,4 +1,4 @@
-class AddEditorPreferenceToUser < ActiveRecord::Migration
+class AddEditorPreferenceToUser < ActiveRecord::Migration[4.2]
   def self.up
     add_column :users, :preferred_editor, :string
   end

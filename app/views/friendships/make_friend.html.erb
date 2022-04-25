@@ -1,0 +1,10 @@
+<% content_for :heading do %>
+  <h1><%= t ".heading", :user => @new_friend.display_name %></h1>
+<% end %>
+
+<%= bootstrap_form_tag do |f| %>
+  <% if params[:referer] -%>
+  <%= f.hidden_field :referer, :value => params[:referer] %>
+  <% end -%>
+  <%= f.primary t(".button") %>
+<% end %>

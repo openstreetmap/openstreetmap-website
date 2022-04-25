@@ -1,0 +1,23 @@
+<tr>
+  <td>
+    <%= user_thumbnail(user) %>
+  </td>
+  <td>
+    <p>
+      <% if user.creation_ip %>
+        <%= t "users.index.summary_html",
+              :name => link_to(user.display_name, user_path(user)),
+              :ip_address => link_to(user.creation_ip, :ip => user.creation_ip),
+              :date => l(user.created_at, :format => :friendly) %>
+      <% else %>
+        <%= t "users.index.summary_no_ip_html",
+              :name => link_to(user.display_name, user_path(user)),
+              :date => l(user.created_at, :format => :friendly) %>
+      <% end %>
+    </p>
+    <div class="richtext text-break"><%= user.description.to_html %></div>
+  </td>
+  <td>
+    <%= check_box_tag "user_#{user.id}", "", false, :name => "user[#{user.id}]" %>
+  </td>
+</tr>

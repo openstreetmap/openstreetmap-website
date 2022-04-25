@@ -1,58 +1,13 @@
-<% if STATUS == :database_offline or STATUS == :api_offline %>
-<p><%= t 'layouts.osm_offline' %>
-</p>
-<% elsif STATUS == :database_readonly or STATUS == :api_readonly %>
-<p><%= t 'layouts.osm_read_only' %>
-</p>
-<% elsif !@user.data_public? %>
-<p><%= t 'site.edit.not_public' %></p>
-<p><%= raw t 'site.edit.not_public_description', :user_page => (link_to t('site.edit.user_page_link'), {:controller => 'user', :action => 'account', :display_name => @user.display_name, :anchor => 'public'}) %></p>
-<p><%= raw t 'site.edit.anon_edits', :link => link_to(t('site.edit.anon_edits_link_text'), t('site.edit.anon_edits_link')) %></p>
-<% else %>
-<% content_for :greeting do %>
-<% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
-<%= link_to t("layouts.home"), "#", :class => "set_position", :data => { :lat => @user.home_lat, :lon => @user.home_lon, :zoom => 15 }, :title => t("layouts.home_tooltip") %> |
-<% end %>
-<% end %>
-
-<%= render :partial => 'sidebar', :locals => { :onopen => "resizeMap();", :onclose => "resizeMap();" } %>
-<%= render :partial => 'search' %>
-<%= render :partial => 'resize' %>
-
-<%= render :partial => preferred_editor %>
-
-<script type="text/javascript">
-  function maximiseMap() {
-    $("#left").hide();
-    $("#greeting").hide();
-    $("#tabnav").hide();
-
-    $("#content").css("top", "10px");
-    <% if t('html.dir') == "ltr" -%>
-    $("#content").css("left", "10px");
-    <% else -%>
-    $("#content").css("right", "10px");
-    <% end -%>
-
-    handleResize();
-  }
-  
-  function minimiseMap() {
-    $("#left").show();
-    $("#greeting").show();
-    $("#tabnav").show();
-
-    $("#content").css("top", "35px");
-    <% if t('html.dir') == "ltr" -%>
-    $("#content").css("left", "192px");
-    <% else -%>
-    $("#content").css("right", "192px");
-    <% end -%>
-
-    handleResize();
-  }
-
-  $(document).ready(handleResize);
-  $(window).resize(handleResize);
-</script>
+<% content_for :content do %>
+  <% if Settings.status == "database_offline" or Settings.status == "api_offline" %>
+    <p><%= t "layouts.osm_offline" %></p>
+  <% elsif Settings.status == "database_readonly" or Settings.status == "api_readonly" %>
+    <p><%= t "layouts.osm_read_only" %></p>
+  <% elsif !current_user.data_public? %>
+    <p><%= t ".not_public" %></p>
+    <p><%= t ".not_public_description_html", :user_page => (link_to t(".user_page_link"), edit_account_path(:anchor => "public")) %></p>
+    <p><%= t ".anon_edits_html", :link => link_to(t(".anon_edits_link_text"), t(".anon_edits_link")) %></p>
+  <% else %>
+    <%= render :partial => preferred_editor %>
+  <% end %>
 <% end %>

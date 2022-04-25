@@ -1,7 +1,5 @@
-require 'migrate'
-
-class CreateUserBlocks < ActiveRecord::Migration
-  def self.up
+class CreateUserBlocks < ActiveRecord::Migration[4.2]
+  def change
     create_table :user_blocks do |t|
       t.column :user_id,      :bigint,   :null => false
       t.column :moderator_id, :bigint,   :null => false
@@ -10,17 +8,13 @@ class CreateUserBlocks < ActiveRecord::Migration
       t.column :needs_view,   :boolean,  :null => false, :default => false
       t.column :revoker_id,   :bigint
 
-      t.timestamps
+      t.timestamps :null => true
     end
 
-    add_foreign_key :user_blocks, [:user_id], :users, [:id]
-    add_foreign_key :user_blocks, [:moderator_id], :users, [:id]
-    add_foreign_key :user_blocks, [:revoker_id], :users, [:id]
+    add_foreign_key :user_blocks, :users, :name => "user_blocks_user_id_fkey"
+    add_foreign_key :user_blocks, :users, :column => :moderator_id, :name => "user_blocks_moderator_id_fkey"
+    add_foreign_key :user_blocks, :users, :column => :revoker_id, :name => "user_blocks_revoker_id_fkey"
 
     add_index :user_blocks, [:user_id]
-  end
-
-  def self.down
-    drop_table :user_blocks
   end
 end

@@ -1,0 +1,68 @@
+<% content_for :head, tag.meta(:name => :robots, :content => :noindex) %>
+<% content_for :heading do %>
+  <div class="row">
+    <% if @user %>
+        <div class="col-auto">
+          <%= user_image @user %>
+        </div>
+    <% end %>
+
+    <div class="col">
+      <h1><%= @title %></h1>
+
+      <nav class="secondary-actions">
+        <ul class="clearfix">
+          <% unless params[:friends] or params[:nearby] -%>
+            <li><%= rss_link_to :action => "rss", :language => params[:language] %></li>
+            <% end -%>
+
+            <% if @user && @user == current_user || !@user && current_user %>
+              <li><%= link_to image_tag("new.png", :class => "small_icon") + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
+            <% end %>
+
+            <% if !@user && current_user %>
+              <li><%= link_to t(".my_diary"), :controller => "diary_entries", :action => "index", :display_name => current_user.display_name %></li>
+            <% end %>
+        </ul>
+      </nav>
+    </div>
+  </div>
+<% end %>
+
+<% if @entries.empty? %>
+  <h4><%= t ".no_entries" %></h4>
+<% else %>
+  <h4><%= t ".recent_entries" %></h4>
+
+  <%= render @entries %>
+
+  <nav>
+    <ul class="pagination">
+      <% if @entries.size >= @page_size -%>
+        <li class="page-item">
+          <%= link_to t(".older_entries"), @params.merge(:page => @page + 1), :class => "page-link" %>
+        </li>
+      <% else -%>
+        <li class="page-item disabled">
+          <span class="page-link"><%= t(".older_entries") %></span>
+        </li>
+      <% end -%>
+
+      <% if @page > 1 -%>
+        <li class="page-item">
+          <%= link_to t(".newer_entries"), @params.merge(:page => @page - 1), :class => "page-link" %>
+        </li>
+      <% else -%>
+        <li class="page-item disabled">
+          <span class="page-link"><%= t(".newer_entries") %></span>
+        </li>
+      <% end -%>
+    </ul>
+  </nav>
+<% end %>
+
+<% unless params[:friends] or params[:nearby] -%>
+  <% content_for :auto_discovery_link_tag do -%>
+  <%= auto_discovery_link_tag :rss, :action => "rss", :language => params[:language] %>
+  <% end -%>
+<% end -%>

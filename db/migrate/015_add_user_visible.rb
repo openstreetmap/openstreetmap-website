@@ -1,4 +1,4 @@
-class AddUserVisible < ActiveRecord::Migration
+class AddUserVisible < ActiveRecord::Migration[4.2]
   def self.up
     add_column "users", "visible", :boolean, :default => true, :null => false
     User.update_all(:visible => true)

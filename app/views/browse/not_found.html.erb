@@ -1,9 +1,7 @@
-<%
-  browse_not_found_type = {
-    'node' => I18n.t('browse.not_found.type.node'),
-    'way' => I18n.t('browse.not_found.type.way'),
-    'relation' => I18n.t('browse.not_found.type.relation'),
-    'changeset' => I18n.t('browse.not_found.type.changeset'),
-  };
-%>
-<p><%= t'browse.not_found.sorry', :type=> browse_not_found_type[@type] , :id => params[:id] %></p>
+<% set_title(t(".title")) %>
+
+<%= render "sidebar_header", :title => t(".title") %>
+
+<div>
+  <p><%= t ".sorry", :type => t(".type.#{@type}"), :id => params[:id] %>
+</div>

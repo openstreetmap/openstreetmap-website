@@ -1,47 +1,44 @@
-require 'migrate'
-
-class RemoveSegments < ActiveRecord::Migration
+class RemoveSegments < ActiveRecord::Migration[4.2]
   def self.up
-    have_segs = select_value("SELECT count(*) FROM current_segments").to_i != 0
+    have_segs = select_value("SELECT count(*) FROM current_segments").to_i.nonzero?
 
     if have_segs
-      prefix = File.join Dir.tmpdir, "008_remove_segments.#{$$}."
+      prefix = File.join Dir.tmpdir, "008_remove_segments.#{$PROCESS_ID}."
 
       cmd = "db/migrate/008_remove_segments_helper"
       src = "#{cmd}.cc"
-      if not File.exists? cmd or File.mtime(cmd) < File.mtime(src) then 
-	system 'c++ -O3 -Wall `mysql_config --cflags --libs` ' +
-	  "#{src} -o #{cmd}" or fail
+      if !File.exist?(cmd) || File.mtime(cmd) < File.mtime(src)
+        system("c++ -O3 -Wall `mysql_config --cflags --libs` " \
+               "#{src} -o #{cmd}") || raise
       end
 
-      conn_opts = ActiveRecord::Base.connection.
-	instance_eval { @connection_options }
-      args = conn_opts.map { |arg| arg.to_s } + [prefix]
-      fail "#{cmd} failed" unless system cmd, *args
+      conn_opts = ApplicationRecord.connection
+                                   .instance_eval { @connection_options }
+      args = conn_opts.map(&:to_s) + [prefix]
+      raise "#{cmd} failed" unless system cmd, *args
 
-      tempfiles = ['ways', 'way_nodes', 'way_tags',
-	'relations', 'relation_members', 'relation_tags'].
-	map { |base| prefix + base }
+      tempfiles = %w[ways way_nodes way_tags relations relation_members relation_tags]
+                  .map { |base| prefix + base }
       ways, way_nodes, way_tags,
-	relations, relation_members, relation_tags = tempfiles
+  relations, relation_members, relation_tags = tempfiles
     end
 
     drop_table :segments
     drop_table :way_segments
-    create_table :way_nodes, myisam_table do |t|
-      t.column :id,          :bigint, :limit => 64, :null => false
-      t.column :node_id,     :bigint, :limit => 64, :null => false
-      t.column :version,     :bigint, :limit => 20, :null => false
-      t.column :sequence_id, :bigint, :limit => 11, :null => false
+    create_table :way_nodes, :id => false do |t|
+      t.column :id,          :bigint, :null => false
+      t.column :node_id,     :bigint, :null => false
+      t.column :version,     :bigint, :null => false
+      t.column :sequence_id, :bigint, :null => false
     end
     add_primary_key :way_nodes, [:id, :version, :sequence_id]
 
     drop_table :current_segments
     drop_table :current_way_segments
-    create_table :current_way_nodes, innodb_table do |t|
-      t.column :id,          :bigint, :limit => 64, :null => false
-      t.column :node_id,     :bigint, :limit => 64, :null => false
-      t.column :sequence_id, :bigint, :limit => 11, :null => false
+    create_table :current_way_nodes, :id => false do |t|
+      t.column :id,          :bigint, :null => false
+      t.column :node_id,     :bigint, :null => false
+      t.column :sequence_id, :bigint, :null => false
     end
     add_primary_key :current_way_nodes, [:id, :sequence_id]
     add_index :current_way_nodes, [:node_id], :name => "current_way_nodes_node_idx"
@@ -54,7 +51,7 @@ class RemoveSegments < ActiveRecord::Migration
     # now get the data back
     csvopts = "FIELDS TERMINATED BY ',' ENCLOSED BY '\"' ESCAPED BY '\"' LINES TERMINATED BY '\\n'"
 
-    tempfiles.each { |fn| File.chmod 0644, fn } if have_segs
+    tempfiles.each { |fn| File.chmod 0o644, fn } if have_segs
 
     if have_segs
       execute "LOAD DATA INFILE '#{ways}' INTO TABLE ways #{csvopts} (id, user_id, timestamp) SET visible = 1, version = 1"

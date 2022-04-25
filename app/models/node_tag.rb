@@ -1,11 +1,23 @@
-class NodeTag < ActiveRecord::Base
+# == Schema Information
+#
+# Table name: current_node_tags
+#
+#  node_id :bigint(8)        not null, primary key
+#  k       :string           default(""), not null, primary key
+#  v       :string           default(""), not null
+#
+# Foreign Keys
+#
+#  current_node_tags_id_fkey  (node_id => current_nodes.id)
+#
+
+class NodeTag < ApplicationRecord
   self.table_name = "current_node_tags"
   self.primary_keys = "node_id", "k"
 
   belongs_to :node
-  
-  validates_presence_of :node
-  validates_length_of :k, :maximum => 255, :allow_blank => true
-  validates_uniqueness_of :k, :scope => :node_id
-  validates_length_of :v, :maximum => 255, :allow_blank => true
+
+  validates :node, :associated => true
+  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }, :characters => true
+  validates :k, :uniqueness => { :scope => :node_id }
 end

@@ -1,0 +1,15 @@
+<div id="<%= id %>_container" class="form-row richtext_container">
+  <div id="<%= id %>_content" class="col-sm-8 mb-3 mb-sm-0 richtext_content">
+    <%= builder.text_area(attribute, options.merge(:wrapper => false, "data-preview-url" => preview_url(:type => type))) %>
+    <div id="<%= id %>_preview" class="richtext_preview richtext text-break"></div>
+  </div>
+  <div id="<%= id %>_help" class="col-sm-4 richtext_help">
+    <div class="card bg-light h-100">
+      <div class="card-body">
+        <%= render :partial => "shared/#{type}_help" %>
+        <%= submit_tag t(".edit"), :id => "#{id}_doedit", :class => "richtext_doedit btn btn-primary", :disabled => true %>
+        <%= submit_tag t(".preview"), :id => "#{id}_dopreview", :class => "richtext_dopreview btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>

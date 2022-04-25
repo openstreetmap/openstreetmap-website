@@ -13,7 +13,7 @@ module ActionView
           :always_show_anchors => true,
           :link_to_current_page => false,
           :params => {}
-        }
+        }.freeze
       end
 
       # Creates a basic HTML link bar for the given +paginator+.  Links will be created
@@ -27,7 +27,7 @@ module ActionView
       #                                  (i.e. Older Pages: 1 2 3 4)
       # <tt>:suffix</tt>::               suffix for pagination links
       #                                  (i.e. 1 2 3 4 <- Older Pages)
-      # <tt>:window_size</tt>::          the number of pages to show around 
+      # <tt>:window_size</tt>::          the number of pages to show around
       #                                  the current page (defaults to <tt>2</tt>)
       # <tt>:always_show_anchors</tt>::  whether or not the first and last
       #                                  pages should always be shown
@@ -48,20 +48,20 @@ module ActionView
       #  # => <a href="/?page=1/">1</a> <a href="/?page=2/">2</a> <a href="/?page=3/">3</a>  ... <a href="/?page=10/">10</a>
       #
       #  pagination_links(@person_pages, :always_show_anchors => false)
-      #  # => 1 <a href="/?page=2/">2</a> <a href="/?page=3/">3</a> 
+      #  # => 1 <a href="/?page=2/">2</a> <a href="/?page=3/">3</a>
       #
       #  pagination_links(@person_pages, :window_size => 1)
       #  # => 1 <a href="/?page=2/">2</a>  ... <a href="/?page=10/">10</a>
       #
       #  pagination_links(@person_pages, :params => { :viewer => "flash" })
-      #  # => 1 <a href="/?page=2&amp;viewer=flash/">2</a> <a href="/?page=3&amp;viewer=flash/">3</a>  ... 
+      #  # => 1 <a href="/?page=2&amp;viewer=flash/">2</a> <a href="/?page=3&amp;viewer=flash/">3</a>  ...
       #  #    <a href="/?page=10&amp;viewer=flash/">10</a>
-      def pagination_links(paginator, options={}, html_options={})
+      def pagination_links(paginator, options = {}, html_options = {})
         name = options[:name] || DEFAULT_OPTIONS[:name]
         params = (options[:params] || DEFAULT_OPTIONS[:params]).clone
-        
-        prefix = options[:prefix] || ''
-        suffix = options[:suffix] || ''
+
+        prefix = options[:prefix] || ""
+        suffix = options[:suffix] || ""
 
         pagination_links_each(paginator, options, prefix, suffix) do |n|
           params[name] = n
@@ -71,9 +71,9 @@ module ActionView
 
       # Iterate through the pages of a given +paginator+, invoking a
       # block for each page number that needs to be rendered as a link.
-      # 
+      #
       # ==== Options
-      # <tt>:window_size</tt>::          the number of pages to show around 
+      # <tt>:window_size</tt>::          the number of pages to show around
       #                                  the current page (defaults to +2+)
       # <tt>:always_show_anchors</tt>::  whether or not the first and last
       #                                  pages should always be shown
@@ -97,31 +97,32 @@ module ActionView
 
         current_page = paginator.current_page
         window_pages = current_page.window(options[:window_size]).pages
-        return if window_pages.length <= 1 unless link_to_current_page
-        
-        first, last = paginator.first, paginator.last
-        
-        html = ''
+        return unless link_to_current_page || window_pages.length > 1
+
+        first = paginator.first
+        last = paginator.last
+
+        html = ""
 
         html << prefix if prefix
 
-        if always_show_anchors and not (wp_first = window_pages[0]).first?
+        if always_show_anchors && !(wp_first = window_pages[0]).first?
           html << yield(first.number)
-          html << ' ... ' if wp_first.number - first.number > 1
-          html << ' '
+          html << " ... " if wp_first.number - first.number > 1
+          html << " "
         end
-          
+
         window_pages.each do |page|
-          if current_page == page && !link_to_current_page
-            html << page.number.to_s
-          else
-            html << yield(page.number)
-          end
-          html << ' '
+          html << if current_page == page && !link_to_current_page
+                    page.number.to_s
+                  else
+                    yield(page.number)
+                  end
+          html << " "
         end
-        
-        if always_show_anchors and not (wp_last = window_pages[-1]).last? 
-          html << ' ... ' if last.number - wp_last.number > 1
+
+        if always_show_anchors && !(wp_last = window_pages[-1]).last?
+          html << " ... " if last.number - wp_last.number > 1
           html << yield(last.number)
         end
 
@@ -129,7 +130,6 @@ module ActionView
 
         html
       end
-      
-    end # PaginationHelper
-  end # Helpers
-end # ActionView
+    end
+  end
+end

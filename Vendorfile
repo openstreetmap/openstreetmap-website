@@ -1,0 +1,48 @@
+folder 'vendor/assets' do
+  folder 'jquery' do
+    file 'jquery.throttle-debounce.js', 'https://raw.githubusercontent.com/cowboy/jquery-throttle-debounce/v1.1/jquery.ba-throttle-debounce.js'
+  end
+
+  folder 'leaflet' do
+    from 'https://github.com/aratcliffe/Leaflet.contextmenu.git', :tag => 'v1.5.1' do
+      file 'leaflet.contextmenu.js', 'dist/leaflet.contextmenu.js'
+      file 'leaflet.contextmenu.css', 'dist/leaflet.contextmenu.css'
+    end
+
+    from 'https://github.com/kajic/leaflet-locationfilter.git' do
+      file 'leaflet.locationfilter.css', 'src/locationfilter.css'
+      file 'leaflet.locationfilter.js', 'src/locationfilter.js'
+      folder 'img', 'src/img'
+    end
+
+    from 'https://github.com/jfirebaugh/leaflet-osm.git' do
+      file 'leaflet.osm.js', 'leaflet-osm.js'
+    end
+
+    from 'https://github.com/jieter/Leaflet.encoded.git', :tag => '0.0.9' do
+      file 'leaflet.polyline.js', 'Polyline.encoded.js'
+    end
+  end
+
+  folder 'iD' do
+    from 'https://github.com/openstreetmap/iD', :branch => 'release' do
+      folder 'iD/data', 'dist/data'
+      folder 'iD/img', 'dist/img'
+      folder 'iD/locales', 'dist/locales'
+      folder 'iD/mapillary-js', 'dist/mapillary-js'
+      folder 'iD/pannellum-streetside', 'dist/pannellum-streetside'
+
+      file 'iD.css.erb', 'dist/iD.css' do |path|
+        rewrite(path) do |content|
+          content.gsub(/url\('?(img\/[^')]+)'?\)/, 'url(<%= asset_path("iD/\1") %>)')
+        end
+      end
+
+      file 'iD.js', 'dist/iD.legacy.js'
+    end
+  end
+
+  folder 'polyfill' do
+    file 'es6.js', 'https://polyfill.io/v3/polyfill.js?features=es6&flags=gated,always'
+  end
+end

@@ -1,0 +1,11 @@
+<% set_title(t("browse.#{@type}.history_title_html", :name => printable_name(@feature))) %>
+
+<%= render "sidebar_header", :title => t("browse.#{@type}.history_title_html", :name => printable_name(@feature)) %>
+
+<%= render :partial => @type, :collection => @feature.send("old_#{@type}s").reverse %>
+
+<div class='secondary-actions'>
+  <%= link_to(t("browse.download_xml"), :controller => "api/old_#{@type.pluralize}", :action => "history") %>
+  &middot;
+  <%= link_to(t("browse.view_details"), :action => @type) %>
+</div>

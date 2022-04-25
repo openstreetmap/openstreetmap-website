@@ -1,9 +1,7 @@
 # Be sure to restart your server when you modify this file.
 
-if defined?(MEMCACHE_SERVERS)
-  cache = MemCache.new(:namespace => "rails:session", :string_return_types => true)
-
-  OpenStreetMap::Application.config.session_store :mem_cache_store, :cache => cache, :key => "_osm_session"
+if Settings.key?(:memcache_servers)
+  Rails.application.config.session_store :mem_cache_store, :memcache_server => Settings.memcache_servers, :namespace => "rails:session", :key => "_osm_session"
 else
-  OpenStreetMap::Application.config.session_store :cache_store, :key => '_osm_session'
+  Rails.application.config.session_store :cache_store, :key => "_osm_session", :cache => ActiveSupport::Cache::MemoryStore.new
 end

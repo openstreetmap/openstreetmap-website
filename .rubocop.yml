@@ -1,0 +1,103 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-minitest
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rake
+
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
+
+Rails:
+  Enabled: true
+
+Layout/ExtraSpacing:
+  AllowForAlignment: true
+
+Lint/PercentStringArray:
+  Exclude:
+    - 'config/initializers/secure_headers.rb'
+    - 'app/controllers/application_controller.rb'
+    - 'app/controllers/site_controller.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/routes.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*'
+
+Metrics/ModuleLength:
+  Max: 150
+
+Naming/FileName:
+  Exclude:
+    - 'script/deliver-message'
+    - 'script/update-spam-blocks'
+
+Naming/MethodParameterName:
+  Enabled: false
+
+Rails/CreateTableWithTimestamps:
+  Enabled: false
+
+Rails/FindEach:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Rails/HttpPositionalArguments:
+  Enabled: false
+
+Rails/ReflectionClassName:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - 'db/migrate/*.rb'
+    - 'app/controllers/users_controller.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FormatStringToken:
+  Exclude:
+    - 'config/routes.rb'
+
+Style/IfInsideElse:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+  Exclude:
+    - 'lib/tasks/testing.rake'
+    - 'config/initializers/wrap_parameters.rb'
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/MixinUsage:
+  Exclude:
+    - 'bin/setup'
+    - 'bin/update'
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/SymbolArray:
+  EnforcedStyle: brackets

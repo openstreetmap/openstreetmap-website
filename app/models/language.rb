@@ -1,19 +1,26 @@
-class Language < ActiveRecord::Base
+# == Schema Information
+#
+# Table name: languages
+#
+#  code         :string           not null, primary key
+#  english_name :string           not null
+#  native_name  :string
+#
+
+class Language < ApplicationRecord
   self.primary_key = "code"
 
-  has_many :diary_entries, :foreign_key => 'language'
+  has_many :diary_entries, :foreign_key => "language", :inverse_of => :language
 
   def self.load(file)
     Language.transaction do
-      YAML.load(File.read(file)).each do |k,v|
-        begin
-          Language.update(k, :english_name => v["english"], :native_name => v["native"])
-        rescue ActiveRecord::RecordNotFound
-          Language.create do |l|
-            l.code = k
-            l.english_name = v["english"]
-            l.native_name = v["native"]
-          end
+      YAML.safe_load(File.read(file)).each do |k, v|
+        Language.update(k, :english_name => v["english"], :native_name => v["native"])
+      rescue ActiveRecord::RecordNotFound
+        Language.create do |l|
+          l.code = k
+          l.english_name = v["english"]
+          l.native_name = v["native"]
         end
       end
     end
@@ -23,5 +30,5 @@ class Language < ActiveRecord::Base
     name = english_name
     name += " (#{native_name})" unless native_name.nil?
     name
-  end  
+  end
 end

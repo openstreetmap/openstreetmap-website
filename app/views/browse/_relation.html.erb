@@ -1,0 +1,33 @@
+<% if relation.redacted? %>
+  <div class="browse-section browse-redacted">
+    <%= t "browse.redacted.message_html",
+          :type => t("browse.redacted.type.relation"),
+          :version => relation.version,
+          :redaction_link => link_to(t("browse.redacted.redaction",
+                                       :id => relation.redaction.id), relation.redaction) %>
+  </div>
+<% else %>
+  <div class="browse-section browse-relation">
+    <%= render :partial => "common_details", :object => relation %>
+
+    <% unless relation.containing_relation_members.empty? %>
+      <h4><%= t "browse.part_of" %></h4>
+      <details <%= "open" if relation.containing_relation_members.count < 10 %>>
+        <summary><%= t "browse.part_of_relations", :count => relation.containing_relation_members.uniq.count %></summary>
+        <ul class="list-unstyled">
+          <%= render :partial => "containing_relation", :collection => relation.containing_relation_members.uniq %>
+        </ul>
+      </details>
+    <% end %>
+
+    <% unless relation.relation_members.empty? %>
+      <h4><%= t ".members" %></h4>
+      <details <%= "open" if relation.relation_members.count < 10 %>>
+        <summary><%= t ".members_count", :count => relation.relation_members.count %></summary>
+        <ul class="list-unstyled">
+          <%= render :partial => "relation_member", :collection => relation.relation_members %>
+        </ul>
+      </details>
+    <% end %>
+  </div>
+<% end %>
