@@ -2,6 +2,9 @@ name: Lint
 on:
   - push
   - pull_request
+concurrency:
+  group: ${{ github.workflow }}-{{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 env:
   os: ubuntu-20.04
   ruby: 2.7
@@ -71,13 +74,13 @@ jobs:
         key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
           bundle-${{ env.os }}-${{ env.ruby }}-
-    - name: Cache node modules
+    - name: Cache yarn
       uses: actions/cache@v3
       with:
-        path: node_modules
-        key: yarn-${{ env.os }}-${{ hashFiles('yarn.lock') }}
+        path: .yarn
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
-          yarn-${{ env.os }}-
+          ${{ runner.os }}-yarn-
     - name: Install gems
       run: |
         gem install bundler

@@ -20,12 +20,12 @@ RUN apt-get update \
       libxslt1-dev \
       locales \
       nodejs \
+      npm \
       postgresql-client \
       ruby2.7 \
       ruby2.7-dev \
       tzdata \
       unzip \
-      yarnpkg \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -46,5 +46,7 @@ RUN gem install bundler \
 
 # Install NodeJS packages using yarnpkg
 # `bundle exec rake yarn:install` will not work
-ADD package.json yarn.lock /app/
+RUN npm i -g corepack
+RUN corepack enable
+ADD package.json yarn.lock /app/ yarnrc.yml .yarn/
 RUN yarn
