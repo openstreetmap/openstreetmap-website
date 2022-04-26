@@ -1,6 +1,6 @@
 require_relative "boot"
 
-if ENV["OPENSTREETMAP_STATUS"] == "database_offline"
+if ENV.fetch("OPENSTREETMAP_STATUS", nil) == "database_offline"
   require "active_model/railtie"
   require "active_job/railtie"
   require "active_storage/engine"
