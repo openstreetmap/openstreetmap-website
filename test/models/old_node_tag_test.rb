@@ -31,19 +31,16 @@ class OldNodeTagTest < ActiveSupport::TestCase
     assert_predicate tag.errors[:v], :any?
   end
 
-  def test_empty_tag_invalid
-    tag = OldNodeTag.new
-    assert_not tag.valid?, "Empty tag should be invalid"
+  def test_orphaned_tag_invalid
+    tag = create(:old_node_tag)
+    tag.old_node = nil
+    assert_not tag.valid?, "Orphaned tag should be invalid"
     assert_predicate tag.errors[:old_node], :any?
   end
 
   def test_uniqueness
     existing = create(:old_node_tag)
-    tag = OldNodeTag.new
-    tag.node_id = existing.node_id
-    tag.version = existing.version
-    tag.k = existing.k
-    tag.v = existing.v
+    tag = build(:old_node_tag, :old_node => existing.old_node, :version => existing.version, :k => existing.k, :v => existing.v)
     assert_predicate tag, :new_record?
     assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }

@@ -73,7 +73,7 @@ OSM.Note = function (map) {
     var data = $(".details").data(),
         latLng = L.latLng(data.coordinates.split(","));
 
-    if (!map.hasLayer(halo)) {
+    if (!halo || !map.hasLayer(halo)) {
       halo = L.circleMarker(latLng, {
         weight: 2.5,
         radius: 20,
@@ -83,7 +83,8 @@ OSM.Note = function (map) {
       map.addLayer(halo);
     }
 
-    if (map.hasLayer(currentNote)) map.removeLayer(currentNote);
+    if (currentNote && map.hasLayer(currentNote)) map.removeLayer(currentNote);
+
     currentNote = L.marker(latLng, {
       icon: noteIcons[data.status],
       opacity: 1,

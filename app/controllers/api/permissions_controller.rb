@@ -1,8 +1,9 @@
 module Api
   class PermissionsController < ApiController
+    before_action :check_api_readable
+
     authorize_resource :class => false
 
-    before_action :check_api_readable
     before_action :setup_user_auth
     before_action :set_request_formats
     around_action :api_call_handle_error, :api_call_timeout

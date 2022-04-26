@@ -31,15 +31,16 @@ class OldWayTagTest < ActiveSupport::TestCase
     assert_predicate tag.errors[:v], :any?
   end
 
-  def test_empty_tag_invalid
-    tag = OldWayTag.new
-    assert_not tag.valid?, "Empty tag should be invalid"
+  def test_orphaned_tag_invalid
+    tag = create(:old_way_tag)
+    tag.old_way = nil
+    assert_not tag.valid?, "Orphaned tag should be invalid"
     assert_predicate tag.errors[:old_way], :any?
   end
 
   def test_uniqueness
     existing = create(:old_way_tag)
-    tag = OldWayTag.new
+    tag = build(:old_way_tag, :old_way => existing.old_way, :version => existing.version, :k => existing.k, :v => existing.v)
     tag.way_id = existing.way_id
     tag.version = existing.version
     tag.k = existing.k

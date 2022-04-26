@@ -65,8 +65,8 @@ module Api
       # randomly move the node about
       3.times do
         # move the node somewhere else
-        xml_node["lat"] = precision(rand * 180 - 90).to_s
-        xml_node["lon"] = precision(rand * 360 - 180).to_s
+        xml_node["lat"] = precision((rand * 180) - 90).to_s
+        xml_node["lon"] = precision((rand * 360) - 180).to_s
         with_controller(NodesController.new) do
           put api_node_path(:id => nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :forbidden, "Should have rejected node update"
@@ -113,8 +113,8 @@ module Api
       # randomly move the node about
       3.times do
         # move the node somewhere else
-        xml_node["lat"] = precision(rand * 180 - 90).to_s
-        xml_node["lon"] = precision(rand * 360 - 180).to_s
+        xml_node["lat"] = precision((rand * 180) - 90).to_s
+        xml_node["lon"] = precision((rand * 360) - 180).to_s
         with_controller(NodesController.new) do
           put api_node_path(:id => nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :success

@@ -16,6 +16,7 @@
 # Author: R4bb1
 # Author: Rasal Lia
 # Author: Sayma Jahan
+# Author: Tahmid
 # Author: Tauhid16
 # Author: Titodutta
 # Author: Wikisagnik
@@ -109,6 +110,7 @@ bn:
         allow_write_diary: ডায়েরি ভুক্তি তৈরি, মন্তব্য এবং বন্ধু বানান
         allow_write_api: মানচিত্রটি সম্পাদন করুন
         allow_write_gpx: জিপিএস ট্রেস আপলোড করুন
+        allow_write_notes: টীকা পরিবর্তন করুন
       diary_comment:
         body: মূলাংশ
       diary_entry:
@@ -233,6 +235,14 @@ bn:
         title: ওপেনস্ট্রিটম্যাপ টীকা
       entry:
         comment: মন্তব্য
+        full: পূর্ণ টীকা
+  account:
+    deletions:
+      show:
+        title: অ্যাকাউন্ট অপসারণ করুন
+        delete_account: অ্যাকাউন্ট অপসারণ করুন
+        confirm_delete: আপনি কি নিশ্চিত?
+        cancel: বাতিল করুন
   accounts:
     edit:
       title: অ্যাকাউন্ট সম্পাদনা করুন
@@ -253,6 +263,9 @@ bn:
           অধীনে প্রকাশ করছেন।
         link text: এটি কী?
       save changes button: পরিবর্তন সংরক্ষণ
+      delete_account: অ্যাকাউন্ট অপসারণ করুন...
+    destroy:
+      success: অ্যাকাউন্ট অপসারণ করা হয়েছে।
   browse:
     created: তৈরি হয়েছে
     closed: বন্ধ হয়েছে
@@ -436,10 +449,15 @@ bn:
       title_all: ওপেনস্ট্রিটম্যাপ পরিবর্তনধার্যের আলোচনা
       title_particular: 'ওপেনস্ট্রিটম্যাপ পরিবর্তনধার্য #%{changeset_id} আলোচনা'
   dashboards:
+    contact:
+      km away: '%{count}কিমি দূরে'
+      m away: '%{count}মিটার দূরে'
     popup:
       your location: আপনার অবস্থান
       friend: বন্ধু
     show:
+      title: আমার ড্যাশবোর্ড
+      edit_your_profile: আপনার প্রোফাইল সম্পাদনা করুন
       my friends: আমার বন্ধুগণ
       no friends: আপনি বন্ধুতালিকায় কাউকে যুক্ত করেননি।
       nearby users: কাছাকাছি অন্য ব্যবহারকারী
@@ -607,6 +625,7 @@ bn:
           love_hotel: লাভ হোটেল
           marketplace: নগরচত্বর
           monastery: আশ্রম
+          money_transfer: টাকা স্থানান্তর
           motorcycle_parking: মোটরসাইকেল  পার্কিং
           music_school: সঙ্গীত বিদ্যালয়
           nightclub: নৈশক্লাব
@@ -670,6 +689,7 @@ bn:
           apartments: অ্যাপার্টমেন্ট
           bungalow: বাংলো
           cabin: কেবিন
+          college: কলেজ ভবন
           commercial: বাণিজ্যিক ভবন
           garage: গ্যারেজ
           garages: গ্যারেজ
@@ -678,6 +698,7 @@ bn:
           hotel: হোটেলের ভবন
           house: বাড়ি
           industrial: শিল্প ভবন
+          office: অফিস ভবন
           roof: ছাদ
           school: বিদ্যালয় ভবন
           stable: স্থিতিশীল
@@ -910,7 +931,10 @@ bn:
           insurance: বিমা দপ্তর
           it: আইটি অফিস
           lawyer: উকিল
+          newspaper: সংবাদপত্রের অফিস
           ngo: এনজিও দপ্তর
+          religion: ধর্মীয় অফিস
+          research: গবেষণা অফিস
           telecommunication: টেলিযোগাযোগ দপ্তর
           travel_agent: ভ্রমণ দালাল
           "yes": দপ্তর
@@ -1010,6 +1034,7 @@ bn:
           mobile_phone: মোবাইল ফোনের দোকান
           motorcycle: মোটোরসইকেলের দোকান
           music: সঙ্গীতের দোকান
+          musical_instrument: সঙ্গীত উপকরণ
           newsagent: সংবাদপত্র বিক্রেতা
           optician: চশমা বিক্রেতা
           organic: জৈব খাদ্যের দোকান
@@ -1022,10 +1047,15 @@ bn:
           stationery: স্টেশনারি দোকান
           supermarket: অধিবিপণী
           tailor: দর্জি
+          tattoo: ট্যাটুর দোকান
+          tea: চায়ের দোকান
+          ticket: টিকিটের দোকান
           tobacco: তামাকের দোকান
           toys: খেলনার দোকান
           travel_agency: ভ্রমণ দালাল
           vacant: খালি দোকান
+          video: ভিডিওর দোকান
+          video_games: ভিডিও গেমের দোকান
           wine: মদের দোকান
           "yes": দোকান
         tourism:
@@ -1082,7 +1112,9 @@ bn:
     index:
       title: সমস্যা
       search: অনুসন্ধান
+      user_not_found: ব্যবহারকারীর অস্তিত্ব নেই
       status: স্থিতি
+      reports: অভিযোগ
       last_updated: সর্বশেষ হালনাগাদ
       last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
       last_updated_time_user_html: '%{user} কর্তৃক <abbr title=''%{title}''>%{time}</abbr>'
@@ -1176,6 +1208,10 @@ bn:
       hi: প্রিয় %{to_user},
       had_added_you: '%{user} আপনাকে ওপেনস্ট্রিটম্যাপে বন্ধু হিসেবে যোগ করেছেন।'
       see_their_profile: আপনি %{userurl}-এ তাদের প্রোফাইল দেখতে পারেন।
+    gpx_failure:
+      hi: সুপ্রিয় %{to_user},
+    gpx_success:
+      hi: সুপ্রিয় %{to_user},
     signup_confirm:
       subject: '[OpenStreetMap] ওপেনস্ট্রিটম্যাপে স্বাগতম'
       greeting: এই যে আপনি!
@@ -1203,7 +1239,11 @@ bn:
       details: পরিবর্তনধার্য সম্পর্কে আরও বিস্তারিত %{url} এ পাওয়া যাবে।
   confirmations:
     confirm:
+      heading: আপনার ইমেইল দেখুন!
+      introduction_1: আমরা আপনাকে একটি নিশ্চিতকরণ ইমেইল পাঠিয়েছি।
       button: নিশ্চিত করুন
+    confirm_resend:
+      failure: ব্যবহারকারী %{name}-কে পাওয়া যায়নি।
     confirm_email:
       button: নিশ্চিত করুন
   messages:
@@ -1285,11 +1325,19 @@ bn:
       edit_preferences: পছন্দ সম্পাদনা করুন
     edit:
       save: পছন্দ হালনাগাদ করুন
+      cancel: বাতিল
     update:
       failure: পছন্দ হালনাগাদ করা যায়নি।
   profiles:
     edit:
+      title: প্রোফাইল সম্পাদনা করুন
+      save: প্রোফাইল হালনাগাদ করুন
+      cancel: বাতিল
       image: চিত্র
+      gravatar:
+        gravatar: গ্র‍্যাভাটার ব্যবহার করুন
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: গ্র‍্যাভাটার কী?
       new image: চিত্র যোগ করুন
       delete image: বর্তমান ছবিটি অপসারণ করুন
       home location: বাড়ির অবস্থান
@@ -1597,6 +1645,12 @@ bn:
       message: জিপিএক্স ফাইল সংরক্ষণ এবং আপলোড বর্তমানে সম্ভব নয়
     description:
       description_without_count: '%{user} থেকে GPX ফাইল'
+  application:
+    settings_menu:
+      account_settings: অ্যাকাউন্ট সেটিংস
+  oauth:
+    authorize:
+      allow_write_api: মানচিত্রটি পরিবর্তন করুন
   oauth_clients:
     new:
       title: একটি নতুন আবেদন নিবন্ধন করুন
@@ -1610,6 +1664,25 @@ bn:
         করা হয়েছে:'
       application: অ্যাপ্লিকেশনের নাম
       issued_at: অনুমোদনের তারিখ
+  oauth2_applications:
+    index:
+      name: নাম
+      permissions: অনুমতি
+    application:
+      edit: সম্পাদনা
+      delete: অপসারণ
+      confirm_delete: এই অ্যাপ্লিকেশন অপসারণ করবেন?
+    new:
+      title: নতুন অ্যাপ্লিকেশন নিবন্ধন করুন
+    edit:
+      title: আপনার অ্যাপ্লিকেশন সম্পাদনা করুন
+    show:
+      edit: সম্পাদনা
+      delete: অপসারণ
+      confirm_delete: এই অ্যাপ্লিকেশন অপসারণ করবেন?
+      permissions: অনুমতি
+    not_found:
+      sorry: দুঃখিত, এই অ্যাপ্লিকেশনটি খুঁজে পাওয়া যায়নি।
   users:
     new:
       title: নিবন্ধন করুন

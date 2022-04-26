@@ -36,7 +36,7 @@
   </nav>
   <nav class='secondary'>
     <ul class='mx-1 px-0'>
-      <% if can? :index, Issue %>
+      <% if Settings.status != "database_offline" && can?(:index, Issue) %>
         <li class="compact-hide nav-item <%= current_page_class(issues_path) %>">
           <%= link_to issues_path(:status => "open"), :class => "nav-link" do %>
             <%= t("layouts.issues") %>

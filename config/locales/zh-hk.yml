@@ -5,6 +5,7 @@
 # Author: Hkjacksonhk
 # Author: Liuxinyu970226
 # Author: LuciferianThomas
+# Author: StarrySky
 ---
 zh-hk:
   time:
@@ -42,6 +43,7 @@ zh-hk:
     errors:
       messages:
         invalid_email_address: 不像是有效的電郵地址。
+        email_address_not_routable: 不可繞送
     models:
       acl: 存取控制清單
       changeset: 變更集
@@ -50,16 +52,28 @@ zh-hk:
       diary_comment: 日記註解
       diary_entry: 日記項目
       friend: 朋友
+      issue: 問題
       language: 語言
       message: 訊息
       node: 節點
       node_tag: 節點標籤
       notifier: 通知
       old_node: 舊節點
+      old_node_tag: 舊節點標籤
+      old_relation: 舊關聯
+      old_relation_member: 舊關聯成員
+      old_relation_tag: 舊關聯標籤
       old_way: 舊路徑
       old_way_node: 舊路徑節點
       old_way_tag: 舊路徑標籤
+      relation: 關聯
+      relation_member: 關聯成員
+      relation_tag: 關聯標籤
+      report: 報告
       session: 作業階段
+      trace: 軌跡
+      tracepoint: 軌跡點
+      tracetag: 軌跡標籤
       user: 用戶
       user_preference: 用戶設定
       user_token: 用戶令牌
@@ -70,6 +84,7 @@ zh-hk:
       client_application:
         name: 名稱（必需）
         url: 主程式URL（必需）
+        callback_url: 回呼 (Callback) URL
         support_url: 支援URL
         allow_read_prefs: 讀取他們的用戶設定。
         allow_write_prefs: 修改他們的用戶設定。
@@ -77,6 +92,7 @@ zh-hk:
         allow_write_api: 修改地圖
         allow_read_gpx: 讀取他們的私人GPS軌跡
         allow_write_gpx: 上載GPS軌跡
+        allow_write_notes: 修改註記
       diary_comment:
         body: 內文
       diary_entry:
@@ -85,6 +101,10 @@ zh-hk:
         latitude: 緯度
         longitude: 經度
         language: 語言
+      doorkeeper/application:
+        name: 名稱
+        redirect_uri: 重新導向 URI
+        confidential: 保密的應用程式？
       friend:
         user: 用戶
         friend: 朋友
@@ -263,9 +283,14 @@ zh-hk:
       title: 用戶日記
       title_nearby: 附近用戶的日記
       new_title: 在我的用戶日記中撰寫新文章
+      my_diary: 我的日記
+      no_entries: 沒有日記項目
     show:
       title: '%{user}的日記 | %{title}'
       login: 登入
+    diary_entry:
+      confirm: 確認
+      report: 回報此項目
     diary_comment:
       confirm: 確認
     location:
@@ -280,23 +305,50 @@ zh-hk:
         description: 近期以%{language_name}撰寫的OpenStreetMap用戶日記文章
       all:
         description: 近期的OpenStreetMap用戶日記文章
+    comments:
+      post: 貼文
+      when: 於
+      comment: 評論
+      newer_comments: 較新評論
+      older_comments: 較舊評論
   friendships:
     make_friend:
       heading: 將%{user}加為好友？
+      button: 加入為好友
     remove_friend:
       heading: 刪除好友%{user}？
   geocoder:
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: 大型纜車
+          chair_lift: 升降吊椅
+          drag_lift: 上山牽引梯
+          gondola: 小型纜車
+          magic_carpet: 滑雪升降機
+          platter: 纜椅
+          pylon: 高壓電塔
+          station: 空中纜車車站
+          t-bar: T 字纜椅
+          "yes": 空中纜線
         aeroway:
+          aerodrome: 機場
+          airstrip: 飛機跑道
           apron: 停機坪
           gate: 閘口
           hangar: 機庫
           helipad: 直升機坪
+          holding_position: 等待位置
           navigationaid: 航空導航輔助
+          parking_position: 停車位置
+          runway: 跑道
+          taxilane: 滑行道
           taxiway: 滑行道
           terminal: 客運大樓
+          windsock: 布製風標
         amenity:
+          animal_boarding: 動物寄養
+          animal_shelter: 動物收容所
           arts_centre: 藝術中心
           atm: 自動櫃員機
           bank: 銀行
@@ -314,14 +366,17 @@ zh-hk:
           bus_station: 巴士總站
           cafe: Cafe
           car_rental: 汽車租貸
+          car_sharing: 汽車共乘
           car_wash: 洗車
           casino: 賭場
           charging_station: 充電站
+          childcare: 托兒所
           cinema: 戲院
           clinic: 診所
           clock: 時鐘
           college: 學院
           community_centre: 社區中心
+          conference_centre: 會議中心
           courthouse: 法院
           crematorium: 火葬場
           dentist: 牙醫
@@ -335,16 +390,23 @@ zh-hk:
           fire_station: 消防局
           food_court: 美食廣場
           fountain: 噴泉
+          fuel: 加油站
           gambling: 博彩
           grave_yard: 墳場
+          grit_bin: 砂礫箱
           hospital: 醫院
+          hunting_stand: 狩獵站
           ice_cream: 雪糕
           internet_cafe: 網吧
           kindergarten: 幼稚園
           language_school: 語言學校
           library: 圖書館
+          loading_dock: 卸貨平台
+          love_hotel: 恋爱賓館
           marketplace: 墟市/市集
+          mobile_money_agent: 行動支付代理
           monastery: 修道院
+          money_transfer: 匯款
           motorcycle_parking: 電單車停車場
           music_school: 音樂學校
           nightclub: 夜總會
@@ -359,13 +421,20 @@ zh-hk:
           post_box: 郵箱
           post_office: 郵局
           prison: 監獄
+          pub: 酒館
           public_bath: 公眾浴場
+          public_bookcase: 公共書櫃
           public_building: 公共建築
+          ranger_station: 護林員站
+          recycling: 回收點
           restaurant: 餐廳
+          sanitary_dump_station: 衛生排污站
           school: 學校
           shelter: 涼亭
           shower: 淋浴
           social_centre: 非盈利團體會所
+          social_facility: 社會福利設施
+          studio: 工作室
           swimming_pool: 游泳池
           taxi: 的士
           telephone: 公眾電話
@@ -376,10 +445,17 @@ zh-hk:
           university: 大學
           vehicle_inspection: 車輛檢查
           vending_machine: 自動售賣機
+          veterinary: 獸醫診所
           village_hall: 村公所
           waste_basket: 垃圾桶
           waste_disposal: 垃圾收集站
+          waste_dump_site: 垃圾掩埋場
+          watering_place: 集水地點
+          water_point: 取水點
+          weighbridge: 地磅
+          "yes": 便利設施
         boundary:
+          aboriginal_lands: 原住民土地
           administrative: 行政邊界
           census: 人口普查邊界
           national_park: 國家公園
@@ -387,40 +463,194 @@ zh-hk:
           protected_area: 保護區
           "yes": 邊界
         bridge:
+          aqueduct: 高架水道
+          boardwalk: 木板走道
           suspension: 吊橋
+          swing: 平旋橋
+          viaduct: 高架橋
           "yes": 橋
         building:
+          apartment: 公寓
+          apartments: 公寓
+          barn: 穀倉
+          bungalow: 平房
+          cabin: 小木屋
+          chapel: 禮拜堂
+          church: 教堂建築
+          civic: 城市建築
+          college: 學院建物
+          commercial: 商業建築
+          construction: 在建建築
+          detached: 獨立住宅
           dormitory: 宿舍
+          duplex: 複式住宅
+          farm: 農舍
+          farm_auxiliary: 附屬農舍建築
+          garage: 車庫
+          garages: 車庫
           greenhouse: 溫室
+          hangar: 機庫
+          hospital: 醫院建築
+          hotel: 賓館建築
           house: 房屋
           houseboat: 船屋
+          hut: 小屋
+          industrial: 工業建築
+          kindergarten: 幼稚園建築
+          manufacture: 製造業建築
+          office: 辦公建築
+          public: 公共建築
+          residential: 住宅建築
+          retail: 零售建築
+          roof: 屋頂
+          ruins: 已毀損建築
+          school: 學校建築
+          semidetached_house: 半獨立房
+          service: 服務建築
+          shed: 棚
+          stable: 馬廄
+          static_caravan: 旅行拖車
+          temple: 廟宇建築
+          terrace: 陽台建築
+          train_station: 車站建物
+          university: 大學建築
           warehouse: 倉庫
           "yes": 建築物
+        club:
+          scout: 童軍團團部
+          sport: 体育俱樂部
+          "yes": 俱樂部
         craft:
+          beekeeper: 養蜂人之家
+          blacksmith: 鐵匠鋪
           brewery: 釀酒
+          carpenter: 木匠工坊
+          caterer: 外燴承辦
+          confectionery: 糖果店
+          dressmaker: 女裝裁縫工作室
+          electrician: 電工工坊
+          electronics_repair: 電子產品維修
+          gardener: 園丁工坊
+          glaziery: 玻璃工坊
+          handicraft: 手工藝工坊
+          hvac: 暖通空調工坊
+          metal_construction: 金屬結構坊
+          painter: 畫家
+          photographer: 摄影室
+          plumber: 管道工坊
+          roofer: 屋顶工作室
+          sawmill: 鋸木廠
+          shoemaker: 鞋匠工坊
+          stonemason: 石匠鋪
+          tailor: 裁缝
+          window_construction: 窗戶建設
+          winery: 釀酒廠
+          "yes": 工藝品商店
+        crossing: 十字路口
         emergency:
+          access_point: 進入點
+          ambulance_station: 急救站
+          assembly_point: 集合處
           defibrillator: 除顫器
+          fire_extinguisher: 滅火器
+          fire_water_pond: 消防水塘
+          landing_site: 緊急著陸點
+          life_ring: 緊急救生圈
           phone: 緊急電話
+          siren: 防空警報
+          suction_point: 消防吸水點
+          water_tank: 緊急水箱
         highway:
+          abandoned: 廢棄道路
           bridleway: 馬車路
           bus_guideway: 導軌巴士專線
           bus_stop: 巴士站
+          construction: 建造中公路
           corridor: 走廊
           cycleway: 單車徑
           elevator: 電梯
+          emergency_access_point: 緊急聯絡點
           emergency_bay: 緊急停車灣
           footway: 行人徑
+          ford: 河床便道
           give_way: 讓路標誌
+          living_street: 生活街道
+          milestone: 里程碑
+          motorway: 高速公路
+          motorway_junction: 高速公路出口
+          motorway_link: 高速公路聯絡道
+          passing_place: 避車彎
+          path: 小徑
+          pedestrian: 人行道
+          platform: 月台
+          primary: 一級道路
+          primary_link: 一級道路聯絡道
+          proposed: 計畫中道路
+          raceway: 賽道
+          residential: 住宅區道路
           rest_area: 休息區
+          road: 路
+          secondary: 二級道路
+          secondary_link: 二級道路聯絡道
+          service: 服務道路
+          services: 高速公路服務區
+          speed_camera: 測速照相機
+          steps: 階梯
+          stop: 停止標誌
+          street_lamp: 路燈
+          tertiary: 三級道路
+          tertiary_link: 地區道路聯絡道
+          track: 軌跡
+          traffic_mirror: 道路反射鏡
+          traffic_signals: 交通號誌
+          trailhead: 小徑入口處
+          trunk: 快速道路
+          trunk_link: 快速道路聯絡道
+          turning_circle: 回轉圈
+          turning_loop: 環形迴車道
+          unclassified: 無編制道路
+          "yes": 路
         historic:
+          aircraft: 歷史飛行機
+          archaeological_site: 考古遺址
+          bomb_crater: 彈坑遺跡
+          battlefield: 戰場
+          boundary_stone: 界石
           building: 歷史建築
+          bunker: 掩體
+          cannon: 古砲
           castle: 城堡
+          charcoal_pile: 歷史木炭堆
           church: 教堂
           city_gate: 城門
           citywalls: 城牆
+          fort: 堡壘
+          heritage: 遺蹟
+          hollow_way: 低窪道路
           house: 房屋
           manor: 莊園
+          memorial: 紀念館
+          milestone: 歷史里程碑
+          mine: 礦場
+          mine_shaft: 礦井
+          monument: 古蹟
+          railway: 歷史鐵路
+          roman_road: 羅馬道路
+          ruins: 廢墟
+          rune_stone: 盧恩符文石
+          stone: 石造史蹟
+          tomb: 墳墓
+          tower: 塔
+          wayside_chapel: 路邊教堂
+          wayside_cross: 路邊十字架
+          wayside_shrine: 路邊神龕
+          wreck: 殘骸
+          "yes": 古蹟
+        junction:
+          "yes": 路口
         landuse:
+          allotments: 社區農園
+          aquaculture: 水產養殖
           basin: 盆地
           brownfield: 棕地
           cemetery: 墓地
@@ -429,24 +659,49 @@ zh-hk:
           construction: 地盤
           farm: 農業用地
           farmland: 農地
+          farmyard: 農舍
+          forest: 森林
+          garages: 車庫
           grass: 草地
+          greenfield: 空地
           industrial: 工業區
           landfill: 堆填區
           meadow: 牧草地
           military: 軍事區
+          mine: 礦場
+          orchard: 果園
+          plant_nursery: 植物苗圃
           quarry: 石礦場
           railway: 鐵路
           recreation_ground: 休憩用地
+          religious: 宗教場所
           reservoir: 水庫
           reservoir_watershed: 水庫集水區
           residential: 住宅區
           retail: 零售用地
           village_green: 社區綠化空間
+          vineyard: 葡萄園
+          "yes": 土地利用
         leisure:
+          adult_gaming_centre: 成人遊戲中心
+          amusement_arcade: 電子遊樂場
+          bandstand: 演奏台
+          beach_resort: 海灘度假村
+          bird_hide: 賞鳥亭
+          bleachers: 露天看台
+          bowling_alley: 保齡球場
+          common: 公共用地
+          dance: 舞廳
           dog_park: 狗公園
+          firepit: 火山坑
+          fishing: 垂釣區
           fitness_centre: 健身中心
+          fitness_station: 健身設施
           garden: 花園
           golf_course: 哥爾夫球場
+          horse_riding: 馬場
+          ice_rink: 溜冰場
+          marina: 小船塢
           miniature_golf: 小型高爾夫球場
           nature_reserve: 自然保護區
           outdoor_seating: 戶外座椅
@@ -454,27 +709,60 @@ zh-hk:
           picnic_table: 野餐桌
           pitch: 運動場
           playground: 兒童遊樂場
+          recreation_ground: 遊樂場
           resort: 度假村
           sauna: 桑拿
+          slipway: 船臺
           sports_centre: 運動中心
           stadium: 體育館
           swimming_pool: 游泳池
+          track: 跑道
           water_park: 水上樂園
           "yes": 休閒
         man_made:
+          adit: 坑道
           advertising: 廣告
           antenna: 天線
+          avalanche_protection: 雪崩護欄
           beacon: 浮標
+          beam: 梁柱
+          beehive: 蜂巢
           breakwater: 防波堤
           bridge: 橋
           bunker_silo: 碉堡
+          cairn: 石標
           chimney: 煙囪
+          clearcut: 皆伐區域
           communications_tower: 通訊塔
+          crane: 起重機
+          cross: 十字架
+          dolphin: 繫船柱
+          dyke: 堤
+          embankment: 堤
+          flagpole: 旗竿
+          gasometer: 儲氣槽
+          groyne: 丁壩
+          kiln: 窯
           lighthouse: 燈塔
+          manhole: 人孔
+          mast: 柱杆
           mine: 礦場
+          mineshaft: 礦井
+          monitoring_station: 監控站台
+          petroleum_well: 油井
+          pier: 碼頭
           pipeline: 管線
+          pumping_station: 泵站
+          reservoir_covered: 有蓋蓄水槽
+          silo: 筒倉
+          snow_cannon: 雪砲
+          snow_fence: 雪欄
+          storage_tank: 儲油罐
+          street_cabinet: 街櫃
+          surveillance: 監視攝影機
           telescope: 望遠鏡
           tower: 塔
+          utility_pole: 電線桿
           wastewater_plant: 污水處理廠
           watermill: 水車
           water_tap: 水龍頭
@@ -491,25 +779,40 @@ zh-hk:
           checkpoint: 檢查站
           trench: 壕溝
           "yes": 軍事
+        mountain_pass:
+          "yes": 埡口
         natural:
+          atoll: 環礁
+          bare_rock: 裸岩
           bay: 灣
           beach: 沙灘
           cape: 海角
           cave_entrance: 洞穴入口
           cliff: 懸崖
+          coastline: 海岸線
           crater: 火山口
           dune: 沙丘
+          fell: 高原荒地
           fjord: 峽灣
           forest: 森林
+          geyser: 間歇泉
           glacier: 冰河
           grassland: 草地
+          heath: 石楠荒地
+          hill: 小山
           hot_spring: 溫泉
           island: 島嶼
+          isthmus: 地峽
           land: 陸地
+          marsh: 河川濕地
+          moor: 停泊處
           mud: 泥地
           peak: 山頂
+          peninsula: 半島
+          point: 點
           reef: 礁
           ridge: 山脊
+          rock: 獨立岩
           volcano: 火山
           "yes": 自然特徵
         office:
@@ -517,9 +820,11 @@ zh-hk:
           "yes": 辦公室
         place:
           city: 城市
+          city_block: 街區
           country: 國家
           county: 縣
           farm: 農田
+          hamlet: 村莊
           house: 房屋
           island: 島嶼
           islet: 小島
@@ -535,14 +840,25 @@ zh-hk:
           abandoned: 廢棄鐵路
           disused: 已停用鐵路
           funicular: 纜索鐵路
+          light_rail: 輕便鐵路
           monorail: 單軌鐵路
           narrow_gauge: 窄軌鐵路
+          platform: 鐵路月臺
+          preserved: 保留鐵路
+          proposed: 規劃中鐵路
+          rail: 鐵路
           spur: 鐵路支線
+          station: 火車站
+          stop: 鐵路招呼站
           subway: 地鐵
           subway_entrance: 地鐵出入口
+          switch: 鐵路道岔
           tram: 路面電車軌道
           tram_stop: 路面電車站
+          turntable: 轉車台
+          yard: 鐵路站場
         shop:
+          agrarian: 農業商品店
           bakery: 麵包店
           beauty: 美容店
           beverages: 飲料店
@@ -555,6 +871,7 @@ zh-hk:
           computer: 電腦商店
           copyshop: 影印店
           cosmetics: 化妝品店
+          deli: 高級食品店
           department_store: 百貨公司
           doityourself: DIY用品店
           dry_cleaning: 乾洗店
@@ -566,6 +883,9 @@ zh-hk:
           florist: 花店
           hairdresser: 理髮店
           hifi: Hi-Fi
+          houseware: 生活用品店
+          ice_cream: 冰淇淋店
+          interior_decoration: 室內裝潢
           jewelry: 珠寶店
           laundry: 洗衣店
           lottery: 彩票

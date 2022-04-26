@@ -44,9 +44,9 @@ module RichText
         doc.content.include?(phrase)
       end
 
-      [link_proportion - 0.2, 0.0].max * 200 +
-        link_count * 40 +
-        spammy_phrases * 40
+      ([link_proportion - 0.2, 0.0].max * 200) +
+        (link_count * 40) +
+        (spammy_phrases * 40)
     end
 
     protected

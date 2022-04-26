@@ -39,19 +39,19 @@ class BoundingBox
     if bbox.complete?
       if bbox.min_lon < min_lon
         @min_lon = [-SCALED_LON_LIMIT,
-                    bbox.min_lon + margin * (min_lon - max_lon)].max
+                    bbox.min_lon + (margin * (min_lon - max_lon))].max
       end
       if bbox.min_lat < min_lat
         @min_lat = [-SCALED_LAT_LIMIT,
-                    bbox.min_lat + margin * (min_lat - max_lat)].max
+                    bbox.min_lat + (margin * (min_lat - max_lat))].max
       end
       if bbox.max_lon > max_lon
         @max_lon = [+SCALED_LON_LIMIT,
-                    bbox.max_lon + margin * (max_lon - min_lon)].min
+                    bbox.max_lon + (margin * (max_lon - min_lon))].min
       end
       if bbox.max_lat > max_lat
         @max_lat = [+SCALED_LAT_LIMIT,
-                    bbox.max_lat + margin * (max_lat - min_lat)].min
+                    bbox.max_lat + (margin * (max_lat - min_lat))].min
       end
     end
     self
@@ -109,16 +109,16 @@ class BoundingBox
   end
 
   def slippy_width(zoom)
-    width * 256.0 * 2.0**zoom / 360.0
+    width * 256.0 * (2.0**zoom) / 360.0
   end
 
   def slippy_height(zoom)
     min = min_lat * Math::PI / 180.0
     max = max_lat * Math::PI / 180.0
 
-    Math.log((Math.tan(max) + 1.0 / Math.cos(max)) /
-             (Math.tan(min) + 1.0 / Math.cos(min))) *
-      (128.0 * 2.0**zoom / Math::PI)
+    Math.log((Math.tan(max) + (1.0 / Math.cos(max))) /
+             (Math.tan(min) + (1.0 / Math.cos(min)))) *
+      (128.0 * (2.0**zoom) / Math::PI)
   end
 
   # there are two forms used for bounds with and without an underscore,
