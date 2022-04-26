@@ -87,7 +87,7 @@ jobs:
         bundle config set deployment true
         bundle install --jobs 4 --retry 3
     - name: Install node modules
-      run: bundle exec rake yarn:install
+      run: corepack enable && bundle exec rake yarn:install
     - name: Create dummy database configuration
       run: cp config/example.database.yml config/database.yml
     - name: Run eslint

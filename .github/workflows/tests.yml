@@ -67,7 +67,7 @@ jobs:
     - name: Export javascript strings
       run: bundle exec rake i18n:js:export
     - name: Install node modules
-      run: bundle exec rake yarn:install
+      run: corepack enable && bundle exec rake yarn:install
     - name: Run tests
       run: bundle exec rails test:all
     - name: Report completion to Coveralls
