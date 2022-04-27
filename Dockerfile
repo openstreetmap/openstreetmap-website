@@ -48,5 +48,5 @@ RUN gem install bundler \
 # `bundle exec rake yarn:install` will not work
 RUN npm i -g corepack
 RUN corepack enable
-ADD package.json yarn.lock /app/ yarnrc.yml .yarn/
+ADD package.json yarn.lock /app/ .yarnrc.yml .yarn/
 RUN yarn
