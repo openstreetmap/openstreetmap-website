@@ -11,6 +11,7 @@
 # Author: Obsuser
 # Author: Palapa
 # Author: Ruila
+# Author: Semso98
 # Author: Srdjan m
 # Author: Srđan
 # Author: Сербијана
@@ -20,16 +21,23 @@ bs:
     formats:
       friendly: '%e %B %Y u %H:%M'
   helpers:
+    file:
+      prompt: Izaberi datoteku
     submit:
       diary_comment:
         create: Spremiti
       diary_entry:
         create: Objavi
+        update: Ažuriraj
+      issue_comment:
+        create: Dodaj komentar
       message:
         create: Poslati
       client_application:
         create: Registrirati
-        update: Urediti
+        update: Ažuriraj
+      doorkeeper_application:
+        update: Ažuriraj
       redaction:
         create: Napraviti redakciju
         update: Spremiti redakciju
@@ -40,6 +48,9 @@ bs:
         create: Napraviti blokadu
         update: Osvježiti blokadu
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: ne izgleda kao važeća adresa e-pošte
     models:
       acl: Kontrole pristupa
       changeset: Set promjena
@@ -48,6 +59,7 @@ bs:
       diary_comment: Komentar dnevnika
       diary_entry: Unos dnevnika
       friend: Prijatelj
+      issue: Problem
       language: Jezik
       message: Poruka
       node: Čvor
@@ -64,6 +76,7 @@ bs:
       relation: Relacija
       relation_member: Član relacije
       relation_tag: Oznaka relacije
+      report: Prijavi
       session: Sesija
       trace: Trasa
       tracepoint: Tačka trase
@@ -76,8 +89,10 @@ bs:
       way_tag: Oznaka putanje
     attributes:
       client_application:
+        name: Ime (obavezno)
         callback_url: URL za povratni poziv
         support_url: URL podrške
+        allow_write_api: izmijeni kartu
       diary_comment:
         body: Tijelo
       diary_entry:
@@ -86,21 +101,23 @@ bs:
         latitude: Geografska širina (Latitude)
         longitude: Geografska dužina (Longitude)
         language: Jezik
+      doorkeeper/application:
+        name: Naziv
       friend:
         user: Korisnik
         friend: Prijatelj
       trace:
         user: Korisnik
         visible: Vidljivo
-        name: Ime
+        name: Ime datoteke
         size: Veličina
         latitude: Geografska širina (Latitude)
         longitude: Geografska dužina (Longitude)
         public: Javno
         description: Opis
         gpx_file: Poslati GPX datoteku
-        visibility: 'Vidljivost:'
-        tagstring: 'Oznake:'
+        visibility: Vidljivost
+        tagstring: Oznake
       message:
         sender: Pošiljalac
         title: Predmet
@@ -110,13 +127,13 @@ bs:
         description: Opis
       user:
         email: E-mail
-        new_email: 'Nova e-mail adresa:'
+        new_email: Nova adresa e-pošte
         active: Aktivan
         display_name: Ime za prikaz
-        description: Opis
-        home_lat: Geografska širina (Latitude)
-        home_lon: Geografska dužina (Longitude)
-        languages: Jezici
+        description: Opis profila
+        home_lat: Geografska širina
+        home_lon: Geografska dužina
+        languages: Preferirani jezici
         pass_crypt: Lozinka
     help:
       trace:
@@ -132,16 +149,16 @@ bs:
       description: iD (uređivač u pregledniku)
     remote:
       name: Udaljena kontrola
-      description: Udaljena kontrola (JOSM ili Merkaartor)
+      description: Udaljena kontrola (JOSM, Potlatch, Merkaartor)
   api:
     notes:
       comment:
-        opened_at_html: Kreirano prije %{when}
+        opened_at_html: Kreirano %{when}
   accounts:
     edit:
       title: Urediti korisnički račun
       my settings: Moja podešavanja
-      current email address: 'Trenutna e-mail adresa:'
+      current email address: Trenutna adresa e-pošte
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: Šta je ovo?
@@ -154,7 +171,7 @@ bs:
           su anonimna.
         disabled link text: Zašto ja ne mogu uređivati?
       public editing note:
-        heading: 'Javno uređivanje:'
+        heading: Javno uređivanje
         html: Trenutno su vaša uređivanja anonimna i ljudi vam ne mogu poslati poruke
           ili vidjeti vašu lokaciju. Da bi pokazali vaša uređivanja i dozvolili ljudima
           da vas kontaktiraju preko website-a, kliknite na dugme ispod <b>Od promjene
@@ -163,7 +180,7 @@ bs:
           javni.</li> <li>Ova akcija se ne može poništiti i svi novi korisnici su
           postavljeni kao javni.</li> </ul>
       contributor terms:
-        heading: 'Uslovi za doprinosioce:'
+        heading: Uslovi za doprinosioce
         agreed: Prihvatili ste nove uslove za doprinosioce.
         not yet agreed: Niste još uvijek prihvatili nove uslove za doprinosioce.
         review link text: Molimo Vas da slijedite ovaj link kada vam bude prikladno
@@ -179,9 +196,9 @@ bs:
   browse:
     created: Napravljeno
     closed: Zatvoreno
-    created_html: Kreirano <abbr title='%{title}'>%{time} prije</abbr>
-    closed_html: Zatvoreno <abbr title='%{title}'>%{time} prije</abbr>
-    edited_by_html: Izmijenio/-la %{user} <abbr title='%{title}'>prije %{time}</abbr>
+    created_html: Kreirano <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Zatvoreno <abbr title='%{title}'>%{time}</abbr>
+    edited_by_html: Izmijenio/-la %{user} <abbr title='%{title}'>%{time}</abbr>
     version: Verzija
     in_changeset: Skup izmjena
     anonymous: anonimno
@@ -272,7 +289,7 @@ bs:
       previous: « Prethodna
     changeset:
       anonymous: Anonimno
-      no_edits: (nema uređivanja)
+      no_edits: (nema izmjena)
       view_changeset_details: Pregled detalja o setu promjena
     changesets:
       id: ID
@@ -310,7 +327,7 @@ bs:
     new:
       title: Novi unos u dnevnik
     form:
-      location: 'Lokacija:'
+      location: Lokacija
       use_map_link: korisititi kartu
     index:
       title: Dnevnici korisnika
@@ -592,7 +609,6 @@ bs:
           commercial: Poslovno područje
           conservation: Zaštićeno područje
           construction: Gradilište
-          farm: Farma
           farmland: Polje
           farmyard: Farma
           forest: Šuma
