@@ -32,4 +32,9 @@ class ReportTest < ActiveSupport::TestCase
     report.category = ""
     assert_not report.valid?
   end
+
+  def test_details
+    report = create(:report)
+    assert_instance_of(RichText::Markdown, report.details)
+  end
 end
