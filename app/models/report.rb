@@ -36,4 +36,8 @@ class Report < ApplicationRecord
     else %w[other]
     end
   end
+
+  def details
+    RichText.new("markdown", self[:details])
+  end
 end

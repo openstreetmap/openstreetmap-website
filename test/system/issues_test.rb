@@ -30,6 +30,17 @@ class IssuesTest < ApplicationSystemTestCase
     assert_content issues.first.reported_user.display_name
   end
 
+  def test_view_issue_with_report
+    sign_in_as(create(:moderator_user))
+    issue = create(:issue, :assigned_role => "moderator")
+    issue.reports << create(:report, :details => "test report text **with kramdown**")
+
+    visit issue_path(issue)
+    assert_content I18n.t("issues.show.reports", :count => 1)
+    assert_content "test report text with kramdown"
+    assert_selector "strong", :text => "with kramdown"
+  end
+
   def test_view_issues_with_no_reported_user
     sign_in_as(create(:moderator_user))
     anonymous_note = create(:note_with_comments)
