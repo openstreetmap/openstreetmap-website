@@ -28,7 +28,8 @@ class ReportsController < ApplicationController
 
       redirect_to helpers.reportable_url(@report.issue.reportable), :notice => t(".successful_report")
     else
-      redirect_to new_report_path(:reportable_type => @report.issue.reportable_type, :reportable_id => @report.issue.reportable_id), :notice => t(".provide_details")
+      flash[:notice] = t(".provide_details")
+      render :action => "new"
     end
   end
 

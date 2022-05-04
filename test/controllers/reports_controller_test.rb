@@ -63,10 +63,12 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
       category = "other"
       post reports_path(:report => {
                           :category => category,
-                          :issue => { :reportable_id => 1, :reportable_type => "User" }
+                          :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
                         })
     end
-    assert_response :redirect
+    assert_response :success
+    assert_template :new
+    assert_match(/Please provide the required details/, flash[:notice])
 
     assert_equal 1, issue.reports.count
   end
