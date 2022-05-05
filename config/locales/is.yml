@@ -143,6 +143,7 @@ is:
         details: Tilgreindu öll nauðsynleg atriði um vandamálið (nauðsynlegt).
       user:
         auth_provider: Auðkenningaraðili
+        auth_uid: UID auðkenningar
         email: Netfang
         email_confirmation: Staðfesting póstfangs
         new_email: Nýtt póstfang
@@ -669,7 +670,7 @@ is:
           aerodrome: Flugsvæði
           airstrip: Flugbraut
           apron: Flughlað
-          gate: Hlið
+          gate: Flughlið
           hangar: Flugskýli
           helipad: Þyrlupallur
           holding_position: Biðstæði
@@ -724,7 +725,7 @@ is:
           fire_station: Slökkvistöð
           food_court: Veitingasvæði
           fountain: Gosbrunnur
-          fuel: Eldsneyti
+          fuel: Bensínstöð
           gambling: Fjárhættuspil
           grave_yard: Kirkjugarður
           grit_bin: Sandkista
@@ -990,7 +991,7 @@ is:
           cemetery: Grafreitur
           commercial: Verslunarsvæði
           conservation: Verndarsvæði
-          construction: Bygging
+          construction: Byggingarsvæði
           farmland: Ræktarland
           farmyard: Hlað
           forest: Skógur
@@ -1011,7 +1012,7 @@ is:
           reservoir: Uppistöðulón
           reservoir_watershed: Vatnasvið uppistöðulóns
           residential: Íbúðasvæði
-          retail: Smásala
+          retail: Smásölusvæði
           village_green: Grænt svæði
           vineyard: Vínekra
           "yes": Landnotkun
@@ -1221,6 +1222,7 @@ is:
           "yes": Staður
         railway:
           abandoned: Aflögð járnbraut
+          buffer_stop: Stuðpúði
           construction: Járnbraut í byggingu
           disused: Aflögð járnbraut
           funicular: Kláfbraut
@@ -1243,6 +1245,7 @@ is:
           switch: Lestarteinaskipting
           tram: Sporvagn
           tram_stop: Sporvagnastöð
+          turntable: Snúningspallur
           yard: Járnbrautagerði
         shop:
           agrarian: Landbúnaðarverslun
@@ -1283,7 +1286,7 @@ is:
           deli: Sælkeraverslun
           department_store: Kjörbúð
           discount: Afsláttarvöruverslun
-          doityourself: Föndurvörur
+          doityourself: Föndurvöruverslun
           dry_cleaning: Þurrhreinsun
           e-cigarette: Rafrettuverslun
           electronics: Raftækjaverslun
@@ -1369,7 +1372,7 @@ is:
           artwork: Listaverk
           attraction: Aðdráttarafl
           bed_and_breakfast: BB-gisting og veitingar
-          cabin: Kofi
+          cabin: Ferðamannakofi
           camp_pitch: Tjaldreitur
           camp_site: Tjaldstæði
           caravan_site: Hjólhýsastæði
@@ -2276,6 +2279,11 @@ is:
       removed: Sjálfgefinn OpenStreetMap ritstjóri er stilltur sem Potlatch. Þar sem
         Adobe Flash Player er ekki til lengur, er Potlatch ekki lengur hægt að nota
         í vafra.
+      desktop_html: Þú getur áfram notað Potlatch með því að <a href="https://www.systemed.net/potlatch/">sækja
+        borðtölvuforritið fyrir Mac og Windows</a>.
+      id_html: Annars geturðu stillt sjálfgefinn ritil sem iD, sem keyrir í vafra
+        eins og Potlatch gerði áður. <a href="%{settings_url}">Breyttu kjörstillingum
+        þínum hér</a>.
     sidebar:
       search_results: Leitarniðurstöður
       close: Loka
@@ -2497,6 +2505,8 @@ is:
         eða lærðu meira um GPS-ferlun á <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki-síðunni</a>.
       upload_trace: Senda inn feril
       all_traces: Allar ferlar
+      traces_from: Opinberir ferlar frá %{user}
+      remove_tag_filter: Fjarlægja merkjasíu
     destroy:
       scheduled_for_deletion: Þessum feril verður eitt
     make_public:
@@ -2531,6 +2541,9 @@ is:
         að skoða þá.
     settings_menu:
       account_settings: Kjörstillingar
+      oauth1_settings: OAuth 1 stillingar
+      oauth2_applications: OAuth 2 forrit
+      oauth2_authorizations: OAuth 2 auðkenningar
   oauth:
     authorize:
       title: Auðkenndu aðgang að notandaaðganginum þínum
@@ -2563,10 +2576,15 @@ is:
     permissions:
       missing: Þú hefur ekki gefið forritinu heimild fyrir aðgang að þessum eiginleikum
     scopes:
+      read_prefs: Lesa notandastillingar
+      write_prefs: Breyta notandastillingum
+      write_diary: Búa til bloggfærslur, setja inn athugasemdir og bæta við vinum
       write_api: Breyta kortagögnunum.
       read_gpx: Lesa einka-GPS-ferlana þína.
       write_gpx: Senda inn GPS feril.
       write_notes: Breyta minnispunktum.
+      read_email: Lesa tölvupóstfang notanda
+      skip_authorization: Samþykkja forrit sjálfvirkt
   oauth_clients:
     new:
       title: Skrá nýtt forrit
@@ -2611,6 +2629,12 @@ is:
       flash: Eyðilagði skráningu biðlaraforritsins
   oauth2_applications:
     index:
+      title: Forritin mín
+      no_applications_html: Ert þú að nota forrit sem þú myndir vilja skrá til notkunar
+        hjá okkur með %{oauth2} staðlinum? Þú verður að skrá vefforritið áður en það
+        fer að senda OAuth-beiðnir á þessa þjónustu.
+      oauth_2: OAuth 2
+      new: Skrá nýtt forrit
       name: Nafn
       permissions: Réttindi
     application:
@@ -2624,6 +2648,8 @@ is:
     show:
       edit: Breyta
       delete: Eyða
+      confirm_delete: Eyða þessu forriti?
+      client_id: Auðkenni biðlara
       client_secret: Notendu Leyndarmál
       client_secret_warning: Vertu viss um að vista þessa leyndarmál - það verður
         ekki nothæft aftur
@@ -2647,6 +2673,10 @@ is:
       title: Auðkenndu forritin mín
       application: Forrit
       permissions: Réttindi
+      no_applications_html: Þú hefur ekki ennþá heimilað nein %{oauth2} forrit.
+    application:
+      revoke: Afturkalla aðgang
+      confirm_revoke: Afturkalla aðgang fyrir þetta forrit?
   users:
     new:
       title: Nýskrá
@@ -2702,6 +2732,9 @@ is:
         italy: Ítalía
         rest_of_world: Restin af heiminum
     terms_declined_flash:
+      terms_declined_html: Okkur þykir miður að þú hafir ákveðið að samþykkja ekki
+        nýja skilmála vegna framlags (contributor terms). Til að sjá ítarlegri upplýsingar,
+        geturðu skoðað %{terms_declined_link}.
       terms_declined_link: þessari wiki síðu
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
