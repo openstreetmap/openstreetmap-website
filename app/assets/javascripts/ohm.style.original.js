@@ -2139,7 +2139,7 @@ ohmVectorStyles.Original = {
         "text-allow-overlap": false,
         "text-pitch-alignment": "auto",
         "text-rotation-alignment": "auto",
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(82, 82, 82, 1)",
@@ -2164,7 +2164,7 @@ ohmVectorStyles.Original = {
         "text-allow-overlap": false,
         "text-pitch-alignment": "auto",
         "text-rotation-alignment": "auto",
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(82, 82, 82, 1)",
@@ -2182,7 +2182,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", [">", "area", 100000]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Italic"],
+        "text-font": ["OpenHistorical Italic"],
         "text-padding": 2,
         "text-allow-overlap": false,
         "text-size": {"stops": [[15, 11], [20, 20]]}
@@ -2203,7 +2203,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", [">", "area", 1000000]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Italic"],
+        "text-font": ["OpenHistorical Italic"],
         "text-padding": 2,
         "text-allow-overlap": false,
         "text-size": {"stops": [[11, 11], [13, 13]]},
@@ -2226,7 +2226,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["in", "type", "ocean", "sea"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Italic"],
+        "text-font": ["OpenHistorical Italic"],
         "text-padding": 2,
         "text-allow-overlap": false,
         "text-size": {"stops": [[8, 12], [11, 13], [13, 14]]},
@@ -2248,7 +2248,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", [">", "area", 10000000]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Italic"],
+        "text-font": ["OpenHistorical Italic"],
         "text-padding": 2,
         "text-allow-overlap": false,
         "text-size": {"stops": [[8, 10], [11, 11], [13, 13]]}
@@ -2267,7 +2267,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["==", "type", "dam"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Italic"],
+        "text-font": ["OpenHistorical Italic"],
         "symbol-placement": "line",
         "symbol-spacing": 500,
         "text-anchor": "bottom",
@@ -2290,7 +2290,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["!=", "type", "dam"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Italic"],
+        "text-font": ["OpenHistorical Italic"],
         "symbol-placement": "line",
         "symbol-spacing": 500,
         "text-anchor": "bottom",
@@ -2338,7 +2338,7 @@ ohmVectorStyles.Original = {
         "icon-text-fit": "none",
         "text-allow-overlap": false,
         "text-ignore-placement": false,
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(122, 143, 61, 1)",
@@ -2371,7 +2371,7 @@ ohmVectorStyles.Original = {
       "layout": {
         "text-field": "{name}",
         "text-size": 11,
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(107, 101, 71, 1)",
@@ -2390,7 +2390,7 @@ ohmVectorStyles.Original = {
       "layout": {
         "text-field": "{name}",
         "text-size": 11,
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(95, 107, 71, 1)",
@@ -2412,7 +2412,7 @@ ohmVectorStyles.Original = {
       "layout": {
         "text-field": "{name}",
         "text-size": 11,
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(176, 130, 130, 1)",
@@ -2433,7 +2433,7 @@ ohmVectorStyles.Original = {
       ],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 4], [10, 10], [16, 12]]},
         "visibility": "visible"
       },
@@ -2454,7 +2454,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["in", "type", "town"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 6], [10, 12], [16, 14]]},
         "visibility": "visible"
       },
@@ -2475,7 +2475,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["in", "type", "city"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 8], [10, 14], [16, 16]]},
         "visibility": "visible"
       },
@@ -2496,7 +2496,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["==", "type", "city"], ["==", "capital", "yes"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 8], [10, 14]]},
         "visibility": "visible",
         "icon-image": "capital-18",
@@ -2520,7 +2520,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["==", "type", "city"], ["!=", "capital", "yes"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 8], [10, 14]]},
         "visibility": "visible",
         "icon-image": "city-18",
@@ -2544,7 +2544,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["==", "scalerank", 2]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[4, 7], [10, 16]]},
         "visibility": "none"
       },
@@ -2566,7 +2566,7 @@ ohmVectorStyles.Original = {
       "layout": {
         "visibility": "visible",
         "text-field": "{name}",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 10], [10, 14]]},
         "text-line-height": 1,
         "text-transform": "uppercase",
@@ -2596,7 +2596,7 @@ ohmVectorStyles.Original = {
       "layout": {
         "visibility": "none",
         "text-field": "{name}",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 10], [10, 14]]},
         "text-line-height": 1,
         "text-transform": "uppercase",
@@ -2621,7 +2621,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["==", "featurecla", "Admin-1 capital"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Bold"],
+        "text-font": ["OpenHistorical Bold"],
         "text-size": 10,
         "text-transform": "uppercase",
         "visibility": "none"
@@ -2643,7 +2643,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["==", "featurecla", "Admin-1 capital"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Bold"],
+        "text-font": ["OpenHistorical Bold"],
         "text-size": {"stops": [[4, 7], [10, 10]]},
         "visibility": "none"
       },
@@ -2664,7 +2664,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["==", "featurecla", "Admin-0 capital"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Bold"],
+        "text-font": ["OpenHistorical Bold"],
         "text-size": 11,
         "text-transform": "uppercase",
         "visibility": "none"
@@ -2686,7 +2686,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["==", "featurecla", "Admin-0 capital"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": ["Open Sans Bold"],
+        "text-font": ["OpenHistorical Bold"],
         "text-size": {"stops": [[3, 9], [10, 11]]},
         "visibility": "none"
       },
@@ -2707,7 +2707,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["==", "scalerank", 0]],
       "layout": {
         "text-field": "{sr_subunit}",
-        "text-font": ["Open Sans Bold"],
+        "text-font": ["OpenHistorical Bold"],
         "text-size": {"stops": [[3, 11], [7, 13]]},
         "visibility": "none"
       },
@@ -2730,7 +2730,7 @@ ohmVectorStyles.Original = {
         "visibility": "visible",
         "text-field": "{name}",
         "text-size": {"stops": [[4, 12], [6, 14], [8, 16]]},
-        "text-font": ["Open Sans Bold"],
+        "text-font": ["OpenHistorical Bold"],
         "symbol-placement": "point",
         "text-justify": "center",
         "symbol-avoid-edges": false
@@ -2756,7 +2756,7 @@ ohmVectorStyles.Original = {
         "visibility": "none",
         "text-field": "{name}",
         "text-size": {"stops": [[4, 10], [6, 12], [8, 14]]},
-        "text-font": ["Open Sans Bold"],
+        "text-font": ["OpenHistorical Bold"],
         "symbol-placement": "point",
         "text-justify": "center",
         "symbol-avoid-edges": false
@@ -2828,7 +2828,7 @@ ohmVectorStyles.Original = {
         "text-size": 9,
         "text-anchor": "center",
         "text-offset": [0, 0],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(108, 132, 137, 1)",
@@ -2851,7 +2851,7 @@ ohmVectorStyles.Original = {
         "text-size": 9,
         "text-anchor": "center",
         "text-offset": [0, 0],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(108, 132, 137, 1)",
@@ -2892,7 +2892,7 @@ ohmVectorStyles.Original = {
         "text-size": 8,
         "text-anchor": "top",
         "text-offset": [0, 1],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(108, 132, 137, 1)",
@@ -2916,7 +2916,7 @@ ohmVectorStyles.Original = {
         "text-size": 8,
         "text-anchor": "top",
         "text-offset": [0, 1],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(108, 132, 137, 1)",
@@ -2940,7 +2940,7 @@ ohmVectorStyles.Original = {
         "text-size": 8,
         "text-anchor": "top",
         "text-offset": [0, 1],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(108, 132, 137, 1)",
@@ -2964,7 +2964,7 @@ ohmVectorStyles.Original = {
         "text-size": 8,
         "text-anchor": "top",
         "text-offset": [0, 1],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(80, 80, 80, 1)",
@@ -2988,7 +2988,7 @@ ohmVectorStyles.Original = {
         "text-size": 8,
         "text-anchor": "top",
         "text-offset": [0, 1],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "#505050",
@@ -3012,7 +3012,7 @@ ohmVectorStyles.Original = {
         "text-size": 8,
         "text-anchor": "top",
         "text-offset": [0, 1],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "#505050",
@@ -3036,7 +3036,7 @@ ohmVectorStyles.Original = {
         "text-size": 8,
         "text-anchor": "top",
         "text-offset": [0, 1],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "#505050",
@@ -3056,7 +3056,7 @@ ohmVectorStyles.Original = {
       "layout": {
         "icon-image": "power_tower-12",
         "visibility": "visible",
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       }
     },
     {
@@ -3067,7 +3067,7 @@ ohmVectorStyles.Original = {
       "minzoom": 10,
       "maxzoom": 14,
       "filter": ["all", ["==", "type", "aerodrome"]],
-      "layout": {"icon-image": "airport-18", "text-font": ["Open Sans Regular"]}
+      "layout": {"icon-image": "airport-18", "text-font": ["OpenHistorical"]}
     },
     {
       "id": "transport_points",
@@ -3084,7 +3084,7 @@ ohmVectorStyles.Original = {
         "text-size": 8,
         "text-anchor": "top",
         "text-offset": [0, 1],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "icon-color": "#000000",
@@ -3106,7 +3106,7 @@ ohmVectorStyles.Original = {
       ],
       "layout": {
         "icon-image": "place_of_worship-18",
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       }
     },
     {
@@ -3117,7 +3117,7 @@ ohmVectorStyles.Original = {
       "filter": ["all"],
       "layout": {
         "icon-image": "{religion}-18",
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       }
     },
     {
@@ -3129,7 +3129,7 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["in", "type", "peak"]],
       "layout": {
         "icon-image": "{type}-12",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["OpenHistorical"],
         "text-field": "{name}",
         "text-size": 8,
         "text-anchor": "top",
@@ -3149,7 +3149,7 @@ ohmVectorStyles.Original = {
       "minzoom": 16,
       "layout": {
         "icon-image": "{type}-18",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["OpenHistorical"],
         "text-field": "{name}",
         "text-size": 8,
         "text-anchor": "top",
@@ -3168,7 +3168,7 @@ ohmVectorStyles.Original = {
       "source-layer": "landuse_areas",
       "minzoom": 16,
       "filter": ["all", ["!=", "type", "peak"]],
-      "layout": {"icon-image": "{type}-18", "text-font": ["Open Sans Regular"]}
+      "layout": {"icon-image": "{type}-18", "text-font": ["OpenHistorical"]}
     },
     {
       "id": "points_acra",
@@ -3176,7 +3176,7 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "buildings",
       "filter": ["all", ["in", "name", "ACRA", "Acra"]],
-      "layout": {"icon-image": "acra-18", "text-font": ["Open Sans Regular"]}
+      "layout": {"icon-image": "acra-18", "text-font": ["OpenHistorical"]}
     },
     {
       "id": "points_oxfam",
@@ -3216,7 +3216,7 @@ ohmVectorStyles.Original = {
           "Oxfam books"
         ]
       ],
-      "layout": {"icon-image": "oxfam-18", "text-font": ["Open Sans Regular"]}
+      "layout": {"icon-image": "oxfam-18", "text-font": ["OpenHistorical"]}
     },
     {
       "id": "points_of_interest_shop",
@@ -3233,7 +3233,7 @@ ohmVectorStyles.Original = {
         "text-size": 8,
         "text-anchor": "top",
         "text-offset": [0, 1],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["OpenHistorical"]
       },
       "paint": {
         "text-color": "rgba(108, 132, 137, 1)",
