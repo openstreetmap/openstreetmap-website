@@ -6,4 +6,9 @@ class IssueCommentTest < ActiveSupport::TestCase
     assert_not comment.valid?
     assert_not_nil comment.errors[:body]
   end
+
+  test "body" do
+    comment = create(:issue_comment)
+    assert_instance_of(RichText::Markdown, comment.body)
+  end
 end
