@@ -9,8 +9,8 @@
 <% else %>
   <div class="browse-section browse-node">
       <%= render :partial => "common_details", :object => node, :locals => {
-            :tag_history => (local_assigns[:is_history] && node.latest_version? ? tags_with_version_info(node.current_node.node_tags, node.current_node.old_nodes) : node.tags),
-            :is_history => local_assigns[:is_history] && node.latest_version?
+            :tag_history => (is_history && node.latest_version? ? tags_with_version_info(node.current_node.node_tags, node.current_node.old_nodes) : node.tags),
+            :is_history => is_history && node.latest_version?
           } %>
 
     <% unless node.ways.empty? and node.containing_relation_members.empty? %>
