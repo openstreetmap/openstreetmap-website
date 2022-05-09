@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "5.2.2"
+gem "rails", "7.0.3"
 
 # Require json for multi_json
 gem "json"
@@ -22,7 +22,7 @@ gem "jquery-rails"
 gem "jbuilder", "~> 2.7"
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.4.6", :require => false
+gem "bootsnap", ">= 1.4.2", :require => false
 
 # Use R2 for RTL conversion
 gem "r2", "~> 0.2.7"
@@ -48,7 +48,6 @@ gem "config"
 gem "delayed_job_active_record"
 gem "http_accept_language", "~> 2.1.1"
 gem "i18n-js", ">= 3.0.0"
-gem "mapbox-gl-rails"
 gem "oauth-plugin", ">= 0.5.1"
 gem "openstreetmap-deadlock_retry", ">= 1.3.1", :require => "deadlock_retry"
 gem "rack-cors"
@@ -157,15 +156,3 @@ group :test do
   gem "simplecov-lcov", :require => false
   gem "webmock"
 end
-
-# Needed in development as well so rake can see konacha tasks
-group :development, :test do
-  gem "capybara", "~> 2.13"
-  gem "coveralls", :require => false
-  gem "factory_bot_rails"
-  gem "jshint"
-  gem "poltergeist"
-  gem "puma", "~> 3.7"
-end
-
-gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"
