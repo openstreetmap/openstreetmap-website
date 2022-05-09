@@ -38,6 +38,52 @@ ohmVectorStyles.Original = {
       "paint": {"fill-color": "rgba(248, 247, 242, 1)"}
     },
     {
+      "id": "military_landuselow",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 4,
+      "maxzoom": 10,
+      "filter": ["all", ["==", "type", "military"]],
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(230, 224, 212, 1)"}
+    },
+    {
+      "id": "military-landusehigh",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 10,
+      "maxzoom": 24,
+      "filter": ["all", ["==", "type", "military"]],
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(244, 244, 235, 1)"}
+    },
+    {
+      "id": "military",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "other_areas",
+      "filter": ["all", ["==", "class", "military"]],
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(244, 244, 235, 1)"}
+    },
+    {
+      "id": "landuse_areas_military_overlay",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 10,
+      "maxzoom": 24,
+      "filter": ["all", ["==", "type", "military"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-pattern": "military-fill",
+        "fill-color": "rgba(178, 194, 157, 1)",
+        "fill-antialias": false
+      }
+    },
+    {
       "id": "airports",
       "type": "fill",
       "source": "osm",
@@ -295,20 +341,6 @@ ohmVectorStyles.Original = {
       }
     },
     {
-      "id": "landuse_areas_military_overlay",
-      "type": "fill",
-      "source": "osm",
-      "source-layer": "landuse_areas",
-      "minzoom": 10,
-      "maxzoom": 24,
-      "filter": ["all", ["==", "type", "military"]],
-      "layout": {"visibility": "visible"},
-      "paint": {
-        "fill-color": "rgba(178, 194, 157, 1)",
-        "fill-pattern": "military-fill"
-      }
-    },
-    {
       "id": "landuse_areas_z7",
       "type": "fill",
       "source": "osm",
@@ -431,26 +463,6 @@ ohmVectorStyles.Original = {
         "line-dasharray": [2.5, 1.5],
         "line-color": "rgba(195, 203, 179, 1)"
       }
-    },
-    {
-      "id": "military_landuselow",
-      "type": "fill",
-      "source": "osm",
-      "source-layer": "landuse_areas",
-      "minzoom": 4,
-      "maxzoom": 10,
-      "filter": ["all", ["==", "type", "military"]],
-      "layout": {"visibility": "visible"},
-      "paint": {"fill-color": "rgba(230, 224, 212, 1)"}
-    },
-    {
-      "id": "military",
-      "type": "fill",
-      "source": "osm",
-      "source-layer": "other_areas",
-      "filter": ["all", ["==", "class", "military"]],
-      "layout": {"visibility": "visible"},
-      "paint": {"fill-color": "rgba(230, 224, 212, 1)"}
     },
     {
       "id": "landuse_areas_z12_natural",
@@ -581,7 +593,7 @@ ohmVectorStyles.Original = {
       "source-layer": "other_areas",
       "minzoom": 14,
       "maxzoom": 24,
-      "filter": ["all"],
+      "filter": ["all", ["==", "class", "historic"], ["==", "type", "ruins"]],
       "layout": {"visibility": "visible"},
       "paint": {"fill-color": "rgba(224, 224, 224, 1)"}
     },
@@ -1333,6 +1345,32 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "roads_roads",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": ["all", ["in", "type", "road"]],
+      "layout": {
+        "visibility": "none",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(255, 0, 0, 1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.5],
+          ["zoom"],
+          12,
+          0.5,
+          18,
+          5
+        ]
+      }
+    },
+    {
       "id": "roads_residential",
       "type": "line",
       "source": "osm",
@@ -1581,24 +1619,6 @@ ohmVectorStyles.Original = {
       }
     },
     {
-      "id": "roads_rail_tram",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "transport_lines",
-      "minzoom": 7,
-      "maxzoom": 24,
-      "filter": [
-        "all",
-        ["in", "type", "tram", "funicular", "monorail"],
-        ["!in", "service", "yard", "siding"]
-      ],
-      "layout": {"visibility": "visible"},
-      "paint": {
-        "line-color": "rgba(197, 197, 197, 1)",
-        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
-      }
-    },
-    {
       "id": "roads_rail_mini",
       "type": "line",
       "source": "osm",
@@ -1714,7 +1734,7 @@ ohmVectorStyles.Original = {
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 9,
+      "minzoom": 7,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -1732,7 +1752,7 @@ ohmVectorStyles.Original = {
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 9,
+      "minzoom": 7,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -2024,6 +2044,24 @@ ohmVectorStyles.Original = {
           18,
           36
         ]
+      }
+    },
+    {
+      "id": "roads_rail_tram",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "tram", "funicular", "monorail"],
+        ["!in", "service", "yard", "siding"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(197, 197, 197, 1)",
+        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
       }
     },
     {
@@ -2445,11 +2483,11 @@ ohmVectorStyles.Original = {
       }
     },
     {
-      "id": "city_labels_town_z6",
+      "id": "city_labels_town_z8",
       "type": "symbol",
       "source": "osm",
       "source-layer": "place_points",
-      "minzoom": 7,
+      "minzoom": 8,
       "maxzoom": 20,
       "filter": ["all", ["in", "type", "town"]],
       "layout": {
