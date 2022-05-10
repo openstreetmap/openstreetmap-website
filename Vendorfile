@@ -4,16 +4,7 @@ folder 'vendor/assets' do
   end
 
   folder 'leaflet' do
-    file 'leaflet.js', 'https://unpkg.com/leaflet@1.4.0/dist/leaflet-src.js'
-    file 'leaflet.css', 'https://unpkg.com/leaflet@1.4.0/dist/leaflet.css'
-
-    [ 'layers.png', 'layers-2x.png',
-      'marker-icon.png', 'marker-icon-2x.png',
-      'marker-shadow.png' ].each do |image|
-      file "images/#{image}", "https://unpkg.com/leaflet@1.4.0/dist/images/#{image}"
-    end
-
-    from 'https://github.com/aratcliffe/Leaflet.contextmenu.git', :tag => 'v1.5.0' do
+    from 'https://github.com/aratcliffe/Leaflet.contextmenu.git', :tag => 'v1.5.1' do
       file 'leaflet.contextmenu.js', 'dist/leaflet.contextmenu.js'
       file 'leaflet.contextmenu.css', 'dist/leaflet.contextmenu.css'
     end
@@ -24,27 +15,17 @@ folder 'vendor/assets' do
       folder 'img', 'src/img'
     end
 
-    from 'https://github.com/domoritz/leaflet-locatecontrol.git', :tag => 'v0.66.0' do
-      file 'leaflet.locate.js', 'src/L.Control.Locate.js'
-    end
-
     from 'https://github.com/jfirebaugh/leaflet-osm.git' do
       file 'leaflet.osm.js', 'leaflet-osm.js'
     end
 
-    from 'https://github.com/jieter/Leaflet.encoded.git', :tag => '0.0.8' do
+    from 'https://github.com/jieter/Leaflet.encoded.git', :tag => '0.0.9' do
       file 'leaflet.polyline.js', 'Polyline.encoded.js'
     end
   end
 
-  folder 'ohauth' do
-    from 'https://github.com/osmlab/ohauth.git' do
-      file 'ohauth.js'
-    end
-  end
-
   folder 'iD' do
-    from 'https://github.com/openhistoricalmap/iD', :branch => 'release' do
+    from 'https://github.com/openstreetmap/iD', :branch => 'release' do
       folder 'iD/data', 'dist/data'
       folder 'iD/img', 'dist/img'
       folder 'iD/locales', 'dist/locales'
@@ -63,17 +44,5 @@ folder 'vendor/assets' do
 
   folder 'polyfill' do
     file 'es6.js', 'https://polyfill.io/v3/polyfill.js?features=es6&flags=gated,always'
-  end
-
-  folder 'javascripts' do
-    file 'html5shiv.js', 'https://raw.githubusercontent.com/aFarkas/html5shiv/master/src/html5shiv.js'
-    file 'bowser.js', 'https://github.com/lancedikson/bowser/releases/download/1.9.4/bowser.js'
-  end
-
-  folder 'swfobject' do
-    from 'https://github.com/swfobject/swfobject.git', :tag => '2.2' do
-      file 'expressInstall.swf', 'swfobject/expressInstall.swf'
-      file 'swfobject.js', 'swfobject/src/swfobject.js'
-    end
   end
 end

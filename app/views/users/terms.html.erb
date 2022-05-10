@@ -30,10 +30,8 @@
     <% end %>
   </div>
 
-  <div id="contributorTerms" class="col12 legale">
-    <%# render :partial => "terms" %>
-    Here will be the contributor terms for OpenHistoricalMap. It will be similar to OSM's current contributor terms (i.e. ODbl and CC-By-SA).
-    <br/> We suggest just agreeing below until it's written - any questions contact the OpenHistoricalMap mailing list. Thanks!
+  <div id="contributorTerms" class="legale border border-grey rounded">
+    <%= render :partial => "terms" %>
   </div>
 
   <div>
@@ -66,12 +64,19 @@
     </div>
   </div>
 
-    <div class="deemphasize">
-      <p id="contributorGuidance">
-        <%# raw t '.guidance',
-                  :summary => 'https://www.osmfoundation.org/wiki/License/Contributor_Terms_Summary',
-                  :translations => 'https://www.osmfoundation.org/wiki/License/Contributor_Terms/Informal_Translations' %>
-      </p>
-    </div>
+  <%= hidden_field_tag("referer", h(params[:referer])) unless params[:referer].nil? %>
+
+  <div class="form-group">
+    <%= submit_tag("Continue", :name => "continue", :id => "continue", :disabled => true, :class => "btn btn-primary") %>
+    <%= submit_tag("Cancel", :name => "decline", :id => "decline", :class => "btn btn-outline-secondary") %>
+  </div>
+
+  <div class="form-group">
+    <div class="form-check">
+      <%= check_box("user", "consider_pd", :class => "form-check-input") %>
+    <label for="user_consider_pd" class="form-check-label">
+      <%= t ".consider_pd" %>
+    </label>
+    <span class="minorNote">(<%= link_to(t(".consider_pd_why"), t(".consider_pd_why_url"), :target => :new) %>)</span>
   </div>
 <% end %>

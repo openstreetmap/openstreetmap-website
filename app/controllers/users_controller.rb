@@ -162,7 +162,7 @@ class UsersController < ApplicationController
     if check_signup_allowed(current_user.email)
       session[:referer] = safe_referer(params[:referer]) if params[:referer]
 
-      current_user.status = "active"
+      Rails.logger.info "create: #{session[:referer]}"
 
       if current_user.auth_provider.present? && current_user.pass_crypt.empty?
         # We are creating an account with external authentication and
