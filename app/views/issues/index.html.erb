@@ -5,7 +5,7 @@
 <p><%= t ".search_guidance" %></p>
 
 <%= form_tag(issues_path, :method => :get) do %>
-  <div class="form-row">
+  <div class="row gx-1">
     <div class="form-group col-md-auto">
       <%= select_tag :status,
                      options_for_select(Issue.aasm.states.map(&:name).map { |state| [t(".states.#{state}"), state] }, params[:status]),
