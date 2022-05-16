@@ -7,24 +7,38 @@
 # Author: V.narsikar
 # Author: Vibhavari
 # Author: अभय नातू
+# Author: गराडे
 ---
 mr:
   time:
     formats:
       friendly: '%e %B %Y, %H:%M ला'
   helpers:
+    file:
+      prompt: फाईल निवडा
     submit:
       diary_comment:
         create: जतन करा
+      diary_entry:
+        create: प्रकाशित करा
+        update: अद्ययावत करा
+      issue_comment:
+        create: टिपण्णी जोडा
       message:
         create: पाठवा
       client_application:
         create: नोंदणी करा
-        update: संपादन
+        update: अद्ययावत करा
+      doorkeeper_application:
+        create: नोंदणी
+        update: अद्ययावत करा
       trace:
         create: चढवा
         update: जतन करा
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: वैध ईमेल पत्ता वाटत नाही.
     models:
       acl: पोहोच नियंत्रण यादी
       changeset: बदलसंच
@@ -33,6 +47,7 @@ mr:
       diary_comment: रोजनिशी अभिप्राय
       diary_entry: रोजनिशीतील नोंद
       friend: मित्र
+      issue: मुद्दा
       language: भाषा
       message: संदेश
       node: गाठ
@@ -49,6 +64,7 @@ mr:
       relation: संबंध
       relation_member: संबंधाचा सदस्य
       relation_tag: संबंधाची खूणपताका
+      report: अहवाल
       session: सत्र
       trace: अनुरेख
       tracepoint: अनुरेख बिंदू
@@ -60,6 +76,15 @@ mr:
       way_node: मार्गातील गाठ
       way_tag: मार्ग खूणपताका
     attributes:
+      client_application:
+        name: नाव (आवश्यक)
+        url: मुख्य ऍप्लिकेशन URL (आवश्यक)
+        allow_read_prefs: वापरकर्त्याच्या पसंती वाचा
+        allow_write_prefs: वापरकर्त्याच्या पसंती बदला
+        allow_write_api: नकाशात बदल करा
+        allow_read_gpx: वैयक्तिक GPS आनुरेखा वाचा
+        allow_write_gpx: GPS अनुरेख अपलोड करा
+        allow_write_notes: टीपा बदला
       diary_comment:
         body: मायना
       diary_entry:
@@ -68,6 +93,8 @@ mr:
         latitude: अक्षांश
         longitude: रेखांश
         language: भाषा
+      doorkeeper/application:
+        name: नाव
       friend:
         user: सदस्य
         friend: मित्र
@@ -277,6 +304,7 @@ mr:
       nearby mapper: जवळपासचे नकाशाकार
       friend: मित्र
     show:
+      title: माझे फलक
       nearby users: जवळपासचे इतर सदस्य
       friends_changesets: मित्रांचे बदलसंच
       friends_diaries: मित्रांच्या अनुदिनीतील नोंदी
@@ -946,6 +974,12 @@ mr:
       heading: '%{user}साठी परवलीचा शब्द पुनर्स्थापित करा'
       reset: परवलीचा शब्द पुनर्स्थापित करा
       flash changed: आपला परवलीचा शब्द बदलण्यात आला आहे.
+  preferences:
+    show:
+      title: माझ्या पसंती
+      edit_preferences: पसंती संपादन
+    edit:
+      save: पसंती अद्ययावत करा
   profiles:
     edit:
       image: 'चित्र:'
@@ -1218,6 +1252,7 @@ mr:
       by: तर्फे
       in: आत
     index:
+      public_traces: सार्वजनिक GPS अनुरेख
       upload_trace: अनुरेख चढवा
   oauth_clients:
     new:
@@ -1268,8 +1303,10 @@ mr:
       my traces: माझे अनुरेख
       my notes: माझ्या टीपा
       my messages: माझे संदेश
+      my profile: माझी रूपरेखा(प्रोफाइल)
       my settings: माझ्या मांडण्या
       my comments: माझे अभिप्राय
+      my_dashboard: माझे फलक
       blocks on me: माझ्यावरील निर्बंध
       blocks by me: माझ्याकडून निर्बंध
       send message: संदेश पाठवा
