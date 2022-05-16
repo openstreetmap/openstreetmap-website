@@ -121,11 +121,7 @@ class MessagesController < ApplicationController
 
       referer = safe_referer(params[:referer]) if params[:referer]
 
-      if referer
-        redirect_to referer
-      else
-        redirect_to :action => :inbox
-      end
+      redirect_to referer || { :action => :inbox }
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"

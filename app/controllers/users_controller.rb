@@ -136,11 +136,7 @@ class UsersController < ApplicationController
     if current_user
       # The user is logged in already, so don't show them the signup
       # page, instead send them to the home page
-      if @referer
-        redirect_to @referer
-      else
-        redirect_to :controller => "site", :action => "index"
-      end
+      redirect_to @referer || { :controller => "site", :action => "index" }
     elsif params.key?(:auth_provider) && params.key?(:auth_uid)
       self.current_user = User.new(:email => params[:email],
                                    :email_confirmation => params[:email],

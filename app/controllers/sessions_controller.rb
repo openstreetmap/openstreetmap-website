@@ -38,11 +38,7 @@ class SessionsController < ApplicationController
 
       referer = safe_referer(params[:referer]) if params[:referer]
 
-      if referer
-        redirect_to referer
-      else
-        redirect_to :controller => "site", :action => "index"
-      end
+      redirect_to referer || { :controller => "site", :action => "index" }
     end
   end
 
