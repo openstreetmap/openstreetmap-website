@@ -4,8 +4,16 @@
   <%= javascript_include_tag "es6" unless browser.es6? %>
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag "i18n/#{I18n.locale}" %>
+  <script src="https://unpkg.com/mapbox-gl-leaflet@0.0.4/leaflet-mapbox-gl.js"></script>
+  <script src="https://openhistoricalmap.github.io/mbgltimeslider-leaflet-control/dist/leaflet-control-mbgltimeslider.js"></script>
+  <link href="https://openhistoricalmap.github.io/mbgltimeslider-leaflet-control/dist/leaflet-control-mbgltimeslider.css" rel="stylesheet" />
+  <script src="https://openhistoricalmap.github.io/mbgl-timeslider/dist/mbgl-control-timeslider.js"></script>
+  <link href="https://openhistoricalmap.github.io/mbgl-timeslider/dist/mbgl-control-timeslider.css" rel="stylesheet" />
+  <script type="text/javascript" src="https://openhistoricalmap.github.io/ohm-inspector/api/api.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://openhistoricalmap.github.io/ohm-inspector/api/api.css" />
   <%= stylesheet_link_tag "screen-#{dir}", :media => "screen" %>
   <%= stylesheet_link_tag "print-#{dir}", :media => "print" %>
+  <%= stylesheet_link_tag "mapbox-gl-all", :media => "screen, print" %>
   <%= stylesheet_link_tag "leaflet-all", :media => "screen, print" %>
   <%= render :partial => "layouts/meta" %>
   <%= yield :head %>
