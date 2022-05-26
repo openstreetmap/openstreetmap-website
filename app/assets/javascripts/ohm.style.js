@@ -1,3 +1,10 @@
+// enable RTL support e.g. Arabic & Hebrew text
+mapboxgl.setRTLTextPlugin(
+  'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js',
+  null,
+  true // Lazy load the plugin
+);
+
 // two sets of vector tiles: staging & production
 // to use staging, either point your browser at http://localhost/ or else set &stagingtiles=1 in your URL params
 
