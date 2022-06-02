@@ -278,6 +278,23 @@ hu:
         title: Felhasználói fiókom törlése
         warning: A fiók törlése végleges, nem lehet visszaállítani!
         delete_account: Fiók törlése
+        delete_introduction: 'Az alábbi gombbal törölheted az OpenStreetMap-fiókodat.
+          Vedd figyelembe az alábbiakat:'
+        delete_profile: Ezzel törlődnek a profiladataid, köztük az avatarod, a leírásod
+          és az otthoni tartózkodási helyed is.
+        delete_display_name: A megjelenített neved is eltávolításra kerül, és más
+          fiókok újra felhasználhatják.
+        retain_caveats: 'Néhány Rád vonatkozó információ azonban még a fiókod törlése
+          után is megmarad az OpenStreetMapen:'
+        retain_edits: A térképadatbázisban végzett szerkesztéseid (ha vannak) megmaradnak.
+        retain_traces: Az általad feltöltött nyomvonalak (ha vannak) szintén megőrződnek.
+        retain_diary_entries: Naplóbejegyzéseid és naplóhozzászólásait (ha vannak)
+          megmaradnak, de nem lesznek láthatóak.
+        retain_notes: Térképjegyzeteid és jegyzethozzászólásaid (ha vannak) megmaradnak,
+          de nem lesznek láthatóak.
+        retain_changeset_discussions: A módosításkészletekhez fűzött hozzászólásaid
+          (ha vannak) megőrződnek.
+        retain_email: Az e-mail címed is megmarad.
         confirm_delete: Biztos vagy benne?
         cancel: Mégsem
   accounts:
@@ -315,14 +332,17 @@ hu:
         review link text: Kérjük, kövesd ezt a hivatkozást az új közreműködési feltételek
           áttekintéséhez és elfogadásához.
         agreed_with_pd: Azt is kijelentetted, hogy a szerkesztéseid közkincsnek tekinthetők.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: mi ez?
       save changes button: Módosítások mentése
       make edits public button: Az összes szerkesztésem nyilvánossá tétele
+      delete_account: Fiók törlése…
     update:
       success_confirm_needed: Felhasználói információk sikeresen frissítve. Nézd meg
         az e-mailjeidet az új e-mail címedet megerősítő levélhez.
       success: Felhasználói információk sikeresen frissítve.
+    destroy:
+      success: Fiók törölve.
   browse:
     created: Létrehozva
     closed: Lezárva
@@ -652,7 +672,7 @@ hu:
           aerodrome: Repülőtér
           airstrip: Leszállóhely
           apron: Forgalmi előtér
-          gate: Kapu
+          gate: Repülőtéri kapu
           hangar: Hangár
           helipad: Helikopter-leszálló
           holding_position: Várakozási hely
@@ -661,7 +681,7 @@ hu:
           runway: Kifutópálya
           taxilane: Gurulóút
           taxiway: Gurulóút
-          terminal: Utasterminál
+          terminal: Repülőtéri utasterminál
           windsock: Szélzsák
         amenity:
           animal_boarding: Állatpanzió
@@ -1204,6 +1224,7 @@ hu:
           "yes": Hely
         railway:
           abandoned: Elhagyott vasútvonal
+          buffer_stop: Ütközőbak
           construction: Épülő vasútvonal
           disused: Használaton kívüli vasútvonal
           funicular: Sikló
@@ -1217,6 +1238,7 @@ hu:
           platform: Vasúti peron
           preserved: Nosztalgia-vasútvonal
           proposed: Tervezett vasút
+          rail: Vasúti vágány
           spur: Iparvágány
           station: Vasútállomás
           stop: Vasúti megálló
@@ -1225,6 +1247,7 @@ hu:
           switch: Vasúti váltó
           tram: Villamos
           tram_stop: Villamosmegálló
+          turntable: Fordítókorong
           yard: Rendező pályaudvar
         shop:
           agrarian: Gazdabolt
@@ -2085,7 +2108,7 @@ hu:
           Térkép vagy nyomtatott térképek) a szerzői jog tulajdonosának kifejezett
           engedélye nélkül.
         infringement_2_html: |-
-          Ha úgy gondolod, hogy jogvédett anyag került jogszerűtlenül az OpenStreetMap adatbázisba vagy erre a weblapra, kérjük olvasd el az <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">eltávolítási
+          Ha úgy gondolod, hogy jogvédett anyag került jogszerűtlenül az OpenStreetMap adatbázisba vagy erre a weblapra, kérjük olvasd el az <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">eltávolítási
           folyamat leírását</a> vagy jelentsd be közvetlenül az
           <a href="https://dmca.openstreetmap.org/">online bejelentő oldalon</a>.
         trademarks_title_html: <span id="trademarks"></span>Védjegyek
@@ -2282,6 +2305,7 @@ hu:
           common:
           - Füves terület
           - rét
+          - kert
           retail: Kereskedelmi terület
           industrial: Ipari terület
           commercial: Kereskedelmi terület
@@ -2651,7 +2675,7 @@ hu:
       read_tou: Elolvastam és elfogadom a felhasználási feltételeket
       consider_pd: A fenti megállapodáson felül, a hozzájárulásaimat közkinccsé nyilvánítom
       consider_pd_why: mi ez?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Információk a fogalmak megértéséhez: egy <a href="%{summary}">közérthető
         nyelven megfogalmazott kivonat</a> és néhány <a href="%{translations}">nemhivatalos
         fordítás</a>'
@@ -2721,13 +2745,15 @@ hu:
       block_history: Aktív blokkolások
       moderator_history: Kiosztott blokkolások
       comments: Hozzászólások
-      create_block: felhasználó blokkolása
-      activate_user: felhasználó aktiválása
-      deactivate_user: felhasználó deaktiválása
-      confirm_user: felhasználó megerősítése
-      hide_user: felhasználó elrejtése
-      unhide_user: felhasználó elrejtésének megszüntetése
-      delete_user: felhasználó törlése
+      create_block: Felhasználó blokkolása
+      activate_user: Felhasználó aktiválása
+      deactivate_user: Felhasználó deaktiválása
+      confirm_user: Felhasználó megerősítése
+      unconfirm_user: Felhasználó megerősítésének visszavonása
+      unsuspend_user: Felhasználó felfüggesztésének visszavonása
+      hide_user: Felhasználó elrejtése
+      unhide_user: Felhasználó elrejtésének visszavonása
+      delete_user: Felhasználó törlése
       confirm: Megerősítés
       report: Felhasználó bejelentése
     set_home:
