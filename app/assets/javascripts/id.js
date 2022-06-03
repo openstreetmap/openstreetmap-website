@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (typeof iD === "undefined" || !iD.utilDetect().support) {
     container.innerHTML = "This editor is supported " +
-      "in Firefox, Chrome, Safari, Opera, Edge, and Internet Explorer 11. " +
+      "in Firefox, Chrome, Safari, Opera and Edge. " +
       "Please upgrade your browser or use JOSM to edit the map.";
     container.className = "unsupported";
   } else {
@@ -17,11 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
       .assetMap(JSON.parse(container.dataset.assetMap))
       .locale(container.dataset.locale)
       .preauth({
-        urlroot: location.protocol + "//" + location.host,
-        oauth_consumer_key: container.dataset.consumerKey,
-        oauth_secret: container.dataset.consumerSecret,
-        oauth_token: container.dataset.token,
-        oauth_token_secret: container.dataset.tokenSecret
+        url: location.protocol + "//" + location.host,
+        access_token: container.dataset.token
       })
       .containerNode(container)
       .init();
