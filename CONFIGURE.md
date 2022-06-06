@@ -54,30 +54,26 @@ $ bundle exec rails console
 
 ## OAuth Consumer Keys
 
-There are two built-in applications which communicate via the API, and therefore need OAuth consumer keys configured. These are:
+There are two built-in applications which communicate via the API, and therefore need to be registered as OAuth 2 applications. These are:
 
 * iD
 * The website itself (for the Notes functionality)
 
-To use the iD editor you need to register it as an OAuth 1 application.
+For iD, do the following:
 
-Do the following:
-* Log into your Rails Port instance - e.g. http://localhost:3000
-* Click on your user name to go to your user page
-* Click on "my settings" on the user page
-* Click on "OAuth 1 settings" on the My settings page
-* Click on 'Register your application'.
+* Go to "[OAuth 2 applications](http://localhost:3000/oauth2/applications)" on the My settings page.
+* Click on "Register new application".
 * Unless you have set up alternatives, use Name: "Local iD" and Main Application URL: "http://localhost:3000"
 * Check boxes for the following Permissions
-  * 'read their user preferences'
-  * 'modify the map'
-  * 'read their private GPS traces'
-  * 'modify notes'
-* Everything else can be left with the default blank values.
-* Click the "Register" button
-* On the next page, copy the "consumer key"
+  * 'Read user preferences'
+  * 'Modify user preferences'
+  * 'Modify the map'
+  * 'Read private GPS traces'
+  * 'Upload GPS traces'
+  * 'Modify notes'
+* On the next page, copy the "Client ID"
 * Edit config/settings.local.yml in your rails tree
-* Add the "id_key" configuration key and the consumer key as the value
+* Add the "id_oauth_application" configuration with the "Client ID" as the value
 * Restart your rails server
 
 An example excerpt from settings.local.yml:
@@ -85,8 +81,8 @@ An example excerpt from settings.local.yml:
 ```
 # Default editor
 default_editor: "id"
-# OAuth 1 consumer key for iD
-id_key: "8lFmZPsagHV4l3rkAHq0hWY5vV3Ctl3oEFY1aXth"
+# OAuth 2 Client ID for iD
+id_oauth_application: "Snv…OA0"
 ```
 
 To allow [Notes](https://wiki.openstreetmap.org/wiki/Notes) and changeset discussions to work, follow a similar process, this time registering an OAuth 2 application for the web site:
