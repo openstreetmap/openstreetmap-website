@@ -93,7 +93,7 @@ uk:
       diary_comment: Коментарі щоденника
       diary_entry: Запис щоденника
       friend: Друг
-      issue: Проблема
+      issue: Звернення
       language: Мова
       message: Повідомлення
       node: Точка
@@ -110,7 +110,7 @@ uk:
       relation: Зв’язок
       relation_member: Елемент зв’язку
       relation_tag: Теґ зв’язку
-      report: Звіт
+      report: Скарга
       session: Сеанс
       trace: Трек
       tracepoint: Точка треку
@@ -939,7 +939,6 @@ uk:
           window_construction: Майстер віконних конструкцій
           winery: Виноробня
           "yes": Товари для рукоділля
-        crossing: Переправа
         emergency:
           access_point: Точка доступу
           ambulance_station: Станція швидкої медичної допомоги
@@ -960,6 +959,7 @@ uk:
           bus_stop: Автобусна зупинка
           construction: Будівництво автомагістралі
           corridor: Коридор
+          crossing: Переправа
           cycleway: Велодоріжка
           elevator: Ліфт
           emergency_access_point: Пункт швидкої допомоги
@@ -1492,16 +1492,16 @@ uk:
       more_results: Більше результатів
   issues:
     index:
-      title: Проблеми
+      title: Звернення
       select_status: Вибрати статус
       select_type: Вибрати тип
       select_last_updated_by: Вибрати останнього редактора
       reported_user: Мапер, на якого поскаржились
       not_updated: Не оновлювалось
       search: Пошук
-      search_guidance: 'Знайти проблему:'
+      search_guidance: 'Пошук Звернень:'
       user_not_found: Такого учасника не існує
-      issues_not_found: Такі проблеми не знайдені
+      issues_not_found: Таке звернення не знайдене
       status: Статус
       reports: Скарги
       last_updated: Останнє оновлення
@@ -1513,7 +1513,7 @@ uk:
         few: '%{count} Скарги'
         many: '%{count} Скарг'
         other: ""
-      reported_item: Оскаржено
+      reported_item: Про що
       states:
         ignored: Проігноровано
         open: Відкрито
@@ -1523,7 +1523,7 @@ uk:
       successful_update: Вашу скаргу було оновлено
       provide_details: Будь ласка, додайте потрібні деталі
     show:
-      title: '%{status} Скарга #%{issue_id}'
+      title: 'Звернення #%{issue_id} - %{status}'
       reports:
         zero: Скарг немає
         one: 1 скарга
@@ -1532,30 +1532,30 @@ uk:
       report_created_at: Вперше повідомлено %{datetime}
       last_resolved_at: В останнє розв'язано %{datetime}
       last_updated_at: В останнє оновлено %{datetime}, %{displayname}
-      resolve: Роз'вязано
+      resolve: Розв'язати
       ignore: Ігнорувати
       reopen: Повторно відкрити
-      reports_of_this_issue: Скарги на цю проблему
+      reports_of_this_issue: Повідомлення про проблему
       read_reports: Читати скарги
       new_reports: Нові скарги
-      other_issues_against_this_user: Інші скарги на цього учасника
+      other_issues_against_this_user: Інші звернення щодо цього учасника
       no_other_issues: Немає інших скарг на цього учасника
-      comments_on_this_issue: Коментарі до цієї проблеми
+      comments_on_this_issue: Коментарі до цього звернення
     resolve:
-      resolved: Статус проблеми був змінений на 'Розв’язано'
+      resolved: Статус звернення був змінений на 'Розв’язано'
     ignore:
-      ignored: Статус проблеми був змінений на 'Проігноровано'
+      ignored: Статус звернення був змінений на 'Проігноровано'
     reopen:
       reopened: Статус проблеми був змінений на 'Відкрито'
     comments:
       comment_from_html: Коментар від %{user_link}, %{comment_created_at}
-      reassign_param: Перепризначити проблему?
+      reassign_param: Перепризначити звернення?
     reports:
       reported_by_html: Повідомлено як %{category}, %{user}, %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, коментар #%{comment_id}'
-        note: 'Примітка #%{note_id}'
+        note: 'Нотатка #%{note_id}'
   issue_comments:
     create:
       comment_created: Коментар створено
@@ -1569,8 +1569,8 @@ uk:
         not_just_mistake: Ви впевненні що це не звичайна помилка
         unable_to_fix: Ви не можете виправити проблему самі або за допомогою інших
           маперів з вашої спільноти
-        resolve_with_user: Ви намагались розв'язати проблему яка сталася через зазначеного
-          учасника
+        resolve_with_user: Ви вже намагались розв'язати проблему яка сталася через
+          зазначеного учасника
       categories:
         diary_entry:
           spam_label: Цей допис в щоденнику містить або сам є спамом
@@ -1609,7 +1609,7 @@ uk:
     edit: Редагувати
     history: Історія
     export: Експорт
-    issues: Проблеми
+    issues: Звернення
     data: Дані
     export_data: Експортувати дані
     gps_traces: GPS-треки
@@ -2627,19 +2627,19 @@ uk:
     edit:
       title: Змінити дані вашого застосунку
     show:
-      title: Подробиці OAuth для %{app_name}
+      title: Параметри OAuth для %{app_name}
       key: 'Ключ абонента:'
       secret: 'Секретна фраза абонента:'
       url: 'URL маркеру запита:'
       access_url: 'URL маркер доступу:'
       authorize_url: 'URL авторизації:'
       support_notice: Ми підтримуємо підписи HMAC-SHA1 (рекомендується) і RSA-SHA1.
-      edit: Змінити подробиці
+      edit: Змінити параметри
       delete: Вилучити клієнта
       confirm: Ви впевнені?
       requests: 'Запит наступних дозволів з налаштувань:'
     index:
-      title: Деталі OAuth
+      title: Параметри OAuth
       my_tokens: Мої автентифіковані застосунки
       list_tokens: 'Наступні токени були видані для застосунків на ваше ім’я:'
       application: Назва застосунка
@@ -2651,7 +2651,7 @@ uk:
         тим, як він зможе зробити OAuth-запит до цієї служби.
       oauth: OAuth
       registered_apps: 'У вас зареєстровані такі клієнтські застосунки:'
-      register_new: Зареєструвати ваш застосунок
+      register_new: Зареєструвати новий застосунок
     form:
       requests: 'Отримувати наступні дозволи:'
     not_found:
