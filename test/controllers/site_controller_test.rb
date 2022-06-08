@@ -2,20 +2,6 @@ require "test_helper"
 
 class SiteControllerTest < ActionDispatch::IntegrationTest
   ##
-  # setup oauth keys
-  def setup
-    super
-
-    Settings.id_key = create(:client_application).key
-  end
-
-  ##
-  # clear oauth keys
-  def teardown
-    Settings.id_key = nil
-  end
-
-  ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
