@@ -9,8 +9,8 @@
 </head>
 <body>
 <% data = {}
-   if Settings.key?(:id_oauth_application)
-     token = current_user.oauth_token(Settings.id_oauth_application)
+   if Settings.key?(:id_application)
+     token = current_user.oauth_token(Settings.id_application)
      data[:token] = token.token
    end
    data[:locale] = ID::LOCALES.preferred(preferred_languages).to_s

@@ -73,7 +73,7 @@ For iD, do the following:
   * 'Modify notes'
 * On the next page, copy the "Client ID"
 * Edit config/settings.local.yml in your rails tree
-* Add the "id_oauth_application" configuration with the "Client ID" as the value
+* Add the "id_application" configuration with the "Client ID" as the value
 * Restart your rails server
 
 An example excerpt from settings.local.yml:
@@ -82,7 +82,7 @@ An example excerpt from settings.local.yml:
 # Default editor
 default_editor: "id"
 # OAuth 2 Client ID for iD
-id_oauth_application: "Snv…OA0"
+id_application: "Snv…OA0"
 ```
 
 To allow [Notes](https://wiki.openstreetmap.org/wiki/Notes) and changeset discussions to work, follow a similar process, this time registering an OAuth 2 application for the web site:
