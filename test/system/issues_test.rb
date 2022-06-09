@@ -41,6 +41,23 @@ class IssuesTest < ApplicationSystemTestCase
     assert_selector "strong", :text => "with kramdown"
   end
 
+  def test_view_issue_rich_text_container
+    sign_in_as(create(:moderator_user))
+    issue = create(:issue, :assigned_role => "moderator")
+    issue.reports << create(:report, :details => "paragraph one\n\n---\n\nparagraph two")
+
+    visit issue_path(issue)
+    assert_content I18n.t("issues.show.reports", :count => 1)
+    richtext = find "div.richtext"
+    richtext_elements = richtext.all "*"
+    assert_equal 3, richtext_elements.size
+    assert_equal "p", richtext_elements[0].tag_name
+    assert_equal "paragraph one", richtext_elements[0].text
+    assert_equal "hr", richtext_elements[1].tag_name
+    assert_equal "p", richtext_elements[2].tag_name
+    assert_equal "paragraph two", richtext_elements[2].text
+  end
+
   def test_view_issues_with_no_reported_user
     sign_in_as(create(:moderator_user))
     anonymous_note = create(:note_with_comments)
