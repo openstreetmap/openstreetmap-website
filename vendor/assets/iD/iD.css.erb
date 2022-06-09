@@ -628,7 +628,11 @@
 .ideditor path.stroke.tag-leisure-pitch,
 .ideditor path.stroke.tag-leisure-track,
 .ideditor path.stroke.tag-natural,
-.ideditor path.stroke.tag-natural-wood {
+.ideditor path.stroke.tag-natural-wood,
+.ideditor path.stroke.tag-golf-tee,
+.ideditor path.stroke.tag-golf-fairway,
+.ideditor path.stroke.tag-golf-rough,
+.ideditor path.stroke.tag-golf-green {
     stroke: rgb(140, 208, 95);
 }
 .ideditor path.fill.tag-barrier-hedge,
@@ -644,7 +648,11 @@
 .ideditor path.fill.tag-leisure-pitch,
 .ideditor path.fill.tag-leisure-track,
 .ideditor path.fill.tag-natural,
-.ideditor path.fill.tag-natural-wood {
+.ideditor path.fill.tag-natural-wood,
+.ideditor path.fill.tag-golf-tee,
+.ideditor path.fill.tag-golf-fairway,
+.ideditor path.fill.tag-golf-rough,
+.ideditor path.fill.tag-golf-green {
     stroke: rgba(140, 208, 95, 0.3);
     fill: rgba(140, 208, 95, 0.3);
 }
@@ -842,14 +850,17 @@
 
 
 /* Tan things */
-.ideditor path.stroke.tag-landuse-farmyard {
+.ideditor path.stroke.tag-landuse-farmyard,
+.ideditor path.stroke.tag-leisure-horse_riding {
     stroke: rgb(245, 220, 186);
 }
-.ideditor path.fill.tag-landuse-farmyard {
+.ideditor path.fill.tag-landuse-farmyard,
+.ideditor path.fill.tag-leisure-horse_riding {
     stroke: rgba(245, 220, 186, 0.3);
     fill: rgba(245, 220, 186, 0.3);
 }
-.ideditor .preset-icon-fill path.area.stroke.tag-landuse-farmyard {
+.ideditor .preset-icon-fill path.area.stroke.tag-landuse-farmyard
+.preset-icon-fill path.area.stroke.tag-leisure-horse_riding {
     stroke: rgb(226, 177, 111);
 }
 .ideditor .pattern-color-farmyard {
@@ -1542,13 +1553,11 @@
 
 .ideditor path.line.stroke.tag-highway.tag-footway-access_aisle {
     stroke-dasharray: 4, 2;
+    stroke: #4c4444;
 }
 .ideditor .low-zoom path.line.stroke.tag-highway.tag-footway-access_aisle,
 .ideditor .preset-icon-container path.stroke.tag-highway.tag-footway-access_aisle {
     stroke-dasharray: 2.5, 1.5;
-}
-.ideditor path.line.stroke.tag-highway.tag-footway-access_aisle {
-    stroke: #4c4444;
 }
 .ideditor .preset-icon .icon.tag-highway.tag-footway-access_aisle {
     color: #4c4444;
@@ -1589,10 +1598,12 @@
 }
 .ideditor path.line.casing.tag-aeroway-taxiway,
 .ideditor path.line.casing.tag-taxiway {
+    stroke: #666;
     stroke-width: 7;
 }
 .ideditor path.line.stroke.tag-aeroway-taxiway,
 .ideditor path.line.stroke.tag-taxiway {
+    stroke: #ff0;
     stroke-width: 5;
 }
 .ideditor .low-zoom path.line.shadow.tag-aeroway-taxiway,
@@ -1606,15 +1617,6 @@
 .ideditor .low-zoom path.line.stroke.tag-aeroway-taxiway,
 .ideditor .low-zoom path.line.stroke.tag-taxiway {
     stroke-width: 3;
-}
-
-.ideditor path.line.stroke.tag-aeroway-taxiway,
-.ideditor path.line.stroke.tag-taxiway {
-    stroke: #ff0;
-}
-.ideditor path.line.casing.tag-aeroway-taxiway,
-.ideditor path.line.casing.tag-taxiway {
-    stroke: #666;
 }
 
 /* wide aeroways (runway) */
@@ -1893,6 +1895,7 @@
     stroke-width: 16;
 }
 .ideditor path.line.stroke.tag-route-ferry {
+    stroke: #58a9ed;
     stroke-width: 3;
     stroke-linecap: butt;
     stroke-dasharray: 12,8;
@@ -1904,9 +1907,6 @@
 .ideditor .preset-icon-container path.line.stroke.tag-route-ferry {
     stroke-width: 2;
     stroke-dasharray: 6,4;
-}
-.ideditor path.line.stroke.tag-route-ferry {
-    stroke: #58a9ed;
 }
 .ideditor path.line.casing.tag-route-ferry {
     stroke: none;
@@ -2065,14 +2065,12 @@
 .ideditor path.line.casing.tag-bridge {
     stroke-opacity: 0.6;
     stroke: #000 !important;
+    stroke-width: 16;
     stroke-linecap: butt;
     stroke-dasharray: none;
 }
 .ideditor path.line.shadow.tag-bridge {
     stroke-width: 24;
-}
-.ideditor path.line.casing.tag-bridge {
-    stroke-width: 16;
 }
 .ideditor .low-zoom path.line.shadow.tag-bridge {
     stroke-width: 16;
@@ -6703,7 +6701,7 @@
 /* Fullscreen Button (disabled)
 ------------------------------------------------------- */
 .ideditor div.full-screen {
-    display: inline-block;
+    /*display: inline-block;*/
     width: 40px;
     margin-right: 10px;
     display: none;
