@@ -24,7 +24,7 @@ xml.rss("version" => "2.0",
 
         xml.dc :creator, comment.author.display_name if comment.author
 
-        xml.pubDate comment.created_at.to_formatted_s(:rfc822)
+        xml.pubDate comment.created_at.to_fs(:rfc822)
         xml.geo :lat, comment.note.lat
         xml.geo :long, comment.note.lon
         xml.georss :point, "#{comment.note.lat} #{comment.note.lon}"

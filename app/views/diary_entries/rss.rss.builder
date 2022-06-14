@@ -23,7 +23,7 @@ xml.rss("version" => "2.0",
         xml.guid diary_entry_url(entry.user, entry, :only_path => false)
         xml.description entry.body.to_html
         xml.dc :creator, entry.user.display_name
-        xml.pubDate entry.created_at.to_formatted_s(:rfc822)
+        xml.pubDate entry.created_at.to_fs(:rfc822)
         xml.comments diary_entry_url(entry.user, entry, :anchor => "comments", :only_path => false)
 
         if entry.latitude && entry.longitude
