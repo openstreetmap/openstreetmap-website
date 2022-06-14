@@ -4,7 +4,8 @@ $(document).ready(function () {
   var id = $("#id-embed");
 
   if (id.data("configured") === true) {
-    var hashParams = OSM.params(location.hash.substring(1));
+    var hash = location.hash.substring(1);
+    var hashParams = hash ? OSM.params(hash) : {};
     var mapParams = OSM.mapParams();
     var params = {};
 
