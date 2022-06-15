@@ -22236,7 +22236,7 @@
 
   // package.json
   var name = "iD";
-  var version = "2.21.0";
+  var version = "2.21.1";
   var description = "A friendly editor for OpenStreetMap";
   var main = "dist/iD.min.js";
   var repository = "github:openstreetmap/iD";
@@ -35011,11 +35011,18 @@
           if (!endEarly) {
             const nextBulletRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}(?:[*+-]|\\d{1,9}[.)])((?: [^\\n]*)?(?:\\n|$))`);
             const hrRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`);
+            const fencesBeginRegex = new RegExp(`^( {0,${Math.min(3, indent2 - 1)}})(\`\`\`|~~~)`);
             while (src) {
               rawLine = src.split("\n", 1)[0];
               line = rawLine;
               if (this.options.pedantic) {
                 line = line.replace(/^ {1,4}(?=( {4})*[^ ])/g, "  ");
+              }
+              if (fencesBeginRegex.test(line)) {
+                break;
+              }
+              if (this.rules.block.heading.test(line)) {
+                break;
               }
               if (nextBulletRegex.test(line)) {
                 break;
@@ -37743,6 +37750,7 @@ ${content}</tr>
       "shop/alcohol",
       "shop/beer",
       "shop/beverages",
+      "shop/kiosk",
       "shop/wine"
     ],
     camping: [
@@ -37770,6 +37778,7 @@ ${content}</tr>
       "shop/convenience",
       "shop/cosmetics",
       "shop/grocery",
+      "shop/kiosk",
       "shop/newsagent",
       "shop/perfumery"
     ],
@@ -37788,6 +37797,7 @@ ${content}</tr>
       "shop/computer",
       "shop/electronics",
       "shop/hifi",
+      "shop/kiosk",
       "shop/mobile",
       "shop/mobile_phone",
       "shop/telecommunication"
@@ -37836,6 +37846,7 @@ ${content}</tr>
       "shop/confectionary",
       "shop/confectionery",
       "shop/food",
+      "shop/kiosk",
       "shop/ice_cream",
       "shop/pastry",
       "shop/tea"
@@ -37850,6 +37861,7 @@ ${content}</tr>
       "shop/gift",
       "shop/card",
       "shop/cards",
+      "shop/kiosk",
       "shop/stationery"
     ],
     hardware: [
@@ -37936,6 +37948,7 @@ ${content}</tr>
       "amenity/car_rental",
       "amenity/truck_rental",
       "amenity/vehicle_rental",
+      "shop/kiosk",
       "shop/rental"
     ],
     school: [
@@ -37971,6 +37984,7 @@ ${content}</tr>
     ],
     vending: [
       "amenity/vending_machine",
+      "shop/kiosk",
       "shop/vending_machine"
     ],
     weight_loss: [
@@ -43142,7 +43156,7 @@ ${content}</tr>
       return source;
     };
     source.url = function(coord2) {
-      var result = _template.replace(/#.*/su, "");
+      var result = _template.replace(/#[\s\S]*/u, "");
       if (result === "")
         return result;
       if (!source.type || source.id === "custom") {
@@ -67997,7 +68011,7 @@ ${content}</tr>
     const dispatch10 = dispatch_default("enter", "exit", "change");
     let context = utilRebind({}, dispatch10, "on");
     let _deferred2 = /* @__PURE__ */ new Set();
-    context.version = "2.21.0";
+    context.version = "2.21.1";
     context.privacyVersion = "20201202";
     context.initialHashParams = window.location.hash ? utilStringQs(window.location.hash) : {};
     context.changeset = null;
