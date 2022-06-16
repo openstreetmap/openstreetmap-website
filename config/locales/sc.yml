@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: L2212
+# Author: Larentzu
 # Author: Placebo2
 # Author: Via maxima
 ---
@@ -26,6 +27,7 @@ sc:
         create: Registra·ti
         update: Agiorna
       doorkeeper_application:
+        create: Registra·ti
         update: Agiorna
       redaction:
         create: Crea una revisione
@@ -67,7 +69,12 @@ sc:
       user_token: Còdighe de s'impreadore
       way: Caminu
       way_node: Nodu de su caminu
+      way_tag: Eticheta de sa bia
     attributes:
+      client_application:
+        support_url: URL de apògiu
+        allow_write_diary: iscrii pàginas de cuotidianu, cumentus e fai amigus
+        allow_write_api: modìfica sa mapa
       diary_comment:
         body: Corpus
       diary_entry:
@@ -78,6 +85,7 @@ sc:
         language: Limba
       doorkeeper/application:
         name: Nùmene
+        scopes: Permissus
       friend:
         user: Impreadore
         friend: Amigu
@@ -90,23 +98,36 @@ sc:
         longitude: Longitùdine
         public: Pùblicu
         description: Descritzione
+        gpx_file: Càrriga file GPX
         visibility: Visibilidade
         tagstring: Etichetas
       message:
+        sender: Mandadore
         title: Ogetu
         body: Corpus
         recipient: Destinatàriu
       redaction:
         title: Tìtulu
         description: Descritzione
+      report:
+        category: Scèbera unu motivu po sa denùntzia bostra
       user:
         email: E-lìtera
+        email_confirmation: Cunfirma de su curreu eletrònicu
+        new_email: Indiritzu nou de su curreu eletrònicu
         active: Ativu
+        display_name: Nùmene bidu
         description: Descritzione de su profilu
         home_lat: Latitùdine
         home_lon: Longitùdine
         languages: Limbas preferidas
         pass_crypt: Crae
+        pass_crypt_confirmation: Cunfirma sa password
+    help:
+      doorkeeper/application:
+        confidential: S'aplicatzione at a èssere impreada ue su segretu de su cliente
+          potzat èssere mantentu cunfidentziale (sas aplicatziones nadias de telefoneddu
+          e sas aplicatziones de una pàgina sola non sunt cunfidentziales)
   datetime:
     distance_in_words_ago:
       half_a_minute: mesu minutu a como
@@ -121,6 +142,7 @@ sc:
       description: Controllu Remotu (JOSM, Potlatch o Merkaartor)
   auth:
     providers:
+      none: Niunu
       openid: OpenID
       google: Google
       facebook: Facebook
@@ -129,6 +151,13 @@ sc:
       wikipedia: Wikipedia
   api:
     notes:
+      comment:
+        opened_at_html: Creadu %{when}
+        opened_at_by_html: Creadu %{when} dae %{user}
+        commented_at_html: Agiornadu %{when}
+        commented_at_by_html: Agiornadu %{when} dae %{user}
+        reopened_at_html: Torradu a ativare %{when}
+        reopened_at_by_html: Torradu a ativare %{when} dae %{user}
       rss:
         title: Notas de OpenStreetMap
       entry:
@@ -136,7 +165,13 @@ sc:
         full: Nota intrea
   accounts:
     edit:
+      contributor terms:
+        heading: Règulas po contribuire
       save changes button: Sarva sas modìficas
+      make edits public button: Fais totu sas modìficas meas pùblicas
+      delete_account: Boga su contu...
+    destroy:
+      success: Contu bogau.
   browse:
     created: Creadu
     closed: Serradu
@@ -164,6 +199,7 @@ sc:
       entry_html: Relata %{relation_name}
       entry_role_html: Relata %{relation_name} (as %{relation_role})
     not_found:
+      title: No agatadu
       type:
         node: nodu
         way: caminu
@@ -204,12 +240,25 @@ sc:
       id: ID
       user: Impitadore
       comment: Cummentu
+      area: Àrea
+    index:
+      title: Trumas de modìficas
+      title_user: Trumas de modìficas de %{user}
+      title_friend: Trumas de modìficas de sos amigus meus
+      title_nearby: Trumas de modìficas de utentes acanta
+      load_more: Càrriga·nde prus
   dashboards:
     popup:
       friend: Amigu
+    show:
+      title: Sa dashboard mea
+      edit_your_profile: Modìfica su profìlu tuu
+      my friends: Amigus meus
   diary_entries:
     form:
       location: Logu
+    index:
+      my_diary: Cuotidianu meu
     show:
       leave_a_comment: Lassa unu cummentu
       login: Intra
@@ -232,25 +281,33 @@ sc:
           cable_car: Funivia
           chair_lift: Ascensore carrotzina
           drag_lift: Sciovia
+          magic_carpet: Cinta Trasportadora
           platter: Sciovia a piatellu
           pylon: Turre de sa funivia
           station: Istatzione sciovia
           t-bar: Sciovia a àncora
         aeroway:
           aerodrome: Aeròdromu
+          gate: Gate de aeroportu
+          hangar: Hangar
           helipad: Eliportu
           parking_position: Positzione parchègiu
           runway: Pista
+          taxilane: Carrera de rullàgiu
           taxiway: Carrera de furriada
-          terminal: Terminale
+          terminal: Terminal de aeroportu
         amenity:
+          animal_boarding: Domo po animales
           animal_shelter: Imbaru pro animales
+          arts_centre: Tzentru de arte
           atm: Isportellu automàticu
           bank: Banca
           bar: Tzilleri
+          bbq: Barbecue
           bench: Panchita/banchina
           bicycle_parking: Parchègiu pro Bitzicletas
           bicycle_rental: Afitu de Bitzicletas
+          blood_bank: Bancu de sàmbene
           boat_rental: Afitu de Imbarcatziones
           brothel: Casinu
           bureau_de_change: Cambia-dinare
@@ -266,6 +323,8 @@ sc:
           clinic: Clìnica
           clock: Relògiu
           college: Iscola superiore
+          community_centre: Tzentru tzìvicu
+          conference_centre: Tzentru de cunferèntzias
           courthouse: Tribunale
           crematorium: Crematòriu
           dentist: Dentista
@@ -273,11 +332,12 @@ sc:
           drinking_water: Abba Potàbile
           driving_school: Autoiscola
           embassy: Ambasciada
+          fast_food: Fast Food
           ferry_terminal: Terminale navios
           fire_station: Pompieres
           food_court: Corte de màndigu (Food court)
           fountain: Funtana
-          fuel: Carburante
+          fuel: Istatzione de carburante
           gambling: Giogu de arriscu
           grave_yard: Campusantu
           grit_bin: Cassione de arena
@@ -285,10 +345,13 @@ sc:
           hunting_stand: Posta de cassa
           ice_cream: Geladeria
           kindergarten: Parcu de giogos
+          language_school: Iscola de limbas
           library: Biblioteca
+          love_hotel: Love hotel
           marketplace: Mercadu
           monastery: Monastèriu
           motorcycle_parking: Parchègiu pro Mototzicletas
+          music_school: Iscola de mùsica
           nightclub: Locale noturnu
           nursing_home: Domo de cura
           parking: Parchègiu
@@ -300,6 +363,9 @@ sc:
           post_box: Cassita postale
           post_office: Ufìtziu postale
           prison: Presone
+          pub: Tzilleri irlandesu
+          public_bath: Còmudu pùblicu
+          public_bookcase: Libreria pùblica
           public_building: Telèfonu Pùblicu
           recycling: Puntu de Retziclàgiu
           restaurant: Ristorante
@@ -326,6 +392,7 @@ sc:
           administrative: Lìmite Amministrativu
           national_park: Parcu Natzionale
           protected_area: Àrea amparada
+          "yes": Làcana
         bridge:
           aqueduct: Acuedotu
           boardwalk: 'Istrutura ponte: pontigra'
@@ -334,6 +401,17 @@ sc:
           viaduct: Ponte
           "yes": Ponte
         building:
+          apartment: Aposentu
+          apartments: Aposentus
+          bungalow: Bungalow
+          chapel: Capella
+          church: Crésia
+          hangar: Hangar
+          hospital: Ospidale
+          house: Domo
+          hut: Barraca
+          university: Edifìtziu universitàriu
+          warehouse: Magasinu
           "yes": Edifitziu
         craft:
           brewery: Fàbrica de birra
@@ -418,8 +496,8 @@ sc:
           basin: Batzinu
           cemetery: Campusantu
           commercial: Zona Cummertziale
-          conservation: Cunservatzione
-          construction: Fraigada
+          conservation: Ispàtziu de cunservatzione
+          construction: Ispàtziu de fraigada
           farmland: Terras de coltivu
           farmyard: Corrale
           forest: Litu
@@ -435,7 +513,7 @@ sc:
           recreation_ground: Zona de recreu
           reservoir: Batzinu
           residential: Àrea residentziale
-          retail: Bèndida
+          retail: Àrea cummertziale
           village_green: Àrea birde comune de sa bidda
           vineyard: Bìngia
           "yes": Impreu de su terrinu
@@ -516,11 +594,13 @@ sc:
           heath: Ghiddostraju
           hill: Montigru
           island: Ìsula
+          isthmus: Istmu
           land: Terra
           marsh: Benale
           moor: Ormègiu
           mud: Ludu
           peak: Bicu
+          peninsula: Penìsula
           point: Puntu
           reef: Costera
           ridge: Serra de monte
@@ -554,6 +634,7 @@ sc:
           "yes": Ufìtziu
         place:
           allotments: Giardinos familiares
+          archipelago: Artzipèlagu
           city: Tzitade
           country: Paisu
           county: Contea
@@ -588,6 +669,7 @@ sc:
           light_rail: Trenu lèbiu
           monorail: Monorotàia
           narrow_gauge: Ferrovia abbandonada
+          rail: Caminu de ferru
           subway: Metropolitana
           subway_entrance: Intrada de sa metropolitana
           tram_stop: Firmada de su tram
@@ -606,12 +688,13 @@ sc:
           car_parts: Cantos de ricàmbiu pro automòbiles
           car_repair: Riparatzione màchina
           clothes: Butega de bestires
+          coffee: Butega de cafei
           computer: Butega de informàtica
           convenience: Buteghedda
           copyshop: Copisteria
           deli: Gastronomia
           department_store: Supermercadu
-          doityourself: Butega de bricolatge
+          doityourself: Butega de bricolage
           dry_cleaning: Sabunadura "a sicu"
           electronics: Butega de eletrònica
           estate_agent: Butega immobiliare
@@ -624,6 +707,7 @@ sc:
           hairdresser: Pilucheri
           hardware: Ferramenta
           interior_decoration: Decoradura de internos
+          jewelry: Butega de prendas
           laundry: Samunadòrgiu
           lottery: Loteria
           mall: Tzentru cummertziale
@@ -648,7 +732,7 @@ sc:
           artwork: Òpera de arte
           attraction: Atratzione
           bed_and_breakfast: Bed and Breakfast
-          cabin: Cabina
+          cabin: Cabina turìstica
           camp_site: Campègiu
           caravan_site: Campeggio pro roulotte
           gallery: Galleria
@@ -672,6 +756,10 @@ sc:
           stream: Traghinu/Trainu
           waterfall: Istrampu
           weir: Nassàrgiu
+      admin_levels:
+        level2: Làcana Aministrativa 2u Livellu - Istadu Natzionale
+        level3: Làcana de regione
+        level5: Làcana aministrativa su de 5 livellus - àrea regionale
       types:
         cities: Tzitades
         towns: Tzitadinas
@@ -697,6 +785,7 @@ sc:
         user:
           other_label: Àteru
         note:
+          spam_label: Custa nota est àliga
           other_label: Àteru
   layouts:
     logo:
@@ -704,17 +793,23 @@ sc:
     logout: Essi
     log_in: Intra
     sign_up: Iscrie·ti
+    start_mapping: Cumintzat a mapare
     edit: Modìfica
     history: Cronologia
     export: Esporta
     issues: Problemas
     data: Datos
+    gps_traces: Trassas GPS
+    intro_header: Bene benius in OpenStreetMap!
+    intro_text: OpenStreetMap est una mapa de su mundu, creadu dae persones comente
+      tue e de impreu lìberu suta una litzèntzia aberta.
     tou: Conditziones de impreu
     help: Agiudu
     about: Informatziones
     copyright: Deretu de autore
     community: Comunidade
     foundation: Fundatzione
+    foundation_title: Sa Fundatzione OpenStreetMap
     learn_more: Leghe àteru
     more: Àteru
   user_mailer:
@@ -737,9 +832,11 @@ sc:
       see_their_profile: Podes bìdere su profilu suo in %{userurl}.
       befriend_them: Lu/a podes fintzas annànghere comente a amigu/a in %{befriendurl}.
     gpx_failure:
+      hi: Salude %{to_user},
       failed_to_import: 'non si podet importare. Sa faddina est istada:'
       subject: '[OpenStreetMap] Faddina de importatzione de GPX'
     gpx_success:
+      hi: Salude %{to_user},
       loaded_successfully: carrigadu in manera curreta cun %{trace_points} puntos
         in unu totale de %{possible_points} puntos possìbiles.
       subject: '[OpenStreetMap] Importatzione de GPX curreta'
