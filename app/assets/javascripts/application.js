@@ -59,12 +59,14 @@ window.updateLinks = function (loc, zoom, layers, object) {
   var editDisabled = zoom < 13;
   $("#edit_tab")
     .tooltip({ placement: "bottom" })
-    .off("click.minzoom")
-    .on("click.minzoom", function () { return !editDisabled; })
-    .toggleClass("disabled", editDisabled)
     .attr("data-original-title", editDisabled ?
-      I18n.t("javascripts.site.edit_disabled_tooltip") : "");
-};
+      I18n.t("javascripts.site.edit_disabled_tooltip") : "")
+    // Disable the button group and also the buttons to avoid 
+    // inconsistent behaviour when zooming
+    .toggleClass("disabled", editDisabled)
+    .find("a")
+    .toggleClass("disabled", editDisabled)
+ };
 
 window.maximiseMap = function () {
   $("#content").addClass("maximised");
