@@ -28,7 +28,7 @@ class TracesController < ApplicationController
     @title = if target_user.nil?
                t ".public_traces"
              elsif current_user && current_user == target_user
-               t ".my_traces"
+               t ".my_gps_traces"
              else
                t ".public_traces_from", :user => target_user.display_name
              end
