@@ -17,6 +17,7 @@ json.properties do
   end
 
   json.date_created note.created_at.to_s
+  json.date_updated note.updated_at.to_s
   json.status note.status
   json.closed_at note.closed_at.to_s if note.closed?
 
