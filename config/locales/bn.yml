@@ -9,6 +9,7 @@
 # Author: Elias Ahmmad
 # Author: Greatder
 # Author: Gronthokeet
+# Author: Joysriramsarkar.manathetiger56
 # Author: Kayser Ahmad
 # Author: Md. Golam Mukit Khan
 # Author: Nasir8891
@@ -109,6 +110,7 @@ bn:
         allow_write_prefs: তাদের ব্যবহারকারী পছন্দসমূহ যাচাই করুন
         allow_write_diary: ডায়েরি ভুক্তি তৈরি, মন্তব্য এবং বন্ধু বানান
         allow_write_api: মানচিত্রটি সম্পাদন করুন
+        allow_read_gpx: তাদের ব্যক্তিগত জিপিএস অনুসরণ করুন
         allow_write_gpx: জিপিএস ট্রেস আপলোড করুন
         allow_write_notes: টীকা পরিবর্তন করুন
       diary_comment:
@@ -121,6 +123,8 @@ bn:
         language: ভাষা
       doorkeeper/application:
         name: নাম
+        redirect_uri: ওয়েব ঠিকানা পুনর্নির্দেশ
+        confidential: গোপনীয় অ্যাপ্লিকেশন?
         scopes: অনুমতি
       friend:
         user: ব্যবহারকারী
@@ -164,8 +168,16 @@ bn:
         pass_crypt: পাসওয়ার্ড
         pass_crypt_confirmation: পাসওয়ার্ড নিশ্চিত করুন
     help:
+      doorkeeper/application:
+        redirect_uri: প্রতি ওয়েবঠিকানার জন্য একটি লাইন ব্যবহার করুন
       trace:
         tagstring: কমা দ্বারা বিভাজিত
+      user:
+        email_confirmation: আপনার ইমেইল ঠিকানা সবার কাছে দৃশ্যমান হবে না, আরও তথ্য
+          জানতে এখানে যান <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">privacy
+          policy</a> ।
+        new_email: (কখনও সর্বজনীনভাবে প্রদর্শিত হয়নি)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -231,8 +243,13 @@ bn:
         commented_at_by_html: '%{user} কর্তৃক %{when} হালনাগাদকৃত'
         closed_at_html: '%{when} মীমাংসিত'
         closed_at_by_html: '%{user} কর্তৃক %{when} মীমাংসিত'
+        reopened_at_html: '%{when} পুনর্সক্রিয়'
+        reopened_at_by_html: '%{when} %{user} দ্বারা পুনর্সক্রিয়'
       rss:
         title: ওপেনস্ট্রিটম্যাপ টীকা
+        opened: নতুন নোট (%{place}-এর কাছে)
+        commented: নতুন মন্তব্য (%{place}-এর কাছে)
+        reopened: পুনর্সক্রিয় নোট (%{place}-এর কাছে)
       entry:
         comment: মন্তব্য
         full: পূর্ণ টীকা
@@ -240,7 +257,26 @@ bn:
     deletions:
       show:
         title: অ্যাকাউন্ট অপসারণ করুন
+        warning: সাবধান! অ্যাকাউন্ট মোছার চূড়ান্ত পর্ব, আর ফেরত আনা যাবে না।
         delete_account: অ্যাকাউন্ট অপসারণ করুন
+        delete_introduction: 'আপনার ওপেনস্ট্রিটম্যাপ অ্যাকাউন্ট মোছার জন্য নিচের বোতামটি
+          চাপুন। এই প্রক্রিয়ায় অনুসরণ করুন:'
+        delete_profile: আপনার প্রোফাইলের তথ্য, অর্থাৎ আপনার আপনার প্রোফাইল ছবি, আপনার
+          বিবরণ এবং আপনার বাসস্থানের অবস্থান মুছে যাবে।
+        delete_display_name: আপনার প্রোফাইল নাম মুছে ফেলা হবে, তারপর অন্য যে কেউ এই
+          নামটি ব্যবহার করতে পারবে।
+        retain_caveats: তবে, কিছু তথ্য অ্যাকাউন্ট মোছার পরও ওপেনস্ট্রিটম্যাপে রয়ে
+          যাবে।
+        retain_edits: মানচিত্রে আপনার করা কোনও সম্পাদনা, যদি করে থাকেন, সেগুলো রয়ে
+          যাবে।
+        retain_traces: আপনার আপলোড করা ট্রেসগুলি, যদি থাকে, রয়ে যাবে।
+        retain_diary_entries: আপনার ডাইরির ভুক্তি ও ডাইরির মন্তব্যগুলি, যদি থাকে,
+          সেগুলো রয়ে যাবে তবে প্রকাশ্যে দেখা যাবে না।
+        retain_notes: আপনার মানচিত্রের নোট এবং নোট মন্তব্যগুলি, যদি লিখে থাকেন, রয়ে
+          যাবে অদৃশ্যভাবে।
+        retain_changeset_discussions: আপনার পরিবর্তন ধার্য আলোচনাগুলি, যদি করে থাকেন,
+          রয়ে যাবে।
+        retain_email: আপমার ইমেইল ঠিকানা রয়ে যাবে।
         confirm_delete: আপনি কি নিশ্চিত?
         cancel: বাতিল করুন
   accounts:
@@ -252,18 +288,24 @@ bn:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: এটি কী?
       public editing:
+        heading: পাবলিক সম্পাদনা
         enabled: সক্রিয়। বেনামী নয় এবং উপাত্ত সম্পাদনা করতে পারবে।
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: এটি কী?
         disabled link text: আমি সম্পাদনা করতে পারছি না কেন?
       public editing note:
         heading: 'সম্পাদনা উন্মুক্ত:'
       contributor terms:
+        heading: অবদানকারীর জন্য নিয়মাবলি
         agreed: আপনি নতুন অবদানকারীর শর্তাবলীতে সম্মত।
         agreed_with_pd: আপনি ঘোষণা করেছেন যে আপনি আপনার সম্পাদনাগুলো পাবলিক ডোমেইনের
           অধীনে প্রকাশ করছেন।
         link text: এটি কী?
       save changes button: পরিবর্তন সংরক্ষণ
+      make edits public button: সমস্ত সম্পাদনাগুলি উন্মুক্ত করুন
       delete_account: অ্যাকাউন্ট অপসারণ করুন...
+    update:
+      success: ব্যবহারকারীর বিবরণ পরিবর্তন সম্পূর্ণ হয়েছে।
     destroy:
       success: অ্যাকাউন্ট অপসারণ করা হয়েছে।
   browse:
@@ -403,6 +445,7 @@ bn:
         পুনঃসক্রিয়কৃত
       hidden_by_html: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr>
         লুক্কায়িত'
+      report: এই নোট সম্পর্কে অভিযোগ জানান।
       coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: বৈশিষ্ট্য অনুসন্ধান করুন
@@ -461,6 +504,7 @@ bn:
       my friends: আমার বন্ধুগণ
       no friends: আপনি বন্ধুতালিকায় কাউকে যুক্ত করেননি।
       nearby users: কাছাকাছি অন্য ব্যবহারকারী
+      friends_diaries: বন্ধুর দিনলিপি ভুক্তি
   diary_entries:
     new:
       title: নতুন দিনলিপির ভুক্তি
@@ -474,7 +518,7 @@ bn:
       user_title: '%{user}-এর দিনলিপি'
       in_language_title: '%{language} ভাষায় দিনলিপির ভুক্তি'
       new: নতুন দিনলিপির ভুক্তি
-      new_title: আপনার ব্যবহারকারী দিনলিপিতে একটি নতুন ভুক্তি রচনা করুন
+      new_title: নিজের ব্যবহারকারী দিনলিপিতে একটি নতুন ভুক্তি রচনা করুন
       my_diary: আমার দিনলিপি
       no_entries: কোনও দিনলিপির ভুক্তি নেই
       recent_entries: সাম্প্রতিক দিনলিপির ভুক্তি
@@ -496,6 +540,9 @@ bn:
         করে আপনার বানান যাচাই করুন, অথবা হতে পারে আপনি যে লিংকটিতে ক্লিক করেছেন তা
         ভুল।
     diary_entry:
+      posted_by_html: এই সময়ে %{created} এই ভাষায় %{language_link} প্রকাশ করেছেন
+        %{link_user}
+      updated_at_html: অন্তিম সম্পাদনা %{updated}।
       comment_link: এই ভুক্তিতে মন্তব্য
       reply_link: লেখককে একটি বার্তা দিন
       comment_count:
@@ -504,11 +551,13 @@ bn:
         other: '%{count}টি মন্তব্য'
       edit_link: এই ভুক্তি সম্পাদনা করুন
       hide_link: এই ভুক্তি লুকান
+      unhide_link: এই ভুক্তিটি দৃশ্যমান করুন
       confirm: নিশ্চিত করুন
       report: এই ভুক্তির বিরুদ্ধে অভিযোগ করুন
     diary_comment:
       comment_from_html: '%{comment_created_at}-এ %{link_user} কর্তৃক করা মন্তব্য'
       hide_link: এই মন্তব্যটি লুকান
+      unhide_link: এই মন্তব্যটি দৃশ্যমান করুন
       confirm: নিশ্চিত করুন
       report: এই মন্তব্যের বিরুদ্ধে অভিযোগ করুন
     location:
@@ -528,11 +577,20 @@ bn:
         title: ওপেনস্ট্রিটম্যাপ দিনলিপির ভুক্তি
         description: ওপেনস্ট্রিটম্যাপ ব্যবহারকারীগণ কর্তৃক সাম্প্রতিক দিনলিপির ভুক্তি
     comments:
+      title: '%{user}-এর কৃত দিনলিপি ভুক্তি'
+      heading: '%{user}-এর দিনলিপি মন্তব্য'
+      subheading_html: '%{user}-এর করা দিনলিপি মন্তব্য'
+      no_comments: কোনও দিনলিপি মন্তব্য নেই
       post: পোস্ট
       when: কখন
       comment: মন্তব্য
       newer_comments: নতুনতর মন্তব্য
       older_comments: পুরাতন মন্তব্য
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: অ্যাপ্লিকেশন নিবন্ধিত।
   friendships:
     make_friend:
       heading: বন্ধু হিসেবে %{user} কে যুক্ত করবেন?
@@ -540,10 +598,13 @@ bn:
       success: '%%{name} এখন আপনার বন্ধু!'
       failed: দুঃখিত, %{name} কে বন্ধু হিসাবে যোগ করতে ব্যর্থ।
       already_a_friend: '%{name} ইতিমধ্যে আপনার বন্ধু।'
+      limit_exceeded: আপনি ইতিমধ্যে বহু বন্ধু বানিয়েছেন। কিছুক্ষণ অপেক্ষা করে তারপর
+        চেষ্টা করুন।
     remove_friend:
       heading: '%{user} কে বন্ধু থেকে বাদ দিবেন?'
       button: বন্ধু থেকে বাদ দিন
       success: আপনার বন্ধু থেকে %{name} কে বাদ দেয়া হয়েছে।
+      not_a_friend: আপনার বন্ধুদের মধ্যে %{name} এই নামে কেউ নেই।
   geocoder:
     search:
       title:
@@ -560,17 +621,18 @@ bn:
       prefix:
         aerialway:
           cable_car: ক্যাবল কার
+          pylon: পাইলন
           station: বিমানপথ স্টেশন
         aeroway:
           aerodrome: বিমানশালা
           apron: বর্হিবাস
-          gate: প্রবেশপথ
+          gate: বিমান বন্দরের প্রবেশপথ
           hangar: বিমান রাখার স্থান
           helipad: হেলিপ্যাড
           parking_position: পার্কিং-এর স্থান
           runway: রানওয়ে
           taxiway: ট্যাক্সিওয়ে
-          terminal: টার্মিনাল
+          terminal: বিমান টার্মিনাল
         amenity:
           animal_shelter: পশুদের আশ্রয়স্থল
           arts_centre: শিল্পকলা কেন্দ্র
@@ -581,6 +643,7 @@ bn:
           bench: বেঞ্চ
           bicycle_parking: সাইকেল পার্কিং
           bicycle_rental: ভাড়ার সাইকেল
+          bicycle_repair_station: সাইকেল সারাইয়ের দোকান
           biergarten: বিয়ার বাগ
           blood_bank: ব্লাড ব্যাংক
           boat_rental: ভাড়ার নৌকা
@@ -612,7 +675,7 @@ bn:
           fire_station: অগ্নি নির্বাপন কেন্দ্র
           food_court: খাবার দোকান
           fountain: ঝরনা
-          fuel: জ্বালানি
+          fuel: প্রেট্রোল পাম্প
           gambling: জুয়াখেলার আড্ডা
           grave_yard: কবরস্থান
           hospital: হাসপাতাল
@@ -624,6 +687,7 @@ bn:
           library: পাঠাগার
           love_hotel: লাভ হোটেল
           marketplace: নগরচত্বর
+          mobile_money_agent: মোবাইল মানি এজেন্ট
           monastery: আশ্রম
           money_transfer: টাকা স্থানান্তর
           motorcycle_parking: মোটরসাইকেল  পার্কিং
@@ -633,6 +697,7 @@ bn:
           parking: পার্কিং
           parking_entrance: পার্কিং প্রবেশপথ
           parking_space: গাড়ি রাখার স্থান
+          payment_terminal: লেনদেন টার্মিনাল
           pharmacy: ঔষধালয়
           place_of_worship: উপাসনালয়
           police: পুলিশ
@@ -689,15 +754,25 @@ bn:
           apartments: অ্যাপার্টমেন্ট
           bungalow: বাংলো
           cabin: কেবিন
+          church: গির্জা বাড়ি
           college: কলেজ ভবন
           commercial: বাণিজ্যিক ভবন
+          construction: নির্মাণাধীন বিল্ডিং
+          dormitory: ছাত্রাবাস
+          duplex: ডুপ্লেক্স বাড়ি
+          farm: খামার
           garage: গ্যারেজ
           garages: গ্যারেজ
+          greenhouse: গ্রীনহাউজ
           hangar: হ্যাঙ্গার
           hospital: হাসপাতালের ভবন
           hotel: হোটেলের ভবন
           house: বাড়ি
+          houseboat: হাউজবোট
+          hut: বাড়ি
           industrial: শিল্প ভবন
+          kindergarten: কিন্ডারগার্টেন বিল্ডিং
+          manufacture: কারখানা
           office: অফিস ভবন
           roof: ছাদ
           school: বিদ্যালয় ভবন
@@ -732,6 +807,7 @@ bn:
           defibrillator: ডিফাইব্রিলেটর
           landing_site: জরুরি অবতরণ ক্ষেত্র
           phone: জরুরি ফোন
+          siren: আপৎকালীন ঘন্টা
           water_tank: জরুরি পানির ট্যাংক
         highway:
           abandoned: পরিত্যক্ত মহাসড়ক
@@ -801,7 +877,7 @@ bn:
           basin: অববাহিকা
           cemetery: কবরস্থান
           commercial: বানিজ্যিক এলাকা
-          construction: নির্মাণকার্য
+          construction: নির্মাণাধীন এলাকা
           farmland: কৃষিজমি
           farmyard: গোলাবাড়ির উঠোন
           forest: অরণ্য
@@ -809,6 +885,7 @@ bn:
           grass: ঘাস
           greenfield: তৃণভূমি
           industrial: শিল্পাঞ্চল
+          landfill: আবর্জনাভূমি
           meadow: তৃণভূমি
           military: সামরিক এলাকা
           mine: খনি
@@ -1053,13 +1130,15 @@ bn:
           toys: খেলনার দোকান
           travel_agency: ভ্রমণ দালাল
           vacant: খালি দোকান
+          variety_store: ভ্যারাইটি দোকান
           video: ভিডিওর দোকান
           video_games: ভিডিও গেমের দোকান
+          wholesale: পাইকারি দোকান
           wine: মদের দোকান
           "yes": দোকান
         tourism:
           attraction: আকর্ষণ
-          cabin: কেবিন
+          cabin: পর্যটক কেবিন
           camp_site: ক্যাম্পের স্থল
           caravan_site: ক্যারাভ্যানের স্থল
           gallery: গ্যালারি
@@ -1148,7 +1227,12 @@ bn:
         user:
           other_label: অন্য
         note:
+          personal_label: এই নোটে ব্যক্তিগত তথ্য আছে
+          abusive_label: এই নোটটি অসন্মানজনক
           other_label: অন্যান্য
+    create:
+      successful_report: আপনার অভিযোগ সফলভাবে নিবন্ধন হয়েছে।
+      provide_details: দয়া করে প্রয়োজনীয় তথ্য সন্নিবেশিত করুন
   layouts:
     logo:
       alt_text: ওপেনস্ট্রিটম্যাপ লোগো
@@ -1207,6 +1291,10 @@ bn:
       hi: প্রিয় %{to_user},
       had_added_you: '%{user} আপনাকে ওপেনস্ট্রিটম্যাপে বন্ধু হিসেবে যোগ করেছেন।'
       see_their_profile: আপনি %{userurl}-এ তাদের প্রোফাইল দেখতে পারেন।
+      see_their_profile_html: আপনি %{userurl} এখানে তাদের প্রোফাইল দেখতে পারেন।
+      befriend_them: আপনি তাদের বন্ধুও বানাতে পারেন %{befriendurl} এখানে ক্লিক করে।
+      befriend_them_html: আপনি তাদের বন্ধুও বানাতে পারেন %{befriendurl} এখানে ক্লিক
+        করে।
     gpx_failure:
       hi: সুপ্রিয় %{to_user},
     gpx_success:
@@ -1235,6 +1323,8 @@ bn:
     changeset_comment_notification:
       hi: সুপ্রিয় %{to_user},
       greeting: সুপ্রিয়,
+      commented:
+        partial_changeset_without_comment: মন্তব্যহীন
       details: পরিবর্তনধার্য সম্পর্কে আরও বিস্তারিত %{url} এ পাওয়া যাবে।
   confirmations:
     confirm:
@@ -1278,6 +1368,7 @@ bn:
     no_such_message:
       title: কোন বার্তা নেই
       heading: কোন বার্তা নেই
+      body: এই আইডির সাথে কোনও বার্তালাপ নেই।
     outbox:
       title: বহির্বাক্স
       my_inbox: আমার ইনবক্স
@@ -1315,6 +1406,7 @@ bn:
         আমরা একটি লিঙ্ক পাঠাবো যার মাধ্যমে আপনি পাসওয়ার্ড পরিবর্তন করতে পারবেন।
     reset_password:
       title: পাসওয়ার্ড পুনঃনির্ধারণ
+      heading: '%{user} এর পাসওয়ার্ড পুনর্বদল করুন।'
       reset: পাসওয়ার্ড পুনঃনির্ধারণ
       flash changed: আপনার পাসওয়ার্ড পরিবর্তন করা হয়েছে।
   preferences:
@@ -1339,7 +1431,10 @@ bn:
         what_is_gravatar: গ্র‍্যাভাটার কী?
       new image: চিত্র যোগ করুন
       delete image: বর্তমান ছবিটি অপসারণ করুন
+      replace image: বর্তমান ছবি বদল করুন
       home location: বাড়ির অবস্থান
+    update:
+      success: প্রোফাইল পরিবর্তিত।
   sessions:
     new:
       title: প্রবেশ
@@ -1354,6 +1449,7 @@ bn:
         নাম এবং পাসওয়ার্ড দিয়ে প্রবেশ করুন:'
       new to osm: ওপেনস্ট্রিটম্যাপে নতুন?
       no account: কোনও অ্যাকাউন্ট নেই?
+      auth failure: দুঃখিত, এই তথ্য দিয়ে প্রবেশ করানো যাচ্ছে না।
       auth_providers:
         google:
           title: গুগল দিয়ে প্রবেশ
@@ -1504,6 +1600,7 @@ bn:
         title: আইআরসি
       welcomemat:
         url: https://welcome.openstreetmap.org/
+        title: সংস্থার জন্য
       wiki:
         url: https://wiki.openstreetmap.org/
         title: ওপেনস্ট্রিটম্যাপ উইকি
