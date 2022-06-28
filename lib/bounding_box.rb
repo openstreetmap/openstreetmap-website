@@ -63,8 +63,8 @@ class BoundingBox
     raise OSM::APIBadBoundingBox, "The minimum latitude must be less than the maximum latitude, but it wasn't" if min_lat > max_lat
 
     if min_lon < -LON_LIMIT || min_lat < -LAT_LIMIT || max_lon > +LON_LIMIT || max_lat > +LAT_LIMIT
-      raise OSM::APIBadBoundingBox, "The latitudes must be between #{-LAT_LIMIT} and #{LAT_LIMIT}," \
-                                    " and longitudes between #{-LON_LIMIT} and #{LON_LIMIT}"
+      raise OSM::APIBadBoundingBox, "The latitudes must be between #{-LAT_LIMIT} and #{LAT_LIMIT}, " \
+                                    "and longitudes between #{-LON_LIMIT} and #{LON_LIMIT}"
     end
     self
   end
