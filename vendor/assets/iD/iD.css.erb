@@ -53,17 +53,13 @@
 
 .ideditor button,
 .ideditor input {
-    line-height: inherit;
-	letter-spacing: inherit;
+    line-height: normal;
 }
 
 /* Hide default number spinner controls */
 .ideditor input[type="number"]::-webkit-inner-spin-button,
 .ideditor input[type="number"]::-webkit-outer-spin-button {
-	display: none;
-}
-.ideditor input[type=number] {
-    -moz-appearance: textfield;
+display: none;
 }
 
 /*
@@ -1160,12 +1156,6 @@
 .ideditor path.line.stroke.tag-highway-road {
     stroke-width: 5;
 }
-.ideditor path.line.casing.tag-highway-service.tag-service-driveway {
-    stroke-width: 6.25;
-}
-.ideditor path.line.stroke.tag-highway-service.tag-service-driveway {
-    stroke-width: 4.25;
-}
 
 .ideditor path.line.shadow.tag-highway-path,
 .ideditor path.line.shadow.tag-highway-footway,
@@ -1212,12 +1202,6 @@
 .ideditor .low-zoom path.line.stroke.tag-highway-track,
 .ideditor .low-zoom path.line.stroke.tag-highway-road {
     stroke-width: 3;
-}
-.ideditor .low-zoom  path.line.casing.tag-highway-service.tag-service-driveway {
-    stroke-width: 4.25;
-}
-.ideditor .low-zoom  path.line.stroke.tag-highway-service.tag-service-driveway {
-    stroke-width: 2.25;
 }
 
 .ideditor .low-zoom path.line.shadow.tag-highway-path,
@@ -1341,16 +1325,6 @@
 .ideditor path.line.casing.tag-highway-service.tag-service,
 .ideditor path.line.casing.tag-service.tag-service {
     stroke: #666;
-}
-
-.ideditor path.line.stroke.tag-highway-service.tag-service-parking_aisle {
-    stroke: #cccac7;
-}
-.ideditor path.line.stroke.tag-highway-service.tag-service-driveway {
-    stroke: #fff6e4;
-}
-.ideditor path.line.stroke.tag-highway-service.tag-service-emergency_access {
-    stroke: #ddb2aa;
 }
 
 /* unmaintained track roads */
@@ -2252,55 +2226,6 @@
     stroke-dasharray: 8, 8;
 }
 
-/** Closed Paths */
-.ideditor path.line.shadow.tag-highway.tag-status.tag-status-construction.tag-construction-path,
-.ideditor path.line.shadow.tag-highway.tag-status.tag-status-construction.tag-construction-footway,
-.ideditor path.line.shadow.tag-highway.tag-status.tag-status-construction.tag-construction-cycleway,
-.ideditor path.line.shadow.tag-highway.tag-status.tag-status-construction.tag-construction-bridleway,
-.ideditor path.line.shadow.tag-highway.tag-status.tag-status-construction.tag-construction-steps {
-    stroke-width: 15;
-}
-.ideditor path.line.casing.tag-highway.tag-status.tag-status-construction.tag-construction-path,
-.ideditor path.line.casing.tag-highway.tag-status.tag-status-construction.tag-construction-footway,
-.ideditor path.line.casing.tag-highway.tag-status.tag-status-construction.tag-construction-cycleway,
-.ideditor path.line.casing.tag-highway.tag-status.tag-status-construction.tag-construction-bridleway,
-.ideditor path.line.casing.tag-highway.tag-status.tag-status-construction.tag-construction-steps {
-    stroke-width: 5;
-    stroke-linecap: butt;
-    stroke-dasharray: none
-}
-.ideditor path.line.stroke.tag-highway.tag-status.tag-status-construction.tag-construction-path,
-.ideditor path.line.stroke.tag-highway.tag-status.tag-status-construction.tag-construction-footway,
-.ideditor path.line.stroke.tag-highway.tag-status.tag-status-construction.tag-construction-cycleway,
-.ideditor path.line.stroke.tag-highway.tag-status.tag-status-construction.tag-construction-bridleway,
-.ideditor path.line.stroke.tag-highway.tag-status.tag-status-construction.tag-construction-steps {
-    stroke-width: 4;
-    stroke-linecap: butt;
-    stroke-dasharray: 10, 10;
-}
-
-/** Proposed Paths */
-.ideditor path.line.shadow.tag-highway.tag-status.tag-status-proposed.tag-proposed-path,
-.ideditor path.line.shadow.tag-highway.tag-status.tag-status-proposed.tag-proposed-footway,
-.ideditor path.line.shadow.tag-highway.tag-status.tag-status-proposed.tag-proposed-cycleway,
-.ideditor path.line.shadow.tag-highway.tag-status.tag-status-proposed.tag-proposed-bridleway,
-.ideditor path.line.shadow.tag-highway.tag-status.tag-status-proposed.tag-proposed-steps {
-    stroke-width: 15;
-}
-.ideditor path.line.casing.tag-highway.tag-status.tag-status-proposed.tag-proposed-path,
-.ideditor path.line.casing.tag-highway.tag-status.tag-status-proposed.tag-proposed-footway,
-.ideditor path.line.casing.tag-highway.tag-status.tag-status-proposed.tag-proposed-cycleway,
-.ideditor path.line.casing.tag-highway.tag-status.tag-status-proposed.tag-proposed-bridleway,
-.ideditor path.line.casing.tag-highway.tag-status.tag-status-proposed.tag-proposed-steps {
-    stroke-width: 4.5;
-}
-.ideditor path.line.stroke.tag-highway.tag-status.tag-status-proposed.tag-proposed-path,
-.ideditor path.line.stroke.tag-highway.tag-status.tag-status-proposed.tag-proposed-footway,
-.ideditor path.line.stroke.tag-highway.tag-status.tag-status-proposed.tag-proposed-cycleway,
-.ideditor path.line.stroke.tag-highway.tag-status.tag-status-proposed.tag-proposed-bridleway,
-.ideditor path.line.stroke.tag-highway.tag-status.tag-status-proposed.tag-proposed-steps {
-    stroke-width: 3;
-}
 
 /* Buildings */
 .ideditor path.stroke.tag-building {
@@ -2448,8 +2373,9 @@
 /* photo viewer div */
 .ideditor .photoviewer {
     position: relative;
-    -ms-flex-negative: 0;
-        flex-shrink: 0;
+    -webkit-flex-shrink: 0;
+        -ms-flex-negative: 0;
+            flex-shrink: 0;
     margin-bottom: 10px;
     width: 330px;
     height: 250px;
@@ -2684,14 +2610,14 @@
 }
 
 
-/* KartaView Image Layer */
-.ideditor .layer-kartaview {
+/* OpenStreetCam Image Layer */
+.ideditor .layer-openstreetcam {
     pointer-events: none;
 }
-.ideditor .layer-kartaview .viewfield-group * {
+.ideditor .layer-openstreetcam .viewfield-group * {
     fill: #20c4ff;
 }
-.ideditor .layer-kartaview .sequence {
+.ideditor .layer-openstreetcam .sequence {
     stroke: #20c4ff;
 }
 
@@ -2702,16 +2628,20 @@
 }
 .ideditor .ms-wrapper .photo-attribution .attribution-row {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
             justify-content: space-between;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
     padding: 0 5px;
@@ -2764,35 +2694,27 @@
     border-radius: 4px;
     top: -25px;
 }
-
-.ideditor .mly-wrapper .mapillary-attribution-container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-}
-
-.ideditor .mly-wrapper .mapillary-attribution-container .mapillary-attribution-icon-container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-}
-
-.ideditor .mly-wrapper .mapillary-attribution-container .mapillary-attribution-username {
+.ideditor #ideditor-mly .domRenderer .Attribution {
+    /* we will roll our own to avoid async update issues like #4526 */
     display: none;
 }
 
-.ideditor .mly-wrapper .mapillary-attribution-container .mapillary-attribution-date {
-    margin-right: 6px;
+.ideditor .mly-wrapper .photo-attribution a:active {
+    color: #35af6d;
+}
+@media (hover: hover) {
+    .ideditor .mly-wrapper .photo-attribution a:hover {
+        color: #35af6d;
+    }
 }
 
-/* KartaView viewer */
-.ideditor .kartaview-wrapper {
+.ideditor .mly-wrapper .mapillary-js-dom {
+    z-index: 9;
+}
+
+
+/* OpenStreetCam viewer */
+.ideditor .osc-wrapper {
     position: relative;
     background-color: #000;
     background-image: url(<%= asset_path("iD/img/loader-black.gif") %>);
@@ -2800,16 +2722,16 @@
     background-repeat: no-repeat;
 }
 
-.ideditor .kartaview-wrapper .photo-attribution a:active {
+.ideditor .osc-wrapper .photo-attribution a:active {
     color: #20c4ff;
 }
 @media (hover: hover) {
-    .ideditor .kartaview-wrapper .photo-attribution a:hover {
+    .ideditor .osc-wrapper .photo-attribution a:hover {
         color: #20c4ff;
     }
 }
 
-.ideditor .kartaview-image-wrap {
+.ideditor .osc-image-wrap {
     width: 100%;
     height: 100%;
     -webkit-transform-origin:0 0;
@@ -2825,13 +2747,11 @@
     top: 10px;
     width: 100%;
     z-index: 10;
-    pointer-events: none;
 }
 
 .ideditor .photo-controls {
     display: inline-block;
     z-index: 10;
-    pointer-events: initial;
 }
 
 .ideditor .photo-controls button,
@@ -2910,12 +2830,15 @@
 }
 .ideditor .qa-header-icon {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
     -webkit-box-pack: center;
+    -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
 }
@@ -3064,19 +2987,18 @@
     dominant-baseline: middle;
 }
 .ideditor .layer-mapdata text.label {
-    fill: #ddd;
+    fill: #ff26d4;
 }
 .ideditor .layer-mapdata text.label.hover,
 .ideditor .layer-mapdata text.label.selected {
-    fill: #fff;
+    fill: #f6634f;
 }
 .ideditor .layer-mapdata text.label-halo {
     opacity: 0.7;
     stroke: #000;
     stroke-width: 5px;
     stroke-miterlimit: 1;
-}
-/* Fill Styles */
+}/* Fill Styles */
 
 .ideditor .low-zoom.fill-wireframe path.stroke,
 .ideditor .fill-wireframe path.stroke {
@@ -3131,59 +3053,6 @@
 .ideditor.mode-select-note .fill-partial path.area.fill {
     pointer-events: visibleStroke;
 }
-.ideditor svg.preset-icon-category-border path {
-    stroke-width: 1;
-    stroke: rgb(170, 170, 170);
-    fill: rgba(170, 170, 170, 0.3);
-}
-
-.ideditor .preset-category-barrier svg.preset-icon-category-border path {
-    stroke: rgb(200, 144, 144);
-    fill: rgba(200, 144, 144, 0.3);
-}
-
-.ideditor .preset-category-building svg.preset-icon-category-border path {
-    stroke: rgb(224, 110, 95);
-    fill: rgba(224, 110, 95, 0.3);
-}
-
-.ideditor .preset-category-landuse svg.preset-icon-category-border path {
-    stroke: rgb(196, 189, 25);
-    fill: rgba(196, 189, 25, 0.3);
-}
-
-.ideditor .preset-category-natural svg.preset-icon-category-border path,
-.ideditor .preset-category-playground svg.preset-icon-category-border path,
-.ideditor .preset-category-golf svg.preset-icon-category-border path {
-    stroke: rgb(140, 208, 95);
-    fill: rgba(140, 208, 95, 0.3);
-}
-
-.ideditor .preset-category-water svg.preset-icon-category-border path,
-.ideditor .preset-category-waterway svg.preset-icon-category-border path {
-    stroke: rgb(119, 211, 222);
-    fill: rgba(119, 211, 222, 0.3);
-}
-
-.ideditor .preset-category-utility svg.preset-icon-category-border path {
-    stroke: rgb(125, 125, 125);
-    fill: rgba(219, 219, 125, 0.3);
-}
-
-.ideditor .preset-category-path svg.preset-icon-category-border path {
-    stroke: rgb(221, 221, 204);
-    fill: rgba(221, 221, 204, 0.3);
-}
-
-.ideditor .preset-category-road_service svg.preset-icon-category-border path,
-.ideditor .preset-category-road_minor svg.preset-icon-category-border path,
-.ideditor .preset-category-road_major svg.preset-icon-category-border path {
-    stroke: #999;
-}
-
-.ideditor .preset-category-rail svg.preset-icon-category-border path {
-    stroke: #555;
-}
 /* Basics
 ------------------------------------------------------- */
 /* the root element of iD */
@@ -3222,13 +3091,6 @@
 
 .ideditor .main-content {
     position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
     overflow: hidden;
     height: 100%;
     -ms-touch-action: none;
@@ -3283,14 +3145,9 @@
     font-weight: bold;
     margin-bottom: 20px;
 }
-.ideditor .header h2 {
-    font-size: 20px;
-    line-height: 1.25;
-    font-weight: bold;
-    margin-bottom: 0px;
-}
 
 .ideditor h3:last-child,
+.ideditor h2:last-child,
 .ideditor h4:last-child { margin-bottom: 0;}
 
 .ideditor h3 {
@@ -3305,15 +3162,7 @@
     padding-bottom: 10px;
 }
 
-.ideditor button:focus,
-.ideditor textarea:focus,
-.ideditor input[type=text]:focus,
-.ideditor input[type=search]:focus,
-.ideditor input[type=number]:focus,
-.ideditor input[type=url]:focus,
-.ideditor input[type=tel]:focus,
-.ideditor input[type=email]:focus,
-.ideditor input[type=date]:focus {
+.ideditor :focus {
     outline-color: transparent;
     outline-style: none;
 }
@@ -3362,9 +3211,6 @@
 .ideditor a:active {
     color: #7092ff;
 }
-.ideditor a:focus {
-    color: #597be7;
-}
 @media (hover: hover) {
     .ideditor a:hover {
         color: #597be7;
@@ -3375,8 +3221,8 @@
     text-align: center;
     padding: 3px 5px;
     font-size: 11px;
-    line-height: 1.3;
-    min-width: 0.9em;
+    line-height: 12px;
+    min-width: 12px;
     vertical-align: baseline;
     background-color: #fcfcfc;
     border: solid 1px #ccc;
@@ -3395,43 +3241,39 @@
 
 /* Forms
 ------------------------------------------------------- */
+.ideditor textarea  {
+    resize: vertical;
+    font:normal 12px/20px "-apple-system", BlinkMacSystemFont,
+        "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+        "Fira Sans", "Droid Sans", "Helvetica Neue", "Arial",
+        sans-serif;
+}
+
 .ideditor textarea,
 .ideditor input[type=text],
 .ideditor input[type=search],
 .ideditor input[type=number],
 .ideditor input[type=url],
 .ideditor input[type=tel],
-.ideditor input[type=email],
-.ideditor input[type=date] {
+.ideditor input[type=email] {
     background-color: #fff;
     color: #333;
     border: 1px solid #ccc;
-    padding: 0px 10px 0px 10px;
+    padding: 5px 20px 5px 10px;
+    height: 30px;
     border-radius: 4px;
     -o-text-overflow: ellipsis;
        text-overflow: ellipsis;
     overflow: auto;
 }
-.ideditor input[type=text],
-.ideditor input[type=search],
-.ideditor input[type=number],
-.ideditor input[type=url],
-.ideditor input[type=tel],
-.ideditor input[type=email],
-.ideditor input[type=date],
-.ideditor input[type=color] {
-    /* need this since line-height interpretation may vary by font or browser */
-    height: 2.585em;
-}
-.ideditor textarea  {
-    min-height: 2em;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    resize: vertical;
-    font:normal 12px/20px "-apple-system", BlinkMacSystemFont,
-        "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-        "Fira Sans", "Droid Sans", "Helvetica Neue", "Arial",
-        sans-serif;
+.ideditor[dir='rtl'] textarea,
+.ideditor[dir='rtl'] input[type=text],
+.ideditor[dir='rtl'] input[type=search],
+.ideditor[dir='rtl'] input[type=number],
+.ideditor[dir='rtl'] input[type=url],
+.ideditor[dir='rtl'] input[type=tel],
+.ideditor[dir='rtl'] input[type=email] {
+    padding: 5px 10px 5px 20px;
 }
 
 .ideditor textarea:active,
@@ -3450,14 +3292,16 @@
 
 .ideditor input[type="checkbox"],
 .ideditor input[type="radio"] {
+    float: left;
     width: 14px;
     height: 14px;
     margin-right: 5px;
+    margin-top: 3px;
     cursor: pointer;
-    vertical-align: middle;
 }
 .ideditor[dir='rtl'] input[type="checkbox"],
 .ideditor[dir='rtl'] input[type="radio"] {
+    float: right;
     margin-left: 5px;
     margin-right: 0;
 }
@@ -3481,15 +3325,6 @@
 .ideditor input.mixed::placeholder,
 .ideditor textarea.mixed::placeholder {
     font-style: italic;
-}
-
-/* keytraps need to be invisible yet not be display:none or visibility:hidden */
-.ideditor .keytrap {
-    width: 0;
-    height: 0;
-    padding: 0;
-    margin: 0;
-    border: 0;
 }
 
 /* tables */
@@ -3573,17 +3408,19 @@
 ------------------------------------------------------- */
 .ideditor button {
     text-align: center;
+    line-height: 20px;
     border: 0;
     background: #fff;
+    font-weight: bold;
     color: #333;
     font-size: 12px;
     display: inline-block;
+    height: 40px;
     border-radius: 4px;
 }
 
 .ideditor button:focus,
-.ideditor button:active,
-.ideditor button.hover {
+.ideditor button:active {
     background-color: #ececec;
 }
 @media (hover: hover) {
@@ -3631,7 +3468,6 @@
 .ideditor button.action {
     background: #7092ff;
     color: #fff;
-    font-weight: bold;
 }
 .ideditor button.action:focus,
 .ideditor button.action:active {
@@ -3639,7 +3475,6 @@
 }
 .ideditor button.secondary-action {
     background: #ececec;
-    font-weight: bold;
 }
 .ideditor button.secondary-action:focus,
 .ideditor button.secondary-action:active {
@@ -3651,11 +3486,6 @@
     background: #cccccc;
     color: #888;
     cursor: not-allowed;
-}
-
-.ideditor button.action,
-.ideditor button.secondary-action {
-    padding: 10px 5px;
 }
 
 @media (hover: hover) {
@@ -3677,7 +3507,7 @@
 /* Icons
 ------------------------------------------------------- */
 .ideditor .icon {
-    vertical-align: middle;
+    vertical-align: top;
     width: 20px;
     height: 20px;
 }
@@ -3698,9 +3528,8 @@
 
 .ideditor .icon.inline {
     vertical-align: text-top;
-    display: inline-block;
-    width: 1.17em;
-    height: 1.17em;
+    width: 14px;
+    height: 14px;
     margin: 0px 3px;
 }
 
@@ -3747,18 +3576,24 @@
 /* Toolbar / Persistent UI Elements
 ------------------------------------------------------- */
 .ideditor .top-toolbar-wrap {
-    position: relative;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
     z-index: 101;
 }
 .ideditor .top-toolbar {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
             justify-content: space-between;
     padding: 10px 0 0 0;
@@ -3776,31 +3611,39 @@
 }
 .ideditor .top-toolbar .toolbar-item {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: column wrap;
         -ms-flex-flow: column wrap;
             flex-flow: column wrap;
     -webkit-box-pack: center;
+    -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
 }
 .ideditor .top-toolbar .toolbar-item .item-content {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-pack: center;
+    -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
     height: 40px;
@@ -3832,16 +3675,19 @@
 .ideditor .top-toolbar .toolbar-item.spacer {
     width: 100%;
     -webkit-box-flex: 2;
+    -webkit-flex-grow: 2;
         -ms-flex-positive: 2;
             flex-grow: 2;
 }
 .ideditor .top-toolbar .toolbar-item:first-child {
     -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
         -ms-flex-pack: start;
             justify-content: flex-start;
 }
 .ideditor .top-toolbar .toolbar-item:last-child {
     -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
         -ms-flex-pack: end;
             justify-content: flex-end;
 }
@@ -3850,30 +3696,35 @@
 }
 .ideditor button.bar-button {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
     padding: 0 10px;
     min-width: 30px;
     white-space: nowrap;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    font-weight: bold;
 }
 .ideditor button.bar-button .icon {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 20px;
         -ms-flex: 0 0 20px;
             flex: 0 0 20px;
 }
 .ideditor button.bar-button .label {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
     padding: 0 5px;
@@ -3896,7 +3747,7 @@
     text-align: center;
 }
 
-.ideditor .help-pane svg.icon.inline.add-note,
+.ideditor .help-pane svg.icon.pre-text.add-note,
 .ideditor button.add-note svg.icon {
     height: 15px;
     width: 15px;
@@ -3913,7 +3764,7 @@
     margin-left: 4px;
     margin-right: unset;
 }
-.ideditor .help-pane svg.icon.inline.add-note {
+.ideditor .help-pane svg.icon.pre-text.add-note {
     margin-left: 3px;
     margin-right: 3px;
 }
@@ -3922,13 +3773,11 @@
     opacity: .5;
     position: absolute;
     right: 4px;
-    bottom: 4px;
-    height: 20px;
-    width: 20px;
+    bottom: 26px;
 }
 .ideditor .spinner img {
-    height: 100%;
-    width: 100%;
+    height: 20px;
+    width: 20px;
     background: transparent;
     border-radius: 100%;
 }
@@ -3962,20 +3811,20 @@
 ------------------------------------------------------- */
 .ideditor .header {
     border-bottom: 1px solid #ccc;
-    padding: 20px 40px;
+    height: 60px;
     position: relative;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
     -webkit-box-pack: center;
+    -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
 }
 
 .ideditor .header h3 {
@@ -4050,35 +3899,81 @@
     border-top: 1px solid #ccc;
     background-color: #f6f6f6;
     width: 100%;
-    height: 2.5em;
+    height: 30px;
     z-index: 1;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
     -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
             justify-content: space-between;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
     list-style: none;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
 }
 
 .ideditor .footer > a {
     -webkit-box-pack: center;
+    -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
+}
+
+.ideditor .header-container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.ideditor .header-block {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.ideditor .header-block-outer {
+    width: 20%;
+}
+
+.ideditor .header-block-close {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    height: 100%;
 }
 
 /* Hide/Toggle collapsible sections (aka Disclosure)
 ------------------------------------------------------- */
 .ideditor .hide-toggle .icon.pre-text {
-    vertical-align: middle;
+    vertical-align: text-top;
     width: 16px;
     height: 16px;
-    margin-top: -3px;
+    margin-left: -3px;
+}
+.ideditor[dir='rtl'] .hide-toggle .icon.pre-text {
+    margin-left: 0;
+    margin-right: -3px;
 }
 
 .ideditor a:visited.hide-toggle,
@@ -4086,7 +3981,7 @@
     display: inline-block;
     font-size: 14px;
     font-weight: bold;
-    margin-bottom: 5px;
+    padding-bottom: 5px;
 }
 
 
@@ -4126,9 +4021,6 @@
     left: -6px;
 }
 
-.ideditor .sidebar.collapsed > *:not(.sidebar-resizer) {
-    display: none;
-}
 .ideditor .sidebar.collapsed .sidebar-resizer {
     /* make target wider to avoid the user accidentally resizing window */
     width: 10px;
@@ -4144,20 +4036,14 @@
     left: 0;
     bottom: 0;
     right: 0;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
 }
 
 .ideditor .sidebar-component .body {
     width: 100%;
-    height: 100%;
     overflow: auto;
-    position: relative;
+    top: 60px;
+    bottom: 0;
+    position: absolute;
 }
 
 .ideditor .panewrap {
@@ -4171,14 +4057,7 @@
     position: absolute;
     width: 50%;
     top: 0;
-    bottom: 2.5em;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    bottom: 30px;
 }
 
 .ideditor .pane:first-child {
@@ -4187,16 +4066,6 @@
 
 .ideditor .pane:last-child {
     right: 0;
-}
-.ideditor .feature-list-pane {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    height: 100%;
 }
 
 .ideditor .inspector-wrap {
@@ -4213,11 +4082,18 @@
 .ideditor .inspector-body {
     overflow-y: scroll;
     overflow-x: hidden;
-    position: relative;
-    height: 100%;
-    -webkit-box-flex: 1;
-        -ms-flex: 1 1 100%;
-            flex: 1 1 100%;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.ideditor .feature-list-pane .inspector-body,
+.ideditor .preset-list-pane .inspector-body {
+    top: 120px;
+}
+.ideditor .entity-editor-pane .inspector-body {
+    top: 60px;
 }
 .ideditor .entity-editor {
     padding: 20px;
@@ -4227,18 +4103,11 @@
     margin-bottom: 150px;
 }
 
-.ideditor .sidebar .search-header {
-    position: relative;
-    overflow: hidden;
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
-}
 .ideditor .sidebar .search-header .icon {
-    display: inline-block;
+    display: block;
     position: absolute;
     left: 10px;
-    height: 100%;
+    top: 80px;
     pointer-events: none;
 }
 .ideditor[dir='rtl'] .sidebar .search-header .icon {
@@ -4247,9 +4116,11 @@
 }
 
 .ideditor .sidebar .search-header input {
+    position: absolute;
+    top: 60px;
+    height: 60px;
     width: 100%;
-    padding: 0 10px;
-    height: 3em;
+    padding: 5px 10px;
     border-radius: 0;
     border-width: 0;
     border-bottom-width: 1px;
@@ -4276,31 +4147,62 @@
     border-bottom: 1px solid #ccc;
     border-radius: 0;
 }
-.ideditor .no-results-item {
-    padding: 10px;
-    font-weight: bold;
-}
 
 .ideditor .geocode-item {
     width: 100%;
     max-width: 200px;
+    background-color: #ccc;
     margin: 30px auto;
+    padding: 5px;
+    height: auto;
     min-height: 40px;
 }
 
+.ideditor[dir='rtl'] .geocode-item {
+    left: -25%;
+}
+.ideditor .geocode-item:active {
+    background-color: #aaa;
+}
+@media (hover: hover) {
+    .ideditor .geocode-item:hover {
+        background-color: #aaa;
+    }
+}
+
 .ideditor .feature-list-item {
+    background-color: #fff;
+    font-weight: bold;
+    height: 40px;
+    line-height: 20px;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
 }
+.ideditor .feature-list-item:active {
+    background-color: #ececec;
+}
+@media (hover: hover) {
+    .ideditor .feature-list-item:hover {
+        background-color: #ececec;
+    }
+}
+.ideditor .feature-list-item.hover {
+    background-color: #ececec;
+}
+.ideditor .feature-list-item button {
+    background: transparent;
+}
 .ideditor .feature-list-item .label {
     text-align: left;
-    padding: 10px;
+    padding: 10px 10px;
     white-space: nowrap;
     -o-text-overflow: ellipsis;
        text-overflow: ellipsis;
     overflow: hidden;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
 }
@@ -4320,10 +4222,8 @@
 }
 .ideditor .feature-list-item .entity-type {
     color: #7092ff;
-    font-weight: bold;
 }
-.ideditor .feature-list-item:active .entity-type,
-.ideditor .feature-list-item:focus .entity-type {
+.ideditor .feature-list-item:active .entity-type {
     color: #597be7;
 }
 @media (hover: hover) {
@@ -4332,6 +4232,7 @@
     }
 }
 .ideditor .feature-list-item .entity-name {
+    font-weight: normal;
     color: #666;
     padding-left: 10px;
 }
@@ -4348,22 +4249,6 @@
 .ideditor .section-selected-features .feature-list-item:last-child {
     border: none;
 }
-.ideditor[dir='ltr'] .section-selected-features .feature-list-item > button:not(:first-child) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-.ideditor[dir='rtl'] .section-selected-features .feature-list-item > button:not(:last-child) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-.ideditor[dir='ltr'] .section-selected-features .feature-list-item > button:not(:last-child) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-.ideditor[dir='rtl'] .section-selected-features .feature-list-item > button:not(:last-child) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
 
 /* Preset List and Icons
 ------------------------------------------------------- */
@@ -4378,8 +4263,9 @@
 }
 
 .ideditor .preset-list-button-wrap {
-    min-height: 62px;
+    height: 62px;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     border: 1px solid #ccc;
@@ -4391,11 +4277,9 @@
     height: 100%;
     position: relative;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
 }
 
 .ideditor .preset-list.filtered .preset-list-item:first-child .preset-list-button {
@@ -4408,15 +4292,19 @@
     height: 60px;
     text-align: center;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
     -webkit-box-pack: center;
+    -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
 }
@@ -4424,6 +4312,7 @@
     width: 40px;
     height: 40px;
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
 }
@@ -4440,22 +4329,13 @@
     visibility: visible;
 }
 .ideditor .preset-icon-container.showing-img *:not(.image-icon) {
-    display: none;
+    visibility: hidden;
 }
 
 .ideditor .preset-icon-point-border path {
     stroke: #333;
     stroke-width: 1.2;
     fill: transparent;
-}
-
-.ideditor .preset-icon-category-border path {
-    stroke: #999;
-    stroke-width: 1px;
-    fill: transparent;
-    -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-    vector-effect: non-scaling-stroke;
 }
 
 .ideditor .preset-icon-line {
@@ -4542,7 +4422,7 @@
         -ms-transform: scale(0.4);
             transform: scale(0.4);
 }
-.ideditor .preset-icon.framed.line-geom:not(.category) .icon,
+.ideditor .preset-icon.framed.line-geom .icon,
 .ideditor .preset-icon.framed.route-geom .icon {
     top: 20%;
     -webkit-transform: translateY(-30%) scale(0.4);
@@ -4559,7 +4439,7 @@
         -ms-transform: scale(0.74);
             transform: scale(0.74);
 }
-.ideditor .preset-icon-iD.framed.line-geom:not(.category) .icon,
+.ideditor .preset-icon-iD.framed.line-geom .icon,
 .ideditor .preset-icon-iD.framed.route-geom .icon {
     -webkit-transform: translateY(-30%) scale(0.74);
         -ms-transform: translateY(-30%) scale(0.74);
@@ -4573,24 +4453,29 @@
 
 .ideditor .preset-list-button .label {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
         -ms-flex-flow: row wrap;
             flex-flow: row wrap;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
-    background: #f6f6f6;
+    background-color: #f6f6f6;
     text-align: left;
     padding: 5px 10px;
     border-left: 1px solid rgba(0, 0, 0, .1);
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 100%;
         -ms-flex: 1 1 100%;
             flex: 1 1 100%;
-    -ms-flex-item-align: stretch;
-        align-self: stretch;
+    -webkit-align-self: stretch;
+        -ms-flex-item-align: stretch;
+            align-self: stretch;
 }
 .ideditor[dir='rtl'] .preset-list-button .label {
     text-align: right;
@@ -4624,8 +4509,8 @@
     -o-text-overflow: ellipsis;
        text-overflow: ellipsis;
 }
-.ideditor .preset-list-button .label-inner .namepart:nth-child(1) {
-    font-weight: bold;
+.ideditor .preset-list-button .label-inner .namepart:nth-child(2) {
+    font-weight: normal;
 }
 
 .ideditor .preset-list-button:focus .label,
@@ -4641,12 +4526,12 @@
 }
 
 .ideditor .preset-list-button-wrap button.tag-reference-button {
+    height: 100%;
     width: 32px;
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
-}
-.ideditor .preset-list-button-wrap button.tag-reference-button:not(:hover):not(:active):not(:focus) {
     background: #f6f6f6;
 }
 .ideditor[dir='ltr'] .preset-list-button-wrap button.tag-reference-button {
@@ -4661,13 +4546,16 @@
 .ideditor[dir='rtl'] .preset-list-button-wrap:not(.category) button:last-child {
     border-radius: 4px 0 0 4px;
 }
+.ideditor .preset-list-button-wrap button.tag-reference-button:active {
+    background: #f1f1f1;
+}
+@media (hover: hover) {
+    .ideditor .preset-list-button-wrap button.tag-reference-button:hover {
+        background: #f1f1f1;
+    }
+}
 .ideditor .preset-list-button-wrap button.tag-reference-button .icon {
     opacity: .5;
-}
-.ideditor .preset-list-button-wrap .accessory-buttons {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
 }
 
 
@@ -4718,13 +4606,16 @@
 ------------------------------------------------------- */
 .ideditor .quick-links {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
         -ms-flex-flow: row wrap;
             flex-flow: row wrap;
     -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
         -ms-flex-pack: end;
             justify-content: flex-end;
     padding: 5px 0 0 0;
@@ -4769,10 +4660,12 @@
 
 .ideditor .form-field {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
         -ms-flex-flow: row wrap;
             flex-flow: row wrap;
     margin-bottom: 10px;
@@ -4790,15 +4683,19 @@
 /* A `label` element that wraps the top section */
 .ideditor .field-label {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 100%;
         -ms-flex: 1 1 100%;
             flex: 1 1 100%;
+    height: 30px;
     position: relative;
     font-weight: bold;
     color: #333;
@@ -4812,12 +4709,13 @@
     -o-text-overflow: ellipsis;
        text-overflow: ellipsis;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
-    padding: 5px 0 4px 10px;
+    padding: 5px 0 5px 10px;
 }
 .ideditor[dir='rtl'] .field-label .label-text {
-    padding: 5px 10px 4px 0;
+    padding: 5px 10px 5px 0;
 }
 .ideditor .field-label .label-text span {
     white-space: nowrap;
@@ -4834,22 +4732,29 @@
 
 .ideditor .field-label button {
     -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
+    -webkit-flex: 0 0 32px;
+        -ms-flex: 0 0 32px;
+            flex: 0 0 32px;
     border-left: 1px solid #ccc;
     width: 32px;
+    height: 100%;
     border-radius: 0;
+    background: #f6f6f6;
 }
 .ideditor[dir='rtl'] .field-label button {
     border-left: none;
     border-right: 1px solid #ccc;
 }
-.ideditor .field-label button:not(:hover):not(:active):not(:focus) {
-    background: none;
+.ideditor .field-label button:active {
+    background: #f1f1f1;
+}
+@media (hover: hover) {
+    .ideditor .field-label button:hover {
+        background: #f1f1f1;
+    }
 }
 .ideditor .field-label .icon {
     opacity: .5;
-
 }
 
 .ideditor .field-label .modified-icon,
@@ -4866,16 +4771,20 @@
 /* A `div` element that wraps the bottom section */
 .ideditor .form-field-input-wrap {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     width: 100%;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
+    min-height: 30px;
     border-top: 0;
     border-radius: 0 0 4px 4px;
 }
@@ -4889,23 +4798,29 @@
 .ideditor .form-field-input-wrap > textarea,
 .ideditor .form-field-input-wrap > ul.chiplist {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
+    min-height: 30px;
     border: 1px solid #ccc;
     border-top: 0;
     border-radius: 0;
+    overflow: hidden;
     position: relative;
 }
 .ideditor .form-field-input-wrap > textarea {
     height: 65px;
     border-radius: 0 0 4px 4px;
+    overflow: auto;
 }
 
 /* Buttons inside fields */
 .ideditor .form-field-button {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
+    height: 30px;
     width: 32px;
     position: relative;
     background-color: #fff;
@@ -4919,8 +4834,7 @@
     border-left-width: 1px;
     border-right-width: 0;
 }
-.ideditor .form-field-button:active,
-.ideditor .form-field-button:focus {
+.ideditor .form-field-button:active {
     background-color: #f1f1f1;
 }
 @media (hover: hover) {
@@ -4931,34 +4845,6 @@
 .ideditor .form-field-button .icon {
     fill: #333;
     opacity: .5;
-}
-.ideditor .form-field-button.colour-preview {
-    border-radius: 0 0 4px 0;
-}
-.ideditor .form-field-button.colour-preview > div.colour-box {
-    border: 3px solid #fff;
-    height: 100%;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-    line-height: 20px;
-    padding: 1px 0 0 1px;
-}
-.ideditor .inspector-hover .form-field-button.colour-preview > div.colour-box {
-    border-color: #ececec;
-}
-.ideditor .form-field-button.colour-preview:active > div.colour-box,
-.ideditor .form-field-button.colour-preview:focus > div.colour-box {
-    border-color: #f1f1f1;
-}
-@media (hover: hover) {
-    .ideditor .form-field-button.colour-preview:hover > div.colour-box {
-        border-color: #f1f1f1;
-    }
-}
-.ideditor .form-field-button.colour-selector {
-    visibility: hidden;
-    position: absolute;
 }
 
 
@@ -4976,13 +4862,16 @@
 .ideditor .form-field-input-access,
 .ideditor .form-field-input-cycleway {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
         -ms-flex-flow: row wrap;
             flex-flow: row wrap;
 }
@@ -4991,6 +4880,7 @@
 ------------------------------------------------------- */
 .ideditor .form-field ul.rows {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     border: 1px solid #ccc;
@@ -5007,16 +4897,19 @@
 }
 .ideditor .form-field ul.rows li {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
 }
 .ideditor .form-field ul.rows li.labeled-input > span,
 .ideditor .form-field ul.rows li.labeled-input > div {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     width: 100%;
@@ -5060,7 +4953,6 @@
 ------------------------------------------------------- */
 .ideditor .form-field-input-combo > input:only-of-type {
     border-radius: 0 0 4px 4px;
-    width: 100%;
 }
 .ideditor .form-field-input-combo.empty-combobox input,
 .ideditor .form-field-input-multicombo .empty-combobox input {
@@ -5070,13 +4962,6 @@
 .ideditor .form-field-input-combo.empty-combobox .combobox-caret,
 .ideditor .form-field-input-multicombo .empty-combobox .combobox-caret {
     display: none;
-}
-
-.ideditor .form-field-input-combo input.raw-value {
-    font-family: monospace;
-}
-.ideditor .form-field-input-combo input.known-value {
-    color: #7092ff;
 }
 
 .ideditor .form-field-input-multicombo ul.chiplist {
@@ -5089,13 +4974,16 @@
 
 .ideditor .form-field-input-multicombo li {
     display: -webkit-inline-box;
+    display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
     display: inline-flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
     margin-bottom: 3px;
@@ -5112,8 +5000,8 @@
 .ideditor .form-field-input-multicombo li.chip {
     background-color: #eff2f7;
     border: 1px solid #ccd5e3;
+    line-height: 25px;
     max-width: 100%;
-    color: #7092ff;
 }
 .ideditor[dir='ltr'] .form-field-input-multicombo li.chip {
     padding: 2px 0px 2px 5px;
@@ -5131,10 +5019,6 @@
     cursor: -webkit-grabbing;
     cursor: grabbing;
 }
-.ideditor .form-field-input-multicombo li.chip.raw-value {
-    font-family: monospace;
-    color: #333;
-}
 .ideditor .form-field-input-multicombo li.mixed {
     border-color: #eff2f7;
     color: #888;
@@ -5144,6 +5028,7 @@
 .ideditor .form-field-input-multicombo li.chip span {
     display: block;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     overflow: hidden;
@@ -5160,6 +5045,7 @@
     display: block;
     text-align: center;
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
 }
@@ -5167,10 +5053,12 @@
 .ideditor .form-field-input-multicombo .input-wrap {
     border: 1px solid #ddd;
     width: 100px;
+    height: 31px;
 }
 .ideditor .form-field-input-multicombo input {
     border: none;
     width: 100%;
+    height: 100%;
 }
 
 .ideditor .form-field-input-multicombo input:focus {
@@ -5187,15 +5075,11 @@
 
 /* Field - Text / Numeric
 ------------------------------------------------------- */
-.ideditor .form-field-input-text > input:only-child,
+.ideditor .form-field-input-text > input:only-of-type,
 .ideditor .form-field-input-tel > input:only-of-type,
 .ideditor .form-field-input-email > input:only-of-type,
-.ideditor .form-field-input-url > input:only-child {
+.ideditor .form-field-input-url > input:only-of-type {
     border-radius: 0 0 4px 4px;
-}
-.ideditor .form-field-input-text > input:not(:only-child),
-.ideditor .form-field-input-url > input:not(:only-child) {
-    border-radius: 0 0 0 4px;
 }
 .ideditor .form-field-input-number > input:only-of-type {
     border-radius: 0 0 0 4px;
@@ -5246,9 +5130,11 @@
 ------------------------------------------------------- */
 .ideditor .form-field-input-check {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
     background: #fff;
@@ -5260,49 +5146,42 @@
 }
 .ideditor .form-field-input-check > input[type="checkbox"] {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
+    min-height: 20px;
     width: 20px;
     margin-top: 0;
 }
 .ideditor .form-field-input-check > span {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
 }
 .ideditor .form-field-input-check > span.mixed {
     font-style: italic;
 }
-.ideditor .form-field-input-check > .reverser {
+.ideditor .form-field-input-check > .reverser.button {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
     background-color: #eff2f7;
     border: 1px solid #ccd5e3;
     border-radius: 2px;
     padding: 0px 8px;
-    color: inherit;
 }
-.ideditor[dir='ltr'] .form-field-input-check > .reverser {
+.ideditor[dir='ltr'] .form-field-input-check > .reverser.button {
     padding-right: 2px;
 }
-.ideditor[dir='rtl'] .form-field-input-check > .reverser {
+.ideditor[dir='rtl'] .form-field-input-check > .reverser.button {
     padding-left: 2px;
 }
-.ideditor .form-field-input-check > .reverser:active,
-.ideditor .form-field-input-check > .reverser:focus {
-    background: #e3e8ef;
-}
-@media (hover: hover) {
-    .ideditor .form-field-input-check > .reverser:hover {
-        background: #e3e8ef;
-    }
-}
-.ideditor .form-field-input-check > .reverser.hide {
+.ideditor .form-field-input-check > .reverser.button.hide {
     display: none;
 }
-.ideditor .form-field-input-check:active,
-.ideditor .form-field-input-check:focus {
+.ideditor .form-field-input-check:active {
     background: #f1f1f1;
 }
 @media (hover: hover) {
@@ -5322,32 +5201,36 @@
 ------------------------------------------------------- */
 .ideditor .form-field-input-radio {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
         -ms-flex-flow: row wrap;
             flex-flow: row wrap;
 }
 .ideditor .form-field-input-radio > label {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
     width: 100%;
     padding: 5px 10px;
+    height: 30px;
     background-color: #fff;
     color: #7092ff;
     cursor: pointer;
@@ -5358,8 +5241,7 @@
 .ideditor .form-field-input-radio > label:last-child {
     border-radius: 0 0 4px 4px;
 }
-.ideditor .form-field-input-radio > label:active,
-.ideditor .form-field-input-radio > label:focus {
+.ideditor .form-field-input-radio > label:active {
     background-color: #ececec;
 }
 @media (hover: hover) {
@@ -5375,12 +5257,14 @@
 }
 .ideditor .form-field-input-radio > label > input[type="radio"] {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
     width: 20px;
 }
 .ideditor .form-field-input-radio > label > span {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     overflow: hidden;
@@ -5395,48 +5279,37 @@
     padding: 0;
     opacity: 0;
     width: 0;
-    height: 0;
+    line-height: 0;
     display: block;
     overflow: hidden;
 }
 
 
-/* Field - roadheight and roadspeed
+/* Field - Maxspeed
 ------------------------------------------------------- */
-.ideditor .form-field-input-roadheight input.roadheight-number,
-.ideditor .form-field-input-roadheight input.roadheight-secondary-number,
-.ideditor .form-field-input-roadspeed input.roadspeed-number {
-    -ms-flex-preferred-size: 0;
-        flex-basis: 0;
+.ideditor .form-field-input-maxspeed input.maxspeed-number {
+    -webkit-flex-basis: 0;
+        -ms-flex-preferred-size: 0;
+            flex-basis: 0;
 }
-.ideditor .form-field-input-roadheight input.roadheight-unit,
-.ideditor .form-field-input-roadheight input.roadheight-secondary-unit {
+.ideditor .form-field-input-maxspeed input.maxspeed-unit {
     -webkit-box-flex: 0;
-        -ms-flex: 0 1 auto;
-            flex: 0 1 auto;
-    width: 60px;
-}
-.ideditor .form-field-input-roadspeed input.roadspeed-unit {
-    -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
     width: 80px;
 }
-.ideditor[dir='ltr'] .form-field-input-roadheight > input:first-of-type,
-.ideditor[dir='ltr'] .form-field-input-roadspeed > input:first-of-type {
+.ideditor .form-field-input-maxspeed > input:first-of-type {
     border-radius: 0 0 0 4px;
 }
-.ideditor[dir='rtl'] .form-field-input-roadheight > input:first-of-type,
-.ideditor[dir='rtl'] .form-field-input-roadspeed > input:first-of-type {
+.ideditor[dir='rtl'] .form-field-input-maxspeed > input:first-of-type {
     border-radius: 0 0 4px 0;
 }
-.ideditor[dir='ltr'] .form-field-input-roadheight > input:last-of-type,
-.ideditor[dir='ltr'] .form-field-input-roadspeed > input:last-of-type {
+.ideditor .form-field-input-maxspeed > input:last-of-type {
     border-left: 0;
     border-radius: 0 0 4px 0;
 }
-.ideditor[dir='rtl'] .form-field-input-roadheight > input:last-of-type,
-.ideditor[dir='rtl'] .form-field-input-roadspeed > input:last-of-type {
+.ideditor[dir='rtl'] .form-field-input-maxspeed > input:last-of-type {
     border-right: 0;
     border-radius: 0 0 0 4px;
 }
@@ -5469,8 +5342,9 @@
 /* nested subfields for name in different languages */
 .ideditor .localized-multilingual {
     padding: 0 10px;
-    -ms-flex-preferred-size: 100%;
-        flex-basis: 100%;
+    -webkit-flex-basis: 100%;
+        -ms-flex-preferred-size: 100%;
+            flex-basis: 100%;
 }
 .ideditor .localized-multilingual .entry {
     position: relative;
@@ -5507,13 +5381,16 @@
 ------------------------------------------------------- */
 .ideditor .form-field-input-address {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
         -ms-flex-flow: row wrap;
             flex-flow: row wrap;
     border: 1px solid #ccc;
@@ -5522,16 +5399,20 @@
 
 .ideditor .addr-row {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     width: 100%;
+    min-height: 30px;
 }
 
 .ideditor .addr-row > input {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     border-radius: 0;
@@ -5570,13 +5451,16 @@
 ------------------------------------------------------- */
 .ideditor .form-field-input-wikipedia {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
         -ms-flex-flow: row wrap;
             flex-flow: row wrap;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
 }
@@ -5584,13 +5468,16 @@
 .ideditor .wiki-lang-container,
 .ideditor .wiki-title-container {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     width: 100%;
@@ -5599,6 +5486,7 @@
 .ideditor .wiki-lang-container > input.wiki-lang,
 .ideditor .wiki-title-container > input.wiki-title {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     border-top: 0;
@@ -5652,13 +5540,13 @@
 }
 
 .ideditor .restriction-control input,
-.ideditor .restriction-control > span {
+.ideditor .restriction-control span {
     display: table-cell;
     text-align: start;
     padding: 0px 5px;
 }
 
-.ideditor .restriction-control > span.restriction-control-label {
+.ideditor .restriction-control span.restriction-control-label {
     text-align: end;
 }
 
@@ -5735,16 +5623,6 @@
 
 /* Field - Combobox
 ------------------------------------------------------- */
-.ideditor[dir='ltr'] textarea.combobox-input,
-.ideditor[dir='ltr'] input.combobox-input {
-    /* leave room for the caret */
-    padding-right: 20px;
-}
-.ideditor[dir='rtl'] textarea.combobox-input,
-.ideditor[dir='rtl'] input.combobox-input {
-    padding-left: 20px;
-}
-
 .ideditor div.combobox {
     z-index: 9999;
     display: none;
@@ -5770,8 +5648,7 @@
 }
 
 .ideditor .combobox a.selected,
-.ideditor .combobox a:active,
-.ideditor .combobox a:focus {
+.ideditor .combobox a:active {
     background: #ececec;
 }
 @media (hover: hover) {
@@ -5788,12 +5665,10 @@
 .ideditor .combobox-caret {
     display: inline-block;
     position: relative;
-    height: 5px;
+    height: 30px;
     width: 30px !important;
     margin-left: -30px;
-    -ms-flex-item-align: center;
-        align-self: center;
-    vertical-align: middle;
+    vertical-align: top;
     cursor: pointer;
 }
 .ideditor[dir='rtl'] .combobox-caret {
@@ -5810,11 +5685,6 @@
     border-top: 5px solid #ccc;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-}
-
-.ideditor .combobox .combobox-option.raw-option {
-    font-family: monospace;
-    color: #333;
 }
 
 
@@ -5863,8 +5733,7 @@
     color: #7092ff;
     border-bottom: 2px solid;
 }
-.ideditor .field-help-nav-item:active,
-.ideditor .field-help-nav-item:focus {
+.ideditor .field-help-nav-item:active {
     color: #597be7;
     background-color: #efefef;
 }
@@ -5937,16 +5806,20 @@
 
 .ideditor .more-fields label {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
             justify-content: space-between;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
 }
@@ -5954,6 +5827,7 @@
 .ideditor .more-fields input {
     margin-left: 10px;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
 }
@@ -5963,6 +5837,7 @@
 }
 
 .ideditor .form-field-input-wrap .label {
+    height: 30px;
     background: #f6f6f6;
     padding: 5px 10px;
 }
@@ -5972,22 +5847,26 @@
 ------------------------------------------------------- */
 .ideditor .raw-tag-options {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
-    -webkit-box-pack: end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
-    margin-top: -28px;
+    -webkit-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+    margin-top: -25px;
 }
 .ideditor button.raw-tag-option {
     -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
-    padding: 3px;
+    -webkit-flex: 0 0 20px;
+        -ms-flex: 0 0 20px;
+            flex: 0 0 20px;
+    height: 20px;
+    width: 20px;
     background: #aaa;
     color: #eee;
     margin: 0 3px;
@@ -6010,7 +5889,7 @@
 .ideditor button.raw-tag-option svg.icon {
     width: 14px;
     height: 14px;
-    display: block;
+    vertical-align: text-bottom;
 }
 .ideditor[dir='ltr'] button.raw-tag-option-list {
     -webkit-transform: scaleX(-1);
@@ -6040,10 +5919,12 @@
 }
 .ideditor .tag-row .inner-wrap {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     width: 100%;
@@ -6052,6 +5933,7 @@
 .ideditor .tag-row .key-wrap,
 .ideditor .tag-row .value-wrap {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 50%;
         -ms-flex: 1 1 50%;
             flex: 1 1 50%;
 }
@@ -6067,6 +5949,7 @@
 }
 
 .ideditor .tag-row input {
+    height: 31px;
     border: 0;
     border-radius: 0;
     border-bottom: 1px solid #ccc;
@@ -6105,8 +5988,10 @@
 }
 .ideditor .tag-row button {
     -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
+    -webkit-flex: 0 0 32px;
+        -ms-flex: 0 0 32px;
+            flex: 0 0 32px;
+    height: 31px;
     width: 32px;
     border: 1px solid #ccc;
     border-top-width: 0;
@@ -6117,8 +6002,7 @@
     border-right-width: 0;
 }
 
-.ideditor .tag-row button:active,
-.ideditor .tag-row button:focus {
+.ideditor .tag-row button:active {
     background: #f1f1f1;
 }
 @media (hover: hover) {
@@ -6168,6 +6052,7 @@
 
 .ideditor .tag-reference-body {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     width: 100%;
@@ -6253,6 +6138,7 @@
 
 .ideditor .member-row-new .member-entity-input {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 100%;
         -ms-flex: 1 1 100%;
             flex: 1 1 100%;
     border-radius: 4px 4px 0 0;
@@ -6267,14 +6153,25 @@
     */
 }
 
+/* hidden field to prevent user from tabbing out of the sidebar */
+.ideditor input.key-trap {
+    height: 0px;
+    width: 0px;
+    padding: 0px;
+    border: 1px solid rgba(0,0,0,0);
+}
+
+
 /* add tag, add relation buttons */
 .ideditor .add-row {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     width: 100%;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
 }
@@ -6282,16 +6179,18 @@
 .ideditor .add-row .add-relation,
 .ideditor .add-row .space-value {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 50%;
         -ms-flex: 1 1 50%;
             flex: 1 1 50%;
 }
 .ideditor .add-row .space-buttons {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 62px;
         -ms-flex: 0 0 62px;
             flex: 0 0 62px;
 }
 .ideditor .add-row button {
-    padding: 5px;
+    height: 30px;
     background: rgba(0,0,0,.5);
 }
 .ideditor .add-row button:focus,
@@ -6321,13 +6220,16 @@
     border-radius: 5px;
     border: 1px solid #ccc;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
 }
@@ -6337,8 +6239,9 @@
     background-color: #fff;
     padding: 10px;
     -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
+    -webkit-flex: 0 0 62px;
+        -ms-flex: 0 0 62px;
+            flex: 0 0 62px;
     position: relative;
     width: 60px;
     height: 60px;
@@ -6373,6 +6276,7 @@
     background-color: #f6f6f6;
     padding: 0 15px;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 100%;
         -ms-flex: 1 1 100%;
             flex: 1 1 100%;
     font-size: 14px;
@@ -6401,18 +6305,21 @@
     border: 1px solid #ccc;
     margin: 10px auto;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
 }
 .ideditor .comment-avatar {
     padding: 10px;
     -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
+    -webkit-flex: 0 0 62px;
+        -ms-flex: 0 0 62px;
+            flex: 0 0 62px;
 }
 .ideditor .comment-avatar .icon.comment-avatar-icon {
     width: 40px;
@@ -6425,10 +6332,12 @@
 .ideditor .comment-main {
     padding: 10px 10px 10px 0;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 100%;
         -ms-flex: 1 1 100%;
             flex: 1 1 100%;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: column nowrap;
         -ms-flex-flow: column nowrap;
             flex-flow: column nowrap;
     overflow: hidden;
@@ -6441,9 +6350,11 @@
 .ideditor .comment-metadata {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
             justify-content: space-between;
 }
@@ -6476,10 +6387,12 @@
     border-radius: 4px;
     border: 1px solid #ccc;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
 }
@@ -6524,13 +6437,16 @@
     border-radius: 5px;
     border: 1px solid #ccc;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
 }
@@ -6539,8 +6455,9 @@
     background-color: #fff;
     padding: 10px;
     -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
+    -webkit-flex: 0 0 62px;
+        -ms-flex: 0 0 62px;
+            flex: 0 0 62px;
     position: relative;
     width: 60px;
     height: 60px;
@@ -6562,6 +6479,7 @@
     background-color: #f6f6f6;
     padding: 0 15px;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 100%;
         -ms-flex: 1 1 100%;
             flex: 1 1 100%;
     font-size: 14px;
@@ -6583,61 +6501,46 @@
 
 
 .ideditor .over-map {
-    position: relative;
-    height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 71px;
+    bottom: 30px;
     pointer-events: none;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: reverse;
+    -webkit-flex-direction: row-reverse;
         -ms-flex-direction: row-reverse;
             flex-direction: row-reverse;
     -webkit-box-align: end;
+    -webkit-align-items: flex-end;
         -ms-flex-align: end;
             align-items: flex-end;
-    overflow: hidden;
 }
 .ideditor .over-map > * {
     pointer-events: auto;
-    z-index: 5;
-}
-/* offscreen this without hiding it */
-.ideditor .over-map .select-trap {
-    position: absolute;
-    right: -1000%;
-    opacity: 0;
 }
 
 /* Map Controls
 ------------------------------------------------------- */
-.ideditor .map-controls-wrap {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 100%;
-    z-index: 100;
-    display: block;
-    overflow-x: hidden;
-    overflow-y: auto;
-    pointer-events: none;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-.ideditor .map-controls-wrap::-webkit-scrollbar {
-    display: none;
-}
 .ideditor .map-controls {
     right: 0;
     top: 0;
     width: 40px;
     position: absolute;
+    z-index: 100;
     bottom: 0;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
     padding: 5px 0;
@@ -6651,6 +6554,7 @@
     height: 100%;
     max-height: 70px;
     -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
 }
@@ -6659,20 +6563,9 @@
     right: auto;
 }
 
-.ideditor .map-control {
-    position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-}
 .ideditor .map-control > button {
     position: relative;
     width: 40px;
-    height: 40px;
     background: rgba(0,0,0,.5);
     border-radius: 0;
     pointer-events: auto;
@@ -6718,8 +6611,7 @@
     height: 40px;
     background: transparent;
 }
-.ideditor div.full-screen > button:active,
-.ideditor div.full-screen > button:focus {
+.ideditor div.full-screen > button:active {
     background-color: rgba(0, 0, 0, .8);
 }
 @media (hover: hover) {
@@ -6777,6 +6669,11 @@
 
 /* Background / Map Data Settings
 ------------------------------------------------------- */
+.ideditor .map-data-control,
+.ideditor .background-control {
+    position: relative;
+}
+
 .ideditor .imagery-faq {
     margin-bottom: 10px;
     white-space: nowrap;
@@ -6789,12 +6686,22 @@
 }
 
 .ideditor .layer-list > li {
+    height: 30px;
     background-color: #fff;
     color: #7092ff;
     position: relative;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+}
+
+.ideditor .layer-date-range label input {
+  margin-left: 60px;
+}
+
+.ideditor .layer-date-range label span {
+  margin-top: -20px;
 }
 
 .ideditor .layer-list:empty {
@@ -6832,6 +6739,7 @@
 .ideditor .layer-list li.best > div.best {
     padding: 5px;
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
 }
@@ -6851,14 +6759,13 @@
     padding: 5px 10px;
     cursor: pointer;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
     overflow: hidden;
 }
 
@@ -6876,19 +6783,14 @@
     -o-text-overflow: ellipsis;
        text-overflow: ellipsis;
     -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1;
 }
 
-.ideditor .layer-list input.list-item-input {
-    height: 2.2em;
-    padding: 0px 4px;
-    width: 50%;
-    min-width: 160px;
-}
-
 .ideditor .map-data-pane .layer-list button,
 .ideditor .background-pane .layer-list button {
+    height: 100%;
     border-left: 1px solid #ccc;
     border-radius: 0;
     padding-left: 4px;
@@ -6931,31 +6833,34 @@
 .ideditor .issue-label .issue-text {
     width: 100%;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     cursor: pointer;
-    text-align: initial;
-    background: none;
 }
 
 .ideditor .issue-text .issue-icon {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
-    padding: 2px 3px;
+    padding: 5px 7px;
 }
 .ideditor .issue-text .issue-message {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
-    padding: 4px 5px;
+    padding: 5px 0;
 }
 .ideditor .issue-label .issue-autofix {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
     padding: 5px 8px;
@@ -6964,6 +6869,7 @@
     height: unset;
     width: 32px;
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
     border-left: 1px solid #ccc;
@@ -6988,6 +6894,7 @@
 
 .ideditor button.autofix.action {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 20px;
         -ms-flex: 0 0 20px;
             flex: 0 0 20px;
     height: 20px;
@@ -7009,15 +6916,17 @@
 /* fix all */
 .ideditor .autofix-all {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
-    -webkit-box-pack: end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
+    -webkit-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
     margin-top: -25px;
     padding-bottom: 5px;
 }
@@ -7043,7 +6952,7 @@
 
 .ideditor .warnings-list .issue.severity-warning .issue-label,
 .ideditor .issue.severity-warning .issue-fix-list,
-.ideditor .warning-section {
+.ideditor.mode-save .warning-section {
     background: #ffc;
 }
 
@@ -7055,30 +6964,26 @@
     color: #f90;
 }
 
-.ideditor .issue.severity-warning .issue-fix-item button.actionable,
+.ideditor .issue.severity-warning .issue-fix-item.actionable,
 .ideditor .issue-container.active .issue.severity-warning .issue-info-button {
     color: #b15500;
     fill: #b15500;
 }
 .ideditor .warnings-list .issue.severity-warning .issue-label:active,
-.ideditor .warnings-list .issue.severity-warning .issue-label:focus,
-.ideditor .issue.severity-warning .issue-fix-item button.actionable:active,
-.ideditor .issue.severity-warning .issue-fix-item button.actionable:focus {
+.ideditor .issue.severity-warning .issue-fix-item.actionable:active {
     background: #ff8;
 }
-.ideditor .issue.severity-warning .issue-fix-item button.actionable:active,
-.ideditor .issue.severity-warning .issue-fix-item button.actionable:focus,
-.ideditor .issue-container.active .issue.severity-warning .issue-info-button:active,
-.ideditor .issue-container.active .issue.severity-warning .issue-info-button:focus {
+.ideditor .issue.severity-warning .issue-fix-item.actionable:active,
+.ideditor .issue-container.active .issue.severity-warning .issue-info-button:active {
     color: #7f3d00;
     fill: #7f3d00;
 }
 @media (hover: hover) {
     .ideditor .warnings-list .issue.severity-warning .issue-label:hover,
-    .ideditor .issue.severity-warning .issue-fix-item button.actionable:hover {
+    .ideditor .issue.severity-warning .issue-fix-item.actionable:hover {
         background: #ff8;
     }
-    .ideditor .issue.severity-warning .issue-fix-item button.actionable:hover,
+    .ideditor .issue.severity-warning .issue-fix-item.actionable:hover,
     .ideditor .issue-container.active .issue.severity-warning .issue-info-button:hover {
         color: #7f3d00;
         fill: #7f3d00;
@@ -7096,7 +7001,7 @@
 
 .ideditor .errors-list .issue.severity-error .issue-label,
 .ideditor .issue.severity-error .issue-fix-list,
-.ideditor .error-section {
+.ideditor.mode-save .error-section {
     background: #ffd6d6;
 }
 
@@ -7104,7 +7009,7 @@
     background: #ffc6c6;
 }
 
-.ideditor .issue.severity-error .issue-fix-item button.actionable,
+.ideditor .issue.severity-error .issue-fix-item.actionable,
 .ideditor .issue-container.active .issue.severity-error .issue-info-button {
     color: #b91201;
     fill: #b91201;
@@ -7113,24 +7018,20 @@
     color: #dd1400;
 }
 .ideditor .errors-list .issue.severity-error .issue-label:active,
-.ideditor .errors-list .issue.severity-error .issue-label:focus,
-.ideditor .issue.severity-error .issue-fix-item button.actionable:active,
-.ideditor .issue.severity-error .issue-fix-item button.actionable:focus {
+.ideditor .issue.severity-error .issue-fix-item.actionable:active {
     background: #ffb6b6;
 }
-.ideditor .issue.severity-error .issue-fix-item button.actionable:active,
-.ideditor .issue.severity-error .issue-fix-item button.actionable:focus,
-.ideditor .issue-container.active .issue.severity-error .issue-info-button:active,
-.ideditor .issue-container.active .issue.severity-error .issue-info-button:focus {
+.ideditor .issue.severity-error .issue-fix-item.actionable:active,
+.ideditor .issue-container.active .issue.severity-error .issue-info-button:active {
     color: #840c00;
     fill: #840c00;
 }
 @media (hover: hover) {
     .ideditor .errors-list .issue.severity-error .issue-label:hover,
-    .ideditor .issue.severity-error .issue-fix-item button.actionable:hover {
+    .ideditor .issue.severity-error .issue-fix-item.actionable:hover {
         background: #ffb6b6;
     }
-    .ideditor .issue.severity-error .issue-fix-item button.actionable:hover,
+    .ideditor .issue.severity-error .issue-fix-item.actionable:hover,
     .ideditor .issue-container.active .issue.severity-error .issue-info-button:hover {
         color: #840c00;
         fill: #840c00;
@@ -7157,7 +7058,6 @@
 .ideditor .issues-option label {
     display: table-cell;
     padding: 0 10px;
-    white-space: nowrap;
 }
 
 .ideditor .layer-list.issues-list li.issue {
@@ -7173,15 +7073,17 @@
 }
 .ideditor .section-footer {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
-    -webkit-box-pack: end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
+    -webkit-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
     height: 30px;
 }
 .ideditor .section-footer a {
@@ -7194,6 +7096,7 @@
     background: #c6ffca;
     padding: 5px !important;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
 }
@@ -7203,8 +7106,8 @@
 
 .ideditor input.square-degrees-input {
     padding: 2px !important; /* important needed for rtl */
-    width: 3em;
-    height: 2em;
+    width: 40px;
+    height: unset;
     text-align: center;
     background: rgba(0,0,0,0);
     color: currentColor;
@@ -7218,9 +7121,7 @@
     background: #f6f6f6;
 }
 .ideditor .section-entity-issues .issue-container:not(.active) .issue-text:active,
-.ideditor .section-entity-issues .issue-container:not(.active) .issue-text:focus,
-.ideditor .section-entity-issues .issue-container:not(.active) .issue-info-button:active,
-.ideditor .section-entity-issues .issue-container:not(.active) .issue-info-button:focus {
+.ideditor .section-entity-issues .issue-container:not(.active) .issue-info-button:active {
     background: #f1f1f1;
 }
 @media (hover: hover) {
@@ -7237,7 +7138,7 @@
     padding-left: 10px;
 }
 
-.ideditor .section-entity-issues .issue-container.active .issue-label button.issue-text {
+.ideditor .section-entity-issues .issue-container.active .issue-label .issue-text {
     font-weight: bold;
 }
 .ideditor .section-entity-issues .issue-container:not(:last-of-type) {
@@ -7259,31 +7160,27 @@
     display: none;
 }
 
-.ideditor li.issue-fix-item button {
+.ideditor li.issue-fix-item {
     padding: 2px 10px 2px 20px;
-    background: transparent;
-    width: 100%;
-    text-align: initial;
 }
-.ideditor[dir='rtl'] li.issue-fix-item button {
+.ideditor[dir='rtl'] li.issue-fix-item {
     padding: 2px 20px 2px 10px;
 }
-.ideditor li.issue-fix-item:first-of-type button {
+.ideditor li.issue-fix-item:first-of-type {
     padding-top: 5px;
 }
-.ideditor li.issue-fix-item:last-of-type button {
+.ideditor li.issue-fix-item:last-of-type {
     padding-bottom: 5px;
 }
 
-.ideditor li.issue-fix-item button .fix-message {
+.ideditor li.issue-fix-item .fix-message {
     padding: 0 10px;
-    vertical-align: middle;
 }
 
-.ideditor li.issue-fix-item button.actionable {
+.ideditor li.issue-fix-item.actionable {
     cursor: pointer;
 }
-.ideditor li.issue-fix-item button:not(.actionable) .fix-icon {
+.ideditor li.issue-fix-item:not(.actionable) .fix-icon {
     color: #555;
     fill: #555;
 }
@@ -7291,12 +7188,10 @@
 .ideditor .issue-container:not(.active) ul.issue-fix-list {
     display: none;
 }
-.ideditor .issue-container:not(.active) .issue-info {
-    display: none;
-}
 
 .ideditor .issue-info {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     width: 100%;
@@ -7339,30 +7234,19 @@
     padding: 10px;
 }
 
-.ideditor .display-options-container label {
+.ideditor .display-control h5 {
     padding-bottom: 0;
     padding-top: 10px;
 }
 
-.ideditor .display-options-container label span {
-    font-weight: bold;
+.ideditor .display-control h5 span {
     margin: 5px;
 }
 
-.ideditor .display-control .control-wrap {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    width: 100%;
-}
 .ideditor .display-control .display-option-input {
     height: 20px;
-    -webkit-box-flex: 1;
-        -ms-flex: 1 1 100%;
-            flex: 1 1 100%;
+    width: 155px;
+    max-width: 100%;
 }
 
 .ideditor .display-control button {
@@ -7372,9 +7256,6 @@
     margin-right: 0px;
     vertical-align: text-bottom;
     border-radius: 4px;
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
 }
 .ideditor[dir='rtl'] .display-control button {
     margin-left: 0px;
@@ -7388,13 +7269,10 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
-    position: relative;
 }
 
-.ideditor .nudge-container .nudge-controls-wrap {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
+.ideditor .nudge-container .nudge-instructions {
+    padding-bottom: 15px;
 }
 
 .ideditor .nudge-container .nudge-outer-rect {
@@ -7402,16 +7280,21 @@
     border: 1px solid #ccc;
     border-radius: 2px;
     padding: 20px 0;
+    width: 70%;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-pack: center;
+    -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
-    margin: 45px;
+    margin: 0 auto;
+    margin-top: 20px;
     cursor: move;
     /* prevent scrolling pane while dragging on touchscreen */
     -ms-touch-action: none;
@@ -7421,7 +7304,6 @@
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
-    position: relative;
 }
 
 .ideditor .nudge-container .nudge-inner-rect {
@@ -7444,7 +7326,7 @@
 
 .ideditor .nudge-container input {
     width: 100%;
-    padding: 2px;
+    height: 20px;
     text-align: center;
     border: 0;
 }
@@ -7455,42 +7337,39 @@
     background: #ffb;
 }
 
+.ideditor .nudge-container input:focus {
+    background-color: transparent;
+}
+
 .ideditor .nudge-container button {
-    position: absolute;
-    height: 40px;
-    width: 40px;
+    float: left;
+    display: block;
+    width: 20%;
+    position: relative;
+    background-color: transparent;
 }
-.ideditor .nudge-container button.right,
-.ideditor .nudge-container button.left {
-    top: 0;
-    bottom: 0;
-    margin-top: auto;
-    margin-bottom: auto;
-    vertical-align: middle;
-}
+
 .ideditor .nudge-container button.right {
-    right: 0;
+    top: -50px;
+    right: -85%;
 }
+
 .ideditor .nudge-container button.left {
-    left: 0;
+    top: -50px;
+    right: 45%;
 }
-.ideditor .nudge-container button.top,
-.ideditor .nudge-container button.bottom {
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-}
+
 .ideditor .nudge-container button.top {
-    top: 0;
+    left: 20%;
+    top: -104px;
 }
+
 .ideditor .nudge-container button.bottom {
-    bottom: 0;
+    left: -20%;
 }
 
 .ideditor .nudge-container button.nudge-reset {
-    right: 0;
-    bottom: 0;
+    right: -10px;
 }
 
 .ideditor .nudge-surface {
@@ -7533,6 +7412,7 @@
 ------------------------------------------------------- */
 .ideditor .map-panes {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
     position: relative;
@@ -7545,14 +7425,9 @@
     width: 400px;
     max-width: 100%;
     height: 100%;
+    padding-bottom: 60px;
+    overflow: hidden;
     z-index: 10;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
 }
 
 .ideditor .map-pane.help-pane {
@@ -7561,19 +7436,20 @@
 
 .ideditor .pane-heading {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
             justify-content: space-between;
     border-bottom: 1px solid #ccc;
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
+    height: 60px;
 }
 
 .ideditor .pane-heading h2 {
@@ -7582,6 +7458,7 @@
 
 .ideditor .pane-heading button {
     width: 40px;
+    height: 100%;
     border-radius: 0;
 }
 
@@ -7608,12 +7485,11 @@
     margin-bottom: 20px;
 }
 
-.ideditor .help-pane .left-content .icon.inline,
-.ideditor .curtain-tooltip .icon.inline {
+.ideditor .help-pane .left-content .icon.pre-text {
+    vertical-align: text-top;
     margin-right: 0;
     margin-left: 0;
-    height: 1.34em;
-    width: 1.34em;
+    display: inline-block;
 }
 
 .ideditor .help-pane .toc {
@@ -7635,8 +7511,6 @@
 .ideditor .help-pane .toc li a {
     border-bottom: 0;
 }
-.ideditor .help-pane .toc li a:focus,
-.ideditor .help-pane .nav a:focus,
 .ideditor .help-pane .toc li a:active,
 .ideditor .help-pane .nav a:active {
     background: #ececec;
@@ -7775,7 +7649,7 @@
 .ideditor .inspector-hover .section-entity-issues .issue-container.active .issue-label {
     border-bottom: 0;
 }
-.ideditor .inspector-hover .section-entity-issues .issue-container.active .issue-label button.issue-text {
+.ideditor .inspector-hover .section-entity-issues .issue-container.active .issue-label .issue-text {
     font-weight: normal;
 }
 
@@ -7838,8 +7712,8 @@
     opacity: 1;
     color: #666;
     padding: 5px 10px;
+    line-height: 20px;
     width: 100%;
-    height: auto;
     border: 0;
 }
 .ideditor .inspector-hover .form-field-input-radio .structure-extras-wrap {
@@ -7919,14 +7793,9 @@
 /* Map
 ------------------------------------------------------- */
 .ideditor .main-map {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: relative;
     overflow: hidden;
     height: 100%;
-    width: 100%;
     background: #000;
     -webkit-user-select: none;
        -moz-user-select: none;
@@ -7934,7 +7803,6 @@
             user-select: none;
     -ms-touch-action: none;
         touch-action: none;
-    -webkit-touch-callout: none;
 }
 .ideditor .main-map * {
     -ms-touch-action: none;
@@ -7964,7 +7832,7 @@
     top: 10px;
     width: 200px;
     height: 150px;
-    z-index: 2;
+    z-index: 5;
     background: #000;
     border: #aaa 1px solid;
     -webkit-box-shadow: 0 0 2em black;
@@ -8061,15 +7929,14 @@
 ------------------------------------------------------- */
 .ideditor .info-panels {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-flow: row wrap-reverse;
-            flex-flow: row wrap-reverse;
-    -webkit-box-pack: end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
+    -webkit-box-direction: reverse;
+    -webkit-flex-flow: row-reverse wrap-reverse;
+        -ms-flex-flow: row-reverse wrap-reverse;
+            flex-flow: row-reverse wrap-reverse;
     width: 100%;
     z-index: 1;
     -ms-user-select: element;
@@ -8094,6 +7961,7 @@
 
 .ideditor .panel-container {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
     margin: 0 2px 2px 0;
@@ -8111,23 +7979,17 @@
 
 .ideditor .panel-title {
     padding: 5px 10px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
 }
 
 .ideditor .panel-title button.close {
-    padding: 2px;
+    float: right;
+    height: 20px;
     background: none;
     color: #ddd;
 }
 .ideditor[dir='rtl'] .panel-title button.close {
     float: left;
 }
-.ideditor .panel-title button.close:focus,
 .ideditor .panel-title button.close:active {
     color: #fff;
 }
@@ -8150,7 +8012,7 @@
     display: none;
 }
 
-.ideditor .panel-content li span:not(.localized-text) {
+.ideditor .panel-content li span {
     display: inline-block;
     white-space: nowrap;
     margin: 0 8px;
@@ -8189,45 +8051,49 @@
 ------------------------------------------------------- */
 .ideditor .map-footer {
     width: 100%;
-    position: relative;
+    position: absolute;
+    right: 0;
+    bottom: 0;
     border-radius: 0;
     pointer-events: none;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
     -ms-user-select: element;
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
 }
 
 .ideditor .map-footer-bar {
     pointer-events: all;
     display: block;
-    height: 2.5em;
-    position: relative;
+    height: 30px;
 }
 
 .ideditor .main-footer-wrap,
 .ideditor .flash-wrap {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 100%;
         -ms-flex: 0 0 100%;
             flex: 0 0 100%;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
             justify-content: space-between;
-    height: 100%;
+    max-height: 30px;
     position: absolute;
     right: 0;
     left: 0;
@@ -8241,7 +8107,7 @@
 }
 
 .ideditor .footer-hide {
-    bottom: -100%;
+    bottom: -35px;
     -webkit-transition: bottom 75ms linear;
     -o-transition: bottom 75ms linear;
     transition: bottom 75ms linear;
@@ -8251,34 +8117,26 @@
 /* Attribution
 ------------------------------------------------------- */
 .ideditor .attribution-wrap {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    right: 5px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    -webkit-box-align: end;
-        -ms-flex-align: end;
-            align-items: flex-end;
-    z-index: 0;
-    pointer-events: none;
+    width: 100%;
+    height: 20px;
+    margin-bottom: 5px;
 }
 
-.ideditor .attribution-wrap > * {
-    pointer-events: auto;
-}
+.ideditor .attribution-wrap * { pointer-events: all; }
 
 .ideditor .attribution-wrap .base-layer-attribution,
 .ideditor .attribution-wrap .overlay-layer-attribution {
+    position: absolute;
     color: #ccc;
     font-size: 10px;
 }
+
+.ideditor .attribution-wrap .base-layer-attribution {
+    left: 10px;
+}
+
 .ideditor .attribution-wrap .overlay-layer-attribution {
-    text-align: right;
+    right: 10px;
 }
 
 .ideditor .attribution-wrap .overlay-layer-attribution .attribution:not(:last-child):after {
@@ -8289,7 +8147,6 @@
 .ideditor .attribution-wrap .attribution a:visited {
     color: #ccf;
 }
-.ideditor .attribution-wrap .attribution a:focus,
 .ideditor .attribution-wrap .attribution a:hover {
     color: #aaf;
 }
@@ -8314,23 +8171,29 @@
 ------------------------------------------------------- */
 .ideditor .flash-content {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 0 auto;
         -ms-flex: 1 0 auto;
             flex: 1 0 auto;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row nowrap;
         -ms-flex-flow: row nowrap;
             flex-flow: row nowrap;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
     padding: 2px;
+    height: 30px;
 }
 
 .ideditor .flash-icon {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
     width: 20px;
@@ -8357,6 +8220,7 @@
 
 .ideditor .flash-text {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
 }
@@ -8366,23 +8230,21 @@
 .ideditor .map-footer-bar .scale-block {
     vertical-align: bottom;
     width: 250px;
+    max-height: 30px;
     -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
+    -webkit-flex: 0 0 250px;
+        -ms-flex: 0 0 250px;
+            flex: 0 0 250px;
     -webkit-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
-    height: 30px;
-    -ms-flex-item-align: center;
-        align-self: center;
 }
 
 .ideditor .scale-block .scale {
-    height: 100%;
+    height: 30px;
     width: 100%;
     cursor: pointer;
-    display: block;
 }
 .ideditor[dir='rtl'] .scale-block .scale {
     -webkit-transform: scaleX(-1);
@@ -8390,11 +8252,16 @@
             transform: scaleX(-1);
 }
 
-.ideditor .scale-block .scale-text {
-    display: inline-block;
-    position: absolute;
-    color: #ccc;
-    top: 0.45em;
+.ideditor .scale-block .scale text {
+    font: 12px sans-serif;
+    stroke: none;
+    fill: #ccc;
+    text-anchor: start;
+}
+.ideditor[dir='rtl'] .scale-block .scale text {
+    -webkit-transform: scaleX(-1);
+        -ms-transform: scaleX(-1);
+            transform: scaleX(-1);
 }
 
 .ideditor .scale-block .scale path {
@@ -8407,59 +8274,70 @@
 /* Footer - About, Source Switcher
 ------------------------------------------------------- */
 .ideditor .map-footer-bar .info-block {
+    max-height: 30px;
     -webkit-box-flex: 1;
-        -ms-flex: 1 1 100%;
-            flex: 1 1 100%;
-    overflow: hidden;
+    -webkit-flex: 1 1 auto;
+        -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
 }
 
 .ideditor .map-footer-list {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-flow: row nowrap;
-            flex-flow: row nowrap;
-    height: 100%;
-    -webkit-box-pack: end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
+    text-align: right;
+    margin-right: 10px;
+    clear: right;
+    overflow: hidden;
+}
+.ideditor[dir='rtl'] .map-footer-list {
+    text-align: left;
+    clear: left;
+    margin-left: 10px;
+    margin-right: 0;
 }
 
 .ideditor .map-footer-list li {
-    height: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    white-space: nowrap;
-    padding: 5px;
-}
-.ideditor[dir='ltr'] .map-footer-list li:not(:last-child) {
-    border-right: 1px solid rgba(255,255,255,.5);
-}
-.ideditor[dir='rtl'] .map-footer-list li:not(:last-child) {
+    float: right;
     border-left: 1px solid rgba(255,255,255,.5);
+    padding: 5px 0 5px 5px;
+    margin-left: 5px;
+}
+.ideditor[dir='rtl'] .map-footer-list li {
+    float: left;
+    border-left: none;
+    border-right: 1px solid rgba(255,255,255,.5);
+    margin-left: 0;
+    margin-right: 5px;
+    padding: 5px 5px 5px 0;
 }
 .ideditor .map-footer-list li:empty {
     display: none;
 }
 
+.ideditor .map-footer-list li:last-child {
+    border-left: 0;
+    margin-left: 0;
+    padding-left: 0;
+}
+.ideditor[dir='rtl'] .map-footer-list li:last-child {
+    border-right: none;
+}
+
 .ideditor .map-footer-list a.chip {
-    padding: 1px 4px 1px 4px;
+    padding: 2px 4px 3px 4px;
     border-radius: 2px;
     color: #eee;
 }
 .ideditor .map-footer-list a.chip .icon {
     width: 14px;
     height: 14px;
-    margin-top: -2px;
+    margin-top: 3px;
 }
-.ideditor .map-footer-list a.chip span.count {
-    margin: 0 3px;
+.ideditor[dir='ltr'] .map-footer-list a.chip .icon,
+.ideditor[dir='ltr'] .map-footer-list a.chip span {
+    margin-right: 3px;
+}
+.ideditor[dir='rtl'] .map-footer-list a.chip .icon,
+.ideditor[dir='rtl'] .map-footer-list a.chip span {
+    margin-left: 3px;
 }
 
 .ideditor .source-switch a.chip.live {
@@ -8493,14 +8371,12 @@
     padding: 1px 10px;
     color: #eee;
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
 }
 .ideditor[dir='rtl'] .api-status {
     text-align: left;
-}
-.ideditor .api-status:empty {
-    display: none;
 }
 
 .ideditor .api-status.offline,
@@ -8514,7 +8390,6 @@
     color: #ccc;
     pointer-events: all;
 }
-.ideditor .api-status a:focus,
 .ideditor .api-status a:active {
     color: inherit;
 }
@@ -8524,43 +8399,33 @@
     }
 }
 
-.ideditor .local-storage-full {
-    display: block;
-    width: 100%;
-}
-
 /* Notification Badges
 ------------------------------------------------------- */
 /* For an icon (e.g. new version) */
 .ideditor .badge {
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
+    display: inline-block;
     background: #d32232;
     width: 21px;
-    height: 21px;
-    border-radius: 50%;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-}
-.ideditor[dir='ltr'] .badge {
+    height: 20px;
+    border-radius: 11px;
     margin-left: 6px;
 }
 .ideditor[dir='rtl'] .badge {
+    margin-left: 0;
     margin-right: 6px;
+}
+.ideditor .badge a {
+    margin-right: 5px;
+}
+.ideditor[dir='rtl'] .badge a {
+    margin-right: 0;
+    margin-left: 5px;
 }
 .ideditor .badge .icon {
     vertical-align: baseline;
     width: 11px;
     height: 11px;
     color: #fff;
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-            flex: 0 0 auto;
 }
 
 /* For text (e.g. upcoming events) */
@@ -8596,10 +8461,12 @@
     min-width: 200px;
     max-width: 550px;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
 }
@@ -8653,16 +8520,21 @@
 .ideditor .modal-section.buttons .action {
     display: inline-block;
     margin: 0 10px;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .ideditor .save-section .buttons {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    -webkit-justify-content: space-around;
+        -ms-flex-pack: distribute;
+            justify-content: space-around;
 }
 
 .ideditor .save-section .buttons .action,
@@ -8678,14 +8550,16 @@
 }
 .ideditor .modal-actions {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
 }
 .ideditor .modal-actions button {
+    font-weight: normal;
     color: #7092ff;
     border-bottom: 1px solid #ccc;
     border-radius: 0;
-    min-height: 160px;
+    height: 160px;
     text-align: center;
     width: 100%;
 }
@@ -8763,9 +8637,6 @@
 .ideditor .save-success td.community-detail {
     padding-bottom: 15px;
 }
-.ideditor .save-success .community-table h3 {
-    margin: 0;
-}
 
 .ideditor .summary-view-on-osm,
 .ideditor .community-name {
@@ -8824,52 +8695,43 @@
     color: #7092ff;
 }
 
-.ideditor .modal-splash .section-preferences-third-party {
-    margin-top: 20px;
-}
-
-.ideditor .modal-splash .section-preferences-third-party .privacy-link {
-    display: none;
-}
-
 
 /* Shortcuts Modal
 ------------------------------------------------------- */
 .ideditor .modal-shortcuts {
     width: 90%;
-    max-width: 1050px;
+    max-width: 950px;
 }
 
 .ideditor .modal-shortcuts .modal-section:last-child {
-    padding: 10px 15px 20px 15px;
+    padding-top: 10px;
     min-height: 275px;
 }
 
 .ideditor .modal-shortcuts .tabs-bar {
-    padding-bottom: 5px;
     text-align: center;
+    padding-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-.ideditor .modal-shortcuts a.tab {
+.ideditor .modal-shortcuts .tab {
     display: inline-block;
     padding: 5px 10px;
     margin: 0 5px;
     cursor: pointer;
     color: #666;
-    font-size: 16px;
-    font-weight: bold;
 }
-.ideditor .modal-shortcuts a.tab.active {
+.ideditor .modal-shortcuts .tab.active {
     color: #7092ff;
     border-bottom: 2px solid;
 }
-.ideditor .modal-shortcuts a.tab:focus,
-.ideditor .modal-shortcuts a.tab:active {
+.ideditor .modal-shortcuts .tab:active {
     color: #597be7;
     background-color: #efefef;
 }
 @media (hover: hover) {
-    .ideditor .modal-shortcuts a.tab:hover {
+    .ideditor .modal-shortcuts .tab:hover {
         color: #597be7;
         background-color: #efefef;
     }
@@ -8877,14 +8739,17 @@
 
 .ideditor .modal-shortcuts .shortcut-tab {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
         -ms-flex-flow: row wrap;
             flex-flow: row wrap;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
+    -webkit-justify-content: space-around;
+        -ms-flex-pack: distribute;
+            justify-content: space-around;
 }
 
 .ideditor .modal-shortcuts .shortcut-column {
@@ -8893,6 +8758,7 @@
 
 .ideditor .modal-shortcuts .shortcut-tab-tools .shortcut-column {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 100%;
         -ms-flex: 1 1 100%;
             flex: 1 1 100%;
     width: 100%;
@@ -8958,20 +8824,34 @@
 
 /* Save Mode
 ------------------------------------------------------- */
-.ideditor a.user-info {
+.ideditor.mode-save a.user-info {
     display: inline-block;
 }
 
-.ideditor .commit-form {
+.ideditor.mode-save .commit-form {
     margin-bottom: 0;
 }
 
-.ideditor .user-info img {
+.ideditor.mode-save .user-info img {
     float: left;
 }
 
+.ideditor.mode-save h3 small.count {
+    margin-right: 10px;
+    text-align: center;
+    float: left;
+    height: 12px;
+    min-width: 12px;
+    font-size: 12px;
+    line-height: 12px;
+    border-radius: 24px;
+    padding: 5px;
+    background: #7092ff;
+    color: #fff;
+}
+
 .ideditor .note-save .field-warning,
-.ideditor .field-warning {
+.ideditor.mode-save .field-warning {
     background: #ffb;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -8979,44 +8859,61 @@
 }
 
 .ideditor .note-save .field-warning:empty,
-.ideditor .field-warning:empty {
+.ideditor.mode-save .field-warning:empty {
     display: none;
 }
 
-.ideditor .field-warning,
-.ideditor .changeset-info,
-.ideditor .request-review,
-.ideditor .commit-info {
+.ideditor.mode-save .field-warning,
+.ideditor.mode-save .changeset-info,
+.ideditor.mode-save .request-review,
+.ideditor.mode-save .commit-info {
     margin-bottom: 10px;
 }
 
-.ideditor .request-review label {
+.ideditor.mode-save .request-review label {
     cursor: pointer;
 }
 
-.ideditor .changeset-list {
+.ideditor.mode-save .changeset-list {
     border: 1px solid #ccc;
     border-radius: 4px;
     background: #fff;
     margin-bottom: 10px;
-    overflow: hidden;
 }
 
-.ideditor .changeset-list li button {
-    padding: 5px 10px;
-    width: 100%;
-    border-radius: 0;
-    text-align: initial;
+.ideditor.mode-save .warning-section .changeset-list button {
+    border-left: 1px solid #ccc;
 }
-.ideditor .changeset-list li {
+
+.ideditor.mode-save .changeset-list li {
+    position: relative;
     border-top: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
 }
-.ideditor .changeset-list li:first-child {
-    border-top: 0;
+.ideditor.mode-save .changeset-list li:active {
+    background-color: #ececec;
 }
-.ideditor .changeset-list .alert {
+@media (hover: hover) {
+    .ideditor.mode-save .changeset-list li:hover {
+        background-color: #ececec;
+    }
+}
+
+.ideditor.mode-save .changeset-list .alert {
     opacity: 0.5;
 }
+
+.ideditor .changeset-list li span.count {
+    font-size: 10px;
+    color: #555;
+}
+
+.ideditor .changeset-list li span.count:before { content: '('; }
+
+.ideditor .changeset-list li span.count:after { content: ')'; }
+
+.ideditor .changeset-list li:first-child { border-top: 0;}
 
 
 /* Conflict resolution
@@ -9031,7 +8928,7 @@
     padding: 20px;
 }
 
-.ideditor button.conflicts-button {
+.ideditor.mode-save button.conflicts-button {
     float: left;
 }
 
@@ -9082,10 +8979,9 @@
 .ideditor .notice .zoom-to {
     margin: auto;
     width: 300px;
-    padding: 20px 5px;
+    height: 70px;
     font-size: 150%;
     border-radius: 8px;
-    font-weight: bold;
 }
 
 .ideditor .notice .zoom-to:focus,
@@ -9252,26 +9148,22 @@
 /* dark tooltips for sidebar / panels */
 .ideditor .tooltip.dark.top .popover-arrow,
 .ideditor .map-pane .tooltip.top .popover-arrow,
-.ideditor .sidebar .tooltip.top .popover-arrow,
-.ideditor .modal .tooltip.top .popover-arrow {
+.ideditor .sidebar .tooltip.top .popover-arrow {
     border-top-color: #000;
 }
 .ideditor .tooltip.dark.bottom .popover-arrow,
 .ideditor .map-pane .tooltip.bottom .popover-arrow,
-.ideditor .sidebar .tooltip.bottom .popover-arrow,
-.ideditor .modal .tooltip.bottom .popover-arrow {
+.ideditor .sidebar .tooltip.bottom .popover-arrow {
     border-bottom-color: #000;
 }
 .ideditor .tooltip.dark.left .popover-arrow,
 .ideditor .map-pane .tooltip.left .popover-arrow,
-.ideditor .sidebar .tooltip.left .popover-arrow,
-.ideditor .modal .tooltip.left .popover-arrow {
+.ideditor .sidebar .tooltip.left .popover-arrow {
     border-left-color: #000;
 }
 .ideditor .tooltip.dark.right .popover-arrow,
 .ideditor .map-pane .tooltip.right .popover-arrow,
-.ideditor .sidebar .tooltip.right .popover-arrow,
-.ideditor .modal .tooltip.right .popover-arrow {
+.ideditor .sidebar .tooltip.right .popover-arrow {
     border-right-color: #000;
 }
 .ideditor .tooltip.dark .popover-inner,
@@ -9282,8 +9174,7 @@
 .ideditor .map-pane .keyhint-wrap,
 .ideditor .sidebar .popover-inner,
 .ideditor .sidebar .tooltip-heading,
-.ideditor .sidebar .keyhint-wrap,
-.ideditor .modal .popover-inner {
+.ideditor .sidebar .keyhint-wrap {
     background: #000;
     color: #ccc;
 }
@@ -9332,10 +9223,12 @@
 .ideditor .edit-menu {
     position: absolute;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
     background: #fff;
@@ -9349,9 +9242,11 @@
 
 .ideditor .edit-menu-item {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
+    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
     border-radius: 0;
@@ -9362,7 +9257,6 @@
     max-width: 120px;
     text-align: initial;
     line-height: 1.1em;
-    font-weight: bold;
 }
 .ideditor[dir='ltr'] .edit-menu-item .label {
     margin-left: 8px;
@@ -9436,10 +9330,12 @@
 
 .ideditor .intro-nav-wrap {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
         -ms-flex-direction: row;
             flex-direction: row;
     position: absolute;
@@ -9452,6 +9348,7 @@
 
 .ideditor .intro-nav-wrap .intro-nav-wrap-logo {
     -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
     height: 40px;
@@ -9463,23 +9360,26 @@
 
 .ideditor .intro-nav-wrap .joined {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
         -ms-flex-direction: row;
             flex-direction: row;
 }
 
 .ideditor .intro-nav-wrap button.chapter {
     -webkit-box-flex: 1;
+    -webkit-flex: 1 1 100%;
         -ms-flex: 1 1 100%;
             flex: 1 1 100%;
     padding: 0px 5px;
-    font-weight: bold;
 }
 
 .ideditor .intro-nav-wrap button.chapter.next {
@@ -9608,6 +9508,7 @@
 
 .ideditor .huge-modal-button {
     width: 100%;
+    height: auto;
     padding: 20px;
 }
 
