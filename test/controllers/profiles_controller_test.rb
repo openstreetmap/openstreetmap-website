@@ -39,7 +39,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_template :show
     assert_select ".notice", /^Profile updated./
     get edit_profile_path
-    assert_select "form > fieldset.form-group > div > div.col-sm-10 > div.form-check > input[name=avatar_action][checked][value=?]", "keep"
+    assert_select "form > fieldset > div > div.col-sm-10 > div.form-check > input[name=avatar_action][checked][value=?]", "keep"
 
     # Changing to a gravatar image should work
     put profile_path, :params => { :avatar_action => "gravatar", :user => { :description => user.description } }
@@ -50,7 +50,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_template :show
     assert_select ".notice", /^Profile updated./
     get edit_profile_path
-    assert_select "form > fieldset.form-group > div > div.col-sm-10 > div.form-group > div.form-check > input[name=avatar_action][checked][value=?]", "gravatar"
+    assert_select "form > fieldset > div > div.col-sm-10 > div > div.form-check > input[name=avatar_action][checked][value=?]", "gravatar"
 
     # Removing the image should work
     put profile_path, :params => { :avatar_action => "delete", :user => { :description => user.description } }
@@ -61,7 +61,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_template :show
     assert_select ".notice", /^Profile updated./
     get edit_profile_path
-    assert_select "form > fieldset.form-group > div > div.col-sm-10 > div.form-check > input[name=avatar_action][checked]", false
-    assert_select "form > fieldset.form-group > div > div.col-sm-10 > div.form-group > div.form-check > input[name=avatar_action][checked]", false
+    assert_select "form > fieldset > div > div.col-sm-10 > div > input[name=avatar_action][checked]", false
+    assert_select "form > fieldset > div > div.col-sm-10 > div > div.form-check > input[name=avatar_action][checked]", false
   end
 end

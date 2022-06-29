@@ -31,7 +31,7 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     assert_template :edit
     assert_select ".notice", false
     assert_select ".error", true
-    assert_select "form > div.form-group > select#user_preferred_editor > option[selected]", false
+    assert_select "form > div > select#user_preferred_editor > option[selected]", false
 
     # Changing to a valid editor should work
     user.preferred_editor = "id"

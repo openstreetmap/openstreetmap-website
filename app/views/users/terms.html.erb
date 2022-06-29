@@ -19,7 +19,7 @@
   <label class="form-label">
     <%= t ".legale_select" %>
   </label>
-  <div class="form-group">
+  <div class="mb-3">
     <% [%w[france FR], %w[italy IT], %w[rest_of_world GB]].each do |name, legale| %>
       <div class="form-check form-check-inline">
         <%= radio_button_tag "legale", legale, @legale == legale, :data => { :url => url_for(:legale => legale) }, :class => "form-check-input" %>
@@ -41,7 +41,7 @@
             :translations => "https://www.osmfoundation.org/wiki/License/Contributor_Terms/Informal_Translations" %>
     </p>
   </div>
-  <div class="form-group">
+  <div class="mb-3">
     <div class="form-check">
       <%= check_box_tag "read_ct", "1", false, :class => "form-check-input" %>
       <label for="read_ct" class="form-check-label">
@@ -55,7 +55,7 @@
   </h4>
   <p class="text-muted"><%= t ".tou_explain_html", :tou_link => link_to(t("layouts.tou"), "https://wiki.osmfoundation.org/wiki/Terms_of_Use", :target => :new) %></p>
 
-  <div class="form-group">
+  <div class="mb-3">
     <div class="form-check">
       <%= check_box_tag "read_tou", "1", false, :class => "form-check-input" %>
       <label for="read_tou" class="form-check-label">
@@ -66,12 +66,12 @@
 
   <%= hidden_field_tag("referer", h(params[:referer])) unless params[:referer].nil? %>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= submit_tag("Continue", :name => "continue", :id => "continue", :disabled => true, :class => "btn btn-primary") %>
     <%= submit_tag("Cancel", :name => "decline", :id => "decline", :class => "btn btn-outline-secondary") %>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <div class="form-check">
       <%= check_box("user", "consider_pd", :class => "form-check-input") %>
     <label for="user_consider_pd" class="form-check-label">

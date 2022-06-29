@@ -51,7 +51,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_template "users/new"
         assert_equal locale.to_s, response.headers["Content-Language"]
         assert_select "form"
-        assert_select "form > div.form-group > input.is-invalid#user_email"
+        assert_select "form > div > input.is-invalid#user_email"
         assert_no_missing_translations
       end
     end
@@ -77,7 +77,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
         assert_response :success
         assert_template "users/new"
-        assert_select "form > div.form-group > input.is-invalid#user_display_name"
+        assert_select "form > div > input.is-invalid#user_display_name"
         assert_no_missing_translations
       end
     end
