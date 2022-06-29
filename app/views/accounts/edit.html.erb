@@ -17,7 +17,7 @@
   <%= f.password_field :pass_crypt_confirmation, :value => "", :autocomplete => "new-password" %>
 
   <fieldset class="form-group">
-    <label for="user_auth_provider"><%= t(".external auth") %></label>
+    <label for="user_auth_provider" class="form-label"><%= t(".external auth") %></label>
     <div class="row">
       <%= f.select(:auth_provider, Auth.providers, :hide_label => true, :wrapper => { :class => "col-auto mb-0" }) %>
       <%= f.text_field(:auth_uid, :hide_label => true, :wrapper => { :class => "col mb-0" }) %>
@@ -26,7 +26,7 @@
   </fieldset>
 
   <div class="form-group">
-    <label><%= t ".public editing.heading" %></label>
+    <label class="form-label"><%= t ".public editing.heading" %></label>
     <span class="form-text text-muted">
       <% if current_user.data_public? %>
         <%= t ".public editing.enabled" %>
@@ -39,7 +39,7 @@
   </div>
 
   <div class="form-group">
-    <label><%= t ".contributor terms.heading" %></label>
+    <label class="form-label"><%= t ".contributor terms.heading" %></label>
     <span class="form-text text-muted">
       <% if current_user.terms_agreed? %>
         <%= t ".contributor terms.agreed" %>
