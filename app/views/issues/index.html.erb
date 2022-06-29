@@ -11,14 +11,14 @@
                      options_for_select(Issue.aasm.states.map(&:name).map { |state| [t(".states.#{state}"), state] }, params[:status]),
                      :include_blank => t(".select_status"),
                      :data => { :behavior => "category_dropdown" },
-                     :class => "form-control custom-select" %>
+                     :class => "form-select" %>
     </div>
     <div class="form-group col-md-auto">
       <%= select_tag :issue_type,
                      options_for_select(@issue_types, params[:issue_type]),
                      :include_blank => t(".select_type"),
                      :data => { :behavior => "category_dropdown" },
-                     :class => "form-control custom-select" %>
+                     :class => "form-select" %>
     </div>
     <div class="form-group col-md">
       <%= text_field_tag :search_by_user,
@@ -32,7 +32,7 @@
                      options_for_select(@users.all.collect { |f| [f.display_name, f.id] } << [t(".not_updated"), "nil"], params[:last_updated_by]),
                      :include_blank => t(".select_last_updated_by"),
                      :data => { :behavior => "category_dropdown" },
-                     :class => "form-control custom-select" %>
+                     :class => "form-select" %>
     </div>
     <div class="form-group col-md-auto">
       <%= submit_tag t(".search"), :name => nil, :class => "btn btn-primary" %>
