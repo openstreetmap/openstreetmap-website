@@ -30,7 +30,9 @@ $(document).ready(function () {
     zoomControl: false,
     layerControl: false,
     contextmenu: true,
-    worldCopyJump: true
+    minZoom: 2,  /* match to "L.MapboxGL" options in leaflet.map.js */
+    maxZoom: 20,  /* match to "L.MapboxGL" options in leaflet.map.js */
+    maxBounds: [[-90, -180], [90, 180]],  /* prevents vector & raster maps from slipping out of sync at extreme latitudes */
   });
 
   OSM.loadSidebarContent = function (path, callback) {
@@ -87,15 +89,6 @@ $(document).ready(function () {
   };
 
   var params = OSM.mapParams();
-
-  var map = new L.OSM.Map("map", {
-    zoomControl: false,
-    layerControl: false,
-    contextmenu: true,
-    minZoom: 2,  /* match to "L.MapboxGL" options in leaflet.map.js */
-    maxZoom: 20,  /* match to "L.MapboxGL" options in leaflet.map.js */
-    maxBounds: [[-90, -180], [90, 180]],  /* prevents vector & raster maps from slipping out of sync at extreme latitudes */
-  });
 
   map.attributionControl.setPrefix('');
 
