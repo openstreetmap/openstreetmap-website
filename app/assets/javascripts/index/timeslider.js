@@ -5,30 +5,31 @@
 
 function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
   const historicalLayerKeys = ['historical', 'woodblock'];
-  const timeSliderHardMaxYear = (new Date()).getFullYear();  // current calendar year
-  const timeSliderHardMinYear = -4000;
-  const timeSliderDateRange = (params && params.daterange) ? params.daterange.split(',').map(function (i) { return parseInt(i); }) : [1800, timeSliderHardMaxYear];
-  const timeSliderDate = (params && params.date) ? parseInt(params.date) : 1900;
 
-  var sliderOptions = {
+  const sliderOptions = {
+    vectorLayer: undefined,  // see addTimeSliderToMap() which searches for this
+    sourcename: "osm",
+    stepInterval: 1,
+    stepAmount: '10year',
+    // range: ['1850-01-01', '2020-12-31'], // see below
+    // date: '1860-06-15', // see below
+    onDateChange: function () {
+      OSM.router.updateHash();
+    },
+    onRangeChange: function () {
+      OSM.router.updateHash();
+    },
+    onReady: function () {
+      OSM.router.updateHash('force');
+    },
     position: 'bottomright',
-    mbgllayer: undefined,  // see addTimeSliderToMap() which searches for this
-    timeSliderOptions: {
-      sourcename: "osm",
-      datelimit: [timeSliderHardMinYear, timeSliderHardMaxYear],
-      onDateSelect: function () {
-        OSM.router.updateHash();
-      },
-      onRangeChange: function () {
-        OSM.router.updateHash();
-      },
-      onReady: function () {
-        OSM.router.updateHash('force');
-      },
-    }
   };
-  if (timeSliderDate) sliderOptions.timeSliderOptions.date = timeSliderDate;
-  if (timeSliderDateRange) sliderOptions.timeSliderOptions.range = timeSliderDateRange;
+  if (params && params.date && typeof params.date == 'string' && params.date.match(/^\d\d\d\d\-\d\d\-\d\d$/)) {
+    sliderOptions.date = params.date;
+  }
+  if (params && params.daterange && typeof params.daterange == 'string' && params.daterange.match(/^\d\d\d\d\-\d\d\-\d\d,\d\d\d\d\-\d\d\-\d\d$/)) {
+    sliderOptions.range = params.daterange.split(',');
+  }
 
   // change basemap = MBGL gone and so is the real timeslider, so reinstate a new one
   // add the slider IF the the OSM vector map is the layer showing
@@ -48,8 +49,8 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
     // create a new slider, copying the old slider's date & range
     const newSliderOptions = Object.assign({}, sliderOptions);
     if (this.timeslider) {
-      newSliderOptions.timeSliderOptions.date = this.timeslider.getDate();
-      newSliderOptions.timeSliderOptions.range = this.timeslider.getRange();
+      newSliderOptions.date = this.timeslider.getDate();
+      newSliderOptions.range = this.timeslider.getRange();
     }
     addTimeSliderToMap(newSliderOptions);
   });
@@ -64,13 +65,13 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
 
   function addTimeSliderToMap (slideroptions) {
     const ohmlayer = getHistoryLayerIfShowing();
-    slideroptions.mbgllayer = ohmlayer;
-    map.timeslider = new L.Control.MBGLTimeSlider(slideroptions).addTo(map);
+    slideroptions.vectorLayer = ohmlayer;
+    map.timeslider = new L.Control.OHMTimeSlider(slideroptions).addTo(map);
 
     // if a callback was given for when the slider is ready, poll until it becomes ready
     if (onreadycallback) {
       var waitforslider = setInterval(function () {
-        var ready = ! getHistoryLayerIfShowing() || (map.timeslider && map.timeslider._timeslider);
+        var ready = ! getHistoryLayerIfShowing() || map.timeslider;
         if (ready) {
           clearInterval(waitforslider);
           onreadycallback();
