@@ -36,6 +36,9 @@ gem "image_optim_rails"
 # Use argon2 for password hashing
 gem "argon2"
 
+# Support brotli compression for assets
+gem "sprockets-exporters_pack"
+
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
 gem "activerecord-import"
