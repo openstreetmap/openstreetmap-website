@@ -191,7 +191,7 @@ nav.secondary {
 
   .login-menu {
     .btn-outline-secondary {
-      @include button-outline-variant($darkgrey);
+      @include button-outline-variant($darkgrey, $white, null, null, $white);
     }
   }
 
@@ -678,6 +678,23 @@ form {
 /* Stop bootstrap 5 from floating legends when they don't need to be */
 legend {
   float: none;
+}
+
+/* Override the text colour for primary and secondary buttons, to match our
+   bootstrap 4 colours. Note this has accessibility issues, which is why
+   bootstrap 5 calculates black as the appropriate colour, and we should
+   reconsider our colours at some point with that in mind. */
+
+.btn-primary {
+  @include button-variant($primary, $primary, $white, null, null, $white, null, null, $white, null, null, $white);
+}
+
+.btn-secondary {
+  @include button-variant($secondary, $secondary, $white, null, null, $white, null, null, $white, null, null, $white);
+}
+
+.btn-outline-secondary {
+  @include button-outline-variant($secondary, $white, null, null, $white);
 }
 
 /* Rules for the search and direction forms */
