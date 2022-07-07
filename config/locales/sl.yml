@@ -92,6 +92,8 @@ sl:
         name: Ime (obvezno)
         callback_url: URL povratnih klicev
         support_url: URL za podporo
+        allow_write_api: spreminjanje zemljevida
+        allow_write_notes: spreminjanje opomb
       diary_comment:
         body: Besedilo
       diary_entry:
@@ -102,6 +104,7 @@ sl:
         language: Jezik
       doorkeeper/application:
         name: Ime
+        confidential: Zaupna aplikacija?
         scopes: Dovoljenja
       friend:
         user: Uporabnik
@@ -148,6 +151,9 @@ sl:
       user_block:
         needs_view: Ali se mora uporabnik prijaviti preden bo blokada ukinjena.
       user:
+        email_confirmation: Vaš naslov ni javno prikazan – za več informacij glejte
+          našo <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Politika
+          zasebnosti OSMF, vključno s poglavjem o e-poštnih naslovih">politiko zasebnosti</a>.
         new_email: (nikoli javno objavljen)
   datetime:
     distance_in_words_ago:
@@ -252,6 +258,12 @@ sl:
   account:
     deletions:
       show:
+        title: Brisanje računa
+        warning: Opozorilo! Postopek brisanja računa je dokončen in ga ni mogoče razveljaviti.
+        delete_account: Izbriši račun
+        delete_introduction: 'Svoj račun OpenStreetMap lahko izbrišete s spodnjim
+          gumbom. Upoštevajte naslednje:'
+        confirm_delete: Ali ste prepričani?
         cancel: Prekliči
   accounts:
     edit:
@@ -281,20 +293,23 @@ sl:
           uporabnik, ne bo razkril.</li><li>Dejanja ni mogoče razveljaviti in vsi
           novi uporabniki so zdaj privzeto javni.</li></ul>
       contributor terms:
-        heading: 'Pogoji sodelovanja:'
+        heading: Pogoji sodelovanja
         agreed: Sprejeli ste nove pogoje sodelovanja.
         not yet agreed: Niste še sprejeli novih pogojev sodelovanja.
         review link text: Prosimo sledite tej povezavi, ko imate čas da pregledate
           in sprejmete nove pogoje sodelovanja..
         agreed_with_pd: Prav tako ste izjavili, da so vaša urejanja v javni lasti.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: Kaj je to?
       save changes button: Shrani spremembe
       make edits public button: Naj bodo vsi moji prispevki javni
+      delete_account: Izbriši račun ...
     update:
       success_confirm_needed: Podatki o uporabniku so bili uspešno posodobljeni. Preverite
         svojo e-pošto in potrdite spremembo e-poštnega naslova.
       success: Podatki o uporabniku so uspešno posodobljeni.
+    destroy:
+      success: Račun izbrisan.
   browse:
     created: Ustvarjeno
     closed: Zaprto
@@ -473,6 +488,7 @@ sl:
       nearby mapper: Bližnji kartograf
       friend: Prijatelj
     show:
+      title: Moja pregledna plošča
       edit_your_profile: Uredi profil
       my friends: Moji prijatelji
       no friends: Niste še dodali nobenih prijateljev.
@@ -524,7 +540,6 @@ sl:
       comment_count:
         one: '%{count} komentar'
         two: '%{count} komentarja'
-        zero: Brez komentarjev
         few: '%{count} komentarji'
         other: '%{count} komentarjev'
       edit_link: Uredi ta vnos
@@ -557,6 +572,11 @@ sl:
       comment: Komentar
       newer_comments: Novejši komentarji
       older_comments: Starejši komentarji
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Aplikacija registrirana.
   friendships:
     make_friend:
       heading: Dodaj %{user} med prijatelje?
@@ -600,7 +620,7 @@ sl:
           helipad: Heliodrom
           runway: Vzletna steza
           taxiway: Vozna steza
-          terminal: Terminal
+          terminal: Letališki terminal
         amenity:
           animal_shelter: Zavetišče za živali
           arts_centre: Umetnostni center
@@ -1234,6 +1254,11 @@ sl:
     update:
       provide_details: Navedite zahtevane podrobnosti
     show:
+      reports:
+        one: 1 prijava
+        two: '%{count} prijavi'
+        few: '%{count} prijave'
+        other: '%{count} prijav'
       resolve: Razreši
       ignore: Prezri
       reopen: Ponovno odpri
@@ -1259,6 +1284,8 @@ sl:
           other_label: Ostalo
         note:
           other_label: Ostalo
+    create:
+      provide_details: Navedite zahtevane podrobnosti
   layouts:
     logo:
       alt_text: OpenStreetMap logotip
@@ -1317,6 +1344,7 @@ sl:
       footer: Komentar lahko preberete tudi na %{readurl}, komentirate lahko na %{commenturl}
         ali odgovorite na %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Pozdravljeni, %{to_user},
       header: 'Uporabnik %{from_user}  vam je prek OpenStreetMap poslal novo sporočilo
         glede %{subject}:'
@@ -1521,6 +1549,9 @@ sl:
       flash token bad: Tega žetona ni bilo mogoče najti.  Predlagamo, da preverite
         naslov URL.
   preferences:
+    show:
+      preferred_editor: Prednostni urejevalnik
+      preferred_languages: Prednostni jeziki
     edit:
       cancel: Prekliči
     update:
@@ -1627,6 +1658,8 @@ sl:
     about:
       next: Naslednji
       copyright_html: <span>&copy;</span>OpenStreetMap<br> sodelavci
+      used_by_html: '%{name} zagotavlja podatke zemljevidov za tisoče spletnih mest,
+        mobilnih aplikacij in naprav'
       lede_text: |-
         OpenStreetMap ustvarja skupnost kartografov z vsega sveta, ki prispevajo in vzdržujejo
         podatke o cestah, poteh, kavarnah, postajah in ostalem.
@@ -2014,6 +2047,10 @@ sl:
       need_to_see_terms: Vaš dostop do API, je začasno prekinjen. Prosimo, prijavite
         se na spletno stran in si oglejte pogoje "Contributor Terms". Ni se vam treba
         strinjati, vendar si jih morate ogledati.
+    settings_menu:
+      account_settings: Nastavitve računa
+      oauth1_settings: Nastavitve OAuth 1
+      oauth2_authorizations: Pooblastila OAuth 2
   oauth:
     authorize:
       title: Dovoli dostop do vašega računa
@@ -2041,7 +2078,11 @@ sl:
     revoke:
       flash: Preklicali ste žeton za %{application}
     scopes:
+      read_prefs: Branje uporabniških nastavitev
+      write_prefs: Spreminjanje uporabniških nastavitev
       write_api: Spreminjanje zemljevida
+      write_notes: Spreminjanje opomb
+      read_email: Branje uporabnikovega e-poštnega naslova
   oauth_clients:
     new:
       title: Registriraj novo aplikacijo
@@ -2090,6 +2131,8 @@ sl:
     application:
       edit: Uredi
       delete: Izbriši
+    new:
+      title: Registriraj novo aplikacijo
     show:
       edit: Uredi
       delete: Izbriši
@@ -2102,9 +2145,11 @@ sl:
   oauth2_authorized_applications:
     index:
       permissions: Dovoljenja
+    application:
+      revoke: Prekliči dostop
   users:
     new:
-      title: Prijavite se
+      title: Ustvarjanje računa
       no_auto_account_create: Na žalost vam trenutno ne moremo samodejno ustvariti
         uporabniškega računa.
       contact_support_html: Prosimo, pišite <a href="%{support}">skrbniku spletnega
@@ -2113,8 +2158,8 @@ sl:
       about:
         header: Brezplačen, ki ga je mogoče urejati
         html: |-
-          <p>Za razliko od drugih zemljevidov je OpenStreetMap popolnoma ustvarjen od ljudi kot si ti in ga lahko vsakdo popravit, nadgradi, prenese ter brezplačno uporablja.</p>
-          <p>Prijavite se, če želite začeti prispevati. Poslali vam bomo elektronsko sporočilo za potrditev računa.</p>
+          <p>Za razliko od drugih zemljevidov so OpenStreetMap v celoti ustvarili ljudje, kot ste vi, in ga lahko vsakdo popravi, nadgradi, prenese ter brezplačno uporablja.</p>
+          <p>Če želite začeti prispevati, ustvarite račun. Poslali vam bomo elektronsko sporočilo za potrditev računa.</p>
       email address: 'E-poštni naslov:'
       confirm email address: 'Potrdite naslov e-pošte:'
       display name: 'Prikazno ime:'
@@ -2129,6 +2174,7 @@ sl:
     terms:
       title: Pogoji
       heading: Pogoji
+      heading_ct: Pogoji sodelovanja
       read_ct: Prebral sem zgornje pogoje in soglašam z njimi
       read_tou: Prebral sem pogoje uporabe in soglašam z njimi
       consider_pd: Poleg zgoraj navedenega sporazuma menim, da so moji prispevki v
@@ -2162,6 +2208,7 @@ sl:
       my profile: Moj profil
       my settings: Moje nastavitve
       my comments: Moje pripombe
+      my_dashboard: Moja pregledna plošča
       blocks on me: Blokade mene
       blocks by me: Moje blokade
       edit_profile: Uredi profil
@@ -2243,6 +2290,8 @@ sl:
       not_a_role: Besedilo `%{role}' ni pravilna vloga.
       already_has_role: Uporabnik že ima vlogo %{role}.
       doesnt_have_role: Uporabnik nima vloge %{role}.
+      not_revoke_admin_current_user: Trenutnemu uporabniku ni mogoče preklicati vloge
+        skrbnika.
     grant:
       title: Potrdi dodeljevanje vloge
       heading: Potrdi dodeljevanje vloge
@@ -2316,6 +2365,21 @@ sl:
           two: '%{count} dneva'
           few: '%{count} dni'
           other: '%{count} dni'
+        weeks:
+          one: 1 teden
+          two: '%{count} tedna'
+          few: '%{count} tedni'
+          other: '%{count} tednov'
+        months:
+          one: 1 mesec
+          two: '%{count} meseca'
+          few: '%{count} meseci'
+          other: '%{count} mesecev'
+        years:
+          one: 1 leto
+          two: '%{count} leti'
+          few: '%{count} leta'
+          other: '%{count} let'
     blocks_on:
       title: Blokade uporabnika %{name}
       heading_html: Seznam blokad uporabnika %{name}
@@ -2357,6 +2421,7 @@ sl:
       title: Opombe, ki jih je posredoval/-a ali komentiral/-a %{user}
       heading: Opombe uporabnika %{user}
       subheading_html: Opombe, ki jih je posredoval/-a ali komentiral/-a %{user}
+      no_notes: Ni opomb
       id: Id
       creator: Ustvarjalec
       description: Opis
@@ -2409,8 +2474,9 @@ sl:
         gps: Javne sledi GPS
         overlays: Omogočite prekrivke za odpravljanje težav na zemljevidu
         title: Plasti
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap sodelavci</a>
+      copyright: © <a href='%{copyright_url}'>sodelavci OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Denarni prispevki</a>
+      terms: <a href='%{terms_url}' target='_blank'>Pogoji za spletno mesto in API</a>
     site:
       edit_tooltip: Urejanje zemljevida
       edit_disabled_tooltip: Povečajte za urejanje zemljevida
@@ -2581,4 +2647,6 @@ sl:
         tej redakciji, preden jo uničite.
       flash: Redakcija uničena.
       error: Ob uničevanju te redakcije se je pojavila napaka.
+  validations:
+    invalid_characters: vsebuje neveljavne znake
 ...
