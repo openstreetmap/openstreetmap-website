@@ -2,7 +2,7 @@ module Api
   class NotesController < ApiController
     before_action :check_api_readable
     before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
-    before_action :setup_user_auth, :only => [:create, :comment, :show]
+    before_action :setup_user_auth, :only => [:create, :show]
     before_action :authorize, :only => [:close, :reopen, :destroy, :comment]
 
     authorize_resource
