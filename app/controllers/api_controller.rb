@@ -109,6 +109,8 @@ class ApiController < ApplicationController
                           else
                             User.authenticate(:username => username, :password => passwd) # basic auth
                           end
+      # log if we have authenticated using basic auth
+      logger.info "Authenticated as user #{current_user.id} using basic authentication" if current_user
     end
 
     # have we identified the user?
