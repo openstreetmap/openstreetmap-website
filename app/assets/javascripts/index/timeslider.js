@@ -38,11 +38,15 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
   }
 
   map.on('baselayerchange', function () {
+    // do not use this.removeControl(this.timeslider)
     // by now, the timeslider is already gone from the visible map, along with the MBGL map
     // but the Leaflet wrapper will leave behind an empty DIV, and those pile up
-    const oldctrl = this._container.querySelector('div.leaflet-control-mbgltimeslider');
+    const oldctrl = this._container.querySelector('div.leaflet-control.leaflet-ohm-timeslider');
     if (oldctrl) oldctrl.parentElement.removeChild(oldctrl);
 
+    if (this.timeslider) this.timeslider.autoplayPause();
+
+    // should we add a new slider?
     const usetheslider = getHistoryLayerIfShowing();
     if (! usetheslider) return;
 
@@ -51,6 +55,8 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
     if (this.timeslider) {
       newSliderOptions.date = this.timeslider.getDate();
       newSliderOptions.range = this.timeslider.getRange();
+      newSliderOptions.stepAmount = this.timeslider.getStepAmount();
+      newSliderOptions.stepInterval = this.timeslider.getStepInterval();
     }
     addTimeSliderToMap(newSliderOptions);
   });
