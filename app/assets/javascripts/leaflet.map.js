@@ -25,7 +25,7 @@ L.OSM.Map = L.Map.extend({
 
     this.baseLayers = [];
 
-    this.baseLayers.push(new L.MapboxGL({  /* see also timeslider.js and viewreset handler */
+    this.baseLayers.push(new L.MapboxGL({  /* see also timeslider.js and viewreset/baselayerchange handlers */
       attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
       code: "O",
       keyid: "historical",
@@ -37,7 +37,7 @@ L.OSM.Map = L.Map.extend({
       maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
     }));
 
-    this.baseLayers.push(new L.MapboxGL({  /* see also timeslider.js and viewreset handler */
+    this.baseLayers.push(new L.MapboxGL({  /* see also timeslider.js and viewreset/baselayerchange handlers */
       attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
       code: "W",
       keyid: "woodblock",
@@ -50,6 +50,9 @@ L.OSM.Map = L.Map.extend({
     }));
 
     this.on('baselayerchange', function () {  /* MBGL layers can fall out of sync as they're swapped; this helps */
+      this.panBy([0, 1]);
+    });
+    this.on('viewreset', function () {  /* MBGL layers can fall out of sync as they're swapped; this helps */
       this.panBy([0, 1]);
     });
 
