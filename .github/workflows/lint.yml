@@ -16,21 +16,10 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v3
     - name: Setup ruby
-      uses: actions/setup-ruby@v1.1.3
+      uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.ruby }}
-    - name: Cache gems
-      uses: actions/cache@v3
-      with:
-        path: vendor/bundle
-        key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
-        restore-keys: |
-          bundle-${{ env.os }}-${{ env.ruby }}-
-    - name: Install gems
-      run: |
-        gem install bundler
-        bundle config set deployment true
-        bundle install --jobs 4 --retry 3
+        bundler-cache: true
     - name: Run rubocop
       run: bundle exec rubocop --format fuubar
   erblint:
@@ -40,21 +29,10 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v3
     - name: Setup ruby
-      uses: actions/setup-ruby@v1.1.3
+      uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.ruby }}
-    - name: Cache gems
-      uses: actions/cache@v3
-      with:
-        path: vendor/bundle
-        key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
-        restore-keys: |
-          bundle-${{ env.os }}-${{ env.ruby }}-
-    - name: Install gems
-      run: |
-        gem install bundler
-        bundle config set deployment true
-        bundle install --jobs 4 --retry 3
+        bundler-cache: true
     - name: Run erblint
       run: bundle exec erblint .
   eslint:
@@ -64,16 +42,10 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v3
     - name: Setup ruby
-      uses: actions/setup-ruby@v1.1.3
+      uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.ruby }}
-    - name: Cache gems
-      uses: actions/cache@v3
-      with:
-        path: vendor/bundle
-        key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
-        restore-keys: |
-          bundle-${{ env.os }}-${{ env.ruby }}-
+        bundler-cache: true
     - name: Cache node modules
       uses: actions/cache@v3
       with:
@@ -81,11 +53,6 @@ jobs:
         key: yarn-${{ env.os }}-${{ hashFiles('yarn.lock') }}
         restore-keys: |
           yarn-${{ env.os }}-
-    - name: Install gems
-      run: |
-        gem install bundler
-        bundle config set deployment true
-        bundle install --jobs 4 --retry 3
     - name: Install node modules
       run: bundle exec rake yarn:install
     - name: Create dummy database configuration
@@ -99,20 +66,9 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v3
     - name: Setup ruby
-      uses: actions/setup-ruby@v1.1.3
+      uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.ruby }}
-    - name: Cache gems
-      uses: actions/cache@v3
-      with:
-        path: vendor/bundle
-        key: bundle-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('Gemfile.lock') }}
-        restore-keys: |
-          bundle-${{ env.os }}-${{ env.ruby }}-
-    - name: Install gems
-      run: |
-        gem install bundler
-        bundle config set deployment true
-        bundle install --jobs 4 --retry 3
+        bundler-cache: true
     - name: Run brakeman
       run: bundle exec brakeman -q
