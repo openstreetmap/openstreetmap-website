@@ -27,8 +27,11 @@ module Api
         bbox = BoundingBox.from_lrbt_params(params)
       end
 
-      # Get any conditions that need to be applied
+      # Get the initial set of notes and add closed date conditions
       notes = closed_condition(Note.all)
+
+      # Add any date filter
+      notes = notes.where(:updated_at => date_range) if params[:from]
 
       # Check that the boundaries are valid
       bbox.check_boundaries
@@ -262,7 +265,7 @@ module Api
     ##
     # Return a list of notes matching a given string
     def search
-      # Get the initial set of notes
+      # Get the initial set of notes and add closed date conditions
       @notes = closed_condition(Note.all)
 
       # Add any user filter

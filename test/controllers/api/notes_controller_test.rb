@@ -782,6 +782,40 @@ module Api
       assert_equal 3, js["features"].count
     end
 
+    def test_index_by_time
+      note02 = create(:note_with_comments, :created_at => "2020-01-01T00:00:00Z")
+      note04 = create(:note_with_comments, :created_at => "2020-01-01T00:00:00Z")
+      note06 = create(:note_with_comments, :created_at => "2020-01-01T00:00:00Z")
+      begin
+        Note.record_timestamps = false
+        note02.update(:updated_at => "2020-02-01T00:00:00Z")
+        note04.update(:updated_at => "2020-04-01T00:00:00Z")
+        note06.update(:updated_at => "2020-06-01T00:00:00Z")
+      ensure
+        Note.record_timestamps = true
+      end
+
+      # Match no notes
+      get api_notes_path(:bbox => "1,1,1.7,1.7", :from => "2019-03-01T00:00:00Z", :to => "2020-01-15T00:00:00Z", :closed => "-1", :format => "json")
+      assert_response :success
+      assert_equal "application/json", @response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal "FeatureCollection", js["type"]
+      assert_equal 0, js["features"].count
+
+      # Match some notes
+      get api_notes_path(:bbox => "1,1,1.7,1.7", :from => "2019-03-01T00:00:00Z", :to => "2020-05-01T00:00:00Z", :closed => "-1", :format => "json")
+      assert_response :success
+      assert_equal "application/json", @response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal "FeatureCollection", js["type"]
+      assert_equal 2, js["features"].count
+      assert_equal note04.id, js["features"][0]["properties"]["id"]
+      assert_equal note02.id, js["features"][1]["properties"]["id"]
+    end
+
     def test_index_bad_params
       get api_notes_path(:bbox => "-2.5,-2.5,2.5")
       assert_response :bad_request
