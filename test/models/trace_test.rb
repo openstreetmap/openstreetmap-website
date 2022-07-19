@@ -73,7 +73,7 @@ class TraceTest < ActiveSupport::TestCase
     trace_valid({ :visibility => "foo" }, :valid => false)
   end
 
-  def test_tagstring
+  def test_tagstring_handles_space_separated_tags
     trace = build(:trace)
     trace.tagstring = "foo bar baz"
     assert_predicate trace, :valid?
@@ -82,6 +82,10 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal "bar", trace.tags[1].tag
     assert_equal "baz", trace.tags[2].tag
     assert_equal "foo, bar, baz", trace.tagstring
+  end
+
+  def test_tagstring_handles_comma_separated_tags
+    trace = build(:trace)
     trace.tagstring = "foo, bar baz ,qux"
     assert_predicate trace, :valid?
     assert_equal 3, trace.tags.length
@@ -89,6 +93,17 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal "bar baz", trace.tags[1].tag
     assert_equal "qux", trace.tags[2].tag
     assert_equal "foo, bar baz, qux", trace.tagstring
+  end
+
+  def test_tagstring_strips_whitespace
+    trace = build(:trace)
+    trace.tagstring = "   zero  ,  one , two  "
+    assert_predicate trace, :valid?
+    assert_equal 3, trace.tags.length
+    assert_equal "zero", trace.tags[0].tag
+    assert_equal "one", trace.tags[1].tag
+    assert_equal "two", trace.tags[2].tag
+    assert_equal "zero, one, two", trace.tagstring
   end
 
   def test_public?
