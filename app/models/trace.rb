@@ -57,7 +57,7 @@ class Trace < ApplicationRecord
 
   def tagstring=(s)
     self.tags = if s.include? ","
-                  s.split(/\s*,\s*/).grep_v(/^\s*$/).collect do |tag|
+                  s.split(",").map(&:strip).reject(&:empty?).collect do |tag|
                     tt = Tracetag.new
                     tt.tag = tag
                     tt
