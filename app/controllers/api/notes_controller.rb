@@ -285,26 +285,10 @@ module Api
 
       # Add any date filter
       if params[:from]
-        begin
-          from = Time.parse(params[:from]).utc
-        rescue ArgumentError
-          raise OSM::APIBadUserInput, "Date #{params[:from]} is in a wrong format"
-        end
-
-        begin
-          to = if params[:to]
-                 Time.parse(params[:to]).utc
-               else
-                 Time.now.utc
-               end
-        rescue ArgumentError
-          raise OSM::APIBadUserInput, "Date #{params[:to]} is in a wrong format"
-        end
-
         @notes = if params[:sort] == "updated_at"
-                   @notes.where(:updated_at => from..to)
+                   @notes.where(:updated_at => date_range)
                  else
-                   @notes.where(:created_at => from..to)
+                   @notes.where(:created_at => date_range)
                  end
       end
 
@@ -374,6 +358,28 @@ module Api
       else
         notes.where(:status => "open")
       end
+    end
+
+    ##
+    # Get date interval out of from/to parameters assuming that from parameter is present
+    def date_range
+      begin
+        from = Time.parse(params[:from]).utc
+      rescue ArgumentError
+        raise OSM::APIBadUserInput, "Date #{params[:from]} is in a wrong format"
+      end
+
+      begin
+        to = if params[:to]
+               Time.parse(params[:to]).utc
+             else
+               Time.now.utc
+             end
+      rescue ArgumentError
+        raise OSM::APIBadUserInput, "Date #{params[:to]} is in a wrong format"
+      end
+
+      from..to
     end
 
     ##
