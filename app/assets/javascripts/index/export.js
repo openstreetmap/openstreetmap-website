@@ -43,7 +43,7 @@ OSM.Export = function (map) {
     $("#maxlat").val(bounds.getNorth().toFixed(precision));
 
     $("#export_overpass").attr("href",
-                               "https://overpass-api.de/api/map?bbox=" +
+                               "https://overpass-api.openhistoricalmap.org/api/map?bbox=" +
                                $("#minlon").val() + "," + $("#minlat").val() + "," +
                                $("#maxlon").val() + "," + $("#maxlat").val());
   }
