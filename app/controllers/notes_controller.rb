@@ -43,6 +43,7 @@ class NotesController < ApplicationController
       @note = Note.visible.find(params[:id])
       @note_comments = @note.comments
     end
+    @note_description_comments_count = !@note_comments.empty? && @note_comments[0] == @note.all_comments[0] ? 1 : 0
   rescue ActiveRecord::RecordNotFound
     render :template => "browse/not_found", :status => :not_found
   end

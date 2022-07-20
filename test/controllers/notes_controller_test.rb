@@ -142,6 +142,23 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.note-comments ul li", :count => 1
   end
 
+  def test_read_note_hidden_first_comment
+    note_with_hidden_comment = create(:note_with_comments, :comments_count => 0) do |note|
+      create(:note_comment, :note => note, :body => "first", :visible => false)
+      create(:note_comment, :note => note, :body => "second")
+    end
+
+    browse_check :note_path, note_with_hidden_comment.id, "notes/show"
+    assert_select "div.note-description", :count => 0
+    assert_select "div.note-comments ul li", /second/, :count => 1
+
+    session_for(create(:moderator_user))
+
+    browse_check :note_path, note_with_hidden_comment.id, "notes/show"
+    assert_select "div.note-description", /first/
+    assert_select "div.note-comments ul li", /second/, :count => 1
+  end
+
   def test_read_note_hidden_user_comment
     hidden_user = create(:user, :deleted)
     note_with_hidden_user_comment = create(:note_with_comments, :comments_count => 2) do |note|
