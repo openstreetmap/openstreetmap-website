@@ -1,12 +1,18 @@
 <% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
   <h1><%= @title %></h1>
-  <p>
-    <%= t(".description") %>
-    <% if params[:tag] %>
-      <%= link_to t(".remove_tag_filter", :tag => params[:tag]), { :controller => "traces", :action => "index", :display_name => nil, :tag => nil, :page => nil }, { :class => "border-left ml-2 pl-2" } %>
-    <% end %>
-  </p>
+  <nav class="secondary-actions mb-3">
+    <ul>
+      <li>
+        <%= t(".description") %>
+      </li>
+      <% if params[:tag] %>
+        <li>
+          <%= link_to t(".remove_tag_filter", :tag => params[:tag]), { :controller => "traces", :action => "index", :display_name => nil, :tag => nil, :page => nil } %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
   <ul class="nav nav-tabs flex-column flex-sm-row">
     <% if @target_user.blank? %>
       <!-- public traces -->
