@@ -82,12 +82,12 @@ class Note < ApplicationRecord
 
   # Return the author object, derived from the first comment
   def author
-    comments.first.author
+    all_comments.first.author
   end
 
   # Return the author IP address, derived from the first comment
   def author_ip
-    comments.first.author_ip
+    all_comments.first.author_ip
   end
 
   private
