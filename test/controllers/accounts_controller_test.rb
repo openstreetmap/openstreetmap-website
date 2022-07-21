@@ -61,7 +61,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :edit
     assert_select ".notice", false
-    assert_select "form#accountForm > div.form-group > input.is-invalid#user_display_name"
+    assert_select "form#accountForm > div > input.is-invalid#user_display_name"
 
     # Changing name to one that exists should fail, regardless of case
     new_attributes = user.attributes.dup.merge(:display_name => create(:user).display_name.upcase)
@@ -69,7 +69,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :edit
     assert_select ".notice", false
-    assert_select "form#accountForm > div.form-group > input.is-invalid#user_display_name"
+    assert_select "form#accountForm > div > input.is-invalid#user_display_name"
 
     # Changing name to one that doesn't exist should work
     new_attributes = user.attributes.dup.merge(:display_name => "new tester")
@@ -80,7 +80,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :edit
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > div.form-group > input#user_display_name[value=?]", "new tester"
+    assert_select "form#accountForm > div > input#user_display_name[value=?]", "new tester"
 
     # Record the change of name
     user.display_name = "new tester"
@@ -95,7 +95,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :edit
     assert_select ".notice", false
-    assert_select "form#accountForm > div.form-group > input.is-invalid#user_new_email"
+    assert_select "form#accountForm > div > input.is-invalid#user_new_email"
 
     # Changing email to one that exists should fail, regardless of case
     user.new_email = create(:user).email.upcase
@@ -107,7 +107,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :edit
     assert_select ".notice", false
-    assert_select "form#accountForm > div.form-group > input.is-invalid#user_new_email"
+    assert_select "form#accountForm > div > input.is-invalid#user_new_email"
 
     # Changing email to one that doesn't exist should work
     user.new_email = "new_tester@example.com"
@@ -122,7 +122,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :edit
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > div.form-group > input#user_new_email[value=?]", user.new_email
+    assert_select "form#accountForm > div > input#user_new_email[value=?]", user.new_email
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal user.new_email, email.to.first

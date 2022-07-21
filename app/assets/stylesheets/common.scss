@@ -62,17 +62,6 @@ small, aside {
 .icon.note.grey   { /* no-r2 */ background-position: -240px -20px; }
 .icon.query       { /* no-r2 */ background-position: -260px 0; }
 
-/* Rules for links */
-
-a {
-  color: #24d;
-  text-decoration: none;
-  outline: 0;
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
 /* Utility for de-emphasizing content */
 
 .text-muted a {
@@ -202,7 +191,7 @@ nav.secondary {
 
   .login-menu {
     .btn-outline-secondary {
-      @include button-outline-variant($darkgrey);
+      @include button-outline-variant($darkgrey, $white, null, null, $white);
     }
   }
 
@@ -684,6 +673,28 @@ form {
   label {
     font-size: 16px;
   }
+}
+
+/* Stop bootstrap 5 from floating legends when they don't need to be */
+legend {
+  float: none;
+}
+
+/* Override the text colour for primary and secondary buttons, to match our
+   bootstrap 4 colours. Note this has accessibility issues, which is why
+   bootstrap 5 calculates black as the appropriate colour, and we should
+   reconsider our colours at some point with that in mind. */
+
+.btn-primary {
+  @include button-variant($primary, $primary, $white, null, null, $white, null, null, $white, null, null, $white);
+}
+
+.btn-secondary {
+  @include button-variant($secondary, $secondary, $white, null, null, $white, null, null, $white, null, null, $white);
+}
+
+.btn-outline-secondary {
+  @include button-outline-variant($secondary, $white, null, null, $white);
 }
 
 /* Rules for the search and direction forms */
@@ -1434,13 +1445,6 @@ dl.dl-inline {
   dd {
     margin-right: 1em;
   }
-}
-
-/* Customise the background colour of striped tables */
-
-.table-striped > tbody > tr:nth-child(2n+1) > td,
-.table-striped > tbody > tr:nth-child(2n+1) > th {
-   background-color: $offwhite;
 }
 
 /* Rules for OpenID logo */

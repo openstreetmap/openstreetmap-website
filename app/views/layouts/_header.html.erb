@@ -18,7 +18,7 @@
                     :class => "btn btn-outline-primary geolink editlink",
                     :id => "editanchor",
                     :data => { :editor => preferred_editor } %>
-        <a class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split' data-toggle='dropdown' href='#'></a>
+        <a class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split' data-bs-toggle='dropdown' href='#'></a>
         <ul class='dropdown-menu'>
           <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
             <li>
@@ -60,7 +60,7 @@
         <%= link_to t("layouts.about"), about_path, :class => "nav-link" %>
       </li>
       <li id="compact-secondary-nav" class="dropdown nav-item">
-        <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#"><%= t "layouts.more" %></a>
+        <a class="dropdown-toggle nav-link" data-bs-toggle="dropdown" href="#"><%= t "layouts.more" %></a>
         <ul class="dropdown-menu">
           <% if Settings.status != "database_offline" && can?(:index, Issue) %>
             <li class="<%= current_page_class(issues_path) %>">
@@ -80,8 +80,8 @@
     </ul>
     <% if current_user && current_user.id %>
       <div class='d-inline-flex dropdown user-menu logged-in clearfix'>
-        <a class='dropdown-toggle btn btn-outline-secondary pl-2 py-1 flex-grow-1' data-toggle='dropdown' href="#">
-          <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25, :class => "user_thumbnail_tiny rounded-sm") %>
+        <a class='dropdown-toggle btn btn-outline-secondary px-2 py-1 flex-grow-1' data-bs-toggle='dropdown' href="#">
+          <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25, :class => "user_thumbnail_tiny rounded-1") %>
           <%= render :partial => "layouts/inbox" %>
           <span class="user-button">
             <span class='username'>
@@ -89,7 +89,7 @@
             </span>
           </span>
         </a>
-        <div class='dropdown-menu dropdown-menu-right'>
+        <div class='dropdown-menu dropdown-menu-end'>
           <%= link_to t("users.show.my_dashboard"), dashboard_path, :class => "dropdown-item" %>
           <%= link_to inbox_messages_path, :class => "dropdown-item" do %>
             <%= t("users.show.my messages") %>

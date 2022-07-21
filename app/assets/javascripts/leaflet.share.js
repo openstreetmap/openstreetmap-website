@@ -47,7 +47,7 @@ L.OSM.share = function (options) {
       .appendTo($linkSection);
 
     $("<div>")
-      .attr("class", "form-check form-group")
+      .attr("class", "form-check mb-3")
       .appendTo($form)
       .append(
         $("<label>")
@@ -159,7 +159,7 @@ L.OSM.share = function (options) {
       .appendTo($imageSection);
 
     $("<div>")
-      .attr("class", "form-group form-check")
+      .attr("class", "mb-3 form-check")
       .appendTo($form)
       .append(
         $("<label>")

@@ -151,7 +151,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > div.form-group > input.is-invalid#user_email"
+    assert_select "form > div > input.is-invalid#user_email"
   end
 
   def test_save_duplicate_email
@@ -180,7 +180,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > div.form-group > input.is-invalid#user_email"
+    assert_select "form > div > input.is-invalid#user_email"
   end
 
   def test_save_duplicate_email_uppercase
@@ -209,7 +209,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > div.form-group > input.is-invalid#user_email"
+    assert_select "form > div > input.is-invalid#user_email"
   end
 
   def test_save_duplicate_name
@@ -238,7 +238,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > div.form-group > input.is-invalid#user_display_name"
+    assert_select "form > div > input.is-invalid#user_display_name"
   end
 
   def test_save_duplicate_name_uppercase
@@ -267,7 +267,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > div.form-group > input.is-invalid#user_display_name"
+    assert_select "form > div > input.is-invalid#user_display_name"
   end
 
   def test_save_blocked_domain
