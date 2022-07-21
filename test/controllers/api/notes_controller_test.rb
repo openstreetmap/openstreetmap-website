@@ -555,6 +555,40 @@ module Api
       assert_equal "Another valid comment for hidden note", js["properties"]["comments"][1]["text"]
     end
 
+    def test_show_rss_active_note_author
+      user = create(:user, :display_name => "Obvious")
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+
+      get api_note_path(:id => note, :format => "rss")
+      assert_response :success
+      assert_equal "application/rss+xml", @response.media_type
+      assert_select "rss", :count => 1 do
+        assert_select "channel", :count => 1 do
+          assert_select "item", :count => 1 do
+            assert_select "dc|creator", /Obvious/
+          end
+        end
+      end
+    end
+
+    def test_show_rss_deleted_note_author
+      user = create(:user, :deleted, :display_name => "t0ps3cr3t")
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+
+      get api_note_path(:id => note, :format => "rss")
+      assert_response :success
+      assert_equal "application/rss+xml", @response.media_type
+      assert_select "rss", :count => 1 do
+        assert_select "channel", :count => 1 do
+          assert_select "item", :count => 1 do
+            assert_select "dc|creator", false
+          end
+        end
+      end
+    end
+
     def test_show_fail
       get api_note_path(:id => 12345)
       assert_response :not_found
