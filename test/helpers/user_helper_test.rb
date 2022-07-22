@@ -116,7 +116,7 @@ class UserHelperTest < ActionView::TestCase
 
   def test_auth_button
     button = auth_button("google", "google")
-    assert_equal("<a class=\"auth_button\" title=\"Login with Google\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/google\"><img alt=\"Login with a Google OpenID\" class=\"rounded-lg\" src=\"/images/google.svg\" /></a>", button)
+    assert_equal("<a class=\"auth_button\" title=\"Login with Google\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/google\"><img alt=\"Login with a Google OpenID\" class=\"rounded-3\" src=\"/images/google.svg\" /></a>", button)
   end
 
   private
