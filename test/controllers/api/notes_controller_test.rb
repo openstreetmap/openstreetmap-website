@@ -495,9 +495,9 @@ module Api
             assert_select "link", browse_note_url(open_note)
             assert_select "guid", note_url(open_note)
             assert_select "pubDate", open_note.created_at.to_fs(:rfc822)
-            #          assert_select "geo:lat", open_note.lat.to_s
-            #          assert_select "geo:long", open_note.lon
-            #          assert_select "georss:point", "#{open_note.lon} #{open_note.lon}"
+            assert_select "geo|lat", open_note.lat.to_s
+            assert_select "geo|long", open_note.lon.to_s
+            assert_select "georss|point", "#{open_note.lon} #{open_note.lon}"
           end
         end
       end
