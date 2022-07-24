@@ -192,6 +192,8 @@ class ApplicationController < ActionController::Base
   def preferred_languages
     @preferred_languages ||= if params[:locale]
                                Locale.list(params[:locale])
+                             elsif request.cookies["_osm_locale"]
+                               Locale.list(request.cookies["_osm_locale"])
                              elsif current_user
                                current_user.preferred_languages
                              else
