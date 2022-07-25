@@ -271,7 +271,7 @@ class UsersController < ApplicationController
       session[:new_user].auth_provider = provider
       session[:new_user].auth_uid = uid
 
-      session[:new_user].status = "active" if email_verified && email == session[:new_user].email
+      session[:new_user].activate if email_verified && email == session[:new_user].email
 
       redirect_to :action => "terms"
     else
