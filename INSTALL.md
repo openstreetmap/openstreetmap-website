@@ -234,6 +234,12 @@ bundle exec rails server
 
 You can now view the site in your favourite web-browser at [http://localhost:3000/](http://localhost:3000/)
 
+If you need to view the site from another device in your local network run instead
+
+```
+bundle exec rails server -b 0
+```
+
 Note that the OSM map tiles you see aren't created from your local database - they are just the standard map tiles.
 
 # Configuration
