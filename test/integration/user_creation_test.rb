@@ -384,15 +384,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_google_success
-    OmniAuth.config.add_mock(:google, :uid => "123454321", :extra => {
-                               :id_info => { "openid_id" => "http://localhost:1123/new.tester" }
-                             })
-
     new_email = "newtester-google@osm.org"
     display_name = "new_tester-google"
     password = "testtest"
+
+    OmniAuth.config.add_mock(:google, :uid => "123454321", :info => { "email" => new_email })
+
     assert_difference("User.count") do
-      assert_difference("ActionMailer::Base.deliveries.size", 1) do
+      assert_no_difference("ActionMailer::Base.deliveries.size") do
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
@@ -419,6 +418,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => password },
                             :read_ct => 1, :read_tou => 1 }
           assert_response :redirect
+          assert_redirected_to welcome_path
           follow_redirect!
         end
       end
@@ -426,7 +426,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "confirmations/confirm"
+    assert_template "site/welcome"
 
     ActionMailer::Base.deliveries.clear
   end
@@ -538,13 +538,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_facebook_success
-    OmniAuth.config.add_mock(:facebook, :uid => "123454321")
-
     new_email = "newtester-facebook@osm.org"
     display_name = "new_tester-facebook"
     password = "testtest"
+
+    OmniAuth.config.add_mock(:facebook, :uid => "123454321", :info => { "email" => new_email })
+
     assert_difference("User.count") do
-      assert_difference("ActionMailer::Base.deliveries.size", 1) do
+      assert_no_difference("ActionMailer::Base.deliveries.size") do
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
@@ -571,6 +572,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => password },
                             :read_ct => 1, :read_tou => 1 }
           assert_response :redirect
+          assert_redirected_to welcome_path
           follow_redirect!
         end
       end
@@ -578,7 +580,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "confirmations/confirm"
+    assert_template "site/welcome"
 
     ActionMailer::Base.deliveries.clear
   end
@@ -688,11 +690,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_windowslive_success
-    OmniAuth.config.add_mock(:windowslive, :uid => "123454321")
-
     new_email = "newtester-windowslive@osm.org"
     display_name = "new_tester-windowslive"
     password = "testtest"
+
+    OmniAuth.config.add_mock(:windowslive, :uid => "123454321", :info => { "email" => new_email })
+
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
         perform_enqueued_jobs do
@@ -721,6 +724,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => password },
                             :read_ct => 1, :read_tou => 1 }
           assert_response :redirect
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -838,11 +842,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_github_success
-    OmniAuth.config.add_mock(:github, :uid => "123454321")
-
     new_email = "newtester-github@osm.org"
     display_name = "new_tester-github"
     password = "testtest"
+
+    OmniAuth.config.add_mock(:github, :uid => "123454321", :info => { "email" => new_email })
+
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
         perform_enqueued_jobs do
@@ -872,6 +877,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :read_ct => 1,
                             :read_tou => 1 }
           assert_response :redirect
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -990,11 +996,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_wikipedia_success
-    OmniAuth.config.add_mock(:wikipedia, :uid => "123454321")
-
     new_email = "newtester-wikipedia@osm.org"
     display_name = "new_tester-wikipedia"
     password = "testtest"
+
+    OmniAuth.config.add_mock(:wikipedia, :uid => "123454321", :info => { "email" => new_email })
+
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
         perform_enqueued_jobs do
@@ -1024,6 +1031,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :read_ct => 1,
                             :read_tou => 1 }
           assert_response :redirect
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
