@@ -157,7 +157,7 @@ OSM.Directions = function (map) {
     }));
   });
 
-  $(".directions_form .close").on("click", function (e) {
+  $(".directions_form .btn-close").on("click", function (e) {
     e.preventDefault();
     var route_from = endpoints[0].value;
     if (route_from) {
@@ -254,9 +254,9 @@ OSM.Directions = function (map) {
         map.fitBounds(polyline.getBounds().pad(0.05));
       }
 
-      var html = "<h2><a class=\"geolink\" href=\"#\">" +
-        "<span class=\"icon close\"></span></a>" + I18n.t("javascripts.directions.directions") +
-        "</h2><p>" +
+      var html = "<a class=\"geolink\" href=\"#\"><button type='button' class='btn-close float-end mt-1'></button></a>" +
+        "<h2>" + I18n.t("javascripts.directions.directions") + "</h2>" +
+        "<p>" +
         I18n.t("javascripts.directions.distance") + ": " + formatDistance(route.distance) + ". " +
         I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".";
       if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
