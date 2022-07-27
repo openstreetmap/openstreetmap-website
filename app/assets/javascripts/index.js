@@ -195,7 +195,7 @@ $(document).ready(function () {
     $(".welcome").addClass("visible");
   }
 
-  $(".welcome .close").on("click", function () {
+  $(".welcome .btn-close").on("click", function () {
     $(".welcome").removeClass("visible");
     Cookies.set("_osm_welcome", "hide", { secure: true, expires: expiry, path: "/", samesite: "lax" });
   });
