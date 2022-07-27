@@ -107,7 +107,7 @@ class SiteController < ApplicationController
   end
 
   def communities
-    @local_chapters = OsmCommunityIndex::LocalChapter.local_chapters
+    @local_chapters = Community.where(:type => "osm-lc").where.not(:id => "OSMF")
   end
 
   def export; end
