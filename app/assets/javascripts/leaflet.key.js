@@ -20,7 +20,7 @@ L.OSM.key = function (options) {
       .appendTo($ui)
       .append(
         $("<button type='button' class='btn-close float-end mt-1'>")
-          .attr("aria-label",I18n.t("javascripts.close"))
+          .attr("aria-label", I18n.t("javascripts.close"))
           .bind("click", toggle))
       .append(
         $("<h4>")
