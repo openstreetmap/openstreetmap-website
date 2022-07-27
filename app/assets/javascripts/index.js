@@ -203,7 +203,7 @@ $(document).ready(function () {
   var bannerExpiry = new Date();
   bannerExpiry.setYear(bannerExpiry.getFullYear() + 1);
 
-  $("#banner .close-wrap").on("click", function (e) {
+  $("#banner .btn-close").on("click", function (e) {
     var cookieId = e.target.id;
     $("#banner").hide();
     e.preventDefault();
