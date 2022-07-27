@@ -23,3 +23,7 @@ PG_FUNCTION_INFO_V1(tile_for_point);
  *
  * (without all the *s)
  */
+
+#ifdef PG_MODULE_MAGIC
+PG_MODULE_MAGIC;
+#endif

@@ -1,5 +1,3 @@
-require "migrate"
-
 class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
   def up
     create_enumeration :issue_status_enum, %w[open ignored resolved]

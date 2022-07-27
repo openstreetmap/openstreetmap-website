@@ -1,4 +1,6 @@
 module Nominatim
+  require "timeout"
+
   extend ActionView::Helpers::NumberHelper
 
   def self.describe_location(lat, lon, zoom = nil, language = nil)
@@ -9,7 +11,7 @@ module Nominatim
       url = "https://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"
 
       begin
-        response = OSM::Timer.timeout(4) do
+        response = Timeout.timeout(4) do
           REXML::Document.new(Net::HTTP.get(URI.parse(url)))
         end
       rescue StandardError

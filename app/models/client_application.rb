@@ -30,8 +30,8 @@
 #  client_applications_user_id_fkey  (user_id => users.id)
 #
 
-class ClientApplication < ActiveRecord::Base
-  belongs_to :user
+class ClientApplication < ApplicationRecord
+  belongs_to :user, :optional => true
   has_many :tokens, :class_name => "OauthToken", :dependent => :delete_all
   has_many :access_tokens
   has_many :oauth2_verifiers
@@ -39,9 +39,9 @@ class ClientApplication < ActiveRecord::Base
 
   validates :key, :presence => true, :uniqueness => true
   validates :name, :url, :secret, :presence => true
-  validates :url, :format => %r{\Ahttp(s?)://(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(/|/([\w#!:.?+=&%@!\-/]))?}i
-  validates :support_url, :allow_blank => true, :format => %r{\Ahttp(s?)://(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(/|/([\w#!:.?+=&%@!\-/]))?}i
-  validates :callback_url, :allow_blank => true, :format => %r{\A[a-z][a-z0-9.+-]*://(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(/|/([\w#!:.?+=&%@!\-/]))?}i
+  validates :url, :format => /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/
+  validates :support_url, :allow_blank => true, :format => /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/
+  validates :callback_url, :allow_blank => true, :format => /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
 
   before_validation :generate_keys, :on => :create
 
@@ -56,18 +56,17 @@ class ClientApplication < ActiveRecord::Base
     signature = OAuth::Signature.build(request, options, &block)
     return false unless OauthNonce.remember(signature.request.nonce, signature.request.timestamp)
 
-    value = signature.verify
-    value
+    signature.verify
   rescue OAuth::Signature::UnknownSignatureMethod
     false
   end
 
   def self.all_permissions
-    PERMISSIONS
+    Oauth.scopes.collect { |s| :"allow_#{s.name}" }
   end
 
   def oauth_server
-    @oauth_server ||= OAuth::Server.new("https://" + SERVER_URL)
+    @oauth_server ||= OAuth::Server.new("https://#{Settings.server_url}")
   end
 
   def credentials
@@ -102,11 +101,6 @@ class ClientApplication < ActiveRecord::Base
   end
 
   protected
-
-  # this is the set of permissions that the client can ask for. clients
-  # have to say up-front what permissions they want and when users sign up they
-  # can agree or not agree to each of them.
-  PERMISSIONS = [:allow_read_prefs, :allow_write_prefs, :allow_write_diary, :allow_write_api, :allow_read_gpx, :allow_write_gpx, :allow_write_notes].freeze
 
   def generate_keys
     self.key = OAuth::Helper.generate_key(40)[0, 40]

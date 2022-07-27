@@ -3,12 +3,12 @@
 # Table name: user_blocks
 #
 #  id            :integer          not null, primary key
-#  user_id       :integer          not null
-#  creator_id    :integer          not null
+#  user_id       :bigint(8)        not null
+#  creator_id    :bigint(8)        not null
 #  reason        :text             not null
 #  ends_at       :datetime         not null
 #  needs_view    :boolean          default(FALSE), not null
-#  revoker_id    :integer
+#  revoker_id    :bigint(8)
 #  created_at    :datetime
 #  updated_at    :datetime
 #  reason_format :enum             default("markdown"), not null
@@ -24,20 +24,20 @@
 #  user_blocks_user_id_fkey       (user_id => users.id)
 #
 
-class UserBlock < ActiveRecord::Base
+class UserBlock < ApplicationRecord
   validate :moderator_permissions
   validates :reason, :characters => true
 
-  belongs_to :user, :class_name => "User", :foreign_key => :user_id
-  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
-  belongs_to :revoker, :class_name => "User", :foreign_key => :revoker_id
+  belongs_to :user, :class_name => "User"
+  belongs_to :creator, :class_name => "User"
+  belongs_to :revoker, :class_name => "User", :optional => true
 
-  PERIODS = USER_BLOCK_PERIODS
+  PERIODS = Settings.user_block_periods
 
   ##
   # scope to match active blocks
   def self.active
-    where("needs_view or ends_at > ?", Time.now.getutc)
+    where("needs_view or ends_at > ?", Time.now.utc)
   end
 
   ##
@@ -50,7 +50,7 @@ class UserBlock < ActiveRecord::Base
   # returns true if the block is currently active (i.e: the user can't
   # use the API).
   def active?
-    needs_view || ends_at > Time.now.getutc
+    needs_view || ends_at > Time.now.utc
   end
 
   ##
@@ -65,7 +65,7 @@ class UserBlock < ActiveRecord::Base
   # is the user object who is revoking the ban.
   def revoke!(revoker)
     update(
-      :ends_at => Time.now.getutc,
+      :ends_at => Time.now.utc,
       :revoker_id => revoker.id,
       :needs_view => false
     )
@@ -78,7 +78,7 @@ class UserBlock < ActiveRecord::Base
   # block. this should be caught and dealt with in the controller,
   # but i've also included it here just in case.
   def moderator_permissions
-    errors.add(:base, I18n.t("user_block.model.non_moderator_update")) if creator_id_changed? && !creator.moderator?
-    errors.add(:base, I18n.t("user_block.model.non_moderator_revoke")) unless revoker_id.nil? || revoker.moderator?
+    errors.add(:base, I18n.t("user_blocks.model.non_moderator_update")) if creator_id_changed? && !creator.moderator?
+    errors.add(:base, I18n.t("user_blocks.model.non_moderator_revoke")) if revoker_id_changed? && !revoker_id.nil? && !revoker.moderator?
   end
 end

@@ -9,7 +9,7 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to login_path(:cookie_test => "true")
     follow_redirect!
     assert_response :success
     post "/login", :params => { "username" => user.email, "password" => "test", :referer => "/user/#{ERB::Util.u(user.display_name)}" }
@@ -17,13 +17,13 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "users/show"
-    get "/user/#{ERB::Util.u(user.display_name)}/account"
+    get "/account/edit"
     assert_response :success
-    assert_template "users/account"
+    assert_template "accounts/edit"
 
     # check that the form to allow new client application creations exists
     assert_in_heading do
-      assert_select "ul.secondary-actions li a[href='/user/#{ERB::Util.u(user.display_name)}/oauth_clients']"
+      assert_select "ul.nav.nav-tabs li.nav-item a[href='/user/#{ERB::Util.u(user.display_name)}/oauth_clients']"
     end
 
     # now we follow the link to the oauth client list
@@ -65,7 +65,7 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
     get "/user/#{ERB::Util.u(user.display_name)}/oauth_clients"
     assert_response :success
     assert_template "oauth_clients/index"
-    assert_in_body { assert_select "div>a", "My New App" }
+    assert_in_body { assert_select "li>a", "My New App" }
   end
 
   ##
@@ -76,19 +76,17 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
     # tests, as its too tied into the HTTP headers and stuff that it signs.
   end
 
+  private
+
   ##
   # utility method to make the HTML screening easier to read.
-  def assert_in_heading
-    assert_select "div.content-heading" do
-      yield
-    end
+  def assert_in_heading(&block)
+    assert_select("div.content-heading", &block)
   end
 
   ##
   # utility method to make the HTML screening easier to read.
-  def assert_in_body
-    assert_select "div#content" do
-      yield
-    end
+  def assert_in_body(&block)
+    assert_select("div#content", &block)
   end
 end

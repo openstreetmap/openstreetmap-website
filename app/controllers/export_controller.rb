@@ -11,18 +11,23 @@ class ExportController < ApplicationController
     bbox = BoundingBox.from_lon_lat_params(params)
     format = params[:format]
 
-    if format == "osm"
+    case format
+    when "osm"
       # redirect to API map get
-      redirect_to :controller => "api", :action => "map", :bbox => bbox
+      redirect_to :controller => "api/map", :action => "index", :bbox => bbox
 
-    elsif format == "mapnik"
+    when "mapnik"
       # redirect to a special 'export' cgi script
       format = params[:mapnik_format]
       scale = params[:mapnik_scale]
 
-      redirect_to "https://render.openstreetmap.org/cgi-bin/export?bbox=#{bbox}&scale=#{scale}&format=#{format}"
+      redirect_to "https://render.openstreetmap.org/cgi-bin/export?bbox=#{bbox}&scale=#{scale}&format=#{format}", :allow_other_host => true
     end
   end
 
-  def embed; end
+  def embed
+    append_content_security_policy_directives(
+      :frame_ancestors => %w[*]
+    )
+  end
 end

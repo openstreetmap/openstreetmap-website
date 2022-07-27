@@ -3,14 +3,42 @@ en:
     dir: ltr
   time:
     formats:
-      friendly: "%e %B %Y at %H:%M"
-      blog: "%e %B %Y"
+      friendly: "%B %e, %Y at %H:%M"
+      blog: "%B %e, %Y"
+  helpers:
+    file:
+      prompt: Choose file
+    submit:
+      diary_comment:
+        create: Save
+      diary_entry:
+        create: "Publish"
+        update: "Update"
+      issue_comment:
+        create: Add Comment
+      message:
+        create: Send
+      client_application:
+        create: Register
+        update: Update
+      doorkeeper_application:
+        create: Register
+        update: Update
+      redaction:
+        create: Create redaction
+        update: Save redaction
+      trace:
+        create: Upload
+        update: Save Changes
+      user_block:
+        create: Create block
+        update: Update block
   activerecord:
     errors:
       messages:
         invalid_email_address: does not appear to be a valid e-mail address
         email_address_not_routable: is not routable
-    # Translates all the model names, which is used in error handling on the web site
+    # Translates all the model names, which is used in error handling on the website
     models:
       acl: "Access Control List"
       changeset: "Changeset"
@@ -19,6 +47,7 @@ en:
       diary_comment: "Diary Comment"
       diary_entry: "Diary Entry"
       friend: "Friend"
+      issue: "Issue"
       language: "Language"
       message: "Message"
       node: "Node"
@@ -35,6 +64,7 @@ en:
       relation: "Relation"
       relation_member: "Relation Member"
       relation_tag: "Relation Tag"
+      report: "Report"
       session: "Session"
       trace: "Trace"
       tracepoint: "Trace Point"
@@ -45,9 +75,21 @@ en:
       way: "Way"
       way_node: "Way Node"
       way_tag: "Way Tag"
-    # Translates all the model attributes, which is used in error handling on the web site
-    # Only the ones that are used on the web site are translated at the moment
+    # Translates all the model attributes, which is used in error handling on the website
+    # Only the ones that are used on the website are translated at the moment
     attributes:
+      client_application:
+        name: Name (Required)
+        url: Main Application URL (Required)
+        callback_url: Callback URL
+        support_url: Support URL
+        allow_read_prefs:  read their user preferences
+        allow_write_prefs: modify their user preferences
+        allow_write_diary: create diary entries, comments and make friends
+        allow_write_api:   modify the map
+        allow_read_gpx:    read their private GPS traces
+        allow_write_gpx:   upload GPS traces
+        allow_write_notes: modify notes
       diary_comment:
         body: "Body"
       diary_entry:
@@ -56,6 +98,11 @@ en:
         latitude: "Latitude"
         longitude: "Longitude"
         language: "Language"
+      doorkeeper/application:
+        name: Name
+        redirect_uri: Redirect URIs
+        confidential: Confidential application?
+        scopes: Permissions
       friend:
         user: "User"
         friend: "Friend"
@@ -68,54 +115,209 @@ en:
         longitude: "Longitude"
         public: "Public"
         description: "Description"
+        name: Filename
+        gpx_file: Upload GPX File
+        visibility: Visibility
+        tagstring: Tags
       message:
         sender: "Sender"
         title: "Subject"
         body: "Body"
         recipient: "Recipient"
+      redaction:
+        title: Title
+        description: Description
+      report:
+        category: Select a reason for your report
+        details: Please provide some more details about the problem (required).
       user:
+        auth_provider: Authentication Provider
+        auth_uid: Authentication UID
         email: "Email"
+        email_confirmation: "Email Confirmation"
+        new_email: "New Email Address"
         active: "Active"
         display_name: "Display Name"
-        description: "Description"
-        languages: "Languages"
+        description: Profile Description
+        home_lat: Latitude
+        home_lon: Longitude
+        languages: Preferred Languages
+        preferred_editor: Preferred Editor
         pass_crypt: "Password"
+        pass_crypt_confirmation: "Confirm Password"
+    help:
+      doorkeeper/application:
+        confidential: "Application will be used where the client secret can be kept confidential (native mobile apps and single page apps are not confidential)"
+        redirect_uri: "Use one line per URI"
+      trace:
+        tagstring: comma delimited
+      user_block:
+        reason: The reason why the user is being blocked. Please be as calm and as reasonable as possible, giving as much detail as you can about the situation, remembering that the message will be publicly visible. Bear in mind that not all users understand the community jargon, so please try to use layman's terms.
+        needs_view: Does the user need to log in before this block will be cleared?
+      user:
+        email_confirmation: 'Your address is not displayed publicly, see our <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy policy including section on email addresses">privacy policy</a> for more information.'
+        new_email: "(never displayed publicly)"
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: about 1 hour ago
+        other: about %{count} hours ago
+      about_x_months:
+        one: about 1 month ago
+        other: about %{count} months ago
+      about_x_years:
+        one: about 1 year ago
+        other: about %{count} years ago
+      almost_x_years:
+        one: almost 1 year ago
+        other: almost %{count} years ago
+      half_a_minute: half a minute ago
+      less_than_x_seconds:
+        one: less than 1 second ago
+        other: less than %{count} seconds ago
+      less_than_x_minutes:
+        one: less than a minute ago
+        other: less than %{count} minutes ago
+      over_x_years:
+        one: over 1 year ago
+        other: over %{count} years ago
+      x_seconds:
+        one: 1 second ago
+        other: "%{count} seconds ago"
+      x_minutes:
+        one: 1 minute ago
+        other: "%{count} minutes ago"
+      x_days:
+        one: 1 day ago
+        other: "%{count} days ago"
+      x_months:
+        one: 1 month ago
+        other: "%{count} months ago"
+      x_years:
+        one: 1 year ago
+        other: "%{count} years ago"
   printable_name:
     with_id: "%{id}"
     with_version: "%{id}, v%{version}"
     with_name_html: "%{name} (%{id})"
   editor:
     default: "Default (currently %{name})"
-    potlatch:
-      name: "Potlatch 1"
-      description: "Potlatch 1 (in-browser editor)"
     id:
       name: "iD"
       description: "iD (in-browser editor)"
-    potlatch2:
-      name: "Potlatch 2"
-      description: "Potlatch 2 (in-browser editor)"
     remote:
       name: "Remote Control"
-      description: "Remote Control (JOSM or Merkaartor)"
+      description: "Remote Control (JOSM, Potlatch, Merkaartor)"
+  auth:
+    providers:
+      none: None
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wikipedia
+  api:
+    notes:
+      comment:
+        opened_at_html: "Created %{when}"
+        opened_at_by_html: "Created %{when} by %{user}"
+        commented_at_html: "Updated %{when}"
+        commented_at_by_html: "Updated %{when} by %{user}"
+        closed_at_html: "Resolved %{when}"
+        closed_at_by_html: "Resolved %{when} by %{user}"
+        reopened_at_html: "Reactivated %{when}"
+        reopened_at_by_html: "Reactivated %{when} by %{user}"
+      rss:
+        title: "OpenHistoricalMap Notes"
+        description_area: "A list of notes, reported, commented on or closed in your area [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]"
+        description_item: "An rss feed for note %{id}"
+        opened: "new note (near %{place})"
+        commented: "new comment (near %{place})"
+        closed: "closed note (near %{place})"
+        reopened: "reactivated note (near %{place})"
+      entry:
+        comment: Comment
+        full: Full note
+  account:
+    deletions:
+      show:
+        title: Delete My Account
+        warning: Warning! The account deletion process is final, and cannot be reversed.
+        delete_account: Delete Account
+        delete_introduction: "You can delete your OpenHistoricalMap account using the button below. Please note the following details:"
+        delete_profile: Your profile information, including your avatar, description and home location will be removed.
+        delete_display_name: Your display name will be removed, and can be reused by other accounts.
+        retain_caveats: "However, some information about you will be retained on OpenHistoricalMap, even after your account is deleted:"
+        retain_edits: Your edits to the map database, if any, will be retained.
+        retain_traces: Your uploaded traces, if any, will be retained.
+        retain_diary_entries: Your diary entries and diary comments, if any, will be retained but hidden from view.
+        retain_notes: Your map notes and note comments, if any, will be retained but hidden from view.
+        retain_changeset_discussions: Your changeset discussions, if any, will be retained.
+        retain_email: Your email address will be retained.
+        confirm_delete: Are you sure?
+        cancel: Cancel
+  accounts:
+    edit:
+      title: "Edit account"
+      my settings: My Settings
+      current email address: "Current Email Address"
+      external auth: "External Authentication"
+      openid:
+        link: "https://wiki.openstreetmap.org/wiki/OpenID"
+        link text: "what is this?"
+      public editing:
+        heading: "Public editing"
+        enabled: "Enabled. Not anonymous and can edit data."
+        enabled link: "https://wiki.openstreetmap.org/wiki/Anonymous_edits"
+        enabled link text: "what is this?"
+        disabled: "Disabled and cannot edit data, all previous edits are anonymous."
+        disabled link text: "why can't I edit?"
+      public editing note:
+        heading: "Public editing"
+        html: "Currently your edits are anonymous and people cannot send you messages or see your location. To show what you edited and allow people to contact you through the website, click the button below. <b>Since the 0.6 API changeover, only public users can edit map data</b>. (<a href=\"https://wiki.openstreetmap.org/wiki/Anonymous_edits\">find out why</a>).<ul><li>Your email address will not be revealed by becoming public.</li><li>This action cannot be reversed and all new users are now public by default.</li></ul>"
+      contributor terms:
+        heading: "Contributor Terms"
+        agreed: "You have agreed to the new Contributor Terms."
+        not yet agreed: "You have not yet agreed to the new Contributor Terms."
+        review link text: "Please follow this link at your convenience to review and accept the new Contributor Terms."
+        agreed_with_pd: "You have also declared that you consider your edits to be in the Public Domain."
+        link: "https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms"
+        link text: "what is this?"
+      save changes button: Save Changes
+      make edits public button: Make all my edits public
+      delete_account: Delete Account...
+    update:
+      success_confirm_needed: "User information updated successfully. Check your email for a note to confirm your new email address."
+      success: "User information updated successfully."
+    destroy:
+      success: "Account Deleted."
   browse:
     created: "Created"
     closed: "Closed"
-    created_html: "Created <abbr title='%{title}'>%{time} ago</abbr>"
-    closed_html: "Closed <abbr title='%{title}'>%{time} ago</abbr>"
-    created_by_html: "Created <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
-    deleted_by_html: "Deleted <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
-    edited_by_html: "Edited <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
-    closed_by_html: "Closed <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
+    created_html: "Created <abbr title='%{title}'>%{time}</abbr>"
+    closed_html: "Closed <abbr title='%{title}'>%{time}</abbr>"
+    created_by_html: "Created <abbr title='%{title}'>%{time}</abbr> by %{user}"
+    deleted_by_html: "Deleted <abbr title='%{title}'>%{time}</abbr> by %{user}"
+    edited_by_html: "Edited <abbr title='%{title}'>%{time}</abbr> by %{user}"
+    closed_by_html: "Closed <abbr title='%{title}'>%{time}</abbr> by %{user}"
     version: "Version"
     in_changeset: "Changeset"
     anonymous: "anonymous"
     no_comment: "(no comment)"
     part_of: "Part of"
+    part_of_relations:
+      one: 1 relation
+      other: "%{count} relations"
+    part_of_ways:
+      one: 1 way
+      other: "%{count} ways"
     download_xml: "Download XML"
     view_history: "View History"
     view_details: "View Details"
     location: "Location:"
+    common_details:
+      coordinates_html: "%{latitude}, %{longitude}"
     changeset:
       title: "Changeset: %{id}"
       belongs_to: "Author"
@@ -126,8 +328,8 @@ en:
       relation: "Relations (%{count})"
       relation_paginated: "Relations (%{x}-%{y} of %{count})"
       comment: "Comments (%{count})"
-      hidden_commented_by: "Hidden comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      commented_by: "Comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      hidden_commented_by_html: "Hidden comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      commented_by_html: "Comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
       changesetxml: "Changeset XML"
       osmchangexml: "osmChange XML"
       feed:
@@ -137,30 +339,36 @@ en:
       discussion: Discussion
       still_open: "Changeset still open - discussion will open once the changeset is closed."
     node:
-      title: "Node: %{name}"
-      history_title: "Node History: %{name}"
+      title_html: "Node: %{name}"
+      history_title_html: "Node History: %{name}"
     way:
-      title: "Way: %{name}"
-      history_title: "Way History: %{name}"
+      title_html: "Way: %{name}"
+      history_title_html: "Way History: %{name}"
       nodes: "Nodes"
-      also_part_of:
+      nodes_count:
+        other: "%{count} nodes"
+      also_part_of_html:
         one: "part of way %{related_ways}"
         other: "part of ways %{related_ways}"
     relation:
-      title: "Relation: %{name}"
-      history_title: "Relation History: %{name}"
+      title_html: "Relation: %{name}"
+      history_title_html: "Relation History: %{name}"
       members: "Members"
+      members_count:
+        one: 1 member
+        other: "%{count} members"
     relation_member:
-      entry: "%{type} %{name}"
-      entry_role: "%{type} %{name} as %{role}"
+      entry_html: "%{type} %{name}"
+      entry_role_html: "%{type} %{name} as %{role}"
       type:
         node: "Node"
         way: "Way"
         relation: "Relation"
     containing_relation:
-      entry: "Relation %{relation_name}"
-      entry_role: "Relation %{relation_name} (as %{relation_role})"
+      entry_html: "Relation %{relation_name}"
+      entry_role_html: "Relation %{relation_name} (as %{relation_role})"
     not_found:
+      title: Not Found
       sorry: "Sorry, %{type} #%{id} could not be found."
       type:
         node: node
@@ -169,6 +377,7 @@ en:
         changeset: changeset
         note: note
     timeout:
+      title: Timeout Error
       sorry: "Sorry, the data for the %{type} with the id %{id}, took too long to retrieve."
       type:
         node: node
@@ -194,7 +403,9 @@ en:
         tag: "The wiki description page for the %{key}=%{value} tag"
       wikidata_link: "The %{page} item on Wikidata"
       wikipedia_link: "The %{page} article on Wikipedia"
+      wikimedia_commons_link: "The %{page} item on Wikimedia Commons"
       telephone_link: "Call %{phone_number}"
+      colour_preview: "Colour %{colour_value} preview"
     note:
       title: "Note: %{id}"
       new_note: "New Note"
@@ -202,16 +413,17 @@ en:
       open_title: "Unresolved note #%{note_name}"
       closed_title: "Resolved note #%{note_name}"
       hidden_title: "Hidden note #%{note_name}"
-      open_by: "Created by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      open_by_anonymous: "Created by anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      commented_by: "Comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      commented_by_anonymous: "Comment from anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      closed_by: "Resolved by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      closed_by_anonymous: "Resolved by anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      reopened_by: "Reactivated by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      reopened_by_anonymous: "Reactivated by anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      hidden_by: "Hidden by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      opened_by_html: "Created by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      opened_by_anonymous_html: "Created by anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
+      commented_by_html: "Comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      commented_by_anonymous_html: "Comment from anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
+      closed_by_html: "Resolved by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      closed_by_anonymous_html: "Resolved by anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
+      reopened_by_html: "Reactivated by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      reopened_by_anonymous_html: "Reactivated by anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
+      hidden_by_html: "Hidden by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
       report: Report this note
+      coordinates_html: "%{latitude}, %{longitude}"
     query:
       title: "Query Features"
       introduction: "Click on the map to find nearby features."
@@ -249,7 +461,7 @@ en:
   changeset_comments:
     comment:
       comment: "New comment on changeset #%{changeset_id} by %{author}"
-      commented_at_by_html: "Updated %{when} ago by %{user}"
+      commented_at_by_html: "Updated %{when} by %{user}"
     comments:
       comment: "New comment on changeset #%{changeset_id} by %{author}"
     index:
@@ -257,65 +469,83 @@ en:
       title_particular: "OpenHistoricalMap changeset #%{changeset_id} discussion"
     timeout:
       sorry: "Sorry, the list of changeset comments you requested took too long to retrieve."
+  dashboards:
+    contact:
+      km away: "%{count}km away"
+      m away: "%{count}m away"
+    popup:
+      your location: "Your location"
+      nearby mapper: "Nearby mapper"
+      friend: "Friend"
+    show:
+      title: My Dashboard
+      no_home_location_html: "%{edit_profile_link} and set your home location to see nearby users."
+      edit_your_profile: Edit your profile
+      my friends: My friends
+      no friends: You have not added any friends yet.
+      nearby users: "Other nearby users"
+      no nearby users: "There are no other users who admit to mapping nearby yet."
+      friends_changesets: "friends' changesets"
+      friends_diaries: "friends' diary entries"
+      nearby_changesets: "nearby user changesets"
+      nearby_diaries: "nearby user diary entries"
   diary_entries:
     new:
       title: New Diary Entry
-      publish_button: "Publish"
+    form:
+      location: Location
+      use_map_link: Use Map
     index:
-      title: "Users' diaries"
-      title_friends: "Friends' diaries"
-      title_nearby: "Nearby Users' diaries"
-      user_title: "%{user}'s diary"
+      title: "Users' Diaries"
+      title_friends: "Friends' Diaries"
+      title_nearby: "Nearby Users' Diaries"
+      user_title: "%{user}'s Diary"
       in_language_title: "Diary Entries in %{language}"
       new: New Diary Entry
       new_title: Compose a new entry in my user diary
+      my_diary: My Diary
       no_entries: No diary entries
       recent_entries: "Recent diary entries"
       older_entries: Older Entries
       newer_entries: Newer Entries
     edit:
-      title: "Edit diary entry"
-      subject: "Subject:"
-      body: "Body:"
-      language: "Language:"
-      location: "Location:"
-      latitude: "Latitude:"
-      longitude: "Longitude:"
-      use_map_link: "use map"
-      save_button: "Save"
+      title: Edit Diary Entry
       marker_text: Diary entry location
     show:
-      title: "%{user}'s diary | %{title}"
-      user_title: "%{user}'s diary"
+      title: "%{user}'s Diary | %{title}"
+      user_title: "%{user}'s Diary"
       leave_a_comment: "Leave a comment"
-      login_to_leave_a_comment: "%{login_link} to leave a comment"
+      login_to_leave_a_comment_html: "%{login_link} to leave a comment"
       login: "Login"
-      save_button: "Save"
     no_such_entry:
       title: "No such diary entry"
       heading: "No entry with the id: %{id}"
       body: "Sorry, there is no diary entry or comment with the id %{id}. Please check your spelling, or maybe the link you clicked is wrong."
     diary_entry:
-      posted_by: "Posted by %{link_user} on %{created} in %{language_link}"
+      posted_by_html: "Posted by %{link_user} on %{created} in %{language_link}."
+      updated_at_html: "Last updated on %{updated}."
       comment_link: Comment on this entry
-      reply_link: Reply to this entry
+      reply_link: Send a message to the author
       comment_count:
         zero: No comments
         one: "%{count} comment"
         other: "%{count} comments"
       edit_link: Edit this entry
       hide_link: Hide this entry
+      unhide_link: Unhide this entry
       confirm: Confirm
       report: Report this entry
     diary_comment:
-      comment_from: "Comment from %{link_user} on %{comment_created_at}"
+      comment_from_html: "Comment from %{link_user} on %{comment_created_at}"
       hide_link: Hide this comment
+      unhide_link: Unhide this comment
       confirm: Confirm
       report: Report this comment
     location:
       location: "Location:"
       view: "View"
       edit: "Edit"
+      coordinates: "%{latitude}; %{longitude}"
     feed:
       user:
         title: "OpenHistoricalMap diary entries for %{user}"
@@ -327,22 +557,42 @@ en:
         title: "OpenHistoricalMap diary entries"
         description: "Recent diary entries from users of OpenHistoricalMap"
     comments:
-      has_commented_on: "%{display_name} has commented on the following diary entries"
+      title: "Diary Comments added by %{user}"
+      heading: "%{user}'s Diary Comments"
+      subheading_html: "Diary Comments added by %{user}"
+      no_comments: "No diary comments"
       post: Post
       when: When
       comment: Comment
-      ago: "%{ago} ago"
       newer_comments: "Newer Comments"
       older_comments: "Older Comments"
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Application Registered.
+  friendships:
+    make_friend:
+      heading: "Add %{user} as a friend?"
+      button: "Add as friend"
+      success: "%{name} is now your friend!"
+      failed: "Sorry, failed to add %{name} as a friend."
+      already_a_friend: "You are already friends with %{name}."
+      limit_exceeded: "You have friended a lot of users recently. Please wait a while before trying to friend any more."
+    remove_friend:
+      heading: "Unfriend %{user}?"
+      button: "Unfriend"
+      success: "%{name} was removed from your friends."
+      not_a_friend: "%{name} is not one of your friends."
   geocoder:
     search:
       title:
-        latlon: 'Results from <a href="https://OpenHistoricalMap.org/">Internal</a>'
-        ca_postcode: 'Results from <a href="https://geocoder.ca/">Geocoder.CA</a>'
-        osm_nominatim: 'Results from <a href="https://nominatim.openhistoricalmap.org/">OpenHistoricalMap Nominatim</a>'
-        geonames: 'Results from <a href="http://www.geonames.org/">GeoNames</a>'
-        osm_nominatim_reverse: 'Results from <a href="https://nominatim.openhistoricalmap.org/">OpenHistoricalMap Nominatim</a>'
-        geonames_reverse: 'Results from <a href="http://www.geonames.org/">GeoNames</a>'
+        latlon_html: 'Results from <a href="https://openstreetmap.org/">Internal</a>'
+        ca_postcode_html: 'Results from <a href="https://geocoder.ca/">Geocoder.CA</a>'
+        osm_nominatim_html: 'Results from <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap Nominatim</a>'
+        geonames_html: 'Results from <a href="http://www.geonames.org/">GeoNames</a>'
+        osm_nominatim_reverse_html: 'Results from <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap Nominatim</a>'
+        geonames_reverse_html: 'Results from <a href="http://www.geonames.org/">GeoNames</a>'
     search_osm_nominatim:
       prefix_format: "%{name}"
       prefix:
@@ -351,25 +601,31 @@ en:
           chair_lift: "Chair Lift"
           drag_lift: "Drag Lift"
           gondola: "Gondola Lift"
+          magic_carpet: "Magic Carpet Lift"
           platter: "Platter Lift"
           pylon: "Pylon"
           station: "Aerialway Station"
           t-bar: "T-Bar Lift"
+          "yes": "Aerialway"
         aeroway:
           aerodrome: "Aerodrome"
           airstrip: "Airstrip"
-          apron: "Apron"
-          gate: "Gate"
+          apron: "Airport Apron"
+          gate: "Airport Gate"
           hangar: "Hangar"
           helipad: "Helipad"
           holding_position: "Holding Position"
+          navigationaid: "Aviation Navigation Aid"
           parking_position: "Parking Position"
           runway: "Runway"
+          taxilane: "Taxilane"
           taxiway: "Taxiway"
-          terminal: "Terminal"
+          terminal: "Airport Terminal"
+          windsock: "Windsock"
         amenity:
+          animal_boarding: "Animal Boarding"
           animal_shelter: "Animal Shelter"
-          arts_centre: "Arts Centre"
+          arts_centre: "Arts Center"
           atm: "ATM"
           bank: "Bank"
           bar: "Bar"
@@ -377,7 +633,9 @@ en:
           bench: "Bench"
           bicycle_parking: "Cycle Parking"
           bicycle_rental: "Cycle Rental"
+          bicycle_repair_station: "Bicycle Repair Station"
           biergarten: "Beer Garden"
+          blood_bank: "Blood Bank"
           boat_rental: "Boat Rental"
           brothel: "Brothel"
           bureau_de_change: "Bureau de Change"
@@ -394,6 +652,7 @@ en:
           clock: "Clock"
           college: "College"
           community_centre: "Community Centre"
+          conference_centre: "Conference Centre"
           courthouse: "Courthouse"
           crematorium: "Crematorium"
           dentist: "Dentist"
@@ -401,48 +660,55 @@ en:
           drinking_water: "Drinking Water"
           driving_school: "Driving School"
           embassy: "Embassy"
+          events_venue: "Events Venue"
           fast_food: "Fast Food"
           ferry_terminal: "Ferry Terminal"
           fire_station: "Fire Station"
           food_court: "Food Court"
           fountain: "Fountain"
-          fuel: "Fuel"
+          fuel: "Filling Station"
           gambling: "Gambling"
           grave_yard: "Grave Yard"
           grit_bin: "Grit Bin"
           hospital: "Hospital"
           hunting_stand: "Hunting Stand"
           ice_cream: "Ice Cream"
+          internet_cafe: "Internet Cafe"
           kindergarten: "Kindergarten"
+          language_school: "Language School"
           library: "Library"
+          loading_dock: "Loading Dock"
+          love_hotel: "Love Hotel"
           marketplace: "Marketplace"
+          mobile_money_agent: "Mobile Money Agent"
           monastery: "Monastery"
+          money_transfer: "Money Transfer"
           motorcycle_parking: "Motorcycle Parking"
+          music_school: "Music School"
           nightclub: "Night Club"
           nursing_home: "Nursing Home"
-          office: "Office"
           parking: "Parking"
           parking_entrance: "Parking Entrance"
           parking_space: "Parking Space"
+          payment_terminal: "Payment Terminal"
           pharmacy: "Pharmacy"
           place_of_worship: "Place of Worship"
           police: "Police"
           post_box: "Post Box"
           post_office: "Post Office"
-          preschool: "Pre-School"
           prison: "Prison"
           pub: "Pub"
+          public_bath: "Public Bath"
+          public_bookcase: "Public Bookcase"
           public_building: "Public Building"
+          ranger_station: "Ranger Station"
           recycling: "Recycling Point"
           restaurant: "Restaurant"
-          retirement_home: "Retirement Home"
-          sauna: "Sauna"
+          sanitary_dump_station: "Sanitary Dump Station"
           school: "School"
           shelter: "Shelter"
-          shop: "Shop"
           shower: "Shower"
           social_centre: "Social Centre"
-          social_club: "Social Club"
           social_facility: "Social Facility"
           studio: "Studio"
           swimming_pool: "Swimming Pool"
@@ -451,19 +717,27 @@ en:
           theatre: "Theatre"
           toilets: "Toilets"
           townhall: "Town Hall"
+          training: "Training Facility"
           university: "University"
+          vehicle_inspection: "Vehicle Inspection"
           vending_machine: "Vending Machine"
           veterinary: "Veterinary Surgery"
           village_hall: "Village Hall"
           waste_basket: "Waste Basket"
           waste_disposal: "Waste Disposal"
+          waste_dump_site: "Waste Dump Site"
+          watering_place: "Watering Place"
           water_point: "Water Point"
-          youth_centre: "Youth Centre"
+          weighbridge: "Weighbridge"
+          "yes": "Amenity"
         boundary:
+          aboriginal_lands: "Aboriginal Lands"
           administrative: "Administrative Boundary"
           census: "Census Boundary"
           national_park: "National Park"
+          political: "Electoral Boundary"
           protected_area : "Protected Area"
+          "yes": "Boundary"
         bridge:
           aqueduct: "Aqueduct"
           boardwalk: "Boardwalk"
@@ -472,26 +746,96 @@ en:
           viaduct: "Viaduct"
           "yes": "Bridge"
         building:
+          apartment: "Apartment"
+          apartments: "Apartments"
+          barn: "Barn"
+          bungalow: "Bungalow"
+          cabin: "Cabin"
+          chapel: "Chapel"
+          church: "Church Building"
+          civic: "Civic Building"
+          college: "College Building"
+          commercial: "Commercial Building"
+          construction: "Building under Construction"
+          detached: "Detached House"
+          dormitory: "Dormitory"
+          duplex: "Duplex House"
+          farm: "Farm House"
+          farm_auxiliary: "Auxiliary Farm House"
+          garage: "Garage"
+          garages: "Garages"
+          greenhouse: "Greenhouse"
+          hangar: "Hangar"
+          hospital: "Hospital Building"
+          hotel: "Hotel Building"
+          house: "House"
+          houseboat: "Houseboat"
+          hut: "Hut"
+          industrial: "Industrial Building"
+          kindergarten: "Kindergarten Building"
+          manufacture: "Manufacturing Building"
+          office: "Office Building"
+          public: "Public Building"
+          residential: "Residential Building"
+          retail: "Retail Building"
+          roof: "Roof"
+          ruins: "Ruined Building"
+          school: "School Building"
+          semidetached_house: "Semidetached House"
+          service: "Service Building"
+          shed: "Shed"
+          stable: "Stable"
+          static_caravan: "Caravan"
+          temple: "Temple Building"
+          terrace: "Terrace Building"
+          train_station: "Train Station Building"
+          university: "University Building"
+          warehouse: "Warehouse"
           "yes": "Building"
+        club:
+          scout: "Scout Group Base"
+          sport: "Sports Club"
+          "yes": "Club"
         craft:
+          beekeeper: "Beekeeper"
+          blacksmith: "Blacksmith"
           brewery: "Brewery"
           carpenter: "Carpenter"
+          caterer: "Caterer"
+          confectionery: "Confectionary"
+          dressmaker: "Dressmaker"
           electrician: "Electrician"
+          electronics_repair: "Electronics Repair"
           gardener: "Gardener"
+          glaziery: "Glaziery"
+          handicraft: "Handicraft"
+          hvac: "HVAC Craft"
+          metal_construction: "Metal Constructioner"
           painter: "Painter"
           photographer: "Photographer"
           plumber: "Plumber"
+          roofer: "Roofer"
+          sawmill: "Sawmill"
           shoemaker: "Shoemaker"
+          stonemason: "Stonemason"
           tailor: "Tailor"
+          window_construction: "Window Construction"
+          winery: "Winery"
           "yes": "Craft Shop"
+        crossing: "Crossing"
         emergency:
+          access_point: "Access Point"
           ambulance_station: "Ambulance Station"
           assembly_point: "Assembly Point"
           defibrillator: "Defibrillator"
+          fire_extinguisher: "Fire Extinguisher"
+          fire_water_pond: "Fire Water Pond"
           landing_site: "Emergency Landing Site"
+          life_ring: "Emergency Life Ring"
           phone: "Emergency Phone"
+          siren: "Emergency Siren"
+          suction_point: "Emergency Suction Point"
           water_tank: "Emergency Water Tank"
-          "yes": "Emergency"
         highway:
           abandoned: "Abandoned Highway"
           bridleway: "Bridleway"
@@ -502,6 +846,7 @@ en:
           cycleway: "Cycle Path"
           elevator: "Elevator"
           emergency_access_point: "Emergency Access Point"
+          emergency_bay: "Emergency Bay"
           footway: "Footpath"
           ford: "Ford"
           give_way: "Give Way Sign"
@@ -532,37 +877,47 @@ en:
           tertiary: "Tertiary Road"
           tertiary_link: "Tertiary Road"
           track: "Track"
+          traffic_mirror: "Traffic Mirror"
           traffic_signals: "Traffic Signals"
-          trail: "Trail"
+          trailhead: "Trailhead"
           trunk: "Trunk Road"
           trunk_link: "Trunk Road"
+          turning_circle: "Turning Circle"
           turning_loop: "Turning Loop"
           unclassified: "Unclassified Road"
           "yes" : "Road"
         historic:
+          aircraft: "Historic Aircraft"
           archaeological_site: "Archaeological Site"
+          bomb_crater: "Historic Bomb Crater"
           battlefield: "Battlefield"
           boundary_stone: "Boundary Stone"
           building: "Historic Building"
           bunker: "Bunker"
+          cannon: "Historic Cannon"
           castle: "Castle"
+          charcoal_pile: "Historic Charcoal Pile"
           church: "Church"
           city_gate: "City Gate"
           citywalls: "City Walls"
           fort: "Fort"
           heritage: "Heritage Site"
+          hollow_way: "Hollow Way"
           house: "House"
-          icon: "Icon"
           manor: "Manor"
           memorial: "Memorial"
+          milestone: "Historic Milestone"
           mine: "Mine"
           mine_shaft: "Mine Shaft"
           monument: "Monument"
+          railway: "Historic Railway"
           roman_road: "Roman Road"
           ruins: "Ruins"
+          rune_stone: "Rune Stone"
           stone: "Stone"
           tomb: "Tomb"
           tower: "Tower"
+          wayside_chapel: "Wayside Chapel"
           wayside_cross: "Wayside Cross"
           wayside_shrine: "Wayside Shrine"
           wreck: "Wreck"
@@ -571,13 +926,13 @@ en:
           "yes": "Junction"
         landuse:
           allotments: "Allotments"
+          aquaculture: "Aquaculture"
           basin: "Basin"
           brownfield: "Brownfield Land"
           cemetery: "Cemetery"
           commercial: "Commercial Area"
-          conservation: "Conservation"
-          construction: "Construction"
-          farm: "Farm"
+          conservation: "Conservation Area"
+          construction: "Construction Area"
           farmland: "Farmland"
           farmyard: "Farmyard"
           forest: "Forest"
@@ -590,21 +945,28 @@ en:
           military: "Military Area"
           mine: "Mine"
           orchard: "Orchard"
+          plant_nursery: "Plant Nursery"
           quarry: "Quarry"
           railway: "Railway"
           recreation_ground: "Recreation Ground"
+          religious: "Religious Ground"
           reservoir: "Reservoir"
           reservoir_watershed: "Reservoir Watershed"
           residential: "Residential Area"
-          retail: "Retail"
-          road: "Road Area"
+          retail: "Retail Area"
           village_green: "Village Green"
           vineyard: "Vineyard"
           "yes": "Landuse"
         leisure:
+          adult_gaming_centre: "Adult Gaming Centre"
+          amusement_arcade: "Amusement Arcade"
+          bandstand: "Bandstand"
           beach_resort: "Beach Resort"
           bird_hide: "Bird Hide"
+          bleachers: "Bleachers"
+          bowling_alley: "Bowling Alley"
           common: "Common Land"
+          dance: "Dance Hall"
           dog_park: "Dog Park"
           firepit: "Fire Pit"
           fishing: "Fishing Area"
@@ -617,7 +979,9 @@ en:
           marina: "Marina"
           miniature_golf: "Miniature Golf"
           nature_reserve: "Nature Reserve"
+          outdoor_seating: "Outdoor Seating"
           park: "Park"
+          picnic_table: "Picnic Table"
           pitch: "Sports Pitch"
           playground: "Playground"
           recreation_ground: "Recreation Ground"
@@ -632,13 +996,21 @@ en:
           "yes": "Leisure"
         man_made:
           adit: "Adit"
+          advertising: "Advertising"
+          antenna:  "Antenna"
+          avalanche_protection: "Avalanche Protection"
           beacon: "Beacon"
+          beam: "Beam"
           beehive: "Bee Hive"
           breakwater: "Breakwater"
           bridge: "Bridge"
           bunker_silo: "Bunker"
+          cairn: "Cairn"
           chimney: "Chimney"
+          clearcut: "Clearcut"
+          communications_tower: "Communications Tower"
           crane: "Crane"
+          cross: "Cross"
           dolphin: "Mooring Post"
           dyke: "Dyke"
           embankment: "Embankment"
@@ -647,6 +1019,7 @@ en:
           groyne: "Groyne"
           kiln: "Kiln"
           lighthouse: "Lighthouse"
+          manhole: "Manhole"
           mast: "Mast"
           mine: "Mine"
           mineshaft: "Mine Shaft"
@@ -654,12 +1027,20 @@ en:
           petroleum_well: "Petroleum Well"
           pier: "Pier"
           pipeline: "Pipeline"
+          pumping_station: "Pumping Station"
+          reservoir_covered: "Covered Reservoir"
           silo: "Silo"
+          snow_cannon: "Snow Cannon"
+          snow_fence: "Snow Fence"
           storage_tank: "Storage Tank"
+          street_cabinet: "Street Cabinet"
           surveillance: "Surveillance"
+          telescope: "Telescope"
           tower: "Tower"
+          utility_pole: "Utility Pole"
           wastewater_plant: "Wastewater Plant"
           watermill: "Water Mill"
+          water_tap: "Water Tap"
           water_tower: "Water Tower"
           water_well: "Well"
           water_works: "Water Works"
@@ -670,15 +1051,20 @@ en:
           airfield: "Military Airfield"
           barracks: "Barracks"
           bunker: "Bunker"
+          checkpoint: "Checkpoint"
+          trench: "Trench"
           "yes": "Military"
         mountain_pass:
           "yes" : "Mountain Pass"
         natural:
+          atoll: "Atoll"
+          bare_rock: "Bare Rock"
           bay: "Bay"
           beach: "Beach"
           cape: "Cape"
           cave_entrance: "Cave Entrance"
           cliff: "Cliff"
+          coastline: "Coastline"
           crater: "Crater"
           dune: "Dune"
           fell: "Fell"
@@ -689,12 +1075,15 @@ en:
           grassland: "Grassland"
           heath: "Heath"
           hill: "Hill"
+          hot_spring: "Hot Spring"
           island: "Island"
+          isthmus: "Isthmus"
           land: "Land"
           marsh: "Marsh"
           moor: "Moor"
           mud: "Mud"
           peak: "Peak"
+          peninsula: "Peninsula"
           point: "Point"
           reef: "Reef"
           ridge: "Ridge"
@@ -703,34 +1092,49 @@ en:
           sand: "Sand"
           scree: "Scree"
           scrub: "Scrub"
+          shingle: "Shingle"
           spring: "Spring"
           stone: "Stone"
           strait: "Strait"
           tree: "Tree"
+          tree_row: "Tree Row"
+          tundra: "Tundra"
           valley: "Valley"
           volcano: "Volcano"
           water: "Water"
           wetland: "Wetland"
           wood: "Wood"
+          "yes": "Natural Feature"
         office:
           accountant: "Accountant"
           administrative: "Administration"
+          advertising_agency: "Advertising Agency"
           architect: "Architect"
           association: "Association"
           company: "Company"
+          diplomatic: "Diplomatic Office"
           educational_institution: "Educational Institution"
           employment_agency: "Employment Agency"
+          energy_supplier: "Energy Supplier Office"
           estate_agent: "Estate Agent"
+          financial: "Financial Office"
           government: "Governmental Office"
           insurance: "Insurance Office"
           it: "IT Office"
           lawyer: "Lawyer"
+          logistics: "Logistics Office"
+          newspaper: "Newspaper Office"
           ngo: "NGO Office"
+          notary: "Notary"
+          religion: "Religious Office"
+          research: "Research Office"
+          tax_advisor: "Tax Advisor"
           telecommunication: "Telecommunication Office"
           travel_agent: "Travel Agency"
           "yes": "Office"
         place:
           allotments: "Allotments"
+          archipelago: "Archipelago"
           city: "City"
           city_block: "City Block"
           country: "Country"
@@ -745,6 +1149,7 @@ en:
           locality: "Locality"
           municipality: "Municipality"
           neighbourhood: "Neighbourhood"
+          plot: "Plot"
           postcode: "Postcode"
           quarter: "Quarter"
           region: "Region"
@@ -754,11 +1159,11 @@ en:
           subdivision: "Subdivision"
           suburb: "Suburb"
           town: "Town"
-          unincorporated_area: "Unincorporated Area"
           village: "Village"
           "yes": "Place"
         railway:
           abandoned: "Abandoned Railway"
+          buffer_stop: "Buffer Stop"
           construction: "Railway under Construction"
           disused: "Disused Railway"
           funicular: "Funicular Railway"
@@ -772,6 +1177,7 @@ en:
           platform: "Railway Platform"
           preserved: "Preserved Railway"
           proposed: "Proposed Railway"
+          rail: "Rail"
           spur: "Railway Spur"
           station: "Railway Station"
           stop: "Railway Stop"
@@ -780,12 +1186,20 @@ en:
           switch: "Railway Points"
           tram: "Tramway"
           tram_stop: "Tram Stop"
+          turntable: "Turntable"
+          yard: "Railway Yard"
         shop:
+          agrarian: "Agrarian Shop"
           alcohol: "Off License"
           antiques: "Antiques"
+          appliance: "Appliances Shop"
           art: "Art Shop"
+          baby_goods: "Baby Goods"
+          bag: "Bag Shop"
           bakery: "Bakery"
+          bathroom_furnishing: "Bathroom Furnishing"
           beauty: "Beauty Shop"
+          bed: "Bedding Products"
           beverages: "Beverages Shop"
           bicycle: "Bicycle Shop"
           bookmaker: "Bookmaker"
@@ -797,65 +1211,90 @@ en:
           car_repair: "Car Repair"
           carpet: "Carpet Shop"
           charity: "Charity Shop"
+          cheese: "Cheese Shop"
           chemist: "Chemist"
+          chocolate: "Chocolate"
           clothes: "Clothes Shop"
+          coffee: "Coffee Shop"
           computer: "Computer Shop"
           confectionery: "Confectionery Shop"
           convenience: "Convenience Store"
           copyshop: "Copy Shop"
           cosmetics: "Cosmetics Shop"
+          craft: "Crafts Supply Store"
+          curtain: "Curtain Shop"
+          dairy: "Dairy Shop"
           deli: "Deli"
           department_store: "Department Store"
           discount: "Discount Items Shop"
-          doityourself: "Do-It-Yourself"
+          doityourself: "Do-It-Yourself Shop"
           dry_cleaning: "Dry Cleaning"
+          e-cigarette: "E-Cigarette Shop"
           electronics: "Electronics Shop"
+          erotic: "Erotic Shop"
           estate_agent: "Estate Agent"
+          fabric: "Fabric Store"
           farm: "Farm Shop"
           fashion: "Fashion Shop"
-          fish: "Fish Shop"
+          fishing: "Fishing Supplies Shop"
           florist: "Florist"
           food: "Food Shop"
+          frame: "Frame Shop"
           funeral_directors: "Funeral Directors"
           furniture: "Furniture"
-          gallery: "Gallery"
           garden_centre: "Garden Centre"
+          gas: "Gas Store"
           general: "General Store"
           gift: "Gift Shop"
           greengrocer: "Greengrocer"
           grocery: "Grocery Shop"
           hairdresser: "Hairdresser"
           hardware: "Hardware Store"
-          hifi: "Hi-Fi"
+          health_food: "Health Food Store"
+          hearing_aids: "Hearing Aids"
+          herbalist: "Herbalist"
+          hifi: "Hi-Fi Shop"
           houseware: "Houseware Shop"
+          ice_cream: "Ice Cream Shop"
           interior_decoration: "Interior Decoration"
           jewelry: "Jewelry Shop"
           kiosk: "Kiosk Shop"
           kitchen: "Kitchen Shop"
           laundry: "Laundry"
+          locksmith: "Locksmith"
           lottery: "Lottery"
           mall: "Mall"
-          market: "Market"
           massage: "Massage"
+          medical_supply: "Medical Supply Shop"
           mobile_phone: "Mobile Phone Shop"
+          money_lender: "Money Lender"
           motorcycle: "Motorcycle Shop"
+          motorcycle_repair: "Motorcycle Repair Shop"
           music: "Music Shop"
+          musical_instrument: "Musical Instruments"
           newsagent: "Newsagent"
+          nutrition_supplements: "Nutrition Supplements"
           optician: "Optician"
           organic: "Organic Food Shop"
           outdoor: "Outdoor Shop"
           paint: "Paint Shop"
+          pastry: "Pastry Shop"
           pawnbroker: "Pawnbroker"
+          perfumery: "Perfumery"
           pet: "Pet Shop"
-          pharmacy: "Pharmacy"
+          pet_grooming: "Pet Grooming"
           photo: "Photo Shop"
           seafood: "Sea Food"
           second_hand: "Second-hand Shop"
+          sewing: "Sewing Shop"
           shoes: "Shoe Shop"
           sports: "Sports Shop"
           stationery: "Stationery Shop"
+          storage_rental: "Storage Rental"
           supermarket: "Supermarket"
           tailor: "Tailor"
+          tattoo: "Tattoo Shop"
+          tea: "Tea Shop"
           ticket: "Ticket Shop"
           tobacco: "Tobacco Shop"
           toys: "Toy Shop"
@@ -864,6 +1303,8 @@ en:
           vacant: "Vacant Shop"
           variety_store: "Variety Store"
           video: "Video Shop"
+          video_games: "Video Game Store"
+          wholesale: "Wholesale Store"
           wine: "Wine Store"
           "yes": "Shop"
         tourism:
@@ -872,7 +1313,8 @@ en:
           artwork: "Artwork"
           attraction: "Attraction"
           bed_and_breakfast: "Bed and Breakfast"
-          cabin: "Cabin"
+          cabin: "Tourist Cabin"
+          camp_pitch: "Camp Pitch"
           camp_site: "Camp Site"
           caravan_site: "Caravan Site"
           chalet: "Chalet"
@@ -886,6 +1328,7 @@ en:
           picnic_site: "Picnic Site"
           theme_park: "Theme Park"
           viewpoint: "Viewpoint"
+          wilderness_hut: "Wilderness Hut"
           zoo: "Zoo"
         tunnel:
           building_passage: "Building Passage"
@@ -912,16 +1355,15 @@ en:
           "yes": "Waterway"
       admin_levels:
         level2: "Country Boundary"
+        level3: "Region Boundary"
         level4: "State Boundary"
         level5: "Region Boundary"
         level6: "County Boundary"
+        level7: "Municipality Boundary"
         level8: "City Boundary"
         level9: "Village Boundary"
         level10: "Suburb Boundary"
-    description:
-      title:
-        osm_nominatim: 'Location from <a href="https://nominatim.openhistoricalmap.org/">OpenHistoricalMap Nominatim</a>'
-        geonames: 'Location from <a href="http://www.geonames.org/">GeoNames</a>'
+        level11: "Neighbourhood Boundary"
       types:
         cities: Cities
         towns: Towns
@@ -944,8 +1386,8 @@ en:
       status: Status
       reports: Reports
       last_updated: Last Updated
-      last_updated_time_html: "<abbr title='%{title}'>%{time} ago</abbr>"
-      last_updated_time_user_html: "<abbr title='%{title}'>%{time} ago</abbr> by %{user}"
+      last_updated_time_html: "<abbr title='%{title}'>%{time}</abbr>"
+      last_updated_time_user_html: "<abbr title='%{title}'>%{time}</abbr> by %{user}"
       link_to_reports: View Reports
       reported_user: Reported User
       reports_count:
@@ -957,7 +1399,7 @@ en:
         open: Open
         resolved: Resolved
     update:
-      new_report: Your report has been registered sucessfully
+      new_report: Your report has been registered successfully
       successful_update: Your report has been updated successfully
       provide_details: Please provide the required details
     show:
@@ -985,11 +1427,10 @@ en:
     reopen:
       reopened: Issue status has been set to 'Open'
     comments:
-      created_at: "On %{datetime}"
+      comment_from_html: "Comment from %{user_link} on %{comment_created_at}"
       reassign_param: Reassign Issue?
     reports:
-      updated_at: "On %{datetime}"
-      reported_by_html: "Reported as %{category} by %{user}"
+      reported_by_html: "Reported as %{category} by %{user} on %{updated_at}"
     helper:
       reportable_title:
         diary_comment: "%{entry_title}, comment #%{comment_id}"
@@ -1001,8 +1442,6 @@ en:
     new:
       title_html: "Report %{link}"
       missing_params: "Cannot create a new report"
-      details: Please provide some more details about the problem (required).
-      select: "Select a reason for your report:"
       disclaimer:
         intro: "Before sending your report to the site moderators, please ensure that:"
         not_just_mistake: You are certain that the problem is not just a mistake
@@ -1031,7 +1470,7 @@ en:
           abusive_label: This note is abusive
           other_label: Other
     create:
-      successful_report: Your report has been registered sucessfully
+      successful_report: Your report has been registered successfully
       provide_details: Please provide the required details
   layouts:
     project_name:
@@ -1042,12 +1481,6 @@ en:
     logo:
       alt_text: OpenHistoricalMap logo
     home: Go to Home Location
-    welcome_user_link_tooltip: Your user page
-    inbox_html: "inbox %{count}"
-    inbox_tooltip:
-      zero: Your inbox contains no unread messages
-      one: Your inbox contains 1 unread message
-      other: Your inbox contains %{count} unread messages
     logout: Log Out
     log_in: Log In
     log_in_tooltip: Log in with an existing account
@@ -1065,64 +1498,75 @@ en:
     user_diaries: User Diaries
     user_diaries_tooltip: View user diaries
     edit_with: Edit with %{editor}
-    tag_line: The Free Wiki World Historical Map
+    tag_line: The Free Wiki World Map
     intro_header: Welcome to OpenHistoricalMap!
     intro_text: "OpenHistoricalMap is a project designed to store and display map data throughout the history of the world. This is a work in progress, we'll be playing around with many new features as we time-enable the site. We encourage you to start playing around and editing data, too."
     intro_1: "OpenHistoricalMap is a project designed to store and display map data throughout the history of the world. This is a work in progress, we'll be playing around with many new features as we time-enable the site. We encourage you to start playing around and editing data, too."
-    intro_2_html: "The data is free to %{download} and %{use} under its %{license}. %{create_account} to improve the map."
     intro_2_create_account: "Create a user account"
-    intro_2_license: "open license"
-    intro_2_use: "use"
-    intro_2_download: "download"
-    intro_2_use_url: "http://openhistoricalmap.org/wiki/Using_OpenHistoricalMap"
+    partners_title: Partners
+    hosting_partners_html: |
+      <p>
+      <a href='https://greeninfo.org'>GreenInfo Network</a> is a nonprofit social-good mapping and communications organization that helps nonprofits and government agencies achieve social, environmental, and other goals using a range of tools, including human-centered design practices, collaborative development, and open source web and geospatial tools.
+      </p>
+      <p>
+      <a href='https://developmentseed.org/''>Development Seed</a> is an engineering and product company that is accelerating the application of earth data to our biggest global challenges. Development Seed leverages massive earth data, cloud computing, geospatial AI, and thoughtful product development.
+      </p>
+    partners_partners: "partners"
+    tou: "Terms of Use"
     osm_offline: "The OpenHistoricalMap database is currently offline while essential database maintenance work is carried out."
     osm_read_only: "The OpenHistoricalMap database is currently in read-only mode while essential database maintenance work is carried out."
-    donate: "OHM depends on OSM's technology. Support OpenStreetMap by %{link} to the Hardware Upgrade Fund."
+    donate: "Support OpenHistoricalMap by %{link} to the Hardware Upgrade Fund."
     help: Help
     about: About
     copyright: Copyright
     community: Community
     community_blogs: "Community Blogs"
     community_blogs_title: "Blogs from members of the OpenHistoricalMap community"
-    foundation: No Foundation
-    foundation_title: There is no OpenHistoricalMap Foundation
+    foundation: Foundation
+    foundation_title: The OpenHistoricalMap Foundation
     make_a_donation:
-      title: Support OpenStreetMap with a monetary donation
+      title: Support OpenHistoricalMap with a monetary donation
       text: Make a Donation
     learn_more: "Learn More"
     more: More
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: "[OpenHistoricalMap] %{user} commented on a diary entry"
       hi: "Hi %{to_user},"
       header: "%{from_user} has commented on the OpenHistoricalMap diary entry with the subject %{subject}:"
-      footer: "You can also read the comment at %{readurl} and you can comment at %{commenturl} or reply at %{replyurl}"
+      header_html: "%{from_user} has commented on the OpenHistoricalMap diary entry with the subject %{subject}:"
+      footer: "You can also read the comment at %{readurl} and you can comment at %{commenturl} or send a message to the author at %{replyurl}"
+      footer_html: "You can also read the comment at %{readurl} and you can comment at %{commenturl} or send a message to the author at %{replyurl}"
     message_notification:
-      subject_header: "[OpenHistoricalMap] %{subject}"
+      subject: "[OpenHistoricalMap] %{message_title}"
       hi: "Hi %{to_user},"
       header: "%{from_user} has sent you a message through OpenHistoricalMap with the subject %{subject}:"
-      footer_html: "You can also read the message at %{readurl} and you can reply at %{replyurl}"
-    friend_notification:
+      header_html: "%{from_user} has sent you a message through OpenHistoricalMap with the subject %{subject}:"
+      footer: "You can also read the message at %{readurl} and you can send a message to the author at %{replyurl}"
+      footer_html: "You can also read the message at %{readurl} and you can send a message to the author at %{replyurl}"
+    friendship_notification:
       hi: "Hi %{to_user},"
       subject: "[OpenHistoricalMap] %{user} added you as a friend"
       had_added_you: "%{user} has added you as a friend on OpenHistoricalMap."
       see_their_profile: "You can see their profile at %{userurl}."
+      see_their_profile_html: "You can see their profile at %{userurl}."
       befriend_them: "You can also add them as a friend at %{befriendurl}."
-    gpx_notification:
-      greeting: "Hi,"
-      your_gpx_file: "It looks like your GPX file"
-      with_description: "with the description"
-      and_the_tags: "and the following tags:"
-      and_no_tags: "and no tags."
-      failure:
-        subject: "[OpenHistoricalMap] GPX Import failure"
-        failed_to_import: "failed to import. Here is the error:"
-        more_info_1: "More information about GPX import failures and how to avoid"
-        more_info_2: "them can be found at:"
-        import_failures_url: "https://openhistoricalmap.org/wiki/GPX_Import_Failures"
-      success:
-        subject: "[OpenHistoricalMap] GPX Import success"
-        loaded_successfully: loaded successfully with %{trace_points} out of a possible %{possible_points} points.
+      befriend_them_html: "You can also add them as a friend at %{befriendurl}."
+    gpx_description:
+      description_with_tags_html: "It looks like your GPX file %{trace_name} with the description %{trace_description} and the following tags: %{tags}"
+      description_with_no_tags_html: "It looks like your GPX file %{trace_name} with the description %{trace_description} and no tags"
+    gpx_failure:
+      hi: "Hi %{to_user},"
+      failed_to_import: "failed to import. Here is the error:"
+      more_info_html: "More information about GPX import failures and how to avoid them can be found at %{url}."
+      import_failures_url: "https://wiki.openstreetmap.org/wiki/GPX_Import_Failures"
+      subject: "[OpenHistoricalMap] GPX Import failure"
+    gpx_success:
+      hi: "Hi %{to_user},"
+      loaded_successfully:
+        one: loaded successfully with %{trace_points} out of a possible 1 point.
+        other: loaded successfully with %{trace_points} out of a possible %{possible_points} points.
+      subject: "[OpenHistoricalMap] GPX Import success"
     signup_confirm:
       subject: "[OpenHistoricalMap] Welcome to OpenHistoricalMap"
       greeting: "Hi there!"
@@ -1131,23 +1575,13 @@ en:
       welcome: "After you confirm your account, we'll provide you with some additional information to get you started."
     email_confirm:
       subject: "[OpenHistoricalMap] Confirm your email address"
-    email_confirm_plain:
-      greeting: "Hi,"
-      hopefully_you: "Someone (hopefully you) would like to change their email address over at %{server_url} to %{new_address}."
-      click_the_link: "If this is you, please click the link below to confirm the change."
-    email_confirm_html:
       greeting: "Hi,"
       hopefully_you: "Someone (hopefully you) would like to change their email address over at %{server_url} to %{new_address}."
       click_the_link: "If this is you, please click the link below to confirm the change."
     lost_password:
       subject: "[OpenHistoricalMap] Password reset request"
-    lost_password_plain:
       greeting: "Hi,"
-      hopefully_you: "Someone (possibly you) has asked for the password to be reset on this email address's openhistoricalmap.org account."
-      click_the_link: "If this is you, please click the link below to reset your password."
-    lost_password_html:
-      greeting: "Hi,"
-      hopefully_you: "Someone (possibly you) has asked for the password to be reset on this email address's openhistoricalmap.org account."
+      hopefully_you: "Someone (possibly you) has asked for the password to be reset on this email address's openstreetmap.org account."
       click_the_link: "If this is you, please click the link below to reset your password."
     note_comment_notification:
       anonymous: An anonymous user
@@ -1156,35 +1590,72 @@ en:
         subject_own: "[OpenHistoricalMap] %{commenter} has commented on one of your notes"
         subject_other: "[OpenHistoricalMap] %{commenter} has commented on a note you are interested in"
         your_note: "%{commenter} has left a comment on one of your map notes near %{place}."
+        your_note_html: "%{commenter} has left a comment on one of your map notes near %{place}."
         commented_note: "%{commenter} has left a comment on a map note you have commented on. The note is near %{place}."
+        commented_note_html: "%{commenter} has left a comment on a map note you have commented on. The note is near %{place}."
       closed:
         subject_own: "[OpenHistoricalMap] %{commenter} has resolved one of your notes"
         subject_other: "[OpenHistoricalMap] %{commenter} has resolved a note you are interested in"
         your_note: "%{commenter} has resolved one of your map notes near %{place}."
+        your_note_html: "%{commenter} has resolved one of your map notes near %{place}."
         commented_note: "%{commenter} has resolved a map note you have commented on. The note is near %{place}."
+        commented_note_html: "%{commenter} has resolved a map note you have commented on. The note is near %{place}."
       reopened:
         subject_own: "[OpenHistoricalMap] %{commenter} has reactivated one of your notes"
         subject_other: "[OpenHistoricalMap] %{commenter} has reactivated a note you are interested in"
         your_note: "%{commenter} has reactivated one of your map notes near %{place}."
+        your_note_html: "%{commenter} has reactivated one of your map notes near %{place}."
         commented_note: "%{commenter} has reactivated a map note you have commented on. The note is near %{place}."
+        commented_note_html: "%{commenter} has reactivated a map note you have commented on. The note is near %{place}."
       details: "More details about the note can be found at %{url}."
+      details_html: "More details about the note can be found at %{url}."
     changeset_comment_notification:
       hi: "Hi %{to_user},"
       greeting: "Hi,"
       commented:
         subject_own: "[OpenHistoricalMap] %{commenter} has commented on one of your changesets"
         subject_other: "[OpenHistoricalMap] %{commenter} has commented on a changeset you are interested in"
-        your_changeset: "%{commenter} has left a comment on one of your changesets created at %{time}"
-        commented_changeset: "%{commenter} has left a comment on a map changeset you are watching created by %{changeset_author} at %{time}"
+        your_changeset: "%{commenter} left a comment at %{time} on one of your changesets"
+        your_changeset_html: "%{commenter} left a comment at %{time} on one of your changesets"
+        commented_changeset: "%{commenter} left a comment at %{time} on a changeset you are watching created by %{changeset_author}"
+        commented_changeset_html: "%{commenter} left a comment at %{time} on a changeset you are watching created by %{changeset_author}"
         partial_changeset_with_comment: "with comment '%{changeset_comment}'"
+        partial_changeset_with_comment_html: "with comment '%{changeset_comment}'"
         partial_changeset_without_comment: "without comment"
       details: "More details about the changeset can be found at %{url}."
+      details_html: "More details about the changeset can be found at %{url}."
       unsubscribe: 'To unsubscribe from updates to this changeset, visit %{url} and click "Unsubscribe".'
+      unsubscribe_html: 'To unsubscribe from updates to this changeset, visit %{url} and click "Unsubscribe".'
+  confirmations:
+    confirm:
+      heading: Check your email!
+      introduction_1: |
+        We sent you a confirmation email.
+      introduction_2: |
+        Confirm your account by clicking on the link in the email and you'll be able to start mapping.
+      press confirm button: "Press the confirm button below to activate your account."
+      button: Confirm
+      success: "Confirmed your account, thanks for signing up!"
+      already active: "This account has already been confirmed."
+      unknown token: "That confirmation code has expired or does not exist."
+      reconfirm_html: "If you need us to resend the confirmation email, <a href=\"%{reconfirm}\">click here</a>."
+    confirm_resend:
+      failure: "User %{name} not found."
+    confirm_email:
+      heading: Confirm a change of email address
+      press confirm button: "Press the confirm button below to confirm your new email address."
+      button: Confirm
+      success: "Confirmed your change of email address!"
+      failure: "An email address has already been confirmed with this token."
+      unknown_token: "That confirmation code has expired or does not exist."
+    resend_success_flash:
+      confirmation_sent: We've sent a new confirmation note to %{email} and as soon as you confirm your account you'll be able to get mapping.
+      whitelist: If you use an antispam system which sends confirmation requests then please make sure you whitelist %{sender} as we are unable to reply to any confirmation requests.
   messages:
     inbox:
       title: "Inbox"
       my_inbox: "My Inbox"
-      outbox: "outbox"
+      my_outbox: "My Outbox"
       messages: "You have %{new_messages} and %{old_messages}"
       new_messages:
         one: "%{count} new message"
@@ -1195,7 +1666,7 @@ en:
       from: "From"
       subject: "Subject"
       date: "Date"
-      no_messages_yet: "You have no messages yet. Why not get in touch with some of the %{people_mapping_nearby_link}?"
+      no_messages_yet_html: "You have no messages yet. Why not get in touch with some of the %{people_mapping_nearby_link}?"
       people_mapping_nearby: "people mapping nearby"
     message_summary:
       unread_button: "Mark as unread"
@@ -1204,10 +1675,9 @@ en:
       destroy_button: "Delete"
     new:
       title: "Send message"
-      send_message_to: "Send a new message to %{name}"
+      send_message_to_html: "Send a new message to %{name}"
       subject: "Subject"
       body: "Body"
-      send_button: "Send"
       back_to_inbox: "Back to inbox"
     create:
       message_sent: "Message sent"
@@ -1218,16 +1688,15 @@ en:
       body: "Sorry there is no message with that id."
     outbox:
       title: "Outbox"
-      my_inbox: "My %{inbox_link}"
-      inbox: "inbox"
-      outbox: "outbox"
+      my_inbox: "My Inbox"
+      my_outbox: "My Outbox"
       messages:
         one: "You have %{count} sent message"
         other: "You have %{count} sent messages"
       to: "To"
       subject: "Subject"
       date: "Date"
-      no_sent_messages: "You have no sent messages yet. Why not get in touch with some of the %{people_mapping_nearby_link}?"
+      no_sent_messages_html: "You have no sent messages yet. Why not get in touch with some of the %{people_mapping_nearby_link}?"
       people_mapping_nearby: "people mapping nearby"
     reply:
       wrong_user: "You are logged in as `%{user}' but the message you have asked to reply to was not sent to that user. Please login as the correct user in order to reply."
@@ -1249,15 +1718,135 @@ en:
       as_unread: "Message marked as unread"
     destroy:
       destroyed: "Message deleted"
+  passwords:
+    lost_password:
+      title: "Lost password"
+      heading: "Forgotten Password?"
+      email address: "Email Address:"
+      new password button: "Reset password"
+      help_text: "Enter the email address you used to sign up, we will send a link to it that you can use to reset your password."
+      notice email on way: "Sorry you lost it :-( but an email is on its way so you can reset it soon."
+      notice email cannot find: "Could not find that email address, sorry."
+    reset_password:
+      title: "Reset password"
+      heading: "Reset Password for %{user}"
+      reset: "Reset Password"
+      flash changed: "Your password has been changed."
+      flash token bad: "Did not find that token, check the URL maybe?"
+  preferences:
+    show:
+      title: My Preferences
+      preferred_editor: Preferred Editor
+      preferred_languages: Preferred Languages
+      edit_preferences: Edit Preferences
+    edit:
+      title: Edit Preferences
+      save: Update Preferences
+      cancel: Cancel
+    update:
+      failure: Couldn't update preferences.
+    update_success_flash:
+      message: Preferences updated.
+  profiles:
+    edit:
+      title: Edit Profile
+      save: Update Profile
+      cancel: Cancel
+      image: Image
+      gravatar:
+        gravatar: "Use Gravatar"
+        link: "https://wiki.openstreetmap.org/wiki/Gravatar"
+        what_is_gravatar: "What is Gravatar?"
+        disabled: "Gravatar has been disabled."
+        enabled: "Display of your Gravatar has been enabled."
+      new image: "Add an image"
+      keep image: "Keep the current image"
+      delete image: "Remove the current image"
+      replace image: "Replace the current image"
+      image size hint: "(square images at least 100x100 work best)"
+      home location: "Home Location"
+      no home location: "You have not entered your home location."
+      update home location on click: "Update home location when I click on the map?"
+    update:
+      success: Profile updated.
+      failure: Couldn't update profile.
+  sessions:
+    new:
+      title: "Login"
+      heading: "Login"
+      email or username: "Email Address or Username:"
+      password: "Password:"
+      openid_html: "%{logo} OpenID:"
+      remember: "Remember me"
+      lost password link: "Lost your password?"
+      login_button: "Login"
+      register now: Register now
+      with username: "Already have an OpenHistoricalMap account? Please login with your username and password:"
+      with external: "Alternatively, use a third party to login:"
+      new to osm: New to OpenHistoricalMap?
+      to make changes: To make changes to the OpenHistoricalMap data, you must have an account.
+      create account minute: Create an account. It only takes a minute.
+      no account: Don't have an account?
+      account not active: "Sorry, your account is not active yet.<br />Please use the link in the account confirmation email to activate your account, or <a href=\"%{reconfirm}\">request a new confirmation email</a>."
+      account is suspended: Sorry, your account has been suspended due to suspicious activity.<br />Please contact <a href="%{webmaster}">support</a> if you wish to discuss this.
+      auth failure: "Sorry, could not log in with those details."
+      openid_logo_alt: "Log in with an OpenID"
+      auth_providers:
+        openid:
+          title: Login with OpenID
+          alt: Login with an OpenID URL
+        google:
+          title: Login with Google
+          alt: Login with a Google OpenID
+        facebook:
+          title: Login with Facebook
+          alt: Login with a Facebook Account
+        windowslive:
+          title: Login with Windows Live
+          alt: Login with a Windows Live Account
+        github:
+          title: Login with GitHub
+          alt: Login with a GitHub Account
+        wikipedia:
+          title: Login with Wikipedia
+          alt: Login with a Wikipedia Account
+        wordpress:
+          title: Login with Wordpress
+          alt: Login with a Wordpress OpenID
+        aol:
+          title: Login with AOL
+          alt: Login with an AOL OpenID
+    destroy:
+      title: "Logout"
+      heading: "Logout from OpenHistoricalMap"
+      logout_button: "Logout"
+  shared:
+    markdown_help:
+      title_html: Parsed with <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      headings: Headings
+      heading: Heading
+      subheading: Subheading
+      unordered: Unordered list
+      ordered: Ordered list
+      first: First item
+      second: Second item
+      link: Link
+      text: Text
+      image: Image
+      alt: Alt text
+      url: URL
+    richtext_field:
+      edit: Edit
+      preview: Preview
   site:
     about:
       next: Next
-      copyright_html: OpenHistoricalMap data is licensed and marked at the object/element level.
-      used_by: "%{name} collaboratively stores and displays map data throughout the history of the world"
+      copyright_html: <span>&copy;</span>OpenHistoricalMap<br>contributors
+      used_by_html: "OpenHistoricalMap collaboratively stores and displays map data throughout the history of the world."
       lede_text: |
         OpenHistoricalMap is built by a community of mappers and historians that contribute and maintain data
         about the history of the world.
-      local_knowledge_title: Historical Data
+      local_knowledge_title: Local Knowledge
       local_knowledge_html: |
         OpenHistoricalMap is about historical data. Things that used to be there.
         From a variety of sources, contributed by mappers and historians across the world.
@@ -1276,29 +1865,23 @@ en:
         under the same licence. See the <a href='%{copyright_path}'>Copyright and 
         License page</a> for details. 
       legal_title: Legal
-      legal_html: |
+      legal_1_html: |
         This site and many other related services are formally operated by the
         very informal OpenHistoricalMap collective 
         on behalf of the community. 
+      legal_2_html: |
         Please contact the OHM team at <a href='mailto:historic@opensteetmap.org'>historic@opensteetmap.org</a>
         if you have licensing, copyright or other legal questions.
         <br>
       partners_title: Partners
-      hosting_partners_html: |
-        <p>
-        <a href='https://greeninfo.org'>GreenInfo Network</a> is a nonprofit social-good mapping and communications organization that helps nonprofits and government agencies achieve social, environmental, and other goals using a range of tools, including human-centered design practices, collaborative development, and open source web and geospatial tools.
-        </p>
-        <p>
-        <a href='https://developmentseed.org/''>Development Seed</a> is an engineering and product company that is accelerating the application of earth data to our biggest global challenges. Development Seed leverages massive earth data, cloud computing, geospatial AI, and thoughtful product development.
-        </p>
     copyright:
       foreign:
         title: About this translation
-        text: In the event of a conflict between this translated page and %{english_original_link}, the English page shall take precedence
+        html: In the event of a conflict between this translated page and %{english_original_link}, the English page shall take precedence
         english_link: the English original
       native:
         title: About this page
-        text: You are viewing the English version of the copyright page. You can go back to the %{native_link} of this page or you can stop reading about copyright and %{mapping_link}.
+        html: You are viewing the English version of the copyright page. You can go back to the %{native_link} of this page or you can stop reading about copyright and %{mapping_link}.
         native_link: THIS_LANGUAGE_NAME_HERE version
         mapping_link: start mapping
       legal_babble:
@@ -1318,19 +1901,20 @@ en:
           you abide by the terms of the data you are copying, distributing, or adapting. 
           If you alter or build upon the data on this site, you may distribute the result 
           only under the terms of the underlying data objects’ licenses. 
-        intro_3_html: |
+        intro_3_1_html: |
           The cartography in our map tiles is licensed under the terms of the objects 
           the tiles contain. Our map styles and  documentation are licensed under the 
           Creative Commons Attribution “No Rights Reserved” Public Domain license (CC0).
-
         credit_title_html: How to credit OpenHistoricalMap
         credit_1_html: |
           We do not require any OHM-specific credit separate from those
           required by the underlying data. Citations, however, are appreciated
           as "OpenHistoricalMap contributors"
-        credit_2_html: |
+        credit_2_1_html: |
           ..
-        credit_3_html: |
+        credit_3_1_html: |
+          ..
+        credit_4_html: |
           For a browsable electronic map, OHM prefers the optional credits appear 
           in the lower-right corner of the map.
           For example:
@@ -1367,6 +1951,8 @@ en:
           ..
         contributors_si_html: |
           ..
+        contributors_es_html: |
+          ..
         contributors_za_html: |
           ..
         contributors_gb_html: |
@@ -1388,34 +1974,29 @@ en:
         infringement_2_html: |
           If you believe that copyrighted material has been inappropriately
           added to the OpenHistoricalMap database or this site, please refer
-          to our <a href="https://openhistoricalmap.org">takedown
+          to our <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">takedown
           procedure</a> or file directly at our
-          <a href="http://openhistoricalmap.org/">on-line filing page</a>.
+          <a href="https://dmca.openstreetmap.org/">on-line filing page</a>.
         trademarks_title_html: <span id="trademarks"></span>Trademarks
         trademarks_1_html: |
-          If you have questions about your use of the OpenHistoricalMap name, please see our <a href="https://www.openhistoricalmap.org">Trademark Policy</a>.
-    index:
+          If you have questions about your use of the OpenHistoricalMap name, please see our <a href="https://www.openhistoricalmap.org">Trademark Policy</a>.    index:
       js_1: "You are either using a browser that does not support JavaScript, or you have disabled JavaScript."
       js_2: "OpenHistoricalMap uses JavaScript for its slippy map."
       permalink: Permalink
       shortlink: Shortlink
       createnote: Add a note
       license:
-        copyright: "Copyright OpenHistoricalMap contributors, under open licenses identified at the object level"
-        license_url: "https://openhistoricalmap.org/copyright"
-        project_url: "https://openhistoricalmap.org"
+        copyright: "Copyright OpenHistoricalMap and contributors, under an open license"
+        license_url: "https://openstreetmap.org/copyright"
+        project_url: "https://openstreetmap.org"
       remote_failed: "Editing failed - make sure JOSM or Merkaartor is loaded and the remote control option is enabled"
     edit:
       not_public: "You have not set your edits to be public."
-      not_public_description: "You can no longer edit the map unless you do so. You can set your edits as public from your %{user_page}."
+      not_public_description_html: "You can no longer edit the map unless you do so. You can set your edits as public from your %{user_page}."
       user_page_link: user page
-      anon_edits: "(%{link})"
-      anon_edits_link: "https://openhistoricalmap.org/wiki/Disabling_anonymous_edits"
+      anon_edits_html: "(%{link})"
+      anon_edits_link: "https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
       anon_edits_link_text: "Find out why this is the case."
-      flash_player_required: 'You need a Flash player to use Potlatch, the OpenStreetMap Flash editor. You can <a href="https://get.adobe.com/flashplayer/">download Flash Player from Adobe.com</a>. <a href="https://openhistoricalmap.org/wiki/Editing">Several other options</a> are also available for editing OpenStreetMap.'
-      potlatch_unsaved_changes: "You have unsaved changes. (To save in Potlatch, you should deselect the current way or point, if editing in live mode, or click save if you have a save button.)"
-      potlatch2_not_configured: "Potlatch 2 has not been configured - please see https://openhistoricalmap.org/wiki/The_Rails_Port#Potlatch_2 for more information"
-      potlatch2_unsaved_changes: "You have unsaved changes. (To save in Potlatch 2, you should click save.)"
       id_not_configured: "iD has not been configured"
       no_iframe_support: "Your browser doesn't support HTML iframes, which are necessary for this feature."
     export:
@@ -1427,12 +2008,12 @@ en:
       map_image: "Map Image (shows standard layer)"
       embeddable_html: "Embeddable HTML"
       licence: "Licence"
-      export_details: 'OpenHistoricalMap data is licensed under the <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL).'
+      export_details_html: 'OpenHistoricalMap (OHM) provides historical mapping and related data, licensed by contributors at the object level. Contributors are strongly encouraged to contribute data using the CC0 license, but in the interest of protecting the rights of historical data creators, such as academics, other open licenses, such as any combination of CC, BY, SA, and NC are supported, as well. You are responsible for understanding the terms of the licenses included in the data you copy, distribute, transmit, and adapt.'
       too_large:
         advice: "If the above export fails, please consider using one of the sources listed below:"
         body: "This area is too large to be exported as OpenHistoricalMap XML Data. Please zoom in or select a smaller area, or use one of the sources listed below for bulk data downloads."
         planet:
-          title: "Planet OSM"
+          title: "Planet OHM"
           description: "Regularly-updated copies of the complete OpenHistoricalMap database"
         overpass:
           title: "Overpass API"
@@ -1445,7 +2026,7 @@ en:
           description: "Extracts for major world cities and their surrounding areas"
         other:
           title: "Other Sources"
-          description: "Additional sources listed on the OpenHistoricalMap wiki"
+          description: "Additional sources listed on the OpenStreetMap Wiki"
       options: "Options"
       format: "Format"
       scale: "Scale"
@@ -1508,9 +2089,9 @@ en:
         title: Slack
         description: Interactive OHM chat on the openhistoricalmap channel, courtesy of OSM-US.
       switch2osm:
-        url: https://discord.gg/nEzyd7
+        url: https://discord.gg/openstreetmap
         title: Discord
-        description: Free-flowing chat about OHM, courtesy of some enthusiastic OHM users.
+        description: Join the OpenHistoricalMap channel for free-flowing chat about OHM, courtesy of some enthusiastic OHM users.
       welcomemat:
         url: https://welcome.openhistoricalmap.org/
         title: For Organizations
@@ -1602,23 +2183,6 @@ en:
           bicycle_shop: "Bicycle shop"
           bicycle_parking: "Bicycle parking"
           toilets: "Toilets"
-    richtext_area:
-      edit: Edit
-      preview: Preview
-    markdown_help:
-      title_html: Parsed with <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
-      headings: Headings
-      heading: Heading
-      subheading: Subheading
-      unordered: Unordered list
-      ordered: Ordered list
-      first: First item
-      second: Second item
-      link: Link
-      text: Text
-      image: Image
-      alt: Alt text
-      url: URL
     welcome:
       title: Welcome!
       introduction_html: |
@@ -1679,16 +2243,10 @@ en:
       identifiable: "Identifiable (shown in trace list and as identifiable, ordered points with timestamps)"
     new:
       upload_trace: "Upload GPS Trace"
-      upload_gpx: "Upload GPX File:"
-      description: "Description:"
-      tags: "Tags:"
-      tags_help: "comma delimited"
-      visibility: "Visibility:"
       visibility_help: "what does this mean?"
-      visibility_help_url: "https://openhistoricalmap.org/wiki/Visibility_of_GPS_traces"
-      upload_button: "Upload"
+      visibility_help_url: "https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
       help: "Help"
-      help_url: "https://openhistoricalmap.org/wiki/Upload"
+      help_url: "https://wiki.openstreetmap.org/wiki/Upload"
     create:
       upload_trace: "Upload GPS Trace"
       trace_uploaded: "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
@@ -1697,36 +2255,25 @@ en:
         one: "You have %{count} trace waiting for upload. Please consider waiting for these to finish before uploading any more, so as not to block the queue for other users."
         other: "You have %{count} traces waiting for upload. Please consider waiting for these to finish before uploading any more, so as not to block the queue for other users."
     edit:
-      title: "Editing trace %{name}"
-      heading: "Editing trace %{name}"
-      filename: "Filename:"
-      download: "download"
-      uploaded_at: "Uploaded:"
-      points: "Points:"
-      start_coord: "Start coordinate:"
-      map: "map"
-      edit: "edit"
-      owner: "Owner:"
-      description: "Description:"
-      tags: "Tags:"
-      tags_help: "comma delimited"
-      save_button: "Save Changes"
-      visibility: "Visibility:"
+      cancel: Cancel
+      title: "Editing Trace %{name}"
+      heading: "Editing Trace %{name}"
       visibility_help: "what does this mean?"
-      visibility_help_url: "https://openhistoricalmap.org/wiki/Visibility_of_GPS_traces"
+      visibility_help_url: "https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
     update:
       updated: Trace updated
     trace_optionals:
       tags: "Tags"
     show:
-      title: "Viewing trace %{name}"
-      heading: "Viewing trace %{name}"
+      title: "Viewing Trace %{name}"
+      heading: "Viewing Trace %{name}"
       pending: "PENDING"
       filename: "Filename:"
       download: "download"
       uploaded: "Uploaded:"
       points: "Points:"
       start_coordinates: "Start coordinate:"
+      coordinates_html: "%{latitude}; %{longitude}"
       map: "map"
       edit: "edit"
       owner: "Owner:"
@@ -1744,12 +2291,12 @@ en:
       newer: "Newer Traces"
     trace:
       pending: "PENDING"
-      count_points: "%{count} points"
-      ago: "%{time_in_words_ago} ago"
+      count_points:
+        one: "1 point"
+        other: "%{count} points"
       more: "more"
       trace_details: "View Trace Details"
       view_map: "View Map"
-      edit: "edit"
       edit_map: "Edit Map"
       public: "PUBLIC"
       identifiable: "IDENTIFIABLE"
@@ -1757,18 +2304,19 @@ en:
       trackable: "TRACKABLE"
       by: "by"
       in: "in"
-      map: "map"
     index:
-      public_traces: "Public GPS traces"
-      my_traces: "My GPS traces"
-      public_traces_from: "Public GPS traces from %{user}"
+      public_traces: "Public GPS Traces"
+      my_traces: "My GPS Traces"
+      public_traces_from: "Public GPS Traces from %{user}"
       description: "Browse recent GPS trace uploads"
       tagged_with: " tagged with %{tags}"
-      empty_html: "Nothing here yet. <a href='%{upload_link}'>Upload a new trace</a> or learn more about GPS tracing on the <a href='https://openhistoricalmap.org/wiki/Beginners_Guide_1.2'>wiki page</a>."
+      empty_html: "Nothing here yet. <a href='%{upload_link}'>Upload a new trace</a> or learn more about GPS tracing on the <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki page</a>."
       upload_trace: "Upload a trace"
-      see_all_traces: "See all traces"
-      see_my_traces: "See my traces"
-    delete:
+      all_traces: "All Traces"
+      my_traces: "My Traces"
+      traces_from: "Public Traces from %{user}"
+      remove_tag_filter: "Remove Tag Filter"
+    destroy:
       scheduled_for_deletion: "Trace scheduled for deletion"
     make_public:
       made_public: "Trace made public"
@@ -1778,7 +2326,7 @@ en:
       heading: "GPX Storage Offline"
       message: "The GPX file storage and upload system is currently unavailable."
     georss:
-      title: "OpenStreetMap GPS Traces"
+      title: "OpenHistoricalMap GPS Traces"
     description:
       description_with_count:
         one: "GPX file with %{count} point from %{user}"
@@ -1791,13 +2339,18 @@ en:
     require_admin:
       not_an_admin: You need to be an admin to perform that action.
     setup_user_auth:
-      blocked_zero_hour: "You have an urgent message on the OpenHistoricalMap web site. You need to read the message before you will be able to save your edits."
+      blocked_zero_hour: "You have an urgent message on the OpenHistoricalMap website. You need to read the message before you will be able to save your edits."
       blocked: "Your access to the API has been blocked. Please log-in to the web interface to find out more."
       need_to_see_terms: "Your access to the API is temporarily suspended. Please log-in to the web interface to view the Contributor Terms. You do not need to agree, but you must view them."
+    settings_menu:
+      account_settings: Account Settings
+      oauth1_settings: OAuth 1 settings
+      oauth2_applications: OAuth 2 applications
+      oauth2_authorizations: OAuth 2 authorizations
   oauth:
     authorize:
       title: "Authorize access to your account"
-      request_access: "The application %{app_name} is requesting access to your account, %{user}. Please check whether you would like the application to have the following capabilities. You may choose as many or as few as you like."
+      request_access_html: "The application %{app_name} is requesting access to your account, %{user}. Please check whether you would like the application to have the following capabilities. You may choose as many or as few as you like."
       allow_to: "Allow the client application to:"
       allow_read_prefs:  "read your user preferences."
       allow_write_prefs: "modify your user preferences."
@@ -1809,7 +2362,7 @@ en:
       grant_access: "Grant Access"
     authorize_success:
       title: "Authorization request allowed"
-      allowed: "You have granted application %{app_name} access to your account."
+      allowed_html: "You have granted application %{app_name} access to your account."
       verification: "The verification code is %{code}."
     authorize_failure:
       title: "Authorization request failed"
@@ -1819,13 +2372,21 @@ en:
       flash: "You've revoked the token for %{application}"
     permissions:
       missing: "You have not permitted the application access to this facility"
+    scopes:
+      read_prefs: Read user preferences
+      write_prefs: Modify user preferences
+      write_diary: Create diary entries, comments and make friends
+      write_api: Modify the map
+      read_gpx: Read private GPS traces
+      write_gpx: Upload GPS traces
+      write_notes: Modify notes
+      read_email: Read user email address
+      skip_authorization: Auto approve application
   oauth_clients:
     new:
       title: "Register a new application"
-      submit: "Register"
     edit:
       title: "Edit your application"
-      submit: "Edit"
     show:
       title: "OAuth details for %{app_name}"
       key: "Consumer Key:"
@@ -1838,13 +2399,6 @@ en:
       delete: "Delete Client"
       confirm: "Are you sure?"
       requests: "Requesting the following permissions from the user:"
-      allow_read_prefs:  "read their user preferences."
-      allow_write_prefs: "modify their user preferences."
-      allow_write_diary: "create diary entries, comments and make friends."
-      allow_write_api:   "modify the map."
-      allow_read_gpx:    "read their private GPS traces."
-      allow_write_gpx:   "upload GPS traces."
-      allow_write_notes: "modify notes."
     index:
       title: "My OAuth Details"
       my_tokens: "My Authorised Applications"
@@ -1853,23 +2407,12 @@ en:
       issued_at: "Issued At"
       revoke: "Revoke!"
       my_apps: "My Client Applications"
-      no_apps: "Do you have an application you would like to register for use with us using the %{oauth} standard? You must register your web application before it can make OAuth requests to this service."
+      no_apps_html: "Do you have an application you would like to register for use with us using the %{oauth} standard? You must register your web application before it can make OAuth requests to this service."
+      oauth: OAuth
       registered_apps: "You have the following client applications registered:"
       register_new: "Register your application"
     form:
-      name: "Name"
-      required: "Required"
-      url: "Main Application URL"
-      callback_url: "Callback URL"
-      support_url: "Support URL"
       requests: "Request the following permissions from the user:"
-      allow_read_prefs:  "read their user preferences."
-      allow_write_prefs: "modify their user preferences."
-      allow_write_diary: "create diary entries, comments and make friends."
-      allow_write_api:   "modify the map."
-      allow_read_gpx:    "read their private GPS traces."
-      allow_write_gpx:   "upload GPS traces."
-      allow_write_notes: "modify notes."
     not_found:
       sorry: "Sorry, that %{type} could not be found."
     create:
@@ -1878,110 +2421,87 @@ en:
       flash: "Updated the client information successfully"
     destroy:
       flash: "Destroyed the client application registration"
+  oauth2_applications:
+    index:
+      title: "My Client Applications"
+      no_applications_html: "Do you have an application you would like to register for use with us using the %{oauth2} standard? You must register your application before it can make OAuth requests to this service."
+      oauth_2: "OAuth 2"
+      new: "Register new application"
+      name: "Name"
+      permissions: "Permissions"
+    application:
+      edit: "Edit"
+      delete: "Delete"
+      confirm_delete: "Delete this application?"
+    new:
+      title: "Register a new application"
+    edit:
+      title: "Edit your application"
+    show:
+      edit: "Edit"
+      delete: "Delete"
+      confirm_delete: "Delete this application?"
+      client_id: "Client ID"
+      client_secret: "Client Secret"
+      client_secret_warning: "Make sure to save this secret - it will not be accessible again"
+      permissions: "Permissions"
+      redirect_uris: "Redirect URIs"
+    not_found:
+      sorry: "Sorry, that application could not be found."
+  oauth2_authorizations:
+    new:
+      title: "Authorization Required"
+      introduction: "Authorize %{application} to access your account with the following permissions?"
+      authorize: "Authorize"
+      deny: "Deny"
+    error:
+      title: "An error has occurred"
+    show:
+      title: "Authorization code"
+  oauth2_authorized_applications:
+    index:
+      title: "My Authorized Applications"
+      application: "Application"
+      permissions: "Permissions"
+      no_applications_html: "You have not yet authorized any %{oauth2} applications."
+    application:
+      revoke: "Revoke Access"
+      confirm_revoke: "Revoke access for this application?"
   users:
-    login:
-      title: "Login"
-      heading: "Login"
-      email or username: "Email Address or Username:"
-      password: "Password:"
-      openid: "%{logo} OpenID:"
-      remember: "Remember me"
-      lost password link: "Lost your password?"
-      login_button: "Login"
-      register now: Register now
-      with username: "Already have an OpenHistoricalMap account? Please login with your username and password:"
-      with external: "Alternatively, use a third party to login:"
-      new to osm: New to OpenHistoricalMap?
-      to make changes: To make changes to the OpenHistoricalMap data, you must have an account.
-      create account minute: Create an account. It only takes a minute.
-      no account: Don't have an account?
-      account not active: "Sorry, your account is not active yet.<br />Please use the link in the account confirmation email to activate your account, or <a href=\"%{reconfirm}\">request a new confirmation email</a>."
-      account is suspended: Sorry, your account has been suspended due to suspicious activity.<br />Please contact the <a href="%{webmaster}">webmaster</a> if you wish to discuss this.
-      auth failure: "Sorry, could not log in with those details."
-      openid_logo_alt: "Log in with an OpenID"
-      auth_providers:
-        openid:
-          title: Login with OpenID
-          alt: Login with an OpenID URL
-        google:
-          title: Login with Google
-          alt: Login with a Google OpenID
-        facebook:
-          title: Login with Facebook
-          alt: Login with a Facebook Account
-        windowslive:
-          title: Login with Windows Live
-          alt: Login with a Windows Live Account
-        github:
-          title: Login with GitHub
-          alt: Login with a GitHub Account
-        wikipedia:
-          title: Login with Wikipedia
-          alt: Login with a Wikipedia Account
-        yahoo:
-          title: Login with Yahoo
-          alt: Login with a Yahoo OpenID
-        wordpress:
-          title: Login with Wordpress
-          alt: Login with a Wordpress OpenID
-        aol:
-          title: Login with AOL
-          alt: Login with an AOL OpenID
-    logout:
-      title: "Logout"
-      heading: "Logout from OpenHistoricalMap"
-      logout_button: "Logout"
-    lost_password:
-      title: "Lost password"
-      heading: "Forgotten Password?"
-      email address: "Email Address:"
-      new password button: "Reset password"
-      help_text: "Enter the email address you used to sign up, we will send a link to it that you can use to reset your password."
-      notice email on way: "Sorry you lost it :-( but an email is on its way so you can reset it soon."
-      notice email cannot find: "Could not find that email address, sorry."
-    reset_password:
-      title: "Reset password"
-      heading: "Reset Password for %{user}"
-      password: "Password:"
-      confirm password: "Confirm Password:"
-      reset: "Reset Password"
-      flash changed: "Your password has been changed."
-      flash token bad: "Did not find that token, check the URL maybe?"
     new:
       title: "Sign Up"
       no_auto_account_create: "Unfortunately we are not currently able to create an account for you automatically."
-      contact_webmaster: 'Please contact the <a href="%{webmaster}">webmaster</a> to arrange for an account to be created - we will try and deal with the request as quickly as possible.'
+      contact_support_html: 'Please contact <a href="%{support}">support</a> to arrange for an account to be created - we will try and deal with the request as quickly as possible.'
       about:
         header: Free and editable
         html: |
           <p>Unlike other maps, OpenHistoricalMap is completely created by people like you,
           and it's free for anyone to fix, update, download and use.</p>
           <p>Sign up to get started contributing. We'll send an email to confirm your account.</p>
-      license_agreement: 'When you confirm your account you will need to agree to the <a href="https://openhistoricalmap.org/wiki/License/Contributor_Terms">contributor terms</a>.'
       email address: "Email Address:"
       confirm email address: "Confirm Email Address:"
-      not displayed publicly: 'Your address is not displayed publicly, see our <a href="https://openhistoricalmap.org/wiki/Privacy_Policy" title="OSMF privacy policy including section on email addresses">privacy policy</a> for more information'
       display name: "Display Name:"
       display name description: "Your publicly displayed username. You can change this later in the preferences."
       external auth: "Third Party Authentication:"
-      password: "Password:"
-      confirm password: "Confirm Password:"
       use external auth: "Alternatively, use a third party to login"
       auth no password: "With third party authentication a password is not required, but some extra tools or server may still need one."
       continue: Sign Up
       terms accepted: "Thanks for accepting the new contributor terms!"
-      terms declined: "We are sorry that you have decided to not accept the new Contributor Terms. For more information, please see <a href=\"%{url}\">this wiki page</a>."
-      terms declined url: https://openhistoricalmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: "Contributor terms"
-      heading: "Contributor terms"
-      read and accept: "Please read the agreement and press the agree button to confirm that you accept the terms of this agreement for your existing and future contributions."
-      consider_pd: "In addition to the above agreement, I consider my contributions to be in the Public Domain"
+      title: "Terms"
+      heading: "Terms"
+      heading_ct: "Contributor terms"
+      read and accept with tou: "Please read the contributor agreement and the terms of use, check both checkboxes when done and then press the continue button."
+      contributor_terms_explain: "This agreement governs the terms for your existing and future contributions."
+      read_ct: "I have read and agree to the above contributor terms"
+      tou_explain_html: "These %{tou_link} govern the use of the website and other infrastructure provided by the OSMF. Please click on the link, read and agree to the text."
+      read_tou: "I have read and agree to the Terms of Use"
+      consider_pd: "In addition to the above, I consider my contributions to be in the Public Domain"
       consider_pd_why: "what's this?"
-      consider_pd_why_url: https://openhistoricalmap.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
-      guidance: 'Information to help understand these terms: a <a href="%{summary}">human readable summary</a> and some <a href="%{translations}">informal translations</a>'
-      agree: Agree
-      declined: "https://openhistoricalmap.org/wiki/Contributor_Terms_Declined"
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+      guidance_html: 'Information to help understand these terms: a <a href="%{summary}">human readable summary</a> and some <a href="%{translations}">informal translations</a>'
+      continue: Continue
+      declined: "https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined"
       decline: "Decline"
       you need to accept or decline: "Please read and then either accept or decline the new Contributor Terms to continue."
       legale_select: "Country of residence:"
@@ -1989,6 +2509,10 @@ en:
         france: "France"
         italy: "Italy"
         rest_of_world: "Rest of the world"
+    terms_declined_flash:
+      terms_declined_html: We are sorry that you have decided to not accept the new Contributor Terms. For more information, please see %{terms_declined_link}.
+      terms_declined_link: this wiki page
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: "No such user"
       heading: "The user %{user} does not exist"
@@ -2004,9 +2528,11 @@ en:
       my profile: My Profile
       my settings: My Settings
       my comments: My Comments
-      oauth settings: oauth settings
+      my_preferences: My Preferences
+      my_dashboard: My Dashboard
       blocks on me: Blocks on Me
       blocks by me: Blocks by Me
+      edit_profile: Edit Profile
       send message: Send Message
       diary: Diary
       edits: Edits
@@ -2015,26 +2541,16 @@ en:
       remove as friend: Unfriend
       add as friend: Add Friend
       mapper since: "Mapper since:"
-      ago: "(%{time_in_words_ago} ago)"
       ct status: "Contributor terms:"
       ct undecided: Undecided
       ct declined: Declined
-      ct accepted: Accepted %{ago} ago
-      latest edit: "Latest edit %{ago}:"
+      latest edit: "Latest edit (%{ago}):"
       email address: "Email address:"
       created from: "Created from:"
       status: "Status:"
       spam score: "Spam Score:"
       description: Description
       user location: User location
-      if set location: "Set your home location on the %{settings_link} page to see nearby users."
-      settings_link_text: settings
-      my friends: My friends
-      no friends: You have not added any friends yet.
-      km away: "%{count}km away"
-      m away: "%{count}m away"
-      nearby users: "Other nearby users"
-      no nearby users: "There are no other users who admit to mapping nearby yet."
       role:
         administrator: "This user is an administrator"
         moderator: "This user is a moderator"
@@ -2051,132 +2567,40 @@ en:
       activate_user: "Activate this User"
       deactivate_user: "Deactivate this User"
       confirm_user: "Confirm this User"
+      unconfirm_user: "Unconfirm this User"
+      unsuspend_user: "Unsuspend this User"
       hide_user: "Hide this User"
       unhide_user: "Unhide this User"
       delete_user: "Delete this User"
       confirm: "Confirm"
-      friends_changesets: "friends' changesets"
-      friends_diaries: "friends' diary entries"
-      nearby_changesets: "nearby user changesets"
-      nearby_diaries: "nearby user diary entries"
       report: Report this User
-    popup:
-      your location: "Your location"
-      nearby mapper: "Nearby mapper"
-      friend: "Friend"
-    account:
-      title: "Edit account"
-      my settings: My settings
-      current email address: "Current Email Address:"
-      new email address: "New Email Address:"
-      email never displayed publicly: "(never displayed publicly)"
-      external auth: "External Authentication:"
-      openid:
-        link: "https://openhistoricalmap.org/wiki/OpenID"
-        link text: "what is this?"
-      public editing:
-        heading: "Public editing:"
-        enabled: "Enabled. Not anonymous and can edit data."
-        enabled link: "https://openhistoricalmap.org/wiki/Anonymous_edits"
-        enabled link text: "what is this?"
-        disabled: "Disabled and cannot edit data, all previous edits are anonymous."
-        disabled link text: "why can't I edit?"
-      public editing note:
-        heading: "Public editing"
-        text: "Currently your edits are anonymous and people cannot send you messages or see your location. To show what you edited and allow people to contact you through the website, click the button below. <b>Since the 0.6 API changeover, only public users can edit map data</b>. (<a href=\"https://openhistoricalmap.org/wiki/Anonymous_edits\">find out why</a>).<ul><li>Your email address will not be revealed by becoming public.</li><li>This action cannot be reversed and all new users are now public by default.</li></ul>"
-      contributor terms:
-        heading: "Contributor Terms:"
-        agreed: "You have agreed to the new Contributor Terms."
-        not yet agreed: "You have not yet agreed to the new Contributor Terms."
-        review link text: "Please follow this link at your convenience to review and accept the new Contributor Terms."
-        agreed_with_pd: "You have also declared that you consider your edits to be in the Public Domain."
-        link: "https://openhistoricalmap.org/wiki/License/Contributor_Terms"
-        link text: "what is this?"
-      profile description: "Profile Description:"
-      preferred languages: "Preferred Languages:"
-      preferred editor: "Preferred Editor:"
-      image: "Image:"
-      gravatar:
-        gravatar: "Use Gravatar"
-        link: "https://openhistoricalmap.org/wiki/Gravatar"
-        link text: "what is this?"
-        disabled: "Gravatar has been disabled."
-        enabled: "Display of your Gravatar has been enabled."
-      new image: "Add an image"
-      keep image: "Keep the current image"
-      delete image: "Remove the current image"
-      replace image: "Replace the current image"
-      image size hint: "(square images at least 100x100 work best)"
-      home location: "Home Location:"
-      no home location: "You have not entered your home location."
-      latitude: "Latitude:"
-      longitude: "Longitude:"
-      update home location on click: "Update home location when I click on the map?"
-      save changes button: Save Changes
-      make edits public button: Make all my edits public
-      return to profile: Return to profile
-      flash update success confirm needed: "User information updated successfully. Check your email for a note to confirm your new email address."
-      flash update success: "User information updated successfully."
-    confirm:
-      heading: Check your email!
-      introduction_1: |
-        We sent you a confirmation email.
-      introduction_2: |
-        Confirm your account by clicking on the link in the email and you'll be able to start mapping.
-      press confirm button: "Press the confirm button below to activate your account."
-      button: Confirm
-      success: "Confirmed your account, thanks for signing up!"
-      already active: "This account has already been confirmed."
-      unknown token: "That confirmation code has expired or does not exist."
-      reconfirm_html: "If you need us to resend the confirmation email, <a href=\"%{reconfirm}\">click here</a>."
-    confirm_resend:
-      success: "We've sent a new confirmation note to %{email} and as soon as you confirm your account you'll be able to get mapping.<br /><br />If you use an antispam system which sends confirmation requests then please make sure you whitelist %{sender} as we are unable to reply to any confirmation requests."
-      failure: "User %{name} not found."
-    confirm_email:
-      heading: Confirm a change of email address
-      press confirm button: "Press the confirm button below to confirm your new email address."
-      button: Confirm
-      success: "Confirmed your change of email address!"
-      failure: "An email address has already been confirmed with this token."
-      unknown_token: "That confirmation code has expired or does not exist."
     set_home:
       flash success: "Home location saved successfully"
     go_public:
       flash success: "All your edits are now public, and you are now allowed to edit."
-    make_friend:
-      heading: "Add %{user} as a friend?"
-      button: "Add as friend"
-      success: "%{name} is now your friend!"
-      failed: "Sorry, failed to add %{name} as a friend."
-      already_a_friend: "You are already friends with %{name}."
-    remove_friend:
-      heading: "Unfriend %{user}?"
-      button: "Unfriend"
-      success: "%{name} was removed from your friends."
-      not_a_friend: "%{name} is not one of your friends."
     index:
       title: Users
       heading: Users
       showing:
         one: Page %{page} (%{first_item} of %{items})
         other: Page %{page} (%{first_item}-%{last_item} of %{items})
-      summary: "%{name} created from %{ip_address} on %{date}"
-      summary_no_ip: "%{name} created on %{date}"
+      summary_html: "%{name} created from %{ip_address} on %{date}"
+      summary_no_ip_html: "%{name} created on %{date}"
       confirm: Confirm Selected Users
       hide: Hide Selected Users
       empty: No matching users found
     suspended:
       title: Account Suspended
       heading: Account Suspended
-      webmaster: webmaster
-      body: |
+      support: support
+      body_html: |
         <p>
           Sorry, your account has been automatically suspended due to
           suspicious activity.
         </p>
         <p>
           This decision will be reviewed by an administrator shortly, or
-          you may contact the %{webmaster} if you wish to discuss this.
+          you may contact %{webmaster} if you wish to discuss this.
         </p>
     auth_failure:
       connection_failed: Connection to authentication provider failed
@@ -2184,6 +2608,7 @@ en:
       no_authorization_code: No authorization code
       unknown_signature_algorithm: Unknown signature algorithm
       invalid_scope: Invalid scope
+      unknown_error: Authentication failed
     auth_association:
       heading: Your ID is not associated with a OpenHistoricalMap account yet.
       option_1: |
@@ -2220,23 +2645,17 @@ en:
       back: "Back to index"
     new:
       title: "Creating block on %{name}"
-      heading: "Creating block on %{name}"
-      reason: "The reason why %{name} is being blocked. Please be as calm and as reasonable as possible, giving as much detail as you can about the situation, remembering that the message will be publicly visible. Bear in mind that not all users understand the community jargon, so please try to use laymans terms."
+      heading_html: "Creating block on %{name}"
       period: "How long, starting now, the user will be blocked from the API for."
-      submit: "Create block"
       tried_contacting: "I have contacted the user and asked them to stop."
       tried_waiting: "I have given a reasonable amount of time for the user to respond to those communications."
-      needs_view: "User needs to log in before this block will be cleared"
       back: "View all blocks"
     edit:
       title: "Editing block on %{name}"
-      heading: "Editing block on %{name}"
-      reason: "The reason why %{name} is being blocked. Please be as calm and as reasonable as possible, giving as much detail as you can about the situation. Bear in mind that not all users understand the community jargon, so please try to use laymans terms."
+      heading_html: "Editing block on %{name}"
       period: "How long, starting now, the user will be blocked from the API for."
-      submit: "Update block"
       show: "View this block"
       back: "View all blocks"
-      needs_view: "Does the user need to log in before this block will be cleared?"
     filter:
       block_expired: "The block has already expired and cannot be edited."
       block_period: "The blocking period must be one of the values selectable in the drop-down list."
@@ -2253,36 +2672,47 @@ en:
       empty: "No blocks have been made yet."
     revoke:
       title: "Revoking block on %{block_on}"
-      heading: "Revoking block on %{block_on} by %{block_by}"
+      heading_html: "Revoking block on %{block_on} by %{block_by}"
       time_future: "This block will end in %{time}."
-      past: "This block ended %{time} ago and cannot be revoked now."
+      past: "This block ended %{time} and cannot be revoked now."
       confirm: "Are you sure you wish to revoke this block?"
       revoke: "Revoke!"
       flash: "This block has been revoked."
-    period:
-      one: "1 hour"
-      other: "%{count} hours"
     helper:
-      time_future: "Ends in %{time}."
+      time_future_html: "Ends in %{time}."
       until_login: "Active until the user logs in."
-      time_future_and_until_login: "Ends in %{time} and after the user has logged in."
-      time_past: "Ended %{time} ago."
+      time_future_and_until_login_html: "Ends in %{time} and after the user has logged in."
+      time_past_html: "Ended %{time}."
+      block_duration:
+        hours:
+          one: "1 hour"
+          other: "%{count} hours"
+        days:
+          one: "1 day"
+          other: "%{count} days"
+        weeks:
+          one: "1 week"
+          other: "%{count} weeks"
+        months:
+          one: "1 month"
+          other: "%{count} months"
+        years:
+          one: "1 year"
+          other: "%{count} years"
     blocks_on:
       title: "Blocks on %{name}"
-      heading: "List of blocks on %{name}"
+      heading_html: "List of Blocks on %{name}"
       empty: "%{name} has not been blocked yet."
     blocks_by:
       title: "Blocks by %{name}"
-      heading: "List of blocks by %{name}"
+      heading_html: "List of Blocks by %{name}"
       empty: "%{name} has not made any blocks yet."
     show:
       title: "%{block_on} blocked by %{block_by}"
-      heading: "%{block_on} blocked by %{block_by}"
-      time_future: "Ends in %{time}"
-      time_past: "Ended %{time} ago"
-      created: "Created"
-      ago: "%{time} ago"
-      status: "Status"
+      heading_html: "%{block_on} blocked by %{block_by}"
+      created: "Created:"
+      duration: "Duration:"
+      status: "Status:"
       show: "Show"
       edit: "Edit"
       revoke: "Revoke!"
@@ -2306,36 +2736,16 @@ en:
       next: "Next »"
       previous: "« Previous"
   notes:
-    comment:
-      opened_at_html: "Created %{when} ago"
-      opened_at_by_html: "Created %{when} ago by %{user}"
-      commented_at_html: "Updated %{when} ago"
-      commented_at_by_html: "Updated %{when} ago by %{user}"
-      closed_at_html: "Resolved %{when} ago"
-      closed_at_by_html: "Resolved %{when} ago by %{user}"
-      reopened_at_html: "Reactivated %{when} ago"
-      reopened_at_by_html: "Reactivated %{when} ago by %{user}"
-    rss:
-      title: "OpenHistoricalMap Notes"
-      description_area: "A list of notes, reported, commented on or closed in your area [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]"
-      description_item: "An rss feed for note %{id}"
-      opened: "new note (near %{place})"
-      commented: "new comment (near %{place})"
-      closed: "closed note (near %{place})"
-      reopened: "reactivated note (near %{place})"
-    entry:
-      comment: Comment
-      full: Full note
-    mine:
+    index:
       title: "Notes submitted or commented on by %{user}"
-      heading: "%{user}'s notes"
-      subheading: "Notes submitted or commented on by %{user}"
+      heading: "%{user}'s Notes"
+      subheading_html: "Notes submitted or commented on by %{user}"
+      no_notes: No notes
       id: "Id"
       creator: "Creator"
       description: "Description"
       created_at: "Created at"
       last_changed: "Last changed"
-      ago_html: "%{when} ago"
   javascripts:
     close: Close
     share:
@@ -2350,7 +2760,7 @@ en:
       custom_dimensions: "Set custom dimensions"
       format: "Format:"
       scale: "Scale:"
-      image_size: "Image will show standard layer at "
+      image_dimensions: "Image will show standard layer at %{width} x %{height}"
       download: "Download"
       short_url: "Short URL"
       include_marker: "Include marker"
@@ -2370,14 +2780,21 @@ en:
         out: Zoom Out
       locate:
         title: Show My Location
-        popup: You are within {distance} {unit} of this point
+        metersPopup:
+          one: You are within one meter of this point
+          other: You are within %{count} meters of this point
+        feetPopup:
+          one: You are within one foot of this point
+          other: You are within %{count} feet of this point
       base:
-        standard: Standard OSM
         historical: Historical
         woodblock: Woodblock
+        standard: Standard
+        cyclosm: CyclOSM
         cycle_map: Cycle Map
         transport_map: Transport Map
         hot: Humanitarian
+        opnvkarte: ÖPNVKarte
       layers:
         header: Map Layers
         notes: Map Notes
@@ -2387,6 +2804,11 @@ en:
         title: "Layers"
       copyright: "<a href='%{copyright_url}'>Copyrights defined in the underlying data</a>"
       donate_link_text: "<a class='donate-attr' href='%{donate_url}'>Make a Donation</a>"
+      terms: "<a href='%{terms_url}' target='_blank'>Website and API terms</a>"
+      cyclosm: "Tiles style by <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a> hosted by <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>"
+      thunderforest: "Tiles courtesy of <a href='%{thunderforest_url}' target='_blank'>Andy Allan</a>"
+      opnvkarte: "Tiles courtesy of <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>"
+      hotosm: "Tiles style by <a href='%{hotosm_url}' target='_blank'>Humanitarian OpenStreetMap Team</a> hosted by <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>"
     site:
       edit_tooltip: Edit the map
       edit_disabled_tooltip: Zoom in to edit the map
@@ -2514,23 +2936,19 @@ en:
       centre_map: Centre map here
   redactions:
     edit:
-      description: "Description"
-      heading: "Edit redaction"
-      submit: "Save redaction"
-      title: "Edit redaction"
+      heading: "Edit Redaction"
+      title: "Edit Redaction"
     index:
       empty: "No redactions to show."
-      heading: "List of redactions"
-      title: "List of redactions"
+      heading: "List of Redactions"
+      title: "List of Redactions"
     new:
-      description: "Description"
-      heading: "Enter information for new redaction"
-      submit: "Create redaction"
-      title: "Creating new redaction"
+      heading: "Enter Information for New Redaction"
+      title: "Creating New Redaction"
     show:
       description: "Description:"
-      heading: "Showing redaction \"%{title}\""
-      title: "Showing redaction"
+      heading: "Showing Redaction \"%{title}\""
+      title: "Showing Redaction"
       user: "Creator:"
       edit: "Edit this redaction"
       destroy: "Remove this redaction"

@@ -3,17 +3,41 @@
 # Export driver: phpyaml
 # Author: AZISS
 # Author: Cekli829
+# Author: Huseyn
 # Author: Mushviq Abdulla
 # Author: Ruila
 # Author: SalihB
 # Author: Toghrul Rahimli
 # Author: Vugar 1981
 # Author: Wertuose
+# Author: Şeyx Şamil
 ---
 az:
   time:
     formats:
       friendly: '%e %B %Y  %H:%M'
+  helpers:
+    file:
+      prompt: Fayl seçin
+    submit:
+      diary_comment:
+        create: Qeyd et
+      diary_entry:
+        create: Yayımla
+        update: Yenilə
+      issue_comment:
+        create: Şərh əlavə et
+      message:
+        create: Göndər
+      client_application:
+        create: Qeydiyyatdan keç
+        update: Yenilə
+      trace:
+        create: Yüklə
+        update: Dəyişiklikləri yadda saxla
+      user_block:
+        create: Blok yarat
+        update: Bloku yenilən
   activerecord:
     models:
       acl: Giriş Məhdudiyyətləri siyahısı
@@ -23,6 +47,7 @@ az:
       diary_comment: Gündəliyə şərh
       diary_entry: Gündəlikdə Yazı
       friend: Dost
+      issue: Problem
       language: Dil
       message: Mesaj
       node: Nöqtə
@@ -39,6 +64,7 @@ az:
       relation: Əlaqə
       relation_member: Əlaqənin İştirakçısı
       relation_tag: Əlaqənin Teqi
+      report: Hesabat
       session: Sessiya
       trace: Trek
       tracepoint: Trek Nöqtəsi
@@ -50,6 +76,11 @@ az:
       way_node: Xəttin Nöqtələri
       way_tag: Xəttin Teqi
     attributes:
+      client_application:
+        name: Ad (Vacib)
+        support_url: Dəstək linki
+        allow_read_prefs: Digər istifadəçilərin fikirlərini oxu
+        allow_write_api: Xəritəni dəyişmək
       diary_comment:
         body: Mətn
       diary_entry:
@@ -64,38 +95,75 @@ az:
       trace:
         user: İstifadəçi
         visible: Görünüş
-        name: Ad
+        name: Fayl adı
         size: Ölçüsü
         latitude: En dairəsi
         longitude: Uzunluq dairəsi
         public: İctimai
         description: İzah
+        gpx_file: GPX faylı yüklə
+        visibility: Görünüş
+        tagstring: Etiketlər
       message:
         sender: Göndərən
         title: Mövzu
         body: Mətn
         recipient: Qəbul edən
+      report:
+        category: Şikayətinizin səbəbini seçin
+        details: Çətinlik haqqında daha ətraflı danışın (vacib)
       user:
         email: E-poçt
+        new_email: 'Yeni E-Poçt Ünvanı:'
         active: Aktivdir
         display_name: 'Gorüntülənən ad:'
         description: İzah
+        home_lat: 'En dairəsi:'
+        home_lon: 'Uzunluq dairəsi:'
         languages: Dillər
         pass_crypt: Parol
+        pass_crypt_confirmation: Parolu təsdiqlə
+    help:
+      trace:
+        tagstring: Vergül ilə ayrılmış
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: yarım dəqiqə əvvəl
   editor:
     default: Susmaya görə (hal-hazırda %{name})
-    potlatch:
-      name: Potlatch 1
-      description: Potlatch 1 (brauzer üzərindən redaktə)
     id:
       name: iD
       description: iD (brauzerdaxili redaktə)
-    potlatch2:
-      name: Potlatch 2
-      description: Potlatch 2 (brauzer üzərindən redaktə)
     remote:
       name: Uzaqdan idarəetmə
       description: Uzaqdan idarəetmə (JOSM və ya Merkaartor)
+  auth:
+    providers:
+      none: Heç biri
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Vikipediya
+  api:
+    notes:
+      rss:
+        title: OpenStreetMap haqqında qeydlər
+      entry:
+        comment: Şərh
+        full: Tam qeydlər
+  accounts:
+    edit:
+      current email address: 'Hazırki E-Poçt Ünvanı:'
+      openid:
+        link text: bu nədir?
+      public editing:
+        enabled link text: Bu nədir?
+        disabled link text: Niyə mən redaktə edə bilmirəm?
+      contributor terms:
+        link text: bu nədir?
+      save changes button: Dəyişiklikləri yadda saxla
   browse:
     created: Yaradılıb
     closed: Bağlanıb
@@ -130,14 +198,14 @@ az:
     relation:
       members: İştirakçılar
     relation_member:
-      entry_role: '%{role} kimi %{type} %{name}'
+      entry_role_html: '%{role} kimi %{type} %{name}'
       type:
         node: Nöqtə
         way: Xətt
         relation: Əlaqə
     containing_relation:
-      entry: Əlaqəsi %{relation_name}
-      entry_role: Əlaqəsi %{relation_name} (%{relation_role} kimi)
+      entry_html: Əlaqəsi %{relation_name}
+      entry_role_html: Əlaqəsi %{relation_name} (%{relation_role} kimi)
     not_found:
       sorry: Təəsüf ki, %{id} identifikatorlu %{type} tapılmadı.
       type:
@@ -197,10 +265,16 @@ az:
     timeout:
       sorry: Bağışlayın, tələb etdiyiniz dəyişikliklər dəstinin siyahısı, çıxarıla
         bilmək üçün cox böyükdür.
+  dashboards:
+    popup:
+      your location: Yerləşdiyin yer
+      friend: Dost
   diary_entries:
     new:
       title: Yeni Gündəlik Yazısı
-      publish_button: Yayımla
+    form:
+      location: 'Yerləşdiyi yer:'
+      use_map_link: xəritə üzərində göstər
     index:
       title: İstifadəçi gündəlikləri
       title_friends: Dostların gündəlikləri
@@ -215,27 +289,19 @@ az:
       newer_entries: Yeni yazılar
     edit:
       title: Gündəlik yazısıni redaktə etmək
-      subject: 'Mövzu:'
-      body: 'Mətn:'
-      language: 'Dil:'
-      location: 'Yerləşdiyi yer:'
-      latitude: 'En dairəsi:'
-      longitude: 'Uzunluq dairəsi:'
-      use_map_link: xəritə üzərində göstər
-      save_button: Qeyd et
       marker_text: Gundəlik yazısının yazıldığı yer
     show:
       title: İstifadəçi %{user} gündəliyi | %{title}
       user_title: İstifadəçi %{user} gündəliyi
       leave_a_comment: Şərh yaz
-      login_to_leave_a_comment: Şərh yazmaq üçün %{login_link}
+      login_to_leave_a_comment_html: Şərh yazmaq üçün %{login_link}
       login: Özünüzü təqdim edin
-      save_button: Qeyd et
     no_such_entry:
       title: Belə bir gündəlik yazısı mövcud deyil
       heading: 'Yazı mövcud deyil id: %{id}'
     diary_entry:
-      posted_by: '%{link_user} tərəfindən %{created} yazılıb, %{language_link} dilində.'
+      posted_by_html: '%{link_user} tərəfindən %{created} yazılıb, %{language_link}
+        dilində.'
       comment_link: Bu yazıyı şərh et
       reply_link: Bu yazıya cavab ver
       comment_count:
@@ -246,7 +312,7 @@ az:
       hide_link: Bu yazını gizlət
       confirm: Təsdiq etmək
     diary_comment:
-      comment_from: Şərh %{link_user} tərəfindən %{comment_created_at}
+      comment_from_html: Şərh %{link_user} tərəfindən %{comment_created_at}
       hide_link: Bu şərhi gizlət
       confirm: Təsdiq etmək
     location:
@@ -265,22 +331,29 @@ az:
         title: OpenStreetMap gündəlik yazısı
         description: OpenStreetMap istifadəçilərinin axırıncı gündəlik yazıları
     comments:
-      has_commented_on: '%{display_name} indicə gündəliyin növbəti yazılarını şərh
-        etdi'
       post: Post
       when: Nə vaxt
       comment: Şərh
-      ago: '%{ago} əvvəl'
       newer_comments: Yeni şərhlər
       older_comments: Köhnə Şərhlər
+  friendships:
+    make_friend:
+      heading: '%{user}-i(ı) dostluğa əlavə edək?'
+      button: Dostluğa əlavə et
+      success: '%{name} indi sənin dostundur.'
+      failed: Bağışlayın, %{name}-i(ı) dostluğa əlavə etmədə xəta yarandı.
+      already_a_friend: Siz artıq %{name} dostsunuz.
+    remove_friend:
+      heading: '%{user} dostluqdan silək?'
+      button: Dostluqdan sil
   geocoder:
     search:
       title:
-        latlon: <a href="http://openstreetmap.org/">Daxili nəticələr</a>
-        ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a> nəticələri
-        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        latlon_html: <a href="http://openstreetmap.org/">Daxili nəticələr</a>
+        ca_postcode_html: <a href="http://geocoder.ca/">Geocoder.CA</a> nəticələri
+        osm_nominatim_html: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a> nəticələri
-        geonames: <a href="http://www.geonames.org/">GeoNames</a> nəticələri
+        geonames_html: <a href="http://www.geonames.org/">GeoNames</a> nəticələri
     search_osm_nominatim:
       prefix:
         aeroway:
@@ -342,7 +415,6 @@ az:
           monastery: Monastr
           nightclub: Gecə klubu
           nursing_home: Qocalar evi
-          office: Ofis
           parking: Dayanacaq
           parking_space: Parkinq ərazisi
           pharmacy: Aptek
@@ -350,20 +422,15 @@ az:
           police: Polis
           post_box: Poçt qutusu
           post_office: Poçt
-          preschool: Məktəbəqədər hazırlıq
           prison: Həbsxana
           pub: Pivəxana
           public_building: İctimai Binalar
           recycling: Utilizasiya yeri
           restaurant: Restoran
-          retirement_home: Qocalar Evi
-          sauna: Sauna
           school: Məktəb
           shelter: Sığınacaq
-          shop: Mağaza
           shower: Duş
           social_centre: İctimai Mərkəz
-          social_club: İctimai Club
           studio: Studiya
           swimming_pool: Üzgüçülük hovuzu
           taxi: Taksi
@@ -376,7 +443,6 @@ az:
           veterinary: Veterenar Klinikası
           village_hall: Villa
           waste_basket: Zibillik
-          youth_centre: Gənclər Mərkəzi
         boundary:
           administrative: Administrativ sərhəd
           census: Siyahıya alma sərhədi
@@ -408,7 +474,6 @@ az:
           landing_site: Qəza Eniş Yeri
           phone: Fövqəladə hallar üçün telefon
           water_tank: Fövqəladə hallar üçün su çəni
-          "yes": Fövqəladə hallar üçün
         highway:
           abandoned: İstifadəsiz Yol
           bridleway: Atlı yolu
@@ -449,7 +514,6 @@ az:
           tertiary_link: Üçüncü dərəcəli yol
           track: Torpaq yol
           traffic_signals: Svetafor
-          trail: Cığır
           trunk: Baş yol
           trunk_link: Baş yol
           unclassified: Təsnifatsız yol
@@ -464,7 +528,6 @@ az:
           church: Kilsə
           fort: Qala
           house: Ev
-          icon: Ikona
           manor: Malikanə
           memorial: Memorial
           mine: Mədən
@@ -502,7 +565,6 @@ az:
           reservoir_watershed: Suayrıcı su anbarı
           residential: Yaşayış sahəsi
           retail: Ticarət ərazisi
-          road: Yol şəbəkəsi ərazisi
           village_green: Yaşıllıq kənd
           vineyard: Üzümlük
         leisure:
@@ -601,7 +663,6 @@ az:
           subdivision: Bölmə
           suburb: Şəhərətrafı
           town: Şəhərcik
-          unincorporated_area: Şəhərkənarı zona
           village: Kənd
         railway:
           abandoned: Sökülmüş dəmiryol xətti
@@ -624,6 +685,7 @@ az:
           switch: Dəmiryol oxu
           tram: Tramvay
           tram_stop: Tramvay dayanacağı
+          yard: Depo
         shop:
           alcohol: Alkoqol dükanı
           antiques: Əntiq əşyalar
@@ -654,12 +716,10 @@ az:
           estate_agent: Əmlak agenti
           farm: Kənd təsərrüfatı malları dükanı
           fashion: Dəb dükanı
-          fish: Balıq Dükanı
           florist: Gül Dükanı
           food: Ərzaq Dükanı
           funeral_directors: Dəfn mərasimi bürosu
           furniture: Mebel
-          gallery: Qalereya
           garden_centre: Bağçılıq mərkəzi
           general: Baş Dükan
           gift: Hədiyyələr Dükanı
@@ -672,7 +732,6 @@ az:
           kiosk: Kiosk
           laundry: Camaşırxana
           mall: Mall
-          market: Bazar
           mobile_phone: Mobil telefon dükanı
           motorcycle: Motosiklet Dükanı
           music: Musiqi dükanı
@@ -739,11 +798,6 @@ az:
         level8: Şəhər sərhəddi
         level9: Kənd sərhəddi
         level10: Məhəllə sərhəddi
-    description:
-      title:
-        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a> -dan yerləşməsi
-        geonames: <a href="http://www.geonames.org/">GeoNames</a> -dən yerləşməsi
       types:
         cities: Şəhərlər
         towns: Şəhər qəsəbələri
@@ -784,42 +838,34 @@ az:
     make_a_donation:
       title: OpenStreetMap-i dəstəkləmək üçün maddi yardım et
       text: Maddi yardım et
-  notifier:
+  user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} adlı istifadəçi sənin gündəliy yazına şərh
         yazıb'
       hi: Salam %{to_user},
     message_notification:
       hi: Salam %{to_user},
-    gpx_notification:
-      greeting: Salam,
-      and_no_tags: və teqlərsiz.
-      failure:
-        more_info_2: 'nasazlığı, buradan tapmaq olar:'
     signup_confirm:
       subject: '[OpenStreetMap] OpenStreetMap-ə xoş gəldiniz'
       greeting: Salam!
-    email_confirm_plain:
+    email_confirm:
       greeting: Salam,
-    email_confirm_html:
-      greeting: Salam,
-      click_the_link: Əgər bu sizsinizsə, zəhmət olmasa, dəyişiklikləri təsdiqləmək
-        üçün aşağı göstərilmiş istinaddakı ünvana keçin.
     lost_password:
       subject: '[OpenStreetMap] Parolu yeniləmək tələbi'
-    lost_password_plain:
       greeting: Salam,
       click_the_link: Əgər bu sizsinizsə, zəhmət olmasa, parolunuzu əvəzləmək üçün
         aşağı göstərilmiş istinaddakı ünvana keçin.
-    lost_password_html:
-      greeting: Salam,
-      click_the_link: Əgər bu sizsinizsə, zəhmət olmasa, parolunuzu əvəzləmək üçün
-        aşağı göstərilmiş istinaddakı ünvana keçin.
+  confirmations:
+    confirm:
+      button: Təsdiq et
+    confirm_resend:
+      failure: İstifadəçi %{name} tapılmadı.
+    confirm_email:
+      button: Təsdiq et
   messages:
     inbox:
       title: Gələnlər
       my_inbox: Mənim gələnlər
-      outbox: göndərilənlər
       messages: 'Sizin varınızdır: %{new_messages} və %{old_messages}.'
       new_messages:
         one: '%{count} yeni mesaj'
@@ -830,7 +876,7 @@ az:
       from: Kimdən
       subject: Mövzu
       date: Tarix
-      no_messages_yet: Sizin hələdə mesajınız yoxdur. Niyə də ki, %{people_mapping_nearby_link}
+      no_messages_yet_html: Sizin hələdə mesajınız yoxdur. Niyə də ki, %{people_mapping_nearby_link}
         danışmırsınız?
       people_mapping_nearby: yaxınlıqdakı istifadəçilərlə
     message_summary:
@@ -840,10 +886,9 @@ az:
       destroy_button: Sil
     new:
       title: Mesaj göndər
-      send_message_to: '%{name} yeni mesaj göndər'
+      send_message_to_html: '%{name} yeni mesaj göndər'
       subject: Mövzu
       body: 'Mətn:'
-      send_button: Göndər
       back_to_inbox: Gələnlərə geri qayıt
     create:
       message_sent: Mesaj göndərildi
@@ -855,9 +900,6 @@ az:
       body: Bağışlayın, amma belə ID ilə mesaj yoxdur.
     outbox:
       title: Göndərilənlər
-      my_inbox: Mənim %{inbox_link}
-      inbox: gələnlər
-      outbox: göndərilənlər
       to: Kimə
       subject: Mövzu
       date: Tarix
@@ -877,6 +919,39 @@ az:
       as_unread: Mesaj oxunulmamış kimi işarələndi
     destroy:
       destroyed: Mesaj silindi
+  passwords:
+    lost_password:
+      title: İtirilmiş parol
+      heading: Parolu unutmusan?
+      email address: 'E-poçt ünvanları:'
+      new password button: Parolu yenilə
+    reset_password:
+      title: Parolu yenilə
+      heading: '%{user} üçün parolu yenilə'
+      reset: Parolu Yenilə
+      flash changed: Parolun indi dəyişildi.
+  profiles:
+    edit:
+      image: 'Şəkil:'
+      new image: Şəkil kimi əlavə et
+      delete image: Hazırki şəkili sil
+      replace image: Hazırki şəkili əvəzlə
+  sessions:
+    new:
+      title: Daxil olun
+      heading: Daxil olun
+      password: 'Parol:'
+      openid_html: '%{logo} OpenID:'
+      remember: Məni xatırla
+      login_button: Daxil ol
+      register now: İndi qeydiyyatdan keç
+      new to osm: OpenStreetMap-də yenisiz?
+      no account: İstifadəçi hesabınız yoxdur?
+      openid_logo_alt: OpenID ilə hesabınıza daxil olun
+    destroy:
+      title: Sistemdən çıx
+      heading: OpenStreetMap-dən çıx
+      logout_button: Sistemdən çıx
   site:
     copyright:
       foreign:
@@ -987,29 +1062,9 @@ az:
           - Zirvə
           - pik
           private: Xüsusi giriş
-    richtext_area:
-      preview: Sınaq görüntüsü
-    markdown_help:
-      headings: Başlıqlar
-      heading: Başlıq
-      subheading: Alt başlıq
-      link: Keçid
-      text: Mətn
-      image: Şəkil
-      alt: Alternativ mətn
-      url: URL
   traces:
     new:
-      description: 'İzah:'
       help: Kömək
-    edit:
-      filename: 'Fayl adı:'
-      download: yüklə
-      map: xəritə
-      edit: redaktə
-      owner: 'Sahibi:'
-      description: 'İzah:'
-      save_button: Dəyişiklikləri yadda saxla
     show:
       filename: 'Fayl adı:'
       download: yüklə
@@ -1020,56 +1075,22 @@ az:
       description: 'İzah:'
     trace:
       view_map: Xəritəyə bax
-      edit: redaktə et
       edit_map: Xəritəni redaktə et
       public: İCTİMAİ
       private: MƏXFİ
-      map: xəritə
   oauth_clients:
     show:
       confirm: Əminsinizmi?
     index:
       revoke: Ləğv et!
-    form:
-      name: Ad
   users:
-    login:
-      title: Daxil olun
-      heading: Daxil olun
-      password: 'Parol:'
-      openid: '%{logo} OpenID:'
-      remember: Məni xatırla
-      login_button: Daxil ol
-      register now: İndi qeydiyyatdan keç
-      new to osm: OpenStreetMap-də yenisiz?
-      no account: İstifadəçi hesabınız yoxdur?
-      openid_logo_alt: OpenID ilə hesabınıza daxil olun
-    logout:
-      title: Sistemdən çıx
-      heading: OpenStreetMap-dən çıx
-      logout_button: Sistemdən çıx
-    lost_password:
-      title: İtirilmiş parol
-      heading: Parolu unutmusan?
-      email address: 'E-poçt ünvanları:'
-      new password button: Parolu yenilə
-    reset_password:
-      title: Parolu yenilə
-      heading: '%{user} üçün parolu yenilə'
-      password: 'Parol:'
-      confirm password: 'Parolu təkrarla:'
-      reset: Parolu Yenilə
-      flash changed: Parolun indi dəyişildi.
     new:
       title: Hesab aç
       email address: 'E-poçt ünvanları:'
       display name: 'Gorüntülənən ad:'
-      password: 'Parol:'
-      confirm password: 'Parolu təkrarla:'
       continue: Davam et
     terms:
       consider_pd_why: bu nədir?
-      agree: Razıyam
       decline: İmtina
       legale_names:
         france: Fransa
@@ -1082,7 +1103,6 @@ az:
       diary: gündəlik
       remove as friend: dostluqdan silinmiş
       add as friend: dostluğa əlavə edilmiş
-      ct accepted: '%{ago} əvvəl qəbul edilib'
       latest edit: 'Son redaktə %{ago}:'
       email address: 'E-poçt ünvanı:'
       status: 'Status:'
@@ -1092,44 +1112,6 @@ az:
       hide_user: Bu istifadəçini gizlət
       delete_user: bu istifadəçini sil
       confirm: Təsdiq et
-    popup:
-      your location: Yerləşdiyin yer
-      friend: Dost
-    account:
-      current email address: 'Hazırki E-Poçt Ünvanı:'
-      new email address: 'Yeni E-Poçt Ünvanı:'
-      openid:
-        link text: bu nədir?
-      public editing:
-        enabled link text: Bu nədir?
-        disabled link text: Niyə mən redaktə edə bilmirəm?
-      contributor terms:
-        link text: bu nədir?
-      image: 'Şəkil:'
-      gravatar:
-        link text: bu nədir?
-      new image: Şəkil kimi əlavə et
-      delete image: Hazırki şəkili sil
-      replace image: Hazırki şəkili əvəzlə
-      latitude: 'En dairəsi:'
-      longitude: 'Uzunluq dairəsi:'
-      save changes button: Dəyişiklikləri yadda saxla
-      return to profile: Profilə geri qayıt
-    confirm:
-      button: Təsdiq et
-    confirm_resend:
-      failure: İstifadəçi %{name} tapılmadı.
-    confirm_email:
-      button: Təsdiq et
-    make_friend:
-      heading: '%{user}-i(ı) dostluğa əlavə edək?'
-      button: Dostluğa əlavə et
-      success: '%{name} indi sənin dostundur.'
-      failed: Bağışlayın, %{name}-i(ı) dostluğa əlavə etmədə xəta yarandı.
-      already_a_friend: Siz artıq %{name} dostsunuz.
-    remove_friend:
-      heading: '%{user} dostluqdan silək?'
-      button: Dostluqdan sil
     index:
       title: İstifadəçilər
       heading: İstifadəçilər
@@ -1141,10 +1123,8 @@ az:
       confirm: Təsdiq et
   user_blocks:
     new:
-      submit: Blok yarat
       back: Bütün blokları göstər
     edit:
-      submit: Bloku yenilən
       show: Bu bloku göstər
       back: Bütün blokları göstər
     create:
@@ -1156,17 +1136,16 @@ az:
       heading: İstifadəçi blokları siyahısı
     revoke:
       title: '%{block_on} adlı istifadəçi üçün blok ləğv edilib'
-      heading: '%{block_on} adlı istifadəçi üçün blok, %{block_by} tərəfindən ləğv
-        edilib'
+      heading_html: '%{block_on} adlı istifadəçi üçün blok, %{block_by} tərəfindən
+        ləğv edilib'
       revoke: Ləğv et!
       flash: Bu blok ləğv edilib.
     helper:
-      time_past: '%{time} əvvəl sona çatıb.'
+      time_past_html: '%{time} əvvəl sona çatıb.'
     blocks_by:
       title: '%{name} tərəfindən blok edilib'
     show:
       title: '%{block_on}, %{block_by} tərəfindən blok edilib'
-      time_past: '%{time} əvvəl sona çatıb'
       status: Status
       show: 'Göstər:'
       revoke: Ləğv et!
@@ -1191,8 +1170,6 @@ az:
     site:
       edit_tooltip: Xəritəni redaktə et
   redactions:
-    edit:
-      description: Təsvir
     show:
       user: 'Yaradıcısı:'
       confirm: Əminsinizmi?

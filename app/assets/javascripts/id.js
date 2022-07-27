@@ -2,7 +2,7 @@
 
 /* globals iD */
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   var container = document.getElementById("id-container");
 
   if (typeof iD === 'undefined' || !iD.utilDetect().support) {
@@ -26,11 +26,11 @@ document.addEventListener("DOMContentLoaded", function() {
       .containerNode(container)
       .init();
 
-    id.map().on('move.embed', parent.$.throttle(250, function() {
+    id.map().on("move.embed", parent.$.throttle(250, function () {
       if (id.inIntro()) return;
       var zoom = ~~id.map().zoom(),
-        center = id.map().center(),
-        llz = { lon: center[0], lat: center[1], zoom: zoom };
+          center = id.map().center(),
+          llz = { lon: center[0], lat: center[1], zoom: zoom };
 
       parent.updateLinks(llz, zoom);
 
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // 0ms timeout to avoid iframe JS context weirdness.
       // http://bl.ocks.org/jfirebaugh/5439412
-      setTimeout(function() {
+      setTimeout(function () {
         id.map().centerZoom(
           [data.lon, data.lat],
           Math.max(data.zoom || 15, 13));

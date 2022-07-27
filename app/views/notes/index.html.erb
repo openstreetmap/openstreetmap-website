@@ -1,0 +1,43 @@
+<% content_for :heading do %>
+  <h1><%= t ".heading", :user => @user.display_name %></h1>
+  <p><%= t ".subheading_html", :user => link_to(@user.display_name, user_path(@user)) %></p>
+<% end %>
+
+<% if @notes.empty? %>
+  <h4><%= t ".no_notes" %></h4>
+
+<% else %>
+  <%= render :partial => "notes_paging_nav" %>
+
+  <table class="table table-sm note_list">
+    <thead>
+      <tr>
+        <th></th>
+        <th><%= t ".id" %></th>
+        <th><%= t ".creator" %></th>
+        <th><%= t ".description" %></th>
+        <th><%= t ".created_at" %></th>
+        <th><%= t ".last_changed" %></th>
+      </tr>
+    </thead>
+  <% @notes.each do |note| -%>
+    <tr<% if note.author == @user %> class="creator"<% end %>>
+      <td>
+        <% if note.closed? %>
+          <%= image_tag("closed_note_marker.png", :alt => "closed", :size => "25x40") %>
+        <% else %>
+          <%= image_tag("open_note_marker.png", :alt => "open", :size => "25x40") %>
+        <% end %>
+      </td>
+      <td><%= link_to note.id, browse_note_path(note) %></td>
+      <td><%= note_author(note.author) %></td>
+      <td><%= note.comments.first.body.to_html %></td>
+      <td><%= friendly_date_ago(note.created_at) %></td>
+      <td><%= friendly_date_ago(note.updated_at) %></td>
+    </tr>
+  <% end -%>
+  </table>
+
+  <%= render :partial => "notes_paging_nav" %>
+
+<% end -%>

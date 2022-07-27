@@ -9,6 +9,20 @@ km:
   time:
     formats:
       friendly: ថ្ងៃ%e ខែ%B ឆ្នាំ%Y នៅម៉ោង %H:%M
+  helpers:
+    submit:
+      diary_comment:
+        create: រក្សាទុក​
+      diary_entry:
+        create: បោះផ្សាយ
+      message:
+        create: ផ្ញើ​
+      client_application:
+        create: ចុះឈ្មោះ​
+        update: កែប្រែ​
+      trace:
+        create: ផ្ទុកឡើង​
+        update: រក្សាទុក​បន្លាស់ប្តូរនានា​
   activerecord:
     models:
       changeset: សំណុំបន្លាស់ប្តូរ​
@@ -57,6 +71,8 @@ km:
         longitude: រយៈបណ្តោយ
         public: សាធារណៈ​
         description: បរិយាយ​
+        gpx_file: ផ្ទុកឡើង​ឯកសារ GPX ៖
+        tagstring: ស្លាក​៖
       message:
         sender: អ្នកផ្ញើ​
         title: ប្រធានបទ​
@@ -69,6 +85,15 @@ km:
         description: បរិយាយ​
         languages: ភាសា​
         pass_crypt: ពាក្យ​សម្ងាត់
+  accounts:
+    edit:
+      title: កែប្រែគណនី​
+      public editing:
+        disabled link text: មូលហេតុអ្វី​ ខ្ញុំមិនអាចកែប្រែបាន​?
+    update:
+      success_confirm_needed: ព័ត៌មានអ្នកប្រើប្រាស់​ បានបន្ទាន់សម័យដោយជោគជ័យ​។ សូមពិនិត្យមើលអ៊ីមែលរបស់អ្នក
+        ដើម្បីបញ្ជាក់អាសយដ្ឋានអ៊ីមែលថ្មីរបស់អ្នក។
+      success: ព័ត៌មានអ្នកប្រើប្រាស់​ បានបន្ទាន់សម័យដោយជោគជ័យ​។
   browse:
     created: បាន​បង្កើត​
     closed: បាន​បិទ
@@ -104,23 +129,23 @@ km:
       join_discussion: កត់ឈ្មោះចូលដើម្បីចូលរួមពិភាក្សា
       discussion: ការពិភាក្សា
     node:
-      title: ខ្នែង៖ %{name}
-      history_title: ប្រវត្តិខ្នែង៖ %{name}
+      title_html: ខ្នែង៖ %{name}
+      history_title_html: ប្រវត្តិខ្នែង៖ %{name}
     way:
-      title: ផ្លូវ៖ %{name}
-      history_title: ប្រវត្តិផ្លូវ៖ %{name}
+      title_html: ផ្លូវ៖ %{name}
+      history_title_html: ប្រវត្តិផ្លូវ៖ %{name}
       nodes: ខ្នែង
     relation:
       members: សមាជិក
     relation_member:
-      entry_role: '%{type} %{name} ជា %{role}'
+      entry_role_html: '%{type} %{name} ជា %{role}'
       type:
         node: ខ្នែង
         way: ផ្លូវ​
         relation: ទំនាក់ទំនង
     containing_relation:
-      entry: ទំនាក់ទំនង​ %{relation_name}
-      entry_role: ទំនាក់ទំនង %{relation_name} (ជា %{relation_role})
+      entry_html: ទំនាក់ទំនង​ %{relation_name}
+      entry_role_html: ទំនាក់ទំនង %{relation_name} (ជា %{relation_role})
     not_found:
       sorry: សូមទោស រកមិនឃើញ %{type}%{id}​ ទេ។
       type:
@@ -149,11 +174,12 @@ km:
       title: កំណត់សម្គាល់៖ %{id}
       new_note: កំណត់សម្គាល់ថ្មី
       description: ការពិពណ៌នា
-      open_by: បង្កើតដោយ %{user} <abbr title='%{exact_time}'>%{when} មុន</abbr>
-      open_by_anonymous: បង្កើតឡើងដោយជនអនាមិក <abbr title='%{exact_time}'>%{when}
+      opened_by_html: បង្កើតដោយ %{user} <abbr title='%{exact_time}'>%{when} មុន</abbr>
+      opened_by_anonymous_html: បង្កើតឡើងដោយជនអនាមិក <abbr title='%{exact_time}'>%{when}
         មុន</abbr>
-      commented_by: មតិពី %{user} <abbr title='%{exact_time}'>%{when} មុន</abbr>
-      commented_by_anonymous: មតិពីជនអនាមិក <abbr title='%{exact_time}'>%{when} មុន</abbr>
+      commented_by_html: មតិពី %{user} <abbr title='%{exact_time}'>%{when} មុន</abbr>
+      commented_by_anonymous_html: មតិពីជនអនាមិក <abbr title='%{exact_time}'>%{when}
+        មុន</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: ទំព័រ %{page}
@@ -181,10 +207,18 @@ km:
       no_more_area: គ្មានសំណុំបន្លាស់ប្ដូរថែមទៀតទេក្នុងតំបន់នេះ។
       no_more_user: គ្មានសំណុំបន្លាស់ប្ដូរដោយអ្នកប្រើប្រាស់នេះថែមទៀតទេ។
       load_more: ផ្ទុកបន្ថែម
+  dashboards:
+    contact:
+      km away: ចម្ងាយ %{count} គ.ម.
+      m away: ចម្ងាយ %{count} ម.
+    show:
+      no friends: អ្នកមិនទាន់បានបន្ថែមមិត្តណាមួយនៅឡើយទេ​។
   diary_entries:
     new:
       title: ប្រកាសកំណត់ហេតុថ្មី
-      publish_button: បោះផ្សាយ
+    form:
+      location: ទីតាំង​៖
+      use_map_link: ប្រើផែនទី​
     index:
       title: កំណត់ហេតុរបស់អ្នកប្រើប្រាស់
       title_friends: កំណត់ហេតុរបស់មិត្តភក្ដិ
@@ -199,22 +233,13 @@ km:
       newer_entries: ប្រកាសថ្មីៗ
     edit:
       title: កែប្រែប្រកាសកំណត់ហេតុ
-      subject: ប្រធានបទ​៖
-      body: តួ​សេចក្ដី​៖
-      language: ភាសា​៖
-      location: ទីតាំង​៖
-      latitude: រយៈកម្ពស់៖
-      longitude: រយៈបណ្តោយ៖
-      use_map_link: ប្រើផែនទី​
-      save_button: រក្សាទុក​
       marker_text: ទីតាំងប្រកាសន៍កំណត់ហេតុ
     show:
       title: កំណត់ហេតុរបស់ %{user} | %{title}
       user_title: កំណត់ហេតុរបស់ %{user}
       leave_a_comment: បញ្ចេញមតិយោបល់​
-      login_to_leave_a_comment: '%{login_link} ដើម្បីបញ្ចេញមតិយោបល់​'
+      login_to_leave_a_comment_html: '%{login_link} ដើម្បីបញ្ចេញមតិយោបល់​'
       login: កត់ឈ្មោះចូល
-      save_button: រក្សាទុក​
     diary_entry:
       comment_count:
         zero: គ្មានមតិយោបល់
@@ -222,18 +247,25 @@ km:
         other: '%{count} មតិយោបល់'
       confirm: បញ្ជាក់​
     diary_comment:
-      comment_from: មតិយោបល់​ពី​ %{link_user} នៅ %{comment_created_at}
+      comment_from_html: មតិយោបល់​ពី​ %{link_user} នៅ %{comment_created_at}
       confirm: បញ្ជាក់​
     location:
       location: ទីតាំង​៖​
       view: មើល​
       edit: កែប្រែ
+  friendships:
+    make_friend:
+      success: '%{name} ឥឡូវនេះជាមិត្តរបស់អ្នក​។'
+      failed: អភ័យទោស, បរាជ័យក្នុងការបន្ដែម %{name} ជាមិត្ត​។
+      already_a_friend: អ្នកគឺជាមិត្តជាមួយ %{name} រួចហើយ​។
+    remove_friend:
+      not_a_friend: '%{name} មិនមែនជាមិត្តរបស់អ្នកទេ​។'
   geocoder:
     search:
       title:
-        latlon: លទ្ធផលពី <a href="http://openstreetmap.org/">Internal</a>
-        ca_postcode: លទ្ធផលពី <a href="http://geocoder.ca/">Geocoder.CA</a>
-        geonames: លទ្ធផលពី <a href="http://www.geonames.org/">GeoNames</a>
+        latlon_html: លទ្ធផលពី <a href="http://openstreetmap.org/">Internal</a>
+        ca_postcode_html: លទ្ធផលពី <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames_html: លទ្ធផលពី <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -292,7 +324,6 @@ km:
           motorcycle_parking: ចំណត់ទោចក្រយានយន្ត
           nightclub: ក្លឹបរាត្រី
           nursing_home: កន្លែងថែទាំជនចាស់ជរា
-          office: ការិយាល័យ
           parking: ចំណតរថយន្ត
           parking_entrance: ច្រកចូលចំណតរថយន្ត
           parking_space: កន្លែងចតរថយន្ត
@@ -301,20 +332,15 @@ km:
           police: នគរបាល
           post_box: ប្រអប់ប្រៃសណីយ៍
           post_office: ប៉ុស្តិ៍ប្រៃសណីយ៍
-          preschool: សាលាមតេ្តយ្យ
           prison: ពន្ធនាគារ
           pub: ហាងស្រា
           public_building: អាគារសាធារណៈ
           recycling: កន្លែងចោលសំរាមអាចប្រើឡើងវិញ
           restaurant: ភោជនីយដ្ឋាន
-          retirement_home: ផ្ទះចាស់ជរា
-          sauna: សោណា
           school: សាលារៀន
           shelter: កន្លែងភៀសខ្លួន
-          shop: ហាង
           shower: កន្លែងងូតទឹក
           social_centre: មណ្ឌលសង្គមកិច្ច
-          social_club: ក្លឹបសកម្មភាពសង្គម
           social_facility: អាគារសាធារណៈ
           studio: ស្ទុយឌីយ៉ូ
           swimming_pool: អាងហែលទឹក
@@ -330,7 +356,6 @@ km:
           waste_basket: ធុងសំរាម
           waste_disposal: កន្លែងប្រមូលសំរាម
           water_point: កន្លែងបូមទឹក
-          youth_centre: មណ្ឌលយុវជន
         boundary:
           administrative: ព្រំដែនរដ្ឋបាល
           census: ព្រំដែនជំរឿន
@@ -417,7 +442,6 @@ km:
           reservoir: បឹងស្តុកទឹក
           residential: តំបន់លំនៅដ្ឋាន
           retail: ហាងលក់រាយ
-          road: តំបន់ផ្លូវ
           vineyard: ចំការទំពាំងបាយជូរ
         leisure:
           beach_resort: ឆ្នេរកំសាន្ត
@@ -549,18 +573,15 @@ km:
           dry_cleaning: ហាងបោកអ៊ុត
           electronics: ហាងអេឡិចត្រូនិច
           estate_agent: ភ្នាក់ងារអចលនវត្ថុ
-          fish: ហាងត្រី
           florist: ហាងផ្កា
           food: ហាងអាហារ
           furniture: ហាងសង្ហារឹម
-          gallery: វិចិត្រសាល
           gift: ហាងវត្ថុអនុស្សាវរីយ៍
           greengrocer: ហាងបន្លែនិងផ្លែឈើ
           grocery: ហាងចំណីអាហារ
           hairdresser: ហាងកាត់សក់និងអ៊ុតសក់
           jewelry: ហាងលក់គ្រឿងអល័ង្ការ
           laundry: ហាងបោកអ៊ុត
-          market: ផ្សារ
           massage: ហាងម៉ាស្សា
           mobile_phone: ហាងទូរស័ព្ទ
           motorcycle: ហាងទោចក្រយានយន្ត
@@ -569,7 +590,6 @@ km:
           optician: ហាងវ៉ែនតា
           pawnbroker: ហាងបញ្ចាំ
           pet: ហាងសត្វចិញ្ចឹម
-          pharmacy: ឱសថស្ថាន
           photo: ហាងថតរូប
           seafood: ហាងគ្រឿងសមុទ្រ
           second_hand: ហាងជជុះ
@@ -592,7 +612,6 @@ km:
           zoo: សួនសត្វ
         waterway:
           canal: ព្រែកជីក
-    description:
       types:
         cities: ក្រុង​
   layouts:
@@ -614,31 +633,31 @@ km:
       text: ជួយ​ឧបត្ថម្ភ​
     learn_more: ស្វែងយល់បន្ថែម
     more: ផ្សេងទៀត
-  notifier:
+  user_mailer:
     diary_comment_notification:
       hi: សួស្ដី %{to_user},
     message_notification:
       hi: សួស្ដី %{to_user},
-    friend_notification:
+    friendship_notification:
       subject: '[OpenStreetMap] %{user} បានបន្ថែមអ្នកជា​មិត្ត​'
       had_added_you: '%{user} បានបន្ថែមអ្នកជា​មិត្ត​នៅ [OpenStreetMap] ។'
       see_their_profile: អ្នកអាចមើល​ប្រវត្តិរូប​របស់ពួកគេនៅ %{userurl} និងបន្ថែម​ពួកគេជាមិត្តរបស់អ្នកវិញបើអ្នកចង់​។
-    gpx_notification:
-      greeting: សួស្ដី,
-      with_description: ជាមួយ​បរិយាយ​
-      and_no_tags: និងគ្មានស្លាក​​។
     signup_confirm:
       subject: '[OpenStreetMap] សូមស្វាគមន៍មកកាន់ OpenStreetMap'
     email_confirm:
       subject: '[OpenStreetMap] បញ្ជាក់​អាសយដ្ឋាន​អ៊ីមែលរបស់អ្នក​'
-    email_confirm_plain:
       greeting: សួស្ដី,
-    email_confirm_html:
+    lost_password:
       greeting: សួស្ដី​,
-    lost_password_plain:
-      greeting: សួស្ដី,
-    lost_password_html:
-      greeting: សួស្ដី​,
+  confirmations:
+    confirm:
+      heading: សូមឆែកអ៉ីម៉ែលរបស់អ្នក!
+      button: បញ្ជាក់​
+    confirm_email:
+      heading: បញ្ជាក់ការផ្លាស់ប្ដូរ​អាសយដ្ឋានអ៊ីមែល
+      press confirm button: ចុចលើប៉ូតុងខាងក្រោមដើម្បីបញ្ជាក់អាសយដ្ឋានអ៊ីមែលថ្មីរបស់អ្នក​។
+      button: បញ្ជាក់​
+      success: បានបញ្ជាក់អាសយដ្ឋានអ៊ីមែលរបស់អ្នករូចរាល់ហើយ!
   messages:
     inbox:
       from: ពី​
@@ -646,7 +665,6 @@ km:
       date: កាលបរិច្ឆេទ​
     new:
       subject: ប្រធានបទ​
-      send_button: ផ្ញើ​
       back_to_inbox: ត្រឡប់ទៅប្រអប់សំបុត្រ​
     outbox:
       to: ទៅ​
@@ -657,6 +675,32 @@ km:
       subject: ប្រធានបទ​
       date: កាលបរិច្ឆេទ​
       to: ទៅ​
+  sessions:
+    new:
+      title: កត់ឈ្មោះចូល
+      heading: កត់ឈ្មោះចូល
+      email or username: អាសយដ្ឋានអ៊ីមែល ឬឈ្មោះអ្នកប្រើប្រាស់​៖
+      login_button: កត់ឈ្មោះចូល
+      auth_providers:
+        openid:
+          title: កត់ឈ្មោះចូលដោយប្រើ OpenID
+        google:
+          title: កត់ឈ្មោះចូលដោយប្រើ Google
+        facebook:
+          title: កត់ឈ្មោះចូលដោយប្រើ Facebook
+        windowslive:
+          title: កត់ឈ្មោះចូលដោយប្រើ Windows Live
+        github:
+          title: កត់ឈ្មោះចូលដោយប្រើ GitHub
+        wikipedia:
+          title: កត់ឈ្មោះចូលដោយប្រើវិគីភីឌា
+        wordpress:
+          title: កត់ឈ្មោះចូលដោយប្រើ Wordpress
+        aol:
+          title: កត់ឈ្មោះចូលដោយប្រើ AOL
+    destroy:
+      title: កត់ឈ្មោះចេញ
+      logout_button: កត់ឈ្មោះចេញ
   site:
     copyright:
       foreign:
@@ -711,21 +755,9 @@ km:
           station: ស្ថានីយ៍ផ្លូវដែក
   traces:
     new:
-      upload_gpx: ផ្ទុកឡើង​ឯកសារ GPX ៖
-      description: បរិយាយ​៖
-      tags: ស្លាក​៖
       visibility_help: តើនេះមានន័យ​ដូចម្ដេច​?
-      upload_button: ផ្ទុកឡើង​
       help: ជំនួយ​
     edit:
-      filename: ឈ្មោះឯកសារ​៖
-      download: ទាញយក
-      uploaded_at: បានផ្ទុកឡើង​នៅ​៖
-      map: ផែនទី​
-      edit: កែប្រែ​
-      description: បរិយាយ​៖
-      tags: ស្លាក​៖
-      save_button: រក្សាទុក​បន្លាស់ប្តូរនានា​
       visibility_help: តើនេះមានន័យ​ដូចម្ដេច​​?
     trace_optionals:
       tags: ស្លាក​
@@ -740,61 +772,24 @@ km:
       none: គ្មាន​
     trace:
       view_map: មើលផែនទី​
-      edit: កែប្រែ​
       edit_map: កែប្រែផែនទី​
       public: សាធារណៈ​
       private: ឯកជន​
       by: ដោយ​
       in: ក្នុង​
-      map: ផែនទី​
     index:
       tagged_with: '  បានដាកស្លាកជា %{tags}'
   oauth_clients:
-    new:
-      submit: ចុះឈ្មោះ​
     edit:
       title: កែប្រែ​ទំរង់បែបបទរបស់អ្នក​
-      submit: កែប្រែ​
     show:
       edit: កែប្រែ​ព័ត៌មានលម្អិត​
-      allow_write_api: កែសម្រួលផែនទី​
-    form:
-      name: ឈ្មោះ​
-      allow_write_api: កែសម្រួលផែនទី​
   users:
-    login:
-      title: កត់ឈ្មោះចូល
-      heading: កត់ឈ្មោះចូល
-      email or username: អាសយដ្ឋានអ៊ីមែល ឬឈ្មោះអ្នកប្រើប្រាស់​៖
-      login_button: កត់ឈ្មោះចូល
-      auth_providers:
-        openid:
-          title: កត់ឈ្មោះចូលដោយប្រើ OpenID
-        google:
-          title: កត់ឈ្មោះចូលដោយប្រើ Google
-        facebook:
-          title: កត់ឈ្មោះចូលដោយប្រើ Facebook
-        windowslive:
-          title: កត់ឈ្មោះចូលដោយប្រើ Windows Live
-        github:
-          title: កត់ឈ្មោះចូលដោយប្រើ GitHub
-        wikipedia:
-          title: កត់ឈ្មោះចូលដោយប្រើវិគីភីឌា
-        yahoo:
-          title: កត់ឈ្មោះចូលដោយប្រើ Yahoo
-        wordpress:
-          title: កត់ឈ្មោះចូលដោយប្រើ Wordpress
-        aol:
-          title: កត់ឈ្មោះចូលដោយប្រើ AOL
-    logout:
-      title: កត់ឈ្មោះចេញ
-      logout_button: កត់ឈ្មោះចេញ
     new:
       title: ចុះឈ្មោះ​ចូល
       use external auth: ប្រើភ្នាក់ងារទី៣ដើម្បីកត់ឈ្មោះចូល
       continue: ចុះឈ្មោះចូល
     terms:
-      agree: យល់​ព្រម​
       decline: បដិសេធ
       legale_select: ប្រទេស​ស្នាក់​នៅ៖
       legale_names:
@@ -807,31 +802,6 @@ km:
       remove as friend: ដកចេញជាមិត្ត​
       add as friend: បន្ថែមជាមិត្ត​
       description: បរិយាយ​
-      no friends: អ្នកមិនទាន់បានបន្ថែមមិត្តណាមួយនៅឡើយទេ​។
-      km away: ចម្ងាយ %{count} គ.ម.
-      m away: ចម្ងាយ %{count} ម.
-    account:
-      title: កែប្រែគណនី​
-      public editing:
-        disabled link text: មូលហេតុអ្វី​ ខ្ញុំមិនអាចកែប្រែបាន​?
-      profile description: បរិយាយ​ប្រវត្តិរូប​៖
-      flash update success confirm needed: ព័ត៌មានអ្នកប្រើប្រាស់​ បានបន្ទាន់សម័យដោយជោគជ័យ​។
-        សូមពិនិត្យមើលអ៊ីមែលរបស់អ្នក ដើម្បីបញ្ជាក់អាសយដ្ឋានអ៊ីមែលថ្មីរបស់អ្នក។
-      flash update success: ព័ត៌មានអ្នកប្រើប្រាស់​ បានបន្ទាន់សម័យដោយជោគជ័យ​។
-    confirm:
-      heading: សូមឆែកអ៉ីម៉ែលរបស់អ្នក!
-      button: បញ្ជាក់​
-    confirm_email:
-      heading: បញ្ជាក់ការផ្លាស់ប្ដូរ​អាសយដ្ឋានអ៊ីមែល
-      press confirm button: ចុចលើប៉ូតុងខាងក្រោមដើម្បីបញ្ជាក់អាសយដ្ឋានអ៊ីមែលថ្មីរបស់អ្នក​។
-      button: បញ្ជាក់​
-      success: បានបញ្ជាក់អាសយដ្ឋានអ៊ីមែលរបស់អ្នករូចរាល់ហើយ!
-    make_friend:
-      success: '%{name} ឥឡូវនេះជាមិត្តរបស់អ្នក​។'
-      failed: អភ័យទោស, បរាជ័យក្នុងការបន្ដែម %{name} ជាមិត្ត​។
-      already_a_friend: អ្នកគឺជាមិត្តជាមួយ %{name} រួចហើយ​។
-    remove_friend:
-      not_a_friend: '%{name} មិនមែនជាមិត្តរបស់អ្នកទេ​។'
   javascripts:
     embed:
       report_problem: រាយការណ៍​បញ្ហា
@@ -845,7 +815,6 @@ km:
         out: បង្រួមចេញ
       locate:
         title: បង្ហាញទីតាំងខ្ញុំ
-        popup: អ្នកកំពុងស្ថិតនៅចម្ងាយ {distance} {unit} ពីចំនុចនេះ
       base:
         standard: ស្តង់ដារ
         cycle_map: ផែនទីផ្លូវទោចក្រយាន

@@ -1,19 +1,19 @@
 #!/usr/bin/env ruby
 
-require File.dirname(__FILE__) + "/../config/environment"
+require File.join(File.dirname(__FILE__), "..", "config", "environment")
 require "generator"
 
 addresses = User.count(
   :conditions => {
     :status => %w[suspended deleted],
-    :creation_time => Time.now - 28.days..Time.now
+    :creation_time => Time.now.utc - 28.days..Time.now.utc
   },
   :group => :creation_ip
 )
 
 addresses.each do |address, count|
   next unless count > 1
-  next if Acl.where(:address => address).exists?
+  next if Acl.exists?(:address => address)
 
   Acl.create({
                :address => address,

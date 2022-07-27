@@ -1,16 +1,12 @@
 module OpenStreetMap
   module Browser
     module Features
-      def html5?
-        webkit? || firefox? || safari? || edge? || ie?(">8")
-      end
-
-      def es5?
-        webkit? || firefox? || safari? || edge? || ie?(">8")
-      end
-
       def es6?
-        webkit? || firefox? || safari? || edge?
+        chrome?(">44") || firefox?(">24") || safari?(">7") || edge?(">11") || generic_webkit?
+      end
+
+      def generic_webkit?
+        webkit? && !chrome? && !safari? && !edge? && !phantom_js?
       end
     end
   end

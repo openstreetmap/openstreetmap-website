@@ -44,7 +44,7 @@ class ChangesetCommentTest < ActiveSupport::TestCase
     ok.each do |body|
       changeset_comment = create(:changeset_comment)
       changeset_comment.body = body
-      assert changeset_comment.valid?, "#{body} is invalid, when it should be"
+      assert_predicate changeset_comment, :valid?, "#{body} is invalid, when it should be"
     end
 
     bad.each do |body|

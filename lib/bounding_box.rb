@@ -14,7 +14,7 @@ class BoundingBox
   end
 
   def self.from_s(s)
-    BoundingBox.new(*s.split(/,/)) if s.count(",") == 3
+    BoundingBox.new(*s.split(",")) if s.count(",") == 3
   end
 
   def self.from_bbox_params(params)
@@ -39,19 +39,19 @@ class BoundingBox
     if bbox.complete?
       if bbox.min_lon < min_lon
         @min_lon = [-SCALED_LON_LIMIT,
-                    bbox.min_lon + margin * (min_lon - max_lon)].max
+                    bbox.min_lon + (margin * (min_lon - max_lon))].max
       end
       if bbox.min_lat < min_lat
         @min_lat = [-SCALED_LAT_LIMIT,
-                    bbox.min_lat + margin * (min_lat - max_lat)].max
+                    bbox.min_lat + (margin * (min_lat - max_lat))].max
       end
       if bbox.max_lon > max_lon
         @max_lon = [+SCALED_LON_LIMIT,
-                    bbox.max_lon + margin * (max_lon - min_lon)].min
+                    bbox.max_lon + (margin * (max_lon - min_lon))].min
       end
       if bbox.max_lat > max_lat
         @max_lat = [+SCALED_LAT_LIMIT,
-                    bbox.max_lat + margin * (max_lat - min_lat)].min
+                    bbox.max_lat + (margin * (max_lat - min_lat))].min
       end
     end
     self
@@ -64,15 +64,15 @@ class BoundingBox
 
     if min_lon < -LON_LIMIT || min_lat < -LAT_LIMIT || max_lon > +LON_LIMIT || max_lat > +LAT_LIMIT
       raise OSM::APIBadBoundingBox, "The latitudes must be between #{-LAT_LIMIT} and #{LAT_LIMIT}," \
-                                       " and longitudes between #{-LON_LIMIT} and #{LON_LIMIT}"
+                                    " and longitudes between #{-LON_LIMIT} and #{LON_LIMIT}"
     end
     self
   end
 
-  def check_size(max_area = MAX_REQUEST_AREA)
+  def check_size(max_area = Settings.max_request_area)
     # check the bbox isn't too large
     if area > max_area
-      raise OSM::APIBadBoundingBox, "The maximum bbox size is " + max_area.to_s +
+      raise OSM::APIBadBoundingBox, "The maximum bbox size is #{max_area}" \
                                     ", and your request was too large. Either request a smaller area, or use planet.osm"
     end
     self
@@ -89,7 +89,7 @@ class BoundingBox
   end
 
   def complete?
-    !to_a.include?(nil)
+    to_a.exclude?(nil)
   end
 
   def centre_lon
@@ -109,25 +109,25 @@ class BoundingBox
   end
 
   def slippy_width(zoom)
-    width * 256.0 * 2.0**zoom / 360.0
+    width * 256.0 * (2.0**zoom) / 360.0
   end
 
   def slippy_height(zoom)
     min = min_lat * Math::PI / 180.0
     max = max_lat * Math::PI / 180.0
 
-    Math.log((Math.tan(max) + 1.0 / Math.cos(max)) /
-             (Math.tan(min) + 1.0 / Math.cos(min))) *
-      (128.0 * 2.0**zoom / Math::PI)
+    Math.log((Math.tan(max) + (1.0 / Math.cos(max))) /
+             (Math.tan(min) + (1.0 / Math.cos(min)))) *
+      (128.0 * (2.0**zoom) / Math::PI)
   end
 
   # there are two forms used for bounds with and without an underscore,
   # cater for both forms eg minlon and min_lon
   def add_bounds_to(hash, underscore = "")
-    hash["min#{underscore}lat"] = format("%.7f", min_lat)
-    hash["min#{underscore}lon"] = format("%.7f", min_lon)
-    hash["max#{underscore}lat"] = format("%.7f", max_lat)
-    hash["max#{underscore}lon"] = format("%.7f", max_lon)
+    hash["min#{underscore}lat"] = format("%<lat>.7f", :lat => min_lat)
+    hash["min#{underscore}lon"] = format("%<lon>.7f", :lon => min_lon)
+    hash["max#{underscore}lat"] = format("%<lat>.7f", :lat => max_lat)
+    hash["max#{underscore}lon"] = format("%<lon>.7f", :lon => max_lon)
     hash
   end
 

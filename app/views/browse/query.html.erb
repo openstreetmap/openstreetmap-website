@@ -1,22 +1,23 @@
-<% set_title(t ".title") %>
+<% set_title(t(".title")) %>
 
-<h2>
-  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= t ".title" %>
-</h2>
+<%= render "sidebar_header", :title => t(".title") %>
 
-<div class="query-intro">
+<div>
   <p><%= t(".introduction") %></p>
 </div>
 
 <div id="query-nearby" class="query-results">
   <h3><%= t(".nearby") %></h3>
   <%= image_tag "searching.gif", :class => "loader" %>
-  <ul class="query-results-list"></ul>
+  <div class="mx-n3">
+    <ul class="query-results-list list-group list-group-flush"></ul>
+  </div>
 </div>
 
 <div id="query-isin" class="query-results">
   <h3><%= t(".enclosing") %></h3>
   <%= image_tag "searching.gif", :class => "loader" %>
-  <ul class="query-results-list"></ul>
+  <div class="mx-n3">
+    <ul class="query-results-list list-group list-group-flush"></ul>
+  </div>
 </div>

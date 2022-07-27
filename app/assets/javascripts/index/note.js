@@ -1,7 +1,7 @@
 OSM.Note = function (map) {
-  var content = $('#sidebar_content'),
-    page = {},
-    halo, currentNote;
+  var content = $("#sidebar_content"),
+      page = {},
+      halo, currentNote;
 
   var noteIcons = {
     "new": L.icon({
@@ -28,7 +28,7 @@ OSM.Note = function (map) {
       url: url,
       type: method,
       oauth: true,
-      data: {text: $(form.text).val()},
+      data: { text: $(form.text).val() },
       success: function () {
         OSM.loadSidebarContent(window.location.pathname, page.load);
       }
@@ -36,11 +36,11 @@ OSM.Note = function (map) {
   }
 
   page.pushstate = page.popstate = function (path) {
-    OSM.loadSidebarContent(path, function() {
-      initialize(function() {
-        var data = $('.details').data(),
-          latLng = L.latLng(data.coordinates.split(','));
-        if (!map.getBounds().contains(latLng)) moveToNote();        
+    OSM.loadSidebarContent(path, function () {
+      initialize(function () {
+        var data = $(".details").data(),
+            latLng = L.latLng(data.coordinates.split(","));
+        if (!map.getBounds().contains(latLng)) moveToNote();
       });
     });
   };
@@ -81,12 +81,12 @@ OSM.Note = function (map) {
       }
     });
 
-    content.find("textarea").val('').trigger("input");
+    content.find("textarea").val("").trigger("input");
 
-    var data = $('.details').data(),
-      latLng = L.latLng(data.coordinates.split(','));
+    var data = $(".details").data(),
+        latLng = L.latLng(data.coordinates.split(","));
 
-    if (!map.hasLayer(halo)) {
+    if (!halo || !map.hasLayer(halo)) {
       halo = L.circleMarker(latLng, {
         weight: 2.5,
         radius: 20,
@@ -96,7 +96,8 @@ OSM.Note = function (map) {
       map.addLayer(halo);
     }
 
-    if (map.hasLayer(currentNote)) map.removeLayer(currentNote);
+    if (currentNote && map.hasLayer(currentNote)) map.removeLayer(currentNote);
+
     currentNote = L.marker(latLng, {
       icon: noteIcons[data.status],
       opacity: 1,
@@ -109,12 +110,12 @@ OSM.Note = function (map) {
   }
 
   function moveToNote() {
-    var data = $('.details').data(),
-      latLng = L.latLng(data.coordinates.split(','));
+    var data = $(".details").data(),
+        latLng = L.latLng(data.coordinates.split(","));
 
     if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
       OSM.router.withoutMoveListener(function () {
-        map.setView(latLng, 15, {reset: true});
+        map.setView(latLng, 15, { reset: true });
       });
     }
   }

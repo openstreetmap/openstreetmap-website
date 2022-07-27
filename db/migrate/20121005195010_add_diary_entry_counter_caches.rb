@@ -1,4 +1,10 @@
-class AddDiaryEntryCounterCaches < ActiveRecord::Migration[5.0]
+class AddDiaryEntryCounterCaches < ActiveRecord::Migration[4.2]
+  class DiaryEntry < ApplicationRecord
+  end
+
+  class User < ApplicationRecord
+  end
+
   def self.up
     add_column :users, :diary_entries_count, :integer, :null => false, :default => 0
 

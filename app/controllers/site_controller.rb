@@ -12,12 +12,12 @@ class SiteController < ApplicationController
   authorize_resource :class => false
 
   def index
-    session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless STATUS == :database_readonly || STATUS == :database_offline
+    session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless Settings.status == "database_readonly" || Settings.status == "database_offline"
   end
 
   def permalink
     lon, lat, zoom = ShortLink.decode(params[:code])
-    new_params = params.except(:code, :lon, :lat, :zoom, :layers, :node, :way, :relation, :changeset)
+    new_params = params.except(:host, :controller, :action, :code, :lon, :lat, :zoom, :layers, :node, :way, :relation, :changeset)
 
     if new_params.key? :m
       new_params.delete :m
@@ -25,31 +25,24 @@ class SiteController < ApplicationController
       new_params[:mlon] = lon
     end
 
-    if params.key? :node
-      new_params[:controller] = "browse"
-      new_params[:action] = "node"
-      new_params[:id] = params[:node]
-    elsif params.key? :way
-      new_params[:controller] = "browse"
-      new_params[:action] = "way"
-      new_params[:id] = params[:way]
-    elsif params.key? :relation
-      new_params[:controller] = "browse"
-      new_params[:action] = "relation"
-      new_params[:id] = params[:relation]
-    elsif params.key? :changeset
-      new_params[:controller] = "browse"
-      new_params[:action] = "changeset"
-      new_params[:id] = params[:changeset]
-    else
-      new_params[:controller] = "site"
-      new_params[:action] = "index"
-    end
-
     new_params[:anchor] = "map=#{zoom}/#{lat}/#{lon}"
     new_params[:anchor] += "&layers=#{params[:layers]}" if params.key? :layers
 
-    redirect_to new_params.to_unsafe_h
+    options = new_params.to_unsafe_h.to_options
+
+    path = if params.key? :node
+             node_path(params[:node], options)
+           elsif params.key? :way
+             way_path(params[:way], options)
+           elsif params.key? :relation
+             relation_path(params[:relation], options)
+           elsif params.key? :changeset
+             changeset_path(params[:changeset], options)
+           else
+             root_url(options)
+           end
+
+    redirect_to path
   end
 
   def key
@@ -68,35 +61,36 @@ class SiteController < ApplicationController
       require_user
     end
 
-    if %w[potlatch potlatch2].include?(editor)
+    if %w[id].include?(editor)
       append_content_security_policy_directives(
-        :connect_src => %w[*],
-        :object_src => %w[*],
-        :plugin_types => %w[application/x-shockwave-flash],
-        :script_src => %w['unsafe-inline']
+        :frame_src => %w[blob:]
       )
     end
 
-    if params[:node]
-      bbox = Node.find(params[:node]).bbox.to_unscaled
-      @lat = bbox.centre_lat
-      @lon = bbox.centre_lon
-      @zoom = 18
-    elsif params[:way]
-      bbox = Way.find(params[:way]).bbox.to_unscaled
-      @lat = bbox.centre_lat
-      @lon = bbox.centre_lon
-      @zoom = 17
-    elsif params[:note]
-      note = Note.find(params[:note])
-      @lat = note.lat
-      @lon = note.lon
-      @zoom = 17
-    elsif params[:gpx] && current_user
-      trace = Trace.visible_to(current_user).find(params[:gpx])
-      @lat = trace.latitude
-      @lon = trace.longitude
-      @zoom = 16
+    begin
+      if params[:node]
+        bbox = Node.visible.find(params[:node]).bbox.to_unscaled
+        @lat = bbox.centre_lat
+        @lon = bbox.centre_lon
+        @zoom = 18
+      elsif params[:way]
+        bbox = Way.visible.find(params[:way]).bbox.to_unscaled
+        @lat = bbox.centre_lat
+        @lon = bbox.centre_lon
+        @zoom = 17
+      elsif params[:note]
+        note = Note.visible.find(params[:note])
+        @lat = note.lat
+        @lon = note.lon
+        @zoom = 17
+      elsif params[:gpx] && current_user
+        trace = Trace.visible_to(current_user).find(params[:gpx])
+        @lat = trace.latitude
+        @lon = trace.longitude
+        @zoom = 16
+      end
+    rescue ActiveRecord::RecordNotFound
+      # don't try and derive a location from a missing/deleted object
     end
   end
 
@@ -108,7 +102,9 @@ class SiteController < ApplicationController
 
   def help; end
 
-  def about; end
+  def about
+    @locale = params[:about_locale] || I18n.locale
+  end
 
   def export; end
 
@@ -126,7 +122,7 @@ class SiteController < ApplicationController
       :style_src => %w['unsafe-inline']
     )
 
-    render "id", :layout => false
+    render :layout => false
   end
 
   private
@@ -156,6 +152,6 @@ class SiteController < ApplicationController
       anchor << "layers=N"
     end
 
-    redirect_to params.to_unsafe_h.merge(:anchor => anchor.join("&")) if anchor.present?
+    redirect_to params.to_unsafe_h.merge(:only_path => true, :anchor => anchor.join("&")) if anchor.present?
   end
 end

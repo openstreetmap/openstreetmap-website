@@ -4,13 +4,37 @@
 # Author: Aalam
 # Author: Babanwalia
 # Author: Jimidar
+# Author: Satnam S Virdi
 # Author: Tow
 ---
 pa:
   time:
     formats:
       friendly: '%e %B %Y at %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: ਸਾਂਭੋ
+      diary_entry:
+        create: ਛਾਪੋ
+        update: ਅੱਪਡੇਟ ਕਰੋ
+      issue_comment:
+        create: ਟਿੱਪਣੀ ਕਰੋ
+      message:
+        create: ਭੇਜੋ
+      client_application:
+        create: ਇੰਦਰਾਜ ਕਰਾਉ
+        update: ਸੋਧੋ
+      trace:
+        create: ਚੜ੍ਹਾਉ
+        update: ਤਬਦੀਲੀਆਂ ਸਾਂਭੋ
+      user_block:
+        create: ਬਲਾਕ ਬਣਾਓ
+        update: ਰੋਕ ਨਵਿਆਉ
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: ਜਾਇਜ਼ ਈਮੇਲ ਪਤਾ ਨਹੀਂ ਲੱਗ ਰਿਹਾ
     models:
       acl: ਅਸੈੱਸ ਕੰਟਰੋਲ ਲਿਸਟ
       changeset: ਤਬਦੀਲੀ ਲੜੀ
@@ -19,6 +43,7 @@ pa:
       diary_comment: ਡਾਇਰੀ ਟਿੱਪਣੀ
       diary_entry: ਡਾਇਰੀ ਇੰਦਰਾਜ
       friend: ਦੋਸਤ
+      issue: ਮੁੱਦਾ
       language: ਬੋਲੀ
       message: ਸੁਨੇਹਾ
       node: ਨੋਡ
@@ -35,6 +60,7 @@ pa:
       relation: ਸਬੰਧ
       relation_member: ਸਬੰਧ ਮੈਂਬਰ
       relation_tag: ਸਬੰਧ ਟੈਗ
+      report: ਰਿਪੋਰਟ ਕਰੋ
       session: ਸੈਸ਼ਨ
       trace: ਟਰੇਸ
       tracepoint: ਟਰੇਸ ਪੁਆਇੰਟ
@@ -46,6 +72,8 @@ pa:
       way_node: ਰਾਹ ਨੋਡ
       way_tag: ਰਾਹ ਟੈਗ
     attributes:
+      client_application:
+        support_url: ਮਦਦ URL
       diary_comment:
         body: ਮੁੱਖ ਭਾਗ
       diary_entry:
@@ -66,24 +94,66 @@ pa:
         longitude: ਲੰਬਕਾਰ
         public: ਜਨਤਕ
         description: ਵੇਰਵਾ
+        visibility: 'ਦਿੱਸਣਯੋਗਤਾ:'
+        tagstring: 'ਟੈਗ:'
       message:
         sender: ਭੇਜਣ ਵਾਲਾ
         title: ਵਿਸ਼ਾ
         body: ਮੁੱਖ ਭਾਗ
         recipient: ਪ੍ਰਾਪਤਕਰਤਾ
+      redaction:
+        description: ਵੇਰਵਾ
       user:
         email: ਈਮੇਲ
+        new_email: 'ਨਵਾਂ ਈ-ਮੇਲ ਪਤਾ:'
         active: ਸਰਗਰਮ
         display_name: ਵਿਖਾਉਣ ਨਾਂ
         description: ਵੇਰਵਾ
+        home_lat: 'ਅਕਸ਼ਾਂਸ਼:'
+        home_lon: 'ਰੇਖਾਂਸ਼:'
         languages: ਬੋਲੀਆਂ
         pass_crypt: ਪਛਾਣ-ਸ਼ਬਦ
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: ਅੱਧਾ ਮਿੰਟ ਪਹਿਲਾਂ
   editor:
     default: ਮੂਲ (ਮੌਜੂਦਾ %{name})
     id:
       name: ਆਈਡੀ
     remote:
       name: ਰਿਮੋਟ ਕੰਟਰੋਲ
+  auth:
+    providers:
+      none: ਕੋਈ ਨਹੀਂ
+      google: ਗੂਗਲ
+      facebook: ਫੇਸਬੁੱਕ
+      windowslive: ਵਿੰਡੋਜ਼ ਲਾਈਵ
+      github: ਗਿੱਟਹੱਬ
+      wikipedia: ਵਿਕੀਪੀਡੀਆ
+  api:
+    notes:
+      entry:
+        comment: ਟਿੱਪਣੀ ਕਰੋ
+        full: ਪੂਰੀ ਟਿੱਪਣੀ
+  accounts:
+    edit:
+      title: ਖਾਤਾ ਸੋਧੋ
+      my settings: ਮੇਰੀਆਂ ਸੈਟਿੰਗਾਂ
+      current email address: 'ਮੌਜੂਦਾ ਈਮੇਲ ਪਤਾ:'
+      openid:
+        link text: ਇਹ ਕੀ ਹੈ?
+      public editing:
+        heading: ਜਨਤਕ ਸੁਧਾਈ
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: ਇਹ ਕੀ ਹੈ?
+        disabled link text: ਮੈਂ ਸੋਧ ਕਿਉਂ ਨਹੀਂ ਕਰ ਸਕਦਾ?
+      contributor terms:
+        heading: 'ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ:'
+        agreed: ਤੁਸੀਂ ਯੋਗਦਾਨੀ ਦੀਆਂ ਨਵੀਆਂ ਸ਼ਰਤਾਂ ਨਾਲ਼ ਸਹਿਮਤੀ ਜਤਾਈ ਹੈ।
+        not yet agreed: ਤੁਸੀਂ ਯੋਗਦਾਨੀ ਦੀਆਂ ਨਵੀਆਂ ਸ਼ਰਤਾਂ ਨਾਲ਼ ਸਹਿਮਤੀ ਨਹੀਂ ਜਤਾਈ।
+        link text: ਇਹ ਕੀ ਹੈ?
+      save changes button: ਤਬਦੀਲੀਆਂ ਸਾਂਭੋ
+      make edits public button: ਮੇਰੀਆਂ ਸਾਰੀਆਂ ਸੋਧਾਂ ਜਨਤਕ ਕਰੋ
   browse:
     created: ਬਣਾਇਆ ਗਿਆ
     closed: ਬੰਦ ਹੋਇਆ
@@ -109,7 +179,7 @@ pa:
     relation:
       members: ਜੀਅ
     relation_member:
-      entry_role: '%{type} %{name} %{role} ਵਜੋਂ'
+      entry_role_html: '%{type} %{name} %{role} ਵਜੋਂ'
       type:
         node: ਨੋਡ
         way: ਰਾਹ
@@ -160,23 +230,24 @@ pa:
     index:
       title: ਤਬਦੀਲੀਆਂ
       load_more: ਹੋਰ ਲੋਡ ਕਰੋ
+  dashboards:
+    contact:
+      km away: '%{count}ਕਿ.ਮੀ. ਪਰ੍ਹਾਂ'
+      m away: '%{count}ਮੀਟਰ ਪਰ੍ਹਾਂ'
+    popup:
+      your location: ਤੁਹਾਡੀ ਸਥਿਤੀ
+      friend: ਦੋਸਤ
+    show:
+      no friends: ਤੁਸੀਂ ਅਜੇ ਕੋਈ ਮਿੱਤਰ ਨਹੀਂ ਜੋੜਿਆ।
+      nearby users: ਨੇੜੇ-ਤੇੜੇ ਦੇ ਹੋਰ ਵਰਤੋਂਕਾਰ
   diary_entries:
-    new:
-      publish_button: ਛਾਪੋ
-    edit:
-      subject: 'ਵਿਸ਼ਾ:'
-      body: 'ਧੜ੍ਹ:'
-      language: 'ਬੋਲੀ:'
+    form:
       location: 'ਸਥਿਤੀ:'
-      latitude: 'ਅਕਸ਼ਾਂਸ਼:'
-      longitude: 'ਰੇਖਾਂਸ਼:'
       use_map_link: ਨਕਸ਼ਾ ਵਰਤੋ
-      save_button: ਸਾਂਭੋ
     show:
       leave_a_comment: ਕੋਈ ਟਿੱਪਣੀ ਛੱਡੋ
-      login_to_leave_a_comment: ਟਿੱਪਣੀ ਛੱਡਣ ਵਾਸਤੇ %{login_link}
+      login_to_leave_a_comment_html: ਟਿੱਪਣੀ ਛੱਡਣ ਵਾਸਤੇ %{login_link}
       login: ਦਾਖ਼ਲਾ
-      save_button: ਸਾਂਭੋ
     no_such_entry:
       title: ਅਜਿਹਾ ਕੋਈ ਡਾਇਰੀ ਇੰਦਰਾਜ ਨਹੀਂ
     diary_entry:
@@ -196,9 +267,17 @@ pa:
       post: ਡਾਕ
       when: ਕਦੋਂ
       comment: ਟਿੱਪਣੀ
-      ago: '%{ago} ਪਹਿਲਾਂ'
       newer_comments: ਹੋਰ ਨਵੀਆਂ ਟਿੱਪਣੀਆਂ
       older_comments: ਹੋਰ ਪੁਰਾਣੀਆਂ ਟਿੱਪਣੀਆਂ
+  friendships:
+    make_friend:
+      heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਪਾਉਣੀ ਹੈ?'
+      button: ਦੋਸਤ ਵਜੋਂ ਜੋੜੋ
+      success: '%{name} ਹੁਣ ਤੁਹਾਡਾ ਦੋਸਤ ਹੈ!'
+      already_a_friend: ਤੁਸੀਂ ਪਹਿਲੋਂ ਹੀ %{name} ਨਾਲ਼ ਯਾਰੀ ਪਾ ਚੁੱਕੇ ਹੋ।
+    remove_friend:
+      heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਤੋੜਨੀ ਹੈ?'
+      button: ਯਾਰੀ ਤੋੜੋ
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -261,7 +340,6 @@ pa:
           motorcycle_parking: ਮੋਟਰਸਾਈਕਲ ਪਾਰਕਿੰਗ
           nightclub: ਰਾਤ ਦਾ ਕਲੱਬ
           nursing_home: ਨਰਸਿੰਗ ਹੋਮ
-          office: ਦਫ਼ਤਰ
           parking: ਪਾਰਕਿੰਗ
           parking_entrance: ਪਾਰਕਿੰਗ ਪਰਵੇਸ਼
           pharmacy: ਫ਼ਾਰਮੇਸੀ
@@ -269,20 +347,15 @@ pa:
           police: ਪੁਲਿਸ
           post_box: ਡਾਕ ਬਕਸਾ
           post_office: ਡਾਕ ਘਰ
-          preschool: ਪ੍ਰੀ-ਸਕੂਲ
           prison: ਜੇਲ੍ਹ
           pub: ਪਬ
           public_building: ਜਨਤਕ ਇਮਾਰਤ
           recycling: ਰੀਸਾਈਕਲ ਬਿੰਦੂ
           restaurant: ਰੈਸਟੋਰੈਂਟ
-          retirement_home: ਸੇਵਾ-ਮੁਕਤੀ ਘਰ
-          sauna: ਸੌਨਾ
           school: ਸਕੂਲ
           shelter: ਸ਼ਰਨ
-          shop: ਹੱਟੀ
           shower: ਸ਼ਾਵਰ
           social_centre: ਸਮਾਜਕ ਕੇਂਦਰ
-          social_club: ਸਮਾਜਕ ਕਲੱਬ
           social_facility: ਸਮਾਜਕ ਸਹੂਲਤ
           studio: ਸਟੂਡੀਉ
           swimming_pool: ਤੈਰਾਕੀ ਤਲਾਅ
@@ -297,7 +370,6 @@ pa:
           village_hall: ਪਿੰਡ ਦਾ ਹਾਲ
           waste_basket: ਕੂੜਾਦਾਨ
           waste_disposal: ਕੂੜੇਦਾਨ
-          youth_centre: ਨੌਜਵਾਨ ਕੇਂਦਰ
         boundary:
           administrative: ਪ੍ਰਸ਼ਾਸਕੀ ਸਰਹੱਦ
           census: ਮਰਦਮਸ਼ੁਮਾਰੀ ਸਰਹੱਦ
@@ -362,7 +434,6 @@ pa:
           tertiary_link: ਤੀਜੇ ਪੱਧਰ ਦੀ ਸੜਕ
           track: ਟਰੈਕ
           traffic_signals: ਟਰੈਫਿਕ ਸਿਗਨਲ
-          trail: ਡੰਡੀ
           trunk: ਟਰੰਕ ਸੜਕ
           trunk_link: ਟਰੰਕ ਸੜਕ
           unclassified: ਅਵਰਗੀਕ੍ਰਿਤ ਰੋਡ
@@ -378,7 +449,6 @@ pa:
           fort: ਕਿਲ਼ਾ
           heritage: ਵਿਰਾਸਤ ਸਥਾਨ
           house: ਘਰ
-          icon: ਆਈਕਨ
           manor: ਮੈਨਰ
           memorial: ਯਾਦਗਾਰ
           mine: ਖਾਨ
@@ -411,7 +481,6 @@ pa:
           reservoir: ਸਰੋਵਰ
           residential: ਰਿਹਾਇਸ਼ੀ ਇਲਾਕਾ
           retail: ਪਰਚੂਨ
-          road: ਸੜਕ ਇਲਾਕਾ
           village_green: ਪੇਂਡੂ ਹਰਿਆਵਲ
           vineyard: ਅੰਗੂਰਾਂ ਦਾ ਬਾਗ਼
         leisure:
@@ -515,7 +584,6 @@ pa:
           subdivision: ਉਪਵਿਭਾਗ
           suburb: ਉਪਨਗਰ
           town: ਕਸਬਾ
-          unincorporated_area: ਗ਼ੈਰ-ਸੰਮਿਲਤ ਇਲਾਕਾ
           village: ਪਿੰਡ
           "yes": ਥਾੰ
         railway:
@@ -535,6 +603,7 @@ pa:
           subway_entrance: ਸਬਵੇ ਪ੍ਰਵੇਸ਼
           tram: ਟਰਾਮਵੇ
           tram_stop: ਟਰਾਮ ਅੱਡਾ
+          yard: ਰੇਲਵੇ ਯਾਰਡ
         shop:
           antiques: ਪ੍ਰਾਚੀਨ
           art: ਕਲਾ ਹੱਟੀ
@@ -566,12 +635,10 @@ pa:
           estate_agent: ਇਸਟੇਟ ਏਜੰਟ
           farm: ਫ਼ਾਰਮ ਦੁਕਾਨ
           fashion: ਫ਼ੈਸ਼ਨਾਂ ਦੀ ਹੱਟੀ
-          fish: ਮੱਛੀਆਂ ਦੀ ਦੁਕਾਨ
           florist: ਫੁੱਲਾਂ ਦੀ ਦੁਕਾਨ
           food: ਖ਼ੁਰਾਕ ਦੀ ਹੱਟੀ
           funeral_directors: ਜਨਾਜ਼ਾ ਪ੍ਰਬੰਧਕ
           furniture: ਫ਼ਰਨੀਚਰ
-          gallery: ਗੈਲਰੀ
           garden_centre: ਬਾਗ਼ਬਾਨੀ ਕੇਂਦਰ
           general: ਜਨਰਲ ਸਟੋਰ
           gift: ਤੋਹਫ਼ਿਆਂ ਦੀ ਦੁਕਾਨ
@@ -583,7 +650,6 @@ pa:
           kiosk: ਖੋਖਾ
           laundry: ਧੋਬੀਘਾਟ
           mall: ਮਾਲ
-          market: ਮੰਡੀ
           mobile_phone: ਮੋਬਾਈਲ ਫੋਨਾਂ ਦੀ ਦੁਕਾਨ
           motorcycle: ਮੋਟਰਸਾਈਕਲਾਂ ਦੀ ਦੁਕਾਨ
           music: ਸੰਗੀਤ ਦੀ ਦੁਕਾਨ
@@ -592,7 +658,6 @@ pa:
           organic: ਕਾਰਬਨੀ ਖ਼ੁਰਾਕ ਦੀ ਹੱਟੀ
           outdoor: ਮੈਦਾਨੀ ਵਸਤਾਂ ਦੀ ਹੱਟੀ
           pet: ਪਾਲਤੂ ਜਾਨਵਰਾਂ ਦੀ ਦੁਕਾਨ
-          pharmacy: ਦਵਾਖ਼ਾਨਾ
           photo: ਤਸਵੀਰਾਂ ਦੀ ਦੁਕਾਨ
           shoes: ਜੁੱਤੀਆਂ ਦੀ ਦੁਕਾਨ
           sports: ਖੇਡਾਂ ਦੀ ਦੁਕਾਨ
@@ -652,7 +717,6 @@ pa:
         level8: ਸ਼ਹਿਰ ਦੀ ਹੱਦ
         level9: ਪਿੰਡ ਦੀ ਜੂਹ
         level10: ਉਪਨਗਰ ਦੀ ਜੂਹ
-    description:
       types:
         cities: ਸ਼ਹਿਰ
         towns: ਕਸਬੇ
@@ -691,18 +755,12 @@ pa:
       text: ਦਾਨ ਦਿਉ
     learn_more: ਹੋਰ ਜਾਣੋ
     more: ਹੋਰ
-  notifier:
-    gpx_notification:
-      greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
+  user_mailer:
     signup_confirm:
       greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ਜੀ!
-    email_confirm_plain:
+    email_confirm:
       greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
-    email_confirm_html:
-      greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
-    lost_password_plain:
-      greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
-    lost_password_html:
+    lost_password:
       greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
     note_comment_notification:
       anonymous: ਇੱਕ ਗੁੰਮਨਾਮ ਵਰਤੋਂਕਾਰ
@@ -711,11 +769,22 @@ pa:
       greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
       commented:
         partial_changeset_without_comment: ਬਿਨਾ ਟਿੱਪਣੀ
+  confirmations:
+    confirm:
+      heading: ਆਪਣੀ ਈਮੇਲ ਪਰਖੋ!
+      introduction_1: ਅਸੀਂ ਤੁਹਾਨੂੰ ਇੱਕ ਤਸਦੀਕੀ ਈਮੇਲ ਭੇਜੀ ਹੈ।
+      button: ਤਸਦੀਕ ਕਰੋ
+      already active: ਇਹ ਖਾਤਾ ਪਹਿਲੋਂ ਹੀ ਤਸਦੀਕ ਹੋ ਚੁੱਕਾ ਹੈ।
+      unknown token: ਉਸ ਤਸਦੀਕੀ ਕੋਡ ਦੀ ਮਿਆਦ ਜਾਂ ਹੋਂਦ ਖ਼ਤਮ ਹੋ ਚੁੱਕੀ ਹੈ।
+    confirm_resend:
+      failure: ਵਰਤੋਂਕਾਰ %{name} ਨਹੀਂ ਲੱਭਿਆ।
+    confirm_email:
+      heading: ਈਮੇਲ ਪਤੇ ਦੀ ਤਬਦੀਲੀ ਤਸਦੀਕ ਕਰਾਉ
+      button: ਤਸਦੀਕ ਕਰੋ
   messages:
     inbox:
       title: ਇਨਬਾਕਸ
       my_inbox: ਮੇਰਾ ਇਨਬਾਕਸ
-      outbox: ਆਊਟਬਾਕਸ
       from: ਵੱਲੋਂ
       subject: ਵਿਸ਼ਾ
       date: ਮਿਤੀ
@@ -726,7 +795,6 @@ pa:
       title: ਸੁਨੇਹਾ ਘੱਲੋ
       subject: ਵਿਸ਼ਾ
       body: ਧੜ੍ਹ
-      send_button: ਭੇਜੋ
     create:
       message_sent: ਸੁਨੇਹਾ ਭੇਜਿਆ ਗਿਆ
     no_such_message:
@@ -734,9 +802,6 @@ pa:
       heading: ਅਜਿਹਾ ਕੋਈ ਸੁਨੇਹਾ ਨਹੀਂ
     outbox:
       title: ਆਊਟਬਾਕਸ
-      my_inbox: ਮੇਰਾ %{inbox_link}
-      inbox: ਇਨਬਾਕਸ
-      outbox: ਆਊਟਬਾਕਸ
       to: ਵੱਲ
       subject: ਵਿਸ਼ਾ
       date: ਮਿਤੀ
@@ -753,6 +818,44 @@ pa:
       destroy_button: ਮਿਟਾਉ
     destroy:
       destroyed: ਸੁਨੇਹਾ ਮਿਟਾਇਆ ਗਿਆ
+  passwords:
+    lost_password:
+      title: ਪਛਾਣ ਸ਼ਬਦ ਗੁੰਮ ਗਿਆ
+      heading: ਪਛਾਣ ਸ਼ਬਦ ਭੁੱਲ ਗਿਆ?
+      email address: 'ਈਮੇਲ ਪਤਾ:'
+      new password button: ਪਛਾਣ ਸ਼ਬਦ ਮੁੜ-ਸੈੱਟ ਕਰੋ
+    reset_password:
+      title: ਪਛਾਣ ਸ਼ਬਦ ਮੁੜ-ਸੈੱਟ ਕਰੋ
+      reset: ਪਛਾਣ ਸ਼ਬਦ ਮੁੜ-ਸੈੱਟ ਕਰੋ
+      flash changed: ਤੁਹਾਡਾ ਪਛਾਣ ਸ਼ਬਦ ਬਦਲਿਆ ਜਾ ਚੁੱਕਾ ਹੈ।
+  profiles:
+    edit:
+      image: 'ਤਸਵੀਰ:'
+      gravatar:
+        gravatar: ਗਰੈਵੇਤਾਰ ਵਰਤੋ
+      new image: ਇੱਕ ਤਸਵੀਰ ਜੋੜੋ
+      keep image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਰੱਖੋ
+      delete image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਹਟਾਉ
+      replace image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਵਟਾਉ
+      home location: 'ਘਰ ਦੀ ਸਥਿਤੀ:'
+      no home location: ਤੁਸੀਂ ਆਪਣੇ ਘਰ ਦੀ ਸਥਿਤੀ ਨਹੀਂ ਦੱਸੀ ਹੈ।
+  sessions:
+    new:
+      title: ਦਾਖ਼ਲਾ
+      heading: ਦਾਖ਼ਲਾ
+      email or username: 'ਈਮੇਲ ਪਤਾ ਜਾਂ ਵਰਤੋਂਕਾਰ-ਨਾਂ:'
+      password: 'ਪਛਾਣ-ਸ਼ਬਦ:'
+      remember: ਮੈਨੂੰ ਯਾਦ ਰੱਖੋ
+      lost password link: ਆਪਣਾ ਪਛਾਣ-ਸ਼ਬਦ ਗੁਆ ਦਿੱਤਾ?
+      login_button: ਦਾਖ਼ਲ ਹੋਵੋ
+      register now: ਹੁਣੇ ਰਜਿਸਟਰ ਕਰੋ
+      new to osm: ਓਪਨ-ਸਟਰੀਟ-ਮੈਪ 'ਤੇ ਨਵੇਂ ਹੋ?
+      create account minute: ਖਾਤਾ ਬਣਾਉ। ਸਿਰ਼ਫ ਇੱਕ ਮਿੰਟ ਲੱਗਦਾ ਹੈ।
+      no account: ਖਾਤਾ ਨਹੀਂ ਹੈ?
+    destroy:
+      title: ਲਾਗ ਆਊਟ
+      heading: OpenStreetMap ਤੋਂ ਬਾਹਰ ਜਾਓ
+      logout_button: ਵਿਦਾਈ
   site:
     about:
       next: ਅੱਗੇ
@@ -890,21 +993,6 @@ pa:
           - ਸਿਖਰ
           - ਚੋਟੀ
           construction: ਉਸਾਰੀ ਹੇਠ ਸੜਕਾਂ
-    richtext_area:
-      edit: ਸੋਧੋ
-      preview: ਪਹਿਲ ਝਾਤ
-    markdown_help:
-      headings: ਸਿਰਨਾਵੇਂ
-      heading: ਸਿਰਨਾਵਾਂ
-      subheading: ਉਪਸਿਰਨਾਵਾਂ
-      ordered: ਕ੍ਰਮਬੱਧ ਸੂਚੀ
-      first: ਪਹਿਲੀ ਚੀਜ਼
-      second: ਦੂਜੀ ਚੀਜ਼
-      link: ਕੜੀ
-      text: ਲਿਖਤ
-      image: ਤਸਵੀਰ
-      alt: ਵਿਕਲਪਿਕ ਲਿਖਤ
-      url: ਯੂ.ਆਰ.ਐੱਲ.
     welcome:
       title: ਜੀ ਆਇਆਂ ਨੂੰ!
       whats_on_the_map:
@@ -918,24 +1006,9 @@ pa:
         title: ਸੋਧਣ ਦੀ ਵਿਹਲ ਨਹੀਂ? ਕੋਈ ਨੋਟ ਜੋੜੋ!
   traces:
     new:
-      description: 'ਵੇਰਵਾ:'
-      tags: 'ਟੈਗ:'
-      visibility: 'ਦਿੱਸਣਯੋਗਤਾ:'
       visibility_help: ਇਹਦਾ ਕੀ ਮਤਲਬ ਹੈ?
-      upload_button: ਚੜ੍ਹਾਉ
       help: ਮਦਦ
     edit:
-      filename: 'ਫ਼ਾਈਲ ਦਾ ਨਾਂ:'
-      download: ਡਾਊਨਲੋਡ
-      uploaded_at: 'ਅੱਪਲੋਡ ਹੋਇਆ:'
-      points: 'ਬਿੰਦੂ:'
-      map: ਨਕਸ਼ਾ
-      edit: ਸੋਧੋ
-      owner: 'ਮਾਲਕ:'
-      description: 'ਵੇਰਵਾ:'
-      tags: 'ਟੈਗ:'
-      save_button: ਤਬਦੀਲੀਆਂ ਸਾਂਭੋ
-      visibility: 'ਦਿੱਸਣਯੋਗਤਾ:'
       visibility_help: ਇਹਦਾ ਕੀ ਮਤਲਬ ਹੈ?
     trace_optionals:
       tags: ਟੈਗ
@@ -964,11 +1037,9 @@ pa:
     trace:
       pending: ਲਮਕਦਾ
       count_points: '%{count} ਬਿੰਦੂ'
-      ago: '%{time_in_words_ago} ਪਹਿਲਾਂ'
       more: ਹੋਰ
       trace_details: ਖੁਰਾ-ਖੋਜ ਦਾ ਵੇਰਵਾ ਵੇਖੋ
       view_map: ਨਕਸ਼ਾ ਵੇਖੋ
-      edit: ਸੋਧੋ
       edit_map: ਨਕਸ਼ਾ ਸੋਧੋ
       public: ਜਨਤਕ
       identifiable: ਪਛਾਣਯੋਗ
@@ -976,61 +1047,24 @@ pa:
       trackable: ਪੈੜ ਕੱਢਣਯੋਗ
       by: ਵੱਲੋਂ
       in: ਵਿੱਚ
-      map: ਨਕਸ਼ਾ
     index:
       tagged_with: '%{tags} ਨਾਲ਼ ਨਿਸ਼ਾਨਦੇਹ'
       upload_trace: ਕੋਈ ਖੁਰਾ-ਖੋਜ ਚੜ੍ਹਾਉ
-      see_all_traces: ਸਾਰੇ ਖੁਰਾ-ਖੋਜ ਵੇਖੋ
   oauth:
     authorize:
       allow_write_notes: ਟਿੱਪਣੀਆੰ ਸੋਧੋ।
   oauth_clients:
     new:
       title: ਕਿਸੇ ਨਵੀਂ ਅਰਜ਼ੀ ਦਾ ਇੰਦਰਾਜ ਕਰਾਉ
-      submit: ਇੰਦਰਾਜ ਕਰਾਉ
     edit:
       title: ਆਪਣੀ ਅਰਜ਼ੀ ਸੋਧੋ
-      submit: ਸੋਧੋ
     show:
       edit: ਵੇਰਵੇ ਸੋਧੋ
       confirm: ਕੀ ਤੁਹਾਨੂੰ ਯਕੀਨ ਹੈ?
-      allow_write_api: ਨਕਸ਼ੇ 'ਚ ਫੇਰ-ਬਦਲ ਕਰੋ
-      allow_write_notes: ਟਿੱਪਣੀਆੰ ਸੋਧੋ।
     index:
       revoke: ਪਰਤਾਉ!
       register_new: ਆਪਣੀ ਅਰਜ਼ੀ ਦਾ ਇੰਦਰਾਜ ਕਰਾਓ
-    form:
-      name: ਨਾਂ
-      required: ਲੋੜੀਂਦਾ
-      support_url: ਮਦਦ URL
   users:
-    login:
-      title: ਦਾਖ਼ਲਾ
-      heading: ਦਾਖ਼ਲਾ
-      email or username: 'ਈਮੇਲ ਪਤਾ ਜਾਂ ਵਰਤੋਂਕਾਰ-ਨਾਂ:'
-      password: 'ਪਛਾਣ-ਸ਼ਬਦ:'
-      remember: ਮੈਨੂੰ ਯਾਦ ਰੱਖੋ
-      lost password link: ਆਪਣਾ ਪਛਾਣ-ਸ਼ਬਦ ਗੁਆ ਦਿੱਤਾ?
-      login_button: ਦਾਖ਼ਲ ਹੋਵੋ
-      register now: ਹੁਣੇ ਰਜਿਸਟਰ ਕਰੋ
-      new to osm: ਓਪਨ-ਸਟਰੀਟ-ਮੈਪ 'ਤੇ ਨਵੇਂ ਹੋ?
-      create account minute: ਖਾਤਾ ਬਣਾਉ। ਸਿਰ਼ਫ ਇੱਕ ਮਿੰਟ ਲੱਗਦਾ ਹੈ।
-      no account: ਖਾਤਾ ਨਹੀਂ ਹੈ?
-    logout:
-      title: ਲਾਗ ਆਊਟ
-      heading: OpenStreetMap ਤੋਂ ਬਾਹਰ ਜਾਓ
-      logout_button: ਵਿਦਾਈ
-    lost_password:
-      title: ਪਛਾਣ ਸ਼ਬਦ ਗੁੰਮ ਗਿਆ
-      heading: ਪਛਾਣ ਸ਼ਬਦ ਭੁੱਲ ਗਿਆ?
-      email address: 'ਈਮੇਲ ਪਤਾ:'
-      new password button: ਪਛਾਣ ਸ਼ਬਦ ਮੁੜ-ਸੈੱਟ ਕਰੋ
-    reset_password:
-      title: ਪਛਾਣ ਸ਼ਬਦ ਮੁੜ-ਸੈੱਟ ਕਰੋ
-      password: 'ਪਛਾਣ-ਸ਼ਬਦ:'
-      confirm password: 'ਪਛਾਣ ਸ਼ਬਦ ਤਸਦੀਕ ਕਰੋ:'
-      reset: ਪਛਾਣ ਸ਼ਬਦ ਮੁੜ-ਸੈੱਟ ਕਰੋ
-      flash changed: ਤੁਹਾਡਾ ਪਛਾਣ ਸ਼ਬਦ ਬਦਲਿਆ ਜਾ ਚੁੱਕਾ ਹੈ।
     new:
       title: ਭਰਤੀ ਹੋਵੋ
       about:
@@ -1038,14 +1072,11 @@ pa:
       email address: 'ਈਮੇਲ ਪਤਾ:'
       confirm email address: 'ਈ-ਮੇਲ ਪਤਾ ਤਸਦੀਕ ਕਰੋ:'
       display name: 'ਵਖਾਵੇ ਦਾ ਨਾਂ:'
-      password: 'ਪਛਾਣ-ਸ਼ਬਦ:'
-      confirm password: 'ਪਛਾਣ ਸ਼ਬਦ ਤਸਦੀਕ ਕਰੋ:'
       continue: ਭਰਤੀ ਹੋਵੋ
     terms:
       title: ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ
       heading: ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ
       consider_pd_why: ਇਹ ਕੀ ਹੈ?
-      agree: ਮਨਜ਼ੂਰ ਹੈ
       decline: ਮਨਜ਼ੂਰ ਨਹੀਂ
       legale_select: 'ਆਪਣੀ ਰਿਹਾਇਸ਼ ਦਾ ਦੇਸ਼ ਚੁਣੋ:'
       legale_names:
@@ -1074,22 +1105,15 @@ pa:
       remove as friend: ਯਾਰੀ ਤੋੜੋ
       add as friend: ਯਾਰੀ ਪਾਉ
       mapper since: 'ਕਦੋਂ ਤੋਂ ਨਕਸ਼ਾਸਾਜ਼:'
-      ago: (%{time_in_words_ago} ਪਹਿਲਾਂ)
       ct status: 'ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ:'
       ct undecided: ਦੁਚਿੱਤੀ 'ਚ
       ct declined: ਨਕਾਰੀ
-      ct accepted: '%{ago} ਪਹਿਲਾਂ ਕਬੂਲੀ'
       latest edit: 'ਆਖ਼ਰੀ ਸੋਧ %{ago}:'
       email address: 'ਈਮੇਲ ਪਤਾ:'
       created from: 'ਕਿੱਥੋਂ ਉਸਾਰਿਆ:'
       status: 'ਦਰਜਾ:'
       description: ਵੇਰਵਾ
       user location: ਵਰਤੋਂਕਾਰ ਦੀ ਸਥਿਤੀ
-      settings_link_text: ਸੈਟਿੰਗਾਂ
-      no friends: ਤੁਸੀਂ ਅਜੇ ਕੋਈ ਮਿੱਤਰ ਨਹੀਂ ਜੋੜਿਆ।
-      km away: '%{count}ਕਿ.ਮੀ. ਪਰ੍ਹਾਂ'
-      m away: '%{count}ਮੀਟਰ ਪਰ੍ਹਾਂ'
-      nearby users: ਨੇੜੇ-ਤੇੜੇ ਦੇ ਹੋਰ ਵਰਤੋਂਕਾਰ
       role:
         administrator: ਇਹ ਵਰਤੋਂਕਾਰ ਇੱਕ ਪ੍ਰਸ਼ਾਸਕ ਹੈ।
         moderator: ਇਹ ਵਰਤੋਂਕਾਰ ਇੱਕ ਵਿਚੋਲਾ ਹੈ।
@@ -1105,64 +1129,6 @@ pa:
       unhide_user: ਇਸ ਵਰਤੋਂਕਾਰ ਦਾ ਉਹਲਾ ਹਟਾਉ
       delete_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਮਿਟਾਉ
       confirm: ਤਸਦੀਕ ਕਰੋ
-    popup:
-      your location: ਤੁਹਾਡੀ ਸਥਿਤੀ
-      friend: ਦੋਸਤ
-    account:
-      title: ਖਾਤਾ ਸੋਧੋ
-      my settings: ਮੇਰੀਆਂ ਸੈਟਿੰਗਾਂ
-      current email address: 'ਮੌਜੂਦਾ ਈਮੇਲ ਪਤਾ:'
-      new email address: 'ਨਵਾਂ ਈ-ਮੇਲ ਪਤਾ:'
-      openid:
-        link text: ਇਹ ਕੀ ਹੈ?
-      public editing:
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: ਇਹ ਕੀ ਹੈ?
-        disabled link text: ਮੈਂ ਸੋਧ ਕਿਉਂ ਨਹੀਂ ਕਰ ਸਕਦਾ?
-      public editing note:
-        heading: ਜਨਤਕ ਸੁਧਾਈ
-      contributor terms:
-        heading: 'ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ:'
-        agreed: ਤੁਸੀਂ ਯੋਗਦਾਨੀ ਦੀਆਂ ਨਵੀਆਂ ਸ਼ਰਤਾਂ ਨਾਲ਼ ਸਹਿਮਤੀ ਜਤਾਈ ਹੈ।
-        not yet agreed: ਤੁਸੀਂ ਯੋਗਦਾਨੀ ਦੀਆਂ ਨਵੀਆਂ ਸ਼ਰਤਾਂ ਨਾਲ਼ ਸਹਿਮਤੀ ਨਹੀਂ ਜਤਾਈ।
-        link text: ਇਹ ਕੀ ਹੈ?
-      profile description: 'ਪ੍ਰੋਫ਼ਾਈਲ ਵੇਰਵਾ:'
-      preferred languages: 'ਤਰਜੀਹੀ ਬੋਲੀਆਂ:'
-      preferred editor: 'ਤਰਜੀਹੀ ਸੰਪਾਦਕ:'
-      image: 'ਤਸਵੀਰ:'
-      gravatar:
-        gravatar: ਗਰੈਵੇਤਾਰ ਵਰਤੋ
-        link text: ਇਹ ਕੀ ਹੈ?
-      new image: ਇੱਕ ਤਸਵੀਰ ਜੋੜੋ
-      keep image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਰੱਖੋ
-      delete image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਹਟਾਉ
-      replace image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਵਟਾਉ
-      home location: 'ਘਰ ਦੀ ਸਥਿਤੀ:'
-      no home location: ਤੁਸੀਂ ਆਪਣੇ ਘਰ ਦੀ ਸਥਿਤੀ ਨਹੀਂ ਦੱਸੀ ਹੈ।
-      latitude: 'ਅਕਸ਼ਾਂਸ਼:'
-      longitude: 'ਰੇਖਾਂਸ਼:'
-      save changes button: ਤਬਦੀਲੀਆਂ ਸਾਂਭੋ
-      make edits public button: ਮੇਰੀਆਂ ਸਾਰੀਆਂ ਸੋਧਾਂ ਜਨਤਕ ਕਰੋ
-      return to profile: ਪ੍ਰੋਫ਼ਾਈਲ ਵੱਲ ਮੁੜੋ
-    confirm:
-      heading: ਆਪਣੀ ਈਮੇਲ ਪਰਖੋ!
-      introduction_1: ਅਸੀਂ ਤੁਹਾਨੂੰ ਇੱਕ ਤਸਦੀਕੀ ਈਮੇਲ ਭੇਜੀ ਹੈ।
-      button: ਤਸਦੀਕ ਕਰੋ
-      already active: ਇਹ ਖਾਤਾ ਪਹਿਲੋਂ ਹੀ ਤਸਦੀਕ ਹੋ ਚੁੱਕਾ ਹੈ।
-      unknown token: ਉਸ ਤਸਦੀਕੀ ਕੋਡ ਦੀ ਮਿਆਦ ਜਾਂ ਹੋਂਦ ਖ਼ਤਮ ਹੋ ਚੁੱਕੀ ਹੈ।
-    confirm_resend:
-      failure: ਵਰਤੋਂਕਾਰ %{name} ਨਹੀਂ ਲੱਭਿਆ।
-    confirm_email:
-      heading: ਈਮੇਲ ਪਤੇ ਦੀ ਤਬਦੀਲੀ ਤਸਦੀਕ ਕਰਾਉ
-      button: ਤਸਦੀਕ ਕਰੋ
-    make_friend:
-      heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਪਾਉਣੀ ਹੈ?'
-      button: ਦੋਸਤ ਵਜੋਂ ਜੋੜੋ
-      success: '%{name} ਹੁਣ ਤੁਹਾਡਾ ਦੋਸਤ ਹੈ!'
-      already_a_friend: ਤੁਸੀਂ ਪਹਿਲੋਂ ਹੀ %{name} ਨਾਲ਼ ਯਾਰੀ ਪਾ ਚੁੱਕੇ ਹੋ।
-    remove_friend:
-      heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਤੋੜਨੀ ਹੈ?'
-      button: ਯਾਰੀ ਤੋੜੋ
     index:
       title: ਵਰਤੋਂਕਾਰ
       heading: ਵਰਤੋਂਕਾਰ
@@ -1172,7 +1138,6 @@ pa:
     suspended:
       title: ਖਾਤਾ ਮੁਅੱਤਲ ਕੀਤਾ ਗਿਆ
       heading: ਖਾਤਾ ਮੁਅੱਤਲ ਕੀਤਾ ਗਿਆ
-      webmaster: ਵੈੱਬਮਾਸਟਰ
   user_role:
     grant:
       confirm: ਤਸਦੀਕ ਕਰੋ
@@ -1184,7 +1149,6 @@ pa:
     new:
       back: ਸਾਰੀਆਂ ਰੋਕਾਂ ਵੇਖੋ
     edit:
-      submit: ਰੋਕ ਨਵਿਆਉ
       show: ਇਹ ਰੋਕ ਵੇਖੋ
       back: ਸਾਰੀਆਂ ਰੋਕਾਂ ਵੇਖੋ
     update:
@@ -1192,9 +1156,11 @@ pa:
     revoke:
       revoke: ਪਰਤਾਉ!
       flash: ਇਹ ਰੋਕ ਪਰਤਾ ਦਿੱਤੀ ਗਈ ਹੈ।
-    period:
-      one: ੧ ਘੰਟਾ
-      other: '%{count} ਘੰਟੇ'
+    helper:
+      block_duration:
+        hours:
+          one: ੧ ਘੰਟਾ
+          other: '%{count} ਘੰਟੇ'
     show:
       status: ਹਾਲਾਤ
       show: ਵਿਖਾਉ
@@ -1215,15 +1181,11 @@ pa:
       next: ਅਗਲਾ »
       previous: « ਪਿਛਲਾ
   notes:
-    entry:
-      comment: ਟਿੱਪਣੀ ਕਰੋ
-      full: ਪੂਰੀ ਟਿੱਪਣੀ
-    mine:
+    index:
       creator: ਸਿਰਜਣਹਾਰ
       description: ਵੇਰਵਾ
       created_at: ਕਦੋਂ ਸਿਰਜਿਆ ਗਿਆ
       last_changed: ਆਖ਼ਰੀ ਤਬਦੀਲੀ
-      ago_html: '%{when} ਪਹਿਲਾਂ'
   javascripts:
     close: ਬੰਦ ਕਰੋ
     share:
@@ -1273,10 +1235,6 @@ pa:
         reactivate: ਮੁੜ ਚਾਲੂ ਕਰੋ
         comment: ਟਿੱਪਣੀ ਕਰੋ
   redactions:
-    edit:
-      description: ਵੇਰਵਾ
-    new:
-      description: ਵੇਰਵਾ
     show:
       confirm: ਕੀ ਤੁਹਾਨੂੰ ਯਕੀਨ ਹੈ?
 ...

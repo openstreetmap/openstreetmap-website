@@ -1,128 +1,13 @@
 @import "parameters";
+@import "bootstrap";
+@import "rails_bootstrap_forms";
 
 /* Styles common to large and small screens */
 
-/* Minimal CSS reset */
-
-html, body, ul, ol, li, form, fieldset, legend, h1, h2, h3, h4, h5, h6, p, input {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size:100%;
-}
-
-fieldset,img { border: 0; }
-
-legend { color: #000; }
-
-sup {
-  vertical-align: super;
-  font-size: smaller;
-}
-
-sub {
-  vertical-align: sub;
-  font-size: smaller;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-li { list-style: none; }
-
-input,
-select,
-textarea,
-body { font: #{$typeheight}/#{$lineheight} "Helvetica Neue",Arial,sans-serif; }
-
-abbr, acronym {
-  text-decoration: underline dotted;
-  cursor: help;
-}
-
-strong {
-  font-weight: bold;
-}
-
-/* Micro Clearfix | Details: http://nicolasgallagher.com/micro-clearfix-hack/ */
-
-.clearfix:before,
-.clearfix:after {
-    content: " ";
-    display: table;
-}
-
-.clearfix:after {
-    clear: both;
-}
-
-/* Basic grid */
-
-.col0    { float:left; width:04.1666%; }
-.col1    { float:left; width:08.3333%; }
-.col2    { float:left; width:16.6666%; }
-.col3    { float:left; width:25.0000%; }
-.col4    { float:left; width:33.3333%; }
-.col5    { float:left; width:41.6666%; }
-.col6    { float:left; width:50.0000%; }
-.col7    { float:left; width:58.3333%; }
-.col8    { float:left; width:66.6666%; }
-.col9    { float:left; width:75.0000%; }
-.col10   { float:left; width:83.3333%; }
-.col11   { float:left; width:91.6666%; }
-.col12   { width:100%; }
-
-.margin0  { margin-left:04.1666%; }
-.margin1  { margin-left:08.3333%; }
-.margin2  { margin-left:16.6666%; }
-.margin3  { margin-left:25.0000%; }
-.margin4  { margin-left:33.3333%; }
-.margin5  { margin-left:41.6666%; }
-.margin6  { margin-left:50.0000%; }
-.margin7  { margin-left:58.3333%; }
-.margin8  { margin-left:66.6666%; }
-.margin9  { margin-left:75.0000%; }
-.margin10 { margin-left:83.3333%; }
-.margin11 { margin-left:91.6666%; }
-.margin12 { margin-left:100.0000%; }
-
-.fillL { background-color: white; }
-
 /* Default rules for the body of every page */
 
-* {
-  box-sizing: border-box;
-}
-
 body {
-  font-family: 'Helvetica Neue',Arial,sans-serif;
   font-size: $typeheight;
-  line-height: 1.6666;
-  color: #222;
-  background-color: #fff;
-  margin: 0px;
-  padding: 0px;
-  text-align: left;
-  height: 100%;
-}
-
-h1, h2, h3 {
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-h4, h5 {
-  font-weight: 500;
-}
-
-h1 {
-  font-size: 18px;
-}
-
-h2, h3 {
-  font-size: 16px;
 }
 
 p > img {
@@ -136,19 +21,14 @@ small, aside {
 
 #container { position: relative; }
 
-.column-1 {
-  width: 50%;
-  margin: 0 0 $lineheight/2 0;
-}
-
 .small_icon {
   vertical-align: middle;
   margin-right: $lineheight/4;
 }
 
-.red { color: $red; }
+[dir=rtl] { /* no-r2 */ text-align: right; }
 
-.piwik { border: 0; }
+[dir=ltr] { /* no-r2 */ text-align: left; }
 
 /* Rules for icons */
 
@@ -187,48 +67,26 @@ small, aside {
 a {
   color: #24d;
   text-decoration: none;
-  -webkit-appearance: none;
   outline: 0;
   &:hover {
     text-decoration: underline;
   }
 }
 
-/* Rules for horizontal lines */
-
-hr {
-  border: none;
-  background-color: #ccc;
-  color: #ccc;
-  height: 1px;
-}
-
-/* General styles for tables */
-
-table {
-  width: 100%;
-  margin-bottom: $lineheight;
-  th, td {
-    text-align: left;
-    padding: $lineheight/4;
-    line-height: $lineheight;
-  }
-  th {
-    font-weight: 600;
-    vertical-align: top;
-  }
-  td {
-    vertical-align: middle;
-  }
-}
-
 /* Utility for de-emphasizing content */
 
-.deemphasize {
-  color: #999;
-  a {
-    color: $blue;
-  }
+.text-muted a {
+  color: $blue;
+}
+
+/* Rules for borders */
+/* These add additional colours to those provided by bootstrap */
+.border-grey {
+  border-color: $grey !important;
+}
+
+.border-lightgrey {
+  border-color: $lightgrey !important;
 }
 
 /* Rules for the header */
@@ -251,7 +109,7 @@ header {
   z-index: 1001;
   font-size: 14px;
 
-  h1, nav, nav > ul, nav > ul > li, .dropdown {
+  h1, nav, nav > ul, nav > ul > li {
     display: inline-block;
   }
 
@@ -276,73 +134,55 @@ header {
   }
 
   h1 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
     margin: 0;
     padding-top: 15px;
 
     a {
       color: #000;
     }
+
+    a:hover {
+      color: #000;
+    }
+  }
+
+  .btn {
+    font-size: 14px;
   }
 }
 
+
 nav.primary {
-  > ul {
-    $border: 1px solid $green;
+  .btn-outline-primary {
+    @include button-outline-variant($green, $white);
+  }
 
-    border: $border;
-    border-radius: $border-radius;
+  .disabled {
+    .btn-outline-primary {
+      color: $grey;
+      cursor: default;
 
-    > li {
-      border-right: $border;
-      float: left;
-      &:last-child {
-        border-right: 0;
+      .caret {
+        border-top-color: $grey;
       }
-      > a:hover { background: lighten($green, 30%); }
-      &.current > a:hover { background: $green; }
-      &.disabled > a:hover { background: lighten($green, 38%); }
-      &.dropdown {
-        > a.tab { border-right: 1px solid lighten($green, 30%); }
-        &.current > a.tab { border-right: 1px solid lighten($green, 10%); }
+
+      &:hover {
+        background-color: lighten($green, 30%);
       }
     }
   }
 
-  a.tab,
-  .dropdown-toggle {
-    display: inline-block;
-    font-weight: 500;
-    color: $green;
-    padding: 5px 15px;
-  }
-
-  .dropdown-toggle {
-    padding: 5px 6px;
-  }
-
-  .caret {
-    border-top-color: $green;
-    margin-top: 10px;
-  }
-
-  .disabled a {
-    color: #ccc;
-    cursor: default;
-
-    .caret {
-      border-top-color: #ccc;
-    }
-  }
-
-  > ul li.current {
+  // Small tweaks to the toggle to stop the primary colour showing through
+  // when the menu is shown
+  .show > .btn-outline-primary.dropdown-toggle {
     background-color: $green;
+    border-color: $green;
 
-    .tab {
-      color: #fff;
-    }
-
-    .caret {
-      border-top-color: #fff;
+    &:focus {
+      box-shadow: 0 0 0 0.2rem fade-out($green, 0.5);
     }
   }
 }
@@ -351,105 +191,71 @@ nav.secondary {
   position: absolute;
   right: 0;
 
-  > ul {
-    vertical-align: middle;
-    a, .dropdown-toggle {
-      display: inline-block;
-      text-decoration: none;
-      color: $darkgrey;
-      padding: 5px;
-
-      &:hover { color: darken($darkgrey, 25%); }
-    }
+  .nav-link {
+    padding: 0.2rem;
+    color: $darkgrey;
   }
 
   > ul li.current a {
     color: darken($darkgrey, 25%);
   }
 
+  .login-menu {
+    .btn-outline-secondary {
+      @include button-outline-variant($darkgrey);
+    }
+  }
+
   .user-menu {
-    $border: 1px solid $grey;
-    border: $border;
-    border-radius: $border-radius;
-    margin-left: 10px;
-
-    > li {
-      border-right: $border;
-      float: left;
-      &:last-child {
-        border-right: 0;
-
-        > a {
-          border-radius: 0 $border-radius $border-radius 0;
-        }
+    .btn-outline-secondary {
+      @include button-outline-variant($darkgrey, $darkgrey, white, $darkgrey);
+      border-color: $grey;
+      &:hover {
+        border-color: $grey;
       }
-      &:first-child > a { border-radius: $border-radius 0 0 $border-radius; }
-      &:hover a { background: lighten($darkgrey, 30%); }
-    }
-
-    a {
-      padding: 5px 15px;
-
-    }
-
-    &.logged-in > a {
-      padding: 0;
-      > .user-button {
-        line-height: 1.8;
-        padding: 5px 10px 3px 6px;
-        display: inline-block;
-        color: $darkgrey;
+      &:focus {
+        background-color: white;
+        box-shadow: none;
       }
-      &:hover > .user-button { color: darken($darkgrey, 5%); }
     }
-  }
-
-  .caret {
-    border-top-color: $grey;
-    margin-top: 9px;
-  }
-
-  img.user_thumbnail_tiny {
-    border: 0;
-    vertical-align: top;
-    margin-top: 0px;
-    margin: 4px 0 0 4px;
-    border-radius: 2px;
+    &.show .btn-outline-secondary {
+      background-color: white;
+      &:focus {
+        box-shadow: none;
+      }
+    }
   }
 
   #inboxanchor {
     display: inline-block;
-    vertical-align: top;
     height: 25px;
     margin: 3px 0 3px 3px;
     background-color: lighten($grey, 10%);
     line-height: 20px;
-    border-radius: 2;
+    border-radius: 3;
   }
 
   .dropdown-menu {
-    left: auto;
-    right: -1px;
-    border-radius: 3px 0 3px 3px;
-
     .count-number {
-      float: right;
-      padding: 0 5px;
-      margin: 0;
+      font-size: 14px;
+    }
+  }
+}
+
+nav.primary, nav.secondary {
+  .dropdown-item {
+    &:hover, &:active {
+      background-color: $green;
+      color: white;
     }
   }
 }
 
 #compact-secondary-nav {
   display: none;
-  ul li a {
-    width: 100%;
-    color: #333;
-    &:hover { color: #fff; }
-  }
 }
 
-body.compact {
+body.compact-nav {
   #compact-secondary-nav {
     display: inline-block;
   }
@@ -501,7 +307,7 @@ body.compact {
   }
 
   &.active {
-    background-color: #9ed485;
+    background-color: $vibrant-green;
   }
 
   .icon {
@@ -548,10 +354,13 @@ body.compact {
     float: left;
     width: $sidebarWidth;
     background: #fff;
-    font-size: 12px;
 
     #sidebar_loader {
       display: none;
+    }
+
+    #sidebar_content {
+      padding: $spacer;
     }
 
     > div {
@@ -562,13 +371,11 @@ body.compact {
     }
 
     h2 {
-      padding: $lineheight $lineheight $lineheight/2;
+      font-size: 1.5rem;
     }
 
     h3, h4 {
-      margin-top: $lineheight;
-      margin-bottom: $lineheight/2;
-      font-size: 13px;
+      font-size: 1.25rem;
     }
 
     .close-wrap {
@@ -584,23 +391,6 @@ body.compact {
         position: absolute;
         right: 20px;
         top: 20px;
-      }
-    }
-
-    .icon.close {
-      float: right;
-      cursor: pointer;
-    }
-
-    .flash {
-      padding: 15px;
-
-      picture {
-        margin-right: -25px;
-      }
-
-      div.message {
-        margin-left: 30px;
       }
     }
   }
@@ -630,25 +420,10 @@ body.compact {
 
   .welcome {
     display: none;
-    padding-bottom: 5px;
 
     p {
-      padding: $lineheight/2 $lineheight $lineheight;
       font-size: 110%;
       font-weight: 300;
-    }
-
-    .button {
-      width: 50%;
-      float: left;
-      margin: 0;
-      border-radius: 0;
-      font-weight: normal;
-      padding: .6em;
-
-      &.learn-more {
-        border-right: 1px solid #fff;
-      }
     }
   }
 
@@ -688,7 +463,7 @@ body.compact {
     overflow: auto;
 
     .section {
-      border-bottom: 1px solid #DDD;
+      border-bottom: 1px solid $grey;
       padding: 10px 20px;
     }
 
@@ -698,14 +473,14 @@ body.compact {
       font-size:20px;
       line-height:10px;
       color:#222;
-      border:1px solid #ddd;
+      border:1px solid $grey;
     }
 
     .tooltip {
       opacity: 1;
-      border: 1px solid #ccc;
+      border: 1px solid $grey;
       .tooltip-arrow {
-        border-top-color: #ccc;
+        border-top-color: $grey;
       }
     }
   }
@@ -764,7 +539,7 @@ body.compact {
       font-size: 13px;
       margin-bottom: 8px;
     }
-    li.disabled { color: #999; }
+    li.disabled { color: $darkgrey; }
   }
 }
 
@@ -868,7 +643,7 @@ body.compact {
   position: relative;
   padding: $lineheight/2 $lineheight;
   // background: $offwhite;
-  // border-bottom: 1px solid #ccc;
+  // border-bottom: 1px solid $grey;
   > .close {
     float: right;
     margin-top: 2px;
@@ -877,14 +652,14 @@ body.compact {
 }
 
 #browse_status {
-  p {
-    padding: $lineheight;
-  }
-
   input {
     display: block;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  > div {
+   padding: $spacer;
   }
 }
 
@@ -895,12 +670,19 @@ body.compact {
     margin: $lineheight auto;
   }
 
-  .loader,
-  .load_more {
+  .loader {
     text-align: center;
     margin: auto;
     width: 40px;
     display: block;
+  }
+}
+
+/* Temporary label size override until we remove site-wide font customisation */
+
+form {
+  label {
+    font-size: 16px;
   }
 }
 
@@ -911,117 +693,6 @@ header .search_forms,
   display: none;
 }
 
-.search_form,
-.directions_form {
-  position: relative;
-  padding: $lineheight/2;
-  background-color: $lightgrey;
-
-  .query_wrapper {
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px 0 0 2px;
-  }
-
-  input[type=text] {
-    width: 100%;
-    height: 30px;
-    transition: 300ms linear;
-  }
-
-  input[type=text].overflow {
-    border-right: none;
-  }
-
-  input:focus {
-    outline: none;
-    box-shadow: 0px 0px 7px #9ED485;
-  }
-
-  input[type=submit].float {
-    float: right;
-    width: auto;
-    min-width: 0;
-    border-radius: 0 2px 2px 0;
-  }
-
-  input.error {
-    background-color: rgba($red, 0.4);
-  }
-
-  select {
-    /* this next line is to polyfill the vertical alignment of text within a select element,
-     * which is different between firefox and chrome. */
-    padding: 0.3em 0;
-  }
-
-  .query_options {
-    text-align: right;
-    font-size: 10px;
-    color: $blue;
-  }
-
-  .describe_location {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    font-size: 10px;
-    color: $blue;
-  }
-
-  .switch_link {
-    float: right;
-    width: auto;
-    min-width: 0;
-    margin-left: 6px;
-  }
-
-  img.button {
-    display: block;
-    width: 20px;
-    height: 20px;
-  }
-
-  span.force_width {
-    width: 100%;
-    padding-right: 25px;
-    display: block;
-  }
-
-  select.routing_engines {
-    min-height: 30px;
-    margin: 0px 0px 5px 25px;
-  }
-
-  input.routing_go {
-    min-width: 100px;
-    float: right;
-  }
-
-  div.header {
-    width: 100%;
-    height: 30px;
-  }
-
-  div.line {
-    width: 100%;
-    margin: 0px 0px 5px 0px;
-  }
-
-  div.loader_copy {
-    display: none;
-
-    img {
-      vertical-align: middle;
-    }
-  }
-
-  a.reverse_directions {
-    cursor: pointer;
-    margin: 0px 0px 5px 25px;
-  }
-}
-
 /* Rules for the map key which appears in the popout sidebar */
 
 #mapkey {
@@ -1030,18 +701,13 @@ header .search_forms,
     margin-left: auto;
     margin-right: auto;
   }
-  td {
-    padding: 0 $lineheight/4 $lineheight/4 $lineheight/4;
-  }
 }
 
 /* Rules for search sidebar */
 
 #sidebar .search_results_entry {
   ul li {
-    border-bottom: $keyline;
     cursor: pointer;
-    &:first-child { border-top: $keyline; }
     &.selected { background: $list-highlight; }
   }
 
@@ -1058,12 +724,6 @@ header .search_forms,
 
 /* Rules for routing */
 
-#sidebar_content>table {
-    padding: 5px 20px 10px 15px;
-    width: 100%;
-    border-collapse: separate;
-}
-
 div.direction {
   background-image: image-url('routing-sprite.png');
   width: 20px;
@@ -1074,17 +734,13 @@ div.direction {
 div.direction.i#{$i} { background-position: #{($i)*-20}px 0px; }
 }
 
-p#routing_summary {
-    padding: 0 $lineheight $lineheight/4;
-}
-
 td.instruction, td.distance {
     padding-top: $lineheight/5;
     padding-bottom: $lineheight/5;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid $grey;
 }
 td.distance {
-    color: #BBB;
+    color: $darkgrey;
     text-align: right;
     font-size: x-small;
 }
@@ -1094,8 +750,8 @@ tr.turn {
 tr.turn:hover {
     background: $list-highlight;
 }
-.routing_engines, #route_from, #route_to { margin-left: 25px; }
-.routing_marker { width: 15px; position: absolute; cursor: move; }
+
+.routing_marker { width: 15px; cursor: move; }
 
 /* Rules for entity history */
 
@@ -1114,24 +770,14 @@ tr.turn:hover {
 
 #sidebar .changesets {
   li {
-    padding: 15px 20px;
-    border-bottom: 1px solid #ddd;
     cursor: pointer;
 
     &.selected { background: $list-highlight; }
     /* color is derived from changeset bbox fillColor in history.js */
   }
 
-  h4 {
-    margin: 0;
-    a {
-      color: #000;
-    }
-  }
-
   .comments {
-    float: right;
-    color: #999;
+    color: $darkgrey;
   }
 
   .comments-0 {
@@ -1148,11 +794,11 @@ tr.turn:hover {
 
 #sidebar_content {
   .browse-section {
-    padding: $lineheight/2 $lineheight;
-    border-bottom: 1px solid #ddd;
+    padding-bottom: $spacer;
+    margin-bottom: $spacer;
+    border-bottom: 1px solid $grey;
 
     h4:first-child {
-      margin-top: 0;
       word-wrap: break-word;
     }
   }
@@ -1161,48 +807,16 @@ tr.turn:hover {
     border-bottom: none;
   }
 
-  .paginate {
-    float: right;
-    padding: 1px 6px;
-    border: 1px solid #eee;
-    border-radius: 3px;
-  }
-
-  .paginate ul {
-    padding-left: 20px;
-  }
-
-  .browse-field {
-    margin-bottom: 10px;
-
-    h4 {
-      padding: 5px 0 5px 10px;
-      font-size: 12px;
-      border: 1px solid #CCC;
-      border-radius: 4px 4px 0 0;
-      background-color: #F6F6F6;
-    }
-
-    p {
-      padding: 7px 10px;
-      font-size: 12px;
-      background-color: #FFF;
-      border: 1px solid #CCC;
-      border-top: 0;
-      border-radius: 0 0 4px 4px;
-    }
-  }
-
   .browse-tag-list {
-    background-color: #F6F6F6;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    font-size: 12px;
+    background-color: $offwhite;
     table-layout: fixed;
     border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin-bottom: $spacer;
 
     th, td {
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid $grey;
     }
 
     tr:last-child th, tr:last-child td {
@@ -1219,18 +833,22 @@ tr.turn:hover {
 
     .browse-tag-k {
       font-weight: 500;
-      background-color: #F6F6F6;
+      background-color: $offwhite;
     }
 
     .browse-tag-v {
-      border-left: 1px solid #ddd;
+      border-left: 1px solid $grey;
       background-color: #fff;
     }
-  }
 
-  .warning {
-    margin: 0 0 $lineheight/2 0;
-    padding: 0 $lineheight/2;
+    .colour-preview-box {
+      float: right;
+      width: 14px;
+      height: 14px;
+      margin: 4px 0px;
+      border: 1px solid rgba(0, 0, 0, .1);
+      // add color via inline css on element: background-color: <tag value>;
+    }
   }
 
   .note-comments li, .changeset-comments li {
@@ -1240,16 +858,6 @@ tr.turn:hover {
       margin: 10px 6px 0 6px;
       line-height: 1.5;
     }
-  }
-
-  .comments-header {
-    float: left;
-  }
-
-  .subscribe-buttons {
-    float: left;
-    margin: 18px 10px 10px;
-    min-width: 80px;
   }
 
   .subscribe-buttons input {
@@ -1268,23 +876,11 @@ tr.turn:hover {
     margin: 0 0 10px 10px;
   }
 
-  .query-intro p {
-    padding: $lineheight $lineheight $lineheight/2;
-  }
-
   .query-results {
     display: none;
 
-    h3 {
-      padding: $lineheight $lineheight $lineheight/2;
-      margin: 0;
-    }
-
     ul {
       li {
-        padding: 15px 20px;
-        border-bottom: 1px solid #ddd;
-
         &.query-result {
           cursor: pointer;
         }
@@ -1297,29 +893,34 @@ tr.turn:hover {
   }
 }
 
+/* Bootstrap buttons don't have any vertical margin, so
+   they touch when adjacent buttons wrap onto a new line
+   e.g. wide form buttons on a narrow sidebar */
+
+.btn-wrapper {
+  > .btn {
+    margin-bottom: $spacer * 0.25;
+  }
+}
+
 /* Rules for export sidebar */
 
 .export_form {
-  padding: $lineheight;
-
   .export_area_inputs,
   .export_button {
     text-align: center;
   }
 
   .export_area_inputs {
-    margin-bottom: $lineheight/2;
+    margin-bottom: $spacer;
     input[type="text"] {
-      width: 80px;
+      width: 100px;
       text-align: center;
-      margin-bottom: 5px;
     }
   }
 
   .export_boxy {
-    background: #eee;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    background: $lightgrey;
 
     #maxlat { margin-top: -1px; }
     #minlon {
@@ -1330,16 +931,11 @@ tr.turn:hover {
       float: right;
       /* no-r2 */ margin-right: -1px;
     }
-    #minlat { margin-bottom: 0; }
+    #minlat { margin-bottom: -1px; }
   }
 
   .export_bound {
     margin: $lineheight/4;
-  }
-
-  .export_button {
-    margin-top: $lineheight;
-    margin-bottom: $lineheight;
   }
 
   dl {
@@ -1348,15 +944,6 @@ tr.turn:hover {
       margin-left: 0;
       margin-bottom: 10px;
     }
-  }
-}
-
-/* Rules for the routing sidebar */
-
-#sidebar_content {
-  #routing_credit {
-    text-align: center;
-    padding: 0.5em;
   }
 }
 
@@ -1380,56 +967,22 @@ tr.turn:hover {
 
 .content-heading {
   background: $lightgrey;
-
-  h1 { font-size: 22px; }
-}
-
-.content-body {
-  h1, h2, h3, p, ul, ol {
-    margin-bottom: $lineheight;
-  }
-
-  h1, h2, h3 {
-    margin-top: $lineheight/2;
-  }
 }
 
 .content-inner {
   position: relative;
-  max-width: 900px;
+  max-width: 960px;
   margin: auto;
   padding: $lineheight;
 }
 
 /* Overrides for pages that use new layout conventions */
 
-.users-new,
-.users-create,
-.users-terms {
-  .content-body .content-inner {
-    padding: 0;
-
-    .message {
-      margin-top: 80px;
-      padding: 20px;
-    }
-  }
-}
-
-.users-new,
-.users-create,
-.users-terms,
-.users-confirm {
-  .content-heading .content-inner {
-    height: 200px;
-  }
-}
-
 .header-illustration {
   background-position: 0 0;
   background-repeat: no-repeat;
-  position: absolute;
-  height: 200px;
+  position: relative;
+  min-height: 200px;
   width: 100%;
   left: 0;
   bottom: 0;
@@ -1449,11 +1002,17 @@ tr.turn:hover {
   &.new-user-arm {
     height: 110px;
     width: 130px;
-    left: 260px;
-    top: 160px;
+    left: 280px;
+    top: 180px;
     background-image: image-url("sign-up-illustration-arm.png");
+    position: absolute;
     z-index: 100;
+    pointer-events: none;
   }
+}
+
+[dir=rtl] .header-illustration {
+  transform: scaleX(-1);
 }
 
 #content.maximised {
@@ -1468,144 +1027,13 @@ tr.turn:hover {
 /* Rules for small maps in content areas */
 
 .content_map {
-  position: relative;
-  width: 45%;
-  height: 400px;
-  border: 1px solid #ccc;
+  height: 200px;
   margin-bottom: $lineheight;
-  float: right;
 }
 
-/* Rules for the trace list shown by the traces tab etc */
-
-#trace_list {
-  font-size: $lineheight/2;
-  border-width: 0px;
-  text-align: right;
-
-  .trace_summary {
-    font-size: 12px;
-    color: gray;
-  }
-
-  .trace_pending {
-    color: red;
-  }
-
-  .trace_public {
-    color: green;
-  }
-
-  .trace_identifiable {
-    color: green;
-  }
-
-  .trace_trackable {
-    color: red;
-  }
-
-  .trace_private {
-    color: red;
-  }
-}
-
-/* Rules for the trace view */
-
-.trace-show {
-  .trace_pending {
-    color: red;
-  }
-
-  .geo {
-    display: inline;
-  }
-}
-
-/* Rules for the new trace form */
-
-#new_trace {
-  input[type=text] {
-    width: 50%;
-    width: calc(100% - 150px);
-    max-width: 500px;
-  }
-}
-
-/* Rules for the edit trace form */
-
-.edit_trace {
-  .form-row p {
-    margin-bottom: 0px;
-  }
-
-  input[type=text] {
-    width: 50%;
-    width: calc(100% - 150px);
-    max-width: 500px;
-  }
-}
-
-/* Rules for the user profile page */
-
-#userinformation {
-
-  min-height: 100px;
-  .userinformation-inner {
-    float: left;
-  }
-  h2 {
-    margin-top: 0;
-  }
-  .user-description {
-    width: 100%;
-    clear: both;
-  }
-  .deemphasize {
-    margin: 0;
-  }
-}
-
-.admin-user-info small {
-  margin-bottom: $lineheight/2;
-  display: inline;
-  margin-right: $lineheight;
-}
-
-.activity-block {
-  clear: left;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: $lineheight;
-  float: left;
-  h3 {
-    margin-bottom: $lineheight/2;
-  }
-}
-
-.contact-activity {
-  margin-top: $lineheight;
-  width: 100%;
-}
-
-.activity-details p {
-  margin-left: 70px;
-  margin-bottom: 0;
-}
-
-#friends-container .contact-activity ul {
-  margin-left: 70px;
-}
-
-.users-show {
-  // Silly exception; remove when user page is redesigned.
-  .content-inner {
-    max-width: none;
-  }
-  p#no_home_location {
-    margin: $lineheight;
-  }
-  .user_thumbnail {
-    margin-top: $lineheight/4;
-    float: left;
+@include media-breakpoint-up(md) {
+  .content_map {
+    height: 400px;
   }
 }
 
@@ -1625,92 +1053,49 @@ tr.turn:hover {
     margin-top: 0 0 0 60px;
     font-size: 12px;
   }
-  img.user_thumbnail {
-    float: left;
-    margin: 0 $lineheight/2 0 0;
-  }
 }
 
 /* Rules for the user list */
 
 #user_list {
-  font-size: $lineheight/2;
   width: 100%;
-
-  tr {
-    vertical-align: middle;
-  }
-
-  p {
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-}
-
-#user_list_actions {
-  float: right;
-  margin-top: $lineheight/2;
 }
 
 /* Rules for the diary list page */
 
 .diary_post {
   position: relative;
-  margin-top: $lineheight/2;
   padding-top: $lineheight;
-  border-top: 1px solid #ccc;
+  padding-bottom: $lineheight/2;
+  border-top: 1px solid $grey;
 
-  .post_heading {
-    margin-bottom: $lineheight;
-
-    h2 {
-      margin-top: 0;
-      margin-bottom: $lineheight/2;
-      font-size: 24px;
-    }
+  &.deleted {
+    background-color: #fee;
   }
-
-  img.user_thumbnail {
-    float: left;
-  }
-
-  small.deemphasize {
-    float: left;
-    display: block;
-  }
-}
-
-.pagination {
-  padding-top: $lineheight;
 }
 
 /* Rules for the diary entry page */
 
 .diary_entries {
   #map {
-    position: relative;
-    width: 90%;
     height: 400px;
-    border: 1px solid #ccc;
     display: none;
     margin-bottom: $lineheight;
-  }
-  #newcomment {
-    border-top: 1px solid #ccc;
-    padding-top: $lineheight;
-    margin-top: $lineheight/2;
   }
   .comments {
     max-width: 740px;
   }
   .diary-comment {
-    margin-top: $lineheight/2;
-    border-top: 1px dashed #ccc;
+    border-top: 1px dashed $grey;
     padding-top: $lineheight/2;
+    padding-bottom: $lineheight/2;
     &:first-child {
-      margin-top: $lineheight;
+      margin-top: $lineheight/2;
       padding-top: $lineheight;
-      border-top: 1px solid #ccc;
+      border-top: 1px solid $grey;
+    }
+    &.deleted {
+      background-color: #fee;
     }
     p {
       margin-bottom: $lineheight/2;
@@ -1722,33 +1107,21 @@ tr.turn:hover {
   }
 }
 
-.diary_entries-show img.user_thumbnail {
-  float: left;
-}
-
-
-.diary-subscribe-buttons {
-  position:relative;
-  top: -30px;
-  left: 130px;
-}
-
 /* Rules for the log in page */
 
 #login_auth_buttons {
   margin-bottom: 0;
-}
 
-#login_auth_buttons li {
-  float: left;
-  padding: $lineheight/4 $lineheight/2;
+  li {
+    float: left;
+    padding: $lineheight/4 $lineheight/2;
+  }
 }
 
 /* Rules for the account confirmation page */
 
 .users-terms {
   .legale {
-    border: 1px solid #ccc;
     padding: $lineheight;
     margin-bottom: $lineheight;
     overflow: auto;
@@ -1762,23 +1135,9 @@ tr.turn:hover {
       list-style-type: lower-alpha;
     }
   }
-
-  #decline {
-    background: $lightblue;
-    &:hover {
-      background: darken($lightblue, $hovercolor);
-    }
-  }
 }
 
 /* Rules for the account settings page */
-
-#accountForm .user_map {
-  position: relative;
-  width: 500px;
-  height: 400px;
-  border: 1px solid #ccc;
-}
 
 #accountForm .user_image {
   margin-bottom: 0;
@@ -1804,11 +1163,6 @@ tr.turn:hover {
   display: inline !important;
 }
 
-.content_map.settings_map {
-  width: 50%;
-  float: none;
-}
-
 /* Rules for the oauth settings page */
 
 .oauth_clients .buttons .oauth-edit {
@@ -1828,42 +1182,21 @@ tr.turn:hover {
 /* Rules for messages pages */
 
 .messages {
-  width: 100%;
-  border: 1px solid #ddd;
-
-  input[type="submit"] {
+  button[type="submit"] {
     margin: auto;
-  }
-  tbody tr {
-    border-top: 1px solid #ccc;
+    white-space: nowrap;
   }
 
   .inbox-row {
-    background: #f8f8ff;
+    background: $offwhite;
   }
 
   .inbox-row-unread {
-    background:#CBEEA7;
+    background: #CBEEA7;
   }
 
   .right {
     float: right;
-  }
-
-  tr td,
-  tr th {
-    padding: $lineheight/4;
-  }
-  p:last-child,
-  h2:last-child,
-  h3:last-child,
-  ol:last-child,
-  ul:last-child {
-    margin-bottom:0;
-  }
-  tr td {
-    height: 30px;
-    border-right: 1px solid $lightgrey;
   }
 }
 
@@ -1874,7 +1207,7 @@ tr.turn:hover {
 .info-line {
   margin-bottom: $lineheight;
   padding: $lineheight/4 0px 4px 0px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $grey;
 
   form, form div {
     display: inline;
@@ -1899,22 +1232,9 @@ tr.turn:hover {
   display: none;
 }
 
-.messages-show .message-buttons {
-  margin-top: $lineheight;
-  margin-bottom: $lineheight * 1.5;
-  padding-top: $lineheight;
-  border-top: 1px solid $lightgrey;
-}
-
-.messages-show .buttons .mark-unread-button {
-  border-radius: 0;
-}
-
 /* Rules for "flash" notice boxes shown at the top of the content area */
 
 .flash {
-  padding: $lineheight;
-
   &.error {
     background-color: #ff7070;
   }
@@ -1925,25 +1245,6 @@ tr.turn:hover {
 
   &.notice {
     background-color: #CBEEA7;
-  }
-
-  div.message {
-    display: inline-block;
-    margin-left: $lineheight / 2;
-    vertical-align: middle;
-
-    p {
-      margin-top: $lineheight * 0.5;
-      margin-bottom: $lineheight * 0.5;
-
-      &:first-child {
-        margin-top: 0px;
-      }
-
-      &:last-child {
-        margin-bottom: 0px;
-      }
-    }
   }
 }
 
@@ -1983,99 +1284,33 @@ tr.turn:hover {
     margin-bottom: 0px;
     padding: $lineheight/4;
   }
+}
 
-  ul {
-    padding-left: $lineheight;
+.search_form {
+  background-color: $lightgrey;
 
-    li {
-      font-size: 12px;
-      list-style: disc;
+  .describe_location {
+    top: 6px;
+    right: 6px;
+    font-size: 10px;
+    color: $blue;
+  }
+}
+
+.directions_form {
+  background-color: $lightgrey;
+
+  .loader_copy {
+    display: none;
+
+    img {
+      vertical-align: middle;
     }
   }
-}
 
-/* Rules for forms */
-
-.standard-form {
-  fieldset {
-    margin-bottom: $lineheight;
+  a.reverse_directions {
+    cursor: pointer;
   }
-  label.standard-label {
-    display: block;
-    margin-bottom: $lineheight/4;
-    font-size: $typeheight;
-    font-weight: bold;
-    line-height: 1.5;
-  }
-  label.standard-label.secondary {
-    display: inline-block;
-    font-weight: normal;
-  }
-  .form-help {
-    font-weight: normal;
-  }
-  .form-column {
-    float: left;
-    margin-right: 20px;
-  }
-  .form-divider {
-    margin-top: $lineheight;
-    padding-top: $lineheight;
-    border-top: 1px solid $lightgrey;
-  }
-  .horizontal-list .form-row {
-    float: left;
-    padding-right: 10px;
-  }
-  .form-row {
-    margin-bottom: $lineheight/2;
-  }
-  .form-list {
-    margin-bottom: 0;
-  }
-  .form-list li {
-    margin-bottom: 5px;
-   }
-  input[type="checkbox"],
-  input[type="radio"] {
-    float: left;
-    margin-top: 5px;
-  }
-}
-
-#remember_me_openid {
-  display: block;
-}
-
-select {
-  padding: 2px;
-}
-
-input[type="checkbox"],
-input[type="radio"] {
-    margin-right: 5px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="url"],
-input[type="password"],
-textarea {
-  color: #222;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 2px 5px;
-  margin: 0;
-  width: 200px;
-
-  &.field_with_errors {
-    border: 2px solid #ff7070;
-  }
-}
-
-textarea {
-  padding: 5px;
-  width: 100%;
 }
 
 /* Rules for user images */
@@ -2083,17 +1318,11 @@ textarea {
 img.user_image {
   max-width: 100px;
   max-height: 100px;
-  border: 1px solid #ccc;
-  margin-bottom: $lineheight;
-  float: left;
-  margin-right: $lineheight;
 }
 
 img.user_thumbnail {
   max-width: 50px;
   max-height: 50px;
-  border: 1px solid #ccc;
-  margin-right: $lineheight;
 }
 
 img.user_thumbnail_tiny {
@@ -2101,7 +1330,6 @@ img.user_thumbnail_tiny {
   height: auto;
   max-width: 25px;
   max-height: 25px;
-  border: 1px solid #ccc;
 }
 
 /* Rules for geo microformats */
@@ -2110,36 +1338,30 @@ abbr.geo {
   border-bottom: none;
 }
 
-/* Rules for RSS buttons */
-
-.rsssmall {
-  position: relative;
-  top: 3px;
-}
-
 /* General styles for action lists / subnavs / pager navs */
 
-ul.secondary-actions {
-  font-style: normal;
-  margin-bottom: 0;
-  margin-left: 0;
-  &.pager {
-    display: inline-block;
-    margin-right: 60px;
-  }
-  > li {
-    display: block;
-    float: left;
-    list-style: none;
-    border-left: 1px solid #ccc;
-    padding-left: $lineheight/2;
-    margin-right: $lineheight/2;
-    &:first-child {
-      border-left: 0;
-      padding-left: 0;
+
+nav.secondary-actions {
+  margin-left: -11px;
+  overflow: hidden;
+  > ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+    &.pager {
+      display: inline-block;
+      margin-right: 60px;
     }
-    &:last-child {
-      margin-right: 0px;
+    > li {
+      flex-basis: auto;
+      list-style: none;
+      border-left: 1px solid $grey;
+      padding-left: $lineheight/2;
+      margin-right: $lineheight/2;
+      margin-bottom: $lineheight/8;
     }
   }
 }
@@ -2147,66 +1369,6 @@ ul.secondary-actions {
 div.secondary-actions {
   padding: 10px;
   text-align: center;
-}
-
-/* Utility for managing inner content areas */
-
-.inner22 { padding: $lineheight;}
-
-.inner12 { padding: $lineheight/2 $lineheight;}
-
-.inner11 { padding: $lineheight/2;}
-
-.inner20 { padding: $lineheight 0;}
-
-.inner02 { padding: 0 $lineheight;}
-
-/* Utility for general button styles */
-
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
-a.button {
-  cursor: pointer;
-  border: 0;
-  display: inline-block;
-  padding: $lineheight/4 $lineheight/2;
-  min-height: 20px + $lineheight/2;
-  min-width: 120px;
-  margin: 0 0 $lineheight/2 0;
-  color: white;
-  background: $blue;
-  text-align: center;
-  border-radius: 2px;
-  &:hover {
-    background: darken($blue, $hovercolor);
-    text-decoration: none;
-  }
-  &.deemphasize {
-    background: $lightblue;
-    &:hover {
-      background: darken($lightblue, $hovercolor);
-    }
-  }
-  &:disabled {
-    background: $lightgrey;
-    &:hover {
-      background: $lightgrey;
-    }
-  }
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-input[type="button"],
-input[type="submit"],
-input[type="reset"] {
-  line-height: normal;
-}
-
-a.button {
-  line-height: 20px;
 }
 
 .buttons {
@@ -2263,16 +1425,22 @@ a.button {
   }
 }
 
-/* Rules for doing distinct colour of alternate table rows */
+/* Create a single-line dl */
 
-.table0,
-.item0 {
-  background: $offwhite;
+dl.dl-inline {
+  dt, dd {
+    display: inline-block;
+  }
+  dd {
+    margin-right: 1em;
+  }
 }
 
-.table1,
-.item1 {
-  background: #fff;
+/* Customise the background colour of striped tables */
+
+.table-striped > tbody > tr:nth-child(2n+1) > td,
+.table-striped > tbody > tr:nth-child(2n+1) > th {
+   background-color: $offwhite;
 }
 
 /* Rules for OpenID logo */
@@ -2286,33 +1454,15 @@ a.button {
 
 .richtext,
 .prose {
-  h1, h2 {
-    padding-bottom: $lineheight/2;
-    border-bottom: 1px dashed #cccccc;
-    margin-bottom: $lineheight/2;
-  }
-
-  h1 {
-    font-size: 24px;
-  }
-
-  h2 {
-    font-size: 18px;
-  }
-
-  h3 {
-    font-size: $typeheight;
-  }
-
   code {
     font-size: 13px;
-    background: #e8e8e8;
+    background: $lightgrey;
     padding: 2px 3px;
   }
 
   pre {
     font-size: 13px;
-    background: #e8e8e8;
+    background: $lightgrey;
     padding: 2px 3px;
     white-space: pre-wrap;
 
@@ -2333,110 +1483,7 @@ a.button {
     border-left: $lineheight solid $offwhite;
     padding-left: $lineheight;
     margin: 0;
-    color: #7E7E7E;
-  }
-
-  ul, ol {
-    padding-left: $lineheight;
-    margin-bottom: $lineheight;
-    margin-left: $lineheight;
-  }
-
-  ul > li {
-    list-style: disc;
-  }
-
-  ol > li {
-    list-style: decimal;
-  }
-}
-
-.diary_post .richtext {
-    margin-top: $lineheight;
-  }
-
-.comments .richtext {
-  margin-left: 70px;
-  margin-top: 0;
-}
-
-/* Rules for rich text editors */
-
-input.richtext_title[type="text"] {
-  width: 50%;
-  width: calc(100% - 235px);
-
-  @media only screen and (max-width:768px) {
-    width: 100%;
-  }
-}
-
-.richtext_container {
-  margin-bottom: $lineheight;
-
-  .richtext_content {
-    width: 50%;
-    width: calc(100% - 235px);
-    display: inline-block;
-    vertical-align: top;
-
-    @media only screen and (max-width:768px) {
-      width: 100%;
-    }
-
-    .richtext_preview {
-      display: inline-block;
-      padding: $lineheight;
-      background-color: $offwhite;
-      overflow-x: auto;
-
-      &.loading {
-        background-image: image-url("loading.gif");
-        background-repeat: no-repeat;
-        background-position: center;
-      }
-
-      > :first-child {
-        margin-top: 0px;
-      }
-    }
-  }
-
-  .richtext_help {
-    display: inline-block;
-    vertical-align: top;
-    margin-left: 15px;
-    background-color: #f8f8ff;
-    padding: $lineheight/2;
-    width: 220px;
-
-    ul {
-      margin-bottom: 0;
-    }
-
-    h4.heading, li {
-      border-bottom: 1px solid #ccc;
-      margin-bottom: $lineheight/4;
-      padding-bottom: $lineheight/4;
-    }
-
-    li h4, li span, li p {
-      display: inline-block;
-      vertical-align: top;
-      font-size: 11px;
-    }
-
-    li h4 {
-      width: 40%;
-      margin: 0;
-    }
-
-    li span, li p {
-      width: 50%;
-      margin-left: $lineheight/2;
-      margin-bottom: $lineheight/4;
-      white-space: nowrap;
-    }
+    color: $darkgrey;
   }
 }
 
@@ -2444,15 +1491,7 @@ input.richtext_title[type="text"] {
 
 .note_list {
   tr.creator {
-    background-color: #eeeeee;
-  }
-
-  td {
-    padding: 3px;
-  }
-
-  p {
-    margin-bottom: 0px;
+    background-color: $offwhite;
   }
 }
 
@@ -2461,131 +1500,6 @@ input.richtext_title[type="text"] {
 .id-embed {
   width: 100%;
   height: 100%;
-}
-
-/* Rules for dropdown menus */
-
-.dropdown {
-  position: relative;
-}
-
-.dropdown-toggle {
-  *margin-bottom: -3px;
-}
-
-.dropdown-toggle:active,
-.open .dropdown-toggle {
-  outline: 0;
-}
-
-.caret {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  vertical-align: top;
-  border-top: 4px solid #000000;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
-  content: "";
-}
-
-.dropdown .caret {
-  margin-top: 8px;
-  margin-left: 2px;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: -1px;
-  z-index: 1000;
-  display: none;
-  float: left;
-  min-width: 160px;
-  padding: 5px 0;
-  margin: 0;
-  list-style: none;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 0 3px 3px;
-  *border-right-width: 2px;
-  *border-bottom-width: 2px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  background-clip: padding-box;
-}
-
-.dropdown-menu.pull-right {
-  right: 0;
-  left: auto;
-}
-
-.dropdown-menu .divider {
-  *width: 100%;
-  height: 1px;
-  margin: 9px 1px;
-  *margin: -5px 0 5px;
-  overflow: hidden;
-  background-color: #e5e5e5;
-  border-bottom: 1px solid #ffffff;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 10px;
-  clear: both;
-  font-weight: normal;
-  line-height: 20px;
-  color: #333333;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus,
-.dropdown-submenu:hover > a,
-.dropdown-submenu:focus > a {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: $green;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: $green;
-  outline: 0;
-}
-
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #999999;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: default;
-  background-color: transparent;
-  background-image: none;
-}
-
-.open {
-  *z-index: 1000;
-}
-
-.open > .dropdown-menu {
-  display: block;
-}
-
-.dropdown-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 990;
 }
 
 /* Rules for the "Welcome" page */
@@ -2620,7 +1534,7 @@ input.richtext_title[type="text"] {
   }
 
   .sprite.x {
-    background-position: -50px 0;
+    /* no-r2 */ background-position: -50px 0;
   }
 
   .sprite.term {
@@ -2629,27 +1543,27 @@ input.richtext_title[type="text"] {
   }
 
   .sprite.node {
-    background-position: -100px 0;
+    /* no-r2 */ background-position: -100px 0;
   }
 
   .sprite.way {
-    background-position: -150px 0;
+    /* no-r2 */ background-position: -150px 0;
   }
 
   .sprite.tag {
-    background-position: -200px 0;
+    /* no-r2 */ background-position: -200px 0;
   }
 
   .sprite.editor {
-    background-position: -250px 0;
+    /* no-r2 */ background-position: -250px 0;
   }
 
   .sprite.question {
-    background-position: -300px 0;
+    /* no-r2 */ background-position: -300px 0;
   }
 
   .sprite.rules {
-    background-position: -350px 0;
+    /* no-r2 */ background-position: -350px 0;
   }
 
   .start-mapping {
@@ -2661,11 +1575,6 @@ input.richtext_title[type="text"] {
     text-decoration: none;
   }
 
-  .note-box {
-    margin-top: 20px;
-    background-color: $offwhite;
-  }
-
   .icon.note {
     background-color: #333;
     border-radius: 4px;
@@ -2673,100 +1582,35 @@ input.richtext_title[type="text"] {
 }
 
 .site-about #content {
-  //background-color: #000;
-  background-color: #eee;
+  background-color: $lightgrey;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
 
-  .caption {
-    max-width: 200px;
-    font: 13px/20px Helvetica, Arial, sans-serif;
-    position: fixed;
-    text-align: right;
-    right: 20px;
-    bottom: 60px;
-    text-shadow: #000 0px 1px 5px;
-    color: #eee;
-    opacity: 0.8;
-    display: none;
-  }
-
-  .caption a {
-    color: white;
-    white-space: nowrap;
-    text-decoration: none;
-  }
-
-  a.next {
-    display: block;
-    position: fixed;
-    right: 10px;
-    bottom: 10px;
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    text-indent: -9999px;
-    overflow: hidden;
-    background: image-url('about/sprite.png') -120px 0px no-repeat;
-    background-color: #000;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-
   .content-inner {
-    position: relative;
-    color: #333;
-    min-width: 320px;
-    max-width: 640px;
-
-    .section {
-      margin-bottom: 30px;
-    }
-
-    .section:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  .text {
-    background: white;
-    padding: 40px;
+    max-width: 760px;
   }
 
   .attr {
-    position: relative;
-    padding: 170px 40px 20px;
-    background: #333;
-    background: rgba(0, 0, 0, .8);
-    margin-bottom: 0;
     margin-top: -20px;
 
     h1 {
-      display: block;
-      color: white;
-      font-weight: 300;
-      font-size: 34px;
       span {
-        color: #76c551;
+        color: $vibrant-green;
       }
     }
 
     .user-image {
-      position: absolute;
-      top: 0px;
-      right: 240px;
-      left: 0px;
       height: 150px;
       background-position: 0 50%;
       background-repeat: no-repeat;
       background-image: image-url('about/osm.png');
       background-size: cover;
-      background-color: #76c551;
+      background-color: $vibrant-green;
     }
 
     .byosm {
-      position: absolute;
       top: 0px;
       right: 0px;
       z-index: 1;
@@ -2781,13 +1625,9 @@ input.richtext_title[type="text"] {
 
     .byosm span {
       display: inline-block;
-      width: 20px;
-      margin-left: -20px;
+      width: 1em;
+      margin-left: -1em;
     }
-  }
-
-  h2 {
-    margin-bottom: 10px;
   }
 
   .icon {
@@ -2829,61 +1669,5 @@ input.richtext_title[type="text"] {
 @media only screen and (max-width:960px) {
   .header-illustration.new-user-arm {
     display: none;
-  }
-}
-
-.read-reports {
-  background: #eee;
-  opacity: 0.7;
-}
-
-.report-related-block {
-  display:inline-block;
-}
-
-.report-block {
-  width:475px;
-  float:left;
-  margin-right:100px;
-}
-
-.related-reports {
-  width: 280px;
-  float: right;
-
-  ul {
-    padding-left: $lineheight;
-    margin-bottom: 0;
-
-    li {
-      list-style: disc;
-    }
-  }
-}
-
-.issue-comments {
-  width:475px;
-}
-
-.issues-list {
-  td:nth-child(2) {
-    white-space: nowrap;
-  }
-}
-
-.report-disclaimer {
-  background: #fff1f0;
-  color: #d85030;
-  border-color: rgba(216, 80, 48, 0.3);
-  padding: 10px 20px;
-  margin-bottom: $lineheight;
-
-  ul {
-    padding-left: $lineheight;
-    margin-bottom: 0;
-
-    li {
-      list-style: disc;
-    }
   }
 }

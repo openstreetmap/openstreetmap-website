@@ -1,4 +1,4 @@
-//= require leaflet.locate
+//= require leaflet.locatecontrol/src/L.Control.Locate
 
 $(document).ready(function () {
   if ($("#map").length) {
@@ -7,30 +7,32 @@ $(document).ready(function () {
       zoomControl: false
     }).addLayer(new L.OSM.Mapnik());
 
-    var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
+    var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
-    L.OSM.zoom({position: position})
+    L.OSM.zoom({ position: position })
       .addTo(map);
 
     var locate = L.control.locate({
       position: position,
-      icon: 'icon geolocate',
-      iconLoading: 'icon geolocate',
+      icon: "icon geolocate",
+      iconLoading: "icon geolocate",
       strings: {
-        title: I18n.t('javascripts.map.locate.title'),
-        popup: I18n.t('javascripts.map.locate.popup')
+        title: I18n.t("javascripts.map.locate.title"),
+        popup: function (options) {
+          return I18n.t("javascripts.map.locate." + options.unit + "Popup", { count: options.distance });
+        }
       }
     }).addTo(map);
 
     var locateContainer = locate.getContainer();
 
     $(locateContainer)
-      .removeClass('leaflet-control-locate leaflet-bar')
-      .addClass('control-locate')
+      .removeClass("leaflet-control-locate leaflet-bar")
+      .addClass("control-locate")
       .children("a")
-      .attr('href', '#')
-      .removeClass('leaflet-bar-part leaflet-bar-part-single')
-      .addClass('control-button');
+      .attr("href", "#")
+      .removeClass("leaflet-bar-part leaflet-bar-part-single")
+      .addClass("control-button");
 
     if (OSM.home) {
       map.setView([OSM.home.lat, OSM.home.lon], 12);
@@ -39,7 +41,7 @@ $(document).ready(function () {
     }
 
     if ($("#map").hasClass("set_location")) {
-      var marker = L.marker([0, 0], {icon: OSM.getUserIcon()});
+      var marker = L.marker([0, 0], { icon: OSM.getUserIcon() });
 
       if (OSM.home) {
         marker.setLatLng([OSM.home.lat, OSM.home.lon]);
@@ -47,14 +49,14 @@ $(document).ready(function () {
       }
 
       map.on("click", function (e) {
-        if ($('#updatehome').is(':checked')) {
+        if ($("#updatehome").is(":checked")) {
           var zoom = map.getZoom(),
               precision = OSM.zoomPrecision(zoom),
               location = e.latlng.wrap();
 
-          $('#homerow').removeClass();
-          $('#home_lat').val(location.lat.toFixed(precision));
-          $('#home_lon').val(location.lng.toFixed(precision));
+          $("#homerow").removeClass();
+          $("#home_lat").val(location.lat.toFixed(precision));
+          $("#home_lon").val(location.lng.toFixed(precision));
 
           marker.setLatLng(e.latlng);
           marker.addTo(map);
@@ -62,9 +64,9 @@ $(document).ready(function () {
       });
     } else {
       $("[data-user]").each(function () {
-        var user = $(this).data('user');
+        var user = $(this).data("user");
         if (user.lon && user.lat) {
-          L.marker([user.lat, user.lon], {icon: OSM.getUserIcon(user.icon)}).addTo(map)
+          L.marker([user.lat, user.lon], { icon: OSM.getUserIcon(user.icon) }).addTo(map)
             .bindPopup(user.description);
         }
       });
@@ -85,8 +87,8 @@ $(document).ready(function () {
 
   $("select#user_auth_provider").on("change", updateAuthUID);
 
-  $("input#user_image").on("change", function () {
-    $("#image_action_new").prop("checked", true);
+  $("input#user_avatar").on("change", function () {
+    $("#user_avatar_action_new").prop("checked", true);
   });
 
   function enableAuth() {
@@ -123,5 +125,13 @@ $(document).ready(function () {
 
     $("#contributorTerms").html("<img src='" + OSM.SEARCHING + "' />");
     $("#contributorTerms").load(url);
+  });
+
+  $("#read_ct").on("click", function () {
+    $("#continue").prop("disabled", !($(this).prop("checked") && $("#read_tou").prop("checked")));
+  });
+
+  $("#read_tou").on("click", function () {
+    $("#continue").prop("disabled", !($(this).prop("checked") && $("#read_ct").prop("checked")));
   });
 });

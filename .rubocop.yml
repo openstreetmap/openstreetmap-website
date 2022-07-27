@@ -1,7 +1,16 @@
 inherit_from: .rubocop_todo.yml
 
+require:
+  - rubocop-minitest
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rake
+
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
 
 Rails:
   Enabled: true
@@ -15,16 +24,23 @@ Lint/PercentStringArray:
     - 'app/controllers/application_controller.rb'
     - 'app/controllers/site_controller.rb'
 
+Metrics/BlockLength:
+  Exclude:
+    - 'config/routes.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*'
+
+Metrics/ModuleLength:
+  Max: 150
+
 Naming/FileName:
   Exclude:
     - 'script/deliver-message'
-    - 'script/locale/reload-languages'
     - 'script/update-spam-blocks'
 
-Naming/UncommunicativeMethodParamName:
-  Enabled: false
-
-Rails/ApplicationRecord:
+Naming/MethodParameterName:
   Enabled: false
 
 Rails/CreateTableWithTimestamps:
@@ -39,7 +55,7 @@ Rails/HasManyOrHasOneDependent:
 Rails/HttpPositionalArguments:
   Enabled: false
 
-Rails/InverseOf:
+Rails/ReflectionClassName:
   Enabled: false
 
 Rails/SkipsModelValidations:
@@ -47,11 +63,12 @@ Rails/SkipsModelValidations:
     - 'db/migrate/*.rb'
     - 'app/controllers/users_controller.rb'
 
-Style/BracesAroundHashParameters:
-  EnforcedStyle: context_dependent
+Style/Documentation:
+  Enabled: false
 
 Style/FormatStringToken:
-  EnforcedStyle: template
+  Exclude:
+    - 'config/routes.rb'
 
 Style/IfInsideElse:
   Enabled: false
@@ -59,11 +76,20 @@ Style/IfInsideElse:
 Style/GuardClause:
   Enabled: false
 
+Style/HashEachMethods:
+  Enabled: true
+
 Style/HashSyntax:
   EnforcedStyle: hash_rockets
   Exclude:
     - 'lib/tasks/testing.rake'
     - 'config/initializers/wrap_parameters.rb'
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 Style/MixinUsage:
   Exclude:

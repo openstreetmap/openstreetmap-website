@@ -1,0 +1,23 @@
+<tr>
+  <td class="align-middle">
+    <ul class="list-unstyled mb-0">
+      <li><%= link_to application.name, oauth_application_path(application) %></li>
+      <% application.redirect_uri.split.each do |uri| -%>
+        <li class="text-muted"><%= uri %></li>
+      <% end -%>
+    </ul>
+  </td>
+  <td class="align-middle">
+    <ul class="list-unstyled mb-0">
+      <% application.scopes.each do |scope| -%>
+        <li><%= t "oauth.scopes.#{scope}" %> <code class="text-muted">(<%= scope %>)</code></li>
+      <% end -%>
+    </ul>
+  </td>
+  <td class="align-middle">
+    <%= link_to t(".edit"), edit_oauth_application_path(application), :class => "btn btn-outline-primary" %>
+  </td>
+  <td class="align-middle">
+    <%= link_to t(".delete"), oauth_application_path(application), { :method => :delete, :class => "btn btn-outline-danger", :data => { :confirm => t(".confirm_delete") } } %>
+  </td>
+</tr>

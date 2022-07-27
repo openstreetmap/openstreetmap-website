@@ -1,7 +1,11 @@
 class ApplicationController < ActionController::Base
+  require "timeout"
+
   include SessionPersistence
 
   protect_from_forgery :with => :exception
+
+  add_flash_types :warning, :error
 
   rescue_from CanCan::AccessDenied, :with => :deny_access
   check_authorization
@@ -9,14 +13,22 @@ class ApplicationController < ActionController::Base
   before_action :fetch_body
   around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
 
-  attr_accessor :current_user
+  attr_accessor :current_user, :oauth_token
+
   helper_method :current_user
+  helper_method :oauth_token
+
+  private
 
   def authorize_web
     if session[:user]
       self.current_user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
 
-      if current_user.status == "suspended"
+      if session[:fingerprint] &&
+         session[:fingerprint] != current_user.fingerprint
+        reset_session
+        self.current_user = nil
+      elsif current_user.status == "suspended"
         session.delete(:user)
         session_expires_automatically
 
@@ -35,8 +47,10 @@ class ApplicationController < ActionController::Base
     elsif session[:token]
       session[:user] = current_user.id if self.current_user = User.authenticate(:token => session[:token])
     end
-  rescue StandardError => ex
-    logger.info("Exception authorizing user: #{ex}")
+
+    session[:fingerprint] = current_user.fingerprint if current_user && session[:fingerprint].nil?
+  rescue StandardError => e
+    logger.info("Exception authorizing user: #{e}")
     reset_session
     self.current_user = nil
   end
@@ -44,7 +58,7 @@ class ApplicationController < ActionController::Base
   def require_user
     unless current_user
       if request.get?
-        redirect_to :controller => "users", :action => "login", :referer => request.fullpath
+        redirect_to login_path(:referer => request.fullpath)
       else
         head :forbidden
       end
@@ -52,7 +66,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_oauth
-    @oauth = current_user.access_token(OAUTH_KEY) if current_user && defined? OAUTH_KEY
+    @oauth_token = current_user.oauth_token(Settings.oauth_application) if current_user && Settings.key?(:oauth_application)
   end
 
   ##
@@ -61,7 +75,7 @@ class ApplicationController < ActionController::Base
     if request.cookies["_osm_session"].to_s == ""
       if params[:cookie_test].nil?
         session[:cookie_test] = true
-        redirect_to params.to_unsafe_h.merge(:cookie_test => "true")
+        redirect_to params.to_unsafe_h.merge(:only_path => true, :cookie_test => "true")
         false
       else
         flash.now[:warning] = t "application.require_cookies.cookies_needed"
@@ -71,62 +85,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  ##
-  # sets up the current_user for use by other methods. this is mostly called
-  # from the authorize method, but can be called elsewhere if authorisation
-  # is optional.
-  def setup_user_auth
-    # try and setup using OAuth
-    unless Authenticator.new(self, [:token]).allow?
-      username, passwd = get_auth_data # parse from headers
-      # authenticate per-scheme
-      self.current_user = if username.nil?
-                            nil # no authentication provided - perhaps first connect (client should retry after 401)
-                          elsif username == "token"
-                            User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
-                          else
-                            User.authenticate(:username => username, :password => passwd) # basic auth
-                          end
-    end
-
-    # have we identified the user?
-    if current_user
-      # check if the user has been banned
-      user_block = current_user.blocks.active.take
-      unless user_block.nil?
-        set_locale
-        if user_block.zero_hour?
-          report_error t("application.setup_user_auth.blocked_zero_hour"), :forbidden
-        else
-          report_error t("application.setup_user_auth.blocked"), :forbidden
-        end
-      end
-
-      # if the user hasn't seen the contributor terms then don't
-      # allow editing - they have to go to the web site and see
-      # (but can decline) the CTs to continue.
-      if !current_user.terms_seen && flash[:skip_terms].nil?
-        set_locale
-        report_error t("application.setup_user_auth.need_to_see_terms"), :forbidden
-      end
-    end
-  end
-
-  def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
-    # make the current_user object from any auth sources we have
-    setup_user_auth
-
-    # handle authenticate pass/fail
-    unless current_user
-      # no auth, the user does not exist or the password was wrong
-      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-      render :plain => errormessage, :status => :unauthorized
-      return false
-    end
-  end
-
-  def check_database_readable(need_api = false)
-    if STATUS == :database_offline || (need_api && STATUS == :api_offline)
+  def check_database_readable(need_api: false)
+    if Settings.status == "database_offline" || (need_api && Settings.status == "api_offline")
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
       else
@@ -135,9 +95,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def check_database_writable(need_api = false)
-    if STATUS == :database_offline || STATUS == :database_readonly ||
-       (need_api && (STATUS == :api_offline || STATUS == :api_readonly))
+  def check_database_writable(need_api: false)
+    if Settings.status == "database_offline" || Settings.status == "database_readonly" ||
+       (need_api && (Settings.status == "api_offline" || Settings.status == "api_readonly"))
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
       else
@@ -147,44 +107,40 @@ class ApplicationController < ActionController::Base
   end
 
   def check_api_readable
-    if api_status == :offline
+    if api_status == "offline"
       report_error "Database offline for maintenance", :service_unavailable
       false
     end
   end
 
   def check_api_writable
-    unless api_status == :online
+    unless api_status == "online"
       report_error "Database offline for maintenance", :service_unavailable
       false
     end
   end
 
   def database_status
-    if STATUS == :database_offline
-      :offline
-    elsif STATUS == :database_readonly
-      :readonly
+    case Settings.status
+    when "database_offline"
+      "offline"
+    when "database_readonly"
+      "readonly"
     else
-      :online
+      "online"
     end
   end
 
   def api_status
     status = database_status
-    if status == :online
-      if STATUS == :api_offline
-        status = :offline
-      elsif STATUS == :api_readonly
-        status = :readonly
+    if status == "online"
+      case Settings.status
+      when "api_offline"
+        status = "offline"
+      when "api_readonly"
+        status = "readonly"
       end
     end
-    status
-  end
-
-  def gpx_status
-    status = database_status
-    status = :offline if status == :online && STATUS == :gpx_offline
     status
   end
 
@@ -205,7 +161,7 @@ class ApplicationController < ActionController::Base
     response.headers["Error"] = message
 
     if request.headers["X-Error-Format"]&.casecmp("xml")&.zero?
-      result = OSM::API.new.get_xml_doc
+      result = OSM::API.new.xml_doc
       result.root.name = "osmError"
       result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
       result.root << (XML::Node.new("message") << message)
@@ -216,8 +172,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def preferred_languages(reset = false)
-    @preferred_languages = nil if reset
+  def preferred_languages
     @preferred_languages ||= if params[:locale]
                                Locale.list(params[:locale])
                              elsif current_user
@@ -229,13 +184,13 @@ class ApplicationController < ActionController::Base
 
   helper_method :preferred_languages
 
-  def set_locale(reset = false)
+  def set_locale
     if current_user&.languages&.empty? && !http_accept_language.user_preferred_languages.empty?
       current_user.languages = http_accept_language.user_preferred_languages
       current_user.save
     end
 
-    I18n.locale = Locale.available.preferred(preferred_languages(reset))
+    I18n.locale = Locale.available.preferred(preferred_languages)
 
     response.headers["Vary"] = "Accept-Language"
     response.headers["Content-Language"] = I18n.locale.to_s
@@ -243,53 +198,51 @@ class ApplicationController < ActionController::Base
 
   def api_call_handle_error
     yield
-  rescue ActiveRecord::RecordNotFound => ex
+  rescue ActionController::UnknownFormat
+    head :not_acceptable
+  rescue ActiveRecord::RecordNotFound => e
     head :not_found
-  rescue LibXML::XML::Error, ArgumentError => ex
-    report_error ex.message, :bad_request
-  rescue ActiveRecord::RecordInvalid => ex
-    message = "#{ex.record.class} #{ex.record.id}: "
-    ex.record.errors.each { |attr, msg| message << "#{attr}: #{msg} (#{ex.record[attr].inspect})" }
+  rescue LibXML::XML::Error, ArgumentError => e
+    report_error e.message, :bad_request
+  rescue ActiveRecord::RecordInvalid => e
+    message = "#{e.record.class} #{e.record.id}: "
+    e.record.errors.each { |error| message << "#{error.attribute}: #{error.message} (#{e.record[error.attribute].inspect})" }
     report_error message, :bad_request
-  rescue OSM::APIError => ex
-    report_error ex.message, ex.status
-  rescue AbstractController::ActionNotFound => ex
+  rescue OSM::APIError => e
+    report_error e.message, e.status
+  rescue AbstractController::ActionNotFound => e
     raise
-  rescue StandardError => ex
-    logger.info("API threw unexpected #{ex.class} exception: #{ex.message}")
-    ex.backtrace.each { |l| logger.info(l) }
-    report_error "#{ex.class}: #{ex.message}", :internal_server_error
+  rescue StandardError => e
+    logger.info("API threw unexpected #{e.class} exception: #{e.message}")
+    e.backtrace.each { |l| logger.info(l) }
+    report_error "#{e.class}: #{e.message}", :internal_server_error
   end
 
   ##
   # asserts that the request method is the +method+ given as a parameter
   # or raises a suitable error. +method+ should be a symbol, e.g: :put or :get.
   def assert_method(method)
-    ok = request.send((method.to_s.downcase + "?").to_sym)
+    ok = request.send(:"#{method.to_s.downcase}?")
     raise OSM::APIBadMethodError, method unless ok
   end
 
   ##
   # wrap an api call in a timeout
-  def api_call_timeout
-    OSM::Timer.timeout(API_TIMEOUT, Timeout::Error) do
-      yield
-    end
+  def api_call_timeout(&block)
+    Timeout.timeout(Settings.api_timeout, Timeout::Error, &block)
   rescue Timeout::Error
     raise OSM::APITimeoutError
   end
 
   ##
   # wrap a web page in a timeout
-  def web_timeout
-    OSM::Timer.timeout(WEB_TIMEOUT, Timeout::Error) do
-      yield
-    end
-  rescue ActionView::Template::Error => ex
-    ex = ex.cause
+  def web_timeout(&block)
+    Timeout.timeout(Settings.web_timeout, Timeout::Error, &block)
+  rescue ActionView::Template::Error => e
+    e = e.cause
 
-    if ex.is_a?(Timeout::Error) ||
-       (ex.is_a?(ActiveRecord::StatementInvalid) && ex.message =~ /execution expired/)
+    if e.is_a?(Timeout::Error) ||
+       (e.is_a?(ActiveRecord::StatementInvalid) && e.message.include?("execution expired"))
       render :action => "timeout"
     else
       raise
@@ -333,14 +286,15 @@ class ApplicationController < ActionController::Base
     append_content_security_policy_directives(
       :child_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
       :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
-      :connect_src => [NOMINATIM_URL, OVERPASS_URL, FOSSGIS_OSRM_URL, GRAPHHOPPER_URL],
+      :connect_src => [Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url],
       :form_action => %w[render.openstreetmap.org],
       :style_src => %w['unsafe-inline']
     )
 
-    if STATUS == :database_offline || STATUS == :api_offline
+    case Settings.status
+    when "database_offline", "api_offline"
       flash.now[:warning] = t("layouts.osm_offline")
-    elsif STATUS == :database_readonly || STATUS == :api_readonly
+    when "database_readonly", "api_readonly"
       flash.now[:warning] = t("layouts.osm_read_only")
     end
 
@@ -352,23 +306,21 @@ class ApplicationController < ActionController::Base
   end
 
   def preferred_editor
-    editor = if params[:editor]
-               params[:editor]
-             elsif current_user&.preferred_editor
-               current_user.preferred_editor
-             else
-               DEFAULT_EDITOR
-             end
-
-    editor
+    if params[:editor]
+      params[:editor]
+    elsif current_user&.preferred_editor
+      current_user.preferred_editor
+    else
+      Settings.default_editor
+    end
   end
 
   helper_method :preferred_editor
 
   def update_totp
-    if defined?(TOTP_KEY)
+    if Settings.key?(:totp_key)
       cookies["_osm_totp_token"] = {
-        :value => ROTP::TOTP.new(TOTP_KEY, :interval => 3600).now,
+        :value => ROTP::TOTP.new(Settings.totp_key, :interval => 3600).now,
         :domain => "openstreetmap.org",
         :expires => 1.hour.from_now
       }
@@ -387,35 +339,22 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    # Use capabilities from the oauth token if it exists and is a valid access token
-    if Authenticator.new(self, [:token]).allow?
-      Ability.new(nil).merge(Capability.new(current_token))
-    else
-      Ability.new(current_user)
-    end
+    Ability.new(current_user)
   end
 
-  def deny_access(exception)
-    if @api_deny_access_handling
-      api_deny_access(exception)
-    else
-      web_deny_access(exception)
-    end
-  end
-
-  def web_deny_access(_exception)
-    if current_token
+  def deny_access(_exception)
+    if doorkeeper_token || current_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
       set_locale
       respond_to do |format|
-        format.html { redirect_to :controller => "errors", :action => "forbidden" }
+        format.html { redirect_to :controller => "/errors", :action => "forbidden" }
         format.any { report_error t("application.permission_denied"), :forbidden }
       end
     elsif request.get?
       respond_to do |format|
-        format.html { redirect_to :controller => "users", :action => "login", :referer => request.fullpath }
+        format.html { redirect_to login_path(:referer => request.fullpath) }
         format.any { head :forbidden }
       end
     else
@@ -423,30 +362,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def api_deny_access(_exception)
-    if current_token
-      set_locale
-      report_error t("oauth.permissions.missing"), :forbidden
-    elsif current_user
-      head :forbidden
-    else
-      realm = "Web Password"
-      errormessage = "Couldn't authenticate you"
-      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-      render :plain => errormessage, :status => :unauthorized
-    end
-  end
-
-  attr_accessor :api_access_handling
-
-  def api_deny_access_handler
-    @api_deny_access_handling = true
-  end
-
-  private
-
   # extract authorisation credentials from headers, returns user = nil if none
-  def get_auth_data
+  def auth_data
     if request.env.key? "X-HTTP_AUTHORIZATION" # where mod_rewrite might have put it
       authdata = request.env["X-HTTP_AUTHORIZATION"].to_s.split
     elsif request.env.key? "REDIRECT_X_HTTP_AUTHORIZATION" # mod_fcgi
@@ -461,4 +378,31 @@ class ApplicationController < ActionController::Base
 
   # override to stop oauth plugin sending errors
   def invalid_oauth_response; end
+
+  # clean any referer parameter
+  def safe_referer(referer)
+    begin
+      referer = URI.parse(referer)
+
+      if referer.scheme == "http" || referer.scheme == "https"
+        referer.scheme = nil
+        referer.host = nil
+        referer.port = nil
+      elsif referer.scheme || referer.host || referer.port
+        referer = nil
+      end
+
+      referer = nil if referer&.path&.first != "/"
+    rescue URI::InvalidURIError
+      referer = nil
+    end
+
+    referer&.to_s
+  end
+
+  def scope_enabled?(scope)
+    doorkeeper_token&.includes_scope?(scope) || current_token&.includes_scope?(scope)
+  end
+
+  helper_method :scope_enabled?
 end

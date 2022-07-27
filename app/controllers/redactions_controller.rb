@@ -23,7 +23,7 @@ class RedactionsController < ApplicationController
     @redaction.user = current_user
     @redaction.title = params[:redaction][:title]
     @redaction.description = params[:redaction][:description]
-    # note that the description format will default to 'markdown'
+    # NOTE: the description format will default to 'markdown'
 
     if @redaction.save
       flash[:notice] = t(".flash")
@@ -38,7 +38,7 @@ class RedactionsController < ApplicationController
   def edit; end
 
   def update
-    # note - don't update the user ID
+    # NOTE: don't update the user ID
     @redaction.title = params[:redaction][:title]
     @redaction.description = params[:redaction][:description]
 

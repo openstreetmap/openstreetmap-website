@@ -27,7 +27,7 @@ class OauthController < ApplicationController
     any_auth = false
 
     @token.client_application.permissions.each do |pref|
-      if params[pref]
+      if params[pref].to_i.nonzero?
         @token.write_attribute(pref, true)
         any_auth ||= true
       else
@@ -39,7 +39,7 @@ class OauthController < ApplicationController
   end
 
   def oauth1_authorize
-    override_content_security_policy_directives(:form_action => []) if CSP_ENFORCE || defined?(CSP_REPORT_URL)
+    override_content_security_policy_directives(:form_action => []) if Settings.csp_enforce || Settings.key?(:csp_report_url)
 
     if @token.invalidated?
       @message = t "oauth.authorize_failure.invalid"
@@ -66,7 +66,7 @@ class OauthController < ApplicationController
 
           @redirect_url.query += "&oauth_verifier=#{@token.verifier}" unless @token.oauth10?
 
-          redirect_to @redirect_url.to_s
+          redirect_to @redirect_url.to_s, :allow_other_host => true
         end
       else
         @token.invalidate!

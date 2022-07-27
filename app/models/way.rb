@@ -2,11 +2,11 @@
 #
 # Table name: current_ways
 #
-#  id           :integer          not null, primary key
-#  changeset_id :integer          not null
+#  id           :bigint(8)        not null, primary key
+#  changeset_id :bigint(8)        not null
 #  timestamp    :datetime         not null
 #  visible      :boolean          not null
-#  version      :integer          not null
+#  version      :bigint(8)        not null
 #
 # Indexes
 #
@@ -17,20 +17,19 @@
 #  current_ways_changeset_id_fkey  (changeset_id => changesets.id)
 #
 
-class Way < ActiveRecord::Base
+class Way < ApplicationRecord
   require "xml/libxml"
 
   include ConsistencyValidations
   include NotRedactable
-  include ObjectMetadata
 
   self.table_name = "current_ways"
 
   belongs_to :changeset
 
-  has_many :old_ways, -> { order(:version) }
+  has_many :old_ways, -> { order(:version) }, :inverse_of => :current_way
 
-  has_many :way_nodes, -> { order(:sequence_id) }
+  has_many :way_nodes, -> { order(:sequence_id) }, :inverse_of => :way
   has_many :nodes, :through => :way_nodes
 
   has_many :way_tags
@@ -39,11 +38,9 @@ class Way < ActiveRecord::Base
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :version, :presence => true,
-                      :numericality => { :integer_only => true }
-  validates :changeset_id, :presence => true,
-                           :numericality => { :integer_only => true }
+                      :numericality => { :only_integer => true }
   validates :timestamp, :presence => true
   validates :changeset, :associated => true
   validates :visible, :inclusion => [true, false]
@@ -52,19 +49,21 @@ class Way < ActiveRecord::Base
   scope :invisible, -> { where(:visible => false) }
 
   # Read in xml as text and return it's Way object representation
-  def self.from_xml(xml, create = false)
+  def self.from_xml(xml, create: false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
+    pt = doc.find_first("//osm/way")
 
-    doc.find("//osm/way").each do |pt|
-      return Way.from_xml_node(pt, create)
+    if pt
+      Way.from_xml_node(pt, :create => create)
+    else
+      raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/way element.")
     end
-    raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/way element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("way", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("way", xml, e.message)
   end
 
-  def self.from_xml_node(pt, create = false)
+  def self.from_xml_node(pt, create: false)
     way = Way.new
 
     raise OSM::APIBadXMLError.new("way", pt, "Version is required when updating") unless create || !pt["version"].nil?
@@ -106,55 +105,15 @@ class Way < ActiveRecord::Base
     way
   end
 
-  # Find a way given it's ID, and in a single SQL call also grab its nodes and tags
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node(visible_nodes = nil, changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new "way"
-    el["id"] = id.to_s
-
-    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
-
-    # make sure nodes are output in sequence_id order
-    ordered_nodes = []
-    way_nodes.each do |nd|
-      if visible_nodes
-        # if there is a list of visible nodes then use that to weed out deleted nodes
-        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if visible_nodes[nd.node_id]
-      else
-        # otherwise, manually go to the db to check things
-        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if nd.node&.visible?
-      end
-    end
-
-    ordered_nodes.each do |nd_id|
-      next unless nd_id && nd_id != "0"
-
-      node_el = XML::Node.new "nd"
-      node_el["ref"] = nd_id
-      el << node_el
-    end
-
-    add_tags_to_xml_node(el, way_tags)
-
-    el
-  end
-
   def nds
     @nds ||= way_nodes.collect(&:node_id)
   end
 
   def tags
-    @tags ||= Hash[way_tags.collect { |t| [t.k, t.v] }]
+    @tags ||= way_tags.to_h { |t| [t.k, t.v] }
   end
 
-  attr_writer :nds
-
-  attr_writer :tags
+  attr_writer :nds, :tags
 
   def add_nd_num(n)
     @nds ||= []
@@ -206,7 +165,7 @@ class Way < ActiveRecord::Base
 
   def preconditions_ok?(old_nodes = [])
     return false if nds.empty?
-    raise OSM::APITooManyWayNodesError.new(id, nds.length, MAX_NUMBER_OF_WAY_NODES) if nds.length > MAX_NUMBER_OF_WAY_NODES
+    raise OSM::APITooManyWayNodesError.new(id, nds.length, Settings.max_number_of_way_nodes) if nds.length > Settings.max_number_of_way_nodes
 
     # check only the new nodes, for efficiency - old nodes having been checked last time and can't
     # be deleted when they're in-use.
@@ -268,7 +227,7 @@ class Way < ActiveRecord::Base
   private
 
   def save_with_history!
-    t = Time.now.getutc
+    t = Time.now.utc
 
     self.version += 1
     self.timestamp = t

@@ -3,7 +3,7 @@
 # Table name: users
 #
 #  email               :string           not null
-#  id                  :integer          not null, primary key
+#  id                  :bigint(8)        not null, primary key
 #  pass_crypt          :string           not null
 #  creation_time       :datetime         not null
 #  display_name        :string           default(""), not null
@@ -14,7 +14,6 @@
 #  home_zoom           :integer          default(3)
 #  nearby              :integer          default(50)
 #  pass_salt           :string
-#  image_file_name     :text
 #  email_valid         :boolean          default(FALSE), not null
 #  new_email           :string
 #  creation_ip         :string
@@ -26,14 +25,13 @@
 #  preferred_editor    :string
 #  terms_seen          :boolean          default(FALSE), not null
 #  description_format  :enum             default("markdown"), not null
-#  image_fingerprint   :string
 #  changesets_count    :integer          default(0), not null
 #  traces_count        :integer          default(0), not null
 #  diary_entries_count :integer          default(0), not null
 #  image_use_gravatar  :boolean          default(FALSE), not null
-#  image_content_type  :string
 #  auth_provider       :string
-#  home_tile           :integer
+#  home_tile           :bigint(8)
+#  tou_agreed          :datetime
 #
 # Indexes
 #
@@ -45,37 +43,42 @@
 #  users_home_idx                (home_tile)
 #
 
-class User < ActiveRecord::Base
-  require "xml/libxml"
+class User < ApplicationRecord
+  require "digest"
+  include AASM
 
   has_many :traces, -> { where(:visible => true) }
-  has_many :diary_entries, -> { order(:created_at => :desc) }
-  has_many :diary_comments, -> { order(:created_at => :desc) }
+  has_many :diary_entries, -> { order(:created_at => :desc) }, :inverse_of => :user
+  has_many :diary_comments, -> { order(:created_at => :desc) }, :inverse_of => :user
   has_many :diary_entry_subscriptions, :class_name => "DiaryEntrySubscription"
   has_many :diary_subscriptions, :through => :diary_entry_subscriptions, :source => :diary_entry
   has_many :messages, -> { where(:to_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
   has_many :new_messages, -> { where(:to_user_visible => true, :message_read => false).order(:sent_on => :desc) }, :class_name => "Message", :foreign_key => :to_user_id
   has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id
-  has_many :friends, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
-  has_many :friend_users, :through => :friends, :source => :befriendee
-  has_many :tokens, :class_name => "UserToken"
+  has_many :friendships, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
+  has_many :friends, :through => :friendships, :source => :befriendee
+  has_many :tokens, :class_name => "UserToken", :dependent => :destroy
   has_many :preferences, :class_name => "UserPreference"
-  has_many :changesets, -> { order(:created_at => :desc) }
-  has_many :changeset_comments, :foreign_key => :author_id
+  has_many :changesets, -> { order(:created_at => :desc) }, :inverse_of => :user
+  has_many :changeset_comments, :foreign_key => :author_id, :inverse_of => :author
   has_and_belongs_to_many :changeset_subscriptions, :class_name => "Changeset", :join_table => "changesets_subscribers", :foreign_key => "subscriber_id"
-  has_many :note_comments, :foreign_key => :author_id
+  has_many :note_comments, :foreign_key => :author_id, :inverse_of => :author
   has_many :notes, :through => :note_comments
 
   has_many :client_applications
-  has_many :oauth_tokens, -> { order(:authorized_at => :desc).preload(:client_application) }, :class_name => "OauthToken"
+  has_many :oauth_tokens, -> { order(:authorized_at => :desc).preload(:client_application) }, :class_name => "OauthToken", :inverse_of => :user
+
+  has_many :oauth2_applications, :class_name => Doorkeeper.config.application_model.name, :as => :owner
+  has_many :access_grants, :class_name => Doorkeeper.config.access_grant_model.name, :foreign_key => :resource_owner_id
+  has_many :access_tokens, :class_name => Doorkeeper.config.access_token_model.name, :foreign_key => :resource_owner_id
 
   has_many :blocks, :class_name => "UserBlock"
-  has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id
-  has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id
+  has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id, :inverse_of => :creator
+  has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id, :inverse_of => :revoker
 
   has_many :roles, :class_name => "UserRole"
 
-  has_many :issues, :class_name => "Issue", :foreign_key => :reported_user_id
+  has_many :issues, :class_name => "Issue", :foreign_key => :reported_user_id, :inverse_of => :reported_user
   has_many :issue_comments
 
   has_many :reports
@@ -84,9 +87,7 @@ class User < ActiveRecord::Base
   scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }
 
-  has_attached_file :image,
-                    :default_url => "/assets/:class/:attachment/:style.png",
-                    :styles => { :large => "100x100>", :small => "50x50>" }
+  has_one_attached :avatar, :service => Settings.avatar_storage
 
   validates :display_name, :presence => true, :length => 3..255,
                            :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
@@ -98,23 +99,26 @@ class User < ActiveRecord::Base
   validates :email, :presence => true, :confirmation => true, :characters => true
   validates :email, :if => proc { |u| u.email_changed? },
                     :uniqueness => { :case_sensitive => false }
+  validates :email, :if => proc { |u| u.email_changed? },
+                    :whitespace => { :leading => false, :trailing => false }
   validates :pass_crypt, :confirmation => true, :length => 8..255
   validates :home_lat, :allow_nil => true, :numericality => true, :inclusion => { :in => -90..90 }
   validates :home_lon, :allow_nil => true, :numericality => true, :inclusion => { :in => -180..180 }
   validates :home_zoom, :allow_nil => true, :numericality => { :only_integer => true }
   validates :preferred_editor, :inclusion => Editors::ALL_EDITORS, :allow_nil => true
-  validates :image, :attachment_content_type => { :content_type => %r{\Aimage/.*\Z} }
   validates :auth_uid, :unless => proc { |u| u.auth_provider.nil? },
                        :uniqueness => { :scope => :auth_provider }
+  validates :avatar, :if => proc { |u| u.attachment_changes["avatar"] },
+                     :image => true
 
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => proc { |u| u.new_email_changed? }
 
-  after_initialize :set_defaults
+  alias_attribute :created_at, :creation_time
+
   before_save :encrypt_password
   before_save :update_tile
   after_save :spam_check
-  after_save :reset_preferred_languages
 
   def to_param
     display_name
@@ -122,10 +126,10 @@ class User < ActiveRecord::Base
 
   def self.authenticate(options)
     if options[:username] && options[:password]
-      user = find_by("email = ? OR display_name = ?", options[:username], options[:username])
+      user = find_by("email = ? OR display_name = ?", options[:username].strip, options[:username])
 
       if user.nil?
-        users = where("LOWER(email) = LOWER(?) OR LOWER(display_name) = LOWER(?)", options[:username], options[:username])
+        users = where("LOWER(email) = LOWER(?) OR LOWER(display_name) = LOWER(?)", options[:username].strip, options[:username])
 
         user = users.first if users.count == 1
       end
@@ -155,24 +159,62 @@ class User < ActiveRecord::Base
     user
   end
 
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
+  aasm :column => :status, :no_direct_assignment => true do
+    state :pending, :initial => true
+    state :active
+    state :confirmed
+    state :suspended
+    state :deleted
 
-  def to_xml_node
-    el1 = XML::Node.new "user"
-    el1["display_name"] = display_name.to_s
-    el1["account_created"] = creation_time.xmlschema
-    if home_lat && home_lon
-      home = XML::Node.new "home"
-      home["lat"] = home_lat.to_s
-      home["lon"] = home_lon.to_s
-      home["zoom"] = home_zoom.to_s
-      el1 << home
+    # A normal account is active
+    event :activate do
+      transitions :from => :pending, :to => :active
     end
-    el1
+
+    # Used in test suite, not something that we would normally need to do.
+    if Rails.env.test?
+      event :deactivate do
+        transitions :from => :active, :to => :pending
+      end
+    end
+
+    # To confirm an account is used to override the spam scoring
+    event :confirm do
+      transitions :from => [:pending, :active, :suspended], :to => :confirmed
+    end
+
+    # To unconfirm an account is to make it subject to future spam scoring again
+    event :unconfirm do
+      transitions :from => :confirmed, :to => :active
+    end
+
+    # Accounts can be automatically suspended by spam_check
+    event :suspend do
+      transitions :from => [:pending, :active], :to => :suspended
+    end
+
+    # Unsuspending an account moves it back to active without overriding the spam scoring
+    event :unsuspend do
+      transitions :from => :suspended, :to => :active
+    end
+
+    # Mark the account as deleted but keep all data intact
+    event :hide do
+      transitions :from => [:pending, :active, :confirmed, :suspended], :to => :deleted
+    end
+
+    event :unhide do
+      transitions :from => [:deleted], :to => :active
+    end
+
+    # Mark the account as deleted and remove personal data
+    event :soft_destroy do
+      before do
+        remove_personal_data
+      end
+
+      transitions :from => [:pending, :active, :confirmed, :suspended], :to => :deleted
+    end
   end
 
   def description
@@ -195,17 +237,13 @@ class User < ActiveRecord::Base
     @preferred_languages ||= Locale.list(languages)
   end
 
-  def reset_preferred_languages
-    @preferred_languages = nil
-  end
-
-  def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)
+  def nearby(radius = Settings.nearby_radius, num = Settings.nearby_users)
     if home_lon && home_lat
       gc = OSM::GreatCircle.new(home_lat, home_lon)
       sql_for_area = QuadTile.sql_for_area(gc.bounds(radius), "home_")
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
       nearby = User.active.identifiable
-                   .where("id != ?", id)
+                   .where.not(:id => id)
                    .where(sql_for_area)
                    .where("#{sql_for_distance} <= ?", radius)
                    .order(Arel.sql(sql_for_distance))
@@ -220,8 +258,8 @@ class User < ActiveRecord::Base
     OSM::GreatCircle.new(home_lat, home_lon).distance(nearby_user.home_lat, nearby_user.home_lon)
   end
 
-  def is_friends_with?(new_friend)
-    friends.where(:friend_user_id => new_friend.id).exists?
+  def friends_with?(new_friend)
+    friendships.exists?(:befriendee => new_friend)
   end
 
   ##
@@ -262,18 +300,19 @@ class User < ActiveRecord::Base
   end
 
   ##
-  # delete a user - leave the account but purge most personal data
-  def delete
+  # remove personal data - leave the account but purge most personal data
+  def remove_personal_data
+    avatar.purge_later
+
     self.display_name = "user_#{id}"
     self.description = ""
     self.home_lat = nil
     self.home_lon = nil
-    self.image = nil
     self.email_valid = false
     self.new_email = nil
     self.auth_provider = nil
     self.auth_uid = nil
-    self.status = "deleted"
+
     save
   end
 
@@ -298,20 +337,53 @@ class User < ActiveRecord::Base
   ##
   # perform a spam check on a user
   def spam_check
-    update(:status => "suspended") if status == "active" && spam_score > SPAM_THRESHOLD
+    suspend! if may_suspend? && spam_score > Settings.spam_threshold
   end
 
   ##
-  # return an oauth access token for a specified application
+  # return an oauth 1 access token for a specified application
   def access_token(application_key)
     ClientApplication.find_by(:key => application_key).access_token_for_user(self)
   end
 
-  private
+  ##
+  # return an oauth 2 access token for a specified application
+  def oauth_token(application_id)
+    application = Doorkeeper.config.application_model.find_by(:uid => application_id)
 
-  def set_defaults
-    self.creation_time = Time.now.getutc unless attribute_present?(:creation_time)
+    Doorkeeper.config.access_token_model.find_or_create_for(
+      :application => application,
+      :resource_owner => self,
+      :scopes => application.scopes
+    )
   end
+
+  def fingerprint
+    digest = Digest::SHA256.new
+    digest.update(email)
+    digest.update(pass_crypt)
+    digest.hexdigest
+  end
+
+  def max_messages_per_hour
+    account_age_in_seconds = Time.now.utc - created_at
+    account_age_in_hours = account_age_in_seconds / 3600
+    recent_messages = messages.where("sent_on >= ?", Time.now.utc - 3600).count
+    active_reports = issues.with_status(:open).sum(:reports_count)
+    max_messages = account_age_in_hours.ceil + recent_messages - (active_reports * 10)
+    max_messages.clamp(0, Settings.max_messages_per_hour)
+  end
+
+  def max_friends_per_hour
+    account_age_in_seconds = Time.now.utc - created_at
+    account_age_in_hours = account_age_in_seconds / 3600
+    recent_friends = Friendship.where(:befriendee => self).where("created_at >= ?", Time.now.utc - 3600).count
+    active_reports = issues.with_status(:open).sum(:reports_count)
+    max_friends = account_age_in_hours.ceil + recent_friends - (active_reports * 10)
+    max_friends.clamp(0, Settings.max_friends_per_hour)
+  end
+
+  private
 
   def encrypt_password
     if pass_crypt_confirmation

@@ -3,12 +3,12 @@ require "test_helper"
 class ClientApplicationTest < ActiveSupport::TestCase
   def test_url_valid
     ok = ["http://example.com/test", "https://example.com/test"]
-    bad = ["", "ftp://example.com/test", "myapp://somewhere"]
+    bad = ["", "ftp://example.com/test", "myapp://somewhere", "http://example.com\nhttp://example.net"]
 
     ok.each do |url|
       app = build(:client_application)
       app.url = url
-      assert app.valid?, "#{url} is invalid, when it should be"
+      assert_predicate app, :valid?, "#{url} is invalid, when it should be"
     end
 
     bad.each do |url|
@@ -20,12 +20,12 @@ class ClientApplicationTest < ActiveSupport::TestCase
 
   def test_support_url_valid
     ok = ["", "http://example.com/test", "https://example.com/test"]
-    bad = ["ftp://example.com/test", "myapp://somewhere", "gibberish"]
+    bad = ["ftp://example.com/test", "myapp://somewhere", "gibberish", "http://example.com\nhttp://example.net"]
 
     ok.each do |url|
       app = build(:client_application)
       app.support_url = url
-      assert app.valid?, "#{url} is invalid, when it should be"
+      assert_predicate app, :valid?, "#{url} is invalid, when it should be"
     end
 
     bad.each do |url|
@@ -37,12 +37,12 @@ class ClientApplicationTest < ActiveSupport::TestCase
 
   def test_callback_url_valid
     ok = ["", "http://example.com/test", "https://example.com/test", "ftp://example.com/test", "myapp://somewhere"]
-    bad = ["gibberish"]
+    bad = ["gibberish", "http://example.com\nhttp://example.net"]
 
     ok.each do |url|
       app = build(:client_application)
       app.callback_url = url
-      assert app.valid?, "#{url} is invalid, when it should be"
+      assert_predicate app, :valid?, "#{url} is invalid, when it should be"
     end
 
     bad.each do |url|

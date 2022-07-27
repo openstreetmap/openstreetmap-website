@@ -1,0 +1,7 @@
+<%= f.text_field :name %>
+<%= f.text_area :redirect_uri %>
+<%= f.form_group :confidential do %>
+  <%= f.check_box :confidential %>
+<% end %>
+<%= f.collection_check_boxes :scopes, Oauth.scopes(:privileged => current_user.administrator?), :name, :description %>
+<%= f.primary %>

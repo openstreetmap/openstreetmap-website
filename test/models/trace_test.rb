@@ -1,26 +1,7 @@
 require "test_helper"
-require "minitest/mock"
+require "gpx"
 
 class TraceTest < ActiveSupport::TestCase
-  def setup
-    @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
-    Object.const_set("GPX_TRACE_DIR", Rails.root.join("test", "gpx", "traces"))
-
-    @gpx_image_dir = Object.send("remove_const", "GPX_IMAGE_DIR")
-    Object.const_set("GPX_IMAGE_DIR", Rails.root.join("test", "gpx", "images"))
-  end
-
-  def teardown
-    File.unlink(*Dir.glob(File.join(GPX_TRACE_DIR, "*.gpx")))
-    File.unlink(*Dir.glob(File.join(GPX_IMAGE_DIR, "*.gif")))
-
-    Object.send("remove_const", "GPX_TRACE_DIR")
-    Object.const_set("GPX_TRACE_DIR", @gpx_trace_dir)
-
-    Object.send("remove_const", "GPX_IMAGE_DIR")
-    Object.const_set("GPX_IMAGE_DIR", @gpx_image_dir)
-  end
-
   def test_visible
     public_trace_file = create(:trace)
     create(:trace, :deleted)
@@ -79,30 +60,30 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_validations
     trace_valid({})
-    trace_valid({ :user_id => nil }, false)
-    trace_valid(:name => "a" * 255)
-    trace_valid({ :name => "a" * 256 }, false)
-    trace_valid({ :description => nil }, false)
-    trace_valid(:description => "a" * 255)
-    trace_valid({ :description => "a" * 256 }, false)
-    trace_valid(:visibility => "private")
-    trace_valid(:visibility => "public")
-    trace_valid(:visibility => "trackable")
-    trace_valid(:visibility => "identifiable")
-    trace_valid({ :visibility => "foo" }, false)
+    trace_valid({ :user_id => nil }, :valid => false)
+    trace_valid({ :name => "a" * 255 })
+    trace_valid({ :name => "a" * 256 }, :valid => false)
+    trace_valid({ :description => nil }, :valid => false)
+    trace_valid({ :description => "a" * 255 })
+    trace_valid({ :description => "a" * 256 }, :valid => false)
+    trace_valid({ :visibility => "private" })
+    trace_valid({ :visibility => "public" })
+    trace_valid({ :visibility => "trackable" })
+    trace_valid({ :visibility => "identifiable" })
+    trace_valid({ :visibility => "foo" }, :valid => false)
   end
 
   def test_tagstring
     trace = build(:trace)
     trace.tagstring = "foo bar baz"
-    assert trace.valid?
+    assert_predicate trace, :valid?
     assert_equal 3, trace.tags.length
     assert_equal "foo", trace.tags[0].tag
     assert_equal "bar", trace.tags[1].tag
     assert_equal "baz", trace.tags[2].tag
     assert_equal "foo, bar, baz", trace.tagstring
     trace.tagstring = "foo, bar baz ,qux"
-    assert trace.valid?
+    assert_predicate trace, :valid?
     assert_equal 3, trace.tags.length
     assert_equal "foo", trace.tags[0].tag
     assert_equal "bar baz", trace.tags[1].tag
@@ -111,27 +92,27 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_public?
-    assert_equal true, build(:trace, :visibility => "public").public?
-    assert_equal false, build(:trace, :visibility => "private").public?
-    assert_equal false, build(:trace, :visibility => "trackable").public?
-    assert_equal true, build(:trace, :visibility => "identifiable").public?
-    assert_equal true, build(:trace, :deleted, :visibility => "public").public?
+    assert_predicate build(:trace, :visibility => "public"), :public?
+    assert_not build(:trace, :visibility => "private").public?
+    assert_not build(:trace, :visibility => "trackable").public?
+    assert_predicate build(:trace, :visibility => "identifiable"), :public?
+    assert_predicate build(:trace, :deleted, :visibility => "public"), :public?
   end
 
   def test_trackable?
-    assert_equal false, build(:trace, :visibility => "public").trackable?
-    assert_equal false, build(:trace, :visibility => "private").trackable?
-    assert_equal true, build(:trace, :visibility => "trackable").trackable?
-    assert_equal true, build(:trace, :visibility => "identifiable").trackable?
-    assert_equal false, build(:trace, :deleted, :visibility => "public").trackable?
+    assert_not build(:trace, :visibility => "public").trackable?
+    assert_not build(:trace, :visibility => "private").trackable?
+    assert_predicate build(:trace, :visibility => "trackable"), :trackable?
+    assert_predicate build(:trace, :visibility => "identifiable"), :trackable?
+    assert_not build(:trace, :deleted, :visibility => "public").trackable?
   end
 
   def test_identifiable?
-    assert_equal false, build(:trace, :visibility => "public").identifiable?
-    assert_equal false, build(:trace, :visibility => "private").identifiable?
-    assert_equal false, build(:trace, :visibility => "trackable").identifiable?
-    assert_equal true, build(:trace, :visibility => "identifiable").identifiable?
-    assert_equal false, build(:trace, :deleted, :visibility => "public").identifiable?
+    assert_not build(:trace, :visibility => "public").identifiable?
+    assert_not build(:trace, :visibility => "private").identifiable?
+    assert_not build(:trace, :visibility => "trackable").identifiable?
+    assert_predicate build(:trace, :visibility => "identifiable"), :identifiable?
+    assert_not build(:trace, :deleted, :visibility => "public").identifiable?
   end
 
   def test_mime_type
@@ -139,11 +120,11 @@ class TraceTest < ActiveSupport::TestCase
     check_mime_type("a", "application/gpx+xml")
     check_mime_type("b", "application/gpx+xml")
     check_mime_type("c", "application/x-bzip2")
-    check_mime_type("d", "application/x-gzip")
-    check_mime_type("f", "application/x-zip")
+    check_mime_type("d", "application/gzip")
+    check_mime_type("f", "application/zip")
     check_mime_type("g", "application/x-tar")
-    check_mime_type("h", "application/x-gzip")
-    check_mime_type("i", "application/x-bzip2")
+    check_mime_type("h", "application/x-tar+gzip")
+    check_mime_type("i", "application/x-tar+x-bzip2")
   end
 
   def test_extension_name
@@ -160,95 +141,137 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_xml_file
     check_xml_file("a", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("b", "66179ca44f1e93d8df62e2b88cbea732")
+    check_xml_file("b", "db4cb5ed2d7d2b627b3b504296c4f701")
     check_xml_file("c", "848caa72f2f456d1bd6a0fdf228aa1b9")
     check_xml_file("d", "abd6675fdf3024a84fc0a1deac147c0d")
-    check_xml_file("f", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("g", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("h", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("i", "848caa72f2f456d1bd6a0fdf228aa1b9")
+    check_xml_file("f", "a7c05d676c77dc14369c21be216a3713")
+    check_xml_file("g", "a7c05d676c77dc14369c21be216a3713")
+    check_xml_file("h", "a7c05d676c77dc14369c21be216a3713")
+    check_xml_file("i", "a7c05d676c77dc14369c21be216a3713")
   end
 
   def test_large_picture
-    picture = File.read(Rails.root.join("test", "gpx", "fixtures", "a.gif"), :mode => "rb")
+    picture = File.read(Rails.root.join("test/gpx/fixtures/a.gif"), :mode => "rb")
+    trace = create(:trace, :fixture => "a")
 
-    trace = Trace.create
-    trace.large_picture = picture
-    assert_equal "7c841749e084ee4a5d13f12cd3bef456", md5sum(File.new(trace.large_picture_name))
     assert_equal picture, trace.large_picture
-
-    trace.destroy
   end
 
   def test_icon_picture
-    picture = File.read(Rails.root.join("test", "gpx", "fixtures", "a_icon.gif"), :mode => "rb")
+    picture = File.read(Rails.root.join("test/gpx/fixtures/a_icon.gif"), :mode => "rb")
+    trace = create(:trace, :fixture => "a")
 
-    trace = Trace.create
-    trace.icon_picture = picture
-    assert_equal "b47baf22ed0e85d77e808694fad0ee27", md5sum(File.new(trace.icon_picture_name))
     assert_equal picture, trace.icon_picture
-
-    trace.destroy
   end
 
-  # When testing the trace.import method, care needs to be taken regarding the icon
-  # fixture files, since the fixtures could be overwritten by newly generated files.
-  # We use FakeFS to temporarily protect the real fixture files from being overwritten.
-
   def test_import_removes_previous_tracepoints
-    FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
-      trace = create(:trace, :fixture => "a")
-      # Tracepoints don't have a primary key, so we use a specific latitude to
-      # check for successful deletion
-      create(:tracepoint, :latitude => 54321, :trace => trace)
-      assert_equal 1, Tracepoint.where(:latitude => 54321).count
+    trace = create(:trace, :fixture => "a")
+    # Tracepoints don't have a primary key, so we use a specific latitude to
+    # check for successful deletion
+    create(:tracepoint, :latitude => 54321, :trace => trace)
+    assert_equal 1, Tracepoint.where(:latitude => 54321).count
 
-      trace.import
+    trace.import
 
-      assert_equal 0, Tracepoint.where(:latitude => 54321).count
-    end
+    assert_equal 0, Tracepoint.where(:latitude => 54321).count
   end
 
   def test_import_creates_tracepoints
-    FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
-      trace = create(:trace, :fixture => "a")
-      assert_equal 0, Tracepoint.where(:gpx_id => trace.id).count
+    trace = create(:trace, :fixture => "a")
+    assert_equal 0, Tracepoint.where(:gpx_id => trace.id).count
 
-      trace.import
+    trace.import
 
-      trace.reload
-      assert_equal 1, Tracepoint.where(:gpx_id => trace.id).count
-    end
+    trace.reload
+    assert_equal 1, Tracepoint.where(:gpx_id => trace.id).count
+
+    # Check that the tile has been set prior to the bulk import
+    # i.e. that the callbacks have been run correctly
+    assert_equal 3221331576, Tracepoint.where(:gpx_id => trace.id).first.tile
   end
 
   def test_import_creates_icon
-    FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
-      trace = create(:trace, :fixture => "a")
-      icon_path = File.join(GPX_IMAGE_DIR, "#{trace.id}_icon.gif")
-      FileUtils.rm(icon_path)
-      assert_equal false, File.exist?(icon_path)
+    trace = create(:trace, :inserted => false, :fixture => "a")
 
-      trace.import
+    assert_not trace.icon.attached?
 
-      assert_equal true, File.exist?(icon_path)
-    end
+    trace.import
+
+    assert_predicate trace.icon, :attached?
   end
 
   def test_import_creates_large_picture
-    FakeFS do
-      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
-      trace = create(:trace, :fixture => "a")
-      large_picture_path = File.join(GPX_IMAGE_DIR, "#{trace.id}.gif")
-      FileUtils.rm(large_picture_path)
-      assert_equal false, File.exist?(large_picture_path)
+    trace = create(:trace, :inserted => false, :fixture => "a")
 
-      trace.import
+    assert_not trace.image.attached?
 
-      assert_equal true, File.exist?(large_picture_path)
-    end
+    trace.import
+
+    assert_predicate trace.image, :attached?
+  end
+
+  def test_import_handles_bz2
+    trace = create(:trace, :inserted => false, :fixture => "c")
+
+    trace.import
+
+    assert_equal 1, trace.size
+  end
+
+  def test_import_handles_plain
+    trace = create(:trace, :inserted => false, :fixture => "a")
+
+    trace.import
+
+    assert_equal 1, trace.size
+  end
+
+  def test_import_handles_plain_with_bom
+    trace = create(:trace, :inserted => false, :fixture => "b")
+
+    trace.import
+
+    assert_equal 1, trace.size
+  end
+
+  def test_import_handles_gz
+    trace = create(:trace, :inserted => false, :fixture => "d")
+
+    trace.import
+
+    assert_equal 1, trace.size
+  end
+
+  def test_import_handles_zip
+    trace = create(:trace, :inserted => false, :fixture => "f")
+
+    trace.import
+
+    assert_equal 2, trace.size
+  end
+
+  def test_import_handles_tar
+    trace = create(:trace, :inserted => false, :fixture => "g")
+
+    trace.import
+
+    assert_equal 2, trace.size
+  end
+
+  def test_import_handles_tar_gz
+    trace = create(:trace, :inserted => false, :fixture => "h")
+
+    trace.import
+
+    assert_equal 2, trace.size
+  end
+
+  def test_import_handles_tar_bz2
+    trace = create(:trace, :inserted => false, :fixture => "i")
+
+    trace.import
+
+    assert_equal 2, trace.size
   end
 
   private
@@ -270,9 +293,9 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal md5sum, md5sum(create(:trace, :fixture => id).xml_file)
   end
 
-  def trace_valid(attrs, result = true)
+  def trace_valid(attrs, valid: true)
     entry = build(:trace, attrs)
-    assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
+    assert_equal valid, entry.valid?, "Expected #{attrs.inspect} to be #{valid}"
   end
 
   def md5sum(io)

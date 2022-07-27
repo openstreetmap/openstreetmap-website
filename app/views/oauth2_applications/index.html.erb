@@ -1,0 +1,27 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<%= render :partial => "settings_menu" %>
+
+<% if @applications.length > 0 %>
+  <table class="table table-borderless table-striped">
+    <thead>
+      <tr>
+        <th><%= t ".name" %></th>
+        <th><%= t ".permissions" %></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render :partial => "application", :collection => @applications %>
+    </tbody>
+  </table>
+<% else %>
+  <p><%= t ".no_applications_html", :oauth2 => link_to(t(".oauth_2"), "https://oauth.net/2/") %></p>
+<% end %>
+
+<p>
+  <%= link_to t(".new"), new_oauth_application_path, :class => "btn btn-outline-primary" %>
+</p>

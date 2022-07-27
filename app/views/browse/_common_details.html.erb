@@ -1,33 +1,37 @@
 <h4>
-  <% if common_details.changeset.tags['comment'].present? %>
-    <%= linkify(h(common_details.changeset.tags['comment'])) %>
-  <% else %>
-    <%= t 'browse.no_comment' %>
-  <% end %>
+  <%= t "browse.version" %>
+  #<%= common_details.version %>
 </h4>
 
-<div class="details">
-  <%=
-      t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
-        :time => distance_of_time_in_words_to_now(common_details.timestamp),
-        :user => changeset_user_link(common_details.changeset),
-        :title => l(common_details.timestamp)
-  %>
-</div>
+<p class="font-italic">
+  <% if common_details.changeset.tags["comment"].present? %>
+    <%= linkify(common_details.changeset.tags["comment"]) %>
+  <% else %>
+    <%= t "browse.no_comment" %>
+  <% end %>
+</p>
 
-<div class="details">
-  <%= t 'browse.version' %>
-  #<%= h(common_details.version) %>
-  &middot;
-  <%= t 'browse.in_changeset' %>
-  #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
-</div>
+<ul class="list-unstyled">
+  <li>
+    <%= t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
+          :time => time_ago_in_words(common_details.timestamp, :scope => :"datetime.distance_in_words_ago"),
+          :user => changeset_user_link(common_details.changeset),
+          :title => l(common_details.timestamp) %>
+  </li>
+  <li>
+    <%= t "browse.in_changeset" %>
+    #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
+  </li>
 
-<% if @type == "node" and common_details.visible? %>
-<div class="details geo">
-  <%= t 'browse.location' %>
-  <%= link_to(content_tag(:span, number_with_delimiter(common_details.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(common_details.lon), :class => "longitude"), {:controller => 'site', :action => 'index', :anchor => "map=18/#{common_details.lat}/#{common_details.lon}"}) %>
-</div>
-<% end %>
+  <% if @type == "node" and common_details.visible? %>
+    <li>
+      <%= t "browse.location" %>
+      <%= link_to(t(".coordinates_html",
+                    :latitude => tag.span(number_with_delimiter(common_details.lat), :class => "latitude"),
+                    :longitude => tag.span(number_with_delimiter(common_details.lon), :class => "longitude")),
+                  root_path(:anchor => "map=18/#{common_details.lat}/#{common_details.lon}")) %>
+    </li>
+  <% end %>
+</ul>
 
 <%= render :partial => "tag_details", :object => common_details.tags %>

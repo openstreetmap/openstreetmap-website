@@ -1,6 +1,6 @@
 require "test_helper"
 
-class UserRolesControllerTest < ActionController::TestCase
+class UserRolesControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -23,23 +23,23 @@ class UserRolesControllerTest < ActionController::TestCase
     super_user = create(:super_user)
 
     # Granting should fail when not logged in
-    post :grant, :params => { :display_name => target_user.display_name, :role => "moderator" }
+    post grant_role_path(:display_name => target_user.display_name, :role => "moderator")
     assert_response :forbidden
 
     # Login as an unprivileged user
-    session[:user] = normal_user.id
+    session_for(normal_user)
 
     # Granting should still fail
-    post :grant, :params => { :display_name => target_user.display_name, :role => "moderator" }
+    post grant_role_path(:display_name => target_user.display_name, :role => "moderator")
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Login as an administrator
-    session[:user] = administrator_user.id
+    session_for(administrator_user)
 
     UserRole::ALL_ROLES.each do |role|
       # Granting a role to a non-existent user should fail
       assert_difference "UserRole.count", 0 do
-        post :grant, :params => { :display_name => "non_existent_user", :role => role }
+        post grant_role_path(:display_name => "non_existent_user", :role => role)
       end
       assert_response :not_found
       assert_template "users/no_such_user"
@@ -47,20 +47,20 @@ class UserRolesControllerTest < ActionController::TestCase
 
       # Granting a role to a user that already has it should fail
       assert_no_difference "UserRole.count" do
-        post :grant, :params => { :display_name => super_user.display_name, :role => role }
+        post grant_role_path(:display_name => super_user.display_name, :role => role)
       end
       assert_redirected_to user_path(super_user)
       assert_equal "The user already has role #{role}.", flash[:error]
 
       # Granting a role to a user that doesn't have it should work...
       assert_difference "UserRole.count", 1 do
-        post :grant, :params => { :display_name => target_user.display_name, :role => role }
+        post grant_role_path(:display_name => target_user.display_name, :role => role)
       end
       assert_redirected_to user_path(target_user)
 
       # ...but trying a second time should fail
       assert_no_difference "UserRole.count" do
-        post :grant, :params => { :display_name => target_user.display_name, :role => role }
+        post grant_role_path(:display_name => target_user.display_name, :role => role)
       end
       assert_redirected_to user_path(target_user)
       assert_equal "The user already has role #{role}.", flash[:error]
@@ -68,7 +68,7 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Granting a non-existent role should fail
     assert_difference "UserRole.count", 0 do
-      post :grant, :params => { :display_name => target_user.display_name, :role => "no_such_role" }
+      post grant_role_path(:display_name => target_user.display_name, :role => "no_such_role")
     end
     assert_redirected_to user_path(target_user)
     assert_equal "The string `no_such_role' is not a valid role.", flash[:error]
@@ -83,23 +83,23 @@ class UserRolesControllerTest < ActionController::TestCase
     super_user = create(:super_user)
 
     # Revoking should fail when not logged in
-    post :revoke, :params => { :display_name => target_user.display_name, :role => "moderator" }
+    post revoke_role_path(:display_name => target_user.display_name, :role => "moderator")
     assert_response :forbidden
 
     # Login as an unprivileged user
-    session[:user] = normal_user.id
+    session_for(normal_user)
 
     # Revoking should still fail
-    post :revoke, :params => { :display_name => target_user.display_name, :role => "moderator" }
+    post revoke_role_path(:display_name => target_user.display_name, :role => "moderator")
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Login as an administrator
-    session[:user] = administrator_user.id
+    session_for(administrator_user)
 
     UserRole::ALL_ROLES.each do |role|
       # Removing a role from a non-existent user should fail
       assert_difference "UserRole.count", 0 do
-        post :revoke, :params => { :display_name => "non_existent_user", :role => role }
+        post revoke_role_path(:display_name => "non_existent_user", :role => role)
       end
       assert_response :not_found
       assert_template "users/no_such_user"
@@ -107,20 +107,20 @@ class UserRolesControllerTest < ActionController::TestCase
 
       # Removing a role from a user that doesn't have it should fail
       assert_no_difference "UserRole.count" do
-        post :revoke, :params => { :display_name => target_user.display_name, :role => role }
+        post revoke_role_path(:display_name => target_user.display_name, :role => role)
       end
       assert_redirected_to user_path(target_user)
       assert_equal "The user does not have role #{role}.", flash[:error]
 
       # Removing a role from a user that has it should work...
       assert_difference "UserRole.count", -1 do
-        post :revoke, :params => { :display_name => super_user.display_name, :role => role }
+        post revoke_role_path(:display_name => super_user.display_name, :role => role)
       end
       assert_redirected_to user_path(super_user)
 
       # ...but trying a second time should fail
       assert_no_difference "UserRole.count" do
-        post :revoke, :params => { :display_name => super_user.display_name, :role => role }
+        post revoke_role_path(:display_name => super_user.display_name, :role => role)
       end
       assert_redirected_to user_path(super_user)
       assert_equal "The user does not have role #{role}.", flash[:error]
@@ -128,13 +128,13 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Revoking a non-existent role should fail
     assert_difference "UserRole.count", 0 do
-      post :revoke, :params => { :display_name => target_user.display_name, :role => "no_such_role" }
+      post revoke_role_path(:display_name => target_user.display_name, :role => "no_such_role")
     end
     assert_redirected_to user_path(target_user)
     assert_equal "The string `no_such_role' is not a valid role.", flash[:error]
 
     # Revoking administrator role from current user should fail
-    post :revoke, :params => { :display_name => administrator_user.display_name, :role => "administrator" }
+    post revoke_role_path(:display_name => administrator_user.display_name, :role => "administrator")
     assert_redirected_to user_path(administrator_user)
     assert_equal "Cannot revoke administrator role from current user.", flash[:error]
   end

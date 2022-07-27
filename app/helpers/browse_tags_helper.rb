@@ -17,14 +17,20 @@ module BrowseTagsHelper
         link_to(w[:title], w[:url], :title => t("browse.tag_details.wikidata_link", :page => w[:title].strip))
       end
       safe_join(wdt, ";")
+    elsif wmc = wikimedia_commons_link(key, value)
+      link_to h(wmc[:title]), wmc[:url], :title => t("browse.tag_details.wikimedia_commons_link", :page => wmc[:title])
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
+    elsif email = email_link(key, value)
+      link_to(h(email[:email]), email[:url], :title => t("browse.tag_details.email_link", :email => email[:email]))
     elsif phones = telephone_links(key, value)
       # similarly, telephone_links() returns an array of phone numbers
       phones = phones.map do |p|
         link_to(h(p[:phone_number]), p[:url], :title => t("browse.tag_details.telephone_link", :phone_number => p[:phone_number]))
       end
       safe_join(phones, "; ")
+    elsif colour_value = colour_preview(key, value)
+      tag.span("", :class => "colour-preview-box", :"data-colour" => colour_value, :title => t("browse.tag_details.colour_preview", :colour_value => colour_value)) + colour_value
     else
       linkify h(value)
     end
@@ -41,20 +47,20 @@ module BrowseTagsHelper
     # the correct page.
     lookup_us = lookup.tr(" ", "_")
 
-    if page = WIKI_PAGES.dig(locale, type, lookup_us)
-      url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
-    elsif page = WIKI_PAGES.dig("en", type, lookup_us)
-      url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
-    end
+    page = WIKI_PAGES.dig(locale, type, lookup_us) ||
+           WIKI_PAGES.dig("en", type, lookup_us)
+
+    url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}" if page
 
     url
   end
 
   def wikipedia_link(key, value)
     # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
-    return nil if value =~ %r{^https?://}
+    return nil if %r{^https?://}.match?(value)
 
-    if key == "wikipedia"
+    case key
+    when "wikipedia"
       # This regex should match Wikipedia language codes, everything
       # from de to zh-classical
       lang = if value =~ /^([a-z-]{2,12}):(.+)$/i
@@ -65,7 +71,7 @@ module BrowseTagsHelper
                # Value is <title> so default to English Wikipedia
                "en"
              end
-    elsif key =~ /^wikipedia:(\S+)$/
+    when /^wikipedia:(\S+)$/
       # Language is in the key, so assume value is the title
       lang = Regexp.last_match(1)
     else
@@ -77,8 +83,8 @@ module BrowseTagsHelper
       # Contains a reference to a section of the wikipedia article
       # Must break it up to correctly build the url
       value = Regexp.last_match(1)
-      section = "#" + Regexp.last_match(2)
-      encoded_section = "#" + CGI.escape(Regexp.last_match(2).gsub(/ +/, "_")).tr("%", ".")
+      section = "##{Regexp.last_match(2)}"
+      encoded_section = "##{CGI.escape(Regexp.last_match(2).gsub(/ +/, '_'))}"
     else
       section = ""
       encoded_section = ""
@@ -109,6 +115,35 @@ module BrowseTagsHelper
     nil
   end
 
+  def wikimedia_commons_link(key, value)
+    if key == "wikimedia_commons" && value =~ /^(?:file|category):/i
+      return {
+        :url => "//commons.wikimedia.org/wiki/#{value}?uselang=#{I18n.locale}",
+        :title => value
+      }
+    end
+    nil
+  end
+
+  def email_link(_key, value)
+    # Does the value look like an email? eg "someone@domain.tld"
+
+    #  Uses Ruby built-in regexp to validate email.
+    #  This will not catch certain valid emails containing comments, whitespace characters,
+    #  and quoted strings.
+    #    (see: https://github.com/ruby/ruby/blob/master/lib/uri/mailto.rb)
+
+    # remove any leading and trailing whitespace
+    email = value.strip
+
+    if email.match?(URI::MailTo::EMAIL_REGEXP)
+      # add 'mailto:'' prefix
+      return { :email => email, :url => "mailto:#{email}" }
+    end
+
+    nil
+  end
+
   def telephone_links(_key, value)
     # Does it look like a global phone number? eg "+1 (234) 567-8901 "
     # or a list of alternate numbers separated by ;
@@ -120,7 +155,7 @@ module BrowseTagsHelper
     #
     # Also accepting / as a visual separator although not given in RFC 3966,
     # because it is used as a visual separator in OSM data in some countries.
-    if value =~ %r{^\s*\+[\d\s\(\)/\.-]{6,25}\s*(;\s*\+[\d\s\(\)/\.-]{6,25}\s*)*$}
+    if value.match?(%r{^\s*\+[\d\s()/.-]{6,25}\s*(;\s*\+[\d\s()/.-]{6,25}\s*)*$})
       return value.split(";").map do |phone_number|
         # for display, remove leading and trailing whitespace
         phone_number = phone_number.strip
@@ -132,5 +167,26 @@ module BrowseTagsHelper
       end
     end
     nil
+  end
+
+  def colour_preview(key, value)
+    return nil unless key =~ /^(?>.+:)?colour$/ && !value.nil? # see discussion at https://github.com/openstreetmap/openstreetmap-website/pull/1779
+
+    # does value look like a colour? ( 3 or 6 digit hex code or w3c colour name)
+    w3c_colors =
+      %w[aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse chocolate
+         coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgrey darkgreen darkkhaki darkmagenta darkolivegreen
+         darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey darkturquoise darkviolet deeppink deepskyblue
+         dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray grey green greenyellow honeydew
+         hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan lightgoldenrodyellow lightgray
+         lightgrey lightgreen lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime limegreen
+         linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue mediumspringgreen mediumturquoise
+         mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab orange orangered orchid palegoldenrod
+         palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple red rosybrown royalblue saddlebrown salmon
+         sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise
+         violet wheat white whitesmoke yellow yellowgreen]
+    return nil unless value =~ /^#([0-9a-fA-F]{3}){1,2}$/ || w3c_colors.include?(value.downcase)
+
+    value
   end
 end

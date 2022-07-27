@@ -2,7 +2,7 @@
 #
 # Table name: oauth_nonces
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  nonce      :string
 #  timestamp  :integer
 #  created_at :datetime
@@ -15,7 +15,7 @@
 
 # Simple store of nonces. The OAuth Spec requires that any given pair of nonce and timestamps are unique.
 # Thus you can use the same nonce with a different timestamp and viceversa.
-class OauthNonce < ActiveRecord::Base
+class OauthNonce < ApplicationRecord
   validates :timestamp, :presence => true
   validates :nonce, :presence => true, :uniqueness => { :scope => :timestamp }
 

@@ -1,21 +1,17 @@
 require "test_helper"
 
 class UserTermsSeenTest < ActionDispatch::IntegrationTest
-  def setup
-    stub_hostip_requests
-  end
-
   def test_api_blocked
     user = create(:user, :terms_seen => false, :terms_agreed => nil)
 
-    get "/api/#{API_VERSION}/user/preferences", :headers => auth_header(user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/preferences", :headers => auth_header(user.display_name, "test")
     assert_response :forbidden
 
     # touch it so that the user has seen the terms
     user.terms_seen = true
     user.save
 
-    get "/api/#{API_VERSION}/user/preferences", :headers => auth_header(user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/preferences", :headers => auth_header(user.display_name, "test")
     assert_response :success
   end
 
@@ -26,7 +22,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
     get "/login"
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post "/login", :params => { :username => user.email, :password => "test", :referer => "/diary/new" }
     assert_response :redirect
     # but now we need to look at the terms
@@ -51,7 +47,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
     get "/login"
     follow_redirect!
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     post "/login", :params => { :username => user.email, :password => "test", :referer => "/diary/new" }
     assert_response :redirect
     # but now we need to look at the terms
@@ -68,6 +64,6 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
   private
 
   def auth_header(user, pass)
-    { "HTTP_AUTHORIZATION" => format("Basic %{auth}", :auth => Base64.encode64("#{user}:#{pass}")) }
+    { "HTTP_AUTHORIZATION" => format("Basic %<auth>s", :auth => Base64.encode64("#{user}:#{pass}")) }
   end
 end

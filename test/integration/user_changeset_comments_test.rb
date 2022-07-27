@@ -11,8 +11,8 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
     assert_select "div#content" do
       assert_select "div#sidebar" do
         assert_select "div#sidebar_content" do
-          assert_select "div.browse-section" do
-            assert_select "div.notice" do
+          assert_select "div" do
+            assert_select "p.notice" do
               assert_select "a[href='/login?referer=%2Fchangeset%2F#{changeset.id}']", :text => I18n.t("browse.changeset.join_discussion"), :count => 1
             end
           end
@@ -30,7 +30,7 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
     follow_redirect!
     # We should now be at the login page
     assert_response :success
-    assert_template "users/login"
+    assert_template "sessions/new"
     # We can now login
     post "/login", :params => { "username" => user.email, "password" => "test" }
     assert_response :redirect
@@ -43,7 +43,7 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
     assert_select "div#content" do
       assert_select "div#sidebar" do
         assert_select "div#sidebar_content" do
-          assert_select "div.browse-section" do
+          assert_select "div" do
             assert_select "form[action='#']" do
               assert_select "textarea[name=text]"
             end

@@ -4,43 +4,33 @@ class UserTest < ActiveSupport::TestCase
   include Rails::Dom::Testing::Assertions::SelectorAssertions
 
   def test_invalid_with_empty_attributes
-    user = User.new
+    user = build(:user, :email => nil,
+                        :pass_crypt => nil,
+                        :display_name => nil,
+                        :home_lat => nil,
+                        :home_lon => nil,
+                        :home_zoom => nil)
     assert_not user.valid?
-    assert user.errors[:email].any?
-    assert user.errors[:pass_crypt].any?
-    assert user.errors[:display_name].any?
-    assert user.errors[:email].any?
-    assert user.errors[:home_lat].none?
-    assert user.errors[:home_lon].none?
-    assert user.errors[:home_zoom].none?
+    assert_predicate user.errors[:email], :any?
+    assert_predicate user.errors[:pass_crypt], :any?
+    assert_predicate user.errors[:display_name], :any?
+    assert_predicate user.errors[:home_lat], :none?
+    assert_predicate user.errors[:home_lon], :none?
+    assert_predicate user.errors[:home_zoom], :none?
   end
 
   def test_unique_email
     existing_user = create(:user)
-    new_user = User.new(
-      :email => existing_user.email,
-      :status => "active",
-      :pass_crypt => Digest::MD5.hexdigest("test"),
-      :display_name => "new user",
-      :data_public => 1,
-      :description => "desc"
-    )
+    new_user = build(:user, :email => existing_user.email)
     assert_not new_user.save
-    assert new_user.errors[:email].include?("has already been taken")
+    assert_includes new_user.errors[:email], "has already been taken"
   end
 
   def test_unique_display_name
     existing_user = create(:user)
-    new_user = User.new(
-      :email => "tester@openstreetmap.org",
-      :status => "pending",
-      :pass_crypt => Digest::MD5.hexdigest("test"),
-      :display_name => existing_user.display_name,
-      :data_public => 1,
-      :description => "desc"
-    )
+    new_user = build(:user, :display_name => existing_user.display_name)
     assert_not new_user.save
-    assert new_user.errors[:display_name].include?("has already been taken")
+    assert_includes new_user.errors[:display_name], "has already been taken"
   end
 
   def test_email_valid
@@ -52,7 +42,7 @@ class UserTest < ActiveSupport::TestCase
     ok.each do |name|
       user = build(:user)
       user.email = name
-      assert user.valid?(:save), user.errors.full_messages.join(",")
+      assert user.valid?(:save), "#{name} isn't valid when it should be"
     end
 
     bad.each do |name|
@@ -65,7 +55,7 @@ class UserTest < ActiveSupport::TestCase
   def test_display_name_length
     user = build(:user)
     user.display_name = "123"
-    assert user.valid?, "should allow 3 char name name"
+    assert_predicate user, :valid?, "should allow 3 char name name"
     user.display_name = "12"
     assert_not user.valid?, "should not allow 2 char name"
     user.display_name = ""
@@ -76,7 +66,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_display_name_valid
     # Due to sanitisation in the view some of these that you might not
-    # expact are allowed
+    # expect are allowed
     # However, would they affect the xml planet dumps?
     ok = ["Name", "'me", "he\"", "<hr>", "*ho", "\"help\"@",
           "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲", "space space"]
@@ -91,7 +81,7 @@ class UserTest < ActiveSupport::TestCase
     ok.each do |display_name|
       user = build(:user)
       user.display_name = display_name
-      assert user.valid?, "#{display_name} is invalid, when it should be"
+      assert_predicate user, :valid?, "#{display_name} is invalid, when it should be"
     end
 
     bad.each do |display_name|
@@ -105,14 +95,14 @@ class UserTest < ActiveSupport::TestCase
     alice = create(:user, :active)
     bob = create(:user, :active)
     charlie = create(:user, :active)
-    create(:friend, :befriender => alice, :befriendee => bob)
+    create(:friendship, :befriender => alice, :befriendee => bob)
 
-    assert alice.is_friends_with?(bob)
-    assert_not alice.is_friends_with?(charlie)
-    assert_not bob.is_friends_with?(alice)
-    assert_not bob.is_friends_with?(charlie)
-    assert_not charlie.is_friends_with?(bob)
-    assert_not charlie.is_friends_with?(alice)
+    assert alice.friends_with?(bob)
+    assert_not alice.friends_with?(charlie)
+    assert_not bob.friends_with?(alice)
+    assert_not bob.friends_with?(charlie)
+    assert_not charlie.friends_with?(bob)
+    assert_not charlie.friends_with?(alice)
   end
 
   def test_users_nearby
@@ -129,30 +119,30 @@ class UserTest < ActiveSupport::TestCase
     # charlie and alice are both near bob, but alice has their data private
     assert_equal [charlie], bob.nearby
     # david has no user nearby, since edward is not active
-    assert_equal [], david.nearby
+    assert_empty david.nearby
     # south_pole_user has no user nearby, and doesn't throw exception
-    assert_equal [], south_pole_user.nearby
+    assert_empty south_pole_user.nearby
     # vagrant_user has no home location
-    assert_equal [], vagrant_user.nearby
+    assert_empty vagrant_user.nearby
   end
 
-  def test_friend_users
+  def test_friends
     norm = create(:user, :active)
     sec = create(:user, :active)
-    create(:friend, :befriender => norm, :befriendee => sec)
+    create(:friendship, :befriender => norm, :befriendee => sec)
 
-    assert_equal [sec], norm.friend_users
-    assert_equal 1, norm.friend_users.size
+    assert_equal [sec], norm.friends
+    assert_equal 1, norm.friends.size
 
-    assert_equal [], sec.friend_users
-    assert_equal 0, sec.friend_users.size
+    assert_empty sec.friends
+    assert_equal 0, sec.friends.size
   end
 
   def test_user_preferred_editor
     user = create(:user)
     assert_nil user.preferred_editor
-    user.preferred_editor = "potlatch"
-    assert_equal "potlatch", user.preferred_editor
+    user.preferred_editor = "id"
+    assert_equal "id", user.preferred_editor
     user.save!
 
     user.preferred_editor = "invalid_editor"
@@ -224,68 +214,48 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_visible?
-    assert_equal true, build(:user, :pending).visible?
-    assert_equal true, build(:user, :active).visible?
-    assert_equal true, build(:user, :confirmed).visible?
-    assert_equal false, build(:user, :suspended).visible?
-    assert_equal false, build(:user, :deleted).visible?
+    assert_predicate build(:user, :pending), :visible?
+    assert_predicate build(:user, :active), :visible?
+    assert_predicate build(:user, :confirmed), :visible?
+    assert_not build(:user, :suspended).visible?
+    assert_not build(:user, :deleted).visible?
   end
 
   def test_active?
-    assert_equal false, build(:user, :pending).active?
-    assert_equal true, build(:user, :active).active?
-    assert_equal true, build(:user, :confirmed).active?
-    assert_equal false, build(:user, :suspended).active?
-    assert_equal false, build(:user, :deleted).active?
+    assert_not build(:user, :pending).active?
+    assert_predicate build(:user, :active), :active?
+    assert_predicate build(:user, :confirmed), :active?
+    assert_not build(:user, :suspended).active?
+    assert_not build(:user, :deleted).active?
   end
 
   def test_moderator?
-    assert_equal false, create(:user).moderator?
-    assert_equal true, create(:moderator_user).moderator?
+    assert_not create(:user).moderator?
+    assert_predicate create(:moderator_user), :moderator?
   end
 
   def test_administrator?
-    assert_equal false, create(:user).administrator?
-    assert_equal true, create(:administrator_user).administrator?
+    assert_not create(:user).administrator?
+    assert_predicate create(:administrator_user), :administrator?
   end
 
   def test_has_role?
-    assert_equal false, create(:user).has_role?("administrator")
-    assert_equal false, create(:user).has_role?("moderator")
-    assert_equal true, create(:administrator_user).has_role?("administrator")
-    assert_equal true, create(:moderator_user).has_role?("moderator")
+    assert_not create(:user).has_role?("administrator")
+    assert_not create(:user).has_role?("moderator")
+    assert create(:administrator_user).has_role?("administrator")
+    assert create(:moderator_user).has_role?("moderator")
   end
 
-  def test_delete
+  def test_soft_destroy
     user = create(:user, :with_home_location, :description => "foo")
-    user.delete
+    user.soft_destroy
     assert_equal "user_#{user.id}", user.display_name
-    assert user.description.blank?
+    assert_predicate user.description, :blank?
     assert_nil user.home_lat
     assert_nil user.home_lon
-    assert_equal false, user.image.file?
+    assert_not user.avatar.attached?
     assert_equal "deleted", user.status
-    assert_equal false, user.visible?
-    assert_equal false, user.active?
-  end
-
-  def test_to_xml
-    user = build(:user, :with_home_location)
-    xml = user.to_xml
-    assert_select Nokogiri::XML::Document.parse(xml.to_s), "user" do
-      assert_select "[display_name=?]", user.display_name
-      assert_select "[account_created=?]", user.creation_time.xmlschema
-      assert_select "home[lat=?][lon=?][zoom=?]", user.home_lat.to_s, user.home_lon.to_s, user.home_zoom.to_s
-    end
-  end
-
-  def test_to_xml_node
-    user = build(:user, :with_home_location)
-    xml = user.to_xml_node
-    assert_select Nokogiri::XML::DocumentFragment.parse(xml.to_s), "user" do
-      assert_select "[display_name=?]", user.display_name
-      assert_select "[account_created=?]", user.creation_time.xmlschema
-      assert_select "home[lat=?][lon=?][zoom=?]", user.home_lat.to_s, user.home_lon.to_s, user.home_zoom.to_s
-    end
+    assert_not user.visible?
+    assert_not user.active?
   end
 end

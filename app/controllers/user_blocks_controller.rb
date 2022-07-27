@@ -32,7 +32,7 @@ class UserBlocksController < ApplicationController
   end
 
   def edit
-    params[:user_block_period] = ((@user_block.ends_at - Time.now.getutc) / 1.hour).ceil.to_s
+    params[:user_block_period] = ((@user_block.ends_at - Time.now.utc) / 1.hour).ceil.to_s
   end
 
   def create
@@ -41,7 +41,7 @@ class UserBlocksController < ApplicationController
         :user => @user,
         :creator => current_user,
         :reason => params[:user_block][:reason],
-        :ends_at => Time.now.getutc + @block_period.hours,
+        :ends_at => Time.now.utc + @block_period.hours,
         :needs_view => params[:user_block][:needs_view]
       )
 
@@ -62,7 +62,7 @@ class UserBlocksController < ApplicationController
         flash[:error] = t(".only_creator_can_edit")
         redirect_to :action => "edit"
       elsif @user_block.update(
-        :ends_at => Time.now.getutc + @block_period.hours,
+        :ends_at => Time.now.utc + @block_period.hours,
         :reason => params[:user_block][:reason],
         :needs_view => params[:user_block][:needs_view]
       )
@@ -79,11 +79,9 @@ class UserBlocksController < ApplicationController
   ##
   # revokes the block, setting the end_time to now
   def revoke
-    if params[:confirm]
-      if @user_block.revoke! current_user
-        flash[:notice] = t ".flash"
-        redirect_to(@user_block)
-      end
+    if request.post? && params[:confirm] && @user_block.revoke!(current_user)
+      flash[:notice] = t ".flash"
+      redirect_to(@user_block)
     end
   end
 
@@ -128,7 +126,7 @@ class UserBlocksController < ApplicationController
     @block_period = params[:user_block_period].to_i
     @valid_params = false
 
-    if !UserBlock::PERIODS.include?(@block_period)
+    if UserBlock::PERIODS.exclude?(@block_period)
       flash[:error] = t("user_blocks.filter.block_period")
 
     elsif @user_block && !@user_block.active?
