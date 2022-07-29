@@ -37,4 +37,18 @@ class SiteTest < ApplicationSystemTestCase
     tooltip.assert_text "Map Key"
     tooltip.assert_text "not available"
   end
+
+  [
+    "#edit_tab",
+    ".control-note .control-button",
+    ".control-query .control-button"
+  ].each do |selector|
+    test "tooltips on low zoom levels for disabled control '#{selector}'" do
+      visit "/#map=1/1/1"
+
+      assert_no_selector ".tooltip"
+      find(selector).hover
+      assert_selector ".tooltip", :text => "Zoom in"
+    end
+  end
 end
