@@ -13,7 +13,7 @@
 //= require leaflet.locationfilter
 //= require i18n
 //= require oauth
-//= require piwik
+//= require matomo
 //= require richtext
 //= require qs/dist/qs
 //= require bs-custom-file-input

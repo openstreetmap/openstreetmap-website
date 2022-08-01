@@ -4,8 +4,8 @@
   <body class="<%= body_class %>">
     <%= render :partial => "layouts/header" %>
     <%= render :partial => "layouts/content" %>
-    <% if defined?(PIWIK) -%>
-    <noscript><p><img src="<%= request.protocol %><%= PIWIK["location"] %>/piwik.php?idsite=<%= PIWIK["site"] %>" class="piwik" alt="" /></p></noscript>
+    <% if defined?(Settings.matomo) -%>
+    <noscript><p><img src="<%= request.protocol %><%= Settings.matomo["location"] %>/matomo.php?idsite=<%= Settings.matomo["site"] %>" class="matomo" alt="" /></p></noscript>
     <% end -%>
   </body>
 </html>

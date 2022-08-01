@@ -212,13 +212,13 @@ $(document).ready(function () {
     }
   });
 
-  if (OSM.PIWIK) {
+  if (OSM.MATOMO) {
     map.on("layeradd", function (e) {
       if (e.layer.options) {
-        var goal = OSM.PIWIK.goals[e.layer.options.keyid];
+        var goal = OSM.MATOMO.goals[e.layer.options.keyid];
 
         if (goal) {
-          $("body").trigger("piwikgoal", goal);
+          $("body").trigger("matomogoal", goal);
         }
       }
     });
