@@ -59,7 +59,7 @@ window.updateLinks = function (loc, zoom, layers, object) {
   var editDisabled = zoom < 13;
   $("#edit_tab")
     .tooltip({ placement: "bottom" })
-    .attr("data-original-title", editDisabled ?
+    .attr("data-bs-original-title", editDisabled ?
       I18n.t("javascripts.site.edit_disabled_tooltip") : "")
     // Disable the button group and also the buttons to avoid
     // inconsistent behaviour when zooming
