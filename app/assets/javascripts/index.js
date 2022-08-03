@@ -195,7 +195,7 @@ $(document).ready(function () {
     $(".welcome").addClass("visible");
   }
 
-  $(".welcome .close").on("click", function () {
+  $(".welcome .btn-close").on("click", function () {
     $(".welcome").removeClass("visible");
     Cookies.set("_osm_welcome", "hide", { secure: true, expires: expiry, path: "/", samesite: "lax" });
   });
@@ -203,7 +203,7 @@ $(document).ready(function () {
   var bannerExpiry = new Date();
   bannerExpiry.setYear(bannerExpiry.getFullYear() + 1);
 
-  $("#banner .close-wrap").on("click", function (e) {
+  $("#banner .btn-close").on("click", function (e) {
     var cookieId = e.target.id;
     $("#banner").hide();
     e.preventDefault();
