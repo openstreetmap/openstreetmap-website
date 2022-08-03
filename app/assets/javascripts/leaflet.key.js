@@ -62,7 +62,7 @@ L.OSM.key = function (options) {
       var disabled = ["mapnik", "cyclemap"].indexOf(map.getMapBaseLayerId()) === -1;
       button
         .toggleClass("disabled", disabled)
-        .attr("data-original-title",
+        .attr("data-bs-original-title",
               I18n.t(disabled ?
                 "javascripts.key.tooltip_disabled" :
                 "javascripts.key.tooltip"));

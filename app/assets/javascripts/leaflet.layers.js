@@ -170,7 +170,7 @@ L.OSM.layers = function (options) {
           }
 
           $(item).attr("class", disabled ? "disabled" : "");
-          item.attr("data-original-title", disabled ?
+          item.attr("data-bs-original-title", disabled ?
             I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip") : "");
         });
       };
