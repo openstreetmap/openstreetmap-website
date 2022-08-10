@@ -1,6 +1,8 @@
 module OsmCommunityIndex
   def self.add_to_i18n
-    communities = Community.all
+    # Filter the communities here to avoid loading excessive numbers of translations
+    communities = Community.where(:type => "osm-lc").where.not(:id => "OSMF")
+
     files = Dir.glob(Rails.root.join("node_modules/osm-community-index/i18n/*.yaml"))
     files.each do |file|
       locale = File.basename(file, ".yaml")
