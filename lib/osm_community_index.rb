@@ -10,12 +10,12 @@ module OsmCommunityIndex
       data = {}
 
       communities.each do |community|
-        id = community[:id]
+        id = community.id
 
         strings = community_locale_yaml[id] || {}
         # if the name isn't defined then fall back on community,
         # as per discussion here: https://github.com/osmlab/osm-community-index/issues/483
-        strings["name"] = strings["name"] || community["strings"]["name"] || community["strings"]["community"]
+        strings["name"] = strings["name"] || community.strings["name"] || community.strings["community"]
 
         data.deep_merge!({ "osm_community_index" => { "communities" => { id => strings } } })
       end
