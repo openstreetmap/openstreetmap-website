@@ -670,6 +670,39 @@ CREATE TABLE public.diary_entry_subscriptions (
 
 
 --
+-- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.friendly_id_slugs (
+    id bigint NOT NULL,
+    slug character varying NOT NULL,
+    sluggable_id integer NOT NULL,
+    sluggable_type character varying(50),
+    scope character varying,
+    created_at timestamp(6) without time zone
+);
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.friendly_id_slugs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.friendly_id_slugs_id_seq OWNED BY public.friendly_id_slugs.id;
+
+
+--
 -- Name: friends; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -903,6 +936,47 @@ CREATE SEQUENCE public.messages_id_seq
 --
 
 ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
+
+
+--
+-- Name: microcosms; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.microcosms (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    description text NOT NULL,
+    organizer_id bigint NOT NULL,
+    slug character varying NOT NULL,
+    location character varying NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    min_lat double precision NOT NULL,
+    max_lat double precision NOT NULL,
+    min_lon double precision NOT NULL,
+    max_lon double precision NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: microcosms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.microcosms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: microcosms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.microcosms_id_seq OWNED BY public.microcosms.id;
 
 
 --
@@ -1621,6 +1695,13 @@ ALTER TABLE ONLY public.diary_entries ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: friendly_id_slugs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('public.friendly_id_slugs_id_seq'::regclass);
+
+
+--
 -- Name: friends id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1660,6 +1741,13 @@ ALTER TABLE ONLY public.issues ALTER COLUMN id SET DEFAULT nextval('public.issue
 --
 
 ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
+
+
+--
+-- Name: microcosms id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosms ALTER COLUMN id SET DEFAULT nextval('public.microcosms_id_seq'::regclass);
 
 
 --
@@ -1914,6 +2002,14 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 
 --
+-- Name: friendly_id_slugs friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.friendly_id_slugs
+    ADD CONSTRAINT friendly_id_slugs_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: friends friends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1967,6 +2063,14 @@ ALTER TABLE ONLY public.languages
 
 ALTER TABLE ONLY public.messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: microcosms microcosms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosms
+    ADD CONSTRAINT microcosms_pkey PRIMARY KEY (id);
 
 
 --
@@ -2420,6 +2524,27 @@ CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON public.diary_e
 
 
 --
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON public.friendly_id_slugs USING btree (slug, sluggable_type);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope ON public.friendly_id_slugs USING btree (slug, sluggable_type, scope);
+
+
+--
+-- Name: index_friendly_id_slugs_on_sluggable_type_and_sluggable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_friendly_id_slugs_on_sluggable_type_and_sluggable_id ON public.friendly_id_slugs USING btree (sluggable_type, sluggable_id);
+
+
+--
 -- Name: index_friends_on_user_id_and_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2473,6 +2598,20 @@ CREATE INDEX index_issues_on_status ON public.issues USING btree (status);
 --
 
 CREATE INDEX index_issues_on_updated_by ON public.issues USING btree (updated_by);
+
+
+--
+-- Name: index_microcosms_on_organizer_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_microcosms_on_organizer_id ON public.microcosms USING btree (organizer_id);
+
+
+--
+-- Name: index_microcosms_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_microcosms_on_slug ON public.microcosms USING btree (slug);
 
 
 --
@@ -2975,6 +3114,14 @@ ALTER TABLE ONLY public.oauth_access_grants
 
 
 --
+-- Name: microcosms fk_rails_682f8f4a39; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosms
+    ADD CONSTRAINT fk_rails_682f8f4a39 FOREIGN KEY (organizer_id) REFERENCES public.users(id);
+
+
+--
 -- Name: oauth_access_tokens fk_rails_732cb83ab7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3392,9 +3539,11 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210510083027'),
 ('20210510083028'),
 ('20210511104518'),
+('20210517030520'),
 ('20211216185316'),
 ('20220201183346'),
 ('20220223140543'),
+('20220820220545'),
 ('21'),
 ('22'),
 ('23'),
