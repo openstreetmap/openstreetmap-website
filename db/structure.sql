@@ -939,6 +939,41 @@ ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
 
 --
+-- Name: microcosms; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.microcosms (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    key character varying NOT NULL,
+    facebook character varying,
+    twitter character varying,
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: microcosms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.microcosms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: microcosms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.microcosms_id_seq OWNED BY public.microcosms.id;
+
+
+--
 -- Name: node_tags; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1696,6 +1731,13 @@ ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.mes
 
 
 --
+-- Name: microcosms id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosms ALTER COLUMN id SET DEFAULT nextval('public.microcosms_id_seq'::regclass);
+
+
+--
 -- Name: note_comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2000,6 +2042,14 @@ ALTER TABLE ONLY public.languages
 
 ALTER TABLE ONLY public.messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: microcosms microcosms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosms
+    ADD CONSTRAINT microcosms_pkey PRIMARY KEY (id);
 
 
 --
@@ -3425,6 +3475,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210510083027'),
 ('20210510083028'),
 ('20210511104518'),
+('20210517030520'),
 ('20211216185316'),
 ('20220201183346'),
 ('20220223140543'),

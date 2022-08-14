@@ -1,0 +1,21 @@
+<% content_for :heading do %>
+  <h1><%= "Microcosm" %></h1>
+<% end %>
+
+<h1>
+  <%= link_to @microcosm.name, @microcosm %>
+</h1>
+<p>
+  <%= auto_link @microcosm.description %>
+</p>
+<% unless @microcosm.facebook.nil? and @microcosm.twitter.nil? %>
+  <p>
+    <label>Share</label>
+    <% unless @microcosm.facebook.nil? %>
+      <a href="https://facebook.com/groups/<%=@microcosm.facebook%>">Facebook</a>
+    <% end %>
+    <% unless @microcosm.twitter.nil? %>
+      <a href="https://twitter.com/<%=@microcosm.twitter%>">Twitter</a>
+    <% end %>
+  </p>
+<% end %>

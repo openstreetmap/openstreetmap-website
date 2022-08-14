@@ -332,6 +332,11 @@ module ActiveSupport
       el
     end
 
+    def check_page_basics
+      assert_response :success
+      assert_no_missing_translations
+    end
+
     def add_metadata_to_xml_node(el, osm, changeset_cache, user_display_name_cache)
       el["changeset"] = osm.changeset_id.to_s
       el["redacted"] = osm.redaction.id.to_s if osm.redacted?
