@@ -26,6 +26,18 @@ class GuestAbilityTest < AbilityTest
     end
   end
 
+  test "microcosm permissions for a guest" do
+    ability = Ability.new nil
+
+    [:show].each do |action|
+      assert ability.can?(action, Microcosm), "should be able to #{action} Microcosms"
+    end
+
+    [:edit].each do |action|
+      assert ability.cannot?(action, Microcosm), "should not be able to #{action} Microcosms"
+    end
+  end
+
   test "note permissions for a guest" do
     ability = Ability.new nil
 
