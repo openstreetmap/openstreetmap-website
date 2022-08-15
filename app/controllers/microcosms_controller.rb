@@ -7,6 +7,10 @@ class MicrocosmsController < ApplicationController
 
   authorize_resource
 
+  def index
+    @microcosms = Microcosm.order(:name)
+  end
+
   def show; end
 
   # GET /microcosms/mycity

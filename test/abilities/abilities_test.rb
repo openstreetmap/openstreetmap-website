@@ -29,7 +29,7 @@ class GuestAbilityTest < AbilityTest
   test "microcosm permissions for a guest" do
     ability = Ability.new nil
 
-    [:show, :show_by_key].each do |action|
+    [:index, :show, :show_by_key].each do |action|
       assert ability.can?(action, Microcosm), "should be able to #{action} Microcosms"
     end
 
@@ -69,6 +69,15 @@ class UserAbilityTest < AbilityTest
 
     [:index, :show, :resolve, :ignore, :reopen].each do |action|
       assert ability.cannot?(action, Issue), "should not be able to #{action} Issues"
+    end
+  end
+
+  # This does not take into account object level access control.
+  test "microcosm permissions for a user" do
+    ability = Ability.new create(:user)
+
+    [:edit].each do |action|
+      assert ability.can?(action, Microcosm), "should be able to #{action} Microcosms"
     end
   end
 end

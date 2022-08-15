@@ -31,7 +31,7 @@ class Ability
       can [:history, :version], OldNode
       can [:history, :version], OldWay
       can [:history, :version], OldRelation
-      can [:show, :show_by_key], Microcosm
+      can [:show, :show_by_key, :index], Microcosm
     end
 
     if user
@@ -49,6 +49,7 @@ class Ability
         can [:new, :create, :edit, :update, :comment, :subscribe, :unsubscribe], DiaryEntry
         can [:make_friend, :remove_friend], Friendship
         can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
+        can [:edit], Microcosm
         can [:close, :reopen], Note
         can [:show, :edit, :update], :preference
         can [:edit, :update], :profile
