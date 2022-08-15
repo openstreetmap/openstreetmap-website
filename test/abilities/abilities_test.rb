@@ -29,7 +29,7 @@ class GuestAbilityTest < AbilityTest
   test "microcosm permissions for a guest" do
     ability = Ability.new nil
 
-    [:show].each do |action|
+    [:show, :show_by_key].each do |action|
       assert ability.can?(action, Microcosm), "should be able to #{action} Microcosms"
     end
 
