@@ -297,7 +297,18 @@ ja:
     deletions:
       show:
         title: 自分のアカウントを削除する
+        warning: 警告！アカウントの削除プロセスは最終的なものであり、元に戻すことはできません。
         delete_account: アカウントを削除
+        delete_introduction: 下のボタンを使用してご自分の OpenStreetMap アカウントを削除できます。次の詳細に注意してください。
+        delete_profile: アバター、説明、自宅の場所などのプロフィール情報が削除されます。
+        delete_display_name: 表示名は削除され、他のアカウントで再利用できます。
+        retain_caveats: ただし、アカウントが削除された後でも、あなたに関する一部の情報は OpenStreetMap に保持されます（以下ご参照）。
+        retain_edits: マップ データベースへの編集内容は保持されます。
+        retain_traces: アップロードされたトレースがあれば、保持されます。
+        retain_diary_entries: 日記のエントリと日記のコメントがある場合は保持されますが、表示されません。
+        retain_notes: 日記のエントリと日記のコメントがある場合は保持されますが、表示されません。
+        retain_changeset_discussions: 変更セットのディスカッションがあれば、保持されます。
+        retain_email: メールアドレスは保持されます。
         confirm_delete: 本当によろしいですか?
         cancel: キャンセル
   accounts:
@@ -923,6 +934,7 @@ ja:
           trailhead: トレイル終始点
           trunk: 国道
           trunk_link: 国道
+          turning_circle: ロータリー
           turning_loop: 環形ターミナル
           unclassified: 未分類の道路
           "yes": 道路
@@ -1911,15 +1923,20 @@ ja:
           ドキュメントは、<a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
           Commons Attribution-ShareAlike 2.0</a> ライセンス (CC BY-SA 2.0) に基づいてライセンスされます。
         credit_title_html: OpenStreetMap のクレジット表記の仕方
-        credit_1_html: '&ldquo;&copy; OpenStreetMap contributors&rdquo;のクレジットを必ず使用してください。'
-        credit_2_1_html: あなたはデータが Open Database License に基づいて提供されていること、そして地図タイルを使用する場合は、地図画像が
-          CC BY-SA としてライセンスされていることを明確にしなければなりません。<a href="https://www.openstreetmap.org/copyright">著作権表示ページ</a>にリンクすることでこれを表現することができます。また、データの形式でOpenStreetMapを配布する場合の要件として、名前を表示の上、ライセンスに直接リンクすることができます。リンクを張れないメディア（印刷など）の場合は、openstreetmap.org（OpenStreetMapをアドレスとして展開した形）、opendatacommons.org、さらに関連がある場合はcreativecommons.orgへ読者を誘導することをお勧めします。
+        credit_1_html: OpenStreetMap を使う場所では、以下の2つの条件を必ず守ってください。
+        credit_2_1_html: |-
+          <ul>
+            <li>私たちの著作権表示ページを掲載し、OpenStreetMap にクレジットがあることを示してください。</li>
+            <li>データはライセンス要件である Open Database License に基づいて提供されていることを明示してください。</li>
+          </ul>
         credit_3_1_html: |-
-          www.openstreetmap.org に載っている&ldquo;standard style&rdquo; の地図のタイルは、OpenStreetMap財団によるオープンデータベース・ライセンス（Open Database License）に準拠してOSMデータ（OpenStreetMap data ）を使用した作成物（Produced Work）です。もし皆さんがこれらのタイルを利用する場合は、以下の継承を表示してください。
-          &ldquo;Base map and data from OpenStreetMap and OpenStreetMap Foundation&rdquo;。
+          <!-- www.openstreetmap.org に載っている&ldquo;standard style&rdquo; の地図のタイルは、OpenStreetMap財団によるオープンデータベース・ライセンス（Open Database License）に準拠してOSMデータ（OpenStreetMap data ）を使用した作成物（Produced Work）です。もし皆さんがこれらのタイルを利用する場合は、以下の継承を表示してください。
+          &ldquo;Base map and data from OpenStreetMap and OpenStreetMap Foundation&rdquo;。 -->著作権表示に関しては、皆さんが私たちのデータをどう使われるかによって、その表示要件が異なります。たとえば皆さんが新しく作成した地図は利用者が動かせるかどうか（browsable）、地図を印刷した、静止画像の地図を作成したなど、それぞれに適用されるルールが異なります。表示要件の詳細は
+          <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">帰属のガイドライン</a>をご参照ください。
         credit_4_html: |-
-          閲覧可能な電子地図の場合は、地図の隅にクレジットを表示してください。
-          例:
+          あなたはデータが Open Database License に基づいて提供されていることを明示するため
+          <a href="https://www.openstreetmap.org/copyright">この著作権ページ</a>にリンクしてください。もしくは OSM をデータ形式で配布する場合の必須条件として、直接、それぞれのライセンス条項の名前を提示しリンクしてください。リンク付与が不可能な媒体の場合は（例：印刷物ほか）、読者の皆さんに openstreetmap.orgを読むよう（「OpenStreetMap」という文言を連絡先URLに置換してもよい）、また opendatacommons.org
+          をお勧めしてください。左の丸カッコ内の処理例ですと、地図の隅に著作権表示が印刷されます。
         attribution_example:
           alt: ウェブページに OpenStreetMap を記述する方法の例
           title: 権利表示の例
@@ -1938,9 +1955,10 @@ ja:
           BY</a>)、<a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land
           Vorarlberg</a>、Land Tirol (ライセンス <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC
           BY AT with amendments</a>) によるデータを含みます。'
-        contributors_au_html: '<strong>オーストラリア</strong>: <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA
-          Australia Limited</a>を出典とするデータは<a href="https://creativecommons.org/licenses/by/4.0/">CC
-          BY 4.0</a>のもとオーストラリア連邦政府の許諾を得ています。'
+        contributors_au_html: '<strong>オーストラリア</strong>: 行政管轄の境界（Administrative Boundaries）の組み入れもしくは採用した開発において&copy;<a
+          href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">PSMA
+          Australia Limited</a>を出典とするデータは<a href="https://creativecommons.org/licenses/by/4.0/">クリエイティブ・コモンズ表示
+          4.0 国際 (CC BY 4.0)</a>のもとオーストラリア連邦政府の許諾を得ています。'
         contributors_ca_html: '<strong>カナダ</strong>: GeoBase&reg;、GeoGratis (&copy;
           Department of Natural Resources Canada)、CanVec (&copy; Department of Natural
           Resources Canada)、StatCan (Geography Division, Statistics Canada) によるデータを含みます。'
@@ -1971,8 +1989,8 @@ ja:
         infringement_1_html: 'OpenStreetMapの協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google
           マップや印刷された地図) から決してデータを持ち込まないよう注意するものとします。'
         infringement_2_html: もし著作権のある素材がOpenStreetMapのデータベースや本サイトに不正に追加されたとお考えの場合は、<a
-          href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">却下手順</a>をお読みになるか、<a
-          href="http://dmca.openstreetmap.org">オンライン却下のページ</a>から直接申し立てを行ってください。
+          href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">却下手順</a>をお読みになるか、<a
+          href="https://dmca.openstreetmap.org/">オンライン却下のページ</a>から直接申し立てを行ってください。
         trademarks_title_html: <span id="trademarks"></span>商標
         trademarks_1_html: OpenStreetMapならびに拡大鏡のロゴおよびState of the MapはOpenStreetMap財団の登録商標です。商標の利用に関しては、<a
           href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">商標利用ポリシー</a>を参照ください。
@@ -2279,6 +2297,7 @@ ja:
       in: 'タグ:'
     index:
       public_traces: 公開GPSトレース
+      my_gps_traces: 自作のGPSトレース
       public_traces_from: '%{user}さんによる公開GPSトレース'
       description: 最近のGPSトレースのアップロードを参照
       tagged_with: (タグ %{tags} が付いているもの)
@@ -2311,7 +2330,7 @@ ja:
     require_admin:
       not_an_admin: この作業を行うには、管理者になる必要があります。
     setup_user_auth:
-      blocked_zero_hour: OpenStreetMapウィブサイトにて緊急のお知らせがあります。編集を保存するにはお知らせを読んでください。
+      blocked_zero_hour: OpenStreetMap Web サイトに緊急のメッセージがあります。まずメッセージを読まないと、編集内容を保存することができません。
       blocked: APIへのアクセスがブロックされました。Web インターフェイスからログインし直して詳細を確認してください。
       need_to_see_terms: あなたは一時的にAPIの利用を停止されています。ウェブインターフェイスにログインして協力者規約をご覧ください。同意しなくてもかまいませんが、必ずご覧ください。
     settings_menu:
@@ -2470,7 +2489,7 @@ ja:
       read_tou: 私は利用規約を読み終え、これに同意します
       consider_pd: 上記に加え、私の投稿をパブリック ドメインとします
       consider_pd_why: これは何ですか?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: この規約の理解を助ける情報として、<a href="%{summary}">要約 (英語)</a> や <a href="%{translations}">非公式の翻訳</a>
         をご覧ください。
       continue: 続行
@@ -2541,6 +2560,7 @@ ja:
       deactivate_user: この利用者を無効化
       confirm_user: このユーザーを確認
       unconfirm_user: このユーザーへの承認を取り消す
+      unsuspend_user: このユーザーの権限停止を解除
       hide_user: この利用者を表示しない
       unhide_user: このユーザーを再表示
       delete_user: この利用者を削除
@@ -2803,6 +2823,7 @@ ja:
         reactivate: 再有効化
         comment_and_resolve: コメント & 解決
         comment: コメント
+        report_link_html: このメモに削除が必要な機密情報が含まれている場合は、%{link}してください。メモに関する他の問題については、すべてコメントを付けてご自分で解決してください。
     edit_help: 編集したい位置に移動してズームインしてから、ここをクリックしてください。
     directions:
       ascend: 上り坂
