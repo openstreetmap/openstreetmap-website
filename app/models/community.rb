@@ -35,6 +35,7 @@ class Community < ApplicationRecord
   friendly_id :name, :use => :slugged
 
   belongs_to :organizer, :class_name => "User"
+  has_many :community_links
 
   validates :name, :presence => true, :length => 1..255, :characters => true
   validates :description, :presence => true, :length => 1..1023, :characters => true
