@@ -2,23 +2,38 @@
   <h1><%= "Microcosm" %></h1>
 <% end %>
 
-<h1>
-  <%= link_to @microcosm.name, @microcosm %>
-</h1>
-<p>
-  Location: <%= @microcosm.location %>
-</p>
-<p>
-  Coordinates: <%= @microcosm.lat %>, <%= @microcosm.lon %>
-</p>
-<p>
-  <%= auto_link @microcosm.description %>
-</p>
-<label>Share</label>
-<ul>
-  <% @microcosm.microcosm_links.each do |link| %>
-    <li>
-        <a href="<%= link.url %>"><%= link.site %></a>
-    </li>
-  <% end %>
-</ul>
+<style>
+  .mic_row { display: flex }
+  .mic_row > div { padding: 10px; }
+  .mic_details h1 { margin-top: 0; }
+  .mic_details label { font-weight: bold; }
+  .mic_details ul { display: inline-block; }
+  .mic_details ul > li { display: inline-block; }
+</style>
+
+<div class="mic_row">
+  <div>
+    <%= image_tag("microcosm_dc.png", size: "400x300") %>
+  </div>
+  <div class="mic_details">
+    <h1>
+      <%= link_to @microcosm.name, @microcosm %>
+    </h1>
+    <p>
+      <%= @microcosm.location %>, <%= @microcosm.lat %>, <%= @microcosm.lon %>
+    </p>
+    <p>
+      <%= auto_link @microcosm.description %>
+    </p>
+    <div>
+      <label>Share</label>
+      <ul>
+        <% @microcosm.microcosm_links.each do |link| %>
+          <li>
+            <a href="<%= link.url %>"><%= link.site %></a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
