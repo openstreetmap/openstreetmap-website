@@ -345,7 +345,10 @@ OpenStreetMap::Application.routes.draw do
   resources :redactions
 
   # communities
-  resources :communities
+  resources :communities do
+    resources :community_links, :only => [:create, :index, :new]
+  end
+  resources :community_links, :only => [:destroy, :edit, :update]
 
   # errors
   match "/400", :to => "errors#bad_request", :via => :all

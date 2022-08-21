@@ -35,6 +35,22 @@
       <p>
         <%= auto_link @community.description %>
       </p>
+      <div class="d-flex">
+        <label>
+          <% if current_user == @community.organizer %>
+            <%= link_to t(".links"), community_community_links_path(@community) %>
+          <% else %>
+            <%= t(".links") %>
+          <% end %>
+        </label>
+        <ul class="ps-2 breadcrumb">
+          <% @community.community_links.each do |link| %>
+            <li class="breadcrumb-item">
+              <a href="<%= link.url %>"><%= link.text %></a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
       <div>
         <label><%= t(".organizer") %></label>
         <%= link_to @community.organizer.display_name, user_path(@community.organizer) %>
