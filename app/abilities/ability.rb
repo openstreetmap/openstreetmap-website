@@ -49,13 +49,14 @@ class Ability
         can [:new, :create, :edit, :update, :comment, :subscribe, :unsubscribe], DiaryEntry
         can [:make_friend, :remove_friend], Friendship
         can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
-        can [:edit], Microcosm
         can [:close, :reopen], Note
         can [:show, :edit, :update], :preference
         can [:edit, :update], :profile
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public], User
+        can [:create, :new], Microcosm
+        can [:edit, :update], Microcosm, { :organizer_id => user.id }
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry

@@ -35,6 +35,18 @@ class Microcosm < ApplicationRecord
   validates :min_lon, :numericality => true, :inclusion => { :in => -180.0..180.0 }
   validates :max_lon, :numericality => true, :inclusion => { :in => -180.0..180.0 }
 
+  def longitude=(longitude)
+    super(OSM.normalize_longitude(longitude))
+  end
+
+  def min_lon=(longitude)
+    super(OSM.normalize_longitude(longitude))
+  end
+
+  def max_lon=(longitude)
+    super(OSM.normalize_longitude(longitude))
+  end
+
   def bbox
     BoundingBox.new(min_lon, min_lat, max_lon, max_lat)
   end
