@@ -1,8 +1,11 @@
 <% content_for :heading do %>
   <h1><%= "All Microcosms" %></h1>
+  <ul class='secondary-actions clearfix'>
+    <% if current_user&.administrator? %>
+      <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), new_microcosm_path, :title => t(".new_title") %></li>
+    <% end %>
+  </ul>
 <% end %>
-
-<%= link_to "new microcosm", new_microcosm_path %>
 
 <table>
   <thead>
