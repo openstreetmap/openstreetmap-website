@@ -8,14 +8,11 @@
 <p>
   <%= auto_link @microcosm.description %>
 </p>
-<% unless @microcosm.facebook.nil? and @microcosm.twitter.nil? %>
-  <p>
-    <label>Share</label>
-    <% unless @microcosm.facebook.nil? %>
-      <a href="https://facebook.com/groups/<%=@microcosm.facebook%>">Facebook</a>
-    <% end %>
-    <% unless @microcosm.twitter.nil? %>
-      <a href="https://twitter.com/<%=@microcosm.twitter%>">Twitter</a>
-    <% end %>
-  </p>
-<% end %>
+<label>Share</label>
+<ul>
+  <% @microcosm.microcosm_links.each do |link| %>
+    <li>
+        <a href="<%= link.url %>"><%= link.site %></a>
+    </li>
+  <% end %>
+</ul>

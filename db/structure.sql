@@ -972,14 +972,45 @@ ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
 
 --
+-- Name: microcosm_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.microcosm_links (
+    id bigint NOT NULL,
+    microcosm_id integer,
+    site character varying,
+    url character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: microcosm_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.microcosm_links_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: microcosm_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.microcosm_links_id_seq OWNED BY public.microcosm_links.id;
+
+
+--
 -- Name: microcosms; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.microcosms (
     id bigint NOT NULL,
     name character varying NOT NULL,
-    facebook character varying,
-    twitter character varying,
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -1771,6 +1802,13 @@ ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.mes
 
 
 --
+-- Name: microcosm_links id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_links ALTER COLUMN id SET DEFAULT nextval('public.microcosm_links_id_seq'::regclass);
+
+
+--
 -- Name: microcosms id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2090,6 +2128,14 @@ ALTER TABLE ONLY public.languages
 
 ALTER TABLE ONLY public.messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: microcosm_links microcosm_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_links
+    ADD CONSTRAINT microcosm_links_pkey PRIMARY KEY (id);
 
 
 --
@@ -3551,6 +3597,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220820220545'),
 ('20220820220849'),
 ('20220820221326'),
+('20220821143545'),
+('20220821144427'),
 ('21'),
 ('22'),
 ('23'),
