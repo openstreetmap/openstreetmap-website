@@ -939,6 +939,39 @@ ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
 
 --
+-- Name: microcosm_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.microcosm_links (
+    id bigint NOT NULL,
+    microcosm_id bigint NOT NULL,
+    site character varying NOT NULL,
+    url character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: microcosm_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.microcosm_links_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: microcosm_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.microcosm_links_id_seq OWNED BY public.microcosm_links.id;
+
+
+--
 -- Name: microcosms; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1744,6 +1777,13 @@ ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.mes
 
 
 --
+-- Name: microcosm_links id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_links ALTER COLUMN id SET DEFAULT nextval('public.microcosm_links_id_seq'::regclass);
+
+
+--
 -- Name: microcosms id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2063,6 +2103,14 @@ ALTER TABLE ONLY public.languages
 
 ALTER TABLE ONLY public.messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: microcosm_links microcosm_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_links
+    ADD CONSTRAINT microcosm_links_pkey PRIMARY KEY (id);
 
 
 --
@@ -2601,6 +2649,13 @@ CREATE INDEX index_issues_on_updated_by ON public.issues USING btree (updated_by
 
 
 --
+-- Name: index_microcosm_links_on_microcosm_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_microcosm_links_on_microcosm_id ON public.microcosm_links USING btree (microcosm_id);
+
+
+--
 -- Name: index_microcosms_on_organizer_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3114,6 +3169,14 @@ ALTER TABLE ONLY public.oauth_access_grants
 
 
 --
+-- Name: microcosm_links fk_rails_4e3be5d646; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_links
+    ADD CONSTRAINT fk_rails_4e3be5d646 FOREIGN KEY (microcosm_id) REFERENCES public.microcosms(id);
+
+
+--
 -- Name: microcosms fk_rails_682f8f4a39; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3544,6 +3607,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220201183346'),
 ('20220223140543'),
 ('20220820220545'),
+('20220821143545'),
 ('21'),
 ('22'),
 ('23'),

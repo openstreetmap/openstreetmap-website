@@ -27,6 +27,16 @@
         <label><%= t(".organizer") %></label>
         <%= link_to @microcosm.organizer.display_name, user_path(@microcosm.organizer) %>
       </div>
+      <div>
+        <label><%= t(".share") %></label>
+        <ul>
+          <% @microcosm.microcosm_links.each do |link| %>
+            <li>
+              <a href="<%= link.url %>"><%= link.site %></a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="row">
