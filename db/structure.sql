@@ -1014,7 +1014,14 @@ CREATE TABLE public.microcosms (
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    slug character varying
+    slug character varying,
+    location character varying NOT NULL,
+    lat numeric NOT NULL,
+    lon numeric NOT NULL,
+    min_lat integer NOT NULL,
+    max_lat integer NOT NULL,
+    min_lon integer NOT NULL,
+    max_lon integer NOT NULL
 );
 
 
@@ -3599,6 +3606,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220820221326'),
 ('20220821143545'),
 ('20220821144427'),
+('20220821154547'),
 ('21'),
 ('22'),
 ('23'),
