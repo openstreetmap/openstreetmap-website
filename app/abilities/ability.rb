@@ -69,6 +69,7 @@ class Ability
           can [:hide, :unhide, :hidecomment, :unhidecomment], DiaryEntry
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
+          can [:new, :create, :edit, :update], Microcosm
           can [:set_status, :destroy, :index], User
           can [:grant, :revoke], UserRole
         end

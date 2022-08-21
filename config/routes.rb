@@ -324,7 +324,7 @@ OpenStreetMap::Application.routes.draw do
   resources :redactions
 
   # microcosms
-  resources :microcosms, :only => [:show, :edit, :index]
+  resources :microcosms
 
   # errors
   match "/403", :to => "errors#forbidden", :via => :all

@@ -1,0 +1,70 @@
+<%# if microcosm.errors.any? %>
+<!--    <div id="error_explanation">-->
+<!--      <h2><%#= pluralize(microcosm.errors.count, "error") %> prohibited this microcosm from being saved:</h2>-->
+<!--      <ul>-->
+          <%# microcosm.errors.full_messages.each do |message| %>
+<!--          <li><%#= message %></li>-->
+          <%# end %>
+<!--      </ul>-->
+<!--    </div>-->
+<%# end %>
+
+<%= form_for @microcosm do |form| %>
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :microcosm_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :location %>
+    <%= form.text_field :location, id: :microcosm_location %>
+  </div>
+
+  <div class="field">
+    <%= form.label :lat %>
+    <%= form.text_field :lat, id: :microcosm_lat %> (decimal)
+  </div>
+
+  <div class="field">
+    <%= form.label :lon %>
+    <%= form.text_field :lon, id: :microcosm_lon %> (decimal)
+  </div>
+
+  <p>
+    To get a bounding box use Geofabrik's <a href="http://tools.geofabrik.de/calc/#type=geofabrik_standard&bbox=-120.848658,31.674368,-79.375023,49.413863&tab=1&proj=EPSG:4326&places=2">Tile Calculator</a> tool.
+  </p>
+
+  <div class="field">
+    <%= form.label :min_lat %>
+    <%= form.text_field :min_lat, id: :microcosm_min_lat %> (decimal * 10^7)
+  </div>
+
+  <div class="field">
+    <%= form.label :max_lat %>
+    <%= form.text_field :max_lat, id: :microcosm_max_lat %> (decimal * 10^7)
+  </div>
+
+  <div class="field">
+    <%= form.label :min_lon %>
+    <%= form.text_field :min_lon, id: :microcosm_min_lon %> (decimal * 10^7)
+  </div>
+
+  <div class="field">
+    <%= form.label :max_lon %>
+    <%= form.text_field :max_lon, id: :microcosm_max_lon %> (decimal * 10^7)
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :microcosm_description %>
+  </div>
+
+<!--  <div class="field">-->
+    <%#= form.label :welcome_message %>
+    <%#= form.text_area :welcome_message, id: :microcosm_welcome_message %>
+<!--  </div>-->
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
