@@ -559,6 +559,39 @@ ALTER SEQUENCE public.communities_id_seq OWNED BY public.communities.id;
 
 
 --
+-- Name: community_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.community_links (
+    id bigint NOT NULL,
+    community_id bigint NOT NULL,
+    text character varying NOT NULL,
+    url character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: community_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.community_links_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: community_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.community_links_id_seq OWNED BY public.community_links.id;
+
+
+--
 -- Name: current_node_tags; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1816,6 +1849,13 @@ ALTER TABLE ONLY public.communities ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: community_links id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_links ALTER COLUMN id SET DEFAULT nextval('public.community_links_id_seq'::regclass);
+
+
+--
 -- Name: current_nodes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2082,6 +2122,14 @@ ALTER TABLE ONLY public.client_applications
 
 ALTER TABLE ONLY public.communities
     ADD CONSTRAINT communities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: community_links community_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_links
+    ADD CONSTRAINT community_links_pkey PRIMARY KEY (id);
 
 
 --
@@ -2714,6 +2762,13 @@ CREATE INDEX index_communities_on_organizer_id ON public.communities USING btree
 --
 
 CREATE UNIQUE INDEX index_communities_on_slug ON public.communities USING btree (slug);
+
+
+--
+-- Name: index_community_links_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_community_links_on_community_id ON public.community_links USING btree (community_id);
 
 
 --
@@ -3387,6 +3442,14 @@ ALTER TABLE ONLY public.oauth_access_tokens
 
 
 --
+-- Name: community_links fk_rails_f60a749c39; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_links
+    ADD CONSTRAINT fk_rails_f60a749c39 FOREIGN KEY (community_id) REFERENCES public.communities(id);
+
+
+--
 -- Name: friends friends_friend_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3727,6 +3790,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('21'),
 ('20240618193051'),
 ('20240605134916'),
+('20240525143545'),
 ('20240525030520'),
 ('20240525020545'),
 ('20240405083825'),
