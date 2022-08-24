@@ -11,9 +11,20 @@ class IssueCommentsController < ApplicationController
     comment = @issue.comments.build(issue_comment_params)
     comment.user = current_user
     comment.save!
-    notice = t(".comment_created")
-    reassign_issue(@issue) if params[:reassign]
-    redirect_to @issue, :notice => notice
+
+    if params[:reassign]
+      reassign_issue(@issue)
+      flash[:notice] = t ".issue_reassigned"
+
+      if current_user.has_role? @issue.assigned_role
+        redirect_to @issue
+      else
+        redirect_to issues_path
+      end
+    else
+      flash[:notice] = t(".comment_created")
+      redirect_to @issue
+    end
   end
 
   private
