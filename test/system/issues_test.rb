@@ -125,8 +125,25 @@ class IssuesTest < ApplicationSystemTestCase
     check :reassign
     click_on "Add Comment"
 
+    assert_content "and the issue was reassigned"
+    assert_current_path issues_path
+
     issue.reload
     assert_equal "moderator", issue.assigned_role
+  end
+
+  def test_reassign_issue_as_super_user
+    issue = create(:issue)
+    sign_in_as(create(:super_user))
+
+    visit issue_path(issue)
+
+    fill_in :issue_comment_body, :with => "reassigning to moderators"
+    check :reassign
+    click_on "Add Comment"
+
+    assert_content "and the issue was reassigned"
+    assert_current_path issue_path(issue)
   end
 
   def test_issue_index_with_multiple_roles
