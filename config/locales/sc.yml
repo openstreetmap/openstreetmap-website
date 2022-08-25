@@ -31,6 +31,7 @@ sc:
         update: Agiorna
       redaction:
         create: Crea una revisione
+        update: Sarva sa cuadura
       trace:
         create: Càrriga
         update: Sarva sas modìficas
@@ -41,14 +42,21 @@ sc:
     errors:
       messages:
         invalid_email_address: non paret èssere un'indiritzu de posta eletrònica vàlidu
+        email_address_not_routable: non si podet incarrerare
     models:
       acl: Lista de Controllu de Atzessu
+      changeset: Grupu de modìficas
+      changeset_tag: Eticheta de su grupu de modìficas
       country: Istadu
+      diary_comment: Cummentu in su diàriu
+      diary_entry: Intrada in su diàriu
       friend: Amigu
+      issue: Problema
       language: Limba
       message: Messàgiu
       node: Nodu
       node_tag: Etichetta de su nodu
+      notifier: Notificadore
       old_node: Nodu betzu
       old_node_tag: Etichetta betza de su nodu
       old_relation: Relata betza
@@ -60,37 +68,48 @@ sc:
       relation: Relata
       relation_member: Membru de sa relata
       relation_tag: Eticheta de sa relata
+      report: Informe
       session: Sessione
       trace: Sestadu
       tracepoint: Puntu de su sestadu
       tracetag: Eticheta de su sestadu
-      user: Impreadore
-      user_preference: Preferèntzias de s'impreadore
-      user_token: Còdighe de s'impreadore
+      user: Utente
+      user_preference: Preferèntzias de s'utente
+      user_token: Còdighe de s'utente
       way: Caminu
       way_node: Nodu de su caminu
       way_tag: Eticheta de sa bia
     attributes:
       client_application:
+        name: Nùmene (obligatòriu)
+        url: URL printzipale de s'aplicatzione (obligatòriu)
+        callback_url: URL de torrada
         support_url: URL de apògiu
+        allow_read_prefs: lèghere sas preferèntzias tuas de utente
+        allow_write_prefs: modificare sas preferèntzias tuas de utente.
         allow_write_diary: iscrii pàginas de cuotidianu, cumentus e fai amigus
         allow_write_api: modìfica sa mapa
+        allow_read_gpx: lèghere sas rastas GPS privadas issoro
+        allow_write_gpx: carrigare rastas GPS
+        allow_write_notes: modificare sas notas
       diary_comment:
         body: Corpus
       diary_entry:
-        user: Impreadore
+        user: Utente
         title: 'Sugetu:'
         latitude: Latitùdine
         longitude: Longitùdine
         language: Limba
       doorkeeper/application:
         name: Nùmene
+        redirect_uri: Torrare a indiritzare URIs
+        confidential: Aplicatzione cunfidentziale?
         scopes: Permissus
       friend:
-        user: Impreadore
+        user: Utente
         friend: Amigu
       trace:
-        user: Impreadore
+        user: Utente
         visible: Visìbile
         name: Nùmene de su documentu
         size: Mannesa
@@ -111,7 +130,10 @@ sc:
         description: Descritzione
       report:
         category: Scèbera unu motivu po sa denùntzia bostra
+        details: Fruni prus detàllios subra de su problema (obligatòriu).
       user:
+        auth_provider: Frunidore de autenticatzione
+        auth_uid: UID de autenticatzione
         email: E-lìtera
         email_confirmation: Cunfirma de su curreu eletrònicu
         new_email: Indiritzu nou de su curreu eletrònicu
@@ -121,6 +143,7 @@ sc:
         home_lat: Latitùdine
         home_lon: Longitùdine
         languages: Limbas preferidas
+        preferred_editor: Editore preferidu
         pass_crypt: Crae
         pass_crypt_confirmation: Cunfirma sa password
     help:
@@ -128,10 +151,66 @@ sc:
         confidential: S'aplicatzione at a èssere impreada ue su segretu de su cliente
           potzat èssere mantentu cunfidentziale (sas aplicatziones nadias de telefoneddu
           e sas aplicatziones de una pàgina sola non sunt cunfidentziales)
+        redirect_uri: Imprea una lìnia pro URI
+      trace:
+        tagstring: separadu dae vìrgulas
+      user_block:
+        reason: Sa resone de su blocu de s'utente. Chirca de mantènnere sa calma e
+          de abarrare resonile su prus chi podes, frunende su nùmeru de detàllios
+          prus mannu chi podes subra de sa situatzione e ammentende·ti chi su messàgiu
+          at a èssere visìbile in manera pùblica. Tene in contu chi non totu sos utentes
+          cumprendent su suspu de sa comunidade, duncas chirca de impreare tèrmines
+          comunes.
+        needs_view: S'utente tenet bisòngiu de s'autenticare in antis chi custu blocu
+          bèngiat iscantzelladu?
+      user:
+        email_confirmation: S'indiritzu tuo no est ammustradu a manera pùblica, pòmpia·ti
+          sa<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Normas
+          subra de sa riservadesa de sa OSMF cun incluida sa setzione subra de sos
+          indiritzos de posta eletrònica">polìtica subra de sa riservadesa</a> pro
+          àteras informatziones.
+        new_email: (mai ammustradu a manera pùblica)
   datetime:
     distance_in_words_ago:
+      about_x_hours:
+        one: pagu prus o mancu 1 ora a como
+        other: pagu prus o mancu %{count} oras a como
+      about_x_months:
+        one: pagu prus o mancu 1 mese a como
+        other: pagu prus o mancu %{count} meses a como
+      about_x_years:
+        one: pagu prus o mancu 1 annu a como
+        other: pagu prus o mancu %{count} annos a como
+      almost_x_years:
+        one: belle 1 annu a como
+        other: belle %{count} annos a como
       half_a_minute: mesu minutu a como
+      less_than_x_seconds:
+        one: prus pagu de 1 segundu a como
+        other: prus pagu de %{count} segundos a como
+      less_than_x_minutes:
+        one: prus pagu de 1 minutu a como
+        other: prus pagu de %{count} minutos a como
+      over_x_years:
+        one: prus de 1 annu a como
+        other: prus de %{count} annos a como
+      x_seconds:
+        one: 1 segundu a como
+        other: '%{count} segundos a como'
+      x_minutes:
+        one: 1 minutu a como
+        other: '%{count} minutos a como'
+      x_days:
+        one: 1 die a como
+        other: '%{count} dies a como'
+      x_months:
+        one: 1 mese a como
+        other: '%{count} meses a como'
+      x_years:
+        one: 1 annu a como
+        other: '%{count} annos a como'
   editor:
+    default: Predefinidu (in custu momentu %{name})
     id:
       name: |2-
 
@@ -156,25 +235,62 @@ sc:
         opened_at_by_html: Creadu %{when} dae %{user}
         commented_at_html: Agiornadu %{when}
         commented_at_by_html: Agiornadu %{when} dae %{user}
+        closed_at_html: Risòlvidu %{when}
+        closed_at_by_html: Risòlvidu %{when} dae %{user}
         reopened_at_html: Torradu a ativare %{when}
         reopened_at_by_html: Torradu a ativare %{when} dae %{user}
       rss:
         title: Notas de OpenStreetMap
+        description_area: Una lista de notas, cummentadas o tancadas in s'àrea tua
+          [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: Unu flussu de informatziones rss pro sa nota %{id}
+        opened: nota noa (a curtzu de %{place})
+        commented: cummentu nou (a curtzu de %{place})
+        closed: nota serrada ( a curtzu de %{place})
+        reopened: nota torrada a ativare (a curtzu de %{place})
       entry:
         comment: Cummentu
         full: Nota intrea
   account:
     deletions:
       show:
+        title: Iscantzella su contu meu
+        warning: Dae cara! Su protzessu de iscantzelladura de su contu est finale,
+          e non si podet annullare.
+        delete_account: Iscantzella su contu
+        delete_introduction: 'Podes iscantzellare su contu tuo de OpenStreetMap impreende
+          su butone inoghe in suta. Tene in contu sos detàllios chi sighint:'
+        delete_profile: Sas informatziones de su profilu tuo, chi incluint s'àvatar
+          tuo, sa descritzione tua e sa positzione de domo tua s'ant a iscantzellare.
+        delete_display_name: Su nùmene ammustradu tuo s'at a iscantzellare, e àteros
+          contos l'ant a pòdere impreare.
+        retain_caveats: 'Nointames custu, unas cantas informatziones chi ti pertocant
+          ant a s''ant a cunservare in OpenStreetMap, fintzas a pustis de s''iscantzelladura
+          de su contu tuo:'
+        retain_edits: Sas modìficas tuas a sa base de datos de sa mapa, si nd'as fatu,
+          s'ant a cunservare.
+        retain_traces: Sas rastas carrigadas tuas, si bi nde sunt, s'ant a cunservare.
+        retain_diary_entries: Sas boghes e sos cummentos in su diàriu, si bi nd'at,
+          ant a èssere cunservados ma cuados a sa vista.
+        retain_notes: Sas notas de sa mapa e sos cummentos a sas notas, si bi nd'at,
+          ant a èssere cunservados ma cuados a sa vista.
+        retain_changeset_discussions: Sos arresonos tuos in sos grupos de modìficas,
+          si bi nd'at, s'ant a cunservare.
+        retain_email: S'indiritzu tuo de posta eletrònica s'at a cunservare.
         confirm_delete: Seguru ses?
+        cancel: Annulla
   accounts:
     edit:
+      title: Modìfica su profilu
       my settings: Preferèntzias meas
+      current email address: Indiritzu de posta eletrònica atuale
+      external auth: Autenticatzione esterna
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: ite est custu?
       public editing:
         heading: Modificatzione pùblica
+        enabled: Abilitada. No anònimu e podet modificare datos.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ite est custu?
         disabled: Inabilitadu e chene permissu de mudare sos datos; totu sas modìficas
@@ -182,35 +298,101 @@ sc:
         disabled link text: pro ite non potzo fàghere modìficas?
       public editing note:
         heading: Modificatzione pùblica
+        html: In custu momentu sas modìficas tuas sunt anònimas e sa gente non ti
+          podet imbiare messàgios o bìdere sa positzione tua. Pro ammustrare su chi
+          as modificadu e permìtere a sa gente de ti cuntatare pro mèdiu de su situ
+          web incarca su butone inoghe in suta.. <b>Dae su cambiamentu 0.6 de s'API,
+          petzi sos utentes pùblicos podent modificare sos datos de sa mapa</b>. (<a
+          href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">impara su proite</a>).<ul><li>S'indiritzu
+          de posta eletrònica tuo no at a èssere riveladu divenende pùblicu.</li><li>Custa
+          atzione non si podet annullare e totu sos utentes noos como sunt pùblicos
+          comente impostatzione predefinida.</li></ul>
       contributor terms:
         heading: Règulas po contribuire
         agreed: As atzetadu sos tèrmines noos de collaboratzione.
         not yet agreed: No as galu atzetadu sos tèrmines noos de collaboratzione.
+        review link text: Cando podes pro praghere sighi custu ligàmene pro revisionare
+          e atzetare sas cunditziones noas pro sa contributzione.
+        agreed_with_pd: As fintzas decraradu chi cunsìderas sas modìficas tuas de
+          domìniu pùblicu.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: ite est custu?
       save changes button: Sarva sas modìficas
       make edits public button: Fais totu sas modìficas meas pùblicas
       delete_account: Boga su contu...
+    update:
+      success_confirm_needed: Informatziones de s'utente atualizadas. Controlla s'indiritzu
+        de posta eletrònica tuo pro cunfirmare s'indiritzu de posta nou tuo.
+      success: Informatzione de s'utente atualizadas.
     destroy:
       success: Contu bogau.
   browse:
     created: Creadu
     closed: Serradu
+    created_html: Creadu <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Serradu <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Creadu <abbr title='%{title}'>%{time}</abbr> dae %{user}
+    deleted_by_html: Iscantzelladu <abbr title='%{title}'>%{time}</abbr> dae %{user}
+    edited_by_html: Modificadu <abbr title='%{title}'>%{time}</abbr> dae %{user}
+    closed_by_html: Serradu <abbr title='%{title}'>%{time}</abbr> dae %{user}
     version: Versione
+    in_changeset: Grupu de modìficas
     anonymous: anònimu
+    no_comment: (perunu cummentu)
     part_of: Parte de
+    part_of_relations:
+      one: 1 relatzione
+      other: '%{count} relatziones'
+    part_of_ways:
+      one: 1 lìnia
+      other: '%{count} lìnias'
     download_xml: Iscàrriga XML
     view_history: Càstia Istòria
     view_details: Mustra Detàllios
     location: 'Logu:'
     changeset:
+      title: 'Grupu de modìficas: %{id}'
       belongs_to: Autore
+      node: Nodos (%{count})
+      node_paginated: Nodos (%{x}-%{y} de %{count})
+      way: Lìnias (%{count})
+      way_paginated: Lìnias (%{x}-%{y} de %{count})
+      relation: Relatziones (%{count})
+      relation_paginated: Relatziones (%{x}-%{y} de %{count})
+      comment: Cummentos (%{count})
+      hidden_commented_by_html: Cummentu cuadu de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Cummentu de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      changesetxml: XML de su grupu de modìficas
+      osmchangexml: XML in formadu osmChange
+      feed:
+        title: Grupu de modìficas %{id}
+        title_comment: Grupu de modìficas %{id} - %{comment}
       join_discussion: Intra pro t'aunire a s'arresonu
       discussion: Arresonu
+      still_open: Grupu de modìficas galu abertu - s'arresonu s'at a abèrrere cando
+        su grupu de modìficas s'at a serrare.
+    node:
+      title_html: 'Nodu: %{name}'
+      history_title_html: 'Istòria de su nodu: %{name}'
     way:
+      title_html: 'Lìnia: %{name}'
+      history_title_html: 'Istòria de sa lìnia: %{name}'
       nodes: Nodos
+      nodes_count:
+        one: 1 nodu
+        other: '%{count} nodos'
+      also_part_of_html:
+        one: parte de sa lìnia %{related_ways}
+        other: parte de sas lìnias %{related_ways}
     relation:
+      title_html: 'Relatzione: %{name}'
+      history_title_html: 'Istòria de sa relatzione: %{name}'
       members: Membros
+      members_count:
+        one: 1 membru
+        other: '%{count} membros'
     relation_member:
+      entry_role_html: '%{type} %{name} comente %{role}'
       type:
         node: Nodu
         way: Caminu
@@ -220,16 +402,22 @@ sc:
       entry_role_html: Relata %{relation_name} (as %{relation_role})
     not_found:
       title: No agatadu
+      sorry: 'No at fatu a agatare %{type} #%{id}'
       type:
         node: nodu
         way: caminu
         relation: relata
+        changeset: grupu de modìficas
         note: nota
     timeout:
+      title: Errore de lìmite de tempus de isetu barigadu
+      sorry: S'est istentadu tropu a otènnere sos datos pro sa casta %{type} cun s'identificadore
+        %{id}.
       type:
         node: nodu
         way: caminu
         relation: relata
+        changeset: grupu de modìficas
         note: nota
     redacted:
       redaction: Revisione %{id}
@@ -241,14 +429,43 @@ sc:
         way: caminu
         relation: relata
     start_rjs:
+      feature_warning: Carrighende %{num_features} funtzionalidades, chi diant pòdere
+        fàghere in manera chi su navigadore siat lentu o non rispondat. Ses seguru
+        de bòlere ammustrare custos datos?
       load_data: Càrriga Datos
       loading: Carrigamentu...
     tag_details:
       tags: Etichetas
+      wiki_link:
+        key: Sa pàgina de descritzione de sa wiki pro s'eticheta %{key}
+        tag: Sa pàgina de descritzione de sa wiki pro s'eticheta %{key}=%{value}
+      wikidata_link: S'elementu %{page} in Wikidata
+      wikipedia_link: S'artìculu %{page} in Wikipedia
+      wikimedia_commons_link: S'elementu %{page} in Wikimedia Commons
+      telephone_link: Muti a su %{phone_number}
+      colour_preview: Anteprima de su colore %{colour_value}
     note:
       title: 'Nota: %{id}'
       new_note: Nota noa
       description: Descritzione
+      open_title: 'Nota non risòlvida #%{note_name}'
+      closed_title: 'Nota risòlvida #%{note_name}'
+      hidden_title: 'Nota cuada #%{note_name}'
+      opened_by_html: Creada dae %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Creada dae un'anònimu <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Cummentu de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Cummentu de un'anònimu <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Risòlvida dae %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Risòlvida dae un'anònimu <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Torrada a ativare dae %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Torrada a ativare dae un'anònimu <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Cuada dae %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: sinnala custa nota
+    query:
+      title: Chirca de elementos
+      introduction: Incarca in sa mapa pro agatare elementos a curtzu.
+      nearby: Elementos a curtzu
+      enclosing: Elementos chi inserrant custu puntu
   changesets:
     changeset_paging_nav:
       showing_page: Pàgina %{page}
@@ -256,8 +473,11 @@ sc:
       previous: « Pretzedente
     changeset:
       anonymous: Anònimu
+      no_edits: (peruna modìfica)
+      view_changeset_details: Pòmpia sos detàllios de su grupu de modìficas
     changesets:
       id: ID
+      saved_at: Sarvadu su
       user: Impitadore
       comment: Cummentu
       area: Àrea
@@ -266,12 +486,40 @@ sc:
       title_user: Trumas de modìficas de %{user}
       title_friend: Trumas de modìficas de sos amigus meus
       title_nearby: Trumas de modìficas de utentes acanta
+      empty: Perunu grupu de modìficas agatadu.
+      empty_area: Perunu grupu de modìficas in custa àrea.
+      empty_user: Perunu grupu de modìficas de custu utente.
+      no_more: Perunu àteru grupu de modìficas agatadu.
+      no_more_area: Perunu àteru grupu de modìficas in custa àrea.
+      no_more_user: Perunu àteru grupu de modìficas de custu utente.
       load_more: Càrriga·nde prus
+    timeout:
+      sorry: S'elencu de grupos de modìficas chi as pedidu at bisongiadu de tropu
+        tempus pro lu recuperare.
+  changeset_comments:
+    comment:
+      comment: 'Cummentu nou a su grupu de modìficas #%{changeset_id} de %{author}'
+      commented_at_by_html: Atualizadu %{when} dae %{user}
+    comments:
+      comment: 'Cummentu nou a su grupu de modìficas #%{changeset_id} de %{author}'
+    index:
+      title_all: Arresonu subra su grupu de modìficas de OpenStreetMap
+      title_particular: 'Arresonu de su grupu de modìficas de OpenStreetMap #%{changeset_id}'
+    timeout:
+      sorry: S'elencu de grupos de modìficas chi as pedidu at bisongiadu de tropu
+        tempus pro lu recuperare.
   dashboards:
+    contact:
+      km away: ' a %{count} km de distàntzia'
+      m away: ' a %{count} m de distàntzia'
     popup:
+      your location: Sa positzione tua
+      nearby mapper: Mapadore a curtzu
       friend: Amigu
     show:
       title: Sa dashboard mea
+      no_home_location_html: '%{edit_profile_link} e imposta sa positzione de domo
+        tua pro bìdere sos utentes a curtzu.'
       edit_your_profile: Modìfica su profìlu tuu
       my friends: Amigus meus
   diary_entries:
@@ -1045,6 +1293,7 @@ sc:
       legale_names:
         france: Frantza
         italy: Itàlia
+        rest_of_world: Restu de su mundu
     show:
       my profile: Su profilu meu
       edits: Modìficas
