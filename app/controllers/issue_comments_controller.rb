@@ -19,7 +19,7 @@ class IssueCommentsController < ApplicationController
       if current_user.has_role? @issue.assigned_role
         redirect_to @issue
       else
-        redirect_to issues_path
+        redirect_to issues_path(:status => "open")
       end
     else
       flash[:notice] = t(".comment_created")

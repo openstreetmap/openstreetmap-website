@@ -126,7 +126,7 @@ class IssuesTest < ApplicationSystemTestCase
     click_on "Add Comment"
 
     assert_content "and the issue was reassigned"
-    assert_current_path issues_path
+    assert_current_path issues_path(:status => "open")
 
     issue.reload
     assert_equal "moderator", issue.assigned_role
