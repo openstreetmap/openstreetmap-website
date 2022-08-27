@@ -254,20 +254,31 @@ OSM.Directions = function (map) {
         map.fitBounds(polyline.getBounds().pad(0.05));
       }
 
-      var html = "<a class=\"geolink\" href=\"#\"><button type='button' class='btn-close float-end mt-1'></button></a>" +
-        "<h2>" + I18n.t("javascripts.directions.directions") + "</h2>" +
-        "<p>" +
+      var distanceText = $("<p>").append(
         I18n.t("javascripts.directions.distance") + ": " + formatDistance(route.distance) + ". " +
-        I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".";
+        I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".");
       if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
-        html += "<br />" +
+        distanceText.append(
+          $("<br>"),
           I18n.t("javascripts.directions.ascend") + ": " + Math.round(route.ascend) + "m. " +
-          I18n.t("javascripts.directions.descend") + ": " + Math.round(route.descend) + "m.";
+          I18n.t("javascripts.directions.descend") + ": " + Math.round(route.descend) + "m.");
       }
-      html += "</p><table id=\"turnbyturn\" class=\"mb-3\"/>";
+
+      var turnByTurnTable = $("<table class='mb-3'>");
 
       $("#sidebar_content")
-        .html(html);
+        .empty()
+        .append(
+          $("<div class='d-flex'>").append(
+            $("<div class='flex-grow-1 text-break'>").append(
+              $("<h2>")
+                .text(I18n.t("javascripts.directions.directions"))),
+            $("<div>").append(
+              $("<a class='geolink' href='#'>").append(
+                $("<button type='button' class='btn-close mt-1'>")))),
+          distanceText,
+          turnByTurnTable
+        );
 
       // Add each row
       route.steps.forEach(function (step) {
@@ -309,7 +320,7 @@ OSM.Directions = function (map) {
           map.removeLayer(highlight);
         });
 
-        $("#turnbyturn").append(row);
+        turnByTurnTable.append(row);
       });
 
       $("#sidebar_content").append("<p class=\"text-center\">" +
