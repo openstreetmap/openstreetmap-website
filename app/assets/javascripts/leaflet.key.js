@@ -5,11 +5,7 @@ L.OSM.key = function (options) {
     var $container = $("<div>")
       .attr("class", "control-key");
 
-    var button = $("<a>")
-      .attr("class", "control-button")
-      .attr("href", "#")
-      .html("<span class=\"icon key\"></span>")
-      .on("click", toggle)
+    var button = this.makeButton("key", null, toggle)
       .appendTo($container);
 
     var $ui = this.makeUI("key-ui", "javascripts.key.title", toggle);

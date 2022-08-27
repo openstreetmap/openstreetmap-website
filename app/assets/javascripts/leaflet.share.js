@@ -10,12 +10,7 @@ L.OSM.share = function (options) {
     var $container = $("<div>")
       .attr("class", "control-share");
 
-    var button = $("<a>")
-      .attr("class", "control-button")
-      .attr("href", "#")
-      .attr("title", I18n.t("javascripts.share.title"))
-      .html("<span class=\"icon share\"></span>")
-      .on("click", toggle)
+    var button = this.makeButton("share", "javascripts.share.title", toggle)
       .appendTo($container);
 
     var $ui = this.makeUI("share-ui", "javascripts.share.title", toggle);
