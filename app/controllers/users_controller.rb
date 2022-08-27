@@ -83,7 +83,7 @@ class UsersController < ApplicationController
         end
 
         if current_user.save
-          flash[:piwik_goal] = PIWIK["goals"]["signup"] if defined?(PIWIK)
+          flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
 
           referer = welcome_path
 
@@ -271,7 +271,7 @@ class UsersController < ApplicationController
       session[:new_user].auth_provider = provider
       session[:new_user].auth_uid = uid
 
-      session[:new_user].status = "active" if email_verified && email == session[:new_user].email
+      session[:new_user].activate if email_verified && email == session[:new_user].email
 
       redirect_to :action => "terms"
     else

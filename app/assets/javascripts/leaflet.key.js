@@ -19,9 +19,8 @@ L.OSM.key = function (options) {
       .attr("class", "sidebar_heading")
       .appendTo($ui)
       .append(
-        $("<span>")
-          .text(I18n.t("javascripts.close"))
-          .attr("class", "icon close")
+        $("<button type='button' class='btn-close float-end mt-1'>")
+          .attr("aria-label", I18n.t("javascripts.close"))
           .bind("click", toggle))
       .append(
         $("<h4>")
@@ -63,7 +62,7 @@ L.OSM.key = function (options) {
       var disabled = ["mapnik", "cyclemap"].indexOf(map.getMapBaseLayerId()) === -1;
       button
         .toggleClass("disabled", disabled)
-        .attr("data-original-title",
+        .attr("data-bs-original-title",
               I18n.t(disabled ?
                 "javascripts.key.tooltip_disabled" :
                 "javascripts.key.tooltip"));

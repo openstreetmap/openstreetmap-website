@@ -7,6 +7,7 @@ class SiteController < ApplicationController
   before_action :redirect_browse_params, :only => :index
   before_action :redirect_map_params, :only => [:index, :edit, :export]
   before_action :require_oauth, :only => [:index]
+  before_action :require_user, :only => [:id]
   before_action :update_totp, :only => [:index]
 
   authorize_resource :class => false

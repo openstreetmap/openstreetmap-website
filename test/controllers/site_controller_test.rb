@@ -520,4 +520,12 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     assert_template "id"
     assert_template :layout => false
   end
+
+  # Test the id frame when not logged in
+  def test_id_without_login
+    get id_path
+
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => "/id")
+  end
 end

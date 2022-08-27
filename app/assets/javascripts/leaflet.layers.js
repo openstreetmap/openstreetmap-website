@@ -22,9 +22,8 @@ L.OSM.layers = function (options) {
       .attr("class", "sidebar_heading")
       .appendTo($ui)
       .append(
-        $("<span>")
-          .text(I18n.t("javascripts.close"))
-          .attr("class", "icon close")
+        $("<button type='button' class='btn-close float-end mt-1'>")
+          .attr("aria-label", I18n.t("javascripts.close"))
           .bind("click", toggle))
       .append(
         $("<h4>")
@@ -171,7 +170,7 @@ L.OSM.layers = function (options) {
           }
 
           $(item).attr("class", disabled ? "disabled" : "");
-          item.attr("data-original-title", disabled ?
+          item.attr("data-bs-original-title", disabled ?
             I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip") : "");
         });
       };

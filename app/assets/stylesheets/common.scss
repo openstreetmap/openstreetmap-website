@@ -55,7 +55,6 @@ small, aside {
 .icon.clipboard   { /* no-r2 */ background-position: -160px 0; }
 .icon.link        { /* no-r2 */ background-position: -180px 0; }
 .icon.close       { /* no-r2 */ background-position: -200px 0; }
-.close-wrap:hover .icon.close,
 .icon.close:hover { /* no-r2 */ background-position: -200px -20px; }
 .icon.check       { /* no-r2 */ background-position: -220px 0; }
 .icon.note        { /* no-r2 */ background-position: -240px 0; }
@@ -202,16 +201,9 @@ nav.secondary {
       &:hover {
         border-color: $grey;
       }
-      &:focus {
-        background-color: white;
-        box-shadow: none;
-      }
     }
     &.show .btn-outline-secondary {
       background-color: white;
-      &:focus {
-        box-shadow: none;
-      }
     }
   }
 
@@ -284,7 +276,8 @@ body.compact-nav {
   margin-bottom: 10px;
   outline: none;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: black;
   }
 
@@ -357,30 +350,6 @@ body.compact-nav {
       float: left;
       clear: both;
       width: 100%;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-    }
-
-    h3, h4 {
-      font-size: 1.25rem;
-    }
-
-    .close-wrap {
-      cursor: pointer;
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 60px;
-      height: 60px;
-
-      .icon.close {
-        pointer-events: none;
-        position: absolute;
-        right: 20px;
-        top: 20px;
-      }
     }
   }
 
@@ -633,11 +602,6 @@ body.compact-nav {
   padding: $lineheight/2 $lineheight;
   // background: $offwhite;
   // border-bottom: 1px solid $grey;
-  > .close {
-    float: right;
-    margin-top: 2px;
-    cursor: pointer;
-  }
 }
 
 #browse_status {
@@ -1318,10 +1282,6 @@ tr.turn:hover {
       vertical-align: middle;
     }
   }
-
-  a.reverse_directions {
-    cursor: pointer;
-  }
 }
 
 /* Rules for user images */
@@ -1459,13 +1419,11 @@ dl.dl-inline {
 .richtext,
 .prose {
   code {
-    font-size: 13px;
     background: $lightgrey;
     padding: 2px 3px;
   }
 
   pre {
-    font-size: 13px;
     background: $lightgrey;
     padding: 2px 3px;
     white-space: pre-wrap;
@@ -1508,19 +1466,10 @@ dl.dl-inline {
 
 /* Rules for the "Welcome" page */
 .site-welcome, .site-fixthemap {
-  .center {
-    text-align: center;
-    .sprite {
-      float: none;
-      margin: auto;
-    }
-  }
-
   .sprite {
     background-image: image-url("welcome-sprite.png");
     background-size: 500px 250px;
     display: block;
-    float: left;
   }
 
   .icon-list {
@@ -1568,15 +1517,6 @@ dl.dl-inline {
 
   .sprite.rules {
     /* no-r2 */ background-position: -350px 0;
-  }
-
-  .start-mapping {
-    margin: auto;
-    cursor: pointer;
-    border: none;
-    padding: 20px 40px;
-    font-size: 30px;
-    text-decoration: none;
   }
 
   .icon.note {

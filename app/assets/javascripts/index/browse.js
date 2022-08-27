@@ -50,10 +50,11 @@ OSM.initializeBrowse = function (map) {
     $("#browse_status").html(
       $("<div>")
         .append(
+          $("<button type='button' class='btn-close float-end mt-1'>")
+            .click(cancel),
           $("<h2>")
             .text(I18n.t("browse.start_rjs.load_data"))
-            .prepend($("<span class='icon close'></span>").click(cancel)))
-        .append(
+            .prepend(),
           $("<div>")
             .append(
               $("<p class='alert alert-warning clearfix'></p>")
