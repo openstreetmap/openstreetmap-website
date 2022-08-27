@@ -1,5 +1,5 @@
 L.OSM.layers = function (options) {
-  var control = L.control(options);
+  var control = L.OSM.sidebarPane(options);
 
   control.onAdd = function (map) {
     var layers = options.layers;
@@ -15,19 +15,7 @@ L.OSM.layers = function (options) {
       .on("click", toggle)
       .appendTo($container);
 
-    var $ui = $("<div>")
-      .attr("class", "layers-ui");
-
-    $("<div>")
-      .attr("class", "sidebar_heading")
-      .appendTo($ui)
-      .append(
-        $("<button type='button' class='btn-close float-end mt-1'>")
-          .attr("aria-label", I18n.t("javascripts.close"))
-          .bind("click", toggle))
-      .append(
-        $("<h4>")
-          .text(I18n.t("javascripts.map.layers.header")));
+    var $ui = this.makeUI("layers-ui", "javascripts.map.layers.header", toggle);
 
     var baseSection = $("<div>")
       .attr("class", "section base-layers")

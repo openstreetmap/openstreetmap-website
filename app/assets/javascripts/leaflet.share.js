@@ -1,5 +1,5 @@
 L.OSM.share = function (options) {
-  var control = L.control(options),
+  var control = L.OSM.sidebarPane(options),
       marker = L.marker([0, 0], { draggable: true }),
       locationFilter = new L.LocationFilter({
         enableButton: false,
@@ -18,19 +18,7 @@ L.OSM.share = function (options) {
       .on("click", toggle)
       .appendTo($container);
 
-    var $ui = $("<div>")
-      .attr("class", "share-ui");
-
-    $("<div>")
-      .attr("class", "sidebar_heading")
-      .appendTo($ui)
-      .append(
-        $("<button type='button' class='btn-close float-end mt-1'>")
-          .attr("aria-label", I18n.t("javascripts.close"))
-          .bind("click", toggle))
-      .append(
-        $("<h4>")
-          .text(I18n.t("javascripts.share.title")));
+    var $ui = this.makeUI("share-ui", "javascripts.share.title", toggle);
 
     // Link / Embed
 

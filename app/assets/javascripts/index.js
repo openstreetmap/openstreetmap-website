@@ -1,5 +1,6 @@
 //= require_self
 //= require leaflet.sidebar
+//= require leaflet.sidebar-pane
 //= require leaflet.locatecontrol/src/L.Control.Locate
 //= require leaflet.layers
 //= require leaflet.key
