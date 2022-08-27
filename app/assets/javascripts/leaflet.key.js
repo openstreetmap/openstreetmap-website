@@ -1,20 +1,10 @@
 L.OSM.key = function (options) {
-  var control = L.OSM.sidebarPane(options);
+  var control = L.OSM.sidebarPane(options, "key", null, "javascripts.key.title");
 
-  control.onAdd = function (map) {
-    var $container = $("<div>")
-      .attr("class", "control-key");
-
-    var button = this.makeButton("key", null, toggle)
-      .appendTo($container);
-
-    var $ui = this.makeUI("key-ui", "javascripts.key.title", toggle);
-
+  control.onAddPane = function (map, button, $ui) {
     var $section = $("<div>")
       .attr("class", "section")
       .appendTo($ui);
-
-    options.sidebar.addPane($ui);
 
     $ui
       .on("show", shown)
@@ -31,15 +21,6 @@ L.OSM.key = function (options) {
 
     function hidden() {
       map.off("zoomend baselayerchange", update);
-    }
-
-    function toggle(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      if (!button.hasClass("disabled")) {
-        options.sidebar.togglePane($ui, button);
-      }
-      $(".leaflet-control .control-button").tooltip("hide");
     }
 
     function updateButton() {
@@ -65,8 +46,6 @@ L.OSM.key = function (options) {
         }
       });
     }
-
-    return $container[0];
   };
 
   return control;

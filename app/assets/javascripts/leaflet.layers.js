@@ -1,16 +1,8 @@
 L.OSM.layers = function (options) {
-  var control = L.OSM.sidebarPane(options);
+  var control = L.OSM.sidebarPane(options, "layers", "javascripts.map.layers.title", "javascripts.map.layers.header");
 
-  control.onAdd = function (map) {
+  control.onAddPane = function (map, button, $ui, toggle) {
     var layers = options.layers;
-
-    var $container = $("<div>")
-      .attr("class", "control-layers");
-
-    var button = this.makeButton("layers", "javascripts.map.layers.title", toggle)
-      .appendTo($container);
-
-    var $ui = this.makeUI("layers-ui", "javascripts.map.layers.header", toggle);
 
     var baseSection = $("<div>")
       .attr("class", "section base-layers")
@@ -162,17 +154,6 @@ L.OSM.layers = function (options) {
       addOverlay(map.dataLayer, "data", OSM.MAX_REQUEST_AREA);
       addOverlay(map.gpsLayer, "gps", Number.POSITIVE_INFINITY);
     }
-
-    options.sidebar.addPane($ui);
-
-    function toggle(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      options.sidebar.togglePane($ui, button);
-      $(".leaflet-control .control-button").tooltip("hide");
-    }
-
-    return $container[0];
   };
 
   return control;

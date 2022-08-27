@@ -1,23 +1,24 @@
-L.OSM.sidebarPane = function (options) {
+L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
   var control = L.control(options);
+  
+  control.onAdd = function (map) {
+    var $container = $("<div>")
+      .attr("class", "control-" + uiClass);
 
-  control.makeButton = function (buttonClass, buttonTitle, toggle) {
     var button =  $("<a>")
       .attr("class", "control-button")
       .attr("href", "#")
-      .html("<span class=\"icon " + buttonClass + "\"></span>")
+      .html("<span class=\"icon " + uiClass + "\"></span>")
       .on("click", toggle);
     
     if (buttonTitle) {
-      button.attr("title", I18n.t(buttonTitle))
+      button.attr("title", I18n.t(buttonTitle));
     }
 
-    return button;
-  };
+    button.appendTo($container);
 
-  control.makeUI = function (uiClass, paneTitle, toggle) {
     var $ui = $("<div>")
-      .attr("class", uiClass);
+      .attr("class", uiClass + "-ui");
 
     $("<div>")
       .attr("class", "sidebar_heading")
@@ -30,8 +31,24 @@ L.OSM.sidebarPane = function (options) {
         $("<h4>")
           .text(I18n.t(paneTitle)));
 
-    return $ui;
-  };
+    options.sidebar.addPane($ui);
+
+    this.onAddPane(map, button, $ui, toggle);
+
+    function toggle(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      if (!button.hasClass("disabled")) {
+        options.sidebar.togglePane($ui, button);
+      }
+      $(".leaflet-control .control-button").tooltip("hide");
+    }
+
+    return $container[0];
+  }
+
+  // control.onAddPane = function (map, button, $ui, toggle) {
+  // }
 
   return control;
 };

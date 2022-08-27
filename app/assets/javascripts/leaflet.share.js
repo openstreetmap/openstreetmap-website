@@ -1,20 +1,12 @@
 L.OSM.share = function (options) {
-  var control = L.OSM.sidebarPane(options),
+  var control = L.OSM.sidebarPane(options, "share", "javascripts.share.title", "javascripts.share.title"),
       marker = L.marker([0, 0], { draggable: true }),
       locationFilter = new L.LocationFilter({
         enableButton: false,
         adjustButton: false
       });
 
-  control.onAdd = function (map) {
-    var $container = $("<div>")
-      .attr("class", "control-share");
-
-    var button = this.makeButton("share", "javascripts.share.title", toggle)
-      .appendTo($container);
-
-    var $ui = this.makeUI("share-ui", "javascripts.share.title", toggle);
-
+  control.onAddPane = function (map, button, $ui) {
     // Link / Embed
 
     var $linkSection = $("<div>")
@@ -228,28 +220,20 @@ L.OSM.share = function (options) {
     map.on("move", movedMap);
     map.on("moveend layeradd layerremove", update);
 
-    options.sidebar.addPane($ui);
-
     $ui
+      .on("show", shown)
       .on("hide", hidden);
+
+    function shown() {
+      $("#mapnik_scale").val(getScale());
+      update();
+    }
 
     function hidden() {
       map.removeLayer(marker);
       map.options.scrollWheelZoom = map.options.doubleClickZoom = true;
       locationFilter.disable();
       update();
-    }
-
-    function toggle(e) {
-      e.stopPropagation();
-      e.preventDefault();
-
-      $("#mapnik_scale").val(getScale());
-      marker.setLatLng(map.getCenter());
-
-      update();
-      options.sidebar.togglePane($ui, button);
-      $(".leaflet-control .control-button").tooltip("hide");
     }
 
     function toggleMarker() {
@@ -396,8 +380,6 @@ L.OSM.share = function (options) {
       var precision = 5 * Math.pow(10, Math.floor(Math.LOG10E * Math.log(scale)) - 2);
       return precision * Math.ceil(scale / precision);
     }
-
-    return $container[0];
   };
 
   return control;
