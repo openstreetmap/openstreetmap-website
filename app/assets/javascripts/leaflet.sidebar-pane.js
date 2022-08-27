@@ -1,16 +1,16 @@
 L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
   var control = L.control(options);
-  
+
   control.onAdd = function (map) {
     var $container = $("<div>")
       .attr("class", "control-" + uiClass);
 
-    var button =  $("<a>")
+    var button = $("<a>")
       .attr("class", "control-button")
       .attr("href", "#")
       .html("<span class=\"icon " + uiClass + "\"></span>")
       .on("click", toggle);
-    
+
     if (buttonTitle) {
       button.attr("title", I18n.t(buttonTitle));
     }
@@ -44,7 +44,7 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
     }
 
     return $container[0];
-  }
+  };
 
   // control.onAddPane = function (map, button, $ui, toggle) {
   // }
