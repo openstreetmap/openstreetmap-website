@@ -145,7 +145,7 @@ header {
 
 nav.primary {
   .btn-outline-primary {
-    @include button-outline-variant($green, $white);
+    @include button-outline-variant($green, $color-hover: $white, $active-color: $white);
   }
 
   .disabled {
@@ -190,20 +190,17 @@ nav.secondary {
 
   .login-menu {
     .btn-outline-secondary {
-      @include button-outline-variant($darkgrey, $white, null, null, $white);
+      @include button-outline-variant($darkgrey, $color-hover: $white, $active-color: $white);
     }
   }
 
   .user-menu {
     .btn-outline-secondary {
-      @include button-outline-variant($darkgrey, $darkgrey, white, $darkgrey);
+      @include button-outline-variant($darkgrey, $color-hover: $darkgrey, $active-background: white, $active-border: $darkgrey);
       border-color: $grey;
       &:hover {
         border-color: $grey;
       }
-    }
-    &.show .btn-outline-secondary {
-      background-color: white;
     }
   }
 
@@ -650,15 +647,15 @@ legend {
    reconsider our colours at some point with that in mind. */
 
 .btn-primary {
-  @include button-variant($primary, $primary, $white, null, null, $white, null, null, $white, null, null, $white);
+  @include button-variant($primary, $primary, $color: $white, $hover-color: $white, $active-color: $white, $disabled-color: $white);
 }
 
 .btn-secondary {
-  @include button-variant($secondary, $secondary, $white, null, null, $white, null, null, $white, null, null, $white);
+  @include button-variant($secondary, $secondary, $color: $white, $hover-color: $white, $active-color: $white, $disabled-color: $white);
 }
 
 .btn-outline-secondary {
-  @include button-outline-variant($secondary, $white, null, null, $white);
+  @include button-outline-variant($secondary, $color-hover: $white, $active-color: $white);
 }
 
 /* Rules for the search and direction forms */
