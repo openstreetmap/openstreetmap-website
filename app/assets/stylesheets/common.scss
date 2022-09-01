@@ -418,43 +418,14 @@ body.small-nav {
 }
 
 .layers-ui {
-  .base-layers {
-    .leaflet-container {
-      width: 100%;
-      height: 50px;
-      cursor: pointer;
+  .base-layers > * {
+    height: 56px;
+
+    > .btn {
+      --bs-btn-border-color: var(--bs-body-bg);
     }
-
-    li  {
-      overflow: hidden;
-      border-radius: 3px;
-      border: 2px solid transparent;
-      margin-bottom: 8px;
-      position: relative;
-      transition: border-color 0.08s ease-in;
-
-      label {
-        position: absolute;
-        top: 0;
-        left: 0;
-        padding: 2px 6px;
-        border-bottom-right-radius: 3px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 16px;
-        background-color: var(--bs-body-bg);
-        opacity: 0.9;
-        z-index: 1000;
-        input[type="radio"] {
-          display: none;
-        }
-      }
-
-      &.active { border-color: darken($green, 10%); }
-      &:hover {
-        border-color: $grey;
-        &.active { border-color: darken($green, 20%); }
-      }
+    > .btn:hover {
+      --bs-btn-border-color: var(--bs-primary-border-subtle);
     }
   }
 
