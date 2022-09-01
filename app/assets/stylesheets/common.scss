@@ -524,41 +524,33 @@ body.small-nav {
 
 .layers-ui {
   .base-layers {
-    .leaflet-container {
-      width: 100%;
-      height: 50px;
-      cursor: pointer;
-    }
-
-    li  {
-      overflow: hidden;
-      border-radius: 3px;
-      border: 2px solid #fff;
-      margin-bottom: 8px;
+    .btn {
       position: relative;
-      transition: border-color 0.08s ease-in;
+      height: 54px;
+      text-align: left;
+
+      .leaflet-container {
+        position: absolute;
+        inset: 2px;
+      }
 
       label {
         position: absolute;
-        top: 0;
-        left: 0;
-        padding: 2px 6px;
-        border-bottom-right-radius: 3px;
+        inset: 2px;
+        overflow: hidden;
         cursor: pointer;
-        font-weight: 600;
-        font-size: 16px;
-        text-stroke: 2px #fff;
-        background: rgba(255,255,255,.9);
         z-index: 1000;
-        input[type="radio"] {
-          display: none;
-        }
-      }
 
-      &.active { border-color: darken($green, 10%); }
-      &:hover {
-        border-color: $grey;
-        &.active { border-color: darken($green, 20%); }
+        span {
+          position: absolute;
+          top: 0;
+          left: 0;
+          padding: 2px 6px;
+          border-bottom-right-radius: 3px;
+          font-weight: 600;
+          font-size: 16px;
+          background: rgba(255,255,255,.9);
+        }
       }
     }
   }
