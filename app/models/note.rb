@@ -66,6 +66,18 @@ class Note < ApplicationRecord
     !closed_at.nil?
   end
 
+  def freshly_closed?
+    return false unless closed?
+
+    Time.now.utc < freshly_closed_until
+  end
+
+  def freshly_closed_until
+    return nil unless closed?
+
+    closed_at + 7.days
+  end
+
   # Return the author object, derived from the first comment
   def author
     comments.first.author
