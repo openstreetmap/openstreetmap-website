@@ -265,6 +265,7 @@ OSM.Directions = function (map) {
       }
 
       var turnByTurnTable = $("<table class='mb-3'>");
+      var directionsCloseButton = $("<button type='button' class='btn-close mt-1'>");
 
       $("#sidebar_content")
         .empty()
@@ -273,9 +274,7 @@ OSM.Directions = function (map) {
             $("<div class='flex-grow-1 text-break'>").append(
               $("<h2>")
                 .text(I18n.t("javascripts.directions.directions"))),
-            $("<div>").append(
-              $("<a class='geolink' href='#'>").append(
-                $("<button type='button' class='btn-close mt-1'>")))),
+            $("<div>").append(directionsCloseButton)),
           distanceText,
           turnByTurnTable
         );
@@ -327,8 +326,7 @@ OSM.Directions = function (map) {
         I18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
         "</p>");
 
-      $("#sidebar_content a.geolink").on("click", function (e) {
-        e.preventDefault();
+      directionsCloseButton.on("click", function () {
         map.removeLayer(polyline);
         $("#sidebar_content").html("");
         map.setSidebarOverlaid(true);
