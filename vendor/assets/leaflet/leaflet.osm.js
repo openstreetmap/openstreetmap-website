@@ -1,3 +1,7 @@
+//= require maplibre-gl
+//= require @maplibre/maplibre-gl-leaflet
+//= require i18n
+
 L.OSM = {};
 
 L.OSM.TileLayer = L.TileLayer.extend({
@@ -49,6 +53,196 @@ L.OSM.OPNVKarte = L.OSM.TileLayer.extend({
     url: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
     maxZoom: 18,
     attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://memomaps.de/" target="_blank">MeMoMaps</a>'
+  }
+});
+
+L.OSM.OpenMapTiles = L.MaplibreGL.extend({
+  isTokenField: /^\{name/,
+  _isLanguageField: /^name:/,
+  options: {
+    style: 'https://api.maptiler.com/maps/openstreetmap/style.json?key=lmYA16sOOOz9r6DH7iA9',
+    maxZoom: 23,
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://memomaps.de/" target="_blank">MeMoMaps</a>'
+  },
+  adaptPropertyLanguageWithLegacySupport(
+    isLangField,
+    property,
+    languageFieldName,
+  ) {
+    if (
+      property.length === 4 &&
+      property[0] === 'coalesce' &&
+      typeof property[3] === 'string' &&
+      this.isTokenField.test(property[3])
+    ) {
+      // Back to original format string for legacy
+      property = property[3];
+    }
+
+    if (typeof property === 'string') {
+      // Only support legacy format string at top level
+      if (languageFieldName !== 'name' && this.isTokenField.test(property)) {
+        var splitLegacity = this.splitLegacityFormat(property);
+        // The last is not used, it is the original value to be restore
+        return [
+          'coalesce',
+          this.adaptLegacyExpression(splitLegacity, languageFieldName),
+          splitLegacity,
+          property,
+        ];
+      } else {
+        return property;
+      }
+    } else {
+      return this.adaptPropertyLanguage(isLangField, property, languageFieldName);
+    }
+  },
+  splitLegacityFormat(s) {
+    var ret = ['concat'];
+    var sub = '';
+    for (var i = 0; i < s.length; i++) {
+      if (s[i] === '{') {
+        if (sub) {
+          ret.push(sub);
+        }
+        sub = '';
+      } else if (s[i] === '}') {
+        if (sub) {
+          ret.push(['get', sub]);
+        }
+        sub = '';
+      } else {
+        sub += s[i];
+      }
+    }
+
+    if (sub) {
+      ret.push(sub);
+    }
+
+    return ret;
+  },
+  adaptLegacyExpression(expressions, languageFieldName) {
+    // Kepp only first get name express
+    var isName = false;
+    var ret = [];
+    var self = this;
+    expressions.forEach(function (expression) {
+      // ['get', 'name:.*']
+      if (
+        Array.isArray(expression) &&
+        expression.length >= 2 &&
+        typeof expression[1] === 'string' &&
+        self._isLanguageField.test(expression[1])
+      ) {
+        if (!isName) {
+          isName = true;
+          ret.push(['coalesce', ['get', languageFieldName], expression]);
+        }
+      } else {
+        ret.push(expression);
+      }
+    });
+
+    return ret;
+  },
+  adaptNestedExpressionField(
+    isLangField,
+    properties,
+    languageFieldName,
+  ) {
+    var self = this;
+    properties.forEach(function (property) {
+      if (Array.isArray(property)) {
+        if (self.isFlatExpressionField(isLangField, property)) {
+          property[1] = languageFieldName;
+        }
+        self.adaptNestedExpressionField(isLangField, property, languageFieldName);
+      }
+    });
+  },
+  adaptPropertyLanguage(
+    isLangField,
+    property,
+    languageFieldName,
+  ) {
+    if (this.isFlatExpressionField(isLangField, property)) {
+      property[1] = languageFieldName;
+    }
+
+    this.adaptNestedExpressionField(isLangField, property, languageFieldName);
+
+    // handle special case of bare ['get', 'name'] expression by wrapping it in a coalesce statement
+    if (property[0] === 'get' && property[1] === 'name') {
+      var defaultProp = property.slice();
+      var adaptedProp = ['get', languageFieldName];
+      property = ['coalesce', adaptedProp, defaultProp];
+    }
+
+    return property;
+  },
+  isFlatExpressionField(isLangField, property) {
+    var isGetExpression = property.length >= 2 && property[0] === 'get';
+    if (isGetExpression && typeof property[1] === 'string' && this.isTokenField.test(property[1])) {
+      console.warn(
+        'This plugin no longer supports the use of token syntax (e.g. {name}). Please use a get expression. See https://docs.mapbox.com/mapbox-gl-js/style-spec/expressions/ for more details.',
+      );
+    }
+
+    return isGetExpression && typeof property[1] === 'string' && isLangField.test(property[1]);
+  },
+  _getLanguageField(language) {
+    return language === 'mul' ? 'name' : `name:${language}`;
+  },
+  onAdd(map) {
+    L.MaplibreGL.prototype.onAdd.call(this, map);
+
+    var lang = I18n.locale; // TODO filter only supported locales
+
+    var m = this.getMaplibreMap();
+
+    var self = this;
+
+    m.on('load', function () {
+      m.getStyle().layers.filter(function (layer) { return layer.type === 'symbol'}).forEach(function (layer) {
+        if (layer.layout && typeof layer.layout['text-field'] === 'string') {
+          m.setLayoutProperty(
+            layer.id,
+            'text-field',
+            self.adaptPropertyLanguageWithLegacySupport(
+              /^name:/,
+              layer.layout['text-field'],
+              self._getLanguageField(lang),
+            ),
+          );
+        }
+
+        // if (/^country_/.test(layer.id)) {
+        //   var dflt = ["get", "name:latin"];
+
+        //   m.setLayoutProperty(
+        //     layer.id,
+        //     "text-field",
+        //     lang ? ["coalesce", ["get", "name:" + lang], dflt] : dflt
+        //   );
+        // }
+
+        // if (/^place_/.test(layer.id)) {
+        //   var dflt = [
+        //     "concat",
+        //     ["get", "name:latin"],
+        //     "\n",
+        //     ["get", "name:nonlatin"],
+        //   ];
+
+        //   m.setLayoutProperty(
+        //     layer.id,
+        //     "text-field",
+        //     lang ? ["coalesce", ["get", "name:" + lang], dflt] : dflt
+        //   );
+        // }
+      });
+    });
   }
 });
 

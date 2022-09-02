@@ -22,6 +22,7 @@ L.OSM.Map = L.Map.extend({
     var thunderforest = I18n.t("javascripts.map.thunderforest", { thunderforest_url: "https://www.thunderforest.com/" });
     var memomaps = I18n.t("javascripts.map.opnvkarte", { memomaps_url: "https://memomaps.de/" });
     var hotosm = I18n.t("javascripts.map.hotosm", { hotosm_url: "https://www.hotosm.org/", osmfrance_url: "https://openstreetmap.fr/" });
+    var openmaptiles = I18n.t("javascripts.map.openmaptiles", { openmaptiles_url: "https://openmaptiles.org/" });
 
     this.baseLayers = [];
 
@@ -30,6 +31,13 @@ L.OSM.Map = L.Map.extend({
       code: "M",
       keyid: "mapnik",
       name: I18n.t("javascripts.map.base.standard")
+    }));
+
+    this.baseLayers.push(new L.OSM.OpenMapTiles({
+      attribution: copyright + ". " + openmaptiles + ". " + terms,
+      code: "V",
+      keyid: "openmaptiles",
+      name: I18n.t("javascripts.map.base.openmaptiles")
     }));
 
     this.baseLayers.push(new L.OSM.CyclOSM({
