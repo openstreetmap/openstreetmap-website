@@ -54,7 +54,7 @@ OSM.initializeBrowse = function (map) {
             $("<h2>")
               .text(I18n.t("browse.start_rjs.load_data"))),
           $("<div>").append(
-            $("<button type='button' class='btn-close mt-1'>")
+            $("<button type='button' class='btn-close'>")
               .click(cancel))),
         $("<div>").append(
           $("<p class='alert alert-warning'></p>")

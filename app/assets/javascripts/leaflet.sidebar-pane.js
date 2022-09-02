@@ -26,7 +26,7 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
         .append($("<h4>")
           .text(I18n.t(paneTitle))))
       .append($("<div>")
-        .append($("<button type='button' class='btn-close mt-1'>")
+        .append($("<button type='button' class='btn-close'>")
           .attr("aria-label", I18n.t("javascripts.close"))
           .bind("click", toggle)));
 
