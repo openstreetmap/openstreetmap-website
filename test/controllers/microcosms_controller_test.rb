@@ -123,7 +123,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  def test_create
+  def test_create_when_save_works
     # arrange
     session_for(create(:administrator_user))
     m_orig = create(:microcosm)
@@ -140,5 +140,32 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     # Assign the id m_new to m_orig, so we can do an equality test easily.
     m_orig.id = m_new.id
     assert_equal(m_orig, m_new)
+  end
+
+  def test_create_when_save_fails
+    # arrange
+    session_for(create(:administrator_user))
+    m = create(:microcosm)
+    m = m.attributes.except("id", "created_at", "updated_at", "slug")
+
+    mock_microcosm = Minitest::Mock.new
+    mock_microcosm.expect :save!, false
+
+    # We're going to stub render on this instance.
+    controller_prime = MicrocosmsController.new
+
+    # act and assert
+    MicrocosmsController.stub :new, controller_prime do
+      controller_prime.stub :render, "" do
+        Microcosm.stub :new, mock_microcosm do
+          assert_difference "Microcosm.count", 0 do
+            post microcosms_path, :params => { :microcosm => m.as_json }, :xhr => true
+          end
+        end
+      end
+    end
+
+    # assert_mock mock_microcosm
+    # assert_mock render_mock
   end
 end
