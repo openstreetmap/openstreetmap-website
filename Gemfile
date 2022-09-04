@@ -133,6 +133,9 @@ gem "image_processing"
 # Used to provide clean urls like /microcosm/mappingdc
 gem "friendly_id"
 
+# Add maps to pages.
+gem "leaflet-rails"
+
 # Gems useful for development
 group :development do
   gem "annotate"
