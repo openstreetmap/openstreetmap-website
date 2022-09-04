@@ -977,7 +977,7 @@ ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
 CREATE TABLE public.microcosm_links (
     id bigint NOT NULL,
-    microcosm_id integer NOT NULL,
+    microcosm_id bigint NOT NULL,
     site character varying NOT NULL,
     url character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
@@ -2688,6 +2688,13 @@ CREATE INDEX index_microcosm_links_on_microcosm_id ON public.microcosm_links USI
 
 
 --
+-- Name: index_microcosms_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_microcosms_on_slug ON public.microcosms USING btree (slug);
+
+
+--
 -- Name: index_note_comments_on_author_id_and_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3184,6 +3191,14 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 ALTER TABLE ONLY public.oauth_access_grants
     ADD CONSTRAINT fk_rails_330c32d8d9 FOREIGN KEY (resource_owner_id) REFERENCES public.users(id) NOT VALID;
+
+
+--
+-- Name: microcosm_links fk_rails_4e3be5d646; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosm_links
+    ADD CONSTRAINT fk_rails_4e3be5d646 FOREIGN KEY (microcosm_id) REFERENCES public.microcosms(id);
 
 
 --
