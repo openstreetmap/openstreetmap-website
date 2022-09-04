@@ -10,7 +10,7 @@ class AddSlugToMicrocosms < ActiveRecord::Migration[7.0]
   end
 end
 
-class StrongMigrations
+module StrongMigrations
   class AddSlugToMicrocosms < ActiveRecord::Migration[7.0]
     disable_ddl_transaction!
 
