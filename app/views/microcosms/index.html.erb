@@ -1,5 +1,5 @@
 <% content_for :heading do %>
-  <h1><%= "All Microcosms" %></h1>
+  <h1><%= t(".all") %></h1>
   <ul class='secondary-actions clearfix'>
     <% if current_user&.administrator? %>
       <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), new_microcosm_path, :title => t(".new_title") %></li>
@@ -10,8 +10,8 @@
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Location</th>
+      <th><%= t(".name") %></th>
+      <th><%= t(".location") %></th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -21,7 +21,7 @@
       <tr>
         <td><%= microcosm.name %></td>
         <td><%= microcosm.location %></td>
-        <td><%= link_to 'Show', microcosm %><% if current_user&.administrator? %> <%= link_to 'Edit', edit_microcosm_path(microcosm) %><% end %></td>
+        <td><%= link_to t(".show"), microcosm %><% if current_user&.administrator? %> <%= link_to t(".edit"), edit_microcosm_path(microcosm) %><% end %></td>
       </tr>
     <% end %>
   </tbody>
