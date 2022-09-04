@@ -7,10 +7,10 @@ class AddLocationToMicrocosms < ActiveRecord::Migration[7.0]
         t.string :location, :null => false
         t.decimal :lat, :null => false
         t.decimal :lon, :null => false
-        t.decimal :min_lat, :null => false
-        t.decimal :max_lat, :null => false
-        t.decimal :min_lon, :null => false
-        t.decimal :max_lon, :null => false
+        t.integer :min_lat, :null => false
+        t.integer :max_lat, :null => false
+        t.integer :min_lon, :null => false
+        t.integer :max_lon, :null => false
       end
     end
   end

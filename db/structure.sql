@@ -1018,10 +1018,10 @@ CREATE TABLE public.microcosms (
     location character varying NOT NULL,
     lat numeric NOT NULL,
     lon numeric NOT NULL,
-    min_lat numeric NOT NULL,
-    max_lat numeric NOT NULL,
-    min_lon numeric NOT NULL,
-    max_lon numeric NOT NULL
+    min_lat integer NOT NULL,
+    max_lat integer NOT NULL,
+    min_lon integer NOT NULL,
+    max_lon integer NOT NULL
 );
 
 
