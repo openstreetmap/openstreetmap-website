@@ -5,8 +5,8 @@ class AddLocationToMicrocosms < ActiveRecord::Migration[7.0]
     safety_assured do
       change_table :microcosms, :bulk => true do |t|
         t.string :location, :null => false
-        t.decimal :lat, :null => false
-        t.decimal :lon, :null => false
+        t.integer :lat, :null => false
+        t.integer :lon, :null => false
         t.integer :min_lat, :null => false
         t.integer :max_lat, :null => false
         t.integer :min_lon, :null => false
