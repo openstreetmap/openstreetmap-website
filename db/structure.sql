@@ -17,6 +17,13 @@ CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA public;
 
 
 --
+-- Name: EXTENSION btree_gist; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiST';
+
+
+--
 -- Name: format_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -977,9 +984,9 @@ ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
 CREATE TABLE public.microcosm_links (
     id bigint NOT NULL,
-    microcosm_id integer,
-    site character varying,
-    url character varying,
+    microcosm_id integer NOT NULL,
+    site character varying NOT NULL,
+    url character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -1014,14 +1021,14 @@ CREATE TABLE public.microcosms (
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    slug character varying,
+    slug character varying NOT NULL,
     location character varying NOT NULL,
     lat numeric NOT NULL,
     lon numeric NOT NULL,
-    min_lat integer NOT NULL,
-    max_lat integer NOT NULL,
-    min_lon integer NOT NULL,
-    max_lon integer NOT NULL
+    min_lat numeric NOT NULL,
+    max_lat numeric NOT NULL,
+    min_lon numeric NOT NULL,
+    max_lon numeric NOT NULL
 );
 
 
@@ -2678,6 +2685,13 @@ CREATE INDEX index_issues_on_status ON public.issues USING btree (status);
 --
 
 CREATE INDEX index_issues_on_updated_by ON public.issues USING btree (updated_by);
+
+
+--
+-- Name: index_microcosm_links_on_microcosm_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_microcosm_links_on_microcosm_id ON public.microcosm_links USING btree (microcosm_id);
 
 
 --
