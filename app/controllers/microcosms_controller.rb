@@ -31,7 +31,7 @@ class MicrocosmsController < ApplicationController
 
   def create
     @microcosm = Microcosm.new(microcosm_params)
-    if @microcosm.save!
+    if @microcosm.save
       redirect_to @microcosm, :notice => t(".success")
     else
       render "new"
