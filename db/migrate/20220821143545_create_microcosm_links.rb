@@ -12,7 +12,7 @@ end
 
 class CreateMicrocosmLinksFk < ActiveRecord::Migration[7.0]
   def change
-    add_foreign_key :microcosm_links, :microcosm, validate: false
+    add_foreign_key :microcosm_links, :microcosm, :validate => false
   end
 end
 
