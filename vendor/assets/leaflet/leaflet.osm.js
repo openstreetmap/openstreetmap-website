@@ -63,14 +63,26 @@ L.OSM.OpenMapTiles = L.MaplibreGL.extend({
     maxZoom: 23,
     attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://memomaps.de/" target="_blank">MeMoMaps</a>'
   },
-  onAdd(map) {
+  onAdd: function (map) {
+    function update3dMapUrl() {
+      const a = document.getElementById('terrain_3d_url');
+      if (a) {
+        const c = map.getCenter();
+        a.href = a.href.replace(/#.*|$/, '#map=' + (map.getZoom() - 1) + '/' + c.lat.toFixed(5) + '/' + c.lng.toFixed(5) + "&language=" + I18n.locale.replace(/-.*/, ''));
+      }
+    }
+
+    map._update3dMapUrl = update3dMapUrl;
+    setTimeout(update3dMapUrl);
+    map.on('moveend', update3dMapUrl);
     L.MaplibreGL.prototype.onAdd.call(this, map);
-
     var m = this.getMaplibreMap();
-
     m.on('load', function () {
       m.setLanguage(I18n.locale.replace(/-.*/, ''));
     });
+  },
+  onRemove: function (map) {
+    map.off('moveend', map._update3dMapUrl);
   }
 });
 
