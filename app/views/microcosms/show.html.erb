@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag "microcosms" %>
+<%= javascript_include_tag "microcosms" %>
 
 <% content_for :heading do %>
   <h1><%= @microcosm.name + " " + t(".header_title") %></h1>
@@ -7,11 +8,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      <%= map(:container_id => "microcosm_map",
-              :center => {
-                :latlng => [@microcosm.latitude, @microcosm.longitude],
-                :zoom => 11
-              }) %>
+      <%= content_tag "div", "", :id => "microcosm_map", :data => { :lat => @microcosm.latitude, :lon => @microcosm.longitude, :zoom => 11 } %>
     </div>
     <div class="col-sm mic_details">
       <h1>
