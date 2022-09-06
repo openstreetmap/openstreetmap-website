@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :microcosm do
-    name { "MyString" }
-    description { "MyText" }
+    sequence(:name) { |n| "Microcosm #{n}" }
+    sequence(:description) { |n| "This is description #{n}" }
     sequence(:location) { |n| "This is location #{n}" }
     latitude { rand(-90.0...90.0) }
     longitude { rand(-180.0...180.0) }
