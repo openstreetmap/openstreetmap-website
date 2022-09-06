@@ -58,6 +58,7 @@ gem "rails-i18n", "~> 7.0.0"
 gem "rinku", ">= 2.0.6", :require => "rails_rinku"
 gem "strong_migrations"
 gem "validates_email_format_of", ">= 1.5.1"
+gem "validate_url"
 
 # Native OSM extensions
 gem "quad_tile", "~> 1.0.1"
