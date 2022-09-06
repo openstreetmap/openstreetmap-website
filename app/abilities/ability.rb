@@ -56,6 +56,7 @@ class Ability
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public], User
+        can [:new, :create], Microcosm
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry
@@ -69,7 +70,7 @@ class Ability
           can [:hide, :unhide, :hidecomment, :unhidecomment], DiaryEntry
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
-          can [:new, :create, :edit, :update], Microcosm
+          can [:edit, :update], Microcosm # TODO: Move
           can [:set_status, :destroy, :index], User
           can [:grant, :revoke], UserRole
         end
