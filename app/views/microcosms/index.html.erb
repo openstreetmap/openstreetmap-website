@@ -5,11 +5,16 @@
   </ul>
 <% end %>
 
+<p>
+  Ordered by <%= t(".longitude") %>.
+</p>
+
 <table>
   <thead>
     <tr>
       <th><%= t(".name") %></th>
       <th><%= t(".location") %></th>
+      <th><%= t(".longitude") %></th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -19,6 +24,7 @@
       <tr>
         <td><%= microcosm.name %></td>
         <td><%= microcosm.location %></td>
+        <td><%= microcosm.longitude %></td>
         <td><%= link_to t(".show"), microcosm %><% if current_user&.administrator? %> <%= link_to t(".edit"), edit_microcosm_path(microcosm) %><% end %></td>
       </tr>
     <% end %>
