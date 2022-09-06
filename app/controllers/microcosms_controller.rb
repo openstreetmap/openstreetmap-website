@@ -46,7 +46,7 @@ class MicrocosmsController < ApplicationController
 
   def microcosm_params
     params.require(:microcosm).permit(
-      :name, :location, :lat, :lon,
+      :name, :location, :latitude, :longitude,
       :min_lat, :max_lat, :min_lon, :max_lon,
       :description
     )

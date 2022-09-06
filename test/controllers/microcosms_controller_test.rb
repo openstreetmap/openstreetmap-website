@@ -111,8 +111,8 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     assert_select "div#content", :count => 1 do
       assert_select "form[action='/microcosms'][method=post]", :count => 1 do
         assert_select "input#microcosm_location[name='microcosm[location]']", :count => 1
-        assert_select "input#microcosm_lat[name='microcosm[lat]']", :count => 1
-        assert_select "input#microcosm_lon[name='microcosm[lon]']", :count => 1
+        assert_select "input#microcosm_latitude[name='microcosm[latitude]']", :count => 1
+        assert_select "input#microcosm_longitude[name='microcosm[longitude]']", :count => 1
         assert_select "input#microcosm_min_lat[name='microcosm[min_lat]']", :count => 1
         assert_select "input#microcosm_max_lat[name='microcosm[max_lat]']", :count => 1
         assert_select "input#microcosm_min_lon[name='microcosm[min_lon]']", :count => 1

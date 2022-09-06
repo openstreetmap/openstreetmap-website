@@ -9,12 +9,12 @@
 #  updated_at  :datetime         not null
 #  slug        :string
 #  location    :string           not null
-#  lat         :decimal(, )      not null
-#  lon         :decimal(, )      not null
-#  min_lat     :integer          not null
-#  max_lat     :integer          not null
-#  min_lon     :integer          not null
-#  max_lon     :integer          not null
+#  latitude    :float          not null
+#  longitude   :float          not null
+#  min_lat     :float          not null
+#  max_lat     :float          not null
+#  min_lon     :float          not null
+#  max_lon     :float          not null
 #
 
 class Microcosm < ApplicationRecord
