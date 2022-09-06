@@ -9,9 +9,15 @@ class MicrocosmTest < ActiveSupport::TestCase
     validate({ :name => "a" * 255 }, true)
     validate({ :name => "a" * 256 }, false)
 
+    validate({ :description => nil }, false)
     validate({ :description => "" }, false)
     validate({ :description => "a" * 1023 }, true)
     validate({ :description => "a" * 1024 }, false)
+
+    validate({ :location => nil }, false)
+    validate({ :location => "" }, false)
+    validate({ :location => "a" * 255 }, true)
+    validate({ :location => "a" * 256 }, false)
 
     validate({ :latitude => 90 }, true)
     validate({ :latitude => 90.00001 }, false)
