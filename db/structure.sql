@@ -1011,7 +1011,7 @@ ALTER SEQUENCE public.microcosm_links_id_seq OWNED BY public.microcosm_links.id;
 CREATE TABLE public.microcosms (
     id bigint NOT NULL,
     name character varying NOT NULL,
-    description text,
+    description text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     slug character varying NOT NULL,

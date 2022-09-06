@@ -5,7 +5,7 @@ class CreateMicrocosms < ActiveRecord::Migration[5.2]
       t.string :key, :null => false
       t.string :facebook
       t.string :twitter
-      t.text :description
+      t.text :description, :null => false
 
       t.timestamps
     end
