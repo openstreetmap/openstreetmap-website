@@ -2,41 +2,43 @@ require "test_helper"
 
 class MicrocosmTest < ActiveSupport::TestCase
   def test_microcosm_validations
-    microcosm_valid({}, true)
+    validate({}, true)
 
-    microcosm_valid({ :name => nil }, false)
-    microcosm_valid({ :name => "" }, false)
-    microcosm_valid({ :name => "a" * 255 }, true)
-    microcosm_valid({ :name => "a" * 256 }, false)
+    validate({ :name => nil }, false)
+    validate({ :name => "" }, false)
+    validate({ :name => "a" * 255 }, true)
+    validate({ :name => "a" * 256 }, false)
 
-    microcosm_valid({ :description => "" }, false)
-    microcosm_valid({ :description => "a" * 1023 }, true)
-    microcosm_valid({ :description => "a" * 1024 }, false)
+    validate({ :description => "" }, false)
+    validate({ :description => "a" * 1023 }, true)
+    validate({ :description => "a" * 1024 }, false)
 
-    microcosm_valid({ :latitude => 90 }, true)
-    microcosm_valid({ :latitude => 90.00001 }, false)
-    microcosm_valid({ :latitude => -90 }, true)
-    microcosm_valid({ :latitude => -90.00001 }, false)
+    validate({ :latitude => 90 }, true)
+    validate({ :latitude => 90.00001 }, false)
+    validate({ :latitude => -90 }, true)
+    validate({ :latitude => -90.00001 }, false)
 
-    microcosm_valid({ :longitude => 180 }, true)
-    microcosm_valid({ :longitude => 180.00001 }, false)
-    microcosm_valid({ :longitude => -180 }, true)
-    microcosm_valid({ :longitude => -180.00001 }, false)
+    validate({ :longitude => 180 }, true)
+    validate({ :longitude => 180.00001 }, false)
+    validate({ :longitude => -180 }, true)
+    validate({ :longitude => -180.00001 }, false)
 
     coords = [:lat, :lon]
     [:min, :max].each do |extremum|
       coords.each do |coord|
         attr = "#{extremum}_#{coord}"
-        microcosm_valid({ attr => nil }, false)
-        microcosm_valid({ attr => -200 }, false)
-        microcosm_valid({ attr => 200 }, false)
+        validate({ attr => nil }, false)
+        validate({ attr => -200 }, false)
+        validate({ attr => 200 }, false)
       end
     end
   end
 
-  def microcosm_valid(attrs, result)
-    mic = build(:microcosm, attrs)
-    assert_equal result, mic.valid?, "Expected #{attrs.inspect} to be #{result}"
+  def validate(attrs, result)
+    object = build(:microcosm, attrs)
+    valid = object.valid?
+    errors = object.errors.messages
+    assert_equal result, valid, "Expected #{attrs.inspect} to be #{result} but #{errors}"
   end
 
   def test_set_link_that_does_not_exist
