@@ -29,4 +29,8 @@ class Microcosm < ApplicationRecord
     link.url = url
     link.save!
   end
+
+  def bbox
+    BoundingBox.new(min_lon, min_lat, max_lon, max_lat)
+  end
 end
