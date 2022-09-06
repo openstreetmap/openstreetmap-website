@@ -26,10 +26,10 @@ class Microcosm < ApplicationRecord
 
   validates :name, :presence => true, :length => 1..255, :characters => true
   validates :description, :presence => true, :length => 1..1023, :characters => true
-  validates :latitude,  :numericality => true, :inclusion => { :in => -90..90 }
+  validates :latitude, :numericality => true, :inclusion => { :in => -90..90 }
   validates :longitude, :numericality => true, :inclusion => { :in => -180..180 }
-  validates :min_lat,  :numericality => true, :inclusion => { :in => -90..90 }
-  validates :max_lat,  :numericality => true, :inclusion => { :in => -90..90 }
+  validates :min_lat, :numericality => true, :inclusion => { :in => -90..90 }
+  validates :max_lat, :numericality => true, :inclusion => { :in => -90..90 }
   validates :min_lon, :numericality => true, :inclusion => { :in => -180..180 }
   validates :max_lon, :numericality => true, :inclusion => { :in => -180..180 }
 
