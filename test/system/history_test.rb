@@ -5,15 +5,33 @@ class HistoryTest < ApplicationSystemTestCase
 
   test "atom link on user's history is not modified" do
     user = create(:user)
-    create(:changeset, :user => user, :num_changes => 1) do |changeset|
-      create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "first-changeset-in-history")
-    end
+    create_visible_changeset(user, "first-changeset-in-history")
 
     visit "#{user_path(user)}/history"
     changesets = find "div.changesets"
     changesets.assert_text "first-changeset-in-history"
 
     assert_css "link[type='application/atom+xml'][href$='#{user_path(user)}/history/feed']", :visible => false
+  end
+
+  test "restore state of user's changesets list" do
+    user = create(:user)
+    create_visible_changeset(user, "first-changeset-in-history")
+    PAGE_SIZE.times do
+      create_visible_changeset(user, "next-changeset")
+    end
+
+    visit "#{user_path(user)}/history"
+    original_changesets = find "div.changesets"
+    original_changesets.assert_no_text "first-changeset-in-history"
+    load_more = original_changesets.find ".changeset_more a.btn"
+    load_more.click
+    original_changesets.assert_text "first-changeset-in-history"
+
+    visit user_path(user)
+    go_back
+    reloaded_changesets = find "div.changesets"
+    reloaded_changesets.assert_text "first-changeset-in-history"
   end
 
   test "have only one list element on user's changesets page" do
