@@ -28,6 +28,7 @@ class MicrocosmsController < ApplicationController
   end
 
   def new
+    @title = t "microcosms.new.title"
     @microcosm = Microcosm.new
   end
 
