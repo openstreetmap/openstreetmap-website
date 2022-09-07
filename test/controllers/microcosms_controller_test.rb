@@ -4,6 +4,9 @@ require "minitest/mock"
 class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
+  # Following guidance from Ruby on Rails Guide
+  # https://guides.rubyonrails.org/testing.html#functional-tests-for-your-controllers
+  #
   def test_routes
     assert_routing(
       { :path => "/microcosms", :method => :get },
@@ -36,16 +39,22 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index_get
+    # arrange
     m = create(:microcosm)
+    # act
     get microcosms_path
+    # assert
     check_page_basics
     assert_template "index"
     assert_match m.name, response.body
   end
 
   def test_show_get
+    # arrange
     m = create(:microcosm)
+    # act
     get microcosm_path(m)
+    # assert
     check_page_basics
     assert_template("show")
     assert_match m.name, response.body
@@ -53,8 +62,11 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_edit_get_no_session
+    # arrange
     m = create(:microcosm)
+    # act
     get edit_microcosm_path(m)
+    # assert
     assert_response :redirect
     assert_redirected_to login_path(:referer => edit_microcosm_path(m.slug))
   end
