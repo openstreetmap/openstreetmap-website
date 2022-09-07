@@ -37,6 +37,8 @@ class Note < ApplicationRecord
 
   after_initialize :set_defaults
 
+  DEFAULT_FRESHLY_CLOSED_LIMIT = 7.days
+
   # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position
     errors.add(:base, "Note is not in the world") unless in_world?
@@ -75,7 +77,7 @@ class Note < ApplicationRecord
   def freshly_closed_until
     return nil unless closed?
 
-    closed_at + 7.days
+    closed_at + DEFAULT_FRESHLY_CLOSED_LIMIT
   end
 
   # Return the author object, derived from the first comment
