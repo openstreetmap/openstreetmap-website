@@ -17,6 +17,22 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
       { :path => "/microcosms/mdc", :method => :get },
       { :controller => "microcosms", :action => "show", :id => "mdc" }
     )
+    assert_routing(
+      { :path => "/microcosms/mdc/edit", :method => :get },
+      { :controller => "microcosms", :action => "edit", :id => "mdc" }
+    )
+    assert_routing(
+      { :path => "/microcosms/mdc", :method => :put },
+      { :controller => "microcosms", :action => "update", :id => "mdc" }
+    )
+    assert_routing(
+      { :path => "/microcosms/new", :method => :get },
+      { :controller => "microcosms", :action => "new" }
+    )
+    assert_routing(
+      { :path => "/microcosms", :method => :post },
+      { :controller => "microcosms", :action => "create" }
+    )
   end
 
   def test_index_get
@@ -34,6 +50,13 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     assert_template("show")
     assert_match m.name, response.body
     assert_match m.description, response.body
+  end
+
+  def test_edit_get_no_session
+    m = create(:microcosm)
+    get edit_microcosm_path(m)
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => edit_microcosm_path(m.slug))
   end
 
   def test_update_put_success
