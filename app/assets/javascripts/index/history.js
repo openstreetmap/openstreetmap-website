@@ -71,13 +71,8 @@ OSM.History = function (map) {
     }
   }
 
-  function saveDataToStore(html, rewrite) {
+  function loadStore(storeName) {
     var requiredSchema = 1;
-    var maxStoreSize = 10;
-    var storeNameAndKey = getStoreNameAndKey();
-    if (!storeNameAndKey) return;
-    var storeName = storeNameAndKey[0];
-    var storeKey = storeNameAndKey[1];
     var storeString = sessionStorage[storeName];
     var store = {
       schema: requiredSchema,
@@ -93,31 +88,62 @@ OSM.History = function (map) {
     } catch (ex) {
       // reset store if it's damaged
     }
-    var storeItem = getStoreItem();
-    if (rewrite) {
-      storeItem.lists = [];
-    }
-    storeItem.lists.push(html);
-    sessionStorage[storeName] = JSON.stringify(store);
+    return store;
+  }
 
-    function getStoreItem() {
-      var storeItem;
-      for (var i = 0; i < store.items.length; i++) {
-        if (store.items[i].key !== storeKey) continue;
-        storeItem = store.items[i];
-        store.items.splice(i, 1);
-        store.items.unshift(storeItem);
-        return storeItem;
-      }
-      storeItem = {
-        key: storeKey,
-        // TODO timestamp - need to receive it from fn doing request
-        lists: []
-      };
-      store.items.splice(maxStoreSize - 1);
+  function saveStore(storeName, store) {
+    sessionStorage[storeName] = JSON.stringify(store);
+  }
+
+  function getStoreItem(store, storeKey) {
+    var maxStoreSize = 10;
+    var storeItem;
+    for (var i = 0; i < store.items.length; i++) {
+      if (store.items[i].key !== storeKey) continue;
+      storeItem = store.items[i];
+      store.items.splice(i, 1);
       store.items.unshift(storeItem);
       return storeItem;
     }
+    storeItem = {
+      key: storeKey,
+      // TODO timestamp - need to receive it from fn doing request
+      lists: []
+    };
+    store.items.splice(maxStoreSize - 1);
+    store.items.unshift(storeItem);
+    return storeItem;
+  }
+
+  function saveDataToStore(html, rewrite) {
+    var storeNameAndKey = getStoreNameAndKey();
+    if (!storeNameAndKey) return;
+    var storeName = storeNameAndKey[0];
+    var storeKey = storeNameAndKey[1];
+    var store = loadStore(storeName);
+    var storeItem = getStoreItem(store, storeKey);
+    if (rewrite) storeItem.lists = [];
+    storeItem.lists.push(html);
+    saveStore(storeName, store);
+  }
+
+  function loadDataFromStore() {
+    var storeNameAndKey = getStoreNameAndKey();
+    if (!storeNameAndKey) return false;
+    var storeName = storeNameAndKey[0];
+    var storeKey = storeNameAndKey[1];
+    var store = loadStore(storeName);
+    var storeItem = getStoreItem(store, storeKey);
+    if (storeItem.lists.length === 0) return false;
+    for (var i = 0; i < storeItem.lists.length; i++) {
+      var html = storeItem.lists[i];
+      if (i === 0) {
+        displayFirstChangesets(html);
+      } else {
+        displayMoreChangesets(html);
+      }
+    }
+    return true;
   }
 
   function update() {
@@ -130,16 +156,19 @@ OSM.History = function (map) {
       feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
     }
 
-    $.ajax({
-      url: window.location.pathname,
-      method: "GET",
-      data: data,
-      success: function (html) {
-        saveDataToStore(html, true);
-        displayFirstChangesets(html);
-        updateMap();
-      }
-    });
+    var loadedDataFromStore = loadDataFromStore();
+    if (!loadedDataFromStore) {
+      $.ajax({
+        url: window.location.pathname,
+        method: "GET",
+        data: data,
+        success: function (html) {
+          saveDataToStore(html, true);
+          displayFirstChangesets(html);
+          updateMap();
+        }
+      });
+    }
   }
 
   function loadMore(e) {
