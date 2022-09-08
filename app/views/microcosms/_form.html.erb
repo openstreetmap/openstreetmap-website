@@ -1,55 +1,27 @@
 <p>
   All fields are required.
 </p>
-<%= form_for @microcosm do |form| %>
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, :id => :microcosm_name %>
+<%= bootstrap_form_for @microcosm do |form| %>
+  <%= form.text_field :name, :id => :microcosm_name %>
+  <%= form.text_field :location, :help => "for example city name and country", :id => :microcosm_location %>
+  <div class="row">
+    <%= form.text_field :latitude, :help => "decimal", :wrapper_class => "col-sm-6", :id => :microcosm_latitude %>
+    <%= form.text_field :longitude, :help => "decimal", :wrapper_class => "col-sm-6", :id => :microcosm_longitude %>
   </div>
-
-  <div class="field">
-    <%= form.label :location %>
-    <%= form.text_field :location, :id => :microcosm_location %> (for example city name and country)
-  </div>
-
-  <div class="field">
-    <%= form.label :latitude %>
-    <%= form.text_field :latitude, :id => :microcosm_latitude %> (decimal)
-  </div>
-
-  <div class="field">
-    <%= form.label :longitude %>
-    <%= form.text_field :longitude, :id => :microcosm_longitude %> (decimal)
-  </div>
-
   <!-- TODO: Suggest here to users how to get the bounding box easily. -->
-
-  <div class="field">
-    <%= form.label :min_lat %>
-    <%= form.text_field :min_lat, :id => :microcosm_min_lat %> (decimal)
+  <div class="row">
+    <div class="col-sm-4"></div>
+    <%= form.text_field :max_lat, :help => "decimal", :wrapper_class => "col-sm-4", :id => :microcosm_max_lat %>
   </div>
-
-  <div class="field">
-    <%= form.label :max_lat %>
-    <%= form.text_field :max_lat, :id => :microcosm_max_lat %> (decimal)
+  <div class="row">
+    <%= form.text_field :min_lon, :help => "decimal", :wrapper_class => "col-sm-4", :id => :microcosm_min_lon %>
+    <div class="col-sm-4"></div>
+    <%= form.text_field :max_lon, :help => "decimal", :wrapper_class => "col-sm-4", :id => :microcosm_max_lon %>
   </div>
-
-  <div class="field">
-    <%= form.label :min_lon %>
-    <%= form.text_field :min_lon, :id => :microcosm_min_lon %> (decimal)
+  <div class="row">
+    <div class="col-sm-4"></div>
+    <%= form.text_field :min_lat, :help => "decimal", :wrapper_class => "col-sm-4", :id => :microcosm_min_lat %>
   </div>
-
-  <div class="field">
-    <%= form.label :max_lon %>
-    <%= form.text_field :max_lon, :id => :microcosm_max_lon %> (decimal)
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description, :id => :microcosm_description %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <%= form.text_area :description, :id => :microcosm_description %>
+  <%= form.primary %>
 <% end %>
