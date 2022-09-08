@@ -179,7 +179,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
 
   def test_create_when_save_fails
     # arrange
-    session_for(create(:administrator_user))
+    session_for(create(:user))
     m = create(:microcosm)
     m = m.attributes.except("id", "created_at", "updated_at", "slug")
 
