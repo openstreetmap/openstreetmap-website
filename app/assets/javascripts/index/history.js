@@ -143,6 +143,7 @@ OSM.History = function (map) {
         displayMoreChangesets(html);
       }
     }
+    updateMap();
     return true;
   }
 
