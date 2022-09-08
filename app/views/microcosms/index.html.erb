@@ -9,23 +9,25 @@
   Ordered by <%= t(".longitude") %>.
 </p>
 
-<table>
+<table class="table table-borderless table-striped">
   <thead>
     <tr>
       <th><%= t(".name") %></th>
       <th><%= t(".location") %></th>
+      <th><%= t(".latitude") %></th>
       <th><%= t(".longitude") %></th>
-      <th colspan="1"></th>
+      <th><%= t(".description") %></th>
     </tr>
   </thead>
 
   <tbody>
     <% @microcosms.each do |microcosm| %>
       <tr>
-        <td><%= microcosm.name %></td>
+        <td><%= link_to microcosm.name, microcosm %></td>
         <td><%= microcosm.location %></td>
+        <td><%= microcosm.latitude %></td>
         <td><%= microcosm.longitude %></td>
-        <td><%= link_to t(".show"), microcosm %><% if current_user&.administrator? %> <%= link_to t(".edit"), edit_microcosm_path(microcosm) %><% end %></td>
+        <td><%= microcosm.description %></td>
       </tr>
     <% end %>
   </tbody>

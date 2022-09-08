@@ -3,6 +3,7 @@
 
 <% content_for :heading do %>
   <h1><%= @microcosm.name + " " + t(".header_title") %></h1>
+  <% if current_user&.administrator? %> <%= link_to t(".edit"), edit_microcosm_path(@microcosm) %><% end %>
 <% end %>
 
 <div class="container">
