@@ -55,11 +55,76 @@ OSM.History = function (map) {
     newList.remove();
   }
 
+  function getBBoxParameter() {
+    return map.getBounds().wrap().toBBoxString();
+  }
+
+  function getStoreNameAndKey() {
+    if (window.location.pathname === "/history/friends") {
+      return null; // depends on current login - don't store for now
+    } else if (window.location.pathname === "/history/nearby") {
+      return null; // depends on current login - don't store for now
+    } else if (window.location.pathname === "/history") {
+      return ["history-place", getBBoxParameter()]; // separate store for places because bbox is too volatile
+    } else {
+      return ["history-user", window.location.pathname]; // has display_name inside pathname
+    }
+  }
+
+  function saveDataToStore(html, rewrite) {
+    var requiredSchema = 1;
+    var maxStoreSize = 10;
+    var storeNameAndKey = getStoreNameAndKey();
+    if (!storeNameAndKey) return;
+    var storeName = storeNameAndKey[0];
+    var storeKey = storeNameAndKey[1];
+    var storeString = sessionStorage[storeName];
+    var store = {
+      schema: requiredSchema,
+      items: []
+    };
+    try {
+      if (storeString) {
+        var readStore = JSON.parse(storeString);
+        if (readStore.schema === requiredSchema) {
+          store = readStore;
+        }
+      }
+    } catch (ex) {
+      // reset store if it's damaged
+    }
+    var storeItem = getStoreItem();
+    if (rewrite) {
+      storeItem.lists = [];
+    }
+    storeItem.lists.push(html);
+    sessionStorage[storeName] = JSON.stringify(store);
+
+    function getStoreItem() {
+      var storeItem;
+      for (var i = 0; i < store.items.length; i++) {
+        if (store.items[i].key !== storeKey) continue;
+        storeItem = store.items[i];
+        store.items.splice(i, 1);
+        store.items.unshift(storeItem);
+        return storeItem;
+      }
+      storeItem = {
+        key: storeKey,
+        // TODO timestamp - need to receive it from fn doing request
+        lists: []
+      };
+      store.items.splice(maxStoreSize - 1);
+      store.items.unshift(storeItem);
+      return storeItem;
+    }
+  }
+
   function update() {
     var data = { list: "1" };
 
     if (window.location.pathname === "/history") {
-      data.bbox = map.getBounds().wrap().toBBoxString();
+      data.bbox = getBBoxParameter();
       var feedLink = $("link[type=\"application/atom+xml\"]"),
           feedHref = feedLink.attr("href").split("?")[0];
       feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
@@ -70,6 +135,7 @@ OSM.History = function (map) {
       method: "GET",
       data: data,
       success: function (html) {
+        saveDataToStore(html, true);
         displayFirstChangesets(html);
         updateMap();
       }
@@ -86,6 +152,7 @@ OSM.History = function (map) {
     div.find(".loader").show();
 
     $.get($(this).attr("href"), function (html) {
+      saveDataToStore(html, false);
       displayMoreChangesets(html);
       updateMap();
     });
