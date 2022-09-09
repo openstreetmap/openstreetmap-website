@@ -51,6 +51,9 @@
             <%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %>
             &middot;
             <%= link_to("#" + changeset.id.to_s, changeset_path(changeset)) %>
+            <% if changeset.tags["review_requested"] == "yes" %>
+              <%= t(".review_requested") %>
+            <% end %>
           </li>
         <% end %>
       </ul>
