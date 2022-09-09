@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "7.0.3.1"
+gem "rails", "7.0.4"
 
 # Require json for multi_json
 gem "json"
@@ -76,7 +76,7 @@ gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem "omniauth-windowslive"
 
 # Doorkeeper for OAuth2
-gem "doorkeeper"
+gem "doorkeeper", "~> 5.5.4"
 gem "doorkeeper-i18n"
 
 # Markdown formatting support
