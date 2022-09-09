@@ -165,3 +165,51 @@ window.showMap = function (id) {
     L.marker([params.lat, params.lon], { icon: OSM.getUserIcon() }).addTo(map);
   }
 };
+
+window.formMapInput = function (id, type) {
+  var map = L.map(id, {
+    attributionControl: false
+  });
+  map.addLayer(new L.OSM.Mapnik());
+
+  var lat_field = document.getElementById(type + "_latitude");
+  var lon_field = document.getElementById(type + "_longitude");
+
+  if (lat_field.value) {
+    map.setView([lat_field.value, lon_field.value], 12);
+  } else {
+    map.setView([0, 0], 0);
+  }
+
+  L.Control.Watermark = L.Control.extend({
+    onAdd: function () {
+      var container = map.getContainer();
+      var img = L.DomUtil.create("img");
+      img.src = "/assets/marker-blue.png"; // 25x41 px
+      // img.style.width = '200px';
+      img.style["margin-left"] = ((container.offsetWidth / 2) - 12) + "px";
+      img.style["margin-bottom"] = ((container.offsetHeight / 2) - 20) + "px";
+      return img;
+    },
+    onRemove: function () {
+      // Nothing to do here
+    }
+  });
+  L.control.watermark = function (opts) {
+    return new L.Control.Watermark(opts);
+  };
+  L.control.watermark({ position: "bottomleft" }).addTo(map);
+
+  map.on("move", function () {
+    var center = map.getCenter();
+    $("#" + type + "_latitude").val(center.lat);
+    $("#" + type + "_longitude").val(center.lng);
+    if ($("#" + type + "_min_lat")) {
+      var bounds = map.getBounds();
+      $("#" + type + "_min_lat").val(bounds._southWest.lat);
+      $("#" + type + "_max_lat").val(bounds._northEast.lat);
+      $("#" + type + "_min_lon").val(bounds._southWest.lng);
+      $("#" + type + "_max_lon").val(bounds._northEast.lng);
+    }
+  });
+};

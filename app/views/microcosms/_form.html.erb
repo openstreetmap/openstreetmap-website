@@ -1,3 +1,6 @@
+<%= stylesheet_link_tag "microcosms" %>
+<%= javascript_include_tag "microcosms" %>
+
 <p>
   All fields are required.
 </p>
@@ -7,6 +10,9 @@
   <div class="row">
     <%= form.text_field :latitude, :help => "decimal", :wrapper_class => "col-sm-6", :id => :microcosm_latitude %>
     <%= form.text_field :longitude, :help => "decimal", :wrapper_class => "col-sm-6", :id => :microcosm_longitude %>
+  </div>
+  <div class="microcosm_set_location">
+    <%= content_tag "div", "", :id => "microcosm_map_form" %>
   </div>
   <!-- TODO: Suggest here to users how to get the bounding box easily. -->
   <div class="row">
