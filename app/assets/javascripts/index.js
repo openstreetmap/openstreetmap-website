@@ -38,6 +38,7 @@ $(document).ready(function () {
     var title = sidebarContent[0];
     var html = sidebarContent[1];
 
+    map.setSidebarOverlaid(false);
     $("#flash").empty();
 
     var content = $(html);

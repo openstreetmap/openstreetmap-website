@@ -88,6 +88,20 @@ class HistoryTest < ApplicationSystemTestCase
     changesets.assert_selector "li", :count => (2 * PAGE_SIZE) + 1
   end
 
+  test "changesets list sidebar reappears when going back after closing it" do
+    user = create(:user)
+    create_visible_changeset(user, "first-changeset-in-history")
+
+    visit "#{user_path(user)}/history"
+    assert_text "first-changeset-in-history"
+
+    find("#sidebar .btn-close").click
+    assert_no_text "first-changeset-in-history"
+
+    go_back
+    assert_text "first-changeset-in-history"
+  end
+
   def create_visible_changeset(user, comment)
     create(:changeset, :user => user, :num_changes => 1) do |changeset|
       create(:changeset_tag, :changeset => changeset, :k => "comment", :v => comment)
