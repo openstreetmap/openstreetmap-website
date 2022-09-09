@@ -59,81 +59,89 @@ OSM.History = function (map) {
     return map.getBounds().wrap().toBBoxString();
   }
 
-  function getStoreNameAndKey() {
-    if (window.location.pathname === "/history/friends") {
-      return null; // depends on current login - don't store for now
-    } else if (window.location.pathname === "/history/nearby") {
-      return null; // depends on current login - don't store for now
-    } else if (window.location.pathname === "/history") {
-      return ["history-place", getBBoxParameter()]; // separate store for places because bbox is too volatile
-    } else {
-      return ["history-user", window.location.pathname]; // has display_name inside pathname
+  // returns [item, saveFunction]; item.key is undefined if no save is going to happen
+  function getStoreItemAndSaver() {
+    var storeNameAndKey = getStoreNameAndKey();
+    if (!storeNameAndKey) {
+      return [{ lists: [] }, function () {}];
     }
-  }
+    var storeName = storeNameAndKey[0];
+    var storeKey = storeNameAndKey[1];
+    var store = loadStore(storeName);
+    var storeItem = getStoreItem(store, storeKey);
+    return [storeItem, function () {
+      saveStore(storeName, store);
+    }];
 
-  function loadStore(storeName) {
-    var requiredSchema = 1;
-    var storeString = sessionStorage[storeName];
-    var store = {
-      schema: requiredSchema,
-      items: []
-    };
-    try {
-      if (storeString) {
-        var readStore = JSON.parse(storeString);
-        if (readStore.schema === requiredSchema) {
-          store = readStore;
-        }
+    function getStoreNameAndKey() {
+      if (window.location.pathname === "/history/friends") {
+        return null; // depends on current login - don't store for now
+      } else if (window.location.pathname === "/history/nearby") {
+        return null; // depends on current login - don't store for now
+      } else if (window.location.pathname === "/history") {
+        return ["history-place", getBBoxParameter()]; // separate store for places because bbox is too volatile
+      } else {
+        return ["history-user", window.location.pathname]; // has display_name inside pathname
       }
-    } catch (ex) {
-      // reset store if it's damaged
     }
-    return store;
-  }
 
-  function saveStore(storeName, store) {
-    sessionStorage[storeName] = JSON.stringify(store);
-  }
+    function loadStore(storeName) {
+      var requiredSchema = 1;
+      var storeString = sessionStorage[storeName];
+      var store = {
+        schema: requiredSchema,
+        items: []
+      };
+      try {
+        if (storeString) {
+          var readStore = JSON.parse(storeString);
+          if (readStore.schema === requiredSchema) {
+            store = readStore;
+          }
+        }
+      } catch (ex) {
+        // reset store if it's damaged
+      }
+      return store;
+    }
 
-  function getStoreItem(store, storeKey) {
-    var maxStoreSize = 10;
-    var storeItem;
-    for (var i = 0; i < store.items.length; i++) {
-      if (store.items[i].key !== storeKey) continue;
-      storeItem = store.items[i];
-      store.items.splice(i, 1);
+    function saveStore(storeName, store) {
+      sessionStorage[storeName] = JSON.stringify(store);
+    }
+
+    function getStoreItem(store, storeKey) {
+      var maxStoreSize = 10;
+      var storeItem;
+      for (var i = 0; i < store.items.length; i++) {
+        if (store.items[i].key !== storeKey) continue;
+        storeItem = store.items[i];
+        store.items.splice(i, 1);
+        store.items.unshift(storeItem);
+        return storeItem;
+      }
+      storeItem = {
+        key: storeKey,
+        lists: []
+      };
+      store.items.splice(maxStoreSize - 1);
       store.items.unshift(storeItem);
       return storeItem;
     }
-    storeItem = {
-      key: storeKey,
-      // TODO timestamp - need to receive it from fn doing request
-      lists: []
-    };
-    store.items.splice(maxStoreSize - 1);
-    store.items.unshift(storeItem);
-    return storeItem;
   }
 
   function saveDataToStore(html, rewrite) {
-    var storeNameAndKey = getStoreNameAndKey();
-    if (!storeNameAndKey) return;
-    var storeName = storeNameAndKey[0];
-    var storeKey = storeNameAndKey[1];
-    var store = loadStore(storeName);
-    var storeItem = getStoreItem(store, storeKey);
+    var storeItemAndSaver = getStoreItemAndSaver();
+    var storeItem = storeItemAndSaver[0];
+    var storeSaver = storeItemAndSaver[1];
+    if (!storeItem.key) return;
     if (rewrite) storeItem.lists = [];
     storeItem.lists.push(html);
-    saveStore(storeName, store);
+    storeSaver();
   }
 
   function loadDataFromStore() {
-    var storeNameAndKey = getStoreNameAndKey();
-    if (!storeNameAndKey) return false;
-    var storeName = storeNameAndKey[0];
-    var storeKey = storeNameAndKey[1];
-    var store = loadStore(storeName);
-    var storeItem = getStoreItem(store, storeKey);
+    var storeItemAndSaver = getStoreItemAndSaver();
+    var storeItem = storeItemAndSaver[0];
     if (storeItem.lists.length === 0) return false;
     for (var i = 0; i < storeItem.lists.length; i++) {
       var html = storeItem.lists[i];
@@ -242,21 +250,41 @@ OSM.History = function (map) {
     }
   }
 
-  page.pushstate = page.popstate = function (path) {
-    $("#history_tab").addClass("current");
-    OSM.loadSidebarContent(path, page.load);
-  };
-
-  page.load = function () {
+  function finishLoad() {
     map.addLayer(group);
 
     if (window.location.pathname === "/history") {
       map.on("moveend", update);
     }
-
     map.on("zoomend", updateBounds);
 
     update();
+  }
+
+  page.pushstate = page.popstate = function (path) {
+    $("#history_tab").addClass("current");
+    var storeItemAndSaver = getStoreItemAndSaver();
+    var storeItem = storeItemAndSaver[0];
+    var storeSaver = storeItemAndSaver[1];
+    if (storeItem.sidebar) {
+      OSM.setSidebarContent(storeItem.sidebar);
+      finishLoad();
+    } else {
+      OSM.loadSidebarContent(path, function () {
+        storeItem.sidebar = OSM.getSidebarContent();
+        storeSaver();
+        finishLoad();
+      });
+    }
+  };
+
+  page.load = function () {
+    var storeItemAndSaver = getStoreItemAndSaver();
+    var storeItem = storeItemAndSaver[0];
+    var storeSaver = storeItemAndSaver[1];
+    storeItem.sidebar = OSM.getSidebarContent();
+    storeSaver();
+    finishLoad();
   };
 
   page.unload = function () {
