@@ -10,24 +10,23 @@
 </p>
 
 <table class="table table-borderless table-striped">
-  <thead>
-    <tr>
-      <th><%= t(".name") %></th>
-      <th><%= t(".location") %></th>
-      <th><%= t(".latitude") %></th>
-      <th><%= t(".longitude") %></th>
-      <th><%= t(".description") %></th>
-    </tr>
-  </thead>
-
   <tbody>
     <% @microcosms.each do |microcosm| %>
       <tr>
-        <td><%= link_to microcosm.name, microcosm %></td>
-        <td><%= microcosm.location %></td>
-        <td><%= microcosm.latitude %></td>
-        <td><%= microcosm.longitude %></td>
-        <td><%= microcosm.description %></td>
+        <td>
+          <h3><%= link_to microcosm.name, microcosm %></h3>
+          <div class="d-flex flex-row justify-content-between">
+            <div class="d-flex">
+              <%= microcosm.location %>
+            </div>
+            <div class="d-flex">
+              (<%= microcosm.latitude %>, <%= microcosm.longitude %>)
+            </div>
+          </div>
+          <p>
+            <%= microcosm.description %>
+          </p>
+        </td>
       </tr>
     <% end %>
   </tbody>
