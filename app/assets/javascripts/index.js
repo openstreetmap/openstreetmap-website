@@ -406,4 +406,8 @@ $(document).ready(function () {
       e.preventDefault();
     }
   });
+
+  $(document).on("click", "#sidebar_content .btn-close", function () {
+    OSM.router.route("/" + OSM.formatHash(map));
+  });
 });
