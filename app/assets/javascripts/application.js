@@ -145,3 +145,23 @@ $(document).ready(function () {
     OSM.location = application_data.location;
   }
 });
+
+window.showMap = function (id) {
+  var params = $("#" + id).data();
+  var map = L.map(id, {
+    attributionControl: false,
+    zoomControl: false
+  });
+  map.addLayer(new L.OSM.Mapnik());
+  var show_marker = true;
+  if (!params.lon || !params.lat) {
+    params.lon = 0;
+    params.lat = 0;
+    params.zoom = 1;
+    show_marker = false;
+  }
+  map.setView([params.lat, params.lon], params.zoom);
+  if (show_marker) {
+    L.marker([params.lat, params.lon], { icon: OSM.getUserIcon() }).addTo(map);
+  }
+};
