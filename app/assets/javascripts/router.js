@@ -101,8 +101,16 @@ OSM.Router = function (map, rts) {
 
   var router = {};
 
+  $("#sidebar").scroll(function () {
+    var state = window.history.state;
+    if (!state) state = {};
+    state.sidebarScroll = this.scrollTop;
+    window.history.replaceState(state, document.title, window.location); // TODO don't replace state too often, browsers complain about that
+  });
+
   $(window).on("popstate", function (e) {
-    if (!e.originalEvent.state) return; // Is it a real popstate event or just a hash change?
+    var state = e.originalEvent.state;
+    if (!state) return; // Is it a real popstate event or just a hash change?
     var path = window.location.pathname + window.location.search,
         route = routes.recognize(path);
     if (path === currentPath) return;
@@ -110,7 +118,10 @@ OSM.Router = function (map, rts) {
     currentPath = path;
     currentRoute = route;
     currentRoute.run("popstate", currentPath);
-    map.setState(e.originalEvent.state, { animate: false });
+    map.setState(state, { animate: false });
+    if ("sidebarScroll" in state) {
+      $("#sidebar").scrollTop(state.sidebarScroll);
+    }
   });
 
   router.route = function (url) {
@@ -143,7 +154,14 @@ OSM.Router = function (map, rts) {
     var hash = OSM.formatHash(map);
     if (hash === currentHash) return;
     currentHash = hash;
-    router.stateChange(OSM.parseHash(hash));
+    var state = OSM.parseHash(hash);
+    if (window.history) {
+      var oldState = window.history.state;
+      if (oldState && "sidebarScroll" in oldState) {
+        state.sidebarScroll = oldState.sidebarScroll;
+      }
+    }
+    router.stateChange(state);
   };
 
   router.hashUpdated = function () {
