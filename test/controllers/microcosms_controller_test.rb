@@ -105,7 +105,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
       @microcosm = Microcosm.new
     end
 
-    def controller_mock.render(_)
+    def controller_mock.render(_partial)
       # Can't do assert_equal here.
       # assert_equal :edit, partial
     end
