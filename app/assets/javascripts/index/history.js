@@ -287,6 +287,16 @@ OSM.History = function (map) {
     finishLoad();
   };
 
+  page.reload = function () {
+    var storeItemAndSaver = getStoreItemAndSaver();
+    var storeItem = storeItemAndSaver[0];
+    var storeSaver = storeItemAndSaver[1];
+    storeItem.sidebar = OSM.getSidebarContent();
+    storeItem.lists = []; // clear cached changesets
+    storeSaver();
+    finishLoad();
+  };
+
   page.unload = function () {
     map.removeLayer(group);
     map.off("moveend", update);

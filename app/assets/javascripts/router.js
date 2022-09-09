@@ -18,6 +18,10 @@
        as arguments the URL path plus any matching arguments for placeholders
        in the path template.
 
+     * The `reload` method, when defined, is called by the router when a page
+       reload is requested by the user. When not defined, the `load` method is
+       called instead.
+
      * The `pushstate` method is called when a page which matches the route's path
        template is loaded via pushState. It is passed the same arguments as `load`.
 
@@ -79,6 +83,10 @@ OSM.Router = function (map, rts) {
       params = params.concat(Array.prototype.slice.call(arguments, 2));
 
       return (controller[action] || $.noop).apply(controller, params);
+    };
+
+    route.has = function (action) {
+      return action in controller;
     };
 
     return route;
@@ -187,8 +195,20 @@ OSM.Router = function (map, rts) {
   };
 
   router.load = function () {
-    var loadState = currentRoute.run("load", currentPath);
+    var loadState = loadOrReload();
     router.stateChange(loadState || {});
+
+    function loadOrReload() {
+      if (currentRoute.has("reload") && window.performance) {
+        var wasReloaded = window.performance.getEntriesByType("navigation").some(function (entry) {
+          return entry.type === "reload";
+        });
+        if (wasReloaded) {
+          return currentRoute.run("reload", currentPath);
+        }
+      }
+      return currentRoute.run("load", currentPath);
+    }
   };
 
   router.setCurrentPath = function (path) {

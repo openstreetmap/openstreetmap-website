@@ -34,6 +34,25 @@ class HistoryTest < ApplicationSystemTestCase
     reloaded_changesets.assert_text "first-changeset-in-history"
   end
 
+  test "reloading the changesets page updates the list" do
+    user = create(:user)
+    create_visible_changeset(user, "first-changeset-in-history")
+    visit "#{user_path(user)}/history"
+    original_changesets = find "div.changesets"
+    original_changesets.assert_text "first-changeset-in-history"
+    original_changesets.assert_no_text "second-changeset-in-history"
+
+    create_visible_changeset(user, "second-changeset-in-history")
+    visit user_path(user)
+    go_back
+    original_changesets.assert_text "first-changeset-in-history"
+    original_changesets.assert_no_text "second-changeset-in-history"
+
+    refresh
+    original_changesets.assert_text "first-changeset-in-history"
+    original_changesets.assert_text "second-changeset-in-history"
+  end
+
   test "have only one list element on user's changesets page" do
     user = create(:user)
     create_visible_changeset(user, "first-changeset-in-history")
