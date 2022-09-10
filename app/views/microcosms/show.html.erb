@@ -6,6 +6,7 @@
     <%= "#{@microcosm.name} " + t(".header_title") %>
   </h1>
   <% if current_user %>
+    <%= report_link(t(".report"), @microcosm) %>
     <% if current_user == @microcosm.organizer %>
       <%= link_to t(".edit"), edit_microcosm_path(@microcosm) %>
     <% end %>
