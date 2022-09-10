@@ -61,10 +61,17 @@ class MicrocosmsController < ApplicationController
   end
 
   def microcosm_params
+    normalize_longitude(params[:microcosm])
     params.require(:microcosm).permit(
       :name, :location, :latitude, :longitude,
       :min_lat, :max_lat, :min_lon, :max_lon,
       :description
     )
+  end
+
+  def normalize_longitude(microcosm_params)
+    longitude = microcosm_params[:longitude].to_f
+    longitude = ((longitude + 180) % 360) - 180
+    microcosm_params[:longitude] = longitude.to_s
   end
 end

@@ -206,4 +206,26 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     # assert_mock mock_microcosm
     # assert_mock render_mock
   end
+
+  def test_create_with_coords_out_of_range
+    # arrange
+    u = create(:user)
+    session_for(u)
+    m_orig = create(:microcosm)
+    m_orig.longitude = -200
+
+    # act
+    m_new_slug = nil
+    assert_difference "Microcosm.count", 1 do
+      post microcosms_url, :params => { :microcosm => m_orig.as_json }, :xhr => true
+      m_new_slug = @response.headers["Location"].split("/")[-1]
+    end
+
+    # assert
+    assert_equal I18n.t("microcosms.create.success"), flash[:notice]
+    m_new = Microcosm.find_by(:slug => m_new_slug)
+    # Assign the id m_new to m_orig, so we can do an equality test easily.
+    m_orig.id = m_new.id
+    assert_equal 160, m_new.longitude
+  end
 end

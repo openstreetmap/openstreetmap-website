@@ -200,16 +200,22 @@ window.formMapInput = function (id, type) {
   };
   L.control.watermark({ position: "bottomleft" }).addTo(map);
 
+  function normalizeLongitude(longitude) {
+    // Convert any given longitude to this interval [-180, 180).
+    // We add 540 because JS mods of negative numbers are negative.
+    return (((longitude % 360) + 360 + 180) % 360) - 180;
+  }
+
   map.on("move", function () {
     var center = map.getCenter();
     $("#" + type + "_latitude").val(center.lat);
-    $("#" + type + "_longitude").val(center.lng);
+    $("#" + type + "_longitude").val(normalizeLongitude(center.lng));
     if ($("#" + type + "_min_lat")) {
       var bounds = map.getBounds();
       $("#" + type + "_min_lat").val(bounds._southWest.lat);
       $("#" + type + "_max_lat").val(bounds._northEast.lat);
-      $("#" + type + "_min_lon").val(bounds._southWest.lng);
-      $("#" + type + "_max_lon").val(bounds._northEast.lng);
+      $("#" + type + "_min_lon").val(normalizeLongitude(bounds._southWest.lng));
+      $("#" + type + "_max_lon").val(normalizeLongitude(bounds._northEast.lng));
     }
   });
 };
