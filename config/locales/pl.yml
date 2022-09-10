@@ -53,12 +53,14 @@
 # Author: Strebski
 # Author: Teiron
 # Author: The Polish
+# Author: Tsca
 # Author: Ty221
 # Author: WaldiSt
 # Author: Woytecr
 # Author: Wpedzich
 # Author: Yarl
 # Author: Zbigniew.czernik
+# Author: Łukasz3212
 ---
 pl:
   html:
@@ -200,7 +202,7 @@ pl:
         description: Opis
         home_lat: 'Szerokość:'
         home_lon: 'Długość geograficzna:'
-        languages: Języki
+        languages: Preferowane języki
         preferred_editor: 'Preferowane edytowanie w:'
         pass_crypt: Hasło
         pass_crypt_confirmation: Potwierdź hasło
@@ -329,6 +331,76 @@ pl:
       entry:
         comment: Komentarz
         full: Pełna treść uwagi
+  account:
+    deletions:
+      show:
+        title: Usuń moje konto
+        warning: Uwaga! Proces usuwania konta jest ostateczny i nie można go cofnąć.
+        delete_account: Usuń konto
+        delete_introduction: 'Możesz usunąć swoje konto OpenStreetMap używając poniższego
+          przycisku. Proszę zwrócić uwagę na następujące szczegóły:'
+        delete_profile: Informacje o twoim profilu, w tym twój awatar, opis i lokalizacja
+          zostaną usunięte.
+        delete_display_name: Twoja wyświetlana nazwa zostanie usunięta i będzie mogła
+          być użyta przez inne konta.
+        retain_caveats: 'Jednak niektóre informacje o tobie pozostaną zachowane na
+          OpenStreetMap nawet po usunięciu konta:'
+        retain_edits: Twoje ewentualne zmiany w bazie danych mapy zostaną zachowane.
+        retain_traces: Twoje przesłane ślady zostaną zachowane.
+        retain_diary_entries: Twoje ewentualne wpisy do dziennika i komentarze pod
+          wpisami do dzienników zostaną zachowane, ale ukryte.
+        retain_notes: Twoje ewentualne uwagi i komentarze w uwagach zostaną zachowane,
+          ale ukryte.
+        retain_changeset_discussions: Twoje ewentualne komentarze pod zestawami zmian
+          zostaną zachowane.
+        retain_email: Twój adres e-mail zostanie zachowany.
+        confirm_delete: Na pewno?
+        cancel: Anuluj
+  accounts:
+    edit:
+      title: Zmiana ustawień konta
+      my settings: Ustawienia
+      current email address: 'Aktualny adres e-mail:'
+      external auth: 'Zewnętrzne uwierzytelnienie:'
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/Pl:OpenID
+        link text: co to jest?
+      public editing:
+        heading: Publiczna edycja
+        enabled: Włączone. Nieanonimowy i uprawniony do edycji danych.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: co to jest?
+        disabled: Wyłączone i nieuprawniony do edycji danych, wszystkie wcześniejsze
+          edycje są anonimowe.
+        disabled link text: dlaczego nie mogę mapować?
+      public editing note:
+        heading: 'Edycje publiczne:'
+        html: Obecnie twoje edycje są anonimowe i ludzie nie mogą wysyłać do ciebie
+          wiadomości lub zobaczyć twojej lokalizacji. Aby pokazać, co edytowałeś i
+          umożliwić ludziom kontakt z tobą za pośrednictwem strony internetowej, kliknij
+          przycisk poniżej. <b>W międzyczasie API 0.6 zmienił się, jedynie publiczni
+          użytkownicy mogą edytować dane mapy. </b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">dowiedz
+          się dlaczego</a>).<ul><li>Twój adres e-mail nie zostanie ujawniony przez
+          stanie się publicznym. Tej akcji nie można cofnąć i wszyscy nowi użytkownicy
+          są już domyślnie publiczni.</ul></li>
+      contributor terms:
+        heading: 'Warunki uczestnictwa:'
+        agreed: Wyrażono zgodę na nowe Warunki Uczestnictwa.
+        not yet agreed: Nie wyrażono zgody na nowe Warunki Uczestnictwa.
+        review link text: Na tej stronie możesz zapoznać się z nowymi Warunkami Uczestnictwa
+          i je zaakceptować.
+        agreed_with_pd: Zadeklarowałeś, że twoje edycje publikujesz w domenie publicznej.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link text: co to jest?
+      save changes button: Zapisz zmiany
+      make edits public button: Niech wszystkie edycje będą publiczne.
+      delete_account: Usuń konto...
+    update:
+      success_confirm_needed: Zaktualizowano profil użytkownika. Sprawdź, czy przyszedł
+        już e-mail potwierdzający nowy adres mailowy.
+      success: Zaktualizowano profil użytkownika.
+    destroy:
+      success: Konto zostało usunięte.
   browse:
     created: Utworzone
     closed: Zamknięte
@@ -418,11 +490,11 @@ pl:
       title: Nie znaleziono
       sorry: 'Niestety, nie odnaleziono %{type} #%{id}.'
       type:
-        node: węzeł
-        way: linia
-        relation: relacja
-        changeset: zestaw zmian
-        note: uwaga
+        node: węzła
+        way: linii
+        relation: relacji
+        changeset: zestawu zmian
+        note: uwagi
     timeout:
       title: Przekroczono limit czasu
       sorry: Niestety, pobranie danych %{type} o identyfikatorze %{id} trwało zbyt
@@ -473,7 +545,7 @@ pl:
       reopened_by_html: Ponownie aktywowana przez %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Ponownie aktywowana anonimowo <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Ukryte przez %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Zgłoś tę uwagę
+      report: ją zgłosić
       coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Dane obiektów
@@ -678,7 +750,7 @@ pl:
           runway: Pas startowy
           taxilane: Droga na lotnisku
           taxiway: Droga kołowania
-          terminal: Terminal
+          terminal: Terminal pasażerski
           windsock: Wiatrowskaz
         amenity:
           animal_boarding: Hotel dla zwierząt
@@ -880,7 +952,6 @@ pl:
           window_construction: Montaż okien
           winery: Winiarnia
           "yes": Warsztat
-        crossing: Przejście
         emergency:
           access_point: Punkt dla służb ratowniczych
           ambulance_station: Stacja pogotowia ratunkowego
@@ -901,6 +972,7 @@ pl:
           bus_stop: Przystanek autobusowy
           construction: Droga w trakcie budowy
           corridor: Korytarz
+          crossing: Przejście
           cycleway: Droga rowerowa
           elevator: Winda
           emergency_access_point: Punkt dla służb ratowniczych
@@ -991,7 +1063,6 @@ pl:
           commercial: Obszar handlowo-usługowy
           conservation: Rezerwat
           construction: Teren budowy
-          farm: Farma
           farmland: Grunty orne
           farmyard: Podwórze gospodarskie
           forest: Las
@@ -1221,8 +1292,9 @@ pl:
           village: Wieś
           "yes": Miejsce
         railway:
-          abandoned: Dawna linia kolejowa
-          construction: Budowana linia kolejowa
+          abandoned: Rozebrany tor
+          buffer_stop: Kozioł oporowy
+          construction: Kolej w budowie
           disused: Nieużywany tor
           funicular: Kolej linowo-terenowa
           halt: Przystanek kolejowy
@@ -1235,6 +1307,7 @@ pl:
           platform: Peron
           preserved: Tor kolei zabytkowej
           proposed: Planowana linia kolejowa
+          rail: Tor kolejowy
           spur: Bocznica kolejowa
           station: Stacja kolejowa
           stop: Przystanek kolejowy
@@ -1243,6 +1316,7 @@ pl:
           switch: Zwrotnica
           tram: Tor tramwajowy
           tram_stop: Przystanek tramwajowy
+          turntable: Obrotnica kolejowa
           yard: Stacja postojowa, lokomotywownia
         shop:
           agrarian: Sklep rolniczy
@@ -1754,8 +1828,8 @@ pl:
   messages:
     inbox:
       title: Wiadomości odebrane
-      my_inbox: skrzynka odbiorcza
-      my_outbox: skrzynka nadawcza
+      my_inbox: wiadomości odebrane
+      my_outbox: wiadomości wysłane
       messages: Masz %{new_messages} i %{old_messages}
       new_messages:
         few: '%{count} nowe wiadomości'
@@ -1793,9 +1867,9 @@ pl:
       heading: Nie ma takiej wiadomości
       body: Niestety nie ma wiadomości o tym identyfikatorze.
     outbox:
-      title: Wysłane
-      my_inbox: Wiadomości odebrane
-      my_outbox: Wiadomości wysłane
+      title: Wiadomości wysłane
+      my_inbox: wiadomości odebrane
+      my_outbox: wiadomości wysłane
       messages:
         one: '%{count} wysłana wiadomość'
         few: '%{count} wysłane wiadomości'
@@ -1996,7 +2070,7 @@ pl:
     copyright:
       foreign:
         title: Informacje o tłumaczeniu
-        html: W przypadku konfliktu pomiędzy tym tłumaczeniem a %{english_original_link}
+        html: W przypadku rozbieżności pomiędzy tym tłumaczeniem a %{english_original_link}
           preferowana jest strona w języku angielskim.
         english_link: oryginalną angielską wersją
       native:
@@ -2021,19 +2095,22 @@ pl:
           <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.pl">Uznanie
           autorstwa na tych samych warunkach 2.0</a> (CC BY-SA 2.0).
         credit_title_html: Jak określić pochodzenie danych
-        credit_1_html: Wymagamy podania źródła w postaci „&copy; autorzy OpenStreetMap”.
-        credit_2_1_html: Musisz także jasno zaznaczyć, że dane dostępne są na licencji
-          Open Database License. Możesz to zrobić przez podlinkowanie <a href="https://www.openstreetmap.org/copyright">tej
-          strony licencyjnej</a>. W przypadku rozpowszechniania OSM w formie danych
-          możesz podać nazwy licencji i umieścić do nich bezpośredni link. Jeśli niemożliwe
-          jest umieszczenie linków (np. mapy papierowe), sugerujemy pokierowanie czytelników
-          na stronę openstreetmap.org (lub OpenStreetMap.org) i opendatacommons.org.
-        credit_3_1_html: Kafelki mapy w stylu podstawowym na www.openstreetmap.org
-          są Produktem na licencji Open Database Licence wytworzonym przez OpenStreetMap
-          Foundation na podstawie danych OpenStreetMap. Jeśli używasz tego stylu mapy,
-          wymagana jest taka sama atrybucja jak w przypadku danych mapy.
-        credit_4_html: W przypadku interaktywnych map elektronicznych podziękowania
-          powinny pojawić się w rogu mapy.
+        credit_1_html: 'W przypadku korzystania z danych OpenStreetMap należy:'
+        credit_2_1_html: |-
+          <ul>
+            <li>Podać źródło poprzez wyświetlenie informacji o prawach autorskich (np. w postaci „&copy; autorzy OpenStreetMap”.).</li>
+            <li>Wyraźnie zaznaczyć, że dane dostępne są na licencji Open Database License.</li>
+          </ul>
+        credit_3_1_html: W przypadku informacji o prawach autorskich mamy różne wymagania
+          co do sposobu jej wyświetlania, w zależności od tego, jak korzysta się z
+          naszych danych. Na przykład, różne zasady dotyczące sposobu wyświetlania
+          informacji o prawach autorskich zależą od tego, czy utworzono interaktywną
+          mapę elektroniczną, mapę drukowaną czy obraz statyczny. Pełne informacje
+          na temat wymagań można znaleźć w <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">wytycznych
+          dotyczących atrybucji</a>.
+        credit_4_html: |-
+          Żeby jasno zaznaczyć, że dane dostępne są na licencji Open Database License, możesz to zrobić przez podlinkowanie <a href="https://www.openstreetmap.org/copyright">tej strony licencyjnej</a>. W przypadku rozpowszechniania OSM w formie danych możesz podać nazwy licencji i umieścić do nich bezpośredni link. Jeśli niemożliwe jest umieszczenie linków (np. na mapach papierowych), sugerujemy pokierowanie czytelników na stronę openstreetmap.org (lub OpenStreetMap.org) i opendatacommons.org.
+          W przykładzie poniżej podziękowania pojawiają się w rogu mapy.
         attribution_example:
           alt: Przykład, jak przypisywać OpenStreetMap na stronie internetowej
           title: Przykład uznania autorstwa
@@ -2104,7 +2181,7 @@ pl:
           praw autorskich.
         infringement_2_html: Jeśli uważasz, że materiał chroniony prawem autorskim
           został niewłaściwie dodany do bazy OpenStreetMap, zajrzyj pod adres naszej
-          <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">procedury
+          <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">procedury
           usuwania danych</a> lub <a href="https://dmca.openstreetmap.org/">wypełnij
           formularz on-line</a>.
         trademarks_title_html: <span id="trademarks"></span>Znaki towarowe
@@ -2303,6 +2380,7 @@ pl:
           common:
           - Pole
           - łąka
+          - ogród
           retail: Zabudowa handlowo-usługowa
           industrial: Teren przemysłowy
           commercial: Zabudowa biurowo-usługowa
@@ -2465,7 +2543,7 @@ pl:
       in: w
     index:
       public_traces: Publiczne ślady GPS
-      my_traces: Moje ślady GPS
+      my_gps_traces: Moje ślady GPS
       public_traces_from: Publiczne ślady GPS użytkownika %{user}
       description: Przeglądanie ostatnio dodanych śladów GPS
       tagged_with: ' otagowane %{tags}'
@@ -2474,6 +2552,7 @@ pl:
         wiki</a>.
       upload_trace: Wyślij ślad
       all_traces: Wszystkie ślady
+      my_traces: Moje ślady GPS
       traces_from: Publiczne ślady GPS użytkownika %{user}
       remove_tag_filter: Usuń filtr tagów
     destroy:
@@ -2550,6 +2629,7 @@ pl:
       write_gpx: Przesyłanie śladów GPS
       write_notes: Modyfikowanie uwag
       read_email: Odczytywanie adresu e-mail użytkownika
+      skip_authorization: Automatycznie akceptuj aplikację
   oauth_clients:
     new:
       title: Rejestrowanie nowej aplikacji
@@ -2753,51 +2833,13 @@ pl:
       activate_user: Aktywuj tego użytkownika
       deactivate_user: Dezaktywuj tego użytkownika
       confirm_user: Zatwierdź tego użytkownika
+      unconfirm_user: Cofnij zatwierdzenie tego użytkownika
+      unsuspend_user: Cofnij zawieszenie tego użytkownika
       hide_user: Ukryj tego użytkownika
       unhide_user: Odkryj tego użytkownika
       delete_user: Usuń tego użytkownika
       confirm: Potwierdź
       report: zgłoś tego użytkownika
-    account:
-      title: Zmiana ustawień konta
-      my settings: Ustawienia
-      current email address: 'Aktualny adres e-mail:'
-      external auth: 'Zewnętrzne uwierzytelnienie:'
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/Pl:OpenID
-        link text: co to jest?
-      public editing:
-        heading: 'Edycje publiczne:'
-        enabled: Włączone. Nieanonimowy i uprawniony do edycji danych.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: co to jest?
-        disabled: Wyłączone i nieuprawniony do edycji danych, wszystkie wcześniejsze
-          edycje są anonimowe.
-        disabled link text: dlaczego nie mogę mapować?
-      public editing note:
-        heading: Publiczna edycja
-        html: Obecnie twoje edycje są anonimowe i ludzie nie mogą wysyłać do ciebie
-          wiadomości lub zobaczyć twojej lokalizacji. Aby pokazać, co edytowałeś i
-          umożliwić ludziom kontakt z tobą za pośrednictwem strony internetowej, kliknij
-          przycisk poniżej. <b>W międzyczasie API 0.6 zmienił się, jedynie publiczni
-          użytkownicy mogą edytować dane mapy. </b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">dowiedz
-          się dlaczego</a>).<ul><li>Twój adres e-mail nie zostanie ujawniony przez
-          stanie się publicznym. Tej akcji nie można cofnąć i wszyscy nowi użytkownicy
-          są już domyślnie publiczni.</ul></li>
-      contributor terms:
-        heading: 'Warunki uczestnictwa:'
-        agreed: Wyrażono zgodę na nowe Warunki Uczestnictwa.
-        not yet agreed: Nie wyrażono zgody na nowe Warunki Uczestnictwa.
-        review link text: Na tej stronie możesz zapoznać się z nowymi Warunkami Uczestnictwa
-          i je zaakceptować.
-        agreed_with_pd: Zadeklarowałeś, że twoje edycje publikujesz w domenie publicznej.
-        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
-        link text: co to jest?
-      save changes button: Zapisz zmiany
-      make edits public button: Niech wszystkie edycje będą publiczne.
-      flash update success confirm needed: Zaktualizowano profil użytkownika.  Sprawdź,
-        czy przyszedł już mail potwierdzający nowy adres mailowy.
-      flash update success: Zaktualizowano profil użytkownika.
     set_home:
       flash success: Zapisano nowe położenie domu
     go_public:
@@ -3087,6 +3129,9 @@ pl:
         reactivate: Ponownie aktywuj
         comment_and_resolve: Skomentuj i rozwiąż
         comment: Dodaj komentarz
+        report_link_html: Jeśli ta uwaga zawiera wrażliwe informacje, które należy
+          usunąć, możesz %{link}. W przypadku wszystkich innych problemów z tą uwagą,
+          rozwiąż ją z odpowiednim komentarzem.
     edit_help: Proszę przesunąć mapę i przybliżyć modyfikowane położenie, a następnie
       kliknąć tutaj.
     directions:

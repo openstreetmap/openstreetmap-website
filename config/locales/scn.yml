@@ -28,6 +28,8 @@ scn:
       client_application:
         create: Riggistra
         update: Agghiorna
+      doorkeeper_application:
+        update: Aggiorna
       redaction:
         create: Crea l'occultamentu
         update: Sarva occultamentu
@@ -38,6 +40,9 @@ scn:
         create: Crea lu bloccu
         update: Aggiorna lu bloccu
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: nun pari èssiri nu nnirizzu email vàlidu
     models:
       acl: Lista di cuntrollu d'accessu
       changeset: Gruppu di canciamenti
@@ -76,6 +81,9 @@ scn:
       client_application:
         callback_url: URL di callback
         support_url: URL di l'assistenza
+        allow_write_api: cancia la cartina
+        allow_read_gpx: lèggi li sò tracciati GPS privati.
+        allow_write_gpx: càrrica li tracciati GPS
         allow_write_notes: cancia li noti
       diary_comment:
         body: Corpu
@@ -182,6 +190,59 @@ scn:
       entry:
         comment: Cummentu
         full: Nota cumpleta
+  account:
+    deletions:
+      show:
+        delete_account: Cancella cuntu
+        confirm_delete: Sî sicuru?
+        cancel: Annulla
+  accounts:
+    edit:
+      title: Cancia lu cuntu
+      my settings: Li mè mpustazzioni
+      current email address: Nnirizzu email attuali
+      external auth: Autinticazzioni esterna
+      openid:
+        link: http://wiki.openstreetmap.org/wiki/IT:OpenID
+        link text: chi voli diri?
+      public editing:
+        heading: Canciamenti pùbblici
+        enabled: Attivati. Nun sî anònimu e poi canciari li dati.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: chi voli diri?
+        disabled: Disattivati, e nun poi canciari li dati, tutti li canciamenti pricidenti
+          sunnu anònimi.
+        disabled link text: pirchì nun pozzu fari canciamenti?
+      public editing note:
+        heading: Canciamenti pùbblici
+        html: Com'a ora li tò canciamenti sunnu anònimi e li genti nun ti ponnu mannari
+          missaggi o vìdiri unni sî. Pi fari vìdiri chiddu chi canci e pirmèttiri
+          ê genti di cuntattàriti pi menzu dû situ web, carca lu buttuni cassutta.
+          <b>A pàrtiri dâ ntroduzzioni di l'API 0.6, sulu l'utenti pùbblici ponnu
+          canciari li dati dâ carta</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">vidi
+          pirchì</a>).<ul><li>Si addiventi n'utenti pùbblicu lu tò nnirizzu di posta
+          è pùbblicatu.</li><li>Sta dicisioni nun si pò annullari, e a accuminzari
+          d'ora tutti l'utenti novi sù pùbblici comu mpustazzioni pridifinuta.</li></ul>
+      contributor terms:
+        heading: Cunnizzioni di cuntribbuzzioni
+        agreed: Accittasti li cunnizzioni di cuntribbuzzioni novi.
+        not yet agreed: Ancora nun accittasti li cunnizzioni di cuntribbuzzioni novi.
+        review link text: Quannu voi tu vai nta stu link pi lèggiri e accittari li
+          cunnizzioni di cuntribbuzzioni novi.
+        agreed_with_pd: Dichiarasti macari chi cunzìddiri li tò canciamenti ntô Duminiu
+          Pùbblicu.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
+        link text: chi voli diri?
+      save changes button: Sarva li canciamenti
+      make edits public button: Arrenni tutti li mè canciamenti pùbblici
+      delete_account: Cancella cuntu...
+    update:
+      success_confirm_needed: Li nfurmazzioni di l'utenti foru aggiurnati boni. Cuntrolla
+        la tò posta elittrònica chi t'havi a arrivari nu missaggiu pi cunfirmari lu
+        nnirizzu di posta novu.
+      success: Li nfurmazzioni di l'utenti foru aggiurnati boni.
+    destroy:
+      success: Cuntu cancillatu.
   browse:
     created: Criatu
     closed: Chiudutu
@@ -234,6 +295,9 @@ scn:
       title_html: 'Rilazzioni: %{name}'
       history_title_html: 'Crunuluggìa dâ rilazzioni: %{name}'
       members: Mèmmiri
+      members_count:
+        one: 1 mèmmiru
+        other: '%{count} mèmmiri'
     relation_member:
       entry_role_html: '%{type} %{name} comu %{role}'
       type:
@@ -244,6 +308,7 @@ scn:
       entry_html: Rilazzioni %{relation_name}
       entry_role_html: Rilazzioni %{relation_name} (comu %{relation_role})
     not_found:
+      title: Nun attruvatu
       sorry: 'Purtroppu, %{type} #%{id} nun si potti attruvari.'
       type:
         node: lu gruppu
@@ -252,6 +317,7 @@ scn:
         changeset: lu gruppu di canciamenti
         note: nota
     timeout:
+      title: Erruri di timeout
       sorry: Purtroppu, ci vosi troppu tempu pi pigghiari li dati %{type} cu id %{id}.
       type:
         node: dû gruppu
@@ -281,6 +347,7 @@ scn:
       wikidata_link: Lu suggettu %{page} supra a Wikidata
       wikipedia_link: L'artìculu %{page} supra a Wikipedia
       telephone_link: Chiama lu %{phone_number}
+      colour_preview: Antiprima culuri %{colour_value}
     note:
       title: 'Nota: %{id}'
       new_note: Nota nova
@@ -355,6 +422,7 @@ scn:
       friend: Amicu
     show:
       edit_your_profile: Cancia lu tò prufilu
+      my friends: Li mè amici
       no friends: Ancora nun agghiuncisti nuddu amicu.
       nearby users: Àutri utenti vicinu
       no nearby users: Ancora nun ci sunnu àutri utenti chi si dichiàranu mappatura
@@ -368,7 +436,7 @@ scn:
       title: Vuci nova dû diariu
     form:
       location: Locu
-      use_map_link: adòpira la cartina
+      use_map_link: Usa la cartina
     index:
       title: Diarî di l'utenti
       title_friends: Diarî di l'amici
@@ -376,10 +444,10 @@ scn:
       user_title: Diariu di %{user}
       in_language_title: Vuci dô diariu n %{language}
       new: Vuci nova dû diariu
-      new_title: Scrivi na vuci nova ntô tò diariu di l'utenti
+      new_title: Scrivi na vuci nova ntô mè diariu di l'utenti
       my_diary: Lu mè diariu
       no_entries: Nudda vuci ntô diariu
-      recent_entries: Vuci di diariu ricenti
+      recent_entries: Vuci dû diariu ricenti
       older_entries: Vuci cchiù vecchî
       newer_entries: Vuci cchiù novi
     edit:
@@ -393,16 +461,16 @@ scn:
       login: trasi
     no_such_entry:
       title: Nudda vuci dû diariu currispunni
-      heading: 'Nudda vuci havi l''id: %{id}'
+      heading: 'Nudda vuci cu l''id: %{id}'
       body: Purtroppu nun c'è nudda vuci dû diariu o puru cummentu chi havi l'id %{id}.
         Pi favuri cuntrolla chi scrivisti bonu; o puru pò èssiri chi lu culligamentu
         chi cliccasti è sbagghiatu.
     diary_entry:
       posted_by_html: Pubblicatu di %{link_user} lu %{created} n %{language_link}
+      updated_at_html: Ùrtimu aggiurnamentu lu %{updated}.
       comment_link: Cummenta sta vuci
-      reply_link: Arrispunni a sta vuci
+      reply_link: Manna nu missaggiu a l'auturi
       comment_count:
-        zero: Nuddu cummentu
         one: '%{count} cummentu'
         other: '%{count} cummenti'
       edit_link: Cancia sta vuci
@@ -418,8 +486,8 @@ scn:
       edit: Cancia
     feed:
       user:
-        title: Vuci dû diariu d'OpenStreetMap di %{user}
-        description: Vuci ricenti dû diariu d'OpenStreetMap di %{user}
+        title: Vuci dû diariu d'OpenStreetMap pi %{user}
+        description: Vuci ricenti dû diariu d'OpenStreetMap pi %{user}
       language:
         title: Vuci dû diariu d'OpenStreetMap n %{language_name}
         description: Vuci ricenti dû diariu di OpenStreetMap n %{language_name}
@@ -482,6 +550,7 @@ scn:
           bicycle_parking: Pusteggiu dî bicicletti
           bicycle_rental: Alluga-bicicletti
           biergarten: Biergarten
+          blood_bank: Banca dû sangu
           boat_rental: Alluga-varchi
           brothel: Burdellu
           bureau_de_change: Scanciaturi di muniti
@@ -495,7 +564,7 @@ scn:
           childcare: Asilu nidu
           cinema: Cìnima
           clinic: Clìnica
-          clock: Ruloggiu
+          clock: Rulòggiu
           college: Accademia
           community_centre: Centru cìvicu
           courthouse: Tribbunali
@@ -517,10 +586,12 @@ scn:
           hunting_stand: Barracca dî cacciatura
           ice_cream: Gilatarìa
           kindergarten: Asilu
+          language_school: Scola di lingui
           library: Libbrarìa
           marketplace: Mircatu
           monastery: Munasteru
           motorcycle_parking: Pusteggiu dî muturi
+          music_school: Scola di mùsica
           nightclub: Night Club
           nursing_home: Casa di riposu
           parking: Pusteggiu
@@ -569,6 +640,7 @@ scn:
           roof: Tettu
           "yes": Edificiu
         craft:
+          blacksmith: Firraru
           brewery: Birrificiu
           carpenter: Mastru d'ascia
           electrician: Elittricista
@@ -660,7 +732,6 @@ scn:
           commercial: Zona cummirciali
           conservation: Zona prutetta
           construction: Zona n custruzzioni
-          farm: Massarìa
           farmland: Terra curtivata
           farmyard: Aria
           forest: Furesta
@@ -687,7 +758,7 @@ scn:
           beach_resort: Lidu
           bird_hide: Ossirvatoriu pi l'auceddi
           common: Cumuni
-          dog_park: Parcu dî cani
+          dog_park: Parcu pî cani
           fishing: Riserva di pisca
           fitness_centre: Palestra
           fitness_station: Attrezzi pâ ginnàstica
@@ -795,6 +866,7 @@ scn:
           postcode: CAP
           region: Riggiuni
           sea: Mari
+          square: Chiazza
           state: Statu
           subdivision: Suttadivisioni
           suburb: Quarteri
@@ -840,6 +912,7 @@ scn:
           car_repair: Officina dî màchini
           carpet: Nigozziu di tappiti
           charity: Nigozziu di binificienza
+          cheese: Putìa di furmaggi
           chemist: Sanitaria
           clothes: Nigozziu dî vistiti
           computer: Nigozziu dî computeri
@@ -950,10 +1023,31 @@ scn:
     results:
       no_results: Nuddu risurtatu attruvatu
       more_results: Àutri risurtati
+  issues:
+    index:
+      not_updated: Nun aggiurnatu
+      user_not_found: L'utenti nun esisti
+      status: Statu
+      last_updated: Ùrtimu aggiurnamentu
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+    helper:
+      reportable_title:
+        note: 'Nota #%{note_id}'
   reports:
     new:
       categories:
+        diary_entry:
+          spam_label: Sta vuci dû diariu è/cunteni spam
+          threat_label: Sta vuci dû diariu cunteni na minazza
+          other_label: Àutru
+        diary_comment:
+          spam_label: Stu cummentu ô diariu è/cunteni spam
+          threat_label: Stu cummentu ô diariu cunteni na minazza
+          other_label: Àutru
         user:
+          spam_label: Lu prufilu di st'utenti è/cunteni spam
+          threat_label: Lu prufilu di st'utenti cunteni na minazza
+          vandal_label: St'utenti è nu vannalu
           other_label: Àutru
         note:
           spam_label: Sta nota è spam
@@ -1013,9 +1107,12 @@ scn:
       footer: Poi puru lèggiri lu cummentu nta %{readurl} e poi cummintari di %{commenturl}
         o puru arrispùnniri di %{replyurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Salutamu %{to_user},
       header: '%{from_user} ti mannau pi menzu d''OpenStreetMap nu missaggiu cu l''oggettu
         %{subject}:'
+      header_html: '%{from_user} ti mannau pi menzu d''OpenStreetMap nu missaggiu
+        cu l''oggettu %{subject}:'
       footer_html: Poi lèggiri lu missaggiu macari nta %{readurl} e ci poi arrispùnniri
         di %{replyurl}
     friendship_notification:
@@ -1023,7 +1120,9 @@ scn:
       subject: '[OpenStreetMap] %{user} t''agghiuncìu comu amicu'
       had_added_you: '%{user} t''agghiuncìu comu amicu nta OpenStreetMap.'
       see_their_profile: Poi taliari lu sò prufilu nta %{userurl}.
+      see_their_profile_html: Poi taliari lu sò prufilu nta %{userurl}.
       befriend_them: Lu poi macari agghiùnciri comu amicu nta %{befriendurl}.
+      befriend_them_html: Lu poi macari agghiùnciri comu amicu nta %{befriendurl}.
     gpx_failure:
       hi: Salutamu %{to_user},
       failed_to_import: 'nun arriniscìu a èssiri mpurtatu. Ccà c''è l''erruri:'
@@ -1213,10 +1312,19 @@ scn:
       flash changed: La tò palora d'òrdini fu canciata.
       flash token bad: Stu còdici nun s'attrova, pirchì nun cuntrolli l'URL?
   preferences:
+    show:
+      title: Li mè prifirenzi
+      preferred_editor: Editor prifirutu
+      preferred_languages: Lingui prifiruti
+      edit_preferences: Cancia prifirenzi
     edit:
+      title: Cancia prifirenzi
+      save: Aggiurna prifirenzi
       cancel: Annulla
   profiles:
     edit:
+      title: Cancia lu prufilu
+      save: Aggiurna prufilu
       cancel: Annulla
       image: Mmàggini
       gravatar:
@@ -1272,6 +1380,12 @@ scn:
         windowslive:
           title: Trasi cu Windows Live
           alt: Trasi cûn cuntu di Windows Live
+        github:
+          title: Trasi cu GitHub
+          alt: Trasi c'un cuntu GitHub
+        wikipedia:
+          title: Trasi cu Wikipedia
+          alt: Trasi c'un cuntu Wikipedia
         wordpress:
           title: Trasi cu Wordpress
           alt: Trasi cu n'OpenID di Wordpress
@@ -1284,6 +1398,7 @@ scn:
       logout_button: Nesci
   shared:
     markdown_help:
+      headings: Ntistazzioni
       heading: Ntistazzioni
       subheading: Suttantistazzioni
       link: Culligamentu
@@ -1634,7 +1749,7 @@ scn:
           military: Zona militari
           school:
           - Scola
-          - Univirsità
+          - univirsità
           building: Edificiu mpurtanti
           station: Stazzioni dâ ferruvìa
           summit:
@@ -1752,7 +1867,9 @@ scn:
       newer: Tracciati cchiù novi
     trace:
       pending: N CUDA
-      count_points: '%{count} punti'
+      count_points:
+        one: 1 puntu
+        other: '%{count} punti'
       more: dittagghî
       trace_details: Talìa li dittagghî dû tracciatu
       view_map: Talìa lu tracciatu supra dâ cartina
@@ -1799,6 +1916,9 @@ scn:
       need_to_see_terms: Fu suspinnutu timpuraniamenti lu tò accessu a l'API. Pi favuri
         trasi dû situ pi taliari li cunnizzioni di cuntribbuzzioni. Nun l'hai a accittari
         pi forza, pirò l'hai a taliari.
+    settings_menu:
+      account_settings: Mpustazzioni cuntu
+      oauth1_settings: Mpustazzioni OAuth
   oauth:
     authorize:
       title: Auturizzari l'accessu ô tò cuntu
@@ -1824,6 +1944,12 @@ scn:
       invalid: Lu token d'auturizzazzioni nun è bonu.
     revoke:
       flash: Arrivucasti lu lassa-passari pi %{application}
+    scopes:
+      read_prefs: Leggi li prifirenzi utenti
+      write_prefs: Cancia li prifirenzi utenti
+      write_api: Cancia la cartina
+      write_notes: Cancia li noti
+      read_email: Lèggiri nnirizzu email utenti
   oauth_clients:
     new:
       title: Riggistrazzioni di n'applicazzioni nova
@@ -1901,8 +2027,8 @@ scn:
       terms accepted: T'arringrazziamu d'aviri accittatu li cunnizzioni di cuntribbuzzioni
         novi!
     terms:
-      title: Cunnizzioni di cuntribbuzzioni
-      heading: Cunnizzioni di cuntribbuzzioni
+      title: Cunnizzioni
+      heading: Cunnizzioni
       consider_pd: Sparti dû cuntrattu ccassupra, cunzìddiru chi li mè cuntribbuti
         sunnu ntô Duminiu Pùbblicu
       consider_pd_why: chi voli diri?
@@ -1978,48 +2104,6 @@ scn:
       unhide_user: Ammustra a st'utenti
       delete_user: Cancella a st'utenti
       confirm: Cunferma
-    account:
-      title: Cancia lu cuntu
-      my settings: Li mè mpustazzioni
-      current email address: Nnirizzu email attuali
-      external auth: Autinticazzioni esterna
-      openid:
-        link: http://wiki.openstreetmap.org/wiki/IT:OpenID
-        link text: chi voli diri?
-      public editing:
-        heading: Canciamenti pùbblici
-        enabled: Attivati. Nun sî anònimu e poi canciari li dati.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: chi voli diri?
-        disabled: Disattivati, e nun poi canciari li dati, tutti li canciamenti pricidenti
-          sunnu anònimi.
-        disabled link text: pirchì nun pozzu fari canciamenti?
-      public editing note:
-        heading: Canciamenti pùbblici
-        html: Com'a ora li tò canciamenti sunnu anònimi e li genti nun ti ponnu mannari
-          missaggi o vìdiri unni sî. Pi fari vìdiri chiddu chi canci e pirmèttiri
-          ê genti di cuntattàriti pi menzu dû situ web, carca lu buttuni cassutta.
-          <b>A pàrtiri dâ ntroduzzioni di l'API 0.6, sulu l'utenti pùbblici ponnu
-          canciari li dati dâ carta</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">vidi
-          pirchì</a>).<ul><li>Si addiventi n'utenti pùbblicu lu tò nnirizzu di posta
-          è pùbblicatu.</li><li>Sta dicisioni nun si pò annullari, e a accuminzari
-          d'ora tutti l'utenti novi sù pùbblici comu mpustazzioni pridifinuta.</li></ul>
-      contributor terms:
-        heading: Cunnizzioni di cuntribbuzzioni
-        agreed: Accittasti li cunnizzioni di cuntribbuzzioni novi.
-        not yet agreed: Ancora nun accittasti li cunnizzioni di cuntribbuzzioni novi.
-        review link text: Quannu voi tu vai nta stu link pi lèggiri e accittari li
-          cunnizzioni di cuntribbuzzioni novi.
-        agreed_with_pd: Dichiarasti macari chi cunzìddiri li tò canciamenti ntô Duminiu
-          Pùbblicu.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: chi voli diri?
-      save changes button: Sarva li canciamenti
-      make edits public button: Arrenni tutti li mè canciamenti pùbblici
-      flash update success confirm needed: Li nfurmazzioni di l'utenti foru aggiurnati
-        boni. Cuntrolla la tò posta elittrònica chi t'havi a arrivari nu missaggiu
-        pi cunfirmari lu nnirizzu di posta novu.
-      flash update success: Li nfurmazzioni di l'utenti foru aggiurnati boni.
     set_home:
       flash success: Pusizzioni basi sarvata bona.
     go_public:
@@ -2126,6 +2210,18 @@ scn:
         hours:
           one: 1 ura
           other: '%{count} uri'
+        days:
+          one: 1 jornu
+          other: '%{count} jorna'
+        weeks:
+          one: 1 simana
+          other: '%{count} simani'
+        months:
+          one: 1 misi
+          other: '%{count} misii'
+        years:
+          one: 1 annu
+          other: '%{count} anni'
     blocks_on:
       title: Blocchi di %{name}
       heading_html: Elencu dî blocchi contra a %{name}
@@ -2166,6 +2262,7 @@ scn:
       title: Noti scritti o cummintati di l'utenti %{user}
       heading: Noti di %{user}
       subheading_html: Noti scritti o cummintati di l'utenti %{user}
+      no_notes: Nudda nota
       id: Id
       creator: Criaturi
       description: Discrizzioni
@@ -2300,6 +2397,9 @@ scn:
       nothing_found: Nuddu elimentu attruvatu
       error: 'Erruri ntô cuntattari %{server}: %{error}'
       timeout: Tempu scadutu ntô cuntattari %{server}
+    context:
+      add_note: Agghiunci na nota ccà
+      show_address: Ammustra nnirizzu
   redactions:
     edit:
       heading: Cancia occultamentu

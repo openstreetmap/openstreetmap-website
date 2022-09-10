@@ -31,6 +31,8 @@ tracepoints_per_page: 5000
 max_number_of_nodes: 50000
 # Maximum number of nodes that can be in a way (checked on save)
 max_number_of_way_nodes: 2000
+# Maximum number of members that can be in a relation (checked on save)
+max_number_of_relation_members: 32000
 # The maximum area you're allowed to request notes from, in square degrees
 max_note_request_area: 25
 # Zoom level to use for postcode results from the geocoder
@@ -63,9 +65,6 @@ spam_threshold: 50
 diary_feed_delay: 0
 # Default legale (jurisdiction location) for contributor terms
 default_legale: GB
-# Location of GPX traces and images
-gpx_trace_dir: "/home/osm/traces"
-gpx_image_dir: "/home/osm/images"
 # Location of data for attachments
 attachments_dir: ":rails_root/public/attachments"
 # Log file to use
@@ -74,6 +73,8 @@ attachments_dir: ":rails_root/public/attachments"
 #logstash_path: ""
 # List of memcache servers to use for caching
 #memcache_servers: []
+# Enable HTTP basic authentication support
+basic_auth_support: true
 # Enable legacy OAuth 1.0 support
 oauth_10_support: true
 # URL of Nominatim instance to use for geocoding
@@ -82,13 +83,12 @@ nominatim_url: "https://nominatim.openstreetmap.org/"
 default_editor: "id"
 # OAuth application for the web site
 #oauth_application: ""
-# OAuth consumer key for iD
-#id_key: ""
+# OAuth application for iD
+#id_application: ""
 # Imagery to return in capabilities as blacklisted
 imagery_blacklist:
   # Current Google imagery URLs have google or googleapis in the domain
-  # with a vt or kh endpoint, and x, y and z query parameters
-  - ".*\\.google(apis)?\\..*/(vt|kh)[\\?/].*([xyz]=.*){3}.*"
+  - ".*\\.google(apis)?\\..*/.*"
   # Blacklist VWorld
   - "http://xdworld\\.vworld\\.kr:8080/.*"
   # Blacklist here
@@ -118,17 +118,25 @@ fossgis_osrm_url: "https://routing.openstreetmap.de/"
 csp_enforce: false
 # URL for reporting Content-Security-Policy violations
 #csp_report_url: ""
-# Storage service to use in production mode
-storage_service: "local"
-# Root URL for storage service
-# storage_url:
+# Storage services to use in production mode
+avatar_storage: "local"
+trace_file_storage: "local"
+trace_image_storage: "local"
+trace_icon_storage: "local"
+# Root URL for storage services
+# avatar_storage_url:
+# trace_image_storage_url:
+# trace_icon_storage_url:
 # URL for tile CDN
 #tile_cdn_url: ""
 # SMTP settings for outbound mail
 smtp_address: "localhost"
 smtp_port: 25
 smtp_domain: "localhost"
-smtp_enable_starttls_auto: false
+smtp_enable_starttls_auto: true
+smtp_tls_verify_mode: "none"
 smtp_authentication: null
 smtp_user_name: null
 smtp_password: null
+# Matomo settings for analytics
+#matomo:

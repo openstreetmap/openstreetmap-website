@@ -25,7 +25,7 @@ class ConfirmationsController < ApplicationController
         render_unknown_user token.user.display_name
       else
         user = token.user
-        user.status = "active"
+        user.activate
         user.email_valid = true
         flash[:notice] = gravatar_status_message(user) if gravatar_enable(user)
         user.save!
@@ -93,10 +93,10 @@ class ConfirmationsController < ApplicationController
         current_user.tokens.delete_all
         session[:user] = current_user.id
         session[:fingerprint] = current_user.fingerprint
-        redirect_to user_account_path(current_user)
+        redirect_to edit_account_path
       elsif token
         flash[:error] = t "confirmations.confirm_email.failure"
-        redirect_to user_account_path(token.user)
+        redirect_to edit_account_path
       else
         flash[:error] = t "confirmations.confirm_email.unknown_token"
       end

@@ -27,9 +27,9 @@ class Way < ApplicationRecord
 
   belongs_to :changeset
 
-  has_many :old_ways, -> { order(:version) }
+  has_many :old_ways, -> { order(:version) }, :inverse_of => :current_way
 
-  has_many :way_nodes, -> { order(:sequence_id) }
+  has_many :way_nodes, -> { order(:sequence_id) }, :inverse_of => :way
   has_many :nodes, :through => :way_nodes
 
   has_many :way_tags
@@ -41,8 +41,6 @@ class Way < ApplicationRecord
                  :numericality => { :on => :update, :only_integer => true }
   validates :version, :presence => true,
                       :numericality => { :only_integer => true }
-  validates :changeset_id, :presence => true,
-                           :numericality => { :only_integer => true }
   validates :timestamp, :presence => true
   validates :changeset, :associated => true
   validates :visible, :inclusion => [true, false]
@@ -112,7 +110,7 @@ class Way < ApplicationRecord
   end
 
   def tags
-    @tags ||= way_tags.collect { |t| [t.k, t.v] }.to_h
+    @tags ||= way_tags.to_h { |t| [t.k, t.v] }
   end
 
   attr_writer :nds, :tags
@@ -229,7 +227,7 @@ class Way < ApplicationRecord
   private
 
   def save_with_history!
-    t = Time.now.getutc
+    t = Time.now.utc
 
     self.version += 1
     self.timestamp = t

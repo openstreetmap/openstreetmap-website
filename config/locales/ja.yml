@@ -14,6 +14,7 @@
 # Author: Higa4
 # Author: Hiro884
 # Author: Hosiryuhosi
+# Author: Hzy980512
 # Author: Iwai.masaharu
 # Author: Kkairri
 # Author: Los688
@@ -22,6 +23,7 @@
 # Author: MathXplore
 # Author: Mfuji
 # Author: Miya
+# Author: Mzaki
 # Author: Nabetaro
 # Author: Nazotoko
 # Author: Nyampire
@@ -44,6 +46,7 @@
 # Author: Vigorous action
 # Author: Wrightbus
 # Author: Yusuke1109
+# Author: あたまボーズ
 # Author: しぃ
 # Author: はまのまさと
 # Author: ネイ
@@ -290,6 +293,61 @@ ja:
       entry:
         comment: コメント
         full: メモ全文
+  account:
+    deletions:
+      show:
+        title: 自分のアカウントを削除する
+        warning: 警告！アカウントの削除プロセスは最終的なものであり、元に戻すことはできません。
+        delete_account: アカウントを削除
+        delete_introduction: 下のボタンを使用してご自分の OpenStreetMap アカウントを削除できます。次の詳細に注意してください。
+        delete_profile: アバター、説明、自宅の場所などのプロフィール情報が削除されます。
+        delete_display_name: 表示名は削除され、他のアカウントで再利用できます。
+        retain_caveats: ただし、アカウントが削除された後でも、あなたに関する一部の情報は OpenStreetMap に保持されます（以下ご参照）。
+        retain_edits: マップ データベースへの編集内容は保持されます。
+        retain_traces: アップロードされたトレースがあれば、保持されます。
+        retain_diary_entries: 日記のエントリと日記のコメントがある場合は保持されますが、表示されません。
+        retain_notes: 日記のエントリと日記のコメントがある場合は保持されますが、表示されません。
+        retain_changeset_discussions: 変更セットのディスカッションがあれば、保持されます。
+        retain_email: メールアドレスは保持されます。
+        confirm_delete: 本当によろしいですか?
+        cancel: キャンセル
+  accounts:
+    edit:
+      title: アカウントの編集
+      my settings: 設定
+      current email address: 現在のメール アドレス
+      external auth: 外部認証
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/JA:OpenID?uselang=ja
+        link text: これは何ですか?
+      public editing:
+        heading: 公開編集
+        enabled: 有効。匿名ではなく、データを編集できます。
+        enabled link: http://wiki.openstreetmap.org/wiki/JA:Anonymous_edits?uselang=ja
+        enabled link text: これは何ですか?
+        disabled: 無効。データを編集できず、これまでの編集はすべて匿名です。
+        disabled link text: なぜ編集できないのですか?
+      public editing note:
+        heading: 公開編集
+        html: 現在、あなたの編集作業はIP利用者扱いであるため、他の人々からメッセージを受信したり、あなたの場所を見つけてもらったりすることはできません。あなたの編集結果を表示できるようにして、他の人々がウェブサイト経由であなたに連絡できるようにするには、下のボタンをクリックしてください。<b>0.6
+          API 更新より地図データの編集は公開利用者以外、できなくなりました</b>。 (<a href="https://wiki.openstreetmap.org/wiki/JA:Anonymous_edits?uselang=ja">その理由はこちらで</a>)。<ul><li>公開扱いに変更しても、あなたのメール
+          アドレスが暴露されることはありません。</li><li>この変更は取り消せません。なお新しい利用者は、既定で公開扱いとなります。</li></ul>
+      contributor terms:
+        heading: 協力者規約
+        agreed: あなたは、新しい協力者規約を承諾しています。
+        not yet agreed: あなたはまだ新しい投稿規約を承諾していません。
+        review link text: ご都合の良い時にこのリンクをクリックして新しい協力者規約を確認の上、承諾してしてください。
+        agreed_with_pd: また、あなたは、自分の編集結果がパブリックドメインにあるべきだと考えているということも宣言しています。
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link text: これは何ですか?
+      save changes button: 変更を保存
+      make edits public button: 自分の編集をすべて公開する
+      delete_account: アカウントを削除
+    update:
+      success_confirm_needed: 利用者情報を更新しました。新着メールを確認して新しいメール アドレスを検証してください。
+      success: ユーザー情報を更新しました。
+    destroy:
+      success: アカウントを削除しました
   browse:
     created: 作成
     closed: クローズ
@@ -417,7 +475,7 @@ ja:
       reopened_by_html: '%{user}さんが<abbr title=''%{exact_time}''>%{when}</abbr>に再開'
       reopened_by_anonymous_html: 誰かが<abbr title='%{exact_time}'>%{when}</abbr>に再開
       hidden_by_html: '%{user}さんが<abbr title=''%{exact_time}''>%{when}</abbr>に非表示化'
-      report: このメモを報告
+      report: このノートを報告
     query:
       title: 地物を検索
       introduction: 地図上をクリックすると、近くの地物を探します。
@@ -550,6 +608,9 @@ ja:
         title: OpenStreetMap 利用者の日記エントリ
         description: OpenStreetMap 利用者による最近の日記エントリ
     comments:
+      title: '%{user}が追加した日記コメント'
+      heading: '%{user}の日記コメント'
+      subheading_html: '%{user}が追加した日記コメント'
       no_comments: 日記のコメントはありません
       post: 投稿
       when: 日時
@@ -602,16 +663,16 @@ ja:
           aerodrome: 飛行場
           airstrip: 滑走路
           apron: 空港のエプロン
-          gate: 門
+          gate: 搭乗口
           hangar: 格納庫
           helipad: ヘリポート
           holding_position: 停止位置
-          navigationaid: 飛行機用ナビ
+          navigationaid: 飛行援助ナビゲーション
           parking_position: 駐機位置
           runway: 滑走路
           taxilane: 滑走路
           taxiway: 空港誘導路
-          terminal: ターミナル
+          terminal: 空港ターミナル
           windsock: 吹流し
         amenity:
           animal_boarding: 動物宿泊施設
@@ -657,7 +718,7 @@ ja:
           fire_station: 消防署
           food_court: フードコート
           fountain: 噴水
-          fuel: 燃料
+          fuel: 燃料補給所
           gambling: ギャンブル
           grave_yard: 墓地
           grit_bin: 砂箱
@@ -700,7 +761,7 @@ ja:
           shelter: 避難所
           shower: シャワー
           social_centre: 社会センター
-          social_facility: 公共施設
+          social_facility: 社会福祉施設
           studio: スタジオ
           swimming_pool: 水泳用プール
           taxi: タクシー乗り場
@@ -813,7 +874,6 @@ ja:
           window_construction: サッシ施工業
           winery: ワイン醸造所
           "yes": 手芸店
-        crossing: 交差点
         emergency:
           access_point: アクセスポイント
           ambulance_station: 消防署
@@ -834,6 +894,7 @@ ja:
           bus_stop: バス停
           construction: 建設中の高速道路
           corridor: 通路
+          crossing: 交差点
           cycleway: 自転車道
           elevator: エレベータ
           emergency_access_point: 緊急アクセスポイント
@@ -861,7 +922,7 @@ ja:
           secondary_link: 一般県道
           service: 取付道路
           services: 高速道路のSA
-          speed_camera: 高速度カメラ
+          speed_camera: 速度取締カメラ
           steps: 階段
           stop: 停止サイン
           street_lamp: 街灯
@@ -873,12 +934,13 @@ ja:
           trailhead: トレイル終始点
           trunk: 国道
           trunk_link: 国道
+          turning_circle: ロータリー
           turning_loop: 環形ターミナル
           unclassified: 未分類の道路
           "yes": 道路
         historic:
           aircraft: 引退飛行機
-          archaeological_site: 考古学サイト
+          archaeological_site: 遺跡
           bomb_crater: 着弾地跡
           battlefield: 戦場
           boundary_stone: 境界石
@@ -921,9 +983,8 @@ ja:
           brownfield: 褐色地
           cemetery: 墓地
           commercial: オフィス地域
-          conservation: 保全
-          construction: 工事中
-          farm: 農場
+          conservation: 保全区域
+          construction: 工事中のエリア
           farmland: 農地
           farmyard: 農場
           forest: 森林
@@ -944,9 +1005,9 @@ ja:
           reservoir: 貯水池
           reservoir_watershed: 貯水池流域
           residential: 住宅地
-          retail: 小売店
+          retail: 小売店エリア
           village_green: 緑地広場
-          vineyard: Vineyard
+          vineyard: ブドウ園
           "yes": 土地利用
         leisure:
           adult_gaming_centre: 成人向けゲームセンター
@@ -1136,7 +1197,7 @@ ja:
           houses: 住宅地
           island: 島
           islet: 小島
-          isolated_dwelling: 免震住宅
+          isolated_dwelling: 孤立した住居
           locality: 地域
           municipality: 市町村
           neighbourhood: 小字
@@ -1154,6 +1215,7 @@ ja:
           "yes": 場所
         railway:
           abandoned: 廃止鉄道
+          buffer_stop: 車止め
           construction: 建設中の鉄道
           disused: 廃線跡
           funicular: ケーブル鉄道
@@ -1167,6 +1229,7 @@ ja:
           platform: 鉄道プラットフォーム
           preserved: 保存鉄道
           proposed: 計画中の鉄道
+          rail: 線路
           spur: 支線
           station: 鉄道駅
           stop: 鉄道駅
@@ -1175,6 +1238,7 @@ ja:
           switch: 鉄道の分岐器
           tram: 路面軌道
           tram_stop: トラム停留所
+          turntable: 転車台
           yard: 車両基地
         shop:
           agrarian: 農業用品店
@@ -1215,7 +1279,7 @@ ja:
           deli: デリ
           department_store: デパート
           discount: 安売り店
-          doityourself: 日曜大工
+          doityourself: DIY専門店
           dry_cleaning: クリーニング
           e-cigarette: 電子タバコ店
           electronics: 電気製品販売店
@@ -1241,7 +1305,7 @@ ja:
           health_food: 健康食品店
           hearing_aids: 補聴器
           herbalist: 漢方薬局
-          hifi: 高級オーディオ
+          hifi: Hi-Fi専門店
           houseware: 雑貨店
           ice_cream: アイスクリーム屋
           interior_decoration: インテリア
@@ -1301,7 +1365,7 @@ ja:
           artwork: 芸術作品
           attraction: アトラクション
           bed_and_breakfast: 民宿(B&B)
-          cabin: 山小屋
+          cabin: 観光客向け山小屋
           camp_pitch: 野営地
           camp_site: キャンプ場
           caravan_site: オートキャンプ場
@@ -1488,7 +1552,7 @@ ja:
     intro_2_create_account: 新しい利用者アカウントを作成
     hosting_partners_html: ホスティングは、%{ucl}、%{fastly}、%{bytemark}、およびその他の%{partners}によってサポートされています。
     partners_ucl: UCL
-    partners_fastly: すばやく
+    partners_fastly: Fastly
     partners_bytemark: バイトマーク ホスティング
     partners_partners: パートナー
     tou: 利用規約
@@ -1817,7 +1881,7 @@ ja:
     about:
       next: 次へ
       copyright_html: <span>&copy;</span>OpenStreetMap<br>協力者
-      used_by_html: '%{name} は数多くのウェブ サイト、モバイル アプリ、ハードウェア機器に地図データを提供しています'
+      used_by_html: '%{name} は数千ものウェブサイト、モバイル アプリ、ハードウェア機器に地図データを提供しています'
       lede_text: OpenStreetMapは、道路、通路、カフェ、鉄道駅など、世界中にあるすべてのものに関するデータを提供・メンテナンスしているマッパーのコミュニティによって構築されました。
       local_knowledge_title: 地元の情報
       local_knowledge_html: OpenStreetMapは地域の知識を強調します。協力者は航空写真やGPS機器、ローテクのフィールド地図を使用して、OpenStreetMapが正確で最新の状態であることを確認します。
@@ -1859,15 +1923,20 @@ ja:
           ドキュメントは、<a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
           Commons Attribution-ShareAlike 2.0</a> ライセンス (CC BY-SA 2.0) に基づいてライセンスされます。
         credit_title_html: OpenStreetMap のクレジット表記の仕方
-        credit_1_html: '&ldquo;&copy; OpenStreetMap contributors&rdquo;のクレジットを必ず使用してください。'
-        credit_2_1_html: あなたはデータが Open Database License に基づいて提供されていること、そして地図タイルを使用する場合は、地図画像が
-          CC BY-SA としてライセンスされていることを明確にしなければなりません。<a href="https://www.openstreetmap.org/copyright">著作権表示ページ</a>にリンクすることでこれを表現することができます。また、データの形式でOpenStreetMapを配布する場合の要件として、名前を表示の上、ライセンスに直接リンクすることができます。リンクを張れないメディア（印刷など）の場合は、openstreetmap.org（OpenStreetMapをアドレスとして展開した形）、opendatacommons.org、さらに関連がある場合はcreativecommons.orgへ読者を誘導することをお勧めします。
+        credit_1_html: OpenStreetMap を使う場所では、以下の2つの条件を必ず守ってください。
+        credit_2_1_html: |-
+          <ul>
+            <li>私たちの著作権表示ページを掲載し、OpenStreetMap にクレジットがあることを示してください。</li>
+            <li>データはライセンス要件である Open Database License に基づいて提供されていることを明示してください。</li>
+          </ul>
         credit_3_1_html: |-
-          www.openstreetmap.org に載っている&ldquo;standard style&rdquo; の地図のタイルは、OpenStreetMap財団によるオープンデータベース・ライセンス（Open Database License）に準拠してOSMデータ（OpenStreetMap data ）を使用した作成物（Produced Work）です。もし皆さんがこれらのタイルを利用する場合は、以下の継承を表示してください。
-          &ldquo;Base map and data from OpenStreetMap and OpenStreetMap Foundation&rdquo;。
+          <!-- www.openstreetmap.org に載っている&ldquo;standard style&rdquo; の地図のタイルは、OpenStreetMap財団によるオープンデータベース・ライセンス（Open Database License）に準拠してOSMデータ（OpenStreetMap data ）を使用した作成物（Produced Work）です。もし皆さんがこれらのタイルを利用する場合は、以下の継承を表示してください。
+          &ldquo;Base map and data from OpenStreetMap and OpenStreetMap Foundation&rdquo;。 -->著作権表示に関しては、皆さんが私たちのデータをどう使われるかによって、その表示要件が異なります。たとえば皆さんが新しく作成した地図は利用者が動かせるかどうか（browsable）、地図を印刷した、静止画像の地図を作成したなど、それぞれに適用されるルールが異なります。表示要件の詳細は
+          <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">帰属のガイドライン</a>をご参照ください。
         credit_4_html: |-
-          閲覧可能な電子地図の場合は、地図の隅にクレジットを表示してください。
-          例:
+          あなたはデータが Open Database License に基づいて提供されていることを明示するため
+          <a href="https://www.openstreetmap.org/copyright">この著作権ページ</a>にリンクしてください。もしくは OSM をデータ形式で配布する場合の必須条件として、直接、それぞれのライセンス条項の名前を提示しリンクしてください。リンク付与が不可能な媒体の場合は（例：印刷物ほか）、読者の皆さんに openstreetmap.orgを読むよう（「OpenStreetMap」という文言を連絡先URLに置換してもよい）、また opendatacommons.org
+          をお勧めしてください。左の丸カッコ内の処理例ですと、地図の隅に著作権表示が印刷されます。
         attribution_example:
           alt: ウェブページに OpenStreetMap を記述する方法の例
           title: 権利表示の例
@@ -1886,9 +1955,10 @@ ja:
           BY</a>)、<a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land
           Vorarlberg</a>、Land Tirol (ライセンス <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC
           BY AT with amendments</a>) によるデータを含みます。'
-        contributors_au_html: '<strong>オーストラリア</strong>: <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA
-          Australia Limited</a>を出典とするデータは<a href="https://creativecommons.org/licenses/by/4.0/">CC
-          BY 4.0</a>のもとオーストラリア連邦政府の許諾を得ています。'
+        contributors_au_html: '<strong>オーストラリア</strong>: 行政管轄の境界（Administrative Boundaries）の組み入れもしくは採用した開発において&copy;<a
+          href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">PSMA
+          Australia Limited</a>を出典とするデータは<a href="https://creativecommons.org/licenses/by/4.0/">クリエイティブ・コモンズ表示
+          4.0 国際 (CC BY 4.0)</a>のもとオーストラリア連邦政府の許諾を得ています。'
         contributors_ca_html: '<strong>カナダ</strong>: GeoBase&reg;、GeoGratis (&copy;
           Department of Natural Resources Canada)、CanVec (&copy; Department of Natural
           Resources Canada)、StatCan (Geography Division, Statistics Canada) によるデータを含みます。'
@@ -1919,8 +1989,8 @@ ja:
         infringement_1_html: 'OpenStreetMapの協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google
           マップや印刷された地図) から決してデータを持ち込まないよう注意するものとします。'
         infringement_2_html: もし著作権のある素材がOpenStreetMapのデータベースや本サイトに不正に追加されたとお考えの場合は、<a
-          href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">却下手順</a>をお読みになるか、<a
-          href="http://dmca.openstreetmap.org">オンライン却下のページ</a>から直接申し立てを行ってください。
+          href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">却下手順</a>をお読みになるか、<a
+          href="https://dmca.openstreetmap.org/">オンライン却下のページ</a>から直接申し立てを行ってください。
         trademarks_title_html: <span id="trademarks"></span>商標
         trademarks_1_html: OpenStreetMapならびに拡大鏡のロゴおよびState of the MapはOpenStreetMap財団の登録商標です。商標の利用に関しては、<a
           href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">商標利用ポリシー</a>を参照ください。
@@ -2092,6 +2162,7 @@ ja:
           common:
           - 共有地
           - 牧草地
+          - 庭園
           retail: 小売業地域
           industrial: 工業地域
           commercial: オフィス地域
@@ -2226,7 +2297,7 @@ ja:
       in: 'タグ:'
     index:
       public_traces: 公開GPSトレース
-      my_traces: 私の痕跡
+      my_gps_traces: 自作のGPSトレース
       public_traces_from: '%{user}さんによる公開GPSトレース'
       description: 最近のGPSトレースのアップロードを参照
       tagged_with: (タグ %{tags} が付いているもの)
@@ -2234,6 +2305,7 @@ ja:
         href='https://wiki.openstreetmap.org/wiki/JA:Beginners_Guide_1.2?uselang=ja'>ウィキページ</a>でGPSトレースの詳細情報をお読みください。
       upload_trace: トレースをアップロード
       all_traces: 全ての痕跡
+      my_traces: 私の痕跡
       traces_from: '%{user}さんによる公開GPSトレース'
       remove_tag_filter: タグフィルターの削除
     destroy:
@@ -2258,7 +2330,7 @@ ja:
     require_admin:
       not_an_admin: この作業を行うには、管理者になる必要があります。
     setup_user_auth:
-      blocked_zero_hour: OpenStreetMapウィブサイトにて緊急のお知らせがあります。編集を保存するにはお知らせを読んでください。
+      blocked_zero_hour: OpenStreetMap Web サイトに緊急のメッセージがあります。まずメッセージを読まないと、編集内容を保存することができません。
       blocked: APIへのアクセスがブロックされました。Web インターフェイスからログインし直して詳細を確認してください。
       need_to_see_terms: あなたは一時的にAPIの利用を停止されています。ウェブインターフェイスにログインして協力者規約をご覧ください。同意しなくてもかまいませんが、必ずご覧ください。
     settings_menu:
@@ -2417,7 +2489,7 @@ ja:
       read_tou: 私は利用規約を読み終え、これに同意します
       consider_pd: 上記に加え、私の投稿をパブリック ドメインとします
       consider_pd_why: これは何ですか?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: この規約の理解を助ける情報として、<a href="%{summary}">要約 (英語)</a> や <a href="%{translations}">非公式の翻訳</a>
         をご覧ください。
       continue: 続行
@@ -2487,43 +2559,13 @@ ja:
       activate_user: このユーザーを有効化
       deactivate_user: この利用者を無効化
       confirm_user: このユーザーを確認
+      unconfirm_user: このユーザーへの承認を取り消す
+      unsuspend_user: このユーザーの権限停止を解除
       hide_user: この利用者を表示しない
       unhide_user: このユーザーを再表示
       delete_user: この利用者を削除
       confirm: 確認
       report: この利用者を通報
-    account:
-      title: アカウントの編集
-      my settings: 設定
-      current email address: 現在のメール アドレス
-      external auth: 外部認証
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/JA:OpenID?uselang=ja
-        link text: これは何ですか?
-      public editing:
-        heading: 公開編集
-        enabled: 有効。匿名ではなく、データを編集できます。
-        enabled link: http://wiki.openstreetmap.org/wiki/JA:Anonymous_edits?uselang=ja
-        enabled link text: これは何ですか?
-        disabled: 無効。データを編集できず、これまでの編集はすべて匿名です。
-        disabled link text: なぜ編集できないのですか?
-      public editing note:
-        heading: 公開編集
-        html: 現在、あなたの編集作業はIP利用者扱いであるため、他の人々からメッセージを受信したり、あなたの場所を見つけてもらったりすることはできません。あなたの編集結果を表示できるようにして、他の人々がウェブサイト経由であなたに連絡できるようにするには、下のボタンをクリックしてください。<b>0.6
-          API 更新より地図データの編集は公開利用者以外、できなくなりました</b>。 (<a href="https://wiki.openstreetmap.org/wiki/JA:Anonymous_edits?uselang=ja">その理由はこちらで</a>)。<ul><li>公開扱いに変更しても、あなたのメール
-          アドレスが暴露されることはありません。</li><li>この変更は取り消せません。なお新しい利用者は、既定で公開扱いとなります。</li></ul>
-      contributor terms:
-        heading: 協力者規約
-        agreed: あなたは、新しい協力者規約を承諾しています。
-        not yet agreed: あなたはまだ新しい投稿規約を承諾していません。
-        review link text: ご都合の良い時にこのリンクをクリックして新しい協力者規約を確認の上、承諾してしてください。
-        agreed_with_pd: また、あなたは、自分の編集結果がパブリックドメインにあるべきだと考えているということも宣言しています。
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: これは何ですか?
-      save changes button: 変更を保存
-      make edits public button: 自分の編集をすべて公開する
-      flash update success confirm needed: 利用者情報を更新しました。新着メールを確認して新しいメール アドレスを検証してください。
-      flash update success: ユーザー情報を更新しました。
     set_home:
       flash success: ホーム地点を保存しました。
     go_public:
@@ -2558,6 +2600,7 @@ ja:
       no_authorization_code: 認証コードがありません
       unknown_signature_algorithm: 署名アルゴリズムが不明です
       invalid_scope: 無効な範囲
+      unknown_error: 認証に失敗
     auth_association:
       heading: あなたのIDはまだOpenStreetMapアカウントと関連付けが済んでいません。
       option_1: OpenStreetMapを初めてお使いの方は、以下のフォームを使用して新しいアカウントを作成してください。
@@ -2780,6 +2823,7 @@ ja:
         reactivate: 再有効化
         comment_and_resolve: コメント & 解決
         comment: コメント
+        report_link_html: このメモに削除が必要な機密情報が含まれている場合は、%{link}してください。メモに関する他の問題については、すべてコメントを付けてご自分で解決してください。
     edit_help: 編集したい位置に移動してズームインしてから、ここをクリックしてください。
     directions:
       ascend: 上り坂

@@ -128,7 +128,7 @@ class DiffReader
     @reader.read
     raise OSM::APIBadUserInput, "Document element should be 'osmChange'." if @reader.name != "osmChange"
 
-    result = OSM::API.new.get_xml_doc
+    result = OSM::API.new.xml_doc
     result.root.name = "diffResult"
 
     # loop at the top level, within the <osmChange> element

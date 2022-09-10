@@ -31,21 +31,25 @@ class Trace < ApplicationRecord
   self.table_name = "gpx_files"
 
   belongs_to :user, :counter_cache => true
-  has_many :tags, :class_name => "Tracetag", :foreign_key => "gpx_id", :dependent => :delete_all
-  has_many :points, :class_name => "Tracepoint", :foreign_key => "gpx_id", :dependent => :delete_all
+  has_many :tags, :class_name => "Tracetag", :foreign_key => "gpx_id", :dependent => :delete_all, :inverse_of => :trace
+  has_many :points, :class_name => "Tracepoint", :foreign_key => "gpx_id", :dependent => :delete_all, :inverse_of => :trace
 
   scope :visible, -> { where(:visible => true) }
   scope :visible_to, ->(u) { visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
   scope :visible_to_all, -> { where(:visibility => %w[public identifiable]) }
   scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
 
-  validates :user, :presence => true, :associated => true
+  has_one_attached :file, :service => Settings.trace_file_storage
+  has_one_attached :image, :service => Settings.trace_image_storage
+  has_one_attached :icon, :service => Settings.trace_icon_storage
+
+  validates :user, :associated => true
   validates :name, :presence => true, :length => 1..255, :characters => true
   validates :description, :presence => { :on => :create }, :length => 1..255, :characters => true
   validates :timestamp, :presence => true
   validates :visibility, :inclusion => %w[private public trackable identifiable]
 
-  after_destroy :remove_files
+  after_save :set_filename
 
   def tagstring
     tags.collect(&:tag).join(", ")
@@ -53,7 +57,7 @@ class Trace < ApplicationRecord
 
   def tagstring=(s)
     self.tags = if s.include? ","
-                  s.split(/\s*,\s*/).grep_v(/^\s*$/).collect do |tag|
+                  s.split(",").map(&:strip).reject(&:empty?).collect do |tag|
                     tt = Tracetag.new
                     tt.tag = tag
                     tt
@@ -68,6 +72,18 @@ class Trace < ApplicationRecord
                 end
   end
 
+  def file=(attachable)
+    case attachable
+    when ActionDispatch::Http::UploadedFile, Rack::Test::UploadedFile
+      super(:io => attachable,
+            :filename => attachable.original_filename,
+            :content_type => content_type(attachable.path),
+            :identify => false)
+    else
+      super(attachable)
+    end
+  end
+
   def public?
     visibility == "public" || visibility == "identifiable"
   end
@@ -80,85 +96,27 @@ class Trace < ApplicationRecord
     visibility == "identifiable"
   end
 
-  def large_picture=(data)
-    f = File.new(large_picture_name, "wb")
-    f.syswrite(data)
-    f.close
-  end
-
-  def icon_picture=(data)
-    f = File.new(icon_picture_name, "wb")
-    f.syswrite(data)
-    f.close
-  end
-
   def large_picture
-    f = File.new(large_picture_name, "rb")
-    data = f.sysread(File.size(f.path))
-    f.close
-    data
+    image.blob.download
   end
 
   def icon_picture
-    f = File.new(icon_picture_name, "rb")
-    data = f.sysread(File.size(f.path))
-    f.close
-    data
-  end
-
-  def large_picture_name
-    "#{Settings.gpx_image_dir}/#{id}.gif"
-  end
-
-  def icon_picture_name
-    "#{Settings.gpx_image_dir}/#{id}_icon.gif"
-  end
-
-  def trace_name
-    "#{Settings.gpx_trace_dir}/#{id}.gpx"
+    icon.blob.download
   end
 
   def mime_type
-    filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
-    gzipped = filetype.include?("gzip compressed")
-    bzipped = filetype.include?("bzip2 compressed")
-    zipped = filetype.include?("Zip archive")
-    tarred = filetype.include?("tar archive")
-
-    if gzipped
-      "application/x-gzip"
-    elsif bzipped
-      "application/x-bzip2"
-    elsif zipped
-      "application/x-zip"
-    elsif tarred
-      "application/x-tar"
-    else
-      "application/gpx+xml"
-    end
+    file.content_type
   end
 
   def extension_name
-    filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
-    gzipped = filetype.include?("gzip compressed")
-    bzipped = filetype.include?("bzip2 compressed")
-    zipped = filetype.include?("Zip archive")
-    tarred = filetype.include?("tar archive")
-
-    if tarred && gzipped
-      ".tar.gz"
-    elsif tarred && bzipped
-      ".tar.bz2"
-    elsif tarred
-      ".tar"
-    elsif gzipped
-      ".gpx.gz"
-    elsif bzipped
-      ".gpx.bz2"
-    elsif zipped
-      ".zip"
-    else
-      ".gpx"
+    case mime_type
+    when "application/x-tar+gzip" then ".tar.gz"
+    when "application/x-tar+x-bzip2" then ".tar.bz2"
+    when "application/x-tar" then ".tar"
+    when "application/zip" then ".zip"
+    when "application/gzip" then ".gpx.gz"
+    when "application/x-bzip2" then ".gpx.bz2"
+    else ".gpx"
     end
   end
 
@@ -207,109 +165,123 @@ class Trace < ApplicationRecord
   end
 
   def xml_file
-    filetype = Open3.capture2("/usr/bin/file", "-Lbz", trace_name).first.chomp
-    gzipped = filetype.include?("gzip compressed")
-    bzipped = filetype.include?("bzip2 compressed")
-    zipped = filetype.include?("Zip archive")
-    tarred = filetype.include?("tar archive")
+    file.open do |tracefile|
+      filetype = Open3.capture2("/usr/bin/file", "-Lbz", tracefile.path).first.chomp
+      gzipped = filetype.include?("gzip compressed")
+      bzipped = filetype.include?("bzip2 compressed")
+      zipped = filetype.include?("Zip archive")
+      tarred = filetype.include?("tar archive")
 
-    if gzipped || bzipped || zipped || tarred
-      file = Tempfile.new("trace.#{id}")
+      if gzipped || bzipped || zipped || tarred
+        file = Tempfile.new("trace.#{id}")
 
-      if tarred && gzipped
-        system("tar", "-zxOf", trace_name, :out => file.path)
-      elsif tarred && bzipped
-        system("tar", "-jxOf", trace_name, :out => file.path)
-      elsif tarred
-        system("tar", "-xOf", trace_name, :out => file.path)
-      elsif gzipped
-        system("gunzip", "-c", trace_name, :out => file.path)
-      elsif bzipped
-        system("bunzip2", "-c", trace_name, :out => file.path)
-      elsif zipped
-        system("unzip", "-p", trace_name, "-x", "__MACOSX/*", :out => file.path, :err => "/dev/null")
+        if tarred && gzipped
+          system("tar", "-zxOf", tracefile.path, :out => file.path)
+        elsif tarred && bzipped
+          system("tar", "-jxOf", tracefile.path, :out => file.path)
+        elsif tarred
+          system("tar", "-xOf", tracefile.path, :out => file.path)
+        elsif gzipped
+          system("gunzip", "-c", tracefile.path, :out => file.path)
+        elsif bzipped
+          system("bunzip2", "-c", tracefile.path, :out => file.path)
+        elsif zipped
+          system("unzip", "-p", tracefile.path, "-x", "__MACOSX/*", :out => file.path, :err => "/dev/null")
+        end
+
+        file.unlink
+      else
+        file = File.open(tracefile.path)
       end
 
-      file.unlink
-    else
-      file = File.open(trace_name)
+      file
     end
-
-    file
   end
 
   def import
     logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
-    gpx = GPX::File.new(trace_name)
+    file.open do |file|
+      gpx = GPX::File.new(file.path)
 
-    f_lat = 0
-    f_lon = 0
-    first = true
+      f_lat = 0
+      f_lon = 0
+      first = true
 
-    # If there are any existing points for this trace then delete them
-    Tracepoint.where(:gpx_id => id).delete_all
+      # If there are any existing points for this trace then delete them
+      Tracepoint.where(:gpx_id => id).delete_all
 
-    gpx.points.each_slice(1_000) do |points|
-      # Gather the trace points together for a bulk import
-      tracepoints = []
+      gpx.points.each_slice(1_000) do |points|
+        # Gather the trace points together for a bulk import
+        tracepoints = []
 
-      points.each do |point|
-        if first
-          f_lat = point.latitude
-          f_lon = point.longitude
-          first = false
+        points.each do |point|
+          if first
+            f_lat = point.latitude
+            f_lon = point.longitude
+            first = false
+          end
+
+          tp = Tracepoint.new
+          tp.lat = point.latitude
+          tp.lon = point.longitude
+          tp.altitude = point.altitude
+          tp.timestamp = point.timestamp
+          tp.gpx_id = id
+          tp.trackid = point.segment
+          tracepoints << tp
         end
 
-        tp = Tracepoint.new
-        tp.lat = point.latitude
-        tp.lon = point.longitude
-        tp.altitude = point.altitude
-        tp.timestamp = point.timestamp
-        tp.gpx_id = id
-        tp.trackid = point.segment
-        tracepoints << tp
+        # Run the before_save and before_create callbacks, and then import them in bulk with activerecord-import
+        tracepoints.each do |tp|
+          tp.run_callbacks(:save) { false }
+          tp.run_callbacks(:create) { false }
+        end
+
+        Tracepoint.import!(tracepoints)
       end
 
-      # Run the before_save and before_create callbacks, and then import them in bulk with activerecord-import
-      tracepoints.each do |tp|
-        tp.run_callbacks(:save) { false }
-        tp.run_callbacks(:create) { false }
+      if gpx.actual_points.positive?
+        max_lat = Tracepoint.where(:gpx_id => id).maximum(:latitude)
+        min_lat = Tracepoint.where(:gpx_id => id).minimum(:latitude)
+        max_lon = Tracepoint.where(:gpx_id => id).maximum(:longitude)
+        min_lon = Tracepoint.where(:gpx_id => id).minimum(:longitude)
+
+        max_lat = max_lat.to_f / 10000000
+        min_lat = min_lat.to_f / 10000000
+        max_lon = max_lon.to_f / 10000000
+        min_lon = min_lon.to_f / 10000000
+
+        self.latitude = f_lat
+        self.longitude = f_lon
+        image.attach(:io => gpx.picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points), :filename => "#{id}.gif", :content_type => "image/gif")
+        icon.attach(:io => gpx.icon(min_lat, min_lon, max_lat, max_lon), :filename => "#{id}_icon.gif", :content_type => "image/gif")
+        self.size = gpx.actual_points
+        self.inserted = true
+        save!
       end
 
-      Tracepoint.import!(tracepoints)
+      logger.info "done trace #{id}"
+
+      gpx
     end
-
-    if gpx.actual_points.positive?
-      max_lat = Tracepoint.where(:gpx_id => id).maximum(:latitude)
-      min_lat = Tracepoint.where(:gpx_id => id).minimum(:latitude)
-      max_lon = Tracepoint.where(:gpx_id => id).maximum(:longitude)
-      min_lon = Tracepoint.where(:gpx_id => id).minimum(:longitude)
-
-      max_lat = max_lat.to_f / 10000000
-      min_lat = min_lat.to_f / 10000000
-      max_lon = max_lon.to_f / 10000000
-      min_lon = min_lon.to_f / 10000000
-
-      self.latitude = f_lat
-      self.longitude = f_lon
-      self.large_picture = gpx.picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points)
-      self.icon_picture = gpx.icon(min_lat, min_lon, max_lat, max_lon)
-      self.size = gpx.actual_points
-      self.inserted = true
-      save!
-    end
-
-    logger.info "done trace #{id}"
-
-    gpx
   end
 
   private
 
-  def remove_files
-    FileUtils.rm_f(trace_name)
-    FileUtils.rm_f(icon_picture_name)
-    FileUtils.rm_f(large_picture_name)
+  def content_type(file)
+    case Open3.capture2("/usr/bin/file", "-Lbz", file).first.chomp
+    when /.*\btar archive\b.*\bgzip\b/ then "application/x-tar+gzip"
+    when /.*\btar archive\b.*\bbzip2\b/ then "application/x-tar+x-bzip2"
+    when /.*\btar archive\b/ then "application/x-tar"
+    when /.*\bZip archive\b/ then "application/zip"
+    when /.*\bXML\b.*\bgzip\b/ then "application/gzip"
+    when /.*\bXML\b.*\bbzip2\b/ then "application/x-bzip2"
+    else "application/gpx+xml"
+    end
+  end
+
+  def set_filename
+    file.blob.update(:filename => "#{id}#{extension_name}") if file.attached?
   end
 end

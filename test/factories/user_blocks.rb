@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :user_block do
     sequence(:reason) { |n| "User Block #{n}" }
-    ends_at { Time.now + 1.day }
+    ends_at { Time.now.utc + 1.day }
 
     user
     association :creator, :factory => :moderator_user
@@ -11,7 +11,7 @@ FactoryBot.define do
     end
 
     trait :expired do
-      ends_at { Time.now - 1.day }
+      ends_at { Time.now.utc - 1.day }
     end
 
     trait :revoked do

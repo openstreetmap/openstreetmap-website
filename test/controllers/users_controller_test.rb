@@ -40,15 +40,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     )
 
     assert_routing(
-      { :path => "/user/username/account", :method => :get },
-      { :controller => "users", :action => "account", :display_name => "username" }
-    )
-    assert_routing(
-      { :path => "/user/username/account", :method => :post },
-      { :controller => "users", :action => "account", :display_name => "username" }
-    )
-
-    assert_routing(
       { :path => "/user/username/set_status", :method => :post },
       { :controller => "users", :action => "set_status", :display_name => "username" }
     )
@@ -160,7 +151,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > div.form-group > input.is-invalid#user_email"
+    assert_select "form > div > input.is-invalid#user_email"
   end
 
   def test_save_duplicate_email
@@ -189,7 +180,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > div.form-group > input.is-invalid#user_email"
+    assert_select "form > div > input.is-invalid#user_email"
   end
 
   def test_save_duplicate_email_uppercase
@@ -218,7 +209,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > div.form-group > input.is-invalid#user_email"
+    assert_select "form > div > input.is-invalid#user_email"
   end
 
   def test_save_duplicate_name
@@ -247,7 +238,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > div.form-group > input.is-invalid#user_display_name"
+    assert_select "form > div > input.is-invalid#user_display_name"
   end
 
   def test_save_duplicate_name_uppercase
@@ -276,7 +267,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template "new"
-    assert_select "form > div.form-group > input.is-invalid#user_display_name"
+    assert_select "form > div > input.is-invalid#user_display_name"
   end
 
   def test_save_blocked_domain
@@ -358,7 +349,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     get user_terms_path
     assert_response :redirect
-    assert_redirected_to :action => :account, :display_name => user.display_name
+    assert_redirected_to edit_account_path
   end
 
   def test_terms_not_seen_without_referer
@@ -372,7 +363,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     post user_save_path, :params => { :user => { :consider_pd => true }, :read_ct => 1, :read_tou => 1 }
     assert_response :redirect
-    assert_redirected_to :action => :account, :display_name => user.display_name
+    assert_redirected_to edit_account_path
     assert_equal "Thanks for accepting the new contributor terms!", flash[:notice]
 
     user.reload
@@ -409,9 +400,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = create(:user, :terms_seen => false, :terms_agreed => nil)
     session_for(user)
 
-    get user_account_path(user)
+    get edit_account_path
     assert_response :redirect
-    assert_redirected_to :action => :terms, :referer => "/user/#{ERB::Util.u(user.display_name)}/account"
+    assert_redirected_to :controller => :users, :action => :terms, :referer => "/account/edit"
   end
 
   def test_terms_not_logged_in
@@ -427,125 +418,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     post user_go_public_path
 
     assert_response :redirect
-    assert_redirected_to :action => :account, :display_name => user.display_name
+    assert_redirected_to edit_account_path
     assert User.find(user.id).data_public
-  end
-
-  def test_account
-    # Get a user to work with - note that this user deliberately
-    # conflicts with uppercase_user in the email and display name
-    # fields to test that we can change other fields without any
-    # validation errors being reported
-    user = create(:user, :languages => [])
-    _uppercase_user = build(:user, :email => user.email.upcase, :display_name => user.display_name.upcase).tap { |u| u.save(:validate => false) }
-
-    # Make sure that you are redirected to the login page when
-    # you are not logged in
-    get user_account_path(user)
-    assert_response :redirect
-    assert_redirected_to login_path(:referer => "/user/#{ERB::Util.u(user.display_name)}/account")
-
-    # Make sure that you are blocked when not logged in as the right user
-    session_for(create(:user))
-    get user_account_path(user)
-    assert_response :forbidden
-
-    # Make sure we get the page when we are logged in as the right user
-    session_for(user)
-    get user_account_path(user)
-    assert_response :success
-    assert_template :account
-    assert_select "form#accountForm" do |form|
-      assert_equal "post", form.attr("method").to_s
-      assert_select "input[name='_method']", false
-      assert_equal "/user/#{ERB::Util.u(user.display_name)}/account", form.attr("action").to_s
-    end
-
-    # Updating the description using GET should fail
-    user.description = "new description"
-    user.preferred_editor = "default"
-    get user_account_path(user), :params => { :user => user.attributes }
-    assert_response :success
-    assert_template :account
-    assert_not_equal user.description, User.find(user.id).description
-
-    # Adding external authentication should redirect to the auth provider
-    post user_account_path(user), :params => { :user => user.attributes.merge(:auth_provider => "openid", :auth_uid => "gmail.com") }
-    assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "https://www.google.com/accounts/o8/id", :origin => "/user/#{ERB::Util.u(user.display_name)}/account")
-
-    # Changing name to one that exists should fail
-    new_attributes = user.attributes.dup.merge(:display_name => create(:user).display_name)
-    post user_account_path(user), :params => { :user => new_attributes }
-    assert_response :success
-    assert_template :account
-    assert_select ".notice", false
-    assert_select "form#accountForm > div.form-group > input.is-invalid#user_display_name"
-
-    # Changing name to one that exists should fail, regardless of case
-    new_attributes = user.attributes.dup.merge(:display_name => create(:user).display_name.upcase)
-    post user_account_path(user), :params => { :user => new_attributes }
-    assert_response :success
-    assert_template :account
-    assert_select ".notice", false
-    assert_select "form#accountForm > div.form-group > input.is-invalid#user_display_name"
-
-    # Changing name to one that doesn't exist should work
-    new_attributes = user.attributes.dup.merge(:display_name => "new tester")
-    post user_account_path(user), :params => { :user => new_attributes }
-    assert_response :redirect
-    assert_redirected_to user_account_url(:display_name => "new tester")
-    get user_account_path(:display_name => "new tester")
-    assert_response :success
-    assert_template :account
-    assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > div.form-group > input#user_display_name[value=?]", "new tester"
-
-    # Record the change of name
-    user.display_name = "new tester"
-
-    # Changing email to one that exists should fail
-    user.new_email = create(:user).email
-    assert_no_difference "ActionMailer::Base.deliveries.size" do
-      perform_enqueued_jobs do
-        post user_account_path(user), :params => { :user => user.attributes }
-      end
-    end
-    assert_response :success
-    assert_template :account
-    assert_select ".notice", false
-    assert_select "form#accountForm > div.form-group > input.is-invalid#user_new_email"
-
-    # Changing email to one that exists should fail, regardless of case
-    user.new_email = create(:user).email.upcase
-    assert_no_difference "ActionMailer::Base.deliveries.size" do
-      perform_enqueued_jobs do
-        post user_account_path(user), :params => { :user => user.attributes }
-      end
-    end
-    assert_response :success
-    assert_template :account
-    assert_select ".notice", false
-    assert_select "form#accountForm > div.form-group > input.is-invalid#user_new_email"
-
-    # Changing email to one that doesn't exist should work
-    user.new_email = "new_tester@example.com"
-    assert_difference "ActionMailer::Base.deliveries.size", 1 do
-      perform_enqueued_jobs do
-        post user_account_path(user), :params => { :user => user.attributes }
-      end
-    end
-    assert_response :redirect
-    assert_redirected_to user_account_url(user)
-    get user_account_path(user)
-    assert_response :success
-    assert_template :account
-    assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > div.form-group > input#user_new_email[value=?]", user.new_email
-    email = ActionMailer::Base.deliveries.first
-    assert_equal 1, email.to.count
-    assert_equal user.new_email, email.to.first
-    ActionMailer::Base.deliveries.clear
   end
 
   # Check that the user account page will display and contains some relevant
@@ -617,7 +491,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/traces/mine']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary/comments']", 1
-      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/account']", 1
+      assert_select "a[href='/account/edit']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
       assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
@@ -634,7 +508,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/traces']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary']", 1
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary/comments']", 1
-      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/account']", 0
+      assert_select "a[href='/account/edit']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
       assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 1
@@ -673,39 +547,39 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
 
     # Try without logging in
-    post set_status_user_path(user), :params => { :status => "suspended" }
+    post set_status_user_path(user), :params => { :event => "confirm" }
     assert_response :forbidden
 
     # Now try as a normal user
     session_for(user)
-    post set_status_user_path(user), :params => { :status => "suspended" }
+    post set_status_user_path(user), :params => { :event => "confirm" }
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
-    post set_status_user_path(user), :params => { :status => "suspended" }
+    post set_status_user_path(user), :params => { :event => "confirm" }
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name
-    assert_equal "suspended", User.find(user.id).status
+    assert_equal "confirmed", User.find(user.id).status
   end
 
   def test_destroy
     user = create(:user, :home_lat => 12.1, :home_lon => 12.1, :description => "test")
 
     # Try without logging in
-    delete user_path(user), :params => { :status => "suspended" }
+    delete user_path(user)
     assert_response :forbidden
 
     # Now try as a normal user
     session_for(user)
-    delete user_path(user), :params => { :status => "suspended" }
+    delete user_path(user)
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
-    delete user_path(user), :params => { :status => "suspended" }
+    delete user_path(user)
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name
 

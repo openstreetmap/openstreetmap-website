@@ -31,9 +31,8 @@ class ApiController < ApplicationController
         # as XML for backwards compatibility - all other formats are discarded
         # which will result in a 406 Not Acceptable response being sent
         formats = mimetypes.map do |mime|
-          if mime.symbol == :xml then :xml
+          if mime.symbol == :xml || mime == "*/*" then :xml
           elsif mime.symbol == :json then :json
-          elsif mime == "*/*" then :xml
           end
         end
       else
@@ -53,8 +52,13 @@ class ApiController < ApplicationController
     # handle authenticate pass/fail
     unless current_user
       # no auth, the user does not exist or the password was wrong
-      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-      render :plain => errormessage, :status => :unauthorized
+      if Settings.basic_auth_support
+        response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
+        render :plain => errormessage, :status => :unauthorized
+      else
+        render :plain => errormessage, :status => :forbidden
+      end
+
       false
     end
   end
@@ -76,11 +80,13 @@ class ApiController < ApplicationController
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
       head :forbidden
-    else
+    elsif Settings.basic_auth_support
       realm = "Web Password"
       errormessage = "Couldn't authenticate you"
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
       render :plain => errormessage, :status => :unauthorized
+    else
+      render :plain => errormessage, :status => :forbidden
     end
   end
 
@@ -95,13 +101,14 @@ class ApiController < ApplicationController
   # from the authorize method, but can be called elsewhere if authorisation
   # is optional.
   def setup_user_auth
+    logger.info " setup_user_auth"
     # try and setup using OAuth
     if doorkeeper_token&.accessible?
       self.current_user = User.find(doorkeeper_token.resource_owner_id)
     elsif Authenticator.new(self, [:token]).allow?
       # self.current_user setup by OAuth
-    else
-      username, passwd = get_auth_data # parse from headers
+    elsif Settings.basic_auth_support
+      username, passwd = auth_data # parse from headers
       # authenticate per-scheme
       self.current_user = if username.nil?
                             nil # no authentication provided - perhaps first connect (client should retry after 401)
@@ -110,6 +117,8 @@ class ApiController < ApplicationController
                           else
                             User.authenticate(:username => username, :password => passwd) # basic auth
                           end
+      # log if we have authenticated using basic auth
+      logger.info "Authenticated as user #{current_user.id} using basic authentication" if current_user
     end
 
     # have we identified the user?

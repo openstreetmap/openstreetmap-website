@@ -32,7 +32,7 @@ class Node < ApplicationRecord
 
   belongs_to :changeset
 
-  has_many :old_nodes, -> { order(:version) }
+  has_many :old_nodes, -> { order(:version) }, :inverse_of => :current_node
 
   has_many :way_nodes
   has_many :ways, :through => :way_nodes
@@ -49,8 +49,6 @@ class Node < ApplicationRecord
                  :numericality => { :on => :update, :only_integer => true }
   validates :version, :presence => true,
                       :numericality => { :only_integer => true }
-  validates :changeset_id, :presence => true,
-                           :numericality => { :only_integer => true }
   validates :latitude, :presence => true,
                        :numericality => { :only_integer => true }
   validates :longitude, :presence => true,
@@ -206,7 +204,7 @@ class Node < ApplicationRecord
   end
 
   def tags
-    @tags ||= node_tags.collect { |t| [t.k, t.v] }.to_h
+    @tags ||= node_tags.to_h { |t| [t.k, t.v] }
   end
 
   attr_writer :tags
@@ -238,7 +236,7 @@ class Node < ApplicationRecord
   private
 
   def save_with_history!
-    t = Time.now.getutc
+    t = Time.now.utc
 
     self.version += 1
     self.timestamp = t

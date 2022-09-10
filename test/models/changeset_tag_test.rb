@@ -2,68 +2,48 @@ require "test_helper"
 
 class ChangesetTagTest < ActiveSupport::TestCase
   def test_length_key_valid
-    changeset = create(:changeset)
-
-    key = "k"
+    tag = create(:changeset_tag)
     [0, 255].each do |i|
-      tag = ChangesetTag.new
-      tag.changeset_id = changeset.id
-      tag.k = key * i
-      tag.v = "v"
-      assert tag.valid?
+      tag.k = "k" * i
+      assert_predicate tag, :valid?
     end
   end
 
   def test_length_value_valid
-    changeset = create(:changeset)
-
-    val = "v"
+    tag = create(:changeset_tag)
     [0, 255].each do |i|
-      tag = ChangesetTag.new
-      tag.changeset_id = changeset.id
-      tag.k = "k"
-      tag.v = val * i
-      assert tag.valid?
+      tag.v = "v" * i
+      assert_predicate tag, :valid?
     end
   end
 
   def test_length_key_invalid
-    ["k" * 256].each do |k|
-      tag = ChangesetTag.new
-      tag.changeset_id = 1
-      tag.k = k
-      tag.v = "v"
-      assert_not tag.valid?, "Key #{k} should be too long"
-      assert tag.errors[:k].any?
-    end
+    tag = create(:changeset_tag)
+    tag.k = "k" * 256
+    assert_not tag.valid?, "Key should be too long"
+    assert_predicate tag.errors[:k], :any?
   end
 
   def test_length_value_invalid
-    ["v" * 256].each do |v|
-      tag = ChangesetTag.new
-      tag.changeset_id = 1
-      tag.k = "k"
-      tag.v = v
-      assert_not tag.valid?, "Value #{v} should be too long"
-      assert tag.errors[:v].any?
-    end
+    tag = create(:changeset_tag)
+    tag.v = "v" * 256
+    assert_not tag.valid?, "Value should be too long"
+    assert_predicate tag.errors[:v], :any?
   end
 
-  def test_empty_tag_invalid
-    tag = ChangesetTag.new
-    assert_not tag.valid?, "Empty tag should be invalid"
-    assert tag.errors[:changeset].any?
+  def test_orphaned_tag_invalid
+    tag = create(:changeset_tag)
+    tag.changeset = nil
+    assert_not tag.valid?, "Orphaned tag should be invalid"
+    assert_predicate tag.errors[:changeset], :any?
   end
 
   def test_uniqueness
     existing = create(:changeset_tag)
-    tag = ChangesetTag.new
-    tag.changeset_id = existing.changeset_id
-    tag.k = existing.k
-    tag.v = existing.v
-    assert tag.new_record?
+    tag = build(:changeset_tag, :changeset => existing.changeset, :k => existing.k, :v => existing.v)
+    assert_predicate tag, :new_record?
     assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
-    assert tag.new_record?
+    assert_predicate tag, :new_record?
   end
 end

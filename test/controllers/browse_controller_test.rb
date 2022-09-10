@@ -137,7 +137,7 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_read_note_hidden_user_comment
-    hidden_user = create(:user, :status => "deleted")
+    hidden_user = create(:user, :deleted)
     note_with_hidden_user_comment = create(:note_with_comments, :comments_count => 2) do |note|
       create(:note_comment, :note => note, :author => hidden_user)
     end
@@ -153,7 +153,7 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
 
   def test_read_closed_note
     user = create(:user)
-    closed_note = create(:note_with_comments, :status => "closed", :closed_at => Time.now, :comments_count => 2) do |note|
+    closed_note = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc, :comments_count => 2) do |note|
       create(:note_comment, :event => "closed", :note => note, :author => user)
     end
 
@@ -161,7 +161,7 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.note-comments ul li", :count => 2
     assert_select "div.details", /Resolved by #{user.display_name}/
 
-    user.delete
+    user.soft_destroy!
 
     reset!
 

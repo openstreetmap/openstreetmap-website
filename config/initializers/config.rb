@@ -2,7 +2,7 @@
 # Otherwise, admins might not be aware that they are now silently ignored
 # and major problems could occur
 # rubocop:disable Rails/Output, Rails/Exit
-if File.exist?(Rails.root.join("config/application.yml"))
+if Rails.root.join("config/application.yml").exist?
   puts "The config/application.yml file is no longer supported."
   puts ""
   puts "Default settings are now found in config/settings.yml and you"
@@ -74,9 +74,13 @@ Config.setup do |config|
     required(:max_note_request_area).filled(:number?)
     required(:tracepoints_per_page).filled(:int?)
     required(:max_number_of_way_nodes).filled(:int?)
+    required(:max_number_of_relation_members).filled(:int?)
     required(:api_timeout).filled(:int?)
     required(:imagery_blacklist).maybe(:array?)
     required(:status).filled(:str?, :included_in? => ALLOWED_STATUS)
-    required(:storage_service).filled(:str?)
+    required(:avatar_storage).filled(:str?)
+    required(:trace_file_storage).filled(:str?)
+    required(:trace_image_storage).filled(:str?)
+    required(:trace_icon_storage).filled(:str?)
   end
 end

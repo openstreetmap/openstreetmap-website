@@ -358,7 +358,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     params = CGI.parse(URI.parse(response.location).query)
 
     assert_not_nil params["oauth_verifier"]
-    assert params["oauth_verifier"].first.present?
+    assert_predicate params["oauth_verifier"].first, :present?
 
     params["oauth_verifier"].first
   end

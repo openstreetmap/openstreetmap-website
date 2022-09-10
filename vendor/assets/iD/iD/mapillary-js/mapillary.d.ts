@@ -1,6 +1,6 @@
 import { Observable, Subject, Subscription, BehaviorSubject, Scheduler } from 'rxjs';
-import { Matrix4, Vector3, PerspectiveCamera, WebGLRenderer, Object3D, Camera as Camera$1 } from 'three';
-import { VNode } from 'virtual-dom';
+import * as THREE from 'three';
+import * as vd from 'virtual-dom';
 
 /**
  * Convert coordinates from geodetic (WGS84) reference to local topocentric
@@ -29,6 +29,54 @@ declare function geodeticToEnu(lng: number, lat: number, alt: number, refLng: nu
  * and altitude in meters.
  */
 declare function enuToGeodetic(x: number, y: number, z: number, refLng: number, refLat: number, refAlt: number): number[];
+/**
+ * Convert coordinates from Earth-Centered, Earth-Fixed (ECEF) reference
+ * to local topocentric (ENU) reference.
+ *
+ * @param {number} X ECEF X-value.
+ * @param {number} Y ECEF Y-value.
+ * @param {number} Z ECEF Z-value.
+ * @param {number} refLng Reference longitude in degrees.
+ * @param {number} refLat Reference latitude in degrees.
+ * @param {number} refAlt Reference altitude in meters.
+ * @returns {Array<number>} The x, y, z topocentric ENU coordinates in East, North
+ * and Up directions respectively.
+ */
+declare function ecefToEnu(X: number, Y: number, Z: number, refLng: number, refLat: number, refAlt: number): number[];
+/**
+ * Convert coordinates from local topocentric (ENU) reference
+ * to Earth-Centered, Earth-Fixed (ECEF) reference.
+ *
+ * @param {number} x Topocentric ENU coordinate in East direction.
+ * @param {number} y Topocentric ENU coordinate in North direction.
+ * @param {number} z Topocentric ENU coordinate in Up direction.
+ * @param {number} refLng Reference longitude in degrees.
+ * @param {number} refLat Reference latitude in degrees.
+ * @param {number} refAlt Reference altitude in meters.
+ * @returns {Array<number>} The X, Y, Z ECEF coordinates.
+ */
+declare function enuToEcef(x: number, y: number, z: number, refLng: number, refLat: number, refAlt: number): number[];
+/**
+ * Convert coordinates from geodetic reference (WGS84) to Earth-Centered,
+ * Earth-Fixed (ECEF) reference.
+ *
+ * @param {number} lng Longitude in degrees.
+ * @param {number} lat Latitude in degrees.
+ * @param {number} alt Altitude in meters.
+ * @returns {Array<number>} The X, Y, Z ECEF coordinates.
+ */
+declare function geodeticToEcef(lng: number, lat: number, alt: number): number[];
+/**
+ * Convert coordinates from Earth-Centered, Earth-Fixed (ECEF) reference
+ * to geodetic reference (WGS84).
+ *
+ * @param {number} X ECEF X-value.
+ * @param {number} Y ECEF Y-value.
+ * @param {number} Z ECEF Z-value.
+ * @returns {Array<number>} The longitude, latitude in degrees
+ * and altitude in meters.
+ */
+declare function ecefToGeodetic(X: number, Y: number, Z: number): number[];
 
 /**
  * Contract describing triangulated meshes.
@@ -81,17 +129,14 @@ declare function fetchArrayBuffer(url: string, abort?: Promise<void>): Promise<A
  */
 declare function readMeshPbf(buffer: ArrayBuffer): MeshContract;
 
-declare class EventEmitter {
-    private _events;
-    constructor();
+/**
+ * Interface describing event emitter members.
+ */
+interface IEventEmitter {
     /**
-     * Subscribe to an event by its name.
-     * @param {string} type - The name of the event
-     * to subscribe to.
-     * @param {(event: T) => void} handler - The
-     * handler called when the event occurs.
+     * @ignore
      */
-    on<T>(type: string, handler: (event: T) => void): void;
+    fire<T>(type: string, event: T): void;
     /**
      * Unsubscribe from an event by its name.
      * @param {string} type - The name of the event
@@ -101,9 +146,38 @@ declare class EventEmitter {
      */
     off<T>(type: string, handler: (event: T) => void): void;
     /**
+     * Subscribe to an event by its name.
+     * @param {string} type - The name of the event
+     * to subscribe to.
+     * @param {(event: T) => void} handler - The
+     * handler called when the event occurs.
+     */
+    on<T>(type: string, handler: (event: T) => void): void;
+}
+
+declare class EventEmitter implements IEventEmitter {
+    private _events;
+    constructor();
+    /**
      * @ignore
      */
     fire<T>(type: string, event: T): void;
+    /**
+     * Unsubscribe from an event by its name.
+     * @param {string} type - The name of the event
+     * to unsubscribe from.
+     * @param {(event: T) => void} handler - The
+     * handler to remove.
+     */
+    off<T>(type: string, handler: (event: T) => void): void;
+    /**
+     * Subscribe to an event by its name.
+     * @param {string} type - The name of the event
+     * to subscribe to.
+     * @param {(event: T) => void} handler - The
+     * handler called when the event occurs.
+     */
+    on<T>(type: string, handler: (event: T) => void): void;
     private _listens;
 }
 
@@ -173,92 +247,6 @@ interface ClusterContract {
      * frame.
      */
     reference: LngLatAlt;
-}
-
-/**
- * @class GeometryProviderBase
- *
- * @classdesc Base class to extend if implementing a geometry
- * provider class.
- *
- * @example
- * ```js
- * class MyGeometryProvider extends GeometryProviderBase {
- *      ...
- * }
- * ```
- */
-declare abstract class GeometryProviderBase {
-    /**
-     * Create a new geometry provider base instance.
-     */
-    constructor();
-    /**
-     * Convert a geodetic bounding box to the the minimum set
-     * of cell ids containing the bounding box.
-     *
-     * @description The bounding box needs
-     * to be sufficiently small to be contained in an area with the size
-     * of maximally four tiles. Up to nine adjacent tiles may be returned.
-     *
-     * @param {LngLat} sw - South west corner of bounding box.
-     * @param {LngLat} ne - North east corner of bounding box.
-     *
-     * @returns {Array<string>} Array of cell ids.
-     */
-    bboxToCellIds(sw: LngLat, ne: LngLat): string[];
-    /**
-     * Get the cell ids of all adjacent cells.
-     *
-     * @description In the case of approximately rectangular cells
-     * this is typically the eight orthogonally and diagonally adjacent
-     * cells.
-     *
-     * @param {string} cellId - Id of cell.
-     * @returns {Array<string>} Array of cell ids. No specific
-     * order is guaranteed.
-     */
-    getAdjacent(cellId: string): string[];
-    /**
-     * Get the vertices of a cell.
-     *
-     * @description The vertices form an unclosed
-     * clockwise polygon in the 2D longitude, latitude
-     * space. No assumption on the position of the first
-     * vertex relative to the others can be made.
-     *
-     * @param {string} cellId - Id of cell.
-     * @returns {Array<LngLat>} Unclosed clockwise polygon.
-     */
-    getVertices(cellId: string): LngLat[];
-    /**
-     * Convert geodetic coordinates to a cell id.
-     *
-     * @param {LngLat} lngLat - Longitude, latitude to convert.
-     * @returns {string} Cell id for the longitude, latitude.
-     */
-    lngLatToCellId(lngLat: LngLat): string;
-    /** @ignore */
-    protected _approxBboxToCellIds(sw: LngLat, ne: LngLat): string[];
-    /** @ignore */
-    private _enuToGeodetic;
-    /** @ignore */
-    private _getLngLatBoundingBoxCorners;
-    /**
-     * Convert a geodetic square to cell ids.
-     *
-     * The square is specified as a longitude, latitude
-     * and a threshold from the position using Manhattan distance.
-     *
-     * @param {LngLat} lngLat - Longitude, latitude.
-     * @param {number} threshold - Threshold of the conversion in meters.
-     *
-     * @returns {Array<string>} Array of cell ids reachable within
-     * the threshold.
-     *
-     * @ignore
-     */
-    private _lngLatToCellIds;
 }
 
 /**
@@ -556,20 +544,6 @@ interface ImageTilesRequestContract {
 declare type ProviderEventType = "datacreate";
 
 /**
- * Interface for general provider events.
- */
-interface ProviderEvent {
-    /**
-     * Data provider target that emitted the event.
-     */
-    target: DataProviderBase;
-    /**
-     * Provider event type.
-     */
-    type: ProviderEventType;
-}
-
-/**
  *
  * Interface for data provider cell events.
  */
@@ -582,6 +556,251 @@ interface ProviderCellEvent extends ProviderEvent {
      * Provider event type.
      */
     type: "datacreate";
+}
+
+/**
+ * @interface IGeometryProvider
+ *
+ * Interface describing geometry provider members.
+ *
+ * This is a specification for implementers to model: it
+ * is not an exported method or class.
+ */
+interface IGeometryProvider {
+    /**
+     * Convert a geodetic bounding box to the the minimum set
+     * of cell ids containing the bounding box.
+     *
+     * @description The bounding box needs
+     * to be sufficiently small to be contained in an area with the size
+     * of maximally four tiles. Up to nine adjacent tiles may be returned.
+     *
+     * @param {LngLat} sw - South west corner of bounding box.
+     * @param {LngLat} ne - North east corner of bounding box.
+     *
+     * @returns {Array<string>} Array of cell ids.
+     */
+    bboxToCellIds(sw: LngLat, ne: LngLat): string[];
+    /**
+     * Get the cell ids of all adjacent cells.
+     *
+     * @description In the case of approximately rectangular cells
+     * this is typically the eight orthogonally and diagonally adjacent
+     * cells.
+     *
+     * @param {string} cellId - Id of cell.
+     * @returns {Array<string>} Array of cell ids. No specific
+     * order is guaranteed.
+     */
+    getAdjacent(cellId: string): string[];
+    /**
+     * Get the vertices of a cell.
+     *
+     * @description The vertices form an unclosed
+     * clockwise polygon in the 2D longitude, latitude
+     * space. No assumption on the position of the first
+     * vertex relative to the others can be made.
+     *
+     * @param {string} cellId - Id of cell.
+     * @returns {Array<LngLat>} Unclosed clockwise polygon.
+     */
+    getVertices(cellId: string): LngLat[];
+    /**
+     * Convert geodetic coordinates to a cell id.
+     *
+     * @param {LngLat} lngLat - Longitude, latitude to convert.
+     * @returns {string} Cell id for the longitude, latitude.
+     */
+    lngLatToCellId(lngLat: LngLat): string;
+}
+
+/**
+ * @interface IDataProvider
+ *
+ * Interface describing data provider members.
+ *
+ * This is a specification for implementers to model: it is
+ * not an exported method or class.
+ *
+ * @fires datacreate
+ */
+interface IDataProvider extends EventEmitter {
+    /**
+     * Get geometry property.
+     *
+     * @returns {IGeometryProvider} Geometry provider instance.
+     */
+    geometry: IGeometryProvider;
+    /**
+     * Fire when data has been created in the data provider
+     * after initial load.
+     *
+     * @param type datacreate
+     * @param event Provider cell event
+     *
+     * @example
+     * ```js
+     * // Initialize the data provider
+     * class MyDataProvider extends DataProviderBase {
+     *   // Class implementation
+     * }
+     * var provider = new MyDataProvider();
+     * // Create the event
+     * var cellIds = [ // Determine updated cells ];
+     * var target = provider;
+     * var type = "datacreate";
+     * var event = {
+     *   cellIds,
+     *   target,
+     *   type,
+     * };
+     * // Fire the event
+     * provider.fire(type, event);
+     * ```
+     */
+    fire(type: "datacreate", event: ProviderCellEvent): void;
+    /** @ignore */
+    fire(type: ProviderEventType, event: ProviderEvent): void;
+    fire<T>(type: ProviderEventType, event: T): void;
+    /**
+     * Get core images in a geometry cell.
+     *
+     * @param {string} cellId - The id of the geometry cell.
+     * @returns {Promise<CoreImagesContract>} Promise to
+     * the core images of the requested geometry cell id.
+     * @throws Rejects the promise on errors.
+     */
+    getCoreImages(cellId: string): Promise<CoreImagesContract>;
+    /**
+     * Get a cluster reconstruction.
+     *
+     * @param {string} url - URL for the cluster reconstruction
+     * to retrieve.
+     * @param {Promise} [abort] - Optional promise for aborting
+     * the request through rejection.
+     * @returns {Promise<ClusterContract>} Promise to the
+     * cluster reconstruction.
+     * @throws Rejects the promise on errors.
+     */
+    getCluster(url: string, abort?: Promise<void>): Promise<ClusterContract>;
+    /**
+     * Get spatial images.
+     *
+     * @param {Array<string>} imageIds - The ids for the
+     * images to retrieve.
+     * @returns {Promise<SpatialImagesContract>} Promise to
+     * the spatial images of the requested image ids.
+     * @throws Rejects the promise on errors.
+     */
+    getSpatialImages(imageIds: string[]): Promise<SpatialImagesContract>;
+    /**
+     * Get complete images.
+     *
+     * @param {Array<string>} imageIds - The ids for the
+     * images to retrieve.
+     * @returns {Promise<ImagesContract>} Promise to the images of the
+     * requested image ids.
+     * @throws Rejects the promise on errors.
+     */
+    getImages(imageIds: string[]): Promise<ImagesContract>;
+    /**
+     * Get an image as an array buffer.
+     *
+     * @param {string} url - URL for image to retrieve.
+     * @param {Promise<void>} [abort] - Optional promise for aborting
+     * the request through rejection.
+     * @returns {Promise<ArrayBuffer>} Promise to the array
+     * buffer containing the image.
+     * @throws Rejects the promise on errors.
+     */
+    getImageBuffer(url: string, abort?: Promise<void>): Promise<ArrayBuffer>;
+    /**
+     * Get image tiles urls for a tile level.
+     *
+     * @param {ImageTilesRequestContract} tiles - Tiles to request
+     * @returns {Promise<ImageTilesContract>} Promise to the
+     * image tiles response contract
+     *
+     * @throws Rejects the promise on errors.
+     *
+     * @example
+     * ```js
+     * var tileRequest = { imageId: 'image-id', z: 12 };
+     * provider.getImageTiles(tileRequest)
+     *   .then((response) => console.log(response));
+     * ```
+     */
+    getImageTiles(tiles: ImageTilesRequestContract): Promise<ImageTilesContract>;
+    /**
+     * Get a mesh.
+     *
+     * @param {string} url - URL for mesh to retrieve.
+     * @param {Promise<void>} [abort] - Optional promise for aborting
+     * the request through rejection.
+     * @returns {Promise<MeshContract>} Promise to the mesh.
+     * @throws Rejects the promise on errors.
+     */
+    getMesh(url: string, abort?: Promise<void>): Promise<MeshContract>;
+    /**
+     * Get sequence.
+     *
+     * @param {Array<string>} sequenceId - The id for the
+     * sequence to retrieve.
+     * @returns {Promise} Promise to the sequences of the
+     * requested image ids.
+     * @throws Rejects the promise on errors.
+     */
+    getSequence(sequenceId: string): Promise<SequenceContract>;
+    off(type: ProviderCellEvent["type"], handler: (event: ProviderCellEvent) => void): void;
+    /** @ignore */
+    off(type: ProviderEventType, handler: (event: ProviderEvent) => void): void;
+    /** @ignore */
+    off<T>(type: ProviderEventType, handler: (event: T) => void): void;
+    /**
+     * Fired when data has been created in the data provider
+     * after initial load.
+     *
+     * @event datacreate
+     * @example
+     * ```js
+     * // Initialize the data provider
+     * class MyDataProvider extends DataProviderBase {
+     *   // implementation
+     * }
+     * var provider = new MyDataProvider();
+     * // Set an event listener
+     * provider.on("datacreate", function() {
+     *   console.log("A datacreate event has occurred.");
+     * });
+     * ```
+     */
+    on(type: "datacreate", handler: (event: ProviderCellEvent) => void): void;
+    /** @ignore */
+    on(type: ProviderEventType, handler: (event: ProviderEvent) => void): void;
+    /** @ignore */
+    on<T>(type: ProviderEventType, handler: (event: T) => void): void;
+    /**
+     * Set an access token for authenticated API requests of
+     * protected resources.
+     *
+     * @param {string} [accessToken] accessToken - User access
+     * token or client access token.
+     */
+    setAccessToken(accessToken?: string): void;
+}
+
+/**
+ * Interface for general provider events.
+ */
+interface ProviderEvent {
+    /**
+     * Data provider target that emitted the event.
+     */
+    target: IDataProvider;
+    /**
+     * Provider event type.
+     */
+    type: ProviderEventType;
 }
 
 /**
@@ -602,21 +821,21 @@ interface ProviderCellEvent extends ProviderEvent {
  * }
  * ```
  */
-declare abstract class DataProviderBase extends EventEmitter {
-    protected _geometry: GeometryProviderBase;
+declare abstract class DataProviderBase extends EventEmitter implements IDataProvider {
+    protected _geometry: IGeometryProvider;
     /**
      * Create a new data provider base instance.
      *
-     * @param {GeometryProviderBase} geometry - Geometry
+     * @param {IGeometryProvider} geometry - Geometry
      * provider instance.
      */
-    constructor(_geometry: GeometryProviderBase);
+    constructor(_geometry: IGeometryProvider);
     /**
      * Get geometry property.
      *
-     * @returns {GeometryProviderBase} Geometry provider instance.
+     * @returns {IGeometryProvider} Geometry provider instance.
      */
-    get geometry(): GeometryProviderBase;
+    get geometry(): IGeometryProvider;
     /**
      * Fire when data has been created in the data provider
      * after initial load.
@@ -770,6 +989,92 @@ declare abstract class DataProviderBase extends EventEmitter {
     setAccessToken(accessToken?: string): void;
 }
 
+/**
+ * @class GeometryProviderBase
+ *
+ * @classdesc Base class to extend if implementing a geometry
+ * provider class.
+ *
+ * @example
+ * ```js
+ * class MyGeometryProvider extends GeometryProviderBase {
+ *      ...
+ * }
+ * ```
+ */
+declare abstract class GeometryProviderBase implements IGeometryProvider {
+    /**
+     * Create a new geometry provider base instance.
+     */
+    constructor();
+    /**
+     * Convert a geodetic bounding box to the the minimum set
+     * of cell ids containing the bounding box.
+     *
+     * @description The bounding box needs
+     * to be sufficiently small to be contained in an area with the size
+     * of maximally four tiles. Up to nine adjacent tiles may be returned.
+     *
+     * @param {LngLat} sw - South west corner of bounding box.
+     * @param {LngLat} ne - North east corner of bounding box.
+     *
+     * @returns {Array<string>} Array of cell ids.
+     */
+    bboxToCellIds(sw: LngLat, ne: LngLat): string[];
+    /**
+     * Get the cell ids of all adjacent cells.
+     *
+     * @description In the case of approximately rectangular cells
+     * this is typically the eight orthogonally and diagonally adjacent
+     * cells.
+     *
+     * @param {string} cellId - Id of cell.
+     * @returns {Array<string>} Array of cell ids. No specific
+     * order is guaranteed.
+     */
+    getAdjacent(cellId: string): string[];
+    /**
+     * Get the vertices of a cell.
+     *
+     * @description The vertices form an unclosed
+     * clockwise polygon in the 2D longitude, latitude
+     * space. No assumption on the position of the first
+     * vertex relative to the others can be made.
+     *
+     * @param {string} cellId - Id of cell.
+     * @returns {Array<LngLat>} Unclosed clockwise polygon.
+     */
+    getVertices(cellId: string): LngLat[];
+    /**
+     * Convert geodetic coordinates to a cell id.
+     *
+     * @param {LngLat} lngLat - Longitude, latitude to convert.
+     * @returns {string} Cell id for the longitude, latitude.
+     */
+    lngLatToCellId(lngLat: LngLat): string;
+    /** @ignore */
+    protected _approxBboxToCellIds(sw: LngLat, ne: LngLat): string[];
+    /** @ignore */
+    private _enuToGeodetic;
+    /** @ignore */
+    private _getLngLatBoundingBoxCorners;
+    /**
+     * Convert a geodetic square to cell ids.
+     *
+     * The square is specified as a longitude, latitude
+     * and a threshold from the position using Manhattan distance.
+     *
+     * @param {LngLat} lngLat - Longitude, latitude.
+     * @param {number} threshold - Threshold of the conversion in meters.
+     *
+     * @returns {Array<string>} Array of cell ids reachable within
+     * the threshold.
+     *
+     * @ignore
+     */
+    private _lngLatToCellIds;
+}
+
 interface GraphCameraContract {
     focal: number;
     k1: number;
@@ -852,7 +1157,7 @@ declare class GraphDataProvider extends DataProviderBase {
     private readonly _convert;
     private readonly _query;
     private _accessToken;
-    constructor(options?: GraphDataProviderOptions, geometry?: GeometryProviderBase, converter?: GraphConverter, queryCreator?: GraphQueryCreator);
+    constructor(options?: GraphDataProviderOptions, geometry?: IGeometryProvider, converter?: GraphConverter, queryCreator?: GraphQueryCreator);
     getCluster(url: string, abort?: Promise<void>): Promise<ClusterContract>;
     getCoreImages(cellId: string): Promise<CoreImagesContract>;
     getImageBuffer(url: string, abort?: Promise<void>): Promise<ArrayBuffer>;
@@ -997,7 +1302,7 @@ declare class Transform {
      * (adjusted for orientation).
      */
     get basicHeight(): number;
-    get basicRt(): Matrix4;
+    get basicRt(): THREE.Matrix4;
     /**
      * Get basic width.
      *
@@ -1031,17 +1336,17 @@ declare class Transform {
      * Get rt.
      * @returns {THREE.Matrix4} The extrinsic camera matrix.
      */
-    get rt(): Matrix4;
+    get rt(): THREE.Matrix4;
     /**
      * Get srt.
      * @returns {THREE.Matrix4} The scaled extrinsic camera matrix.
      */
-    get srt(): Matrix4;
+    get srt(): THREE.Matrix4;
     /**
      * Get srtInverse.
      * @returns {THREE.Matrix4} The scaled extrinsic camera matrix.
      */
-    get srtInverse(): Matrix4;
+    get srtInverse(): THREE.Matrix4;
     /**
      * Get scale.
      * @returns {number} The image atomic reconstruction scale.
@@ -1072,7 +1377,7 @@ declare class Transform {
      *
      * @returns {THREE.Vector3} Normalized and orientation adjusted up vector.
      */
-    upVector(): Vector3;
+    upVector(): THREE.Vector3;
     /**
      * Calculate projector matrix for projecting 3D points to texture map
      * coordinates (u and v).
@@ -1080,7 +1385,7 @@ declare class Transform {
      * @returns {THREE.Matrix4} Projection matrix for 3D point to texture
      * map coordinate calculations.
      */
-    projectorMatrix(): Matrix4;
+    projectorMatrix(): THREE.Matrix4;
     /**
      * Project 3D world coordinates to basic coordinates.
      *
@@ -1214,17 +1519,17 @@ declare class Camera {
      * Get position.
      * @returns {THREE.Vector3} The position vector.
      */
-    get position(): Vector3;
+    get position(): THREE.Vector3;
     /**
      * Get lookat.
      * @returns {THREE.Vector3} The lookat vector.
      */
-    get lookat(): Vector3;
+    get lookat(): THREE.Vector3;
     /**
      * Get up.
      * @returns {THREE.Vector3} The up vector.
      */
-    get up(): Vector3;
+    get up(): THREE.Vector3;
     /**
      * Get focal.
      * @returns {number} The focal length.
@@ -1426,7 +1731,7 @@ declare class ImageCache {
     /**
      * Create a new image cache instance.
      */
-    constructor(provider: DataProviderBase);
+    constructor(provider: IDataProvider);
     /**
      * Get image.
      *
@@ -2043,6 +2348,7 @@ interface IAnimationState {
     previousTransform: Transform;
     motionless: boolean;
     state: State;
+    stateTransitionAlpha: number;
 }
 
 interface AnimationFrame {
@@ -2060,6 +2366,8 @@ declare class RenderCamera {
     private _spatial;
     private _viewportCoords;
     private _alpha;
+    private _stateTransitionAlpha;
+    private _stateTransitionFov;
     private _renderMode;
     private _zoom;
     private _frameId;
@@ -2084,7 +2392,7 @@ declare class RenderCamera {
     get camera(): Camera;
     get changed(): boolean;
     get frameId(): number;
-    get perspective(): PerspectiveCamera;
+    get perspective(): THREE.PerspectiveCamera;
     get renderMode(): RenderMode;
     get rotation(): EulerRotation;
     get zoom(): number;
@@ -2104,6 +2412,8 @@ declare class RenderCamera {
     private _computeRotation;
     private _computeVerticalFov;
     private _yToFov;
+    private _focalToFov;
+    private _fovToY;
     private _interpolateFov;
     private _setFrameId;
 }
@@ -2136,7 +2446,7 @@ declare class RenderService {
 
 interface VirtualNodeHash {
     name: string;
-    vNode: VNode;
+    vNode: vd.VNode;
 }
 
 declare class DOMRenderer {
@@ -2159,7 +2469,7 @@ declare class DOMRenderer {
 }
 
 interface GLRenderFunction extends Function {
-    (perspectiveCamera: PerspectiveCamera, renderer: WebGLRenderer): void;
+    (perspectiveCamera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer): void;
 }
 
 declare enum RenderPass$1 {
@@ -2200,7 +2510,7 @@ declare class GLRenderer {
     constructor(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, renderService: RenderService);
     get render$(): Subject<GLRenderHash>;
     get opaqueRender$(): Observable<void>;
-    get webGLRenderer$(): Observable<WebGLRenderer>;
+    get webGLRenderer$(): Observable<THREE.WebGLRenderer>;
     clear(name: string): void;
     remove(): void;
     triggerRerender(): void;
@@ -2238,7 +2548,6 @@ declare class StateService {
     private _frame$;
     private _contextOperation$;
     private _context$;
-    private _fps$;
     private _state$;
     private _currentState$;
     private _lastState$;
@@ -2255,7 +2564,7 @@ declare class StateService {
     private _appendImage$;
     private _frameGenerator;
     private _frameId;
-    private _fpsSampleRate;
+    private _clock;
     private _subscriptions;
     constructor(initialState: State, transitionMode?: TransitionMode);
     get currentState$(): Observable<AnimationFrame>;
@@ -2678,7 +2987,7 @@ interface SequenceConfiguration extends ComponentConfiguration {
      */
     minWidth?: number;
     /**
-     * Indicating wheter the component is playing.
+     * Indicating whether the component is playing.
      *
      * @default false
      */
@@ -2767,7 +3076,7 @@ interface SliderConfiguration extends ComponentConfiguration {
     /**
      * Initial position of the slider on the interval [0, 1].
      *
-     * @description Configures the intial position of the slider.
+     * @description Configures the initial position of the slider.
      * The inital position value will be used when the component
      * is activated.
      *
@@ -2842,6 +3151,22 @@ declare enum OriginalPositionMode {
     Flat = 2
 }
 
+declare enum PointVisualizationMode {
+    /**
+     * Points are hidden.
+     */
+    Hidden = 0,
+    /**
+     * Visualize points with original colors.
+     */
+    Original = 1,
+    /**
+     * Paint all points belonging to a specific
+     * cluster with the same random color.
+     */
+    Cluster = 2
+}
+
 /**
  * Interface for configuration of spatial component.
  *
@@ -2857,7 +3182,7 @@ declare enum OriginalPositionMode {
  *             cellsVisible: true,
  *             originalPositionMode: OriginalPositionMode.Altitude,
  *             pointSize: 0.5,
- *             pointsVisible: false,
+ *             pointVisualizationMode: PointVisualizationMode.Hidden,
  *         },
  *     },
  *     ...
@@ -2911,9 +3236,18 @@ interface SpatialConfiguration extends ComponentConfiguration {
     /**
      * Specify if the points should be visible or not.
      *
+     * @deprecated `pointsVisible` will be removed in
+     * v5.x. Use {@link pointVisualizationMode} instead.
+     *
      * @default true
      */
     pointsVisible?: boolean;
+    /**
+     * Specify how point clouds should be visualized.
+     *
+     * @default PointVisualizationMode.Original
+     */
+    pointVisualizationMode?: PointVisualizationMode;
 }
 
 /**
@@ -3255,7 +3589,8 @@ interface ViewerOptions {
      * a client access token.
      *
      * A Mapillary client access token can be obtained
-     * by [registering an application](https://www.mapillary.com/dashboard/developers).
+     * by [signing in](https://www.mapillary.com/app/?login=true) and
+     * [registering an application](https://www.mapillary.com/dashboard/developers).
      *
      * The access token can also be set through the
      * {@link Viewer.setAccessToken} method.
@@ -3292,12 +3627,14 @@ interface ViewerOptions {
      * default MapillaryJS data provider and take responsibility
      * for all IO handling.
      *
-     * The data provider takes precedance over the {@link }
+     * The data provider takes precedence over the {@link ViewerOptions.accessToken} property.
      *
-     * A data provider instance must extend
-     * the data provider base class.
+     * A data provider instance must implement all members
+     * specified in the {@link IDataProvider} interface. This can
+     * be done by extending the {@link DataProviderBase} class or
+     * implementing the interface directly.
      */
-    dataProvider?: DataProviderBase;
+    dataProvider?: IDataProvider;
     /**
      * Optional `image-id` to start from. The id
      * can be any Mapillary image. If a id is provided the viewer is
@@ -3493,8 +3830,8 @@ declare enum Alignment {
 
 interface ISpriteAtlas {
     loaded: boolean;
-    getGLSprite(name: string): Object3D;
-    getDOMSprite(name: string, float?: Alignment): VNode;
+    getGLSprite(name: string): THREE.Object3D;
+    getDOMSprite(name: string, float?: Alignment): vd.VNode;
 }
 
 declare class SpriteAtlas implements ISpriteAtlas {
@@ -3504,8 +3841,8 @@ declare class SpriteAtlas implements ISpriteAtlas {
     set json(value: Sprites);
     set image(value: HTMLImageElement);
     get loaded(): boolean;
-    getGLSprite(name: string): Object3D;
-    getDOMSprite(name: string, float?: Alignment): VNode;
+    getGLSprite(name: string): THREE.Object3D;
+    getDOMSprite(name: string, float?: Alignment): vd.VNode;
 }
 interface Sprite {
     width: number;
@@ -3678,180 +4015,7 @@ declare type FilterExpression = ComparisonFilterExpression | SetMembershipFilter
 /**
  * @event
  */
-declare type ViewerEventType = "bearing" | "click" | "contextmenu" | "dblclick" | "fov" | "dataloading" | "load" | "mousedown" | "mousemove" | "mouseout" | "mouseover" | "mouseup" | "moveend" | "movestart" | "navigable" | "image" | "position" | "pov" | "remove" | "sequenceedges" | "spatialedges";
-
-declare enum RenderPass {
-    /**
-     * Occurs after the background render pass.
-     */
-    Opaque = 0
-}
-
-/**
- * @interface
- *
- * @description Interface for custom renderers. This is a
- * specification for implementers to model: it is not
- * an exported method or class.
- *
- * A custom renderer allows the API user to render directly
- * into the viewer's GL context using the viewer's camera.
- *
- * Custom renderers must have a unique id. They must implement
- * render, onReferenceChanged, onAdd, and onRemove. They can
- * trigger rendering using {@link Viewer.triggerRerender}.
- *
- * The viewer uses a metric topocentric
- * [local east, north, up coordinate system](https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates).
- *
- * Custom renderers can calculate the topocentric positions
- * of their objects using the reference parameter of the
- * renderer interface methods and the {@link geodeticToEnu}
- * method.
- *
- * During a render pass, custom renderers
- * are called in the order they were added.
- */
-interface ICustomRenderer {
-    /**
-     * A unique renderer id.
-     */
-    id: string;
-    /**
-     * The custom renderer's render pass.
-     *
-     * @description The {@link ICustomRenderer.render} method
-     * will be called during this render pass.
-     */
-    renderPass: RenderPass;
-    /**
-     * Method called when the renderer has been added to the
-     * viewer. This gives the
-     * renderer a chance to initialize gl resources and
-     * register event listeners.
-     *
-     * @description Custom renderers are added with the
-     * with {@link Viewer.addCustomRenderer} method.
-     *
-     * Calculate the topocentric positions
-     * for scene objects using the provided reference and
-     * the {@link geodeticToEnu} function.
-     *
-     * @param {IViewer} viewer - The viewer this custom renderer
-     * was just added to.
-     * @param {LngLatAlt} reference - The viewer's current
-     * reference position.
-     * @param {WebGLRenderingContext | WebGL2RenderingContext} context -
-     * The viewer's gl context.
-     */
-    onAdd(viewer: IViewer, reference: LngLatAlt, context: WebGLRenderingContext | WebGL2RenderingContext): void;
-    /**
-     * Method called when the viewer's reference position has changed.
-     * This gives the renderer a chance to reposition its scene objects.
-     *
-     * @description Calculate the updated topocentric positions
-     * for scene objects using the provided reference and
-     * the {@link geodeticToEnu} function.
-     *
-     * @param {IViewer} viewer - The viewer this custom renderer
-     * is added to.
-     * @param {LngLatAlt} reference - The viewer's current
-     * reference position.
-     */
-    onReference(viewer: IViewer, reference: LngLatAlt): void;
-    /**
-     * Method called when the renderer has been removed from the
-     * viewer. This gives the
-     * renderer a chance to clean up gl resources and event
-     * listeners.
-     *
-     * @description Custom renderers are remove with the
-     * {@link Viewer.removeCustomRenderer} method.
-     *
-     * @param {IViewer} viewer - The viewer this custom renderer
-     * was just removed from.
-     * @param {WebGLRenderingContext | WebGL2RenderingContext} context -
-     * The viewer's gl context.
-     */
-    onRemove(viewer: IViewer, context: WebGLRenderingContext | WebGL2RenderingContext): void;
-    /**
-     * Called during an animation frame allowing the renderer to draw
-     * into the GL context. The layer cannot make assumptions
-     * about the current GL state.
-     *
-     * @description Take a look at the
-     * [WebGL model view projection article](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_model_view_projection)
-     * on MDN for an introduction to the view and projection matrices.
-     *
-     * @param {WebGLRenderingContext | WebGL2RenderingContext} context The
-     * viewer's WebGL context.
-     * @param {Array<number>} viewMatrix The viewer's view matrix.
-     * @param {Array<number>} projectionMatrix The viewers's projection
-     * matrix.
-     */
-    render(context: WebGLRenderingContext | WebGL2RenderingContext, viewMatrix: number[], projectionMatrix: number[]): void;
-}
-
-/**
- * @interface PointOfView
- *
- * Interface that represents the point of view of the viewer.
- */
-interface PointOfView {
-    /**
-     * Value indicating the current bearing of the viewer
-     * measured in degrees clockwise with respect to north.
-     * Ranges from 0° to 360°.
-     */
-    bearing: number;
-    /**
-     * The camera tilt in degrees, relative to a horizontal plane.
-     * Ranges from 90° (directly upwards) to -90° (directly downwards).
-     */
-    tilt: number;
-}
-
-interface IViewer {
-    readonly isNavigable: boolean;
-    activateCombinedPanning(): void;
-    activateComponent(name: string): void;
-    activateCover(): void;
-    addCustomRenderer(renderer: ICustomRenderer): void;
-    deactivateCombinedPanning(): void;
-    deactivateComponent(name: string): void;
-    deactivateCover(): void;
-    fire<T>(type: ViewerEventType, event: T): void;
-    getBearing(): Promise<number>;
-    getCanvas(): HTMLCanvasElement;
-    getCanvasContainer(): HTMLDivElement;
-    getCenter(): Promise<number[]>;
-    getComponent<TComponent extends Component<ComponentConfiguration>>(name: string): TComponent;
-    getContainer(): HTMLElement;
-    getFieldOfView(): Promise<number>;
-    getPointOfView(): Promise<PointOfView>;
-    getPosition(): Promise<LngLat>;
-    getZoom(): Promise<number>;
-    hasCustomRenderer(rendererId: string): boolean;
-    moveDir(direction: NavigationDirection): Promise<Image>;
-    moveTo(imageId: string): Promise<Image>;
-    off<T>(type: ViewerEventType, handler: (event: T) => void): void;
-    on<T>(type: ViewerEventType, handler: (event: T) => void): void;
-    project(lngLat: LngLat): Promise<number[]>;
-    projectFromBasic(basicPoint: number[]): Promise<number[]>;
-    remove(): void;
-    removeCustomRenderer(rendererId: string): void;
-    resize(): void;
-    setCenter(center: number[]): void;
-    setFieldOfView(fov: number): void;
-    setFilter(filter: FilterExpression): Promise<void>;
-    setRenderMode(renderMode: RenderMode): void;
-    setTransitionMode(transitionMode: TransitionMode): void;
-    setAccessToken(accessToken?: string): Promise<void>;
-    setZoom(zoom: number): void;
-    triggerRerender(): void;
-    unproject(pixelPoint: number[]): Promise<LngLat>;
-    unprojectToBasic(pixelPoint: number[]): Promise<number[]>;
-}
+declare type ViewerEventType = "bearing" | "click" | "contextmenu" | "dblclick" | "fov" | "dataloading" | "load" | "mousedown" | "mousemove" | "mouseout" | "mouseover" | "mouseup" | "moveend" | "movestart" | "navigable" | "image" | "position" | "pov" | "reference" | "remove" | "sequenceedges" | "spatialedges";
 
 /**
  * @interface
@@ -3997,6 +4161,187 @@ interface ICustomCameraControls {
      * @description Use this method to modify the projection.
      */
     onResize(viewer: IViewer): void;
+}
+
+declare enum RenderPass {
+    /**
+     * Occurs after the background render pass.
+     */
+    Opaque = 0
+}
+
+/**
+ * @interface
+ *
+ * @description Interface for custom renderers. This is a
+ * specification for implementers to model: it is not
+ * an exported method or class.
+ *
+ * A custom renderer allows the API user to render directly
+ * into the viewer's GL context using the viewer's camera.
+ *
+ * Custom renderers must have a unique id. They must implement
+ * render, onReferenceChanged, onAdd, and onRemove. They can
+ * trigger rendering using {@link Viewer.triggerRerender}.
+ *
+ * The viewer uses a metric topocentric
+ * [local east, north, up coordinate system](https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates).
+ *
+ * Custom renderers can calculate the topocentric positions
+ * of their objects using the reference parameter of the
+ * renderer interface methods and the {@link geodeticToEnu}
+ * method.
+ *
+ * During a render pass, custom renderers
+ * are called in the order they were added.
+ */
+interface ICustomRenderer {
+    /**
+     * A unique renderer id.
+     */
+    id: string;
+    /**
+     * The custom renderer's render pass.
+     *
+     * @description The {@link ICustomRenderer.render} method
+     * will be called during this render pass.
+     */
+    renderPass: RenderPass;
+    /**
+     * Method called when the renderer has been added to the
+     * viewer. This gives the
+     * renderer a chance to initialize gl resources and
+     * register event listeners.
+     *
+     * @description Custom renderers are added with the
+     * with {@link Viewer.addCustomRenderer} method.
+     *
+     * Calculate the topocentric positions
+     * for scene objects using the provided reference and
+     * the {@link geodeticToEnu} function.
+     *
+     * @param {IViewer} viewer - The viewer this custom renderer
+     * was just added to.
+     * @param {LngLatAlt} reference - The viewer's current
+     * reference position.
+     * @param {WebGLRenderingContext | WebGL2RenderingContext} context -
+     * The viewer's gl context.
+     */
+    onAdd(viewer: IViewer, reference: LngLatAlt, context: WebGLRenderingContext | WebGL2RenderingContext): void;
+    /**
+     * Method called when the viewer's reference position has changed.
+     * This gives the renderer a chance to reposition its scene objects.
+     *
+     * @description Calculate the updated topocentric positions
+     * for scene objects using the provided reference and
+     * the {@link geodeticToEnu} function.
+     *
+     * @param {IViewer} viewer - The viewer this custom renderer
+     * is added to.
+     * @param {LngLatAlt} reference - The viewer's current
+     * reference position.
+     */
+    onReference(viewer: IViewer, reference: LngLatAlt): void;
+    /**
+     * Method called when the renderer has been removed from the
+     * viewer. This gives the
+     * renderer a chance to clean up gl resources and event
+     * listeners.
+     *
+     * @description Custom renderers are remove with the
+     * {@link Viewer.removeCustomRenderer} method.
+     *
+     * @param {IViewer} viewer - The viewer this custom renderer
+     * was just removed from.
+     * @param {WebGLRenderingContext | WebGL2RenderingContext} context -
+     * The viewer's gl context.
+     */
+    onRemove(viewer: IViewer, context: WebGLRenderingContext | WebGL2RenderingContext): void;
+    /**
+     * Called during an animation frame allowing the renderer to draw
+     * into the GL context. The layer cannot make assumptions
+     * about the current GL state.
+     *
+     * @description Take a look at the
+     * [WebGL model view projection article](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_model_view_projection)
+     * on MDN for an introduction to the view and projection matrices.
+     *
+     * @param {WebGLRenderingContext | WebGL2RenderingContext} context The
+     * viewer's WebGL context.
+     * @param {Array<number>} viewMatrix The viewer's view matrix.
+     * @param {Array<number>} projectionMatrix The viewers's projection
+     * matrix.
+     */
+    render(context: WebGLRenderingContext | WebGL2RenderingContext, viewMatrix: number[], projectionMatrix: number[]): void;
+}
+
+/**
+ * @interface PointOfView
+ *
+ * Interface that represents the point of view of the viewer.
+ */
+interface PointOfView {
+    /**
+     * Value indicating the current bearing of the viewer
+     * measured in degrees clockwise with respect to north.
+     * Ranges from 0° to 360°.
+     */
+    bearing: number;
+    /**
+     * The camera tilt in degrees, relative to a horizontal plane.
+     * Ranges from 90° (directly upwards) to -90° (directly downwards).
+     */
+    tilt: number;
+}
+
+interface IViewer {
+    readonly dataProvider: IDataProvider;
+    readonly isNavigable: boolean;
+    activateCombinedPanning(): void;
+    activateComponent(name: string): void;
+    activateCover(): void;
+    addCustomRenderer(renderer: ICustomRenderer): void;
+    attachCustomCameraControls(controls: ICustomCameraControls): void;
+    deactivateCombinedPanning(): void;
+    deactivateComponent(name: string): void;
+    deactivateCover(): void;
+    detachCustomCameraControls(): Promise<ICustomCameraControls>;
+    fire<T>(type: ViewerEventType, event: T): void;
+    getBearing(): Promise<number>;
+    getCameraControls(): Promise<CameraControls>;
+    getCanvas(): HTMLCanvasElement;
+    getCanvasContainer(): HTMLDivElement;
+    getCenter(): Promise<number[]>;
+    getComponent<TComponent extends Component<ComponentConfiguration>>(name: string): TComponent;
+    getContainer(): HTMLElement;
+    getFieldOfView(): Promise<number>;
+    getImage(): Promise<Image>;
+    getPointOfView(): Promise<PointOfView>;
+    getPosition(): Promise<LngLat>;
+    getReference(): Promise<LngLatAlt>;
+    getZoom(): Promise<number>;
+    hasCustomCameraControls(controls: ICustomCameraControls): boolean;
+    hasCustomRenderer(rendererId: string): boolean;
+    moveDir(direction: NavigationDirection): Promise<Image>;
+    moveTo(imageId: string): Promise<Image>;
+    off<T>(type: ViewerEventType, handler: (event: T) => void): void;
+    on<T>(type: ViewerEventType, handler: (event: T) => void): void;
+    project(lngLat: LngLat): Promise<number[]>;
+    projectFromBasic(basicPoint: number[]): Promise<number[]>;
+    remove(): void;
+    removeCustomRenderer(rendererId: string): void;
+    resize(): void;
+    setCameraControls(controls: CameraControls): void;
+    setCenter(center: number[]): void;
+    setFieldOfView(fov: number): void;
+    setFilter(filter?: FilterExpression): Promise<void>;
+    setRenderMode(renderMode: RenderMode): void;
+    setTransitionMode(transitionMode: TransitionMode): void;
+    setAccessToken(accessToken?: string): Promise<void>;
+    setZoom(zoom: number): void;
+    triggerRerender(): void;
+    unproject(pixelPoint: number[]): Promise<LngLat>;
+    unprojectToBasic(pixelPoint: number[]): Promise<number[]>;
 }
 
 /**
@@ -4191,10 +4536,21 @@ interface ViewerLoadEvent extends ViewerEvent {
 }
 
 /**
+ * Interface for viewer reference events.
+ */
+interface ViewerReferenceEvent extends ViewerEvent {
+    /**
+     * The viewer's current reference.
+     */
+    reference: LngLatAlt;
+    type: "reference";
+}
+
+/**
  * @class Viewer
  *
  * @classdesc The Viewer object represents the navigable image viewer.
- * Create a Viewer by specifying a container, client ID, image id and
+ * Create a Viewer by specifying a container, client ID, image ID and
  * other options. The viewer exposes methods and events for programmatic
  * interaction.
  *
@@ -4233,38 +4589,43 @@ declare class Viewer extends EventEmitter implements IViewer {
     /**
      * Create a new viewer instance.
      *
-     * @description It is possible to initialize the viewer with or
-     * without a id.
+     * @description The `Viewer` object represents the street imagery
+     * viewer on your web page. It exposes methods and properties that
+     * you can use to programatically change the view, and fires
+     * events as users interact with it.
+     *
+     * It is possible to initialize the viewer with or
+     * without a ID.
      *
      * When you want to show a specific image in the viewer from
-     * the start you should initialize it with a id.
+     * the start you should initialize it with a ID.
      *
-     * When you do not know the first image id at implementation
+     * When you do not know the first image ID at implementation
      * time, e.g. in a map-viewer application you should initialize
-     * the viewer without a id and call `moveTo` instead.
+     * the viewer without a ID and call `moveTo` instead.
      *
-     * When initializing with a id the viewer is bound to that id
-     * until the image for that id has been successfully loaded.
-     * Also, a cover with the image of the id will be shown.
-     * If the data for that id can not be loaded because the id is
+     * When initializing with an ID the viewer is bound to that ID
+     * until the image for that ID has been successfully loaded.
+     * Also, a cover with the image of the ID will be shown.
+     * If the data for that ID can not be loaded because the ID is
      * faulty or other errors occur it is not possible to navigate
-     * to another id because the viewer is not navigable. The viewer
-     * becomes navigable when the data for the id has been loaded and
+     * to another ID because the viewer is not navigable. The viewer
+     * becomes navigable when the data for the ID has been loaded and
      * the image is shown in the viewer. This way of initializing
      * the viewer is mostly for embedding in blog posts and similar
      * where one wants to show a specific image initially.
      *
-     * If the viewer is initialized without a id (with null or
-     * undefined) it is not bound to any particular id and it is
-     * possible to move to any id with `viewer.moveTo("<my-image-id>")`.
-     * If the first move to a id fails it is possible to move to another
-     * id. The viewer will show a black background until a move
+     * If the viewer is initialized without a ID (with null or
+     * undefined) it is not bound to any particular ID and it is
+     * possible to move to any ID with `viewer.moveTo("<my-image-id>")`.
+     * If the first move to a ID fails it is possible to move to another
+     * ID. The viewer will show a black background until a move
      * succeeds. This way of intitializing is suited for a map-viewer
-     * application when the initial id is not known at implementation
+     * application when the initial ID is not known at implementation
      * time.
      *
      * @param {ViewerOptions} options - Optional configuration object
-     * specifing Viewer's and the components' initial setup.
+     * specifying Viewer's and the components' initial setup.
      *
      * @example
      * ```js
@@ -4276,15 +4637,26 @@ declare class Viewer extends EventEmitter implements IViewer {
      */
     constructor(options: ViewerOptions);
     /**
+     * Returns the data provider used by the viewer to fetch
+     * all contracts, ents, and buffers.
+     *
+     * @description The viewer's data provider can be set
+     * upon initialization through the {@link ViewerOptions.dataProvider}
+     * property.
+     *
+     * @returns {IDataProvider} The viewer's data provider.
+     */
+    get dataProvider(): IDataProvider;
+    /**
      * Return a boolean indicating if the viewer is in a navigable state.
      *
      * @description The navigable state indicates if the viewer supports
      * moving, i.e. calling the {@link moveTo} and {@link moveDir}
      * methods or changing the authentication state,
      * i.e. calling {@link setAccessToken}. The viewer will not be in a navigable
-     * state if the cover is activated and the viewer has been supplied a id.
+     * state if the cover is activated and the viewer has been supplied a ID.
      * When the cover is deactivated or the viewer is activated without being
-     * supplied a id it will be navigable.
+     * supplied a ID it will be navigable.
      *
      * @returns {boolean} Boolean indicating whether the viewer is navigable.
      */
@@ -4386,12 +4758,13 @@ declare class Viewer extends EventEmitter implements IViewer {
      * be detached before attaching another custom camera
      * control instance.
      */
-    detachCustomCameraControls(): void;
+    detachCustomCameraControls(): Promise<ICustomCameraControls>;
     fire(type: ViewerBearingEvent["type"], event: ViewerBearingEvent): void;
     fire(type: ViewerDataLoadingEvent["type"], event: ViewerDataLoadingEvent): void;
     fire(type: ViewerNavigableEvent["type"], event: ViewerNavigableEvent): void;
     fire(type: ViewerImageEvent["type"], event: ViewerImageEvent): void;
     fire(type: ViewerNavigationEdgeEvent["type"], event: ViewerNavigationEdgeEvent): void;
+    fire(type: ViewerReferenceEvent["type"], event: ViewerReferenceEvent): void;
     fire(type: ViewerStateEvent["type"], event: ViewerStateEvent): void;
     fire(type: ViewerMouseEvent["type"], event: ViewerMouseEvent): void;
     /**
@@ -4419,7 +4792,7 @@ declare class Viewer extends EventEmitter implements IViewer {
      *
      * @description The camera control mode determines
      * how the camera is controlled when the viewer
-     * recieves pointer and keyboard input.
+     * receives pointer and keyboard input.
      *
      * @returns {CameraControls} controls - Camera control mode.
      *
@@ -4536,6 +4909,20 @@ declare class Viewer extends EventEmitter implements IViewer {
      */
     getPosition(): Promise<LngLat>;
     /**
+     * Get the viewer's current reference position.
+     *
+     * @description The reference position specifies the origin in
+     * the viewer's topocentric coordinate system.
+     *
+     * @returns {Promise<LngLatAlt>} Promise to the reference position.
+     *
+     * @example
+     * ```js
+     * viewer.getReference().then(reference => { console.log(reference); });
+     * ```
+     */
+    getReference(): Promise<LngLatAlt>;
+    /**
      * Get the image's current zoom level.
      *
      * @returns {Promise<number>} Promise to the viewers's current
@@ -4548,10 +4935,19 @@ declare class Viewer extends EventEmitter implements IViewer {
      */
     getZoom(): Promise<number>;
     /**
+     * Check if a controls instance is the camera controls that are
+     * currently attached to the viewer.
+     *
+     * @param {ICustomCameraControls} controls - Camera controls instance.
+     * @returns {boolean} Value indicating whether the controls instance
+     * is currently attached.
+     */
+    hasCustomCameraControls(controls: ICustomCameraControls): boolean;
+    /**
      * Check if a custom renderer has been added to the viewer's
      * rendering pipeline.
      *
-     * @param {string} id - Unique id of the custom renderer.
+     * @param {string} id - Unique ID of the custom renderer.
      * @returns {boolean} Value indicating whether the customer
      * renderer has been added.
      */
@@ -4577,14 +4973,14 @@ declare class Viewer extends EventEmitter implements IViewer {
      */
     moveDir(direction: NavigationDirection): Promise<Image>;
     /**
-     * Navigate to a given image id.
+     * Navigate to a given image ID.
      *
      * @param {string} imageId - Id of the image to move to.
      * @returns {Promise<Image>} Promise to the image that was navigated to.
      * @throws Propagates any IO errors to the caller.
      * @throws When viewer is not navigable.
      * @throws {@link CancelMapillaryError} When a subsequent
-     * move request is made before the move to id call has completed.
+     * move request is made before the move to ID call has completed.
      *
      * @example
      * ```js
@@ -4599,6 +4995,7 @@ declare class Viewer extends EventEmitter implements IViewer {
     off(type: ViewerNavigableEvent["type"], handler: (event: ViewerNavigableEvent) => void): void;
     off(type: ViewerImageEvent["type"], handler: (event: ViewerImageEvent) => void): void;
     off(type: ViewerNavigationEdgeEvent["type"], handler: (event: ViewerNavigationEdgeEvent) => void): void;
+    off(type: ViewerReferenceEvent["type"], handler: (event: ViewerReferenceEvent) => void): void;
     off(type: ViewerStateEvent["type"], handler: (event: ViewerStateEvent) => void): void;
     off(type: ViewerMouseEvent["type"], handler: (event: ViewerMouseEvent) => void): void;
     /**
@@ -4893,6 +5290,24 @@ declare class Viewer extends EventEmitter implements IViewer {
      */
     on(type: "pov", handler: (event: ViewerStateEvent) => void): void;
     /**
+     * Fired when the viewer's reference position changes.
+     *
+     * The reference position specifies the origin in
+     * the viewer's topocentric coordinate system.
+     *
+     * @event reference
+     * @example
+     * ```js
+     * // Initialize the viewer
+     * var viewer = new Viewer({ // viewer options });
+     * // Set an event listener
+     * viewer.on("reference", function(reference) {
+     *   console.log("A reference event has occurred.");
+     * });
+     * ```
+     */
+    on(type: "reference", handler: (event: ViewerReferenceEvent) => void): void;
+    /**
      * Fired when the viewer is removed. After this event is emitted
      * you must not call any methods on the viewer.
      *
@@ -5015,7 +5430,7 @@ declare class Viewer extends EventEmitter implements IViewer {
     /**
      * Remove a custom renderer from the viewer's rendering pipeline.
      *
-     * @param id - Unique id of the custom renderer.
+     * @param id - Unique ID of the custom renderer.
      */
     removeCustomRenderer(rendererId: string): void;
     /**
@@ -5043,7 +5458,7 @@ declare class Viewer extends EventEmitter implements IViewer {
      *
      * @description The camera control mode determines
      * how the camera is controlled when the viewer
-     * recieves pointer and keyboard input.
+     * receives pointer and keyboard input.
      *
      * Changing the camera control mode is not possible
      * when the slider component is active and attempts
@@ -5134,7 +5549,8 @@ declare class Viewer extends EventEmitter implements IViewer {
      * documentation for a full list of properties that can be used
      * in a filter) are shown the the example code.
      *
-     * @param {FilterExpression} filter - The filter expression.
+     * @param {FilterExpression} [filter] - The filter expression.
+     * Applied filter is cleared if omitted.
      * @returns {Promise<void>} Promise that resolves after filter is applied.
      *
      * @example
@@ -5145,7 +5561,7 @@ declare class Viewer extends EventEmitter implements IViewer {
      * viewer.setFilter(["in", "sequenceId", "<sequence-id-1>", "<sequence-id-2>"]);
      * ```
      */
-    setFilter(filter: FilterExpression): Promise<void>;
+    setFilter(filter?: FilterExpression): Promise<void>;
     /**
      * Set the viewer's render mode.
      *
@@ -5633,7 +6049,7 @@ interface PotentialEdge {
     /**
      * The counter clockwise horizontal rotation angle from
      * the X-axis in a spherical coordiante system.
-     * @propery {number} worldMotionAzimuth
+     * @property {number} worldMotionAzimuth
      */
     worldMotionAzimuth: number;
 }
@@ -5743,8 +6159,8 @@ declare class EdgeCalculator {
  */
 declare class APIWrapper {
     private readonly _data;
-    constructor(_data: DataProviderBase);
-    get data(): DataProviderBase;
+    constructor(_data: IDataProvider);
+    get data(): IDataProvider;
     getCoreImages$(cellId: string): Observable<CoreImagesContract>;
     getImages$(imageIds: string[]): Observable<ImagesContract>;
     getImageTiles$(tiles: ImageTilesRequestContract): Observable<ImageTilesContract>;
@@ -6473,7 +6889,7 @@ declare class Spatial {
      * @param {Array<number>} angleAxis - Angle-axis representation of a rotation.
      * @returns {THREE.Matrix4} Rotation matrix.
      */
-    rotationMatrix(angleAxis: number[]): Matrix4;
+    rotationMatrix(angleAxis: number[]): THREE.Matrix4;
     /**
      * Rotates a vector according to a angle-axis rotation vector.
      *
@@ -6481,7 +6897,7 @@ declare class Spatial {
      * @param {Array<number>} angleAxis - Angle-axis representation of a rotation.
      * @returns {THREE.Vector3} Rotated vector.
      */
-    rotate(vector: number[], angleAxis: number[]): Vector3;
+    rotate(vector: number[], angleAxis: number[]): THREE.Vector3;
     /**
      * Calculates the optical center from a rotation vector
      * on the angle-axis representation and a translation vector
@@ -6491,7 +6907,7 @@ declare class Spatial {
      * @param {Array<number>} translation - Translation vector.
      * @returns {THREE.Vector3} Optical center.
      */
-    opticalCenter(rotation: number[], translation: number[]): Vector3;
+    opticalCenter(rotation: number[], translation: number[]): THREE.Vector3;
     /**
      * Calculates the viewing direction from a rotation vector
      * on the angle-axis representation.
@@ -6499,7 +6915,7 @@ declare class Spatial {
      * @param {number[]} rotation - Angle-axis representation of a rotation.
      * @returns {THREE.Vector3} Viewing direction.
      */
-    viewingDirection(rotation: number[]): Vector3;
+    viewingDirection(rotation: number[]): THREE.Vector3;
     /**
      * Wrap a number on the interval [min, max].
      *
@@ -6618,7 +7034,7 @@ declare class ViewportCoords {
     basicToCanvas(basicX: number, basicY: number, container: {
         offsetHeight: number;
         offsetWidth: number;
-    }, transform: Transform, camera: Camera$1): number[];
+    }, transform: Transform, camera: THREE.Camera): number[];
     /**
      * Convert basic coordinates to canvas coordinates safely. If 3D point is
      * behind camera null will be returned.
@@ -6637,7 +7053,7 @@ declare class ViewportCoords {
     basicToCanvasSafe(basicX: number, basicY: number, container: {
         offsetHeight: number;
         offsetWidth: number;
-    }, transform: Transform, camera: Camera$1): number[];
+    }, transform: Transform, camera: THREE.Camera): number[];
     /**
      * Convert basic coordinates to viewport coordinates.
      *
@@ -6650,7 +7066,7 @@ declare class ViewportCoords {
      * @param {THREE.Camera} camera - Camera used in rendering.
      * @returns {Array<number>} 2D viewport coordinates.
      */
-    basicToViewport(basicX: number, basicY: number, transform: Transform, camera: Camera$1): number[];
+    basicToViewport(basicX: number, basicY: number, transform: Transform, camera: THREE.Camera): number[];
     /**
      * Convert basic coordinates to viewport coordinates safely. If 3D point is
      * behind camera null will be returned.
@@ -6664,7 +7080,7 @@ declare class ViewportCoords {
      * @param {THREE.Camera} camera - Camera used in rendering.
      * @returns {Array<number>} 2D viewport coordinates.
      */
-    basicToViewportSafe(basicX: number, basicY: number, transform: Transform, camera: Camera$1): number[];
+    basicToViewportSafe(basicX: number, basicY: number, transform: Transform, camera: THREE.Camera): number[];
     /**
      * Convert camera 3D coordinates to viewport coordinates.
      *
@@ -6672,7 +7088,7 @@ declare class ViewportCoords {
      * @param {THREE.Camera} camera - Camera used in rendering.
      * @returns {Array<number>} 2D viewport coordinates.
      */
-    cameraToViewport(pointCamera: number[], camera: Camera$1): number[];
+    cameraToViewport(pointCamera: number[], camera: THREE.Camera): number[];
     /**
      * Get canvas pixel position from event.
      *
@@ -6700,7 +7116,7 @@ declare class ViewportCoords {
     canvasToBasic(canvasX: number, canvasY: number, container: {
         offsetHeight: number;
         offsetWidth: number;
-    }, transform: Transform, camera: Camera$1): number[];
+    }, transform: Transform, camera: THREE.Camera): number[];
     /**
      * Convert canvas coordinates to viewport coordinates.
      *
@@ -6735,7 +7151,7 @@ declare class ViewportCoords {
      * @param {THREE.Camera} camera - Camera used in rendering.
      * @returns {Array<number>} Array of basic distances as [top, right, bottom, left].
      */
-    getBasicDistances(transform: Transform, camera: Camera$1): number[];
+    getBasicDistances(transform: Transform, camera: THREE.Camera): number[];
     /**
      * Determine pixel distances from image to canvas corners.
      *
@@ -6752,7 +7168,7 @@ declare class ViewportCoords {
     getPixelDistances(container: {
         offsetHeight: number;
         offsetWidth: number;
-    }, transform: Transform, camera: Camera$1): number[];
+    }, transform: Transform, camera: THREE.Camera): number[];
     /**
      * Determine if an event occured inside an element.
      *
@@ -6775,7 +7191,7 @@ declare class ViewportCoords {
     projectToCanvas(point3d: number[], container: {
         offsetHeight: number;
         offsetWidth: number;
-    }, camera: Camera$1): number[];
+    }, camera: THREE.Camera): number[];
     /**
      * Project 3D world coordinates to canvas coordinates safely. If 3D
      * point is behind camera null will be returned.
@@ -6788,7 +7204,7 @@ declare class ViewportCoords {
     projectToCanvasSafe(point3d: number[], container: {
         offsetHeight: number;
         offsetWidth: number;
-    }, camera: Camera$1): number[];
+    }, camera: THREE.Camera): number[];
     /**
      * Project 3D world coordinates to viewport coordinates.
      *
@@ -6796,7 +7212,7 @@ declare class ViewportCoords {
      * @param {THREE.Camera} camera - Camera used in rendering.
      * @returns {Array<number>} 2D viewport coordinates.
      */
-    projectToViewport(point3d: number[], camera: Camera$1): number[];
+    projectToViewport(point3d: number[], camera: THREE.Camera): number[];
     /**
      * Uproject canvas coordinates to 3D world coordinates.
      *
@@ -6809,7 +7225,7 @@ declare class ViewportCoords {
     unprojectFromCanvas(canvasX: number, canvasY: number, container: {
         offsetHeight: number;
         offsetWidth: number;
-    }, camera: Camera$1): Vector3;
+    }, camera: THREE.Camera): THREE.Vector3;
     /**
      * Unproject viewport coordinates to 3D world coordinates.
      *
@@ -6818,7 +7234,7 @@ declare class ViewportCoords {
      * @param {THREE.Camera} camera - Camera used in rendering.
      * @returns {Array<number>} 3D world coordinates.
      */
-    unprojectFromViewport(viewportX: number, viewportY: number, camera: Camera$1): Vector3;
+    unprojectFromViewport(viewportX: number, viewportY: number, camera: THREE.Camera): THREE.Vector3;
     /**
      * Convert viewport coordinates to basic coordinates.
      *
@@ -6831,7 +7247,7 @@ declare class ViewportCoords {
      * @param {THREE.Camera} camera - Camera used in rendering.
      * @returns {Array<number>} 2D basic coordinates.
      */
-    viewportToBasic(viewportX: number, viewportY: number, transform: Transform, camera: Camera$1): number[];
+    viewportToBasic(viewportX: number, viewportY: number, transform: Transform, camera: THREE.Camera): number[];
     /**
      * Convert viewport coordinates to canvas coordinates.
      *
@@ -6851,7 +7267,7 @@ declare class ViewportCoords {
      * @param {THREE.Camera} camera - Camera used in rendering.
      * @returns {Array<number>} 3D camera coordinates.
      */
-    worldToCamera(point3d: number[], camera: Camera$1): number[];
+    worldToCamera(point3d: number[], camera: THREE.Camera): number[];
 }
 
 declare class PanService {
@@ -7065,7 +7481,6 @@ declare class BearingComponent extends Component<BearingConfiguration> {
     private _svgNamespace;
     private _distinctThreshold;
     private _animationSpeed;
-    private _unitBezier;
     /** @ignore */
     constructor(name: string, container: Container, navigator: Navigator);
     protected _activate(): void;
@@ -7189,7 +7604,7 @@ interface ComponentGeometryEvent extends ComponentEvent {
  */
 declare abstract class Marker {
     protected _id: string;
-    protected _geometry: Object3D;
+    protected _geometry: THREE.Object3D;
     protected _lngLat: LngLat;
     constructor(id: string, lngLat: LngLat);
     /**
@@ -7202,7 +7617,7 @@ declare abstract class Marker {
      *
      * @ignore
      */
-    get geometry(): Object3D;
+    get geometry(): THREE.Object3D;
     /**
      * Get lngLat.
      * @returns {LngLat} The geographic coordinates of the marker.
@@ -7213,14 +7628,14 @@ declare abstract class Marker {
     /** @ignore */
     disposeGeometry(): void;
     /** @ignore */
-    getInteractiveObjects(): Object3D[];
+    getInteractiveObjects(): THREE.Object3D[];
     /** @ignore */
     lerpAltitude(alt: number, alpha: number): void;
     /** @ignore */
     updatePosition(position: number[], lngLat?: LngLat): void;
     protected abstract _createGeometry(position: number[]): void;
     protected abstract _disposeGeometry(): void;
-    protected abstract _getInteractiveObjects(): Object3D[];
+    protected abstract _getInteractiveObjects(): THREE.Object3D[];
 }
 
 /**
@@ -7306,7 +7721,7 @@ declare class DirectionDOMRenderer {
      *
      * @description Calling render resets the needs render property.
      */
-    render(navigator: Navigator): VNode;
+    render(navigator: Navigator): vd.VNode;
     setEdges(edgeStatus: NavigationEdgeStatus, sequence: Sequence): void;
     /**
      * Set image for which to show edges.
@@ -7651,7 +8066,7 @@ declare class CircleMarker extends Marker {
     constructor(id: string, lngLat: LngLat, options?: CircleMarkerOptions);
     protected _createGeometry(position: number[]): void;
     protected _disposeGeometry(): void;
-    protected _getInteractiveObjects(): Object3D[];
+    protected _getInteractiveObjects(): THREE.Object3D[];
 }
 
 /**
@@ -7940,7 +8355,7 @@ declare class SimpleMarker extends Marker {
     constructor(id: string, lngLat: LngLat, options?: SimpleMarkerOptions);
     protected _createGeometry(position: number[]): void;
     protected _disposeGeometry(): void;
-    protected _getInteractiveObjects(): Object3D[];
+    protected _getInteractiveObjects(): THREE.Object3D[];
     private _markerHeight;
     private _createMarkerGeometry;
 }
@@ -8093,7 +8508,7 @@ declare class PointerComponent extends Component<PointerConfiguration> {
 /**
  * Interface for the popup offset with respect to its anchor point.
  *
- * @description An object of number arrays specifing an offset for
+ * @description An object of number arrays specifying an offset for
  * each float direction. Negative offsets indicate left and up.
  *
  * @interface
@@ -8176,7 +8591,7 @@ interface PopupOptions {
      * - A single number in pixels in the float direction that the popup
      * will be translated with respect to the current anchor point.
      *
-     * - An object of number arrays specifing an offset for
+     * - An object of number arrays specifying an offset for
      * each float direction. Negative offsets indicate left and up.
      *
      * @default 0
@@ -8497,7 +8912,7 @@ declare class SequenceDOMRenderer {
     get mouseLeaveDirection$(): Observable<NavigationDirection>;
     activate(): void;
     deactivate(): void;
-    render(edgeStatus: NavigationEdgeStatus, configuration: SequenceConfiguration, containerWidth: number, speed: number, index: number, max: number, playEnabled: boolean, component: SequenceComponent, navigator: Navigator): VNode;
+    render(edgeStatus: NavigationEdgeStatus, configuration: SequenceConfiguration, containerWidth: number, speed: number, index: number, max: number, playEnabled: boolean, component: SequenceComponent, navigator: Navigator): vd.VNode;
     getContainerWidth(size: ViewportSize, configuration: SequenceConfiguration): number;
     private _createPositionInput;
     private _createSpeedInput;
@@ -10413,4 +10828,4 @@ declare class ZoomComponent extends Component<ZoomConfiguration> {
     protected _getDefaultConfiguration(): ZoomConfiguration;
 }
 
-export { Alignment, ArgumentMapillaryError, BearingComponent, BearingConfiguration, CacheComponent, CacheConfiguration, CacheDepthConfiguration, CameraControls, CameraEnt, CameraVisualizationMode, CancelMapillaryError, CircleMarker, CircleMarkerOptions, ClusterContract, CombiningFilterExpression, CombiningFilterOperator, ComparisonFilterExpression, ComparisonFilterOperator, Component, ComponentEvent, ComponentEventType, ComponentGeometryEvent, ComponentHoverEvent, ComponentMarkerEvent, ComponentName, ComponentOptions, ComponentPlayEvent, ComponentSize, ComponentStateEvent, ComponentTagModeEvent, CoreImageEnt, CoreImagesContract, CreatorEnt, DataProviderBase, DirectionComponent, DirectionConfiguration, DragPanHandler, EntContract, ExtremePointTag, ExtremePointTagOptions, FallbackComponentName, FallbackOptions, FilterExpression, FilterKey, FilterOperator, FilterValue, Geometry, GeometryProviderBase, GeometryTagError, GraphDataProvider, GraphDataProviderOptions, GraphMapillaryError, IComponent, ICustomCameraControls, ICustomRenderer, IDEnt, IViewer, Image, ImageEnt, ImageTileEnt, ImageTilesContract, ImageTilesRequestContract, ImagesContract, KeyPlayHandler, KeySequenceNavigationHandler, KeySpatialNavigationHandler, KeyZoomHandler, KeyboardComponent, KeyboardConfiguration, LngLat, LngLatAlt, MapillaryError, Marker, MarkerComponent, MarkerConfiguration, MeshContract, NavigationDirection, NavigationEdge, NavigationEdgeData, NavigationEdgeStatus, OriginalPositionMode, OutlineTag, OutlineTagOptions, PointContract, PointGeometry, PointOfView, PointerComponent, PointerConfiguration, PointsGeometry, PolygonGeometry, Popup, PopupComponent, PopupOffset, PopupOptions, ProviderCellEvent, ProviderEvent, ProviderEventType, RectGeometry, RenderMode, RenderPass, S2GeometryProvider, ScrollZoomHandler, SequenceComponent, SequenceConfiguration, SequenceContract, SequenceEnt, SetMembershipFilterExpression, SetMembershipFilterOperator, SimpleMarker, SimpleMarkerOptions, SliderComponent, SliderConfiguration, SliderConfigurationIds, SliderConfigurationMode, SpatialComponent, SpatialConfiguration, SpatialImageEnt, SpatialImagesContract, SpotTag, SpotTagOptions, Tag, TagComponent, TagConfiguration, TagDomain, TagEventType, TagMode, TagStateEvent, TouchZoomHandler, TransitionMode, URLEnt, UrlOptions, VertexGeometry, Viewer, ViewerBearingEvent, ViewerDataLoadingEvent, ViewerEvent, ViewerEventType, ViewerImageEvent, ViewerMouseEvent, ViewerNavigableEvent, ViewerNavigationEdgeEvent, ViewerOptions, ViewerStateEvent, ZoomComponent, ZoomConfiguration, decompress, enuToGeodetic, fetchArrayBuffer, geodeticToEnu, isFallbackSupported, isSupported, readMeshPbf };
+export { Alignment, ArgumentMapillaryError, BearingComponent, BearingConfiguration, CacheComponent, CacheConfiguration, CacheDepthConfiguration, CameraControls, CameraEnt, CameraVisualizationMode, CancelMapillaryError, CircleMarker, CircleMarkerOptions, ClusterContract, CombiningFilterExpression, CombiningFilterOperator, ComparisonFilterExpression, ComparisonFilterOperator, Component, ComponentEvent, ComponentEventType, ComponentGeometryEvent, ComponentHoverEvent, ComponentMarkerEvent, ComponentName, ComponentOptions, ComponentPlayEvent, ComponentSize, ComponentStateEvent, ComponentTagModeEvent, CoreImageEnt, CoreImagesContract, CreatorEnt, DataProviderBase, DirectionComponent, DirectionConfiguration, DragPanHandler, EntContract, EventEmitter, ExtremePointTag, ExtremePointTagOptions, FallbackComponentName, FallbackOptions, FilterExpression, FilterImage, FilterKey, FilterOperator, FilterValue, Geometry, GeometryProviderBase, GeometryTagError, GraphDataProvider, GraphDataProviderOptions, GraphMapillaryError, IComponent, ICustomCameraControls, ICustomRenderer, IDEnt, IDataProvider, IEventEmitter, IGeometryProvider, IViewer, Image, ImageEnt, ImageTileEnt, ImageTilesContract, ImageTilesRequestContract, ImagesContract, KeyPlayHandler, KeySequenceNavigationHandler, KeySpatialNavigationHandler, KeyZoomHandler, KeyboardComponent, KeyboardConfiguration, LngLat, LngLatAlt, MapillaryError, Marker, MarkerComponent, MarkerConfiguration, MeshContract, NavigationDirection, NavigationEdge, NavigationEdgeData, NavigationEdgeStatus, OriginalPositionMode, OutlineTag, OutlineTagOptions, PointContract, PointGeometry, PointOfView, PointVisualizationMode, PointerComponent, PointerConfiguration, PointsGeometry, PolygonGeometry, Popup, PopupComponent, PopupOffset, PopupOptions, ProviderCellEvent, ProviderEvent, ProviderEventType, RectGeometry, RenderMode, RenderPass, S2GeometryProvider, ScrollZoomHandler, SequenceComponent, SequenceConfiguration, SequenceContract, SequenceEnt, SetMembershipFilterExpression, SetMembershipFilterOperator, SimpleMarker, SimpleMarkerOptions, SliderComponent, SliderConfiguration, SliderConfigurationIds, SliderConfigurationMode, SpatialComponent, SpatialConfiguration, SpatialImageEnt, SpatialImagesContract, SpotTag, SpotTagOptions, Tag, TagComponent, TagConfiguration, TagDomain, TagEventType, TagMode, TagStateEvent, TouchZoomHandler, TransitionMode, URLEnt, UrlOptions, VertexGeometry, Viewer, ViewerBearingEvent, ViewerDataLoadingEvent, ViewerEvent, ViewerEventType, ViewerImageEvent, ViewerMouseEvent, ViewerNavigableEvent, ViewerNavigationEdgeEvent, ViewerOptions, ViewerReferenceEvent, ViewerStateEvent, ZoomComponent, ZoomConfiguration, decompress, ecefToEnu, ecefToGeodetic, enuToEcef, enuToGeodetic, fetchArrayBuffer, geodeticToEcef, geodeticToEnu, isFallbackSupported, isSupported, readMeshPbf };

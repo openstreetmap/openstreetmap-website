@@ -179,7 +179,7 @@ OpenStreetMap::Application.routes.draw do
   # omniauth
   get "/auth/failure" => "users#auth_failure"
   match "/auth/:provider/callback" => "users#auth_success", :via => [:get, :post], :as => :auth_success
-  post "/auth/:provider" => "users#auth", :as => :auth
+  match "/auth/:provider" => "users#auth", :via => [:post, :patch], :as => :auth
 
   # permalink
   get "/go/:code" => "site#permalink", :code => /[a-zA-Z0-9_@~]+[=-]*/, :as => :permalink
@@ -238,9 +238,14 @@ OpenStreetMap::Application.routes.draw do
 
   # user pages
   resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy]
-  match "/user/:display_name/account" => "users#account", :via => [:get, :post], :as => "user_account"
+  get "/user/:display_name/account", :to => redirect(:path => "/account/edit")
   post "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
 
+  resource :account, :only => [:edit, :update, :destroy]
+
+  namespace :account do
+    resource :deletion, :only => [:show]
+  end
   resource :dashboard, :only => [:show]
   resource :preferences, :only => [:show, :edit, :update]
   resource :profile, :only => [:edit, :update]

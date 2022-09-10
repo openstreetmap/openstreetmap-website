@@ -26,7 +26,7 @@ class PreferencesController < ApplicationController
       flash[:notice] = { :partial => "preferences/update_success_flash" }
       redirect_to preferences_path
     else
-      flash[:error] = t ".failure"
+      flash.now[:error] = t ".failure"
       render :edit
     end
   end

@@ -248,6 +248,78 @@ ia:
       entry:
         comment: Commento
         full: Nota complete
+  account:
+    deletions:
+      show:
+        title: Deler mi conto
+        warning: Attention! Le deletion de un conto es definitive e irreversibile.
+        delete_account: Deler conto
+        delete_introduction: 'Tu pote deler tu conto OpenStreetMap con le button sequente.
+          Nota ben que:'
+        delete_profile: Tu information de profilo, includente tu avatar, description
+          e domicilio, essera removite.
+        delete_display_name: Tu nomine a monstrar essera removite e potera esser reusate
+          per altere contos.
+        retain_caveats: 'Nonobstante, alcun informationes sur te essera retenite sur
+          OpenStreetMap, mesmo post le deletion de tu conto:'
+        retain_edits: Tu modificationes del base de datos cartographic, si existe,
+          essera retenite.
+        retain_traces: Tu tracias incargate, si existe, essera retenite.
+        retain_diary_entries: Tu entratas e commentos de diario, si existe, essera
+          retenite ma celate al vista.
+        retain_notes: Tu notas e commentos cartographic, si existe, essera retenite
+          ma celate al vista.
+        retain_changeset_discussions: Tu discussiones sur gruppos de modificationes,
+          si existe, essera retenite.
+        retain_email: Tu adresse de e-mail essera retenite.
+        confirm_delete: Es tu secur?
+        cancel: Cancellar
+  accounts:
+    edit:
+      title: Modificar conto
+      my settings: Mi configurationes
+      current email address: Adresse de e-mail actual
+      external auth: Authentication externe
+      openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link text: que es isto?
+      public editing:
+        heading: Modification public
+        enabled: Activate. Non anonyme e pote modificar datos.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: que es isto?
+        disabled: Disactivate e non pote modificar datos, tote le previe modificationes
+          es anonyme.
+        disabled link text: proque non pote io modificar?
+      public editing note:
+        heading: Modification public
+        html: A iste momento tu modificationes es anonyme, e le gente non pote inviar
+          te messages ni vider tu position. Pro poter monstrar tu contributiones e
+          pro permitter al gente de contactar te per le sito web, clicca le button
+          ci infra. <b>Post le cambio al API 0.6, solo le usatores public pote modificar
+          datos cartographic</b> (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">lege
+          proque</a>).<ul><li>Tu adresse de e-mail non essera revelate si tu deveni
+          public.</li><li>Iste action non pote esser revertite e tote le nove usatores
+          es ora public per predefinition.</li></ul>
+      contributor terms:
+        heading: Conditiones de contributor
+        agreed: Tu ha acceptate le nove Conditiones de Contributor.
+        not yet agreed: Tu non ha ancora acceptate le nove Conditiones de Contributor.
+        review link text: Per favor seque iste ligamine a tu convenientia pro revider
+          e acceptar le nove Conditiones de Contributor.
+        agreed_with_pd: Tu ha anque declarate que tu considera tu modificationes como
+          liberate al Dominio Public.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link text: que es isto?
+      save changes button: Salveguardar modificationes
+      make edits public button: Render tote mi modificationes public
+      delete_account: Deler conto…
+    update:
+      success_confirm_needed: Informationes del usator actualisate con successo. Tu
+        recipera in e-mail un nota pro confirmar tu nove adresse de e-mail.
+      success: Informationes del usator actualisate con successo.
+    destroy:
+      success: Conto delite.
   browse:
     created: Create a
     closed: Claudite a
@@ -380,7 +452,7 @@ ia:
       reopened_by_html: Reactivate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Reactivate per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Celate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Signalar iste nota
+      report: signalar iste nota
     query:
       title: Cercar objectos
       introduction: Clicca sur le carta pro cercar objectos a proximitate.
@@ -520,6 +592,9 @@ ia:
         title: Entratas de diario de OpenStreetMap
         description: Entratas recente de diario de usatores de OpenStreetMap
     comments:
+      title: Commentos de diario addite per %{user}
+      heading: Commento de diario de %{user}
+      subheading_html: Commentos de diario addite per %{user}
       no_comments: Nulle commento de diario
       post: Articulo
       when: Quando
@@ -572,8 +647,8 @@ ia:
         aeroway:
           aerodrome: Aerodromo
           airstrip: Pista de atterrage
-          apron: Pista
-          gate: Porta
+          apron: Area de stationamento pro aviones
+          gate: Porta de aeroporto
           hangar: Hangar
           helipad: Heliporto
           holding_position: Puncto de attender
@@ -582,7 +657,7 @@ ia:
           runway: Pista
           taxilane: Via de taxi
           taxiway: Via de circulation pro aviones
-          terminal: Terminal
+          terminal: Terminal de aeroporto
           windsock: Manica a vento
         amenity:
           animal_boarding: Pension pro animales
@@ -628,7 +703,7 @@ ia:
           fire_station: Caserna de pumperos
           food_court: Zona de restaurantes
           fountain: Fontana
-          fuel: Carburante
+          fuel: Station de carburante
           gambling: Joco de hasardo
           grave_yard: Cemeterio
           grit_bin: Cassa de sal
@@ -784,7 +859,6 @@ ia:
           window_construction: Construction de fenestras
           winery: Vinia
           "yes": Boteca de artisanato
-        crossing: Transversamento
         emergency:
           access_point: Puncto de accesso
           ambulance_station: Station de ambulantias
@@ -805,6 +879,7 @@ ia:
           bus_stop: Halto de autobus
           construction: Strata in construction
           corridor: Corridor
+          crossing: Transversamento
           cycleway: Pista cyclabile
           elevator: Ascensor
           emergency_access_point: Puncto de accesso de emergentia
@@ -844,6 +919,7 @@ ia:
           trailhead: Initio de sentiero
           trunk: Via national
           trunk_link: Via national
+          turning_circle: Circulo de giro
           turning_loop: Bucla de giro
           unclassified: Via non classificate
           "yes": Cammino
@@ -892,9 +968,8 @@ ia:
           brownfield: Terreno industrial subutilisate
           cemetery: Cemeterio
           commercial: Area commercial
-          conservation: Conservation
-          construction: Construction
-          farm: Ferma
+          conservation: Area de conservation
+          construction: Area de construction
           farmland: Terra arabile
           farmyard: Corte de ferma
           forest: Foreste
@@ -915,7 +990,7 @@ ia:
           reservoir: Reservoir
           reservoir_watershed: Bassino interfluvial
           residential: Area residential
-          retail: Magazines
+          retail: Zona de commercio
           village_green: Parco de village
           vineyard: Vinia
           "yes": Uso de terreno
@@ -1125,6 +1200,7 @@ ia:
           "yes": Loco
         railway:
           abandoned: Ferrovia abandonate
+          buffer_stop: Guardacolpos
           construction: Ferrovia in construction
           disused: Ferrovia in disuso
           funicular: Ferrovia funicular
@@ -1138,6 +1214,7 @@ ia:
           platform: Platteforma ferroviari
           preserved: Ferrovia preservate
           proposed: Ferrovia proponite
+          rail: Rail
           spur: Ramification de ferrovia
           station: Station ferroviari
           stop: Halto ferroviari
@@ -1146,6 +1223,7 @@ ia:
           switch: Agulia
           tram: Tramvia
           tram_stop: Halto de tram
+          turntable: Placa tornante
           yard: Station de manovras
         shop:
           agrarian: Magazin agricole
@@ -1212,7 +1290,7 @@ ia:
           health_food: Magazin de alimentos natural
           hearing_aids: Apparatos de correction auditive
           herbalist: Herboristeria
-          hifi: Hi-fi
+          hifi: Magazin Hi-Fi
           houseware: Magazin de articulos domestic
           ice_cream: Boteca de gelatos
           interior_decoration: Decoration interior
@@ -1272,7 +1350,7 @@ ia:
           artwork: Obra de arte
           attraction: Attraction
           bed_and_breakfast: Bed and Breakfast
-          cabin: Cabana
+          cabin: Cabana pro touristas
           camp_pitch: Terreno de camping
           camp_site: Terreno de camping
           caravan_site: Terreno pro caravanas
@@ -1396,6 +1474,8 @@ ia:
   issue_comments:
     create:
       comment_created: Tu commento ha essite create
+      issue_reassigned: Tu commento ha essite create e le reporto de problema ha essite
+        reassignate
   reports:
     new:
       title_html: Reportar %{link}
@@ -1924,18 +2004,29 @@ ia:
         intro_3_1_html: Nostre documentation es publicate sub licentia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
           Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA 2.0).
         credit_title_html: Como dar recognoscentia a OpenStreetMap
-        credit_1_html: |-
-          Nos require que vos usa le recognoscentia &ldquo;&copy; OpenStreetMap
-          contributors&rdquo;.
+        credit_1_html: 'Ubi tu usa le datos de OpenStreetMap, tu es obligate a facer
+          le sequente duo cosas:'
         credit_2_1_html: |-
-          Vos debe etiam indicar clarmente que le datos es disponibile sub Open Database License. Vos pote facer isto con un ligamine a <a href="https://www.openstreetmap.org/copyright">iste pagina de copyright</a>.
-          Alternativemente, e obligatorimente si vos distribue OSM in forma de datos, vos pote mentionar le licentia(s) e ligar directemente a illo(s). Si vos usa un medio de communication in le qual le ligamines non es possibile (p.ex. un obra imprimite), nos suggere que vos dirige vostre lectores a openstreetmap.org (forsan per inserer iste adresse complete in loco del parola &lsquo;OpenStreetMap&rsquo;) e a opendatacommons.org.
-        credit_3_1_html: Le tegulas de carta in le &ldquo;stilo standard&rdquo sur
-          www.openstreetmap.org es un obra producite per le Fundation OpenStreetMap
-          usante datos de OpenStreetMap sub le licentia Open Database. Pro usar iste
-          stilo de carta, le mesme attribution es requirite como pro le datos cartographic.
-        credit_4_html: 'Pro un carta electronic navigabile, le recognoscentia debe
-          apparer in le angulo del carta. Per exemplo:'
+          <ul>
+            <li>Dar credito a OpenStreetMap monstrante nostre aviso de derecto de autor.</li>
+            <li>Render clar que le datos es disponibile sub Open Database License.</li>
+          </ul>
+        credit_3_1_html: Quanto al aviso de derecto de autor, nos ha differente exigentias
+          sur como illo debe esser monstrate, dependente de como tu usa nostre datos.
+          Per exemplo, se applica regulas differente sur como monstrar le aviso de
+          derecto de autor dependente de si tu ha create un carta navigabile, un carta
+          imprimite o un imagine static. Le detalios complete sur le iste exigentias
+          se trova in le <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">Directivas
+          de attribution</a>.
+        credit_4_html: Pro render clar que le datos es disponibile sub Open Database
+          License, tu pote ligar a <a href="https://www.openstreetmap.org/copyright">iste
+          pagina de derecto de autor</a>. Alternativemente, e obligatorimente si tu
+          distribue OSM in forma de datos, tu pote mentionar le licentia(s) e ligar
+          directemente a illo(s). Si tu usa un medio de communication in le qual le
+          ligamines non es possibile (p.ex. un obra imprimite), nos suggere que tu
+          dirige le lectores a openstreetmap.org (forsan inserente iste adresse complete
+          in loco del parola &lsquo;OpenStreetMap&rsquo;) e a opendatacommons.org.
+          In iste exemplo, le credito appare in le angulo del carta.
         attribution_example:
           alt: Exemplo de como recognoscer OpenStreetMap in un pagina web
           title: Exemplo de recognoscentia
@@ -2014,7 +2105,7 @@ ia:
             sin explicite permission del titulares del derecto de autor.
         infringement_2_html: Si vos crede que material sub copyright ha essite inserite
           inappropriatemente in le base de datos de OpenStreetMap o in iste sito,
-          per favor consulta nostre <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">procedura
+          per favor consulta nostre <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">procedura
           de remotion</a> o submitte un plancto immediate usante nostre <a href="https://dmca.openstreetmap.org/">formulario
           in linea</a>.
         trademarks_title_html: <span id="trademarks"></span>Marcas commercial
@@ -2132,9 +2223,13 @@ ia:
         description: Pone un question o discute cosas interessante sur un varietate
           de listas de diffusion thematic o regional.
       forums:
-        title: Foros
+        title: Foros (ancian)
         description: Questiones e discussiones pro qui prefere un interfacie in stilo
           de tabuliero de bulletines.
+      community:
+        url: https://community.openstreetmap.org/
+        title: Foro del communitate
+        description: Un sito commun de conversation sur OpenStreetMap.
       irc:
         title: IRC
         description: Conversation interactive in multe linguas differente e sur multe
@@ -2213,6 +2308,7 @@ ia:
           common:
           - Commun
           - prato
+          - jardin
           retail: Zona de commercio al detalio
           industrial: Area industrial
           commercial: Area commercial
@@ -2372,7 +2468,7 @@ ia:
       in: in
     index:
       public_traces: Tracias GPS public
-      my_traces: Mi tracias
+      my_gps_traces: Mi tracias GPS
       public_traces_from: Tracias GPS public de %{user}
       description: Percurrer le tracias GPS incargate recentemente
       tagged_with: '  etiquettate con %{tags}'
@@ -2381,6 +2477,7 @@ ia:
         wiki</a>.
       upload_trace: Incargar un tracia
       all_traces: Tote le tracias
+      my_traces: Mi tracias
       traces_from: Tracias public de %{user}
       remove_tag_filter: Remover filtro de etiquettas
     destroy:
@@ -2588,7 +2685,7 @@ ia:
       consider_pd: In addition a lo que precede, io considera mi contributiones como
         essente in le dominio public
       consider_pd_why: que es isto?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Informationes pro adjutar a comprender iste terminos: a <a href="%{summary}">summario
         facile a comprender</a> e alcun <a href="%{translations}">traductiones non
         official</a>'
@@ -2662,52 +2759,13 @@ ia:
       activate_user: Activar iste usator
       deactivate_user: Disactivar iste usator
       confirm_user: Confirmar iste usator
+      unconfirm_user: Disconfirmar iste usator
+      unsuspend_user: Non plus suspender iste usator
       hide_user: Celar iste usator
       unhide_user: Revelar iste usator
       delete_user: Deler iste usator
       confirm: Confirmar
       report: Signalar iste usator
-    account:
-      title: Modificar conto
-      my settings: Mi configurationes
-      current email address: Adresse de e-mail actual
-      external auth: Authentication externe
-      openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
-        link text: que es isto?
-      public editing:
-        heading: Modification public
-        enabled: Activate. Non anonyme e pote modificar datos.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: que es isto?
-        disabled: Disactivate e non pote modificar datos, tote le previe modificationes
-          es anonyme.
-        disabled link text: proque non pote io modificar?
-      public editing note:
-        heading: Modification public
-        html: A iste momento tu modificationes es anonyme, e le gente non pote inviar
-          te messages ni vider tu position. Pro poter monstrar tu contributiones e
-          pro permitter al gente de contactar te per le sito web, clicca le button
-          ci infra. <b>Post le cambio al API 0.6, solo le usatores public pote modificar
-          datos cartographic</b> (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">lege
-          proque</a>).<ul><li>Tu adresse de e-mail non essera revelate si tu deveni
-          public.</li><li>Iste action non pote esser revertite e tote le nove usatores
-          es ora public per predefinition.</li></ul>
-      contributor terms:
-        heading: Conditiones de contributor
-        agreed: Tu ha acceptate le nove Conditiones de Contributor.
-        not yet agreed: Tu non ha ancora acceptate le nove Conditiones de Contributor.
-        review link text: Per favor seque iste ligamine a tu convenientia pro revider
-          e acceptar le nove Conditiones de Contributor.
-        agreed_with_pd: Tu ha anque declarate que tu considera tu modificationes como
-          liberate al Dominio Public.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: que es isto?
-      save changes button: Salveguardar modificationes
-      make edits public button: Render tote mi modificationes public
-      flash update success confirm needed: Informationes del usator actualisate con
-        successo. Tu recipera in e-mail un nota pro confirmar tu nove adresse de e-mail.
-      flash update success: Informationes del usator actualisate con successo.
     set_home:
       flash success: Position de origine confirmate con successo
     go_public:
@@ -2737,6 +2795,7 @@ ia:
       no_authorization_code: Nulle codice de autorisation
       unknown_signature_algorithm: Algorithmo de signatura non cognoscite
       invalid_scope: Ambito non valide
+      unknown_error: Authentication fallite
     auth_association:
       heading: Tu ID non es ancora associate a un conto de OpenStreetMap.
       option_1: Si tu es nove in OpenStreetMap, per favor crea un conto per medio
@@ -2813,7 +2872,7 @@ ia:
       flash: Iste blocada ha essite revocate.
     helper:
       time_future_html: Expira in %{time}.
-      until_login: Active usque le usator aperi un session.
+      until_login: Active usque le usator aperi session.
       time_future_and_until_login_html: Termina in %{time} e post que le usator ha
         aperite session.
       time_past_html: Expirava %{time}.
@@ -2979,6 +3038,9 @@ ia:
         reactivate: Reactivar
         comment_and_resolve: Commentar e resolver
         comment: Commento
+        report_link_html: Si iste nota contine information sensibile que debe esser
+          removite, tu pote %{link}. Pro omne altere problemas con le nota, per favor
+          resolve lo tu mesme con un commento.
     edit_help: Displacia le carta e face zoom avante in un loco que tu vole modificar,
       postea clicca hic.
     directions:

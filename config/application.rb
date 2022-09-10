@@ -1,6 +1,6 @@
 require_relative "boot"
 
-if ENV["OPENSTREETMAP_STATUS"] == "database_offline"
+if ENV.fetch("OPENSTREETMAP_STATUS", nil) == "database_offline"
   require "active_model/railtie"
   require "active_job/railtie"
   require "active_storage/engine"
@@ -21,7 +21,7 @@ Bundler.require(*Rails.groups)
 module OpenStreetMap
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 6.1
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -34,10 +34,6 @@ module OpenStreetMap
     # Force requests from old versions of IE (<= IE8) to be UTF-8 encoded.
     # This has defaulted to false since rails 6.0
     config.action_view.default_enforce_utf8 = true
-
-    # This defaults to true from rails 5.0 but our code doesn't comply
-    # with it at all so we turn it off
-    config.active_record.belongs_to_required_by_default = false unless Settings.status == "database_offline"
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,

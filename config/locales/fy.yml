@@ -8,7 +8,7 @@
 fy:
   time:
     formats:
-      friendly: '%e %B %Y om %H.%M'
+      friendly: '%e %B %Y om %H.%M oere'
       blog: '%e %B %Y'
   helpers:
     file:
@@ -24,8 +24,10 @@ fy:
       message:
         create: Ferstjoere
       client_application:
+        create: Registrearje
         update: Bywurkje
       doorkeeper_application:
+        create: Registrearje
         update: Bywurkje
       redaction:
         create: Redigearring oanmeitsje
@@ -33,6 +35,9 @@ fy:
       trace:
         create: Oplade
         update: Feroarings bewarje
+      user_block:
+        create: Utsluting oanmeitsje
+        update: Utsluting bywurkje
   activerecord:
     errors:
       messages:
@@ -46,10 +51,12 @@ fy:
       diary_comment: Deiboekreäksje
       diary_entry: Deiboekstik
       friend: Freon
+      issue: Probleem
       language: Taal
       message: Berjocht
       node: Punt
       node_tag: Puntlebel
+      notifier: Melder
       old_node: Ald punt
       old_node_tag: Ald puntlebel
       old_relation: Alde relaasje
@@ -68,10 +75,23 @@ fy:
       tracetag: Trajektlebel
       user: Meidogger
       user_preference: Meidoggerfoarkar
+      user_token: Meidoggerkaai
       way: Line
       way_node: Linepunt
       way_tag: Linelebel
     attributes:
+      client_application:
+        name: Namme (ferplichte)
+        url: Haad-URL applikaasje (ferplichte)
+        callback_url: Weromrop-URL
+        support_url: Stipe-URL
+        allow_read_prefs: meidoggerfoarkarren lêzen
+        allow_write_prefs: meidoggerfoarkarren wizigjen
+        allow_write_diary: deiboekstikken, reäksjes en freonen meitsjen
+        allow_write_api: kaart wizigjen
+        allow_read_gpx: privee-GPS-trajekten lêzen
+        allow_write_gpx: GPS-trajekten opladen
+        allow_write_notes: notysjes wizigjen
       diary_comment:
         body: Ynhâld
       diary_entry:
@@ -82,6 +102,9 @@ fy:
         language: Taal
       doorkeeper/application:
         name: Namme
+        redirect_uri: Trochferwiis-URI's
+        confidential: Fertroulike applikaasje?
+        scopes: Rjochten
       friend:
         user: Meidogger
         friend: Freon
@@ -124,8 +147,19 @@ fy:
         pass_crypt: Wachtwurd
         pass_crypt_confirmation: Wachtwurd befêstigje
     help:
+      doorkeeper/application:
+        confidential: De applikaasje wurdt brûkt wêr't it kliïnt-geheim fertroulik
+          holden wurde kin (systeemeigen mobile apps en ienside-apps binne net fertroulik)
+        redirect_uri: Brûk ien rigel foar elke URI
       trace:
         tagstring: skaat mei komma's
+      user_block:
+        reason: De reden wêrom't de meidogger útsletten wurdt. Bliuw sa kalm en ridlik
+          mooglik, en jou oer de sitewaasje safolle bysûnderheden as jo kinne, mei
+          yn 'e efterholle dat it berjocht iepenbier sichtber wêze sil. Betink dat
+          net alle meidoggers it mienskipsjargon begripe, dus besykje graach gewoaneminsketaal
+          te brûken.
+        needs_view: Moat de meidogger oanmelde foar't dizze útsluting ferfalt?
       user:
         email_confirmation: Jo adres wurdt net publikelik toand; sjoch ús <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
           title="Privacybelied fan OSMF mei in stik oer e-mailadressen">Privacybelied</a>
@@ -210,6 +244,79 @@ fy:
       entry:
         comment: Reäksje
         full: Folsleine notysje
+  account:
+    deletions:
+      show:
+        title: Myn akkount wiskje
+        warning: Warskôging! It wiskproses fan in akkount is definityf, en kin net
+          weromdraaid wurde.
+        delete_account: Akkount wiskje
+        delete_introduction: 'Jo kinne jo OpenStreetMap-akkount wiskje mei de knop
+          hjirûnder. Tink om ''e neikommende saken:'
+        delete_profile: Jo profylynformaasje, befetsjend jo meidoggerplaatsje, beskriuwing
+          en fêste lokaasje, wurdt fuortsmiten.
+        delete_display_name: Jo werjûne namme wurdt fuortsmiten, en kin op 'e nij
+          brûkt wurde troch oare akkounts.
+        retain_caveats: 'Guon ynformaasje oer jo bliuwt lykwols yn stân op OpenStreetMap,
+          sels neidat jo akkount wiske is:'
+        retain_edits: Jo bewurkings yn 'e kaart-databank, at dy der binne, bliuwe
+          beholden.
+        retain_traces: Jo opladen trajekten, at dy der binne, bliuwe beholden.
+        retain_diary_entries: Jo deiboekstikken en -reäksjes, at dy der binne, bliuwe
+          beholden, mar ferburgen foar werjefte.
+        retain_notes: Jo kaartnotysjes en -reäksjes, at dy der binne, bliuwe beholden,
+          mar ferburgen foar werjefte.
+        retain_changeset_discussions: Jo oerlis oer wizigingssets, at dat der is,
+          bliuwt beholden.
+        retain_email: Jo e-mailadres bliuwt beholden.
+        confirm_delete: Seker witte?
+        cancel: Annulearje
+  accounts:
+    edit:
+      title: Akkount bewurkje
+      my settings: Myn ynstellings
+      current email address: Hjoeddeisk e-mailadres
+      external auth: Autentifikaasje om utens
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: wat is dat?
+      public editing:
+        heading: Iepenbier bewurkjen
+        enabled: Ynskeakele. Net anonym en kin data bewurkje.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: wat is dat?
+        disabled: Utskeakele en kin gjin data bewurkje, alle eardere bewurkings binne
+          anonym.
+        disabled link text: wêrom kin ik net bewurkje?
+      public editing note:
+        heading: Iepenbier bewurkjen
+        html: Op it stuit binne jo bewurkings anonym, en kinne minsken jo gjin berjochten
+          stjoere of jo lokaasje sjen. Klik de knop hjirûnder om sjen te litten wat
+          jo bewurke hawwe, en om minsken ta te stean op it webstee kontakt mei jo
+          op te nimmen. <b>Sûnt de oergong nei API 0.6, kinne inkeld iepenbiere meidoggers
+          kaartdata bewurkje</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">fyn
+          út wêrom</a>).<ul><li>Jo e-mailadres wurdt net bekend makke by it iepenbier
+          wurden.</li><li>Dizze hanneling kin net weromdraaid wurde, en alle nije
+          meidoggers binne no standert iepenbier.</li></ul>
+      contributor terms:
+        heading: Bydragersbetingsten
+        agreed: Jo binne akkoart gien mei de nije Bydragersbetingsten.
+        not yet agreed: Jo binne noch net akkoart gien mei de nije Bydragersbetingsten.
+        review link text: Folgje dizze keppeling wannear't it jo útkomt, om de nije
+          Bydragersbetingsten te besjen en te akseptearjen.
+        agreed_with_pd: Jo hawwe ek oanjûn dat jo jo bewurkings as part fan it Publyk
+          Domein beskôgje.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link text: wat is dat?
+      save changes button: Feroarings bewarje
+      make edits public button: Al myn bewurkings iepenbier meitsje
+      delete_account: Akkount wiskje ...
+    update:
+      success_confirm_needed: Meidoggergegevens bywurkjen slagge. Besjoch jo e-mail
+        foar in berjocht om jo nije e-mailadres te befêstigjen.
+      success: Meidoggergegevens bywurkjen slagge.
+    destroy:
+      success: Akkount wiske.
   browse:
     created: Makke
     closed: Ofdien
@@ -236,7 +343,7 @@ fy:
     location: 'Lokaasje:'
     changeset:
       title: 'Wizigingsset: %{id}'
-      belongs_to: Auteur
+      belongs_to: Makker
       node: Punten (%{count})
       node_paginated: Punten (%{x}-%{y} fan %{count})
       way: Linen (%{count})
@@ -253,7 +360,7 @@ fy:
         title_comment: Wizigingsset %{id} - %{comment}
       join_discussion: Meld jo oan en oerlis mei
       discussion: Oerlis
-      still_open: Wizigingsset net ree - it oerlis iepenet sadree't de wizigingsset
+      still_open: Wizigingsset net ree - it oerlis iepenet sa gau't de wizigingsset
         ôfdien is.
     node:
       title_html: 'Punt: %{name}'
@@ -341,10 +448,10 @@ fy:
       reopened_by_html: Weraktivearre troch %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Weraktivearre troch anonym <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Ferburgen troch %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Dizze notysje melde
+      report: dizze notysje melde
     query:
       title: Skaaimerken opfreegje
-      introduction: Klik op 'e kaart foar skaaimerken yn 'e krite.
+      introduction: Klik op 'e kaart foar skaaimerken fuortby.
       nearby: Skaaimerken yn 'e omkriten
       enclosing: Omfetsjende skaaimerken
   changesets:
@@ -469,6 +576,13 @@ fy:
     feed:
       user:
         title: OpenStreetMap Deiboekstikken fan %{user}
+        description: Nije OpenStreetMap-deiboekstikken fan %{user}
+      language:
+        title: OpenStreetMap Deiboekstikken yn it %{language_name}
+        description: Nije deiboekstikken fan meidoggers oan OpenStreetMap yn it %{language_name}
+      all:
+        title: OpenStreetMap Deiboekstikken
+        description: Nije deiboekstikken fan meidoggers oan OpenStreetMap
     comments:
       title: Troch %{user} taheakke deiboekreäksjes
       heading: Deiboekreäksjes fan %{user}
@@ -479,6 +593,11 @@ fy:
       comment: Reäksje
       newer_comments: Nijere reäksjes
       older_comments: Aldere reäksjes
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Applikaasje registrearre.
   friendships:
     make_friend:
       heading: '%{user} as freon tafoegje?'
@@ -486,6 +605,8 @@ fy:
       success: '%{name} is no jo freon(dinne)!'
       failed: Spitich, %{name} as freon tafoegjen mislearre.
       already_a_friend: Jo binne al freonen mei %{name}.
+      limit_exceeded: Jo hawwe de lêste tiid in soad meidoggers freon makke. Wachtsje
+        in skoftke mei noch mear te meitsjen.
     remove_friend:
       heading: '%{user} as freon ôffiere?'
       button: Offiere
@@ -505,14 +626,21 @@ fy:
     search_osm_nominatim:
       prefix:
         aerialway:
-          cable_car: Kabelbaan
+          cable_car: Kabinekabelbaan
           chair_lift: Stuoltsjelift
+          drag_lift: Sleeplift
+          gondola: Gondellift
+          magic_carpet: Rinnende bân
+          platter: Pankoeklift
+          pylon: Pyloan
           station: Kabelbaanstasjon
+          t-bar: Ankerlift
+          "yes": Kabelbaan
         aeroway:
           aerodrome: Fleanfjild
           airstrip: Lâningsstripe
-          apron: Platfoarm
-          gate: Gate
+          apron: Platfoarm lofthaven
+          gate: Gate lofthaven
           hangar: Hangaar
           helipad: Helyhaven
           holding_position: Wachtposysje
@@ -521,7 +649,7 @@ fy:
           runway: Start-/lâningsbaan
           taxilane: Taksystripe
           taxiway: Taksybaan
-          terminal: Passazjiershal
+          terminal: Passazjiershal lofthaven
           windsock: Wynsek
         amenity:
           animal_boarding: Bistepinsjon
@@ -530,10 +658,11 @@ fy:
           atm: Jildautomaat
           bank: Bank
           bar: Bar
-          bbq: BBQ
+          bbq: Barbekjû
           bench: Bankje
           bicycle_parking: Fytsestalling
           bicycle_rental: Fytsferhier
+          bicycle_repair_station: Fyts-selsreparaasje
           biergarten: Kafeeterras
           blood_bank: Bloedbank
           boat_rental: Boatferhier
@@ -566,7 +695,7 @@ fy:
           fire_station: Brânwacht
           food_court: Itenshal
           fountain: Fontein
-          fuel: Brânstof
+          fuel: Tenkstasjon
           gambling: Kânsspul
           grave_yard: Begraafplak
           grit_bin: Struibak
@@ -580,16 +709,18 @@ fy:
           loading_dock: Laaddok
           love_hotel: Wiphotel
           marketplace: Merkplak
+          mobile_money_agent: Mobile jildtsjinst
           monastery: Kleaster
+          money_transfer: Jildoerdracht
           motorcycle_parking: Motorparkearplak
           music_school: Muzykskoalle
           nightclub: Nachtklup
           nursing_home: Ferpleechhûs
-          parking: Parkearplak
+          parking: Parkearjen
           parking_entrance: Parkearyngong
           parking_space: Parkearhaven
           payment_terminal: Betelautomaat
-          pharmacy: Apoteek
+          pharmacy: Apteek
           place_of_worship: Gebedshûs
           police: Plysje
           post_box: Brievebus
@@ -600,7 +731,9 @@ fy:
           public_bookcase: Strjitboekekast
           public_building: Iepenbier gebou
           ranger_station: Parkwachtersgebou
+          recycling: Werbrûkbakken
           restaurant: Restaurant
+          sanitary_dump_station: Sanitêre stoart
           school: Skoalle
           shelter: Skûlplak
           shower: Dûs
@@ -613,11 +746,17 @@ fy:
           theatre: Teäter
           toilets: Húskes
           townhall: Gemeentehûs
+          training: Kursussintrum
           university: Universiteit
+          vehicle_inspection: Motorreau-ynspeksje
           vending_machine: Automaat
           veterinary: Bistedokter
           village_hall: Doarpshûs
           waste_basket: Jiskefet
+          waste_disposal: Offalkontener
+          waste_dump_site: Offalstoart
+          watering_place: Drinkplak
+          water_point: Wetterôfjeftepunt
           weighbridge: Weachbrêge
           "yes": Foarsjenning
         boundary:
@@ -638,29 +777,84 @@ fy:
         building:
           apartment: Appartemint
           apartments: Apparteminten
+          barn: Skuorre
+          bungalow: Bungalow
+          cabin: Blokhutte
           chapel: Kapel
           church: Tsjerkegebou
+          civic: Gebou mei mienskipsfunksje
+          college: Gebou hegeskoalle
+          commercial: Kommersjeel gebou
+          construction: Gebou yn oanbou
+          detached: Frijsteande wente
+          dormitory: Sliep-/wenromten
+          duplex: Duplekswente
+          farm: Boerewente
+          farm_auxiliary: Gebou boerebedriuw
+          garage: Garaazje
+          garages: Garaazjes
+          greenhouse: Kas
           hangar: Hangaar
           hospital: Sikehûs
           hotel: Hotelgebou
-          house: Hûs
+          house: Wente
           houseboat: Wenboat
           hut: Hutte
+          industrial: Yndustrieel gebou
           kindergarten: Beukerskoalle
+          manufacture: Fabryksgebou
           office: Kantoargebou
           public: Iepenbier gebou
           residential: Wengebou
           retail: Winkelpân
           roof: Dak
+          ruins: Gebouruïne
+          school: Skoalgebou
+          semidetached_house: Twa-ûnder-ien-kapwente
+          service: Nutsgeboutsje
+          shed: Skuorke
+          stable: Hynstestâl
+          static_caravan: Wen-/kampearwein
+          temple: Timpelgebou
+          terrace: Rychjewenten
           train_station: Treinstasjon
+          university: Universiteitsgebou
           warehouse: Pakhûs
           "yes": Gebou
+        club:
+          scout: Paadfinershonk
+          sport: Sportferiening
+          "yes": Feriening
         craft:
           beekeeper: Ymker
+          blacksmith: Smidderij
+          brewery: Brouwerij
+          carpenter: Timmerbedriuw
+          caterer: Fersoarging iten/drinken
+          confectionery: Sûkerbakkerij
+          dressmaker: Frouljuskleanmakker
+          electrician: Elektrisjên
+          electronics_repair: Elektroanikareparaasje
+          gardener: Hovenier
+          glaziery: Glêssetter
+          handicraft: Hânmakke guod
+          hvac: Ynstallateur
+          metal_construction: Metaalbedriuw
+          painter: Skildersbedriuw
           photographer: Fotograaf
-        crossing: Oerstekplak
+          plumber: Leadjitter
+          roofer: Dakdekker
+          sawmill: Houtseagerij
+          shoemaker: Skuonmakker
+          stonemason: Stienhouwerij
+          tailor: Kleanmakker
+          window_construction: Kezinebedriuw
+          winery: Wynmakkerij
+          "yes": Ambachtlik bedriuw
         emergency:
+          access_point: Rêdingspunt
           ambulance_station: Ambulânsepost
+          assembly_point: Sammelplak
           defibrillator: Defibrilator
           fire_extinguisher: Brândwêster
           fire_water_pond: Dwêstfiver
@@ -676,8 +870,12 @@ fy:
           bus_guideway: Busspoarbaan
           bus_stop: Bushalte
           construction: Wei yn oanlis
+          corridor: Korridor
+          crossing: Oerstekplak
           cycleway: Fytspaad
           elevator: Lift
+          emergency_access_point: Rêdingspunt
+          emergency_bay: Flechthaven
           footway: Fuotpaad
           ford: Furde
           give_way: Boerd foarrang jaan
@@ -695,10 +893,11 @@ fy:
           proposed: Plende wei
           raceway: Racesirkwy
           residential: Strjitte
+          rest_area: Rêstplak
           road: Wei
           secondary: Sekundêre wei
           secondary_link: Sekundêre wei
-          service: Parallelwei
+          service: Tagongswei
           services: Sjauffeursfoarsjennings
           speed_camera: Flitser
           steps: Trep
@@ -709,8 +908,11 @@ fy:
           track: Lânpaad
           traffic_mirror: Ferkearsspegel
           traffic_signals: Ferkearsljochten
+          trailhead: Begjinpunt rûte
           trunk: Autowei
           trunk_link: Op-/ôfreed autowei
+          turning_circle: Swaaiplak
+          turning_loop: Kearlus
           unclassified: Net-klassifisearre wei
           "yes": Wei
         historic:
@@ -720,15 +922,18 @@ fy:
           battlefield: Slachfjild
           boundary_stone: Grinspeal
           building: Histoarysk gebou
-          bunker: Bunker
+          bunker: Bunker/kazemat
           cannon: Histoarysk kanon
           castle: Kastiel
+          charcoal_pile: Histoaryske houtskoalbult
           church: Tsjerke
           city_gate: Stedspoarte
           citywalls: Stedsmuorren
           fort: Fort
           heritage: Erfgoedplak
+          hollow_way: Holle wei
           house: Hûs
+          manor: State/lânhûs
           memorial: Betinkingsmonumint
           milestone: Histoaryske mylpeal
           mine: Myn
@@ -750,55 +955,112 @@ fy:
           "yes": Krusing
         landuse:
           allotments: Folkstunen
+          aquaculture: Akwakultuer
           basin: Wetterbekken
+          brownfield: Braaklân
           cemetery: Begraafplak
+          commercial: Kommersjeel gebiet
           conservation: Natuergebiet
-          farm: Boerepleats
+          construction: Bouplak
+          farmland: Boerelân
           farmyard: Boerehiem
           forest: Bosk
+          garages: Garaazjes
           grass: Gers
+          greenfield: Boubestimming
+          industrial: Yndustrygebiet
           landfill: Jiskebult
           meadow: Greide
           military: Militêr terrein
           mine: Myn
+          orchard: Hôving
+          plant_nursery: Kwekerij
           quarry: Stiengat
           railway: Spoarwei
+          recreation_ground: Rekreaasjegebiet
+          religious: Religieuze bestimming
           reservoir: Opslachmar
+          reservoir_watershed: Wetterwingebiet
           residential: Wengebiet
-          retail: Lytshannel
+          retail: Winkelgebiet
+          village_green: Brink
           vineyard: Wyngerd
+          "yes": Grûngebrûk
         leisure:
+          adult_gaming_centre: Gok- en spylhal
+          amusement_arcade: Ferdivedaasjehal
+          bandstand: Muzykkoepel
           beach_resort: Badplak
           bird_hide: Fûgelsjochhutte
+          bleachers: Tribune
+          bowling_alley: Bowlingsintrum
           common: Mientlân
+          dance: Dûnsseal
           dog_park: Hûnepark
+          firepit: Fjoerkûle
           fishing: Fiskgrûn
+          fitness_centre: Sportskoalle
+          fitness_station: Sporttastellen
           garden: Tún
           golf_course: Golfbaan
+          horse_riding: Maneezje
           ice_rink: Iisbaan
           marina: Jachthaven
           miniature_golf: Midgetgolf
           nature_reserve: Natuerreservaat
-          outdoor_seating: Kafeeterras
+          outdoor_seating: Bûtenterras
           park: Park
           picnic_table: Pikniktafel
           pitch: Sportfjild
           playground: Boartersplak
+          recreation_ground: Rekreaasjegebiet
+          resort: Fakânsje-oarde
           sauna: Sauna
           slipway: Hellingwei
           sports_centre: Sportsintrum
           stadium: Stadion
           swimming_pool: Swimbad
+          track: Rinbaan
+          water_park: Wetterferdivedaasjepark
+          "yes": Rekreaasje
         man_made:
+          adit: Mynyngong
+          advertising: Bûtenreklame
+          antenna: Antenne
+          avalanche_protection: Lawinebeskerming
+          beacon: Beaken
+          beam: Balke
+          beehive: Bijekoer
+          breakwater: Golfbrekker
+          bridge: Brêge
+          bunker_silo: Bunkersilo
+          cairn: Stienmantsje
+          chimney: Skoarstien
+          clearcut: Kealkap
           communications_tower: Antennetoer
+          crane: Hyskraan
+          cross: Krús
+          dolphin: Dûkdalf
           dyke: Bediking
+          embankment: Talúd
+          flagpole: Flaggemêst
+          gasometer: Gashâlder
+          groyne: Haad
+          kiln: Une
+          lighthouse: Fjoertoer
+          manhole: Mangat
           mast: Mêst
+          mine: Myn
+          mineshaft: Mynskacht
+          monitoring_station: Mjitstasjon
           petroleum_well: Oaljeboarne
           pier: Pier
           pipeline: Piiplieding
           pumping_station: Pompstasjon
+          reservoir_covered: Oerdekte wetteropslach
           silo: Silo
           snow_cannon: Sniekanon
+          snow_fence: Sniefanger
           storage_tank: Opslachtenk
           street_cabinet: Nutskast
           surveillance: Bewekking
@@ -874,11 +1136,28 @@ fy:
           "yes": Lânskipselemint
         office:
           accountant: Boekhâlder
+          administrative: Administraasje
+          advertising_agency: Reklameburo
           architect: Arsjitekt
+          association: Feriening
           company: Bedriuw
+          diplomatic: Diplomatike misje
+          educational_institution: Kantoar ûnderwiisynstelling
+          employment_agency: Utstjoerburo
+          energy_supplier: Kantoar enerzjybedriuw
           estate_agent: Makelder
+          financial: Kantoar finansjeel bedriuw
+          government: Oerheidskantoar
+          insurance: Fersekeringskantoar
+          it: YT-buro
           lawyer: Jurist
+          logistics: Kantoar logistyk bedriuw
+          newspaper: Krantekantoar
           ngo: Kantoar NGO
+          notary: Notariaat
+          religion: Administraasje leauwensmienskip
+          research: Undersykburo
+          tax_advisor: Belestingadviseur
           telecommunication: Tillekommunikaasjekantoar
           travel_agent: Reisburo
           "yes": Kantoar
@@ -913,6 +1192,7 @@ fy:
           "yes": Plak
         railway:
           abandoned: Spoarwei yn ferfal
+          buffer_stop: Stjitblok
           construction: Spoarwei yn oanlis
           disused: Spoarwei yn ûnbrûk
           funicular: Kabelspoarwei
@@ -926,6 +1206,7 @@ fy:
           platform: Spoarbaanperron
           preserved: Museumspoarwei
           proposed: Spoarwei yn plenning
+          rail: Spoar
           spur: Lokaalspoarwei
           station: Spoarweistasjon
           stop: Spoarhalte
@@ -934,45 +1215,125 @@ fy:
           switch: Wiksel
           tram: Trembaan
           tram_stop: Tremhalte
+          turntable: Draaiskiif
           yard: Spoaremplasemint
         shop:
+          agrarian: Agraryske winkel
+          alcohol: Sliterij
           antiques: Antyk
+          appliance: Wytguodsaak
+          art: Keunstwinkel
+          baby_goods: Poppeguod
+          bag: Tassewinkel
           bakery: Bakker
+          bathroom_furnishing: Badkeamerynrjochting
+          beauty: Skientmesalon
+          bed: Bêdesaak
+          beverages: Drankewinkel
+          bicycle: Fytsesaak
+          bookmaker: Wedkantoar
           books: Boekhannel
           boutique: Boetyk
           butcher: Slachter
+          car: Autohannel
+          car_parts: Autoûnderdielen
+          car_repair: Autoreparaasje
+          carpet: Tapitewinkel
+          charity: Goeddiedigenswinkel
+          cheese: Tsiiswinkel
           chemist: Drogist
+          chocolate: Sûkelarje
+          clothes: Kleanwinkel
+          coffee: Kofjewinkel
+          computer: Kompjûtersaak
+          confectionery: Snobberswinkel
+          convenience: Gemakswinkel
+          copyshop: Kopiearwinkel
+          cosmetics: Kosmetikawinkel
+          craft: Keunstnersnedichheden
+          curtain: Gerdinesaak
+          dairy: Suvelwinkel
+          deli: Delikatessen
           department_store: Warehûs
           discount: Priisfjochter
-          doityourself: Doch-it-sels
+          doityourself: Selsdoggerssaak
           dry_cleaning: Stomerij
+          e-cigarette: E-sigarettewinkel
           electronics: Elektroanikasaak
           erotic: Sekswinkel
           estate_agent: Makelder
           fabric: Lapewinkel
           farm: Boereferkeap
           fashion: Moadesaak
+          fishing: Fiskerijnedichheden
           florist: Blommist
+          food: Itenswarewinkel
+          frame: Listemakkerij
+          funeral_directors: Utfeartûndernimmer
           furniture: Meubelsaak
           garden_centre: Túnsintrum
+          gas: Gasflesseboer
+          general: Buertwinkel
+          gift: Kadowinkel
           greengrocer: Grientesaak
+          grocery: Krûdenierswinkel
           hairdresser: Kapper
-          hifi: Hifi
+          hardware: Boumerk
+          health_food: Reformwinkel
+          hearing_aids: Harktastellen
+          herbalist: Krûdeminger
+          hifi: Hifi-winkel
+          houseware: Húshâldwinkel
+          ice_cream: Iiskosaak
+          interior_decoration: Ynterieurynrjochting
           jewelry: Juwelier
+          kiosk: Kiosk
+          kitchen: Keukenynrjochting
           laundry: Waskerij
-          optician: Optisien
+          locksmith: Slotmakker
+          lottery: Lotterij
+          mall: Winkelsintrum
+          massage: Massaazje
+          medical_supply: Medyske helpmiddels
+          mobile_phone: Mobiletillefoanwinkel
+          money_lender: Jildsjitter
+          motorcycle: Motorfytsesaak
+          motorcycle_repair: Motorfytsreparaasje
+          music: Muzykwinkel
+          musical_instrument: Muzykynstruminten
+          newsagent: Krantekiosk
+          nutrition_supplements: Fiedingssupleminten
+          optician: Brillewinkel
+          organic: Biologyske winkel
+          outdoor: Bûtensportsaak
+          paint: Fervewinkel
+          pastry: Banketbakker
+          pawnbroker: Lommert
           perfumery: Parfumery
           pet: Bistewinkel
+          pet_grooming: Bistefersoarging
           photo: Fotosaak
           seafood: Seebanket
           second_hand: Omrinwinkel
+          sewing: Naaiwinkel
+          shoes: Skuonwinkel
           sports: Sportsaak
+          stationery: Kantoarboekhannel
+          storage_rental: Oplachferhier
           supermarket: Supermerk
           tailor: Kleanmakker
+          tattoo: Tatoewinkel
+          tea: Teewinkel
           ticket: Kaartferkeap
+          tobacco: Sigareboer
           toys: Boartersguodwinkel
           travel_agency: Reisburo
+          tyres: Bannesaak
+          vacant: Leechsteande winkel
+          variety_store: Lytswarehûs
           video: Fideoteek
+          video_games: Fideospullewinkel
+          wholesale: Gruthannel
           wine: Wynwinkel
           "yes": Winkel
         tourism:
@@ -981,7 +1342,7 @@ fy:
           artwork: Keunstwurk
           attraction: Attraksje
           bed_and_breakfast: Bêd en brochje
-          cabin: Blokhutte
+          cabin: Toeristehutte
           camp_pitch: Kampearplak
           camp_site: Kampearterrein
           caravan_site: Kampearweinterrein
@@ -1029,7 +1390,7 @@ fy:
         level6: Distrikts-/greefskipsgrins
         level7: Gemeentegrins
         level8: Gemeente-/stedsgrins
-        level9: Doarpsgrins
+        level9: Steds-/doarpsgrins
         level10: Wenplak-/dielgebietsgrins
         level11: Wyk-/buertgrins
       types:
@@ -1040,17 +1401,84 @@ fy:
       no_results: Gjin treffers fûn
       more_results: Mear treffers
   issues:
+    index:
+      title: Problemen
+      select_status: Status selektearje
+      select_type: Type selektearje
+      select_last_updated_by: Lêst bywurke troch selektearje
+      reported_user: Melde meidogger
+      not_updated: Net bywurke
+      search: Sykje
+      search_guidance: 'Problemen trochsykje:'
+      user_not_found: Meidogger bestiet net
+      issues_not_found: Gjin oerienkommende problemen fûn
+      status: Status
+      reports: Meldings
+      last_updated: Lêst bywurke
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> troch %{user}
+      link_to_reports: Meldings besjen
+      reports_count:
+        one: 1 melding
+        other: '%{count} meldings'
+      reported_item: Meld elemint
+      states:
+        ignored: Negearre
+        open: Iepen
+        resolved: Oplost
     update:
       new_report: It fêstlizzen fan jo melding is slagge
       successful_update: It bywurkjen fan jo melding is slagge
       provide_details: Graach de ferplichte details oanjaan
+    show:
+      title: '%{status} probleem #%{issue_id}'
+      reports:
+        one: 1 melding
+        other: '%{count} meldings'
+      report_created_at: Earst meld op %{datetime}
+      last_resolved_at: Lêst oplost op %{datetime}
+      last_updated_at: Lêst bywurke op %{datetime} troch %{displayname}
+      resolve: Oplosse
+      ignore: Negearje
+      reopen: Weriepenje
+      reports_of_this_issue: Meldings fan dit probleem
+      read_reports: Meldings lêze
+      new_reports: Nije meldings
+      other_issues_against_this_user: Oare problemen mei dizze meidogger
+      no_other_issues: Gjin oare problemen mei dizze meidogger.
+      comments_on_this_issue: Reäksjes by dit probleem
+    resolve:
+      resolved: De probleemstatus is op 'Oplost' set
+    ignore:
+      ignored: De probleemstatus is op 'Negearre' set
+    reopen:
+      reopened: De probleemstatus is op 'Iepen' set
+    comments:
+      comment_from_html: Reäksje fan %{user_link} op %{comment_created_at}
+      reassign_param: Probleem weryndiele?
+    reports:
+      reported_by_html: Meld as %{category} troch %{user} op %{updated_at}
     helper:
       reportable_title:
+        diary_comment: '%{entry_title}, reäksje #%{comment_id}'
         note: 'Notysje #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: It oanmeitsjen fan jo reäksje is slagge
+      issue_reassigned: Jo reäksje is oanmakke, en it probleem is weryndield
   reports:
     new:
       title_html: '%{link} melde'
       missing_params: Kin gjin nije melding oanmeitsje
+      disclaimer:
+        intro: 'Foar''t jo melding dogge by it websteetafersjoch, moat it neikommende
+          fêststean:'
+        not_just_mistake: Jo binne der wis fan dat it probleem net gewoan in fersin
+          is
+        unable_to_fix: Jo binne net by steat en ferhelp it probleem sels, of mei help
+          fan jo meileden út 'e mienskip
+        resolve_with_user: Jo hawwe al besocht en los it probleem op mei de belutsen
+          meidogger
       categories:
         diary_entry:
           spam_label: Dit deiboekstik is/befettet spam
@@ -1078,7 +1506,7 @@ fy:
       provide_details: Graach de ferplichte details oanjaan
   layouts:
     logo:
-      alt_text: Logo OpenStreetMap
+      alt_text: OpenStreetMap-logo
     home: Nei jo fêste lokaasje
     logout: Ofmelde
     log_in: Oanmelde
@@ -1089,6 +1517,7 @@ fy:
     edit: Bewurkje
     history: Skiednis
     export: Eksportearje
+    issues: Problemen
     data: Gegevens
     export_data: Data eksportearje
     gps_traces: GPS-trajekten
@@ -1108,6 +1537,11 @@ fy:
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
     tou: Gebrûksbetingsten
+    osm_offline: De OpenStreetMap-databank is op it stuit ôfline, wylst der it nedige
+      ûnderhâldswurk útfierd wurdt.
+    osm_read_only: De OpenStreetMap-databank is op it stuit allinnich yn lêsmodus,
+      wylst der it nedige ûnderhâldswurk útfierd wurdt.
+    donate: Stypje OpenStreetMap en %{link} oan it Fernijingsfûns foar Kompjûtersystemen.
     help: Help
     about: Oer
     copyright: Auteursrjochten
@@ -1117,6 +1551,7 @@ fy:
     foundation: Stifting
     foundation_title: De OpenStreetMap-stifting
     make_a_donation:
+      title: Stypje OpenStreetMap mei in jilddonaasje
       text: Donaasje jaan
     learn_more: Mear witte
     more: Mear
@@ -1161,6 +1596,7 @@ fy:
       failed_to_import: 'net ymportearre wurde koe. Hjir is de foutmelding:'
       more_info_html: Mear ynformaasje oer GPX-ymportflaters, en hoe't se tefoaren
         kommen wurde kinne, fine jo op %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] GPX ymportearjen mislearre'
     gpx_success:
       hi: Goeie %{to_user},
@@ -1173,24 +1609,24 @@ fy:
       greeting: Goeie dêrsa!
       created: Immen (hooplik jo) hat sakrekt in akkount oanmakke op %{site_url}.
       confirm: 'Foar''t wy wat dogge, moatte we befêstige hawwe dat it fersyk fan
-        jo kaam. Dus at dat sa is, klik dan op ''e keppeling hjirûnder en befêstigje
-        jo akkount:'
+        jo kaam. Dus at dat sa is, klik dan op ''e keppeling hjirûnder om jo akkount
+        te befêstigjen:'
       welcome: Nei de befêstiging fan jo akkount, sille wy jo mear ynformaasje jaan
-        en help jo op 'e gleed.
+        om jo op 'e gleed te helpen.
     email_confirm:
       subject: '[OpenStreetMap] Befêstigje jo e-mailadres'
       greeting: Goeie,
       hopefully_you: Immen (hooplik jo) wol syn/har e-mailadres op %{server_url} feroarje
         yn %{new_address}.
-      click_the_link: At jo it wiene, klik dan op 'e keppeling hjirûnder en befêstigje
-        de feroaring.
+      click_the_link: At jo it wiene, klik dan op 'e keppeling hjirûnder om de feroaring
+        te befêstigjen.
     lost_password:
       subject: '[OpenStreetMap] Wachtwurd feroarjen oanfrege'
       greeting: Goeie,
-      hopefully_you: Immen (faaks jo) hat frege om it wachtwurd op 'e nij yn te stellen
+      hopefully_you: Immen (faaks jo) hat frege en stel it wachtwurd op 'e nij yn
         foar it akkount op openstreetmap.org dat by dit e-mailadres heart.
-      click_the_link: At jo it wiene, klik dan op 'e keppeling hjirûnder en stel jo
-        wachtwurd op 'e nij yn.
+      click_the_link: At jo it wiene, klik dan op 'e keppeling hjirûnder om jo wachtwurd
+        op 'e nij yn te stellen.
     note_comment_notification:
       anonymous: In anonime meidogger
       greeting: Goeie,
@@ -1261,8 +1697,8 @@ fy:
       introduction_1: Wy hawwe jo in befêstigingsmail stjoerd.
       introduction_2: Befêstigje jo akkount troch op 'e keppeling yn 'e e-mail te
         klikken, en jo kinne mei kaartmeitsjen úteinsette.
-      press confirm button: Druk hjirûnder op 'e befêstigingsknop en aktivearje jo
-        akkount.
+      press confirm button: Druk hjirûnder op 'e befêstigingsknop om jo akkount te
+        aktivearjen.
       button: Befêstigje
       success: Jo akkount is befêstige, tankjewol foar it ynskriuwen!
       already active: Dat akkount is al befêstige.
@@ -1273,10 +1709,11 @@ fy:
       failure: Meidogger %{name} net fûn.
     confirm_email:
       heading: Wiziging fan it e-mailadres befêstigje
-      press confirm button: Druk hjirûnder op 'e befêstigingsknop en befêstigje jo
-        nije e-mailadres.
+      press confirm button: Druk hjirûnder op 'e befêstigingsknop om jo nije e-mailadres
+        te befêstigjen.
       button: Befêstigje
       success: Jo wiziging fan it e-mailadres is befêstige!
+      failure: Der is al in e-mailadres befêstige mei dy kaai.
       unknown_token: Dy befêstigingskoade is ferrûn of bestiet net.
     resend_success_flash:
       confirmation_sent: Wy hawwe in nij befêstigingsberjocht stjoerd nei %{email},
@@ -1312,9 +1749,11 @@ fy:
       send_message_to_html: In nij berjocht stjoere oan %{name}
       subject: Underwerp
       body: Ynhâld
-      back_to_inbox: Werom nei ynfek
+      back_to_inbox: Werom nei it ynfek
     create:
       message_sent: Berjocht ferstjoerd
+      limit_exceeded: Jo hawwe de lêste tiid in soad berjochten ferstjoerd. Wachtsje
+        in skoftke mei noch mear te ferstjoeren.
     no_such_message:
       title: Berjocht ûnbekend
       heading: Berjocht ûnbekend
@@ -1363,8 +1802,8 @@ fy:
       email address: 'E-mailadres:'
       new password button: Nij wachtwurd
       help_text: Folje it e-mailadres yn dat jo by it ynskriuwen brûkt hawwe. Wy stjoere
-        der dan in keppeling hinne dy't jo brûke kinne en stel jo wachtwurd op 'e
-        nij yn.
+        der dan in keppeling hinne dy't jo brûke kinne om jo wachtwurd op 'e nij yn
+        te stellen.
       notice email on way: Spitich dat jo 'm kwyt binne :-( mar in e-mail is ûnderweis,
         dat jo kinne gau in nijenien ynstelle.
       notice email cannot find: Koe dat e-mailadres net fine, spitich.
@@ -1373,7 +1812,7 @@ fy:
       heading: Wachtwurd op 'e nij ynstelle foar %{user}
       reset: Nij wachtwurd
       flash changed: Jo wachtwurd is feroare.
-      flash token bad: Haw dat bewiisteken net fûn, de URL efkes neisjen?
+      flash token bad: Haw dy kaai net fûn, de URL efkes neisjen?
   preferences:
     show:
       title: Myn foarkarren
@@ -1424,16 +1863,16 @@ fy:
       register now: No ynskriuwe
       with username: 'Hawwe jo al in OpenStreetMap-akkount? Meld jo oan mei jo meidochnamme
         en wachtwurd:'
-      with external: 'Brûk oars in treddepartij en meld jo oan:'
+      with external: 'Brûk oars in treddepartij om jo oan te melden:'
       new to osm: Nij op OpenStreetMap?
       to make changes: Jo moatte in akkount hawwe om OpenStreetMap-data feroarje te
         kinnen.
       create account minute: Meitsje in akkount. It duorret mar in minútsje.
       no account: Hawwe jo gjin akkount?
       account not active: Spitich, jo akkount is noch net aktyf.<br />Brûk de keppeling
-        yn 'e akkountbefêstigingsmail en aktivearje jo akkount, of <a href="%{reconfirm}">freegje
+        yn 'e akkountbefêstigingsmail om jo akkount te aktivearjen, of <a href="%{reconfirm}">freegje
         in nije befêstigingsmail</a>.
-      account is suspended: Spitich, jo akkount is útsletten fanwegen fertochte aktiviteiten.<br
+      account is suspended: Spitich, jo akkount is skoattele fanwegen fertochte aktiviteiten.<br
         />Nim kontakt op mei <a href="%{webmaster}">Stipe</a> at jo dat beprate wolle.
       auth failure: Spitich, koe jo net oanmelde mei dy gegevens.
       openid_logo_alt: Meld jo oan mei in openID
@@ -1490,19 +1929,220 @@ fy:
       copyright_html: <span>&copy;</span>OpenStreetMap-<br>bydragers
       used_by_html: '%{name} leveret kaartdata foar tûzenen websteeën, mobile apps
         en kompjûterapparaten'
+      lede_text: OpenStreetMap wurdt makke troch in mienskip fan kaartmakkers, dy't
+        gegevens bydrage en ûnderhâlde oer diken, rûtes, kafees, spoarweistasjons
+        en folle mear, oer de hiele wrâld.
+      local_knowledge_title: Lokale kennis
+      local_knowledge_html: |-
+        OpenStreetMap leit de klam op lokale kennis. De bydragers brûke
+        loftbylden, GPS-apparaten en leech-technyske fjildkaarten, om te bewissigjen dat OSM akkuraat en by de tiid is.
+      community_driven_title: Dreaun troch de mienskip
+      community_driven_html: |-
+        De OpenStreetMap-mienskip is alsidich, pasjonearre, en groeit mei de dei.
+        Under ús bydragers sitte entûsjaste kaartmakkers, GIS-fakminsken, technisy
+        dy't de OSM-tsjinners beheare, helpferlieners dy't rampgebieten yn kaart bringe,
+        en in soad oaren.
+        Om mear te witten oer de mienskip, besjoch dan it
+        <a href='https://blog.openstreetmap.org'>OpenStreetMap-bloch</a>,
+        <a href='%{diary_path}'>deiboeken fan meidoggers</a>,
+        <a href='https://blogs.openstreetmap.org/'>mienskipsblochs</a>, en
+        it webstee fan 'e <a href='https://www.osmfoundation.org/'>OSM-stifting</a>.
+      open_data_title: Iepen data
+      open_data_html: |-
+        OpenStreetMap is <i>iepen data</i>: it stiet jo frij it foar elts doel te brûken,
+        salang't jo OpenStreetMap en syn bydragers mar neame. At jo de data
+        op in beskate manier feroarje of ferwurkje, meie jo it resultaat inkeld
+        ûnder deselde lisinsje ferspriede. Sjoch de <a href='%{copyright_path}'>Auteursrjochte- en
+        lisinsjeside</a> foar ynformaasje.
       legal_title: Juridysk
+      legal_1_html: |-
+        Dit webstee en in protte oare besibbe tsjinsten, wurde formeel beheard troch de
+        <a href='https://osmfoundation.org/'>OpenStreetMap-stifting</a> (OSMF)
+        út namme fan 'e mienskip. It gebrûk fan alle OSMF-behearde tsjinsten falt ûnder
+        ús <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Gebrûksbetingsten</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Belied foar Akseptabel Gebrûk</a> en ús <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Privacybelied</a>.
+      legal_2_html: |-
+        Nim graach <a href='https://osmfoundation.org/Contact'>kontakt op mei de OSMF</a>
+        at jo lisinsje-, auteursrjochte- as oare juridyske fragen hawwe.
+        <br>
+        OpenStreetMap, it fergrutglês-logo en 'State of the Map' binne <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">registrearre hannelsmerken fan 'e OSMF</a>.
       partners_title: Partners
     copyright:
       foreign:
         title: Oer dizze oersetting
+        html: Yn it gefal dizze oersette side en %{english_original_link} fan inoar
+          ôfwike, is de Ingelske side beskiedend
+        english_link: it Ingelsktalich orizjineel
       native:
+        title: Oer dizze side
+        html: Jo besjogge de Ingelske ferzje fan 'e auteursrjochteside. Jo kinne weromgean
+          nei de %{native_link} fan dizze side, of ophâlde te lêzen oer auteursrjochten
+          en %{mapping_link}.
         native_link: Frysktalige ferzje
+        mapping_link: mei kaartmeitsjen úteinsette
       legal_babble:
         title_html: Auteursrjochten en lisinsje
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> is <i>iepen data</i>, en troch de  <a
+          href="https://osmfoundation.org/">OpenStreetMap-stifting</a> (OSMF) beskikber steld ûnder de <a
+          href="https://opendatacommons.org/licenses/odbl/">Iepen
+          Databank-lisinsje</a> (ODbL) fan Open Data Commons.
+        intro_2_html: |-
+          It stiet jo frij ús data te kopiearjen, te fersprieden, út te stjoeren en oan te passen,
+          salang't jo OpenStreetMap en syn
+          bydragers mar neame. At jo ús data feroarje of ferwurkje, meie jo
+          it resultaat inkeld ûnder deselde lisinsje ferspriede. De
+          folsleine <a href="https://opendatacommons.org/licenses/odbl/1.0/">juridyske
+          tekst</a> jout in útlis oer jo rjochten en plichten.
+        intro_3_1_html: |-
+          Us dokumintaasje is beskikber ûnder de lisinsje
+          <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Nammefermelding-Lyk diele 2.0</a> (CC BY-SA 2.0).
+        credit_title_html: Hoe moat OpenStreetMap neamd wurde
+        credit_1_html: 'Dêr wêr''t jo OpenStreetMap-data brûke, binne jo ferplichte
+          en doch de neikommende twa dingen:'
+        credit_2_1_html: |-
+          <ul>
+            <li>Jou in taskriuwing oan OpenStreetMap troch ús auteursrjochtefernijing sjen te litten.</li>
+            <li>Meitsje dúdlik dat de data beskikber is ûnder de Iepen Databank-lisinsje.</li>
+          </ul>
+        credit_3_1_html: "Oan 'e auteursrjochtefernijing stelle wy oare easken hoe't
+          dy werjûn wurde \nmoat, ôfhinklik fan hoe't jo ús data brûke. Der jilde
+          bygelyks oare \nregels foar it sjen litten fan 'e auteursrjochtefernijing,
+          ôfhinklik fan oft jo \nin trochklikbere digitale kaart, in printe kaart
+          of in statysk ôfbyld makke hawwe. Alle bysûnderheden oer de \neasken fine
+          jo yn 'e \n<a href=\"https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines\">Rjochtlinen
+          foar \nNammefernijing</a>."
+        credit_4_html: |-
+          Om dúdlik te meitsjen dat de data beskikber is ûnder de Iepen
+          Databank-lisinsje, kinne jo nei
+          <a href="https://www.openstreetmap.org/copyright">dizze auteursrjochteside</a> ferwize.
+          As alternatyf, en as eask at jo OSM yn
+          datafoarm ferspriede, kinne jo de lisinsje(s) streekrjocht neame en keppelje. Yn media
+          dêr't keppelings net mooglik binne (bgl. printwurk) is ús suggestje dat jo
+          jo lêzers trochferwize nei openstreetmap.org (faaks troch
+          'OpenStreetMap' út te skriuwen as dat adres) en nei opendatacommons.org.
+          Yn dit foarbyld stiet de nammefernijing yn 'e hoeke fan 'e kaart.
+        attribution_example:
+          alt: Foarbyld fan hoe't OpenStreetMap op in webside neamd wurdt
+          title: Foarbyld nammefermelding
+        more_title_html: Mear te witten komme
+        more_1_html: |-
+          Lês mear oer it brûken fan ús data, en hoe't wy fermeld wurde moatte, op 'e <a
+          href="https://osmfoundation.org/Licence">Lisinsjeside fan 'e OSMF</a>.
+        more_2_html: |-
+          Hoewol't OpenStreetMap iepen data is, kinne wy net
+          fergees in kaart-API foar tredden leverje.
+          Sjoch ús <a href="https://operations.osmfoundation.org/policies/api/">API-gebrûksbelied</a>,
+          <a href="https://operations.osmfoundation.org/policies/tiles/">Gebrûksbelied foar Kaartstikken</a>
+          en <a href="https://operations.osmfoundation.org/policies/nominatim/">Gebrûksbelied fan Nominatim</a>.
+        contributors_title_html: Us bydragers
+        contributors_intro_html: |-
+          Us bydragers binne tûzenen yndividuën. Wy nimme ek
+          data mei iepen lisinsjes op fan nasjonale kaartagintskippen
+          en oare boarnen, dêrûnder:
+        contributors_at_html: |-
+          <strong>Eastenryk</strong>: Befettet data fan
+          <a href="https://data.wien.gv.at/">Stadt Wien</a> (ûnder
+          <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> en
+          Land Tirol (ûnder <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT mei amendeminten</a>).
+        contributors_au_html: |-
+          <strong>Austraalje</strong>: Omfettet of ûntwikkele mei Administrative Boundaries &copy;
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Austraalje</a>
+          troch it Mienebêst fan Austraalje beskikber steld ûnder de lisinsje
+          <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Nammefermelding 4.0 Ynternasjonaal (CC BY 4.0)</a>.
+        contributors_ca_html: |-
+          <strong>Kanada</strong>: Befettet data fan
+          GeoBase&reg;, GeoGratis (&copy; Departemint fan Natuerlike
+          Helpboarnen Kanada), CanVec (&copy; Departemint fan Natuerlike
+          Helpboarnen Kanada), en StatCan (Geografy-difyzje,
+          Statistiken Kanada).
+        contributors_fi_html: |-
+          <strong>Finlân</strong>: Befettet data út 'e
+          Topografyske Databank en oare datasets fan 'e
+          Nasjonale Lânmjitting fan Finlân, ûnder de
+          <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">NLSFI-lisinsje</a>.
+        contributors_fr_html: |-
+          <strong>Frankryk</strong>: Befettet data mei as boarne
+          Direction Générale des Impôts.
+        contributors_nl_html: |-
+          <strong>Nederlân</strong>: Befettet &copy; AND data, 2007
+          (<a href="https://www.and.com">www.and.com</a>)
+        contributors_nz_html: |-
+          <strong>Nij-Seelân</strong>: Befettet data mei as boarne de
+          <a href="https://data.linz.govt.nz/">LINZ Data Service</a> en
+          werbrûkber ûnder de lisinsje
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        contributors_si_html: |-
+          <strong>Sloveenje</strong>: Befettet data fan 'e
+          <a href="http://www.gu.gov.si/en/">Lânmjittings- en Kartearringsautoriteit</a> en it
+          <a href="http://www.mkgp.gov.si/en/">Ministearje fan Lânbou, Boskbou en Fiedsel</a>
+          (iepenbiere ynformaasje fan Sloveenje).
+        contributors_es_html: |-
+          <strong>Spanje</strong>: Befettet data mei as boarne it
+          Spaansk Nasjonaal Geografysk Ynstitút (<a href="http://www.ign.es/">IGN</a>) en it
+          Nasjonaal Kartografysk Systeem (<a href="http://www.scne.es/">SCNE</a>)
+          werbrûkber ûnder de lisinsje <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        contributors_za_html: |-
+          <strong>Súd-Afrika</strong>: Befettet data mei as boarne
+          <a href="http://www.ngi.gov.za/">Chief Directorate:
+          National Geo-Spatial Information</a>, Steatsauteursrjochten foarbeholden.
+        contributors_gb_html: |-
+          <strong>Feriene Keninkryk</strong>: Befettet data fan Ordnance
+          Survey &copy; Auteurs- en databankrjochten fan 'e Kroan
+          2010-19.
+        contributors_footer_1_html: |-
+          Besjoch de <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">Bydragers-side</a>
+          op 'e OpenStreetMap-wiki foar fierdere ynformaasje oer dizze, en oare boarnen dy't brûkt binne
+          om OpenStreetMap foarút te helpen.
+        contributors_footer_2_html: |-
+          It opnimmen fan data yn OpenStreetMap betsjut net dat de oanbieder fan 'e oarspronklike
+          data efter OpenStreetMap stiet, ien of oare garânsje jout, of
+          oanspraaklikens oanfurdiget.
+        infringement_title_html: Skeining fan auteursrjochten
+        infringement_1_html: |-
+          OSM-bydragers wurde derop wiisd nea data ta te heakjen fan
+          boarnen mei auteursrjochten (bgl. Google Maps as printe kaarten) sûnder
+          de útdruklike tastimming fan 'e auteursrjochthawwers.
+        infringement_2_html: |-
+          At jo miene dat der materiaal mei auteursrjochten ûnrjochtlik
+          oan 'e OpenStreetMap-databank of dit webstee taheakke is, rieplachtsje dêrfoar
+          ús <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">wiskproseduere</a>,
+          of tsjinje it drekst yn op ús
+          <a href="https://dmca.openstreetmap.org/">side mei in webformulier</a>.
+        trademarks_title_html: <span id="trademarks"></span>Hannelsmerken
+        trademarks_1_html: OpenStreetMap, it fergrutglês-logo en 'State of the Map'
+          binne registrearre hannelsmerken fan 'e OpenStreetMap-stifting. At jo fragen
+          hawwe oer jo gebrûk fan 'e merken, besjoch dan ús <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Hannelsmerkebelied</a>.
+    index:
+      js_1: Jo brûke ôf in webblêder dy't gjin JavaScript stipet, ôf jo hawwe JavaScript
+        útskeakele.
+      js_2: OpenStreetMap brûkt JavaScript foar de ferskobere kaart.
+      permalink: Fêste kepp.
+      shortlink: Lytse kepp.
+      createnote: Notysje taheakje
+      license:
+        copyright: Auteursrjochten OpenStreetMap en bydragers, ûnder in iepen lisinsje
+      remote_failed: Bewurkjen mislearre - soargje dat JOSM of Merkaartor laden is,
+        en de ôfstânsbetsjinningsopsje ynskeakele
+    edit:
+      not_public: Jo hawwe net ynsteld dat jo bewurkings iepenbier binne.
+      not_public_description_html: Jo kinne de kaart net mear bewurkje oant jo dat
+        dogge. Jo kinne jo bewurkings as iepenbier ynstelle op jo %{user_page}.
+      user_page_link: meidoggerside
+      anon_edits_link_text: Fyn út wêrom't dat sa is.
+      id_not_configured: iD is net konfigurearre
+      no_iframe_support: Jo webblêder stipet gjin HTML-iframes, dy't nedich binne
+        foar dizze funksje.
     export:
       title: Eksportearje
+      area_to_export: Eksportgebiet
       manually_select: Mei de hân in oar gebiet selektearje
+      format_to_export: Bestânsfoarm
       osm_xml_data: OpenStreetMap-XML-data
+      map_image: Kaartôfbylding (toant standertlaach)
+      embeddable_html: Ynbou-HTML
       licence: Lisinsje
       export_details_html: OpenStreetMap-data is beskikber ûnder de <a href="https://opendatacommons.org/licenses/odbl/1.0/">Iepen
         Databank-lisinsje</a> (ODbL) fan Open Data Commons.
@@ -1510,12 +2150,9 @@ fy:
         advice: |-
           At it eksportearjen boppe net slagget, besykje
           dan ris ien fan 'e neikommende boarnen:
-        body: |-
-          It gebiet is te grut en eksportearje dat as
-          OpenStreetMap-XML-data. Zoom yn as
-          selektearje in lytser gebiet. Brûk oars ien
-          fan 'e boarnen dy't hjirûnder steane foar
-          it ynladen fan bulkdata.
+        body: Dit gebiet is te grut foar eksport as OpenStreetMap-XML-data. Sûm yn
+          of selektearje in lytser gebiet. Brûk oars ien fan 'e boarnen dy't hjirûnder
+          steane foar it ynladen fan bulkdata.
         planet:
           title: Planet OSM
           description: Geregeldwei bywurke kopyen fan 'e hiele OpenStreetMap-databank
@@ -1533,32 +2170,91 @@ fy:
           title: Oare boarnen
           description: Fierders noch boarnen dy't op 'e OpenStreetMap-wiki steane
       options: Opsjes
-      format: 'Formaat:'
+      format: 'Foarm:'
       scale: Skaal
       max: maks.
+      image_size: 'Ofbyldgrutte:'
+      zoom: Sûm
+      add_marker: Markearder oan 'e kaart tafoegje
       latitude: 'Bgr.:'
       longitude: 'Lgr.:'
       output: Utfier
+      paste_html: HTML op te nimmen yn in webstee
       export_button: Eksportearje
+    fixthemap:
+      title: Probleem melde / Kaart ferbetterje
+      how_to_help:
+        title: Hoe te helpen
+        join_the_community:
+          title: Kom by de mienskip
+          explanation_html: At jo in probleem yn ús kaartdata opmerke, bygelyks in
+            strjitte mist of jo adres, dan kinne jo jo it bêst oanslute by de OpenStreetMap-mienskip,
+            en de data sels tafoegje of reparearje.
+        add_a_note:
+          instructions_html: |-
+            Klik gewoan op <a class='icon note'></a> of itselde ikoan yn 'e kaartwerjefte.
+            Der komt in markearder op 'e kaart dy't jo
+            ferslepe kinne. Heakje jo berjocht ta, klik bewarje, en oare kaartmakkers sille it dan besjen.
+      other_concerns:
+        title: Oare betinkings
+        explanation_html: |-
+          At jo noed hawwe oer hoe't ús data brûkt wurdt of oer de ynhâld, rieplachtsje dan ús
+          <a href='/copyright'>auteursrjochteside</a> foar mear juridyske ynformaasje, of nim kontakt op mei de krekte
+          <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-wurkgroep</a>.
     help:
       title: Help krije
+      introduction: |-
+        OpenStreetMap hat ferskate middels om oer it projekt te learen, foar it stellen en beäntwurdzjen fan fragen,
+        en yn gearwurking bepraten en fêstlizzen fan kartearringssaken.
       welcome:
         url: /welcome
         title: Wolkom by OpenStreetMap
+        description: Begjin mei dizze koarte útlis oer OpenStreetMap-basisdingen.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
+        title: Paadwizer foar begjinners
+        description: Troch de mienskip byholden paadwizer foar begjinners.
       help:
         url: https://help.openstreetmap.org/
-        title: Help-forum
+        title: Help-foarum
+        description: Stel in fraach of besjoch antwurden op OpenStreetMaps fraach-en-antwurdside.
+      mailing_lists:
+        title: Mailinglisten
+        description: Stel in fraach of bepraat nijsgjirrige saken op útienrinnende
+          tematyske as regionale mailinglisten.
       forums:
-        title: Foarums
+        title: Foarums (âld)
+        description: Fragen en oerlis foar dejingen dy't leaver yn pripboerd-styl
+          wurkje.
+      community:
+        url: https://community.openstreetmap.org/
+        title: Mienskipsfoarum
+        description: In mienskiplik plak foar petear oer OpenStreetMap.
       irc:
         title: IRC
+        description: Ynteraktyf tsjetten yn ferskate talen en op alderlei mêd.
+      switch2osm:
+        title: switch2osm
+        description: Help foar bedriuwen en organisaasjes dy't oergeane op kaarten
+          en oare tsjinsten fan OpenStreetMap.
       welcomemat:
         url: https://welcome.openstreetmap.org/
+        title: Foar organisaasjes
+        description: Mei in organisaasje plannen meitsje foar OpenStreetMap? Fyn wat
+          jo witte wolle op 'e Wolkom-matte.
       wiki:
         url: https://wiki.openstreetmap.org/
         title: OpenStreetMap-wiki
+        description: De wiki trochsjen foar wiidweidige dokumintaasje oer OpenStreetMap.
+    potlatch:
+      removed: Jo standertbewurker foar OpenStreetMap is ynsteld op Potlatch. Om't
+        Adobe Flash Player weifallen is, is Potlatch net mear beskikber foar gebrûk
+        yn in webblêder.
+      desktop_html: Jo kinne Potlatch nog brûke troch <a href="https://www.systemed.net/potlatch/">it
+        kompjûterprogramma foar Mac as Windows yn te laden</a>.
+      id_html: As alternatyf kinne jo jo standertbewurker ynstelle op iD, dat yn jo
+        webblêder draait krekt as Potlatch foarhinne. <a href="%{settings_url}">Feroarje
+        hjir jo foarkarren</a>.
     sidebar:
       search_results: Sykresultaten
       close: Slute
@@ -1611,10 +2307,11 @@ fy:
           common:
           - Miente
           - greide
+          - tún
           retail: Winkelgebiet
           industrial: Yndustrygebiet
           commercial: Kommersjeel gebiet
-          heathland: Heidlân
+          heathland: Heidelân
           lake:
           - Mar
           - opslachmar
@@ -1644,25 +2341,56 @@ fy:
           toilets: Húskes
     welcome:
       title: Wolkom!
+      introduction_html: |-
+        Wolkom by OpenStreetMap, de frije en bewurkbere wrâldkaart. No't jo ynskreaun binne,
+        binne jo hielendal klear foar jo earste bewurking. Hjir is in koarte útlis mei de wichtichste
+        dingen dy't jo witte moatte.
       whats_on_the_map:
         title: Wat stiet der op 'e kaart
+        on_html: |-
+          OpenStreetMap is in plak foar it ynkaartsjen fan dingen dy't <em>konkreet én aktueel</em> binne -
+          it befettet miljoenen gebouwen, diken en oare bysûnderheden oer plakken. Jo kinne
+          alle besteande skaaimerken dy't jo nijsgjirrich talykje op 'e kaart sette.
+        off_html: |-
+          Wat it <em>net</em> befettet is subjektive data lykas beoardielings, histoaryske as
+          ûnderstelde skaaimerken, en data út boarnen mei auteursrjocht.
+          Kopiearje net fan digitale as papieren kaarten sûnder spesjale tastimming dêrta.
       basic_terms:
         title: Basisbegripen foar it kaartmeitsjen
+        paragraph_1_html: OpenStreetMap hat in eigen taaltsje. Hjir binne in pear
+          kaaiwurden dy't fan pas komme sille.
         editor_html: In <strong>bewurker</strong> is in programma of webstee dat jo
           brûke kinne om 'e kaart te bewurkjen.
         node_html: In <strong>punt</strong> is in plak op 'e kaart, lykas in inkel
           restaurant of in beam.
-        way_html: In <strong>line</strong> is in belining of gebiet, lykas in strjitte,
+        way_html: In <strong>line</strong> is in belining of flak, lykas in strjitte,
           rivier, mar of gebou.
         tag_html: In <strong>lebel</strong> is in stikje data oer in punt of line,
           lykas in restaurantnamme of de maksimum faasje fan in strjitte.
       rules:
         title: Regels!
+        paragraph_1_html: |-
+          OpenStreetMap hat net folle formele regels, mar wy ferwachtsje fan alle dielnimmers dat hja gearwurkje
+          en kommunisearje mei de mienskip. At jo faaks
+          wat oars dwaan wolle as mei de hân bewurkjen, lês en folgje dan de rjochtlinen foar
+          <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>Ymports</a> en
+          <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Automatisearre bewurkings</a>.
       questions:
         title: Noch fragen?
+        paragraph_1_html: |-
+          OpenStreetMap hat ferskate middels om oer it projekt te learen, foar it stellen en beäntwurdzjen
+          fan fragen, en yn gearwurking bepraten en fêstlizzen fan kartearringssaken.
+          <a href='%{help_url}'>Krij hjir help</a>. Mei in organisaasje plannen meitsje foar OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Besjoch de Wolkom-matte</a>.
       start_mapping: Set útein mei kaartmeitsjen
       add_a_note:
         title: Gjin tiid te bewurkjen? Meitsje in notysje!
+        paragraph_1_html: |-
+          At jo allinnich wat lyts oanpasse wolle, en gjin tiid hawwe yn te skriuwen en bewurkjen te learen, is
+          in notysje taheakjen noflik.
+        paragraph_2_html: |-
+          Gean gewoan nei <a href='%{map_url}'>de kaart</a>, en klik op it notysje-ikoan:
+          <span class='icon note'></span>. Der komt in markearder op 'e kaart dy't jo
+          ferslepe kinne. Heakje jo berjocht ta, klik bewarje, en oare kaartmakkers sille it dan besjen.
   traces:
     visibility:
       private: Privee (inkeld dield as anonime, net-oardere punten)
@@ -1681,6 +2409,15 @@ fy:
       trace_uploaded: Jo GPX-bestân is opladen en wachtet op databankynfiering. Dat
         bart trochstrings binnen in heal oere, en der wurdt jo in e-mail tastjoerd
         at it dien is.
+      upload_failed: Spitich, it opladen fan 'e GPX gong mis. In behearder is op 'e
+        flater wiisd. Besykje it nochris
+      traces_waiting:
+        one: Jo hawwe %{count} trajekt foar opladen yn 'e wacht. Wachtsje oant dy
+          klear is foar't jo noch mear oplade, om 'e wachtrige net te ferstopjen foar
+          oare meidoggers.
+        other: Jo hawwe %{count} trajekten foar opladen yn 'e wacht. Wachtsje oant
+          dy klear binne foar't jo noch mear oplade, om 'e wachtrige net te ferstopjen
+          foar oare meidoggers.
     edit:
       cancel: Annulearje
       title: Trajekt %{name} bewurkje
@@ -1733,7 +2470,7 @@ fy:
       in: yn
     index:
       public_traces: Iepenbiere GPS-trajekten
-      my_traces: Myn trajekten
+      my_gps_traces: Myn GPS-trajekten
       public_traces_from: Iepenbiere GPS-trajekten fan %{user}
       description: Koartlyn opladen GPS-trajekten trochsjen
       tagged_with: ' lebele mei %{tags}'
@@ -1741,12 +2478,19 @@ fy:
         of lear alles oer GPS-trasearring op 'e <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikiside</a>.
       upload_trace: Trajekt oplade
       all_traces: Alle trajekten
+      my_traces: Myn trajekten
       traces_from: Iepenbiere trajekten fan %{user}
       remove_tag_filter: Lebelfilter weilitte
     destroy:
       scheduled_for_deletion: Trajekt ynplend om te wiskjen
     make_public:
       made_public: Trajekt iepenbier makke
+    offline_warning:
+      message: It systeem foar opladen fan GPX-bestannen is op it stuit net beskikber
+    offline:
+      heading: GPX-opslach ôfline
+      message: It systeem foar opslach en opladen fan GPX-bestannen is op it stuit
+        net beskikber.
     georss:
       title: OpenStreetMap GPS-trajekten
     description:
@@ -1755,30 +2499,153 @@ fy:
         other: GPX-bestân mei %{count} punten fan %{user}
       description_without_count: GPX-bestân fan %{user}
   application:
+    permission_denied: Jo hawwe net de rjochten foar tagong ta dy hanneling
+    require_cookies:
+      cookies_needed: It liket dat jo 'koekjes' út stean hawwe - set koekjes oan yn
+        jo webblêder foar't jo trochgeane.
+    require_admin:
+      not_an_admin: Jo moatte behearder wêze om dy hanneling útfiere te kinnen.
+    setup_user_auth:
+      blocked_zero_hour: Jo hawwe in driuwend berjocht op it OpenStreetMap-webstee.
+        Jo moatte it berjocht lêze foar't jo jo bewurkings fêstlizze kinne.
+      blocked: Jo binne útsletten fan tagong ta de API. Meld jo oan op 'e webside
+        om der mear oer te witten.
+      need_to_see_terms: Jo tagong ta de API is tydlik skoattele. Meld jo oan op 'e
+        webside om de Bydragersbetingsten te besjen. Jo hoege net akkoart te gean,
+        mar jo moatte se besjen.
     settings_menu:
       account_settings: Akkountynstellings
-      oauth1_settings: OAuth 1-ynstellings
-      oauth2_applications: OAuth 2-applikaasjes
-      oauth2_authorizations: OAuth 2-autorisaasjes
+      oauth1_settings: Ynstellings OAuth 1
+      oauth2_applications: Applikaasjes OAuth 2
+      oauth2_authorizations: Autorisaasjes OAuth 2
   oauth:
+    authorize:
+      title: Tagong ta jo akkount autorisearje
+      request_access_html: De applikaasje %{app_name} freget tagong ta jo akkount,
+        %{user}. Gean nei oft jo wolle dat de applikaasje de neikommende mooglikheden
+        kriget. Jo meie der sa folle of sa min kieze as jo wolle.
+      allow_to: 'De kliïnt-applikaasje tastean om:'
+      allow_read_prefs: jo meidoggerfoarkarren te lêzen.
+      allow_write_prefs: jo meidoggerfoarkarren te wizigjen.
+      allow_write_diary: deiboekstikken, reäksjes en freonen te meitsjen.
+      allow_write_api: de kaart te wizigjen.
+      allow_read_gpx: jo privee-GPS-trajekten te lêzen.
+      allow_write_gpx: GPS-trajekten op te laden.
+      allow_write_notes: notysjes te wizigjen.
+      grant_access: Tagong jaan
+    authorize_success:
+      title: Autorisaasjefersyk tastien
+      allowed_html: Jo hawwe de applikaasje %{app_name} tagong ta jo akkount jûn.
+      verification: De ferifikaasjekoade is %{code}.
+    authorize_failure:
+      title: Autorisaasjefersyk mislearre
+      denied: Jo hawwe de applikaasje %{app_name} tagong ta jo akkount wegere.
+      invalid: De autorisaasjekaai is net jildich.
+    revoke:
+      flash: Jo hawwe de kaai foar %{application} ynlutsen
+    permissions:
+      missing: Jo hawwe de applikaasje de tagong ta dizze foarsjenning net tastien
     scopes:
+      read_prefs: Meidoggerfoarkarren lêzen
+      write_prefs: Meidoggerfoarkarren wizigjen
+      write_diary: Deiboekstikken, reäksjes en freonen meitsjen
       write_api: Kaart wizigjen
+      read_gpx: Privee-GPS-trajekten lêzen
+      write_gpx: GPS-trajekten opladen
       write_notes: Notysjes wizigjen
+      read_email: Meidogger-e-mailadres lêzen
+      skip_authorization: Applikaasje automatysk goedkarren
+  oauth_clients:
+    new:
+      title: In nije applikaasje registrearje
+    edit:
+      title: Jo applikaasje bewurkje
+    show:
+      title: OAuth-gegevens foar %{app_name}
+      key: 'Konsumint-kaai:'
+      secret: 'Konsumint-geheim:'
+      url: 'Fersykkaai-URL:'
+      access_url: 'Tagongskaai-URL:'
+      authorize_url: 'Autorisaasje-URL:'
+      support_notice: Wy stypje ûndertekeningen mei HMAC-SHA1 (oanret) en RSA-SHA1.
+      edit: Gegevens bewurkje
+      delete: Kliïnt wiskje
+      confirm: Seker witte?
+      requests: 'Freget de neikommende rjochten fan ''e meidogger:'
+    index:
+      title: Myn OAuth-gegevens
+      my_tokens: Myn autorisearre applikaasjes
+      list_tokens: 'De neikommende kaaien binne ôfjûn oan applikaasjes op jo namme:'
+      application: Applikaasjenamme
+      issued_at: Ofjûn op
+      revoke: Ynlûke!
+      my_apps: Myn kliïnt-applikaasjes
+      no_apps_html: Hawwe jo in applikaasje dy't jo registrearje wolle foar gebrûk
+        by ús mei de %{oauth}-standert? Dan moatte jo jo webapplikaasje registrearje
+        foardat er OAuth-fersiken foar dy tsjinst dwaan kin.
+      oauth: OAuth
+      registered_apps: 'Jo hawwe de neikommende kliïnt-applikaasjes registrearre:'
+      register_new: Jo applikaasje registrearje
+    form:
+      requests: 'Freegje de neikommende rjochten fan ''e meidogger:'
+    not_found:
+      sorry: Spitich, mar %{type} koe net fûn wurde.
+    create:
+      flash: Registrearjen fan 'e ynformaasje slagge
+    update:
+      flash: Bywurkjen fan 'e kliïnt-ynformaasje slagge
+    destroy:
+      flash: Registraasje fan 'e kliïnt-applikaasje ferneatige
   oauth2_applications:
     index:
+      title: Myn kliïnt-applikaasjes
+      no_applications_html: Hawwe jo in applikaasje dy't jo registrearje wolle foar
+        gebrûk by ús mei de %{oauth2}-standert? Dan moatte jo jo applikaasje registrearje
+        foardat er OAuth-fersiken foar dy tsjinst dwaan kin.
+      oauth_2: OAuth 2
+      new: Nije applikaasje registrearje
       name: Namme
+      permissions: Rjochten
     application:
       edit: Bewurkje
       delete: Wiskje
+      confirm_delete: Dizze applikaasje wiskje?
+    new:
+      title: In nije applikaasje registrearje
+    edit:
+      title: Jo applikaasje bewurkje
     show:
       edit: Bewurkje
       delete: Wiskje
+      confirm_delete: Dizze applikaasje wiskje?
+      client_id: Kliïnt-ID
+      client_secret: Kliïnt-geheim
+      client_secret_warning: Soargje dat jo dit geheim bewarje - it wurdt net nochris
+        toand
+      permissions: Rjochten
+      redirect_uris: Trochferwiis-URI's
+    not_found:
+      sorry: Spitich, dy applikaasje koe net fûn wurde.
+  oauth2_authorizations:
+    new:
+      title: Autorisaasje frege
+      introduction: '%{application} autorisearje foar tagong ta jo akkount mei de
+        neikommende rjochten?'
+      authorize: Autorisearje
+      deny: Wegerje
+    error:
+      title: In flater die him foar
+    show:
+      title: Autorisaasjekoade
   oauth2_authorized_applications:
     index:
+      title: Myn autorisearre applikaasjes
       application: Applikaasje
       permissions: Rjochten
+      no_applications_html: Jo hawwe noch gjin %{oauth2}-applikaasjes autorisearre.
     application:
       revoke: Tagong ynlûke
+      confirm_revoke: Tagong foar dizze applikaasje ynlûke?
   users:
     new:
       title: Ynskriuwe
@@ -1799,7 +2666,7 @@ fy:
       display name description: Jo meidochnamme dy't elkenien sjen kin. Jo kinne dy
         letter yn 'e foarkarren feroarje.
       external auth: 'Tredde-autentifikaasje:'
-      use external auth: Brûk oars in treddepartij en meld jo oan
+      use external auth: Brûk oars in treddepartij om jo oan te melden
       auth no password: Mei autentifikaasje troch in tredde is in wachtwurd oerstallich,
         mar guon ark as tsjinners soene ien freegje kinne.
       continue: Ynskriuwe
@@ -1821,7 +2688,7 @@ fy:
       consider_pd: Njonken it boppesteande, beskôgje ik myn bydragen as part fan it
         Publyk Domein
       consider_pd_why: wat is dat?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Ynformaasje om dy betingsten better te begripen: in <a href="%{summary}">lêsbere
         gearfetting</a> en in pear <a href="%{translations}">ynformele oersettings</a>'
       continue: Fierder
@@ -1857,13 +2724,15 @@ fy:
       my comments: Myn reäksjes
       my_preferences: Myn foarkarren
       my_dashboard: Myn oersjochpaniel
+      blocks on me: Utslutings foar my
+      blocks by me: Utslutings troch my
       edit_profile: Profyl bewurkje
       send message: Berjocht stjoere
       diary: Deiboek
       edits: Bewurkings
       traces: Trajekten
       notes: Kaartnotysjes
-      remove as friend: Freon ôf
+      remove as friend: Freon ôffiere
       add as friend: Freon tafoegje
       mapper since: 'Kaartmakker sûnt:'
       ct status: 'Bydragersbetingsten:'
@@ -1871,63 +2740,34 @@ fy:
       ct declined: ôfwiisd
       latest edit: 'Lêste bewurking (%{ago}):'
       email address: 'E-mailadres:'
+      created from: 'Oanmakke fan:'
       status: 'Status:'
+      spam score: 'Spamskoare:'
       description: Beskriuwing
       user location: Lokaasje meidogger
       role:
-        administrator: Dizze meidogger is in behearder
-        moderator: Dizze meidogger is in tafersjochhâlder
+        administrator: Dizze meidogger is behearder
+        moderator: Dizze meidogger is tafersjochhâlder
         grant:
           administrator: Behearder meitsje
           moderator: Tafersjochhâlder meitsje
         revoke:
           administrator: Behearderskip ynlûke
           moderator: Tafersjochhâlderskip ynlûke
+      block_history: Rinnende útslutings
+      moderator_history: Utslutings útdield
       comments: Reäksjes
+      create_block: Dizze meidogger útslute
+      activate_user: Dizze meidogger aktivearje
+      deactivate_user: Dizze meidogger deäktivearje
+      confirm_user: Dizze meidogger befêstigje
+      unconfirm_user: Dizze meidogger ûnbefêstigje
+      unsuspend_user: Dizze meidogger ûntskoattelje
+      hide_user: Dizze meidogger ferbergje
+      unhide_user: Dizze meidogger werompleatse
       delete_user: Dizze meidogger wiskje
       confirm: Befêstigje
       report: Dizze meidogger melde
-    account:
-      title: Akkount bewurkje
-      my settings: Myn ynstellings
-      current email address: Hjoeddeisk e-mailadres
-      external auth: Autentifikaasje om utens
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: wat is dat?
-      public editing:
-        heading: Iepenbier bewurkjen
-        enabled: Ynskeakele. Net anonym en kin data bewurkje.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: wat is dat?
-        disabled: Utskeakele en kin gjin data bewurkje, alle eardere bewurkings binne
-          anonym.
-        disabled link text: wêrom kin ik net bewurkje?
-      public editing note:
-        heading: Iepenbier bewurkjen
-        html: Op it stuit binne jo bewurkings anonym, en kinne minsken jo gjin berjochten
-          stjoere of jo lokaasje sjen. Klik de knop hjirûnder om sjen te litten wat
-          jo bewurke hawwe, en om minsken ta te stean op it webstee kontakt mei jo
-          op te nimmen. <b>Sûnt de oergong nei API 0.6, kinne inkeld iepenbiere meidoggers
-          kaartdata bewurkje</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">fyn
-          út wêrom</a>).<ul><li>Jo e-mailadres wurdt net bekend makke by it iepenbier
-          wurden.</li><li>Dizze hanneling kin net weromdraaid wurde, en alle nije
-          meidoggers binne no standert iepenbier.</li></ul>
-      contributor terms:
-        heading: Bydragersbetingsten
-        agreed: Jo binne akkoart gien mei de nije Bydragersbetingsten.
-        not yet agreed: Jo binne noch net akkoart gien mei de nije Bydragersbetingsten.
-        review link text: Folgje dizze keppeling wannear't it jo útkomt, om de nije
-          Bydragersbetingsten te besjen en te akseptearjen.
-        agreed_with_pd: Jo hawwe ek oanjûn dat jo jo bewurkings as part fan it Publyk
-          Domein beskôgje.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: wat is dat?
-      save changes button: Feroarings bewarje
-      make edits public button: Al myn bewurkings iepenbier meitsje
-      flash update success confirm needed: Meidoggergegevens bywurkjen slagge. Besjoch
-        jo e-mail foar in berjocht om jo nije e-mailadres te befêstigjen.
-      flash update success: Meidoggergegevens bywurkjen slagge.
     set_home:
       flash success: Fêste lokaasje bewarjen slagge
     go_public:
@@ -1935,16 +2775,167 @@ fy:
     index:
       title: Meidoggers
       heading: Meidoggers
+      showing:
+        one: Side %{page} (%{first_item} fan %{items})
+        other: Side %{page} (%{first_item}-%{last_item} fan %{items})
+      summary_html: '%{name} oanmakke fan %{ip_address} op %{date}'
+      summary_no_ip_html: '%{name} oanmakke op %{date}'
+      confirm: Selektearre meidoggers befêstigje
+      hide: Selektearre meidoggers ferbergje
+      empty: Gjin oerienkommende meidoggers fûn
+    suspended:
+      title: Akkount skoattele
+      heading: Akkount skoattele
+      support: Stipe
+      body_html: |-
+        <p>
+          Spitich, jo akkount is automatysk skoattele fanwegen
+          fertochte aktiviteiten.
+        </p>
+        <p>
+          Dat beslút wurdt mei gauwens troch in behearder besjoen, of
+          jo kinne kontakt opnimme mei %{webmaster} at jo it beprate wolle.
+        </p>
     auth_failure:
       connection_failed: Ferbining mei de autentifikaasje-oanbieder mislearre
+      invalid_credentials: Unjildige autentifikaasjegegevens
+      no_authorization_code: Gjin autorisaasjekoade
+      unknown_signature_algorithm: Unbekend ûndertekeningsalgoritme
+      invalid_scope: Unjildich rjochteberik
+      unknown_error: Autentifikaasje mislearre
+    auth_association:
+      heading: Jo ID is noch net ferbûn oan in OpenStreetMap-akkount.
+      option_1: |-
+        At jo nij binne op OpenStreetMap, meitsje dan graach in nij akkount
+        mei it formulier hjirûnder.
+      option_2: |-
+        At jo al in akkount hawwe, kinne jo jo oanmelde op jo akkount
+        mei jo meidochnamme en wachtwurd, en dan it akkount ferbine
+        oan jo ID yn jo meidoggerynstellings.
+  user_role:
+    filter:
+      not_a_role: De tekenrige '%{role}' is net in jildige rol.
+      already_has_role: De meidogger hat al de rol fan %{role}.
+      doesnt_have_role: De meidogger hat net de rol fan %{role}.
+      not_revoke_admin_current_user: Kin de beheardersrol fan dizze meidogger net
+        ynlûke.
+    grant:
+      title: Rol takennen befêstigje
+      heading: Rol takennen befêstigje
+      are_you_sure: Witte jo seker dat jo de rol fan '%{role}' oan 'e meidogger '%{name}'
+        takenne wolle?
+      confirm: Befêstigje
+      fail: Koe de rol fan '%{role}' oan 'e meidogger '%{name}' net takenne. Gean
+        nei oft meidogger en rol beide jildich binne.
+    revoke:
+      title: Rol ynlûken befêstigje
+      heading: Rol ynlûken befêstigje
+      are_you_sure: Witte jo seker dat jo de rol fan '%{role}' fan 'e meidogger '%{name}'
+        ynlûke wolle?
+      confirm: Befêstigje
+      fail: Koe de rol fan '%{role}' fan 'e meidogger '%{name}' net ynlûke. Gean nei
+        oft meidogger en rol beide jildich binne.
   user_blocks:
+    model:
+      non_moderator_update: Moat tafersjochhâlder wêze om in útsluting oanmeitsje
+        as bywurkje te kinnen.
+      non_moderator_revoke: Moat tafersjochhâlder wêze om in útsluting ynlûke te kinnen.
+    not_found:
+      sorry: Spitich, de meidoggerútsluting mei ID %{id} koe net fûn wurde.
+      back: Werom nei de list
+    new:
+      title: Utsluting foar %{name} oanmeitsje
+      heading_html: Utsluting foar %{name} oanmeitsje
+      period: Foar hoe lang, fan no ôf, de meidogger útsletten wurdt fan 'e API.
+      tried_contacting: Ik haw kontakt mei de meidogger opnommen en frege op te hâlden.
+      tried_waiting: Ik haw de meidogger in ridlike tiid jûn op dat boadskip te reägearjen.
+      back: Alle útslutings besjen
+    edit:
+      title: Utsluting foar %{name} bewurkje
+      heading_html: Utsluting foar %{name} bewurkje
+      period: Foar hoe lang, fan no ôf, de meidogger útsletten wurdt fan 'e API.
+      show: Dizze útsluting besjen
+      back: Alle útslutings besjen
+    filter:
+      block_expired: De útsluting is al ferrûn en kin net bewurke wurde.
+      block_period: De útslutingsdoer moat ien fan 'e wearden yn 'e útklapbere karlist
+        wêze.
+    create:
+      try_contacting: Besykje fóár it útsluten kontakt mei de meidogger op te nimmen,
+        en in ridlike tiid te jaan om te reägearjen.
+      try_waiting: Besykje fóár it útsluten de meidogger in ridlike tiid te jaan om
+        te reägearjen.
+      flash: Utsluting oanmakke foar meidogger %{name}.
+    update:
+      only_creator_can_edit: Inkeld de tafersjochhâlder dy't dizze útsluting oanmakke
+        hat, kin it bewurkje.
+      success: Utsluting bywurke.
+    index:
+      title: Utslutings fan meidoggers
+      heading: List mei útslutings fan meidoggers
+      empty: Der binne noch gjin útslutings oanmakke.
+    revoke:
+      title: Utsluting foar %{block_on} ynlûke
+      heading_html: Utsluting foar %{block_on} troch %{block_by} ynlûke
+      time_future: Dizze útsluting ferfalt oer %{time}.
+      past: Dizze útsluting is %{time} ferfallen en kin net mear ynlutsen wurde.
+      confirm: Witte jo seker dat jo dizze útsluting ynlûke wolle?
+      revoke: Ynlûke!
+      flash: Dizze útsluting is ynlutsen.
+    helper:
+      time_future_html: Ferfalt oer %{time}.
+      until_login: Rint oant oanmelding meidogger.
+      time_future_and_until_login_html: Ferfalt oer %{time} nei oanmelding meidogger.
+      time_past_html: Ferfallen %{time}.
+      block_duration:
+        hours:
+          one: 1 oere
+          other: '%{count} oeren'
+        days:
+          one: 1 dei
+          other: '%{count} dagen'
+        weeks:
+          one: 1 wike
+          other: '%{count} wike'
+        months:
+          one: 1 moanne
+          other: '%{count} moanne'
+        years:
+          one: 1 jier
+          other: '%{count} jier'
+    blocks_on:
+      title: Utslutings foar %{name}
+      heading_html: List mei útslutings foar %{name}
+      empty: '%{name} is noch net útsletten west.'
+    blocks_by:
+      title: Utslutings troch %{name}
+      heading_html: List mei útslutings troch %{name}
+      empty: '%{name} hat noch gjin útslutings oanmakke.'
     show:
+      title: '%{block_on} útsletten troch %{block_by}'
+      heading_html: '%{block_on} útsletten troch %{block_by}'
+      created: 'Oanmakke:'
+      duration: 'Tiidsdoer:'
       status: 'Status:'
+      show: Werjaan
       edit: Bewurkje
+      revoke: Ynlûke!
+      confirm: Seker witte?
+      reason: 'Reden foar útsluting:'
+      back: Alle útslutings besjen
+      revoker: 'Ynlûker:'
+      needs_view: De meidogger moat oanmelde foar't dizze útsluting ferfalt.
     block:
+      not_revoked: (net ynlutsen)
+      show: Werjaan
       edit: Bewurkje
+      revoke: Ynlûke!
     blocks:
+      display_name: Utsletten meidogger
+      creator_name: Oanmakker
+      reason: Reden foar útsluting
       status: Status
+      revoker_name: Ynlutsen troch
       showing_page: Side %{page}
       next: Folgjende »
       previous: « Foarige
@@ -1989,8 +2980,8 @@ fy:
       tooltip_disabled: Gjin leginda beskikber foar dizze laach
     map:
       zoom:
-        in: Ynzoome
-        out: Utzoome
+        in: Ynsûme
+        out: Utsûme
       locate:
         title: Myn lokaasje oanjaan
         metersPopup:
@@ -2026,14 +3017,13 @@ fy:
         Frankryk</a>
     site:
       edit_tooltip: De kaart bewurkje
-      edit_disabled_tooltip: Zoom yn om 'e kaart bewurkje te kinnen
+      edit_disabled_tooltip: Sûm yn om 'e kaart bewurkje te kinnen
       createnote_tooltip: In notysje oan 'e kaart taheakje
-      createnote_disabled_tooltip: Zoom yn om in notysje oan 'e kaart taheakje te
-        kinnen
-      map_notes_zoom_in_tooltip: Zoom yn om kaartnotysjes sjen te kinnen
-      map_data_zoom_in_tooltip: Zoom yn om kaartdata sjen te kinnen
+      createnote_disabled_tooltip: Sûm yn om in notysje oan 'e kaart taheakje te kinnen
+      map_notes_zoom_in_tooltip: Sûm yn om kaartnotysjes sjen te kinnen
+      map_data_zoom_in_tooltip: Sûm yn om kaartdata sjen te kinnen
       queryfeature_tooltip: Skaaimerken opfreegje
-      queryfeature_disabled_tooltip: Zoom yn om skaaimerken opfreegje te kinnen
+      queryfeature_disabled_tooltip: Sûm yn om skaaimerken opfreegje te kinnen
     changesets:
       show:
         comment: Reägearje
@@ -2058,7 +3048,10 @@ fy:
         reactivate: Weraktivearje
         comment_and_resolve: Reägearje & oplosse
         comment: Reägearje
-    edit_help: Sko de kaart en zoom yn op 'e lokaasje dy't jo bewurkje wolle, klik
+        report_link_html: At dizze notysje gefoelige ynformaasje befettet dy't fuorthelle
+          wurde moat, dan kinne jo %{link}. Los alle oare problemen mei de notysje
+          graach sels op fia in reäksje.
+    edit_help: Sko de kaart en sûm yn op 'e lokaasje dy't jo bewurkje wolle, klik
       dan hjir.
     directions:
       ascend: Klimmen
@@ -2164,9 +3157,33 @@ fy:
       query_features: Skaaimerken opfreegje
       centre_map: Kaart hjir sintrearje
   redactions:
+    edit:
+      heading: Redigearring bewurkje
+      title: Redigearring bewurkje
+    index:
+      empty: Gjin redigearrings wer te jaan.
+      heading: List fan redigearrings
+      title: List fan redigearrings
+    new:
+      heading: Jou ynformaasje foar de nije redigearring
+      title: Nije redigearring oanmeitsje
     show:
       description: 'Beskriuwing:'
-      user: 'Auteur:'
+      heading: Redigearring "%{title}" werjaan
+      title: Redigearring werjaan
+      user: 'Oanmakker:'
+      edit: Dizze redigearring bewurkje
+      destroy: Dizze redigearring fuortsmite
+      confirm: Seker witte?
+    create:
+      flash: Redigearring oanmakke.
+    update:
+      flash: Feroarings bewarre.
+    destroy:
+      not_empty: Redigearring is net leech. Untdoch fóár it ferneatigjen alle ferzjes
+        dy't by dizze redigearring hearre fan redaksjewurk.
+      flash: Redigearring ferneatige.
+      error: Der gong wat mis mei it ferneatigjen fan dizze redigearring.
   validations:
     leading_whitespace: begjint mei wytromte
     trailing_whitespace: einiget mei wytromte

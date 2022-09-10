@@ -7,24 +7,38 @@
 # Author: V.narsikar
 # Author: Vibhavari
 # Author: अभय नातू
+# Author: गराडे
 ---
 mr:
   time:
     formats:
       friendly: '%e %B %Y, %H:%M ला'
   helpers:
+    file:
+      prompt: फाईल निवडा
     submit:
       diary_comment:
         create: जतन करा
+      diary_entry:
+        create: प्रकाशित करा
+        update: अद्ययावत करा
+      issue_comment:
+        create: टिपण्णी जोडा
       message:
         create: पाठवा
       client_application:
         create: नोंदणी करा
-        update: संपादन
+        update: अद्ययावत करा
+      doorkeeper_application:
+        create: नोंदणी
+        update: अद्ययावत करा
       trace:
         create: चढवा
         update: जतन करा
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: वैध ईमेल पत्ता वाटत नाही.
     models:
       acl: पोहोच नियंत्रण यादी
       changeset: बदलसंच
@@ -33,6 +47,7 @@ mr:
       diary_comment: रोजनिशी अभिप्राय
       diary_entry: रोजनिशीतील नोंद
       friend: मित्र
+      issue: मुद्दा
       language: भाषा
       message: संदेश
       node: गाठ
@@ -49,6 +64,7 @@ mr:
       relation: संबंध
       relation_member: संबंधाचा सदस्य
       relation_tag: संबंधाची खूणपताका
+      report: अहवाल
       session: सत्र
       trace: अनुरेख
       tracepoint: अनुरेख बिंदू
@@ -60,6 +76,15 @@ mr:
       way_node: मार्गातील गाठ
       way_tag: मार्ग खूणपताका
     attributes:
+      client_application:
+        name: नाव (आवश्यक)
+        url: मुख्य ऍप्लिकेशन URL (आवश्यक)
+        allow_read_prefs: वापरकर्त्याच्या पसंती वाचा
+        allow_write_prefs: वापरकर्त्याच्या पसंती बदला
+        allow_write_api: नकाशात बदल करा
+        allow_read_gpx: वैयक्तिक GPS आनुरेखा वाचा
+        allow_write_gpx: GPS अनुरेख अपलोड करा
+        allow_write_notes: टीपा बदला
       diary_comment:
         body: मायना
       diary_entry:
@@ -68,6 +93,8 @@ mr:
         latitude: अक्षांश
         longitude: रेखांश
         language: भाषा
+      doorkeeper/application:
+        name: नाव
       friend:
         user: सदस्य
         friend: मित्र
@@ -109,6 +136,20 @@ mr:
     remote:
       name: सुदूर नियंत्रण
       description: सुदूर नियंत्रण (JOSM अथवा Merkaartor)
+  accounts:
+    edit:
+      title: खाते संपादा
+      my settings: माझ्या मांडण्या
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: हे काय आहे?
+      public editing:
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: हे काय आहे?
+        disabled link text: मी संपादन कां करू शकत नाही?
+      contributor terms:
+        link text: हे काय आहे?
+      save changes button: बदल जतन करा
   browse:
     created: बनविले
     closed: बंद केले
@@ -263,6 +304,7 @@ mr:
       nearby mapper: जवळपासचे नकाशाकार
       friend: मित्र
     show:
+      title: माझे फलक
       nearby users: जवळपासचे इतर सदस्य
       friends_changesets: मित्रांचे बदलसंच
       friends_diaries: मित्रांच्या अनुदिनीतील नोंदी
@@ -510,7 +552,6 @@ mr:
           commercial: वाणिज्यिक क्षेत्र
           conservation: संधारण
           construction: बांधकाम
-          farm: मळा
           farmland: शेतजमीन
           farmyard: शेतमैदान
           forest: वन
@@ -933,6 +974,12 @@ mr:
       heading: '%{user}साठी परवलीचा शब्द पुनर्स्थापित करा'
       reset: परवलीचा शब्द पुनर्स्थापित करा
       flash changed: आपला परवलीचा शब्द बदलण्यात आला आहे.
+  preferences:
+    show:
+      title: माझ्या पसंती
+      edit_preferences: पसंती संपादन
+    edit:
+      save: पसंती अद्ययावत करा
   profiles:
     edit:
       image: 'चित्र:'
@@ -960,9 +1007,21 @@ mr:
     about:
       next: पुढील
       copyright_html: <span>&copy;</span>ओपनस्ट्रीटमॅप<br>योगदाते
+      lede_text: OpenStreetMap हा मानचित्रकारांनी उभारलेला एक प्रकल्प आहे ज्यात जगभरातील
+        रस्ते, पायवाट, कॅफे, रेल्वे स्थानक व इतर बऱ्याच गोष्टींचा डेटा योगदानातून
+        तयार व व्यवस्थापित केला जातो.
       local_knowledge_title: स्थानिक ज्ञान
+      local_knowledge_html: OpenStreetMap स्थानिक ज्ञानावर भर देते. OSM अचूक आणि अद्ययावत
+        असल्याची पडताळणी करण्यासाठी योगदानकर्ते उपग्रह प्रतिमा, GPS उपकरणे व सामान्य
+        क्षेत्र नकाशे वापरतात.
       community_driven_title: समाजातर्फे चालविलेले
       open_data_title: मुक्त माहिती
+      open_data_html: 'OpenStreetMap हे <i>मुक्त माहिती</i> आहे: जो पर्यंत तुम्ही
+        OpenStreetMap व त्यातील योगदानकर्त्यांना श्रेय देत आहात तो पर्यंत तुम्ही हे
+        कोणत्याही कामासाठी मुक्तपणे वापरू शकता. जर तुम्ही काही विशिष्ट मार्गांनी डेटा
+        बदलला किंवा तयार केला, तर तुम्ही फक्त त्याच परवान्यानुसार निकाल वितरित करू
+        शकता. तपशीलवार माहिती साठी <a href=''%{copyright_path}''>प्रतीलीपी-अधिकार
+        व परवाना पृष्ठावर</a>भेट द्या.'
       partners_title: भागीदार
     copyright:
       foreign:
@@ -979,13 +1038,30 @@ mr:
         mapping_link: नकाशा आरेखन
       legal_babble:
         title_html: प्रताधिकार व परवाना
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> हे <i>मुक्त डेटा</i> आहे, जे <a
+          href="https://osmfoundation.org/">OpenStreetMap फाउंडेशन</a> (OSMF) द्वारे <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) अंतर्गत परवानाकृत आहे.
+        intro_2_html: जोपर्यंत तुम्ही OpenStreetMap आणि त्याच्या योगदानकर्त्यांना
+          श्रेय देता तोपर्यंत तुम्ही आमचा डेटा प्रतीलीपित, वितरित, प्रसारित आणि रुपांतर
+          करण्यास मोकळे आहात. जर तुम्ही काही विशिष्ट मार्गांनी डेटा बदलला किंवा तयार
+          केला, तर तुम्ही फक्त त्याच परवान्यानुसार निकाल वितरित करू शकता. <a href="https://opendatacommons.org/licenses/odbl/1.0/">ह्या
+          कायदेशीर पत्रात</a> तुमचे अधिकार आणि जबाबदाऱ्या स्पष्ट केल्या आहेत.
         credit_title_html: ओपनस्ट्रीटमॅपला श्रेय कसे द्यावे
+        credit_1_html: |-
+          &ldquo;&copy; OpenStreetMap
+          contributors&rdquo; असे श्रेय तुम्हाला दर्शवणे आवश्यक आहे.
         more_title_html: अधिक शोध
         contributors_title_html: आमचे योगदाते
         contributors_intro_html: 'आमचे योगदानकर्ते हे हजारोंच्या संख्येतील व्यक्ति
           आहेत.आम्ही मुक्त परवान्यांतर्गत असलेला डाटा हा राष्ट्रीय नकाशा संस्थेंकडून
           व त्यातील इतर स्रोतांतून घेऊन त्याचा अंतर्भाव करतो:'
         infringement_title_html: प्रताधिकार भंग
+        infringement_1_html: OSM योगदानकर्त्यांना कोणत्याही प्रतीलीपी अधिकार राखवलेल्या
+          (उदा. Google नकाशे किंवा मुद्रित नकाशे अश्या) स्त्रोतांमधून कोणतीही माहिती
+          प्रतीलिपी अधिकार धारकांच्या स्पष्ट परवानगीशिवाय जोडू नये याची आठवण करून
+          दिली जाते.
     index:
       js_1: आपण जावास्क्रीप्ट चालवू न शकणारा न्याहाळक वापरत आहात, किंवा जावास्क्रीप्ट
         निष्क्रिय आहे.
@@ -1205,6 +1281,7 @@ mr:
       by: तर्फे
       in: आत
     index:
+      public_traces: सार्वजनिक GPS अनुरेख
       upload_trace: अनुरेख चढवा
   oauth_clients:
     new:
@@ -1255,8 +1332,10 @@ mr:
       my traces: माझे अनुरेख
       my notes: माझ्या टीपा
       my messages: माझे संदेश
+      my profile: माझी रूपरेखा(प्रोफाइल)
       my settings: माझ्या मांडण्या
       my comments: माझे अभिप्राय
+      my_dashboard: माझे फलक
       blocks on me: माझ्यावरील निर्बंध
       blocks by me: माझ्याकडून निर्बंध
       send message: संदेश पाठवा
@@ -1270,19 +1349,6 @@ mr:
       latest edit: 'नवीनतम संपादन %{ago}:'
       status: 'स्थिती:'
       description: वर्णन
-    account:
-      title: खाते संपादा
-      my settings: माझ्या मांडण्या
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: हे काय आहे?
-      public editing:
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: हे काय आहे?
-        disabled link text: मी संपादन कां करू शकत नाही?
-      contributor terms:
-        link text: हे काय आहे?
-      save changes button: बदल जतन करा
     index:
       title: सदस्य
       heading: सदस्य

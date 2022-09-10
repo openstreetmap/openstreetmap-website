@@ -22,7 +22,7 @@ class Note < ApplicationRecord
   include GeoRecord
 
   has_many :comments, -> { left_joins(:author).where(:visible => true, :users => { :status => [nil, "active", "confirmed"] }).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
-  has_many :all_comments, -> { left_joins(:author).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
+  has_many :all_comments, -> { left_joins(:author).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id, :inverse_of => :note
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
@@ -45,7 +45,7 @@ class Note < ApplicationRecord
   # Close a note
   def close
     self.status = "closed"
-    self.closed_at = Time.now.getutc
+    self.closed_at = Time.now.utc
     save
   end
 

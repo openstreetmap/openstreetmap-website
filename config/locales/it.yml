@@ -32,7 +32,9 @@
 # Author: Luca.favorido
 # Author: LucioGE
 # Author: Macofe
+# Author: Mannivu
 # Author: Margherita.mignanelli
+# Author: Marty5550
 # Author: Massimo itaca
 # Author: McDutchie
 # Author: Nemo bis
@@ -54,6 +56,7 @@
 # Author: Sorcrosc
 # Author: Toa
 # Author: Tuxfuzz
+# Author: Vivbod
 # Author: Ximo17
 # Author: ZioNicco
 ---
@@ -78,11 +81,11 @@ it:
         create: Registrati
         update: Aggiorna
       doorkeeper_application:
-        create: Registra
+        create: Registrati
         update: Aggiorna
       redaction:
-        create: Crea revisione
-        update: Salvare la revisione
+        create: Crea oscuramento
+        update: Salvare l'oscuramento
       trace:
         create: Carica
         update: Salva modifiche
@@ -92,14 +95,13 @@ it:
   activerecord:
     errors:
       messages:
-        invalid_email_address: non sembra essere un indirizzo di posta elettronica
-          valido
+        invalid_email_address: non sembra essere un indirizzo e-mail valido
         email_address_not_routable: non è instradabile
     models:
       acl: Lista di controllo degli accessi
       changeset: Gruppo di modifiche
       changeset_tag: Etichetta del gruppo di modifiche
-      country: Nazione
+      country: Paese
       diary_comment: Commento al diario
       diary_entry: Voce del diario
       friend: Amico
@@ -122,12 +124,12 @@ it:
       relation_tag: Etichetta della relazione
       report: Segnalazione
       session: Sessione
-      trace: Tracciato
-      tracepoint: Punto del tracciato
-      tracetag: Etichetta del tracciato
+      trace: Traccia
+      tracepoint: Punto della traccia
+      tracetag: Etichetta della traccia
       user: Utente
-      user_preference: Preferenze dell'utente
-      user_token: Codice dell'utente
+      user_preference: Preferenza dell'utente
+      user_token: Codice utente
       way: Percorso
       way_node: Nodo del percorso
       way_tag: Etichetta del percorso
@@ -139,10 +141,10 @@ it:
         support_url: Indirizzo URL di supporto
         allow_read_prefs: leggi le sue preferenze utente
         allow_write_prefs: modifica le sue preferenze utente
-        allow_write_diary: crea pagine di diario, commenti e fai amicizia
+        allow_write_diary: crea pagine di diario, commenta e fai amicizia
         allow_write_api: modifica la mappa
-        allow_read_gpx: leggi i suoi tracciati GPS privati
-        allow_write_gpx: carica tracciati GPS
+        allow_read_gpx: visualizza le sue tracce GPS private
+        allow_write_gpx: carica tracce GPS
         allow_write_notes: modifica le note
       diary_comment:
         body: Corpo
@@ -182,13 +184,13 @@ it:
         description: Descrizione
       report:
         category: Seleziona un motivo per la tua segnalazione
-        details: Fornire più dettagli sul problema (obbligatorio).
+        details: Fornisci più dettagli sul problema (obbligatorio).
       user:
         auth_provider: Fornitore d'autenticazione
         auth_uid: UID d'autenticazione
-        email: Email
-        email_confirmation: Conferma email
-        new_email: Nuovo indirizzo email
+        email: E-mail
+        email_confirmation: Conferma e-mail
+        new_email: Nuovo indirizzo e-mail
         active: Attivo
         display_name: Nome visualizzato
         description: Descrizione del profilo
@@ -299,6 +301,79 @@ it:
       entry:
         comment: Commento
         full: Nota completa
+  account:
+    deletions:
+      show:
+        title: Elimina il mio account
+        warning: Attenzione! Il processo di cancellazione dell'account è definitivo.
+          Non potrà essere annullato.
+        delete_account: Elimina account
+        delete_introduction: 'Puoi eliminare il tuo account OpenStreetMap usando il
+          pulsante qui sotto. Ricordati dei seguenti dettagli:'
+        delete_profile: Le informazioni del tuo profilo, inclusi il tuo avatar, la
+          descrizione e la posizione di casa saranno rimossi.
+        delete_display_name: Il tuo nome utente sarà cancellato, e potrà essere utilizzato
+          da altri account.
+        retain_caveats: 'Ciò nonostante, alcuni dati saranno conservati su OpenStreetMap,
+          anche dopo la cancellazione del tuo account:'
+        retain_edits: Le modifiche apportate alla mappa, se ne hai fatte, saranno
+          mantenute.
+        retain_traces: Le tracce GPS che hai caricato saranno mantenute.
+        retain_diary_entries: Le tue voci e commenti sul diario, se presenti, saranno
+          mantenuti ma nascosti.
+        retain_notes: Le tue note e commenti sulle note, se presenti, saranno mantenuti
+          ma nascosti.
+        retain_changeset_discussions: Le discussioni su tuoi gruppi di modifiche e
+          i commenti inseriti su altri gruppi di modifiche, se presenti, saranno mantenute.
+        retain_email: Il tuo indirizzo e-mail sarà conservato.
+        confirm_delete: Sei sicuro?
+        cancel: Annulla
+  accounts:
+    edit:
+      title: Modifica profilo
+      my settings: Impostazioni
+      current email address: Indirizzo email attuale
+      external auth: Autenticazione esterna
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/IT:OpenID
+        link text: che cos'è questo?
+      public editing:
+        heading: Modifica pubblica
+        enabled: Abilitate. Non anonimo con il permesso di modificare i dati.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: che cos'è questo?
+        disabled: Disabilitate senza il permesso di modificare i dati, tutte le modifiche
+          precedenti sono anonime.
+        disabled link text: perché non posso modificare?
+      public editing note:
+        heading: Modifica pubblica
+        html: Al momento le tue modifiche sono anonime e le persone non possono inviarti
+          messaggi o vedere la tua posizione. Per rendere visibili le tue modifiche
+          e per permettere agli altri utenti di contattarti tramite il sito, clicca
+          sul pulsante sotto. <b>Dalla versione 0.6 delle API, soltanto gli utenti
+          pubblici possono modificare i dati della mappa</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">scopri
+          perché</a>).<ul><li>Il tuo indirizzo email non sarà reso pubblico.</li><li>Questa
+          decisione non può essere revocata e tutti i nuovi utenti sono ora pubblici
+          in modo predefinito.</li></ul>
+      contributor terms:
+        heading: Regole per contribuire
+        agreed: Hai accettato le nuove regole per contribuire.
+        not yet agreed: Non hai ancora accettato le nuove regole per contribuire.
+        review link text: Quando puoi segui per favore questo link per leggere ed
+          accettare le nuove regole per contribuire.
+        agreed_with_pd: Hai anche dichiarato di considerare le tue modifiche come
+          fossero di pubblico dominio.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link text: che cos'è questo?
+      save changes button: Salva modifiche
+      make edits public button: Rendi pubbliche tutte le mie modifiche
+      delete_account: Elimina account...
+    update:
+      success_confirm_needed: Informazioni sull'utente aggiornate con successo. Controllare
+        la propria email per la conferma del nuovo indirizzo di posta elettronica.
+      success: Informazioni sull'utente aggiornate con successo.
+    destroy:
+      success: Account eliminato.
   browse:
     created: Creato
     closed: Chiuso
@@ -434,7 +509,7 @@ it:
       reopened_by_html: Riattivata da %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Riattivata da anonimo <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Nascosta da %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Segnala questa nota
+      report: segnalare questa nota
       coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Ricerca di elementi
@@ -575,6 +650,9 @@ it:
         title: Voci del diario di OpenStreetMap
         description: Voci del diario recenti degli utenti di OpenStreetMap
     comments:
+      title: Commenti del diario aggiunti da %{user}
+      heading: I commenti del diario di %{user}
+      subheading_html: Commenti del diario aggiunti da %{user}
       no_comments: Nessun commento al diario
       post: Messaggio
       when: Quando
@@ -589,7 +667,7 @@ it:
   friendships:
     make_friend:
       heading: Aggiungere %{user} agli amici?
-      button: Aggiungi agli amici
+      button: Aggiungi come amico
       success: '%{name} è ora tuo amico!'
       failed: Spiacenti, non è stato possibile aggiungere %{name} come un amico.
       already_a_friend: Sei già amico di %{name}.
@@ -627,8 +705,8 @@ it:
         aeroway:
           aerodrome: Aerodromo
           airstrip: Pista di atterraggio
-          apron: Piazzale di sosta
-          gate: Gate
+          apron: Area di parcheggio aeroportuale
+          gate: Gate aeroportuale
           hangar: Hangar
           helipad: Elisuperficie
           holding_position: Posizione di attesa
@@ -637,7 +715,7 @@ it:
           runway: Pista
           taxilane: Corsia di rullaggio
           taxiway: Pista di rullaggio
-          terminal: Terminal
+          terminal: Terminal aeroportuale
           windsock: Manica a vento
         amenity:
           animal_boarding: Pensione per animali
@@ -839,7 +917,6 @@ it:
           window_construction: Costruttore di finestre
           winery: Cantina vinicola
           "yes": Negozio di Artigianato
-        crossing: Attraversamento
         emergency:
           access_point: Punto d'accesso
           ambulance_station: Stazione delle ambulanze
@@ -860,6 +937,7 @@ it:
           bus_stop: Fermata dell'autobus
           construction: Strada in costruzione
           corridor: Corridoio
+          crossing: Attraversamento
           cycleway: Percorso ciclabile
           elevator: Ascensore
           emergency_access_point: Punto di accesso di emergenza
@@ -899,6 +977,7 @@ it:
           trailhead: Punto di partenza
           trunk: Superstrada
           trunk_link: Superstrada
+          turning_circle: Rotonda a fine strada
           turning_loop: Anello di inversione di marcia
           unclassified: Strada non classificata
           "yes": Strada
@@ -947,9 +1026,8 @@ it:
           brownfield: Area con edifici in demolizione
           cemetery: Cimitero
           commercial: Zona di uffici
-          conservation: Conservazione
-          construction: Costruzione
-          farm: Fattoria
+          conservation: Area di conservazione
+          construction: Area di costruzione
           farmland: Terreno agricolo
           farmyard: Aia
           forest: Foresta
@@ -970,7 +1048,7 @@ it:
           reservoir: Riserva idrica
           reservoir_watershed: Serbatoio spartiacque
           residential: Area Residenziale
-          retail: Negozi
+          retail: Zona con negozi
           village_green: Parco urbano
           vineyard: Vigneto
           "yes": Uso del terreno
@@ -1180,6 +1258,7 @@ it:
           "yes": Luogo
         railway:
           abandoned: Ferrovia abbandonata
+          buffer_stop: Paraurti ferroviario
           construction: Ferrovia in costruzione
           disused: Ferrovia in disuso
           funicular: Funicolare
@@ -1193,6 +1272,7 @@ it:
           platform: Banchina ferroviaria
           preserved: Ferrovia storica
           proposed: Ferrovia proposta
+          rail: Ferrovia
           spur: Diramazione ferroviaria breve
           station: Stazione ferroviaria
           stop: Fermata ferroviaria
@@ -1201,6 +1281,7 @@ it:
           switch: Punti ferroviari
           tram: Tramvia
           tram_stop: Fermata del tram
+          turntable: Piattaforma girevole
           yard: Zona di manovra ferroviaria
         shop:
           agrarian: Negozio di agraria
@@ -1241,7 +1322,7 @@ it:
           deli: Specialità gastronomiche
           department_store: Grande magazzino
           discount: Discount
-          doityourself: Fai da-te
+          doityourself: Negozio fai da-te
           dry_cleaning: Lavasecco
           e-cigarette: Negozio di sigarette elettroniche
           electronics: Elettronica
@@ -1267,7 +1348,7 @@ it:
           health_food: Negozio di alimenti salutistici
           hearing_aids: Negozio di apparecchi acustici
           herbalist: Erboristeria
-          hifi: Hi-Fi
+          hifi: Negozio Hi-Fi
           houseware: Negozio di casalinghi
           ice_cream: Negozio di gelati
           interior_decoration: Decorazione d'interni
@@ -1327,7 +1408,7 @@ it:
           artwork: Opera d'arte
           attraction: Attrazione turistica
           bed_and_breakfast: Bed and Breakfast
-          cabin: Cabina
+          cabin: Cabina turistica
           camp_pitch: Piazzola campeggio
           camp_site: Campeggio
           caravan_site: Area caravan e camper
@@ -1451,6 +1532,7 @@ it:
   issue_comments:
     create:
       comment_created: Il tuo commento è stato creato con successo
+      issue_reassigned: Il tuo commento è stato creato e il problema è stato riassegnato
   reports:
     new:
       title_html: Segnala %{link}
@@ -1981,19 +2063,23 @@ it:
           <a href=\"https://creativecommons.org/licenses/by-sa/2.0/deed.it\">Creative
           \nCommons Attribuzione - Condividi allo stesso modo 2.0</a> (CC BY-SA 2.0)."
         credit_title_html: Come si attribuisce a OpenStreetMap
-        credit_1_html: Si richiede che l'attribuzione sia &ldquo;&copy; OpenStreetMap
-          contributors&rdquo;.
+        credit_1_html: 'Quando utilizzi i dati di OpenStreetMap, devi eseguire le
+          seguenti due operazioni:'
         credit_2_1_html: |-
-          Inoltre devi specificare chiaramente che i dati sono disponibili sotto la Open Database Licese e, se usi le nostre tavole, che la cartografia è pubblicata con licenza CC BY-SA. Puoi fare ciò mettendo un collegamento URL a <a href="https://www.openstreetmap.org/copyright">questa pagina di copyright</a>.
-          In alternativa, e necessariamente se stai distribuendo OSM sotto forma di dati, puoi citare e creare un collegamento diretto alle licenze. In mezzi di comunicazione dove i collegamenti URL non sono possibili (per esempio un'opera stampata), ti suggeriamo di indirizzare i lettori verso openstreetmap.org (magari esplicitando 'OpenStreetMap' come nome completo), verso opendatacommons.org e, se necessario, verso creativecommons.org.
-        credit_3_1_html: I tasselli della mappa nello &ldquo;stile predefinito&rdquo;
-          su www.openstreetmap.org sono frutto del lavoro della fondazione OpenStreetMap
-          a partire da dati OpenStreetMap rilasciati con licenza Open Database. Quando
-          utilizzi questo stile mappa è richiesta la stessa attribuzione come per
-          i dati mappa.
+          <ul>
+            <li>Fornisci crediti a OpenStreetMap visualizzando il nostro avviso di copyright.</li>
+            <li>Rendere chiaro che i dati sono disponibili con la licenza Open Database.</li>
+          </ul>
+        credit_3_1_html: Per l'avviso di copyright, abbiamo requisiti diversi su come
+          dovrebbe essere visualizzato, a seconda di come stai utilizzando i nostri
+          dati. Ad esempio, si applicano regole diverse su come mostrare l'avviso
+          di copyright a seconda che tu abbia creato una mappa navigabile, una mappa
+          stampata o un'immagine statica. Tutti i dettagli sui requisiti possono essere
+          trovati nelle <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">linee
+          guide sull'attribuzione</a>.
         credit_4_html: |-
-          In una mappa elettronica navigabile, i crediti devono essere mostrati nell'angolo della mappa.
-          Ad esempio:
+          Per rendere chiaro che i dati sono disponibili in base alla licenza Open Database, puoi inserire un collegamento a <a href="https://www.openstreetmap.org/copyright">questa pagina sul copyright</a>. In alternativa, e come requisito se stai distribuendo OSM in a
+          modulo dati, è possibile nominare e collegare direttamente le licenze. Nei media dove i collegamenti non sono possibili (ad es. opere cartacee), ti suggeriamo di indirizzare i tuoi lettori direttamente a openstreetmap.org (magari espandendo 'OpenStreetMap' al suo indirizzo completo) e a opendatacommons.org. In questo esempio, i crediti appaiono nell'angolo della mappa.
         attribution_example:
           alt: Esempio di come attribuire ad OpenStreetMap su una pagina web
           title: Esempio di attribuzione
@@ -2076,7 +2162,7 @@ it:
           stampate) senza esplicita autorizzazione dei titolari del copyright.
         infringement_2_html: |-
           Se ritieni che materiale protetto da copyright sia stato impropriamente aggiunto al database di OpenStreetMap o a questo sito, consulta la nostra
-           <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">procedura di rimozione per violazione del copyright</a> o segnalacelo direttamente alla nostra
+           <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">procedura di rimozione per violazione del copyright</a> o segnalacelo direttamente alla nostra
           <a href="https://dmca.openstreetmap.org/">pagina di segnalazione on-line</a>.
         trademarks_title_html: <span id="trademarks"></span>Marchi registrati
         trademarks_1_html: '"OpenStreetMap", il logo con la lente d''ingrandimento
@@ -2194,9 +2280,12 @@ it:
         description: Poni la tua domanda o discuti questioni di interesse su una vasta
           gamma di mailing list tematiche o regionali.
       forums:
-        title: Forum
+        title: Forum (vecchio)
         description: Domande e discussioni per coloro che preferiscono un'interfaccia
           in stile bacheca (BBS).
+      community:
+        url: https://community.openstreetmap.org/
+        description: Un luogo condiviso per le conversazioni su OpenStreetMap.
       irc:
         title: IRC
         description: Chat interattiva in molte lingue diverse e su molti argomenti.
@@ -2274,6 +2363,7 @@ it:
           common:
           - Area comune
           - prato
+          - giardino
           retail: Zona con negozi
           industrial: Zona industriale
           commercial: Zona di uffici
@@ -2437,7 +2527,7 @@ it:
       in: in
     index:
       public_traces: Tracciati GPS pubblici
-      my_traces: I miei tracciati
+      my_gps_traces: Le mie tracce GPS
       public_traces_from: Tracciati GPS pubblici di %{user}
       description: Naviga fra i tracciati GPS caricati recentemente
       tagged_with: ' etichettati con %{tags}'
@@ -2446,6 +2536,7 @@ it:
         wiki</a>.
       upload_trace: Carica un tracciato
       all_traces: Tutti i tracciati
+      my_traces: I miei tracciati
       traces_from: Tracciati pubblici di %{user}
       remove_tag_filter: Rimuovi filtro delle etichette
     destroy:
@@ -2654,7 +2745,7 @@ it:
       consider_pd: In aggiunta a quanto sopra, considero i miei contributi come fossero
         di pubblico dominio
       consider_pd_why: cos'è questo?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Informazioni utili a capire questi termini: un <a href="%{summary}">riassunto
         leggibile</a> ed alcune <a href="%{translations}">traduzioni informali</a>'
       continue: Continua
@@ -2727,53 +2818,13 @@ it:
       activate_user: Attiva questo utente
       deactivate_user: Disattiva questo utente
       confirm_user: Conferma questo utente
+      unconfirm_user: Annulla la conferma di questo utente.
+      unsuspend_user: Annulla la sospensione di questo utente.
       hide_user: Nascondi questo utente
       unhide_user: Mostra questo utente
       delete_user: Cancella questo utente
       confirm: Conferma
       report: Segnala questo utente
-    account:
-      title: Modifica profilo
-      my settings: Impostazioni
-      current email address: Indirizzo email attuale
-      external auth: Autenticazione esterna
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/IT:OpenID
-        link text: che cos'è questo?
-      public editing:
-        heading: Modifica pubblica
-        enabled: Abilitate. Non anonimo con il permesso di modificare i dati.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: che cos'è questo?
-        disabled: Disabilitate senza il permesso di modificare i dati, tutte le modifiche
-          precedenti sono anonime.
-        disabled link text: perché non posso modificare?
-      public editing note:
-        heading: Modifica pubblica
-        html: Al momento le tue modifiche sono anonime e le persone non possono inviarti
-          messaggi o vedere la tua posizione. Per rendere visibili le tue modifiche
-          e per permettere agli altri utenti di contattarti tramite il sito, clicca
-          sul pulsante sotto. <b>Dalla versione 0.6 delle API, soltanto gli utenti
-          pubblici possono modificare i dati della mappa</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">scopri
-          perché</a>).<ul><li>Il tuo indirizzo email non sarà reso pubblico.</li><li>Questa
-          decisione non può essere revocata e tutti i nuovi utenti sono ora pubblici
-          in modo predefinito.</li></ul>
-      contributor terms:
-        heading: Regole per contribuire
-        agreed: Hai accettato le nuove regole per contribuire.
-        not yet agreed: Non hai ancora accettato le nuove regole per contribuire.
-        review link text: Quando puoi segui per favore questo link per leggere ed
-          accettare le nuove regole per contribuire.
-        agreed_with_pd: Hai anche dichiarato di considerare le tue modifiche come
-          fossero di pubblico dominio.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: che cos'è questo?
-      save changes button: Salva modifiche
-      make edits public button: Rendi pubbliche tutte le mie modifiche
-      flash update success confirm needed: Informazioni sull'utente aggiornate con
-        successo. Controllare la propria email per la conferma del nuovo indirizzo
-        di posta elettronica.
-      flash update success: Informazioni sull'utente aggiornate con successo.
     set_home:
       flash success: Posizione personale salvata con successo
     go_public:
@@ -3049,6 +3100,9 @@ it:
         reactivate: Riattiva
         comment_and_resolve: Commenta e chiudi
         comment: Commenta
+        report_link_html: Se questa nota contiene informazioni sensibili che devono
+          essere rimosse, puoi %{link}. Per ogni altro tipo di problema con questa
+          nota, prova a risolverla di persona con un commento.
     edit_help: Sposta la mappa e usa lo zoom sulla posizione che vuoi modificare,
       quindi clicca qui.
     directions:

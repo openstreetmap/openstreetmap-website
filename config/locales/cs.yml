@@ -17,6 +17,7 @@
 # Author: Jaroslav Cerny
 # Author: Jezevec
 # Author: Jkjk
+# Author: Kareyac
 # Author: Korytaacheck
 # Author: Kudlav
 # Author: Kuvaly
@@ -31,6 +32,7 @@
 # Author: Mkyral
 # Author: Mormegil
 # Author: Mr. Richard Bolla
+# Author: MrJaroslavik
 # Author: Nemo bis
 # Author: Patriccck
 # Author: Paxt
@@ -177,7 +179,7 @@ cs:
         auth_provider: Poskytovatel autentizace
         auth_uid: Autentifikační UID
         email: E-mail
-        email_confirmation: potvrzení e-mailem
+        email_confirmation: Potvrzení e-mailu
         new_email: nová emailová adresa
         active: Aktivní
         display_name: Zobrazované jméno
@@ -289,6 +291,75 @@ cs:
       entry:
         comment: Komentář
         full: Celá poznámka
+  account:
+    deletions:
+      show:
+        title: Smazat můj účet
+        warning: Pozor! Proces smazání účtu je konečný a nelze jej vrátit zpět.
+        delete_account: Smazat účet
+        delete_introduction: 'Svůj účet v OpenStreetMap můžete smazat pomocí níže
+          zobrazeného tlačítka. Uvědomte si prosím následující:'
+        delete_profile: Vaše profilové informace včetně avatara, popisu a domovské
+          polohy budou odstraněny.
+        delete_display_name: Vaše zobrazované jméno bude odstraněno a může být znovu
+          použito jinými účty.
+        retain_caveats: 'Některé informace o vás však zůstanou v OpenStreetMap zachovány
+          i po smazání vašeho účtu:'
+        retain_edits: Vaše případné úpravy v mapové databázi budou zachovány.
+        retain_traces: Vaše případné nahrané stopy budou zachovány.
+        retain_diary_entries: Vaše případné záznamy a komentáře v deníku zůstanou
+          zachovány, ale nebudou viditelné.
+        retain_notes: Vaše případné poznámky k mapě a komentáře k poznámkám zůstanou
+          zachovány, ale nebudou viditelné.
+        retain_changeset_discussions: Vaše případné diskuse k sadám změn budou zachovány.
+        retain_email: Vaše e-mailová adresa bude zachována.
+        confirm_delete: Jste si jisti?
+        cancel: Storno
+  accounts:
+    edit:
+      title: Upravit účet
+      my settings: Moje nastavení
+      current email address: Stávající e-mailová adresa
+      external auth: Externí autentizace
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/Cs:OpenID
+        link text: co to znamená?
+      public editing:
+        heading: Veřejné editace
+        enabled: Aktivní. Není anonym, smí editovat data.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: co to znamená?
+        disabled: Deaktivováno, nemůže editovat data, všechny předchozí editace jsou
+          anonymní.
+        disabled link text: proč nemůžu editovat?
+      public editing note:
+        heading: Veřejné editace
+        html: V současné době jsou vaše editace anonymní a nikdo vám nemůže psát zprávy
+          ani vidět vaši polohu. Pokud chcete ukázat, co jste editovali, a dovolit
+          lidem vás kontaktovat prostřednictvím webu, klikněte na níže zobrazené tlačítko.
+          <b>Od přechodu na API 0.6 mohou mapová data editovat jen veřejní uživatelé</b>.
+          (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">Přečtěte
+          si důvody.</a>)<ul><li>Vaše e-mailová adresa se přepnutím na veřejné editace
+          neprozradí.</li><li>Tuto operaci nelze vrátit a všichni noví uživatelé jsou
+          implicitně veřejní.</li></ul>
+      contributor terms:
+        heading: Podmínky pro přispěvatele
+        agreed: Odsouhlasili jste nové Podmínky pro přispěvatele.
+        not yet agreed: Dosud jste neodsouhlasili nové Podmínky pro přispěvatele.
+        review link text: Až se vám to bude hodit, pomocí tohoto odkazu si prosím
+          přečtěte a odsouhlaste nové Podmínky pro přispěvatele.
+        agreed_with_pd: Také jste prohlásili, že své editace považujete za volné dílo.
+        link: https://wiki.openstreetmap.org/wiki/Cs:Open_Database_License/Contributor_Terms?uselang=cs
+        link text: co to znamená?
+      save changes button: Uložit změny
+      make edits public button: Zvěřejnit všechny moje úpravy
+      delete_account: Smazat účet…
+    update:
+      success_confirm_needed: Uživatelské údaje byly úspěšně aktualizovány. Zkontrolujte
+        si e-mail, měla by vám přijít výzva k potvrzení nové e-mailové adresy.
+      success: Uživatelské údaje byly úspěšně aktualizovány.
+    destroy:
+      success: Účet smazán.
   browse:
     created: Vytvořeno
     closed: Uzavřeno
@@ -433,7 +504,7 @@ cs:
       reopened_by_anonymous_html: Znovu aktivoval <abbr title='%{exact_time}'>%{when}</abbr>
         anonym
       hidden_by_html: Skryl <abbr title='%{exact_time}'>%{when}</abbr> uživatel %{user}
-      report: Nahlásit tuto poznámku
+      report: nahlásit tuto poznámku
       coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Průzkum prvků
@@ -629,7 +700,7 @@ cs:
           aerodrome: Letiště
           airstrip: Startovací a přistávací dráha
           apron: Odbavovací plocha
-          gate: Brána
+          gate: Letištní brána
           hangar: Hangár
           helipad: Heliport
           holding_position: Vyčkávací místo
@@ -638,7 +709,7 @@ cs:
           runway: Dráha
           taxilane: Dopravní pruh pro taxi
           taxiway: Pojezdová dráha
-          terminal: Terminál
+          terminal: Letištní terminál
           windsock: Větrný rukáv
         amenity:
           animal_boarding: Nakládání zvířat
@@ -840,7 +911,6 @@ cs:
           window_construction: Konstrukce oken
           winery: Vinařství
           "yes": Řemeslná dílna
-        crossing: Přechod
         emergency:
           access_point: Přístupový bod
           ambulance_station: Stanoviště záchranné služby
@@ -861,6 +931,7 @@ cs:
           bus_stop: Autobusová zastávka
           construction: Silnice ve výstavbě
           corridor: Koridor
+          crossing: Přechod
           cycleway: Cyklostezka
           elevator: Výtah
           emergency_access_point: Nouzový lokalizační bod
@@ -900,6 +971,7 @@ cs:
           trailhead: Začátek stezky
           trunk: Významná silnice
           trunk_link: Významná silnice
+          turning_circle: Místo na otočení
           turning_loop: Otočná smyčka
           unclassified: Silnice
           "yes": Cesta
@@ -950,7 +1022,6 @@ cs:
           commercial: Komerční zóna
           conservation: Chráněné území
           construction: Staveniště
-          farm: Farma
           farmland: Zemědělská půda
           farmyard: Dvůr
           forest: Les
@@ -971,7 +1042,7 @@ cs:
           reservoir: Zásobník na vodu
           reservoir_watershed: Povodí nádrže
           residential: Rezidenční oblast
-          retail: Maloobchody
+          retail: Maloobchodní zóna
           village_green: Náves
           vineyard: Vinice
           "yes": Využití krajiny
@@ -1181,6 +1252,7 @@ cs:
           "yes": Místo
         railway:
           abandoned: Zrušená železniční trať
+          buffer_stop: Zarážedlo
           construction: Železnice ve výstavbě
           disused: Nepoužívaná železniční trať
           funicular: Lanová dráha
@@ -1194,6 +1266,7 @@ cs:
           platform: Železniční nástupiště
           preserved: Historická železnice
           proposed: Navrhovaná železnice
+          rail: Železnice
           spur: Železniční vlečka
           station: Železniční stanice
           stop: Železniční zastávka
@@ -1202,6 +1275,7 @@ cs:
           switch: Výhybka
           tram: Tramvajová trať
           tram_stop: Tramvajová zastávka
+          turntable: Točna
           yard: Přednádraží
         shop:
           agrarian: Obchod se zemědělskými stroji
@@ -1268,7 +1342,7 @@ cs:
           health_food: Obchod se zdravou výživou
           hearing_aids: Naslouchací přístroje
           herbalist: Bylinkář
-          hifi: Hi-Fi technika
+          hifi: Hi-Fi obchod
           houseware: Domácí potřeby
           ice_cream: Zmrzlinový obchod
           interior_decoration: Vnitřní dekorace
@@ -1328,7 +1402,7 @@ cs:
           artwork: Umělecké dílo
           attraction: Turistická atrakce
           bed_and_breakfast: Ubytování Bed & Breakfast
-          cabin: Chatka
+          cabin: Turistická útulna
           camp_pitch: Místo pro kempování
           camp_site: Tábořiště, kemp
           caravan_site: Autokemping
@@ -1971,18 +2045,31 @@ cs:
           <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
           Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0).
         credit_title_html: Jak uvádět OpenStreetMap
-        credit_1_html: Vyžadujeme uvádění autorství „© Přispěvatelé OpenStreetMap“.
+        credit_1_html: 'Pokud používáte data OpenStreetMap, máte povinnost učinit
+          následující dvě věci:'
         credit_2_1_html: |-
-          Také musíte jasně uvést, že data jsou dostupná za podmínek Open Database License, a pokud používáte naše mapové dlaždice, že jejich kartografický obsah je licencován pod CC-BY-SA. To můžete splnit odkázáním na <a href="https://www.openstreetmap.org/copyright">tuto stránku</a>.
-
-          Nebo můžete (a pokud šíříte OSM jako data, tak musíte) uvést název licence a odkaz na ni přímo. Pokud používáte médium, které odkazy neumožňuje (např. v tištěném díle), navrhujeme, abyste své čtenáře nasměrovali na openstreetmap.org (zřejmě rozšířením „OpenStreetMap“ do této plné adresy), na opendatacommons.org a, pokud se vás to týká, na creativecommons.org.
-        credit_3_1_html: "Mapové dlaždice ve &ldquo;standardním stylu&rdquo; na www.openstreetmap.org
-          jsou \nvytvořeny organizací OpenStreetMap Foundation s pomocí dat z OpenStreetMap
-          \npod licencí Open Database License. Při používání tohoto stylu mapy je
-          vyžadováno uvedení stejného zdroje jako u mapových dat."
+          <ul>
+           <li>Uvést jako původ OpenStreetMap uvedením naší informace o autorských právech.</li>
+           <li>Jasně uvést, že data jsou dostupná za podmínek Open Database License.</li>
+          </ul>
+        credit_3_1_html: |-
+          Co se týká uvedení autorských práv, liší se naše požadavky podle toho,
+          jak naše data používáte. Různá pravidla například platí, když tvoříte
+          interaktivní mapu, tištěnou mapu nebo statický obrázek. Podrobné
+          informace k požadavkům naleznete
+          v <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">Pokynech
+          k uvádění původu</a>.
         credit_4_html: |-
-          U interaktivní elektronické mapy by autorství mělo být uvedeno v rohu mapy.
-          Příklad:
+          Aby bylo zřejmé, že jsou data dostupná za podmínek Open
+          Database License, můžete odkázat na
+          <a href="https://www.openstreetmap.org/copyright">tuto stránku
+          k autorským právům</a>. Jinou možností – a povinností v případě,
+          že OSM šíříte v datové podobě, můžete uvést a odkázat přímo
+          na licenci. Ve formě, ve které odkazování není možné (např.
+          v tištěných dílech), navrhujeme, abyste čtenáře nasměřovali
+          na openstreetmap.org (např. rozšířením „OpenStreetMap“ na
+          tuto celou adresu) a opendatacommons.org.
+          V tomto příkladu se informace o zdroji objevuje v rohu mapy.
         attribution_example:
           alt: Příklad, jak uvádět autorství OpenStreetMap na webové stránce
           title: Příklad uvedení autorství
@@ -2047,7 +2134,7 @@ cs:
           mapy) bez výslovného svolení držitelů práv.
         infringement_2_html: Pokud si myslíte, že byl do databáze OpenStreetMap nebo
           na tento server neoprávněně vložen autorskoprávně chráněný obsah, postupujte
-          podle našeho <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">postupu
+          podle našeho <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">postupu
           pro odstranění</a> nebo přímo podejte výzvu pomocí <a href="https://dmca.openstreetmap.org/">on-line
           formuláře</a>.
         trademarks_title_html: <span id="trademarks"></span>Ochranné známky
@@ -2241,6 +2328,7 @@ cs:
           common:
           - Pastvina
           - louka
+          - zahrada
           retail: Nákupní oblast
           industrial: Průmyslová oblast
           commercial: Kancelářská oblast
@@ -2402,7 +2490,7 @@ cs:
       in: v
     index:
       public_traces: Veřejné GPS stopy
-      my_traces: Moje stopy
+      my_gps_traces: Moje GPS stopy
       public_traces_from: Veřejné GPS stopy uživatele %{user}
       description: Procházení nedávno nahraných GPS stop
       tagged_with: se štítky %{tags}
@@ -2410,6 +2498,7 @@ cs:
         nebo si něco o GPS stopách přečtěte na <a href='https://wiki.openstreetmap.org/wiki/Cs:Beginners_Guide_1.2?uselang=cs'>wiki</a>.
       upload_trace: Nahrát stopu
       all_traces: Všechny stopy
+      my_traces: Moje stopy
       traces_from: Veřejné stopy uživatele %{user}
       remove_tag_filter: Vymazat filtr tagů
     destroy:
@@ -2614,7 +2703,7 @@ cs:
       read_tou: Přečetl jsem si Podmínky užití a souhlasím s nimi
       consider_pd: Navíc k výše uvedenému považuji své příspěvky za volné dílo.
       consider_pd_why: co to znamená?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Informace, které pomohou tyto podmínky pochopit: <a href="%{summary}">lidsky
         čitelné shrnutí</a> a nějaké <a href="%{translations}">neoficiální překlady</a>'
       continue: Pokračovat
@@ -2687,52 +2776,13 @@ cs:
       activate_user: Aktivovat tohoto uživatele
       deactivate_user: Deaktivovat tohoto uživatele
       confirm_user: Potvrdit tohoto uživatele
+      unconfirm_user: Nepotvrdit tohoto uživatele
+      unsuspend_user: Zrušit pozastavení tohoto uživatele
       hide_user: Skrýt tohoto uživatele
       unhide_user: Zobrazit tohoto uživatele
       delete_user: Odstranit tohoto uživatele
       confirm: Potvrdit
       report: Nahlásit tohoto uživatele
-    account:
-      title: Upravit účet
-      my settings: Moje nastavení
-      current email address: Stávající e-mailová adresa
-      external auth: Externí autentizace
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/Cs:OpenID
-        link text: co to znamená?
-      public editing:
-        heading: Veřejné editace
-        enabled: Aktivní. Není anonym, smí editovat data.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: co to znamená?
-        disabled: Deaktivováno, nemůže editovat data, všechny předchozí editace jsou
-          anonymní.
-        disabled link text: proč nemůžu editovat?
-      public editing note:
-        heading: Veřejné editace
-        html: V současné době jsou vaše editace anonymní a nikdo vám nemůže psát zprávy
-          ani vidět vaši polohu. Pokud chcete ukázat, co jste editovali, a dovolit
-          lidem vás kontaktovat prostřednictvím webu, klikněte na níže zobrazené tlačítko.
-          <b>Od přechodu na API 0.6 mohou mapová data editovat jen veřejní uživatelé</b>.
-          (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">Přečtěte
-          si důvody.</a>)<ul><li>Vaše e-mailová adresa se přepnutím na veřejné editace
-          neprozradí.</li><li>Tuto operaci nelze vrátit a všichni noví uživatelé jsou
-          implicitně veřejní.</li></ul>
-      contributor terms:
-        heading: Podmínky pro přispěvatele
-        agreed: Odsouhlasili jste nové Podmínky pro přispěvatele.
-        not yet agreed: Dosud jste neodsouhlasili nové Podmínky pro přispěvatele.
-        review link text: Až se vám to bude hodit, pomocí tohoto odkazu si prosím
-          přečtěte a odsouhlaste nové Podmínky pro přispěvatele.
-        agreed_with_pd: Také jste prohlásili, že své editace považujete za volné dílo.
-        link: http://wiki.openstreetmap.org/wiki/CS:Open_Database_License/Contributor_Terms?uselang=cs
-        link text: co to znamená?
-      save changes button: Uložit změny
-      make edits public button: Zvěřejnit všechny moje úpravy
-      flash update success confirm needed: Uživatelské údaje byly úspěšně aktualizovány.
-        Zkontrolujte si e-mail, měla by vám přijít výzva k potvrzení nové e-mailové
-        adresy.
-      flash update success: Uživatelské údaje byly úspěšně aktualizovány.
     set_home:
       flash success: Pozice domova byla úspěšně uložena
     go_public:

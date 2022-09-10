@@ -17,7 +17,7 @@ L.OSM.note = function (options) {
       var disabled = OSM.STATUS === "database_offline" || map.getZoom() < 12;
       link
         .toggleClass("disabled", disabled)
-        .attr("data-original-title", I18n.t(disabled ?
+        .attr("data-bs-original-title", I18n.t(disabled ?
           "javascripts.site.createnote_disabled_tooltip" :
           "javascripts.site.createnote_tooltip"));
     }

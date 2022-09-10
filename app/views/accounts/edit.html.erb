@@ -6,9 +6,9 @@
   <h1><%= t ".my settings" %></h1>
 <% end %>
 
-<%= render :partial => "settings_menu", :locals => { :selected => "account" } %>
+<%= render :partial => "settings_menu" %>
 
-<%= bootstrap_form_for current_user, :url => { :action => :account }, :method => :post, :html => { :multipart => true, :id => "accountForm", :autocomplete => :off } do |f| %>
+<%= bootstrap_form_for current_user, :url => { :action => :update }, :html => { :multipart => true, :id => "accountForm", :autocomplete => :off } do |f| %>
 
   <%= f.text_field :display_name %>
   <%= f.email_field :email, :disabled => true, :label => t(".current email address") %>
@@ -16,17 +16,17 @@
   <%= f.password_field :pass_crypt, :value => "", :autocomplete => "new-password" %>
   <%= f.password_field :pass_crypt_confirmation, :value => "", :autocomplete => "new-password" %>
 
-  <fieldset class="form-group">
-    <label for="user_auth_provider"><%= t(".external auth") %></label>
-    <div class="form-row">
+  <fieldset class="mb-3">
+    <label for="user_auth_provider" class="form-label"><%= t(".external auth") %></label>
+    <div class="row">
       <%= f.select(:auth_provider, Auth.providers, :hide_label => true, :wrapper => { :class => "col-auto mb-0" }) %>
       <%= f.text_field(:auth_uid, :hide_label => true, :wrapper => { :class => "col mb-0" }) %>
     </div>
     <small class="form-text text-muted">(<a href="<%= t ".openid.link" %>" target="_new"><%= t ".openid.link text" %></a>)</small>
   </fieldset>
 
-  <div class="form-group">
-    <label><%= t ".public editing.heading" %></label>
+  <div class="mb-3">
+    <label class="form-label"><%= t ".public editing.heading" %></label>
     <span class="form-text text-muted">
       <% if current_user.data_public? %>
         <%= t ".public editing.enabled" %>
@@ -38,8 +38,8 @@
     </span>
   </div>
 
-  <div class="form-group">
-    <label><%= t ".contributor terms.heading" %></label>
+  <div class="mb-3">
+    <label class="form-label"><%= t ".contributor terms.heading" %></label>
     <span class="form-text text-muted">
       <% if current_user.terms_agreed? %>
         <%= t ".contributor terms.agreed" %>
@@ -54,12 +54,19 @@
     </span>
   </div>
 
-  <%= f.primary t(".save changes button") %>
+  <div class="row justify-content-between">
+    <div class="col-auto btn-wrapper">
+      <%= f.primary t(".save changes button") %>
+    </div>
+    <div class="col-auto btn-wrapper">
+      <%= link_to t(".delete_account"), account_deletion_path, :class => "btn btn-outline-danger" %>
+    </div>
+  </div>
 <% end %>
 
 <% unless current_user.data_public? %>
 <a name="public"></a>
 <h2><%= t ".public editing note.heading" %></h2>
 <%= t ".public editing note.html" %>
-  <%= button_to t(".make edits public button"), :action => :go_public %>
+<%= button_to t(".make edits public button"), user_go_public_path, :class => "btn btn-primary" %>
 <% end %>

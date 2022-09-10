@@ -196,24 +196,24 @@ hu:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: nagyjából 1 órája
-        other: nagyjából %{count} órája
+        one: nagyjából 1 órával ezelőtt
+        other: mintegy %{count} órával ezelőtt
       about_x_months:
-        one: nagyjából 1 hónapja
-        other: nagyjából %{count} hónapja
+        one: nagyjából 1 hónappal ezelőtt
+        other: mintegy %{count} hónappal ezelőtt
       about_x_years:
         one: nagyjából 1 éve
         other: nagyjából %{count} éve
       almost_x_years:
-        one: majdnem 1 éve
-        other: majdnem %{count} éve
+        one: majdnem 1 évvel ezelőtt
+        other: majdnem %{count} évvel ezelőtt
       half_a_minute: fél perccel ezelőtt
       less_than_x_seconds:
-        one: kevesebb mint 1 másodperce
-        other: kevesebb mint %{count} másodperce
+        one: kevesebb mint 1 másodperccel ezelőtt
+        other: kevesebb mint %{count} másodperccel ezelőtt
       less_than_x_minutes:
-        one: kevesebb mint 1 perce
-        other: kevesebb mint %{count} perce
+        one: kevesebb mint 1 perccel ezelőtt
+        other: kevesebb mint %{count} perccel ezelőtt
       over_x_years:
         one: több mint 1 éve
         other: több mint %{count} éve
@@ -227,11 +227,11 @@ hu:
         one: 1 napja
         other: '%{count} napja'
       x_months:
-        one: 1 hónapja
-        other: '%{count} hónapja'
+        one: 1 hónappal ezelőtt
+        other: '%{count} hónappal ezelőtt'
       x_years:
-        one: 1 éve
-        other: '%{count} éve'
+        one: 1 évvel ezelőtt
+        other: '%{count} évvel ezelőtt'
   editor:
     default: Alapértelmezett (jelenleg %{name})
     id:
@@ -272,6 +272,77 @@ hu:
       entry:
         comment: Hozzászólás
         full: Teljes jegyzet
+  account:
+    deletions:
+      show:
+        title: Felhasználói fiókom törlése
+        warning: A fiók törlése végleges, nem lehet visszaállítani!
+        delete_account: Fiók törlése
+        delete_introduction: 'Az alábbi gombbal törölheted az OpenStreetMap-fiókodat.
+          Vedd figyelembe az alábbiakat:'
+        delete_profile: Ezzel törlődnek a profiladataid, köztük az avatarod, a leírásod
+          és az otthoni tartózkodási helyed is.
+        delete_display_name: A megjelenített neved is eltávolításra kerül, és más
+          fiókok újra felhasználhatják.
+        retain_caveats: 'Néhány Rád vonatkozó információ azonban még a fiókod törlése
+          után is megmarad az OpenStreetMapen:'
+        retain_edits: A térképadatbázisban végzett szerkesztéseid (ha vannak) megmaradnak.
+        retain_traces: Az általad feltöltött nyomvonalak (ha vannak) szintén megőrződnek.
+        retain_diary_entries: Naplóbejegyzéseid és naplóhozzászólásait (ha vannak)
+          megmaradnak, de nem lesznek láthatóak.
+        retain_notes: Térképjegyzeteid és jegyzethozzászólásaid (ha vannak) megmaradnak,
+          de nem lesznek láthatóak.
+        retain_changeset_discussions: A módosításkészletekhez fűzött hozzászólásaid
+          (ha vannak) megőrződnek.
+        retain_email: Az e-mail címed is megmarad.
+        confirm_delete: Biztos vagy benne?
+        cancel: Mégsem
+  accounts:
+    edit:
+      title: Fiók szerkesztése
+      my settings: Személyes beállítások
+      current email address: Jelenlegi e-mail-cím
+      external auth: Külső hitelesítés
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: mi ez?
+      public editing:
+        heading: Nyilvános szerkesztés
+        enabled: Engedélyezve. Nem vagy névtelen, így szerkesztheted az adatokat.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: mi ez?
+        disabled: Tiltva, így nem szerkesztheted az adatokat, az összes eddigi szerkesztés
+          névtelen.
+        disabled link text: miért nem tudok szerkeszteni?
+      public editing note:
+        heading: Nyilvános szerkesztés
+        html: Jelenleg a szerkesztéseid névtelenek, és az emberek nem küldhetnek neked
+          üzeneteket, és nem láthatják a tartózkodási helyedet. Hogy megmutasd, mit
+          szerkesztettél, és megengedd az embereknek, hogy a webhelyen keresztül kapcsolatba
+          lépjenek veled, kattints az alábbi gombra. <b>A 0.6 API-ra történt átállás
+          óta csak nyilvános felhasználók szerkeszthetik a térképadatokat</b>. (<a
+          href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">nézz utána, miért</a>).<ul><li>Az
+          e-mail címed nem kerül felfedésre azzal, hogy nyilvános leszel.</li><li>Ez
+          a művelet nem vonható vissza, és alapértelmezésben az összes új felhasználó
+          már nyilvános.</li></ul>
+      contributor terms:
+        heading: Hozzájárulási feltételek
+        agreed: Elfogadtad az új hozzájárulási feltételeket.
+        not yet agreed: Még nem fogadtad el az új hozzájárulási feltételeket.
+        review link text: Kérjük, kövesd ezt a hivatkozást az új közreműködési feltételek
+          áttekintéséhez és elfogadásához.
+        agreed_with_pd: Azt is kijelentetted, hogy a szerkesztéseid közkincsnek tekinthetők.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link text: mi ez?
+      save changes button: Módosítások mentése
+      make edits public button: Az összes szerkesztésem nyilvánossá tétele
+      delete_account: Fiók törlése…
+    update:
+      success_confirm_needed: Felhasználói információk sikeresen frissítve. Nézd meg
+        az e-mailjeidet az új e-mail címedet megerősítő levélhez.
+      success: Felhasználói információk sikeresen frissítve.
+    destroy:
+      success: Fiók törölve.
   browse:
     created: Létrehozva
     closed: Lezárva
@@ -404,7 +475,7 @@ hu:
       reopened_by_html: Újraaktiválta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Újraaktiválva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Elrejtette %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Jegyzet bejelentése
+      report: jegyzet bejelentése
     query:
       title: Objektumok lekérdezése
       introduction: Kattints a térképre a közeli objektumok megtalálásához.
@@ -545,6 +616,9 @@ hu:
         title: OpenStreetMap naplóbejegyzések
         description: Legutóbbi naplóbejegyzések az OpenStreetMap felhasználóitól
     comments:
+      title: '%{user} naplóhozzászólásai'
+      heading: '%{user} naplóhozzászólásai'
+      subheading_html: '%{user} naplóhozzászólásai'
       no_comments: Nincs naplóhozzászólás
       post: Bejegyzés
       when: Mikor
@@ -598,7 +672,7 @@ hu:
           aerodrome: Repülőtér
           airstrip: Leszállóhely
           apron: Forgalmi előtér
-          gate: Kapu
+          gate: Repülőtéri kapu
           hangar: Hangár
           helipad: Helikopter-leszálló
           holding_position: Várakozási hely
@@ -607,7 +681,7 @@ hu:
           runway: Kifutópálya
           taxilane: Gurulóút
           taxiway: Gurulóút
-          terminal: Utasterminál
+          terminal: Repülőtéri utasterminál
           windsock: Szélzsák
         amenity:
           animal_boarding: Állatpanzió
@@ -809,7 +883,6 @@ hu:
           window_construction: Ablakkészítő
           winery: Borászat
           "yes": Kézműves bolt
-        crossing: Gyalogosátkelő
         emergency:
           access_point: Mentési pont
           ambulance_station: Mentőállomás
@@ -830,6 +903,7 @@ hu:
           bus_stop: Buszmegálló
           construction: Épülő út
           corridor: Folyosó
+          crossing: Gyalogosátkelő
           cycleway: Kerékpárút
           elevator: Lift
           emergency_access_point: Mentési pont
@@ -869,6 +943,7 @@ hu:
           trailhead: Turistaút végpontja
           trunk: Autóút
           trunk_link: Autóút fel- vagy lehajtó
+          turning_circle: Megfordulókör
           turning_loop: Megfordulóhurok
           unclassified: Egyéb közút
           "yes": Út
@@ -919,7 +994,6 @@ hu:
           commercial: Kereskedelmi terület
           conservation: Védett terület (elavult)
           construction: Építési terület
-          farm: Tanya
           farmland: Mezőgazdasági terület
           farmyard: Tanyaudvar
           forest: Telepített erdő
@@ -1150,6 +1224,7 @@ hu:
           "yes": Hely
         railway:
           abandoned: Elhagyott vasútvonal
+          buffer_stop: Ütközőbak
           construction: Épülő vasútvonal
           disused: Használaton kívüli vasútvonal
           funicular: Sikló
@@ -1163,6 +1238,7 @@ hu:
           platform: Vasúti peron
           preserved: Nosztalgia-vasútvonal
           proposed: Tervezett vasút
+          rail: Vasúti vágány
           spur: Iparvágány
           station: Vasútállomás
           stop: Vasúti megálló
@@ -1171,6 +1247,7 @@ hu:
           switch: Vasúti váltó
           tram: Villamos
           tram_stop: Villamosmegálló
+          turntable: Fordítókorong
           yard: Rendező pályaudvar
         shop:
           agrarian: Gazdabolt
@@ -2031,7 +2108,7 @@ hu:
           Térkép vagy nyomtatott térképek) a szerzői jog tulajdonosának kifejezett
           engedélye nélkül.
         infringement_2_html: |-
-          Ha úgy gondolod, hogy jogvédett anyag került jogszerűtlenül az OpenStreetMap adatbázisba vagy erre a weblapra, kérjük olvasd el az <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">eltávolítási
+          Ha úgy gondolod, hogy jogvédett anyag került jogszerűtlenül az OpenStreetMap adatbázisba vagy erre a weblapra, kérjük olvasd el az <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">eltávolítási
           folyamat leírását</a> vagy jelentsd be közvetlenül az
           <a href="https://dmca.openstreetmap.org/">online bejelentő oldalon</a>.
         trademarks_title_html: <span id="trademarks"></span>Védjegyek
@@ -2228,6 +2305,7 @@ hu:
           common:
           - Füves terület
           - rét
+          - kert
           retail: Kereskedelmi terület
           industrial: Ipari terület
           commercial: Kereskedelmi terület
@@ -2382,7 +2460,6 @@ hu:
       in: 'címkék:'
     index:
       public_traces: Nyilvános GPS-nyomvonalak
-      my_traces: Saját nyomvonalak
       public_traces_from: '%{user} nyilvános GPS-nyomvonalai'
       description: Böngészés a legutóbb feltöltött GPS-nyomvonalak között
       tagged_with: ' %{tags} címkével'
@@ -2391,6 +2468,7 @@ hu:
         lapon</a>.
       upload_trace: Nyomvonal feltöltése
       all_traces: Minden nyomvonal
+      my_traces: Saját nyomvonalak
       traces_from: '%{user} nyilvános nyomvonalai'
       remove_tag_filter: Címkeszűrő eltávolítása
     destroy:
@@ -2464,6 +2542,8 @@ hu:
       read_gpx: Magán nyomvonalak olvasása
       write_gpx: GPS-nyomvonalak feltöltése
       write_notes: Jegyzetek módosítása
+      read_email: Felhasználó e-mail-címének elolvasása
+      skip_authorization: Alkalmazás automatikus jóváhagyása
   oauth_clients:
     new:
       title: Új alkalmazás regisztrálása
@@ -2595,7 +2675,7 @@ hu:
       read_tou: Elolvastam és elfogadom a felhasználási feltételeket
       consider_pd: A fenti megállapodáson felül, a hozzájárulásaimat közkinccsé nyilvánítom
       consider_pd_why: mi ez?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Információk a fogalmak megértéséhez: egy <a href="%{summary}">közérthető
         nyelven megfogalmazott kivonat</a> és néhány <a href="%{translations}">nemhivatalos
         fordítás</a>'
@@ -2665,56 +2745,17 @@ hu:
       block_history: Aktív blokkolások
       moderator_history: Kiosztott blokkolások
       comments: Hozzászólások
-      create_block: felhasználó blokkolása
-      activate_user: felhasználó aktiválása
-      deactivate_user: felhasználó deaktiválása
-      confirm_user: felhasználó megerősítése
-      hide_user: felhasználó elrejtése
-      unhide_user: felhasználó elrejtésének megszüntetése
-      delete_user: felhasználó törlése
+      create_block: Felhasználó blokkolása
+      activate_user: Felhasználó aktiválása
+      deactivate_user: Felhasználó deaktiválása
+      confirm_user: Felhasználó megerősítése
+      unconfirm_user: Felhasználó megerősítésének visszavonása
+      unsuspend_user: Felhasználó felfüggesztésének visszavonása
+      hide_user: Felhasználó elrejtése
+      unhide_user: Felhasználó elrejtésének visszavonása
+      delete_user: Felhasználó törlése
       confirm: Megerősítés
       report: Felhasználó bejelentése
-    account:
-      title: Fiók szerkesztése
-      my settings: Személyes beállítások
-      current email address: Jelenlegi e-mail-cím
-      external auth: Külső hitelesítés
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: mi ez?
-      public editing:
-        heading: Nyilvános szerkesztés
-        enabled: Engedélyezve. Nem vagy névtelen, így szerkesztheted az adatokat.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: mi ez?
-        disabled: Tiltva, így nem szerkesztheted az adatokat, az összes eddigi szerkesztés
-          névtelen.
-        disabled link text: miért nem tudok szerkeszteni?
-      public editing note:
-        heading: Nyilvános szerkesztés
-        html: Jelenleg a szerkesztéseid névtelenek, és az emberek nem küldhetnek neked
-          üzeneteket, és nem láthatják a tartózkodási helyedet. Hogy megmutasd, mit
-          szerkesztettél, és megengedd az embereknek, hogy a webhelyen keresztül kapcsolatba
-          lépjenek veled, kattints az alábbi gombra. <b>A 0.6 API-ra történt átállás
-          óta csak nyilvános felhasználók szerkeszthetik a térképadatokat</b>. (<a
-          href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">nézz utána, miért</a>).<ul><li>Az
-          e-mail címed nem kerül felfedésre azzal, hogy nyilvános leszel.</li><li>Ez
-          a művelet nem vonható vissza, és alapértelmezésben az összes új felhasználó
-          már nyilvános.</li></ul>
-      contributor terms:
-        heading: Hozzájárulási feltételek
-        agreed: Elfogadtad az új hozzájárulási feltételeket.
-        not yet agreed: Még nem fogadtad el az új hozzájárulási feltételeket.
-        review link text: Kérjük, kövesd ezt a hivatkozást az új közreműködési feltételek
-          áttekintéséhez és elfogadásához.
-        agreed_with_pd: Azt is kijelentetted, hogy a szerkesztéseid közkincsnek tekinthetők.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: mi ez?
-      save changes button: Módosítások mentése
-      make edits public button: Az összes szerkesztésem nyilvánossá tétele
-      flash update success confirm needed: Felhasználói információk sikeresen frissítve.
-        Nézd meg az e-mailjeidet az új e-mail címedet megerősítő levélhez.
-      flash update success: Felhasználói információk sikeresen frissítve.
     set_home:
       flash success: Otthon helye sikeresen mentve
     go_public:
@@ -2750,6 +2791,7 @@ hu:
       no_authorization_code: Nem engedély kód
       unknown_signature_algorithm: Ismeretlen aláírási algoritmus
       invalid_scope: Érvénytelen kód
+      unknown_error: A hitelesítés sikertelen
     auth_association:
       heading: Az azonosítódhoz még nem tartozik OpenStreetMap fiók.
       option_1: Ha most vagy itt először, készíts magadnak egy OpenStreetMap-fiókot
@@ -2828,8 +2870,8 @@ hu:
     helper:
       time_future_html: Véget ér %{time} múlva.
       until_login: Aktív a felhasználó bejelentkezéséig.
-      time_future_and_until_login_html: '%{time} múlva van vége, miután a felhasználó
-        bejelentkezett.'
+      time_future_and_until_login_html: Véget ér %{time} múlva, miután a felhasználó
+        bejelentkezett.
       time_past_html: Véget ért %{time} időpontban.
       block_duration:
         hours:

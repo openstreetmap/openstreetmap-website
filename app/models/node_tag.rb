@@ -17,7 +17,7 @@ class NodeTag < ApplicationRecord
 
   belongs_to :node
 
-  validates :node, :presence => true, :associated => true
+  validates :node, :associated => true
   validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }, :characters => true
   validates :k, :uniqueness => { :scope => :node_id }
 end

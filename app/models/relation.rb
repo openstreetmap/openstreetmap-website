@@ -27,9 +27,9 @@ class Relation < ApplicationRecord
 
   belongs_to :changeset
 
-  has_many :old_relations, -> { order(:version) }
+  has_many :old_relations, -> { order(:version) }, :inverse_of => :current_relation
 
-  has_many :relation_members, -> { order(:sequence_id) }
+  has_many :relation_members, -> { order(:sequence_id) }, :inverse_of => :relation
   has_many :relation_tags
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
@@ -39,8 +39,6 @@ class Relation < ApplicationRecord
                  :numericality => { :on => :update, :only_integer => true }
   validates :version, :presence => true,
                       :numericality => { :only_integer => true }
-  validates :changeset_id, :presence => true,
-                           :numericality => { :only_integer => true }
   validates :timestamp, :presence => true
   validates :changeset, :associated => true
   validates :visible, :inclusion => [true, false]
@@ -130,7 +128,7 @@ class Relation < ApplicationRecord
   end
 
   def tags
-    @tags ||= relation_tags.collect { |t| [t.k, t.v] }.to_h
+    @tags ||= relation_tags.to_h { |t| [t.k, t.v] }
   end
 
   attr_writer :members, :tags
@@ -206,6 +204,8 @@ class Relation < ApplicationRecord
   end
 
   def preconditions_ok?(good_members = [])
+    raise OSM::APITooManyRelationMembersError.new(id, members.length, Settings.max_number_of_relation_members) if members.length > Settings.max_number_of_relation_members
+
     # These are hastables that store an id in the index of all
     # the nodes/way/relations that have already been added.
     # If the member is valid and visible then we add it to the
@@ -263,7 +263,7 @@ class Relation < ApplicationRecord
   private
 
   def save_with_history!
-    t = Time.now.getutc
+    t = Time.now.utc
 
     self.version += 1
     self.timestamp = t

@@ -1,12 +1,12 @@
 module Api
   class NotesController < ApiController
     before_action :check_api_readable
-    before_action :setup_user_auth, :only => [:create, :comment, :show]
+    before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
+    before_action :setup_user_auth, :only => [:create, :show]
     before_action :authorize, :only => [:close, :reopen, :destroy, :comment]
 
     authorize_resource
 
-    before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
     before_action :set_locale
     around_action :api_call_handle_error, :api_call_timeout
 
@@ -277,16 +277,16 @@ module Api
       # Add any date filter
       if params[:from]
         begin
-          from = Time.parse(params[:from])
+          from = Time.parse(params[:from]).utc
         rescue ArgumentError
           raise OSM::APIBadUserInput, "Date #{params[:from]} is in a wrong format"
         end
 
         begin
           to = if params[:to]
-                 Time.parse(params[:to])
+                 Time.parse(params[:to]).utc
                else
-                 Time.now
+                 Time.now.utc
                end
         rescue ArgumentError
           raise OSM::APIBadUserInput, "Date #{params[:to]} is in a wrong format"
@@ -361,7 +361,7 @@ module Api
       elsif closed_since.positive?
         notes.where(:status => "open")
              .or(notes.where(:status => "closed")
-                      .where(notes.arel_table[:closed_at].gt(Time.now - closed_since.days)))
+                      .where(notes.arel_table[:closed_at].gt(Time.now.utc - closed_since.days)))
       else
         notes.where(:status => "open")
       end

@@ -1,5 +1,5 @@
 xml.wpt("lon" => note.lon, "lat" => note.lat) do
-  xml.time note.created_at.to_s(:iso8601)
+  xml.time note.created_at.to_fs(:iso8601)
   xml.name t("browse.note.title", :id => note.id)
 
   xml.desc do

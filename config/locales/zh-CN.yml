@@ -47,6 +47,7 @@
 # Author: Shizhao
 # Author: SinonJZH
 # Author: SkyEye FAST
+# Author: StarrySky
 # Author: StephDC
 # Author: TianyinLee
 # Author: TsuyaMarisa
@@ -64,6 +65,7 @@
 # Author: 予弦
 # Author: 列维劳德
 # Author: 夢蝶葬花
+# Author: 孟天皓
 # Author: 水獭很懒
 # Author: 沈澄心
 # Author: 神樂坂秀吉
@@ -91,7 +93,7 @@ zh-CN:
         create: 发布
         update: 更新
       issue_comment:
-        create: 添加批注
+        create: 添加评论
       message:
         create: 发送
       client_application:
@@ -157,7 +159,7 @@ zh-CN:
         callback_url: 回调 URL
         support_url: 支持 URL
         allow_read_prefs: 读取其用户设置
-        allow_write_prefs: 修改他们的用户首选项
+        allow_write_prefs: 修改其用户首选项
         allow_write_diary: 创建日记文章、评论并结交朋友。
         allow_write_api: 修改地图
         allow_read_gpx: 读取他们的私人GPS轨迹
@@ -312,6 +314,60 @@ zh-CN:
       entry:
         comment: 评论
         full: 完整注记
+  account:
+    deletions:
+      show:
+        title: 删除我的账户
+        warning: 警告！这是账户删除流程的最后一步，并且不可被恢复。
+        delete_account: 删除账户
+        delete_introduction: 您可以通过下方的按钮删除您的OpenStreetMap账户。请注意如下细节：
+        delete_profile: 您的个人简介，包括您的头像、介绍和家的位置，都将被移除。
+        delete_display_name: 您显示的用户名将被移除，并且可以被其他账户复用。
+        retain_caveats: 然而，部分关于您的信息仍将被保留在OpenStreetMap里，即使在您的账户被删除后：
+        retain_edits: 您对地图数据库的编辑，如果有，将被保留。
+        retain_traces: 您上传的轨迹，如果有，将被保留。
+        retain_diary_entries: 您的日记与日记下的评论，如果有，将被保留，但不可见。
+        retain_notes: 您的地图注记与注记中的评论，如果有，将被保留，但不可见。
+        retain_changeset_discussions: 您在变更集下的讨论，如果有，将被保留。
+        retain_email: 您的电子邮件地址将被保留。
+        confirm_delete: 您确定吗？
+        cancel: 取消
+  accounts:
+    edit:
+      title: 编辑账户
+      my settings: 我的设置
+      current email address: 当前电子邮件地址
+      external auth: 外部身份验证
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: 这是什么？
+      public editing:
+        heading: 公开编辑
+        enabled: 启用。非匿名用户，可以编辑数据。
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: 这是什么？
+        disabled: 禁用且无法编辑数据，所有过去的编辑均为匿名。
+        disabled link text: 我为什么不能编辑？
+      public editing note:
+        heading: 公开编辑
+        html: 目前您的编辑是匿名的，人们不能发送邮件给您或看到您的位置。为了显示您的编辑，让别人通过网站与您联系，请点击下面的按钮。<b>由于 0.6
+          API 的转换，只有公开的用户可以编辑地图数据</b>。(<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">了解为什么</a>)。<ul><li>您的电子邮件地址将不会被因为成为公开用户而被透露。</li><li>此操作无法撤销，所有新用户现在都默认为公开的。</li></ul>
+      contributor terms:
+        heading: 贡献者条款
+        agreed: 您已同意新的贡献者条款。
+        not yet agreed: 您还没有同意新的贡献者条款。
+        review link text: 请跟随此链接，方便您查看并接受新的贡献者条款。
+        agreed_with_pd: 您也将您的编辑释于公有领域。
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link text: 这是什么？
+      save changes button: 保存更改
+      make edits public button: 公开我所有的编辑
+      delete_account: 删除账户
+    update:
+      success_confirm_needed: 成功更新用户信息。 查看您的邮箱以确认您的新邮箱地址。
+      success: 成功更新用户信息。
+    destroy:
+      success: 账户已删除。
   browse:
     created: 创建于
     closed: 关闭于
@@ -414,8 +470,8 @@ zh-CN:
         relation: 关系
     start_rjs:
       feature_warning: 正在载入 %{num_features} 个要素，这可能使您的浏览器变慢或失去响应。您确定想要显示该数据吗？
-      load_data: 载入数据
-      loading: 正在载入...
+      load_data: 加载数据
+      loading: 加载中…
     tag_details:
       tags: 标签
       wiki_link:
@@ -475,7 +531,7 @@ zh-CN:
       no_more: 未找到更多变更集。
       no_more_area: 该区域内没有更多变更集。
       no_more_user: 无该用户的更多修改集合。
-      load_more: 载入更多
+      load_more: 加载更多
     timeout:
       sorry: 抱歉，您所请求的变更集列表检索时间过长。
   changeset_comments:
@@ -580,7 +636,7 @@ zh-CN:
       title: '%{user} 已添加日记评论'
       heading: '%{user} 的日记评论'
       subheading_html: '%{user} 已添加日记评论'
-      no_comments: 没有日记留言
+      no_comments: 没有日记评论
       post: 发布
       when: 时间
       comment: 评论
@@ -633,7 +689,7 @@ zh-CN:
         aeroway:
           aerodrome: 飞机场
           airstrip: 飞机跑道
-          apron: 停机坪
+          apron: 机场停机坪
           gate: 登机口
           hangar: 飞机库
           helipad: 直升机停机坪
@@ -643,7 +699,7 @@ zh-CN:
           runway: 飞机跑道
           taxilane: 滑行道
           taxiway: 滑行道
-          terminal: 航站楼
+          terminal: 机场航站楼
           windsock: 风向袋
         amenity:
           animal_boarding: 动物寄养处
@@ -742,7 +798,7 @@ zh-CN:
           townhall: 市政厅
           training: 训练设施
           university: 大学
-          vehicle_inspection: 车辆检测站
+          vehicle_inspection: 车辆检验站
           vending_machine: 自动售货机
           veterinary: 兽医
           village_hall: 村政厅
@@ -810,7 +866,7 @@ zh-CN:
           stable: 马厩
           static_caravan: 大篷车
           temple: 庙宇建筑
-          terrace: 阳台建筑
+          terrace: 排屋
           train_station: 火车站建筑
           university: 大学建筑物
           warehouse: 仓库
@@ -845,7 +901,6 @@ zh-CN:
           window_construction: 窗户施工
           winery: 酿酒厂
           "yes": 工艺品店
-        crossing: 十字路口
         emergency:
           access_point: 存储点
           ambulance_station: 救护站
@@ -866,6 +921,7 @@ zh-CN:
           bus_stop: 公共汽车站
           construction: 在建公路
           corridor: 走廊
+          crossing: 十字路口
           cycleway: 自行车道
           elevator: 电梯
           emergency_access_point: 紧急求救点
@@ -919,7 +975,7 @@ zh-CN:
           bunker: 地堡
           cannon: 古炮
           castle: 城堡
-          charcoal_pile: 史上又名的碳堆
+          charcoal_pile: 史上有名的碳堆
           church: 教堂
           city_gate: 城门
           citywalls: 城墙
@@ -956,7 +1012,6 @@ zh-CN:
           commercial: 商业区
           conservation: 保护区
           construction: 工地
-          farm: 农场
           farmland: 农田
           farmyard: 农家庭院
           forest: 森林
@@ -977,7 +1032,7 @@ zh-CN:
           reservoir: 水库
           reservoir_watershed: 水库库区
           residential: 居住区
-          retail: 商店区
+          retail: 零售区
           village_green: 乡村草坪
           vineyard: 葡萄园
           "yes": 土地利用
@@ -1098,7 +1153,7 @@ zh-CN:
           glacier: 冰川
           grassland: 草原
           heath: 荒野
-          hill: 希尔地貌
+          hill: 丘陵
           hot_spring: 温泉
           island: 岛
           isthmus: 地峡
@@ -1187,6 +1242,7 @@ zh-CN:
           "yes": 地方
         railway:
           abandoned: 已拆除铁路
+          buffer_stop: 止冲器
           construction: 在建铁路
           disused: 废弃铁路
           funicular: 缆索铁路
@@ -1200,6 +1256,7 @@ zh-CN:
           platform: 铁路站台
           preserved: 保留铁路
           proposed: 规划铁路
+          rail: 铁路
           spur: 铁路支线
           station: 火车站
           stop: 火车停车点
@@ -1208,6 +1265,7 @@ zh-CN:
           switch: 道岔
           tram: 电车轨道
           tram_stop: 有轨电车站
+          turntable: 转车台
           yard: 车辆段
         shop:
           agrarian: 农用品店
@@ -1248,7 +1306,7 @@ zh-CN:
           deli: 熟食店
           department_store: 百货商场
           discount: 折扣商品店
-          doityourself: DIY
+          doityourself: DIY 用品店
           dry_cleaning: 干洗店
           e-cigarette: 电子烟店
           electronics: 电子产品店
@@ -1274,7 +1332,7 @@ zh-CN:
           health_food: 保健食品店
           hearing_aids: 助听器店
           herbalist: 草药铺
-          hifi: Hi-Fi
+          hifi: 音像店
           houseware: 家居店
           ice_cream: 冰淇淋店
           interior_decoration: 室内装饰
@@ -1334,7 +1392,7 @@ zh-CN:
           artwork: 艺术品
           attraction: 景点
           bed_and_breakfast: 家庭旅馆
-          cabin: 小木屋
+          cabin: 旅游客舱
           camp_pitch: 营地
           camp_site: 宿营地
           caravan_site: 房车宿营地
@@ -1458,6 +1516,7 @@ zh-CN:
   issue_comments:
     create:
       comment_created: 已成功创建评论
+      issue_reassigned: 已创建您的评论，并重新分配问题
   reports:
     new:
       title_html: 举报%{link}
@@ -1544,7 +1603,7 @@ zh-CN:
     more: 更多
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} 在日记项目留下了评论'
+      subject: '[OpenStreetMap] %{user} 在日记篇目留下了评论'
       hi: 您好，%{to_user}：
       header: '%{from_user} 评论了主题为 %{subject} 的 OpenStreetMap 日记文章：'
       header_html: '%{from_user} 评论了主题为 %{subject} 的 OpenStreetMap 日记文章：'
@@ -1645,7 +1704,7 @@ zh-CN:
       introduction_2: 点击电子邮件中的链接确认您的账户，然后您就可以开始绘制地图了。
       press confirm button: 按下面的确认按钮激活您的账户。
       button: 确认
-      success: 已确认您的账号，感谢您的注册！
+      success: 已确认您的账户，感谢您的注册！
       already active: 该账户已经确认。
       unknown token: 确认码已经过期或不存在。
       reconfirm_html: 如果您需要我们重新发送确认邮件，<a href="%{reconfirm}">请点击这里</a>。
@@ -1659,7 +1718,7 @@ zh-CN:
       failure: 具有此令牌的电子邮件地址已经确认过了。
       unknown_token: 那个确认代码已过期或不存在。
     resend_success_flash:
-      confirmation_sent: 我们已经向%{email}发出一条新的确认通知，一旦您确认您的账户，就能获得映射。
+      confirmation_sent: 我们已经向%{email}发出一条新的确认通知，一旦您确认您的账户，就能开始绘图。
       whitelist: 如果您用于发送确认请求的邮箱具有反垃圾邮件系统，请确保将%{sender}加入白名单，因为我们无法恢复任何确认请求。
   messages:
     inbox:
@@ -1809,7 +1868,7 @@ zh-CN:
           alt: 使用Facebook账户登录
         windowslive:
           title: 使用Windows Live登录
-          alt: 使用一个Windows Live账户登录
+          alt: 使用Windows Live账户登录
         github:
           title: 使用GitHub登录
           alt: 通过GitHub账户登录
@@ -1892,16 +1951,18 @@ zh-CN:
         intro_3_1_html: 我们的文档采用<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.zh">知识共享
           署名-相同方式共享 2.0 （CC BY-SA 2.0）</a>许可协议授权。
         credit_title_html: 如何表明作者是 OpenStreetMap
-        credit_1_html: 我们需要您署名&ldquo;&copy; OpenStreetMap 贡献者&rdquo;。
-        credit_2_1_html: 您必须明确注明，我们的数据使用开放式数据库协议，若使用我们的地图图块，其协议须为 CC-BY-SA。您可以链接<a
-          href="https://www.openstreetmap.org/copyright">此版权页</a>以注明。另外，若您要以数据形式发布
-          OSM，您可以属名并直接链接协议。若某些媒介无法进行链接(如印刷品)，我们建议您引导您的读者至 openstreetmap.org (或 OpenStreetMap
-          的完整网址)、opendatacommons.org，及可能相关的 creativecommons.org。
-        credit_3_1_html: 在 www.openstreetmap.org 上的&ldquo;标准样式&rdquo;地图图块是由 OpenStreetMap
-          基金会使用基于开放数据库授权的的 OpenStreetMap 数据制作的作品。使用此地图样式时，需要与地图数据具有相同的署名。
+        credit_1_html: 当您使用 OpenStreetMap 的数据，您会被要求遵循两件事：
+        credit_2_1_html: |-
+          <ul>
+            <li>显示出我们的版权声明来表达归属于 OpenStreetMap 的内容。</li>
+            <li>清楚表明数据在开放数据库许可协议下可用。</li>
+          </ul>
+        credit_3_1_html: 对于版权声明的显示，我们会依据您如何使用我们的数据，而有不同的要求。例如，不同的规则要如何显示版权声明，具体取决于您是否建立了可浏览的地图、列印的地图或是静态图像。完整的详细信息要求可以在<a
+          href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">署名方针</a>上查看。
         credit_4_html: |-
-          对于可浏览的电子地图，标记会出现在地图的右下角。
-          例如：
+          请明确表示数据在开放数据库许可协议下可用，您可以链接到<a href="https://www.openstreetmap.org/copyright">这个版权页面</a>。
+          相对地，如果您以数据表来分发 OSM，您可以命名并直接链接到许可协议。在一些无法作出链接的媒介（例如印刷品），我们建议您引导您的读者到 openstreetmap.org（像是注明“OpenStreetMap”的完整网址）以及 opendatacommons.org。
+          在此示例中，版权相关的归属会出现在地图的角落。
         attribution_example:
           alt: 如何在网页上署名 OpenStreetMap 的示例
           title: 署名示例
@@ -1948,7 +2009,7 @@ zh-CN:
         contributors_footer_2_html: OpenStreetMap 纳入数据并不意味着原始数据提供者认可 OpenStreetMap、提供任何担保或担负任何法律责任。
         infringement_title_html: 著作权侵犯
         infringement_1_html: OSM 的贡献者会被提醒，绝不要在没有著作权人的明确许可时添加来自任何有著作权的来源的数据(如谷歌地图或印刷地图)。
-        infringement_2_html: 如果您认为版权的材料已被不恰当地添加的 OpenStreetMap 数据库或该网站，请参见我们的<a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">撤除程序</a>，或直接在我们的<a
+        infringement_2_html: 如果您认为版权的材料已被不恰当地添加的 OpenStreetMap 数据库或该网站，请参见我们的<a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">撤除程序</a>，或直接在我们的<a
           href="https://dmca.openstreetmap.org/">在线申报页面</a>上提出。
         trademarks_title_html: <span id="trademarks"></span>商标
         trademarks_1_html: OpenStreetMap、放大镜标志和地图状态是OpenStreetMap基金会的注册商标。如果您对使用这些标志有任何问题，请参见我们的<a
@@ -2044,8 +2105,12 @@ zh-CN:
         title: 邮件列表
         description: 询问问题或在广泛或局部的邮件列表中讨论有趣事件
       forums:
-        title: 论坛
+        title: 论坛（旧版）
         description: 面向更喜欢电子公告栏样式界面的用户的问题和讨论。
+      community:
+        url: https://community.openstreetmap.org/
+        title: 社区论坛
+        description: 用于讨论 OpenStreetMap 的共享场所。
       irc:
         title: IRC
         description: 在很多不同的语言和在很多话题间交互聊天。
@@ -2116,6 +2181,7 @@ zh-CN:
           common:
           - 公地
           - 草甸
+          - 花园
           retail: 零售区
           industrial: 工业区
           commercial: 商业区
@@ -2168,8 +2234,7 @@ zh-CN:
       questions:
         title: 还有疑问吗？
         paragraph_1_html: OpenStreetMap 有若干资源用于学习该项目，提问和回答问题，以及讨论与制作地图相关的话题并且撰写相关文档。<a
-          href='%{help_url}'>点此获取帮助</a>。要以组织机构身份来为 OpenStreetMap制作计划吗？清查看<a href='https://welcome.openstreetmap.org/'>Welcome
-          Mat</a>。
+          href='%{help_url}'>点此获取帮助</a>。要以组织机构身份来为 OpenStreetMap制作计划吗？请查看<a href='https://welcome.openstreetmap.org/'>迎宾处</a>。
       start_mapping: 开始绘制地图
       add_a_note:
         title: 没有时间编辑？添加注记！
@@ -2245,7 +2310,7 @@ zh-CN:
       in: 使用
     index:
       public_traces: 公开GPS轨迹
-      my_traces: 我的轨迹
+      my_gps_traces: 我的 GPS 轨迹
       public_traces_from: 来自 %{user} 的公开 GPS 轨迹
       description: 浏览最近的GPS轨迹上传
       tagged_with: ' 标签为%{tags}'
@@ -2253,6 +2318,7 @@ zh-CN:
         GPS 轨迹。
       upload_trace: 上传轨迹
       all_traces: 所有轨迹
+      my_traces: 我的轨迹
       traces_from: 来自%{user}的公开轨迹
       remove_tag_filter: 移除标签过滤器
     destroy:
@@ -2293,7 +2359,7 @@ zh-CN:
       allow_to: 允许客户应用程序：
       allow_read_prefs: 读取您的用户首选项。
       allow_write_prefs: 修改您的用户首选项。
-      allow_write_diary: 创建日记文章，评论和交朋友。
+      allow_write_diary: 创建日记，评论和交朋友。
       allow_write_api: 修改地图。
       allow_read_gpx: 读取您的私人 GPS 轨迹。
       allow_write_gpx: 上传 GPS 轨迹。
@@ -2314,7 +2380,7 @@ zh-CN:
     scopes:
       read_prefs: 阅读用户首选项
       write_prefs: 修改用户首选项
-      write_diary: 创建日记条目、评论和交朋友
+      write_diary: 创建日记、评论和交朋友
       write_api: 修改地图
       read_gpx: 读取私人GPS轨迹
       write_gpx: 上传GPS轨迹
@@ -2436,7 +2502,7 @@ zh-CN:
       read_tou: 我已阅读并同意使用条款
       consider_pd: 除了上述协议，我同意将我的贡献释于公有领域
       consider_pd_why: 这是什么？
-      consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 帮助理解这些条款的信息：一个<a href="%{summary}">可读的摘要</a>和一些<a href="%{translations}">非正式翻译</a>
       continue: 继续
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
@@ -2455,7 +2521,7 @@ zh-CN:
       title: 无此用户
       heading: 用户 %{user} 不存在
       body: 对不起，没有名为 %{user} 的用户。请检查您的拼写，或者可能是点击了错误的链接。
-      deleted: 已删除
+      deleted: 已删除用户
     show:
       my diary: 我的日记
       new diary entry: 新日记文章
@@ -2505,42 +2571,13 @@ zh-CN:
       activate_user: 启用此用户
       deactivate_user: 停用此用户
       confirm_user: 确认此用户
+      unconfirm_user: 取消确认该用户
+      unsuspend_user: 取消暂停该用户
       hide_user: 隐藏此用户
       unhide_user: 取消隐藏此用户
       delete_user: 删除此用户
       confirm: 确认
       report: 举报此用户
-    account:
-      title: 编辑账户
-      my settings: 我的设置
-      current email address: 当前电子邮件地址
-      external auth: 外部身份验证
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: 这是什么？
-      public editing:
-        heading: 公开编辑
-        enabled: 启用。非匿名用户，可以编辑数据。
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: 这是什么？
-        disabled: 禁用且无法编辑数据，所有过去的编辑均为匿名。
-        disabled link text: 我为什么不能编辑？
-      public editing note:
-        heading: 公开编辑
-        html: 目前您的编辑是匿名的，人们不能发送邮件给您或看到您的位置。为了显示您的编辑，让别人通过网站与您联系，请点击下面的按钮。<b>由于 0.6
-          API 的转换，只有公开的用户可以编辑地图数据</b>。(<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">了解为什么</a>)。<ul><li>您的电子邮件地址将不会被因为成为公开用户而被透露。</li><li>此操作无法撤销，所有新用户现在都默认为公开的。</li></ul>
-      contributor terms:
-        heading: 贡献者条款
-        agreed: 您已同意新的贡献者条款。
-        not yet agreed: 您还没有同意新的贡献者条款。
-        review link text: 请跟随此链接，方便您查看并接受新的贡献者条款。
-        agreed_with_pd: 您也将您的编辑释于公有领域。
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: 这是什么？
-      save changes button: 保存更改
-      make edits public button: 公开我所有的编辑
-      flash update success confirm needed: 成功更新用户信息。 查看您的邮箱以确认您的新邮箱地址。
-      flash update success: 成功更新用户信息。
     set_home:
       flash success: 成功保存您所在位置
     go_public:
@@ -2752,7 +2789,7 @@ zh-CN:
         standard: 标准
         cyclosm: 自行车地图
         cycle_map: 骑行运动地图
-        transport_map: 交通路网地图
+        transport_map: 交通运输地图
         hot: 人道救援地图
         opnvkarte: 公共交通地图
       layers:
@@ -2799,6 +2836,7 @@ zh-CN:
         reactivate: 重启
         comment_and_resolve: 评论与解决
         comment: 评论
+        report_link_html: 如果此注记包含需要被移除的敏感信息，您可以%{link}。对于注记的所有其他问题，您可以依据评论内容来自行处理。
     edit_help: 移动地图并在您想编辑的位置放大，然后点击这里。
     directions:
       ascend: 上升
@@ -2818,19 +2856,19 @@ zh-CN:
       instructions:
         continue_without_exit: 在%{name}上直走
         slight_right_without_exit: 稍向右转至%{name}
-        offramp_right: 上右侧斜坡
+        offramp_right: 上右侧匝道
         offramp_right_with_exit: 在右侧沿%{exit}出口驶离
         offramp_right_with_exit_name: 在右侧沿%{exit}出口至%{name}
         offramp_right_with_exit_directions: 在右侧沿%{exit}出口驶往%{directions}方向
         offramp_right_with_exit_name_directions: 在右侧沿%{exit}出口至%{name}，往%{directions}方向
-        offramp_right_with_name: 在右侧上坡前往%{name}
-        offramp_right_with_directions: 上右侧斜坡，往%{directions}方向
-        offramp_right_with_name_directions: 上坡右转至%{name}，往%{directions}方向
-        onramp_right_without_exit: 右转上坡至%{name}
+        offramp_right_with_name: 上右侧匝道至%{name}
+        offramp_right_with_directions: 走右侧匝道，往%{directions}方向
+        offramp_right_with_name_directions: 上右侧匝道至%{name}，往%{directions}方向
+        onramp_right_without_exit: 匝道右转至%{name}
         onramp_right_with_directions: 向右侧斜坡拐去，往%{directions}方向
-        onramp_right_with_name_directions: 上坡右转至%{name}，往%{directions}方向
+        onramp_right_with_name_directions: 匝道右转至%{name}，往%{directions}方向
         onramp_right_without_directions: 右转至坡道上
-        onramp_right: 右转至坡道上
+        onramp_right: 右转前往匝道
         endofroad_right_without_exit: 在道路尽头右转至%{name}
         merge_right_without_exit: 向右并线至%{name}
         fork_right_without_exit: 在交叉口右转至%{name}
@@ -2839,19 +2877,19 @@ zh-CN:
         uturn_without_exit: 沿着%{name}掉头
         sharp_left_without_exit: 向左急转至%{name}
         turn_left_without_exit: 左转至%{name}
-        offramp_left: 上左侧斜坡
+        offramp_left: 上左侧匝道
         offramp_left_with_exit: 在左侧沿%{exit}出口驶离
         offramp_left_with_exit_name: 在左侧沿%{exit}出口至%{name}
         offramp_left_with_exit_directions: 在左侧沿%{exit}出口驶往%{directions}方向
         offramp_left_with_exit_name_directions: 在左侧沿%{exit}出口至%{name}，往%{directions}方向
-        offramp_left_with_name: 在左侧上坡前往%{name}
+        offramp_left_with_name: 上左侧匝道至%{name}
         offramp_left_with_directions: 上左侧斜坡，往%{directions}方向
-        offramp_left_with_name_directions: 上坡左转至%{name}，往%{directions}方向
-        onramp_left_without_exit: 左转上坡至%{name}
-        onramp_left_with_directions: 向左侧斜坡拐去，往%{directions}方向
-        onramp_left_with_name_directions: 上坡左转至%{name}，往%{directions}方向
-        onramp_left_without_directions: 左转至坡道上
-        onramp_left: 左转至坡道上
+        offramp_left_with_name_directions: 上左侧匝道至%{name}，往%{directions}方向
+        onramp_left_without_exit: 匝道上左转至%{name}
+        onramp_left_with_directions: 左转至往%{directions}方向匝道
+        onramp_left_with_name_directions: 左转上匝道至%{name}，往%{directions}方向
+        onramp_left_without_directions: 左转至匝道上
+        onramp_left: 左转前往匝道
         endofroad_left_without_exit: 在道路尽头左转至%{name}
         merge_left_without_exit: 向左并线至%{name}
         fork_left_without_exit: 在交叉口左转至%{name}

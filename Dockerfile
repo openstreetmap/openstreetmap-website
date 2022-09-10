@@ -10,13 +10,12 @@ RUN apt-get update \
       default-jre-headless \
       file \
       firefox-geckodriver \
-      imagemagick \
       libarchive-dev \
       libffi-dev \
       libgd-dev \
-      libmagickwand-dev \
       libpq-dev \
       libsasl2-dev \
+      libvips-dev \
       libxml2-dev \
       libxslt1-dev \
       locales \

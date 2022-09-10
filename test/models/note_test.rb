@@ -8,7 +8,7 @@ class NoteTest < ActiveSupport::TestCase
     ok.each do |status|
       note = create(:note)
       note.status = status
-      assert note.valid?, "#{status} is invalid, when it should be"
+      assert_predicate note, :valid?, "#{status} is invalid, when it should be"
     end
 
     bad.each do |status|
@@ -28,7 +28,7 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   def test_reopen
-    note = create(:note, :status => "closed", :closed_at => Time.now)
+    note = create(:note, :status => "closed", :closed_at => Time.now.utc)
     assert_equal "closed", note.status
     assert_not_nil note.closed_at
     note.reopen
@@ -37,13 +37,13 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   def test_visible?
-    assert create(:note, :status => "open").visible?
-    assert create(:note, :status => "closed").visible?
+    assert_predicate create(:note, :status => "open"), :visible?
+    assert_predicate create(:note, :status => "closed"), :visible?
     assert_not create(:note, :status => "hidden").visible?
   end
 
   def test_closed?
-    assert create(:note, :status => "closed", :closed_at => Time.now).closed?
+    assert_predicate create(:note, :status => "closed", :closed_at => Time.now.utc), :closed?
     assert_not create(:note, :status => "open", :closed_at => nil).closed?
   end
 

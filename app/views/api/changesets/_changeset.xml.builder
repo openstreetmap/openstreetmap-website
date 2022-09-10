@@ -3,11 +3,11 @@
 attrs = {
   "id" => changeset.id,
   "created_at" => changeset.created_at.xmlschema,
-  "open" => changeset.is_open?,
+  "open" => changeset.open?,
   "comments_count" => changeset.comments.length,
   "changes_count" => changeset.num_changes
 }
-attrs["closed_at"] = changeset.closed_at.xmlschema unless changeset.is_open?
+attrs["closed_at"] = changeset.closed_at.xmlschema unless changeset.open?
 changeset.bbox.to_unscaled.add_bounds_to(attrs, "_") if changeset.bbox.complete?
 
 # user attributes

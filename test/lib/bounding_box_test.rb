@@ -223,7 +223,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_complete
     assert_not @bbox_from_nils.complete?, "should contain a nil"
-    assert @bbox_from_string.complete?, "should not contain a nil"
+    assert_predicate @bbox_from_string, :complete?, "should not contain a nil"
   end
 
   def test_centre_lon

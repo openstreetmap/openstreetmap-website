@@ -44,8 +44,6 @@ class Changeset < ApplicationRecord
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
-  validates :user_id, :presence => true,
-                      :numericality => { :only_integer => true }
   validates :num_changes, :presence => true,
                           :numericality => { :only_integer => true,
                                              :greater_than_or_equal_to => 0 }
@@ -67,17 +65,17 @@ class Changeset < ApplicationRecord
   # Use a method like this, so that we can easily change how we
   # determine whether a changeset is open, without breaking code in at
   # least 6 controllers
-  def is_open?
+  def open?
     # a changeset is open (that is, it will accept further changes) when
     # it has not yet run out of time and its capacity is small enough.
     # note that this may not be a hard limit - due to timing changes and
     # concurrency it is possible that some changesets may be slightly
     # longer than strictly allowed or have slightly more changes in them.
-    ((closed_at > Time.now.getutc) && (num_changes <= MAX_ELEMENTS))
+    ((closed_at > Time.now.utc) && (num_changes <= MAX_ELEMENTS))
   end
 
   def set_closed_time_now
-    self.closed_at = Time.now.getutc if is_open?
+    self.closed_at = Time.now.utc if open?
   end
 
   def self.from_xml(xml, create: false)
@@ -97,7 +95,7 @@ class Changeset < ApplicationRecord
   def self.from_xml_node(pt, create: false)
     cs = Changeset.new
     if create
-      cs.created_at = Time.now.getutc
+      cs.created_at = Time.now.utc
       # initial close time is 1h ahead, but will be increased on each
       # modification.
       cs.closed_at = cs.created_at + IDLE_TIMEOUT
@@ -122,7 +120,7 @@ class Changeset < ApplicationRecord
     @bbox ||= BoundingBox.new(min_lon, min_lat, max_lon, max_lat)
   end
 
-  def has_valid_bbox?
+  def bbox_valid?
     bbox.complete?
   end
 
@@ -189,11 +187,11 @@ class Changeset < ApplicationRecord
   # that would make it more than 24h long, in which case clip to
   # 24h, as this has been decided is a reasonable time limit.
   def update_closed_at
-    if is_open?
+    if open?
       self.closed_at = if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
                          created_at + MAX_TIME_OPEN
                        else
-                         Time.now.getutc + IDLE_TIMEOUT
+                         Time.now.utc + IDLE_TIMEOUT
                        end
     end
   end
@@ -207,7 +205,7 @@ class Changeset < ApplicationRecord
     raise OSM::APIUserChangesetMismatchError unless user.id == user_id
 
     # can't change a closed changeset
-    raise OSM::APIChangesetAlreadyClosedError, self unless is_open?
+    raise OSM::APIChangesetAlreadyClosedError, self unless open?
 
     # copy the other's tags
     self.tags = other.tags

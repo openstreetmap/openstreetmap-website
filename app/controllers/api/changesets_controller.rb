@@ -4,14 +4,14 @@ module Api
   class ChangesetsController < ApiController
     require "xml/libxml"
 
+    before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
+    before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :subscribe, :unsubscribe]
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
 
     authorize_resource
 
     before_action :require_public_data, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
-    before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
-    before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :subscribe, :unsubscribe]
-    before_action :set_request_formats, :only => [:download]
+    before_action :set_request_formats, :except => [:create, :close, :upload]
 
     around_action :api_call_handle_error
     around_action :api_call_timeout, :except => [:upload]
@@ -42,6 +42,11 @@ module Api
       @changeset = Changeset.find(params[:id])
       @include_discussion = params[:include_discussion].presence
       render "changeset"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     ##
@@ -171,6 +176,11 @@ module Api
       # preload users, tags and comments, and render result
       @changesets = changesets.preload(:user, :changeset_tags, :comments)
       render "changesets"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     ##
@@ -191,6 +201,11 @@ module Api
       check_changeset_consistency(@changeset, current_user)
       @changeset.update_from(new_changeset, current_user)
       render "changeset"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     ##
@@ -212,6 +227,11 @@ module Api
       # Return a copy of the updated changeset
       @changeset = changeset
       render "changeset"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     ##
@@ -233,6 +253,11 @@ module Api
       # Return a copy of the updated changeset
       @changeset = changeset
       render "changeset"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     private
@@ -307,11 +332,11 @@ module Api
         times = time.split(",")
         raise OSM::APIBadUserInput, "bad time range" if times.size != 2
 
-        from, to = times.collect { |t| Time.parse(t) }
+        from, to = times.collect { |t| Time.parse(t).utc }
         changesets.where("closed_at >= ? and created_at <= ?", from, to)
       else
         # if there is no comma, assume its a lower limit on time
-        changesets.where("closed_at >= ?", Time.parse(time))
+        changesets.where("closed_at >= ?", Time.parse(time).utc)
       end
       # stupid Time seems to throw both of these for bad parsing, so
       # we have to catch both and ensure the correct code path is taken.
@@ -329,7 +354,7 @@ module Api
         changesets
       else
         changesets.where("closed_at >= ? and num_changes <= ?",
-                         Time.now.getutc, Changeset::MAX_ELEMENTS)
+                         Time.now.utc, Changeset::MAX_ELEMENTS)
       end
     end
 
@@ -341,7 +366,7 @@ module Api
         changesets
       else
         changesets.where("closed_at < ? or num_changes > ?",
-                         Time.now.getutc, Changeset::MAX_ELEMENTS)
+                         Time.now.utc, Changeset::MAX_ELEMENTS)
       end
     end
 

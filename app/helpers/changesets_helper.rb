@@ -10,7 +10,7 @@ module ChangesetsHelper
   end
 
   def changeset_details(changeset)
-    if changeset.closed_at > Time.now
+    if changeset.closed_at > Time.now.utc
       action = :created
       time = time_ago_in_words(changeset.created_at, :scope => :"datetime.distance_in_words_ago")
       title = l(changeset.created_at)

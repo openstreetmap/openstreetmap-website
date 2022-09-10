@@ -132,7 +132,7 @@ da:
       doorkeeper/application:
         name: Navn
         redirect_uri: Omdirigerings-URI:jer
-        confidential: Konfidentiell applikation?
+        confidential: Fortrolig applikation?
         scopes: Tilladelser
       friend:
         user: Bruger
@@ -167,7 +167,7 @@ da:
         email_confirmation: E-mail-bekræftelse
         new_email: Ny e-mailadresse
         active: Aktiv
-        display_name: Vist navn
+        display_name: offentligt synlige brugernavn
         description: Profilbeskrivelse
         home_lat: Breddegrad
         home_lon: Længdegrad
@@ -274,6 +274,77 @@ da:
       entry:
         comment: Kommentar
         full: Fuld bemærkning
+  account:
+    deletions:
+      show:
+        title: Slet min konto
+        warning: Advarsel! Sletning af kontoen er endelig, og kan ikke gøres om.
+        delete_account: Slet konto
+        delete_introduction: 'Du kan slette din OpenStreetMap-konto ved at klikke
+          på knappen nedenfor. Bemærk i den forbindelse følgende detaljer:'
+        delete_profile: Din profilinformation, inklusive din avatar, beskrivelse og
+          hjemmeposition vil blive slettet.
+        delete_display_name: Dit offentligt synlige brugernavn vil blive fjernet og
+          kan herefter blive brugt af andre konti.
+        retain_caveats: 'Nogen information om dig vil dog blive gemt af OpenStreetMap,
+          selv efter din konto er blevet slettet:'
+        retain_edits: Hvis du har foretaget redigeringer af kort-databasen, vil disse
+          blive gemt.
+        retain_traces: Hvis du har uploadet spor, vil disse blive gemt.
+        retain_diary_entries: Hvis du har dagbogskommentarer, vil disse fortsat blive
+          gemt. De vil dog ikke længere blive vist.
+        retain_notes: Dine noter og kommentarer til kortet vil blive gemt, men vil
+          ikke længere blive vist.
+        retain_changeset_discussions: Hvis du har bidraget til diskussioner vedrørende
+          rettesæt, vil disse blive gemt.
+        retain_email: Din email-adresse vil blive gemt.
+        confirm_delete: Er du sikker?
+        cancel: Annullér
+  accounts:
+    edit:
+      title: Rediger konto
+      my settings: Mine indstillinger
+      current email address: Nuværende e-mailadresse
+      external auth: Ekstern godkendelse
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: hvad er dette?
+      public editing:
+        heading: Offentlig redigering
+        enabled: Aktiveret. Ikke anonym og kan ændre data.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: hvad er dette?
+        disabled: Deaktiveret og kan ikke ændre data, alle tidligere ændringer er
+          anonyme.
+        disabled link text: hvorfor kan jeg ikke redigere?
+      public editing note:
+        heading: Offentlig redigering
+        html: I øjeblikket er dine ændringer anonyme og andre kan ikke sende dig beskeder
+          eller se hvor du er. Klik på knappen nedenfor for at vise hvad du har ændret
+          og lade folk kontakte dig gennem siden. <b>Siden 0.6 API blev sat i drift
+          kan kun offentlige brugere rette i kortdata</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">se
+          hvorfor</a>).<ul><li>Din e-postadresse bliver ikke afsløret ved at skrive
+          offentligt.</li><li>Den handling kan ikke omgøres, og alle nye brugere er
+          nu offentlige som standard.</li></ul>
+      contributor terms:
+        heading: 'Vilkår for bidragsydere:'
+        agreed: Du har accepteret de nye vilkår for bidragsydere.
+        not yet agreed: Du har endnu ikke accepteret de nye vilkår for bidragsydere.
+        review link text: Følg dette link når det er bekvemt for dig for at gennemse
+          og acceptere de nye vilkår for bidragsydere.
+        agreed_with_pd: Du har også erklæret at du anser dine ændringer for at være
+          fælleseje/uden ophavsret.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
+        link text: hvad er dette?
+      save changes button: Gem ændringer
+      make edits public button: Gør alle mine rettelser offentlige
+      delete_account: Slet konto
+    update:
+      success_confirm_needed: Brugeroplysningerne blev opdateret. Tjek din e-mail
+        for en besked om at bekræfte din nye e-mailadresse.
+      success: Brugerinformation opdateret.
+    destroy:
+      success: Kontoen er bleget slettet.
   browse:
     created: Oprettet
     closed: Lukket
@@ -407,7 +478,7 @@ da:
       reopened_by_html: Genaktiveret af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Genaktiveret af anonym <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Skjult af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Rapporter denne bemærkning
+      report: rapportere denne bemærkning
     query:
       title: Find kortobjekter
       introduction: Klik på kortet for at finde kortobjekter i nærheden.
@@ -491,7 +562,7 @@ da:
       in_language_title: Blogindlæg på %{language}
       new: Nyt blogindlæg
       new_title: Skriv nyt indlæg i min brugerblog
-      my_diary: Min dagbog
+      my_diary: Min blog
       no_entries: Ingen blogindlæg
       recent_entries: Seneste blogindlæg
       older_entries: Ældre indlæg
@@ -545,6 +616,9 @@ da:
         title: OpenStreetMap-blogindlæg
         description: Seneste blogindlæg fra brugere af OpenStreetMap
     comments:
+      title: Kommentarer til blogindlæg tilføjet af %{user}
+      heading: '%{user}s kommentarer til blogindlæg'
+      subheading_html: Kommentarer til blogindlæg tilføjet af %{user}
       no_comments: Ingen blogkommentarer
       post: Indsend
       when: Hvornår
@@ -597,8 +671,8 @@ da:
         aeroway:
           aerodrome: Flyveplads
           airstrip: Landingsbane
-          apron: Forstykke
-          gate: Gate
+          apron: Lufthavnsforplads
+          gate: Lufthavnsgate
           hangar: Hangar
           helipad: Helikopterplads
           holding_position: Venteposition
@@ -607,7 +681,7 @@ da:
           runway: Landingsbane
           taxilane: Taxibane
           taxiway: Rullevej
-          terminal: Terminal
+          terminal: Lufthavnsterminal
           windsock: Vindpose
         amenity:
           animal_boarding: Dyrepension
@@ -653,7 +727,7 @@ da:
           fire_station: Brandstation
           food_court: Food Court
           fountain: Springvand
-          fuel: Benzinstation
+          fuel: Tankstation
           gambling: Spil
           grave_yard: Kirkegård
           grit_bin: Saltkasse
@@ -809,7 +883,6 @@ da:
           window_construction: Vinduessnedker
           winery: Vingård
           "yes": Håndsværksbutik
-        crossing: Fodgængerfelt
         emergency:
           access_point: Redningspunkt
           ambulance_station: Ambulancestation
@@ -830,6 +903,7 @@ da:
           bus_stop: Busstoppested
           construction: Vej under konstruktion
           corridor: Korridor
+          crossing: Fodgængerfelt
           cycleway: Cykelsti
           elevator: Elevator
           emergency_access_point: Nødudgangspunkt
@@ -869,6 +943,7 @@ da:
           trailhead: Vandrerutestartpunkt
           trunk: Motortrafikvej
           trunk_link: Motortrafikvej
+          turning_circle: Vendeplads
           turning_loop: Vendesløjfe
           unclassified: Anden vej
           "yes": Vej
@@ -917,9 +992,8 @@ da:
           brownfield: Tidligere industriområde
           cemetery: Begravelsesplads
           commercial: Erhvervsområde
-          conservation: Fredet
-          construction: Byggeri
-          farm: Gård
+          conservation: Naturbeskyttelsesområde
+          construction: Byggeplads
           farmland: Landbrugsjord
           farmyard: Gårdsplads
           forest: Skov
@@ -940,7 +1014,7 @@ da:
           reservoir: Reservoir
           reservoir_watershed: Vandreservoir
           residential: Boligområde
-          retail: Detailhandel
+          retail: Detailhandelsområde
           village_green: Forte
           vineyard: Vingård
           "yes": Arealanvendelse
@@ -968,7 +1042,7 @@ da:
           nature_reserve: Naturreservat
           outdoor_seating: Udendørs siddeplads
           park: Park
-          picnic_table: Madpakkebord
+          picnic_table: Bord- og bænkesæt
           pitch: Sportsarena
           playground: Legeplads
           recreation_ground: Rekreativt område
@@ -1150,6 +1224,7 @@ da:
           "yes": Sted
         railway:
           abandoned: Nedlagt jernbane
+          buffer_stop: sporstopper
           construction: Jernbane under konstruktion
           disused: Nedlagt jernbane
           funicular: Kabelbane
@@ -1163,6 +1238,7 @@ da:
           platform: Jernbaneperron
           preserved: Bevaret jernbane
           proposed: Foreslået jernbane
+          rail: Jernbane
           spur: Jernbanesidespor
           station: Jernbanestation
           stop: Jernbanestation
@@ -1171,6 +1247,7 @@ da:
           switch: Sporskifte
           tram: Sporvej
           tram_stop: Sporvognsstoppested
+          turntable: Drejeskive
           yard: Jernbaneterræn
         shop:
           agrarian: Grovvareforretning
@@ -1211,7 +1288,7 @@ da:
           deli: Delikatessebutik
           department_store: Varehus
           discount: Tilbudsbutik
-          doityourself: Gør-det-selv
+          doityourself: Gør-det-selv butik
           dry_cleaning: Renseri
           e-cigarette: E-cigaret-forhandler
           electronics: Elektronikforretning
@@ -1237,7 +1314,7 @@ da:
           health_food: Helskostforetning
           hearing_aids: Høreapparater
           herbalist: Urteforretning
-          hifi: Hi-Fi
+          hifi: Hi-Fi butik
           houseware: Køkkenudstyr
           ice_cream: Isbutik
           interior_decoration: Indretning
@@ -1297,7 +1374,7 @@ da:
           artwork: Kunst
           attraction: Seværdighed
           bed_and_breakfast: Bed and Breakfast
-          cabin: Hytte
+          cabin: Feriehytte
           camp_pitch: Teltplads
           camp_site: Lejrplads
           caravan_site: Campingplads
@@ -1549,6 +1626,7 @@ da:
       failed_to_import: 'kunne ikke importeres. Her er fejlen:'
       more_info_html: Yderligere information vedrørende fejl i forbindelse med GPX-import
         og hvordan de kan undgås, kan findes på %{url}
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] GPX-importering mislykkedes'
     gpx_success:
       hi: Hej %{to_user},
@@ -1939,22 +2017,27 @@ da:
         intro_3_1_html: Vores dokumentation er licenseret under <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.da">Creative
           Commons Kreditering-Deling på samme vilkår 2.0</a> (CC BY-SA 2.0).
         credit_title_html: Kildeangivelse og OpenStreetMap
-        credit_1_html: Vi kræver at din kildeangivelse mindst består af &ldquo;&copy;
-          OpenStreetMap-bidragsydere&rdquo;.
-        credit_2_1_html: "Du skal også gøre det klart, at dataene er tilgængelige
-          under Open \nDatabase License. Du kan gøre dette ved at linke til\n<a href=\"https://www.openstreetmap.org/copyright\">denne
-          side om ophavsret</a>. \nAlternativt, og som et krav, hvis du distribuerer
-          OSM som\n rådata, kan du nævne licenserne og linke direkte til licensteksterne.
-          I medier\n hvor hyperlinks ikke er mulige (f.eks. trykte værker), foreslår
-          vi, at du\n henviser dine læsere til openstreetmap.org (måske ved at udvide\n'OpenStreetMap'
-          i kildeangivelsen til denne fuld adresse) og opendatacommons.org."
-        credit_3_1_html: Kort-fliserne i &ldquo;standard kortlaget&rdquo; på www.openstreetmap.org
-          er et produceret værk ("Produced Work") af OpenStreetMap Foundation ved
-          brug af OpenStreetMap-data licenseret under Open Database License. Hvis
-          du anvender disse fliser kræves den samme kreditering som for kortdata.
-        credit_4_html: |-
-          For et navigerbart elektronisk kort, skal kildeangivelsen være i hjørnet af kortet.
-          For eksempel:
+        credit_1_html: 'Når du bruger OpenStreetMap-data, er du forpligtet til at
+          gøre følgende to ting:'
+        credit_2_1_html: |-
+          <ul>
+            <li>Giv OpenStreetMap kredit ved at vise vores ophavsretsmeddelelse.</li>
+            <li>Gør det klart, at dataene er tilgængelige under Open Database License.</li>
+          </ul>
+        credit_3_1_html: Vi har forskellige krav til ophavsretsmeddelelsen om, hvordan
+          den skal vises, afhængigt af hvordan du bruger vores data. For eksempel
+          gælder der forskellige regler for, hvordan ophavsretsmeddelelsen skal vises,
+          afhængigt af, om du har oprettet et kort, der er interaktivt, et trykt kort
+          eller et statisk billede. Alle oplysninger om krav kan findes i <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">Retningslinjer
+          for kildeangivelse</a>.
+        credit_4_html: For at gøre det klart, at dataene er tilgængelige under Open
+          Database License, kan du linke til <a href="https://www.openstreetmap.org/copyright">denne
+          copyright-side</a>.Alternativt, og som et krav, hvis du distribuerer OSM
+          i dataform, kan du navngive og linke direkte til licensen/licenserne. I
+          medier, hvor links ikke er mulige (f.eks. trykte værker), foreslår vi, at
+          du henviser dine læsere til openstreetmap.org (evt. ved at udvide "OpenStreetMap"
+          til denne fulde adresse) og til opendatacommons.org. I dette eksempel vises
+          kreditten i hjørnet af kortet.
         attribution_example:
           alt: Eksempel på hvordan man angiver OpenStreetMap som kilde for en webside
           title: Eksempel på kildeangivelse
@@ -2232,6 +2315,7 @@ da:
           common:
           - Fælled
           - eng
+          - have
           retail: Detailhandelsområde
           industrial: Industriområde
           commercial: Erhvervsområde
@@ -2305,7 +2389,7 @@ da:
         paragraph_1_html: |-
           OpenStreetMap har adskillige ressourcer der kan hjælpe dig med at lære mere om projektet, stille og svare på spørgsmål samt diskutere og dokumentere emner inden for kortlægning.
           <a href='%{help_url}'>Få hjælp her</a>. Er du del af en organisation der har planer med OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Se mere på  velkomstsiden.</a>.
-      start_mapping: Editér kortet
+      start_mapping: Begynd at kortlægge
       add_a_note:
         title: Ikke tid til redigering? Tilføj en bemærkning!
         paragraph_1_html: Hvis du bare vil have en lille detalje rettet, men ikke
@@ -2392,7 +2476,7 @@ da:
       in: i
     index:
       public_traces: Offentlige GPS-spor
-      my_traces: Mine spor
+      my_gps_traces: Mine GPS-søgninger
       public_traces_from: Offentlige GPS-spor fra %{user}
       description: Gennemse de seneste overførsler af GPS-spor
       tagged_with: ' med egenskaberne %{tags}'
@@ -2400,6 +2484,7 @@ da:
         nyt spor</a> eller lær mere om optagelse af GPS-spor på <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikisiden</a>.
       upload_trace: Overfør et spor
       all_traces: Alle GPS-spor
+      my_traces: Mine spor
       traces_from: Offentlige GPS-spor fra %{user}
       remove_tag_filter: Fjern tag-filter
     destroy:
@@ -2681,51 +2766,13 @@ da:
       activate_user: Aktivér denne bruger
       deactivate_user: Deaktivér denne bruger
       confirm_user: Bekræft denne bruger
+      unconfirm_user: Ophæv denne brugers bekræftelse
+      unsuspend_user: Ophæv denne brugers suspension
       hide_user: Skjul denne bruger
       unhide_user: Skjul ikke længere denne bruger
       delete_user: Slet denne bruger
       confirm: Bekræft
       report: Rapporter denne bruger
-    account:
-      title: Rediger konto
-      my settings: Mine indstillinger
-      current email address: Nuværende e-mailadresse
-      external auth: Ekstern godkendelse
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: hvad er dette?
-      public editing:
-        heading: Offentlig redigering
-        enabled: Aktiveret. Ikke anonym og kan ændre data.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: hvad er dette?
-        disabled: Deaktiveret og kan ikke ændre data, alle tidligere ændringer er
-          anonyme.
-        disabled link text: hvorfor kan jeg ikke redigere?
-      public editing note:
-        heading: Offentlig redigering
-        html: I øjeblikket er dine ændringer anonyme og andre kan ikke sende dig beskeder
-          eller se hvor du er. Klik på knappen nedenfor for at vise hvad du har ændret
-          og lade folk kontakte dig gennem siden. <b>Siden 0.6 API blev sat i drift
-          kan kun offentlige brugere rette i kortdata</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">se
-          hvorfor</a>).<ul><li>Din e-postadresse bliver ikke afsløret ved at skrive
-          offentligt.</li><li>Den handling kan ikke omgøres, og alle nye brugere er
-          nu offentlige som standard.</li></ul>
-      contributor terms:
-        heading: 'Vilkår for bidragsydere:'
-        agreed: Du har accepteret de nye vilkår for bidragsydere.
-        not yet agreed: Du har endnu ikke accepteret de nye vilkår for bidragsydere.
-        review link text: Følg dette link når det er bekvemt for dig for at gennemse
-          og acceptere de nye vilkår for bidragsydere.
-        agreed_with_pd: Du har også erklæret at du anser dine ændringer for at være
-          fælleseje/uden ophavsret.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: hvad er dette?
-      save changes button: Gem ændringer
-      make edits public button: Gør alle mine rettelser offentlige
-      flash update success confirm needed: Brugeroplysningerne blev opdateret. Tjek
-        din e-mail for en besked om at bekræfte din nye e-mailadresse.
-      flash update success: Brugerinformation opdateret.
     set_home:
       flash success: Hjemmeposition gemt
     go_public:
@@ -2756,6 +2803,7 @@ da:
       no_authorization_code: Ingen godkendelseskode
       unknown_signature_algorithm: Ukendt signaturalgoritme
       invalid_scope: Ugyldigt anvendelsesområde
+      unknown_error: Autentifikation mislykkedes
     auth_association:
       heading: Dit ID er ikke forbundet med en OpenStreetMap konto endnu.
       option_1: |-
@@ -3001,6 +3049,9 @@ da:
         reactivate: Genaktiver
         comment_and_resolve: Kommentere på og løse
         comment: Kommenter
+        report_link_html: Hvis denne bemærkning indeholder følsomme oplysninger, der
+          skal fjernes, kan du %{link}. For alle andre problemer med bemærkningen,
+          bedes du løse det selv med en kommentar.
     edit_help: Flyt kortet og zoom ind på et sted, du vil redigere, og klik så her.
     directions:
       ascend: Stigning

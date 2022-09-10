@@ -24,8 +24,8 @@
   <hr>
 
   <div id="loginForm">
-    <div class="form-group">
-      <label><%= t ".with external" %></label>
+    <div class="mb-3">
+      <label class="form-label"><%= t ".with external" %></label>
 
       <ul class='list-unstyled' id="login_auth_buttons">
         <li><%= link_to image_tag("openid.png", :alt => t(".auth_providers.openid.title")), "#", :id => "openid_open_url", :title => t(".auth_providers.openid.title") %></li>
@@ -44,16 +44,14 @@
         <% if Settings.key?(:wikipedia_auth_id) -%>
         <li><%= auth_button "wikipedia", "wikipedia" %></li>
         <% end -%>
-        <li><%= auth_button "wordpress", "openid", :openid_url => "wordpress.com" %></li>
-        <li><%= auth_button "aol", "openid", :openid_url => "aol.com" %></li>
       </ul>
 
       <%= form_tag(auth_path(:provider => "openid"), :id => "openid_login_form") do %>
-        <div id='login_openid_url' class="form-group">
-          <label for='openid_url'><%= t ".openid_html", :logo => openid_logo %></label>
+        <div id='login_openid_url' class="mb-3">
+          <label for='openid_url' class="form-label"><%= t ".openid_html", :logo => openid_logo %></label>
           <%= hidden_field_tag("referer", params[:referer], :autocomplete => "off") %>
           <%= text_field_tag("openid_url", "", :tabindex => 3, :autocomplete => "on", :class => "openid_url form-control") %>
-          <span class="form-text text-muted">(<a href="<%= t "users.account.openid.link" %>" target="_new"><%= t "users.account.openid.link text" %></a>)</span>
+          <span class="form-text text-muted">(<a href="<%= t "accounts.edit.openid.link" %>" target="_new"><%= t "accounts.edit.openid.link text" %></a>)</span>
         </div>
 
         <%= submit_tag t(".login_button"), :tabindex => 6, :id => "login_openid_submit", :class => "btn btn-primary" %>

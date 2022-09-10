@@ -37,6 +37,8 @@ be:
       client_application:
         create: Зарэгістравацца
         update: Абнавіць
+      doorkeeper_application:
+        update: Абнавіць
       redaction:
         create: Стварыць рэдакцыю
         update: Захаваць рэдакцыю
@@ -114,8 +116,8 @@ be:
         public: Агульны
         description: Апісанне
         gpx_file: 'Даслаць GPX-файл:'
-        visibility: 'Бачнасць:'
-        tagstring: 'Тэгі:'
+        visibility: Бачнасць
+        tagstring: Тэгі
       message:
         sender: Ад
         title: Тэма
@@ -127,14 +129,16 @@ be:
         details: Просьба прадставіць некаторыя падрабязнасці аб праблеме (абавязкова).
       user:
         email: Электронная пошта
-        new_email: 'Новы адрас электроннай пошты:'
+        new_email: Новы адрас электроннай пошты
         active: Актыўны
         display_name: Бачнае імя
         description: Апісанне
-        home_lat: 'Шырата:'
-        home_lon: 'Даўгата:'
-        languages: Мовы
+        home_lat: Шырата
+        home_lon: Даўгата
+        languages: Пераважныя мовы
+        preferred_editor: Пераважны рэдактар
         pass_crypt: Пароль
+        pass_crypt_confirmation: Пацвердзіце пароль
     help:
       trace:
         tagstring: падзеленыя коскамі
@@ -246,6 +250,48 @@ be:
       entry:
         comment: Каментар
         full: Тлумачэнне
+  accounts:
+    edit:
+      title: Правіць рахунак
+      my settings: Мае настройкі
+      current email address: Бягучы адрас электроннай пошты
+      external auth: Знешняя Аўтэнтыфікацыя
+      openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link text: што гэта?
+      public editing:
+        heading: Агульнае рэдагаванне
+        enabled: Уключана. Вы - не ананімны і можаце рэдагаваць дадзеныя.
+        enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
+        enabled link text: што гэта?
+        disabled: Адключана. Вы не можаце больш рэдагаваць, але ўсе ранейшыя змены
+          ананімныя.
+        disabled link text: чаму я не магу рэдагаваць?
+      public editing note:
+        heading: 'Публічнае рэдагаванне:'
+        html: У цяперашні момант Вашы рэдагаванні з'яўляюцца ананімнымі, і людзі не
+          могуць дасылаць Вам паведамленні, ці бачыць Ваша месцазнаходжанне. Каб быў
+          бачны Ваш уклад, і людзі маглі звязацца з Вамі праз вэб-сайт, націсніце
+          кнопку ніжэй. <b>Пасля пераходу на API версіі 0.6, толькі даступныя для
+          сувязі карыстальнікі могуць рэдагаваць звесткі на карце</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">даведацца,
+          чаму</a>) <ul><li>Гэта дзеянне не можа быць адменена, а ўсе новыя карыстальнікі
+          цяпер даступныя для сувязі па змаўчанні.</li></ul>
+      contributor terms:
+        heading: 'Умовы ўдзелу:'
+        agreed: Вы пагадзіліся на новыя ўмовы ўдзелу.
+        not yet agreed: Вы яшчэ не пагадзіліся на новыя ўмовы ўдзелу.
+        review link text: Калі ласка, прайдзіце па гэтай спасылцы для Вашай зручнасці,
+          каб разгледзець і прыняць новыя ўмовы ўдзелу.
+        agreed_with_pd: Вы таксама заявілі, што лічыце, што змены павінны знаходзіцца
+          ў агульнай уласнасці.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
+        link text: што гэта?
+      save changes button: Запісаць змены
+      make edits public button: Зрабіць усе мае змены публічнымі
+    update:
+      success_confirm_needed: Звесткі аб карыстальніку паспяхова абноўленыя. Праверце
+        сваю эл.пошту, вам павінен прыйсці запыт на пацвярджэнне вашага новага адраса.
+      success: Звесткі аб карыстальніку паспяхова абноўленыя.
   browse:
     created: Створаны
     closed: Зачынены
@@ -369,7 +415,7 @@ be:
       reopened_by_html: Паўторна актывавана ўдзельнікам %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Пераадкрыта ананімным удзельнікам <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Схавана ўдзельнікам %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Паскардзіцца на гэтую заўвагу
+      report: паскардзіцца на гэтую заўвагу
     query:
       title: Пошук аб’ектаў
       introduction: Пстрыкніце на карце, каб атрымаць звесткі пра аб'екты паблізу.
@@ -751,7 +797,6 @@ be:
           commercial: Камерцыйная зона
           conservation: Запаведнік
           construction: Будаўніцтва
-          farm: Ферма
           farmland: Сельскагаспадарчыя землі
           farmyard: Двор фермы
           forest: Лес
@@ -2036,7 +2081,6 @@ be:
       in: у
     index:
       public_traces: Агульныя GPS-сляды
-      my_traces: Мае GPS-сляды
       public_traces_from: Агульныя GPS-сляды карыстальніка %{user}
       description: Агляд нядаўна дададзеных GPS-слядоў
       tagged_with: ' з тэгамі: %{tags}'
@@ -2044,6 +2088,7 @@ be:
         след</a> або пачытайце пра GPS-сляды на <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вікі-старонцы</
         a>.
       upload_trace: Адаслаць GPS-след
+      my_traces: Мае GPS-сляды
     destroy:
       scheduled_for_deletion: След запланаваны на выдаленне
     make_public:
@@ -2254,47 +2299,6 @@ be:
       delete_user: Выдаліць гэтага карыстальніка
       confirm: Пацвердзіць
       report: Паскардзіцца на гэтага карыстальніка
-    account:
-      title: Правіць рахунак
-      my settings: Мае настройкі
-      current email address: 'Бягучы адрас электроннай пошты:'
-      external auth: 'Знешняя Аўтэнтыфікацыя:'
-      openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
-        link text: што гэта?
-      public editing:
-        heading: 'Публічнае рэдагаванне:'
-        enabled: Уключана. Вы - не ананімны і можаце рэдагаваць дадзеныя.
-        enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
-        enabled link text: што гэта?
-        disabled: Адключана. Вы не можаце больш рэдагаваць, але ўсе ранейшыя змены
-          ананімныя.
-        disabled link text: чаму я не магу рэдагаваць?
-      public editing note:
-        heading: Агульнае рэдагаванне
-        html: У цяперашні момант Вашы рэдагаванні з'яўляюцца ананімнымі, і людзі не
-          могуць дасылаць Вам паведамленні, ці бачыць Ваша месцазнаходжанне. Каб быў
-          бачны Ваш уклад, і людзі маглі звязацца з Вамі праз вэб-сайт, націсніце
-          кнопку ніжэй. <b>Пасля пераходу на API версіі 0.6, толькі даступныя для
-          сувязі карыстальнікі могуць рэдагаваць звесткі на карце</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">даведацца,
-          чаму</a>) <ul><li>Гэта дзеянне не можа быць адменена, а ўсе новыя карыстальнікі
-          цяпер даступныя для сувязі па змаўчанні.</li></ul>
-      contributor terms:
-        heading: 'Умовы ўдзелу:'
-        agreed: Вы пагадзіліся на новыя ўмовы ўдзелу.
-        not yet agreed: Вы яшчэ не пагадзіліся на новыя ўмовы ўдзелу.
-        review link text: Калі ласка, прайдзіце па гэтай спасылцы для Вашай зручнасці,
-          каб разгледзець і прыняць новыя ўмовы ўдзелу.
-        agreed_with_pd: Вы таксама заявілі, што лічыце, што змены павінны знаходзіцца
-          ў агульнай уласнасці.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: што гэта?
-      save changes button: Запісаць змены
-      make edits public button: Зрабіць усе мае змены публічнымі
-      flash update success confirm needed: Звесткі аб карыстальніку паспяхова абноўленыя.
-        Праверце сваю эл.пошту, вам павінен прыйсці запыт на пацвярджэнне вашага новага
-        адраса.
-      flash update success: Звесткі аб карыстальніку паспяхова абноўленыя.
     set_home:
       flash success: Дамашняе месцазнаходжанне паспяхова запісана
     go_public:

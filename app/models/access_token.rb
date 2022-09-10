@@ -36,8 +36,8 @@
 #
 
 class AccessToken < OauthToken
-  belongs_to :user
-  belongs_to :client_application
+  belongs_to :user, :optional => true
+  belongs_to :client_application, :optional => true
 
   scope :valid, -> { where(:invalidated_at => nil) }
 
@@ -52,6 +52,6 @@ class AccessToken < OauthToken
   protected
 
   def set_authorized_at
-    self.authorized_at = Time.now
+    self.authorized_at = Time.now.utc
   end
 end

@@ -36,8 +36,8 @@
 #
 
 class OauthToken < ApplicationRecord
-  belongs_to :client_application
-  belongs_to :user
+  belongs_to :client_application, :optional => true
+  belongs_to :user, :optional => true
 
   scope :authorized, -> { where("authorized_at IS NOT NULL and invalidated_at IS NULL") }
 
@@ -52,7 +52,7 @@ class OauthToken < ApplicationRecord
   end
 
   def invalidate!
-    update(:invalidated_at => Time.now)
+    update(:invalidated_at => Time.now.utc)
   end
 
   def authorized?

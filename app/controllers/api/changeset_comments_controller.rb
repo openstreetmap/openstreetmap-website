@@ -1,12 +1,13 @@
 module Api
   class ChangesetCommentsController < ApiController
+    before_action :check_api_writable
+    before_action :check_api_readable, :except => [:create]
     before_action :authorize
 
     authorize_resource
 
     before_action :require_public_data, :only => [:create]
-    before_action :check_api_writable
-    before_action :check_api_readable, :except => [:create]
+    before_action :set_request_formats
     around_action :api_call_handle_error
     around_action :api_call_timeout
 
@@ -23,7 +24,7 @@ module Api
 
       # Find the changeset and check it is valid
       changeset = Changeset.find(id)
-      raise OSM::APIChangesetNotYetClosedError, changeset if changeset.is_open?
+      raise OSM::APIChangesetNotYetClosedError, changeset if changeset.open?
 
       # Add a comment to the changeset
       comment = changeset.comments.create(:changeset => changeset,
@@ -41,6 +42,11 @@ module Api
       # Return a copy of the updated changeset
       @changeset = changeset
       render "api/changesets/changeset"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     ##
@@ -61,6 +67,11 @@ module Api
       # Return a copy of the updated changeset
       @changeset = comment.changeset
       render "api/changesets/changeset"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     ##
@@ -81,6 +92,11 @@ module Api
       # Return a copy of the updated changeset
       @changeset = comment.changeset
       render "api/changesets/changeset"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
   end
 end

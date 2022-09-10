@@ -4,19 +4,19 @@ class MessageTest < ActiveSupport::TestCase
   EURO = "\xe2\x82\xac".freeze # euro symbol
 
   def test_check_empty_message_fails
-    message = Message.new
+    message = build(:message, :title => nil, :body => nil, :sent_on => nil)
     assert_not message.valid?
-    assert message.errors[:title].any?
-    assert message.errors[:body].any?
-    assert message.errors[:sent_on].any?
+    assert_predicate message.errors[:title], :any?
+    assert_predicate message.errors[:body], :any?
+    assert_predicate message.errors[:sent_on], :any?
     assert_not message.message_read
   end
 
   def test_validating_msgs
     message = create(:message, :unread)
-    assert message.valid?
+    assert_predicate message, :valid?
     message = create(:message, :read)
-    assert message.valid?
+    assert_predicate message, :valid?
   end
 
   def test_invalid_send_recipient
@@ -75,7 +75,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
       content_type "text/plain; charset=utf-8"
       body "This is a test & a message"
     end
@@ -95,7 +95,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
       content_type "text/html; charset=utf-8"
       body "<p>This is a <b>test</b> &amp; a message</p>"
     end
@@ -115,7 +115,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
 
       text_part do
         content_type "text/plain; charset=utf-8"
@@ -139,7 +139,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "Test message"
-      date Time.now
+      date Time.now.utc
 
       html_part do
         content_type "text/html; charset=utf-8"
@@ -162,7 +162,7 @@ class MessageTest < ActiveSupport::TestCase
       from "from@example.com"
       to "to@example.com"
       subject "[OpenStreetMap] Test message"
-      date Time.now
+      date Time.now.utc
       content_type "text/plain; charset=utf-8"
       body "This is a test & a message"
     end

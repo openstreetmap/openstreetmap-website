@@ -8,7 +8,7 @@ class ClientApplicationTest < ActiveSupport::TestCase
     ok.each do |url|
       app = build(:client_application)
       app.url = url
-      assert app.valid?, "#{url} is invalid, when it should be"
+      assert_predicate app, :valid?, "#{url} is invalid, when it should be"
     end
 
     bad.each do |url|
@@ -25,7 +25,7 @@ class ClientApplicationTest < ActiveSupport::TestCase
     ok.each do |url|
       app = build(:client_application)
       app.support_url = url
-      assert app.valid?, "#{url} is invalid, when it should be"
+      assert_predicate app, :valid?, "#{url} is invalid, when it should be"
     end
 
     bad.each do |url|
@@ -42,7 +42,7 @@ class ClientApplicationTest < ActiveSupport::TestCase
     ok.each do |url|
       app = build(:client_application)
       app.callback_url = url
-      assert app.valid?, "#{url} is invalid, when it should be"
+      assert_predicate app, :valid?, "#{url} is invalid, when it should be"
     end
 
     bad.each do |url|

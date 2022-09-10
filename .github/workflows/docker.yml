@@ -2,13 +2,16 @@ name: Docker
 on:
   - push
   - pull_request
+concurrency:
+  group: ${{ github.workflow }}-{{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 jobs:
   test:
     name: Docker
     runs-on: ubuntu-20.04
     steps:
     - name: Checkout source
-      uses: actions/checkout@v2.4.0
+      uses: actions/checkout@v3
     - name: Poke config
       run: |
         cp config/example.storage.yml config/storage.yml
@@ -23,8 +26,8 @@ jobs:
         sleep 15 # let the DB warm up a little
     - name: Prepare Database
       run: |
-        docker-compose run --rm web rake db:migrate
-        docker-compose run web bundle exec rake i18n:js:export
+        docker-compose run --rm web bundle exec rails db:migrate
+        docker-compose run --rm web bundle exec rails i18n:js:export
         docker-compose run --rm web osmosis --rx docker/null-island.osm.xml --wd host=db database=openstreetmap user=openstreetmap password=openstreetmap validateSchemaVersion=no
     - name: Test Basic Website
       run: |

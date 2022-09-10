@@ -18,9 +18,8 @@ class GeocoderController < ApplicationController
       @sources.push "geonames_reverse" if Settings.key?(:geonames_username)
     elsif @params[:query]
       case @params[:query]
-      when /^\d{5}(-\d{4})?$/
-        @sources.push "osm_nominatim"
-      when /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i
+      when /^\d{5}(-\d{4})?$/,
+           /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i
         @sources.push "osm_nominatim"
       when /^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i
         @sources.push "ca_postcode"
@@ -168,7 +167,8 @@ class GeocoderController < ApplicationController
 
     render :action => "results"
   rescue StandardError => e
-    @error = "Error contacting nominatim.openstreetmap.org: #{e}"
+    host = URI(Settings.nominatim_url).host
+    @error = "Error contacting #{host}: #{e}"
     render :action => "error"
   end
 
@@ -232,7 +232,8 @@ class GeocoderController < ApplicationController
 
     render :action => "results"
   rescue StandardError => e
-    @error = "Error contacting nominatim.openstreetmap.org: #{e}"
+    host = URI(Settings.nominatim_url).host
+    @error = "Error contacting #{host}: #{e}"
     render :action => "error"
   end
 
@@ -291,22 +292,19 @@ class GeocoderController < ApplicationController
     if query = params[:query]
       query.strip!
 
-      if latlon = query.match(/^([NS])\s*(\d{1,3}(\.\d*)?)\W*([EW])\s*(\d{1,3}(\.\d*)?)$/).try(:captures) # [NSEW] decimal degrees
-        params.merge!(nsew_to_decdeg(latlon)).delete(:query)
-      elsif latlon = query.match(/^(\d{1,3}(\.\d*)?)\s*([NS])\W*(\d{1,3}(\.\d*)?)\s*([EW])$/).try(:captures) # decimal degrees [NSEW]
+      if latlon = query.match(/^([NS])\s*(\d{1,3}(\.\d*)?)\W*([EW])\s*(\d{1,3}(\.\d*)?)$/).try(:captures) || # [NSEW] decimal degrees
+                  query.match(/^(\d{1,3}(\.\d*)?)\s*([NS])\W*(\d{1,3}(\.\d*)?)\s*([EW])$/).try(:captures)    # decimal degrees [NSEW]
         params.merge!(nsew_to_decdeg(latlon)).delete(:query)
 
-      elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?$/).try(:captures) # [NSEW] degrees, decimal minutes
-        params.merge!(ddm_to_decdeg(latlon)).delete(:query)
-      elsif latlon = query.match(/^(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\s*([NS])\W*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\s*([EW])$/).try(:captures) # degrees, decimal minutes [NSEW]
+      elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?\W*([EW])\s*(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?$/).try(:captures) || # [NSEW] degrees, decimal minutes
+                     query.match(/^(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?\s*([NS])\W*(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?\s*([EW])$/).try(:captures)    # degrees, decimal minutes [NSEW]
         params.merge!(ddm_to_decdeg(latlon)).delete(:query)
 
-      elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?$/).try(:captures) # [NSEW] degrees, minutes, decimal seconds
-        params.merge!(dms_to_decdeg(latlon)).delete(:query)
-      elsif latlon = query.match(/^(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?\s*([EW])$/).try(:captures) # degrees, minutes, decimal seconds [NSEW]
+      elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?$/).try(:captures) || # [NSEW] degrees, minutes, decimal seconds
+                     query.match(/^(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?\s*([EW])$/).try(:captures)    # degrees, minutes, decimal seconds [NSEW]
         params.merge!(dms_to_decdeg(latlon)).delete(:query)
 
-      elsif latlon = query.match(/^\s*([+-]?\d+(\.\d*)?)\s*[\s,]\s*([+-]?\d+(\.\d*)?)\s*$/)
+      elsif latlon = query.match(/^([+-]?\d+(\.\d*)?)(?:\s+|\s*,\s*)([+-]?\d+(\.\d*)?)$/)
         params.merge!(:lat => latlon[1].to_f, :lon => latlon[3].to_f).delete(:query)
 
         params[:latlon_digits] = true unless params[:whereami]
@@ -331,11 +329,11 @@ class GeocoderController < ApplicationController
   def ddm_to_decdeg(captures)
     begin
       Float(captures[0])
-      lat = captures[3].casecmp("s").zero? ? -(captures[0].to_f + captures[1].to_f / 60) : captures[0].to_f + captures[1].to_f / 60
-      lon = captures[7].casecmp("w").zero? ? -(captures[4].to_f + captures[5].to_f / 60) : captures[4].to_f + captures[5].to_f / 60
+      lat = captures[3].casecmp("s").zero? ? -(captures[0].to_f + (captures[1].to_f / 60)) : captures[0].to_f + (captures[1].to_f / 60)
+      lon = captures[7].casecmp("w").zero? ? -(captures[4].to_f + (captures[5].to_f / 60)) : captures[4].to_f + (captures[5].to_f / 60)
     rescue StandardError
-      lat = captures[0].casecmp("s").zero? ? -(captures[1].to_f + captures[2].to_f / 60) : captures[1].to_f + captures[2].to_f / 60
-      lon = captures[4].casecmp("w").zero? ? -(captures[5].to_f + captures[6].to_f / 60) : captures[5].to_f + captures[6].to_f / 60
+      lat = captures[0].casecmp("s").zero? ? -(captures[1].to_f + (captures[2].to_f / 60)) : captures[1].to_f + (captures[2].to_f / 60)
+      lon = captures[4].casecmp("w").zero? ? -(captures[5].to_f + (captures[6].to_f / 60)) : captures[5].to_f + (captures[6].to_f / 60)
     end
     { :lat => lat, :lon => lon }
   end
@@ -343,11 +341,11 @@ class GeocoderController < ApplicationController
   def dms_to_decdeg(captures)
     begin
       Float(captures[0])
-      lat = captures[4].casecmp("s").zero? ? -(captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60) : captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60
-      lon = captures[9].casecmp("w").zero? ? -(captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60) : captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60
+      lat = captures[4].casecmp("s").zero? ? -(captures[0].to_f + ((captures[1].to_f + (captures[2].to_f / 60)) / 60)) : captures[0].to_f + ((captures[1].to_f + (captures[2].to_f / 60)) / 60)
+      lon = captures[9].casecmp("w").zero? ? -(captures[5].to_f + ((captures[6].to_f + (captures[7].to_f / 60)) / 60)) : captures[5].to_f + ((captures[6].to_f + (captures[7].to_f / 60)) / 60)
     rescue StandardError
-      lat = captures[0].casecmp("s").zero? ? -(captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60) : captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60
-      lon = captures[5].casecmp("w").zero? ? -(captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60) : captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60
+      lat = captures[0].casecmp("s").zero? ? -(captures[1].to_f + ((captures[2].to_f + (captures[3].to_f / 60)) / 60)) : captures[1].to_f + ((captures[2].to_f + (captures[3].to_f / 60)) / 60)
+      lon = captures[5].casecmp("w").zero? ? -(captures[6].to_f + ((captures[7].to_f + (captures[8].to_f / 60)) / 60)) : captures[6].to_f + ((captures[7].to_f + (captures[8].to_f / 60)) / 60)
     end
     { :lat => lat, :lon => lon }
   end

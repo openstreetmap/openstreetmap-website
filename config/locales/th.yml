@@ -5,12 +5,14 @@
 # Author: Ariesanywhere
 # Author: B20180
 # Author: Bebiezaza
+# Author: Just Sayori
 # Author: Karit
 # Author: Korrawit
 # Author: Patsagorn Y.
 # Author: Pon44695
 # Author: Ruila
 # Author: TMo3289
+# Author: Trisorn Triboon
 # Author: Xwindows
 # Author: กิ๊ฟ เลิกล่ะ สายแข็ง
 ---
@@ -105,6 +107,8 @@ th:
         latitude: ละติจูด
         longitude: ลองติจูด
         language: ภาษา
+      doorkeeper/application:
+        name: ชื่อ
       friend:
         user: ผู้ใช้งาน
         friend: เพื่อน
@@ -134,7 +138,7 @@ th:
       user:
         auth_provider: ผู้ให้การยืนยัน
         auth_uid: UID การยืนยัน
-        email: อีเมล์
+        email: อีเมล
         email_confirmation: การยืนยันอีเมล
         new_email: ที่อยู่อีเมลใหม่
         active: เปิดใช้
@@ -230,6 +234,33 @@ th:
       entry:
         comment: ความคิดเห็น
         full: เนื้อความเต็มในหมายเหตุ
+  account:
+    deletions:
+      show:
+        confirm_delete: คุณแน่ใจหรือไม่?
+        cancel: ยกเลิก
+  accounts:
+    edit:
+      title: แก้ไขบัญชี
+      my settings: การตั้งค่าของฉัน
+      current email address: ที่อยู่อีเมลปัจจุบัน
+      external auth: การยืนยันตัวตนด้วยบริการภายนอก
+      openid:
+        link text: นี้คืออะไร?
+      public editing:
+        heading: แก้ไขโดยเปิดเผย
+        enabled: 'เปิดใช้: สามารถแก้ไขแผนที่ได้ แต่ทำโดยเปิดเผยนาม'
+        enabled link text: นี้คืออะไร?
+        disabled: 'ปิดใช้: ไม่สามารถแก้ไขแผนที่ได้อีก, โดยการแก้ไขในอดีตจะยังคงความนิรนามไว้'
+      public editing note:
+        heading: 'แก้ไขโดยเปิดเผย:'
+      contributor terms:
+        link text: นี้คืออะไร?
+      save changes button: บันทึกการเปลี่ยนแปลง
+      make edits public button: ทำให้การแก้ไขของข้าพเจ้าเป็นสาธารณะเห็นได้ทั่วไป
+    update:
+      success_confirm_needed: การปรับปรุงข้อมูลผู้ใช้งานสำเร็จเรียบร้อย โปรดตรวจสอบอีเมลของท่านเพื่อยืนยันที่อยู่อีเมลใหม่
+      success: การปรับปรุงข้อมูลผู้ใช้งานสำเร็จเรียบร้อย
   browse:
     created: สร้างเมื่อ
     closed: ปิดเมื่อ
@@ -579,6 +610,7 @@ th:
           hunting_stand: บังไพรล่าสัตว์
           ice_cream: ร้านไอศกรีม
           kindergarten: โรงเรียนอนุบาล
+          language_school: โรงเรียนด้านภาษา
           library: ห้องสมุด
           marketplace: ตลาด
           monastery: สำนักสงฆ์
@@ -630,6 +662,10 @@ th:
           viaduct: สะพานบก
           "yes": สะพาน
         building:
+          apartment: อพาร์ทเมนต์
+          apartments: อพาร์ทเมนต์
+          bungalow: บังกะโล
+          dormitory: หอพัก
           garage: โรงรถ
           garages: โรงรถ
           hospital: อาคารโรงพยาบาล
@@ -744,7 +780,6 @@ th:
           commercial: พื้นที่พาณิชยกรรม
           conservation: พื้นที่อนุรักษ์
           construction: พื้นที่ก่อสร้าง
-          farm: ไร่นา
           farmland: ไร่นา
           farmyard: ลานไร่นา
           forest: ป่า
@@ -1887,6 +1922,7 @@ th:
       traces_waiting: คุณมีรอยทาง %{count} ชุด ที่กำลังรออัพโหลด กรุณารอให้การอัพโหลดเหล่านี้เสร็จสิ้น
         ก่อนที่จะเพิ่มรอยทางชุดต่อไป, เพื่อไม่ให้ผู้ใช้คนอื่นๆ จะต้องรอคิวนาน
     edit:
+      cancel: ยกเลิก
       visibility_help: นี่หมายความว่าอะไร?
     trace_optionals:
       tags: ป้ายกำกับ
@@ -1930,11 +1966,11 @@ th:
       in: ใน
     index:
       public_traces: รอยทาง GPS สาธารณะ
-      my_traces: รอยทาง GPS ของฉัน
       public_traces_from: รอยทางจีพีเอสสาธารณะโดยผู้ใช้ %{user}
       description: ค้นหาการอัปโหลดรอยทางจีพีเอสล่าสุด
       tagged_with: ระบุด้วยป้าย %{tags}
       upload_trace: อัปโหลดรอยทาง
+      my_traces: รอยทาง GPS ของฉัน
     offline_warning:
       message: ระบบอัปโหลดแฟ้มข้อมูล GPX ไม่พร้อมใช้งานในขณะนี้
     offline:
@@ -1974,6 +2010,8 @@ th:
       flash: ท่านได้ยกเลิกข้อมูลสำหรับแอปพลิเคชัน %{application}
     permissions:
       missing: ท่านไม่ได้อนุญาตให้แอปพลิเคชันเข้าใช้งานส่วนนี้
+    scopes:
+      write_api: แก้ไขแผนที่
   oauth_clients:
     new:
       title: ลงทะเบียนแอปพลิเคชันใหม่
@@ -2014,6 +2052,12 @@ th:
       flash: ปรับปรุงข้อมูลฝั่งผู้ใช้เรียบร้อยแล้ว
     destroy:
       flash: ถอนการลงทะเบียนแอปพลิเคชันฝั่งผู้ใช้แล้ว
+  oauth2_applications:
+    index:
+      name: ชื่อ
+    show:
+      edit: แก้ไข
+      delete: ลบ
   users:
     new:
       title: สมัครสมาชิก
@@ -2096,27 +2140,6 @@ th:
       deactivate_user: ปิดใช้งานผู้ใช้นี้
       confirm: ยืนยัน
       report: แจ้งปัญหาเกี่ยวกับผู้ใช้คนนี้
-    account:
-      title: แก้ไขบัญชี
-      my settings: การตั้งค่าของฉัน
-      current email address: ที่อยู่อีเมลปัจจุบัน
-      external auth: การยืนยันตัวตนด้วยบริการภายนอก
-      openid:
-        link text: นี้คืออะไร?
-      public editing:
-        heading: 'แก้ไขโดยเปิดเผย:'
-        enabled: 'เปิดใช้: สามารถแก้ไขแผนที่ได้ แต่ทำโดยเปิดเผยนาม'
-        enabled link text: นี้คืออะไร?
-        disabled: 'ปิดใช้: ไม่สามารถแก้ไขแผนที่ได้อีก, โดยการแก้ไขในอดีตจะยังคงความนิรนามไว้'
-      public editing note:
-        heading: แก้ไขโดยเปิดเผย
-      contributor terms:
-        link text: นี้คืออะไร?
-      save changes button: บันทึกการเปลี่ยนแปลง
-      make edits public button: ทำให้การแก้ไขของข้าพเจ้าเป็นสาธารณะเห็นได้ทั่วไป
-      flash update success confirm needed: การปรับปรุงข้อมูลผู้ใช้งานสำเร็จเรียบร้อย
-        โปรดตรวจสอบอีเมลของท่านเพื่อยืนยันที่อยู่อีเมลใหม่
-      flash update success: การปรับปรุงข้อมูลผู้ใช้งานสำเร็จเรียบร้อย
     set_home:
       flash success: ตำแหน่งที่อยู่บ้านบันทึกเรียบร้อย
     go_public:

@@ -30,5 +30,5 @@ class Tracepoint < ApplicationRecord
   validates :trace, :associated => true
   validates :timestamp, :presence => true
 
-  belongs_to :trace, :foreign_key => "gpx_id"
+  belongs_to :trace, :foreign_key => "gpx_id", :inverse_of => :points
 end

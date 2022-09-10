@@ -4,11 +4,13 @@
 # Author: AivoK
 # Author: Avjoska
 # Author: Kanne
+# Author: Kareyac
 # Author: Luckas
 # Author: Macofe
 # Author: MidnightRaver
 # Author: Pikne
 # Author: RM87
+# Author: StarrySky
 # Author: WikedKentaur
 ---
 et:
@@ -227,6 +229,75 @@ et:
       entry:
         comment: Kommentaar
         full: Täielik tekst
+  account:
+    deletions:
+      show:
+        title: Konto kustutamine
+        warning: Hoiatus! Konto kustutamine on jäädav. Seda ei saa tagasi pöörata.
+        delete_account: Kustuta konto
+        delete_introduction: 'Saad enda OpenStreetMapi konto kustutada, kasutades
+          allolevat nuppu. Palun pea silmas järgmisi üksikasju:'
+        delete_profile: Sinu profiiliteave, sealhulgas avatar, kirjeldus ja kodu asukoht
+          eemaldatakse.
+        delete_display_name: Sinu kuvatav nimi eemaldatakse ja mõni teine konto saab
+          seda kasutada.
+        retain_caveats: Samas järgmine teave sinu kohta säilib OpenStreetMapis ka
+          pärast konto kustutamist.
+        retain_edits: Sinu muudatused kaardiandmebaasis säilivad, kui oled neid teinud.
+        retain_traces: Sinu rajad säilivad, kui oled neid üles laadinud.
+        retain_diary_entries: Sinu päeviku sissekanded ja päeviku kommentaarid säilivad,
+          kui oled neid kirjutanud, kuid need peidetakse.
+        retain_notes: Sinu märkused kaardil ja märkuste kommentaarid säilivad, kui
+          oled neid kirjutanud, kuid need peidetakse.
+        retain_changeset_discussions: Sinu kommentaarid muudatuskogumites säilivad,
+          kui oled neid kirjutanud.
+        retain_email: Sinu e-posti aadress säilib.
+        confirm_delete: Kas oled kindel?
+        cancel: Loobu
+  accounts:
+    edit:
+      title: Konto muutmine
+      my settings: Minu sätted
+      current email address: Praegune e-posti aadress
+      external auth: Väline autentimine
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: mis see on?
+      public editing:
+        heading: Avalik toimetamine
+        enabled: Lubatud. Pole anonüümne ja saab andmeid muuta.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: mis see on?
+        disabled: Keelatud ja ei saa andmeid muuta, kõik varasemad muudatused on anonüümsed.
+        disabled link text: Miks ma ei saa kaarti töödelda?
+      public editing note:
+        heading: Avalik redigeerimine
+        html: Praegu on su muudatused anonüümsed ja inimesed ei saa saata sulle sõnumeid
+          ega näha sinu asukohta. Et näha, mida sa muutsid ja et võimaldada inimestel
+          selle veebilehe kaudu sinuga ühendust võtta, klõpsa alljärgneval nupul.
+          <b>Pärast üleminekut API versioonile 0.6 võivad kaardiandmeid muuta ainult
+          avalikud kasutajad</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">saa
+          teada, miks</a>).<ul><li>Sinu e-posti aadressi ei avalikustata avalikuks
+          muutumisel.</li><li>Seda toimingut ei saa tühistada ja kõik uued kasutajad
+          on nüüdsest vaikimisi avalikud.</li></ul>
+      contributor terms:
+        heading: Kaastöötingimused
+        agreed: Oled nõustunud uute kaastöötingimustega.
+        not yet agreed: Sa ei ole veel nõustunud uute kaastöötingimustega.
+        review link text: Palun mine sulle sobival ajal lingitud leheküljele, et lugeda
+          uusi kaastöötingimusi ja et nendega nõustuda.
+        agreed_with_pd: Samuti oled deklareerinud oma kaastöö autoriõigustest vabaks
+          (Public Domain).
+        link text: mis see on?
+      save changes button: Salvesta muudatused
+      make edits public button: Tee kõik minu muudatused avalikuks
+      delete_account: Kustuta konto...
+    update:
+      success_confirm_needed: Kasutajateabe värskendamine õnnestus. Kontrolli e-kirju,
+        et kinnitada uus e-posti aadress.
+      success: Kasutaja informatsioon uuendatud edukalt.
+    destroy:
+      success: Konto kustutatud.
   browse:
     created: Loodud
     closed: Suletud
@@ -354,7 +425,7 @@ et:
       reopened_by_html: Taasaktiveerinud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Taasaktiveerinud anonüümne kasutaja <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Peitnud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Teata sellest märkusest
+      report: sellest märkusest teada anda
     query:
       title: Info objektide kohta
       introduction: Klõpsa kaardil, et leida läheduses asuvad objektid.
@@ -492,6 +563,11 @@ et:
       comment: Kommentaar
       newer_comments: Uuemad kommentaarid
       older_comments: Vanemad kommentaarid
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Rakendus registreeritud.
   friendships:
     make_friend:
       heading: Lisada %{user} sõbraks?
@@ -518,18 +594,20 @@ et:
     search_osm_nominatim:
       prefix:
         aeroway:
-          gate: Värav
+          gate: Lennujaama värav
           helipad: Kopteriväljak
           taxiway: Ruleerimisrada
-          terminal: Terminal
+          terminal: Lennujaama terminal
         amenity:
           arts_centre: Kunstikeskus
           atm: Pangaautomaat
           bank: Pank
           bar: Baar
+          bbq: BBQ
           bench: Pink
           bicycle_parking: Jalgrattaparkla
           bicycle_rental: Jalgrattarent
+          bicycle_repair_station: Jalgrataste remondijaam
           biergarten: Õlleaed
           boat_rental: Paadilaenutus
           brothel: Lõbumaja
@@ -554,7 +632,7 @@ et:
           ferry_terminal: Praamiterminal
           fire_station: Tuletõrjedepoo
           fountain: Purskkaev
-          fuel: Kütus
+          fuel: Tankla
           grave_yard: Surnuaed
           hospital: Haigla
           hunting_stand: Jahikantsel
@@ -625,6 +703,7 @@ et:
           university: Ülikoolihoone
           "yes": Hoone
         craft:
+          blacksmith: Sepp
           brewery: Pruulikoda
           carpenter: Puusepp
           electrician: Elektrik
@@ -645,11 +724,13 @@ et:
           bus_stop: Bussipeatus
           construction: Ehitusjärgus tee
           corridor: Koridor
+          crossing: Ülekäik
           cycleway: Jalgrattatee
           elevator: Elevaator
           emergency_access_point: Hädaabi punkt
           footway: Jalgrada
           ford: Koolmekoht
+          give_way: Märk "Anna teed"
           living_street: Õueala
           milestone: Verstapost
           motorway: Kiirtee
@@ -664,6 +745,7 @@ et:
           service: Teenindustee
           speed_camera: Kiiruskaamera
           steps: Trepp
+          stop: Stoppmärk
           street_lamp: Tänavavalgusti
           tertiary: Kohalik maantee
           traffic_signals: Valgusfoor
@@ -847,6 +929,7 @@ et:
           car_repair: Autoparandus
           carpet: Vaibakauplus
           charity: Heategevuslik kauplus
+          cheese: Juustupood
           chemist: Apteek
           clothes: Riidepood
           computer: Arvutikauplus
@@ -867,10 +950,12 @@ et:
           grocery: Toidupood
           hairdresser: Juuksur
           hardware: Rauakauplus
+          ice_cream: jäätisepood
           jewelry: Juveelipood
           kiosk: Kiosk
           laundry: Pesumaja
           mall: Ostukeskus
+          massage: Massaaž
           mobile_phone: Mobiiltelefonide pood
           motorcycle: Mootorrattapood
           music: Muusikapood
@@ -1413,28 +1498,28 @@ et:
           Meie dokumentatsioon kuulub Creative Commonsi
           litsentsi "<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.et">Autorile viitamine + jagamine samadel tingimustel 2.0</a>" (CC BY-SA 2.0) alla.
         credit_title_html: OpenStreetMapile viitamine
-        credit_1_html: |-
-          Nõuame, et kasutad omistamiseks teksti &ldquo;&copy; OpenStreetMapi
-          kaastöölised&rdquo;.
+        credit_1_html: 'Seal, kus kasutad OpenStreetMapi andmeid, tuleb sul teha kaht
+          järgmist asja:'
         credit_2_1_html: |-
-          Samuti pead selgelt välja tooma, et andmed kuuluvad litsentsi Open
-          Database License alla ja kui kasutatakse kaardipaane, siis et kujutised
-          kuuluvad litsentsi CC BY-SA alla. Üks võimalus selleks on linkida
-          <a href="https://www.openstreetmap.org/copyright">siia autoriõiguse leheküljele</a>.
-          Teine võimalus ja samas ka nõue, kui levitad OSM-i
-          andmete kujul, on nimetada litsentsid ja linkida otse neile. Esitusvormis,
-          kus lingid pole võimalikud (nt trükises), soovitame suunata lugejad
-          aadressidele openstreetmap.org (võimalik, et laiendades teksti
-          "OpenStreetMap" täisaadressiks), opendatacommons.org ja
-          kui vaja, siis ka aadressile creativecommons.org.
+          <ul>
+            <li>Viidata OpenStreetMapile, kuvades meie autoriõiguse teatist.</li>
+            <li>Näidata selgelt, et andmed on saadaval litsentsi Open Database License all.</li>
+          </ul>
         credit_3_1_html: |-
-          Standardse kujundusega kaardipaanid asukohas www.openstreetmap.org on
-          litsentsi Open Database License alla kuuluvatest andmetest loodud teos,
-          mille autor on OpenStreetMap Foundation. Kui kasutad neid kaardipaane,
-          siis tuleb need autorile omistada samamoodi nagu kaardiandmed.
+          Nõuded selle kohta, kuidas autoriõiguse teatist kuvada, sõltuvad sellest,
+          kuidas andmeid kasutad. Näiteks kohalduvad erinevad reeglid sõltuvalt
+          sellest, kas oled teinud sirvitava kaardi, trükikaardi või staatilise pildi.
+          Kõik üksikasjad nõuete kohta leiad <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">omistamisjuhendist</a>.
         credit_4_html: |-
-          Sirvitaval elektroonilisel kaardil peaks viide olema näha kaardi nurgas.
-          Näiteks:
+          Näitamaks selgelt, et andmed on saadaval litsentsi Open
+          Database License all, võid linkida
+          <a href="https://www.openstreetmap.org/copyright">sellele autoriõiguse leheküljele</a>.
+          Teise võimalusena ning ka nõudena, kui levitad OSM-i andmete kujul,
+          saad nimetada litsentsi(d) ja linkida otse sellele. Meediumites,
+          kus see pole võimalik (nt trükiteostes), soovitame juhatada
+          lugejad aadressidele openstreetmap.org (võid näiteks asendada nime
+          "OpenStreetMap" selle täieliku aadressiga) ja opendatacommons.org.
+          Selles näites on viide autoritele kaardi nurgas.
         attribution_example:
           alt: Näide, kuidas tunnustada OpenStreetMapi veebilehel
           title: Omistamise näide
@@ -1515,7 +1600,7 @@ et:
         infringement_2_html: |-
           Kui usud, et OpenStreetMapi andmebaasi või sellele saidile on lisatud sobimatult
           autoriõigusega kaitstud materjali, siis palun juhindu
-          <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">eemaldamise protseduurist</a>
+          <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">eemaldamise protseduurist</a>
           või täida <a href="https://dmca.openstreetmap.org/">vastaval leheküljel</a> vorm, et kaebus esitada.
         trademarks_title_html: <span id="trademarks"></span>Kaubamärgid
         trademarks_1_html: OpenStreetMap, suurendusklaasi logo ja State of the Map
@@ -1833,7 +1918,6 @@ et:
       in: kohas
     index:
       public_traces: Avalikud GPS-rajad
-      my_traces: Minu rajad
       public_traces_from: Kasutaja %{user} avalikud GPS-rajad
       description: Viimati üles laaditud GPS-radade sirvimine
       tagged_with: ', millel on silt %{tags}'
@@ -1841,6 +1925,7 @@ et:
         või uuri GPS-radade kohta <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>vikileheküljelt</a>.
       upload_trace: Lisa GPS-rada
       all_traces: Kõik rajad
+      my_traces: Minu rajad
     destroy:
       scheduled_for_deletion: Raja kustutamine kantud tööplaani.
     offline_warning:
@@ -2070,45 +2155,6 @@ et:
       delete_user: Kustuta see kasutaja
       confirm: Kinnita
       report: Teata sellest kasutajast
-    account:
-      title: Konto muutmine
-      my settings: Minu sätted
-      current email address: Praegune e-posti aadress
-      external auth: Väline autentimine
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: mis see on?
-      public editing:
-        heading: Avalik redigeerimine
-        enabled: Lubatud. Pole anonüümne ja saab andmeid muuta.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: mis see on?
-        disabled: Keelatud ja ei saa andmeid muuta, kõik varasemad muudatused on anonüümsed.
-        disabled link text: Miks ma ei saa kaarti töödelda?
-      public editing note:
-        heading: Avalik toimetamine
-        html: Praegu on su muudatused anonüümsed ja inimesed ei saa saata sulle sõnumeid
-          ega näha sinu asukohta. Et näha, mida sa muutsid ja et võimaldada inimestel
-          selle veebilehe kaudu sinuga ühendust võtta, klõpsa alljärgneval nupul.
-          <b>Pärast üleminekut API versioonile 0.6 võivad kaardiandmeid muuta ainult
-          avalikud kasutajad</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">saa
-          teada, miks</a>).<ul><li>Sinu e-posti aadressi ei avalikustata avalikuks
-          muutumisel.</li><li>Seda toimingut ei saa tühistada ja kõik uued kasutajad
-          on nüüdsest vaikimisi avalikud.</li></ul>
-      contributor terms:
-        heading: Kaastöötingimused
-        agreed: Oled nõustunud uute kaastöötingimustega.
-        not yet agreed: Sa ei ole veel nõustunud uute kaastöötingimustega.
-        review link text: Palun mine sulle sobival ajal lingitud leheküljele, et lugeda
-          uusi kaastöötingimusi ja et nendega nõustuda.
-        agreed_with_pd: Samuti oled deklareerinud oma kaastöö autoriõigustest vabaks
-          (Public Domain).
-        link text: mis see on?
-      save changes button: Salvesta muudatused
-      make edits public button: Tee kõik minu muudatused avalikuks
-      flash update success confirm needed: Kasutajateabe värskendamine õnnestus. Kontrolli
-        e-kirju, et kinnitada uus e-posti aadress.
-      flash update success: Kasutaja informatsioon uuendatud edukalt.
     set_home:
       flash success: Kodukoht edukalt salvestatud
     go_public:
@@ -2296,6 +2342,7 @@ et:
       custom_dimensions: Vali suurus käsitsi
       format: 'Vorming:'
       scale: 'Mõõtkava:'
+      image_dimensions: Pildil näeb tavakaarti suurusega %{width} × %{height}
       download: Laadi alla
       short_url: Lühilink
       include_marker: Lisa marker
@@ -2363,6 +2410,9 @@ et:
         reactivate: Aktiveeri uuesti
         comment_and_resolve: Kommenteeri ja lahenda
         comment: Kommenteeri
+        report_link_html: Kui see märkus sisaldab tundlikku teavet, mis tuleks eemaldada,
+          saad %{link}. Kõigi märkusega seotud muude probleemide korral lahenda see
+          ise kommentaariga.
     edit_help: Nihuta kaarti ja suumi sisse asukohta mida soovid redigeerida ja seejärel
       kliki siia.
     directions:

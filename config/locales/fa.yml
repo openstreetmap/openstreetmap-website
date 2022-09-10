@@ -9,6 +9,7 @@
 # Author: Armin1392
 # Author: BMRG14
 # Author: Baqeri
+# Author: Beginneruser
 # Author: Dalba
 # Author: Danialbehzadi
 # Author: Darafsh
@@ -23,10 +24,12 @@
 # Author: Jafari
 # Author: Jeeputer
 # Author: Leyth
+# Author: LordProfo
 # Author: Mcuteangel
 # Author: Mjbmr
 # Author: Mobin2008
 # Author: Mohammad ebz
+# Author: Mojtabakd
 # Author: Movyn
 # Author: Nbi
 # Author: Omidh
@@ -118,14 +121,14 @@ fa:
       way_tag: تگ راه
     attributes:
       client_application:
-        name: نام (اجباری)
+        name: نام (الزامی)
         url: نشانی اینترنتی برنامه اصلی (الزامی)
         callback_url: Callback URL
         support_url: URL پشتیبانی
         allow_read_prefs: ترجیحات کاربری او را بخواند
         allow_write_prefs: ترجیحات کاربری او را تغییر دهد
         allow_write_diary: روزنوشت ایجاد کند، نظر ثبت کند و دوست اضافه کند
-        allow_write_api: نقشه را اصلاح کنید
+        allow_write_api: نقشه را تغییر دهد
         allow_read_gpx: ردهای GPS خصوصی او را بخواند
         allow_write_gpx: ردهای GPS بارگذاری کند
         allow_write_notes: یادداشت‌ها را تغییر دهد
@@ -154,7 +157,7 @@ fa:
         longitude: طول جغرافیایی
         public: عمومی
         description: توضیح
-        gpx_file: آپلود فایل GPX
+        gpx_file: بارگذاری فایل GPX
         visibility: پدیداری
         tagstring: برچسب‌ها
       message:
@@ -181,8 +184,8 @@ fa:
         home_lon: طول جغرافیایی
         languages: زبان‌های مورد ترجیح
         preferred_editor: ویرایش‌گر مورد ترجیح
-        pass_crypt: گذرواژه
-        pass_crypt_confirmation: تأیید گذرواژه
+        pass_crypt: رمز عبور
+        pass_crypt_confirmation: تأیید رمز عبور
     help:
       doorkeeper/application:
         confidential: بهره‌برداری از اپلیکیشن به‌گونه‌ای است که client secret را محرمانه
@@ -278,6 +281,76 @@ fa:
       entry:
         comment: نظر
         full: یادداشت کامل
+  account:
+    deletions:
+      show:
+        title: حذف حساب من
+        warning: هشدار! فرآیند حذف حساب قطعی است و امکان لغو ندارد.
+        delete_account: حساب را حذف کن
+        delete_introduction: 'با فشردن دکمهٔ زیر می‌توانید حساب اوپن‌استریت‌مپ خود
+          را حذف کنید. لطفاً به نکات زیر توجه نمایید:'
+        delete_profile: اطلاعات نمایهٔ شما شامل عکس، توضیحات و موقعیت خانه حذف خواهد
+          شد.
+        delete_display_name: نام نمایشی شما حذف خواهد شد و حساب‌های دیگر می‌توانند
+          از آن استفاده کنند.
+        retain_caveats: 'اگرچه، حتی پس از حذف شدن حسابتان برخی اطلاعات شما در اوپن‌استریت‌مپ
+          حفظ خواهد شد:'
+        retain_edits: همهٔ ویرایش‌های شما در پایگاه دادهٔ نقشه حفظ خواهد شد.
+        retain_traces: همهٔ ردهایی که بارگذاری کرده‌اید حفظ خواهد شد.
+        retain_diary_entries: همهٔ روزنوشت‌ها و نظرات شما به روزنوشت‌ها حفظ خواهد
+          شد اما نمایش داده نمی‌شود.
+        retain_notes: همهٔ یادداشت‌های نقشه و نظرات شما به یادداشت‌های نقشه حفظ خواهد
+          شد اما نمایش داده نمی‌شود.
+        retain_changeset_discussions: همهٔ گفت‌وگوهای شما روی بسته‌های تغییر حفظ خواهد
+          شد.
+        retain_email: نشانی ایمیل شما حفظ خواهد شد.
+        confirm_delete: آیا مطمئن هستید؟
+        cancel: لغو
+  accounts:
+    edit:
+      title: ویرایش حساب
+      my settings: تنظیمات من
+      current email address: ایمیل فعلی
+      external auth: احراز هویت خارجی
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: این چیست؟
+      public editing:
+        heading: ویرایش عمومی
+        enabled: فعال. گمنام نیستید و می‌توانید داده را ویرایش کنید.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: این چیست؟
+        disabled: غیرفعال شده و نمی‌توان داده را ویرایش کرد، همهٔ ویرایش‌های قبلی
+          گمنام هستند.
+        disabled link text: چرا من نمی‌توانم ویرایش کنم؟
+      public editing note:
+        heading: ویرایش عمومی
+        html: هم اکنون ویرایش‌های شما گمنام هستند و مردم نمی‌توانند مکان شما را ببینند
+          یا برایتان پیام بفرستند. برای نمایش آنچه ویرایش کرده‌اید و اجازه به مردم
+          برای تماس با شما از طریق وب‌سایت، روی دکمهٔ زیر کلیک کنید. <b>از زمان روی
+          کار آمدن  0.6 API، فقط کاربران عمومی می‌توانند نقشه را ویرایش کنند</b>.
+          (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">چرا؟</a>).
+          <ul><li>نشانی ایمیل شما خصوصی می‌ماند و آشکار نخواهد شد.</li><li>این عملیات
+          برگشت‌پذیر نیست و همهٔ کاربران تازه به‌طور پیش‌فرض عمومی هستند.</li></ul>
+      contributor terms:
+        heading: شرایط مشارکت‌کننده
+        agreed: شما شرایط جدید مشارکت‌کننده را پذیرفته‌اید.
+        not yet agreed: شما هنوز شرایط جدید مشارکت‌کننده را نپذیرفته‌اید.
+        review link text: لطفاً در فرصت مناسب این پیوند را دنبال کنید و پس از مطالعهٔ
+          شرایط جدید مشارکت‌کننده، موافقت خود را با آن اعلام کنید.
+        agreed_with_pd: شما همچنین اعلام کرده‌اید که ویرایش‌هایتان در مالکیت عمومی
+          باشد.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link text: این چیست؟
+      save changes button: ذخیره‌کردن تغییرات
+      make edits public button: همهٔ ویرایش‌های من را عمومی کن
+      delete_account: حذف حساب...
+    update:
+      success_confirm_needed: اطلاعات کاربر با موفقیت روزآمد شد. برای تأیید نشانی
+        ایمیل جدید، یادداشت ارسال‌شده به ایمیل‌تان را بررسی کنید.
+      success: اطلاعات کاربر با موفقیت روزآمد شد.
+    destroy:
+      success: حساب حذف شد.
   browse:
     created: ایجاد شد
     closed: بسته شد
@@ -390,14 +463,14 @@ fa:
         key: صفحهٔ توضیحات ویکی برای تگ %{key}
         tag: صفحهٔ توضیحات ویکی برای تگ %{key}=%{value}
       wikidata_link: آیتم %{page} در ویکی‌داده
-      wikipedia_link: صفحه مقاله %{page} در ویکی‌پدیا
+      wikipedia_link: مقالۀ %{page} در ویکی‌پدیا
       wikimedia_commons_link: آیتم %{page} در ویکی‌انبار
       telephone_link: ' تماس با %{phone_number}'
       colour_preview: پیش‌نمایش رنگ %{colour_value}
     note:
       title: 'یادداشت: %{id}'
       new_note: یادداشت تازه
-      description: توصیف
+      description: توضیحات
       open_title: 'یادداشت حل‌نشده #%{note_name}'
       closed_title: 'یادداشت حل‌شده #%{note_name}'
       hidden_title: 'یادداشت پنهان #%{note_name}'
@@ -417,7 +490,7 @@ fa:
         دوباره آن را فعال کرد
       hidden_by_html: <abbr title='%{exact_time}'>%{when}</abbr> %{user} آن را مخفی
         کرد
-      report: گزارش این یادداشت
+      report: این یادداشت را گزارش کنید
     query:
       title: پرس‌وجوی عارضه‌ها
       introduction: روی نقشه کلیک کنید تا عارضه‌های نزدیک را بیابید
@@ -553,7 +626,10 @@ fa:
         title: ‫روزنوشت‌های OpenStreetMap‬
         description: ‫روزنوشت‌های اخیر از کاربران OpenStreetMap‬
     comments:
-      no_comments: فاقد پیام روزانه
+      title: نظراتی که %{user} به روزنوشت‌ها داده است
+      heading: نظرات %{user} به روزنوشت‌ها
+      subheading_html: نظراتی که %{user} به روزنوشت‌ها داده است
+      no_comments: به روزنوشت‌ها نظری نداده است
       post: فرسته
       when: زمان
       comment: نظر
@@ -569,7 +645,7 @@ fa:
       heading: افزودن %{user} به‌عنوان دوست؟
       button: افزودن به‌عنوان دوست
       success: '%{name} اکنون دوست شماست!'
-      failed: پوزش، %{name} به دوستان شما افزوده نشد.
+      failed: پوزش، افزودن %{name} به دوستان شما انجام نشد.
       already_a_friend: شما و %{name}از قبل دوست هستید.
       limit_exceeded: تازگی افراد خیلی زیادی را به‌عنوان دوست اضافه کرده‌اید. لطفاً
         تا مدتی دست نگه دارید.
@@ -604,8 +680,8 @@ fa:
         aeroway:
           aerodrome: فرودگاه هواپیما
           airstrip: پایگاه هوایی
-          apron: پیشگاه
-          gate: ورودی
+          apron: پیشگاه فرودگاه
+          gate: ورودی فرودگاه
           hangar: آشیانه هواپیما
           helipad: محل فرود هلی کوپتر
           holding_position: انتظارگاه ورود
@@ -613,7 +689,7 @@ fa:
           parking_position: موقعیت پارک‌کردن
           runway: باند فرودگاه
           taxiway: خزش‌راه
-          terminal: پایانه
+          terminal: پایانه فرودگاه
           windsock: بادنمای کیسه‌ای
         amenity:
           animal_boarding: محل تحویل حیوانات
@@ -659,7 +735,7 @@ fa:
           fire_station: آتش‌نشانی
           food_court: پذيرايي
           fountain: فواره
-          fuel: پمپ بنزین
+          fuel: ایستگاه سوخت‌گیری
           gambling: قمار
           grave_yard: محوطهٔ گورستان
           grit_bin: گریت‌بین
@@ -785,7 +861,7 @@ fa:
           warehouse: انبار
           "yes": ساختمان
         club:
-          sport: کلوپ ورزشی
+          sport: باشگاه ورزشی
           "yes": باشگاه
         craft:
           blacksmith: آهنگر
@@ -905,18 +981,17 @@ fa:
           allotments: اراضی اختصاص‌یافته
           aquaculture: آبزیان
           basin: حوض
-          brownfield: زمین جهت ساخت
+          brownfield: زمین قهوه‌ای
           cemetery: قبرستان
           commercial: منطقهٔ تجاری
-          conservation: حفاظت شده
-          construction: در دست ساخت
-          farm: مزرعه
+          conservation: منطقه حفاظت‌شده
+          construction: منطقه در دست ساخت
           farmland: زمین های کشاورزی
           farmyard: محوطه مزرعه
           forest: جنگل
           garages: گاراژ
           grass: چمن
-          greenfield: زمین سرسبز
+          greenfield: زمین سبز
           industrial: ناحیهٔ صنعتی
           landfill: محل دفن زباله
           meadow: علفزار
@@ -931,7 +1006,7 @@ fa:
           reservoir: مخزن
           reservoir_watershed: آبخیزداری مخزن
           residential: منطقهٔ مسکونی
-          retail: خرده‌فروشی
+          retail: منطقه خرده‌فروشی
           village_green: روستای سبز
           vineyard: تاکستان
           "yes": کاربری زمین
@@ -1126,6 +1201,7 @@ fa:
           platform: بستر راه‌آهن
           preserved: راه آهن محفوظ شده
           proposed: راه آهن پیشنهادی
+          rail: ریل
           spur: خار راه آهن
           station: ایستگاه راه‌آهن
           stop: ایستگاه راه آهن
@@ -1134,6 +1210,7 @@ fa:
           switch: جدا کننده راه آهن
           tram: واگن برقی
           tram_stop: ایستگاه واگن برقی
+          turntable: صفحه‌گردان
           yard: محوطه راه آهن
         shop:
           alcohol: Off License
@@ -1164,7 +1241,7 @@ fa:
           deli: اغذیه فروشی
           department_store: فروشگاه بزرگ
           discount: اقلام تخفیف فروشگاه
-          doityourself: خودتان انجامش دهید
+          doityourself: فروشگاه «خودت بکن»
           dry_cleaning: تمیز کننده خشک
           e-cigarette: فروشگاه سیگار الکترونیک
           electronics: فروشگاه الکترونیکی
@@ -1183,9 +1260,9 @@ fa:
           greengrocer: سبزی فروش
           grocery: فروشگاه خواروبار
           hairdresser: سلمانی
-          hardware: فروشگاه سخت افزار
+          hardware: فروشگاه ابزار آلات
           herbalist: عطاری
-          hifi: Hi-Fi
+          hifi: فروشگاه Hi-Fi
           houseware: فروشگاه لوازم خانگی
           ice_cream: بستنی‌فروشی
           interior_decoration: دکوراسیون داخلی
@@ -1270,7 +1347,7 @@ fa:
           mooring: مکان لنگر انداختن
           rapids: سریع السیر
           river: رود
-          stream: جوی آب
+          stream: نهر
           wadi: Wadi
           waterfall: ابشار
           weir: آب بند
@@ -1430,10 +1507,10 @@ fa:
     partners_bytemark: Bytemark Hosting
     partners_partners: شرکای تجاری
     tou: شرایط استفاده
-    osm_offline: پایگاه‌دادهٔ OpenStreetMap هم‌اکنون آفلاین است و کارهای ضروری برای
-      نگهداری آن انجام می‌گیرد.
-    osm_read_only: پایگاه‌دادهٔ OpenStreetMap هم‌اکنون در حالت فقط‌خواندنی است و کارهای
-      ضروری برای نگهداری آن انجام می‌گیرد.
+    osm_offline: پایگاه‌دادهٔ OpenStreetMap هم‌اکنون آفلاین است تا کارهای ضروری برای
+      نگهداری پایگاه‌داده انجام گیرد.
+    osm_read_only: پایگاه‌دادهٔ OpenStreetMap هم‌اکنون در حالت فقط‌خواندنی است تا
+      کارهای ضروری برای نگهداری پایگاه‌داده انجام گیرد.
     donate: با %{link} به «صندوق ارتقای سخت‌افزار»، OpenStreetMap را حمایت کنید.
     help: راهنما
     about: درباره
@@ -1499,9 +1576,9 @@ fa:
         و بدون برچسب
     gpx_failure:
       hi: ‫سلام %{to_user}،‬
-      failed_to_import: 'درون‌برد نشد. این خطا رخ داد:'
+      failed_to_import: 'درون‌برد انجام نشد. این خطا رخ داد:'
       more_info_html: |-
-        برای کسب اطلاعات بیشتر دربارهٔ شکست درون‌برد GPX و راهکار پیشگیری از آن به این نشانی مراجعه کنید:
+        برای کسب اطلاعات بیشتر دربارهٔ انجام‌نشدن درون‌برد GPX و راهکار پیشگیری از آن به این نشانی مراجعه کنید:
         %{url}
       import_failures_url: https://wiki.openstreetmap.org/wiki/Fa:GPX_Import_Failures
       subject: '[OpenStreetMap] ‫شکست درون‌برد GPX‬'
@@ -1528,11 +1605,11 @@ fa:
       click_the_link: ‫اگر خودتان هستید، لطفاً برای تأیید این تغییر روی پیوند زیر
         کلیک کنید.‬
     lost_password:
-      subject: '[OpenStreetMap] درخواست بازنشانی گذرواژه'
+      subject: '[OpenStreetMap] درخواست بازنشانی رمز عبور'
       greeting: سلام،‏
       hopefully_you: ‫کسی (احتمالاً شما) درخواست کرده گذرواژهٔ مربوط به حساب کاربری
         متناظر با این ایمیل در openstreetmap.org بازنشانی شود.‬
-      click_the_link: ‫اگر خودتان درخواست کرده‌اید، لطفاً برای بازنشانی گذرواژه روی
+      click_the_link: ‫اگر خودتان درخواست کرده‌اید، لطفاً برای بازنشانی رمز عبور روی
         پیوند زیر کلیک کنید.‬
     note_comment_notification:
       anonymous: کاربری گمنام
@@ -1626,6 +1703,12 @@ fa:
       success: تغییر نشانی ایمیل شما تأیید شد!
       failure: یک نشانی ایمیل قبلاً با این توکن تأیید شده است.
       unknown_token: کد تأیید منقضی شده یا وجود ندارد.
+    resend_success_flash:
+      confirmation_sent: یادداشت تأیید تازه‌ای به %{email} فرستادیم. حسابتان را که
+        تأیید کنید بلافاصله می‌توانید نقشه‌کشی را آغاز نمایید.
+      whitelist: اگر از سامانهٔ ضدّهرزنامه استفاده می‌کنید که درخواست‌های تأیید می‌فرستد،
+        لطفاً مطمئن شوید که %{sender} را در لیست سفید قرار دهید زیرا نمی‌توانیم به
+        هرگونه درخواست تأیید پاسخ دهیم.
   messages:
     inbox:
       title: صندوق دریافت
@@ -1702,20 +1785,20 @@ fa:
       destroyed: پیام حذف شد
   passwords:
     lost_password:
-      title: فراموشی گذرواژه
-      heading: گذرواژهٔ خود را فراموش کرده‌اید؟
+      title: فراموشی رمز عبور
+      heading: رمز عبور خودتان را فراموش کرده‌اید؟
       email address: 'نشانی ایمیل:'
-      new password button: بازنشانی گذرواژه
+      new password button: بازنشانی رمز عبور
       help_text: ایمیلی که با آن ثبت‌نام کرده‌اید را وارد کنید. ما پیوندی به آن می‌فرستیم
-        تا بتوانید به‌وسیلهٔ آن گذرواژهٔ خود را بازنشانی کنید.
+        تا بتوانید به‌وسیلهٔ آن رمز عبورتان را بازنشانی کنید.
       notice email on way: متأسفیم که آن را گم کرده‌اید :-( اما ایمیلی در راه است
         که می‌توانید به‌زودی آن را مجدد تنظیم کنید.
       notice email cannot find: چنین ایمیلی پیدا نشد، متأسفیم.
     reset_password:
-      title: بازنشانی گذرواژه
-      heading: بازنشانی گذرواژه برای %{user}
-      reset: بازنشانی گذرواژه
-      flash changed: گذرواژهٔ شما عوض شد.
+      title: بازنشانی رمز عبور
+      heading: بازنشانی رمز عبور برای %{user}
+      reset: بازنشانی رمز عبور
+      flash changed: رمز عبورتان عوض شد.
       flash token bad: توکن را نیافتید؟ نشانی را بررسی کنید شاید بیابید.
   preferences:
     show:
@@ -1760,18 +1843,18 @@ fa:
       title: ورود
       heading: ورود
       email or username: 'نشانی ایمیل یا نام کاربری:'
-      password: 'گذرواژه:'
+      password: 'رمز عبور:'
       openid_html: '%{logo} OpenID:'
       remember: مرا به خاطر بسپار
-      lost password link: گذرواژهٔ خود را فراموش کرده‌اید؟
+      lost password link: رمز عبورتان را فراموش کرده‌اید؟
       login_button: ورود
       register now: اکنون ثبت‌نام کنید
-      with username: 'از قبل حساب OpenStreetMap دارید؟ لطفاً با نام کاربری و گذرواژه‌تان
+      with username: 'از قبل حساب OpenStreetMap دارید؟ لطفاً با نام کاربری و رمز عبورتان
         وارد شوید:'
       with external: 'به‌جای ثبت نام، از روش شخص ثالث استفاده کنید:'
       new to osm: در OpenStreetMap تازه‌وارد هستید؟
       to make changes: برای ویرایش دادهٔ OpenStreetMap، باید حساب کاربری داشته باشید.
-      create account minute: یک حساب بسازید. فقط یک دقیقه طول می‌کشد.
+      create account minute: یک حساب ایجاد کنید. فقط یک دقیقه طول می‌کشد.
       no account: حساب کاربری ندارید؟
       account not active: پوزش می‌خواهیم، حسابتان هنوز فعال نشده‌است.<br />لطفاً از
         پیوندی که در ایمیل تأیید وجود دارد برای فعال‌سازی حساب خود استفاده کنید، یا
@@ -1911,9 +1994,10 @@ fa:
           چاپی)، توصیه می‌کنیم که خوانندگان خود را به  openstreetmap.org (شاید با
           گسترش OpenStreetMap به این نشانی کامل)، به opendatacommons.org و در صورت
           تناسب به creativecommons.org هدایت کنید.
-        credit_3_1_html: |-
-          کاشی‌های نقشهٔ www.openstreetmap.org در «سبک استاندارد»، کار تولیدی (Produced Work) محسوب می‌شوند که بنیاد اوپن‌استریت‌مپ با استفاده از دادهٔ اوپن‌استریت‌مپ تحت پروانهٔ پایگاه‌دادهٔ باز (ODbL) ساخته‌است. اگر از این کاشی‌ها استفاده می‌کنید لطفاً این انتساب را به کار ببرید:
-          «نقشه و دادهٔ پایه از OpenStreetMap و بنیاد OpenStreetMap»
+        credit_3_1_html: کاشی‌های نقشه با «سبک استاندارد» در www.openstreetmap.org
+          کار تولیدی (Produced Work) محسوب می‌شوند که بنیاد اوپن‌استریت‌مپ با استفاده
+          از دادهٔ اوپن‌استریت‌مپ تحت پروانهٔ پایگاه‌دادهٔ باز (ODbL) ساخته‌است. هنگام
+          استفاده از این سبک نقشه، همان انتساب به‌کاررفته برای دادهٔ نقشه، لازم است.
         credit_4_html: |-
           در یک نقشهٔ الکترونیکی قابل مرور، یادکرد باید در گوشهٔ نقشه ظاهر شود.
           برای مثال:
@@ -1985,7 +2069,7 @@ fa:
           با اجازهٔ صریح و آشکار از صاحبان حق‌نشر.
         infringement_2_html: اگر بر این باورید که دادهٔ مشمول حق‌نشر به‌طور نامناسبی
           به پایگاه‌دادهٔ OpenStreetMap  یا به این وبسایت افزوده شده، لطفاً به <a
-          href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">روندنامهٔ
+          href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">روندنامهٔ
           حذف</a> مراجعه کنید یا دادخواست خود را مستقیماً در <a href="https://dmca.openstreetmap.org/">صفحهٔ
           دادخواهی برخط</a> تسلیم کنید.
         trademarks_title_html: <span id="trademarks"></span>نشان‌های تجاری
@@ -2003,8 +2087,8 @@ fa:
       createnote: افزودن یادداشت
       license:
         copyright: حق‌نشر OpenStreetMap و مشارکت‌کنندگان، تحت یک پروانهٔ آزاد
-      remote_failed: ویرایش ناموفق بود - مطمئن شوید JOSM یا Merkaartor اجراست و گزینهٔ
-        کنترل از دور فعال است
+      remote_failed: ویرایش انجام نشد - مطمئن شوید JOSM یا Merkaartor باز و گزینهٔ
+        کنترل از دور فعال باشد
     edit:
       not_public: تنظیم نکرده‌اید که ویرایش‌هایتان عمومی باشد.
       not_public_description_html: دیگر نمی‌توانید نقشه را ویرایش کنید مگر آنکه این
@@ -2028,7 +2112,7 @@ fa:
       export_details_html: دادهٔ OpenStreetMap تحت <a href="https://opendatacommons.org/licenses/odbl/1.0/">پروانهٔ
         دادهٔ همگانی باز، پایگاه‌دادهٔ باز</a> (ODbL) قرار دارد.
       too_large:
-        advice: 'اگر برون‌برد بالا ناموفق بود، لطفاً یکی از منابع زیر را استفاده کنید:'
+        advice: 'اگر برون‌برد بالا انجام نشد، لطفاً یکی از منابع زیر را استفاده کنید:'
         body: این محدوده برای برون‌برد در قالب OpenStreetMap XML خیلی بزرگ است. لطفاً
           بزرگنمایی کنید یا منطقهٔ کوچکتری را انتخاب کنید، یا برای دریافت داده‌های
           انبوه یکی از منابع فهرست زیر را استفاده کنید.
@@ -2273,7 +2357,7 @@ fa:
       trace_uploaded: فایل GPX شما بارگذاری شده و در انتظار درج در پایگاه‌داده است.
         این کار معمولاً کمتر از نیم ساعت طول می‌کشد. هنگامی که انجام شد ایمیلی برای
         شما فرستاده می‌شود.
-      upload_failed: شوربختانه بارگذاری GPX ناموفق بود. به یکی از مدیران دربارهٔ این
+      upload_failed: شوربختانه بارگذاری GPX انجام نشد. به یکی از مدیران دربارهٔ این
         خطا اطلاع‌رسانی شد. لطفاً دوباره تلاش کنید
       traces_waiting:
         one: '%{count} رد در صف بارگذاری دارید. لطفاً قبل از بارگذاری موارد بیشتر
@@ -2331,7 +2415,6 @@ fa:
       in: در
     index:
       public_traces: ردهای GPS عمومی
-      my_traces: ردهای من
       public_traces_from: ردهای GPS عمومی از %{user}
       description: مرور آخرین ردهای GPS بارگذاری‌شده
       tagged_with: ' با برچسب %{tags}'
@@ -2340,6 +2423,7 @@ fa:
         ویکی</a> دربارهٔ ضبط ردهای GPS بیشتر بخوانید.
       upload_trace: بارگذاری یک رد
       all_traces: همهٔ ردها
+      my_traces: ردهای من
       traces_from: ردهای عمومی %{user}
       remove_tag_filter: حذف پالایهٔ برچسب
     destroy:
@@ -2374,6 +2458,7 @@ fa:
         کاربری وب وارد شوید تا شرایط مشارکت‌کننده را ببینید. لازم نیست آن را بپذیرید،
         ولی حتماً باید آن را ببینید.
     settings_menu:
+      account_settings: تنظیمات حساب
       oauth1_settings: تنظیمات OAuth 1
       oauth2_applications: اپلیکیشن‌های OAuth 2
       oauth2_authorizations: مجوزهای OAuth 2
@@ -2397,7 +2482,7 @@ fa:
       allowed_html: دسترسی اپلیکیشن %{app_name} به حسابتان را مجاز کرده‌اید.
       verification: کد تأیید %{code} است.
     authorize_failure:
-      title: درخواست اجازه رد شد
+      title: درخواست اجازه انجام نشد
       denied: دسترسی اپلیکیشن %{app_name} به حسابتان را رد کرده‌اید.
       invalid: توکن مجوز معتبر نیست.
     revoke:
@@ -2405,14 +2490,15 @@ fa:
     permissions:
       missing: اجازهٔ دسترسی به این امکان را به اپلیکیشن نداده‌اید
     scopes:
-      read_prefs: خواندن ترجیحات کاربر
-      write_prefs: تغییر ترجیحات کاربر
+      read_prefs: خواندن ترجیحات کاربری
+      write_prefs: تغییر ترجیحات کاربری
       write_diary: ایجاد روزنوشت، نظردهی و افزودن دوست
       write_api: اصلاح نقشه
       read_gpx: خواندن ردهای جی‌پی‌اس خصوصی
-      write_gpx: آپلود ردهای جی‌پی‌اس
+      write_gpx: بارگذاری ردهای جی‌پی‌اس
       write_notes: اصلاح یادداشت‌ها
       read_email: خواندن نشانی ایمیل کاربر
+      skip_authorization: اپلیکیشن با تأیید خودکار
   oauth_clients:
     new:
       title: ثبت اپلیکیشن تازه
@@ -2486,10 +2572,20 @@ fa:
   oauth2_authorizations:
     new:
       title: نیازمند کسب مجوز
+      introduction: آیا به %{application} اجازه می‌دهید با مجوزهای زیر به حسابتان
+        دسترسی داشته باشد؟
+      authorize: مجاز کردن
+      deny: رد کردن
+    error:
+      title: خطایی رخ داد
+    show:
+      title: کد مجوز
   oauth2_authorized_applications:
     index:
       title: نرم‌افزارهای مجاز من
+      application: اپلیکیشن
       permissions: اجازه‌ها
+      no_applications_html: هنوز به هیچ اپلیکیشن %{oauth2} اجازه نداده‌اید.
     application:
       revoke: ابطال دسترسی
       confirm_revoke: دسترسی این برنامه باطل شود؟
@@ -2513,8 +2609,8 @@ fa:
         بعداً آن را در تنظیمات تغییر دهید.
       external auth: 'احراز هویت شخص ثالث:'
       use external auth: به‌جای ثبت نام، از روش شخص ثالث استفاده کنید
-      auth no password: در اعتبارسنجی به‌روش شخص ثالث نیازی به گذرواژهٔ اوپن‌استریت‌مپ
-        ندارید اما شاید میزبان انتخابی شما گذرواژهٔ خودش را بخواهد.
+      auth no password: در اعتبارسنجی به‌روش شخص ثالث نیازی به رمز عبور اوپن‌استریت‌مپ
+        ندارید اما شاید میزبان انتخابی شما رمز عبور خودش را بخواهد.
       continue: ثبت نام
       terms accepted: از اینکه شرایط جدید مشارکت‌کننده را پذیرفتید، سپاسگزاریم!
     terms:
@@ -2532,7 +2628,7 @@ fa:
       read_tou: شرایط استفاده را خوانده‌ام و آن را می‌پذیرم
       consider_pd: علاوه بر موارد بالا، می‌پذیرم که مشارکت‌هایم در مالکیت عمومی باشد.
       consider_pd_why: این چیست؟
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'اطلاعاتی برای کمک به درک شرایط مشارکت‌کننده: <a href="%{summary}">خلاصهٔ
         خوانا برای انسان</a> و <a href="%{translations}">ترجمه‌های غیررسمی</a>'
       continue: ادامه
@@ -2605,51 +2701,13 @@ fa:
       activate_user: فعال‌کردن این کاربر
       deactivate_user: غیرفعال‌کردن این کاربر
       confirm_user: تأیید این کاربر
+      unconfirm_user: این کاربر را تأیید نکنید
+      unsuspend_user: لغو تعلیق این کاربر
       hide_user: مخفی‌کردن این کاربر
       unhide_user: آشکارکردن این کاربر
       delete_user: حذف این کاربر
       confirm: تأیید
       report: گزارش این کاربر
-    account:
-      title: ویرایش حساب
-      my settings: تنظیمات من
-      current email address: ایمیل فعلی
-      external auth: احراز هویت خارجی
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: این چیست؟
-      public editing:
-        heading: ویرایش عمومی
-        enabled: فعال. گمنام نیستید و می‌توانید داده را ویرایش کنید.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: این چیست؟
-        disabled: غیرفعال شده و نمی‌توان داده را ویرایش کرد، همهٔ ویرایش‌های قبلی
-          گمنام هستند.
-        disabled link text: چرا من نمی‌توانم ویرایش کنم؟
-      public editing note:
-        heading: ویرایش عمومی
-        html: هم اکنون ویرایش‌های شما گمنام هستند و مردم نمی‌توانند مکان شما را ببینند
-          یا برایتان پیام بفرستند. برای نمایش آنچه ویرایش کرده‌اید و اجازه به مردم
-          برای تماس با شما از طریق وب‌سایت، روی دکمهٔ زیر کلیک کنید. <b>از زمان روی
-          کار آمدن  0.6 API، فقط کاربران عمومی می‌توانند نقشه را ویرایش کنند</b>.
-          (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">چرا؟</a>).
-          <ul><li>نشانی ایمیل شما خصوصی می‌ماند و آشکار نخواهد شد.</li><li>این عملیات
-          برگشت‌پذیر نیست و همهٔ کاربران تازه به‌طور پیش‌فرض عمومی هستند.</li></ul>
-      contributor terms:
-        heading: شرایط مشارکت‌کننده
-        agreed: شما شرایط جدید مشارکت‌کننده را پذیرفته‌اید.
-        not yet agreed: شما هنوز شرایط جدید مشارکت‌کننده را نپذیرفته‌اید.
-        review link text: لطفاً در فرصت مناسب این پیوند را دنبال کنید و پس از مطالعهٔ
-          شرایط جدید مشارکت‌کننده، موافقت خود را با آن اعلام کنید.
-        agreed_with_pd: شما همچنین اعلام کرده‌اید که ویرایش‌هایتان در مالکیت عمومی
-          باشد.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: این چیست؟
-      save changes button: ذخیره‌کردن تغییرات
-      make edits public button: همهٔ ویرایش‌های من را عمومی کن
-      flash update success confirm needed: اطلاعات کاربر با موفقیت روزآمد شد. برای
-        تأیید نشانی ایمیل جدید، یادداشت ارسال‌شده به ایمیل‌تان را بررسی کنید.
-      flash update success: اطلاعات کاربر با موفقیت روزآمد شد.
     set_home:
       flash success: موقعیت خانه با موفقیت ذخیره شد
     go_public:
@@ -2667,8 +2725,8 @@ fa:
       hide: پنهان‌کردن کاربران انتخاب‌شده
       empty: هیچ کاربر منطبقی یافت نشد
     suspended:
-      title: حساب کاربری معلق شده است
-      heading: تعلیق حساب کاربری
+      title: حساب معلق شده است
+      heading: تعلیق حساب
       support: پشتیبانی
       body_html: |-
         <p>
@@ -2678,18 +2736,19 @@ fa:
         به‌زودی یک مدیر این تصمیم را بازبینی می‌کند. در صورت تمایل  می‌توانید با %{webmaster} تماس بگیرید تا در این باره صحبت کنید.
         </p>
     auth_failure:
-      connection_failed: اتصال به سرویس‌دهندهٔ احراز هویت برقرار نشد
+      connection_failed: اتصال به ارائه‌دهندهٔ احراز هویت برقرار نشد
       invalid_credentials: اطلاعات احراز هویت نامعتبر است
       no_authorization_code: بدون کد احراز هویت
       unknown_signature_algorithm: الگوریتم امضای ناشناخته
       invalid_scope: حوزهٔ نامعتبر
+      unknown_error: احراز هویت انجام نشد
     auth_association:
       heading: شناسهٔ شما هنوز با یک حساب کاربری OpenStreetMap مرتبط نشده است.
       option_1: اگر در OpenStreetMap تازه‌وارد هستید، لطفاً با استفاده از فرم زیر
         یک حساب کاربری جدید بسازید.
-      option_2: اگر حساب کاربری دارید، می‌توانید با استفاده از نام کاربری و گذرواژهٔ
-        خود به حسابتان وارد شوید و سپس در قسمت تنظیمات کاربر، حساب خود را به شناسهٔ
-        خود متصل کنید.
+      option_2: اگر از قبل حسابی دارید، شما می‌توانید با استفاده از نام کاربری و رمز
+        عبورتان وارد شوید و سپس در قسمت تنظیمات کاربریتان، حساب خود را به شناسهٔ خود
+        متصل کنید.
   user_role:
     filter:
       not_a_role: رشتهٔ '%{role}' نقش معتبری نیست.
@@ -2812,7 +2871,7 @@ fa:
       title: یادداشت‌هایی که %{user} ارسال کرده یا روی آن‌ها نظر داده
       heading: یادداشت‌های %{user}
       subheading_html: یادداشت‌هایی که %{user} ارسال کرده یا روی آن‌ها نظر داده
-      no_notes: فاقد یادداشت
+      no_notes: یادداشتی ننوشته است
       id: شناسه
       creator: ایجادکننده
       description: شرح
@@ -2914,6 +2973,9 @@ fa:
         reactivate: فعال‌سازی مجدد
         comment_and_resolve: نظر + حل شد
         comment: نظر
+        report_link_html: اگر این یادداشت حاوی اطلاعات حساسی است که باید حذف شود،
+          می‌توانید %{link}. برای سایر مشکلات مربوط به این یادداشت لطفاً خودتان همراه
+          با نوشتن نظر آن را حل کنید.
     edit_help: نقشه را جابه‌جا کنید و روی مکانی که می‌خواهید ویرایش نمایید بزرگنمایی
       کنید. سپس اینجا کلیک کنید.
     directions:

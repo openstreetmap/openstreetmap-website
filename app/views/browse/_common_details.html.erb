@@ -1,9 +1,9 @@
-<h4 class="details">
+<h4>
   <%= t "browse.version" %>
   #<%= common_details.version %>
 </h4>
 
-<p class="font-italic">
+<p class="fst-italic">
   <% if common_details.changeset.tags["comment"].present? %>
     <%= linkify(common_details.changeset.tags["comment"]) %>
   <% else %>
@@ -11,24 +11,27 @@
   <% end %>
 </p>
 
-<p class="details">
-  <%= t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
-        :time => time_ago_in_words(common_details.timestamp, :scope => :"datetime.distance_in_words_ago"),
-        :user => changeset_user_link(common_details.changeset),
-        :title => l(common_details.timestamp) %>
-  &middot;
-  <%= t "browse.in_changeset" %>
-  #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
-</p>
+<ul class="list-unstyled">
+  <li>
+    <%= t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
+          :time => time_ago_in_words(common_details.timestamp, :scope => :"datetime.distance_in_words_ago"),
+          :user => changeset_user_link(common_details.changeset),
+          :title => l(common_details.timestamp) %>
+  </li>
+  <li>
+    <%= t "browse.in_changeset" %>
+    #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
+  </li>
 
-<% if @type == "node" and common_details.visible? %>
-<div class="details geo">
-  <%= t "browse.location" %>
-  <%= link_to(t(".coordinates_html",
-                :latitude => tag.span(number_with_delimiter(common_details.lat), :class => "latitude"),
-                :longitude => tag.span(number_with_delimiter(common_details.lon), :class => "longitude")),
-              root_path(:anchor => "map=18/#{common_details.lat}/#{common_details.lon}")) %>
-</div>
-<% end %>
+  <% if @type == "node" and common_details.visible? %>
+    <li>
+      <%= t "browse.location" %>
+      <%= link_to(t(".coordinates_html",
+                    :latitude => tag.span(number_with_delimiter(common_details.lat), :class => "latitude"),
+                    :longitude => tag.span(number_with_delimiter(common_details.lon), :class => "longitude")),
+                  root_path(:anchor => "map=18/#{common_details.lat}/#{common_details.lon}")) %>
+    </li>
+  <% end %>
+</ul>
 
 <%= render :partial => "tag_details", :object => common_details.tags %>

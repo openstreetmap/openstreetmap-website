@@ -14,43 +14,89 @@
 te:
   time:
     formats:
-      friendly: '%B %e, %Y నాడు %H:%M కి'
+      friendly: '%Y %B %e న %H:%M కి'
   helpers:
+    file:
+      prompt: దస్త్రాన్ని ఎంచుకోండి
     submit:
       diary_comment:
         create: భద్రపరుచు
       diary_entry:
         create: ప్రచురించు
+        update: తాజాకరించు
+      issue_comment:
+        create: వ్యాఖ్య చేర్చండి
       message:
         create: పంపించు
       client_application:
+        create: నమోదవ్వండి
         update: తాజాకరించు
+      doorkeeper_application:
+        create: నమోదవ్వండి
+        update: తాజాకరించు
+      redaction:
+        create: సంస్కరణను సృష్టించండి
+        update: సంస్కరణను భద్రపరచు
       trace:
         create: ఎక్కించు
         update: మార్పులను భద్రపరచు
+      user_block:
+        create: నిరోధాన్ని సృష్టించండి
+        update: నిరోధాన్ని తాజాకరించండి
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: సరైన ఈ-మెయిలు చిరునామాగా అనిపించడం లేదు
+        email_address_not_routable: రూటు చెయ్యలేనిది
     models:
       acl: అనుమతి నియంత్రణ జాబితా
-      changeset: మార్పుల సమితి
+      changeset: మార్పులసమితి
+      changeset_tag: మార్పులసమితి ట్యాగు
       country: దేశం
       diary_comment: డైరీ వ్యాఖ్య
-      diary_entry: దినచర్య పద్దు
-      friend: స్నేహితుడు
+      diary_entry: డైరీ పద్దు
+      friend: మిత్రుడు
+      issue: అంశం
       language: భాష
       message: సందేశం
-      node: అంశం
-      node_tag: అంశపు ట్యాగ్
+      node: బుడిపె
+      node_tag: బుడిపె ట్యాగ్
       notifier: సూచిక
-      old_node: పాత అంశం
-      old_node_tag: పాత అంశం యొక్క ట్యాగ్
+      old_node: పాత బుడిపె
+      old_node_tag: పాత బుడిపె ట్యాగు
       old_relation: పాత సంబంధం
+      old_relation_member: పాత సంబంధం సభ్యులు
+      old_relation_tag: పాత సంబంధం ట్యాగు
       old_way: పాత పద్ధతి
+      old_way_node: పాత దారి బుడిపె
+      old_way_tag: పాత దారి ట్యాగు
       relation: సంబంధం
+      relation_member: సంబంధం సభ్యులు
+      relation_tag: సంబంధం ట్యాగు
+      report: నివేదిక
       session: సెషన్
+      trace: అనుసరించు
+      tracepoint: అనుసరణ బిందువు
+      tracetag: అనుసరణ ట్యాగు
       user: వాడుకరి
       user_preference: వాడుకరి అభిరుచి
+      user_token: వాడుకరి టోకెన్
       way: దారి
+      way_node: దారి గమనిక
+      way_tag: దారి ట్యాగు
     attributes:
+      client_application:
+        name: పేరు (ఆవశ్యకం)
+        url: ప్రధాన అనువర్తనం URL (ఆవశ్యకం)
+        callback_url: కాల్‌బ్యాక్ URL
+        support_url: సపోర్ట్ URL
+        allow_read_prefs: వారి వాడుకరి అభిరుచులను చదవండి
+        allow_write_prefs: వారి వాడుకరి అభిరుచులను మార్చు
+        allow_write_diary: డైరీ ఎంట్రీలు, వ్యాఖ్యలు సృష్టించండి, మిత్రులను చేసుకోండి
+        allow_write_api: మ్యాపును సవరించండి
+        allow_read_gpx: వారు గోప్య GPS అనుసరణలను చదవండి
+        allow_write_gpx: GPS అనుసరణలను ఎక్కించండి
+        allow_write_notes: గమనికలను సవరించు
       diary_comment:
         body: వివరణ
       diary_entry:
@@ -59,6 +105,11 @@ te:
         latitude: అక్షాంశం
         longitude: రేఖాంశం
         language: భాష
+      doorkeeper/application:
+        name: పేరు
+        redirect_uri: దారిమార్పు URI లు
+        confidential: రహస్యమైన అనువర్తనా?
+        scopes: అనుమతులు
       friend:
         user: వాడుకరి
         friend: స్నేహితుడు
@@ -71,99 +122,350 @@ te:
         longitude: రేఖాంశం
         public: బహిరంగం
         description: వివరణ
+        gpx_file: GPX దస్త్రాన్ని ఎక్కించండి
+        visibility: దృశ్యత
+        tagstring: ట్యాగులు
       message:
         sender: పంపేవారు
         title: విషయం
         body: వివరణ
         recipient: అందుకునేవారు
       redaction:
+        title: శీర్షిక
         description: వివరణ
+      report:
+        category: మీ ఫిర్యాదుకు కారణాన్ని ఎంచుకోండి
+        details: సమస్య గురించి మరిన్ని వివరాలు ఇవ్వండి (ఆవశ్యకం).
       user:
+        auth_provider: ఆథెంటికేషను ఇచ్చేవారు
+        auth_uid: ఆథెంటికేషను UID
         email: ఈ-మెయిల్
-        new_email: 'కొత్త ఈమెయిల్ చిరునామా:'
+        email_confirmation: ఈమెయిలు నిర్థారణ
+        new_email: కొత్త ఈమెయిలు చిరునామా
         active: క్రియాశీలం
         display_name: కనిపించే పేరు
-        description: వివరణ
-        home_lat: 'అక్షాంశం:'
-        home_lon: 'రేఖాంశం:'
-        languages: భాషలు
+        description: ప్రొఫైలు వివరణ
+        home_lat: అక్షాంశం
+        home_lon: రేఖాంశం
+        languages: అభీష్టమైన భాషలు
+        preferred_editor: అభీష్టమైన ఎడిటరు
         pass_crypt: సంకేతపదం
+        pass_crypt_confirmation: సంకేతపదాన్ని నిర్ధారించండి
     help:
+      doorkeeper/application:
+        confidential: క్లయంటు రహస్యాన్ని కాపాడగలిగే చోట్ల ఈ అప్లికేషన్ను వాడతాం (మొబైలు
+          యాప్‌లు, ఒకే పేజీ యాప్‌లూ గోప్యంగా ఉండవు)
+        redirect_uri: లైనుకో URI చొప్పున వాడండి
       trace:
         tagstring: కామాలతో వేరుపరచినవి
+      user_block:
+        reason: వాడుకరిని నిరోధిస్తున్న కారణం. వీలైనంత ప్రశాంతంగా, హేతుబద్ధంగా ఉండండి.
+          సందేశం బహిరంగంగా అందరూ చూడగలిగేలా ఉంటుందని గుర్తుంచుకుని, పరిస్థితి గురించి
+          వీలైనన్ని వివరాలనివ్వండి. సముదాయంలో వాడే పరిభాష వాడుకరులందరికీ అర్థం కాదని
+          మనసులో ఉంచుకుని సామాన్యులకు కూడా అర్థమయ్యే పదాలను రాయండి.
+        needs_view: ఈ నిరోధం తొలగాలంటే వాడుకరి లాగినవ్వాలా?
       user:
+        email_confirmation: మీ చిరునామాను బహిరంగంగా చూపించం. మరింత సమాచారం కోసం మా
+          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
+          privacy policy including section on email addresses">గోప్యతా సమాచారం</a>
+          చూడండి.
         new_email: (బహిరంగంగా ఎన్నటికీ చూపించబడదు)
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: సుమారు 1 గంట క్రితం
+        other: సుమారు %{count} గంటల క్రితం
+      about_x_months:
+        one: సుమారు 1 నెల క్రితం
+        other: సుమారు %{count} నెలల క్రితం
+      about_x_years:
+        one: సుమారు 1 సంవత్సరం క్రితం
+        other: సుమారు %{count} సంవత్సరాల క్రితం
+      almost_x_years:
+        one: దాదాపు 1 సంవత్సరం క్రితం
+        other: దాదాపు %{count} సంవత్సరాల క్రితం
+      half_a_minute: అర నిమిషం క్రితం
+      less_than_x_seconds:
+        one: 1 సెకండు లోపు సమయం క్రితం
+        other: '%{count} సెకండ్ల లోపు సమయం క్రితం'
+      less_than_x_minutes:
+        one: ఒక నిమిషం లోపు సమయం క్రితం
+        other: '%{count} నిమిషాల లోపు సమయం క్రితం'
+      over_x_years:
+        one: '1 సంవత్సరానికి పైబడిన సమయం క్రితం '
+        other: '%{count} సంవత్సరాలకు పైబడిన సమయం క్రితం'
+      x_seconds:
+        one: 1 సెకండు క్రితం
+        other: '%{count} సెకండ్ల క్రితం'
+      x_minutes:
+        one: 1 నిమిషం క్రితం
+        other: '%{count} నిమిషాల క్రితం'
+      x_days:
+        one: 1 రోజు క్రితం
+        other: '%{count} రోజుల క్రితం'
+      x_months:
+        one: 1 నెల క్రితం
+        other: '%{count} నెలల క్రితం'
+      x_years:
+        one: 1 సంవత్సరం క్రితం
+        other: '%{count} సంవత్సరాల క్రితం'
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: అప్రమేయం (ప్రస్తుతం %{name})
+    id:
+      name: ఐడీ
+      description: ఐడీ (బ్రౌజర్లోని ఎడిటరు)
+    remote:
+      name: రిమోట్ కంట్రోలు
+      description: రిమోట్ కంట్రోలు (JOSM, Potlatch, Merkaartor)
+  auth:
+    providers:
+      none: ఏదీకాదు
+      openid: ఓపెన్‌ఐడీ
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: వికీపీడియా
   api:
     notes:
+      comment:
+        opened_at_html: '%{when} సృష్టించారు'
+        opened_at_by_html: '%{when}, %{user} సృష్టించారు'
+        commented_at_html: '%{when} తాజాకరించారు'
+        commented_at_by_html: '%{when}, %{user} తాజాకరించారు'
+        closed_at_html: '%{when} పరిష్కరించారు'
+        closed_at_by_html: '%{when}, %{user} పరిష్కరించారు'
+        reopened_at_html: '%{when} పునరుజ్జీవింపజేసారు'
+        reopened_at_by_html: '%{when}, %{user} పునరుజ్జీవింపజేసారు'
+      rss:
+        title: OpenStreetMap గమనికలు
+        description_area: మీ ప్రాంత [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+          నుండి వచ్చిన గమనికలు, ఫిర్యాదులు, వ్యాఖ్యల జాబితా
+        description_item: '%{id} గమనికకు rss వడ్డన'
+        opened: కొత్త గమనిక (%{place} సమీపాన)
+        commented: కొత్త వ్యాఖ్య (%{place} సమీపాన)
+        closed: మూసేసిన గమనిక (%{place} సమీపాన)
+        reopened: పునరుజ్జీవిత గమనిక (%{place} సమీపాన)
       entry:
         comment: వ్యాఖ్య
         full: పూర్తి గమనిక
+  account:
+    deletions:
+      show:
+        title: నా ఖాతాని తొలగించు
+        warning: హెచ్చరిక! ఖాతా తొలగించడమనేది అంతిమ చర్య, ఇక దాన్ని వెనక్కి తిప్పలేం.
+        delete_account: ఖాతాని తొలగించు
+        delete_introduction: 'కిందనున్న బొత్తాన్ని వాడి మీ OpenStreetMap ఖాతాను తొలగించవచ్చు.
+          కింది వివరాలను గమనించండి:'
+        delete_profile: మీ ప్రొఫైలు సమాచారాన్ని, అవతార్, వివరం, ఇంటి స్థానంతో సహా
+          తీసేస్తాం.
+        delete_display_name: మీ ప్రదర్శన పేరును తీసేస్తాం. దాన్ని ఇతర ఖాతాలవారు వాడుకునే
+          వీలు కలుగుతుంది.
+        retain_caveats: అయితే, ఖాతాను తొలగించాక కూడా మీకు సంబంధించిన కొంత సమాచారాన్ని
+          OpenStreetMap లో మిగిలిపోతుంది.
+        retain_edits: మ్యాపు డేటాబేసులో మీరు చేసిన దిద్దుబాట్లేమైనా ఉంటే వాటిని ఉంచేస్తాం.
+        retain_traces: మీరు ఎక్కించిన ట్రేసులను ఉంచేస్తాం.
+        retain_diary_entries: మీరు రాసిన డైరీ పద్దులు, డైరీ వ్యాఖ్యలను ఉంచేస్తాం.
+          కానీ వాటిని కనబడకుండా దాచి ఉంచుతాం.
+        retain_notes: మీ మ్యాపు గమనికలు, గమనికల వ్య్కాహ్యలను ఉంచేస్తాం. కానీ వాటిని
+          కనబడకుండా దాచి ఉంచుతాం.
+        retain_changeset_discussions: మీరు చేసిన మార్పులసమితి చర్చలను ఉంచేస్తాం.
+        retain_email: మీ ఈమెయిలు చిరెఉనామాను ఉంచేస్తాం.
+        confirm_delete: నిశ్చయించుకున్నారా?
+        cancel: రద్దుచేయి
+  accounts:
+    edit:
+      title: ఖాతా మార్పు
+      my settings: నా అమరికలు
+      current email address: ప్రస్తుత ఈమెయిలు చిరునామా
+      external auth: బయటి ఆథెంటికేషను
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: ఇది ఏమిటి?
+      public editing:
+        heading: బహిరంగ ఎడిటింగు
+        enabled: చేతనం. అజ్ఞాతగా లేరు, అంచేత దిద్దుబాట్లు చెయ్యవచ్చు.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: ఇది ఏమిటి?
+        disabled: అచేతనంగా ఉంది, అంచేత దిద్దుబాట్లు చెయ్యలేరు. ఇంతకుముందు చేసిన దిద్దుబాట్లన్నీ
+          అజ్ఞాతగా చేసినవే.
+        disabled link text: నేను ఎందుకు మార్చలేను?
+      public editing note:
+        heading: బహిరంగ ఎడిటింగు
+        html: ప్రస్తుతం మీ దిద్దుబాట్లు అజ్ఞాతగా చేస్తున్నారు. ఇతరులు మీ కు సందేశాలు
+          పంపలేరు, మీ స్థానాన్ని చూడలేరు. మీ దిద్దుబాట్లను వాళ్ళకు చూపించేందుకు, ఈ
+          వెబ్‌సైటు ద్వారా వాళ్ళు మిమ్మల్ని సంప్రదించే వీలు కలిగించేందుకూ కింది బొత్తాన్ని
+          నొక్కండి. <b>0.6 API మార్పు తరువాత, మ్యాపుల డేటాను బహిరంగ వాడుకరులు మాత్రమే
+          దిద్దుబాటు చేసే వీలుంది</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">ఎందుకో
+          తెలుసు కోండి</a>).<ul><li>మిమ్మల్ని మీరు బహిరంగ పరచినంత మాత్రాన మీ ఈమెయిలు
+          చిరునామాను బహిరంగపరచం.</li><li>ఇది తిరగ్గొట్టలేని చర్య, కొత్త వాడుకరులంతా
+          డిఫాల్టుగా బహిరంగంగా ఉంటారు.</li></ul>
+      contributor terms:
+        heading: తోడ్పాటు నియమాలు
+        agreed: మీరు కొత్త తోడ్పాటు నియమాలకు అంగీకరించారు.
+        not yet agreed: మీరు కొత్త తోడ్పాటు నియమాలకు అంగీకరించలేదు.
+        review link text: మీ వీలును బట్టి ఈ లింకుకు వెళ్ళి కొత్త తోడ్పాటు నియమాలను
+          చూసి, అంగీకరించండి.
+        agreed_with_pd: మీరు చేసే దిద్దుబాట్లు బహిరంగ డొమెయిన్‌లో ఉంటాయని భావిస్తున్నట్లుగా
+          కూడా ప్రకటించారు.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link text: ఇది ఏమిటి?
+      save changes button: మార్పులను భద్రపరచు
+      make edits public button: నా దిద్దుబాట్లన్నింటినీ బహిరంగం చేయి
+      delete_account: ఖాతాని తొలగించు...
+    update:
+      success_confirm_needed: వాడుకరి సమాచారాన్ని జయప్రదంగా తాజాకరించాం. మీ కొత్త
+        ఈమెయిలు చిరునామాను ధ్రువీకరించేందుకు మెయిల్లో వచ్చిన గమనింపును చూడండి.
+      success: వాడుకరి సమాచారం విజయవంతంగా తాజాకరించబడింది.
+    destroy:
+      success: ఖాతాను తొలగించాం.
   browse:
     created: 'సృష్టించబడినది:'
     closed: ముగించబడింది
-    created_html: <abbr title='%{title}'>%{time}</abbr> సృష్టించబడింది
-    closed_html: <abbr title='%{title}'>%{time}</abbr> మూసివేయబడింది
-    created_by_html: <abbr title='%{title}'>%{time}</abbr>, %{user} చే సృష్టించబడింది
+    created_html: <abbr title='%{title}'>%{time}</abbr> సృష్టించారు
+    closed_html: <abbr title='%{title}'>%{time}</abbr> మూసివేసారు
+    created_by_html: <abbr title='%{title}'>%{time}</abbr>, %{user} సృష్టించారు
     deleted_by_html: <abbr title='%{title}'>%{time}</abbr>, %{user} చే తొలగించబడింది
     edited_by_html: <abbr title='%{title}'>%{time}</abbr>, %{user} చే సరిదిద్దబడింది
-    closed_by_html: <abbr title='%{title}'>%{time}</abbr>, %{user} చే మూసివేయబడింది
+    closed_by_html: <abbr title='%{title}'>%{time}</abbr>, %{user} మూసివేసారు
     version: సంచిక
+    in_changeset: మార్పులసమితి
     anonymous: అజ్ఞాత
     no_comment: (వ్యాఖ్య లేదు)
     part_of: ఇందులో భాగం
+    part_of_relations:
+      one: 1 సంబంధం
+      other: '%{count} సంబంధాలు'
+    part_of_ways:
+      one: 1 దారి
+      other: '%{count} దారులు'
+    download_xml: XML ను దించుకోండి
     view_history: చరిత్రను చూడండి
     view_details: వివరాలను చూడండి
     location: 'ప్రాంతం:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
+      title: 'మార్పులసమితి: %{id}'
       belongs_to: రచయిత
+      node: బుడిపెలు (%{count})
+      node_paginated: బుడిపెలు (%{count} లో %{x}-%{y})
       way: మార్గాలు (%{count})
+      way_paginated: దారులు (%{count} లో %{x}-%{y})
       relation: సంబంధాలు (%{count})
       relation_paginated: '%{count} లో %{x}-%{y} యొక్క సంబంధాలు'
       comment: వ్యాఖ్యలు (%{count})
+      hidden_commented_by_html: <abbr title='%{exact_time}'>%{when}</abbr> %{user}
+        గారి దాచిన వ్యాఖ్య
       commented_by_html: '%{user} నుండి వ్యాఖ్య <abbr title=''%{exact_time}''>%{when}
         క్రితం</abbr>'
+      changesetxml: మార్పులసమితి XML
+      osmchangexml: osmChange XML
+      feed:
+        title: మార్పులసమితి %{id}
+        title_comment: మార్పులసమితి %{id} - %{comment}
+      join_discussion: చర్చలో పాల్గొనేందుకు లాగినవండి
       discussion: చర్చ
+      still_open: మార్పులసమితి ఇంకా తెరిచే ఉంది - దాన్ని మూసివేయగానే చర్చ తెరుచుకుంటుంది.
     node:
       title_html: 'బిందువు: %{name}'
+      history_title_html: 'బుడిపె చరిత్ర: %{name}'
     way:
       title_html: 'దారి: %{name}'
       history_title_html: 'దారి చరిత్ర: %{name}'
+      nodes: బుడిపెలు
+      also_part_of_html:
+        one: '%{related_ways} దారిలో భాగం'
+        other: '%{related_ways} దారుల్లో భాగం'
     relation:
       title_html: 'సంబంధం: %{name}'
       history_title_html: 'సంబంధపు చరిత్ర: %{name}'
       members: సభ్యులు
+      members_count:
+        one: 1 సభ్యుడు/సభ్యురాలు
+        other: '%{count} సభ్యులు'
     relation_member:
+      entry_html: '%{type} %{name}'
+      entry_role_html: '%{type} %{name}, %{role} లాగా'
       type:
+        node: బుడిపె
         way: దారి
         relation: సంబంధం
     containing_relation:
       entry_html: '%{relation_name} సంబంధం'
+      entry_role_html: '%{relation_name} సంబంధం (%{relation_role} లాగా)'
     not_found:
+      title: కనబడలేదు
       sorry: 'క్షమించండి, %{type} #%{id} కనబడలేదు.'
       type:
+        node: బుడిపె
         way: దారి
         relation: సంబంధం
+        changeset: మార్పులసమితి
+        note: గమనిక
     timeout:
+      title: టైమౌట్ లోపం
+      sorry: సారీ, %{type} రకంలో, %{id} ఐడీకి డేటాను తేవడానికి బాగా ఎక్కువ సమయం పట్టింది.
       type:
+        node: బుడిపె
         way: దారి
         relation: సంబంధం
+        changeset: మార్పులసమితి
+        note: బుడిపె
     redacted:
+      redaction: సంస్కరణ %{id}
+      message_html: ఈ %{type} రకపు కూర్పు %{version} ను సంస్కరించినట్లుగా చూపించలేం.
+        వివరాలకు %{redaction_link} చూడండి.
       type:
+        node: బుడిపె
         way: దారి
         relation: సంబంధం
     start_rjs:
+      feature_warning: '%{num_features} విశేషాలను లోడు చేస్తున్నాం. దీనివలన మీ బ్రౌజరు
+        నెమ్మదించడం గానీ, స్పందించకపోవడం గానీ జరగవచ్చు. ఈ డేటాను చూపించమనే మీ నిశ్చయమా?'
+      load_data: డేటాను లోడు చెయ్యి
       loading: లోడవుతోంది...
     tag_details:
       tags: ట్యాగులు
+      wiki_link:
+        key: '%{key} ట్యాగుకు వికీ వివరణ పేజీ'
+        tag: '%{key}=%{value} ట్యాగుకు వికీ వివరణ పేజీ'
+      wikidata_link: వికీడేటాలో %{page} అంశం
       wikipedia_link: వికీపీడియాలో %{page} వ్యాసం
+      wikimedia_commons_link: వికీమీడియా కామన్స్‌లో %{page} అంశం
+      telephone_link: '%{phone_number} కు కాల్ చెయ్యి'
+      colour_preview: '%{colour_value} రంగు మునుజూపు'
     note:
       title: 'గమనిక: %{id}'
       new_note: కొత్త గమనిక
       description: వివరణ
+      open_title: 'పరిష్కరించని గమనిక #%{note_name}'
+      closed_title: 'పరిష్కారమైన గమనిక #%{note_name}'
+      hidden_title: 'దాచిన గమనిక #%{note_name}'
+      opened_by_html: <abbr title='%{exact_time}'>%{when}</abbr> %{user} సృష్టించారు
+      opened_by_anonymous_html: <abbr title='%{exact_time}'>%{when}</abbr> అజ్ఞాత
+        సృష్టించారు
+      commented_by_html: <abbr title='%{exact_time}'>%{when}</abbr> %{user} చేసిన
+        వ్యాఖ్య
+      commented_by_anonymous_html: <abbr title='%{exact_time}'>%{when}</abbr> అజ్ఞాత
+        చేసిన వ్యాఖ్య
+      closed_by_html: <abbr title='%{exact_time}'>%{when}</abbr> %{user} పరిష్కరించారు
+      closed_by_anonymous_html: <abbr title='%{exact_time}'>%{when}</abbr> అజ్ఞాత
+        పరిష్కరించారు
+      reopened_by_html: <abbr title='%{exact_time}'>%{when}</abbr> %{user} పునరుజ్జీవింపజేసారు
+      reopened_by_anonymous_html: <abbr title='%{exact_time}'>%{when}</abbr> అజ్ఞాత
+        పునరుజ్జీవింపజేసారు
+      hidden_by_html: <abbr title='%{exact_time}'>%{when}</abbr> %{user} దాచారు
+      report: ఈ గమనికపై ఫిర్యాదు చెయ్యండి
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
+      title: క్వెరీ విశేషాలు
+      introduction: సమీపం లోని అంశాలను చూసేందుకు మ్యాపుపై నొక్కండి.
       nearby: దగ్గర్లోని విశేషాలు
+      enclosing: అంశాలమ్ను శోధిస్తున్నారు
   changesets:
     changeset_paging_nav:
       showing_page: పేజీ %{page}
@@ -172,6 +474,7 @@ te:
     changeset:
       anonymous: అనామకం
       no_edits: (మార్పులు లేవు)
+      view_changeset_details: మార్పులసమితి వివరాలు చూడండి
     changesets:
       id: ఐడీ
       saved_at: భద్రపరచిన సమయం
@@ -181,16 +484,49 @@ te:
     index:
       title: మార్పుల సమితులు
       title_user: '%{user} చేసిన మార్పులసమితులు'
+      title_friend: నా మిత్రుల మార్పులసమితులు
+      title_nearby: దగ్గర్లోని వాడుకరుల మార్పులసమితులు
+      empty: మార్పులసమితులేమీ కనబడలేదు.
+      empty_area: ఈ ప్రాంతంలో మార్పులసమితులేమీ లేవు.
+      empty_user: ఈ వాడుకరి చేసిన మార్పులసమితులేమీ లేవు.
+      no_more: మరిన్ని మార్పులసమితులు కనబడలేదు.
+      no_more_area: ఈ ప్రాంతంలో మార్పులసమితులు మరి లేవు.
+      no_more_user: ఈ వాడుకరి మార్పులసమితులు ఇక లేవు.
       load_more: మరిన్ని చూపించు
+    timeout:
+      sorry: సారీ, మీరడిగిన మార్పులసమితుల జాబితాను తేవడంలో చాలా సమయం పట్టింది.
+  changeset_comments:
+    comment:
+      comment: '#%{changeset_id} మార్పులసమితిపై %{author} వ్యాఖ్య ఏమీ చెయ్యలేదు'
+      commented_at_by_html: '%{when} %{user} తాజాకరించారు'
+    comments:
+      comment: '#%{changeset_id} మార్పులసమితిపై %{author} గారి కొత్త వ్యాఖ్య'
+    index:
+      title_all: OpenStreetMap మార్పులసమితి చర్చ
+      title_particular: 'OpenStreetMap మార్పులసమితి #%{changeset_id} చర్చ'
+    timeout:
+      sorry: సారీ, మీరడిగిన మార్పులసమితి వ్యాఖ్యలు తేవడానికి చాలా సమయం పట్టింది.
   dashboards:
     contact:
       km away: '%{count}కిమీ దూరంలో'
       m away: '%{count}మీ దూరంలో'
     popup:
       your location: మీ ప్రాంతం
+      nearby mapper: సమీపం లోని మ్యాపరు
+      friend: మిత్రుడు
     show:
+      title: నా డ్యాష్‌బోర్డు
+      no_home_location_html: మీ సమీపం లోని వాడూకరులను చూసేందుకు %{edit_profile_link}
+        కు వెళ్ళి మీ స్థానాన్ని సెట్ చేసుకోండి.
+      edit_your_profile: మీ  ప్రొఫైలును సవరించండి
+      my friends: నా మిత్రులు
       no friends: మీరు ఇంకా స్నేహితులెవరినీ చేర్చలేదు.
       nearby users: 'దగ్గరలోని వాడుకరులు:'
+      no nearby users: మ్యాపింగు చేస్తామని చెబుతున్న వాడుకరులు సమీపంలో ఇంకా ఎవరూ లేరు.
+      friends_changesets: మిత్రుల మార్పులసమితులు
+      friends_diaries: మిత్రుల డైరీ పద్దులు
+      nearby_changesets: దగ్గర్లోని వాడుకరుల మార్పులసమితులు
+      nearby_diaries: సమీపం లోని వాడుకరుల డైరీ పద్దులు
   diary_entries:
     new:
       title: కొత్త దినచర్య పద్దు
@@ -204,68 +540,134 @@ te:
       user_title: '%{user} దినచర్య'
       in_language_title: '%{language}లో ఉన్న డైరీ పద్దులు'
       new: కొత్త దినచర్య పద్దు
+      new_title: నా వాడుకరి డైరీలో ఓ కొత్త పద్దు రాయండి
+      my_diary: నా డైరీ
       no_entries: డైరీ పద్దులు లేవు
       recent_entries: ఇటీవలి డైరీ పద్దులు
       older_entries: పాత పద్దులు
       newer_entries: కొత్త పద్దులు
     edit:
       title: డైరీ పద్దును మార్చు
+      marker_text: డైరీ పద్దు స్థానం
     show:
       title: '%{user} డైరీ | %{title}'
       user_title: '%{user} డైరీ'
       leave_a_comment: వ్యాఖ్యానించండి
       login_to_leave_a_comment_html: వ్యాఖ్యానించడానికి %{login_link}
       login: ప్రవేశించండి
+    no_such_entry:
+      title: అలాంటి డైరీ పద్దు ఏదీ లేదు
+      heading: 'ఈ ఐడీతో పద్దు లేదు: %{id}'
+      body: సారీ, %{id} అనే ఐడీతో డైరీ పద్దు గాని, వ్యాఖ్య గానీ లేదు. లేదా మీరు నొక్కిన
+        లింకు తప్పై ఉండవచ్చు.
     diary_entry:
+      posted_by_html: '%{link_user}, %{created} న %{language_link} లో పోస్టు చేసారు'
+      updated_at_html: చివరిగా %{updated} న తాజాకరించారు.
       comment_link: ఈ పద్దుపై వ్యాఖ్యానించండి
-      reply_link: ఈ పద్దుపై స్పందించండి
+      reply_link: కర్తకు సందేశం పంపండి
       comment_count:
         zero: వ్యాఖ్యలు లేవు
         one: '%{count} వ్యాఖ్య'
         other: '%{count} వ్యాఖ్యలు'
       edit_link: ఈ పద్దును సవరించు
       hide_link: ఈ పద్దును దాచు
-      confirm: నిర్ధారించు
+      unhide_link: ఈ పద్దును చూపు
+      confirm: నిర్థారించండి
+      report: ఈ పద్దుపై ఫిర్యాదు చెయ్యండి
     diary_comment:
+      comment_from_html: '%{comment_created_at} %{link_user} చేసిన వ్యాఖ్య'
       hide_link: ఈ వ్యాఖ్యను దాచు
+      unhide_link: ఈ వ్యాఖ్యను చూపు
       confirm: నిర్ధారించు
+      report: ఈ వ్యాఖ్యపై ఫిర్యాదు చెయ్యి
     location:
       location: 'ప్రాంతం:'
       view: చూడండి
       edit: మార్చు
+      coordinates: '%{latitude}; %{longitude}'
+    feed:
+      user:
+        title: '%{user} చేర్చిన OpenStreetMap డైరీ పద్దులు'
+        description: '%{user} చేర్చిన ఇటీవలి OpenStreetMap డైరీ పద్దులు'
+      language:
+        title: '%{language_name} లో చేర్చిన OpenStreetMap డైరీ పద్దులు'
+        description: OpenStreetMap వాడుకరులు %{language_name} లో చేర్చిన ఇటీవలి డైరీ
+          పద్దులు
+      all:
+        title: OpenStreetMap డైరీ పద్దులు
+        description: OpenStreetMap వాడుకరులు ఇటీవల చేర్చిన డైరీ పద్దులు
     comments:
+      title: '%{user} చేర్చిన డైరీ వ్యాఖ్యలు'
+      heading: '%{user} గారి డైరీ వ్యాఖ్యలు'
+      subheading_html: '%{user} డైరీ వ్యాఖ్యలను చేర్చారు'
+      no_comments: డైరీ వ్యాఖ్యలేమీ లేవు
       post: పంపించు
       when: ఎప్పుడు
       comment: వ్యాఖ్య
       newer_comments: కొత్త వ్యాఖ్యలు
       older_comments: పాత వ్యాఖ్యలు
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: అనువర్తనం నమోదైంది.
   friendships:
     make_friend:
+      heading: '%{user} ను మిత్రులుగా చేర్చాలా?'
+      button: మిత్రులుగా చేర్చు
       success: '%{name} ఇప్పుడు మీ మిత్రులు!'
+      failed: సారీ, %{name} ను మిత్రులుగా చేర్చలేకపోయాం.
       already_a_friend: '%{name} మీకు ఇప్పటికే స్నేహితులు.'
+      limit_exceeded: మీరు ఈ మధ్య చాలామందితో మైత్రి కలుపుకున్నారు. మరింత మందితో మైత్రి
+        కలుపుకునే ముందు కాస్త ఆగండి.
+    remove_friend:
+      heading: '%{user} తో మైత్రి ఆపేస్తారా?'
+      button: మైత్రిని ఆపు
+      success: '%{name} ను మీ మిత్రుల జాబితా నుండి తీసేసాం.'
+      not_a_friend: '%{name} మీ మిత్రులు కాదు.'
   geocoder:
     search:
       title:
         latlon_html: <a href="http://openstreetmap.org/">అంతర్గత</a> ఫలితాలు
         ca_postcode_html: <a href="http://geocoder.ca/">Geocoder.CA</a> నుండి ఫలితాలు
+        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a> నుండి ఫలితాలు
         geonames_html: <a href="http://www.geonames.org/">GeoNames</a> నుండి ఫలితాలు
+        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a> నుండి ఫలితాలు
+        geonames_reverse_html: <a href="http://www.geonames.org/">GeoNames</a> నుండి
+          ఫలితాలు
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: కేబుల్ కారు
           chair_lift: చెయిర్ లిఫ్ట్
           drag_lift: డ్రాగ్ లిఫ్ట్
           gondola: గొండోలా లిఫ్ట్
+          magic_carpet: మాయ దుప్పటిపై లేవడం
+          platter: ప్లాటర్ లిఫ్టు
+          pylon: పైలాన్
           station: ఆకాశమార్గ స్టేషను
+          t-bar: T-బార్ లిఫ్టు
+          "yes": వాయు మార్గం
         aeroway:
           aerodrome: విమానాశ్రయం
+          airstrip: ఎయిర్‌స్ట్రిప్
           apron: విమానాశ్రయ విమానరహదారి
           gate: గేటు
+          hangar: హ్యంగర్
           helipad: హెలిప్యాడ్
+          holding_position: హోల్డింగ్ పొజిషన్
+          navigationaid: వైమానిక వేవిగేషను సహాయకం
+          parking_position: పార్కింగు పొజిషన్
           runway: రన్‍వే
+          taxilane: ట్యాక్సీ లేన్
           taxiway: ట్యాక్సీదారి
           terminal: ఆఖరి స్టేషను
+          windsock: విండ్‌సాక్
         amenity:
+          animal_boarding: జంతువుల హాస్టలు
           animal_shelter: పశుగృహం
           arts_centre: కళాకేంద్రం
           atm: ఏటీఎం
@@ -275,7 +677,9 @@ te:
           bench: బెంచీ
           bicycle_parking: సైకిళ్ళు నిలుపు స్థలం
           bicycle_rental: సైకిల్ అద్దెకిచ్చు స్థలం
+          bicycle_repair_station: సైకిలు రిపేరు స్థలం
           biergarten: బీరు తోట
+          blood_bank: రక్త నిధి
           boat_rental: బోట్ అద్దెకు
           brothel: వేశ్యావాటిక
           bus_station: బస్సలు ఆగు చోటు
@@ -284,11 +688,14 @@ te:
           car_sharing: కార్లు పంచుకునే స్థలం
           car_wash: కార్లు శుభ్రం చేసే స్థలం
           casino: జూదగృహం
+          charging_station: ఛార్జింగు స్టేషన్
+          childcare: శిశుకేంద్రం
           cinema: సినిమా
           clinic: ఆసుపత్రి
           clock: గడియారం
           college: కళాశాల
           community_centre: సామాజిక కేంద్రం
+          conference_centre: సమావేశ కేంద్రం
           courthouse: న్యాయస్థానం
           crematorium: శ్మశానవాటిక
           dentist: దంతవైద్యుడు
@@ -296,179 +703,710 @@ te:
           drinking_water: త్రాగు నీరు
           driving_school: డ్రైవింగ్ పాఠశాల
           embassy: దౌత్య కార్యాలయం
+          events_venue: ఘటనా వేదిక
           fast_food: అల్పాహారం
+          ferry_terminal: ఫెర్రీ టర్మినల్
+          fire_station: అగ్నిమాపక కేంద్రం
+          food_court: ఆహార శాల
+          fountain: ఫౌంటెన్
           fuel: ఇంధనం
+          gambling: జూదం
           grave_yard: స్మశానం
+          grit_bin: Grit Bin
           hospital: ఆసుపత్రి
+          hunting_stand: వేట మంచె
           ice_cream: ఐస్ క్రీం
+          internet_cafe: ఇంటర్నెట్ కేఫ్
+          kindergarten: కిండర్‌గార్టెన్
+          language_school: భాషా పాఠశాల
           library: గ్రంథాలయం
+          loading_dock: లోడు చేసే రేవు
+          love_hotel: ప్రేమ హాస్టలు
           marketplace: సంత
+          mobile_money_agent: మొబైల్ మనీ ఏజంటు
+          monastery: ఆశ్రమం
+          money_transfer: డబ్బు బదిలీ
+          motorcycle_parking: మోటార్ సైకిలు పార్కింగు
+          music_school: సంగీత పాఠశాల
+          nightclub: నైట్ క్లబ్బు
+          nursing_home: నర్సింగ్ హోమ్
           parking: పార్కింగు
+          parking_entrance: పార్కింగు ప్రవేశం
+          parking_space: పార్కింగు ప్రదేశం
+          payment_terminal: చెల్లింపుల కేంద్రం
           pharmacy: మందుల దుకాణం
           place_of_worship: పూజా స్థలం
           police: పోలీసు
           post_box: తపాలా పెట్టె
           post_office: తపాలా కార్యాలయం
           prison: జైలు
+          pub: పబ్
+          public_bath: బహిరంగ స్నానఘట్టం
+          public_bookcase: బహిరంగ పుస్తకాల అలమర
+          public_building: బహిరంగ భవనం
+          ranger_station: రేంజర్ స్టేషను
+          recycling: రీసైక్లింగ్ పాయింటు
+          restaurant: రెస్టారెంటు
+          sanitary_dump_station: శానిటరీ డంపు స్టేషను
           school: బడి
+          shelter: ఆశ్రయం
+          shower: షవరు
+          social_centre: సామాజిక కేంద్రం
+          social_facility: సమాజిక సౌకర్యం
+          studio: స్టూడియో
           swimming_pool: ఈత కొలను
           taxi: టాక్సీ
           telephone: ప్రజా టెలీఫోను
           theatre: థియేటరు
           toilets: మరుగుదొడ్లు
+          townhall: గ్రామ కచేరి
+          training: శిక్షణ కేంద్రం
           university: విశ్వవిద్యాలయం
+          vehicle_inspection: వాహన తనిఖీ
+          vending_machine: వెండింగ్ యంత్రం
+          veterinary: పశు శస్త్రచికిత్స
+          village_hall: రచ్చబండ
           waste_basket: చెత్త బుట్ట
+          waste_disposal: వ్యర్థ పదార్థాల పారవేత
+          waste_dump_site: వ్యర్థాల డంపు స్థలం
+          watering_place: నీటి మడుగు
+          water_point: నీటి స్థలం
+          weighbridge: వే బ్రిడ్జి
+          "yes": సదుపాయం
         boundary:
+          aboriginal_lands: మూలవాసుల భూములు
           administrative: పరిపాలనా సరిహద్దు
+          census: జనగణన సరిహద్దు
           national_park: జాతీయ ఉద్యానవనం
+          political: నియోజకవర్గ సరిహద్దు
           protected_area: రక్షిత ప్రదేశం
+          "yes": సరిహద్దు
         bridge:
+          aqueduct: యాక్విడక్టు
+          boardwalk: బోర్డ్‌వాక్
+          suspension: వేలాడే వంతెన
+          swing: ఉయ్యాల వంతెన
+          viaduct: వయాడక్టు
           "yes": వంతెన
         building:
+          apartment: అపార్ట్‌మెంటు
+          apartments: అపార్ట్‌మెంట్లు
+          barn: బార్నీ
+          bungalow: బంగళా
+          cabin: పూరిల్లు
+          chapel: చాపెల్
           church: చర్చి కట్టడం
+          civic: పౌర సదుపాయ భవనం
+          college: కాలేజీ భవనం
+          commercial: వాణిజ్య భవనం
+          construction: నిర్మాణంలో ఉన్న భవనం
+          detached: విడిగా ఉన్న ఇల్లు
+          dormitory: డార్మిటరీ
+          duplex: డూప్లెక్స్ ఇల్లు
+          farm: ఫార్మ్ హౌస్
+          farm_auxiliary: ఆక్జిలరీ ఫార్మ్ హౌస్
+          garage: గ్యారేజీ
+          garages: గ్యారేజీలు
+          greenhouse: గ్రీన్‌హౌస్
+          hangar: హ్యాంగర్
+          hospital: ఆసుపత్రి భవనం
+          hotel: హోటలు భవనం
+          house: ఇల్లు
+          houseboat: హౌస్‌బోట్
+          hut: గుడిసె
+          industrial: పరిశ్రమ భవనం
+          kindergarten: కిండర్‌గార్టెన్ భవనం
+          manufacture: తయారీ భవనం
+          office: కార్యాలయ భవనం
+          public: పబ్లిక్ భవనం
+          residential: నివాస భవనం
+          retail: రీటెయిల్ భవనం
+          roof: కప్పు
+          ruins: శిథిల భవనం
+          school: పాఠశాల భవనం
+          semidetached_house: కొంత విడిగా ఉన్న భవనం
+          service: సేవా భవనం
+          shed: షెడ్డు
+          stable: గుర్రపు శాల
+          static_caravan: క్యారవాన్
+          temple: ఆలయ భవనం
+          terrace: టెర్రేస్ భవనం
+          train_station: రైల్వే స్టేషను భవనం
+          university: విశ్వవిద్యాలయ భవనం
+          warehouse: గిడ్డంగి
           "yes": భవనం
+        club:
+          scout: స్కౌట్ గ్రూపు స్థావరం
+          sport: క్రీడా క్లబ్బు
+          "yes": క్లబ్బు
         craft:
+          beekeeper: Beekeeper
+          blacksmith: కమ్మరి
+          brewery: బ్రూవరీ
+          carpenter: వడ్రంగి
+          caterer: క్యాటరర్
+          confectionery: కాన్ఫెక్షనరీ
+          dressmaker: టైలరు
+          electrician: ఎలక్ట్రీషియన్
+          electronics_repair: ఎలక్ట్రానిక్స్ రిపేరు
+          gardener: తోటమాలి
+          glaziery: Glaziery
+          handicraft: హస్తకళ
+          hvac: HVAC Craft
+          metal_construction: లోహాల పనివారు
           painter: పెయింటర్
           photographer: చాయాగ్రాహకుడు
+          plumber: ప్లంబరు
+          roofer: కప్పునేత పనివాడు
+          sawmill: కోతమిల్లు
+          shoemaker: చెప్పుల తయారీదారు
+          stonemason: కట్టుబడీ మేస్త్రీ
           tailor: దర్జీ
+          window_construction: కిటికీ తయారీ
+          winery: వైనరీ
+          "yes": క్రాఫ్టు దుకాణం
+        emergency:
+          access_point: Access Point
+          ambulance_station: అంబులెన్సు కేంద్రం
+          assembly_point: కూటమి స్థలం
+          defibrillator: డీఫైబ్రిలేటర్
+          fire_extinguisher: అగ్నిమాపకం
+          fire_water_pond: అగ్ని మాపక నీటి దొరువు
+          landing_site: అత్యవసర ల్యాండీంగు స్థలం
+          life_ring: అత్యవసర లైఫ్ రింగు
+          phone: అత్యవసర ఫోను
+          siren: అత్యవసర సైరను
+          suction_point: అత్యవసర సక్షన్ స్థానం
+          water_tank: అత్యవసర నీటి ట్యాంకు
         highway:
+          abandoned: విసర్జిత హైవే
+          bridleway: Bridleway
+          bus_guideway: బస్ లేన్
+          bus_stop: బస్ స్టాపు
+          construction: నిర్మాణంలో ఉన్న హైవే
+          corridor: నడవా
+          crossing: క్రాసింగు
+          cycleway: సైకిలు దారి
+          elevator: లిఫ్టు
+          emergency_access_point: అత్యవసర యాక్సెస్ స్థానం
+          emergency_bay: అత్యవసర బే
           footway: కాలినడక దారి
+          ford: చప్టా
+          give_way: దారి ఇవ్వు సూచిక
+          living_street: నివాసాల దారి
           milestone: మైలురాయి
+          motorway: మోటార్‌వే
+          motorway_junction: మోటార్‌వే కూడలి
+          motorway_link: మోటార్‌వే రోడ్డు
+          passing_place: Passing Place
           path: దారి
           pedestrian: కాలిబాట
+          platform: ప్లాట్‌ఫారం
           primary: ప్రధాన రహదారి
           primary_link: ప్రధాన రహదారి
+          proposed: ప్రతిపాదిత రోడ్డు
+          raceway: పరుగు పందెపు దారి
           residential: నివాసప్రాంత దారి
           rest_area: విశ్రాంతి స్థలమ
           road: దారి
           secondary: ద్వితీయ శ్రేణి రహదారి
           secondary_link: ద్వితీయ శ్రేణి రహదారి
+          service: సర్వీసు రోడ్డు
+          services: మోటార్‌వే సర్వీసులు
+          speed_camera: స్పీడ్ కెమెరా
           steps: మెట్లు
+          stop: ఆగుము సూచిక
           street_lamp: వీధి దీపం
+          tertiary: తృతీయ రోడ్డు
+          tertiary_link: తృతీయ రోడ్డు
+          track: ట్రాకు
+          traffic_mirror: ట్రాఫిక్ అద్దం
+          traffic_signals: ట్రాఫిక్ సిగ్నళ్ళు
+          trailhead: ట్రెయిల్‌హెడ్
+          trunk: ట్రంక్ రోడ్డు
+          trunk_link: ట్రంక్ రోడ్డు
+          turning_circle: టర్నింగ్ వృత్తం
+          turning_loop: టర్నింగ్ లూపు
+          unclassified: వర్గీకరించని రోడ్డు
           "yes": దారి
         historic:
+          aircraft: చారిత్రిక విమానం
+          archaeological_site: పురాతత్వ స్థలం
+          bomb_crater: చారిత్రిక బాంబు బిలం
           battlefield: యుద్ధరంగం
           boundary_stone: సరిహద్దు రాయి
           building: చారిత్రక కట్టడం
+          bunker: బంకరు
+          cannon: చారిత్రిక శతఘ్ని
           castle: కోట
+          charcoal_pile: చారిత్రిక చార్‌కోల్ గుట్ట
           church: చర్చి
+          city_gate: నగర ద్వారం
           citywalls: నగర గోడలు
           fort: కోట
+          heritage: వారసత్వ స్థలం
+          hollow_way: పల్లపు దారి
           house: ఇల్లు
+          manor: మహల్
           memorial: జ్ఞాపిక
+          milestone: చారిత్రిక మైలురాయి
           mine: గని
+          mine_shaft: గని షాఫ్టు
           monument: స్మారకం
+          railway: చారిత్రిక రైలుమార్గం
+          roman_road: రోమన్ రోడ్డు
           ruins: శిథిలాలు
+          rune_stone: చారిత్రిక శిల
+          stone: శిల
           tomb: సమాధి
           tower: గోపురం
+          wayside_chapel: దారిపక్క చాపెల్
+          wayside_cross: దారిపక్క క్రాస్
+          wayside_shrine: దారిపక్క ఆలయం
+          wreck: శిథిలాలు
+          "yes": చారిత్రిక స్థలం
         junction:
           "yes": కూడలి
         landuse:
+          allotments: సామూహిక పొలాలు
+          aquaculture: చేపల పెంపకం
+          basin: బేసిన్
+          brownfield: విసర్జిత భూమి
           cemetery: శ్మశానం
           commercial: వాణిజ్య ప్రదేశం
+          conservation: సంరక్షణ
           construction: నిర్మాణం
-          farm: పొలం
           farmland: పంటపొలం
           farmyard: పెరటి పొలం
           forest: అడవి
           garages: మరమ్మత్తు శాలలు
           grass: పచ్చిక
+          greenfield: గ్రీన్‌ఫీల్డ్ భూమి
           industrial: పారిశ్రామిక ప్రదేశం
+          landfill: ల్యాండ్‌ఫిల్
           meadow: పచ్చిక బయలు
           military: సైనిక ప్రాంతం
           mine: గని
           orchard: పళ్ళతోట
+          plant_nursery: మొక్కల నర్సరీ
           quarry: క్వారీ
           railway: రైల్వే
+          recreation_ground: వినోద మైదానం
+          religious: మతపరమైన మైదానం
           reservoir: జలాశయం
           reservoir_watershed: జలాశయం
           residential: నివాస ప్రాంతం
+          retail: రిటెయిల్
+          village_green: Village Green
+          vineyard: వైన్‌యార్డు
           "yes": భూఉపయోగం
         leisure:
+          adult_gaming_centre: వయోజన క్రీడా కేంద్రం
+          amusement_arcade: అమ్యూస్‌మెంటు కేంద్రం
+          bandstand: బ్యాండ్‌స్టాండ్
           beach_resort: బీచి రిసార్టు
           bird_hide: పక్షులకు ఆవాసం
+          bleachers: బ్లీచర్లు
+          bowling_alley: బౌలింగ్ అల్లీ
+          common: కామన్ భూమి
+          dance: నాట్యాంగణం
+          dog_park: కుక్కల పార్కు
+          firepit: ఫైర్ పిట్
           fishing: చేపలు పట్టే స్థలం
+          fitness_centre: వ్యాయామ కేంద్రం
+          fitness_station: వ్యాయామ స్థలం
           garden: తోట
+          golf_course: గోల్ఫ్ కోర్సు
+          horse_riding: గుర్రపు స్వారీ
+          ice_rink: ఐస్ రింక్
+          marina: మెరీనా
+          miniature_golf: చిన్నపాటి గోల్ఫ్
+          nature_reserve: ప్రకృతి సంరక్షణ కేంద్రం
+          outdoor_seating: బయటి సీటింగు
           park: పార్కు
+          picnic_table: పిక్నిక్ టేబులు
+          pitch: క్రీడల పిచ్
           playground: ఆటస్థలం
+          recreation_ground: క్రీడా మైదానం
+          resort: రిసార్టు
+          sauna: సౌనా
+          slipway: స్లిప్‌వే
+          sports_centre: క్రీడా కేంద్రం
+          stadium: స్టేడియమ్
           swimming_pool: ఈత కొలను
+          track: రన్నింగ్ ట్రాకు
+          water_park: వాటర్ పార్కు
+          "yes": లీజరు
         man_made:
+          adit: ఆడిట్
+          advertising: అడ్వర్టైజింగు
+          antenna: యాంటెన్నా
+          avalanche_protection: అవలాంచి సంరక్షణ కేంద్రం
+          beacon: బీకన్
+          beam: పుంజం
+          beehive: తేనెపట్టు
+          breakwater: బ్రేక్‌వాటర్
+          bridge: వంతెన
+          bunker_silo: బంకరు
+          cairn: కెయిర్న్
+          chimney: పొగగొట్టం
+          clearcut: నరికిన అడవి
+          communications_tower: కమ్యూనికేషను టవరు
+          crane: క్రేను
+          cross: క్రాస్
+          dolphin: కట్టుగుంజ
+          dyke: డైక్
+          embankment: కరకట్ట
+          flagpole: జండా కొయ్య
+          gasometer: గ్యాసోమీటర్
+          groyne: గ్రోయ్నె
+          kiln: బట్టీ
+          lighthouse: దీపస్థంభం
+          manhole: మ్యాన్‌హోల్
+          mast: మాస్ట్
+          mine: గని
+          mineshaft: గని షాఫ్టు
+          monitoring_station: మానిటరింగ్ స్టేషను
+          petroleum_well: పెట్రోలియం బావి
+          pier: పయర్
+          pipeline: పైప్‌లైను
+          pumping_station: పంపింగు స్టేషను
+          reservoir_covered: మూతవేసిన జలాశయం
+          silo: సైలో
+          snow_cannon: మంచు శతఘ్ని
+          snow_fence: మంచు కంచె
+          storage_tank: నిల్వ ట్యాంకు
+          street_cabinet: వీధి క్యాబినెట్
+          surveillance: నిఘా
+          telescope: టెలిస్కోపు
+          tower: టవరు
+          utility_pole: సదుపాయ స్థంభం
+          wastewater_plant: వ్యర్థజలాల ప్లాంటు
+          watermill: నీటి మర
+          water_tap: నీటి కుళాయి
+          water_tower: నీళ్ళ టవరు
           water_well: బావి
+          water_works: నీటి సరఫరా కేంద్రం
+          windmill: గాలి మర
           works: కర్మాగారం
+          "yes": మానవ నిర్మిత
+        military:
+          airfield: సైనిక వైమానిక క్షేత్రం
+          barracks: బ్యారక్‌లు
+          bunker: బంకరు
+          checkpoint: చెక్‌పాయింటు
+          trench: కందకం
+          "yes": సైనిక
+        mountain_pass:
+          "yes": కనుమదారి
         natural:
+          atoll: అటాల్
+          bare_rock: రాతి ప్రదేశం
+          bay: అఖాతం
           beach: బీచి
+          cape: అగ్రం
           cave_entrance: గుహ ద్వారం
+          cliff: కొండకొన
+          coastline: తీరరేఖ
+          crater: బిలం
+          dune: తిన్నె
+          fell: ఫెల్
+          fjord: ఫ్యోర్డ్
           forest: అడవి
+          geyser: గీసర్
           glacier: హిమానీనదం
+          grassland: పచికబయలు
           heath: ఆరోగ్యం
           hill: గుట్ట
+          hot_spring: వేడినీటి బుగ్గ
           island: దీవి
+          isthmus: భూసంధి
           land: నేల
+          marsh: బురద
+          moor: బంజరు
           mud: బురద
           peak: శిఖరం
+          peninsula: ద్వీపకల్పం
+          point: బిందువు
+          reef: భిత్తిక
+          ridge: కొండ
           rock: రాయి
+          saddle: Saddle
           sand: ఇసుక
+          scree: స్క్రీ
+          scrub: పొద
+          shingle: గులకరాళ్ళు
           spring: ఊట
           stone: రాయి
           strait: జలసంధి
           tree: చెట్టు
+          tree_row: చెట్ల వరుస
+          tundra: టండ్రా
           valley: లోయ
           volcano: అగ్ని పర్వతం
           water: నీరు
           wetland: చిత్తడి నేల
           wood: అడవి
+          "yes": ప్రాకృతిక విశేషం
         office:
+          accountant: ఎకౌంటెంటు
+          administrative: పరిపాలన
+          advertising_agency: అడ్వర్టైజింగు ఏజన్సీ
           architect: వాస్తుశిల్పి
+          association: అసోసియేషను
           company: సంస్థ
+          diplomatic: దౌత్య కార్యాలయం
+          educational_institution: విద్యా సంస్థ
+          employment_agency: ఉపాధి కేంద్రం
+          energy_supplier: విద్యుత్తు సరఫరా కార్యాలయం
+          estate_agent: ఎస్టేటు ఏజంటు
+          financial: ఫైనాన్షియల్ కార్యాలయం
           government: ప్రభుత్వ కార్యాలయం
           insurance: బీమా కార్యాలయం
+          it: ఐటీ కార్యాలయం
           lawyer: న్యాయవాది
+          logistics: లాజిస్టిక్స్ కార్యాలయం
+          newspaper: వార్తాసంస్థ కార్యాలయం
+          ngo: NGO కార్యాలయం
+          notary: నోటరీ
+          religion: మతపరమైన కార్యాలయం
+          research: పరిశోధన కార్యాలయం
+          tax_advisor: పన్ను సలహాదారు
+          telecommunication: టెలికమ్యూనికేషను కార్యాలయం
+          travel_agent: ట్రావెల్ ఏజన్సీ
           "yes": కార్యాలయం
         place:
+          allotments: కేటాయింపులు
+          archipelago: ద్వీపసమూహం
           city: నగరం
+          city_block: నగరంలో పేట
           country: దేశం
+          county: జిల్లా
+          farm: పొలం
           hamlet: కుగ్రామం
           house: ఇల్లు
           houses: ఇళ్ళు
           island: దీవి
+          islet: దీవి
+          isolated_dwelling: ఒంటరి నివాసం
+          locality: ప్రదేశం
+          municipality: మునిసిపాలిటీ
+          neighbourhood: పేట
+          plot: స్థలం
           postcode: తపాలా సంకేతం
+          quarter: క్వార్టరు
           region: ప్రాంతం
           sea: సముద్రం
+          square: స్క్వేర్
           state: రాష్ట్రం
           subdivision: ఉపవిభాగం
+          suburb: శివారు
           town: పట్టణం
           village: గ్రామం
+          "yes": స్థలం
         railway:
+          abandoned: విసర్జిత రైల్వే
+          buffer_stop: బఫర్ స్టాప్
+          construction: నిర్మాణంలో ఉన్న రైలుమార్గం
+          disused: వాడని రైలుమార్గం
+          funicular: ఎత్తుకు వెళ్ళే రైలుమార్గం
+          halt: రైలు స్టేషను
+          junction: రైల్వే జంక్షను
+          level_crossing: లెవెల్ క్రాసింగు
+          light_rail: లైట్ రైల్
+          miniature: ఆట రైల్వే
+          monorail: మోనోరైల్
+          narrow_gauge: న్యారో గేజ్ రైలు మార్గం
           platform: రైల్వే ప్లాట్‌ఫారం
+          preserved: సంరక్షిత్య రైలుమార్గం
+          proposed: ప్రతిపాదిత రైలుమార్గం
+          rail: రైలు పట్టా
+          spur: రైల్వే స్పర్
           station: రైల్వే స్టేషన్
+          stop: రైల్వే స్టాప్
+          subway: సబ్‌వే
+          subway_entrance: సబ్‌వే ప్రవేశం
+          switch: రైలుమార్గపు పాయింట్లు
+          tram: ట్రామ్‌వే
+          tram_stop: ట్రామ్ స్టాపు
+          turntable: టర్న్‌టేబులు
+          yard: రైల్వే యార్డు
         shop:
+          agrarian: వ్యవసాయ ఉత్పత్తుల దుకాణం
+          alcohol: ఆఫ్ లైసెన్సు
+          antiques: ప్రాచీన వస్తువులు
+          appliance: అప్లయన్సుల దుకాణం
+          art: కళా దుకాణం
+          baby_goods: శిశువుల వస్తువులు
+          bag: సంచుల దుకాణం
+          bakery: బేకరీ
+          bathroom_furnishing: బాత్‌రూము అలంకరణ
+          beauty: సౌందర్య దుకాణం
+          bed: బెడ్డీంగు సామాగ్రి
+          beverages: మద్యం దుకాణం
+          bicycle: సైకిలు దుకాణం
+          bookmaker: బుక్‌మేకరు
+          books: పుస్తకాల దుకాణం
+          boutique: బొటీక్
           butcher: కసాయి
+          car: కారు దుకాణం
+          car_parts: కారు పార్టులు
+          car_repair: కారు రిపేరు
+          carpet: కార్పెట్ దుకాణం
+          charity: చారిటీ దుకాణం
+          cheese: వెన్న దుకాణం
+          chemist: కెమిస్టు
+          chocolate: చాకొలేట్
+          clothes: బట్టల దుకాణం
+          coffee: కాఫీ దుకాణం
+          computer: కంప్యూటరు దుకాణం
+          confectionery: కాన్ఫెక్షనరీ దుకాణం
+          convenience: కన్వీనియెన్స్ దుకాణం
+          copyshop: కాపీ దుకాణం
+          cosmetics: కాస్మెటిక్స్ దుకాణం
+          craft: బొమ్మల సరఫరా దుకాణం
+          curtain: కర్టెన్ల దుకాణం
+          dairy: పాల దుకాణం
+          deli: డేలి
+          department_store: డిపార్ట్‌మెంటు దుకాణం
+          discount: డిస్కౌంటు వస్తువుల దుకాణం
+          doityourself: డ్రై క్లీనింగు
+          dry_cleaning: డ్రై క్లీనింగు
+          e-cigarette: ఇ-సిగరెట్ల దుకాణం
+          electronics: ఎలక్ట్రానిక్స్ దుకాణం
+          erotic: శృంగార దుకాణం
+          estate_agent: ఎస్టేటు ఏజంటు
+          fabric: వస్త్రాల దుకాణం
+          farm: వ్యవసాయ దుకాణం
+          fashion: ఫ్యాషన్ దుకాణం
+          fishing: ఫిషింగు వస్తువుల దుకాణం
+          florist: పూల దుకాణం
+          food: ఆహార దుకాణం
+          frame: ఫ్రేమ్ దుకాణం
+          funeral_directors: ఖనన కర్మల స్థానం
+          furniture: ఫర్నిచర్
+          garden_centre: తోట దుకాణం
+          gas: గ్యాసు దుకాణం
+          general: జనరల్ దుకాణం
+          gift: బహుమతుల దుకాణం
+          greengrocer: కూరగాయల దుకాణం
+          grocery: కిరాణా దుకాణం
+          hairdresser: క్షౌరశాల
+          hardware: హార్డ్‌వేర్ దుకాణం
+          health_food: హెల్త్ ఫుడ్ దుకాణం
+          hearing_aids: చెవిటి మిషన్లు
+          herbalist: మూలికల దుకాణం
+          hifi: హై-ఫై
+          houseware: గృహోపకరణాల దుకాణం
+          ice_cream: ఐస్ క్రీము దుకాణం
+          interior_decoration: ఇంటీరియర్ డెకొరేషను
           jewelry: నగల దుకాణం
+          kiosk: బడ్డీ కొట్టు
+          kitchen: వంటగది దుకాణం
           laundry: చాకలి
+          locksmith: తాళాల పనివారు
+          lottery: లాటరీ
+          mall: మాల్
+          massage: మాలీషు
+          medical_supply: మందుల సరఫరా దుకాణం
+          mobile_phone: మొబైల్ ఫోను దుకాణం
+          money_lender: వడ్డీ వ్యాపారి
+          motorcycle: మోటార్‌సైకిలు దుకాణం
+          motorcycle_repair: మోటార్‌సైకిలు రిపేరు దుకాణం
+          music: సంగీతం దుకాణం
+          musical_instrument: సంగీత వాయిద్యాలు
+          newsagent: న్యూస్ ఏజంటు
+          nutrition_supplements: పౌష్టికాహారం
+          optician: కళ్ళజోళ్ళు
+          organic: ఆర్గానిక్ ఆహారం దుకాణం
+          outdoor: ఔట్‌డోర్ దుకాణం
+          paint: రంగుల దుకాణం
+          pastry: పేస్ట్రీ దుకాణం
+          pawnbroker: తాకట్టు వ్యాపారి
+          perfumery: సెంటు వ్యాపారి
+          pet: పెంపుడు జంతువుల దుకాణం
+          pet_grooming: పెంపుడు జంతువుల అలంకరణ
+          photo: ఫొటో స్టూడియో
+          seafood: సముద్రపు ఆహారం
+          second_hand: సెకండ్ హ్యాండ్ దుకాణం
+          sewing: కుట్టుపని దుకాణం
+          shoes: చెప్పుల దుకాణం
+          sports: క్రీడల దుకాణం
+          stationery: స్టేషనరీ దుకాణం
+          storage_rental: అద్దె గిడ్డంగి
+          supermarket: సూపర్ మార్కెట్
           tailor: దర్జీ
+          tattoo: పచ్చబొట్ల దుకాణం
+          tea: టీ కొట్టు
+          ticket: టిక్కెట్ల దుకాణం
+          tobacco: పొగాకు దుకాణం
           toys: బొమ్మల అంగడి
+          travel_agency: ట్రావెల్ ఏజన్సీ
+          tyres: టైర్ల దుకాణం
+          vacant: ఖాళీ దుకాణం
+          variety_store: వెరైటీ దుకాణం
+          video: వీడియో దుకాణం
+          video_games: వీడియో గేమ్ దుకాణం
+          wholesale: టోకు దుకాణం
+          wine: వైన్ దుకాణం
           "yes": దుకాణం
         tourism:
-          apartment: అపార్టుమెంట్
+          alpine_hut: ఆల్పైన్ గుడిసె
+          apartment: సెలవు కాలపు అపార్టుమెంట్
+          artwork: కళాకృతి
+          attraction: ఆకర్షణ
+          bed_and_breakfast: బస, బ్రేక్‌ఫాస్టు
+          cabin: పూరిల్లు
+          camp_pitch: శిబిరం పిచ్
+          camp_site: శిబిరాల స్థలం
+          caravan_site: క్యారవాన్ స్థలం
+          chalet: చాలెట్
+          gallery: చిత్ర ప్రదర్శన
+          guest_house: అతిథి గృహం
+          hostel: హాస్టలు
           hotel: హోటెల్
           information: సమాచారం
+          motel: మోటెల్
           museum: ప్రదర్శన శాల
+          picnic_site: పిక్నిక్ స్థలం
+          theme_park: థీమ్ పార్కు
+          viewpoint: వ్యూ పాయింటు
+          wilderness_hut: అడవి గుడిసె
           zoo: జంతుప్రదర్శనశాల
         tunnel:
+          building_passage: బిల్డింగ్ పాసేజీ
           culvert: చప్టా
           "yes": సొరంగం
         waterway:
+          artificial: కృత్రిమ జలమార్గం
+          boatyard: పడవల రేవు
           canal: కాలువ
           dam: ఆనకట్ట
+          derelict_canal: పూడిపోయిన కాలువ
+          ditch: గుంట
+          dock: డాక్
           drain: మురిక్కాలువ
+          lock: లాకులు
+          lock_gate: లాకు తలుపు
+          mooring: పడవను కట్టేసే కొయ్య
+          rapids: వడివాగు
           river: నది
+          stream: వాగు
+          wadi: వాడి
           waterfall: జలపాతం
+          weir: కట్ట
+          "yes": జలమార్గం
       admin_levels:
         level2: దేశ సరిహద్దు
+        level3: ప్రాంతపు సరిహద్దు
         level4: రాష్ట్ర సరిహద్దు
         level5: ప్రాంతపు సరిహద్దు
+        level6: దేశ సరిహద్దు
+        level7: మునిసిపాలిటీ సరిహద్దు
         level8: నగర సరిహద్దు
         level9: గ్రామ పొలిమెర
+        level10: శివారు సరిహద్దు
+        level11: పేట సరిహద్దు
       types:
         cities: నగరాలు
         towns: పట్టణాలు
@@ -478,8 +1416,101 @@ te:
       more_results: మరిన్ని ఫలితాలు
   issues:
     index:
+      title: అంశాలు
+      select_status: స్థితిని ఎంచుకోండి
+      select_type: రకాన్ని ఎంచుకోండి
+      select_last_updated_by: చివరిగా తాజాకరించినది ఎవరో ఎంచుకోండి
+      reported_user: నివేదించిన వాడుకరి
+      not_updated: తాజాకరించలేదు
+      search: వెతుకు
+      search_guidance: 'అంశాల్లో వెతుకు:'
+      user_not_found: వాడుకరి ఉనికిలో లేరు
+      issues_not_found: అలాంటి అంశాలేమీ కనబడలేదు
       status: స్థితి
       reports: నివేదికలు
+      last_updated: చివరిగా తాజాకరించినది
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr>, %{user}
+      link_to_reports: నివేదికలను చూడండి
+      reports_count:
+        one: 1 ఫిర్యాదు
+        other: '%{count} ఫిర్యాదులు'
+      reported_item: అంశంపై ఫిర్యాదు చేసారు
+      states:
+        ignored: పట్టించుకోలేదు
+        open: తెరిచి ఉన్నవి
+        resolved: పరిష్కరించినవి
+    update:
+      new_report: మీ ఫిర్యాదు జయప్రదంగా నమోదైంది.
+      successful_update: మీ ఫిర్యాదును జయ[ప్రదంగా తాజాకరించాం
+      provide_details: ఆవశ్యకమైన వివరాలను ఇవ్వండి
+    show:
+      title: '%{status} అంశం #%{issue_id}'
+      report_created_at: '%{datetime} న మొదటిసారి ఫిర్యాదు చేసారు'
+      last_resolved_at: '%{datetime} న చివరిగా పరిష్కరించారు'
+      last_updated_at: చివరిగా %{displayname} గారు %{datetime} కు తాజాకరించారు
+      resolve: పరిష్కరించు
+      ignore: పట్టించుకోవద్దు
+      reopen: మళ్ళీ తెరువు
+      reports_of_this_issue: ఈ అంశంపై ఫిర్యాదులు
+      read_reports: చదివిన ఫిర్యాదులు
+      new_reports: కొత్త ఫిర్యాదులు
+      other_issues_against_this_user: ఈ వాడుకరికి వ్యతిరేకంగా ఉన్న ఇతర అంశాలు
+      no_other_issues: ఈ వాడుకరిపై ఇక వేరే అంశాలేమీ లేవు.
+      comments_on_this_issue: ఈ అంశంపై వ్యాఖ్యలు
+    resolve:
+      resolved: అంశం స్థితిని 'పరిష్కారమైంది' అని మార్చాం
+    ignore:
+      ignored: అంశం స్థితిని 'విస్మరించాం' అని మార్చాం
+    reopen:
+      reopened: అంశం స్థితిని 'తెరిచి ఉన్న' అని పెట్టాం
+    comments:
+      comment_from_html: '%{comment_created_at} %{user_link} చేసిన వ్యాఖ్య'
+      reassign_param: అంశాన్ని తిరిగి కేటాయించాలా?
+    reports:
+      reported_by_html: '%{user} %{updated_at} న %{category} అని ఫిర్యాదు చేసారు'
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, వ్యాఖ్య #%{comment_id}'
+        note: 'గమనిక #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: మీ వ్యాఖ్యను జయప్రదంగా చేర్చాం
+  reports:
+    new:
+      title_html: '%{link} పై ఫిర్యాదు చెయ్యండి'
+      missing_params: కొత్త ఫిర్యాదును సృష్టించలేం
+      disclaimer:
+        intro: 'మీ ఫిర్యాదును మోడరేటర్లకు పంపించేముందు, దీన్ని నిశ్చయపరచుకోండి:'
+        not_just_mistake: సమస్య కేవలం పొరపాటు కాదని మీకు నిశ్చయంగా తెలుసు
+        unable_to_fix: మీరే స్వయంగా గానీ, మీ తోటి సముదాయ సభ్యులతో కలిసి గానీ సమస్యను
+          పరిష్కరించలేకపోయారు
+        resolve_with_user: సంబంధిత వాడుకరితో కలిసి సమస్యను పరిష్కరించే ప్రయత్నం చేసారు
+      categories:
+        diary_entry:
+          spam_label: ఈ డైరీ పద్దులో స్పాము ఉంది/అసలు అదే ఒక స్పాము
+          offensive_label: ఈ డైరీ పద్దు అసహ్యంగా/వికారంగా ఉంది
+          threat_label: ఈ డైరీ పద్దులో బెదిరింపు ఉంది
+          other_label: ఇతర
+        diary_comment:
+          spam_label: ఈ డైరీ వ్యాఖ్యలో స్పాము ఉంది/అసలు అదే ఒక స్పాము
+          offensive_label: ఈ డైరీ వ్యాఖ్య అసహ్యంగా/వికారంగా ఉంది
+          threat_label: ఈ డైరీ వ్యాఖ్యలో బెదిరింపు ఉంది
+          other_label: ఇతర
+        user:
+          spam_label: వాడుకరి ప్రొఫైలులో స్పాము ఉంది/అదే ఒక స్పాము
+          offensive_label: వాడుకరి ప్రొఫైలు అసహ్యంగా/వికారంగా ఉంది
+          threat_label: ఈ వాడుకరి ప్రొఫైల్లో బెదిరింపు ఉంది
+          vandal_label: ఈ వాడుకరి దుశ్చర్యలు చేస్తారు
+          other_label: ఇతర
+        note:
+          spam_label: ఈ గమనిక స్పాము
+          personal_label: ఈ గమనికలో వ్యక్తిగత డేటా ఉంది
+          abusive_label: ఈ గమనికలో తిట్లున్నాయి
+          other_label: ఇతర
+    create:
+      successful_report: మీ ఫిర్యాదు జయప్రదంగా నమోదైంది
+      provide_details: ఆవశ్యకమైన వివరాలను ఇవ్వండి
   layouts:
     logo:
       alt_text: ఓపెన్&zwnj;స్ట్రీట్&zwnj;మాప్ చిహ్నం
@@ -488,49 +1519,191 @@ te:
     log_in: ప్రవేశించండి
     log_in_tooltip: ఇప్పటికే ఉన్న ఖాతాతో ప్రవేశించండి
     sign_up: నమోదవ్వండి
+    start_mapping: మ్యాపింగు మొదలుపెట్టండి
     sign_up_tooltip: సవరించడానికి ఓ ఖాతా సృష్టించుకోండి
     edit: మార్చు
     history: చరిత్ర
     export: ఎగుమతి
+    issues: అంశాలు
     data: డేటా
+    export_data: డేటాను ఎగుమతి చెయ్యి
+    gps_traces: GPS జాడలు
+    gps_traces_tooltip: GPS జాడలను నిర్వహించు
     user_diaries: వాడుకరి డైరీలు
+    user_diaries_tooltip: వాడుకరి డైరీలను చూడండి
     edit_with: '%{editor} తో సవరించండి'
     tag_line: స్వేచ్ఛా వికీ ప్రపంచ పటం
     intro_header: ఓపెన్‌స్ట్రీట్‌మ్యాప్‌కి స్వాగతం!
+    intro_text: OpenStreetMap, ఓ ప్రపంచ మ్యాపు. మీలాంటి వారే దీన్ని తయారు చేసారు.
+      స్వేచ్ఛా లైసెన్సు ద్వారా స్వేచ్ఛగా దీన్ని వాడుకోవచ్చు.
     intro_2_create_account: వాడుకరి ఖాతాను సృష్టించుకోండి
+    hosting_partners_html: '%{ucl}, %{fastly}, %{bytemark}, ఇతర %{partners} హోస్టింగుకు
+      మద్దతు నిస్తున్నారు.'
+    partners_ucl: UCL
+    partners_fastly: Fastly
+    partners_bytemark: Bytemark Hosting
     partners_partners: భాగస్వాములు
     tou: వాడుక నియమాలు
+    osm_offline: OpenStreetMap డేటాబేసులో అత్యావశ్యకమైన నిర్వహణ పనులు జరుగుతున్నందున
+      అది ప్రస్తుతం ఆఫ్‌లైనులో ఉంది.
+    osm_read_only: OpenStreetMap డేటాబేసులో అత్యావశ్యకమైన నిర్వహణ పనులు జరుగుతున్నందున
+      అది ప్రస్తుతం రీడ్-ఓన్లీ స్థితిలో ఉంది.
+    donate: హార్డ్‌వేర్ అప్‌గ్రేడ్ నిధికి %{link} ఇచ్చి, OpenStreetMap కు మద్దతివ్వండి.
     help: సహాయం
     about: గురించి
     copyright: నకలుహక్కులు
     community: కమ్యూనిటీ
     community_blogs: కమ్యూనిటీ బ్లాగులు
+    community_blogs_title: OpenStreetMap సముదాయ సభ్యుల బ్లాగులు
     foundation: ఫౌండేషన్
+    foundation_title: OpenStreetMap ఫౌండేషను
     make_a_donation:
+      title: OpenStreetMap కు ధనసహాయం చేసి మద్దతివ్వండి
       text: విరాళమివ్వండి
     learn_more: మరింత తెలుసుకోండి
     more: మరిన్ని
   user_mailer:
     diary_comment_notification:
+      subject: '[OpenStreetMap] %{user} ఒక డైరీ పద్దుపై వ్యాఖ్యానించారు'
       hi: హలో %{to_user},
+      header: '%{from_user}, %{subject} అనే సబ్జెక్టుతో OpenStreetMap డైరీ పద్దుపై
+        వ్యాఖ్యానించారు:'
+      header_html: '%{from_user}, %{subject} అనే సబ్జెక్టుతో OpenStreetMap డైరీ పద్దుపై
+        వ్యాఖ్యానించారు:'
+      footer: '%{readurl} వద్ద కూడా మీరు ఈ వ్యాఖ్యను చదవవచ్చు, %{commenturl} వద్ద
+        వ్యాఖ్యానించవచ్చు, %{replyurl} వద్ద వారికి సందేశం పంపించవచ్చు.'
+      footer_html: '%{readurl} వద్ద కూడా మీరు ఈ వ్యాఖ్యను చదవవచ్చు, %{commenturl}
+        వద్ద వ్యాఖ్యానించవచ్చు, %{replyurl} వద్ద వారికి సందేశం పంపించవచ్చు.'
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: హలో %{to_user},
+      header: '%{from_user}, %{subject} అనే సబ్జెక్టుతో OpenStreetMap ద్వారా మీకొక
+        సందేశం పంపించారు:'
+      header_html: '%{from_user}, %{subject} అనే సబ్జెక్టుతో OpenStreetMap ద్వారా
+        మీకొక సందేశం పంపించారు:'
+      footer: ఆ సందేశాన్ని %{readurl} వద్ద కూడా చదవవచ్చు, %{replyurl} వద్ద వారికి
+        సందేశం పంపించవచ్చు
+      footer_html: ఆ సందేశాన్ని %{readurl} వద్ద కూడా చదవవచ్చు, %{replyurl} వద్ద వారికి
+        సందేశం పంపించవచ్చు
+    friendship_notification:
+      hi: నమస్కారం %{to_user} గారూ,
+      subject: '[OpenStreetMap] %{user} మిమ్మల్ని మిత్రులుగా చేర్చుకున్నారు'
+      had_added_you: '%{user} మిమ్మల్ని OpenStreetMap లో మిత్రులుగా చేర్చుకున్నారు.'
+      see_their_profile: '%{userurl} వద్ద వారి ప్రొఫైలును చూడవచ్చు.'
+      see_their_profile_html: '%{userurl} వద్ద వారి ప్రొఫైలును చూడవచ్చు.'
+      befriend_them: '%{befriendurl} వద్ద వారిని మీరు కూడా మిత్రులుగా చేసుకోవచ్చు.'
+      befriend_them_html: అలాగే, %{befriendurl} వద్ద వారిని మీ మిత్రులుగా చేర్చుకోవచ్చు.
+    gpx_description:
+      description_with_tags_html: 'మీ GPX ఫైలుకు %{trace_name}, %{trace_description}
+        వివరణ, కింది ట్యాగులూ ఉన్నట్లున్నాయి: %{tags}'
+      description_with_no_tags_html: '%{trace_name} అనే మీ GPX ఫైలు, %{trace_description}
+        అనే వివరణతో ట్యాగులేమీ లేకుండా ఉన్నట్లుంది'
+    gpx_failure:
+      hi: నమస్కారం %{to_user} గారూ,
+      failed_to_import: 'దిగుమతి విఫలమైంది. లోపం ఇది:'
+      more_info_html: GPX దిగుమతి వైఫల్యాల గురించి, వాటిని ఎలా నివారించాలనేదాని గురించీ
+        మరింత సమాచారాన్ని %{url} వద్ద చూడవచ్చు.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+      subject: '[OpenStreetMap] GPX దిగుమతి వైఫల్యం'
+    gpx_success:
+      hi: నమస్కారం %{to_user} గారూ,
+      loaded_successfully:
+        one: సంభావ్యమైన 1 పాయింటులో %{trace_points} తో జయప్రదంగా లోడు చేసాం.
+        other: సంభావ్యమైన %{possible_points} పాయింట్లలో %{trace_points} తో జయప్రదంగా
+          లోడు చేసాం.
+      subject: '[OpenStreetMap] GPX దిగుమతి జయప్రదం'
     signup_confirm:
       subject: '[ఓపెన్‌స్ట్రీట్‌మ్యాప్] ఓపెన్‌స్ట్రీట్‌మ్యాప్‌కి స్వాగతం'
+      greeting: హలో!
       created: ఎవరో (మీరే కావచ్చు) %{site_url} లో ఖాతాను సృష్టించారు.
+      confirm: 'ఇంకేదైనా చెయ్యబోయే ముందు, ఈ అభ్యర్థన మీనుండే వచ్చిందని మేం నిర్థారించుకోవాలి.
+        అంచేత, ఆ అభ్యర్థన మీరే చేసి ఉంటే, కింది లింకును నొక్కి మీ ఖాతాను నిర్థారించండి:'
+      welcome: మీరు మీ ఖాతాను నిర్థారించాక, మీరు పని మొదలుపెట్టేందుకు గాను, మేం మీకు
+        మరికొంత సమాచారాన్ని ఇస్తాం.
     email_confirm:
       subject: '[ఓపెన్‌స్ట్రీట్‌మాప్] మీ ఈమెయిలు చిరునామాని నిర్ధారించండి'
+      greeting: హలో,
+      hopefully_you: ఎవరో (మీరే అయి ఉండవచ్చు) %{server_url} వద్ద ఉన్న తమ ఈమెయిలు చిరునామాను
+        %{new_address} కు మార్చాలని అనుకుంటున్నారు.
       click_the_link: అది మీరే అయితే, మార్పుని నిర్ధారించడానికి ఈ క్రింది లంకెను నొక్కండి.
+    lost_password:
+      subject: '[OpenStreetMap] సంకేతపదం మార్పు అభ్యర్థన'
+      greeting: హలో,
+      hopefully_you: ఈ ఈమెయిలు చిరునామాకు చెందిన openstreetmap.org ఖాతా లోని సంకేతపదాన్ని
+        మార్చమని ఎవరో (బహుశా మీరే) అడిగారు.
+      click_the_link: అది మీరే అయితే, కింది లింకును నొక్కి సంకేతపదం మార్చుకోండి.
     note_comment_notification:
       anonymous: అజ్ఞాత వాడుకరి
+      greeting: హలో,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} మీ గమనికలపై వ్యాఖ్యానించారు'
+        subject_other: మీకు ఆసక్తి ఉన్న ఒక గమనికపై [OpenStreetMap] %{commenter} వ్యాఖ్యానించారు
+        your_note: '%{place} సమీపం లోని మీ మ్యాపు గమనికలపై %{commenter} ఒక వ్యాఖ్య
+          రాసారు.'
+        your_note_html: '%{place} సమీపం లోని మీ మ్యాపు గమనికలపై %{commenter} ఒక వ్యాఖ్య
+          రాసారు.'
+        commented_note: మీరు వ్యాఖ్యానించిన మ్యాపు గమనికపై %{commenter} ఒక వ్యాఖ్య
+          రాసారు. ఆ గమనిక %{place} సమీపంలో ఉంది.
+        commented_note_html: మీరు వ్యాఖ్యానించిన మ్యాపు గమనికపై %{commenter} ఒక వ్యాఖ్య
+          రాసారు. ఆ గమనిక %{place} సమీపంలో ఉంది.
+      closed:
+        subject_own: '[OpenStreetMap] మీ గమనికల్లో ఒకదాన్ని %{commenter} పరిష్కరించారు'
+        subject_other: '[OpenStreetMap] మీకు ఆసక్తి ఉన్న గమనికల్లో ఒకదాన్ని %{commenter}
+          పరిష్కరించారు'
+        your_note: '%{place} సమీపంలో మీ మ్యాప్ గమనికల్లో ఒకదాన్ని %{commenter} పరిష్కరించారు.'
+        your_note_html: '%{place} సమీపంలో మీ మ్యాప్ గమనికల్లో ఒకదాన్ని %{commenter}
+          పరిష్కరించారు.'
+        commented_note: మీరు వ్యాఖ్యానించిన మ్యాప్ గమనికల్లో ఒకదాన్ని %{commenter}
+          పరిష్కరించారు. ఆ గమనిక %{place} సమీపంలో ఉంది.
+        commented_note_html: మీరు వ్యాఖ్యానించిన మ్యాప్ గమనికల్లో ఒకదాన్ని %{commenter}
+          పరిష్కరించారు. ఆ గమనిక %{place} సమీపంలో ఉంది.
+      reopened:
+        subject_own: '[OpenStreetMap] %{commenter}, మీ గమనికల్లో ఒకదాన్ని పునరుజ్జీవింపజేసారు'
+        subject_other: '[OpenStreetMap] మీకు ఆసక్తి ఉన్న ఒక గమనికను %{commenter} పునరుజ్జీవింపజేసారు'
+        your_note: '%{place} సమీపం లోని మీ మ్యాపు గమనికల్లో ఒకదాన్ని %{commenter}
+          పునరుజ్జీవింపజేసారు.'
+        your_note_html: '%{place} సమీపం లోని మీ మ్యాపు గమనికల్లో ఒకదాన్ని %{commenter}
+          పునరుజ్జీవింపజేసారు.'
+        commented_note: మీరు వ్యాఖ్యానించిన మ్యాపు గమనికల్లో ఒకదాన్ని %{commenter}
+          పునరుజ్జీవింపజేసారు. అది %{place} సమీపంలో ఉంది.
+        commented_note_html: మీరు వ్యాఖ్యానించిన మ్యాపు గమనికల్లో ఒకదాన్ని %{commenter}
+          పునరుజ్జీవింపజేసారు. అది %{place} సమీపంలో ఉంది.
+      details: ఈ గమనిక గురించి మరిన్ని వివరాలను %{url} వద్ద చూడవచ్చు.
+      details_html: ఈ గమనిక గురించి మరిన్ని వివరాలను %{url} వద్ద చూడవచ్చు.
     changeset_comment_notification:
       hi: '%{to_user} గారూ,'
+      greeting: హలో,
+      commented:
+        subject_own: మీ మార్పులసమితుల్లో ఒకదానిపై [OpenStreetMap] %{commenter} వ్యాఖ్యానించారు
+        subject_other: '[OpenStreetMap] మీకు ఆసక్తి ఉన్న మార్పులసమితిపై %{commenter}
+          వ్యాఖ్యానించారు'
+        your_changeset: మీ మార్పులసమితుల్లో ఒకదానిపై %{commenter}, %{time} ఒక వ్యాఖ్య
+          పెట్టారు
+        your_changeset_html: '%{commenter}, మీ మార్పులసమితుల్లో ఒకదానిపై %{time} ఒక
+          వ్యాఖ్య రాసారు'
+        commented_changeset: '%{changeset_author} సృష్టించిన, మీరు గమనిస్తూ ఉన్న ఒక
+          మార్పులసమితిపై %{commenter}, %{time} ఒక వ్యాఖ్య పెట్టారు'
+        commented_changeset_html: '%{changeset_author} సృష్టించిన, మీరు గమనిస్తూ ఉన్న
+          ఒక మార్పులసమితిపై %{commenter}, %{time} ఒక వ్యాఖ్య పెట్టారు'
+        partial_changeset_with_comment: '''%{changeset_comment}'' వ్యాఖ్యతో'
+        partial_changeset_with_comment_html: '''%{changeset_comment}'' వ్యాఖ్యతో'
+        partial_changeset_without_comment: వ్యాఖ్యేమీ లేకుండా
+      details: ఈ మార్పులసమితికి సంబంధించిన మరిన్ని వివరాలను %{url} వద్ద చూడవచ్చు.
+      details_html: మార్పులసమితి గురించి మరిన్ని వివరాలను %{url} వద్ద చూడవచ్చు.
+      unsubscribe: ఈ మార్పులసమితి తాజాకరణల నుండి చందా విరమించుకోడానికి, %{url} కు
+        వెళ్ళి, "చందా విరమణ" నొక్కండి.
   confirmations:
     confirm:
       heading: మీ ఈమెయిల్ చూడండి!
       introduction_1: మీకు నిర్ధారణ ఈమెయిలును పంపించాం.
+      press confirm button: మీ ఖాతాను చేతనపరచేందుకు కింది ధ్రువీకరించు బొత్తాన్ని
+        నొక్కండి.
       button: నిర్ధారించు
+      success: మీ ఖాతాను ధ్రువీరించారు. నమోదైనందుకు ధన్యవాదాలు!
       already active: ఈ ఖాతాని ఇప్పటికే నిర్ధారించారు.
+      unknown token: ఆ ధ్రువీకరణ కోడ్ మురిగిపోయింది. లేదా అసలు ఉనికిలోనే లేదు.
+      reconfirm_html: ధ్రువీకరణ మెయిలు మళ్ళీ పంపించమనేట్లైతే, <a href="%{reconfirm}">ఇక్కడ
+        నొక్కండి</a>.
     confirm_resend:
       failure: వాడుకరి %{name} కనబడలేదు.
     confirm_email:
@@ -539,59 +1712,191 @@ te:
         బొత్తాన్ని నొక్కండి.
       button: నిర్ధారించు
       success: మీ ఈమెయిలు చిరునామా నిర్ధారణ అయింది!
+      failure: ఈ టోకెనుతో ఒక ఈమెయిలు చిరునామాను ఈసరికే ధ్రువీకరించారు.
+      unknown_token: ధ్రువీకరణ కోడు మురిగిపోయింది లేదా అదసలు లేనే లేదు.
+    resend_success_flash:
+      confirmation_sent: మేం మరొక ధ్రువీకరణ గమనికను %{email} కు పంపించాం. మీ ఖాతాను
+        ధ్రువీకరించగానే మీరు మ్యాపింగు మొదలుపెట్టవచ్చు.
+      whitelist: మీకు స్పాము వ్యతిరేక వ్యవస్థ ఏదైనా ఉంటే, బహుశా అది ధ్రువీకరణ మెయిళ్ళను
+        స్పాము ఫోల్డరు లోకి పంపిస్తుంది. అంచేత ఈ ఈ %{sender} ను వైట్‌లిస్టులో పెట్టండి.
+        లేదంటే ధ్రువీకరణ అభ్యర్థనలకు మేమిచ్చే జవాబులు అందవు.
   messages:
     inbox:
+      title: ఇన్‌బాక్సు
       my_inbox: నా ఇన్‌బాక్స్
+      my_outbox: నా ఔట్‌బాక్సు
+      messages: మీకు %{new_messages}, %{old_messages} ఉన్నాయి
+      new_messages:
+        one: '%{count} కొత్త సందేశం'
+        other: '%{count} కొత్త సందేశాలు'
+      old_messages:
+        one: '%{count} పాత సందేశం'
+        other: '%{count} పాత సందేశాలు'
+      from: నుండి
       subject: విషయం
       date: తేదీ
+      no_messages_yet_html: మీకింకా సందేశాలేమీ లేవు. %{people_mapping_nearby_link}
+        ఎవరినైనా ఎందుకు సంప్రదించకూడదూ?
+      people_mapping_nearby: సమీపంలో మ్యాపింగు చేస్తున్నవారు
     message_summary:
+      unread_button: చదవనట్లుగా గుర్తుపెట్టు
+      read_button: చదివినట్లుగా గుర్తుపెట్టు
       reply_button: జవాబివ్వు
       destroy_button: తొలగించు
     new:
+      title: సందేశాన్ని పంపించు
       send_message_to_html: '%{name}కి ఒక సందేశాన్ని పంపండి'
       subject: విషయం
+      body: దేహం
+      back_to_inbox: తిరిగి ఇన్‌బాక్సుకు
+    create:
+      message_sent: సందేశాన్ని పంపించాం
+      limit_exceeded: ఈమధ్య మీరు చాలా సందేశాలు పంపించారు. మరిన్ని పంపేముందు కాస్త
+        ఆగండి.
+    no_such_message:
+      title: అలాంటి సందేశమేమీ లేదు
+      heading: అలాంటి సందేశమేమీ లేదు
+      body: సారీ, ఆ ఐడీతో సందేశమేమీ లేదు.
     outbox:
+      title: ఔట్‌బాక్సు
+      my_inbox: నా ఇన్‌బాక్సు
+      my_outbox: నా ఔట్‌బాక్సు
+      messages:
+        one: మీకు %{count} పంపిన సందేశం ఉంది
+        other: మీకు %{count} పంపిన సందేశాలు ఉన్నాయి
+      to: కు
       subject: విషయం
       date: తేదీ
+      no_sent_messages_html: మీకింకా పంపిన సందేశాలు లేవు. %{people_mapping_nearby_link}
+        ఎవరినైనా ఎందుకు సంప్రదించకూడదూ?
+      people_mapping_nearby: సమీపంలో మ్యాపింగు చేస్తున్నవారు
+    reply:
+      wrong_user: మీరు `%{user}' గా లాగినై ఉన్నారు. కానీ మీ సందేశం, మీరు జవాబు ఇవ్వాలని
+        చెప్పిన వాడుకరికి పంపలేదు. సరైన వాడుకరిగా లాగినై జవాబివ్వండి.
     show:
+      title: సందేశం చదవండి
+      from: నుండి
       subject: విషయం
       date: తేదీ
       reply_button: జవాబివ్వు
+      unread_button: చదివినట్లుగా గుర్తుపెట్టు
+      destroy_button: తొలగించు
       back: వెనుకకు
+      to: కు
+      wrong_user: మీరు `%{user}' గా లాగినై ఉన్నారు. కానీ మీరు చదవదలచిన సందేశం ఆ వాడుకరి
+        పంపలేదు, ఆ వాడుకరికి రాలేదు. సరైన వాడుకరిగా లాగినై చదవండి.
     sent_message_summary:
       destroy_button: తొలగించు
+    mark:
+      as_read: సందేశాన్ని చదివినట్లుగా గుర్తుపెట్టాం
+      as_unread: సందేశాన్ని చదవనట్లుగా గుర్తుపెట్టాం
+    destroy:
+      destroyed: సందేశాన్ని తొలగించాం
   passwords:
     lost_password:
       title: సంకేతపదం పోయింది
       heading: సంకేతపదం మర్చిపోయారా?
       email address: 'ఈమెయిల్ చిరునామా:'
+      new password button: సంకేతపదాన్ని మార్చు
+      help_text: నమోదైనపుడు మీరిచ్చిన ఈమెయిలు చిరునామాను ఇవ్వండి. సంకేతపదాన్ని మార్చుకునే
+        లింకును ఆ చిరునామాకు పంపిస్తాం.
+      notice email on way: అయ్యో.. పోయిందా :-( పోన్లెండి, దాన్ని మార్చుకునేందుకు ఒక
+        ఈమెయిలు వచ్చేస్తోంది.
       notice email cannot find: క్షమించండి, ఆ ఈమెయిలు చిరునామా దొరకలేదు.
     reset_password:
+      title: సంకేతపదం మార్పు
+      heading: '%{user} సంకేతపదాన్ని మార్చు'
+      reset: సంకేతపదాన్ని మార్చు
       flash changed: మీ సంకేతపదాన్ని మార్చాం.
+      flash token bad: ఆ టోకెను కనబడలేదు, ఓసారి URL సరిచూస్తారా?
+  preferences:
+    show:
+      title: నా అభీష్టాలు
+      preferred_editor: ఇష్టమైన ఎడిటరు
+      preferred_languages: అభీష్టమైన భాషలు
+      edit_preferences: అభీష్టాలను మార్చు
+    edit:
+      title: అభీష్టాలను మార్చు
+      save: అభీష్టాలను తాజాకరించిఉ
+      cancel: రద్దుచేయి
+    update:
+      failure: అభీష్టాలను తాజాకరించలేక పోయాం.
+    update_success_flash:
+      message: అభీష్టాలను తాజాకరించాం.
   profiles:
     edit:
-      image: 'బొమ్మ:'
+      title: ప్రొఫైలును సవరించండి
+      save: ప్రొఫైలును తాజాకరించండి
+      cancel: రద్దుచేయి
+      image: బొమ్మ
       gravatar:
         gravatar: గ్రావతార్‌ని వాడు
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: గ్రావతార్ అంటే ఏంటి?
+        disabled: గ్రావతార్‌ను అచేతనం చేసాం.
+        enabled: మీ గ్రావతార్‌ను చూపించడం చేత్యనం చేసాం.
+      new image: ఓ బొమ్మను చేర్చండి
       keep image: ప్రస్తుత చిత్రాన్ని ఉంచు
       delete image: ప్రస్తుత చిత్రాన్ని తొలగించు
       replace image: ప్రస్తుత చిత్రాన్ని మార్చు
       image size hint: (కనీసం 100x100 ఉండే చదరపు చిత్రం అయితే మేలు)
-      home location: 'నివాస ప్రాంతం:'
+      home location: ఇంటి స్థానం
       no home location: మీరు మీ నివాస ప్రాంతాన్ని పేర్కొనలేదు.
+      update home location on click: మ్యాపుపై నొక్కినపుడు ఇంటి స్థానాన్ని తాజాకరించాలా?
+    update:
+      success: ప్రొఫైలును తాజాకరించాం.
+      failure: ప్రొఫైలును తాజాకరించలేక పోయాం.
   sessions:
     new:
       title: ప్రవేశం
       heading: ప్రవేశం
       email or username: 'ఈమెయిల్ చిరునామా లేదా వాడుకరిపేరు:'
       password: 'సంకేతపదం:'
+      openid_html: '%{logo} OpenID:'
       remember: నన్ను గుర్తుంచుకో
       lost password link: మీ సంకేతపదం పోయిందా?
       login_button: ప్రవేశించు
       register now: ఇప్పుడే నమోదవ్వండి
+      with username: 'ఈసరికే OpenStreetMap ఖాతా ఉందా? అయితే మీ వాడుకరిపేరు, సంకేతపదాలతో
+        లాగినవండి:'
+      with external: 'లేదా, ఏదైనా థర్డ్ పార్టీతో లాగినవండి:'
       new to osm: ఓపెన్‌స్ట్రీట్‌మ్యాప్‌కి కొత్తా?
+      to make changes: OpenStreetMap డేటాలో మార్పులు చెయ్యాలంటే, మీకు ఖాతా ఉండడం తప్పనిసరి.
       create account minute: ఒక ఖాతాను సృష్టించుకోండి. కేవలం నిమిషంలో అయిపోతుంది.
       no account: మీకు ఖాతా లేదా?
+      account not active: సారీ, మీ ఖాతా ఇంకా చేతనం కాలేదు.<br />ఖాతా ధ్రువీకరణ ఈమెయిల్లో
+        ఉన్న లింకును వాడి మీ ఖాతాను చేతనం చెయ్యండి. లేదా <a href="%{reconfirm}">కొత్త
+        ధ్రువీకరణ ఈమెయిలు పంపమని అడగండి</a>.
+      account is suspended: సారీ, అనుమానాస్పద కార్యకలాపాల కారణంగా మీ ఖాతాను సస్పెండు
+        చేసారు.<br />దీని గురించి చర్చించాలంటే <a href="%{webmaster}">సహాయం</a> ను
+        సంప్రదించండి.
+      auth failure: సారీ, ఈ వివరాలతో లాగిన్ చెయ్యలేకపోయాం.
+      openid_logo_alt: ఏదైనా OpenID తో లాగినవండి
+      auth_providers:
+        openid:
+          title: OpenID తో లాగినవండి
+          alt: ఏదైనా OpenID URL తో లాగినవండి
+        google:
+          title: Google తో లాగినవండి
+          alt: Google OpenID తో లాగినవండి
+        facebook:
+          title: Facebook తో లాగినవండి
+          alt: Facebook ఖాతాతో లాగినవండి
+        windowslive:
+          title: Windows Live తో లాగినవండి
+          alt: Windows Live ఖాతాతో లాగినవండి
+        github:
+          title: GitHub తో లాగినవండి
+          alt: GitHub ఖాతాతో లాగినవండి
+        wikipedia:
+          title: వికీపీడియాతో లాగినవండి
+          alt: వికీపీడియా ఖాతాతో లాగినవండి
+        wordpress:
+          title: వర్డ్‌ప్రెస్‌తో లాగినవండి
+          alt: వర్డ్‌ప్రెస్ OpenID తో లాగినవండి
+        aol:
+          title: AOL తో లాగినవండి
+          alt: AOL OpenID తో లాగినవండి
     destroy:
       title: నిష్క్రమించు
       heading: ఓపెన్‌స్ట్రీట్‌మ్యాప్‌ నుండి నిష్క్రమించండి
@@ -599,6 +1904,7 @@ te:
   shared:
     markdown_help:
       headings: శీర్షికలు
+      heading: శీర్షిక
       subheading: ఉప శీర్షిక
       unordered: క్రమం లేని జాబితా
       ordered: సక్రమ జాబితా
@@ -615,119 +1921,426 @@ te:
   site:
     about:
       next: తదుపరి
+      copyright_html: <span>&copy;</span>OpenStreetMap<br> తోడ్పాటుదార్లు
+      used_by_html: '%{name} వేలాది వెబ్‌సైట్లకు, మొబైలు యాప్‌లకు, హార్డ్‌వేరు డివైసులకూ
+        మ్యాప్ డేటాను అందిస్తుంది'
+      lede_text: OpenStreetMap ను మ్యాపర్ల సముదాయం నిర్మిస్తోంది. ఈ సముదాయ సభ్యులు
+        ప్రపంచ వ్యాప్తంగా రోడ్లు, రెస్టారెంట్లు, రైల్వే స్టేషన్లు లాంటి ఎన్నో అంశాల
+        గురించి డేటాను చేర్చడం, నిర్వహించడం చేస్తున్నారు.
       local_knowledge_title: స్థానిక పరిజ్ఞానం
+      local_knowledge_html: OpenStreetMap స్థానిక పరిజ్ఞానానికి ప్రాముఖ్యత నిస్తుంది.
+        ఇక్కడ తోడ్పాటునందించేవారు విహంగ చిత్రాలను, GPS డివైసులను, లో టెక్ క్షేత్య్ర
+        స్థాయి మ్యాపులనూ వాడి OSM కచ్చితత్వంతో ఉందని, తాజా సమాచారంతో ఉందనీ నిర్థారిస్తారు.
+      community_driven_title: సాముదాయిక కృషితో కూడినది
+      open_data_title: ఓపెన్ డేటా
       partners_title: భాగస్వాములు
     copyright:
       foreign:
         title: ఈ అనువాదం గురించి
+        html: అనువదించిన పేజీకీ %{english_original_link} కూ మధ్య ఘర్షణ ఏర్పడినపుడు
+          ఇంగ్లీషు పేజీదే ప్రాధాన్యత
+        english_link: ఒరిజినలు ఇంగ్లీషు కూర్పు
       native:
         title: ఈ పుట గురించి
+        html: మీరు కాపీహక్కుల పేజీ ఇంగ్లీషు కూర్పును చూస్తున్నారు. తిరిగి ఈ పేజీ %{native_link}
+          కు వెళ్ళవచ్చు, లేదా కాపీహక్కు గురించి %{mapping_link} గురించీ చదవడం ఆపేయవచ్చు.
+        native_link: THIS_LANGUAGE_NAME_HERE కూర్పు
+        mapping_link: మ్యాపింగు మొదలుపెట్టండి
       legal_babble:
-        title_html: కాపీహక్కులు మరియు లైసెన్సు
+        title_html: కాపీహక్కు, లైసెన్సు
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> అనేది <i>ఓపెన్ డేట్</i>. దీన్ని <a
+          href="https://opendatacommons.org/licenses/odbl/">ఓపెన్ డేటా కామన్స్ ఓపెన్ డేటాబేస్ లైసెన్సు </a> (ODbL) కు లోబడి <a
+          href="https://osmfoundation.org/">OpenStreetMap ఫౌండేషను</a> (OSMF) అందిస్తోంది.
+        intro_2_html: |-
+          You are free to copy, distribute, transmit and adapt our data,
+          as long as you credit OpenStreetMap కు శ్రేయస్సును ఆపాదించినంతవరకు మా డేటాను కాపీ చేసుకోవచ్చు, పంపిణీ చేసుకోవచ్చు, ప్రసారం చేసుకోనూ వచ్చు. మా డేటాను మార్చినా, దానిపైన మరింగ్త అభిఉవృద్ధి చేసినా దాని ఫలితాన్ని కూడా అదే లైసెన్సు కింద మాత్రమే పంపిణీ చెయ్యాలి. ఈ పూర్తి <a href="https://opendatacommons.org/licenses/odbl/1.0/">లీగల్ కోడ్</a> మీ హక్కులు, బాధ్యతలను వివరిస్తుంది.
+        intro_3_1_html: మా డాక్యుమెంటేషను <a href="https://creativecommons.org/licenses/by-sa/2.0/">క్రియేటివ్
+          కామన్స్ యాట్రిబ్యూషను షేర్‌అలైక్ 2.0</a> లైసెన్సు (CC BY-SA 2.0) కింద లభ్యమౌతుంది.
+        credit_title_html: OpenStreetMap కు శ్రేయస్సు నివ్వడం ఎలా
+        credit_1_html: |-
+          మీరు &ldquo;&copy; OpenStreetMap
+          contributors&rdquo; అనే క్రిడిట్ వాడాలి.
         attribution_example:
+          alt: వెబ్‌పేజీలో OpenStreetMap కు శ్రేయస్సును ఎలా ఆపాదించాలో చెప్పే ఉదాహరణ
           title: ఆపాదింపు ఉదాహరణ
         more_title_html: మరింత తెలుసుకోవడం
+        more_1_html: |-
+          మా డేటాను ఎలా వాడుకోవచ్చో, మాకు శ్రేయస్సును ఎలా ఆపాదించాలో <a
+          href="https://osmfoundation.org/Licence">OSMF Licence page</a> లో మరింత చదవొచ్చు.
+        more_2_html: "OpenStreetMap అందరికీ లభించే డేటా అయినప్పటికీ, థర్డు పార్టీలకు
+          మ్యాపు API లను ఉచితంగా ఇవ్వం.\nమా <a href=\"https://operations.osmfoundation.org/policies/api/\">API
+          Usage Policy</a>,\n<a href=\"https://operations.osmfoundation.org/policies/tiles/\">Tile
+          Usage Policy</a>, \n<a href=\"https://operations.osmfoundation.org/policies/nominatim/\">Nominatim
+          Usage Policy</a> లను చూడండి."
+        contributors_title_html: మా కాంట్రిబ్యూటర్లు
         infringement_title_html: కాపీహక్కుల ఉల్లంఘన
+        infringement_2_html: "OpenStreetMap డేటాబేసులో గానీ, ఈ సైటులో గానీ కాపీహక్కులున్న
+          సమాచారాన్ని అనుచితంగా వాడారని మీరు భావిస్తే, మా <a href=\"https://wiki.osmfoundation.org/wiki/Takedown_procedure\">తొలగించే
+          పద్ధతిని</a> చూడండి. లేదా నేరుగా మా \n<a href=\"https://dmca.openstreetmap.org/\">ఆన్‌లైను
+          ఫిర్యాదు పేజీలో</a> రాయండి."
         trademarks_title_html: <span id="trademarks"></span>ట్రేడుమార్కులు
     index:
       permalink: స్థిరలంకె
       shortlink: చిన్నలింకు
+      createnote: ఓ నోట్‍ను చేర్చండి
     edit:
       user_page_link: వాడుకరి పేజీ
+      anon_edits_html: (%{link})
+      anon_edits_link_text: ఇది ఇలా ఎందుకుందో తెలుసుకోండి.
+      no_iframe_support: మీ బ్రౌజరులో HTML iframes కు మద్దతు లేదు. ఈ అంశం పనిచేసేందుకు
+        అది అవసరం.
     export:
       title: ఎగుమతి
+      area_to_export: ఎగిమతి చెయ్యాల్సిన ప్రాంతం
+      manually_select: వేరే ప్రాంతాన్ని మానవికంగా ఎంచుకోండి
+      format_to_export: ఎగిమతి చెయ్యాల్సిన ఆకృతి
+      osm_xml_data: OpenStreetMap XML డేటా
+      map_image: మ్యాపు బొమ్మ (ప్రామాణిక పొరను చూపిస్తుంది)
       embeddable_html: ఇముడ్చగలిగే HTML
       licence: లైసెన్సు
+      export_details_html: OpenStreetMap డేటా <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
+        Data Commons Open Database License</a> (ODbL) కు లోబడి ఉంటుంది.
       too_large:
+        advice: 'పై ఎగుమతి విఫలమైతే, కింది జాబితా లోంచి ఒక మూలాన్ని వాడండి:'
+        body: ఈ ప్రాంతాన్ని OpenStreetMap XML డేటాగా ఎగుమతి చెయ్యగలిగిన దాని కంటే
+          పెద్దదిగా ఉంది. జూమిన్ చెయ్యండి, లేదా మరింత చిన్న ప్రాంతాన్ని ఎంచుకోండి,
+          లేదా కింద ఉన్న, టోకున దించుకునేందుకు వీలైన మూలాల జాబితా నుండి ఒకదాన్ని వాడండి.
+        planet:
+          title: Planet OSM
+          description: ఎప్పటికప్పుడూ తాజాకరిస్తూ ఉన్న OpenStreetMap సంపూర్ణ డేటాబేసుకు
+            చెందిన కాపీలు
+        overpass:
+          title: Overpass API
         other:
           title: ఇతర మూలాలు
+          description: Additional sources listed on the OpenStreetMap వికీలోని జాబితాలో
+            ఉన్న అదనపు మూలాలు
       options: ఎంపికలు
       format: ఫార్మాటు
       scale: కొలబద్ద
       max: గరిష్టం
       image_size: బొమ్మ పరిమాణం
       zoom: పెద్దది
+      add_marker: మ్యాపుకు ఒక మార్కరును చేర్చండి
       latitude: 'అక్షాం:'
       longitude: 'రేఖాం:'
+      output: ఔట్‌పుట్
+      paste_html: వెబ్‌సైటులో ఇమిడ్చే HTML ను అతికించండి
+      export_button: ఎగుమతించు
     fixthemap:
+      title: సమస్యను నివేదించండి / మ్యాపును సరిచెయ్యండి
       how_to_help:
         title: ఎలా తోడ్పడాలి
+        join_the_community:
+          title: సముదాయంలో చేరండి
+          explanation_html: మా మ్యాపు డేటాలో మీకేదైనా సమస్య కనిపిస్తే - ఉదాహరణకు మీ
+            అడ్రసు లేకపోవడమో, ఏదైనా రోడ్డు లేకపోవడమో లాంటివి - OpenStreetMap సముదాయంలో
+            చేరి ఆ డేటాను మీరే బాగుచెయ్యడమో లేదా అవసరమైన చేర్పులు చెయ్యడమో ఉత్తమమైన
+            పద్ధతి.
+      other_concerns:
+        title: ఇతర ఆందోళనలు
+        explanation_html: "మా డేటాను ఎలా వినియోగిస్తున్నారో నన్న ఆందోళనలు మీకు ఉంటే,
+          మరింత చట్టపరమైన సమాచారాన్ని ఇచ్చే మా \n<a href='/copyright'>కాపీహక్కు పేజీని</a>
+          చూడండి. లేదా సరైన\n<a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF
+          కార్య సమూహాన్ని</a> సంప్రదించండి."
     help:
       title: సహాయం పొందడం
       welcome:
+        url: /welcome
         title: ఓపెన్‌స్ట్రీట్‌మ్యాప్‌కి స్వాగతం
+        description: OpenStreetMap ప్రాథమికాంశాలను వివరించే ఈ సత్వర మార్గదర్శినితో
+          మొదలు పెట్టండి.
+      beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
+        title: కొత్తవారికి మార్గదర్శిని
+        description: కొత్తవారి కోసం సముదాయం నిర్వహించే మార్గదర్శిని.
+      help:
+        url: https://help.openstreetmap.org/
+        title: సహాయ వేదిక
+        description: OpenStreetMap వారి ప్రశ్న-జవాబుల సైట్లో మీ ప్రశ్నలు అడగండి, లేదా
+          సమాధానాల కోసం చూడండి.
+      mailing_lists:
+        title: మెయిలింగు జాబితాలు
+      forums:
+        title: వేదికలు
+        description: బులెటిన్ బోర్డు శైలిలో ఉండే ఇంటేర్‌ఫేసును ఇష్టపడేవారి కోసం ప్రశ్నలు
+          చర్చలూ.
+      irc:
+        title: IRC
+        description: అనేక అంశాలపై అనేక భాషల్లో ఉన్న పరస్పర సంభాషణలు.
+      switch2osm:
+        title: switch2osm
+        description: OpenStreetMap ఆధారిత మ్యాపులు, ఇతర సేవలకు మారిపోయే సంస్థల కోసం.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: సంస్థల కోసం
+        description: OpenStreetMap వాడేందుకు ఆలోచిస్తున్న సంస్థలో పనిచేస్తున్నారా?
+          స్వాగత ద్వారం వద్ద మీరు తెలుసుకోవాల్సినవి ఏమిటో తెలుసుకోండి.
+      wiki:
+        url: https://wiki.openstreetmap.org/
+        title: OpenStreetMap వికీ
+        description: లోతైన OpenStreetMap డాక్యుమెంటేషను కోసం వికీలో శోధించండి
+    potlatch:
+      desktop_html: మీరు <a href="https://www.systemed.net/potlatch/">మాక్, విండోస్
+        ల్లో పనిచేసే డెస్క్‌టాప్ అనువర్తనాన్ని దించుకుని</a> Potlatch వాడుకోవచ్చు.
+      id_html: లేదా, మీ డీఫాల్టు ఎడిటరుగా iD ను పెట్టుకోవచ్చు. గతంలో Potlatch పనిచేసిన
+        విధం గానే ఇది కూడా బ్రౌజరులో పనిచేస్తుంది. <a href="%{settings_url}">మీ అభీష్టాలను
+        ఇక్కడ మార్చుకోండి</a>.
     sidebar:
       search_results: అన్వేషణ ఫలితాలు
       close: మూసివేయి
     search:
       search: వెతుకు
+      get_directions: మార్గసూచనలను పొందండి
+      get_directions_title: రెండూ బిందువుల మధ్య మార్గసూచనలను తెలుసుకోండి
+      from: నుండి
+      to: కు
       where_am_i: ఇది ఎక్కడ ఉంది?
+      where_am_i_title: సెర్చి ఇంజను వాడీ ప్రస్తుత స్థానాన్ని వివరించండి
       submit_text: వెళ్ళు
+      reverse_directions_text: మార్గసూచనలను తిరగవెయ్యి
     key:
       table:
         entry:
+          motorway: మోటార్‌వే
+          main_road: మెయిన్ రోడ్డు
+          trunk: ట్రంకు రోడ్డు
           primary: ప్రధాన రహదారి
           secondary: ద్వితీయ శ్రేణి రహదారి
+          unclassified: వర్గీకరించని రోడ్డు
+          track: ట్రాకు
+          cycleway: సైకిలు దారి
+          cycleway_national: జాతీయ సైకిలు దారి
+          cycleway_regional: ప్రాంతీయ సైకిలు దారి
+          cycleway_local: స్థానిక సైకిలు దారి
           footway: కాల్దారి
+          rail: రైలుమార్గం
           subway: కిందారి
+          tram:
+          - లైట్ రైల్
+          - ట్రాము
+          cable:
+          - కేబుల్ కారు
+          - చెయిర్ లిఫ్ట్
+          runway:
+          - విమానాశ్రయం రన్‌వే
+          - టాక్సీ వే
+          apron:
+          - విమానాశ్రయం ఏప్రాన్
+          - టర్మినల్
           admin: పరిపాలనా సరిహద్దు
           forest: అడవి
           wood: కలప
+          golf: గోల్ఫ్ కోర్సు
           park: పార్కు
           resident: నివాస ప్రాంతం
           common:
           - పచ్చికబయలు
           - పచ్చికబయలు
+          retail: రిటెయిల్ ప్రదేశం
           industrial: పారిశ్రామిక ప్రదేశం
           commercial: వాణిజ్య ప్రదేశం
           lake:
           - సరస్సు
           - జలాశయం
           farm: పొలాలు
+          brownfield: బ్రౌన్‌ఫీల్డ్ స్థలం
           cemetery: స్మశానం
+          pitch: క్రీడల పిచ్
+          centre: క్రీడా కేంద్రం
+          reserve: ప్రకృతి సంరక్షణ కేంద్రం
           military: మిలిటరీ ప్రదేశం
           school:
           - పాఠశాల
           - విశ్వవిద్యాలయం
           building: ప్రముఖ కట్టడము
           station: రైల్వే స్టేషన్
+          summit:
+            1: శిఖరం
+          bridge: Black casing = వంతెన
           construction: నిర్మాణంలో ఉన్న రహదార్లు
+          bicycle_shop: సైకిలు దుకాణం
+          bicycle_parking: సైకిలు పార్కింగు
           toilets: మరుగుదొడ్లు
     welcome:
       title: స్వాగతం!
       whats_on_the_map:
-        title: పటంలో ఏముంది
+        title: పటంలో ఏముంటాయి
+      basic_terms:
+        title: మ్యాపులకు సంబంధించిన ప్రాథమిక పదాలు
+        paragraph_1_html: OpenStreetMap కు స్వంత పరిభాష ఉంది. మీకు పనికొచ్చే కొన్ని
+          కీలకమైన పదాలు ఇక్కడున్నాయి చూడండి.
+        editor_html: <strong>ఎడిటరు</strong> అంటే మ్యాపును సవరించే ప్రోగ్రాము లేదా
+          వెబ్‌సైటు.
+        node_html: 'A <strong>బుడిపె</strong> అంటే మ్యాపులో ఉండే ఒక బిందువు. ఉదా:
+          ఒక రెస్టారెంటు, చెట్టు మొదలైనవి'
+        way_html: 'A <strong>దారి</strong> అనేది ఒక గీత గానీ, ప్రదేశం గానీ. ఉదా: రోడ్డు,
+          వాగు, చెరువు, భవనం.'
+        tag_html: <strong>ట్యాగు</strong> అనేది బుడిపె లేదా దారికి సంబంధించిన డేటా
+          ఐటము. ఉదాహరణకు రెస్టారెంటుకు పేరు, రోడ్డుకు వేగ పరిమితి.
       rules:
         title: నియమాలు!
       questions:
         title: సందేహాలున్నాయా?
+      start_mapping: మ్యాపింగు మొదలుపెట్టండి
       add_a_note:
         title: సరిదిద్దేంత సమయం లేదా? ఒక గమనికను చేర్చండి!
+        paragraph_1_html: ఏదో చిన్న మార్పు చెయ్యాల్సిన అవసరాన్ని మీరు గమనించారనుకోండి.
+          కానీ ఇక్కడ నమోదు చేసుకుని, దిద్దుబాట్లు ఎలా చెయ్యాలో నేర్చుకుని పనిచేసేందుకు
+          తగినంత సమయం లేదు. అలాంటపుడు ఒక గమనిక చేరిస్తే సరిపోతుంది.
   traces:
+    visibility:
+      private: ప్రైవేటు (అజ్ఞాత పేరిట మాత్రమే కనిపిస్తుంది, ఆర్డరు చేయని పాయింట్లతో)
+      public: బహిరంగం (అనుసరణ జాబితాలో అజ్ఞాతగా చూపిస్తుంది, ఆర్డరు చేయని పాయింట్లతో)
+      trackable: ట్రాకబుల్ (అజ్ఞాత పేరిట మాత్రమే కనిపిస్తుంది, ఆర్డరు చేసిన పాయింట్లు,
+        టైమ్‌స్టాంపులతో)
+      identifiable: ఐడెంటిఫయబుల్ (ట్రేస్ జాబితాలో ఐడెంటిఫయబుల్ అని చూపిస్తుంది, ఆర్డరు
+        చేసిన పాయింట్లు, టైమ్‌స్టాంపులతో)
     new:
+      upload_trace: GPS ట్రేస్‌ను ఎక్కించండి
       visibility_help: దీని అర్థమేమిటి?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: సహాయం
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
+    create:
+      upload_trace: GPS ట్రేస్‌ను ఎక్కించండి
+      trace_uploaded: మీ GPX ఫైలును ఎక్కించాం. డేటాబేసులో చేర్చేందుకోసం వేచి ఉంది.
+        సాధారణంగా దీనికి ఒక అరగంట పడుతుంది. పూర్తవగానే మీకు ఈమెయిలు వస్తుంది.
+      upload_failed: సారీ, GPX ఎక్కింపు విఫలమైంది. లోపం గురించి ఒక నిర్వాహకునికి తెలియబరచాం.
+        మళ్ళీ ప్రయత్నించండి
     edit:
       cancel: రద్దుచేయి
+      title: '%{name} ట్రేసును సవరిస్తున్నారు'
+      heading: '%{name} ట్రేసు సవరణ'
       visibility_help: దీని అర్థం ఏమిటి?
+    update:
+      updated: ట్రేసును తాజాకరించారు
+    trace_optionals:
+      tags: ట్యాగులు
     show:
+      title: '%{name} ట్రేసు సవరణ'
+      heading: '%{name} ట్రేసు సవరణ'
+      pending: పెండింగు
       filename: 'ఫైలుపేరు:'
       download: దింపుకోలు
+      uploaded: 'ఎక్కించబడింది:'
       points: 'బిందువులు:'
+      start_coordinates: 'ఆరంభ నిర్దేశాంకాలు:'
+      coordinates_html: '%{latitude}; %{longitude}'
+      map: మ్యాపు
       edit: మార్చు
       owner: 'యజమాని:'
       description: 'వివరణ:'
+      tags: 'ట్యాగులు:'
+      none: ఏమీలేవు
+      edit_trace: ఈ ట్రేసును సవరించండి
+      delete_trace: ఈ ట్రేసును తొలగించండి
+      trace_not_found: ట్రేసు కనబడలేదు!
+      visibility: 'దృశ్యత:'
+      confirm_delete: ఈ ట్రేసును తొలగించాలా?
+    trace_paging_nav:
+      showing_page: '%{page} పేజీ'
+      older: పాత ట్రేసులు
+      newer: కొత్త ట్రేసులు
     trace:
+      pending: పెండింగు
       count_points:
         one: 1 బిందువు
         other: '%{count} బిందువులు'
       more: మరిన్ని
+      trace_details: ట్రేసు వివరాలను చూడండి
+      view_map: మ్యాపు చూడండి
+      edit_map: మ్యాపును సవరించండి
+      public: బహిరంగం
+      identifiable: ఐడెంటిఫయబుల్
+      private: ప్రైవేటు
+      trackable: ట్రాకబుల్
+    index:
+      public_traces: బహిరంగ GPS ట్రేసులు
+      public_traces_from: '%{user} గారి బహిరంగ GPS ట్రేసులు'
+      description: ఇటీవల ఎక్కించిన GPS ట్రేసులను శోధించండి
+      tagged_with: '%{tags} ట్యాగు తగిలించినవి'
+      empty_html: ఇక్కడ అప్పుడే ఏమీ లేవు. <a href='%{upload_link}'>ఓ కొత ట్రేసును
+        ఎక్కించండి</a> లేదా GPS ట్రేసింగు గురించి <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki
+        page</a> వద్ద మరింత తెలుసుకోండి.
+      upload_trace: ఓ ట్రేసును ఎక్కించండి
+      all_traces: ట్రేసులన్నీ
+      my_traces: నా ట్రేసులు
+      traces_from: '%{user} గారి బహిరంగ ట్రేసులు'
+      remove_tag_filter: ట్యాగు వడపోతను తీసెయ్యి
+    destroy:
+      scheduled_for_deletion: ఈ ట్రేసు తొలగింపు కోసం వేచి ఉంది
+    make_public:
+      made_public: ట్రేసును బహిరంగ పరచాం
+    offline_warning:
+      message: GPX ఫైలు ఎక్కింపు వ్యవస్థ ప్రస్తుతం అందుబాటులో లేదు
+    offline:
+      heading: GPX స్టోరేజీ ఆఫ్‌లైను లోకి పోయింది
+      message: ఫైలు స్టోరేజీ, ఎక్కింపు వ్యవస్థ ప్రస్తుతం అందుబాటులో లేదు.
+    georss:
+      title: OpenStreetMap GPS ట్రేసులు
+    description:
+      description_with_count:
+        one: '%{count} బిందువుతో %{user} గారి GPX ఫైలు'
+        other: '%{count} బిందువులతో %{user} గారి GPX ఫైలు'
+      description_without_count: '%{user} గారి GPX ఫైలు'
+  application:
+    permission_denied: ఈ చర్య చేసేందుకు మీకు అనుమతి లేదు
+    require_cookies:
+      cookies_needed: మీ కూకీలను అచేతనం చేసినట్లున్నారు - ముందు మీ బ్రౌజరులో కూకీలను
+        చేతనం చేసుకుని, ఆపై ముందుకు సాగండి.
+    require_admin:
+      not_an_admin: ఆ పని చెయ్యాలంటే మీరు నిర్వాహకులై ఉండాలి.
+    setup_user_auth:
+      blocked_zero_hour: OpenStreetMap వెబ్‌సైట్లో మీకు ఒక అర్జెంటు సందేశం ఉంది. మీ
+        దిద్దుబాట్లను భద్రపరచాలంటే, ముందు మీరు ఆ సందేశాన్ని చదవాల్సి ఉంటుంది.
+      blocked: మీరు API ని అందుకోకుండా నిరోధించాం. వెబ్ ఇంటర్‌ఫేసు లోకి లాగినై, దాని
+        గురించి మరింత తెలుసుకోండి.
+      need_to_see_terms: మీరు API ని అందుకోకుండా తాత్కాలికంగా సస్పెండు చేసారు. వెబ్
+        ఇంటర్‌ఫేసు లోకి లాగినై, కాంట్రిబ్యూటరు నిబంధనల గురించి తెలుసుకోండి. వాటిని
+        మీరు ఒప్పుకోవాల్సిన అవసరం లేదు, కానీ వాటిని చూసి తీరాలి.
+    settings_menu:
+      account_settings: ఖాతా అమరికలు
+      oauth1_settings: OAuth 1 అమరికలు
+      oauth2_applications: OAuth 2 అనువర్తనాలు
+      oauth2_authorizations: OAuth 2 ఆథరైజేషన్లు
+  oauth:
+    authorize:
+      title: మీ ఖాతాను అందుకునేందుకు ఆథరైజు చెయ్యండి
+      allow_read_prefs: మీ వాడుకరి అభీష్టాలను చదవడం.
+      allow_write_prefs: మీ వాడుకరి అభీష్టాలను మార్చుకోవడం.
+      allow_write_diary: డైరీ ఎంట్రీలు, వ్యాఖ్యలు సృష్టించడం, మిత్రులను చేసుకోవడం.
+      allow_write_api: మ్యాపును సవరించడం.
+      allow_read_gpx: మీ ప్రైవేటు GPS ట్రేసులను చదవడం.
+      allow_write_gpx: GPS ట్రేసులను ఎక్కించడం.
+      allow_write_notes: గమనికలను సవరించడం.
+    authorize_success:
+      title: ఆథరైజేషను అభ్యర్థనను అనుమతించాం
+    scopes:
+      read_prefs: వాడుకరి అభీష్టాలను చదువు
+      write_prefs: వాడుకరి అభీష్టాలను మార్చు
+      write_diary: డైరీ ఎంట్రీలు, వ్యాఖ్యలు సృష్టించండి, మిత్రులను చేసుకోండి
+      write_api: మ్యాపు సవరించండి
+      read_gpx: ప్రైవేటు GPS ట్రేసులను చదవండి
+      write_gpx: GPS ట్రేసులను ఎక్కించండి
   oauth_clients:
     show:
       edit: వివరాలను మార్చు
       confirm: నిశ్చయంగానే ఉన్నారా?
     index:
       application: ఉపకరణపు పేరు
+  oauth2_applications:
+    index:
+      new: కొత్త అనువర్తనాన్ని నమోదు చెయ్యండి
+      name: పేరు
+      permissions: అనుమతులు
+    application:
+      edit: మార్చు
+      delete: తొలగించు
+      confirm_delete: ఈ అనువర్తనాన్ని తొలగించాలా?
+    new:
+      title: కొత్త అనువర్తనాన్ని నమోదు చెయ్యి
   users:
     new:
       title: నమోదవ్వండి
@@ -739,6 +2352,7 @@ te:
       heading: నియమాలు
       read_tou: నేను వాడుక నియమాలను చదివాను, వాటికి అంగీకరిస్తున్నాను
       consider_pd_why: ఇది ఏమిటి?
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       continue: కొనసాగించు
       decline: తిరస్కరించు
       legale_select: 'నివసించే దేశం:'
@@ -749,99 +2363,223 @@ te:
       heading: '%{user} వాడుకరి లేనే లేరు'
     show:
       my diary: నా డైరీ
+      new diary entry: కొత్త డైరీ పద్దు
       my edits: నా మార్పులు
+      my traces: నా ట్రేసులు
       my notes: నా గమనికలు
       my messages: నా సందేశాలు
       my profile: నా ప్రొఫైలు
       my settings: నా అమరికలు
       my comments: నా వ్యాఖ్యలు
+      my_preferences: నా అభీష్టాలు
+      my_dashboard: నా డ్యాష్‌బోర్డు
       blocks on me: నా మీద నిరోధాలు
       blocks by me: నా నిరోధాలు
+      edit_profile: ప్రొఫైలును సవరించండి
       send message: సందేశాన్ని పంపించు
       diary: డైరీ
       edits: మార్పులు
+      traces: ట్రేసులు
       notes: పటపు గమనికలు
       remove as friend: స్నేహితునిగా తొలగించు
       add as friend: స్నేహితునిగా చేర్చు
+      mapper since: 'ఇప్పటినుండి మ్యాపరు:'
+      ct status: 'తోడ్పాటు నియమాలు:'
       ct undecided: నిర్ణయించుకోలేదు
       ct declined: తిరస్కరించారు
       latest edit: 'చివరి మార్పు (%{ago}):'
       email address: 'ఈమెయిలు చిరునామా:'
       status: 'స్థితి:'
+      spam score: 'స్పామ్ స్కోరు:'
       description: వివరణ
       user location: వాడుకరి ప్రాంతం
       role:
         administrator: ఈ వాడుకరి ఒక నిర్వాహకులు
+        moderator: ఈ వాడుకరి ఒక మోడరేటరు
+        grant:
+          administrator: నిర్వాహక హోదాను ఇవ్వండి
+          moderator: నిర్వాహక హోదాను ఇవ్వండి
+        revoke:
+          administrator: నిర్వాహక హోదాను తీసెయ్యండి
+          moderator: నిర్వాహక హోదాను తీసెయ్యండి
+      block_history: క్రియాశీల నిరోధాలు
       comments: వ్యాఖ్యలు
       create_block: ఈ వాడుకరిని నిరోధించు
+      activate_user: ఈ వాడుకరిని చేతనం చెయ్యి
+      deactivate_user: ఈ వాడుకరిని అచేతనం చెయ్యి
+      confirm_user: ఈ వాడుకరిని ధ్రువీకరించు
+      unconfirm_user: ఈ వాడుకరి ధ్రువీకరణను రద్దుచెయ్యి
+      unsuspend_user: ఈ వాడుకరి సస్పెన్షన్ను రద్దుచెయ్యి
+      hide_user: ఈ వాడుకరిని దాచు
+      unhide_user: ఈ వాడుకరిని చూపు
       delete_user: ఈ వాడుకరిని తొలగించు
       confirm: నిర్ధారించు
-    account:
-      title: ఖాతా మార్పు
-      my settings: నా అమరికలు
-      current email address: 'ప్రస్తుత ఈ-మెయిలు చిరునామా:'
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: ఇది ఏమిటి?
-      public editing:
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: ఇది ఏమిటి?
-        disabled link text: నేను ఎందుకు మార్చలేను?
-      contributor terms:
-        link text: ఇది ఏమిటి?
-      save changes button: మార్పులను భద్రపరచు
-      make edits public button: నా దిద్దుబాట్లన్నింటినీ బహిరంగం చేయి
-      flash update success: వాడుకరి సమాచారం విజయవంతంగా తాజాకరించబడింది.
+      report: ఈ వాడుకరిపై ఫిర్యాదు చెయ్యి
+    set_home:
+      flash success: ఇంటీ స్థానాన్ని జయప్రదం భద్రపరచాం
     go_public:
       flash success: ఇప్పుడు మీ మార్పుచేర్పులన్నీ బహిరంగం, మీరు ఇక నుండి దిద్దుబాట్లు
         చేయవచ్చు.
     index:
       title: వాడుకరులు
       heading: వాడుకరులు
+      showing:
+        one: పేజీ %{page} (%{items} లో %{first_item})
+        other: పేజీ %{page} (%{items} లో %{first_item}-%{last_item})
+      summary_html: '%{name}, %{date} న %{ip_address} నుండి సృష్టించారు'
+      summary_no_ip_html: '%{name} %{date} న సృష్టించారు'
+      confirm: ఎంచుకున్న వాడూకరులను ధ్రువీకరించు
+      hide: ఎంచుకున్న వాడుకరులను దాచు
+      empty: సరిపోలే వాడుకరులు కనబడలేదు
+    suspended:
+      title: ఖాతాను సస్పెండు చేసారు
+      heading: సస్పెండు చేసిన ఖాతా
+      support: సహాయం
+      body_html: "<p>\n  సారీ, అనుమానాస్పద కార్యకలాపాల కారణంగా మీ ఖాతాను \n  ఆటోమాటిగ్గా
+        సస్పెండు చేసారు.\n</p>\n<p>\n  త్వరలోనే నిర్వాహకులు ఈ నిర్ణయాన్ని సమీక్షిస్తారు,
+        లేదా\n  మీరు దీనిపై చర్చించాలనుకుంటే %{webmaster} ను సంప్రదించవచ్చు.\n</p>"
+    auth_failure:
+      connection_failed: ఆథెంటికేషను చేసేవారితో కనెక్టవడం విఫలమైంది
+      invalid_credentials: చెల్లని ఆథెంటికేషను వివరాలు
+      no_authorization_code: ఆథెంటికేషను కోడేమీ లేదు
+      unknown_signature_algorithm: తెలియని సంతకం అల్గారిథమ్
+      unknown_error: ఆథెంటికేషను విఫలమైంది
+    auth_association:
+      heading: మీ ID ఇంకా ఏ OpenStreetMap ఖాతాకూ అనుబంధించి లేదు.
+      option_1: మీరు OpenStreetMap కు కొత్తైతే, కింది ఫారమును వాడి కొత్త ఖాతాను సృష్టించుకోండి.
+      option_2: మీకి ఈసరికే ఖాతా ఉంటే, మీ వాడుకరిపేరు, సంకేతపదాలను వాడి దాన్లోకి లాగినవండి.
+        ఆ తరువాత ఆ ఖాతాను మీ ID తో అనుబంధించండి.
   user_role:
+    filter:
+      not_a_role: '`%{role}'' అనేది సరైన పాత్ర కాదు.'
+      already_has_role: ఈ వాడూకరికి ఈసరికే %{role} అనే పాత్ర ఉంది.
+      doesnt_have_role: ఈ వాడుకరికి %{role} అనే పాత్ర లేదు.
+      not_revoke_admin_current_user: ప్రస్తుత వాడుకరి నుండి నిర్వాహక హోదాను తీసెయ్యడం
+        విఫలమైంది.
     grant:
+      title: పాత్ర అనుమతిని నిర్థారించండి
+      heading: పాత్ర అనుమతి నిర్థారణ
+      are_you_sure: వాడుకరి `%{name}' కి `%{role}' పాత్ర ఇవ్వాలని మీరు నిశ్చయించుకున్నారా?
       confirm: నిర్ధారించు
+      fail: వాడుకరి `%{name}' కు `%{role}' పాత్రను ఇవ్వలేకపోయాం. వాడుకరి, పాత్ర రెండూ
+        సరైనవేనని నిర్థారించుకోండి.
     revoke:
+      title: పాత్ర ఉపసంహరణను నిర్థారించండి
+      heading: పాత్ర ఉపసంహరణ నిర్థారణ
+      are_you_sure: వాడుకరి `%{name}' నుండి `%{role}' ను ఉపసంహరించాలని మీరు నిశ్చయించుకున్నారా?
       confirm: నిర్ధారించు
+      fail: వాడుకరి `%{name}' నుండి `%{role}' ను ఉపసంహరించలేఖ పోయాం. వాడుకరి, పాత్ర
+        రెండూ సరైనవేనని నిర్థారించుకోండి.
   user_blocks:
+    model:
+      non_moderator_update: నిరోధాన్ని విధించాలన్నా, తాజాకరించాలన్నా మోడరేటరై ఉండాలి.
+      non_moderator_revoke: నిరోధాన్ని ఎతివేయాలంటే మోడరేటరై ఉండాలి.
+    not_found:
+      sorry: సారీ, %{id} ID తో వాడుకరి నిరోధమేదీ కనబడలేదు.
+      back: తిరిగి ఇండెక్సుకు
     new:
+      title: '%{name} పై నిరోధం విధిస్తున్నాం'
+      heading_html: '%{name} పై నిరోధం విధిస్తున్నాం'
+      period: ఇప్పుడు మొదలుపెట్టి, ఎంత కాలం పాటు వాడుకరి API వాడకుండా నిరోధంలో ఉంటారు.
+      tried_contacting: నేను వాడుకరిని సంప్రదించి, ఆపమని చెప్పాను.
+      tried_waiting: ఈ సంప్రదింపులకు స్పందించేందుకు గాను ఈ వాడుకరికి తగినంత సమయం ఇచ్చాను.
       back: అన్ని నిరోధాలను చూడండి
     edit:
+      title: '%{name} పై ఉన్న నిరోధాన్ని సవరిస్తున్నారు'
+      heading_html: '%{name} పై ఉన్న నిరోధాన్ని సవరిస్తున్నారు'
+      period: ఇప్పుడు మొదలుపెట్టి, ఎంత కాలం పాటు వాడుకరి API వాడకుండా నిరోధంలో ఉంటారు.
       show: ఈ నిరోధాన్ని చూడండి
+      back: అన్ని నిరోధాలను చూడండి
+    filter:
+      block_expired: నిరోధం ఈసరికే ముగిసిపోయింది. దాన్ని సవరించలేరు.
+      block_period: నిరోధ కాలం డ్రాప్ డౌన్ జాబితా లోంచి ఎంచుకునే విలువల్లో ఒకటై ఉండాలి.
+    create:
+      try_contacting: నిరోధం విధించే ముందు, వారిని సంప్రదించి, ప్రతిస్పందించేందుకు
+        వారికి తగినంత సమయం ఇవ్వండి.
+      try_waiting: నిరోధం విధించే ముందు, ప్రతిస్పందించేందుకు వారికి తగినంత సమయం ఇవ్వండి.
+      flash: వాడుకరి %{name} పై నిరోధం సృష్టించారు.
+    update:
+      only_creator_can_edit: నిరోధాన్ని సృష్టించిన మోడరేటరే దాన్ని సవరించగలరు.
+      success: నిరోధాన్ని తాజాకరించారు.
     index:
       title: వాడుకరి నిరోధాలు
       heading: వాడుకరి నిరోధాల జాబితా
+      empty: ఇంకా నిరోధాలేమీ విధించలేదు.
     revoke:
+      title: '%{block_on} పై ఉన్న నిరోధాన్ని ఎత్తేస్తున్నారు.'
+      heading_html: '%{block_on} పై %{block_by} విధించిన నిరోధాన్ని ఎత్తేస్తున్నారు.'
+      time_future: '%{time} కు నిరోధం ముగుస్తుంది.'
+      past: '%{time} కు నిరోధం ముగిసిపోయింది. ఇప్పుడు దాన్ని ఎత్తివేయలేరు.'
       confirm: మీరు నిజంగానే ఈ నిరోధాన్ని ఎత్తివేయాలనుకుంటున్నారా?
+      revoke: ఎత్తివేయండి!
+      flash: నిరోధాన్ని ఎత్తివేసారు.
     helper:
       time_future_html: '%{time}లో ముగుస్తుంది.'
+      until_login: వాడుకరి లాగిన్ అయ్యేదాకా చేతనంగా ఉంటుంది.
+      time_future_and_until_login_html: '%{time} కు, వాడుకరి లాగిన్ అయ్యాక ముగుస్తుంది.'
       time_past_html: '%{time} క్రితం ముగిసింది.'
       block_duration:
         hours:
           one: 1 గంట
           other: '%{count} గంటలు'
+        days:
+          one: 1 రోజు
+          other: '%{count} రోజులు'
+        weeks:
+          one: 1 వారం
+          other: '%{count} వారాలు'
+        months:
+          one: 1 నెల
+          other: '%{count} నెలలు'
+        years:
+          one: 1 సంవత్సరం
+          other: '%{count} సంవత్సరాలు'
     blocks_on:
       title: '%{name} పై నిరోధాలు'
       heading_html: '%{name}పై ఉన్న నిరోధాల జాబితా'
+      empty: '%{name} ను ఇంకా నిరోధించలేదు.'
+    blocks_by:
+      title: '%{name} విధించిన నిరోధాలు'
+      heading_html: '%{name} విధించిన నిరోధాల జాబితా'
+      empty: '%{name} ఇంకా నిరోధాలేమీ విధించలేదు.'
     show:
-      status: స్థితి
+      title: '%{block_on} ను %{block_by} నిరోధించారు'
+      heading_html: '%{block_on} ను %{block_by} నిరోధించారు'
+      created: 'సృష్టించినది:'
+      duration: 'నిడివి:'
+      status: 'స్థితి:'
       show: చూపించు
       edit: మార్చు
+      revoke: ఎత్తివేయండి!
       confirm: నిశ్చయించుకున్నారా?
       reason: 'నిరోధానికి కారణం:'
       back: అన్ని నిరోధాలను చూడండి
+      revoker: 'ఎత్తివేసేవారు:'
+      needs_view: ఈ నిరోధం తొలగిపోవాలంటే ఈ వాడుకరి లాగినవ్వాలి.
     block:
+      not_revoked: (ఎత్తివేయలేదు)
       show: చూపించు
       edit: మార్చు
+      revoke: ఎత్తివేయండి!
     blocks:
+      display_name: నిరోధిత వాడుకరి
+      creator_name: సృష్టికర్త
       reason: నిరోధానికి కారణం
       status: స్థితి
+      revoker_name: ఎత్తివేసినవారు
+      showing_page: పేజీ %{page}
       next: తదుపరి »
       previous: « మునుపటి
   notes:
     index:
+      title: గమనికలు సమర్పించినది లేదా వ్యాఖ్యానించినది %{user}
       heading: '%{user} గమనికలు'
+      subheading_html: గమనికలు సమర్పించినది లేదా వ్యాఖ్యానించినది %{user}
+      no_notes: గమనికలేమీ లేవు
+      id: ఐడీ
+      creator: సృష్టికర్త
       description: వివరణ
+      created_at: సృష్టించిన తేదీ
       last_changed: చివరి మార్పు
   javascripts:
     close: మూసివేయి
@@ -849,22 +2587,55 @@ te:
       title: పంచుకోండి
       cancel: రద్దుచేయి
       image: బొమ్మ
+      link: లింకు లేదా HTML
       long_link: లంకె
       short_link: పొట్టి లంకె
+      geo_uri: Geo URI
+      embed: HTML
+      format: 'ఆకృతి:'
+      scale: 'స్కేలు:'
+      download: దించుకోండి
+      short_url: పొట్టి URL
     key:
       title: పటం సూచిక
       tooltip: పటం సూచిక
     map:
+      zoom:
+        in: జూమ్ ఇన్
+        out: జూమ్ ఔట్
       locate:
         title: నేనున్న ప్రాంతాన్ని చూపించు
+        metersPopup:
+          one: మీరు ఈ బిందువు నుండి ఒక మీటరు దూరం లోపే ఉన్నారు
+          other: మీరు ఈ బిందువు నుండి %{count} మీటర్ల దూరం లోపే ఉన్నారు
+        feetPopup:
+          one: మీరు ఈ బిందువు నుండి ఒక అడుగు దూరం లోపే ఉన్నారు
+          other: మీరు ఈ బిందువు నుండి %{count} అడుగుల దూరం లోపే ఉన్నారు
       base:
         standard: ప్రామాణికం
+        cyclosm: CyclOSM
+        cycle_map: సైకిలు మ్యాపు
         transport_map: రవాణా పటం
+        hot: మానవత్వ
+        opnvkarte: ÖPNVKarte
       layers:
+        header: మ్యాపు పొరలు
         notes: పటపు గమనికలు
         data: పటం భోగట్టా
+        gps: బహిరంగ GPS ట్రేసులు
+        title: పొరలు
       copyright: © <a href='%{copyright_url}'>ఓపెన్‌స్ట్రీట్‌మాప్ తోడ్పాటుదార్లు</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>విరాళం ఇవ్వండి</a>
+      terms: <a href='%{terms_url}' target='_blank'>వెబ్‌సైటు, API నియమాలు</a>
+    site:
+      edit_tooltip: మ్యాపును సరిదిద్దు
+      edit_disabled_tooltip: మ్యాపును సరిదిద్దేందుకు జూమిన్ చెయ్యి
+      createnote_tooltip: మ్యాపుకు ఒక గమనికను చేర్చండి
+      createnote_disabled_tooltip: మ్యాపులో ఒక గమనిక చేర్చేందుకు జూమిన్ చెయ్యి
+      map_notes_zoom_in_tooltip: మ్యాపు గమనికలు చూసేందుకు జూమిన్ చెయ్యి
+      map_data_zoom_in_tooltip: మ్యాపు డేటాను చూసేందుకు జూమిన్ చెయ్యి
+      queryfeature_tooltip: క్వెరీ విశేషాలు
+      queryfeature_disabled_tooltip: క్వెరీ చిశేషాల కోసం జూమిన్ చెయ్యండి
     changesets:
       show:
         comment: వ్యాఖ్య
@@ -873,22 +2644,164 @@ te:
         hide_comment: దాచు
         unhide_comment: చూపించు
     notes:
+      new:
+        intro: పొరపాట్లేమైనా కనిపించాయా? వటిని సరిచేసేందుకు గాను, ఇతర మ్యాపర్లకు కూడా
+          తెలియజేయండి. మార్కరును సరిన స్థానాంలో పెట్టి, సమస్యను వివరిస్తూ ఒక గమనికను
+          రాయండి.
+        advice: మీ గమనిక బహిరంగంగా కనిపిస్తుంది. దాన్ని బట్టి మ్యాపును తాజాకరిస్తారు.
+          అంచేత వ్యక్తిగత సమాచారాన్ని గానీ, కాపీహక్కులున్న మ్యాపుల సమాచారాన్ని గానీ,
+          డైరెక్టరీల లోని సమాచారాన్ని గానీ చేర్చకండి.
+        add: గమనికను చేర్చు
       show:
+        anonymous_warning: ఈ గమనికలో అజ్ఞాతలు చేసిన వ్యాఖ్యలు కూడా ఉన్నాయి. వాటిని
+          విడిగా ధ్రువీకరించుకోవాలి.
         hide: దాచు
+        resolve: పరిష్కరించు
+        reactivate: పునరుజ్జీవింపజేయి
         comment_and_resolve: వ్యాఖ్యానించి పరిష్కరించండి
         comment: వ్యాఖ్యానించండి
+    edit_help: మ్యాపును జరిపి, మీరు సరిదిద్దాలనుకున్న స్థలంపై జూమిన్ చేసి, అప్పుడు
+      ఇక్కడ నొక్కండి.
     directions:
+      ascend: ఎగుడు
+      engines:
+        fossgis_osrm_bike: సైకిలు (OSRM)
+        fossgis_osrm_car: కారు (OSRM)
+        fossgis_osrm_foot: నడక (OSRM)
+        graphhopper_bicycle: సైకిలు (GraphHopper)
+        graphhopper_car: కారు (GraphHopper)
+        graphhopper_foot: నడక (GraphHopper)
+      descend: దిగుడు
       directions: దిశలు
       distance: దూరం
+      errors:
+        no_route: ఆ రెండు స్థలాల మధ్య దారి కనబడలేదు.
+        no_place: సారీ - '%{place}' కనబడలేదు.
+      instructions:
+        continue_without_exit: '%{name} పై కొనసాగండి'
+        slight_right_without_exit: '%{name} వైపుగా కొద్దిగా కుడికి'
+        offramp_right: కుడి వైపున ఉన్న ర్యాంపును తీసుకోండి
+        offramp_right_with_exit: కుడి వైపున ఉన్న %{exit} నిష్క్రమణను తీసుకోండి
+        offramp_right_with_exit_name: '%{name} పైకి, %{exit} నిష్క్రమణను తీసుకోండి'
+        offramp_right_with_exit_directions: '%{directions} వైపు వెళ్ళే కుడి పక్క %{exit}
+          నిష్క్రమణను తీసుకోండి'
+        offramp_right_with_exit_name_directions: '%{name} పైకి, %{directions} కు వెళ్ళే
+          కుడి పక్క %{exit} నిష్క్రమణను తీసుకోండి'
+        offramp_right_with_name: '%{name} పైకి, కుడి పక్కనున్న ర్యాంపును తీసుకోండి'
+        offramp_right_with_directions: '%{directions} వైపు వెళ్ళే కుడి పక్క ర్యాంపును
+          తీసుకోండి'
+        offramp_right_with_name_directions: '%{name} పైకి, %{directions} వైపు వెళ్ళే
+          కుడి పక్క ర్యాంపును తీసుకోండి'
+        onramp_right_without_exit: ర్యాంపులో కుడి పక్కకు, %{name} పైకి తిరగండి
+        onramp_right_with_directions: ర్యాంపులో కుడి పక్కకు, %{directions} వైపుగా
+          తిరగండి
+        onramp_right_with_name_directions: ర్యాంపులో కుడి పక్కకు, %{name} పైకి, %{directions}
+          వైపుగా తిరగండి
+        onramp_right_without_directions: కుడి పక్కకు, ర్యాంపు మీదకి తిరగండి
+        onramp_right: కుడి పక్కకు, ర్యాంపు మీదకి తిరగండి
+        endofroad_right_without_exit: రోడ్డు చివరన, కుడి పక్కకు %{name} పైకి తిరగండి
+        merge_right_without_exit: కుడివైపున %{name} తో కలవండి
+        fork_right_without_exit: వై జంక్షను వద్ద కుడి వైపుకు %{name} పైకి తిరగండి
+        turn_right_without_exit: కుడి వైపుకు %{name} పైకి తిరగండి
+        sharp_right_without_exit: బాగా కుడి వైపుకు %{name} పైకి
+        uturn_without_exit: '%{name} వెంట యు-మలుపు'
+        sharp_left_without_exit: బాగా ఎడమ వైపుకు %{name} మీదకు
+        turn_left_without_exit: ఎడమ వైపుకు %{name} మీదకు తిరగండి
+        offramp_left: ఎడమ వైపున ర్యాంపు తీసుకోండి
+        offramp_left_with_exit: ఎడమ వైపున %{exit} నిష్క్రమణ తీసుకోండి
+        offramp_left_with_exit_name: ఎడమ వైపున %{name} పైకి %{exit} నిష్క్రమణ తీసుకోండి
+        offramp_left_with_exit_directions: '%{directions} వైపు వెళ్ళే ఎడమ పక్క %{exit}
+          నిష్క్రమణను తీసుకోండి'
+        offramp_left_with_exit_name_directions: '%{name} పైకి, %{directions} కు వెళ్ళే
+          ఎడమ పక్క %{exit} నిష్క్రమణను తీసుకోండి'
+        offramp_left_with_name: '%{name} పైకి, ఎడమ పక్కనున్న ర్యాంపును తీసుకోండి'
+        offramp_left_with_directions: '%{directions} వైపు వెళ్ళే ఎడమ పక్క ర్యాంపును
+          తీసుకోండి'
+        offramp_left_with_name_directions: '%{name} పైకి, %{directions} వైపు వెళ్ళే
+          ఎడమ పక్క ర్యాంపును తీసుకోండి'
+        onramp_left_without_exit: ర్యాంపులో ఎడమ పక్కకు, %{name} పైకి తిరగండి
+        onramp_left_with_directions: ర్యాంపులో ఎడమ పక్కకు, %{directions} వైపుగా తిరగండి
+        onramp_left_with_name_directions: ర్యాంపులో ఎడమ పక్కకు, %{name} పైకి, %{directions}
+          వైపుగా తిరగండి
+        onramp_left_without_directions: ఎడమ పక్కకు, ర్యాంపు మీదకి తిరగండి
+        onramp_left: ఎడమ పక్కకు, ర్యాంపు మీదకి తిరగండి
+        endofroad_left_without_exit: రోడ్డు చివరన, ఎడమ పక్కకు %{name} పైకి తిరగండి
+        merge_left_without_exit: ఎడమ వైపున %{name} తో కలవండి
+        fork_left_without_exit: వై జంక్షను వద్ద ఎడమ వైపుకు %{name} పైకి తిరగండి
+        slight_left_without_exit: '%{name} వైపుగా కొద్దిగా ఎడమకు'
+        via_point_without_exit: (దారి మధ్య బిందువు)
+        follow_without_exit: '%{name} అనుసరించండి'
+        roundabout_without_exit: చుట్టు మలుపు వద్ద %{name} పైకి నిష్క్రమణ తీసుకోండి
+        leave_roundabout_without_exit: చుట్టు మలుపుని వీడండి - %{name}
+        stay_roundabout_without_exit: చుట్టు మలుపు పైననే ఉండండి - %{name}
+        start_without_exit: '%{name} పైన బయలుదేరండి'
+        destination_without_exit: గమ్యాన్ని చేరుకోండి
+        against_oneway_without_exit: Go against one-way on %{name} పై వన్-వేకి ఎదురుగా
+          వెళ్ళండి
+        end_oneway_without_exit: '%{name} పై వన్-వే చివర'
+        roundabout_with_exit: చుట్టు మలుపు వద్ద %{name} పైకి %{exit} నిష్క్రమణ తీసుకోండి
+        roundabout_with_exit_ordinal: చుట్టు మలుపు వద్ద %{name} పైకి %{exit} నిష్క్రమణ
+          తీసుకోండి
+        exit_roundabout: చుట్టు మలుపును వీడి %{name} పైకి వెళ్ళండి
+        unnamed: పేరులేని రోడ్డు
+        courtesy: దిశాసూచీలు %{link} వారి సౌజన్యంతో
+        exit_counts:
+          first: 1 వ
+          second: 2 వ
+          third: 3 వ
+          fourth: 4 వ
+          fifth: 5 వ
+          sixth: 6 వ
+          seventh: 7 వ
+          eighth: 8 వ
+          ninth: 9 వ
+          tenth: 10 వ
       time: సమయం
     query:
+      node: బుడిపె
+      way: దారి
       relation: సంబంధం
+      nothing_found: విశేషాలేమీ కనబడలేదు
+      error: '%{server} ను సంప్రదించడంలో లోపం: %{error}'
+      timeout: '%{server} ను సంప్రదించడంలో టైమౌట్ అయిపోయింది'
     context:
       directions_from: ఇక్కడి నుండి దిశలు
       directions_to: ఇక్కడికి దిశలు
+      add_note: ఇక్కడొక గమనికను చేర్చండి
       show_address: చిరునామా చూపించు
+      query_features: క్వెరీ విశేషాలు
       centre_map: ఈచోటును పటానికి కేంద్రం చేయి
   redactions:
+    edit:
+      heading: సంస్కరణను సవరించండి
+      title: సంస్కరణను సవరించండి
+    index:
+      empty: చూపించడానికి సంస్కరణలేమీ లేవు
+      heading: సంస్కరణల జాబితా
+      title: సంస్కరణల జాబితా
+    new:
+      heading: కొత్త సంస్కరణ సమాచారాన్ని ఇవ్వండి
+      title: కొత్త సంస్కరణను సృష్టిస్తున్నారు
     show:
       description: 'వివరణ:'
+      heading: '"%{title}" సంస్కరణను చూపిస్తున్నాం'
+      title: సంస్కరణను చూపిస్తున్నాం
+      user: 'సృష్టికర్త:'
+      edit: ఈ సంస్కరణను సవరించండి
+      destroy: ఈ సంస్కరణను తీసివెయ్యి
+      confirm: అలా అని నిశ్చయించుకున్నారా?
+    create:
+      flash: సంస్కరణను సృష్టించాం.
+    update:
+      flash: మార్పులను భద్రపరచాం.
+    destroy:
+      not_empty: సంస్కరణ ఖాళీగా ఉంది. ఈ సంస్కరణకు సంబంధించిన కూర్పులన్నిటినీ రద్దు
+        చేసి, ఆ తరువాత సంస్కరణను నిర్మూలించండి.
+      flash: సంస్కరణను నిర్మూలించాం.
+      error: ఈ సంస్కరణను నిర్మూలించడంలో లోపం ఎదురైంది.
+  validations:
+    leading_whitespace: ముందు వైట్‌స్పేసు ఉంది
+    trailing_whitespace: వెనక వైట్‌స్పేసు ఉంది
+    invalid_characters: చెల్లని కారెక్టర్లు ఉన్నాయి
+    url_characters: (%{characters}) URL కారెక్టర్లు ఉన్నాయి
 ...

@@ -27,7 +27,7 @@ class WayTest < ActiveSupport::TestCase
     node_c = create(:node)
     way = create(:way_with_nodes, :nodes_count => 1)
     # Take one of the current ways and add nodes to it until we are near the limit
-    assert way.valid?
+    assert_predicate way, :valid?
     # it already has 1 node
     1.upto(Settings.max_number_of_way_nodes / 2) do
       way.add_nd_num(node_a.id)
@@ -35,9 +35,9 @@ class WayTest < ActiveSupport::TestCase
     end
     way.save
     # print way.nds.size
-    assert way.valid?
+    assert_predicate way, :valid?
     way.add_nd_num(node_c.id)
-    assert way.valid?
+    assert_predicate way, :valid?
   end
 
   def test_from_xml_no_id

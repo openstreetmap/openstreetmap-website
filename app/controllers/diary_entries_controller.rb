@@ -60,9 +60,8 @@ class DiaryEntriesController < ApplicationController
     @title = t "diary_entries.edit.title"
     @diary_entry = DiaryEntry.find(params[:id])
 
-    if current_user != @diary_entry.user
-      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
-    elsif params[:diary_entry] && @diary_entry.update(entry_params)
+    if current_user != @diary_entry.user ||
+       (params[:diary_entry] && @diary_entry.update(entry_params))
       redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
     else
       set_map_location
