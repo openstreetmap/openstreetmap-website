@@ -1,36 +1,10 @@
 L.OSM.key = function (options) {
-  var control = L.control(options);
+  var control = L.OSM.sidebarPane(options, "key", null, "javascripts.key.title");
 
-  control.onAdd = function (map) {
-    var $container = $("<div>")
-      .attr("class", "control-key");
-
-    var button = $("<a>")
-      .attr("class", "control-button")
-      .attr("href", "#")
-      .html("<span class=\"icon key\"></span>")
-      .on("click", toggle)
-      .appendTo($container);
-
-    var $ui = $("<div>")
-      .attr("class", "key-ui");
-
-    $("<div>")
-      .attr("class", "sidebar_heading")
-      .appendTo($ui)
-      .append(
-        $("<button type='button' class='btn-close float-end mt-1'>")
-          .attr("aria-label", I18n.t("javascripts.close"))
-          .bind("click", toggle))
-      .append(
-        $("<h4>")
-          .text(I18n.t("javascripts.key.title")));
-
+  control.onAddPane = function (map, button, $ui) {
     var $section = $("<div>")
       .attr("class", "section")
       .appendTo($ui);
-
-    options.sidebar.addPane($ui);
 
     $ui
       .on("show", shown)
@@ -47,15 +21,6 @@ L.OSM.key = function (options) {
 
     function hidden() {
       map.off("zoomend baselayerchange", update);
-    }
-
-    function toggle(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      if (!button.hasClass("disabled")) {
-        options.sidebar.togglePane($ui, button);
-      }
-      $(".leaflet-control .control-button").tooltip("hide");
     }
 
     function updateButton() {
@@ -81,8 +46,6 @@ L.OSM.key = function (options) {
         }
       });
     }
-
-    return $container[0];
   };
 
   return control;

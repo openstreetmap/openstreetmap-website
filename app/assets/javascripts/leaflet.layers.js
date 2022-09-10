@@ -1,33 +1,8 @@
 L.OSM.layers = function (options) {
-  var control = L.control(options);
+  var control = L.OSM.sidebarPane(options, "layers", "javascripts.map.layers.title", "javascripts.map.layers.header");
 
-  control.onAdd = function (map) {
+  control.onAddPane = function (map, button, $ui, toggle) {
     var layers = options.layers;
-
-    var $container = $("<div>")
-      .attr("class", "control-layers");
-
-    var button = $("<a>")
-      .attr("class", "control-button")
-      .attr("href", "#")
-      .attr("title", I18n.t("javascripts.map.layers.title"))
-      .html("<span class=\"icon layers\"></span>")
-      .on("click", toggle)
-      .appendTo($container);
-
-    var $ui = $("<div>")
-      .attr("class", "layers-ui");
-
-    $("<div>")
-      .attr("class", "sidebar_heading")
-      .appendTo($ui)
-      .append(
-        $("<button type='button' class='btn-close float-end mt-1'>")
-          .attr("aria-label", I18n.t("javascripts.close"))
-          .bind("click", toggle))
-      .append(
-        $("<h4>")
-          .text(I18n.t("javascripts.map.layers.header")));
 
     var baseSection = $("<div>")
       .attr("class", "section base-layers")
@@ -179,17 +154,6 @@ L.OSM.layers = function (options) {
       addOverlay(map.dataLayer, "data", OSM.MAX_REQUEST_AREA);
       addOverlay(map.gpsLayer, "gps", Number.POSITIVE_INFINITY);
     }
-
-    options.sidebar.addPane($ui);
-
-    function toggle(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      options.sidebar.togglePane($ui, button);
-      $(".leaflet-control .control-button").tooltip("hide");
-    }
-
-    return $container[0];
   };
 
   return control;

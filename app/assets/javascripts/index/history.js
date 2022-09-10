@@ -10,18 +10,6 @@ OSM.History = function (map) {
     })
     .on("mouseout", "[data-changeset]", function () {
       unHighlightChangeset($(this).data("changeset").id);
-    })
-    .on("mousedown", "[data-changeset]", function () {
-      var moved = false;
-      $(this)
-        .one("click", function (e) {
-          if (!moved && !$(e.target).is("a")) {
-            clickChangeset($(this).data("changeset").id, e);
-          }
-        })
-        .one("mousemove", function () {
-          moved = true;
-        });
     });
 
   var group = L.featureGroup()

@@ -28,7 +28,7 @@ class ReportsController < ApplicationController
 
       redirect_to helpers.reportable_url(@report.issue.reportable), :notice => t(".successful_report")
     else
-      flash[:notice] = t(".provide_details")
+      flash.now[:notice] = t(".provide_details")
       render :action => "new"
     end
   end
