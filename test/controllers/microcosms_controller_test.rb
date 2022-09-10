@@ -96,12 +96,24 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path(:referer => edit_microcosm_path(m))
   end
 
+  def test_update_as_non_organizer
+    # Should this test be in abilities_test.rb?
+    # arrange
+    m = create(:microcosm)
+    other_user = create(:user)
+    session_for(other_user)
+    # act
+    put microcosm_path(m), :params => { :microcosm => m.as_json }, :xhr => true
+    # assert
+    assert_redirected_to :controller => :errors, :action => :forbidden
+  end
+
   def test_update_put_success
     # TODO: When microcosm_member is created switch to using that factory.
     # arrange
-    session_for(create(:administrator_user))
     m1 = create(:microcosm) # original object
     m2 = build(:microcosm) # new data
+    session_for(m1.organizer)
 
     # act
     # Update m1 with the values from m2.
@@ -119,8 +131,8 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   def test_update_put_failure
     # TODO: When microcosm_member is created switch to using that factory.
     # arrange
-    session_for(create(:administrator_user))
     m1 = create(:microcosm) # original object
+    session_for(m1.organizer)
     def m1.update(_params)
       false
     end
@@ -161,7 +173,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   def test_new_form
     # Now try again when logged in
     # arrange
-    session_for(create(:administrator_user))
+    session_for(create(:user))
     # act
     get new_microcosm_path
     # assert
@@ -187,8 +199,8 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
 
   def test_create_when_save_works
     # arrange
-    session_for(create(:administrator_user))
     m_orig = create(:microcosm)
+    session_for(m_orig.organizer)
 
     # act
     m_new_slug = nil

@@ -42,7 +42,7 @@ class MicrocosmsController < ApplicationController
     if @microcosm.update(microcosm_params)
       redirect_to @microcosm, :notice => t(".success")
     else
-      flash[:alert] = t(".failure")
+      flash.now[:alert] = t(".failure")
       render :edit
     end
   end
