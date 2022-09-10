@@ -10,10 +10,23 @@ class MicrocosmsController < ApplicationController
   authorize_resource
 
   def index
-    # Using Arel.sql here because we're using known-safe values.
-    @microcosms = Microcosm.order(Arel.sql(sunniest_communities))
+    display_name = params[:user_display_name]
+    if display_name
+      @user = User.active.where(:display_name => display_name).first
+      if @user
+        @title = t ".title", :display_name => @user.display_name
+        @microcosms_organized = @user.microcosms_organized
+      else
+        render_unknown_user display_name
+        return
+      end
+    elsif current_user
+      @title = t ".title", :display_name => current_user.display_name
+      @microcosms_organized = current_user.microcosms_organized
+    end
 
-    @microcosms_organized = current_user ? current_user.microcosms_organized : []
+    # Using Arel.sql here because we're using known-safe values.
+    @all_microcosms = Microcosm.order(Arel.sql(sunniest_communities))
   end
 
   # GET /microcosms/mycity

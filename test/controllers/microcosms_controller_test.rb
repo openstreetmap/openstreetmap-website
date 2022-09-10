@@ -48,6 +48,39 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     assert_match m.name, response.body
   end
 
+  def test_index_with_specific_user
+    # arrange
+    m = create(:microcosm)
+    # act
+    get user_microcosms_path(m.organizer.display_name)
+    # assert
+    assert_response :success
+    assert_template "index"
+    assert_match m.name, response.body
+  end
+
+  def test_index_current_user
+    # arrange
+    m = create(:microcosm)
+    session_for(m.organizer)
+    # act
+    get microcosms_path
+    # assert
+    assert_response :success
+    assert_template "index"
+    assert_match m.name, response.body
+  end
+
+  def test_index_user_does_not_exist
+    # arrange
+    create(:microcosm)
+    # act
+    get "/user/user_dne/microcosms"
+    # assert
+    assert_response :not_found
+    assert_no_missing_translations
+  end
+
   def test_show_get
     # arrange
     m = create(:microcosm)

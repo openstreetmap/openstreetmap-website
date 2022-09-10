@@ -321,6 +321,11 @@ OpenStreetMap::Application.routes.draw do
   # redactions
   resources :redactions
 
+  # user nested resources
+  resources :users, :path => "user", :param => :display_name do
+    resources :microcosms, :only => [:index]
+  end
+
   # microcosms
   resources :microcosms
 
