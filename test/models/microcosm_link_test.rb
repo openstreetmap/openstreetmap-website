@@ -18,12 +18,4 @@ class MicrocosmLinkTest < ActiveSupport::TestCase
     validate({ :url => scheme + ("a" * (255 - scheme.length)) }, true)
     validate({ :url => scheme + ("a" * (256 - scheme.length)) }, false)
   end
-
-  # There's a possibility to factory this out.  See microcosm_test.rb.
-  def validate(attrs, result)
-    object = build(:microcosm_link, attrs)
-    valid = object.valid?
-    errors = object.errors.messages
-    assert_equal result, valid, "Expected #{attrs.inspect} to be #{result} but #{errors}"
-  end
 end

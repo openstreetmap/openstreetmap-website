@@ -40,13 +40,6 @@ class MicrocosmTest < ActiveSupport::TestCase
     end
   end
 
-  def validate(attrs, result)
-    object = build(:microcosm, attrs)
-    valid = object.valid?
-    errors = object.errors.messages
-    assert_equal result, valid, "Expected #{attrs.inspect} to be #{result} but #{errors}"
-  end
-
   def test_set_link_that_does_not_exist
     # arrange
     site_name = "site_name"
