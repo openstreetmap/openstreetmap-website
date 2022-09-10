@@ -1012,6 +1012,7 @@ CREATE TABLE public.microcosms (
     id bigint NOT NULL,
     name character varying NOT NULL,
     description text NOT NULL,
+    organizer_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     slug character varying NOT NULL,
@@ -2688,6 +2689,13 @@ CREATE INDEX index_microcosm_links_on_microcosm_id ON public.microcosm_links USI
 
 
 --
+-- Name: index_microcosms_on_organizer_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_microcosms_on_organizer_id ON public.microcosms USING btree (organizer_id);
+
+
+--
 -- Name: index_microcosms_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3199,6 +3207,14 @@ ALTER TABLE ONLY public.oauth_access_grants
 
 ALTER TABLE ONLY public.microcosm_links
     ADD CONSTRAINT fk_rails_4e3be5d646 FOREIGN KEY (microcosm_id) REFERENCES public.microcosms(id);
+
+
+--
+-- Name: microcosms fk_rails_682f8f4a39; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.microcosms
+    ADD CONSTRAINT fk_rails_682f8f4a39 FOREIGN KEY (organizer_id) REFERENCES public.users(id);
 
 
 --

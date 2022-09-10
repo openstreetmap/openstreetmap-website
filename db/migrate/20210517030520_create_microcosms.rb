@@ -6,6 +6,7 @@ class CreateMicrocosms < ActiveRecord::Migration[5.2]
       t.string :facebook
       t.string :twitter
       t.text :description, :null => false
+      t.references :organizer, :null => false, :foreign_key => { :to_table => :users }
 
       t.timestamps
     end

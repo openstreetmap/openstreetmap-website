@@ -39,6 +39,7 @@ class MicrocosmsController < ApplicationController
 
   def create
     @microcosm = Microcosm.new(microcosm_params)
+    @microcosm.organizer = current_user
     if @microcosm.save
       redirect_to @microcosm, :notice => t(".success")
     else

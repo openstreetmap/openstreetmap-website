@@ -188,6 +188,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
 
     mock_microcosm = Minitest::Mock.new
     mock_microcosm.expect :save, false
+    mock_microcosm.expect :organizer=, false, [User]
 
     # We're going to stub render on this instance.
     controller_prime = MicrocosmsController.new
