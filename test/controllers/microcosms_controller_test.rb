@@ -68,7 +68,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     get edit_microcosm_path(m)
     # assert
     assert_response :redirect
-    assert_redirected_to login_path(:referer => edit_microcosm_path(m.slug))
+    assert_redirected_to login_path(:referer => edit_microcosm_path(m))
   end
 
   def test_update_put_success
