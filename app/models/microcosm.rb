@@ -2,19 +2,20 @@
 #
 # Table name: microcosms
 #
-#  id          :bigint(8)        not null, primary key
-#  name        :string           not null
-#  description :text             not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  slug        :string
-#  location    :string           not null
-#  latitude    :float          not null
-#  longitude   :float          not null
-#  min_lat     :float          not null
-#  max_lat     :float          not null
-#  min_lon     :float          not null
-#  max_lon     :float          not null
+#  id           :bigint(8)        not null, primary key
+#  name         :string           not null
+#  description  :text             not null
+#  organizer_id :bigint           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  slug         :string
+#  location     :string           not null
+#  latitude     :float          not null
+#  longitude    :float          not null
+#  min_lat      :float          not null
+#  max_lat      :float          not null
+#  min_lon      :float          not null
+#  max_lon      :float          not null
 #
 # At this time a microcosm has one organizer.  The first organizer is
 # the user that created the microcosm.
