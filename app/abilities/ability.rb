@@ -31,7 +31,7 @@ class Ability
       can [:history, :version], OldNode
       can [:history, :version], OldWay
       can [:history, :version], OldRelation
-      can [:show, :index], Microcosm
+      can [:show, :index, :of_user], Microcosm
     end
 
     if user

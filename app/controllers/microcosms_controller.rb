@@ -15,6 +15,21 @@ class MicrocosmsController < ApplicationController
     long_facing_sun = "(#{minute_of_day} + #{morning}) / 4"
     # Using Arel.sql here because we're using known-safe values.
     @microcosms = Microcosm.order(Arel.sql("longitude + 180 + #{long_facing_sun} DESC"))
+
+    @microcosms_i_organize = current_user ? current_user.microcosms_i_organize : []
+  end
+
+  def of_user
+    display_name = params[:display_name]
+    @user = User.active.where(:display_name => display_name).first
+    if @user.nil?
+      render_unknown_user display_name
+      return
+    end
+
+    @microcosms_organized = @user.microcosms_i_organize
+    @title = t ".title", :display_name => @user.display_name
+    render :of_user
   end
 
   # GET /microcosms/mycity

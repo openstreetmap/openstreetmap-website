@@ -17,6 +17,9 @@
               <%= link_to t(".my notes"), user_notes_path(@user) %>
             </li>
             <li>
+              <%= link_to t(".my microcosms"), microcosms_of_user_path(@user) %>
+            </li>
+            <li>
               <%= link_to t(".my traces"), :controller => "traces", :action => "mine" %>
               <span class='count-number'><%= number_with_delimiter(current_user.traces.size) %></span>
             </li>
@@ -59,6 +62,9 @@
             </li>
             <li>
               <%= link_to t(".notes"), user_notes_path(@user) %>
+            </li>
+            <li>
+              <%= link_to t(".microcosms"), microcosms_of_user_path(@user) %>
             </li>
             <li>
               <%= link_to t(".traces"), :controller => "traces", :action => "index", :display_name => @user.display_name %>

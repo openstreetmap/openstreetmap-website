@@ -324,6 +324,7 @@ OpenStreetMap::Application.routes.draw do
   resources :redactions
 
   # microcosms
+  get "/microcosms/of_user/:display_name" => "microcosms#of_user", :as => :microcosms_of_user
   resources :microcosms
 
   # errors

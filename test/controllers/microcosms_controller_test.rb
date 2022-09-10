@@ -36,6 +36,10 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
       { :path => "/microcosms", :method => :post },
       { :controller => "microcosms", :action => "create" }
     )
+    assert_routing(
+      { :path => "/microcosms/of_user/brian", :method => :get },
+      { :controller => "microcosms", :action => "of_user", :display_name => "brian" }
+    )
   end
 
   def test_index_get
@@ -47,6 +51,27 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     check_page_basics
     assert_template "index"
     assert_match m.name, response.body
+  end
+
+  def test_of_user_get_with_user
+    # arrange
+    m = create(:microcosm)
+    # act
+    get microcosms_of_user_path(m.organizer.display_name)
+    # assert
+    check_page_basics
+    assert_template "of_user"
+    assert_match m.name, response.body
+  end
+
+  def test_of_user_get_user_dne
+    # arrange
+    create(:microcosm)
+    # act
+    get "/microcosms/of_user/user_dne"
+    # assert
+    assert_response :not_found
+    assert_no_missing_translations
   end
 
   def test_show_get
