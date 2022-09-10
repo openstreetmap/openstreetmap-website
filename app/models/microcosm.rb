@@ -16,6 +16,8 @@
 #  min_lon     :float          not null
 #  max_lon     :float          not null
 #
+# At this time a microcosm has one organizer.  The first organizer is
+# the user that created the microcosm.
 
 class Microcosm < ApplicationRecord
   extend FriendlyId
