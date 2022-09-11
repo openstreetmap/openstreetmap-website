@@ -12,7 +12,7 @@
       <tr>
         <td>
           <% link.url.slice! "https://" %> <%# prevent XSS %>
-          <%= link_to link.site, "https://" + link.url %>
+          <%= link_to link.site, "https://#{link.url}" %>
         </td>
         <td>
           <%= link_to t(".edit"), edit_microcosm_link_path(link) %>
