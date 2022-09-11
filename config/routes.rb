@@ -326,6 +326,7 @@ OpenStreetMap::Application.routes.draw do
   # microcosms
   get "/microcosms/of_user/:display_name" => "microcosms#of_user", :as => :microcosms_of_user
   resources :microcosms
+  resources :microcosm_links, :except => [:show]
 
   # errors
   match "/403", :to => "errors#forbidden", :via => :all

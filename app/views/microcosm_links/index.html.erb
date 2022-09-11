@@ -1,0 +1,24 @@
+<% content_for :heading do %>
+  <h1><%= t(".title") %></h1>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), new_microcosm_link_path(:params => { :microcosm_id => @microcosm_id }) %></li>
+  </ul>
+<% end %>
+
+<% if !@links.empty? %>
+  <table class="table table-borderless table-striped">
+    <tbody>
+    <% @links.each do |link| %>
+      <tr>
+        <td>
+          <%= link_to link.site, link.url %>
+        </td>
+        <td>
+          <%= link_to t(".edit"), edit_microcosm_link_path(link) %>
+          <%= link_to t(".delete"), microcosm_link_path(link), :method => :delete %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

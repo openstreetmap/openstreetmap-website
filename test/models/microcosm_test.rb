@@ -40,10 +40,10 @@ class MicrocosmTest < ActiveSupport::TestCase
     end
   end
 
-  def test_set_link_that_does_not_exist
+  def test_set_link
     # arrange
     site_name = "site_name"
-    site_url = "http://example.com"
+    site_url = "https://example.com"
     m = create(:microcosm)
     # act
     m.set_link(site_name, site_url)
@@ -52,13 +52,13 @@ class MicrocosmTest < ActiveSupport::TestCase
     assert_equal ml.url, site_url
   end
 
-  def test_set_link_that_does_exist
+  def test_set_link_that_already_exists
     # arrange
     m = create(:microcosm)
     site_name = "site_name"
-    site_url_old = "http://example1.com"
+    site_url_old = "https://example1.com"
     MicrocosmLink.new(:microcosm => m, :site => site_name, :url => site_url_old)
-    site_url_new = "http://example2.com"
+    site_url_new = "https://example2.com"
     # act
     m.set_link(site_name, site_url_new)
     # assert

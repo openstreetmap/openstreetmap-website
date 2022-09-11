@@ -30,7 +30,7 @@
         <%= auto_link @microcosm.description %>
       </p>
       <div>
-        <label><%= t(".share") %></label>
+        <label><%= t(".links") %></label>
         <ul>
           <% @microcosm.microcosm_links.each do |link| %>
             <li>
@@ -38,6 +38,11 @@
             </li>
           <% end %>
         </ul>
+        <% if current_user %>
+          <% if current_user == @microcosm.organizer %>
+            <%= link_to t(".all_links"), microcosm_links_path(:params => { :microcosm_id => @microcosm.id }) %>
+          <% end %>
+        <% end %>
       </div>
       <div>
         <label><%= t(".organizer") %></label>

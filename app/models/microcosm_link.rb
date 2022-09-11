@@ -17,5 +17,5 @@
 class MicrocosmLink < ApplicationRecord
   belongs_to :microcosm
   validates :site, :presence => true, :length => 1..255, :characters => true
-  validates :url, :presence => true, :length => 1..255, :url => true
+  validates :url, :presence => true, :length => 1..255, :url => { :schemes => ["https"] }
 end
