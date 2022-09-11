@@ -11,7 +11,8 @@
     <% @links.each do |link| %>
       <tr>
         <td>
-          <%= link_to link.site, link.url %>
+          <% link.url.slice! "https://" %> <%# prevent XSS %>
+          <%= link_to link.site, "https://" + link.url %>
         </td>
         <td>
           <%= link_to t(".edit"), edit_microcosm_link_path(link) %>
