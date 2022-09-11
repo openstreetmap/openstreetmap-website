@@ -76,7 +76,7 @@ class UserAbilityTest < AbilityTest
   test "microcosm permissions for a user" do
     ability = Ability.new create(:user)
 
-    [:edit].each do |action|
+    [:create, :edit].each do |action|
       assert ability.can?(action, Microcosm), "should be able to #{action} Microcosms"
     end
   end
