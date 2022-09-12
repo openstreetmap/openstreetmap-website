@@ -47,7 +47,8 @@ OSM.History = function (map) {
     var data = { list: "1" };
 
     if (window.location.pathname === "/history") {
-      data.bbox = map.getBounds().wrap().toBBoxString();
+      data.bbox = map.getBounds().toBBoxString();
+      data.fit_bbox = $("#hide-cs")[0].checked;
     }
 
     $.ajax({
@@ -158,6 +159,11 @@ OSM.History = function (map) {
 
     $("#history_tab").removeClass("current");
   };
-
+  if (window.location.pathname === "/history") {
+    $("#hide-cs").on("change", function (event) {
+      update();
+    });
+    $("#hide-cs")[0].checked=false;
+  }
   return page;
 };

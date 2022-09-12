@@ -163,7 +163,7 @@ module Api
       # create the conditions that the user asked for. some or all of
       # these may be nil.
       changesets = Changeset.all
-      changesets = conditions_bbox(changesets, bbox)
+      changesets = conditions_bbox(changesets, bbox, params["fit_bbox"])
       changesets = conditions_user(changesets, params["user"], params["display_name"])
       changesets = conditions_time(changesets, params["time"])
       changesets = conditions_open(changesets, params["open"])
@@ -267,17 +267,34 @@ module Api
     #------------------------------------------------------------
 
     ##
+    # The API has few situations, where parameter is supposed
+    # to have boolean value (true/false), but previously their
+    # values were ignored and script checked only null/not null
+    # state.
+    # If string value is true, return boolean true, otherwize false.
+    def check_boolean(value)
+      value.to_s.casecmp("true").zero?
+    end
+
+    ##
     # if a bounding box was specified do some sanity checks.
     # restrict changesets to those enclosed by a bounding box
+    # alternatively only those chsets that are fully within bbox
     # we need to return both the changesets and the bounding box
-    def conditions_bbox(changesets, bbox)
+    def conditions_bbox(changesets, bbox, fit_bbox)
       if bbox
         bbox.check_boundaries
         bbox = bbox.to_scaled
 
-        changesets.where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
-                         bbox.max_lon.to_i, bbox.min_lon.to_i,
-                         bbox.max_lat.to_i, bbox.min_lat.to_i)
+        if check_boolean(fit_bbox)
+          changesets.where("min_lon > ? and max_lon < ? and min_lat > ? and max_lat < ?",
+                           bbox.min_lon.to_i, bbox.max_lon.to_i,
+                           bbox.min_lat.to_i, bbox.max_lat.to_i)
+        else
+          changesets.where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
+                           bbox.max_lon.to_i, bbox.min_lon.to_i,
+                           bbox.max_lat.to_i, bbox.min_lat.to_i)
+        end
       else
         changesets
       end

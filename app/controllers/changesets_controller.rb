@@ -18,7 +18,7 @@ class ChangesetsController < ApplicationController
   ##
   # list non-empty changesets in reverse chronological order
   def index
-    @params = params.permit(:display_name, :bbox, :friends, :nearby, :max_id, :list)
+    @params = params.permit(:display_name, :bbox, :fit_bbox, :friends, :nearby, :max_id, :list)
 
     if request.format == :atom && @params[:max_id]
       redirect_to url_for(@params.merge(:max_id => nil)), :status => :moved_permanently
@@ -51,7 +51,7 @@ class ChangesetsController < ApplicationController
                        changesets.where("false")
                      end
       elsif @params[:bbox]
-        changesets = conditions_bbox(changesets, BoundingBox.from_bbox_params(params))
+        changesets = conditions_bbox(changesets, BoundingBox.from_bbox_params(params), @params[:fit_bbox])
       elsif @params[:friends] && current_user
         changesets = changesets.where(:user_id => current_user.friends.identifiable)
       elsif @params[:nearby] && current_user
@@ -79,17 +79,34 @@ class ChangesetsController < ApplicationController
   #------------------------------------------------------------
 
   ##
+  # The API has few situations, where parameter is supposed
+  # to have boolean value (true/false), but previously their
+  # values were ignored and script checked only null/not null
+  # state.
+  # If string value is true, return boolean true, otherwize false.
+  def check_boolean(value)
+    value.to_s.casecmp("true").zero?
+  end
+
+  ##
   # if a bounding box was specified do some sanity checks.
   # restrict changesets to those enclosed by a bounding box
+  # alternatively only those chsets that are fully within bbox
   # we need to return both the changesets and the bounding box
-  def conditions_bbox(changesets, bbox)
+  def conditions_bbox(changesets, bbox, fit_bbox)
     if bbox
       bbox.check_boundaries
       bbox = bbox.to_scaled
 
-      changesets.where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
-                       bbox.max_lon.to_i, bbox.min_lon.to_i,
-                       bbox.max_lat.to_i, bbox.min_lat.to_i)
+      if check_boolean(fit_bbox)
+        changesets.where("min_lon > ? and max_lon < ? and min_lat > ? and max_lat < ?",
+                         bbox.min_lon.to_i, bbox.max_lon.to_i,
+                         bbox.min_lat.to_i, bbox.max_lat.to_i)
+      else
+        changesets.where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
+                         bbox.max_lon.to_i, bbox.min_lon.to_i,
+                         bbox.max_lat.to_i, bbox.min_lat.to_i)
+      end
     else
       changesets
     end
