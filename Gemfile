@@ -76,7 +76,7 @@ gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem "omniauth-windowslive"
 
 # Doorkeeper for OAuth2
-gem "doorkeeper", "~> 5.5.4"
+gem "doorkeeper"
 gem "doorkeeper-i18n"
 
 # Markdown formatting support
