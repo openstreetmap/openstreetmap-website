@@ -90,12 +90,13 @@ OSM.History = function (map) {
       var storeString = sessionStorage[storeName];
       var store = {
         schema: requiredSchema,
+        locale: I18n.locale, // required as long as html with i18n strings is cached
         items: []
       };
       try {
         if (storeString) {
           var readStore = JSON.parse(storeString);
-          if (readStore.schema === requiredSchema) {
+          if (readStore.schema === requiredSchema && readStore.locale === I18n.locale) {
             store = readStore;
           }
         }

@@ -102,8 +102,30 @@ class HistoryTest < ApplicationSystemTestCase
     assert_text "first-changeset-in-history"
   end
 
+  test "cached changesets lists are updated if locale is changed" do
+    user = create(:user)
+    sign_in_as(user)
+    create_visible_changeset(user, "first-changeset-in-history")
+
+    visit "#{user_path(user)}/history"
+    changesets_en = find "div.changesets"
+    changesets_en.assert_text "first-changeset-in-history"
+    changesets_en.assert_text "Closed"
+    changesets_en.assert_no_text "Fermé"
+
+    visit edit_preferences_path
+    fill_in "Preferred Languages", :with => "fr"
+    click_on "Update Preferences"
+
+    visit "#{user_path(user)}/history"
+    changesets_fr = find "div.changesets"
+    changesets_fr.assert_text "first-changeset-in-history"
+    changesets_fr.assert_no_text "Closed"
+    changesets_fr.assert_text "Fermé"
+  end
+
   def create_visible_changeset(user, comment)
-    create(:changeset, :user => user, :num_changes => 1) do |changeset|
+    create(:changeset, :closed, :user => user, :num_changes => 1) do |changeset|
       create(:changeset_tag, :changeset => changeset, :k => "comment", :v => comment)
     end
   end
