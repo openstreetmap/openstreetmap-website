@@ -38,13 +38,24 @@ class SiteTest < ApplicationSystemTestCase
     tooltip.assert_text "not available"
   end
 
+  test "tooltip shows for query button when zoomed in" do
+    visit "/#map=14/0/0"
+
+    assert_no_selector ".tooltip"
+    button = find ".control-query .control-button"
+    button.hover
+    tooltip = find ".tooltip"
+    tooltip.assert_text "Query features"
+    tooltip.assert_no_text "Zoom in"
+  end
+
   [
     "#edit_tab",
     ".control-note .control-button",
     ".control-query .control-button"
   ].each do |selector|
     test "tooltips on low zoom levels for disabled control '#{selector}'" do
-      visit "/#map=1/1/1"
+      visit "/#map=10/0/0"
 
       assert_no_selector ".tooltip"
       find(selector).hover

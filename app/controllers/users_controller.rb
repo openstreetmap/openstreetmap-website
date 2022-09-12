@@ -83,7 +83,7 @@ class UsersController < ApplicationController
         end
 
         if current_user.save
-          flash[:piwik_goal] = PIWIK["goals"]["signup"] if defined?(PIWIK)
+          flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
 
           referer = welcome_path
 

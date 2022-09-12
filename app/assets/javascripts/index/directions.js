@@ -157,7 +157,7 @@ OSM.Directions = function (map) {
     }));
   });
 
-  $(".directions_form .close").on("click", function (e) {
+  $(".directions_form .btn-close").on("click", function (e) {
     e.preventDefault();
     var route_from = endpoints[0].value;
     if (route_from) {
@@ -254,20 +254,30 @@ OSM.Directions = function (map) {
         map.fitBounds(polyline.getBounds().pad(0.05));
       }
 
-      var html = "<h2><a class=\"geolink\" href=\"#\">" +
-        "<span class=\"icon close\"></span></a>" + I18n.t("javascripts.directions.directions") +
-        "</h2><p>" +
+      var distanceText = $("<p>").append(
         I18n.t("javascripts.directions.distance") + ": " + formatDistance(route.distance) + ". " +
-        I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".";
+        I18n.t("javascripts.directions.time") + ": " + formatTime(route.time) + ".");
       if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
-        html += "<br />" +
+        distanceText.append(
+          $("<br>"),
           I18n.t("javascripts.directions.ascend") + ": " + Math.round(route.ascend) + "m. " +
-          I18n.t("javascripts.directions.descend") + ": " + Math.round(route.descend) + "m.";
+          I18n.t("javascripts.directions.descend") + ": " + Math.round(route.descend) + "m.");
       }
-      html += "</p><table id=\"turnbyturn\" class=\"mb-3\"/>";
+
+      var turnByTurnTable = $("<table class='mb-3'>");
+      var directionsCloseButton = $("<button type='button' class='btn-close mt-1'>");
 
       $("#sidebar_content")
-        .html(html);
+        .empty()
+        .append(
+          $("<div class='d-flex'>").append(
+            $("<div class='flex-grow-1 text-break'>").append(
+              $("<h2>")
+                .text(I18n.t("javascripts.directions.directions"))),
+            $("<div>").append(directionsCloseButton)),
+          distanceText,
+          turnByTurnTable
+        );
 
       // Add each row
       route.steps.forEach(function (step) {
@@ -309,15 +319,14 @@ OSM.Directions = function (map) {
           map.removeLayer(highlight);
         });
 
-        $("#turnbyturn").append(row);
+        turnByTurnTable.append(row);
       });
 
       $("#sidebar_content").append("<p class=\"text-center\">" +
         I18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
         "</p>");
 
-      $("#sidebar_content a.geolink").on("click", function (e) {
-        e.preventDefault();
+      directionsCloseButton.on("click", function () {
         map.removeLayer(polyline);
         $("#sidebar_content").html("");
         map.setSidebarOverlaid(true);

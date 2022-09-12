@@ -36,7 +36,7 @@ class ProfilesController < ApplicationController
       flash[:notice] = t ".success"
       redirect_to user_path(current_user)
     else
-      flash[:error] = t ".failure"
+      flash.now[:error] = t ".failure"
       render :edit
     end
   end

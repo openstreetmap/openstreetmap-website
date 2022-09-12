@@ -18,9 +18,9 @@ csp_policy = {
   :report_uri => []
 }
 
-csp_policy[:connect_src] << PIWIK["location"] if defined?(PIWIK)
-csp_policy[:img_src] << PIWIK["location"] if defined?(PIWIK)
-csp_policy[:script_src] << PIWIK["location"] if defined?(PIWIK)
+csp_policy[:connect_src] << Settings.matomo["location"] if defined?(Settings.matomo)
+csp_policy[:img_src] << Settings.matomo["location"] if defined?(Settings.matomo)
+csp_policy[:script_src] << Settings.matomo["location"] if defined?(Settings.matomo)
 
 csp_policy[:img_src] << Settings.avatar_storage_url if Settings.key?(:avatar_storage_url)
 csp_policy[:img_src] << Settings.trace_image_storage_url if Settings.key?(:trace_image_storage_url)

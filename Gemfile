@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "7.0.3.1"
+gem "rails", "7.0.4"
 
 # Require json for multi_json
 gem "json"
@@ -36,6 +36,9 @@ gem "image_optim_rails"
 # Use argon2 for password hashing
 gem "argon2"
 
+# Support brotli compression for assets
+gem "sprockets-exporters_pack"
+
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
 gem "activerecord-import"
@@ -47,7 +50,7 @@ gem "composite_primary_keys", "~> 14.0.0"
 gem "config"
 gem "delayed_job_active_record"
 gem "http_accept_language", "~> 2.1.1"
-gem "i18n-js", ">= 3.0.0"
+gem "i18n-js", "~> 3.9.2"
 gem "oauth-plugin", ">= 0.5.1"
 gem "openstreetmap-deadlock_retry", ">= 1.3.1", :require => "deadlock_retry"
 gem "rack-cors"
