@@ -10,7 +10,7 @@
 zh-HK:
   time:
     formats:
-      friendly: '%Y年%m月%e日 %H:%M'
+      friendly: '%Y年%-m月%-d日%H:%M'
   helpers:
     file:
       prompt: 選擇檔案
@@ -49,7 +49,7 @@ zh-HK:
       changeset: 變更集
       changeset_tag: 變更集標籤
       country: 國家
-      diary_comment: 日記註解
+      diary_comment: 日記評論
       diary_entry: 日記項目
       friend: 朋友
       issue: 問題
@@ -105,11 +105,13 @@ zh-HK:
         name: 名稱
         redirect_uri: 重新導向 URI
         confidential: 保密的應用程式？
+        scopes: 權限
       friend:
         user: 用戶
         friend: 朋友
       trace:
         user: 用戶
+        visible: 能見度
         name: 檔案名稱
         size: 大小
         latitude: 緯度
@@ -124,19 +126,39 @@ zh-HK:
         title: 主題
         body: 內文
         recipient: 收件者
+      redaction:
+        title: 標題
+        description: 描述
       report:
+        category: 選擇您舉報的原因
         details: 請就這問題提供多點詳情（必需）。
       user:
+        auth_provider: 認證提供者
+        auth_uid: 認證UID
         email: 電郵
+        email_confirmation: 電郵確認
+        new_email: 新電郵地址
         active: 活躍
         display_name: 顯示名稱
-        description: 描述
-        languages: 語言
+        description: 個人檔案描述
+        home_lat: 緯度
+        home_lon: 經度
+        languages: 偏好的語言
+        preferred_editor: 偏好的編輯軟件
         pass_crypt: 密碼
         pass_crypt_confirmation: 確認密碼
     help:
+      doorkeeper/application:
+        redirect_uri: 每個URI位址各開一行輸入
       trace:
         tagstring: 以逗號分隔
+      user_block:
+        reason: 使用者被封鎖的理由。請盡可能保持平靜和理性的態度，寫下有關事件狀況你所能夠提供最詳盡的細節，並考慮到這訊息會公開給公眾讀取。謹記並非所有使用者都能夠明白社群的專用術語，所以請嘗試使用通俗的表達方式。
+        needs_view: 是否需要使用者先登入後才讓此封鎖得以清除？
+      user:
+        email_confirmation: 閣下的電郵地址並不會被公開展示，請參閱我們的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">私隱政策</a>頁面以獲取進一步的資訊。
+        new_email: （永遠不會公開展示）
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -183,7 +205,7 @@ zh-HK:
       description: iD (瀏覽器內的編輯器)
     remote:
       name: 遙遠控制
-      description: 遙遠控制 (JOSM 或 Merkaartor)
+      description: 遙遠控制 (JOSM、Potlatch、Merkaartor)
   auth:
     providers:
       none: 無
@@ -204,11 +226,64 @@ zh-HK:
         closed_at_by_html: 已由%{user}於%{when}解決
         reopened_at_html: 於%{when}重新開啟
         reopened_at_by_html: 由%{user}於%{when}重新開啟
+      rss:
+        title: OpenStreetMap註記
       entry:
         comment: 評論
+  account:
+    deletions:
+      show:
+        title: 刪除我的帳號
+        warning: 警告！帳號刪除程序不可逆轉，無法復原。
+        delete_account: 刪除帳號
+        delete_introduction: 您可以用以下按鈕來刪除閣下的OpenStreetMap帳號。請注意這些細節：
+        delete_profile: 您的個人檔案資訊，包含頭像圖片、描述、住家位置，將會被刪除。
+        delete_display_name: 您的顯示名稱將會被刪除，並且可以被其他帳號重新使用。
+        retain_caveats: 但，在刪除帳號後，OpenStreetMap內依然會保留一些關於閣下的資料，包括：
+        retain_edits: 如果您曾經編輯過地圖數據庫的話，這些編輯將會被保留。
+        retain_traces: 您曾經上載過軌跡的話，如有的話也會被保留。
+        retain_diary_entries: 如果您有日記和日記評論的話，會被保留但會隱藏起來。
+        retain_notes: 您如曾在地圖上的註記和對註記所發表的評論會被保留，但會隱藏起來。
+        retain_changeset_discussions: 您的變更集的討論，如有的話將會被保留。
+        retain_email: 您的電郵地址會繼續保留下來。
+        confirm_delete: 您確定嗎？
+        cancel: 取消
   accounts:
     edit:
+      title: 編輯帳號
       my settings: 我的設定
+      current email address: 現在的電郵地址
+      external auth: 外部認證
+      openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: 這是什麼？
+      public editing:
+        heading: 公開編輯
+        enabled: 已啟用。並非匿名而可以編輯資料。
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: 這是什麼？
+        disabled: 已停用而不能編輯資料，所有以往的編輯為匿名。
+        disabled link text: 為什麼我不能編輯？
+      public editing note:
+        heading: 公開編輯
+        html: 目前您的編輯是匿名的，人們不能發送訊息給您或看到您的位置。要顯示你的編輯以及讓別人能透過網站與您聯繫，請點選下面的按鈕。<b>自從0.6
+          API更新，只有公開使用者可以編輯地圖資料</b>。（<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">了解原因</a>）。<ul><li>成為公開使用者不會令您的電郵地址被透露。</li><li>這個動作不能逆轉，所有新的使用者現在都預設為公開的。</li></ul>
+      contributor terms:
+        heading: 貢獻者條款
+        agreed: 您已同意新的貢獻者條款。
+        not yet agreed: 您尚未同意新的貢獻者條款。
+        review link text: 請在有空時按此連結查閱並接受新的貢獻者條款。
+        agreed_with_pd: 您亦同意將您的編輯放到公共領域。
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link text: 這是什麼？
+      save changes button: 儲存變更
+      make edits public button: 將我所有的編輯設為公開
+      delete_account: 刪除帳號……
+    update:
+      success_confirm_needed: 使用者資訊更新成功。請檢查電郵，以確認新電郵地址。
+      success: 使用者資訊更新成功。
+    destroy:
+      success: 帳號已刪除。
   browse:
     version: 版本
     in_changeset: 變更集
@@ -222,6 +297,8 @@ zh-HK:
     changeset:
       title: 變更集：%{id}
       belongs_to: 製作者
+      changesetxml: 變更集XML
+      osmchangexml: osmChange格式XML
       feed:
         title: 變更集 %{id}
     relation_member:
@@ -234,17 +311,25 @@ zh-HK:
         node: 節點
         way: 路徑
         changeset: 變更集
+        note: 註記
     timeout:
       type:
         node: 節點
         way: 路徑
         changeset: 變更集
+        note: 註記
     redacted:
       type:
         node: 節點
         way: 路徑
     start_rjs:
       feature_warning: 正在載入%{num_features}項地圖特徵，可能會拖慢您的瀏覽器或導致瀏覽器未能回應。您是否肯定想要顯示這些資料？
+    note:
+      title: 註記：%{id}
+      new_note: 新增註記
+      open_title: 未解決的註記：#%{note_name}
+      closed_title: 已解決的註記：#%{note_name}
+      report: 舉報此註記
     query:
       title: 查詢地圖特徴
       introduction: 點擊地圖以尋找附近的地圖特徵。
@@ -277,7 +362,7 @@ zh-HK:
       no nearby users: 附近還沒有已加入製圖的用戶。
   diary_entries:
     form:
-      location: 位置：
+      location: 位置
       use_map_link: 使用地圖
     index:
       title: 用戶日記
@@ -318,6 +403,9 @@ zh-HK:
     remove_friend:
       heading: 刪除好友%{user}？
   geocoder:
+    search:
+      title:
+        ca_postcode_html: 來自 <a href="https://geocoder.ca/">Geocoder.CA</a> 的結果
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -334,8 +422,8 @@ zh-HK:
         aeroway:
           aerodrome: 機場
           airstrip: 飛機跑道
-          apron: 停機坪
-          gate: 閘口
+          apron: 機場停機坪
+          gate: 機場閘口
           hangar: 機庫
           helipad: 直升機坪
           holding_position: 等待位置
@@ -344,7 +432,7 @@ zh-HK:
           runway: 跑道
           taxilane: 滑行道
           taxiway: 滑行道
-          terminal: 客運大樓
+          terminal: 機場客運大樓
           windsock: 布製風標
         amenity:
           animal_boarding: 動物寄養
@@ -749,7 +837,7 @@ zh-HK:
           mineshaft: 礦井
           monitoring_station: 監控站台
           petroleum_well: 油井
-          pier: 碼頭
+          pier: 棧橋/碼頭（Pier）
           pipeline: 管線
           pumping_station: 泵站
           reservoir_covered: 有蓋蓄水槽
@@ -812,7 +900,14 @@ zh-HK:
           reef: 礁
           ridge: 山脊
           rock: 獨立岩
+          sand: 沙地
+          stone: 岩石
+          strait: 海峽
+          tree: 樹木
+          valley: 山谷
           volcano: 火山
+          water: 水
+          wetland: 濕地
           "yes": 自然特徵
         office:
           travel_agent: 旅行社
@@ -881,7 +976,7 @@ zh-HK:
           fishing: 釣魚用品店
           florist: 花店
           hairdresser: 理髮店
-          hifi: Hi-Fi
+          hifi: Hi-Fi店
           houseware: 生活用品店
           ice_cream: 冰淇淋店
           interior_decoration: 室內裝潢
@@ -893,15 +988,19 @@ zh-HK:
           mobile_phone: 手機店
           optician: 視光師
           organic: 有機食品店
+          outdoor: 戶外用品店
           pet: 寵物店
           seafood: 海鮮店
           second_hand: 二手商店
           shoes: 鞋店
+          sports: 運動用品店
           stationery: 文具店
           supermarket: 超級市場
+          tattoo: 紋身店
           tobacco: 煙草店
           toys: 玩具店
           travel_agency: 旅行社
+          vacant: 空置店舖
           "yes": 商店
         tourism:
           museum: 博物館
@@ -940,12 +1039,17 @@ zh-HK:
       resolve: 解決
       ignore: 忽略
       reopen: 重新開啟
+    helper:
+      reportable_title:
+        note: 註記#%{note_id}
   reports:
     new:
       categories:
         user:
           spam_label: 此用戶個人檔案為/含有垃圾信息
           threat_label: 此用戶個人檔案含有威脅或恐嚇內容
+        note:
+          spam_label: 此註記是垃圾訊息
     create:
       provide_details: 請提供所需要的詳情
   layouts:
@@ -1015,6 +1119,8 @@ zh-HK:
     destroy:
       title: 登出
   site:
+    index:
+      createnote: 添加註記
     edit:
       not_public: 您尚未把編輯公開。
       not_public_description_html: 您不這樣設定的話就將再無法編輯地圖。您可以在%{user_page}將閣下的編輯設為公開。
@@ -1107,6 +1213,9 @@ zh-HK:
   oauth:
     authorize:
       allow_read_prefs: 讀取您的用戶設定。
+      allow_write_notes: 修改註記。
+    scopes:
+      write_notes: 修改註記
   oauth_clients:
     show:
       requests: 向用戶要求下列權限：
@@ -1119,7 +1228,7 @@ zh-HK:
     new:
       title: 註冊
       no_auto_account_create: 很不幸地我們目前無法為您自動建立帳號。
-      contact_support_html: 請聯絡<a href="%{support}">網站管理員</a>以安排建立帳號，我們會儘快嘗試並處理相關要求。
+      contact_support_html: 請聯絡<a href="%{support}">支援人員</a>以安排建立帳號，我們會儘快嘗試並處理相關要求。
       about:
         header: 自由而可編輯
       email address: 電郵地址：
@@ -1148,7 +1257,9 @@ zh-HK:
       title: 沒有這用戶
       body: 抱歉，沒有名為%{user}的用戶。請檢查您的拼寫，或者您可能按到了錯誤的連結。
     show:
+      my notes: 我的註記
       my settings: 我的設定
+      notes: 地圖註記
       user location: 用戶位置
       report: 舉報此用戶
     index:
@@ -1156,6 +1267,11 @@ zh-HK:
       heading: 用戶
     auth_association:
       option_2: 如果您已經有帳號，您可以用該帳號的用戶名稱和密碼登入，然後到用戶設定中把您的ID和帳號關聯到一起。
+  notes:
+    index:
+      title: 由%{user}提交或評論過的註記
+      heading: '%{user}的註記'
+      no_notes: 沒有註記
   javascripts:
     share:
       embed: HTML
@@ -1175,13 +1291,17 @@ zh-HK:
         opnvkarte: ÖPNVKarte
       layers:
         header: 地圖圖層
+        notes: 地圖註記
         title: 圖層
     site:
+      createnote_tooltip: 在地圖加入註記
+      createnote_disabled_tooltip: 放大以在地圖加入註記
       queryfeature_tooltip: 查詢地圖特徴
       queryfeature_disabled_tooltip: 放大以查詢地圖特徴
     query:
       nothing_found: 沒找到地圖特徵
     context:
+      add_note: 在此加入註記
       query_features: 查詢地圖特徴
       centre_map: 將地圖置中於此
 ...
