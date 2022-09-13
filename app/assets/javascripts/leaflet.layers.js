@@ -98,10 +98,14 @@ L.OSM.layers = function (options) {
 
       var addOverlay = function (layer, name, maxArea) {
         var item = $("<li>")
-          .tooltip({
-            placement: "top"
-          })
           .appendTo(overlays);
+
+        var tooltip;
+        if (name === "notes" || name === "data") {
+          item.attr("title", I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip"));
+          tooltip = new bootstrap.Tooltip(item[0]);
+          tooltip.disable();
+        }
 
         var label = $("<label>")
           .attr("class", "form-check-label")
@@ -145,8 +149,13 @@ L.OSM.layers = function (options) {
           }
 
           $(item).attr("class", disabled ? "disabled" : "");
-          item.attr("data-bs-original-title", disabled ? // has additional bug when zooming out from enabled state
-            I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip") : "");
+          if (tooltip) {
+            if (disabled) {
+              tooltip.enable();
+            } else {
+              tooltip.disable();
+            }
+          }
         });
       };
 
