@@ -61,10 +61,24 @@ class SiteTest < ApplicationSystemTestCase
       find(selector).hover
       assert_selector ".tooltip", :text => "Zoom in"
     end
+
+    test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control '#{selector}'" do
+      visit "/#map=14/0/0"
+
+      assert_no_selector ".tooltip"
+      find(selector).hover
+      assert_no_selector ".tooltip", :text => "Zoom in"
+      find("h1").hover # un-hover original element
+
+      visit "/#map=10/0/0"
+      find(selector).hover
+      assert_selector ".tooltip", :text => "Zoom in"
+    end
   end
 
   test "notes layer tooltip appears on zoom out" do
     visit "/#map=9/40/-4" # depends on zoom levels where notes are allowed
+
     find(".control-layers .control-button").click
     li = find(".layers-ui .overlay-layers li:first-child")
     li.not_matches_css? ".disabled"

@@ -57,15 +57,19 @@ window.updateLinks = function (loc, zoom, layers, object) {
   });
 
   var editDisabled = zoom < 13;
-  $("#edit_tab")
-    .tooltip({ placement: "bottom" })
-    .attr("data-bs-original-title", editDisabled ?
-      I18n.t("javascripts.site.edit_disabled_tooltip") : "")
+  var editTab = $("#edit_tab");
+  editTab
     // Disable the button group and also the buttons to avoid
     // inconsistent behaviour when zooming
     .toggleClass("disabled", editDisabled)
     .find("a")
     .toggleClass("disabled", editDisabled);
+  var editTooltip = bootstrap.Tooltip.getOrCreateInstance(editTab[0], { placement: "bottom" });
+  if (editDisabled) {
+    editTooltip.enable();
+  } else {
+    editTooltip.disable();
+  }
 };
 
 window.maximiseMap = function () {
@@ -77,6 +81,9 @@ window.minimiseMap = function () {
 };
 
 $(document).ready(function () {
+  $("#edit_tab")
+    .attr("title", I18n.t("javascripts.site.edit_disabled_tooltip"));
+
   var headerWidth = 0,
       compactWidth = 0;
 
