@@ -1,8 +1,8 @@
 /* extends ohmVectorStyles defined in ohm.style.js */
 
 const spriteSheetUrls_Original = {
-  "production": "https://openhistoricalmap.github.io/map-styles/ohm_timeslider_tegola/osm_tegola_spritesheet-production",
-  "staging": "https://openhistoricalmap.github.io/map-styles/ohm_timeslider_tegola/osm_tegola_spritesheet",
+  "production": "https://openhistoricalmap.github.io/map-styles/ohm_timeslider_tegola/ohm_spritezero_spritesheet-production",
+  "staging": "https://openhistoricalmap.github.io/map-styles/ohm_timeslider_tegola/ohm_spritezero_spritesheet",
 };
 
 ohmVectorStyles.Original = {
@@ -78,9 +78,9 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["==", "type", "military"]],
       "layout": {"visibility": "visible"},
       "paint": {
-        "fill-pattern": "military-fill",
         "fill-color": "rgba(178, 194, 157, 1)",
-        "fill-antialias": false
+        "fill-antialias": false,
+        "fill-pattern": "military-fill"
       }
     },
     {
@@ -199,7 +199,8 @@ ohmVectorStyles.Original = {
             [{"zoom": 0, "value": "desert"}, "rgba(238, 229, 178, 1)"],
             [{"zoom": 0, "value": "basin"}, "rgba(144, 204, 203, 1)"],
             [{"zoom": 0, "value": "wetland"}, "rgba(227, 233, 226, 1)"],
-            [{"zoom": 0, "value": "salt_pond"}, "rgba(236, 240, 241, 1)"]
+            [{"zoom": 0, "value": "salt_pond"}, "rgba(236, 240, 241, 1)"],
+            [{"zoom": 1, "value": "mud"}, "rgba(230, 223, 215, 1)"]
           ],
           "default": "transparent"
         }
@@ -402,6 +403,20 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "wetlands_z12",
+      "type": "fill",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": ["all", ["==", "type", "wetland"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": "rgba(255, 255, 255, 1)",
+        "fill-pattern": "wetland-18"
+      }
+    },
+    {
       "id": "place_areas_plot",
       "type": "fill",
       "source": "osm",
@@ -496,6 +511,89 @@ ohmVectorStyles.Original = {
       "paint": {
         "line-color": "rgba(144, 204, 203, 1)",
         "line-width": {"stops": [[13, 0.5], [15, 0.8], [20, 2]]}
+      }
+    },
+    {
+      "id": "water_lines_cliff_line",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "water_lines",
+      "minzoom": 15,
+      "maxzoom": 24,
+      "filter": ["all", ["in", "type", "cliff"], ["!in", "surface", "water"]],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "miter",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(153, 153, 153, 1)",
+        "line-translate-anchor": "viewport",
+        "line-width": 2
+      }
+    },
+    {
+      "id": "water_lines_cliff_triangle",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "water_lines",
+      "minzoom": 15,
+      "maxzoom": 24,
+      "filter": ["all", ["in", "type", "cliff"], ["!in", "surface", "water"]],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "miter",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(144, 204, 203, 1)",
+        "line-pattern": "cliff-line-18",
+        "line-translate-anchor": "map",
+        "line-dasharray": [],
+        "line-width": 4,
+        "line-offset": 2.8
+      }
+    },
+    {
+      "id": "water_lines_waterfall_line",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "water_lines",
+      "minzoom": 15,
+      "maxzoom": 24,
+      "filter": ["all", ["in", "type", "cliff"], ["in", "surface", "water"]],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "miter",
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "rgba(68, 136, 136, 1)",
+        "line-translate-anchor": "viewport",
+        "line-width": 1,
+        "line-offset": 1
+      }
+    },
+    {
+      "id": "water_lines_waterfall_triangle",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "water_lines",
+      "minzoom": 15,
+      "maxzoom": 24,
+      "filter": ["all", ["in", "type", "cliff"], ["in", "surface", "water"]],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "miter",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(144, 204, 203, 1)",
+        "line-pattern": "waterfall-line-18",
+        "line-translate-anchor": "map",
+        "line-dasharray": [],
+        "line-width": 5,
+        "line-offset": 0
       }
     },
     {
@@ -1038,6 +1136,28 @@ ohmVectorStyles.Original = {
           0.5,
           18,
           8
+        ]
+      }
+    },
+    {
+      "id": "roads_living_street",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": ["all", ["in", "type", "living_street"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.5],
+          ["zoom"],
+          11,
+          0.2,
+          18,
+          6
         ]
       }
     },
@@ -2298,11 +2418,34 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "water_lineslabels-cliff",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "water_lines",
+      "filter": ["all", ["in", "type", "cliff"]],
+      "layout": {
+        "text-field": "{name}",
+        "text-font": ["OpenHistorical Italic"],
+        "symbol-placement": "line",
+        "symbol-spacing": 500,
+        "text-anchor": "bottom",
+        "text-pitch-alignment": "auto",
+        "text-rotation-alignment": "auto",
+        "text-size": {"stops": [[11, 9], [13, 11]]},
+        "text-letter-spacing": 0
+      },
+      "paint": {
+        "text-color": "rgba(77, 77, 77, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-width": 1
+      }
+    },
+    {
       "id": "water_lineslabels-dam",
       "type": "symbol",
       "source": "osm",
       "source-layer": "water_lines",
-      "filter": ["all", ["==", "type", "dam"]],
+      "filter": ["all", ["in", "type", "dam"]],
       "layout": {
         "text-field": "{name}",
         "text-font": ["OpenHistorical Italic"],
@@ -2325,7 +2468,7 @@ ohmVectorStyles.Original = {
       "type": "symbol",
       "source": "osm",
       "source-layer": "water_lines",
-      "filter": ["all", ["!=", "type", "dam"]],
+      "filter": ["all", ["!in", "type", "dam", "cliff"]],
       "layout": {
         "text-field": "{name}",
         "text-font": ["OpenHistorical Italic"],
@@ -2335,7 +2478,8 @@ ohmVectorStyles.Original = {
         "text-pitch-alignment": "auto",
         "text-rotation-alignment": "auto",
         "text-size": {"stops": [[11, 11], [13, 13]]},
-        "text-letter-spacing": 0
+        "text-letter-spacing": 0,
+        "visibility": "visible"
       },
       "paint": {
         "text-color": "rgba(109, 146, 146, 1)",
@@ -3153,10 +3297,7 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "buildings",
       "filter": ["all"],
-      "layout": {
-        "icon-image": "{religion}-18",
-        "text-font": ["OpenHistorical"]
-      }
+      "layout": {"icon-image": "{religion}-18", "text-font": ["OpenHistorical"]}
     },
     {
       "id": "points_fromlanduse-z14",
@@ -3191,7 +3332,8 @@ ohmVectorStyles.Original = {
         "text-field": "{name}",
         "text-size": 8,
         "text-anchor": "top",
-        "text-offset": [0, 1]
+        "text-offset": [0, 1],
+        "visibility": "visible"
       },
       "paint": {
         "text-color": "rgba(80, 80, 80, 1)",
@@ -3205,7 +3347,7 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "landuse_areas",
       "minzoom": 16,
-      "filter": ["all", ["!=", "type", "peak"]],
+      "filter": ["all", ["!in", "type", "peak", "wetland", "garden"]],
       "layout": {"icon-image": "{type}-18", "text-font": ["OpenHistorical"]}
     },
     {
