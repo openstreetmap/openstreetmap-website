@@ -265,7 +265,7 @@ OSM.Directions = function (map) {
       }
 
       var turnByTurnTable = $("<table class='mb-3'>");
-      var directionsCloseButton = $("<button type='button' class='btn-close mt-1'>");
+      var directionsCloseButton = $("<button type='button' class='btn-close'>");
 
       $("#sidebar_content")
         .empty()
