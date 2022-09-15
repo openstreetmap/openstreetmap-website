@@ -62,9 +62,9 @@ sc:
       old_relation: Relata betza
       old_relation_member: Membru de sa relata betza
       old_relation_tag: Eticheta de sa relata betza
-      old_way: Caminu betzu
+      old_way: Lìnia betza
       old_way_node: Nodu de su caminu betzu
-      old_way_tag: Eticheta de su caminu betzu
+      old_way_tag: Eticheta de sa lìnia betza
       relation: Relata
       relation_member: Membru de sa relata
       relation_tag: Eticheta de sa relata
@@ -76,9 +76,9 @@ sc:
       user: Utente
       user_preference: Preferèntzias de s'utente
       user_token: Còdighe de s'utente
-      way: Caminu
+      way: Lìnia
       way_node: Nodu de su caminu
-      way_tag: Eticheta de sa bia
+      way_tag: Eticheta de sa lìnia
     attributes:
       client_application:
         name: Nùmene (obligatòriu)
@@ -395,7 +395,7 @@ sc:
       entry_role_html: '%{type} %{name} comente %{role}'
       type:
         node: Nodu
-        way: Caminu
+        way: Lìnia
         relation: Relata
     containing_relation:
       entry_html: Relata %{relation_name}
@@ -405,7 +405,7 @@ sc:
       sorry: 'No at fatu a agatare %{type} #%{id}'
       type:
         node: nodu
-        way: caminu
+        way: lìnia
         relation: relata
         changeset: annantu de modìficas
         note: nota
@@ -415,7 +415,7 @@ sc:
         %{id}.
       type:
         node: nodu
-        way: caminu
+        way: lìnia
         relation: relata
         changeset: annantu de modìficas
         note: nota
@@ -426,7 +426,7 @@ sc:
         informatziones.
       type:
         node: nodu
-        way: caminu
+        way: lìnia
         relation: relata
     start_rjs:
       feature_warning: Carrighende %{num_features} funtzionalidades, chi diant pòdere
@@ -889,7 +889,7 @@ sc:
           emergency_bay: Pratzita de pàsida
           footway: Caminera pedonale
           ford: Badu
-          give_way: Sinnale de Tzèdere su Passu
+          give_way: Sinnale de dare pretzedèntzia
           living_street: Carrera Residentziale
           milestone: Perda miliare
           motorway: Autostrada
@@ -922,6 +922,7 @@ sc:
           trailhead: Intrada de un'àndala
           trunk: Superstrada
           trunk_link: Superstrada
+          turning_circle: Rotunda a fine caminu
           turning_loop: Rotonda de cambiamentu de sensu
           unclassified: Carrera senza classificatzione
           "yes": Carrera
@@ -1522,7 +1523,7 @@ sc:
     log_in: Intra
     log_in_tooltip: Intra cun unu contu chi esistit
     sign_up: Iscrie·ti
-    start_mapping: Cumintzat a mapare
+    start_mapping: Incumintza a mapare
     sign_up_tooltip: Crea unu contu pro modificare
     edit: Modìfica
     history: Cronologia
@@ -1536,9 +1537,9 @@ sc:
     user_diaries_tooltip: Pòmpia sos diàrios de sos utentes
     edit_with: Modìfica cun %{editor}
     tag_line: Sa mapa wiki lìbera de su mundu
-    intro_header: Bene benius in OpenStreetMap!
-    intro_text: OpenStreetMap est una mapa de su mundu, creadu dae persones comente
-      tue e de impreu lìberu suta una litzèntzia aberta.
+    intro_header: Bene bènnidu in OpenStreetMap!
+    intro_text: OpenStreetMap est una mapa de su mundu, creada dae persones che a
+      tie e de impreu lìberu suta de una litzèntzia aberta.
     intro_2_create_account: Crea unu contu de utente
     hosting_partners_html: S'allògiu est a càrrigu de %{ucl}, %{fastly}, %{bytemark}
       e de àteros %{partners}.
@@ -1614,7 +1615,7 @@ sc:
         in unu totale de %{possible_points} puntos possìbiles.
       subject: '[OpenStreetMap] Importatzione de GPX curreta'
     signup_confirm:
-      subject: '[OpenStreetMap] Bene bènnidos a OpenStreetMap'
+      subject: '[OpenStreetMap] Bene bènnidu in OpenStreetMap'
       greeting: Salude!
       created: Calicunu (isperamus tue matessi) at creadu commo·commo unu contu a
         %{site_url}.
@@ -1955,44 +1956,350 @@ sc:
       local_knowledge_html: |-
         OpenStreetMap daet valore a sa connoschèntzia locale. Sos collaboradores impreant immàgines aèreas, dispositivos GPS e mapas clàssicas de su terrinu pro verificare chi OSM
         siat pretzisas e atualizadas.
+      community_driven_title: Ghiadu dae sa comunidade
+      community_driven_html: |-
+        Sa comunidade de OpenStreetMap est diversa, apassionada e creschet cada die.
+        Intre sos contribuidores nostros b'ant cartògrafos entusiastas, professionistas de GIS, ingegneris
+        chi gestint sos serbidores de OSM, voluntàrios chi mapant sas zonas tocadas dae disastros
+        e medas àteros.
+        Pro imparare de prus subra de sa comunidade pòmpia·ti su
+        <a href='https://blog.openstreetmap.org'>Blog de OpenStreetMap</a>,
+        <a href='%{diary_path}'>sos diàrios de sos utentes</a>,
+        <a href='https://blogs.openstreetmap.org/'>sos blogs de sa comunidade</a>, e
+        su situ web de sa <a href='https://www.osmfoundation.org/'>Fundatzione OSM</a>.
+      open_data_title: Datos abertos
+      open_data_html: |-
+        OpenStreetMap est <i>a datos abertos</i>: ses lìberu de l'impreare pro cale si siat punna,
+        bastat chi pòngias in craru chi sos datos sunt òpera de OpenStreetMap e de sos contribuidores suos. Si modìficas o
+        isvilupas carchi cosa cosa partende dae sos datos in unas cantas maneras ispetzìficas, podes publicare sos resurtados petzi
+        suta de sa matessi lissèntzia. Pòmpia·ti sa <a href='%{copyright_path}'>pàgina de su deretu de autore e de sa litzèntzia</a> pro sos detàllios.
+      legal_title: Notas legales
+      legal_1_html: |-
+        Custu situ web e medas àteros servìtzios relatzionados sunt operados, in manera formale, dae sa
+        <a href='https://osmfoundation.org/'>Fundatzione OpenStreetMap</a> (OSMF)
+        on behalf of the community. in nùmene de sa comunidade. S'impreu de totu sos servìtzios operados dae s'OSMF est sugetu
+        a sas <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Cunditziones de impreu</a>, a sas <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Polìticas de impreu atzetàbile</a> e a sa <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Polìtica de riservadesa</a> nostras.
+      legal_2_html: |-
+        <a href='https://osmfoundation.org/Contact'>Cuntata sa OSMF</a>
+        si tenes preguntas chi pertocant a sa litzèntzia, a su deretu de autore o a àteras chistiones legales.
+        <br>
+        OpenStreetMap, su logotipu de sa lente de ismanniamentu e  s'Istadu de sa mapa sunt <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">sìmbulos registrados de sa OSMF</a>.
+      partners_title: Sòtzios
+    copyright:
+      foreign:
+        title: Informatziones subra de custa tradutzione
+        html: In casu de cunflitu intre custa pàgina bortada e %{english_original_link},
+          sa pàgina in inglesu est cussa vàlida
+        english_link: s'originale in inglesu
+      native:
+        title: Subra custa pàgina
+        html: Ses bidende sa versione inglesa de sa pàgina de su deretu de autore.
+          Podes torrare a sa %{native_link} de custa pàgina o podes agabbare de lèghere
+          sas informatziones subra de su deretu de autore e %{mapping_link}.
+        native_link: versione in sardu
+        mapping_link: incumintzare a mapare
+      legal_babble:
+        title_html: Deretu de autore e litzèntzia
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> est <i>a datos abertos</i>, suta de sa lissèntzia <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) frunida dae sa  <a
+          href="https://osmfoundation.org/">Fundatzione OpenStreetMap</a> (OSMF).
+        intro_2_html: |-
+          Ses lìberu de copiare, distribuire, trasmìtere a manera pùblica e adatare sos datos nostros,
+          semper chi ispetzìfiches chi sunt òpera de OpenStreetMap e de sos
+          contribuidores suos. Si modìficas o creas cosas basende·ti subra de sos datos nostros, as a pòdere distribuire sos resurtados cun sa matessi litzèntzia. Su
+          <a href="https://opendatacommons.org/licenses/odbl/1.0/">còdighe
+          legale</a> intreu acrarit sos deretos tuos e sas responsabilidades tuas.
+        intro_3_1_html: |-
+          Sa documentatzione nostra est a disponimentu suta de sa litzèntzia
+          <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0).
+        credit_title_html: Comente dare s'atributzione de sos contributos a OpenStreetMap
+        credit_1_html: 'Cando impreas sos datos de OpenStreetMap, depes fàghere custas
+          duas cosas:'
+        credit_2_1_html: |-
+          <ul>
+            <li>Atribuire sos crèditos a OpenStreetMap ammustrende s'avisu de deretu de autore nostru.</li>
+            <li>Acrarire su fatu chi sos datos sunt a disponimentu suta de sa litzèntzia Open Database.</li>
+          </ul>
+        credit_3_1_html: Pro s'avisu de deretu de autore amus recuisitos diferentes
+          subra de comente diat dèpere èssere ammustradu, a segunda de comente ses
+          impreende sos datos nostros. A esèmpiu, s'àplicant règulas diferentes subra
+          de comente ammustrare s'avisu de deretu de autore a segunda chi tue apas
+          creadu una mapa navigàbile, una mapa imprentada o un'immàgine istàtica.
+          Totu sas informatziones a sa minuda subra de sos recuisitos si podent agatare
+          in sas <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">lìnias
+          de ghia subra de s'atributzione</a>.
+        credit_4_html: |-
+          Pro pònnere in craru chi sos datos sunt a disponimentu in base a sa litzèntzia Open Database, podes insertare unu ligàmene a <a href="https://www.openstreetmap.org/copyright">custa pàgina subra de su deretu de autore</a>.
+          In alternativa, e comente recuisitu si ses distribuende OSM in forma de datos, podes numenare e ligare a manera direta sas litzèntzias. In sos mèdios de comunicatzione in ue sos ligàmenes non sunt possìbiles (a es. òperas de paperi), ti cussigiamus de indiritzare sos letores tuos in manera direta cara a openstreetmap.org (mancari ismanniende 'OpenStreetMap' a s'indiritzu intreu suo) e a opendatacommons.org. In custu esèmpiu, sos crèditos aparint in s'àngulu de sa mapa.
+        attribution_example:
+          alt: Esempru de comente atribuire sos crèditos a OpenStreetMap in una pàgina
+            web
+          title: Esempru de atributzione
+        more_title_html: Pro nd'ischire de prus
+        more_1_html: |-
+          Leghe àteras informatziones subra de s'impreu de sos datos nostros, e de comente nos atribuire sos crèditos, in sa <a
+          href="https://osmfoundation.org/Licence">pàgina de sa litzèntzia OSMF</a>.
+        more_2_html: Mancari sos datos de OpenStreetMap siant datos abertos, non podimus
+          ofèrrere un'API de badas a tertzos. Pòmpia·ti sa <a href="https://operations.osmfoundation.org/policies/api/">polìtica
+          de impreu de s'API</a>, sa <a href="https://operations.osmfoundation.org/policies/tiles/">polìtica
+          de impreu de sos tasseddos</a> e sa <a href="https://operations.osmfoundation.org/policies/nominatim/">polìtica
+          de impreu de Nominatim</a>.
+        contributors_title_html: Sos collaboradores nostros
+        contributors_intro_html: |-
+          Sos contribuidores nostros sunt mìgias de persones. Includimus fintzas
+          datos cun litzèntzias abertas de sas agèntzias pùblicas de cartografia e de àteras fontes, che a:
+        contributors_at_html: |-
+          <strong>Àustria</strong>: cuntenet datos dae
+          <a href="https://data.wien.gv.at/">Stadt Wien</a> (suta de sa
+          <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> e
+          Land Tirol (suta de sa <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT cun emendamentos</a>).
+        contributors_au_html: |-
+          <strong>Austràlia</strong>: cuntenet o est isvilupada impreende sas làcanas amministrativas &copy;
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Australia</a>
+          publicadas dae su Commonwealth de s'Austràlia suta de sa
+          <a href="https://creativecommons.org/licenses/by/4.0/">litzèntzia Creative Commons Attribution 4.0 Internatzionale (CC BY 4.0)</a>.
+        contributors_ca_html: |-
+          <strong>Cànada</strong>: cuntenet datos dae
+          GeoBase&reg;, GeoGratis (&copy; Dipartimentu de sas Resursas Naturales de su Cànada), CanVec (&copy; Dipartimentu de sas Resursas
+          Naturales de su Cànada), e StatCan (Divisione de Geografia,
+          Istatìsticas de su Cànada).
+        contributors_fi_html: |-
+          <strong>Finlàndia</strong>: cuntenet datos dae sa
+          Base de datos topogràficos de s'ispetzione natzionale de su territòriu de sa Finlàndia
+          e àteros annantos de datos, suta de sa
+          <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">litzèntzia NLSFI</a>.
+        contributors_fr_html: |-
+          <strong>Frantza</strong>: cunenet datos chi benint dae sa
+          Direction Générale des Impôts.
+        contributors_nl_html: |-
+          <strong>Paisos Bassos</strong>: cuntenet datos &copy; AND, 2007
+          (<a href="https://www.and.com">www.and.com</a>)
+        contributors_nz_html: |-
+          <strong>Zelanda Noa</strong>: cunenet datos chi benint dae su
+          <a href="https://data.linz.govt.nz/">servìtziu de datos LINZ</a>
+          publicados pro los torrare a impreare suta de sa
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        contributors_si_html: |-
+          <strong>Islovènia</strong>: cuntenet datos dae
+          <a href="http://www.gu.gov.si/en/">s'Autoridade pro su Rilievu e sa Mapadura</a> e su
+          <a href="http://www.mkgp.gov.si/en/">Ministru de s'Agricultura, sos padentes e su màndigu</a>
+          (informatziones pùblicas de s'Islovènia).
+        contributors_es_html: |-
+          <strong>Ispagna</strong>: cuntenet datos chi benint dae
+          s'Istitutu geogràficu natzionale ispagnolu (<a href="http://www.ign.es/">IGN</a>) e sae su
+          Sistema cartogràficu natzionale (<a href="http://www.scne.es/">SCNE</a>)
+          publicados pro los torrare a impreare suta de sa <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        contributors_za_html: |-
+          <strong>Sud Àfrica</strong>: cuntenet datos chi benint dae su
+          <a href="http://www.ngi.gov.za/">Diretoradu printzipale:
+          informatziones geo-ispatziales natzionales Geo-Spatial Information</a>, deretos de autore riservados dae s'Istadu.
+        contributors_gb_html: |-
+          <strong>Regnu Unidu</strong>: cuntenet sos datos de sa Ordnance
+          Survey &copy; deretu de autore e base de datos de sa Corona
+          2010-19.
+        contributors_footer_1_html: |-
+          Pro àteros detàllios subra de custas e de àteras fontes impreadas pro megiorare OpenStreetMap pòmpia·ti sa <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">pàgina de sos contribuidores</a> in sa wiki de OpenStreetMap.
+        contributors_footer_2_html: |-
+          S'inclusione de datos in OpenStreetMap no ìmplicat chi su frunidore originale
+          de sos datos diat suportu a OpenStreetMap, frunat cale si siat garantzia o
+          atzetet cale si siat responsabilidade.
+        infringement_title_html: Violatzione de su deretu de autore
+        infringement_1_html: |-
+          Ammentamus a sos collaboradores de OSM chi non depent annànghere mai datos dae cale si siat fonte cun deretos de autore registrados (a es. Google Maps o mapas imprentadas) chene
+          tènnere un'autorizatzione esplìtzita de sos titulares de sos deretos de autore.
+        infringement_2_html: |-
+          Si pensas chi b'at materiale amparadu dae deretu de autore chi est istadu annantu in manera impròpria
+          a sa base de datos de OpenStreetMap o a custu situ bae a
+          su <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">protzedimentu nostru pro eliminare datos amparados dae sos deretos de autore</a> o compila custu
+          <a href="https://dmca.openstreetmap.org/">formulàriu in lìnia</a>.
+        trademarks_title_html: <span id="trademarks"></span>Màrchios registrados
+        trademarks_1_html: OpenStreetMap, su logotipu de sa lente de ismanniamentu
+          e «State of the Map» sunt màrchios registrados de sa Fundatzione OpenStreetMap.
+          Si tenes pregontas subra s'impreu de sas marcas, consultades sa <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">polìtica
+          pro sos màrchios registrados</a>.
     index:
+      js_1: Ses impreende unu navigadore chi non tenet su suportu pro JavaScript o
+        as inabilitadu JavaScript.
+      js_2: OpenStreetMap impreat JavaScript pro sa mapa dinàmica sua.
+      permalink: Ligàmene permanente
+      shortlink: Ligàmene curtzu
       createnote: Annanghe una nota
+      license:
+        copyright: Deretu de autore de OpenStreetMap e de sos collaboradores suos
+          suta de una litzèntzia aberta
+      remote_failed: Modìfica fallida - assegura·ti chi JOSM o Merkaartor siat aviadu
+        e chi s'optzione de controllu remotu siat abilitada
+    edit:
+      not_public: No as cunfiguradu sas modìficas tuas pro chi siant pùblicas.
+      not_public_description_html: Non podes prus modificare sa mapa si non lu faghes.
+        Podes cunfigurare sas modìficas comente pùblicas dae sa %{user_page} tua.
+      user_page_link: pàgina de utente
+      anon_edits_link_text: Impara inoghe su proite.
+      id_not_configured: iD no est istadu cunfiguradu
+      no_iframe_support: Su navigadore tuo non tenet su suportu pro sos iframes HTML,
+        chi sunt netzessàrios pro custa funtzionalidade.
     export:
       title: Esporta
+      area_to_export: Àrea de esportare
+      manually_select: Seletziona un'àrea diferente in manera manuale
+      format_to_export: Formadu de esportatzione
+      osm_xml_data: Datos XML de OpenStreetMap
+      map_image: Immàgine de sa mapa (ammustrat su livellu istandard)
+      embeddable_html: HTML incorporàbile
+      licence: Litzèntzia
+      export_details_html: Sos datos de OpenStreetMap sunt publicados cun sa <a href="https://opendatacommons.org/licenses/odbl/1.0/">litzèntzia
+        Open Data Commons Open Database</a> (ODbL).
+      too_large:
+        advice: 'Si s''esportatzione inoghe in subra faddit piga in cunsideru s''impreu
+          de una de sas fontes inclùdidas in sa lista chi sighit:'
+        body: Custa àrea est tropu manna pro l'esportare comente datos XML de OpenStreetMap.
+          Ismànnia sa mapa o seletziona un'àrea prus minore, o imprea una de sas fontes
+          allistadas inoghe in suta pro sos iscarrigamentos de massa de datos.
+        planet:
+          title: Praneta OSM
+          description: Còpias atualizadas in manera regulare de sa base de datos intrea
+            de OpenStreetMap
+        overpass:
+          title: API Overpass
+          description: Iscàrriga custu ricuadru de seletzione dae un'ispigru de sa
+            base de datos de OpenStreetMap
+        geofabrik:
+          title: Iscarrigamentos de Geofabrik
+          description: Estratos atualizados in manera regulare de continentes, paisos
+            e tzitades seletzionadas
+        metro:
+          title: Estratos metropolitanos
+          description: Estratos pro sas tzitades prus mannas de su mundu e sas àreas
+            metropolitanas issoro
+        other:
+          title: Àteras fontes
+          description: Fontes additzionales postas in lista in sa wiki de OpenStreetMap
       options: Optziones
       format: Formadu
       scale: Iscala
       max: màssimu
       image_size: Mannària de s'immàgine
       zoom: Ismanniamentu
+      add_marker: Annanghe unu marcadore a sa mapa
+      latitude: 'Lat:'
+      longitude: 'Lon:'
+      output: Resurtadu
+      paste_html: Incolla s'HTML pro l'integrare in su situ web
       export_button: Esporta
     fixthemap:
+      title: Sinnala unu problema / Acontza sa mapa
       how_to_help:
         title: Comente agiudare
         join_the_community:
           title: Auni·ti a sa comunidade
+          explanation_html: Si as notadu unu problema cun sos datos de mapa nostros,
+            a esempru unu caminu chi mancat o s'indiritzu tuo, sa manera mègius de
+            l'acontzare est aunende·ti a sa comunidade de OpenStreetMap e annanghende
+            o curregende sos datos tue matessi.
+        add_a_note:
+          instructions_html: |-
+            Bastat a incarcare <a class='icon note'></a> o sa matessi icona in s'ischermada de sa mapa.
+            Custu at a annànghere unu marcadore a sa mapa, chi as a pòdere mòvere
+            trisinende·lu. Annanghe su messàgiu tuo e a pustis incarca sarva, e àteros mapadores ant a investigare.
+      other_concerns:
+        title: Àteros oriolos
+        explanation_html: Si t'apensamentat su cuntenutu de sos datos nostros o s'impreu
+          chi si nde faghet, consulta sa <a href='/copyright'>pàgina de su deretu
+          de autore</a> pro àteras informatziones, o cuntata su <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>grupu
+          de traballu de s'OSMF</a> apropriadu.
     help:
+      title: Comente otènnere agiudu
+      introduction: |-
+        OpenStreetMap tenet medas risorsas pro imparare cosa subra de su progetu, pro fàghere preguntas e rispòndere,
+        e pro arresonare e documentare in manera collaborativa de temas de mapadura.
       welcome:
         url: /bene bènnidu
+        title: Bene bènnidos in OpenStreetMap
+        description: Incumintza cun custa ghia lestra subra de sos aspetos fundamentales
+          de OpenStreetMap.
+      beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
+        title: Ghia pro printzipiantes
+        description: Ghia pro printzipiante mantenta dae sa comunidade.
+      help:
+        url: https://help.openstreetmap.org/
+        title: Fòrum de agiudu
+        description: Faghe una pregunta o chirca rispostas in sa pàgina de preguntas
+          e rispostas de OpenStreetMap.
+      mailing_lists:
+        title: Listas de posta eletrònica
+        description: Faghe una pregunta o piga parte a una dibata subra de chistiones
+          de interessu in un'elencu mannu de listas de posta eletrònica temàticas
+          e regionales.
+      forums:
+        title: Forums (betzu)
+        description: Preguntas e discussiones pro sos chi preferint un'istile de interfache
+          a tipu bacheca de annùntzios.
+      community:
+        url: https://community.openstreetmap.org/
+        title: Forum de sa comunidade
+        description: Unu logu cumpartzidu pro sos arresonos subra de OpenStreetMap.
+      irc:
+        title: IRC
+        description: Tzarrada interativa in medas limbas diferentes e subra de temas
+          diferentes.
+      switch2osm:
+        title: switch2osm
+        description: Agiudu pro aziendas e organizatziones chi cherent colare a sas
+          mapas e a sos àteros servìtzios fundados supra de OpenStreetMap.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Pro organizatziones
+        description: Ses cun un'organizatzione chi cheret impreare OpenStreetMap?
+          Agata su chi ti bisòngiat a ischire in sa pàgina de benebènnidu nostra.
+      wiki:
+        url: https://wiki.openstreetmap.org/
+        title: Wiki de OpenStreetMap
+        description: Esplora sa wiki pro agatare documentatzione a sa minuda subra
+          de OpenStreetMap.
+    potlatch:
+      removed: S'editore predefinidu tuo de OpenStreetMap est Potlatch. Dae chi s'Adobe
+        Flash Player l'ant ritiradu, su Potlach no est prus a disponimentu pro s'impreu
+        dae unu navigadore web.
+      desktop_html: Podes galu impreare Potlatch <a href="https://www.systemed.net/potlatch/">iscarrighende
+        s'aplicatzione de iscrivania pro Mac e Windows</a>.
+      id_html: In alternativa podes isseberare comente editore predefinidu iD, chi
+        funtzionat in su navigadore web tuo gasi comente lu faghiat Potlatch. <a href="%{settings_url}">Muda
+        sas preferèntzias tuas inoghe</a>.
     sidebar:
       search_results: Risultados de sa chirca
       close: Serra
     search:
       search: Chirca
       get_directions: Otene indicatziones
+      get_directions_title: Agatades indicatziones intre duos puntos
       from: Dae
       to: Cara a
+      where_am_i: In ue est custu?
+      where_am_i_title: Descrie sa positzione atuale impreende su motore de chirca
       submit_text: Bae
+      reverse_directions_text: Fùrria sa diretzione
     key:
       table:
         entry:
           motorway: Autostrada
+          main_road: Caminu printzipale
+          trunk: Caminu lestru (Superstrada)
           primary: Caminu printzipale
           secondary: Carrera segundària
           unclassified: Carrera chene classificatzione
           track: Sestadu
           bridleway: Caminu pro caddos
           cycleway: Pista tziclàbile
+          cycleway_national: Pista tziclàbile natzionale
+          cycleway_regional: Pista tziclàbile regionale
+          cycleway_local: Pista tziclàbile locale
           footway: Caminu pro pedones
           rail: Ferrovia
           subway: Metropolitana
@@ -2003,9 +2310,11 @@ sc:
           - Funivia
           - ascensore carrotzina
           runway:
-            1: carrera de furriada
+          - Pista de aeroportu
+          - carrera de furriada
           apron:
-            1: terminale
+          - Àrea de parchègiu de sos aèreos
+          - terminale
           admin: Làcana amministrativa
           forest: Litu
           wood: Buscu
@@ -2015,56 +2324,277 @@ sc:
           common:
           - Comunu
           - pradu
+          - giardinu
+          retail: Àrea cummertziale
           industrial: Àrea industriale
           commercial: Àrea cummertziale
+          heathland: Istruvina
           lake:
           - Lagu
           - batzinu
           farm: Fatoria
+          brownfield: Terrinu industriale abbandonadu
           cemetery: Campusantu
           allotments: Giardinos familiares
+          pitch: Campu isportivu
           centre: Tzentru isportivu
           reserve: Reserva naturale
           military: Zona militare
           school:
           - Iscola
           - universidade
+          building: Edifìtziu significativu
+          station: Istatzione ferroviària
+          summit:
+          - Cùcuru de monte
+          - cùcuru
+          tunnel: Lìnia trategiada = galleria
+          bridge: Oros nieddos = ponte
           private: Atzessu privadu
           destination: Atzessu pro sa destinatzione
+          construction: Caminos in costrutzione
           bicycle_shop: Butega de bitzicletas
           bicycle_parking: Parchègiu pro bitzicletas
           toilets: Còmodu
     welcome:
       title: Bene bènnidu!
+      introduction_html: |-
+        Bene bènnidu in OpenStreetMap, sa mapa lìbera e modificàbile de su mundu. Como chi ti ses registradu,
+        ses prontu pro incumintzare a mapare. Custa est una ghia lestra cun sas cosas de importu prus mannu
+        chi depes ischire.
+      whats_on_the_map:
+        title: Ite b'at in sa mapa
+        on_html: |-
+          OpenStreetMap est unu logu pro mapare cosas chi sunt <em>beras e atuales</em> -
+          incluit milliones de fràigos, caminos, e àteros detàllios subra de sos logos. Podes mapare
+          cale si siat elementu de su mundu reale chi t'interesset.
+        off_html: |-
+          Ite <em>no</em> incluit sunt datos sugetivos che a sas valutatziones, caraterìsticas istòricas o
+          ipotèticas, e datos dae fontes cun deretu de autore. Francu chi apas permissos
+          ispetziales non còpies dae mapas in lìnia o de paperi.
+      basic_terms:
+        title: Terminologia de base pro sa mapadura
+        paragraph_1_html: OpenStreetMap tenet unu limbàgiu suo. Inoghe tenes unas
+          cantas paràulas crae chi t'ant a pòdere èssere de giudu.
+        editor_html: Unu <strong>editore</strong> est unu programma o situ web chi
+          podes impreare pro modificare sa mapa.
+        node_html: Unu <strong>nodu</strong> est unu puntu in sa mapa, che a unu ristorante
+          o un'àrbore.
+        way_html: Una <strong>lìnia</strong> est una lìnia o un'oru de un'àrea, che
+          a unu caminu, unu riu, unu lagu o unu fràigu.
+        tag_html: |-
+          Una <strong>eticheta</strong> est unu annantu minore de datos subra de unu nodu o una lìnia, che a
+          su nùmene de unu ristorante o su lìmite de lestresa de unu caminu.
       rules:
         title: Règulas!
+        paragraph_1_html: |-
+          OpenStreetMap tenet pagas règulas formales, ma nos isetamus chi totu sos chi bi pigant parte collàborent
+          e comùnichent cun sa comunidade. Si ses pighende in cunsideru
+          cale si siat àtera atividade foras de sa modìfica manuale leghe·ti e sighi sas lìnias de ghia in
+          <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>Importatziones</a> e
+          <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Modìficas automàticas</a>.
+      questions:
+        title: Tenes preguntas?
+        paragraph_1_html: |-
+          OpenStreetMap tenet medas resursas pro imparare cosas subra de su progetu, fàghere preguntas e torrare
+          rispostas, e arresonare e documentare in manera collaborativa subra de sos temas de mapadura.
+          <a href='%{help_url}'>Retzi agiudu inoghe</a>. Ses cun un'organizatzione chi tenet s'idea de traballare cun OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Pòmpia·ti sa pàgina de benebènnidu nostra</a>.
+      start_mapping: Incumintza a mapare
       add_a_note:
         title: Non tenes tempus pro fàghere modìficas? Annanghe una nota!
+        paragraph_1_html: Si boles petzi una curretzione minore, e non tenes su tempus
+          pro ti registrare e imparare comente fàghere modìficas, est fàtzile a annànghere
+          una nota.
+        paragraph_2_html: |-
+          Depes petzi andare a <a href='%{map_url}'>sa mapa</a> e incarcare s'icona de sa nota:
+          <span class='icon note'></span>. Custu at a annànghere unu marcadore a sa mapa, chi as a pòdere mòvere
+          trisinende·lu. Annanghe su messàgiu tuo e a pustis incarca Sarva, e sos àteros mapadores ant a investigare..
   traces:
+    visibility:
+      private: Privadu (cumpartzidu petzi comente puntos anònimos no ordinados)
+      public: Pùblicu (ammustradu in sa lista de rastas e comente puntos anònimos
+        no ordinados)
+      trackable: Arrastàbile (cumpartzidu petzi comente puntos anònimos ordinados
+        cun marcas temporales)
+      identifiable: Identificàbile (mustradu in sa lista de rastas e comente puntos
+        identificàbiles ordinados cun marcas temporales)
     new:
+      upload_trace: Càrriga sa rasta GPS
       visibility_help: ite cheret nàrrere?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Agiudu
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
+      upload_trace: Càrriga una rasta GPS
+      trace_uploaded: S'archìviu GPX tuo est istadu carrigadu e est isetende de èssere
+        inclùdidu in sa base de datos. Custu de sòlitu at a acontèssere intro de una
+        mesora, e a sa fine as a retzire una lìtera de posta eletrònica.
       upload_failed: Su carrigamentu de su GPX est fallidu. Un'amministradore est
         istadu avisadu de s'errore. Torra·bi a proare.
+      traces_waiting:
+        one: Tenes %{count} rasta isetende pro su carrigamentu. Pro praghere piga
+          in cunsideru s'idea de isetare de agabbare cun custa in antis de nde carrigare
+          àteras, pro non blocare sa lista de isetu pro àteros utentes.
+        other: Tenes %{count} rastas isetende pro su carrigamentu. Pro praghere piga
+          in cunsideru s'idea de isetare de agabbare cun custas in antis de nde carrigare
+          àteras, pro non blocare sa lista de isetu pro àteros utentes.
     edit:
+      cancel: Annulla
+      title: Modifichende sa rasta %{name}
+      heading: Modifichende sa rasta %{name}
       visibility_help: ite cheret nàrrere?
+    update:
+      updated: Rasta atualizada
     trace_optionals:
       tags: Etichetas
     show:
+      title: Pompiende sa rasta %{name}
+      heading: Pompiende sa rasta %{name}
+      pending: ISETENDE
       filename: 'Nùmene documentu:'
       download: iscàrriga
+      uploaded: 'Carrigada su:'
       points: 'Puntos:'
+      start_coordinates: 'Coordinadas de incumintzu:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: mapa
       edit: modìfica
       owner: 'Mere:'
       description: 'Descritzione:'
       tags: 'Etichetas:'
+      none: Peruna
+      edit_trace: Modìfica custa rasta
+      delete_trace: Iscantzella custa rasta
+      trace_not_found: Rasta no agatada!
       visibility: 'Visibilidade:'
+      confirm_delete: Iscantzellare custa rasta?
     trace_paging_nav:
       showing_page: Pàgina %{page}
+      older: Rastas prus betzas
+      newer: Rastas prus noas
     trace:
+      pending: ISETENDE
+      count_points:
+        one: 1 puntu
+        other: '%{count} puntos'
+      more: àteru
+      trace_details: Pòmpia sos detàllios de sa rasta
+      view_map: Pòmpia sa mapa
+      edit_map: Modìfica sa mapa
+      public: PÙBLICU
+      identifiable: IDENTIFICÀBILE
+      private: PRIVADU
+      trackable: ARRASTÀBILE
       by: De
+      in: in
+    index:
+      public_traces: Rastas GPS pùblicas
+      my_gps_traces: Rastas GPS meas
+      public_traces_from: Rastas GPS pùblicas de %{user}
+      description: Esplora sos carrigamentos reghentes de rastas GPS
+      tagged_with: ' etichetadas cun %{tags}'
+      empty_html: Inoghe non b'at galu nudda. <a href='%{upload_link}'>Càrriga una
+        rasta noa</a> o impara àteru subra de s'arrastamentu GPS in sa <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>pàgina
+        wiki</a>.
+      upload_trace: Càrriga una rasta
+      all_traces: Totu sas rastas
+      my_traces: Sas rastas meas
+      traces_from: Rastas pùblicas de %{user}
+      remove_tag_filter: Boga su filtru de etichetas
+    destroy:
+      scheduled_for_deletion: Rasta programmada pro s'iscantzelladura
+    make_public:
+      made_public: Rasta fata pùblica
+    offline_warning:
+      message: Su sistema de carrigamentu de archìvios GPX no est a disponimentu in
+        custu momentu
+    offline:
+      heading: Archiviatzione GPX non in lìnia
+      message: Su sistema de archiviatzione e carrigamentu de archìvios GPX no est
+        a disponimentu in custu momentu.
+    georss:
+      title: Rastas GPS de OpenStreetMap
+    description:
+      description_with_count:
+        one: archìviu GPX cun %{count} puntu de %{user}
+        other: archìviu GPX cun %{count} puntos de %{user}
+      description_without_count: Archìviu GPX de %{user}
+  application:
+    permission_denied: Non tenes su permissu pro atzèdere a custa atzione
+    require_cookies:
+      cookies_needed: Paret chi apas sos testimòngios inabilitados - abilita·los in
+        su navigadore tuo in antis de sighire.
+    require_admin:
+      not_an_admin: Depes èssere un'amministradore pro fàghere custa atzione.
+    setup_user_auth:
+      blocked_zero_hour: Tenes unu messàgiu urgente in su situ web de OpenStreetMap.
+        Bisòngiat chi lu legas pro pòdere sarvare sas modìficas tuas.
+      blocked: S'atzessu tuo a s'API est istadu blocadu. Intra in s'interfache web
+        pro nde ischire de prus.
+      need_to_see_terms: S'atzessu est a s'API est suspesu in manera temporànea. Intra
+        in s'interfache web pro bìdere sos tèrmines de contributzione. Non tenes bisòngiu
+        de los atzetare, ma los depes bìdere.
+    settings_menu:
+      account_settings: Impostatziones de su contu
+      oauth1_settings: Impostatziones OAuth 1
+      oauth2_applications: Aplicatziones OAuth 2
+      oauth2_authorizations: Autorizatziones OAuth 2
+  oauth:
+    authorize:
+      title: Autoriza s'atzessu a su contu tuo
+      request_access_html: S'aplicatzione %{app_name} est pedende atzessu a su contu
+        tuo, %{user}. Verìfica si boles chi s'aplicatzione apat sas abilidades chi
+        sighint. Podes isseberare sas chi boles.
+      allow_to: 'Permite a s''aplicatzione cliente de:'
+      allow_read_prefs: lèghere sas preferèntzias tuas de utente.
+      allow_write_prefs: modificare sas preferèntzias tuas de utente.
+      allow_write_diary: creare intradas de su diàriu, cummentos e fàghere amistades.
+      allow_write_api: modificare sa mapa.
+      allow_read_gpx: lèghere sas rastas GPS privadas tuas.
+      allow_write_gpx: carrigare rastas GPS.
+      allow_write_notes: modificare notas.
+      grant_access: Fruni s'atzessu
+    authorize_success:
+      title: Dimanda de autorizatzione permìtida
+      allowed_html: As frunidu a s'aplicatzione %{app_name} s'atzessu a su contu tuo.
+      verification: Su còdighe de verìfica est %{code}.
+    authorize_failure:
+      title: Dimanda de autorizatzione fallida
+      denied: As negadu a s'aplicatzione %{app_name} s'atzessu a su contu tuo.
+      invalid: Su getone de autorizatzione no est vàlidu.
+    revoke:
+      flash: As revocadu su getone pro %{application}
+    permissions:
+      missing: No as frunidu s'atzessu a custa caraterìstica  a s'aplicatzione
+    scopes:
+      read_prefs: Leghe sas preferèntzias de utente
+      write_prefs: Modìfica sas preferèntzias de utente
+      write_diary: Crea intradas de su diàriu, cummentos e faghe amistades
+      write_api: Modìfica sa mapa
+      read_gpx: Leghe sas rastas GPS privadas
+      write_gpx: Càrriga rastas GPS
+      write_notes: Modìfica sas notas
+      read_email: Lèghere s'indiritzu de posta eletrònica de s'utente
+      skip_authorization: Aprovatzione automàtica de s'aplicatzione
+  oauth_clients:
+    new:
+      title: Registra un'aplicatzione noa
+    edit:
+      title: Modìfica s'aplicatzione tua
+    show:
+      title: Detàllios OAuth pro %{app_name}
+      key: 'Crae de consumadore:'
+      secret: 'Segretu de su consumadore:'
+      url: 'URL de su getone de dimanda:'
+      access_url: 'URL de su getone de atzessu:'
+      authorize_url: 'URL de autorizatzione:'
+      support_notice: Tenimus su suportu pro firmas HMAC-SHA1 (racumandadas) e RSA-SHA1.
+      edit: Modìfica sos detàllios
+      delete: Iscantzella su cliente
+      confirm: Seguru ses?
+  oauth2_applications:
+    index:
+      name: Nùmene
   users:
     new:
       title: Iscrie·ti
@@ -2139,9 +2669,23 @@ sc:
         graphhopper_foot: A pee (GraphHopper)
       directions: Indicatziones
       distance: Distàntzia
+      instructions:
+        courtesy: Inditos frunidos pro cortesia dae %{link}
+        exit_counts:
+          first: 1a
+          second: 2a
+          third: 3a
+          fourth: 4a
+          fifth: 5a
+          sixth: 6a
+          seventh: 7a
+          eighth: 8a
+          ninth: 9a
+          tenth: 10a
+      time: Tempus
     query:
       node: Nodu
-      way: Caminu
+      way: Lìnia
       relation: Relata
   redactions:
     edit:
@@ -2156,7 +2700,9 @@ sc:
     show:
       description: 'Descritzione:'
       heading: Ammustrende sa revisione "%{title}"
+      user: 'Creadore:'
       edit: Modìfica custa revisione
+      confirm: Seguru ses?
     create:
       flash: Revisione creada.
     destroy:
