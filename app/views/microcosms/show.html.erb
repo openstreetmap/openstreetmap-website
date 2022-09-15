@@ -30,7 +30,13 @@
         <%= auto_link @microcosm.description %>
       </p>
       <div class="d-flex">
-        <label><%= t(".links") %></label>
+        <label>
+          <% if current_user == @microcosm.organizer %>
+              <%= link_to t(".links"), microcosm_microcosm_links_path(@microcosm) %>
+            <% else %>
+              <%= t(".links") %>
+          <% end %>
+        </label>
         <ul class="ps-2 breadcrumb">
           <% @microcosm.microcosm_links.each do |link| %>
             <li class="breadcrumb-item">
@@ -38,11 +44,6 @@
             </li>
           <% end %>
         </ul>
-        <% if current_user %>
-          <% if current_user == @microcosm.organizer %>
-            <%= link_to t(".all_links"), microcosm_links_path(:params => { :microcosm_id => @microcosm.id }) %>
-          <% end %>
-        <% end %>
       </div>
       <div>
         <label><%= t(".organizer") %></label>
