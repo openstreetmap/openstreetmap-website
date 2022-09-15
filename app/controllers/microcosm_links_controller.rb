@@ -19,22 +19,20 @@ class MicrocosmLinksController < ApplicationController
   end
 
   def new
-    return "missing parameter microcosm_id" unless params.key?(:microcosm_id)
-
+    @microcosm = Microcosm.friendly.find(params[:microcosm_id])
     @title = t "microcosm_links.new.title"
     @link = MicrocosmLink.new
     @link.microcosm_id = params[:microcosm_id]
   end
 
   def index
-    return "missing parameter microcosm_id" unless params.key?(:microcosm_id)
-
-    @microcosm_id = params[:microcosm_id]
-    @links = MicrocosmLink.where(:microcosm_id => @microcosm_id)
+    @microcosm = Microcosm.friendly.find(params[:microcosm_id])
+    @links = @microcosm.microcosm_links
   end
 
   def create
-    @link = MicrocosmLink.new(link_params)
+    @microcosm = Microcosm.friendly.find(params[:microcosm_id])
+    @link = @microcosm.microcosm_links.build(link_params)
     if @link.save
       response.set_header("link_id", @link.id) # for testing
       redirect_to @link.microcosm, :notice => t(".success")
