@@ -5,7 +5,9 @@ These instructions are designed for setting up The Rails Port for development an
 - [Install Docker](https://docs.docker.com/install/)
 - [Install Docker Compose](https://docs.docker.com/compose/install/)
 
-The first step is to fork/clone the repo to your local machine:
+**Windows users: You must enable symlinks before cloning the repository.** This repository uses symbolic links that are not enabled by default on Windows. To enable them, [turn on Developer Mode](https://windowsreport.com/windows-11-developer-mode/) on Windows and run `git config --global core.symlinks true` to enable symlinks in Git. See [this StackOverflow question](https://stackoverflow.com/questions/5917249/git-symbolic-links-in-windows) for more information.
+
+The first step is to fork/clone the repo to your local machine.
 
     git clone https://github.com/openstreetmap/openstreetmap-website.git
 
@@ -28,6 +30,8 @@ Now change working directory to the `openstreetmap-website`:
 This is a workaround. [See issues/2185 for details](https://github.com/openstreetmap/openstreetmap-website/issues/2185#issuecomment-508676026).
 
     touch config/settings.local.yml
+
+**Windows users:** `touch` is not an availible command in Windows so just create a `settings.local.yml` file in the `config` directory, or if you have WSL you can run `wsl touch config/settings.local.yml`.
 
 ## Installation
 
@@ -77,6 +81,18 @@ You can now use Docker to load this extract into your local Docker-based OSM ins
             database="openstreetmap" \
             user="openstreetmap" \
             validateSchemaVersion="no"
+
+**Windows users:** Powershell uses ` and CMD uses ^.
+
+    docker-compose run --rm web osmosis `
+        -verbose    `
+        --read-pbf district-of-columbia-latest.osm.pbf `
+        --log-progress `
+        --write-apidb `
+        host="db" `
+        database="openstreetmap" `
+        user="openstreetmap" `
+        validateSchemaVersion="no"
 
 Once you have data loaded for Washington, DC you should be able to navigate to [`http://localhost:3000/#map=12/38.8938/-77.0146`](http://localhost:3000/#map=12/38.8938/-77.0146) to begin working with your local instance.
 
