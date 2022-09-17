@@ -13,7 +13,7 @@ class MicrocosmsController < ApplicationController
     # Using Arel.sql here because we're using known-safe values.
     @microcosms = Microcosm.order(Arel.sql(sunniest_communities))
 
-    @microcosms_i_organize = current_user ? current_user.microcosms_i_organize : []
+    @microcosms_organized = current_user ? current_user.microcosms_organized : []
   end
 
   def of_user
@@ -24,7 +24,7 @@ class MicrocosmsController < ApplicationController
       return
     end
 
-    @microcosms_organized = @user.microcosms_i_organize
+    @microcosms_organized = @user.microcosms_organized
     @title = t ".title", :display_name => @user.display_name
     render :of_user
   end

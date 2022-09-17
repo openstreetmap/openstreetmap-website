@@ -83,7 +83,7 @@ class User < ApplicationRecord
 
   has_many :reports
 
-  has_many :microcosms_i_organize, :class_name => "Microcosm", :foreign_key => :organizer_id, :inverse_of => :organizer
+  has_many :microcosms_organized, :class_name => "Microcosm", :foreign_key => :organizer_id, :inverse_of => :organizer
 
   scope :visible, -> { where(:status => %w[pending active confirmed]) }
   scope :active, -> { where(:status => %w[active confirmed]) }
