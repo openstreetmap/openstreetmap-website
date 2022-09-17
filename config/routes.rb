@@ -323,8 +323,12 @@ OpenStreetMap::Application.routes.draw do
   # redactions
   resources :redactions
 
+  # user nested resources
+  resources :users, :path => "user", :param => :display_name do
+    resources :microcosms, :only => [:index]
+  end
+
   # microcosms
-  get "/microcosms/of_user/:display_name" => "microcosms#of_user", :as => :microcosms_of_user
   resources :microcosms do
     resources :microcosm_links, :only => [:create, :index, :new]
   end
