@@ -35,7 +35,7 @@ L.OSM.share = function (options) {
               .bind("change", toggleMarker))
           .append(I18n.t("javascripts.share.include_marker")));
 
-    $("<div class='share-tabs btn-group btn-group-sm mb-2'>")
+    $("<div class='btn-group btn-group-sm mb-2'>")
       .appendTo($form)
       .append($("<a class='btn btn-primary'>")
         .addClass("active")
@@ -53,7 +53,7 @@ L.OSM.share = function (options) {
       .on("click", "a", function (e) {
         e.preventDefault();
         var id = "#" + $(this).attr("for");
-        $linkSection.find(".share-tabs a")
+        $(this).siblings("a")
           .removeClass("active");
         $(this).addClass("active");
         $linkSection.find(".share-tab")
