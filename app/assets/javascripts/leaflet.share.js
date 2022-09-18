@@ -92,8 +92,7 @@ L.OSM.share = function (options) {
       .append(
         $("<p>")
           .attr("class", "text-muted")
-          .text(I18n.t("javascripts.share.paste_html"))
-          .appendTo($linkSection));
+          .text(I18n.t("javascripts.share.paste_html")));
 
     // Geo URI
 
