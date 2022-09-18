@@ -1,7 +1,7 @@
 require "test_helper"
 require "minitest/mock"
 
-class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
+class MicrocosmLinksControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   # Following guidance from Ruby on Rails Guide
@@ -9,8 +9,8 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
 
   def test_routes
     assert_routing(
-      { :path => "/microcosm_links", :method => :get },
-      { :controller => "microcosm_links", :action => "index" }
+      { :path => "/microcosms/foo/microcosm_links", :method => :get },
+      { :controller => "microcosm_links", :action => "index", :microcosm_id => "foo" }
     )
     assert_routing(
       { :path => "/microcosm_links/1/edit", :method => :get },
@@ -21,12 +21,12 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
       { :controller => "microcosm_links", :action => "update", :id => "1" }
     )
     assert_routing(
-      { :path => "/microcosm_links/new", :method => :get },
-      { :controller => "microcosm_links", :action => "new" }
+      { :path => "/microcosms/foo/microcosm_links/new", :method => :get },
+      { :controller => "microcosm_links", :action => "new", :microcosm_id => "foo" }
     )
     assert_routing(
-      { :path => "/microcosm_links", :method => :post },
-      { :controller => "microcosm_links", :action => "create" }
+      { :path => "/microcosms/foo/microcosm_links", :method => :post },
+      { :controller => "microcosm_links", :action => "create", :microcosm_id => "foo" }
     )
   end
 
@@ -35,7 +35,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     m = create(:microcosm)
     link = create(:microcosm_link, :microcosm_id => m.id)
     # act
-    get microcosm_links_path(:params => { :microcosm_id => m.id })
+    get microcosm_microcosm_links_path(m.id)
     # assert
     check_page_basics
     assert_template "index"
@@ -58,7 +58,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     link = create(:microcosm_link)
     session_for(create(:user))
     # act
-    put microcosm_link_path(link), :params => { :microcosm_link => link.as_json }, :xhr => true
+    put microcosm_link_path link, :microcosm_link => link
     # assert
     assert_redirected_to :controller => :errors, :action => :forbidden
   end
@@ -120,11 +120,13 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   def test_new_no_login
     # Make sure that you are redirected to the login page when you
     # are not logged in
+    # arrange
+    m = create(:microcosm)
     # act
-    get new_microcosm_link_path
+    get new_microcosm_microcosm_link_path(m)
     # assert
     assert_response :redirect
-    assert_redirected_to login_path(:referer => new_microcosm_link_path)
+    assert_redirected_to login_path(:referer => new_microcosm_microcosm_link_path(m))
   end
 
   def test_new_form
@@ -133,17 +135,18 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     m = create(:microcosm)
     session_for(m.organizer)
     # act
-    get new_microcosm_link_path(:params => { :microcosm_id => m.id })
+    get new_microcosm_microcosm_link_path(m)
     # assert
     check_page_basics
     assert_select "div.content-heading", :count => 1 do
       assert_select "h1", :text => /Microcosm Link/, :count => 1
     end
+    action = microcosm_microcosm_links_path(m)
     assert_select "div#content", :count => 1 do
-      assert_select "form[action='/microcosm_links'][method=post]", :count => 1 do
+      assert_select "form[action='#{action}'][method=post]", :count => 1 do
         assert_select "input#microcosm_link_site[name='microcosm_link[site]']", :count => 1
         assert_select "input#microcosm_link_url[name='microcosm_link[url]']", :count => 1
-        assert_select "input", :count => 5
+        assert_select "input", :count => 4
       end
     end
   end
@@ -151,17 +154,20 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
   def test_create_when_save_works
     # arrange
     m = create(:microcosm)
-    link_orig = create(:microcosm_link, :microcosm_id => m.id)
+    link_orig = create(:microcosm_link, :microcosm => m)
+    form = link_orig.attributes.except("id", "created_at", "updated_at")
     session_for(m.organizer)
 
     # act
     link_new_id = nil
     assert_difference "MicrocosmLink.count", 1 do
-      post microcosm_links_url, :params => { :microcosm_link => link_orig.as_json }, :xhr => true
+      post microcosm_microcosm_links_path m.id, :microcosm_link => form
       link_new_id = @response.headers["link_id"]
     end
 
     # assert
+    # Not sure what's going on with this assigns magic.
+    # assert_redirected_to "/microcosm/#{assigns(:microcosm_link).id}"
     assert_equal I18n.t("microcosm_links.create.success"), flash[:notice]
     link_new = MicrocosmLink.find_by(:id => link_new_id)
     # Assign the id m_new to m_orig, so we can do an equality test easily.
@@ -171,29 +177,17 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
 
   def test_create_when_save_fails
     # arrange
-    session_for(create(:user))
-    link = create(:microcosm_link)
-    link = link.attributes.except("id", "created_at", "updated_at", "slug")
-
-    mock_microcosm_link = Minitest::Mock.new
-    mock_microcosm_link.expect :save, false
-
-    # We're going to stub render on this instance.
-    controller_prime = MicrocosmLinksController.new
+    mic = create(:microcosm)
+    session_for(mic.organizer)
+    link = build(:microcosm_link, :microcosm => mic, :url => "invalid url")
+    form = link.attributes.except("id", "created_at", "updated_at")
 
     # act and assert
-    MicrocosmLinksController.stub :new, controller_prime do
-      controller_prime.stub :render, "" do
-        MicrocosmLink.stub :new, mock_microcosm_link do
-          assert_difference "MicrocosmLink.count", 0 do
-            post microcosm_links_path, :params => { :microcosm_link => link.as_json }, :xhr => true
-          end
-        end
-      end
+    assert_no_difference "MicrocosmLink.count", 0 do
+      post microcosm_microcosm_links_path :microcosm_link => form, :microcosm_id => mic.id
     end
 
-    # assert_mock mock_microcosm
-    # assert_mock render_mock
+    assert_template :new
   end
 
   def test_delete
