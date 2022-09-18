@@ -38,6 +38,18 @@ class Microcosm < ApplicationRecord
   validates :min_lon, :numericality => true, :inclusion => { :in => -180..180 }
   validates :max_lon, :numericality => true, :inclusion => { :in => -180..180 }
 
+  def longitude=(longitude)
+    super(OSM.normalize_longitude(longitude))
+  end
+
+  def min_lon=(longitude)
+    super(OSM.normalize_longitude(longitude))
+  end
+
+  def max_lon=(longitude)
+    super(OSM.normalize_longitude(longitude))
+  end
+
   def set_link(site, url)
     link = MicrocosmLink.find_or_initialize_by(:microcosm_id => id, :site => site)
     link.url = url

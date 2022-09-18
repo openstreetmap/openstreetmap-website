@@ -25,18 +25,20 @@ class MicrocosmTest < ActiveSupport::TestCase
     validate({ :latitude => -90.00001 }, false)
 
     validate({ :longitude => 180 }, true)
-    validate({ :longitude => 180.00001 }, false)
+    validate({ :longitude => 180.00001 }, true)
     validate({ :longitude => -180 }, true)
-    validate({ :longitude => -180.00001 }, false)
+    validate({ :longitude => -180.00001 }, true)
 
-    coords = [:lat, :lon]
     [:min, :max].each do |extremum|
-      coords.each do |coord|
-        attr = "#{extremum}_#{coord}"
-        validate({ attr => nil }, false)
-        validate({ attr => -200 }, false)
-        validate({ attr => 200 }, false)
-      end
+      attr = "#{extremum}_lat"
+      validate({ attr => nil }, false)
+      validate({ attr => -200 }, false)
+      validate({ attr => 200 }, false)
+
+      attr = "#{extremum}_lon"
+      validate({ attr => nil }, false)
+      validate({ attr => -200 }, true)
+      validate({ attr => 200 }, true)
     end
   end
 

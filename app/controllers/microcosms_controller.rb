@@ -59,6 +59,8 @@ class MicrocosmsController < ApplicationController
     end
   end
 
+  private
+
   def recent_changesets
     bbox = BoundingBox.new(@microcosm.min_lon, @microcosm.min_lat, @microcosm.max_lon, @microcosm.max_lat).to_scaled
     Changeset
@@ -66,8 +68,6 @@ class MicrocosmsController < ApplicationController
              bbox.max_lon.to_i, bbox.min_lon.to_i, bbox.max_lat.to_i, bbox.min_lat.to_i)
       .order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
   end
-
-  private
 
   ##
   # Build an ORDER BY clause that sorts microcosms such that the ones
@@ -93,17 +93,10 @@ class MicrocosmsController < ApplicationController
   end
 
   def microcosm_params
-    normalize_longitude(params[:microcosm])
     params.require(:microcosm).permit(
       :name, :location, :latitude, :longitude,
       :min_lat, :max_lat, :min_lon, :max_lon,
       :description
     )
-  end
-
-  def normalize_longitude(microcosm_params)
-    longitude = microcosm_params[:longitude].to_f
-    longitude = ((longitude + 180) % 360) - 180
-    microcosm_params[:longitude] = longitude.to_s
   end
 end
