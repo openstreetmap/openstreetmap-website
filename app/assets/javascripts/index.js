@@ -109,8 +109,14 @@ $(document).ready(function () {
       control.addTo(map);
     });
 
-    var lastContainer = controls[controls.length -1].getContainer();
-    $(lastContainer).addClass("leaflet-control-group-end");
+    var firstContainer = controls[0].getContainer();
+    $(firstContainer).find(".control-button").first()
+      .css("border-start-start-radius", "4px");
+
+    var lastContainer = controls[controls.length - 1].getContainer();
+    $(lastContainer).find(".control-button").last()
+      .css("margin-bottom", "10px")
+      .css("border-end-start-radius", "4px");
   }
 
   addControlGroup([
