@@ -104,38 +104,50 @@ $(document).ready(function () {
 
   var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
-  L.OSM.zoom({ position: position })
-    .addTo(map);
+  function addControlGroup(controls) {
+    controls.forEach(function (control) {
+      control.addTo(map);
+    });
 
-  L.OSM.locate({ position: position })
-    .addTo(map);
+    var lastContainer = controls[controls.length -1].getContainer();
+    $(lastContainer).addClass("leaflet-control-group-end");
+  }
 
-  L.OSM.layers({
-    position: position,
-    layers: map.baseLayers,
-    sidebar: sidebar
-  }).addTo(map);
+  addControlGroup([
+    L.OSM.zoom({ position: position }),
+    L.OSM.locate({ position: position })
+  ]);
 
-  L.OSM.key({
-    position: position,
-    sidebar: sidebar
-  }).addTo(map);
+  addControlGroup([
+    L.OSM.layers({
+      position: position,
+      layers: map.baseLayers,
+      sidebar: sidebar
+    }),
+    L.OSM.key({
+      position: position,
+      sidebar: sidebar
+    }),
+    L.OSM.share({
+      "position": position,
+      "sidebar": sidebar,
+      "short": true
+    })
+  ]);
 
-  L.OSM.share({
-    "position": position,
-    "sidebar": sidebar,
-    "short": true
-  }).addTo(map);
+  addControlGroup([
+    L.OSM.note({
+      position: position,
+      sidebar: sidebar
+    })
+  ]);
 
-  L.OSM.note({
-    position: position,
-    sidebar: sidebar
-  }).addTo(map);
-
-  L.OSM.query({
-    position: position,
-    sidebar: sidebar
-  }).addTo(map);
+  addControlGroup([
+    L.OSM.query({
+      position: position,
+      sidebar: sidebar
+    })
+  ]);
 
   L.control.scale()
     .addTo(map);
