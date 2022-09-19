@@ -111,12 +111,11 @@ $(document).ready(function () {
 
     var firstContainer = controls[0].getContainer();
     $(firstContainer).find(".control-button").first()
-      .css("border-start-start-radius", "4px");
+      .addClass("control-button-first");
 
     var lastContainer = controls[controls.length - 1].getContainer();
     $(lastContainer).find(".control-button").last()
-      .css("margin-bottom", "10px")
-      .css("border-end-start-radius", "4px");
+      .addClass("control-button-last");
   }
 
   addControlGroup([
