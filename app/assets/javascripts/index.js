@@ -2,6 +2,7 @@
 //= require leaflet.sidebar
 //= require leaflet.sidebar-pane
 //= require leaflet.locatecontrol/src/L.Control.Locate
+//= require leaflet.locate
 //= require leaflet.layers
 //= require leaflet.key
 //= require leaflet.note
@@ -98,34 +99,15 @@ $(document).ready(function () {
     }
   });
 
+  var sidebar = L.OSM.sidebar("#map-ui")
+    .addTo(map);
+
   var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
   L.OSM.zoom({ position: position })
     .addTo(map);
 
-  var locate = L.control.locate({
-    position: position,
-    icon: "icon geolocate",
-    iconLoading: "icon geolocate",
-    strings: {
-      title: I18n.t("javascripts.map.locate.title"),
-      popup: function (options) {
-        return I18n.t("javascripts.map.locate." + options.unit + "Popup", { count: options.distance });
-      }
-    }
-  }).addTo(map);
-
-  var locateContainer = locate.getContainer();
-
-  $(locateContainer)
-    .removeClass("leaflet-control-locate leaflet-bar")
-    .addClass("control-locate")
-    .children("a")
-    .attr("href", "#")
-    .removeClass("leaflet-bar-part leaflet-bar-part-single")
-    .addClass("control-button");
-
-  var sidebar = L.OSM.sidebar("#map-ui")
+  L.OSM.locate({ position: position })
     .addTo(map);
 
   L.OSM.layers({
