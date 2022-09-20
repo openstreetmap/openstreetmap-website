@@ -112,16 +112,20 @@ OSM.History = function (map) {
 
     function getStoreItem(store, storeKey) {
       var maxStoreSize = 10;
+      var maxAge = 60 * 60 * 1000;
+      var now = Date.now();
       var storeItem;
       for (var i = 0; i < store.items.length; i++) {
         if (store.items[i].key !== storeKey) continue;
         storeItem = store.items[i];
         store.items.splice(i, 1);
+        if (!storeItem.timestamp || storeItem.timestamp < now - maxAge) break;
         store.items.unshift(storeItem);
         return storeItem;
       }
       storeItem = {
         key: storeKey,
+        timestamp: now,
         lists: []
       };
       store.items.splice(maxStoreSize - 1);

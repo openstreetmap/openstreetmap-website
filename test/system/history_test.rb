@@ -131,8 +131,25 @@ class HistoryTest < ApplicationSystemTestCase
     history_path = "#{user_path(user)}/history"
 
     visit user_path(user)
-    obsolete_data = %Q({"schema":1,"locale":"en","items":[{"key":"#{history_path}","lists":["<p>obsolete-data</p>"]}]})
-    execute_script %Q(sessionStorage["history-user"]='#{obsolete_data}')
+    obsolete_data = %({"schema":1,"locale":"en","items":[{"key":"#{history_path}","lists":["<p>obsolete-data</p>"]}]})
+    execute_script %(sessionStorage["history-user"]='#{obsolete_data}')
+
+    visit history_path
+    changesets = find "div.changesets"
+    changesets.assert_text "first-changeset-in-history"
+    changesets.assert_no_text "obsolete-data"
+  end
+
+  test "purge cached changesets lists if timestamp is outdated" do
+    user = create(:user)
+    sign_in_as(user)
+    create_visible_changeset(user, "first-changeset-in-history")
+    history_path = "#{user_path(user)}/history"
+
+    visit user_path(user)
+    obsolete_timestamp = (Time.now.utc - 1.year).to_i * 1000
+    obsolete_data = %({"schema":2,"locale":"en","items":[{"key":"#{history_path}","timestamp":#{obsolete_timestamp},"lists":["<p>obsolete-data</p>"]}]})
+    execute_script %(sessionStorage["history-user"]='#{obsolete_data}')
 
     visit history_path
     changesets = find "div.changesets"
