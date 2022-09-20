@@ -86,7 +86,7 @@ OSM.History = function (map) {
     }
 
     function loadStore(storeName) {
-      var requiredSchema = 1;
+      var requiredSchema = 2;
       var storeString = sessionStorage[storeName];
       var store = {
         schema: requiredSchema,

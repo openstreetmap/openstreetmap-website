@@ -102,7 +102,7 @@ class HistoryTest < ApplicationSystemTestCase
     assert_text "first-changeset-in-history"
   end
 
-  test "cached changesets lists are updated if locale is changed" do
+  test "purge cached changesets lists if locale is changed" do
     user = create(:user)
     sign_in_as(user)
     create_visible_changeset(user, "first-changeset-in-history")
@@ -122,6 +122,22 @@ class HistoryTest < ApplicationSystemTestCase
     changesets_fr.assert_text "first-changeset-in-history"
     changesets_fr.assert_no_text "Closed"
     changesets_fr.assert_text "Fermé"
+  end
+
+  test "purge cached changesets lists if schema is outdated" do
+    user = create(:user)
+    sign_in_as(user)
+    create_visible_changeset(user, "first-changeset-in-history")
+    history_path = "#{user_path(user)}/history"
+
+    visit user_path(user)
+    obsolete_data = %Q({"schema":1,"locale":"en","items":[{"key":"#{history_path}","lists":["<p>obsolete-data</p>"]}]})
+    execute_script %Q(sessionStorage["history-user"]='#{obsolete_data}')
+
+    visit history_path
+    changesets = find "div.changesets"
+    changesets.assert_text "first-changeset-in-history"
+    changesets.assert_no_text "obsolete-data"
   end
 
   def create_visible_changeset(user, comment)
