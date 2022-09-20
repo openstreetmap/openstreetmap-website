@@ -271,9 +271,8 @@ OSM.Directions = function (map) {
         .empty()
         .append(
           $("<div class='d-flex'>").append(
-            $("<div class='flex-grow-1 text-break'>").append(
-              $("<h2>")
-                .text(I18n.t("javascripts.directions.directions"))),
+            $("<h2 class='flex-grow-1 text-break'>")
+              .text(I18n.t("javascripts.directions.directions")),
             $("<div>").append(directionsCloseButton)),
           distanceText,
           turnByTurnTable
