@@ -1013,8 +1013,6 @@ CREATE TABLE public.microcosms (
     name character varying NOT NULL,
     description text NOT NULL,
     organizer_id bigint NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
     slug character varying NOT NULL,
     location character varying NOT NULL,
     latitude double precision NOT NULL,
@@ -1022,7 +1020,9 @@ CREATE TABLE public.microcosms (
     min_lat double precision NOT NULL,
     max_lat double precision NOT NULL,
     min_lon double precision NOT NULL,
-    max_lon double precision NOT NULL
+    max_lon double precision NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -3640,11 +3640,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220201183346'),
 ('20220223140543'),
 ('20220820220545'),
-('20220820220849'),
-('20220820221326'),
 ('20220821143545'),
-('20220821144427'),
-('20220821154547'),
 ('21'),
 ('22'),
 ('23'),
