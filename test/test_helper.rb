@@ -332,11 +332,6 @@ module ActiveSupport
       el
     end
 
-    def check_page_basics
-      assert_response :success
-      assert_no_missing_translations
-    end
-
     def validate(attrs, result)
       object_class = self.class.name.dup.sub!(/Test$/, "").underscore
       object = build(object_class, attrs)

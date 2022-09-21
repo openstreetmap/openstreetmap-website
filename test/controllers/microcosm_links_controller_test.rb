@@ -37,7 +37,7 @@ class MicrocosmLinksControllerTest < ActionDispatch::IntegrationTest
     # act
     get microcosm_microcosm_links_path(m.id)
     # assert
-    check_page_basics
+    assert_response :success
     assert_template "index"
     assert_match link.site, response.body
   end
@@ -137,7 +137,7 @@ class MicrocosmLinksControllerTest < ActionDispatch::IntegrationTest
     # act
     get new_microcosm_microcosm_link_path(m)
     # assert
-    check_page_basics
+    assert_response :success
     assert_select "div.content-heading", :count => 1 do
       assert_select "h1", :text => /Microcosm Link/, :count => 1
     end

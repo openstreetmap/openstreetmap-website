@@ -44,7 +44,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     # act
     get microcosms_path
     # assert
-    check_page_basics
+    assert_response :success
     assert_template "index"
     assert_match m.name, response.body
   end
@@ -55,7 +55,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     # act
     get user_microcosms_path(m.organizer.display_name)
     # assert
-    check_page_basics
+    assert_response :success
     assert_template "index"
     assert_match m.name, response.body
   end
@@ -67,7 +67,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     # act
     get microcosms_path
     # assert
-    check_page_basics
+    assert_response :success
     assert_template "index"
     assert_match m.name, response.body
   end
@@ -88,7 +88,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     # act
     get microcosm_path(m)
     # assert
-    check_page_basics
+    assert_response :success
     assert_template("show")
     assert_match m.name, response.body
     assert_match m.description, response.body
@@ -185,7 +185,7 @@ class MicrocosmsControllerTest < ActionDispatch::IntegrationTest
     # act
     get new_microcosm_path
     # assert
-    check_page_basics
+    assert_response :success
     # assert_select "title", :text => /New Microcosm/, :count => 1
     assert_select "div.content-heading", :count => 1 do
       assert_select "h1", :text => /Microcosm/, :count => 1
