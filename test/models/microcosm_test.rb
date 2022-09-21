@@ -58,9 +58,9 @@ class MicrocosmTest < ActiveSupport::TestCase
     # arrange
     m = create(:microcosm)
     site_name = "site_name"
-    site_url_old = "https://example1.com"
+    site_url_old = "https://old.example.com"
     MicrocosmLink.new(:microcosm => m, :site => site_name, :url => site_url_old)
-    site_url_new = "https://example2.com"
+    site_url_new = "https://new.example.com"
     # act
     m.set_link(site_name, site_url_new)
     # assert
