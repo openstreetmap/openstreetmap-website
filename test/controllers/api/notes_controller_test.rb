@@ -1011,6 +1011,30 @@ module Api
       assert_response :bad_request
     end
 
+    def test_search_by_ids_success
+      note1 = create(:note, :created_at => "2020-01-01T00:00:00Z")
+      note2 = create(:note, :created_at => "2020-02-01T00:00:00Z")
+      note3 = create(:note, :created_at => "2020-03-01T00:00:00Z", :status => "hidden")
+      note4 = create(:note, :created_at => "2020-04-01T00:00:00Z")
+      create(:note, :created_at => "2020-05-01T00:00:00Z")
+
+      get search_api_notes_path(:notes => "#{note4.id},#{note2.id},#{note3.id},#{note1.id}", :format => "json")
+      assert_response :success
+      assert_equal "application/json", @response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal "FeatureCollection", js["type"]
+      assert_equal 3, js["features"].count
+      assert_equal note4.id, js["features"][0]["properties"]["id"]
+      assert_equal note2.id, js["features"][1]["properties"]["id"]
+      assert_equal note1.id, js["features"][2]["properties"]["id"]
+    end
+
+    def test_search_by_ids_bad_params
+      get search_api_notes_path, :params => { :notes => "" }
+      assert_response :bad_request
+    end
+
     def test_feed_success
       position = (1.1 * GeoRecord::SCALE).to_i
       create(:note_with_comments, :latitude => position, :longitude => position)
