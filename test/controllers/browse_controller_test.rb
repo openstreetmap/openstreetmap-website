@@ -63,7 +63,15 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_read_node
-    browse_check :node_path, create(:node).id, "browse/feature"
+    node = create :node
+    browse_check :node_path, node.id, "browse/feature"
+    assert_select "a[href='#{api_node_path node}']", :count => 1
+  end
+
+  def test_read_deleted_node
+    node = create :node, :visible => false
+    browse_check :node_path, node.id, "browse/feature"
+    assert_select "a[href='#{api_node_path node}']", :count => 0
   end
 
   def test_read_node_history
