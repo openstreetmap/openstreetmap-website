@@ -5,7 +5,9 @@
 <%= render :partial => @type, :object => @feature %>
 
 <div class='secondary-actions'>
-  <%= link_to(t("browse.download_xml"), :controller => "api/#{@type.pluralize}", :action => :show) %>
-  &middot;
+  <% if @feature.visible? %>
+    <%= link_to(t("browse.download_xml"), :controller => "api/#{@type.pluralize}", :action => :show) %>
+    &middot;
+  <% end %>
   <%= link_to(t("browse.view_history"), :action => "#{@type}_history") %>
 </div>
