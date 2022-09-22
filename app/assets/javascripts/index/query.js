@@ -296,9 +296,6 @@ OSM.Query = function (map) {
         nearby = "(" + nodes + ";" + ways + ";);out tags geom(" + bbox + ");" + relations + ";out geom(" + bbox + ");",
         isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids geom(" + bbox + ");relation(pivot.a);out tags bb;";
 
-    $("#sidebar_content .query-intro")
-      .hide();
-
     if (marker) map.removeLayer(marker);
     marker = L.circle(latlng, radius, featureStyle).addTo(map);
 
@@ -330,9 +327,11 @@ OSM.Query = function (map) {
     queryButton.addClass("active");
     map.on("click", clickHandler);
     $(map.getContainer()).addClass("query-active");
+    $("#sidebar_content .query-intro").show();
   }
 
   function disableQueryMode() {
+    $("#sidebar_content .query-intro").hide();
     if (marker) map.removeLayer(marker);
     $(map.getContainer()).removeClass("query-active").removeClass("query-disabled");
     map.off("click", clickHandler);
