@@ -17,6 +17,8 @@ L.OSM.sidebar = function (selector) {
   };
 
   control.togglePane = function (pane, button) {
+    var paneWidth = 250;
+
     current
       .hide()
       .trigger("hide");
@@ -25,12 +27,18 @@ L.OSM.sidebar = function (selector) {
       .removeClass("active");
 
     if (current === pane) {
+      if ($("html").attr("dir") === "rtl") {
+        map.panBy([-paneWidth, 0], { animate: false });
+      }
       $(sidebar).hide();
       current = currentButton = $();
     } else {
       $(sidebar).show();
       current = pane;
       currentButton = button || $();
+      if ($("html").attr("dir") === "rtl") {
+        map.panBy([paneWidth, 0], { animate: false });
+      }
     }
 
     map.invalidateSize({ pan: false, animate: false });
