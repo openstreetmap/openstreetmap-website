@@ -21,19 +21,19 @@ OSM.Query = function (map) {
 
     if (queryButton.hasClass("active")) {
       disableQueryMode();
+      deactivateQueryMode();
     } else if (!queryButton.hasClass("disabled")) {
+      activateQueryMode();
       enableQueryMode();
     }
   }).on("disabled", function () {
     if (queryButton.hasClass("active")) {
-      map.off("click", clickHandler);
-      $(map.getContainer()).removeClass("query-active").addClass("query-disabled");
+      disableQueryMode();
       $(this).tooltip("show");
     }
   }).on("enabled", function () {
     if (queryButton.hasClass("active")) {
-      map.on("click", clickHandler);
-      $(map.getContainer()).removeClass("query-disabled").addClass("query-active");
+      enableQueryMode();
       $(this).tooltip("hide");
     }
   });
@@ -323,19 +323,27 @@ OSM.Query = function (map) {
     OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
   }
 
-  function enableQueryMode() {
+  function activateQueryMode() {
     queryButton.addClass("active");
-    map.on("click", clickHandler);
     $(map.getContainer()).addClass("query-active");
+  }
+
+  function deactivateQueryMode() {
+    $(map.getContainer()).removeClass("query-active");
+    queryButton.removeClass("active");
+    if (marker) map.removeLayer(marker);
+  }
+
+  function enableQueryMode() {
+    map.on("click", clickHandler);
+    $(map.getContainer()).removeClass("query-disabled");
     $("#sidebar_content .query-intro").show();
   }
 
   function disableQueryMode() {
     $("#sidebar_content .query-intro").hide();
-    if (marker) map.removeLayer(marker);
-    $(map.getContainer()).removeClass("query-active").removeClass("query-disabled");
+    $(map.getContainer()).addClass("query-disabled");
     map.off("click", clickHandler);
-    queryButton.removeClass("active");
   }
 
   var page = {};
@@ -356,12 +364,19 @@ OSM.Query = function (map) {
       });
     }
 
+    if (!queryButton.hasClass("active") || queryButton.hasClass("disabled")) {
+      $("#sidebar_content .query-intro").hide();
+    }
+
     queryOverpass(params.lat, params.lon);
   };
 
   page.unload = function (sameController) {
     if (!sameController) {
-      disableQueryMode();
+      if (queryButton.hasClass("active")) {
+        disableQueryMode();
+        deactivateQueryMode();
+      }
     }
   };
 
