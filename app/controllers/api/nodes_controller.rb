@@ -11,9 +11,9 @@ module Api
     before_action :set_request_formats, :except => [:create, :update, :destroy]
     before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
-    # Dump the details on many nodes whose ids are given in the "nodes" parameter.
+    # Dump the details on many nodes whose ids and optionally versions are given in the "nodes" parameter.
     def index
-      index_for_models(Node)
+      index_for_models(Node, OldNode)
     end
 
     # Dump the details on a node given in params[:id]
