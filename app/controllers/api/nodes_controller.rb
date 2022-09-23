@@ -67,15 +67,18 @@ module Api
       render :plain => node.version.to_s
     end
 
-    # Dump the details on many nodes whose ids are given in the "nodes" parameter.
+    # Dump the details on many nodes whose ids and optionally verions are given in the "nodes" parameter.
     def index
-      raise OSM::APIBadUserInput, "The parameter nodes is required, and must be of the form nodes=id[,id[,id...]]" unless params["nodes"]
+      raise OSM::APIBadUserInput, "The parameter nodes is required, and must be of the form nodes=ID[vVER][,ID[vVER][,ID[vVER]...]]" unless params["nodes"]
 
-      ids = params["nodes"].split(",").collect(&:to_i)
+      id_ver_strings, id_strings = params["nodes"].split(",").partition { |iv| iv.include? "v" }
+      id_vers = id_ver_strings.map { |iv| iv.split("v", 2).map(&:to_i) }
+      ids = id_strings.map(&:to_i)
 
       raise OSM::APIBadUserInput, "No nodes were given to search for" if ids.empty?
 
       @nodes = Node.find(ids)
+      @nodes += OldNode.find(id_vers) unless id_vers.empty?
 
       # Render the result
       respond_to do |format|
