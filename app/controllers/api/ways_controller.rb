@@ -10,7 +10,7 @@ module Api
     before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
     def index
-      index_for_models Way.includes(:nodes, :element_tags)
+      index_for_models Way.includes(:nodes, :element_tags), OldWay
     end
 
     def show

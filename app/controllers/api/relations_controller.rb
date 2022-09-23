@@ -10,7 +10,7 @@ module Api
     before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
     def index
-      index_for_models Relation.includes(:relation_members, :element_tags)
+      index_for_models Relation.includes(:relation_members, :element_tags), OldRelation
     end
 
     def show

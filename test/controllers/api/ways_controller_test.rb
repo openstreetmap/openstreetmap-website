@@ -116,6 +116,83 @@ module Api
       assert_response :not_found
     end
 
+    def test_index_versions
+      way = create(:way, :with_history, :version => 2)
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 1), :k => "name", :v => "old")
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 2), :k => "name", :v => "new")
+      create(:way_tag, :way => way, :k => "name", :v => "new")
+
+      get api_ways_path(:ways => "#{way.id}v1,#{way.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 2
+        assert_dom "way[id='#{way.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "old"
+          end
+        end
+        assert_dom "way[id='#{way.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "new"
+          end
+        end
+      end
+    end
+
+    def test_index_nonversion_and_versions
+      way1 = create(:way, :with_history)
+      way2 = create(:way, :with_history, :version => 2)
+      create(:old_way_tag, :old_way => way1.old_ways.find_by(:version => 1), :k => "name", :v => "one")
+      create(:way_tag, :way => way1, :k => "name", :v => "one")
+      create(:old_way_tag, :old_way => way2.old_ways.find_by(:version => 1), :k => "name", :v => "old")
+      create(:old_way_tag, :old_way => way2.old_ways.find_by(:version => 2), :k => "name", :v => "new")
+      create(:way_tag, :way => way2, :k => "name", :v => "new")
+
+      get api_ways_path(:ways => "#{way1.id},#{way2.id}v1,#{way2.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 3
+        assert_dom "way[id='#{way1.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "one"
+          end
+        end
+        assert_dom "way[id='#{way2.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "old"
+          end
+        end
+        assert_dom "way[id='#{way2.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "new"
+          end
+        end
+      end
+    end
+
+    def test_index_nonexistent_version
+      way = create(:way, :with_history, :version => 2)
+
+      get api_ways_path(:ways => "#{way.id}v3")
+
+      assert_response :not_found
+    end
+
+    def test_index_existing_and_nonexisting_version
+      way = create(:way, :with_history, :version => 2)
+
+      get api_ways_path(:ways => "#{way.id}v2,#{way.id}v3")
+
+      assert_response :not_found
+    end
+
     # -------------------------------------
     # Test showing ways.
     # -------------------------------------

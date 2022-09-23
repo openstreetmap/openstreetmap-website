@@ -118,6 +118,82 @@ module Api
       assert_response :not_found
     end
 
+    def test_index_versions
+      relation = create(:relation, :with_history, :version => 2)
+      create(:old_relation_tag, :old_relation => relation.old_relations.find_by(:version => 1), :k => "name", :v => "old")
+      create(:old_relation_tag, :old_relation => relation.old_relations.find_by(:version => 2), :k => "name", :v => "new")
+      create(:relation_tag, :relation => relation, :k => "name", :v => "new")
+
+      get api_relations_path(:relations => "#{relation.id}v1,#{relation.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "relation", :count => 2
+        assert_dom "relation[id='#{relation.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "old"
+          end
+        end
+        assert_dom "relation[id='#{relation.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "new"
+          end
+        end
+      end
+    end
+
+    def test_index_nonversion_and_versions
+      relation1 = create(:relation, :with_history)
+      relation2 = create(:relation, :with_history, :version => 2)
+      create(:old_relation_tag, :old_relation => relation1.old_relations.find_by(:version => 1), :k => "name", :v => "one")
+      create(:relation_tag, :relation => relation1, :k => "name", :v => "one")
+      create(:old_relation_tag, :old_relation => relation2.old_relations.find_by(:version => 1), :k => "name", :v => "old")
+      create(:old_relation_tag, :old_relation => relation2.old_relations.find_by(:version => 2), :k => "name", :v => "new")
+      create(:relation_tag, :relation => relation2, :k => "name", :v => "new")
+
+      get api_relations_path(:relations => "#{relation1.id},#{relation2.id}v1,#{relation2.id}v2")
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "relation", :count => 3
+        assert_dom "relation[id='#{relation1.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "one"
+          end
+        end
+        assert_dom "relation[id='#{relation2.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "old"
+          end
+        end
+        assert_dom "relation[id='#{relation2.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "new"
+          end
+        end
+      end
+    end
+
+    def test_index_nonexistent_version
+      relation = create(:relation, :with_history, :version => 2)
+
+      get api_relations_path(:relations => "#{relation.id}v3")
+
+      assert_response :not_found
+    end
+
+    def test_index_existing_and_nonexisting_version
+      relation = create(:relation, :with_history, :version => 2)
+
+      get api_relations_path(:relations => "#{relation.id}v2,#{relation.id}v3")
+
+      assert_response :not_found
+    end
+
     # -------------------------------------
     # Test showing relations.
     # -------------------------------------

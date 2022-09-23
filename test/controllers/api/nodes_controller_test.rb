@@ -112,9 +112,87 @@ module Api
       assert_response :not_found
     end
 
+    def test_index_versions
+      node = create(:node, :with_history, :version => 2)
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 1), :k => "name", :v => "old")
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 2), :k => "name", :v => "new")
+      create(:node_tag, :node => node, :k => "name", :v => "new")
+
+      get api_nodes_path(:nodes => "#{node.id}v1,#{node.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 2
+        assert_dom "node[id='#{node.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "old"
+          end
+        end
+        assert_dom "node[id='#{node.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "new"
+          end
+        end
+      end
+    end
+
+    def test_index_nonversion_and_versions
+      node1 = create(:node, :with_history)
+      node2 = create(:node, :with_history, :version => 2)
+      create(:old_node_tag, :old_node => node1.old_nodes.find_by(:version => 1), :k => "name", :v => "one")
+      create(:node_tag, :node => node1, :k => "name", :v => "one")
+      create(:old_node_tag, :old_node => node2.old_nodes.find_by(:version => 1), :k => "name", :v => "old")
+      create(:old_node_tag, :old_node => node2.old_nodes.find_by(:version => 2), :k => "name", :v => "new")
+      create(:node_tag, :node => node2, :k => "name", :v => "new")
+
+      get api_nodes_path(:nodes => "#{node1.id},#{node2.id}v1,#{node2.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 3
+        assert_dom "node[id='#{node1.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "one"
+          end
+        end
+        assert_dom "node[id='#{node2.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "old"
+          end
+        end
+        assert_dom "node[id='#{node2.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "new"
+          end
+        end
+      end
+    end
+
+    def test_index_nonexistent_version
+      node = create(:node, :with_history, :version => 2)
+
+      get api_nodes_path(:nodes => "#{node.id}v3")
+
+      assert_response :not_found
+    end
+
+    def test_index_existing_and_nonexisting_version
+      node = create(:node, :with_history, :version => 2)
+
+      get api_nodes_path(:nodes => "#{node.id}v2,#{node.id}v3")
+
+      assert_response :not_found
+    end
+
     def test_create_when_unauthorized
       with_unchanging_request do |_headers, changeset|
         osm = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
+
 
         post api_nodes_path, :params => osm
 
