@@ -193,6 +193,19 @@ module Api
       assert_response :not_found
     end
 
+    def test_index_when_specified_version_coincides_with_top_version
+      way = create(:way, :with_history, :version => 2)
+
+      get api_ways_path(:ways => "#{way.id},#{way.id}v1,#{way.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 2
+        assert_dom "way[id='#{way.id}'][version='1']", :count => 1
+        assert_dom "way[id='#{way.id}'][version='2']", :count => 1
+      end
+    end
+
     # -------------------------------------
     # Test showing ways.
     # -------------------------------------

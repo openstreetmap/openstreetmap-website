@@ -189,10 +189,22 @@ module Api
       assert_response :not_found
     end
 
+    def test_index_when_specified_version_coincides_with_top_version
+      node = create(:node, :with_history, :version => 2)
+
+      get api_nodes_path(:nodes => "#{node.id},#{node.id}v1,#{node.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 2
+        assert_dom "node[id='#{node.id}'][version='1']", :count => 1
+        assert_dom "node[id='#{node.id}'][version='2']", :count => 1
+      end
+    end
+
     def test_create_when_unauthorized
       with_unchanging_request do |_headers, changeset|
         osm = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
-
 
         post api_nodes_path, :params => osm
 

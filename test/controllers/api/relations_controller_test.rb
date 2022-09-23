@@ -194,6 +194,19 @@ module Api
       assert_response :not_found
     end
 
+    def test_index_when_specified_version_coincides_with_top_version
+      relation = create(:relation, :with_history, :version => 2)
+
+      get api_relations_path(:relations => "#{relation.id},#{relation.id}v1,#{relation.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "relation", :count => 2
+        assert_dom "relation[id='#{relation.id}'][version='1']", :count => 1
+        assert_dom "relation[id='#{relation.id}'][version='2']", :count => 1
+      end
+    end
+
     # -------------------------------------
     # Test showing relations.
     # -------------------------------------

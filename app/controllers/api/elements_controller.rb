@@ -16,7 +16,16 @@ module Api
       ids = id_strings.map(&:to_i)
 
       result = current_model.find(ids)
-      result += old_model.find(id_vers) unless id_vers.empty?
+      unless id_vers.empty?
+        result += old_model.find(id_vers)
+        result.uniq! do |element|
+          if element.id.is_a?(Array)
+            element.id
+          else
+            [element.id, element.version]
+          end
+        end
+      end
       instance_variable_set :"@#{type_plural}", result
 
       # Render the result
