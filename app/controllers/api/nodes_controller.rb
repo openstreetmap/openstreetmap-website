@@ -78,7 +78,16 @@ module Api
       raise OSM::APIBadUserInput, "No nodes were given to search for" if ids.empty?
 
       @nodes = Node.find(ids)
-      @nodes += OldNode.find(id_vers) unless id_vers.empty?
+      unless id_vers.empty?
+        @nodes += OldNode.find(id_vers)
+        @nodes.uniq! do |node|
+          if node.id.is_a?(Array)
+            node.id
+          else
+            [node.id, node.version]
+          end
+        end
+      end
 
       # Render the result
       respond_to do |format|

@@ -482,6 +482,15 @@ module Api
         assert_select "node[id='#{node5.id}'][version='2'][visible='false']", :count => 1
       end
 
+      # test a working call with versions and intersecting results
+      get nodes_path, :params => { :nodes => "#{node4.id}v1,#{node4.id}v2,#{node4.id}" }
+      assert_response :success
+      assert_select "osm" do
+        assert_select "node", :count => 2
+        assert_select "node[id='#{node4.id}'][version='1'][visible='true']", :count => 1
+        assert_select "node[id='#{node4.id}'][version='2'][visible='true']", :count => 1
+      end
+
       # test a working call with json format
       get nodes_path, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}", :format => "json" }
       js = ActiveSupport::JSON.decode(@response.body)
