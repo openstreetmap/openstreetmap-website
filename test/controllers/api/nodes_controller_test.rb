@@ -186,6 +186,19 @@ module Api
       assert_response :not_found
     end
 
+    def test_index_when_specified_version_coincides_with_top_version
+      node = create(:node, :with_history, :version => 2)
+
+      get api_nodes_path(:nodes => "#{node.id},#{node.id}v1,#{node.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 2
+        assert_dom "node[id='#{node.id}'][version='1']", :count => 1
+        assert_dom "node[id='#{node.id}'][version='2']", :count => 1
+      end
+    end
+
     def test_create
       private_user = create(:user, :data_public => false)
       private_changeset = create(:changeset, :user => private_user)
