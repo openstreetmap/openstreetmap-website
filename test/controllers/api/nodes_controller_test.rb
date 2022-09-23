@@ -103,6 +103,15 @@ module Api
         assert_select "node[id='#{node2.id}'][version='1']", :count => 1
         assert_select "node[id='#{node2.id}'][version='2']", :count => 1
       end
+
+      # test a working call with intersecting results
+      get api_nodes_path(:nodes => "#{node2.id},#{node2.id}v1,#{node2.id}v2")
+      assert_response :success
+      assert_select "osm" do
+        assert_select "node", :count => 2
+        assert_select "node[id='#{node2.id}'][version='1']", :count => 1
+        assert_select "node[id='#{node2.id}'][version='2']", :count => 1
+      end
     end
 
     def test_create
