@@ -95,7 +95,8 @@ module Api
       way1 = create(:way)
       way2 = create(:way, :deleted)
       way3 = create(:way)
-      way4 = create(:way)
+      way4 = create(:way, :with_history, :version => 2)
+      way5 = create(:way, :deleted, :with_history, :version => 2)
 
       # check error when no parameter provided
       get ways_path
@@ -114,6 +115,18 @@ module Api
         assert_select "way[id='#{way2.id}'][visible='false']", :count => 1
         assert_select "way[id='#{way3.id}'][visible='true']", :count => 1
         assert_select "way[id='#{way4.id}'][visible='true']", :count => 1
+      end
+
+      # test a working call with versions
+      get ways_path, :params => { :ways => "#{way1.id},#{way4.id}v2,#{way3.id},#{way4.id}v1,#{way5.id},#{way4.id}" }
+      assert_response :success
+      assert_select "osm" do
+        assert_select "way", :count => 5
+        assert_select "way[id='#{way1.id}'][version='1'][visible='true']", :count => 1
+        assert_select "way[id='#{way3.id}'][version='1'][visible='true']", :count => 1
+        assert_select "way[id='#{way4.id}'][version='1'][visible='true']", :count => 1
+        assert_select "way[id='#{way4.id}'][version='2'][visible='true']", :count => 1
+        assert_select "way[id='#{way5.id}'][version='2'][visible='false']", :count => 1
       end
 
       # test a working call with json format

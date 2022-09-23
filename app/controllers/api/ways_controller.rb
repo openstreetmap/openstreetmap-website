@@ -1,5 +1,5 @@
 module Api
-  class WaysController < ApiController
+  class WaysController < ElementsApiController
     require "xml/libxml"
 
     before_action :check_api_writable, :only => [:create, :update, :delete]
@@ -84,22 +84,6 @@ module Api
         end
       else
         head :gone
-      end
-    end
-
-    def index
-      raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]" unless params["ways"]
-
-      ids = params["ways"].split(",").collect(&:to_i)
-
-      raise OSM::APIBadUserInput, "No ways were given to search for" if ids.empty?
-
-      @ways = Way.find(ids)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
       end
     end
 

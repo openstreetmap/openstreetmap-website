@@ -1,5 +1,5 @@
 module Api
-  class RelationsController < ApiController
+  class RelationsController < ElementsApiController
     require "xml/libxml"
 
     before_action :check_api_writable, :only => [:create, :update, :delete]
@@ -128,22 +128,6 @@ module Api
         end
       else
         head :gone
-      end
-    end
-
-    def index
-      raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]" unless params["relations"]
-
-      ids = params["relations"].split(",").collect(&:to_i)
-
-      raise OSM::APIBadUserInput, "No relations were given to search for" if ids.empty?
-
-      @relations = Relation.find(ids)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
       end
     end
 

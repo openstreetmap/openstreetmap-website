@@ -192,6 +192,16 @@ module Api
         assert_select "relation[id='#{relation4.id}'][visible='true']", :count => 1
       end
 
+      # test a working call with versions
+      get relations_path, :params => { :relations => "#{relation1.id},#{relation3.id}v1,#{relation3.id}v2" }
+      assert_response :success
+      assert_select "osm" do
+        assert_select "relation", :count => 3
+        assert_select "relation[id='#{relation1.id}'][version='1'][visible='true']", :count => 1
+        assert_select "relation[id='#{relation3.id}'][version='1'][visible='true']", :count => 1
+        assert_select "relation[id='#{relation3.id}'][version='2'][visible='true']", :count => 1
+      end
+
       # test a working call with json format
       get relations_path, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json" }
 
