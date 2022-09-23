@@ -84,7 +84,7 @@ OpenStreetMap::Application.routes.draw do
     get "gpx/:id/data" => "api/traces#data", :as => :api_trace_data
 
     # Map notes API
-    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :defaults => { :format => "xml" }, :controller => "api/notes" do
+    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :controller => "api/notes" do
       collection do
         get "search"
         get "feed", :defaults => { :format => "rss" }
