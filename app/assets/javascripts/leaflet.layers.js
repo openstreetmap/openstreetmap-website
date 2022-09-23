@@ -100,11 +100,10 @@ L.OSM.layers = function (options) {
         var item = $("<li>")
           .appendTo(overlays);
 
-        var tooltip;
         if (name === "notes" || name === "data") {
-          item.attr("title", I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip"));
-          tooltip = new bootstrap.Tooltip(item[0]);
-          tooltip.disable();
+          item
+            .attr("title", I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip"))
+            .tooltip("disable");
         }
 
         var label = $("<label>")
@@ -148,14 +147,9 @@ L.OSM.layers = function (options) {
               .trigger("change");
           }
 
-          $(item).attr("class", disabled ? "disabled" : "");
-          if (tooltip) {
-            if (disabled) {
-              tooltip.enable();
-            } else {
-              tooltip.disable();
-            }
-          }
+          $(item)
+            .attr("class", disabled ? "disabled" : "")
+            .tooltip(disabled ? "enable" : "disable");
         });
       };
 

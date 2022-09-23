@@ -56,20 +56,15 @@ window.updateLinks = function (loc, zoom, layers, object) {
     link.href = href;
   });
 
+  // Disable the button group and also the buttons to avoid
+  // inconsistent behaviour when zooming
   var editDisabled = zoom < 13;
-  var editTab = $("#edit_tab");
-  editTab
-    // Disable the button group and also the buttons to avoid
-    // inconsistent behaviour when zooming
+  $("#edit_tab")
+    .tooltip({ placement: "bottom" })
+    .tooltip(editDisabled ? "enable" : "disable")
     .toggleClass("disabled", editDisabled)
     .find("a")
     .toggleClass("disabled", editDisabled);
-  var editTooltip = bootstrap.Tooltip.getOrCreateInstance(editTab[0], { placement: "bottom" });
-  if (editDisabled) {
-    editTooltip.enable();
-  } else {
-    editTooltip.disable();
-  }
 };
 
 window.maximiseMap = function () {

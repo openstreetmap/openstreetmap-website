@@ -70,7 +70,7 @@ class SiteTest < ApplicationSystemTestCase
       assert_no_selector ".tooltip", :text => "Zoom in"
       find("h1").hover # un-hover original element
 
-      visit "/#map=10/0/0"
+      visit "#map=10/0/0"
       find(selector).hover
       assert_selector ".tooltip", :text => "Zoom in"
     end
