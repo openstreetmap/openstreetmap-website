@@ -6,11 +6,13 @@ module Api
 
       raise OSM::APIBadUserInput, "The parameter #{type_plural} is required, and must be of the form #{type_plural}=ID[vVER][,ID[vVER][,ID[vVER]...]]" unless params[type_plural]
 
-      id_ver_strings, id_strings = params[type_plural].split(",").partition { |iv| iv.include? "v" }
+      search_strings = params[type_plural].split(",")
+
+      raise OSM::APIBadUserInput, "No #{type_plural} were given to search for" if search_strings.empty?
+
+      id_ver_strings, id_strings = search_strings.partition { |iv| iv.include? "v" }
       id_vers = id_ver_strings.map { |iv| iv.split("v", 2).map(&:to_i) }
       ids = id_strings.map(&:to_i)
-
-      raise OSM::APIBadUserInput, "No #{type_plural} were given to search for" if ids.empty?
 
       result = current_model.find(ids)
       unless id_vers.empty?
