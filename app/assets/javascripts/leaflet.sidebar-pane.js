@@ -22,11 +22,10 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
 
     $("<div class='sidebar_heading d-flex'>")
       .appendTo($ui)
-      .append($("<div class='flex-grow-1 text-break'>")
-        .append($("<h4>")
-          .text(I18n.t(paneTitle))))
+      .append($("<h4 class='flex-grow-1 text-break'>")
+        .text(I18n.t(paneTitle)))
       .append($("<div>")
-        .append($("<button type='button' class='btn-close mt-1'>")
+        .append($("<button type='button' class='btn-close'>")
           .attr("aria-label", I18n.t("javascripts.close"))
           .bind("click", toggle)));
 

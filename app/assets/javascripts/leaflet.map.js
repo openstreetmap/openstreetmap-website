@@ -300,12 +300,17 @@ L.OSM.Map = L.Map.extend({
   },
 
   setSidebarOverlaid: function (overlaid) {
+    var sidebarWidth = 350;
     if (overlaid && !$("#content").hasClass("overlay-sidebar")) {
       $("#content").addClass("overlay-sidebar");
-      this.invalidateSize({ pan: false })
-        .panBy([-350, 0], { animate: false });
+      this.invalidateSize({ pan: false });
+      if ($("html").attr("dir") !== "rtl") {
+        this.panBy([-sidebarWidth, 0], { animate: false });
+      }
     } else if (!overlaid && $("#content").hasClass("overlay-sidebar")) {
-      this.panBy([350, 0], { animate: false });
+      if ($("html").attr("dir") !== "rtl") {
+        this.panBy([sidebarWidth, 0], { animate: false });
+      }
       $("#content").removeClass("overlay-sidebar");
       this.invalidateSize({ pan: false });
     }

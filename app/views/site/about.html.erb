@@ -14,36 +14,32 @@
   </div>
 
   <div class='bg-white px-5 py-4'>
-    <div class='section'>
-      <p class="lead"><%= t ".lede_text", :locale => @locale %></p>
-      <h2><div class='icon local'></div><%= t ".local_knowledge_title", :locale => @locale %></h2>
-      <p><%= t ".local_knowledge_html", :locale => @locale %></p>
-    </div>
+    <p class="lead"><%= t ".lede_text", :locale => @locale %></p>
 
-    <div class='section'>
-      <h2><div class='icon community'></div><%= t ".community_driven_title", :locale => @locale %></h2>
-      <p><%= t ".community_driven_html", :locale => @locale, :diary_path => diary_entries_path %></p>
-    </div>
+    <%= render :layout => "about_section", :locals => { :icon => "local", :title => "local_knowledge" } do %>
+      <p><%= t "site.about.local_knowledge_html", :locale => @locale %></p>
+    <% end %>
 
-    <div class='section' id='open-data'>
-      <h2><div class='icon open'></div><%= t ".open_data_title", :locale => @locale %></h2>
-      <p><%= t ".open_data_html", :locale => @locale, :copyright_path => copyright_path %></p>
-    </div>
+    <%= render :layout => "about_section", :locals => { :icon => "community", :title => "community_driven" } do %>
+      <p><%= t "site.about.community_driven_html", :locale => @locale, :diary_path => diary_entries_path %></p>
+    <% end %>
 
-    <div class='section' id='legal'>
-      <h2><div class='icon legal'></div><%= t ".legal_title", :locale => @locale %></h2>
-      <p><%= t ".legal_1_html", :locale => @locale %></p>
-      <p><%= t ".legal_2_html", :locale => @locale %></p>
-    </div>
+    <%= render :layout => "about_section", :locals => { :id => "open-data", :icon => "open", :title => "open_data" } do %>
+      <p><%= t "site.about.open_data_html", :locale => @locale, :copyright_path => copyright_path %></p>
+    <% end %>
 
-    <div class='section' id='partners'>
-      <h2><div class='icon partners'></div><%= t ".partners_title", :locale => @locale %></h2>
+    <%= render :layout => "about_section", :locals => { :id => "legal", :icon => "legal", :title => "legal" } do %>
+      <p><%= t "site.about.legal_1_html", :locale => @locale %></p>
+      <p><%= t "site.about.legal_2_html", :locale => @locale %></p>
+    <% end %>
+
+    <%= render :layout => "about_section", :locals => { :id => "partners", :icon => "partners", :title => "partners" } do %>
       <p><%= t "layouts.hosting_partners_html", :locale => @locale,
                                                 :ucl => link_to(t("layouts.partners_ucl", :locale => @locale), "https://www.ucl.ac.uk"),
                                                 :fastly => link_to(t("layouts.partners_fastly", :locale => @locale), "https://www.fastly.com/"),
                                                 :bytemark => link_to(t("layouts.partners_bytemark", :locale => @locale), "https://www.bytemark.co.uk"),
                                                 :partners => link_to(t("layouts.partners_partners", :locale => @locale), "https://hardware.openstreetmap.org/thanks/") %>
       </p>
-    </div>
+    <% end %>
   </div>
 <% end %>
