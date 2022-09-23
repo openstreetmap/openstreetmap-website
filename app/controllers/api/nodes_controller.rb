@@ -66,5 +66,9 @@ module Api
     def current_model
       Node
     end
+
+    def old_model
+      OldNode
+    end
   end
 end
