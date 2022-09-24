@@ -20,23 +20,9 @@ OSM.Note = function (map) {
     })
   };
 
-  function updateNote(form, method, url) {
-    $(form).find("input[type=submit]").prop("disabled", true);
-
-    $.ajax({
-      url: url,
-      type: method,
-      oauth: true,
-      data: { text: $(form.text).val() },
-      success: function () {
-        OSM.loadSidebarContent(window.location.pathname, page.load);
-      }
-    });
-  }
-
   page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
-      initialize(id, function () {
+      initialize(path, id, function () {
         var data = $(".details").data(),
             latLng = L.latLng(data.coordinates.split(","));
         if (!map.getBounds().contains(latLng)) moveToNote();
@@ -45,14 +31,28 @@ OSM.Note = function (map) {
   };
 
   page.load = function (path, id) {
-    initialize(id, moveToNote);
+    initialize(path, id, moveToNote);
   };
 
-  function initialize(id, callback) {
+  function initialize(path, id, callback) {
     content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
-      updateNote(e.target.form, data.method, data.url);
+      var form = e.target.form;
+
+      $(form).find("input[type=submit]").prop("disabled", true);
+
+      $.ajax({
+        url: data.url,
+        type: data.method,
+        oauth: true,
+        data: { text: $(form.text).val() },
+        success: function () {
+          OSM.loadSidebarContent(path, function () {
+            initialize(path, id, moveToNote);
+          });
+        }
+      });
     });
 
     content.find("textarea").on("input", function (e) {
