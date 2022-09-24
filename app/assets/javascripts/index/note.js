@@ -19,6 +19,7 @@ OSM.Note = function (map) {
       iconAnchor: [12, 40]
     })
   };
+  noteIcons.hidden = noteIcons.closed; // TODO replace with actual "hidden" icon when it's added
 
   page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
