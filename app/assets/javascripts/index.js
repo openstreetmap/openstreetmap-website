@@ -246,34 +246,38 @@ $(document).ready(function () {
   });
 
   function remoteEditHandler(bbox, object) {
-    var loaded = false,
-        url,
-        query = {
-          left: bbox.getWest() - 0.0001,
-          top: bbox.getNorth() + 0.0001,
-          right: bbox.getEast() + 0.0001,
-          bottom: bbox.getSouth() - 0.0001
-        };
+    var remoteEditHost = "http://127.0.0.1:8111";
+    var osmHost = location.protocol + "//" + location.host;
+    var query = {
+      left: bbox.getWest() - 0.0001,
+      top: bbox.getNorth() + 0.0001,
+      right: bbox.getEast() + 0.0001,
+      bottom: bbox.getSouth() - 0.0001
+    };
+    if (object && object.type !== "note") query.select = object.type + object.id; // can't select notes
+    sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + Qs.stringify(query), function () {
+      if (object && object.type === "note") {
+        var noteQuery = { url: osmHost + OSM.apiUrl(object) };
+        sendRemoteEditCommand(remoteEditHost + "/import?" + Qs.stringify(noteQuery));
+      }
+    });
 
-    url = "http://127.0.0.1:8111/load_and_zoom?";
-
-    if (object) query.select = object.type + object.id;
-
-    var iframe = $("<iframe>")
-      .hide()
-      .appendTo("body")
-      .attr("src", url + Qs.stringify(query))
-      .on("load", function () {
-        $(this).remove();
-        loaded = true;
-      });
-
-    setTimeout(function () {
-      if (!loaded) {
+    function sendRemoteEditCommand(url, callback) {
+      var iframe = $("<iframe>");
+      var timeoutId = setTimeout(function () {
         alert(I18n.t("site.index.remote_failed"));
         iframe.remove();
-      }
-    }, 1000);
+      }, 5000);
+      iframe
+        .hide()
+        .appendTo("body")
+        .attr("src", url)
+        .on("load", function () {
+          clearTimeout(timeoutId);
+          iframe.remove();
+          if (callback) callback();
+        });
+    }
 
     return false;
   }
