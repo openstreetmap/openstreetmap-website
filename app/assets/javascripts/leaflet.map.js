@@ -255,6 +255,7 @@ L.OSM.Map = L.Map.extend({
       this._objectLoader = {
         abort: function () {}
       };
+      this._object = object;
       this._objectLayer = L.featureGroup().addTo(this);
       L.circleMarker(object.latLng, haloStyle).addTo(this._objectLayer);
       L.marker(object.latLng, {

@@ -33,6 +33,7 @@ window.updateLinks = function (loc, zoom, layers, object) {
     delete args.way;
     delete args.relation;
     delete args.changeset;
+    delete args.note;
 
     if (object && editlink) {
       args[object.type] = object.id;
