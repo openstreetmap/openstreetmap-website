@@ -1,7 +1,6 @@
 OSM.Note = function (map) {
   var content = $("#sidebar_content"),
-      page = {},
-      halo, currentNote;
+      page = {};
 
   var noteIcons = {
     "new": L.icon({
@@ -35,9 +34,9 @@ OSM.Note = function (map) {
     });
   }
 
-  page.pushstate = page.popstate = function (path) {
+  page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
-      initialize(function () {
+      initialize(id, function () {
         var data = $(".details").data(),
             latLng = L.latLng(data.coordinates.split(","));
         if (!map.getBounds().contains(latLng)) moveToNote();
@@ -45,11 +44,11 @@ OSM.Note = function (map) {
     });
   };
 
-  page.load = function () {
-    initialize(moveToNote);
+  page.load = function (path, id) {
+    initialize(id, moveToNote);
   };
 
-  function initialize(callback) {
+  function initialize(id, callback) {
     content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
@@ -70,28 +69,14 @@ OSM.Note = function (map) {
 
     content.find("textarea").val("").trigger("input");
 
-    var data = $(".details").data(),
-        latLng = L.latLng(data.coordinates.split(","));
+    var data = $(".details").data();
 
-    if (!halo || !map.hasLayer(halo)) {
-      halo = L.circleMarker(latLng, {
-        weight: 2.5,
-        radius: 20,
-        fillOpacity: 0.5,
-        color: "#FF6200"
-      });
-      map.addLayer(halo);
-    }
-
-    if (currentNote && map.hasLayer(currentNote)) map.removeLayer(currentNote);
-
-    currentNote = L.marker(latLng, {
-      icon: noteIcons[data.status],
-      opacity: 1,
-      interactive: true
+    map.addObject({
+      type: "note",
+      id: parseInt(id, 10),
+      latLng: L.latLng(data.coordinates.split(",")),
+      icon: noteIcons[data.status]
     });
-
-    map.addLayer(currentNote);
 
     if (callback) callback();
   }
@@ -108,8 +93,7 @@ OSM.Note = function (map) {
   }
 
   page.unload = function () {
-    if (map.hasLayer(halo)) map.removeLayer(halo);
-    if (map.hasLayer(currentNote)) map.removeLayer(currentNote);
+    map.removeObject();
   };
 
   return page;
