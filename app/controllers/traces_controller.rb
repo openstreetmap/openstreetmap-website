@@ -11,7 +11,7 @@ class TracesController < ApplicationController
   before_action :offline_warning, :only => [:mine, :show]
   before_action :offline_redirect, :only => [:new, :create, :edit, :destroy, :data]
 
-  # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
+  # Counts and selects pages of GPX traces for various criteria (by user, tags, public, etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
   def index
     # from display name, pick up user id if one user's traces only
