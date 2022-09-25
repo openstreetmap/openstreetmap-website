@@ -40,12 +40,28 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
   def test_index_get
     # arrange
     c = create(:community)
+    create(:community_member, :community => c)
+    create(:community_member, :community => c)
+    create(:community_member, :community => c)
     # act
     get communities_path
     # assert
     assert_response :success
     assert_template "index"
     assert_match c.name, response.body
+  end
+
+  def test_index_get_not_enough_members
+    # arrange
+    c = create(:community)
+    create(:community_member, :community => c)
+    create(:community_member, :community => c)
+    # act
+    get communities_path
+    # assert
+    assert_response :success
+    assert_template "index"
+    assert_no_match c.name, response.body
   end
 
   def test_index_with_specific_user
@@ -131,7 +147,7 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
   def test_update_put_success
     # TODO: When community_member is created switch to using that factory.
     # arrange
-    c1 = create(:community) # original object
+    c1 = create_community_with_organizer # original object
     c2 = build(:community) # new data
     session_for(c1.organizer)
 
@@ -149,9 +165,8 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_update_put_failure
-    # TODO: When community_member is created switch to using that factory.
     # arrange
-    c = create(:community) # original object
+    c = create_community_with_organizer # original object
     session_for(c.organizer)
     form = c.attributes.except("id", "created_at", "updated_at", "slug")
     # Force an update failure based on validation.

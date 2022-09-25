@@ -44,12 +44,12 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
 
   def test_edit_get_no_session
     # arrange
-    l = create(:community_link)
+    link = create(:community_link)
     # act
-    get edit_community_link_path(l)
+    get edit_community_link_path(link)
     # assert
     assert_response :redirect
-    assert_redirected_to login_path(:referer => edit_community_link_path(l))
+    assert_redirected_to login_path(:referer => edit_community_link_path(link))
   end
 
   def test_update_as_non_organizer
@@ -66,7 +66,7 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
   def test_update_put_success
     # TODO: When community_member is created switch to using that factory.
     # arrange
-    c = create(:community)
+    c = create_community_with_organizer
     link1 = create(:community_link, :community_id => c.id) # original object
     link2 = build(:community_link, :community_id => c.id) # new data
     link_2_form = link2.attributes.except("id", "created_at", "updated_at")
@@ -87,9 +87,9 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
 
   def test_update_put_failure
     # arrange
-    mic = create(:community) # original object
-    session_for(mic.organizer)
-    link = create(:community_link, :community_id => mic.id) # original object
+    c_orig = create_community_with_organizer
+    session_for(c_orig.organizer)
+    link = create(:community_link, :community_id => c_orig.id)
     def link.update(_params)
       false
     end
@@ -177,14 +177,14 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
 
   def test_create_when_save_fails
     # arrange
-    mic = create(:community)
-    session_for(mic.organizer)
-    link = build(:community_link, :community => mic, :url => "invalid url")
+    c = create(:community)
+    session_for(c.organizer)
+    link = build(:community_link, :community => c, :url => "invalid url")
     form = link.attributes.except("id", "created_at", "updated_at")
 
     # act and assert
     assert_no_difference "CommunityLink.count", 0 do
-      post community_community_links_path :community_link => form, :community_id => mic.id
+      post community_community_links_path :community_link => form, :community_id => c.id
     end
 
     assert_template :new
@@ -192,9 +192,9 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
 
   def test_delete
     # arrange
-    mic = create(:community)
-    link = create(:community_link, :community_id => mic.id)
-    session_for(mic.organizer)
+    c = create_community_with_organizer
+    link = create(:community_link, :community_id => c.id)
+    session_for(c.organizer)
 
     # act and assert
     assert_difference "CommunityLink.count", -1 do

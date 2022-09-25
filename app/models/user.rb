@@ -84,6 +84,8 @@ class User < ApplicationRecord
   has_many :reports
 
   has_many :communities_organized, :class_name => "Community", :foreign_key => :organizer_id, :inverse_of => :organizer
+  has_many :community_members
+  has_many :communities, :through => :community_members
 
   scope :visible, -> { where(:status => %w[pending active confirmed]) }
   scope :active, -> { where(:status => %w[active confirmed]) }

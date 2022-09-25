@@ -22,3 +22,9 @@ FactoryBot.define do
     max_lon { lon2 }
   end
 end
+
+def create_community_with_organizer
+  FactoryBot.create(:community) do |community|
+    FactoryBot.create(:community_member, :organizer, :community => community, :user => community.organizer)
+  end
+end

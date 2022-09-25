@@ -24,6 +24,10 @@ class Community < ApplicationRecord
   extend FriendlyId
   friendly_id :name, :use => :slugged
 
+  # Organizers before members, a tad hacky, but works for now.
+  has_many :community_members, -> { order(:role => :desc) }, :inverse_of => :community
+  has_many :users, :through => :community_members # TODO: counter_cache
+
   belongs_to :organizer, :class_name => "User"
   has_many :community_links
 
@@ -47,6 +51,18 @@ class Community < ApplicationRecord
 
   def max_lon=(longitude)
     super(OSM.normalize_longitude(longitude))
+  end
+
+  def member?(user)
+    community_members.where(:user_id => user.id).count.positive?
+  end
+
+  def organizer?(user)
+    community_members.where(:user_id => user.id, :role => CommunityMember::Roles::ORGANIZER).count.positive?
+  end
+
+  def organizers
+    community_members.where(:role => CommunityMember::Roles::ORGANIZER)
   end
 
   def bbox

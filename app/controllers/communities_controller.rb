@@ -10,6 +10,7 @@ class CommunitiesController < ApplicationController
   authorize_resource
 
   def index
+    @critical_mass = 2
     display_name = params[:user_display_name]
     if display_name
       @user = User.active.where(:display_name => display_name).first
@@ -26,12 +27,25 @@ class CommunitiesController < ApplicationController
     end
 
     # Using Arel.sql here because we're using known-safe values.
-    @all_communities = Community.order(Arel.sql(sunniest_communities))
+    # Only list out communities that have at least 2 members in order to mitigate spam.  In order to get
+    # a community listed, the organizer must find 2 members and give them the link to the page manually.
+    @all_communities = Community
+                       .joins(:community_members)
+                       .group("communities.id")
+                       .having("COUNT(communities.id) > #{@critical_mass}")
+                       .order(Arel.sql(sunniest_communities))
+
+    @my_communities = current_user ? current_user.communities : []
   end
 
   # GET /communities/mycity
   # GET /communities/mycity.json
-  def show; end
+  def show
+    # for existing or new member
+    @current_user_membership = CommunityMember.find_or_initialize_by(
+      :community => @community, :user_id => current_user&.id
+    )
+  end
 
   def new
     @title = t ".title"

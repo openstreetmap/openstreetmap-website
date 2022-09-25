@@ -329,8 +329,12 @@ OpenStreetMap::Application.routes.draw do
   # communities
   resources :communities do
     resources :community_links, :only => [:create, :index, :new]
+    get :community_members, :to => "community_members#index"
   end
   resources :community_links, :only => [:destroy, :edit, :update]
+  resources :communities, :only => [:join]
+  resources :community_members, :only => [:create, :new]
+  get "/community_members" => "community_members#create", :as => "login_to_join"
 
   # errors
   match "/403", :to => "errors#forbidden", :via => :all

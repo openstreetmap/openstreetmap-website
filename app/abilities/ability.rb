@@ -33,6 +33,7 @@ class Ability
       can [:history, :version], OldWay
       can [:history, :version], OldRelation
       can [:index, :show], Community
+      can [:index], CommunityMember
     end
 
     if user&.active?
@@ -56,9 +57,18 @@ class Ability
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public], User
-        can [:create, :new], Community
-        can [:edit, :update], Community, :organizer_id => user.id
-        can [:edit, :create, :destroy, :new, :update], CommunityLink, :community => { :organizer_id => user.id }
+
+        user_is_community_organizer = {
+          :community_members => {
+            :user_id => user.id,
+            :role => CommunityMember::Roles::ORGANIZER
+          }
+        }
+        can [:create, :new, :step_up], Community
+        can [:edit, :update], Community, user_is_community_organizer
+        can [:edit, :create, :destroy, :new, :update], CommunityLink, { :community => user_is_community_organizer }
+        can [:destroy, :edit, :update], CommunityMember, { :community => user_is_community_organizer }
+        can [:create, :destroy], CommunityMember, { :user_id => user.id }
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry
