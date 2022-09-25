@@ -287,7 +287,7 @@ OpenStreetMap::Application.routes.draw do
   get "/message/new/:display_name" => "messages#new", :as => "new_message"
   get "/message/read/:message_id", :to => redirect(:path => "/messages/%{message_id}")
 
-  # oauth admin pages (i.e: for setting up new clients, etc...)
+  # oauth admin pages (i.e. for setting up new clients)
   scope "/user/:display_name" do
     resources :oauth_clients
   end
