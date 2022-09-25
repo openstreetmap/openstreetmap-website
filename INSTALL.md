@@ -212,6 +212,19 @@ To create all the tables, indexes and constraints, run:
 bundle exec rake db:migrate
 ```
 
+### Optional: Database content
+
+If you want real world data in your API DB, you can download some data and import it with [Osmosis](https://wiki.openstreetmap.org/wiki/Osmosis#How_to_install). Data can be downloaded as OSM XML via JOSM or as OSM PBF extract from e.g. https://download.geofabrik.de.
+
+```
+osmosis --read-xml local_area.osm --write-apidb database=openstreetmap
+```
+
+```
+osmosis --read-pbf xxx-latest.osm.pbf --write-apidb database=openstreetmap
+```
+
+
 ## Running the tests
 
 To ensure that everything is set up properly, you should now run:
