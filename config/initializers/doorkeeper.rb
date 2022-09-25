@@ -355,7 +355,7 @@ Doorkeeper.configure do
   # be used with this application there. Then when authorization requested Doorkeeper
   # will call this block to check if specific Application (passed with client_id and/or
   # client_secret) is allowed to perform the request for the specific grant type
-  # (authorization, password, client_credentials, etc).
+  # (authorization, password, client_credentials, etc.).
   #
   # Example of the block:
   #
