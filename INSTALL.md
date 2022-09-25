@@ -217,13 +217,14 @@ bundle exec rake db:migrate
 If you want real world data in your API DB, you can download some data and import it with [Osmosis](https://wiki.openstreetmap.org/wiki/Osmosis#How_to_install). Data can be downloaded as OSM XML via JOSM or as OSM PBF extract from e.g. https://download.geofabrik.de.
 
 ```
-osmosis --read-xml local_area.osm --write-apidb database=openstreetmap
+osmosis --read-xml local_area.osm --write-apidb database=openstreetmap validateSchemaVersion=no
 ```
 
+Be aware that is can be amazingly slow for bigger data sets, if you are not disabling index updating after each insert and reindex all tables after the import:
 ```
 osmosis --read-pbf xxx-latest.osm.pbf --write-apidb database=openstreetmap
 ```
-
+More information can be found in https://github.com/openstreetmap/openstreetmap-website/issues/282#issuecomment-24721913 ff.
 
 ## Running the tests
 
