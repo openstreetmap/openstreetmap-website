@@ -60,7 +60,7 @@ Run the test suite by running:
 
 ### Loading an OSM extract
 
-This installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract. Here an example for loading an OSM extract into your Docker-based OSM instance.
+This installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM, etc.) or by loading an OSM extract. Here an example for loading an OSM extract into your Docker-based OSM instance.
 
 For example, let's download the District of Columbia from Geofabrik or [any other region](https://download.geofabrik.de):
 
@@ -82,7 +82,7 @@ Once you have data loaded for Washington, DC you should be able to navigate to [
 
 ### Additional Configuration
 
-See [`CONFIGURE.md`](CONFIGURE.md) for information on how to manage users and enable OAuth for iD, JOSM etc.
+See [`CONFIGURE.md`](CONFIGURE.md) for information on how to manage users and enable OAuth for iD, JOSM, etc.
 
 ### Bash
 
