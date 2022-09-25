@@ -21,6 +21,10 @@ en:
         min_lat: "Minimum Latitude"
         min_lon: "Minimum Longitude"
         name: "Name"
+      community_member:
+        community_id: "Community"
+        user_id: "User"
+        role: "Role"
     submit:
       diary_comment:
         create: Comment
@@ -53,6 +57,8 @@ en:
         email_address_not_routable: is not routable
         display_name_is_user_n: can't be user_n unless n is your user id
       models:
+        community_member:
+          is_organizer: "you are an organizer of this community"
         url: "is not a valid secure URL"
         user_mute:
           attributes:
@@ -64,6 +70,7 @@ en:
       acl: "Access Control List"
       changeset: "Changeset"
       changeset_tag: "Changeset Tag"
+      community: "Community"
       country: "Country"
       diary_comment: "Diary Comment"
       diary_entry: "Diary Entry"
@@ -544,7 +551,10 @@ en:
       edit_community: "Edit Community"
     index:
       all: "All Communities"
-      communities_organized: "Communities Organized"
+      communities_leading: "Communities Leading"
+      critical_mass: "Only communities with %{n} members are displayed."
+      longitude: "Longitude"
+      my_communities: "My Communities"
       new: "New"
       new_title: "Create a new community"
       sorted_by: "Sorted by name"
@@ -556,17 +566,48 @@ en:
       heading: "No community with the id: %{id}"
       body: "Sorry, there is no community with the id %{id}. Please check your spelling, or maybe the link you clicked is wrong."
     show:
+      diary_entries: "Diary Entries of Members"
       edit: "Edit"
       header_title: "Community"
+      join:
+        action: "Join"
+        confirm: "Join %{name}?"
+      leave:
+        action: "Leave"
+        confirm: "Are you sure you want to leave %{name}?"
       links: "Links"
-      organizer: "Organizer"
+      login_to_join: "Please login to join the community."
+      members: "Members"
+      organizers: "Organizers"
       recent_changes: "Recent Changes"
       report: "Report"
       review_requested: "review requested"
-      share: "Share"
+      step_up: "Step up"
+    step_up:
+      already_has_organizer: "This community already has an organizer."
+      only_members_can_step_up: "Only members can step up."
+      you_have_stepped_up: "You have stepped up."
     update:
       failure: "The community could not be updated."
       success: "The community was successfully updated."
+  community_members:
+    create:
+      failure: The community member could not be created.
+      success: Member was successfully created.
+    destroy:
+      failure: Member was not removed.
+      success: Member was removed.
+    edit:
+      edit_member: Editing Member
+    index:
+      edit: edit
+      member: Member
+      members: Members
+      organizers: Organizers
+      remove: remove
+    update:
+      failure: Community Member could not be updated.
+      success: Community Member was successfully updated.
   dashboards:
     contact:
       km away: "%{count}km away"

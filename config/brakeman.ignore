@@ -22,8 +22,31 @@
         352
       ],
       "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "011f7d421c6b9e3e1176c3e150ab448c9ef29fbeb7ebeb0e4e14ff10682780d1",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/community_members_controller.rb",
+      "line": 63,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:community_member).permit(:role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CommunityMembersController",
+        "method": "update_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": "Role is an attribute of the membership."
     }
   ],
-  "updated": "2024-04-11 10:07:03 +0100",
+  "updated": "2024-07-31 09:31:03 +0100",
   "brakeman_version": "6.1.2"
 }

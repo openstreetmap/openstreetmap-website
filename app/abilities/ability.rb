@@ -19,6 +19,7 @@ class Ability
       can :index, ChangesetComment
       can [:index, :show], Community
       can [:index], CommunityLink
+      can [:index], CommunityMember
       can [:confirm, :confirm_resend, :confirm_email], :confirmation
       can [:index, :rss, :show], DiaryEntry
       can :index, DiaryComment
@@ -49,9 +50,17 @@ class Ability
         can [:create], DiaryComment
         can [:make_friend, :remove_friend], Friendship
         can [:new, :create, :reply, :show, :inbox, :outbox, :muted, :mark, :unmute, :destroy], Message
-        can [:create, :new], Community
-        can [:edit, :update], Community, { :organizer_id => user.id }
-        can [:edit, :create, :destroy, :new, :update], CommunityLink, { :community => { :organizer_id => user.id } }
+        user_is_community_organizer = {
+          :community_members => {
+            :user_id => user.id,
+            :role => CommunityMember::Roles::ORGANIZER
+          }
+        }
+        can [:create, :new, :step_up], Community
+        can [:edit, :update], Community, user_is_community_organizer
+        can [:edit, :create, :destroy, :new, :update], CommunityLink, { :community => user_is_community_organizer }
+        can [:create], CommunityMember, { :user_id => user.id }
+        can [:destroy, :edit, :update], CommunityMember, { :community => user_is_community_organizer }
         can [:close, :reopen], Note
         can [:show, :edit, :update], :preference
         can [:edit, :update], :profile

@@ -87,7 +87,7 @@ class Issue < ApplicationRecord
                          when "User"
                            reportable
                          when "Community"
-                           reportable.organizer
+                           reportable.leader
                          when "Note"
                            reportable.author
                          else

@@ -42,12 +42,12 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_edit_get_no_session
-    l = create(:community_link)
+    link = create(:community_link)
 
-    get edit_community_link_path(l)
+    get edit_community_link_path(link)
 
     assert_response :redirect
-    assert_redirected_to login_path(:referer => edit_community_link_path(l))
+    assert_redirected_to login_path(:referer => edit_community_link_path(link))
   end
 
   def test_update_as_non_organizer
@@ -62,11 +62,11 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
 
   def test_update_put_success
     # TODO: When community_member is created switch to using that factory.
-    c = create(:community)
+    c = create_community_with_organizer
     link1 = create(:community_link, :community_id => c.id) # original object
     link2 = build(:community_link, :community_id => c.id) # new data
     link_2_form = link2.attributes.except("id", "created_at", "updated_at")
-    session_for(c.organizer)
+    session_for(c.leader)
 
     # Update link1 with the values from link2.
     put community_link_url(link1), :params => { :community_link => link_2_form.as_json }, :xhr => true
@@ -80,9 +80,9 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_update_put_failure
-    c = create(:community) # original object
-    session_for(c.organizer)
-    link = create(:community_link, :community_id => c.id) # original object
+    c = create_community_with_organizer
+    session_for(c.leader)
+    link = create(:community_link, :community_id => c.id)
     def link.update(_params)
       false
     end
@@ -122,7 +122,7 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
   def test_new_form
     # Now try again when logged in
     c = create(:community)
-    session_for(c.organizer)
+    session_for(c.leader)
 
     get new_community_community_link_path(c)
 
@@ -144,7 +144,7 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
     c = create(:community)
     link_orig = create(:community_link, :community => c)
     form = link_orig.attributes.except("id", "created_at", "updated_at")
-    session_for(c.organizer)
+    session_for(c.leader)
 
     link_new_id = nil
     assert_difference "CommunityLink.count", 1 do
@@ -163,7 +163,7 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
 
   def test_create_when_save_fails
     c = create(:community)
-    session_for(c.organizer)
+    session_for(c.leader)
     link = build(:community_link, :community => c, :url => "invalid url")
     form = link.attributes.except("id", "created_at", "updated_at")
 
@@ -175,9 +175,9 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_delete
-    c = create(:community)
+    c = create_community_with_organizer
     link = create(:community_link, :community_id => c.id)
-    session_for(c.organizer)
+    session_for(c.leader)
 
     assert_difference "CommunityLink.count", -1 do
       delete community_link_path(:id => link.id)

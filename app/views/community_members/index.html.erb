@@ -1,0 +1,39 @@
+<% content_for :heading do %>
+  <h1>
+    <%= "#{@community.name} " + t(".members") %>
+  </h1>
+<% end %>
+
+<% @roles.each do |role| %>
+  <h2>
+    <%= t(".#{role}") %>
+  </h2>
+  <div class='<%= role %>'>
+    <ul class="list-group">
+      <% @community.send(role).each do |membership| %>
+        <li class="list-group-item">
+          <div class="row align-items-center justify-content-start">
+            <div class="col-2">
+              <%= user_image(membership.user) %>
+            </div>
+            <div class="col-3">
+              <%= membership.user.display_name %>
+            </div>
+            <% if current_user and @community.organizer?(current_user) %>
+              <div class="col-1">
+                <%= bootstrap_form_for membership, :method => :get, :url => edit_community_member_path(membership) do |form| %>
+                  <%= form.primary t(".edit") %>
+                <% end %>
+              </div>
+              <div class="col-1">
+                <%= bootstrap_form_for membership, :method => :delete, :url => community_member_path(membership) do |form| %>
+                  <%= form.submit t(".remove") %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
