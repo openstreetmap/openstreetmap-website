@@ -8,7 +8,7 @@ Many settings are available in `config/settings.yml`. You can customize your ins
 
 ## Populating the database
 
-Your installation comes with no geographic data loaded. You can either create new data using one of the editors (iD, JOSM etc) or by loading an OSM extract.
+Your installation comes with no geographic data loaded. You can either create new data using one of the editors (iD, JOSM, etc.) or by loading an OSM extract.
 
 After installing but before creating any users or data, import an extract with [Osmosis](https://wiki.openstreetmap.org/wiki/Osmosis) and the [``--write-apidb``](https://wiki.openstreetmap.org/wiki/Osmosis/Detailed_Usage#--write-apidb_.28--wd.29) task.
 
