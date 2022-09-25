@@ -19,6 +19,7 @@ class Ability
       can :index, ChangesetComment
       can [:index, :show], Community
       can [:index], CommunityLink
+      can [:index], CommunityMember
       can [:confirm, :confirm_resend, :confirm_email], :confirmation
       can [:index, :rss, :show, :comments], DiaryEntry
       can [:index], Note
@@ -56,6 +57,18 @@ class Ability
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public], User
         can [:index, :create, :destroy], UserMute
+
+        user_is_community_organizer = {
+          :community_members => {
+            :user_id => user.id,
+            :role => CommunityMember::Roles::ORGANIZER
+          }
+        }
+        can [:create, :new, :step_up], Community
+        can [:edit, :update], Community, user_is_community_organizer
+        can [:edit, :create, :destroy, :new, :update], CommunityLink, { :community => user_is_community_organizer }
+        can [:create, :destroy], CommunityMember, { :user_id => user.id }
+        can [:destroy, :edit, :update], CommunityMember, { :community => user_is_community_organizer }
 
         if user.moderator?
           can [:hide, :unhide, :hidecomment, :unhidecomment], DiaryEntry

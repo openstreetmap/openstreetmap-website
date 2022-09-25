@@ -121,59 +121,59 @@ CREATE TYPE public.user_status_enum AS ENUM (
 --
 
 CREATE FUNCTION public.api_rate_limit(user_id bigint) RETURNS integer
-    LANGUAGE plpgsql STABLE
-    AS $$
-    DECLARE
-      min_changes_per_hour int4 := 100;
-      initial_changes_per_hour int4 := 1000;
-      max_changes_per_hour int4 := 100000;
-      days_to_max_changes int4 := 7;
-      importer_changes_per_hour int4 := 1000000;
-      moderator_changes_per_hour int4 := 1000000;
-      roles text[];
-      last_block timestamp without time zone;
-      first_change timestamp without time zone;
-      active_reports int4;
-      time_since_first_change double precision;
-      max_changes double precision;
-      recent_changes int4;
-    BEGIN
-      SELECT ARRAY_AGG(user_roles.role) INTO STRICT roles FROM user_roles WHERE user_roles.user_id = api_rate_limit.user_id;
+  LANGUAGE plpgsql STABLE
+AS $$
+DECLARE
+  min_changes_per_hour int4 := 100;
+  initial_changes_per_hour int4 := 1000;
+  max_changes_per_hour int4 := 100000;
+  days_to_max_changes int4 := 7;
+  importer_changes_per_hour int4 := 1000000;
+  moderator_changes_per_hour int4 := 1000000;
+  roles text[];
+  last_block timestamp without time zone;
+  first_change timestamp without time zone;
+  active_reports int4;
+  time_since_first_change double precision;
+  max_changes double precision;
+  recent_changes int4;
+BEGIN
+  SELECT ARRAY_AGG(user_roles.role) INTO STRICT roles FROM user_roles WHERE user_roles.user_id = api_rate_limit.user_id;
 
-      IF 'moderator' = ANY(roles) THEN
-        max_changes := moderator_changes_per_hour;
-      ELSIF 'importer' = ANY(roles) THEN
-        max_changes := importer_changes_per_hour;
-      ELSE
-        SELECT user_blocks.created_at INTO last_block FROM user_blocks WHERE user_blocks.user_id = api_rate_limit.user_id ORDER BY user_blocks.created_at DESC LIMIT 1;
+  IF 'moderator' = ANY(roles) THEN
+    max_changes := moderator_changes_per_hour;
+  ELSIF 'importer' = ANY(roles) THEN
+    max_changes := importer_changes_per_hour;
+  ELSE
+    SELECT user_blocks.created_at INTO last_block FROM user_blocks WHERE user_blocks.user_id = api_rate_limit.user_id ORDER BY user_blocks.created_at DESC LIMIT 1;
 
-        IF FOUND THEN
-          SELECT changesets.created_at INTO first_change FROM changesets WHERE changesets.user_id = api_rate_limit.user_id AND changesets.created_at > last_block ORDER BY changesets.created_at LIMIT 1;
-        ELSE
-          SELECT changesets.created_at INTO first_change FROM changesets WHERE changesets.user_id = api_rate_limit.user_id ORDER BY changesets.created_at LIMIT 1;
-        END IF;
+    IF FOUND THEN
+      SELECT changesets.created_at INTO first_change FROM changesets WHERE changesets.user_id = api_rate_limit.user_id AND changesets.created_at > last_block ORDER BY changesets.created_at LIMIT 1;
+    ELSE
+      SELECT changesets.created_at INTO first_change FROM changesets WHERE changesets.user_id = api_rate_limit.user_id ORDER BY changesets.created_at LIMIT 1;
+    END IF;
 
-        IF NOT FOUND THEN
-          first_change := CURRENT_TIMESTAMP AT TIME ZONE 'UTC';
-        END IF;
+    IF NOT FOUND THEN
+      first_change := CURRENT_TIMESTAMP AT TIME ZONE 'UTC';
+    END IF;
 
-        SELECT COUNT(*) INTO STRICT active_reports
-        FROM issues INNER JOIN reports ON reports.issue_id = issues.id
-        WHERE issues.reported_user_id = api_rate_limit.user_id AND issues.status = 'open' AND reports.updated_at >= COALESCE(issues.resolved_at, '1970-01-01');
+    SELECT COUNT(*) INTO STRICT active_reports
+    FROM issues INNER JOIN reports ON reports.issue_id = issues.id
+    WHERE issues.reported_user_id = api_rate_limit.user_id AND issues.status = 'open' AND reports.updated_at >= COALESCE(issues.resolved_at, '1970-01-01');
 
-        time_since_first_change := EXTRACT(EPOCH FROM CURRENT_TIMESTAMP AT TIME ZONE 'UTC' - first_change);
+    time_since_first_change := EXTRACT(EPOCH FROM CURRENT_TIMESTAMP AT TIME ZONE 'UTC' - first_change);
 
-        max_changes := max_changes_per_hour * POWER(time_since_first_change, 2) / POWER(days_to_max_changes * 24 * 60 * 60, 2);
-        max_changes := GREATEST(initial_changes_per_hour, LEAST(max_changes_per_hour, FLOOR(max_changes)));
-        max_changes := max_changes / POWER(2, active_reports);
-        max_changes := GREATEST(min_changes_per_hour, LEAST(max_changes_per_hour, max_changes));
-      END IF;
+    max_changes := max_changes_per_hour * POWER(time_since_first_change, 2) / POWER(days_to_max_changes * 24 * 60 * 60, 2);
+    max_changes := GREATEST(initial_changes_per_hour, LEAST(max_changes_per_hour, FLOOR(max_changes)));
+    max_changes := max_changes / POWER(2, active_reports);
+    max_changes := GREATEST(min_changes_per_hour, LEAST(max_changes_per_hour, max_changes));
+  END IF;
 
-      SELECT COALESCE(SUM(changesets.num_changes), 0) INTO STRICT recent_changes FROM changesets WHERE changesets.user_id = api_rate_limit.user_id AND changesets.created_at >= CURRENT_TIMESTAMP AT TIME ZONE 'UTC' - '1 hour'::interval;
+  SELECT COALESCE(SUM(changesets.num_changes), 0) INTO STRICT recent_changes FROM changesets WHERE changesets.user_id = api_rate_limit.user_id AND changesets.created_at >= CURRENT_TIMESTAMP AT TIME ZONE 'UTC' - '1 hour'::interval;
 
-      RETURN max_changes - recent_changes;
-    END;
-    $$;
+  RETURN max_changes - recent_changes;
+END;
+$$;
 
 
 SET default_tablespace = '';
@@ -468,7 +468,7 @@ CREATE TABLE public.communities (
     id bigint NOT NULL,
     name character varying NOT NULL,
     description text NOT NULL,
-    organizer_id bigint NOT NULL,
+    leader_id bigint NOT NULL,
     slug character varying NOT NULL,
     location character varying NOT NULL,
     latitude double precision NOT NULL,
@@ -532,6 +532,39 @@ CREATE SEQUENCE public.community_links_id_seq
 --
 
 ALTER SEQUENCE public.community_links_id_seq OWNED BY public.community_links.id;
+
+
+--
+-- Name: community_members; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.community_members (
+    id bigint NOT NULL,
+    community_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    role character varying(64) NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: community_members_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.community_members_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: community_members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.community_members_id_seq OWNED BY public.community_members.id;
 
 
 --
@@ -1797,6 +1830,13 @@ ALTER TABLE ONLY public.community_links ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- Name: community_members id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_members ALTER COLUMN id SET DEFAULT nextval('public.community_members_id_seq'::regclass);
+
+
+--
 -- Name: current_nodes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2071,6 +2111,14 @@ ALTER TABLE ONLY public.communities
 
 ALTER TABLE ONLY public.community_links
     ADD CONSTRAINT community_links_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: community_members community_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_members
+    ADD CONSTRAINT community_members_pkey PRIMARY KEY (id);
 
 
 --
@@ -2692,10 +2740,10 @@ CREATE INDEX index_client_applications_on_user_id ON public.client_applications 
 
 
 --
--- Name: index_communities_on_organizer_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_communities_on_leader_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_communities_on_organizer_id ON public.communities USING btree (organizer_id);
+CREATE INDEX index_communities_on_leader_id ON public.communities USING btree (leader_id);
 
 
 --
@@ -2710,6 +2758,27 @@ CREATE UNIQUE INDEX index_communities_on_slug ON public.communities USING btree 
 --
 
 CREATE INDEX index_community_links_on_community_id ON public.community_links USING btree (community_id);
+
+
+--
+-- Name: index_community_members_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_community_members_on_community_id ON public.community_members USING btree (community_id);
+
+
+--
+-- Name: index_community_members_on_community_id_and_user_id_and_role; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_community_members_on_community_id_and_user_id_and_role ON public.community_members USING btree (community_id, user_id, role);
+
+
+--
+-- Name: index_community_members_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_community_members_on_user_id ON public.community_members USING btree (user_id);
 
 
 --
@@ -3295,11 +3364,19 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 
 --
+-- Name: community_members fk_rails_0f0591ae60; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_members
+    ADD CONSTRAINT fk_rails_0f0591ae60 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: communities fk_rails_15754625a4; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.communities
-    ADD CONSTRAINT fk_rails_15754625a4 FOREIGN KEY (organizer_id) REFERENCES public.users(id);
+    ADD CONSTRAINT fk_rails_15754625a4 FOREIGN KEY (leader_id) REFERENCES public.users(id);
 
 
 --
@@ -3331,7 +3408,15 @@ ALTER TABLE ONLY public.oauth_access_tokens
 --
 
 ALTER TABLE ONLY public.oauth_openid_requests
-    ADD CONSTRAINT fk_rails_77114b3b09 FOREIGN KEY (access_grant_id) REFERENCES public.oauth_access_grants(id) ON DELETE CASCADE;
+  ADD CONSTRAINT fk_rails_77114b3b09 FOREIGN KEY (access_grant_id) REFERENCES public.oauth_access_grants(id) ON DELETE CASCADE;
+
+
+--
+-- Name: community_members fk_rails_880260e18d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_members
+  ADD CONSTRAINT fk_rails_880260e18d FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -3751,6 +3836,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230825162137'),
 ('20230816135800'),
 ('20220223140543'),
+('20240605043305'),
 ('20220201183346'),
 ('20211216185316'),
 ('20210511104518'),

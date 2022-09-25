@@ -24,7 +24,7 @@ class IssueTest < ActiveSupport::TestCase
 
     issue = build(:issue, :reportable => community, :assigned_role => "moderator")
     issue.save!
-    assert_equal issue.reported_user, community.organizer
+    assert_equal issue.reported_user, community.leader
 
     issue = build(:issue, :reportable => note, :assigned_role => "administrator")
     issue.save!
