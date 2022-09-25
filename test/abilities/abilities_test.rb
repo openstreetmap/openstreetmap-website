@@ -86,8 +86,8 @@ class UserAbilityTest < AbilityTest
   end
 
   test "community permissions for a user" do
-    community = create(:community)
-    ability_as_org = Ability.new(community.organizer)
+    community = create_community_with_organizer
+    ability_as_org = Ability.new(community.leader)
     ability_as_nonorg = Ability.new create(:user)
 
     [:edit, :update].each do |action|

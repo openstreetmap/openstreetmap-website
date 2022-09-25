@@ -12,12 +12,18 @@
   </nav>
 <% end %>
 
-<% if @communities_organized %>
-  <%= render :partial => "index_list", :locals => { :communities => @communities_organized, :header => t(".communities_organized") } %>
+<% if @communities_leading %>
+  <%= render :partial => "index_list", :locals => { :communities => @communities_leading, :header => t(".communities_leading") } %>
 <% end %>
+
+<%= render :partial => "index_list", :locals => { :communities => @my_communities, :header => t(".my_communities") } %>
 
 <p>
   <%= t(".sorted_by") %>
 </p>
 
 <%= render :partial => "index_list", :locals => { :communities => @all_communities, :header => t(".all") } %>
+
+<p>
+  <%= t(".critical_mass", :n => @critical_mass) %>
+</p>

@@ -56,4 +56,79 @@ class CommunityTest < ActiveSupport::TestCase
     assert_equal 30, b.min_lon
     assert_equal 40, b.max_lon
   end
+
+  def test_member_that_does_exist
+    # arrange
+    mm = create(:community_member)
+    # act
+    result = mm.community.member?(mm.user)
+    # assert
+    assert result
+  end
+
+  def test_member_that_does_not_exists
+    # arrange
+    m = create(:community)
+    u = create(:user)
+    # act
+    result = m.member?(u)
+    # assert
+    assert_not result
+  end
+
+  def test_organizer_that_does_exist
+    # arrange
+    mm = create(:community_member, :organizer)
+    # act
+    result = mm.community.organizer?(mm.user)
+    # assert
+    assert result
+  end
+
+  def test_organizer_that_does_not_exists
+    # arrange
+    m = create(:community)
+    u = create(:user)
+    # act
+    result = m.organizer?(u)
+    # assert
+    assert_not result
+  end
+
+  def test_organizer_that_is_member
+    # arrange
+    mm = create(:community_member) # not organizer
+    # act
+    result = mm.community.organizer?(mm.user)
+    # assert
+    assert_not result
+  end
+
+  def test_organizer_that_is_organizer_of_other_community
+    # arrange
+    mm = create(:community_member, :organizer)
+    m = create(:community)
+    # act
+    result = m.organizer?(mm.user)
+    # assert
+    assert_not result
+  end
+
+  def test_organizers_zero
+    # arrange
+    m = create(:community)
+    # act
+    o = m.organizers
+    # assert
+    assert_empty o
+  end
+
+  def test_organizers_not_zero
+    # arrange
+    mm = create(:community_member, :organizer)
+    # act
+    o = mm.community.organizers
+    # assert
+    assert_equal o, [mm]
+  end
 end

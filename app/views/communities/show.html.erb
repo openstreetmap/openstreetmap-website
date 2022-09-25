@@ -7,7 +7,7 @@
   </h1>
   <% if current_user %>
     <%= report_link(t(".report"), @community) %>
-    <% if current_user == @community.organizer %>
+    <% if @community.organizer?(current_user) %>
       <%= link_to t(".edit"), edit_community_path(@community) %>
     <% end %>
   <% end %>
@@ -31,7 +31,7 @@
       </p>
       <div class="d-flex">
         <label>
-          <% if current_user == @community.organizer %>
+          <% if current_user && @community.organizer?(current_user) %>
             <%= link_to t(".links"), community_community_links_path(@community) %>
           <% else %>
             <%= t(".links") %>
@@ -45,9 +45,38 @@
           <% end %>
         </ul>
       </div>
+      <div class="d-flex">
+        <label><%= t(".organizers") %></label>
+        <ul class="ps-2 breadcrumb">
+          <% @community.organizers.each do |membership| %>
+            <li>
+              <%= link_to membership.user.display_name, user_path(membership.user) %>
+            </li>
+          <% end %>
+        </ul>
+        <% if @community.organizers.empty? %>
+          <%= link_to t(".step_up"), step_up_path(@community.id), :method => :post %>
+        <% end %>
+      </div>
       <div>
-        <label><%= t(".organizer") %></label>
-        <%= link_to @community.organizer.display_name, user_path(@community.organizer) %>
+        <% if current_user %>
+          <% if ! @community.member?(current_user) %>
+            <%= bootstrap_form_for @current_user_membership do |form| %>
+              <%= form.hidden_field(:community_id) %>
+              <%= form.hidden_field(:user_id) %>
+              <%= form.primary t(".join.action") %>
+            <% end %>
+          <% else %>
+            <%= bootstrap_form_for @current_user_membership, :method => :delete do |form| %>
+              <%= form.primary t(".leave.action"), :data => { :confirm => t(".leave.confirm", :name => @community.name) } %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <div>
+            <%# Just a link here.  application_controller will redirect to login.  That will be posted. %>
+            <%= link_to t(".join.action"), login_to_join_path(:community_member => { :community_id => @community.id }), :class => "btn btn-primary btn-sm" %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
@@ -70,6 +99,28 @@
           </li>
         <% end %>
       </ul>
+      <h2>
+        <%= t(".diary_entries") %>
+      </h2>
+      <ul>
+        <% @community.users.each do |user| %>
+          <% user.diary_entries.each do |entry| %>
+            <li>
+              <%= l(entry.created_at, :format => :blog) %> <%= link_to user.display_name, user_path(user) %> <%= link_to(entry.title, diary_entry_path(entry.user, entry)) %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-sm">
+      <h2>
+        <%= link_to t(".members"), community_community_members_path(@community) %>
+      </h2>
+      <div>
+        <% @community.community_members.each do |membership| %>
+          <%= render :partial => "users/user_card", :locals => { :user => membership.user } %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
