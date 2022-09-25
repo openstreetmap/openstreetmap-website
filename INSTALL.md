@@ -220,7 +220,7 @@ If you want real world data in your API DB, you can download some data and impor
 osmosis --read-xml local_area.osm --write-apidb database=openstreetmap validateSchemaVersion=no
 ```
 
-More information can be found in [CONFIGURE.md#populating-the-database](CONFIGURE.md#populating-the-database) and https://github.com/openstreetmap/openstreetmap-website/issues/282#issuecomment-24721913 ff. Be aware that is can be amazingly slow for bigger data sets, propably due to index update after each insert. You could improve speed by temporarily disabling index update and reindex all tables after the import.
+More information can be found in [CONFIGURE.md#populating-the-database](CONFIGURE.md#populating-the-database), [DOCKER.md#loading-an-osm-extract](DOCKER.md#loading-an-osm-extract) and https://github.com/openstreetmap/openstreetmap-website/issues/282#issuecomment-24721913 ff. Be aware that is can be amazingly slow for bigger data sets, propably due to automated indices update after each insert. You could improve speed by [temporarily disabling index updating](https://fle.github.io/temporarily-disable-all-indexes-of-a-postgresql-table.html) and reindex all tables after the import.
 
 ## Running the tests
 
