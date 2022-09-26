@@ -5,7 +5,7 @@
 #  id           :bigint(8)        not null, primary key
 #  community_id :integer          not null
 #  user_id      :integer          not null
-#  role         :string(64)
+#  role         :string(64)       not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
@@ -17,14 +17,18 @@
 #
 
 class CommunityMember < ApplicationRecord
-  belongs_to :community
-  belongs_to :user
-
-  # TODO: validate uniqueness of user's role in each community.
-
   module Roles
     ORGANIZER = "organizer".freeze
     MEMBER = "member".freeze
     ALL_ROLES = [ORGANIZER, MEMBER].freeze
   end
+
+  belongs_to :community
+  belongs_to :user
+
+  validates :community, :associated => true
+  validates :user, :associated => true
+  validates :role, :inclusion => { :in => Roles::ALL_ROLES }
+
+  # TODO: validate uniqueness of user's role in each community.
 end

@@ -83,7 +83,7 @@ class User < ApplicationRecord
 
   has_many :reports
 
-  has_many :communities_organized, :class_name => "Community", :foreign_key => :organizer_id, :inverse_of => :organizer
+  has_many :communities_lead, :class_name => "Community", :foreign_key => :leader_id, :inverse_of => :leader
   has_many :community_members
   has_many :communities, :through => :community_members
 

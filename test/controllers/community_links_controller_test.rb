@@ -70,7 +70,7 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
     link1 = create(:community_link, :community_id => c.id) # original object
     link2 = build(:community_link, :community_id => c.id) # new data
     link_2_form = link2.attributes.except("id", "created_at", "updated_at")
-    session_for(c.organizer)
+    session_for(c.leader)
 
     # act
     # Update link1 with the values from link2.
@@ -88,7 +88,7 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
   def test_update_put_failure
     # arrange
     c_orig = create_community_with_organizer
-    session_for(c_orig.organizer)
+    session_for(c_orig.leader)
     link = create(:community_link, :community_id => c_orig.id)
     def link.update(_params)
       false
@@ -133,7 +133,7 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
     # Now try again when logged in
     # arrange
     c = create(:community)
-    session_for(c.organizer)
+    session_for(c.leader)
     # act
     get new_community_community_link_path(c)
     # assert
@@ -156,7 +156,7 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
     c = create(:community)
     link_orig = create(:community_link, :community => c)
     form = link_orig.attributes.except("id", "created_at", "updated_at")
-    session_for(c.organizer)
+    session_for(c.leader)
 
     # act
     link_new_id = nil
@@ -178,7 +178,7 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
   def test_create_when_save_fails
     # arrange
     c = create(:community)
-    session_for(c.organizer)
+    session_for(c.leader)
     link = build(:community_link, :community => c, :url => "invalid url")
     form = link.attributes.except("id", "created_at", "updated_at")
 
@@ -194,7 +194,7 @@ class CommunityLinksControllerTest < ActionDispatch::IntegrationTest
     # arrange
     c = create_community_with_organizer
     link = create(:community_link, :community_id => c.id)
-    session_for(c.organizer)
+    session_for(c.leader)
 
     # act and assert
     assert_difference "CommunityLink.count", -1 do

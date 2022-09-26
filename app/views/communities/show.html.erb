@@ -7,7 +7,7 @@
   </h1>
   <% if current_user %>
     <%= report_link(t(".report"), @community) %>
-    <% if current_user == @community.organizer %>
+    <% if @community.organizer?(current_user) %>
       <%= link_to t(".edit"), edit_community_path(@community) %>
     <% end %>
   <% end %>
@@ -31,7 +31,7 @@
       </p>
       <div class="d-flex">
         <label>
-          <% if current_user == @community.organizer %>
+          <% if current_user && @community.organizer?(current_user) %>
               <%= link_to t(".links"), community_community_links_path(@community) %>
             <% else %>
               <%= t(".links") %>
@@ -45,9 +45,15 @@
           <% end %>
         </ul>
       </div>
-      <div>
-        <label><%= t(".organizer") %></label>
-        <%= link_to @community.organizer.display_name, user_path(@community.organizer) %>
+      <div class="d-flex">
+        <label><%= t(".organizers") %></label>
+        <ul class="ps-2 breadcrumb">
+          <% @community.organizers.each do |membership| %>
+            <li>
+              <%= link_to membership.user.display_name, user_path(membership.user) %>
+            </li>
+          <% end %>
+        </ul>
       </div>
       <div>
         <% if current_user && ! @community.member?(current_user) %>

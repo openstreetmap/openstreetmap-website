@@ -13,7 +13,7 @@ FactoryBot.define do
     sequence(:name) { |n| "Community #{n}" }
     sequence(:description) { |n| "This is description #{n}" }
     sequence(:location) { |n| "This is location #{n}" }
-    organizer :factory => :user
+    leader :factory => :user
     latitude { lat }
     longitude { lon }
     min_lat { lat1 }
@@ -25,6 +25,6 @@ end
 
 def create_community_with_organizer
   FactoryBot.create(:community) do |community|
-    FactoryBot.create(:community_member, :organizer, :community => community, :user => community.organizer)
+    FactoryBot.create(:community_member, :organizer, :community => community, :user => community.leader)
   end
 end

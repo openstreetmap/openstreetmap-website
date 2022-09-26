@@ -107,6 +107,7 @@ CREATE TYPE public.user_status_enum AS ENUM (
     'deleted'
 );
 
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -399,7 +400,7 @@ CREATE TABLE public.communities (
     id bigint NOT NULL,
     name character varying NOT NULL,
     description text NOT NULL,
-    organizer_id bigint NOT NULL,
+    leader_id bigint NOT NULL,
     slug character varying NOT NULL,
     location character varying NOT NULL,
     latitude double precision NOT NULL,
@@ -2613,10 +2614,10 @@ CREATE INDEX index_client_applications_on_user_id ON public.client_applications 
 
 
 --
--- Name: index_communities_on_organizer_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_communities_on_leader_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_communities_on_organizer_id ON public.communities USING btree (organizer_id);
+CREATE INDEX index_communities_on_leader_id ON public.communities USING btree (leader_id);
 
 
 --
@@ -3242,7 +3243,7 @@ ALTER TABLE ONLY public.community_members
 --
 
 ALTER TABLE ONLY public.communities
-    ADD CONSTRAINT fk_rails_15754625a4 FOREIGN KEY (organizer_id) REFERENCES public.users(id);
+    ADD CONSTRAINT fk_rails_15754625a4 FOREIGN KEY (leader_id) REFERENCES public.users(id);
 
 
 --

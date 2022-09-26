@@ -5,7 +5,7 @@
 #  id           :bigint(8)        not null, primary key
 #  name         :string           not null
 #  description  :text             not null
-#  organizer_id :bigint           not null
+#  leader_id    :bigint           not null
 #  slug         :string           not null
 #  location     :string           not null
 #  latitude     :float            not null
@@ -17,8 +17,9 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
-# At this time a community has one organizer.  The first organizer is
-# the user that created the community.
+# At this time a community has one leader.  The leader of a community starts out
+# being the user that created the community.  The creator of a community also
+# is an organizer member.
 
 class Community < ApplicationRecord
   extend FriendlyId
@@ -28,7 +29,7 @@ class Community < ApplicationRecord
   has_many :community_members, -> { order(:role => :desc) }, :inverse_of => :community
   has_many :users, :through => :community_members # TODO: counter_cache
 
-  belongs_to :organizer, :class_name => "User"
+  belongs_to :leader, :class_name => "User"
   has_many :community_links
 
   validates :name, :presence => true, :length => 1..255, :characters => true
@@ -55,6 +56,10 @@ class Community < ApplicationRecord
 
   def member?(user)
     community_members.where(:user_id => user.id).count.positive?
+  end
+
+  def members
+    community_members.where(:role => CommunityMember::Roles::MEMBER)
   end
 
   def organizer?(user)

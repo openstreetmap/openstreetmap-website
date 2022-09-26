@@ -16,14 +16,14 @@ class CommunitiesController < ApplicationController
       @user = User.active.where(:display_name => display_name).first
       if @user
         @title = t ".title", :display_name => @user.display_name
-        @communities_organized = @user.communities_organized
+        @communities_leading = @user.communities_lead
       else
         render_unknown_user display_name
         return
       end
     elsif current_user
       @title = t ".title", :display_name => current_user.display_name
-      @communities_organized = current_user.communities_organized
+      @communities_leading = current_user.communities_lead
     end
 
     # Using Arel.sql here because we're using known-safe values.
@@ -56,8 +56,8 @@ class CommunitiesController < ApplicationController
 
   def create
     @community = Community.new(community_params)
-    @community.organizer = current_user
-    if @community.save
+    @community.leader = current_user
+    if @community.save && add_first_organizer
       redirect_to @community, :notice => t(".success")
     else
       render "new"
@@ -74,6 +74,17 @@ class CommunitiesController < ApplicationController
   end
 
   private
+
+  def add_first_organizer
+    membership = CommunityMember.new(
+      {
+        :community_id => @community.id,
+        :user_id => current_user.id,
+        :role => CommunityMember::Roles::ORGANIZER
+      }
+    )
+    membership.save
+  end
 
   def recent_changesets
     bbox = @community.bbox.to_scaled

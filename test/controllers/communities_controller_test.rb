@@ -35,6 +35,10 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
       { :path => "/communities", :method => :post },
       { :controller => "communities", :action => "create" }
     )
+    assert_routing(
+      { :path => "/communities/mdc/community_members", :method => :get },
+      { :controller => "community_members", :action => "index", :community_id => "mdc" }
+    )
   end
 
   def test_index_get
@@ -68,7 +72,7 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
     # arrange
     c = create(:community)
     # act
-    get user_communities_path(c.organizer.display_name)
+    get user_communities_path(c.leader.display_name)
     # assert
     assert_response :success
     assert_template "index"
@@ -78,7 +82,7 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
   def test_index_current_user
     # arrange
     c = create(:community)
-    session_for(c.organizer)
+    session_for(c.leader)
     # act
     get communities_path
     # assert
@@ -132,6 +136,56 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path(:referer => edit_community_path(c))
   end
 
+  def test_edit_get_is_not_member_is_not_organizer
+    # arrange
+    c = create(:community)
+    user = create(:user)
+    session_for(user)
+    # assert
+    get edit_community_path(c)
+    # assert
+    follow_redirect!
+    assert_response :forbidden
+  end
+
+  def test_edit_get_is_member_not_organizer
+    # arrange
+    cm = create(:community_member)
+    session_for(cm.user)
+    # act
+    get edit_community_path(cm.community)
+    # assert
+    follow_redirect!
+    assert_response :forbidden
+  end
+
+  def test_edit_get_is_organizer
+    # arrange
+    cm = create(:community_member, :organizer)
+    # We need to reload the object from PG because the floats in Ruby translate
+    # to double precision in PG and will actually loose 1 digit of precision.  PG
+    # says 15, but it doesn't get that.  Reload so values below are correct.
+    cm.reload
+    session_for(cm.user)
+    # act
+    get edit_community_path(cm.community)
+    # assert
+    assert_response :success
+    assert_select "div#content", :count => 1 do
+      assert_select "form[action='/communities/#{cm.community.slug}'][method=post]", :count => 1 do
+        assert_select "input#community_location[name='community[location]'][value='#{cm.community.location}']", :count => 1
+        assert_select "input#community_latitude[name='community[latitude]'][value='#{cm.community.latitude}']", :count => 1
+        assert_select "input#community_longitude[name='community[longitude]'][value='#{cm.community.longitude}']", :count => 1
+        assert_select "input#community_min_lat[name='community[min_lat]'][value='#{cm.community.min_lat}']", :count => 1
+        assert_select "input#community_max_lat[name='community[max_lat]'][value='#{cm.community.max_lat}']", :count => 1
+        assert_select "input#community_min_lon[name='community[min_lon]'][value='#{cm.community.min_lon}']", :count => 1
+        assert_select "input#community_max_lon[name='community[max_lon]'][value='#{cm.community.max_lon}']", :count => 1
+        assert_select "textarea#community_description[name='community[description]']", :text => cm.community.description, :count => 1
+        assert_select "input", :count => 11
+      end
+    end
+  end
+
   def test_update_as_non_organizer
     # Should this test be in abilities_test.rb?
     # arrange
@@ -144,12 +198,12 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :controller => :errors, :action => :forbidden
   end
 
-  def test_update_put_success
+  def test_update_success
     # TODO: When community_member is created switch to using that factory.
     # arrange
     c1 = create_community_with_organizer # original object
     c2 = build(:community) # new data
-    session_for(c1.organizer)
+    session_for(c1.leader)
 
     # act
     # Update c1 with the values from c2.
@@ -164,10 +218,29 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
     assert_equal(c2, c1)
   end
 
-  def test_update_put_failure
+  # TODO: Really we should test abilities separately
+  # https://github.com/CanCanCommunity/cancancan/wiki/Testing-Abilities
+  def test_update_success_as_non_organizer
+    # arrange
+    cm = create(:community_member)
+    # cm = create(:community_member, :user => cm.user)
+    session_for(cm.user)
+    c1 = cm.community # original object
+    c2 = build(:community) # new data
+
+    # act
+    # Update c1 with the values from c2.
+    put community_url(c1), :params => { :community => c2.as_json }, :xhr => true
+
+    # assert
+    follow_redirect!
+    assert_response :forbidden
+  end
+
+  def test_update_failure
     # arrange
     c = create_community_with_organizer # original object
-    session_for(c.organizer)
+    session_for(c.leader)
     form = c.attributes.except("id", "created_at", "updated_at", "slug")
     # Force an update failure based on validation.
     form["latitude"] = 100.0
@@ -218,10 +291,11 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # also tests add_first_organizer
   def test_create_when_save_works
     # arrange
     c_orig = create(:community)
-    session_for(c_orig.organizer)
+    session_for(c_orig.leader)
 
     # act
     c_new_slug = nil
@@ -273,5 +347,15 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
     # Assign the id c_new to c_orig, so we can do an equality test easily.
     c_orig.id = c_new.id
     assert_equal 160, c_new.longitude
+  end
+
+  def test_show_members_get
+    # arrange
+    cm = create(:community_member)
+    # act
+    get community_community_members_path(cm.community.id)
+    # assert
+    assert_response :success
+    assert_match cm.user.display_name, response.body
   end
 end

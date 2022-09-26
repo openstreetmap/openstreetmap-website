@@ -1,17 +1,19 @@
 class CommunityMembersController < ApplicationController
   layout "site"
   before_action :authorize_web
-
+  before_action :set_community_member, :only => [:edit, :update]
   load_and_authorize_resource :except => [:create, :new]
   authorize_resource
 
   def index
     @community = Community.friendly.find(params[:community_id])
-    @memberships = @community.community_members
+    @roles = CommunityMember::Roles::ALL_ROLES.map(&:pluralize)
   rescue ActiveRecord::RecordNotFound
     @not_found_community = params[:community_id]
     render :template => "communities/no_such_community", :status => :not_found
   end
+
+  def edit; end
 
   def create
     # membership = CommunityMember.new(create_params)
@@ -29,9 +31,26 @@ class CommunityMembersController < ApplicationController
     end
   end
 
+  def update
+    if @community_member.update(update_params)
+      redirect_to @community_member.community, :notice => t(".success")
+    else
+      flash.now[:alert] = t(".failure")
+      render :edit
+    end
+  end
+
   private
+
+  def set_community_member
+    @community_member = CommunityMember.find(params[:id])
+  end
 
   def create_params
     params.require(:community_member).permit(:community_id, :user_id)
+  end
+
+  def update_params
+    params.require(:community_member).permit(:role)
   end
 end
