@@ -1396,6 +1396,7 @@
 .ideditor path.line.stroke.tag-public_transport-platform,
 .ideditor path.line.stroke.tag-highway-platform,
 .ideditor path.line.stroke.tag-railway-platform,
+.ideditor path.line.stroke.tag-railway-platform_edge,
 .ideditor path.line.stroke.tag-man_made-pier {
     stroke: #dca;
 }
@@ -1674,7 +1675,7 @@
 .ideditor path.line.stroke.tag-railway {
     stroke-width: 2;
     stroke-linecap: butt;
-    stroke-dasharray: 12,12;
+    stroke-dasharray: 12, 12;
 }
 .ideditor .low-zoom path.line.shadow.tag-railway {
     stroke-width: 12;
@@ -1684,16 +1685,18 @@
 }
 .ideditor .low-zoom path.line.stroke.tag-railway {
     stroke-width: 2;
-    stroke-dasharray: 6,6;
+    stroke-dasharray: 6, 6;
 }
 .ideditor .preset-icon-container path.line.stroke.tag-railway:not(.tag-status),
 .ideditor .preset-icon-container path.line.stroke.tag-railway.tag-status-disused {
     stroke-dasharray: 6;
 }
 
+.ideditor path.line.casing.tag-railway.tag-railway-platform_edge,
 .ideditor path.line.casing.tag-railway.tag-railway-platform {
     stroke-width: 0;
 }
+.ideditor path.line.stroke.tag-railway.tag-railway-platform_edge,
 .ideditor path.line.stroke.tag-railway.tag-railway-platform {
     stroke-dasharray: none;
 }
@@ -1705,7 +1708,6 @@
 .ideditor path.line.stroke.tag-railway {
     stroke: #eee;
 }
-
 
 .ideditor .preset-icon .icon.tag-railway.tag-status {
     color: #999;
@@ -1722,7 +1724,6 @@
 .ideditor path.line.casing.tag-railway.tag-status-disused {
     stroke: #808080;
 }
-
 
 .ideditor path.line.casing.tag-railway-subway {
     stroke: #222;
@@ -2291,6 +2292,13 @@
 .ideditor path.line.casing.tag-highway.tag-status.tag-status-proposed.tag-proposed-bridleway,
 .ideditor path.line.casing.tag-highway.tag-status.tag-status-proposed.tag-proposed-steps {
     stroke-width: 4.5;
+}
+.ideditor path.line.casing.tag-highway.tag-bridge.tag-status.tag-status-proposed.tag-proposed-path,
+.ideditor path.line.casing.tag-highway.tag-bridge.tag-status.tag-status-proposed.tag-proposed-footway,
+.ideditor path.line.casing.tag-highway.tag-bridge.tag-status.tag-status-proposed.tag-proposed-cycleway,
+.ideditor path.line.casing.tag-highway.tag-bridge.tag-status.tag-status-proposed.tag-proposed-bridleway,
+.ideditor path.line.casing.tag-highway.tag-bridge.tag-status.tag-status-proposed.tag-proposed-steps {
+    stroke-width: 10;
 }
 .ideditor path.line.stroke.tag-highway.tag-status.tag-status-proposed.tag-proposed-path,
 .ideditor path.line.stroke.tag-highway.tag-status.tag-status-proposed.tag-proposed-footway,
@@ -3739,6 +3747,7 @@
 
 .ideditor .icon-annotation {
     color: #333;
+    vertical-align: baseline;
 }
 
 
@@ -6832,6 +6841,8 @@
     -webkit-box-flex: 0;
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
+    -ms-flex-item-align: center;
+        align-self: center;
 }
 
 .ideditor[dir='rtl'] .list-item-data-browse svg {
@@ -6870,12 +6881,11 @@
 .ideditor .layer-list label > span {
     display: block;
     overflow: hidden;
-    white-space: nowrap;
-    -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
-    -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1;
+    width: calc(100% - 20px); /* Ensures radio input width within flexbox */
+}
+
+.ideditor .layer-list label span.localized-text {
+    line-height: 0.95rem;
 }
 
 .ideditor .layer-list input.list-item-input {
@@ -7728,10 +7738,10 @@
     border: 1px solid #ccc;
 }
 
-/* no scrollbars */
+/* scrollbars only when necessary*/
 .ideditor .inspector-hover div {
     overflow-x: visible;
-    overflow-y: visible;
+    overflow-y: auto;
 }
 
 /* hide and remove from layout */
@@ -9390,7 +9400,6 @@
     height: 20px;
     overflow: visible;
     width: 10px;
-    background: #fff;
     border-left: 1px solid #DDD;
 }
 

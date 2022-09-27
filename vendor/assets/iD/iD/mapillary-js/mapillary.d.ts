@@ -1118,6 +1118,7 @@ interface GraphCoreImageEnt extends IDEnt {
 }
 interface GraphSpatialImageEnt extends SpatialImageEnt {
     merge_cc: number;
+    organization: IDEnt;
     sfm_cluster: URLEnt;
     thumb_1024_url: string;
     thumb_2048_url: string;
