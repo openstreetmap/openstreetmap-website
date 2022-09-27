@@ -14,11 +14,11 @@ module Api
     def test_routes
       assert_routing(
         { :path => "/api/0.6/notes", :method => :post },
-        { :controller => "api/notes", :action => "create", :format => "xml" }
+        { :controller => "api/notes", :action => "create" }
       )
       assert_routing(
         { :path => "/api/0.6/notes/1", :method => :get },
-        { :controller => "api/notes", :action => "show", :id => "1", :format => "xml" }
+        { :controller => "api/notes", :action => "show", :id => "1" }
       )
       assert_recognizes(
         { :controller => "api/notes", :action => "show", :id => "1", :format => "xml" },
@@ -38,24 +38,24 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/notes/1/comment", :method => :post },
-        { :controller => "api/notes", :action => "comment", :id => "1", :format => "xml" }
+        { :controller => "api/notes", :action => "comment", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/notes/1/close", :method => :post },
-        { :controller => "api/notes", :action => "close", :id => "1", :format => "xml" }
+        { :controller => "api/notes", :action => "close", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/notes/1/reopen", :method => :post },
-        { :controller => "api/notes", :action => "reopen", :id => "1", :format => "xml" }
+        { :controller => "api/notes", :action => "reopen", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/notes/1", :method => :delete },
-        { :controller => "api/notes", :action => "destroy", :id => "1", :format => "xml" }
+        { :controller => "api/notes", :action => "destroy", :id => "1" }
       )
 
       assert_routing(
         { :path => "/api/0.6/notes", :method => :get },
-        { :controller => "api/notes", :action => "index", :format => "xml" }
+        { :controller => "api/notes", :action => "index" }
       )
       assert_recognizes(
         { :controller => "api/notes", :action => "index", :format => "xml" },
@@ -76,7 +76,7 @@ module Api
 
       assert_routing(
         { :path => "/api/0.6/notes/search", :method => :get },
-        { :controller => "api/notes", :action => "search", :format => "xml" }
+        { :controller => "api/notes", :action => "search" }
       )
       assert_recognizes(
         { :controller => "api/notes", :action => "search", :format => "xml" },
